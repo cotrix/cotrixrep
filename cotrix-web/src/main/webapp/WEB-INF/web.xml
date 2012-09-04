@@ -7,7 +7,7 @@
   
   <servlet>
     <servlet-name>contactsServiceServlet</servlet-name>
-    <servlet-class>org.fao.figis.cbt.server.ContactsServiceImpl</servlet-class>
+    <servlet-class>org.fao.figis.cbt.server.CotrixServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -17,7 +17,7 @@
 
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>Contacts.html</welcome-file>
+    <welcome-file>Cotrix.html</welcome-file>
   </welcome-file-list>
 
 </web-app>
