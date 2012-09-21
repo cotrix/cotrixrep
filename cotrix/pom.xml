@@ -6,5 +6,7 @@
   <artifactId>cotrix</artifactId>
   <modules>
   	<module>cotrix-service</module>
+  	<module>cotrix-gek</module>
+  	<module>cotrix-piet</module>
   </modules>
 </project>
