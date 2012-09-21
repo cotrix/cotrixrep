@@ -5,9 +5,22 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<artifactId>cotrix</artifactId>
-	<properties><version>0.0.1-SNAPSHOT</version></properties>
+	<properties>
+		<version>0.0.1-SNAPSHOT</version>
+	</properties>
 	<modules>
 		<module>cotrix-service</module>
 		<module>cotrix-web</module>
+		<module>erik-module</module>
 	</modules>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.10</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
