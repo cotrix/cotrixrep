@@ -18,9 +18,9 @@ public class CodeGeneratorTest {
 		List<List<String>> columns = g.generateCodeColumns(r, c);
 		for (List<String> column : columns) {
 			assertEquals(c, column.size());
-			for (String cell : column) {
-				// System.out.print(cell + " ");
-			}
+			// for (String cell : column) {
+			// // System.out.print(cell + " ");
+			// }
 			// System.out.println();
 			// System.out.println("new column ");
 		}
@@ -66,7 +66,6 @@ public class CodeGeneratorTest {
 		for (String cell : list) {
 			// System.out.println(cell);
 		}
-
 	}
 
 	@Test

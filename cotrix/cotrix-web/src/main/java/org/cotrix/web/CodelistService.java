@@ -1,4 +1,4 @@
-package org.cotrix.service;
+package org.cotrix.web;
 
 public interface CodelistService {
 
