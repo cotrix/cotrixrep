@@ -62,7 +62,7 @@ public class UniquenessRuleTest extends UniquenessRule {
 				equals++;
 			}
 		}
-		System.out.println(equals);
+		// System.out.println(equals);
 		assertTrue(equals < 10);
 	}
 

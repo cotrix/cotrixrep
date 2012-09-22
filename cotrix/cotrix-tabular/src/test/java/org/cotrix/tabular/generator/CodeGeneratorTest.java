@@ -1,11 +1,11 @@
 package org.cotrix.tabular.generator;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class CodeGeneratorTest {
 
@@ -19,10 +19,10 @@ public class CodeGeneratorTest {
 		for (List<String> column : columns) {
 			assertEquals(c, column.size());
 			for (String cell : column) {
-				System.out.print(cell + " ");
+				// System.out.print(cell + " ");
 			}
-			System.out.println();
-			System.out.println("new column ");
+			// System.out.println();
+			// System.out.println("new column ");
 		}
 
 	}
@@ -32,25 +32,20 @@ public class CodeGeneratorTest {
 		int rows = 2;
 		int column = 2;
 		double uniqueness = 0;
-		assertEquals(1, g.calculateColumnValues(rows, column, uniqueness)
-				.size());
+		assertEquals(1, g.calculateColumnValues(rows, column, uniqueness).size());
 
 		uniqueness = 1;
-		assertEquals(2, g.calculateColumnValues(rows, column, uniqueness)
-				.size());
+		assertEquals(2, g.calculateColumnValues(rows, column, uniqueness).size());
 
 		rows = 4;
 		uniqueness = 0;
-		assertEquals(1, g.calculateColumnValues(rows, column, uniqueness)
-				.size());
+		assertEquals(1, g.calculateColumnValues(rows, column, uniqueness).size());
 
 		uniqueness = 0.5;
-		assertEquals(2, g.calculateColumnValues(rows, column, uniqueness)
-				.size());
+		assertEquals(2, g.calculateColumnValues(rows, column, uniqueness).size());
 
 		uniqueness = 1;
-		assertEquals(4, g.calculateColumnValues(rows, column, uniqueness)
-				.size());
+		assertEquals(4, g.calculateColumnValues(rows, column, uniqueness).size());
 
 	}
 
@@ -59,8 +54,7 @@ public class CodeGeneratorTest {
 		int rows = 2;
 		int column = 0;
 		double uniqueness = 0.01;
-		assertEquals(1, g.calculateColumnValues(rows, column, uniqueness)
-				.size());
+		assertEquals(1, g.calculateColumnValues(rows, column, uniqueness).size());
 	}
 
 	@Test
@@ -70,7 +64,7 @@ public class CodeGeneratorTest {
 		double uniqueness = 0;
 		List<String> list = g.calculateColumnValues(rows, column, uniqueness);
 		for (String cell : list) {
-			System.out.println(cell);
+			// System.out.println(cell);
 		}
 
 	}

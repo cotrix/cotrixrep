@@ -9,7 +9,6 @@ import org.cotrix.domain.code.Codelist;
 import org.cotrix.domain.code.CodelistContainer;
 import org.cotrix.tabular.generator.TabularGenerator;
 import org.cotrix.tabular.generator.UniquenessRule;
-import org.cotrix.tabular.mining.CodeMiner;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -37,12 +36,12 @@ public class CodeMinerTest {
 			for (Code code : list) {
 				set.add(code);
 			}
-			System.out.println(set.size());
+			// System.out.println(set.size());
 			if (set.size() == rows) {
 				count++;
 			}
 		}
-		System.out.println(count + " ");
+		// System.out.println(count + " ");
 
 		assertTrue(UniquenessRule.DUPLICATES <= count);
 
