@@ -39,13 +39,10 @@ public class CodeListManager implements EntryPoint {
 		Window.enableScrolling(false);
 		Window.setMargin("0px");
 
-		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
-
 		CodeListManagerView codeListManagerView = new CodeListManagerView();
 		codeListManagerView.setSize("100%", "100%");
 		
-		rootLayoutPanel.clear();
-		
+		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
 		rootLayoutPanel.add(codeListManagerView);
 	}
 }
