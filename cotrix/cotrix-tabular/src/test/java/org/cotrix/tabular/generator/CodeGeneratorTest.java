@@ -1,11 +1,12 @@
 package org.cotrix.tabular.generator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class CodeGeneratorTest {
 
@@ -64,6 +65,7 @@ public class CodeGeneratorTest {
 		double uniqueness = 0;
 		List<String> list = g.calculateColumnValues(rows, column, uniqueness);
 		for (String cell : list) {
+			assertNotNull(cell);
 			// System.out.println(cell);
 		}
 	}
