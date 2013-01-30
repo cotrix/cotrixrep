@@ -2,6 +2,16 @@ package org.cotrix.tabular.model;
 
 import java.util.List;
 
+/**
+ * Tabular or TabularData represents data in a tabular format. This can be used to represent a CSV or an Excell file.
+ * 
+ * 
+ * 
+ * 
+ * @author Erik van Ingen
+ * 
+ */
+
 public class Tabular {
 
 	private List<String> header;
