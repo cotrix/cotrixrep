@@ -1,6 +1,6 @@
-package org.cotrix.tabular.mining;
+package org.cotrix.domain.coderelation;
 
-import org.cotrix.tabular.mining.ConceptTabular;
+import org.cotrix.domain.coderelation.ConceptTabular;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

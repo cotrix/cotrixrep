@@ -1,8 +1,9 @@
-package org.cotrix.tabular.parsing;
+package org.cotrix.tabular;
 
 import org.cotrix.domain.bag.CodeBag;
 import org.cotrix.domain.code.CodelistContainer;
 import org.cotrix.domain.coderelation.RelationContainer;
+import org.cotrix.domain.conceptrelation.Relations;
 import org.cotrix.domain.tabular.Tabular;
 import org.cotrix.domain.tabularmeta.TabularMeta;
 import org.cotrix.tabular.mining.CodeMiner;
@@ -13,7 +14,7 @@ import org.cotrix.tabular.mining.RelationMiner;
  * @author Erik van Ingen
  * 
  */
-public class TabularParser {
+public class TabularParserMiner {
 
 	RelationMiner relationMiner = new RelationMiner();
 	CodeMiner codeMiner = new CodeMiner();
@@ -44,6 +45,22 @@ public class TabularParser {
 	public CodeBag parse(Tabular tabular, TabularMeta tabularMeta) {
 		CodeBag codeJar = new CodeBag();
 		return codeJar;
+	}
+
+	/**
+	 * Parses tabular data, using the relations as metadata
+	 * 
+	 * 
+	 * 
+	 * 
+	 * @param tabular
+	 * @param relations
+	 * @return RelationContainer with the relevant relations
+	 */
+	public RelationContainer parse(Tabular tabular, Relations relations) {
+		RelationContainer r = new RelationContainer();
+
+		return r;
 	}
 
 }

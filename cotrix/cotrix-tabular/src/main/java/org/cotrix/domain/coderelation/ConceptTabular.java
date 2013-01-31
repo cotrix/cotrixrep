@@ -1,4 +1,4 @@
-package org.cotrix.tabular.mining;
+package org.cotrix.domain.coderelation;
 
 import org.cotrix.domain.conceptrelation.Concept;
 
@@ -12,7 +12,7 @@ import org.cotrix.domain.conceptrelation.Concept;
  * @author Erik van Ingen
  * 
  */
-class ConceptTabular extends Concept {
+public class ConceptTabular extends Concept {
 	private int columnNumber;
 
 	public ConceptTabular() {

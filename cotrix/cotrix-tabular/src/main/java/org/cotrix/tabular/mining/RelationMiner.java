@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.cotrix.domain.code.Code;
 import org.cotrix.domain.code.CodelistContainer;
+import org.cotrix.domain.coderelation.ConceptTabular;
 import org.cotrix.domain.coderelation.Relation1toN;
 import org.cotrix.domain.coderelation.RelationContainer;
 import org.cotrix.domain.coderelation.Relations1to1;

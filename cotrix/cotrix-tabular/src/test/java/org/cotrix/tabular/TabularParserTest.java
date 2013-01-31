@@ -1,15 +1,15 @@
-package org.cotrix.tabular.mining;
+package org.cotrix.tabular;
 
 import static org.junit.Assert.assertEquals;
 
 import org.cotrix.domain.bag.CodeBag;
+import org.cotrix.tabular.TabularParserMiner;
 import org.cotrix.tabular.generator.TabularGenerator;
-import org.cotrix.tabular.parsing.TabularParser;
 import org.junit.Test;
 
 public class TabularParserTest {
 
-	TabularParser p = new TabularParser();
+	TabularParserMiner p = new TabularParserMiner();
 	TabularGenerator g = new TabularGenerator();
 
 	@Test
