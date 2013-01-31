@@ -1,4 +1,4 @@
-package org.cotrix.tabular.model;
+package org.cotrix.tabular.headermodel;
 
 /**
  * A code can have 0 or more descriptions. A description is in a certain language.
