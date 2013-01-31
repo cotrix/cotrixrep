@@ -3,7 +3,8 @@ package org.cotrix.tabular.mining;
 import org.cotrix.domain.bag.CodeBag;
 import org.cotrix.domain.code.CodelistContainer;
 import org.cotrix.domain.coderelation.RelationContainer;
-import org.cotrix.tabular.model.Tabular;
+import org.cotrix.domain.tabular.Tabular;
+import org.cotrix.domain.tabularmeta.TabularMeta;
 
 /**
  * 

@@ -6,7 +6,7 @@ import java.util.List;
 import org.cotrix.domain.code.Code;
 import org.cotrix.domain.code.Codelist;
 import org.cotrix.domain.code.CodelistContainer;
-import org.cotrix.tabular.model.Tabular;
+import org.cotrix.domain.tabular.Tabular;
 
 public class CodeMiner {
 

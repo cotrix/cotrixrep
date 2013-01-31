@@ -3,7 +3,7 @@ package org.cotrix.tabular.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.tabular.model.Tabular;
+import org.cotrix.domain.tabular.Tabular;
 
 /**
  * This class is created only for test reasons.

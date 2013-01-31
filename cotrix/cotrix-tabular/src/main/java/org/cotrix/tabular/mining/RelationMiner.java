@@ -10,7 +10,7 @@ import org.cotrix.domain.coderelation.RelationContainer;
 import org.cotrix.domain.coderelation.Relations1to1;
 import org.cotrix.domain.coderelation.Relations1toN;
 import org.cotrix.domain.relation.validation.RelationContainerValidator;
-import org.cotrix.tabular.model.Tabular;
+import org.cotrix.domain.tabular.Tabular;
 
 /**
  * Given a space of codes in tabular format, this logic finds all the possible relationships, based on lexical matching.

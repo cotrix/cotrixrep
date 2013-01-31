@@ -1,4 +1,4 @@
-package org.cotrix.tabular.modelmeta;
+package org.cotrix.domain.tabularmeta;
 
 /**
  * 

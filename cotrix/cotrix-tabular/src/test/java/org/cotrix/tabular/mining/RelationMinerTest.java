@@ -11,9 +11,9 @@ import org.cotrix.domain.coderelation.Relation1toN;
 import org.cotrix.domain.coderelation.RelationContainer;
 import org.cotrix.domain.coderelation.Relations1to1;
 import org.cotrix.domain.coderelation.Relations1toN;
+import org.cotrix.domain.tabular.Tabular;
 import org.cotrix.tabular.generator.TabularGenerator;
 import org.cotrix.tabular.generator.UniquenessRule;
-import org.cotrix.tabular.model.Tabular;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

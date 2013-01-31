@@ -1,9 +1,11 @@
-package org.cotrix.tabular.modelmeta;
+package org.cotrix.domain.tabularmeta;
 
 import java.util.List;
 
 /**
  * A code can have descriptions. A code can have parentcodes.
+ * 
+ * 
  * 
  * 
  * @author Erik van Ingen

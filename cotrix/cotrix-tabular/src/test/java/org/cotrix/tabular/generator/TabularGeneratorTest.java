@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.cotrix.tabular.model.Tabular;
+import org.cotrix.domain.tabular.Tabular;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

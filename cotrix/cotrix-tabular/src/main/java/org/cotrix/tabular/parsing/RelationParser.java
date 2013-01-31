@@ -2,7 +2,7 @@ package org.cotrix.tabular.parsing;
 
 import org.cotrix.domain.coderelation.RelationContainer;
 import org.cotrix.domain.conceptrelation.Relations;
-import org.cotrix.tabular.model.Tabular;
+import org.cotrix.domain.tabular.Tabular;
 
 /**
  * This class is the opposite of the RelationMiner. It will not assume any relation, but trying to build up a CodeJar
