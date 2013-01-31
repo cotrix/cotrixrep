@@ -16,7 +16,7 @@ public class TabularServiceTest {
 	public void testParseTabular() {
 		int rows = 10;
 		int columns = 5;
-		CodeBag codeJar = p.parse(g.generate(rows, columns));
+		CodeBag codeJar = p.mine(g.generate(rows, columns));
 		assertEquals(columns, codeJar.getCodelistContainer().getList().size());
 	}
 }
