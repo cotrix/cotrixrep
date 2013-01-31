@@ -1,4 +1,4 @@
-package org.cotrix.tabular.headermodel;
+package org.cotrix.tabular.modelmeta;
 
 import java.util.List;
 

@@ -6,4 +6,4 @@
  * @author Erik van Ingen
  *
  */
-package org.cotrix.tabular.headermodel;
+package org.cotrix.tabular.modelmeta;

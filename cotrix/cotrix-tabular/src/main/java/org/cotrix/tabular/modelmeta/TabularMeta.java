@@ -1,4 +1,4 @@
-package org.cotrix.tabular.headermodel;
+package org.cotrix.tabular.modelmeta;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import java.util.List;
  * TabularMeta represents the metadata of data in a tabular format. It has only metadata, so it does not even have the
  * headernames, these are in Tabular. It refers to the headers of the tabular data by the order of the headers.
  * 
+ * @see org.cotrix.tabular.model.Tabular on how to represent the real tabular data.
  * 
  * 
  * @author Erik van Ingen
