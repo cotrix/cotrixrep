@@ -3,7 +3,7 @@ package org.cotrix.tabular;
 import org.cotrix.domain.bag.CodeBag;
 import org.cotrix.domain.code.CodelistContainer;
 import org.cotrix.domain.coderelation.RelationContainer;
-import org.cotrix.domain.conceptrelation.Relations;
+import org.cotrix.domain.conceptrelation.ConceptRelations;
 import org.cotrix.domain.tabular.Tabular;
 import org.cotrix.domain.tabularmeta.TabularMeta;
 import org.cotrix.tabular.mining.CodeMiner;
@@ -57,7 +57,7 @@ public class TabularParserMiner {
 	 * @param relations
 	 * @return RelationContainer with the relevant relations
 	 */
-	public RelationContainer parse(Tabular tabular, Relations relations) {
+	public RelationContainer parse(Tabular tabular, ConceptRelations relations) {
 		RelationContainer r = new RelationContainer();
 
 		return r;

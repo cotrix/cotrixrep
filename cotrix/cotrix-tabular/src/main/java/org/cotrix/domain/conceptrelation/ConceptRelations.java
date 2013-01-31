@@ -15,7 +15,7 @@ import java.util.List;
  * @author Erik van Ingen
  * 
  */
-public class Relations {
+public class ConceptRelations {
 
 	private List<ConceptRelation> conceptRelationList;
 
