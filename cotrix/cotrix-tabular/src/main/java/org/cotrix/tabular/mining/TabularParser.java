@@ -17,7 +17,7 @@ public class TabularParser {
 	CodeMiner codeMiner = new CodeMiner();
 
 	/**
-	 * Parse any Tabular without any additional metadata.
+	 * Parse and mine any Tabular without any additional metadata.
 	 * 
 	 * 
 	 * 
