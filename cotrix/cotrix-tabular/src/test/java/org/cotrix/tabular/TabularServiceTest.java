@@ -3,13 +3,13 @@ package org.cotrix.tabular;
 import static org.junit.Assert.assertEquals;
 
 import org.cotrix.domain.bag.CodeBag;
-import org.cotrix.tabular.TabularParserMiner;
+import org.cotrix.tabular.TabularService;
 import org.cotrix.tabular.generator.TabularGenerator;
 import org.junit.Test;
 
-public class TabularParserTest {
+public class TabularServiceTest {
 
-	TabularParserMiner p = new TabularParserMiner();
+	TabularService p = new TabularService();
 	TabularGenerator g = new TabularGenerator();
 
 	@Test

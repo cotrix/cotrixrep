@@ -11,15 +11,6 @@ public class ConceptRelation {
 
 	protected Concept sourceConcept;
 	protected Concept targetConcept;
-	protected ConceptRelationType conceptRelationType;
-
-	public ConceptRelationType getConceptRelationType() {
-		return conceptRelationType;
-	}
-
-	public void setConceptRelationType(ConceptRelationType conceptRelationType) {
-		this.conceptRelationType = conceptRelationType;
-	}
 
 	public Concept getSourceConcept() {
 		return sourceConcept;

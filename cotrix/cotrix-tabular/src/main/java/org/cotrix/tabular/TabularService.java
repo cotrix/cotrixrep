@@ -14,7 +14,7 @@ import org.cotrix.tabular.mining.RelationMiner;
  * @author Erik van Ingen
  * 
  */
-public class TabularParserMiner {
+public class TabularService {
 
 	RelationMiner relationMiner = new RelationMiner();
 	CodeMiner codeMiner = new CodeMiner();
@@ -49,8 +49,6 @@ public class TabularParserMiner {
 
 	/**
 	 * Parses tabular data, using the relations as metadata
-	 * 
-	 * 
 	 * 
 	 * 
 	 * @param tabular
