@@ -13,7 +13,7 @@ public class TabularServiceTest {
 	TabularGenerator g = new TabularGenerator();
 
 	/**
-	 * @TODO this test is by far not completed.
+	 * @TODO this test and implementation is by far not completed.
 	 * 
 	 * @TODO Besides testing with the TabularGenerator, also a test needs to be written using the real ASFIS species
 	 *       list: /cotrix-tabular/src/test/resources/ASFIS/2012/original/ASFIS_sp_Feb_2012.txt
