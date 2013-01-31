@@ -14,6 +14,10 @@ import org.cotrix.domain.coderelation.Relations1toN;
  * 
  * Conversion of cardinalities of relationships.
  * 
+ * 
+ * In the process a 1 to N relationship is assumed. This could be in real a 1 to to relationship. In this case the
+ * relations need to be converted and that is done in this class.
+ * 
  * @author Erik van Ingen
  * 
  */

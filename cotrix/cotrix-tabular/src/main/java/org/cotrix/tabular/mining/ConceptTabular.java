@@ -3,8 +3,7 @@ package org.cotrix.tabular.mining;
 import org.cotrix.domain.conceptrelation.Concept;
 
 /**
- * ConvenienceClass in order to store the column number as the expression of the
- * Concept.
+ * ConvenienceClass in order to store the column number as the expression of the Concept.
  * 
  * Column numnbers in a tabular format do start at column 0.
  * 
@@ -13,7 +12,7 @@ import org.cotrix.domain.conceptrelation.Concept;
  * @author Erik van Ingen
  * 
  */
-public class ConceptTabular extends Concept {
+class ConceptTabular extends Concept {
 	private int columnNumber;
 
 	public ConceptTabular() {

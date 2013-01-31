@@ -1,10 +1,12 @@
-package org.cotrix.tabular.mining;
+package org.cotrix.tabular.parsing;
 
 import org.cotrix.domain.bag.CodeBag;
 import org.cotrix.domain.code.CodelistContainer;
 import org.cotrix.domain.coderelation.RelationContainer;
 import org.cotrix.domain.tabular.Tabular;
 import org.cotrix.domain.tabularmeta.TabularMeta;
+import org.cotrix.tabular.mining.CodeMiner;
+import org.cotrix.tabular.mining.RelationMiner;
 
 /**
  * 

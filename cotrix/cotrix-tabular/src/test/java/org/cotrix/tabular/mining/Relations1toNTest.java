@@ -1,4 +1,4 @@
-package org.cotrix.domain.relation;
+package org.cotrix.tabular.mining;
 
 import org.cotrix.domain.coderelation.Relations1toN;
 import org.cotrix.tabular.mining.ConceptTabular;

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.cotrix.domain.bag.CodeBag;
 import org.cotrix.tabular.generator.TabularGenerator;
-import org.cotrix.tabular.mining.TabularParser;
+import org.cotrix.tabular.parsing.TabularParser;
 import org.junit.Test;
 
 public class TabularParserTest {
