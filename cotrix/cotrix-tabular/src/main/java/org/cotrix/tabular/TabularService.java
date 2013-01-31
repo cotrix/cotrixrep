@@ -42,10 +42,10 @@ public class TabularService {
 		CodelistContainer c = codeMiner.parseCodes(tabular);
 		ConceptRelations conceptRelations = tab2Graph.convert(tabularMeta);
 		RelationContainer r = relationBuilder.build(tabular, conceptRelations);
-		CodeBag codeJar = new CodeBag();
-		codeJar.setCodelistContainer(c);
-		codeJar.setRelationContainer(r);
-		return codeJar;
+		CodeBag codeBag = new CodeBag();
+		codeBag.setCodelistContainer(c);
+		codeBag.setRelationContainer(r);
+		return codeBag;
 	}
 
 	/**
@@ -63,9 +63,9 @@ public class TabularService {
 	public CodeBag mine(Tabular tabular) {
 		CodelistContainer c = codeMiner.parseCodes(tabular);
 		RelationContainer r = relationMiner.mine(tabular, c);
-		CodeBag codeJar = new CodeBag();
-		codeJar.setCodelistContainer(c);
-		codeJar.setRelationContainer(r);
-		return codeJar;
+		CodeBag codeBag = new CodeBag();
+		codeBag.setCodelistContainer(c);
+		codeBag.setRelationContainer(r);
+		return codeBag;
 	}
 }
