@@ -13,7 +13,8 @@
 	<modules>
 		<module>cotrix-service</module>
 		<module>cotrix-web</module>
-  </modules>
+		<module>cotrix-domain</module>
+	</modules>
 
 	<dependencyManagement>
 		<dependencies>
