@@ -15,14 +15,14 @@ public class Utils {
 			throw new IllegalArgumentException(name+" is empty");
 	}
 	
-	public static void notNullorEmpty(String name, String o) throws IllegalArgumentException {
+	public static void valid(String name, String o) throws IllegalArgumentException {
 		notNull(name, o);
 		notEmpty(name,o);
 	}
 	
 	public static void valid(QName name) throws IllegalArgumentException {
 		notNull("name", name);
-		notNullorEmpty("name",name.getLocalPart());
+		valid("name",name.getLocalPart());
 	}
 
 }
