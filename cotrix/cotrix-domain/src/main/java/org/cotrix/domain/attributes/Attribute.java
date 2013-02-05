@@ -7,18 +7,21 @@ import java.util.MissingResourceException;
 
 import javax.xml.namespace.QName;
 
-public class BaseAttribute implements Attribute {
+import org.cotrix.domain.Named;
+
+//no reason to mutate this
+public class Attribute implements Named {
 
 	private final QName name;
 	private final String value;
 	private final String language;
 	
-	BaseAttribute(QName name,String value,Locale language) throws IllegalArgumentException {
+	Attribute(QName name,String value,Locale language) throws IllegalArgumentException {
 		
 		valid(name);
 		this.name=name;
 		
-		notNullorEmpty("value",value);
+		valid("value",value);
 		this.value=value;
 		
 		notNull("language",language);
