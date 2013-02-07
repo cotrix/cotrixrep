@@ -1,7 +1,9 @@
 package org.cotrix.domain.attributes;
 
+import org.cotrix.domain.common.Bag;
+
 
 public interface Attributed {
 
-	Attributes attributes();
+	Bag<Attribute> attributes();
 }

@@ -2,8 +2,16 @@ package org.cotrix.domain.utils;
 
 import javax.xml.namespace.QName;
 
-
+/**
+ * Module-wide utilities
+ * @author Fabio Simeoni
+ *
+ */
 public class Utils {
+	
+	public static void notNull(Object o) throws IllegalArgumentException {
+		notNull("argument",o);
+	}
 	
 	public static void notNull(String name, Object o) throws IllegalArgumentException {
 		if (o==null)
@@ -23,6 +31,15 @@ public class Utils {
 	public static void valid(QName name) throws IllegalArgumentException {
 		notNull("name", name);
 		valid("name",name.getLocalPart());
+	}
+	
+	public static void valid(String text,QName name) throws IllegalArgumentException {
+		notNull(text, name);
+		valid(text,name.getLocalPart());
+	}
+	
+	public static QName copyName(QName name) {
+		return new QName(name.getNamespaceURI(),name.getLocalPart());
 	}
 
 }

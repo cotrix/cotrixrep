@@ -1,48 +1,51 @@
 package org.cotrix.domain.codes;
 
-import static org.cotrix.domain.utils.Utils.*;
-
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Named;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attributed;
-import org.cotrix.domain.attributes.Attributes;
+import org.cotrix.domain.common.Bag;
+import org.cotrix.domain.common.CoreEntity;
+import org.cotrix.domain.traits.Copyable;
+import org.cotrix.domain.traits.Named;
 
 
 //immutable value-object
-public class Code implements Attributed,Named {
+/**
+ * A {@link Named}, {@link Attributed}, and {@link Copyable} code.
+ * 
+ * @author Fabio Simeoni
+ *
+ */
+public class Code extends CoreEntity<Code> {
 
-	private final String value;
-	private final QName name;
-	private final Attributes attributes;
-	
-	
-	public Code(QName name,String value) {
-		this(name,value,new Attributes());
+	/**
+	 * Creates an instance with a given name.
+	 * @param name
+	 */
+	public Code(QName name) {
+		this(name,new Bag<Attribute>());
 	}
 	
-	public Code(QName name,String value,Attributes attributes) {
-		
-		valid(name);
-		this.name=name;
-		
-		valid("value",value);
-		this.value = value;
-		
-		notNull("attributes", attributes);
-		this.attributes=attributes;
+	/**
+	 * Creates an instance with a given name and attributes
+	 * @param name the name
+	 * @param attributes the attributes
+	 */
+	public Code(QName name,Bag<Attribute> attributes) {
+		super(name,attributes);
 	}
 	
-	public Attributes attributes() {
-		return attributes;
-	}
-	
-	public QName name() {
-		return name;
-	}
-	
-	public String value() {
-		return value;
+	public Code copy() {
+		return new Code(name(),attributes().copy());
 	}
 
+	@Override
+	public String toString() {
+		return "[name=" + name() + ", attributes=" + attributes() + "]";
+	}
+
+	
+
+	
 }
