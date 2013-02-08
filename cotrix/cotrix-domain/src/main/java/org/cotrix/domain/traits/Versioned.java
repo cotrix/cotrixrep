@@ -24,5 +24,5 @@ public interface Versioned<T extends Versioned<T>> extends Copyable<T> {
 	 * @throws IllegalArgumentException if the version is syntactically invalid
 	 * @throws IllegalStateException if the version is syntactically valid but the object cannot acquire it 
 	 */
-	T copy(String version) throws IllegalArgumentException, IllegalStateException;
+	T copyWithVersion(String version) throws IllegalArgumentException, IllegalStateException;
 }

@@ -1,4 +1,4 @@
-package org.cotrix.domain.common;
+package org.cotrix.domain.entities;
 
 import static org.cotrix.domain.utils.Utils.*;
 
@@ -6,6 +6,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attributed;
+import org.cotrix.domain.containers.Bag;
 import org.cotrix.domain.traits.Copyable;
 import org.cotrix.domain.traits.Named;
 

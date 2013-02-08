@@ -4,7 +4,7 @@ import static junit.framework.Assert.*;
 import static org.cotrix.Fixture.*;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.Group;
+import org.cotrix.domain.containers.Group;
 import org.junit.Test;
 
 public class GroupTest {

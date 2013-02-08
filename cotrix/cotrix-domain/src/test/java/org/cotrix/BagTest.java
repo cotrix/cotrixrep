@@ -6,8 +6,8 @@ import static org.cotrix.Fixture.*;
 import java.util.List;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.Bag;
-import org.cotrix.domain.common.Group;
+import org.cotrix.domain.containers.Bag;
+import org.cotrix.domain.containers.Group;
 import org.junit.Test;
 
 public class BagTest {

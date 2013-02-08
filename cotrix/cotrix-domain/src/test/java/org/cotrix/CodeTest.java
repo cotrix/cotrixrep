@@ -5,7 +5,7 @@ import static org.cotrix.Fixture.*;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codes.Code;
-import org.cotrix.domain.common.Bag;
+import org.cotrix.domain.containers.Bag;
 import org.junit.Test;
 
 public class CodeTest {

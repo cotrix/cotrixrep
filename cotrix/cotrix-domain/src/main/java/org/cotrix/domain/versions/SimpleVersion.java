@@ -17,7 +17,7 @@ public class SimpleVersion implements Version {
 		return value;
 	}
 
-	public SimpleVersion copy(String version) {
+	public SimpleVersion copyWithVersion(String version) {
 		if (value.compareToIgnoreCase(version)<0)
 			return new SimpleVersion(version);
 		else

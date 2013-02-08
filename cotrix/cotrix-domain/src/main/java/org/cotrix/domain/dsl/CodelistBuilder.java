@@ -7,6 +7,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codes.Code;
 import org.cotrix.domain.codes.Codelist;
+import org.cotrix.domain.versions.SimpleVersion;
 import org.cotrix.domain.versions.Version;
 
 public class CodelistBuilder {
@@ -37,8 +38,13 @@ public class CodelistBuilder {
 		return this;
 	}
 	
-	public CodelistBuilder with(Version version) {
+	public CodelistBuilder version(Version version) {
 		this.version=version;
+		return this;
+	}
+	
+	public CodelistBuilder version(String version) {
+		this.version=new SimpleVersion(version);
 		return this;
 	}
 	

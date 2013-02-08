@@ -6,8 +6,8 @@ import static org.cotrix.Fixture.*;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codes.Code;
 import org.cotrix.domain.codes.Codelist;
-import org.cotrix.domain.common.Bag;
-import org.cotrix.domain.common.Group;
+import org.cotrix.domain.containers.Bag;
+import org.cotrix.domain.containers.Group;
 import org.cotrix.domain.versions.SimpleVersion;
 import org.junit.Test;
 
@@ -38,18 +38,27 @@ public class CodelistTest {
 	@Test
 	public void codelistsAreCorrectlyVersioned() {
 			
+		//a code list, with a default version scheme but still formally unversioned
 		Codelist list = new Codelist(name); 
 		
-		Codelist versioned = list.copy("1");
+		//a new version of the list
+		Codelist list1 = list.copyWithVersion("1");
 		
-		assertEquals("1",versioned.version());
 		
+		assertEquals("1",list1.version());
+		
+		//the new version is a fork
+		assertFalse(list.equals(list1));
+		
+		//a list with an initial version in a given scheme (here the same as default)
 		list = new Codelist(name,new Group<Code>(),new Bag<Attribute>(),new SimpleVersion("2.0"));
+		
 		
 		assertEquals("2.0",list.version());
 		
+		//a failed attempt to version the list with an unacceptable number
 		try {
-			list.copy("1.3");
+			list.copyWithVersion("1.3");
 			fail();
 		}
 		catch(IllegalStateException e){}

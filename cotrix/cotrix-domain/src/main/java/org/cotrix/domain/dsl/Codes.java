@@ -5,6 +5,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.LanguageAttribute;
 import org.cotrix.domain.codes.Code;
+import org.cotrix.domain.codes.Codebag;
 import org.cotrix.domain.codes.Codelist;
 
 public class Codes {
@@ -55,5 +56,13 @@ public class Codes {
 	
 	public static CodelistBuilder codelist(Codelist list) {
 		return new CodelistBuilder(list);
+	}
+	
+	public static CodebagBuilder codebag(QName name) {
+		return new CodebagBuilder(name);
+	}
+	
+	public static CodebagBuilder codebag(Codebag bag) {
+		return new CodebagBuilder(bag);
 	}
 }

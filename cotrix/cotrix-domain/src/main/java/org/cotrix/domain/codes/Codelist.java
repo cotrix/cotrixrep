@@ -4,9 +4,9 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attributed;
-import org.cotrix.domain.common.Bag;
-import org.cotrix.domain.common.Group;
-import org.cotrix.domain.common.VersionedEntity;
+import org.cotrix.domain.containers.Bag;
+import org.cotrix.domain.containers.Group;
+import org.cotrix.domain.entities.VersionedEntity;
 import org.cotrix.domain.traits.Named;
 import org.cotrix.domain.traits.Versioned;
 import org.cotrix.domain.versions.SimpleVersion;

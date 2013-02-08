@@ -4,8 +4,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attributed;
-import org.cotrix.domain.common.Bag;
-import org.cotrix.domain.common.CoreEntity;
+import org.cotrix.domain.containers.Bag;
+import org.cotrix.domain.entities.CoreEntity;
 import org.cotrix.domain.traits.Copyable;
 import org.cotrix.domain.traits.Named;
 

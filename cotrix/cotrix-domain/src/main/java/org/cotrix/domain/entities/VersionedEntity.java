@@ -1,4 +1,4 @@
-package org.cotrix.domain.common;
+package org.cotrix.domain.entities;
 
 import static org.cotrix.domain.utils.Utils.*;
 
@@ -6,6 +6,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attributed;
+import org.cotrix.domain.containers.Bag;
 import org.cotrix.domain.traits.Copyable;
 import org.cotrix.domain.traits.Named;
 import org.cotrix.domain.traits.Versioned;
@@ -37,11 +38,11 @@ public abstract class VersionedEntity<T extends VersionedEntity<T>> extends Core
 		return version.version();
 	}
 	
-	public T copy(String version) {
+	public T copyWithVersion(String version) {
 		
 		notNull("version",version);
 		
-		Version newVersion = this.version.copy(version);
+		Version newVersion = this.version.copyWithVersion(version);
 		
 		return copy(newVersion);
 	}
@@ -51,6 +52,31 @@ public abstract class VersionedEntity<T extends VersionedEntity<T>> extends Core
 	}
 	
 	protected abstract T copy(Version version);
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((version == null) ? 0 : version.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VersionedEntity<?> other = (VersionedEntity<?>) obj;
+		if (version == null) {
+			if (other.version != null)
+				return false;
+		} else if (!version.equals(other.version))
+			return false;
+		return true;
+	}
 	
 	
 	
