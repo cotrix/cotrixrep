@@ -41,9 +41,8 @@ public class CotrixModuleImport implements EntryPoint {
    * This is the entry point method.
    */
   public void onModuleLoad() {
-	  String[] labels = new String[]{"Upload File","Add Metadata","Choose Header","Describe Header","Define Type","Done"};
-	  ProgressbarTracker mProgressbarTracker = new ProgressbarTracker(6,labels);
-	  mProgressbarTracker.setActiveIndex(3);
-	  RootPanel.get().add(mProgressbarTracker);
+	  ImportWizard mImportWizard = new ImportWizard();
+	  
+	  RootPanel.get().add(mImportWizard);
   }
 }
