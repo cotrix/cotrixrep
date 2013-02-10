@@ -1,6 +1,4 @@
-package org.cotrix.web.importwizard.client;
-
-import org.cotrix.web.importwizard.client.ProgressbarLine.Style;
+package org.cotrix.web.importwizard.client.progressbar;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -36,10 +34,6 @@ public class ProgressbarButton extends Composite {
 	}
 
 	public void setActive(boolean isActive){
-		if(isActive){
-			button.setStyleName(style.active());
-		}else{
-			button.setStyleName(style.inactive());
-		}
+		button.setStyleName((isActive)?style.active():style.inactive());
 	}
 }

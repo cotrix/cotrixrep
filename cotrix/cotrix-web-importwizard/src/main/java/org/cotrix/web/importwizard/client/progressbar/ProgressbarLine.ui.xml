@@ -1,7 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style type="org.cotrix.web.importwizard.client.ProgressbarLine.Style">
+	<ui:style type="org.cotrix.web.importwizard.client.progressbar.ProgressbarLine.Style">
 		.important {
 			font-weight: bold;
 		}
@@ -36,16 +36,16 @@
 		}
 		
 		.active {
-			background-color: #ff6600;
 			width: 100px;
 			margin-top: 12px;
 			float: left;
 			border-radius: 0px;
 			height: 5px;
+			background-color: #8fc400;
 		}
 		
 		.active_round_right {
-			background-color: #ff6600;
+			background-color: #8fc400;
 			width: 100px;
 			margin-top: 12px;
 			float: left;
@@ -55,7 +55,7 @@
 		}
 		
 		.active_round_left {
-			background-color: #ff6600;
+			background-color: #8fc400;
 			width: 100px;
 			margin-top: 12px;
 			float: left;

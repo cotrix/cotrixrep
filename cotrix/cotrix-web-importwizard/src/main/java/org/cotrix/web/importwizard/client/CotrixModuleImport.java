@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client;
 
+import org.cotrix.web.importwizard.client.progressbar.ProgressbarTracker;
 import org.cotrix.web.importwizard.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -40,9 +41,9 @@ public class CotrixModuleImport implements EntryPoint {
    * This is the entry point method.
    */
   public void onModuleLoad() {
-	  String[] labels = new String[]{"1","2","3","4","5","6"};
+	  String[] labels = new String[]{"Upload File","Add Metadata","Choose Header","Describe Header","Define Type","Done"};
 	  ProgressbarTracker mProgressbarTracker = new ProgressbarTracker(6,labels);
-	  mProgressbarTracker.setActiveStep(2);
+	  mProgressbarTracker.setActiveIndex(3);
 	  RootPanel.get().add(mProgressbarTracker);
   }
 }

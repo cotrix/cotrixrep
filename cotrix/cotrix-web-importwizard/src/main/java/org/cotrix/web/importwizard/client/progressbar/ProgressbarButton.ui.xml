@@ -1,11 +1,11 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style type="org.cotrix.web.importwizard.client.ProgressbarButton.Style">
+	<ui:style type="org.cotrix.web.importwizard.client.progressbar.ProgressbarButton.Style">
 		.important {
 			font-weight: bold;
 		}
-
+		
 		.inactive {
 			background-color: #ddd;
 			width: 30px;
@@ -18,7 +18,6 @@
 		}
 		
 		.active {
-			background-color: #ff6600;
 			width: 30px;
 			border-radius: 50px;
 			height: 30px;
@@ -26,6 +25,7 @@
 			float: left;
 			color: #fff;
 			line-height: 30px;
+			background-color: #8fc400;
 		}
 	</ui:style>
 	<g:HTMLPanel>
