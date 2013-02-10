@@ -13,6 +13,7 @@
 	<modules>
 		<module>cotrix-service</module>
 		<module>cotrix-web</module>
+    <module>cotrix-web-importwizard</module>
   </modules>
 
 	<dependencyManagement>
