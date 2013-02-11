@@ -1,6 +1,7 @@
 package org.cotrix.web.importwizard.client;
 
 import org.cotrix.web.importwizard.client.form.FormWrapper;
+import org.cotrix.web.importwizard.client.form.UploadFrom;
 import org.cotrix.web.importwizard.client.form.FormWrapper.OnButtonClickHandler;
 import org.cotrix.web.importwizard.client.progressbar.ProgressbarTracker;
 
@@ -40,18 +41,12 @@ public class ImportWizard extends Composite implements
 		mProgressbarTracker = new ProgressbarTracker(6, labels);
 		barPanel.add(mProgressbarTracker);
 
-		FormWrapper wrapper1 = FormWrapper.getInstanceWithoutBackButton(
-				getFormInStep1(), titles[0], 0);
-		FormWrapper wrapper2 = FormWrapper.getInstance(getFormInStep2(),
-				titles[1], 1);
-		FormWrapper wrapper3 = FormWrapper.getInstance(getFormInStep3(),
-				titles[2], 2);
-		FormWrapper wrapper4 = FormWrapper.getInstance(getFormInStep4(),
-				titles[3], 3);
-		FormWrapper wrapper5 = FormWrapper.getInstance(getFormInStep5(),
-				titles[4], 4);
-		FormWrapper wrapper6 = FormWrapper.getInstanceWithoutNextButton(
-				getFormInStep6(), titles[5], 5);
+		FormWrapper wrapper1 = FormWrapper.getInstanceWithoutBackButton(getFormInStep1(), titles[0], 0);
+		FormWrapper wrapper2 = FormWrapper.getInstance(getFormInStep2(),titles[1], 1);
+		FormWrapper wrapper3 = FormWrapper.getInstance(getFormInStep3(),titles[2], 2);
+		FormWrapper wrapper4 = FormWrapper.getInstance(getFormInStep4(),titles[3], 3);
+		FormWrapper wrapper5 = FormWrapper.getInstance(getFormInStep5(),titles[4], 4);
+		FormWrapper wrapper6 = FormWrapper.getInstanceWithoutNextButton(getFormInStep6(), titles[5], 5);
 
 		wrapper1.setOnButtonClicked(this);
 		wrapper2.setOnButtonClicked(this);
@@ -75,10 +70,8 @@ public class ImportWizard extends Composite implements
 	}
 
 	private Widget getFormInStep1() {
-		Label form1 = new Label();
-		form1.setSize("400px", "200px");
-		form1.setText("Form 1");
-		return form1;
+		UploadFrom mUploadFrom = new UploadFrom();
+		return mUploadFrom;
 	}
 
 	private Widget getFormInStep2() {
@@ -151,7 +144,7 @@ public class ImportWizard extends Composite implements
 	public void onBackButtonClicked(FormWrapper sender) {
 		int index = sender.getIndexInParent();
 		formPanel.showWidget(index -1);
-		mProgressbarTracker.setActiveIndex(index );
+		mProgressbarTracker.setActiveIndex(index);
 	}
 
 }
