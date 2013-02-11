@@ -1,0 +1,67 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.panel {
+			font-weight: bold;
+			background-color: #eeeeee;
+			width: 880px;
+			margin: 0 auto;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+		}
+		
+		.important {
+			font-weight: bold;
+		}
+		
+		.navigationBar {
+			font-weight: bold;
+			background-color: #eee;
+			height: 40px;
+			border-radius: 0px 0px 5px 5px;
+			-moz-border-radius: 0px 0px 5px 5px;
+		}
+		
+		.title {
+			font-weight: bold;
+			font-size: xx-large;
+			text-align: left;
+			color:#666;
+			margin-left: 20px;
+		}
+		
+		.next {
+			font-weight: bold;
+			float: right;
+			height: 30px;
+			margin-right: 20px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+		
+		.back {
+			font-weight: bold;
+			float: left;
+			height: 30px;
+			margin-left: 20px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+		
+		.contentPanel {
+			font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<g:FlowPanel styleName="{style.panel}">
+			<g:Label text="Title" styleName="{style.title}" />
+			<g:FlowPanel ui:field="contentPanel" styleName="{style.contentPanel}" />
+			<g:FlowPanel ui:field="navigationBar" styleName="{style.navigationBar}">
+				<g:Button text="Back" styleName="{style.back}" />
+				<g:Button text="Next" styleName="{style.next}" />
+			</g:FlowPanel>
+		</g:FlowPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 

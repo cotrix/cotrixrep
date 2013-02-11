@@ -1,12 +1,16 @@
 package org.cotrix.web.importwizard.client;
 
+import org.cotrix.web.importwizard.client.form.FormWrapper;
 import org.cotrix.web.importwizard.client.progressbar.ProgressbarTracker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ImportWizard extends Composite {
@@ -32,6 +36,9 @@ public class ImportWizard extends Composite {
 				labels);
 		mProgressbarTracker.setActiveIndex(3);
 		panel.add(mProgressbarTracker);
+		
+		FormWrapper mFormWrapper = new FormWrapper();
+		panel.add(mFormWrapper);
 	}
 
 	public ImportWizard(String firstName) {
