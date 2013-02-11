@@ -4,7 +4,7 @@
 	<ui:style>
 		.panel {
 			font-weight: bold;
-			background-color: #eeeeee;
+			background-color: #FAFAFA;
 			width: 880px;
 			margin: 0 auto;
 			-moz-border-radius: 5px;
@@ -18,7 +18,7 @@
 		
 		.navigationBar {
 			font-weight: bold;
-			background-color: #eee;
+			background-color: #FAFAFA;
 			height: 40px;
 			border-radius: 0px 0px 5px 5px;
 			-moz-border-radius: 0px 0px 5px 5px;
@@ -56,11 +56,11 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:FlowPanel styleName="{style.panel}">
-			<g:Label text="Title" styleName="{style.title}" />
-			<g:FlowPanel ui:field="contentPanel" styleName="{style.contentPanel}" />
+			<g:Label text="Title" styleName="{style.title}" ui:field="title" />
+			<g:FlowPanel ui:field="contentPanel" styleName="{style.contentPanel}"/>
 			<g:FlowPanel ui:field="navigationBar" styleName="{style.navigationBar}">
-				<g:Button text="Back" styleName="{style.back}" />
-				<g:Button text="Next" styleName="{style.next}" />
+				<g:Button text="Back" styleName="{style.back}" ui:field="backButton" />
+				<g:Button text="Next" styleName="{style.next}" ui:field="nextButton"/>
 			</g:FlowPanel>
 		</g:FlowPanel>
 	</g:HTMLPanel>

@@ -11,7 +11,7 @@
 			margin: 20px;
 		}
 		
-		.tracker {
+		.tracker { 
 			width: 880px;
 		}
 		

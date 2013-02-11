@@ -33,9 +33,11 @@ public class ProgressbarTracker extends Composite {
 	FlowPanel textPanel;
 
 	public ProgressbarTracker(int step, String[] labels) {
+		this.step = step;
 		initWidget(uiBinder.createAndBindUi(this));
 		setUpBarPanel(step);
 		setUpTextPanel(labels);
+		setActiveIndex(1);
 	}
 
 	private void setUpBarPanel(int step) {
@@ -74,8 +76,27 @@ public class ProgressbarTracker extends Composite {
 			textPanel.add(new ProgressbarLabel(labels[i]));
 		}
 	}
-
+	
+	private void reset(){
+		for (int i = 0; i < barPanel.getWidgetCount(); i++) {
+			Widget w = barPanel.getWidget(i);
+			if (w.getClass() == ProgressbarLine.class) {
+				ProgressbarLine line = (ProgressbarLine) w;
+				if (i == 0) {
+					line.setRoundCornerLeft(false);
+				} else {
+					line.setActive(false);
+				}
+			} else {
+				ProgressbarButton button = (ProgressbarButton) w;
+				button.setActive(false);
+			}
+		}
+	}
+	
 	public void setActiveIndex(int index) {
+		reset();
+		
 		int targetIndex = (index * 2) - 1;
 		for (int i = 0; i <= targetIndex; i++) {
 			Widget w = barPanel.getWidget(i);
