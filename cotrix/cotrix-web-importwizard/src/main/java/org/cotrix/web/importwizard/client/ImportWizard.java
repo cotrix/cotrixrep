@@ -2,8 +2,10 @@ package org.cotrix.web.importwizard.client;
 
 import org.cotrix.web.importwizard.client.form.FormWrapper;
 import org.cotrix.web.importwizard.client.form.FormWrapper.OnButtonClickHandler;
+import org.cotrix.web.importwizard.client.form.DescribeHeaderForm;
 import org.cotrix.web.importwizard.client.form.HeaderSelectionForm;
 import org.cotrix.web.importwizard.client.form.MetadataForm;
+import org.cotrix.web.importwizard.client.form.SummaryForm;
 import org.cotrix.web.importwizard.client.form.UploadFrom;
 import org.cotrix.web.importwizard.client.progressbar.ProgressbarTracker;
 
@@ -72,25 +74,19 @@ public class ImportWizard extends Composite implements
 	}
 
 	private Widget getFormInStep1() {
-		UploadFrom mUploadFrom = new UploadFrom();
-		return mUploadFrom;
+		return  new UploadFrom();
 	}
 
 	private Widget getFormInStep2() {
-		MetadataForm mMetadataForm = new MetadataForm();
-		return mMetadataForm;
+		return new MetadataForm();
 	}
 
 	private Widget getFormInStep3() {
-		HeaderSelectionForm mHeaderSelectionForm = new HeaderSelectionForm();
-		return mHeaderSelectionForm;
+		return  new HeaderSelectionForm();
 	}
 
 	private Widget getFormInStep4() {
-		Label form1 = new Label();
-		form1.setSize("400px", "200px");
-		form1.setText("Form 4");
-		return form1;
+		return new DescribeHeaderForm();
 	}
 
 	private Widget getFormInStep5() {
@@ -101,10 +97,7 @@ public class ImportWizard extends Composite implements
 	}
 
 	private Widget getFormInStep6() {
-		Label form1 = new Label();
-		form1.setSize("400px", "200px");
-		form1.setText("Form 6");
-		return form1;
+		return new SummaryForm();
 	}
 
 	public boolean isFromValidated(FormWrapper sender) {
