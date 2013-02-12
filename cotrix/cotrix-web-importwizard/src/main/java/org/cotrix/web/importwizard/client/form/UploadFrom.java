@@ -21,8 +21,6 @@ public class UploadFrom extends Composite {
 	interface UploadFromUiBinder extends UiBinder<Widget, UploadFrom> {
 	}
 
-	@UiField
-	FormPanel uploadForm;
 
 	@UiField
 	FileUpload fileUpload;

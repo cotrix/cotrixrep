@@ -17,6 +17,7 @@
 			padding-top: 10px;
 			padding-bottom: 10px;
 		}
+		
 		.uploadButton {
 			border: 1px solid #d7dada;
 			-webkit-border-radius: 5px;
@@ -55,15 +56,21 @@
 			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
 				startColorstr=#d9dddd, endColorstr=#c6c3c3 );
 		}
+		
+		.div {
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<div class='{style.title}'>Choose codelist file in CSV format.</div>
-		<g:FormPanel ui:field="uploadForm">
-			<g:FlowPanel styleName="{style.uploadForm}">
-				<g:FileUpload ui:field="fileUpload"/>
-				<g:Button text="Upload" styleName="{style.uploadButton}" ui:field="uploadButton" />
-			</g:FlowPanel>
-		</g:FormPanel>
+		<div class="{style.div}">
+			<g:FileUpload ui:field="fileUpload" />
+		</div>
+		<div class="{style.div}">
+			<g:Button text="Upload" styleName="{style.uploadButton}"
+				ui:field="uploadButton" />
+		</div>
 
 	</g:HTMLPanel>
 </ui:UiBinder> 

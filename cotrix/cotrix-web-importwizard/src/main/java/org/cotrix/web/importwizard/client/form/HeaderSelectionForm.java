@@ -43,7 +43,7 @@ public class HeaderSelectionForm extends Composite {
 	CheckBox checkbox;
 	@UiHandler("checkbox")
 	void handleBackButtonClick(ClickEvent e) {
-		showHeaderForm(checkbox.getValue());
+		showHeaderForm(!checkbox.getValue());
 	}
 	private void showHeaderForm(boolean show){
 		if(show){

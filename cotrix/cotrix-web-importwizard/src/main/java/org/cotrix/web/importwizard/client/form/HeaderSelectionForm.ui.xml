@@ -39,8 +39,7 @@
 		</ui:style>
 	<g:HTMLPanel>
 		<div>
-			<g:CheckBox styleName="{style.checkbox}" ui:field="checkbox">Create
-				New Header</g:CheckBox>
+			<g:CheckBox styleName="{style.checkbox}" ui:field="checkbox" checked="true">Use first row as a header</g:CheckBox>
 		</div>
 		<div style="margin-top:20px;">
 			<g:FlexTable ui:field="flexTable" cellPadding="3"
