@@ -1,6 +1,7 @@
 package org.cotrix.web.importwizard.client;
 
 import org.cotrix.web.importwizard.client.form.FormWrapper;
+import org.cotrix.web.importwizard.client.form.MetadataForm;
 import org.cotrix.web.importwizard.client.form.UploadFrom;
 import org.cotrix.web.importwizard.client.form.FormWrapper.OnButtonClickHandler;
 import org.cotrix.web.importwizard.client.progressbar.ProgressbarTracker;
@@ -75,10 +76,8 @@ public class ImportWizard extends Composite implements
 	}
 
 	private Widget getFormInStep2() {
-		Label form1 = new Label();
-		form1.setSize("400px", "200px");
-		form1.setText("Form 2");
-		return form1;
+		MetadataForm mMetadataForm = new MetadataForm();
+		return mMetadataForm;
 	}
 
 	private Widget getFormInStep3() {
