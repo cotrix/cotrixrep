@@ -1,9 +1,10 @@
 package org.cotrix.web.importwizard.client;
 
 import org.cotrix.web.importwizard.client.form.FormWrapper;
+import org.cotrix.web.importwizard.client.form.FormWrapper.OnButtonClickHandler;
+import org.cotrix.web.importwizard.client.form.HeaderSelectionForm;
 import org.cotrix.web.importwizard.client.form.MetadataForm;
 import org.cotrix.web.importwizard.client.form.UploadFrom;
-import org.cotrix.web.importwizard.client.form.FormWrapper.OnButtonClickHandler;
 import org.cotrix.web.importwizard.client.progressbar.ProgressbarTracker;
 
 import com.google.gwt.core.client.GWT;
@@ -81,10 +82,8 @@ public class ImportWizard extends Composite implements
 	}
 
 	private Widget getFormInStep3() {
-		Label form1 = new Label();
-		form1.setSize("400px", "200px");
-		form1.setText("Form 3");
-		return form1;
+		HeaderSelectionForm mHeaderSelectionForm = new HeaderSelectionForm();
+		return mHeaderSelectionForm;
 	}
 
 	private Widget getFormInStep4() {

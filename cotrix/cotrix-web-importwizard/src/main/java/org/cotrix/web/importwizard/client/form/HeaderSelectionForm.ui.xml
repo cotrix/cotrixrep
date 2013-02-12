@@ -1,0 +1,50 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style
+		type="org.cotrix.web.importwizard.client.form.HeaderSelectionForm.Style">
+			.important {
+				font-weight: bold;
+			}
+			
+			.checkbox {
+				color: #666;
+			}
+			
+			.flexTable {
+				border-width: 0 0 1px 1px;
+				border-spacing: 0;
+				border-color: #ccc;
+				background-color: white;
+				border-collapse: collapse;
+				color: #666;
+				border-style: solid;
+			}
+			
+			.flextTableHeader {
+				background-color: #eee;
+			}
+			
+			.flexTable td,.flexTable th {
+				margin: 0;
+				border-color: #ccc;
+				padding: 4px;
+				border-width: 1px 1px 0 0;
+				border-style: solid;
+			}
+			
+			.textbox {
+				width: 50px;
+			}
+		</ui:style>
+	<g:HTMLPanel>
+		<div>
+			<g:CheckBox styleName="{style.checkbox}" ui:field="checkbox">Create
+				New Header</g:CheckBox>
+		</div>
+		<div style="margin-top:20px;">
+			<g:FlexTable ui:field="flexTable" cellPadding="3"
+				cellSpacing="0" borderWidth="1" styleName="{style.flexTable}"></g:FlexTable>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder> 
