@@ -34,7 +34,7 @@
 			}
 			
 			.textbox {
-				
+				width: 60px;
 			}
 		</ui:style>
 	<g:HTMLPanel>
