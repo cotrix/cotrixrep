@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:f='urn:import:org.vectomatic.file'>
 	<ui:style>
 		.important {
 			font-weight: bold;
@@ -22,6 +22,7 @@
 			border: 1px solid #d7dada;
 			-webkit-border-radius: 5px;
 			-moz-border-radius: 5px;
+			float: left;
 			border-radius: 5px;
 			width: 80px;
 			font-size: 12px;
@@ -58,19 +59,65 @@
 		}
 		
 		.div {
-			padding-top: 10px;
-			padding-bottom: 10px;
+			height: 35px;
 		}
+		
+		.customUpload {
+			visibility: hidden;
+			width: 0;
+		}
+		
+		.uploadFileName {
+			float: left;
+			line-height: 30px;
+			vertical-align: middle;
+			margin-left: 40px;
+			font-size:20px;
+			color:#999;
+			margin-right: 20px;
+		}
+		
+		.closeButton {
+			background-color: #ccc;
+			color: #fff;
+			float: left;
+			border-radius: 50px;
+			width: 20px;
+			font-size:10px;
+			height: 20px;
+			padding-left:1px;
+			line-height: 20px;
+			text-align: center;
+			cursor: hand; cursor: pointer;
+			margin:6px;
+			padding-bottom:1px;
+			vertical-align: middle;
+		}
+		.closeButton:hover {
+			background-color: #999;
+			color: #fff;
+			padding-left:1px;
+			padding-bottom:1px;
+			float: left;
+			font-size:10px
+			border-radius: 50px;
+			width: 20px;
+			height: 20px;
+			line-height: 20px;
+			text-align: center;
+			cursor: hand; cursor: pointer;
+			margin:6px;
+			vertical-align: middle;
+		}
+		
 	</ui:style>
 	<g:HTMLPanel>
 		<div class='{style.title}'>Choose codelist file in CSV format.</div>
+		<f:FileUploadExt ui:field="fileUpload" styleName="{style.customUpload}" />
 		<div class="{style.div}">
-			<g:FileUpload ui:field="fileUpload" />
+			<g:Button text="BROWSE" ui:field="browseButton" styleName="{style.uploadButton}" />
+			<g:Label ui:field="fileNameLabel"  styleName="{style.uploadFileName}" />
+				<g:HTML text="X" styleName="{style.closeButton}" ui:field="closeButton" visible="false"></g:HTML>
 		</div>
-		<div class="{style.div}">
-			<g:Button text="Upload" styleName="{style.uploadButton}"
-				ui:field="uploadButton" />
-		</div>
-
 	</g:HTMLPanel>
 </ui:UiBinder> 
