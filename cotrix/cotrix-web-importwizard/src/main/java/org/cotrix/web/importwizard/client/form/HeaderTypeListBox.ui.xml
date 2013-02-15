@@ -6,9 +6,12 @@
 			font-weight: bold;
 		}
 		
+		.listBox {
+			float: left;
+		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:ListBox ui:field="listbox">
+		<g:ListBox ui:field="listbox" styleName="{style.listBox}">
 			<g:item value='0'>
 				--- Select Header Type ---
 			</g:item>

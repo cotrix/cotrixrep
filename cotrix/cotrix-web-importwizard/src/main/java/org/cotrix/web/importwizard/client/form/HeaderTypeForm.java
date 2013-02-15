@@ -49,21 +49,18 @@ public class HeaderTypeForm extends Composite implements CotrixForm,
 	}
 
 	private Grid initGrid(String[] columns) {
-		Grid grid = new Grid(columns.length, 3);
+		Grid grid = new Grid(columns.length, 2);
 
 		for (int i = 0; i < columns.length; i++) {
 			Label headerLabel = new Label(columns[i]);
 			headerLabel.setStyleName(style.headerlabel());
 
-			HeaderTypeListBox h = new HeaderTypeListBox();
+			HeaderTypePanel h = new HeaderTypePanel();
 
-			Label l = new Label();
-			h.setRelatedLabel(l);
 
 			grid.getCellFormatter().setStyleName(i, 0, style.cell());
 			grid.setWidget(i, 0, headerLabel);
 			grid.setWidget(i, 1, h);
-			grid.setWidget(i, 2, l);
 		}
 		return grid;
 	}

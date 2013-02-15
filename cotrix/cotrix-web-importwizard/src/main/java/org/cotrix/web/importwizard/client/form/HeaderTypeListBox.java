@@ -11,6 +11,10 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class HeaderTypeListBox extends Composite {
+	public interface OnHeaderTypeSelectedHandler{
+		public void onHeaderTypeSelected(int index);
+	}
+	private OnHeaderTypeSelectedHandler onHeaderTypeSelectedHandler;
 	
 	private static HeaderTypeListBoxUiBinder uiBinder = GWT
 			.create(HeaderTypeListBoxUiBinder.class);
@@ -29,24 +33,13 @@ public class HeaderTypeListBox extends Composite {
 	
 	@UiHandler("listbox")
 	void whateverName(ChangeEvent event) {
-		int index  = listbox.getSelectedIndex();
-		switch (index) {
-		case 0:
-			break;
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		}
+		onHeaderTypeSelectedHandler.onHeaderTypeSelected(listbox.getSelectedIndex());
 	}
-
+	
+	public void setOnHeaderTypeSelectedHandler(OnHeaderTypeSelectedHandler onHeaderTypeSelectedHandler){
+		this.onHeaderTypeSelectedHandler = onHeaderTypeSelectedHandler;
+	}
+	
 	public HeaderTypeListBox() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
