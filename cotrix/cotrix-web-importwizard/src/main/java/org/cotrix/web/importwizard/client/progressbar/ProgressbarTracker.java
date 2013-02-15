@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ProgressbarTracker extends Composite {
@@ -91,6 +92,10 @@ public class ProgressbarTracker extends Composite {
 				ProgressbarButton button = (ProgressbarButton) w;
 				button.setActive(false);
 			}
+		}
+		for (int i = 0; i < textPanel.getWidgetCount(); i++) {
+			ProgressbarLabel label = (ProgressbarLabel) textPanel.getWidget(i);
+			label.setActive(false);
 		}
 	}
 	

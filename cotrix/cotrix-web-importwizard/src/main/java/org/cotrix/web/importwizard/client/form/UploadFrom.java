@@ -86,7 +86,7 @@ public class UploadFrom extends Composite implements CotrixForm{
 		String[] lines = csv.split("\n");
 		ArrayList<String[]> results = new ArrayList<String[]>();
 		for (String line : lines) {
-			String[] cells = line.split("\t");
+			String[] cells = line.split("\t|,|\r");
 			results.add(cells);
 		}
 		return results;

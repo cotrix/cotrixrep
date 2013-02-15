@@ -1,12 +1,8 @@
 package org.cotrix.web.importwizard.client.form;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.cotrix.web.importwizard.client.data.MockupTabularData;
-import org.cotrix.web.importwizard.shared.CSVFile;
-import org.cotrix.web.importwizard.shared.CSVFile.OnFileChangeHandler;
-import org.cotrix.web.importwizard.shared.CSVFile.OnHeaderChangeHandler;
+import org.cotrix.web.importwizard.shared.CSVFile.OnFile3ChangeHandler;
 import org.cotrix.web.importwizard.shared.ImportWizardModel;
 
 import com.google.gwt.core.client.GWT;
@@ -15,8 +11,6 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -24,7 +18,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class HeaderSelectionForm extends Composite implements CotrixForm,OnFileChangeHandler{
+public class HeaderSelectionForm extends Composite implements CotrixForm,OnFile3ChangeHandler{
 	int columnCount;
 	private static HeaderSelectionFormUiBinder uiBinder = GWT
 			.create(HeaderSelectionFormUiBinder.class);
@@ -81,7 +75,7 @@ public class HeaderSelectionForm extends Composite implements CotrixForm,OnFileC
 	private ImportWizardModel importWizardModel;
 	public HeaderSelectionForm(ImportWizardModel importWizardModel) {
 		this.importWizardModel = importWizardModel;
-		importWizardModel.getCsvFile().setOnFileChangeHandler(this);
+		importWizardModel.getCsvFile().setOnFile3ChangeHandler(this);
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -105,7 +99,7 @@ public class HeaderSelectionForm extends Composite implements CotrixForm,OnFileC
 	}
 
 
-	public void OnFileChange(String[] headers, ArrayList<String[]> data) {
+	public void onFileChange(String[] headers, ArrayList<String[]> data) {
 		initFlexTable(flexTable, headers, data);
 	}
 

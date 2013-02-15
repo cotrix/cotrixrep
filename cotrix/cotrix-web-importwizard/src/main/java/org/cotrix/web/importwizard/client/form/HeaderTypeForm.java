@@ -3,7 +3,7 @@ package org.cotrix.web.importwizard.client.form;
 import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.shared.ImportWizardModel;
-import org.cotrix.web.importwizard.shared.CSVFile.OnHeaderChangeHandler;
+import org.cotrix.web.importwizard.shared.CSVFile.OnFile1ChangeHandler;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class HeaderTypeForm extends Composite implements CotrixForm,
-		OnHeaderChangeHandler {
+		OnFile1ChangeHandler {
 
 	private static HeaderTypeFormUiBinder uiBinder = GWT
 			.create(HeaderTypeFormUiBinder.class);
@@ -44,8 +44,7 @@ public class HeaderTypeForm extends Composite implements CotrixForm,
 
 	public HeaderTypeForm(ImportWizardModel importWizardModel) {
 		this.importWizardModel = importWizardModel;
-		
-		this.importWizardModel.getCsvFile().setOnHeaderChangeHandler(this);
+		this.importWizardModel.getCsvFile().setOnFile1ChangeHandler(this);
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -74,7 +73,7 @@ public class HeaderTypeForm extends Composite implements CotrixForm,
 		return false;
 	}
 
-	public void OnHeaderChange(String[] headers, ArrayList<String[]> data) {
+	public void onFileChange(String[] headers, ArrayList<String[]> data) {
 		panel.clear();
 		Grid grid = initGrid(headers);
 		panel.add(grid);

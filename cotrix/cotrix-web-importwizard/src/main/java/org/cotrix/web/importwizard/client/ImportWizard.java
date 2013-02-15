@@ -37,8 +37,6 @@ public class ImportWizard extends Composite implements
 	DeckPanel formPanel;
 	private ProgressbarTracker mProgressbarTracker;
 
-	private ArrayList<String[]> csvFile = new ArrayList<String[]>();
-	
 	public ImportWizard() {
 		initWidget(uiBinder.createAndBindUi(this));
 		String[] labels = new String[] { "Upload File", "Add Metadata",
