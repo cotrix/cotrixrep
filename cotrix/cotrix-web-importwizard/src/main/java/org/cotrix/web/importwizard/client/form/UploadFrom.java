@@ -1,6 +1,8 @@
 package org.cotrix.web.importwizard.client.form;
 
-import org.apache.tools.ant.taskdefs.Javadoc.Html;
+import java.util.ArrayList;
+
+import org.cotrix.web.importwizard.shared.ImportWizardModel;
 import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileError;
@@ -26,11 +28,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UploadFrom extends Composite {
+public class UploadFrom extends Composite implements CotrixForm{
 
 	private static UploadFromUiBinder uiBinder = GWT
 			.create(UploadFromUiBinder.class);
@@ -40,80 +41,98 @@ public class UploadFrom extends Composite {
 
 	@UiField
 	FileUploadExt fileUpload;
-	
+
 	@UiField
 	Label fileNameLabel;
-	
+
 	@UiField
 	HTML closeButton;
-	@UiHandler("closeButton")
-	public void close(ClickEvent event) {
-		
-		fileNameLabel.setText("");
-		closeButton.setVisible(false);
-		filename = "";
-	}
-	
-	
+
 	@UiField
 	Button browseButton;
+
+	@UiHandler("closeButton")
+	public void close(ClickEvent event) {
+		filename = "";
+		fileNameLabel.setText(filename);
+		closeButton.setVisible(false);
+		importWizardModel.getCsvFile().setDataAndHeader(null, null);
+	}
+
 	@UiHandler("browseButton")
 	public void browse(ClickEvent event) {
 		fileUpload.click();
 	}
-	
+
 	private FileReader reader;
-	private String filename;
-	
-	public UploadFrom() {
+	private String filename = "";
+	private ImportWizardModel importWizardModel;
+
+	public UploadFrom(ImportWizardModel importWizardModel) {
+		this.importWizardModel = importWizardModel;
 		initWidget(uiBinder.createAndBindUi(this));
 		initFileReader();
-		
 	}
-	private void onLoadFileFinish(){
+
+	private void onLoadFileFinish() {
 		fileNameLabel.setText(filename);
 		closeButton.setVisible(true);
 	}
+	private boolean hasFile(){
+		return (filename.equals("")?false:true);
+	}
+	private ArrayList<String[]> parseCSV(String csv) {
+		csv = csv.replaceAll("\"", "");
+		String[] lines = csv.split("\n");
+		ArrayList<String[]> results = new ArrayList<String[]>();
+		for (String line : lines) {
+			String[] cells = line.split("\t");
+			results.add(cells);
+		}
+		return results;
+	}
+
 	private void initFileReader() {
 
 		// Create a file reader a and queue of files to read.
-				// UI event handler will populate this queue by calling queueFiles()
-				reader = new FileReader();
-				reader.addLoadEndHandler(new LoadEndHandler() {
-					/**
-					 * This handler is invoked when FileReader.readAsText(),
-					 * FileReader.readAsBinaryString() or FileReader.readAsArrayBuffer()
-					 * successfully completes
-					 */
-					public void onLoadEnd(LoadEndEvent event) {
-						onLoadFileFinish();
-						System.out.println("---->end");
-					}
-					
-				});
-				
-				reader.addLoadStartHandler(new LoadStartHandler() {
-					public void onLoadStart(LoadStartEvent event) {
-						System.out.println("---->start");
-						
-					}
-				});
-				reader.addProgressHandler(new ProgressHandler() {
-					
-					public void onProgress(ProgressEvent event) {
-						 System.out.println("---->progress"+event.loaded());
-					}
-				});
-				reader.addErrorHandler(new ErrorHandler() {
-					/**
-					 * This handler is invoked when FileReader.readAsText(),
-					 * FileReader.readAsBinaryString() or FileReader.readAsArrayBuffer()
-					 * fails
-					 */
-					public void onError(ErrorEvent event) {
-						Window.alert(event.toString());
-					}
-				});
+		// UI event handler will populate this queue by calling queueFiles()
+		reader = new FileReader();
+		reader.addLoadEndHandler(new LoadEndHandler() {
+			/**
+			 * This handler is invoked when FileReader.readAsText(),
+			 * FileReader.readAsBinaryString() or FileReader.readAsArrayBuffer()
+			 * successfully completes
+			 */
+			public void onLoadEnd(LoadEndEvent event) {
+				onLoadFileFinish();
+				ArrayList<String[]> data = parseCSV(reader.getStringResult());
+				if(data.size() >= 2 ){
+					importWizardModel.getCsvFile().setDataAndHeader(data, data.get(0));
+				}else {
+					Window.alert("File must have more than 2 rows");
+				}
+			}
+
+		});
+
+		reader.addLoadStartHandler(new LoadStartHandler() {
+			public void onLoadStart(LoadStartEvent event) {
+			}
+		});
+		reader.addProgressHandler(new ProgressHandler() {
+			public void onProgress(ProgressEvent event) {
+			}
+		});
+		reader.addErrorHandler(new ErrorHandler() {
+			/**
+			 * This handler is invoked when FileReader.readAsText(),
+			 * FileReader.readAsBinaryString() or FileReader.readAsArrayBuffer()
+			 * fails
+			 */
+			public void onError(ErrorEvent event) {
+				Window.alert(event.toString());
+			}
+		});
 	}
 
 	@UiHandler("fileUpload")
@@ -122,7 +141,8 @@ public class UploadFrom extends Composite {
 	}
 
 	private void processFiles(FileList files) {
-		if(files.getLength() == 0) return;
+		if (files.getLength() == 0)
+			return;
 
 		File file = files.getItem(0);
 		String type = file.getType();
@@ -134,16 +154,18 @@ public class UploadFrom extends Composite {
 			} else if (type.startsWith("image/")) {
 				Window.alert("Only CSV or Text file.");
 			} else if (type.startsWith("text/")) {
-				reader.readAsText(file);	
+				reader.readAsText(file);
 				filename = file.getName();
 			}
-		} catch(Throwable t) {
-			// Necessary for FF (see bug https://bugzilla.mozilla.org/show_bug.cgi?id=701154)
+		} catch (Throwable t) {
+			// Necessary for FF (see bug
+			// https://bugzilla.mozilla.org/show_bug.cgi?id=701154)
 			// Standard-complying browsers will not go in this branch
 			handleError(file);
 		}
 
 	}
+
 	private void handleError(File file) {
 		FileError error = reader.getError();
 		String errorDesc = "";
@@ -153,8 +175,15 @@ public class UploadFrom extends Composite {
 				errorDesc = ": " + errorCode.name();
 			}
 		}
-		Window.alert("File loading error for file: " + file.getName() + "\n" + errorDesc);
+		Window.alert("File loading error for file: " + file.getName() + "\n"
+				+ errorDesc);
 	}
 
+	public boolean isValidate() {
+		if(!hasFile())
+			Window.alert("Please browse csv file");
+		
+		return hasFile();
+	}
 
 }

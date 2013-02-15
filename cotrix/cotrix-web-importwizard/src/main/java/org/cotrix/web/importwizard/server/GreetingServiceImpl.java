@@ -1,7 +1,18 @@
 package org.cotrix.web.importwizard.server;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import org.cotrix.web.importwizard.client.GreetingService;
-import org.cotrix.web.importwizard.shared.FieldVerifier;
+
+import com.google.gson.Gson;
+import com.google.gson.internal.StringMap;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -9,40 +20,55 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
-    GreetingService {
+		GreetingService {
 
-  public String greetServer(String input) throws IllegalArgumentException {
-    // Verify that the input is valid.
-    if (!FieldVerifier.isValidName(input)) {
-      // If the input is not valid, throw an IllegalArgumentException back to
-      // the client.
-      throw new IllegalArgumentException(
-          "Name must be at least 4 characters long");
-    }
+	public HashMap<String, String> greetServer(String input) throws IllegalArgumentException {
+		HashMap<String, String> mapCode = new HashMap<String, String>();
+		String json = getLanguageInJSON();
+		Gson gson = new Gson();
+		HashMap<String, StringMap<?>> map = gson.fromJson(json, HashMap.class);
+		Iterator<String> it = map.keySet().iterator();
+		while (it.hasNext()) {
+			String key = it.next();
+			StringMap<?> obj = map.get(key);
+		}
+		System.out.println(map.size()+"xx"+mapCode.size());
+		return mapCode;
+	}
+	
+//	public HashMap<String, String> greetServer(String input) throws IllegalArgumentException {
+//		HashMap<String, String> map = new HashMap<String, String>();
+//		map.put("1", "test1");
+//		map.put("2", "test2");
+//		System.out.println(map.size()+"xx");
+//		return map;
+//	}
 
-    String serverInfo = getServletContext().getServerInfo();
-    String userAgent = getThreadLocalRequest().getHeader("User-Agent");
+	private String getLanguageInJSON() {
+		String language = "";
+		try {
+			File fileDir = new File(getServletContext().getRealPath("/")
+					+ "files/languageCode.txt");
 
-    // Escape data from the client to avoid cross-site script vulnerabilities.
-    input = escapeHtml(input);
-    userAgent = escapeHtml(userAgent);
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					new FileInputStream(fileDir), "UTF8"));
 
-    return "Hello, " + input + "!<br><br>I am running " + serverInfo
-        + ".<br><br>It looks like you are using:<br>" + userAgent;
-  }
+			String str;
 
-  /**
-   * Escape an html string. Escaping data received from the client helps to
-   * prevent cross-site script vulnerabilities.
-   *
-   * @param html the html string to escape
-   * @return the escaped string
-   */
-  private String escapeHtml(String html) {
-    if (html == null) {
-      return null;
-    }
-    return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(
-        ">", "&gt;");
-  }
+			while ((str = in.readLine()) != null) {
+				// System.out.println(str);
+				language += str;
+			}
+
+			in.close();
+		} catch (UnsupportedEncodingException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return language;
+	}
+
 }

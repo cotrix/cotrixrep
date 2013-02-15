@@ -8,7 +8,7 @@
 		
 	</ui:style>
 	<g:HTMLPanel>
-		<g:ListBox>
+		<g:ListBox ui:field="listbox">
 			<g:item value='0'>
 				--- Select Header Type ---
 			</g:item>

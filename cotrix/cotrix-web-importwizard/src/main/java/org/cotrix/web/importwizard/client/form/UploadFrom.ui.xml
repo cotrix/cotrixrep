@@ -78,8 +78,8 @@
 		}
 		
 		.closeButton {
-			background-color: #ccc;
-			color: #fff;
+			background-color: #eee;
+			color: #999;
 			float: left;
 			border-radius: 50px;
 			width: 20px;

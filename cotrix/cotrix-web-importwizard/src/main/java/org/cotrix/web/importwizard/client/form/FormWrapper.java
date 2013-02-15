@@ -15,20 +15,19 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FormWrapper extends Composite {
-	int index;
-	public interface OnButtonClickHandler {
-		boolean isFromValidated(FormWrapper sender);
-		void onNextButtonClicked(FormWrapper sender);
-		void onBackButtonClicked(FormWrapper sender);
-	}
-	
 
 	private static FormWrapperUiBinder uiBinder = GWT
 			.create(FormWrapperUiBinder.class);
 
 	interface FormWrapperUiBinder extends UiBinder<Widget, FormWrapper> {
 	}
-
+	
+	private int index;
+	public interface OnButtonClickHandler {
+		boolean isFromValidated(FormWrapper sender);
+		void onNextButtonClicked(FormWrapper sender);
+		void onBackButtonClicked(FormWrapper sender);
+	}
 	private OnButtonClickHandler mOnButtonClickHandler;
 
 	@UiField
@@ -37,18 +36,18 @@ public class FormWrapper extends Composite {
 	@UiField
 	Button nextButton;
 
+	@UiField
+	Label title;
+
+	@UiField
+	Button backButton;
+	
 	@UiHandler("nextButton")
 	void handleNextButtonClick(ClickEvent e) {
 		if(mOnButtonClickHandler.isFromValidated(this)){
 			mOnButtonClickHandler.onNextButtonClicked(this);
 		}
 	}
-
-	@UiField
-	Label title;
-
-	@UiField
-	Button backButton;
 	
 	@UiHandler("backButton")
 	void handleBackButtonClick(ClickEvent e) {
@@ -90,11 +89,17 @@ public class FormWrapper extends Composite {
 		return this.index; 
 	}
 	
+	private Widget content ;
 	public FormWrapper(Widget content, String mTitle,int index) {
+		this.content = content;
 		this.index = index;
 		initWidget(uiBinder.createAndBindUi(this));
 		contentPanel.add(content);
 		title.setText(mTitle);
+	}
+
+	public Widget getContent() {
+		return content;
 	}
 
 }

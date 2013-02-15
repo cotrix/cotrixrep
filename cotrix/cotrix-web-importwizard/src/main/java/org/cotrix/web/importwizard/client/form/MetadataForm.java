@@ -2,6 +2,8 @@ package org.cotrix.web.importwizard.client.form;
 
 import java.util.Date;
 
+import org.cotrix.web.importwizard.shared.ImportWizardModel;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -22,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
-public class MetadataForm extends Composite {
+public class MetadataForm extends Composite implements CotrixForm {
 
 	private static MetadataFormUiBinder uiBinder = GWT
 			.create(MetadataFormUiBinder.class);
@@ -38,8 +40,11 @@ public class MetadataForm extends Composite {
 	
 	@UiField
 	TextArea description;
+	
+	private ImportWizardModel importWizardModel;
 
-	public MetadataForm() {
+	public MetadataForm(ImportWizardModel importWizardModel) {
+		this.importWizardModel = importWizardModel;
 		initWidget(uiBinder.createAndBindUi(this));
 		addDatePicker(createDate);
 		addDatePicker(updateDate);
@@ -68,5 +73,9 @@ public class MetadataForm extends Composite {
 	    dateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
 
 	    panel.add(dateBox);
+	}
+
+	public boolean isValidate() {
+		return true;
 	}
 }

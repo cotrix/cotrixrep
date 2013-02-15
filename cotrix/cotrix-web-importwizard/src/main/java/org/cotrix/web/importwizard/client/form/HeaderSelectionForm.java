@@ -1,8 +1,13 @@
 package org.cotrix.web.importwizard.client.form;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.data.MockupTabularData;
+import org.cotrix.web.importwizard.shared.CSVFile;
+import org.cotrix.web.importwizard.shared.CSVFile.OnFileChangeHandler;
+import org.cotrix.web.importwizard.shared.CSVFile.OnHeaderChangeHandler;
+import org.cotrix.web.importwizard.shared.ImportWizardModel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -19,7 +24,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class HeaderSelectionForm extends Composite {
+public class HeaderSelectionForm extends Composite implements CotrixForm,OnFileChangeHandler{
 	int columnCount;
 	private static HeaderSelectionFormUiBinder uiBinder = GWT
 			.create(HeaderSelectionFormUiBinder.class);
@@ -33,18 +38,20 @@ public class HeaderSelectionForm extends Composite {
 	
 	@UiField
 	Style style;
-	interface Style extends CssResource {
-		String flextTableHeader();
-		String textbox();
-		
-	}
 	
 	@UiField
 	CheckBox checkbox;
+
+	interface Style extends CssResource {
+		String flextTableHeader();
+		String textbox();
+	}
+	
 	@UiHandler("checkbox")
 	void handleBackButtonClick(ClickEvent e) {
 		showHeaderForm(!checkbox.getValue());
 	}
+	
 	private void showHeaderForm(boolean show){
 		if(show){
 			for (int j = 0; j < columnCount; j++) {
@@ -55,6 +62,7 @@ public class HeaderSelectionForm extends Composite {
 			}
 			setDefaultSelected(false);
 		}else{
+			
 			setDefaultSelected(true);
 			flexTable.removeRow(0);
 			flexTable.insertRow(0);
@@ -70,28 +78,35 @@ public class HeaderSelectionForm extends Composite {
 		}
 
 	}
-	public HeaderSelectionForm() {
+	private ImportWizardModel importWizardModel;
+	public HeaderSelectionForm(ImportWizardModel importWizardModel) {
+		this.importWizardModel = importWizardModel;
+		importWizardModel.getCsvFile().setOnFileChangeHandler(this);
 		initWidget(uiBinder.createAndBindUi(this));
-		initFlexTable(flexTable);
-		
 	}
 
-	private void initFlexTable(FlexTable flexTable) {
-		MockupTabularData mMockupTabularData = new MockupTabularData();
-		List<String[]> table = mMockupTabularData.getTable();
-		this.columnCount = table.get(0).length;
+	private void initFlexTable(FlexTable flexTable,String[] headers, ArrayList<String[]> data) {
+		this.columnCount = headers.length;
 		
-		int i = 1;
-		for (String[] columns : table) {
+		int rowCount = (data.size()<8)?data.size():8;
+		for (int i = 0; i < rowCount; i++) {
+			String[] columns = data.get(i);
 			for (int j = 0; j < columns.length; j++) {
-				flexTable.setWidget(i, j, new HTML(columns[j]));
-				if (i == 1) {
-					flexTable.getCellFormatter().setStyleName(i, j,
+				flexTable.setWidget(i+1, j, new HTML(columns[j]));
+				if (i == 0) {
+					flexTable.getCellFormatter().setStyleName(i+1, j,
 							style.flextTableHeader());
 				}
 			}
-			i++;
 		}
+	}
+	public boolean isValidate() {
+		return true;
+	}
+
+
+	public void OnFileChange(String[] headers, ArrayList<String[]> data) {
+		initFlexTable(flexTable, headers, data);
 	}
 
 }
