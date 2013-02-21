@@ -46,8 +46,8 @@ public class GwtTestCotrixModuleImport extends GWTTestCase {
 	 */
 	public void testGreetingService() {
 		// Create the service that we will test.
-		GreetingServiceAsync greetingService = GWT
-				.create(GreetingService.class);
+		ImportServiceAsync greetingService = GWT
+				.create(ImportService.class);
 		ServiceDefTarget target = (ServiceDefTarget) greetingService;
 		target.setServiceEntryPoint(GWT.getModuleBaseURL()
 				+ "CotrixModuleImport/greet");
@@ -58,26 +58,6 @@ public class GwtTestCotrixModuleImport extends GWTTestCase {
 		// up to 10 seconds before timing out.
 		delayTestFinish(10000);
 
-		// Send a request to the server.
-		greetingService.greetServer("GWT User",
-				new AsyncCallback<HashMap<String, String>>() {
-					public void onFailure(Throwable caught) {
-						// The request resulted in an unexpected error.
-						fail("Request failure: " + caught.getMessage());
-					}
-
-					public void onSuccess(HashMap<String, String> result) {
-						// TODO Auto-generated method stub
-
-						// Now that we have received a response, we need to tell
-						// the test runner
-						// that the test is complete. You must call finishTest()
-						// after an
-						// asynchronous test finishes successfully, or the test
-						// will time out.
-						finishTest();
-					}
-				});
 	}
 
 }
