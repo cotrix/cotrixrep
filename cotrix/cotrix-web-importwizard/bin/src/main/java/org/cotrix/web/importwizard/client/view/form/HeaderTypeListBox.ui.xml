@@ -1,0 +1,35 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+		
+		.listBox {
+			float: left;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<g:ListBox ui:field="listbox" styleName="{style.listBox}">
+			<g:item value='0'>
+				--- Select Header Type ---
+			</g:item>
+			<g:item value='1'>
+				Unique Code
+			</g:item>
+			<g:item value='2'>
+				Another Unique Code
+			</g:item>
+			<g:item value='3'>
+				Description
+			</g:item>
+			<g:item value='4'>
+				parent Code
+			</g:item>
+			<g:item value='5'>
+				Parent Description
+			</g:item>
+		</g:ListBox>
+	</g:HTMLPanel>
+</ui:UiBinder> 

@@ -1,8 +1,8 @@
 package org.cotrix.service;
 
 import org.cotrix.domain.coderelation.RelationContainer;
-import org.cotrix.domain.conceptrelation.Relations;
-import org.cotrix.tabular.model.Tabular;
+import org.cotrix.domain.tabular.Tabular;
+import org.cotrix.domain.tabularmeta.TabularMeta;
 
 public interface CodelistService {
 
@@ -14,6 +14,6 @@ public interface CodelistService {
 	 * @param relations
 	 * @return
 	 */
-	public RelationContainer parse(Tabular tabular, Relations relations);
+	public RelationContainer parse(Tabular tabular, TabularMeta tabularMeta);
 
 }
