@@ -2,167 +2,153 @@ package org.cotrix;
 
 import static junit.framework.Assert.*;
 import static org.cotrix.Fixture.*;
+import static org.cotrix.domain.common.Delta.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
-import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.LanguageAttribute;
-import org.cotrix.domain.codes.Code;
-import org.cotrix.domain.codes.Codebag;
-import org.cotrix.domain.codes.Codelist;
-import org.cotrix.domain.containers.Bag;
-import org.cotrix.domain.versions.SimpleVersion;
+import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Code;
+import org.cotrix.domain.Codebag;
+import org.cotrix.domain.Codelist;
+import org.cotrix.domain.LanguageAttribute;
+import org.cotrix.domain.utils.Constants;
 import org.junit.Test;
 
 public class DslTest {
 
+	public void attributeSentences() {
+		
+		a().with(name).and("v").build();
+		a().with(name).and("v").ofType(name).build();
+		a().with(name).and("v").ofType(name).in(language).build();
+		a().with(name).and("v").in(language).build();
+		
+		a("1").with(name).and("v").as(NEW).build();
+	}
+	
 	@Test
 	public void buildAttribute() {
-			
-		Attribute attribute = new Attribute(name,value);
 		
-		Attribute built = a(name, value);
+		Attribute a = a().with(name).and(value).build();
+
+		assertEquals(name,a.name());
+		assertEquals(value,a.value());
+		assertEquals(Constants.DEFAULT_TYPE,a.type());
 		
-		assertEquals(attribute,built);
+		a = a("id").with(name).and(value).ofType(type).build();
+		
+		assertEquals("id",a.id());
+		assertEquals(type,a.type());
 		
 	}
 	
 	@Test
 	public void buildLanguageAttribute() {
 			
-		LanguageAttribute attribute = new LanguageAttribute(name,value,language);
+		Attribute a = a("id").with(name).and(value).in(language).build();
 		
-		LanguageAttribute built = a(name, value,language);
+		LanguageAttribute langattr = (LanguageAttribute) a;
 		
-		assertEquals(attribute,built);
-		
-	}
-	
-	
-	@Test
-	public void buildNewCode() {
-		
-		Code code = new Code(name);
-		
-		Code built = ascode(name);
-		
-		assertEquals(code,built);
-		
-		Bag<Attribute> attributes = new Bag<Attribute>();
-		attributes.add(new Attribute(name,value));
-		attributes.add(new Attribute(name2,value));
-		code = new Code(name,attributes);
-		
-		built = code(name).with(a(name,value),a(name2,value)).build();
-		
-		assertEquals(code,built);
+		assertEquals(language,langattr.language());
 		
 	}
 	
-	@Test
-	public void buildCodeFromExistingCode() {
-			
-		Bag<Attribute> attributes = new Bag<Attribute>();
-		attributes.add(new Attribute(name,value));
-		attributes.add(new Attribute(name2,value));
-		Code code = new Code(name,attributes);
+	public void codeSentences() {
 		
-		Code built = code(code).with(a(name3,value)).build();
-		
-		code.attributes().add(new Attribute(name3,value));
-		
-		assertEquals(code,built);
-		
+		code().with(name).build();
+		code("id").with(name).build();
+		code().with(name).and(a).build();
+	
 	}
 	
 	@Test
-	public void buildNewCodelist() {
+	public void buildCode() {
 		
-		Codelist list = new Codelist(name);
+		Code code = code().with(name).build();
 		
-		Codelist built = codelist(name).build();
+		assertEquals(name,code.name());
+		assertEquals(0,code.attributes().size());
 		
-		assertEquals(list,built);
+		assertEquals(code,ascode(name));
 		
-		list.attributes().add(new Attribute(name,value));
-		list.attributes().add(new Attribute(name2,value));
 		
-		built = codelist(name).with(a(name,value),a(name2,value)).build();
+		////
 		
-		assertEquals(list,built);
+		code = code("12").with(name).and(a).build();
 		
-		list.codes().add(new Code(name));
-		list.codes().add(new Code(name2));
+		assertEquals("12",code.id());
+		assertEquals(1,code.attributes().size());
+		assertTrue(code.attributes().contains(a));
 		
-		built = codelist(name)
-							.with(ascode(name),ascode(name2))
-							.with(a(name,value),a(name2,value))
-							.build();
-
-		assertEquals(list,built);
-		
-		list = new Codelist(list.name(),list.codes(), list.attributes(), new SimpleVersion("2"));
-		
-		built = codelist(name)
-				.with(ascode(name),ascode(name2))
-				.with(a(name,value),a(name2,value))
-				.version(new SimpleVersion("2"))
-				.build();
-
 	}
 	
-	@Test
-	public void buildCodelistFromExistingCodelist() {
+	public void codelistSentences() {
 		
-		Codelist list = new Codelist(name);
-		list.attributes().add(new Attribute(name,value));
-		list.codes().add(new Code(name));
+		codelist().with(name).build();
+		codelist("id").with(name).build();
 		
-		Codelist built = codelist(list).build();
+		codelist().with(name).version(v).build();
+		codelist().with(name).and(a).build();
+		codelist().with(name).and(a).version(v).build();
 		
-		assertEquals(list,built);
-
-		list.attributes().add(new Attribute(name2,value));
-		list.codes().add(new Code(name2));
-
-		built = codelist(list).with(ascode(name2)).with(a(name2,value)).build();
-		
-		assertEquals(list,built);
+		codelist().with(name).with(c).build();
+		codelist().with(name).with(c).version(v).build();
+		codelist().with(name).with(c).and(a).build();
+		codelist().with(name).with(c).and(a).version(v).build();
 		
 	}
 	
 	@Test
-	public void buildNewCodebag() {
+	public void buildCodelist() {
 		
-		Codebag bag = new Codebag(name);
+		Codelist list = codelist().with(name).build();
 		
-		Codebag built = codebag(name).build();
+		assertEquals(name,list.name());
 		
-		assertEquals(bag,built);
+		list=codelist("1").with(name).with(c).and(a).build();
 		
-		bag.attributes().add(new Attribute(name,value));
-		bag.attributes().add(new Attribute(name2,value));
+		assertEquals("1",list.id());
+		assertTrue(list.attributes().contains(a));
+		assertTrue(list.codes().contains(c));
 		
-		built = codebag(name).with(a(name,value),a(name2,value)).build();
+		list=codelist("1").with(name).and(a).build();
 		
-		assertEquals(bag,built);
+		list=codelist("1").with(name).and(a).version("1.0").build();
 		
-		bag.lists().add(new Codelist(name));
-		bag.lists().add(new Codelist(name2));
+		assertEquals("1.0",list.version());
 		
-		built = codebag(name)
-							.with(codelist(name).build(),codelist(name2).build())
-							.with(a(name,value),a(name2,value))
-							.build();
-
-		assertEquals(bag,built);
+	}
+	
+	public void codebagSentences() {
 		
-		bag = new Codebag(bag.name(),bag.lists(), bag.attributes(), new SimpleVersion("2"));
+		codebag().with(name).build();
+		codebag("id").with(name).build();
 		
-		built = codebag(name)
-				.with(codelist(name).build(),codelist(name2).build())
-				.with(a(name,value),a(name2,value))
-				.version(new SimpleVersion("2"))
-				.build();
+		codebag().with(name).version(v).build();
+		codebag().with(name).and(a).build();
+		codebag().with(name).and(a).version(v).build();
+		
+		codebag().with(name).with(cl).build();
+		codebag().with(name).with(cl).version(v).build();
+		codebag().with(name).with(cl).and(a).build();
+		codebag().with(name).with(cl).and(a).version(v).build();
+	}
+	
+	@Test
+	public void buildCodebag() {
+		
+		Codebag bag = codebag().with(name).build();
+		
+		assertEquals(name,bag.name());
+		
+		bag = codebag("1").with(name).and(a).build();
+		
+		assertEquals("1",bag.id());
+		assertTrue(bag.attributes().contains(a));
+		
+		bag=codebag("1").with(name).and(a).version("1.0").build();
+		
+		assertEquals("1.0",bag.version());
+		
 
 	}
 

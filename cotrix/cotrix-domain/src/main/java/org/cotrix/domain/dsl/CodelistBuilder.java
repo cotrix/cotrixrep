@@ -1,59 +1,82 @@
 package org.cotrix.domain.dsl;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static java.util.Arrays.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.codes.Code;
-import org.cotrix.domain.codes.Codelist;
+import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Code;
+import org.cotrix.domain.Codelist;
+import org.cotrix.domain.Factory;
+import org.cotrix.domain.common.BaseBag;
+import org.cotrix.domain.common.BaseGroup;
+import org.cotrix.domain.common.Delta;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.FinalClause;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.ThirdClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
+import org.cotrix.domain.pos.CodelistPO;
 import org.cotrix.domain.versions.SimpleVersion;
 import org.cotrix.domain.versions.Version;
 
-public class CodelistBuilder {
+/**
+ * Builds {@link Codelist}s.
+ * 
+ * @author Fabio Simeoni
+ *
+ */
+public final class CodelistBuilder implements CodelistStartClause,SecondClause, ThirdClause,FinalClause {
 
-	private final Codelist list;
-	private  Version version;
+	private final Factory factory;
+	private final CodelistPO po;
 	
-	public CodelistBuilder(QName name) {
-		this.list=new Codelist(name);
+	
+	CodelistBuilder(Factory factory,String id) {
+		this.factory=factory;
+		this.po = new CodelistPO(id);
 	}
 	
-	public CodelistBuilder(Codelist list) {
-		notNull("codelist",list);
-		this.list=list.copy();
-	}
-
-	public CodelistBuilder with(Code ... codes) {
-		notNull("codes",codes);
-		for (Code code : codes)
-			list.codes().add(code);
+	@Override
+	public SecondClause with(QName name) {
+		po.setName(name);
 		return this;
 	}
 	
-	public CodelistBuilder with(Attribute ... attributes) {
-		notNull("attributes",attributes);
-		for (Attribute a : attributes)
-			list.attributes().add(a);
+	@Override
+	public CodelistBuilder with(Code ... codes) {
+		
+		po.setCodes(new BaseGroup<Code>(asList(codes)));
+		return this;
+	}
+	
+	@Override
+	public FinalClause and(Attribute ... attributes) {
+		po.setAttributes(new BaseBag<Attribute>(asList(attributes)));
 		return this;
 	}
 	
 	public CodelistBuilder version(Version version) {
-		this.version=version;
+		po.setVersion(version);
 		return this;
 	}
 	
 	public CodelistBuilder version(String version) {
-		this.version=new SimpleVersion(version);
+		po.setVersion(new SimpleVersion(version));
+		return this;
+	}
+	
+
+	@Override
+	public BuildClause<Codelist> as(Delta delta) {
+		if (delta!=Delta.NEW && po.id()==null)
+			throw new IllegalStateException("object is marked as update but has its identifier is null");
+		po.setDelta(delta);
 		return this;
 	}
 	
 	public Codelist build() {
-		
-		return version==null?
-					list:
-					new Codelist(list.name(),list.codes(),list.attributes(),version);
-		
+		return factory.codelist(po);
 	}
 	
 }

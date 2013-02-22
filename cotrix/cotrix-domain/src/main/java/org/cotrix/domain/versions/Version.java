@@ -7,4 +7,9 @@ import org.cotrix.domain.traits.Versioned;
  * @author Fabio Simeoni
  *
  */
-public interface Version extends Versioned<Version> {}
+public interface Version {
+	
+	String value();
+	
+	SimpleVersion bumpTo(String version);
+}

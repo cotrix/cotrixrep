@@ -3,8 +3,8 @@ package org.cotrix;
 import static junit.framework.Assert.*;
 import static org.cotrix.Fixture.*;
 
-import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.containers.Group;
+import org.cotrix.domain.Attribute;
+import org.cotrix.domain.common.BaseGroup;
 import org.junit.Test;
 
 public class GroupTest {
@@ -12,10 +12,10 @@ public class GroupTest {
 	@Test
 	public void emptyGroupsAreCorrectlyConstructed() {
 			
-		Group<Attribute> attributes = new Group<Attribute>();
+		BaseGroup<Attribute> attributes = new BaseGroup<Attribute>();
 		
-		assertFalse(attributes.list().iterator().hasNext());
-		assertFalse(attributes.has(name));
+		assertEquals(0,attributes.size());
+		assertFalse(attributes.contains(name));
 		
 		try {
 			attributes.get(name);
@@ -32,51 +32,35 @@ public class GroupTest {
 	}
 	
 	@Test
-	public void groupsAreCorrectlyCloned() {
-			
-		Group<Attribute> attributes = new Group<Attribute>();
-		
-		attributes.add(new Attribute(name, value));
-		
-		Group<Attribute> clone = attributes.copy();
-		
-		assertEquals(attributes,clone);
-	}
-	
-	@Test
 	public void elementsAreCorrectlyAdded() {
 			
-		Group<Attribute> attributes = new Group<Attribute>();
+		BaseGroup<Attribute> attributes = new BaseGroup<Attribute>();
 		
-		Attribute attribute = new Attribute(name, value);
-		
-		Attribute replaced = attributes.add(attribute);
+		Attribute replaced = attributes.add(a);
 		
 		assertNull(replaced);
 		
-		assertEquals(attribute,attributes.list().iterator().next());
-		assertTrue(attributes.has(name));
-		assertEquals(attribute, attributes.get(name));
+		assertEquals(a,attributes.iterator().next());
+		assertTrue(attributes.contains(name));
+		assertEquals(a, attributes.get(name));
 		
-		replaced = attributes.add(attribute);
+		replaced = attributes.add(a);
 		
-		assertEquals(replaced,attribute);
+		assertEquals(replaced,a);
 	}
 	
 	@Test
 	public void elementsAreCorrectlyRemoved() {
 			
-		Group<Attribute> attributes = new Group<Attribute>();
+		BaseGroup<Attribute> attributes = new BaseGroup<Attribute>();
 		
-		Attribute attribute = new Attribute(name, value);
-		
-		attributes.add(attribute);
+		attributes.add(a);
 		Attribute removed = attributes.remove(name);
 		
-		assertEquals(attribute,removed);
+		assertEquals(a,removed);
 		
-		assertFalse(attributes.list().iterator().hasNext());
-		assertFalse(attributes.has(name));
+		assertEquals(0,attributes.size());
+		assertFalse(attributes.contains(name));
 		
 	}
 }

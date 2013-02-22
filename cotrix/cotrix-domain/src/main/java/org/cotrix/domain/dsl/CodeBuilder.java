@@ -1,34 +1,63 @@
 package org.cotrix.domain.dsl;
 
-import static org.cotrix.domain.utils.Utils.*;
+import java.util.Arrays;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.codes.Code;
+import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Code;
+import org.cotrix.domain.Factory;
+import org.cotrix.domain.common.BaseBag;
+import org.cotrix.domain.common.Delta;
+import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeStartClause;
+import org.cotrix.domain.dsl.grammar.CodeGrammar.FinalClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
+import org.cotrix.domain.pos.CodePO;
 
-public class CodeBuilder {
+/**
+ * Builds {@link Code}s.
+ * 
+ * @author Fabio Simeoni
+ *
+ */
+public final class CodeBuilder implements CodeStartClause,FinalClause {
 
-	private final Code code;
+	private final Factory factory;
+	private final CodePO po;
 	
-	public CodeBuilder(QName name) {
-		this.code=new Code(name);
+	public CodeBuilder(Factory factory) {
+		this(factory,factory.generateId());
+
 	}
 	
-	public CodeBuilder(Code code) {
-		notNull("code",code);
-		this.code=code.copy();
+	public CodeBuilder(Factory factory,String id) {
+		this.factory=factory;
+		po = new CodePO(id);
+	}
+	
+	
+	@Override
+	public FinalClause with(QName name) {
+		po.setName(name);
+		return this;
 	}
 
-	public CodeBuilder with(Attribute ... attributes) {
-		notNull(attributes);
-		for (Attribute a : attributes)
-			code.attributes().add(a);
+	@Override
+	public FinalClause and(Attribute ... attributes) {
+		po.setAttributes(new BaseBag<Attribute>(Arrays.asList(attributes)));
+		return this;
+	}
+
+	@Override
+	public BuildClause<Code> as(Delta delta) {
+		if (delta!=Delta.NEW && po.id()==null)
+			throw new IllegalStateException("object is marked as update but has its identifier is null");
+		po.setDelta(delta);
 		return this;
 	}
 	
 	public Code build() {
-		return code;
+		return factory.code(po);
 	}
 	
 }

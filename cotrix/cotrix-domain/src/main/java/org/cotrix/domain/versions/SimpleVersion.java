@@ -1,6 +1,7 @@
 package org.cotrix.domain.versions;
 
 
+
 public class SimpleVersion implements Version {
 	
 	private final String value;
@@ -13,11 +14,13 @@ public class SimpleVersion implements Version {
 		this.value=value;
 	}
 	
-	public String version() {
+	@Override
+	public String value() {
 		return value;
 	}
 
-	public SimpleVersion copyWithVersion(String version) {
+	@Override
+	public SimpleVersion bumpTo(String version) {
 		if (value.compareToIgnoreCase(version)<0)
 			return new SimpleVersion(version);
 		else

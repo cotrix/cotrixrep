@@ -3,35 +3,44 @@ package org.cotrix;
 import static junit.framework.Assert.*;
 import static org.cotrix.Fixture.*;
 
-import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.codes.Code;
-import org.cotrix.domain.codes.Codelist;
-import org.cotrix.domain.containers.Bag;
-import org.cotrix.domain.containers.Group;
+import javax.xml.namespace.QName;
+
+import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Code;
+import org.cotrix.domain.Codelist;
+import org.cotrix.domain.Factory;
+import org.cotrix.domain.common.BaseBag;
+import org.cotrix.domain.common.BaseGroup;
+import org.cotrix.domain.pos.CodelistPO;
+import org.cotrix.domain.simple.SimpleCodelist;
+import org.cotrix.domain.simple.SimpleFactory;
 import org.cotrix.domain.versions.SimpleVersion;
+import org.cotrix.domain.versions.Version;
 import org.junit.Test;
 
 public class CodelistTest {
+	
+	static final Factory factory = new SimpleFactory();
 
 	@Test
 	public void codelistsAreCorrectlyConstructed() {
 			
-		Codelist list = new Codelist(name); 
+		SimpleCodelist list = new SimpleCodelist(po(name,emptyCodes,attributes(),no_version)); 
 		
 		assertEquals(0,list.codes().size());
 		assertEquals(0,list.attributes().size());
 		assertNotNull(list.version());
 		
-		Group<Code> codes = new Group<Code>();
-		codes.add(new Code(name));
+		BaseGroup<Code> codes = new BaseGroup<Code>();
+		codes.add(c);
 		
-		list = new Codelist(name,codes);
+		list = new SimpleCodelist(po(name,codes,attributes(),no_version));
 		assertEquals(codes,list.codes());
 		
-		Bag<Attribute> attributes = new Bag<Attribute>();
-		attributes.add(new Attribute(name, value));
+		BaseBag<Attribute> attributes = new BaseBag<Attribute>();
+		attributes.add(a);
 		
-		list = new Codelist(name,codes,attributes);
+		list = new SimpleCodelist(po(name,codes,attributes,no_version));
 		assertEquals(attributes,list.attributes());
 	}
 	
@@ -39,10 +48,10 @@ public class CodelistTest {
 	public void codelistsAreCorrectlyVersioned() {
 			
 		//a code list, with a default version scheme but still formally unversioned
-		Codelist list = new Codelist(name); 
+		Codelist list = new SimpleCodelist(po(name,emptyCodes,attributes(),no_version)); 
 		
 		//a new version of the list
-		Codelist list1 = list.copyWithVersion("1");
+		Codelist list1 = list.bump(factory,"1");
 		
 		
 		assertEquals("1",list1.version());
@@ -51,14 +60,14 @@ public class CodelistTest {
 		assertFalse(list.equals(list1));
 		
 		//a list with an initial version in a given scheme (here the same as default)
-		list = new Codelist(name,new Group<Code>(),new Bag<Attribute>(),new SimpleVersion("2.0"));
+		list = new SimpleCodelist(po(name,emptyCodes,attributes(),new SimpleVersion("2.0")));
 		
 		
 		assertEquals("2.0",list.version());
 		
 		//a failed attempt to version the list with an unacceptable number
 		try {
-			list.copyWithVersion("1.3");
+			list.bump(factory,"1.3");
 			fail();
 		}
 		catch(IllegalStateException e){}
@@ -70,23 +79,39 @@ public class CodelistTest {
 	@Test
 	public void codelistsAreCorrectlyCloned() {
 			
-		Codelist list = samplelist();
+		SimpleCodelist list = samplelist();
 
-		Codelist clone  = list.copy();
+		Codelist clone  = list.copy(factory);
 		
 		assertEquals(list,clone);
 		
 	}
 	
-	private Codelist samplelist() {
+	
+	
+	private SimpleCodelist samplelist() {
 		
-		Group<Code> codes = new Group<Code>();
-		codes.add(new Code(name));
+		BaseGroup<Code> codes = new BaseGroup<Code>();
+		codes.add(c);
 		
-		Bag<Attribute> attributes = new Bag<Attribute>();
-		attributes.add(new Attribute(name, value));
+		BaseBag<Attribute> attributes = new BaseBag<Attribute>();
+		attributes.add(a);
 		
-		return new Codelist(name,codes,attributes);
+		return new SimpleCodelist(po(name,codes,attributes,no_version));
 	}
+	
+	
+	
+	
 
+	private CodelistPO po(QName name,BaseGroup<Code> codes, BaseBag<Attribute> attributes, Version version) {
+		
+		CodelistPO po = new CodelistPO("id");
+		po.setName(name);
+		po.setAttributes(attributes);
+		po.setCodes(codes);
+		po.setVersion(version);
+		
+		return po;
+	}
 }

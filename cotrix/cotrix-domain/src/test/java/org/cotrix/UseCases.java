@@ -1,20 +1,23 @@
 package org.cotrix;
 
+import static org.cotrix.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
-import org.cotrix.domain.codes.Codelist;
+import org.cotrix.domain.Codelist;
+import org.cotrix.domain.Factory;
+import org.cotrix.domain.simple.SimpleFactory;
 import org.junit.Test;
 
 public class UseCases {
 
+	static Factory factory = new SimpleFactory();
+	
 	@Test
 	public void buildSimpleList() {
 		
-		Codelist mylist = codelist(q("mylist"))
-									.with(a(q("name"),"value"), 
-										  a(q("name"),q("type"),"value"))
-									.with(ascode("code1"),
-										  ascode("code2"))
+		Codelist mylist = codelist().with(q("mylist"))
+									.with(ascode("code1"),ascode("code2"))
+									.and(a,a)
 									.build();
 		
 		System.out.println(mylist);
@@ -23,15 +26,13 @@ public class UseCases {
 	@Test
 	public void versionSimpleList() {
 		
-		Codelist mylist = codelist(q("mylist"))
-									.with(a(q("name"),"value"), 
-										  a(q("name"),q("type"),"value"))
-									.with(ascode("code1"),
-										  ascode("code2"))
+		Codelist mylist = codelist().with(q("mylist"))
+									.with(ascode("code1"),ascode("code2"))
+									.and(a,a)
 									.version("1")
 									.build();
 		
-		Codelist mylist2 = mylist.copyWithVersion("2");
+		Codelist mylist2 = version(mylist).as("2");
 		
 		mylist2.codes().add(ascode("code3"));
 		
