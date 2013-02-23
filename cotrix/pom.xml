@@ -15,6 +15,7 @@
 		<module>cotrix-service</module>
 		<module>cotrix-web</module>
 		<module>cotrix-domain</module>
+		<module>cotrix-tabular</module>
 		<module>cotrix-web-importwizard</module>
 	</modules>
 	
