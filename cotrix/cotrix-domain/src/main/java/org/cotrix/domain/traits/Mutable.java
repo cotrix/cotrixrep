@@ -1,14 +1,14 @@
 package org.cotrix.domain.traits;
 
 /**
- * A domain object that can change over time.
+ * A domain object that changes over time.
  * <p>
- * A mutable object can update itself with the contents of an equally typed object, the <em>delta object</em>, provided
- * that the contents of the delta objects are explicitly marked as changes to the mutable object.
+ * Mutable objects can update themselves to reflect a set of changes carried by an equally typed object, called the <em>delta object</em>.
+ * Vice versa, mutable objects can be used as delta objects for other objects of the same type.
  * 
  * @author Fabio Simeoni
  * 
- * <T> the type of the mutable object
+ * <T> the type of the mutable object, hence of its delta objects
  */
 public interface Mutable<T> {
 
@@ -20,4 +20,21 @@ public interface Mutable<T> {
 	 * @throws IllegalStateException if the object cannot be updated with the delta object
 	 */
 	void update(T delta) throws IllegalArgumentException, IllegalStateException;
+	
+	/**
+	 * Returns the type of incremental change represented by this object, if any.
+	 * @return the type of change
+	 */
+	Change change();
+	
+	/**
+	 * Returns <code>true</code> if the object represents a change.
+	 * @return <code>true</code> if the object represents a change
+	 */
+	boolean isDelta();
+	
+	/**
+	 * Turns a delta object into a normal object.
+	 */
+	void reset();
 }

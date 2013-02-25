@@ -3,8 +3,8 @@ package org.cotrix;
 import static java.util.Arrays.*;
 import static junit.framework.Assert.*;
 import static org.cotrix.Fixture.*;
-import static org.cotrix.domain.common.Delta.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.traits.Change.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,11 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
-import org.cotrix.domain.Factory;
 import org.cotrix.domain.common.BaseBag;
 import org.cotrix.domain.pos.CodePO;
 import org.cotrix.domain.simple.SimpleCode;
 import org.cotrix.domain.simple.SimpleFactory;
+import org.cotrix.domain.spi.Factory;
 import org.junit.Test;
 
 public class CodeTest {
@@ -35,7 +35,7 @@ public class CodeTest {
 		
 		assertEquals("id",code.id());
 		assertEquals(attributes(a,a2),code.attributes());
-		assertNull(code.delta());
+		assertNull(code.change());
 		
 	}
 	
@@ -79,11 +79,11 @@ public class CodeTest {
 		String updatedValue = "updated";
 		
 		//builds delta attribute
-		Attribute a1 = a("id").with(name).and(updatedValue).as(CHANGED).build();
+		Attribute a1 = a("id").with(name).and(updatedValue).as(MODIFIED).build();
 		
 		//builds delta code
 		CodePO  po = po(code.id(),name,new BaseBag<Attribute>(asList(a1)));
-		po.setDelta(CHANGED);
+		po.setChange(MODIFIED);
 		
 		SimpleCode delta  = new SimpleCode(po);
 		
@@ -107,15 +107,6 @@ public class CodeTest {
 		
 		System.out.println(code);
 		
-		//////////remove
-		
-		po.setAttributes(new BaseBag<Attribute>(new ArrayList<Attribute>(),DELETED));
-		delta  = new SimpleCode(po);
-		
-		//update code with delta code
-		code.update(delta);
-		
-		assertEquals(0, code.attributes().size());
 		
 	}
 	

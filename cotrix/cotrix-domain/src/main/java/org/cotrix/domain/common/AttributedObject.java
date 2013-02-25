@@ -11,5 +11,4 @@ import org.cotrix.domain.traits.Mutable;
  *
  * @param <T> the type of the entity
  */
-//joins the traits of domain objects that have attributes, hence become mutable
-public interface AttributedObject<T> extends DomainObject<T>, Attributed {}
+public interface AttributedObject<T extends AttributedObject<T>> extends DomainObject<T>, Attributed {}

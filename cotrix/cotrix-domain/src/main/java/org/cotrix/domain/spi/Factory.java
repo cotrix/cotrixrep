@@ -1,5 +1,9 @@
-package org.cotrix.domain;
+package org.cotrix.domain.spi;
 
+import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Code;
+import org.cotrix.domain.Codebag;
+import org.cotrix.domain.Codelist;
 import org.cotrix.domain.pos.AttributePO;
 import org.cotrix.domain.pos.CodePO;
 import org.cotrix.domain.pos.CodebagPO;

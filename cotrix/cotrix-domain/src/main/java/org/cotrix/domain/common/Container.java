@@ -3,19 +3,18 @@ package org.cotrix.domain.common;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.traits.Copyable;
-import org.cotrix.domain.traits.DeltaObject;
 import org.cotrix.domain.traits.Mutable;
 import org.cotrix.domain.traits.Named;
 
 /**
- * A {@link Copyable} and {@link Mutable} container of {@link Named} objects that can serve as a {@link DeltaObject}.
+ * A {@link Copyable} and {@link Mutable} container of {@link Named} objects that can serve as a {@link Delta}.
  * 
  * @author Fabio Simeoni
  *
  * @param <T> the type of the contained objects
  * @param <C> the self-type of the container 
  */
-interface Container<T extends Named, C extends Container<T,C>> extends Copyable<C>, Iterable<T>, Mutable<C>, DeltaObject {
+interface Container<T extends DomainObject<T>, C extends Container<T,C>> extends Copyable<C>, Iterable<T>, Mutable<C> {
 
 	/**
 	 * Returns the number of contained objects.

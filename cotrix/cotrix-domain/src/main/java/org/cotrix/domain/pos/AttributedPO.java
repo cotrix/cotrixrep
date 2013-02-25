@@ -1,9 +1,12 @@
 package org.cotrix.domain.pos;
 
+import static org.cotrix.domain.utils.Utils.*;
+
+import java.util.Collections;
+
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.common.AttributedObject;
 import org.cotrix.domain.common.BaseBag;
-import org.cotrix.domain.utils.Utils;
 
 /**
  * A partial implementation of parameter objects for {@link AttributedObject}s.
@@ -13,7 +16,7 @@ import org.cotrix.domain.utils.Utils;
  */
 public class AttributedPO extends ObjectPO {
 
-	private BaseBag<Attribute> attributes = new BaseBag<Attribute>();
+	private BaseBag<Attribute> attributes = new BaseBag<Attribute>(Collections.<Attribute>emptyList());
 
 	protected AttributedPO(String id) {
 		super(id);
@@ -32,7 +35,11 @@ public class AttributedPO extends ObjectPO {
 	 * @param attributes the parameter
 	 */
 	public void setAttributes(BaseBag<Attribute> attributes) {
-		Utils.notNull(attributes);
+		
+		notNull(attributes);
+		
+		validateDeltaParameter(attributes);
+		
 		this.attributes = attributes;
 	}
 }

@@ -4,8 +4,8 @@ import static org.cotrix.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.Factory;
 import org.cotrix.domain.simple.SimpleFactory;
+import org.cotrix.domain.spi.Factory;
 import org.junit.Test;
 
 public class UseCases {
@@ -34,7 +34,6 @@ public class UseCases {
 		
 		Codelist mylist2 = version(mylist).as("2");
 		
-		mylist2.codes().add(ascode("code3"));
 		
 		System.out.println(mylist2);
 	}

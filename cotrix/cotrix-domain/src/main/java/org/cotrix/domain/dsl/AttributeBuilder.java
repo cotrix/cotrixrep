@@ -1,16 +1,18 @@
 package org.cotrix.domain.dsl;
 
+import static org.cotrix.domain.traits.Change.*;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Factory;
-import org.cotrix.domain.common.Delta;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.pos.AttributePO;
+import org.cotrix.domain.spi.Factory;
+import org.cotrix.domain.traits.Change;
 
 /**
  * Builds {@link Attribute}s.
@@ -63,10 +65,10 @@ public class AttributeBuilder implements AttributeStartClause, SecondClause,
 	}
 	
 	@Override
-	public BuildClause<Attribute> as(Delta delta) {
-		if (delta!=Delta.NEW && po.id()==null)
+	public BuildClause<Attribute> as(Change change) {
+		if (change!=NEW && po.id()==null)
 			throw new IllegalStateException("object is marked as update but has its identifier is null");
-		po.setDelta(delta);
+		po.setChange(change);
 		return this;
 	}
 }

@@ -8,12 +8,12 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.Factory;
 import org.cotrix.domain.common.BaseBag;
 import org.cotrix.domain.common.BaseGroup;
 import org.cotrix.domain.pos.CodebagPO;
 import org.cotrix.domain.simple.SimpleCodebag;
 import org.cotrix.domain.simple.SimpleFactory;
+import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.versions.SimpleVersion;
 import org.cotrix.domain.versions.Version;
 import org.junit.Test;
@@ -25,19 +25,17 @@ public class CodebagTest {
 	@Test
 	public void codebagsAreConstructed() {
 			
-		SimpleCodebag bag = new SimpleCodebag(po(name,emptyLists,attributes(),no_version)); 
+		SimpleCodebag bag = new SimpleCodebag(po(name,codelists(),attributes(),no_version)); 
 		
 		assertEquals(0,bag.lists().size());
 		assertEquals(0,bag.attributes().size());
 		
-		BaseGroup<Codelist> lists = new BaseGroup<Codelist>();
-		lists.add(cl);
+		BaseGroup<Codelist> lists = codelists(cl);
 		
 		bag = new SimpleCodebag(po(name,lists,attributes(),no_version));
 		assertEquals(lists,bag.lists());
 		
-		BaseBag<Attribute> attributes = new BaseBag<Attribute>();
-		attributes.add(a);
+		BaseBag<Attribute> attributes = attributes(a);
 		
 		bag = new SimpleCodebag(po(name,lists,attributes,no_version));
 		assertEquals(attributes,bag.attributes());
@@ -47,7 +45,7 @@ public class CodebagTest {
 	public void codeBagsAreCorrectlyVersioned() {
 		
 		//a code bag, with a default version scheme but still formally unversioned
-		SimpleCodebag bag = new SimpleCodebag(po(name,emptyLists,attributes(),no_version)); 
+		SimpleCodebag bag = new SimpleCodebag(po(name,codelists(),attributes(),no_version)); 
 		
 		//a new version of the bag
 		Codebag versioned = bag.bump(factory,"1");
@@ -58,7 +56,7 @@ public class CodebagTest {
 		assertFalse(bag.equals(versioned));
 		
 		//a bag with an initial version in a given scheme (here the same as default)
-		bag = new SimpleCodebag(po(name,new BaseGroup<Codelist>(),new BaseBag<Attribute>(),new SimpleVersion("2.0")));
+		bag = new SimpleCodebag(po(name,codelists(),attributes(),new SimpleVersion("2.0")));
 		
 		assertEquals("2.0",bag.version());
 		
@@ -84,10 +82,9 @@ public class CodebagTest {
 	
 	private SimpleCodebag samplebag() {
 		
-		BaseGroup<Codelist> lists = new BaseGroup<Codelist>();
-		lists.add(cl);
+		BaseGroup<Codelist> lists = codelists(cl);
 		
-		BaseBag<Attribute> attributes = new BaseBag<Attribute>();
+		BaseBag<Attribute> attributes = attributes(a);
 		attributes.add(a);
 		
 		return new SimpleCodebag(po(name,lists,attributes,no_version));

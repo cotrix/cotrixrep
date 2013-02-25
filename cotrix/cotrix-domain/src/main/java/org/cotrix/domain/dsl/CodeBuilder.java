@@ -1,18 +1,20 @@
 package org.cotrix.domain.dsl;
 
+import static org.cotrix.domain.traits.Change.*;
+
 import java.util.Arrays;
 
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
-import org.cotrix.domain.Factory;
 import org.cotrix.domain.common.BaseBag;
-import org.cotrix.domain.common.Delta;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeStartClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.pos.CodePO;
+import org.cotrix.domain.spi.Factory;
+import org.cotrix.domain.traits.Change;
 
 /**
  * Builds {@link Code}s.
@@ -49,10 +51,10 @@ public final class CodeBuilder implements CodeStartClause,FinalClause {
 	}
 
 	@Override
-	public BuildClause<Code> as(Delta delta) {
-		if (delta!=Delta.NEW && po.id()==null)
+	public BuildClause<Code> as(Change change) {
+		if (change!=NEW && po.id()==null)
 			throw new IllegalStateException("object is marked as update but has its identifier is null");
-		po.setDelta(delta);
+		po.setChange(change);
 		return this;
 	}
 	

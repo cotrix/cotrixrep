@@ -1,6 +1,6 @@
 package org.cotrix.domain.utils;
 
-import org.cotrix.domain.Factory;
+import org.cotrix.domain.spi.Factory;
 
 /**
  * Generates new object identifiers.

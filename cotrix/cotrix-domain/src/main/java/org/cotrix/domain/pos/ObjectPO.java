@@ -1,12 +1,14 @@
 package org.cotrix.domain.pos;
 
-import static org.cotrix.domain.common.Delta.*;
+import static org.cotrix.domain.traits.Change.*;
 import static org.cotrix.domain.utils.Utils.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.Delta;
 import org.cotrix.domain.common.DomainObject;
+import org.cotrix.domain.traits.Change;
+import org.cotrix.domain.traits.Mutable;
+import org.cotrix.domain.utils.Utils;
 
 
 /**
@@ -19,7 +21,7 @@ public abstract class ObjectPO {
 
 	private final String id;
 	private QName name;
-	private Delta delta;
+	private Change change;
 	
 	protected ObjectPO(String id) {
 		
@@ -49,27 +51,61 @@ public abstract class ObjectPO {
 	 */
 	public void setName(QName name) {
 		
-		valid(name);
+		Utils.valid(name);
 		
 		this.name = name;
 	}
 
 	/**
-	 * Returns the {@link Delta} parameter.
+	 * Returns the {@link Change} parameter.
 	 * @return the parameter
 	 */
-	public Delta delta() {
-		return delta;
+	public Change change() {
+		return change;
+	}
+	
+	public boolean isDelta() {
+		return change!=null;
 	}
 
 	/**
-	 * Sets the {@link Delta} parameter.
+	 * Sets the {@link Change} parameter.
 	 * @param the parameter
+	 * @throws IllegalArgumentException if the parameter is null or is incompatible with the other parameters.
 	 */
-	public void setDelta(Delta status) {
+	public void setChange(Change change) throws IllegalArgumentException {
 		
-		if (status!=NEW && id()==null)
-			throw new IllegalArgumentException("object has no identifier hence cannot be updated or deleted");
-			this.delta = status;
+		valid(change);
+		
+		this.change = change;
+	}
+
+	private void valid(Change change) throws IllegalArgumentException {
+		
+		notNull("change",change);
+		
+		if (id()==null && change!=NEW)
+			throw new IllegalArgumentException("object has no identifier hence cannot represent a change to an existing object");
+		
+		
+		if (isDelta() && !this.change.canTransitionTo(change))
+			throw new IllegalArgumentException("object is "+this.change+" and cannot become "+change);
+	
+	}
+	
+	protected void validateDeltaParameter(Mutable<?> parameter) throws IllegalArgumentException {
+		
+		if (parameter.isDelta())
+			if (this.isDelta()){
+				if (!this.change.canTransitionTo(parameter.change()))
+					throw new IllegalArgumentException("object is "+this.change+" and cannot become "+change);
+			}
+			else
+				this.setChange(parameter.change()==NEW?NEW:MODIFIED);
+		else
+			if (this.isDelta()) //deltas must be made of deltas
+				throw new IllegalArgumentException("can only accepts parameters that represent changes");
+
+
 	}
 }

@@ -1,11 +1,10 @@
 package org.cotrix.domain.common;
 
-import static org.cotrix.domain.common.Delta.*;
+import static org.cotrix.domain.traits.Change.*;
 import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -14,6 +13,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.traits.Change;
 import org.cotrix.domain.traits.Mutable;
 import org.cotrix.domain.utils.IdGenerator;
 
@@ -21,55 +21,39 @@ import org.cotrix.domain.utils.IdGenerator;
  * A {@link Mutable} implementation of {@link Group}.
  * 
  * @author Fabio Simeoni
- *
+ * 
  * @param <T> the type of contained objects
  */
-public class BaseGroup<T extends DomainObject<T>> implements Group<T> {
+public class BaseGroup<T extends DomainObject<T>> extends BaseContainer<T,Group<T>> implements Group<T> {
 
-	private final Map<QName,T> objects= new LinkedHashMap<QName, T>();
-	private Delta delta;
-	
+	private final Map<QName, T> objects = new LinkedHashMap<QName, T>();
+
 	/**
-	 * Creates an instance with given objects.
+	 * Creates an instance that contain given objects.
+	 * 
 	 * @param objects the objects
-	 * @throw IllegalArgumentException if two or more of the given objects have the same name 
 	 */
-	public BaseGroup(List<? extends T> objects) throws IllegalArgumentException {
-		
+	public BaseGroup(List<? extends T> objects) {
+
 		notNull(objects);
-		
-		//index
-		for (T e : objects)
-			if (this.objects.put(e.name(),e)!=null)
-				throw new IllegalArgumentException(e.name()+" is not unique in "+objects);
+
+		for (T object : objects)
+			add(object);
 	}
-	
+
 	/**
 	 * Creates an instance with given objects and a given delta status.
+	 * 
 	 * @param objects the objects
-	 * @param delta the delta status
-	 * @throw IllegalArgumentException if two or more of the given objects have the same name 
+	 * @param change the delta status
+	 * @throw IllegalArgumentException if two or more of the given objects have the same name
 	 */
-	public BaseGroup(List<? extends T> objects, Delta delta) throws IllegalArgumentException {
-		
+	public BaseGroup(List<? extends T> objects, Change change) throws IllegalArgumentException {
+
 		this(objects);
-		
-		notNull("delta status",delta);
-		this.delta=delta;
-	}
-	
-	public BaseGroup() {
-		this(Collections.<T>emptyList());
-	}
-	
-	@Override
-	public Delta delta() {
-		return delta;
-	}
-	
-	@Override
-	public void setDelta(Delta status) {
-		this.delta=status;
+
+		notNull("delta status", change);
+		setChange(change);
 	}
 	
 	@Override
@@ -81,18 +65,18 @@ public class BaseGroup<T extends DomainObject<T>> implements Group<T> {
 	public int size() {
 		return objects.size();
 	}
-	
+
 	@Override
 	public void update(Group<T> delta) throws IllegalArgumentException, IllegalStateException {
-		
-		Delta status = delta.delta();
-		
-		if (status!=CHANGED && status!=DELETED)
+
+		Change status = delta.change();
+
+		if (status != MODIFIED && status != DELETED)
 			throw new IllegalArgumentException("not a delta update");
 
 		Map<String, T> index = indexObjects();
 
-		if (status==DELETED) 
+		if (status == DELETED)
 			objects.clear();
 		else
 
@@ -103,24 +87,23 @@ public class BaseGroup<T extends DomainObject<T>> implements Group<T> {
 				if (index.containsKey(id)) {
 
 					switch (status) {
-						case DELETED:
-							objects.remove(index.remove(id).name());
-							break;
-						case CHANGED:
-							index.get(id).update(object);
-							break;
+					case DELETED:
+						objects.remove(index.remove(id).name());
+						break;
+					case MODIFIED:
+						index.get(id).update(object);
+						break;
 					}
 				}
-				//add case
+				// add case
 				else {
-					
-					object.setDelta(null);
+					object.reset();
 					add(object);
 				}
 			}
-		
+
 	}
-	
+
 	private Map<String, T> indexObjects() {
 
 		Map<String, T> index = new HashMap<String, T>();
@@ -136,34 +119,40 @@ public class BaseGroup<T extends DomainObject<T>> implements Group<T> {
 		valid(name);
 		return objects.containsKey(name);
 	}
-	
+
 	@Override
 	public boolean contains(T element) throws IllegalArgumentException {
 		notNull(element);
 		return objects.containsValue(element);
 	}
-	
+
 	@Override
 	public T get(QName name) throws IllegalStateException, IllegalArgumentException {
-		
+
 		valid(name);
-		
+
 		exists(name);
-		
+
 		return objects.get(name);
 	}
 
-	
-	public T add(T element) {
-		return objects.put(element.name(),element);
+	public boolean add(T e) {
+
+		notNull(e);
+
+		handleDeltaOf(e);
+		
+		T added = this.objects.put(e.name(), e); 
+		
+		return added == null;
 	}
 
 	public T remove(QName name) {
-		
+
 		valid(name);
-		
+
 		exists(name);
-		
+
 		return objects.remove(name);
 	}
 
@@ -173,19 +162,17 @@ public class BaseGroup<T extends DomainObject<T>> implements Group<T> {
 			copied.add(e.copy(generator));
 		return new BaseGroup<T>(copied);
 	}
-	
-	
-	
-	//helper
+
+	// helper
 	private void exists(QName name) throws IllegalStateException {
 		if (!objects.containsKey(name))
-			throw new IllegalStateException("unknown element "+name);
+			throw new IllegalStateException("unknown element " + name);
 	}
 
 	@Override
 	public String toString() {
 		final int maxLen = 100;
-		return objects != null ? toString(objects.values(), maxLen) : null ;
+		return objects != null ? toString(objects.values(), maxLen) : null;
 	}
 
 	private String toString(Collection<?> collection, int maxLen) {
@@ -226,12 +213,4 @@ public class BaseGroup<T extends DomainObject<T>> implements Group<T> {
 		return true;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 }

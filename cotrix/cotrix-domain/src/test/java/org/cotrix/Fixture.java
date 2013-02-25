@@ -10,6 +10,7 @@ import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.common.BaseBag;
 import org.cotrix.domain.common.BaseGroup;
+import org.cotrix.domain.common.DomainObject;
 import org.cotrix.domain.versions.SimpleVersion;
 
 public class Fixture {
@@ -33,22 +34,34 @@ public class Fixture {
 	public static Attribute a2 = a("id2").with(name2).and(value2).ofType(type2).build();
 	public static Attribute a3 = a("id3").with(name3).and(value3).ofType(type3).build();
 	
-	public static BaseBag<Attribute> attributes(Attribute ...attributes) {
-		return new BaseBag<Attribute>(asList(attributes));
-	}
-	
 	public static Code c = code("id").with(name).and(a).build();
 	public static Code c2 = code("id2").with(name2).and(a,a2).build();
 	public static Code c3 = code("id3").with(name3).and(a,a2,a3).build();
 	
-	public static BaseGroup<Code> emptyCodes = new BaseGroup<Code>();
-
+	public static <T extends DomainObject<T>> BaseBag<T> bag(T ... ts) {
+		return new BaseBag<T>(asList(ts));
+	}
+	
+	public static <T extends DomainObject<T>> BaseGroup<T> group(T ... ts) {
+		return new BaseGroup<T>(asList(ts));
+	}
+	
+	public static BaseBag<Attribute> attributes(Attribute ...attributes) {
+		return bag(attributes);
+	}
+	
+	public static BaseGroup<Code> codes(Code ...codes) {
+		return group(codes);
+	}
+	
+	public static BaseGroup<Codelist> codelists(Codelist ...lists) {
+		return group(lists);
+	}
+	
 	public static SimpleVersion no_version = new SimpleVersion();
 	
 	public static Codelist cl = codelist("id1").with(name).with(c).and(a).version(no_version.value()).build();
 	public static Codelist cl2 = codelist("id2").with(name2).with(c,c2).and(a,a2).build();
-	
-	public static BaseGroup<Codelist> emptyLists = new BaseGroup<Codelist>();
 	
 	
 	public static String language = "lang"; 

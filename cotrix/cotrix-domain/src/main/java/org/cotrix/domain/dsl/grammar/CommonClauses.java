@@ -3,7 +3,7 @@ package org.cotrix.domain.dsl.grammar;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.common.Delta;
+import org.cotrix.domain.traits.Change;
 
 /**
  * Sentence clauses shared across grammars.
@@ -67,7 +67,7 @@ public class CommonClauses {
 		 * @param delta the type of change
 		 * @return the next clause in the sentence
 		 */
-		BuildClause<T> as(Delta delta);
+		BuildClause<T> as(Change delta);
 	}
 	
 	public static interface BuildClause<T> extends DeltaClause<T> {

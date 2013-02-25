@@ -1,11 +1,11 @@
 package org.cotrix.domain.simple;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Factory;
 import org.cotrix.domain.pos.AttributePO;
 import org.cotrix.domain.pos.CodePO;
 import org.cotrix.domain.pos.CodebagPO;
 import org.cotrix.domain.pos.CodelistPO;
+import org.cotrix.domain.spi.Factory;
 
 /**
  * Default implementation of {@link Factory}.

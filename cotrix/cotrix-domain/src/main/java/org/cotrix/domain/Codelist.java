@@ -1,6 +1,6 @@
 package org.cotrix.domain;
 
-import org.cotrix.domain.common.BaseGroup;
+import org.cotrix.domain.common.Group;
 import org.cotrix.domain.common.VersionedObject;
 
 
@@ -16,6 +16,6 @@ public interface Codelist extends VersionedObject<Codelist> {
 	 * Returns the codes of this list.
 	 * @return the codes
 	 */
-	BaseGroup<Code> codes();
+	Group<Code> codes();
 
 }

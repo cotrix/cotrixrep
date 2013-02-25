@@ -9,6 +9,6 @@ import org.cotrix.domain.traits.Versioned;
  *
  * @param <T> the type of the entity
  */
-public interface VersionedObject<T> extends AttributedObject<T>,Versioned<T> {
+public interface VersionedObject<T extends VersionedObject<T>> extends AttributedObject<T>,Versioned<T> {
 
 }

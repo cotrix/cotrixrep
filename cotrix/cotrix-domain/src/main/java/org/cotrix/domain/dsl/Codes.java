@@ -6,12 +6,12 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.Factory;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeStartClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.CodebagStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
 import org.cotrix.domain.simple.SimpleFactory;
+import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.traits.Versioned;
 
 /**

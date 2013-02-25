@@ -16,7 +16,7 @@ import org.cotrix.domain.pos.AttributedPO;
  * <T> the type of the entity
  */
 //we specialise type parameter because implementing update() requires we have access to attributes of the input
-abstract class SimpleAttributedObject<T extends AttributedObject<T>> extends SimpleDomainObject<T> implements AttributedObject<T> {
+abstract class SimpleAttributedObject<T extends AttributedObject<T>> extends SimpleObject<T> implements AttributedObject<T> {
 
 	
 	private final BaseBag<Attribute> attributes;

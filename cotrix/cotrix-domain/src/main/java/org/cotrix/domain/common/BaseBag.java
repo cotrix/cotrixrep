@@ -1,11 +1,9 @@
 package org.cotrix.domain.common;
 
-import static org.cotrix.domain.common.Delta.*;
 import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -25,11 +23,10 @@ import org.cotrix.domain.utils.IdGenerator;
  * 
  * @param <T> the type of contained object
  */
-public class BaseBag<T extends DomainObject<T>> implements Bag<T> {
+public class BaseBag<T extends DomainObject<T>> extends BaseContainer<T,Bag<T>> implements Bag<T> {
 
 	private final Set<T> objects = new LinkedHashSet<T>();
-	private Delta delta;
-
+	
 	/**
 	 * Creates an instance that contain given objects.
 	 * 
@@ -39,39 +36,8 @@ public class BaseBag<T extends DomainObject<T>> implements Bag<T> {
 
 		notNull(objects);
 
-		// defensive copy
-		for (T e : objects)
-			add(e);
-	}
-
-	/**
-	 * Creates an instance with given objects and a given delta status.
-	 * 
-	 * @param objects the objects
-	 * @param status the delta status
-	 */
-	public BaseBag(List<? extends T> objects, Delta status) {
-
-		this(objects);
-
-		notNull("delta status", status);
-		this.delta = status;
-		
-
-	}
-
-	@Override
-	public Delta delta() {
-		return delta;
-	}
-
-	@Override
-	public void setDelta(Delta status) {
-		this.delta=status;
-	}
-	
-	public BaseBag() {
-		this(Collections.<T> emptyList());
+		for (T object : objects)
+			add(object);
 	}
 
 	@Override
@@ -86,44 +52,31 @@ public class BaseBag<T extends DomainObject<T>> implements Bag<T> {
 
 	public void update(Bag<T> delta) {
 		
-		Delta status = delta.delta();
-		
-		if (status!=CHANGED && status!=DELETED)
-			throw new IllegalArgumentException("not a delta update");
-
 		Map<String, T> index = indexObjects();
 
-		if (status==DELETED) 
-			objects.clear();
-		else
-			for (T object : delta) {
+		for (T object : delta) {
 	
-				
-	
-				String id = object.id();
-	
-				if (index.containsKey(id)) {
-					
-					switch (object.delta()) {
-						case DELETED:
-							objects.remove(index.remove(id));
-							break;
-						case CHANGED:
-							index.get(id).update(object);
-							break;
+			String id = object.id();
 
-					} 
-				}
-				//add case
-				else {
-					
-					object.setDelta(null);
-					add(object);
-				}
-	
+			if (index.containsKey(id)) {
+				
+				switch (object.change()) {
+					case DELETED:
+						objects.remove(index.remove(id));
+						break;
+					case MODIFIED:
+						index.get(id).update(object);
+						break;
+
+				} 
 			}
-		
-			
+			//add case
+			else {
+				object.reset();
+				add(object);
+			}
+
+		}	
 	};
 
 	private Map<String, T> indexObjects() {
@@ -170,15 +123,10 @@ public class BaseBag<T extends DomainObject<T>> implements Bag<T> {
 
 		notNull(object);
 		
-		Delta elementDelta = object.delta();
-		
-		if (elementDelta!=null)
-			switch(elementDelta) {
-				case NEW:
-				case CHANGED :this.delta=CHANGED;break;
-			}
+		handleDeltaOf(object);
 		
 		return objects.add(object);
+		
 
 	}
 
@@ -206,7 +154,7 @@ public class BaseBag<T extends DomainObject<T>> implements Bag<T> {
 		for (T e : objects)
 			copied.add(e.copy(generator));
 		BaseBag<T> copy = new BaseBag<T>(copied); 
-		copy.setDelta(delta());
+		copy.setChange(change());
 		return copy;
 	}
 

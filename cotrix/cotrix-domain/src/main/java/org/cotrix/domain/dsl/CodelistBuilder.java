@@ -1,22 +1,23 @@
 package org.cotrix.domain.dsl;
 
 import static java.util.Arrays.*;
+import static org.cotrix.domain.traits.Change.*;
 
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.Factory;
 import org.cotrix.domain.common.BaseBag;
 import org.cotrix.domain.common.BaseGroup;
-import org.cotrix.domain.common.Delta;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.pos.CodelistPO;
+import org.cotrix.domain.spi.Factory;
+import org.cotrix.domain.traits.Change;
 import org.cotrix.domain.versions.SimpleVersion;
 import org.cotrix.domain.versions.Version;
 
@@ -68,10 +69,10 @@ public final class CodelistBuilder implements CodelistStartClause,SecondClause, 
 	
 
 	@Override
-	public BuildClause<Codelist> as(Delta delta) {
-		if (delta!=Delta.NEW && po.id()==null)
+	public BuildClause<Codelist> as(Change change) {
+		if (change!=NEW && po.id()==null)
 			throw new IllegalStateException("object is marked as update but has its identifier is null");
-		po.setDelta(delta);
+		po.setChange(change);
 		return this;
 	}
 	

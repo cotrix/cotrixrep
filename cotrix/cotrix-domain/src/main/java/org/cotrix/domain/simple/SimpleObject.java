@@ -2,10 +2,9 @@ package org.cotrix.domain.simple;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.Delta;
 import org.cotrix.domain.common.DomainObject;
 import org.cotrix.domain.pos.ObjectPO;
-import org.cotrix.domain.traits.Mutable;
+import org.cotrix.domain.traits.Change;
 
 /**
  * Partial {@link DomainObject} implementation.
@@ -14,22 +13,27 @@ import org.cotrix.domain.traits.Mutable;
  *
  * @param <T> the type of the entity
  */
-abstract class SimpleDomainObject<T extends DomainObject<T>> implements DomainObject<T>, Mutable<T> {
+abstract class SimpleObject<T extends DomainObject<T>> implements DomainObject<T> {
 
 	private final String id; //TODO: how do I relate to different identification strategy in access layer?
 	private QName name;
-	private Delta delta;
+	private Change change;
 	
-	protected SimpleDomainObject(ObjectPO po) {
+	protected SimpleObject(ObjectPO po) {
 
 		this.id=po.id();
 		this.name=po.name();
-		this.delta=po.delta();
+		this.change=po.change();
 	}
 	
 	@Override
 	public String id() {
 		return id;
+	}
+	
+	@Override
+	public boolean isDelta() {
+		return change!=null;
 	}
 	
 	//as java has no covariance, subclasses effectively overload this method, recursively
@@ -43,13 +47,13 @@ abstract class SimpleDomainObject<T extends DomainObject<T>> implements DomainOb
 	}
 	
 	@Override
-	public Delta delta() {
-		return delta;
+	public Change change() {
+		return change;
 	}
 	
 	@Override
-	public void setDelta(Delta status) {
-		this.delta=status;
+	public void reset() {
+		this.change=null;	
 	}
 	
 	@Override
@@ -68,7 +72,7 @@ abstract class SimpleDomainObject<T extends DomainObject<T>> implements DomainOb
 	//helper
 	private void isValid(T delta) {
 		
-		Delta status = delta.delta();
+		Change status = delta.change();
 		
 		//is the input a delta object ?
 		if (status==null)
@@ -79,7 +83,7 @@ abstract class SimpleDomainObject<T extends DomainObject<T>> implements DomainOb
 			throw new IllegalArgumentException("object "+delta.id()+" is not a delta update of this object ("+id()+")");
 		
 		//is it a change (removal and addition must be catered for at container level
-		if (status!=Delta.CHANGED)
+		if (status!=Change.MODIFIED)
 			throw new IllegalArgumentException("object "+id+" with update status "+status+" does not capture a change to this object ("+id()+")");
 	}
 
@@ -87,7 +91,7 @@ abstract class SimpleDomainObject<T extends DomainObject<T>> implements DomainOb
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((delta == null) ? 0 : delta.hashCode());
+		result = prime * result + ((change == null) ? 0 : change.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
@@ -101,8 +105,8 @@ abstract class SimpleDomainObject<T extends DomainObject<T>> implements DomainOb
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SimpleDomainObject<?> other = (SimpleDomainObject<?>) obj;
-		if (delta != other.delta)
+		SimpleObject<?> other = (SimpleObject<?>) obj;
+		if (change != other.change)
 			return false;
 		if (id == null) {
 			if (other.id != null)

@@ -2,6 +2,8 @@ package org.cotrix.domain.pos;
 
 import static org.cotrix.domain.utils.Utils.*;
 
+import java.util.Collections;
+
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.common.BaseGroup;
@@ -14,7 +16,7 @@ import org.cotrix.domain.common.BaseGroup;
  */
 public final class CodelistPO extends VersionedPO {
 	
-	private BaseGroup<Code> codes = new BaseGroup<Code>();
+	private BaseGroup<Code> codes = new BaseGroup<Code>(Collections.<Code>emptyList());
 
 	/**
 	 * Creates an instance with an identifier.
@@ -37,7 +39,11 @@ public final class CodelistPO extends VersionedPO {
 	 * @param codes the codes parameter
 	 */
 	public void setCodes(BaseGroup<Code> codes) {
+		
 		notNull("codes",codes);
+		
+		validateDeltaParameter(codes);
+		
 		this.codes = codes;
 	}
 }

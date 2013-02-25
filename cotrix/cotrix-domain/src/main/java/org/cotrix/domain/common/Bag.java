@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.traits.Named;
-
 /**
  * A {@link Container} that may contain multiple objects with the same name.
  * 
@@ -13,7 +11,7 @@ import org.cotrix.domain.traits.Named;
  *
  * @param <T> the type of the contained objects
  */
-public interface Bag<T extends Named> extends Container<T,Bag<T>> {
+public interface Bag<T extends DomainObject<T>> extends Container<T,Bag<T>> {
 
 	/**
 	 * Returns all the contained objects with a given name,

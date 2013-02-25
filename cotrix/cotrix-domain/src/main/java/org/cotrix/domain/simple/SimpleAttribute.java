@@ -13,7 +13,7 @@ import org.cotrix.domain.utils.IdGenerator;
  * @author Fabio Simeoni
  *
  */
-public class SimpleAttribute extends SimpleDomainObject<Attribute> implements Attribute {
+public class SimpleAttribute extends SimpleObject<Attribute> implements Attribute {
 
 	private QName type;
 	private String value;
@@ -60,7 +60,7 @@ public class SimpleAttribute extends SimpleDomainObject<Attribute> implements At
 
 	@Override
 	public String toString() {
-		return "Attribute [id=" +id()+", name=" + name() + ", value=" + value + (type==null?"":", type=" + type)+ (delta()==null?"":"("+delta()+")")+"]";
+		return "Attribute [id=" +id()+", name=" + name() + ", value=" + value + (type==null?"":", type=" + type)+ (change()==null?"":"("+change()+")")+"]";
 	}
 
 	@Override
