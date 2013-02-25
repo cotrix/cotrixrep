@@ -25,22 +25,26 @@ public abstract class BaseContainer<T extends DomainObject<T>, C extends Contain
 		setChange(null);
 	}
 
-	protected void setChange(Change status) {
+	public void setChange(Change status) {
 		this.change=status;
 
 	}
 	
 	// helper
 	protected void handleDeltaOf(T object) throws IllegalArgumentException {
-
-		// container becomes a delta if one of their elements is
-		if (object.isDelta())
-			setChange(MODIFIED);
-		else
-		// if it's a delta then it can only accept deltas
+		
 		if (this.isDelta())
-			throw new IllegalArgumentException("cannot add object (" + object.id()
-					+ "), the container already carries changes, but the object does not represent one");
+			if (object.isDelta())
+				if (this.change().canTransitionTo(object.change()))
+					setChange(object.change());
+				else
+					throw new IllegalArgumentException("object is "+this.change+" and cannot become "+object.change());
+			else
+				throw new IllegalArgumentException("cannot add object (" + object.id()
+						+ "), the container already carries changes, but the object does not represent one");
+		else
+			if (object.isDelta())
+				this.setChange(object.change()==NEW?NEW:MODIFIED);
 
 	}
 }

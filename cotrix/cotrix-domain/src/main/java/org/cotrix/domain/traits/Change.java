@@ -26,7 +26,7 @@ public enum Change {
 	DELETED(){
 		@Override
 		List<Change> compatibleWith() {
-			return Arrays.asList(DELETED,MODIFIED);
+			return Arrays.asList(DELETED);
 		}
 	};
 	abstract List<Change> compatibleWith();
