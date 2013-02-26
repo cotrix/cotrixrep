@@ -68,6 +68,7 @@ public abstract class ObjectPO {
 		return change!=null;
 	}
 
+
 	/**
 	 * Sets the {@link Change} parameter.
 	 * @param the parameter
@@ -75,37 +76,38 @@ public abstract class ObjectPO {
 	 */
 	public void setChange(Change change) throws IllegalArgumentException {
 		
-		valid(change);
+		notNull("change",change);
+
+		//cannot change or delete without an identifier
+		if (id()==null && change!=NEW)
+			throw new IllegalArgumentException("object has no identifier hence cannot represent a change to an existing object");
+		
+		//cannot change once set
+		if (this.isDelta() && this.change!=change)
+			throw new IllegalArgumentException("object is "+this.change+" and cannot become "+change);
+
 		
 		this.change = change;
 	}
 
-	private void valid(Change change) throws IllegalArgumentException {
+	protected void propagateChangeFrom(Mutable<?> parameter) throws IllegalArgumentException {
 		
-		notNull("change",change);
+		//NOTE: when we change the state, we do not pass through setter which would normally prevent overrides
 		
-		if (id()==null && change!=NEW)
-			throw new IllegalArgumentException("object has no identifier hence cannot represent a change to an existing object");
+		//first time: inherit NEW or MODIFIED 
+		if (parameter.isDelta() && this.isDelta())
+			if (parameter.change()!=this.change)
+				this.change=MODIFIED;
+
+		//other times: if not another NEW, MODIFIED
+		if (this.isDelta() && !parameter.isDelta())
+			throw new IllegalArgumentException("object is a delta ("+this.change+") and can only contain other changes");
 		
-		
-		if (isDelta() && !this.change.canTransitionTo(change))
-			throw new IllegalArgumentException("object is "+this.change+" and cannot become "+change);
-	
-	}
-	
-	protected void validateDeltaParameter(Mutable<?> parameter) throws IllegalArgumentException {
-		
-		if (parameter.isDelta())
-			if (this.isDelta()){
-				if (!this.change.canTransitionTo(parameter.change()))
-					throw new IllegalArgumentException("object is "+this.change+" and cannot become "+change);
-			}
-			else
-				this.setChange(parameter.change()==NEW?NEW:MODIFIED);
-		else
-			if (this.isDelta()) //deltas must be made of deltas
-				throw new IllegalArgumentException("can only accepts parameters that represent changes");
+		if (parameter.isDelta() && !this.isDelta())
+			this.change=parameter.change()==NEW?NEW:MODIFIED;
 
 
 	}
+	
+	
 }

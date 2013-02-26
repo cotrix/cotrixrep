@@ -123,7 +123,7 @@ public class BaseBag<T extends DomainObject<T>> extends BaseContainer<T,Bag<T>> 
 
 		notNull(object);
 		
-		handleDeltaOf(object);
+		propagateChangeFrom(object);
 		
 		return objects.add(object);
 		

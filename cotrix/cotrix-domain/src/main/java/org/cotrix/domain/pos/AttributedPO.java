@@ -38,7 +38,7 @@ public class AttributedPO extends ObjectPO {
 		
 		notNull(attributes);
 		
-		validateDeltaParameter(attributes);
+		propagateChangeFrom(attributes);
 		
 		this.attributes = attributes;
 	}
