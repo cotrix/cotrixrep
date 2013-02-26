@@ -1,6 +1,7 @@
 package org.cotrix.domain.common;
 
 import static org.cotrix.domain.traits.Change.*;
+import static org.cotrix.domain.utils.Utils.*;
 
 import org.cotrix.domain.traits.Change;
 
@@ -25,22 +26,33 @@ public abstract class BaseContainer<T extends DomainObject<T>, C extends Contain
 		setChange(null);
 	}
 
-	protected void setChange(Change status) {
-		this.change=status;
+	public void setChange(Change change) {
+		
+		notNull(change);
+		
+		this.change=change;
 
 	}
 	
 	// helper
-	protected void handleDeltaOf(T object) throws IllegalArgumentException {
+	protected void propagateChangeFrom(T object) throws IllegalArgumentException {
+		
+		//redundant checks, but clearer
 
-		// container becomes a delta if one of their elements is
-		if (object.isDelta())
-			setChange(MODIFIED);
-		else
-		// if it's a delta then it can only accept deltas
-		if (this.isDelta())
-			throw new IllegalArgumentException("cannot add object (" + object.id()
-					+ "), the container already carries changes, but the object does not represent one");
+		//first time: inherit NEW or MODIFIED 
+		if (object.isDelta() && !this.isDelta())
+			this.setChange(object.change()==NEW?NEW:MODIFIED);
+
+		
+		//other times: if not another NEW, MODIFIED
+		if (object.isDelta() && this.isDelta()) 
+			if (object.change()!=this.change)
+				this.setChange(MODIFIED);
+		
+
+		if (this.isDelta() && !object.isDelta())
+			throw new IllegalArgumentException("object is "+this.change+" and can only contain other changes");
+
 
 	}
 }

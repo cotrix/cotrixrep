@@ -3,9 +3,10 @@ package org.cotrix;
 import static junit.framework.Assert.*;
 import static org.cotrix.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.traits.Change.*;
 
 import java.util.List;
+
+import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
@@ -16,16 +17,25 @@ import org.cotrix.domain.common.BaseBag;
 import org.cotrix.domain.common.BaseGroup;
 import org.cotrix.domain.pos.AttributePO;
 import org.cotrix.domain.pos.AttributedPO;
+import org.cotrix.domain.pos.CodebagPO;
+import org.cotrix.domain.pos.CodelistPO;
 import org.cotrix.domain.pos.ObjectPO;
+import org.cotrix.domain.pos.VersionedPO;
 import org.cotrix.domain.utils.Constants;
 import org.junit.Test;
 
 public class CreateTest {
 
 	//we answer this questions: 
-	// are DOs constructed correctly?
-	// are DO deltas constructed correctly?
+	// are DOs constructed correctly? this splits into:
+		//are POs constructed in a correct state?
+		//are containers constructed in a correct state?
 	// can DO be constructed fluently?
+		//can the DSL create the same range of DOs that can be created directly with POs
+	
+	//--------------------------------------------------------------------
+	
+	// first, all DOs: we test directly against base ObjectPO class simulating a subclass
 	
 	@Test
 	public void DOsRejectNullParameters() {
@@ -46,36 +56,7 @@ public class CreateTest {
 		
 	}
 	
-	@Test
-	public void DOsWithoutIdentifiersCannotRepresentChanges() {
-	
-		ObjectPO po = new ObjectPO(null) {};
-		
-		//that's ok
-		po.setChange(NEW);
-		
-		//the following is not
-		try {
-			po.setChange(MODIFIED);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		try {
-			po.setChange(DELETED);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void modifiedDOsCannotBeDeleted() {
-
-		ObjectPO po = new ObjectPO("id") {};
-		po.setChange(MODIFIED);
-		po.setChange(DELETED);
-	}
+	//all attributed DOs: we workd directly against AttributedPO class simulating a subclass
 	
 	@Test
 	public void attributedDOsRejectNullParameters() {
@@ -87,40 +68,6 @@ public class CreateTest {
 			fail();
 		}
 		catch(IllegalArgumentException e) {}
-	}
-	
-	@Test
-	public void deltaAttributedDOsCanOnlyTakeDeltaParameters() {
-			
-		AttributedPO po = new AttributedPO("id") {};
-
-		po.setChange(MODIFIED);
-		
-		BaseBag<Attribute> attributes = attributes(a().with(name).and(value).build()); 
-
-		try {
-			po.setAttributes(attributes);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-	}
-	
-	@Test
-	public void attributedDOsBecomeDeltas() {
-		
-		AttributedPO po = new AttributedPO("id") {};
-		
-		Attribute deltaAttribute = a().with(name).and(value).as(NEW).build();
-		
-		BaseBag<Attribute> deltabag = attributes(deltaAttribute); 
-		
-		po.setAttributes(deltabag);
-		
-		
-		//PO become modified
-		assertTrue(po.change()==MODIFIED);
-			
 	}
 	
 	/// attributes
@@ -170,38 +117,21 @@ public class CreateTest {
 
 		//other sentences
 		a().with(name).and(value).in(language).build();
-		
-		a("1").with(name).and(value).as(NEW).build();
 	}
 	
 	
 	///////////// bags
 	
 	@Test
-	public void emptyBagsCanBeConstructed() {
+	public void baseBagsCanBeIncrementallyConstructed() {
 			
 		BaseBag<Attribute> bag = attributes();
-		
-		assertNull(bag.change());
 		
 		assertEquals(0,bag.size());
 		assertFalse(bag.contains(name));
 		assertTrue(bag.get(name).isEmpty());
 		assertTrue(bag.remove(name).isEmpty());
 		assertNull(bag.change());
-	
-	}
-	
-	@Test
-	public void baseBagsCanBeIncrementallyConstructed() {
-			
-		BaseBag<Attribute> bag = attributes();
-		
-		try {
-			bag.add(null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
 		
 		Attribute a = a().with(name).and(value).build();
 		
@@ -244,71 +174,48 @@ public class CreateTest {
 		assertEquals(1,bag.size());
 	}
 	
-	
 	@Test
-	public void bagsBecomeDeltas() {
-			
+	public void baseBagsRejectNullParameters() {
+		
 		BaseBag<Attribute> bag = attributes();
 		
-		assertFalse(bag.isDelta());
-		assertNull(bag.change());
+		try {
+			bag.add(null);
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
 		
-		Attribute a = a().with(name).and(value).as(NEW).build();
+		try {
+			bag.remove(null);
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
 		
-		bag.add(a);
+		try {
+			bag.contains((Attribute)null);
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
 		
-		assertTrue(bag.isDelta());
+		try {
+			bag.contains((QName)null);
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
 		
-		assertEquals(MODIFIED,bag.change());
+		try {
+			bag.contains(q(null,""));
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
 		
-		
-	}
-
-	@Test(expected=IllegalArgumentException.class)
-	public void deltaBagsOnlyAcceptDeltas() {
-
-		BaseBag<Attribute> bag = attributes();
-		
-		Attribute a1 = a("1").with(name).and(value).as(MODIFIED).build();
-		
-		bag.add(a1);
-		
-		Attribute a2 = a().with(name).and(value).build();
-		
-		bag.add(a2);
-
 	}
 	
-
+	
+	
+	
 	/// codes
 
-	@Test
-	public void badCodesCannotBeConstructed() {
-
-		//nothing to show for now as codes add no more to attributed DOs
-		//and we have already tested those. update in the future
-
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void modifiedCodesCannotBeMarkedNew() {
-
-		Attribute a = a("1").with(name).and(value).as(MODIFIED).build(); 
-				
-		code("1").with(name).and(a).as(NEW).build();
-		
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void modifiedCodesCannotBeDeleted() {
-
-		Attribute a = a("1").with(name).and(value).as(MODIFIED).build(); 
-				
-		Code code = code("1").with(name).and(a).as(DELETED).build();
-		
-		assertEquals(DELETED,code.change());
-	}
-	
 	@Test
 	public void codesCanBeFluentlyConstructed() {
 		
@@ -329,18 +236,31 @@ public class CreateTest {
 	
 
 	
-	
 	/// groups
 	
 	
-	
 	@Test
-	public void emptyGroupsCanBeConstructed() {
+	public void baseGroupsCanBeIncrementallyConstructed() {
 			
 		BaseGroup<Attribute> group = group();
 		
 		assertEquals(0,group.size());
 		assertFalse(group.contains(name));
+		
+		try {
+			group.get(name);
+			fail();
+		}
+		catch(IllegalStateException e) {}
+		
+		
+		try {
+			group.remove(name);
+			fail();
+		}
+		catch(IllegalStateException e) {}
+		
+		assertNull(group.change());
 	
 		try {
 			group.get(name);
@@ -353,13 +273,7 @@ public class CreateTest {
 			fail();
 		}
 		catch(IllegalStateException e) {}
-	
-	}
-	
-	@Test
-	public void baseGroupsCanBeIncrementallyConstructed() {
-			
-		BaseGroup<Attribute> group = group();
+
 		
 		Attribute a = a().with(name).and(value).build();
 		
@@ -383,43 +297,78 @@ public class CreateTest {
 		assertEquals(0,group.size());
 		assertFalse(group.contains(name));
 	}
-
+	
 	@Test
-	public void groupsBecomeDeltasWhenTheyContainDeltas() {
-			
+	public void baseGroupsRejectNullParameters() {
+		
 		BaseGroup<Attribute> group = group();
 		
-		assertFalse(group.isDelta());
-		assertNull(group.change());
+		try {
+			group.add(null);
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
 		
-		Attribute a = a().with(name).and(value).as(NEW).build();
+		try {
+			group.remove(null);
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
 		
-		group.add(a);
+		try {
+			group.contains((Attribute)null);
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
 		
-		assertTrue(group.isDelta());
-		assertEquals(MODIFIED,group.change());
+		try {
+			group.contains((QName)null);
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
 		
+		try {
+			group.contains(q(null,""));
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
 		
-	}
-
-	@Test(expected=IllegalArgumentException.class)
-	public void deltaGroupsOnlyAcceptDeltas() {
-
-		BaseGroup<Attribute> group = group();
-		
-		Attribute a1 = a("1").with(name).and(value).as(MODIFIED).build();
-		
-		group.add(a1);
-		
-		Attribute a2 = a().with(name).and(value).build();
-		
-		group.add(a2);
 
 	}
 	
+	//versioned
+	
+	@Test
+	public void versionedDOsRejectNullParameters() {
+		
+		VersionedPO po = new VersionedPO("id");
+		
+		try {
+			po.setVersion(null);
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
+		
+	}
+
 	
 	
 	// codelists
+	
+	
+	@Test
+	public void codelistsRejectNullParameters() {
+			
+
+		CodelistPO po = new CodelistPO("id");
+		
+		try {//null value
+			po.setCodes(null);
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
+			
+	}
 	
 	@Test
 	public void codelistCanBeFluentlyConstructed() {
@@ -452,36 +401,26 @@ public class CreateTest {
 		codelist().with(name).with(c).and(a).version(v).build();
 		
 	}
-	
-	@Test
-	public void codelistsBecomeDeltas() {
 
-		Code code = code("1").with(name).as(MODIFIED).build();
-		
-		Codelist list = codelist("1").with(name).with(code).build();
-		
-		assertTrue(list.change()==MODIFIED);
-
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void modifiedCodelistsCannotBeMarkedNew() {
-
-		Code code = code("1").with(name).as(MODIFIED).build();
-		
-		Codelist list = codelist("1").with(name).with(code).as(NEW).build();
-		
-		assertTrue(list.change()==MODIFIED);
-
-	}
-	
-	
 	
 	
 	
 	//code bags
 	
 	
+	@Test
+	public void codebagsRejectNullParameters() {
+			
+
+		CodebagPO po = new CodebagPO("id");
+		
+		try {//null value
+			po.setLists(null);
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
+			
+	}
 	
 	@Test
 	public void codebagsCanBeFluentlyConstructed() {

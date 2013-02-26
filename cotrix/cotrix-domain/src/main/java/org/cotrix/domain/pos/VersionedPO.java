@@ -17,7 +17,7 @@ public class VersionedPO extends AttributedPO {
 
 	private Version version = new SimpleVersion();
 
-	protected VersionedPO(String id) {
+	public VersionedPO(String id) {
 		super(id);
 	}
 	

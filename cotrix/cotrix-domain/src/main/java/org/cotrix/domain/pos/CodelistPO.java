@@ -42,7 +42,7 @@ public final class CodelistPO extends VersionedPO {
 		
 		notNull("codes",codes);
 		
-		validateDeltaParameter(codes);
+		propagateChangeFrom(codes);
 		
 		this.codes = codes;
 	}

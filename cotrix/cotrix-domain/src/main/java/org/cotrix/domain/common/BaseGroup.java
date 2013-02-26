@@ -140,7 +140,7 @@ public class BaseGroup<T extends DomainObject<T>> extends BaseContainer<T,Group<
 
 		notNull(e);
 
-		handleDeltaOf(e);
+		propagateChangeFrom(e);
 		
 		T added = this.objects.put(e.name(), e); 
 		

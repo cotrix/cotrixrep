@@ -42,7 +42,7 @@ public final class CodebagPO extends VersionedPO {
 		
 		notNull("lists",lists);
 		
-		validateDeltaParameter(lists);
+		propagateChangeFrom(lists);
 		
 		this.lists = lists;
 	}
