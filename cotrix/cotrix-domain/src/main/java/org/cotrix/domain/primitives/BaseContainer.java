@@ -1,4 +1,4 @@
-package org.cotrix.domain.common;
+package org.cotrix.domain.primitives;
 
 import static org.cotrix.domain.traits.Change.*;
 import static org.cotrix.domain.utils.Utils.*;
@@ -55,4 +55,5 @@ public abstract class BaseContainer<T extends DomainObject<T>, C extends Contain
 
 
 	}
+
 }

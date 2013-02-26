@@ -2,8 +2,8 @@ package org.cotrix.domain.simple;
 
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.common.BaseGroup;
 import org.cotrix.domain.pos.CodebagPO;
+import org.cotrix.domain.primitives.BaseGroup;
 import org.cotrix.domain.utils.IdGenerator;
 import org.cotrix.domain.versions.Version;
 
@@ -35,15 +35,15 @@ public class SimpleCodebag extends SimpleVersionedObject<Codebag> implements Cod
 		return lists;
 	}
 	
-	protected void buildPO(CodebagPO po) {
-		super.buildPO(po);
-		po.setLists(lists());
+	protected void buildPO(IdGenerator generator,CodebagPO po) {
+		super.fillPO(po);
+		po.setLists(lists().copy(generator));
 	}
 	
 	@Override
 	public SimpleCodebag copy(IdGenerator generator,Version version) {
 		CodebagPO po = new CodebagPO(generator.generateId());
-		buildPO(po);
+		buildPO(generator,po);
 		po.setVersion(version);
 		return new SimpleCodebag(po);
 	}

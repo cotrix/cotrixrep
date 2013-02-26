@@ -1,4 +1,4 @@
-package org.cotrix.domain.common;
+package org.cotrix.domain.primitives;
 
 import javax.xml.namespace.QName;
 

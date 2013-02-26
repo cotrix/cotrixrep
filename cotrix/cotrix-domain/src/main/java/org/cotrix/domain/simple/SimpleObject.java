@@ -2,8 +2,8 @@ package org.cotrix.domain.simple;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.DomainObject;
 import org.cotrix.domain.pos.ObjectPO;
+import org.cotrix.domain.primitives.DomainObject;
 import org.cotrix.domain.traits.Change;
 
 /**
@@ -36,9 +36,10 @@ abstract class SimpleObject<T extends DomainObject<T>> implements DomainObject<T
 		return change!=null;
 	}
 	
-	//as java has no covariance, subclasses effectively overload this method, recursively
-	protected void buildPO(ObjectPO po) {
+	//as java has no covariance, subclasses effectively overload this method, recursively (not ideal)
+	protected void fillPO(ObjectPO po) {
 		po.setName(name());
+		//we do not copy change type!
 	}
 	
 	@Override
@@ -60,7 +61,7 @@ abstract class SimpleObject<T extends DomainObject<T>> implements DomainObject<T
 	public void update(T delta) throws IllegalArgumentException ,IllegalStateException {
 		
 		if (id()==null)
-			throw new IllegalArgumentException("cannot be updated uncommitted "+this);
+			throw new IllegalArgumentException(this+" as no identifier, hence it cannot be updated");
 		
 		isValid(delta);
 		
@@ -120,6 +121,8 @@ abstract class SimpleObject<T extends DomainObject<T>> implements DomainObject<T
 			return false;
 		return true;
 	}
+
+
 
 	
 

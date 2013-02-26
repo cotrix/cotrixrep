@@ -1,7 +1,7 @@
 package org.cotrix.domain;
 
-import org.cotrix.domain.common.Group;
-import org.cotrix.domain.common.VersionedObject;
+import org.cotrix.domain.primitives.Group;
+import org.cotrix.domain.primitives.VersionedObject;
 
 
 /**

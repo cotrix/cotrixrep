@@ -3,10 +3,11 @@ package org.cotrix.domain.simple;
 import static org.cotrix.domain.utils.Utils.*;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.common.AttributedObject;
-import org.cotrix.domain.common.Bag;
-import org.cotrix.domain.common.BaseBag;
 import org.cotrix.domain.pos.AttributedPO;
+import org.cotrix.domain.primitives.AttributedObject;
+import org.cotrix.domain.primitives.Bag;
+import org.cotrix.domain.primitives.BaseBag;
+import org.cotrix.domain.utils.IdGenerator;
 
 /**
  * Partial implementation of {@link AttributedObject}.
@@ -39,11 +40,11 @@ abstract class SimpleAttributedObject<T extends AttributedObject<T>> extends Sim
 		return attributes;
 	}
 	
-	protected void buildPO(AttributedPO po) {
+	protected void fillPO(IdGenerator generator,AttributedPO po) {
 		
-		po.setAttributes(attributes);
+		po.setAttributes(attributes.copy(generator));
 		
-		super.buildPO(po);
+		super.fillPO(po);
 	}
 	
 	@Override
@@ -54,12 +55,12 @@ abstract class SimpleAttributedObject<T extends AttributedObject<T>> extends Sim
 		Bag<Attribute> attributes = delta.attributes();
 
 		this.attributes().update(attributes);
-	};
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
 		return result;
 	}
@@ -68,7 +69,7 @@ abstract class SimpleAttributedObject<T extends AttributedObject<T>> extends Sim
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -79,7 +80,9 @@ abstract class SimpleAttributedObject<T extends AttributedObject<T>> extends Sim
 		} else if (!attributes.equals(other.attributes))
 			return false;
 		return true;
-	}
+	};
+
+
 
 	
 }

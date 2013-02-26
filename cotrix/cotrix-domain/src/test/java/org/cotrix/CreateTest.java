@@ -13,14 +13,14 @@ import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.LanguageAttribute;
-import org.cotrix.domain.common.BaseBag;
-import org.cotrix.domain.common.BaseGroup;
 import org.cotrix.domain.pos.AttributePO;
 import org.cotrix.domain.pos.AttributedPO;
 import org.cotrix.domain.pos.CodebagPO;
 import org.cotrix.domain.pos.CodelistPO;
 import org.cotrix.domain.pos.ObjectPO;
 import org.cotrix.domain.pos.VersionedPO;
+import org.cotrix.domain.primitives.BaseBag;
+import org.cotrix.domain.primitives.BaseGroup;
 import org.cotrix.domain.utils.Constants;
 import org.junit.Test;
 

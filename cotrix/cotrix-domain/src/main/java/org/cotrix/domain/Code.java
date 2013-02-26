@@ -1,6 +1,6 @@
 package org.cotrix.domain;
 
-import org.cotrix.domain.common.AttributedObject;
+import org.cotrix.domain.primitives.AttributedObject;
 
 
 /**

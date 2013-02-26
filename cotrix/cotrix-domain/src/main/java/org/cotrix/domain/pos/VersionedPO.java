@@ -2,7 +2,7 @@ package org.cotrix.domain.pos;
 
 import static org.cotrix.domain.utils.Utils.*;
 
-import org.cotrix.domain.common.VersionedObject;
+import org.cotrix.domain.primitives.VersionedObject;
 import org.cotrix.domain.versions.SimpleVersion;
 import org.cotrix.domain.versions.Version;
 

@@ -6,7 +6,7 @@ import java.util.Collections;
 
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.common.BaseGroup;
+import org.cotrix.domain.primitives.BaseGroup;
 
 /**
  * A set of parameters required to create a {@link Codebag}.

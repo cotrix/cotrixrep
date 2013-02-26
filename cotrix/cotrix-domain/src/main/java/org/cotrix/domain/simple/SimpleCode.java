@@ -23,13 +23,13 @@ public class SimpleCode extends SimpleAttributedObject<Code> implements Code {
 	}
 	
 	protected void buildPO(CodePO po) {
-		super.buildPO(po);
+		super.fillPO(po);
 	}
 	
 	@Override
 	public SimpleCode copy(IdGenerator generator) {
 		CodePO po = new CodePO(generator.generateId());
-		super.buildPO(po);
+		super.fillPO(generator,po);
 		return new SimpleCode(po);
 	}
 	
@@ -40,7 +40,7 @@ public class SimpleCode extends SimpleAttributedObject<Code> implements Code {
 
 	@Override
 	public String toString() {
-		return "[name=" + name() + ", attributes=" + attributes() ;
+		return "Code [id="+id()+", name=" + name() + ", attributes=" + attributes()+"]" ;
 	}
 
 	

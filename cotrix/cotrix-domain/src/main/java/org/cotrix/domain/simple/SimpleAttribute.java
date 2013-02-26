@@ -34,8 +34,8 @@ public class SimpleAttribute extends SimpleObject<Attribute> implements Attribut
 		return value;
 	}
 	
-	protected void buildPO(AttributePO po) {
-		super.buildPO(po);
+	protected void fillPO(AttributePO po) {
+		super.fillPO(po);
 		po.setType(type());
 		po.setValue(value());
 	}
@@ -43,7 +43,7 @@ public class SimpleAttribute extends SimpleObject<Attribute> implements Attribut
 	@Override
 	public SimpleAttribute copy(IdGenerator generator) {
 		AttributePO po = new AttributePO(generator.generateId());
-		buildPO(po);
+		fillPO(po);
 		return new SimpleAttribute(po);
 	}
 	
@@ -53,7 +53,6 @@ public class SimpleAttribute extends SimpleObject<Attribute> implements Attribut
 		super.update(delta);
 		
 		type=delta.type();
-		
 		value=delta.value();
 		
 	}

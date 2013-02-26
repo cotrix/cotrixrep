@@ -2,7 +2,7 @@ package org.cotrix.domain;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.DomainObject;
+import org.cotrix.domain.primitives.DomainObject;
 
 
 /**

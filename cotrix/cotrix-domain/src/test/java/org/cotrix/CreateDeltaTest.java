@@ -9,9 +9,9 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.common.BaseBag;
 import org.cotrix.domain.pos.AttributedPO;
 import org.cotrix.domain.pos.ObjectPO;
+import org.cotrix.domain.primitives.BaseBag;
 import org.junit.Test;
 
 public class CreateDeltaTest {

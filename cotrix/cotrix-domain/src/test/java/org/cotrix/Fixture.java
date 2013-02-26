@@ -8,9 +8,9 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.common.BaseBag;
-import org.cotrix.domain.common.BaseGroup;
-import org.cotrix.domain.common.DomainObject;
+import org.cotrix.domain.primitives.BaseBag;
+import org.cotrix.domain.primitives.BaseGroup;
+import org.cotrix.domain.primitives.DomainObject;
 import org.cotrix.domain.versions.SimpleVersion;
 
 public class Fixture {
@@ -57,6 +57,8 @@ public class Fixture {
 	public static BaseGroup<Codelist> codelists(Codelist ...lists) {
 		return group(lists);
 	}
+	
+	public static String version = "1.0";
 	
 	public static SimpleVersion no_version = new SimpleVersion();
 	

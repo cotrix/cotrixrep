@@ -8,11 +8,11 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
-import org.cotrix.domain.common.BaseBag;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeStartClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.pos.CodePO;
+import org.cotrix.domain.primitives.BaseBag;
 import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.traits.Change;
 

@@ -5,7 +5,7 @@ import static org.cotrix.domain.utils.Utils.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.DomainObject;
+import org.cotrix.domain.primitives.DomainObject;
 import org.cotrix.domain.traits.Change;
 import org.cotrix.domain.traits.Mutable;
 import org.cotrix.domain.utils.Utils;

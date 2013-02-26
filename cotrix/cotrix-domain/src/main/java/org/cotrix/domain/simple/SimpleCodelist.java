@@ -2,8 +2,8 @@ package org.cotrix.domain.simple;
 
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.common.BaseGroup;
 import org.cotrix.domain.pos.CodelistPO;
+import org.cotrix.domain.primitives.BaseGroup;
 import org.cotrix.domain.utils.IdGenerator;
 import org.cotrix.domain.versions.Version;
 
@@ -36,16 +36,16 @@ public class SimpleCodelist extends SimpleVersionedObject<Codelist> implements C
 		return codes;
 	}
 
-	protected void buildPO(CodelistPO po) {
-		super.buildPO(po);
-		po.setCodes(codes());
+	protected void buildPO(IdGenerator generator,CodelistPO po) {
+		super.fillPO(po);
+		po.setCodes(codes().copy(generator));
 	}
 
 	@Override
 	protected SimpleCodelist copy(IdGenerator generator, Version version) throws IllegalArgumentException,
 			IllegalStateException {
 		CodelistPO po = new CodelistPO(generator.generateId());
-		buildPO(po);
+		buildPO(generator,po);
 		po.setVersion(version);
 		return new SimpleCodelist(po);
 	}
