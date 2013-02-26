@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.ImportWizardView;
 import org.cotrix.web.importwizard.client.view.form.FormWrapperViewImpl;
+import org.cotrix.web.importwizard.shared.CotrixImportModel;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -16,14 +17,16 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final ImportWizardView view;
+	private CotrixImportModel model;
 	private ArrayList<Presenter<GenericImportWizardPresenterImpl>> presenters  = new ArrayList<Presenter<GenericImportWizardPresenterImpl>>();
 	private ArrayList<String> formLabel  = new ArrayList<String>();
 
     @Inject
-	public GenericImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view) {
+	public GenericImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModel model) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
+		this.model = model;
         this.view.setPresenter(this);
 	}	
 	
@@ -43,9 +46,9 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 		for (int i = 0; i < presenters.size(); i++) {
 			FormWrapperViewImpl formWrapperView = new FormWrapperViewImpl();
 			FormWrapperPresenter formWrapperPresenter = new FormWrapperPresenter(rpcService, eventBus, formWrapperView,presenters.get(i),formLabel.get(i),i);
-			formWrapperPresenter.go(container);
-			formWrapperPresenter.SetOnButtonClickHandler(this);
 			formWrapperView.setPresenter(formWrapperPresenter);
+			formWrapperPresenter.SetOnButtonClickHandler(this);
+			formWrapperPresenter.go(container);
 			
 			if(i == 0){
 				formWrapperPresenter.showBackButton(false);

@@ -30,6 +30,7 @@ public class AppGinModule extends AbstractGinModule {
 
     protected void configure() {
         bind(AppController.class).to(AppControllerImpl.class);
+      
         bind(UploadFormView.class).to(UploadFormViewImpl.class);
         bind(UploadFormPresenter.class).to(UploadFormPresenterImpl.class);
        

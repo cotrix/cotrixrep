@@ -30,10 +30,6 @@ public class MetadataFormViewImpl extends Composite implements MetadataFormView<
 	@UiField TextArea description;
 	
 	private Presenter<MetadataFormPresenterImpl> presenter;
-	public void setPresenter(Presenter<MetadataFormPresenterImpl> presenter) {
-		this.presenter = presenter;
-	}
- 
 	public MetadataFormViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		addDatePicker(createDate);
@@ -63,6 +59,10 @@ public class MetadataFormViewImpl extends Composite implements MetadataFormView<
 	    dateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
 
 	    panel.add(dateBox);
+	}
+
+	public void setPresenter(MetadataFormPresenterImpl presenter) {
+		this.presenter = presenter;
 	}
 
 }

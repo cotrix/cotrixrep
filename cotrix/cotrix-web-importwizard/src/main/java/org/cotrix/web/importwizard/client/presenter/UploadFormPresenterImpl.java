@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.form.CotrixForm;
 import org.cotrix.web.importwizard.client.view.form.UploadFormView;
+import org.cotrix.web.importwizard.shared.CotrixImportModel;
 import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileError;
@@ -21,6 +22,7 @@ import org.vectomatic.file.events.ProgressEvent;
 import org.vectomatic.file.events.ProgressHandler;
 
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class UploadFormPresenterImpl implements UploadFormPresenter {
@@ -31,18 +33,21 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 	private FileReader reader;
 	private String filename = "";
 	private UploadFormView view;
+	private CotrixImportModel model;
 
-    @Inject
-	public UploadFormPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, UploadFormView view) {
+	@Inject
+	public UploadFormPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, UploadFormView view,CotrixImportModel model) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
+		this.model = model;
+		this.view.setPresenter(this);
 	}
 
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
-		initFileReader(filename);
+		initFileReader();
 	}
 
 	private ArrayList<String[]> parseCSV(String csv) {
@@ -57,15 +62,15 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 		return results;
 	}
 
-	private void initFileReader(final String filename) {
+	private void initFileReader() {
 
 		reader = new FileReader();
 		reader.addLoadEndHandler(new LoadEndHandler() {
 			public void onLoadEnd(LoadEndEvent event) {
-				onLoadFileFinish(filename);				
+				onLoadFileFinish();				
 				ArrayList<String[]> data = parseCSV(reader.getStringResult());
 				if(data.size() >= 2 ){
-					//					importWizardModel.getCsvFile().setDataAndHeader(data, data.get(0));
+					model.getCsvFile().setDataAndHeader(data, data.get(0));
 				}else {
 					onError("File must have more than 2 rows");
 				}
@@ -82,10 +87,11 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 		});
 		reader.addErrorHandler(new ErrorHandler() {
 			public void onError(ErrorEvent event) {
-				
+
 			}
 		});
 	}
+	
 	private void processFiles(FileList files) {
 		if (files.getLength() == 0)
 			return;
@@ -116,14 +122,14 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 				errorDesc = ": " + errorCode.name();
 			}
 		}
-		
+
 		onError("File loading error for file: " + file.getName() + "\n"+ errorDesc);
 	}
-	
+
 	private boolean hasFile(){
 		return (filename.equals("")?false:true);
 	}
-	
+
 	public boolean isValidate() {
 		if(!hasFile())
 			onError("Please browse csv file");
@@ -132,19 +138,24 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 
 
 	public void onBrowseButtonClicked() {
-
+		view.setFileUploadButtonClicked();
 	}
 
 	public void onDeleteButtonClicked() {
-		
+		view.setOnDeleteButtonClicked();
 	}
 
-	public void onLoadFileFinish(String filename) {
-		 
+	public void onLoadFileFinish() {
+		view .setOnUploadFinish(filename);
 	}
 
 	public void onError(String message) {
-		
+
+	}
+
+	public void onUploadFileChange(FileList fileList, String filename) {
+		this.filename = filename;
+		this.processFiles(fileList);
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.presenter.*;
 import org.cotrix.web.importwizard.client.view.form.FormWrapperView.Presenter;
-import org.cotrix.web.importwizard.shared.ImportWizardModel;
+import org.cotrix.web.importwizard.shared.CotrixImportModel;
 import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileError;
@@ -47,12 +47,10 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 	public UploadFormViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
+	
 	private Presenter presenter;
-	public void setPresenter(Presenter presenter) {
-		this.presenter = presenter;
-	}
 
-	@UiField FileUploadExt fileBrowserButton;
+	@UiField FileUploadExt fileUploadButton;
 	@UiField Label fileNameLabel;
 	@UiField HTML deleteButton;
 	@UiField Button browseButton;
@@ -66,9 +64,29 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 	public void onBrowseButtonClicked(ClickEvent event) {
 		presenter.onBrowseButtonClicked();
 	}
-
-	public void setPresenter(UploadFormPresenterImpl uploadFormPresenter) {
-		
+	
+	@UiHandler("fileUploadButton")
+	public void onUploadFileChange(ChangeEvent event) {
+		presenter.onUploadFileChange(fileUploadButton.getFiles(),fileUploadButton.getFilename());
 	}
+	
+	public void setPresenter(UploadFormPresenterImpl presenter) {
+		this.presenter = presenter;
+	}
+
+	public void setFileUploadButtonClicked() {
+		this.fileUploadButton.click();
+	}
+
+	public void setOnUploadFinish(String filename) {
+		this.fileNameLabel.setText(filename);
+		this.deleteButton.setVisible(true);
+	}
+
+	public void setOnDeleteButtonClicked() {
+		this.fileNameLabel.setText("");
+		this.deleteButton.setVisible(false);
+	}
+
 
 }

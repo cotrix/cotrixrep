@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.shared;
 
 import java.util.HashMap;
 
-public class ImportWizardModel {
+public class CotrixImportModel {
 	
 	private String filename;
 	private Metadata metadata;
