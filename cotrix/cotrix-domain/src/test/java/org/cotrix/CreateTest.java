@@ -98,25 +98,25 @@ public class CreateTest {
 	@Test
 	public void attributesCanBeFluentlyConstructed() {
 		
-		Attribute a = a().with(name).and(value).build();
+		Attribute a = attr().name(name).value(value).build();
 		
 		assertEquals(name,a.name());
 		assertEquals(value,a.value());
 		assertEquals(Constants.DEFAULT_TYPE,a.type());
 		
-		a = a("id").with(name).and(value).ofType(type).build();
+		a = attr("id").name(name).value(value).ofType(type).build();
 		
 		assertEquals("id",a.id());
 		assertEquals(type,a.type());
 		
-		a = a().with(name).and(value).ofType(name).in(language).build();
+		a = attr().name(name).value(value).ofType(name).in(language).build();
 		
 		LanguageAttribute langattr = (LanguageAttribute) a;
 		
 		assertEquals(language,langattr.language());
 
 		//other sentences
-		a().with(name).and(value).in(language).build();
+		attr().name(name).value(value).in(language).build();
 	}
 	
 	
@@ -133,7 +133,7 @@ public class CreateTest {
 		assertTrue(bag.remove(name).isEmpty());
 		assertNull(bag.change());
 		
-		Attribute a = a().with(name).and(value).build();
+		Attribute a = attr().name(name).value(value).build();
 		
 		//add
 		
@@ -146,7 +146,7 @@ public class CreateTest {
 		//duplicate not permitted
 		assertFalse(bag.add(a));
 		
-		Attribute a2 = a().with(name).and(value2).build();
+		Attribute a2 = attr().name(name).value(value2).build();
 		
 		//objects can have same name
 		assertTrue(bag.add(a2));
@@ -156,7 +156,7 @@ public class CreateTest {
 		
 		//removed
 		
-		Attribute a3 = a().with(name3).and(value3).build();
+		Attribute a3 = attr().name(name3).value(value3).build();
 		
 		bag.add(a3);
 		
@@ -219,7 +219,7 @@ public class CreateTest {
 	@Test
 	public void codesCanBeFluentlyConstructed() {
 		
-		Code code = code().with(name).build();
+		Code code = code().name(name).build();
 		
 		assertEquals(name,code.name());
 		assertEquals(0,code.attributes().size());
@@ -227,7 +227,7 @@ public class CreateTest {
 		assertEquals(code,ascode(name));
 		
 		
-		code = code("id").with(name).and(a).build();
+		code = code("id").name(name).attributes(a).build();
 		
 		assertEquals("id",code.id());
 		assertEquals(1,code.attributes().size());
@@ -275,7 +275,7 @@ public class CreateTest {
 		catch(IllegalStateException e) {}
 
 		
-		Attribute a = a().with(name).and(value).build();
+		Attribute a = attr().name(name).value(value).build();
 		
 		boolean added = group.add(a);
 		
@@ -373,32 +373,32 @@ public class CreateTest {
 	@Test
 	public void codelistCanBeFluentlyConstructed() {
 		
-		Codelist list  = codelist().with(name).build();
+		Codelist list  = codelist().name(name).build();
 		
 		assertEquals(name,list.name());
 		assertEquals(0,list.codes().size());
 		
-		list = codelist("id").with(name).build();
+		list = codelist("id").name(name).build();
 		
 		assertEquals("id",list.id());
 		
-		list= codelist().with(name).and(a).build();
+		list= codelist().name(name).attributes(a).build();
 		
 		assertTrue(list.attributes().contains(a));
 		
-		list = codelist().with(name).with(c).build();
+		list = codelist().name(name).with(c).build();
 		
 		assertTrue(list.codes().contains(c));
 		
-		list = codelist().with(name).version(v).build();
+		list = codelist().name(name).version(v).build();
 		
 		assertEquals(v,list.version());
 		
 		//other correct sentences
-		codelist().with(name).and(a).version(v).build();
-		codelist().with(name).with(c).version(v).build();
-		codelist().with(name).with(c).and(a).build();
-		codelist().with(name).with(c).and(a).version(v).build();
+		codelist().name(name).attributes(a).version(v).build();
+		codelist().name(name).with(c).version(v).build();
+		codelist().name(name).with(c).attributes(a).build();
+		codelist().name(name).with(c).attributes(a).version(v).build();
 		
 	}
 
@@ -425,30 +425,30 @@ public class CreateTest {
 	@Test
 	public void codebagsCanBeFluentlyConstructed() {
 		
-		Codebag bag = codebag().with(name).build();
+		Codebag bag = codebag().name(name).build();
 		
 		assertEquals(name,bag.name());
 		
-		bag = codebag("id").with(name).build();
+		bag = codebag("id").name(name).build();
 		
 		assertEquals("id",bag.id());
 		
-		bag = codebag().with(name).and(a).build();
+		bag = codebag().name(name).attributes(a).build();
 		
 		assertTrue(bag.attributes().contains(a));
 		
-		bag = codebag().with(name).version(v).build();
+		bag = codebag().name(name).version(v).build();
 		
 		assertEquals(v,bag.version());
 		
-		bag = codebag().with(name).with(cl).build();
+		bag = codebag().name(name).with(cl).build();
 		
 		assertTrue(bag.lists().contains(cl));
 		
 		//other correct sentences
-		codebag().with(name).with(cl).version(v).build();
-		codebag().with(name).with(cl).and(a).build();
-		codebag().with(name).with(cl).and(a).version(v).build();
+		codebag().name(name).with(cl).version(v).build();
+		codebag().name(name).with(cl).attributes(a).build();
+		codebag().name(name).with(cl).attributes(a).version(v).build();
 	}
 
 }

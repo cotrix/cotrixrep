@@ -73,7 +73,7 @@ public class CreateDeltaTest {
 		bag.setChange(MODIFIED);
 
 		// a non-delta object
-		Attribute a = a().with(name).and(value).build();
+		Attribute a = attr().name(name).value(value).build();
 
 		try {
 			bag.add(a);
@@ -92,7 +92,7 @@ public class CreateDeltaTest {
 
 		BaseBag<Attribute> bag = attributes();
 
-		Attribute a = a().with(name).and(value).as(NEW).build();
+		Attribute a = attr().name(name).value(value).as(NEW).build();
 
 		bag.add(a);
 
@@ -104,7 +104,7 @@ public class CreateDeltaTest {
 
 		BaseBag<Attribute> bag = attributes();
 
-		Attribute a = a("1").with(name).and(value).as(MODIFIED).build();
+		Attribute a = attr("1").name(name).value(value).as(MODIFIED).build();
 
 		bag.add(a);
 
@@ -116,7 +116,7 @@ public class CreateDeltaTest {
 
 		BaseBag<Attribute> bag = attributes();
 
-		Attribute a = a("1").with(name).and(value).as(DELETED).build();
+		Attribute a = attr("1").name(name).value(value).as(DELETED).build();
 
 		bag.add(a);
 
@@ -129,7 +129,7 @@ public class CreateDeltaTest {
 		BaseBag<Attribute> bag = attributes();
 		bag.setChange(NEW);
 		
-		Attribute a = a("1").with(name).and(value).as(NEW).build();
+		Attribute a = attr("1").name(name).value(value).as(NEW).build();
 
 		bag.add(a);
 
@@ -142,7 +142,7 @@ public class CreateDeltaTest {
 		BaseBag<Attribute> bag = attributes();
 		bag.setChange(NEW);
 		
-		Attribute a = a("1").with(name).and(value).as(MODIFIED).build();
+		Attribute a = attr("1").name(name).value(value).as(MODIFIED).build();
 
 		bag.add(a);
 
@@ -155,7 +155,7 @@ public class CreateDeltaTest {
 		BaseBag<Attribute> bag = attributes();
 		bag.setChange(NEW);
 		
-		Attribute a = a("1").with(name).and(value).as(DELETED).build();
+		Attribute a = attr("1").name(name).value(value).as(DELETED).build();
 
 		bag.add(a);
 
@@ -168,7 +168,7 @@ public class CreateDeltaTest {
 		BaseBag<Attribute> bag = attributes();
 		bag.setChange(MODIFIED);
 		
-		Attribute a = a("1").with(name).and(value).as(NEW).build();
+		Attribute a = attr("1").name(name).value(value).as(NEW).build();
 
 		bag.add(a);
 
@@ -181,7 +181,7 @@ public class CreateDeltaTest {
 		BaseBag<Attribute> bag = attributes();
 		bag.setChange(MODIFIED);
 		
-		Attribute a = a("1").with(name).and(value).as(DELETED).build();
+		Attribute a = attr("1").name(name).value(value).as(DELETED).build();
 
 		bag.add(a);
 
@@ -201,7 +201,7 @@ public class CreateDeltaTest {
 		// a non-delta parameter
 		BaseBag<Attribute> attributes = attributes();
 		
-		attributes.add(a().with(name).and(value).build());
+		attributes.add(attr().name(name).value(value).build());
 
 		try {
 			po.setAttributes(attributes);
@@ -248,7 +248,7 @@ public class CreateDeltaTest {
 		};
 
 		// a NEW parameter
-		Attribute deltaAttribute = a().with(name).and(value).as(NEW).build();
+		Attribute deltaAttribute = attr().name(name).value(value).as(NEW).build();
 
 		BaseBag<Attribute> deltabag = attributes(deltaAttribute);
 
@@ -344,7 +344,7 @@ public class CreateDeltaTest {
 	@Test
 	public void deltaAttributesCanBeFluentlyConstructed() {
 
-		Attribute a = a().with(name).and(value).as(NEW).build();
+		Attribute a = attr().name(name).value(value).as(NEW).build();
 
 		assertTrue(a.isDelta());
 		assertEquals(NEW, a.change());
@@ -356,7 +356,7 @@ public class CreateDeltaTest {
 	@Test
 	public void deltaCodesCanBeFluentlyConstructed() {
 
-		Code code = code().with(name).as(NEW).build();
+		Code code = code().name(name).as(NEW).build();
 
 		assertTrue(code.isDelta());
 		assertTrue(code.change() == NEW);
@@ -368,7 +368,7 @@ public class CreateDeltaTest {
 	@Test
 	public void deltaCodelistsCanBeFluentlyConstructed() {
 
-		Codelist list = codelist().with(name).as(NEW).build();
+		Codelist list = codelist().name(name).as(NEW).build();
 
 		assertTrue(list.isDelta());
 		assertEquals(NEW, list.change());
@@ -380,7 +380,7 @@ public class CreateDeltaTest {
 	@Test
 	public void deltaCodebagsCanBeFluentlyConstructed() {
 
-		Codebag bag = codebag().with(name).as(NEW).build();
+		Codebag bag = codebag().name(name).as(NEW).build();
 
 		assertTrue(bag.isDelta());
 		assertEquals(NEW, bag.change());

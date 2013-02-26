@@ -39,13 +39,19 @@ public final class CodeBuilder implements CodeStartClause,FinalClause {
 	
 	
 	@Override
-	public FinalClause with(QName name) {
+	public FinalClause name(QName name) {
 		po.setName(name);
 		return this;
 	}
 
+	
 	@Override
-	public FinalClause and(Attribute ... attributes) {
+	public FinalClause name(String name) {
+		return name(Codes.q(name));
+	}
+
+	@Override
+	public FinalClause attributes(Attribute ... attributes) {
 		po.setAttributes(new BaseBag<Attribute>(Arrays.asList(attributes)));
 		return this;
 	}

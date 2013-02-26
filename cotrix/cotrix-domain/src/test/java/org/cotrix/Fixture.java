@@ -30,13 +30,13 @@ public class Fixture {
 	public static String value3 = "value3";
 	
 	
-	public static Attribute a = a("id").with(name).and(value).ofType(type).build();
-	public static Attribute a2 = a("id2").with(name2).and(value2).ofType(type2).build();
-	public static Attribute a3 = a("id3").with(name3).and(value3).ofType(type3).build();
+	public static Attribute a = attr("id").name(name).value(value).ofType(type).build();
+	public static Attribute a2 = attr("id2").name(name2).value(value2).ofType(type2).build();
+	public static Attribute a3 = attr("id3").name(name3).value(value3).ofType(type3).build();
 	
-	public static Code c = code("id").with(name).and(a).build();
-	public static Code c2 = code("id2").with(name2).and(a,a2).build();
-	public static Code c3 = code("id3").with(name3).and(a,a2,a3).build();
+	public static Code c = code("id").name(name).attributes(a).build();
+	public static Code c2 = code("id2").name(name2).attributes(a,a2).build();
+	public static Code c3 = code("id3").name(name3).attributes(a,a2,a3).build();
 	
 	public static <T extends DomainObject<T>> BaseBag<T> bag(T ... ts) {
 		return new BaseBag<T>(asList(ts));
@@ -62,8 +62,8 @@ public class Fixture {
 	
 	public static SimpleVersion no_version = new SimpleVersion();
 	
-	public static Codelist cl = codelist("id1").with(name).with(c).and(a).version(no_version.value()).build();
-	public static Codelist cl2 = codelist("id2").with(name2).with(c,c2).and(a,a2).build();
+	public static Codelist cl = codelist("id1").name(name).with(c).attributes(a).version(no_version.value()).build();
+	public static Codelist cl2 = codelist("id2").name(name2).with(c,c2).attributes(a,a2).build();
 	
 	
 	public static String language = "lang"; 

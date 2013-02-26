@@ -26,7 +26,7 @@ public class AttributeGrammar {
 		 * @param value the value
 		 * @return the next clause in the sentence
 		 */
-		ThirdClause and(String value);
+		ThirdClause value(String value);
 	}
 
 	public static interface ThirdClause extends FinalClause, BuildClause<Attribute> {

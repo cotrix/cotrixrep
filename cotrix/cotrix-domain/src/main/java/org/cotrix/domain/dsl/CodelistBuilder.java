@@ -39,9 +39,14 @@ public final class CodelistBuilder implements CodelistStartClause,SecondClause, 
 	}
 	
 	@Override
-	public SecondClause with(QName name) {
+	public SecondClause name(QName name) {
 		po.setName(name);
 		return this;
+	}
+	
+	@Override
+	public SecondClause name(String name) {
+		return name(Codes.q(name));
 	}
 	
 	@Override
@@ -52,7 +57,7 @@ public final class CodelistBuilder implements CodelistStartClause,SecondClause, 
 	}
 	
 	@Override
-	public FinalClause and(Attribute ... attributes) {
+	public FinalClause attributes(Attribute ... attributes) {
 		po.setAttributes(new BaseBag<Attribute>(asList(attributes)));
 		return this;
 	}

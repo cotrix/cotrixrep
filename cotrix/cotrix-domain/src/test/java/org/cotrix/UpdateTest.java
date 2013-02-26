@@ -22,9 +22,9 @@ public class UpdateTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void updatesRequireIdentifiers() {
 		
-		Attribute a = a().with(name).and(value).build();
+		Attribute a = attr().name(name).value(value).build();
 		
-		Attribute delta = a("1").with(name2).and(value).build();
+		Attribute delta = attr("1").name(name2).value(value).build();
 		
 		a.update(delta);
 		
@@ -33,9 +33,9 @@ public class UpdateTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void updatesRequireDeltas() {
 		
-		Attribute a = a("1").with(name).and(value).build();
+		Attribute a = attr("1").name(name).value(value).build();
 		
-		Attribute delta = a("1").with(name2).and(value).build();
+		Attribute delta = attr("1").name(name2).value(value).build();
 		
 		a.update(delta);
 		
@@ -44,9 +44,9 @@ public class UpdateTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void updatesRequireMatchingIds() {
 		
-		Attribute a = a("1").with(name).and(value).build();
+		Attribute a = attr("1").name(name).value(value).build();
 		
-		Attribute delta = a("different").with(name2).and(value).build();
+		Attribute delta = attr("different").name(name2).value(value).build();
 		
 		a.update(delta);
 		
@@ -55,9 +55,9 @@ public class UpdateTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void updatesRequireModifiedDeltas() {
 		
-		Attribute a = a("1").with(name).and(value).build();
+		Attribute a = attr("1").name(name).value(value).build();
 		
-		Attribute delta = a("1").with(name2).and(value).as(NEW).build();
+		Attribute delta = attr("1").name(name2).value(value).as(NEW).build();
 		
 		a.update(delta);
 		
@@ -68,9 +68,9 @@ public class UpdateTest {
 	@Test
 	public void DOsCanChangeName() {
 		
-		Attribute a = a("1").with(name).and(value).build();
+		Attribute a = attr("1").name(name).value(value).build();
 		
-		Attribute delta = a("1").with(name2).and(value).as(MODIFIED).build();
+		Attribute delta = attr("1").name(name2).value(value).as(MODIFIED).build();
 		
 		a.update(delta);
 		
@@ -80,9 +80,9 @@ public class UpdateTest {
 	@Test
 	public void attributesCanChangeValue() {
 		
-		Attribute a = a("1").with(name).and(value).build();
+		Attribute a = attr("1").name(name).value(value).build();
 		
-		Attribute delta = a("1").with(name).and(value2).as(MODIFIED).build();
+		Attribute delta = attr("1").name(name).value(value2).as(MODIFIED).build();
 		
 		a.update(delta);
 		
@@ -92,9 +92,9 @@ public class UpdateTest {
 	@Test
 	public void attributesCanChangeType() {
 		
-		Attribute a = a("1").with(name).and(value).build();
+		Attribute a = attr("1").name(name).value(value).build();
 		
-		Attribute delta = a("1").with(name).and(value).ofType(type).as(MODIFIED).build();
+		Attribute delta = attr("1").name(name).value(value).ofType(type).as(MODIFIED).build();
 		
 		a.update(delta);
 		
@@ -104,9 +104,9 @@ public class UpdateTest {
 	@Test
 	public void attributesCanChangeLanguage() {
 		
-		LanguageAttribute a = (LanguageAttribute) a("1").with(name).and(value).in(language).build();
+		LanguageAttribute a = (LanguageAttribute) attr("1").name(name).value(value).in(language).build();
 		
-		Attribute delta = a("1").with(name).and(value).in("another").as(MODIFIED).build();
+		Attribute delta = attr("1").name(name).value(value).in("another").as(MODIFIED).build();
 		
 		assertFalse(a.language().equals("another"));
 		
@@ -120,19 +120,19 @@ public class UpdateTest {
 	@Test
 	public void bagsCanBeUpdated() {
 
-		Attribute a1 = a("1").with(name).and(value).build();
-		Attribute a2 = a("2").with(name2).and(value2).build();
+		Attribute a1 = attr("1").name(name).value(value).build();
+		Attribute a2 = attr("2").name(name2).value(value2).build();
 		
 		BaseBag<Attribute> bag = attributes(a1,a2);
 		
 		//a change
-		Attribute deltaA1 = a("1").with(name).and(value+"updated").as(MODIFIED).build();
+		Attribute deltaA1 = attr("1").name(name).value(value+"updated").as(MODIFIED).build();
 		
 		// a deletion
-		Attribute deltaA2 = a("2").with(name2).and(value2).as(DELETED).build();
+		Attribute deltaA2 = attr("2").name(name2).value(value2).as(DELETED).build();
 		
 		// a removal
-		Attribute deltaA3 = a().with(name3).and(value3).as(NEW).build();
+		Attribute deltaA3 = attr().name(name3).value(value3).as(NEW).build();
 		
 		BaseBag<Attribute> delta = attributes(deltaA1,deltaA2,deltaA3);
 		
@@ -155,19 +155,19 @@ public class UpdateTest {
 	@Test
 	public void groupsCanBeUpdated() {
 
-		Attribute a1 = a("1").with(name).and(value).build();
-		Attribute a2 = a("2").with(name2).and(value2).build();
+		Attribute a1 = attr("1").name(name).value(value).build();
+		Attribute a2 = attr("2").name(name2).value(value2).build();
 		
 		BaseGroup<Attribute> group = group(a1,a2);
 		
 		//a change
-		Attribute deltaA1 = a("1").with(name).and(value+"updated").as(MODIFIED).build();
+		Attribute deltaA1 = attr("1").name(name).value(value+"updated").as(MODIFIED).build();
 		
 		// a deletion
-		Attribute deltaA2 = a("2").with(name2).and(value2).as(DELETED).build();
+		Attribute deltaA2 = attr("2").name(name2).value(value2).as(DELETED).build();
 		
 		// a removal
-		Attribute deltaA3 = a().with(name3).and(value3).as(NEW).build();
+		Attribute deltaA3 = attr().name(name3).value(value3).as(NEW).build();
 		
 		BaseGroup<Attribute> delta = group(deltaA1,deltaA2,deltaA3);
 		
