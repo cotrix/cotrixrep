@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.client.view.form;
 
 import java.util.Date;
 
-import org.cotrix.web.importwizard.client.presenter.MetadataFormPresenter;
+import org.cotrix.web.importwizard.client.presenter.MetadataFormPresenterImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -29,8 +29,8 @@ public class MetadataFormViewImpl extends Composite implements MetadataFormView<
 	@UiField FlowPanel updateDate;
 	@UiField TextArea description;
 	
-	private Presenter<MetadataFormPresenter> presenter;
-	public void setPresenter(Presenter<MetadataFormPresenter> presenter) {
+	private Presenter<MetadataFormPresenterImpl> presenter;
+	public void setPresenter(Presenter<MetadataFormPresenterImpl> presenter) {
 		this.presenter = presenter;
 	}
  

@@ -5,9 +5,10 @@ import org.cotrix.web.importwizard.client.view.form.FormWrapperViewImpl;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
-public interface ImportWizardView<T> {
+public interface ImportWizardView {
+	void setPresenter(Presenter presenter);
 
-	public interface Presenter<T> {
+	public interface Presenter {
 		void initForm(HasWidgets container);
 	}
 	void initProgressBarTracker();

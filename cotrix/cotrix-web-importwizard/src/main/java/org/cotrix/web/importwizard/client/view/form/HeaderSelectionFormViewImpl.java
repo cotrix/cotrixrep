@@ -2,8 +2,8 @@ package org.cotrix.web.importwizard.client.view.form;
 
 import java.util.ArrayList;
 
-import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenter;
-import org.cotrix.web.importwizard.client.presenter.HeaderTypeFormPresenter;
+import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenterImpl;
+import org.cotrix.web.importwizard.client.presenter.HeaderTypeFormPresenterImpl;
 import org.cotrix.web.importwizard.client.view.form.FormWrapperView.Presenter;
 import org.cotrix.web.importwizard.shared.CSVFile.OnFile3ChangeHandler;
 import org.cotrix.web.importwizard.shared.ImportWizardModel;
@@ -37,8 +37,8 @@ public class HeaderSelectionFormViewImpl extends Composite implements  HeaderSel
 //		String textbox();
 //	}
 	
-	private Presenter<HeaderSelectionFormPresenter> presenter;
-	public void setPresenter(Presenter<HeaderSelectionFormPresenter> presenter) {
+	private Presenter presenter;
+	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
 	

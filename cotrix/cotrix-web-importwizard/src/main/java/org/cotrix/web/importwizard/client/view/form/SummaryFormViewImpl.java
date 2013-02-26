@@ -2,8 +2,8 @@ package org.cotrix.web.importwizard.client.view.form;
 
 import java.util.ArrayList;
 
-import org.cotrix.web.importwizard.client.presenter.MetadataFormPresenter;
-import org.cotrix.web.importwizard.client.presenter.SummaryFormPresenter;
+import org.cotrix.web.importwizard.client.presenter.MetadataFormPresenterImpl;
+import org.cotrix.web.importwizard.client.presenter.SummaryFormPresenterImpl;
 import org.cotrix.web.importwizard.client.view.form.HeaderDescriptionFormViewImpl.Style;
 import org.cotrix.web.importwizard.client.view.form.MetadataFormView.Presenter;
 import org.cotrix.web.importwizard.shared.CSVFile.OnFile4ChangeHandler;
@@ -42,8 +42,8 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 		String cell();
 	}
 	
-	private Presenter<SummaryFormPresenter> presenter;
-	public void setPresenter(Presenter<SummaryFormPresenter> presenter) {
+	private Presenter<SummaryFormPresenterImpl> presenter;
+	public void setPresenter(Presenter<SummaryFormPresenterImpl> presenter) {
 		this.presenter = presenter;
 	}
 	public SummaryFormViewImpl() {

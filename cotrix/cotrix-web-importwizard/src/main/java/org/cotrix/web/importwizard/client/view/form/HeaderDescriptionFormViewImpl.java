@@ -2,8 +2,8 @@ package org.cotrix.web.importwizard.client.view.form;
 
 import java.util.ArrayList;
 
-import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenter;
-import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenter;
+import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenterImpl;
+import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenterImpl;
 import org.cotrix.web.importwizard.client.view.form.HeaderSelectionFormView.Presenter;
 import org.cotrix.web.importwizard.client.view.form.HeaderTypeFormViewImpl.Style;
 import org.cotrix.web.importwizard.shared.CSVFile.OnFile2ChangeHandler;
@@ -42,8 +42,8 @@ public class HeaderDescriptionFormViewImpl extends Composite  implements HeaderD
 		String cell();
 	}
 	
-	private Presenter<HeaderDescriptionPresenter> presenter;
-	public void setPresenter(Presenter<HeaderDescriptionPresenter> presenter) {
+	private Presenter<HeaderDescriptionPresenterImpl> presenter;
+	public void setPresenter(Presenter<HeaderDescriptionPresenterImpl> presenter) {
 		this.presenter = presenter;
 	}
 

@@ -18,9 +18,11 @@ public class CotrixModuleImport implements EntryPoint {
 			+ "connection and try again.";
 
 	/**
-	 * Create a remote service proxy to talk to the server-side Greeting service.
+	 * Create a remote service proxy to talk to the server-side Greeting
+	 * service.
 	 */
-	private final ImportServiceAsync greetingService = GWT.create(ImportService.class);
+	private final ImportServiceAsync greetingService = GWT
+			.create(ImportService.class);
 
 	private final Messages messages = GWT.create(Messages.class);
 
@@ -28,9 +30,9 @@ public class CotrixModuleImport implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		ImportServiceAsync rpcService = GWT.create(ImportService.class);
-		HandlerManager eventBus = new HandlerManager(null);
-		AppController appViewer = new AppController(rpcService, eventBus);
+//		ImportServiceAsync rpcService = GWT.create(ImportService.class);
+		AppGinInjector injector = GWT.create(AppGinInjector.class);
+		AppController appViewer = injector.getAppController();
 		appViewer.go(RootPanel.get());
 	}
 }

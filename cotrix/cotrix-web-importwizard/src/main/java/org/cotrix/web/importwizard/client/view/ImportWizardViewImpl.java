@@ -1,6 +1,5 @@
 package org.cotrix.web.importwizard.client.view;
 
-import org.cotrix.web.importwizard.client.presenter.ImportWizardPresenter;
 import org.cotrix.web.importwizard.client.view.progressbar.ProgressbarTracker;
 
 import com.google.gwt.core.client.GWT;
@@ -12,7 +11,7 @@ import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ImportWizardViewImpl extends Composite implements ImportWizardView<ImportWizardViewImpl> {
+public class ImportWizardViewImpl extends Composite implements ImportWizardView {
 
 	@UiTemplate("ImportWizard.ui.xml")
 	interface ImportWizardUiBinder extends UiBinder<Widget, ImportWizardViewImpl> {}
@@ -23,8 +22,8 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView<
 
 	private ProgressbarTracker mProgressbarTracker;
 
-	private Presenter<ImportWizardPresenter> presenter;
-	public void setPresenter(Presenter<ImportWizardPresenter> presenter) {
+	private Presenter presenter;
+	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
 

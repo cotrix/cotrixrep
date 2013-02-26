@@ -1,7 +1,7 @@
 package org.cotrix.web.importwizard.client.view.form;
 
-import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenter;
-import org.cotrix.web.importwizard.client.presenter.HeaderTypeFormPresenter;
+import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenterImpl;
+import org.cotrix.web.importwizard.client.presenter.HeaderTypeFormPresenterImpl;
 import org.cotrix.web.importwizard.client.view.form.HeaderSelectionFormView.Presenter;
 
 import com.google.gwt.core.client.GWT;
@@ -29,8 +29,8 @@ public class HeaderTypeFormViewImpl extends Composite implements HeaderTypeFormV
 		String valuelabel();
 	}
 	
-	private Presenter<HeaderTypeFormPresenter> presenter;
-	public void setPresenter(Presenter<HeaderTypeFormPresenter> presenter) {
+	private Presenter<HeaderTypeFormPresenterImpl> presenter;
+	public void setPresenter(Presenter<HeaderTypeFormPresenterImpl> presenter) {
 		this.presenter = presenter;
 	}
 

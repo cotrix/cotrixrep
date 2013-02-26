@@ -37,19 +37,18 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UploadFromViewImpl extends Composite implements UploadFormView<UploadFromViewImpl> {
+public class UploadFormViewImpl extends Composite implements UploadFormView<UploadFormViewImpl> {
 
 	private static UploadFromUiBinder uiBinder = GWT.create(UploadFromUiBinder.class);
 
 	@UiTemplate("UploadForm.ui.xml")
-	interface UploadFromUiBinder extends UiBinder<Widget, UploadFromViewImpl> {}
+	interface UploadFromUiBinder extends UiBinder<Widget, UploadFormViewImpl> {}
 
-	public UploadFromViewImpl() {
+	public UploadFormViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-
-	private Presenter<UploadFormPresenter> presenter;
-	public void setPresenter(Presenter<UploadFormPresenter> presenter) {
+	private Presenter presenter;
+	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
 
@@ -66,6 +65,10 @@ public class UploadFromViewImpl extends Composite implements UploadFormView<Uplo
 	@UiHandler("browseButton")
 	public void onBrowseButtonClicked(ClickEvent event) {
 		presenter.onBrowseButtonClicked();
+	}
+
+	public void setPresenter(UploadFormPresenterImpl uploadFormPresenter) {
+		
 	}
 
 }
