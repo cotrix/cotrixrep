@@ -25,6 +25,10 @@ public class MetadataFormPresenterImpl implements MetadataFormPresenter {
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
+	}
+
+	public boolean isValidated() {
+		return true;
 	}	
 	
 }

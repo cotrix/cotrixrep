@@ -127,7 +127,7 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 	}
 
 
-	public boolean isValidate() {
+	public boolean isValidated() {
 		if(model.getCsvFile().isEmpty())
 			onError("Please browse csv file");
 		return !model.getCsvFile().isEmpty();

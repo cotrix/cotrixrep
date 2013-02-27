@@ -46,7 +46,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	public void initForm(HasWidgets container) {
 		for (int i = 0; i < presenters.size(); i++) {
 			FormWrapperViewImpl formWrapperView = new FormWrapperViewImpl();
-			FormWrapperPresenter formWrapperPresenter = new FormWrapperPresenter(rpcService, eventBus, formWrapperView,presenters.get(i),formLabel.get(i),i);
+			FormWrapperPresenter formWrapperPresenter = new FormWrapperPresenter(rpcService, eventBus, formWrapperView,model,presenters.get(i),formLabel.get(i),i);
 			formWrapperView.setPresenter(formWrapperPresenter);
 			formWrapperPresenter.SetOnButtonClickHandler(this);
 			formWrapperPresenter.go(container);
@@ -66,11 +66,16 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 		switch (index) {
 		case 0:
 			UploadFormPresenterImpl uploadFormPresenter =   (UploadFormPresenterImpl) sender.getContent();
-			isValidated = uploadFormPresenter.isValidate();
+			isValidated = uploadFormPresenter.isValidated();
 			break;
 		case 1:
+			MetadataFormPresenterImpl metadataFormPresenter =   (MetadataFormPresenterImpl) sender.getContent();
+			isValidated = metadataFormPresenter.isValidated();
 			break;
 		case 2:
+			HeaderSelectionFormPresenterImpl headerSelectionFormPresenter =   (HeaderSelectionFormPresenterImpl) sender.getContent();
+			isValidated = headerSelectionFormPresenter.isValidated();
+			
 			break;
 		case 3:
 			isValidated = true;

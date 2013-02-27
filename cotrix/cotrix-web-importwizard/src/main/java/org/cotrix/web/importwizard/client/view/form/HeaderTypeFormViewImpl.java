@@ -30,7 +30,7 @@ public class HeaderTypeFormViewImpl extends Composite implements HeaderTypeFormV
 	}
 	
 	private Presenter<HeaderTypeFormPresenterImpl> presenter;
-	public void setPresenter(Presenter<HeaderTypeFormPresenterImpl> presenter) {
+	public void setPresenter(HeaderTypeFormPresenterImpl presenter) {
 		this.presenter = presenter;
 	}
 
@@ -54,7 +54,4 @@ public class HeaderTypeFormViewImpl extends Composite implements HeaderTypeFormV
 		panel.add(grid);
 	}
 
-	public void setPresenter(HeaderTypeFormPresenterImpl presenter) {
-		this.presenter = presenter;
-	}
 }

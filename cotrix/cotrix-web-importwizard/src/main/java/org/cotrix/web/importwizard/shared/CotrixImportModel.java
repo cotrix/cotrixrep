@@ -2,6 +2,8 @@ package org.cotrix.web.importwizard.shared;
 
 import java.util.HashMap;
 
+import com.google.inject.Inject;
+
 public class CotrixImportModel {
 	
 	private String filename;
@@ -10,6 +12,10 @@ public class CotrixImportModel {
 	private HashMap<String, String> headerDescription;
 	private HashMap<String, String> summary;
 	
+	@Inject
+	public CotrixImportModel() {
+	}
+
 	public String getFilename() {
 		return filename;
 	}

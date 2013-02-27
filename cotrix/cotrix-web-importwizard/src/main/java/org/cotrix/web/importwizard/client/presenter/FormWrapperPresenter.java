@@ -3,6 +3,7 @@ package org.cotrix.web.importwizard.client.presenter;
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.form.FormWrapperView;
 import org.cotrix.web.importwizard.client.view.form.UploadFormViewImpl;
+import org.cotrix.web.importwizard.shared.CotrixImportModel;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
@@ -22,13 +23,15 @@ public class FormWrapperPresenter implements Presenter<FormWrapperPresenter>, Fo
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final FormWrapperView view;
+	private CotrixImportModel model;
 	private final Presenter childPresenter;
 	private final int index;
 	
 	@Inject
-	public FormWrapperPresenter(ImportServiceAsync rpcService, HandlerManager eventBus,FormWrapperView view,Presenter childPresenter,String title,int index){
+	public FormWrapperPresenter(ImportServiceAsync rpcService, HandlerManager eventBus,FormWrapperView view,CotrixImportModel model,Presenter childPresenter,String title,int index){
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
+		this.model = model;
 		this.view = view;
 		this.childPresenter = childPresenter;
 		this.view.setFormTitle(title);
