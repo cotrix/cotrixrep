@@ -16,6 +16,8 @@ public interface HeaderSelectionFormView<T> {
 	}
 	void onChecked(ClickEvent event);
 	void showHeaderForm(boolean show);
+	ArrayList<String> getHeaders();
+	void alert(String message);
 	void setData(String[] headers, ArrayList<String[]> data);
 	void setPresenter(HeaderSelectionFormPresenterImpl presenter);
 	Widget asWidget();

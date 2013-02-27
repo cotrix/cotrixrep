@@ -35,7 +35,14 @@ public class HeaderSelectionFormPresenterImpl implements HeaderSelectionFormPres
 	}
 
 	public boolean isValidated() {
-		return false;
+		ArrayList<String> headers = view.getHeaders();
+		
+		if(headers.size() != model.getCsvFile().getHeaders().length){
+			view.alert("Please define all header");
+		}else{
+			model.getCsvFile().setHeaders(headers.toArray(new String[0]));
+		}
+		return (headers.size() == model.getCsvFile().getHeaders().length)?true:false;
 	}
 
 	public void onCheckBoxChecked(boolean isChecked) {

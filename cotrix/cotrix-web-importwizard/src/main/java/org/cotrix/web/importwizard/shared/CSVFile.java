@@ -42,6 +42,7 @@ public class CSVFile {
 	 
 	public void setDataAndHeader(ArrayList<String[]> data,String[] header) {
 		this.data = data;
+		setHeaders(header);
 		for (OnFileChangeHandler onFileChangeHandler : this.handlerList) {
 			onFileChangeHandler.onFileChange(header, data);
 		}

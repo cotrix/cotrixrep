@@ -32,8 +32,8 @@ public class AlertDialog extends PopupPanel {
 		this.center();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			public void execute() {
-				int left = ((Window.getClientWidth( ) - AlertDialog.this.getOffsetWidth( )) / 2); 
-				int top =((Window.getClientHeight( ) - AlertDialog.this.getOffsetHeight( )) / 4);
+				int left = Window.getScrollLeft()+ ((Window.getClientWidth( ) - AlertDialog.this.getOffsetWidth( )) / 2); 
+				int top = Window.getScrollTop()+((Window.getClientHeight( ) - AlertDialog.this.getOffsetHeight( )) / 4);
 				AlertDialog.this.setPopupPosition(left, top);
 			}
 		});

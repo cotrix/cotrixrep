@@ -13,6 +13,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -21,7 +22,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class HeaderSelectionFormViewImpl extends Composite implements  HeaderSelectionFormView<HeaderSelectionFormViewImpl>{
-	
+
 	@UiTemplate("HeaderSelectionForm.ui.xml")
 	interface HeaderSelectionFormUiBinder extends UiBinder<Widget, HeaderSelectionFormViewImpl> {}
 	private static HeaderSelectionFormUiBinder uiBinder = GWT.create(HeaderSelectionFormUiBinder.class);
@@ -34,39 +35,40 @@ public class HeaderSelectionFormViewImpl extends Composite implements  HeaderSel
 		String textbox();
 	}
 	private int columnCount = 0;
-	
+	private AlertDialog alertDialog;
+
 	private Presenter presenter;
 	public void setPresenter(HeaderSelectionFormPresenterImpl presenter) {
 		this.presenter = presenter;
 	}
-	
+
 	@UiHandler("checkbox")
 	public void onChecked(ClickEvent event) {
 		presenter.onCheckBoxChecked(checkbox.getValue());
 	}
-	
+
 	public HeaderSelectionFormViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-	
+
 	public void showHeaderForm(boolean show){
 		if(show){
 			for (int j = 0; j < columnCount; j++) {
 				TextBox t = new TextBox();
 				t.setStyleName(style.textbox());
-				
+
 				flexTable.setWidget(0, j,t);
 				flexTable.getCellFormatter().setStyleName(0, j, style.flextTableHeader());
 			}
 			setDefaultSelected(false);
 		}else{
-			
+
 			setDefaultSelected(true);
 			flexTable.removeRow(0);
 			flexTable.insertRow(0);
 		}
 	}
-	
+
 	private void setDefaultSelected(boolean show){
 		for (int j = 0; j < columnCount; j++) {
 			if(show){
@@ -76,10 +78,10 @@ public class HeaderSelectionFormViewImpl extends Composite implements  HeaderSel
 			}
 		}
 	}
-	
+
 	public void setData(String[] headers, ArrayList<String[]> data) {
 		this.columnCount = headers.length;
-		
+
 		int rowCount = (data.size()<8)?data.size():8;
 		for (int i = 0; i < rowCount; i++) {
 			String[] columns = data.get(i);
@@ -92,6 +94,31 @@ public class HeaderSelectionFormViewImpl extends Composite implements  HeaderSel
 		}
 	}
 
+	public ArrayList<String> getHeaders() {
+		ArrayList<String> headers = new ArrayList<String>();
+		if(checkbox.getValue()){
+			for (int i = 0; i < flexTable.getCellCount(1); i++) {
+				HTML column = (HTML) flexTable.getWidget(1, i);
+				headers.add(column.getText());
+			}
+		}else{
+			for (int i = 0; i < flexTable.getCellCount(0); i++) {
+				TextBox column = (TextBox) flexTable.getWidget(0, i);
+				if(column.getText().length() > 0){
+					headers.add(column.getText());
+				}
+			}
+		}
+		return headers;
+	}
+
+	public void alert(String message) {
+		if(alertDialog == null){
+			alertDialog = new AlertDialog();
+		}
+		alertDialog.setMessage(message);
+		alertDialog.show();
+	}
 
 
 }
