@@ -2,8 +2,8 @@ package org.cotrix.domain.simple;
 
 import static org.cotrix.domain.utils.Utils.*;
 
-import org.cotrix.domain.common.VersionedObject;
 import org.cotrix.domain.pos.VersionedPO;
+import org.cotrix.domain.primitives.VersionedObject;
 import org.cotrix.domain.utils.IdGenerator;
 import org.cotrix.domain.versions.Version;
 
@@ -36,12 +36,13 @@ abstract class SimpleVersionedObject<T extends VersionedObject<T>> extends Simpl
 		return version.value();
 	}
 	
-	protected void buildPO(VersionedPO po) {
-		super.buildPO(po);
+	protected void fillPO(VersionedPO po) {
+		super.fillPO(po);
 		po.setVersion(version);
 	}
 	
 	public void update(T delta) throws IllegalArgumentException ,IllegalStateException {
+		
 		super.update(delta);
 		
 		//name has changed?
@@ -53,6 +54,9 @@ abstract class SimpleVersionedObject<T extends VersionedObject<T>> extends Simpl
 	public T bump(IdGenerator generator,String version) {
 		
 		notNull("version",version);
+		
+		if (id()==null)
+			throw new IllegalStateException("object cannot be versioned because it has no identifier");
 		
 		Version newVersion = this.version.bumpTo(version);
 		

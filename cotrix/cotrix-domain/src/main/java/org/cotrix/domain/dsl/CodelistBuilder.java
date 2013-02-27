@@ -8,14 +8,14 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.common.BaseBag;
-import org.cotrix.domain.common.BaseGroup;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.pos.CodelistPO;
+import org.cotrix.domain.primitives.BaseBag;
+import org.cotrix.domain.primitives.BaseGroup;
 import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.traits.Change;
 import org.cotrix.domain.versions.SimpleVersion;
@@ -39,9 +39,14 @@ public final class CodelistBuilder implements CodelistStartClause,SecondClause, 
 	}
 	
 	@Override
-	public SecondClause with(QName name) {
+	public SecondClause name(QName name) {
 		po.setName(name);
 		return this;
+	}
+	
+	@Override
+	public SecondClause name(String name) {
+		return name(Codes.q(name));
 	}
 	
 	@Override
@@ -52,7 +57,7 @@ public final class CodelistBuilder implements CodelistStartClause,SecondClause, 
 	}
 	
 	@Override
-	public FinalClause and(Attribute ... attributes) {
+	public FinalClause attributes(Attribute ... attributes) {
 		po.setAttributes(new BaseBag<Attribute>(asList(attributes)));
 		return this;
 	}

@@ -1,4 +1,4 @@
-package org.cotrix.domain.common;
+package org.cotrix.domain.primitives;
 
 import javax.xml.namespace.QName;
 
@@ -16,7 +16,8 @@ public interface Group<T extends DomainObject<T>> extends Container<T,Group<T>> 
 	 * @param name the name
 	 * @return the object
 	 * @throws IllegalStateException if no contained object has the given name
+	 * @throws IllegalArgumentException if the input is <code>null</code>
 	 */
-	T get(QName name) throws IllegalStateException;
+	T get(QName name) throws IllegalStateException, IllegalArgumentException;
 
 }

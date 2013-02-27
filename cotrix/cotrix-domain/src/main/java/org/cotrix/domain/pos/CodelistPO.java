@@ -6,7 +6,7 @@ import java.util.Collections;
 
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.common.BaseGroup;
+import org.cotrix.domain.primitives.BaseGroup;
 
 /**
  * A set of parameters required to create a {@link Codelist}.
@@ -42,7 +42,7 @@ public final class CodelistPO extends VersionedPO {
 		
 		notNull("codes",codes);
 		
-		validateDeltaParameter(codes);
+		propagateChangeFrom(codes);
 		
 		this.codes = codes;
 	}

@@ -22,7 +22,7 @@ public class CommonClauses {
 		 * @param attributes the attributes
 		 * @return the next clause in the sentence
 		 */
-		C and(Attribute... attributes);
+		C attributes(Attribute... attributes);
 	}
 
 	
@@ -45,7 +45,15 @@ public class CommonClauses {
 		 * @param name the name
 		 * @return the next clause in the sentence
 		 */
-		C with(QName name);
+		C name(QName name);
+		
+		/**
+		 * Sets the name of the object.
+		 * 
+		 * @param name the name
+		 * @return the next clause in the sentence
+		 */
+		C name(String name);
 	}
 	
 	public static interface VersionClause<T> {

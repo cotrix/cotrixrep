@@ -58,8 +58,8 @@ public class Codes {
 	 * Starts a sentence to create an {@link Attribute}.
 	 * @return the next clause in the sentence
 	 */
-	public static AttributeStartClause a() {
-		return a(factory.generateId());
+	public static AttributeStartClause attr() {
+		return attr(factory.generateId());
 	}
 	
 	/**
@@ -67,7 +67,7 @@ public class Codes {
 	 * @param id the identifier
 	 * @return the next clause in the sentence
 	 */
-	public static AttributeStartClause a(String id) {
+	public static AttributeStartClause attr(String id) {
 		return new AttributeBuilder(factory,id);
 	}
 	
@@ -86,7 +86,7 @@ public class Codes {
 	 * @return the code
 	 */
 	public static Code ascode(QName name) {
-		return new CodeBuilder(factory).with(name).build();
+		return new CodeBuilder(factory).name(name).build();
 	}
 	
 	/**

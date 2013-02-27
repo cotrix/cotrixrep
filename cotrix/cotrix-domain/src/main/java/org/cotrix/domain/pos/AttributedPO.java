@@ -5,8 +5,8 @@ import static org.cotrix.domain.utils.Utils.*;
 import java.util.Collections;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.common.AttributedObject;
-import org.cotrix.domain.common.BaseBag;
+import org.cotrix.domain.primitives.AttributedObject;
+import org.cotrix.domain.primitives.BaseBag;
 
 /**
  * A partial implementation of parameter objects for {@link AttributedObject}s.
@@ -38,7 +38,7 @@ public class AttributedPO extends ObjectPO {
 		
 		notNull(attributes);
 		
-		validateDeltaParameter(attributes);
+		propagateChangeFrom(attributes);
 		
 		this.attributes = attributes;
 	}

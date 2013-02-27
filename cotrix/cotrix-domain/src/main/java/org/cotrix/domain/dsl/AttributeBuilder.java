@@ -35,9 +35,14 @@ public class AttributeBuilder implements AttributeStartClause, SecondClause,
 	}
 	
 	@Override
-	public SecondClause with(QName name) {
+	public SecondClause name(QName name) {
 		po.setName(name);
 		return this;
+	}
+	
+	@Override
+	public SecondClause name(String name) {
+		return name(Codes.q(name));
 	}
 
 	@Override
@@ -53,7 +58,7 @@ public class AttributeBuilder implements AttributeStartClause, SecondClause,
 	}
 
 	@Override
-	public ThirdClause and(String value) {
+	public ThirdClause value(String value) {
 		po.setValue(value);
 		return this;
 

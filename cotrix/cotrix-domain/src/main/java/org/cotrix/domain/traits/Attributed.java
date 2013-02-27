@@ -1,7 +1,7 @@
 package org.cotrix.domain.traits;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.common.Bag;
+import org.cotrix.domain.primitives.Bag;
 
 /**
  * A domain object with {@link Attribute}s.

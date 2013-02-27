@@ -28,7 +28,7 @@ public class SimpleLanguageAttribute extends SimpleAttribute implements Language
 	@Override
 	public SimpleLanguageAttribute copy(IdGenerator generator) {
 		AttributePO po = new AttributePO(generator.generateId());
-		buildPO(po);
+		fillPO(po);
 		po.setLanguage(language());
 		return new SimpleLanguageAttribute(po);
 	}
