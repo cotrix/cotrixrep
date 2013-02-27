@@ -14,8 +14,8 @@ public class CotrixImportModel {
 	
 	@Inject
 	public CotrixImportModel() {
+	
 	}
-
 	public String getFilename() {
 		return filename;
 	}
