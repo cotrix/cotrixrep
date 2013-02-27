@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.shared;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.Window;
+
 
 public class CSVFile {
 	public interface OnFileChangeHandler{
@@ -12,7 +12,7 @@ public class CSVFile {
 	
 	private boolean isNewDefineHeader;
 	private String[] headers;
-	private ArrayList<String[]> data;
+	private ArrayList<String[]> data = new ArrayList<String[]>();
 	private ArrayList<OnFileChangeHandler> handlerList = new ArrayList<CSVFile.OnFileChangeHandler>();
 	
 	public boolean hasHeader(){
@@ -21,6 +21,13 @@ public class CSVFile {
 	
 	public String[] getHeaders() {
 		return headers;
+	}
+	public boolean isEmpty(){
+		return (data.isEmpty());
+	}
+	public void reset(){
+		data.clear();
+		setDataAndHeader(data, new String[]{});
 	}
 	
 	public void setHeaders(String[] headers) {

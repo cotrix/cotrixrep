@@ -1,31 +1,13 @@
 package org.cotrix.web.importwizard.client.view.form;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.cotrix.web.importwizard.client.presenter.*;
-import org.cotrix.web.importwizard.client.view.form.FormWrapperView.Presenter;
-import org.cotrix.web.importwizard.shared.CotrixImportModel;
-import org.vectomatic.file.ErrorCode;
-import org.vectomatic.file.File;
-import org.vectomatic.file.FileError;
-import org.vectomatic.file.FileList;
-import org.vectomatic.file.FileReader;
+import org.cotrix.web.importwizard.client.presenter.UploadFormPresenterImpl;
 import org.vectomatic.file.FileUploadExt;
-import org.vectomatic.file.events.ErrorEvent;
-import org.vectomatic.file.events.ErrorHandler;
-import org.vectomatic.file.events.LoadEndEvent;
-import org.vectomatic.file.events.LoadEndHandler;
-import org.vectomatic.file.events.LoadStartEvent;
-import org.vectomatic.file.events.LoadStartHandler;
-import org.vectomatic.file.events.ProgressEvent;
-import org.vectomatic.file.events.ProgressHandler;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.HasChangeHandlers;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -33,8 +15,11 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class UploadFormViewImpl extends Composite implements UploadFormView<UploadFormViewImpl> {
@@ -47,13 +32,19 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 	public UploadFormViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-	
-	private Presenter presenter;
+
+	private Presenter<UploadFormPresenterImpl> presenter;
+	public void setPresenter(Presenter<UploadFormPresenterImpl> presenter) {
+		this.presenter = presenter;
+	}
 
 	@UiField FileUploadExt fileUploadButton;
 	@UiField Label fileNameLabel;
 	@UiField HTML deleteButton;
+	@UiField FlowPanel fileWrapperPanel;
 	@UiField Button browseButton;
+
+	private AlertDialog alertDialog;
 
 	@UiHandler("deleteButton")
 	public void onDeleteButtonClicked(ClickEvent event) {
@@ -64,14 +55,10 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 	public void onBrowseButtonClicked(ClickEvent event) {
 		presenter.onBrowseButtonClicked();
 	}
-	
+
 	@UiHandler("fileUploadButton")
 	public void onUploadFileChange(ChangeEvent event) {
 		presenter.onUploadFileChange(fileUploadButton.getFiles(),fileUploadButton.getFilename());
-	}
-	
-	public void setPresenter(UploadFormPresenterImpl presenter) {
-		this.presenter = presenter;
 	}
 
 	public void setFileUploadButtonClicked() {
@@ -81,12 +68,20 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 	public void setOnUploadFinish(String filename) {
 		this.fileNameLabel.setText(filename);
 		this.deleteButton.setVisible(true);
+		this.fileWrapperPanel.setVisible(true);
 	}
 
 	public void setOnDeleteButtonClicked() {
 		this.fileNameLabel.setText("");
+		this.fileWrapperPanel.setVisible(false);
 		this.deleteButton.setVisible(false);
 	}
 
-
+	public void alert(String message) {
+		if(alertDialog == null){
+			alertDialog = new AlertDialog();
+		}
+		alertDialog.setMessage(message);
+		alertDialog.show();
+	}
 }

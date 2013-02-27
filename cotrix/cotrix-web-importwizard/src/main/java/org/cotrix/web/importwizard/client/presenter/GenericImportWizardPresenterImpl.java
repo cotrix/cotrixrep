@@ -9,6 +9,7 @@ import org.cotrix.web.importwizard.client.view.form.FormWrapperViewImpl;
 import org.cotrix.web.importwizard.shared.CotrixImportModel;
 
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 
@@ -60,7 +61,28 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	}
 
 	public boolean isFromValidated(FormWrapperPresenter sender) {
-		return true;
+		int index = sender.getIndexInParent();
+		boolean isValidated = false;
+		switch (index) {
+		case 0:
+			UploadFormPresenterImpl uploadFormPresenter =   (UploadFormPresenterImpl) sender.getContent();
+			isValidated = uploadFormPresenter.isValidate();
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			isValidated = true;
+			break;
+		case 4:
+			isValidated = true;
+			break;
+		case 5:
+			isValidated = true;
+			break;
+		}
+		return isValidated;
 	}
 
 	public void onNextButtonClicked(FormWrapperPresenter sender) {

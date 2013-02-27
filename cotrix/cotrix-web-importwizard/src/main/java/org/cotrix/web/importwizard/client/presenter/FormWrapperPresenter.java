@@ -39,6 +39,10 @@ public class FormWrapperPresenter implements Presenter<FormWrapperPresenter>, Fo
 		this. onButtonClickHandler = onButtonClickHandler;
 	}
 	
+	public Presenter getContent(){
+		return this.childPresenter;
+	}
+	
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());
 	}

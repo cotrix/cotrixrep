@@ -126,31 +126,28 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 		onError("File loading error for file: " + file.getName() + "\n"+ errorDesc);
 	}
 
-	private boolean hasFile(){
-		return (filename.equals("")?false:true);
-	}
 
 	public boolean isValidate() {
-		if(!hasFile())
+		if(model.getCsvFile().isEmpty())
 			onError("Please browse csv file");
-		return hasFile();
+		return !model.getCsvFile().isEmpty();
 	}
-
 
 	public void onBrowseButtonClicked() {
 		view.setFileUploadButtonClicked();
 	}
 
 	public void onDeleteButtonClicked() {
+		model.getCsvFile().reset();
 		view.setOnDeleteButtonClicked();
 	}
 
 	public void onLoadFileFinish() {
-		view .setOnUploadFinish(filename);
+		view.setOnUploadFinish(filename);
 	}
 
 	public void onError(String message) {
-
+		view.alert("Please select CSV file.");
 	}
 
 	public void onUploadFileChange(FileList fileList, String filename) {

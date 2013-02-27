@@ -59,65 +59,82 @@
 		}
 		
 		.div {
-			height: 35px;
+			height: 30px;
 		}
 		
 		.customUpload {
-			visibility: hidden;
 			width: 0;
+			visibility: hidden;
 		}
 		
 		.uploadFileName {
 			float: left;
 			line-height: 30px;
 			vertical-align: middle;
-			margin-left: 40px;
-			font-size:20px;
-			color:#999;
+			margin-left: 20px;
+			font-size: 15px;
+			font-weight:bold;
+			color: #666;
 			margin-right: 20px;
 		}
 		
 		.closeButton {
 			background-color: #eee;
 			color: #999;
+			margin-left:6px;
+			margin-right:6px;
 			float: left;
 			border-radius: 50px;
 			width: 20px;
-			font-size:10px;
+			font-size: 15px;
 			height: 20px;
-			padding-left:1px;
-			line-height: 20px;
+			padding-left: 1px;
+			line-height: 30px;
 			text-align: center;
-			cursor: hand; cursor: pointer;
-			margin:6px;
-			padding-bottom:1px;
+			cursor: hand;
+			cursor: pointer;
+			padding-bottom: 1px;
 			vertical-align: middle;
 		}
+		
 		.closeButton:hover {
-			background-color: #999;
-			color: #fff;
-			padding-left:1px;
-			padding-bottom:1px;
+			color: #333;
+			padding-left: 1px;
+			padding-bottom: 1px;
 			float: left;
-			font-size:10px
-			border-radius: 50px;
+			font-size: 10px border-radius:    50px;
 			width: 20px;
 			height: 20px;
 			line-height: 20px;
 			text-align: center;
-			cursor: hand; cursor: pointer;
-			margin:6px;
+			cursor: hand;
+			cursor: pointer;
+			margin: 6px;
 			vertical-align: middle;
+		}
+		
+		.fileWrapperPanel {
+			float: left;
+			margin-top: 2px;
+			background-color: #eee;
+			margin-left:20px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			height: 30px;
 		}
 	</ui:style>
-	
+
 	<g:HTMLPanel>
 		<div class='{style.title}'>Choose codelist file in CSV format.</div>
-		<f:FileUploadExt ui:field="fileUploadButton" styleName="{style.customUpload}" />
+		<f:FileUploadExt ui:field="fileUploadButton"
+			styleName="{style.customUpload}" />
 		<div class="{style.div}">
 			<g:Button text="BROWSE" ui:field="browseButton" styleName="{style.uploadButton}" />
-			<g:Label ui:field="fileNameLabel"  styleName="{style.uploadFileName}" />
-				<g:HTML text="X" styleName="{style.closeButton}" ui:field="deleteButton" visible="false"></g:HTML>
+			<g:FlowPanel styleName="{style.fileWrapperPanel}" ui:field="fileWrapperPanel" visible="false">
+				<g:Label ui:field="fileNameLabel" styleName="{style.uploadFileName}" />
+				<g:HTML text="X" styleName="{style.closeButton}" ui:field="deleteButton"
+					visible="false"></g:HTML>
+			</g:FlowPanel>
 		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 
