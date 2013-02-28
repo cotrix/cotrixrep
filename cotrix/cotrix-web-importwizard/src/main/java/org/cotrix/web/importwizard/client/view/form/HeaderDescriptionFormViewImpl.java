@@ -55,6 +55,7 @@ public class HeaderDescriptionFormViewImpl extends Composite  implements HeaderD
 			grid.setWidget(i, 0, headerLabel);
 			grid.setWidget(i, 1, textArea);
 		}
+		panel.clear();
 		panel.add(grid);
 	}
 

@@ -55,6 +55,7 @@ public class HeaderTypeFormViewImpl extends Composite implements HeaderTypeFormV
 			grid.setWidget(i, 0, headerLabel);
 			grid.setWidget(i, 1, h);
 		}
+		panel.clear();
 		panel.add(grid);
 	}
 
