@@ -22,7 +22,7 @@ public class CommonClauses {
 		 * @param attributes the attributes
 		 * @return the next clause in the sentence
 		 */
-		C attributes(Attribute... attributes);
+		C and(Attribute... attributes);
 	}
 
 	

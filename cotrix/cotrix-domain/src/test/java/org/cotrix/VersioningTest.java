@@ -116,7 +116,7 @@ public class VersioningTest {
 		Attribute a = attr(generator.generateId()).name(name).value(value).build();
 		Attribute a2 = attr(generator.generateId()).name(name2).value(value2).build();
 				
-		Code code = code(generator.generateId()).name(name).attributes(a,a2).build();
+		Code code = code(generator.generateId()).name(name).and(a,a2).build();
 		
 		Code copy = code.copy(generator);
 		

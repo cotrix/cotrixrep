@@ -227,7 +227,7 @@ public class CreateTest {
 		assertEquals(code,ascode(name));
 		
 		
-		code = code("id").name(name).attributes(a).build();
+		code = code("id").name(name).and(a).build();
 		
 		assertEquals("id",code.id());
 		assertEquals(1,code.attributes().size());
@@ -382,7 +382,7 @@ public class CreateTest {
 		
 		assertEquals("id",list.id());
 		
-		list= codelist().name(name).attributes(a).build();
+		list= codelist().name(name).and(a).build();
 		
 		assertTrue(list.attributes().contains(a));
 		
@@ -395,10 +395,10 @@ public class CreateTest {
 		assertEquals(v,list.version());
 		
 		//other correct sentences
-		codelist().name(name).attributes(a).version(v).build();
+		codelist().name(name).and(a).version(v).build();
 		codelist().name(name).with(c).version(v).build();
-		codelist().name(name).with(c).attributes(a).build();
-		codelist().name(name).with(c).attributes(a).version(v).build();
+		codelist().name(name).with(c).and(a).build();
+		codelist().name(name).with(c).and(a).version(v).build();
 		
 	}
 
@@ -433,7 +433,7 @@ public class CreateTest {
 		
 		assertEquals("id",bag.id());
 		
-		bag = codebag().name(name).attributes(a).build();
+		bag = codebag().name(name).and(a).build();
 		
 		assertTrue(bag.attributes().contains(a));
 		
@@ -447,8 +447,8 @@ public class CreateTest {
 		
 		//other correct sentences
 		codebag().name(name).with(cl).version(v).build();
-		codebag().name(name).with(cl).attributes(a).build();
-		codebag().name(name).with(cl).attributes(a).version(v).build();
+		codebag().name(name).with(cl).and(a).build();
+		codebag().name(name).with(cl).and(a).version(v).build();
 	}
 
 }

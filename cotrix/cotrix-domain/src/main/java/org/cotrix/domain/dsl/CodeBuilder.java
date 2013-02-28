@@ -51,7 +51,7 @@ public final class CodeBuilder implements CodeStartClause,FinalClause {
 	}
 
 	@Override
-	public FinalClause attributes(Attribute ... attributes) {
+	public FinalClause and(Attribute ... attributes) {
 		po.setAttributes(new BaseBag<Attribute>(Arrays.asList(attributes)));
 		return this;
 	}
