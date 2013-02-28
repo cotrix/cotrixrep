@@ -57,7 +57,7 @@ public final class CodelistBuilder implements CodelistStartClause,SecondClause, 
 	}
 	
 	@Override
-	public FinalClause attributes(Attribute ... attributes) {
+	public FinalClause and(Attribute ... attributes) {
 		po.setAttributes(new BaseBag<Attribute>(asList(attributes)));
 		return this;
 	}
