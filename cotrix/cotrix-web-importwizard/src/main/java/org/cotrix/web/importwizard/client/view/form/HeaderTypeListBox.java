@@ -28,11 +28,10 @@ public class HeaderTypeListBox extends Composite {
 		this.label = label;
 	}
 	
-	@UiField
-	ListBox listbox;
+	@UiField ListBox listbox;
 	
 	@UiHandler("listbox")
-	void whateverName(ChangeEvent event) {
+	void onChangeHandler(ChangeEvent event) {
 		onHeaderTypeSelectedHandler.onHeaderTypeSelected(listbox.getSelectedIndex());
 	}
 	
@@ -40,6 +39,9 @@ public class HeaderTypeListBox extends Composite {
 		this.onHeaderTypeSelectedHandler = onHeaderTypeSelectedHandler;
 	}
 	
+	public String getValue(){
+		return  (listbox.getSelectedIndex()!=0)?listbox.getItemText(listbox.getSelectedIndex()):null;
+	}
 	public HeaderTypeListBox() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}

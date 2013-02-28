@@ -50,12 +50,14 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 			formWrapperView.setPresenter(formWrapperPresenter);
 			formWrapperPresenter.SetOnButtonClickHandler(this);
 			formWrapperPresenter.go(container);
+			formWrapperPresenter.showSaveButton(false);
 			
 			if(i == 0){
 				formWrapperPresenter.showBackButton(false);
 			}
 			if(i == presenters.size()-1){
 				formWrapperPresenter.showNextButton(false);
+				formWrapperPresenter.showSaveButton(true);
 			}
 		}
 	}
@@ -81,7 +83,8 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 			isValidated = headerDescriptionPresenter.isValidated();
 			break;
 		case 4:
-			isValidated = true;
+			HeaderTypeFormPresenterImpl headerTypeFormPresenter =   (HeaderTypeFormPresenterImpl) sender.getContent();
+			isValidated = headerTypeFormPresenter.isValidated();
 			break;
 		case 5:
 			isValidated = true;
@@ -96,6 +99,11 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 
 	public void onBackButtonClicked(FormWrapperPresenter sender) {
 		view.showPrevStep(sender.getIndexInParent());
+	}
+
+	public void onSaveButtonClicked(FormWrapperPresenter sender) {
+		SummaryFormPresenterImpl summaryFormPresenter =   (SummaryFormPresenterImpl) sender.getContent();
+		summaryFormPresenter.uploadCotrixModel();
 	}
 
 

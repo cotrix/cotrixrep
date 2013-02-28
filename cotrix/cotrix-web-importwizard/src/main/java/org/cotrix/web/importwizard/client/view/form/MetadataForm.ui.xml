@@ -79,7 +79,7 @@
 					<g:Label styleName="{style.label}">Name</g:Label>
 				</g:customCell>
 				<g:customCell styleName="{style.cell}">
-					<g:TextBox width="300px"></g:TextBox>
+					<g:TextBox width="300px" ui:field="name"></g:TextBox>
 				</g:customCell>
 			</g:row>
 			<g:row>
@@ -87,7 +87,7 @@
 					<g:Label styleName="{style.label}">Owner</g:Label>
 				</g:customCell>
 				<g:customCell styleName="{style.cell}">
-					<g:TextBox width="300px"></g:TextBox>
+					<g:TextBox width="300px" ui:field="fileowner"></g:TextBox>
 				</g:customCell>
 			</g:row>
 			<g:row>
@@ -119,7 +119,7 @@
 					<g:Label styleName="{style.label}">Version</g:Label>
 				</g:customCell>
 				<g:customCell styleName="{style.cell}">
-					<g:ListBox>
+					<g:ListBox ui:field="version">
 						<g:item value='1'>
 							1
 						</g:item>

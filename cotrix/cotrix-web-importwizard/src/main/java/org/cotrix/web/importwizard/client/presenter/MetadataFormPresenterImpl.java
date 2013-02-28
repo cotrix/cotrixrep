@@ -20,6 +20,7 @@ public class MetadataFormPresenterImpl implements MetadataFormPresenter {
 		this.eventBus = eventBus;
 		this.view = view;
 		this.model = model;
+		this.view.setPresenter(this);
 	}
 
 	public void go(HasWidgets container) {
@@ -28,7 +29,14 @@ public class MetadataFormPresenterImpl implements MetadataFormPresenter {
 	}
 
 	public boolean isValidated() {
-		return true;
+		if(view.isValidated()){
+			model.setMetadata(view.getMetadata());
+		}
+		return view.isValidated();
+	}
+
+	public void alert(String message) {
+		view.alert(message);
 	}	
 	
 }

@@ -1,5 +1,7 @@
 package org.cotrix.web.importwizard.client.presenter;
 
+import java.util.ArrayList;
+
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.form.HeaderSelectionFormView;
 import org.cotrix.web.importwizard.client.view.form.HeaderTypeFormView;
@@ -23,10 +25,22 @@ public class HeaderTypeFormPresenterImpl implements HeaderTypeFormPresenter{
 		this.eventBus = eventBus;
 		this.view = view;
 		this.model = model;
+		this.view.setPresenter(this);
+		this.model.getCsvFile().addOnFilechangeHandler(this);
 	}
 	
 	public void go(HasWidgets container) {
-
+		container.clear();
+		container.add(view.asWidget());
+	}
+	
+	public boolean isValidated() {
+		model.setHeaderType(view.getHeaderTypes());
+		return true;
+	}
+	
+	public void onFileChange(String[] headers, ArrayList<String[]> data) {
+		view.setData(headers);
 	}
 	
 
