@@ -126,6 +126,7 @@
 			<g:FlowPanel ui:field="navigationBar" styleName="{style.navigationBar}">
 				<g:Button text="Back" styleName="{style.back}" ui:field="backButton" />
 				<g:Button text="Next" styleName="{style.next}" ui:field="nextButton" />
+				<g:Button text="Save" styleName="{style.next}" ui:field="saveButton" />
 			</g:FlowPanel>
 		</g:FlowPanel>
 	</g:HTMLPanel>

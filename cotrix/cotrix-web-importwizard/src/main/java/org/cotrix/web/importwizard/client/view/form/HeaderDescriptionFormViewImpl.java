@@ -1,5 +1,9 @@
 package org.cotrix.web.importwizard.client.view.form;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenterImpl;
 
 import com.google.gwt.core.client.GWT;
@@ -29,7 +33,8 @@ public class HeaderDescriptionFormViewImpl extends Composite  implements HeaderD
 		String grid();
 		String cell();
 	}
-	
+	private Grid grid;
+	private AlertDialog alertDialog;
 	private Presenter<HeaderDescriptionPresenterImpl> presenter;
 
 	public HeaderDescriptionFormViewImpl() {
@@ -37,7 +42,7 @@ public class HeaderDescriptionFormViewImpl extends Composite  implements HeaderD
 	}
 	
 	public void initForm(String[] headers) {
-		Grid grid = new Grid(headers.length, 2);
+		grid = new Grid(headers.length, 2);
 
 		for (int i = 0; i < headers.length; i++) {
 			Label headerLabel = new Label(headers[i]);
@@ -50,11 +55,32 @@ public class HeaderDescriptionFormViewImpl extends Composite  implements HeaderD
 			grid.setWidget(i, 0, headerLabel);
 			grid.setWidget(i, 1, textArea);
 		}
+		panel.clear();
 		panel.add(grid);
 	}
 
 	public void setPresenter(HeaderDescriptionPresenterImpl presenter) {
 		this.presenter  = presenter;
+	}
+
+	public HashMap<String, String> getHeaderDescription() {
+		HashMap<String, String> descriptions = new HashMap<String, String>();
+		for (int i = 0; i  < grid.getRowCount(); i++) {
+			Label label =  (Label) grid.getWidget(i, 0);
+			TextArea textArea =  (TextArea) grid.getWidget(i, 1);
+			if(textArea.getText().length() > 0 ){
+				descriptions.put(label.getText(), textArea.getText());
+			}
+		}
+		return descriptions;
+	}
+    
+	public void alert(String message) {
+		if(alertDialog == null){
+			alertDialog = new AlertDialog();
+		}
+		alertDialog.setMessage(message);
+		alertDialog.show();
 	}
 
 }

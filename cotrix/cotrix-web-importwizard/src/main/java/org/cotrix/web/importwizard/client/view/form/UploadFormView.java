@@ -16,12 +16,13 @@ public interface UploadFormView<T> {
 		void onUploadFileChange(FileList fileList,String filename);
 		void onError(String message);
 	}
+	void setPresenter(Presenter<UploadFormPresenterImpl> presenter);
 	void onDeleteButtonClicked(ClickEvent event);
 	void onBrowseButtonClicked(ClickEvent event);
 	void setFileUploadButtonClicked();
-	void setPresenter(UploadFormPresenterImpl presenter);
 	void setOnUploadFinish(String filename);
 	void setOnDeleteButtonClicked();
 	void onUploadFileChange(ChangeEvent event);
+	void alert(String message);
 	Widget asWidget();
 }

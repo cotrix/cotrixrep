@@ -2,6 +2,7 @@ package org.cotrix.web.importwizard.client.view.form;
 
 import org.cotrix.web.importwizard.client.view.form.HeaderDescriptionFormViewImpl.Style;
 import org.cotrix.web.importwizard.client.view.form.HeaderTypeListBox.OnHeaderTypeSelectedHandler;
+import org.cotrix.web.importwizard.shared.HeaderType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,6 +43,21 @@ public class HeaderTypePanel extends Composite implements OnHeaderTypeSelectedHa
 		initWidget(uiBinder.createAndBindUi(this));
 		initPanel();
 	}
+	public HeaderType getHeaderType(){
+		HeaderType type = new HeaderType();
+		if(panel.getWidgetCount() == 1){
+			HeaderTypeListBox listBox = (HeaderTypeListBox) panel.getWidget(0);
+			type.setValue(listBox.getValue());
+		}else{
+			HeaderTypeListBox listBox = (HeaderTypeListBox) panel.getWidget(0);
+			type.setValue(listBox.getValue());
+			
+			HorizontalPanel hp = (HorizontalPanel) panel.getWidget(1);
+			ListBox l = (ListBox) hp.getWidget(1);
+			type.setRelatedValue(l.getValue(l.getSelectedIndex()));
+		}
+		return type;
+	}
 
 	private void initPanel() {
 		HeaderTypeListBox listBox = new HeaderTypeListBox();
@@ -66,6 +82,9 @@ public class HeaderTypePanel extends Composite implements OnHeaderTypeSelectedHa
 			break;
 		case 3:
 			clearSecondWidget();
+			break;
+		case 4:
+			clearSecondWidget();
 			Label label = new Label("in");
 			label.setStyleName(style.textPadding());
 			
@@ -81,10 +100,10 @@ public class HeaderTypePanel extends Composite implements OnHeaderTypeSelectedHa
 			
 			panel.add(hPanel);
 			break;
-		case 4:
+		case 5:
 			clearSecondWidget();
 			break;
-		case 5:
+		case 6:
 			clearSecondWidget();
 			break;
 		}

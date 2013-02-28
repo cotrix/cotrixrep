@@ -13,7 +13,7 @@
 	<g:HTMLPanel>
 		<g:ListBox ui:field="listbox" styleName="{style.listBox}">
 			<g:item value='0'>
-				--- Select Header Type ---
+				------ Select Type ------
 			</g:item>
 			<g:item value='1'>
 				Unique Code
@@ -22,12 +22,15 @@
 				Another Unique Code
 			</g:item>
 			<g:item value='3'>
-				Description
+				Another Code
 			</g:item>
 			<g:item value='4'>
-				parent Code
+				Description
 			</g:item>
 			<g:item value='5'>
+				Parent Code
+			</g:item>
+			<g:item value='6'>
 				Parent Description
 			</g:item>
 		</g:ListBox>

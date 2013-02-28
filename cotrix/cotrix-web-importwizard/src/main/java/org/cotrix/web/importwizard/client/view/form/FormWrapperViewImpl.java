@@ -25,6 +25,7 @@ public class FormWrapperViewImpl extends Composite implements FormWrapperView<Fo
 
 	@UiField FlowPanel contentPanel;
 	@UiField Button nextButton;
+	@UiField Button saveButton;
 	@UiField Label title;
 	@UiField Button backButton;
 	
@@ -40,12 +41,17 @@ public class FormWrapperViewImpl extends Composite implements FormWrapperView<Fo
 	
 	
 	@UiHandler("nextButton")
-	void onNextButtonClicked(ClickEvent event){
+	public void onNextButtonClicked(ClickEvent event){
 		presenter.onNextButtonClicked();
 	}
 	
+	@UiHandler("saveButton")
+	public void onSaveButtonClicked(ClickEvent event) {
+		presenter.onSaveButtonClicked();
+	}
+	
 	@UiHandler("backButton")
-	void onBackButtonClicked(ClickEvent event){
+	public void onBackButtonClicked(ClickEvent event){
 		presenter.onBackButtonClicked();
 	}
 
@@ -64,5 +70,10 @@ public class FormWrapperViewImpl extends Composite implements FormWrapperView<Fo
 	public void showNextButton(boolean isVisible) {
 		this.nextButton.setVisible(isVisible);
 	}
+
+	public void showSaveButton(boolean isVisible) {
+		this.saveButton.setVisible(isVisible);
+	}
+
 
 }

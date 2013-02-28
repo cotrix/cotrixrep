@@ -1,8 +1,11 @@
 package org.cotrix.web.importwizard.client.view.form;
 
+import java.util.HashMap;
+
 import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenterImpl;
 import org.cotrix.web.importwizard.client.presenter.HeaderTypeFormPresenterImpl;
 import org.cotrix.web.importwizard.client.view.form.HeaderSelectionFormView.Presenter;
+import org.cotrix.web.importwizard.shared.HeaderType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -28,18 +31,19 @@ public class HeaderTypeFormViewImpl extends Composite implements HeaderTypeFormV
 		String cell();
 		String valuelabel();
 	}
-	
+	private Grid grid;
 	private Presenter<HeaderTypeFormPresenterImpl> presenter;
-	public void setPresenter(Presenter<HeaderTypeFormPresenterImpl> presenter) {
+	public void setPresenter(HeaderTypeFormPresenterImpl presenter) {
 		this.presenter = presenter;
 	}
 
 	public HeaderTypeFormViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-
-	public void initForm(String[] headers) {
-		Grid grid = new Grid(headers.length, 2);
+	
+	
+	public void setData(String[] headers) {
+		grid = new Grid(headers.length, 2);
 
 		for (int i = 0; i < headers.length; i++) {
 			Label headerLabel = new Label(headers[i]);
@@ -51,10 +55,19 @@ public class HeaderTypeFormViewImpl extends Composite implements HeaderTypeFormV
 			grid.setWidget(i, 0, headerLabel);
 			grid.setWidget(i, 1, h);
 		}
+		panel.clear();
 		panel.add(grid);
 	}
 
-	public void setPresenter(HeaderTypeFormPresenterImpl presenter) {
-		this.presenter = presenter;
+	public HashMap<String, HeaderType> getHeaderTypes() {
+		HashMap<String, HeaderType> headerType = new HashMap<String, HeaderType>();
+		for (int i = 0; i < grid.getRowCount(); i++) {
+			Label label = (Label) grid.getWidget(i, 0);
+			HeaderTypePanel typePanel = (HeaderTypePanel) grid.getWidget(i, 1);
+			
+			headerType.put(label.getText(), typePanel.getHeaderType());
+		}
+		return headerType;
 	}
+
 }

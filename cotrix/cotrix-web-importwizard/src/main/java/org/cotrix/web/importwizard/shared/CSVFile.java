@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
 
+
+
 public class CSVFile {
 	public interface OnFileChangeHandler{
 		public void onFileChange(String[] headers,ArrayList<String[]> data);
@@ -11,9 +13,9 @@ public class CSVFile {
 	private OnFileChangeHandler onFileChangeHandler;
 	
 	private boolean isNewDefineHeader;
-	private String[] headers;
-	private ArrayList<String[]> data;
-	private ArrayList<OnFileChangeHandler> handlerList = new ArrayList<CSVFile.OnFileChangeHandler>();
+	private String[] headers = new String[]{};
+	private ArrayList<String[]> data = new ArrayList<String[]>();
+	private ArrayList<OnFileChangeHandler> handlerList = new ArrayList<OnFileChangeHandler>();
 	
 	public boolean hasHeader(){
 		return (headers == null || headers.length == 0)?false:true;
@@ -22,6 +24,17 @@ public class CSVFile {
 	public String[] getHeaders() {
 		return headers;
 	}
+	public ArrayList<String[]> getData(){
+		return this.data;
+	}
+	public boolean isEmpty(){
+		return (data.isEmpty());
+	}
+	
+	public void reset(){
+		data.clear();
+		setDataAndHeader(data, new String[]{});
+	}
 	
 	public void setHeaders(String[] headers) {
 		this.headers = headers;
@@ -29,7 +42,8 @@ public class CSVFile {
 	 
 	public void setDataAndHeader(ArrayList<String[]> data,String[] header) {
 		this.data = data;
-		for (OnFileChangeHandler onFileChangeHandler : handlerList) {
+		setHeaders(header);
+		for (OnFileChangeHandler onFileChangeHandler : this.handlerList) {
 			onFileChangeHandler.onFileChange(header, data);
 		}
 	}

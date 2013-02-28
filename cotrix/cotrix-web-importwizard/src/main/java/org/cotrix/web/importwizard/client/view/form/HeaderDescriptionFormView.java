@@ -1,5 +1,8 @@
 package org.cotrix.web.importwizard.client.view.form;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenterImpl;
 import org.cotrix.web.importwizard.client.presenter.SummaryFormPresenterImpl;
 
@@ -11,8 +14,9 @@ public interface HeaderDescriptionFormView<T> {
 		
 	}
 	void initForm(String[] headers);
+	void alert(String message);
 	void setPresenter(HeaderDescriptionPresenterImpl presenter);
-
+	HashMap<String, String> getHeaderDescription();
 	Widget asWidget();
-
+	
 }

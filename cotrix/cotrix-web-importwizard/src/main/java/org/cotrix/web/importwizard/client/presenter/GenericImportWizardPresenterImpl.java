@@ -9,6 +9,7 @@ import org.cotrix.web.importwizard.client.view.form.FormWrapperViewImpl;
 import org.cotrix.web.importwizard.shared.CotrixImportModel;
 
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 
@@ -45,22 +46,51 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	public void initForm(HasWidgets container) {
 		for (int i = 0; i < presenters.size(); i++) {
 			FormWrapperViewImpl formWrapperView = new FormWrapperViewImpl();
-			FormWrapperPresenter formWrapperPresenter = new FormWrapperPresenter(rpcService, eventBus, formWrapperView,presenters.get(i),formLabel.get(i),i);
+			FormWrapperPresenter formWrapperPresenter = new FormWrapperPresenter(rpcService, eventBus, formWrapperView,model,presenters.get(i),formLabel.get(i),i);
 			formWrapperView.setPresenter(formWrapperPresenter);
 			formWrapperPresenter.SetOnButtonClickHandler(this);
 			formWrapperPresenter.go(container);
+			formWrapperPresenter.showSaveButton(false);
 			
 			if(i == 0){
 				formWrapperPresenter.showBackButton(false);
 			}
 			if(i == presenters.size()-1){
 				formWrapperPresenter.showNextButton(false);
+				formWrapperPresenter.showSaveButton(true);
 			}
 		}
 	}
 
 	public boolean isFromValidated(FormWrapperPresenter sender) {
-		return true;
+		int index = sender.getIndexInParent();
+		boolean isValidated = false;
+		switch (index) {
+		case 0:
+			UploadFormPresenterImpl uploadFormPresenter =   (UploadFormPresenterImpl) sender.getContent();
+			isValidated = uploadFormPresenter.isValidated();
+			break;
+		case 1:
+			MetadataFormPresenterImpl metadataFormPresenter =   (MetadataFormPresenterImpl) sender.getContent();
+			isValidated = metadataFormPresenter.isValidated();
+			break;
+		case 2:
+			HeaderSelectionFormPresenterImpl headerSelectionFormPresenter =   (HeaderSelectionFormPresenterImpl) sender.getContent();
+			isValidated = headerSelectionFormPresenter.isValidated();
+			break;
+		case 3:
+			HeaderDescriptionPresenterImpl headerDescriptionPresenter =   (HeaderDescriptionPresenterImpl) sender.getContent();
+			isValidated = headerDescriptionPresenter.isValidated();
+			break;
+		case 4:
+			HeaderTypeFormPresenterImpl headerTypeFormPresenter =   (HeaderTypeFormPresenterImpl) sender.getContent();
+			isValidated = headerTypeFormPresenter.isValidated();
+			break;
+		case 5:
+			isValidated = true;
+			break;
+		}
+		return isValidated;
 	}
 
 	public void onNextButtonClicked(FormWrapperPresenter sender) {
@@ -69,6 +99,11 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 
 	public void onBackButtonClicked(FormWrapperPresenter sender) {
 		view.showPrevStep(sender.getIndexInParent());
+	}
+
+	public void onSaveButtonClicked(FormWrapperPresenter sender) {
+		SummaryFormPresenterImpl summaryFormPresenter =   (SummaryFormPresenterImpl) sender.getContent();
+		summaryFormPresenter.uploadCotrixModel();
 	}
 
 

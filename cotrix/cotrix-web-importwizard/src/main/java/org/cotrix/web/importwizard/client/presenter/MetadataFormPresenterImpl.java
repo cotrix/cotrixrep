@@ -20,11 +20,23 @@ public class MetadataFormPresenterImpl implements MetadataFormPresenter {
 		this.eventBus = eventBus;
 		this.view = view;
 		this.model = model;
+		this.view.setPresenter(this);
 	}
 
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
+	}
+
+	public boolean isValidated() {
+		if(view.isValidated()){
+			model.setMetadata(view.getMetadata());
+		}
+		return view.isValidated();
+	}
+
+	public void alert(String message) {
+		view.alert(message);
 	}	
 	
 }

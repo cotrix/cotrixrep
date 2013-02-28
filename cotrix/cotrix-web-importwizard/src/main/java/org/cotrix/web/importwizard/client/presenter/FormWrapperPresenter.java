@@ -3,6 +3,7 @@ package org.cotrix.web.importwizard.client.presenter;
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.form.FormWrapperView;
 import org.cotrix.web.importwizard.client.view.form.UploadFormViewImpl;
+import org.cotrix.web.importwizard.shared.CotrixImportModel;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
@@ -17,18 +18,21 @@ public class FormWrapperPresenter implements Presenter<FormWrapperPresenter>, Fo
 		boolean isFromValidated(FormWrapperPresenter sender);
 		void onNextButtonClicked(FormWrapperPresenter sender);
 		void onBackButtonClicked(FormWrapperPresenter sender);
+		void onSaveButtonClicked(FormWrapperPresenter sender);
 	}
 
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final FormWrapperView view;
+	private CotrixImportModel model;
 	private final Presenter childPresenter;
 	private final int index;
 	
 	@Inject
-	public FormWrapperPresenter(ImportServiceAsync rpcService, HandlerManager eventBus,FormWrapperView view,Presenter childPresenter,String title,int index){
+	public FormWrapperPresenter(ImportServiceAsync rpcService, HandlerManager eventBus,FormWrapperView view,CotrixImportModel model,Presenter childPresenter,String title,int index){
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
+		this.model = model;
 		this.view = view;
 		this.childPresenter = childPresenter;
 		this.view.setFormTitle(title);
@@ -37,6 +41,10 @@ public class FormWrapperPresenter implements Presenter<FormWrapperPresenter>, Fo
 	
 	public void SetOnButtonClickHandler(OnButtonClickHandler onButtonClickHandler){
 		this. onButtonClickHandler = onButtonClickHandler;
+	}
+	
+	public Presenter getContent(){
+		return this.childPresenter;
 	}
 	
 	public void go(HasWidgets container) {
@@ -54,6 +62,9 @@ public class FormWrapperPresenter implements Presenter<FormWrapperPresenter>, Fo
 	public void showNextButton(boolean isVisible){
 		view.showNextButton(isVisible);
 	}
+	public void showSaveButton(boolean isVisible){
+		view.showSaveButton(isVisible);
+	}
 	
 	public void onNextButtonClicked() {
 		if(onButtonClickHandler.isFromValidated(this)){
@@ -67,6 +78,10 @@ public class FormWrapperPresenter implements Presenter<FormWrapperPresenter>, Fo
 
 	public void addForm(HasWidgets container) {
 		childPresenter.go(container);
+	}
+
+	public void onSaveButtonClicked() {
+		onButtonClickHandler.onSaveButtonClicked(this);
 	}
 
 }
