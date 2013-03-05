@@ -1,7 +1,11 @@
 package org.cotrix.domain.simple;
 
 import org.cotrix.domain.Code;
-import org.cotrix.domain.pos.CodePO;
+import org.cotrix.domain.po.CodePO;
+import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.Container;
+import org.cotrix.domain.primitive.link.CodeLink;
+import org.cotrix.domain.simple.primitive.SimpleAttributedEntity;
 import org.cotrix.domain.utils.IdGenerator;
 
 
@@ -11,31 +15,41 @@ import org.cotrix.domain.utils.IdGenerator;
  * @author Fabio Simeoni
  *
  */
-public class SimpleCode extends SimpleAttributedObject<Code> implements Code {
+public class SimpleCode extends SimpleAttributedEntity<Code> implements Code {
 
+	private final Bag<CodeLink> links;
+	
 	/**
-	 * Creates an instance with a given name and attributes.
-	 * @param name the name
-	 * @param attributes the attributes
+	 * Creates an instance with given parameters.
+	 * @param params the parameters
 	 */
 	public SimpleCode(CodePO params) {
 		super(params);
+		this.links=params.links();
 	}
 	
-	protected void buildPO(CodePO po) {
-		super.fillPO(po);
+	@Override
+	public Container<CodeLink> links() {
+		return links;
+	}
+	
+	//fills PO for copy/versioning purposes
+	protected void fillPO(IdGenerator generator,CodePO po) {
+		super.fillPO(generator,po);
+		po.setLinks(links.copy(generator));
 	}
 	
 	@Override
 	public SimpleCode copy(IdGenerator generator) {
 		CodePO po = new CodePO(generator.generateId());
-		super.fillPO(generator,po);
+		fillPO(generator,po);
 		return new SimpleCode(po);
 	}
 	
 	@Override
 	public void update(Code delta) throws IllegalArgumentException, IllegalStateException {
-		super.update(delta); //just for clarity and as a reminder for evolution
+		super.update(delta);
+		this.links.update(delta.links());
 	}
 
 	@Override

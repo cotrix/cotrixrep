@@ -2,7 +2,7 @@ package org.cotrix.domain;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.primitives.DomainObject;
+import org.cotrix.domain.primitive.entity.NamedEntity;
 
 
 /**
@@ -10,7 +10,7 @@ import org.cotrix.domain.primitives.DomainObject;
  * @author Fabio Simeoni
  *
  */
-public interface Attribute extends DomainObject<Attribute> {
+public interface Attribute extends NamedEntity<Attribute> {
 
 	/**
 	 * Returns the type of the attribute.

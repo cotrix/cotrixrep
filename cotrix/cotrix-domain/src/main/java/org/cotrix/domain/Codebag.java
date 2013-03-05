@@ -1,7 +1,7 @@
 package org.cotrix.domain;
 
-import org.cotrix.domain.primitives.Group;
-import org.cotrix.domain.primitives.VersionedObject;
+import org.cotrix.domain.primitive.container.Container;
+import org.cotrix.domain.primitive.entity.VersionedEntity;
 
 
 /**
@@ -10,12 +10,12 @@ import org.cotrix.domain.primitives.VersionedObject;
  * @author Fabio Simeoni
  *
  */
-public interface Codebag extends VersionedObject<Codebag> {
+public interface Codebag extends VersionedEntity<Codebag> {
 
 	/**
 	 * Returns the code lists in this bag.
 	 * @return the lists.
 	 */
-	Group<Codelist> lists();
+	Container<Codelist> lists();
 
 }

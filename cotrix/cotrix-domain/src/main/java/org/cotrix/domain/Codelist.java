@@ -1,7 +1,8 @@
 package org.cotrix.domain;
 
-import org.cotrix.domain.primitives.Group;
-import org.cotrix.domain.primitives.VersionedObject;
+import org.cotrix.domain.primitive.container.Container;
+import org.cotrix.domain.primitive.entity.VersionedEntity;
+import org.cotrix.domain.primitive.link.CodelistLink;
 
 
 /**
@@ -10,12 +11,18 @@ import org.cotrix.domain.primitives.VersionedObject;
  * @author Fabio Simeoni
  *
  */
-public interface Codelist extends VersionedObject<Codelist> {
+public interface Codelist extends VersionedEntity<Codelist> {
 
 	/**
 	 * Returns the codes of this list.
 	 * @return the codes
 	 */
-	Group<Code> codes();
+	Container<Code> codes();
+	
+	/**
+	 * Returns the links of this list.
+	 * @return the links.
+	 */
+	Container<CodelistLink> links();
 
 }

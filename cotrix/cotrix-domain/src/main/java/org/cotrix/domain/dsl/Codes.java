@@ -6,13 +6,24 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.dsl.builder.AttributeBuilder;
+import org.cotrix.domain.dsl.builder.CodeBuilder;
+import org.cotrix.domain.dsl.builder.CodeLinkBuilder;
+import org.cotrix.domain.dsl.builder.CodebagBuilder;
+import org.cotrix.domain.dsl.builder.CodelistBuilder;
+import org.cotrix.domain.dsl.builder.CodelistLinkBuilder;
+import org.cotrix.domain.dsl.builder.VersionBuilder;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeStartClause;
+import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.CodeLinkStartClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.CodebagStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
+import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkStartClause;
+import org.cotrix.domain.primitive.link.CodeLink;
+import org.cotrix.domain.primitive.link.CodelistLink;
 import org.cotrix.domain.simple.SimpleFactory;
 import org.cotrix.domain.spi.Factory;
-import org.cotrix.domain.traits.Versioned;
+import org.cotrix.domain.trait.Versioned;
 
 /**
  * Model factory.
@@ -107,6 +118,24 @@ public class Codes {
 	}
 	
 	/**
+	 * Starts a sentence to create an {@link CodeLink} with a given identifier.
+	 * @param id the identifier
+	 * @return the next clause in the sentence
+	 */
+	public static CodeLinkStartClause codeLink(String id) {
+		return new CodeLinkBuilder(factory,id);
+	}
+	
+	/**
+	 * Starts a sentence to create an {@link CodeLink} with a given identifier.
+	 * @param id the identifier
+	 * @return the next clause in the sentence
+	 */
+	public static CodeLinkStartClause codeLink() {
+		return codeLink(factory.generateId());
+	}
+	
+	/**
 	 * Starts a sentence to create an {@link Codelist}.
 	 * @return the next clause in the sentence
 	 */
@@ -121,6 +150,24 @@ public class Codes {
 	 */
 	public static CodelistStartClause codelist(String id) {
 		return new CodelistBuilder(factory,id);
+	}
+
+	/**
+	 * Starts a sentence to create an {@link CodelistLink} with a given identifier.
+	 * @param id the identifier
+	 * @return the next clause in the sentence
+	 */
+	public static CodelistLinkStartClause listLink(String id) {
+		return new CodelistLinkBuilder(factory,id);
+	}
+	
+	/**
+	 * Starts a sentence to create an {@link CodelistLink} with a given identifier.
+	 * @param id the identifier
+	 * @return the next clause in the sentence
+	 */
+	public static CodelistLinkStartClause listLink() {
+		return listLink(factory.generateId());
 	}
 	
 	/**

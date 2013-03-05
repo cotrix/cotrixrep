@@ -4,24 +4,21 @@ import static junit.framework.Assert.*;
 import static org.cotrix.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.LanguageAttribute;
-import org.cotrix.domain.pos.AttributePO;
-import org.cotrix.domain.pos.AttributedPO;
-import org.cotrix.domain.pos.CodebagPO;
-import org.cotrix.domain.pos.CodelistPO;
-import org.cotrix.domain.pos.ObjectPO;
-import org.cotrix.domain.pos.VersionedPO;
-import org.cotrix.domain.primitives.BaseBag;
-import org.cotrix.domain.primitives.BaseGroup;
+import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.po.AttributePO;
+import org.cotrix.domain.po.AttributedPO;
+import org.cotrix.domain.po.CodebagPO;
+import org.cotrix.domain.po.CodelistPO;
+import org.cotrix.domain.po.NamedPO;
+import org.cotrix.domain.po.VersionedPO;
+import org.cotrix.domain.simple.SimpleFactory;
 import org.cotrix.domain.utils.Constants;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CreateTest {
@@ -37,10 +34,15 @@ public class CreateTest {
 	
 	// first, all DOs: we test directly against base ObjectPO class simulating a subclass
 	
+	@BeforeClass
+	public static void setup() {
+		Codes.setFactory(new SimpleFactory());
+	}
+	
 	@Test
 	public void DOsRejectNullParameters() {
 		
-		ObjectPO po = new ObjectPO(null) {};
+		NamedPO po = new NamedPO(null) {};
 		
 		try {
 			po.setName(null);
@@ -120,100 +122,6 @@ public class CreateTest {
 	}
 	
 	
-	///////////// bags
-	
-	@Test
-	public void baseBagsCanBeIncrementallyConstructed() {
-			
-		BaseBag<Attribute> bag = attributes();
-		
-		assertEquals(0,bag.size());
-		assertFalse(bag.contains(name));
-		assertTrue(bag.get(name).isEmpty());
-		assertTrue(bag.remove(name).isEmpty());
-		assertNull(bag.change());
-		
-		Attribute a = attr().name(name).value(value).build();
-		
-		//add
-		
-		assertTrue(bag.add(a));
-		
-		assertTrue(bag.contains(a.name()));
-		assertTrue(bag.contains(a));
-		assertEquals(1,bag.size());
-		
-		//duplicate not permitted
-		assertFalse(bag.add(a));
-		
-		Attribute a2 = attr().name(name).value(value2).build();
-		
-		//objects can have same name
-		assertTrue(bag.add(a2));
-
-		assertTrue(bag.contains(a2));
-		assertEquals(2,bag.size());
-		
-		//removed
-		
-		Attribute a3 = attr().name(name3).value(value3).build();
-		
-		bag.add(a3);
-		
-		List<Attribute> removed = bag.remove(name);
-
-		assertTrue(removed.contains(a));
-		assertFalse(bag.contains(a));
-		assertTrue(removed.contains(a2));
-		assertFalse(bag.contains(a2));
-		
-		assertFalse(removed.contains(a3));
-		assertTrue(bag.contains(a3));
-		
-		assertEquals(2,removed.size());
-		assertEquals(1,bag.size());
-	}
-	
-	@Test
-	public void baseBagsRejectNullParameters() {
-		
-		BaseBag<Attribute> bag = attributes();
-		
-		try {
-			bag.add(null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		try {
-			bag.remove(null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		try {
-			bag.contains((Attribute)null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		try {
-			bag.contains((QName)null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		try {
-			bag.contains(q(null,""));
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-	}
-	
-	
-	
-	
 	/// codes
 
 	@Test
@@ -227,114 +135,14 @@ public class CreateTest {
 		assertEquals(code,ascode(name));
 		
 		
-		code = code("id").name(name).and(a).build();
+		code = code("id").name(name).attributes(a).build();
 		
 		assertEquals("id",code.id());
 		assertEquals(1,code.attributes().size());
-		assertTrue(code.attributes().contains(a));
+		assertTrue(asList(code.attributes()).contains(a));
 	}
 	
 
-	
-	/// groups
-	
-	
-	@Test
-	public void baseGroupsCanBeIncrementallyConstructed() {
-			
-		BaseGroup<Attribute> group = group();
-		
-		assertEquals(0,group.size());
-		assertFalse(group.contains(name));
-		
-		try {
-			group.get(name);
-			fail();
-		}
-		catch(IllegalStateException e) {}
-		
-		
-		try {
-			group.remove(name);
-			fail();
-		}
-		catch(IllegalStateException e) {}
-		
-		assertNull(group.change());
-	
-		try {
-			group.get(name);
-			fail();
-		}
-		catch(IllegalStateException e) {}
-		
-		try {
-			group.remove(name);
-			fail();
-		}
-		catch(IllegalStateException e) {}
-
-		
-		Attribute a = attr().name(name).value(value).build();
-		
-		boolean added = group.add(a);
-		
-		assertTrue(added);
-		
-		assertEquals(a,group.iterator().next());
-		assertTrue(group.contains(name));
-		assertEquals(a, group.get(name));
-		
-		//reject homonymous objects
-		assertFalse(group.add(a));
-		
-		//remove
-		
-		Attribute removed = group.remove(name);
-		
-		assertEquals(a,removed);
-		
-		assertEquals(0,group.size());
-		assertFalse(group.contains(name));
-	}
-	
-	@Test
-	public void baseGroupsRejectNullParameters() {
-		
-		BaseGroup<Attribute> group = group();
-		
-		try {
-			group.add(null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		try {
-			group.remove(null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		try {
-			group.contains((Attribute)null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		try {
-			group.contains((QName)null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		try {
-			group.contains(q(null,""));
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-
-	}
 	
 	//versioned
 	
@@ -382,23 +190,23 @@ public class CreateTest {
 		
 		assertEquals("id",list.id());
 		
-		list= codelist().name(name).and(a).build();
+		list= codelist().name(name).attributes(a).build();
 		
-		assertTrue(list.attributes().contains(a));
+		assertTrue(asList(list.attributes()).contains(a));
 		
 		list = codelist().name(name).with(c).build();
 		
-		assertTrue(list.codes().contains(c));
+		assertTrue(asList(list.codes()).contains(c));
 		
 		list = codelist().name(name).version(v).build();
 		
 		assertEquals(v,list.version());
 		
 		//other correct sentences
-		codelist().name(name).and(a).version(v).build();
+		codelist().name(name).attributes(a).version(v).build();
 		codelist().name(name).with(c).version(v).build();
-		codelist().name(name).with(c).and(a).build();
-		codelist().name(name).with(c).and(a).version(v).build();
+		codelist().name(name).with(c).attributes(a).build();
+		codelist().name(name).with(c).attributes(a).version(v).build();
 		
 	}
 
@@ -433,9 +241,9 @@ public class CreateTest {
 		
 		assertEquals("id",bag.id());
 		
-		bag = codebag().name(name).and(a).build();
+		bag = codebag().name(name).attributes(a).build();
 		
-		assertTrue(bag.attributes().contains(a));
+		assertTrue(asList(bag.attributes()).contains(a));
 		
 		bag = codebag().name(name).version(v).build();
 		
@@ -443,12 +251,12 @@ public class CreateTest {
 		
 		bag = codebag().name(name).with(cl).build();
 		
-		assertTrue(bag.lists().contains(cl));
+		assertTrue(asList(bag.lists()).contains(cl));
 		
 		//other correct sentences
 		codebag().name(name).with(cl).version(v).build();
-		codebag().name(name).with(cl).and(a).build();
-		codebag().name(name).with(cl).and(a).version(v).build();
+		codebag().name(name).with(cl).attributes(a).build();
+		codebag().name(name).with(cl).attributes(a).version(v).build();
 	}
-
+	
 }

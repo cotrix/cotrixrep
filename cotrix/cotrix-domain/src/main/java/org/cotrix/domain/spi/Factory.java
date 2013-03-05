@@ -4,10 +4,14 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.pos.AttributePO;
-import org.cotrix.domain.pos.CodePO;
-import org.cotrix.domain.pos.CodebagPO;
-import org.cotrix.domain.pos.CodelistPO;
+import org.cotrix.domain.po.AttributePO;
+import org.cotrix.domain.po.CodeLinkPO;
+import org.cotrix.domain.po.CodePO;
+import org.cotrix.domain.po.CodebagPO;
+import org.cotrix.domain.po.CodelistLinkPO;
+import org.cotrix.domain.po.CodelistPO;
+import org.cotrix.domain.primitive.link.CodeLink;
+import org.cotrix.domain.primitive.link.CodelistLink;
 import org.cotrix.domain.utils.IdGenerator;
 
 /**
@@ -37,7 +41,7 @@ public interface Factory extends IdGenerator {
 	 * @param params the parameters
 	 * @return the codelist
 	 */
-	Codelist codelist(CodelistPO params) throws IllegalArgumentException;
+	Codelist codelist(CodelistPO params);
 	
 	
 	/**
@@ -45,7 +49,21 @@ public interface Factory extends IdGenerator {
 	 * @param params the parameters
 	 * @return the codebag
 	 */
-	Codebag codebag(CodebagPO bag) throws IllegalArgumentException;
+	Codebag codebag(CodebagPO params);
 	
+	/**
+	 * Returns a {@link CodelistLink} with given parameters
+	 * @param params the parameters
+	 * @return the link
+	 */
+	CodelistLink codelistLink(CodelistLinkPO params);
+	
+	
+	/**
+	 * Returns a {@link CodeLink} with given parameters
+	 * @param params the parameters
+	 * @return the link
+	 */
+	CodeLink codeLink(CodeLinkPO params);
 	
 }
