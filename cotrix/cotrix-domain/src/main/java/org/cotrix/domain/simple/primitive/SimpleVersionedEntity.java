@@ -4,7 +4,7 @@ import static org.cotrix.domain.utils.Utils.*;
 
 import org.cotrix.domain.po.VersionedPO;
 import org.cotrix.domain.primitive.entity.VersionedEntity;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.version.Version;
 
 /**
@@ -15,7 +15,7 @@ import org.cotrix.domain.version.Version;
  * <T> the type of the entity
  *
  */
-public abstract class SimpleVersionedEntity<T extends VersionedEntity<T>> extends SimpleAttributedEntity<T> implements VersionedEntity<T> {
+public abstract class SimpleVersionedEntity<T extends VersionedEntity<T>> extends SimpleNamedEntity<T> implements VersionedEntity<T> {
 
 	private final Version version;
 
@@ -36,8 +36,8 @@ public abstract class SimpleVersionedEntity<T extends VersionedEntity<T>> extend
 		return version.value();
 	}
 	
-	protected void fillPO(VersionedPO po) {
-		super.fillPO(po);
+	protected void fillPO(IdGenerator generator,VersionedPO po) {
+		super.fillPO(generator,po);
 		po.setVersion(version);
 	}
 	

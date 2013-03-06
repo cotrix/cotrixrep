@@ -1,6 +1,6 @@
 package org.cotrix.domain.trait;
 
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * A domain object that can return copies of itself.

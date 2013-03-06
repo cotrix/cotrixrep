@@ -9,7 +9,7 @@ import org.cotrix.domain.trait.Mutable;
  * 
  * @author Fabio Simeoni
  * 
- * @param <T> the type of the object
+ * @param <T> the type of the entity
  */
 public interface Entity<T> extends Identified, Mutable<T>, Copyable<T> {
 

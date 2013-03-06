@@ -1,11 +1,11 @@
-package org.cotrix.domain.simple.attribute;
+package org.cotrix.domain.simple;
 
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.po.AttributePO;
-import org.cotrix.domain.simple.primitive.SimpleNamedEntity;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.simple.primitive.SimpleEntity;
+import org.cotrix.domain.spi.IdGenerator;
 
 
 /**
@@ -14,8 +14,9 @@ import org.cotrix.domain.utils.IdGenerator;
  * @author Fabio Simeoni
  *
  */
-public class SimpleAttribute extends SimpleNamedEntity<Attribute> implements Attribute {
+public class SimpleAttribute extends SimpleEntity<Attribute> implements Attribute {
 
+	private QName name;
 	private QName type;
 	private String value;
 	
@@ -23,8 +24,13 @@ public class SimpleAttribute extends SimpleNamedEntity<Attribute> implements Att
 		
 		super(params);
 		
+		this.name=params.name();
 		this.type=params.type();
 		this.value=params.value();
+	}
+	
+	public QName name() {
+		return name;
 	}
 	
 	public QName type() {
@@ -35,8 +41,10 @@ public class SimpleAttribute extends SimpleNamedEntity<Attribute> implements Att
 		return value;
 	}
 	
+	
+	
 	protected void fillPO(AttributePO po) {
-		super.fillPO(po);
+		po.setName(name);
 		po.setType(type());
 		po.setValue(value());
 	}
@@ -53,6 +61,7 @@ public class SimpleAttribute extends SimpleNamedEntity<Attribute> implements Att
 		
 		super.update(delta);
 		
+		name=delta.name();
 		type=delta.type();
 		value=delta.value();
 		

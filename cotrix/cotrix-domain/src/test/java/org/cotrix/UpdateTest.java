@@ -7,7 +7,7 @@ import static org.cotrix.domain.trait.Change.*;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.LanguageAttribute;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.MutableContainer;
 import org.junit.Test;
 
 public class UpdateTest {
@@ -122,7 +122,7 @@ public class UpdateTest {
 		Attribute a1 = attr("1").name(name).value(value).build();
 		Attribute a2 = attr("2").name(name2).value(value2).build();
 		
-		Bag<Attribute> bag = bag(a1,a2);
+		MutableContainer<Attribute> bag = bag(a1,a2);
 		
 		//a change
 		Attribute deltaA1 = attr("1").name(name).value(value+"updated").as(MODIFIED).build();
@@ -133,7 +133,7 @@ public class UpdateTest {
 		// a removal
 		Attribute deltaA3 = attr().name(name3).value(value3).as(NEW).build();
 		
-		Bag<Attribute> delta = bag(deltaA1,deltaA2,deltaA3);
+		MutableContainer<Attribute> delta = bag(deltaA1,deltaA2,deltaA3);
 		
 		bag.update(delta);
 		

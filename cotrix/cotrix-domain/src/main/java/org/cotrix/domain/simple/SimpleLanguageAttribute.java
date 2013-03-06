@@ -1,9 +1,9 @@
-package org.cotrix.domain.simple.attribute;
+package org.cotrix.domain.simple;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.LanguageAttribute;
 import org.cotrix.domain.po.AttributePO;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * Default {@link LanguageAttribute} implementation.

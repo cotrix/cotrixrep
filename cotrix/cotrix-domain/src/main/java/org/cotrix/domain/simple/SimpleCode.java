@@ -2,11 +2,11 @@ package org.cotrix.domain.simple;
 
 import org.cotrix.domain.Code;
 import org.cotrix.domain.po.CodePO;
-import org.cotrix.domain.primitive.container.Bag;
 import org.cotrix.domain.primitive.container.Container;
+import org.cotrix.domain.primitive.container.MutableContainer;
 import org.cotrix.domain.primitive.link.CodeLink;
-import org.cotrix.domain.simple.primitive.SimpleAttributedEntity;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.simple.primitive.SimpleNamedEntity;
+import org.cotrix.domain.spi.IdGenerator;
 
 
 /**
@@ -15,9 +15,9 @@ import org.cotrix.domain.utils.IdGenerator;
  * @author Fabio Simeoni
  *
  */
-public class SimpleCode extends SimpleAttributedEntity<Code> implements Code {
+public class SimpleCode extends SimpleNamedEntity<Code> implements Code {
 
-	private final Bag<CodeLink> links;
+	private final MutableContainer<CodeLink> links;
 	
 	/**
 	 * Creates an instance with given parameters.

@@ -4,28 +4,24 @@ import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.cotrix.domain.primitive.entity.Entity;
+import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Copyable;
-import org.cotrix.domain.trait.Mutable;
-import org.cotrix.domain.utils.IdGenerator;
 
 /**
- * A {@link Mutable} and {@link Copyable} {@link Container} of {@link Entity}s.
+ * An {@link Copyable} {@link Container} implementation. 
+ * 
  * 
  * @author Fabio Simeoni
  * 
  * @param <T> the type of contained object
- * @param <C> the type of the container itself
  * 
  */
-public class Bag<T extends Entity<T>> extends AbstractContainer<T> {
+public class ImmutableContainer<T extends Copyable<T>> extends AbstractContainer<T> implements Container<T>, Copyable<Container<T>> {
 
 	private final Set<T> objects = new LinkedHashSet<T>();
 	
@@ -34,12 +30,16 @@ public class Bag<T extends Entity<T>> extends AbstractContainer<T> {
 	 * 
 	 * @param objects the objects
 	 */
-	public Bag(List<? extends T> objects) {
+	public ImmutableContainer(List<T> objects) {
 
 		notNull(objects);
 
-		for (T object : objects)
-			add(object);
+		for (T object : objects) {
+
+			notNull(object);
+			
+			objects.add(object);
+		}
 	}
 
 	public Iterator<T> iterator() {
@@ -51,64 +51,30 @@ public class Bag<T extends Entity<T>> extends AbstractContainer<T> {
 		return objects.size();
 	}
 
-	@Override
-	public void update(Container<T> delta) {
-		
-		Map<String, T> index = indexObjects();
-
-		for (T object : delta) {
-	
-			String id = object.id();
-
-			if (index.containsKey(id)) {
-				
-				switch (object.change()) {
-					case DELETED:
-						objects.remove(index.remove(id));
-						break;
-					case MODIFIED:
-						index.get(id).update(object);
-						break;
-
-				} 
-			}
-			//add case
-			else {
-				object.reset();
-				add(object);
-			}
-
-		}	
-	}
-
-	private Map<String, T> indexObjects() {
-
-		Map<String, T> index = new HashMap<String, T>();
-
-		for (T object : objects)
-			index.put(object.id(), object);
-
-		return index;
-	}
-
 	protected boolean add(T object) throws IllegalArgumentException {
 
 		notNull(object);
 		
-		propagateChangeFrom(object);
-		
 		return objects.add(object);
+		
+	}
+	
+	protected boolean remove(T object) throws IllegalArgumentException {
+
+		notNull(object);
+		
+		return objects.remove(object);
 		
 	}
 
 	@Override
-	public Bag<T> copy(IdGenerator generator) {
+	public ImmutableContainer<T> copy(IdGenerator generator) {
 		
 		List<T> copied = new ArrayList<T>();
 		for (T object : this)
 			copied.add(object.copy(generator));
 		
-		return new Bag<T>(copied); 
+		return new ImmutableContainer<T>(copied); 
 		
 	}
 	
@@ -147,7 +113,7 @@ public class Bag<T extends Entity<T>> extends AbstractContainer<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Bag<?> other = (Bag<?>) obj;
+		ImmutableContainer<?> other = (ImmutableContainer<?>) obj;
 		if (objects == null) {
 			if (other.objects != null)
 				return false;

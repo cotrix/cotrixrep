@@ -5,19 +5,19 @@ import static org.cotrix.domain.utils.Utils.*;
 import java.util.Collections;
 
 import org.cotrix.domain.Code;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.MutableContainer;
 import org.cotrix.domain.primitive.link.CodeLink;
 
 
 /**
- * A set of parameters required to create a {@link Code}.
+ * Initialisation parameters for {@link Code}s.
  * 
  * @author Fabio Simeoni
  *
  */
-public final class CodePO extends AttributedPO {
+public final class CodePO extends NamedPO {
 
-	private Bag<CodeLink> links = new Bag<CodeLink>(Collections.<CodeLink>emptyList());	
+	private MutableContainer<CodeLink> links = new MutableContainer<CodeLink>(Collections.<CodeLink>emptyList());	
 	
 	/**
 	 * Creates an instance with an identifier.
@@ -27,11 +27,11 @@ public final class CodePO extends AttributedPO {
 		super(id);
 	}
 	
-	public Bag<CodeLink> links() {
+	public MutableContainer<CodeLink> links() {
 		return links;
 	}
 	
-	public void setLinks(Bag<CodeLink> links) {
+	public void setLinks(MutableContainer<CodeLink> links) {
 		notNull("links",links);
 		
 		propagateChangeFrom(links);

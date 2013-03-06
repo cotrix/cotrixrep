@@ -4,6 +4,7 @@ import org.cotrix.domain.po.EntityPO;
 import org.cotrix.domain.primitive.entity.Entity;
 import org.cotrix.domain.primitive.entity.NamedEntity;
 import org.cotrix.domain.trait.Change;
+import org.cotrix.domain.trait.Mutable;
 
 /**
  * Partial {@link NamedEntity} implementation.
@@ -12,9 +13,9 @@ import org.cotrix.domain.trait.Change;
  *
  * @param <T> the type of the entity
  */
-public abstract class SimpleEntity<T extends Entity<T>> implements Entity<T> {
+public abstract class SimpleEntity<T extends Entity<T>> implements Entity<T>, Mutable<T> {
 
-	private final String id; //TODO: how do I relate to different identification strategy in access layer?
+	private final String id;
 	private Change change;
 	
 	protected SimpleEntity(EntityPO po) {

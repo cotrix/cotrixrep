@@ -1,7 +1,6 @@
 package org.cotrix.domain.primitive.link;
 
-import org.cotrix.domain.primitive.entity.Entity;
-import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.primitive.entity.AttributedEntity;
 
 /**
  * An instance of a {@link CodelistLink}.
@@ -9,7 +8,7 @@ import org.cotrix.domain.trait.Attributed;
  * @author Fabio Simeoni
  *
  */
-public interface CodeLink extends Entity<CodeLink>,Attributed {
+public interface CodeLink extends AttributedEntity<CodeLink> {
 	
 	/**
 	 * Returns the definition of this link. 

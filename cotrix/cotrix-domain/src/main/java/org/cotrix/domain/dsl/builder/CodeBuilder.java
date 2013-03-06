@@ -15,7 +15,7 @@ import org.cotrix.domain.dsl.grammar.CodeGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.po.CodePO;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.MutableContainer;
 import org.cotrix.domain.primitive.link.CodeLink;
 import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.trait.Change;
@@ -56,13 +56,13 @@ public final class CodeBuilder implements CodeStartClause,SecondClause,FinalClau
 
 	@Override
 	public FinalClause links(CodeLink... links) {
-		po.setLinks(new Bag<CodeLink>(asList(links)));
+		po.setLinks(new MutableContainer<CodeLink>(asList(links)));
 		return this;
 	}
 	
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
-		po.setAttributes(new Bag<Attribute>(Arrays.asList(attributes)));
+		po.setAttributes(new MutableContainer<Attribute>(Arrays.asList(attributes)));
 		return this;
 	}
 

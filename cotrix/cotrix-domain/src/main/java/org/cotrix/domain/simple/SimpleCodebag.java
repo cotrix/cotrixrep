@@ -3,9 +3,9 @@ package org.cotrix.domain.simple;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.po.CodebagPO;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.MutableContainer;
 import org.cotrix.domain.simple.primitive.SimpleVersionedEntity;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.version.Version;
 
 /**
@@ -16,7 +16,7 @@ import org.cotrix.domain.version.Version;
  */
 public class SimpleCodebag extends SimpleVersionedEntity<Codebag> implements Codebag {
 
-	private final Bag<Codelist> lists;
+	private final MutableContainer<Codelist> lists;
 
 	/**
 	 * Creates an instance with a given identifier,name, code lists, and attributes.
@@ -32,12 +32,12 @@ public class SimpleCodebag extends SimpleVersionedEntity<Codebag> implements Cod
 	}
 	
 	@Override
-	public Bag<Codelist> lists() {
+	public MutableContainer<Codelist> lists() {
 		return lists;
 	}
 	
 	protected void buildPO(IdGenerator generator,CodebagPO po) {
-		super.fillPO(po);
+		super.fillPO(generator,po);
 		po.setLists(lists().copy(generator));
 	}
 	

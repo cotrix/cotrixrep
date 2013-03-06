@@ -7,12 +7,12 @@ import org.cotrix.domain.version.Version;
 
 
 /**
- * A partial implementation of parameter objects for {@link VersionedObject}s.
+ * Partial implementation of initialisation parameters for {@link VersionedObject}s.
  * 
  * @author Fabio Simeoni
  *
  */
-public class VersionedPO extends AttributedPO {
+public class VersionedPO extends NamedPO {
 
 	private Version version = new SimpleVersion();
 

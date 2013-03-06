@@ -11,7 +11,7 @@ import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.po.AttributedPO;
 import org.cotrix.domain.po.EntityPO;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.MutableContainer;
 import org.junit.Test;
 
 public class CreateDeltaTest {
@@ -68,7 +68,7 @@ public class CreateDeltaTest {
 	@Test
 	public void deltaBagsCanOnlyTakeDeltaObjects() {
 
-		Bag<Attribute> bag = bag();
+		MutableContainer<Attribute> bag = bag();
 
 		bag.setChange(MODIFIED);
 
@@ -92,7 +92,7 @@ public class CreateDeltaTest {
 
 		Attribute a = attr().name(name).value(value).as(NEW).build();
 
-		Bag<Attribute> bag = bag(a);
+		MutableContainer<Attribute> bag = bag(a);
 		
 		assertTrue(bag.change()==NEW);
 	}
@@ -102,7 +102,7 @@ public class CreateDeltaTest {
 
 		Attribute a = attr("1").name(name).value(value).as(MODIFIED).build();
 
-		Bag<Attribute> bag = bag(a);
+		MutableContainer<Attribute> bag = bag(a);
 
 		assertTrue(bag.change()==MODIFIED);
 	}
@@ -112,7 +112,7 @@ public class CreateDeltaTest {
 
 		Attribute a = attr("1").name(name).value(value).as(DELETED).build();
 
-		Bag<Attribute> bag = bag(a);
+		MutableContainer<Attribute> bag = bag(a);
 
 		assertTrue(bag.change()==MODIFIED);
 	}
@@ -123,7 +123,7 @@ public class CreateDeltaTest {
 		Attribute a1 = attr().name(name).value(value).as(NEW).build();
 		Attribute a2 = attr().name(name2).value(value2).as(NEW).build();
 		
-		Bag<Attribute> bag = bag(a1,a2);
+		MutableContainer<Attribute> bag = bag(a1,a2);
 
 		assertTrue(bag.change()==NEW);
 	}
@@ -134,7 +134,7 @@ public class CreateDeltaTest {
 		Attribute a1 = attr().name(name).value(value).as(NEW).build();
 		Attribute a2 = attr("1").name(name2).value(value2).as(MODIFIED).build();
 
-		Bag<Attribute> bag = bag(a1,a2);
+		MutableContainer<Attribute> bag = bag(a1,a2);
 
 		assertTrue(bag.change()==MODIFIED);
 	}
@@ -145,7 +145,7 @@ public class CreateDeltaTest {
 		Attribute a1 = attr().name(name).value(value).as(NEW).build();
 		Attribute a2 = attr("1").name(name2).value(value2).as(DELETED).build();
 		
-		Bag<Attribute> bag = bag(a1,a2);
+		MutableContainer<Attribute> bag = bag(a1,a2);
 
 		assertTrue(bag.change()==MODIFIED);
 	}
@@ -156,7 +156,7 @@ public class CreateDeltaTest {
 		Attribute a1 = attr("1").name(name).value(value).as(MODIFIED).build();
 		Attribute a2 = attr().name(name2).value(value2).as(NEW).build();
 		
-		Bag<Attribute> bag = bag(a1,a2);
+		MutableContainer<Attribute> bag = bag(a1,a2);
 
 		assertTrue(bag.change()==MODIFIED);
 	}
@@ -167,7 +167,7 @@ public class CreateDeltaTest {
 		Attribute a1 = attr("1").name(name).value(value).as(MODIFIED).build();
 		Attribute a2 = attr("2").name(name2).value(value2).as(DELETED).build();
 		
-		Bag<Attribute> bag = bag(a1,a2);
+		MutableContainer<Attribute> bag = bag(a1,a2);
 
 		assertTrue(bag.change()==MODIFIED);
 	}
@@ -183,7 +183,7 @@ public class CreateDeltaTest {
 		po.setChange(MODIFIED);
 
 		// a non-delta parameter
-		Bag<Attribute> attributes = bag();
+		MutableContainer<Attribute> attributes = bag();
 		
 		attributes.update(bag(attr().name(name).value(value).build()));
 
@@ -200,7 +200,7 @@ public class CreateDeltaTest {
 
 		AttributedPO po = new AttributedPO("id") {};
 
-		Bag<Attribute> deltabag = bag();
+		MutableContainer<Attribute> deltabag = bag();
 		deltabag.setChange(MODIFIED);
 
 		po.setAttributes(deltabag);
@@ -214,7 +214,7 @@ public class CreateDeltaTest {
 
 		AttributedPO po = new AttributedPO("id") {};
 
-		Bag<Attribute> deltabag = bag();
+		MutableContainer<Attribute> deltabag = bag();
 		deltabag.setChange(DELETED);
 
 		po.setAttributes(deltabag);
@@ -234,7 +234,7 @@ public class CreateDeltaTest {
 		// a NEW parameter
 		Attribute deltaAttribute = attr().name(name).value(value).as(NEW).build();
 
-		Bag<Attribute> deltabag = bag(deltaAttribute);
+		MutableContainer<Attribute> deltabag = bag(deltaAttribute);
 
 		po.setAttributes(deltabag);
 
@@ -251,7 +251,7 @@ public class CreateDeltaTest {
 		AttributedPO po = new AttributedPO("id") {};
 		po.setChange(NEW);
 		
-		Bag<Attribute> deltabag = bag();
+		MutableContainer<Attribute> deltabag = bag();
 		deltabag.setChange(NEW);
 
 		po.setAttributes(deltabag);
@@ -267,7 +267,7 @@ public class CreateDeltaTest {
 		AttributedPO po = new AttributedPO("id") {};
 		po.setChange(NEW);
 		
-		Bag<Attribute> deltabag = bag();
+		MutableContainer<Attribute> deltabag = bag();
 		deltabag.setChange(MODIFIED);
 		 
 		po.setAttributes(deltabag);
@@ -282,7 +282,7 @@ public class CreateDeltaTest {
 		AttributedPO po = new AttributedPO("id") {};
 		po.setChange(MODIFIED);
 		
-		Bag<Attribute> deltabag = bag();
+		MutableContainer<Attribute> deltabag = bag();
 		deltabag.setChange(MODIFIED);
 
 		po.setAttributes(deltabag);
@@ -298,7 +298,7 @@ public class CreateDeltaTest {
 		AttributedPO po = new AttributedPO("id") {};
 		po.setChange(MODIFIED);
 
-		Bag<Attribute> deltabag = bag();
+		MutableContainer<Attribute> deltabag = bag();
 		deltabag.setChange(DELETED);
 
 		po.setAttributes(deltabag);
@@ -313,7 +313,7 @@ public class CreateDeltaTest {
 		AttributedPO po = new AttributedPO("id") {};
 		po.setChange(MODIFIED);
 
-		Bag<Attribute> deltabag = bag();
+		MutableContainer<Attribute> deltabag = bag();
 		deltabag.setChange(NEW);
 
 		po.setAttributes(deltabag);

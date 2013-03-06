@@ -12,7 +12,7 @@ public interface Container<T> extends Iterable<T> {
 
 	/**
 	 * Returns the number of objects in this container.
-	 * @return the number of entities
+	 * @return the number of objects
 	 */
 	int size();
 

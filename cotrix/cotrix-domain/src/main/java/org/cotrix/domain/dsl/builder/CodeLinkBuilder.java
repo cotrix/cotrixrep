@@ -12,7 +12,7 @@ import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.po.CodeLinkPO;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.MutableContainer;
 import org.cotrix.domain.primitive.link.CodeLink;
 import org.cotrix.domain.primitive.link.CodelistLink;
 import org.cotrix.domain.spi.Factory;
@@ -38,7 +38,7 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 	
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
-		po.setAttributes(new Bag<Attribute>(Arrays.asList(attributes)));
+		po.setAttributes(new MutableContainer<Attribute>(Arrays.asList(attributes)));
 		return this;
 	}
 	

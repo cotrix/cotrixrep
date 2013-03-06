@@ -13,7 +13,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.MutableContainer;
 import org.cotrix.domain.primitive.container.Container;
 import org.cotrix.domain.primitive.entity.Entity;
 import org.cotrix.domain.trait.Named;
@@ -44,8 +44,8 @@ public class Fixture {
 	public static Code c2 = code("id2").name(name2).attributes(a,a2).build();
 	public static Code c3 = code("id3").name(name3).attributes(a,a2,a3).build();
 	
-	public static <T extends Entity<T>> Bag<T> bag(T ... ts) {
-		return new Bag<T>(Arrays.asList(ts));
+	public static <T extends Entity<T>> MutableContainer<T> bag(T ... ts) {
+		return new MutableContainer<T>(Arrays.asList(ts));
 	}
 	
 	public static <T extends Named> Map<QName,List<T>> asMap(Container<T> container) {

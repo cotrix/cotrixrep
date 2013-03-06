@@ -1,7 +1,7 @@
 package org.cotrix.domain.dsl.builder;
 
+import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Versioned;
-import org.cotrix.domain.utils.IdGenerator;
 
 /**
  * Builds version sentences.

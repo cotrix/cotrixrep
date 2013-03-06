@@ -5,18 +5,18 @@ import static org.cotrix.domain.utils.Utils.*;
 import java.util.Collections;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.MutableContainer;
 import org.cotrix.domain.primitive.entity.AttributedEntity;
 
 /**
- * A partial implementation of parameter objects for {@link AttributedEntity}s.
+ * Partial implementation of initialisation parameters for {@link AttributedEntity}s.
  * 
  * @author Fabio Simeoni
  *
  */
-public class AttributedPO extends NamedPO {
+public class AttributedPO extends EntityPO {
 
-	private Bag<Attribute> attributes = new Bag<Attribute>(Collections.<Attribute>emptyList());
+	private MutableContainer<Attribute> attributes = new MutableContainer<Attribute>(Collections.<Attribute>emptyList());
 
 	protected AttributedPO(String id) {
 		super(id);
@@ -26,7 +26,7 @@ public class AttributedPO extends NamedPO {
 	 * Returns the attributes parameter.
 	 * @return the parameter
 	 */
-	public Bag<Attribute> attributes() {
+	public MutableContainer<Attribute> attributes() {
 		return attributes;
 	}
 
@@ -34,7 +34,7 @@ public class AttributedPO extends NamedPO {
 	 * Sets the attribute parameter.
 	 * @param attributes the parameter
 	 */
-	public void setAttributes(Bag<Attribute> attributes) {
+	public void setAttributes(MutableContainer<Attribute> attributes) {
 		
 		notNull(attributes);
 		

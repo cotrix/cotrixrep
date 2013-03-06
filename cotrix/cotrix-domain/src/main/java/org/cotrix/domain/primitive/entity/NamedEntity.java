@@ -1,18 +1,15 @@
 package org.cotrix.domain.primitive.entity;
 
-import org.cotrix.domain.trait.Copyable;
-import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.trait.Mutable;
+import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
 
 /**
- * An {@link Identified}, {@link Named}, {@link Mutable} and {@link Copyable} domain object that can serve as {@link Delta}.
+ * A {@link Named} and {@link Attributed} {@link Entity}.
  * 
  * @author Fabio Simeoni
- *
- * @param <T> the type of the object
+ * 
+ * @param <T> the type of the entity
  */
-public interface NamedEntity<T extends NamedEntity<T>> extends Entity<T>,Named {
-	
-	//to self-copy and self-update, DOs take and return DOs of the same type. hence the 'self' parameterisation.
+public interface NamedEntity<T> extends AttributedEntity<T>, Named {
+
 }

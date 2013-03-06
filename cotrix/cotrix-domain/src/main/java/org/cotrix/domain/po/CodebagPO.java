@@ -6,17 +6,17 @@ import java.util.Collections;
 
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.MutableContainer;
 
 /**
- * A set of parameters required to create a {@link Codebag}.
+ * Initialisation parameters for {@link Codebag}s.
  * 
  * @author Fabio Simeoni
  *
  */
 public final class CodebagPO extends VersionedPO {
 	
-	private Bag<Codelist> lists = new Bag<Codelist>(Collections.<Codelist>emptyList());
+	private MutableContainer<Codelist> lists = new MutableContainer<Codelist>(Collections.<Codelist>emptyList());
 
 	/**
 	 * Creates an instance with an identifier.
@@ -30,7 +30,7 @@ public final class CodebagPO extends VersionedPO {
 	 * Returns the {@link Codelist}s parameter. 
 	 * @return the parameter
 	 */
-	public Bag<Codelist> lists() {
+	public MutableContainer<Codelist> lists() {
 		return lists;
 	}
 
@@ -38,7 +38,7 @@ public final class CodebagPO extends VersionedPO {
 	 * Sets the {@link Codelist} parameter.
 	 * @param lists the paramter
 	 */
-	public void setLists(Bag<Codelist> lists) {
+	public void setLists(MutableContainer<Codelist> lists) {
 		
 		notNull("lists",lists);
 		

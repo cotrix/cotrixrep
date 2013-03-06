@@ -12,7 +12,6 @@ import org.cotrix.domain.po.CodelistLinkPO;
 import org.cotrix.domain.po.CodelistPO;
 import org.cotrix.domain.primitive.link.CodeLink;
 import org.cotrix.domain.primitive.link.CodelistLink;
-import org.cotrix.domain.utils.IdGenerator;
 
 /**
  * Return implementation of domain object.

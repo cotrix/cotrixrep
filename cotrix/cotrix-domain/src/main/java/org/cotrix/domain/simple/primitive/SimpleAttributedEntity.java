@@ -2,10 +2,10 @@ package org.cotrix.domain.simple.primitive;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.po.AttributedPO;
-import org.cotrix.domain.primitive.container.Bag;
 import org.cotrix.domain.primitive.container.Container;
+import org.cotrix.domain.primitive.container.MutableContainer;
 import org.cotrix.domain.primitive.entity.AttributedEntity;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * Partial implementation of {@link AttributedEntity}.
@@ -15,10 +15,10 @@ import org.cotrix.domain.utils.IdGenerator;
  * <T> the type of the entity
  */
 //we specialise type parameter because implementing update() requires we have access to attributes of the input
-public abstract class SimpleAttributedEntity<T extends AttributedEntity<T>> extends SimpleNamedEntity<T> implements AttributedEntity<T> {
+public abstract class SimpleAttributedEntity<T extends AttributedEntity<T>> extends SimpleEntity<T> implements AttributedEntity<T> {
 
 	
-	private final Bag<Attribute> attributes;
+	private final MutableContainer<Attribute> attributes;
 
 	/**
 	 * Creates an instance with a given name and given attributes.
@@ -33,15 +33,13 @@ public abstract class SimpleAttributedEntity<T extends AttributedEntity<T>> exte
 	}
 	
 	@Override
-	public Bag<Attribute> attributes() {
+	public MutableContainer<Attribute> attributes() {
 		return attributes;
 	}
 	
 	protected void fillPO(IdGenerator generator,AttributedPO po) {
-		
+	
 		po.setAttributes(attributes.copy(generator));
-		
-		super.fillPO(po);
 	}
 	
 	@Override

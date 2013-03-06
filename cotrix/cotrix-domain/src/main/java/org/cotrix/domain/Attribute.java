@@ -2,7 +2,8 @@ package org.cotrix.domain;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.primitive.entity.NamedEntity;
+import org.cotrix.domain.primitive.entity.Entity;
+import org.cotrix.domain.trait.Named;
 
 
 /**
@@ -10,8 +11,14 @@ import org.cotrix.domain.primitive.entity.NamedEntity;
  * @author Fabio Simeoni
  *
  */
-public interface Attribute extends NamedEntity<Attribute> {
+public interface Attribute extends Entity<Attribute>, Named {
 
+	/**
+	 * Returns the name of the attribute.
+	 * @return the name
+	 */
+	QName name();
+	
 	/**
 	 * Returns the type of the attribute.
 	 * @return the type

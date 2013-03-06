@@ -2,7 +2,7 @@ package org.cotrix.domain.simple.primitive;
 
 import org.cotrix.domain.po.CodelistLinkPO;
 import org.cotrix.domain.primitive.link.CodelistLink;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * Default implementation of {@link CodelistLink}.
@@ -10,7 +10,7 @@ import org.cotrix.domain.utils.IdGenerator;
  * @author Fabio Simeoni
  *
  */
-public class SimpleCodelistLink extends SimpleAttributedEntity<CodelistLink> implements CodelistLink  {
+public class SimpleCodelistLink extends SimpleNamedEntity<CodelistLink> implements CodelistLink  {
 
 	private String targetId;
 
@@ -49,4 +49,30 @@ public class SimpleCodelistLink extends SimpleAttributedEntity<CodelistLink> imp
 		return null;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((targetId == null) ? 0 : targetId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SimpleCodelistLink other = (SimpleCodelistLink) obj;
+		if (targetId == null) {
+			if (other.targetId != null)
+				return false;
+		} else if (!targetId.equals(other.targetId))
+			return false;
+		return true;
+	}
+
+	
 }

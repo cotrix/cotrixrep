@@ -1,6 +1,6 @@
 package org.cotrix.domain.trait;
 
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * An object that can be versioned, i.e. can yields copies with different versions.

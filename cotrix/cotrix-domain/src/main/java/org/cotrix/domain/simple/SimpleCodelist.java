@@ -3,11 +3,11 @@ package org.cotrix.domain.simple;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.po.CodelistPO;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.MutableContainer;
 import org.cotrix.domain.primitive.container.Container;
 import org.cotrix.domain.primitive.link.CodelistLink;
 import org.cotrix.domain.simple.primitive.SimpleVersionedEntity;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.version.Version;
 
 /**
@@ -18,8 +18,8 @@ import org.cotrix.domain.version.Version;
  */
 public class SimpleCodelist extends SimpleVersionedEntity<Codelist> implements Codelist {
 
-	private final Bag<Code> codes;
-	private final Bag<CodelistLink> links;
+	private final MutableContainer<Code> codes;
+	private final MutableContainer<CodelistLink> links;
 
 	/**
 	 * Creates an instance with given identifier,name, codes, attributes, and version.
@@ -37,7 +37,7 @@ public class SimpleCodelist extends SimpleVersionedEntity<Codelist> implements C
 	}
 
 	@Override
-	public Bag<Code> codes() {
+	public MutableContainer<Code> codes() {
 		return codes;
 	}
 	
@@ -47,7 +47,7 @@ public class SimpleCodelist extends SimpleVersionedEntity<Codelist> implements C
 	}
 
 	protected void buildPO(IdGenerator generator,CodelistPO po) {
-		super.fillPO(po);
+		super.fillPO(generator,po);
 		po.setCodes(codes().copy(generator));
 		po.setLinks(links.copy(generator));
 	}

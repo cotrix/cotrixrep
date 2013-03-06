@@ -8,9 +8,9 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.MutableContainer;
+import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Change;
-import org.cotrix.domain.utils.IdGenerator;
 import org.junit.Test;
 
 public class VersioningTest {
@@ -80,9 +80,9 @@ public class VersioningTest {
 		Attribute a = attr(generator.generateId()).name(name).value(value).build();
 		Attribute a2 = attr(generator.generateId()).name(name2).value(value2).build();
 		
-		Bag<Attribute> bag = bag(a,a2);
+		MutableContainer<Attribute> bag = bag(a,a2);
 		
-		Bag<Attribute> clone = bag.copy(generator);
+		MutableContainer<Attribute> clone = bag.copy(generator);
 		
 		assertEquals(bag,clone);
 		

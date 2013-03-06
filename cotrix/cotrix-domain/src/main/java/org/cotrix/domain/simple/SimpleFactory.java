@@ -9,11 +9,10 @@ import org.cotrix.domain.po.CodelistLinkPO;
 import org.cotrix.domain.po.CodelistPO;
 import org.cotrix.domain.primitive.link.CodeLink;
 import org.cotrix.domain.primitive.link.CodelistLink;
-import org.cotrix.domain.simple.attribute.SimpleAttribute;
-import org.cotrix.domain.simple.attribute.SimpleLanguageAttribute;
 import org.cotrix.domain.simple.primitive.SimpleCodeLink;
 import org.cotrix.domain.simple.primitive.SimpleCodelistLink;
 import org.cotrix.domain.spi.Factory;
+
 
 /**
  * Default implementation of {@link Factory}.

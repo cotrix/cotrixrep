@@ -4,6 +4,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.po.NamedPO;
 import org.cotrix.domain.primitive.entity.NamedEntity;
+import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * Partial {@link NamedEntity} implementation.
@@ -12,7 +13,7 @@ import org.cotrix.domain.primitive.entity.NamedEntity;
  *
  * @param <T> the type of the entity
  */
-public abstract class SimpleNamedEntity<T extends NamedEntity<T>> extends SimpleEntity<T> implements NamedEntity<T> {
+public abstract class SimpleNamedEntity<T extends NamedEntity<T>> extends SimpleAttributedEntity<T> implements NamedEntity<T> {
 
 	private QName name;
 	
@@ -22,10 +23,9 @@ public abstract class SimpleNamedEntity<T extends NamedEntity<T>> extends Simple
 		this.name=po.name();
 	}
 	
-	//as java has no covariance, subclasses effectively overload this method, recursively (not ideal)
-	protected void fillPO(NamedPO po) {
+	protected void fillPO(IdGenerator generator,NamedPO po) {
+		super.fillPO(generator, po);
 		po.setName(name());
-		//we do not copy change type!
 	}
 	
 	@Override

@@ -1,11 +1,9 @@
 package org.cotrix.domain.simple.primitive;
 
-import org.cotrix.domain.Attribute;
 import org.cotrix.domain.po.CodeLinkPO;
-import org.cotrix.domain.primitive.container.Bag;
 import org.cotrix.domain.primitive.link.CodeLink;
 import org.cotrix.domain.primitive.link.CodelistLink;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * Default {@link CodeLink} implementation.
@@ -13,10 +11,9 @@ import org.cotrix.domain.utils.IdGenerator;
  * @author Fabio Simeoni
  *
  */
-public class SimpleCodeLink extends SimpleEntity<CodeLink> implements CodeLink  {
+public class SimpleCodeLink extends SimpleAttributedEntity<CodeLink> implements CodeLink  {
 
 	private final CodelistLink definition;
-	private final Bag<Attribute> attributes;
 	private String targetId;
 	
 	/**
@@ -28,7 +25,6 @@ public class SimpleCodeLink extends SimpleEntity<CodeLink> implements CodeLink  
 		super(params);
 		
 		this.targetId = params.targetId();
-		this.attributes=params.attributes();
 		this.definition=params.definition();
 	}
 
@@ -36,11 +32,6 @@ public class SimpleCodeLink extends SimpleEntity<CodeLink> implements CodeLink  
 	@Override
 	public String targetId() {
 		return targetId;
-	}
-	
-	@Override
-	public Bag<Attribute> attributes() {
-		return attributes;
 	}
 	
 	@Override
@@ -53,7 +44,6 @@ public class SimpleCodeLink extends SimpleEntity<CodeLink> implements CodeLink  
 		
 		super.update(delta);
 
-		this.attributes.update(delta.attributes());
 		this.definition.update(delta.definition());
 		
 		if (!targetId.equals(delta.targetId()))
@@ -63,7 +53,7 @@ public class SimpleCodeLink extends SimpleEntity<CodeLink> implements CodeLink  
 	//fills PO for copy/versioning purposes
 	protected void fillPO(IdGenerator generator,CodeLinkPO po) {
 		
-		po.setAttributes(attributes.copy(generator));
+		super.fillPO(generator, po);
 		po.setDefinition(definition.copy(generator));
 		po.setTargetId(targetId);
 		
@@ -74,6 +64,39 @@ public class SimpleCodeLink extends SimpleEntity<CodeLink> implements CodeLink  
 		CodeLinkPO po = new CodeLinkPO(generator.generateId());
 		fillPO(generator,po);
 		return new SimpleCodeLink(po);
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((definition == null) ? 0 : definition.hashCode());
+		result = prime * result + ((targetId == null) ? 0 : targetId.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SimpleCodeLink other = (SimpleCodeLink) obj;
+		if (definition == null) {
+			if (other.definition != null)
+				return false;
+		} else if (!definition.equals(other.definition))
+			return false;
+		if (targetId == null) {
+			if (other.targetId != null)
+				return false;
+		} else if (!targetId.equals(other.targetId))
+			return false;
+		return true;
 	}
 
 

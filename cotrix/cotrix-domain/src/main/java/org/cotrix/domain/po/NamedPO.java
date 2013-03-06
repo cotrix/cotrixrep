@@ -7,12 +7,12 @@ import org.cotrix.domain.utils.Utils;
 
 
 /**
- * A partial implementation of parameter objects for {@link NamedEntity}s.
+ * Partial implementation of initialisation parameters for {@link NamedEntity}s.
  * 
  * @author Fabio Simeoni
  *
  */
-public abstract class NamedPO extends EntityPO {
+public abstract class NamedPO extends AttributedPO {
 
 	private QName name;
 	
