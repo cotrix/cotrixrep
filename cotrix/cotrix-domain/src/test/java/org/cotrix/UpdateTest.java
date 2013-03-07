@@ -3,12 +3,11 @@ package org.cotrix;
 import static junit.framework.Assert.*;
 import static org.cotrix.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.traits.Change.*;
+import static org.cotrix.domain.trait.Change.*;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.LanguageAttribute;
-import org.cotrix.domain.primitives.BaseBag;
-import org.cotrix.domain.primitives.BaseGroup;
+import org.cotrix.domain.primitive.container.Bag;
 import org.junit.Test;
 
 public class UpdateTest {
@@ -123,7 +122,7 @@ public class UpdateTest {
 		Attribute a1 = attr("1").name(name).value(value).build();
 		Attribute a2 = attr("2").name(name2).value(value2).build();
 		
-		BaseBag<Attribute> bag = attributes(a1,a2);
+		Bag<Attribute> bag = bag(a1,a2);
 		
 		//a change
 		Attribute deltaA1 = attr("1").name(name).value(value+"updated").as(MODIFIED).build();
@@ -134,54 +133,19 @@ public class UpdateTest {
 		// a removal
 		Attribute deltaA3 = attr().name(name3).value(value3).as(NEW).build();
 		
-		BaseBag<Attribute> delta = attributes(deltaA1,deltaA2,deltaA3);
+		Bag<Attribute> delta = bag(deltaA1,deltaA2,deltaA3);
 		
 		bag.update(delta);
 		
 		//changed stuff is updated
-		assertEquals(value+"updated",bag.get(name).get(0).value());
+		assertEquals(value+"updated",asMap(bag).get(name).get(0).value());
 		//removed stuff is ... removed
-		assertFalse(bag.contains(name2));
+		assertFalse(asMap(bag).containsKey(name2));
 		//new stuff is added
-		assertTrue(bag.contains(name3));
+		assertTrue(asMap(bag).containsKey(name3));
 		
 		//new stuff no longer a delta object
-		assertNull(bag.get(name3).get(0).change());
-		
-	}
-	
-	///     groups
-	
-	@Test
-	public void groupsCanBeUpdated() {
-
-		Attribute a1 = attr("1").name(name).value(value).build();
-		Attribute a2 = attr("2").name(name2).value(value2).build();
-		
-		BaseGroup<Attribute> group = group(a1,a2);
-		
-		//a change
-		Attribute deltaA1 = attr("1").name(name).value(value+"updated").as(MODIFIED).build();
-		
-		// a deletion
-		Attribute deltaA2 = attr("2").name(name2).value(value2).as(DELETED).build();
-		
-		// a removal
-		Attribute deltaA3 = attr().name(name3).value(value3).as(NEW).build();
-		
-		BaseGroup<Attribute> delta = group(deltaA1,deltaA2,deltaA3);
-		
-		group.update(delta);
-		
-		//changed stuff is updated
-		assertEquals(value+"updated",group.get(name).value());
-		//removed stuff is ... removed
-		assertFalse(group.contains(name2));
-		//new stuff is added
-		assertTrue(group.contains(name3));
-		
-		//new stuff no longer a delta object
-		assertNull(group.get(name3).change());
+		assertNull(asMap(bag).get(name3).get(0).change());
 		
 	}
 	

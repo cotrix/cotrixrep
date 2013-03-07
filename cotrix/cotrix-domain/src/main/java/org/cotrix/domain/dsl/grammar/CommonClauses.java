@@ -3,7 +3,9 @@ package org.cotrix.domain.dsl.grammar;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.traits.Change;
+import org.cotrix.domain.Code;
+import org.cotrix.domain.primitive.link.CodelistLink;
+import org.cotrix.domain.trait.Change;
 
 /**
  * Sentence clauses shared across grammars.
@@ -24,7 +26,40 @@ public class CommonClauses {
 		 */
 		C attributes(Attribute... attributes);
 	}
+	
+	public static interface LinksClause<T,C> {
 
+		/**
+		 * Adds one or more links to the object.
+		 * 
+		 * @param links the links
+		 * @return the next clause in the sentence
+		 */
+		C links(T ... links);
+	}
+	
+	public static interface LinkTargetClause<T,C> {
+
+		/**
+		 * Adds a link target to the object.
+		 * 
+		 * @param target the target
+		 * @return the next clause in the sentence
+		 */
+		C target(T target);
+	}
+
+	
+	public static interface CodeLinkClause<C> {
+
+		/**
+		 * Adds a link definition to the object.
+		 * 
+		 * @param def the definition
+		 * @return the next clause in the sentence
+		 */
+		LinkTargetClause<Code,C> instanceOf(CodelistLink def);
+	}
 	
 	public static interface WithManyClause<T,C> {
 

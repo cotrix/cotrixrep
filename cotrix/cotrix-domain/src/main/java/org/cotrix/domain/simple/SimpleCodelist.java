@@ -2,10 +2,13 @@ package org.cotrix.domain.simple;
 
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.pos.CodelistPO;
-import org.cotrix.domain.primitives.BaseGroup;
+import org.cotrix.domain.po.CodelistPO;
+import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.container.Container;
+import org.cotrix.domain.primitive.link.CodelistLink;
+import org.cotrix.domain.simple.primitive.SimpleVersionedEntity;
 import org.cotrix.domain.utils.IdGenerator;
-import org.cotrix.domain.versions.Version;
+import org.cotrix.domain.version.Version;
 
 /**
  * Default {@link Codelist} implementation.
@@ -13,9 +16,10 @@ import org.cotrix.domain.versions.Version;
  * @author Fabio Simeoni
  * 
  */
-public class SimpleCodelist extends SimpleVersionedObject<Codelist> implements Codelist {
+public class SimpleCodelist extends SimpleVersionedEntity<Codelist> implements Codelist {
 
-	private final BaseGroup<Code> codes;
+	private final Bag<Code> codes;
+	private final Bag<CodelistLink> links;
 
 	/**
 	 * Creates an instance with given identifier,name, codes, attributes, and version.
@@ -29,16 +33,23 @@ public class SimpleCodelist extends SimpleVersionedObject<Codelist> implements C
 	public SimpleCodelist(CodelistPO param) {
 		super(param);
 		this.codes = param.codes();
+		this.links = param.links();
 	}
 
 	@Override
-	public BaseGroup<Code> codes() {
+	public Bag<Code> codes() {
 		return codes;
+	}
+	
+	@Override
+	public Container<CodelistLink> links() {
+		return links;
 	}
 
 	protected void buildPO(IdGenerator generator,CodelistPO po) {
 		super.fillPO(po);
 		po.setCodes(codes().copy(generator));
+		po.setLinks(links.copy(generator));
 	}
 
 	@Override

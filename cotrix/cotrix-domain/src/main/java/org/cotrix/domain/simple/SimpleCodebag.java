@@ -2,10 +2,11 @@ package org.cotrix.domain.simple;
 
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.pos.CodebagPO;
-import org.cotrix.domain.primitives.BaseGroup;
+import org.cotrix.domain.po.CodebagPO;
+import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.simple.primitive.SimpleVersionedEntity;
 import org.cotrix.domain.utils.IdGenerator;
-import org.cotrix.domain.versions.Version;
+import org.cotrix.domain.version.Version;
 
 /**
  * Default {@link Codebag} implementation.
@@ -13,9 +14,9 @@ import org.cotrix.domain.versions.Version;
  * @author Fabio Simeoni
  *
  */
-public class SimpleCodebag extends SimpleVersionedObject<Codebag> implements Codebag {
+public class SimpleCodebag extends SimpleVersionedEntity<Codebag> implements Codebag {
 
-	private final BaseGroup<Codelist> lists;
+	private final Bag<Codelist> lists;
 
 	/**
 	 * Creates an instance with a given identifier,name, code lists, and attributes.
@@ -31,7 +32,7 @@ public class SimpleCodebag extends SimpleVersionedObject<Codebag> implements Cod
 	}
 	
 	@Override
-	public BaseGroup<Codelist> lists() {
+	public Bag<Codelist> lists() {
 		return lists;
 	}
 	
