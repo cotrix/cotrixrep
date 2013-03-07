@@ -14,7 +14,7 @@
 
 	<properties>
 		<!-- Convenience property to set the GWT version -->
-		<gwtVersion>2.5.0</gwtVersion>
+		<gwtVersion>2.5.1-rc1</gwtVersion>
 		<!-- GWT needs at least java 1.5 -->
 		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -46,6 +46,18 @@
 			<classifier>sources</classifier>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-menu</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-importwizard</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -58,7 +70,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.5.0</version>
+				<version>2.5.1-rc1</version>
 				<executions>
 					<execution>
 						<goals>
@@ -98,15 +110,17 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>2.3.2</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.5</source>
+					<target>1.5</target>
 				</configuration>
 			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -116,31 +130,39 @@
 							<pluginExecutions>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>gwt-maven-plugin</artifactId>
-										<versionRange>[2.4.0,)</versionRange>
-										<goals>
-											<goal>resources</goal>
-											<goal>compile</goal>
-											<goal>i18n</goal>
-											<goal>generateAsync</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute />
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-war-plugin</artifactId>
-										<versionRange>[2.1.1,)</versionRange>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-war-plugin
+										</artifactId>
+										<versionRange>
+											[2.1.1,)
+										</versionRange>
 										<goals>
 											<goal>exploded</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<execute />
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>
+											gwt-maven-plugin
+										</artifactId>
+										<versionRange>
+											[2.5.1-rc1,)
+										</versionRange>
+										<goals>
+											<goal>generateAsync</goal>
+											<goal>i18n</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
