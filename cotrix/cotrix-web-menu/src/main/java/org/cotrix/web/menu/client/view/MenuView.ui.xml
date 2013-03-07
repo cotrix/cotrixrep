@@ -1,0 +1,64 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='res' type='org.cotrix.web.menu.client.resources.CotrixMenuResources' />
+	<ui:style type="org.cotrix.web.menu.client.view.MenuViewImpl.Style">
+		.important {
+			font-weight: bold;
+		}
+		.header {
+			background-color: #333;
+			padding: 5px;
+			vertical-align: middle;
+			padding-left: 20px;
+		}
+		
+		.menubar {
+			padding: 5px;
+			float: right;
+			background-color: #666;
+		}
+		
+		.label {
+			float: left;
+			padding: 10px;
+			font-size: 13px;
+			color: #666;
+			cursor: pointer;
+		}
+		
+		.label:hover {
+			color: #ccc;
+			border-radius: 5px;
+		}
+		
+		.label:active {
+			color: #ccc;
+		}
+		
+		.selectedLabel {
+			float: left;
+			padding: 10px;
+			font-size: 13px;
+			color: #ccc;
+			cursor: pointer;
+		}
+		
+		.menubar-wrapper {
+			float: right;
+			margin: 0 auto;
+			margin-right: 20px;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<div class="{style.header}">
+			<g:Image resource='{res.logo}' />
+			<g:FlowPanel styleName="{style.menubar-wrapper}" ui:field="menubar">
+				<g:Label styleName="{style.selectedLabel}">HOME</g:Label>
+				<g:Label styleName="{style.label}">IMPORT</g:Label>
+				<g:Label styleName="{style.label}">MANAGE</g:Label>
+				<g:Label styleName="{style.label}">PUBLISH</g:Label>
+			</g:FlowPanel>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder> 
