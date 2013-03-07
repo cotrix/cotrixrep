@@ -1,19 +1,18 @@
 package org.cotrix.web.importwizard.shared;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.cotrix.web.importwizard.shared.CSVFile.OnFileChangeHandler;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
-import com.google.inject.Inject;
-
-public class CotrixImportModel {
+public class CotrixImportModel implements IsSerializable{
 	public interface OnMetaDataChangeHandler{
 		public void onMetadataChange(Metadata metadata);
 	}
+	
 	public interface OnTypeChangeHandler{
 		public void onTypeChange(HashMap<String, HeaderType> headerType);
 	}
+	
 	public interface OnDescriptionChangeHandler{
 		public void onDescriptionChange(HashMap<String, String> headerDescription);
 	}
@@ -28,10 +27,6 @@ public class CotrixImportModel {
 	private HashMap<String, String> summary;
 	private HashMap<String, HeaderType> headerType;
 
-	@Inject
-	public CotrixImportModel() {
-
-	}
 	public String getFilename() {
 		return filename;
 	}

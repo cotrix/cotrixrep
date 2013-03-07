@@ -3,10 +3,11 @@ package org.cotrix.web.importwizard.shared;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 
 
-public class CSVFile {
+public class CSVFile implements IsSerializable{
 	public interface OnFileChangeHandler{
 		public void onFileChange(String[] headers,ArrayList<String[]> data);
 	}

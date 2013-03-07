@@ -33,11 +33,12 @@ public class AppControllerImpl implements AppController {
 
 	public void go(HasWidgets container) {
 		this.container = container;
-		if ("".equals(History.getToken())) {
+		importWizardPresenter.go(container);
+		/*if ("".equals(History.getToken())) {
 			History.newItem("import");
 		} else {
 			History.fireCurrentHistoryState();
-		}
+		}*/
 	}
 
 	public void onValueChange(ValueChangeEvent<String> event) {

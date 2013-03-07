@@ -36,7 +36,6 @@ public class HeaderSelectionFormPresenterImpl implements HeaderSelectionFormPres
 
 	public boolean isValidated() {
 		ArrayList<String> headers = view.getHeaders();
-		
 		if(headers.size() != model.getCsvFile().getHeaders().length){
 			view.alert("Please define all header");
 		}else{
