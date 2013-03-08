@@ -7,6 +7,7 @@ import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.ImportWizardView;
 import org.cotrix.web.importwizard.client.view.form.FormWrapperViewImpl;
 import org.cotrix.web.importwizard.shared.CotrixImportModel;
+import org.cotrix.web.importwizard.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
@@ -18,12 +19,12 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final ImportWizardView view;
-	private CotrixImportModel model;
+	private CotrixImportModelController model;
 	private ArrayList<Presenter<GenericImportWizardPresenterImpl>> presenters  = new ArrayList<Presenter<GenericImportWizardPresenterImpl>>();
 	private ArrayList<String> formLabel  = new ArrayList<String>();
 
     @Inject
-	public GenericImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModel model) {
+	public GenericImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModelController model) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;

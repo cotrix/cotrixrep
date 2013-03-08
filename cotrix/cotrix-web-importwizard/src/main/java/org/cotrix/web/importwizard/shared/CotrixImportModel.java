@@ -5,54 +5,29 @@ import java.util.HashMap;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class CotrixImportModel implements IsSerializable{
-	public interface OnMetaDataChangeHandler{
-		public void onMetadataChange(Metadata metadata);
-	}
-	
-	public interface OnTypeChangeHandler{
-		public void onTypeChange(HashMap<String, HeaderType> headerType);
-	}
-	
-	public interface OnDescriptionChangeHandler{
-		public void onDescriptionChange(HashMap<String, String> headerDescription);
-	}
-	private OnMetaDataChangeHandler onMetadataChangeHandler;
-	private OnTypeChangeHandler onTypeChangeHandler;
-	private OnDescriptionChangeHandler onDescriptionChangeHandler;
-
-	private String filename;
 	private Metadata metadata;
-	private CSVFile csvFile = new CSVFile();
-	private HashMap<String, String> headerDescription;
+	private CSVFile csvFile;
+	private HashMap<String, String> description;
 	private HashMap<String, String> summary;
-	private HashMap<String, HeaderType> headerType;
-
-	public String getFilename() {
-		return filename;
-	}
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+	private HashMap<String, HeaderType> type;
+	
 	public Metadata getMetadata() {
 		return metadata;
 	}
 	public void setMetadata(Metadata metadata) {
 		this.metadata = metadata;
-		onMetadataChangeHandler.onMetadataChange(metadata);
 	}
-
 	public CSVFile getCsvFile() {
 		return csvFile;
 	}
 	public void setCsvFile(CSVFile csvFile) {
 		this.csvFile = csvFile;
 	}
-	public HashMap<String, String> getHeaderDescription() {
-		return headerDescription;
+	public HashMap<String, String> getDescription() {
+		return description;
 	}
-	public void setHeaderDescription(HashMap<String, String> headerDescription) {
-		this.headerDescription = headerDescription;
-		onDescriptionChangeHandler.onDescriptionChange(headerDescription);
+	public void setDescription(HashMap<String, String> description) {
+		this.description = description;
 	}
 	public HashMap<String, String> getSummary() {
 		return summary;
@@ -60,21 +35,11 @@ public class CotrixImportModel implements IsSerializable{
 	public void setSummary(HashMap<String, String> summary) {
 		this.summary = summary;
 	}
-	public HashMap<String, HeaderType> getHeaderType() {
-		return headerType;
+	public HashMap<String, HeaderType> getType() {
+		return type;
 	}
-	public void setHeaderType(HashMap<String, HeaderType> headerType) {
-		this.headerType = headerType;
-		onTypeChangeHandler.onTypeChange(headerType);
+	public void setType(HashMap<String, HeaderType> type) {
+		this.type = type;
 	}
 	
-	public void setOnMetadataChangeHandler(OnMetaDataChangeHandler onMetadataChangeHandler) {
-		this.onMetadataChangeHandler = onMetadataChangeHandler;
-	}
-	public void setOnTypeChangeHandler(OnTypeChangeHandler onTypeChangeHandler) {
-		this.onTypeChangeHandler = onTypeChangeHandler;
-	}
-	public void setOnDescriptionChangeHandler(OnDescriptionChangeHandler onDescriptionChangeHandler) {
-		this.onDescriptionChangeHandler = onDescriptionChangeHandler;
-	}
 }

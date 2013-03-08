@@ -6,7 +6,9 @@ import com.google.inject.Inject;
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.form.CotrixForm;
 import org.cotrix.web.importwizard.client.view.form.UploadFormView;
+import org.cotrix.web.importwizard.shared.CSVFile;
 import org.cotrix.web.importwizard.shared.CotrixImportModel;
+import org.cotrix.web.importwizard.shared.CotrixImportModelController;
 import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileError;
@@ -33,10 +35,10 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 	private FileReader reader;
 	private String filename = "";
 	private UploadFormView view;
-	private CotrixImportModel model;
+	private CotrixImportModelController model;
 
 	@Inject
-	public UploadFormPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, UploadFormView view,CotrixImportModel model) {
+	public UploadFormPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, UploadFormView view,CotrixImportModelController model) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
@@ -67,10 +69,16 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 		reader = new FileReader();
 		reader.addLoadEndHandler(new LoadEndHandler() {
 			public void onLoadEnd(LoadEndEvent event) {
-				onLoadFileFinish();				
+				onLoadFileFinish();		
 				ArrayList<String[]> data = parseCSV(reader.getStringResult());
+				
 				if(data.size() >= 2 ){
-					model.getCsvFile().setDataAndHeader(data, data.get(0));
+					String[] headers = data.remove(0);
+					
+					CSVFile  csvFile = new CSVFile();
+					csvFile.setData(data);
+					csvFile.setHeader(headers);
+					model.setCsvFile(csvFile);
 				}else {
 					onError("File must have more than 2 rows");
 				}

@@ -20,6 +20,7 @@ import org.cotrix.web.importwizard.client.view.form.SummaryFormViewImpl;
 import org.cotrix.web.importwizard.client.view.form.UploadFormView;
 import org.cotrix.web.importwizard.client.view.form.UploadFormViewImpl;
 import org.cotrix.web.importwizard.shared.CotrixImportModel;
+import org.cotrix.web.importwizard.shared.CotrixImportModelController;
 
 public class AppGinModule extends AbstractGinModule {
 
@@ -31,8 +32,8 @@ public class AppGinModule extends AbstractGinModule {
    
     @Provides
     @Singleton
-    public CotrixImportModel getModel() {
-    	return new CotrixImportModel();
+    public CotrixImportModelController getModel() {
+    	return new CotrixImportModelController();
     }
 
     protected void configure() {

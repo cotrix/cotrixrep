@@ -2,6 +2,9 @@ package org.cotrix.web.importwizard.client;
 
 import java.util.HashMap;
 
+import org.cotrix.web.importwizard.shared.CSVFile;
+import org.cotrix.web.importwizard.shared.CotrixImportModel;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -10,5 +13,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("import")
 public interface ImportService extends RemoteService {
-	boolean sendToServer(String model) throws IllegalArgumentException;
+	boolean sendToServer(CotrixImportModel model) throws IllegalArgumentException;
 }

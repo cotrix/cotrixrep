@@ -2,62 +2,45 @@ package org.cotrix.web.importwizard.shared;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-
-
-public class CSVFile implements IsSerializable{
-	public interface OnFileChangeHandler{
-		public void onFileChange(String[] headers,ArrayList<String[]> data);
-	}
-	private OnFileChangeHandler onFileChangeHandler;
+public class CSVFile implements IsSerializable {
+	private String filename;
+	private int rowCount = 0;
+	private String[] header;
+	private ArrayList<String[]> data;
 	
-	private boolean isNewDefineHeader;
-	private String[] headers = new String[]{};
-	private ArrayList<String[]> data = new ArrayList<String[]>();
-	private ArrayList<OnFileChangeHandler> handlerList = new ArrayList<OnFileChangeHandler>();
-	
-	public boolean hasHeader(){
-		return (headers == null || headers.length == 0)?false:true;
+	public String getFilename() {
+		return filename;
 	}
-	
-	public String[] getHeaders() {
-		return headers;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
-	public ArrayList<String[]> getData(){
-		return this.data;
+	public int getRowCount() {
+		return rowCount;
+	}
+	public void setRowCount(int rowCount) {
+		this.rowCount = rowCount;
+	}
+	public String[] getHeader() {
+		return header;
+	}
+	public void setHeader(String[] header) {
+		this.header = header;
+	}
+	public ArrayList<String[]> getData() {
+		return data;
+	}
+	public void setData(ArrayList<String[]> data) {
+		this.data = data;
 	}
 	public boolean isEmpty(){
-		return (data.isEmpty());
+		return (this.data == null)?true:false;
 	}
-	
 	public void reset(){
-		data.clear();
-		setDataAndHeader(data, new String[]{});
-	}
-	
-	public void setHeaders(String[] headers) {
-		this.headers = headers;
-	}
-	 
-	public void setDataAndHeader(ArrayList<String[]> data,String[] header) {
-		this.data = data;
-		setHeaders(header);
-		for (OnFileChangeHandler onFileChangeHandler : this.handlerList) {
-			onFileChangeHandler.onFileChange(header, data);
-		}
-	}
-	
-	public void addOnFilechangeHandler(OnFileChangeHandler onFileChangeHandler){
-		this.handlerList.add(onFileChangeHandler);
-	}
-	
-	public boolean isNewDefineHeader() {
-		return isNewDefineHeader;
-	}
-	
-	public void setNewDefineHeader(boolean isNewDefineHeader) {
-		this.isNewDefineHeader = isNewDefineHeader;
+		this.filename = null;
+		this.rowCount = 0;
+		this.header = null;
+		this.data = null;
 	}
 }

@@ -81,15 +81,16 @@ public class HeaderSelectionFormViewImpl extends Composite implements  HeaderSel
 
 	public void setData(String[] headers, ArrayList<String[]> data) {
 		this.columnCount = headers.length;
+		for (int i = 0; i < headers.length; i++) {
+			flexTable.setWidget(1, i, new HTML(headers[i]));
+			flexTable.getCellFormatter().setStyleName(1, i,style.flextTableHeader());
+		}
 
 		int rowCount = (data.size()<8)?data.size():8;
-		for (int i = 0; i < rowCount; i++) {
+		for (int i = 1; i < rowCount; i++) {
 			String[] columns = data.get(i);
 			for (int j = 0; j < columns.length; j++) {
 				flexTable.setWidget(i+1, j, new HTML(columns[j]));
-				if (i == 0) {
-					flexTable.getCellFormatter().setStyleName(i+1, j,style.flextTableHeader());
-				}
 			}
 		}
 	}
