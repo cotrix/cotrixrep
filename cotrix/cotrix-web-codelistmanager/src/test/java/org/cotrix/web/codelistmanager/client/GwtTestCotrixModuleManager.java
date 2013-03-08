@@ -43,7 +43,7 @@ public class GwtTestCotrixModuleManager extends GWTTestCase {
    */
   public void testGreetingService() {
     // Create the service that we will test.
-    GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+    ManagerServiceAsync greetingService = GWT.create(ManagerService.class);
     ServiceDefTarget target = (ServiceDefTarget) greetingService;
     target.setServiceEntryPoint(GWT.getModuleBaseURL() + "CotrixModuleManager/greet");
 
