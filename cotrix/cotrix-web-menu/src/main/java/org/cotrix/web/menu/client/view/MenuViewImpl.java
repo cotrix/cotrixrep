@@ -1,5 +1,7 @@
 package org.cotrix.web.menu.client.view;
 
+import org.cotrix.web.menu.client.presenter.MenuPresenter;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -25,13 +27,12 @@ public class MenuViewImpl extends Composite implements MenuView {
 		String selectedLabel();
 		String label();
 	}
-
+	private Presenter presenter;
 	public MenuViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		initMenu();
 	}
-
-	private void initMenu() {
+	
+	public void showMenu() {
 		for (int i = 0; i < menubar.getWidgetCount(); i++) {
 			Label label = (Label) menubar.getWidget(i);
 			final int index = i;
@@ -55,7 +56,7 @@ public class MenuViewImpl extends Composite implements MenuView {
 	}
 	
 	public void setPresenter(Presenter presenter) {
-
+		this.presenter = presenter;
 	}
 
 }

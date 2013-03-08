@@ -1,9 +1,12 @@
 package org.cotrix.web.menu.client;
 
+import org.cotrix.web.menu.client.presenter.MenuPresenter;
+import org.cotrix.web.menu.client.view.MenuView;
 import org.cotrix.web.menu.client.view.MenuViewImpl;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -22,16 +25,16 @@ public class CotrixModuleMenu implements EntryPoint {
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
-
+	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
 	private final Messages messages = GWT.create(Messages.class);
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-//		MenuViewImpl m = new MenuViewImpl();
-//		RootPanel.get().add(m);
+		HandlerManager eventBus = new HandlerManager(null);
+		MenuViewImpl menuView = new MenuViewImpl();
+		MenuPresenter menuPresenter = new MenuPresenter(eventBus, menuView);
+		menuPresenter.go(RootPanel.get());
 	}
 }
