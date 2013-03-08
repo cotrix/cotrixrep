@@ -8,7 +8,7 @@ import org.cotrix.domain.trait.Mutable;
 
 
 /**
- * Partial implementation of initialisation parameters for {@link Entity}s.
+ * Partial implementation of initialisation parameters for {@link Base}s.
  * 
  * @author Fabio Simeoni
  *

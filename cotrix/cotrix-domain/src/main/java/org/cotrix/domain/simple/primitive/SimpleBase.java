@@ -1,24 +1,23 @@
 package org.cotrix.domain.simple.primitive;
 
 import org.cotrix.domain.po.EntityPO;
-import org.cotrix.domain.primitive.entity.Entity;
-import org.cotrix.domain.primitive.entity.NamedEntity;
 import org.cotrix.domain.trait.Change;
-import org.cotrix.domain.trait.Mutable;
+import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Identified.Private;
 
 /**
- * Partial {@link NamedEntity} implementation.
+ * Partial implementation of {@link Private} {@link Private} objects.
  * 
  * @author Fabio Simeoni
  *
- * @param <T> the type of the entity
+ * @param <SELF> the type of the implementation
  */
-public abstract class SimpleEntity<T extends Entity<T>> implements Entity<T>, Mutable<T> {
+public abstract class SimpleBase<SELF extends Identified.Private<SELF>> implements Identified.Private<SELF> {
 
 	private final String id;
 	private Change change;
 	
-	protected SimpleEntity(EntityPO po) {
+	protected SimpleBase(EntityPO po) {
 
 		this.id=po.id();
 		this.change=po.change();
@@ -29,23 +28,19 @@ public abstract class SimpleEntity<T extends Entity<T>> implements Entity<T>, Mu
 		return id;
 	}
 	
-	@Override
 	public boolean isDelta() {
 		return change!=null;
 	}
 	
-	@Override
 	public Change change() {
 		return change;
 	}
 	
-	@Override
 	public void reset() {
 		this.change=null;	
 	}
 	
-	@Override
-	public void update(T delta) throws IllegalArgumentException ,IllegalStateException {
+	public void update(SELF delta) throws IllegalArgumentException ,IllegalStateException {
 		
 		if (id()==null)
 			throw new IllegalArgumentException(this+" as no identifier, hence it cannot be updated");
@@ -54,7 +49,7 @@ public abstract class SimpleEntity<T extends Entity<T>> implements Entity<T>, Mu
 	}
 	
 	//helper
-	private void isValid(T delta) {
+	private void isValid(SELF delta) {
 		
 		Change status = delta.change();
 		
@@ -88,7 +83,7 @@ public abstract class SimpleEntity<T extends Entity<T>> implements Entity<T>, Mu
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SimpleEntity<?> other = (SimpleEntity<?>) obj;
+		SimpleBase<?> other = (SimpleBase<?>) obj;
 		if (change != other.change)
 			return false;
 		if (id == null) {

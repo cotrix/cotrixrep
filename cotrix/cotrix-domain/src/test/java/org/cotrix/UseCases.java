@@ -7,7 +7,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.primitive.link.CodelistLink;
+import org.cotrix.domain.CodelistLink;
 import org.junit.Test;
 
 public class UseCases {

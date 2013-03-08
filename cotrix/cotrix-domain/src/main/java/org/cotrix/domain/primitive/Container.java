@@ -1,4 +1,4 @@
-package org.cotrix.domain.primitive.container;
+package org.cotrix.domain.primitive;
 
 
 /**

@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.FinalClause;
@@ -16,8 +17,6 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.po.CodelistPO;
-import org.cotrix.domain.primitive.container.MutableContainer;
-import org.cotrix.domain.primitive.link.CodelistLink;
 import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.trait.Change;
 import org.cotrix.domain.version.SimpleVersion;
@@ -54,19 +53,19 @@ public final class CodelistBuilder implements CodelistStartClause,SecondClause,T
 	@Override
 	public CodelistBuilder with(Code ... codes) {
 		
-		po.setCodes(new MutableContainer<Code>(asList(codes)));
+		po.setCodes(asList(codes));
 		return this;
 	}
 	
 	@Override
 	public FourthClause links(CodelistLink... links) {
-		po.setLinks(new MutableContainer<CodelistLink>(asList(links)));
+		po.setLinks(asList(links));
 		return this;
 	}
 	
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
-		po.setAttributes(new MutableContainer<Attribute>(asList(attributes)));
+		po.setAttributes(asList(attributes));
 		return this;
 	}
 	

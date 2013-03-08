@@ -1,16 +1,20 @@
-package org.cotrix.domain.primitive.container;
+package org.cotrix.domain.primitive;
 
 import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.cotrix.domain.primitive.entity.Entity;
 import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Change;
+import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Mutable;
 
 /**
@@ -20,17 +24,19 @@ import org.cotrix.domain.trait.Mutable;
  * 
  * @param <T> the type of contained objects
  */
-public class MutableContainer<T extends Entity<T>> extends AbstractContainer<T> implements Mutable<Container<T>> {
+public class PContainer<T extends Identified.Private<T>> implements Container<T>, org.cotrix.domain.trait.Private<PContainer<T>> {
 
 	private Change change;
-
+	
+	private final Set<T> objects = new LinkedHashSet<T>();
 	
 	/**
 	 * Creates an instance that contain given entities.
 	 * 
 	 * @param objects the entities
 	 */
-	public MutableContainer(List<T> objects) {
+	public PContainer(List<? extends T> objects) {
+		
 		notNull(objects);
 
 		for (T object : objects)
@@ -38,6 +44,20 @@ public class MutableContainer<T extends Entity<T>> extends AbstractContainer<T> 
 		
 	}
 	
+	public Iterator<T> iterator() {
+		return objects.iterator();
+	}
+
+	@Override
+	public int size() {
+		return objects.size();
+	}
+	
+
+
+	
+
+
 	@Override
 	public Change change() {
 		return change;
@@ -62,7 +82,7 @@ public class MutableContainer<T extends Entity<T>> extends AbstractContainer<T> 
 	}
 
 	@Override
-	public void update(Container<T> delta) {
+	public void update(PContainer<T> delta) {
 		
 		Map<String, T> index = indexObjects();
 
@@ -74,7 +94,7 @@ public class MutableContainer<T extends Entity<T>> extends AbstractContainer<T> 
 				
 				switch (object.change()) {
 					case DELETED:
-						objects().remove(index.remove(id));
+						objects.remove(index.remove(id));
 						break;
 					case MODIFIED:
 						index.get(id).update(object);
@@ -107,18 +127,18 @@ public class MutableContainer<T extends Entity<T>> extends AbstractContainer<T> 
 		
 		propagateChangeFrom(object);
 		
-		return objects().add(object);
+		return objects.add(object);
 		
 	}
 	
 	@Override
-	public MutableContainer<T> copy(IdGenerator generator) {
+	public PContainer<T> copy(IdGenerator generator) {
 		
 		List<T> copied = new ArrayList<T>();
 		for (T object : this)
 			copied.add(object.copy(generator));
 		
-		return new MutableContainer<T>(copied); 
+		return new PContainer<T>(copied); 
 		
 	}
 	
@@ -139,6 +159,51 @@ public class MutableContainer<T extends Entity<T>> extends AbstractContainer<T> 
 		if (this.isDelta() && !object.isDelta())
 			throw new IllegalArgumentException("object is " + this.change + " and can only contain other changes");
 
+	}
+	
+
+	@Override
+	public String toString() {
+		final int maxLen = 100;
+		return objects != null ? toString(objects, maxLen) : null;
+	}
+
+	private String toString(Collection<?> collection, int maxLen) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[");
+		int i = 0;
+		for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < maxLen; i++) {
+			if (i > 0)
+				builder.append(", ");
+			builder.append(iterator.next());
+		}
+		builder.append("]");
+		return builder.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((objects == null) ? 0 : objects.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PContainer<?> other = (PContainer<?>) obj;
+		if (objects == null) {
+			if (other.objects != null)
+				return false;
+		} else if (!objects.equals(other.objects))
+			return false;
+		return true;
 	}
 
 }

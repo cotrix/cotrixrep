@@ -1,7 +1,7 @@
 package org.cotrix.domain.simple.primitive;
 
+import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.po.CodelistLinkPO;
-import org.cotrix.domain.primitive.link.CodelistLink;
 import org.cotrix.domain.spi.IdGenerator;
 
 /**
@@ -10,7 +10,7 @@ import org.cotrix.domain.spi.IdGenerator;
  * @author Fabio Simeoni
  *
  */
-public class SimpleCodelistLink extends SimpleNamedEntity<CodelistLink> implements CodelistLink  {
+public class SimpleCodelistLink extends SimpleNamed<CodelistLink.Private> implements CodelistLink.Private  {
 
 	private String targetId;
 
@@ -29,7 +29,8 @@ public class SimpleCodelistLink extends SimpleNamedEntity<CodelistLink> implemen
 	}
 	
 	@Override
-	public void update(CodelistLink delta) throws IllegalArgumentException, IllegalStateException {
+	public void update(CodelistLink.Private delta) throws IllegalArgumentException, IllegalStateException {
+		
 		super.update(delta);
 		
 		if (!targetId.equals(delta.targetId()))
@@ -43,7 +44,7 @@ public class SimpleCodelistLink extends SimpleNamedEntity<CodelistLink> implemen
 	}
 	
 	@Override
-	public CodelistLink copy(IdGenerator generator) {
+	public CodelistLink.Private copy(IdGenerator generator) {
 		CodelistLinkPO po = new CodelistLinkPO(generator.generateId());
 		this.fillPO(generator,po);
 		return null;

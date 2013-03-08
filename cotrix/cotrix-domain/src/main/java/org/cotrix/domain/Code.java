@@ -1,8 +1,10 @@
 package org.cotrix.domain;
 
-import org.cotrix.domain.primitive.container.Container;
-import org.cotrix.domain.primitive.entity.NamedEntity;
-import org.cotrix.domain.primitive.link.CodeLink;
+import org.cotrix.domain.primitive.Container;
+import org.cotrix.domain.primitive.PContainer;
+import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Named;
 
 
 
@@ -12,7 +14,15 @@ import org.cotrix.domain.primitive.link.CodeLink;
  * @author Fabio Simeoni
  *
  */
-public interface Code extends NamedEntity<Code> {
+public interface Code extends Identified, Attributed,Named {
 	
-	Container<CodeLink> links();
+	Container<? extends Codelink> links();
+	
+	/**
+	 * A private extension of {@link Code}
+	 */
+	public interface Private extends Code, Named.Private<Private> {
+		
+		PContainer<Codelink.Private> links();
+	}
 }

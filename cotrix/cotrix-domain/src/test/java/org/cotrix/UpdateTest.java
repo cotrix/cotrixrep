@@ -6,8 +6,8 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Change.*;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.LanguageAttribute;
-import org.cotrix.domain.primitive.container.MutableContainer;
+import org.cotrix.domain.primitive.PContainer;
+import org.cotrix.domain.simple.SimpleLanguageAttribute;
 import org.junit.Test;
 
 public class UpdateTest {
@@ -21,9 +21,9 @@ public class UpdateTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void updatesRequireIdentifiers() {
 		
-		Attribute a = attr().name(name).value(value).build();
+		Attribute.Private a = (Attribute.Private)attr().name(name).value(value).build();
 		
-		Attribute delta = attr("1").name(name2).value(value).build();
+		Attribute.Private delta = (Attribute.Private) attr("1").name(name2).value(value).build();
 		
 		a.update(delta);
 		
@@ -32,9 +32,9 @@ public class UpdateTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void updatesRequireDeltas() {
 		
-		Attribute a = attr("1").name(name).value(value).build();
+		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
 		
-		Attribute delta = attr("1").name(name2).value(value).build();
+		Attribute.Private delta = (Attribute.Private)attr("1").name(name2).value(value).build();
 		
 		a.update(delta);
 		
@@ -43,9 +43,9 @@ public class UpdateTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void updatesRequireMatchingIds() {
 		
-		Attribute a = attr("1").name(name).value(value).build();
+		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
 		
-		Attribute delta = attr("different").name(name2).value(value).build();
+		Attribute.Private delta = (Attribute.Private)attr("different").name(name2).value(value).build();
 		
 		a.update(delta);
 		
@@ -54,9 +54,9 @@ public class UpdateTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void updatesRequireModifiedDeltas() {
 		
-		Attribute a = attr("1").name(name).value(value).build();
+		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
 		
-		Attribute delta = attr("1").name(name2).value(value).as(NEW).build();
+		Attribute.Private delta = (Attribute.Private)attr("1").name(name2).value(value).as(NEW).build();
 		
 		a.update(delta);
 		
@@ -67,9 +67,9 @@ public class UpdateTest {
 	@Test
 	public void DOsCanChangeName() {
 		
-		Attribute a = attr("1").name(name).value(value).build();
+		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
 		
-		Attribute delta = attr("1").name(name2).value(value).as(MODIFIED).build();
+		Attribute.Private delta = (Attribute.Private)attr("1").name(name2).value(value).as(MODIFIED).build();
 		
 		a.update(delta);
 		
@@ -79,9 +79,9 @@ public class UpdateTest {
 	@Test
 	public void attributesCanChangeValue() {
 		
-		Attribute a = attr("1").name(name).value(value).build();
+		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
 		
-		Attribute delta = attr("1").name(name).value(value2).as(MODIFIED).build();
+		Attribute.Private delta = (Attribute.Private)attr("1").name(name).value(value2).as(MODIFIED).build();
 		
 		a.update(delta);
 		
@@ -91,9 +91,9 @@ public class UpdateTest {
 	@Test
 	public void attributesCanChangeType() {
 		
-		Attribute a = attr("1").name(name).value(value).build();
+		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
 		
-		Attribute delta = attr("1").name(name).value(value).ofType(type).as(MODIFIED).build();
+		Attribute.Private delta = (Attribute.Private)attr("1").name(name).value(value).ofType(type).as(MODIFIED).build();
 		
 		a.update(delta);
 		
@@ -103,9 +103,9 @@ public class UpdateTest {
 	@Test
 	public void attributesCanChangeLanguage() {
 		
-		LanguageAttribute a = (LanguageAttribute) attr("1").name(name).value(value).in(language).build();
+		SimpleLanguageAttribute a = (SimpleLanguageAttribute) attr("1").name(name).value(value).in(language).build();
 		
-		Attribute delta = attr("1").name(name).value(value).in("another").as(MODIFIED).build();
+		Attribute.Private delta = (Attribute.Private)attr("1").name(name).value(value).in("another").as(MODIFIED).build();
 		
 		assertFalse(a.language().equals("another"));
 		
@@ -119,21 +119,21 @@ public class UpdateTest {
 	@Test
 	public void bagsCanBeUpdated() {
 
-		Attribute a1 = attr("1").name(name).value(value).build();
-		Attribute a2 = attr("2").name(name2).value(value2).build();
+		Attribute.Private a1 = (Attribute.Private)attr("1").name(name).value(value).build();
+		Attribute.Private a2 = (Attribute.Private)attr("2").name(name2).value(value2).build();
 		
-		MutableContainer<Attribute> bag = bag(a1,a2);
+		PContainer<Attribute.Private> bag = bag(a1,a2);
 		
 		//a change
-		Attribute deltaA1 = attr("1").name(name).value(value+"updated").as(MODIFIED).build();
+		Attribute.Private deltaA1 = (Attribute.Private)attr("1").name(name).value(value+"updated").as(MODIFIED).build();
 		
 		// a deletion
-		Attribute deltaA2 = attr("2").name(name2).value(value2).as(DELETED).build();
+		Attribute.Private deltaA2 = (Attribute.Private)attr("2").name(name2).value(value2).as(DELETED).build();
 		
 		// a removal
-		Attribute deltaA3 = attr().name(name3).value(value3).as(NEW).build();
+		Attribute.Private deltaA3 = (Attribute.Private)attr().name(name3).value(value3).as(NEW).build();
 		
-		MutableContainer<Attribute> delta = bag(deltaA1,deltaA2,deltaA3);
+		PContainer<Attribute.Private> delta = bag(deltaA1,deltaA2,deltaA3);
 		
 		bag.update(delta);
 		

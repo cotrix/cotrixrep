@@ -2,7 +2,7 @@ package org.cotrix.domain;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.primitive.entity.Entity;
+import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
 
@@ -11,7 +11,7 @@ import org.cotrix.domain.trait.Named;
  * @author Fabio Simeoni
  *
  */
-public interface Attribute extends Entity<Attribute>, Named {
+public interface Attribute extends Identified, Named {
 
 	/**
 	 * Returns the name of the attribute.
@@ -32,4 +32,5 @@ public interface Attribute extends Entity<Attribute>, Named {
 	String value();
 	
 
+	public interface Private extends Attribute, Identified.Private<Private> {}
 }

@@ -3,6 +3,8 @@ package org.cotrix.domain.dsl.builder;
 import static java.util.Arrays.*;
 import static org.cotrix.domain.trait.Change.*;
 
+import java.util.Arrays;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
@@ -15,7 +17,6 @@ import org.cotrix.domain.dsl.grammar.CodebagGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.po.CodebagPO;
-import org.cotrix.domain.primitive.container.MutableContainer;
 import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.trait.Change;
 import org.cotrix.domain.version.SimpleVersion;
@@ -50,13 +51,13 @@ public final class CodebagBuilder implements CodebagStartClause, SecondClause,Th
 	
 	@Override
 	public ThirdClause with(Codelist ... lists) {
-		po.setLists(new MutableContainer<Codelist>(asList(lists)));
+		po.setLists(asList(lists));
 		return this;
 	}
 	
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
-		po.setAttributes(new MutableContainer<Attribute>(asList(attributes)));
+		po.setAttributes(Arrays.asList(attributes));
 		return this;
 	}
 	

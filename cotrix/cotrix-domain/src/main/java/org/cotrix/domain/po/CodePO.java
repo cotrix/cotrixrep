@@ -3,10 +3,12 @@ package org.cotrix.domain.po;
 import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.cotrix.domain.Code;
-import org.cotrix.domain.primitive.container.MutableContainer;
-import org.cotrix.domain.primitive.link.CodeLink;
+import org.cotrix.domain.Codelink;
+import org.cotrix.domain.Codelink.Private;
+import org.cotrix.domain.primitive.PContainer;
 
 
 /**
@@ -17,7 +19,7 @@ import org.cotrix.domain.primitive.link.CodeLink;
  */
 public final class CodePO extends NamedPO {
 
-	private MutableContainer<CodeLink> links = new MutableContainer<CodeLink>(Collections.<CodeLink>emptyList());	
+	private PContainer<Codelink.Private> links = new PContainer<Private>(Collections.<Private>emptyList());	
 	
 	/**
 	 * Creates an instance with an identifier.
@@ -27,11 +29,17 @@ public final class CodePO extends NamedPO {
 		super(id);
 	}
 	
-	public MutableContainer<CodeLink> links() {
+	public PContainer<Codelink.Private> links() {
 		return links;
 	}
 	
-	public void setLinks(MutableContainer<CodeLink> links) {
+	public void setLinks(List<Codelink> links) {
+		
+		PContainer<Codelink.Private> privateLinks = new PContainer<Codelink.Private>(reveal(links,Codelink.Private.class));
+		this.setLinks(privateLinks);
+	}
+	
+	public void setLinks(PContainer<Codelink.Private> links) {
 		notNull("links",links);
 		
 		propagateChangeFrom(links);

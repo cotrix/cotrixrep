@@ -1,5 +1,6 @@
 package org.cotrix.domain.trait;
 
+
 /**
  * A domain object with an identity.
  * 
@@ -13,4 +14,10 @@ public interface Identified {
 	 * @return the identifier
 	 */
 	String id();
+	
+	
+	/**
+	 * A {@link Private} extension of {@link Identified}.
+	 */
+	public static interface Private<T extends Private<T>> extends Identified,org.cotrix.domain.trait.Private<T> {}
 }

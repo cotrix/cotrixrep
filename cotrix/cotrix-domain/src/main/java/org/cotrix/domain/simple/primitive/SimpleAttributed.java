@@ -2,30 +2,29 @@ package org.cotrix.domain.simple.primitive;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.po.AttributedPO;
-import org.cotrix.domain.primitive.container.Container;
-import org.cotrix.domain.primitive.container.MutableContainer;
-import org.cotrix.domain.primitive.entity.AttributedEntity;
+import org.cotrix.domain.primitive.PContainer;
 import org.cotrix.domain.spi.IdGenerator;
+import org.cotrix.domain.trait.Attributed;
 
 /**
- * Partial implementation of {@link AttributedEntity}.
+ * Partial implementation of {@link PAttributed} objects.
  * 
  * @author Fabio Simeoni
  *
- * <T> the type of the entity
+ * <T> the type of the object
  */
 //we specialise type parameter because implementing update() requires we have access to attributes of the input
-public abstract class SimpleAttributedEntity<T extends AttributedEntity<T>> extends SimpleEntity<T> implements AttributedEntity<T> {
+public abstract class SimpleAttributed<T extends Attributed.Private<T>> extends SimpleBase<T> implements Attributed.Private<T> {
 
 	
-	private final MutableContainer<Attribute> attributes;
+	private final PContainer<Attribute.Private> attributes;
 
 	/**
 	 * Creates an instance with a given name and given attributes.
 	 * @param name
 	 * @param attributes
 	 */
-	public SimpleAttributedEntity(AttributedPO params) {
+	public SimpleAttributed(AttributedPO params) {
 		
 		super(params);
 		
@@ -33,7 +32,7 @@ public abstract class SimpleAttributedEntity<T extends AttributedEntity<T>> exte
 	}
 	
 	@Override
-	public MutableContainer<Attribute> attributes() {
+	public PContainer<Attribute.Private> attributes() {
 		return attributes;
 	}
 	
@@ -47,7 +46,8 @@ public abstract class SimpleAttributedEntity<T extends AttributedEntity<T>> exte
 		
 		super.update(delta);
 		
-		Container<Attribute> attributes = delta.attributes();
+		
+		PContainer<Attribute.Private> attributes = delta.attributes();
 
 		this.attributes.update(attributes);
 	}
@@ -68,7 +68,7 @@ public abstract class SimpleAttributedEntity<T extends AttributedEntity<T>> exte
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SimpleAttributedEntity<?> other = (SimpleAttributedEntity<?>) obj;
+		SimpleAttributed<?> other = (SimpleAttributed<?>) obj;
 		if (attributes == null) {
 			if (other.attributes != null)
 				return false;

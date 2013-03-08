@@ -7,14 +7,13 @@ import java.util.Arrays;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
+import org.cotrix.domain.Codelink;
+import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.CodeLinkStartClause;
 import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.po.CodeLinkPO;
-import org.cotrix.domain.primitive.container.MutableContainer;
-import org.cotrix.domain.primitive.link.CodeLink;
-import org.cotrix.domain.primitive.link.CodelistLink;
 import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.trait.Change;
 
@@ -38,7 +37,7 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 	
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
-		po.setAttributes(new MutableContainer<Attribute>(Arrays.asList(attributes)));
+		po.setAttributes(Arrays.asList(attributes));
 		return this;
 	}
 	
@@ -63,7 +62,7 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 	}
 
 	@Override
-	public BuildClause<CodeLink> as(Change change) {
+	public BuildClause<Codelink> as(Change change) {
 		if (change!=NEW && po.id()==null)
 			throw new IllegalStateException("object is marked as update but has its identifier is null");
 		po.setChange(change);
@@ -71,7 +70,7 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 	}
 	
 	@Override
-	public CodeLink build() {
+	public Codelink build() {
 		return factory.codeLink(po);
 	}
 	

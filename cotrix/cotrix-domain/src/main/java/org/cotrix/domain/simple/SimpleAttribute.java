@@ -3,8 +3,9 @@ package org.cotrix.domain.simple;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Attribute.Private;
 import org.cotrix.domain.po.AttributePO;
-import org.cotrix.domain.simple.primitive.SimpleEntity;
+import org.cotrix.domain.simple.primitive.SimpleBase;
 import org.cotrix.domain.spi.IdGenerator;
 
 
@@ -14,7 +15,7 @@ import org.cotrix.domain.spi.IdGenerator;
  * @author Fabio Simeoni
  *
  */
-public class SimpleAttribute extends SimpleEntity<Attribute> implements Attribute {
+public class SimpleAttribute extends SimpleBase<Private> implements Private {
 
 	private QName name;
 	private QName type;
@@ -50,14 +51,14 @@ public class SimpleAttribute extends SimpleEntity<Attribute> implements Attribut
 	}
 	
 	@Override
-	public SimpleAttribute copy(IdGenerator generator) {
+	public Attribute.Private copy(IdGenerator generator) {
 		AttributePO po = new AttributePO(generator.generateId());
 		fillPO(po);
 		return new SimpleAttribute(po);
 	}
 	
 	@Override
-	public void update(Attribute delta) throws IllegalArgumentException, IllegalStateException {
+	public void update(Attribute.Private delta) throws IllegalArgumentException, IllegalStateException {
 		
 		super.update(delta);
 		

@@ -1,8 +1,11 @@
 package org.cotrix.domain;
 
-import org.cotrix.domain.primitive.container.Container;
-import org.cotrix.domain.primitive.entity.VersionedEntity;
-import org.cotrix.domain.primitive.link.CodelistLink;
+import org.cotrix.domain.primitive.Container;
+import org.cotrix.domain.primitive.PContainer;
+import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.trait.Versioned;
 
 
 /**
@@ -11,18 +14,24 @@ import org.cotrix.domain.primitive.link.CodelistLink;
  * @author Fabio Simeoni
  *
  */
-public interface Codelist extends VersionedEntity<Codelist> {
+public interface Codelist extends Identified,Attributed,Named,Versioned {
 
 	/**
 	 * Returns the codes of this list.
 	 * @return the codes
 	 */
-	Container<Code> codes();
+	Container<? extends Code> codes();
 	
 	/**
 	 * Returns the links of this list.
 	 * @return the links.
 	 */
-	Container<CodelistLink> links();
+	Container<? extends CodelistLink> links();
 
+	
+	public interface Private extends Codelist,Versioned.Private<Private> {
+		
+		@Override
+		public PContainer<Code.Private> codes();
+	}
 }

@@ -2,12 +2,12 @@ package org.cotrix.domain.po;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.primitive.entity.NamedEntity;
+import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.utils.Utils;
 
 
 /**
- * Partial implementation of initialisation parameters for {@link NamedEntity}s.
+ * Partial implementation of initialisation parameters for {@link Named} entities.
  * 
  * @author Fabio Simeoni
  *

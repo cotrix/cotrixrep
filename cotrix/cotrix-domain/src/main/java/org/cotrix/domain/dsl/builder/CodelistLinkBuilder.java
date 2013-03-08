@@ -9,14 +9,13 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.po.CodelistLinkPO;
-import org.cotrix.domain.primitive.container.MutableContainer;
-import org.cotrix.domain.primitive.link.CodelistLink;
 import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.trait.Change;
 
@@ -51,7 +50,7 @@ public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause
 	
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
-		po.setAttributes(new MutableContainer<Attribute>(Arrays.asList(attributes)));
+		po.setAttributes(Arrays.asList(attributes));
 		return this;
 	}
 	

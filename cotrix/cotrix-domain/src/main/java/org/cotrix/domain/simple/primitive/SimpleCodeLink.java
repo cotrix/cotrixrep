@@ -1,19 +1,19 @@
 package org.cotrix.domain.simple.primitive;
 
+import org.cotrix.domain.Codelink;
+import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.po.CodeLinkPO;
-import org.cotrix.domain.primitive.link.CodeLink;
-import org.cotrix.domain.primitive.link.CodelistLink;
 import org.cotrix.domain.spi.IdGenerator;
 
 /**
- * Default {@link CodeLink} implementation.
+ * Default {@link Codelink} implementation.
  * 
  * @author Fabio Simeoni
  *
  */
-public class SimpleCodeLink extends SimpleAttributedEntity<CodeLink> implements CodeLink  {
+public class SimpleCodeLink extends SimpleAttributed<Codelink.Private> implements Codelink.Private  {
 
-	private final CodelistLink definition;
+	private final CodelistLink.Private definition;
 	private String targetId;
 	
 	/**
@@ -35,12 +35,12 @@ public class SimpleCodeLink extends SimpleAttributedEntity<CodeLink> implements 
 	}
 	
 	@Override
-	public CodelistLink definition() {
+	public CodelistLink.Private definition() {
 		return definition;
 	}
 	
 	@Override
-	public void update(CodeLink delta) throws IllegalArgumentException ,IllegalStateException {
+	public void update(Codelink.Private delta) throws IllegalArgumentException ,IllegalStateException {
 		
 		super.update(delta);
 
@@ -59,7 +59,6 @@ public class SimpleCodeLink extends SimpleAttributedEntity<CodeLink> implements 
 		
 	}
 	
-	@Override
 	public SimpleCodeLink copy(IdGenerator generator) {
 		CodeLinkPO po = new CodeLinkPO(generator.generateId());
 		fillPO(generator,po);

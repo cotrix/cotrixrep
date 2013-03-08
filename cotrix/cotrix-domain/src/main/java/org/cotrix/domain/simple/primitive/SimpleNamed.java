@@ -3,21 +3,21 @@ package org.cotrix.domain.simple.primitive;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.po.NamedPO;
-import org.cotrix.domain.primitive.entity.NamedEntity;
 import org.cotrix.domain.spi.IdGenerator;
+import org.cotrix.domain.trait.Named;
 
 /**
- * Partial {@link NamedEntity} implementation.
+ * Partial {@link PNamed} entity implementation.
  * 
  * @author Fabio Simeoni
  *
  * @param <T> the type of the entity
  */
-public abstract class SimpleNamedEntity<T extends NamedEntity<T>> extends SimpleAttributedEntity<T> implements NamedEntity<T> {
+public abstract class SimpleNamed<T extends Named.Private<T>> extends SimpleAttributed<T> implements Named.Private<T> {
 
 	private QName name;
 	
-	protected SimpleNamedEntity(NamedPO po) {
+	protected SimpleNamed(NamedPO po) {
 
 		super(po);
 		this.name=po.name();
@@ -59,7 +59,7 @@ public abstract class SimpleNamedEntity<T extends NamedEntity<T>> extends Simple
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SimpleNamedEntity<?> other = (SimpleNamedEntity<?>) obj;
+		SimpleNamed<?> other = (SimpleNamed<?>) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

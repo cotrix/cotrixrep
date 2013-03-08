@@ -1,14 +1,11 @@
 package org.cotrix.domain.simple;
 
-import org.cotrix.domain.Attribute;
 import org.cotrix.domain.po.AttributePO;
 import org.cotrix.domain.po.CodeLinkPO;
 import org.cotrix.domain.po.CodePO;
 import org.cotrix.domain.po.CodebagPO;
 import org.cotrix.domain.po.CodelistLinkPO;
 import org.cotrix.domain.po.CodelistPO;
-import org.cotrix.domain.primitive.link.CodeLink;
-import org.cotrix.domain.primitive.link.CodelistLink;
 import org.cotrix.domain.simple.primitive.SimpleCodeLink;
 import org.cotrix.domain.simple.primitive.SimpleCodelistLink;
 import org.cotrix.domain.spi.Factory;
@@ -24,7 +21,7 @@ public class SimpleFactory implements Factory {
 
 	
 	@Override
-	public Attribute attribute(AttributePO params) {
+	public SimpleAttribute attribute(AttributePO params) {
 		
 		return params.language()==null?
 				new SimpleAttribute(params):
@@ -47,12 +44,12 @@ public class SimpleFactory implements Factory {
 	}
 	
 	@Override
-	public CodeLink codeLink(CodeLinkPO params) {
+	public SimpleCodeLink codeLink(CodeLinkPO params) {
 		return new SimpleCodeLink(params);
 	}
 	
 	@Override
-	public CodelistLink codelistLink(CodelistLinkPO params) {
+	public SimpleCodelistLink codelistLink(CodelistLinkPO params) {
 		return new SimpleCodelistLink(params);
 	}
 	

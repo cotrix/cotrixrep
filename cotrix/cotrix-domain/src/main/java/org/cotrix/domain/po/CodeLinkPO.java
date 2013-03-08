@@ -2,11 +2,12 @@ package org.cotrix.domain.po;
 
 import static org.cotrix.domain.utils.Utils.*;
 
-import org.cotrix.domain.primitive.link.CodeLink;
-import org.cotrix.domain.primitive.link.CodelistLink;
+import org.cotrix.domain.Codelink;
+import org.cotrix.domain.CodelistLink;
+import org.cotrix.domain.CodelistLink.Private;
 
 /**
- * Initialisation parameters for {@link CodeLink}s.
+ * Initialisation parameters for {@link Codelink}s.
  * 
  * @author Fabio Simeoni
  * 
@@ -14,7 +15,7 @@ import org.cotrix.domain.primitive.link.CodelistLink;
 public final class CodeLinkPO extends AttributedPO {
 
 	private String targetId;
-	private CodelistLink definition;
+	private CodelistLink.Private definition;
 
 	/**
 	 * Creates an instance with an identifier.
@@ -36,16 +37,24 @@ public final class CodeLinkPO extends AttributedPO {
 		this.targetId = id;
 	}
 
-	public CodelistLink definition() {
+	public CodelistLink.Private definition() {
 		return definition;
 	}
 
-	public void setDefinition(CodelistLink definition) {
+	public void setDefinition(CodelistLink.Private definition) {
+		
 		notNull(definition);
 
 		propagateChangeFrom(definition);
 
 		this.definition = definition;
+	}
+	
+	public void setDefinition(CodelistLink definition) {
+		
+		notNull(definition);
+
+		setDefinition(reveal(definition,Private.class));
 	}
 
 }

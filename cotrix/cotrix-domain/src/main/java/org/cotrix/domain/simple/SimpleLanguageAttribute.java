@@ -34,7 +34,7 @@ public class SimpleLanguageAttribute extends SimpleAttribute implements Language
 	}
 	
 	@Override
-	public void update(Attribute delta) throws IllegalArgumentException, IllegalStateException {
+	public void update(Attribute.Private delta) throws IllegalArgumentException, IllegalStateException {
 			
 			super.update(delta);
 			
