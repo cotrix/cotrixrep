@@ -1,6 +1,8 @@
 package org.cotrix.web.importwizard.shared;
 
-public class Metadata {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class Metadata implements IsSerializable {
 	private String name;
 	private String owner;
 	private String description;

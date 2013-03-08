@@ -2,6 +2,7 @@ package org.cotrix.web.importwizard.client;
 
 import org.cotrix.web.importwizard.client.presenter.ImportWizardPresenter;
 import org.cotrix.web.importwizard.shared.CotrixImportModel;
+import org.cotrix.web.importwizard.shared.CotrixImportModelController;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -15,11 +16,11 @@ public class AppControllerImpl implements AppController {
 	private final HandlerManager eventBus;
 	private final ImportServiceAsync rpcService;
 	private HasWidgets container;
-	private CotrixImportModel model;
+	private CotrixImportModelController model;
     private ImportWizardPresenter importWizardPresenter;
 
     @Inject
-    public AppControllerImpl(ImportServiceAsync rpcService, HandlerManager eventBus,CotrixImportModel model, ImportWizardPresenter importWizardPresenter) {
+    public AppControllerImpl(ImportServiceAsync rpcService, HandlerManager eventBus,CotrixImportModelController model, ImportWizardPresenter importWizardPresenter) {
 		this.eventBus = new HandlerManager(null);
 		this.rpcService = rpcService;
 		this.model = model;
@@ -33,11 +34,12 @@ public class AppControllerImpl implements AppController {
 
 	public void go(HasWidgets container) {
 		this.container = container;
-		if ("".equals(History.getToken())) {
+		importWizardPresenter.go(container);
+		/*if ("".equals(History.getToken())) {
 			History.newItem("import");
 		} else {
 			History.fireCurrentHistoryState();
-		}
+		}*/
 	}
 
 	public void onValueChange(ValueChangeEvent<String> event) {

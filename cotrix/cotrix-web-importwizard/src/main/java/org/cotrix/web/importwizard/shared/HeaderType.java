@@ -1,6 +1,8 @@
 package org.cotrix.web.importwizard.shared;
 
-public class HeaderType {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class HeaderType implements IsSerializable {
 	private String value;
 	private String relatedValue;
 	

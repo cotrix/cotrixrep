@@ -18,8 +18,10 @@
 		<module>cotrix-tabular</module>
 		<module>cotrix-web-importwizard</module>
 		<module>cotrix-repository</module>
+		<module>cotrix-web-codelistmanager</module>
+		<module>cotrix-web-menu</module>
 	</modules>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

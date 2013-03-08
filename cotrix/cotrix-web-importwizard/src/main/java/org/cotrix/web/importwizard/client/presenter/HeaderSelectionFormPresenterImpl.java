@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.form.HeaderSelectionFormView;
-import org.cotrix.web.importwizard.client.view.form.HeaderSelectionFormViewImpl;
+import org.cotrix.web.importwizard.shared.CSVFile;
 import org.cotrix.web.importwizard.shared.CotrixImportModel;
+import org.cotrix.web.importwizard.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
@@ -17,16 +18,16 @@ public class HeaderSelectionFormPresenterImpl implements HeaderSelectionFormPres
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final HeaderSelectionFormView view;
-	private  CotrixImportModel model;
+	private  CotrixImportModelController model;
 	
 	@Inject
-	public HeaderSelectionFormPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus,HeaderSelectionFormView view,CotrixImportModel model){
+	public HeaderSelectionFormPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus,HeaderSelectionFormView view,CotrixImportModelController model){
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
 		this.model = model;
 		this.view.setPresenter(this);
-		this.model.getCsvFile().addOnFilechangeHandler(this);
+		this.model.addOnFileChangeHandler(this);
 	}
 
 	public void go(HasWidgets container) {
@@ -36,20 +37,20 @@ public class HeaderSelectionFormPresenterImpl implements HeaderSelectionFormPres
 
 	public boolean isValidated() {
 		ArrayList<String> headers = view.getHeaders();
-		
-		if(headers.size() != model.getCsvFile().getHeaders().length){
+		int columnCount = this.model.getCsvFile().getHeader().length;
+		if(headers.size() != columnCount){
 			view.alert("Please define all header");
 		}else{
-			model.getCsvFile().setHeaders(headers.toArray(new String[0]));
+			model.getCsvFile().setHeader(headers.toArray(new String[0]));
 		}
-		return (headers.size() == model.getCsvFile().getHeaders().length)?true:false;
+		return (headers.size() == columnCount)?true:false;
 	}
 
 	public void onCheckBoxChecked(boolean isChecked) {
 		view.showHeaderForm(!isChecked);
 	}
 
-	public void onFileChange(String[] headers, ArrayList<String[]> data) {
-		view.setData(headers, data);
+	public void onFileChange(CSVFile csvFile) {
+		view.setData(csvFile.getHeader(),csvFile.getData());
 	}
 }

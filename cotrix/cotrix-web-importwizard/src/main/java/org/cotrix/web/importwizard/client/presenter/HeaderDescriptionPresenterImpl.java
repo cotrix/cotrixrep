@@ -7,7 +7,9 @@ import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.form.HeaderDescriptionFormView;
 import org.cotrix.web.importwizard.client.view.form.HeaderDescriptionFormViewImpl;
 import org.cotrix.web.importwizard.client.view.form.FormWrapperView;
+import org.cotrix.web.importwizard.shared.CSVFile;
 import org.cotrix.web.importwizard.shared.CotrixImportModel;
+import org.cotrix.web.importwizard.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
@@ -19,16 +21,16 @@ public class HeaderDescriptionPresenterImpl implements HeaderDescriptionPresente
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final HeaderDescriptionFormView view;
-	private CotrixImportModel model;
+	private CotrixImportModelController model;
 	
 	@Inject
-	public HeaderDescriptionPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus,HeaderDescriptionFormView view,CotrixImportModel model){
+	public HeaderDescriptionPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus,HeaderDescriptionFormView view,CotrixImportModelController model){
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
 		this.model = model;
 		this.view.setPresenter(this);
-		this.model.getCsvFile().addOnFilechangeHandler(this);
+		this.model.addOnFileChangeHandler(this);
 	}
 
 	public void go(HasWidgets container) {
@@ -36,18 +38,20 @@ public class HeaderDescriptionPresenterImpl implements HeaderDescriptionPresente
 		container.add(view.asWidget());
 	}
 
-	public void onFileChange(String[] headers, ArrayList<String[]> data) {
-		view.initForm(model.getCsvFile().getHeaders());
-	}
-
 	public boolean isValidated() {
 	    HashMap<String, String> descriptions = view.getHeaderDescription();
-	    if(descriptions.size() == model.getCsvFile().getHeaders().length){
-	    	model.setHeaderDescription(descriptions);
+	    int columnCount  = model.getCsvFile().getHeader().length;
+	    
+	    if(descriptions.size() == columnCount){
+	    	model.setDescription(descriptions);
 	    }else{
 	    	view.alert("Please describe all headers");
 	    }
-		return (descriptions.size() == model.getCsvFile().getHeaders().length)?true:false;
+		return (descriptions.size() == columnCount)?true:false;
+	}
+
+	public void onFileChange(CSVFile csvFile) {
+		view.initForm(model.getCsvFile().getHeader());
 	}
 
 }

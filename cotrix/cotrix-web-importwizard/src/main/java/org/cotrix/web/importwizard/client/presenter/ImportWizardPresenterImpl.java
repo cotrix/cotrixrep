@@ -5,11 +5,12 @@ import com.google.inject.Inject;
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.ImportWizardView;
 import org.cotrix.web.importwizard.shared.CotrixImportModel;
+import org.cotrix.web.importwizard.shared.CotrixImportModelController;
 
 public class ImportWizardPresenterImpl extends GenericImportWizardPresenterImpl {
 
     @Inject
-    public ImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModel model, 
+    public ImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModelController model, 
     		UploadFormPresenter uploadFormPresenter,
     		MetadataFormPresenter metadataFormPresenter,
     		HeaderSelectionFormPresenterImpl headerSelectionFormPresenter,

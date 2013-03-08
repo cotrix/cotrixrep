@@ -4,6 +4,7 @@ import org.cotrix.web.client.view.CodeListManagerView;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -36,13 +37,19 @@ public class CodeListManager implements EntryPoint {
 
 		// Get rid of scrollbars, and clear out the window's built-in margin,
 		// because we want to take advantage of the entire client area.
-		Window.enableScrolling(false);
-		Window.setMargin("0px");
+
+
+		Window.enableScrolling(false); Window.setMargin("0px");
 
 		CodeListManagerView codeListManagerView = new CodeListManagerView();
 		codeListManagerView.setSize("100%", "100%");
-		
+
 		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
 		rootLayoutPanel.add(codeListManagerView);
+
+
+	/*	HandlerManager eventBus = new HandlerManager(null);
+		AppController appViewer = new AppController(eventBus);
+		appViewer.go(RootPanel.get());*/
 	}
 }
