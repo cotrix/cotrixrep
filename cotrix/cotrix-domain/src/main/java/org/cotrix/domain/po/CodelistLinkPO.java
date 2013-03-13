@@ -2,8 +2,15 @@ package org.cotrix.domain.po;
 
 import static org.cotrix.domain.utils.Utils.*;
 
+import org.cotrix.domain.CodelistLink;
 
-public class CodelistLinkPO extends AttributedPO {
+/**
+ * Initialisation parameters for {@link CodelistLink}s.
+ * 
+ * @author Fabio Simeoni
+ *
+ */
+public class CodelistLinkPO extends NamedPO {
 
 	private String targetId;
 	

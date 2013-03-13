@@ -1,12 +1,11 @@
 package org.cotrix.domain.simple;
 
 import org.cotrix.domain.Code;
+import org.cotrix.domain.Codelink;
 import org.cotrix.domain.po.CodePO;
-import org.cotrix.domain.primitive.container.Bag;
-import org.cotrix.domain.primitive.container.Container;
-import org.cotrix.domain.primitive.link.CodeLink;
-import org.cotrix.domain.simple.primitive.SimpleAttributedEntity;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.primitive.PContainer;
+import org.cotrix.domain.simple.primitive.SimpleNamed;
+import org.cotrix.domain.spi.IdGenerator;
 
 
 /**
@@ -15,9 +14,9 @@ import org.cotrix.domain.utils.IdGenerator;
  * @author Fabio Simeoni
  *
  */
-public class SimpleCode extends SimpleAttributedEntity<Code> implements Code {
+public class SimpleCode extends SimpleNamed<Code.Private> implements Code.Private {
 
-	private final Bag<CodeLink> links;
+	private final PContainer<Codelink.Private> links;
 	
 	/**
 	 * Creates an instance with given parameters.
@@ -29,7 +28,7 @@ public class SimpleCode extends SimpleAttributedEntity<Code> implements Code {
 	}
 	
 	@Override
-	public Container<CodeLink> links() {
+	public PContainer<Codelink.Private> links() {
 		return links;
 	}
 	
@@ -47,7 +46,7 @@ public class SimpleCode extends SimpleAttributedEntity<Code> implements Code {
 	}
 	
 	@Override
-	public void update(Code delta) throws IllegalArgumentException, IllegalStateException {
+	public void update(Code.Private delta) throws IllegalArgumentException, IllegalStateException {
 		super.update(delta);
 		this.links.update(delta.links());
 	}

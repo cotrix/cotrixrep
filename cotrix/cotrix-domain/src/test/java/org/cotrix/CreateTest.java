@@ -4,6 +4,8 @@ import static junit.framework.Assert.*;
 import static org.cotrix.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
+import java.util.List;
+
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
@@ -66,7 +68,7 @@ public class CreateTest {
 		AttributedPO po = new AttributedPO("id") {};
 		
 		try {
-			po.setAttributes(null);
+			po.setAttributes((List<Attribute>)null);
 			fail();
 		}
 		catch(IllegalArgumentException e) {}
@@ -171,7 +173,7 @@ public class CreateTest {
 		CodelistPO po = new CodelistPO("id");
 		
 		try {//null value
-			po.setCodes(null);
+			po.setCodes((List<Code>)null);
 			fail();
 		}
 		catch(IllegalArgumentException e) {}
@@ -217,13 +219,14 @@ public class CreateTest {
 	
 	
 	@Test
+	@SuppressWarnings("all")
 	public void codebagsRejectNullParameters() {
 			
 
 		CodebagPO po = new CodebagPO("id");
 		
 		try {//null value
-			po.setLists(null);
+			po.setLists((List)null);
 			fail();
 		}
 		catch(IllegalArgumentException e) {}

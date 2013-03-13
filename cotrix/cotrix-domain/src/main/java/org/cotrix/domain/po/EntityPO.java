@@ -3,13 +3,12 @@ package org.cotrix.domain.po;
 import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.domain.utils.Utils.*;
 
-import org.cotrix.domain.primitive.entity.NamedEntity;
 import org.cotrix.domain.trait.Change;
 import org.cotrix.domain.trait.Mutable;
 
 
 /**
- * A partial implementation of parameter objects for {@link NamedEntity}s.
+ * Partial implementation of initialisation parameters for {@link Base}s.
  * 
  * @author Fabio Simeoni
  *

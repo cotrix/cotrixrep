@@ -1,8 +1,8 @@
 package org.cotrix.domain.simple.primitive;
 
+import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.po.CodelistLinkPO;
-import org.cotrix.domain.primitive.link.CodelistLink;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * Default implementation of {@link CodelistLink}.
@@ -10,7 +10,7 @@ import org.cotrix.domain.utils.IdGenerator;
  * @author Fabio Simeoni
  *
  */
-public class SimpleCodelistLink extends SimpleAttributedEntity<CodelistLink> implements CodelistLink  {
+public class SimpleCodelistLink extends SimpleNamed<CodelistLink.Private> implements CodelistLink.Private  {
 
 	private String targetId;
 
@@ -29,7 +29,8 @@ public class SimpleCodelistLink extends SimpleAttributedEntity<CodelistLink> imp
 	}
 	
 	@Override
-	public void update(CodelistLink delta) throws IllegalArgumentException, IllegalStateException {
+	public void update(CodelistLink.Private delta) throws IllegalArgumentException, IllegalStateException {
+		
 		super.update(delta);
 		
 		if (!targetId.equals(delta.targetId()))
@@ -43,10 +44,36 @@ public class SimpleCodelistLink extends SimpleAttributedEntity<CodelistLink> imp
 	}
 	
 	@Override
-	public CodelistLink copy(IdGenerator generator) {
+	public CodelistLink.Private copy(IdGenerator generator) {
 		CodelistLinkPO po = new CodelistLinkPO(generator.generateId());
 		this.fillPO(generator,po);
 		return null;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((targetId == null) ? 0 : targetId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SimpleCodelistLink other = (SimpleCodelistLink) obj;
+		if (targetId == null) {
+			if (other.targetId != null)
+				return false;
+		} else if (!targetId.equals(other.targetId))
+			return false;
+		return true;
+	}
+
+	
 }

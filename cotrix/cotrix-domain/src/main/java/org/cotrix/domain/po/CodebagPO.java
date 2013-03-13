@@ -3,20 +3,22 @@ package org.cotrix.domain.po;
 import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.primitive.container.Bag;
+import org.cotrix.domain.primitive.PContainer;
+import org.cotrix.domain.utils.Utils;
 
 /**
- * A set of parameters required to create a {@link Codebag}.
+ * Initialisation parameters for {@link Codebag}s.
  * 
  * @author Fabio Simeoni
  *
  */
 public final class CodebagPO extends VersionedPO {
 	
-	private Bag<Codelist> lists = new Bag<Codelist>(Collections.<Codelist>emptyList());
+	private PContainer<Codelist.Private> lists = new PContainer<Codelist.Private>(Collections.<Codelist.Private>emptyList());
 
 	/**
 	 * Creates an instance with an identifier.
@@ -30,7 +32,7 @@ public final class CodebagPO extends VersionedPO {
 	 * Returns the {@link Codelist}s parameter. 
 	 * @return the parameter
 	 */
-	public Bag<Codelist> lists() {
+	public PContainer<Codelist.Private> lists() {
 		return lists;
 	}
 
@@ -38,13 +40,24 @@ public final class CodebagPO extends VersionedPO {
 	 * Sets the {@link Codelist} parameter.
 	 * @param lists the paramter
 	 */
-	public void setLists(Bag<Codelist> lists) {
+	public void setLists(PContainer<Codelist.Private> lists) {
 		
 		notNull("lists",lists);
 		
 		propagateChangeFrom(lists);
 		
 		this.lists = lists;
+	}
+	
+	/**
+	 * Sets the {@link Codelist} parameter.
+	 * @param lists the paramter
+	 */
+	public void setLists(List<Codelist> lists) {
+		
+		PContainer<Codelist.Private> privateLists = new PContainer<Codelist.Private>(Utils.reveal(lists,Codelist.Private.class));
+		
+		this.setLists(privateLists);
 	}
 	
 }

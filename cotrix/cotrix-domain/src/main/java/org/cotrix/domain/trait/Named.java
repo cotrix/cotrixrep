@@ -15,5 +15,9 @@ public interface Named {
 	 * @return the name
 	 */
 	QName name();
-	
+
+	/**
+	 * A private extension of {@link Named}.
+	 */
+	public static interface Private<T extends Private<T>> extends Named,Attributed.Private<T> {}
 }

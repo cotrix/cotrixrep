@@ -2,12 +2,12 @@ package org.cotrix.domain.simple;
 
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.po.CodelistPO;
-import org.cotrix.domain.primitive.container.Bag;
-import org.cotrix.domain.primitive.container.Container;
-import org.cotrix.domain.primitive.link.CodelistLink;
-import org.cotrix.domain.simple.primitive.SimpleVersionedEntity;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.primitive.Container;
+import org.cotrix.domain.primitive.PContainer;
+import org.cotrix.domain.simple.primitive.SimpleVersioned;
+import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.version.Version;
 
 /**
@@ -16,10 +16,10 @@ import org.cotrix.domain.version.Version;
  * @author Fabio Simeoni
  * 
  */
-public class SimpleCodelist extends SimpleVersionedEntity<Codelist> implements Codelist {
+public class SimpleCodelist extends SimpleVersioned<Codelist.Private> implements Codelist.Private {
 
-	private final Bag<Code> codes;
-	private final Bag<CodelistLink> links;
+	private final PContainer<Code.Private> codes;
+	private final PContainer<CodelistLink.Private> links;
 
 	/**
 	 * Creates an instance with given identifier,name, codes, attributes, and version.
@@ -37,17 +37,17 @@ public class SimpleCodelist extends SimpleVersionedEntity<Codelist> implements C
 	}
 
 	@Override
-	public Bag<Code> codes() {
+	public PContainer<Code.Private> codes() {
 		return codes;
 	}
 	
 	@Override
-	public Container<CodelistLink> links() {
+	public Container<CodelistLink.Private> links() {
 		return links;
 	}
 
 	protected void buildPO(IdGenerator generator,CodelistPO po) {
-		super.fillPO(po);
+		super.fillPO(generator,po);
 		po.setCodes(codes().copy(generator));
 		po.setLinks(links.copy(generator));
 	}
@@ -68,7 +68,7 @@ public class SimpleCodelist extends SimpleVersionedEntity<Codelist> implements C
 	}
 
 	@Override
-	public void update(Codelist delta) throws IllegalArgumentException, IllegalStateException {
+	public void update(Codelist.Private delta) throws IllegalArgumentException, IllegalStateException {
 		super.update(delta);
 		this.codes().update(delta.codes());
 	}

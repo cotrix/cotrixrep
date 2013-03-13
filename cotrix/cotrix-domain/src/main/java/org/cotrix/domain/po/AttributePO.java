@@ -6,15 +6,17 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.utils.Constants;
+import org.cotrix.domain.utils.Utils;
 
 /**
- * A set of parameters required to create an {@link Attribute}.
+ * Initialisation parameters for {@link Attribute}s.
  * 
  * @author Fabio Simeoni
  *
  */
-public final class AttributePO extends NamedPO {
+public final class AttributePO extends EntityPO {
 
+	private QName name;
 	private QName type = Constants.DEFAULT_TYPE;
 	private String value;
 	private String language;
@@ -26,6 +28,24 @@ public final class AttributePO extends NamedPO {
 	public AttributePO(String id) {
 		super(id);
 	}
+	
+	/** Returns the name parameter.
+	 * @return the name parameter
+	 */
+	public QName name() {
+		return name;
+	}
+	
+	/**
+	 * Sets the name parameter
+	 * @param name the name parameter
+	 */
+	public void setName(QName name) {
+		
+		Utils.valid(name);
+		
+		this.name = name;
+	}	
 	
 	public QName type() {
 		return type;

@@ -4,7 +4,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
-import org.cotrix.domain.primitive.link.CodelistLink;
+import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.trait.Change;
 
 /**

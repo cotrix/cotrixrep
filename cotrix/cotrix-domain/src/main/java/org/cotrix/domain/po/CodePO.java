@@ -3,21 +3,23 @@ package org.cotrix.domain.po;
 import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.Collections;
+import java.util.List;
 
 import org.cotrix.domain.Code;
-import org.cotrix.domain.primitive.container.Bag;
-import org.cotrix.domain.primitive.link.CodeLink;
+import org.cotrix.domain.Codelink;
+import org.cotrix.domain.Codelink.Private;
+import org.cotrix.domain.primitive.PContainer;
 
 
 /**
- * A set of parameters required to create a {@link Code}.
+ * Initialisation parameters for {@link Code}s.
  * 
  * @author Fabio Simeoni
  *
  */
-public final class CodePO extends AttributedPO {
+public final class CodePO extends NamedPO {
 
-	private Bag<CodeLink> links = new Bag<CodeLink>(Collections.<CodeLink>emptyList());	
+	private PContainer<Codelink.Private> links = new PContainer<Private>(Collections.<Private>emptyList());	
 	
 	/**
 	 * Creates an instance with an identifier.
@@ -27,11 +29,17 @@ public final class CodePO extends AttributedPO {
 		super(id);
 	}
 	
-	public Bag<CodeLink> links() {
+	public PContainer<Codelink.Private> links() {
 		return links;
 	}
 	
-	public void setLinks(Bag<CodeLink> links) {
+	public void setLinks(List<Codelink> links) {
+		
+		PContainer<Codelink.Private> privateLinks = new PContainer<Codelink.Private>(reveal(links,Codelink.Private.class));
+		this.setLinks(privateLinks);
+	}
+	
+	public void setLinks(PContainer<Codelink.Private> links) {
 		notNull("links",links);
 		
 		propagateChangeFrom(links);

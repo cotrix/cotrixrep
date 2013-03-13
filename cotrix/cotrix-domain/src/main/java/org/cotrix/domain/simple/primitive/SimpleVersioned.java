@@ -3,19 +3,19 @@ package org.cotrix.domain.simple.primitive;
 import static org.cotrix.domain.utils.Utils.*;
 
 import org.cotrix.domain.po.VersionedPO;
-import org.cotrix.domain.primitive.entity.VersionedEntity;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.spi.IdGenerator;
+import org.cotrix.domain.trait.Versioned;
 import org.cotrix.domain.version.Version;
 
 /**
- * A partial implementation of {@link VersionedEntity}.
+ * A partial implementation of {@link Versioned} entity.
  * 
  * @author Fabio Simeoni
  * 
  * <T> the type of the entity
  *
  */
-public abstract class SimpleVersionedEntity<T extends VersionedEntity<T>> extends SimpleAttributedEntity<T> implements VersionedEntity<T> {
+public abstract class SimpleVersioned<T extends Versioned.Private<T>> extends SimpleNamed<T> implements Versioned.Private<T> {
 
 	private final Version version;
 
@@ -26,7 +26,7 @@ public abstract class SimpleVersionedEntity<T extends VersionedEntity<T>> extend
 	 * @param attributes the attributes
 	 * @param version the version
 	 */
-	public SimpleVersionedEntity(VersionedPO param) {
+	public SimpleVersioned(VersionedPO param) {
 		super(param);
 		this.version=param.version();
 	}
@@ -36,8 +36,8 @@ public abstract class SimpleVersionedEntity<T extends VersionedEntity<T>> extend
 		return version.value();
 	}
 	
-	protected void fillPO(VersionedPO po) {
-		super.fillPO(po);
+	protected void fillPO(IdGenerator generator,VersionedPO po) {
+		super.fillPO(generator,po);
 		po.setVersion(version);
 	}
 	
@@ -86,7 +86,7 @@ public abstract class SimpleVersionedEntity<T extends VersionedEntity<T>> extend
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SimpleVersionedEntity<?> other = (SimpleVersionedEntity<?>) obj;
+		SimpleVersioned<?> other = (SimpleVersioned<?>) obj;
 		if (version == null) {
 			if (other.version != null)
 				return false;

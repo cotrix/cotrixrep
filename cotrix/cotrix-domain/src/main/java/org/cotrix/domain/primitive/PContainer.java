@@ -1,5 +1,6 @@
-package org.cotrix.domain.primitive.container;
+package org.cotrix.domain.primitive;
 
+import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.ArrayList;
@@ -11,37 +12,38 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.cotrix.domain.primitive.entity.Entity;
-import org.cotrix.domain.trait.Copyable;
+import org.cotrix.domain.spi.IdGenerator;
+import org.cotrix.domain.trait.Change;
+import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Mutable;
-import org.cotrix.domain.utils.IdGenerator;
 
 /**
- * A {@link Mutable} and {@link Copyable} {@link Container} of {@link Entity}s.
+ * A {@link Mutable} {@link Container}.
  * 
  * @author Fabio Simeoni
  * 
- * @param <T> the type of contained object
- * @param <C> the type of the container itself
- * 
+ * @param <T> the type of contained objects
  */
-public class Bag<T extends Entity<T>> extends AbstractContainer<T> {
+public class PContainer<T extends Identified.Private<T>> implements Container<T>, org.cotrix.domain.trait.Private<PContainer<T>> {
 
+	private Change change;
+	
 	private final Set<T> objects = new LinkedHashSet<T>();
 	
 	/**
-	 * Creates an instance that contain given objects.
+	 * Creates an instance that contain given entities.
 	 * 
-	 * @param objects the objects
+	 * @param objects the entities
 	 */
-	public Bag(List<? extends T> objects) {
-
+	public PContainer(List<? extends T> objects) {
+		
 		notNull(objects);
 
 		for (T object : objects)
 			add(object);
+		
 	}
-
+	
 	public Iterator<T> iterator() {
 		return objects.iterator();
 	}
@@ -50,9 +52,37 @@ public class Bag<T extends Entity<T>> extends AbstractContainer<T> {
 	public int size() {
 		return objects.size();
 	}
+	
+
+
+	
+
 
 	@Override
-	public void update(Container<T> delta) {
+	public Change change() {
+		return change;
+	}
+
+	@Override
+	public boolean isDelta() {
+		return change != null;
+	}
+
+	@Override
+	public void reset() {
+		setChange(null);
+	}
+
+	public void setChange(Change change) {
+
+		notNull(change);
+
+		this.change = change;
+
+	}
+
+	@Override
+	public void update(PContainer<T> delta) {
 		
 		Map<String, T> index = indexObjects();
 
@@ -85,7 +115,7 @@ public class Bag<T extends Entity<T>> extends AbstractContainer<T> {
 
 		Map<String, T> index = new HashMap<String, T>();
 
-		for (T object : objects)
+		for (T object : this)
 			index.put(object.id(), object);
 
 		return index;
@@ -100,18 +130,38 @@ public class Bag<T extends Entity<T>> extends AbstractContainer<T> {
 		return objects.add(object);
 		
 	}
-
+	
 	@Override
-	public Bag<T> copy(IdGenerator generator) {
+	public PContainer<T> copy(IdGenerator generator) {
 		
 		List<T> copied = new ArrayList<T>();
 		for (T object : this)
 			copied.add(object.copy(generator));
 		
-		return new Bag<T>(copied); 
+		return new PContainer<T>(copied); 
 		
 	}
 	
+	// helper
+	protected void propagateChangeFrom(T object) throws IllegalArgumentException {
+
+		// redundant checks, but clearer
+
+		// first time: inherit NEW or MODIFIED
+		if (object.isDelta() && !this.isDelta())
+			this.setChange(object.change() == NEW ? NEW : MODIFIED);
+
+		// other times: if not another NEW, MODIFIED
+		if (object.isDelta() && this.isDelta())
+			if (object.change() != this.change)
+				this.setChange(MODIFIED);
+
+		if (this.isDelta() && !object.isDelta())
+			throw new IllegalArgumentException("object is " + this.change + " and can only contain other changes");
+
+	}
+	
+
 	@Override
 	public String toString() {
 		final int maxLen = 100;
@@ -147,7 +197,7 @@ public class Bag<T extends Entity<T>> extends AbstractContainer<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Bag<?> other = (Bag<?>) obj;
+		PContainer<?> other = (PContainer<?>) obj;
 		if (objects == null) {
 			if (other.objects != null)
 				return false;

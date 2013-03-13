@@ -10,7 +10,6 @@ import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.ThirdClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.po.AttributePO;
 import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.trait.Change;
@@ -22,8 +21,7 @@ import org.cotrix.domain.trait.Change;
  *
  */
 public class AttributeBuilder implements AttributeStartClause, SecondClause,
-										 		  ThirdClause, FinalClause,
-										 		  BuildClause<Attribute> {
+										 		  ThirdClause, FinalClause {
 
 	
 	private final AttributePO po;
@@ -71,7 +69,7 @@ public class AttributeBuilder implements AttributeStartClause, SecondClause,
 	}
 	
 	@Override
-	public BuildClause<Attribute> as(Change change) {
+	public FinalClause as(Change change) {
 		if (change!=NEW && po.id()==null)
 			throw new IllegalStateException("object is marked as update but has its identifier is null");
 		po.setChange(change);

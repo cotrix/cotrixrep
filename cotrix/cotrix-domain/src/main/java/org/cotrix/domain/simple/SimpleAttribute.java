@@ -1,11 +1,12 @@
-package org.cotrix.domain.simple.attribute;
+package org.cotrix.domain.simple;
 
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Attribute.Private;
 import org.cotrix.domain.po.AttributePO;
-import org.cotrix.domain.simple.primitive.SimpleNamedEntity;
-import org.cotrix.domain.utils.IdGenerator;
+import org.cotrix.domain.simple.primitive.SimpleBase;
+import org.cotrix.domain.spi.IdGenerator;
 
 
 /**
@@ -14,8 +15,9 @@ import org.cotrix.domain.utils.IdGenerator;
  * @author Fabio Simeoni
  *
  */
-public class SimpleAttribute extends SimpleNamedEntity<Attribute> implements Attribute {
+public class SimpleAttribute extends SimpleBase<Private> implements Private {
 
+	private QName name;
 	private QName type;
 	private String value;
 	
@@ -23,8 +25,13 @@ public class SimpleAttribute extends SimpleNamedEntity<Attribute> implements Att
 		
 		super(params);
 		
+		this.name=params.name();
 		this.type=params.type();
 		this.value=params.value();
+	}
+	
+	public QName name() {
+		return name;
 	}
 	
 	public QName type() {
@@ -35,24 +42,27 @@ public class SimpleAttribute extends SimpleNamedEntity<Attribute> implements Att
 		return value;
 	}
 	
+	
+	
 	protected void fillPO(AttributePO po) {
-		super.fillPO(po);
+		po.setName(name);
 		po.setType(type());
 		po.setValue(value());
 	}
 	
 	@Override
-	public SimpleAttribute copy(IdGenerator generator) {
+	public Attribute.Private copy(IdGenerator generator) {
 		AttributePO po = new AttributePO(generator.generateId());
 		fillPO(po);
 		return new SimpleAttribute(po);
 	}
 	
 	@Override
-	public void update(Attribute delta) throws IllegalArgumentException, IllegalStateException {
+	public void update(Attribute.Private delta) throws IllegalArgumentException, IllegalStateException {
 		
 		super.update(delta);
 		
+		name=delta.name();
 		type=delta.type();
 		value=delta.value();
 		

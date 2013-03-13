@@ -2,17 +2,17 @@ package org.cotrix.domain.po;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.primitive.entity.NamedEntity;
+import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.utils.Utils;
 
 
 /**
- * A partial implementation of parameter objects for {@link NamedEntity}s.
+ * Partial implementation of initialisation parameters for {@link Named} entities.
  * 
  * @author Fabio Simeoni
  *
  */
-public abstract class NamedPO extends EntityPO {
+public abstract class NamedPO extends AttributedPO {
 
 	private QName name;
 	
