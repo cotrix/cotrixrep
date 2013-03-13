@@ -39,22 +39,25 @@ public class CodeListManagerViewImpl extends Composite implements CodeListManage
 	private int getPanelTopMargin(){
 		return 0;
 	}
-	private int getPadding(){
+	private int getLeftPanelPadding(){
 		return 20;
+	}
+	private int getRightPanelPadding(){
+		return 10;
 	}
 	
 	public void init() {
-		leftPanel.setWidth(getLeftPanelWidth() - getPadding()+PX);
-		leftPanel.setHeight((Window.getClientHeight() - getPanelTopMargin() - getPadding()) + PX);
-		rightPanel.setWidth((Window.getClientWidth() - getLeftPanelWidth() - getPadding()) + PX);
-		rightPanel.setHeight((Window.getClientHeight() - getPanelTopMargin() - getPadding()) + PX);
+		leftPanel.setWidth(getLeftPanelWidth() - getLeftPanelPadding()+PX);
+		leftPanel.setHeight((Window.getClientHeight() - getPanelTopMargin() - getLeftPanelPadding()) + PX);
+		rightPanel.setWidth((Window.getClientWidth() - getLeftPanelWidth() - getRightPanelPadding()) + PX);
+		rightPanel.setHeight((Window.getClientHeight() - getPanelTopMargin() - getLeftPanelPadding()) + PX);
 		mainPanel.setWidth(Window.getClientWidth() + PX);
 		mainPanel.setHeight(Window.getClientHeight() + PX);
 		Window.addResizeHandler(new ResizeHandler() {
 			public void onResize(ResizeEvent event) {
 				mainPanel.setWidth(event.getWidth() + PX);
 				mainPanel.setHeight(event.getHeight() + PX);
-				rightPanel.setWidth((Window.getClientWidth() - getLeftPanelWidth() - getPadding()) + PX);
+				rightPanel.setWidth((Window.getClientWidth() - getLeftPanelWidth() - getRightPanelPadding()) + PX);
 			}
 		});
 	}

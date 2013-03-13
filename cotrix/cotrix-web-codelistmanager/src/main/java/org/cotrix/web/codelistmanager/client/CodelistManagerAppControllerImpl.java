@@ -18,7 +18,6 @@ public class CodelistManagerAppControllerImpl implements CodelistManagerAppContr
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.codeListManagerPresenter = codeListManagerPresenter;
-		
 	}
 	
 	public void go(HasWidgets container) {

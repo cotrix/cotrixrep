@@ -9,10 +9,23 @@
 		.wrapper {
 			height: 100%;
 			width: 100%;
-			background-color: orange;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			background-color: white;
+		}
+		
+		.initLabel {
+			font-size: 25px;
+			color: #999;
+			font-weight:lighter;
+			line-height:100%;
+			width: 100%;
+			height: 100%;
+			text-align: center;
+			margin-top:150px;
 		}
 	</ui:style>
 	<g:FlowPanel styleName="{style.wrapper}">
-		<g:Label>HELLO RIGHT PANEL</g:Label>
+		<g:Label styleName="{style.initLabel}">Select any code list in left panel.</g:Label>
 	</g:FlowPanel>
 </ui:UiBinder> 

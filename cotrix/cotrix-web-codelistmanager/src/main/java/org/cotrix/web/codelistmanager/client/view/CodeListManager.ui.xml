@@ -7,21 +7,22 @@
 		}
 		
 		.leftPanel {
-			background-color: #ff6600;
 			height: 100%;
 			float: left;
 			padding: 10px;
+			border: 1px; solid #666;
 		}
 		
 		.rightPanel {
-			background-color: red;
 			height: 100%;
 			float: left;
-			padding: 10px;
+			padding-right: 10px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			
 		}
 		
 		.mainPanel {
-			background-color: yellow;
 			margin: 0px;
 			padding: 0px;
 		}
