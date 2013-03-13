@@ -12,11 +12,15 @@ public class CodeListManagerPresenterImpl implements CodeListManagerPresenter{
 	private ManagerServiceAsync rpcService;
 	private HandlerManager eventBus;
 	private CodeListManagerView view;
+	private CodeListPresenter codeListPresenter;
+	private CodeListDetailPresenter codeListDetailPresenter;
 	
 	@Inject
-	public CodeListManagerPresenterImpl(ManagerServiceAsync rpcService,HandlerManager eventBus,CodeListManagerView view){
+	public CodeListManagerPresenterImpl(ManagerServiceAsync rpcService,HandlerManager eventBus,CodeListPresenter codeListPresenter,CodeListManagerView view,CodeListDetailPresenter codeListDetailPresenter){
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
+		this.codeListPresenter = codeListPresenter;
+		this.codeListDetailPresenter = codeListDetailPresenter;
 		this.view = view;
 		this.view.setPresenter(this);
 	}
@@ -25,6 +29,8 @@ public class CodeListManagerPresenterImpl implements CodeListManagerPresenter{
 		container.clear();
 		container.add(view.asWidget());
 		view.init();
+		codeListPresenter.go(view.getLeftPanel());
+		codeListDetailPresenter.go(view.getRightPanel());
 	}
 	
 }

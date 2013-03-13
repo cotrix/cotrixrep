@@ -1,18 +1,18 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
 		.important {
 			font-weight: bold;
 		}
+		
 		.wrapper {
 			height: 100%;
 			width: 100%;
-			background-color: blue;
+			background-color: orange;
 		}
-		
 	</ui:style>
 	<g:FlowPanel styleName="{style.wrapper}">
-		<g:Label>HELLO LEFT PANEL</g:Label>
+		<g:Label>HELLO RIGHT PANEL</g:Label>
 	</g:FlowPanel>
 </ui:UiBinder> 

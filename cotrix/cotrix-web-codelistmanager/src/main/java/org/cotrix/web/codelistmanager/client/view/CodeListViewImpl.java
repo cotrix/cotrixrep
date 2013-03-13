@@ -16,8 +16,6 @@ public class CodeListViewImpl extends Composite implements CodeListView {
 	@UiTemplate("CodeListView.ui.xml")
 	interface CodeListViewUiBinder extends UiBinder<Widget, CodeListViewImpl> {}
 
-	@UiField CellList list;
-	@UiField SimplePager pager;
 	private Presenter presenter;
 	
 	public CodeListViewImpl() {

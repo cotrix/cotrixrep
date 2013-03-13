@@ -10,12 +10,14 @@
 			background-color: #ff6600;
 			height: 100%;
 			float: left;
+			padding: 10px;
 		}
 		
 		.rightPanel {
 			background-color: red;
 			height: 100%;
 			float: left;
+			padding: 10px;
 		}
 		
 		.mainPanel {
