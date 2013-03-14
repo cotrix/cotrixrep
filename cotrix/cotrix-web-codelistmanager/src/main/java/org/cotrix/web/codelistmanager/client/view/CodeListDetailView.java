@@ -13,5 +13,6 @@ public interface CodeListDetailView {
 	void onNavLeftClicked(ClickEvent event);
 	void showNavLeft();
 	void showNavRight();
+	void expandWidth(boolean isExpand);
 	Widget asWidget();
 }

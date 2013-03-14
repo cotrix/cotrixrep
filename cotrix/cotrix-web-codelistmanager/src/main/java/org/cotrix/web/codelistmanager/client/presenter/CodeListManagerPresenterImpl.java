@@ -36,7 +36,8 @@ public class CodeListManagerPresenterImpl implements CodeListManagerPresenter{
 	}
 
 	public void onNavigationClicked(boolean isShowingNavLeft) {
-		view.show(isShowingNavLeft);
+		view.showLeftPanel(isShowingNavLeft);
+		view.expandRightPanel(isShowingNavLeft);
 	}
 	
 }

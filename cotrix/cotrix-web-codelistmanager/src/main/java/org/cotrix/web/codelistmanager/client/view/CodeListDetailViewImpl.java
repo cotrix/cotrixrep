@@ -67,5 +67,14 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 		this.presenter = presenter;
 	}
 
+	public void expandWidth(boolean isExpand) {
+		if(isExpand){
+			
+		}else{
+			
+		}
+			
+	}
+
 
 }
