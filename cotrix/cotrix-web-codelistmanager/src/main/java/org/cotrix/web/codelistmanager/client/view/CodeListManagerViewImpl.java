@@ -33,6 +33,7 @@ public class CodeListManagerViewImpl extends Composite implements CodeListManage
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
+
 	private int getLeftPanelWidth(){
 		return 250;
 	}
@@ -40,12 +41,12 @@ public class CodeListManagerViewImpl extends Composite implements CodeListManage
 		return 0;
 	}
 	private int getLeftPanelPadding(){
-		return 20;
-	}
-	private int getRightPanelPadding(){
 		return 10;
 	}
-	
+	private int getRightPanelPadding(){
+		return 20;
+	}
+
 	public void init() {
 		leftPanel.setWidth(getLeftPanelWidth() - getLeftPanelPadding()+PX);
 		leftPanel.setHeight((Window.getClientHeight() - getPanelTopMargin() - getLeftPanelPadding()) + PX);
@@ -70,5 +71,9 @@ public class CodeListManagerViewImpl extends Composite implements CodeListManage
 		return this.rightPanel;
 	}
 	
+	public void show(boolean isShow){
+		this.leftPanel.setVisible(!isShow);
+	}
+
 
 }

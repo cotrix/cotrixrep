@@ -5,6 +5,7 @@ import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.view.CodeListManagerView;
 
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
@@ -31,6 +32,11 @@ public class CodeListManagerPresenterImpl implements CodeListManagerPresenter{
 		view.init();
 		codeListPresenter.go(view.getLeftPanel());
 		codeListDetailPresenter.go(view.getRightPanel());
+		codeListDetailPresenter.setOnNavigationLeftClicked(this);
+	}
+
+	public void onNavigationClicked(boolean isShowingNavLeft) {
+		view.show(isShowingNavLeft);
 	}
 	
 }

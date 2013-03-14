@@ -29,13 +29,17 @@ public class CodeListViewImpl extends Composite implements CodeListView {
 	@UiField FlowPanel panel;
 	@UiField FlowPanel listPanel;
 	@UiField FlowPanel filterPanel;
-	@UiField TextBox filterTextBox;
-	
+	@UiField PromptedTextBox filterTextBox;
+	@UiFactory PromptedTextBox getPromptedTextBox() { 
+		return new PromptedTextBox("  Filter...", style.promptTextBox(),style.filterTextBox());
+	}
+
 	private Presenter presenter;
 
 	@UiField Style style;
 	interface Style extends CssResource {
 		String filterTextBox();
+		String promptTextBox();
 	}
 	public CodeListViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));

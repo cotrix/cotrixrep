@@ -9,16 +9,16 @@
 		.leftPanel {
 			height: 100%;
 			float: left;
-			padding: 10px;
+			padding-left: 10px;
+			padding-top: 10px;
+			padding-bottom: 10px;
 			border: 1px; solid #666;
 		}
 		
 		.rightPanel {
 			height: 100%;
 			float: left;
-			padding-right: 10px;
-			padding-top: 10px;
-			padding-bottom: 10px;
+			padding: 10px;
 			
 		}
 		
@@ -32,6 +32,7 @@
 			height: 100%;
 		}
 	</ui:style>
+	
 	<g:HTMLPanel styleName="{style.mainPanel}" ui:field="mainPanel">
 		<g:FlowPanel styleName="{style.leftPanel}" ui:field="leftPanel">
 			<g:Label>HELLO CodeList Manager</g:Label>
@@ -40,4 +41,5 @@
 			<g:Label>HELLO CodeList Manager</g:Label>
 		</g:FlowPanel>
 	</g:HTMLPanel>
+
 </ui:UiBinder> 

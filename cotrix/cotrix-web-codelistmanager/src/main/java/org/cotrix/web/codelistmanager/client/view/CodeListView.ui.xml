@@ -23,11 +23,28 @@
 			.filterTextBox {
 				width: 95%;
 				padding: 3px;
+				color:#666;
 				border:1px solid #ccc;
 				border-radius:50px;
 			}
+			
 			.filterTextBox :FOCUS {
 				width: 95%;
+				color:#666;
+				padding: 3px;
+				border-radius:50px;
+			}
+			
+			.promptTextBox {
+				width: 95%;
+				padding: 3px;
+				color:#ccc;
+				border:1px solid #ccc;
+				border-radius:50px;
+			}
+			.promptTextBox :FOCUS {
+				width: 95%;
+				color:#ccc;
 				padding: 3px;
 				border-radius:50px;
 			}
@@ -55,7 +72,7 @@
 		</ui:style>
 	<g:FlowPanel styleName="{style.wrapper}" ui:field="panel">
 		<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
-			<g:TextBox ui:field="filterTextBox" styleName="{style.filterTextBox}"></g:TextBox>
+			<cotrix:PromptedTextBox ui:field="filterTextBox" ></cotrix:PromptedTextBox>
 		</g:FlowPanel>
 		<g:FlowPanel ui:field="listPanel" styleName="{style.listPanel}">
 		</g:FlowPanel>

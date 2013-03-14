@@ -1,7 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
+	<ui:with field='res' type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
+	<ui:style type="org.cotrix.web.codelistmanager.client.view.CodeListDetailViewImpl.Style">
 		.important {
 			font-weight: bold;
 		}
@@ -17,15 +18,60 @@
 		.initLabel {
 			font-size: 25px;
 			color: #999;
-			font-weight:lighter;
-			line-height:100%;
+			font-weight: lighter;
+			line-height: 100%;
 			width: 100%;
 			height: 100%;
 			text-align: center;
-			margin-top:150px;
+			margin-top: 150px;
+		}
+		
+		.headerPanel {
+			border-top-right-radius: 5px;
+			border-top-left-radius: 5px;
+			height: 35px;
+			background: rgb(255, 255, 255); /* Old browsers */
+			background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+				rgba(229, 229, 229, 1) 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,
+				255, 255, 1)), color-stop(100%, rgba(229, 229, 229, 1)));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+				rgba(229, 229, 229, 1) 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+				rgba(229, 229, 229, 1) 100%); /* Opera 11.10+ */
+			background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+				rgba(229, 229, 229, 1) 100%); /* IE10+ */
+			background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
+				rgba(229, 229, 229, 1) 100%); /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient(      startColorstr='#ffffff',
+				endColorstr='#e5e5e5', GradientType=0); /* IE6-9 */
+		}
+		
+		.nav {
+			cursor: pointer;
+			float: left;
+			
+		}
+		
+		img.nav {
+			height: 35px;
+		}
+		
+		
+		.codelistName {
+			float: left;
+			vertical-align:middle;
+			color: #999;
+			line-height: 35px;
 		}
 	</ui:style>
 	<g:FlowPanel styleName="{style.wrapper}">
-		<g:Label styleName="{style.initLabel}">Select any code list in left panel.</g:Label>
+		<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
+			<g:Image url="{res.nav_collapse_left.getSafeUri.asString}" styleName="{style.nav}" ui:field="nav"></g:Image>
+			<g:Label ui:field="codelistName" styleName="{style.codelistName}">ASFIS</g:Label>
+		</g:FlowPanel>
+		<g:Label styleName="{style.initLabel}" visible="false">Select any code
+			list in left panel.</g:Label>
 	</g:FlowPanel>
 </ui:UiBinder> 

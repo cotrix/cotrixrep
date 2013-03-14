@@ -13,11 +13,13 @@ public class PromptedTextBox extends TextBox implements KeyPressHandler, FocusHa
 {
 	private String promptText;
 	private String promptStyle;
+	private String normalStyle;
 
-	public PromptedTextBox(String promptText, String promptStyleName)
+	public PromptedTextBox(String promptText, String promptStyleName,String normalStyleName)
 	{
 		this.promptText = promptText;
 		this.promptStyle = promptStyleName;
+		this.normalStyle = normalStyleName;
 		this.addKeyPressHandler(this);
 		this.addFocusHandler(this);
 		this.addClickHandler(this);
@@ -34,6 +36,7 @@ public class PromptedTextBox extends TextBox implements KeyPressHandler, FocusHa
 	{
 		this.setText(null);
 		this.removeStyleName(promptStyle);
+		this.addStyleName(normalStyle);
 	}
 
 	public void onKeyPress(KeyPressEvent event)
@@ -44,7 +47,7 @@ public class PromptedTextBox extends TextBox implements KeyPressHandler, FocusHa
 			hidePrompt();
 		}
 	}
-
+	
 	public void onFocus(FocusEvent event)
 	{
 		this.setCursorPos(0);
