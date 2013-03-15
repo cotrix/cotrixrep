@@ -331,7 +331,7 @@ public class CreateDeltaTest {
 
 		Attribute.Private a = (Attribute.Private) attr().name(name).value(value).as(NEW).build();
 
-		assertTrue(a.isDelta());
+		assertTrue(a.isChangeset());
 		assertEquals(NEW, a.change());
 
 	}
@@ -343,7 +343,7 @@ public class CreateDeltaTest {
 
 		Code.Private code = (Code.Private) code().name(name).as(NEW).build();
 
-		assertTrue(code.isDelta());
+		assertTrue(code.isChangeset());
 		assertTrue(code.change() == NEW);
 
 	}
@@ -355,7 +355,7 @@ public class CreateDeltaTest {
 
 		Codelist.Private list = (Codelist.Private) codelist().name(name).as(NEW).build();
 
-		assertTrue(list.isDelta());
+		assertTrue(list.isChangeset());
 		assertEquals(NEW, list.change());
 
 	}
@@ -367,7 +367,7 @@ public class CreateDeltaTest {
 
 		Codebag.Private bag = (Codebag.Private) codebag().name(name).as(NEW).build();
 
-		assertTrue(bag.isDelta());
+		assertTrue(bag.isChangeset());
 		assertEquals(NEW, bag.change());
 
 	}

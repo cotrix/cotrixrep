@@ -1,5 +1,14 @@
 package org.cotrix.repository;
 
-public interface CodebagRepository {
+import org.cotrix.domain.Codebag;
+
+/**
+ * 
+ * A {@link Repository} of {@link Codebag}s
+ * 
+ * @author Fabio Simeoni
+ *
+ */
+public interface CodebagRepository extends Repository<Codebag> {
 
 }

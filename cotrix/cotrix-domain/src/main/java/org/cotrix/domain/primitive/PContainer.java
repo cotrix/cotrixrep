@@ -64,7 +64,7 @@ public class PContainer<T extends Identified.Private<T>> implements Container<T>
 	}
 
 	@Override
-	public boolean isDelta() {
+	public boolean isChangeset() {
 		return change != null;
 	}
 
@@ -148,15 +148,15 @@ public class PContainer<T extends Identified.Private<T>> implements Container<T>
 		// redundant checks, but clearer
 
 		// first time: inherit NEW or MODIFIED
-		if (object.isDelta() && !this.isDelta())
+		if (object.isChangeset() && !this.isChangeset())
 			this.setChange(object.change() == NEW ? NEW : MODIFIED);
 
 		// other times: if not another NEW, MODIFIED
-		if (object.isDelta() && this.isDelta())
+		if (object.isChangeset() && this.isChangeset())
 			if (object.change() != this.change)
 				this.setChange(MODIFIED);
 
-		if (this.isDelta() && !object.isDelta())
+		if (this.isChangeset() && !object.isChangeset())
 			throw new IllegalArgumentException("object is " + this.change + " and can only contain other changes");
 
 	}

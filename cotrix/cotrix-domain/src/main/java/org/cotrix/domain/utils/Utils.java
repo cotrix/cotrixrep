@@ -46,7 +46,7 @@ public class Utils {
 	}
 	
 	
-	public static <PUBLIC, PRIVATE extends PUBLIC > PRIVATE reveal(PUBLIC publicObject, Class<PRIVATE> privateClass) {
+	public static <T> T reveal(Object publicObject, Class<T> privateClass) {
 		
 		notNull(publicObject);
 		

@@ -71,15 +71,15 @@ public abstract class EntityPO {
 		//NOTE: when we change the state, we do not pass through setter which would normally prevent overrides
 		
 		//first time: inherit NEW or MODIFIED 
-		if (parameter.isDelta() && this.isDelta())
+		if (parameter.isChangeset() && this.isDelta())
 			if (parameter.change()!=this.change)
 				this.change=MODIFIED;
 
 		//other times: if not another NEW, MODIFIED
-		if (this.isDelta() && !parameter.isDelta())
+		if (this.isDelta() && !parameter.isChangeset())
 			throw new IllegalArgumentException("object is a delta ("+this.change+") and can only contain other changes");
 		
-		if (parameter.isDelta() && !this.isDelta())
+		if (parameter.isChangeset() && !this.isDelta())
 			this.change=parameter.change()==NEW?NEW:MODIFIED;
 
 

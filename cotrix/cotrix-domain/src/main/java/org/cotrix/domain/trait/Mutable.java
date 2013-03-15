@@ -31,7 +31,7 @@ public interface Mutable<T> {
 	 * Returns <code>true</code> if the object represents a change.
 	 * @return <code>true</code> if the object represents a change
 	 */
-	boolean isDelta();
+	boolean isChangeset();
 	
 	/**
 	 * Turns a delta object into a normal object.
