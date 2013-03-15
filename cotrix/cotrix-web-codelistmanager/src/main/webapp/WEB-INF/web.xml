@@ -11,7 +11,7 @@
     <servlet-class>org.cotrix.web.codelistmanager.server.ManagerServiceImpl</servlet-class>
   </servlet>
 
-  <servlet-mapping>
+  <servlet-mapping> 
     <servlet-name>managerServlet</servlet-name>
     <url-pattern>/CotrixModuleManager/manager</url-pattern>
   </servlet-mapping>

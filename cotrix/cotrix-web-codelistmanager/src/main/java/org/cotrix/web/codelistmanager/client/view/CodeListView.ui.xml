@@ -1,0 +1,80 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client"
+	xmlns:cotrix="urn:import:org.cotrix.web.codelistmanager.client.view">
+	<ui:style
+		type="org.cotrix.web.codelistmanager.client.view.CodeListViewImpl.Style">
+			.important {
+				font-weight: bold;
+			}
+			
+			.wrapper {
+				height: 100%;
+				width: 100%;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+				background-color: white;
+			}
+			
+			.listPanel {
+				background-color: white;
+			}
+			
+			.filterTextBox {
+				width: 95%;
+				padding: 3px;
+				color:#666;
+				border:1px solid #ccc;
+				border-radius:50px;
+			}
+			
+			.filterTextBox :FOCUS {
+				width: 95%;
+				color:#666;
+				padding: 3px;
+				border-radius:50px;
+			}
+			
+			.promptTextBox {
+				width: 95%;
+				padding: 3px;
+				color:#ccc;
+				border:1px solid #ccc;
+				border-radius:50px;
+			}
+			.promptTextBox :FOCUS {
+				width: 95%;
+				color:#ccc;
+				padding: 3px;
+				border-radius:50px;
+			}
+			.filterPanel {
+				border-top-right-radius: 5px;
+				border-top-left-radius: 5px;
+				padding: 5px;
+				background: rgb(255, 255, 255); /* Old browsers */
+				background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+					rgba(229, 229, 229, 1) 100%); /* FF3.6+ */
+				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,
+					255, 255, 1)), color-stop(100%, rgba(229, 229, 229, 1)));
+				/* Chrome,Safari4+ */
+				background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+					rgba(229, 229, 229, 1) 100%); /* Chrome10+,Safari5.1+ */
+				background: -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+					rgba(229, 229, 229, 1) 100%); /* Opera 11.10+ */
+				background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+					rgba(229, 229, 229, 1) 100%); /* IE10+ */
+				background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
+					rgba(229, 229, 229, 1) 100%); /* W3C */
+				filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#ffffff',
+					endColorstr='#e5e5e5', GradientType=0); /* IE6-9 */
+			}
+		</ui:style>
+	<g:FlowPanel styleName="{style.wrapper}" ui:field="panel">
+		<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
+			<cotrix:PromptedTextBox ui:field="filterTextBox" ></cotrix:PromptedTextBox>
+		</g:FlowPanel>
+		<g:FlowPanel ui:field="listPanel" styleName="{style.listPanel}">
+		</g:FlowPanel>
+	</g:FlowPanel>
+</ui:UiBinder> 
