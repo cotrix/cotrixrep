@@ -20,6 +20,7 @@
 		<module>cotrix-repository</module>
 		<module>cotrix-web-codelistmanager</module>
 		<module>cotrix-web-menu</module>
+		<module>cotrix-web-share</module>
 	</modules>
 
 	<dependencyManagement>
