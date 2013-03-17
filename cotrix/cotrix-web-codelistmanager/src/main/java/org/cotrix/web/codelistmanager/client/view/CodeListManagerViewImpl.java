@@ -74,6 +74,7 @@ public class CodeListManagerViewImpl extends Composite implements CodeListManage
 	public void showLeftPanel(boolean isShow){
 		this.leftPanel.setVisible(!isShow);
 	}
+	
 	public void expandRightPanel(boolean isExpand){
 		if(isExpand){
 			this.rightPanel.setWidth((Window.getClientWidth() - getRightPanelPadding()) + PX);

@@ -3,9 +3,8 @@ package org.cotrix.web.importwizard.client.view.form;
 import java.util.HashMap;
 
 import org.cotrix.web.importwizard.client.presenter.SummaryFormPresenterImpl;
-import org.cotrix.web.importwizard.client.presenter.UploadFormPresenterImpl;
-import org.cotrix.web.importwizard.shared.HeaderType;
-import org.cotrix.web.importwizard.shared.Metadata;
+import org.cotrix.web.share.shared.HeaderType;
+import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;

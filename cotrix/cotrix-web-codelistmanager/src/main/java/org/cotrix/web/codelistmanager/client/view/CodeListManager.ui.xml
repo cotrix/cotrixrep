@@ -35,10 +35,8 @@
 	
 	<g:HTMLPanel styleName="{style.mainPanel}" ui:field="mainPanel">
 		<g:FlowPanel styleName="{style.leftPanel}" ui:field="leftPanel">
-			<g:Label>HELLO CodeList Manager</g:Label>
 		</g:FlowPanel>
 		<g:FlowPanel styleName="{style.rightPanel}" ui:field="rightPanel">
-			<g:Label>HELLO CodeList Manager</g:Label>
 		</g:FlowPanel>
 	</g:HTMLPanel>
 

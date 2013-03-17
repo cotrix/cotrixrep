@@ -1,8 +1,7 @@
 package org.cotrix.web.importwizard.client.view.form;
 
 import org.cotrix.web.importwizard.client.presenter.MetadataFormPresenterImpl;
-import org.cotrix.web.importwizard.client.presenter.SummaryFormPresenterImpl;
-import org.cotrix.web.importwizard.shared.Metadata;
+import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.user.client.ui.Widget;
 

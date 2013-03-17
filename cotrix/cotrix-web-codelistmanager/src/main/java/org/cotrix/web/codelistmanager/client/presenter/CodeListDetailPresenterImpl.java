@@ -30,6 +30,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
+		view.init();
 	}
 	
 	public void setOnNavigationLeftClicked(OnNavigationClicked onNavigationClicked){
@@ -44,6 +45,10 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 			onNavigationClicked.onNavigationClicked(false);
 			view.showNavLeft();
 		}
+	}
+
+	public void onCodelistNameClicked(boolean isVisible) {
+		view.showMetadataPanel(isVisible);
 	}
 
 }

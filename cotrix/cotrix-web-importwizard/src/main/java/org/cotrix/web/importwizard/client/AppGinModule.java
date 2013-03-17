@@ -1,10 +1,19 @@
 package org.cotrix.web.importwizard.client;
 
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-import org.cotrix.web.importwizard.client.presenter.*;
+import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenter;
+import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenterImpl;
+import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenter;
+import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenterImpl;
+import org.cotrix.web.importwizard.client.presenter.HeaderTypeFormPresenter;
+import org.cotrix.web.importwizard.client.presenter.HeaderTypeFormPresenterImpl;
+import org.cotrix.web.importwizard.client.presenter.ImportWizardPresenter;
+import org.cotrix.web.importwizard.client.presenter.ImportWizardPresenterImpl;
+import org.cotrix.web.importwizard.client.presenter.MetadataFormPresenter;
+import org.cotrix.web.importwizard.client.presenter.MetadataFormPresenterImpl;
+import org.cotrix.web.importwizard.client.presenter.SummaryFormPresenter;
+import org.cotrix.web.importwizard.client.presenter.SummaryFormPresenterImpl;
+import org.cotrix.web.importwizard.client.presenter.UploadFormPresenter;
+import org.cotrix.web.importwizard.client.presenter.UploadFormPresenterImpl;
 import org.cotrix.web.importwizard.client.view.ImportWizardView;
 import org.cotrix.web.importwizard.client.view.ImportWizardViewImpl;
 import org.cotrix.web.importwizard.client.view.form.HeaderDescriptionFormView;
@@ -19,8 +28,12 @@ import org.cotrix.web.importwizard.client.view.form.SummaryFormView;
 import org.cotrix.web.importwizard.client.view.form.SummaryFormViewImpl;
 import org.cotrix.web.importwizard.client.view.form.UploadFormView;
 import org.cotrix.web.importwizard.client.view.form.UploadFormViewImpl;
-import org.cotrix.web.importwizard.shared.CotrixImportModel;
-import org.cotrix.web.importwizard.shared.CotrixImportModelController;
+import org.cotrix.web.share.shared.CotrixImportModelController;
+
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.inject.client.AbstractGinModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 
 public class AppGinModule extends AbstractGinModule {
 

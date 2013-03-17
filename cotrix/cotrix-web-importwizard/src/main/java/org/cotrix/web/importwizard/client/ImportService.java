@@ -1,9 +1,6 @@
 package org.cotrix.web.importwizard.client;
 
-import java.util.HashMap;
-
-import org.cotrix.web.importwizard.shared.CSVFile;
-import org.cotrix.web.importwizard.shared.CotrixImportModel;
+import org.cotrix.web.share.shared.CotrixImportModel;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

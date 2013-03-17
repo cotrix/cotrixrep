@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import org.cotrix.web.importwizard.client.presenter.FormWrapperPresenter;
 import org.cotrix.web.importwizard.client.view.form.FormWrapperView;
 import org.cotrix.web.importwizard.client.view.form.FormWrapperViewImpl;
-import org.cotrix.web.importwizard.shared.CotrixImportModel;
+import org.cotrix.web.share.shared.CotrixImportModel;
 import org.junit.Before;
 import org.junit.Test;
 

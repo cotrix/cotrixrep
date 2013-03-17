@@ -1,14 +1,9 @@
 package org.cotrix.web.importwizard.client.presenter;
 
-import java.util.ArrayList;
-
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.view.form.HeaderSelectionFormView;
 import org.cotrix.web.importwizard.client.view.form.HeaderTypeFormView;
-import org.cotrix.web.importwizard.client.view.form.HeaderTypeFormViewImpl;
-import org.cotrix.web.importwizard.shared.CSVFile;
-import org.cotrix.web.importwizard.shared.CotrixImportModel;
-import org.cotrix.web.importwizard.shared.CotrixImportModelController;
+import org.cotrix.web.share.shared.CSVFile;
+import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;

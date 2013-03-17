@@ -23,6 +23,7 @@ public class CodeListPresenterImpl implements CodeListPresenter {
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
+		view.init();
 	}
 
 }
