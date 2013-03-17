@@ -14,7 +14,7 @@ import org.cotrix.domain.trait.Identified.Private;
  */
 public abstract class SimpleBase<SELF extends Identified.Private<SELF>> implements Identified.Private<SELF> {
 
-	private final String id;
+	private String id;
 	private Change change;
 	
 	protected SimpleBase(EntityPO po) {
@@ -28,7 +28,16 @@ public abstract class SimpleBase<SELF extends Identified.Private<SELF>> implemen
 		return id;
 	}
 	
-	public boolean isDelta() {
+	@Override
+	public void setId(String id) {
+	
+		if (id()!=null)
+			throw new IllegalStateException("object has already an identifier ("+id()+")");
+		
+		this.id=id;
+	}
+	
+	public boolean isChangeset() {
 		return change!=null;
 	}
 	
