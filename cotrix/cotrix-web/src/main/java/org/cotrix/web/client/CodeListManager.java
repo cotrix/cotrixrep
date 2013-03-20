@@ -38,7 +38,7 @@ public class CodeListManager implements EntryPoint {
 		// Get rid of scrollbars, and clear out the window's built-in margin,
 		// because we want to take advantage of the entire client area.
 
-
+/*
 		Window.enableScrolling(false); Window.setMargin("0px");
 
 		CodeListManagerView codeListManagerView = new CodeListManagerView();
@@ -46,10 +46,10 @@ public class CodeListManager implements EntryPoint {
 
 		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
 		rootLayoutPanel.add(codeListManagerView);
+*/
 
-
-	/*	HandlerManager eventBus = new HandlerManager(null);
+		HandlerManager eventBus = new HandlerManager(null);
 		AppController appViewer = new AppController(eventBus);
-		appViewer.go(RootPanel.get());*/
+		appViewer.go(RootPanel.get());
 	}
 }

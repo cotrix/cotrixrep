@@ -11,7 +11,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
-public class AppControllerImpl implements AppController {
+public class CotrixImportAppControllerImpl implements CotrixImportAppController {
 	private final HandlerManager eventBus;
 	private final ImportServiceAsync rpcService;
 	private HasWidgets container;
@@ -19,7 +19,7 @@ public class AppControllerImpl implements AppController {
     private ImportWizardPresenter importWizardPresenter;
 
     @Inject
-    public AppControllerImpl(ImportServiceAsync rpcService, HandlerManager eventBus,CotrixImportModelController model, ImportWizardPresenter importWizardPresenter) {
+    public CotrixImportAppControllerImpl(ImportServiceAsync rpcService, HandlerManager eventBus,CotrixImportModelController model, ImportWizardPresenter importWizardPresenter) {
 		this.eventBus = new HandlerManager(null);
 		this.rpcService = rpcService;
 		this.model = model;

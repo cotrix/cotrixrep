@@ -27,7 +27,9 @@ public class MenuViewImpl extends Composite implements MenuView {
 		String selectedLabel();
 		String label();
 	}
+	
 	private Presenter presenter;
+	
 	public MenuViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}

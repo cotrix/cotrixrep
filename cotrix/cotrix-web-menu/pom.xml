@@ -172,6 +172,8 @@
 				<includes>
 					<include>**/*.java</include>
 					<include>**/*.gwt.xml</include>
+					<include>**/*.ui.xml</include>
+					<include>**/*.png</include>
 				</includes>
 			</resource>
 			<resource>
@@ -186,6 +188,7 @@
 				<includes>
 					<include>**/*.java</include>
 					<include>**/*.gwt.xml</include>
+					<include>**/*.ui.xml</include>
 				</includes>
 			</resource>
 		</resources>

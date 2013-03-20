@@ -1,7 +1,8 @@
 package org.cotrix.web.client;
 
 import org.cotrix.web.client.presenter.Presenter;
-import org.cotrix.web.importwizard.client.AppGinInjector;
+import org.cotrix.web.importwizard.client.CotrixImportAppController;
+import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
 import org.cotrix.web.menu.client.view.MenuViewImpl;
 
 import com.google.gwt.core.client.GWT;
@@ -23,9 +24,9 @@ public class AppController implements Presenter {
 		FlowPanel content = new FlowPanel();
 		MenuViewImpl menu = new MenuViewImpl();
 
-		AppGinInjector injector = GWT.create(AppGinInjector.class);
-		org.cotrix.web.importwizard.client.AppController  appViewer = injector.getAppController();
-		appViewer.go(content);
+		CotrixImportAppGinInjector cotrixImportInjector = GWT.create(CotrixImportAppGinInjector.class);
+		CotrixImportAppController  cotrixImportAppController = cotrixImportInjector.getAppController();
+		cotrixImportAppController.go(content);
 
 		panel.add(menu);
 		panel.add(content);

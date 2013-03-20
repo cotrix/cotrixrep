@@ -4,6 +4,6 @@
   <inherits name='org.cotrix.web.importwizard.CotrixModuleImport' />
 
   <!-- Specify the path to any remote services.                   -->
-  <servlet path="/CotrixModuleImport/greet" class="org.cotrix.web.importwizard.server.GreetingServiceImpl" />
+  <servlet path="/CotrixModuleImport/import" class="org.cotrix.web.importwizard.server.ImportServiceImpl" />
 
 </module>

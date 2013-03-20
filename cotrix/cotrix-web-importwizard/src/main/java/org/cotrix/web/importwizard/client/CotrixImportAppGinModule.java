@@ -35,7 +35,7 @@ import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
-public class AppGinModule extends AbstractGinModule {
+public class CotrixImportAppGinModule extends AbstractGinModule {
 
     @Provides
     @Singleton
@@ -50,7 +50,7 @@ public class AppGinModule extends AbstractGinModule {
     }
 
     protected void configure() {
-        bind(AppController.class).to(AppControllerImpl.class);
+        bind(CotrixImportAppController.class).to(CotrixImportAppControllerImpl.class);
       
         bind(UploadFormView.class).to(UploadFormViewImpl.class);
         bind(UploadFormPresenter.class).to(UploadFormPresenterImpl.class);

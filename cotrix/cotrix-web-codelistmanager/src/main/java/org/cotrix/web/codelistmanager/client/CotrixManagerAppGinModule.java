@@ -18,7 +18,7 @@ import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
-public class AppGinModule extends AbstractGinModule{
+public class CotrixManagerAppGinModule extends AbstractGinModule{
 
     @Provides
     @Singleton
@@ -28,7 +28,7 @@ public class AppGinModule extends AbstractGinModule{
     
 	@Override
 	protected void configure() {
-		bind(CodelistManagerAppController.class).to(CodelistManagerAppControllerImpl.class);
+		bind(CotrixManagerAppController.class).to(CotrixManagerAppControllerImpl.class);
 	      
 		bind(CodeListManagerView.class).to(CodeListManagerViewImpl.class);
 		bind(CodeListManagerPresenter.class).to(CodeListManagerPresenterImpl.class);

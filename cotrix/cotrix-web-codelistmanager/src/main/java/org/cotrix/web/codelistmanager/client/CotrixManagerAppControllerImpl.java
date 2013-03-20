@@ -8,13 +8,13 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
-public class CodelistManagerAppControllerImpl implements CodelistManagerAppController{
+public class CotrixManagerAppControllerImpl implements CotrixManagerAppController{
 	private ManagerServiceAsync rpcService;
 	private HandlerManager eventBus;
 	private CodeListManagerPresenter codeListManagerPresenter;
 	
 	@Inject
-	public CodelistManagerAppControllerImpl(ManagerServiceAsync rpcService,HandlerManager eventBus,CodeListManagerPresenter codeListManagerPresenter) {
+	public CotrixManagerAppControllerImpl(ManagerServiceAsync rpcService,HandlerManager eventBus,CodeListManagerPresenter codeListManagerPresenter) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.codeListManagerPresenter = codeListManagerPresenter;

@@ -6,10 +6,10 @@ import org.cotrix.web.codelistmanager.client.presenter.CodeListPresenter;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
-@GinModules(AppGinModule.class)
-public interface AppGinInjector extends Ginjector {
+@GinModules(CotrixManagerAppGinModule.class)
+public interface CotrixManagerAppGinInjector extends Ginjector {
 	    public ManagerServiceAsync getRpcService();
-	    public CodelistManagerAppController getAppController();
+	    public CotrixManagerAppController getAppController();
 	    public CodeListPresenter getCodeListPresenter();
 	    public CodeListManagerPresenter getCodeListManagerPresenter();
 }
