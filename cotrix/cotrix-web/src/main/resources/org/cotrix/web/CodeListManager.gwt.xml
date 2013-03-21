@@ -2,8 +2,10 @@
 <module rename-to='CodeListManager'>
 	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name='com.google.gwt.user.User' />
+	<inherits name="com.google.gwt.inject.Inject" />
 	<inherits name='org.cotrix.web.menu.CotrixModuleMenu' />
 	<inherits name='org.cotrix.web.importwizard.CotrixModuleImport' />
+	<inherits name='org.cotrix.web.codelistmanager.CotrixModuleManager' />
 	<!-- We need the JUnit module in the main module, -->
 	<!-- otherwise eclipse complains (Google plugin bug?) -->
 	<inherits name='com.google.gwt.junit.JUnit' />
@@ -11,7 +13,7 @@
 	<!-- Inherit the default GWT style sheet. You can change -->
 	<!-- the theme of your GWT application by uncommenting -->
 	<!-- any one of the following lines. -->
-	<inherits name='com.google.gwt.user.theme.standard.Standard' />
+	<!-- <inherits name='com.google.gwt.user.theme.standard.Standard' /> -->
 	<!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
 	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
 

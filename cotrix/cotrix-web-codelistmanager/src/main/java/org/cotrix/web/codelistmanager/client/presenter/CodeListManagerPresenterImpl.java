@@ -27,7 +27,6 @@ public class CodeListManagerPresenterImpl implements CodeListManagerPresenter{
 	}
 	
 	public void go(HasWidgets container) {
-		container.clear();
 		container.add(view.asWidget());
 		view.init();
 		codeListPresenter.go(view.getLeftPanel());

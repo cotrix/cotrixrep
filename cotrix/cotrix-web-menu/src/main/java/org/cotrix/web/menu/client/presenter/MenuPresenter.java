@@ -1,7 +1,6 @@
 package org.cotrix.web.menu.client.presenter;
 
 import org.cotrix.web.menu.client.view.MenuView;
-import org.cotrix.web.menu.client.view.MenuViewImpl;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -11,6 +10,11 @@ public class MenuPresenter implements Presenter<MenuPresenter> , MenuView.Presen
 	private final HandlerManager eventBus;
 	private final MenuView view;
 	private HasWidgets container;
+	
+	public interface OnCotrixMenuItemClicked{
+		void onMenuItemClick(int index);
+	}
+	private OnCotrixMenuItemClicked onCotrixMenuItemClicked;
 	
 	public MenuPresenter(HandlerManager eventBus,MenuView view) {
 		this.view = view;
@@ -22,5 +26,11 @@ public class MenuPresenter implements Presenter<MenuPresenter> , MenuView.Presen
 		this.container = container;
 		this.container.add(view.asWidget());
 		view.showMenu();
+	}
+	public void setOnCotrixMenuItemClicked(OnCotrixMenuItemClicked onCotrixMenuItemClicked){
+		this.onCotrixMenuItemClicked = onCotrixMenuItemClicked;
+	}
+	public void onMenuClicked(int index) {
+		onCotrixMenuItemClicked.onMenuItemClick(index);
 	}
 }

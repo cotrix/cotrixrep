@@ -4,6 +4,8 @@ import org.cotrix.web.client.view.CodeListManagerView;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -25,8 +27,8 @@ public class CodeListManager implements EntryPoint {
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
-	private final CodeListServiceAsync codeListService = GWT
-			.create(CodeListService.class);
+	private final MainServiceAsync codeListService = GWT
+			.create(MainService.class);
 
 	private final Messages messages = GWT.create(Messages.class);
 
@@ -38,18 +40,17 @@ public class CodeListManager implements EntryPoint {
 		// Get rid of scrollbars, and clear out the window's built-in margin,
 		// because we want to take advantage of the entire client area.
 
-/*
-		Window.enableScrolling(false); Window.setMargin("0px");
-
-		CodeListManagerView codeListManagerView = new CodeListManagerView();
-		codeListManagerView.setSize("100%", "100%");
-
-		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
-		rootLayoutPanel.add(codeListManagerView);
-*/
-
-		HandlerManager eventBus = new HandlerManager(null);
-		AppController appViewer = new AppController(eventBus);
-		appViewer.go(RootPanel.get());
+		/*
+		 * Window.enableScrolling(false); Window.setMargin("0px");
+		 * 
+		 * CodeListManagerView codeListManagerView = new CodeListManagerView();
+		 * codeListManagerView.setSize("100%", "100%");
+		 * 
+		 * RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
+		 * rootLayoutPanel.add(codeListManagerView);
+		 */
+		AppGinInjector injector = GWT.create(AppGinInjector.class);
+		AppController appViewer = injector.getAppController();
+		appViewer.go(RootLayoutPanel.get());
 	}
 }

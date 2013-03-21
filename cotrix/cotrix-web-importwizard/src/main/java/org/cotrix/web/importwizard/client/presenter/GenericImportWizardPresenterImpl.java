@@ -31,7 +31,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	}	
 	
 	public void go(HasWidgets container) {
-		container.clear();
+//		container.clear();
 		container.add(view.asWidget());
 		this.view.initProgressBarTracker();
 		this.view.initForm();

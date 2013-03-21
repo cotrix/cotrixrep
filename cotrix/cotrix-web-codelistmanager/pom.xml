@@ -10,7 +10,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>cotrix-web-codelistmanager</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>GWT Maven Archetype</name>
 
 	<properties>
@@ -192,6 +192,7 @@
 					<include>**/*.gwt.xml</include>
 					<include>**/*.ui.xml</include>
 					<include>**/*.png</include>
+					<include>**/*.css</include>
 				</includes>
 			</resource>
 			<resource>

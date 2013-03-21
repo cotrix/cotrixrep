@@ -21,7 +21,6 @@ public class CotrixManagerAppControllerImpl implements CotrixManagerAppControlle
 	}
 	
 	public void go(HasWidgets container) {
-		container.clear();
 		this.codeListManagerPresenter.go(container);
 	}
 

@@ -8,7 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 /**
  * The client side stub for the RPC service.
  */
-@RemoteServiceRelativePath("greet")
-public interface CodeListService extends RemoteService {
+@RemoteServiceRelativePath("main")
+public interface MainService extends RemoteService {
   ArrayList<String> getList() throws IllegalArgumentException;
 }

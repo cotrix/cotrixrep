@@ -8,12 +8,12 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>listServlet</servlet-name>
-    <servlet-class>org.cotrix.web.server.CodeListServiceImpl</servlet-class>
+    <servlet-class>org.cotrix.web.server.MainServiceImpl</servlet-class>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>listServlet</servlet-name>
-    <url-pattern>/CodeListManager/list</url-pattern>
+    <url-pattern>/CodeListManager/main</url-pattern>
   </servlet-mapping>
 
   <!-- Default page to serve -->
