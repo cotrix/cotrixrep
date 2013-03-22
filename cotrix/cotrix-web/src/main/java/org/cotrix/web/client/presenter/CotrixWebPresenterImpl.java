@@ -3,6 +3,7 @@ package org.cotrix.web.client.presenter;
 import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.client.view.CotrixWebView;
 import org.cotrix.web.client.view.Home;
+import org.cotrix.web.client.view.Publish;
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppController;
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.importwizard.client.CotrixImportAppController;
@@ -56,6 +57,9 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 		CotrixManagerAppGinInjector cotrixManagerAppGinInjector = GWT.create(CotrixManagerAppGinInjector.class);
 		CotrixManagerAppController cotrixManagerAppController = cotrixManagerAppGinInjector.getAppController();	
 		cotrixManagerAppController.go(view.getBody());
+	
+		Publish publish  = new Publish();
+		view.getBody().add(publish);
 		
 		view.showMenu(0); // default menu;
 	}

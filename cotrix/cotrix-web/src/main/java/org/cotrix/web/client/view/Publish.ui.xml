@@ -1,8 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:o="urn:import:org.apache.xpath.operations">
-	<ui:with field='res'
-		type='org.cotrix.web.client.resources.CotrixResources' />
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
 		.important {
 			font-weight: bold;
@@ -12,17 +10,17 @@
 			vertical-align: middle;
 			text-align: center;
 			height: 100%;
+			background-color:#202020;
 			width: 100%;
 		}
 		
 		.screen {
-			height: 400px;
-			margin-top: 50px;
+			height: 100%;
 		}
 	</ui:style>
 	<g:HTMLPanel>
 		<div class="{style.div}">
-			<img src="images/homescreen.png" class="{style.screen}" />
+			<img src="images/publishscreen.png" class="{style.screen}" />
 		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 
