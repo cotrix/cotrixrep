@@ -2,9 +2,11 @@ package org.cotrix.web.codelistmanager.client.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.cotrix.web.codelistmanager.client.resources.CellListResources;
+import org.cotrix.web.share.shared.Codelist;
 
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
@@ -19,7 +21,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -47,6 +48,10 @@ public class CodeListViewImpl extends Composite implements CodeListView,
 
 	private Presenter presenter;
 	private CellList<String> cellList;
+	private ArrayList<Codelist> codelists;
+	private List<String> codelistLabels;
+	private HashMap<String, Integer> codelistId ;
+	
 	@UiField
 	Style style;
 
@@ -68,46 +73,11 @@ public class CodeListViewImpl extends Composite implements CodeListView,
 		this.presenter = presenter;
 	}
 
-	private static final List<String> DAYS = Arrays.asList("Country", "Continent", "ASFIS", "Language", "Year","Month");
-
-	public void init() {
-		filterTextBox.addKeyPressHandler(this);
-		filterTextBox.addKeyDownHandler(this);
-		CellListResources.INSTANCE.cellListStyle().ensureInjected();
-
-		// Create a cell to render each value.
-	    TextCell textCell = new TextCell();
-
-	    // Create a CellList that uses the cell.
-	    cellList = new CellList<String>(textCell,CellListResources.INSTANCE);
-	    cellList.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-
-	    // Add a selection model to handle user selection.
-	    final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>();
-	    cellList.setSelectionModel(selectionModel);
-	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-	      public void onSelectionChange(SelectionChangeEvent event) {
-	        String selected = selectionModel.getSelectedObject();
-	        if (selected != null) {
-//	          Window.alert("You selected: " + selected);
-	        }
-	      }
-	    });
-
-	    // Set the total row count. This isn't strictly necessary, but it affects
-	    // paging calculations, so its good habit to keep the row count up to date.
-	    cellList.setRowCount(DAYS.size(), true);
-
-	    // Push the data into the widget.
-	    cellList.setRowData(0, DAYS);
-		listPanel.add(cellList);
-	}
-
 	private List<String> getMatchedItem(String token) {
 		List<String> list = new ArrayList<String>();
-		for (int i = 0; i < DAYS.size(); i++) {
-			if (DAYS.get(i).substring(0, token.length()).equalsIgnoreCase(token)) {
-				list.add(DAYS.get(i));
+		for (int i = 0; i < codelistLabels.size(); i++) {
+			if (codelistLabels.get(i).substring(0, token.length()).equalsIgnoreCase(token)) {
+				list.add(codelistLabels.get(i));
 			}
 		}
 		return list;
@@ -132,5 +102,58 @@ public class CodeListViewImpl extends Composite implements CodeListView,
 			}
 		}
 	}
+
+	private List<String> toRowData(ArrayList<Codelist> codelists){
+		List<String> list = new ArrayList<String>();
+		for (Codelist codelist : codelists) {
+			list.add(codelist.getName());
+		}
+		return list;
+	}
+	
+	private HashMap<String, Integer> toHashMap(ArrayList<Codelist> codelists){
+		HashMap<String, Integer> codelistId = new HashMap<String, Integer>();
+		for (Codelist codelist : codelists) {
+			codelistId.put(codelist.getName(), codelist.getId());
+		}
+		return codelistId;
+	}
+	public void init(ArrayList<Codelist> codelists) {
+		this.codelists  = codelists;
+		this.codelistLabels = toRowData(codelists);
+		this.codelistId = toHashMap(codelists);
+		
+		filterTextBox.addKeyPressHandler(this);
+		filterTextBox.addKeyDownHandler(this);
+		CellListResources.INSTANCE.cellListStyle().ensureInjected();
+
+		// Create a cell to render each value.
+	    TextCell textCell = new TextCell();
+
+	    // Create a CellList that uses the cell.
+	    cellList = new CellList<String>(textCell,CellListResources.INSTANCE);
+	    cellList.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+
+	    // Add a selection model to handle user selection.
+	    final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>();
+	    cellList.setSelectionModel(selectionModel);
+	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+	      public void onSelectionChange(SelectionChangeEvent event) {
+	        String selected = selectionModel.getSelectedObject();
+	        if (selected != null) {
+	        	presenter.onCodelistItemClicked(codelistId.get(selected));
+	        }
+	      }
+	    });
+
+	    // Set the total row count. This isn't strictly necessary, but it affects
+	    // paging calculations, so its good habit to keep the row count up to date.
+	    cellList.setRowCount(codelists.size(), true);
+
+	    // Push the data into the widget.
+	    cellList.setRowData(0, codelistLabels);
+		listPanel.add(cellList);
+	}
+
 
 }

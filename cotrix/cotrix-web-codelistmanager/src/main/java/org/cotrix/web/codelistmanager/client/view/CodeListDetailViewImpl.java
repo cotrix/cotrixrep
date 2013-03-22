@@ -1,6 +1,11 @@
 package org.cotrix.web.codelistmanager.client.view;
 
+import java.util.ArrayList;
+
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.share.shared.Codelist;
+import org.cotrix.web.share.shared.CotrixImportModel;
+import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,8 +33,11 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 	private boolean isShowingNavLeft = true;
 	@UiField Image nav;
 	@UiField Label codelistName;
+	@UiField Label metadata;
 	@UiField FlowPanel metadataPanel;
 	@UiField FlowPanel gridPanel;
+	@UiField FlowPanel contentPanel;
+	@UiField Label blankscreen;
 
 	@UiHandler("nav")
 	public void onNavLeftClicked(ClickEvent event) {
@@ -81,6 +89,20 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 	}
 	public void showMetadataPanel(boolean isVisible) {
 		metadataPanel.setVisible(!isVisible);
+	}
+	
+	
+	private void showContentPanel(){
+		this.contentPanel.setVisible(true);
+		this.blankscreen.setVisible(false);
+	}
+	
+	public void setData(CotrixImportModel model) {
+		Metadata metadata= model.getMetadata();
+		
+		this.codelistName.setText(metadata.getName());
+		this.metadata.setText(metadata.getDescription());
+		showContentPanel();
 	}
 
 

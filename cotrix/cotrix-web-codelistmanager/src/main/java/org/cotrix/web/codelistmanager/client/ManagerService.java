@@ -1,5 +1,10 @@
 package org.cotrix.web.codelistmanager.client;
 
+import java.util.ArrayList;
+
+import org.cotrix.web.share.shared.Codelist;
+import org.cotrix.web.share.shared.CotrixImportModel;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -8,5 +13,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("manager")
 public interface ManagerService extends RemoteService {
-  String greetServer(String name) throws IllegalArgumentException;
+  ArrayList<Codelist> getAllCodelists() throws IllegalArgumentException;
+  CotrixImportModel getCodeListModel(int codelistId);
 }

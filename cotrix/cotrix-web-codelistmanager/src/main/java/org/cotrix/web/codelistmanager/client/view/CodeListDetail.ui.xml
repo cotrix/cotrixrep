@@ -10,17 +10,16 @@
 			}
 			
 			.wrapper {
-				height: 100%;
-				width: 100%;
 				border-radius: 5px;
 				border: 1px solid #ccc;
+				width: 100%;
+				height: 100%;
 				background-color: white;
 			}
 			
 			.initLabel {
-				font-size: 25px;
+				font-size: 20px;
 				color: #999;
-				font-weight: lighter;
 				line-height: 100%;
 				width: 100%;
 				height: 100%;
@@ -47,8 +46,9 @@
 					rgba(229, 229, 229, 1) 100%); /* IE10+ */
 				background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
 					rgba(229, 229, 229, 1) 100%); /* W3C */
-				filter: progid:DXImageTransform.Microsoft.gradient(                   startColorstr='#ffffff',
-					endColorstr='#e5e5e5', GradientType=0); /* IE6-9 */
+				filter: progid:DXImageTransform.Microsoft.gradient( 
+								                     startColorstr='#ffffff', endColorstr='#e5e5e5',
+					GradientType=0); /* IE6-9 */
 			}
 			
 			.nav {
@@ -101,40 +101,45 @@
 				line-height: 35px
 			}
 		</ui:style>
-	<g:FlowPanel styleName="{style.wrapper}">
-		<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
-			<g:FlowPanel>
-				<g:Image url="{res.nav_collapse_left.getSafeUri.asString}"
-					styleName="{style.nav}" ui:field="nav"></g:Image>
-				<g:Label ui:field="codelistName" styleName="{style.codelistName}">ASFIS</g:Label>
-				<g:FlowPanel styleName="{style.listBoxWrapper}">
-					<g:ListBox styleName="{style.listbox}">
-						<g:item value='1'>
-							1.0
-						</g:item>
-						<g:item value='2'>
-							1.1
-						</g:item>
-						<g:item value='3'>
-							1.9
-						</g:item>
-						<g:item value='4'>
-							2.1
-						</g:item>
-						<g:item value='5'>
-							2.6
-						</g:item>
-					</g:ListBox>
+	<g:FlowPanel styleName="{style.wrapper}" width="100%">
+		<g:FlowPanel styleName="{style.wrapper}" width="100%" visible="false" ui:field="contentPanel">
+			<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}"
+				>
+				<g:FlowPanel>
+					<g:Image url="{res.nav_collapse_left.getSafeUri.asString}"
+						styleName="{style.nav}" ui:field="nav"></g:Image>
+					<g:Label ui:field="codelistName" styleName="{style.codelistName}" />
+					<g:FlowPanel styleName="{style.listBoxWrapper}">
+						<g:ListBox styleName="{style.listbox}">
+							<g:item value='1'>
+								1.0
+							</g:item>
+							<g:item value='2'>
+								1.1
+							</g:item>
+							<g:item value='3'>
+								1.9
+							</g:item>
+							<g:item value='4'>
+								2.1
+							</g:item>
+							<g:item value='5'>
+								2.6
+							</g:item>
+						</g:ListBox>
+					</g:FlowPanel>
+					<g:Label ui:field="version" styleName="{style.labelversion}">Version</g:Label>
 				</g:FlowPanel>
-				<g:Label ui:field="version" styleName="{style.labelversion}">Version</g:Label>
+
 			</g:FlowPanel>
+			<g:FlowPanel styleName="{style.metadata}" ui:field="metadataPanel">
+				<g:Label ui:field="metadata" /> 
+			</g:FlowPanel>
+			<g:FlowPanel ui:field="gridPanel"></g:FlowPanel>
+
+
 		</g:FlowPanel>
-		
-		<g:FlowPanel styleName="{style.metadata}" ui:field="metadataPanel">
-			<g:Label> Display Metadata</g:Label>
-		</g:FlowPanel>
-		<g:FlowPanel  ui:field="gridPanel"></g:FlowPanel>
-		<g:Label styleName="{style.initLabel}" visible="false">Select any code
+		<g:Label styleName="{style.initLabel}" visible="true" ui:field="blankscreen">Select any code
 			list in left panel.</g:Label>
 	</g:FlowPanel>
 </ui:UiBinder> 
