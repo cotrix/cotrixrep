@@ -16,6 +16,9 @@ import org.cotrix.domain.utils.Constants;
  * attribute.
  * <li> (optional) the <b>type</b> of the target attribute. If unspecified, {@link Constants#DEFAULT_TYPE} is used.
  * <li> (optional) the <b>language</b> of the target attribute. 
+ * <li> (optional) the <b>mapping mode</b> for the values of the attribute column. 
+ *  In {@link #STRICT} mode, missing value of the attribute column are interpreted as errors. 
+ *  In {@link #LAX} mode, they are tolerated and produce no attribute values. 
  * </ul>
  * 
  * @author Fabio Simeoni
@@ -23,11 +26,23 @@ import org.cotrix.domain.utils.Constants;
  */
 public class AttributeMapping {
 
+	/**
+	 * The mapping mode for an attribute.
+	 * <p>
+	 * In {@link #STRICT} mode, missing value of the attribute column are interpreted as errors. 
+	 * In {@link #LAX} mode, they are tolerated and produce no attribute values. 
+	 * @author Fabio Simeoni
+	 *
+	 */
+	public static enum Mode {STRICT,LAX};
+	
 	private final String column;
 	
 	private QName name;
 	private QName type;
 	private String language;
+	
+	private Mode mode = Mode.LAX;
 	
 	/**
 	 * Creates an instance with the name of the attribute column.
@@ -72,6 +87,22 @@ public class AttributeMapping {
 	 */
 	public void setType(QName type) {
 		this.type = type;
+	}
+	
+	/**
+	 * Sets the mode for the target attribute, overriding the default {@link Mode#LAX}.
+	 * @param mode the mode;
+	 */
+	public void setMode(Mode mode) {
+		this.mode = mode;
+	}
+	
+	/**
+	 * Returns the mode for the target attribute, {@link Mode#LAX} by default.
+	 * @return
+	 */
+	public Mode mode() {
+		return mode;
 	}
 	
 	/**

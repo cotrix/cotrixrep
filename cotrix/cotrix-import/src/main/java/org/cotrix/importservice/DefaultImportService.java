@@ -49,9 +49,15 @@ public class DefaultImportService implements ImportService {
 	@Override
 	public Codelist importCodelist(InputStream data, Directives<Codelist> directives) {
 		
+		double time = System.currentTimeMillis();
+		
 		Codelist imported = _import(data,directives);
 		
 		listRepository.add(imported);
+		
+		time = (System.currentTimeMillis()-time)/1000;
+		
+		log.info("imported codelist '{}' with {} codes in {} sec.",imported.name(),imported.codes().size(),time);
 		
 		return imported;
 	}
@@ -62,6 +68,8 @@ public class DefaultImportService implements ImportService {
 		Codebag imported = _import(data,directives);
 		
 		bagRepository.add(imported);
+		
+		log.info("imported codebag '{}' with {} lists",imported.name(),imported.lists().size());
 		
 		return imported;
 	};

@@ -11,8 +11,10 @@ import java.util.List;
 public class CSVOptions {
 
 	public static final char defaultDelimiter=',';
+	public static final char defaultQuote='"';
 	
 	private char delimiter = defaultDelimiter;
+	private char quote = defaultQuote;
 	
 	private List<String> columns;
 	
@@ -25,11 +27,27 @@ public class CSVOptions {
 	}
 	
 	/**
+	 * Return the quote character used in the data, {@link #defaultQuote} by default.
+	 * @return the quote character
+	 */
+	public char quote() {
+		return quote;
+	}
+	
+	/**
 	 * Sets the delimeter character used in the data, overriding the {@link #defaultDelimiter}.
 	 * @param delimiter the delimiter character.
 	 */
 	public void setDelimiter(char delimiter) {
 		this.delimiter = delimiter;
+	}
+
+	/**
+	 * Sets the quote character used in the data, overriding the {@link #defaultQuote}.
+	 * @param quote the quote character.
+	 */
+	public void setQuote(char quote) {
+		this.quote = quote;
 	}
 	
 	/**

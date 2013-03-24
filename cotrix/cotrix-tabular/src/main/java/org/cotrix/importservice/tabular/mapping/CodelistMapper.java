@@ -59,10 +59,17 @@ public class CodelistMapper {
 		
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		
-		for (AttributeMapper attributeMapper : attributeMappers)
-			attributes.add(attributeMapper.map(row));
-		
 		String name = row.get(mapping.column());
+		
+		if (name==null || name.isEmpty())
+			throw new IllegalArgumentException("found a null code in "+mapping.name()+" in STRICT mode");
+		
+		for (AttributeMapper attributeMapper : attributeMappers) {
+			Attribute parsed = attributeMapper.map(row);
+			if (parsed != null)
+				attributes.add(parsed);
+		}
+		
 		Code code = code().name(name).attributes(attributes.toArray(new Attribute[0])).build();
 		
 		codes.add(code);

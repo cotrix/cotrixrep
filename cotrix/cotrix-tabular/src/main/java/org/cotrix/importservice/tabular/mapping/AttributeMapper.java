@@ -4,6 +4,7 @@ import static org.cotrix.domain.dsl.Codes.*;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.ThirdClause;
+import org.cotrix.importservice.tabular.mapping.AttributeMapping.Mode;
 import org.cotrix.importservice.tabular.model.Row;
 
 /**
@@ -32,6 +33,12 @@ class AttributeMapper {
 	Attribute map(Row row) {
 		
 		String value = row.get(mapping.column());
+		
+		if (value==null || value.isEmpty())
+			if (mapping.mode()==Mode.STRICT)
+				throw new IllegalArgumentException("missing value for attribute '"+mapping.name()+"' in mode '"+mapping.mode()+"'");
+			else
+				return null;
 		
 		Attribute attribute = null;
 		

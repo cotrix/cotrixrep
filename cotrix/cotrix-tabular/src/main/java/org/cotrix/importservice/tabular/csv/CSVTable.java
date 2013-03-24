@@ -34,7 +34,7 @@ public class CSVTable implements Table {
 	 */
 	public CSVTable(InputStream stream, CSVOptions options) {
 		
-		CSVReader reader = new CSVReader(new InputStreamReader(stream),options.delimiter());
+		CSVReader reader = new CSVReader(new InputStreamReader(stream),options.delimiter(),options.quote());
 		
 		this.columns = options.columns()==null?readColumns(reader):options.columns();
 		
