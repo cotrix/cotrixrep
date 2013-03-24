@@ -11,8 +11,7 @@ import java.util.Iterator;
 
 import org.cotrix.web.importwizard.client.CotrixModuleImport;
 import org.cotrix.web.importwizard.client.ImportService;
-import org.cotrix.web.importwizard.shared.CSVFile;
-import org.cotrix.web.importwizard.shared.CotrixImportModel;
+import org.cotrix.web.share.shared.CotrixImportModel;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.StringMap;

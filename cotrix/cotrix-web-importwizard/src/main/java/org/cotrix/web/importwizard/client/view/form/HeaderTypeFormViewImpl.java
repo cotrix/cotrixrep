@@ -2,10 +2,8 @@ package org.cotrix.web.importwizard.client.view.form;
 
 import java.util.HashMap;
 
-import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenterImpl;
 import org.cotrix.web.importwizard.client.presenter.HeaderTypeFormPresenterImpl;
-import org.cotrix.web.importwizard.client.view.form.HeaderSelectionFormView.Presenter;
-import org.cotrix.web.importwizard.shared.HeaderType;
+import org.cotrix.web.share.shared.HeaderType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;

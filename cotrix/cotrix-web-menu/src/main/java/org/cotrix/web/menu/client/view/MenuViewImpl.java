@@ -22,12 +22,15 @@ public class MenuViewImpl extends Composite implements MenuView {
 
 	@UiField FlowPanel menubar;
 	@UiField Style style;
-
+	
+	
 	interface Style extends CssResource {
 		String selectedLabel();
-		String label();
+		String cotrixMenuLabel();
 	}
+	
 	private Presenter presenter;
+	
 	public MenuViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
@@ -39,6 +42,7 @@ public class MenuViewImpl extends Composite implements MenuView {
 			label.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					setSelectedMenu(index);
+					presenter.onMenuClicked(index);
 				}
 			});
 		}
@@ -50,7 +54,7 @@ public class MenuViewImpl extends Composite implements MenuView {
 			if(index == i){
 				label.setStyleName(style.selectedLabel());
 			}else{
-				label.setStyleName(style.label());
+				label.setStyleName(style.cotrixMenuLabel());
 			}
 		}
 	}

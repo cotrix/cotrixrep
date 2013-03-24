@@ -31,8 +31,8 @@ public class CotrixModuleImport implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 //		ImportServiceAsync rpcService = GWT.create(ImportService.class);
-		AppGinInjector injector = GWT.create(AppGinInjector.class);
+/*		AppGinInjector injector = GWT.create(AppGinInjector.class);
 		AppController appViewer = injector.getAppController();
-		appViewer.go(RootPanel.get());
+		appViewer.go(RootPanel.get());*/
 	}
 }

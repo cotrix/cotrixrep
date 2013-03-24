@@ -6,25 +6,20 @@
 			font-weight: bold;
 		}
 		
-		.leftPanel {
+		.flowPanel {
 			height: 100%;
 			float: left;
-			padding-left: 10px;
-			padding-top: 10px;
-			padding-bottom: 10px;
+			width:100%;
 			border: 1px; solid #666;
+			margin: 0 auto;
 		}
 		
-		.rightPanel {
-			height: 100%;
-			float: left;
-			padding: 10px;
-			
-		}
 		
 		.mainPanel {
 			margin: 0px;
 			padding: 0px;
+			padding:10px;
+			background-color: white;
 		}
 		
 		.wrapper {
@@ -32,14 +27,10 @@
 			height: 100%;
 		}
 	</ui:style>
-	
+	 
 	<g:HTMLPanel styleName="{style.mainPanel}" ui:field="mainPanel">
-		<g:FlowPanel styleName="{style.leftPanel}" ui:field="leftPanel">
-			<g:Label>HELLO CodeList Manager</g:Label>
-		</g:FlowPanel>
-		<g:FlowPanel styleName="{style.rightPanel}" ui:field="rightPanel">
-			<g:Label>HELLO CodeList Manager</g:Label>
-		</g:FlowPanel>
+		<g:HorizontalPanel styleName="{style.flowPanel}" ui:field="flowPanel">
+		</g:HorizontalPanel> 
 	</g:HTMLPanel>
 
 </ui:UiBinder> 

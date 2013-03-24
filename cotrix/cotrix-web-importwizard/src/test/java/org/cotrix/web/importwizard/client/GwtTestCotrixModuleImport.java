@@ -40,24 +40,6 @@ public class GwtTestCotrixModuleImport extends GWTTestCase {
 		assertTrue(FieldVerifier.isValidName("abcd"));
 	}
 
-	/**
-	 * This test will send a request to the server using the greetServer method
-	 * in GreetingService and verify the response.
-	 */
-	public void testGreetingService() {
-		// Create the service that we will test.
-		ImportServiceAsync greetingService = GWT
-				.create(ImportService.class);
-		ServiceDefTarget target = (ServiceDefTarget) greetingService;
-		target.setServiceEntryPoint(GWT.getModuleBaseURL()
-				+ "CotrixModuleImport/greet");
-
-		// Since RPC calls are asynchronous, we will need to wait for a response
-		// after this test method returns. This line tells the test runner to
-		// wait
-		// up to 10 seconds before timing out.
-		delayTestFinish(10000);
-
-	}
+	
 
 }

@@ -9,11 +9,12 @@
 			}
 			
 			.wrapper {
-				height: 100%;
-				width: 100%;
 				border-radius: 5px;
 				border: 1px solid #ccc;
+				height:100%;
 				background-color: white;
+				width: 225px;
+				margin-right: 10px;
 			}
 			
 			.listPanel {
@@ -23,31 +24,33 @@
 			.filterTextBox {
 				width: 95%;
 				padding: 3px;
-				color:#666;
-				border:1px solid #ccc;
-				border-radius:50px;
+				color: #666;
+				border: 1px solid #ccc;
+				border-radius: 50px;
 			}
 			
 			.filterTextBox :FOCUS {
 				width: 95%;
-				color:#666;
+				color: #666;
 				padding: 3px;
-				border-radius:50px;
+				border-radius: 50px;
 			}
 			
 			.promptTextBox {
 				width: 95%;
 				padding: 3px;
-				color:#ccc;
-				border:1px solid #ccc;
-				border-radius:50px;
+				color: #ccc;
+				border: 1px solid #ccc;
+				border-radius: 50px;
 			}
+			
 			.promptTextBox :FOCUS {
 				width: 95%;
-				color:#ccc;
+				color: #ccc;
 				padding: 3px;
-				border-radius:50px;
+				border-radius: 50px;
 			}
+			
 			.filterPanel {
 				border-top-right-radius: 5px;
 				border-top-left-radius: 5px;
@@ -66,13 +69,24 @@
 					rgba(229, 229, 229, 1) 100%); /* IE10+ */
 				background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
 					rgba(229, 229, 229, 1) 100%); /* W3C */
-				filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#ffffff',
+				filter: progid:DXImageTransform.Microsoft.gradient(    startColorstr='#ffffff',
 					endColorstr='#e5e5e5', GradientType=0); /* IE6-9 */
+			}
+			
+			.celllist {
+			}
+			
+			.cellitem {
+				padding-left: 20px;
+				padding-top: 30px;
+				padding-bottom: 30px;
+				padding-right: 20px;
+				
 			}
 		</ui:style>
 	<g:FlowPanel styleName="{style.wrapper}" ui:field="panel">
 		<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
-			<cotrix:PromptedTextBox ui:field="filterTextBox" ></cotrix:PromptedTextBox>
+			<cotrix:PromptedTextBox ui:field="filterTextBox"></cotrix:PromptedTextBox>
 		</g:FlowPanel>
 		<g:FlowPanel ui:field="listPanel" styleName="{style.listPanel}">
 		</g:FlowPanel>

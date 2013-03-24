@@ -1,9 +1,14 @@
 package org.cotrix.web.codelistmanager.client.presenter;
 
+import java.util.ArrayList;
+
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.view.CodeListView;
+import org.cotrix.web.share.shared.Codelist;
 
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
@@ -12,6 +17,10 @@ public class CodeListPresenterImpl implements CodeListPresenter {
 	private HandlerManager eventBus;
 	private CodeListView view;
 
+	public interface OnCodelistItemClicked{
+		void onCodelistItemClicked(int id);
+	}
+	private OnCodelistItemClicked onCodelistItemClicked;
 	@Inject
 	public CodeListPresenterImpl(ManagerServiceAsync rpcService,HandlerManager eventBus, CodeListView view) {
 		this.rpcService = rpcService;
@@ -21,8 +30,26 @@ public class CodeListPresenterImpl implements CodeListPresenter {
 	}
 	
 	public void go(HasWidgets container) {
-		container.clear();
 		container.add(view.asWidget());
+		rpcService.getAllCodelists(new AsyncCallback<ArrayList<Codelist>>() {
+			public void onSuccess(ArrayList<Codelist> result) {
+				view.init(result);
+			}
+			
+			public void onFailure(Throwable caught) {
+				
+			}
+		});
+
 	}
+
+	public void setOnCodelistItemClicked(OnCodelistItemClicked onCodelistItemClicked){
+		this.onCodelistItemClicked = onCodelistItemClicked;
+	}
+	
+	public void onCodelistItemClicked(int id) {
+		onCodelistItemClicked.onCodelistItemClicked(id);
+	}
+
 
 }

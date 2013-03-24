@@ -3,7 +3,7 @@ package org.cotrix.web.importwizard.client.view.form;
 import java.util.Date;
 
 import org.cotrix.web.importwizard.client.presenter.MetadataFormPresenterImpl;
-import org.cotrix.web.importwizard.shared.Metadata;
+import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;

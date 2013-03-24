@@ -2,13 +2,10 @@ package org.cotrix.web.importwizard.client.presenter;
 
 import java.util.ArrayList;
 
-import com.google.inject.Inject;
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.view.form.CotrixForm;
 import org.cotrix.web.importwizard.client.view.form.UploadFormView;
-import org.cotrix.web.importwizard.shared.CSVFile;
-import org.cotrix.web.importwizard.shared.CotrixImportModel;
-import org.cotrix.web.importwizard.shared.CotrixImportModelController;
+import org.cotrix.web.share.shared.CSVFile;
+import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileError;
@@ -24,8 +21,8 @@ import org.vectomatic.file.events.ProgressEvent;
 import org.vectomatic.file.events.ProgressHandler;
 
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.inject.Inject;
 
 public class UploadFormPresenterImpl implements UploadFormPresenter {
 

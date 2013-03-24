@@ -6,6 +6,7 @@
 		.important {
 			font-weight: bold;
 		}
+		
 		.header {
 			background-color: #333;
 			padding: 5px;
@@ -19,7 +20,7 @@
 			background-color: #666;
 		}
 		
-		.label {
+		.cotrixMenuLabel {
 			float: left;
 			padding: 10px;
 			font-size: 13px;
@@ -27,12 +28,12 @@
 			cursor: pointer;
 		}
 		
-		.label:hover {
+		.cotrixMenuLabel:hover {
 			color: #ccc;
 			border-radius: 5px;
 		}
 		
-		.label:active {
+		.cotrixMenuLabel:active {
 			color: #ccc;
 		}
 		
@@ -46,18 +47,22 @@
 		
 		.menubar-wrapper {
 			float: right;
+			vertical-align: middle;
 			margin: 0 auto;
-			margin-right: 20px;
+			position:absolute;
+			top:5px;
+			right:20px;
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<div class="{style.header}">
-			<g:Image resource='{res.logo}' />
-			<g:FlowPanel styleName="{style.menubar-wrapper}" ui:field="menubar">
+		<div class="{style.header}" >
+			<g:Image resource='{res.logo}' width="120px;" />
+			<g:FlowPanel styleName="{style.menubar-wrapper}"
+				ui:field="menubar">
 				<g:Label styleName="{style.selectedLabel}">HOME</g:Label>
-				<g:Label styleName="{style.label}">IMPORT</g:Label>
-				<g:Label styleName="{style.label}">MANAGE</g:Label>
-				<g:Label styleName="{style.label}">PUBLISH</g:Label>
+				<g:Label styleName="{style.cotrixMenuLabel}">IMPORT</g:Label>
+				<g:Label styleName="{style.cotrixMenuLabel}">MANAGE</g:Label>
+				<g:Label styleName="{style.cotrixMenuLabel}">PUBLISH</g:Label>
 			</g:FlowPanel>
 		</div>
 	</g:HTMLPanel>

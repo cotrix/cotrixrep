@@ -1,21 +1,13 @@
 package org.cotrix.web.importwizard.client.view.form;
 
-import org.cotrix.web.importwizard.client.view.form.HeaderDescriptionFormViewImpl.Style;
 import org.cotrix.web.importwizard.client.view.form.HeaderTypeListBox.OnHeaderTypeSelectedHandler;
-import org.cotrix.web.importwizard.shared.HeaderType;
+import org.cotrix.web.share.shared.HeaderType;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
