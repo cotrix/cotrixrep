@@ -63,7 +63,7 @@ public class SimpleCodelist extends SimpleVersioned<Codelist.Private> implements
 
 	@Override
 	public String toString() {
-		return "Codelist [name=" + name() + ", codes=" + codes + ", attributes=" + attributes() + ", version="
+		return "Codelist [id="+id()+", name=" + name() + ", codes=" + codes + ", attributes=" + attributes() + ", version="
 				+ version() + "]";
 	}
 

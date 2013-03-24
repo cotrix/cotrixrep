@@ -1,5 +1,6 @@
 package org.cotrix.domain.utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,14 @@ public class Utils {
 	public static void valid(String name, String o) throws IllegalArgumentException {
 		notNull(name, o);
 		notEmpty(name,o);
+	}
+	
+	public static void valid(File file) throws IllegalArgumentException {
+		
+		notNull("file", file);
+		
+		if (!file.exists() || file.isDirectory() || !file.canRead())
+			throw new IllegalArgumentException(file+" does not exist, is a directory, or cannot be read");
 	}
 	
 	public static void valid(QName name) throws IllegalArgumentException {
