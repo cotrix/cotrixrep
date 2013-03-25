@@ -11,7 +11,7 @@
 	</parent>
 	<artifactId>cotrix-web-menu</artifactId>
 	<packaging>jar</packaging>
-	<name>GWT Maven Archetype</name>
+	<name>cotrix-web-menu</name>
 
 	<properties>
 		<!-- Convenience property to set the GWT version -->

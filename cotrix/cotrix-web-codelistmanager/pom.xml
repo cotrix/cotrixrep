@@ -11,7 +11,7 @@
 	</parent>
 	<artifactId>cotrix-web-codelistmanager</artifactId>
 	<packaging>jar</packaging>
-	<name>GWT Maven Archetype</name>
+	<name>cotrix-web-codelistmanager</name>
 
 	<properties>
 		<!-- Convenience property to set the GWT version -->
@@ -25,13 +25,11 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<version>${gwtVersion}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>${gwtVersion}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

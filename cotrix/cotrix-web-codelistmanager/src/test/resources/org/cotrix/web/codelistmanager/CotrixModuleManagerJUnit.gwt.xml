@@ -4,6 +4,6 @@
   <inherits name='org.cotrix.web.codelistmanager.CotrixModuleManager' />
 
   <!-- Specify the path to any remote services.                   -->
-  <servlet path="/CotrixModuleManager/greet" class="org.cotrix.web.codelistmanager.server.GreetingServiceImpl" />
+  <servlet path="/CotrixModuleManager/manager" class="org.cotrix.web.codelistmanager.server.ManagerServiceImpl" />
 
 </module>
