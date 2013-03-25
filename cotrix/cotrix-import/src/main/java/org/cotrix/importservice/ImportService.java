@@ -16,16 +16,16 @@ public interface ImportService {
 	/**
 	 * Imports data into a {@link Codelist}.
 	 * @param data the data
-	 * @param directives directives for the import task
-	 * @return the imported code list
+	 * @param directives {@link Directives} for the import task
+	 * @return the {@link Outcome} of the operation
 	 */
-	Codelist importCodelist(InputStream data, Directives<Codelist> directives);
+	Outcome<Codelist> importCodelist(InputStream data, Directives<Codelist> directives);
 	
 	/**
 	 * Imports data into a {@link Codebag}.
 	 * @param data the data
-	 * @param directives directives for the import task
-	 * @return the imported code bag
+	 * @param directives {@link Directives} for the import task
+	 * @return the {@link Outcome} of the operation
 	 */
-	Codebag importCodebag(InputStream data, Directives<Codebag> directives);
+	Outcome<Codebag> importCodebag(InputStream data, Directives<Codebag> directives);
 }

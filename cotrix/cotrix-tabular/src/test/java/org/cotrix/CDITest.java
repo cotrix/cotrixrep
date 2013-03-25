@@ -9,6 +9,7 @@ import org.cotrix.domain.Codelist;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.importservice.Directives;
 import org.cotrix.importservice.ImportService;
+import org.cotrix.importservice.Outcome;
 import org.cotrix.importservice.Parser;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,7 +30,9 @@ public class CDITest {
 		InputStream mockData = new ByteArrayInputStream(new byte[0]);
 		Directives<Codelist> mockDirectives = new TestDirectives();
 		
-		Codelist list = service.importCodelist(mockData,mockDirectives);
+		Outcome<Codelist> outcome = service.importCodelist(mockData,mockDirectives);
+		
+		Codelist list = outcome.result();
 		
 		//this proves that, through injection, 
 		//TestParser is known to import service in association with TestDirectives 

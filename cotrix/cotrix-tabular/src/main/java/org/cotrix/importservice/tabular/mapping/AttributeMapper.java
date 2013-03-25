@@ -1,10 +1,10 @@
 package org.cotrix.importservice.tabular.mapping;
 
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.importservice.Report.*;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.ThirdClause;
-import org.cotrix.importservice.tabular.mapping.AttributeMapping.Mode;
 import org.cotrix.importservice.tabular.model.Row;
 
 /**
@@ -27,18 +27,16 @@ class AttributeMapper {
 	
 	/**
 	 * Maps a row onto an attribute.
+	 * @param codename the name of the code for this attribute
 	 * @param row the row
 	 * @return the attribute
 	 */
-	Attribute map(Row row) {
+	Attribute map(String codename, Row row) {
 		
 		String value = row.get(mapping.column());
 		
-		if (value==null || value.isEmpty())
-			if (mapping.mode()==Mode.STRICT)
-				throw new IllegalArgumentException("missing value for attribute '"+mapping.name()+"' in mode '"+mapping.mode()+"'");
-			else
-				return null;
+		if (!valid(codename,value))
+			return null;
 		
 		Attribute attribute = null;
 		
@@ -56,6 +54,27 @@ class AttributeMapper {
 				attribute = sentence.build();
 		
 		return attribute;
+	}
+	
+	//helper
+	private boolean valid(String codename, String value) {
+		
+		if (value==null || value.isEmpty()) {
+			
+			String msg = "code "+codename+" has no value for attribute '"+mapping.name()+"'";
+			
+			switch(mapping.mode()) {
+				case STRICT:
+					report().logError(msg);break;
+				case LOG:
+					report().logWarning(msg);break;
+			}
+			
+			return false;
+		}
+		else
+			return true;
+	
 	}
 }
 

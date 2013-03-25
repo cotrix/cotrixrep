@@ -19,6 +19,7 @@ import org.cotrix.domain.Codelist;
  * codelist.
  * <li>(optional) the <b>attributes</b> of the target codelist.
  * <li>(optional) <b>attribute mappings</b>, the mappings for the attributes of the codes of the codelist.
+ * <li> (optional) the <b>mapping mode</b> for missing values in the code column, {@link MappingMode#STRICT} by default (#cf {@link MappingMode}).
  * </ul>
  * 
  * @author Fabio Simeoni
@@ -34,6 +35,8 @@ public class CodelistMapping {
 
 	private List<AttributeMapping> attributeMappings = new ArrayList<AttributeMapping>();
 
+	private MappingMode mode = MappingMode.STRICT;
+	
 	/**
 	 * Creates an instance with the name of the code column.
 	 * 
@@ -108,6 +111,22 @@ public class CodelistMapping {
 	 */
 	public void setAttributeMappings(List<AttributeMapping> attributeMappings) {
 		this.attributeMappings = attributeMappings;
+	}
+	
+	/**
+	 * Sets the mode for the target code, overriding the default {@link MappingMode#STRICT}.
+	 * @param mode the mode;
+	 */
+	public void setMode(MappingMode mode) {
+		this.mode = mode;
+	}
+	
+	/**
+	 * Returns the mode for the target code, {@link MappingMode#STRICT} by default.
+	 * @return
+	 */
+	public MappingMode mode() {
+		return mode;
 	}
 
 }

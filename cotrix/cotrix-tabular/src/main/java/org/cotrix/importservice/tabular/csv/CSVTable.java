@@ -38,7 +38,7 @@ public class CSVTable implements Table {
 		
 		this.columns = options.columns()==null?readColumns(reader):options.columns();
 		
-		this.iterator=new RowIterator(reader);
+		this.iterator=new RowIterator(reader,options);
 	}
 	
 	@Override
@@ -76,17 +76,25 @@ public class CSVTable implements Table {
 	class RowIterator implements Iterator<Row> {
 		
 		private final CSVReader reader;
+		private final CSVOptions options;
+	
 		private String[] row;
 		private Throwable error;
+		private int count;
 		
-		public RowIterator(CSVReader reader) {
+		public RowIterator(CSVReader reader,CSVOptions options) {
 			this.reader=reader;
+			this.options=options;
 		}
 		
 		public boolean hasNext() {
 			
+			if (options.rows()<=count)
+				return false;
+			
 			try {
 				row=reader.readNext();
+				count++;
 			}
 			catch(IOException e) {
 				error=e;

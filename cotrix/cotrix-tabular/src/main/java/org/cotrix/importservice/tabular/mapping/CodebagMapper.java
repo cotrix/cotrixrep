@@ -1,6 +1,7 @@
 package org.cotrix.importservice.tabular.mapping;
 
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.importservice.Report.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +43,12 @@ public class CodebagMapper {
 	 */
 	public Codebag map(Table table) {
 		
+		report().log("importing codebag "+mapping.name());
+		
 		//delegate to list mappers, row-by-row
 		for (Row row : table)
 			for (CodelistMapper mapper : mappers)
 				mapper.map(row);
-		
 		
 		//collect lists after parsing
 		List<Codelist> lists = new ArrayList<Codelist>();
@@ -57,6 +59,9 @@ public class CodebagMapper {
 		//assemble and return codebag
 		Codelist[] listsArray = lists.toArray(new Codelist[0]);
 		Attribute[] attributes = mapping.attributes().toArray(new Attribute[0]);
+		
+		report().log("==============================");
+		report().log("terminated import of codebag '"+mapping.name()+"'");
 		
 		return codebag().name(mapping.name())
 						.with(listsArray)

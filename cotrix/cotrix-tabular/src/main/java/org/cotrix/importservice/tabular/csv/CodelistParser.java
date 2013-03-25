@@ -10,11 +10,11 @@ import org.cotrix.importservice.tabular.model.Table;
 //since model it's streamed, combines parser and model
 public class CodelistParser implements Parser<Codelist,CSV2Codelist> {
 
-	public Codelist parse(InputStream stream,CSV2Codelist description) {
+	public Codelist parse(InputStream stream,CSV2Codelist directives) {
+
+		CodelistMapper mapper = new CodelistMapper(directives.mapping());
 		
-		CodelistMapper mapper = new CodelistMapper(description.mapping());
-		
-		Table table = new CSVTable(stream,description.options());
+		Table table = new CSVTable(stream,directives.options());
 		
 		return mapper.map(table);
 	
