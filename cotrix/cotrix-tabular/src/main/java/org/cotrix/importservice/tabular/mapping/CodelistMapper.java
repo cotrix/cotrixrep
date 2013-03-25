@@ -1,6 +1,7 @@
 package org.cotrix.importservice.tabular.mapping;
 
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.importservice.Report.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,16 +37,32 @@ public class CodelistMapper {
 	}
 	
 	/**
+	 * Returns the mapping use by this mapper.
+	 * 
+	 * @return the mapper
+	 */
+	public CodelistMapping mapping() {
+		return mapping;
+	}
+	
+	/**
 	 * Maps a table on a codelist.
 	 * @param table the table
 	 * @return the codelist
 	 */
 	public Codelist map(Table table) {
 		
+		report().log("importing codelist '"+mapping.name()+"'");
+		report().log("==============================");
+		
 		for (Row row : table)
 			map(row);
 		
+		report().log("==============================");
+		report().log("terminated import of codelist '"+mapping.name()+"'");
+		
 		return list();
+		
 	}
 	
 	/**
@@ -61,11 +78,11 @@ public class CodelistMapper {
 		
 		String name = row.get(mapping.column());
 		
-		if (name==null || name.isEmpty())
-			throw new IllegalArgumentException("found a null code in "+mapping.name()+" in STRICT mode");
+		if (!valid(name))
+			return;
 		
 		for (AttributeMapper attributeMapper : attributeMappers) {
-			Attribute parsed = attributeMapper.map(row);
+			Attribute parsed = attributeMapper.map(name,row);
 			if (parsed != null)
 				attributes.add(parsed);
 		}
@@ -83,10 +100,32 @@ public class CodelistMapper {
 	 * @return the mapped codelist
 	 */
 	Codelist list() {
+		
 		return codelist().
 				name(mapping.name())
 				.with(codes.toArray(new Code[0]))
 				.attributes(mapping.attributes().toArray(new Attribute[0])).build();
+	}
+	
+	//helper
+	private boolean valid(String value) {
+		
+		if (value==null || value.isEmpty()) {
+			
+			String msg = "missing code in '"+mapping.name()+"'";
+			
+			switch(mapping.mode()) {
+				case STRICT:
+					report().logError(msg);break;
+				case LOG:
+					report().logWarning(msg);break;
+			}
+			
+			return false;
+		}
+		else
+			return true;
+	
 	}
 }
 

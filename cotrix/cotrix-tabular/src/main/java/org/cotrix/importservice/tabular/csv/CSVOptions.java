@@ -18,6 +18,8 @@ public class CSVOptions {
 	
 	private List<String> columns;
 	
+	private int rows = Integer.MAX_VALUE;
+	
 	/**
 	 * Return the delimiter character used in the data, {@link #defaultDelimiter} by default.
 	 * @return the delimenter character
@@ -64,5 +66,22 @@ public class CSVOptions {
 	 */
 	public void setColumns(List<String> columns) {
 		this.columns = columns;
+	}
+	
+	/**
+	 * Returns the number of rows to be processed, all by default.
+	 * @return the number of rows to be processed
+	 */
+	public int rows() {
+		return rows;
+	}
+	
+	/**
+	 * Sets the number of rows to be processed.
+	 * 
+	 * @param rows the number of rows to be processed
+	 */
+	public void setRows(int rows) {
+		this.rows = rows;
 	}
 }

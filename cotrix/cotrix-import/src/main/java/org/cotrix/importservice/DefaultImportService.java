@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.trait.Named;
 import org.cotrix.importservice.utils.ParserRegistry;
 import org.cotrix.repository.CodebagRepository;
 import org.cotrix.repository.CodelistRepository;
@@ -47,34 +48,57 @@ public class DefaultImportService implements ImportService {
 	}
 	
 	@Override
-	public Codelist importCodelist(InputStream data, Directives<Codelist> directives) {
+	public Outcome<Codelist> importCodelist(InputStream data, Directives<Codelist> directives) {
 		
 		double time = System.currentTimeMillis();
 		
-		Codelist imported = _import(data,directives);
+		Outcome<Codelist> outcome = _import(data,directives);
 		
-		listRepository.add(imported);
+		try {
+			
+			Codelist imported = outcome.result();
 		
-		time = (System.currentTimeMillis()-time)/1000;
+			listRepository.add(imported);
 		
-		log.info("imported codelist '{}' with {} codes in {} sec.",imported.name(),imported.codes().size(),time);
+			time = (System.currentTimeMillis()-time)/1000;
 		
-		return imported;
+			log.info("imported codelist '{}' with {} codes in {} secs.",imported.name(),imported.codes().size(),time);
+		}
+		catch(ImportFailureException e) {
+			
+			log.info("failed importing codelist:\n{}",outcome.report());
+		}
+		
+		return outcome;
 	}
 	
 	@Override
-	public Codebag importCodebag(InputStream data, Directives<Codebag> directives) {		
+	public Outcome<Codebag> importCodebag(InputStream data, Directives<Codebag> directives) {		
 		
-		Codebag imported = _import(data,directives);
+		double time = System.currentTimeMillis();
 		
-		bagRepository.add(imported);
+		Outcome<Codebag> outcome = _import(data,directives);
 		
-		log.info("imported codebag '{}' with {} lists",imported.name(),imported.lists().size());
+		try {
+			
+			Codebag imported = outcome.result();
+			
+			bagRepository.add(imported);
+			
+			time = (System.currentTimeMillis()-time)/1000;
+			
+			log.info("imported codebag '{}' with {} lists in {} secs",imported.name(),imported.lists().size(), time);
+		}
+		catch(ImportFailureException e) {
+			
+			log.trace("failed importing codebag:\n{}",outcome.report());
+			
+		}
 		
-		return imported;
+		return outcome;
 	};
 	
-	private <T> T _import(InputStream data, Directives<T> directives) {
+	private <T extends Named> Outcome<T> _import(InputStream data, Directives<T> directives)  {
 		
 		notNull("data",data);
 		notNull("import directives",directives);
@@ -87,7 +111,10 @@ public class DefaultImportService implements ImportService {
 			if (parser==null)
 				throw new IllegalStateException("configuration error: no parser for directives "+directives);
 			
-			return parser.parse(data,directives);
+			T parsed = parser.parse(data,directives);
+			
+			return new Outcome<T>(parsed);
+			
 		}
 		catch(ClassCastException e) {
 			throw new IllegalStateException("configuration error: parser does not match directives "+directives);
