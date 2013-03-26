@@ -19,10 +19,14 @@
 			width: 100%;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		<g:FlowPanel styleName="{style.menu}" ui:field="menu">
-		</g:FlowPanel>
-		<g:DeckLayoutPanel  styleName="{style.mainPanel}" ui:field="body">
-		</g:DeckLayoutPanel>
-	</g:HTMLPanel>
+	<g:DockLayoutPanel unit='PX'>
+		<g:north size='47'>
+			<g:FlowPanel styleName="{style.menu}" ui:field="menu"></g:FlowPanel>
+		</g:north>
+
+		<g:center>
+			<g:DeckLayoutPanel styleName="{style.mainPanel}"
+				ui:field="body"></g:DeckLayoutPanel>
+		</g:center>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 

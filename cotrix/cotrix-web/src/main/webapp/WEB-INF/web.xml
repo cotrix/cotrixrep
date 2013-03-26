@@ -19,6 +19,7 @@
 		<servlet-name>listServlet</servlet-name>
 		<url-pattern>/CodeListManager/main</url-pattern>
 	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>managerServlet</servlet-name>
 		<url-pattern>/CodeListManager/manager</url-pattern>
