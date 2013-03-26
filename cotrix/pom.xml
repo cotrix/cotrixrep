@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cotrix</groupId>
 	<artifactId>cotrix</artifactId>
@@ -7,7 +8,8 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<version>0.0.1-SNAPSHOT</version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<modules>
@@ -19,50 +21,74 @@
 		<module>cotrix-repository</module>
 		<module>cotrix-web-codelistmanager</module>
 		<module>cotrix-web-menu</module>
+		<module>cotrix-import</module>
 		<module>cotrix-web-share</module>
-  </modules>
+		<!-- <module>cotrix-web-publish</module> -->
+	</modules>
 
 	<dependencyManagement>
 		<dependencies>
-			
-			
+
+
 			<!-- logging -->
-			
+
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>1.7.2</version>
 				<scope>compile</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-simple</artifactId>
 				<version>1.7.2</version>
 				<scope>test</scope>
 			</dependency>
-			
+
 			<!-- injection -->
-			
+
 			<dependency>
 				<groupId>javax.inject</groupId>
 				<artifactId>javax.inject</artifactId>
 				<version>1</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>javax.enterprise</groupId>
 				<artifactId>cdi-api</artifactId>
 				<version>1.0-SP1</version>
 			</dependency>
-			
+
 			<!-- testing -->
-			
+
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
 				<version>1.9.5</version>
 				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.googlecode.jeeunit</groupId>
+				<artifactId>jeeunit-openwebbeans</artifactId>
+				<version>1.0.0</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- GWT -->
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-user</artifactId>
+				<version>2.5.1</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-servlet</artifactId>
+				<version>2.5.1</version>
+				<scope>runtime</scope>
 			</dependency>
 			
 		</dependencies>
@@ -82,6 +108,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
