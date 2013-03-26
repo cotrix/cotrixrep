@@ -51,7 +51,7 @@ public class SimpleCodebag extends SimpleVersioned<Codebag.Private> implements C
 
 	@Override
 	public String toString() {
-		return "CodeBag [name=" + name() + ", lists=" + lists + ", attributes=" + attributes() + "]";
+		return "CodeBag [id="+id()+", name=" + name() + ", lists=" + lists + ", attributes=" + attributes() + "]";
 	}
 
 	@Override

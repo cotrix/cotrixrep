@@ -10,7 +10,7 @@
     </parent>
   <artifactId>cotrix-web-share</artifactId>
   <packaging>jar</packaging>
-  <name>GWT Maven Archetype</name>
+  <name>cotrix-web-share</name>
 
   <properties>
     <!-- Convenience property to set the GWT version -->
