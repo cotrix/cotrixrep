@@ -1,0 +1,2 @@
+serviceClass: org.cotrix.web.publish.client.GreetingService
+path: 6CE85A00DC4FB44B129729551C7B1E55.gwt.rpc
