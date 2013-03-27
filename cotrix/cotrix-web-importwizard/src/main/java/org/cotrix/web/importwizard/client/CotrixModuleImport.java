@@ -1,5 +1,7 @@
 package org.cotrix.web.importwizard.client;
 
+import org.cotrix.web.importwizard.client.resources.CotrixImportResources;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -30,9 +32,10 @@ public class CotrixModuleImport implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-//		ImportServiceAsync rpcService = GWT.create(ImportService.class);
-/*		AppGinInjector injector = GWT.create(AppGinInjector.class);
-		AppController appViewer = injector.getAppController();
+		CotrixImportResources.INSTANCE.css().ensureInjected();
+		
+		/*CotrixImportAppGinInjector injector = GWT.create(CotrixImportAppGinInjector.class);
+		CotrixImportAppController appViewer = injector.getAppController();
 		appViewer.go(RootPanel.get());*/
 	}
 }

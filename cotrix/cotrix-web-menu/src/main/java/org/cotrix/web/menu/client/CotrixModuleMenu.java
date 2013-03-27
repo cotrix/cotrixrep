@@ -1,6 +1,7 @@
 package org.cotrix.web.menu.client;
 
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
+import org.cotrix.web.menu.client.resources.CotrixMenuResources;
 import org.cotrix.web.menu.client.view.MenuViewImpl;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -13,7 +14,9 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class CotrixModuleMenu implements EntryPoint {
 	public void onModuleLoad() {
-		/*HandlerManager eventBus = new HandlerManager(null);
+		CotrixMenuResources.INSTANCE.css().ensureInjected();
+		
+	/*	HandlerManager eventBus = new HandlerManager(null);
 		MenuViewImpl menuView = new MenuViewImpl();
 		MenuPresenter menuPresenter = new MenuPresenter(eventBus, menuView);
 		menuPresenter.go(RootPanel.get());*/

@@ -23,7 +23,7 @@
 		<module>cotrix-web-menu</module>
 		<module>cotrix-import</module>
 		<module>cotrix-web-share</module>
-		<!-- <module>cotrix-web-publish</module> -->
+		<module>cotrix-web-publish</module>
 	</modules>
 
 	<dependencyManagement>

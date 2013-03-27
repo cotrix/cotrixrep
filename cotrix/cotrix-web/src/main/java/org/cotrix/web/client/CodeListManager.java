@@ -1,15 +1,11 @@
 package org.cotrix.web.client;
 
-import org.cotrix.web.client.view.CodeListManagerView;
+import org.cotrix.web.client.resources.CotrixResources;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -49,6 +45,9 @@ public class CodeListManager implements EntryPoint {
 		 * RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
 		 * rootLayoutPanel.add(codeListManagerView);
 		 */
+		CotrixResources.INSTANCE.css().ensureInjected();
+		Window.enableScrolling(true); Window.setMargin("0px");
+		 
 		AppGinInjector injector = GWT.create(AppGinInjector.class);
 		AppController appViewer = injector.getAppController();
 		appViewer.go(RootLayoutPanel.get());

@@ -1,9 +1,9 @@
 package org.cotrix.web.codelistmanager.client;
 
+import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -26,6 +26,8 @@ public class CotrixModuleManager implements EntryPoint {
    * This is the entry point method.
    */
   public void onModuleLoad() {
+	  CotrixManagerResources.INSTANCE.css().ensureInjected();
+	  
 	/*	CotrixManagerAppGinInjector injector = GWT.create(CotrixManagerAppGinInjector.class);
 		CotrixManagerAppController appViewer = injector.getAppController();
 		appViewer.go(RootLayoutPanel.get());*/
