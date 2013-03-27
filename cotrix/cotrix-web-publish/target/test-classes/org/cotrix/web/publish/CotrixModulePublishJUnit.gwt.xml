@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<module>
-  <!-- Inherit our applications main module.                      -->
-  <inherits name='org.cotrix.web.publish.CotrixModulePublish' />
-
-  <!-- Specify the path to any remote services.                   -->
-  <servlet path="/CotrixModulePublish/greet" class="org.cotrix.web.publish.server.GreetingServiceImpl" />
-
-</module>
