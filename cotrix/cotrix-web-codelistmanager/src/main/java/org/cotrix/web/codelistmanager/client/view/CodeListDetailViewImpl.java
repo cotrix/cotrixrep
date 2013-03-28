@@ -38,16 +38,12 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 	@UiField Label codelistName;
 	@UiField Label metadata;
 	@UiField VerticalPanel metadataPanel;
+	@UiField VerticalPanel loadingPanel;
 	@UiField HTMLPanel contentPanel;
 	@UiField HTMLPanel blankPanel;
 	@UiField HTMLPanel dataGridWrapper;
 	@UiField HTMLPanel pagerWrapper;
 
-//	@UiField(provided = true)
-//	DataGrid<String[]> dataGrid;
-
-//	@UiField(provided = true)
-//	SimplePager pager;
 
 	@UiHandler("nav")
 	public void onNavLeftClicked(ClickEvent event) {
@@ -106,14 +102,6 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 	}
 
 	public CodeListDetailViewImpl() {
-//		DataGrid<String[]> dataGrid = new DataGrid<String[]>();
-//		dataGrid.setAutoHeaderRefreshDisabled(true);
-//		dataGrid.setEmptyTableWidget(new Label(""));
-//
-//		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-//		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-//		pager.setDisplay(dataGrid);
-
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -142,10 +130,17 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 
 
 	private void showContentPanel(){
+		this.loadingPanel.setVisible(false);
 		this.contentPanel.setVisible(true);
 		this.blankPanel.setVisible(false);
 	}
-
+	
+	public void showActivityIndicator(){
+		this.contentPanel.setVisible(false);
+		this.blankPanel.setVisible(false);
+		this.loadingPanel.setVisible(true);
+	}
+	
 	public void setData(CotrixImportModel model,int id) {
 		Metadata metadata= model.getMetadata();
 

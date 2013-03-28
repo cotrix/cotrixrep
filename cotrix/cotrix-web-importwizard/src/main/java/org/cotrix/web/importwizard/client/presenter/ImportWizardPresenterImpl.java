@@ -22,7 +22,7 @@ public class ImportWizardPresenterImpl extends GenericImportWizardPresenterImpl 
         addForm(uploadFormPresenter, "Upload CSV File");
         addForm(metadataFormPresenter, "Add Metadata");
         addForm(headerSelectionFormPresenter, "Select Header");
-        addForm(headerDescriptionPresenter, "Describe Header");
+//        addForm(headerDescriptionPresenter, "Describe Header");
         addForm(headerTypeFormPresenter, "Define Type");
         addForm(summaryFormPresenter, "Summary");
     }

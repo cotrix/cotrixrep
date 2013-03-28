@@ -10,7 +10,7 @@ public interface CotrixMenuResources extends ClientBundle {
 	public static final CotrixMenuResources INSTANCE = GWT
 			.create(CotrixMenuResources.class);
 
-	@Source("logo3.png")
+	@Source("logo4.png")
 	ImageResource logo();
 	
 	@Source( "style.css")

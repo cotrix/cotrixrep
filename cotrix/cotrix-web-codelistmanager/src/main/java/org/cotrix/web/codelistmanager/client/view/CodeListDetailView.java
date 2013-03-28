@@ -23,5 +23,6 @@ public interface CodeListDetailView {
 	void showNavRight();
 	void showMetadataPanel(boolean isVisible);
 	void setPresenter(Presenter presenter);
+	void showActivityIndicator();
 	Widget asWidget();
 }

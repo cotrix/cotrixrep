@@ -77,15 +77,15 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 			HeaderSelectionFormPresenterImpl headerSelectionFormPresenter =   (HeaderSelectionFormPresenterImpl) sender.getContent();
 			isValidated = headerSelectionFormPresenter.isValidated();
 			break;
-		case 3:
+	/*	case 3:
 			HeaderDescriptionPresenterImpl headerDescriptionPresenter =   (HeaderDescriptionPresenterImpl) sender.getContent();
 			isValidated = headerDescriptionPresenter.isValidated();
-			break;
-		case 4:
+			break;*/
+		case 3:
 			HeaderTypeFormPresenterImpl headerTypeFormPresenter =   (HeaderTypeFormPresenterImpl) sender.getContent();
 			isValidated = headerTypeFormPresenter.isValidated();
 			break;
-		case 5:
+		case 4:
 			isValidated = true;
 			break;
 		}

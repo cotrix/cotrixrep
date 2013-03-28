@@ -25,8 +25,7 @@
 		</g:north>
 
 		<g:center>
-			<g:DeckLayoutPanel styleName="{style.mainPanel}"
-				ui:field="body"></g:DeckLayoutPanel>
+				<g:DeckLayoutPanel styleName="{style.mainPanel}" ui:field="body"></g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 

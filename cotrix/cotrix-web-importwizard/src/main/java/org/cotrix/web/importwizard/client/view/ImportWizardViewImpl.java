@@ -36,10 +36,10 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 				"Upload File",
 				"Add Metadata",
 				"Select Header",
-				"Describe Header",
+//				"Describe Header",
 				"Define Type",
 				"Done" };
-		mProgressbarTracker = new ProgressbarTracker(6, labels);
+		mProgressbarTracker = new ProgressbarTracker(5, labels);
 		barPanel.add(mProgressbarTracker);
 	}
 

@@ -50,7 +50,6 @@ public class ProgressbarTracker extends Composite {
 			barPanel.add(button);
 		}
 		barPanel.add(getLastLine(false)); // add last line at the end of
-											// progress
 	}
 
 	private ProgressbarLine getFirstLine(boolean isActive) {

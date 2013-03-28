@@ -9,14 +9,15 @@
 		.progressbar {
 			display: inline-block;
 			margin: 20px;
+			text-align: center;
 		}
 		
 		.tracker { 
-			width: 880px;
+			width: 750px;
 		}
 		
 		.text {
-			width: 830px;
+			width: 700px;
 		}
 	</ui:style>
 	<g:HTMLPanel>

@@ -67,6 +67,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	}
 
 	public void setData(final int id) {
+		view.showActivityIndicator();
 		rpcService.getCodeListModel(id, new AsyncCallback<CotrixImportModel>() {
 			public void onSuccess(CotrixImportModel result) {
 				view.setData(result,id);

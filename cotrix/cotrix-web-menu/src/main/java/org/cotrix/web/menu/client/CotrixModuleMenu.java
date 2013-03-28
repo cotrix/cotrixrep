@@ -16,7 +16,7 @@ public class CotrixModuleMenu implements EntryPoint {
 	public void onModuleLoad() {
 		CotrixMenuResources.INSTANCE.css().ensureInjected();
 		
-	/*	HandlerManager eventBus = new HandlerManager(null);
+		/*HandlerManager eventBus = new HandlerManager(null);
 		MenuViewImpl menuView = new MenuViewImpl();
 		MenuPresenter menuPresenter = new MenuPresenter(eventBus, menuView);
 		menuPresenter.go(RootPanel.get());*/

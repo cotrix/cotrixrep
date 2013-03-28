@@ -15,6 +15,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	@Source("navigation_collapse_right.png")
 	ImageResource nav_collapse_right();
 
+	@Source("loading.gif")
+	ImageResource loading();
+
 	@Source( "style.css")
 	public CssResource css();
 
