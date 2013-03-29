@@ -57,7 +57,6 @@ public class SummaryFormPresenterImpl implements SummaryFormPresenter {
 
 	public void onFileChange(CSVFile csvFile) {
 		view.setHeader(csvFile.getHeader());
-		
 	}
 
 }

@@ -49,7 +49,7 @@
 				margin: 0;
 				border-color: #ccc;
 				padding: 3px;
-				padding-left:10px;
+				padding-left: 10px;
 				border-width: 1px 1px 0 0;
 				border-style: solid;
 			}
@@ -62,9 +62,14 @@
 				text-align: right;
 				font-weight: bold;
 			}
+			
+			.uploadPanel {
+				background-color: red;
+			}
 		</ui:style>
 	<g:HTMLPanel ui:field="panel">
 		<g:FlexTable ui:field="flexTable" cellPadding="0"
 			cellSpacing="0" borderWidth="1" styleName="{style.flexTable}" width="100%"></g:FlexTable>
+		<g:FlowPanel ui:field="gwtUploadPanel" styleName="{style.uploadPanel}"></g:FlowPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

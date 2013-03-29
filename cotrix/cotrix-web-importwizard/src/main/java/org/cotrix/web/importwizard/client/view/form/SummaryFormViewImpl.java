@@ -11,8 +11,10 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -29,6 +31,8 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 	@UiField HTMLPanel panel;
 	@UiField FlexTable flexTable;
 	@UiField Style style;
+	@UiField FlowPanel gwtUploadPanel;
+
 	interface Style extends CssResource {
 		String headerlabel();
 		String valuelabel();
@@ -38,9 +42,9 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 		String cell();
 		String metadata();
 		String metadataLabel();
-		
+
 	}
-	
+
 	private String[] headers;
 	private Presenter<SummaryFormPresenterImpl> presenter;
 	private AlertDialog alertDialog;
@@ -49,21 +53,23 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 	}
 
 	public void initForm(String[] headers) {
+		Window.alert("xxx");
 		Grid grid = new Grid(headers.length, 2);
 
 		for (int i = 0; i < headers.length; i++) {
 			Label headerLabel = new Label(headers[i]);
 			headerLabel.setStyleName(style.headerlabel());
-		
+
 			Label valueLabel = new Label("value"+i+1);
 			valueLabel.setStyleName(style.valuelabel());
-			
+
 			grid.getCellFormatter().setStyleName(i, 0, style.cell());
 			grid.setWidget(i, 0, headerLabel);
 			grid.setWidget(i, 1, valueLabel);
 		}
+		
 	}
-	
+
 	public void setPresenter(SummaryFormPresenterImpl presenter) {
 		this.presenter = presenter;
 	}
@@ -78,7 +84,7 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 		flexTable.getCellFormatter().setStyleName(0, 1, style.flexTableHeader());
 		flexTable.getCellFormatter().setStyleName(0, 2, style.flexTableHeader());
 		flexTable.getCellFormatter().setStyleName(0, 3, style.flexTableHeader());
-		
+
 		for (int i = 0; i < headers.length; i++) {
 			flexTable.setWidget(i+1, 0, new HTML(headers[i]));
 		}
@@ -109,6 +115,7 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 			}
 		}
 	}
+	
 
 	public void setMetadata(Metadata metadata) {
 		flexTable.getFlexCellFormatter().setRowSpan(5, 3, headers.length -4);
@@ -124,4 +131,6 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 		alertDialog.setMessage(message);
 		alertDialog.show();
 	}
+
+
 }

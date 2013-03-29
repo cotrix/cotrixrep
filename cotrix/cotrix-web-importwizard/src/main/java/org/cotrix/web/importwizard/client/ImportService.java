@@ -11,4 +11,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("import")
 public interface ImportService extends RemoteService {
 	boolean sendToServer(CotrixImportModel model) throws IllegalArgumentException;
+	void testBackendConnection() throws IllegalArgumentException;
 }

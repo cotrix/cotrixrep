@@ -4,10 +4,9 @@ import org.cotrix.web.importwizard.client.presenter.UploadFormPresenterImpl;
 import org.vectomatic.file.FileUploadExt;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -15,12 +14,14 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 
 public class UploadFormViewImpl extends Composite implements UploadFormView<UploadFormViewImpl> {
 
@@ -31,6 +32,14 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 
 	public UploadFormViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+		form.setAction(GWT.getModuleBaseURL()+"fileupload");
+
+
+		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				Window.alert("xxx");	
+			}
+		});
 	}
 
 	private Presenter<UploadFormPresenterImpl> presenter;
@@ -43,6 +52,7 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 	@UiField HTML deleteButton;
 	@UiField FlowPanel fileWrapperPanel;
 	@UiField Button browseButton;
+	@UiField FormPanel form;
 
 	private AlertDialog alertDialog;
 
@@ -59,6 +69,7 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 	@UiHandler("fileUploadButton")
 	public void onUploadFileChange(ChangeEvent event) {
 		presenter.onUploadFileChange(fileUploadButton.getFiles(),fileUploadButton.getFilename());
+		form.submit();
 	}
 
 	public void setFileUploadButtonClicked() {
@@ -84,4 +95,5 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 		alertDialog.setMessage(message);
 		alertDialog.show();
 	}
+
 }
