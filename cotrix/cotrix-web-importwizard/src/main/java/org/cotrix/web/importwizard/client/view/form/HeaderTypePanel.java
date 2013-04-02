@@ -2,6 +2,8 @@ package org.cotrix.web.importwizard.client.view.form;
 
 import org.cotrix.web.importwizard.client.view.form.HeaderTypeListBox.OnHeaderTypeSelectedHandler;
 import org.cotrix.web.share.shared.HeaderType;
+import org.cotrix.web.share.shared.HeaderType;
+import org.cotrix.web.share.shared.HeaderType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -71,32 +73,21 @@ public class HeaderTypePanel extends Composite implements OnHeaderTypeSelectedHa
 			break;
 		case 2:
 			clearSecondWidget();
-			break;
-		case 3:
-			clearSecondWidget();
-			break;
-		case 4:
-			clearSecondWidget();
 			Label label = new Label("in");
 			label.setStyleName(style.textPadding());
 			
 			ListBox l = new ListBox();
-			l.insertItem("English", "en", 0);
-			l.insertItem("thai", "th", 1);
-			l.insertItem("German", "de", 2);
-			l.insertItem("Spainish", "es", 3);
+			l.insertItem("--------", "text", 0);
+			l.insertItem("English", "en", 1);
+			l.insertItem("Thai", "th", 2);
+			l.insertItem("German", "de", 3);
+			l.insertItem("Spanish", "es", 4);
 			
 			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.add(label);
 			hPanel.add(l);
 			
 			panel.add(hPanel);
-			break;
-		case 5:
-			clearSecondWidget();
-			break;
-		case 6:
-			clearSecondWidget();
 			break;
 		}
 	}

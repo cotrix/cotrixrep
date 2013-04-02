@@ -21,6 +21,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<repositories>
+		<repository>
+            <id>json4g</id>
+            <name>json4g</name>
+            <url>http://json4g.googlecode.com/svn/trunk/repo</url>
+        </repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -33,6 +41,24 @@
 			<artifactId>gwt-user</artifactId>
 			<version>${gwtVersion}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jukito</groupId>
+			<artifactId>jukito</artifactId>
+			<version>1.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.gwt-test-utils</groupId>
+			<artifactId>gwt-test-utils</artifactId>
+			<version>0.43</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -94,6 +120,24 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+            <groupId>org.json4g</groupId>
+            <artifactId>json4g</artifactId>
+            <version>1.0</version>
+            <classifier>sources</classifier>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.json4g</groupId>
+            <artifactId>json4g</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 
 	<build>

@@ -23,6 +23,8 @@ import org.cotrix.web.importwizard.client.CotrixModuleImport;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.HeaderType;
+import org.cotrix.web.share.shared.HeaderType;
+import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gson.Gson;
@@ -56,15 +58,11 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		QName asfisName = new QName("asfis-2012");
 		mapping.setName(asfisName);
 		
-		HashMap<String, HeaderType> types = model.getType();
-		Iterator<String> it =  types.keySet().iterator();
+		ArrayList<HeaderType> types = model.getType();
 		List<AttributeMapping> attrs = new ArrayList<AttributeMapping>();
-		while(it.hasNext()){
-			String key = it.next();
-			HeaderType type = types.get(key);
-			
-			AttributeMapping attr = new AttributeMapping (key);
-			if(type.hasRelatedValue()){
+		for (HeaderType type : types) {
+			AttributeMapping attr = new AttributeMapping (type.getName());
+			if(type.getRelatedValue()!=null){
 				attr.setLanguage(type.getRelatedValue());
 			}
 			attrs.add(attr);
@@ -88,48 +86,49 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 		HeaderType type3acode =  new HeaderType();
 		type3acode.setValue(CODE);
+		type3acode.setName("3A_CODE");
+		
 
 		HeaderType taxocode =  new HeaderType();
 		taxocode.setValue(CODE);
+		taxocode.setName("TAXOCODE");
 
 		HeaderType isscapp =  new HeaderType();
 		isscapp.setValue(CODE);
+		isscapp.setName("ISSCAAP");
 
 		HeaderType scientificName =  new HeaderType();
 		scientificName.setValue(DESC);
+		scientificName.setName("Scientific_name");
 
 		HeaderType englishName =  new HeaderType();
 		englishName.setValue(DESC);
 		englishName.setRelatedValue("en");
+		englishName.setName("English_name");
 
 		HeaderType spanishName =  new HeaderType();
 		spanishName.setValue(DESC);
 		spanishName.setRelatedValue("es");
+		spanishName.setName("Spanish_name");
 
 		HeaderType frenchName =  new HeaderType();
 		frenchName.setValue(DESC);
 		frenchName.setRelatedValue("fr");
+		frenchName.setName("French_name");
 
 		HeaderType author =  new HeaderType();
 		author.setValue(CODE);
+		author.setName("Family");
 
 		HeaderType family =  new HeaderType();
 		family.setValue(CODE);
+		family.setName("Author");
 
 		HeaderType order =  new HeaderType();
 		order.setValue(CODE);
+		order.setName("Order");
 
-
-		HashMap<String, HeaderType> types = new HashMap<String, HeaderType>();
-		types.put("3A_CODE",type3acode);
-		types.put("TAXOCODE",taxocode);
-		types.put("ISSCAAP",isscapp);
-		types.put("Scientific_name",scientificName);
-		types.put("English_name",englishName);
-		types.put("Spanish_name",spanishName);
-		types.put("Author",author);
-		types.put("Family",family);
-		types.put("Order",order);
+		ArrayList<HeaderType> types = new ArrayList<HeaderType>();
 
 
 		CotrixImportModel model = new CotrixImportModel();

@@ -16,22 +16,10 @@
 				------ Select Type ------
 			</g:item>
 			<g:item value='1'>
-				Unique Code
+				Code
 			</g:item>
 			<g:item value='2'>
-				Another Unique Code
-			</g:item>
-			<g:item value='3'>
-				Another Code
-			</g:item>
-			<g:item value='4'>
 				Description
-			</g:item>
-			<g:item value='5'>
-				Parent Code
-			</g:item>
-			<g:item value='6'>
-				Parent Description
 			</g:item>
 		</g:ListBox>
 	</g:HTMLPanel>

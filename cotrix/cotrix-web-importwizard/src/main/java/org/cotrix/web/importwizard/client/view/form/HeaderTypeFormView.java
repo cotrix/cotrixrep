@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client.view.form;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.cotrix.web.importwizard.client.presenter.HeaderTypeFormPresenterImpl;
@@ -11,7 +12,7 @@ public interface HeaderTypeFormView<T> {
 	public interface Presenter<T> {
 
 	}
-	HashMap<String, HeaderType> getHeaderTypes();
+	ArrayList<HeaderType> getHeaderTypes();
 	void setData(String[] headers);
 	void setPresenter(HeaderTypeFormPresenterImpl presenter);
 	Widget asWidget();

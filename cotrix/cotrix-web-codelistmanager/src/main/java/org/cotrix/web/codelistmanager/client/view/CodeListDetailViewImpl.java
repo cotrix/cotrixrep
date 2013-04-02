@@ -4,6 +4,7 @@ import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.client.resources.DataGridResource;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -118,6 +119,7 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 	}
 
 	public void init() {
+		
 	}
 
 	public void setPresenter(Presenter presenter) {
@@ -127,7 +129,6 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 	public void showMetadataPanel(boolean isVisible) {
 		metadataPanel.setVisible(!isVisible);
 	}
-
 
 	private void showContentPanel(){
 		this.loadingPanel.setVisible(false);
@@ -142,8 +143,8 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 	}
 	
 	public void setData(CotrixImportModel model,int id) {
-		Metadata metadata= model.getMetadata();
-
+		Metadata metadata = model.getMetadata();
+		
 		this.codelistName.setText(metadata.getName());
 		this.metadata.setText(metadata.getDescription());
 

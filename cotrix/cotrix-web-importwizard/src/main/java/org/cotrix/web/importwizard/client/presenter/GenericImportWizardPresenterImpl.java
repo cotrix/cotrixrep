@@ -6,8 +6,12 @@ import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.ImportWizardView;
 import org.cotrix.web.importwizard.client.view.form.FormWrapperViewImpl;
 import org.cotrix.web.share.shared.CotrixImportModelController;
+import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
@@ -20,6 +24,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	private CotrixImportModelController model;
 	private ArrayList<Presenter<GenericImportWizardPresenterImpl>> presenters  = new ArrayList<Presenter<GenericImportWizardPresenterImpl>>();
 	private ArrayList<String> formLabel  = new ArrayList<String>();
+	private UploadFormPresenterImpl uploadFormPresenter;
 
     @Inject
 	public GenericImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModelController model) {
@@ -66,7 +71,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 		boolean isValidated = false;
 		switch (index) {
 		case 0:
-			UploadFormPresenterImpl uploadFormPresenter =   (UploadFormPresenterImpl) sender.getContent();
+			uploadFormPresenter =   (UploadFormPresenterImpl) sender.getContent();
 			isValidated = uploadFormPresenter.isValidated();
 			break;
 		case 1:
@@ -101,8 +106,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	}
 
 	public void onSaveButtonClicked(FormWrapperPresenter sender) {
-		SummaryFormPresenterImpl summaryFormPresenter =   (SummaryFormPresenterImpl) sender.getContent();
-		summaryFormPresenter.uploadCotrixModel();
+		this.uploadFormPresenter.submitForm();
 	}
 
 

@@ -7,8 +7,10 @@ import org.cotrix.web.codelistmanager.client.CotrixModuleManager;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.shared.FieldVerifier;
 import org.cotrix.web.share.shared.CSVFile;
+import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.Codelist;
 import org.cotrix.web.share.shared.CotrixImportModel;
+import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.core.client.GWT;

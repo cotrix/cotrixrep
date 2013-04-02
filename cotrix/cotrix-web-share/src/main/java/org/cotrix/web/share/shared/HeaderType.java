@@ -3,12 +3,10 @@ package org.cotrix.web.share.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class HeaderType implements IsSerializable {
+	private String name;
 	private String value;
 	private String relatedValue;
 	
-	public boolean hasRelatedValue(){
-		return (relatedValue == null)?false:true;
-	}
 	public String getValue() {
 		return value;
 	}
@@ -20,5 +18,11 @@ public class HeaderType implements IsSerializable {
 	}
 	public void setRelatedValue(String relatedValue) {
 		this.relatedValue = relatedValue;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -52,8 +52,8 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
     protected void configure() {
         bind(CotrixImportAppController.class).to(CotrixImportAppControllerImpl.class);
       
-        bind(UploadFormView.class).to(UploadFormViewImpl.class);
-        bind(UploadFormPresenter.class).to(UploadFormPresenterImpl.class);
+        bind(UploadFormView.class).to(UploadFormViewImpl.class).asEagerSingleton();
+        bind(UploadFormPresenter.class).to(UploadFormPresenterImpl.class).asEagerSingleton();
        
         bind(ImportWizardView.class).to(ImportWizardViewImpl.class).in(Singleton.class);
         bind(ImportWizardPresenter.class).to(ImportWizardPresenterImpl.class);

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.cotrix.web.importwizard.client.presenter.SummaryFormPresenterImpl;
 import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -53,7 +54,6 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 	}
 
 	public void initForm(String[] headers) {
-		Window.alert("xxx");
 		Grid grid = new Grid(headers.length, 2);
 
 		for (int i = 0; i < headers.length; i++) {
@@ -105,7 +105,7 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 				if(type.getValue() == null){
 					flexTable.setWidget(i+1, 1, new HTML("Not Defined"));
 				}else{
-					if(type.hasRelatedValue()){
+					if(type.getRelatedValue()!=null){
 						String value = type.getValue() + " ( "+type.getRelatedValue()+" )";
 						flexTable.setWidget(i+1, 1, new HTML(value));
 					}else{

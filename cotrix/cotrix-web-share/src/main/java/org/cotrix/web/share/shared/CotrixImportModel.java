@@ -1,5 +1,6 @@
 package org.cotrix.web.share.shared;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -9,7 +10,7 @@ public class CotrixImportModel implements IsSerializable{
 	private CSVFile csvFile;
 	private HashMap<String, String> description;
 	private HashMap<String, String> summary;
-	private HashMap<String, HeaderType> type;
+	private ArrayList<HeaderType> type;
 	
 	public Metadata getMetadata() {
 		return metadata;
@@ -35,10 +36,10 @@ public class CotrixImportModel implements IsSerializable{
 	public void setSummary(HashMap<String, String> summary) {
 		this.summary = summary;
 	}
-	public HashMap<String, HeaderType> getType() {
+	public ArrayList<HeaderType> getType() {
 		return type;
 	}
-	public void setType(HashMap<String, HeaderType> type) {
+	public void setType(ArrayList<HeaderType> type) {
 		this.type = type;
 	}
 	

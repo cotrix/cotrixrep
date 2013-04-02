@@ -34,13 +34,4 @@ public class CSVFile implements IsSerializable {
 	public void setData(ArrayList<String[]> data) {
 		this.data = data;
 	}
-	public boolean isEmpty(){
-		return (this.data == null)?true:false;
-	}
-	public void reset(){
-		this.filename = null;
-		this.rowCount = 0;
-		this.header = null;
-		this.data = null;
-	}
 }

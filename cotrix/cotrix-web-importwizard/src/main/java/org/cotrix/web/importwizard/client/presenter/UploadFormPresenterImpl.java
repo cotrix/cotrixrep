@@ -6,6 +6,9 @@ import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.form.UploadFormView;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
+import org.cotrix.web.share.shared.HeaderType;
+import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.share.shared.json.HeaderTypeJson;
 import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileError;
@@ -21,8 +24,12 @@ import org.vectomatic.file.events.ProgressEvent;
 import org.vectomatic.file.events.ProgressHandler;
 
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.web.bindery.autobean.shared.AutoBean;
+import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 
 public class UploadFormPresenterImpl implements UploadFormPresenter {
 
@@ -68,10 +75,10 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 			public void onLoadEnd(LoadEndEvent event) {
 				onLoadFileFinish();		
 				ArrayList<String[]> data = parseCSV(reader.getStringResult());
-				
+
 				if(data.size() >= 2 ){
 					String[] headers = data.remove(0);
-					
+
 					CSVFile  csvFile = new CSVFile();
 					csvFile.setData(data);
 					csvFile.setHeader(headers);
@@ -96,7 +103,7 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 			}
 		});
 	}
-	
+
 	private void processFiles(FileList files) {
 		if (files.getLength() == 0)
 			return;
@@ -133,9 +140,9 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 
 
 	public boolean isValidated() {
-		if(model.getCsvFile().isEmpty())
+		if(model.getCsvFile().getData() == null)
 			onError("Please browse csv file");
-		return !model.getCsvFile().isEmpty();
+		return (model.getCsvFile().getData() != null) ? true:false;
 	}
 
 	public void onBrowseButtonClicked() {
@@ -143,7 +150,10 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 	}
 
 	public void onDeleteButtonClicked() {
-		model.getCsvFile().reset();
+		model.getCsvFile().setData(null);
+		model.getCsvFile().setFilename(null);
+		model.getCsvFile().setHeader(null);
+		model.getCsvFile().setRowCount(0);
 		view.setOnDeleteButtonClicked();
 	}
 
@@ -158,6 +168,13 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 	public void onUploadFileChange(FileList fileList, String filename) {
 		this.filename = filename;
 		this.processFiles(fileList);
+	}
+	
+	public void submitForm() {
+		ArrayList<HeaderType> types = this.model.getType();
+		String json = HeaderTypeJson.toJSON(types).toString();
+		view.setCotrixModelFieldValue(json);
+		view.submitForm();
 	}
 
 }

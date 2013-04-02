@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client.view.form;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.cotrix.web.importwizard.client.presenter.HeaderTypeFormPresenterImpl;
@@ -57,13 +58,15 @@ public class HeaderTypeFormViewImpl extends Composite implements HeaderTypeFormV
 		panel.add(grid);
 	}
 
-	public HashMap<String, HeaderType> getHeaderTypes() {
-		HashMap<String, HeaderType> headerType = new HashMap<String, HeaderType>();
+	public ArrayList<HeaderType> getHeaderTypes() {
+		ArrayList<HeaderType> headerType = new ArrayList<HeaderType>();
 		for (int i = 0; i < grid.getRowCount(); i++) {
 			Label label = (Label) grid.getWidget(i, 0);
 			HeaderTypePanel typePanel = (HeaderTypePanel) grid.getWidget(i, 1);
+			HeaderType type = typePanel.getHeaderType();
+			type.setName(label.getText());
 			
-			headerType.put(label.getText(), typePanel.getHeaderType());
+			headerType.add(type);
 		}
 		return headerType;
 	}

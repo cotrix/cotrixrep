@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client.presenter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
@@ -7,6 +8,7 @@ import org.cotrix.web.importwizard.client.view.form.SummaryFormView;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
+import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.event.shared.HandlerManager;
@@ -42,8 +44,15 @@ public class SummaryFormPresenterImpl implements SummaryFormPresenter {
 		view.setMetadata(metadata);
 	}
 
-	public void onTypeChange(HashMap<String, HeaderType> headerType) {
-		view.setHeaderType(headerType);
+	private HashMap<String, HeaderType> toHashMap(ArrayList<HeaderType> types){
+		HashMap<String, HeaderType> headerType = new HashMap<String, HeaderType>();
+		for (HeaderType type : types) {
+			headerType.put(type.getName(),type);
+		}
+		return headerType;
+	}
+	public void onTypeChange(ArrayList<HeaderType> headerType) {
+		view.setHeaderType(toHashMap(headerType));
 	}
 
 	public void onDescriptionChange(HashMap<String, String> headerDescription) {

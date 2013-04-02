@@ -21,7 +21,7 @@ public class CotrixImportModelController {
 	}
 
 	public interface OnTypeChangeHandler extends IsSerializable {
-		public void onTypeChange(HashMap<String, HeaderType> headerType);
+		public void onTypeChange(ArrayList<HeaderType> headerType);
 	}
 	
 	private ArrayList<OnFileChangeHandler> onFileChangeHandlers = new ArrayList<OnFileChangeHandler>();
@@ -47,17 +47,19 @@ public class CotrixImportModelController {
 			onFileChangeHandler.onFileChange(csvFile);
 		}
 	}
+	
 	private void notifyOnDescriptionChangeHandler(HashMap<String, String> description){
 		for (OnDescriptionChangeHandler onDescriptionChangeHandler : onDescriptionChangeHandlers) {
 			onDescriptionChangeHandler.onDescriptionChange(description);
 		}
 	}
+	
 	private void notifyOnMetaDataChangeHandler(Metadata metadata){
 		for (OnMetaDataChangeHandler onMetaDataChangeHandler : onMetaDataChangeHandlers) {
 			onMetaDataChangeHandler.onMetadataChange(metadata);
 		}
 	}
-	private void notifyOnTypeChangeHandler(HashMap<String, HeaderType> type){
+	private void notifyOnTypeChangeHandler(ArrayList<HeaderType> type){
 		for (OnTypeChangeHandler onTypeChangeHandler : onTypeChangeHandlers) {
 			onTypeChangeHandler.onTypeChange(type);
 		}
@@ -65,13 +67,23 @@ public class CotrixImportModelController {
 	
 	private CotrixImportModel model = new CotrixImportModel();
 	
+	public CotrixImportModel getModel() {
+		return model;
+	}
+	
+	public void setModel(CotrixImportModel model) {
+		this.model = model;
+	}
+	
 	public Metadata getMetadata() {
 		return this.model.getMetadata();
 	}
+	
 	public void setMetadata(Metadata metadata) {
 		this.model.setMetadata(metadata);
 		notifyOnMetaDataChangeHandler(metadata);
 	}
+	
 	public CSVFile getCsvFile() {
 		return this.model.getCsvFile();
 	}
@@ -92,10 +104,10 @@ public class CotrixImportModelController {
 	public void setSummary(HashMap<String, String> summary) {
 		this.model.setSummary(summary);
 	}
-	public HashMap<String, HeaderType> getType() {
+	public ArrayList<HeaderType> getType() {
 		return this.model.getType();
 	}
-	public void setType(HashMap<String, HeaderType> type) {
+	public void setType(ArrayList<HeaderType> type) {
 		this.model.setType(type);
 		notifyOnTypeChangeHandler(type);
 	}
