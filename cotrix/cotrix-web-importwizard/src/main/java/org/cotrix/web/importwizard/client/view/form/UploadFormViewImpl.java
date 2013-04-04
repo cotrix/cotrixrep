@@ -32,7 +32,7 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 		form.setAction(GWT.getModuleBaseURL()+"fileupload");
 		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				Window.alert("Successful Upload");
+				alert("Upload file Complete.");
 			}
 		});
 		
@@ -99,5 +99,6 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 	public void setCotrixModelFieldValue(String model) {
 		this.cotrixmodelField.setDefaultValue(model);
 	}
+
 
 }

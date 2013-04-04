@@ -78,12 +78,10 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 		this.headers = headers;
 		flexTable.setWidget(0, 0, new HTML("Header"));
 		flexTable.setWidget(0, 1, new HTML("Type"));
-		flexTable.setWidget(0, 2, new HTML("Description"));
-		flexTable.setWidget(0, 3, new HTML("Metadata"));
+		flexTable.setWidget(0, 2, new HTML("Metadata"));
 		flexTable.getCellFormatter().setStyleName(0, 0, style.flexTableHeader());
 		flexTable.getCellFormatter().setStyleName(0, 1, style.flexTableHeader());
 		flexTable.getCellFormatter().setStyleName(0, 2, style.flexTableHeader());
-		flexTable.getCellFormatter().setStyleName(0, 3, style.flexTableHeader());
 
 		for (int i = 0; i < headers.length; i++) {
 			flexTable.setWidget(i+1, 0, new HTML(headers[i]));
@@ -118,12 +116,13 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 	
 
 	public void setMetadata(Metadata metadata) {
-		flexTable.getFlexCellFormatter().setRowSpan(5, 3, headers.length -4);
-		flexTable.setWidget(1, 3, new HTML("<strong>Name : </strong>"+metadata.getName()));
-		flexTable.setWidget(2, 3, new HTML("<strong>Owner : </strong>"+metadata.getOwner()));
-		flexTable.setWidget(3, 3, new HTML("<strong>Description : </strong>"+metadata.getDescription()));
-		flexTable.setWidget(4, 3, new HTML("<strong>Version : </strong>"+metadata.getVersion()));
+		flexTable.getFlexCellFormatter().setRowSpan(5, 2, headers.length -4);
+		flexTable.setWidget(1, 2, new HTML("<strong>Name : </strong>"+metadata.getName()));
+		flexTable.setWidget(2, 2, new HTML("<strong>Owner : </strong>"+metadata.getOwner()));
+		flexTable.setWidget(3, 2, new HTML("<strong>Description : </strong>"+metadata.getDescription()));
+		flexTable.setWidget(4, 2, new HTML("<strong>Version : </strong>"+metadata.getVersion()));
 	}
+	
 	public void alert(String message) {
 		if(alertDialog == null){
 			alertDialog = new AlertDialog();
