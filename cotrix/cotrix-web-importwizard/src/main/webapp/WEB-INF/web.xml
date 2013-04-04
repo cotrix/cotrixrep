@@ -5,28 +5,31 @@
 
 <web-app>
 
+	<listener>
+		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+	</listener>
+	
 	<!-- Servlets -->
-	<servlet>
-		<servlet-name>importServlet</servlet-name>
-		<servlet-class>org.cotrix.web.importwizard.server.ImportServiceImpl</servlet-class>
-	</servlet>
+	
 
 	<servlet>
 		<servlet-name>fileUploaderServlet</servlet-name>
 		<servlet-class>org.cotrix.web.importwizard.server.FileUpload</servlet-class>
 	</servlet>
 
-
-	<servlet-mapping>
-		<servlet-name>fileUploaderServlet</servlet-name>
-		<url-pattern>/CotrixModuleImport/fileupload</url-pattern>
-	</servlet-mapping>
+	<servlet>
+		<servlet-name>cdiProxyServlet</servlet-name>
+		<servlet-class>org.cotrix.web.importwizard.server.CDIProxyServlet</servlet-class> <!-- use the FQN of the CDIProxyServlet -->
+		<init-param>
+			<param-name>targetServletClass</param-name>
+			<param-value>org.cotrix.web.importwizard.server.FileUpload</param-value>  <!-- use the FQN of your original servlet -->
+		</init-param>
+	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>importServlet</servlet-name>
-		<url-pattern>/CotrixModuleImport/import</url-pattern>
+		<servlet-name>cdiProxyServlet</servlet-name>
+		<url-pattern>/CotrixModuleImport/fileupload</url-pattern>
 	</servlet-mapping>
-
 
 	<!-- Default page to serve -->
 	<welcome-file-list>

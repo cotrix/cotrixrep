@@ -21,14 +21,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<repositories>
-		<repository>
-            <id>json4g</id>
-            <name>json4g</name>
-            <url>http://json4g.googlecode.com/svn/trunk/repo</url>
-        </repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -126,18 +118,16 @@
 			<version>3.1</version>
 		</dependency>
 		<dependency>
-            <groupId>org.json4g</groupId>
-            <artifactId>json4g</artifactId>
-            <version>1.0</version>
-            <classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.json4g</groupId>
-            <artifactId>json4g</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet</artifactId>
+			<version>1.1.10.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>2.2.1-b04</version>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

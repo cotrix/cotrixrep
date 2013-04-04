@@ -6,6 +6,7 @@ import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.view.ImportWizardView;
 import org.cotrix.web.importwizard.client.view.form.FormWrapperViewImpl;
 import org.cotrix.web.share.shared.CotrixImportModelController;
+import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.Metadata;
