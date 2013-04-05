@@ -58,10 +58,12 @@ public class CodelistMapper {
 		for (Row row : table)
 			map(row);
 		
-		report().log("==============================");
-		report().log("terminated import of codelist '"+mapping.name()+"'");
+		Codelist list = list();
 		
-		return list();
+		report().log("==============================");
+		report().log("terminated import of codelist '"+mapping.name()+"' with "+list.codes().size()+" codes.");
+		
+		return list;
 		
 	}
 	

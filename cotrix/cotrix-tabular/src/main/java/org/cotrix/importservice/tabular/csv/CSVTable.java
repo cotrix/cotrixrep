@@ -26,7 +26,15 @@ public class CSVTable implements Table {
 	private List<String> columns; 
 	
 	private RowIterator iterator;
-	
+
+	/**
+	 * Creates an instance over a stream a CSV data and with default parsing options. 
+	 * @param stream the data
+	 * @param options the options
+	 */
+	public CSVTable(InputStream stream) {
+		this(stream, new CSVOptions());
+	}
 	/**
 	 * Creates an instance over a stream a CSV data and with given parsing options. 
 	 * @param stream the data
@@ -36,8 +44,15 @@ public class CSVTable implements Table {
 		
 		CSVReader reader = new CSVReader(new InputStreamReader(stream),options.delimiter(),options.quote());
 		
-		this.columns = options.columns()==null?readColumns(reader):options.columns();
+		this.columns = options.columns();
 		
+		if (this.columns==null) //we don't have columns must have header
+			this.columns = readHeader(reader);
+		else //we have columns should we skip header
+			if (options.skipHeader())
+				readHeader(reader);
+		
+		System.out.println(columns);
 		this.iterator=new RowIterator(reader,options);
 	}
 	
@@ -53,14 +68,14 @@ public class CSVTable implements Table {
 	
 	
 	//helper: parse columns from data headers 
-	private List<String> readColumns(CSVReader reader) {
+	private List<String> readHeader(CSVReader reader) {
 		
 		try {
 			String[] headers = reader.readNext();
 			return Arrays.asList(headers);
 		}
 		catch(Exception e) {
-			throw new IllegalArgumentException("cannot find column names in the CSV data");
+			throw new IllegalArgumentException("cannot read the CSV header",e);
 		}
 	}
 	

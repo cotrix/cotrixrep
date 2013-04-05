@@ -20,6 +20,8 @@ public class CSVOptions {
 	
 	private int rows = Integer.MAX_VALUE;
 	
+	private boolean skipHeader = false;
+	
 	/**
 	 * Return the delimiter character used in the data, {@link #defaultDelimiter} by default.
 	 * @return the delimenter character
@@ -61,11 +63,21 @@ public class CSVOptions {
 	}
 	
 	/**
-	 * Sets the names of the columns in the data.
+	 * Sets the names of the columns in the data and indicate whether the data has a header that should be skipped.
 	 * @param columns the columns
+	 * @param hasHeader <code>true</code> if the data has a header that should be skipped
 	 */
-	public void setColumns(List<String> columns) {
+	public void setColumns(List<String> columns, boolean hasHeader) {
 		this.columns = columns;
+		this.skipHeader=hasHeader;
+	}
+	
+	/**
+	 * Returns <code>true</code> if the data has a header that should be skipped.
+	 * @return <code>true</code> if the data has a header that should be skipped
+	 */
+	public boolean skipHeader() {
+		return skipHeader;
 	}
 	
 	/**

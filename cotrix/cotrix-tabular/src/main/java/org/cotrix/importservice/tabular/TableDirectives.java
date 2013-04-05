@@ -12,6 +12,7 @@ import org.cotrix.importservice.Directives;
  */
 public class TableDirectives<T,M> implements Directives<T> {
 
+
 	private final M mapping;
 	
 	/**
