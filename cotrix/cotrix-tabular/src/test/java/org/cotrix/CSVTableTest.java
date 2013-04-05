@@ -25,11 +25,9 @@ public class CSVTableTest {
 		
 		CSVOptions description = new CSVOptions();
 		
-		description.setColumns(columns);
+		description.setColumns(columns,false);
 		
 		Table table = new CSVTable(asCSVStream(data),description);
-		
-		System.out.println(table);
 		
 		assertTrue(equals(table,data));
 	}
@@ -39,17 +37,31 @@ public class CSVTableTest {
 		
 		String[][] parsed ={{"11","12"},{"21","22"}};
 		
-		String[][] data ={{"col1","col2"},parsed[0],parsed[1]};
+		String[][] data ={{"col1","col2"},{"11","12"},{"21","22"}};
 		
-		CSVOptions description = new CSVOptions();
-		description.setDelimiter('\t');
-		
-		Table table = new CSVTable(asCSVStream(data),description);
-		
-		System.out.println(table);
+		Table table = new CSVTable(asCSVStream(data));
 		
 		assertTrue(equals(table,parsed));
 		
+	}
+	
+	@Test
+	public void tableFromCSVOverridingHeaders() throws Exception {
+		
+		
+		List<String> columns = asList("col1","col2");
+		
+		String[][] data ={{"h1","h2"},{"11","12"},{"21","22"}};
+		
+		
+		CSVOptions description = new CSVOptions();
+		description.setColumns(columns,true);
+		
+		Table table = new CSVTable(asCSVStream(data),description);
+		
+		String[][] expected ={{"11","12"},{"21","22"}};
+		
+		assertTrue(equals(table,expected));
 	}
 	
 	//helper
@@ -58,6 +70,7 @@ public class CSVTableTest {
 		int i = 0;
 		for (Row row : table) {
 			int j=0;
+			System.out.println(row);
 			for (String column : table.columns()) {
 				if (!row.get(column).equals(data[i][j]))
 						return false;
