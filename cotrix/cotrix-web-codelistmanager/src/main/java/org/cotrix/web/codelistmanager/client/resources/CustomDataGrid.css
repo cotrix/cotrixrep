@@ -14,9 +14,8 @@
  * the License.
  */
 @
-def selectionBorderWidth  1px ;
+def selectionBorderWidth  1px;
 .dataGridWidget {
-	
 }
 
 .dataGridFirstColumn {
@@ -32,25 +31,22 @@ def selectionBorderWidth  1px ;
 	padding: 3px 15px;
 	text-align: left;
 	color: #4b4a4a;
-	/* text-shadow: #ddf 1px 1px 0; */
-	overflow: hidden;
-	white-space: nowrap;
+	text-shadow: #ddf 1px 1px 0;
 }
 
 .dataGridHeader {
-	border-bottom: 1px solid #333;
-	padding: 3px 15px;
+	overflow: visible;
 	text-align: center;
-	color: #666;
-	font-size:14px;
-	/* overflow: hidden;
-	white-space: nowrap; */
+	color: #999;
+	font-weight:normal;
+	font-size:15px;
+	text-shadow:none;
+	background-color:#eee;
 }
 
 .dataGridCell {
 	padding: 2px 15px;
-	font-size:14px;
-/* 	overflow: hidden; */
+	font-size: 14px;
 }
 
 .dataGridFirstColumnFooter {
@@ -87,19 +83,19 @@ def selectionBorderWidth  1px ;
 }
 
 .dataGridEvenRow {
-	background: #ffffff;
+	
 }
 
 .dataGridEvenRowCell {
-	border: selectionBorderWidth solid #ffffff;
+	background: #ffffff;
 }
 
 .dataGridOddRow {
-	background: #f3f7fb;
+	
 }
 
 .dataGridOddRowCell {
-	border: selectionBorderWidth solid #f3f7fb;
+	background: #ffffff;
 }
 
 .dataGridHoveredRow {
@@ -107,6 +103,7 @@ def selectionBorderWidth  1px ;
 }
 
 .dataGridHoveredRowCell {
+	background:#efefef;
 	border: selectionBorderWidth solid #eee;
 }
 

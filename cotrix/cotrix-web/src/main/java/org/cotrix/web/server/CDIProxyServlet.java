@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.server;
+package org.cotrix.web.server;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -39,22 +39,19 @@ public class CDIProxyServlet extends HttpServlet {
 		super.init();
 		
 		BeanManager mgr = (BeanManager) this.getServletContext().getAttribute(Listener.BEAN_MANAGER_ATTRIBUTE_NAME);
-
+		System.out.println("xxx"+mgr);
 		//actual servlet type name
 		String typeName = this.getServletConfig().getInitParameter(TARGET_SERVLET_CLASS);
-		
+		System.out.println("----->>>"+typeName);
 		try {
-
+			System.out.println("******"+typeName);
 			Class<?> type = Class.forName(typeName);
-			
+			System.out.println(typeName + "xxxx" + type	);
 			Iterator<Bean<?>> it = mgr.getBeans(type).iterator();
-			System.out.println("*****xxx****"+type);
-			
 			if (it.hasNext()) {
-				
+				System.out.println("In the loop");
 				Bean<?> servletBean = it.next();
-				System.out.println("*********"+servletBean);
-				
+
 				CreationalContext ctx = (CreationalContext) mgr.createCreationalContext(servletBean);
 				
 				this.target = (HttpServlet) servletBean.create(ctx);

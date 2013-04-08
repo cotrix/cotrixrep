@@ -9,13 +9,6 @@
 		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
 	</listener>
 	
-	<!-- Servlets -->
-	
-
-	<servlet>
-		<servlet-name>fileUploaderServlet</servlet-name>
-		<servlet-class>org.cotrix.web.importwizard.server.FileUpload</servlet-class>
-	</servlet>
 
 	<servlet>
 		<servlet-name>cdiProxyServlet</servlet-name>

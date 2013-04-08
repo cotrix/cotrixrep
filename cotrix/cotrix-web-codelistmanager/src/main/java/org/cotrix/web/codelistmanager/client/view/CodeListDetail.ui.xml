@@ -17,6 +17,28 @@
 				height: 100%;
 			}
 			
+			.flexTable {
+				border-width: 0 0 1px 1px;
+				border-spacing: 0;
+				border-color: #ccc;
+				background-color: white;
+				border-collapse: collapse;
+				color: #666;
+				height: 100%;
+				width: 100%;
+				font-size: 8px;
+				border-style: solid;
+				text-align: center;
+			}
+			
+			.flexTable td,.flexTable th {
+				margin: 0;
+				border-color: #ccc;
+				padding: 3px;
+				border-width: 1px 1px 0 0;
+				border-style: solid;
+			}
+			
 			.blankPanel {
 				height: 100%;
 				border-radius: 5px;
@@ -59,9 +81,9 @@
 					rgba(229, 229, 229, 1) 100%); /* IE10+ */
 				background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
 					rgba(229, 229, 229, 1) 100%); /* W3C */
-				filter: progid:DXImageTransform.Microsoft.gradient(             
-																																												                     
-																																																																																																														                     startColorstr='#ffffff',
+				filter: progid:DXImageTransform.Microsoft.gradient(              
+																																															                     
+																																																																																																																	                     startColorstr='#ffffff',
 					endColorstr='#e5e5e5', GradientType=0); /* IE6-9 */
 			}
 			
@@ -72,6 +94,13 @@
 			
 			img.nav {
 				height: 35px;
+			}
+			
+			.contextMenu {
+				background-color:#999;
+				padding: 10px;
+				padding-left:20px;
+				color: white;
 			}
 			
 			.codelistName {
@@ -139,6 +168,7 @@
 			
 			.pagerWrapper {
 				text-align: center;
+				border-top: 1px solid #ccc;
 				border-bottom-right-radius: 5px;
 				border-bottom-left-radius: 5px;
 				background-color: #eee;
@@ -222,9 +252,9 @@
 							<g:Label ui:field="metadata" styleName="{style.metadata}" />
 						</g:VerticalPanel>
 						<div class="{style.gridWrapper}">
-							<g:HTMLPanel ui:field="dataGridWrapper" styleName="{style.table}">
-								<!-- <c:DataGrid ui:field='dataGrid' styleName="{style.table}" /> -->
-							</g:HTMLPanel>
+							<g:ResizeLayoutPanel ui:field="dataGridWrapper"
+								styleName="{style.table}">
+							</g:ResizeLayoutPanel>
 						</div>
 					</g:HTMLPanel>
 				</g:center>

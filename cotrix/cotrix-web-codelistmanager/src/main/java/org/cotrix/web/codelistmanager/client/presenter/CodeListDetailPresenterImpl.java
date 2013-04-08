@@ -98,7 +98,6 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 			}
 		};
 		dataProvider.addDataDisplay(dataGrid);
-		
 
 	}
 

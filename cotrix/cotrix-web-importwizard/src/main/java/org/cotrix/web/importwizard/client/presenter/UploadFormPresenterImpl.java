@@ -61,7 +61,7 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 		String[] lines = csv.split("\n");
 		ArrayList<String[]> results = new ArrayList<String[]>();
 		for (String line : lines) {
-			System.out.println(line);
+//			System.out.println(line);
 			String[] cells = line.split("\t|,|\r");
 			results.add(cells);
 		}

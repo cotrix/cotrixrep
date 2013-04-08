@@ -32,10 +32,9 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 		form.setAction(GWT.getModuleBaseURL()+"fileupload");
 		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				alert("Upload file Complete.");
+				alert(event.getResults());
 			}
 		});
-		
 	}
 
 	private Presenter<UploadFormPresenterImpl> presenter;
