@@ -36,7 +36,6 @@ public class CotrixModuleImport implements EntryPoint {
 	public void onModuleLoad() {
 		CotrixImportResources.INSTANCE.css().ensureInjected();
 		/*rpcService.testBackendConnection(new AsyncCallback<Void>() {
-			
 			public void onSuccess(Void result) {
 				Window.alert("Success!!!");
 			}

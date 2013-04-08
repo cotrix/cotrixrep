@@ -61,6 +61,14 @@ public class CodeListDetailViewImpl extends Composite implements
 	@UiField HTMLPanel blankPanel;
 	@UiField ResizeLayoutPanel dataGridWrapper;
 	@UiField HTMLPanel pagerWrapper;
+	@UiField Style style;
+	
+	interface Style extends CssResource {
+		String nav();
+		String pager();
+		String contextMenu();
+		String flexTable();
+	}
 	private PopupPanel contextMenu;
 	private CotrixDataGrid<String[]> dataGrid;
 
@@ -74,16 +82,6 @@ public class CodeListDetailViewImpl extends Composite implements
 		presenter.onCodelistNameClicked(metadataPanel.isVisible());
 	}
 
-	@UiField
-	Style style;
-
-	interface Style extends CssResource {
-		String nav();
-
-		String pager();
-		String contextMenu();
-		String flexTable();
-	}
 
 	private class FlexColumn extends Column<String[],String> {
 		int index;
@@ -97,8 +95,13 @@ public class CodeListDetailViewImpl extends Composite implements
 	}
 
 	private void initTable(CotrixImportModel model, int id) {
+		VerticalPanel panel = new VerticalPanel();
+		panel.add(new ContextMenuItem("Inssert row above"));
+		panel.add(new ContextMenuItem("Inssert row below"));
+		panel.add(new ContextMenuItem("Delete this row"));
+		
 		this.contextMenu = new PopupPanel(true);
-		this.contextMenu.add(new HTML("Insert New Row<br>Insert New Column<br>"));
+		this.contextMenu.add(panel);
 		this.contextMenu.setStyleName(style.contextMenu());
 		this.contextMenu.hide();
 
