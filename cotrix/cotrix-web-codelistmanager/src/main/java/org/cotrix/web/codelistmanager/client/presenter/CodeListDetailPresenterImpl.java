@@ -2,6 +2,7 @@ package org.cotrix.web.codelistmanager.client.presenter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.view.CodeListDetailView;
@@ -31,6 +32,8 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	private ManagerServiceAsync rpcService;
 	private HandlerManager eventBus;
 	private CodeListDetailView view;
+	private AsyncDataProvider<String[]> dataProvider;
+	private List<String[]> currentData;
 
 	@Inject
 	public CodeListDetailPresenterImpl(ManagerServiceAsync rpcService,
@@ -79,7 +82,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	}
 
 	public void setDataProvider(final DataGrid<String[]> dataGrid,final int id) {
-		AsyncDataProvider<String[]> dataProvider = new AsyncDataProvider<String[]>() {
+		dataProvider = new AsyncDataProvider<String[]>() {
 			@Override
 			protected void onRangeChanged(HasData<String[]> display) {
 				final Range range = display.getVisibleRange();
@@ -92,13 +95,32 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 					}
 
 					public void onSuccess(ArrayList<String[]> result) {
-						dataGrid.setRowData(start, result);
+						currentData = result;
+						dataProvider.updateRowData(start, result);
 					}
 				});
 			}
 		};
 		dataProvider.addDataDisplay(dataGrid);
 
+	}
+	private String[] getNewRow(){
+		String[] existingRow = currentData.get(0);
+		String[] newRow =new String[existingRow.length];
+		for (int i = 0; i < existingRow.length; i++) {
+			newRow[i] = " ";
+		}
+		return newRow;
+	}
+	
+	public void insertRow(int row) {
+		currentData.add(row, getNewRow());
+		dataProvider.updateRowData(0,currentData);
+	}
+
+	public void deleteRow(int row) {
+		currentData.remove(row);
+		dataProvider.updateRowData(0, currentData);
 	}
 
 }

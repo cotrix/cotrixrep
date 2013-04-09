@@ -3,4 +3,5 @@
   <application>cotrix-web</application>
   <version>4</version>
   <threadsafe>true</threadsafe>
+  <sessions-enabled>true</sessions-enabled>
 </appengine-web-app>

@@ -12,6 +12,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -23,6 +24,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.RowHoverEvent;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -36,6 +38,8 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.CellPreviewEvent;
+import com.google.gwt.view.client.CellPreviewEvent.Handler;
 
 public class CodeListDetailViewImpl extends Composite implements
 		CodeListDetailView, ContextMenuHandler {
@@ -62,6 +66,8 @@ public class CodeListDetailViewImpl extends Composite implements
 	@UiField ResizeLayoutPanel dataGridWrapper;
 	@UiField HTMLPanel pagerWrapper;
 	@UiField Style style;
+	private int row  = -1;
+	private int column  = -1;
 	
 	interface Style extends CssResource {
 		String nav();
@@ -96,9 +102,37 @@ public class CodeListDetailViewImpl extends Composite implements
 
 	private void initTable(CotrixImportModel model, int id) {
 		VerticalPanel panel = new VerticalPanel();
-		panel.add(new ContextMenuItem("Inssert row above"));
-		panel.add(new ContextMenuItem("Inssert row below"));
-		panel.add(new ContextMenuItem("Delete this row"));
+		
+		ContextMenuItem item1  = new ContextMenuItem("Inssert row above");
+		item1.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				contextMenu.hide();
+				presenter.insertRow(row);
+			}
+		});
+		
+		ContextMenuItem item2  = new ContextMenuItem("Inssert row below");
+		item2.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				contextMenu.hide();
+				presenter.insertRow(row+1);
+			}
+		});
+		
+		ContextMenuItem item3  = new ContextMenuItem("Delete this row");
+		item3.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				contextMenu.hide();
+				presenter.deleteRow(row);
+			}
+		});
+		
+		
+		
+		
+		panel.add(item1);
+		panel.add(item2);
+		panel.add(item3);
 		
 		this.contextMenu = new PopupPanel(true);
 		this.contextMenu.add(panel);
@@ -110,7 +144,13 @@ public class CodeListDetailViewImpl extends Composite implements
 		dataGrid.setStyleName(style.flexTable());
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label(""));
-
+		dataGrid.addCellPreviewHandler(new Handler<String[]>() {
+			public void onCellPreview(CellPreviewEvent<String[]> event) {
+				column = event.getColumn();
+				row  = event.getIndex();
+			}
+		});
+		
 		SimplePager.Resources pagerResources = GWT
 				.create(SimplePager.Resources.class);
 		SimplePager pager = new SimplePager(TextLocation.CENTER,
@@ -131,7 +171,7 @@ public class CodeListDetailViewImpl extends Composite implements
 			column.setFieldUpdater(new FieldUpdater<String[], String>() {
 				public void update(int index, String[] object, String value) {
 					object[index] = value;
-					Window.alert("Change data is :"+value);
+//					Window.alert("Change data is :"+value);
 				}
 			});
 			dataGrid.addColumn(column, headers[i]);
@@ -213,7 +253,6 @@ public class CodeListDetailViewImpl extends Composite implements
 		// stop the browser from opening the context menu
 		event.preventDefault();
 		event.stopPropagation();
-
 		this.contextMenu.setPopupPosition(event.getNativeEvent().getClientX(),
 				event.getNativeEvent().getClientY());
 		this.contextMenu.show();

@@ -15,6 +15,8 @@ public interface CodeListDetailView {
 		void onNavLeftClicked(boolean isShowingNavLeft);
 		void onCodelistNameClicked(boolean isVisible);
 		void setDataProvider(DataGrid<String[]> ddtaGrid,int id);
+		void insertRow(int row);
+		void deleteRow(int row);
 	}
 	void setData(CotrixImportModel model,int id);
 	void onNavLeftClicked(ClickEvent event);
