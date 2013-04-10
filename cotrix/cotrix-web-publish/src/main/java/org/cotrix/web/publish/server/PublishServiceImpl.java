@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.server;
 
-import org.cotrix.web.publish.client.GreetingService;
+import org.cotrix.web.publish.client.PublishService;
 import org.cotrix.web.publish.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -8,8 +8,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class GreetingServiceImpl extends RemoteServiceServlet implements
-    GreetingService {
+public class PublishServiceImpl extends RemoteServiceServlet implements
+    PublishService {
 
   public String greetServer(String input) throws IllegalArgumentException {
     // Verify that the input is valid.
