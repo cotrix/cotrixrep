@@ -7,51 +7,42 @@
 	<listener>
 		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
 	</listener>
-	<!-- Servlets -->
+
 	<servlet>
 		<servlet-name>listServlet</servlet-name>
 		<servlet-class>org.cotrix.web.server.MainServiceImpl</servlet-class>
 	</servlet>
+
 	<servlet>
-		<servlet-name>managerServlet</servlet-name>
-		<servlet-class>org.cotrix.web.codelistmanager.server.ManagerServiceImpl</servlet-class>
+		<servlet-name>cdiProxyImportWizardServlet</servlet-name>
+		<servlet-class>org.cotrix.web.importwizard.server.CDIProxyServlet</servlet-class>
+		<init-param>
+			<param-name>targetServletClass</param-name>
+			<param-value>org.cotrix.web.importwizard.server.FileUpload</param-value>
+		</init-param>
 	</servlet>
 
 	<servlet>
-		<servlet-name>cdiProxyServlet</servlet-name>
-		<servlet-class>org.cotrix.web.server.CDIProxyServlet</servlet-class> 
+		<servlet-name>cdiProxyCodelistManagerServlet</servlet-name>
+		<servlet-class>org.cotrix.web.codelistmanager.server.CDIProxyServlet</servlet-class>
 		<init-param>
 			<param-name>targetServletClass</param-name>
-			<param-value>org.cotrix.web.server.FileUpload</param-value>  
+			<param-value>org.cotrix.web.codelistmanager.server.ManagerServiceImpl</param-value>
 		</init-param>
 	</servlet>
-		<servlet>
-		<servlet-name>cdiProxyServlet2</servlet-name>
-		<servlet-class>org.cotrix.web.server.CDIProxyServlet</servlet-class> 
-		<init-param>
-			<param-name>targetServletClass</param-name>
-			<param-value>org.cotrix.web.codelistmanager.server.ManagerServiceImpl</param-value>  
-		</init-param>
-	</servlet>
-	<servlet>
-		<servlet-name>jUnitHostImpl</servlet-name>
-		<servlet-class>com.google.gwt.junit.server.JUnitHostImpl</servlet-class>
-	</servlet>
+
 	<servlet-mapping>
-		<servlet-name>jUnitHostImpl</servlet-name>
-		<url-pattern>/CodeListManager/junithost/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>cdiProxyServlet</servlet-name>
+		<servlet-name>cdiProxyImportWizardServlet</servlet-name>
 		<url-pattern>/CodeListManager/fileupload</url-pattern>
 	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>listServlet</servlet-name>
 		<url-pattern>/CodeListManager/main</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>cdiProxyServlet2</servlet-name>
+		<servlet-name>cdiProxyCodelistManagerServlet</servlet-name>
 		<url-pattern>/CodeListManager/manager</url-pattern>
 	</servlet-mapping>
 

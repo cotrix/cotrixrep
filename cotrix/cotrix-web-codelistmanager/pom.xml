@@ -215,6 +215,12 @@
 					<include>**/*.ui.xml</include>
 				</includes>
 			</resource>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<includes>
+					<include>**/beans.xml</include>
+				</includes>
+			</resource>
 		</resources>
 	</build>
 </project>

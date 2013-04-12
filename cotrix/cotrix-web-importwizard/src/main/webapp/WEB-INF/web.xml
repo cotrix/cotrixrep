@@ -12,10 +12,10 @@
 
 	<servlet>
 		<servlet-name>cdiProxyServlet</servlet-name>
-		<servlet-class>org.cotrix.web.importwizard.server.CDIProxyServlet</servlet-class> <!-- use the FQN of the CDIProxyServlet -->
+		<servlet-class>org.cotrix.web.importwizard.server.CDIProxyServlet</servlet-class> 
 		<init-param>
 			<param-name>targetServletClass</param-name>
-			<param-value>org.cotrix.web.importwizard.server.FileUpload</param-value>  <!-- use the FQN of your original servlet -->
+			<param-value>org.cotrix.web.importwizard.server.FileUpload</param-value> 
 		</init-param>
 	</servlet>
 	

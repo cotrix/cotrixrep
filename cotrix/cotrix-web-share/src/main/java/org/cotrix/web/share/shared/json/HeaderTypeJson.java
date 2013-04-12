@@ -1,15 +1,12 @@
 package org.cotrix.web.share.shared.json;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.cotrix.web.share.shared.HeaderType;
 
-import com.google.gson.Gson;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
-import com.google.gwt.user.client.Window;
 
 public class HeaderTypeJson {
 	public static String KEY_NAME = "NAME";

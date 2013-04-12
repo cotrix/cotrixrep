@@ -25,7 +25,6 @@ import org.cotrix.importservice.tabular.csv.CSVOptions;
 import org.cotrix.importservice.tabular.mapping.AttributeMapping;
 import org.cotrix.importservice.tabular.mapping.CodelistMapping;
 import org.cotrix.web.share.shared.HeaderType;
-import org.cotrix.web.share.shared.json.HeaderTypeJson;
 
 import com.google.gson.Gson;
 
@@ -35,7 +34,7 @@ public class FileUpload extends HttpServlet{
 
 	@Inject
 	ImportService service;
-
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		System.out.println("import service is :"+service);
@@ -89,15 +88,19 @@ public class FileUpload extends HttpServlet{
 		}
 
 	}
+	public static String KEY_NAME = "NAME";
+	public static String KEY_VALUE = "VALUE";
+	public static String KEY_RELATED_VALUE = "RELATED_VALUE";
+
 	public static ArrayList<HeaderType> formJSON(String json) {
 		ArrayList<HeaderType> types = new ArrayList<HeaderType>();
 		Gson gson = new Gson();
 		Map<String, String>[] foo = gson.fromJson(json, Map[].class);
 		for (Map<String, String> map : foo) {
 			HeaderType type = new HeaderType();
-			String name = map.get(HeaderTypeJson.KEY_NAME);
-			String value = map.get(HeaderTypeJson.KEY_VALUE);
-			String relatedValue = map.get(HeaderTypeJson.KEY_RELATED_VALUE);
+			String name = map.get(KEY_NAME);
+			String value = map.get(KEY_VALUE);
+			String relatedValue = map.get(KEY_RELATED_VALUE);
 			if(name !=null && name.length() > 0){
 				type.setName(name);
 			}
