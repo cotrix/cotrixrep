@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client;
 
-import org.cotrix.web.publish.client.presenter.CodelistPublishPresenter;
+import org.cotrix.web.publish.client.presenter.CodeListPublishPresenter;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerManager;
@@ -11,10 +11,10 @@ public class CotrixPublishAppControllerImpl implements CotrixPublishAppControlle
 
 	private PublishServiceAsync rpcService;
 	private HandlerManager eventBus;
-	private CodelistPublishPresenter codeListPublishPresenter;
+	private CodeListPublishPresenter codeListPublishPresenter;
 	
 	@Inject
-	public CotrixPublishAppControllerImpl(PublishServiceAsync rpcService,HandlerManager eventBus,CodelistPublishPresenter codeListPubllishPresenter) {
+	public CotrixPublishAppControllerImpl(PublishServiceAsync rpcService,HandlerManager eventBus,CodeListPublishPresenter codeListPubllishPresenter) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.codeListPublishPresenter = codeListPubllishPresenter;

@@ -1,5 +1,9 @@
 package org.cotrix.web.publish.client;
 
+import java.util.ArrayList;
+
+import org.cotrix.web.share.shared.Codelist;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -8,5 +12,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("publish")
 public interface PublishService extends RemoteService {
-	String greetServer(String name) throws IllegalArgumentException;
+	 ArrayList<Codelist> getAllCodelists() throws IllegalArgumentException;
 }

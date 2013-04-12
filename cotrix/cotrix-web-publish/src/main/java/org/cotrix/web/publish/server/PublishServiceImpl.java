@@ -1,7 +1,10 @@
 package org.cotrix.web.publish.server;
 
+import java.util.ArrayList;
+
 import org.cotrix.web.publish.client.PublishService;
-import org.cotrix.web.publish.shared.FieldVerifier;
+import org.cotrix.web.share.shared.Codelist;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -9,40 +12,46 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 @SuppressWarnings("serial")
 public class PublishServiceImpl extends RemoteServiceServlet implements
-    PublishService {
+		PublishService {
 
-  public String greetServer(String input) throws IllegalArgumentException {
-    // Verify that the input is valid.
-    if (!FieldVerifier.isValidName(input)) {
-      // If the input is not valid, throw an IllegalArgumentException back to
-      // the client.
-      throw new IllegalArgumentException(
-          "Name must be at least 4 characters long");
-    }
+	public ArrayList<Codelist> getAllCodelists()throws IllegalArgumentException {
+		Codelist c1 = new Codelist();
+		c1.setName("Country");
+		c1.setId(0);
+		
+		Codelist c2 = new Codelist();
+		c2.setName("Continent");
+		c2.setId(1);
 
-    String serverInfo = getServletContext().getServerInfo();
-    String userAgent = getThreadLocalRequest().getHeader("User-Agent");
+		Codelist c3 = new Codelist();
+		c3.setName("ASFIS");
+		c3.setId(2);
 
-    // Escape data from the client to avoid cross-site script vulnerabilities.
-    input = escapeHtml(input);
-    userAgent = escapeHtml(userAgent);
+		Codelist c4 = new Codelist();
+		c4.setName("Language");
+		c4.setId(3);
 
-    return "Hello, " + input + "!<br><br>I am running " + serverInfo
-        + ".<br><br>It looks like you are using:<br>" + userAgent;
-  }
+		Codelist c5 = new Codelist();
+		c5.setName("FAO Major Water Area");
+		c5.setId(4);
 
-  /**
-   * Escape an html string. Escaping data received from the client helps to
-   * prevent cross-site script vulnerabilities.
-   *
-   * @param html the html string to escape
-   * @return the escaped string
-   */
-  private String escapeHtml(String html) {
-    if (html == null) {
-      return null;
-    }
-    return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(
-        ">", "&gt;");
-  }
+		Codelist c6 = new Codelist();
+		c6.setName("Vessel Type");
+		c6.setId(5);
+		
+		Codelist c7 = new Codelist();
+		c7.setName("Gear Type");
+		c7.setId(6);
+		
+		ArrayList<Codelist> list = new ArrayList<Codelist>();
+		list.add(c1);
+		list.add(c2);
+		list.add(c3);
+		list.add(c4);
+		list.add(c5);
+		list.add(c6);
+		list.add(c7);
+		
+		return list;
+	}
 }

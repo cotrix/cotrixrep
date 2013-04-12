@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client;
 
-import org.cotrix.web.publish.client.presenter.CodelistPublishPresenter;
+import org.cotrix.web.publish.client.presenter.CodeListPublishPresenter;
 
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
@@ -9,5 +9,5 @@ import com.google.gwt.inject.client.Ginjector;
 public interface CotrixPublishAppGinInjector extends Ginjector {
 	public PublishServiceAsync getRpcService();
 	public CotrixPublishAppController getAppController();
-	public CodelistPublishPresenter getCodeListPublishPresenter();
+	public CodeListPublishPresenter getCodeListPublishPresenter();
 }
