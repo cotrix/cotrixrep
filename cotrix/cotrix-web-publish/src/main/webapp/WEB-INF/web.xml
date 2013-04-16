@@ -4,21 +4,27 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+	<listener>
+		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>cdiProxyServlet</servlet-name>
+		<servlet-class>org.cotrix.web.publish.server.CDIProxyServlet</servlet-class>
+		<init-param>
+			<param-name>targetServletClass</param-name>
+			<param-value>org.cotrix.web.publish.server.PublishServiceImpl</param-value>
+		</init-param>
+	</servlet>
 
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>publishServlet</servlet-name>
-    <servlet-class>org.cotrix.web.publish.server.PublishServiceImpl</servlet-class>
-  </servlet>
+	<servlet-mapping>
+		<servlet-name>cdiProxyServlet</servlet-name>
+		<url-pattern>/CotrixModulePublish/publish</url-pattern>
+	</servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>publishServlet</servlet-name>
-    <url-pattern>/CotrixModulePublish/publish</url-pattern>
-  </servlet-mapping>
-
-  <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>CotrixModulePublish.html</welcome-file>
-  </welcome-file-list>
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>CotrixModulePublish.html</welcome-file>
+	</welcome-file-list>
 
 </web-app>

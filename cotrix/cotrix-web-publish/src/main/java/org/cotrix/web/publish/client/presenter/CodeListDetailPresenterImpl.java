@@ -20,12 +20,6 @@ import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
 
 public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
-	public interface OnNavigationClicked {
-		public void onNavigationClicked(boolean isShowingNavLeft);
-	}
-
-	private OnNavigationClicked onNavigationClicked;
-
 	private PublishServiceAsync rpcService;
 	private HandlerManager eventBus;
 	private CodeListDetailView view;
@@ -47,14 +41,18 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 		hp.setCellWidth(hp.getWidget(1), "100%");
 	}
 
-
-
-	public void onCodelistNameClicked(boolean isVisible) {
-		view.showMetadataPanel(isVisible);
-	}
-
 	public void setData(final int id) {
 		view.showActivityIndicator();
+		rpcService.getCodeListModel(id, new AsyncCallback<CotrixImportModel>() {
+			public void onSuccess(CotrixImportModel result) {
+				view.setData(result,id);
+			}
+
+			public void onFailure(Throwable caught) {
+				Window.alert("Can not get codelist data");
+			}
+		});
+
 	}
 
 	

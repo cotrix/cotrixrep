@@ -12,12 +12,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 public interface CodeListDetailView {
 	public interface Presenter<T> {
-		void onCodelistNameClicked(boolean isVisible);
 	}
 	void setData(CotrixImportModel model,int id);
-	void onCodelistNameClicked(ClickEvent event);
-	void showMetadataPanel(boolean isVisible);
-	void setPresenter(Presenter presenter);
 	void showActivityIndicator();
+	void setPresenter(Presenter presenter);
 	Widget asWidget();
 }

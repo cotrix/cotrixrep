@@ -16,6 +16,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -40,15 +41,10 @@ public class CodeListDetailViewImpl extends Composite implements
 
 	private Presenter presenter;
 	private boolean isShowingNavLeft = true;
-	@UiField Image nav;
 	@UiField Label codelistName;
-	@UiField Label metadata;
-	@UiField VerticalPanel metadataPanel;
 	@UiField VerticalPanel loadingPanel;
 	@UiField HTMLPanel contentPanel;
 	@UiField HTMLPanel blankPanel;
-	@UiField ResizeLayoutPanel dataGridWrapper;
-	@UiField HTMLPanel pagerWrapper;
 	@UiField Style style;
 	private int row  = -1;
 	private int column  = -1;
@@ -60,11 +56,6 @@ public class CodeListDetailViewImpl extends Composite implements
 		String flexTable();
 	}
 	private PopupPanel contextMenu;
-
-	@UiHandler("codelistName")
-	public void onCodelistNameClicked(ClickEvent event) {
-		presenter.onCodelistNameClicked(metadataPanel.isVisible());
-	}
 
 
 	private class FlexColumn extends Column<String[],String> {
@@ -83,17 +74,6 @@ public class CodeListDetailViewImpl extends Composite implements
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	public void showNavLeft() {
-		nav.setStyleName(style.nav());
-		nav.setUrl(resources.nav_collapse_left().getSafeUri().asString());
-		isShowingNavLeft = true;
-	}
-
-	public void showNavRight() {
-		nav.setStyleName(style.nav());
-		nav.setUrl(resources.nav_collapse_right().getSafeUri().asString());
-		isShowingNavLeft = false;
-	}
 
 	public void init() {
 
@@ -103,9 +83,6 @@ public class CodeListDetailViewImpl extends Composite implements
 		this.presenter = presenter;
 	}
 
-	public void showMetadataPanel(boolean isVisible) {
-		metadataPanel.setVisible(!isVisible);
-	}
 
 	private void showContentPanel() {
 		this.loadingPanel.setVisible(false);
@@ -123,7 +100,6 @@ public class CodeListDetailViewImpl extends Composite implements
 		Metadata metadata = model.getMetadata();
 
 		this.codelistName.setText(metadata.getName());
-		this.metadata.setText(metadata.getDescription());
 		showContentPanel();
 	}
 

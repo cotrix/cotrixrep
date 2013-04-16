@@ -15,6 +15,8 @@ import org.cotrix.web.importwizard.client.view.ImportWizardViewImpl;
 import org.cotrix.web.importwizard.client.view.form.SummaryFormView;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
 import org.cotrix.web.menu.client.view.MenuViewImpl;
+import org.cotrix.web.publish.client.CotrixPublishAppController;
+import org.cotrix.web.publish.client.CotrixPublishAppGinInjector;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.core.shared.GWT;
@@ -62,8 +64,9 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 		CotrixManagerAppController cotrixManagerAppController = cotrixManagerAppGinInjector.getAppController();	
 		cotrixManagerAppController.go(view.getBody());
 	
-		Publish publish  = new Publish();
-		view.getBody().add(publish);
+		CotrixPublishAppGinInjector cotrixPublishAppGinInjector = GWT.create(CotrixPublishAppGinInjector.class);
+		CotrixPublishAppController cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
+		cotrixPublishAppController.go(view.getBody());
 		
 		view.showMenu(0); // default menu;
 	}

@@ -81,9 +81,10 @@
 					rgba(229, 229, 229, 1) 100%); /* IE10+ */
 				background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
 					rgba(229, 229, 229, 1) 100%); /* W3C */
-				filter: progid:DXImageTransform.Microsoft.gradient(               
-																																																		                     
-																																																																																																																				                     startColorstr='#ffffff',
+				filter: progid:DXImageTransform.Microsoft.gradient(          
+																																			                     
+																																																																																																					                     
+																																																																																																																																																																							                     startColorstr='#ffffff',
 					endColorstr='#e5e5e5', GradientType=0); /* IE6-9 */
 			}
 			
@@ -111,6 +112,7 @@
 				color: #999;
 				cursor: pointer;
 				line-height: 35px;
+				margin-left: 20px;
 			}
 			
 			.metadata {
@@ -208,6 +210,87 @@
 				height: 100%;
 				padding: 10px;
 			}
+			
+			.target {
+				border: 1px solid #bbb;
+				border-radius: 5px;
+				margin: 10px;
+				background-color: #eee;
+				height: 40px;
+				text-align: left;
+			}
+			
+			.targetLabel {
+				width: 170px;
+				float: left;
+				line-height: 40px;
+				margin-left: 10px;
+				vertical-align: middle;
+			}
+			
+			.targetURL {
+				line-height: 40px;
+				vertical-align: middle;
+				float: left;
+			}
+			
+			.targetURLLabel {
+				color: #999;
+			}
+			
+			.targetURLTextBox {
+				border: 1px solid #ddd;
+				border-radius: 50px;
+				width: 600px;
+				margin-left: 5px;
+				padding: 5px;
+			}
+			
+			.next {
+				float: right;
+				margin-right: 10px;
+				border: 1px solid #3063a1;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				width: 80px;
+				font-size: 12px;
+				font-family: arial, helvetica, sans-serif;
+				padding: 8px 8px 8px 8px;
+				text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+				font-weight: bold;
+				text-align: center;
+				color: #E8E8E8;
+				background-color: #427EC7;
+				background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
+					color-stop(100%, #518EE2));
+				background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
+				background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
+				background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
+				background-image: -o-linear-gradient(top, #427EC7, #518EE2);
+				background-image: linear-gradient(top, #427EC7, #518EE2);
+				filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+					startColorstr=#427EC7, endColorstr=#518EE2);
+			}
+			
+			.next:hover {
+				border: 1px solid #254d7e;
+				background-color: #3165a5;
+				background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
+					color-stop(100%, #2572db));
+				background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
+				background-image: -moz-linear-gradient(top, #3165a5, #2572db);
+				background-image: -ms-linear-gradient(top, #3165a5, #2572db);
+				background-image: -o-linear-gradient(top, #3165a5, #2572db);
+				background-image: linear-gradient(top, #3165a5, #2572db);
+				filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+					startColorstr=#3165a5, endColorstr=#2572db);
+			}
+			
+			.publishButton {
+				float: right;
+				width: 100%;
+			}
 		</ui:style>
 	<g:HTMLPanel styleName="{style.wrapper}">
 		<g:HTMLPanel ui:field="contentPanel" visible="false"
@@ -216,8 +299,6 @@
 				<g:north size='2.7'>
 					<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
 						<g:FlowPanel>
-							<g:Image url="{res.nav_collapse_left.getSafeUri.asString}"
-								styleName="{style.nav}" ui:field="nav"></g:Image>
 							<g:Label ui:field="codelistName" styleName="{style.codelistName}" />
 							<g:FlowPanel styleName="{style.listBoxWrapper}">
 								<g:ListBox styleName="{style.listbox}">
@@ -242,21 +323,52 @@
 						</g:FlowPanel>
 					</g:FlowPanel>
 				</g:north>
-				<g:south size='2'>
-					<g:HTMLPanel styleName="{style.pagerWrapper}" ui:field="pagerWrapper">
-						<!-- <c:SimplePager ui:field='pager' styleName="{style.pager}" /> -->
+				<g:south size="3">
+					<g:HTMLPanel styleName="{style.publishButton}">
+						<g:Button text="Publish" styleName="{style.next}"
+							ui:field="publishButton" />
 					</g:HTMLPanel>
 				</g:south>
 				<g:center>
 					<g:HTMLPanel styleName="{style.tableWrapper}">
-						<g:VerticalPanel ui:field="metadataPanel"
-							styleName="{style.metadataWrapper}">
-							<g:Label ui:field="metadata" styleName="{style.metadata}" />
-						</g:VerticalPanel>
-						<div class="{style.gridWrapper}">
-							<g:ResizeLayoutPanel ui:field="dataGridWrapper"
-								styleName="{style.table}">
-							</g:ResizeLayoutPanel>
+						<div>
+							<div class="{style.target}">
+								<div class="{style.targetLabel}">
+									SDMX Registry
+								</div>
+								<g:HorizontalPanel styleName="{style.targetURL}">
+									<g:Label styleName="{style.targetURLLabel}">Publish URL :  </g:Label>
+									<g:TextBox styleName="{style.targetURLTextBox}"></g:TextBox>
+								</g:HorizontalPanel>
+							</div>
+							<div class="{style.target}">
+								<div class="{style.targetLabel}">
+									Semantic Turkey (SKOS)
+								</div>
+								<g:HorizontalPanel styleName="{style.targetURL}">
+									<g:Label styleName="{style.targetURLLabel}">Publish URL :  </g:Label>
+									<g:TextBox styleName="{style.targetURLTextBox}"></g:TextBox>
+								</g:HorizontalPanel>
+
+							</div>
+							<div class="{style.target}">
+								<div class="{style.targetLabel}">
+									FIGIS RTMS
+								</div>
+								<g:HorizontalPanel styleName="{style.targetURL}">
+									<g:Label styleName="{style.targetURLLabel}">Publish URL :  </g:Label>
+									<g:TextBox styleName="{style.targetURLTextBox}"></g:TextBox>
+								</g:HorizontalPanel>
+							</div>
+							<div class="{style.target}">
+								<div class="{style.targetLabel}">
+									FLOD |Publish|
+								</div>
+								<g:HorizontalPanel styleName="{style.targetURL}">
+									<g:Label styleName="{style.targetURLLabel}">Publish URL :  </g:Label>
+									<g:TextBox styleName="{style.targetURLTextBox}"></g:TextBox>
+								</g:HorizontalPanel>
+							</div>
 						</div>
 					</g:HTMLPanel>
 				</g:center>
