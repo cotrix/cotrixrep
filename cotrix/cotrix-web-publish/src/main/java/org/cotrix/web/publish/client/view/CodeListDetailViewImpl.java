@@ -45,6 +45,7 @@ public class CodeListDetailViewImpl extends Composite implements
 	@UiField VerticalPanel loadingPanel;
 	@UiField HTMLPanel contentPanel;
 	@UiField HTMLPanel blankPanel;
+	@UiField HTMLPanel chanelList;
 	@UiField Style style;
 	private int row  = -1;
 	private int column  = -1;
@@ -75,8 +76,8 @@ public class CodeListDetailViewImpl extends Composite implements
 	}
 
 
-	public void init() {
-
+	public void addChanelItem(ChanelPropertyItem item) {
+		this.chanelList.add(item);
 	}
 
 	public void setPresenter(Presenter presenter) {
@@ -111,6 +112,7 @@ public class CodeListDetailViewImpl extends Composite implements
 				event.getNativeEvent().getClientY());
 		this.contextMenu.show();
 	}
+
 
 
 

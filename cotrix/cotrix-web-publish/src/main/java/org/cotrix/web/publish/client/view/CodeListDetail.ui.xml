@@ -81,10 +81,10 @@
 					rgba(229, 229, 229, 1) 100%); /* IE10+ */
 				background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
 					rgba(229, 229, 229, 1) 100%); /* W3C */
-				filter: progid:DXImageTransform.Microsoft.gradient(          
-																																			                     
-																																																																																																					                     
-																																																																																																																																																																							                     startColorstr='#ffffff',
+				filter: progid:DXImageTransform.Microsoft.gradient(             
+																																												                     
+																																																																																																														                     
+																																																																																																																																																																																                     startColorstr='#ffffff',
 					endColorstr='#e5e5e5', GradientType=0); /* IE6-9 */
 			}
 			
@@ -221,7 +221,7 @@
 			}
 			
 			.targetLabel {
-				width: 170px;
+				width: 200px;
 				float: left;
 				line-height: 40px;
 				margin-left: 10px;
@@ -238,13 +238,6 @@
 				color: #999;
 			}
 			
-			.targetURLTextBox {
-				border: 1px solid #ddd;
-				border-radius: 50px;
-				width: 600px;
-				margin-left: 5px;
-				padding: 5px;
-			}
 			
 			.next {
 				float: right;
@@ -330,46 +323,7 @@
 					</g:HTMLPanel>
 				</g:south>
 				<g:center>
-					<g:HTMLPanel styleName="{style.tableWrapper}">
-						<div>
-							<div class="{style.target}">
-								<div class="{style.targetLabel}">
-									SDMX Registry
-								</div>
-								<g:HorizontalPanel styleName="{style.targetURL}">
-									<g:Label styleName="{style.targetURLLabel}">Publish URL :  </g:Label>
-									<g:TextBox styleName="{style.targetURLTextBox}"></g:TextBox>
-								</g:HorizontalPanel>
-							</div>
-							<div class="{style.target}">
-								<div class="{style.targetLabel}">
-									Semantic Turkey (SKOS)
-								</div>
-								<g:HorizontalPanel styleName="{style.targetURL}">
-									<g:Label styleName="{style.targetURLLabel}">Publish URL :  </g:Label>
-									<g:TextBox styleName="{style.targetURLTextBox}"></g:TextBox>
-								</g:HorizontalPanel>
-
-							</div>
-							<div class="{style.target}">
-								<div class="{style.targetLabel}">
-									FIGIS RTMS
-								</div>
-								<g:HorizontalPanel styleName="{style.targetURL}">
-									<g:Label styleName="{style.targetURLLabel}">Publish URL :  </g:Label>
-									<g:TextBox styleName="{style.targetURLTextBox}"></g:TextBox>
-								</g:HorizontalPanel>
-							</div>
-							<div class="{style.target}">
-								<div class="{style.targetLabel}">
-									FLOD |Publish|
-								</div>
-								<g:HorizontalPanel styleName="{style.targetURL}">
-									<g:Label styleName="{style.targetURLLabel}">Publish URL :  </g:Label>
-									<g:TextBox styleName="{style.targetURLTextBox}"></g:TextBox>
-								</g:HorizontalPanel>
-							</div>
-						</div>
+					<g:HTMLPanel styleName="{style.tableWrapper}" ui:field="chanelList">
 					</g:HTMLPanel>
 				</g:center>
 			</g:DockLayoutPanel>

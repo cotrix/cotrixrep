@@ -97,15 +97,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		meta.setVersion("1.9");
 		meta.setDescription("");
 		
-		ArrayList<String[]> data = new ArrayList<String[]>();
-		
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{});
-		file.setFilename("ASFIS_sp_Feb_2012.txt");
-		
 		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
 		model.setMetadata(meta);
 		return model;
 	}
@@ -117,14 +109,8 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		meta.setVersion("1.9");
 		meta.setDescription("");
 		
-		ArrayList<String[]> data = new ArrayList<String[]>();
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{});
-		file.setFilename("ASFIS_sp_Feb_2012.txt");
 		
 		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
 		model.setMetadata(meta);
 		return model;
 	}
@@ -135,15 +121,9 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		meta.setVersion("0.9");
 		meta.setDescription("");
 		
-		ArrayList<String[]> data = new ArrayList<String[]>();
 		
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{});
-		file.setFilename("ASFIS_sp_Feb_2012.txt");
 		
 		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
 		model.setMetadata(meta);
 		return model;
 	}
@@ -154,15 +134,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		meta.setVersion("0.9");
 		meta.setDescription("ISO 639-1 defines abbreviations for languages. In HTML and XHTML they can be used in the lang and xml:lang attributes");
 		
-		ArrayList<String[]> data = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/Language.txt"),";");
-		
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{"ISO 639-1 alpha-2","ISO 639-2 alpha-3","ISO 639 English name of language","ISO 639 French name of language"});
-		file.setFilename("Language.txt");
-		
 		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
 		model.setMetadata(meta);
 		return model;
 	}
@@ -173,15 +145,8 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		meta.setVersion("0.9");
 		meta.setDescription("This data was compiled by hand from the above and may contain errors. One small modification is that the various insular areas of the United State listed above are recorded here as the single United States Minor Outlying Islands.");
 		
-		ArrayList<String[]> data = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/Continent.txt"),",");
-		
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{"Code","Name"});
-		file.setFilename("Continent.txt");
 		
 		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
 		model.setMetadata(meta);
 		return model;
 	}
@@ -192,15 +157,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		meta.setVersion("0.9");
 		meta.setDescription("CountryCode.org is your complete guide to call anywhere in the world. The calling chart below will help you find the dialing codes you need to make long distance phone calls to friends, family, and business partners around the globe. Simply find and click the country you wish to call. You'll find instructions on how to call that country using its country code, as well as other helpful information like area codes, ISO country codes, and the kinds of electrical outlets and phone jacks found in that part of the world. Making a phone call has never been easier with CountryCode.org.");
 		
-		ArrayList<String[]> data = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/Country.txt"),";");
-		
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{"Name","Code"});
-		file.setFilename("Country.txt");
-		
 		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
 		model.setMetadata(meta);
 		return model;
 	}
@@ -211,15 +168,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		meta.setVersion("0.9");
 		meta.setDescription("ASFIS list of species includes 12 000 species items selected according to their interest or relation to fisheries and aquaculture. For each species item stored in a record, codes (ISSCAAP group, taxonomic and 3-alpha) and taxonomic information (scientific name, author(s), family, and higher taxonomic classification) are provided. An English name is available for most of the records, and about one third of them have also a French and Spanish name. Information is also provided about the availability of fishery production statistics on the species item in the FAO databases.");
 		
-		ArrayList<String[]> data = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/ASFIS_sp_Feb_2012.txt"),"\t");
-		
-		CSVFile file = new CSVFile();
-		file.setData(new ArrayList<String[]>(data.subList(1, data.size())));
-		file.setHeader(data.get(0));
-		file.setFilename("ASFIS_sp_Feb_2012.txt");
-		
 		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
 		model.setMetadata(meta);
 		return model;
 	}

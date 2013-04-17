@@ -1,0 +1,47 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+		
+		.targetLabel {
+			width: 200px;
+			float: left;
+			line-height: 40px;
+			margin-left: 10px;
+			vertical-align: middle;
+		}
+		
+		.targetURL {
+			line-height: 40px;
+			vertical-align: middle;
+			float: left;
+		}
+		
+		.targetURLLabel {
+			color: #999;
+		}
+		
+		.target {
+			border: 1px solid #bbb;
+			border-radius: 5px;
+			margin: 10px;
+			background-color: #eee;
+			height: 40px;
+			text-align: left;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<div class="{style.target}">
+			<div class="{style.targetLabel}">
+				<g:HorizontalPanel>
+					<g:CheckBox ui:field="checkbox"></g:CheckBox>
+					<g:Label ui:field="chanelName"></g:Label>
+					<g:Label ui:field="url"></g:Label>
+				</g:HorizontalPanel>
+			</div>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder> 

@@ -15,6 +15,7 @@ public interface CodeListDetailView {
 	}
 	void setData(CotrixImportModel model,int id);
 	void showActivityIndicator();
+	void addChanelItem(ChanelPropertyItem item);
 	void setPresenter(Presenter presenter);
 	Widget asWidget();
 }
