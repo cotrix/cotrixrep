@@ -82,7 +82,7 @@ public class SimpleRepositoryTest {
 			}
 		};
 
-		Iterator<Codelist> results = repository.queryWith(q);
+		Iterator<Codelist> results = repository.queryFor(q);
 
 		assertFalse(results.hasNext());
 
@@ -90,7 +90,7 @@ public class SimpleRepositoryTest {
 
 		repository.add(list);
 
-		results = repository.queryWith(q);
+		results = repository.queryFor(q);
 
 		assertEquals(list, results.next());
 	 

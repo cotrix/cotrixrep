@@ -13,9 +13,8 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.primitive.Container;
-import org.cotrix.domain.primitive.PContainer;
-import org.cotrix.domain.trait.Identified.Private;
+import org.cotrix.domain.Container;
+import org.cotrix.domain.trait.Identified.Abstract;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.version.SimpleVersion;
 
@@ -44,8 +43,8 @@ public class Fixture {
 	public static Code c2 = code("id2").name(name2).attributes(a,a2).build();
 	public static Code c3 = code("id3").name(name3).attributes(a,a2,a3).build();
 	
-	public static <T extends Private<T>> PContainer<T> bag(T ... ts) {
-		return new PContainer<T>(Arrays.asList(ts));
+	public static <T extends Abstract<T>> Container.Private<T> bag(T ... ts) {
+		return new Container.Private<T>(Arrays.asList(ts));
 	}
 	
 	public static <T extends Named> Map<QName,List<T>> asMap(Container<T> container) {

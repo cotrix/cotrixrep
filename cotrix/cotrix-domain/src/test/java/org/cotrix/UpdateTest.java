@@ -6,8 +6,8 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Change.*;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.primitive.PContainer;
-import org.cotrix.domain.simple.SimpleLanguageAttribute;
+import org.cotrix.domain.Container;
+import org.cotrix.domain.LanguageAttribute;
 import org.junit.Test;
 
 public class UpdateTest {
@@ -103,7 +103,7 @@ public class UpdateTest {
 	@Test
 	public void attributesCanChangeLanguage() {
 		
-		SimpleLanguageAttribute a = (SimpleLanguageAttribute) attr("1").name(name).value(value).in(language).build();
+		LanguageAttribute.Private a = (LanguageAttribute.Private) attr("1").name(name).value(value).in(language).build();
 		
 		Attribute.Private delta = (Attribute.Private)attr("1").name(name).value(value).in("another").as(MODIFIED).build();
 		
@@ -122,7 +122,7 @@ public class UpdateTest {
 		Attribute.Private a1 = (Attribute.Private)attr("1").name(name).value(value).build();
 		Attribute.Private a2 = (Attribute.Private)attr("2").name(name2).value(value2).build();
 		
-		PContainer<Attribute.Private> bag = bag(a1,a2);
+		Container.Private<Attribute.Private> bag = bag(a1,a2);
 		
 		//a change
 		Attribute.Private deltaA1 = (Attribute.Private)attr("1").name(name).value(value+"updated").as(MODIFIED).build();
@@ -133,7 +133,7 @@ public class UpdateTest {
 		// a removal
 		Attribute.Private deltaA3 = (Attribute.Private)attr().name(name3).value(value3).as(NEW).build();
 		
-		PContainer<Attribute.Private> delta = bag(deltaA1,deltaA2,deltaA3);
+		Container.Private<Attribute.Private> delta = bag(deltaA1,deltaA2,deltaA3);
 		
 		bag.update(delta);
 		

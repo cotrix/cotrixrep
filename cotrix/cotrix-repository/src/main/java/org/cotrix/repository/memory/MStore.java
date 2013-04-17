@@ -29,7 +29,7 @@ public class MStore {
 	 * @param object the object
 	 * @param type the type of the object
 	 */
-	public <T extends Identified.Private<T>> void add(T object, Class<T> type) {
+	public <T extends Identified.Abstract<T>> void add(T object, Class<T> type) {
 
 		notNull(object);
 
@@ -70,7 +70,7 @@ public class MStore {
 	 * @param changeset the set of changes to apply to the object
 	 * @param type the type of the object
 	 */
-	public <T extends Identified.Private<T>> void update(T changeset, Class<T> type) {
+	public <T extends Identified.Abstract<T>> void update(T changeset, Class<T> type) {
 		
 		notNull(changeset);
 		

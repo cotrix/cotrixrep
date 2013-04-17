@@ -11,16 +11,13 @@ import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.LanguageAttribute;
-import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.po.AttributePO;
 import org.cotrix.domain.po.AttributedPO;
 import org.cotrix.domain.po.CodebagPO;
 import org.cotrix.domain.po.CodelistPO;
 import org.cotrix.domain.po.NamedPO;
 import org.cotrix.domain.po.VersionedPO;
-import org.cotrix.domain.simple.SimpleFactory;
 import org.cotrix.domain.utils.Constants;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CreateTest {
@@ -35,11 +32,6 @@ public class CreateTest {
 	//--------------------------------------------------------------------
 	
 	// first, all DOs: we test directly against base ObjectPO class simulating a subclass
-	
-	@BeforeClass
-	public static void setup() {
-		Codes.setFactory(new SimpleFactory());
-	}
 	
 	@Test
 	public void DOsRejectNullParameters() {

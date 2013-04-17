@@ -38,6 +38,14 @@ public class AttributeGrammar {
 		 * @return the next clause in the sentence
 		 */
 		FinalClause ofType(QName type);
+		
+		/**
+		 * Sets the type of the object.
+		 * 
+		 * @param type the type
+		 * @return the next clause in the sentence
+		 */
+		FinalClause ofType(String type);
 	}
 
 	public static interface FinalClause extends BuildClause<Attribute> {

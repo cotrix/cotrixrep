@@ -17,7 +17,6 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.po.CodelistPO;
-import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.trait.Change;
 import org.cotrix.domain.version.SimpleVersion;
 import org.cotrix.domain.version.Version;
@@ -30,12 +29,10 @@ import org.cotrix.domain.version.Version;
  */
 public final class CodelistBuilder implements CodelistStartClause,SecondClause,ThirdClause,FourthClause,FinalClause {
 
-	private final Factory factory;
 	private final CodelistPO po;
 	
 	
-	public CodelistBuilder(Factory factory,String id) {
-		this.factory=factory;
+	public CodelistBuilder(String id) {
 		this.po = new CodelistPO(id);
 	}
 	
@@ -89,7 +86,7 @@ public final class CodelistBuilder implements CodelistStartClause,SecondClause,T
 	}
 	
 	public Codelist build() {
-		return factory.codelist(po);
+		return new Codelist.Private(po);
 	}
 	
 }

@@ -33,7 +33,7 @@ public interface Repository<T> {
 	 * 
 	 * @param <R> the type of results
 	 */
-	<R> Iterator<R> queryWith(Query<T,R> query);
+	<R> Iterator<R> queryFor(Query<T,R> query);
 	
 	/**
 	 * Removes an object from this repository.
