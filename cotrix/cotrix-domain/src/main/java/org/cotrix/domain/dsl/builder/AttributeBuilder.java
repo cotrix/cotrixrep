@@ -5,7 +5,6 @@ import static org.cotrix.domain.trait.Change.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.LanguageAttribute;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.FinalClause;
@@ -68,9 +67,7 @@ public class AttributeBuilder implements AttributeStartClause, SecondClause,
 
 	@Override
 	public Attribute build() {
-		return po.language()==null?
-				new Attribute.Private(po):
-				new LanguageAttribute.Private(po);
+		return new Attribute.Private(po);
 	}
 	
 	@Override

@@ -1,6 +1,13 @@
 package org.cotrix.repository.memory;
 
+import java.util.UUID;
+
+import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Code;
+import org.cotrix.domain.Codelink;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.CodelistLink;
+import org.cotrix.domain.utils.Utils;
 import org.cotrix.repository.CodelistRepository;
 
 /**
@@ -25,4 +32,30 @@ public class MCodelistRepository extends MRepository<Codelist, Codelist.Private>
 	public MCodelistRepository(MStore store) {
 		super(store,Codelist.class,Codelist.Private.class);
 	}
+	
+	@Override
+	public void add(Codelist list) {
+		
+		super.add(list);
+		
+		
+		for (Attribute a: list.attributes())
+			Utils.reveal(a,Attribute.Private.class).setId(UUID.randomUUID().toString());
+		
+		for (CodelistLink l: list.links())
+			Utils.reveal(l,CodelistLink.Private.class).setId(UUID.randomUUID().toString());
+		
+		for (Code c: list.codes()) {
+			for (Attribute a: c.attributes())
+				Utils.reveal(a,Attribute.Private.class).setId(UUID.randomUUID().toString());
+			
+			for (Codelink l: c.links())
+				Utils.reveal(l,Codelink.Private.class).setId(UUID.randomUUID().toString());
+			
+			Utils.reveal(c,Code.Private.class).setId(UUID.randomUUID().toString());
+		}
+		
+		
+	}
+	
 }

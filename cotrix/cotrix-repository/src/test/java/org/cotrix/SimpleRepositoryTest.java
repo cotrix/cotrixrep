@@ -4,8 +4,6 @@ import static junit.framework.Assert.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Change.*;
 
-import java.util.Iterator;
-
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Codebag;
@@ -14,9 +12,7 @@ import org.cotrix.repository.CodebagRepository;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.memory.MCodebagRepository;
 import org.cotrix.repository.memory.MCodelistRepository;
-import org.cotrix.repository.memory.MQuery;
 import org.cotrix.repository.memory.MStore;
-import org.cotrix.repository.query.Query;
 import org.junit.Test;
 
 public class SimpleRepositoryTest {
@@ -70,31 +66,6 @@ public class SimpleRepositoryTest {
 		
 	}
 	
-	
-	@Test
-	public void queryCodelist() {
-	
-		CodelistRepository repository = new MCodelistRepository();
-
-		Query<Codelist,Codelist> q = new MQuery<Codelist,Codelist>() {
-			public Codelist yieldFor(Codelist list) {
-				return list.name().equals(q("name"))?list:null;
-			}
-		};
-
-		Iterator<Codelist> results = repository.queryFor(q);
-
-		assertFalse(results.hasNext());
-
-		Codelist list = anylist();
-
-		repository.add(list);
-
-		results = repository.queryFor(q);
-
-		assertEquals(list, results.next());
-	 
-	}
 	
 	@Test
 	public void removeCodelist() {

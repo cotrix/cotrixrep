@@ -7,7 +7,6 @@ import static org.cotrix.domain.trait.Change.*;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Container;
-import org.cotrix.domain.LanguageAttribute;
 import org.junit.Test;
 
 public class UpdateTest {
@@ -103,7 +102,7 @@ public class UpdateTest {
 	@Test
 	public void attributesCanChangeLanguage() {
 		
-		LanguageAttribute.Private a = (LanguageAttribute.Private) attr("1").name(name).value(value).in(language).build();
+		Attribute.Private a = (Attribute.Private) attr("1").name(name).value(value).in(language).build();
 		
 		Attribute.Private delta = (Attribute.Private)attr("1").name(name).value(value).in("another").as(MODIFIED).build();
 		

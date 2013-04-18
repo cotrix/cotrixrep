@@ -1,6 +1,5 @@
 package org.cotrix.domain.trait;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.domain.Attribute;
@@ -29,21 +28,18 @@ public interface Attributed {
 	 */
 	public abstract class Abstract<T extends Abstract<T>> extends Identified.Abstract<T> implements Attributed {
 		
-		
 		private Container.Private<Attribute.Private> attributes;
 		
-
 		//concessions to ORM that knows not how to map Container<T> even if we use it here with a concrete type...
-		//this also forces us to make state non-final....
+		//this also forces us to make field attributes non-final....
 		@SuppressWarnings("all")
 		private void setORMAttributes(List<Attribute.Private> attributes) {
-			System.out.println("setting:"+attributes);
-			this.attributes = new Container.Private<Attribute.Private>(attributes);
+			if (attributes!=null) //no idea why ORM arrives with NULL before it arrives with not-NULL value
+				this.attributes = new Container.Private<Attribute.Private>(attributes);
 		}
 		
 		@SuppressWarnings("all")
 		private List<Attribute.Private> getORMAttributes() {
-			System.out.println("returning:"+attributes.objects());
 			return attributes.objects();
 		}
 		

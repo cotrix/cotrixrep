@@ -1,5 +1,8 @@
 package org.cotrix.repository.memory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.cotrix.repository.query.BaseQuery;
 import org.cotrix.repository.query.Query;
 import org.cotrix.repository.query.Range;
@@ -31,10 +34,41 @@ public abstract class MQuery<T,R> extends BaseQuery<T,R> {
 	}
 	
 	/**
-	 * Returns a result from a given object.
+	 * Returns one or more results from a given object.
 	 * @param object the object
-	 * @return the result, or <code>null</code> if the object does not match the query.
+	 * @return the results, or <code>null</code> if the object does not match the query.
 	 */
-	public abstract R yieldFor(T object);
+	public abstract Iterable<? extends R> _execute(MRepository<T,?> repository);
+	
+	
+	/**
+	 * Returns one or more results from a given object.
+	 * @param object the object
+	 * @return the results, or <code>null</code> if the object does not match the query.
+	 */
+	public Iterable<R> execute(MRepository<T,?> repository) {
+		
+		Iterable<? extends R> results = _execute(repository);
+		
+		List<R> filtered = new ArrayList<R>();
+		
+		int count = 1;
+		for (R r : results)
+			if (count<range().from()) {
+				count++;
+				continue;
+			}
+			else {
+				if (count>range().to())
+					break;
+				else { 
+					filtered.add(r);
+					count++;
+				}
+			}
+	
+		return filtered;
+		
+	}
 	
 }
