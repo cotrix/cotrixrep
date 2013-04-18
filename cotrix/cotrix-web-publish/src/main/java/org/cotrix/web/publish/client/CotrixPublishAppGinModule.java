@@ -1,15 +1,15 @@
 package org.cotrix.web.publish.client;
 
-import org.cotrix.web.publish.client.presenter.ChanelPropertyPresenter;
-import org.cotrix.web.publish.client.presenter.ChanelPropertyPresenterImpl;
+import org.cotrix.web.publish.client.presenter.ChanelPropertyDialogPresenter;
+import org.cotrix.web.publish.client.presenter.ChanelPropertyDialogPresenterImpl;
 import org.cotrix.web.publish.client.presenter.CodeListDetailPresenter;
 import org.cotrix.web.publish.client.presenter.CodeListDetailPresenterImpl;
 import org.cotrix.web.publish.client.presenter.CodeListPresenter;
 import org.cotrix.web.publish.client.presenter.CodeListPresenterImpl;
 import org.cotrix.web.publish.client.presenter.CodeListPublishPresenter;
 import org.cotrix.web.publish.client.presenter.CodeListPublishPresenterImpl;
-import org.cotrix.web.publish.client.view.ChanelPropertyView;
-import org.cotrix.web.publish.client.view.ChanelPropertyViewImpl;
+import org.cotrix.web.publish.client.view.ChanelPropertyDialogView;
+import org.cotrix.web.publish.client.view.ChanelPropertyDialogViewImpl;
 import org.cotrix.web.publish.client.view.CodeListDetailView;
 import org.cotrix.web.publish.client.view.CodeListDetailViewImpl;
 import org.cotrix.web.publish.client.view.CodeListPublishView;
@@ -44,8 +44,8 @@ public class CotrixPublishAppGinModule extends AbstractGinModule{
 		bind(CodeListDetailPresenter.class).to(CodeListDetailPresenterImpl.class);
 		bind(CodeListDetailView.class).to(CodeListDetailViewImpl.class);
 
-		bind(ChanelPropertyPresenter.class).to(ChanelPropertyPresenterImpl.class);
-		bind(ChanelPropertyView.class).to(ChanelPropertyViewImpl.class);
+		bind(ChanelPropertyDialogPresenter.class).to(ChanelPropertyDialogPresenterImpl.class);
+		bind(ChanelPropertyDialogView.class).to(ChanelPropertyDialogViewImpl.class);
 	}
 
 }

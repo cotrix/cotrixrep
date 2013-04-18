@@ -127,19 +127,19 @@
 		<div class="{style.panel}">
 			<div>
 				<g:Label styleName="{style.label}">URL : </g:Label>
-				<g:TextBox styleName="{style.value}"></g:TextBox>
+				<g:TextBox styleName="{style.value}" ui:field="url"></g:TextBox>
 			</div>
 			<div>
 				<g:Label styleName="{style.label}">Username : </g:Label>
-				<g:TextBox styleName="{style.value}"></g:TextBox>
+				<g:TextBox styleName="{style.value}" ui:field="username"></g:TextBox>
 			</div>
 			<div>
 				<g:Label styleName="{style.label}">Password : </g:Label>
-				<g:PasswordTextBox styleName="{style.value}"></g:PasswordTextBox>
+				<g:PasswordTextBox styleName="{style.value}" ui:field="password"></g:PasswordTextBox>
 			</div>
 			<div>
-				<g:Button styleName="{style.done}">Done</g:Button>
-				<g:Button styleName="{style.cancel}">Cancel</g:Button>
+				<g:Button styleName="{style.done}" ui:field="doneButton">Done</g:Button>
+				<g:Button styleName="{style.cancel}" ui:field="cancelButton">Cancel</g:Button>
 			</div>
 		</div>
 	</g:HTMLPanel>

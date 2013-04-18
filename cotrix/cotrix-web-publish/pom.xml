@@ -225,6 +225,7 @@
 				<directory>src/main/webapp</directory>
 				<includes>
 					<include>**/beans.xml</include>
+					<include>**/*.png</include>
 				</includes>
 			</resource>
 		</resources>

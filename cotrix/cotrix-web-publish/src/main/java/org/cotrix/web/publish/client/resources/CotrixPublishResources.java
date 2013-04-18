@@ -17,6 +17,12 @@ public interface CotrixPublishResources extends ClientBundle {
 
 	@Source("loading.gif")
 	ImageResource loading();
+	
+	@Source("edit.png")
+	ImageResource edit();
+	
+	@Source("info.png")
+	ImageResource info();
 
 	@Source( "style.css")
 	public CssResource css();

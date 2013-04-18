@@ -17,6 +17,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -44,46 +45,63 @@ public class CodeListDetailViewImpl extends Composite implements
 	@UiField Label codelistName;
 	@UiField VerticalPanel loadingPanel;
 	@UiField HTMLPanel contentPanel;
+	@UiField Image nav;
 	@UiField HTMLPanel blankPanel;
 	@UiField HTMLPanel chanelList;
 	@UiField Style style;
-	private int row  = -1;
-	private int column  = -1;
 	
+
+	@UiHandler("nav")
+	public void onNavLeftClicked(ClickEvent event) {
+		presenter.onNavLeftClicked(this.isShowingNavLeft);
+	}
+
 	interface Style extends CssResource {
 		String nav();
 		String pager();
 		String contextMenu();
 		String flexTable();
+		String next();
+		String title();
 	}
+
 	private PopupPanel contextMenu;
+	private Button publishButton;
 
-
-	private class FlexColumn extends Column<String[],String> {
+	private class FlexColumn extends Column<String[], String> {
 		int index;
-		public FlexColumn(Cell<String> cell,int index) {
+
+		public FlexColumn(Cell<String> cell, int index) {
 			super(cell);
 			this.index = index;
 		}
+
 		public String getValue(String[] column) {
 			return column[index];
 		}
 	}
 
-
 	public CodeListDetailViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-
 
 	public void addChanelItem(ChanelPropertyItem item) {
 		this.chanelList.add(item);
 	}
 
+	public void addPublishButton() {
+		publishButton = new Button("Publish");
+		publishButton.setStyleName(style.next());
+		this.chanelList.add(publishButton);
+	}
+	public void addTitle(String title){
+		Label l = new Label(title);
+		l.setStyleName(style.title());
+		this.chanelList.add(l);
+	}
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
-
 
 	private void showContentPanel() {
 		this.loadingPanel.setVisible(false);
@@ -112,8 +130,15 @@ public class CodeListDetailViewImpl extends Composite implements
 				event.getNativeEvent().getClientY());
 		this.contextMenu.show();
 	}
+	public void showNavLeft() {
+		nav.setStyleName(style.nav());
+		nav.setUrl(resources.nav_collapse_left().getSafeUri().asString());
+		isShowingNavLeft = true;
+	}
 
-
-
-
+	public void showNavRight() {
+		nav.setStyleName(style.nav());
+		nav.setUrl(resources.nav_collapse_right().getSafeUri().asString());
+		isShowingNavLeft = false;
+	}
 }
