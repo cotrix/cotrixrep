@@ -17,7 +17,6 @@ import org.cotrix.domain.dsl.grammar.CodebagGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.po.CodebagPO;
-import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.trait.Change;
 import org.cotrix.domain.version.SimpleVersion;
 import org.cotrix.domain.version.Version;
@@ -30,11 +29,9 @@ import org.cotrix.domain.version.Version;
  */
 public final class CodebagBuilder implements CodebagStartClause, SecondClause,ThirdClause,FinalClause {
 
-	private final Factory factory;
 	private final CodebagPO po;
 	
-	public CodebagBuilder(Factory factory,String id) {
-		this.factory=factory;
+	public CodebagBuilder(String id) {
 		po = new CodebagPO(id);
 	}
 	
@@ -80,7 +77,7 @@ public final class CodebagBuilder implements CodebagStartClause, SecondClause,Th
 	}
 	
 	public Codebag build() {
-		return factory.codebag(po);
+		return new Codebag.Private(po);
 	}
 	
 }

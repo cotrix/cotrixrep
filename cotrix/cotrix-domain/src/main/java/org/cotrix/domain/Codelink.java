@@ -1,11 +1,14 @@
 package org.cotrix.domain;
 
+import org.cotrix.domain.po.CodeLinkPO;
+import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 
 
+
 /**
- * An instance of a {@link CodelistLink}.
+ * An {@link Identified} and {@link Attributed} instance of a {@link CodelistLink}.
  * 
  * @author Fabio Simeoni
  *
@@ -24,14 +27,99 @@ public interface Codelink extends Identified,Attributed {
 	 */
 	String targetId();
 	
+	
+	
+	
 	/**
-	 * A private extension of {@link Codelink}.
+	 * An {@link Attributed.Abstract} implementation of {@link Codelink}.
 	 * 
 	 */
-	public interface Private extends Codelink, Attributed.Private<Private> {
+	public class Private extends Attributed.Abstract<Private> implements Codelink {
+		
+		private final CodelistLink.Private definition;
+		private String targetId;
+		
+		/**
+		 * Creates a new instance with given parameters
+		 * @param params the parameters
+		 */
+		public Private(CodeLinkPO params) {
+			
+			super(params);
+			
+			this.targetId = params.targetId();
+			this.definition=params.definition();
+		}
+
 		
 		@Override
-		public CodelistLink.Private definition();
+		public String targetId() {
+			return targetId;
+		}
+		
+		@Override
+		public CodelistLink.Private definition() {
+			return definition;
+		}
+		
+		@Override
+		public void update(Private delta) throws IllegalArgumentException ,IllegalStateException {
+			
+			super.update(delta);
+
+			this.definition.update(delta.definition());
+			
+			if (!targetId.equals(delta.targetId()))
+				targetId=delta.targetId();
+		}
+		
+		//fills PO for copy/versioning purposes
+		protected void fillPO(IdGenerator generator,CodeLinkPO po) {
+			
+			super.fillPO(generator, po);
+			po.setDefinition(definition.copy(generator));
+			po.setTargetId(targetId);
+			
+		}
+		
+		public Private copy(IdGenerator generator) {
+			CodeLinkPO po = new CodeLinkPO(generator.generateId());
+			fillPO(generator,po);
+			return new Private(po);
+		}
+
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((definition == null) ? 0 : definition.hashCode());
+			result = prime * result + ((targetId == null) ? 0 : targetId.hashCode());
+			return result;
+		}
+
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Private other = (Private) obj;
+			if (definition == null) {
+				if (other.definition != null)
+					return false;
+			} else if (!definition.equals(other.definition))
+				return false;
+			if (targetId == null) {
+				if (other.targetId != null)
+					return false;
+			} else if (!targetId.equals(other.targetId))
+				return false;
+			return true;
+		}
 	
 	}
 }

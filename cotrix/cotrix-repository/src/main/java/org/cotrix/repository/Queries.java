@@ -13,11 +13,11 @@ public class Queries {
 		Queries.factory = factory;
 	}
 	
-	public static Query<Codelist,Codelist> lists() {
+	public static Query<Codelist,Codelist> allLists() {
 		return factory.allLists();
 	}
 	
-	public static Query<Codebag,Codebag> bags() {
+	public static Query<Codebag,Codebag> allBags() {
 		return factory.allBags();
 	}
 }

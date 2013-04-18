@@ -14,7 +14,6 @@ import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.po.CodeLinkPO;
-import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.trait.Change;
 
 /**
@@ -27,11 +26,9 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 
 	
 	private final CodeLinkPO po;
-	private final Factory factory;
-
 	
-	public CodeLinkBuilder(Factory factory,String id) {
-		this.factory=factory;
+	
+	public CodeLinkBuilder(String id) {
 		this.po = new CodeLinkPO(id);
 	}
 	
@@ -71,7 +68,7 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 	
 	@Override
 	public Codelink build() {
-		return factory.codeLink(po);
+		return new Codelink.Private(po);
 	}
 	
 

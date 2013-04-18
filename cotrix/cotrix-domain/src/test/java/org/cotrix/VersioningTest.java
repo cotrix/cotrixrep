@@ -5,11 +5,10 @@ import static org.cotrix.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Attribute.Private;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.primitive.PContainer;
+import org.cotrix.domain.Container;
 import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Change;
 import org.junit.Test;
@@ -81,9 +80,9 @@ public class VersioningTest {
 		Attribute.Private a = (Attribute.Private) attr(generator.generateId()).name(name).value(value).build();
 		Attribute.Private a2 = (Attribute.Private) attr(generator.generateId()).name(name2).value(value2).build();
 		
-		PContainer<Attribute.Private> bag = bag(a,a2);
+		Container.Private<Attribute.Private> bag = bag(a,a2);
 		
-		PContainer<Private> clone = bag.copy(generator);
+		Container.Private<Attribute.Private> clone = bag.copy(generator);
 		
 		assertEquals(bag,clone);
 		

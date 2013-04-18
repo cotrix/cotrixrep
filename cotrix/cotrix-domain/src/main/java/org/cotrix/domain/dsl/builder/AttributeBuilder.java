@@ -5,13 +5,13 @@ import static org.cotrix.domain.trait.Change.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
+import org.cotrix.domain.LanguageAttribute;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.ThirdClause;
 import org.cotrix.domain.po.AttributePO;
-import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.trait.Change;
 
 /**
@@ -25,11 +25,9 @@ public class AttributeBuilder implements AttributeStartClause, SecondClause,
 
 	
 	private final AttributePO po;
-	private final Factory factory;
 
 	
-	public AttributeBuilder(Factory factory,String id) {
-		this.factory=factory;
+	public AttributeBuilder(String id) {
 		this.po = new AttributePO(id);
 	}
 	
@@ -51,6 +49,11 @@ public class AttributeBuilder implements AttributeStartClause, SecondClause,
 	}
 	
 	@Override
+	public ThirdClause ofType(String type) {
+		return ofType(Codes.q(type));
+	}
+	
+	@Override
 	public FinalClause in(String language) {
 		po.setLanguage(language);
 		return this;
@@ -65,7 +68,9 @@ public class AttributeBuilder implements AttributeStartClause, SecondClause,
 
 	@Override
 	public Attribute build() {
-		return factory.attribute(po);
+		return po.language()==null?
+				new Attribute.Private(po):
+				new LanguageAttribute.Private(po);
 	}
 	
 	@Override

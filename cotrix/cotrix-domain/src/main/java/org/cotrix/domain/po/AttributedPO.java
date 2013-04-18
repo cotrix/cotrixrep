@@ -6,9 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.primitive.PContainer;
-import org.cotrix.domain.trait.Attributed;
-
+import org.cotrix.domain.Container;
 /**
  * Partial implementation of initialisation parameters for {@link Attributed} entities.
  * 
@@ -17,7 +15,7 @@ import org.cotrix.domain.trait.Attributed;
  */
 public class AttributedPO extends EntityPO {
 
-	private PContainer<Attribute.Private> attributes = new PContainer<Attribute.Private>(Collections.<Attribute.Private>emptyList());
+	private Container.Private<Attribute.Private> attributes = new Container.Private<Attribute.Private>(Collections.<Attribute.Private>emptyList());
 
 	protected AttributedPO(String id) {
 		super(id);
@@ -27,7 +25,7 @@ public class AttributedPO extends EntityPO {
 	 * Returns the attributes parameter.
 	 * @return the parameter
 	 */
-	public PContainer<Attribute.Private> attributes() {
+	public Container.Private<Attribute.Private> attributes() {
 		return attributes;
 	}
 
@@ -35,7 +33,7 @@ public class AttributedPO extends EntityPO {
 	 * Sets the attribute parameter.
 	 * @param attributes the parameter
 	 */
-	public void setAttributes(PContainer<Attribute.Private> attributes) {
+	public void setAttributes(Container.Private<Attribute.Private> attributes) {
 		
 		notNull(attributes);
 	
@@ -54,7 +52,7 @@ public class AttributedPO extends EntityPO {
 		notNull(attributes);
 		
 		//switches from public to private interfaces
-		PContainer<Attribute.Private> privateAttributes = new PContainer<Attribute.Private>(reveal(attributes,Attribute.Private.class));
+		Container.Private<Attribute.Private> privateAttributes = new Container.Private<Attribute.Private>(reveal(attributes,Attribute.Private.class));
 		
 		setAttributes(privateAttributes);
 

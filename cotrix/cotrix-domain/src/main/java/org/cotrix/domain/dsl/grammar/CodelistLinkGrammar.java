@@ -1,5 +1,6 @@
 package org.cotrix.domain.dsl.grammar;
 
+
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.CodelistLink;

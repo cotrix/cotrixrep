@@ -10,7 +10,7 @@ import org.cotrix.repository.Repository;
 import org.cotrix.repository.query.Query;
 
 
-public class MRepository<T, S extends Identified.Private<S>> implements Repository<T> {
+public class MRepository<T, S extends Identified.Abstract<S>> implements Repository<T> {
 
 	private final Class<T> type;
 	private final Class<S> privateType;
@@ -68,7 +68,7 @@ public class MRepository<T, S extends Identified.Private<S>> implements Reposito
 	}
 	
 	@Override
-	public <R> Iterator<R> queryWith(Query<T,R> query) {
+	public <R> Iterator<R> queryFor(Query<T,R> query) {
 		
 		MQuery<T,R> cbQuery = revealQuery(query);
 		

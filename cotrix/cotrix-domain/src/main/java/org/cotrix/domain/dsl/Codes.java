@@ -4,8 +4,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelink;
 import org.cotrix.domain.Codebag;
+import org.cotrix.domain.Codelink;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
@@ -20,8 +20,6 @@ import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.CodeLinkStartClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.CodebagStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkStartClause;
-import org.cotrix.domain.simple.SimpleFactory;
-import org.cotrix.domain.spi.Factory;
 
 /**
  * Model factory.
@@ -31,19 +29,6 @@ import org.cotrix.domain.spi.Factory;
  */
 public class Codes {
 	
-	private static Factory factory = new SimpleFactory();
-	
-	/**
-	 * Configures the underlying {@link Factory}.
-	 * <p>
-	 * Typically invoked at application and test entry points.
-	 * 
-	 * @param factory the factory
-	 */
-	public static void setFactory(Factory factory) {
-		Codes.factory=factory;
-	}
-
 	/**
 	 * Returns a unqualified name.
 	 * @param local the local part of the name
@@ -68,7 +53,7 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static AttributeStartClause attr() {
-		return attr(factory.generateId());
+		return attr(null);
 	}
 	
 	/**
@@ -77,7 +62,7 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static AttributeStartClause attr(String id) {
-		return new AttributeBuilder(factory,id);
+		return new AttributeBuilder(id);
 	}
 	
 	/**
@@ -95,7 +80,7 @@ public class Codes {
 	 * @return the code
 	 */
 	public static Code ascode(QName name) {
-		return new CodeBuilder(factory).name(name).build();
+		return new CodeBuilder(null).name(name).build();
 	}
 	
 	/**
@@ -103,7 +88,7 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodeStartClause code() {
-		return code(factory.generateId());
+		return code(null);
 	}
 	
 	/**
@@ -112,7 +97,7 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodeStartClause code(String id) {
-		return new CodeBuilder(factory,id);
+		return new CodeBuilder(id);
 	}
 	
 	/**
@@ -121,7 +106,7 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodeLinkStartClause codeLink(String id) {
-		return new CodeLinkBuilder(factory,id);
+		return new CodeLinkBuilder(id);
 	}
 	
 	/**
@@ -130,7 +115,7 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodeLinkStartClause codeLink() {
-		return codeLink(factory.generateId());
+		return codeLink(null);
 	}
 	
 	/**
@@ -138,7 +123,7 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodelistStartClause codelist() {
-		return codelist(factory.generateId());
+		return codelist(null);
 	}
 	
 	/**
@@ -147,7 +132,7 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodelistStartClause codelist(String id) {
-		return new CodelistBuilder(factory,id);
+		return new CodelistBuilder(id);
 	}
 
 	/**
@@ -156,7 +141,7 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodelistLinkStartClause listLink(String id) {
-		return new CodelistLinkBuilder(factory,id);
+		return new CodelistLinkBuilder(id);
 	}
 	
 	/**
@@ -165,7 +150,7 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodelistLinkStartClause listLink() {
-		return listLink(factory.generateId());
+		return listLink(null);
 	}
 	
 	/**
@@ -173,7 +158,7 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodebagStartClause codebag() {
-		return codebag(factory.generateId());
+		return codebag(null);
 	}
 	
 	/**
@@ -182,6 +167,6 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodebagStartClause codebag(String id) {
-		return new CodebagBuilder(factory,id);
+		return new CodebagBuilder(id);
 	}
 }

@@ -16,7 +16,6 @@ import org.cotrix.domain.dsl.grammar.CodeGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.po.CodePO;
-import org.cotrix.domain.spi.Factory;
 import org.cotrix.domain.trait.Change;
 
 /**
@@ -27,16 +26,9 @@ import org.cotrix.domain.trait.Change;
  */
 public final class CodeBuilder implements CodeStartClause,SecondClause,FinalClause {
 
-	private final Factory factory;
 	private final CodePO po;
 	
-	public CodeBuilder(Factory factory) {
-		this(factory,factory.generateId());
-
-	}
-	
-	public CodeBuilder(Factory factory,String id) {
-		this.factory=factory;
+	public CodeBuilder(String id) {
 		po = new CodePO(id);
 	}
 	
@@ -74,7 +66,7 @@ public final class CodeBuilder implements CodeStartClause,SecondClause,FinalClau
 	}
 	
 	public Code build() {
-		return factory.code(po);
+		return new Code.Private(po);
 	}
 	
 }
