@@ -1,5 +1,7 @@
 package org.cotrix.domain;
 
+import java.util.List;
+
 import org.cotrix.domain.po.CodePO;
 import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Attributed;
@@ -29,7 +31,22 @@ public interface Code extends Identified,Attributed,Named {
 	 */
 	public class Private extends Named.Abstract<Private> implements Code {
 
-		private final Container.Private<Codelink.Private> links;
+		private Container.Private<Codelink.Private> links;
+		
+		//concessions to ORM that knows not how to map Container<T> even if we use it here with a concrete type...
+		//this also forces us to make field attributes non-final....
+		@SuppressWarnings("all")
+		private void setORMLinks(List<Codelink.Private> links) {
+			if (links!=null) //no idea why ORM arrives with NULL before it arrives with not-NULL value
+				this.links = new Container.Private<Codelink.Private>(links);
+		}
+		
+		@SuppressWarnings("all")
+		private List<Codelink.Private> getORMLinks() {
+			return links.objects();
+		}
+		
+		////////////////////////////////////////////////////////////////////////////////
 		
 		/**
 		 * Creates an instance with given parameters.

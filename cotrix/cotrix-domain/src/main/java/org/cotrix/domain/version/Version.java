@@ -11,5 +11,5 @@ public interface Version {
 	
 	String value();
 	
-	SimpleVersion bumpTo(String version);
+	Version bumpTo(String version);
 }

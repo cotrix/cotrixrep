@@ -56,7 +56,7 @@ public interface Container<T> extends Iterable<T> {
 		public Private(List<? extends T> objects) {
 			
 			notNull(objects);
-
+			
 			for (T object : objects)
 				add(object);
 			

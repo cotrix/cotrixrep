@@ -10,7 +10,6 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.LanguageAttribute;
 import org.cotrix.domain.po.AttributePO;
 import org.cotrix.domain.po.AttributedPO;
 import org.cotrix.domain.po.CodebagPO;
@@ -107,9 +106,7 @@ public class CreateTest {
 		
 		a = attr().name(name).value(value).ofType(name).in(language).build();
 		
-		LanguageAttribute langattr = (LanguageAttribute) a;
-		
-		assertEquals(language,langattr.language());
+		assertEquals(language,a.language());
 
 		//other sentences
 		attr().name(name).value(value).in(language).build();

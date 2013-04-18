@@ -16,4 +16,6 @@ public interface Query<T,R> {
 	 * @return the query
 	 */
 	Range range();
+	
+	void setRange(Range range);
 }

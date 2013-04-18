@@ -10,7 +10,7 @@ package org.cotrix.repository.query;
  */
 public abstract class BaseQuery<T,R> implements Query<T,R> {
 
-	private final Range range;
+	private Range range;
 	
 	/**
 	 * Creates an instance with default options.
@@ -30,5 +30,9 @@ public abstract class BaseQuery<T,R> implements Query<T,R> {
 	@Override
 	public Range range() {
 		return range;
+	}
+	
+	public void setRange(Range range) {
+		this.range = range;
 	}
 }

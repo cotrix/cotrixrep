@@ -1,7 +1,5 @@
 package org.cotrix.repository;
 
-import java.util.Iterator;
-
 import org.cotrix.repository.query.Query;
 
 /**
@@ -33,7 +31,7 @@ public interface Repository<T> {
 	 * 
 	 * @param <R> the type of results
 	 */
-	<R> Iterator<R> queryFor(Query<T,R> query);
+	<R> Iterable<R> queryFor(Query<T,R> query);
 	
 	/**
 	 * Removes an object from this repository.

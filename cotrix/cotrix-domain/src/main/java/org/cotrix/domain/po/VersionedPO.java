@@ -36,7 +36,5 @@ public class VersionedPO extends NamedPO {
 		notNull("version",version);
 		this.version = version;
 	}
-	
-	
-	
+
 }

@@ -1,7 +1,6 @@
 package org.cotrix.repository.memory;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.domain.trait.Identified;
@@ -57,8 +56,15 @@ public class MRepository<T, S extends Identified.Abstract<S>> implements Reposit
 		return Utils.reveal(object,privateType);
 	}
 	
+	public List<T> getAll() {
+		List<T> all = new ArrayList<T>();
+		for (S s : store.getAll(privateType))
+			all.add(reveal(s));
+		return all;
+	}
+	
 	//helper
-	private T reveal(S object) {
+	public T reveal(S object) {
 		return Utils.reveal(object,type);
 	}
 	
@@ -68,28 +74,10 @@ public class MRepository<T, S extends Identified.Abstract<S>> implements Reposit
 	}
 	
 	@Override
-	public <R> Iterator<R> queryFor(Query<T,R> query) {
+	public <R> Iterable<R> queryFor(Query<T,R> query) {
 		
 		MQuery<T,R> cbQuery = revealQuery(query);
-		
-		List<R> results = new ArrayList<R>();
-		
-		int count = 1;
-		for (S object: store.getAll(privateType))
-			if (count<query.range().from())
-				continue;
-			else 
-				if (count>query.range().to())
-					break;
-				else {
-					T publicObject = reveal(object);
-					R result = cbQuery.yieldFor(publicObject);
-					if (result!=null) {
-						results.add(result);
-						count++;
-					}
-				}
-				
-		return results.iterator();
+	
+		return cbQuery.execute(this);
 	}
 }
