@@ -1,27 +1,21 @@
 package org.cotrix.web.publish.client.presenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.publish.client.CotrixPublishAppGinInjector;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.view.ChanelPropertyItem;
 import org.cotrix.web.publish.client.view.CodeListDetailView;
+import org.cotrix.web.publish.shared.ChanelPropertyModelController;
 import org.cotrix.web.share.shared.CotrixImportModel;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.cellview.client.ColumnSortList;
-import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.view.client.AsyncDataProvider;
-import com.google.gwt.view.client.HasData;
-import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
 
 public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
@@ -30,7 +24,11 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	private CodeListDetailView view;
 	private AsyncDataProvider<String[]> dataProvider;
 	private List<String[]> currentData;
+	public interface OnNavigationClicked {
+		public void onNavigationClicked(boolean isShowingNavLeft);
+	}
 
+	private OnNavigationClicked onNavigationClicked;
 	@Inject
 	public CodeListDetailPresenterImpl(PublishServiceAsync rpcService,
 			HandlerManager eventBus, CodeListDetailView view) {
@@ -46,51 +44,40 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 		hp.setCellWidth(hp.getWidget(1), "100%");
 		init();
 	}
+	public void onNavLeftClicked(boolean isShowingNavLeft) {
+		if (isShowingNavLeft) {
+			onNavigationClicked.onNavigationClicked(true);
+			view.showNavRight();
+		} else {
+			onNavigationClicked.onNavigationClicked(false);
+			view.showNavLeft();
+		}
+	}
 	
+	public void setOnNavigationLeftClicked(
+			OnNavigationClicked onNavigationClicked) {
+		this.onNavigationClicked = onNavigationClicked;
+	}
 	private void  init(){
 		final CotrixPublishAppGinInjector injector = GWT.create(CotrixPublishAppGinInjector.class);
 
-		final ChanelPropertyItem item1 = new ChanelPropertyItem("SDMX Registry");
-		final ChanelPropertyItem item2 = new ChanelPropertyItem("Semantic Turkey (SKOS)");
-		final ChanelPropertyItem item3 = new ChanelPropertyItem("FIGIS RTMS");
-		final ChanelPropertyItem item4 = new ChanelPropertyItem("FLOD");
-		item1.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				if(item1.isChecked()){
-					ChanelPropertyPresenter presenter =  injector.getChanelPropertyPresenter();
-					presenter.show();
-				}
-			}
-		});
-		item2.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				if(item2.isChecked()){
-					ChanelPropertyPresenter presenter =  injector.getChanelPropertyPresenter();
-					presenter.show();
-				}
-			}
-		});
-		item3.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				if(item3.isChecked()){
-					ChanelPropertyPresenter presenter =  injector.getChanelPropertyPresenter();
-					presenter.show();
-				}
-			}
-		});
-		item4.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				if(item4.isChecked()){
-					ChanelPropertyPresenter presenter =  injector.getChanelPropertyPresenter();
-					presenter.show();
-				}
-			}
-		});
+		ChanelPropertyModelController model1 = new ChanelPropertyModelController();
+		ChanelPropertyModelController model2 = new ChanelPropertyModelController();
+		ChanelPropertyModelController model3 = new ChanelPropertyModelController();
+		ChanelPropertyModelController model4 = new ChanelPropertyModelController();
+
 		
+		final ChanelPropertyItem item1 = new ChanelPropertyItem("SDMX Registry","SDMS Description" ,model1);
+		final ChanelPropertyItem item2 = new ChanelPropertyItem("Semantic Turkey (SKOS)","SKOS Description",model2);
+		final ChanelPropertyItem item3 = new ChanelPropertyItem("FIGIS RTMS","FIGIS RTMS",model3);
+		final ChanelPropertyItem item4 = new ChanelPropertyItem("FLOD","FLOD",model4);
+		
+		view.addTitle("Publication Channels");
 		view.addChanelItem(item1);
 		view.addChanelItem(item2);
 		view.addChanelItem(item3);
 		view.addChanelItem(item4);
+		view.addPublishButton();
 		
 	}
 

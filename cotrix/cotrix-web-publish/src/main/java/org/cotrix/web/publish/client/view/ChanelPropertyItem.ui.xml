@@ -1,14 +1,14 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='res'
+		type='org.cotrix.web.publish.client.resources.CotrixPublishResources' />
 	<ui:style>
 		.important {
 			font-weight: bold;
 		}
 		
 		.targetLabel {
-			width: 200px;
-			float: left;
 			line-height: 40px;
 			margin-left: 10px;
 			vertical-align: middle;
@@ -25,22 +25,65 @@
 		}
 		
 		.target {
-			border: 1px solid #bbb;
+			border: 1px solid #ccc;
 			border-radius: 5px;
 			margin: 10px;
-			background-color: #eee;
+			min-width: 600px;
+			background-color: #efefef;
 			height: 40px;
 			text-align: left;
+		}
+		
+		.icon {
+			float: left;
+			line-height: 40px;
+			vertical-align: middle;
+			margin-top: 12px;
+			margin-left: 10px;
+		}
+		
+		.icon:HOVER {
+			cursor: pointer;
+		}
+		
+		.line {
+			background-color: blue;
+		}
+		
+		.left {
+			float: left;
+			color: #666;
+			font-size: 15px;
+		}
+		
+		.wrapper {
+			float: left;
+			line-height: 40px;
+			vertical-align: middle;
+			width: 300px;
+		}
+		
+		.wrapperURL {
+			float: left;
+			line-height: 40px;
+			vertical-align: middle;
+		}
+		
+		.url {
+			float: left;
+			color: #999;
 		}
 	</ui:style>
 	<g:HTMLPanel>
 		<div class="{style.target}">
-			<div class="{style.targetLabel}">
-				<g:HorizontalPanel>
-					<g:CheckBox ui:field="checkbox"></g:CheckBox>
-					<g:Label ui:field="chanelName"></g:Label>
-					<g:Label ui:field="url"></g:Label>
-				</g:HorizontalPanel>
+			<div class="{style.wrapper}">
+				<g:CheckBox ui:field="checkbox" styleName="{style.left}"></g:CheckBox>
+				<g:Label ui:field="chanelName" styleName="{style.left}"></g:Label>
+				<g:Image resource='{res.info}' styleName="{style.icon}" ui:field="info"></g:Image>
+			</div>
+			<div class="{style.wrapperURL}">
+				<g:Label ui:field="url" styleName="{style.url}"></g:Label>
+				<g:Image resource='{res.edit}' ui:field="edit" visible="false"></g:Image>
 			</div>
 		</div>
 	</g:HTMLPanel>

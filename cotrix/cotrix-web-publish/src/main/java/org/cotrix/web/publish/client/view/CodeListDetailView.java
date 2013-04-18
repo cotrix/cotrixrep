@@ -12,10 +12,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 public interface CodeListDetailView {
 	public interface Presenter<T> {
+		void onNavLeftClicked(boolean isShowingNavLeft);
 	}
 	void setData(CotrixImportModel model,int id);
 	void showActivityIndicator();
 	void addChanelItem(ChanelPropertyItem item);
+	void addPublishButton();
+	void addTitle(String title);
+	void onNavLeftClicked(ClickEvent event);
+	void showNavLeft();
+	void showNavRight();
 	void setPresenter(Presenter presenter);
 	Widget asWidget();
 }

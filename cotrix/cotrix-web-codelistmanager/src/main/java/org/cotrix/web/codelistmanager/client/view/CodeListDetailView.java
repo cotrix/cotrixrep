@@ -19,8 +19,8 @@ public interface CodeListDetailView {
 		void deleteRow(int row);
 	}
 	void setData(CotrixImportModel model,int id);
-	void onNavLeftClicked(ClickEvent event);
 	void onCodelistNameClicked(ClickEvent event);
+	void onNavLeftClicked(ClickEvent event);
 	void showNavLeft();
 	void showNavRight();
 	void showMetadataPanel(boolean isVisible);
