@@ -83,7 +83,7 @@
 			</div>
 			<div class="{style.wrapperURL}">
 				<g:Label ui:field="url" styleName="{style.url}"></g:Label>
-				<g:Image resource='{res.edit}' ui:field="edit" visible="false"></g:Image>
+				<g:Image resource='{res.edit}' styleName="{style.icon}" ui:field="edit" visible="false"></g:Image>
 			</div>
 		</div>
 	</g:HTMLPanel>
