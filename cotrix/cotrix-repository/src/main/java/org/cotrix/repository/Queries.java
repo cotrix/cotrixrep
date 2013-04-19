@@ -4,6 +4,7 @@ import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.memory.MQueryFactory;
+import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Query;
 
 public class Queries {
@@ -14,11 +15,11 @@ public class Queries {
 		Queries.factory = factory;
 	}
 	
-	public static Query<Codelist,Codelist> allLists() {
+	public static CodelistQuery<Codelist> allLists() {
 		return factory.allLists();
 	}
 	
-	public static Query<Codelist,Code> allCodes(String codelistId) {
+	public static CodelistQuery<Code> allCodes(String codelistId) {
 		return factory.allCodes(codelistId);
 	}
 	

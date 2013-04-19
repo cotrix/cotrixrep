@@ -54,8 +54,7 @@ public class MCodelistRepository extends MRepository<Codelist, Codelist.Private>
 			
 			Utils.reveal(c,Code.Private.class).setId(UUID.randomUUID().toString());
 		}
-		
-		
+			
 	}
 	
 }

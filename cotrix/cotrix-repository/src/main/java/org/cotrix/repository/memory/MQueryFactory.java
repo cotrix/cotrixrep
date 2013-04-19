@@ -4,7 +4,10 @@ import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.QueryFactory;
-import org.cotrix.repository.query.Query;
+import org.cotrix.repository.memory.MQuery.CodebagMQuery;
+import org.cotrix.repository.memory.MQuery.CodelistMQuery;
+import org.cotrix.repository.query.CodebagQuery;
+import org.cotrix.repository.query.CodelistQuery;
 
 /**
  * A {@link QueryFactory} for {@link MQuery}s.
@@ -16,8 +19,9 @@ public class MQueryFactory implements QueryFactory {
 
 	
 	@Override
-	public Query<Codelist,Codelist> allLists() {
-		return new MQuery<Codelist,Codelist>() {
+	public CodelistQuery<Codelist> allLists() {
+		
+		return new CodelistMQuery<Codelist>() {
 			public Iterable<Codelist> _execute(MRepository<Codelist,?> repository) {
 				return repository.getAll();
 			}
@@ -25,8 +29,8 @@ public class MQueryFactory implements QueryFactory {
 	}
 	
 	@Override
-	public Query<Codebag,Codebag> allBags() {
-		return new MQuery<Codebag,Codebag>() {
+	public CodebagQuery<Codebag> allBags() {
+		return new CodebagMQuery<Codebag>() {
 			public Iterable<Codebag> _execute(MRepository<Codebag,?> repository) {
 				return repository.getAll();
 			}
@@ -34,8 +38,8 @@ public class MQueryFactory implements QueryFactory {
 	}
 	
 	@Override
-	public Query<Codelist, Code> allCodes(final String codelistId) {
-		return new MQuery<Codelist,Code>() {
+	public CodelistQuery<Code> allCodes(final String codelistId) {
+		return new CodelistMQuery<Code>() {
 			public Iterable<? extends Code> _execute(MRepository<Codelist,?> repository) {
 				return repository.lookup(codelistId).codes();
 			}

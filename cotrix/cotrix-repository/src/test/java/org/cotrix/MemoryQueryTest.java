@@ -11,7 +11,7 @@ import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.memory.MCodelistRepository;
-import org.cotrix.repository.query.Query;
+import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.junit.Test;
 
@@ -47,7 +47,7 @@ public class MemoryQueryTest {
 		
 		System.out.println(list);
 		
-		Query<Codelist,Code> codes = allCodes(list.id());
+		CodelistQuery<Code> codes = allCodes(list.id());
 		
 		codes.setRange(new Range(2,3));
 		
