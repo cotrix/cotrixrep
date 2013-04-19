@@ -86,8 +86,14 @@ public class ChanelPropertyItem extends Composite implements
 
 	private ChanelPropertyDialogPresenter dialog ;
 	public void onClick(ClickEvent event) {
-		dialog = injector.getChanelPropertyDialogPresenter();
-		dialog.setModel(model);
+		if(checkbox.getValue()){
+			dialog = injector.getChanelPropertyDialogPresenter();
+			dialog.setModel(model);
+			dialog.show();
+		}else{
+			this.url.setText("");
+			this.edit.setVisible(false);
+		}
 	}
 
 }
