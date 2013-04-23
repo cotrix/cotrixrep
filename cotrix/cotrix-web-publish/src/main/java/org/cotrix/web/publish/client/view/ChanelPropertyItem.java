@@ -8,16 +8,10 @@ import org.cotrix.web.publish.shared.ChanelPropertyModelController.OnChanelPrope
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -34,32 +28,20 @@ public class ChanelPropertyItem extends Composite implements
 
 	@UiField Label chanelName;
 	@UiField CheckBox checkbox;
-	@UiField Image info;
-	@UiField Image edit;
-	@UiField Label url;
+	@UiField Label setPropertyButton;
 
 	private ChanelPropertyModelController model;
-	private CotrixPublishAppGinInjector injector = GWT.create(CotrixPublishAppGinInjector.class);
+	private CotrixPublishAppGinInjector injector = GWT
+			.create(CotrixPublishAppGinInjector.class);
 
-
-	public ChanelPropertyItem(String name, final String desc, ChanelPropertyModelController model) {
+	public ChanelPropertyItem(String name, final String desc,
+			ChanelPropertyModelController model) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.chanelName.setText(name);
-		
+
 		this.model = model;
 		this.model.setOnValidated(this);
-		this.info.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				InfoDialog info = new InfoDialog(desc);
-				info.show();
-			}
-		});
-		this.edit.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialog.show();
-			}
-		});
-		this.checkbox.addClickHandler(this);
+		this.setPropertyButton.addClickHandler(this);
 	}
 
 	public boolean isChecked() {
@@ -75,25 +57,17 @@ public class ChanelPropertyItem extends Composite implements
 	}
 
 	public void onValidatedResult(boolean pass) {
-		if(pass){
-			this.url.setText(model.getChanelProperty().getUrl());
-			this.edit.setVisible(true);
-		}else{
-			this.url.setText("");
-			this.edit.setVisible(false);
+		if (pass) {
+		} else {
 		}
 	}
 
-	private ChanelPropertyDialogPresenter dialog ;
+	private ChanelPropertyDialogPresenter dialog;
+
 	public void onClick(ClickEvent event) {
-		if(checkbox.getValue()){
-			dialog = injector.getChanelPropertyDialogPresenter();
-			dialog.setModel(model);
-			dialog.show();
-		}else{
-			this.url.setText("");
-			this.edit.setVisible(false);
-		}
+		dialog = injector.getChanelPropertyDialogPresenter();
+		dialog.setModel(model);
+		dialog.show();
 	}
 
 }

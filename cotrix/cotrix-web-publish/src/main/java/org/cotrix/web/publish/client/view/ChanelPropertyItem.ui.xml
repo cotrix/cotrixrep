@@ -60,7 +60,6 @@
 			float: left;
 			line-height: 40px;
 			vertical-align: middle;
-			width: 300px;
 		}
 		
 		.wrapperURL {
@@ -73,17 +72,25 @@
 			float: left;
 			color: #999;
 		}
+		
+		.setup {
+			color: #2d83ee;
+			float:left;
+			margin-left: 15px;
+		}
+		
+		.setup:HOVER {
+	
+			cursor: pointer;
+			color: blue;
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<div class="{style.target}">
 			<div class="{style.wrapper}">
 				<g:CheckBox ui:field="checkbox" styleName="{style.left}"></g:CheckBox>
 				<g:Label ui:field="chanelName" styleName="{style.left}"></g:Label>
-				<g:Image resource='{res.info}' styleName="{style.icon}" ui:field="info"></g:Image>
-			</div>
-			<div class="{style.wrapperURL}">
-				<g:Label ui:field="url" styleName="{style.url}"></g:Label>
-				<g:Image resource='{res.edit}' styleName="{style.icon}" ui:field="edit" visible="false"></g:Image>
+				<g:Label ui:field="setPropertyButton" styleName="{style.setup}">setup</g:Label>
 			</div>
 		</div>
 	</g:HTMLPanel>

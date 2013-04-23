@@ -18,7 +18,7 @@ public interface CodeListDetailView {
 	void showActivityIndicator();
 	void addChanelItem(ChanelPropertyItem item);
 	void addPublishButton();
-	void addTitle(String title);
+	void addTitle(String title,String Description);
 	void onNavLeftClicked(ClickEvent event);
 	void showNavLeft();
 	void showNavRight();

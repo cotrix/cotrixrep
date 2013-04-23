@@ -58,6 +58,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 			OnNavigationClicked onNavigationClicked) {
 		this.onNavigationClicked = onNavigationClicked;
 	}
+	
 	private void  init(){
 		final CotrixPublishAppGinInjector injector = GWT.create(CotrixPublishAppGinInjector.class);
 
@@ -72,7 +73,9 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 		final ChanelPropertyItem item3 = new ChanelPropertyItem("FIGIS RTMS","FIGIS RTMS",model3);
 		final ChanelPropertyItem item4 = new ChanelPropertyItem("FLOD","FLOD",model4);
 		
-		view.addTitle("Publication Channels");
+		
+		
+		view.addTitle("Publication Channels","descritption");
 		view.addChanelItem(item1);
 		view.addChanelItem(item2);
 		view.addChanelItem(item3);

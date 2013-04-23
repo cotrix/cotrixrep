@@ -19,7 +19,11 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -63,6 +67,8 @@ public class CodeListDetailViewImpl extends Composite implements
 		String flexTable();
 		String next();
 		String title();
+		String titleWrapper();
+		String icon();
 	}
 
 	private PopupPanel contextMenu;
@@ -94,11 +100,28 @@ public class CodeListDetailViewImpl extends Composite implements
 		publishButton.setStyleName(style.next());
 		this.chanelList.add(publishButton);
 	}
-	public void addTitle(String title){
+	public void addTitle(String title,final String description){
 		Label l = new Label(title);
 		l.setStyleName(style.title());
-		this.chanelList.add(l);
+		
+		CotrixPublishResources resources = GWT.create(CotrixPublishResources.class);
+		Image info = new Image();
+		info.setResource(resources.info());
+		info.setStyleName(style.icon());
+		info.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				InfoDialog dialog = new InfoDialog(description);
+				dialog.show();
+			}
+		});
+		
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setStyleName(style.titleWrapper());
+		panel.add(l);
+		panel.add(info);
+		this.chanelList.add(panel);
 	}
+	
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}

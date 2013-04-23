@@ -21,6 +21,12 @@ public interface CotrixPublishResources extends ClientBundle {
 	@Source("edit.png")
 	ImageResource edit();
 	
+	@Source("edit2.png")
+	ImageResource edit2();
+
+	@Source("setting.png")
+	ImageResource setting();
+	
 	@Source("info.png")
 	ImageResource info();
 
