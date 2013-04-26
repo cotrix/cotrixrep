@@ -15,7 +15,7 @@
 			border-radius: 5px;
 			margin: 10px;
 			color:#666;
-			width: 200px;
+			width: 500px;
 			background-color: white;
 			padding: 20px;
 			-webkit-box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75);

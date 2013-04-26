@@ -28,14 +28,14 @@ public class ChanelPropertyItem extends Composite implements
 
 	@UiField Label chanelName;
 	@UiField CheckBox checkbox;
+	@UiField Label url;
 	@UiField Label setPropertyButton;
 
 	private ChanelPropertyModelController model;
 	private CotrixPublishAppGinInjector injector = GWT
 			.create(CotrixPublishAppGinInjector.class);
 
-	public ChanelPropertyItem(String name, final String desc,
-			ChanelPropertyModelController model) {
+	public ChanelPropertyItem(String name, final String desc,ChanelPropertyModelController model) {
 		initWidget(uiBinder.createAndBindUi(this));
 		this.chanelName.setText(name);
 
@@ -58,7 +58,9 @@ public class ChanelPropertyItem extends Composite implements
 
 	public void onValidatedResult(boolean pass) {
 		if (pass) {
+			this.url.setText(model.getChanelProperty().url);
 		} else {
+			
 		}
 	}
 

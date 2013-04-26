@@ -57,11 +57,8 @@ public class CodeListViewImpl extends Composite implements CodeListView,
 
 	interface Style extends CssResource {
 		String filterTextBox();
-
 		String promptTextBox();
-
 		String celllist();
-
 		String cellitem();
 	}
 
@@ -120,6 +117,8 @@ public class CodeListViewImpl extends Composite implements CodeListView,
 	}
 	
 	public void init(ArrayList<Codelist> codelists) {
+		listPanel.clear();
+		
 		this.codelists  = codelists;
 		this.codelistLabels = toRowData(codelists);
 		this.codelistId = toHashMap(codelists);

@@ -119,6 +119,7 @@ public class CodeListViewImpl extends Composite implements CodeListView,
 		return codelistId;
 	}
 	public void init(ArrayList<Codelist> codelists) {
+		listPanel.clear();
 		this.codelists  = codelists;
 		this.codelistLabels = toRowData(codelists);
 		this.codelistId = toHashMap(codelists);
