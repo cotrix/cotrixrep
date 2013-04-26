@@ -1,0 +1,55 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='res'
+		type='org.cotrix.web.publish.client.resources.CotrixPublishResources' />
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+		
+		.root {
+			padding: 20px;
+		}
+		
+		.loadingIcon {
+			margin: 0 auto;
+			vertical-align: middle;
+		}
+		
+		.panel {
+			border: 1px solid #999;
+			border-radius: 5px;
+			margin: 10px;
+			color: #666;
+			width: 500px;
+			background-color: white;
+			padding: 20px;
+			-webkit-box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75);
+			-moz-box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75);
+			box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75);
+		}
+		
+		.message {
+			font-size: 25px;
+			color: #666;
+			margin-left: 20px;
+		}
+		
+		.wrapper {
+			line-height: 70px;
+			vertical-align: middle;
+		}
+	</ui:style>
+	<g:HTMLPanel styleName="{style.root}">
+		<div class="{style.panel}">
+			<g:HTMLPanel ui:field="panel">
+				<g:HorizontalPanel styleName="{style.wrapper}">
+					<g:Image resource='{res.loading}' width="60px;"
+						styleName="{style.loadingIcon}" />
+					<g:Label styleName="{style.message}">Publishing Codelist...</g:Label>
+				</g:HorizontalPanel>
+			</g:HTMLPanel>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder> 

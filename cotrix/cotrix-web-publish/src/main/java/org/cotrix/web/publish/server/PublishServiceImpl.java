@@ -36,11 +36,12 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 			c.setId(1);
 			list.add(c);
 		}
-		
-		System.out.println("Codelist Count : "+list.size());
-		System.out.println(">>>>>>>>>>>>>>>>> get code list from server : ........ ");
-		System.out.println(">>>>>>>>>>>>>>>>> list size is : "+list.size());
-		
+	
+		// Just for testing perpose.
+		/*Codelist c = new Codelist();
+		c.setName("Test code list");
+		c.setId(1);
+		list.add(c);*/
 		return list;
 	}
 	public CotrixImportModel getCodeListModel(int codelistId) {
