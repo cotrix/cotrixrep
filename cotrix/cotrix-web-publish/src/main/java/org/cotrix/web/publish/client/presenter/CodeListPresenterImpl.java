@@ -7,6 +7,7 @@ import org.cotrix.web.publish.client.view.CodeListView;
 import org.cotrix.web.share.shared.Codelist;
 
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -49,6 +50,18 @@ public class CodeListPresenterImpl implements CodeListPresenter {
 	
 	public void onCodelistItemClicked(int id) {
 		onCodelistItemClicked.onCodelistItemClicked(id);
+	}
+
+	public void refresh() {
+		rpcService.getAllCodelists(new AsyncCallback<ArrayList<Codelist>>() {
+			public void onSuccess(ArrayList<Codelist> result) {
+				view.init(result);
+			}
+			
+			public void onFailure(Throwable caught) {
+				Window.alert("error ++"+caught.getMessage());
+			}
+		});
 	}
 
 

@@ -21,6 +21,7 @@ import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.inject.Inject;
@@ -29,6 +30,8 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 	private MainServiceAsync rpcService;
 	private HandlerManager eventBus;
 	private CotrixWebView view;
+	private CotrixPublishAppController cotrixPublishAppController;
+	private CotrixManagerAppController cotrixManagerAppController;
 	
 	@Inject
 	public CotrixWebPresenterImpl(MainServiceAsync rpcService, HandlerManager eventBus, CotrixWebView view) {
@@ -61,11 +64,11 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 		view.getBody().add(scrollPanel);
 
 		CotrixManagerAppGinInjector cotrixManagerAppGinInjector = GWT.create(CotrixManagerAppGinInjector.class);
-		CotrixManagerAppController cotrixManagerAppController = cotrixManagerAppGinInjector.getAppController();	
+		cotrixManagerAppController = cotrixManagerAppGinInjector.getAppController();	
 		cotrixManagerAppController.go(view.getBody());
 	
 		CotrixPublishAppGinInjector cotrixPublishAppGinInjector = GWT.create(CotrixPublishAppGinInjector.class);
-		CotrixPublishAppController cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
+		cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
 		cotrixPublishAppController.go(view.getBody());
 		
 		view.showMenu(0); // default menu;
@@ -73,6 +76,11 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 
 	public void onMenuItemClick(int index) {
 		view.showMenu(index);
+		if(index == 3){
+			cotrixPublishAppController.refresh();
+		}else if(index == 2){
+			cotrixManagerAppController.refresh();
+		}
 	}
 
 }

@@ -1,5 +1,7 @@
 package org.cotrix.web.importwizard.server;
 
+import static org.cotrix.repository.Queries.allLists;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,8 +21,10 @@ import org.cotrix.importservice.tabular.csv.CSV2Codelist;
 import org.cotrix.importservice.tabular.csv.CSVOptions;
 import org.cotrix.importservice.tabular.mapping.AttributeMapping;
 import org.cotrix.importservice.tabular.mapping.CodelistMapping;
+import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.importwizard.client.CotrixModuleImport;
 import org.cotrix.web.importwizard.client.ImportService;
+import org.cotrix.web.share.shared.Codelist;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.HeaderType;
@@ -42,8 +46,8 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		return true;
 	}
 
-	@Inject
-	org.cotrix.importservice.ImportService service;
+	@Inject	org.cotrix.importservice.ImportService service;
+	@Inject CodelistRepository repository;
 
 	public void testBackendConnection() throws IllegalArgumentException {
 		
@@ -78,6 +82,24 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			e.printStackTrace();
 		}
 		System.out.println("Mapping Success !!!");
+	}
+	public ArrayList<Codelist> getAllCodelists()throws IllegalArgumentException {
+		ArrayList<Codelist> list = new ArrayList<Codelist>();
+		Iterator<org.cotrix.domain.Codelist> it  = repository.queryFor(allLists()).iterator();
+		while (it.hasNext()) {
+			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
+			
+			Codelist c = new Codelist();
+			c.setName("xxx"+codelist.id());
+			c.setId(Integer.valueOf(codelist.id()));
+			
+			list.add(c);
+		}
+		
+		System.out.println(">>>>>>>>>>>>>>>>> get code list from server : ........ ");
+		System.out.println(">>>>>>>>>>>>>>>>> list size is : "+list.size());
+		
+		return list;
 	}
 
 	private CotrixImportModel getCotrixImportModelTest(){

@@ -48,23 +48,13 @@ public class CDIProxyServlet extends HttpServlet {
 		// actual servlet type name
 		String typeName = this.getServletConfig().getInitParameter(
 				TARGET_SERVLET_CLASS);
-		Set<Bean<?>> allBeans = mgr.getBeans(Object.class);
-		Iterator<Bean<?>> it2 = allBeans.iterator();
-		while (it2.hasNext()) {
-			System.out.println("aaaaaaaaaaaaaaaaaaaaaa");
-			Bean<?> b = it2.next();
-			System.out.println(b.getBeanClass());
-		}
 		
 		try {
 			Class<?> type = Class.forName(typeName);
-			System.out.println("type ::: " + type.getName());
 			Iterator<Bean<?>> it = mgr.getBeans(type).iterator();
-			System.out.println("*****xxx****" + type);
 			if (it.hasNext()) {
 
 				Bean<?> servletBean = it.next();
-				System.out.println("*********" + servletBean);
 
 				CreationalContext ctx = (CreationalContext) mgr
 						.createCreationalContext(servletBean);

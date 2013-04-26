@@ -7,5 +7,5 @@ import org.cotrix.web.publish.client.view.CodeListPublishView;
 
 
 public interface CodeListPublishPresenter extends Presenter<CodeListPublishPresenter> ,CodeListPublishView.Presenter<CodeListPublishPresenterImpl>,OnCodelistItemClicked,OnNavigationClicked{
-
+	public void refresh();
 }

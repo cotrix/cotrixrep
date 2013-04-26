@@ -38,5 +38,9 @@ public class CodeListPublishPresenterImpl implements CodeListPublishPresenter{
 	public void onCodelistItemClicked(int id) {
 		codeListDetailPresenter.setData(id);
 	}
+
+	public void refresh() {
+		codeListPresenter.refresh();
+	}
 	
 }

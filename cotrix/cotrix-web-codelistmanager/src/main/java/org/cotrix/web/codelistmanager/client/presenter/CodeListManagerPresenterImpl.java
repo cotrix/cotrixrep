@@ -48,4 +48,8 @@ public class CodeListManagerPresenterImpl implements CodeListManagerPresenter{
 		codeListDetailPresenter.setData(id);
 	}
 	
+	public void refresh(){
+		this.codeListPresenter.refresh();
+	}
+	
 }

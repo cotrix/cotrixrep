@@ -5,5 +5,5 @@ import org.cotrix.web.codelistmanager.client.presenter.CodeListPresenterImpl.OnC
 import org.cotrix.web.codelistmanager.client.view.CodeListManagerView;
 
 public interface CodeListManagerPresenter extends Presenter<CodeListManagerPresenter> ,CodeListManagerView.Presenter<CodeListManagerPresenterImpl>,OnNavigationClicked,OnCodelistItemClicked{
-
+	public void refresh();
 }

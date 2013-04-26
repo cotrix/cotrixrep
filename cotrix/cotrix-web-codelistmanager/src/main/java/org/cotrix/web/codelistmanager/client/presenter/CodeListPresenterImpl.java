@@ -21,6 +21,7 @@ public class CodeListPresenterImpl implements CodeListPresenter {
 		void onCodelistItemClicked(int id);
 	}
 	private OnCodelistItemClicked onCodelistItemClicked;
+
 	@Inject
 	public CodeListPresenterImpl(ManagerServiceAsync rpcService,HandlerManager eventBus, CodeListView view) {
 		this.rpcService = rpcService;
@@ -49,6 +50,17 @@ public class CodeListPresenterImpl implements CodeListPresenter {
 	
 	public void onCodelistItemClicked(int id) {
 		onCodelistItemClicked.onCodelistItemClicked(id);
+	}
+
+	public void refresh() {
+		rpcService.getAllCodelists(new AsyncCallback<ArrayList<Codelist>>() {
+			public void onSuccess(ArrayList<Codelist> result) {
+				view.init(result);
+			}
+			public void onFailure(Throwable caught) {
+				Window.alert("Refreshing codelist error.");
+			}
+		});
 	}
 
 
