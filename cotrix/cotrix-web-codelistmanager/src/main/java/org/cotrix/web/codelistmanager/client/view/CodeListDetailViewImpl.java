@@ -100,7 +100,7 @@ public class CodeListDetailViewImpl extends Composite implements
 		}
 	}
 
-	private void initTable(CotrixImportModel model, int id) {
+	private void initTable(CotrixImportModel model, String id) {
 		VerticalPanel panel = new VerticalPanel();
 		
 		ContextMenuItem item1  = new ContextMenuItem("Inssert row above");
@@ -177,7 +177,7 @@ public class CodeListDetailViewImpl extends Composite implements
 			dataGrid.addColumn(column, headers[i]);
 			dataGrid.setColumnWidth(i, "200px");
 		}
-		dataGrid.setRowCount(model.getCsvFile().getData().size(), true);
+		dataGrid.setRowCount(12000, true);
 		dataGrid.setVisibleRange(0, 30);
 		dataGrid.getRowCount();
 		dataGrid.setHeight(dataGridWrapper.getOffsetHeight() + "px");
@@ -239,7 +239,7 @@ public class CodeListDetailViewImpl extends Composite implements
 		this.loadingPanel.setVisible(true);
 	}
 
-	public void setData(CotrixImportModel model, int id) {
+	public void setData(CotrixImportModel model, String id) {
 		Metadata metadata = model.getMetadata();
 
 		this.codelistName.setText(metadata.getName());

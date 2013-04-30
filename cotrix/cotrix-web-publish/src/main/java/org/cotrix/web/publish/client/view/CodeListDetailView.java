@@ -14,7 +14,7 @@ public interface CodeListDetailView {
 	public interface Presenter<T> {
 		void onNavLeftClicked(boolean isShowingNavLeft);
 	}
-	void setData(CotrixImportModel model,int id);
+	void setData(CotrixImportModel model,String id);
 	void showActivityIndicator();
 	void addChanelItem(ChanelPropertyItem item);
 	void addPublishButton();

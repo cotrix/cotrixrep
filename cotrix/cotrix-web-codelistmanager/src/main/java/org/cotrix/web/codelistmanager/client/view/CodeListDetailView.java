@@ -14,11 +14,11 @@ public interface CodeListDetailView {
 	public interface Presenter<T> {
 		void onNavLeftClicked(boolean isShowingNavLeft);
 		void onCodelistNameClicked(boolean isVisible);
-		void setDataProvider(DataGrid<String[]> ddtaGrid,int id);
+		void setDataProvider(DataGrid<String[]> ddtaGrid,String id);
 		void insertRow(int row);
 		void deleteRow(int row);
 	}
-	void setData(CotrixImportModel model,int id);
+	void setData(CotrixImportModel model,String id);
 	void onCodelistNameClicked(ClickEvent event);
 	void onNavLeftClicked(ClickEvent event);
 	void showNavLeft();

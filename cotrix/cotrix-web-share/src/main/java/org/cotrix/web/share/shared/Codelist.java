@@ -4,7 +4,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Codelist implements IsSerializable{
 	String name;
-	int id;
+	String id;
 	
 	public String getName() {
 		return name;
@@ -12,10 +12,10 @@ public class Codelist implements IsSerializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 }

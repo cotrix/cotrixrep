@@ -90,14 +90,11 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
 			
 			Codelist c = new Codelist();
-			c.setName("xxx"+codelist.id());
-			c.setId(Integer.valueOf(codelist.id()));
+			c.setName(codelist.name().toString());
+			c.setId(codelist.id());
 			
 			list.add(c);
 		}
-		
-		System.out.println(">>>>>>>>>>>>>>>>> get code list from server : ........ ");
-		System.out.println(">>>>>>>>>>>>>>>>> list size is : "+list.size());
 		
 		return list;
 	}

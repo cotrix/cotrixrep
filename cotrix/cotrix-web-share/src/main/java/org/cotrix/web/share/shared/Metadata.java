@@ -7,6 +7,7 @@ public class Metadata implements IsSerializable {
 	private String owner;
 	private String description;
 	private String version;
+	private int rowCount;
 	public String getName() {
 		return name;
 	}
@@ -30,5 +31,11 @@ public class Metadata implements IsSerializable {
 	}
 	public void setVersion(String version) {
 		this.version = version;
+	}
+	public int getRowCount() {
+		return rowCount;
+	}
+	public void setRowCount(int rowCount) {
+		this.rowCount = rowCount;
 	}
 }

@@ -18,7 +18,7 @@ public class CodeListPresenterImpl implements CodeListPresenter {
 	private CodeListView view;
 
 	public interface OnCodelistItemClicked{
-		void onCodelistItemClicked(int id);
+		void onCodelistItemClicked(String id);
 	}
 	private OnCodelistItemClicked onCodelistItemClicked;
 	
@@ -48,7 +48,7 @@ public class CodeListPresenterImpl implements CodeListPresenter {
 		this.onCodelistItemClicked = onCodelistItemClicked;
 	}
 	
-	public void onCodelistItemClicked(int id) {
+	public void onCodelistItemClicked(String id) {
 		onCodelistItemClicked.onCodelistItemClicked(id);
 	}
 

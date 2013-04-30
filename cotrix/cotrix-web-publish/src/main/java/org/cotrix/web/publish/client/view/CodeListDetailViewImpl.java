@@ -153,7 +153,7 @@ CodeListDetailView, ContextMenuHandler {
 		this.loadingPanel.setVisible(true);
 	}
 
-	public void setData(CotrixImportModel model, int id) {
+	public void setData(CotrixImportModel model, String id) {
 		Metadata metadata = model.getMetadata();
 
 		this.codelistName.setText(metadata.getName());

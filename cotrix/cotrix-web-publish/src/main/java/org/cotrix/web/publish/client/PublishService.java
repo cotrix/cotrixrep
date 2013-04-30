@@ -14,5 +14,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("publish")
 public interface PublishService extends RemoteService {
 	 ArrayList<Codelist> getAllCodelists() throws IllegalArgumentException;
-	 CotrixImportModel getCodeListModel(int codelistId) ;
+	 CotrixImportModel getCodeListModel(String codelistId) ;
 }

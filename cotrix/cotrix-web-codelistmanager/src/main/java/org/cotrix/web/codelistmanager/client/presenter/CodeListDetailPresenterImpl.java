@@ -69,7 +69,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 		view.showMetadataPanel(isVisible);
 	}
 
-	public void setData(final int id) {
+	public void setData(final String id) {
 		view.showActivityIndicator();
 		rpcService.getCodeListModel(id, new AsyncCallback<CotrixImportModel>() {
 			public void onSuccess(CotrixImportModel result) {
@@ -77,11 +77,12 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 			}
 
 			public void onFailure(Throwable caught) {
+				Window.alert("Getting codelist fail");
 			}
 		});
 	}
 
-	public void setDataProvider(final DataGrid<String[]> dataGrid,final int id) {
+	public void setDataProvider(final DataGrid<String[]> dataGrid,final String id) {
 		dataProvider = new AsyncDataProvider<String[]>() {
 			@Override
 			protected void onRangeChanged(HasData<String[]> display) {

@@ -15,6 +15,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("manager")
 public interface ManagerService extends RemoteService {
   ArrayList<Codelist> getAllCodelists() throws IllegalArgumentException;
-  CotrixImportModel getCodeListModel(int codelistId);
-  ArrayList<String[]> getDataRange(int id,int start,int end);
+  CotrixImportModel getCodeListModel(String codelistId);
+  ArrayList<String[]> getDataRange(String id,int start,int end);
 }

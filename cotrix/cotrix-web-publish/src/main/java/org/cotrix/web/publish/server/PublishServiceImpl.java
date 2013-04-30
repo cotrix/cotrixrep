@@ -33,7 +33,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
 			Codelist c = new Codelist();
 			c.setName(codelist.name().toString());
-			c.setId(1);
+			c.setId(codelist.id());
 			list.add(c);
 		}
 	
@@ -44,36 +44,8 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		list.add(c);*/
 		return list;
 	}
-	public CotrixImportModel getCodeListModel(int codelistId) {
+	public CotrixImportModel getCodeListModel(String codelistId) {
 		CotrixImportModel model = null;
-		switch (codelistId) {
-		case 0:
-			model = getCountry();
-			break;
-		case 1:
-			model = getContinent();
-			break;
-		case 2:
-			model = getASFIS();
-			break;
-		case 3:
-			model = getLanguage();
-			break;
-		case 4:
-			model = getFAOMajorWaterArea();
-			break;
-		case 5:
-			model = getVesselType();
-			break;
-		case 6:
-			model = getGearType();
-			break;
-
-		default:
-			break;
-		}
-
-		
 		return model;
 	}
 	

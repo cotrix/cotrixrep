@@ -1,7 +1,6 @@
 package org.cotrix.web.publish.client.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class CodeListViewImpl extends Composite implements CodeListView,
 	private CellList<String> cellList;
 	private ArrayList<Codelist> codelists;
 	private List<String> codelistLabels;
-	private HashMap<String, Integer> codelistId ;
+	private HashMap<String, String> codelistId ;
 	
 	@UiField
 	Style style;
@@ -108,8 +107,8 @@ public class CodeListViewImpl extends Composite implements CodeListView,
 		return list;
 	}
 	
-	private HashMap<String, Integer> toHashMap(ArrayList<Codelist> codelists){
-		HashMap<String, Integer> codelistId = new HashMap<String, Integer>();
+	private HashMap<String, String> toHashMap(ArrayList<Codelist> codelists){
+		HashMap<String, String> codelistId = new HashMap<String, String>();
 		for (Codelist codelist : codelists) {
 			codelistId.put(codelist.getName(), codelist.getId());
 		}

@@ -44,12 +44,13 @@ public class CodeListManagerPresenterImpl implements CodeListManagerPresenter{
 		view.showLeftPanel(isShowingNavLeft);
 	}
 
-	public void onCodelistItemClicked(int id) {
+	public void onCodelistItemClicked(String id) {
 		codeListDetailPresenter.setData(id);
 	}
 	
 	public void refresh(){
 		this.codeListPresenter.refresh();
 	}
+
 	
 }
