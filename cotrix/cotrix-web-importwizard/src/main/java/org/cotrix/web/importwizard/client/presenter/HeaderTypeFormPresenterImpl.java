@@ -55,8 +55,6 @@ public class HeaderTypeFormPresenterImpl implements HeaderTypeFormPresenter{
 			dialog.setMessage("You can assign only one code.");
 			dialog.show();
 		}
-
-		
 		return validateResult;
 	}
 	

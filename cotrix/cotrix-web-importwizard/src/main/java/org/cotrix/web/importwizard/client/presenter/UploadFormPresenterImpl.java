@@ -3,6 +3,7 @@ package org.cotrix.web.importwizard.client.presenter;
 import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.view.form.SuccessUploadDialog;
 import org.cotrix.web.importwizard.client.view.form.UploadFormView;
 import org.cotrix.web.importwizard.client.view.form.UploadProgressDialog;
 import org.cotrix.web.share.shared.CSVFile;
@@ -180,7 +181,9 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 	}
 
 	public void onSubmitComplete(SubmitCompleteEvent event) {
-		UploadProgressDialog dialog = new UploadProgressDialog();
+//		UploadProgressDialog dialog = new UploadProgressDialog();
+//		dialog.show();
+		SuccessUploadDialog dialog = new SuccessUploadDialog();
 		dialog.show();
 	}
 

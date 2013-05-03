@@ -47,7 +47,6 @@ public class HeaderTypeListBox extends Composite {
 	}
 	
 	public void setStyleError(){
-		Window.alert("set list box style");
 		this.listbox.setStyleName(style.listBoxError());
 	}
 	
