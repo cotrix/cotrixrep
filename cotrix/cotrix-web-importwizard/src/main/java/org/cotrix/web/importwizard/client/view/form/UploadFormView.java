@@ -27,6 +27,7 @@ public interface UploadFormView<T> {
 	void onUploadFileChange(ChangeEvent event);
 	void setCotrixModelFieldValue(String modelInJSON);
 	void alert(String message);
+	void reset();
 	void submitForm();
 	Widget asWidget();
 }

@@ -100,5 +100,10 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 		this.cotrixmodelField.setDefaultValue(model);
 	}
 
+	public void reset() {
+		setOnDeleteButtonClicked();
+		this.form.reset();
+	}
+
 
 }

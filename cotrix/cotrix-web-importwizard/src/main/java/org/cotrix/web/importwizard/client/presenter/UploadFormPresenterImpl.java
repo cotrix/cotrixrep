@@ -109,7 +109,9 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 			}
 		});
 	}
-
+	public void reset(){
+		view.reset();
+	}
 	private void processFiles(FileList files) {
 		if (files.getLength() == 0)
 			return;

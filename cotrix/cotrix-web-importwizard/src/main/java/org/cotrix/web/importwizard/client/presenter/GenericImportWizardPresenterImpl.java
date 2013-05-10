@@ -129,7 +129,9 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	}
 
 	public void onUploadOtherButtonClicked(FormWrapperPresenter sender) {
-		Window.alert("Upload Other");
+		uploadFormPresenter.reset();
+		model = new CotrixImportModelController();
+		view.showPrevStep(1);
 	}
 
 	public void onManageCodelistButtonClicked(FormWrapperPresenter sender) {
