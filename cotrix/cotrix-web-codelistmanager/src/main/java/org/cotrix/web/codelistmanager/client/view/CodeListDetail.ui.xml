@@ -263,7 +263,7 @@
 								styleName="{style.nav}" ui:field="nav"></g:Image>
 							<g:Label ui:field="codelistName" styleName="{style.codelistName}" />
 							<g:FlowPanel styleName="{style.listBoxWrapper}">
-							<g:Button styleName="{style.next}">Save</g:Button>
+							<g:Button styleName="{style.next}" ui:field="save">Save</g:Button>
 								<g:ListBox styleName="{style.listbox}">
 									<g:item value='1'>
 										1.0

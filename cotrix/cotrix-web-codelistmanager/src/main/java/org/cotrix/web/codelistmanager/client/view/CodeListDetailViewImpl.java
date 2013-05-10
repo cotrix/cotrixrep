@@ -86,6 +86,11 @@ CodeListDetailView, ContextMenuHandler {
 	public void onNavLeftClicked(ClickEvent event) {
 		presenter.onNavLeftClicked(this.isShowingNavLeft);
 	}
+	
+	@UiHandler("save")
+	public void onSaveButtonClicked(ClickEvent event){
+		presenter.onSaveButtonClicked()	;
+	}
 
 	@UiHandler("codelistName")
 	public void onCodelistNameClicked(ClickEvent event) {

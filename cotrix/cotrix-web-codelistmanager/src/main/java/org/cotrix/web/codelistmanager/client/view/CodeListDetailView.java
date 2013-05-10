@@ -18,10 +18,12 @@ public interface CodeListDetailView {
 		void setDataProvider(DataGrid<String[]> ddtaGrid,String id);
 		void insertRow(int row);
 		void deleteRow(int row);
+		void onSaveButtonClicked();
 	}
 	void setData(CotrixImportModel model,String id);
 	void onCodelistNameClicked(ClickEvent event);
 	void onNavLeftClicked(ClickEvent event);
+	void onSaveButtonClicked(ClickEvent event);
 	void showNavLeft();
 	void showNavRight();
 	int getPageIndex();
