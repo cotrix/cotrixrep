@@ -52,7 +52,10 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 		this.model = model;
 		this.view.setPresenter(this);
 	}
-
+	public interface OnUploadFileFinish{
+		public void uploadFileFinish(SubmitCompleteEvent event);
+	}
+	private OnUploadFileFinish onUploadFileFinish;
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
@@ -181,7 +184,12 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 	}
 
 	public void onSubmitComplete(SubmitCompleteEvent event) {
-		Window.alert(event.getResults());
+		onUploadFileFinish.uploadFileFinish(event);
 	}
+	
+	public void setOnUploadFileFinish(OnUploadFileFinish onUploadFileFinish){
+		this.onUploadFileFinish = onUploadFileFinish;
+	}
+
 
 }

@@ -28,6 +28,8 @@ public interface FormWrapperView<T> {
 	void onNextButtonClicked(ClickEvent event);
 	void onSaveButtonClicked(ClickEvent event);
 	void onBackButtonClicked(ClickEvent event);
+	void onUploadOtherButtonClicked(ClickEvent event);
+	void onManageCodelistButtonClicked(ClickEvent event);
 
 	Widget asWidget();
 }

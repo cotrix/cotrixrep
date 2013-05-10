@@ -10,5 +10,7 @@ public interface DoneFormView {
 	public interface Presenter {
 	}
 	void setPresenter(Presenter presenter);
+	void setDoneTitle(String title);
+	void setWarningMessage(String message);
 	Widget asWidget();
 }

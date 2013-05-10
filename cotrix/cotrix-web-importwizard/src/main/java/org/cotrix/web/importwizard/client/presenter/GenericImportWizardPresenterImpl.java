@@ -13,6 +13,7 @@ import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
@@ -26,7 +27,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	private ArrayList<Presenter<GenericImportWizardPresenterImpl>> presenters  = new ArrayList<Presenter<GenericImportWizardPresenterImpl>>();
 	private ArrayList<String> formLabel  = new ArrayList<String>();
 	private UploadFormPresenterImpl uploadFormPresenter;
-
+	private DoneFormPresenter doneFormPresenter ;
     @Inject
 	public GenericImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModelController model) {
 		this.rpcService = rpcService;
@@ -73,7 +74,9 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 				formWrapperPresenter.showSaveButton(false);
 				formWrapperPresenter.showBackButton(false);
 				formWrapperPresenter.showUploadOtherButton(true);
-				formWrapperPresenter.showManageCodelistButton(true);				
+				formWrapperPresenter.showManageCodelistButton(true);
+				
+			    doneFormPresenter = (DoneFormPresenter) formWrapperPresenter.getContent();
 			}
 		}
 	}
@@ -122,7 +125,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 
 	public void onSaveButtonClicked(FormWrapperPresenter sender) {
 		this.uploadFormPresenter.submitForm();
-		view.showNextStep(sender.getIndexInParent());
+		this.uploadFormPresenter.setOnUploadFileFinish(this);
 	}
 
 	public void onUploadOtherButtonClicked(FormWrapperPresenter sender) {
@@ -132,6 +135,13 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	public void onManageCodelistButtonClicked(FormWrapperPresenter sender) {
 		Window.alert("Go to manage codelist");
 	}
+
+	public void uploadFileFinish(SubmitCompleteEvent event) {
+		view.showPrevStep(presenters.size());
+		doneFormPresenter.setDoneTitle("Successful upload file to server !!!");
+		doneFormPresenter.setWarningMessage(event.getResults());
+	}
+
 
 
 }

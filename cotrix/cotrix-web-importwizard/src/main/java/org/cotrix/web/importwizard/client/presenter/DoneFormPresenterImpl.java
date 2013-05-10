@@ -32,4 +32,11 @@ public class DoneFormPresenterImpl implements DoneFormPresenter {
 		return false;
 	}
 	
+	public void setDoneTitle(String title){
+		view.setDoneTitle(title);
+	}
+	public void setWarningMessage(String message){
+		view.setWarningMessage(message);
+	}
+	
 }
