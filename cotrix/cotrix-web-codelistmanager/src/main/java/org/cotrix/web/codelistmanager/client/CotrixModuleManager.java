@@ -29,8 +29,8 @@ public class CotrixModuleManager implements EntryPoint {
 	public void onModuleLoad() {
 		CotrixManagerResources.INSTANCE.css().ensureInjected();
 
-		/*CotrixManagerAppGinInjector injector = GWT.create(CotrixManagerAppGinInjector.class);
+		CotrixManagerAppGinInjector injector = GWT.create(CotrixManagerAppGinInjector.class);
 		CotrixManagerAppController appViewer = injector.getAppController();
-		appViewer.go(RootLayoutPanel.get());*/
+		appViewer.go(RootLayoutPanel.get());
 	}
 }

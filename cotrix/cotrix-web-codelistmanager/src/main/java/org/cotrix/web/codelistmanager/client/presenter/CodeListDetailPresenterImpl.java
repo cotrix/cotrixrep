@@ -124,4 +124,8 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 		dataProvider.updateRowData(0, currentData);
 	}
 
+	public void onCellEdited(int row, int column, String value) {
+		Window.alert("Row = "+row +" Column = "+column);
+	}
+
 }

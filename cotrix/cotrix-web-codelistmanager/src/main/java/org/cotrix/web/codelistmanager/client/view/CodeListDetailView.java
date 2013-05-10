@@ -14,6 +14,7 @@ public interface CodeListDetailView {
 	public interface Presenter<T> {
 		void onNavLeftClicked(boolean isShowingNavLeft);
 		void onCodelistNameClicked(boolean isVisible);
+		void onCellEdited(int row,int column,String value);
 		void setDataProvider(DataGrid<String[]> ddtaGrid,String id);
 		void insertRow(int row);
 		void deleteRow(int row);

@@ -15,6 +15,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.event.dom.client.ContextMenuHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.CssResource;
@@ -42,11 +44,11 @@ import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.CellPreviewEvent.Handler;
 
 public class CodeListDetailViewImpl extends Composite implements
-		CodeListDetailView, ContextMenuHandler {
+CodeListDetailView, ContextMenuHandler {
 
 	@UiTemplate("CodeListDetail.ui.xml")
 	interface CodeListDetailUiBinder extends
-			UiBinder<Widget, CodeListDetailViewImpl> {
+	UiBinder<Widget, CodeListDetailViewImpl> {
 	}
 
 	private static CodeListDetailUiBinder uiBinder = GWT
@@ -66,9 +68,10 @@ public class CodeListDetailViewImpl extends Composite implements
 	@UiField ResizeLayoutPanel dataGridWrapper;
 	@UiField HTMLPanel pagerWrapper;
 	@UiField Style style;
+	private SimplePager pager;
 	private int row  = -1;
 	private int column  = -1;
-	
+
 	interface Style extends CssResource {
 		String nav();
 		String pager();
@@ -95,6 +98,7 @@ public class CodeListDetailViewImpl extends Composite implements
 			super(cell);
 			this.index = index;
 		}
+		
 		public String getValue(String[] column) {
 			return column[index];
 		}
@@ -102,7 +106,7 @@ public class CodeListDetailViewImpl extends Composite implements
 
 	private void initTable(CotrixImportModel model, String id) {
 		VerticalPanel panel = new VerticalPanel();
-		
+
 		ContextMenuItem item1  = new ContextMenuItem("Inssert row above");
 		item1.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -110,7 +114,7 @@ public class CodeListDetailViewImpl extends Composite implements
 				presenter.insertRow(row);
 			}
 		});
-		
+
 		ContextMenuItem item2  = new ContextMenuItem("Inssert row below");
 		item2.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -118,7 +122,7 @@ public class CodeListDetailViewImpl extends Composite implements
 				presenter.insertRow(row+1);
 			}
 		});
-		
+
 		ContextMenuItem item3  = new ContextMenuItem("Delete this row");
 		item3.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -126,18 +130,24 @@ public class CodeListDetailViewImpl extends Composite implements
 				presenter.deleteRow(row);
 			}
 		});
-		
-		
-		
-		
+
+
+
+
 		panel.add(item1);
 		panel.add(item2);
 		panel.add(item3);
-		
+
 		this.contextMenu = new PopupPanel(true);
 		this.contextMenu.add(panel);
 		this.contextMenu.setStyleName(style.contextMenu());
 		this.contextMenu.hide();
+
+
+		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		pager = new SimplePager(TextLocation.CENTER,pagerResources, false, 0, true);
+		pager.setStyleName(style.pager());
+		pager.setDisplay(dataGrid);
 
 		DataGridResource resource = GWT.create(DataGridResource.class);
 		dataGrid = new CotrixDataGrid<String[]>(30, resource);
@@ -150,13 +160,6 @@ public class CodeListDetailViewImpl extends Composite implements
 				row  = event.getIndex();
 			}
 		});
-		
-		SimplePager.Resources pagerResources = GWT
-				.create(SimplePager.Resources.class);
-		SimplePager pager = new SimplePager(TextLocation.CENTER,
-				pagerResources, false, 0, true);
-		pager.setStyleName(style.pager());
-		pager.setDisplay(dataGrid);
 
 		this.dataGridWrapper.clear();
 		this.pagerWrapper.clear();
@@ -165,13 +168,13 @@ public class CodeListDetailViewImpl extends Composite implements
 
 		String[] headers = model.getCsvFile().getHeader();
 		for (int i = 0; i < headers.length; i++) {
-			int index = i;
-			FlexColumn column = new FlexColumn(new EditTextCell(),i);
+			final int columnIndex = i;
+			FlexColumn column = new FlexColumn(new CotrixEditTextCell(),i);
 			column.setSortable(true);
 			column.setFieldUpdater(new FieldUpdater<String[], String>() {
 				public void update(int index, String[] object, String value) {
 					object[index] = value;
-//					Window.alert("Change data is :"+value);
+					presenter.onCellEdited(index, columnIndex, value);
 				}
 			});
 			dataGrid.addColumn(column, headers[i]);
@@ -257,6 +260,7 @@ public class CodeListDetailViewImpl extends Composite implements
 				event.getNativeEvent().getClientY());
 		this.contextMenu.show();
 	}
+
 
 
 }
