@@ -181,10 +181,7 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 	}
 
 	public void onSubmitComplete(SubmitCompleteEvent event) {
-//		UploadProgressDialog dialog = new UploadProgressDialog();
-//		dialog.show();
-		SuccessUploadDialog dialog = new SuccessUploadDialog();
-		dialog.show();
+		Window.alert(event.getResults());
 	}
 
 }

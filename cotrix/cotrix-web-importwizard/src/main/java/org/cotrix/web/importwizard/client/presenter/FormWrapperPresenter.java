@@ -17,6 +17,9 @@ public class FormWrapperPresenter implements Presenter<FormWrapperPresenter>, Fo
 		void onNextButtonClicked(FormWrapperPresenter sender);
 		void onBackButtonClicked(FormWrapperPresenter sender);
 		void onSaveButtonClicked(FormWrapperPresenter sender);
+		void onUploadOtherButtonClicked(FormWrapperPresenter sender);
+		void onManageCodelistButtonClicked(FormWrapperPresenter sender);
+		
 	}
 
 	private final ImportServiceAsync rpcService;
@@ -64,6 +67,14 @@ public class FormWrapperPresenter implements Presenter<FormWrapperPresenter>, Fo
 		view.showSaveButton(isVisible);
 	}
 	
+	public void showUploadOtherButton(boolean isVisible){
+		view.showUploadOtherButton(isVisible);
+	}
+	
+	public void showManageCodelistButton(boolean isVisible){
+		view.showManageCodelistButton(isVisible);
+	}
+	
 	public void onNextButtonClicked() {
 		if(onButtonClickHandler.isFromValidated(this)){
 			onButtonClickHandler.onNextButtonClicked(this);
@@ -80,6 +91,14 @@ public class FormWrapperPresenter implements Presenter<FormWrapperPresenter>, Fo
 
 	public void onSaveButtonClicked() {
 		onButtonClickHandler.onSaveButtonClicked(this);
+	}
+
+	public void onUploadOtherButtonClicked() {
+		onButtonClickHandler.onUploadOtherButtonClicked(this);
+	}
+
+	public void onManageCodelistButtonClicked() {
+		onButtonClickHandler.onManageCodelistButtonClicked(this);
 	}
 
 }

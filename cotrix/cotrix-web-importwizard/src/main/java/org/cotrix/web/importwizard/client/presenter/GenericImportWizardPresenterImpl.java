@@ -59,10 +59,21 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 			
 			if(i == 0){
 				formWrapperPresenter.showBackButton(false);
+				formWrapperPresenter.showUploadOtherButton(false);
+				formWrapperPresenter.showManageCodelistButton(false);				
 			}
-			if(i == presenters.size()-1){
+			if(i == presenters.size()-2){
 				formWrapperPresenter.showNextButton(false);
 				formWrapperPresenter.showSaveButton(true);
+				formWrapperPresenter.showUploadOtherButton(false);
+				formWrapperPresenter.showManageCodelistButton(false);				
+			}
+			if(i== presenters.size()-1){
+				formWrapperPresenter.showNextButton(false);
+				formWrapperPresenter.showSaveButton(false);
+				formWrapperPresenter.showBackButton(false);
+				formWrapperPresenter.showUploadOtherButton(true);
+				formWrapperPresenter.showManageCodelistButton(true);				
 			}
 		}
 	}
@@ -94,6 +105,9 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 		case 4:
 			isValidated = true;
 			break;
+		case 5:
+			isValidated = true;
+			break;
 		}
 		return isValidated;
 	}
@@ -108,6 +122,15 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 
 	public void onSaveButtonClicked(FormWrapperPresenter sender) {
 		this.uploadFormPresenter.submitForm();
+		view.showNextStep(sender.getIndexInParent());
+	}
+
+	public void onUploadOtherButtonClicked(FormWrapperPresenter sender) {
+		Window.alert("Upload Other");
+	}
+
+	public void onManageCodelistButtonClicked(FormWrapperPresenter sender) {
+		Window.alert("Go to manage codelist");
 	}
 
 

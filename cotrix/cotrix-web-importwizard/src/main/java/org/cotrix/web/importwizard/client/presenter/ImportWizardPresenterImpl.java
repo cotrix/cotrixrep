@@ -16,14 +16,15 @@ public class ImportWizardPresenterImpl extends GenericImportWizardPresenterImpl 
     		HeaderSelectionFormPresenterImpl headerSelectionFormPresenter,
     		HeaderDescriptionPresenterImpl headerDescriptionPresenter,
     		HeaderTypeFormPresenterImpl headerTypeFormPresenter,
-    		SummaryFormPresenter summaryFormPresenter) {
+    		SummaryFormPresenter summaryFormPresenter,
+    		DoneFormPresenter doneFormPresenter) {
     	
         super(rpcService,eventBus,view,model);
         addForm(uploadFormPresenter, "Upload CSV File");
         addForm(metadataFormPresenter, "Add Metadata");
         addForm(headerSelectionFormPresenter, "Select Header");
-//        addForm(headerDescriptionPresenter, "Describe Header");
         addForm(headerTypeFormPresenter, "Define Type");
         addForm(summaryFormPresenter, "Summary");
+        addForm(doneFormPresenter, "Done");
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
+import org.cotrix.web.codelistmanager.client.view.AlertDialog;
 import org.cotrix.web.codelistmanager.client.view.CodeListDetailView;
 import org.cotrix.web.codelistmanager.client.view.CodeListView;
 import org.cotrix.web.share.shared.CotrixImportModel;
@@ -35,7 +36,11 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	private int PAGE_SIZE = 30;
 	private AsyncDataProvider<String[]> dataProvider;
 	private List<String[]> currentData;
-
+	public static final String ADD = "ADD";
+	public static final String EDIT = "EDIT";
+	public static final String DELETE = "DELETE";
+	public ArrayList<BatchCommand> commands = new ArrayList<BatchCommand>();
+	
 	@Inject
 	public CodeListDetailPresenterImpl(ManagerServiceAsync rpcService,
 			HandlerManager eventBus, CodeListDetailView view) {
@@ -119,16 +124,43 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 		row = row - view.getPageIndex()*PAGE_SIZE;
 		currentData.add(row, getNewRow());
 		dataProvider.updateRowData(view.getPageIndex()*PAGE_SIZE,currentData);
+
+		BatchCommand command = new BatchCommand();
+		command.setCommand(ADD);
+		command.setValue("row = "+row);
+		commands.add(command);
 	}
 
 	public void deleteRow(int row) {
 		row = row - view.getPageIndex()*PAGE_SIZE;
 		currentData.remove(row);
 		dataProvider.updateRowData(view.getPageIndex()*PAGE_SIZE, currentData);
+	
+		BatchCommand command = new BatchCommand();
+		command.setCommand(DELETE);
+		command.setValue("row = "+row);
+		commands.add(command);
 	}
 
 	public void onCellEdited(int row, int column, String value) {
-		Window.alert("Row = "+row +" Column = "+column);
+		BatchCommand command = new BatchCommand();
+		command.setCommand(EDIT);
+		command.setValue("row ="+row + " column = "+column + " value = "+value);
+		commands.add(command);
+	}
+	
+	public void onSaveButtonClicked() {
+		String display = "";
+		for (BatchCommand command : commands) {
+			display += display + command.getCommand() + " : "+command.getValue() +"<br>";
+		}
+		//
+		commands = new ArrayList<BatchCommand>();
+		
+		AlertDialog dialog = new AlertDialog();
+		dialog.setMessage(display);
+		dialog.show();
+		
 	}
 
 }

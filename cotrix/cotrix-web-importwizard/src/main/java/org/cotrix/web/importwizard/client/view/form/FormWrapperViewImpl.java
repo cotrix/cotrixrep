@@ -28,6 +28,8 @@ public class FormWrapperViewImpl extends Composite implements FormWrapperView<Fo
 	@UiField Button saveButton;
 	@UiField Label title;
 	@UiField Button backButton;
+	@UiField Button uploadOtherButton;
+	@UiField Button manageCodelistButton;
 	
 	private Presenter<FormWrapperPresenter> presenter;
 	public void setPresenter(Presenter<FormWrapperPresenter> presenter) {
@@ -73,6 +75,14 @@ public class FormWrapperViewImpl extends Composite implements FormWrapperView<Fo
 
 	public void showSaveButton(boolean isVisible) {
 		this.saveButton.setVisible(isVisible);
+	}
+
+	public void showUploadOtherButton(boolean isVisible) {
+		this.uploadOtherButton.setVisible(isVisible);
+	}
+
+	public void showManageCodelistButton(boolean isVisible) {
+		this.manageCodelistButton.setVisible(isVisible);
 	}
 
 
