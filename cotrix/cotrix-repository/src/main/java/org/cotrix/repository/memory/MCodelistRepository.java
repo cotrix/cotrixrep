@@ -2,6 +2,8 @@ package org.cotrix.repository.memory;
 
 import java.util.UUID;
 
+import javax.inject.Singleton;
+
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelink;
@@ -16,6 +18,7 @@ import org.cotrix.repository.CodelistRepository;
  * @author Fabio Simeoni
  *
  */
+@Singleton
 public class MCodelistRepository extends MRepository<Codelist, Codelist.Private> implements CodelistRepository {
 
 	/**

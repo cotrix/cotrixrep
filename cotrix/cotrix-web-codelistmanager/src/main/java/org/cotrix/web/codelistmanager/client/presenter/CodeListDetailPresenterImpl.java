@@ -32,6 +32,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	private ManagerServiceAsync rpcService;
 	private HandlerManager eventBus;
 	private CodeListDetailView view;
+	private int PAGE_SIZE = 30;
 	private AsyncDataProvider<String[]> dataProvider;
 	private List<String[]> currentData;
 
@@ -89,7 +90,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 				final Range range = display.getVisibleRange();
 				final ColumnSortList sortList = dataGrid.getColumnSortList();
 				final int start = range.getStart();
-				int end = start + range.getLength();
+				int end = start + range.getLength(); 
 				rpcService.getDataRange(id, start, end, new AsyncCallback<ArrayList<String[]>>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
@@ -115,13 +116,15 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	}
 	
 	public void insertRow(int row) {
+		row = row - view.getPageIndex()*PAGE_SIZE;
 		currentData.add(row, getNewRow());
-		dataProvider.updateRowData(0,currentData);
+		dataProvider.updateRowData(view.getPageIndex()*PAGE_SIZE,currentData);
 	}
 
 	public void deleteRow(int row) {
+		row = row - view.getPageIndex()*PAGE_SIZE;
 		currentData.remove(row);
-		dataProvider.updateRowData(0, currentData);
+		dataProvider.updateRowData(view.getPageIndex()*PAGE_SIZE, currentData);
 	}
 
 	public void onCellEdited(int row, int column, String value) {

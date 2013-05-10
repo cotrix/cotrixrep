@@ -24,6 +24,7 @@ public interface CodeListDetailView {
 	void onNavLeftClicked(ClickEvent event);
 	void showNavLeft();
 	void showNavRight();
+	int getPageIndex();
 	void showMetadataPanel(boolean isVisible);
 	void setPresenter(Presenter presenter);
 	void showActivityIndicator();

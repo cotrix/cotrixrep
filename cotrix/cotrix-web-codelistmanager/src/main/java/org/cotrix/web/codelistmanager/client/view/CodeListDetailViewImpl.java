@@ -68,6 +68,7 @@ CodeListDetailView, ContextMenuHandler {
 	@UiField ResizeLayoutPanel dataGridWrapper;
 	@UiField HTMLPanel pagerWrapper;
 	@UiField Style style;
+	
 	private SimplePager pager;
 	private int row  = -1;
 	private int column  = -1;
@@ -144,11 +145,6 @@ CodeListDetailView, ContextMenuHandler {
 		this.contextMenu.hide();
 
 
-		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-		pager = new SimplePager(TextLocation.CENTER,pagerResources, false, 0, true);
-		pager.setStyleName(style.pager());
-		pager.setDisplay(dataGrid);
-
 		DataGridResource resource = GWT.create(DataGridResource.class);
 		dataGrid = new CotrixDataGrid<String[]>(30, resource);
 		dataGrid.setStyleName(style.flexTable());
@@ -161,6 +157,11 @@ CodeListDetailView, ContextMenuHandler {
 			}
 		});
 
+		
+		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+	    pager = new SimplePager(TextLocation.CENTER,pagerResources, false, 0, true);
+		pager.setStyleName(style.pager());
+		pager.setDisplay(dataGrid);
 		this.dataGridWrapper.clear();
 		this.pagerWrapper.clear();
 		this.dataGridWrapper.add(dataGrid);
@@ -259,6 +260,10 @@ CodeListDetailView, ContextMenuHandler {
 		this.contextMenu.setPopupPosition(event.getNativeEvent().getClientX(),
 				event.getNativeEvent().getClientY());
 		this.contextMenu.show();
+	}
+
+	public int getPageIndex() {
+		return pager.getPage();
 	}
 
 
