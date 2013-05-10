@@ -30,27 +30,27 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 
 	public ArrayList<Codelist> getAllCodelists()throws IllegalArgumentException {
 		ArrayList<Codelist> list = new ArrayList<Codelist>();
-		/*Iterator<org.cotrix.domain.Codelist> it  = repository.queryFor(allLists()).iterator();
+		Iterator<org.cotrix.domain.Codelist> it  = repository.queryFor(allLists()).iterator();
 		while (it.hasNext()) {
 			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
 			Codelist c = new Codelist();
 			c.setName(codelist.name().toString());
 			c.setId(codelist.id());
 			list.add(c);
-		}*/
+		}
 
 		// Just for testing perpose.
-		Codelist c = new Codelist();
+	/*	Codelist c = new Codelist();
 		c.setName("ASFIS");
 		c.setId("1");
-		list.add(c);
+		list.add(c);*/
 		return list;
 	}
 
 	public CotrixImportModel getCodeListModel(String codelistId) {
 
 
-		/*org.cotrix.domain.Codelist c =  repository.lookup(codelistId);
+		org.cotrix.domain.Codelist c =  repository.lookup(codelistId);
 
 		Metadata meta = new Metadata();
 		meta.setName(c.name().toString());
@@ -69,8 +69,8 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		CotrixImportModel model = new CotrixImportModel();
 		model.setMetadata(meta);
 		model.setCsvFile(csvFile);
-		return model;*/
-		return getASFIS();
+		return model;
+//		return getASFIS();
 	}
 
 	private String[] getHeader(org.cotrix.domain.Codelist codelist){
@@ -93,7 +93,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		return line;
 	}
 
-	/*public ArrayList<String[]> getDataRange(String id, int start, int end) {
+	public ArrayList<String[]> getDataRange(String id, int start, int end) {
 		ArrayList<String[]> data = new ArrayList<String[]>();
 		CodelistQuery<Code> codes = allCodes(id);
 		codes.setRange(new Range(start,end));
@@ -114,7 +114,8 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		}
 
 		return data;
-	}*/
+	}
+	
 	private CotrixImportModel getASFIS(){
 		Metadata meta = new Metadata();
 		meta.setName("ASFIS");
@@ -134,7 +135,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		return model;
 	}
 
-	public ArrayList<String[]> getDataRange(String id, int start, int end) {
+	/*public ArrayList<String[]> getDataRange(String id, int start, int end) {
 		ArrayList<String[]> data = new ArrayList<String[]>();
 		ArrayList<String[]> line = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/ASFIS_sp_Feb_2012.txt"),"\t");
 		data = new ArrayList<String[]>(line.subList(1, line.size()));
@@ -143,7 +144,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 			end = data.size();
 		}
 		return new ArrayList<String[]>(data.subList(start, end));
-	}
+	}*/
 
 
 }
