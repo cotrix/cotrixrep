@@ -4,6 +4,7 @@ import static java.util.Arrays.*;
 import static org.cotrix.domain.trait.Change.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -47,6 +48,12 @@ public final class CodebagBuilder implements CodebagStartClause, SecondClause,Th
 	}
 	
 	@Override
+	public ThirdClause with(List<Codelist> lists) {
+		po.setLists(lists);
+		return this;
+	}
+	
+	@Override
 	public ThirdClause with(Codelist ... lists) {
 		po.setLists(asList(lists));
 		return this;
@@ -55,6 +62,12 @@ public final class CodebagBuilder implements CodebagStartClause, SecondClause,Th
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
 		po.setAttributes(Arrays.asList(attributes));
+		return this;
+	}
+	
+	@Override
+	public FinalClause attributes(List<Attribute> attributes) {
+		po.setAttributes(attributes);
 		return this;
 	}
 	

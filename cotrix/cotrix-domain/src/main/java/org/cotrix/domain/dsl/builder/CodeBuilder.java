@@ -4,6 +4,7 @@ import static java.util.Arrays.*;
 import static org.cotrix.domain.trait.Change.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -54,6 +55,12 @@ public final class CodeBuilder implements CodeStartClause,SecondClause,FinalClau
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
 		po.setAttributes(Arrays.asList(attributes));
+		return this;
+	}
+	
+	@Override
+	public FinalClause attributes(List<Attribute> attributes) {
+		po.setAttributes(attributes);
 		return this;
 	}
 

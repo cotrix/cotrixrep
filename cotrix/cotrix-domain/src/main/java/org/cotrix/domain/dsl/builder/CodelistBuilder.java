@@ -3,6 +3,8 @@ package org.cotrix.domain.dsl.builder;
 import static java.util.Arrays.*;
 import static org.cotrix.domain.trait.Change.*;
 
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
@@ -48,8 +50,13 @@ public final class CodelistBuilder implements CodelistStartClause,SecondClause,T
 	}
 	
 	@Override
-	public CodelistBuilder with(Code ... codes) {
-		
+	public ThirdClause with(List<Code> codes) {
+		po.setCodes(codes);
+		return this;
+	}
+	
+	@Override
+	public ThirdClause with(Code ... codes) {
 		po.setCodes(asList(codes));
 		return this;
 	}
@@ -63,6 +70,12 @@ public final class CodelistBuilder implements CodelistStartClause,SecondClause,T
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
 		po.setAttributes(asList(attributes));
+		return this;
+	}
+	
+	@Override
+	public FinalClause attributes(List<Attribute> attributes) {
+		po.setAttributes(attributes);
 		return this;
 	}
 	

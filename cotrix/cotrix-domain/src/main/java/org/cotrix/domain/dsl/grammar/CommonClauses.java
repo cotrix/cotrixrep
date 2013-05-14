@@ -1,5 +1,7 @@
 package org.cotrix.domain.dsl.grammar;
 
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
@@ -25,6 +27,15 @@ public class CommonClauses {
 		 * @return the next clause in the sentence
 		 */
 		C attributes(Attribute... attributes);
+		
+		
+		/**
+		 * Adds one or more attributes to the object.
+		 * 
+		 * @param attributes the attributes
+		 * @return the next clause in the sentence
+		 */
+		C attributes(List<Attribute> attributes);
 	}
 	
 	public static interface LinksClause<T,C> {
@@ -70,6 +81,15 @@ public class CommonClauses {
 		 * @return the next clause in the sentence
 		 */
 		C with(T ... parameters);
+		
+		
+		/**
+		 * Adds one or more parameters to the object.
+		 * 
+		 * @param parameters the parameters
+		 * @return the next clause in the sentence
+		 */
+		C with(List<T> parameters);
 	}
 	
 	public static interface NameClause<C> {

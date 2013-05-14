@@ -4,6 +4,7 @@ import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -48,6 +49,12 @@ public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
 		po.setAttributes(Arrays.asList(attributes));
+		return this;
+	}
+	
+	@Override
+	public FinalClause attributes(List<Attribute> attributes) {
+		po.setAttributes(attributes);
 		return this;
 	}
 	

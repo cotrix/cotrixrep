@@ -4,6 +4,7 @@ import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
@@ -38,6 +39,11 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 		return this;
 	}
 	
+	@Override
+	public FinalClause attributes(List<Attribute> attributes) {
+		po.setAttributes(attributes);
+		return this;
+	}
 	
 	@Override
 	public LinkTargetClause<Code,FinalClause> instanceOf(CodelistLink def) {
