@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.cotrix.web.codelistmanager.client.resources.CellListResources;
-import org.cotrix.web.share.shared.Codelist;
+import org.cotrix.web.share.shared.UICodelist;
 
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
@@ -48,9 +48,9 @@ public class CodeListViewImpl extends Composite implements CodeListView,
 
 	private Presenter presenter;
 	private CellList<String> cellList;
-	private ArrayList<Codelist> codelists;
+	private ArrayList<UICodelist> codelists;
 	private List<String> codelistLabels;
-	private HashMap<String, Integer> codelistId ;
+	private HashMap<String, String> codelistId ;
 	
 	@UiField
 	Style style;
@@ -103,22 +103,23 @@ public class CodeListViewImpl extends Composite implements CodeListView,
 		}
 	}
 
-	private List<String> toRowData(ArrayList<Codelist> codelists){
+	private List<String> toRowData(ArrayList<UICodelist> codelists){
 		List<String> list = new ArrayList<String>();
-		for (Codelist codelist : codelists) {
+		for (UICodelist codelist : codelists) {
 			list.add(codelist.getName());
 		}
 		return list;
 	}
 	
-	private HashMap<String, Integer> toHashMap(ArrayList<Codelist> codelists){
-		HashMap<String, Integer> codelistId = new HashMap<String, Integer>();
-		for (Codelist codelist : codelists) {
+	private HashMap<String, String> toHashMap(ArrayList<UICodelist> codelists){
+		HashMap<String, String> codelistId = new HashMap<String, String>();
+		for (UICodelist codelist : codelists) {
 			codelistId.put(codelist.getName(), codelist.getId());
 		}
 		return codelistId;
 	}
-	public void init(ArrayList<Codelist> codelists) {
+	public void init(ArrayList<UICodelist> codelists) {
+		listPanel.clear();
 		this.codelists  = codelists;
 		this.codelistLabels = toRowData(codelists);
 		this.codelistId = toHashMap(codelists);

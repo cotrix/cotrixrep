@@ -3,7 +3,9 @@ package org.cotrix.web.importwizard.client.presenter;
 import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.view.form.SuccessUploadDialog;
 import org.cotrix.web.importwizard.client.view.form.UploadFormView;
+import org.cotrix.web.importwizard.client.view.form.UploadProgressDialog;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
@@ -26,6 +28,7 @@ import org.vectomatic.file.events.ProgressHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.autobean.shared.AutoBean;
@@ -49,7 +52,10 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 		this.model = model;
 		this.view.setPresenter(this);
 	}
-
+	public interface OnUploadFileFinish{
+		public void uploadFileFinish(SubmitCompleteEvent event);
+	}
+	private OnUploadFileFinish onUploadFileFinish;
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
@@ -103,7 +109,9 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 			}
 		});
 	}
-
+	public void reset(){
+		view.reset();
+	}
 	private void processFiles(FileList files) {
 		if (files.getLength() == 0)
 			return;
@@ -176,5 +184,14 @@ public class UploadFormPresenterImpl implements UploadFormPresenter {
 		view.setCotrixModelFieldValue(json);
 		view.submitForm();
 	}
+
+	public void onSubmitComplete(SubmitCompleteEvent event) {
+		onUploadFileFinish.uploadFileFinish(event);
+	}
+	
+	public void setOnUploadFileFinish(OnUploadFileFinish onUploadFileFinish){
+		this.onUploadFileFinish = onUploadFileFinish;
+	}
+
 
 }

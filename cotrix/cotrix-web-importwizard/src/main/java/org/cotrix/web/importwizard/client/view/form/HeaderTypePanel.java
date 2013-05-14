@@ -1,5 +1,7 @@
 package org.cotrix.web.importwizard.client.view.form;
 
+import java.util.ArrayList;
+
 import org.cotrix.web.importwizard.client.view.form.HeaderTypeListBox.OnHeaderTypeSelectedHandler;
 import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.HeaderType;
@@ -26,14 +28,14 @@ public class HeaderTypePanel extends Composite implements OnHeaderTypeSelectedHa
 
 	@UiField
 	HorizontalPanel panel;
-	
+
 	@UiField
 	Style style;
 
 	interface Style extends CssResource {
 		public String textPadding();
 	}
-	
+
 	public HeaderTypePanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 		initPanel();
@@ -46,7 +48,7 @@ public class HeaderTypePanel extends Composite implements OnHeaderTypeSelectedHa
 		}else{
 			HeaderTypeListBox listBox = (HeaderTypeListBox) panel.getWidget(0);
 			type.setValue(listBox.getValue());
-			
+
 			HorizontalPanel hp = (HorizontalPanel) panel.getWidget(1);
 			ListBox l = (ListBox) hp.getWidget(1);
 			type.setRelatedValue(l.getValue(l.getSelectedIndex()));
@@ -58,6 +60,10 @@ public class HeaderTypePanel extends Composite implements OnHeaderTypeSelectedHa
 		HeaderTypeListBox listBox = new HeaderTypeListBox();
 		listBox.setOnHeaderTypeSelectedHandler(this);
 		panel.add(listBox);
+	}
+	public void setStyleError(){
+		HeaderTypeListBox listBox = (HeaderTypeListBox) panel.getWidget(0);
+		listBox.setStyleError();
 	}
 	private void clearSecondWidget(){
 		if(panel.getWidgetCount() == 2){
@@ -76,22 +82,22 @@ public class HeaderTypePanel extends Composite implements OnHeaderTypeSelectedHa
 			clearSecondWidget();
 			Label label = new Label("in");
 			label.setStyleName(style.textPadding());
-			
+
 			ListBox l = new ListBox();
 			l.insertItem("--------", "text", 0);
 			l.insertItem("English", "en", 1);
 			l.insertItem("Thai", "th", 2);
 			l.insertItem("German", "de", 3);
 			l.insertItem("Spanish", "es", 4);
-			
+
 			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.add(label);
 			hPanel.add(l);
-			
+
 			panel.add(hPanel);
 			break;
 		}
 	}
-	
+
 
 }

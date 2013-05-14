@@ -84,6 +84,18 @@
 			cursor: pointer;
 			color: blue;
 		}
+			
+		.url {
+			color: #666;
+			float:left;
+			margin-left: 15px;
+		}
+		
+		.url:HOVER {
+	
+			cursor: pointer;
+			color: #333;
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<div class="{style.target}">
@@ -91,6 +103,7 @@
 				<g:CheckBox ui:field="checkbox" styleName="{style.left}"></g:CheckBox>
 				<g:Label ui:field="chanelName" styleName="{style.left}"></g:Label>
 				<g:Label ui:field="setPropertyButton" styleName="{style.setup}">setup</g:Label>
+				<g:Label ui:field="url" styleName="{style.url}"></g:Label>
 			</div>
 		</div>
 	</g:HTMLPanel>

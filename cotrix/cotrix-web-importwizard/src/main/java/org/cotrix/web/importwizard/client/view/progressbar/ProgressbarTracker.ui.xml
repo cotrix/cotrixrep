@@ -13,11 +13,11 @@
 		}
 		
 		.tracker { 
-			width: 750px;
+			width: 880px;
 		}
 		
 		.text {
-			width: 700px;
+			width: 840px;
 		}
 	</ui:style>
 	<g:HTMLPanel>

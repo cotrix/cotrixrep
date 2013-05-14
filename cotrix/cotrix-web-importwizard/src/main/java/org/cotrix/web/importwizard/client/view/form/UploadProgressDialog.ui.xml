@@ -1,0 +1,123 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+		
+		.root {
+			padding: 20px;
+		}
+		
+		.loadingIcon {
+			margin: 0 auto;
+			vertical-align: middle;
+		}
+		
+		.panel {
+			border: 1px solid #999;
+			border-radius: 5px;
+			margin: 10px;
+			color: #666;
+			width: 500px;
+			background-color: white;
+			padding: 20px;
+			-webkit-box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75);
+			-moz-box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75);
+			box-shadow: 0px 0px 30px rgba(50, 50, 50, 0.75);
+		}
+		
+		.left {
+			float: left;
+			margin-right: 20px;
+			border: 1px solid #3063a1;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			width: 80px;
+			font-size: 12px;
+			font-family: arial, helvetica, sans-serif;
+			padding: 8px 8px 8px 8px;
+			text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+			font-weight: bold;
+			text-align: center;
+			color: #E8E8E8;
+			background-color: #427EC7;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
+				color-stop(100%, #518EE2));
+			background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -o-linear-gradient(top, #427EC7, #518EE2);
+			background-image: linear-gradient(top, #427EC7, #518EE2);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#427EC7, endColorstr=#518EE2);
+		}
+		
+		.left:hover {
+			border: 1px solid #254d7e;
+			background-color: #3165a5;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
+				color-stop(100%, #2572db));
+			background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
+			background-image: -moz-linear-gradient(top, #3165a5, #2572db);
+			background-image: -ms-linear-gradient(top, #3165a5, #2572db);
+			background-image: -o-linear-gradient(top, #3165a5, #2572db);
+			background-image: linear-gradient(top, #3165a5, #2572db);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#3165a5, endColorstr=#2572db);
+		}
+		
+		.right {
+			float: right;
+			margin-right: 20px;
+			border: 1px solid #3063a1;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			width: 80px;
+			font-size: 12px;
+			font-family: arial, helvetica, sans-serif;
+			padding: 8px 8px 8px 8px;
+			text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+			font-weight: bold;
+			text-align: center;
+			color: #E8E8E8;
+			background-color: #427EC7;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
+				color-stop(100%, #518EE2));
+			background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -o-linear-gradient(top, #427EC7, #518EE2);
+			background-image: linear-gradient(top, #427EC7, #518EE2);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#427EC7, endColorstr=#518EE2);
+		}
+		
+		.right:hover {
+			border: 1px solid #254d7e;
+			background-color: #3165a5;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
+				color-stop(100%, #2572db));
+			background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
+			background-image: -moz-linear-gradient(top, #3165a5, #2572db);
+			background-image: -ms-linear-gradient(top, #3165a5, #2572db);
+			background-image: -o-linear-gradient(top, #3165a5, #2572db);
+			background-image: linear-gradient(top, #3165a5, #2572db);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#3165a5, endColorstr=#2572db);
+		}
+	</ui:style>
+	<g:HTMLPanel styleName="{style.root}">
+		<div class="{style.panel}">
+			<g:HTMLPanel ui:field="panel">
+				<g:Label>Successful Upload</g:Label>>
+				<g:Button styleName="{style.left}">Upload Other</g:Button>
+				<g:Button styleName="{style.right}">Manage Codelist</g:Button>
+			</g:HTMLPanel>
+		</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder> 

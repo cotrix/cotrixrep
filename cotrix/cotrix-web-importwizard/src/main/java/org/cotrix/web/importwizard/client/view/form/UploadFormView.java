@@ -6,6 +6,7 @@ import org.vectomatic.file.FileList;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 
 public interface UploadFormView<T> {
 
@@ -15,6 +16,7 @@ public interface UploadFormView<T> {
 		void onBrowseButtonClicked();
 		void onUploadFileChange(FileList fileList,String filename);
 		void onError(String message);
+		void onSubmitComplete(SubmitCompleteEvent event);
 	}
 	void setPresenter(Presenter<UploadFormPresenterImpl> presenter);
 	void onDeleteButtonClicked(ClickEvent event);
@@ -25,6 +27,7 @@ public interface UploadFormView<T> {
 	void onUploadFileChange(ChangeEvent event);
 	void setCotrixModelFieldValue(String modelInJSON);
 	void alert(String message);
+	void reset();
 	void submitForm();
 	Widget asWidget();
 }

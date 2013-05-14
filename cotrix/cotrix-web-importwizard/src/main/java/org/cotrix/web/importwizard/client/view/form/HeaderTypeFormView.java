@@ -15,6 +15,7 @@ public interface HeaderTypeFormView<T> {
 	ArrayList<HeaderType> getHeaderTypes();
 	void setData(String[] headers);
 	void setPresenter(HeaderTypeFormPresenterImpl presenter);
+	void setStyleError();
 	Widget asWidget();
 
 }

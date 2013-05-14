@@ -14,6 +14,8 @@ public interface FormWrapperView<T> {
 		void onNextButtonClicked();
 		void onSaveButtonClicked();
 		void onBackButtonClicked();
+		void onUploadOtherButtonClicked();
+		void onManageCodelistButtonClicked();
 		void addForm(HasWidgets container);
 	}
 	void addForm();
@@ -21,9 +23,13 @@ public interface FormWrapperView<T> {
 	void showBackButton(boolean isVisible);
 	void showNextButton(boolean isVisible);
 	void showSaveButton(boolean isVisible);
+	void showUploadOtherButton(boolean isVisible);
+	void showManageCodelistButton(boolean isVisible);
 	void onNextButtonClicked(ClickEvent event);
 	void onSaveButtonClicked(ClickEvent event);
 	void onBackButtonClicked(ClickEvent event);
+	void onUploadOtherButtonClicked(ClickEvent event);
+	void onManageCodelistButtonClicked(ClickEvent event);
 
 	Widget asWidget();
 }

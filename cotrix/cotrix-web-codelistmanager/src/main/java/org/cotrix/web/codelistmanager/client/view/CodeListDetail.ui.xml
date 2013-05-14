@@ -81,9 +81,9 @@
 					rgba(229, 229, 229, 1) 100%); /* IE10+ */
 				background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
 					rgba(229, 229, 229, 1) 100%); /* W3C */
-				filter: progid:DXImageTransform.Microsoft.gradient(               
-																																																		                     
-																																																																																																																				                     startColorstr='#ffffff',
+				filter: progid:DXImageTransform.Microsoft.gradient(                 
+																																																								                     
+																																																																																																																										                     startColorstr='#ffffff',
 					endColorstr='#e5e5e5', GradientType=0); /* IE6-9 */
 			}
 			
@@ -111,6 +111,49 @@
 				color: #999;
 				cursor: pointer;
 				line-height: 35px;
+			}
+			
+			.next {
+				float: right;
+				margin-right: 0px;
+				border: 1px solid #3063a1;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				width: 80px;
+				font-size: 12px;
+				font-family: arial, helvetica, sans-serif;
+				padding: 4px 4px 4px 4px;
+				position:relative;
+				top:3px;
+				text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+				font-weight: bold;
+				text-align: center;
+				color: #E8E8E8;
+				background-color: #427EC7;
+				background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
+					color-stop(100%, #518EE2));
+				background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
+				background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
+				background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
+				background-image: -o-linear-gradient(top, #427EC7, #518EE2);
+				background-image: linear-gradient(top, #427EC7, #518EE2);
+				filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+					startColorstr=#427EC7, endColorstr=#518EE2);
+			}
+			
+			.next:hover {
+				border: 1px solid #254d7e;
+				background-color: #3165a5;
+				background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
+					color-stop(100%, #2572db));
+				background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
+				background-image: -moz-linear-gradient(top, #3165a5, #2572db);
+				background-image: -ms-linear-gradient(top, #3165a5, #2572db);
+				background-image: -o-linear-gradient(top, #3165a5, #2572db);
+				background-image: linear-gradient(top, #3165a5, #2572db);
+				filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+					startColorstr=#3165a5, endColorstr=#2572db);
 			}
 			
 			.metadata {
@@ -220,6 +263,7 @@
 								styleName="{style.nav}" ui:field="nav"></g:Image>
 							<g:Label ui:field="codelistName" styleName="{style.codelistName}" />
 							<g:FlowPanel styleName="{style.listBoxWrapper}">
+							<g:Button styleName="{style.next}" ui:field="save">Save</g:Button>
 								<g:ListBox styleName="{style.listbox}">
 									<g:item value='1'>
 										1.0

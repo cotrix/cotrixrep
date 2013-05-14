@@ -1,5 +1,7 @@
 package org.cotrix.web.importwizard.client;
 
+import org.cotrix.web.importwizard.client.presenter.DoneFormPresenter;
+import org.cotrix.web.importwizard.client.presenter.DoneFormPresenterImpl;
 import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenter;
 import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenterImpl;
 import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenter;
@@ -16,6 +18,8 @@ import org.cotrix.web.importwizard.client.presenter.UploadFormPresenter;
 import org.cotrix.web.importwizard.client.presenter.UploadFormPresenterImpl;
 import org.cotrix.web.importwizard.client.view.ImportWizardView;
 import org.cotrix.web.importwizard.client.view.ImportWizardViewImpl;
+import org.cotrix.web.importwizard.client.view.form.DoneFormView;
+import org.cotrix.web.importwizard.client.view.form.DoneFormViewImpl;
 import org.cotrix.web.importwizard.client.view.form.HeaderDescriptionFormView;
 import org.cotrix.web.importwizard.client.view.form.HeaderDescriptionFormViewImpl;
 import org.cotrix.web.importwizard.client.view.form.HeaderSelectionFormView;
@@ -72,5 +76,8 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         
         bind(SummaryFormView.class).to(SummaryFormViewImpl.class);
         bind(SummaryFormPresenter.class).to(SummaryFormPresenterImpl.class);
+      
+        bind(DoneFormView.class).to(DoneFormViewImpl.class);
+        bind(DoneFormPresenter.class).to(DoneFormPresenterImpl.class);
     }
 }

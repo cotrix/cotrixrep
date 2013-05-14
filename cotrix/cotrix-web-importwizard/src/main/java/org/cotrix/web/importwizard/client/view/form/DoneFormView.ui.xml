@@ -1,0 +1,31 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+		
+		.panel {
+			
+		}
+		
+		.title {
+			font-size: 25px;
+			color: #999;
+		}
+		
+		.message {
+			color:#f385a2;
+			margin-top:20px;
+			padding: 20px;
+			border: 1px solid #999;
+			background-color: #ccc;
+			text-align: center;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<g:Label ui:field="title" styleName="{style.title}"></g:Label>
+		<g:Label ui:field="message" styleName="{style.message}"></g:Label>
+	</g:HTMLPanel>
+</ui:UiBinder> 

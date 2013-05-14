@@ -53,12 +53,12 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 			view.showNavLeft();
 		}
 	}
-	
+
 	public void setOnNavigationLeftClicked(
 			OnNavigationClicked onNavigationClicked) {
 		this.onNavigationClicked = onNavigationClicked;
 	}
-	
+
 	private void  init(){
 		final CotrixPublishAppGinInjector injector = GWT.create(CotrixPublishAppGinInjector.class);
 
@@ -67,24 +67,29 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 		ChanelPropertyModelController model3 = new ChanelPropertyModelController();
 		ChanelPropertyModelController model4 = new ChanelPropertyModelController();
 
-		
+
 		final ChanelPropertyItem item1 = new ChanelPropertyItem("SDMX Registry","SDMS Description" ,model1);
 		final ChanelPropertyItem item2 = new ChanelPropertyItem("Semantic Turkey (SKOS)","SKOS Description",model2);
 		final ChanelPropertyItem item3 = new ChanelPropertyItem("FIGIS RTMS","FIGIS RTMS",model3);
 		final ChanelPropertyItem item4 = new ChanelPropertyItem("FLOD","FLOD",model4);
+
+
+		String description = "​<div width=\"100%\" style=\"text-align:center;\"><h2>What is a Publication Channel?</h2></div>"+
+				"<p>A publication channel is the connection between Cotrix and an publication endpoint. Cotrix will publish a codelist in the selected version in a certain format IN the publication endpoint.</p>"+
+				"<p>Often the format of the publication endpoint is inherent by the publication endpoint itself. For instance SDMX for a SDMX Registry. For Triple Stores it could be plain RDF or SKOS, this is yet not supported by Cotrix.</p>"+
+				"<p>An publication endpoint can be a SDMX Registry, a RDBMS database like Oracle or Postgres, a Triple store, etc.</p>"+
+				"<p>An publication endpoint is usually external to Cotrix. It could be that Cotrix will provide \"local\" publication\" endpoints for CSV or MS-Excell versions of the codelists, this is yet not supported.</p>";
 		
-		
-		
-		view.addTitle("Publication Channels","descritption");
+		view.addTitle("Publication Channels",description);
 		view.addChanelItem(item1);
 		view.addChanelItem(item2);
 		view.addChanelItem(item3);
 		view.addChanelItem(item4);
 		view.addPublishButton();
-		
+
 	}
 
-	public void setData(final int id) {
+	public void setData(final String id) {
 		view.showActivityIndicator();
 		rpcService.getCodeListModel(id, new AsyncCallback<CotrixImportModel>() {
 			public void onSuccess(CotrixImportModel result) {
@@ -98,6 +103,6 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 
 	}
 
-	
+
 
 }

@@ -16,6 +16,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -32,11 +33,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CodeListDetailViewImpl extends Composite implements
-		CodeListDetailView, ContextMenuHandler {
+CodeListDetailView, ContextMenuHandler {
 
 	@UiTemplate("CodeListDetail.ui.xml")
 	interface CodeListDetailUiBinder extends
-			UiBinder<Widget, CodeListDetailViewImpl> {
+	UiBinder<Widget, CodeListDetailViewImpl> {
 	}
 
 	private static CodeListDetailUiBinder uiBinder = GWT
@@ -53,7 +54,7 @@ public class CodeListDetailViewImpl extends Composite implements
 	@UiField HTMLPanel blankPanel;
 	@UiField HTMLPanel chanelList;
 	@UiField Style style;
-	
+
 
 	@UiHandler("nav")
 	public void onNavLeftClicked(ClickEvent event) {
@@ -98,12 +99,26 @@ public class CodeListDetailViewImpl extends Composite implements
 	public void addPublishButton() {
 		publishButton = new Button("Publish");
 		publishButton.setStyleName(style.next());
+		publishButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				final ProgressbarDialog dialog = new ProgressbarDialog();
+				dialog.show();
+
+				Timer t = new Timer() {
+					public void run() {
+						dialog.finish();
+					}
+				};
+
+				t.schedule(3000);
+			}
+		});
 		this.chanelList.add(publishButton);
 	}
 	public void addTitle(String title,final String description){
 		Label l = new Label(title);
 		l.setStyleName(style.title());
-		
+
 		CotrixPublishResources resources = GWT.create(CotrixPublishResources.class);
 		Image info = new Image();
 		info.setResource(resources.info());
@@ -114,14 +129,14 @@ public class CodeListDetailViewImpl extends Composite implements
 				dialog.show();
 			}
 		});
-		
+
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setStyleName(style.titleWrapper());
 		panel.add(l);
 		panel.add(info);
 		this.chanelList.add(panel);
 	}
-	
+
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
@@ -138,7 +153,7 @@ public class CodeListDetailViewImpl extends Composite implements
 		this.loadingPanel.setVisible(true);
 	}
 
-	public void setData(CotrixImportModel model, int id) {
+	public void setData(CotrixImportModel model, String id) {
 		Metadata metadata = model.getMetadata();
 
 		this.codelistName.setText(metadata.getName());

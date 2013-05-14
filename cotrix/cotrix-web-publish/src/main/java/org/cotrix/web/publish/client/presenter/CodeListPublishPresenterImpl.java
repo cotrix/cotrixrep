@@ -35,8 +35,12 @@ public class CodeListPublishPresenterImpl implements CodeListPublishPresenter{
 	public void onNavigationClicked(boolean isShowingNavLeft) {
 		view.showLeftPanel(isShowingNavLeft);
 	}
-	public void onCodelistItemClicked(int id) {
+	public void onCodelistItemClicked(String id) {
 		codeListDetailPresenter.setData(id);
+	}
+
+	public void refresh() {
+		codeListPresenter.refresh();
 	}
 	
 }

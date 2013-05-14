@@ -2,7 +2,7 @@ package org.cotrix.web.publish.client.view;
 
 import java.util.ArrayList;
 
-import org.cotrix.web.share.shared.Codelist;
+import org.cotrix.web.share.shared.UICodelist;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;

@@ -23,8 +23,12 @@ public class CotrixManagerAppControllerImpl implements CotrixManagerAppControlle
 	public void go(HasWidgets container) {
 		this.codeListManagerPresenter.go(container);
 	}
-
+	
 	public void onValueChange(ValueChangeEvent<String> event) {
+	}
+
+	public void refresh() {
+		this.codeListManagerPresenter.refresh();
 	}
 
 }

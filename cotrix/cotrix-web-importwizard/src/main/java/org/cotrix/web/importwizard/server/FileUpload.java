@@ -24,6 +24,7 @@ import org.cotrix.importservice.tabular.csv.CSV2Codelist;
 import org.cotrix.importservice.tabular.csv.CSVOptions;
 import org.cotrix.importservice.tabular.mapping.AttributeMapping;
 import org.cotrix.importservice.tabular.mapping.CodelistMapping;
+import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.share.shared.HeaderType;
 
 import com.google.gson.Gson;
@@ -32,8 +33,8 @@ public class FileUpload extends HttpServlet{
 	private final String FILE_FIELD = "file";
 	private final String MODEL_FIELD = "cotrixmodel";
 
-	@Inject
-	ImportService service;
+	@Inject ImportService service;
+	@Inject CodelistRepository repository;
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -80,6 +81,8 @@ public class FileUpload extends HttpServlet{
 				
 				response.setContentType("text/html");
 				response.getWriter().printf(outcome.report());
+				
+//				getAllCodelists();
 			}
 		}
 		catch(Exception e){
@@ -147,4 +150,21 @@ public class FileUpload extends HttpServlet{
 		CSV2Codelist directives = new CSV2Codelist(mapping, options);
 		return service.importCodelist(stream, directives);
 	}
+	/*public ArrayList<Codelist> getAllCodelists()throws IllegalArgumentException {
+		ArrayList<Codelist> list = new ArrayList<Codelist>();
+		Iterator<org.cotrix.domain.Codelist> it  = repository.queryFor(allLists()).iterator();
+		int counter = 0 ;
+		while (it.hasNext()) {
+			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
+			System.out.println("++++++++"+codelist.id());
+			counter++;
+			
+		}
+		System.out.println("ggg"+counter);
+		System.out.println("xx>>>>>>>>>>>>>>>>> get code list from server : ........ ");
+		System.out.println("xx>>>>>>>>>>>>>>>>> list size is : "+list.size());
+		
+		return list;
+	}*/
+
 }

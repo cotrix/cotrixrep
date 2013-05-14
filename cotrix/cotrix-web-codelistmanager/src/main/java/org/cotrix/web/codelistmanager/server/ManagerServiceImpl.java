@@ -1,19 +1,37 @@
 package org.cotrix.web.codelistmanager.server;
 
+
+
+import static org.cotrix.repository.Queries.allCodes;
+import static org.cotrix.repository.Queries.allLists;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import org.cotrix.web.codelistmanager.client.CotrixModuleManager;
+import javax.inject.Inject;
+import javax.xml.namespace.QName;
+
+import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Code;
+import org.cotrix.domain.Codelist;
+import org.cotrix.importservice.ImportService;
+import org.cotrix.importservice.Outcome;
+import org.cotrix.importservice.tabular.csv.CSV2Codelist;
+import org.cotrix.importservice.tabular.csv.CSVOptions;
+import org.cotrix.importservice.tabular.mapping.AttributeMapping;
+import org.cotrix.importservice.tabular.mapping.CodelistMapping;
+import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.query.CodelistQuery;
+import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
-import org.cotrix.web.codelistmanager.shared.FieldVerifier;
 import org.cotrix.web.share.shared.CSVFile;
-import org.cotrix.web.share.shared.CSVFile;
-import org.cotrix.web.share.shared.Codelist;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
-import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.share.shared.UICodelist;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -21,245 +39,141 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 @SuppressWarnings("serial")
 public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerService {
-	public ArrayList<Codelist> getAllCodelists() throws IllegalArgumentException {
-		Codelist c1 = new Codelist();
-		c1.setName("Country");
-		c1.setId(0);
+	@Inject CodelistRepository repository;
+	@Inject ImportService service;
+	
+	public ArrayList<UICodelist> getAllCodelists()throws IllegalArgumentException {
+		// Preloaded codelists for demo purpose.
+		loadASFIS();
 		
-		Codelist c2 = new Codelist();
-		c2.setName("Continent");
-		c2.setId(1);
-
-		Codelist c3 = new Codelist();
-		c3.setName("ASFIS");
-		c3.setId(2);
-
-		Codelist c4 = new Codelist();
-		c4.setName("Language");
-		c4.setId(3);
-
-		Codelist c5 = new Codelist();
-		c5.setName("FAO Major Water Area");
-		c5.setId(4);
-
-		Codelist c6 = new Codelist();
-		c6.setName("Vessel Type");
-		c6.setId(5);
 		
-		Codelist c7 = new Codelist();
-		c7.setName("Gear Type");
-		c7.setId(6);
-		
-		ArrayList<Codelist> list = new ArrayList<Codelist>();
-		list.add(c1);
-		list.add(c2);
-		list.add(c3);
-		list.add(c4);
-		list.add(c5);
-		list.add(c6);
-		list.add(c7);
-		
+		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
+		Iterator<org.cotrix.domain.Codelist> it  = repository.queryFor(allLists()).iterator();
+		while (it.hasNext()) {
+			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
+			UICodelist c = new UICodelist();
+			c.setName(codelist.name().toString());
+			c.setId(codelist.id());
+			list.add(c);
+		}
+
 		return list;
 	}
-	
-	public CotrixImportModel getCodeListModel(int codelistId) {
-		CotrixImportModel model = null;
-		switch (codelistId) {
-		case 0:
-			model = getCountry();
-			break;
-		case 1:
-			model = getContinent();
-			break;
-		case 2:
-			model = getASFIS();
-			break;
-		case 3:
-			model = getLanguage();
-			break;
-		case 4:
-			model = getFAOMajorWaterArea();
-			break;
-		case 5:
-			model = getVesselType();
-			break;
-		case 6:
-			model = getGearType();
-			break;
+	public void editCode(String codelistID,String codeID,String value){
+//		Codelist changeset = codelist("1").with(
+//                code("1").name("newname").as(MODIFIED).build(),
+//                code().name("newcode").as(NEW).build()
+//            )
+// .build(); 
+	}
+	public CotrixImportModel getCodeListModel(String codelistId) {
 
-		default:
-			break;
-		}
+		org.cotrix.domain.Codelist c =  repository.lookup(codelistId);
 
-		
-		return model;
-	}
-	
-	private CotrixImportModel getGearType() {
 		Metadata meta = new Metadata();
-		meta.setName("Gear Type");
+		meta.setName(c.name().toString());
 		meta.setOwner("FAO");
-		meta.setVersion("1.9");
-		meta.setDescription("");
-		
-		ArrayList<String[]> data = new ArrayList<String[]>();
-		
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{});
-		file.setFilename("ASFIS_sp_Feb_2012.txt");
-		
-		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
-		model.setMetadata(meta);
-		return model;
-	}
-
-	private CotrixImportModel getVesselType(){
-		Metadata meta = new Metadata();
-		meta.setName("Vessel Type");
-		meta.setOwner("FAO");
-		meta.setVersion("1.9");
-		meta.setDescription("");
-		
-		ArrayList<String[]> data = new ArrayList<String[]>();
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{});
-		file.setFilename("ASFIS_sp_Feb_2012.txt");
-		
-		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
-		model.setMetadata(meta);
-		return model;
-	}
-	private CotrixImportModel getFAOMajorWaterArea(){
-		Metadata meta = new Metadata();
-		meta.setName("FAO Major Water Area");
-		meta.setOwner("FAO");
-		meta.setVersion("0.9");
-		meta.setDescription("");
-		
-		ArrayList<String[]> data = new ArrayList<String[]>();
-		
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{});
-		file.setFilename("ASFIS_sp_Feb_2012.txt");
-		
-		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
-		model.setMetadata(meta);
-		return model;
-	}
-	private CotrixImportModel getLanguage(){
-		Metadata meta = new Metadata();
-		meta.setName("Language");
-		meta.setOwner("FAO");
-		meta.setVersion("0.9");
-		meta.setDescription("ISO 639-1 defines abbreviations for languages. In HTML and XHTML they can be used in the lang and xml:lang attributes");
-		
-		ArrayList<String[]> data = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/Language.txt"),";");
-		
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{"ISO 639-1 alpha-2","ISO 639-2 alpha-3","ISO 639 English name of language","ISO 639 French name of language"});
-		file.setFilename("Language.txt");
-		
-		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
-		model.setMetadata(meta);
-		return model;
-	}
-	private CotrixImportModel getContinent(){
-		Metadata meta = new Metadata();
-		meta.setName("Continent");
-		meta.setOwner("FAO");
-		meta.setVersion("0.9");
+		meta.setRowCount(c.codes().size());
+		meta.setVersion(c.version());
 		meta.setDescription("This data was compiled by hand from the above and may contain errors. One small modification is that the various insular areas of the United State listed above are recorded here as the single United States Minor Outlying Islands.");
-		
-		ArrayList<String[]> data = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/Continent.txt"),",");
-		
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{"Code","Name"});
-		file.setFilename("Continent.txt");
-		
+
+
+		CSVFile csvFile = new CSVFile();
+		csvFile.setData(new ArrayList<String[]>());
+		csvFile.setHeader(getHeader(c));
+
+
 		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
 		model.setMetadata(meta);
-		return model;
-	}
-	private CotrixImportModel getCountry(){
-		Metadata meta = new Metadata();
-		meta.setName("Country");
-		meta.setOwner("FAO");
-		meta.setVersion("0.9");
-		meta.setDescription("CountryCode.org is your complete guide to call anywhere in the world. The calling chart below will help you find the dialing codes you need to make long distance phone calls to friends, family, and business partners around the globe. Simply find and click the country you wish to call. You'll find instructions on how to call that country using its country code, as well as other helpful information like area codes, ISO country codes, and the kinds of electrical outlets and phone jacks found in that part of the world. Making a phone call has never been easier with CountryCode.org.");
-		
-		ArrayList<String[]> data = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/Country.txt"),";");
-		
-		CSVFile file = new CSVFile();
-		file.setData(data);
-		file.setHeader(new String[]{"Name","Code"});
-		file.setFilename("Country.txt");
-		
-		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
-		model.setMetadata(meta);
-		return model;
-	}
-	private CotrixImportModel getASFIS(){
-		Metadata meta = new Metadata();
-		meta.setName("ASFIS");
-		meta.setOwner("FAO");
-		meta.setVersion("0.9");
-		meta.setDescription("ASFIS list of species includes 12 000 species items selected according to their interest or relation to fisheries and aquaculture. For each species item stored in a record, codes (ISSCAAP group, taxonomic and 3-alpha) and taxonomic information (scientific name, author(s), family, and higher taxonomic classification) are provided. An English name is available for most of the records, and about one third of them have also a French and Spanish name. Information is also provided about the availability of fishery production statistics on the species item in the FAO databases.");
-		
-		ArrayList<String[]> data = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/ASFIS_sp_Feb_2012.txt"),"\t");
-		
-		CSVFile file = new CSVFile();
-		file.setData(new ArrayList<String[]>(data.subList(1, data.size())));
-		file.setHeader(data.get(0));
-		file.setFilename("ASFIS_sp_Feb_2012.txt");
-		
-		CotrixImportModel model = new CotrixImportModel();
-		model.setCsvFile(file);
-		model.setMetadata(meta);
+		model.setCsvFile(csvFile);
 		return model;
 	}
 
-	public ArrayList<String[]> getDataRange(int id, int start, int end) {
-		ArrayList<String[]> data = new ArrayList<String[]>();
-		switch (id) {
-		case 0:
-			data = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/Country.txt"),";");
-			break;
-		case 1:
-			data = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/Continent.txt"),",");
-			break;
-		case 2:
-			ArrayList<String[]> line = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/ASFIS_sp_Feb_2012.txt"),"\t");
-			data = new ArrayList<String[]>(line.subList(1, line.size()));
-			break;
-		case 3:
-			data = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/Language.txt"),";");
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
+	private String[] getHeader(org.cotrix.domain.Codelist codelist){
+		CodelistQuery<Code> codes = allCodes(codelist.id());
+		codes.setRange(new Range(0,1));
+		String[] line = null;
+		Iterable<Code> inrange  = repository.queryFor(codes);
 
-		default:
-			break;
+		Iterator<Code> it = inrange.iterator();
+		while (it.hasNext()) {
+			Code code = (Code)  it.next();
+			line = new String[code.attributes().size()];
+			Iterator it2 =  code.attributes().iterator();
+			int index = 0 ;
+			while (it2.hasNext()) {
+				Attribute a = (Attribute) it2.next();
+				line[index++] = a.name().toString();
+			}
 		}
-		
-		if(data.size() < end){
-			end = data.size();
-		}
-		return new ArrayList<String[]>(data.subList(start, end));
+		return line;
 	}
 	
+	public ArrayList<String[]> getDataRange(String id, int start, int end) {
+		ArrayList<String[]> data = new ArrayList<String[]>();
+		CodelistQuery<Code> codes = allCodes(id);
+		codes.setRange(new Range(start,end));
+
+		Iterable<Code> inrange  = repository.queryFor(codes);
+
+		Iterator<Code> it = inrange.iterator();
+		while (it.hasNext()) {
+			Code code = (Code)  it.next();
+			String[] line = new String[code.attributes().size()];
+			Iterator it2 =  code.attributes().iterator();
+			int index = 0 ;
+			while (it2.hasNext()) {
+				Attribute a = (Attribute) it2.next();
+				line[index++] = a.value();
+			}
+			data.add(line);	
+		}
+
+		return data;
+	}
+	
+	private void loadASFIS(){
+		FileInputStream is =  Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/ASFIS_sp_Feb_2012.txt"));
+		
+		List<String> headers = new ArrayList<String>();
+		headers.add("ISSCAAP");
+		headers.add("TAXOCODE");
+		headers.add("3A_CODE");
+		headers.add("Scientific_name");
+		headers.add("English_name");
+		headers.add("French_name");
+		headers.add("Spanish_name");
+		headers.add("Author");
+		headers.add("Family");
+		headers.add("Order");
+		headers.add("Stats_data");
+		
+		Outcome<Codelist> outcome = save(headers,is);
+		outcome.result();
+		
+		System.out.println(outcome.report());
+		
+	}
+	private Outcome<Codelist> save(List<String> types,InputStream stream){
+		CSVOptions options = new CSVOptions();
+		options.setDelimiter('\t');
+		options.setColumns(types,true);
+		
+		CodelistMapping mapping = new CodelistMapping("3A_CODE");
+		QName asfisName = new QName("asfis-2012");
+		mapping.setName(asfisName);
+
+		List<AttributeMapping> attrs = new ArrayList<AttributeMapping>();
+		for (String type : types) {
+			AttributeMapping attr = new AttributeMapping (type.trim());
+			attrs.add(attr);
+		}
+		mapping.setAttributeMappings(attrs);
+
+		CSV2Codelist directives = new CSV2Codelist(mapping, options);
+		return service.importCodelist(stream, directives);
+	}
+	
+
+
 }

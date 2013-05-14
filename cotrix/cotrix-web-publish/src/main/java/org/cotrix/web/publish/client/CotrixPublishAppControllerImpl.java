@@ -4,6 +4,7 @@ import org.cotrix.web.publish.client.presenter.CodeListPublishPresenter;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
@@ -24,6 +25,10 @@ public class CotrixPublishAppControllerImpl implements CotrixPublishAppControlle
 	
 	public void go(HasWidgets container) {
 		this.codeListPublishPresenter.go(container);
+	}
+	
+	public void refresh(){
+		codeListPublishPresenter.refresh();
 	}
 
 	public void onValueChange(ValueChangeEvent<String> event) {

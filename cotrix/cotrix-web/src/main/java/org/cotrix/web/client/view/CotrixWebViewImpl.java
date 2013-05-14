@@ -35,7 +35,6 @@ public class CotrixWebViewImpl extends Composite implements CotrixWebView {
 	public void setMenu(MenuPresenter menuPresenter) {
 		menuPresenter.go(menu);
 	}
-
 	public DeckLayoutPanel getBody() {
 		return this.body;
 	}
