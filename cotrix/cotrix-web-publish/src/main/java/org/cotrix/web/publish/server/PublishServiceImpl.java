@@ -1,19 +1,17 @@
 package org.cotrix.web.publish.server;
 
-import static org.cotrix.repository.Queries.allLists;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.inject.Inject;
 
+import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.repository.QueryFactory;
 import org.cotrix.web.publish.client.PublishService;
-import org.cotrix.web.share.shared.CSVFile;
-import org.cotrix.web.share.shared.Codelist;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.share.shared.UICodelist;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -26,12 +24,12 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 
 	@Inject CodelistRepository repository;
 	
-	public ArrayList<Codelist> getAllCodelists()throws IllegalArgumentException {
-		ArrayList<Codelist> list = new ArrayList<Codelist>();
-		Iterator<org.cotrix.domain.Codelist> it  = repository.queryFor(allLists()).iterator();
+	public ArrayList<UICodelist> getAllCodelists()throws IllegalArgumentException {
+		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
+		Iterator<Codelist> it  = repository.queryFor(allLists()).iterator();
 		while (it.hasNext()) {
-			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
-			Codelist c = new Codelist();
+			Codelist codelist = (Codelist) it.next();
+			UICodelist c = new UICodelist();
 			c.setName(codelist.name().toString());
 			c.setId(codelist.id());
 			list.add(c);

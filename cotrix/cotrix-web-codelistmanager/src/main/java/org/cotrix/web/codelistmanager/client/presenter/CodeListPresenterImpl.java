@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.view.CodeListView;
-import org.cotrix.web.share.shared.Codelist;
+import org.cotrix.web.share.shared.UICodelist;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
@@ -32,8 +32,8 @@ public class CodeListPresenterImpl implements CodeListPresenter {
 	
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());
-		rpcService.getAllCodelists(new AsyncCallback<ArrayList<Codelist>>() {
-			public void onSuccess(ArrayList<Codelist> result) {
+		rpcService.getAllCodelists(new AsyncCallback<ArrayList<UICodelist>>() {
+			public void onSuccess(ArrayList<UICodelist> result) {
 				view.init(result);
 			}
 			
@@ -53,8 +53,8 @@ public class CodeListPresenterImpl implements CodeListPresenter {
 	}
 
 	public void refresh() {
-		rpcService.getAllCodelists(new AsyncCallback<ArrayList<Codelist>>() {
-			public void onSuccess(ArrayList<Codelist> result) {
+		rpcService.getAllCodelists(new AsyncCallback<ArrayList<UICodelist>>() {
+			public void onSuccess(ArrayList<UICodelist> result) {
 				view.init(result);
 			}
 			public void onFailure(Throwable caught) {

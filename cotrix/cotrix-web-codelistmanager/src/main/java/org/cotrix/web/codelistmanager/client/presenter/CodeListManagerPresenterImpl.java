@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.view.CodeListManagerView;
-import org.cotrix.web.share.shared.Codelist;
+import org.cotrix.web.share.shared.UICodelist;
 import org.cotrix.web.share.shared.CotrixImportModel;
 
 import com.google.gwt.event.shared.HandlerManager;

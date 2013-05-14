@@ -1,23 +1,35 @@
 package org.cotrix.web.codelistmanager.server;
 
+
 import static org.cotrix.repository.Queries.allCodes;
 import static org.cotrix.repository.Queries.allLists;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
+import org.cotrix.domain.Codelist;
+import org.cotrix.importservice.ImportService;
+import org.cotrix.importservice.Outcome;
+import org.cotrix.importservice.tabular.csv.CSV2Codelist;
+import org.cotrix.importservice.tabular.csv.CSVOptions;
+import org.cotrix.importservice.tabular.mapping.AttributeMapping;
+import org.cotrix.importservice.tabular.mapping.CodelistMapping;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.share.shared.CSVFile;
-import org.cotrix.web.share.shared.Codelist;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.share.shared.UICodelist;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -27,28 +39,33 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerService {
 	@Inject CodelistRepository repository;
-
-	public ArrayList<Codelist> getAllCodelists()throws IllegalArgumentException {
-		ArrayList<Codelist> list = new ArrayList<Codelist>();
+	@Inject ImportService service;
+	
+	public ArrayList<UICodelist> getAllCodelists()throws IllegalArgumentException {
+		// Preloaded codelists for demo purpose.
+		loadASFIS();
+		
+		
+		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
 		Iterator<org.cotrix.domain.Codelist> it  = repository.queryFor(allLists()).iterator();
 		while (it.hasNext()) {
 			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
-			Codelist c = new Codelist();
+			UICodelist c = new UICodelist();
 			c.setName(codelist.name().toString());
 			c.setId(codelist.id());
 			list.add(c);
 		}
 
-		// Just for testing perpose.
-	/*	Codelist c = new Codelist();
-		c.setName("ASFIS");
-		c.setId("1");
-		list.add(c);*/
 		return list;
 	}
-
+	public void editCode(String codelistID,String codeID,String value){
+//		Codelist changeset = codelist("1").with(
+//                code("1").name("newname").as(MODIFIED).build(),
+//                code().name("newcode").as(NEW).build()
+//            )
+// .build(); 
+	}
 	public CotrixImportModel getCodeListModel(String codelistId) {
-
 
 		org.cotrix.domain.Codelist c =  repository.lookup(codelistId);
 
@@ -59,10 +76,9 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		meta.setVersion(c.version());
 		meta.setDescription("This data was compiled by hand from the above and may contain errors. One small modification is that the various insular areas of the United State listed above are recorded here as the single United States Minor Outlying Islands.");
 
-		ArrayList<String[]> data = new ArrayList<String[]>();
 
 		CSVFile csvFile = new CSVFile();
-		csvFile.setData(data);
+		csvFile.setData(new ArrayList<String[]>());
 		csvFile.setHeader(getHeader(c));
 
 
@@ -70,7 +86,6 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		model.setMetadata(meta);
 		model.setCsvFile(csvFile);
 		return model;
-//		return getASFIS();
 	}
 
 	private String[] getHeader(org.cotrix.domain.Codelist codelist){
@@ -92,7 +107,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		}
 		return line;
 	}
-
+	
 	public ArrayList<String[]> getDataRange(String id, int start, int end) {
 		ArrayList<String[]> data = new ArrayList<String[]>();
 		CodelistQuery<Code> codes = allCodes(id);
@@ -116,35 +131,48 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		return data;
 	}
 	
-	private CotrixImportModel getASFIS(){
-		Metadata meta = new Metadata();
-		meta.setName("ASFIS");
-		meta.setOwner("FAO");
-		meta.setVersion("0.9");
-		meta.setDescription("ASFIS list of species includes 12 000 species items selected according to their interest or relation to fisheries and aquaculture. For each species item stored in a record, codes (ISSCAAP group, taxonomic and 3-alpha) and taxonomic information (scientific name, author(s), family, and higher taxonomic classification) are provided. An English name is available for most of the records, and about one third of them have also a French and Spanish name. Information is also provided about the availability of fishery production statistics on the species item in the FAO databases.");
-
-		ArrayList<String[]> line = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/ASFIS_sp_Feb_2012.txt"),"\t");
-		CSVFile csvFile = new CSVFile();
-		csvFile.setData(new ArrayList<String[]>(line.subList(1, line.size())));
-		csvFile.setHeader(line.get(0));
-
+	private void loadASFIS(){
+		FileInputStream is =  Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/ASFIS_sp_Feb_2012.txt"));
 		
-		CotrixImportModel model = new CotrixImportModel();
-		model.setMetadata(meta);
-		model.setCsvFile(csvFile);
-		return model;
+		List<String> headers = new ArrayList<String>();
+		headers.add("ISSCAAP");
+		headers.add("TAXOCODE");
+		headers.add("3A_CODE");
+		headers.add("Scientific_name");
+		headers.add("English_name");
+		headers.add("French_name");
+		headers.add("Spanish_name");
+		headers.add("Author");
+		headers.add("Family");
+		headers.add("Order");
+		headers.add("Stats_data");
+		
+		Outcome<Codelist> outcome = save(headers,is);
+		outcome.result();
+		
+		System.out.println(outcome.report());
+		
 	}
+	private Outcome<Codelist> save(List<String> types,InputStream stream){
+		CSVOptions options = new CSVOptions();
+		options.setDelimiter('\t');
+		options.setColumns(types,true);
+		
+		CodelistMapping mapping = new CodelistMapping("3A_CODE");
+		QName asfisName = new QName("asfis-2012");
+		mapping.setName(asfisName);
 
-	/*public ArrayList<String[]> getDataRange(String id, int start, int end) {
-		ArrayList<String[]> data = new ArrayList<String[]>();
-		ArrayList<String[]> line = Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/ASFIS_sp_Feb_2012.txt"),"\t");
-		data = new ArrayList<String[]>(line.subList(1, line.size()));
-
-		if(data.size() < end){
-			end = data.size();
+		List<AttributeMapping> attrs = new ArrayList<AttributeMapping>();
+		for (String type : types) {
+			AttributeMapping attr = new AttributeMapping (type.trim());
+			attrs.add(attr);
 		}
-		return new ArrayList<String[]>(data.subList(start, end));
-	}*/
+		mapping.setAttributeMappings(attrs);
+
+		CSV2Codelist directives = new CSV2Codelist(mapping, options);
+		return service.importCodelist(stream, directives);
+	}
+	
 
 
 }

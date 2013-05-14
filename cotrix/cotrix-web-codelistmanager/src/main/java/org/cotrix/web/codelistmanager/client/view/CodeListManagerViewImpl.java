@@ -2,7 +2,7 @@ package org.cotrix.web.codelistmanager.client.view;
 
 import java.util.ArrayList;
 
-import org.cotrix.web.share.shared.Codelist;
+import org.cotrix.web.share.shared.UICodelist;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ResizeEvent;

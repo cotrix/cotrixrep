@@ -183,6 +183,7 @@ CodeListDetailView, ContextMenuHandler {
 					presenter.onCellEdited(index, columnIndex, value);
 				}
 			});
+			
 			dataGrid.addColumn(column, headers[i]);
 			dataGrid.setColumnWidth(i, "200px");
 		}

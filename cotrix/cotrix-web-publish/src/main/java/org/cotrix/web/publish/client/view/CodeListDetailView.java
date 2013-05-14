@@ -3,7 +3,7 @@ package org.cotrix.web.publish.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.web.share.shared.Codelist;
+import org.cotrix.web.share.shared.UICodelist;
 import org.cotrix.web.share.shared.CotrixImportModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;

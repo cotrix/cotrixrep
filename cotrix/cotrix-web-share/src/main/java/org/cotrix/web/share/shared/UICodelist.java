@@ -2,7 +2,7 @@ package org.cotrix.web.share.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class Codelist implements IsSerializable{
+public class UICodelist implements IsSerializable{
 	String name;
 	String id;
 	

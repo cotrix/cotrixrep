@@ -1,11 +1,8 @@
 package org.cotrix.web.importwizard.server;
-import static org.cotrix.repository.Queries.allLists;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +24,6 @@ import org.cotrix.importservice.tabular.csv.CSV2Codelist;
 import org.cotrix.importservice.tabular.csv.CSVOptions;
 import org.cotrix.importservice.tabular.mapping.AttributeMapping;
 import org.cotrix.importservice.tabular.mapping.CodelistMapping;
-import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.share.shared.HeaderType;
 
 import com.google.gson.Gson;
