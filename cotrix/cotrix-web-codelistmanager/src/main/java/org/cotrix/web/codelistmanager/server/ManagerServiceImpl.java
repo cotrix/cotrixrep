@@ -1,6 +1,7 @@
 package org.cotrix.web.codelistmanager.server;
 
 
+
 import static org.cotrix.repository.Queries.allCodes;
 import static org.cotrix.repository.Queries.allLists;
 

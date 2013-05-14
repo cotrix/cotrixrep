@@ -24,6 +24,7 @@ import org.cotrix.importservice.tabular.csv.CSV2Codelist;
 import org.cotrix.importservice.tabular.csv.CSVOptions;
 import org.cotrix.importservice.tabular.mapping.AttributeMapping;
 import org.cotrix.importservice.tabular.mapping.CodelistMapping;
+import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.share.shared.HeaderType;
 
 import com.google.gson.Gson;
@@ -33,7 +34,7 @@ public class FileUpload extends HttpServlet{
 	private final String MODEL_FIELD = "cotrixmodel";
 
 	@Inject ImportService service;
-//	@Inject CodelistRepository repository;
+	@Inject CodelistRepository repository;
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
