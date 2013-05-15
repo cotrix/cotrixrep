@@ -1,0 +1,5 @@
+<registries>
+	<gcube scope="/gcube/devsec">
+		<name ns="http://acme/org">iMarine Registry</name>
+	</gcube>
+</registries>

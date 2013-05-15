@@ -15,8 +15,6 @@
 	<modules>
 		<module>cotrix-service</module>
 		<module>cotrix-web</module>
-		<module>cotrix-domain</module>
-		<module>cotrix-tabular</module>
 		<module>cotrix-web-importwizard</module>
 		<module>cotrix-repository</module>
 		<module>cotrix-web-codelistmanager</module>
@@ -25,7 +23,22 @@
 		<module>cotrix-web-share</module>
 		<module>cotrix-web-publish</module>
 		<module>cotrix-openjpa</module>
+		<module>cotrix-io</module>
+		
+		<!-- legacy modules, here for retro-compatibility until aligment is possible -->
+		<module>cotrix-domain</module>
+		<module>cotrix-tabular</module>
+		
 	</modules>
+	
+	<repositories>
+	    <repository>
+          <snapshots />
+          <id>fao-snapshots</id>
+          <name>libs-snapshot</name>
+          <url>http://artifactory.fao.org/artifactory/libs-snapshot</url>
+        </repository>
+	</repositories>
 
 	<dependencyManagement>
 		<dependencies>
