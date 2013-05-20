@@ -4,6 +4,9 @@ package org.cotrix.web.codelistmanager.server;
 
 import static org.cotrix.repository.Queries.allCodes;
 import static org.cotrix.repository.Queries.allLists;
+import static org.cotrix.domain.trait.Change.*;
+import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.domain.dsl.Codes.*;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -17,6 +20,8 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.importservice.ImportService;
 import org.cotrix.importservice.Outcome;
 import org.cotrix.importservice.tabular.csv.CSV2Codelist;
@@ -27,10 +32,12 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
+import org.cotrix.web.codelistmanager.shared.CodeCell;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.UICodelist;
+import org.omg.IOP.Codec;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -59,16 +66,31 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 
 		return list;
 	}
-	public void editCode(String codelistID,String codeID,String value){
-//		Codelist changeset = codelist("1").with(
-//                code("1").name("newname").as(MODIFIED).build(),
-//                code().name("newcode").as(NEW).build()
-//            )
-// .build(); 
+	
+	public void editCode(CodeCell codeCell){
+		
+		System.out.println("Edit codelist id "+codeCell.getCodelistId());
+		try {
+			System.out.println("Codelist name is "+codeCell.getCodelistName());
+			System.out.println("Code id is "+codeCell.getId());
+			System.out.println("Code name is "+codeCell.getName());
+			
+			Codelist changeset = codelist(codeCell.getCodelistId()).name(codeCell.getCodelistName()).with(
+					code(codeCell.getId()).name(codeCell.getName()).as(MODIFIED).build()
+					)
+					.build(); 
+			System.out.println("I have got changeset");
+			repository.update(changeset);
+			System.out.println("I can update codelist");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+	
 	public CotrixImportModel getCodeListModel(String codelistId) {
-
-		org.cotrix.domain.Codelist c =  repository.lookup(codelistId);
+		System.out.println("Original codelist id "+codelistId);
+		Codelist c =  repository.lookup(codelistId);
 
 		Metadata meta = new Metadata();
 		meta.setName(c.name().toString());
@@ -89,7 +111,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		return model;
 	}
 
-	private String[] getHeader(org.cotrix.domain.Codelist codelist){
+	private String[] getHeader(Codelist codelist){
 		CodelistQuery<Code> codes = allCodes(codelist.id());
 		codes.setRange(new Range(0,1));
 		String[] line = null;
@@ -109,8 +131,9 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		return line;
 	}
 	
-	public ArrayList<String[]> getDataRange(String id, int start, int end) {
-		ArrayList<String[]> data = new ArrayList<String[]>();
+	public ArrayList<CodeCell[]> getDataRange(String id, int start, int end) {
+		System.out.println("Fetch 30 first rows of codelist"+id);
+		ArrayList<CodeCell[]> data = new ArrayList<CodeCell[]>();
 		CodelistQuery<Code> codes = allCodes(id);
 		codes.setRange(new Range(start,end));
 
@@ -119,12 +142,22 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		Iterator<Code> it = inrange.iterator();
 		while (it.hasNext()) {
 			Code code = (Code)  it.next();
-			String[] line = new String[code.attributes().size()];
+			CodeCell[] line = new CodeCell[code.attributes().size()];
 			Iterator it2 =  code.attributes().iterator();
 			int index = 0 ;
 			while (it2.hasNext()) {
 				Attribute a = (Attribute) it2.next();
-				line[index++] = a.value();
+				
+				CodeCell c = new CodeCell();
+				c.setId(a.id());
+				c.setCodelistId(id);
+				c.setCodelistName(repository.lookup(id).name().toString());
+				c.setLanguage(a.language());
+				c.setName(a.name().toString());
+				c.setType(a.type().toString());
+				c.setValue(a.value());
+				
+				line[index++] = c;
 			}
 			data.add(line);	
 		}

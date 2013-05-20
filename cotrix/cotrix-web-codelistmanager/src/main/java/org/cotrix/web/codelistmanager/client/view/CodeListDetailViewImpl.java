@@ -2,8 +2,10 @@ package org.cotrix.web.codelistmanager.client.view;
 
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.client.resources.DataGridResource;
+import org.cotrix.web.codelistmanager.shared.CodeCell;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
+import org.omg.IOP.Codec;
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.EditTextCell;
@@ -80,7 +82,7 @@ CodeListDetailView, ContextMenuHandler {
 		String flexTable();
 	}
 	private PopupPanel contextMenu;
-	private CotrixDataGrid<String[]> dataGrid;
+	private CotrixDataGrid<CodeCell[]> dataGrid;
 
 	@UiHandler("nav")
 	public void onNavLeftClicked(ClickEvent event) {
@@ -98,15 +100,16 @@ CodeListDetailView, ContextMenuHandler {
 	}
 
 
-	private class FlexColumn extends Column<String[],String> {
+	private class FlexColumn extends Column<CodeCell[],String> {
 		int index;
 		public FlexColumn(Cell<String> cell,int index) {
 			super(cell);
 			this.index = index;
 		}
 		
-		public String getValue(String[] column) {
-			return column[index];
+		@Override
+		public String getValue(CodeCell[] column) {
+			return column[index].getValue();
 		}
 	}
 
@@ -151,12 +154,12 @@ CodeListDetailView, ContextMenuHandler {
 
 
 		DataGridResource resource = GWT.create(DataGridResource.class);
-		dataGrid = new CotrixDataGrid<String[]>(30, resource);
+		dataGrid = new CotrixDataGrid<CodeCell[]>(30, resource);
 		dataGrid.setStyleName(style.flexTable());
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label(""));
-		dataGrid.addCellPreviewHandler(new Handler<String[]>() {
-			public void onCellPreview(CellPreviewEvent<String[]> event) {
+		dataGrid.addCellPreviewHandler(new Handler<CodeCell[]>() {
+			public void onCellPreview(CellPreviewEvent<CodeCell[]> event) {
 				column = event.getColumn();
 				row  = event.getIndex();
 			}
@@ -177,11 +180,12 @@ CodeListDetailView, ContextMenuHandler {
 			final int columnIndex = i;
 			FlexColumn column = new FlexColumn(new CotrixEditTextCell(),i);
 			column.setSortable(true);
-			column.setFieldUpdater(new FieldUpdater<String[], String>() {
-				public void update(int index, String[] object, String value) {
-					object[index] = value;
-					presenter.onCellEdited(index, columnIndex, value);
+			column.setFieldUpdater(new FieldUpdater<CodeCell[], String>() {
+				public void update(int index, CodeCell[] object, String value) {
+					object[index].setValue(value);
+					presenter.onCellEdited(index, columnIndex, object[index]);
 				}
+
 			});
 			
 			dataGrid.addColumn(column, headers[i]);

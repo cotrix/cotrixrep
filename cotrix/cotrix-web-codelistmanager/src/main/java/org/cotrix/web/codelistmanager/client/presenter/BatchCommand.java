@@ -1,8 +1,11 @@
 package org.cotrix.web.codelistmanager.client.presenter;
 
+import org.cotrix.web.codelistmanager.shared.CodeCell;
+
 public class BatchCommand {
-	public String command;
-	public String value;
+	private String command;
+	private String value;
+	private CodeCell codeCell;
 	public String getCommand() {
 		return command;
 	}
@@ -14,6 +17,12 @@ public class BatchCommand {
 	}
 	public void setValue(String value) {
 		this.value = value;
+	}
+	public CodeCell getCodeCell() {
+		return codeCell;
+	}
+	public void setCodeCell(CodeCell codeCell) {
+		this.codeCell = codeCell;
 	}
 	
 }

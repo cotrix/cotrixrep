@@ -3,6 +3,7 @@ package org.cotrix.web.codelistmanager.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.web.codelistmanager.shared.CodeCell;
 import org.cotrix.web.share.shared.UICodelist;
 import org.cotrix.web.share.shared.CotrixImportModel;
 
@@ -16,5 +17,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface ManagerService extends RemoteService {
   ArrayList<UICodelist> getAllCodelists() throws IllegalArgumentException;
   CotrixImportModel getCodeListModel(String codelistId);
-  ArrayList<String[]> getDataRange(String id,int start,int end);
+  ArrayList<CodeCell[]> getDataRange(String id,int start,int end);
+  void editCode(CodeCell codeCell);
 }
