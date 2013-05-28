@@ -2,13 +2,11 @@ package org.cotrix.web.codelistmanager.client.view;
 
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.client.resources.DataGridResource;
-import org.cotrix.web.codelistmanager.shared.CodeCell;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
-import org.omg.IOP.Codec;
+import org.cotrix.web.share.shared.UICode;
 
 import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -17,8 +15,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.event.dom.client.ContextMenuHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.CssResource;
@@ -27,14 +23,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.cellview.client.RowHoverEvent;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -82,7 +74,7 @@ CodeListDetailView, ContextMenuHandler {
 		String flexTable();
 	}
 	private PopupPanel contextMenu;
-	private CotrixDataGrid<CodeCell[]> dataGrid;
+	private CotrixDataGrid<UICode[]> dataGrid;
 
 	@UiHandler("nav")
 	public void onNavLeftClicked(ClickEvent event) {
@@ -100,7 +92,7 @@ CodeListDetailView, ContextMenuHandler {
 	}
 
 
-	private class FlexColumn extends Column<CodeCell[],String> {
+	private class FlexColumn extends Column<UICode[],String> {
 		int index;
 		public FlexColumn(Cell<String> cell,int index) {
 			super(cell);
@@ -108,8 +100,8 @@ CodeListDetailView, ContextMenuHandler {
 		}
 		
 		@Override
-		public String getValue(CodeCell[] column) {
-			return column[index].getValue();
+		public String getValue(UICode[] column) {
+			return column[index].getAttribute().getValue();
 		}
 	}
 
@@ -141,8 +133,6 @@ CodeListDetailView, ContextMenuHandler {
 		});
 
 
-
-
 		panel.add(item1);
 		panel.add(item2);
 		panel.add(item3);
@@ -154,12 +144,12 @@ CodeListDetailView, ContextMenuHandler {
 
 
 		DataGridResource resource = GWT.create(DataGridResource.class);
-		dataGrid = new CotrixDataGrid<CodeCell[]>(30, resource);
+		dataGrid = new CotrixDataGrid<UICode[]>(30, resource);
 		dataGrid.setStyleName(style.flexTable());
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label(""));
-		dataGrid.addCellPreviewHandler(new Handler<CodeCell[]>() {
-			public void onCellPreview(CellPreviewEvent<CodeCell[]> event) {
+		dataGrid.addCellPreviewHandler(new Handler<UICode[]>() {
+			public void onCellPreview(CellPreviewEvent<UICode[]> event) {
 				column = event.getColumn();
 				row  = event.getIndex();
 			}
@@ -180,10 +170,10 @@ CodeListDetailView, ContextMenuHandler {
 			final int columnIndex = i;
 			FlexColumn column = new FlexColumn(new CotrixEditTextCell(),i);
 			column.setSortable(true);
-			column.setFieldUpdater(new FieldUpdater<CodeCell[], String>() {
-				public void update(int index, CodeCell[] object, String value) {
-					object[index].setValue(value);
-					presenter.onCellEdited(index, columnIndex, object[index]);
+			column.setFieldUpdater(new FieldUpdater<UICode[], String>() {
+				public void update(int index, UICode[] codes, String value) {
+					codes[columnIndex].getAttribute().setValue(value);
+					presenter.onCellEdited(codes[columnIndex]);
 				}
 
 			});

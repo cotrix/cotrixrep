@@ -18,4 +18,5 @@ public class UICodelist implements IsSerializable{
 	public void setId(String id) {
 		this.id = id;
 	}
+	
 }

@@ -11,6 +11,7 @@ import java.util.Iterator;
 import javax.inject.Inject;
 
 import org.cotrix.domain.Codelist;
+import org.cotrix.importservice.ImportService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.publish.client.PublishService;
 import org.cotrix.web.share.shared.CotrixImportModel;
@@ -27,7 +28,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		PublishService {
 
 	@Inject CodelistRepository repository;
-	
+	@Inject ImportService
 	public ArrayList<UICodelist> getAllCodelists()throws IllegalArgumentException {
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
 		Iterator<Codelist> it  = repository.queryFor(allLists()).iterator();

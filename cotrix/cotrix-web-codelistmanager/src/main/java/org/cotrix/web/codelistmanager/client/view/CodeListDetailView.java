@@ -1,11 +1,7 @@
 package org.cotrix.web.codelistmanager.client.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.cotrix.web.codelistmanager.shared.CodeCell;
-import org.cotrix.web.share.shared.UICodelist;
 import org.cotrix.web.share.shared.CotrixImportModel;
+import org.cotrix.web.share.shared.UICode;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.cellview.client.DataGrid;
@@ -15,8 +11,8 @@ public interface CodeListDetailView {
 	public interface Presenter<T> {
 		void onNavLeftClicked(boolean isShowingNavLeft);
 		void onCodelistNameClicked(boolean isVisible);
-		void onCellEdited(int row,int column,CodeCell value);
-		void setDataProvider(DataGrid<CodeCell[]> ddtaGrid,String id);
+		void onCellEdited(UICode value);
+		void setDataProvider(DataGrid<UICode[]> ddtaGrid,String id);
 		void insertRow(int row);
 		void deleteRow(int row);
 		void onSaveButtonClicked();
