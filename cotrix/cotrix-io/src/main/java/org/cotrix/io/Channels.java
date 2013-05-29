@@ -42,7 +42,7 @@ public class Channels {
 	 * Returns the publication channels.
 	 * @return the publication channels
 	 */
-	Collection<RepositoryService> publicationChannels() {
+	public Collection<RepositoryService> publicationChannels() {
 		return repository.sinks(publicationTypes);
 	}
 	

@@ -83,6 +83,12 @@ public class Sdmx2Codelist {
 						value(list.getEndDate().getDateInSdmxFormat())
 						.build());
 	   	
+		if (directives.isIncluded(URI) && list.getUri()!=null)
+			attributes.add(attr().
+					name(directives.get(URI)).
+					value(list.getUri().toString())
+					.build());
+		
 		mapCommonAttributes(list,attributes,directives);
 		
 		return attributes;

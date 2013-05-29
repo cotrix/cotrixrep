@@ -22,7 +22,7 @@ public class SdmxImportDirectives implements ImportDirectives {
 	
 	private static String sdmx = "http://www.sdmx.org";
 	
-	public static enum SdmxElement {FINAL,AGENCY, VALID_FROM, VALID_TO, NAME, DESCRIPTION, ANNOTATION}
+	public static enum SdmxElement {FINAL,AGENCY, VALID_FROM, VALID_TO, NAME, DESCRIPTION, ANNOTATION,URI}
 	
 	public SdmxImportDirectives() {
 		
@@ -33,6 +33,7 @@ public class SdmxImportDirectives implements ImportDirectives {
 		map(NAME,new QName(sdmx,"name "));
 		map(DESCRIPTION,new QName(sdmx,"description"));
 		map(ANNOTATION,new QName(sdmx,"annotation"));
+		map(URI,new QName(sdmx,"uri"));
 	}
 	
 	private Map<SdmxElement,QName> names = new HashMap<SdmxElement,QName>();

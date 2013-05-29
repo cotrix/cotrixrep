@@ -6,6 +6,8 @@ import static org.cotrix.domain.trait.Change.*;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodebagRepository;
@@ -48,7 +50,9 @@ public class SimpleRepositoryTest {
 	@Test
 	public void updateCodelist() {
 		
-		Codelist list = anylist();
+		Attribute attribute = attr().name("test").value("val").build();
+		Code code = code().name("code").attributes(attribute).build();
+		Codelist list = codelist().name("name").with(code).build();
 		
 		assertNull(list.id());
 		
@@ -56,14 +60,21 @@ public class SimpleRepositoryTest {
 		
 		repository.add(list);
 		
+		Attribute attributeChangeset = attr(attribute.id()).name(attribute.name()).value("newvalue").as(MODIFIED).build();
+		
 		QName updatedName = q(list.name().getLocalPart()+"-updated");
 		
-		Codelist changeset = codelist(list.id()).name(updatedName).as(MODIFIED).build();
-
+		Codelist changeset = codelist(list.id()).name(updatedName).with(code(code.id()).name(code.name()).attributes(attributeChangeset).build()).build();
+				
 		repository.update(changeset);
+		
+		list = repository.lookup(list.id());
 		
 		assertEquals(list.name(),updatedName);
 		
+		Attribute firstAttribute = list.codes().iterator().next().attributes().iterator().next();
+		
+		assertEquals(firstAttribute.value(),"newvalue");
 	}
 	
 	
