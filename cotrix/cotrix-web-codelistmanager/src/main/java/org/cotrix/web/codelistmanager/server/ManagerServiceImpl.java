@@ -1,26 +1,19 @@
 package org.cotrix.web.codelistmanager.server;
 
-import static org.cotrix.repository.Queries.allCodes;
-import static org.cotrix.repository.Queries.allLists;
-import static org.cotrix.domain.trait.Change.*;
-import static org.cotrix.domain.utils.Utils.*;
-import static org.cotrix.domain.dsl.Codes.*;
-
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+import static org.cotrix.repository.Queries.*;
+import static org.cotrix.domain.trait.Change.*;
+import static org.cotrix.domain.dsl.Codes.*;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
-import org.apache.commons.el.Coercions;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
-import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.importservice.ImportService;
 import org.cotrix.importservice.Outcome;
 import org.cotrix.importservice.tabular.csv.CSV2Codelist;
@@ -37,7 +30,6 @@ import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.UIAttribute;
 import org.cotrix.web.share.shared.UICode;
 import org.cotrix.web.share.shared.UICodelist;
-import org.omg.IOP.Codec;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -57,11 +49,14 @@ ManagerService {
 	public ArrayList<UICodelist> getAllCodelists()
 			throws IllegalArgumentException {
 		// Preloaded codelists for demo purpose.
+		if(repository == null){
+			System.out.println("NULLLLLLL injection");
+		}
+		
 		loadASFIS();
 
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
-		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(
-				allLists()).iterator();
+		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
 		while (it.hasNext()) {
 			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it
 					.next();
@@ -155,7 +150,7 @@ ManagerService {
 				uiAttr.setName(a.name().toString());
 				uiAttr.setType(a.type().toString());
 				uiAttr.setLanguage(a.language());
-				uiAttr.setValue(a.id().substring(a.id().length()-4, a.id().length()) +":"+ a.value());
+				uiAttr.setValue(a.value());
 				uiAttr.setId(a.id());
 
 				UICodelist uiCodeList = new UICodelist();
@@ -174,52 +169,6 @@ ManagerService {
 			data.add(line);	
 		}
 		return data;
-		/*Codelist list = repository.lookup(id);
-		CodelistQuery<Code> codes = allCodes(id);
-		codes.setRange(new Range(1,2));
-		Iterable<Code> inrange  = repository.queryFor(codes);
-		Iterator<Code> it = inrange.iterator();
-		while (it.hasNext()) {
-			Code code = (Code) it.next();
-			Iterator it2 =  code.attributes().iterator();
-			System.out.println(code.id()+"-----"+code.name());
-			while (it2.hasNext()) {
-				Attribute a = (Attribute) it2.next();
-				System.out.println("Attribute : "+a.name() + "---" + a.value());
-
-				Attribute changedAttribute = attr(a.id()).name(a.name()).value("AAA").as(MODIFIED).build();
-				Code changeCode =  code(code.id()).name(code.name()).attributes(changedAttribute).as(MODIFIED).build();
-				Codelist changeset = codelist(list.id()).name(list.name()).with(changeCode).as(MODIFIED).build();
-				repository.update(changeset);
-			}
-		}
-
-		CodelistQuery<Code> codes2 = allCodes(id);
-		codes2.setRange(new Range(1,2));
-		Iterable<Code> inrange2  = repository.queryFor(codes2);
-		Iterator<Code> it1 = inrange2.iterator();
-		while (it1.hasNext()) {
-			Code code = (Code) it1.next();
-			Iterator it2 =  code.attributes().iterator();
-			System.out.println(code.id()+"-----"+code.name());
-			while (it2.hasNext()) {
-				Attribute a = (Attribute) it2.next();
-				System.out.println("new Attribute : "+a.name() + "---" + a.value());
-			}
-		}*/
-		/*
-		Codelist codelist = repository.lookup(id);
-		System.out.println("Codelist name -->"+codelist.name());
-
-
-		QName newCodelistName = q(codelist.name().getLocalPart()+"-updated");
-		Codelist changeset = codelist(codelist.id()).name(newCodelistName).as(MODIFIED).build();
-		repository.update(changeset);
-
-		Codelist codelist2 = repository.lookup(id);
-		System.out.println("Codelist name -->"+codelist2.name());
-		 */
-		//		return new ArrayList<UICode[]>();
 	}
 
 	private void loadASFIS() {

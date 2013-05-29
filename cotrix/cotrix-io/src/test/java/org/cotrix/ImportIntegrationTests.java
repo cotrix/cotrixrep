@@ -10,6 +10,7 @@ import org.cotrix.io.ingest.Outcome;
 import org.cotrix.io.sdmx.SdmxImportDirectives;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.virtual.sr.RepositoryPlugin;
 import org.virtualrepository.Asset;
 
 import com.googlecode.jeeunit.JeeunitRunner;
@@ -29,6 +30,15 @@ public class ImportIntegrationTests {
 	}
 	
 	@Test
+	public void discoverRemoteSdmxCodelist() {
+		
+		service.discoverRemoteCodelists();
+		
+		for (Asset codelist : service.remoteCodelists())
+			System.out.println(codelist);
+	}
+	
+	@Test
 	public void discoverAndImportRemoteSdmxCodelist() {
 		
 		service.discoverRemoteCodelists();
@@ -38,6 +48,24 @@ public class ImportIntegrationTests {
 		Outcome<Codelist> outcome = service.importCodelist(remoteCodelist.id(), SdmxImportDirectives.DEFAULT); 
 		
 		System.out.println(outcome.result());
+	}
+	
+	@Test
+	public void discoverAndImportRemoteSdmxCodelistFromSR() {
+		
+		service.discoverRemoteCodelists();
+		
+		Asset srCodelist = null;
+		for (Asset remoteCodelist : service.remoteCodelists())
+			if (remoteCodelist.service().name().equals(RepositoryPlugin.name)) {
+				srCodelist=remoteCodelist;
+				break;
+			}
+		
+		if (srCodelist!=null) {
+			Outcome<Codelist> outcome = service.importCodelist(srCodelist.id(), SdmxImportDirectives.DEFAULT); 
+			System.out.println(outcome.result());
+		}
 	}
 	
 	
