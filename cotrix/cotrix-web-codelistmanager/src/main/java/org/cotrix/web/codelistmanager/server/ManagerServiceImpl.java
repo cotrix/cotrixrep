@@ -1,9 +1,10 @@
 package org.cotrix.web.codelistmanager.server;
 
-
-
 import static org.cotrix.repository.Queries.allCodes;
 import static org.cotrix.repository.Queries.allLists;
+import static org.cotrix.domain.trait.Change.*;
+import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.domain.dsl.Codes.*;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -14,9 +15,12 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.el.Coercions;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.importservice.ImportService;
 import org.cotrix.importservice.Outcome;
 import org.cotrix.importservice.tabular.csv.CSV2Codelist;
@@ -30,7 +34,10 @@ import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.share.shared.UIAttribute;
+import org.cotrix.web.share.shared.UICode;
 import org.cotrix.web.share.shared.UICodelist;
+import org.omg.IOP.Codec;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -38,37 +45,57 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerService {
-	@Inject CodelistRepository repository;
-	@Inject ImportService service;
-	
-	public ArrayList<UICodelist> getAllCodelists()throws IllegalArgumentException {
+public class ManagerServiceImpl extends RemoteServiceServlet implements
+ManagerService {
+	@Inject
+	CodelistRepository repository;
+
+
+	@Inject
+	ImportService service;
+
+	public ArrayList<UICodelist> getAllCodelists()
+			throws IllegalArgumentException {
 		// Preloaded codelists for demo purpose.
 		loadASFIS();
-		
-		
+
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
-		Iterator<org.cotrix.domain.Codelist> it  = repository.queryFor(allLists()).iterator();
+		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(
+				allLists()).iterator();
 		while (it.hasNext()) {
-			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
+			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it
+					.next();
 			UICodelist c = new UICodelist();
 			c.setName(codelist.name().toString());
 			c.setId(codelist.id());
 			list.add(c);
 		}
-
 		return list;
 	}
-	public void editCode(String codelistID,String codeID,String value){
-//		Codelist changeset = codelist("1").with(
-//                code("1").name("newname").as(MODIFIED).build(),
-//                code().name("newcode").as(NEW).build()
-//            )
-// .build(); 
+	
+	public void addCode(ArrayList<UICode> codes){
+		Attribute.Private a = (Attribute.Private) attr().name("TAXOCODE").value("OOOOOOO").as(NEW).build();
+		Code.Private code = (Code.Private) code().name("LAU").attributes(a).as(NEW).build();
+		Codelist changeset = codelist("id").name("sss").with(code).as(NEW).build();
+		
 	}
-	public CotrixImportModel getCodeListModel(String codelistId) {
+	
+	public void editCode(ArrayList<UICode> editedCodes) {
+		for (UICode code : editedCodes) {
+			Attribute changedAttribute = attr(code.getAttribute().getId()).name(code.getAttribute().getName()).value(code.getAttribute().getValue()).as(MODIFIED).build();
+			Code changeCode =  code(code.getId()).name(code.getName()).attributes(changedAttribute).as(MODIFIED).build();
+			Codelist changeset = codelist(code.getParent().getId()).name(code.getParent().getName()).with(changeCode).as(MODIFIED).build();
+			repository.update(changeset);
+		}
+		/*
+		Attribute a =  attr().name(code.getAttribute().getName()).value(code.getAttribute().getValue()).as(NEW).build();
+		Code c = code().name(code.getName()).attributes(a).as(NEW).build();
+		Codelist codelist = codelist(code.getParent().getId()).name(code.getParent().getName()).with(c).as(NEW).build();*/
+	}
 
-		org.cotrix.domain.Codelist c =  repository.lookup(codelistId);
+	public CotrixImportModel getCodeListModel(String codelistId) {
+		System.out.println("Original codelist id " + codelistId);
+		Codelist c = repository.lookup(codelistId);
 
 		Metadata meta = new Metadata();
 		meta.setName(c.name().toString());
@@ -77,11 +104,9 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		meta.setVersion(c.version());
 		meta.setDescription("This data was compiled by hand from the above and may contain errors. One small modification is that the various insular areas of the United State listed above are recorded here as the single United States Minor Outlying Islands.");
 
-
 		CSVFile csvFile = new CSVFile();
 		csvFile.setData(new ArrayList<String[]>());
 		csvFile.setHeader(getHeader(c));
-
 
 		CotrixImportModel model = new CotrixImportModel();
 		model.setMetadata(meta);
@@ -89,18 +114,18 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		return model;
 	}
 
-	private String[] getHeader(org.cotrix.domain.Codelist codelist){
+	private String[] getHeader(Codelist codelist) {
 		CodelistQuery<Code> codes = allCodes(codelist.id());
-		codes.setRange(new Range(0,1));
+		codes.setRange(new Range(0, 1));
 		String[] line = null;
-		Iterable<Code> inrange  = repository.queryFor(codes);
+		Iterable<Code> inrange = repository.queryFor(codes);
 
 		Iterator<Code> it = inrange.iterator();
 		while (it.hasNext()) {
-			Code code = (Code)  it.next();
+			Code code = (Code) it.next();
 			line = new String[code.attributes().size()];
-			Iterator it2 =  code.attributes().iterator();
-			int index = 0 ;
+			Iterator it2 = code.attributes().iterator();
+			int index = 0;
 			while (it2.hasNext()) {
 				Attribute a = (Attribute) it2.next();
 				line[index++] = a.name().toString();
@@ -108,33 +133,100 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		}
 		return line;
 	}
-	
-	public ArrayList<String[]> getDataRange(String id, int start, int end) {
-		ArrayList<String[]> data = new ArrayList<String[]>();
+
+	public ArrayList<UICode[]> getDataRange(String id, int start, int end) {
+
+		ArrayList<UICode[]> data = new ArrayList<UICode[]>();
 		CodelistQuery<Code> codes = allCodes(id);
 		codes.setRange(new Range(start,end));
 
+		Codelist codelist = repository.lookup(id);
 		Iterable<Code> inrange  = repository.queryFor(codes);
-
 		Iterator<Code> it = inrange.iterator();
 		while (it.hasNext()) {
 			Code code = (Code)  it.next();
-			String[] line = new String[code.attributes().size()];
-			Iterator it2 =  code.attributes().iterator();
+			UICode[] line = new UICode[code.attributes().size()];
+			Iterator<Attribute> it2 =  (Iterator<Attribute>) code.attributes().iterator();
 			int index = 0 ;
 			while (it2.hasNext()) {
 				Attribute a = (Attribute) it2.next();
-				line[index++] = a.value();
+
+				UIAttribute uiAttr = new UIAttribute();
+				uiAttr.setName(a.name().toString());
+				uiAttr.setType(a.type().toString());
+				uiAttr.setLanguage(a.language());
+				uiAttr.setValue(a.id().substring(a.id().length()-4, a.id().length()) +":"+ a.value());
+				uiAttr.setId(a.id());
+
+				UICodelist uiCodeList = new UICodelist();
+				uiCodeList.setId(codelist.id());
+				uiCodeList.setName(codelist.name().toString());
+
+				UICode uiCode = new UICode();
+				uiCode.setAttribute(uiAttr);
+				uiCode.setId(code.id());
+				uiCode.setName(code.name().toString());
+				uiCode.setParent(uiCodeList);
+				
+				line[index++] = uiCode;
+
 			}
 			data.add(line);	
 		}
-
 		return data;
+		/*Codelist list = repository.lookup(id);
+		CodelistQuery<Code> codes = allCodes(id);
+		codes.setRange(new Range(1,2));
+		Iterable<Code> inrange  = repository.queryFor(codes);
+		Iterator<Code> it = inrange.iterator();
+		while (it.hasNext()) {
+			Code code = (Code) it.next();
+			Iterator it2 =  code.attributes().iterator();
+			System.out.println(code.id()+"-----"+code.name());
+			while (it2.hasNext()) {
+				Attribute a = (Attribute) it2.next();
+				System.out.println("Attribute : "+a.name() + "---" + a.value());
+
+				Attribute changedAttribute = attr(a.id()).name(a.name()).value("AAA").as(MODIFIED).build();
+				Code changeCode =  code(code.id()).name(code.name()).attributes(changedAttribute).as(MODIFIED).build();
+				Codelist changeset = codelist(list.id()).name(list.name()).with(changeCode).as(MODIFIED).build();
+				repository.update(changeset);
+			}
+		}
+
+		CodelistQuery<Code> codes2 = allCodes(id);
+		codes2.setRange(new Range(1,2));
+		Iterable<Code> inrange2  = repository.queryFor(codes2);
+		Iterator<Code> it1 = inrange2.iterator();
+		while (it1.hasNext()) {
+			Code code = (Code) it1.next();
+			Iterator it2 =  code.attributes().iterator();
+			System.out.println(code.id()+"-----"+code.name());
+			while (it2.hasNext()) {
+				Attribute a = (Attribute) it2.next();
+				System.out.println("new Attribute : "+a.name() + "---" + a.value());
+			}
+		}*/
+		/*
+		Codelist codelist = repository.lookup(id);
+		System.out.println("Codelist name -->"+codelist.name());
+
+
+		QName newCodelistName = q(codelist.name().getLocalPart()+"-updated");
+		Codelist changeset = codelist(codelist.id()).name(newCodelistName).as(MODIFIED).build();
+		repository.update(changeset);
+
+		Codelist codelist2 = repository.lookup(id);
+		System.out.println("Codelist name -->"+codelist2.name());
+		 */
+		//		return new ArrayList<UICode[]>();
 	}
-	
-	private void loadASFIS(){
-		FileInputStream is =  Util.readFile(this.getThreadLocalRequest().getSession().getServletContext().getRealPath("files/ASFIS_sp_Feb_2012.txt"));
-		
+
+	private void loadASFIS() {
+		FileInputStream is = Util.readFile(this.getThreadLocalRequest()
+				.getSession().getServletContext()
+				.getRealPath("files/ASFIS_sp_Feb_2012.txt"));
+
 		List<String> headers = new ArrayList<String>();
 		headers.add("ISSCAAP");
 		headers.add("TAXOCODE");
@@ -147,25 +239,26 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		headers.add("Family");
 		headers.add("Order");
 		headers.add("Stats_data");
-		
-		Outcome<Codelist> outcome = save(headers,is);
+
+		Outcome<Codelist> outcome = save(headers, is);
 		outcome.result();
-		
+
 		System.out.println(outcome.report());
-		
+
 	}
-	private Outcome<Codelist> save(List<String> types,InputStream stream){
+
+	private Outcome<Codelist> save(List<String> types, InputStream stream) {
 		CSVOptions options = new CSVOptions();
 		options.setDelimiter('\t');
-		options.setColumns(types,true);
-		
+		options.setColumns(types, true);
+
 		CodelistMapping mapping = new CodelistMapping("3A_CODE");
 		QName asfisName = new QName("asfis-2012");
 		mapping.setName(asfisName);
 
 		List<AttributeMapping> attrs = new ArrayList<AttributeMapping>();
 		for (String type : types) {
-			AttributeMapping attr = new AttributeMapping (type.trim());
+			AttributeMapping attr = new AttributeMapping(type.trim());
 			attrs.add(attr);
 		}
 		mapping.setAttributeMappings(attrs);
@@ -173,7 +266,5 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		CSV2Codelist directives = new CSV2Codelist(mapping, options);
 		return service.importCodelist(stream, directives);
 	}
-	
-
 
 }
