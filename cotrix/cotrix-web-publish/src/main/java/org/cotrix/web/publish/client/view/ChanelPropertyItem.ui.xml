@@ -53,6 +53,7 @@
 		.left {
 			float: left;
 			color: #666;
+			margin-left: 10px;
 			font-size: 15px;
 		}
 		
@@ -75,35 +76,38 @@
 		
 		.setup {
 			color: #2d83ee;
-			float:left;
+			float: left;
 			margin-left: 15px;
 		}
 		
 		.setup:HOVER {
-	
 			cursor: pointer;
 			color: blue;
 		}
-			
+		
 		.url {
 			color: #666;
-			float:left;
+			float: left;
 			margin-left: 15px;
 		}
 		
 		.url:HOVER {
-	
 			cursor: pointer;
 			color: #333;
+		}
+		
+		.typeListBox {
+			margin-left: 10px;
 		}
 	</ui:style>
 	<g:HTMLPanel>
 		<div class="{style.target}">
 			<div class="{style.wrapper}">
-				<g:CheckBox ui:field="checkbox" styleName="{style.left}"></g:CheckBox>
+				<!-- <g:CheckBox ui:field="checkbox" styleName="{style.left}"></g:CheckBox> -->
 				<g:Label ui:field="chanelName" styleName="{style.left}"></g:Label>
-				<g:Label ui:field="setPropertyButton" styleName="{style.setup}">setup</g:Label>
-				<g:Label ui:field="url" styleName="{style.url}"></g:Label>
+				<g:ListBox ui:field="types" styleName="{style.typeListBox}"></g:ListBox>
+				<!-- <g:Label ui:field="setPropertyButton" styleName="{style.setup}">setup</g:Label> -->
+				<!-- <g:Label ui:field="url" styleName="{style.url}"></g:Label> -->
 			</div>
 		</div>
 	</g:HTMLPanel>

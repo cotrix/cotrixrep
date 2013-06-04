@@ -37,8 +37,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class ManagerServiceImpl extends RemoteServiceServlet implements
-ManagerService {
+public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerService {
 	@Inject
 	CodelistRepository repository;
 
@@ -48,12 +47,8 @@ ManagerService {
 
 	public ArrayList<UICodelist> getAllCodelists()
 			throws IllegalArgumentException {
-		// Preloaded codelists for demo purpose.
-		if(repository == null){
-			System.out.println("NULLLLLLL injection");
-		}
-		
-		loadASFIS();
+
+//		loadASFIS();
 
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
 		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
@@ -67,14 +62,14 @@ ManagerService {
 		}
 		return list;
 	}
-	
+
 	public void addCode(ArrayList<UICode> codes){
 		Attribute.Private a = (Attribute.Private) attr().name("TAXOCODE").value("OOOOOOO").as(NEW).build();
 		Code.Private code = (Code.Private) code().name("LAU").attributes(a).as(NEW).build();
 		Codelist changeset = codelist("id").name("sss").with(code).as(NEW).build();
-		
+
 	}
-	
+
 	public void editCode(ArrayList<UICode> editedCodes) {
 		for (UICode code : editedCodes) {
 			Attribute changedAttribute = attr(code.getAttribute().getId()).name(code.getAttribute().getName()).value(code.getAttribute().getValue()).as(MODIFIED).build();
@@ -162,7 +157,7 @@ ManagerService {
 				uiCode.setId(code.id());
 				uiCode.setName(code.name().toString());
 				uiCode.setParent(uiCodeList);
-				
+
 				line[index++] = uiCode;
 
 			}
