@@ -10,6 +10,7 @@ import org.cotrix.web.publish.client.view.CodeListDetailView;
 import org.cotrix.web.publish.shared.ChanelPropertyModelController;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.UIChanel;
+import org.cotrix.web.share.shared.UIChanelProperty;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -79,7 +80,9 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 				for (UIChanel uiChanel : uiChanels) {
 					ChanelPropertyItem item = new ChanelPropertyItem(uiChanel);
 					item.setUIPropertyType(uiChanel.getAssetTypes());
+					item.addProperties(uiChanel.getProperties());
 					view.addChanelItem(item);
+					
 				}
 				view.addPublishButton();
 			}

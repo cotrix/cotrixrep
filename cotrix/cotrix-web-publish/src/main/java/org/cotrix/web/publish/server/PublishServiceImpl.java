@@ -57,7 +57,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 	@Inject ImportService importService;
 	
 	public ArrayList<UICodelist> getAllCodelists()throws IllegalArgumentException {
-		//loadASFIS();  // for testing
+		loadASFIS();  // for testing
 		
 		
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
@@ -116,6 +116,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	public ArrayList<UIChanel> getAllChanels(){
+		System.out.println("Start getting chanels");
 		ArrayList<UIChanel> uiChanels = new ArrayList<UIChanel>();
 		
 		Collection<RepositoryService> chanels = channels.publicationChannels();
@@ -136,9 +137,10 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 				p.setName(property.name());
 				p.setDescription(property.description());
 				p.setValue(property.value().toString());
-				
+				System.out.println(p.getName() +"--"+p.getDescription()+"--"+p.getValue());
 				uiProperties.add(p);
 			}
+			System.out.println("finish getting properties");
 			
 			UIChanel uiChanel = new UIChanel();
 			uiChanel.setName(chanel.name().toString());
@@ -171,7 +173,6 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	public CotrixImportModel getCodeListModel(String codelistId) {
-		System.out.println("Original codelist id " + codelistId);
 		Codelist c = repository.lookup(codelistId);
 
 		Metadata meta = new Metadata();
