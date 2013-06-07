@@ -7,6 +7,7 @@ import org.cotrix.web.publish.client.CotrixPublishAppGinInjector;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.view.ChanelPropertyItem;
 import org.cotrix.web.publish.client.view.CodeListDetailView;
+import org.cotrix.web.publish.client.view.ProgressbarDialog;
 import org.cotrix.web.publish.shared.ChanelPropertyModelController;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.UIChanel;
@@ -109,15 +110,22 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 
 	}
 	public void onPublishButtonClicked() {
+
+		final ProgressbarDialog d = new ProgressbarDialog();
+		d.show();
+		
 		ArrayList<String> chanels = view.getUserSelectedChanels(); 
 		rpcService.publishCodelist(codelistID, chanels, new AsyncCallback<Void>() {
 
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
+				d.hide();
 				Window.alert("Publish Codelist fail");
+				
 			}
 
 			public void onSuccess(Void result) {
+				d.hide();
 				Window.alert("Publish Codelist Success");
 			}
 		});
