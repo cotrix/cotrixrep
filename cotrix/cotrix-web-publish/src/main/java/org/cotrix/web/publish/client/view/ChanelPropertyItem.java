@@ -2,6 +2,7 @@ package org.cotrix.web.publish.client.view;
 
 import java.util.ArrayList;
 
+
 import org.cotrix.web.publish.client.CotrixPublishAppGinInjector;
 import org.cotrix.web.publish.client.presenter.ChanelPropertyDialogPresenter;
 import org.cotrix.web.publish.shared.ChanelPropertyModelController;
@@ -40,7 +41,9 @@ public class ChanelPropertyItem extends Composite implements
 //	@UiField CheckBox checkbox;
 //	@UiField Label url;
 //	@UiField Label setPropertyButton;
+	private UIChanel uiChanel ;
 
+	private final String DEFAULT_LISTBOX_VALUE = "0";
 	private ChanelPropertyModelController model;
 	private CotrixPublishAppGinInjector injector = GWT
 			.create(CotrixPublishAppGinInjector.class);
@@ -51,6 +54,7 @@ public class ChanelPropertyItem extends Composite implements
 		this.propertyTable.setWidget(0, 0, new HTML("Property"));
 		this.propertyTable.setWidget(0, 1, new HTML("Description"));
 		this.propertyTable.setWidget(0, 2, new HTML("Value"));
+		this.uiChanel = uiChanel;
 //		this.model = model;
 //		this.model.setOnValidated(this);
 //		this.setPropertyButton.addClickHandler(this);
@@ -71,11 +75,22 @@ public class ChanelPropertyItem extends Composite implements
 	public ChanelPropertyModelController getModel() {
 		return model;
 	}
+	public boolean isSelected(){
+		boolean selected = false;
+		String selectedValue = types.getValue(types.getSelectedIndex());
+		if(!selectedValue.equals(this.DEFAULT_LISTBOX_VALUE)){
+			selected = true;
+		}
+		return selected;
+	}
 	public void setUIPropertyType(ArrayList<UIChanelAssetType> propertyTypes){
-		types.addItem("--Select--", "0");
+		types.addItem("--Select--", this.DEFAULT_LISTBOX_VALUE);
 		for (UIChanelAssetType propertyType : propertyTypes) {
 			types.addItem(propertyType.getName(), propertyType.getName());
 		}
+	}
+	public UIChanel getUIChanel(){
+		return this.uiChanel;
 	}
 	public void setModel(ChanelPropertyModelController model) {
 		this.model = model;

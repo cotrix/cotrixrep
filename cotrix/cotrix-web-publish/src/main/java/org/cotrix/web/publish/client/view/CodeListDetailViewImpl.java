@@ -1,8 +1,11 @@
 package org.cotrix.web.publish.client.view;
 
+import java.util.ArrayList;
+
 import org.cotrix.web.publish.client.resources.CotrixPublishResources;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.share.shared.UIChanel;
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.core.client.GWT;
@@ -55,7 +58,8 @@ CodeListDetailView, ContextMenuHandler {
 	@UiField HTMLPanel chanelList;
 	@UiField Style style;
 
-
+	private ArrayList<ChanelPropertyItem> items = new ArrayList<ChanelPropertyItem>();
+	
 	@UiHandler("nav")
 	public void onNavLeftClicked(ClickEvent event) {
 		presenter.onNavLeftClicked(this.isShowingNavLeft);
@@ -93,6 +97,7 @@ CodeListDetailView, ContextMenuHandler {
 	}
 
 	public void addChanelItem(ChanelPropertyItem item) {
+		this.items.add(item);
 		this.chanelList.add(item);
 	}
 
@@ -101,16 +106,17 @@ CodeListDetailView, ContextMenuHandler {
 		publishButton.setStyleName(style.next());
 		publishButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				final ProgressbarDialog dialog = new ProgressbarDialog();
-				dialog.show();
-
-				Timer t = new Timer() {
-					public void run() {
-						dialog.finish();
-					}
-				};
-
-				t.schedule(3000);
+				presenter.onPublishButtonClicked();
+//				final ProgressbarDialog dialog = new ProgressbarDialog();
+//				dialog.show();
+//
+//				Timer t = new Timer() {
+//					public void run() {
+//						dialog.finish();
+//					}
+//				};
+//
+//				t.schedule(3000);
 			}
 		});
 		this.chanelList.add(publishButton);
@@ -178,5 +184,16 @@ CodeListDetailView, ContextMenuHandler {
 		nav.setStyleName(style.nav());
 		nav.setUrl(resources.nav_collapse_right().getSafeUri().asString());
 		isShowingNavLeft = false;
+	}
+
+	public ArrayList<String> getUserSelectedChanels() {
+		ArrayList<String> chanels = new ArrayList<String>();
+		for (ChanelPropertyItem item : items) {
+			UIChanel uiChanel = item.getUIChanel();
+			if(item.isSelected()){
+				chanels.add(uiChanel.getName())  ;
+			}
+		}
+		return chanels;
 	}
 }

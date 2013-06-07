@@ -12,6 +12,7 @@ import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.UIChanel;
 import org.cotrix.web.share.shared.UIChanelProperty;
 
+import com.google.common.util.concurrent.Service;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
@@ -27,11 +28,13 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	private CodeListDetailView view;
 	private AsyncDataProvider<String[]> dataProvider;
 	private List<String[]> currentData;
+	private String codelistID;
 	public interface OnNavigationClicked {
 		public void onNavigationClicked(boolean isShowingNavLeft);
 	}
 
 	private OnNavigationClicked onNavigationClicked;
+	
 	@Inject
 	public CodeListDetailPresenterImpl(PublishServiceAsync rpcService,
 			HandlerManager eventBus, CodeListDetailView view) {
@@ -92,6 +95,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	}
 
 	public void setData(final String id) {
+		this.codelistID = id;
 		view.showActivityIndicator();
 		rpcService.getCodeListModel(id, new AsyncCallback<CotrixImportModel>() {
 			public void onSuccess(CotrixImportModel result) {
@@ -103,6 +107,20 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 			}
 		});
 
+	}
+	public void onPublishButtonClicked() {
+		ArrayList<String> chanels = view.getUserSelectedChanels(); 
+		rpcService.publishCodelist(codelistID, chanels, new AsyncCallback<Void>() {
+
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				Window.alert("Publish Codelist fail");
+			}
+
+			public void onSuccess(Void result) {
+				Window.alert("Publish Codelist Success");
+			}
+		});
 	}
 
 

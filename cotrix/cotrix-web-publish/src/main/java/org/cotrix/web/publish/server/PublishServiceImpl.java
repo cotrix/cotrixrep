@@ -26,6 +26,8 @@ import org.cotrix.importservice.tabular.mapping.AttributeMapping;
 import org.cotrix.importservice.tabular.mapping.CodelistMapping;
 import org.cotrix.io.Channels;
 import org.cotrix.io.PublicationService;
+import org.cotrix.io.publish.PublicationDirectives;
+import org.cotrix.io.sdmx.SdmxPublishDirectives;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
@@ -190,5 +192,12 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		model.setMetadata(meta);
 		model.setCsvFile(csvFile);
 		return model;
+	}
+	
+	public void publishCodelist(String codelistID,ArrayList<String> chanels){
+		Codelist codelist = repository.lookup(codelistID);
+		for (String chanel : chanels) {
+			service.publish(codelist, SdmxPublishDirectives.DEFAULT, new QName(chanel));
+		}
 	}
 }

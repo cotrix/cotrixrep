@@ -17,4 +17,5 @@ public interface PublishService extends RemoteService {
 	 ArrayList<UICodelist> getAllCodelists() throws IllegalArgumentException;
 	 CotrixImportModel getCodeListModel(String codelistId) ;
 	 ArrayList<UIChanel> getAllChanels();
+	 void publishCodelist(String codelistID,ArrayList<String> chanels);
 }
