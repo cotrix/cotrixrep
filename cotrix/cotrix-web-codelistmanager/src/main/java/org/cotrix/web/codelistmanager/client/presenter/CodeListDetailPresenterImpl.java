@@ -153,6 +153,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 
 	public void onCellEdited(UICode code) {
 		editedCodes.put(code.getAttribute().getId(), code);
+		view.enableSaveButton(true);
 	}
 
 	public void onSaveButtonClicked() {
@@ -163,6 +164,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 
 			public void onSuccess(Void result) {
 				Window.alert("Updat data success !!!!");
+				view.enableSaveButton(false);
 			}
 		});
 		// clear old command

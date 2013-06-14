@@ -26,6 +26,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -61,6 +62,7 @@ CodeListDetailView, ContextMenuHandler {
 	@UiField HTMLPanel blankPanel;
 	@UiField ResizeLayoutPanel dataGridWrapper;
 	@UiField HTMLPanel pagerWrapper;
+	@UiField Button save;
 	@UiField Style style;
 	
 	private SimplePager pager;
@@ -72,6 +74,8 @@ CodeListDetailView, ContextMenuHandler {
 		String pager();
 		String contextMenu();
 		String flexTable();
+		String save_active();
+		String save_inactive();
 	}
 	private PopupPanel contextMenu;
 	private CotrixDataGrid<UICode[]> dataGrid;
@@ -90,7 +94,15 @@ CodeListDetailView, ContextMenuHandler {
 	public void onCodelistNameClicked(ClickEvent event) {
 		presenter.onCodelistNameClicked(metadataPanel.isVisible());
 	}
-
+	public void enableSaveButton(boolean enable){
+		if(enable){
+			this.save.setEnabled(true);
+			this.save.setStyleName(style.save_active());
+		}else{
+			this.save.setEnabled(false);
+			this.save.setStyleName(style.save_inactive());
+		}
+	}
 
 	private class FlexColumn extends Column<UICode[],String> {
 		int index;
@@ -101,7 +113,6 @@ CodeListDetailView, ContextMenuHandler {
 		
 		@Override
 		public String getValue(UICode[] column) {
-//			Window.alert("column size"+column.length);
 			if(column.length <= index){
 				return "";
 			}else{

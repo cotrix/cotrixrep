@@ -22,6 +22,7 @@ public interface CodeListDetailView {
 	void onNavLeftClicked(ClickEvent event);
 	void onSaveButtonClicked(ClickEvent event);
 	void showNavLeft();
+	void enableSaveButton(boolean enable);
 	void showNavRight();
 	int getPageIndex();
 	void showMetadataPanel(boolean isVisible);
