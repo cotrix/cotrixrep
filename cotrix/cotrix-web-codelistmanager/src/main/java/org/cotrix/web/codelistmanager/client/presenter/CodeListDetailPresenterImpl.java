@@ -113,6 +113,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 					}
 
 					public void onSuccess(ArrayList<UICode[]> result) {
+//						Window.alert("result size"+result.size());
 						currentData = result;
 						dataProvider.updateRowData(start, result);
 					}

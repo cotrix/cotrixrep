@@ -101,7 +101,12 @@ CodeListDetailView, ContextMenuHandler {
 		
 		@Override
 		public String getValue(UICode[] column) {
-			return column[index].getAttribute().getValue();
+//			Window.alert("column size"+column.length);
+			if(column.length <= index){
+				return "";
+			}else{
+				return column[index].getAttribute().getValue();
+			}
 		}
 	}
 
@@ -181,7 +186,8 @@ CodeListDetailView, ContextMenuHandler {
 			dataGrid.addColumn(column, headers[i]);
 			dataGrid.setColumnWidth(i, "200px");
 		}
-		dataGrid.setRowCount(12000, true);
+		
+		dataGrid.setRowCount(model.getTotalRow(), true);
 		dataGrid.setVisibleRange(0, 30);
 		dataGrid.getRowCount();
 		dataGrid.setHeight(dataGridWrapper.getOffsetHeight() + "px");

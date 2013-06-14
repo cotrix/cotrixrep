@@ -73,6 +73,25 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		}
 		return list;
 	}
+	private Outcome<Codelist> save(List<String> types, InputStream stream) {
+		CSVOptions options = new CSVOptions();
+		options.setDelimiter('\t');
+		options.setColumns(types, true);
+
+		CodelistMapping mapping = new CodelistMapping("3A_CODE");
+		QName asfisName = new QName("asfis-2012");
+		mapping.setName(asfisName);
+
+		List<AttributeMapping> attrs = new ArrayList<AttributeMapping>();
+		for (String type : types) {
+			AttributeMapping attr = new AttributeMapping(type.trim());
+			attrs.add(attr);
+		}
+		mapping.setAttributeMappings(attrs);
+
+		CSV2Codelist directives = new CSV2Codelist(mapping, options);
+		return importService.importCodelist(stream, directives);
+	}
 	private void loadASFIS() {
 		FileInputStream is = Util.readFile(this.getThreadLocalRequest()
 				.getSession().getServletContext()
@@ -97,25 +116,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		System.out.println(outcome.report());
 
 	}
-	private Outcome<Codelist> save(List<String> types, InputStream stream) {
-		CSVOptions options = new CSVOptions();
-		options.setDelimiter('\t');
-		options.setColumns(types, true);
-
-		CodelistMapping mapping = new CodelistMapping("3A_CODE");
-		QName asfisName = new QName("asfis-2012");
-		mapping.setName(asfisName);
-
-		List<AttributeMapping> attrs = new ArrayList<AttributeMapping>();
-		for (String type : types) {
-			AttributeMapping attr = new AttributeMapping(type.trim());
-			attrs.add(attr);
-		}
-		mapping.setAttributeMappings(attrs);
-
-		CSV2Codelist directives = new CSV2Codelist(mapping, options);
-		return importService.importCodelist(stream, directives);
-	}
+	
 	
 	public ArrayList<UIChanel> getAllChanels(){
 		System.out.println("Start getting chanels");
@@ -197,6 +198,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 	public void publishCodelist(String codelistID,ArrayList<String> chanels){
 		Codelist codelist = repository.lookup(codelistID);
 		for (String chanel : chanels) {
+			System.out.println();
 			service.publish(codelist, SdmxPublishDirectives.DEFAULT, new QName(chanel));
 		}
 	}

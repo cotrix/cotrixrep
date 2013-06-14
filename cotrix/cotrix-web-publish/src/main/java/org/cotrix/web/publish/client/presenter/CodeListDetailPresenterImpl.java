@@ -114,6 +114,8 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 		final ProgressbarDialog d = new ProgressbarDialog();
 		d.show();
 		
+		
+		
 		ArrayList<String> chanels = view.getUserSelectedChanels(); 
 		rpcService.publishCodelist(codelistID, chanels, new AsyncCallback<Void>() {
 
