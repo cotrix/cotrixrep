@@ -29,12 +29,12 @@ public class DefaultImportService implements ImportService {
 	
 	private static Logger log = LoggerFactory.getLogger(ImportService.class);
 	
-	private final Registry<ImportTask<?,?>> registry;
+	private final Registry<ImportTask<Asset,ImportDirectives>> registry;
 	private final CodelistRepository listRepository;
 	private final VirtualRepository repository;
 	
 	@Inject
-	public DefaultImportService(Registry<ImportTask<?,?>> registry,CodelistRepository listRepository, VirtualRepository repository) {
+	public DefaultImportService(Registry<ImportTask<Asset,ImportDirectives>> registry,CodelistRepository listRepository, VirtualRepository repository) {
 		
 		notNull("parser registry",registry);
 		notNull("codelist repository",listRepository);
@@ -75,8 +75,7 @@ public class DefaultImportService implements ImportService {
 		try {
 			
 			//safe: upload mockDirectives are always bound to upload tasks, convince compiler
-			@SuppressWarnings("all")
-			ImportTask<?,ImportDirectives> task = (ImportTask) registry.get(directives);
+			ImportTask<Asset,ImportDirectives> task = registry.get(directives);
 			
 			Codelist parsed = task.parse(data,directives);
 			
