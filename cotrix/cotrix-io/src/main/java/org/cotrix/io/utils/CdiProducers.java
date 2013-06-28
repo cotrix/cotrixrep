@@ -8,8 +8,11 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.cotrix.io.ingest.ImportDirectives;
 import org.cotrix.io.ingest.ImportTask;
+import org.cotrix.io.publish.PublicationDirectives;
 import org.cotrix.io.publish.PublicationTask;
+import org.virtualrepository.Asset;
 import org.virtualrepository.VirtualRepository;
 import org.virtualrepository.impl.Repository;
 
@@ -22,24 +25,24 @@ import org.virtualrepository.impl.Repository;
 public class CdiProducers {
 
 	@Inject
-	private Instance<ImportTask<?,?>> importTasks;
+	private Instance<ImportTask<Asset,ImportDirectives>> importTasks;
 	
 	@Inject
-	private Instance<PublicationTask<?>> publishTasks;
+	private Instance<PublicationTask<PublicationDirectives>> publishTasks;
 	
 	/**
 	 * Produces a {@link Registry} of {@link UploadDirectives}s for CDI injection.
 	 * @return the registry
 	 */
 	@Produces
-	public Registry<ImportTask<?,?>> importTasks() {
+	public Registry<ImportTask<Asset,ImportDirectives>> importTasks() {
 		
-		List<ImportTask<?,?>> tasks = new ArrayList<ImportTask<?,?>>();
+		List<ImportTask<Asset,ImportDirectives>> tasks = new ArrayList<ImportTask<Asset,ImportDirectives>>();
 		
-		for (ImportTask<?,?> task : importTasks)
+		for (ImportTask<Asset,ImportDirectives> task : importTasks)
 			tasks.add(task);
 		
-		return new Registry<ImportTask<?,?>>(tasks);
+		return new Registry<ImportTask<Asset,ImportDirectives>>(tasks);
 			
 	}
 	
@@ -48,14 +51,14 @@ public class CdiProducers {
 	 * @return the registry
 	 */
 	@Produces 
-	public Registry<PublicationTask<?>> publishTasks() {
+	public Registry<PublicationTask<PublicationDirectives>> publishTasks() {
 		
-		List<PublicationTask<?>> tasks = new ArrayList<PublicationTask<?>>();
+		List<PublicationTask<PublicationDirectives>> tasks = new ArrayList<PublicationTask<PublicationDirectives>>();
 		
-		for (PublicationTask<?> task : publishTasks)
+		for (PublicationTask<PublicationDirectives> task : publishTasks)
 			tasks.add(task);
 		
-		return new Registry<PublicationTask<?>>(tasks);
+		return new Registry<PublicationTask<PublicationDirectives>>(tasks);
 			
 	}
 	

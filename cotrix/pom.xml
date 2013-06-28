@@ -34,11 +34,12 @@
 	<repositories>
 	    <repository>
           <snapshots />
-          <id>fao-snapshots</id>
-          <name>libs-snapshot</name>
-          <url>http://artifactory.fao.org/artifactory/libs-snapshot</url>
+          <id>fips-snapshots</id>
+          <name>fips-snapshots</name>
+          <url>http://artifactory.fao.org/artifactory/fips</url>
         </repository>
 	</repositories>
+
 
 	<dependencyManagement>
 		<dependencies>
@@ -86,6 +87,13 @@
 			<dependency>
 				<groupId>com.googlecode.jeeunit</groupId>
 				<artifactId>jeeunit-openwebbeans</artifactId>
+				<version>1.0.0</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.googlecode.jeeunit</groupId>
+				<artifactId>jeeunit-weld-se</artifactId>
 				<version>1.0.0</version>
 				<scope>test</scope>
 			</dependency>

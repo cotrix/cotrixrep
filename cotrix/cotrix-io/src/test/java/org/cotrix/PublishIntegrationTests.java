@@ -1,14 +1,26 @@
 package org.cotrix;
 
+import static junit.framework.Assert.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
-import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Codelist;
+import org.cotrix.importservice.ImportService;
+import org.cotrix.importservice.Outcome;
+import org.cotrix.importservice.tabular.csv.CSV2Codelist;
+import org.cotrix.importservice.tabular.csv.CSVOptions;
+import org.cotrix.importservice.tabular.mapping.AttributeMapping;
+import org.cotrix.importservice.tabular.mapping.CodelistMapping;
 import org.cotrix.io.PublicationService;
+import org.cotrix.io.sdmx.Codelist2Sdmx;
 import org.cotrix.io.sdmx.SdmxPublishDirectives;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,10 +54,64 @@ public class PublishIntegrationTests {
 	@Inject
 	VirtualRepository repository;
 	
+	@Inject
+	ImportService service;
+	
 	@Test
 	public void servicesAreInjected() throws Exception {
 			
 		assertNotNull(publisher);
+		
+	}
+	
+	@Test
+	public void importASFIS() throws Exception {
+
+		File file = new File("src/test/resources/ASFIS_sp_Feb_2012.txt");
+		
+		List<String> types = new ArrayList<String>();
+		types.add("ISSCAAP");
+		types.add("TAXOCODE");
+		types.add("3A_CODE");
+		types.add("Scientific_name");
+		types.add("English_name");
+		types.add("French_name");
+		types.add("Spanish_name");
+		types.add("Author");
+		types.add("Family");
+		types.add("Order");
+		types.add("Stats_data");
+
+		
+		CSVOptions options = new CSVOptions();
+		options.setDelimiter('\t');
+		options.setColumns(types, true);
+
+		CodelistMapping mapping = new CodelistMapping("3A_CODE");
+		QName asfisName = new QName("asfis-2012");
+		mapping.setName(asfisName);
+
+		List<AttributeMapping> attrs = new ArrayList<AttributeMapping>();
+		for (String type : types) {
+			AttributeMapping attr = new AttributeMapping(type.trim());
+			attrs.add(attr);
+		}
+		mapping.setAttributeMappings(attrs);
+
+		CSV2Codelist directives = new CSV2Codelist(mapping, options);
+		
+		
+		Outcome<Codelist> outcome = service.importCodelist(new FileInputStream(file),directives);
+		
+		System.out.println(outcome.report());
+		
+		Codelist asfis = outcome.result();
+		
+		Codelist2Sdmx transform = new Codelist2Sdmx();
+		transform.apply(asfis);
+		
+		//System.out.println(asfis.codes());
+		assertEquals(asfisName, asfis.name());
 		
 	}
 	
