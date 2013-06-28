@@ -7,10 +7,13 @@ import org.cotrix.web.publish.client.CotrixPublishAppGinInjector;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.view.ChanelPropertyItem;
 import org.cotrix.web.publish.client.view.CodeListDetailView;
+import org.cotrix.web.publish.client.view.ProgressbarDialog;
 import org.cotrix.web.publish.shared.ChanelPropertyModelController;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.UIChanel;
+import org.cotrix.web.share.shared.UIChanelProperty;
 
+import com.google.common.util.concurrent.Service;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
@@ -26,11 +29,13 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	private CodeListDetailView view;
 	private AsyncDataProvider<String[]> dataProvider;
 	private List<String[]> currentData;
+	private String codelistID;
 	public interface OnNavigationClicked {
 		public void onNavigationClicked(boolean isShowingNavLeft);
 	}
 
 	private OnNavigationClicked onNavigationClicked;
+	
 	@Inject
 	public CodeListDetailPresenterImpl(PublishServiceAsync rpcService,
 			HandlerManager eventBus, CodeListDetailView view) {
@@ -79,7 +84,9 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 				for (UIChanel uiChanel : uiChanels) {
 					ChanelPropertyItem item = new ChanelPropertyItem(uiChanel);
 					item.setUIPropertyType(uiChanel.getAssetTypes());
+					item.addProperties(uiChanel.getProperties());
 					view.addChanelItem(item);
+					
 				}
 				view.addPublishButton();
 			}
@@ -89,6 +96,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	}
 
 	public void setData(final String id) {
+		this.codelistID = id;
 		view.showActivityIndicator();
 		rpcService.getCodeListModel(id, new AsyncCallback<CotrixImportModel>() {
 			public void onSuccess(CotrixImportModel result) {
@@ -100,6 +108,29 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 			}
 		});
 
+	}
+	public void onPublishButtonClicked() {
+
+		final ProgressbarDialog d = new ProgressbarDialog();
+		d.show();
+		
+		
+		
+		ArrayList<String> chanels = view.getUserSelectedChanels(); 
+		rpcService.publishCodelist(codelistID, chanels, new AsyncCallback<Void>() {
+
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				d.hide();
+				Window.alert("Publish Codelist fail");
+				
+			}
+
+			public void onSuccess(Void result) {
+				d.hide();
+				Window.alert("Publish Codelist Success");
+			}
+		});
 	}
 
 

@@ -26,6 +26,8 @@ import org.cotrix.importservice.tabular.mapping.AttributeMapping;
 import org.cotrix.importservice.tabular.mapping.CodelistMapping;
 import org.cotrix.io.Channels;
 import org.cotrix.io.PublicationService;
+import org.cotrix.io.publish.PublicationDirectives;
+import org.cotrix.io.sdmx.SdmxPublishDirectives;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
@@ -57,7 +59,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 	@Inject ImportService importService;
 	
 	public ArrayList<UICodelist> getAllCodelists()throws IllegalArgumentException {
-		//loadASFIS();  // for testing
+//		loadASFIS();  // for testing
 		
 		
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
@@ -70,6 +72,25 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 			list.add(c);
 		}
 		return list;
+	}
+	private Outcome<Codelist> save(List<String> types, InputStream stream) {
+		CSVOptions options = new CSVOptions();
+		options.setDelimiter('\t');
+		options.setColumns(types, true);
+
+		CodelistMapping mapping = new CodelistMapping("3A_CODE");
+		QName asfisName = new QName("asfis-2012");
+		mapping.setName(asfisName);
+
+		List<AttributeMapping> attrs = new ArrayList<AttributeMapping>();
+		for (String type : types) {
+			AttributeMapping attr = new AttributeMapping(type.trim());
+			attrs.add(attr);
+		}
+		mapping.setAttributeMappings(attrs);
+
+		CSV2Codelist directives = new CSV2Codelist(mapping, options);
+		return importService.importCodelist(stream, directives);
 	}
 	private void loadASFIS() {
 		FileInputStream is = Util.readFile(this.getThreadLocalRequest()
@@ -95,27 +116,10 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		System.out.println(outcome.report());
 
 	}
-	private Outcome<Codelist> save(List<String> types, InputStream stream) {
-		CSVOptions options = new CSVOptions();
-		options.setDelimiter('\t');
-		options.setColumns(types, true);
-
-		CodelistMapping mapping = new CodelistMapping("3A_CODE");
-		QName asfisName = new QName("asfis-2012");
-		mapping.setName(asfisName);
-
-		List<AttributeMapping> attrs = new ArrayList<AttributeMapping>();
-		for (String type : types) {
-			AttributeMapping attr = new AttributeMapping(type.trim());
-			attrs.add(attr);
-		}
-		mapping.setAttributeMappings(attrs);
-
-		CSV2Codelist directives = new CSV2Codelist(mapping, options);
-		return importService.importCodelist(stream, directives);
-	}
+	
 	
 	public ArrayList<UIChanel> getAllChanels(){
+		System.out.println("Start getting chanels");
 		ArrayList<UIChanel> uiChanels = new ArrayList<UIChanel>();
 		
 		Collection<RepositoryService> chanels = channels.publicationChannels();
@@ -136,9 +140,10 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 				p.setName(property.name());
 				p.setDescription(property.description());
 				p.setValue(property.value().toString());
-				
+				System.out.println(p.getName() +"--"+p.getDescription()+"--"+p.getValue());
 				uiProperties.add(p);
 			}
+			System.out.println("finish getting properties");
 			
 			UIChanel uiChanel = new UIChanel();
 			uiChanel.setName(chanel.name().toString());
@@ -171,7 +176,6 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	public CotrixImportModel getCodeListModel(String codelistId) {
-		System.out.println("Original codelist id " + codelistId);
 		Codelist c = repository.lookup(codelistId);
 
 		Metadata meta = new Metadata();
@@ -189,5 +193,13 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		model.setMetadata(meta);
 		model.setCsvFile(csvFile);
 		return model;
+	}
+	
+	public void publishCodelist(String codelistID,ArrayList<String> chanels){
+		Codelist codelist = repository.lookup(codelistID);
+		for (String chanel : chanels) {
+			System.out.println();
+			service.publish(codelist, SdmxPublishDirectives.DEFAULT, new QName(chanel));
+		}
 	}
 }

@@ -10,6 +10,7 @@ public class CotrixImportModel implements IsSerializable{
 	private CSVFile csvFile;
 	private HashMap<String, String> description;
 	private HashMap<String, String> summary;
+	private int totalRow ;
 	private ArrayList<HeaderType> type;
 	
 	public Metadata getMetadata() {
@@ -41,6 +42,12 @@ public class CotrixImportModel implements IsSerializable{
 	}
 	public void setType(ArrayList<HeaderType> type) {
 		this.type = type;
+	}
+	public int getTotalRow() {
+		return totalRow;
+	}
+	public void setTotalRow(int totalRow) {
+		this.totalRow = totalRow;
 	}
 	
 }

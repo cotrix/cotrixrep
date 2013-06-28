@@ -48,7 +48,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 	public ArrayList<UICodelist> getAllCodelists()
 			throws IllegalArgumentException {
 
-//		loadASFIS();
+		loadASFIS();
 
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
 		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
@@ -101,6 +101,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		CotrixImportModel model = new CotrixImportModel();
 		model.setMetadata(meta);
 		model.setCsvFile(csvFile);
+		model.setTotalRow(c.codes().size());
 		return model;
 	}
 
@@ -135,6 +136,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		Iterator<Code> it = inrange.iterator();
 		while (it.hasNext()) {
 			Code code = (Code)  it.next();
+			System.out.println("attribute size = "+code.attributes().size());
 			UICode[] line = new UICode[code.attributes().size()];
 			Iterator<Attribute> it2 =  (Iterator<Attribute>) code.attributes().iterator();
 			int index = 0 ;

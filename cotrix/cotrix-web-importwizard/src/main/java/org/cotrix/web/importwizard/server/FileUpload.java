@@ -136,10 +136,8 @@ public class FileUpload extends HttpServlet{
 
 		List<AttributeMapping> attrs = new ArrayList<AttributeMapping>();
 		for (HeaderType type : types) {
-			AttributeMapping attr = new AttributeMapping (type.getName());
-			if(type.getRelatedValue()!=null){
-				attr.setLanguage(type.getRelatedValue());
-			}
+			System.out.println("HEADER TYPE:"+type.getName().trim());
+			AttributeMapping attr = new AttributeMapping (type.getName().trim());
 			attrs.add(attr);
 
 		}
