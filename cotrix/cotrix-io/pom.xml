@@ -8,19 +8,6 @@
 	</parent>
 	<artifactId>cotrix-io</artifactId>
 
-	<repositories>
-		<repository>
-			<id>sdmxsource</id>
-			<url>http://www.metadatatechnology.com/nexus/content/repositories/releases</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-	</repositories>
-
 	<dependencies>
 
 		<dependency>
