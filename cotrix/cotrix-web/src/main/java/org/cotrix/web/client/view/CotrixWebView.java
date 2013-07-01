@@ -2,7 +2,6 @@ package org.cotrix.web.client.view;
 
 import org.cotrix.web.client.presenter.CotrixWebPresenter;
 import org.cotrix.web.importwizard.client.presenter.HeaderSelectionFormPresenterImpl;
-import org.cotrix.web.menu.client.CotrixModuleMenu;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
 
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
