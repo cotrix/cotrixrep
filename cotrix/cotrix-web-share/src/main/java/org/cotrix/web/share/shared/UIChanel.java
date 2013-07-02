@@ -1,6 +1,5 @@
 package org.cotrix.web.share.shared;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
