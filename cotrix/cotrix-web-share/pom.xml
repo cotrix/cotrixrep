@@ -14,6 +14,7 @@
 	<name>cotrix-web-share</name>
 
 	<properties>
+		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
