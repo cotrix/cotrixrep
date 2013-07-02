@@ -38,6 +38,38 @@
 			<name>fips-snapshots</name>
 			<url>http://artifactory.fao.org/artifactory/fips</url>
 		</repository>
+		<repository>
+			<id>sdmxsource</id>
+			<url>http://www.metadatatechnology.com/nexus/content/repositories/releases</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>gcube-snapshots</id>
+			<name>gCube Snapshots</name>
+			<url>http://maven.research-infrastructures.eu/nexus/content/repositories/gcube-snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>gcube-externals</id>
+			<name>gCube Releases</name>
+			<url>http://maven.research-infrastructures.eu/nexus/content/repositories/gcube-externals</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
 	</repositories>
 
 
