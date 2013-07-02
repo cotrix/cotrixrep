@@ -24,20 +24,52 @@
 		<module>cotrix-web-publish</module>
 		<module>cotrix-openjpa</module>
 		<module>cotrix-io</module>
-		
+
 		<!-- legacy modules, here for retro-compatibility until aligment is possible -->
 		<module>cotrix-domain</module>
 		<module>cotrix-tabular</module>
-		
+
 	</modules>
-	
+
 	<repositories>
-	    <repository>
-          <snapshots />
-          <id>fips-snapshots</id>
-          <name>fips-snapshots</name>
-          <url>http://artifactory.fao.org/artifactory/fips</url>
-        </repository>
+		<repository>
+			<snapshots />
+			<id>fips-snapshots</id>
+			<name>fips-snapshots</name>
+			<url>http://artifactory.fao.org/artifactory/fips</url>
+		</repository>
+		<repository>
+			<id>sdmxsource</id>
+			<url>http://www.metadatatechnology.com/nexus/content/repositories/releases</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>gcube-snapshots</id>
+			<name>gCube Snapshots</name>
+			<url>http://maven.research-infrastructures.eu/nexus/content/repositories/gcube-snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>gcube-externals</id>
+			<name>gCube Releases</name>
+			<url>http://maven.research-infrastructures.eu/nexus/content/repositories/gcube-externals</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
 	</repositories>
 
 
@@ -90,7 +122,7 @@
 				<version>1.0.0</version>
 				<scope>test</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.googlecode.jeeunit</groupId>
 				<artifactId>jeeunit-weld-se</artifactId>
@@ -157,5 +189,5 @@
 			</distributionManagement>
 		</profile>
 	</profiles>
-	
+
 </project>
