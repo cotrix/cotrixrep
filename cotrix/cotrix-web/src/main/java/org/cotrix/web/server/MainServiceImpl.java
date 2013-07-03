@@ -3,7 +3,6 @@ package org.cotrix.web.server;
 import java.util.ArrayList;
 
 import org.cotrix.web.client.MainService;
-import org.cotrix.web.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**

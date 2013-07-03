@@ -31,8 +31,6 @@ public class CodeListManager implements EntryPoint {
 	private final MainServiceAsync codeListService = GWT
 			.create(MainService.class);
 
-	private final Messages messages = GWT.create(Messages.class);
-
 	/**
 	 * This is the entry point method.
 	 */
