@@ -38,6 +38,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 @SuppressWarnings("serial")
 public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerService {
+	
 	@Inject
 	CodelistRepository repository;
 

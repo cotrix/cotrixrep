@@ -14,40 +14,28 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>cdiProxyImportWizardServlet</servlet-name>
-		<servlet-class>org.cotrix.web.importwizard.server.CDIProxyServlet</servlet-class>
-		<init-param>
-			<param-name>targetServletClass</param-name>
-			<param-value>org.cotrix.web.importwizard.server.FileUpload</param-value>
-		</init-param>
+		<servlet-name>importWizardServlet</servlet-name>
+		<servlet-class>org.cotrix.web.importwizard.server.FileUpload</servlet-class>
 	</servlet>
 
 	<servlet>
-		<servlet-name>cdiProxyCodelistManagerServlet</servlet-name>
-		<servlet-class>org.cotrix.web.codelistmanager.server.CDIProxyServlet</servlet-class>
-		<init-param>
-			<param-name>targetServletClass</param-name>
-			<param-value>org.cotrix.web.codelistmanager.server.ManagerServiceImpl</param-value>
-		</init-param>
+		<servlet-name>codelistManagerServlet</servlet-name>
+		<servlet-class>org.cotrix.web.codelistmanager.server.ManagerServiceImpl</servlet-class>
 	</servlet>
 	
 	<servlet>
-		<servlet-name>cdiProxyCodelistPublishServlet</servlet-name>
-		<servlet-class>org.cotrix.web.publish.server.CDIProxyServlet</servlet-class>
-		<init-param>
-			<param-name>targetServletClass</param-name>
-			<param-value>org.cotrix.web.publish.server.PublishServiceImpl</param-value>
-		</init-param>
+		<servlet-name>codelistPublishServlet</servlet-name>
+		<servlet-class>org.cotrix.web.publish.server.PublishServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>cdiProxyCodelistPublishServlet</servlet-name>
+		<servlet-name>codelistPublishServlet</servlet-name>
 		<url-pattern>/CodeListManager/publish</url-pattern>
 	</servlet-mapping>
 
 
 	<servlet-mapping>
-		<servlet-name>cdiProxyImportWizardServlet</servlet-name>
+		<servlet-name>importWizardServlet</servlet-name>
 		<url-pattern>/CodeListManager/fileupload</url-pattern>
 	</servlet-mapping>
 
@@ -57,7 +45,7 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>cdiProxyCodelistManagerServlet</servlet-name>
+		<servlet-name>codelistManagerServlet</servlet-name>
 		<url-pattern>/CodeListManager/manager</url-pattern>
 	</servlet-mapping>
 
