@@ -3,18 +3,13 @@ package org.cotrix.web.publish.client.presenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.web.publish.client.CotrixPublishAppGinInjector;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.view.ChanelPropertyItem;
 import org.cotrix.web.publish.client.view.CodeListDetailView;
 import org.cotrix.web.publish.client.view.ProgressbarDialog;
-import org.cotrix.web.publish.shared.ChanelPropertyModelController;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.UIChanel;
-import org.cotrix.web.share.shared.UIChanelProperty;
 
-import com.google.common.util.concurrent.Service;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
