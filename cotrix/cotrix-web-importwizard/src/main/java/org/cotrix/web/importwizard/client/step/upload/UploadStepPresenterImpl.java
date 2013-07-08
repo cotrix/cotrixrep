@@ -3,12 +3,9 @@ package org.cotrix.web.importwizard.client.step.upload;
 import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.util.SuccessUploadDialog;
-import org.cotrix.web.importwizard.client.util.UploadProgressDialog;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
-import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.json.HeaderTypeJson;
 import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
@@ -25,26 +22,26 @@ import org.vectomatic.file.events.ProgressEvent;
 import org.vectomatic.file.events.ProgressHandler;
 
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
-import com.google.web.bindery.autobean.shared.AutoBean;
-import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 
-public class UploadFormPresenterImpl implements UploadFormPresenter {
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class UploadStepPresenterImpl implements UploadStepPresenter {
 
 
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private FileReader reader;
 	private String filename = "";
-	private UploadFormView view;
+	private UploadStepView view;
 	private CotrixImportModelController model;
 
 	@Inject
-	public UploadFormPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, UploadFormView view,CotrixImportModelController model) {
+	public UploadStepPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, UploadStepView view,CotrixImportModelController model) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;

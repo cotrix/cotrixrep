@@ -7,7 +7,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 
-public interface UploadFormView<T> {
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ * @param <T>
+ */
+public interface UploadStepView<T> {
 
 	public interface Presenter<T> {
 		void onLoadFileFinish();
@@ -18,7 +23,7 @@ public interface UploadFormView<T> {
 		void onSubmitComplete(SubmitCompleteEvent event);
 	}
 	
-	void setPresenter(Presenter<UploadFormPresenterImpl> presenter);
+	void setPresenter(Presenter<UploadStepPresenterImpl> presenter);
 	void onDeleteButtonClicked(ClickEvent event);
 	void onBrowseButtonClicked(ClickEvent event);
 	void setFileUploadButtonClicked();

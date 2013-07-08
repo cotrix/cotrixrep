@@ -6,6 +6,10 @@ import org.cotrix.web.share.shared.CotrixImportModelController.OnFileChangeHandl
 import org.cotrix.web.share.shared.CotrixImportModelController.OnMetaDataChangeHandler;
 import org.cotrix.web.share.shared.CotrixImportModelController.OnTypeChangeHandler;
 
-public interface SummaryFormPresenter extends  Presenter<SummaryFormPresenterImpl>,SummaryFormView.Presenter<SummaryFormPresenterImpl> ,OnMetaDataChangeHandler,OnTypeChangeHandler,OnDescriptionChangeHandler,OnFileChangeHandler{
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public interface SummaryStepPresenter extends  Presenter<SummaryStepPresenterImpl>, SummaryStepView.Presenter<SummaryStepPresenterImpl> ,OnMetaDataChangeHandler,OnTypeChangeHandler,OnDescriptionChangeHandler,OnFileChangeHandler{
 
 }

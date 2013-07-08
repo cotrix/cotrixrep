@@ -1,7 +1,5 @@
 package org.cotrix.web.importwizard.client.util;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 

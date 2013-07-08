@@ -1,32 +1,31 @@
 package org.cotrix.web.importwizard.client.step.done;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class DoneFormViewImpl extends Composite implements DoneFormView {
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class DoneStepViewImpl extends Composite implements DoneStepView {
 
-	private static DoneFormViewUiBinder uiBinder = GWT
-			.create(DoneFormViewUiBinder.class);
+	private static DoneStepViewUiBinder uiBinder = GWT.create(DoneStepViewUiBinder.class);
 
-	@UiTemplate("DoneFormView.ui.xml")
-	interface DoneFormViewUiBinder extends UiBinder<Widget, DoneFormViewImpl> {
+	@UiTemplate("DoneStepView.ui.xml")
+	interface DoneStepViewUiBinder extends UiBinder<Widget, DoneStepViewImpl> {
 	}
 	
 	@UiField Label title;
 	@UiField Label message;
 	
 	private Presenter presenter;
-	public DoneFormViewImpl() {
+	
+	public DoneStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 

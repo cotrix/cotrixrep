@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.step.FormWrapperPresenter;
 import org.cotrix.web.importwizard.client.step.FormWrapperViewImpl;
-import org.cotrix.web.importwizard.client.step.done.DoneFormPresenter;
-import org.cotrix.web.importwizard.client.step.mapping.HeaderTypeFormPresenterImpl;
-import org.cotrix.web.importwizard.client.step.metadata.MetadataFormPresenterImpl;
-import org.cotrix.web.importwizard.client.step.preview.HeaderSelectionFormPresenterImpl;
-import org.cotrix.web.importwizard.client.step.upload.UploadFormPresenterImpl;
+import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
+import org.cotrix.web.importwizard.client.step.mapping.MappingStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenterImpl;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.Metadata;
@@ -31,8 +31,8 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	private CotrixImportModelController model;
 	private ArrayList<Presenter<GenericImportWizardPresenterImpl>> presenters  = new ArrayList<Presenter<GenericImportWizardPresenterImpl>>();
 	private ArrayList<String> formLabel  = new ArrayList<String>();
-	private UploadFormPresenterImpl uploadFormPresenter;
-	private DoneFormPresenter doneFormPresenter ;
+	private UploadStepPresenterImpl uploadFormPresenter;
+	private DoneStepPresenter doneFormPresenter ;
     @Inject
 	public GenericImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModelController model) {
 		this.rpcService = rpcService;
@@ -81,7 +81,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 				formWrapperPresenter.showUploadOtherButton(true);
 				formWrapperPresenter.showManageCodelistButton(true);
 				
-			    doneFormPresenter = (DoneFormPresenter) formWrapperPresenter.getContent();
+			    doneFormPresenter = (DoneStepPresenter) formWrapperPresenter.getContent();
 			}
 		}
 	}
@@ -91,15 +91,15 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 		boolean isValidated = false;
 		switch (index) {
 		case 0:
-			uploadFormPresenter =   (UploadFormPresenterImpl) sender.getContent();
+			uploadFormPresenter =   (UploadStepPresenterImpl) sender.getContent();
 			isValidated = uploadFormPresenter.isValid();
 			break;
 		case 1:
-			MetadataFormPresenterImpl metadataFormPresenter =   (MetadataFormPresenterImpl) sender.getContent();
+			MetadataStepPresenterImpl metadataFormPresenter =   (MetadataStepPresenterImpl) sender.getContent();
 			isValidated = metadataFormPresenter.isValid();
 			break;
 		case 2:
-			HeaderSelectionFormPresenterImpl headerSelectionFormPresenter =   (HeaderSelectionFormPresenterImpl) sender.getContent();
+			PreviewStepPresenterImpl headerSelectionFormPresenter =   (PreviewStepPresenterImpl) sender.getContent();
 			isValidated = headerSelectionFormPresenter.isValid();
 			break;
 	/*	case 3:
@@ -107,7 +107,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 			isValidated = headerDescriptionPresenter.isValidated();
 			break;*/
 		case 3:
-			HeaderTypeFormPresenterImpl headerTypeFormPresenter =   (HeaderTypeFormPresenterImpl) sender.getContent();
+			MappingStepPresenterImpl headerTypeFormPresenter =   (MappingStepPresenterImpl) sender.getContent();
 			isValidated = headerTypeFormPresenter.isValid();
 			break;
 		case 4:

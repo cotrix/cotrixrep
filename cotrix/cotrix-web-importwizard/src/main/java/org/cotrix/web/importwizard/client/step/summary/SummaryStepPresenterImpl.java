@@ -14,15 +14,15 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
-public class SummaryFormPresenterImpl implements SummaryFormPresenter {
+public class SummaryStepPresenterImpl implements SummaryStepPresenter {
 
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
-	private final SummaryFormView view;
+	private final SummaryStepView view;
 	private CotrixImportModelController model;
 
 	@Inject
-	public SummaryFormPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, SummaryFormView view,CotrixImportModelController model) {
+	public SummaryStepPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, SummaryStepView view,CotrixImportModelController model) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;

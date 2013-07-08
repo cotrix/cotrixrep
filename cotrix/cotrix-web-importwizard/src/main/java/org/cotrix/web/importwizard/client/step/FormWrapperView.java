@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.client.step;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.step.summary.SummaryFormPresenterImpl;
+import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenterImpl;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.HasWidgets;

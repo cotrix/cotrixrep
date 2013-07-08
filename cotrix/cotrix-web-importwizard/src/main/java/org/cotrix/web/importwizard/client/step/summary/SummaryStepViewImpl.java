@@ -5,14 +5,12 @@ import java.util.HashMap;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.Metadata;
-import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -22,11 +20,15 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SummaryFormViewImpl extends Composite implements SummaryFormView<SummaryFormViewImpl>{
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class SummaryStepViewImpl extends Composite implements SummaryStepView<SummaryStepViewImpl>{
 
-	@UiTemplate("SummaryForm.ui.xml")
-	interface SummaryFormUiBinder extends UiBinder<Widget, SummaryFormViewImpl> {}
-	private static SummaryFormUiBinder uiBinder = GWT.create(SummaryFormUiBinder.class);
+	@UiTemplate("SummaryStep.ui.xml")
+	interface SummaryStepUiBinder extends UiBinder<Widget, SummaryStepViewImpl> {}
+	private static SummaryStepUiBinder uiBinder = GWT.create(SummaryStepUiBinder.class);
 
 
 	@UiField HTMLPanel panel;
@@ -47,9 +49,9 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 	}
 
 	private String[] headers;
-	private Presenter<SummaryFormPresenterImpl> presenter;
+	private Presenter<SummaryStepPresenterImpl> presenter;
 	private AlertDialog alertDialog;
-	public SummaryFormViewImpl() {
+	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -70,7 +72,7 @@ public class SummaryFormViewImpl extends Composite implements SummaryFormView<Su
 		
 	}
 
-	public void setPresenter(SummaryFormPresenterImpl presenter) {
+	public void setPresenter(SummaryStepPresenterImpl presenter) {
 		this.presenter = presenter;
 	}
 

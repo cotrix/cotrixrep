@@ -9,7 +9,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -20,14 +19,18 @@ import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UploadFormViewImpl extends Composite implements UploadFormView<UploadFormViewImpl> {
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class UploadStepViewImpl extends Composite implements UploadStepView<UploadStepViewImpl> {
 
-	private static UploadFromUiBinder uiBinder = GWT.create(UploadFromUiBinder.class);
+	private static UploadStepUiBinder uiBinder = GWT.create(UploadStepUiBinder.class);
 
-	@UiTemplate("UploadForm.ui.xml")
-	interface UploadFromUiBinder extends UiBinder<Widget, UploadFormViewImpl> {}
+	@UiTemplate("UploadStep.ui.xml")
+	interface UploadStepUiBinder extends UiBinder<Widget, UploadStepViewImpl> {}
 
-	public UploadFormViewImpl() {
+	public UploadStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		form.setAction(GWT.getModuleBaseURL()+"fileupload");
 		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
@@ -38,8 +41,8 @@ public class UploadFormViewImpl extends Composite implements UploadFormView<Uplo
 		});
 	}
 
-	private Presenter<UploadFormPresenterImpl> presenter;
-	public void setPresenter(Presenter<UploadFormPresenterImpl> presenter) {
+	private Presenter<UploadStepPresenterImpl> presenter;
+	public void setPresenter(Presenter<UploadStepPresenterImpl> presenter) {
 		this.presenter = presenter;
 	}
 

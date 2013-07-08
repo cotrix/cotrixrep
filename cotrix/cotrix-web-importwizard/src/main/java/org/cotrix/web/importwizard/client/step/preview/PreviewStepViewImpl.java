@@ -7,7 +7,6 @@ import org.cotrix.web.importwizard.client.step.Style;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -19,11 +18,15 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class HeaderSelectionFormViewImpl extends Composite implements  HeaderSelectionFormView<HeaderSelectionFormViewImpl>{
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class PreviewStepViewImpl extends Composite implements  PreviewStepView<PreviewStepViewImpl>{
 
-	@UiTemplate("HeaderSelectionForm.ui.xml")
-	interface HeaderSelectionFormUiBinder extends UiBinder<Widget, HeaderSelectionFormViewImpl> {}
-	private static HeaderSelectionFormUiBinder uiBinder = GWT.create(HeaderSelectionFormUiBinder.class);
+	@UiTemplate("PreviewStep.ui.xml")
+	interface PreviewStepUiBinder extends UiBinder<Widget, PreviewStepViewImpl> {}
+	private static PreviewStepUiBinder uiBinder = GWT.create(PreviewStepUiBinder.class);
 
 	@UiField FlexTable flexTable;
 	@UiField CheckBox checkbox;
@@ -33,7 +36,7 @@ public class HeaderSelectionFormViewImpl extends Composite implements  HeaderSel
 	private AlertDialog alertDialog;
 
 	private Presenter presenter;
-	public void setPresenter(HeaderSelectionFormPresenterImpl presenter) {
+	public void setPresenter(PreviewStepPresenterImpl presenter) {
 		this.presenter = presenter;
 	}
 
@@ -42,7 +45,7 @@ public class HeaderSelectionFormViewImpl extends Composite implements  HeaderSel
 		presenter.onCheckBoxChecked(checkbox.getValue());
 	}
 
-	public HeaderSelectionFormViewImpl() {
+	public PreviewStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 

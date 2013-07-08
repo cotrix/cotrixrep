@@ -9,18 +9,17 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class HeaderTypeFormViewImpl extends Composite implements HeaderTypeFormView<HeaderTypeFormViewImpl> {
+public class MappingStepViewImpl extends Composite implements MappingStepFormView<MappingStepViewImpl> {
 
-	@UiTemplate("HeaderTypeForm.ui.xml")
-	interface HeaderTypeFormUiBinder extends UiBinder<Widget, HeaderTypeFormViewImpl> {}
-	private static HeaderTypeFormUiBinder uiBinder = GWT.create(HeaderTypeFormUiBinder.class);
+	@UiTemplate("MappingStep.ui.xml")
+	interface HeaderTypeStepUiBinder extends UiBinder<Widget, MappingStepViewImpl> {}
+	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 
 	@UiField HTMLPanel panel;
 	@UiField Style style;
@@ -30,12 +29,12 @@ public class HeaderTypeFormViewImpl extends Composite implements HeaderTypeFormV
 		String valuelabel();
 	}
 	private Grid grid;
-	private Presenter<HeaderTypeFormPresenterImpl> presenter;
-	public void setPresenter(HeaderTypeFormPresenterImpl presenter) {
+	private Presenter<MappingStepPresenterImpl> presenter;
+	public void setPresenter(MappingStepPresenterImpl presenter) {
 		this.presenter = presenter;
 	}
 
-	public HeaderTypeFormViewImpl() {
+	public MappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

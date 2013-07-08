@@ -7,14 +7,14 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
-public class MetadataFormPresenterImpl implements MetadataFormPresenter {
+public class MetadataStepPresenterImpl implements MetadataStepPresenter {
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
-	private final MetadataFormView view;
+	private final MetadataStepView view;
 	private final CotrixImportModelController model;
 
 	@Inject
-	public MetadataFormPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, MetadataFormView view,CotrixImportModelController model) {
+	public MetadataStepPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, MetadataStepView view,CotrixImportModelController model) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;

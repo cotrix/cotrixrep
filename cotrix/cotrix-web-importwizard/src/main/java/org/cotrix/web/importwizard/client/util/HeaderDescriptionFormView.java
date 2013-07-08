@@ -1,11 +1,7 @@
 package org.cotrix.web.importwizard.client.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.cotrix.web.importwizard.client.step.summary.SummaryFormPresenterImpl;
-
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface HeaderDescriptionFormView<T> {

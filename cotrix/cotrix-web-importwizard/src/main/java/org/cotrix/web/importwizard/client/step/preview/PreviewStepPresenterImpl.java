@@ -10,15 +10,19 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
-public class HeaderSelectionFormPresenterImpl implements HeaderSelectionFormPresenter {
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class PreviewStepPresenterImpl implements PreviewStepPresenter {
 
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
-	private final HeaderSelectionFormView view;
+	private final PreviewStepView view;
 	private  CotrixImportModelController model;
 	
 	@Inject
-	public HeaderSelectionFormPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus,HeaderSelectionFormView view,CotrixImportModelController model){
+	public PreviewStepPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus,PreviewStepView view,CotrixImportModelController model){
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;

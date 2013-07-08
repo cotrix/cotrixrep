@@ -1,12 +1,12 @@
 package org.cotrix.web.importwizard.client;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.step.done.DoneFormPresenter;
-import org.cotrix.web.importwizard.client.step.mapping.HeaderTypeFormPresenterImpl;
-import org.cotrix.web.importwizard.client.step.metadata.MetadataFormPresenter;
-import org.cotrix.web.importwizard.client.step.preview.HeaderSelectionFormPresenterImpl;
-import org.cotrix.web.importwizard.client.step.summary.SummaryFormPresenter;
-import org.cotrix.web.importwizard.client.step.upload.UploadFormPresenter;
+import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
+import org.cotrix.web.importwizard.client.step.mapping.MappingStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
+import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
+import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.importwizard.client.util.HeaderDescriptionPresenterImpl;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
@@ -17,13 +17,13 @@ public class ImportWizardPresenterImpl extends GenericImportWizardPresenterImpl 
 
     @Inject
     public ImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModelController model, 
-    		UploadFormPresenter uploadFormPresenter,
-    		MetadataFormPresenter metadataFormPresenter,
-    		HeaderSelectionFormPresenterImpl headerSelectionFormPresenter,
+    		UploadStepPresenter uploadFormPresenter,
+    		MetadataStepPresenter metadataFormPresenter,
+    		PreviewStepPresenterImpl headerSelectionFormPresenter,
     		HeaderDescriptionPresenterImpl headerDescriptionPresenter,
-    		HeaderTypeFormPresenterImpl headerTypeFormPresenter,
-    		SummaryFormPresenter summaryFormPresenter,
-    		DoneFormPresenter doneFormPresenter) {
+    		MappingStepPresenterImpl headerTypeFormPresenter,
+    		SummaryStepPresenter summaryFormPresenter,
+    		DoneStepPresenter doneFormPresenter) {
     	
         super(rpcService,eventBus,view,model);
         addForm(uploadFormPresenter, "Upload CSV File");

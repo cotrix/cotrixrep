@@ -9,20 +9,18 @@ import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
 
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Label;
 import com.google.inject.Inject;
 
-public class HeaderTypeFormPresenterImpl implements HeaderTypeFormPresenter{
+public class MappingStepPresenterImpl implements MappingStepPresenter {
 
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
-	private final HeaderTypeFormView view;
+	private final MappingStepFormView view;
 	private  CotrixImportModelController model;
 	
 	@Inject
-	public HeaderTypeFormPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus,HeaderTypeFormView view,CotrixImportModelController model){
+	public MappingStepPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, MappingStepFormView view,CotrixImportModelController model){
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;

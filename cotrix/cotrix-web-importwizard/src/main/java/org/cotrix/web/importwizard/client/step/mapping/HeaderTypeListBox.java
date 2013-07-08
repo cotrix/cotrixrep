@@ -6,16 +6,21 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class HeaderTypeListBox extends Composite {
+	
 	public interface OnHeaderTypeSelectedHandler{
 		public void onHeaderTypeSelected(int index);
 	}
+	
 	private OnHeaderTypeSelectedHandler onHeaderTypeSelectedHandler;
 	
 	private static HeaderTypeListBoxUiBinder uiBinder = GWT

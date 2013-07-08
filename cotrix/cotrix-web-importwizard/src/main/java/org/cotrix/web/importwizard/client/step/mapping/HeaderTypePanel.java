@@ -1,23 +1,22 @@
 package org.cotrix.web.importwizard.client.step.mapping;
 
-import java.util.ArrayList;
-
 import org.cotrix.web.importwizard.client.step.mapping.HeaderTypeListBox.OnHeaderTypeSelectedHandler;
-import org.cotrix.web.share.shared.HeaderType;
-import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.HeaderType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class HeaderTypePanel extends Composite implements OnHeaderTypeSelectedHandler {
 
 	private static HeaderTypePanelUiBinder uiBinder = GWT

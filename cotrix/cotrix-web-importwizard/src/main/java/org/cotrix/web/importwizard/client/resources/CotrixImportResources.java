@@ -4,10 +4,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.TextResource;
-import com.google.gwt.resources.client.ClientBundle.Source;
-import com.google.gwt.user.cellview.client.DataGrid;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public interface CotrixImportResources extends ClientBundle {
 	public static final CotrixImportResources INSTANCE = GWT.create(CotrixImportResources.class);
 

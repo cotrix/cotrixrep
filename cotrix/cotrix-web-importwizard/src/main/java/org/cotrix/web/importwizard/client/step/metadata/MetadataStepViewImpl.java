@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.share.shared.Metadata;
-import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -23,11 +22,15 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
-public class MetadataFormViewImpl extends Composite implements MetadataFormView<MetadataFormViewImpl> {
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class MetadataStepViewImpl extends Composite implements MetadataStepView<MetadataStepViewImpl> {
 
-	@UiTemplate("MetadataForm.ui.xml")
-	interface MetadataFormUiBinder extends UiBinder<Widget, MetadataFormViewImpl> {}
-	private static MetadataFormUiBinder uiBinder = GWT.create(MetadataFormUiBinder.class);
+	@UiTemplate("MetadataStep.ui.xml")
+	interface MetadataStepUiBinder extends UiBinder<Widget, MetadataStepViewImpl> {}
+	private static MetadataStepUiBinder uiBinder = GWT.create(MetadataStepUiBinder.class);
 	
 	@UiField FlowPanel createDate;
 	@UiField FlowPanel updateDate;
@@ -37,8 +40,8 @@ public class MetadataFormViewImpl extends Composite implements MetadataFormView<
 	@UiField TextArea description;
 	
 	private AlertDialog alertDialog;
-	private Presenter<MetadataFormPresenterImpl> presenter;
-	public MetadataFormViewImpl() {
+	private Presenter<MetadataStepPresenterImpl> presenter;
+	public MetadataStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		addDatePicker(createDate);
 		addDatePicker(updateDate);
@@ -69,7 +72,7 @@ public class MetadataFormViewImpl extends Composite implements MetadataFormView<
 	    panel.add(dateBox);
 	}
 
-	public void setPresenter(MetadataFormPresenterImpl presenter) {
+	public void setPresenter(MetadataStepPresenterImpl presenter) {
 		this.presenter = presenter;
 	}
 	

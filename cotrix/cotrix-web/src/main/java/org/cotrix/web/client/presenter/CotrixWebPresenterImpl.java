@@ -12,7 +12,7 @@ import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.ImportWizardPresenter;
 import org.cotrix.web.importwizard.client.ImportWizardPresenterImpl;
 import org.cotrix.web.importwizard.client.ImportWizardViewImpl;
-import org.cotrix.web.importwizard.client.step.summary.SummaryFormView;
+import org.cotrix.web.importwizard.client.step.summary.SummaryStepView;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
 import org.cotrix.web.menu.client.view.MenuViewImpl;
 import org.cotrix.web.publish.client.CotrixPublishAppController;
