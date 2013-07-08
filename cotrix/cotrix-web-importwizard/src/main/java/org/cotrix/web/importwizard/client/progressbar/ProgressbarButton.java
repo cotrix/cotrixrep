@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.view.progressbar;
+package org.cotrix.web.importwizard.client.progressbar;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;

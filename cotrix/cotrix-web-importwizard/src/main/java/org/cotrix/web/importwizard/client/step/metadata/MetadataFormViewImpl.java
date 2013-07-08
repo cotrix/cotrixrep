@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.client.step.metadata;
 
 import java.util.Date;
 
-import org.cotrix.web.importwizard.client.view.form.AlertDialog;
+import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.Metadata;
 

@@ -3,7 +3,7 @@ package org.cotrix.web.importwizard.client.step.mapping;
 import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.view.form.AlertDialog;
+import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;

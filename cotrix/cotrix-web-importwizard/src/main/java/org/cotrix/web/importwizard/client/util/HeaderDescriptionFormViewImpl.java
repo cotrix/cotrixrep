@@ -1,10 +1,9 @@
-package org.cotrix.web.importwizard.client.view.form;
+package org.cotrix.web.importwizard.client.util;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenterImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;

@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.view;
+package org.cotrix.web.importwizard.client;
 
 import org.cotrix.web.importwizard.client.step.FormWrapperViewImpl;
 

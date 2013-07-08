@@ -1,9 +1,8 @@
-package org.cotrix.web.importwizard.client.presenter;
+package org.cotrix.web.importwizard.client.util;
 
 import java.util.HashMap;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.view.form.HeaderDescriptionFormView;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 

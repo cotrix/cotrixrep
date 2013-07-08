@@ -1,7 +1,7 @@
 package org.cotrix.web.importwizard.client.step;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.presenter.Presenter;
+import org.cotrix.web.importwizard.client.Presenter;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;

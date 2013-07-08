@@ -1,6 +1,6 @@
 package org.cotrix.web.importwizard.client.step.upload;
 
-import org.cotrix.web.importwizard.client.view.form.AlertDialog;
+import org.cotrix.web.importwizard.client.util.AlertDialog;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;

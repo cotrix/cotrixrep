@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.client.step.preview;
 
 import java.util.ArrayList;
 
-import org.cotrix.web.importwizard.client.view.form.AlertDialog;
+import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.client.step.Style;
 
 import com.google.gwt.core.client.GWT;

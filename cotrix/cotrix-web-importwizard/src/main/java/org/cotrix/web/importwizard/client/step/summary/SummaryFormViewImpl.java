@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.client.step.summary;
 
 import java.util.HashMap;
 
-import org.cotrix.web.importwizard.client.view.form.AlertDialog;
+import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.Metadata;

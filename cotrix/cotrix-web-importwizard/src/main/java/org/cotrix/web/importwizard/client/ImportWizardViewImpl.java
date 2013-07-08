@@ -1,6 +1,6 @@
-package org.cotrix.web.importwizard.client.view;
+package org.cotrix.web.importwizard.client;
 
-import org.cotrix.web.importwizard.client.view.progressbar.ProgressbarTracker;
+import org.cotrix.web.importwizard.client.progressbar.ProgressbarTracker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;

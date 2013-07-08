@@ -1,9 +1,8 @@
-package org.cotrix.web.importwizard.client.view.form;
+package org.cotrix.web.importwizard.client.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenterImpl;
 import org.cotrix.web.importwizard.client.step.summary.SummaryFormPresenterImpl;
 
 import com.google.gwt.event.dom.client.ClickEvent;

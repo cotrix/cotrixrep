@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.view.form;
+package org.cotrix.web.importwizard.client.util;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

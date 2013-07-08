@@ -3,8 +3,8 @@ package org.cotrix.web.importwizard.client.step.upload;
 import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.view.form.SuccessUploadDialog;
-import org.cotrix.web.importwizard.client.view.form.UploadProgressDialog;
+import org.cotrix.web.importwizard.client.util.SuccessUploadDialog;
+import org.cotrix.web.importwizard.client.util.UploadProgressDialog;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;

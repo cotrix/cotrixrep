@@ -1,6 +1,5 @@
 package org.cotrix.web.importwizard.client;
 
-import org.cotrix.web.importwizard.client.presenter.ImportWizardPresenter;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.core.client.GWT;

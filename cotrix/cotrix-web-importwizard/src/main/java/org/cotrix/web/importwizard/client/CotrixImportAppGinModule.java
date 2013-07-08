@@ -1,9 +1,5 @@
 package org.cotrix.web.importwizard.client;
 
-import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenter;
-import org.cotrix.web.importwizard.client.presenter.HeaderDescriptionPresenterImpl;
-import org.cotrix.web.importwizard.client.presenter.ImportWizardPresenter;
-import org.cotrix.web.importwizard.client.presenter.ImportWizardPresenterImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneFormPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneFormPresenterImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneFormView;
@@ -28,10 +24,10 @@ import org.cotrix.web.importwizard.client.step.upload.UploadFormPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadFormPresenterImpl;
 import org.cotrix.web.importwizard.client.step.upload.UploadFormView;
 import org.cotrix.web.importwizard.client.step.upload.UploadFormViewImpl;
-import org.cotrix.web.importwizard.client.view.ImportWizardView;
-import org.cotrix.web.importwizard.client.view.ImportWizardViewImpl;
-import org.cotrix.web.importwizard.client.view.form.HeaderDescriptionFormView;
-import org.cotrix.web.importwizard.client.view.form.HeaderDescriptionFormViewImpl;
+import org.cotrix.web.importwizard.client.util.HeaderDescriptionFormView;
+import org.cotrix.web.importwizard.client.util.HeaderDescriptionFormViewImpl;
+import org.cotrix.web.importwizard.client.util.HeaderDescriptionPresenter;
+import org.cotrix.web.importwizard.client.util.HeaderDescriptionPresenterImpl;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;

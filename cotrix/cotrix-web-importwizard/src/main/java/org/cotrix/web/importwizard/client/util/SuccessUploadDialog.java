@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.view.form;
+package org.cotrix.web.importwizard.client.util;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -10,21 +10,21 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AlertDialog extends PopupPanel {
-	private static final Binder binder = GWT.create(Binder.class);
-	interface Binder extends UiBinder<Widget, AlertDialog> {}
+public class SuccessUploadDialog extends PopupPanel {
 
-	@UiField HTML label;
+	private static SuccessUploadDialogUiBinder uiBinder = GWT
+			.create(SuccessUploadDialogUiBinder.class);
 
-	public AlertDialog() {
-		setWidget(binder.createAndBindUi(this));
+	interface SuccessUploadDialogUiBinder extends
+			UiBinder<Widget, SuccessUploadDialog> {
+	}
+
+	public SuccessUploadDialog() {
+		setWidget(uiBinder.createAndBindUi(this));
 		this.setModal(true);
 		this.setGlassEnabled(true);
 		this.setAnimationEnabled(true);
@@ -32,15 +32,11 @@ public class AlertDialog extends PopupPanel {
 		this.center();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			public void execute() {
-				int left = Window.getScrollLeft()+ ((Window.getClientWidth( ) - AlertDialog.this.getOffsetWidth( )) / 2); 
-				int top = Window.getScrollTop()+((Window.getClientHeight( ) - AlertDialog.this.getOffsetHeight( )) / 4);
-				AlertDialog.this.setPopupPosition(left, top);
+				int left = Window.getScrollLeft()+ ((Window.getClientWidth( ) - SuccessUploadDialog.this.getOffsetWidth( )) / 2); 
+				int top = Window.getScrollTop()+((Window.getClientHeight( ) - SuccessUploadDialog.this.getOffsetHeight( )) / 4);
+				SuccessUploadDialog.this.setPopupPosition(left, top);
 			}
 		});
-	}
-
-	public void setMessage(String message){
-		this.label.setHTML(message);
 	}
 
 }

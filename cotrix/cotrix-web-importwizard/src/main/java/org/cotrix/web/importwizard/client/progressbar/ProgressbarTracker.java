@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.view.progressbar;
+package org.cotrix.web.importwizard.client.progressbar;
 
 import org.cotrix.web.importwizard.client.resources.Constants;
 

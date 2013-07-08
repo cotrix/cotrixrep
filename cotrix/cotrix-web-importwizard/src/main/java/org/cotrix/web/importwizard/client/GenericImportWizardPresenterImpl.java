@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.presenter;
+package org.cotrix.web.importwizard.client;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,6 @@ import org.cotrix.web.importwizard.client.step.mapping.HeaderTypeFormPresenterIm
 import org.cotrix.web.importwizard.client.step.metadata.MetadataFormPresenterImpl;
 import org.cotrix.web.importwizard.client.step.preview.HeaderSelectionFormPresenterImpl;
 import org.cotrix.web.importwizard.client.step.upload.UploadFormPresenterImpl;
-import org.cotrix.web.importwizard.client.view.ImportWizardView;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.Metadata;
