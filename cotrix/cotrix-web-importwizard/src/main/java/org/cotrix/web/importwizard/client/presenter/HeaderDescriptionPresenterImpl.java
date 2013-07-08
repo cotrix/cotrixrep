@@ -33,7 +33,7 @@ public class HeaderDescriptionPresenterImpl implements HeaderDescriptionPresente
 		container.add(view.asWidget());
 	}
 
-	public boolean isValidated() {
+	public boolean isValid() {
 	    HashMap<String, String> descriptions = view.getHeaderDescription();
 	    int columnCount  = model.getCsvFile().getHeader().length;
 	    

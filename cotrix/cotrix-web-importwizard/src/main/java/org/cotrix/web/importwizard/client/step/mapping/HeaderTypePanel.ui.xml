@@ -1,0 +1,19 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style
+		type="org.cotrix.web.importwizard.client.step.mapping.HeaderTypePanel.Style">
+			.important {
+				font-weight: bold;
+			}
+			
+			.textPadding {
+				padding-left: 20px;
+				padding-right: 20px;
+				
+			}
+		</ui:style>
+	<g:HTMLPanel>
+		<g:HorizontalPanel ui:field="panel"></g:HorizontalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 

@@ -3,8 +3,14 @@ package org.cotrix.web.importwizard.client.presenter;
 import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.step.FormWrapperPresenter;
+import org.cotrix.web.importwizard.client.step.FormWrapperViewImpl;
+import org.cotrix.web.importwizard.client.step.done.DoneFormPresenter;
+import org.cotrix.web.importwizard.client.step.mapping.HeaderTypeFormPresenterImpl;
+import org.cotrix.web.importwizard.client.step.metadata.MetadataFormPresenterImpl;
+import org.cotrix.web.importwizard.client.step.preview.HeaderSelectionFormPresenterImpl;
+import org.cotrix.web.importwizard.client.step.upload.UploadFormPresenterImpl;
 import org.cotrix.web.importwizard.client.view.ImportWizardView;
-import org.cotrix.web.importwizard.client.view.form.FormWrapperViewImpl;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.Metadata;
@@ -87,15 +93,15 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 		switch (index) {
 		case 0:
 			uploadFormPresenter =   (UploadFormPresenterImpl) sender.getContent();
-			isValidated = uploadFormPresenter.isValidated();
+			isValidated = uploadFormPresenter.isValid();
 			break;
 		case 1:
 			MetadataFormPresenterImpl metadataFormPresenter =   (MetadataFormPresenterImpl) sender.getContent();
-			isValidated = metadataFormPresenter.isValidated();
+			isValidated = metadataFormPresenter.isValid();
 			break;
 		case 2:
 			HeaderSelectionFormPresenterImpl headerSelectionFormPresenter =   (HeaderSelectionFormPresenterImpl) sender.getContent();
-			isValidated = headerSelectionFormPresenter.isValidated();
+			isValidated = headerSelectionFormPresenter.isValid();
 			break;
 	/*	case 3:
 			HeaderDescriptionPresenterImpl headerDescriptionPresenter =   (HeaderDescriptionPresenterImpl) sender.getContent();
@@ -103,7 +109,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 			break;*/
 		case 3:
 			HeaderTypeFormPresenterImpl headerTypeFormPresenter =   (HeaderTypeFormPresenterImpl) sender.getContent();
-			isValidated = headerTypeFormPresenter.isValidated();
+			isValidated = headerTypeFormPresenter.isValid();
 			break;
 		case 4:
 			isValidated = true;

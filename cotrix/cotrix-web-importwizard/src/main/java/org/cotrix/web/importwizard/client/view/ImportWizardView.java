@@ -1,6 +1,6 @@
 package org.cotrix.web.importwizard.client.view;
 
-import org.cotrix.web.importwizard.client.view.form.FormWrapperViewImpl;
+import org.cotrix.web.importwizard.client.step.FormWrapperViewImpl;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
