@@ -2,7 +2,6 @@ package org.cotrix.web.importwizard.client.step.upload;
 
 import java.util.ArrayList;
 
-import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
@@ -21,7 +20,6 @@ import org.vectomatic.file.events.LoadStartHandler;
 import org.vectomatic.file.events.ProgressEvent;
 import org.vectomatic.file.events.ProgressHandler;
 
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -32,26 +30,24 @@ import com.google.inject.Inject;
  */
 public class UploadStepPresenterImpl implements UploadStepPresenter {
 
-
-	private final ImportServiceAsync rpcService;
-	private final HandlerManager eventBus;
 	private FileReader reader;
 	private String filename = "";
 	private UploadStepView view;
 	private CotrixImportModelController model;
 
 	@Inject
-	public UploadStepPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, UploadStepView view,CotrixImportModelController model) {
-		this.rpcService = rpcService;
-		this.eventBus = eventBus;
+	public UploadStepPresenterImpl(UploadStepView view, CotrixImportModelController model) {
 		this.view = view;
 		this.model = model;
 		this.view.setPresenter(this);
 	}
+	
 	public interface OnUploadFileFinish{
 		public void uploadFileFinish(SubmitCompleteEvent event);
 	}
+	
 	private OnUploadFileFinish onUploadFileFinish;
+	
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());

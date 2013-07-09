@@ -27,5 +27,7 @@ public interface WizardStep {
 	 * @return
 	 */
 	public String getTitle();
+	
+	public NavigationButtonConfiguration getFowardButton();
 
 }

@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SummaryStepViewImpl extends Composite implements SummaryStepView<SummaryStepViewImpl>{
+public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 
 	@UiTemplate("SummaryStep.ui.xml")
 	interface SummaryStepUiBinder extends UiBinder<Widget, SummaryStepViewImpl> {}
@@ -49,7 +49,7 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView<Su
 	}
 
 	private String[] headers;
-	private Presenter<SummaryStepPresenterImpl> presenter;
+	private Presenter presenter;
 	private AlertDialog alertDialog;
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));

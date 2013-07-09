@@ -10,20 +10,19 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
- * @param <T>
  */
-public interface UploadStepView<T> {
+public interface UploadStepView {
 
-	public interface Presenter<T> {
+	public interface Presenter {
 		void onLoadFileFinish();
 		void onDeleteButtonClicked();
 		void onBrowseButtonClicked();
-		void onUploadFileChange(FileList fileList,String filename);
+		void onUploadFileChange(FileList fileList, String filename);
 		void onError(String message);
 		void onSubmitComplete(SubmitCompleteEvent event);
 	}
 	
-	void setPresenter(Presenter<UploadStepPresenterImpl> presenter);
+	void setPresenter(Presenter presenter);
 	void onDeleteButtonClicked(ClickEvent event);
 	void onBrowseButtonClicked(ClickEvent event);
 	void setFileUploadButtonClicked();

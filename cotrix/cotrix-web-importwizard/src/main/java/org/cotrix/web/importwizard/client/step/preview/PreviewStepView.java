@@ -7,11 +7,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
- *
- * @param <T>
  */
-public interface PreviewStepView<T> {
-	public interface Presenter<T> {
+public interface PreviewStepView {
+	public interface Presenter {
 		void onCheckBoxChecked(boolean isChecked);
 	}
 	void onChecked(ClickEvent event);

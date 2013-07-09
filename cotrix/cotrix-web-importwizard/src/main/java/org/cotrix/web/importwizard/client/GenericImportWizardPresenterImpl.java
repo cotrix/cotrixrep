@@ -11,10 +11,6 @@ import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenterImp
 import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenterImpl;
 import org.cotrix.web.share.shared.CotrixImportModelController;
-import org.cotrix.web.share.shared.HeaderType;
-import org.cotrix.web.share.shared.Metadata;
-import org.cotrix.web.share.shared.Metadata;
-import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
@@ -25,14 +21,19 @@ import com.google.inject.Inject;
 
 public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	
+	private ArrayList<Presenter> steps  = new ArrayList<Presenter>();
+	
+	
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final ImportWizardView view;
 	private CotrixImportModelController model;
-	private ArrayList<Presenter<GenericImportWizardPresenterImpl>> presenters  = new ArrayList<Presenter<GenericImportWizardPresenterImpl>>();
+	
+	
 	private ArrayList<String> formLabel  = new ArrayList<String>();
 	private UploadStepPresenterImpl uploadFormPresenter;
-	private DoneStepPresenter doneFormPresenter ;
+	private DoneStepPresenter doneFormPresenter;
+	
     @Inject
 	public GenericImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModelController model) {
 		this.rpcService = rpcService;
@@ -49,15 +50,15 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 		this.view.initForm();
 	}
 	
-	public void addForm(Presenter presenter,String formLabel){
-		this.presenters.add(presenter);
+	public void addStep(Presenter presenter,String formLabel){
+		this.steps.add(presenter);
 		this.formLabel.add(formLabel);
 	}
 
 	public void initForm(HasWidgets container) {
-		for (int i = 0; i < presenters.size(); i++) {
+		for (int i = 0; i < steps.size(); i++) {
 			WizardStepWrapperViewImpl formWrapperView = new WizardStepWrapperViewImpl();
-			WizardStepWrapperPresenter formWrapperPresenter = new WizardStepWrapperPresenter(rpcService, eventBus, formWrapperView,model,presenters.get(i),formLabel.get(i),i);
+			WizardStepWrapperPresenter formWrapperPresenter = new WizardStepWrapperPresenter(rpcService, eventBus, formWrapperView,model,steps.get(i),formLabel.get(i),i);
 			formWrapperView.setPresenter(formWrapperPresenter);
 			formWrapperPresenter.SetOnButtonClickHandler(this);
 			formWrapperPresenter.go(container);
@@ -68,13 +69,13 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 				formWrapperPresenter.showUploadOtherButton(false);
 				formWrapperPresenter.showManageCodelistButton(false);				
 			}
-			if(i == presenters.size()-2){
+			if(i == steps.size()-2){
 				formWrapperPresenter.showNextButton(false);
 				formWrapperPresenter.showSaveButton(true);
 				formWrapperPresenter.showUploadOtherButton(false);
 				formWrapperPresenter.showManageCodelistButton(false);				
 			}
-			if(i== presenters.size()-1){
+			if(i== steps.size()-1){
 				formWrapperPresenter.showNextButton(false);
 				formWrapperPresenter.showSaveButton(false);
 				formWrapperPresenter.showBackButton(false);
@@ -144,7 +145,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 	}
 
 	public void uploadFileFinish(SubmitCompleteEvent event) {
-		view.showPrevStep(presenters.size());
+		view.showPrevStep(steps.size());
 		doneFormPresenter.setDoneTitle("Successful upload file to server !!!");
 		doneFormPresenter.setWarningMessage(event.getResults());
 	}

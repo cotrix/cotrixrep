@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewStepViewImpl extends Composite implements  PreviewStepView<PreviewStepViewImpl>{
+public class PreviewStepViewImpl extends Composite implements PreviewStepView {
 
 	@UiTemplate("PreviewStep.ui.xml")
 	interface PreviewStepUiBinder extends UiBinder<Widget, PreviewStepViewImpl> {}

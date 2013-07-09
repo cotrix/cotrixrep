@@ -27,7 +27,7 @@ import com.google.gwt.user.datepicker.client.DatePicker;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SourceStepViewImpl extends Composite implements SourceStepView<SourceStepViewImpl> {
+public class SourceStepViewImpl extends Composite implements SourceStepView {
 
 	@UiTemplate("SourceStep.ui.xml")
 	interface SourceStepUiBinder extends UiBinder<Widget, SourceStepViewImpl> {}
@@ -37,7 +37,7 @@ public class SourceStepViewImpl extends Composite implements SourceStepView<Sour
 	@UiField Button localButton;
 	
 	private AlertDialog alertDialog;
-	private Presenter<SourceStepPresenterImpl> presenter;
+	private Presenter presenter;
 	public SourceStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 

@@ -26,7 +26,7 @@ import com.google.gwt.user.datepicker.client.DatePicker;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MetadataStepViewImpl extends Composite implements MetadataStepView<MetadataStepViewImpl> {
+public class MetadataStepViewImpl extends Composite implements MetadataStepView {
 
 	@UiTemplate("MetadataStep.ui.xml")
 	interface MetadataStepUiBinder extends UiBinder<Widget, MetadataStepViewImpl> {}
@@ -40,7 +40,7 @@ public class MetadataStepViewImpl extends Composite implements MetadataStepView<
 	@UiField TextArea description;
 	
 	private AlertDialog alertDialog;
-	private Presenter<MetadataStepPresenterImpl> presenter;
+	private Presenter presenter;
 	public MetadataStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		addDatePicker(createDate);

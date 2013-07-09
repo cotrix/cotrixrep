@@ -8,12 +8,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
- *
- * @param <T>
  */
-public interface MappingStepFormView<T> {
+public interface MappingStepFormView {
 	
-	public interface Presenter<T> {
+	public interface Presenter {
 
 	}
 	

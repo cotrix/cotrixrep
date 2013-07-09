@@ -4,8 +4,8 @@ import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public interface MetadataStepView<T> {
-	public interface Presenter<T> {
+public interface MetadataStepView {
+	public interface Presenter {
 		void alert(String message);
 	}
 	void alert(String message);

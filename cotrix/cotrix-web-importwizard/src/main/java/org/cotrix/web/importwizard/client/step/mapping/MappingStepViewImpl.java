@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MappingStepViewImpl extends Composite implements MappingStepFormView<MappingStepViewImpl> {
+public class MappingStepViewImpl extends Composite implements MappingStepFormView {
 
 	@UiTemplate("MappingStep.ui.xml")
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, MappingStepViewImpl> {}
@@ -29,7 +29,7 @@ public class MappingStepViewImpl extends Composite implements MappingStepFormVie
 		String valuelabel();
 	}
 	private Grid grid;
-	private Presenter<MappingStepPresenterImpl> presenter;
+	private Presenter presenter;
 	public void setPresenter(MappingStepPresenterImpl presenter) {
 		this.presenter = presenter;
 	}

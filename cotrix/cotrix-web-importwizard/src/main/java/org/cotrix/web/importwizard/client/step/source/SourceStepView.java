@@ -4,9 +4,9 @@ import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public interface SourceStepView<T> {
+public interface SourceStepView {
 	
-	public interface Presenter<T> {
+	public interface Presenter {
 		void alert(String message);
 	}
 	

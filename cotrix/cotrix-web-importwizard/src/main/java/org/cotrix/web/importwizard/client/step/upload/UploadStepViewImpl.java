@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UploadStepViewImpl extends Composite implements UploadStepView<UploadStepViewImpl> {
+public class UploadStepViewImpl extends Composite implements UploadStepView {
 
 	private static UploadStepUiBinder uiBinder = GWT.create(UploadStepUiBinder.class);
 
@@ -41,8 +41,8 @@ public class UploadStepViewImpl extends Composite implements UploadStepView<Uplo
 		});
 	}
 
-	private Presenter<UploadStepPresenterImpl> presenter;
-	public void setPresenter(Presenter<UploadStepPresenterImpl> presenter) {
+	private Presenter presenter;
+	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
 

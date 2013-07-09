@@ -26,11 +26,11 @@ public class ImportWizardPresenterImpl extends GenericImportWizardPresenterImpl 
     		DoneStepPresenter doneFormPresenter) {
     	
         super(rpcService,eventBus,view,model);
-        addForm(uploadFormPresenter, "Upload CSV File");
-        addForm(metadataFormPresenter, "Add Metadata");
-        addForm(headerSelectionFormPresenter, "Select Header");
-        addForm(headerTypeFormPresenter, "Define Type");
-        addForm(summaryFormPresenter, "Summary");
-        addForm(doneFormPresenter, "Done");
+        addStep(uploadFormPresenter, "Upload CSV File");
+        addStep(metadataFormPresenter, "Add Metadata");
+        addStep(headerSelectionFormPresenter, "Select Header");
+        addStep(headerTypeFormPresenter, "Define Type");
+        addStep(summaryFormPresenter, "Summary");
+        addStep(doneFormPresenter, "Done");
     }
 }

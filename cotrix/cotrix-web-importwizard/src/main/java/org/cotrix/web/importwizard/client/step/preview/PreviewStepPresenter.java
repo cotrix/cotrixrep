@@ -8,6 +8,6 @@ import org.cotrix.web.share.shared.CotrixImportModelController.OnFileChangeHandl
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface PreviewStepPresenter extends Presenter<PreviewStepPresenterImpl>, PreviewStepView.Presenter<PreviewStepPresenterImpl>, WizardStep,OnFileChangeHandler {
+public interface PreviewStepPresenter extends Presenter<PreviewStepPresenterImpl>, PreviewStepView.Presenter, WizardStep,OnFileChangeHandler {
 
 }

@@ -9,12 +9,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
- *
- * @param <T>
  */
-public interface SummaryStepView<T> {
+public interface SummaryStepView {
 	
-	public interface Presenter<T> {
+	public interface Presenter {
 		
 	}
 	void setHeader(String[] headers);
