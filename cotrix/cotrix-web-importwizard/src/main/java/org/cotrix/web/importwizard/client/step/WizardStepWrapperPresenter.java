@@ -9,28 +9,28 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
 
-public class FormWrapperPresenter implements Presenter<FormWrapperPresenter>, FormWrapperView.Presenter<FormWrapperPresenter>{
+public class WizardStepWrapperPresenter implements Presenter<WizardStepWrapperPresenter>, WizardStepWrapperView.Presenter<WizardStepWrapperPresenter>{
 
 	private OnButtonClickHandler onButtonClickHandler ;
 	public interface OnButtonClickHandler {
-		boolean isFromValidated(FormWrapperPresenter sender);
-		void onNextButtonClicked(FormWrapperPresenter sender);
-		void onBackButtonClicked(FormWrapperPresenter sender);
-		void onSaveButtonClicked(FormWrapperPresenter sender);
-		void onUploadOtherButtonClicked(FormWrapperPresenter sender);
-		void onManageCodelistButtonClicked(FormWrapperPresenter sender);
+		boolean isFromValidated(WizardStepWrapperPresenter sender);
+		void onNextButtonClicked(WizardStepWrapperPresenter sender);
+		void onBackButtonClicked(WizardStepWrapperPresenter sender);
+		void onSaveButtonClicked(WizardStepWrapperPresenter sender);
+		void onUploadOtherButtonClicked(WizardStepWrapperPresenter sender);
+		void onManageCodelistButtonClicked(WizardStepWrapperPresenter sender);
 		
 	}
 
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
-	private final FormWrapperView view;
+	private final WizardStepWrapperView view;
 	private CotrixImportModelController model;
 	private final Presenter childPresenter;
 	private final int index;
 	
 	@Inject
-	public FormWrapperPresenter(ImportServiceAsync rpcService, HandlerManager eventBus,FormWrapperView view,CotrixImportModelController model,Presenter childPresenter,String title,int index){
+	public WizardStepWrapperPresenter(ImportServiceAsync rpcService, HandlerManager eventBus,WizardStepWrapperView view,CotrixImportModelController model,Presenter childPresenter,String title,int index){
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.model = model;

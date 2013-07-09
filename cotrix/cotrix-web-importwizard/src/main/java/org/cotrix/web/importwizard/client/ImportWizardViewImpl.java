@@ -1,6 +1,6 @@
 package org.cotrix.web.importwizard.client;
 
-import org.cotrix.web.importwizard.client.progressbar.ProgressbarTracker;
+import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -17,10 +17,10 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	interface ImportWizardUiBinder extends UiBinder<Widget, ImportWizardViewImpl> {}
 	private static ImportWizardUiBinder uiBinder = GWT.create(ImportWizardUiBinder.class);
 
-	@UiField FlowPanel barPanel;
+	@UiField FlowPanel progressTracker;
 	@UiField DeckPanel formPanel;
 
-	private ProgressbarTracker mProgressbarTracker;
+	private ProgressTracker mProgressbarTracker;
 
 	private Presenter presenter;
 	public void setPresenter(Presenter presenter) {
@@ -39,8 +39,8 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 				"Define Type",
 				"Summary",
 				"Done" };
-		mProgressbarTracker = new ProgressbarTracker(6, labels);
-		barPanel.add(mProgressbarTracker);
+		mProgressbarTracker = new ProgressTracker(6, labels);
+		progressTracker.add(mProgressbarTracker);
 	}
 
 	public void initForm(){

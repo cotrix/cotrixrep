@@ -6,7 +6,7 @@
 			font-weight: bold;
 		}
 		
-		.barPanel {
+		.progressTracker {
 			width: 100%;
 			height: 100%;
 			margin: 0 auto;
@@ -26,7 +26,7 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:FlowPanel styleName="{style.mainPanel}">
-			<g:FlowPanel ui:field="barPanel" styleName="{style.barPanel}" />
+			<g:FlowPanel ui:field="progressTracker" styleName="{style.progressTracker}" />
 			<g:DeckPanel ui:field="formPanel" styleName="{style.formPanel}" />
 		</g:FlowPanel>
 	</g:HTMLPanel>

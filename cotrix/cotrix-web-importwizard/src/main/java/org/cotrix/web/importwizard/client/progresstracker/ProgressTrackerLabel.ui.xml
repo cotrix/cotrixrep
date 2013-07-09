@@ -1,7 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style type="org.cotrix.web.importwizard.client.progressbar.ProgressbarLabel.Style">
+	<ui:style type="org.cotrix.web.importwizard.client.progresstracker.ProgressTrackerLabel.Style">
 		.important {
 			font-weight: bold;
 		}

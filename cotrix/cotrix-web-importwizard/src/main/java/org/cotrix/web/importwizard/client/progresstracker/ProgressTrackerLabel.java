@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.progressbar;
+package org.cotrix.web.importwizard.client.progresstracker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -8,13 +8,13 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ProgressbarLabel extends Composite {
+public class ProgressTrackerLabel extends Composite {
 
-	private static ProgressbarLabelUiBinder uiBinder = GWT
-			.create(ProgressbarLabelUiBinder.class);
+	private static ProgressTrackerLabelUiBinder uiBinder = GWT
+			.create(ProgressTrackerLabelUiBinder.class);
 
-	interface ProgressbarLabelUiBinder extends
-			UiBinder<Widget, ProgressbarLabel> {
+	interface ProgressTrackerLabelUiBinder extends
+			UiBinder<Widget, ProgressTrackerLabel> {
 	}
 
 	@UiField
@@ -28,7 +28,7 @@ public class ProgressbarLabel extends Composite {
 	@UiField
 	Label label;
 
-	public ProgressbarLabel(String title) {
+	public ProgressTrackerLabel(String title) {
 		initWidget(uiBinder.createAndBindUi(this));
 		label.setText(title);
 	}

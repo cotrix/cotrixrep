@@ -3,8 +3,8 @@ package org.cotrix.web.importwizard.client;
 import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.step.FormWrapperPresenter;
-import org.cotrix.web.importwizard.client.step.FormWrapperViewImpl;
+import org.cotrix.web.importwizard.client.step.WizardStepWrapperPresenter;
+import org.cotrix.web.importwizard.client.step.WizardStepWrapperViewImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
 import org.cotrix.web.importwizard.client.step.mapping.MappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenterImpl;
@@ -56,8 +56,8 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 
 	public void initForm(HasWidgets container) {
 		for (int i = 0; i < presenters.size(); i++) {
-			FormWrapperViewImpl formWrapperView = new FormWrapperViewImpl();
-			FormWrapperPresenter formWrapperPresenter = new FormWrapperPresenter(rpcService, eventBus, formWrapperView,model,presenters.get(i),formLabel.get(i),i);
+			WizardStepWrapperViewImpl formWrapperView = new WizardStepWrapperViewImpl();
+			WizardStepWrapperPresenter formWrapperPresenter = new WizardStepWrapperPresenter(rpcService, eventBus, formWrapperView,model,presenters.get(i),formLabel.get(i),i);
 			formWrapperView.setPresenter(formWrapperPresenter);
 			formWrapperPresenter.SetOnButtonClickHandler(this);
 			formWrapperPresenter.go(container);
@@ -86,7 +86,7 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 		}
 	}
 
-	public boolean isFromValidated(FormWrapperPresenter sender) {
+	public boolean isFromValidated(WizardStepWrapperPresenter sender) {
 		int index = sender.getIndexInParent();
 		boolean isValidated = false;
 		switch (index) {
@@ -120,26 +120,26 @@ public class GenericImportWizardPresenterImpl implements ImportWizardPresenter {
 		return isValidated;
 	}
 
-	public void onNextButtonClicked(FormWrapperPresenter sender) {
+	public void onNextButtonClicked(WizardStepWrapperPresenter sender) {
 		view.showNextStep(sender.getIndexInParent());
 	}
 
-	public void onBackButtonClicked(FormWrapperPresenter sender) {
+	public void onBackButtonClicked(WizardStepWrapperPresenter sender) {
 		view.showPrevStep(sender.getIndexInParent());
 	}
 
-	public void onSaveButtonClicked(FormWrapperPresenter sender) {
+	public void onSaveButtonClicked(WizardStepWrapperPresenter sender) {
 		this.uploadFormPresenter.submitForm();
 		this.uploadFormPresenter.setOnUploadFileFinish(this);
 	}
 
-	public void onUploadOtherButtonClicked(FormWrapperPresenter sender) {
+	public void onUploadOtherButtonClicked(WizardStepWrapperPresenter sender) {
 		uploadFormPresenter.reset();
 		model = new CotrixImportModelController();
 		view.showPrevStep(1);
 	}
 
-	public void onManageCodelistButtonClicked(FormWrapperPresenter sender) {
+	public void onManageCodelistButtonClicked(WizardStepWrapperPresenter sender) {
 		Window.alert("Go to manage codelist");
 	}
 

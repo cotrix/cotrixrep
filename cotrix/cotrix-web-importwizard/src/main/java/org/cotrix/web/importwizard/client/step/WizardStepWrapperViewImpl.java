@@ -17,12 +17,12 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class FormWrapperViewImpl extends Composite implements FormWrapperView<FormWrapperViewImpl>{
+public class WizardStepWrapperViewImpl extends Composite implements WizardStepWrapperView<WizardStepWrapperViewImpl>{
 
-	private static FormWrapperUiBinder uiBinder = GWT.create(FormWrapperUiBinder.class);
+	private static WizardStepWrapperUiBinder uiBinder = GWT.create(WizardStepWrapperUiBinder.class);
 
-	@UiTemplate("FormWrapper.ui.xml")
-	interface FormWrapperUiBinder extends UiBinder<Widget, FormWrapperViewImpl> {}
+	@UiTemplate("WizardStepWrapper.ui.xml")
+	interface WizardStepWrapperUiBinder extends UiBinder<Widget, WizardStepWrapperViewImpl> {}
 
 	@UiField FlowPanel contentPanel;
 	@UiField Button nextButton;
@@ -32,13 +32,13 @@ public class FormWrapperViewImpl extends Composite implements FormWrapperView<Fo
 	@UiField Button uploadOtherButton;
 	@UiField Button manageCodelistButton;
 	
-	private Presenter<FormWrapperPresenter> presenter;
-	public void setPresenter(Presenter<FormWrapperPresenter> presenter) {
+	private Presenter<WizardStepWrapperPresenter> presenter;
+	public void setPresenter(Presenter<WizardStepWrapperPresenter> presenter) {
 		this.presenter = presenter;
 		addForm();
 	}
 	
-	public FormWrapperViewImpl() {
+	public WizardStepWrapperViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
