@@ -7,7 +7,6 @@ import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
 import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
-import org.cotrix.web.importwizard.client.util.HeaderDescriptionPresenterImpl;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
@@ -20,7 +19,6 @@ public class ImportWizardPresenterImpl extends GenericImportWizardPresenterImpl 
     		UploadStepPresenter uploadFormPresenter,
     		MetadataStepPresenter metadataFormPresenter,
     		PreviewStepPresenterImpl headerSelectionFormPresenter,
-    		HeaderDescriptionPresenterImpl headerDescriptionPresenter,
     		MappingStepPresenterImpl headerTypeFormPresenter,
     		SummaryStepPresenter summaryFormPresenter,
     		DoneStepPresenter doneFormPresenter) {

@@ -11,4 +11,5 @@ public interface WizardStep {
 	 * @return
 	 */
 	public boolean isValid();
+
 }

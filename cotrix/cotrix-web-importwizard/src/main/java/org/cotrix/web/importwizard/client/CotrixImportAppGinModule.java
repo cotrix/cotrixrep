@@ -24,10 +24,6 @@ import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepView;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepViewImpl;
-import org.cotrix.web.importwizard.client.util.HeaderDescriptionFormView;
-import org.cotrix.web.importwizard.client.util.HeaderDescriptionFormViewImpl;
-import org.cotrix.web.importwizard.client.util.HeaderDescriptionPresenter;
-import org.cotrix.web.importwizard.client.util.HeaderDescriptionPresenterImpl;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
@@ -63,9 +59,6 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         
         bind(PreviewStepView.class).to(PreviewStepViewImpl.class);
         bind(PreviewStepPresenter.class).to(PreviewStepPresenterImpl.class);
-        
-        bind(HeaderDescriptionFormView.class).to(HeaderDescriptionFormViewImpl.class);
-        bind(HeaderDescriptionPresenter.class).to(HeaderDescriptionPresenterImpl.class);
         
         bind(MappingStepFormView.class).to(MappingStepViewImpl.class);
         bind(MappingStepPresenter.class).to(MappingStepPresenterImpl.class);
