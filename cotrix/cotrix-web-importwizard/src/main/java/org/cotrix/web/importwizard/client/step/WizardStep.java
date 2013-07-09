@@ -11,5 +11,11 @@ public interface WizardStep {
 	 * @return
 	 */
 	public boolean isValid();
+	
+	/**
+	 * Returns the step label.
+	 * @return
+	 */
+	public String getLabel();
 
 }

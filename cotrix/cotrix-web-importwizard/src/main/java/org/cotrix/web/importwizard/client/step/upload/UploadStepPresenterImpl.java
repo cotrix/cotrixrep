@@ -42,6 +42,14 @@ public class UploadStepPresenterImpl implements UploadStepPresenter {
 		this.view.setPresenter(this);
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getLabel() {
+		return "Upload File";
+	}
+	
 	public interface OnUploadFileFinish{
 		public void uploadFileFinish(SubmitCompleteEvent event);
 	}
@@ -184,6 +192,4 @@ public class UploadStepPresenterImpl implements UploadStepPresenter {
 	public void setOnUploadFileFinish(OnUploadFileFinish onUploadFileFinish){
 		this.onUploadFileFinish = onUploadFileFinish;
 	}
-
-
 }

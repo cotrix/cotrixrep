@@ -29,6 +29,14 @@ public class MappingStepPresenterImpl implements MappingStepPresenter {
 		this.model.addOnFileChangeHandler(this);
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getLabel() {
+		return "Define Type";
+	}
+	
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
@@ -58,6 +66,4 @@ public class MappingStepPresenterImpl implements MappingStepPresenter {
 	public void onFileChange(CSVFile csvFile) {
 		view.setData(csvFile.getHeader());
 	}
-	
-
 }

@@ -22,14 +22,22 @@ public class DoneStepPresenterImpl implements DoneStepPresenter {
 		this.view.setPresenter(this);
 		this.model = model;
 	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getLabel() {
+		return "Done";
+	}
+	
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(view.asWidget());
 	}
 
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	
 	public void setDoneTitle(String title){
@@ -38,5 +46,6 @@ public class DoneStepPresenterImpl implements DoneStepPresenter {
 	public void setWarningMessage(String message){
 		view.setWarningMessage(message);
 	}
+
 	
 }

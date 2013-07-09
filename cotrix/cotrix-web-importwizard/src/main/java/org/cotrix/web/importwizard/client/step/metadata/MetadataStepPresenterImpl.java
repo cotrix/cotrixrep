@@ -21,6 +21,14 @@ public class MetadataStepPresenterImpl implements MetadataStepPresenter {
 		this.model = model;
 		this.view.setPresenter(this);
 	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getLabel() {
+		return "Add Metadata";
+	}
 
 	public void go(HasWidgets container) {
 		container.clear();
@@ -36,6 +44,8 @@ public class MetadataStepPresenterImpl implements MetadataStepPresenter {
 
 	public void alert(String message) {
 		view.alert(message);
-	}	
+	}
+
+
 	
 }

@@ -21,6 +21,14 @@ public class SourceStepPresenterImpl implements SourceStepPresenter {
 		this.model = model;
 		this.view.setPresenter(this);
 	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getLabel() {
+		return "Source Selection";
+	}	
 
 	public void go(HasWidgets container) {
 		container.clear();
@@ -36,6 +44,8 @@ public class SourceStepPresenterImpl implements SourceStepPresenter {
 
 	public void alert(String message) {
 		view.alert(message);
-	}	
+	}
+
+
 	
 }

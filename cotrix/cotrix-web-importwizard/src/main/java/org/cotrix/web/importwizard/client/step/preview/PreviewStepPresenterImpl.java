@@ -30,6 +30,14 @@ public class PreviewStepPresenterImpl implements PreviewStepPresenter {
 		this.view.setPresenter(this);
 		this.model.addOnFileChangeHandler(this);
 	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getLabel() {
+		return "Select Header";
+	}
 
 	public void go(HasWidgets container) {
 		container.clear();

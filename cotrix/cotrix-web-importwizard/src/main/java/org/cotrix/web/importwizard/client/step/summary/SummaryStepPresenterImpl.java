@@ -67,4 +67,20 @@ public class SummaryStepPresenterImpl implements SummaryStepPresenter {
 		view.setHeader(csvFile.getHeader());
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isValid() {
+		return true;
+	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getLabel() {
+		return "Summary";
+	}
+
 }
