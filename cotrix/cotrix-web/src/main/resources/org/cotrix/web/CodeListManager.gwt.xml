@@ -20,6 +20,10 @@
 	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
 
 	<!-- Other module inherits -->
+	
+	<!-- GWT LOGGING SETUP -->
+	<inherits name="com.allen_sauer.gwt.log.gwt-log-TRACE" />
+	<set-property name="log_DivLogger" value="DISABLED" />
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class='org.cotrix.web.client.CodeListManager' />

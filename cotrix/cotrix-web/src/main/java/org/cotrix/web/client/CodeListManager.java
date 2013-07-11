@@ -1,14 +1,12 @@
 package org.cotrix.web.client;
 
 import org.cotrix.web.client.resources.CotrixResources;
-import org.cotrix.web.client.view.CodeListManagerView;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
@@ -48,11 +46,21 @@ public class CodeListManager implements EntryPoint {
 		 * RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
 		 * rootLayoutPanel.add(codeListManagerView);
 		 */
-		CotrixResources.INSTANCE.css().ensureInjected();
-		Window.enableScrolling(true); Window.setMargin("0px");
-		 
-		AppGinInjector injector = GWT.create(AppGinInjector.class);
-		AppController appViewer = injector.getAppController();
-		appViewer.go(RootLayoutPanel.get());
+		
+		Log.setUncaughtExceptionHandler();
+		
+	    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+	        @Override
+	        public void execute() {
+	        	CotrixResources.INSTANCE.css().ensureInjected();
+	    		Window.enableScrolling(true); Window.setMargin("0px");
+	    		 
+	    		AppGinInjector injector = GWT.create(AppGinInjector.class);
+	    		AppController appViewer = injector.getAppController();
+	    		appViewer.go(RootLayoutPanel.get());
+	        }
+	      });
+		
+		
 	}
 }
