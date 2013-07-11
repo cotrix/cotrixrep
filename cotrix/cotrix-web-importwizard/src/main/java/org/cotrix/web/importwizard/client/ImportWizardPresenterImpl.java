@@ -14,6 +14,9 @@ import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenterImpl;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
+import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
+import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.HasNavigationHandlers;
+import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationHandler;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -23,7 +26,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.inject.Inject;
 
-public class ImportWizardPresenterImpl implements ImportWizardPresenter {
+public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler {
 
 	protected ArrayList<WizardStep> steps  = new ArrayList<WizardStep>();
 	protected int currentStepIndex = 0;
@@ -37,7 +40,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter {
 
 	private DoneStepPresenter doneFormPresenter;
 
-	private ArrayList<String> formLabel  = new ArrayList<String>();
 	private UploadStepPresenterImpl uploadFormPresenter;
 
 	@Inject
@@ -57,7 +59,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter {
 		this.view.setPresenter(this);
 
 		Log.trace("Adding steps");
-		//addStep(sourceStepPresenter);
+		addStep(sourceStepPresenter);
 		addStep(uploadFormPresenter);
 		addStep(metadataFormPresenter);
 		addStep(headerSelectionFormPresenter);
@@ -66,16 +68,20 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter {
 		addStep(doneFormPresenter);
 		Log.trace("done");
 	}
-	
+
 	protected void addStep(WizardStep step){
 		steps.add(step);
+		if (step instanceof HasNavigationHandlers) {
+			Log.trace("registering "+step.getConfiguration().getLabel()+" as Navigation");
+			((HasNavigationHandlers)step).addNavigationHandler(this);
+		}
 	}
 
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());
 		init();
 	}
-	
+
 	protected void init()
 	{
 		Log.trace("Initializing wizard");
@@ -83,7 +89,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter {
 		currentStepIndex = 0;
 		updateCurrentStep();
 	}
-	
+
 	protected void updateCurrentStep()
 	{
 		Log.trace("updateCurrentStep currentStepIndex: "+currentStepIndex);
@@ -91,21 +97,21 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter {
 		view.showStep(currentStepIndex);
 		WizardStepConfiguration configuration = currentStep.getConfiguration();
 		applyStepConfiguration(configuration);
-		
+
 		//check steps bounds
 		if (currentStepIndex == 0) view.hideBackwardButton();
 		if (currentStepIndex == steps.size()-1) view.hideForwardButton();
 	}
-	
+
 	protected void applyStepConfiguration(WizardStepConfiguration configuration)
 	{
 		String title = configuration.getTitle();
 		view.setStepTitle(title);
-		
+
 		configureBackwardButton(configuration.getBackwardButton());
 		configureForwardButton(configuration.getForwardButton());
 	}
-	
+
 	protected void configureBackwardButton(NavigationButtonConfiguration buttonConfiguration)
 	{
 		if (buttonConfiguration == NavigationButtonConfiguration.NONE) view.hideBackwardButton();
@@ -115,7 +121,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter {
 			view.showBackwardButton();
 		}
 	}
-	
+
 	protected void configureForwardButton(NavigationButtonConfiguration buttonConfiguration)
 	{
 		if (buttonConfiguration == NavigationButtonConfiguration.NONE) view.hideForwardButton();
@@ -125,35 +131,56 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter {
 			view.showForwardButton();
 		}
 	}
-	
-	protected void goNext()
+
+	protected void goForward()
 	{
 		boolean isComplete = currentStep.isComplete();
 		if (!isComplete) return;
-		
+
 		if (currentStepIndex == steps.size()-1) throw new IllegalStateException("There are only "+steps.size()+" steps");
-		
+
 		currentStepIndex++;
 		updateCurrentStep();
 	}
-	
+
 	protected void goBack()
 	{
 		if (currentStepIndex == 0) throw new IllegalStateException("We are already in the first step");
-		
+
 		currentStepIndex--;
 		updateCurrentStep();
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void onFowardButtonClicked() {
-		goNext();
+		goForward();
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void onBackwardButtonClicked() {
 		goBack();
 	}
 
-	
+	/**
+	 * @param event
+	 */
+	@Override
+	public void onNavigation(NavigationEvent event) {
+		Log.trace("onNavigation "+event.getNavigationType());
+		switch (event.getNavigationType()) {
+			case BACKWARD: goBack(); break;
+			case FORWARD: goForward(); break;
+		}		
+	}
+
+
+
+
+
 	public void onUploadOtherButtonClicked() {
 		uploadFormPresenter.reset();
 		model = new CotrixImportModelController();
@@ -175,4 +202,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter {
 		// TODO Auto-generated method stub
 
 	}
+
+
 }

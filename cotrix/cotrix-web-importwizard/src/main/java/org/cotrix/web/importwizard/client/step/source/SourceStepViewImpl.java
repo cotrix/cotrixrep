@@ -1,11 +1,12 @@
 package org.cotrix.web.importwizard.client.step.source;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -25,36 +26,24 @@ public class SourceStepViewImpl extends Composite implements SourceStepView {
 	@UiField Button localButton;
 	
 	private AlertDialog alertDialog;
-	private Presenter presenter;
+	private SourceStepPresenter presenter;
+	
 	public SourceStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-
 	}
 	
-	public void setPresenter(SourceStepPresenterImpl presenter) {
+	public void setPresenter(SourceStepPresenter presenter) {
 		this.presenter = presenter;
 	}
 	
-	public Metadata getMetadata() {
-		Metadata metadata = new Metadata();
-		/*metadata.setName(name.getText());
-		metadata.setOwner(fileowner.getText());
-		metadata.setDescription(description.getText());
-		metadata.setVersion(version.getItemText(version.getSelectedIndex()));*/
-		return metadata;
+	@UiHandler("cloudButton")
+	public void onCloudButtonClicked(ClickEvent event){
+		presenter.onCloudButtonClick();
 	}
-
-	public boolean isValidated() {
-		boolean isValidated = true;
-		/*if(name.getText().length() == 0){
-			presenter.alert("Name is required");
-			return false;
-		}
-		if(fileowner.getText().length() == 0){
-			presenter.alert("Ower is required");
-			return false;
-		}*/
-		return isValidated;
+	
+	@UiHandler("localButton")
+	public void onLocalButtonClicked(ClickEvent event){
+		presenter.onLocalButtonClick();
 	}
 	
 	public void alert(String message) {
@@ -64,5 +53,7 @@ public class SourceStepViewImpl extends Composite implements SourceStepView {
 		alertDialog.setMessage(message);
 		alertDialog.show();
 	}
+
+	
 
 }
