@@ -57,7 +57,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter {
 		this.view.setPresenter(this);
 
 		Log.trace("Adding steps");
-		// addStep(sourceStepPresenter, "Select source");
+		//addStep(sourceStepPresenter);
 		addStep(uploadFormPresenter);
 		addStep(metadataFormPresenter);
 		addStep(headerSelectionFormPresenter);

@@ -28,9 +28,10 @@ public class ProgressTrackerLabel extends Composite {
 	@UiField
 	Label label;
 
-	public ProgressTrackerLabel(String title) {
+	public ProgressTrackerLabel(String title, int labelWidth) {
 		initWidget(uiBinder.createAndBindUi(this));
 		label.setText(title);
+		label.setWidth(labelWidth+"px");
 	}
 
 	public void setActive(boolean isActive) {

@@ -28,9 +28,10 @@ public class ProgressTrackerButton extends Composite {
         String inactive();
     }
 
-	public ProgressTrackerButton(String text) {
+	public ProgressTrackerButton(String text, int buttonWidth) {
 		initWidget(uiBinder.createAndBindUi(this));
 		button.setText(text);
+		button.setWidth(buttonWidth+"px");
 	}
 
 	public void setActive(boolean isActive){

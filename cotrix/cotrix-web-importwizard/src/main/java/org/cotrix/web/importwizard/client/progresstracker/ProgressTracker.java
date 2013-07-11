@@ -3,8 +3,7 @@ package org.cotrix.web.importwizard.client.progresstracker;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.resources.Constants;
-
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -13,6 +12,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ProgressTracker extends Composite {
+	
+	public static final int TRACKER_WIDTH = 880;
+	public static final int BUTTON_WIDTH = 30;
 	
 	private static ProgressTrackerUiBinder uiBinder = GWT.create(ProgressTrackerUiBinder.class);
 
@@ -29,7 +31,6 @@ public class ProgressTracker extends Composite {
 	@UiField
 	FlowPanel textPanel;
 	
-	
 	protected List<ProgressTrackerButton> buttons = new ArrayList<ProgressTrackerButton>();
 	protected List<ProgressTrackerLine> lines = new ArrayList<ProgressTrackerLine>();
 	protected ProgressTrackerLine lastLine;
@@ -37,34 +38,40 @@ public class ProgressTracker extends Composite {
 	
 	public void init(List<String> stepsLabels)
 	{
-		initButtons(stepsLabels.size());
-		initLabels(stepsLabels);
+		int numButtons = stepsLabels.size();
+		int buttonsWidth = BUTTON_WIDTH * numButtons;
+		int lineWidth = (TRACKER_WIDTH - buttonsWidth) / (numButtons + 1);
+		int labelWidth = lineWidth / 2;
+		
+		initButtons(numButtons, lineWidth);
+		initLabels(stepsLabels, labelWidth, lineWidth);
 		setCurrentStep(0);
 	}
 	
-	protected void initButtons(int size)
+	protected void initButtons(int numButtons, int lineWidth)
 	{
-		barPanel.setHeight(Constants.BUTTON_WIDTH + "px");
-		for (int i = 0; i < size; i++) {
-			ProgressTrackerLine line = new ProgressTrackerLine();
+		barPanel.setHeight(BUTTON_WIDTH + "px");
+		
+		for (int i = 0; i < numButtons; i++) {
+			ProgressTrackerLine line = new ProgressTrackerLine(lineWidth);
 			lines.add(line);
 			barPanel.add(line);
 			
-			ProgressTrackerButton button = new ProgressTrackerButton(String.valueOf(i + 1));
+			ProgressTrackerButton button = new ProgressTrackerButton(String.valueOf(i + 1), BUTTON_WIDTH);
 			buttons.add(button);
 			barPanel.add(button);
 		}
-		lastLine = new ProgressTrackerLine();
+		lastLine = new ProgressTrackerLine(lineWidth);
 		barPanel.add(lastLine); // add last line at the end of
 	}
 	
-	protected void initLabels(List<String> stepsLabels) {
+	protected void initLabels(List<String> stepsLabels, int labelWidth, int lineWidth) {
 		
-		textPanel.getElement().getStyle().setProperty("paddingLeft", Constants.LABEL_WIDTH + "px");
-		textPanel.setHeight(Constants.BUTTON_WIDTH + "px");
+		textPanel.getElement().getStyle().setProperty("paddingLeft", labelWidth + "px");
+		textPanel.setHeight(BUTTON_WIDTH + "px");
 		
 		for (String stepLabel:stepsLabels) {
-			ProgressTrackerLabel label = new ProgressTrackerLabel(stepLabel);
+			ProgressTrackerLabel label = new ProgressTrackerLabel(stepLabel, lineWidth + BUTTON_WIDTH);
 			labels.add(label);
 			textPanel.add(label);
 		}

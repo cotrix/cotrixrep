@@ -32,8 +32,9 @@ public class ProgressTrackerLine extends Composite  {
 		String inactive_round_left();
 	}
 
-	public ProgressTrackerLine() {
+	public ProgressTrackerLine(int lineWidth) {
 		initWidget(uiBinder.createAndBindUi(this));
+		line.setWidth(lineWidth+"px");
 	}
 
 	public void setRoundCornerRight(boolean isActive){
