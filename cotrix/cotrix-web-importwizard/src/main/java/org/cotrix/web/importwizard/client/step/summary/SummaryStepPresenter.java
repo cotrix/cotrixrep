@@ -10,6 +10,6 @@ import org.cotrix.web.share.shared.CotrixImportModelController.OnTypeChangeHandl
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface SummaryStepPresenter extends WizardStep, SummaryStepView.Presenter ,OnMetaDataChangeHandler,OnTypeChangeHandler,OnDescriptionChangeHandler,OnFileChangeHandler{
+public interface SummaryStepPresenter extends WizardStep, SummaryStepView.Presenter, OnMetaDataChangeHandler, OnTypeChangeHandler, OnDescriptionChangeHandler, OnFileChangeHandler {
 
 }
