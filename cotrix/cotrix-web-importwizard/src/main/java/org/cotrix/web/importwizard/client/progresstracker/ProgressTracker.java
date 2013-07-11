@@ -1,5 +1,8 @@
 package org.cotrix.web.importwizard.client.progresstracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.cotrix.web.importwizard.client.resources.Constants;
 
 import com.google.gwt.core.client.GWT;
@@ -10,8 +13,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ProgressTracker extends Composite {
-	
-	private int step;
 	
 	private static ProgressTrackerUiBinder uiBinder = GWT.create(ProgressTrackerUiBinder.class);
 
@@ -27,51 +28,63 @@ public class ProgressTracker extends Composite {
 
 	@UiField
 	FlowPanel textPanel;
-
-	public ProgressTracker(int step, String[] labels) {
-		this.step = step;
-		initWidget(uiBinder.createAndBindUi(this));
-		setUpBarPanel(step);
-		setUpTextPanel(labels);
-		setActiveIndex(1);
+	
+	
+	protected List<ProgressTrackerButton> buttons = new ArrayList<ProgressTrackerButton>();
+	protected List<ProgressTrackerLine> lines = new ArrayList<ProgressTrackerLine>();
+	protected ProgressTrackerLine lastLine;
+	protected List<ProgressTrackerLabel> labels = new ArrayList<ProgressTrackerLabel>();
+	
+	public void init(List<String> stepsLabels)
+	{
+		initButtons(stepsLabels.size());
+		initLabels(stepsLabels);
+		setCurrentStep(0);
 	}
-
-	private void setUpBarPanel(int step) {
+	
+	protected void initButtons(int size)
+	{
 		barPanel.setHeight(Constants.BUTTON_WIDTH + "px");
-		for (int i = 0; i < step; i++) {
-			ProgressTrackerButton button = new ProgressTrackerButton(
-					String.valueOf(i + 1));
-			barPanel.add((i == 0) ? getFirstLine(false) : getMiddleLine(false));
+		for (int i = 0; i < size; i++) {
+			ProgressTrackerLine line = new ProgressTrackerLine();
+			lines.add(line);
+			barPanel.add(line);
+			
+			ProgressTrackerButton button = new ProgressTrackerButton(String.valueOf(i + 1));
+			buttons.add(button);
 			barPanel.add(button);
 		}
-		barPanel.add(getLastLine(false)); // add last line at the end of
+		lastLine = new ProgressTrackerLine();
+		barPanel.add(lastLine); // add last line at the end of
 	}
-
-	private ProgressTrackerLine getFirstLine(boolean isActive) {
-		ProgressTrackerLine line = new ProgressTrackerLine();
-		line.setRoundCornerLeft(isActive);
-		return line;
-	}
-
-	private ProgressTrackerLine getMiddleLine(boolean isActive) {
-		return new ProgressTrackerLine();
-	}
-
-	private ProgressTrackerLine getLastLine(boolean isActive) {
-		ProgressTrackerLine line = new ProgressTrackerLine();
-		line.setRoundCornerRight(isActive);
-		return line;
-	}
-
-	private void setUpTextPanel(String[] labels) {
-		textPanel.getElement().getStyle()
-				.setProperty("paddingLeft", Constants.LABEL_WIDTH + "px");
+	
+	protected void initLabels(List<String> stepsLabels) {
+		
+		textPanel.getElement().getStyle().setProperty("paddingLeft", Constants.LABEL_WIDTH + "px");
 		textPanel.setHeight(Constants.BUTTON_WIDTH + "px");
-		for (int i = 0; i < labels.length; i++) {
-			textPanel.add(new ProgressTrackerLabel(labels[i]));
+		
+		for (String stepLabel:stepsLabels) {
+			ProgressTrackerLabel label = new ProgressTrackerLabel(stepLabel);
+			labels.add(label);
+			textPanel.add(label);
 		}
 	}
 	
+	public void setCurrentStep(int stepIndex)
+	{
+		int stepsCount = buttons.size();
+		for (int i = 0; i < stepsCount; i++) {
+			buttons.get(i).setActive(i<=stepIndex);
+			lines.get(i).setActive(i<=stepIndex);
+			labels.get(i).setActive(i<=stepIndex);
+		}
+		ProgressTrackerLine firstLine = lines.get(0);
+		firstLine.setRoundCornerLeft(stepIndex>=0);
+		
+		lastLine.setActive(stepIndex == buttons.size()-1);
+		lastLine.setRoundCornerRight(stepIndex == buttons.size()-1);
+	}
+	/*
 	private void reset(){
 		for (int i = 0; i < barPanel.getWidgetCount(); i++) {
 			Widget w = barPanel.getWidget(i);
@@ -127,6 +140,6 @@ public class ProgressTracker extends Composite {
 			ProgressTrackerLabel label = (ProgressTrackerLabel) textPanel.getWidget(i);
 			label.setActive(true);
 		}
-	}
+	}*/
 
 }

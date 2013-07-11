@@ -1,21 +1,24 @@
 package org.cotrix.web.importwizard.client.step;
 
+import org.cotrix.web.importwizard.client.Presenter;
+import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
+
 /**
  * Represents a Wizard step.
  * @author "Federico De Faveri federico.defaveri@fao.org"
  */
-public interface WizardStep {
+public interface WizardStep extends Presenter {
 	
 	/**
-	 * Checks if the step information are valid or not.
+	 * Checks if the step is complete.
 	 * @return
 	 */
-	public boolean isValid();
+	public boolean isComplete();
 	
 	/**
-	 * Returns the step label.
+	 * Gets the step configuration for this step.
 	 * @return
 	 */
-	public String getLabel();
+	public WizardStepConfiguration getConfiguration();
 
 }

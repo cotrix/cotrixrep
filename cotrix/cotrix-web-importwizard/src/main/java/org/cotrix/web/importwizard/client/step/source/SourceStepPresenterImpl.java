@@ -1,6 +1,8 @@
 package org.cotrix.web.importwizard.client.step.source;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
@@ -26,16 +28,16 @@ public class SourceStepPresenterImpl implements SourceStepPresenter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getLabel() {
-		return "Source Selection";
-	}	
+	public WizardStepConfiguration getConfiguration() {
+		return new WizardStepConfiguration("Source Selection", "Select source", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.NONE);
+	}
 
 	public void go(HasWidgets container) {
-		container.clear();
+		//container.clear();
 		container.add(view.asWidget());
 	}
 
-	public boolean isValid() {
+	public boolean isComplete() {
 		if(view.isValidated()){
 			model.setMetadata(view.getMetadata());
 		}

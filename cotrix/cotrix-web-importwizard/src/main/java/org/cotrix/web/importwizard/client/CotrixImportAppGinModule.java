@@ -16,6 +16,10 @@ import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenter;
 import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.preview.PreviewStepView;
 import org.cotrix.web.importwizard.client.step.preview.PreviewStepViewImpl;
+import org.cotrix.web.importwizard.client.step.source.SourceStepPresenter;
+import org.cotrix.web.importwizard.client.step.source.SourceStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.source.SourceStepView;
+import org.cotrix.web.importwizard.client.step.source.SourceStepViewImpl;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepView;
@@ -47,12 +51,16 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
 
     protected void configure() {
         bind(CotrixImportAppController.class).to(CotrixImportAppControllerImpl.class);
-      
-        bind(UploadStepView.class).to(UploadStepViewImpl.class).asEagerSingleton();
-        bind(UploadStepPresenter.class).to(UploadStepPresenterImpl.class).asEagerSingleton();
-       
+        
         bind(ImportWizardView.class).to(ImportWizardViewImpl.class).in(Singleton.class);
         bind(ImportWizardPresenter.class).to(ImportWizardPresenterImpl.class);
+        
+        bind(SourceStepView.class).to(SourceStepViewImpl.class).asEagerSingleton();
+        bind(SourceStepPresenter.class).to(SourceStepPresenterImpl.class).asEagerSingleton();
+      
+        bind(UploadStepView.class).to(UploadStepViewImpl.class);
+        bind(UploadStepPresenter.class).to(UploadStepPresenterImpl.class);
+     
         
         bind(MetadataStepView.class).to(MetadataStepViewImpl.class);
         bind(MetadataStepPresenter.class).to(MetadataStepPresenterImpl.class);

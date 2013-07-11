@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
@@ -35,7 +37,7 @@ public class SummaryStepPresenterImpl implements SummaryStepPresenter {
 	}
 	
 	public void go(HasWidgets container) {
-		container.clear();
+		//container.clear();
 		container.add(view.asWidget());
 	}
 
@@ -71,7 +73,7 @@ public class SummaryStepPresenterImpl implements SummaryStepPresenter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isValid() {
+	public boolean isComplete() {
 		return true;
 	}
 
@@ -79,8 +81,9 @@ public class SummaryStepPresenterImpl implements SummaryStepPresenter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getLabel() {
-		return "Summary";
+	public WizardStepConfiguration getConfiguration() {
+		NavigationButtonConfiguration saveButton = new NavigationButtonConfiguration("Save");
+		return new WizardStepConfiguration("Summary", "Summary", NavigationButtonConfiguration.DEFAULT_BACKWARD, saveButton);
 	}
 
 }

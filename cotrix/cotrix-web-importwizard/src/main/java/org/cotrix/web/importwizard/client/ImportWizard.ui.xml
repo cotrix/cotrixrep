@@ -6,13 +6,14 @@
 			font-weight: bold;
 		}
 		
-		.progressTracker {
+		.progressTrackerPanel {
 			width: 100%;
 			height: 100%;
 			margin: 0 auto;
 			text-align: center;
 		}
 		
+		/*form panel container of deck*/
 		.formPanel {
 			width: 100%;
 			height: 100%;
@@ -21,13 +22,223 @@
 		}
 		
 		.mainPanel {
-			padding-bottom: 20px; 
+			padding-bottom: 20px;
+		}
+		
+		.panel {
+			font-weight: bold;
+			background-color: #FAFAFA;
+			width: 880px;
+			margin: 0 auto;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+		}
+		
+		.important {
+			font-weight: bold;
+		}
+		
+		.navigationBar {
+			font-weight: bold;
+			background-color: #FAFAFA;
+			height: 40px;
+			border-radius: 0px 0px 5px 5px;
+			-moz-border-radius: 0px 0px 5px 5px;
+		}
+		
+		.title {
+			font-weight: bold;
+			font-size: xx-large;
+			text-align: left;
+			color: #999;
+			margin-left: 20px;
+		}
+		
+		.contentPanel {
+			text-align: left;
+			padding: 20px;
+		}
+		
+		.forwardButton {
+			float: right;
+			margin-right: 20px;
+			border: 1px solid #3063a1;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			width: 80px;
+			font-size: 12px;
+			font-family: arial, helvetica, sans-serif;
+			padding: 8px 8px 8px 8px;
+			text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+			font-weight: bold;
+			text-align: center;
+			color: #E8E8E8;
+			background-color: #427EC7;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
+				color-stop(100%, #518EE2) );
+			background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -o-linear-gradient(top, #427EC7, #518EE2);
+			background-image: linear-gradient(top, #427EC7, #518EE2);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#427EC7, endColorstr=#518EE2 );
+		}
+		
+		.forwardButton:hover {
+			border: 1px solid #254d7e;
+			background-color: #3165a5;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
+				color-stop(100%, #2572db) );
+			background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
+			background-image: -moz-linear-gradient(top, #3165a5, #2572db);
+			background-image: -ms-linear-gradient(top, #3165a5, #2572db);
+			background-image: -o-linear-gradient(top, #3165a5, #2572db);
+			background-image: linear-gradient(top, #3165a5, #2572db);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#3165a5, endColorstr=#2572db );
+		}
+		
+		.backwardButton {
+			float:left;
+			margin-left:20px;
+			border: 1px solid #d7dada;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			width: 80px;
+			font-size: 12px;
+			font-family: arial, helvetica, sans-serif;
+			padding: 8px 8px 8px 8px;
+			text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+			font-weight: bold;
+			text-align: center;
+			color: #7D7D7D;
+			background-color: #f4f5f5;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4f5f5),
+				color-stop(100%, #dfdddd) );
+			background-image: -webkit-linear-gradient(top, #f4f5f5, #dfdddd);
+			background-image: -moz-linear-gradient(top, #f4f5f5, #dfdddd);
+			background-image: -ms-linear-gradient(top, #f4f5f5, #dfdddd);
+			background-image: -o-linear-gradient(top, #f4f5f5, #dfdddd);
+			background-image: linear-gradient(top, #f4f5f5, #dfdddd);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#f4f5f5, endColorstr=#dfdddd );
+		}
+		
+		.backwardButton:hover {
+			border: 1px solid #bfc4c4;
+			background-color: #d9dddd;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d9dddd),
+				color-stop(100%, #c6c3c3) );
+			background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
+			background-image: -moz-linear-gradient(top, #d9dddd, #c6c3c3);
+			background-image: -ms-linear-gradient(top, #d9dddd, #c6c3c3);
+			background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
+			background-image: linear-gradient(top, #d9dddd, #c6c3c3);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#d9dddd, endColorstr=#c6c3c3 );
+		}
+		
+		.manageCodelist {
+			float: right;
+			margin-right: 20px;
+			border: 1px solid #3063a1;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			width: 130px;
+			font-size: 12px;
+			font-family: arial, helvetica, sans-serif;
+			padding: 8px 8px 8px 8px;
+			text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+			font-weight: bold;
+			text-align: center;
+			color: #E8E8E8;
+			background-color: #427EC7;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
+				color-stop(100%, #518EE2) );
+			background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -o-linear-gradient(top, #427EC7, #518EE2);
+			background-image: linear-gradient(top, #427EC7, #518EE2);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#427EC7, endColorstr=#518EE2 );
+		}
+		
+		.manageCodelist:hover {
+			border: 1px solid #254d7e;
+			background-color: #3165a5;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
+				color-stop(100%, #2572db) );
+			background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
+			background-image: -moz-linear-gradient(top, #3165a5, #2572db);
+			background-image: -ms-linear-gradient(top, #3165a5, #2572db);
+			background-image: -o-linear-gradient(top, #3165a5, #2572db);
+			background-image: linear-gradient(top, #3165a5, #2572db);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#3165a5, endColorstr=#2572db );
+		}
+		
+		.uploadOther {
+			float: left;
+			margin-left: 20px;
+			border: 1px solid #3063a1;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			width: 130px;
+			font-size: 12px;
+			font-family: arial, helvetica, sans-serif;
+			padding: 8px 8px 8px 8px;
+			text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+			font-weight: bold;
+			text-align: center;
+			color: #E8E8E8;
+			background-color: #427EC7;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
+				color-stop(100%, #518EE2) );
+			background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -o-linear-gradient(top, #427EC7, #518EE2);
+			background-image: linear-gradient(top, #427EC7, #518EE2);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#427EC7, endColorstr=#518EE2 );
+		}
+		
+		.uploadOther:hover {
+			border: 1px solid #254d7e;
+			background-color: #3165a5;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
+				color-stop(100%, #2572db) );
+			background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
+			background-image: -moz-linear-gradient(top, #3165a5, #2572db);
+			background-image: -ms-linear-gradient(top, #3165a5, #2572db);
+			background-image: -o-linear-gradient(top, #3165a5, #2572db);
+			background-image: linear-gradient(top, #3165a5, #2572db);
+			filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+				startColorstr=#3165a5, endColorstr=#2572db );
 		}
 	</ui:style>
 	<g:HTMLPanel>
 		<g:FlowPanel styleName="{style.mainPanel}">
-			<g:FlowPanel ui:field="progressTracker" styleName="{style.progressTracker}" />
-			<g:DeckPanel ui:field="formPanel" styleName="{style.formPanel}" />
+			<g:FlowPanel ui:field="progressTrackerPanel" styleName="{style.progressTrackerPanel}" />
+			<g:FlowPanel ui:field="contentPanel" styleName="{style.panel}">
+				<g:Label text="Title" styleName="{style.title}" ui:field="titlePanel" />
+				<g:DeckPanel ui:field="stepsPanel" styleName="{style.contentPanel}" />
+				<g:FlowPanel ui:field="navigationBar" styleName="{style.navigationBar}">
+					<g:Button text="Back" styleName="{style.backwardButton}" ui:field="backwardButton" />
+					<g:Button text="Next" styleName="{style.forwardButton}" ui:field="forwardButton" />
+					<g:Button text="Upload Other" styleName="{style.uploadOther}"
+						ui:field="uploadOtherButton" visible="false" />
+					<g:Button text="Manage Codelist" styleName="{style.manageCodelist}"
+						ui:field="manageCodelistButton" visible="false" />
+				</g:FlowPanel>
+			</g:FlowPanel>
 		</g:FlowPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

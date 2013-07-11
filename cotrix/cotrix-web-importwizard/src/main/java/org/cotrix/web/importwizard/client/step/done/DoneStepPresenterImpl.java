@@ -1,6 +1,8 @@
 package org.cotrix.web.importwizard.client.step.done;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
@@ -27,16 +29,17 @@ public class DoneStepPresenterImpl implements DoneStepPresenter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getLabel() {
-		return "Done";
+	public WizardStepConfiguration getConfiguration() {
+		return new WizardStepConfiguration("Done", "Done", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.NONE);
 	}
+
 	
 	public void go(HasWidgets container) {
-		container.clear();
+		//container.clear();
 		container.add(view.asWidget());
 	}
 
-	public boolean isValid() {
+	public boolean isComplete() {
 		return true;
 	}
 	

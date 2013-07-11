@@ -1,6 +1,8 @@
 package org.cotrix.web.importwizard.client.step.metadata;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
@@ -21,21 +23,21 @@ public class MetadataStepPresenterImpl implements MetadataStepPresenter {
 		this.model = model;
 		this.view.setPresenter(this);
 	}
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getLabel() {
-		return "Add Metadata";
+	public WizardStepConfiguration getConfiguration() {
+		return new WizardStepConfiguration("Add Metadata", "Add Metadata", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 	}
 
 	public void go(HasWidgets container) {
-		container.clear();
+		//container.clear();
 		container.add(view.asWidget());
 	}
 
-	public boolean isValid() {
+	public boolean isComplete() {
 		if(view.isValidated()){
 			model.setMetadata(view.getMetadata());
 		}

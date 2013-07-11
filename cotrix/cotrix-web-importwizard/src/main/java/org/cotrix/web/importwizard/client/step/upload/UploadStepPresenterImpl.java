@@ -2,13 +2,13 @@ package org.cotrix.web.importwizard.client.step.upload;
 
 import java.util.ArrayList;
 
+import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.json.HeaderTypeJson;
-import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
-import org.vectomatic.file.FileError;
 import org.vectomatic.file.FileList;
 import org.vectomatic.file.FileReader;
 import org.vectomatic.file.events.ErrorEvent;
@@ -46,8 +46,8 @@ public class UploadStepPresenterImpl implements UploadStepPresenter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getLabel() {
-		return "Upload File";
+	public WizardStepConfiguration getConfiguration() {
+		return new WizardStepConfiguration("Upload File", "Upload CSV File", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 	}
 	
 	public interface OnUploadFileFinish{
@@ -57,7 +57,7 @@ public class UploadStepPresenterImpl implements UploadStepPresenter {
 	private OnUploadFileFinish onUploadFileFinish;
 	
 	public void go(HasWidgets container) {
-		container.clear();
+		//container.clear();
 		container.add(view.asWidget());
 		initFileReader();
 	}
@@ -133,23 +133,11 @@ public class UploadStepPresenterImpl implements UploadStepPresenter {
 		}
 
 	}
-	private void handleError(File file) {
-		FileError error = reader.getError();
-		String errorDesc = "";
-		if (error != null) {
-			ErrorCode errorCode = error.getCode();
-			if (errorCode != null) {
-				errorDesc = ": " + errorCode.name();
-			}
+	public boolean isComplete() {
+		if(model.getCsvFile()== null || model.getCsvFile().getData() == null) {
+			onError("Please browse a csv file");
+			return false;
 		}
-
-		onError("File loading error for file: " + file.getName() + "\n"+ errorDesc);
-	}
-
-
-	public boolean isValid() {
-		if(model.getCsvFile().getData() == null)
-			onError("Please browse csv file");
 		return (model.getCsvFile().getData() != null) ? true:false;
 	}
 

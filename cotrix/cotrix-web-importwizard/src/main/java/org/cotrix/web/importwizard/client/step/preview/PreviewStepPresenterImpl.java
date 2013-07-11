@@ -3,6 +3,8 @@ package org.cotrix.web.importwizard.client.step.preview;
 import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
@@ -35,16 +37,16 @@ public class PreviewStepPresenterImpl implements PreviewStepPresenter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getLabel() {
-		return "Select Header";
+	public WizardStepConfiguration getConfiguration() {
+		return new WizardStepConfiguration("Select Header", "Select Header", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 	}
 
 	public void go(HasWidgets container) {
-		container.clear();
+		//container.clear();
 		container.add(view.asWidget());
 	}
 
-	public boolean isValid() {
+	public boolean isComplete() {
 		ArrayList<String> headers = view.getHeaders();
 		int columnCount = this.model.getCsvFile().getHeader().length;
 		if(headers.size() != columnCount){
