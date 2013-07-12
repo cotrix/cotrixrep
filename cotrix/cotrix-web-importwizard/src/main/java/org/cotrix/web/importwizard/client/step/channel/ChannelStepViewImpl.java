@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.client.step.Style;
+import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 
+import com.google.gwt.cell.client.ButtonCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -48,6 +51,8 @@ public class ChannelStepViewImpl extends Composite implements ChannelStepView {
 	protected AssetInfoDataProvider assetInfoDataProvider;
 
 	private AlertDialog alertDialog;
+	
+	protected ChannelDetailsDialog detailsDialog;
 
 	private Presenter presenter;
 
@@ -148,14 +153,29 @@ public class ChannelStepViewImpl extends Composite implements ChannelStepView {
 			    });*/
 		dataGrid.addColumn(repositoryColumn, "Repository");
 		
+		
+		//details
+		Column<AssetInfo, String> detailsColumn = new Column<AssetInfo, String>(new ButtonCell()) {
+			@Override
+			public String getValue(AssetInfo object) {
+				return "Details";
+			}
+		};
+		detailsColumn.setSortable(false);
+		detailsColumn.setFieldUpdater(new FieldUpdater<AssetInfo, String>() {
+			
+			@Override
+			public void update(int index, AssetInfo object, String value) {
+				presenter.assetDetails(object);
+			}
+		});
+		
+		dataGrid.addColumn(detailsColumn, "");
+		
+		
+		
 		assetInfoDataProvider.addDataDisplay(dataGrid);
 		
-	}
-
-
-	@Override
-	public void loadAssets(ArrayList<AssetInfo> assets) {
-
 	}
 
 
@@ -216,6 +236,14 @@ public class ChannelStepViewImpl extends Composite implements ChannelStepView {
 		}
 		alertDialog.setMessage(message);
 		alertDialog.show();
+	}
+
+
+	@Override
+	public void showAssetDetails(AssetDetails asset) {
+		if (detailsDialog == null) detailsDialog = new ChannelDetailsDialog();
+		detailsDialog.setAsset(asset);
+		detailsDialog.center();
 	}
 
 

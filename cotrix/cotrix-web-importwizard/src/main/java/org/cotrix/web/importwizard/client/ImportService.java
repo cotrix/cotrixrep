@@ -2,6 +2,7 @@ package org.cotrix.web.importwizard.client;
 
 import java.util.ArrayList;
 
+import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.share.shared.CotrixImportModel;
 
@@ -20,4 +21,7 @@ public interface ImportService extends RemoteService {
 	void testBackendConnection() throws IllegalArgumentException;
 	
 	ArrayList<AssetInfo> getAssets(Range range);
+	
+	AssetDetails getAssetDetails(String assetId);
+	
 }

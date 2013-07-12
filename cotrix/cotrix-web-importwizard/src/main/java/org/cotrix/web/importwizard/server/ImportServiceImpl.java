@@ -4,9 +4,13 @@
 package org.cotrix.web.importwizard.server;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.cotrix.web.importwizard.client.ImportService;
+import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.Property;
+import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.share.shared.CotrixImportModel;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -40,6 +44,19 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		assets.add(new AssetInfo("333", "Species Year 2013", "CSV", "Fish repo"));
 		assets.add(new AssetInfo("324", "Country", "SDMX", "U.N. official Repo"));
 		return assets;
+	}
+
+	@Override
+	public AssetDetails getAssetDetails(String assetId) {
+		List<Property> properties = new ArrayList<Property>();
+		properties.add(new Property("Agency", "FAO", "Agency name"));
+		RepositoryDetails repository = new RepositoryDetails("iMarine", "CSV, SDMX",  "SDMX", properties);
+		
+		properties = new ArrayList<Property>();
+		properties.add(new Property("Owner", "FAO", "Owner name"));
+		properties.add(new Property("Size", "12", "Code list size"));
+		AssetDetails assetDetails = new AssetDetails("123", "Fish", "SDMX", properties, repository);
+		return assetDetails;
 	}
 
 }

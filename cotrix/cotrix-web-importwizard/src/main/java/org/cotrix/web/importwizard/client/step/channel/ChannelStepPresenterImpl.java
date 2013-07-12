@@ -4,8 +4,10 @@ import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
+import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
@@ -48,5 +50,23 @@ public class ChannelStepPresenterImpl implements ChannelStepPresenter {
 	public void assetSelected(AssetInfo asset) {
 		this.assetInfo = asset;
 		
+	}
+
+	@Override
+	public void assetDetails(AssetInfo asset) {
+		importService.getAssetDetails(asset.getId(), new AsyncCallback<AssetDetails>() {
+			
+			@Override
+			public void onSuccess(AssetDetails result) {
+				view.showAssetDetails(result);
+				
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 }
