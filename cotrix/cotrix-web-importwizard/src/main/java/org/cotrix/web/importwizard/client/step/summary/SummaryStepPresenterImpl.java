@@ -45,6 +45,7 @@ public class SummaryStepPresenterImpl implements SummaryStepPresenter {
 		}
 		return headerType;
 	}
+	
 	public void onTypeChange(ArrayList<HeaderType> headerType) {
 		view.setHeaderType(toHashMap(headerType));
 	}

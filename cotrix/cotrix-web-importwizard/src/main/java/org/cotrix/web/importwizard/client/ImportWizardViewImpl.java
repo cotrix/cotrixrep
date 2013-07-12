@@ -27,7 +27,10 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	private static ImportWizardUiBinder uiBinder = GWT.create(ImportWizardUiBinder.class);
 
 	@UiField FlowPanel progressTrackerPanel;
+	
+	//FIXME we should use DeckLayoutPanel
 	@UiField DeckPanel stepsPanel;
+	
 	@UiField Label titlePanel;
 	
 	@UiField Button forwardButton;

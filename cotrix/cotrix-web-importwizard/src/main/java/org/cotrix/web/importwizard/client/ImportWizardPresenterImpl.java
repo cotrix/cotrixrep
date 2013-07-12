@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.step.WizardStep;
+import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
 import org.cotrix.web.importwizard.client.step.mapping.MappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
@@ -46,11 +47,12 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	public ImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModelController model, 
 			SourceStepPresenter sourceStepPresenter,
 			UploadStepPresenter uploadFormPresenter,
-			MetadataStepPresenter metadataFormPresenter,
-			PreviewStepPresenterImpl headerSelectionFormPresenter,
-			MappingStepPresenterImpl headerTypeFormPresenter,
-			SummaryStepPresenter summaryFormPresenter,
-			DoneStepPresenter doneFormPresenter) {
+			ChannelStepPresenter channelStepPresenter,
+			MetadataStepPresenter metadataStepPresenter,
+			PreviewStepPresenterImpl headerSelectionStepPresenter,
+			MappingStepPresenterImpl headerTypeStepPresenter,
+			SummaryStepPresenter summaryStepPresenter,
+			DoneStepPresenter doneStepPresenter) {
 
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
@@ -60,12 +62,13 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 		Log.trace("Adding steps");
 		addStep(sourceStepPresenter);
-		addStep(uploadFormPresenter);
-		addStep(metadataFormPresenter);
-		addStep(headerSelectionFormPresenter);
-		addStep(headerTypeFormPresenter);
-		addStep(summaryFormPresenter);
-		addStep(doneFormPresenter);
+		//addStep(uploadFormPresenter);
+		addStep(channelStepPresenter);
+		addStep(metadataStepPresenter);
+		addStep(headerSelectionStepPresenter);
+		addStep(headerTypeStepPresenter);
+		addStep(summaryStepPresenter);
+		addStep(doneStepPresenter);
 		Log.trace("done");
 	}
 

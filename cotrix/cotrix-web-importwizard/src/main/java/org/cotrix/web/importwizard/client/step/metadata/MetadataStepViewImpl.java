@@ -39,15 +39,25 @@ public class MetadataStepViewImpl extends Composite implements MetadataStepView 
 	@UiField ListBox version;
 	@UiField TextArea description;
 	
+	@UiField DatePicker createDate2;
+	
 	private AlertDialog alertDialog;
 	private Presenter presenter;
 	public MetadataStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		addDatePicker(createDate);
 		addDatePicker(updateDate);
+		
+		/*createDate2.addValueChangeHandler(new ValueChangeHandler<Date>() {
+		      public void onValueChange(ValueChangeEvent<Date> event) {
+			        Date date = event.getValue();
+			        String dateString = DateTimeFormat.getMediumDateFormat().format(date);
+			        text.setText(dateString);
+			      }
+			    });*/
 	}
 	
-	private  void addDatePicker(FlowPanel panel){
+	private void addDatePicker(FlowPanel panel){
 		 // Create a basic date picker
 	    DatePicker datePicker = new DatePicker();
 	    final Label text = new Label();

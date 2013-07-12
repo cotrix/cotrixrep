@@ -8,6 +8,7 @@ public class Metadata implements IsSerializable {
 	private String description;
 	private String version;
 	private int rowCount;
+	
 	public String getName() {
 		return name;
 	}

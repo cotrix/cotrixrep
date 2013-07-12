@@ -1,6 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:dp="urn:import:com.google.gwt.user.datepicker.client" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:dp="urn:import:com.google.gwt.user.datepicker.client" 
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" >
 	<ui:style>
 		.important {
 			font-weight: bold;
@@ -104,6 +105,14 @@
 				</g:customCell>
 				<g:customCell styleName="{style.cell}">
 					<g:FlowPanel ui:field="createDate"></g:FlowPanel>
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell styleName="{style.cell}">
+					<g:Label styleName="{style.label}">Create Date2</g:Label>
+				</g:customCell>
+				<g:customCell styleName="{style.cell}">
+					<dp:DatePicker ui:field="createDate2"></dp:DatePicker>
 				</g:customCell>
 			</g:row>
 			<g:row>

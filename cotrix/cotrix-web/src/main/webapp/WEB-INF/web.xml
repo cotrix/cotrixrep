@@ -17,6 +17,11 @@
 		<servlet-name>importWizardServlet</servlet-name>
 		<servlet-class>org.cotrix.web.importwizard.server.FileUpload</servlet-class>
 	</servlet>
+	
+		<servlet>
+		<servlet-name>importServiceServlet</servlet-name>
+		<servlet-class>org.cotrix.web.importwizard.server.ImportServiceImpl</servlet-class>
+	</servlet>
 
 	<servlet>
 		<servlet-name>codelistManagerServlet</servlet-name>
@@ -33,11 +38,17 @@
 		<url-pattern>/CodeListManager/publish</url-pattern>
 	</servlet-mapping>
 
-
 	<servlet-mapping>
 		<servlet-name>importWizardServlet</servlet-name>
 		<url-pattern>/CodeListManager/fileupload</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>importServiceServlet</servlet-name>
+		<url-pattern>/CodeListManager/importService</url-pattern>
+	</servlet-mapping>
+	
+	
 
 	<servlet-mapping>
 		<servlet-name>listServlet</servlet-name>

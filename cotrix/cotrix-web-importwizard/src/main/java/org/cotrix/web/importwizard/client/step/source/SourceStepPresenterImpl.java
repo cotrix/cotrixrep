@@ -1,12 +1,13 @@
 package org.cotrix.web.importwizard.client.step.source;
 
+import org.cotrix.web.importwizard.client.session.ImportSession;
+import org.cotrix.web.importwizard.client.session.SourceType;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.HasNavigationHandlers;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationHandler;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationType;
-import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.shared.GwtEvent;
@@ -15,16 +16,21 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
+/**
+ * Source selection step.
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class SourceStepPresenterImpl implements SourceStepPresenter, HasNavigationHandlers {
 
 	protected HandlerManager handlerManager;
-	private final SourceStepView view;
-	private final CotrixImportModelController model;
+	protected SourceStepView view;
+	protected ImportSession session;
 
 	@Inject
-	public SourceStepPresenterImpl(SourceStepView view, CotrixImportModelController model) {
+	public SourceStepPresenterImpl(SourceStepView view, ImportSession session) {
 		this.view = view;
-		this.model = model;
+		this.session = session;
 		this.view.setPresenter(this);
 		handlerManager = new HandlerManager(this);
 	}
@@ -37,11 +43,16 @@ public class SourceStepPresenterImpl implements SourceStepPresenter, HasNavigati
 		return new WizardStepConfiguration("Source Selection", "Select source", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.NONE);
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void go(HasWidgets container) {
-		//container.clear();
 		container.add(view.asWidget());
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	public boolean isComplete() {
 		return true;
 	}
@@ -66,18 +77,23 @@ public class SourceStepPresenterImpl implements SourceStepPresenter, HasNavigati
 		return handlerManager.addHandler(NavigationEvent.TYPE, handler);
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onCloudButtonClick() {
 		Log.trace("onCloudButtonClick");
-		//SET the source type in the session
-		
+		session.setSourceType(SourceType.CHANNEL);
 		NavigationEvent.fire(handlerManager, NavigationType.FORWARD);
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onLocalButtonClick() {
 		Log.trace("onLocalButtonClick");
-		//SET the source type in the session
+		session.setSourceType(SourceType.FILE);
 		NavigationEvent.fire(handlerManager, NavigationType.FORWARD);
 	}
 }

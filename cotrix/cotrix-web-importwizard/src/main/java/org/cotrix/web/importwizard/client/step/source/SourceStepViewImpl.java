@@ -26,13 +26,13 @@ public class SourceStepViewImpl extends Composite implements SourceStepView {
 	@UiField Button localButton;
 	
 	private AlertDialog alertDialog;
-	private SourceStepPresenter presenter;
+	private Presenter presenter;
 	
 	public SourceStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
-	public void setPresenter(SourceStepPresenter presenter) {
+	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
 	
@@ -53,7 +53,4 @@ public class SourceStepViewImpl extends Composite implements SourceStepView {
 		alertDialog.setMessage(message);
 		alertDialog.show();
 	}
-
-	
-
 }

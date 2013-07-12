@@ -1,5 +1,10 @@
 package org.cotrix.web.importwizard.client;
 
+import org.cotrix.web.importwizard.client.step.channel.AssetInfoDataProvider;
+import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
+import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.channel.ChannelStepView;
+import org.cotrix.web.importwizard.client.step.channel.ChannelStepViewImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepView;
@@ -60,8 +65,12 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
       
         bind(UploadStepView.class).to(UploadStepViewImpl.class);
         bind(UploadStepPresenter.class).to(UploadStepPresenterImpl.class);
-     
         
+        bind(ChannelStepView.class).to(ChannelStepViewImpl.class);
+        bind(ChannelStepPresenter.class).to(ChannelStepPresenterImpl.class);
+        bind(AssetInfoDataProvider.class).in(Singleton.class);
+       // bind(AssetInfoDataProvider.class).to(AssetInfoDataProvider.class).in(Singleton.class);
+     
         bind(MetadataStepView.class).to(MetadataStepViewImpl.class);
         bind(MetadataStepPresenter.class).to(MetadataStepPresenterImpl.class);
         
