@@ -10,7 +10,7 @@
 			height: 100%;
 			float: left;
 			width:100%;
-			border: 1px; solid #666;
+			border: 1px solid #666;
 			margin: 0 auto;
 		}
 		
