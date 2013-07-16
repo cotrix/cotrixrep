@@ -9,6 +9,10 @@
 	<inherits name='org.cotrix.web.share.CotrixModuleShare' />
 	<inherits name='com.google.web.bindery.autobean.AutoBean'/>
 	<inherits name="com.google.gwt.http.HTTP"/>
+	
+	<!-- GWT LOGGING SETUP -->
+	<inherits name="com.allen_sauer.gwt.log.gwt-log-TRACE" />
+	<set-property name="log_DivLogger" value="DISABLED" />
 
 
 	<!-- Specify the paths for translatable code -->

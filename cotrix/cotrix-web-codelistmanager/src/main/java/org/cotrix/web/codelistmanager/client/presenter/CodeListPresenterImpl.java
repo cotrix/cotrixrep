@@ -6,6 +6,7 @@ import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.view.CodeListView;
 import org.cotrix.web.share.shared.UICodelist;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -38,7 +39,7 @@ public class CodeListPresenterImpl implements CodeListPresenter {
 			}
 			
 			public void onFailure(Throwable caught) {
-				
+				Log.error("Error loading the codelists", caught);
 			}
 		});
 
