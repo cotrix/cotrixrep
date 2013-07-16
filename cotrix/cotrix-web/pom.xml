@@ -61,9 +61,16 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>org.jboss.weld.se</groupId>
+			<artifactId>weld-se-core</artifactId>
+			<version>1.1.8.Final</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
-			<artifactId>weld-servlet</artifactId>
-			<version>1.1.13.Final</version>
+			<artifactId>weld-servlet-core</artifactId>
+			<version>1.1.8.Final</version>
 		</dependency>
 		
 		<dependency>
