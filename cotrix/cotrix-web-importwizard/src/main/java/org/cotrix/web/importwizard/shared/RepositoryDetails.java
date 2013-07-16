@@ -62,6 +62,34 @@ public class RepositoryDetails implements Serializable {
 		return properties;
 	}
 
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @param publishedTypes the publishedTypes to set
+	 */
+	public void setPublishedTypes(String publishedTypes) {
+		this.publishedTypes = publishedTypes;
+	}
+
+	/**
+	 * @param returnedTypes the returnedTypes to set
+	 */
+	public void setReturnedTypes(String returnedTypes) {
+		this.returnedTypes = returnedTypes;
+	}
+
+	/**
+	 * @param properties the properties to set
+	 */
+	public void setProperties(List<Property> properties) {
+		this.properties = properties;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */

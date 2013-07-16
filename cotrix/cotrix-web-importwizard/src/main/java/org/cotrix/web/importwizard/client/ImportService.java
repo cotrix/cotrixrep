@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.share.shared.CotrixImportModel;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -20,8 +21,8 @@ public interface ImportService extends RemoteService {
 	
 	void testBackendConnection() throws IllegalArgumentException;
 	
-	ArrayList<AssetInfo> getAssets(Range range);
+	ArrayList<AssetInfo> getAssets(Range range) throws ImportServiceException;
 	
-	AssetDetails getAssetDetails(String assetId);
+	AssetDetails getAssetDetails(String assetId) throws ImportServiceException;
 	
 }

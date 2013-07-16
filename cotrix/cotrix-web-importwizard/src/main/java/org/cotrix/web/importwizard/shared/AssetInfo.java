@@ -64,6 +64,34 @@ public class AssetInfo implements Serializable {
 		return repositoryName;
 	}
 	
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	/**
+	 * @param repositoryName the repositoryName to set
+	 */
+	public void setRepositoryName(String repositoryName) {
+		this.repositoryName = repositoryName;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */

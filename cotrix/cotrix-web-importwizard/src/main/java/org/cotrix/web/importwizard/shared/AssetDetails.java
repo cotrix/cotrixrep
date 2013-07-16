@@ -73,6 +73,41 @@ public class AssetDetails implements Serializable {
 		return repository;
 	}
 
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	/**
+	 * @param properties the properties to set
+	 */
+	public void setProperties(List<Property> properties) {
+		this.properties = properties;
+	}
+
+	/**
+	 * @param repository the repository to set
+	 */
+	public void setRepository(RepositoryDetails repository) {
+		this.repository = repository;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */

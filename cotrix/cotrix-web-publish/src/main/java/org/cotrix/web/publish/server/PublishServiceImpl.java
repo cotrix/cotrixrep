@@ -59,8 +59,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 	@Inject ImportService importService;
 	
 	public ArrayList<UICodelist> getAllCodelists()throws IllegalArgumentException {
-//		loadASFIS();  // for testing
-		
+		//loadASFIS();  // for testing
 		
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
 		Iterator<Codelist> it  = repository.queryFor(allLists()).iterator();
