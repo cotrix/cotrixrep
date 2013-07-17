@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SourceSelectionStepViewImpl extends Composite implements SourceSelectionStepView {
 
-	@UiTemplate("SourceSelectioStep.ui.xml")
+	@UiTemplate("SourceSelectionStep.ui.xml")
 	interface SourceSelectionStepUiBinder extends UiBinder<Widget, SourceSelectionStepViewImpl> {}
 	private static SourceSelectionStepUiBinder uiBinder = GWT.create(SourceSelectionStepUiBinder.class);
 	
