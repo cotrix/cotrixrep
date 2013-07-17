@@ -41,6 +41,8 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
+		
+		<!-- FIXME for DEV ONLY
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-codelistmanager</artifactId>
@@ -52,7 +54,7 @@
 			<artifactId>cotrix-web-publish</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
 			<groupId>com.google.gwt.inject</groupId>

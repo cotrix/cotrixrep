@@ -2,20 +2,14 @@
 <module rename-to='CodeListManager'>
 	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name='com.google.gwt.user.User' />
+
+	<!-- Other module inherits -->
 	<inherits name="com.google.gwt.inject.Inject" />
 	<inherits name='org.cotrix.web.menu.CotrixModuleMenu' />
 	<inherits name='org.cotrix.web.importwizard.CotrixModuleImport' />
+	<!--  FIXME for DEV ONLY
 	<inherits name='org.cotrix.web.codelistmanager.CotrixModuleManager' />
-	<inherits name='org.cotrix.web.publish.CotrixModulePublish' />
-
-	<!-- Inherit the default GWT style sheet. You can change -->
-	<!-- the theme of your GWT application by uncommenting -->
-	<!-- any one of the following lines. -->
-	<!-- <inherits name='com.google.gwt.user.theme.standard.Standard' /> -->
-	<!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
-	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
-
-	<!-- Other module inherits -->
+	<inherits name='org.cotrix.web.publish.CotrixModulePublish' />-->
 	
 	<!-- GWT LOGGING SETUP -->
 	<inherits name="com.allen_sauer.gwt.log.gwt-log-TRACE" />
