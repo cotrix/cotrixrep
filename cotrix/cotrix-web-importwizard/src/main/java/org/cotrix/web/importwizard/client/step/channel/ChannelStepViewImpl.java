@@ -1,7 +1,5 @@
 package org.cotrix.web.importwizard.client.step.channel;
 
-import java.util.ArrayList;
-
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.client.step.Style;
 import org.cotrix.web.importwizard.shared.AssetDetails;
@@ -23,7 +21,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
-import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 
