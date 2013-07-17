@@ -30,8 +30,8 @@ import com.google.gwt.view.client.Range;
 @SuppressWarnings("serial")
 public class ImportServiceImpl extends RemoteServiceServlet implements ImportService {
 
-	@Inject
-	org.cotrix.io.ImportService service;
+	/*@Inject
+	org.cotrix.io.ImportService service;*/
 
 	protected Logger logger = LoggerFactory.getLogger(ImportServiceImpl.class);
 
@@ -115,11 +115,11 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		return assetDetails;
 	}
 
-	protected Asset getAsset(String id)
+	/*protected Asset getAsset(String id)
 	{
 		for (Asset asset:service.remoteCodelists()) if (asset.id().equals(id)) return asset;
 		return null;
-	}
+	}*/
 
 
 

@@ -60,6 +60,7 @@ public class ChannelDetailsDialog extends DialogBox {
 		setGlassEnabled(true);
 		setAnimationEnabled(true);
 		setAutoHideEnabled(true);
+		setWidth("500px");
 
 		/*Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			public void execute() {
@@ -96,6 +97,7 @@ public class ChannelDetailsDialog extends DialogBox {
 
 	public void addAssetProperties(List<Property> properties)
 	{
+		assetDetails.removeAllRows();
 		if (!properties.isEmpty()) {
 			setupHeaders(assetDetails);
 			for (Property property:properties) addRow(assetDetails, property.getName(), property.getValue(), property.getDescription());
@@ -104,6 +106,7 @@ public class ChannelDetailsDialog extends DialogBox {
 
 	public void addRepositoryProperties(List<Property> properties)
 	{
+		repositoryDetails.removeAllRows();
 		if (!properties.isEmpty()) {
 			setupHeaders(repositoryDetails);
 			for (Property property:properties) addRow(repositoryDetails, property.getName(), property.getValue(), property.getDescription());
@@ -139,6 +142,4 @@ public class ChannelDetailsDialog extends DialogBox {
 		table.setWidget(numRows, 1, new Label(value));
 		table.setWidget(numRows, 2, new Label(description));
 	}
-
-
 }
