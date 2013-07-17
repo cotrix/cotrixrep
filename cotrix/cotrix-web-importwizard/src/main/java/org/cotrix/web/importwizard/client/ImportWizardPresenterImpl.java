@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
+import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent;
+import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
 import org.cotrix.web.importwizard.client.flow.builder.FlowManagerBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.RootNodeBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SingleNodeBuilder;
@@ -32,7 +34,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.inject.Inject;
 
-public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler {
+public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler, FlowUpdatedHandler {
 
 	protected FlowManager<WizardStep> flow;
 
@@ -54,7 +56,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			PreviewStepPresenterImpl previewStepPresenter,
 			MappingStepPresenterImpl headerTypeStepPresenter,
 			SummaryStepPresenter summaryStepPresenter,
-			DoneStepPresenter doneStepPresenter) {
+			DoneStepPresenter doneStepPresenter,
+			SourceNodeSelector selector) {
 
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
@@ -65,12 +68,13 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(sourceStepPresenter);
 		
 		SingleNodeBuilder<WizardStep> preview = root.next(uploadFormPresenter).next(previewStepPresenter);
-		SingleNodeBuilder<WizardStep> channel = root.hasAlternatives(new SourceNodeSelector()).alternative(channelStepPresenter);
+		SingleNodeBuilder<WizardStep> channel = root.hasAlternatives(selector).alternative(channelStepPresenter);
 		channel.next(preview);
 		
 		preview.next(metadataStepPresenter).next(headerTypeStepPresenter).next(summaryStepPresenter).next(doneStepPresenter);
 		
 		flow = root.build();
+		flow.addFlowUpdatedHandler(this);
 
 		Log.trace("Adding steps");
 		registerStep(sourceStepPresenter);
@@ -108,6 +112,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	{
 		List<WizardStep> labels = flow.getCurrentFlow();
 		view.setLabels(labels);
+		view.showLabel(flow.getCurrentItem());
 	}
 
 	protected void updateCurrentStep()
@@ -203,6 +208,11 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			case FORWARD: goForward(); break;
 		}		
 	}
+	
+	@Override
+	public void onFlowUpdated(FlowUpdatedEvent event) {
+		updateTrackerLabels();
+	}
 
 
 
@@ -229,6 +239,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 
 }

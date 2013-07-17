@@ -37,7 +37,7 @@ public class ImportSession implements HasSourceTypeChangeHandlers {
 	 */
 	public void setSourceType(SourceType sourceType) {
 		this.sourceType = sourceType;
-		SourceTypeChangeEvent.fire(handlerManager, sourceType);
+		SourceTypeChangeEvent.fire(this, sourceType);
 	}
 
 	/**

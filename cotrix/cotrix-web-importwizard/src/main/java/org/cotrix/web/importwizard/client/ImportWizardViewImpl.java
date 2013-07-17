@@ -89,6 +89,11 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 		Log.trace("showStep "+step.getId()+" steps: "+stepsPanel.getWidgetCount());
 		int deckIndex = decksIndexes.get(step.getId());
 		stepsPanel.showWidget(deckIndex);
+		showLabel(step);
+	}
+	
+	public void showLabel(WizardStep step)
+	{
 		int labelIndex = labelsIndexes.get(step.getId());
 		progressTracker.setCurrentStep(labelIndex);
 	}

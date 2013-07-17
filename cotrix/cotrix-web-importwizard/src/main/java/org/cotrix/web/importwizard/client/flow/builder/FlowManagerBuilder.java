@@ -10,6 +10,7 @@ import java.util.List;
 import org.cotrix.web.importwizard.client.flow.AbstractNode;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
 import org.cotrix.web.importwizard.client.flow.FlowNode;
+import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
 import org.cotrix.web.importwizard.client.flow.SingleNode;
 import org.cotrix.web.importwizard.client.flow.SwitchNode;
 import org.cotrix.web.importwizard.client.flow.SwitchNode.NodeSelector;
@@ -79,17 +80,23 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 		if (nexts!=null) for (FlowManagerBuilder<T> next:nexts) next.resetBuilt(); 
 	}
 	
-	protected AbstractNode<T> internalBuild()
+	protected AbstractNode<T> internalBuild(FlowUpdatedHandler handler)
 	{
 		if (built!=null) return built;
 		
-		if (nexts == null) return new SingleNode<T>(item);
+		if (nexts == null) {
+			SingleNode<T> node = new SingleNode<T>(item);
+			node.addFlowUpdatedHandler(handler);
+			return node;
+		}
 		
 		if (nexts.size()==1) {
-			AbstractNode<T> next = nexts.get(0).internalBuild();
+			AbstractNode<T> next = nexts.get(0).internalBuild(handler);
 			
 			SingleNode<T> node = new SingleNode<T>(item);
 			node.setNext(next);
+			
+			node.addFlowUpdatedHandler(handler);
 			
 			return node;
 		}
@@ -97,11 +104,12 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 		if (nexts.size()>1) {
 			List<FlowNode<T>> children = new ArrayList<FlowNode<T>>(nexts.size());
 			for (FlowManagerBuilder<T> builder:nexts) {
-				AbstractNode<T> child = builder.internalBuild();
+				AbstractNode<T> child = builder.internalBuild(handler);
 				children.add(child);
 			}
-			
+		
 			SwitchNode<T> node = new SwitchNode<T>(item, children, selector);
+			node.addFlowUpdatedHandler(handler);
 			return node;
 		}
 		
@@ -111,8 +119,10 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 	@Override
 	public FlowManager<T> build() {
 		resetBuilt();
-		FlowNode<T> root = internalBuild();
-		return new FlowManager<T>(root);
+		FlowManager<T> manager = new FlowManager<T>();
+		FlowNode<T> root = internalBuild(manager);
+		manager.setFlowRoot(root);
+		return manager;
 	}
 
 }

@@ -49,6 +49,10 @@ public class ProgressTracker extends Composite {
 	
 	protected void initButtons(int numButtons, int lineWidth)
 	{
+		barPanel.clear();
+		buttons.clear();
+		lines.clear();
+		
 		barPanel.setHeight(BUTTON_WIDTH + "px");
 		
 		for (int i = 0; i < numButtons; i++) {
@@ -65,6 +69,8 @@ public class ProgressTracker extends Composite {
 	}
 	
 	protected void initLabels(List<String> stepsLabels, int labelWidth, int lineWidth) {
+		textPanel.clear();
+		labels.clear();
 		
 		textPanel.getElement().getStyle().setProperty("paddingLeft", labelWidth + "px");
 		textPanel.setHeight(BUTTON_WIDTH + "px");

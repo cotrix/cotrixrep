@@ -4,7 +4,6 @@ import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.session.SourceType;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
-import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.HasNavigationHandlers;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationHandler;

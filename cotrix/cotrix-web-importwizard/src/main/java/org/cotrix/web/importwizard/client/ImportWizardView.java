@@ -23,6 +23,7 @@ public interface ImportWizardView {
 	public void setLabels(List<WizardStep> steps);
 	public void setStepTitle(String title);
 	public void showStep(WizardStep step);
+	public void showLabel(WizardStep step);
 	
 	public void hideBackwardButton();
 	public void showBackwardButton();
