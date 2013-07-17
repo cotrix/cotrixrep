@@ -3,9 +3,9 @@ package org.cotrix.web.importwizard.client.step.mapping;
 import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
-import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
@@ -14,7 +14,7 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
-public class MappingStepPresenterImpl implements MappingStepPresenter {
+public class MappingStepPresenterImpl extends AbstractWizardStep implements MappingStepPresenter {
 
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
@@ -23,6 +23,7 @@ public class MappingStepPresenterImpl implements MappingStepPresenter {
 	
 	@Inject
 	public MappingStepPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, MappingStepFormView view,CotrixImportModelController model){
+		super("mapping", "Define Type", "Define Type", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.view = view;
@@ -30,15 +31,6 @@ public class MappingStepPresenterImpl implements MappingStepPresenter {
 		this.view.setPresenter(this);
 		this.model.addOnFileChangeHandler(this);
 	}
-	
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public WizardStepConfiguration getConfiguration() {
-		return new WizardStepConfiguration("Define Type", "Define Type", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
-	}
-
 	
 	public void go(HasWidgets container) {
 		//container.clear();

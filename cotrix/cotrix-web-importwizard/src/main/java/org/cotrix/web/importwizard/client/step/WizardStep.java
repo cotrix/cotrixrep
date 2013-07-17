@@ -9,6 +9,8 @@ import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
  */
 public interface WizardStep extends Presenter {
 	
+	public String getId();
+	
 	/**
 	 * Checks if the step is complete.
 	 * @return

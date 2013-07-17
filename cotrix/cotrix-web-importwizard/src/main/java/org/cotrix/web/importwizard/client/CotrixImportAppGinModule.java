@@ -22,7 +22,7 @@ import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.preview.PreviewStepView;
 import org.cotrix.web.importwizard.client.step.preview.PreviewStepViewImpl;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
-import org.cotrix.web.importwizard.client.step.sourceselection.SourceStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepView;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepViewImpl;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
@@ -61,7 +61,7 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(ImportWizardPresenter.class).to(ImportWizardPresenterImpl.class);
         
         bind(SourceSelectionStepView.class).to(SourceSelectionStepViewImpl.class).asEagerSingleton();
-        bind(SourceSelectionStepPresenter.class).to(SourceStepPresenterImpl.class).asEagerSingleton();
+        bind(SourceSelectionStepPresenter.class).to(SourceSelectionStepPresenterImpl.class).asEagerSingleton();
       
         bind(UploadStepView.class).to(UploadStepViewImpl.class);
         bind(UploadStepPresenter.class).to(UploadStepPresenterImpl.class);

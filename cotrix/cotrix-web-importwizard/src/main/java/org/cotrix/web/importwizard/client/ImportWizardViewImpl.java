@@ -1,7 +1,9 @@
 package org.cotrix.web.importwizard.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.importwizard.client.step.WizardStep;
@@ -39,6 +41,9 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	@UiField Button manageCodelistButton;
 
 	private ProgressTracker progressTracker;
+	protected int currentIndex = 0;
+	protected Map<String, Integer> decksIndexes;
+	protected Map<String, Integer> labelsIndexes;
 
 	private Presenter presenter;
 	public void setPresenter(Presenter presenter) {
@@ -49,23 +54,29 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 		initWidget(uiBinder.createAndBindUi(this));
 		progressTracker = new ProgressTracker();
 		progressTrackerPanel.add(progressTracker);
+		decksIndexes = new HashMap<String, Integer>();
 	}
 	
-	public void addSteps(List<WizardStep> steps)
+	public void addStep(WizardStep step)
 	{
-		Log.trace("Adding "+steps.size()+" steps");
-		List<String> labels = new ArrayList<String>();
-		for (WizardStep step:steps){
+		Log.trace("Adding "+step.getId());
 			step.go(stepsPanel);
+			decksIndexes.put(step.getId(), currentIndex++);
+		Log.trace("Totalpanels in deck "+stepsPanel.getWidgetCount());
+
+	}
+	
+	public void setLabels(List<WizardStep> steps) {
+		Log.trace("setting "+steps.size()+" labels");
+		List<String> labels = new ArrayList<String>();
+		labelsIndexes = new HashMap<String, Integer>();
+		int index = 0;
+		for (WizardStep step:steps){
 			String label = step.getConfiguration().getLabel();
 			labels.add(label);
-			Log.trace("Added step "+label+" Panels in deck "+stepsPanel.getWidgetCount());
+			labelsIndexes.put(step.getId(), index++);
 		}
 		progressTracker.init(labels);
-		
-		Log.trace("Totalpanels in deck "+stepsPanel.getWidgetCount());
-		
-		stepsPanel.showWidget(0);
 	}
 	
 	public void setStepTitle(String title)
@@ -73,11 +84,13 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 		this.titlePanel.setText(title);
 	}
 	
-	public void showStep(int stepIndex)
+	public void showStep(WizardStep step)
 	{
-		Log.trace("showStep "+stepIndex+" steps: "+stepsPanel.getWidgetCount());
-		stepsPanel.showWidget(stepIndex);
-		progressTracker.setCurrentStep(stepIndex);
+		Log.trace("showStep "+step.getId()+" steps: "+stepsPanel.getWidgetCount());
+		int deckIndex = decksIndexes.get(step.getId());
+		stepsPanel.showWidget(deckIndex);
+		int labelIndex = labelsIndexes.get(step.getId());
+		progressTracker.setCurrentStep(labelIndex);
 	}
 	
 	public void hideBackwardButton()

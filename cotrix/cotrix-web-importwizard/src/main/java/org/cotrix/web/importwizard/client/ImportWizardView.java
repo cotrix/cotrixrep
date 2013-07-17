@@ -19,9 +19,10 @@ public interface ImportWizardView {
 		void addForm(HasWidgets container);
 	}
 	
-	void addSteps(List<WizardStep> steps);
+	void addStep(WizardStep step);
+	public void setLabels(List<WizardStep> steps);
 	public void setStepTitle(String title);
-	public void showStep(int stepIndex);
+	public void showStep(WizardStep step);
 	
 	public void hideBackwardButton();
 	public void showBackwardButton();

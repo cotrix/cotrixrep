@@ -2,6 +2,7 @@ package org.cotrix.web.importwizard.client.step.upload;
 
 import java.util.ArrayList;
 
+import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.share.shared.CSVFile;
@@ -28,7 +29,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UploadStepPresenterImpl implements UploadStepPresenter {
+public class UploadStepPresenterImpl extends AbstractWizardStep implements UploadStepPresenter {
 
 	private FileReader reader;
 	private String filename = "";
@@ -37,19 +38,12 @@ public class UploadStepPresenterImpl implements UploadStepPresenter {
 
 	@Inject
 	public UploadStepPresenterImpl(UploadStepView view, CotrixImportModelController model) {
+		super("upload", "Upload File", "Upload CSV File", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 		this.model = model;
 		this.view.setPresenter(this);
 	}
-	
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public WizardStepConfiguration getConfiguration() {
-		return new WizardStepConfiguration("Upload File", "Upload CSV File", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
-	}
-	
+		
 	public interface OnUploadFileFinish{
 		public void uploadFileFinish(SubmitCompleteEvent event);
 	}

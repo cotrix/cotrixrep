@@ -1,8 +1,13 @@
 package org.cotrix.web.importwizard.client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.flow.FlowManager;
+import org.cotrix.web.importwizard.client.flow.builder.FlowManagerBuilder;
+import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.RootNodeBuilder;
+import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SingleNodeBuilder;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
@@ -29,10 +34,7 @@ import com.google.inject.Inject;
 
 public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler {
 
-	protected ArrayList<WizardStep> steps  = new ArrayList<WizardStep>();
-	protected int currentStepIndex = 0;
-	protected WizardStep currentStep;
-
+	protected FlowManager<WizardStep> flow;
 
 	private final ImportServiceAsync rpcService;
 	private final HandlerManager eventBus;
@@ -49,7 +51,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			UploadStepPresenter uploadFormPresenter,
 			ChannelStepPresenter channelStepPresenter,
 			MetadataStepPresenter metadataStepPresenter,
-			PreviewStepPresenterImpl headerSelectionStepPresenter,
+			PreviewStepPresenterImpl previewStepPresenter,
 			MappingStepPresenterImpl headerTypeStepPresenter,
 			SummaryStepPresenter summaryStepPresenter,
 			DoneStepPresenter doneStepPresenter) {
@@ -59,21 +61,31 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		this.view = view;
 		this.model = model;
 		this.view.setPresenter(this);
+		
+		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(sourceStepPresenter);
+		
+		SingleNodeBuilder<WizardStep> preview = root.next(uploadFormPresenter).next(previewStepPresenter);
+		SingleNodeBuilder<WizardStep> channel = root.hasAlternatives(new SourceNodeSelector()).alternative(channelStepPresenter);
+		channel.next(preview);
+		
+		preview.next(metadataStepPresenter).next(headerTypeStepPresenter).next(summaryStepPresenter).next(doneStepPresenter);
+		
+		flow = root.build();
 
 		Log.trace("Adding steps");
-		addStep(sourceStepPresenter);
-		//addStep(uploadFormPresenter);
-		addStep(channelStepPresenter);
-		addStep(metadataStepPresenter);
-		addStep(headerSelectionStepPresenter);
-		addStep(headerTypeStepPresenter);
-		addStep(summaryStepPresenter);
-		addStep(doneStepPresenter);
+		registerStep(sourceStepPresenter);
+		registerStep(uploadFormPresenter);
+		registerStep(channelStepPresenter);
+		registerStep(metadataStepPresenter);
+		registerStep(previewStepPresenter);
+		registerStep(headerTypeStepPresenter);
+		registerStep(summaryStepPresenter);
+		registerStep(doneStepPresenter);
 		Log.trace("done");
 	}
 
-	protected void addStep(WizardStep step){
-		steps.add(step);
+	protected void registerStep(WizardStep step){
+		view.addStep(step);
 		if (step instanceof HasNavigationHandlers) {
 			Log.trace("registering "+step.getConfiguration().getLabel()+" as Navigation");
 			((HasNavigationHandlers)step).addNavigationHandler(this);
@@ -88,22 +100,28 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	protected void init()
 	{
 		Log.trace("Initializing wizard");
-		view.addSteps(steps);
-		currentStepIndex = 0;
+		updateTrackerLabels();
 		updateCurrentStep();
+	}
+	
+	protected void updateTrackerLabels()
+	{
+		List<WizardStep> labels = flow.getCurrentFlow();
+		view.setLabels(labels);
 	}
 
 	protected void updateCurrentStep()
 	{
-		Log.trace("updateCurrentStep currentStepIndex: "+currentStepIndex);
-		currentStep = steps.get(currentStepIndex);
-		view.showStep(currentStepIndex);
+		//Log.trace("updateCurrentStep currentStepIndex: "+currentStepIndex);
+		WizardStep currentStep = flow.getCurrentItem(); //steps.get(currentStepIndex);
+		Log.trace("current step "+currentStep.getId());
+		view.showStep(currentStep);
 		WizardStepConfiguration configuration = currentStep.getConfiguration();
 		applyStepConfiguration(configuration);
 
 		//check steps bounds
-		if (currentStepIndex == 0) view.hideBackwardButton();
-		if (currentStepIndex == steps.size()-1) view.hideForwardButton();
+		if (flow.isFirst()) view.hideBackwardButton();
+		if (flow.isLast()) view.hideForwardButton();
 	}
 
 	protected void applyStepConfiguration(WizardStepConfiguration configuration)
@@ -137,20 +155,26 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	protected void goForward()
 	{
-		boolean isComplete = currentStep.isComplete();
+		boolean isComplete = flow.getCurrentItem().isComplete();
 		if (!isComplete) return;
 
-		if (currentStepIndex == steps.size()-1) throw new IllegalStateException("There are only "+steps.size()+" steps");
+		//if (currentStepIndex == steps.size()-1)
+		if (flow.isLast())
+			throw new IllegalStateException("There are no more steps");
 
-		currentStepIndex++;
+		//currentStepIndex++;
+		flow.goNext();
 		updateCurrentStep();
 	}
 
 	protected void goBack()
 	{
-		if (currentStepIndex == 0) throw new IllegalStateException("We are already in the first step");
+		//if (currentStepIndex == 0) 
+		if (flow.isFirst())
+			throw new IllegalStateException("We are already in the first step");
 
-		currentStepIndex--;
+		//currentStepIndex--;
+		flow.goBack();
 		updateCurrentStep();
 	}
 

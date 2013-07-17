@@ -2,6 +2,7 @@ package org.cotrix.web.importwizard.client.step.preview;
 
 import java.util.ArrayList;
 
+import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.share.shared.CSVFile;
@@ -14,25 +15,18 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewStepPresenterImpl implements PreviewStepPresenter {
+public class PreviewStepPresenterImpl extends AbstractWizardStep implements PreviewStepPresenter {
 
 	private final PreviewStepView view;
 	private  CotrixImportModelController model;
 	
 	@Inject
-	public PreviewStepPresenterImpl(PreviewStepView view, CotrixImportModelController model){
+	public PreviewStepPresenterImpl(PreviewStepView view, CotrixImportModelController model) {
+		super("preview", "Select Header", "Select Header", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 		this.model = model;
 		this.view.setPresenter(this);
 		this.model.addOnFileChangeHandler(this);
-	}
-	
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public WizardStepConfiguration getConfiguration() {
-		return new WizardStepConfiguration("Select Header", "Select Header", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 	}
 
 	public void go(HasWidgets container) {

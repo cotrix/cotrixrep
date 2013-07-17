@@ -19,6 +19,11 @@ public class ImportSession implements HasSourceTypeChangeHandlers {
 	protected HandlerManager handlerManager;
 	
 	protected SourceType sourceType;
+	
+	public ImportSession()
+	{
+		handlerManager = new HandlerManager(this);
+	}
 
 	/**
 	 * @return the sourceType

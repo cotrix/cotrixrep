@@ -2,6 +2,7 @@ package org.cotrix.web.importwizard.client.step.sourceselection;
 
 import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.session.SourceType;
+import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
@@ -21,26 +22,19 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SourceStepPresenterImpl implements SourceSelectionStepPresenter, HasNavigationHandlers {
+public class SourceSelectionStepPresenterImpl extends AbstractWizardStep implements SourceSelectionStepPresenter, HasNavigationHandlers {
 
 	protected HandlerManager handlerManager;
 	protected SourceSelectionStepView view;
 	protected ImportSession session;
 
 	@Inject
-	public SourceStepPresenterImpl(SourceSelectionStepView view, ImportSession session) {
+	public SourceSelectionStepPresenterImpl(SourceSelectionStepView view, ImportSession session) {
+		super("sourceSelection", "Source Selection", "Select source", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.NONE);
 		this.view = view;
 		this.session = session;
 		this.view.setPresenter(this);
 		handlerManager = new HandlerManager(this);
-	}
-	
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public WizardStepConfiguration getConfiguration() {
-		return new WizardStepConfiguration("Source Selection", "Select source", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.NONE);
 	}
 
 	/** 
