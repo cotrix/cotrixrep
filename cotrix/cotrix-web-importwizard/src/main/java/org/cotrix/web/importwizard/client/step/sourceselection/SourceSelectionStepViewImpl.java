@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.step.source;
+package org.cotrix.web.importwizard.client.step.sourceselection;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 
@@ -16,11 +16,11 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SourceStepViewImpl extends Composite implements SourceStepView {
+public class SourceSelectionStepViewImpl extends Composite implements SourceSelectionStepView {
 
-	@UiTemplate("SourceStep.ui.xml")
-	interface SourceStepUiBinder extends UiBinder<Widget, SourceStepViewImpl> {}
-	private static SourceStepUiBinder uiBinder = GWT.create(SourceStepUiBinder.class);
+	@UiTemplate("SourceSelectioStep.ui.xml")
+	interface SourceSelectionStepUiBinder extends UiBinder<Widget, SourceSelectionStepViewImpl> {}
+	private static SourceSelectionStepUiBinder uiBinder = GWT.create(SourceSelectionStepUiBinder.class);
 	
 	@UiField Button cloudButton;
 	@UiField Button localButton;
@@ -28,7 +28,7 @@ public class SourceStepViewImpl extends Composite implements SourceStepView {
 	private AlertDialog alertDialog;
 	private Presenter presenter;
 	
-	public SourceStepViewImpl() {
+	public SourceSelectionStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

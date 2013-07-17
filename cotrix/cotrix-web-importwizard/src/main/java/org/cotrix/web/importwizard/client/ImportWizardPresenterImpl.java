@@ -9,7 +9,7 @@ import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
 import org.cotrix.web.importwizard.client.step.mapping.MappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
 import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenterImpl;
-import org.cotrix.web.importwizard.client.step.source.SourceStepPresenter;
+import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenterImpl;
@@ -45,7 +45,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	@Inject
 	public ImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModelController model, 
-			SourceStepPresenter sourceStepPresenter,
+			SourceSelectionStepPresenter sourceStepPresenter,
 			UploadStepPresenter uploadFormPresenter,
 			ChannelStepPresenter channelStepPresenter,
 			MetadataStepPresenter metadataStepPresenter,

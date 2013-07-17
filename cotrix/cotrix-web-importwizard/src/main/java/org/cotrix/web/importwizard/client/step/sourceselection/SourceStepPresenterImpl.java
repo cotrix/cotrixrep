@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.step.source;
+package org.cotrix.web.importwizard.client.step.sourceselection;
 
 import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.session.SourceType;
@@ -21,14 +21,14 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SourceStepPresenterImpl implements SourceStepPresenter, HasNavigationHandlers {
+public class SourceStepPresenterImpl implements SourceSelectionStepPresenter, HasNavigationHandlers {
 
 	protected HandlerManager handlerManager;
-	protected SourceStepView view;
+	protected SourceSelectionStepView view;
 	protected ImportSession session;
 
 	@Inject
-	public SourceStepPresenterImpl(SourceStepView view, ImportSession session) {
+	public SourceStepPresenterImpl(SourceSelectionStepView view, ImportSession session) {
 		this.view = view;
 		this.session = session;
 		this.view.setPresenter(this);

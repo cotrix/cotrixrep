@@ -1,8 +1,8 @@
-package org.cotrix.web.importwizard.client.step.source;
+package org.cotrix.web.importwizard.client.step.sourceselection;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public interface SourceStepView {
+public interface SourceSelectionStepView {
 	
 	public interface Presenter {
 		void onCloudButtonClick();
