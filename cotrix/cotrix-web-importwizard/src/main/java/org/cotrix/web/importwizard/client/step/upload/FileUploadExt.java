@@ -44,7 +44,7 @@ public class FileUploadExt extends Widget implements HasName, HasChangeHandlers,
 	 * with multiple file support activated by default.
 	 */
 	public FileUploadExt() {
-		this(true);
+		this(false);
 	}
 	/**
 	 * Constructor.

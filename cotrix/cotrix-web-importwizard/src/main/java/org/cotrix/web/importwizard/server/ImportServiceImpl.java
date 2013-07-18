@@ -5,8 +5,7 @@ package org.cotrix.web.importwizard.server;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
+import java.util.Random;
 
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.shared.AssetDetails;
@@ -14,10 +13,12 @@ import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
+import org.cotrix.web.importwizard.shared.UploadProgress;
+import org.cotrix.web.importwizard.shared.UploadProgress.Status;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.virtualrepository.Asset;
+
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.view.client.Range;
@@ -113,6 +114,21 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 				"CL_DIVISION", "sdmx/codelist", properties, repository);
 
 		return assetDetails;
+	}
+	
+	Random random = new Random();
+	int progress = 0;
+
+	@Override
+	public UploadProgress getUploadProgress() throws ImportServiceException {
+		
+		if (progress>100) progress = 0;
+		
+		progress = progress + random.nextInt(30);
+		progress = progress==100?101:progress;
+		Status status = progress<100?Status.ONGOING:Status.DONE;
+		
+		return new UploadProgress(progress>100?100:progress, status);
 	}
 
 	/*protected Asset getAsset(String id)

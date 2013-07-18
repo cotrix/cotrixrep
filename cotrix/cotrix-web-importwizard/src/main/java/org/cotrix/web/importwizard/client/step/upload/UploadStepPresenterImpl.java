@@ -1,26 +1,17 @@
 package org.cotrix.web.importwizard.client.step.upload;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
+import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
-import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
-import org.cotrix.web.share.shared.CSVFile;
-import org.cotrix.web.share.shared.CotrixImportModelController;
-import org.cotrix.web.share.shared.HeaderType;
-import org.cotrix.web.share.shared.json.HeaderTypeJson;
+import org.cotrix.web.importwizard.shared.UploadProgress;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileList;
-import org.vectomatic.file.FileReader;
-import org.vectomatic.file.events.ErrorEvent;
-import org.vectomatic.file.events.ErrorHandler;
-import org.vectomatic.file.events.LoadEndEvent;
-import org.vectomatic.file.events.LoadEndHandler;
-import org.vectomatic.file.events.LoadStartEvent;
-import org.vectomatic.file.events.LoadStartHandler;
-import org.vectomatic.file.events.ProgressEvent;
-import org.vectomatic.file.events.ProgressHandler;
 
+import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -31,147 +22,165 @@ import com.google.inject.Inject;
  */
 public class UploadStepPresenterImpl extends AbstractWizardStep implements UploadStepPresenter {
 
-	private FileReader reader;
-	private String filename = "";
+	protected static final String[] CSV_MIMETYPE = new String[]{"text/csv","text/plain"};
+	protected static final String XML_MIMETYPE = "text/xml";
+	protected static final int POLLING_TIME = 1000;
+	protected static final int POLLING_ERROR_TRESHOLD = 3;
+	
+	@Inject
+	protected ImportServiceAsync importService;
+	protected Timer progressPolling;
+	protected int pollingErrors = 0;
+	
+	protected boolean complete = false;
+	
+	
 	private UploadStepView view;
-	private CotrixImportModelController model;
+
 
 	@Inject
-	public UploadStepPresenterImpl(UploadStepView view, CotrixImportModelController model) {
-		super("upload", "Upload File", "Upload CSV File", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+	public UploadStepPresenterImpl(UploadStepView view) {
+		super("upload", "Upload File", "Upload Codelist File", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
-		this.model = model;
 		this.view.setPresenter(this);
+		
+		progressPolling = new Timer() {
+			
+			@Override
+			public void run() {
+				getUploadProgress();
+			}
+		};
 	}
 		
+	/** 
+	 * {@inheritDoc}
+	 */
+	public void go(HasWidgets container) {
+		container.add(view.asWidget());
+	}
+	
+
+	public void onUploadFileChanged(FileList fileList, String filename) {
+		Log.trace("UploadFileChanged");
+		this.processFiles(fileList);
+	}
+	
+	private void processFiles(FileList files) {
+		Log.trace("processing selected files "+files.getLength());
+		if (files.getLength() == 0)	return;
+
+		File file = files.getItem(0);
+		Log.trace("File name: "+file.getName()+" size: "+file.getSize()+" type: "+file.getType());
+		
+		boolean valid = isValid(file);
+		if (valid) startUpload(file);
+	}
+	
+	protected boolean isValid(File file)
+	{
+		if (file.getSize() == 0) {
+			onError("The file looks empty");
+			return false;
+		}
+		
+		String type = file.getType();
+		if (type == null) {
+			//we will check the type on server side
+			return true;
+		}
+		
+		
+		if (Arrays.binarySearch(CSV_MIMETYPE, type)>=0) return true;
+		if (type.startsWith(XML_MIMETYPE)) return true;
+		
+		onError("The file should be a CSV or an SDMX file");
+		return false;
+	}
+	
+	protected void startUpload(File file)
+	{
+		complete = false;
+		
+		view.setupUpload(file.getName(), file.getSize());
+		view.submitForm();
+		
+		//start polling
+		pollingErrors = 0;
+		progressPolling.scheduleRepeating(POLLING_TIME);
+	}
+	
+	protected void getUploadProgress()
+	{
+		importService.getUploadProgress(new AsyncCallback<UploadProgress>() {
+			
+			@Override
+			public void onSuccess(UploadProgress result) {
+				updateProgress(result);
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				pollingErrors++;
+				Log.error("Failed getting upload progress", caught);
+				if (pollingErrors>POLLING_ERROR_TRESHOLD) uploadFailed();
+			}
+		});
+	}
+	
+	protected void updateProgress(UploadProgress progress) {
+		Log.trace("updateProgress "+progress);
+		switch (progress.getStatus()) {
+			case ONGOING: view.setUploadProgress(progress.getProgress()); break;
+			case DONE: {
+				view.setUploadComplete();
+				progressPolling.cancel();
+				complete = true;
+				} break;
+			case FAILED: uploadFailed(); break;
+		}
+	}
+	
+	protected void uploadFailed()
+	{
+		view.setUploadFailed();
+		progressPolling.cancel();
+	}
+	
+	public void onDeleteButtonClicked() {
+		progressPolling.cancel();
+		//view.resetFileUpload();
+		view.reset();
+		complete = false;
+	}
+
+	public boolean isComplete() {
+		return complete;
+	}
+	
+	public void onError(String message) {
+		view.alert(message);
+	}
+	
+	
+	
 	public interface OnUploadFileFinish{
 		public void uploadFileFinish(SubmitCompleteEvent event);
 	}
 	
-	private OnUploadFileFinish onUploadFileFinish;
-	
-	public void go(HasWidgets container) {
-		//container.clear();
-		container.add(view.asWidget());
-		initFileReader();
-	}
-
-	private ArrayList<String[]> parseCSV(String csv) {
-		csv = csv.replaceAll("\"", "");
-		String[] lines = csv.split("\n");
-		ArrayList<String[]> results = new ArrayList<String[]>();
-		for (String line : lines) {
-//			System.out.println(line);
-			String[] cells = line.split("\t|,|\r");
-			results.add(cells);
-		}
-		return results;
-	}
-
-	private void initFileReader() {
-
-		reader = new FileReader();
-		reader.addLoadEndHandler(new LoadEndHandler() {
-			public void onLoadEnd(LoadEndEvent event) {
-				onLoadFileFinish();		
-				ArrayList<String[]> data = parseCSV(reader.getStringResult());
-
-				if(data.size() >= 2 ){
-					String[] headers = data.remove(0);
-
-					CSVFile  csvFile = new CSVFile();
-					csvFile.setData(data);
-					csvFile.setHeader(headers);
-					model.setCsvFile(csvFile);
-				}else {
-					onError("File must have more than 2 rows");
-				}
-			}
-		});
-
-		reader.addLoadStartHandler(new LoadStartHandler() {
-			public void onLoadStart(LoadStartEvent event) {
-			}
-		});
-		reader.addProgressHandler(new ProgressHandler() {
-			public void onProgress(ProgressEvent event) {
-			}
-		});
-		reader.addErrorHandler(new ErrorHandler() {
-			public void onError(ErrorEvent event) {
-
-			}
-		});
-	}
 	public void reset(){
 		view.reset();
 	}
-	private void processFiles(FileList files) {
-		if (files.getLength() == 0)
-			return;
 
-		File file = files.getItem(0);
-		String type = file.getType();
-		try {
-			if ("image/svg+xml".equals(type)) {
-				onError("Only CSV or Text file.");
-			} else if (type.startsWith("image/png")) {
-				onError("Only CSV or Text file.");
-			} else if (type.startsWith("image/")) {
-				onError("Only CSV or Text file.");
-			} else if (type.startsWith("text/")) {
-				reader.readAsText(file);
-				filename = file.getName();
-			}
-		} catch (Throwable t) {
-		}
-
-	}
-	public boolean isComplete() {
-		if(model.getCsvFile()== null || model.getCsvFile().getData() == null) {
-			onError("Please browse a csv file");
-			return false;
-		}
-		return (model.getCsvFile().getData() != null) ? true:false;
-	}
-
-	public void onBrowseButtonClicked() {
-		view.setFileUploadButtonClicked();
-	}
-
-	public void onDeleteButtonClicked() {
-		model.getCsvFile().setData(null);
-		model.getCsvFile().setFilename(null);
-		model.getCsvFile().setHeader(null);
-		model.getCsvFile().setRowCount(0);
-		view.setOnDeleteButtonClicked();
-	}
-
-	public void onLoadFileFinish() {
-		view.setOnUploadFinish(filename);
-	}
-
-	public void onError(String message) {
-		view.alert("Please select CSV file.");
-	}
-
-	public void onUploadFileChange(FileList fileList, String filename) {
-		this.filename = filename;
-		this.processFiles(fileList);
-	}
-	
-	public void submitForm() {
-		ArrayList<HeaderType> types = this.model.getType();
-		String json = HeaderTypeJson.toJSON(types).toString();
-		view.setCotrixModelFieldValue(json);
-		view.submitForm();
-	}
 
 	public void onSubmitComplete(SubmitCompleteEvent event) {
-		onUploadFileFinish.uploadFileFinish(event);
+
 	}
-	
-	public void setOnUploadFileFinish(OnUploadFileFinish onUploadFileFinish){
-		this.onUploadFileFinish = onUploadFileFinish;
+
+	@Override
+	public void onRetryButtonClicked() {
+		// TODO Auto-generated method stub
+		
 	}
+
 }

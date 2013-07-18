@@ -1,0 +1,18 @@
+.shell {
+  background-color: #AAAAAA;
+  height: 14pt;
+  width: 50%;
+  min-width: 150px;
+}
+
+.shell .bar {
+  background-color: #67A7E3;
+}
+
+.shell .text {
+  padding: 0px;
+  margin: 0px;
+  color: white;
+  text-align: center;
+  width: 100%;
+}
