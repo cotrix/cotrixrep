@@ -37,5 +37,10 @@ public class ProgressTrackerLabel extends Composite {
 	public void setActive(boolean isActive) {
 		label.setStyleName((isActive) ? style.active() : style.inactive());
 	}
+	
+	public void setText(String text)
+	{
+		label.setText(text);
+	}
 
 }
