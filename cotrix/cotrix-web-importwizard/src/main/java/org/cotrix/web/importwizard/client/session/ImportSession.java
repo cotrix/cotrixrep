@@ -3,8 +3,9 @@
  */
 package org.cotrix.web.importwizard.client.session;
 
-import org.cotrix.web.importwizard.client.session.SourceTypeChangeEvent.HasSourceTypeChangeHandlers;
-import org.cotrix.web.importwizard.client.session.SourceTypeChangeEvent.SourceTypeChangeHandler;
+import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent;
+import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent.HasSourceTypeChangeHandlers;
+import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent.SourceTypeChangeHandler;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;

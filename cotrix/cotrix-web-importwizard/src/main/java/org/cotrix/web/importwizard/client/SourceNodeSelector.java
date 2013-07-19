@@ -5,17 +5,18 @@ package org.cotrix.web.importwizard.client;
 
 import java.util.List;
 
+import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent;
+import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent.SourceTypeChangeHandler;
 import org.cotrix.web.importwizard.client.flow.AbstractNodeSelector;
 import org.cotrix.web.importwizard.client.flow.FlowNode;
-import org.cotrix.web.importwizard.client.session.ImportSession;
-import org.cotrix.web.importwizard.client.session.SourceTypeChangeEvent;
-import org.cotrix.web.importwizard.client.session.SourceTypeChangeEvent.SourceTypeChangeHandler;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -25,13 +26,12 @@ public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> impleme
 	
 	protected ChannelStepPresenter channelStep;
 	protected UploadStepPresenter uploadStep;
-	
 	protected WizardStep nextStep;
 	
 	@Inject
-	public SourceNodeSelector(ImportSession session, ChannelStepPresenter channelStep, UploadStepPresenter uploadStep)
+	public SourceNodeSelector(@Named("importBus") EventBus importBus, ChannelStepPresenter channelStep, UploadStepPresenter uploadStep)
 	{
-		session.addSourceTypeChangeHandler(this);
+		importBus.addHandler(SourceTypeChangeEvent.TYPE, this);
 		this.channelStep = channelStep;
 		this.uploadStep = uploadStep;
 		this.nextStep = uploadStep;

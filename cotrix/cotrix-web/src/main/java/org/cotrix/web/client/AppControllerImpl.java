@@ -2,7 +2,7 @@ package org.cotrix.web.client;
 
 import org.cotrix.web.client.presenter.CotrixWebPresenter;
 import org.cotrix.web.client.presenter.Presenter;
-import org.cotrix.web.importwizard.client.CotrixImportAppController;
+import org.cotrix.web.importwizard.client.ImportWizardController;
 import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
 import org.cotrix.web.menu.client.view.MenuViewImpl;
 
@@ -31,7 +31,7 @@ public class AppControllerImpl implements AppController {
 		MenuViewImpl menu = new MenuViewImpl();
 
 		CotrixImportAppGinInjector cotrixImportInjector = GWT.create(CotrixImportAppGinInjector.class);
-		CotrixImportAppController  cotrixImportAppController = cotrixImportInjector.getAppController();
+		ImportWizardController  cotrixImportAppController = cotrixImportInjector.getAppController();
 		cotrixImportAppController.go(content);
 
 		panel.add(menu);

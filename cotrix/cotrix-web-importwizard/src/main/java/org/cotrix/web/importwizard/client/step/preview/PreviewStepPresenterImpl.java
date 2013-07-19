@@ -3,13 +3,13 @@ package org.cotrix.web.importwizard.client.step.preview;
 import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
-import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
-import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+
+import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -22,7 +22,7 @@ public class PreviewStepPresenterImpl extends AbstractWizardStep implements Prev
 	
 	@Inject
 	public PreviewStepPresenterImpl(PreviewStepView view, CotrixImportModelController model) {
-		super("preview", "Select Header", "Select Header", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("preview", "Preview", "Preview", DEFAULT_BACKWARD, DEFAULT_FORWARD);
 		this.view = view;
 		this.model = model;
 		this.view.setPresenter(this);
@@ -30,7 +30,6 @@ public class PreviewStepPresenterImpl extends AbstractWizardStep implements Prev
 	}
 
 	public void go(HasWidgets container) {
-		//container.clear();
 		container.add(view.asWidget());
 	}
 

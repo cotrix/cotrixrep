@@ -1,7 +1,6 @@
 package org.cotrix.web.importwizard.client.step.sourceselection;
 
-import org.cotrix.web.importwizard.client.session.ImportSession;
-import org.cotrix.web.importwizard.client.session.SourceType;
+import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
@@ -15,6 +14,8 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * Source selection step.
@@ -25,13 +26,15 @@ public class SourceSelectionStepPresenterImpl extends AbstractWizardStep impleme
 
 	protected HandlerManager handlerManager;
 	protected SourceSelectionStepView view;
-	protected ImportSession session;
+	
+	@Inject
+	@Named("importBus")
+	protected EventBus importEventBus;
 
 	@Inject
-	public SourceSelectionStepPresenterImpl(SourceSelectionStepView view, ImportSession session) {
+	public SourceSelectionStepPresenterImpl(SourceSelectionStepView view) {
 		super("sourceSelection", "Source Selection", "Select source", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.NONE);
 		this.view = view;
-		this.session = session;
 		this.view.setPresenter(this);
 		handlerManager = new HandlerManager(this);
 	}
@@ -76,7 +79,7 @@ public class SourceSelectionStepPresenterImpl extends AbstractWizardStep impleme
 	@Override
 	public void onCloudButtonClick() {
 		Log.trace("onCloudButtonClick");
-		session.setSourceType(SourceType.CHANNEL);
+		importEventBus.fireEvent(SourceTypeChangeEvent.CHANNEL);
 		NavigationEvent.fire(handlerManager, NavigationType.FORWARD);
 	}
 
@@ -86,7 +89,7 @@ public class SourceSelectionStepPresenterImpl extends AbstractWizardStep impleme
 	@Override
 	public void onLocalButtonClick() {
 		Log.trace("onLocalButtonClick");
-		session.setSourceType(SourceType.FILE);
+		importEventBus.fireEvent(SourceTypeChangeEvent.FILE);
 		NavigationEvent.fire(handlerManager, NavigationType.FORWARD);
 	}
 }

@@ -4,7 +4,7 @@ import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.client.view.CotrixWebView;
 import org.cotrix.web.client.view.Home;
 import org.cotrix.web.client.view.Publish;
-import org.cotrix.web.importwizard.client.CotrixImportAppController;
+import org.cotrix.web.importwizard.client.ImportWizardController;
 import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.ImportWizardPresenter;
@@ -56,7 +56,7 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 		ScrollPanel scrollPanel = new ScrollPanel();
 		scrollPanel.setSize("100%", "100%");
 		CotrixImportAppGinInjector cotrixImportAppGinInjector = GWT.create(CotrixImportAppGinInjector.class);
-		CotrixImportAppController cotrixImportAppController = cotrixImportAppGinInjector.getAppController();	
+		ImportWizardController cotrixImportAppController = cotrixImportAppGinInjector.getAppController();	
 		cotrixImportAppController.go(scrollPanel);
 		view.getBody().add(scrollPanel);
 

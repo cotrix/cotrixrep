@@ -40,6 +40,9 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Names;
+import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.SimpleEventBus;
 
 public class CotrixImportAppGinModule extends AbstractGinModule {
 
@@ -56,7 +59,9 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
     }
 
     protected void configure() {
-        bind(CotrixImportAppController.class).to(CotrixImportAppControllerImpl.class);
+    	bind(EventBus.class).annotatedWith(Names.named("importBus")).to(SimpleEventBus.class).in(Singleton.class);
+    	
+        bind(ImportWizardController.class).to(ImportWizardControllerImpl.class);
         
         bind(ImportWizardView.class).to(ImportWizardViewImpl.class).in(Singleton.class);
         bind(ImportWizardPresenter.class).to(ImportWizardPresenterImpl.class);

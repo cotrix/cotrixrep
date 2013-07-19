@@ -1,4 +1,6 @@
-package org.cotrix.web.importwizard.client.session;
+package org.cotrix.web.importwizard.client.event;
+
+import org.cotrix.web.importwizard.client.session.SourceType;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
@@ -7,7 +9,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 
 public class SourceTypeChangeEvent extends GwtEvent<SourceTypeChangeEvent.SourceTypeChangeHandler> {
 
+	public static final SourceTypeChangeEvent CHANNEL = new SourceTypeChangeEvent(SourceType.CHANNEL);
+	public static final SourceTypeChangeEvent FILE = new SourceTypeChangeEvent(SourceType.FILE);
+	
 	public static Type<SourceTypeChangeHandler> TYPE = new Type<SourceTypeChangeHandler>();
+	
 	private SourceType sourceType;
 
 	public interface SourceTypeChangeHandler extends EventHandler {
