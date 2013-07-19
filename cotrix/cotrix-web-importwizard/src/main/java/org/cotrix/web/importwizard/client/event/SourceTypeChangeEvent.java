@@ -4,9 +4,11 @@ import org.cotrix.web.importwizard.client.session.SourceType;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.event.shared.HasHandlers;
-import com.google.gwt.event.shared.HandlerRegistration;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class SourceTypeChangeEvent extends GwtEvent<SourceTypeChangeEvent.SourceTypeChangeHandler> {
 
 	public static final SourceTypeChangeEvent CHANNEL = new SourceTypeChangeEvent(SourceType.CHANNEL);
@@ -18,10 +20,6 @@ public class SourceTypeChangeEvent extends GwtEvent<SourceTypeChangeEvent.Source
 
 	public interface SourceTypeChangeHandler extends EventHandler {
 		void onSourceTypeChange(SourceTypeChangeEvent event);
-	}
-
-	public interface HasSourceTypeChangeHandlers extends HasHandlers {
-		HandlerRegistration addSourceTypeChangeHandler(SourceTypeChangeHandler handler);
 	}
 
 	public SourceTypeChangeEvent(SourceType sourceType) {
@@ -44,9 +42,5 @@ public class SourceTypeChangeEvent extends GwtEvent<SourceTypeChangeEvent.Source
 
 	public static Type<SourceTypeChangeHandler> getType() {
 		return TYPE;
-	}
-
-	public static void fire(HasHandlers source, SourceType sourceType) {
-		source.fireEvent(new SourceTypeChangeEvent(sourceType));
 	}
 }

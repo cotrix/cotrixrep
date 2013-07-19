@@ -3,6 +3,7 @@ package org.cotrix.web.importwizard.client.step.upload;
 import java.util.Arrays;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
@@ -137,14 +138,23 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	protected void updateProgress(UploadProgress progress) {
 		Log.trace("updateProgress "+progress);
 		switch (progress.getStatus()) {
-			case ONGOING: view.setUploadProgress(progress.getProgress()); break;
-			case DONE: {
-				view.setUploadComplete();
-				progressPolling.cancel();
-				complete = true;
-				} break;
+			case ONGOING: uploadOngoing(progress.getProgress()); break;
+			case DONE: uploadDone(); break;
 			case FAILED: uploadFailed(); break;
 		}
+	}
+	
+	protected void uploadOngoing(int progress)
+	{
+		view.setUploadProgress(progress);
+	}
+	
+	protected void uploadDone()
+	{
+		view.setUploadComplete();
+		progressPolling.cancel();
+		complete = true;
+		importEventBus.fireEvent(new FileUploadedEvent());
 	}
 	
 	protected void uploadFailed()
@@ -167,17 +177,6 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	public void onError(String message) {
 		view.alert(message);
 	}
-	
-	
-	
-	public interface OnUploadFileFinish{
-		public void uploadFileFinish(SubmitCompleteEvent event);
-	}
-	
-	public void reset(){
-		view.reset();
-	}
-
 
 	public void onSubmitComplete(SubmitCompleteEvent event) {
 

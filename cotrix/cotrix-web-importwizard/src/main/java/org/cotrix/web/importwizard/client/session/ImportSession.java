@@ -3,27 +3,17 @@
  */
 package org.cotrix.web.importwizard.client.session;
 
-import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent;
-import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent.HasSourceTypeChangeHandlers;
-import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent.SourceTypeChangeHandler;
-
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.event.shared.HandlerRegistration;
-
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ImportSession implements HasSourceTypeChangeHandlers {
-	
-	protected HandlerManager handlerManager;
+public class ImportSession {
+
 	
 	protected SourceType sourceType;
 	
 	public ImportSession()
 	{
-		handlerManager = new HandlerManager(this);
 	}
 
 	/**
@@ -38,24 +28,5 @@ public class ImportSession implements HasSourceTypeChangeHandlers {
 	 */
 	public void setSourceType(SourceType sourceType) {
 		this.sourceType = sourceType;
-		SourceTypeChangeEvent.fire(this, sourceType);
 	}
-
-	/**
-	 * @param event
-	 */
-	@Override
-	public void fireEvent(GwtEvent<?> event) {
-		handlerManager.fireEvent(event);		
-	}
-
-	/**
-	 * @param handler
-	 * @return
-	 */
-	@Override
-	public HandlerRegistration addSourceTypeChangeHandler(SourceTypeChangeHandler handler) {
-		return handlerManager.addHandler(SourceTypeChangeEvent.TYPE, handler);
-	}
-
 }
