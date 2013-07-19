@@ -38,6 +38,7 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView {
 	protected List<TextBox> headerFields = new ArrayList<TextBox>();
 
 	private AlertDialog alertDialog;
+	protected CsvParserConfigurationDialog configurationDialog;
 
 	private Presenter presenter;
 	
@@ -122,6 +123,13 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView {
 	@Override
 	public void hideCsvConfigurationButton() {
 		showCsvConfigurationButton.setVisible(false);
+	}
+
+	@Override
+	public void showCsvConfigurationDialog() {
+		if (configurationDialog == null) configurationDialog = new CsvParserConfigurationDialog();
+		configurationDialog.center();
+		
 	}
 
 }

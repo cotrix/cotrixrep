@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.importwizard.server;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Random;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.CSVParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
@@ -165,6 +167,34 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		metadata.setName("Asfis sp Feb 2012");
 		metadata.setRowCount(12000);
 		return metadata;
+	}
+
+	@Override
+	public CSVParserConfiguration getCsvParserConfiguration() throws ImportServiceException {
+		CSVParserConfiguration configuration = new CSVParserConfiguration();
+		configuration.setComment('#');
+		configuration.setCharset("UTF-8");
+		configuration.setFieldSeparator(',');
+		configuration.setHasHeader(true);
+		configuration.setLineSeparator("\n");
+		configuration.setQuote('"');
+		configuration.setAvailablesCharset(getEncodings());
+		return configuration;
+	}
+	
+	protected List<String> getEncodings()
+	{
+		List<String> charsets = new ArrayList<String>();
+		for (Charset charset:Charset.availableCharsets().values()) {
+			charsets.add(charset.displayName());
+		}
+		return charsets;
+	}
+
+	@Override
+	public void updateCsvParserConfiguration(CSVParserConfiguration configuration) throws ImportServiceException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/*protected Asset getAsset(String id)

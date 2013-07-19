@@ -171,6 +171,8 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	}
 
 	public boolean isComplete() {
+		//FIXME for test
+		importEventBus.fireEvent(new FileUploadedEvent());
 		return true;//FIXME for test complete;
 	}
 	

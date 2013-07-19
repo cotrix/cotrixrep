@@ -62,7 +62,7 @@ public class PreviewStepPresenterImpl extends AbstractWizardStep implements Prev
 
 	@Override
 	public void onShowCsvConfigurationButtonClicked() {
-		
+		view.showCsvConfigurationDialog();
 	}
 
 	@Override

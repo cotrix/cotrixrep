@@ -22,9 +22,10 @@ public interface PreviewStepView {
 	public void showCsvConfigurationButton();
 	public void hideCsvConfigurationButton();
 	
+	public void showCsvConfigurationDialog();
+	
 	void alert(String message);
 
-	
 	void setPresenter(Presenter presenter);
 	
 	Widget asWidget();
