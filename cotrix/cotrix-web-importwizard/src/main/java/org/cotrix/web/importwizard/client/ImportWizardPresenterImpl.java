@@ -2,6 +2,7 @@ package org.cotrix.web.importwizard.client;
 
 import java.util.List;
 
+import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
@@ -27,7 +28,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
@@ -43,7 +43,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	protected EventBus importEventBus;
 
 	@Inject
-	public ImportWizardPresenterImpl(@Named("importBus") EventBus importEventBus, ImportWizardView view,  
+	public ImportWizardPresenterImpl(@ImportBus EventBus importEventBus, ImportWizardView view,  
 			SourceSelectionStepPresenter sourceStepPresenter,
 			UploadStepPresenter uploadFormPresenter,
 			ChannelStepPresenter channelStepPresenter,

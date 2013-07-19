@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client.step.sourceselection;
 
+import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
@@ -8,7 +9,6 @@ import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
@@ -21,7 +21,7 @@ public class SourceSelectionStepPresenterImpl extends AbstractWizardStep impleme
 	protected SourceSelectionStepView view;
 	
 	@Inject
-	@Named("importBus")
+	@ImportBus
 	protected EventBus importEventBus;
 
 	@Inject

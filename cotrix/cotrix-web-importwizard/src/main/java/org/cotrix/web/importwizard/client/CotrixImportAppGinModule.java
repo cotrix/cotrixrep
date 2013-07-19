@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client;
 
+import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.step.channel.AssetInfoDataProvider;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
@@ -59,7 +60,7 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
     }
 
     protected void configure() {
-    	bind(EventBus.class).annotatedWith(Names.named("importBus")).to(SimpleEventBus.class).in(Singleton.class);
+    	bind(EventBus.class).annotatedWith(ImportBus.class).to(SimpleEventBus.class).in(Singleton.class);
     	
         bind(ImportWizardController.class).to(ImportWizardControllerImpl.class);
         

@@ -3,6 +3,7 @@ package org.cotrix.web.importwizard.client.step.upload;
 import java.util.Arrays;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.UploadProgress;
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -29,13 +31,17 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	
 	@Inject
 	protected ImportServiceAsync importService;
+	
+	@Inject
+	@ImportBus 
+	protected EventBus importEventBus;
+	
 	protected Timer progressPolling;
 	protected int pollingErrors = 0;
 	
 	protected boolean complete = false;
 	
-	
-	private UploadStepView view;
+	protected UploadStepView view;
 
 
 	@Inject
