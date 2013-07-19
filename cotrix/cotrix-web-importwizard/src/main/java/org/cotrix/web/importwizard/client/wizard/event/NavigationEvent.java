@@ -6,6 +6,9 @@ import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 public class NavigationEvent extends GwtEvent<NavigationEvent.NavigationHandler> {
+	
+	public static final NavigationEvent FORWARD = new NavigationEvent(NavigationType.FORWARD);
+	public static final NavigationEvent BACKWARD = new NavigationEvent(NavigationType.BACKWARD);
 
 	public static Type<NavigationHandler> TYPE = new Type<NavigationHandler>();
 

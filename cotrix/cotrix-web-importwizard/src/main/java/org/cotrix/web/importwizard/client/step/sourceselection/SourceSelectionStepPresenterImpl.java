@@ -4,14 +4,8 @@ import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
-import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.HasNavigationHandlers;
-import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationHandler;
-import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationType;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -22,9 +16,8 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SourceSelectionStepPresenterImpl extends AbstractWizardStep implements SourceSelectionStepPresenter, HasNavigationHandlers {
+public class SourceSelectionStepPresenterImpl extends AbstractWizardStep implements SourceSelectionStepPresenter {
 
-	protected HandlerManager handlerManager;
 	protected SourceSelectionStepView view;
 	
 	@Inject
@@ -36,7 +29,6 @@ public class SourceSelectionStepPresenterImpl extends AbstractWizardStep impleme
 		super("sourceSelection", "Source Selection", "Select source", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.NONE);
 		this.view = view;
 		this.view.setPresenter(this);
-		handlerManager = new HandlerManager(this);
 	}
 
 	/** 
@@ -61,26 +53,10 @@ public class SourceSelectionStepPresenterImpl extends AbstractWizardStep impleme
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void fireEvent(GwtEvent<?> event) {
-		handlerManager.fireEvent(event);
-	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public HandlerRegistration addNavigationHandler(NavigationHandler handler) {
-		return handlerManager.addHandler(NavigationEvent.TYPE, handler);
-	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
 	public void onCloudButtonClick() {
 		Log.trace("onCloudButtonClick");
 		importEventBus.fireEvent(SourceTypeChangeEvent.CHANNEL);
-		NavigationEvent.fire(handlerManager, NavigationType.FORWARD);
+		importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
 
 	/** 
@@ -90,6 +66,6 @@ public class SourceSelectionStepPresenterImpl extends AbstractWizardStep impleme
 	public void onLocalButtonClick() {
 		Log.trace("onLocalButtonClick");
 		importEventBus.fireEvent(SourceTypeChangeEvent.FILE);
-		NavigationEvent.fire(handlerManager, NavigationType.FORWARD);
+		importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
 }

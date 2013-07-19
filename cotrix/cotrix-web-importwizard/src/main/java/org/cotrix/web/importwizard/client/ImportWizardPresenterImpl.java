@@ -1,9 +1,7 @@
 package org.cotrix.web.importwizard.client;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
@@ -19,36 +17,33 @@ import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
-import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenterImpl;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
-import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.HasNavigationHandlers;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationHandler;
-import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import com.google.web.bindery.event.shared.EventBus;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler, FlowUpdatedHandler {
 
 	protected FlowManager<WizardStep> flow;
 
-	private final ImportServiceAsync rpcService;
-	private final HandlerManager eventBus;
-	private final ImportWizardView view;
-	private CotrixImportModelController model;
+	protected ImportWizardView view;
 
-	private DoneStepPresenter doneFormPresenter;
-
-	private UploadStepPresenterImpl uploadFormPresenter;
+	protected EventBus importEventBus;
 
 	@Inject
-	public ImportWizardPresenterImpl(ImportServiceAsync rpcService, HandlerManager eventBus, ImportWizardView view,CotrixImportModelController model, 
+	public ImportWizardPresenterImpl(@Named("importBus") EventBus importEventBus, ImportWizardView view,  
 			SourceSelectionStepPresenter sourceStepPresenter,
 			UploadStepPresenter uploadFormPresenter,
 			ChannelStepPresenter channelStepPresenter,
@@ -59,10 +54,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			DoneStepPresenter doneStepPresenter,
 			SourceNodeSelector selector) {
 
-		this.rpcService = rpcService;
-		this.eventBus = eventBus;
+		this.importEventBus = importEventBus;
 		this.view = view;
-		this.model = model;
 		this.view.setPresenter(this);
 		
 		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(sourceStepPresenter);
@@ -86,14 +79,17 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		registerStep(summaryStepPresenter);
 		registerStep(doneStepPresenter);
 		Log.trace("done");
+		
+		bind();
 	}
 
 	protected void registerStep(WizardStep step){
 		view.addStep(step);
-		if (step instanceof HasNavigationHandlers) {
-			Log.trace("registering "+step.getConfiguration().getLabel()+" as Navigation");
-			((HasNavigationHandlers)step).addNavigationHandler(this);
-		}
+	}
+	
+	public void bind()
+	{
+		importEventBus.addHandler(NavigationEvent.TYPE, this);
 	}
 
 	public void go(HasWidgets container) {
@@ -219,8 +215,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 
 	public void onUploadOtherButtonClicked() {
-		uploadFormPresenter.reset();
-		model = new CotrixImportModelController();
+		//uploadFormPresenter.reset();
 		//view.showPrevStep(1);
 	}
 
@@ -230,8 +225,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	public void uploadFileFinish(SubmitCompleteEvent event) {
 		//view.showPrevStep(steps.size());
-		doneFormPresenter.setDoneTitle("Successful upload file to server !!!");
-		doneFormPresenter.setWarningMessage(event.getResults());
+		//doneFormPresenter.setDoneTitle("Successful upload file to server !!!");
+		//doneFormPresenter.setWarningMessage(event.getResults());
 	}
 
 	@Override
