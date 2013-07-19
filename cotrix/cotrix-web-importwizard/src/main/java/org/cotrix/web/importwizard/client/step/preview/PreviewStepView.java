@@ -1,8 +1,7 @@
 package org.cotrix.web.importwizard.client.step.preview;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -10,13 +9,20 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public interface PreviewStepView {
 	public interface Presenter {
-		void onCheckBoxChecked(boolean isChecked);
+		void onShowCsvConfigurationButtonClicked();
 	}
-	void onChecked(ClickEvent event);
-	void showHeaderForm(boolean show);
-	ArrayList<String> getHeaders();
+
+	public List<String> getEditedHeaders();
+	
+	public void cleanPreviewGrid();
+	public void setupEditableHeader(int numColumns);
+	public void setupStaticHeader(List<String> headers);
+	public void setData(List<List<String>> rows) ;
+	
 	void alert(String message);
-	void setData(String[] headers, ArrayList<String[]> data);
-	void setPresenter(PreviewStepPresenterImpl presenter);
+
+	
+	void setPresenter(Presenter presenter);
+	
 	Widget asWidget();
 }

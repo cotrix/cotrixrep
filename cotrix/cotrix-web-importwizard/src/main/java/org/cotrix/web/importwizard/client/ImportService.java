@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.UploadProgress;
 import org.cotrix.web.share.shared.CotrixImportModel;
@@ -27,5 +28,7 @@ public interface ImportService extends RemoteService {
 	AssetDetails getAssetDetails(String assetId) throws ImportServiceException;
 	
 	public UploadProgress getUploadProgress() throws ImportServiceException;
+	
+	public CodeListPreviewData getPreviewData() throws ImportServiceException;
 	
 }

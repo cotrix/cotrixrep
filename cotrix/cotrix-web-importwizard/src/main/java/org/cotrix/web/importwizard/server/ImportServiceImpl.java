@@ -4,12 +4,14 @@
 package org.cotrix.web.importwizard.server;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
@@ -129,6 +131,23 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		Status status = progress<100?Status.ONGOING:Status.DONE;
 		
 		return new UploadProgress(progress>100?100:progress, status);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public CodeListPreviewData getPreviewData() throws ImportServiceException {
+		List<String> header = Arrays.asList("ISSCAAP","TAXOCODE","3A_CODE","Scientific_name","English_name","French_name","Spanish_name","Author","Family","Order","Stats_data");
+		List<List<String>> data = Arrays.<List<String>>asList(Arrays.asList("25","1020100501","LAF","Eudontomyzon mariae","Ukrainian brook lamprey","Lamproie ukrainienne","","(Berg 1931)","Petromyzontidae","PETROMYZONTIFORMES","0"),
+				Arrays.asList("25","1020100502","ICJ","Eudontomyzon danfordi","Carpathian lamprey","Lamproie carpathique","","Regan 1911","Petromyzontidae","PETROMYZONTIFORMES","0"),
+				Arrays.asList("25","1020100503","IKG","Eudontomyzon graecus","","","","Renaud & Economidis 2010","Petromyzontidae","PETROMYZONTIFORMES","0"),
+				Arrays.asList("25","1020100504","IKJ","Eudontomyzon hellenicus","Greek brook Lamprey","Lamproie de ruisseau grecque","","Vladykov, Renaud, Kott & Economidis 1982","Petromyzontidae","PETROMYZONTIFORMES","0"),
+				Arrays.asList("25","1020100505","IKL","Eudontomyzon morii","Korean lamprey","Lamproie coréene","","(Berg 1931)","Petromyzontidae","PETROMYZONTIFORMES","0"),
+				Arrays.asList("25","1020100901","LAW","Caspiomyzon wagneri","Caspian lamprey","Lamproie caspienne","","(Kessler 1870)","Petromyzontidae","PETROMYZONTIFORMES","0"),
+				Arrays.asList("25","1020101101","LSZ","Lethenteron camtschaticum","Arctic lamprey","Lamproie arctique","","(Tilesius 1811)","Petromyzontidae","PETROMYZONTIFORMES","0"),
+				Arrays.asList("25","1020101102","IDQ","Lethenteron kessleri","Siberian lamprey","Lamproie de Sibérie","","(Anikin 1905)","Petromyzontidae","PETROMYZONTIFORMES","0"),
+				Arrays.asList("25","1020101103","IDT","Lethenteron ninae","Western Transcaucasian lamprey","Lamproie de la Transcaucasie","","Naseka, Tuniyev & Renaud 2009","Petromyzontidae","PETROMYZONTIFORMES","0"));
+		CodeListPreviewData previewData = new CodeListPreviewData(header, header.size(), data);
+		return previewData;
 	}
 
 	/*protected Asset getAsset(String id)

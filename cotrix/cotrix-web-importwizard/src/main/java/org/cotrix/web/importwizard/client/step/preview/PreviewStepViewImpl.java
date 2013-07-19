@@ -1,6 +1,7 @@
 package org.cotrix.web.importwizard.client.step.preview;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.client.step.Style;
@@ -11,7 +12,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -23,91 +24,85 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class PreviewStepViewImpl extends Composite implements PreviewStepView {
+	
+	protected static final int HEADER_ROW = 0;
 
 	@UiTemplate("PreviewStep.ui.xml")
 	interface PreviewStepUiBinder extends UiBinder<Widget, PreviewStepViewImpl> {}
 	private static PreviewStepUiBinder uiBinder = GWT.create(PreviewStepUiBinder.class);
 
-	@UiField FlexTable flexTable;
-	@UiField CheckBox checkbox;
+	@UiField FlexTable previewGrid;
+	@UiField Button showCsvConfigurationButton;
 	@UiField Style style;
+	
+	protected List<TextBox> headerFields = new ArrayList<TextBox>();
 
-	private int columnCount = 0;
 	private AlertDialog alertDialog;
 
 	private Presenter presenter;
-	public void setPresenter(PreviewStepPresenterImpl presenter) {
-		this.presenter = presenter;
-	}
-
-	@UiHandler("checkbox")
-	public void onChecked(ClickEvent event) {
-		presenter.onCheckBoxChecked(checkbox.getValue());
-	}
-
+	
 	public PreviewStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
+	
+	@UiHandler("showCsvConfigurationButton")
+	public void onClick(ClickEvent event) {
+		presenter.onShowCsvConfigurationButtonClicked();
+	}
+	
+	
+	public void setPresenter(Presenter presenter) {
+		this.presenter = presenter;
+	}
+	
+	
 
-	public void showHeaderForm(boolean show){
-		if(show){
-			for (int j = 0; j < columnCount; j++) {
-				TextBox t = new TextBox();
-				t.setStyleName(style.textbox());
+	@Override
+	public void cleanPreviewGrid() {
+		previewGrid.clear();		
+	}
 
-				flexTable.setWidget(0, j,t);
-				flexTable.getCellFormatter().setStyleName(0, j, style.flextTableHeader());
-			}
-			setDefaultSelected(false);
-		}else{
-
-			setDefaultSelected(true);
-			flexTable.removeRow(0);
-			flexTable.insertRow(0);
+	public void setupEditableHeader(int numColumns)
+	{
+		headerFields.clear();
+		for (int i = 0; i < numColumns; i++) {
+			TextBox headerField = new TextBox();
+			headerField.setStyleName(style.textbox());
+			headerFields.add(headerField);
+			
+			previewGrid.setWidget(HEADER_ROW, i, headerField);
+			previewGrid.getCellFormatter().setStyleName(HEADER_ROW, i, style.flextTableHeader());
+		}
+	}
+	
+	public void setupStaticHeader(List<String> headers)
+	{
+		headerFields.clear();
+		for (int i = 0; i < headers.size(); i++) {
+			String header = headers.get(i);
+			
+			HTML staticHeader = new HTML(header);
+			previewGrid.setWidget(HEADER_ROW, i, staticHeader);
+			previewGrid.getCellFormatter().setStyleName(HEADER_ROW, i, style.flextTableHeader());
+		}
+	}
+	
+	public void setData(List<List<String>> rows) {
+		for (List<String> row:rows) addDataRow(row);
+	}
+	
+	protected void addDataRow(List<String> row)
+	{
+		int rowIndex = previewGrid.getRowCount();
+		for (int i = 0; i < row.size(); i++) {
+			String cell = row.get(i);
+			previewGrid.setWidget(rowIndex, i, new HTML(cell));
 		}
 	}
 
-	private void setDefaultSelected(boolean show){
-		for (int j = 0; j < columnCount; j++) {
-			if(show){
-				flexTable.getCellFormatter().setStyleName(1, j, style.flextTableHeader());
-			}else{
-				flexTable.getCellFormatter().removeStyleName(1, j, style.flextTableHeader());
-			}
-		}
-	}
-
-	public void setData(String[] headers, ArrayList<String[]> data) {
-		this.columnCount = headers.length;
-		for (int i = 0; i < headers.length; i++) {
-			flexTable.setWidget(1, i, new HTML(headers[i]));
-			flexTable.getCellFormatter().setStyleName(1, i,style.flextTableHeader());
-		}
-
-		int rowCount = (data.size()<8)?data.size():8;
-		for (int i = 1; i < rowCount; i++) {
-			String[] columns = data.get(i);
-			for (int j = 0; j < columns.length; j++) {
-				flexTable.setWidget(i+1, j, new HTML(columns[j]));
-			}
-		}
-	}
-
-	public ArrayList<String> getHeaders() {
+	public List<String> getEditedHeaders() {
 		ArrayList<String> headers = new ArrayList<String>();
-		if(checkbox.getValue()){
-			for (int i = 0; i < flexTable.getCellCount(1); i++) {
-				HTML column = (HTML) flexTable.getWidget(1, i);
-				headers.add(column.getText());
-			}
-		}else{
-			for (int i = 0; i < flexTable.getCellCount(0); i++) {
-				TextBox column = (TextBox) flexTable.getWidget(0, i);
-				if(column.getText().length() > 0){
-					headers.add(column.getText());
-				}
-			}
-		}
+		for (TextBox headerField:headerFields) headers.add(headerField.getText());
 		return headers;
 	}
 
@@ -118,6 +113,5 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView {
 		alertDialog.setMessage(message);
 		alertDialog.show();
 	}
-
 
 }
