@@ -2,11 +2,14 @@ package org.cotrix.web.importwizard.client.step.preview;
 
 import java.util.List;
 
+import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent.CodeListTypeUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent.PreviewDataUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
+import org.cotrix.web.importwizard.shared.CodeListType;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -18,7 +21,7 @@ import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfigur
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewStepPresenterImpl extends AbstractWizardStep implements PreviewStepPresenter, PreviewDataUpdatedHandler {
+public class PreviewStepPresenterImpl extends AbstractWizardStep implements PreviewStepPresenter, PreviewDataUpdatedHandler, CodeListTypeUpdatedHandler {
 
 	private final PreviewStepView view;
 	protected EventBus importEventBus;
@@ -30,6 +33,7 @@ public class PreviewStepPresenterImpl extends AbstractWizardStep implements Prev
 		this.view.setPresenter(this);
 		
 		importEventBus.addHandler(PreviewDataUpdatedEvent.TYPE, this);
+		importEventBus.addHandler(CodeListTypeUpdatedEvent.TYPE, this);
 	}
 
 	public void go(HasWidgets container) {
@@ -66,5 +70,11 @@ public class PreviewStepPresenterImpl extends AbstractWizardStep implements Prev
 		CodeListPreviewData previewData = event.getPreviewData();
 		setPreviewData(previewData.getHeader(), previewData.getColumnsCount(), previewData.getData());
 		
+	}
+
+	@Override
+	public void onCodeListTypeUpdated(CodeListTypeUpdatedEvent event) {
+		if (event.getCodeListType() == CodeListType.CSV) view.showCsvConfigurationButton();
+		else view.hideCsvConfigurationButton();
 	}
 }

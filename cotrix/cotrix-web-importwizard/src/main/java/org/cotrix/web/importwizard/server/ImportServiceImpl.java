@@ -12,12 +12,14 @@ import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
+import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.importwizard.shared.UploadProgress;
 import org.cotrix.web.importwizard.shared.UploadProgress.Status;
 import org.cotrix.web.share.shared.CotrixImportModel;
+import org.cotrix.web.share.shared.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -136,6 +138,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@SuppressWarnings("unchecked")
 	@Override
 	public CodeListPreviewData getPreviewData() throws ImportServiceException {
+		//TODO implement it
 		List<String> header = Arrays.asList("ISSCAAP","TAXOCODE","3A_CODE","Scientific_name","English_name","French_name","Spanish_name","Author","Family","Order","Stats_data");
 		List<List<String>> data = Arrays.<List<String>>asList(Arrays.asList("25","1020100501","LAF","Eudontomyzon mariae","Ukrainian brook lamprey","Lamproie ukrainienne","","(Berg 1931)","Petromyzontidae","PETROMYZONTIFORMES","0"),
 				Arrays.asList("25","1020100502","ICJ","Eudontomyzon danfordi","Carpathian lamprey","Lamproie carpathique","","Regan 1911","Petromyzontidae","PETROMYZONTIFORMES","0"),
@@ -148,6 +151,20 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 				Arrays.asList("25","1020101103","IDT","Lethenteron ninae","Western Transcaucasian lamprey","Lamproie de la Transcaucasie","","Naseka, Tuniyev & Renaud 2009","Petromyzontidae","PETROMYZONTIFORMES","0"));
 		CodeListPreviewData previewData = new CodeListPreviewData(header, header.size(), data);
 		return previewData;
+	}
+
+	@Override
+	public CodeListType getCodeListType() throws ImportServiceException {
+		//TODO implements it
+		return CodeListType.CSV;
+	}
+
+	@Override
+	public Metadata getMetadata() throws ImportServiceException {
+		Metadata metadata = new Metadata();
+		metadata.setName("Asfis sp Feb 2012");
+		metadata.setRowCount(12000);
+		return metadata;
 	}
 
 	/*protected Asset getAsset(String id)

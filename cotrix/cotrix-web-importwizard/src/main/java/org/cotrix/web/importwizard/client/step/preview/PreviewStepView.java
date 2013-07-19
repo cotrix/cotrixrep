@@ -17,7 +17,10 @@ public interface PreviewStepView {
 	public void cleanPreviewGrid();
 	public void setupEditableHeader(int numColumns);
 	public void setupStaticHeader(List<String> headers);
-	public void setData(List<List<String>> rows) ;
+	public void setData(List<List<String>> rows);
+	
+	public void showCsvConfigurationButton();
+	public void hideCsvConfigurationButton();
 	
 	void alert(String message);
 

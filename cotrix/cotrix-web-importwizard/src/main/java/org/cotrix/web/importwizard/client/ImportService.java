@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
+import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.UploadProgress;
 import org.cotrix.web.share.shared.CotrixImportModel;
+import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -30,5 +32,9 @@ public interface ImportService extends RemoteService {
 	public UploadProgress getUploadProgress() throws ImportServiceException;
 	
 	public CodeListPreviewData getPreviewData() throws ImportServiceException;
+	
+	public CodeListType getCodeListType() throws ImportServiceException;
+	
+	public Metadata getMetadata() throws ImportServiceException;
 	
 }

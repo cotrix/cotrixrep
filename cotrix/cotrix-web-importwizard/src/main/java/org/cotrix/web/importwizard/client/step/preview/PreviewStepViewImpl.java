@@ -114,4 +114,14 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView {
 		alertDialog.show();
 	}
 
+	@Override
+	public void showCsvConfigurationButton() {
+		showCsvConfigurationButton.setVisible(true);
+	}
+
+	@Override
+	public void hideCsvConfigurationButton() {
+		showCsvConfigurationButton.setVisible(false);
+	}
+
 }
