@@ -1,5 +1,7 @@
 package org.cotrix.web.importwizard.client;
 
+import java.util.List;
+
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent.CodeListSelectedHandler;
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
@@ -7,11 +9,13 @@ import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEven
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent.CsvParserConfigurationEditedHandler;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
+import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.session.ImportSession;
+import org.cotrix.web.importwizard.shared.ColumnDefinition;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
@@ -85,6 +89,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 		});
 		getMetadata();
+		getColumns();
 	}
 	
 	protected void getPreviewData()
@@ -164,6 +169,22 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			@Override
 			public void onSuccess(ImportMetadata result) {
 				importEventBus.fireEvent(new MetadataUpdatedEvent(result, false));				
+			}
+		});
+	}
+	
+	protected void getColumns()
+	{
+		importService.getColumns(new AsyncCallback<List<ColumnDefinition>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("Error getting the columns", caught);
+			}
+
+			@Override
+			public void onSuccess(List<ColumnDefinition> result) {
+				importEventBus.fireEvent(new MappingUpdatedEvent(result, false));
 			}
 		});
 	}

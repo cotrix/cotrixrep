@@ -3,6 +3,7 @@ package org.cotrix.web.importwizard.client.step.mapping;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.shared.ColumnDefinition;
 import org.cotrix.web.importwizard.shared.ColumnType;
 
@@ -20,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingStepViewImpl extends Composite implements MappingStepFormView {
+public class MappingStepViewImpl extends Composite implements MappingStepView {
 
 	@UiTemplate("MappingStep.ui.xml")
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, MappingStepViewImpl> {}
@@ -29,10 +30,11 @@ public class MappingStepViewImpl extends Composite implements MappingStepFormVie
 	@UiField FlexTable columnsTable;
 	@UiField Style style;
 	
+	private AlertDialog alertDialog;
+	
 	interface Style extends CssResource {
 		String headerlabel();
 		String cell();
-		String valuelabel();
 	}
 
 	protected List<ColumnDefinitionPanel> columnPanels = new ArrayList<ColumnDefinitionPanel>();
@@ -52,15 +54,16 @@ public class MappingStepViewImpl extends Composite implements MappingStepFormVie
 			int row = columnsTable.getRowCount();
 			Label label = new Label(column.getName());
 			label.setStyleName(style.headerlabel());
+			columnsTable.setWidget(row, 0, label);
+			columnsTable.getCellFormatter().setStyleName(row, 0, style.cell());
 			
 			ColumnDefinitionPanel definitionPanel = new ColumnDefinitionPanel();
 			definitionPanel.setColumnType(column.getType());
 			definitionPanel.setLanguage(column.getLanguage());
 			columnPanels.add(definitionPanel);
 			
-			columnsTable.getCellFormatter().setStyleName(row, 0, style.cell());
-			columnsTable.setWidget(row, 0, label);
 			columnsTable.setWidget(row, 1, definitionPanel);
+			//columnsTable.getCellFormatter().setWidth(row, 1, "100px");
 			
 			columnDefinitions.add(column);
 		}
@@ -88,6 +91,14 @@ public class MappingStepViewImpl extends Composite implements MappingStepFormVie
 		}
 		
 		return columnDefinitions;
+	}
+	
+	public void alert(String message) {
+		if(alertDialog == null){
+			alertDialog = new AlertDialog();
+		}
+		alertDialog.setMessage(message);
+		alertDialog.show();
 	}
 
 }

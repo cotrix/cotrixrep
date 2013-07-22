@@ -13,7 +13,7 @@ import org.cotrix.web.importwizard.client.step.done.DoneStepView;
 import org.cotrix.web.importwizard.client.step.done.DoneStepViewImpl;
 import org.cotrix.web.importwizard.client.step.mapping.MappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.mapping.MappingStepPresenterImpl;
-import org.cotrix.web.importwizard.client.step.mapping.MappingStepFormView;
+import org.cotrix.web.importwizard.client.step.mapping.MappingStepView;
 import org.cotrix.web.importwizard.client.step.mapping.MappingStepViewImpl;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenterImpl;
@@ -84,7 +84,7 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(PreviewStepView.class).to(PreviewStepViewImpl.class);
         bind(PreviewStepPresenter.class).to(PreviewStepPresenterImpl.class);
         
-        bind(MappingStepFormView.class).to(MappingStepViewImpl.class);
+        bind(MappingStepView.class).to(MappingStepViewImpl.class);
         bind(MappingStepPresenter.class).to(MappingStepPresenterImpl.class);
         
         bind(SummaryStepView.class).to(SummaryStepViewImpl.class);

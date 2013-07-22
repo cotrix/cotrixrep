@@ -12,6 +12,7 @@ import java.util.Random;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.ColumnDefinition;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
@@ -37,7 +38,7 @@ import com.google.gwt.view.client.Range;
  */
 @SuppressWarnings("serial")
 public class ImportServiceImpl extends RemoteServiceServlet implements ImportService {
-
+	
 	/*@Inject
 	org.cotrix.io.ImportService service;*/
 
@@ -204,6 +205,22 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public List<ColumnDefinition> getColumns() throws ImportServiceException {
+		List<ColumnDefinition> columns = new ArrayList<ColumnDefinition>();
+		
+		String[] headers = new String[]{"ISSCAAP","TAXOCODE","3A_CODE","Scientific_name","English_name","French_name","Spanish_name","Author","Family","Order","Stats_data"};
+
+		for (String header:headers) {
+			ColumnDefinition column = new ColumnDefinition();
+			column.setName(header);
+			columns.add(column);
+		}
+
+		return columns;
+	}
+
 
 	/*protected Asset getAsset(String id)
 	{

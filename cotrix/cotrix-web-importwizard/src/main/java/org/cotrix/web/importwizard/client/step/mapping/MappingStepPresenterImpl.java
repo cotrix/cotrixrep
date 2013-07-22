@@ -1,23 +1,35 @@
 package org.cotrix.web.importwizard.client.step.mapping;
 
+import java.util.List;
+
+import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent.MappingUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.importwizard.shared.ColumnDefinition;
+import org.cotrix.web.importwizard.shared.ColumnType;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingStepPresenterImpl extends AbstractWizardStep implements MappingStepPresenter {
+public class MappingStepPresenterImpl extends AbstractWizardStep implements MappingStepPresenter, MappingUpdatedHandler {
 
-	private final MappingStepFormView view;
+	protected MappingStepView view;
+	protected EventBus importEventBus;
 	
 	@Inject
-	public MappingStepPresenterImpl(MappingStepFormView view){
+	public MappingStepPresenterImpl(MappingStepView view, @ImportBus EventBus importEventBus){
 		super("mapping", "Define Type", "Define Type", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
+		
+		this.importEventBus = importEventBus;
+		importEventBus.addHandler(MappingUpdatedEvent.TYPE, this);
 	}
 	
 	/** 
@@ -28,23 +40,33 @@ public class MappingStepPresenterImpl extends AbstractWizardStep implements Mapp
 	}
 	
 	public boolean isComplete() {
-		boolean validateResult = false;
-		/*int counter = 0;
-		ArrayList<HeaderType> types = view.getHeaderTypes();
-		for (HeaderType type : types) {
-			if(type.getValue()!= null && type.getValue().equals("Code")){
-				counter++;
-			}
+		return validate();
+	}
+	
+	protected boolean validate()
+	{
+		List<ColumnDefinition> columns = view.getColumns();
+		
+		//only one code
+		int codeCount = 0;
+		for (ColumnDefinition column:columns) if (column.getType()==ColumnType.CODE) codeCount++;
+		
+		if (codeCount==0) {
+			view.alert("One code column required");
+			return false;
 		}
-		if(counter == 1){
-			validateResult = true;
-			model.setType(types);
-		}else{
-			view.setStyleError();
-			AlertDialog dialog = new AlertDialog();
-			dialog.setMessage("You can assign only one code.");
-			dialog.show();
-		}*/
-		return validateResult;
+		
+		if (codeCount>1) {
+			view.alert("You can assign only one code.");
+			return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public void onMappingUpdated(MappingUpdatedEvent event) {
+		if (event.isUserEdit()) return;
+		view.setColumns(event.getColumns());
 	}
 }

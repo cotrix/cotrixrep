@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  */
-public interface MappingStepFormView {
+public interface MappingStepView {
 	
 	public interface Presenter {
 
@@ -20,6 +20,8 @@ public interface MappingStepFormView {
 	public void cleanStyle();
 	
 	public List<ColumnDefinition> getColumns();
+	
+	public void alert(String message);
 
 	
 	Widget asWidget();

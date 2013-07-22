@@ -1,9 +1,11 @@
 package org.cotrix.web.importwizard.client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.ColumnDefinition;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
@@ -43,5 +45,7 @@ public interface ImportService extends RemoteService {
 	public CsvParserConfiguration getCsvParserConfiguration() throws ImportServiceException;
 	
 	public void updateCsvParserConfiguration(CsvParserConfiguration configuration) throws ImportServiceException;
+	
+	public List<ColumnDefinition> getColumns() throws ImportServiceException;
 	
 }

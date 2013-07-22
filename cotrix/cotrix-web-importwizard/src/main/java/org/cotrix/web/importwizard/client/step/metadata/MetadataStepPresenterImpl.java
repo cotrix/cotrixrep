@@ -17,7 +17,7 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class MetadataStepPresenterImpl extends AbstractWizardStep implements MetadataUpdatedHandler, MetadataStepPresenter {
 
-	private final MetadataStepView view;
+	protected MetadataStepView view;
 	protected EventBus importEventBus;
 
 	@Inject

@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -24,6 +25,7 @@ public class ColumnDefinitionPanel extends Composite {
 	}
 
 	@UiField ListBox typeList;
+	@UiField Label inLabel;
 	@UiField ListBox languageList;
 
 	@UiField
@@ -51,13 +53,19 @@ public class ColumnDefinitionPanel extends Composite {
 	protected void updateLanguageList()
 	{
 		ColumnType columnType = getColumnType();
-		if (columnType == null) languageList.setVisible(false);
+		if (columnType == null) setLanguageVisibile(false);
 		else {
 			switch (columnType) {
-				case CODE: languageList.setVisible(false); break;
-				case DESCRIPTION: languageList.setVisible(true); break;
+				case CODE: setLanguageVisibile(false); break;
+				case DESCRIPTION: setLanguageVisibile(true); break;
 			}
 		}
+	}
+	
+	protected void setLanguageVisibile(boolean visible)
+	{
+		languageList.setVisible(visible);
+		inLabel.setVisible(visible);
 	}
 	
 	public void setColumnType(ColumnType columnType)
@@ -94,6 +102,7 @@ public class ColumnDefinitionPanel extends Composite {
 	
 	public String getLanguage()
 	{
+		if (languageList.getSelectedIndex()<0) return null;
 		return languageList.getValue(languageList.getSelectedIndex());
 	}
 	
