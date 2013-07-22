@@ -52,17 +52,24 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView {
 	}
 	
 	
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
 	
-	
-
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void cleanPreviewGrid() {
-		previewGrid.clear();		
+		previewGrid.removeAllRows();
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void setupEditableHeader(int numColumns)
 	{
 		headerFields.clear();
@@ -76,6 +83,9 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView {
 		}
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void setupStaticHeader(List<String> headers)
 	{
 		headerFields.clear();
@@ -88,6 +98,9 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView {
 		}
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void setData(List<List<String>> rows) {
 		for (List<String> row:rows) addDataRow(row);
 	}
@@ -101,12 +114,18 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView {
 		}
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	public List<String> getEditedHeaders() {
 		ArrayList<String> headers = new ArrayList<String>();
 		for (TextBox headerField:headerFields) headers.add(headerField.getText());
 		return headers;
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void alert(String message) {
 		if(alertDialog == null){
 			alertDialog = new AlertDialog();
@@ -115,16 +134,25 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView {
 		alertDialog.show();
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void showCsvConfigurationButton() {
 		showCsvConfigurationButton.setVisible(true);
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void hideCsvConfigurationButton() {
 		showCsvConfigurationButton.setVisible(false);
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void showCsvConfigurationDialog() {
 		if (configurationDialog == null) configurationDialog = new CsvParserConfigurationDialog();
