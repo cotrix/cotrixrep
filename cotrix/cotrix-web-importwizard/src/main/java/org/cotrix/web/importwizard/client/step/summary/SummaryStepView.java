@@ -1,9 +1,9 @@
 package org.cotrix.web.importwizard.client.step.summary;
 
-import java.util.HashMap;
+import java.util.List;
 
-import org.cotrix.web.share.shared.HeaderType;
-import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.importwizard.shared.ColumnDefinition;
+import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -15,11 +15,11 @@ public interface SummaryStepView {
 	public interface Presenter {
 		
 	}
-	void setHeader(String[] headers);
+
+	public void setColumns(List<ColumnDefinition> columns);
+	void setMetadata(ImportMetadata metadata);
+	
 	void alert(String message);
-	void setDescription(HashMap<String, String> description);
-	void setHeaderType(HashMap<String,HeaderType> headerType);
-	void setMetadata(Metadata metadata);
 
 	Widget asWidget();
 }

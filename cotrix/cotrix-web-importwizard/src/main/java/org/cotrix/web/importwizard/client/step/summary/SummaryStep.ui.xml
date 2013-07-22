@@ -28,7 +28,7 @@
 				color: #666;
 			}
 			
-			.flexTable {
+			.summaryTable {
 				border-width: 0 0 1px 1px;
 				border-spacing: 0;
 				border-color: #ccc;
@@ -40,12 +40,12 @@
 				text-align: left;
 			}
 			
-			.flexTableHeader {
+			.summaryTableHeader {
 				background-color: #eee;
 				text-align: center;
 			}
 			
-			.flexTable td,.flexTable th {
+			.summaryTable td,.summaryTablee th {
 				margin: 0;
 				border-color: #ccc;
 				padding: 3px;
@@ -68,8 +68,6 @@
 			}
 		</ui:style>
 	<g:HTMLPanel ui:field="panel">
-		<g:FlexTable ui:field="flexTable" cellPadding="0"
-			cellSpacing="0" borderWidth="1" styleName="{style.flexTable}" width="100%"></g:FlexTable>
-		<g:FlowPanel ui:field="gwtUploadPanel" styleName="{style.uploadPanel}"></g:FlowPanel>
+		<g:FlexTable ui:field="summaryTable" cellPadding="0" cellSpacing="0" borderWidth="1" styleName="{style.summaryTable}" width="100%"></g:FlexTable>
 	</g:HTMLPanel>
 </ui:UiBinder> 

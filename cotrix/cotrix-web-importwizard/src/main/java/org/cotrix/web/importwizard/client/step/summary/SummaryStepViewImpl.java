@@ -1,23 +1,23 @@
 package org.cotrix.web.importwizard.client.step.summary;
 
-import java.util.HashMap;
+import java.util.Date;
+import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.share.shared.HeaderType;
-import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.importwizard.shared.ColumnDefinition;
+import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.shared.DateTimeFormat;
+import com.google.gwt.i18n.shared.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -25,6 +25,11 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class SummaryStepViewImpl extends Composite implements SummaryStepView {
+	
+	protected static final int HEADER_ROW = 0;
+	protected static final int NAME_COLUMN = 0;
+	protected static final int TYPE_COLUMN = 1;
+	protected static final DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM);
 
 	@UiTemplate("SummaryStep.ui.xml")
 	interface SummaryStepUiBinder extends UiBinder<Widget, SummaryStepViewImpl> {}
@@ -32,91 +37,70 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 
 
 	@UiField HTMLPanel panel;
-	@UiField FlexTable flexTable;
+	@UiField FlexTable summaryTable;
 	@UiField Style style;
-	@UiField FlowPanel gwtUploadPanel;
 
 	interface Style extends CssResource {
 		String headerlabel();
 		String valuelabel();
-		String flexTable();
-		String flexTableHeader();
+		String summaryTable();
+		String summaryTableHeader();
 		String grid();
 		String cell();
 		String metadata();
 		String metadataLabel();
 	}
 
-	private String[] headers;
 	private AlertDialog alertDialog;
+	
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+		setupHeader();
 	}
 
-	public void initForm(String[] headers) {
-		Grid grid = new Grid(headers.length, 2);
-
-		for (int i = 0; i < headers.length; i++) {
-			Label headerLabel = new Label(headers[i]);
-			headerLabel.setStyleName(style.headerlabel());
-
-			Label valueLabel = new Label("value"+i+1);
-			valueLabel.setStyleName(style.valuelabel());
-
-			grid.getCellFormatter().setStyleName(i, 0, style.cell());
-			grid.setWidget(i, 0, headerLabel);
-			grid.setWidget(i, 1, valueLabel);
-		}
-		
+	protected void setupHeader() {
+		summaryTable.setWidget(HEADER_ROW, NAME_COLUMN, new HTML("Header"));
+		summaryTable.setWidget(HEADER_ROW, TYPE_COLUMN, new HTML("Type"));
+		summaryTable.setWidget(HEADER_ROW, 2, new HTML("Metadata"));
+		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, NAME_COLUMN, style.summaryTableHeader());
+		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, TYPE_COLUMN, style.summaryTableHeader());
+		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, 2, style.summaryTableHeader());
 	}
-
-	public void setHeader(String[] headers) {
-		this.headers = headers;
-		flexTable.setWidget(0, 0, new HTML("Header"));
-		flexTable.setWidget(0, 1, new HTML("Type"));
-		flexTable.setWidget(0, 2, new HTML("Metadata"));
-		flexTable.getCellFormatter().setStyleName(0, 0, style.flexTableHeader());
-		flexTable.getCellFormatter().setStyleName(0, 1, style.flexTableHeader());
-		flexTable.getCellFormatter().setStyleName(0, 2, style.flexTableHeader());
-
-		for (int i = 0; i < headers.length; i++) {
-			flexTable.setWidget(i+1, 0, new HTML(headers[i]));
-		}
-	}
-
-	public void setDescription(HashMap<String, String> description) {
-		for (int i = 0; i < headers.length; i++) {
-			if(description.containsKey(headers[i])){
-				flexTable.setWidget(i+1, 2, new HTML(description.get(headers[i])));
-			}
-		}
-	}
-
-	public void setHeaderType(HashMap<String, HeaderType> headerType) {
-		for (int i = 0; i < headers.length; i++) {
-			if(headerType.containsKey(headers[i])){
-				HeaderType type = headerType.get(headers[i]);
-				if(type.getValue() == null){
-					flexTable.setWidget(i+1, 1, new HTML("Not Defined"));
-				}else{
-					if(type.getRelatedValue()!=null){
-						String value = type.getValue() + " ( "+type.getRelatedValue()+" )";
-						flexTable.setWidget(i+1, 1, new HTML(value));
-					}else{
-						flexTable.setWidget(i+1, 1, new HTML(type.getValue()));
-					}
-				}
-			}
+	
+	public void setColumns(List<ColumnDefinition> columns)
+	{
+		int row = 1;
+		for (ColumnDefinition column:columns) {
+			HTML header = new HTML(column.getName());
+			HTML type = getType(column);
+			summaryTable.setWidget(row, NAME_COLUMN, header);
+			summaryTable.setWidget(row, TYPE_COLUMN, type);
+			row++;
 		}
 	}
 	
-
-	public void setMetadata(Metadata metadata) {
-		flexTable.getFlexCellFormatter().setRowSpan(5, 2, headers.length -4);
-		flexTable.setWidget(1, 2, new HTML("<strong>Name : </strong>"+metadata.getName()));
-		flexTable.setWidget(2, 2, new HTML("<strong>Owner : </strong>"+metadata.getOwner()));
-		flexTable.setWidget(3, 2, new HTML("<strong>Description : </strong>"+metadata.getDescription()));
-		flexTable.setWidget(4, 2, new HTML("<strong>Version : </strong>"+metadata.getVersion()));
+	protected HTML getType(ColumnDefinition column)
+	{
+		if (column.getType()==null) return new HTML("Not Defined");
+		StringBuilder text = new StringBuilder(column.getType().toString());
+		if (column.getLanguage()!=null) text.append(" (").append(column.getLanguage()).append(')');
+		return new HTML(text.toString());
+	}
+	
+	public void setMetadata(ImportMetadata metadata) {
+		summaryTable.getFlexCellFormatter().setRowSpan(7, 2, summaryTable.getRowCount() - 7);
+		summaryTable.setWidget(1, 2, new HTML("<strong>Name : </strong>"+metadata.getName()));
+		summaryTable.setWidget(2, 2, new HTML("<strong>Owner : </strong>"+metadata.getOwner()));
+		summaryTable.setWidget(3, 2, new HTML("<strong>Description : </strong>"+metadata.getDescription()));
+		summaryTable.setWidget(4, 2, new HTML("<strong>Create Date : </strong>"+format(metadata.getCreateDate())));
+		summaryTable.setWidget(5, 2, new HTML("<strong>Update Date: </strong>"+format(metadata.getUpdateDate())));
+		summaryTable.setWidget(6, 2, new HTML("<strong>Version : </strong>"+metadata.getVersion()));
+	}
+	
+	protected String format(Date date)
+	{
+		if (date == null) return "";
+		else return dateFormat.format(date);
 	}
 	
 	public void alert(String message) {
@@ -126,6 +110,4 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 		alertDialog.setMessage(message);
 		alertDialog.show();
 	}
-
-
 }
