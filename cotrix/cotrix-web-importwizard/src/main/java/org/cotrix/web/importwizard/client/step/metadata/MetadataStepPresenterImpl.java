@@ -7,16 +7,18 @@ import org.cotrix.web.share.shared.CotrixImportModelController;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class MetadataStepPresenterImpl extends AbstractWizardStep implements MetadataStepPresenter {
 
 	private final MetadataStepView view;
-	private final CotrixImportModelController model;
 
 	@Inject
-	public MetadataStepPresenterImpl(MetadataStepView view, CotrixImportModelController model) {
+	public MetadataStepPresenterImpl(MetadataStepView view) {
 		super("metadata", "Add Metadata", "Add Metadata", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
-		this.model = model;
 		this.view.setPresenter(this);
 	}
 
@@ -26,9 +28,9 @@ public class MetadataStepPresenterImpl extends AbstractWizardStep implements Met
 	}
 
 	public boolean isComplete() {
-		if(view.isValidated()){
+		/*if(view.isValidated()){
 			model.setMetadata(view.getMetadata());
-		}
+		}*/
 		return view.isValidated();
 	}
 

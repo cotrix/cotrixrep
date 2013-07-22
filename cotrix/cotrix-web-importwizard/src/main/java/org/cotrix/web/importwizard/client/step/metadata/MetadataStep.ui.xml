@@ -104,15 +104,7 @@
 					<g:Label styleName="{style.label}">Create Date</g:Label>
 				</g:customCell>
 				<g:customCell styleName="{style.cell}">
-					<g:FlowPanel ui:field="createDate"></g:FlowPanel>
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:customCell styleName="{style.cell}">
-					<g:Label styleName="{style.label}">Create Date2</g:Label>
-				</g:customCell>
-				<g:customCell styleName="{style.cell}">
-					<dp:DatePicker ui:field="createDate2"></dp:DatePicker>
+					<dp:DateBox ui:field="createDate"></dp:DateBox>
 				</g:customCell>
 			</g:row>
 			<g:row>
@@ -120,7 +112,7 @@
 					<g:Label styleName="{style.label}">Update Date</g:Label>
 				</g:customCell>
 				<g:customCell styleName="{style.cell}">
-					<g:FlowPanel ui:field="updateDate"></g:FlowPanel>
+					<dp:DateBox ui:field="updateDate"></dp:DateBox>
 				</g:customCell>
 			</g:row>
 			<g:row>
