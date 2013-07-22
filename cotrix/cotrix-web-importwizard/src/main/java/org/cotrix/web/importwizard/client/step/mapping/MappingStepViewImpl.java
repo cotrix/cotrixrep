@@ -15,6 +15,10 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class MappingStepViewImpl extends Composite implements MappingStepFormView {
 
 	@UiTemplate("MappingStep.ui.xml")
@@ -28,14 +32,17 @@ public class MappingStepViewImpl extends Composite implements MappingStepFormVie
 		String cell();
 		String valuelabel();
 	}
+	
 	private Grid grid;
+	
 	private Presenter presenter;
-	public void setPresenter(MappingStepPresenterImpl presenter) {
-		this.presenter = presenter;
-	}
 
 	public MappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+	}
+	
+	public void setPresenter(MappingStepPresenterImpl presenter) {
+		this.presenter = presenter;
 	}
 	
 	
@@ -63,7 +70,6 @@ public class MappingStepViewImpl extends Composite implements MappingStepFormVie
 			HeaderTypePanel typePanel = (HeaderTypePanel) grid.getWidget(i, 1);
 			HeaderType type = typePanel.getHeaderType();
 			type.setName(label.getText());
-//			Window.alert(type.getName()+"---"+type.getValue());
 			headerType.add(type);
 		}
 		return headerType;

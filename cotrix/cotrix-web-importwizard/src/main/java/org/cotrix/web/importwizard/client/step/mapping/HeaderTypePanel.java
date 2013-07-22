@@ -19,8 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class HeaderTypePanel extends Composite implements OnHeaderTypeSelectedHandler {
 
-	private static HeaderTypePanelUiBinder uiBinder = GWT
-			.create(HeaderTypePanelUiBinder.class);
+	private static HeaderTypePanelUiBinder uiBinder = GWT.create(HeaderTypePanelUiBinder.class);
 
 	interface HeaderTypePanelUiBinder extends UiBinder<Widget, HeaderTypePanel> {
 	}
