@@ -130,7 +130,7 @@
 						<g:Label text="Charset" styleName="{style.headerlabel}" />
 					</g:customCell>
 					<g:customCell>
-						<g:ListBox ui:field="charset" styleName="{style.valuelabel}" />
+						<g:ListBox ui:field="charsetField" styleName="{style.valuelabel}" />
 					</g:customCell>
 				</g:row>
 				<g:row>
@@ -138,7 +138,7 @@
 						<g:Label text="Has header" styleName="{style.headerlabel}" />
 					</g:customCell>
 					<g:customCell>
-						<g:CheckBox ui:field="hasHeader" styleName="{style.valuelabel}" />
+						<g:CheckBox ui:field="hasHeaderField" styleName="{style.valuelabel}" />
 					</g:customCell>
 				</g:row>
 				<g:row>
@@ -151,7 +151,7 @@
 							<g:RadioButton name="separator" formValue="separator" ui:field="tabSeparator">Tab</g:RadioButton>
 							<g:FlowPanel>
 								<g:RadioButton name="separator" formValue="separator" ui:field="customSeparator">Custom</g:RadioButton>
-								<g:TextBox maxLength="1" width="20px">,</g:TextBox>
+								<g:TextBox maxLength="1" width="20px" ui:field="customSeparatorField">,</g:TextBox>
 							</g:FlowPanel>
 						</g:VerticalPanel>
 					</g:customCell>
@@ -161,7 +161,23 @@
 						<g:Label text="Comment" styleName="{style.headerlabel}" />
 					</g:customCell>
 					<g:customCell>
-						<g:TextBox maxLength="1" width="20px">#</g:TextBox>
+						<g:TextBox maxLength="1" width="20px" ui:field="commentField">#</g:TextBox>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="New Line" styleName="{style.headerlabel}" />
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox maxLength="1" width="20px" ui:field="newLineField" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Quote" styleName="{style.headerlabel}" />
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox maxLength="1" width="20px" ui:field="quoteField">"</g:TextBox>
 					</g:customCell>
 				</g:row>
 				<g:row>

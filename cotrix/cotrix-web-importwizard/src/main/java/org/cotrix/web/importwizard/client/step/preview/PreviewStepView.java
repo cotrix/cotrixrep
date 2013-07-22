@@ -2,6 +2,8 @@ package org.cotrix.web.importwizard.client.step.preview;
 
 import java.util.List;
 
+import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
+
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -10,6 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 public interface PreviewStepView {
 	public interface Presenter {
 		void onShowCsvConfigurationButtonClicked();
+		void onCsvConfigurationEdited(CsvParserConfiguration configuration);
 	}
 
 	public List<String> getEditedHeaders();
@@ -23,6 +26,7 @@ public interface PreviewStepView {
 	public void hideCsvConfigurationButton();
 	
 	public void showCsvConfigurationDialog();
+	public void setCsvParserConfiguration(CsvParserConfiguration configuration);
 	
 	void alert(String message);
 

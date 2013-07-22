@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.client.step.Style;
+import org.cotrix.web.importwizard.client.step.preview.CsvParserConfigurationDialog.DialogSaveHandler;
+import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewStepViewImpl extends Composite implements PreviewStepView {
+public class PreviewStepViewImpl extends Composite implements PreviewStepView, DialogSaveHandler {
 	
 	protected static final int HEADER_ROW = 0;
 
@@ -155,9 +157,24 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView {
 	 */
 	@Override
 	public void showCsvConfigurationDialog() {
-		if (configurationDialog == null) configurationDialog = new CsvParserConfigurationDialog();
+		ensureInitializedConfigurationDialog();
 		configurationDialog.center();
 		
 	}
+	
+	@Override
+	public void setCsvParserConfiguration(CsvParserConfiguration configuration) {
+		ensureInitializedConfigurationDialog();
+		configurationDialog.setConfiguration(configuration);
+	}
 
+	@Override
+	public void onSave(CsvParserConfiguration configuration) {
+		presenter.onCsvConfigurationEdited(configuration);	
+	}
+	
+	protected void ensureInitializedConfigurationDialog()
+	{
+		if (configurationDialog == null) configurationDialog = new CsvParserConfigurationDialog(this);
+	}
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
-import org.cotrix.web.importwizard.shared.CSVParserConfiguration;
+import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
@@ -38,8 +38,8 @@ public interface ImportService extends RemoteService {
 	
 	public Metadata getMetadata() throws ImportServiceException;
 	
-	public CSVParserConfiguration getCsvParserConfiguration() throws ImportServiceException;
+	public CsvParserConfiguration getCsvParserConfiguration() throws ImportServiceException;
 	
-	public void updateCsvParserConfiguration(CSVParserConfiguration configuration) throws ImportServiceException;
+	public void updateCsvParserConfiguration(CsvParserConfiguration configuration) throws ImportServiceException;
 	
 }

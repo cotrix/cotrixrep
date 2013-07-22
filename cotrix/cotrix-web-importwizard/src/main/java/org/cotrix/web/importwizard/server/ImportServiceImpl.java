@@ -12,13 +12,14 @@ import java.util.Random;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
-import org.cotrix.web.importwizard.shared.CSVParserConfiguration;
+import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.importwizard.shared.UploadProgress;
+import org.cotrix.web.importwizard.shared.CsvParserConfiguration.NewLine;
 import org.cotrix.web.importwizard.shared.UploadProgress.Status;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
@@ -170,13 +171,13 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public CSVParserConfiguration getCsvParserConfiguration() throws ImportServiceException {
-		CSVParserConfiguration configuration = new CSVParserConfiguration();
+	public CsvParserConfiguration getCsvParserConfiguration() throws ImportServiceException {
+		CsvParserConfiguration configuration = new CsvParserConfiguration();
 		configuration.setComment('#');
 		configuration.setCharset("UTF-8");
 		configuration.setFieldSeparator(',');
 		configuration.setHasHeader(true);
-		configuration.setLineSeparator("\n");
+		configuration.setLineSeparator(NewLine.LF);
 		configuration.setQuote('"');
 		configuration.setAvailablesCharset(getEncodings());
 		return configuration;
@@ -192,7 +193,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public void updateCsvParserConfiguration(CSVParserConfiguration configuration) throws ImportServiceException {
+	public void updateCsvParserConfiguration(CsvParserConfiguration configuration) throws ImportServiceException {
 		// TODO Auto-generated method stub
 		
 	}

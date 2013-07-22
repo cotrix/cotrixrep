@@ -10,14 +10,16 @@ import java.util.List;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CSVParserConfiguration implements Serializable {
+public class CsvParserConfiguration implements Serializable {
 	
 	private static final long serialVersionUID = 2424486900885043596L;
+	
+	public enum NewLine {LF, CRLF, CR};
 	
 	protected String charset;
 	protected char fieldSeparator;
 	protected char comment;
-	protected String lineSeparator;
+	protected NewLine lineSeparator;
 	protected char quote;
 	protected boolean hasHeader;
 	
@@ -62,13 +64,13 @@ public class CSVParserConfiguration implements Serializable {
 	/**
 	 * @return the lineSeparator
 	 */
-	public String getLineSeparator() {
+	public NewLine getLineSeparator() {
 		return lineSeparator;
 	}
 	/**
 	 * @param lineSeparator the lineSeparator to set
 	 */
-	public void setLineSeparator(String lineSeparator) {
+	public void setLineSeparator(NewLine lineSeparator) {
 		this.lineSeparator = lineSeparator;
 	}
 	/**

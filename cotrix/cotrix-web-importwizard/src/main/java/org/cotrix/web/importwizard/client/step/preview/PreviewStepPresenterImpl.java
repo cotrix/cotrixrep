@@ -4,10 +4,14 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent.CodeListTypeUpdatedHandler;
+import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent;
+import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent.CsvParserConfigurationUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent.PreviewDataUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 
@@ -21,10 +25,11 @@ import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfigur
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewStepPresenterImpl extends AbstractWizardStep implements PreviewStepPresenter, PreviewDataUpdatedHandler, CodeListTypeUpdatedHandler {
+public class PreviewStepPresenterImpl extends AbstractWizardStep implements PreviewStepPresenter, PreviewDataUpdatedHandler, CodeListTypeUpdatedHandler, CsvParserConfigurationUpdatedHandler {
 
 	private final PreviewStepView view;
 	protected EventBus importEventBus;
+	protected boolean headerRequired = false;
 	
 	@Inject
 	public PreviewStepPresenterImpl(PreviewStepView view, @ImportBus EventBus importEventBus) {
@@ -43,21 +48,28 @@ public class PreviewStepPresenterImpl extends AbstractWizardStep implements Prev
 	public void setPreviewData(List<String> header, int numColumns, List<List<String>> data)
 	{
 		view.cleanPreviewGrid();
-		if (header!=null) view.setupStaticHeader(header);
-		else view.setupEditableHeader(numColumns);
+		if (header!=null) {
+			view.setupStaticHeader(header);
+			headerRequired = false;
+		} else {
+			view.setupEditableHeader(numColumns);
+			headerRequired = true;
+		}
 		view.setData(data);
 	}
 
 	public boolean isComplete() {
-		/*ArrayList<String> headers = view.getHeaders();
-		int columnCount = this.model.getCsvFile().getHeader().length;
-		if(headers.size() != columnCount){
-			view.alert("Please define all header");
-		}else{
-			model.getCsvFile().setHeader(headers.toArray(new String[0]));
+		if (headerRequired && !areHeadersValid()) {
+			view.alert("All header fields should be filled");
+			return false;
 		}
-		return (headers.size() == columnCount)?true:false;*/
-		return false;
+		return true;
+	}
+	
+	protected boolean areHeadersValid()
+	{
+		for (String header:view.getEditedHeaders()) if (header == null || header.isEmpty()) return false;
+		return true;
 	}
 
 	@Override
@@ -69,12 +81,21 @@ public class PreviewStepPresenterImpl extends AbstractWizardStep implements Prev
 	public void onPreviewDataUpdated(PreviewDataUpdatedEvent event) {
 		CodeListPreviewData previewData = event.getPreviewData();
 		setPreviewData(previewData.getHeader(), previewData.getColumnsCount(), previewData.getData());
-		
 	}
 
 	@Override
 	public void onCodeListTypeUpdated(CodeListTypeUpdatedEvent event) {
 		if (event.getCodeListType() == CodeListType.CSV) view.showCsvConfigurationButton();
 		else view.hideCsvConfigurationButton();
+	}
+
+	@Override
+	public void onCsvParserConfigurationUpdated(CsvParserConfigurationUpdatedEvent event) {		
+		view.setCsvParserConfiguration(event.getConfiguration());		
+	}
+
+	@Override
+	public void onCsvConfigurationEdited(CsvParserConfiguration configuration) {
+		importEventBus.fireEvent(new CsvParserConfigurationEditedEvent(configuration));		
 	}
 }
