@@ -7,7 +7,5 @@ import org.cotrix.web.importwizard.client.step.WizardStep;
  *
  */
 public interface DoneStepPresenter extends WizardStep, DoneStepView.Presenter {
-	
-	public void setDoneTitle(String title);
-	public void setWarningMessage(String message);
+
 }

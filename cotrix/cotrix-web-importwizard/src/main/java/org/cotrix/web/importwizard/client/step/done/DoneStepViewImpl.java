@@ -22,22 +22,16 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	
 	@UiField Label title;
 	@UiField Label message;
-	
-	private Presenter presenter;
-	
+
 	public DoneStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	public void setPresenter(Presenter presenter) {
-		this.presenter = presenter;
-	}
-
-	public void setWarningMessage(String message) {
+	public void setMessage(String message) {
 		this.message.setText(message);
 	}
 
-	public void setDoneTitle(String title) {
+	public void setTitle(String title) {
 		this.title.setText(title);
 	}
 

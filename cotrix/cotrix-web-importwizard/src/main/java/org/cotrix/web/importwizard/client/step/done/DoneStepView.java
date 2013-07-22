@@ -11,8 +11,7 @@ public interface DoneStepView {
 	public interface Presenter {
 	}
 	
-	void setPresenter(Presenter presenter);
-	void setDoneTitle(String title);
-	void setWarningMessage(String message);
+	void setTitle(String title);
+	void setMessage(String message);
 	Widget asWidget();
 }
