@@ -1,7 +1,7 @@
 package org.cotrix.web.importwizard.client.step.metadata;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.share.shared.Metadata;
+import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.shared.DateTimeFormat;
@@ -35,7 +35,7 @@ public class MetadataStepViewImpl extends Composite implements MetadataStepView 
 	@UiField TextArea description;
 	
 	private AlertDialog alertDialog;
-	private Presenter presenter;
+	
 	public MetadataStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM);
@@ -44,30 +44,13 @@ public class MetadataStepViewImpl extends Composite implements MetadataStepView 
 		updateDate.setFormat(dateBoxFormat);
 	}
 	
-	public void setPresenter(MetadataStepPresenterImpl presenter) {
-		this.presenter = presenter;
-	}
-	
-	public Metadata getMetadata() {
-		Metadata metadata = new Metadata();
+	public ImportMetadata getMetadata() {
+		ImportMetadata metadata = new ImportMetadata();
 		metadata.setName(name.getText());
 		metadata.setOwner(fileowner.getText());
 		metadata.setDescription(description.getText());
 		metadata.setVersion(version.getItemText(version.getSelectedIndex()));
 		return metadata;
-	}
-
-	public boolean isValidated() {
-		boolean isValidated = true;
-		if(name.getText().length() == 0){
-			presenter.alert("Name is required");
-			return false;
-		}
-		if(fileowner.getText().length() == 0){
-			presenter.alert("Ower is required");
-			return false;
-		}
-		return isValidated;
 	}
 	
 	public void alert(String message) {
@@ -76,6 +59,18 @@ public class MetadataStepViewImpl extends Composite implements MetadataStepView 
 		}
 		alertDialog.setMessage(message);
 		alertDialog.show();
+	}
+
+	@Override
+	public void setMetadata(ImportMetadata metadata) {
+		name.setValue(metadata.getName());
+		description.setValue(metadata.getDescription());
+		fileowner.setValue(metadata.getOwner());
+		createDate.setValue(metadata.getCreateDate());
+		updateDate.setValue(metadata.getUpdateDate());
+		
+		//FIXME version
+		
 	}
 
 }

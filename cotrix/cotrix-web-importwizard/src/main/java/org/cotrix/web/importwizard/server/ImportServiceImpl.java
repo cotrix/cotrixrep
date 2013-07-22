@@ -15,6 +15,7 @@ import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
+import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
@@ -22,7 +23,6 @@ import org.cotrix.web.importwizard.shared.UploadProgress;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration.NewLine;
 import org.cotrix.web.importwizard.shared.UploadProgress.Status;
 import org.cotrix.web.share.shared.CotrixImportModel;
-import org.cotrix.web.share.shared.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -163,10 +163,10 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public Metadata getMetadata() throws ImportServiceException {
-		Metadata metadata = new Metadata();
+	public ImportMetadata getMetadata() throws ImportServiceException {
+		ImportMetadata metadata = new ImportMetadata();
 		metadata.setName("Asfis sp Feb 2012");
-		metadata.setRowCount(12000);
+		//metadata.setRowCount(12000);
 		return metadata;
 	}
 
@@ -194,6 +194,13 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	@Override
 	public void updateCsvParserConfiguration(CsvParserConfiguration configuration) throws ImportServiceException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateMetadata(ImportMetadata metadata)
+			throws ImportServiceException {
 		// TODO Auto-generated method stub
 		
 	}

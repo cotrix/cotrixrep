@@ -7,6 +7,7 @@ import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEven
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent.CsvParserConfigurationEditedHandler;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
+import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
@@ -14,6 +15,7 @@ import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
+import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
@@ -82,6 +84,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				}				
 			}
 		});
+		getMetadata();
 	}
 	
 	protected void getPreviewData()
@@ -144,6 +147,23 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			@Override
 			public void onSuccess(Void result) {
 				getCSVParserConfiguration();
+			}
+		});
+	}
+	
+	protected void getMetadata()
+	{
+		importService.getMetadata(new AsyncCallback<ImportMetadata>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("Error getting the Metadata", caught);
+				
+			}
+
+			@Override
+			public void onSuccess(ImportMetadata result) {
+				importEventBus.fireEvent(new MetadataUpdatedEvent(result, false));				
 			}
 		});
 	}

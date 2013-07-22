@@ -37,6 +37,7 @@ public class PreviewStepPresenterImpl extends AbstractWizardStep implements Prev
 		this.view = view;
 		this.view.setPresenter(this);
 		
+		this.importEventBus = importEventBus;
 		importEventBus.addHandler(PreviewDataUpdatedEvent.TYPE, this);
 		importEventBus.addHandler(CodeListTypeUpdatedEvent.TYPE, this);
 	}
