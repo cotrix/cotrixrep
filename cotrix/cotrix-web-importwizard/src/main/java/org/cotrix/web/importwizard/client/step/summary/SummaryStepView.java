@@ -20,7 +20,6 @@ public interface SummaryStepView {
 	void setDescription(HashMap<String, String> description);
 	void setHeaderType(HashMap<String,HeaderType> headerType);
 	void setMetadata(Metadata metadata);
-	void setPresenter(SummaryStepPresenterImpl summaryFormPresenter);
 
 	Widget asWidget();
 }

@@ -40,12 +40,17 @@ public class MappingStepPresenterImpl extends AbstractWizardStep implements Mapp
 	}
 	
 	public boolean isComplete() {
-		return validate();
+		List<ColumnDefinition> columns = view.getColumns();
+		
+		boolean valid = validate(columns);
+		
+		if (valid) importEventBus.fireEvent(new MappingUpdatedEvent(columns, true));
+		
+		return valid;
 	}
 	
-	protected boolean validate()
+	protected boolean validate(List<ColumnDefinition> columns)
 	{
-		List<ColumnDefinition> columns = view.getColumns();
 		
 		//only one code
 		int codeCount = 0;

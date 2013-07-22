@@ -3,32 +3,29 @@ package org.cotrix.web.importwizard.client.step.summary;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
-import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 import org.cotrix.web.share.shared.CSVFile;
-import org.cotrix.web.share.shared.CotrixImportModelController;
 import org.cotrix.web.share.shared.HeaderType;
 import org.cotrix.web.share.shared.Metadata;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
 public class SummaryStepPresenterImpl extends AbstractWizardStep implements SummaryStepPresenter {
 
-	private final SummaryStepView view;
-	private CotrixImportModelController model;
+	protected SummaryStepView view;
+	protected EventBus importEventBus;
 
 	@Inject
-	public SummaryStepPresenterImpl(SummaryStepView view, CotrixImportModelController model) {
+	public SummaryStepPresenterImpl(SummaryStepView view, @ImportBus EventBus importEventBus) {
 		super("summary", "Summary", "Summary", NavigationButtonConfiguration.DEFAULT_BACKWARD, new NavigationButtonConfiguration("Save"));
 		this.view = view;
-		this.model = model;
-		this.model.addOnFileChangeHandler(this);
-		this.model.addOnDescriptionChangeHandler(this);
-		this.model.addOnMetaDataChangeHandler(this);
-		this.model.addOnTypeChangeHandler(this);
-		this.view.setPresenter(this);
+		
+		this.importEventBus = importEventBus;
+		//importEventBus.addHandler(MappingUpdatedEvent.TYPE, this);
 	}
 	
 	public void go(HasWidgets container) {

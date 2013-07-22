@@ -45,11 +45,9 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 		String cell();
 		String metadata();
 		String metadataLabel();
-
 	}
 
 	private String[] headers;
-	private Presenter presenter;
 	private AlertDialog alertDialog;
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -70,10 +68,6 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 			grid.setWidget(i, 1, valueLabel);
 		}
 		
-	}
-
-	public void setPresenter(SummaryStepPresenterImpl presenter) {
-		this.presenter = presenter;
 	}
 
 	public void setHeader(String[] headers) {
