@@ -4,12 +4,6 @@ import org.cotrix.web.client.presenter.CotrixWebPresenter;
 import org.cotrix.web.client.presenter.CotrixWebPresenterImpl;
 import org.cotrix.web.client.view.CotrixWebView;
 import org.cotrix.web.client.view.CotrixWebViewImpl;
-import org.cotrix.web.importwizard.client.ImportWizardController;
-import org.cotrix.web.importwizard.client.ImportWizardControllerImpl;
-import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
-import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenterImpl;
-import org.cotrix.web.importwizard.client.step.upload.UploadStepView;
-import org.cotrix.web.importwizard.client.step.upload.UploadStepViewImpl;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;

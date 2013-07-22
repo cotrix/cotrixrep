@@ -169,7 +169,7 @@
 						<g:Label text="New Line" styleName="{style.headerlabel}" />
 					</g:customCell>
 					<g:customCell>
-						<g:ListBox maxLength="1" width="20px" ui:field="newLineField" />
+						<g:ListBox ui:field="newLineField" styleName="{style.valuelabel}" />
 					</g:customCell>
 				</g:row>
 				<g:row>
