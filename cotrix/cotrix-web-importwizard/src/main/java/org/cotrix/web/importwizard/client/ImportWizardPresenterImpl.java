@@ -107,6 +107,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	protected void updateTrackerLabels()
 	{
 		List<WizardStep> labels = flow.getCurrentFlow();
+		Log.trace("FLOW:");
+		for (WizardStep step:labels) Log.trace("step: "+step.getId());
 		view.setLabels(labels);
 		view.showLabel(flow.getCurrentItem());
 	}

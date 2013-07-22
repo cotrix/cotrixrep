@@ -67,7 +67,7 @@ public class FlowManager<T> implements FlowUpdatedHandler, HasFlowUpdatedHandler
 	{
 		List<T> flow = new ArrayList<T>();
 		FlowNode<T> node = flowRoot;
-		while(node.getNext()!=null) {
+		while(node!=null) {
 			flow.add(node.getItem());
 			node = node.getNext();
 		}
