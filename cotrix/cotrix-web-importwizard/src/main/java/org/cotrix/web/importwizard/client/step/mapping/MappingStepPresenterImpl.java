@@ -2,7 +2,6 @@ package org.cotrix.web.importwizard.client.step.mapping;
 
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
-import org.cotrix.web.share.shared.CSVFile;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -19,7 +18,6 @@ public class MappingStepPresenterImpl extends AbstractWizardStep implements Mapp
 	public MappingStepPresenterImpl(MappingStepFormView view){
 		super("mapping", "Define Type", "Define Type", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
-		this.view.setPresenter(this);
 	}
 	
 	/** 
@@ -48,9 +46,5 @@ public class MappingStepPresenterImpl extends AbstractWizardStep implements Mapp
 			dialog.show();
 		}*/
 		return validateResult;
-	}
-	
-	public void onFileChange(CSVFile csvFile) {
-		view.setData(csvFile.getHeader());
 	}
 }

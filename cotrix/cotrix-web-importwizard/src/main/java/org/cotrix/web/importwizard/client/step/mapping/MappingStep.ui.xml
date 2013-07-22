@@ -26,7 +26,7 @@
 			color: #666;
 		}
 	</ui:style>
-	<g:HTMLPanel ui:field="panel">
+	<g:FlexTable ui:field="columnsTable">
 		 
-	</g:HTMLPanel>
+	</g:FlexTable>
 </ui:UiBinder> 

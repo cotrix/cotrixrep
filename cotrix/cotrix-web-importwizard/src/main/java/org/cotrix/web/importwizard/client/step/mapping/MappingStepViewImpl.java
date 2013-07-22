@@ -1,8 +1,10 @@
 package org.cotrix.web.importwizard.client.step.mapping;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.cotrix.web.share.shared.HeaderType;
+import org.cotrix.web.importwizard.shared.ColumnDefinition;
+import org.cotrix.web.importwizard.shared.ColumnType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -10,8 +12,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -25,65 +26,68 @@ public class MappingStepViewImpl extends Composite implements MappingStepFormVie
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, MappingStepViewImpl> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 
-	@UiField HTMLPanel panel;
+	@UiField FlexTable columnsTable;
 	@UiField Style style;
+	
 	interface Style extends CssResource {
 		String headerlabel();
 		String cell();
 		String valuelabel();
 	}
-	
-	private Grid grid;
-	
-	private Presenter presenter;
+
+	protected List<ColumnDefinitionPanel> columnPanels = new ArrayList<ColumnDefinitionPanel>();
+	protected List<ColumnDefinition> columnDefinitions = new ArrayList<ColumnDefinition>();
 
 	public MappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
-	public void setPresenter(MappingStepPresenterImpl presenter) {
-		this.presenter = presenter;
+	public void setColumns(List<ColumnDefinition> columns)
+	{
+		columnsTable.removeAllRows();
+		columnPanels.clear();
+		columnDefinitions.clear();
+		
+		for (ColumnDefinition column:columns) {
+			int row = columnsTable.getRowCount();
+			Label label = new Label(column.getName());
+			label.setStyleName(style.headerlabel());
+			
+			ColumnDefinitionPanel definitionPanel = new ColumnDefinitionPanel();
+			definitionPanel.setColumnType(column.getType());
+			definitionPanel.setLanguage(column.getLanguage());
+			columnPanels.add(definitionPanel);
+			
+			columnsTable.getCellFormatter().setStyleName(row, 0, style.cell());
+			columnsTable.setWidget(row, 0, label);
+			columnsTable.setWidget(row, 1, definitionPanel);
+			
+			columnDefinitions.add(column);
+		}
 	}
 	
-	
-	public void setData(String[] headers) {
-		grid = new Grid(headers.length, 2);
-
-		for (int i = 0; i < headers.length; i++) {
-			Label headerLabel = new Label(headers[i]);
-			headerLabel.setStyleName(style.headerlabel());
-
-			HeaderTypePanel h = new HeaderTypePanel();
-
-			grid.getCellFormatter().setStyleName(i, 0, style.cell());
-			grid.setWidget(i, 0, headerLabel);
-			grid.setWidget(i, 1, h);
+	public void setCodeTypeError()
+	{
+		for (ColumnDefinitionPanel definitionPanel:columnPanels) {
+			if (definitionPanel.getColumnType() == ColumnType.CODE) definitionPanel.setErrorStyle();
 		}
-		panel.clear();
-		panel.add(grid);
 	}
 	
-	public ArrayList<HeaderType> getHeaderTypes() {
-		ArrayList<HeaderType> headerType = new ArrayList<HeaderType>();
-		for (int i = 0; i < grid.getRowCount(); i++) {
-			Label label = (Label) grid.getWidget(i, 0);
-			HeaderTypePanel typePanel = (HeaderTypePanel) grid.getWidget(i, 1);
-			HeaderType type = typePanel.getHeaderType();
-			type.setName(label.getText());
-			headerType.add(type);
-		}
-		return headerType;
+	public void cleanStyle()
+	{
+		for (ColumnDefinitionPanel definitionPanel:columnPanels) definitionPanel.setNormalStyle();
 	}
-
-	public void setStyleError() {
-		for (int i = 0; i < grid.getRowCount(); i++) {
-			Label label = (Label) grid.getWidget(i, 0);
-			HeaderTypePanel typePanel = (HeaderTypePanel) grid.getWidget(i, 1);
-			HeaderType type = typePanel.getHeaderType();
-			if(type.getValue()!=null && type.getValue().equals("Code")){
-				typePanel.setStyleError();
-			}
+	
+	public List<ColumnDefinition> getColumns()
+	{
+		for (int i = 0; i < columnDefinitions.size(); i++) {
+			ColumnDefinition definition = columnDefinitions.get(i);
+			ColumnDefinitionPanel panel = columnPanels.get(i);
+			definition.setType(panel.getColumnType());
+			definition.setLanguage(panel.getLanguage());
 		}
+		
+		return columnDefinitions;
 	}
 
 }

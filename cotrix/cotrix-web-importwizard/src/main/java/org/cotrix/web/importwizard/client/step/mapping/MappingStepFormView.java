@@ -1,8 +1,8 @@
 package org.cotrix.web.importwizard.client.step.mapping;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import org.cotrix.web.share.shared.HeaderType;
+import org.cotrix.web.importwizard.shared.ColumnDefinition;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -15,10 +15,13 @@ public interface MappingStepFormView {
 
 	}
 	
-	ArrayList<HeaderType> getHeaderTypes();
-	void setData(String[] headers);
-	void setPresenter(MappingStepPresenterImpl presenter);
-	void setStyleError();
+	public void setColumns(List<ColumnDefinition> columns);
+	public void setCodeTypeError();
+	public void cleanStyle();
+	
+	public List<ColumnDefinition> getColumns();
+
+	
 	Widget asWidget();
 
 }
