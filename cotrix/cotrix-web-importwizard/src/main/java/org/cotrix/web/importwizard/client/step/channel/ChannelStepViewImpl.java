@@ -1,7 +1,6 @@
 package org.cotrix.web.importwizard.client.step.channel;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.importwizard.client.step.Style;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 
@@ -42,8 +41,6 @@ public class ChannelStepViewImpl extends Composite implements ChannelStepView {
 
 	@UiField(provided = true)
 	SimplePager pager;
-
-	@UiField Style style;
 	
 	protected AssetInfoDataProvider assetInfoDataProvider;
 

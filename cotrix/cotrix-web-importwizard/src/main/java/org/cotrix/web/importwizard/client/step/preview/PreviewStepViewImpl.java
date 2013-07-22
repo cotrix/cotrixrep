@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.importwizard.client.step.Style;
 import org.cotrix.web.importwizard.client.step.preview.CsvParserConfigurationDialog.DialogSaveHandler;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -32,6 +32,14 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView, D
 	@UiTemplate("PreviewStep.ui.xml")
 	interface PreviewStepUiBinder extends UiBinder<Widget, PreviewStepViewImpl> {}
 	private static PreviewStepUiBinder uiBinder = GWT.create(PreviewStepUiBinder.class);
+	
+	interface Style extends CssResource {
+
+		String textbox();
+
+		String flextTableHeader(); 
+	
+	}
 
 	@UiField FlexTable previewGrid;
 	@UiField Button showCsvConfigurationButton;
