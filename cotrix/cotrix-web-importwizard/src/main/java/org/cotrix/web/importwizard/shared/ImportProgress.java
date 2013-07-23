@@ -43,6 +43,11 @@ public class ImportProgress implements IsSerializable {
 	public void setReport(String report) {
 		this.report = report;
 	}
+	
+	public boolean isComplete()
+	{
+		return (status == Status.DONE || status == Status.FAILED);
+	}
 
 	/** 
 	 * {@inheritDoc}

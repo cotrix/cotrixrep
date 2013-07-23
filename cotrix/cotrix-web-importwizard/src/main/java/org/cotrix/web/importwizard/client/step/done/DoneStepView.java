@@ -14,6 +14,4 @@ public interface DoneStepView {
 	void setTitle(String title);
 	void setMessage(String message);
 	Widget asWidget();
-	void mask();
-	void unmask();
 }

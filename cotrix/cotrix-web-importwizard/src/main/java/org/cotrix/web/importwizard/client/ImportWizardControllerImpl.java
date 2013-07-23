@@ -18,15 +18,17 @@ import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpd
 import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.event.StartImportEvent;
-import org.cotrix.web.importwizard.client.event.StartImportEvent.StartImportHandler;
+import org.cotrix.web.importwizard.client.event.SaveEvent;
+import org.cotrix.web.importwizard.client.event.SaveEvent.SaveHandler;
 import org.cotrix.web.importwizard.client.session.ImportSession;
+import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.shared.ColumnDefinition;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
+import org.cotrix.web.importwizard.shared.ImportProgress.Status;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
@@ -104,10 +106,10 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				if (event.isUserEdit()) columns = event.getColumns();
 			}
 		});
-		importEventBus.addHandler(StartImportEvent.TYPE, new StartImportHandler() {
+		importEventBus.addHandler(SaveEvent.TYPE, new SaveHandler() {
 			
 			@Override
-			public void onStartImport(StartImportEvent event) {
+			public void onSave(SaveEvent event) {
 				startImport();
 			}
 		});
@@ -271,15 +273,9 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	
 	protected void updateImportProgress(ImportProgress progress)
 	{
-		switch (progress.getStatus()) {
-			case FAILED:
-			case DONE: {
-				importProgressPolling.cancel();
-			} break;
-			default:
-				break;
-		}
+		if (progress.isComplete()) importProgressPolling.cancel();
 		importEventBus.fireEvent(new ImportProgressEvent(progress));
+		if (progress.isComplete()) importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
 
 	public void go(HasWidgets container) {

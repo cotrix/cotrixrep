@@ -66,6 +66,7 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(ImportWizardView.class).to(ImportWizardViewImpl.class).in(Singleton.class);
         bind(ImportWizardPresenter.class).to(ImportWizardPresenterImpl.class);
         bind(SourceNodeSelector.class).in(Singleton.class);
+        bind(SaveCheckPoint.class).in(Singleton.class);
         bind(ImportSession.class).in(Singleton.class);
         
         bind(SourceSelectionStepView.class).to(SourceSelectionStepViewImpl.class).asEagerSingleton();

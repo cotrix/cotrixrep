@@ -26,9 +26,9 @@ public class CheckPointNode<T> implements FlowNode<T> {
 		this.handler = handler;
 	}
 
-	public void check()
+	public boolean check()
 	{
-		handler.check();
+		return handler.check();
 	}
 	
 
@@ -53,7 +53,7 @@ public class CheckPointNode<T> implements FlowNode<T> {
 	}
 	
 	public interface CheckPointHandler {
-		public void check();
+		public boolean check();
 	}
 
 }

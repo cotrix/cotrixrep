@@ -19,7 +19,8 @@ public interface SummaryStepView {
 	public void setColumns(List<ColumnDefinition> columns);
 	void setMetadata(ImportMetadata metadata);
 	
-	void alert(String message);
+	void showProgress();
+	void hideProgress();
 
 	Widget asWidget();
 }

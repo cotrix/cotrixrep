@@ -3,7 +3,7 @@ package org.cotrix.web.importwizard.client;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.event.StartImportEvent;
+import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent;
 import org.cotrix.web.importwizard.client.flow.CheckPointNode.CheckPointHandler;
@@ -54,7 +54,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			MappingStepPresenterImpl headerTypeStepPresenter,
 			SummaryStepPresenter summaryStepPresenter,
 			DoneStepPresenter doneStepPresenter,
-			SourceNodeSelector selector) {
+			SourceNodeSelector selector,
+			SaveCheckPoint saveCheckPoint) {
 
 		this.importEventBus = importEventBus;
 		this.view = view;
@@ -65,14 +66,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		SingleNodeBuilder<WizardStep> preview = root.next(uploadFormPresenter).next(previewStepPresenter);
 		SingleNodeBuilder<WizardStep> channel = root.hasAlternatives(selector).alternative(channelStepPresenter);
 		channel.next(preview);
-		
-		CheckPointHandler saveCheckPoint = new CheckPointHandler() {
-
-			@Override
-			public void check() {
-				importEventBus.fireEvent(new StartImportEvent());
-			}
-		};
 		
 		preview.next(metadataStepPresenter).next(headerTypeStepPresenter).next(summaryStepPresenter).hasCheckPoint(saveCheckPoint).next(doneStepPresenter);
 		

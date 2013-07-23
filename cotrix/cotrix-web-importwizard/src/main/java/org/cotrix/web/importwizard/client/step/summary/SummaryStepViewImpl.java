@@ -3,7 +3,7 @@ package org.cotrix.web.importwizard.client.step.summary;
 import java.util.Date;
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.util.AlertDialog;
+import org.cotrix.web.importwizard.client.util.ProgressDialog;
 import org.cotrix.web.importwizard.shared.ColumnDefinition;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 
@@ -51,7 +51,7 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 		String metadataLabel();
 	}
 
-	private AlertDialog alertDialog;
+	private ProgressDialog progressDialog;
 	
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -104,10 +104,19 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	}
 	
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog();
+
+	}
+
+	@Override
+	public void showProgress() {
+		if(progressDialog == null){
+			progressDialog = new ProgressDialog();
 		}
-		alertDialog.setMessage(message);
-		alertDialog.show();
+		progressDialog.center();
+	}
+
+	@Override
+	public void hideProgress() {
+		if(progressDialog != null) progressDialog.hide();
 	}
 }

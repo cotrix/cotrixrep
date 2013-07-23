@@ -54,12 +54,14 @@ public class FlowManager<T> implements FlowUpdatedHandler, HasFlowUpdatedHandler
 	
 	public void goNext() {
 		if (currentNode.getNext() == null) throw new IllegalStateException("Flow end reached");
-		stack.push(currentNode);
-		currentNode = currentNode.getNext();
 		
 		if (currentNode instanceof CheckPointNode) {
-			((CheckPointNode<T>)currentNode).check();
+			boolean checked = ((CheckPointNode<T>)currentNode).check();
+			if (!checked) return;
 		}
+		
+		stack.push(currentNode);
+		currentNode = currentNode.getNext();
 	}
 	
 	public void goBack() {
