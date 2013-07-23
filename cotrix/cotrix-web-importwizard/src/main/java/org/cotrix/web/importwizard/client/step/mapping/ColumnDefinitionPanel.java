@@ -21,6 +21,9 @@ import com.google.gwt.user.client.ui.Label;
  *
  */
 public class ColumnDefinitionPanel extends Composite {
+	
+	protected static final String NO_TYPE_VALUE = "NONE";
+	protected static final String NO_TYPE_LABEL = "------ Select Type ------";
 
 	private static ColumnDefinitionPanelUiBinder uiBinder = GWT.create(ColumnDefinitionPanelUiBinder.class);
 
@@ -51,10 +54,22 @@ public class ColumnDefinitionPanel extends Composite {
 			}
 		});
 		
+		setupTypeList();
+		setupLanguageList();
+	}
+	
+	protected void setupTypeList()
+	{
+		typeList.addItem(NO_TYPE_LABEL, NO_TYPE_VALUE);
+		for (ColumnType columnType:ColumnType.values()) typeList.addItem(columnType.getLabel(), columnType.toString());
+		setType(NO_TYPE_VALUE);
+	}
+	
+	protected void setupLanguageList()
+	{
 		String[] languages = ImportConstants.INSTANCE.languages();
 		Arrays.sort(languages);
 		for (String language:languages) languageList.addItem(language);
-		
 	}
 	
 	protected void updateLanguageList()
@@ -77,14 +92,19 @@ public class ColumnDefinitionPanel extends Composite {
 	
 	public void setColumnType(ColumnType columnType)
 	{
-		if (columnType == null) typeList.setSelectedIndex(0);
-		else {
-			switch (columnType) {
-				case CODE: typeList.setSelectedIndex(1); break;
-				case DESCRIPTION: typeList.setSelectedIndex(2); break;
+		if (columnType == null) setType(NO_TYPE_VALUE);
+		else setType(columnType.toString());
+		updateLanguageList();
+	}
+	
+	protected void setType(String value)
+	{
+		for (int i = 0; i < typeList.getItemCount(); i++) {
+			if (typeList.getValue(i).equals(value)) {
+				typeList.setSelectedIndex(i);
+				return;
 			}
 		}
-		updateLanguageList();
 	}
 	
 	public void setLanguage(String language)
@@ -97,14 +117,11 @@ public class ColumnDefinitionPanel extends Composite {
 	
 	public ColumnType getColumnType()
 	{
-		String typeValue = typeList.getValue(typeList.getSelectedIndex());
-		int value = Integer.valueOf(typeValue);
-		switch (value) {
-			case 0: return null;
-			case 1: return ColumnType.CODE;
-			case 2: return ColumnType.DESCRIPTION;
-			default: return null;
-		}
+		int selectedIndex = typeList.getSelectedIndex();
+		if (selectedIndex<0) return null;
+		String typeValue = typeList.getValue(selectedIndex);
+		if (NO_TYPE_VALUE.equals(typeValue)) return null;
+		return ColumnType.valueOf(typeValue);
 	}
 	
 	public String getLanguage()

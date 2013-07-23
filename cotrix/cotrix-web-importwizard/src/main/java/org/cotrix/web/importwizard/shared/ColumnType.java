@@ -9,7 +9,22 @@ package org.cotrix.web.importwizard.shared;
  */
 public enum ColumnType {
 	
-	CODE,
-	DESCRIPTION;
+	CODE("Code"),
+	DESCRIPTION("Description");
+	
+	private String label;
 
+	/**
+	 * @param label
+	 */
+	private ColumnType(String label) {
+		this.label = label;
+	}
+
+	/**
+	 * @return the label
+	 */
+	public String getLabel() {
+		return label;
+	}
 }

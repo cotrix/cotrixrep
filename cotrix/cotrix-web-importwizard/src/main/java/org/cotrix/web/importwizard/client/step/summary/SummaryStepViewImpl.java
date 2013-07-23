@@ -82,7 +82,7 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	protected HTML getType(ColumnDefinition column)
 	{
 		if (column.getType()==null) return new HTML("Not Defined");
-		StringBuilder text = new StringBuilder(column.getType().toString());
+		StringBuilder text = new StringBuilder(column.getType().getLabel());
 		if (column.getLanguage()!=null) text.append(" (").append(column.getLanguage()).append(')');
 		return new HTML(text.toString());
 	}

@@ -25,17 +25,7 @@
 		</ui:style>
 	<g:FlowPanel>
 		<g:HorizontalPanel>
-			<g:ListBox ui:field="typeList" styleName="{style.listBox}">
-				<g:item value='0'>
-					------ Select Type ------
-				</g:item>
-				<g:item value='1'>
-					Code
-				</g:item>
-				<g:item value='2'>
-					Description
-				</g:item>
-			</g:ListBox>
+			<g:ListBox ui:field="typeList" styleName="{style.listBox}" />
 			<g:Label ui:field="inLabel" styleName="{style.textPadding}" visible="false">in</g:Label>
 			<g:ListBox ui:field="languageList" styleName="{style.listBox}"
 				visible="false" />
