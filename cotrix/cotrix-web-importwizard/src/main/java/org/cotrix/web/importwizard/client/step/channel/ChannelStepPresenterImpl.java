@@ -9,6 +9,8 @@ import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -50,12 +52,20 @@ public class ChannelStepPresenterImpl extends AbstractWizardStep implements Chan
 
 	@Override
 	public void assetSelected(AssetInfo asset) {
+		Log.trace("Asset selected "+asset);
 		this.assetInfo = asset;
-		importEventBus.fireEvent(new CodeListSelectedEvent());
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			
+			@Override
+			public void execute() {
+				importEventBus.fireEvent(new CodeListSelectedEvent());
+			}
+		});
 	}
 
 	@Override
 	public void assetDetails(AssetInfo asset) {
+		Log.trace("getting asset details for "+asset);
 		importService.getAssetDetails(asset.getId(), new AsyncCallback<AssetDetails>() {
 			
 			@Override

@@ -151,10 +151,10 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	
 	protected void uploadDone()
 	{
-		view.setUploadComplete();
 		progressPolling.cancel();
 		complete = true;
 		importEventBus.fireEvent(new FileUploadedEvent());
+		view.setUploadComplete();
 	}
 	
 	protected void uploadFailed()
@@ -172,7 +172,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 
 	public boolean isComplete() {
 		//FIXME for test
-		importEventBus.fireEvent(new FileUploadedEvent());
+		//importEventBus.fireEvent(new FileUploadedEvent());
 		return true;//FIXME for test complete;
 	}
 	

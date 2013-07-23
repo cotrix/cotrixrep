@@ -31,6 +31,7 @@ import org.cotrix.web.importwizard.shared.ImportProgress;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -116,7 +117,12 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	
 	protected void importedItemUpdated()
 	{
+		Log.trace("importedItemUpdated");
+		
+		Log.trace("getting preview data");
 		getPreviewData();
+		
+		Log.trace("getting codelist type");
 		getCodeListType(new Callback<CodeListType, Void>() {
 
 			@Override
@@ -131,8 +137,14 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				}				
 			}
 		});
+		
+		Log.trace("getting metadata");
 		getMetadata();
+		
+		Log.trace("getting columns");
 		getColumns();
+		
+		Log.trace("done importedItemUpdated");
 	}
 	
 	protected void getPreviewData()
