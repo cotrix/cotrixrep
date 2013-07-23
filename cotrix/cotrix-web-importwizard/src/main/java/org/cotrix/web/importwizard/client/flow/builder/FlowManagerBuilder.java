@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.flow.AbstractNode;
+import org.cotrix.web.importwizard.client.flow.CheckPointNode;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
 import org.cotrix.web.importwizard.client.flow.FlowNode;
+import org.cotrix.web.importwizard.client.flow.CheckPointNode.CheckPointHandler;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
 import org.cotrix.web.importwizard.client.flow.SingleNode;
 import org.cotrix.web.importwizard.client.flow.SwitchNode;
@@ -30,6 +32,7 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 	protected T item;
 	protected List<FlowManagerBuilder<T>> nexts;
 	protected NodeSelector<T> selector;
+	protected CheckPointHandler checkPointHandler;
 	
 	protected AbstractNode<T> built;
 	
@@ -51,6 +54,13 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 		FlowManagerBuilder<T> builder = (FlowManagerBuilder<T>)node;
 		nexts = Collections.singletonList(builder);
 		return node;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <I extends NodeBuilder<T>> I hasCheckPoint(CheckPointHandler checkPointHandler)
+	{
+		this.checkPointHandler = checkPointHandler;
+		return (I) this;
 	}
 	
 	@Override
@@ -80,40 +90,46 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 		if (nexts!=null) for (FlowManagerBuilder<T> next:nexts) next.resetBuilt(); 
 	}
 	
-	protected AbstractNode<T> internalBuild(FlowUpdatedHandler handler)
+	protected FlowNode<T> internalBuild(FlowUpdatedHandler handler)
 	{
 		if (built!=null) return built;
 		
 		if (nexts == null) {
 			SingleNode<T> node = new SingleNode<T>(item);
 			node.addFlowUpdatedHandler(handler);
-			return node;
+			return wrapCheckPoint(node);
 		}
 		
 		if (nexts.size()==1) {
-			AbstractNode<T> next = nexts.get(0).internalBuild(handler);
+			FlowNode<T> next = nexts.get(0).internalBuild(handler);
 			
 			SingleNode<T> node = new SingleNode<T>(item);
 			node.setNext(next);
 			
 			node.addFlowUpdatedHandler(handler);
 			
-			return node;
+			return wrapCheckPoint(node);
 		}
 		
 		if (nexts.size()>1) {
 			List<FlowNode<T>> children = new ArrayList<FlowNode<T>>(nexts.size());
 			for (FlowManagerBuilder<T> builder:nexts) {
-				AbstractNode<T> child = builder.internalBuild(handler);
+				FlowNode<T> child = builder.internalBuild(handler);
 				children.add(child);
 			}
 		
 			SwitchNode<T> node = new SwitchNode<T>(item, children, selector);
 			node.addFlowUpdatedHandler(handler);
-			return node;
+			return wrapCheckPoint(node);
 		}
 		
 		return null;
+	}
+	
+	protected FlowNode<T> wrapCheckPoint(FlowNode<T> node)
+	{
+		if (checkPointHandler == null) return node;
+		return new CheckPointNode<T>(node, checkPointHandler);
 	}
 	
 	@Override
