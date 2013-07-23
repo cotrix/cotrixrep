@@ -126,7 +126,7 @@ public class ColumnDefinitionPanel extends Composite {
 	
 	public String getLanguage()
 	{
-		if (languageList.getSelectedIndex()<0) return null;
+		if (!languageList.isVisible() || languageList.getSelectedIndex()<0) return null;
 		return languageList.getValue(languageList.getSelectedIndex());
 	}
 	
