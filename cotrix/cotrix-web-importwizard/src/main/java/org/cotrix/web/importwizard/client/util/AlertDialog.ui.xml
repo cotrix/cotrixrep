@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:o="urn:import:org.apache.xpath.operations">
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 	<ui:style>
 		.panel {
 			border: 1px solid #999;
