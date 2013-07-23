@@ -1,5 +1,8 @@
 package org.cotrix.web.importwizard.client.step.mapping;
 
+import java.util.Arrays;
+
+import org.cotrix.web.importwizard.client.resources.ImportConstants;
 import org.cotrix.web.importwizard.shared.ColumnType;
 
 import com.google.gwt.core.client.GWT;
@@ -47,6 +50,10 @@ public class ColumnDefinitionPanel extends Composite {
 				updateLanguageList();
 			}
 		});
+		
+		String[] languages = ImportConstants.INSTANCE.languages();
+		Arrays.sort(languages);
+		for (String language:languages) languageList.addItem(language);
 		
 	}
 	
