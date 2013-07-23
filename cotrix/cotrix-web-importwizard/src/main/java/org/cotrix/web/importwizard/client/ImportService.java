@@ -10,6 +10,7 @@ import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
+import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.UploadProgress;
 import org.cotrix.web.share.shared.CotrixImportModel;
@@ -47,5 +48,9 @@ public interface ImportService extends RemoteService {
 	public void updateCsvParserConfiguration(CsvParserConfiguration configuration) throws ImportServiceException;
 	
 	public List<ColumnDefinition> getColumns() throws ImportServiceException;
+	
+	public void startImport(ImportMetadata metadata, List<ColumnDefinition> columns) throws ImportServiceException;
+	
+	public ImportProgress getImportProgress() throws ImportServiceException;
 	
 }

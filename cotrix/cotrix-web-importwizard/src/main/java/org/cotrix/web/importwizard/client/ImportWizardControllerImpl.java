@@ -9,20 +9,28 @@ import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEven
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent.CsvParserConfigurationEditedHandler;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
+import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
+import org.cotrix.web.importwizard.client.event.ImportStartedEvent;
 import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent.MappingUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.StartImportEvent;
+import org.cotrix.web.importwizard.client.event.StartImportEvent.StartImportHandler;
 import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.shared.ColumnDefinition;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
+import org.cotrix.web.importwizard.shared.ImportProgress;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -41,10 +49,24 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	@Inject
 	protected ImportWizardPresenter importWizardPresenter;
 	
+	protected ImportMetadata metadata;
+	protected List<ColumnDefinition> columns;
+	
+	protected Timer importProgressPolling;
+	
 	@Inject
 	public ImportWizardControllerImpl(@ImportBus EventBus importEventBus)
 	{
 		this.importEventBus = importEventBus;
+		
+		importProgressPolling = new Timer() {
+			
+			@Override
+			public void run() {
+				getImportProgress();
+			}
+		};
+		
 		bind();
 	}
 	
@@ -65,10 +87,30 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		importEventBus.addHandler(CsvParserConfigurationEditedEvent.TYPE, new CsvParserConfigurationEditedHandler(){
 
 			@Override
-			public void onCsvParserConfigurationEdited(
-					CsvParserConfigurationEditedEvent event) {
+			public void onCsvParserConfigurationEdited(CsvParserConfigurationEditedEvent event) {
 				saveCsvParserConfiguration(event.getConfiguration());
 			}});
+		importEventBus.addHandler(MetadataUpdatedEvent.TYPE, new MetadataUpdatedHandler(){
+
+			@Override
+			public void onMetadataUpdated(MetadataUpdatedEvent event) {
+				if (event.isUserEdited()) metadata = event.getMetadata();				
+			}
+		});
+		importEventBus.addHandler(MappingUpdatedEvent.TYPE, new MappingUpdatedHandler() {
+			
+			@Override
+			public void onMappingUpdated(MappingUpdatedEvent event) {
+				if (event.isUserEdit()) columns = event.getColumns();
+			}
+		});
+		importEventBus.addHandler(StartImportEvent.TYPE, new StartImportHandler() {
+			
+			@Override
+			public void onStartImport(StartImportEvent event) {
+				startImport();
+			}
+		});
 	}
 	
 	protected void importedItemUpdated()
@@ -168,7 +210,8 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 			@Override
 			public void onSuccess(ImportMetadata result) {
-				importEventBus.fireEvent(new MetadataUpdatedEvent(result, false));				
+				importEventBus.fireEvent(new MetadataUpdatedEvent(result, false));
+				metadata = result;
 			}
 		});
 	}
@@ -185,8 +228,58 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			@Override
 			public void onSuccess(List<ColumnDefinition> result) {
 				importEventBus.fireEvent(new MappingUpdatedEvent(result, false));
+				columns = result;
 			}
 		});
+	}
+	
+	protected void startImport()
+	{
+		Log.trace("starting import");
+		importService.startImport(metadata, columns, new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("Error starting the import", caught);
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				importEventBus.fireEvent(new ImportStartedEvent());
+				importProgressPolling.scheduleRepeating(1000);
+			}
+			
+		});
+	}
+	
+	protected void getImportProgress()
+	{
+		importService.getImportProgress(new AsyncCallback<ImportProgress>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("Error getting the import progress", caught);
+			}
+
+			@Override
+			public void onSuccess(ImportProgress result) {
+				Log.trace("Import progress: "+result);
+				updateImportProgress(result);			
+			}
+		});
+	}
+	
+	protected void updateImportProgress(ImportProgress progress)
+	{
+		switch (progress.getStatus()) {
+			case FAILED:
+			case DONE: {
+				importProgressPolling.cancel();
+			} break;
+			default:
+				break;
+		}
+		importEventBus.fireEvent(new ImportProgressEvent(progress));
 	}
 
 	public void go(HasWidgets container) {

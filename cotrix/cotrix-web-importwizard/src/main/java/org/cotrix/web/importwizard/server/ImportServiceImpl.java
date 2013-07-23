@@ -17,6 +17,7 @@ import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
+import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
@@ -219,6 +220,23 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		}
 
 		return columns;
+	}
+
+	@Override
+	public void startImport(ImportMetadata metadata,
+			List<ColumnDefinition> columns) throws ImportServiceException {
+		importProgress = 0;
+	}
+	
+	int importProgress = 0;
+
+	@Override
+	public ImportProgress getImportProgress() throws ImportServiceException {
+		importProgress += random.nextInt(30);
+		ImportProgress progress = new ImportProgress();
+		progress.setStatus(importProgress>100?ImportProgress.Status.DONE:ImportProgress.Status.ONGOING);
+		progress.setReport("All fine p: "+importProgress);
+		return progress;
 	}
 
 

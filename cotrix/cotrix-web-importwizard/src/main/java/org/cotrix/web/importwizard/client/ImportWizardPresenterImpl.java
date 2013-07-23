@@ -3,8 +3,10 @@ package org.cotrix.web.importwizard.client;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.StartImportEvent;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent;
+import org.cotrix.web.importwizard.client.flow.CheckPointNode.CheckPointHandler;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
 import org.cotrix.web.importwizard.client.flow.builder.FlowManagerBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.RootNodeBuilder;
@@ -43,7 +45,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	protected EventBus importEventBus;
 
 	@Inject
-	public ImportWizardPresenterImpl(@ImportBus EventBus importEventBus, ImportWizardView view,  
+	public ImportWizardPresenterImpl(@ImportBus final EventBus importEventBus, ImportWizardView view,  
 			SourceSelectionStepPresenter sourceStepPresenter,
 			UploadStepPresenter uploadFormPresenter,
 			ChannelStepPresenter channelStepPresenter,
@@ -64,7 +66,15 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		SingleNodeBuilder<WizardStep> channel = root.hasAlternatives(selector).alternative(channelStepPresenter);
 		channel.next(preview);
 		
-		preview.next(metadataStepPresenter).next(headerTypeStepPresenter).next(summaryStepPresenter).next(doneStepPresenter);
+		CheckPointHandler saveCheckPoint = new CheckPointHandler() {
+
+			@Override
+			public void check() {
+				importEventBus.fireEvent(new StartImportEvent());
+			}
+		};
+		
+		preview.next(metadataStepPresenter).next(headerTypeStepPresenter).next(summaryStepPresenter).hasCheckPoint(saveCheckPoint).next(doneStepPresenter);
 		
 		flow = root.build();
 		flow.addFlowUpdatedHandler(this);

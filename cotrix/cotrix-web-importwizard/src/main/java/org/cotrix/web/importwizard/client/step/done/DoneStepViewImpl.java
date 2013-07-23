@@ -35,5 +35,16 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 		this.title.setText(title);
 	}
 
+	@Override
+	public void mask() {
+		title.setText("MASK");
+		
+	}
+
+	@Override
+	public void unmask() {
+		title.setText("UNMASK");
+	}
+
 
 }
