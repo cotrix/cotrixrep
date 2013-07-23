@@ -24,7 +24,6 @@ import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.importwizard.shared.UploadProgress;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration.NewLine;
 import org.cotrix.web.importwizard.shared.UploadProgress.Status;
-import org.cotrix.web.share.shared.CotrixImportModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,18 +43,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	org.cotrix.io.ImportService service;*/
 
 	protected Logger logger = LoggerFactory.getLogger(ImportServiceImpl.class);
-
-	@Override
-	public boolean sendToServer(CotrixImportModel model) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void testBackendConnection() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
-	}
 
 	/** 
 	 * {@inheritDoc}

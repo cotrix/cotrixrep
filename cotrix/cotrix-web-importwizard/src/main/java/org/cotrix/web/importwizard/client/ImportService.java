@@ -13,7 +13,6 @@ import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.UploadProgress;
-import org.cotrix.web.share.shared.CotrixImportModel;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -24,10 +23,6 @@ import com.google.gwt.view.client.Range;
  */
 @RemoteServiceRelativePath("importService")
 public interface ImportService extends RemoteService {
-	
-	boolean sendToServer(CotrixImportModel model) throws IllegalArgumentException;
-	
-	void testBackendConnection() throws IllegalArgumentException;
 	
 	ArrayList<AssetInfo> getAssets(Range range) throws ImportServiceException;
 	

@@ -3,10 +3,8 @@ package org.cotrix.web.importwizard.client;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent;
-import org.cotrix.web.importwizard.client.flow.CheckPointNode.CheckPointHandler;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
 import org.cotrix.web.importwizard.client.flow.builder.FlowManagerBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.RootNodeBuilder;
@@ -28,7 +26,6 @@ import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.Navigatio
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
@@ -215,10 +212,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		updateTrackerLabels();
 	}
 
-
-
-
-
 	public void onUploadOtherButtonClicked() {
 		//uploadFormPresenter.reset();
 		//view.showPrevStep(1);
@@ -226,12 +219,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	public void onManageCodelistButtonClicked() {
 		Window.alert("Go to manage codelist");
-	}
-
-	public void uploadFileFinish(SubmitCompleteEvent event) {
-		//view.showPrevStep(steps.size());
-		//doneFormPresenter.setDoneTitle("Successful upload file to server !!!");
-		//doneFormPresenter.setWarningMessage(event.getResults());
 	}
 
 	@Override
