@@ -2,6 +2,8 @@ body {
 	height: 100%;
 }
 
+/* DATE PICKER */
+
 .gwt-DatePicker {
 	border: 1px solid #ccc;
 	border-top: 1px solid #999;

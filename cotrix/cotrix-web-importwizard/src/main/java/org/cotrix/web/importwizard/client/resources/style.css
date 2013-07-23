@@ -10,7 +10,7 @@
  *    * html .gwt-Widget {
  *      property: rule applies to all versions of IE
  *    }
- */
+
 
 body, table td, select {
   font-family: Arial Unicode MS, Arial, sans-serif;
@@ -30,6 +30,12 @@ body {
 }
 a, a:visited, a:hover {
   color: #0000AA;
+} */
+
+.gwt-PopupPanelGlass {
+  background-color: #000;
+  opacity: 0.3;
+  filter: alpha(opacity=30);
 }
 
 
