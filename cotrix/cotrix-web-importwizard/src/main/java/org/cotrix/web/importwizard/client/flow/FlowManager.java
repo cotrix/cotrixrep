@@ -79,6 +79,12 @@ public class FlowManager<T> implements FlowUpdatedHandler, HasFlowUpdatedHandler
 		}
 		return flow;
 	}
+	
+	public void reset()
+	{
+		stack.clear();
+		currentNode = flowRoot;
+	}
 
 	@Override
 	public void fireEvent(GwtEvent<?> event) {

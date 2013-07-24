@@ -3,6 +3,8 @@ package org.cotrix.web.importwizard.client;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
+import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
@@ -24,7 +26,6 @@ import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationHandler;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -33,7 +34,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler, FlowUpdatedHandler {
+public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler, FlowUpdatedHandler, ResetWizardHandler {
 
 	protected FlowManager<WizardStep> flow;
 
@@ -82,6 +83,13 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		
 		bind();
 	}
+	
+	@Override
+	public void onResetWizard(ResetWizardEvent event) {
+		flow.reset();
+		updateTrackerLabels();
+		updateCurrentStep();
+	}
 
 	protected void registerStep(WizardStep step){
 		view.addStep(step);
@@ -90,6 +98,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	public void bind()
 	{
 		importEventBus.addHandler(NavigationEvent.TYPE, this);
+		importEventBus.addHandler(ResetWizardEvent.TYPE, this);
 	}
 
 	public void go(HasWidgets container) {
@@ -211,23 +220,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	public void onFlowUpdated(FlowUpdatedEvent event) {
 		updateTrackerLabels();
 	}
-
-	public void onUploadOtherButtonClicked() {
-		//uploadFormPresenter.reset();
-		//view.showPrevStep(1);
-	}
-
-	public void onManageCodelistButtonClicked() {
-		Window.alert("Go to manage codelist");
-	}
-
-	@Override
-	public void addForm(HasWidgets container) {
-		// TODO Auto-generated method stub
-
-	}
-
-
 
 
 }

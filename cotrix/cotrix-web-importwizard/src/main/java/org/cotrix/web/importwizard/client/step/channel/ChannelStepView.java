@@ -15,6 +15,7 @@ public interface ChannelStepView {
 	}
 	
 	public void showAssetDetails(AssetDetails asset);
+	public void reset();
 	void alert(String message);
 	
 	void setPresenter(Presenter presenter);

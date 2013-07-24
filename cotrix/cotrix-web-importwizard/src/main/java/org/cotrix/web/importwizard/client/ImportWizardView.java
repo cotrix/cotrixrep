@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.step.WizardStep;
 
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface ImportWizardView {
@@ -13,10 +12,6 @@ public interface ImportWizardView {
 	public interface Presenter {
 		void onFowardButtonClicked();
 		void onBackwardButtonClicked();
-
-		void onUploadOtherButtonClicked();
-		void onManageCodelistButtonClicked();
-		void addForm(HasWidgets container);
 	}
 	
 	void addStep(WizardStep step);

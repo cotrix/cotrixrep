@@ -5,6 +5,8 @@ import java.util.Arrays;
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
+import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListType;
@@ -24,7 +26,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UploadStepPresenterImpl extends AbstractWizardStep implements UploadStepPresenter {
+public class UploadStepPresenterImpl extends AbstractWizardStep implements UploadStepPresenter, ResetWizardHandler {
 
 	protected static final String[] CSV_MIMETYPE = new String[]{"text/csv","text/plain"};
 	protected static final String XML_MIMETYPE = "text/xml";
@@ -34,8 +36,6 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	@Inject
 	protected ImportServiceAsync importService;
 	
-	@Inject
-	@ImportBus 
 	protected EventBus importEventBus;
 	
 	protected Timer progressPolling;
@@ -47,7 +47,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 
 
 	@Inject
-	public UploadStepPresenterImpl(UploadStepView view) {
+	public UploadStepPresenterImpl(UploadStepView view, @ImportBus EventBus importEventBus) {
 		super("upload", "Upload File", "Upload Codelist File", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
@@ -59,6 +59,9 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 				getUploadProgress();
 			}
 		};
+		
+		this.importEventBus = importEventBus;
+		importEventBus.addHandler(ResetWizardEvent.TYPE, this);
 	}
 		
 	/** 
@@ -165,10 +168,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	}
 	
 	public void onDeleteButtonClicked() {
-		progressPolling.cancel();
-		//view.resetFileUpload();
-		view.reset();
-		complete = false;
+		reset();
 	}
 
 	public boolean isComplete() {
@@ -189,6 +189,19 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	public void onRetryButtonClicked() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void onResetWizard(ResetWizardEvent event) {
+		reset();
+	}
+	
+	protected void reset()
+	{
+		progressPolling.cancel();
+		//view.resetFileUpload();
+		view.reset();
+		complete = false;
 	}
 
 }

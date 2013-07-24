@@ -172,57 +172,9 @@ public class ChannelStepViewImpl extends Composite implements ChannelStepView {
 		
 	}
 
-
-	/*protected void setupHeader() {
-		for (int i = 0; i < headers.length; i++) {
-			TextBox header = new TextBox();
-			header.setText(headers[i]);
-			header.setStyleName(style.textbox());
-			codelistGrid.setWidget(0, i, header);
-			codelistGrid.getCellFormatter().setStyleName(0, i, style.flextTableHeader());
-		}
-		//setDefaultSelected(false);
-	}*/
-
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
-
-	/*private void setDefaultSelected(boolean show){
-		for (int j = 0; j < columnCount; j++) {
-			if(show){
-				codelistGrid.getCellFormatter().setStyleName(1, j, style.flextTableHeader());
-			}else{
-				codelistGrid.getCellFormatter().removeStyleName(1, j, style.flextTableHeader());
-			}
-		}
-	}*/
-
-	/*public void setData(String[] headers, ArrayList<String[]> data) {
-		this.columnCount = headers.length;
-		for (int i = 0; i < headers.length; i++) {
-			codelistGrid.setWidget(1, i, new HTML(headers[i]));
-			codelistGrid.getCellFormatter().setStyleName(1, i,style.flextTableHeader());
-		}
-
-		int rowCount = (data.size()<8)?data.size():8;
-		for (int i = 1; i < rowCount; i++) {
-			String[] columns = data.get(i);
-			for (int j = 0; j < columns.length; j++) {
-				codelistGrid.setWidget(i+1, j, new HTML(columns[j]));
-			}
-		}
-	}
-
-	public ArrayList<String> getHeaders() {
-		ArrayList<String> headers = new ArrayList<String>();
-
-		for (int i = 0; i < codelistGrid.getCellCount(1); i++) {
-			HTML column = (HTML) codelistGrid.getWidget(1, i);
-			headers.add(column.getText());
-		}
-		return headers;
-	}*/
 
 	public void alert(String message) {
 		if(alertDialog == null){
@@ -238,6 +190,11 @@ public class ChannelStepViewImpl extends Composite implements ChannelStepView {
 		if (detailsDialog == null) detailsDialog = new ChannelDetailsDialog();
 		detailsDialog.setAsset(asset);
 		detailsDialog.center();
+	}
+	
+	public void reset()
+	{
+		dataGrid.redraw();
 	}
 
 

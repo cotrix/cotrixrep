@@ -16,16 +16,105 @@
 		}
 		
 		.message {
-			color:#f385a2;
-			margin-top:20px;
+			color: #f385a2;
+			margin-top: 20px;
 			padding: 20px;
 			border: 1px solid #999;
 			background-color: #ccc;
+			text-align: left;
+		}
+		
+		.manageCodelist {
+			float: right;
+			margin-right: 20px;
+			border: 1px solid #3063a1;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			width: 130px;
+			font-size: 12px;
+			font-family: arial, helvetica, sans-serif;
+			padding: 8px 8px 8px 8px;
+			text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+			font-weight: bold;
 			text-align: center;
+			color: #E8E8E8;
+			background-color: #427EC7;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
+				color-stop(100%, #518EE2) );
+			background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -o-linear-gradient(top, #427EC7, #518EE2);
+			background-image: linear-gradient(top, #427EC7, #518EE2);
+			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#427EC7, endColorstr=#518EE2)");
+		}
+		
+		.manageCodelist:hover {
+			border: 1px solid #254d7e;
+			background-color: #3165a5;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
+				color-stop(100%, #2572db) );
+			background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
+			background-image: -moz-linear-gradient(top, #3165a5, #2572db);
+			background-image: -ms-linear-gradient(top, #3165a5, #2572db);
+			background-image: -o-linear-gradient(top, #3165a5, #2572db);
+			background-image: linear-gradient(top, #3165a5, #2572db);
+			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#3165a5, endColorstr=#2572db)");
+		}
+		
+		.uploadOther {
+			float: left;
+			margin-left: 20px;
+			border: 1px solid #3063a1;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			width: 130px;
+			font-size: 12px;
+			font-family: arial, helvetica, sans-serif;
+			padding: 8px 8px 8px 8px;
+			text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+			font-weight: bold;
+			text-align: center;
+			color: #E8E8E8;
+			background-color: #427EC7;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
+				color-stop(100%, #518EE2) );
+			background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
+			background-image: -o-linear-gradient(top, #427EC7, #518EE2);
+			background-image: linear-gradient(top, #427EC7, #518EE2);
+			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#427EC7, endColorstr=#518EE2)");
+		}
+		
+		.uploadOther:hover {
+			border: 1px solid #254d7e;
+			background-color: #3165a5;
+			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
+				color-stop(100%, #2572db) );
+			background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
+			background-image: -moz-linear-gradient(top, #3165a5, #2572db);
+			background-image: -ms-linear-gradient(top, #3165a5, #2572db);
+			background-image: -o-linear-gradient(top, #3165a5, #2572db);
+			background-image: linear-gradient(top, #3165a5, #2572db);
+			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#3165a5, endColorstr=#2572db)");
 		}
 	</ui:style>
 	<g:HTMLPanel>
 		<g:Label ui:field="title" styleName="{style.title}"></g:Label>
-		<g:Label ui:field="message" styleName="{style.message}"></g:Label>
+		<div>Report</div>
+		<g:ScrollPanel>
+			<g:HTML ui:field="message" styleName="{style.message}"></g:HTML>
+		</g:ScrollPanel>
+		<g:HorizontalPanel width="100%">
+			<g:cell horizontalAlignment="center">
+				<g:Button ui:field="importButton"  styleName="{style.uploadOther}">Import a new CodeList</g:Button>
+			</g:cell>
+			<g:cell horizontalAlignment="center">
+				<g:Button ui:field="manageButton" styleName="{style.manageCodelist}">Manage the CodeList</g:Button>
+			</g:cell>
+		</g:HorizontalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -2,6 +2,7 @@ package org.cotrix.web.importwizard.client.step.done;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
+import org.cotrix.web.importwizard.client.event.NewImportEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent.ImportProgressHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
@@ -12,12 +13,15 @@ import com.google.web.bindery.event.shared.EventBus;
 
 public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneStepPresenter, ImportProgressHandler {
 	
-	private DoneStepView view;
+	protected DoneStepView view;
+	protected EventBus importEventBus;
 	
 	@Inject
 	public DoneStepPresenterImpl(DoneStepView view, @ImportBus EventBus importEventBus) {
-		super("done","Done", "Done", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.NONE);
+		super("done","Done", "Done", NavigationButtonConfiguration.NONE, NavigationButtonConfiguration.NONE);
 		this.view = view;
+		view.setPresenter(this);
+		this.importEventBus = importEventBus;
 		importEventBus.addHandler(ImportProgressEvent.TYPE, this);
 	}
 	
@@ -33,16 +37,27 @@ public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneSte
 	public void onImportProgress(ImportProgressEvent event) {
 		switch (event.getProgress().getStatus()) {
 			case DONE: {
-				view.setTitle("Codelist successfully imported");
+				view.setStepTitle("Codelist successfully imported");
 				view.setMessage(event.getProgress().getReport());
 			} break;
 			case FAILED: {
-				view.setTitle("Codelist import failed");
+				view.setStepTitle("Codelist import failed");
 				view.setMessage(event.getProgress().getReport());
 			} break;
 
 			default:
 				break;
 		}		
+	}
+
+	@Override
+	public void importButtonClicked() {
+		importEventBus.fireEvent(new NewImportEvent());
+	}
+
+	@Override
+	public void manageButtonClicked() {
+		// TODO Auto-generated method stub
+		
 	}
 }

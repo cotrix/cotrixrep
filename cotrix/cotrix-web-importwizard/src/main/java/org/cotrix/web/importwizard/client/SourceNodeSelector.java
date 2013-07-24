@@ -6,7 +6,9 @@ package org.cotrix.web.importwizard.client;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent;
+import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent.SourceTypeChangeHandler;
 import org.cotrix.web.importwizard.client.flow.AbstractNodeSelector;
 import org.cotrix.web.importwizard.client.flow.FlowNode;
@@ -22,7 +24,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> implements SourceTypeChangeHandler {
+public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> implements SourceTypeChangeHandler, ResetWizardHandler {
 	
 	protected ChannelStepPresenter channelStep;
 	protected UploadStepPresenter uploadStep;
@@ -38,6 +40,9 @@ public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> impleme
 	}
 	
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public FlowNode<WizardStep> selectNode(List<FlowNode<WizardStep>> children) {
 		
@@ -46,6 +51,9 @@ public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> impleme
 		return null;
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onSourceTypeChange(SourceTypeChangeEvent event) {
 		Log.trace("switching source to "+event.getSourceType());
@@ -54,6 +62,15 @@ public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> impleme
 			case FILE: nextStep = uploadStep; break;
 		}
 		switchUpdated();
+	}
+
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void onResetWizard(ResetWizardEvent event) {
+		nextStep = uploadStep;		
 	}
 
 }

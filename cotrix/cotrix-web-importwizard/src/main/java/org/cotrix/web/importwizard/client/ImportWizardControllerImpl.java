@@ -12,6 +12,9 @@ import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportStartedEvent;
 import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.NewImportEvent;
+import org.cotrix.web.importwizard.client.event.NewImportEvent.NewImportHandler;
+import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent.MappingUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
@@ -31,7 +34,6 @@ import org.cotrix.web.importwizard.shared.ImportProgress;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -113,6 +115,12 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				startImport();
 			}
 		});
+		importEventBus.addHandler(NewImportEvent.TYPE, new NewImportHandler(){
+
+			@Override
+			public void onNewImport(NewImportEvent event) {
+				newImportRequested();
+			}});
 	}
 	
 	protected void importedItemUpdated()
@@ -287,6 +295,14 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		if (progress.isComplete()) importProgressPolling.cancel();
 		importEventBus.fireEvent(new ImportProgressEvent(progress));
 		if (progress.isComplete()) importEventBus.fireEvent(NavigationEvent.FORWARD);
+	}
+	
+	protected void newImportRequested()
+	{
+		metadata = null;
+		columns = null;
+		importProgressPolling.cancel();
+		importEventBus.fireEvent(new ResetWizardEvent());
 	}
 
 	public void go(HasWidgets container) {
