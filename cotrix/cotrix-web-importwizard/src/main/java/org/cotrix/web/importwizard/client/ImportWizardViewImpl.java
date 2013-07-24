@@ -37,8 +37,6 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	
 	@UiField Button forwardButton;
 	@UiField Button backwardButton;
-	@UiField Button uploadOtherButton;
-	@UiField Button manageCodelistButton;
 
 	private ProgressTracker progressTracker;
 	protected int currentIndex = 0;
@@ -128,28 +126,6 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 		forwardButton.setText(label);
 	}
 	
-
-	/*public void initProgressBarTracker(){
-
-	}
-
-	public void initForm(){
-		presenter.initForm(stepsPanel);
-		stepsPanel.showWidget(0);
-	}
-
-	public void showNextStep(int index) {
-		stepsPanel.showWidget(index + 1);
-		//progressTracker.setActiveIndex(index + 2);		
-	}
-
-	public void showPrevStep(int index) {
-		stepsPanel.showWidget(index -1);
-		//progressTracker.setActiveIndex(index);
-	}*/
-	
-	
-	
 	@UiHandler("forwardButton")
 	public void onForwardButtonClicked(ClickEvent event){
 		presenter.onFowardButtonClicked();
@@ -159,20 +135,6 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	public void onBackwardButtonClicked(ClickEvent event){
 		presenter.onBackwardButtonClicked();
 	}
-	
-	@UiHandler("uploadOtherButton")
-	public void onUploadOtherButtonClicked(ClickEvent event) {
-		presenter.onUploadOtherButtonClicked();
-	}
-
-	@UiHandler("manageCodelistButton")
-	public void onManageCodelistButtonClicked(ClickEvent event) {
-		presenter.onManageCodelistButtonClicked();
-	}
-
-	/*public void addForm() {
-		presenter.addForm(contentPanel);
-	}*/
 
 	public void setFormTitle(String title) {
 		this.titlePanel.setText(title);
@@ -184,14 +146,6 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 
 	public void showNextButton(boolean isVisible) {
 		this.forwardButton.setVisible(isVisible);
-	}
-
-	public void showUploadOtherButton(boolean isVisible) {
-		this.uploadOtherButton.setVisible(isVisible);
-	}
-
-	public void showManageCodelistButton(boolean isVisible) {
-		this.manageCodelistButton.setVisible(isVisible);
 	}
 
 }
