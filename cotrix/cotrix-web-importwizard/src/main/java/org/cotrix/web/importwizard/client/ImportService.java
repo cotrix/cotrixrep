@@ -12,7 +12,7 @@ import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
-import org.cotrix.web.importwizard.shared.UploadProgress;
+import org.cotrix.web.importwizard.shared.FileUploadProgress;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -28,7 +28,7 @@ public interface ImportService extends RemoteService {
 	
 	AssetDetails getAssetDetails(String assetId) throws ImportServiceException;
 	
-	public UploadProgress getUploadProgress() throws ImportServiceException;
+	public FileUploadProgress getUploadProgress() throws ImportServiceException;
 	
 	public CodeListPreviewData getPreviewData() throws ImportServiceException;
 	

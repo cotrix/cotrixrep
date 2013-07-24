@@ -24,7 +24,7 @@ public interface UploadStepView {
 	public void setupUpload(String filename, long filesize);
 	public void setUploadProgress(int progress);
 	public void setUploadFailed();
-	public void setUploadComplete();
+	public void setUploadComplete(String codeListType);
 
 	void resetFileUpload();
 	void onUploadFileChange(ChangeEvent event);

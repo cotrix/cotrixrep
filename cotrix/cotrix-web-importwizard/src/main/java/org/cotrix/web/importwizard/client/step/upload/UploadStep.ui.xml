@@ -86,6 +86,15 @@
 			margin-right: 20px;
 		}
 		
+		.fileType {
+			float: left;
+			line-height: 30px;
+			vertical-align: middle;
+			font-size: 15px;
+			color: #999;
+			margin-right: 10px;
+		}
+		
 		.uploadFailedMessage {
 			color: #c00;
 		}
@@ -154,6 +163,7 @@
 					<g:HorizontalPanel styleName="{style.fileWrapperPanel}"	ui:field="fileWrapperPanel" visible="false" >
 						<g:Label ui:field="fileNameLabel" styleName="{style.fileName}" />
 						<g:Label ui:field="fileSizeLabel" styleName="{style.fileSize}" />
+						<g:Label ui:field="fileTypeLabel" styleName="{style.fileType}" />
 						<g:cell verticalAlignment="ALIGN_MIDDLE" >
 							<g:FlowPanel ui:field="uploadPanel">
 								<f:ProgressBar ui:field="progressBar" visible="false" />

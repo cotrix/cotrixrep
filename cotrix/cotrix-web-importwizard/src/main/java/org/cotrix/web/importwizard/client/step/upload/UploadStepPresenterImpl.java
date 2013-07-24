@@ -7,7 +7,8 @@ import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
-import org.cotrix.web.importwizard.shared.UploadProgress;
+import org.cotrix.web.importwizard.shared.CodeListType;
+import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileList;
 
@@ -119,10 +120,10 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	
 	protected void getUploadProgress()
 	{
-		importService.getUploadProgress(new AsyncCallback<UploadProgress>() {
+		importService.getUploadProgress(new AsyncCallback<FileUploadProgress>() {
 			
 			@Override
-			public void onSuccess(UploadProgress result) {
+			public void onSuccess(FileUploadProgress result) {
 				updateProgress(result);
 			}
 			
@@ -135,11 +136,11 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		});
 	}
 	
-	protected void updateProgress(UploadProgress progress) {
+	protected void updateProgress(FileUploadProgress progress) {
 		Log.trace("updateProgress "+progress);
 		switch (progress.getStatus()) {
 			case ONGOING: uploadOngoing(progress.getProgress()); break;
-			case DONE: uploadDone(); break;
+			case DONE: uploadDone(progress.getCodeListType()); break;
 			case FAILED: uploadFailed(); break;
 		}
 	}
@@ -149,12 +150,12 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		view.setUploadProgress(progress);
 	}
 	
-	protected void uploadDone()
+	protected void uploadDone(CodeListType codeListType)
 	{
 		progressPolling.cancel();
 		complete = true;
 		importEventBus.fireEvent(new FileUploadedEvent());
-		view.setUploadComplete();
+		view.setUploadComplete(codeListType.toString());
 	}
 	
 	protected void uploadFailed()

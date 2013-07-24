@@ -41,6 +41,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	
 	@UiField Label fileNameLabel;
 	@UiField Label fileSizeLabel;
+	@UiField Label fileTypeLabel;
 	
 	@UiField Label retryButton;
 	
@@ -55,8 +56,6 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 
 	public UploadStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		fileNameLabel.setText("catch statistics.csv");
-		fileSizeLabel.setText("(10K)");
 		
 		form.setAction(GWT.getModuleBaseURL()+"fileupload");
 		
@@ -75,6 +74,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	{
 		browseButton.setVisible(false);
 		fileWrapperPanel.setVisible(true);
+		fileTypeLabel.setVisible(false);
 		
 		uploadPanel.setVisible(true);
 		uploadFailPanel.setVisible(false);
@@ -98,12 +98,15 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 		uploadFailPanel.setVisible(true);
 	}
 	
-	public void setUploadComplete()
+	public void setUploadComplete(String codeListType)
 	{
 		progressBar.setVisible(false);
+		fileTypeLabel.setText(codeListType);
+		fileTypeLabel.setVisible(true);
 	}
 
 	public void resetFileUpload() {
+		fileTypeLabel.setVisible(false);
 		browseButton.setVisible(true);
 		fileWrapperPanel.setVisible(false);
 	}

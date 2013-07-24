@@ -9,24 +9,26 @@ import java.io.Serializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UploadProgress implements Serializable {
+public class FileUploadProgress implements Serializable {
 	
 	private static final long serialVersionUID = -5904685977710138006L;
 	
-	public enum Status{ONGOING, FAILED, DONE};
+	public enum Status {ONGOING, FAILED, DONE};
 	
 	protected int progress;
 	protected Status status;
+	protected CodeListType codeListType;
 	
-	public UploadProgress(){}
+	public FileUploadProgress(){}
 	
 	/**
 	 * @param progress
 	 * @param status
 	 */
-	public UploadProgress(int progress, Status status) {
+	public FileUploadProgress(int progress, Status status, CodeListType codeListType) {
 		this.progress = progress;
 		this.status = status;
+		this.codeListType = codeListType;
 	}
 
 	/**
@@ -43,18 +45,26 @@ public class UploadProgress implements Serializable {
 		return status;
 	}
 
+	/**
+	 * @return the codeListType
+	 */
+	public CodeListType getCodeListType() {
+		return codeListType;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("UploadProgress [progress=");
+		builder.append("FileUploadProgress [progress=");
 		builder.append(progress);
 		builder.append(", status=");
 		builder.append(status);
+		builder.append(", codeListType=");
+		builder.append(codeListType);
 		builder.append("]");
 		return builder.toString();
 	}
-
 }

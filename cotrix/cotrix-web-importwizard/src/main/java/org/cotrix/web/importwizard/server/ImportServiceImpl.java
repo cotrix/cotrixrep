@@ -21,9 +21,9 @@ import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
-import org.cotrix.web.importwizard.shared.UploadProgress;
+import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration.NewLine;
-import org.cotrix.web.importwizard.shared.UploadProgress.Status;
+import org.cotrix.web.importwizard.shared.FileUploadProgress.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,7 +116,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	int progress = 0;
 
 	@Override
-	public UploadProgress getUploadProgress() throws ImportServiceException {
+	public FileUploadProgress getUploadProgress() throws ImportServiceException {
 		
 		if (progress>100) progress = 0;
 		
@@ -124,7 +124,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		progress = progress==100?101:progress;
 		Status status = progress<100?Status.ONGOING:Status.DONE;
 		
-		return new UploadProgress(progress>100?100:progress, status);
+		return new FileUploadProgress(progress>100?100:progress, status, CodeListType.CSV);
 	}
 
 	@SuppressWarnings("unchecked")
