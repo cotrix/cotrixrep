@@ -33,10 +33,11 @@ public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> impleme
 	@Inject
 	public SourceNodeSelector(@ImportBus EventBus importBus, ChannelStepPresenter channelStep, UploadStepPresenter uploadStep)
 	{
-		importBus.addHandler(SourceTypeChangeEvent.TYPE, this);
 		this.channelStep = channelStep;
 		this.uploadStep = uploadStep;
 		this.nextStep = uploadStep;
+		importBus.addHandler(SourceTypeChangeEvent.TYPE, this);
+		importBus.addHandler(ResetWizardEvent.TYPE, this);
 	}
 	
 
