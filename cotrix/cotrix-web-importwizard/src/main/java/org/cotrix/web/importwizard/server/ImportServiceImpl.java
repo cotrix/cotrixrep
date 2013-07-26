@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
@@ -23,7 +25,6 @@ import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration.NewLine;
-import org.cotrix.web.importwizard.shared.FileUploadProgress.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,18 +114,18 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 	
 	Random random = new Random();
-	int progress = 0;
 
 	@Override
 	public FileUploadProgress getUploadProgress() throws ImportServiceException {
 		
-		if (progress>100) progress = 0;
-		
-		progress = progress + random.nextInt(30);
-		progress = progress==100?101:progress;
-		Status status = progress<100?Status.ONGOING:Status.DONE;
-		
-		return new FileUploadProgress(progress>100?100:progress, status, CodeListType.CSV);
+		HttpSession httpSession = this.getThreadLocalRequest().getSession();
+		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
+		FileUploadProgress uploadProgress = importSession.getUploadProgress();
+		if (uploadProgress == null) {
+			logger.error("Unexpected upload progress null.");
+			throw new ImportServiceException("Upload progress not available");
+		}
+		return uploadProgress;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -147,8 +148,10 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	@Override
 	public CodeListType getCodeListType() throws ImportServiceException {
-		//TODO implements it
-		return CodeListType.CSV;
+		HttpSession httpSession = this.getThreadLocalRequest().getSession();
+		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
+		
+		return importSession.getCodeListType();
 	}
 
 	@Override

@@ -52,6 +52,27 @@ public class FileUploadProgress implements Serializable {
 		return codeListType;
 	}
 
+	/**
+	 * @param progress the progress to set
+	 */
+	public void setProgress(int progress) {
+		this.progress = progress;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	/**
+	 * @param codeListType the codeListType to set
+	 */
+	public void setCodeListType(CodeListType codeListType) {
+		this.codeListType = codeListType;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */

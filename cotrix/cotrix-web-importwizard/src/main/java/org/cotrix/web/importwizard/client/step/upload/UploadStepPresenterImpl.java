@@ -9,7 +9,6 @@ import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
-import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileList;
@@ -30,7 +29,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 
 	protected static final String[] CSV_MIMETYPE = new String[]{"text/csv","text/plain"};
 	protected static final String XML_MIMETYPE = "text/xml";
-	protected static final int POLLING_TIME = 1000;
+	protected static final int POLLING_TIME = 500;
 	protected static final int POLLING_ERROR_TRESHOLD = 3;
 	
 	@Inject
@@ -143,7 +142,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		Log.trace("updateProgress "+progress);
 		switch (progress.getStatus()) {
 			case ONGOING: uploadOngoing(progress.getProgress()); break;
-			case DONE: uploadDone(progress.getCodeListType()); break;
+			case DONE: uploadDone(progress); break;
 			case FAILED: uploadFailed(); break;
 		}
 	}
@@ -153,12 +152,13 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		view.setUploadProgress(progress);
 	}
 	
-	protected void uploadDone(CodeListType codeListType)
+	protected void uploadDone(FileUploadProgress progress)
 	{
 		progressPolling.cancel();
+		view.setUploadProgress(progress.getProgress());
 		complete = true;
 		importEventBus.fireEvent(new FileUploadedEvent());
-		view.setUploadComplete(codeListType.toString());
+		view.setUploadComplete(progress.getCodeListType().toString());
 	}
 	
 	protected void uploadFailed()
@@ -182,7 +182,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	}
 
 	public void onSubmitComplete(SubmitCompleteEvent event) {
-
+		Log.trace("Submit complete");
 	}
 
 	@Override
