@@ -25,7 +25,7 @@ import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent.SaveHandler;
 import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
-import org.cotrix.web.importwizard.shared.ColumnDefinition;
+import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
@@ -54,7 +54,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected ImportWizardPresenter importWizardPresenter;
 	
 	protected ImportMetadata metadata;
-	protected List<ColumnDefinition> columns;
+	protected List<AttributeDefinition> columns;
 	
 	protected Timer importProgressPolling;
 	
@@ -239,7 +239,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	
 	protected void getColumns()
 	{
-		importService.getColumns(new AsyncCallback<List<ColumnDefinition>>() {
+		importService.getColumns(new AsyncCallback<List<AttributeDefinition>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -247,7 +247,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 
 			@Override
-			public void onSuccess(List<ColumnDefinition> result) {
+			public void onSuccess(List<AttributeDefinition> result) {
 				importEventBus.fireEvent(new MappingUpdatedEvent(result, false));
 				columns = result;
 			}

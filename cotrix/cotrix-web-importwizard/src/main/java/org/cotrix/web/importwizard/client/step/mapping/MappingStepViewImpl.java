@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.importwizard.shared.ColumnDefinition;
-import org.cotrix.web.importwizard.shared.ColumnType;
+import org.cotrix.web.importwizard.shared.AttributeDefinition;
+import org.cotrix.web.importwizard.shared.AttributeType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -38,19 +38,19 @@ public class MappingStepViewImpl extends Composite implements MappingStepView {
 	}
 
 	protected List<ColumnDefinitionPanel> columnPanels = new ArrayList<ColumnDefinitionPanel>();
-	protected List<ColumnDefinition> columnDefinitions = new ArrayList<ColumnDefinition>();
+	protected List<AttributeDefinition> columnDefinitions = new ArrayList<AttributeDefinition>();
 
 	public MappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
-	public void setColumns(List<ColumnDefinition> columns)
+	public void setColumns(List<AttributeDefinition> columns)
 	{
 		columnsTable.removeAllRows();
 		columnPanels.clear();
 		columnDefinitions.clear();
 		
-		for (ColumnDefinition column:columns) {
+		for (AttributeDefinition column:columns) {
 			int row = columnsTable.getRowCount();
 			Label label = new Label(column.getName());
 			label.setStyleName(style.headerlabel());
@@ -72,7 +72,7 @@ public class MappingStepViewImpl extends Composite implements MappingStepView {
 	public void setCodeTypeError()
 	{
 		for (ColumnDefinitionPanel definitionPanel:columnPanels) {
-			if (definitionPanel.getColumnType() == ColumnType.CODE) definitionPanel.setErrorStyle();
+			if (definitionPanel.getColumnType() == AttributeType.CODE) definitionPanel.setErrorStyle();
 		}
 	}
 	
@@ -81,10 +81,10 @@ public class MappingStepViewImpl extends Composite implements MappingStepView {
 		for (ColumnDefinitionPanel definitionPanel:columnPanels) definitionPanel.setNormalStyle();
 	}
 	
-	public List<ColumnDefinition> getColumns()
+	public List<AttributeDefinition> getColumns()
 	{
 		for (int i = 0; i < columnDefinitions.size(); i++) {
-			ColumnDefinition definition = columnDefinitions.get(i);
+			AttributeDefinition definition = columnDefinitions.get(i);
 			ColumnDefinitionPanel panel = columnPanels.get(i);
 			definition.setType(panel.getColumnType());
 			definition.setLanguage(panel.getLanguage());

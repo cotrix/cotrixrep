@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
-import org.cotrix.web.importwizard.shared.ColumnDefinition;
+import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
@@ -198,13 +198,13 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public List<ColumnDefinition> getColumns() throws ImportServiceException {
-		List<ColumnDefinition> columns = new ArrayList<ColumnDefinition>();
+	public List<AttributeDefinition> getColumns() throws ImportServiceException {
+		List<AttributeDefinition> columns = new ArrayList<AttributeDefinition>();
 		
 		String[] headers = new String[]{"ISSCAAP","TAXOCODE","3A_CODE","Scientific_name","English_name","French_name","Spanish_name","Author","Family","Order","Stats_data"};
 
 		for (String header:headers) {
-			ColumnDefinition column = new ColumnDefinition();
+			AttributeDefinition column = new AttributeDefinition();
 			column.setName(header);
 			columns.add(column);
 		}
@@ -214,7 +214,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	@Override
 	public void startImport(ImportMetadata metadata,
-			List<ColumnDefinition> columns) throws ImportServiceException {
+			List<AttributeDefinition> columns) throws ImportServiceException {
 		importProgress = 0;
 	}
 	

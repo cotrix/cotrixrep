@@ -3,7 +3,7 @@ package org.cotrix.web.importwizard.client.step.mapping;
 import java.util.Arrays;
 
 import org.cotrix.web.importwizard.client.resources.ImportConstants;
-import org.cotrix.web.importwizard.shared.ColumnType;
+import org.cotrix.web.importwizard.shared.AttributeType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -61,7 +61,7 @@ public class ColumnDefinitionPanel extends Composite {
 	protected void setupTypeList()
 	{
 		typeList.addItem(NO_TYPE_LABEL, NO_TYPE_VALUE);
-		for (ColumnType columnType:ColumnType.values()) typeList.addItem(columnType.getLabel(), columnType.toString());
+		for (AttributeType columnType:AttributeType.values()) typeList.addItem(columnType.getLabel(), columnType.toString());
 		setType(NO_TYPE_VALUE);
 	}
 	
@@ -74,7 +74,7 @@ public class ColumnDefinitionPanel extends Composite {
 	
 	protected void updateLanguageList()
 	{
-		ColumnType columnType = getColumnType();
+		AttributeType columnType = getColumnType();
 		if (columnType == null) setLanguageVisibile(false);
 		else {
 			switch (columnType) {
@@ -90,7 +90,7 @@ public class ColumnDefinitionPanel extends Composite {
 		inLabel.setVisible(visible);
 	}
 	
-	public void setColumnType(ColumnType columnType)
+	public void setColumnType(AttributeType columnType)
 	{
 		if (columnType == null) setType(NO_TYPE_VALUE);
 		else setType(columnType.toString());
@@ -115,13 +115,13 @@ public class ColumnDefinitionPanel extends Composite {
 		}
 	}
 	
-	public ColumnType getColumnType()
+	public AttributeType getColumnType()
 	{
 		int selectedIndex = typeList.getSelectedIndex();
 		if (selectedIndex<0) return null;
 		String typeValue = typeList.getValue(selectedIndex);
 		if (NO_TYPE_VALUE.equals(typeValue)) return null;
-		return ColumnType.valueOf(typeValue);
+		return AttributeType.valueOf(typeValue);
 	}
 	
 	public String getLanguage()

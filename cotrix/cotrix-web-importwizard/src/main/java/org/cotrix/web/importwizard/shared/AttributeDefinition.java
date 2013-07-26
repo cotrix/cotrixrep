@@ -9,10 +9,10 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ColumnDefinition implements IsSerializable {
+public class AttributeDefinition implements IsSerializable {
 	
 	protected String name;
-	protected ColumnType type;
+	protected AttributeType type;
 	protected String language;
 	
 	/**
@@ -24,7 +24,7 @@ public class ColumnDefinition implements IsSerializable {
 	/**
 	 * @return the type
 	 */
-	public ColumnType getType() {
+	public AttributeType getType() {
 		return type;
 	}
 	/**
@@ -44,7 +44,7 @@ public class ColumnDefinition implements IsSerializable {
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(ColumnType type) {
+	public void setType(AttributeType type) {
 		this.type = type;
 	}
 	

@@ -7,8 +7,8 @@ import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent.MappingUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
-import org.cotrix.web.importwizard.shared.ColumnDefinition;
-import org.cotrix.web.importwizard.shared.ColumnType;
+import org.cotrix.web.importwizard.shared.AttributeDefinition;
+import org.cotrix.web.importwizard.shared.AttributeType;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -40,7 +40,7 @@ public class MappingStepPresenterImpl extends AbstractWizardStep implements Mapp
 	}
 	
 	public boolean isComplete() {
-		List<ColumnDefinition> columns = view.getColumns();
+		List<AttributeDefinition> columns = view.getColumns();
 		
 		boolean valid = validate(columns);
 		
@@ -49,12 +49,12 @@ public class MappingStepPresenterImpl extends AbstractWizardStep implements Mapp
 		return valid;
 	}
 	
-	protected boolean validate(List<ColumnDefinition> columns)
+	protected boolean validate(List<AttributeDefinition> columns)
 	{
 		
 		//only one code
 		int codeCount = 0;
-		for (ColumnDefinition column:columns) if (column.getType()==ColumnType.CODE) codeCount++;
+		for (AttributeDefinition column:columns) if (column.getType()==AttributeType.CODE) codeCount++;
 		
 		if (codeCount==0) {
 			view.alert("One code column required");

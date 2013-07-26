@@ -7,7 +7,7 @@ package org.cotrix.web.importwizard.shared;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public enum ColumnType {
+public enum AttributeType {
 	
 	CODE("Code"),
 	DESCRIPTION("Description");
@@ -17,7 +17,7 @@ public enum ColumnType {
 	/**
 	 * @param label
 	 */
-	private ColumnType(String label) {
+	private AttributeType(String label) {
 		this.label = label;
 	}
 

@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.ProgressDialog;
-import org.cotrix.web.importwizard.shared.ColumnDefinition;
+import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.google.gwt.core.client.GWT;
@@ -67,10 +67,10 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, 2, style.summaryTableHeader());
 	}
 	
-	public void setColumns(List<ColumnDefinition> columns)
+	public void setColumns(List<AttributeDefinition> columns)
 	{
 		int row = 1;
-		for (ColumnDefinition column:columns) {
+		for (AttributeDefinition column:columns) {
 			HTML header = new HTML(column.getName());
 			HTML type = getType(column);
 			summaryTable.setWidget(row, NAME_COLUMN, header);
@@ -79,7 +79,7 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 		}
 	}
 	
-	protected HTML getType(ColumnDefinition column)
+	protected HTML getType(AttributeDefinition column)
 	{
 		if (column.getType()==null) return new HTML("Not Defined");
 		StringBuilder text = new StringBuilder(column.getType().getLabel());

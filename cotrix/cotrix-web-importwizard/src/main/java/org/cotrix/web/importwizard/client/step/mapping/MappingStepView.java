@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.client.step.mapping;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.shared.ColumnDefinition;
+import org.cotrix.web.importwizard.shared.AttributeDefinition;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -15,11 +15,11 @@ public interface MappingStepView {
 
 	}
 	
-	public void setColumns(List<ColumnDefinition> columns);
+	public void setColumns(List<AttributeDefinition> columns);
 	public void setCodeTypeError();
 	public void cleanStyle();
 	
-	public List<ColumnDefinition> getColumns();
+	public List<AttributeDefinition> getColumns();
 	
 	public void alert(String message);
 
