@@ -25,7 +25,7 @@ import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent.SaveHandler;
 import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
-import org.cotrix.web.importwizard.shared.AttributeDefinition;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
@@ -40,6 +40,10 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class ImportWizardControllerImpl implements ImportWizardController {
 	
 	protected EventBus importEventBus;
@@ -54,7 +58,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected ImportWizardPresenter importWizardPresenter;
 	
 	protected ImportMetadata metadata;
-	protected List<AttributeDefinition> columns;
+	protected List<AttributeMapping> mapping;
 	
 	protected Timer importProgressPolling;
 	
@@ -105,7 +109,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			
 			@Override
 			public void onMappingUpdated(MappingUpdatedEvent event) {
-				if (event.isUserEdit()) columns = event.getColumns();
+				if (event.isUserEdit()) mapping = event.getMapping();
 			}
 		});
 		importEventBus.addHandler(SaveEvent.TYPE, new SaveHandler() {
@@ -150,7 +154,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		getMetadata();
 		
 		Log.trace("getting columns");
-		getColumns();
+		getFields();
 		
 		Log.trace("done importedItemUpdated");
 	}
@@ -237,9 +241,9 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		});
 	}
 	
-	protected void getColumns()
+	protected void getFields()
 	{
-		importService.getColumns(new AsyncCallback<List<AttributeDefinition>>() {
+		importService.getMapping(new AsyncCallback<List<AttributeMapping>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -247,9 +251,8 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 
 			@Override
-			public void onSuccess(List<AttributeDefinition> result) {
-				importEventBus.fireEvent(new MappingUpdatedEvent(result, false));
-				columns = result;
+			public void onSuccess(List<AttributeMapping> result) {
+				importEventBus.fireEvent(new MappingUpdatedEvent(mapping, false));
 			}
 		});
 	}
@@ -257,7 +260,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected void startImport()
 	{
 		Log.trace("starting import");
-		importService.startImport(metadata, columns, new AsyncCallback<Void>() {
+		importService.startImport(metadata, mapping, new AsyncCallback<Void>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -300,7 +303,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected void newImportRequested()
 	{
 		metadata = null;
-		columns = null;
+		mapping = null;
 		importProgressPolling.cancel();
 		importEventBus.fireEvent(new ResetWizardEvent());
 	}

@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.step.csvmapping;
+package org.cotrix.web.importwizard.client.step.sdmxmapping;
 
 import java.util.List;
 
@@ -9,17 +9,17 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  */
-public interface MappingStepView {
+public interface SdmxMappingStepView {
 	
 	public interface Presenter {
 
 	}
 	
-	public void setMapping(List<AttributeMapping> mapping);
+	public void setAttributes(List<AttributeMapping> attributes);
 	public void setCodeTypeError();
 	public void cleanStyle();
 	
-	public List<AttributeMapping> getMapping();
+	public List<AttributeMapping> getAttributes();
 	
 	public void alert(String message);
 

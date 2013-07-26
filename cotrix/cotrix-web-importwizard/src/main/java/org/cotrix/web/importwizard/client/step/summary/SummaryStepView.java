@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.client.step.summary;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.shared.AttributeDefinition;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -16,7 +16,7 @@ public interface SummaryStepView {
 		
 	}
 
-	public void setColumns(List<AttributeDefinition> columns);
+	public void setMapping(List<AttributeMapping> mapping);
 	void setMetadata(ImportMetadata metadata);
 	
 	void showProgress();

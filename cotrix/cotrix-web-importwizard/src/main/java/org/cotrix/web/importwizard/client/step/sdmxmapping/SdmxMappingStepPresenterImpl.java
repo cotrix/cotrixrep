@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.step.csvmapping;
+package org.cotrix.web.importwizard.client.step.sdmxmapping;
 
 import java.util.List;
 
@@ -18,14 +18,14 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingStepPresenterImpl extends AbstractWizardStep implements MappingStepPresenter, MappingUpdatedHandler {
+public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements SdmxMappingStepPresenter, MappingUpdatedHandler {
 
-	protected MappingStepView view;
+	protected SdmxMappingStepView view;
 	protected EventBus importEventBus;
 	
 	@Inject
-	public MappingStepPresenterImpl(MappingStepView view, @ImportBus EventBus importEventBus){
-		super("csv-mapping", "Define Type", "Define Type", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+	public SdmxMappingStepPresenterImpl(SdmxMappingStepView view, @ImportBus EventBus importEventBus){
+		super("sdmx-mapping", "Define Type", "Define Type", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 		
 		this.importEventBus = importEventBus;
@@ -40,11 +40,11 @@ public class MappingStepPresenterImpl extends AbstractWizardStep implements Mapp
 	}
 	
 	public boolean isComplete() {
-		List<AttributeMapping> mapping = view.getMapping();
+		List<AttributeMapping> columns = view.getAttributes();
 		
-		boolean valid = validate(mapping);
+		boolean valid = validate(columns);
 		
-		if (valid) importEventBus.fireEvent(new MappingUpdatedEvent(mapping, true));
+		if (valid) importEventBus.fireEvent(new MappingUpdatedEvent(columns, true));
 		
 		return valid;
 	}
@@ -56,15 +56,16 @@ public class MappingStepPresenterImpl extends AbstractWizardStep implements Mapp
 		int codeCount = 0;
 		for (AttributeMapping attributeMapping:mapping) {
 			if (attributeMapping.isMapped() && attributeMapping.getAttributeDefinition().getType()==AttributeType.CODE) codeCount++;
+		
 		}
 		
 		if (codeCount==0) {
-			view.alert("One mapping to code required");
+			view.alert("One code attribute required");
 			return false;
 		}
 		
 		if (codeCount>1) {
-			view.alert("You can assign only one code.");
+			view.alert("You can assign only one code attribute.");
 			return false;
 		}
 		
@@ -74,6 +75,6 @@ public class MappingStepPresenterImpl extends AbstractWizardStep implements Mapp
 	@Override
 	public void onMappingUpdated(MappingUpdatedEvent event) {
 		if (event.isUserEdit()) return;
-		view.setMapping(event.getMapping());
+		view.setAttributes(event.getMapping());
 	}
 }

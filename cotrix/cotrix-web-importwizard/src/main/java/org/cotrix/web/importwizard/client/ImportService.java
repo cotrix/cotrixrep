@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
-import org.cotrix.web.importwizard.shared.AttributeDefinition;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
@@ -42,9 +42,9 @@ public interface ImportService extends RemoteService {
 	
 	public void updateCsvParserConfiguration(CsvParserConfiguration configuration) throws ImportServiceException;
 	
-	public List<AttributeDefinition> getColumns() throws ImportServiceException;
+	public List<AttributeMapping> getMapping() throws ImportServiceException;
 	
-	public void startImport(ImportMetadata metadata, List<AttributeDefinition> columns) throws ImportServiceException;
+	public void startImport(ImportMetadata metadata, List<AttributeMapping> mapping) throws ImportServiceException;
 	
 	public ImportProgress getImportProgress() throws ImportServiceException;
 	

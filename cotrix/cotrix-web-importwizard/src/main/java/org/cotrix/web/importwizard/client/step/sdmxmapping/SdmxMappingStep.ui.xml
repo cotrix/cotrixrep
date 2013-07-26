@@ -1,0 +1,27 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style type="org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepViewImpl.Style">
+		.important {
+			font-weight: bold;
+		}
+		
+		.headerlabel {
+			margin-right: 20px;
+			font-weight: bold;
+			color: #333;
+		}
+		
+		.grid {
+			
+		}
+		
+		.cell {
+			padding: 5px;
+			font-size: 14px;
+			color: #666;
+		}
+	</ui:style>
+	<g:FlexTable ui:field="columnsTable">
+		 
+	</g:FlexTable>
+</ui:UiBinder> 

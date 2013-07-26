@@ -14,10 +14,11 @@ import javax.servlet.http.HttpSession;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
-import org.cotrix.web.importwizard.shared.AttributeDefinition;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
+import org.cotrix.web.importwizard.shared.Field;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
@@ -198,23 +199,26 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public List<AttributeDefinition> getColumns() throws ImportServiceException {
-		List<AttributeDefinition> columns = new ArrayList<AttributeDefinition>();
+	public List<AttributeMapping> getMapping() throws ImportServiceException {
+		List<AttributeMapping> mapping = new ArrayList<AttributeMapping>();
 		
 		String[] headers = new String[]{"ISSCAAP","TAXOCODE","3A_CODE","Scientific_name","English_name","French_name","Spanish_name","Author","Family","Order","Stats_data"};
 
 		for (String header:headers) {
-			AttributeDefinition column = new AttributeDefinition();
-			column.setName(header);
-			columns.add(column);
+			Field field = new Field();
+			field.setId(header);
+			field.setLabel(header);
+			
+			AttributeMapping attributeMapping = new AttributeMapping();
+			attributeMapping.setField(field);
+			mapping.add(attributeMapping);
 		}
 
-		return columns;
+		return mapping;
 	}
 
 	@Override
-	public void startImport(ImportMetadata metadata,
-			List<AttributeDefinition> columns) throws ImportServiceException {
+	public void startImport(ImportMetadata metadata, List<AttributeMapping> columns) throws ImportServiceException {
 		importProgress = 0;
 	}
 	

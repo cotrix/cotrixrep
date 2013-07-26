@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.step.csvmapping;
+package org.cotrix.web.importwizard.client.step.sdmxmapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingStepViewImpl extends Composite implements MappingStepView {
+public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingStepView {
 
-	@UiTemplate("MappingStep.ui.xml")
-	interface HeaderTypeStepUiBinder extends UiBinder<Widget, MappingStepViewImpl> {}
+	@UiTemplate("SdmxMappingStep.ui.xml")
+	interface HeaderTypeStepUiBinder extends UiBinder<Widget, SdmxMappingStepViewImpl> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 
 	@UiField FlexTable columnsTable;
@@ -38,59 +38,59 @@ public class MappingStepViewImpl extends Composite implements MappingStepView {
 		String cell();
 	}
 
-	protected List<ColumnDefinitionPanel> columnPanels = new ArrayList<ColumnDefinitionPanel>();
+	protected List<AttributeDefinitionPanel> columnPanels = new ArrayList<AttributeDefinitionPanel>();
 	protected List<AttributeMapping> columnDefinitions = new ArrayList<AttributeMapping>();
 
-	public MappingStepViewImpl() {
+	public SdmxMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	public void setMapping(List<AttributeMapping> mapping)
+	public void setAttributes(List<AttributeMapping> columns)
 	{
 		columnsTable.removeAllRows();
 		columnPanels.clear();
 		columnDefinitions.clear();
 
-		for (AttributeMapping attributeMapping:mapping) {
+		for (AttributeMapping column:columns) {
 			int row = columnsTable.getRowCount();
-			Label label = new Label(attributeMapping.getField().getLabel());
+			Label label = new Label(column.getField().getLabel());
 			label.setStyleName(style.headerlabel());
 			columnsTable.setWidget(row, 0, label);
 			columnsTable.getCellFormatter().setStyleName(row, 0, style.cell());
 
-			ColumnDefinitionPanel definitionPanel = new ColumnDefinitionPanel();
-			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
-			if (attributeDefinition!=null) {
-				definitionPanel.setColumnType(attributeDefinition.getType());
-				definitionPanel.setLanguage(attributeDefinition.getLanguage());
+			AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
+
+			if (column.isMapped()) {
+				definitionPanel.setAttributeType(column.getAttributeDefinition().getType());
+				definitionPanel.setLanguage(column.getAttributeDefinition().getLanguage());
 			}
 			columnPanels.add(definitionPanel);
 
 			columnsTable.setWidget(row, 1, definitionPanel);
 			//columnsTable.getCellFormatter().setWidth(row, 1, "100px");
 
-			columnDefinitions.add(attributeMapping);
+			columnDefinitions.add(column);
 		}
 	}
 
 	public void setCodeTypeError()
 	{
-		for (ColumnDefinitionPanel definitionPanel:columnPanels) {
-			if (definitionPanel.getColumnType() == AttributeType.CODE) definitionPanel.setErrorStyle();
+		for (AttributeDefinitionPanel definitionPanel:columnPanels) {
+			if (definitionPanel.getAttributeType() == AttributeType.CODE) definitionPanel.setErrorStyle();
 		}
 	}
 
 	public void cleanStyle()
 	{
-		for (ColumnDefinitionPanel definitionPanel:columnPanels) definitionPanel.setNormalStyle();
+		for (AttributeDefinitionPanel definitionPanel:columnPanels) definitionPanel.setNormalStyle();
 	}
 
-	public List<AttributeMapping> getMapping()
+	public List<AttributeMapping> getAttributes()
 	{
 		for (int i = 0; i < columnDefinitions.size(); i++) {
 			AttributeMapping definition = columnDefinitions.get(i);
-			ColumnDefinitionPanel panel = columnPanels.get(i);
-			/*definition.setType(panel.getColumnType());
+			AttributeDefinitionPanel panel = columnPanels.get(i);
+			/*definition.setType(panel.getAttributeType());
 			definition.setLanguage(panel.getLanguage());*/
 		}
 

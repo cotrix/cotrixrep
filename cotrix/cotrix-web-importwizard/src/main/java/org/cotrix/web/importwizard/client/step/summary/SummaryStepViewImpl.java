@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.ProgressDialog;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.google.gwt.core.client.GWT;
@@ -67,12 +68,12 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, 2, style.summaryTableHeader());
 	}
 	
-	public void setColumns(List<AttributeDefinition> columns)
+	public void setMapping(List<AttributeMapping> mapping)
 	{
 		int row = 1;
-		for (AttributeDefinition column:columns) {
-			HTML header = new HTML(column.getName());
-			HTML type = getType(column);
+		for (AttributeMapping attributeMapping:mapping) {
+			HTML header = new HTML(attributeMapping.getField().getLabel());
+			HTML type = getType(attributeMapping.getAttributeDefinition());
 			summaryTable.setWidget(row, NAME_COLUMN, header);
 			summaryTable.setWidget(row, TYPE_COLUMN, type);
 			row++;

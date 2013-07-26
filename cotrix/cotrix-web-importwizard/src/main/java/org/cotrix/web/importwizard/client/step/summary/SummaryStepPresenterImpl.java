@@ -47,7 +47,7 @@ public class SummaryStepPresenterImpl extends AbstractWizardStep implements Summ
 
 	@Override
 	public void onMappingUpdated(MappingUpdatedEvent event) {
-		this.view.setColumns(event.getColumns());		
+		this.view.setMapping(event.getMapping());		
 	}
 
 	@Override
