@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.step.mapping;
+package org.cotrix.web.importwizard.client.step.csvmapping;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.step.mapping;
+package org.cotrix.web.importwizard.client.step.csvmapping;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class MappingStepPresenterImpl extends AbstractWizardStep implements Mapp
 	
 	@Inject
 	public MappingStepPresenterImpl(MappingStepView view, @ImportBus EventBus importEventBus){
-		super("mapping", "Define Type", "Define Type", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("csv-mapping", "Define Type", "Define Type", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 		
 		this.importEventBus = importEventBus;

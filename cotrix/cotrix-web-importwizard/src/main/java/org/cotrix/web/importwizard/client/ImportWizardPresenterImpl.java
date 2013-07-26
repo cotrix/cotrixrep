@@ -13,8 +13,8 @@ import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.RootNodeBuild
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SingleNodeBuilder;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
+import org.cotrix.web.importwizard.client.step.csvmapping.MappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
-import org.cotrix.web.importwizard.client.step.mapping.MappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
 import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;

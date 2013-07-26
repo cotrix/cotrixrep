@@ -2,7 +2,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style
-		type="org.cotrix.web.importwizard.client.step.mapping.ColumnDefinitionPanel.Style">
+		type="org.cotrix.web.importwizard.client.step.csvmapping.ColumnDefinitionPanel.Style">
 			.important {
 				font-weight: bold;
 			}
