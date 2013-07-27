@@ -4,14 +4,17 @@ import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Codelist;
-import org.cotrix.io.ImportService;
+import org.cotrix.io.Channels;
 import org.cotrix.io.PublicationService;
-import org.cotrix.io.ingest.Outcome;
-import org.cotrix.io.sdmx.SdmxImportDirectives;
+import org.cotrix.io.map.MapService;
+import org.cotrix.io.map.Outcome;
+import org.cotrix.io.sdmx.SdmxMapDirectives;
 import org.cotrix.io.sdmx.SdmxPublishDirectives;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
+import org.virtualrepository.VirtualRepository;
 
 import com.googlecode.jeeunit.JeeunitRunner;
 
@@ -19,22 +22,28 @@ import com.googlecode.jeeunit.JeeunitRunner;
 public class UseCases {
 
 	@Inject
-	ImportService importService;
+	MapService mapper;
+	
+	@Inject
+	VirtualRepository repository;
 
 	@Inject
 	PublicationService publicationService;
-
+	
+	
 	@Test
 	public void importFromSdmxRegistryAndPublishToSR() {
 
 		//discover codelists 'in the hood'
-		importService.discoverRemoteCodelists();
+		repository.discover(Channels.importTypes);
 
 		//pick first codelist simulating choice from Cotrix user (we have no idea where this comes from)
-		Asset remoteCodelist = importService.remoteCodelists().iterator().next();
+		Asset codelist = repository.iterator().next();
 
+		CodelistBean bean = repository.retrieve(codelist, CodelistBean.class);
+		
 		//import codelist with Cotrix import service (no mapping customisations, we do not have a Cotrix user)
-		Outcome<Codelist> outcome = importService.importCodelist(remoteCodelist.id(), SdmxImportDirectives.DEFAULT);
+		Outcome outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT);
 
 		Codelist importedCodelist = outcome.result();
 		

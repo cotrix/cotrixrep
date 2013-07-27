@@ -8,11 +8,12 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.io.ingest.ImportDirectives;
-import org.cotrix.io.ingest.ImportTask;
+import org.cotrix.io.map.MapDirectives;
+import org.cotrix.io.map.MapTask;
+import org.cotrix.io.parse.ParseDirectives;
+import org.cotrix.io.parse.ParseTask;
 import org.cotrix.io.publish.PublicationDirectives;
 import org.cotrix.io.publish.PublicationTask;
-import org.virtualrepository.Asset;
 import org.virtualrepository.VirtualRepository;
 import org.virtualrepository.impl.Repository;
 
@@ -25,32 +26,52 @@ import org.virtualrepository.impl.Repository;
 public class CdiProducers {
 
 	@Inject
-	private Instance<ImportTask<Asset,ImportDirectives>> importTasks;
+	private Instance<ParseTask<Object,ParseDirectives<Object>>> parseTasks;
+	
+	@Inject
+	private Instance<MapTask<Object,MapDirectives<Object>>> mapTasks;
 	
 	@Inject
 	private Instance<PublicationTask<PublicationDirectives>> publishTasks;
 	
 	/**
-	 * Produces a {@link Registry} of {@link UploadDirectives}s for CDI injection.
+	 * Produces a {@link Registry} of {@link ParseDirectives}s for CDI injection.
 	 * @return the registry
 	 */
-	@Produces
-	public Registry<ImportTask<Asset,ImportDirectives>> importTasks() {
+	@Produces @Singleton
+	public Registry<ParseTask<Object,ParseDirectives<Object>>> parseTasks() {
 		
-		List<ImportTask<Asset,ImportDirectives>> tasks = new ArrayList<ImportTask<Asset,ImportDirectives>>();
+		List<ParseTask<Object,ParseDirectives<Object>>> tasks = new ArrayList<ParseTask<Object,ParseDirectives<Object>>>();
 		
-		for (ImportTask<Asset,ImportDirectives> task : importTasks)
+		for (ParseTask<Object,ParseDirectives<Object>> task : parseTasks)
 			tasks.add(task);
 		
-		return new Registry<ImportTask<Asset,ImportDirectives>>(tasks);
+		return new Registry<ParseTask<Object,ParseDirectives<Object>>>(tasks);
 			
 	}
+	
+	/**
+	 * Produces a {@link Registry} of {@link MapDirectives}s for CDI injection.
+	 * @return the registry
+	 */
+	@Produces @Singleton
+	public Registry<MapTask<Object,MapDirectives<Object>>> mapTasks() {
+		
+		List<MapTask<Object,MapDirectives<Object>>> tasks = new ArrayList<MapTask<Object,MapDirectives<Object>>>();
+		
+		for (MapTask<Object,MapDirectives<Object>> task : mapTasks)
+			tasks.add(task);
+		
+		return new Registry<MapTask<Object,MapDirectives<Object>>>(tasks);
+			
+	}
+	
 	
 	/**
 	 * Produces a {@link Registry} of {@link PublicationTask}s for CDI injection.
 	 * @return the registry
 	 */
-	@Produces 
+	@Produces @Singleton
 	public Registry<PublicationTask<PublicationDirectives>> publishTasks() {
 		
 		List<PublicationTask<PublicationDirectives>> tasks = new ArrayList<PublicationTask<PublicationDirectives>>();

@@ -1,7 +1,7 @@
 package org.cotrix.io;
 
 /**
- * An input/output task directed by given {@link Directives}.
+ * A task governed by given {@link Directives}.
  * 
  * @author Fabio Simeoni
  *
@@ -10,8 +10,8 @@ package org.cotrix.io;
 public interface Task<D extends Directives> {
 
 	/**
-	 * Return the type of {@link Directives} associated with this task.
-	 * @return the mockDirectives
+	 * Return the runtime type of the {@link Directives} associated with this task.
+	 * @return the runtime type of directives
 	 */
 	Class<? extends D> directedBy();
 	

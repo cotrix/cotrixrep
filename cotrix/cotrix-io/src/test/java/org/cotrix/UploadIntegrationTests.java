@@ -1,19 +1,23 @@
 package org.cotrix;
 
 import static org.cotrix.io.tabular.ColumnDirectives.*;
-import static org.junit.Assert.*;
 
 import java.io.InputStream;
 
 import javax.inject.Inject;
 
-import org.cotrix.domain.Codelist;
-import org.cotrix.io.ImportService;
-import org.cotrix.io.ingest.Outcome;
-import org.cotrix.io.sdmx.SdmxImportDirectives;
-import org.cotrix.io.tabular.csv.CsvImportDirectives;
+import org.cotrix.io.map.MapService;
+import org.cotrix.io.map.Outcome;
+import org.cotrix.io.parse.ParseService;
+import org.cotrix.io.sdmx.SdmxMapDirectives;
+import org.cotrix.io.sdmx.SdmxParseDirectives;
+import org.cotrix.io.tabular.TableMapDirectives;
+import org.cotrix.io.tabular.csv.CsvParseDirectives;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
+import org.virtualrepository.tabular.Column;
+import org.virtualrepository.tabular.Table;
 
 import com.googlecode.jeeunit.JeeunitRunner;
 
@@ -21,39 +25,40 @@ import com.googlecode.jeeunit.JeeunitRunner;
 @RunWith(JeeunitRunner.class)
 public class UploadIntegrationTests {
 
+	//we test full upload scenario for sample codelists
+	
 	@Inject
-	ImportService service;
+	ParseService parser;
+	
+	@Inject
+	MapService mapper;
 	
 	@Test
-	public void servicesAreInjected() throws Exception {
-			
-		assertNotNull(service);
+	public void uploadSdmxSample() {
 		
+		InputStream stream = getClass().getClassLoader().getResourceAsStream("sampleasfissdmx.xml");
+		
+		CodelistBean bean = parser.parse(stream, SdmxParseDirectives.DEFAULT);
+		
+		Outcome outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT);
+		
+		System.out.println(outcome.result());
 	}
 	
 	@Test
-	public void uploadSdmxCodelist() {
+	public void uploadAsfisSample() throws Exception {
 		
-		InputStream stream = getClass().getClassLoader().getResourceAsStream("samplesdmx.xml");
+		InputStream stream = getClass().getClassLoader().getResourceAsStream("sampleasfiscsv.txt");
 		
-		Outcome<Codelist> outcome = service.importCodelist(stream, SdmxImportDirectives.DEFAULT); 
+		CsvParseDirectives pDirectives = new CsvParseDirectives();
+		pDirectives.options().hasHeader(true);
+		pDirectives.options().setDelimiter('\t');
 		
-		System.out.println(outcome);
-	}
-	
-	@Test
-	public void uploadCsvCodelist() throws Exception {
+		Table table = parser.parse(stream, pDirectives);
 		
-		InputStream stream = getClass().getClassLoader().getResourceAsStream("ASFIS2012.txt");
+		TableMapDirectives mDirectives = new TableMapDirectives(new Column("3A_CODE"));
 		
-		
-		CsvImportDirectives directives = new CsvImportDirectives("3A_CODE");
-		
-		directives.format().hasHeader(true);
-		directives.format().setDelimiter('\t');
-		directives.format().setRows(10);
-		
-		directives.add(column("TAXOCODE"))
+		mDirectives.add(column("TAXOCODE"))
 				  .add(column("ISSCAAP"))
 				  .add(column("Scientific_name"))
 				  .add(column("English_name").language("en"))
@@ -63,9 +68,9 @@ public class UploadIntegrationTests {
 				  .add(column("Family"))
 				  .add(column("Order"));
 		
-		Outcome<Codelist> outcome = service.importCodelist(stream, directives);
+		Outcome outcome = mapper.map(table, mDirectives);
 		
-		System.out.println(outcome);
+		System.out.println(outcome.result());
 		
 	}
 	

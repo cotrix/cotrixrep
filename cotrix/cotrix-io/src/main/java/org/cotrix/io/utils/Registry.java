@@ -6,10 +6,9 @@ import java.util.Map;
 
 import org.cotrix.io.Directives;
 import org.cotrix.io.Task;
-import org.cotrix.io.ingest.ImportDirectives;
 
 /**
- * A collection of {@link Task}s, indexed by their {@link ImportDirectives}.
+ * A collection of {@link Task}s, indexed by their {@link Directives}.
  * 
  * @author Fabio Simeoni
  *

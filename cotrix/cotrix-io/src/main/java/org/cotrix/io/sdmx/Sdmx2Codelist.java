@@ -1,8 +1,8 @@
 package org.cotrix.io.sdmx;
 
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.io.ingest.Report.*;
-import static org.cotrix.io.sdmx.SdmxImportDirectives.SdmxElement.*;
+import static org.cotrix.io.map.Report.*;
+import static org.cotrix.io.sdmx.SdmxMapDirectives.SdmxElement.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 
 public class Sdmx2Codelist {
 
-	public Codelist apply(CodelistBean listBean, SdmxImportDirectives directives) throws Exception {
+	public Codelist apply(CodelistBean listBean, SdmxMapDirectives directives) throws Exception {
 		
 		report().log("importing codelist '"+listBean.getId()+"'");
 		report().log("==============================");
@@ -54,7 +54,7 @@ public class Sdmx2Codelist {
 	//helpers
 	
 	
-	private List<Attribute> attributesOf(CodelistBean list, SdmxImportDirectives directives) {
+	private List<Attribute> attributesOf(CodelistBean list, SdmxMapDirectives directives) {
 		
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		
@@ -94,7 +94,7 @@ public class Sdmx2Codelist {
 		return attributes;
 	}
 	
-	private List<Attribute> attributesOf(CodeBean bean, SdmxImportDirectives directives) {
+	private List<Attribute> attributesOf(CodeBean bean, SdmxMapDirectives directives) {
 		
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		
@@ -103,7 +103,7 @@ public class Sdmx2Codelist {
 		return attributes;
 	}
 	
-	private void mapCommonAttributes(NameableBean bean, List<Attribute> attributes,SdmxImportDirectives directives) {
+	private void mapCommonAttributes(NameableBean bean, List<Attribute> attributes,SdmxMapDirectives directives) {
 		
 		//names: at least one, all with language
 		for (TextTypeWrapper name : bean.getNames())

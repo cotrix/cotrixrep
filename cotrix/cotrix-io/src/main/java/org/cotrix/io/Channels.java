@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
+import org.virtualrepository.Asset;
 import org.virtualrepository.AssetType;
 import org.virtualrepository.RepositoryService;
 import org.virtualrepository.VirtualRepository;
@@ -36,6 +37,18 @@ public class Channels {
 	@Inject
 	public Channels(VirtualRepository repository) {
 		this.repository=repository;
+	}
+	
+	public Iterable<Asset> codelists() {
+		return repository;
+	}
+	
+	public int discoverCodelists() {
+		return repository.discover(Channels.importTypes);
+	}
+	
+	public int discoverCodelists(int timeout) {
+		return repository.discover(timeout,Channels.importTypes);
 	}
 	
 	/**
