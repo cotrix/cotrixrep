@@ -192,8 +192,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public void updateMetadata(ImportMetadata metadata)
-			throws ImportServiceException {
+	public void updateMetadata(ImportMetadata metadata)	throws ImportServiceException {
 		// TODO Auto-generated method stub
 		
 	}

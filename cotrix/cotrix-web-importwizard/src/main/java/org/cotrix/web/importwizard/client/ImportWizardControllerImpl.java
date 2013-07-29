@@ -154,7 +154,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		getMetadata();
 		
 		Log.trace("getting columns");
-		getFields();
+		getMapping();
 		
 		Log.trace("done importedItemUpdated");
 	}
@@ -241,7 +241,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		});
 	}
 	
-	protected void getFields()
+	protected void getMapping()
 	{
 		importService.getMapping(new AsyncCallback<List<AttributeMapping>>() {
 
@@ -252,7 +252,8 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 			@Override
 			public void onSuccess(List<AttributeMapping> result) {
-				importEventBus.fireEvent(new MappingUpdatedEvent(mapping, false));
+				importEventBus.fireEvent(new MappingUpdatedEvent(result, false));
+				mapping = result;
 			}
 		});
 	}
