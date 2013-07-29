@@ -7,10 +7,10 @@ import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepView;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepViewImpl;
-import org.cotrix.web.importwizard.client.step.csvmapping.MappingStepPresenter;
-import org.cotrix.web.importwizard.client.step.csvmapping.MappingStepPresenterImpl;
-import org.cotrix.web.importwizard.client.step.csvmapping.MappingStepView;
-import org.cotrix.web.importwizard.client.step.csvmapping.MappingStepViewImpl;
+import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
+import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepView;
+import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepViewImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepView;
@@ -85,8 +85,8 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(PreviewStepView.class).to(PreviewStepViewImpl.class);
         bind(PreviewStepPresenter.class).to(PreviewStepPresenterImpl.class);
         
-        bind(MappingStepView.class).to(MappingStepViewImpl.class);
-        bind(MappingStepPresenter.class).to(MappingStepPresenterImpl.class);
+        bind(CsvMappingStepView.class).to(CsvMappingStepViewImpl.class);
+        bind(CsvMappingStepPresenter.class).to(CsvMappingStepPresenterImpl.class);
         
         bind(SummaryStepView.class).to(SummaryStepViewImpl.class);
         bind(SummaryStepPresenter.class).to(SummaryStepPresenterImpl.class);

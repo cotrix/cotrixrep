@@ -22,10 +22,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingStepViewImpl extends Composite implements MappingStepView {
+public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepView {
 
-	@UiTemplate("MappingStep.ui.xml")
-	interface HeaderTypeStepUiBinder extends UiBinder<Widget, MappingStepViewImpl> {}
+	@UiTemplate("CsvMappingStep.ui.xml")
+	interface HeaderTypeStepUiBinder extends UiBinder<Widget, CsvMappingStepViewImpl> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 
 	@UiField FlexTable columnsTable;
@@ -41,7 +41,7 @@ public class MappingStepViewImpl extends Composite implements MappingStepView {
 	protected List<ColumnDefinitionPanel> columnPanels = new ArrayList<ColumnDefinitionPanel>();
 	protected List<AttributeMapping> columnDefinitions = new ArrayList<AttributeMapping>();
 
-	public MappingStepViewImpl() {
+	public CsvMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 

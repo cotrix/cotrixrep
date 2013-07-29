@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  */
-public interface MappingStepView {
+public interface CsvMappingStepView {
 	
 	public interface Presenter {
 
