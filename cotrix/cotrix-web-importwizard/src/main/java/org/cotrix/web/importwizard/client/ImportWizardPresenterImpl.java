@@ -16,7 +16,7 @@ import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
-import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.preview.CsvPreviewStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
@@ -49,7 +49,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			ChannelStepPresenter channelStepPresenter,
 			
 			MetadataStepPresenter metadataStepPresenter,
-			PreviewStepPresenterImpl previewStepPresenter,
+			CsvPreviewStepPresenterImpl previewStepPresenter,
 			CsvMappingStepPresenterImpl headerTypeStepPresenter,
 			SummaryStepPresenter summaryStepPresenter,
 			DoneStepPresenter doneStepPresenter,

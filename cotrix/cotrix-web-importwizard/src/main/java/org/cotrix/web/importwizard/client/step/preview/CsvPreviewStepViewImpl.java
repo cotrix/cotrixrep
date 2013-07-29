@@ -25,12 +25,12 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewStepViewImpl extends Composite implements PreviewStepView, DialogSaveHandler {
+public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepView, DialogSaveHandler {
 	
 	protected static final int HEADER_ROW = 0;
 
-	@UiTemplate("PreviewStep.ui.xml")
-	interface PreviewStepUiBinder extends UiBinder<Widget, PreviewStepViewImpl> {}
+	@UiTemplate("CsvPreviewStep.ui.xml")
+	interface PreviewStepUiBinder extends UiBinder<Widget, CsvPreviewStepViewImpl> {}
 	private static PreviewStepUiBinder uiBinder = GWT.create(PreviewStepUiBinder.class);
 	
 	interface Style extends CssResource {
@@ -52,7 +52,7 @@ public class PreviewStepViewImpl extends Composite implements PreviewStepView, D
 
 	private Presenter presenter;
 	
-	public PreviewStepViewImpl() {
+	public CsvPreviewStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

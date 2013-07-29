@@ -25,14 +25,14 @@ import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfigur
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewStepPresenterImpl extends AbstractWizardStep implements PreviewStepPresenter, PreviewDataUpdatedHandler, CodeListTypeUpdatedHandler, CsvParserConfigurationUpdatedHandler {
+public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements CsvPreviewStepPresenter, PreviewDataUpdatedHandler, CodeListTypeUpdatedHandler, CsvParserConfigurationUpdatedHandler {
 
-	private final PreviewStepView view;
+	private final CsvPreviewStepView view;
 	protected EventBus importEventBus;
 	protected boolean headerRequired = false;
 	
 	@Inject
-	public PreviewStepPresenterImpl(PreviewStepView view, @ImportBus EventBus importEventBus) {
+	public CsvPreviewStepPresenterImpl(CsvPreviewStepView view, @ImportBus EventBus importEventBus) {
 		super("preview", "Preview", "CodeList Preview", DEFAULT_BACKWARD, DEFAULT_FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
