@@ -3,6 +3,9 @@
  */
 package org.cotrix.web.importwizard.client.flow;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
 
 import com.google.gwt.event.shared.GwtEvent;
@@ -54,6 +57,11 @@ public class CheckPointNode<T> implements FlowNode<T> {
 	
 	public interface CheckPointHandler {
 		public boolean check();
+	}
+
+	@Override
+	public List<FlowNode<T>> getChildren() {
+		return Collections.singletonList(innerNode);
 	}
 
 }

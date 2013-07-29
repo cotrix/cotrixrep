@@ -5,7 +5,9 @@ package org.cotrix.web.importwizard.client.flow;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.HasFlowUpdatedHandlers;
@@ -20,12 +22,12 @@ import com.google.gwt.event.shared.HandlerRegistration;
  *
  */
 public class FlowManager<T> implements FlowUpdatedHandler, HasFlowUpdatedHandlers {
-	
+
 	protected FlowNode<T> flowRoot;
 	protected FlowNode<T> currentNode;
 	protected Stack<FlowNode<T>> stack;
 	protected HandlerManager handlerManager;
-	
+
 	public FlowManager()
 	{
 		this.stack = new Stack<FlowNode<T>>();
@@ -43,32 +45,32 @@ public class FlowManager<T> implements FlowUpdatedHandler, HasFlowUpdatedHandler
 	public T getCurrentItem() {
 		return currentNode.getItem();
 	}
-	
+
 	public boolean isFirst() {
 		return stack.size()==0;
 	}
-	
+
 	public boolean isLast() {
 		return currentNode.getNext()==null;
 	}
-	
+
 	public void goNext() {
 		if (currentNode.getNext() == null) throw new IllegalStateException("Flow end reached");
-		
+
 		if (currentNode instanceof CheckPointNode) {
 			boolean checked = ((CheckPointNode<T>)currentNode).check();
 			if (!checked) return;
 		}
-		
+
 		stack.push(currentNode);
 		currentNode = currentNode.getNext();
 	}
-	
+
 	public void goBack() {
 		if (stack.isEmpty()) throw new IllegalStateException("Flow start reached");
 		currentNode = stack.pop();
 	}
-	
+
 	public List<T> getCurrentFlow()
 	{
 		List<T> flow = new ArrayList<T>();
@@ -79,7 +81,7 @@ public class FlowManager<T> implements FlowUpdatedHandler, HasFlowUpdatedHandler
 		}
 		return flow;
 	}
-	
+
 	public void reset()
 	{
 		stack.clear();
@@ -100,5 +102,37 @@ public class FlowManager<T> implements FlowUpdatedHandler, HasFlowUpdatedHandler
 	public void onFlowUpdated(FlowUpdatedEvent event) {
 		Log.trace("FlowManage flow updated");
 		fireEvent(event);		
+	}
+
+	public String toDot(LabelProvider<T> labelProvider)
+	{
+		StringBuilder dot = new StringBuilder();
+		dot.append("digraph flow {\n");
+		visit(dot, flowRoot, labelProvider, new TreeSet<String>());
+		dot.append("}\n");
+		return dot.toString();
+	}
+	
+	protected void visit(StringBuilder dot, FlowNode<T> node, LabelProvider<T> labelProvider, Set<String> visited)
+	{
+		//TODO find a better way...
+		if (node instanceof CheckPointNode) {
+			visit(dot, node.getChildren().get(0), labelProvider, visited);
+			return;
+		}
+		
+		String parentLabel = labelProvider.getLabel(node.getItem());
+		boolean unsaw = visited.add(parentLabel);
+		if (!unsaw) return;
+		
+		for (FlowNode<T> child:node.getChildren()) {
+			if (child == null) continue;
+			dot.append('"').append(parentLabel).append('"').append(" -> ").append('"').append(labelProvider.getLabel(child.getItem())).append('"').append('\n');
+			visit(dot, child, labelProvider, visited);
+		}
+	}
+	
+	public interface LabelProvider<T> {
+		public String getLabel(T item);
 	}
 }
