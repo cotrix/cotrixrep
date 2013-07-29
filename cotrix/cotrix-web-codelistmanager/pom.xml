@@ -38,16 +38,7 @@
 			<artifactId>cotrix-repository</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-tabular</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-import</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-domain</artifactId>

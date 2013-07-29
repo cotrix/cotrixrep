@@ -1,25 +1,15 @@
 package org.cotrix.web.codelistmanager.server;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import static org.cotrix.repository.Queries.*;
 import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import javax.inject.Inject;
-import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.importservice.ImportService;
-import org.cotrix.importservice.Outcome;
-import org.cotrix.importservice.tabular.csv.CSV2Codelist;
-import org.cotrix.importservice.tabular.csv.CSVOptions;
-import org.cotrix.importservice.tabular.mapping.AttributeMapping;
-import org.cotrix.importservice.tabular.mapping.CodelistMapping;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
@@ -41,10 +31,6 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 	
 	@Inject
 	CodelistRepository repository;
-
-
-	@Inject
-	ImportService service;
 
 	public ArrayList<UICodelist> getAllCodelists()
 			throws IllegalArgumentException {
@@ -168,50 +154,4 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		}
 		return data;
 	}
-
-	private void loadASFIS() {
-		FileInputStream is = Util.readFile(this.getThreadLocalRequest()
-				.getSession().getServletContext()
-				.getRealPath("files/ASFIS_sp_Feb_2012.txt"));
-
-		List<String> headers = new ArrayList<String>();
-		headers.add("ISSCAAP");
-		headers.add("TAXOCODE");
-		headers.add("3A_CODE");
-		headers.add("Scientific_name");
-		headers.add("English_name");
-		headers.add("French_name");
-		headers.add("Spanish_name");
-		headers.add("Author");
-		headers.add("Family");
-		headers.add("Order");
-		headers.add("Stats_data");
-
-		Outcome<Codelist> outcome = save(headers, is);
-		outcome.result();
-
-		System.out.println(outcome.report());
-
-	}
-
-	private Outcome<Codelist> save(List<String> types, InputStream stream) {
-		CSVOptions options = new CSVOptions();
-		options.setDelimiter('\t');
-		options.setColumns(types, true);
-
-		CodelistMapping mapping = new CodelistMapping("3A_CODE");
-		QName asfisName = new QName("asfis-2012");
-		mapping.setName(asfisName);
-
-		List<AttributeMapping> attrs = new ArrayList<AttributeMapping>();
-		for (String type : types) {
-			AttributeMapping attr = new AttributeMapping(type.trim());
-			attrs.add(attr);
-		}
-		mapping.setAttributeMappings(attrs);
-
-		CSV2Codelist directives = new CSV2Codelist(mapping, options);
-		return service.importCodelist(stream, directives);
-	}
-
 }
