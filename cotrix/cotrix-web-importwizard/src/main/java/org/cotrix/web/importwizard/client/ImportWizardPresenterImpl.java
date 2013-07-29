@@ -6,17 +6,20 @@ import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
+import org.cotrix.web.importwizard.client.flow.FlowManager.LabelProvider;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
 import org.cotrix.web.importwizard.client.flow.builder.FlowManagerBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.RootNodeBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SingleNodeBuilder;
+import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SwitchNodeBuilder;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
-import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
-import org.cotrix.web.importwizard.client.step.preview.CsvPreviewStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.preview.CsvPreviewStepPresenter;
+import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
@@ -44,47 +47,80 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	@Inject
 	public ImportWizardPresenterImpl(@ImportBus final EventBus importEventBus, ImportWizardView view,  
-			SourceSelectionStepPresenter sourceStepPresenter,
-			UploadStepPresenter uploadFormPresenter,
-			ChannelStepPresenter channelStepPresenter,
-			
-			MetadataStepPresenter metadataStepPresenter,
-			CsvPreviewStepPresenterImpl previewStepPresenter,
-			CsvMappingStepPresenterImpl headerTypeStepPresenter,
-			SummaryStepPresenter summaryStepPresenter,
-			DoneStepPresenter doneStepPresenter,
+			SourceSelectionStepPresenter sourceStep,
+			UploadStepPresenter uploadStep,
+			CsvPreviewStepPresenter csvPreviewStep,
+
+			ChannelStepPresenter channelStep,
+
+			CsvMappingStepPresenter csvMappingStep,
+			SdmxMappingStepPresenter sdmxMappingStep, 
+
+			MetadataStepPresenter metadataStep,
+
+
+			SummaryStepPresenter summaryStep,
+			DoneStepPresenter doneStep,
 			SourceNodeSelector selector,
 			SaveCheckPoint saveCheckPoint) {
 
 		this.importEventBus = importEventBus;
 		this.view = view;
 		this.view.setPresenter(this);
-		
-		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(sourceStepPresenter);
-		
-		SingleNodeBuilder<WizardStep> preview = root.next(uploadFormPresenter).next(previewStepPresenter);
-		SingleNodeBuilder<WizardStep> channel = root.hasAlternatives(selector).alternative(channelStepPresenter);
-		channel.next(preview);
-		
-		preview.next(metadataStepPresenter).next(headerTypeStepPresenter).next(summaryStepPresenter).hasCheckPoint(saveCheckPoint).next(doneStepPresenter);
-		
+
+		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(sourceStep);
+		SwitchNodeBuilder<WizardStep> source = root.hasAlternatives(selector);
+
+		SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, sdmxMappingStep));
+		SingleNodeBuilder<WizardStep> csvPreview = upload.alternative(csvPreviewStep);
+		SingleNodeBuilder<WizardStep> csvMapping = csvPreview.next(csvMappingStep);
+		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(sdmxMappingStep);
+
+		SwitchNodeBuilder<WizardStep> channel = source.alternative(channelStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvMappingStep, sdmxMappingStep));
+		channel.alternative(sdmxMapping);
+		channel.alternative(csvMapping);
+
+		SingleNodeBuilder<WizardStep> summary = csvMapping.next(summaryStep);
+		sdmxMapping.next(summary);
+
+		summary.hasCheckPoint(saveCheckPoint).next(doneStep);
+
+
+		//.next(csvPreviewStep)
+		//channel.next(csvPreview);
+
+		//csvPreview.next(metadataStep).next(csvMappingStep).next(summaryStep).hasCheckPoint(saveCheckPoint).next(doneStep);
+
 		flow = root.build();
 		flow.addFlowUpdatedHandler(this);
 
+		//only for debug
+		if (Log.isTraceEnabled()) {
+			String dot = flow.toDot(new LabelProvider<WizardStep>() {
+
+				@Override
+				public String getLabel(WizardStep item) {
+					return item.getId();
+				}
+			});
+			Log.trace("dot: "+dot);
+		}
+
 		Log.trace("Adding steps");
-		registerStep(sourceStepPresenter);
-		registerStep(uploadFormPresenter);
-		registerStep(channelStepPresenter);
-		registerStep(metadataStepPresenter);
-		registerStep(previewStepPresenter);
-		registerStep(headerTypeStepPresenter);
-		registerStep(summaryStepPresenter);
-		registerStep(doneStepPresenter);
+		registerStep(sourceStep);
+		registerStep(uploadStep);
+		registerStep(channelStep);
+		registerStep(metadataStep);
+		registerStep(csvPreviewStep);
+		registerStep(csvMappingStep);
+		registerStep(sdmxMappingStep);
+		registerStep(summaryStep);
+		registerStep(doneStep);
 		Log.trace("done");
-		
+
 		bind();
 	}
-	
+
 	@Override
 	public void onResetWizard(ResetWizardEvent event) {
 		flow.reset();
@@ -95,7 +131,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	protected void registerStep(WizardStep step){
 		view.addStep(step);
 	}
-	
+
 	public void bind()
 	{
 		importEventBus.addHandler(NavigationEvent.TYPE, this);
@@ -113,7 +149,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		updateTrackerLabels();
 		updateCurrentStep();
 	}
-	
+
 	protected void updateTrackerLabels()
 	{
 		List<WizardStep> labels = flow.getCurrentFlow();
@@ -216,7 +252,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			case FORWARD: goForward(); break;
 		}		
 	}
-	
+
 	@Override
 	public void onFlowUpdated(FlowUpdatedEvent event) {
 		updateTrackerLabels();
