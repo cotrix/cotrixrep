@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.client;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
-import org.cotrix.web.importwizard.client.step.channel.AssetInfoDataProvider;
+import org.cotrix.web.importwizard.client.step.selection.AssetInfoDataProvider;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepView;
 

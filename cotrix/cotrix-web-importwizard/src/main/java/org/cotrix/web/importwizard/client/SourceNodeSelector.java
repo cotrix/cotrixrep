@@ -13,7 +13,7 @@ import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent.SourceType
 import org.cotrix.web.importwizard.client.flow.AbstractNodeSelector;
 import org.cotrix.web.importwizard.client.flow.FlowNode;
 import org.cotrix.web.importwizard.client.step.WizardStep;
-import org.cotrix.web.importwizard.client.step.channel.SelectionStepPresenter;
+import org.cotrix.web.importwizard.client.step.selection.SelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 
 import com.allen_sauer.gwt.log.client.Log;

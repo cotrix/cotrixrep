@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.step.channel;
+package org.cotrix.web.importwizard.client.step.selection;
 
 import org.cotrix.web.importwizard.shared.AssetInfo;
 

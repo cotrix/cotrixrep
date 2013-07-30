@@ -2,11 +2,6 @@ package org.cotrix.web.importwizard.client;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.session.ImportSession;
-import org.cotrix.web.importwizard.client.step.channel.AssetInfoDataProvider;
-import org.cotrix.web.importwizard.client.step.channel.SelectionStepPresenter;
-import org.cotrix.web.importwizard.client.step.channel.SelectionStepPresenterImpl;
-import org.cotrix.web.importwizard.client.step.channel.SelectionStepView;
-import org.cotrix.web.importwizard.client.step.channel.SelectionStepViewImpl;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepView;
@@ -27,6 +22,11 @@ import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresen
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepView;
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepViewImpl;
+import org.cotrix.web.importwizard.client.step.selection.AssetInfoDataProvider;
+import org.cotrix.web.importwizard.client.step.selection.SelectionStepPresenter;
+import org.cotrix.web.importwizard.client.step.selection.SelectionStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.selection.SelectionStepView;
+import org.cotrix.web.importwizard.client.step.selection.SelectionStepViewImpl;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepView;
