@@ -29,8 +29,8 @@ public class Outcome {
 	 * 
 	 * @return the report
 	 */
-	public String report() {
-		return report.toString();
+	public Report report() {
+		return report;
 	}
 
 	/**
