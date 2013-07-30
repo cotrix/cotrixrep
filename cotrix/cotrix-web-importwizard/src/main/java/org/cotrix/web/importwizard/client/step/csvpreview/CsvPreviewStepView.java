@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.step.preview;
+package org.cotrix.web.importwizard.client.step.csvpreview;
 
 import java.util.List;
 

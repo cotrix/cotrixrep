@@ -16,9 +16,9 @@ import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SwitchNodeBui
 import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
+import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
-import org.cotrix.web.importwizard.client.step.preview.CsvPreviewStepPresenter;
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;

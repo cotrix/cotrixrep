@@ -1,10 +1,10 @@
-package org.cotrix.web.importwizard.client.step.preview;
+package org.cotrix.web.importwizard.client.step.csvpreview;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.importwizard.client.step.preview.CsvParserConfigurationDialog.DialogSaveHandler;
+import org.cotrix.web.importwizard.client.step.csvpreview.CsvParserConfigurationDialog.DialogSaveHandler;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 
 import com.google.gwt.core.client.GWT;

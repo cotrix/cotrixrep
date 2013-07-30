@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.step.preview;
+package org.cotrix.web.importwizard.client.step.csvpreview;
 
 
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
