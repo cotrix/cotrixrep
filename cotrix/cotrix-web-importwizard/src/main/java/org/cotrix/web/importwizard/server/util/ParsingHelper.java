@@ -59,7 +59,7 @@ public class ParsingHelper {
 		return table;
 	}
 	
-	protected CsvParseDirectives getDirectives(CsvParserConfiguration configuration)
+	public CsvParseDirectives getDirectives(CsvParserConfiguration configuration)
 	{
 		CsvParseDirectives directives = new CsvParseDirectives();
 		directives.options().hasHeader(configuration.isHasHeader());

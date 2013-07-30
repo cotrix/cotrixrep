@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
+import org.cotrix.web.importwizard.server.climport.Importer;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
@@ -44,6 +45,8 @@ public class WizardImportSession {
 	protected ImportMetadata guessedMetadata;
 	
 	protected List<AttributeMapping> mappings;
+	
+	protected Importer<?> importer;
 
 	/**
 	 * @return the uploadProgress
@@ -156,6 +159,20 @@ public class WizardImportSession {
 	 */
 	public void setMappings(List<AttributeMapping> mappings) {
 		this.mappings = mappings;
+	}
+
+	/**
+	 * @return the importer
+	 */
+	public Importer<?> getImporter() {
+		return importer;
+	}
+
+	/**
+	 * @param importer the importer to set
+	 */
+	public void setImporter(Importer<?> importer) {
+		this.importer = importer;
 	}
 
 }

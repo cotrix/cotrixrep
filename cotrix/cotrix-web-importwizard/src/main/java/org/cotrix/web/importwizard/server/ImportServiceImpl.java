@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.importwizard.server;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.cotrix.web.importwizard.client.ImportService;
+import org.cotrix.web.importwizard.server.climport.Importer;
+import org.cotrix.web.importwizard.server.climport.ImporterFactory;
 import org.cotrix.web.importwizard.server.upload.MappingGuesser;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
 import org.cotrix.web.importwizard.shared.AssetDetails;
@@ -51,6 +54,9 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	
 	@Inject
 	protected MappingGuesser mappingsGuesser;
+	
+	@Inject
+	protected ImporterFactory importerFactory;
 
 	protected WizardImportSession getImportSession()
 	{
@@ -239,19 +245,26 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public void startImport(ImportMetadata metadata, List<AttributeMapping> columns) throws ImportServiceException {
-		importProgress = 0;
+	public void startImport(ImportMetadata metadata, List<AttributeMapping> mappings) throws ImportServiceException {
+		WizardImportSession session = getImportSession();
+		
+		
+		try {
+			Importer<?> importer = importerFactory.createImporter(session, metadata, mappings);
+			Thread th = new Thread(importer);
+			th.start();
+			session.setImporter(importer);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	int importProgress = 0;
 
 	@Override
 	public ImportProgress getImportProgress() throws ImportServiceException {
-		importProgress += random.nextInt(30);
-		ImportProgress progress = new ImportProgress();
-		progress.setStatus(importProgress>100?ImportProgress.Status.DONE:ImportProgress.Status.ONGOING);
-		progress.setReport("All fine p: "+importProgress);
-		return progress;
+		WizardImportSession session = getImportSession();
+		return session.getImporter().getProgress();
 	}
 
 
