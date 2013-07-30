@@ -22,8 +22,8 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class ColumnDefinitionPanel extends Composite {
 	
-	protected static final String NO_TYPE_VALUE = "NONE";
-	protected static final String NO_TYPE_LABEL = "------ Select Type ------";
+	protected static final String IGNORE_VALUE = "IGNORE";
+	protected static final String IGNORE_LABEL = "Ignore";
 
 	private static ColumnDefinitionPanelUiBinder uiBinder = GWT.create(ColumnDefinitionPanelUiBinder.class);
 
@@ -60,9 +60,9 @@ public class ColumnDefinitionPanel extends Composite {
 	
 	protected void setupTypeList()
 	{
-		typeList.addItem(NO_TYPE_LABEL, NO_TYPE_VALUE);
+		typeList.addItem(IGNORE_LABEL, IGNORE_VALUE);
 		for (AttributeType columnType:AttributeType.values()) typeList.addItem(columnType.getLabel(), columnType.toString());
-		setType(NO_TYPE_VALUE);
+		setType(IGNORE_VALUE);
 	}
 	
 	protected void setupLanguageList()
@@ -92,7 +92,7 @@ public class ColumnDefinitionPanel extends Composite {
 	
 	public void setColumnType(AttributeType columnType)
 	{
-		if (columnType == null) setType(NO_TYPE_VALUE);
+		if (columnType == null) setType(IGNORE_VALUE);
 		else setType(columnType.toString());
 		updateLanguageList();
 	}
@@ -120,7 +120,7 @@ public class ColumnDefinitionPanel extends Composite {
 		int selectedIndex = typeList.getSelectedIndex();
 		if (selectedIndex<0) return null;
 		String typeValue = typeList.getValue(selectedIndex);
-		if (NO_TYPE_VALUE.equals(typeValue)) return null;
+		if (IGNORE_VALUE.equals(typeValue)) return null;
 		return AttributeType.valueOf(typeValue);
 	}
 	

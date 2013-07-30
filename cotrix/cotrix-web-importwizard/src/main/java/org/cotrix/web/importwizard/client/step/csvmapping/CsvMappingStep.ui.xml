@@ -1,27 +1,70 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style type="org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepViewImpl.Style">
-		.important {
-			font-weight: bold;
-		}
-		
-		.headerlabel {
-			margin-right: 20px;
-			font-weight: bold;
-			color: #333;
-		}
-		
-		.grid {
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style
+		type="org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepViewImpl.Style">
+			.important {
+				font-weight: bold;
+			}
 			
-		}
-		
-		.cell {
-			padding: 5px;
-			font-size: 14px;
-			color: #666;
-		}
-	</ui:style>
-	<g:FlexTable ui:field="columnsTable">
-		 
-	</g:FlexTable>
+			.headerlabel {
+				margin-right: 20px;
+				font-weight: bold;
+				color: #333;
+			}
+			
+			.grid {
+				
+			}
+			
+			.cell {
+				padding: 5px;
+				font-size: 14px;
+				color: #666;
+			}
+			
+			input[type="text"] {
+				padding: 5px;
+				border-radius: 5px;
+				box-shadow: 0px 0px 0px 0px;
+				border: 1px solid #999999;
+			}
+			
+			input[type="text"]:focus {
+				outline: none;
+				border-radius: 5px;
+				box-shadow: 0px 0px 5px #61C5FA;
+				border: 1px solid #5AB0DB;
+			}
+			
+			input[type="text"]:hover {
+				border: 1px solid #999;
+				border-radius: 5px;
+			}
+			
+			input[type="text"]:focus:hover {
+				outline: none;
+				box-shadow: 0px 0px 5px #61C5FA;
+				border: 1px solid #5AB0DB;
+				border-radius: 5px;
+			}
+			
+			.label {
+				margin-right: 20px;
+			}
+		</ui:style>
+	<g:HTMLPanel>
+		<g:Grid styleName="{style.grid}">
+			<g:row>
+				<g:customCell styleName="{style.cell}">
+					<g:Label styleName="{style.label}">Name</g:Label>
+				</g:customCell>
+				<g:customCell styleName="{style.cell}">
+					<g:TextBox width="300px" ui:field="name"></g:TextBox>
+				</g:customCell>
+			</g:row>
+		</g:Grid>
+
+		<g:FlexTable ui:field="columnsTable" />
+	</g:HTMLPanel>
 </ui:UiBinder> 

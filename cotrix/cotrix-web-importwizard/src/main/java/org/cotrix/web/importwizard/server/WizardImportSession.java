@@ -3,13 +3,17 @@
  */
 package org.cotrix.web.importwizard.server;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
+import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -36,6 +40,10 @@ public class WizardImportSession {
 	protected CsvParserConfiguration csvParserConfiguration;
 	protected CsvPreviewData previewCache;
 	protected boolean isCacheDirty;
+	
+	protected ImportMetadata guessedMetadata;
+	
+	protected List<AttributeMapping> mappings;
 
 	/**
 	 * @return the uploadProgress
@@ -120,6 +128,34 @@ public class WizardImportSession {
 	 */
 	public void setCacheDirty(boolean isCacheDirty) {
 		this.isCacheDirty = isCacheDirty;
+	}
+
+	/**
+	 * @return the metadata
+	 */
+	public ImportMetadata getGuessedMetadata() {
+		return guessedMetadata;
+	}
+
+	/**
+	 * @param metadata the metadata to set
+	 */
+	public void setGuessedMetadata(ImportMetadata metadata) {
+		this.guessedMetadata = metadata;
+	}
+
+	/**
+	 * @return the mappings
+	 */
+	public List<AttributeMapping> getMappings() {
+		return mappings;
+	}
+
+	/**
+	 * @param mappings the mappings to set
+	 */
+	public void setMappings(List<AttributeMapping> mappings) {
+		this.mappings = mappings;
 	}
 
 }

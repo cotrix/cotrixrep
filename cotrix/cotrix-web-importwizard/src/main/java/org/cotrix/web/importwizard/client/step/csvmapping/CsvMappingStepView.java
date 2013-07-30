@@ -15,6 +15,8 @@ public interface CsvMappingStepView {
 
 	}
 	
+	public void setCsvName(String name);
+	public String getCsvName();
 	public void setMapping(List<AttributeMapping> mapping);
 	public void setCodeTypeError();
 	public void cleanStyle();

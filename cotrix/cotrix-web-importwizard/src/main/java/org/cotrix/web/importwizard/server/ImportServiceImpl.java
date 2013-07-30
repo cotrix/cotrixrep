@@ -11,28 +11,24 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import org.cotrix.io.parse.ParseService;
-import org.cotrix.io.tabular.csv.CsvParseDirectives;
 import org.cotrix.web.importwizard.client.ImportService;
-import org.cotrix.web.importwizard.server.util.CsvPreviewHelper;
+import org.cotrix.web.importwizard.server.upload.MappingGuesser;
+import org.cotrix.web.importwizard.server.util.ParsingHelper;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
-import org.cotrix.web.importwizard.shared.Field;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
-import org.cotrix.web.importwizard.shared.CsvParserConfiguration.NewLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.tabular.Table;
-
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.view.client.Range;
@@ -45,13 +41,23 @@ import com.google.gwt.view.client.Range;
 @SuppressWarnings("serial")
 public class ImportServiceImpl extends RemoteServiceServlet implements ImportService {
 
+	protected Logger logger = LoggerFactory.getLogger(ImportServiceImpl.class);
+	
 	/*@Inject
 	org.cotrix.io.ImportService service;*/
-
+	
 	@Inject
-	ParseService service;
+	protected ParsingHelper parsingHelper;
+	
+	@Inject
+	protected MappingGuesser mappingsGuesser;
 
-	protected Logger logger = LoggerFactory.getLogger(ImportServiceImpl.class);
+	protected WizardImportSession getImportSession()
+	{
+		HttpSession httpSession = this.getThreadLocalRequest().getSession();
+		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
+		return importSession;
+	}
 
 	/** 
 	 * {@inheritDoc}
@@ -126,9 +132,9 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public FileUploadProgress getUploadProgress() throws ImportServiceException {
 
-		HttpSession httpSession = this.getThreadLocalRequest().getSession();
-		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
-		FileUploadProgress uploadProgress = importSession.getUploadProgress();
+		WizardImportSession session = getImportSession();
+		
+		FileUploadProgress uploadProgress = session.getUploadProgress();
 		if (uploadProgress == null) {
 			logger.error("Unexpected upload progress null.");
 			throw new ImportServiceException("Upload progress not available");
@@ -139,28 +145,26 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public CsvPreviewData getCsvPreviewData() throws ImportServiceException {
 
-		HttpSession httpSession = this.getThreadLocalRequest().getSession();
-		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
+		WizardImportSession session = getImportSession();
 
-		if (importSession.getCodeListType()!=CodeListType.CSV) {
-			logger.error("Requested CSV preview data when CodeList type is {}", importSession.getCodeListType());
+		if (session.getCodeListType()!=CodeListType.CSV) {
+			logger.error("Requested CSV preview data when CodeList type is {}", session.getCodeListType());
 			throw new ImportServiceException("No preview data available");
 		}
 
-		if (!importSession.isCacheDirty()) return importSession.getPreviewCache();
+		if (!session.isCacheDirty()) return session.getPreviewCache();
 
 		try {
-			logger.trace("creating preview");
+		
+			//FIXME repeated code
+			Table table = parsingHelper.parse(session.getCsvParserConfiguration(), session.getFileField().getInputStream());
+			CsvPreviewData previewData = parsingHelper.convert(table, ParsingHelper.ROW_LIMIT);
+			session.setPreviewCache(previewData);
+			session.setCacheDirty(false);
 			
-			CsvParseDirectives directives = CsvPreviewHelper.getDirectives(importSession.getCsvParserConfiguration());
-
-			logger.trace("parsing");
-			Table table = service.parse(importSession.getFileField().getInputStream(), directives);
+			List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
+			session.setMappings(mappings);
 			
-			logger.trace("converting");
-			CsvPreviewData previewData = CsvPreviewHelper.convert(table,10);
-			logger.trace("ready");
-
 			return previewData;
 		} catch(Exception e)
 		{
@@ -169,33 +173,29 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		}
 	}
 
-
-
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public CodeListType getCodeListType() throws ImportServiceException {
-		HttpSession httpSession = this.getThreadLocalRequest().getSession();
-		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
+		WizardImportSession session = getImportSession();
 
-		return importSession.getCodeListType();
+		return session.getCodeListType();
 	}
 
 	@Override
 	public ImportMetadata getMetadata() throws ImportServiceException {
-		ImportMetadata metadata = new ImportMetadata();
-		metadata.setName("Asfis sp Feb 2012");
-		//metadata.setRowCount(12000);
-		return metadata;
+		WizardImportSession session = getImportSession();
+		return session.getGuessedMetadata();
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public CsvParserConfiguration getCsvParserConfiguration() throws ImportServiceException {
-		CsvParserConfiguration configuration = new CsvParserConfiguration();
-		configuration.setComment('#');
-		configuration.setCharset("UTF-8");
-		configuration.setFieldSeparator(',');
-		configuration.setHasHeader(true);
-		configuration.setLineSeparator(NewLine.LF);
-		configuration.setQuote('"');
+		WizardImportSession session = getImportSession();
+		CsvParserConfiguration configuration = session.getCsvParserConfiguration();
 		configuration.setAvailablesCharset(getEncodings());
 		return configuration;
 	}
@@ -209,9 +209,17 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		return charsets;
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void updateCsvParserConfiguration(CsvParserConfiguration configuration) throws ImportServiceException {
-		// TODO Auto-generated method stub
+		WizardImportSession session = getImportSession();
+		CsvParserConfiguration currentConfiguration = session.getCsvParserConfiguration();
+		if (!currentConfiguration.equals(configuration)) {
+			session.setCsvParserConfiguration(configuration);
+			session.setCacheDirty(true);
+		}
 
 	}
 
@@ -221,23 +229,13 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
-	public List<AttributeMapping> getMapping() throws ImportServiceException {
-		List<AttributeMapping> mapping = new ArrayList<AttributeMapping>();
-
-		String[] headers = new String[]{"ISSCAAP","TAXOCODE","3A_CODE","Scientific_name","English_name","French_name","Spanish_name","Author","Family","Order","Stats_data"};
-
-		for (String header:headers) {
-			Field field = new Field();
-			field.setId(header);
-			field.setLabel(header);
-
-			AttributeMapping attributeMapping = new AttributeMapping();
-			attributeMapping.setField(field);
-			mapping.add(attributeMapping);
-		}
-
-		return mapping;
+	public List<AttributeMapping> getMappings() throws ImportServiceException {
+		WizardImportSession session = getImportSession();
+		return session.getMappings();
 	}
 
 	@Override

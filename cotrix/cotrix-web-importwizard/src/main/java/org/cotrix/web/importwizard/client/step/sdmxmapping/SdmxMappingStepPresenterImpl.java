@@ -3,8 +3,8 @@ package org.cotrix.web.importwizard.client.step.sdmxmapping;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent;
-import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent.MappingUpdatedHandler;
+import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
@@ -18,7 +18,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements SdmxMappingStepPresenter, MappingUpdatedHandler {
+public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements SdmxMappingStepPresenter, MappingsUpdatedHandler {
 
 	protected SdmxMappingStepView view;
 	protected EventBus importEventBus;
@@ -29,7 +29,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 		this.view = view;
 		
 		this.importEventBus = importEventBus;
-		importEventBus.addHandler(MappingUpdatedEvent.TYPE, this);
+		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, this);
 	}
 	
 	/** 
@@ -44,7 +44,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 		
 		boolean valid = validate(columns);
 		
-		if (valid) importEventBus.fireEvent(new MappingUpdatedEvent(columns, true));
+		if (valid) importEventBus.fireEvent(new MappingsUpdatedEvent(columns, true));
 		
 		return valid;
 	}
@@ -73,8 +73,8 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 	}
 
 	@Override
-	public void onMappingUpdated(MappingUpdatedEvent event) {
+	public void onMappingUpdated(MappingsUpdatedEvent event) {
 		if (event.isUserEdit()) return;
-		view.setAttributes(event.getMapping());
+		view.setAttributes(event.getMappings());
 	}
 }

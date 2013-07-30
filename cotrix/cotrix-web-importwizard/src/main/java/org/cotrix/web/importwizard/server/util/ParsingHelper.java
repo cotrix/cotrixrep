@@ -3,13 +3,20 @@
  */
 package org.cotrix.web.importwizard.server.util;
 
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import org.cotrix.io.parse.ParseService;
 import org.cotrix.io.tabular.csv.CsvParseDirectives;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CsvPreviewData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.virtualrepository.tabular.Column;
 import org.virtualrepository.tabular.Row;
 import org.virtualrepository.tabular.Table;
@@ -18,9 +25,41 @@ import org.virtualrepository.tabular.Table;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CsvPreviewHelper {
+@Singleton
+public class ParsingHelper {
 	
-	public static CsvParseDirectives getDirectives(CsvParserConfiguration configuration)
+	protected Logger logger = LoggerFactory.getLogger(ParsingHelper.class);
+	
+	public static final int ROW_LIMIT = 10;
+	
+	@Inject
+	ParseService service;
+	
+	public CsvPreviewData getCsvPreviewData(CsvParserConfiguration parserConfiguration, InputStream inputStream)
+	{
+		logger.trace("creating preview");
+
+		Table table = parse(parserConfiguration, inputStream);
+
+		logger.trace("converting");
+		CsvPreviewData previewData = convert(table, ROW_LIMIT);
+		logger.trace("ready");
+		
+		return previewData;
+	}
+	
+	public Table parse(CsvParserConfiguration parserConfiguration, InputStream inputStream)
+	{
+
+		CsvParseDirectives directives = getDirectives(parserConfiguration);
+
+		logger.trace("parsing");
+		Table table = service.parse(inputStream, directives);
+		
+		return table;
+	}
+	
+	protected CsvParseDirectives getDirectives(CsvParserConfiguration configuration)
 	{
 		CsvParseDirectives directives = new CsvParseDirectives();
 		directives.options().hasHeader(configuration.isHasHeader());
@@ -31,7 +70,7 @@ public class CsvPreviewHelper {
 		return directives;
 	}
 	
-	public static CsvPreviewData convert(Table table, int rowLimit)
+	public CsvPreviewData convert(Table table, int rowLimit)
 	{
 		CsvPreviewData preview = new CsvPreviewData();
 		preview.setHeader(getHeader(table));
@@ -39,7 +78,7 @@ public class CsvPreviewHelper {
 		return preview;
 	}
 	
-	protected static List<String> getHeader(Table table)
+	protected List<String> getHeader(Table table)
 	{
 		List<Column> columns = table.columns();
 		List<String> header = new ArrayList<String>(columns.size());
@@ -47,7 +86,7 @@ public class CsvPreviewHelper {
 		return header;
 	}
 	
-	protected static List<List<String>> getData(Table table, int rowLimit)
+	protected List<List<String>> getData(Table table, int rowLimit)
 	{
 		List<List<String>> data = new ArrayList<List<String>>();
 		int rowCount = 0;
@@ -58,7 +97,7 @@ public class CsvPreviewHelper {
 		return data;
 	}
 	
-	protected static List<String> getRow(Row row, List<Column> columns)
+	protected List<String> getRow(Row row, List<Column> columns)
 	{
 		List<String> cells = new ArrayList<String>(columns.size());
 		for (Column column:columns) cells.add(row.get(column));

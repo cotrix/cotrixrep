@@ -3,8 +3,10 @@ package org.cotrix.web.importwizard.client.step.csvmapping;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent;
-import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent.MappingUpdatedHandler;
+import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
+import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
@@ -18,7 +20,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements CsvMappingStepPresenter, MappingUpdatedHandler {
+public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements CsvMappingStepPresenter, MappingsUpdatedHandler, MetadataUpdatedHandler {
 
 	protected CsvMappingStepView view;
 	protected EventBus importEventBus;
@@ -29,7 +31,8 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		this.view = view;
 		
 		this.importEventBus = importEventBus;
-		importEventBus.addHandler(MappingUpdatedEvent.TYPE, this);
+		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, this);
+		importEventBus.addHandler(MetadataUpdatedEvent.TYPE, this);
 	}
 	
 	/** 
@@ -44,7 +47,7 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		
 		boolean valid = validate(mapping);
 		
-		if (valid) importEventBus.fireEvent(new MappingUpdatedEvent(mapping, true));
+		if (valid) importEventBus.fireEvent(new MappingsUpdatedEvent(mapping, true));
 		
 		return valid;
 	}
@@ -72,8 +75,13 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 	}
 
 	@Override
-	public void onMappingUpdated(MappingUpdatedEvent event) {
+	public void onMappingUpdated(MappingsUpdatedEvent event) {
 		if (event.isUserEdit()) return;
-		view.setMapping(event.getMapping());
+		view.setMapping(event.getMappings());
+	}
+
+	@Override
+	public void onMetadataUpdated(MetadataUpdatedEvent event) {
+		if (!event.isUserEdited()) view.setCsvName(event.getMetadata().getName());
 	}
 }

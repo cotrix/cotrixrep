@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,13 +17,20 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.cotrix.web.importwizard.server.upload.CodeListTypeGuesser;
 import org.cotrix.web.importwizard.server.upload.CsvParserConfigurationGuesser;
+import org.cotrix.web.importwizard.server.upload.FileNameCleaner;
+import org.cotrix.web.importwizard.server.upload.MappingGuesser;
 import org.cotrix.web.importwizard.server.upload.UploadProgressListener;
+import org.cotrix.web.importwizard.server.util.ParsingHelper;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
+import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.FileUploadProgress.Status;
+import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.virtualrepository.tabular.Table;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -38,6 +46,12 @@ public class FileUpload extends HttpServlet{
 	protected DiskFileItemFactory factory;
 	protected CodeListTypeGuesser typeGuesser;
 	protected CsvParserConfigurationGuesser csvParserConfigurationGuesser;
+	
+	@Inject
+	protected ParsingHelper parsingHelper;
+	
+	@Inject
+	protected MappingGuesser mappingsGuesser;
 
 	public FileUpload()
 	{
@@ -119,9 +133,25 @@ public class FileUpload extends HttpServlet{
 		if (codeListType == CodeListType.CSV) {
 			CsvParserConfiguration configuration = csvParserConfigurationGuesser.guessConfiguration(fileField);
 			session.setCsvParserConfiguration(configuration);
-			session.setCacheDirty(true);
+			uploadProgress.setProgress(95);
+			
+			//TODO check if csv config is valid
+			//FIXME repeated code
+			Table table = parsingHelper.parse(configuration, fileField.getInputStream());
+			CsvPreviewData previewData = parsingHelper.convert(table, ParsingHelper.ROW_LIMIT);
+			session.setPreviewCache(previewData);
+			session.setCacheDirty(false);
+			
+			List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
+			session.setMappings(mappings);
+			
+			String filename = FileNameCleaner.clean(fileField.getName());
+			ImportMetadata metadata = new ImportMetadata();
+			metadata.setName(filename);
+			session.setGuessedMetadata(metadata);
 		}
 
+		uploadProgress.setProgress(100);
 		uploadProgress.setStatus(Status.DONE);
 
 	}

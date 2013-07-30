@@ -11,11 +11,11 @@ import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEve
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportStartedEvent;
-import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.NewImportEvent;
 import org.cotrix.web.importwizard.client.event.NewImportEvent.NewImportHandler;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
-import org.cotrix.web.importwizard.client.event.MappingUpdatedEvent.MappingUpdatedHandler;
+import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent;
@@ -58,7 +58,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected ImportWizardPresenter importWizardPresenter;
 	
 	protected ImportMetadata metadata;
-	protected List<AttributeMapping> mapping;
+	protected List<AttributeMapping> mappings;
 	
 	protected Timer importProgressPolling;
 	
@@ -105,11 +105,11 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				if (event.isUserEdited()) metadata = event.getMetadata();				
 			}
 		});
-		importEventBus.addHandler(MappingUpdatedEvent.TYPE, new MappingUpdatedHandler() {
+		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedHandler() {
 			
 			@Override
-			public void onMappingUpdated(MappingUpdatedEvent event) {
-				if (event.isUserEdit()) mapping = event.getMapping();
+			public void onMappingUpdated(MappingsUpdatedEvent event) {
+				if (event.isUserEdit()) mappings = event.getMappings();
 			}
 		});
 		importEventBus.addHandler(SaveEvent.TYPE, new SaveHandler() {
@@ -158,7 +158,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		getMetadata();
 		
 		Log.trace("getting mapping");
-		getMapping();
+		getMappings();
 		
 		Log.trace("done importedItemUpdated");
 	}
@@ -245,19 +245,19 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		});
 	}
 	
-	protected void getMapping()
+	protected void getMappings()
 	{
-		importService.getMapping(new AsyncCallback<List<AttributeMapping>>() {
+		importService.getMappings(new AsyncCallback<List<AttributeMapping>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Log.error("Error getting the columns", caught);
+				Log.error("Error getting the mappings", caught);
 			}
 
 			@Override
 			public void onSuccess(List<AttributeMapping> result) {
-				importEventBus.fireEvent(new MappingUpdatedEvent(result, false));
-				mapping = result;
+				importEventBus.fireEvent(new MappingsUpdatedEvent(result, false));
+				mappings = result;
 			}
 		});
 	}
@@ -265,7 +265,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected void startImport()
 	{
 		Log.trace("starting import");
-		importService.startImport(metadata, mapping, new AsyncCallback<Void>() {
+		importService.startImport(metadata, mappings, new AsyncCallback<Void>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -308,7 +308,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected void newImportRequested()
 	{
 		metadata = null;
-		mapping = null;
+		mappings = null;
 		importProgressPolling.cancel();
 		importEventBus.fireEvent(new ResetWizardEvent());
 	}

@@ -42,7 +42,7 @@ public interface ImportService extends RemoteService {
 	
 	public void updateCsvParserConfiguration(CsvParserConfiguration configuration) throws ImportServiceException;
 	
-	public List<AttributeMapping> getMapping() throws ImportServiceException;
+	public List<AttributeMapping> getMappings() throws ImportServiceException;
 	
 	public void startImport(ImportMetadata metadata, List<AttributeMapping> mapping) throws ImportServiceException;
 	

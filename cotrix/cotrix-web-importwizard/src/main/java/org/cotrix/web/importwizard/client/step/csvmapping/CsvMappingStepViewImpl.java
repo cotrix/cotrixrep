@@ -16,6 +16,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -28,6 +29,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, CsvMappingStepViewImpl> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 
+	@UiField TextBox name;
 	@UiField FlexTable columnsTable;
 	@UiField Style style;
 
@@ -44,7 +46,21 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	public CsvMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
+	
 
+	@Override
+	public void setCsvName(String name) {
+		this.name.setValue(name);
+	}
+
+	@Override
+	public String getCsvName() {
+		return this.name.getValue();
+	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void setMapping(List<AttributeMapping> mapping)
 	{
 		columnsTable.removeAllRows();
@@ -90,8 +106,15 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		for (int i = 0; i < columnDefinitions.size(); i++) {
 			AttributeMapping definition = columnDefinitions.get(i);
 			ColumnDefinitionPanel panel = columnPanels.get(i);
-			/*definition.setType(panel.getColumnType());
-			definition.setLanguage(panel.getLanguage());*/
+			AttributeType attributeType =  panel.getColumnType();
+			if (attributeType == null) {
+				definition.setAttributeDefinition(null);
+			} else {
+				AttributeDefinition attributeDefinition = new AttributeDefinition();
+				attributeDefinition.setName(definition.getField().getLabel());
+				attributeDefinition.setType(panel.getColumnType());
+				attributeDefinition.setLanguage(panel.getLanguage());
+			}
 		}
 
 		return columnDefinitions;
