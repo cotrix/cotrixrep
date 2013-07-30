@@ -27,12 +27,12 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ChannelStepViewImpl extends Composite implements ChannelStepView {
+public class SelectionStepViewImpl extends Composite implements SelectionStepView {
 
 	protected static final String[] headers = new String[]{"Name", "Type", "Repository"};
 
-	@UiTemplate("ChannelStep.ui.xml")
-	interface ChannelStepUiBinder extends UiBinder<Widget, ChannelStepViewImpl> {}
+	@UiTemplate("SelectionStep.ui.xml")
+	interface ChannelStepUiBinder extends UiBinder<Widget, SelectionStepViewImpl> {}
 
 	private static ChannelStepUiBinder uiBinder = GWT.create(ChannelStepUiBinder.class);
 
@@ -46,12 +46,12 @@ public class ChannelStepViewImpl extends Composite implements ChannelStepView {
 
 	private AlertDialog alertDialog;
 	
-	protected ChannelDetailsDialog detailsDialog;
+	protected CodelistDetailsDialog detailsDialog;
 
 	private Presenter presenter;
 
 	@Inject
-	public ChannelStepViewImpl(AssetInfoDataProvider assetInfoDataProvider) {
+	public SelectionStepViewImpl(AssetInfoDataProvider assetInfoDataProvider) {
 		this.assetInfoDataProvider = assetInfoDataProvider;
 		
 		setupGrid();
@@ -187,7 +187,7 @@ public class ChannelStepViewImpl extends Composite implements ChannelStepView {
 
 	@Override
 	public void showAssetDetails(AssetDetails asset) {
-		if (detailsDialog == null) detailsDialog = new ChannelDetailsDialog();
+		if (detailsDialog == null) detailsDialog = new CodelistDetailsDialog();
 		detailsDialog.setAsset(asset);
 		detailsDialog.center();
 	}

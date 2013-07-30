@@ -24,9 +24,9 @@ import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfigur
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ChannelStepPresenterImpl extends AbstractWizardStep implements ChannelStepPresenter, ResetWizardHandler {
+public class SelectionStepPresenterImpl extends AbstractWizardStep implements SelectionStepPresenter, ResetWizardHandler {
 
-	protected final ChannelStepView view;
+	protected final SelectionStepView view;
 	
 	@Inject
 	protected ImportServiceAsync importService;
@@ -36,8 +36,8 @@ public class ChannelStepPresenterImpl extends AbstractWizardStep implements Chan
 	protected AssetInfo assetInfo;
 	
 	@Inject
-	public ChannelStepPresenterImpl(ChannelStepView view, @ImportBus EventBus importEventBus) {
-		super("channel", "Channel", "Codelist selection", DEFAULT_BACKWARD, DEFAULT_FORWARD);
+	public SelectionStepPresenterImpl(SelectionStepView view, @ImportBus EventBus importEventBus) {
+		super("selection", "Selection", "Codelist selection", DEFAULT_BACKWARD, DEFAULT_FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		this.importEventBus = importEventBus;

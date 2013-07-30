@@ -14,7 +14,7 @@ import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.RootNodeBuild
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SingleNodeBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SwitchNodeBuilder;
 import org.cotrix.web.importwizard.client.step.WizardStep;
-import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
+import org.cotrix.web.importwizard.client.step.channel.SelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
@@ -51,7 +51,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			UploadStepPresenter uploadStep,
 			CsvPreviewStepPresenter csvPreviewStep,
 
-			ChannelStepPresenter channelStep,
+			SelectionStepPresenter selectionStep,
 
 			CsvMappingStepPresenter csvMappingStep,
 			SdmxMappingStepPresenter sdmxMappingStep, 
@@ -76,9 +76,9 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		SingleNodeBuilder<WizardStep> csvMapping = csvPreview.next(csvMappingStep);
 		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(sdmxMappingStep);
 
-		SwitchNodeBuilder<WizardStep> channel = source.alternative(channelStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvMappingStep, sdmxMappingStep));
-		channel.alternative(sdmxMapping);
-		channel.alternative(csvMapping);
+		SwitchNodeBuilder<WizardStep> selection = source.alternative(selectionStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvMappingStep, sdmxMappingStep));
+		selection.alternative(sdmxMapping);
+		selection.alternative(csvMapping);
 
 		SingleNodeBuilder<WizardStep> summary = csvMapping.next(summaryStep);
 		sdmxMapping.next(summary);
@@ -109,7 +109,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		Log.trace("Adding steps");
 		registerStep(sourceStep);
 		registerStep(uploadStep);
-		registerStep(channelStep);
+		registerStep(selectionStep);
 		registerStep(metadataStep);
 		registerStep(csvPreviewStep);
 		registerStep(csvMappingStep);

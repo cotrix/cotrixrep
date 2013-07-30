@@ -13,7 +13,7 @@ import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent.SourceType
 import org.cotrix.web.importwizard.client.flow.AbstractNodeSelector;
 import org.cotrix.web.importwizard.client.flow.FlowNode;
 import org.cotrix.web.importwizard.client.step.WizardStep;
-import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
+import org.cotrix.web.importwizard.client.step.channel.SelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -26,12 +26,12 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> implements SourceTypeChangeHandler, ResetWizardHandler {
 	
-	protected ChannelStepPresenter channelStep;
+	protected SelectionStepPresenter channelStep;
 	protected UploadStepPresenter uploadStep;
 	protected WizardStep nextStep;
 	
 	@Inject
-	public SourceNodeSelector(@ImportBus EventBus importBus, ChannelStepPresenter channelStep, UploadStepPresenter uploadStep)
+	public SourceNodeSelector(@ImportBus EventBus importBus, SelectionStepPresenter channelStep, UploadStepPresenter uploadStep)
 	{
 		this.channelStep = channelStep;
 		this.uploadStep = uploadStep;

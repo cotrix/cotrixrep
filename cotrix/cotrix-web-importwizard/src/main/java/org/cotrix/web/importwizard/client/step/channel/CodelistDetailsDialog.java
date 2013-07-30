@@ -22,13 +22,13 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ChannelDetailsDialog extends DialogBox {
+public class CodelistDetailsDialog extends DialogBox {
 
 	private static ChannelDetailsDialogUiBinder uiBinder = GWT
 			.create(ChannelDetailsDialogUiBinder.class);
 
 	interface ChannelDetailsDialogUiBinder extends
-	UiBinder<Widget, ChannelDetailsDialog> {
+	UiBinder<Widget, CodelistDetailsDialog> {
 	}
 
 	interface Style extends CssResource {
@@ -55,7 +55,7 @@ public class ChannelDetailsDialog extends DialogBox {
 
 	@UiField Style style;
 
-	public ChannelDetailsDialog() {
+	public CodelistDetailsDialog() {
 		setModal(true);
 		setGlassEnabled(true);
 		setAnimationEnabled(true);

@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  */
-public interface ChannelStepView {
+public interface SelectionStepView {
 	
 	public interface Presenter {
 		public void assetSelected(AssetInfo asset);

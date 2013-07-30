@@ -3,10 +3,10 @@ package org.cotrix.web.importwizard.client;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.step.channel.AssetInfoDataProvider;
-import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
-import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenterImpl;
-import org.cotrix.web.importwizard.client.step.channel.ChannelStepView;
-import org.cotrix.web.importwizard.client.step.channel.ChannelStepViewImpl;
+import org.cotrix.web.importwizard.client.step.channel.SelectionStepPresenter;
+import org.cotrix.web.importwizard.client.step.channel.SelectionStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.channel.SelectionStepView;
+import org.cotrix.web.importwizard.client.step.channel.SelectionStepViewImpl;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepView;
@@ -79,8 +79,8 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(UploadStepView.class).to(UploadStepViewImpl.class);
         bind(UploadStepPresenter.class).to(UploadStepPresenterImpl.class).in(Singleton.class);
         
-        bind(ChannelStepView.class).to(ChannelStepViewImpl.class);
-        bind(ChannelStepPresenter.class).to(ChannelStepPresenterImpl.class).in(Singleton.class);
+        bind(SelectionStepView.class).to(SelectionStepViewImpl.class);
+        bind(SelectionStepPresenter.class).to(SelectionStepPresenterImpl.class).in(Singleton.class);
         bind(AssetInfoDataProvider.class).in(Singleton.class);
      
         bind(MetadataStepView.class).to(MetadataStepViewImpl.class);
