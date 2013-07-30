@@ -12,7 +12,7 @@ import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent.PreviewDataUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CodeListPreviewData;
+import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -80,7 +80,7 @@ public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements C
 
 	@Override
 	public void onPreviewDataUpdated(PreviewDataUpdatedEvent event) {
-		CodeListPreviewData previewData = event.getPreviewData();
+		CsvPreviewData previewData = event.getPreviewData();
 		setPreviewData(previewData.getHeader(), previewData.getColumnsCount(), previewData.getData());
 	}
 

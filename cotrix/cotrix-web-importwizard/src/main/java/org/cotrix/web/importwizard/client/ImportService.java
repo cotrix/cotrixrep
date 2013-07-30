@@ -7,7 +7,7 @@ import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CodeListPreviewData;
+import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
@@ -30,7 +30,7 @@ public interface ImportService extends RemoteService {
 	
 	public FileUploadProgress getUploadProgress() throws ImportServiceException;
 	
-	public CodeListPreviewData getPreviewData() throws ImportServiceException;
+	public CsvPreviewData getCsvPreviewData() throws ImportServiceException;
 	
 	public CodeListType getCodeListType() throws ImportServiceException;
 	

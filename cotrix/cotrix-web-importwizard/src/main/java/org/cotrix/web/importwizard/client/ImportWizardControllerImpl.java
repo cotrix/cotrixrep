@@ -27,7 +27,7 @@ import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CodeListPreviewData;
+import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
@@ -161,10 +161,10 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	
 	protected void getPreviewData()
 	{
-		importService.getPreviewData(new AsyncCallback<CodeListPreviewData>() {
+		importService.getCsvPreviewData(new AsyncCallback<CsvPreviewData>() {
 			
 			@Override
-			public void onSuccess(CodeListPreviewData previewData) {
+			public void onSuccess(CsvPreviewData previewData) {
 				importEventBus.fireEvent(new PreviewDataUpdatedEvent(previewData));
 			}
 			

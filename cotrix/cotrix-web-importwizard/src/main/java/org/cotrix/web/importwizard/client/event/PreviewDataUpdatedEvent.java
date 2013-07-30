@@ -3,7 +3,7 @@ package org.cotrix.web.importwizard.client.event;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 
-import org.cotrix.web.importwizard.shared.CodeListPreviewData;
+import org.cotrix.web.importwizard.shared.CsvPreviewData;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -12,17 +12,17 @@ import org.cotrix.web.importwizard.shared.CodeListPreviewData;
 public class PreviewDataUpdatedEvent extends GwtEvent<PreviewDataUpdatedEvent.PreviewDataUpdatedHandler> {
 
 	public static Type<PreviewDataUpdatedHandler> TYPE = new Type<PreviewDataUpdatedHandler>();
-	private CodeListPreviewData previewData;
+	private CsvPreviewData previewData;
 
 	public interface PreviewDataUpdatedHandler extends EventHandler {
 		void onPreviewDataUpdated(PreviewDataUpdatedEvent event);
 	}
 
-	public PreviewDataUpdatedEvent(CodeListPreviewData previewData) {
+	public PreviewDataUpdatedEvent(CsvPreviewData previewData) {
 		this.previewData = previewData;
 	}
 
-	public CodeListPreviewData getPreviewData() {
+	public CsvPreviewData getPreviewData() {
 		return previewData;
 	}
 

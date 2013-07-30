@@ -10,7 +10,7 @@ import java.util.List;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeListPreviewData implements Serializable {
+public class CsvPreviewData implements Serializable {
 	
 	private static final long serialVersionUID = 1123760247528878537L;
 	
@@ -18,14 +18,14 @@ public class CodeListPreviewData implements Serializable {
 	protected int columnsCount;
 	protected List<List<String>> data;
 	
-	public CodeListPreviewData(){}
+	public CsvPreviewData(){}
 
 	/**
 	 * @param header
 	 * @param columnsCount
 	 * @param data
 	 */
-	public CodeListPreviewData(List<String> header, int columnsCount,
+	public CsvPreviewData(List<String> header, int columnsCount,
 			List<List<String>> data) {
 		this.header = header;
 		this.columnsCount = columnsCount;
@@ -51,6 +51,27 @@ public class CodeListPreviewData implements Serializable {
 	 */
 	public List<List<String>> getData() {
 		return data;
+	}
+
+	/**
+	 * @param header the header to set
+	 */
+	public void setHeader(List<String> header) {
+		this.header = header;
+	}
+
+	/**
+	 * @param columnsCount the columnsCount to set
+	 */
+	public void setColumnsCount(int columnsCount) {
+		this.columnsCount = columnsCount;
+	}
+
+	/**
+	 * @param data the data to set
+	 */
+	public void setData(List<List<String>> data) {
+		this.data = data;
 	}
 
 	/** 

@@ -110,6 +110,52 @@ public class CsvParserConfiguration implements Serializable {
 	public void setAvailablesCharset(List<String> availablesCharset) {
 		this.availablesCharset = availablesCharset;
 	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((charset == null) ? 0 : charset.hashCode());
+		result = prime * result + comment;
+		result = prime * result + fieldSeparator;
+		result = prime * result + (hasHeader ? 1231 : 1237);
+		result = prime * result
+				+ ((lineSeparator == null) ? 0 : lineSeparator.hashCode());
+		result = prime * result + quote;
+		return result;
+	}
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CsvParserConfiguration other = (CsvParserConfiguration) obj;
+		if (charset == null) {
+			if (other.charset != null)
+				return false;
+		} else if (!charset.equals(other.charset))
+			return false;
+		if (comment != other.comment)
+			return false;
+		if (fieldSeparator != other.fieldSeparator)
+			return false;
+		if (hasHeader != other.hasHeader)
+			return false;
+		if (lineSeparator != other.lineSeparator)
+			return false;
+		if (quote != other.quote)
+			return false;
+		return true;
+	}
 	/** 
 	 * {@inheritDoc}
 	 */
