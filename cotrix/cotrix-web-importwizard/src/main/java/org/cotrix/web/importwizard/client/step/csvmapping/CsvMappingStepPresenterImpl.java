@@ -18,14 +18,14 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingStepPresenterImpl extends AbstractWizardStep implements MappingStepPresenter, MappingUpdatedHandler {
+public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements CsvMappingStepPresenter, MappingUpdatedHandler {
 
-	protected MappingStepView view;
+	protected CsvMappingStepView view;
 	protected EventBus importEventBus;
 	
 	@Inject
-	public MappingStepPresenterImpl(MappingStepView view, @ImportBus EventBus importEventBus){
-		super("csv-mapping", "Define Type", "Define Type", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+	public CsvMappingStepPresenterImpl(CsvMappingStepView view, @ImportBus EventBus importEventBus){
+		super("csv-mapping", "Columns mapping", "Columns mapping", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 		
 		this.importEventBus = importEventBus;

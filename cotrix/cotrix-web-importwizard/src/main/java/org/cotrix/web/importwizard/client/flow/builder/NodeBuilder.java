@@ -25,6 +25,7 @@ public interface NodeBuilder<T> {
 
 	public interface SwitchNodeBuilder<T> extends NodeBuilder<T> {
 		SingleNodeBuilder<T> alternative(T item);
+		<I extends NodeBuilder<T>> I alternative(I node);
 	}
 	
 	public interface RootNodeBuilder<T> extends SingleNodeBuilder<T> {

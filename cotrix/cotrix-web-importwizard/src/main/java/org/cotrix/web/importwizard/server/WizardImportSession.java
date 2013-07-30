@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.cotrix.web.importwizard.shared.CodeListType;
+import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
+import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 
 /**
@@ -29,6 +31,11 @@ public class WizardImportSession {
 	protected FileUploadProgress uploadProgress;
 	protected FileItem fileField;
 	protected CodeListType codeListType;
+	
+	
+	protected CsvParserConfiguration csvParserConfiguration;
+	protected CsvPreviewData previewCache;
+	protected boolean isCacheDirty;
 
 	/**
 	 * @return the uploadProgress
@@ -72,6 +79,47 @@ public class WizardImportSession {
 		this.codeListType = codeListType;
 	}
 
-	
+	/**
+	 * @return the csvParserConfiguration
+	 */
+	public CsvParserConfiguration getCsvParserConfiguration() {
+		return csvParserConfiguration;
+	}
+
+	/**
+	 * @param csvParserConfiguration the csvParserConfiguration to set
+	 */
+	public void setCsvParserConfiguration(
+			CsvParserConfiguration csvParserConfiguration) {
+		this.csvParserConfiguration = csvParserConfiguration;
+	}
+
+	/**
+	 * @return the previewCache
+	 */
+	public CsvPreviewData getPreviewCache() {
+		return previewCache;
+	}
+
+	/**
+	 * @param previewCache the previewCache to set
+	 */
+	public void setPreviewCache(CsvPreviewData previewCache) {
+		this.previewCache = previewCache;
+	}
+
+	/**
+	 * @return the isCacheDirty
+	 */
+	public boolean isCacheDirty() {
+		return isCacheDirty;
+	}
+
+	/**
+	 * @param isCacheDirty the isCacheDirty to set
+	 */
+	public void setCacheDirty(boolean isCacheDirty) {
+		this.isCacheDirty = isCacheDirty;
+	}
 
 }

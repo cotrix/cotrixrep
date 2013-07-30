@@ -7,10 +7,10 @@ import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenter;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepView;
 import org.cotrix.web.importwizard.client.step.channel.ChannelStepViewImpl;
-import org.cotrix.web.importwizard.client.step.csvmapping.MappingStepPresenter;
-import org.cotrix.web.importwizard.client.step.csvmapping.MappingStepPresenterImpl;
-import org.cotrix.web.importwizard.client.step.csvmapping.MappingStepView;
-import org.cotrix.web.importwizard.client.step.csvmapping.MappingStepViewImpl;
+import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
+import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepView;
+import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepViewImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepView;
@@ -19,10 +19,14 @@ import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepView;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepViewImpl;
-import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenter;
-import org.cotrix.web.importwizard.client.step.preview.PreviewStepPresenterImpl;
-import org.cotrix.web.importwizard.client.step.preview.PreviewStepView;
-import org.cotrix.web.importwizard.client.step.preview.PreviewStepViewImpl;
+import org.cotrix.web.importwizard.client.step.preview.CsvPreviewStepPresenter;
+import org.cotrix.web.importwizard.client.step.preview.CsvPreviewStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.preview.CsvPreviewStepView;
+import org.cotrix.web.importwizard.client.step.preview.CsvPreviewStepViewImpl;
+import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenter;
+import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepView;
+import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepViewImpl;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepView;
@@ -82,11 +86,14 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(MetadataStepView.class).to(MetadataStepViewImpl.class);
         bind(MetadataStepPresenter.class).to(MetadataStepPresenterImpl.class);
         
-        bind(PreviewStepView.class).to(PreviewStepViewImpl.class);
-        bind(PreviewStepPresenter.class).to(PreviewStepPresenterImpl.class);
+        bind(CsvPreviewStepView.class).to(CsvPreviewStepViewImpl.class);
+        bind(CsvPreviewStepPresenter.class).to(CsvPreviewStepPresenterImpl.class);
         
-        bind(MappingStepView.class).to(MappingStepViewImpl.class);
-        bind(MappingStepPresenter.class).to(MappingStepPresenterImpl.class);
+        bind(CsvMappingStepView.class).to(CsvMappingStepViewImpl.class);
+        bind(CsvMappingStepPresenter.class).to(CsvMappingStepPresenterImpl.class);
+        
+        bind(SdmxMappingStepView.class).to(SdmxMappingStepViewImpl.class);
+        bind(SdmxMappingStepPresenter.class).to(SdmxMappingStepPresenterImpl.class);
         
         bind(SummaryStepView.class).to(SummaryStepViewImpl.class);
         bind(SummaryStepPresenter.class).to(SummaryStepPresenterImpl.class);

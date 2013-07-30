@@ -3,6 +3,9 @@
  */
 package org.cotrix.web.importwizard.client.flow;
 
+import java.util.Collections;
+import java.util.List;
+
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -30,4 +33,10 @@ public class SingleNode<T> extends AbstractNode<T> {
 	public void setNext(FlowNode<T> next) {
 		this.next = next;
 	}
+
+	@Override
+	public List<FlowNode<T>> getChildren() {
+		return Collections.singletonList(next);
+	}
+
 }

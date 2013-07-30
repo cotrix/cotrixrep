@@ -5,18 +5,21 @@ package org.cotrix.web.importwizard.server;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.cotrix.io.parse.ParseService;
+import org.cotrix.io.tabular.csv.CsvParseDirectives;
 import org.cotrix.web.importwizard.client.ImportService;
+import org.cotrix.web.importwizard.server.util.CsvPreviewHelper;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CodeListPreviewData;
+import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.Field;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
@@ -28,6 +31,7 @@ import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration.NewLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.virtualrepository.tabular.Table;
 
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -40,9 +44,12 @@ import com.google.gwt.view.client.Range;
  */
 @SuppressWarnings("serial")
 public class ImportServiceImpl extends RemoteServiceServlet implements ImportService {
-	
+
 	/*@Inject
 	org.cotrix.io.ImportService service;*/
+
+	@Inject
+	ParseService service;
 
 	protected Logger logger = LoggerFactory.getLogger(ImportServiceImpl.class);
 
@@ -113,12 +120,12 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 		return assetDetails;
 	}
-	
+
 	Random random = new Random();
 
 	@Override
 	public FileUploadProgress getUploadProgress() throws ImportServiceException {
-		
+
 		HttpSession httpSession = this.getThreadLocalRequest().getSession();
 		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
 		FileUploadProgress uploadProgress = importSession.getUploadProgress();
@@ -129,29 +136,46 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		return uploadProgress;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public CodeListPreviewData getPreviewData() throws ImportServiceException {
-		//TODO implement it
-		List<String> header = Arrays.asList("ISSCAAP","TAXOCODE","3A_CODE","Scientific_name","English_name","French_name","Spanish_name","Author","Family","Order","Stats_data");
-		List<List<String>> data = Arrays.<List<String>>asList(Arrays.asList("25","1020100501","LAF","Eudontomyzon mariae","Ukrainian brook lamprey","Lamproie ukrainienne","","(Berg 1931)","Petromyzontidae","PETROMYZONTIFORMES","0"),
-				Arrays.asList("25","1020100502","ICJ","Eudontomyzon danfordi","Carpathian lamprey","Lamproie carpathique","","Regan 1911","Petromyzontidae","PETROMYZONTIFORMES","0"),
-				Arrays.asList("25","1020100503","IKG","Eudontomyzon graecus","","","","Renaud & Economidis 2010","Petromyzontidae","PETROMYZONTIFORMES","0"),
-				Arrays.asList("25","1020100504","IKJ","Eudontomyzon hellenicus","Greek brook Lamprey","Lamproie de ruisseau grecque","","Vladykov, Renaud, Kott & Economidis 1982","Petromyzontidae","PETROMYZONTIFORMES","0"),
-				Arrays.asList("25","1020100505","IKL","Eudontomyzon morii","Korean lamprey","Lamproie coréene","","(Berg 1931)","Petromyzontidae","PETROMYZONTIFORMES","0"),
-				Arrays.asList("25","1020100901","LAW","Caspiomyzon wagneri","Caspian lamprey","Lamproie caspienne","","(Kessler 1870)","Petromyzontidae","PETROMYZONTIFORMES","0"),
-				Arrays.asList("25","1020101101","LSZ","Lethenteron camtschaticum","Arctic lamprey","Lamproie arctique","","(Tilesius 1811)","Petromyzontidae","PETROMYZONTIFORMES","0"),
-				Arrays.asList("25","1020101102","IDQ","Lethenteron kessleri","Siberian lamprey","Lamproie de Sibérie","","(Anikin 1905)","Petromyzontidae","PETROMYZONTIFORMES","0"),
-				Arrays.asList("25","1020101103","IDT","Lethenteron ninae","Western Transcaucasian lamprey","Lamproie de la Transcaucasie","","Naseka, Tuniyev & Renaud 2009","Petromyzontidae","PETROMYZONTIFORMES","0"));
-		CodeListPreviewData previewData = new CodeListPreviewData(header, header.size(), data);
-		return previewData;
+	public CsvPreviewData getCsvPreviewData() throws ImportServiceException {
+
+		HttpSession httpSession = this.getThreadLocalRequest().getSession();
+		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
+
+		if (importSession.getCodeListType()!=CodeListType.CSV) {
+			logger.error("Requested CSV preview data when CodeList type is {}", importSession.getCodeListType());
+			throw new ImportServiceException("No preview data available");
+		}
+
+		if (!importSession.isCacheDirty()) return importSession.getPreviewCache();
+
+		try {
+			logger.trace("creating preview");
+			
+			CsvParseDirectives directives = CsvPreviewHelper.getDirectives(importSession.getCsvParserConfiguration());
+
+			logger.trace("parsing");
+			Table table = service.parse(importSession.getFileField().getInputStream(), directives);
+			
+			logger.trace("converting");
+			CsvPreviewData previewData = CsvPreviewHelper.convert(table,10);
+			logger.trace("ready");
+
+			return previewData;
+		} catch(Exception e)
+		{
+			logger.error("Error converting the preview data", e);
+			throw new ImportServiceException(e.getMessage());
+		}
 	}
+
+
 
 	@Override
 	public CodeListType getCodeListType() throws ImportServiceException {
 		HttpSession httpSession = this.getThreadLocalRequest().getSession();
 		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
-		
+
 		return importSession.getCodeListType();
 	}
 
@@ -175,7 +199,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		configuration.setAvailablesCharset(getEncodings());
 		return configuration;
 	}
-	
+
 	protected List<String> getEncodings()
 	{
 		List<String> charsets = new ArrayList<String>();
@@ -188,27 +212,26 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public void updateCsvParserConfiguration(CsvParserConfiguration configuration) throws ImportServiceException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void updateMetadata(ImportMetadata metadata)
-			throws ImportServiceException {
+	public void updateMetadata(ImportMetadata metadata)	throws ImportServiceException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public List<AttributeMapping> getMapping() throws ImportServiceException {
 		List<AttributeMapping> mapping = new ArrayList<AttributeMapping>();
-		
+
 		String[] headers = new String[]{"ISSCAAP","TAXOCODE","3A_CODE","Scientific_name","English_name","French_name","Spanish_name","Author","Family","Order","Stats_data"};
 
 		for (String header:headers) {
 			Field field = new Field();
 			field.setId(header);
 			field.setLabel(header);
-			
+
 			AttributeMapping attributeMapping = new AttributeMapping();
 			attributeMapping.setField(field);
 			mapping.add(attributeMapping);
@@ -221,7 +244,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	public void startImport(ImportMetadata metadata, List<AttributeMapping> columns) throws ImportServiceException {
 		importProgress = 0;
 	}
-	
+
 	int importProgress = 0;
 
 	@Override

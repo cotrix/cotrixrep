@@ -42,4 +42,9 @@ public class SwitchNode<T> extends AbstractNode<T> implements SwitchSelectionUpd
 		FlowUpdatedEvent.fire(this);
 	}
 
+	@Override
+	public List<FlowNode<T>> getChildren() {
+		return children;
+	}
+
 }

@@ -12,7 +12,7 @@ import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent.PreviewDataUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CodeListPreviewData;
+import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -25,15 +25,15 @@ import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfigur
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewStepPresenterImpl extends AbstractWizardStep implements PreviewStepPresenter, PreviewDataUpdatedHandler, CodeListTypeUpdatedHandler, CsvParserConfigurationUpdatedHandler {
+public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements CsvPreviewStepPresenter, PreviewDataUpdatedHandler, CodeListTypeUpdatedHandler, CsvParserConfigurationUpdatedHandler {
 
-	private final PreviewStepView view;
+	private final CsvPreviewStepView view;
 	protected EventBus importEventBus;
 	protected boolean headerRequired = false;
 	
 	@Inject
-	public PreviewStepPresenterImpl(PreviewStepView view, @ImportBus EventBus importEventBus) {
-		super("preview", "Preview", "CodeList Preview", DEFAULT_BACKWARD, DEFAULT_FORWARD);
+	public CsvPreviewStepPresenterImpl(CsvPreviewStepView view, @ImportBus EventBus importEventBus) {
+		super("csv-preview", "Preview", "CodeList Preview", DEFAULT_BACKWARD, DEFAULT_FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		
@@ -80,7 +80,7 @@ public class PreviewStepPresenterImpl extends AbstractWizardStep implements Prev
 
 	@Override
 	public void onPreviewDataUpdated(PreviewDataUpdatedEvent event) {
-		CodeListPreviewData previewData = event.getPreviewData();
+		CsvPreviewData previewData = event.getPreviewData();
 		setPreviewData(previewData.getHeader(), previewData.getColumnsCount(), previewData.getData());
 	}
 

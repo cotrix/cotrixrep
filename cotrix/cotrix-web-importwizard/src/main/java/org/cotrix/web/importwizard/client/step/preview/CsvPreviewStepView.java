@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  */
-public interface PreviewStepView {
+public interface CsvPreviewStepView {
 	public interface Presenter {
 		void onShowCsvConfigurationButtonClicked();
 		void onCsvConfigurationEdited(CsvParserConfiguration configuration);

@@ -73,7 +73,7 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 	@Override
 	public SwitchNodeBuilder<T> hasAlternatives(NodeSelector<T> selector) {
 		this.selector = selector;
-		this.nexts = new ArrayList<FlowManagerBuilder<T>>(nexts);
+		this.nexts = nexts==null?new ArrayList<FlowManagerBuilder<T>>():new ArrayList<FlowManagerBuilder<T>>(nexts);
 		return this;
 	}
 	
@@ -82,6 +82,13 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 		FlowManagerBuilder<T> builder = new FlowManagerBuilder<T>(item);
 		this.nexts.add(builder);
 		return builder;
+	}
+	
+	@Override
+	public <I extends NodeBuilder<T>> I alternative(I node) {
+		FlowManagerBuilder<T> builder = (FlowManagerBuilder<T>)node;
+		this.nexts.add(builder);
+		return node;
 	}
 	
 	protected void resetBuilt()

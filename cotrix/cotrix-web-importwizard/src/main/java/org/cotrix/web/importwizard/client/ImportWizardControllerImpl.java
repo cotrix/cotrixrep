@@ -27,7 +27,7 @@ import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CodeListPreviewData;
+import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
@@ -154,17 +154,17 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		getMetadata();
 		
 		Log.trace("getting columns");
-		getFields();
+		getMapping();
 		
 		Log.trace("done importedItemUpdated");
 	}
 	
 	protected void getPreviewData()
 	{
-		importService.getPreviewData(new AsyncCallback<CodeListPreviewData>() {
+		importService.getCsvPreviewData(new AsyncCallback<CsvPreviewData>() {
 			
 			@Override
-			public void onSuccess(CodeListPreviewData previewData) {
+			public void onSuccess(CsvPreviewData previewData) {
 				importEventBus.fireEvent(new PreviewDataUpdatedEvent(previewData));
 			}
 			
@@ -241,7 +241,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		});
 	}
 	
-	protected void getFields()
+	protected void getMapping()
 	{
 		importService.getMapping(new AsyncCallback<List<AttributeMapping>>() {
 
@@ -252,7 +252,8 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 			@Override
 			public void onSuccess(List<AttributeMapping> result) {
-				importEventBus.fireEvent(new MappingUpdatedEvent(mapping, false));
+				importEventBus.fireEvent(new MappingUpdatedEvent(result, false));
+				mapping = result;
 			}
 		});
 	}
