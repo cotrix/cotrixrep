@@ -131,8 +131,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	{
 		Log.trace("importedItemUpdated");
 		
-		Log.trace("getting preview data");
-		getPreviewData();
+
 		
 		Log.trace("getting codelist type");
 		getCodeListType(new Callback<CodeListType, Void>() {
@@ -144,7 +143,12 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			@Override
 			public void onSuccess(CodeListType result) {
 				switch (result) {
-					case CSV: getCSVParserConfiguration(); break;
+					case CSV: {
+						Log.trace("getting preview data");
+						getPreviewData();
+						Log.trace("getting parser configuration");
+						getCSVParserConfiguration(); 
+					} break;
 					default: break;
 				}				
 			}
@@ -153,7 +157,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		Log.trace("getting metadata");
 		getMetadata();
 		
-		Log.trace("getting columns");
+		Log.trace("getting mapping");
 		getMapping();
 		
 		Log.trace("done importedItemUpdated");
