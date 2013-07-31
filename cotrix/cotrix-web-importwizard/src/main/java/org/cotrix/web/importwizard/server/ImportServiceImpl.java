@@ -20,6 +20,7 @@ import org.cotrix.web.importwizard.server.util.Assets;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.AssetsBatch;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CsvPreviewData;
@@ -73,7 +74,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	 * @throws ImportServiceException 
 	 */
 	@Override
-	public ArrayList<AssetInfo> getAssets(Range range) throws ImportServiceException {
+	public AssetsBatch getAssets(Range range) throws ImportServiceException {
 
 		try {
 
@@ -87,7 +88,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			for (Asset asset:remoteRepository) {
 				i++;
 				if (i<range.getStart()) continue;
-				if (i>=(range.getStart() + range.getLength())) break;
+				if (i>=(range.getStart() + range.getLength())) continue;
 				
 				AssetInfo assetInfo = Assets.convert(asset);
 				logger.trace("converted {} to {}", asset.name(), assetInfo);
@@ -101,7 +102,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 			logger.trace("returning "+assets.size()+" elements");
 
-			return assets;
+			return new AssetsBatch(assets, i+1);
 		} catch(Exception e)
 		{
 			e.printStackTrace();

@@ -1,10 +1,9 @@
 package org.cotrix.web.importwizard.client;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.importwizard.shared.AssetDetails;
-import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.AssetsBatch;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CsvPreviewData;
@@ -24,7 +23,7 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("importService")
 public interface ImportService extends RemoteService {
 	
-	public ArrayList<AssetInfo> getAssets(Range range) throws ImportServiceException;
+	public AssetsBatch getAssets(Range range) throws ImportServiceException;
 	
 	public AssetDetails getAssetDetails(String assetId) throws ImportServiceException;
 	
