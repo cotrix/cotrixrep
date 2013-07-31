@@ -32,4 +32,11 @@ public class CsvParseDirectives implements ParseDirectives<Table> {
 	public CsvCodelist options() {
 		return options;
 	}
+
+	@Override
+	public String toString() {
+		return "[header="+options.hasHeader()+", delimiter="+options.delimiter()+", encoding="+options.encoding()+", codeColumn="+options.codeColumn()+", quote character="+options.quote()+"]";
+	}
+	
+	
 }

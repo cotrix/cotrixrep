@@ -14,4 +14,9 @@ public final class SdmxParseDirectives implements ParseDirectives<CodelistBean> 
 	public static final SdmxParseDirectives DEFAULT  = new SdmxParseDirectives();
 	
 	private SdmxParseDirectives(){}
+	
+	@Override
+	public String toString() {
+		return "no directives (default)";
+	}
 }
