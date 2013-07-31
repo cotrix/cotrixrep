@@ -24,9 +24,11 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("importService")
 public interface ImportService extends RemoteService {
 	
-	ArrayList<AssetInfo> getAssets(Range range) throws ImportServiceException;
+	public ArrayList<AssetInfo> getAssets(Range range) throws ImportServiceException;
 	
-	AssetDetails getAssetDetails(String assetId) throws ImportServiceException;
+	public AssetDetails getAssetDetails(String assetId) throws ImportServiceException;
+	
+	public void setAsset(String assetId) throws ImportServiceException;
 	
 	public FileUploadProgress getUploadProgress() throws ImportServiceException;
 	

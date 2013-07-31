@@ -19,6 +19,8 @@ import org.cotrix.web.importwizard.server.util.ParsingHelper;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
+import org.virtualrepository.Asset;
+import org.virtualrepository.VirtualRepository;
 import org.virtualrepository.tabular.Table;
 
 /**
@@ -29,16 +31,19 @@ import org.virtualrepository.tabular.Table;
 public class ImporterFactory {
 	
 	@Inject
-	ParsingHelper parsingHelper;
+	protected ParsingHelper parsingHelper;
 	
 	@Inject
-	ParseService parseService;
+	protected ParseService parseService;
 	
 	@Inject
 	protected MapService mapservice;
 	
 	@Inject
 	protected CodelistRepository repository;
+	
+	@Inject
+	protected VirtualRepository remoteRepository;
 
 	public Importer<?> createImporter(WizardImportSession session, ImportMetadata metadata, List<AttributeMapping> mappings) throws IOException
 	{
@@ -72,9 +77,13 @@ public class ImporterFactory {
 			ImporterSource<Table> source = new ImporterSource.ParserSource<Table>(parseService, parseDirectives, session.getFileField().getInputStream());
 			return source;
 		} 
-		//TODO add asset case
+		if (session.getSelectedAsset()!=null) {
+			Asset asset = session.getSelectedAsset();
+			ImporterSource<Table> source = new ImporterSource.RetrieveSource<Table>(remoteRepository, asset, Table.class);
+			return source;
+		}
 
-		return null;
+		throw new IllegalArgumentException("Both filefield and selectasset null");
 	}
 	
 	protected ImporterSource<CodelistBean> getSdmxSource(WizardImportSession session) throws IOException
@@ -84,9 +93,12 @@ public class ImporterFactory {
 			ImporterSource<CodelistBean> source = new ImporterSource.ParserSource<CodelistBean>(parseService, parseDirectives, session.getFileField().getInputStream());
 			return source;
 		} 
-		//TODO add asset case
-
-		return null;
+		if (session.getSelectedAsset()!=null) {
+			Asset asset = session.getSelectedAsset();
+			ImporterSource<CodelistBean> source = new ImporterSource.RetrieveSource<CodelistBean>(remoteRepository, asset, CodelistBean.class);
+			return source;
+		}
+		throw new IllegalArgumentException("Both filefield and selectasset null");
 	}
 
 

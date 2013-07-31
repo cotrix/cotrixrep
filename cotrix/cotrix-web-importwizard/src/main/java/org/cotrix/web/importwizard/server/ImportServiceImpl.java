@@ -32,6 +32,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
 import org.virtualrepository.VirtualRepository;
+import org.virtualrepository.csv.CsvCodelist;
+import org.virtualrepository.sdmx.SdmxCodelist;
 import org.virtualrepository.tabular.Table;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -272,5 +274,18 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	public ImportProgress getImportProgress() throws ImportServiceException {
 		WizardImportSession session = getImportSession();
 		return session.getImporter().getProgress();
+	}
+
+	@Override
+	public void setAsset(String assetId) throws ImportServiceException {
+		WizardImportSession session = getImportSession();
+		Asset asset = getAsset(assetId);
+		session.setSelectedAsset(asset);
+		List<AttributeMapping> mappings = mappingsGuesser.getSdmxDefaultMappings();
+		session.setMappings(mappings);
+		
+		if (asset.type() == SdmxCodelist.type) session.setCodeListType(CodeListType.SDMX);
+		if (asset.type()==CsvCodelist.type) session.setCodeListType(CodeListType.CSV);
+		
 	}
 }

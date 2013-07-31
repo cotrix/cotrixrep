@@ -11,8 +11,6 @@ import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -56,10 +54,15 @@ public class SelectionStepPresenterImpl extends AbstractWizardStep implements Se
 	public void assetSelected(AssetInfo asset) {
 		Log.trace("Asset selected "+asset);
 		this.assetInfo = asset;
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			
+		importService.setAsset(asset.getId(), new AsyncCallback<Void>() {
+
 			@Override
-			public void execute() {
+			public void onFailure(Throwable caught) {
+				Log.error("Failed setting the selected asset", caught);
+			}
+
+			@Override
+			public void onSuccess(Void result) {
 				importEventBus.fireEvent(new CodeListSelectedEvent());
 			}
 		});

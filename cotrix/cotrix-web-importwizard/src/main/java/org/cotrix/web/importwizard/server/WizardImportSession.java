@@ -15,6 +15,7 @@ import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
+import org.virtualrepository.Asset;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -37,10 +38,11 @@ public class WizardImportSession {
 	protected FileItem fileField;
 	protected CodeListType codeListType;
 	
-	
 	protected CsvParserConfiguration csvParserConfiguration;
 	protected CsvPreviewData previewCache;
 	protected boolean isCacheDirty;
+	
+	protected Asset selectedAsset;
 	
 	protected ImportMetadata guessedMetadata;
 	
@@ -173,6 +175,20 @@ public class WizardImportSession {
 	 */
 	public void setImporter(Importer<?> importer) {
 		this.importer = importer;
+	}
+
+	/**
+	 * @return the selectedAsset
+	 */
+	public Asset getSelectedAsset() {
+		return selectedAsset;
+	}
+
+	/**
+	 * @param selectedAsset the selectedAsset to set
+	 */
+	public void setSelectedAsset(Asset selectedAsset) {
+		this.selectedAsset = selectedAsset;
 	}
 
 }
