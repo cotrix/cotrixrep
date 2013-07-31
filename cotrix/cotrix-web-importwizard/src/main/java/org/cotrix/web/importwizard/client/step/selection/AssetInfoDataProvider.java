@@ -40,6 +40,7 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 			@Override
 			public void onSuccess(ArrayList<AssetInfo> values) {
 				Log.trace("loaded "+values.size()+" assets");
+				for (AssetInfo assetInfo:values) Log.trace("Asset: "+assetInfo);
 				updateRowCount(values.size(), true);
 				updateRowData(range.getStart(), values);
 			}

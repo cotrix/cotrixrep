@@ -7,15 +7,16 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.cotrix.io.Channels;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.server.climport.Importer;
 import org.cotrix.web.importwizard.server.climport.ImporterFactory;
 import org.cotrix.web.importwizard.server.upload.MappingGuesser;
+import org.cotrix.web.importwizard.server.util.Assets;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
@@ -26,11 +27,11 @@ import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
-import org.cotrix.web.importwizard.shared.Property;
-import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.virtualrepository.Asset;
+import org.virtualrepository.VirtualRepository;
 import org.virtualrepository.tabular.Table;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -46,8 +47,8 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	protected Logger logger = LoggerFactory.getLogger(ImportServiceImpl.class);
 	
-	/*@Inject
-	org.cotrix.io.ImportService service;*/
+	@Inject
+	VirtualRepository remoteRepository;
 	
 	@Inject
 	protected ParsingHelper parsingHelper;
@@ -75,22 +76,28 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		try {
 
 			ArrayList<AssetInfo> assets = new ArrayList<AssetInfo>();
-
-			/*int discovered = service.discoverRemoteCodelists();
+	
+			int discovered = remoteRepository.discover(Channels.importTypes);
 			logger.trace("discovered "+discovered+" remote codelist");
+			
+			int i = -1;
 
-			for (Asset asset:service.remoteCodelists()){
-				System.out.println("converting "+asset.name());
+			for (Asset asset:remoteRepository) {
+				i++;
+				if (i<range.getStart()) continue;
+				if (i>=(range.getStart() + range.getLength())) break;
+				
 				AssetInfo assetInfo = Assets.convert(asset);
+				logger.trace("converted {} to {}", asset.name(), assetInfo);
 				assets.add(assetInfo);
-			}*/
+			}
 
-			assets.add(new AssetInfo("urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FAO:CL_DIVISION(0.1)", "CL_DIVISION", "sdmx/codelist", "D4Science Development Registry"));
+			/*assets.add(new AssetInfo("urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FAO:CL_DIVISION(0.1)", "CL_DIVISION", "sdmx/codelist", "D4Science Development Registry"));
 			assets.add(new AssetInfo("321", "Gears", "SDMX", "D4Science Development Registry"));
 			assets.add(new AssetInfo("333", "Species Year 2013", "CSV", "D4Science Development Registry"));
-			assets.add(new AssetInfo("324", "Country", "SDMX", "D4Science Development Registry"));
+			assets.add(new AssetInfo("324", "Country", "SDMX", "D4Science Development Registry"));*/
 
-			System.out.println("returning "+assets.size()+" elements");
+			logger.trace("returning "+assets.size()+" elements");
 
 			return assets;
 		} catch(Exception e)
@@ -112,13 +119,13 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public AssetDetails getAssetDetails(String assetId) throws ImportServiceException {
 
-		/*Asset asset = getAsset(assetId);
+		Asset asset = getAsset(assetId);
 		if (asset == null) throw new ImportServiceException("Asset with id "+assetId+" not found");
 		AssetDetails details = Assets.convertToDetails(asset);
 		System.out.println(details);
-		return details;*/
+		return details;
 
-		List<Property> properties = new ArrayList<Property>();
+		/*List<Property> properties = new ArrayList<Property>();
 		properties.add(new Property("scope", "/gcube/devsec", "null"));
 		RepositoryDetails repository = new RepositoryDetails("D4Science Development Registry", "sdmx/codelist",  "sdmx/codelist", properties);
 
@@ -130,10 +137,16 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		AssetDetails assetDetails = new AssetDetails("urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FAO:CL_DIVISION(0.1)", 
 				"CL_DIVISION", "sdmx/codelist", properties, repository);
 
-		return assetDetails;
+		return assetDetails;*/
 	}
+	
 
-	Random random = new Random();
+
+	protected Asset getAsset(String id)
+	{
+		for (Asset asset:remoteRepository) if (asset.id().equals(id)) return asset;
+		return null;
+	}
 
 	@Override
 	public FileUploadProgress getUploadProgress() throws ImportServiceException {
@@ -229,12 +242,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	}
 
-	@Override
-	public void updateMetadata(ImportMetadata metadata)	throws ImportServiceException {
-		// TODO Auto-generated method stub
-
-	}
-
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -266,14 +273,4 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		WizardImportSession session = getImportSession();
 		return session.getImporter().getProgress();
 	}
-
-
-	/*protected Asset getAsset(String id)
-	{
-		for (Asset asset:service.remoteCodelists()) if (asset.id().equals(id)) return asset;
-		return null;
-	}*/
-
-
-
 }

@@ -36,8 +36,6 @@ public interface ImportService extends RemoteService {
 	
 	public ImportMetadata getMetadata() throws ImportServiceException;
 	
-	public void updateMetadata(ImportMetadata metadata) throws ImportServiceException;
-	
 	public CsvParserConfiguration getCsvParserConfiguration() throws ImportServiceException;
 	
 	public void updateCsvParserConfiguration(CsvParserConfiguration configuration) throws ImportServiceException;

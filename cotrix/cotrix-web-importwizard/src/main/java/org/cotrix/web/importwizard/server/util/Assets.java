@@ -29,6 +29,7 @@ public class Assets {
 		
 		assetInfo.setId(asset.id());
 		assetInfo.setName(asset.name());
+		assetInfo.setType(asset.type().toString());
 		assetInfo.setRepositoryName(asset.service().name().toString());
 		
 		return assetInfo;
