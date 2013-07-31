@@ -4,13 +4,10 @@ import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.client.view.CotrixWebView;
 import org.cotrix.web.client.view.Home;
 import org.cotrix.web.importwizard.client.ImportWizardController;
-import org.cotrix.web.codelistmanager.client.CotrixManagerAppController;
-import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
 import org.cotrix.web.menu.client.view.MenuViewImpl;
-import org.cotrix.web.publish.client.CotrixPublishAppController;
-import org.cotrix.web.publish.client.CotrixPublishAppGinInjector;
+
 
 
 import com.google.gwt.core.shared.GWT;
@@ -23,8 +20,8 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 	private MainServiceAsync rpcService;
 	private HandlerManager eventBus;
 	private CotrixWebView view;
-	private CotrixPublishAppController cotrixPublishAppController;
-	private CotrixManagerAppController cotrixManagerAppController;
+	/*private CotrixPublishAppController cotrixPublishAppController;
+	private CotrixManagerAppController cotrixManagerAppController;*/
 	
 	@Inject
 	public CotrixWebPresenterImpl(MainServiceAsync rpcService, HandlerManager eventBus, CotrixWebView view) {
@@ -56,24 +53,24 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 		cotrixImportAppController.go(scrollPanel);
 		view.getBody().add(scrollPanel);
 
-		CotrixManagerAppGinInjector cotrixManagerAppGinInjector = GWT.create(CotrixManagerAppGinInjector.class);
+	/*	CotrixManagerAppGinInjector cotrixManagerAppGinInjector = GWT.create(CotrixManagerAppGinInjector.class);
 		cotrixManagerAppController = cotrixManagerAppGinInjector.getAppController();	
 		cotrixManagerAppController.go(view.getBody());
 	
 		CotrixPublishAppGinInjector cotrixPublishAppGinInjector = GWT.create(CotrixPublishAppGinInjector.class);
 		cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
-		cotrixPublishAppController.go(view.getBody());
+		cotrixPublishAppController.go(view.getBody());*/
 		
 		view.showMenu(0); // default menu;
 	}
 
 	public void onMenuItemClick(int index) {
 		view.showMenu(index);
-		if(index == 3){
+		/*if(index == 3){
 			cotrixPublishAppController.refresh();
 		}else if(index == 2){
 			cotrixManagerAppController.refresh();
-		}
+		}*/
 	}
 
 }
