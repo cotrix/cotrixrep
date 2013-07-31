@@ -12,9 +12,11 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.io.parse.ParseService;
+import org.cotrix.io.sdmx.SdmxParseDirectives;
 import org.cotrix.io.tabular.csv.CsvParseDirectives;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CsvPreviewData;
+import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.tabular.Column;
@@ -57,6 +59,14 @@ public class ParsingHelper {
 		Table table = service.parse(inputStream, directives);
 		
 		return table;
+	}
+	
+	public CodelistBean parse(InputStream inputStream) {
+		SdmxParseDirectives directives = SdmxParseDirectives.DEFAULT;
+		
+		logger.trace("parsing");
+		CodelistBean codelistBean = service.parse(inputStream, directives);
+		return codelistBean;
 	}
 	
 	public CsvParseDirectives getDirectives(CsvParserConfiguration configuration)

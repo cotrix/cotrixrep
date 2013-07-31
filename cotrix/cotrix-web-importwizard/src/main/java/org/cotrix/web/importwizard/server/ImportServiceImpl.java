@@ -162,7 +162,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 		try {
 		
-			//FIXME repeated code
+			//FIXME duplicate code
 			Table table = parsingHelper.parse(session.getCsvParserConfiguration(), session.getFileField().getInputStream());
 			CsvPreviewData previewData = parsingHelper.convert(table, ParsingHelper.ROW_LIMIT);
 			session.setPreviewCache(previewData);

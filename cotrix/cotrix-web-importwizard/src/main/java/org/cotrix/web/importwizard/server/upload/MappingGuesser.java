@@ -7,6 +7,8 @@ import org.virtualrepository.tabular.Table;
 
 public interface MappingGuesser {
 
-	public abstract List<AttributeMapping> guessMappings(Table table);
+	public List<AttributeMapping> guessMappings(Table table);
+	
+	public List<AttributeMapping> getSdmxDefaultMappings();
 
 }

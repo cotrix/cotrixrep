@@ -6,9 +6,8 @@ package org.cotrix.web.importwizard.server.upload;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.Default;
-import javax.inject.Singleton;
-
+import org.cotrix.io.sdmx.SdmxMapDirectives;
+import org.cotrix.io.sdmx.SdmxMapDirectives.SdmxElement;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
@@ -70,6 +69,56 @@ public class DefaultMappingsGuesser implements MappingGuesser {
 		//TODO guess language
 		
 		return attributeDefinition;
+	}
+
+	@Override
+	public List<AttributeMapping> getSdmxDefaultMappings() {
+		
+		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
+		
+		AttributeMapping codeMapping = getCodeMapping();
+		mappings.add(codeMapping);
+		
+		for (SdmxElement sdmxElement:SdmxElement.values()) {
+			AttributeMapping mapping = new AttributeMapping();
+			mapping.setField(getField(sdmxElement));
+			mapping.setAttributeDefinition(getDefinition(sdmxElement));
+			mappings.add(mapping);
+		}		
+		return mappings;
+	}
+	
+	protected AttributeMapping getCodeMapping()
+	{
+		AttributeMapping mapping = new AttributeMapping();
+		Field field = new Field();
+		field.setId("code");
+		field.setLabel("code");
+		mapping.setField(field);
+		
+		AttributeDefinition definition = new AttributeDefinition();
+		definition.setName("code");
+		definition.setType(AttributeType.CODE);
+		mapping.setAttributeDefinition(definition);
+		
+		return mapping;
+	}
+	
+	protected Field getField(SdmxElement element)
+	{
+		Field field = new Field();
+		field.setId(element.toString());
+		field.setLabel(element.name());
+		return field;
+	}
+	
+	protected AttributeDefinition getDefinition(SdmxElement element)
+	{
+		String name = SdmxMapDirectives.DEFAULT.get(element).toString();
+		AttributeDefinition definition = new AttributeDefinition();
+		definition.setName(name);
+		definition.setType(AttributeType.DESCRIPTION);
+		return definition;
 	}
 
 }

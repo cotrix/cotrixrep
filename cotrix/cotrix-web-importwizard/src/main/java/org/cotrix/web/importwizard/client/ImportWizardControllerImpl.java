@@ -130,9 +130,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected void importedItemUpdated()
 	{
 		Log.trace("importedItemUpdated");
-		
 
-		
 		Log.trace("getting codelist type");
 		getCodeListType(new Callback<CodeListType, Void>() {
 
@@ -148,14 +146,13 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 						getPreviewData();
 						Log.trace("getting parser configuration");
 						getCSVParserConfiguration(); 
+						Log.trace("getting metadata");
+						getMetadata();
 					} break;
 					default: break;
 				}				
 			}
 		});
-		
-		Log.trace("getting metadata");
-		getMetadata();
 		
 		Log.trace("getting mapping");
 		getMappings();

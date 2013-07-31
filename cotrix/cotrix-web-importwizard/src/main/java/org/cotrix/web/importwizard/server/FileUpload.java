@@ -46,10 +46,10 @@ public class FileUpload extends HttpServlet{
 	protected DiskFileItemFactory factory;
 	protected CodeListTypeGuesser typeGuesser;
 	protected CsvParserConfigurationGuesser csvParserConfigurationGuesser;
-	
+
 	@Inject
 	protected ParsingHelper parsingHelper;
-	
+
 	@Inject
 	protected MappingGuesser mappingsGuesser;
 
@@ -130,25 +130,31 @@ public class FileUpload extends HttpServlet{
 		session.setCodeListType(codeListType);
 		response.setStatus(HttpServletResponse.SC_OK);
 
-		if (codeListType == CodeListType.CSV) {
-			CsvParserConfiguration configuration = csvParserConfigurationGuesser.guessConfiguration(fileField);
-			session.setCsvParserConfiguration(configuration);
-			uploadProgress.setProgress(95);
-			
-			//TODO check if csv config is valid
-			//FIXME repeated code
-			Table table = parsingHelper.parse(configuration, fileField.getInputStream());
-			CsvPreviewData previewData = parsingHelper.convert(table, ParsingHelper.ROW_LIMIT);
-			session.setPreviewCache(previewData);
-			session.setCacheDirty(false);
-			
-			List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
-			session.setMappings(mappings);
-			
-			String filename = FileNameCleaner.clean(fileField.getName());
-			ImportMetadata metadata = new ImportMetadata();
-			metadata.setName(filename);
-			session.setGuessedMetadata(metadata);
+		switch (codeListType) {
+			case CSV: {
+				CsvParserConfiguration configuration = csvParserConfigurationGuesser.guessConfiguration(fileField);
+				session.setCsvParserConfiguration(configuration);
+				uploadProgress.setProgress(95);
+
+				//TODO check if csv config is valid
+				//FIXME duplicate code
+				Table table = parsingHelper.parse(configuration, fileField.getInputStream());
+				CsvPreviewData previewData = parsingHelper.convert(table, ParsingHelper.ROW_LIMIT);
+				session.setPreviewCache(previewData);
+				session.setCacheDirty(false);
+
+				List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
+				session.setMappings(mappings);
+
+				String filename = FileNameCleaner.clean(fileField.getName());
+				ImportMetadata metadata = new ImportMetadata();
+				metadata.setName(filename);
+				session.setGuessedMetadata(metadata);
+			} break;
+			case SDMX: {
+				List<AttributeMapping> mappings = mappingsGuesser.getSdmxDefaultMappings();
+				session.setMappings(mappings);
+			} break;
 		}
 
 		uploadProgress.setProgress(100);
