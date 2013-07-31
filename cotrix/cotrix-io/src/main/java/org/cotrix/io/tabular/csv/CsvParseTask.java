@@ -24,6 +24,6 @@ public class CsvParseTask implements ParseTask<Table,CsvParseDirectives> {
 	
 	@Override
 	public String toString() {
-		return "org.virtual.sdmxregistry.csv-parser";
+		return "csv-parser";
 	}
 }

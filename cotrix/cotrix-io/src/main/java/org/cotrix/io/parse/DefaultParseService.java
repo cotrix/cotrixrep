@@ -5,11 +5,13 @@ import static org.cotrix.domain.utils.Utils.*;
 import java.io.InputStream;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.cotrix.io.utils.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Singleton
 public class DefaultParseService implements ParseService {
 
 	private static Logger log = LoggerFactory.getLogger(ParseService.class);
