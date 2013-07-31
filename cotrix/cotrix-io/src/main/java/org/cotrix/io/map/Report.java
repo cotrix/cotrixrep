@@ -58,7 +58,7 @@ public class Report {
 	 * @param message the report
 	 */
 	public void logError(String message) {		
-		log.append("ERROR:"+message);
+		log("ERROR:"+message);
 		failure=true;
 	}
 	
