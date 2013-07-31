@@ -16,11 +16,13 @@
 	<servlet>
 		<servlet-name>importWizardServlet</servlet-name>
 		<servlet-class>org.cotrix.web.importwizard.server.FileUpload</servlet-class>
+		<load-on-startup>true</load-on-startup>
 	</servlet>
 	
 	<servlet>
 		<servlet-name>importServiceServlet</servlet-name>
 		<servlet-class>org.cotrix.web.importwizard.server.ImportServiceImpl</servlet-class>
+		<load-on-startup>true</load-on-startup>
 	</servlet>
 
 	<!-- 
