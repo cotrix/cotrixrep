@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
+import org.cotrix.web.importwizard.client.util.AttributeDefinitionPanel;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
+import org.cotrix.web.importwizard.shared.Field;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -38,63 +40,67 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 		String cell();
 	}
 
-	protected List<AttributeDefinitionPanel> columnPanels = new ArrayList<AttributeDefinitionPanel>();
-	protected List<AttributeMapping> columnDefinitions = new ArrayList<AttributeMapping>();
+	protected List<AttributeDefinitionPanel> attributesPanels = new ArrayList<AttributeDefinitionPanel>();
+	protected List<Field> fields = new ArrayList<Field>();
 
 	public SdmxMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	public void setAttributes(List<AttributeMapping> columns)
+	public void setAttributes(List<AttributeMapping> mappings)
 	{
 		columnsTable.removeAllRows();
-		columnPanels.clear();
-		columnDefinitions.clear();
+		attributesPanels.clear();
+		fields.clear();
 
-		for (AttributeMapping column:columns) {
+		for (AttributeMapping mapping:mappings) {
 			int row = columnsTable.getRowCount();
-			Label label = new Label(column.getField().getLabel());
+			Field field = mapping.getField();
+			fields.add(field);
+			
+			Label label = new Label(mapping.getField().getLabel());
 			label.setStyleName(style.headerlabel());
 			columnsTable.setWidget(row, 0, label);
 			columnsTable.getCellFormatter().setStyleName(row, 0, style.cell());
+			
+			columnsTable.setWidget(row, 1, new Label("map as"));
+			columnsTable.getCellFormatter().setStyleName(row, 1, style.cell());
 
 			AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
+			definitionPanel.setDefinition(mapping.getAttributeDefinition());
+			attributesPanels.add(definitionPanel);
 
-			if (column.isMapped()) {
-				definitionPanel.setAttributeType(column.getAttributeDefinition().getType());
-				definitionPanel.setLanguage(column.getAttributeDefinition().getLanguage());
-			}
-			columnPanels.add(definitionPanel);
-
-			columnsTable.setWidget(row, 1, definitionPanel);
-			//columnsTable.getCellFormatter().setWidth(row, 1, "100px");
-
-			columnDefinitions.add(column);
+			columnsTable.setWidget(row, 2, definitionPanel);
 		}
 	}
 
 	public void setCodeTypeError()
 	{
-		for (AttributeDefinitionPanel definitionPanel:columnPanels) {
-			if (definitionPanel.getAttributeType() == AttributeType.CODE) definitionPanel.setErrorStyle();
+		for (AttributeDefinitionPanel attributePanel:attributesPanels) {
+			AttributeDefinition attributeDefinition = attributePanel.getDefinition();
+			if (attributeDefinition!=null && attributeDefinition.getType() == AttributeType.CODE) attributePanel.setErrorStyle();
 		}
 	}
 
 	public void cleanStyle()
 	{
-		for (AttributeDefinitionPanel definitionPanel:columnPanels) definitionPanel.setNormalStyle();
+		for (AttributeDefinitionPanel definitionPanel:attributesPanels) definitionPanel.setNormalStyle();
 	}
 
-	public List<AttributeMapping> getAttributes()
+	public List<AttributeMapping> getMappings()
 	{
-		for (int i = 0; i < columnDefinitions.size(); i++) {
-			AttributeMapping definition = columnDefinitions.get(i);
-			AttributeDefinitionPanel panel = columnPanels.get(i);
-			/*definition.setType(panel.getAttributeType());
-			definition.setLanguage(panel.getLanguage());*/
+		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
+		for (int i = 0; i < attributesPanels.size(); i++) {
+			Field field = fields.get(i);
+			AttributeDefinitionPanel panel = attributesPanels.get(i);
+			AttributeDefinition attributeDefinition = panel.getDefinition();
+			AttributeMapping mapping = new AttributeMapping();
+			mapping.setField(field);
+			mapping.setAttributeDefinition(attributeDefinition);
+			mappings.add(mapping);
 		}
 
-		return columnDefinitions;
+		return mappings;
 	}
 
 	public void alert(String message) {

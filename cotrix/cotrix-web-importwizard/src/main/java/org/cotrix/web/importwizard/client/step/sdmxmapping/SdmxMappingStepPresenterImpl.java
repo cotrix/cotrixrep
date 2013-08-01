@@ -40,7 +40,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 	}
 	
 	public boolean isComplete() {
-		List<AttributeMapping> columns = view.getAttributes();
+		List<AttributeMapping> columns = view.getMappings();
 		
 		boolean valid = validate(columns);
 		
@@ -49,14 +49,17 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 		return valid;
 	}
 	
-	protected boolean validate(List<AttributeMapping> mapping)
+	protected boolean validate(List<AttributeMapping> mappings)
 	{
 		
 		//only one code
 		int codeCount = 0;
-		for (AttributeMapping attributeMapping:mapping) {
-			if (attributeMapping.isMapped() && attributeMapping.getAttributeDefinition().getType()==AttributeType.CODE) codeCount++;
-		
+		for (AttributeMapping mapping:mappings) {
+			if (mapping.isMapped() && mapping.getAttributeDefinition().getType()==AttributeType.CODE) codeCount++;
+			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().isEmpty()) {
+				view.alert("Name field required");
+				return false;
+			}
 		}
 		
 		if (codeCount==0) {

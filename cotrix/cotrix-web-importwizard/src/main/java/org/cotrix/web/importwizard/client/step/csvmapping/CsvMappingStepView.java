@@ -21,7 +21,7 @@ public interface CsvMappingStepView {
 	public void setCodeTypeError();
 	public void cleanStyle();
 	
-	public List<AttributeMapping> getMapping();
+	public List<AttributeMapping> getMappings();
 	
 	public void alert(String message);
 

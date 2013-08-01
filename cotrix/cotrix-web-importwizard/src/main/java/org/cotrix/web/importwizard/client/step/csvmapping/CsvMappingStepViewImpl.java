@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
+import org.cotrix.web.importwizard.client.util.AttributeDefinitionPanel;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
+import org.cotrix.web.importwizard.shared.Field;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -40,8 +42,8 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		String cell();
 	}
 
-	protected List<ColumnDefinitionPanel> columnPanels = new ArrayList<ColumnDefinitionPanel>();
-	protected List<AttributeMapping> columnDefinitions = new ArrayList<AttributeMapping>();
+	protected List<AttributeDefinitionPanel> columnPanels = new ArrayList<AttributeDefinitionPanel>();
+	protected List<Field> fields = new ArrayList<Field>();
 
 	public CsvMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -65,59 +67,73 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	{
 		columnsTable.removeAllRows();
 		columnPanels.clear();
-		columnDefinitions.clear();
+		fields.clear();
+		
+		addHeader();
 
 		for (AttributeMapping attributeMapping:mapping) {
 			int row = columnsTable.getRowCount();
-			Label label = new Label(attributeMapping.getField().getLabel());
+			Field field = attributeMapping.getField();
+			fields.add(field);
+			
+			Label label = new Label(field.getLabel());
 			label.setStyleName(style.headerlabel());
 			columnsTable.setWidget(row, 0, label);
 			columnsTable.getCellFormatter().setStyleName(row, 0, style.cell());
+			
+			columnsTable.setWidget(row, 1, new Label("map as"));
+			columnsTable.getCellFormatter().setStyleName(row, 1, style.cell());
 
-			ColumnDefinitionPanel definitionPanel = new ColumnDefinitionPanel();
+			AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
 			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
-			if (attributeDefinition!=null) {
-				definitionPanel.setColumnType(attributeDefinition.getType());
-				definitionPanel.setLanguage(attributeDefinition.getLanguage());
-			}
+			definitionPanel.setDefinition(attributeDefinition);
 			columnPanels.add(definitionPanel);
 
-			columnsTable.setWidget(row, 1, definitionPanel);
-			//columnsTable.getCellFormatter().setWidth(row, 1, "100px");
-
-			columnDefinitions.add(attributeMapping);
+			columnsTable.setWidget(row, 2, definitionPanel);
 		}
 	}
+	
+	protected void addHeader()
+	{
+		Label csvHeader = new Label("CSV columns");
+		csvHeader.setStyleName(style.headerlabel());
+		columnsTable.setWidget(0, 0, csvHeader);
+		columnsTable.getCellFormatter().setStyleName(0, 0, style.headerlabel());
+		
+		Label cotrixHeader = new Label("Cotrix model");
+		cotrixHeader.setStyleName(style.headerlabel());
+		columnsTable.setWidget(0, 2, cotrixHeader);
+		columnsTable.getCellFormatter().setStyleName(0, 2, style.headerlabel());
+	}
+	
 
 	public void setCodeTypeError()
 	{
-		for (ColumnDefinitionPanel definitionPanel:columnPanels) {
-			if (definitionPanel.getColumnType() == AttributeType.CODE) definitionPanel.setErrorStyle();
+		for (AttributeDefinitionPanel definitionPanel:columnPanels) {
+			AttributeDefinition attributeDefinition = definitionPanel.getDefinition();
+			if (attributeDefinition!=null && attributeDefinition.getType() == AttributeType.CODE) definitionPanel.setErrorStyle();
 		}
 	}
 
 	public void cleanStyle()
 	{
-		for (ColumnDefinitionPanel definitionPanel:columnPanels) definitionPanel.setNormalStyle();
+		for (AttributeDefinitionPanel definitionPanel:columnPanels) definitionPanel.setNormalStyle();
 	}
 
-	public List<AttributeMapping> getMapping()
+	public List<AttributeMapping> getMappings()
 	{
-		for (int i = 0; i < columnDefinitions.size(); i++) {
-			AttributeMapping definition = columnDefinitions.get(i);
-			ColumnDefinitionPanel panel = columnPanels.get(i);
-			AttributeType attributeType =  panel.getColumnType();
-			if (attributeType == null) {
-				definition.setAttributeDefinition(null);
-			} else {
-				AttributeDefinition attributeDefinition = new AttributeDefinition();
-				attributeDefinition.setName(definition.getField().getLabel());
-				attributeDefinition.setType(panel.getColumnType());
-				attributeDefinition.setLanguage(panel.getLanguage());
-			}
+		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
+		for (int i = 0; i < columnPanels.size(); i++) {
+			Field field = fields.get(i);
+			AttributeDefinitionPanel panel = columnPanels.get(i);
+			AttributeDefinition attributeDefinition = panel.getDefinition();
+			AttributeMapping mapping = new AttributeMapping();
+			mapping.setField(field);
+			mapping.setAttributeDefinition(attributeDefinition);
+			mappings.add(mapping);
 		}
 
-		return columnDefinitions;
+		return mappings;
 	}
 
 	public void alert(String message) {

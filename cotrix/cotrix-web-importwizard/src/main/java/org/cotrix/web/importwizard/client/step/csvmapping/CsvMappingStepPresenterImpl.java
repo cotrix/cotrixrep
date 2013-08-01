@@ -12,6 +12,7 @@ import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -43,22 +44,30 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 	}
 	
 	public boolean isComplete() {
-		List<AttributeMapping> mapping = view.getMapping();
+		Log.trace("checking csv mapping");
 		
-		boolean valid = validate(mapping);
+		List<AttributeMapping> mappings = view.getMappings();
+		Log.trace(mappings.size()+" mappings to check");
 		
-		if (valid) importEventBus.fireEvent(new MappingsUpdatedEvent(mapping, true));
+		boolean valid = validate(mappings);
+		
+		if (valid) importEventBus.fireEvent(new MappingsUpdatedEvent(mappings, true));
 		
 		return valid;
 	}
 	
-	protected boolean validate(List<AttributeMapping> mapping)
+	protected boolean validate(List<AttributeMapping> mappings)
 	{
 		
 		//only one code
 		int codeCount = 0;
-		for (AttributeMapping attributeMapping:mapping) {
-			if (attributeMapping.isMapped() && attributeMapping.getAttributeDefinition().getType()==AttributeType.CODE) codeCount++;
+		for (AttributeMapping mapping:mappings) {
+			Log.trace("mapping: "+mapping);
+			if (mapping.isMapped() && mapping.getAttributeDefinition().getType()==AttributeType.CODE) codeCount++;
+			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().isEmpty()) {
+				view.alert("Name field required");
+				return false;
+			}
 		}
 		
 		if (codeCount==0) {
