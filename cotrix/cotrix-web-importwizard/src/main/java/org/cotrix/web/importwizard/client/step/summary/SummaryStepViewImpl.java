@@ -28,8 +28,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	
 	protected static final int HEADER_ROW = 0;
-	protected static final int NAME_COLUMN = 0;
-	protected static final int TYPE_COLUMN = 1;
+	protected static final int MAPPING_COLUMN = 0;
+	protected static final int METADATA_COLUMN = 1;
 	protected static final DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM);
 
 	@UiTemplate("SummaryStep.ui.xml")
@@ -60,43 +60,40 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	}
 
 	protected void setupHeader() {
-		summaryTable.setWidget(HEADER_ROW, NAME_COLUMN, new HTML("Header"));
-		summaryTable.setWidget(HEADER_ROW, TYPE_COLUMN, new HTML("Type"));
-		summaryTable.setWidget(HEADER_ROW, 2, new HTML("Metadata"));
-		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, NAME_COLUMN, style.summaryTableHeader());
-		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, TYPE_COLUMN, style.summaryTableHeader());
-		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, 2, style.summaryTableHeader());
+		summaryTable.setWidget(HEADER_ROW, MAPPING_COLUMN, new HTML("Mappings"));
+		summaryTable.setWidget(HEADER_ROW, METADATA_COLUMN, new HTML("Metadata"));
+		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, MAPPING_COLUMN, style.summaryTableHeader());
+		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, METADATA_COLUMN, style.summaryTableHeader());
 	}
 	
-	public void setMapping(List<AttributeMapping> mapping)
+	public void setMapping(List<AttributeMapping> mappings)
 	{
 		int row = 1;
-		for (AttributeMapping attributeMapping:mapping) {
-			HTML header = new HTML(attributeMapping.getField().getLabel());
-			HTML type = getType(attributeMapping.getAttributeDefinition());
-			summaryTable.setWidget(row, NAME_COLUMN, header);
-			summaryTable.setWidget(row, TYPE_COLUMN, type);
+		for (AttributeMapping mapping:mappings) {
+			StringBuilder mappingDescription = new StringBuilder();
+			mappingDescription.append("<b>").append(mapping.getField().getLabel()).append("</b>");
+			if (mapping.isMapped()) {
+				AttributeDefinition definition = mapping.getAttributeDefinition();
+				mappingDescription.append(" mapped as ").append(definition.getType().toString());
+				mappingDescription.append(" with name ").append(definition.getName());
+				if (definition.getLanguage()!=null) mappingDescription.append(" in ").append(definition.getLanguage());
+			} else mappingDescription.append(" ignored");
+			
+			
+			HTML mappingLabel = new HTML(mappingDescription.toString());
+			summaryTable.setWidget(row, MAPPING_COLUMN, mappingLabel);
 			row++;
 		}
 	}
 	
-	protected HTML getType(AttributeDefinition attribute)
-	{
-		if (attribute==null) return new HTML("Not Defined");
-		//FIXME
-		StringBuilder text = new StringBuilder(attribute.getType().toString());
-		if (attribute.getLanguage()!=null) text.append(" (").append(attribute.getLanguage()).append(')');
-		return new HTML(text.toString());
-	}
-	
 	public void setMetadata(ImportMetadata metadata) {
-		summaryTable.getFlexCellFormatter().setRowSpan(7, 2, summaryTable.getRowCount() - 7);
-		summaryTable.setWidget(1, 2, new HTML("<strong>Name : </strong>"+metadata.getName()));
-		summaryTable.setWidget(2, 2, new HTML("<strong>Owner : </strong>"+metadata.getOwner()));
-		summaryTable.setWidget(3, 2, new HTML("<strong>Description : </strong>"+metadata.getDescription()));
-		summaryTable.setWidget(4, 2, new HTML("<strong>Create Date : </strong>"+format(metadata.getCreateDate())));
-		summaryTable.setWidget(5, 2, new HTML("<strong>Update Date: </strong>"+format(metadata.getUpdateDate())));
-		summaryTable.setWidget(6, 2, new HTML("<strong>Version : </strong>"+metadata.getVersion()));
+		summaryTable.getFlexCellFormatter().setRowSpan(7, METADATA_COLUMN, summaryTable.getRowCount() - 7);
+		summaryTable.setWidget(1, METADATA_COLUMN, new HTML("<strong>Name : </strong>"+metadata.getName()));
+		summaryTable.setWidget(2, METADATA_COLUMN, new HTML("<strong>Owner : </strong>"+metadata.getOwner()));
+		summaryTable.setWidget(3, METADATA_COLUMN, new HTML("<strong>Description : </strong>"+metadata.getDescription()));
+		summaryTable.setWidget(4, METADATA_COLUMN, new HTML("<strong>Create Date : </strong>"+format(metadata.getCreateDate())));
+		summaryTable.setWidget(5, METADATA_COLUMN, new HTML("<strong>Update Date: </strong>"+format(metadata.getUpdateDate())));
+		summaryTable.setWidget(6, METADATA_COLUMN, new HTML("<strong>Version : </strong>"+metadata.getVersion()));
 	}
 	
 	protected String format(Date date)
