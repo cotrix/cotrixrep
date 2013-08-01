@@ -15,6 +15,7 @@ import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -40,6 +41,7 @@ public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements C
 		this.importEventBus = importEventBus;
 		importEventBus.addHandler(PreviewDataUpdatedEvent.TYPE, this);
 		importEventBus.addHandler(CodeListTypeUpdatedEvent.TYPE, this);
+		importEventBus.addHandler(CsvParserConfigurationUpdatedEvent.TYPE, this);
 	}
 
 	public void go(HasWidgets container) {
@@ -91,7 +93,8 @@ public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements C
 	}
 
 	@Override
-	public void onCsvParserConfigurationUpdated(CsvParserConfigurationUpdatedEvent event) {		
+	public void onCsvParserConfigurationUpdated(CsvParserConfigurationUpdatedEvent event) {
+		Log.trace("csv parser configuration updated: "+event.getConfiguration());
 		view.setCsvParserConfiguration(event.getConfiguration());		
 	}
 

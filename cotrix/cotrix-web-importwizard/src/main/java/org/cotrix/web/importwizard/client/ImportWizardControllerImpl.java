@@ -143,9 +143,9 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				switch (result) {
 					case CSV: {
 						Log.trace("getting preview data");
-						getPreviewData();
+						getCsvPreviewData();
 						Log.trace("getting parser configuration");
-						getCSVParserConfiguration(); 
+						getCsvParserConfiguration(); 
 						Log.trace("getting metadata");
 						getMetadata();
 					} break;
@@ -160,7 +160,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		Log.trace("done importedItemUpdated");
 	}
 	
-	protected void getPreviewData()
+	protected void getCsvPreviewData()
 	{
 		importService.getCsvPreviewData(new AsyncCallback<CsvPreviewData>() {
 			
@@ -193,7 +193,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		});
 	}
 	
-	protected void getCSVParserConfiguration()
+	protected void getCsvParserConfiguration()
 	{
 		importService.getCsvParserConfiguration(new AsyncCallback<CsvParserConfiguration>() {
 
@@ -219,7 +219,8 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 			@Override
 			public void onSuccess(Void result) {
-				getCSVParserConfiguration();
+				getCsvPreviewData();
+				getCsvParserConfiguration();
 			}
 		});
 	}
