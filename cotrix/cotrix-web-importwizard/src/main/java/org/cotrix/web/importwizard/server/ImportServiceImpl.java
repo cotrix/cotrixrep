@@ -279,7 +279,8 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	@Override
 	public void setAsset(String assetId) throws ImportServiceException {
-		WizardImportSession session = getImportSession();
+		HttpSession httpSession = this.getThreadLocalRequest().getSession();
+		WizardImportSession session = WizardImportSession.getCleanImportSession(httpSession);
 		Asset asset = getAsset(assetId);
 		session.setSelectedAsset(asset);
 		List<AttributeMapping> mappings = mappingsGuesser.getSdmxDefaultMappings();

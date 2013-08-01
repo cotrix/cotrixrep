@@ -72,7 +72,7 @@ public class FileUpload extends HttpServlet{
 		logger.trace("processing upload request");
 
 		HttpSession httpSession = request.getSession();
-		WizardImportSession session = WizardImportSession.getImportSession(httpSession);
+		WizardImportSession session = WizardImportSession.getCleanImportSession(httpSession);
 		FileUploadProgress uploadProgress = new FileUploadProgress(0, Status.ONGOING, null);
 		session.setUploadProgress(uploadProgress);
 

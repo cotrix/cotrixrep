@@ -34,6 +34,17 @@ public class WizardImportSession {
 		return importSession;
 	}
 	
+	public static WizardImportSession getCleanImportSession(HttpSession httpSession){
+		WizardImportSession importSession = (WizardImportSession) httpSession.getAttribute(SESSION_ATTRIBUTE_NAME);
+		if (importSession != null) {
+			//TODO close it? release resources?	
+		}
+		
+		importSession = new WizardImportSession();
+		httpSession.setAttribute(SESSION_ATTRIBUTE_NAME, importSession);
+		return importSession;
+	}
+	
 	protected FileUploadProgress uploadProgress;
 	protected FileItem fileField;
 	protected CodeListType codeListType;
