@@ -53,10 +53,10 @@ public class MetadataStepPresenterImpl extends AbstractWizardStep implements Met
 			return false;
 		}
 		
-		if (metadata.getOwner().isEmpty()) {
+		/*if (metadata.getOwner().isEmpty()) {
 			view.alert("Ower is required");
 			return false;
-		}
+		}*/
 		
 		importEventBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
 		

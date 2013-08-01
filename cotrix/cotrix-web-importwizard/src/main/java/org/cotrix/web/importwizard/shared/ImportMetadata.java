@@ -1,6 +1,7 @@
 package org.cotrix.web.importwizard.shared;
 
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -11,83 +12,36 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class ImportMetadata implements IsSerializable {
 	
 	protected String name;
-	protected String owner;
-	protected String description;
-	protected Date updateDate;
-	protected Date createDate;
-	protected String version;
+	protected Map<String, String> attributes = new HashMap<String, String>();
+
 	/**
 	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
+	
 	/**
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	/**
-	 * @return the owner
+	 * @return the attributes
 	 */
-	public String getOwner() {
-		return owner;
+	public Map<String, String> getAttributes() {
+		return attributes;
 	}
+
 	/**
-	 * @param owner the owner to set
+	 * @param attributes the attributes to set
 	 */
-	public void setOwner(String owner) {
-		this.owner = owner;
+	public void setAttributes(Map<String, String> attributes) {
+		this.attributes = attributes;
 	}
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	/**
-	 * @return the updateDate
-	 */
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-	/**
-	 * @param updateDate the updateDate to set
-	 */
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-	/**
-	 * @return the createDate
-	 */
-	public Date getCreateDate() {
-		return createDate;
-	}
-	/**
-	 * @param createDate the createDate to set
-	 */
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-	/**
-	 * @return the version
-	 */
-	public String getVersion() {
-		return version;
-	}
-	/**
-	 * @param version the version to set
-	 */
-	public void setVersion(String version) {
-		this.version = version;
-	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -96,16 +50,8 @@ public class ImportMetadata implements IsSerializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("ImportMetadata [name=");
 		builder.append(name);
-		builder.append(", owner=");
-		builder.append(owner);
-		builder.append(", description=");
-		builder.append(description);
-		builder.append(", updateDate=");
-		builder.append(updateDate);
-		builder.append(", createDate=");
-		builder.append(createDate);
-		builder.append(", version=");
-		builder.append(version);
+		builder.append(", attributes=");
+		builder.append(attributes);
 		builder.append("]");
 		return builder.toString();
 	}

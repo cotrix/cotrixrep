@@ -1,5 +1,8 @@
 package org.cotrix.web.importwizard.client.step.metadata;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 
@@ -26,16 +29,16 @@ public class MetadataStepViewImpl extends Composite implements MetadataStepView 
 	@UiTemplate("MetadataStep.ui.xml")
 	interface MetadataStepUiBinder extends UiBinder<Widget, MetadataStepViewImpl> {}
 	private static MetadataStepUiBinder uiBinder = GWT.create(MetadataStepUiBinder.class);
-	
+
 	@UiField DateBox createDate;
 	@UiField DateBox updateDate;
 	@UiField TextBox name;
 	@UiField TextBox fileowner;
 	@UiField ListBox version;
 	@UiField TextArea description;
-	
+
 	private AlertDialog alertDialog;
-	
+
 	public MetadataStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM);
@@ -43,16 +46,18 @@ public class MetadataStepViewImpl extends Composite implements MetadataStepView 
 		createDate.setFormat(dateBoxFormat);
 		updateDate.setFormat(dateBoxFormat);
 	}
-	
+
 	public ImportMetadata getMetadata() {
 		ImportMetadata metadata = new ImportMetadata();
 		metadata.setName(name.getText());
-		metadata.setOwner(fileowner.getText());
-		metadata.setDescription(description.getText());
-		metadata.setVersion(version.getItemText(version.getSelectedIndex()));
+		Map<String, String> attributes = new HashMap<String, String>();
+		attributes.put("Owner", fileowner.getText());
+		attributes.put("Description", description.getText());
+		attributes.put("Version", version.getItemText(version.getSelectedIndex()));
+		metadata.setAttributes(attributes);
 		return metadata;
 	}
-	
+
 	public void alert(String message) {
 		if(alertDialog == null){
 			alertDialog = new AlertDialog();
@@ -64,13 +69,13 @@ public class MetadataStepViewImpl extends Composite implements MetadataStepView 
 	@Override
 	public void setMetadata(ImportMetadata metadata) {
 		name.setValue(metadata.getName());
-		description.setValue(metadata.getDescription());
-		fileowner.setValue(metadata.getOwner());
-		createDate.setValue(metadata.getCreateDate());
-		updateDate.setValue(metadata.getUpdateDate());
-		
+		description.setValue(metadata.getAttributes().get("Description"));
+		fileowner.setValue(metadata.getAttributes().get("Owner"));
+		//createDate.setValue(metadata.getAttributes().get("CreateDate"));
+		//updateDate.setValue(metadata.getAttributes().get("UpdateDate"));
+
 		//FIXME version
-		
+
 	}
 
 }

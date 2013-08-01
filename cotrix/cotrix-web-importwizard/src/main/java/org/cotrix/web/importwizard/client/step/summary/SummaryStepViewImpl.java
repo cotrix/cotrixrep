@@ -2,6 +2,7 @@ package org.cotrix.web.importwizard.client.step.summary;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.cotrix.web.importwizard.client.util.ProgressDialog;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
@@ -79,7 +80,6 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 				if (definition.getLanguage()!=null) mappingDescription.append(" in ").append(definition.getLanguage());
 			} else mappingDescription.append(" ignored");
 			
-			
 			HTML mappingLabel = new HTML(mappingDescription.toString());
 			summaryTable.setWidget(row, MAPPING_COLUMN, mappingLabel);
 			row++;
@@ -87,13 +87,16 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	}
 	
 	public void setMetadata(ImportMetadata metadata) {
-		summaryTable.getFlexCellFormatter().setRowSpan(7, METADATA_COLUMN, summaryTable.getRowCount() - 7);
+
 		summaryTable.setWidget(1, METADATA_COLUMN, new HTML("<strong>Name : </strong>"+metadata.getName()));
-		summaryTable.setWidget(2, METADATA_COLUMN, new HTML("<strong>Owner : </strong>"+metadata.getOwner()));
-		summaryTable.setWidget(3, METADATA_COLUMN, new HTML("<strong>Description : </strong>"+metadata.getDescription()));
-		summaryTable.setWidget(4, METADATA_COLUMN, new HTML("<strong>Create Date : </strong>"+format(metadata.getCreateDate())));
-		summaryTable.setWidget(5, METADATA_COLUMN, new HTML("<strong>Update Date: </strong>"+format(metadata.getUpdateDate())));
-		summaryTable.setWidget(6, METADATA_COLUMN, new HTML("<strong>Version : </strong>"+metadata.getVersion()));
+		
+		int row = 2;
+		for (Entry<String, String> attribute:metadata.getAttributes().entrySet()) {
+			summaryTable.setWidget(row, METADATA_COLUMN, new HTML("<strong>"+attribute.getKey()+" : </strong>"+attribute.getValue()));
+			row++;
+		}
+		
+		summaryTable.getFlexCellFormatter().setRowSpan(row, METADATA_COLUMN, summaryTable.getRowCount() - row);
 	}
 	
 	protected String format(Date date)
