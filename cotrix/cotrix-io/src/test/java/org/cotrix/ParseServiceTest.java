@@ -47,6 +47,22 @@ public class ParseServiceTest {
 		assertNotNull(table);
 	}
 	
+	@Test
+	public void parseHeaderlessCsvStream() {
+		
+		//we only need to test dispatching in one case, as parsing capabilities are external to our code and tested elsewhere
+		
+		InputStream stream = getClass().getClassLoader().getResourceAsStream("samplenoheader.txt");
+		
+		CsvParseDirectives directives = new CsvParseDirectives();
+		
+		Table table = service.parse(stream, directives);
+		
+		assertNotNull(table);
+		
+		System.out.println(table.columns());
+	}
+	
 	
 	@Test
 	public void parseSdmxStream() {
