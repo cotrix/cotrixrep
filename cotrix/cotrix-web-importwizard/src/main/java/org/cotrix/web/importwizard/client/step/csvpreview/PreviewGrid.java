@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Composite;
@@ -112,6 +113,7 @@ public class PreviewGrid extends Composite {
 	
 	protected void setupHeader(List<String> headersLabels, boolean editable)
 	{
+		Log.trace("setupHeader "+headersLabels+" editable? "+editable);
 		headerFields.clear();
 		for (int i = 0; i < headersLabels.size(); i++) {
 			String headerLabel = headersLabels.get(i);

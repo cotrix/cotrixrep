@@ -5,6 +5,8 @@ import java.util.List;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent.CodeListSelectedHandler;
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent;
+import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent.CsvParserConfigurationEditedHandler;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
@@ -97,6 +99,12 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				if (event.isUserEdited()) metadata = event.getMetadata();				
 			}
 		});
+		importEventBus.addHandler(CsvParserConfigurationEditedEvent.TYPE, new CsvParserConfigurationEditedHandler(){
+
+			@Override
+			public void onCsvParserConfigurationEdited(CsvParserConfigurationEditedEvent event) {
+				getMappings();
+			}});
 		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedHandler() {
 			
 			@Override

@@ -82,8 +82,8 @@ public class ParsingHelper {
 	
 	public PreviewData convert(Table table, boolean headersEditable, int rowLimit)
 	{
-		List<String> headersLabels = getHeadersLabels(table);
 		List<List<String>> rows = getRows(table, rowLimit);
+		List<String> headersLabels = getHeadersLabels(table);
 		PreviewData preview = new PreviewData(headersLabels, headersEditable, rows);
 		return preview;
 	}
@@ -91,6 +91,7 @@ public class ParsingHelper {
 	protected List<String> getHeadersLabels(Table table)
 	{
 		List<Column> columns = table.columns();
+		logger.trace("columns: "+columns.size());
 		List<String> header = new ArrayList<String>(columns.size());
 		for (Column column:columns) header.add(column.name().getLocalPart());
 		return header;
