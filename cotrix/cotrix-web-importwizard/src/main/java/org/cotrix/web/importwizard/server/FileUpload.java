@@ -15,6 +15,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.upload.CodeListTypeGuesser;
 import org.cotrix.web.importwizard.server.upload.CsvParserConfigurationGuesser;
 import org.cotrix.web.importwizard.server.upload.FileNameCleaner;
@@ -24,7 +25,6 @@ import org.cotrix.web.importwizard.server.util.ParsingHelper;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.FileUploadProgress.Status;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
@@ -139,7 +139,7 @@ public class FileUpload extends HttpServlet{
 				//TODO check if csv config is valid
 				//FIXME duplicate code
 				Table table = parsingHelper.parse(configuration, fileField.getInputStream());
-				CsvPreviewData previewData = parsingHelper.convert(table, ParsingHelper.ROW_LIMIT);
+				PreviewData previewData = parsingHelper.convert(table, !configuration.isHasHeader(), ParsingHelper.ROW_LIMIT);
 				session.setPreviewCache(previewData);
 				session.setCacheDirty(false);
 

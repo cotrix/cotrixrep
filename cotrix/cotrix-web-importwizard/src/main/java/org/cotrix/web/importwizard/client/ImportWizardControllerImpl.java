@@ -5,8 +5,6 @@ import java.util.List;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent.CodeListSelectedHandler;
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
-import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent;
-import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent.CsvParserConfigurationEditedHandler;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
@@ -18,7 +16,6 @@ import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
-import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.SaveEvent;
@@ -27,7 +24,6 @@ import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
@@ -86,18 +82,14 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			public void onFileUploaded(FileUploadedEvent event) {
 				importedItemUpdated();
 			}});
+		
 		importEventBus.addHandler(CodeListSelectedEvent.TYPE, new CodeListSelectedHandler(){
 
 			@Override
 			public void onCodeListSelected(CodeListSelectedEvent event) {
 				importedItemUpdated();
 			}});
-		importEventBus.addHandler(CsvParserConfigurationEditedEvent.TYPE, new CsvParserConfigurationEditedHandler(){
 
-			@Override
-			public void onCsvParserConfigurationEdited(CsvParserConfigurationEditedEvent event) {
-				saveCsvParserConfiguration(event.getConfiguration());
-			}});
 		importEventBus.addHandler(MetadataUpdatedEvent.TYPE, new MetadataUpdatedHandler(){
 
 			@Override
@@ -142,8 +134,6 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			public void onSuccess(CodeListType result) {
 				switch (result) {
 					case CSV: {
-						Log.trace("getting preview data");
-						getCsvPreviewData();
 						Log.trace("getting parser configuration");
 						getCsvParserConfiguration(); 
 						Log.trace("getting metadata");
@@ -158,22 +148,6 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		getMappings();
 		
 		Log.trace("done importedItemUpdated");
-	}
-	
-	protected void getCsvPreviewData()
-	{
-		importService.getCsvPreviewData(new AsyncCallback<CsvPreviewData>() {
-			
-			@Override
-			public void onSuccess(CsvPreviewData previewData) {
-				importEventBus.fireEvent(new PreviewDataUpdatedEvent(previewData));
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Failed retrieving preview data", caught);
-			}
-		});
 	}
 	
 	protected void getCodeListType(final Callback<CodeListType, Void> callaback)
@@ -205,22 +179,6 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			@Override
 			public void onSuccess(CsvParserConfiguration result) {
 				importEventBus.fireEvent(new CsvParserConfigurationUpdatedEvent(result));				
-			}
-		});
-	}
-	
-	protected void saveCsvParserConfiguration(CsvParserConfiguration configuration) {
-		importService.updateCsvParserConfiguration(configuration, new AsyncCallback<Void>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Error updating the CSV Parser configuration", caught);
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				getCsvPreviewData();
-				getCsvParserConfiguration();
 			}
 		});
 	}

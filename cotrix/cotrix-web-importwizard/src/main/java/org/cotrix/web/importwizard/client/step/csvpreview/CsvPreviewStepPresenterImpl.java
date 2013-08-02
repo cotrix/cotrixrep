@@ -1,19 +1,11 @@
 package org.cotrix.web.importwizard.client.step.csvpreview;
 
-import java.util.List;
-
-import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
-import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent.CodeListTypeUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent.CsvParserConfigurationUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent;
-import org.cotrix.web.importwizard.client.event.PreviewDataUpdatedEvent.PreviewDataUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CsvPreviewData;
-import org.cotrix.web.importwizard.shared.CodeListType;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -26,7 +18,7 @@ import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfigur
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements CsvPreviewStepPresenter, PreviewDataUpdatedHandler, CodeListTypeUpdatedHandler, CsvParserConfigurationUpdatedHandler {
+public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements CsvPreviewStepPresenter, CsvParserConfigurationUpdatedHandler {
 
 	private final CsvPreviewStepView view;
 	protected EventBus importEventBus;
@@ -39,26 +31,11 @@ public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements C
 		this.view.setPresenter(this);
 		
 		this.importEventBus = importEventBus;
-		importEventBus.addHandler(PreviewDataUpdatedEvent.TYPE, this);
-		importEventBus.addHandler(CodeListTypeUpdatedEvent.TYPE, this);
 		importEventBus.addHandler(CsvParserConfigurationUpdatedEvent.TYPE, this);
 	}
 
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());
-	}
-	
-	public void setPreviewData(List<String> header, int numColumns, List<List<String>> data)
-	{
-		view.cleanPreviewGrid();
-		if (header!=null) {
-			view.setupStaticHeader(header);
-			headerRequired = false;
-		} else {
-			view.setupEditableHeader(numColumns);
-			headerRequired = true;
-		}
-		view.setData(data);
 	}
 
 	public boolean isComplete() {
@@ -71,7 +48,7 @@ public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements C
 	
 	protected boolean areHeadersValid()
 	{
-		for (String header:view.getEditedHeaders()) if (header == null || header.isEmpty()) return false;
+		for (String header:view.getHeaders()) if (header == null || header.isEmpty()) return false;
 		return true;
 	}
 
@@ -81,21 +58,9 @@ public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements C
 	}
 
 	@Override
-	public void onPreviewDataUpdated(PreviewDataUpdatedEvent event) {
-		CsvPreviewData previewData = event.getPreviewData();
-		setPreviewData(previewData.getHeader(), previewData.getColumnsCount(), previewData.getData());
-	}
-
-	@Override
-	public void onCodeListTypeUpdated(CodeListTypeUpdatedEvent event) {
-		if (event.getCodeListType() == CodeListType.CSV) view.showCsvConfigurationButton();
-		else view.hideCsvConfigurationButton();
-	}
-
-	@Override
 	public void onCsvParserConfigurationUpdated(CsvParserConfigurationUpdatedEvent event) {
 		Log.trace("csv parser configuration updated: "+event.getConfiguration());
-		view.setCsvParserConfiguration(event.getConfiguration());		
+		view.setCsvParserConfiguration(event.getConfiguration());
 	}
 
 	@Override

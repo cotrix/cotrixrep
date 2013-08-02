@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.cotrix.io.Channels;
 import org.cotrix.web.importwizard.client.ImportService;
+import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.climport.Importer;
 import org.cotrix.web.importwizard.server.climport.ImporterFactory;
 import org.cotrix.web.importwizard.server.upload.MappingGuesser;
@@ -23,7 +24,6 @@ import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AssetsBatch;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
@@ -165,7 +165,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public CsvPreviewData getCsvPreviewData() throws ImportServiceException {
+	public PreviewData getCsvPreviewData(CsvParserConfiguration configuration) throws ImportServiceException {
 
 		WizardImportSession session = getImportSession();
 
@@ -174,13 +174,15 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			throw new ImportServiceException("No preview data available");
 		}
 
-		if (!session.isCacheDirty()) return session.getPreviewCache();
+		if (session.getCsvParserConfiguration()!=null && session.getCsvParserConfiguration().equals(configuration)) return session.getPreviewCache();
 
 		try {
+			
+			session.setCsvParserConfiguration(configuration);
 		
 			//FIXME duplicate code
 			Table table = parsingHelper.parse(session.getCsvParserConfiguration(), session.getFileField().getInputStream());
-			CsvPreviewData previewData = parsingHelper.convert(table, ParsingHelper.ROW_LIMIT);
+			PreviewData previewData = parsingHelper.convert(table, !configuration.isHasHeader(), ParsingHelper.ROW_LIMIT);
 			session.setPreviewCache(previewData);
 			session.setCacheDirty(false);
 			
@@ -229,20 +231,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			charsets.add(charset.displayName());
 		}
 		return charsets;
-	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void updateCsvParserConfiguration(CsvParserConfiguration configuration) throws ImportServiceException {
-		WizardImportSession session = getImportSession();
-		CsvParserConfiguration currentConfiguration = session.getCsvParserConfiguration();
-		if (!currentConfiguration.equals(configuration)) {
-			session.setCsvParserConfiguration(configuration);
-			session.setCacheDirty(true);
-		}
-
 	}
 
 	/** 

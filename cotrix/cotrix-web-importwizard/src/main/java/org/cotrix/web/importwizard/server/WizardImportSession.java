@@ -8,11 +8,11 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
+import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.climport.Importer;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.virtualrepository.Asset;
@@ -50,7 +50,7 @@ public class WizardImportSession {
 	protected CodeListType codeListType;
 	
 	protected CsvParserConfiguration csvParserConfiguration;
-	protected CsvPreviewData previewCache;
+	protected PreviewData previewCache;
 	protected boolean isCacheDirty;
 	
 	protected Asset selectedAsset;
@@ -121,14 +121,14 @@ public class WizardImportSession {
 	/**
 	 * @return the previewCache
 	 */
-	public CsvPreviewData getPreviewCache() {
+	public PreviewData getPreviewCache() {
 		return previewCache;
 	}
 
 	/**
 	 * @param previewCache the previewCache to set
 	 */
-	public void setPreviewCache(CsvPreviewData previewCache) {
+	public void setPreviewCache(PreviewData previewCache) {
 		this.previewCache = previewCache;
 	}
 

@@ -10,6 +10,7 @@ import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepPresente
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepView;
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepViewImpl;
+import org.cotrix.web.importwizard.client.step.csvpreview.PreviewDataProvider;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepView;
@@ -88,6 +89,7 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         
         bind(CsvPreviewStepView.class).to(CsvPreviewStepViewImpl.class);
         bind(CsvPreviewStepPresenter.class).to(CsvPreviewStepPresenterImpl.class);
+        bind(PreviewDataProvider.class).in(Singleton.class);
         
         bind(CsvMappingStepView.class).to(CsvMappingStepViewImpl.class);
         bind(CsvMappingStepPresenter.class).to(CsvMappingStepPresenterImpl.class);

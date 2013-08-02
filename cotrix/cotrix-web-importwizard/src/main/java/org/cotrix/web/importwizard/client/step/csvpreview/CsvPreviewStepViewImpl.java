@@ -1,10 +1,10 @@
 package org.cotrix.web.importwizard.client.step.csvpreview;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvParserConfigurationDialog.DialogSaveHandler;
+import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.PreviewStyle;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 
 import com.google.gwt.core.client.GWT;
@@ -16,10 +16,8 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -33,35 +31,38 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 	interface PreviewStepUiBinder extends UiBinder<Widget, CsvPreviewStepViewImpl> {}
 	private static PreviewStepUiBinder uiBinder = GWT.create(PreviewStepUiBinder.class);
 	
-	interface Style extends CssResource {
+	interface Style extends CssResource, PreviewStyle {
 
+		String preview();
 		String textbox();
 
-		String flextTableHeader(); 
+		String header(); 
 	
 	}
 
-	@UiField FlexTable previewGrid;
+	
+	@UiField (provided=true) 
+	PreviewGrid preview;
+
 	@UiField Button showCsvConfigurationButton;
 	@UiField Style style;
-	
-	protected List<TextBox> headerFields = new ArrayList<TextBox>();
 
 	private AlertDialog alertDialog;
 	protected CsvParserConfigurationDialog configurationDialog;
 
 	private Presenter presenter;
 	
-	public CsvPreviewStepViewImpl() {
+	protected PreviewDataProvider dataProvider;
+	
+	@Inject
+	public CsvPreviewStepViewImpl(PreviewDataProvider dataProvider) {
+		
+		this.dataProvider = dataProvider;
+		preview = new PreviewGrid(dataProvider);
 		initWidget(uiBinder.createAndBindUi(this));
+		preview.setStyle(style);
 	}
-	
-	@UiHandler("showCsvConfigurationButton")
-	public void onClick(ClickEvent event) {
-		presenter.onShowCsvConfigurationButtonClicked();
-	}
-	
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -72,65 +73,8 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
-	public void cleanPreviewGrid() {
-		previewGrid.removeAllRows();
-	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	public void setupEditableHeader(int numColumns)
-	{
-		headerFields.clear();
-		for (int i = 0; i < numColumns; i++) {
-			TextBox headerField = new TextBox();
-			headerField.setStyleName(style.textbox());
-			headerFields.add(headerField);
-			
-			previewGrid.setWidget(HEADER_ROW, i, headerField);
-			previewGrid.getCellFormatter().setStyleName(HEADER_ROW, i, style.flextTableHeader());
-		}
-	}
-	
-	/** 
-	 * {@inheritDoc}
-	 */
-	public void setupStaticHeader(List<String> headers)
-	{
-		headerFields.clear();
-		for (int i = 0; i < headers.size(); i++) {
-			String header = headers.get(i);
-			
-			HTML staticHeader = new HTML(header);
-			previewGrid.setWidget(HEADER_ROW, i, staticHeader);
-			previewGrid.getCellFormatter().setStyleName(HEADER_ROW, i, style.flextTableHeader());
-		}
-	}
-	
-	/** 
-	 * {@inheritDoc}
-	 */
-	public void setData(List<List<String>> rows) {
-		for (List<String> row:rows) addDataRow(row);
-	}
-	
-	protected void addDataRow(List<String> row)
-	{
-		int rowIndex = previewGrid.getRowCount();
-		for (int i = 0; i < row.size(); i++) {
-			String cell = row.get(i);
-			previewGrid.setWidget(rowIndex, i, new HTML(cell));
-		}
-	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	public List<String> getEditedHeaders() {
-		ArrayList<String> headers = new ArrayList<String>();
-		for (TextBox headerField:headerFields) headers.add(headerField.getText());
-		return headers;
+	public List<String> getHeaders() {
+		return preview.getHeaders();
 	}
 
 	/** 
@@ -143,21 +87,11 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 		alertDialog.setMessage(message);
 		alertDialog.show();
 	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void showCsvConfigurationButton() {
-		showCsvConfigurationButton.setVisible(true);
-	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void hideCsvConfigurationButton() {
-		showCsvConfigurationButton.setVisible(false);
+	
+	
+	@UiHandler("showCsvConfigurationButton")
+	public void onClick(ClickEvent event) {
+		presenter.onShowCsvConfigurationButtonClicked();
 	}
 
 	/** 
@@ -167,22 +101,32 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 	public void showCsvConfigurationDialog() {
 		ensureInitializedConfigurationDialog();
 		configurationDialog.center();
-		
 	}
 	
 	@Override
 	public void setCsvParserConfiguration(CsvParserConfiguration configuration) {
 		ensureInitializedConfigurationDialog();
 		configurationDialog.setConfiguration(configuration);
+		updatePreview(configuration);
 	}
 
 	@Override
 	public void onSave(CsvParserConfiguration configuration) {
-		presenter.onCsvConfigurationEdited(configuration);	
+		updatePreview(configuration);
+		presenter.onCsvConfigurationEdited(configuration);
 	}
 	
 	protected void ensureInitializedConfigurationDialog()
 	{
 		if (configurationDialog == null) configurationDialog = new CsvParserConfigurationDialog(this);
+	}
+	
+	
+	protected void updatePreview(CsvParserConfiguration configuration)
+	{
+		if (dataProvider.getConfiguration()==null || !dataProvider.getConfiguration().equals(configuration)) {
+			dataProvider.setConfiguration(configuration);
+			preview.loadData();
+		}
 	}
 }

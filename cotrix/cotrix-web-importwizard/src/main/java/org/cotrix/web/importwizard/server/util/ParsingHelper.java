@@ -14,8 +14,8 @@ import javax.inject.Singleton;
 import org.cotrix.io.parse.ParseService;
 import org.cotrix.io.sdmx.SdmxParseDirectives;
 import org.cotrix.io.tabular.csv.CsvParseDirectives;
+import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.importwizard.shared.CsvPreviewData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,14 +37,14 @@ public class ParsingHelper {
 	@Inject
 	ParseService service;
 	
-	public CsvPreviewData getCsvPreviewData(CsvParserConfiguration parserConfiguration, InputStream inputStream)
+	public PreviewData getCsvPreviewData(CsvParserConfiguration parserConfiguration, InputStream inputStream)
 	{
 		logger.trace("creating preview");
 
 		Table table = parse(parserConfiguration, inputStream);
 
 		logger.trace("converting");
-		CsvPreviewData previewData = convert(table, ROW_LIMIT);
+		PreviewData previewData = convert(table, !parserConfiguration.isHasHeader(), ROW_LIMIT);
 		logger.trace("ready");
 		
 		return previewData;
@@ -80,15 +80,15 @@ public class ParsingHelper {
 		return directives;
 	}
 	
-	public CsvPreviewData convert(Table table, int rowLimit)
+	public PreviewData convert(Table table, boolean headersEditable, int rowLimit)
 	{
-		CsvPreviewData preview = new CsvPreviewData();
-		preview.setHeader(getHeader(table));
-		preview.setData(getData(table, rowLimit));
+		List<String> headersLabels = getHeadersLabels(table);
+		List<List<String>> rows = getRows(table, rowLimit);
+		PreviewData preview = new PreviewData(headersLabels, headersEditable, rows);
 		return preview;
 	}
 	
-	protected List<String> getHeader(Table table)
+	protected List<String> getHeadersLabels(Table table)
 	{
 		List<Column> columns = table.columns();
 		List<String> header = new ArrayList<String>(columns.size());
@@ -96,7 +96,7 @@ public class ParsingHelper {
 		return header;
 	}
 	
-	protected List<List<String>> getData(Table table, int rowLimit)
+	protected List<List<String>> getRows(Table table, int rowLimit)
 	{
 		List<List<String>> data = new ArrayList<List<String>>();
 		int rowCount = 0;

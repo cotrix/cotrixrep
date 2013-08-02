@@ -15,15 +15,7 @@ public interface CsvPreviewStepView {
 		void onCsvConfigurationEdited(CsvParserConfiguration configuration);
 	}
 
-	public List<String> getEditedHeaders();
-	
-	public void cleanPreviewGrid();
-	public void setupEditableHeader(int numColumns);
-	public void setupStaticHeader(List<String> headers);
-	public void setData(List<List<String>> rows);
-	
-	public void showCsvConfigurationButton();
-	public void hideCsvConfigurationButton();
+	public List<String> getHeaders();
 	
 	public void showCsvConfigurationDialog();
 	public void setCsvParserConfiguration(CsvParserConfiguration configuration);
