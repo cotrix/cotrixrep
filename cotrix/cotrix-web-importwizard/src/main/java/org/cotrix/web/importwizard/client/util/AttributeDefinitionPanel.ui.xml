@@ -12,6 +12,7 @@
 				padding-right: 10px;
 				font-weight: bold;
 				color: #333;
+				vertical-align: middle;
 			}
 			
 			.listBox {
@@ -26,8 +27,6 @@
 	<g:FlowPanel>
 		<g:HorizontalPanel>
 			<g:ListBox ui:field="typeList" styleName="{style.listBox}" />
-			<g:Label ui:field="nameLabel" styleName="{style.textPadding}">with name</g:Label>
-			<g:TextBox ui:field="nameField" />
 			<g:Label ui:field="inLabel" styleName="{style.textPadding}">in</g:Label>
 			<g:ListBox ui:field="languageList" styleName="{style.listBox}" />
 		</g:HorizontalPanel>

@@ -67,7 +67,7 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 			columnsTable.getCellFormatter().setStyleName(row, 1, style.cell());
 
 			AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
-			definitionPanel.setDefinition(mapping.getAttributeDefinition());
+			//FIXME definitionPanel.setDefinition(mapping.getAttributeDefinition());
 			attributesPanels.add(definitionPanel);
 
 			columnsTable.setWidget(row, 2, definitionPanel);
@@ -77,8 +77,8 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	public void setCodeTypeError()
 	{
 		for (AttributeDefinitionPanel attributePanel:attributesPanels) {
-			AttributeDefinition attributeDefinition = attributePanel.getDefinition();
-			if (attributeDefinition!=null && attributeDefinition.getType() == AttributeType.CODE) attributePanel.setErrorStyle();
+			//FIXME AttributeDefinition attributeDefinition = attributePanel.getDefinition();
+			//FIXME if (attributeDefinition!=null && attributeDefinition.getType() == AttributeType.CODE) attributePanel.setErrorStyle();
 		}
 	}
 
@@ -93,10 +93,10 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 		for (int i = 0; i < attributesPanels.size(); i++) {
 			Field field = fields.get(i);
 			AttributeDefinitionPanel panel = attributesPanels.get(i);
-			AttributeDefinition attributeDefinition = panel.getDefinition();
+			//FIXME AttributeDefinition attributeDefinition = panel.getDefinition();
 			AttributeMapping mapping = new AttributeMapping();
 			mapping.setField(field);
-			mapping.setAttributeDefinition(attributeDefinition);
+			//FIXME mapping.setAttributeDefinition(attributeDefinition);
 			mappings.add(mapping);
 		}
 

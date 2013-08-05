@@ -11,15 +11,19 @@ import org.cotrix.web.importwizard.shared.AttributeType;
 import org.cotrix.web.importwizard.shared.Field;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -30,6 +34,11 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	@UiTemplate("CsvMappingStep.ui.xml")
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, CsvMappingStepViewImpl> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
+	
+	protected static int IGNORE_COLUMN = 0;
+	protected static int NAME_COLUMN = 1;
+	protected static int LABEL_COLUMN = 2;
+	protected static int DEFINITION_COLUMN = 3;
 
 	@UiField TextBox name;
 	@UiField FlexTable columnsTable;
@@ -40,8 +49,11 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	interface Style extends CssResource {
 		String headerlabel();
 		String cell();
+		String textPadding();
 	}
 
+	protected List<CheckBox> ignoreCheckboxes = new ArrayList<CheckBox>();
+	protected List<TextBox> nameFields = new ArrayList<TextBox>();
 	protected List<AttributeDefinitionPanel> columnPanels = new ArrayList<AttributeDefinitionPanel>();
 	protected List<Field> fields = new ArrayList<Field>();
 
@@ -67,52 +79,78 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	{
 		columnsTable.removeAllRows();
 		columnPanels.clear();
+		ignoreCheckboxes.clear();
+		nameFields.clear();
 		fields.clear();
 		
 		addHeader();
+		
+		FlexCellFormatter cellFormatter = columnsTable.getFlexCellFormatter();
 
 		for (AttributeMapping attributeMapping:mapping) {
-			int row = columnsTable.getRowCount();
+			final int row = columnsTable.getRowCount();
+			
+			final CheckBox ignoreCheckBox = new CheckBox();
+			ignoreCheckBox.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					setIgnored(row, ignoreCheckBox.getValue());
+				}
+			});
+			columnsTable.setWidget(row, IGNORE_COLUMN, ignoreCheckBox);
+			ignoreCheckboxes.add(ignoreCheckBox);
+			
 			Field field = attributeMapping.getField();
 			fields.add(field);
+		
+			TextBox nameField = new TextBox();
+			nameField.setValue(field.getLabel());
+			nameField.setStyleName(style.headerlabel());
+			columnsTable.setWidget(row, NAME_COLUMN, nameField);
+			cellFormatter.setStyleName(row, NAME_COLUMN, style.cell());
+			nameFields.add(nameField);
 			
-			Label label = new Label(field.getLabel());
-			label.setStyleName(style.headerlabel());
-			columnsTable.setWidget(row, 0, label);
-			columnsTable.getCellFormatter().setStyleName(row, 0, style.cell());
-			
-			columnsTable.setWidget(row, 1, new Label("map as"));
-			columnsTable.getCellFormatter().setStyleName(row, 1, style.cell());
+			columnsTable.setWidget(row, LABEL_COLUMN, new Label("is a"));
+			cellFormatter.setStyleName(row, LABEL_COLUMN, style.textPadding());
 
 			AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
 			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
-			definitionPanel.setDefinition(attributeDefinition);
+			if (attributeDefinition == null) {
+				setIgnored(row, true);
+				ignoreCheckBox.setValue(true);
+			} else {
+				definitionPanel.setType(attributeDefinition.getType());
+				definitionPanel.setLanguage(attributeDefinition.getLanguage());
+			}
 			columnPanels.add(definitionPanel);
-
-			columnsTable.setWidget(row, 2, definitionPanel);
+			columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
+			cellFormatter.setStyleName(row, DEFINITION_COLUMN, style.cell());
 		}
 	}
 	
 	protected void addHeader()
 	{
-		Label csvHeader = new Label("CSV columns");
+		Label csvHeader = new Label("Columns");
 		csvHeader.setStyleName(style.headerlabel());
 		columnsTable.setWidget(0, 0, csvHeader);
 		columnsTable.getCellFormatter().setStyleName(0, 0, style.headerlabel());
-		
-		Label cotrixHeader = new Label("Cotrix model");
-		cotrixHeader.setStyleName(style.headerlabel());
-		columnsTable.setWidget(0, 2, cotrixHeader);
-		columnsTable.getCellFormatter().setStyleName(0, 2, style.headerlabel());
+		columnsTable.getFlexCellFormatter().setColSpan(0, 0, 3);
+	}
+	
+	protected void setIgnored(int row, boolean ignore)
+	{
+		((TextBox)columnsTable.getWidget(row, NAME_COLUMN)).setEnabled(!ignore);
+		((AttributeDefinitionPanel)columnsTable.getWidget(row, DEFINITION_COLUMN)).setEnabled(!ignore);
 	}
 	
 
 	public void setCodeTypeError()
 	{
-		for (AttributeDefinitionPanel definitionPanel:columnPanels) {
+		/*FIXME for (AttributeDefinitionPanel definitionPanel:columnPanels) {
 			AttributeDefinition attributeDefinition = definitionPanel.getDefinition();
 			if (attributeDefinition!=null && attributeDefinition.getType() == AttributeType.CODE) definitionPanel.setErrorStyle();
-		}
+		}*/
 	}
 
 	public void cleanStyle()
@@ -125,8 +163,8 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
 		for (int i = 0; i < columnPanels.size(); i++) {
 			Field field = fields.get(i);
-			AttributeDefinitionPanel panel = columnPanels.get(i);
-			AttributeDefinition attributeDefinition = panel.getDefinition();
+			AttributeDefinition attributeDefinition = getDefinition(i);
+			
 			AttributeMapping mapping = new AttributeMapping();
 			mapping.setField(field);
 			mapping.setAttributeDefinition(attributeDefinition);
@@ -134,6 +172,22 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		}
 
 		return mappings;
+	}
+	
+	protected AttributeDefinition getDefinition(int index)
+	{
+		if (ignoreCheckboxes.get(index).getValue()) return null;
+		AttributeDefinitionPanel panel = columnPanels.get(index);
+		AttributeType type = panel.getType();
+		String language = panel.getLanguage();
+		AttributeDefinition attributeDefinition = new AttributeDefinition();
+		attributeDefinition.setType(type);
+		attributeDefinition.setLanguage(language);
+
+		String name = nameFields.get(index).getValue();
+		attributeDefinition.setName(name);
+		
+		return attributeDefinition;
 	}
 
 	public void alert(String message) {

@@ -8,8 +8,8 @@
 			}
 			
 			.headerlabel {
-				margin-right: 20px;
 				font-weight: bold;
+				font-size: 16px;
 				color: #333;
 			}
 			
@@ -21,6 +21,13 @@
 				padding: 5px;
 				font-size: 14px;
 				color: #666;
+			}
+			
+			.textPadding {
+				padding-left: 10px;
+				padding-right: 10px;
+				font-weight: bold;
+				color: #333;
 			}
 			
 			input[type="text"] {
@@ -56,10 +63,10 @@
 	<g:HTMLPanel>
 		<g:Grid styleName="{style.grid}">
 			<g:row>
-				<g:customCell styleName="{style.cell}">
+				<g:customCell>
 					<g:Label styleName="{style.label}">Name</g:Label>
 				</g:customCell>
-				<g:customCell styleName="{style.cell}">
+				<g:customCell>
 					<g:TextBox width="300px" ui:field="name"></g:TextBox>
 				</g:customCell>
 			</g:row>

@@ -17,7 +17,7 @@ public class CsvParserConfigurationGuesser {
 	{
 		//TODO implement
 		CsvParserConfiguration configuration = new CsvParserConfiguration();
-		configuration.setCharset("UTF-8");
+		configuration.setCharset("ISO-8859-1");
 		configuration.setComment('#');
 		configuration.setFieldSeparator('\t');
 		configuration.setHasHeader(true);
