@@ -78,8 +78,8 @@ public class DefaultMappingsGuesser implements MappingGuesser {
 		
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
 		
-		AttributeMapping codeMapping = getCodeMapping();
-		mappings.add(codeMapping);
+		/*AttributeMapping codeMapping = getCodeMapping();
+		mappings.add(codeMapping);*/
 		
 		for (SdmxElement sdmxElement:SdmxElement.values()) {
 			AttributeMapping mapping = new AttributeMapping();

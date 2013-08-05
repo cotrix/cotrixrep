@@ -6,7 +6,7 @@
 		}
 		
 		.headerlabel {
-			margin-right: 20px;
+			/*margin-right: 20px;*/
 			font-weight: bold;
 			color: #333;
 		}

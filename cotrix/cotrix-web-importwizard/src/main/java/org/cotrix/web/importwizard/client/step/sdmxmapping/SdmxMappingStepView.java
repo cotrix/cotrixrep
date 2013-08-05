@@ -16,8 +16,6 @@ public interface SdmxMappingStepView {
 	}
 	
 	public void setAttributes(List<AttributeMapping> attributes);
-	public void setCodeTypeError();
-	public void cleanStyle();
 	
 	public List<AttributeMapping> getMappings();
 	

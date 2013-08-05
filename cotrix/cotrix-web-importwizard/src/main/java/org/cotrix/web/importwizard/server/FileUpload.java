@@ -28,6 +28,7 @@ import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.FileUploadProgress.Status;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
+import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.tabular.Table;
@@ -154,6 +155,12 @@ public class FileUpload extends HttpServlet{
 			case SDMX: {
 				AttributesMappings mappings = mappingsGuesser.getSdmxDefaultMappings();
 				session.setMappings(mappings);
+				
+				CodelistBean codelistBean = parsingHelper.parse(fileField.getInputStream());
+				String codelistName = codelistBean.getName();
+				ImportMetadata metadata = new ImportMetadata();
+				metadata.setName(codelistName);
+				session.setGuessedMetadata(metadata);
 			} break;
 		}
 

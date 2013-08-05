@@ -161,7 +161,6 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 			if (attributeDefinition == null) {
 				includeCheckBox.setValue(false);
 				//setIncluded(row, false);
-				includeCheckBox.setValue(true);
 			} else {
 				includeCheckBox.setValue(true);
 				//setIncluded(row, true);
@@ -190,10 +189,10 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 
 	public void setCodeTypeError()
 	{
-		/*FIXME for (AttributeDefinitionPanel definitionPanel:columnPanels) {
-			AttributeDefinition attributeDefinition = definitionPanel.getDefinition();
-			if (attributeDefinition!=null && attributeDefinition.getType() == AttributeType.CODE) definitionPanel.setErrorStyle();
-		}*/
+		for (AttributeDefinitionPanel definitionPanel:columnPanels) {
+			AttributeType attributeType = definitionPanel.getType();
+			if (attributeType!=null && attributeType == AttributeType.CODE) definitionPanel.setErrorStyle();
+		}
 	}
 
 	public void cleanStyle()

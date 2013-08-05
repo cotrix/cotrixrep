@@ -8,7 +8,6 @@ import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpd
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
-import org.cotrix.web.importwizard.shared.AttributeType;
 import org.cotrix.web.importwizard.shared.AttributesMappings;
 
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -43,39 +42,11 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 	public boolean isComplete() {
 		List<AttributeMapping> columns = view.getMappings();
 		
-		boolean valid = validate(columns);
-		
-		if (valid) importEventBus.fireEvent(new MappingsUpdatedEvent(new AttributesMappings(columns, null), true));
-		
-		return valid;
-	}
-	
-	protected boolean validate(List<AttributeMapping> mappings)
-	{
-		
-		//only one code
-		int codeCount = 0;
-		for (AttributeMapping mapping:mappings) {
-			if (mapping.isMapped() && mapping.getAttributeDefinition().getType()==AttributeType.CODE) codeCount++;
-			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().isEmpty()) {
-				view.alert("Name field required");
-				return false;
-			}
-		}
-		
-		if (codeCount==0) {
-			view.alert("One code attribute required");
-			return false;
-		}
-		
-		if (codeCount>1) {
-			view.alert("You can assign only one code attribute.");
-			return false;
-		}
+		importEventBus.fireEvent(new MappingsUpdatedEvent(new AttributesMappings(columns, null), true));
 		
 		return true;
 	}
-
+	
 	@Override
 	public void onMappingUpdated(MappingsUpdatedEvent event) {
 		if (event.isUserEdit()) return;

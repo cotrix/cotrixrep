@@ -109,10 +109,7 @@ public interface ImporterMapper<T> {
 			
 			SdmxMapDirectives directives = new SdmxMapDirectives();
 			
-			for (AttributeMapping mapping:mappings.getMappings()) {
-				if (mapping.isMapped() && mapping.getAttributeDefinition().getType()==AttributeType.CODE) continue;
-				else setDirective(directives, mapping);
-			}
+			for (AttributeMapping mapping:mappings.getMappings()) setDirective(directives, mapping);
 			
 			Outcome outcome = mapper.map(codelist, directives);
 			return outcome;

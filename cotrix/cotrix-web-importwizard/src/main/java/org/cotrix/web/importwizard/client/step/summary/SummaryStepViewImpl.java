@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class SummaryStepViewImpl extends Composite implements SummaryStepView {
-	
+
 	protected static final int FILE_FIELD_ROW = 0;
 	protected static final int MAPPING_MODE_FIELD_ROW = 3;
 
@@ -35,7 +35,7 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	private static SummaryStepUiBinder uiBinder = GWT.create(SummaryStepUiBinder.class);
 
 	@UiField Grid panel;
-	
+
 	@UiField Label fileField;
 	@UiField Label codelistField;
 	@UiField FlexTable propertiesTable;
@@ -55,13 +55,13 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	}
 
 	private ProgressDialog progressDialog;
-	
+
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		panel.getColumnFormatter().setWidth(0, "150px");
 		panel.getRowFormatter().setVerticalAlign(4, HasVerticalAlignment.ALIGN_TOP);
 	}
-	
+
 	public void setMapping(List<AttributeMapping> mappings)
 	{
 		customTable.removeAllRows();
@@ -73,23 +73,24 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 			if (mapping.isMapped()) {
 				AttributeDefinition definition = mapping.getAttributeDefinition();
 				if (!originalName.equals(definition.getName())) mappingDescription.append(" as ").append(definition.getName());
-				mappingDescription.append(" is ").append(definition.getType().toString());
-				
-				if (definition.getLanguage()!=null) mappingDescription.append(" in ").append(definition.getLanguage());
+				if (definition.getType() !=null) {
+					mappingDescription.append(" is ").append(definition.getType().toString());
+					if (definition.getLanguage()!=null) mappingDescription.append(" in ").append(definition.getLanguage());
+				}
 			} else mappingDescription.append(" ignored");
-			
+
 			HTML mappingLabel = new HTML(mappingDescription.toString());
 			customTable.setWidget(row, 0, mappingLabel);
 			row++;
 		}
 	}
-	
+
 	public void setMetadata(ImportMetadata metadata) {
-		
+
 		codelistField.setText(metadata.getName());
-		
+
 		propertiesTable.removeAllRows();
-		
+
 		if (metadata.getAttributes().size() == 0) {
 			propertiesTable.setVisible(false);
 		} else {
@@ -119,22 +120,22 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	public void hideProgress() {
 		if(progressDialog != null) progressDialog.hide();
 	}
-	
+
 	public void setFileName(String fileName)
 	{
 		fileField.setText(fileName);
 	}
-	
+
 	public void setFileNameVisible(boolean visible)
 	{
 		panel.getRowFormatter().setVisible(FILE_FIELD_ROW, visible);
 	}
-	
+
 	public void setMappingMode(String mappingMode)
 	{
 		mappingModeField.setText(mappingMode);
 	}
-	
+
 	public void setMappingModeVisible(boolean visible)
 	{
 		panel.getRowFormatter().setVisible(MAPPING_MODE_FIELD_ROW, visible);

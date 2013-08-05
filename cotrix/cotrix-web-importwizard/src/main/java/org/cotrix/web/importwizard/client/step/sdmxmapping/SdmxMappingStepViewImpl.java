@@ -4,21 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.importwizard.client.util.AttributeDefinitionPanel;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
-import org.cotrix.web.importwizard.shared.AttributeType;
 import org.cotrix.web.importwizard.shared.Field;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -30,6 +32,9 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, SdmxMappingStepViewImpl> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 
+	protected static int INCLUDE_COLUMN = 0;
+	protected static int NAME_COLUMN = 1;
+
 	@UiField FlexTable columnsTable;
 	@UiField Style style;
 
@@ -40,67 +45,90 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 		String cell();
 	}
 
-	protected List<AttributeDefinitionPanel> attributesPanels = new ArrayList<AttributeDefinitionPanel>();
+	protected List<CheckBox> includeCheckboxes = new ArrayList<CheckBox>();
+	protected List<TextBox> nameFields = new ArrayList<TextBox>();
 	protected List<Field> fields = new ArrayList<Field>();
 
 	public SdmxMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+		columnsTable.getColumnFormatter().setWidth(INCLUDE_COLUMN, "20px");
 	}
 
 	public void setAttributes(List<AttributeMapping> mappings)
 	{
 		columnsTable.removeAllRows();
-		attributesPanels.clear();
+		includeCheckboxes.clear();
+		nameFields.clear();
 		fields.clear();
 
-		for (AttributeMapping mapping:mappings) {
-			int row = columnsTable.getRowCount();
-			Field field = mapping.getField();
+		FlexCellFormatter cellFormatter = columnsTable.getFlexCellFormatter();
+
+		for (AttributeMapping attributeMapping:mappings) {
+			final int row = columnsTable.getRowCount();
+
+			final CheckBox includeCheckBox = new CheckBox();
+			includeCheckBox.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					setIncluded(row, includeCheckBox.getValue());
+				}
+			});
+			columnsTable.setWidget(row, INCLUDE_COLUMN, includeCheckBox);
+			includeCheckboxes.add(includeCheckBox);
+
+			Field field = attributeMapping.getField();
 			fields.add(field);
-			
-			Label label = new Label(mapping.getField().getLabel());
-			label.setStyleName(style.headerlabel());
-			columnsTable.setWidget(row, 0, label);
-			columnsTable.getCellFormatter().setStyleName(row, 0, style.cell());
-			
-			columnsTable.setWidget(row, 1, new Label("map as"));
-			columnsTable.getCellFormatter().setStyleName(row, 1, style.cell());
 
-			AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
-			//FIXME definitionPanel.setDefinition(mapping.getAttributeDefinition());
-			attributesPanels.add(definitionPanel);
-
-			columnsTable.setWidget(row, 2, definitionPanel);
+			TextBox nameField = new TextBox();
+			nameField.setValue(field.getLabel());
+			nameField.setStyleName(style.headerlabel());
+			columnsTable.setWidget(row, NAME_COLUMN, nameField);
+			cellFormatter.setStyleName(row, NAME_COLUMN, style.cell());
+			nameFields.add(nameField);
+			
+			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
+			if (attributeDefinition == null) {
+				includeCheckBox.setValue(false);
+				//setIncluded(row, false);
+			} else {
+				includeCheckBox.setValue(true);
+				//setIncluded(row, true);
+			}
 		}
 	}
 
-	public void setCodeTypeError()
+	protected void setIncluded(int row, boolean include)
 	{
-		for (AttributeDefinitionPanel attributePanel:attributesPanels) {
-			//FIXME AttributeDefinition attributeDefinition = attributePanel.getDefinition();
-			//FIXME if (attributeDefinition!=null && attributeDefinition.getType() == AttributeType.CODE) attributePanel.setErrorStyle();
-		}
+		((TextBox)columnsTable.getWidget(row, NAME_COLUMN)).setEnabled(include);
 	}
-
-	public void cleanStyle()
-	{
-		for (AttributeDefinitionPanel definitionPanel:attributesPanels) definitionPanel.setNormalStyle();
-	}
-
+	
 	public List<AttributeMapping> getMappings()
 	{
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-		for (int i = 0; i < attributesPanels.size(); i++) {
+		for (int i = 0; i < fields.size(); i++) {
 			Field field = fields.get(i);
-			AttributeDefinitionPanel panel = attributesPanels.get(i);
-			//FIXME AttributeDefinition attributeDefinition = panel.getDefinition();
+			AttributeDefinition attributeDefinition = getDefinition(i);
+			
 			AttributeMapping mapping = new AttributeMapping();
 			mapping.setField(field);
-			//FIXME mapping.setAttributeDefinition(attributeDefinition);
+			mapping.setAttributeDefinition(attributeDefinition);
 			mappings.add(mapping);
 		}
 
 		return mappings;
+	}
+	
+	protected AttributeDefinition getDefinition(int index)
+	{
+		if (!includeCheckboxes.get(index).getValue()) return null;
+
+		AttributeDefinition attributeDefinition = new AttributeDefinition();
+
+		String name = nameFields.get(index).getValue();
+		attributeDefinition.setName(name);
+		
+		return attributeDefinition;
 	}
 
 	public void alert(String message) {
