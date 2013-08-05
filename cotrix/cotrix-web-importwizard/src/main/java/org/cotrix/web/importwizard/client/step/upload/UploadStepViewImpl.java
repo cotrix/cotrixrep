@@ -72,7 +72,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	
 	public void setupUpload(String filename, long filesize)
 	{
-		browseButton.setVisible(false);
+		browseButton.setEnabled(false);
 		fileWrapperPanel.setVisible(true);
 		fileTypeLabel.setVisible(false);
 		
@@ -101,13 +101,14 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	public void setUploadComplete(String codeListType)
 	{
 		progressBar.setVisible(false);
-		fileTypeLabel.setText(codeListType);
-		fileTypeLabel.setVisible(true);
+		//TODO remove label
+		/*fileTypeLabel.setText(codeListType);
+		fileTypeLabel.setVisible(true);*/
 	}
 
 	public void resetFileUpload() {
 		fileTypeLabel.setVisible(false);
-		browseButton.setVisible(true);
+		browseButton.setEnabled(true);
 		fileWrapperPanel.setVisible(false);
 	}
 	
