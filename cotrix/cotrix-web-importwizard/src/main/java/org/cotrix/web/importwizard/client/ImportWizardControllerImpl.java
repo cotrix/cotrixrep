@@ -1,7 +1,5 @@
 package org.cotrix.web.importwizard.client;
 
-import java.util.List;
-
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent.CodeListSelectedHandler;
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
@@ -24,7 +22,7 @@ import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent.SaveHandler;
 import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
-import org.cotrix.web.importwizard.shared.AttributeMapping;
+import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
@@ -56,7 +54,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected ImportWizardPresenter importWizardPresenter;
 	
 	protected ImportMetadata metadata;
-	protected List<AttributeMapping> mappings;
+	protected AttributesMappings mappings;
 	
 	protected Timer importProgressPolling;
 	
@@ -211,7 +209,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	
 	protected void getMappings()
 	{
-		importService.getMappings(new AsyncCallback<List<AttributeMapping>>() {
+		importService.getMappings(new AsyncCallback<AttributesMappings>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -219,7 +217,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 
 			@Override
-			public void onSuccess(List<AttributeMapping> result) {
+			public void onSuccess(AttributesMappings result) {
 				importEventBus.fireEvent(new MappingsUpdatedEvent(result, false));
 				mappings = result;
 			}

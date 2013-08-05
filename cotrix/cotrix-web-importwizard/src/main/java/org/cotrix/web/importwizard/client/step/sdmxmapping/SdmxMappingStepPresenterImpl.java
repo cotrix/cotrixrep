@@ -9,6 +9,7 @@ import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
+import org.cotrix.web.importwizard.shared.AttributesMappings;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -44,7 +45,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 		
 		boolean valid = validate(columns);
 		
-		if (valid) importEventBus.fireEvent(new MappingsUpdatedEvent(columns, true));
+		if (valid) importEventBus.fireEvent(new MappingsUpdatedEvent(new AttributesMappings(columns, null), true));
 		
 		return valid;
 	}
@@ -78,6 +79,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 	@Override
 	public void onMappingUpdated(MappingsUpdatedEvent event) {
 		if (event.isUserEdit()) return;
-		view.setAttributes(event.getMappings());
+		AttributesMappings attributesMappings = event.getMappings();
+		view.setAttributes(attributesMappings.getMappings());
 	}
 }

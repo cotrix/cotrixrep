@@ -22,7 +22,7 @@ import org.cotrix.web.importwizard.server.util.ParsingHelper;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AssetsBatch;
-import org.cotrix.web.importwizard.shared.AttributeMapping;
+import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
@@ -186,7 +186,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			session.setPreviewCache(previewData);
 			session.setCacheDirty(false);
 			
-			List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
+			AttributesMappings mappings = mappingsGuesser.guessMappings(table);
 			session.setMappings(mappings);
 			
 			return previewData;
@@ -237,13 +237,13 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<AttributeMapping> getMappings() throws ImportServiceException {
+	public AttributesMappings getMappings() throws ImportServiceException {
 		WizardImportSession session = getImportSession();
 		return session.getMappings();
 	}
 
 	@Override
-	public void startImport(ImportMetadata metadata, List<AttributeMapping> mappings) throws ImportServiceException {
+	public void startImport(ImportMetadata metadata, AttributesMappings mappings) throws ImportServiceException {
 		WizardImportSession session = getImportSession();
 		
 		
@@ -271,7 +271,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		WizardImportSession session = WizardImportSession.getCleanImportSession(httpSession);
 		Asset asset = getAsset(assetId);
 		session.setSelectedAsset(asset);
-		List<AttributeMapping> mappings = mappingsGuesser.getSdmxDefaultMappings();
+		AttributesMappings mappings = mappingsGuesser.getSdmxDefaultMappings();
 		session.setMappings(mappings);
 		
 		if (asset.type() == SdmxCodelist.type) session.setCodeListType(CodeListType.SDMX);

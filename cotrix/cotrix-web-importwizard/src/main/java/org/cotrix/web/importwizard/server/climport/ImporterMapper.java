@@ -13,11 +13,12 @@ import org.cotrix.io.map.Outcome;
 import org.cotrix.io.sdmx.SdmxMapDirectives;
 import org.cotrix.io.sdmx.SdmxMapDirectives.SdmxElement;
 import org.cotrix.io.tabular.ColumnDirectives;
-import org.cotrix.io.tabular.MappingMode;
 import org.cotrix.io.tabular.TableMapDirectives;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
+import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.MappingMode;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Column;
 import org.virtualrepository.tabular.Table;
@@ -28,7 +29,7 @@ import org.virtualrepository.tabular.Table;
  */
 public interface ImporterMapper<T> {
 
-	public Outcome map(List<AttributeMapping> mappings, T codelist);
+	public Outcome map(AttributesMappings mappings, T codelist);
 	
 	public class CsvMapper implements ImporterMapper<Table> {
 		
@@ -42,13 +43,13 @@ public interface ImporterMapper<T> {
 		}
 
 		@Override
-		public Outcome map(List<AttributeMapping> mappings, Table codelist) {
+		public Outcome map(AttributesMappings mappings, Table codelist) {
 			
 			
 			AttributeMapping codeAttribute = null;
 			List<ColumnDirectives> columnDirectives = new ArrayList<ColumnDirectives>();
 			
-			for (AttributeMapping mapping:mappings) {
+			for (AttributeMapping mapping:mappings.getMappings()) {
 				if (mapping.isMapped() && mapping.getAttributeDefinition().getType()==AttributeType.CODE) codeAttribute = mapping;
 				else columnDirectives.add(getColumn(mapping));
 			}
@@ -59,6 +60,7 @@ public interface ImporterMapper<T> {
 			TableMapDirectives directives = new TableMapDirectives(column);
 			for (ColumnDirectives directive:columnDirectives) directives.add(directive);
 			
+			directives.mode(convertMappingMode(mappings.getMappingMode()));
 			
 			Outcome outcome = mapper.map(codelist, directives);
 			return outcome;
@@ -71,9 +73,20 @@ public interface ImporterMapper<T> {
 				AttributeDefinition definition = mapping.getAttributeDefinition();				
 				directive.name(definition.getName());
 				directive.language(definition.getLanguage());
-			} else directive.mode(MappingMode.IGNORE);
+			} else directive.mode(org.cotrix.io.tabular.MappingMode.IGNORE);
 			
 			return directive;
+		}
+		
+		protected org.cotrix.io.tabular.MappingMode convertMappingMode(MappingMode mode)
+		{
+			if (mode == null) return null;
+			switch (mode) {
+				case IGNORE: return org.cotrix.io.tabular.MappingMode.IGNORE;
+				case LOG: return org.cotrix.io.tabular.MappingMode.LOG;
+				case STRICT: return org.cotrix.io.tabular.MappingMode.STRICT;
+				default: throw new IllegalArgumentException("Uncovertible mapping mode "+mode);
+			}
 		}
 		
 	}
@@ -92,11 +105,11 @@ public interface ImporterMapper<T> {
 
 
 		@Override
-		public Outcome map(List<AttributeMapping> mappings, CodelistBean codelist) {
+		public Outcome map(AttributesMappings mappings, CodelistBean codelist) {
 			
 			SdmxMapDirectives directives = new SdmxMapDirectives();
 			
-			for (AttributeMapping mapping:mappings) {
+			for (AttributeMapping mapping:mappings.getMappings()) {
 				if (mapping.isMapped() && mapping.getAttributeDefinition().getType()==AttributeType.CODE) continue;
 				else setDirective(directives, mapping);
 			}

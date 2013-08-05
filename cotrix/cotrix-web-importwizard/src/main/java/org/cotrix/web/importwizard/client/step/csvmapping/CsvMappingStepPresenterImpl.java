@@ -11,6 +11,9 @@ import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
+import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.ImportMetadata;
+import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -49,14 +52,36 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		List<AttributeMapping> mappings = view.getMappings();
 		Log.trace(mappings.size()+" mappings to check");
 		
-		boolean valid = validate(mappings);
+		boolean valid = validateMappings(mappings);
 		
-		if (valid) importEventBus.fireEvent(new MappingsUpdatedEvent(mappings, true));
+		String csvName = view.getCsvName();
+		MappingMode mappingMode = view.getMappingMode();
+		valid &= validateAttributes(csvName, mappingMode);
+		
+		if (valid) {
+			
+			AttributesMappings attributesMappings = new AttributesMappings(mappings, mappingMode); 
+			importEventBus.fireEvent(new MappingsUpdatedEvent(attributesMappings, true));
+			
+			ImportMetadata metadata = new ImportMetadata();
+			metadata.setName(csvName);
+			importEventBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
+		}
 		
 		return valid;
 	}
 	
-	protected boolean validate(List<AttributeMapping> mappings)
+	protected boolean validateAttributes(String csvName, MappingMode mappingMode)
+	{
+		if (csvName==null || csvName.isEmpty()) {
+			view.alert("You should choose a codelist name");
+			return false;
+		}
+		
+		return mappingMode!=null;
+	}
+	
+	protected boolean validateMappings(List<AttributeMapping> mappings)
 	{
 		
 		//only one code
@@ -71,12 +96,12 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		}
 		
 		if (codeCount==0) {
-			view.alert("One mapping to code required");
+			view.alert("One column must contains codes.");
 			return false;
 		}
 		
 		if (codeCount>1) {
-			view.alert("You can assign only one code.");
+			view.alert("Only one column can contains codes.");
 			return false;
 		}
 		
@@ -86,7 +111,9 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 	@Override
 	public void onMappingUpdated(MappingsUpdatedEvent event) {
 		if (event.isUserEdit()) return;
-		view.setMapping(event.getMappings());
+		AttributesMappings attributesMappings = event.getMappings();
+		view.setMapping(attributesMappings.getMappings());
+		view.setMappingMode(attributesMappings.getMappingMode());
 	}
 
 	@Override

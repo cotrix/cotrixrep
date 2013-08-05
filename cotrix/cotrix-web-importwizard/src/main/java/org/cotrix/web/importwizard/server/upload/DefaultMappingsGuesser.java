@@ -11,7 +11,9 @@ import org.cotrix.io.sdmx.SdmxMapDirectives.SdmxElement;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
+import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.Field;
+import org.cotrix.web.importwizard.shared.MappingMode;
 import org.virtualrepository.tabular.Column;
 import org.virtualrepository.tabular.Table;
 
@@ -25,7 +27,7 @@ public class DefaultMappingsGuesser implements MappingGuesser {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<AttributeMapping> guessMappings(Table table)
+	public AttributesMappings guessMappings(Table table)
 	{
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
 		
@@ -47,7 +49,7 @@ public class DefaultMappingsGuesser implements MappingGuesser {
 			first = false;
 		}
 		
-		return mappings;
+		return new AttributesMappings(mappings, MappingMode.STRICT);
 	}
 	
 	protected Field getField(Column column)
@@ -72,7 +74,7 @@ public class DefaultMappingsGuesser implements MappingGuesser {
 	}
 
 	@Override
-	public List<AttributeMapping> getSdmxDefaultMappings() {
+	public AttributesMappings getSdmxDefaultMappings() {
 		
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
 		
@@ -85,7 +87,7 @@ public class DefaultMappingsGuesser implements MappingGuesser {
 			mapping.setAttributeDefinition(getDefinition(sdmxElement));
 			mappings.add(mapping);
 		}		
-		return mappings;
+		return new AttributesMappings(mappings, MappingMode.STRICT);
 	}
 	
 	protected AttributeMapping getCodeMapping()

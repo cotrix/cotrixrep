@@ -9,7 +9,6 @@
 			
 			.headerlabel {
 				font-weight: bold;
-				font-size: 16px;
 				color: #333;
 			}
 			
@@ -58,6 +57,7 @@
 			
 			.label {
 				margin-right: 20px;
+				font-size: 16px;
 			}
 		</ui:style>
 	<g:HTMLPanel>
@@ -68,6 +68,14 @@
 				</g:customCell>
 				<g:customCell>
 					<g:TextBox width="300px" ui:field="name"></g:TextBox>
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell>
+					<g:Label styleName="{style.label}">Mapping mode</g:Label>
+				</g:customCell>
+				<g:customCell>
+					<g:ListBox ui:field="mappingMode"></g:ListBox>
 				</g:customCell>
 			</g:row>
 		</g:Grid>

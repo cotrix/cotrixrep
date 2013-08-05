@@ -4,7 +4,6 @@
 package org.cotrix.web.importwizard.server.climport;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -16,7 +15,7 @@ import org.cotrix.io.sdmx.SdmxParseDirectives;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.importwizard.server.WizardImportSession;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
-import org.cotrix.web.importwizard.shared.AttributeMapping;
+import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
@@ -45,7 +44,7 @@ public class ImporterFactory {
 	@Inject
 	protected VirtualRepository remoteRepository;
 
-	public Importer<?> createImporter(WizardImportSession session, ImportMetadata metadata, List<AttributeMapping> mappings) throws IOException
+	public Importer<?> createImporter(WizardImportSession session, ImportMetadata metadata, AttributesMappings mappings) throws IOException
 	{
 		switch (session.getCodeListType()) {
 			case CSV: return createCsvImporter(session, metadata, mappings); 
@@ -54,7 +53,7 @@ public class ImporterFactory {
 		return null;
 	}
 
-	protected Importer<Table> createCsvImporter(WizardImportSession session, ImportMetadata metadata, List<AttributeMapping> mappings) throws IOException
+	protected Importer<Table> createCsvImporter(WizardImportSession session, ImportMetadata metadata, AttributesMappings mappings) throws IOException
 	{
 		ImporterSource<Table> source = getCSVSource(session);
 		ImporterMapper<Table> mapper = new ImporterMapper.CsvMapper(mapservice);
@@ -62,7 +61,7 @@ public class ImporterFactory {
 		return importer;
 	}
 	
-	protected Importer<CodelistBean> createSdmxImporter(WizardImportSession session, ImportMetadata metadata, List<AttributeMapping> mappings) throws IOException
+	protected Importer<CodelistBean> createSdmxImporter(WizardImportSession session, ImportMetadata metadata, AttributesMappings mappings) throws IOException
 	{
 		ImporterSource<CodelistBean> source = getSdmxSource(session);
 		ImporterMapper<CodelistBean> mapper = new ImporterMapper.SdmxMapper(mapservice);

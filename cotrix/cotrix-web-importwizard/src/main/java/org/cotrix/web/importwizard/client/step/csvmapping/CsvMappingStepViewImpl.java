@@ -9,6 +9,7 @@ import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
 import org.cotrix.web.importwizard.shared.Field;
+import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -21,6 +22,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -41,6 +43,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	protected static int DEFINITION_COLUMN = 3;
 
 	@UiField TextBox name;
+	@UiField ListBox mappingMode;
 	@UiField FlexTable columnsTable;
 	@UiField Style style;
 
@@ -50,6 +53,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		String headerlabel();
 		String cell();
 		String textPadding();
+		String label();
 	}
 
 	protected List<CheckBox> ignoreCheckboxes = new ArrayList<CheckBox>();
@@ -59,6 +63,42 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 
 	public CsvMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+		setupMappingMode();
+	}
+	
+	protected void setupMappingMode()
+	{
+		for (MappingMode mode:MappingMode.values()) mappingMode.addItem(getMappingModeLabel(mode), mode.toString());
+		mappingMode.setSelectedIndex(0);
+	}
+	
+	protected String getMappingModeLabel(MappingMode mode)
+	{
+		switch (mode) {
+			case IGNORE: return "Ignore";
+			case LOG: return "Log";
+			case STRICT: return "Strict";
+			default: throw new IllegalArgumentException("Unkown label for mapping mode "+mode);
+		}
+	}
+	
+	public MappingMode getMappingMode()
+	{
+		int selectedIndex = mappingMode.getSelectedIndex();
+		if (selectedIndex<0) return null;
+		String value = mappingMode.getValue(selectedIndex);
+		return MappingMode.valueOf(value);
+	}
+	
+	public void setMappingMode(MappingMode mode)
+	{
+		String value = mode.toString();
+		for (int i = 0; i < mappingMode.getItemCount(); i++) {
+			if (mappingMode.getValue(i).equals(value)) {
+				mappingMode.setSelectedIndex(i);
+				return;
+			}
+		}
 	}
 	
 
@@ -132,7 +172,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	protected void addHeader()
 	{
 		Label csvHeader = new Label("Columns");
-		csvHeader.setStyleName(style.headerlabel());
+		csvHeader.setStyleName(style.label());
 		columnsTable.setWidget(0, 0, csvHeader);
 		columnsTable.getCellFormatter().setStyleName(0, 0, style.headerlabel());
 		columnsTable.getFlexCellFormatter().setColSpan(0, 0, 3);

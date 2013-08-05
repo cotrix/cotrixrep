@@ -1,11 +1,9 @@
 package org.cotrix.web.importwizard.client;
 
-import java.util.List;
-
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetsBatch;
-import org.cotrix.web.importwizard.shared.AttributeMapping;
+import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
@@ -39,9 +37,9 @@ public interface ImportService extends RemoteService {
 	
 	public CsvParserConfiguration getCsvParserConfiguration() throws ImportServiceException;
 	
-	public List<AttributeMapping> getMappings() throws ImportServiceException;
+	public AttributesMappings getMappings() throws ImportServiceException;
 	
-	public void startImport(ImportMetadata metadata, List<AttributeMapping> mapping) throws ImportServiceException;
+	public void startImport(ImportMetadata metadata, AttributesMappings mappings) throws ImportServiceException;
 	
 	public ImportProgress getImportProgress() throws ImportServiceException;
 	

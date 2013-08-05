@@ -3,14 +3,12 @@
  */
 package org.cotrix.web.importwizard.server;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.climport.Importer;
-import org.cotrix.web.importwizard.shared.AttributeMapping;
+import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
@@ -57,7 +55,7 @@ public class WizardImportSession {
 	
 	protected ImportMetadata guessedMetadata;
 	
-	protected List<AttributeMapping> mappings;
+	protected AttributesMappings mappings;
 	
 	protected Importer<?> importer;
 
@@ -163,14 +161,14 @@ public class WizardImportSession {
 	/**
 	 * @return the mappings
 	 */
-	public List<AttributeMapping> getMappings() {
+	public AttributesMappings getMappings() {
 		return mappings;
 	}
 
 	/**
 	 * @param mappings the mappings to set
 	 */
-	public void setMappings(List<AttributeMapping> mappings) {
+	public void setMappings(AttributesMappings mappings) {
 		this.mappings = mappings;
 	}
 

@@ -11,6 +11,7 @@ import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.importwizard.shared.AttributesMappings;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -47,7 +48,8 @@ public class SummaryStepPresenterImpl extends AbstractWizardStep implements Summ
 
 	@Override
 	public void onMappingUpdated(MappingsUpdatedEvent event) {
-		this.view.setMapping(event.getMappings());		
+		AttributesMappings attributesMappings = event.getMappings();
+		this.view.setMapping(attributesMappings.getMappings());		
 	}
 
 	@Override

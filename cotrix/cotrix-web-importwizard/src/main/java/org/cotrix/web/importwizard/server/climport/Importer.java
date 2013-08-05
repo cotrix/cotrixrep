@@ -3,12 +3,10 @@
  */
 package org.cotrix.web.importwizard.server.climport;
 
-import java.util.List;
-
 import org.cotrix.io.map.Outcome;
 import org.cotrix.io.map.Report;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.web.importwizard.shared.AttributeMapping;
+import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportProgress.Status;
 import org.slf4j.Logger;
@@ -26,12 +24,12 @@ public class Importer<T> implements Runnable {
 	protected ImportProgress progress;
 	protected ImporterMapper<T> mapper;
 	protected ImporterSource<T> source;
-	protected List<AttributeMapping> mappings;
+	protected AttributesMappings mappings;
 
 	public Importer(CodelistRepository repository,
 			ImporterSource<T> source,
 			ImporterMapper<T> mapper,
-			List<AttributeMapping> mappings) {
+			AttributesMappings mappings) {
 
 		this.repository = repository;
 		this.mapper = mapper;
