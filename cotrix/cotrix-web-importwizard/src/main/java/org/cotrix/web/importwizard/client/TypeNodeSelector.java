@@ -29,7 +29,7 @@ public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> implement
 	{
 		this.csvStep = csvStep;
 		this.sdmxStep = sdmxStep;
-		this.nextStep = csvStep;
+		this.nextStep = sdmxStep;
 		importBus.addHandler(CodeListTypeUpdatedEvent.TYPE, this);
 		importBus.addHandler(ResetWizardEvent.TYPE, this);
 	}
