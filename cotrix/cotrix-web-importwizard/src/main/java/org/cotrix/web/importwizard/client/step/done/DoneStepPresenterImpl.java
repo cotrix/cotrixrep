@@ -37,11 +37,13 @@ public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneSte
 	public void onImportProgress(ImportProgressEvent event) {
 		switch (event.getProgress().getStatus()) {
 			case DONE: {
-				view.setStepTitle("Codelist successfully imported");
-				view.setMessage(event.getProgress().getReport());
+				view.setStepTitle("That's done");
+				view.setReportPanelVisible(false);
+				//view.setMessage(event.getProgress().getReport());
 			} break;
 			case FAILED: {
-				view.setStepTitle("Codelist import failed");
+				view.setStepTitle("...Oops!");
+				view.setReportPanelVisible(true);
 				view.setMessage(event.getProgress().getReport());
 			} break;
 

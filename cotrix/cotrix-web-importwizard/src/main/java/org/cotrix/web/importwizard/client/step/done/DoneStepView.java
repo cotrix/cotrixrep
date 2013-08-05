@@ -15,6 +15,7 @@ public interface DoneStepView {
 	
 	void setPresenter(Presenter presenter);
 	void setStepTitle(String title);
+	public void setReportPanelVisible(boolean visible);
 	void setMessage(String message);
 	Widget asWidget();
 }

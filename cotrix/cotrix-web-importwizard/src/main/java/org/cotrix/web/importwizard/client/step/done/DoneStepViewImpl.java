@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -25,6 +26,7 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	}
 	
 	@UiField Label title;
+	@UiField HTMLPanel reportPanel;
 	@UiField HTML message;
 	@UiField Button importButton;
 	@UiField Button manageButton;
@@ -46,6 +48,11 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 
 	public void setStepTitle(String title) {
 		this.title.setText(title);
+	}
+	
+	public void setReportPanelVisible(boolean visible)
+	{
+		reportPanel.setVisible(visible);
 	}
 
 	@UiHandler("importButton")
