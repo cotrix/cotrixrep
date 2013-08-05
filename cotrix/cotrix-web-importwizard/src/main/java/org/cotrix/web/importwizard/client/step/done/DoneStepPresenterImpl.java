@@ -44,7 +44,6 @@ public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneSte
 			case FAILED: {
 				view.setStepTitle("...Oops!");
 				view.setReportPanelVisible(true);
-				view.setMessage(event.getProgress().getReport());
 			} break;
 
 			default:

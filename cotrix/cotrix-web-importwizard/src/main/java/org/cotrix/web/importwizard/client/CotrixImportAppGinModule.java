@@ -15,6 +15,7 @@ import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepView;
 import org.cotrix.web.importwizard.client.step.done.DoneStepViewImpl;
+import org.cotrix.web.importwizard.client.step.done.ReportLogDataProvider;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.metadata.MetadataStepView;
@@ -102,5 +103,6 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
       
         bind(DoneStepView.class).to(DoneStepViewImpl.class);
         bind(DoneStepPresenter.class).to(DoneStepPresenterImpl.class);
+        bind(ReportLogDataProvider.class).in(Singleton.class);
     }
 }

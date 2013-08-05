@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.importwizard.server;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
@@ -13,6 +15,7 @@ import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
+import org.cotrix.web.importwizard.shared.ReportLog;
 import org.virtualrepository.Asset;
 
 /**
@@ -58,6 +61,8 @@ public class WizardImportSession {
 	protected AttributesMappings mappings;
 	
 	protected Importer<?> importer;
+	
+	protected List<ReportLog> logs;
 
 	/**
 	 * @return the uploadProgress
@@ -198,6 +203,20 @@ public class WizardImportSession {
 	 */
 	public void setSelectedAsset(Asset selectedAsset) {
 		this.selectedAsset = selectedAsset;
+	}
+
+	/**
+	 * @return the logs
+	 */
+	public List<ReportLog> getLogs() {
+		return logs;
+	}
+
+	/**
+	 * @param logs the logs to set
+	 */
+	public void setLogs(List<ReportLog> logs) {
+		this.logs = logs;
 	}
 
 }

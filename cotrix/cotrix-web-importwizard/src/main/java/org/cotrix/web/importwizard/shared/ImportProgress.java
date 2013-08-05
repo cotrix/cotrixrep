@@ -14,7 +14,6 @@ public class ImportProgress implements IsSerializable {
 	public enum Status {ONGOING, DONE, FAILED};
 	
 	protected Status status;
-	protected String report;
 	
 	/**
 	 * @return the status
@@ -29,20 +28,7 @@ public class ImportProgress implements IsSerializable {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
-	/**
-	 * @return the report
-	 */
-	public String getReport() {
-		return report;
-	}
-	
-	/**
-	 * @param report the report to set
-	 */
-	public void setReport(String report) {
-		this.report = report;
-	}
+
 	
 	public boolean isComplete()
 	{
@@ -57,8 +43,6 @@ public class ImportProgress implements IsSerializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("ImportProgress [status=");
 		builder.append(status);
-		builder.append(", report=");
-		builder.append(report);
 		builder.append("]");
 		return builder.toString();
 	}

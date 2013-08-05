@@ -6,6 +6,7 @@ package org.cotrix.web.importwizard.server;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,6 +30,8 @@ import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
+import org.cotrix.web.importwizard.shared.ReportLog;
+import org.cotrix.web.importwizard.shared.ReportLogsBatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
@@ -49,16 +52,16 @@ import com.google.gwt.view.client.Range;
 public class ImportServiceImpl extends RemoteServiceServlet implements ImportService {
 
 	protected Logger logger = LoggerFactory.getLogger(ImportServiceImpl.class);
-	
+
 	@Inject
 	VirtualRepository remoteRepository;
-	
+
 	@Inject
 	protected ParsingHelper parsingHelper;
-	
+
 	@Inject
 	protected MappingGuesser mappingsGuesser;
-	
+
 	@Inject
 	protected ImporterFactory importerFactory;
 
@@ -79,17 +82,17 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		try {
 
 			ArrayList<AssetInfo> assets = new ArrayList<AssetInfo>();
-	
+
 			int discovered = remoteRepository.discover(Channels.importTypes);
 			logger.trace("discovered "+discovered+" remote codelist");
-			
+
 			int i = -1;
 
 			for (Asset asset:remoteRepository) {
 				i++;
 				if (i<range.getStart()) continue;
 				if (i>=(range.getStart() + range.getLength())) continue;
-				
+
 				AssetInfo assetInfo = Assets.convert(asset);
 				logger.trace("converted {} to {}", asset.name(), assetInfo);
 				assets.add(assetInfo);
@@ -142,7 +145,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 		return assetDetails;*/
 	}
-	
+
 
 
 	protected Asset getAsset(String id)
@@ -155,7 +158,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	public FileUploadProgress getUploadProgress() throws ImportServiceException {
 
 		WizardImportSession session = getImportSession();
-		
+
 		FileUploadProgress uploadProgress = session.getUploadProgress();
 		if (uploadProgress == null) {
 			logger.error("Unexpected upload progress null.");
@@ -177,18 +180,18 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		if (session.getCsvParserConfiguration()!=null && session.getCsvParserConfiguration().equals(configuration)) return session.getPreviewCache();
 
 		try {
-			
+
 			session.setCsvParserConfiguration(configuration);
-		
+
 			//FIXME duplicate code
 			Table table = parsingHelper.parse(session.getCsvParserConfiguration(), session.getFileField().getInputStream());
 			PreviewData previewData = parsingHelper.convert(table, !configuration.isHasHeader(), ParsingHelper.ROW_LIMIT);
 			session.setPreviewCache(previewData);
 			session.setCacheDirty(false);
-			
+
 			AttributesMappings mappings = mappingsGuesser.guessMappings(table);
 			session.setMappings(mappings);
-			
+
 			return previewData;
 		} catch(Exception e)
 		{
@@ -245,8 +248,8 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public void startImport(ImportMetadata metadata, AttributesMappings mappings) throws ImportServiceException {
 		WizardImportSession session = getImportSession();
-		
-		
+
+
 		try {
 			Importer<?> importer = importerFactory.createImporter(session, metadata, mappings);
 			Thread th = new Thread(importer);
@@ -273,9 +276,26 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		session.setSelectedAsset(asset);
 		AttributesMappings mappings = mappingsGuesser.getSdmxDefaultMappings();
 		session.setMappings(mappings);
-		
+
 		if (asset.type() == SdmxCodelist.type) session.setCodeListType(CodeListType.SDMX);
-		if (asset.type()==CsvCodelist.type) session.setCodeListType(CodeListType.CSV);
-		
+		if (asset.type() == CsvCodelist.type) session.setCodeListType(CodeListType.CSV);
+
+	}
+
+	@Override
+	public ReportLogsBatch getReportLogs(Range range) throws ImportServiceException {
+		logger.trace("getReportLogs range: {}", range);
+		try {
+			WizardImportSession session = getImportSession();
+			List<ReportLog> logs = (session==null || session.getLogs()==null)?Collections.<ReportLog>emptyList():session.getLogs();
+			int startIndex = Math.max(0, range.getStart());
+			int endIndex = Math.min(startIndex+range.getLength(), logs.size());
+			List<ReportLog> subLogs = new ArrayList<ReportLog>(logs.subList(startIndex, endIndex));
+			return new ReportLogsBatch(subLogs, logs.size());
+		} catch(Exception e)
+		{
+			logger.error("An error occurred getting the reports logs", e);
+			throw new ImportServiceException("An error occurred getting the reports logs: "+e.getMessage());
+		}
 	}
 }

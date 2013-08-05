@@ -3,12 +3,20 @@
  */
 package org.cotrix.web.importwizard.server.climport;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.cotrix.io.map.Outcome;
 import org.cotrix.io.map.Report;
+import org.cotrix.io.map.Report.Log;
 import org.cotrix.repository.CodelistRepository;
+import org.cotrix.web.importwizard.server.WizardImportSession;
 import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportProgress.Status;
+import org.cotrix.web.importwizard.shared.ReportLog;
+import org.cotrix.web.importwizard.shared.ReportLog.LogType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,17 +32,20 @@ public class Importer<T> implements Runnable {
 	protected ImportProgress progress;
 	protected ImporterMapper<T> mapper;
 	protected ImporterSource<T> source;
+	protected WizardImportSession importSession;
 	protected AttributesMappings mappings;
 
 	public Importer(CodelistRepository repository,
 			ImporterSource<T> source,
 			ImporterMapper<T> mapper,
-			AttributesMappings mappings) {
+			AttributesMappings mappings,
+			WizardImportSession importSession) {
 
 		this.repository = repository;
 		this.mapper = mapper;
 		this.source = source;
 		this.mappings = mappings;
+		this.importSession = importSession;
 
 		this.progress = new ImportProgress();
 	}
@@ -61,6 +72,9 @@ public class Importer<T> implements Runnable {
 			Report report = outcome.report();
 			logger.trace("is failed? {}", report.isFailure());
 			logger.trace("Report: {}", report.toString());
+			
+			List<ReportLog> logs = convertLogs(report.logs());
+			importSession.setLogs(logs);
 
 			if (!report.isFailure()) {
 
@@ -69,15 +83,35 @@ public class Importer<T> implements Runnable {
 				progress.setStatus(Status.DONE);
 			} else {
 				logger.error("Import failed");
-				progress.setReport(report.toString());
 				progress.setStatus(Status.FAILED);
-
 			}
+			
 		} catch(Throwable throwable)
 		{
 			logger.error("Error during import", throwable);
-			progress.setReport(throwable.getMessage());
 			progress.setStatus(Status.FAILED);
+			importSession.setLogs(Collections.singletonList(new ReportLog(LogType.ERROR, throwable.getMessage())));
+		}
+	}
+	
+	protected List<ReportLog> convertLogs(List<Log> logs)
+	{
+		List<ReportLog> reportLogs = new ArrayList<ReportLog>();
+		for (Log log:logs) {
+			LogType type = convert(log.type());
+			reportLogs.add(new ReportLog(type, log.message()));
+		}
+		
+		return reportLogs;
+	}
+	
+	protected LogType convert(Log.Type type)
+	{
+		switch (type) {
+			case INFO: return LogType.INFO;
+			case ERROR: return LogType.ERROR;
+			case WARN: return LogType.WARNING;
+			default: throw new IllegalArgumentException("Unconvertible log type "+type);
 		}
 	}
 

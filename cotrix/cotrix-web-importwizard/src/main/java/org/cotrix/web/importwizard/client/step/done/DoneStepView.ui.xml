@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
 	<ui:style>
 		.important {
 			font-weight: bold;
@@ -110,9 +110,18 @@
 		<g:Label ui:field="title" styleName="{style.title}"></g:Label>
 		<g:HTMLPanel ui:field="reportPanel">
 			<div>Report</div>
-			<g:ScrollPanel>
-				<g:HTML ui:field="message" styleName="{style.message}"></g:HTML>
-			</g:ScrollPanel>
+			<table cellspacing='0' cellpadding='0' style='width:100%;'>
+				<tr>
+					<td valign='top'>
+						<c:DataGrid ui:field='reportGrid' />
+					</td>
+				</tr>
+				<tr>
+					<td align='center'>
+						<c:SimplePager ui:field='reportPager' />
+					</td>
+				</tr>
+			</table>
 		</g:HTMLPanel>
 		<g:HorizontalPanel width="100%">
 			<g:cell horizontalAlignment="center">

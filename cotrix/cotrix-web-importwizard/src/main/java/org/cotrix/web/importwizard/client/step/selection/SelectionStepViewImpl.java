@@ -56,7 +56,6 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
-		setHeight("500px");
 	}
 	
 

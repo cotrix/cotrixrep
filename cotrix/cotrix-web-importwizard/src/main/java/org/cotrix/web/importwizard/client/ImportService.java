@@ -10,6 +10,7 @@ import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
+import org.cotrix.web.importwizard.shared.ReportLogsBatch;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -42,5 +43,7 @@ public interface ImportService extends RemoteService {
 	public void startImport(ImportMetadata metadata, AttributesMappings mappings) throws ImportServiceException;
 	
 	public ImportProgress getImportProgress() throws ImportServiceException;
+	
+	public ReportLogsBatch getReportLogs(Range range) throws ImportServiceException;
 	
 }
