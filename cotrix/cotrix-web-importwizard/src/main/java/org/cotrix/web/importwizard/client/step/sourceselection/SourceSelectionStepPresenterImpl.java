@@ -26,7 +26,7 @@ public class SourceSelectionStepPresenterImpl extends AbstractWizardStep impleme
 
 	@Inject
 	public SourceSelectionStepPresenterImpl(SourceSelectionStepView view) {
-		super("sourceSelection", "Source Selection", "Select source", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.NONE);
+		super("sourceSelection", "Locate", "Where is the codelist?", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.NONE);
 		this.view = view;
 		this.view.setPresenter(this);
 	}

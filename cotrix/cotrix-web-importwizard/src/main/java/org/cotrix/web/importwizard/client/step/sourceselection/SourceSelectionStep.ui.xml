@@ -55,10 +55,10 @@
 			</g:row>
 			<g:row>
 				<g:customCell styleName="{style.cell}">
-					<g:Button ui:field="cloudButton">Cloud</g:Button>
+					<g:Button ui:field="localButton">My Computer</g:Button>
 				</g:customCell>
 				<g:customCell styleName="{style.cell}">
-					<g:Button ui:field="localButton">My Computer</g:Button>
+					<g:Button ui:field="cloudButton">Cloud</g:Button>
 				</g:customCell>
 			</g:row>
 		</g:Grid>
