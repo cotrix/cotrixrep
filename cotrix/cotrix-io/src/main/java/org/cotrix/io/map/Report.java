@@ -142,6 +142,15 @@ public class Report {
 			this.msg=msg;
 			this.type=type;
 		}
+
+
+		public String message() {
+			return msg;
+		}
+
+		public Type type() {
+			return type;
+		}
 		
 		@Override
 		public String toString() {
