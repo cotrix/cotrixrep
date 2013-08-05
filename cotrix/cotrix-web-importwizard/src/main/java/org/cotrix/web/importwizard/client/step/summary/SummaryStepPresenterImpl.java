@@ -1,9 +1,13 @@
 package org.cotrix.web.importwizard.client.step.summary;
 
+import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
+import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportStartedEvent;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent.CodeListSelectedHandler;
+import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHandler;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent.ImportProgressHandler;
 import org.cotrix.web.importwizard.client.event.ImportStartedEvent.ImportStartedHandler;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
@@ -17,14 +21,15 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
-public class SummaryStepPresenterImpl extends AbstractWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler, MappingsUpdatedHandler, ImportStartedHandler, ImportProgressHandler {
+public class SummaryStepPresenterImpl extends AbstractWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler, MappingsUpdatedHandler, 
+ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelectedHandler {
 
 	protected SummaryStepView view;
 	protected EventBus importEventBus;
 
 	@Inject
 	public SummaryStepPresenterImpl(SummaryStepView view, @ImportBus EventBus importEventBus) {
-		super("summary", "Summary", "Quick recap", NavigationButtonConfiguration.DEFAULT_BACKWARD, new NavigationButtonConfiguration("Save"));
+		super("summary", "Summary", "Quick recap", NavigationButtonConfiguration.DEFAULT_BACKWARD, new NavigationButtonConfiguration("Import"));
 		this.view = view;
 		
 		this.importEventBus = importEventBus;
@@ -32,6 +37,8 @@ public class SummaryStepPresenterImpl extends AbstractWizardStep implements Summ
 		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, this);
 		importEventBus.addHandler(ImportStartedEvent.TYPE, this);
 		importEventBus.addHandler(ImportProgressEvent.TYPE, this);
+		importEventBus.addHandler(FileUploadedEvent.TYPE, this);
+		importEventBus.addHandler(CodeListSelectedEvent.TYPE, this);
 	}
 	
 	public void go(HasWidgets container) {
@@ -49,7 +56,13 @@ public class SummaryStepPresenterImpl extends AbstractWizardStep implements Summ
 	@Override
 	public void onMappingUpdated(MappingsUpdatedEvent event) {
 		AttributesMappings attributesMappings = event.getMappings();
-		this.view.setMapping(attributesMappings.getMappings());		
+		this.view.setMapping(attributesMappings.getMappings());
+		
+		if (attributesMappings.getMappingMode()==null) view.setMappingModeVisible(false);
+		else {
+			view.setMappingMode(attributesMappings.getMappingMode().toString());
+			view.setMappingModeVisible(true);
+		}
 	}
 
 	@Override
@@ -66,5 +79,16 @@ public class SummaryStepPresenterImpl extends AbstractWizardStep implements Summ
 	@Override
 	public void onImportProgress(ImportProgressEvent event) {
 		if (event.getProgress().isComplete()) view.hideProgress();
+	}
+
+	@Override
+	public void onFileUploaded(FileUploadedEvent event) {
+		view.setFileName(event.getFileName());
+		view.setFileNameVisible(true);
+	}
+
+	@Override
+	public void onCodeListSelected(CodeListSelectedEvent event) {
+		view.setFileNameVisible(false);
 	}
 }

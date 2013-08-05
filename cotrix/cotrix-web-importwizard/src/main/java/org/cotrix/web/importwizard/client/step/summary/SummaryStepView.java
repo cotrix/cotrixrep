@@ -19,6 +19,12 @@ public interface SummaryStepView {
 	public void setMapping(List<AttributeMapping> mapping);
 	void setMetadata(ImportMetadata metadata);
 	
+	public void setFileName(String fileName);
+	public void setFileNameVisible(boolean visible);
+	
+	public void setMappingMode(String mappingMode);
+	public void setMappingModeVisible(boolean visible);
+	
 	void showProgress();
 	void hideProgress();
 

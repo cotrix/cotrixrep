@@ -43,6 +43,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	protected boolean complete = false;
 	
 	protected UploadStepView view;
+	protected String fileName;
 
 
 	@Inject
@@ -112,7 +113,8 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	{
 		complete = false;
 		
-		view.setupUpload(file.getName(), file.getSize());
+		fileName = file.getName();
+		view.setupUpload(fileName, file.getSize());
 		view.submitForm();
 		
 		//start polling
@@ -157,7 +159,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		progressPolling.cancel();
 		view.setUploadProgress(progress.getProgress());
 		complete = true;
-		importEventBus.fireEvent(new FileUploadedEvent());
+		importEventBus.fireEvent(new FileUploadedEvent(fileName));
 		view.setUploadComplete(progress.getCodeListType().toString());
 	}
 	

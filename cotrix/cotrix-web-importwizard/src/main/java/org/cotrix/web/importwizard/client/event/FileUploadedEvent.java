@@ -14,8 +14,18 @@ public class FileUploadedEvent extends GwtEvent<FileUploadedEvent.FileUploadedHa
 	public interface FileUploadedHandler extends EventHandler {
 		void onFileUploaded(FileUploadedEvent event);
 	}
+	
+	protected String fileName;
 
-	public FileUploadedEvent() {
+	public FileUploadedEvent(String fileName) {
+		this.fileName = fileName;
+	}
+
+	/**
+	 * @return the fileName
+	 */
+	public String getFileName() {
+		return fileName;
 	}
 
 	@Override

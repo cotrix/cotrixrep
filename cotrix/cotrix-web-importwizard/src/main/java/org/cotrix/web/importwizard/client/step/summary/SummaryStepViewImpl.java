@@ -1,6 +1,5 @@
 package org.cotrix.web.importwizard.client.step.summary;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -10,16 +9,16 @@ import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.i18n.shared.DateTimeFormat;
-import com.google.gwt.i18n.shared.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -28,18 +27,20 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	
-	protected static final int HEADER_ROW = 0;
-	protected static final int MAPPING_COLUMN = 0;
-	protected static final int METADATA_COLUMN = 1;
-	protected static final DateTimeFormat dateFormat = DateTimeFormat.getFormat(PredefinedFormat.DATE_MEDIUM);
+	protected static final int FILE_FIELD_ROW = 0;
+	protected static final int MAPPING_MODE_FIELD_ROW = 3;
 
 	@UiTemplate("SummaryStep.ui.xml")
 	interface SummaryStepUiBinder extends UiBinder<Widget, SummaryStepViewImpl> {}
 	private static SummaryStepUiBinder uiBinder = GWT.create(SummaryStepUiBinder.class);
 
-
-	@UiField HTMLPanel panel;
-	@UiField FlexTable summaryTable;
+	@UiField Grid panel;
+	
+	@UiField Label fileField;
+	@UiField Label codelistField;
+	@UiField FlexTable propertiesTable;
+	@UiField Label mappingModeField;
+	@UiField FlexTable customTable;
 	@UiField Style style;
 
 	interface Style extends CssResource {
@@ -57,56 +58,53 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		setupHeader();
-	}
-
-	protected void setupHeader() {
-		summaryTable.setWidget(HEADER_ROW, MAPPING_COLUMN, new HTML("Mappings"));
-		summaryTable.setWidget(HEADER_ROW, METADATA_COLUMN, new HTML("Metadata"));
-		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, MAPPING_COLUMN, style.summaryTableHeader());
-		summaryTable.getCellFormatter().setStyleName(HEADER_ROW, METADATA_COLUMN, style.summaryTableHeader());
+		panel.getColumnFormatter().setWidth(0, "150px");
+		panel.getRowFormatter().setVerticalAlign(4, HasVerticalAlignment.ALIGN_TOP);
 	}
 	
 	public void setMapping(List<AttributeMapping> mappings)
 	{
-		int row = 1;
+		customTable.removeAllRows();
+		int row = 0;
 		for (AttributeMapping mapping:mappings) {
 			StringBuilder mappingDescription = new StringBuilder();
-			mappingDescription.append("<b>").append(mapping.getField().getLabel()).append("</b>");
+			String originalName = mapping.getField().getLabel();
+			mappingDescription.append("<b>").append(originalName).append("</b>");
 			if (mapping.isMapped()) {
 				AttributeDefinition definition = mapping.getAttributeDefinition();
-				mappingDescription.append(" mapped as ").append(definition.getType().toString());
-				mappingDescription.append(" with name ").append(definition.getName());
+				if (!originalName.equals(definition.getName())) mappingDescription.append(" as ").append(definition.getName());
+				mappingDescription.append(" is ").append(definition.getType().toString());
+				
 				if (definition.getLanguage()!=null) mappingDescription.append(" in ").append(definition.getLanguage());
 			} else mappingDescription.append(" ignored");
 			
 			HTML mappingLabel = new HTML(mappingDescription.toString());
-			summaryTable.setWidget(row, MAPPING_COLUMN, mappingLabel);
+			customTable.setWidget(row, 0, mappingLabel);
 			row++;
 		}
 	}
 	
 	public void setMetadata(ImportMetadata metadata) {
-
-		summaryTable.setWidget(1, METADATA_COLUMN, new HTML("<strong>Name : </strong>"+metadata.getName()));
 		
-		int row = 2;
-		for (Entry<String, String> attribute:metadata.getAttributes().entrySet()) {
-			summaryTable.setWidget(row, METADATA_COLUMN, new HTML("<strong>"+attribute.getKey()+" : </strong>"+attribute.getValue()));
-			row++;
+		codelistField.setText(metadata.getName());
+		
+		propertiesTable.removeAllRows();
+		
+		if (metadata.getAttributes().size() == 0) {
+			propertiesTable.setVisible(false);
+		} else {
+			propertiesTable.setVisible(true);
+			propertiesTable.setText(0, 0, "Name");
+			propertiesTable.setText(0, 1, "Value");
+			propertiesTable.getCellFormatter().setStyleName(0, 0, style.headerlabel());
+			propertiesTable.getCellFormatter().setStyleName(0, 1, style.headerlabel());
+			int row = 1;
+			for (Entry<String, String> attribute:metadata.getAttributes().entrySet()) {
+				propertiesTable.setText(row, 0, attribute.getKey());
+				propertiesTable.setText(row, 1, attribute.getValue());
+				row++;
+			}
 		}
-		
-		summaryTable.getFlexCellFormatter().setRowSpan(row, METADATA_COLUMN, summaryTable.getRowCount() - row);
-	}
-	
-	protected String format(Date date)
-	{
-		if (date == null) return "";
-		else return dateFormat.format(date);
-	}
-	
-	public void alert(String message) {
-
 	}
 
 	@Override
@@ -120,5 +118,25 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	@Override
 	public void hideProgress() {
 		if(progressDialog != null) progressDialog.hide();
+	}
+	
+	public void setFileName(String fileName)
+	{
+		fileField.setText(fileName);
+	}
+	
+	public void setFileNameVisible(boolean visible)
+	{
+		panel.getRowFormatter().setVisible(FILE_FIELD_ROW, visible);
+	}
+	
+	public void setMappingMode(String mappingMode)
+	{
+		mappingModeField.setText(mappingMode);
+	}
+	
+	public void setMappingModeVisible(boolean visible)
+	{
+		panel.getRowFormatter().setVisible(MAPPING_MODE_FIELD_ROW, visible);
 	}
 }
