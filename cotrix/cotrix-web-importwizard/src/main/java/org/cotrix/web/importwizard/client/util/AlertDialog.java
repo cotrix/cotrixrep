@@ -3,6 +3,8 @@ package org.cotrix.web.importwizard.client.util;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -30,6 +32,14 @@ public class AlertDialog extends PopupPanel {
 				AlertDialog.this.setPopupPosition(left, top);
 			}
 		});
+		
+		addDomHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				hide();
+				
+			}}, ClickEvent.getType());
 	}
 
 	public void setMessage(String message){
