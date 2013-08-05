@@ -23,7 +23,7 @@ public class SummaryStepPresenterImpl extends AbstractWizardStep implements Summ
 
 	@Inject
 	public SummaryStepPresenterImpl(SummaryStepView view, @ImportBus EventBus importEventBus) {
-		super("summary", "Summary", "Summary", NavigationButtonConfiguration.DEFAULT_BACKWARD, new NavigationButtonConfiguration("Save"));
+		super("summary", "Summary", "Quick recap", NavigationButtonConfiguration.DEFAULT_BACKWARD, new NavigationButtonConfiguration("Save"));
 		this.view = view;
 		
 		this.importEventBus = importEventBus;
