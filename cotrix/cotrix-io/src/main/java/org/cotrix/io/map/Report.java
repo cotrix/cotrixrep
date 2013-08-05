@@ -1,6 +1,10 @@
 package org.cotrix.io.map;
 
 import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.io.map.Report.Log.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -30,19 +34,32 @@ public class Report {
 	}
 	
 	private final double start = System.currentTimeMillis();
-	private final StringBuilder log = new StringBuilder();
+	private List<Log> logs = new ArrayList<Log>();
+	
 	private boolean failure;
 	
 	//create only throuugh factory method
 	private Report() {}
 	
 	/**
+	 * Returns the log messages in this report.
+	 * @return the messages
+	 */
+	public List<Log> logs() {
+		return logs;
+	}
+	
+	public void log(String message,Log.Type type) {
+		valid("message",message);
+		logs.add(get("["+time()+"s] "+message,type));
+	}
+	
+	/**
 	 * Adds a message to this report.
 	 * @param message the message
 	 */
 	public void log(String message) {
-		valid("message",message);
-		log.append("\n["+time()+"s] "+message);
+		log(message,Log.Type.INFO);
 	}
 	
 	/**
@@ -50,7 +67,7 @@ public class Report {
 	 * @param message the report
 	 */
 	public void logWarning(String message) {
-		log("WARNING:"+message);
+		log(message,Log.Type.WARN);;
 	}
 	
 	/**
@@ -58,7 +75,7 @@ public class Report {
 	 * @param message the report
 	 */
 	public void logError(String message) {		
-		log("ERROR:"+message);
+		log(message,Log.Type.ERROR);
 		failure=true;
 	}
 	
@@ -79,11 +96,57 @@ public class Report {
 	
 	@Override
 	public String toString() {
-		return log.toString();
+		
+		StringBuilder builder = new StringBuilder();
+		
+		for (Log log : logs)
+			builder.append(log).
+					append("\n");
+		
+		return builder.toString();
 	}
 	
 	private double time() {
 		return (System.currentTimeMillis()-start)/1000;
 	}
 	
+	/**
+	 * A log message in a {@link Report}.
+	 * 
+	 * @author Fabio Simeoni
+	 *
+	 */
+	public static class Log {
+		
+		/**
+		 * Log message types
+		 * @author Fabio Simeoni
+		 *
+		 */
+		public static enum Type {WARN,ERROR,INFO}
+		
+		/**
+		 * Returns a new log of a given type.
+		 * @param msg the log message
+		 * @param type the log type
+		 * @return the log
+		 */
+		public static Log get(String msg, Type type) {
+			return new Log(msg,type);
+		}
+		
+		final String msg;
+		final Type type; 
+		
+		private Log(String msg,Type type) {
+			this.msg=msg;
+			this.type=type;
+		}
+		
+		@Override
+		public String toString() {
+			return type+":"+msg;
+		}
+		
+	}
 }
