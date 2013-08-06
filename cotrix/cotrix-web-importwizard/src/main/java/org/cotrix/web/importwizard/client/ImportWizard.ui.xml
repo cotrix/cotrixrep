@@ -33,6 +33,7 @@
 			-moz-border-radius: 5px;
 			border-radius: 5px;
 			border: 1px solid #ccc;
+			height: 100%;
 		}
 		
 		.important {
@@ -59,6 +60,7 @@
 		.contentPanel {
 			text-align: left;
 			padding: 20px;
+			height: 100%;
 		}
 		
 		.forwardButton {

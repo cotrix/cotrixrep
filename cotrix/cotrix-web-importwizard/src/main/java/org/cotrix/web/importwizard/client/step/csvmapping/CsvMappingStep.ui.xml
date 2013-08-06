@@ -3,30 +3,27 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style
 		type="org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepViewImpl.Style">
-			.important {
-				font-weight: bold;
-			}
-			
 			.headerlabel {
 				font-weight: bold;
 				color: #333;
 			}
 			
 			.grid {
-				
+				vertical-align: top;
 			}
 			
 			.cell {
 				padding: 5px;
-				font-size: 14px;
-				color: #666;
+				font-size: 19px;
+				color: #333;
 			}
 			
 			.textPadding {
 				padding-left: 10px;
 				padding-right: 10px;
-				font-weight: bold;
+				font-size: 19px;
 				color: #333;
+				font-weight: normal;
 			}
 			
 			input[type="text"] {
@@ -55,13 +52,23 @@
 				border-radius: 5px;
 			}
 			
+			.checkbox {
+				width: 20px;
+				height: 20px;
+			}
+			
 			.label {
 				margin-right: 20px;
 				font-size: 16px;
+				vertical-align: top;
+			}
+			
+			.labelColumn {
+				vertical-align: top;
 			}
 		</ui:style>
 	<g:HTMLPanel>
-		<g:Grid styleName="{style.grid}">
+		<g:Grid styleName="{style.grid}" ui:field="mainTable">
 			<g:row>
 				<g:customCell>
 					<g:Label styleName="{style.label}">Name</g:Label>
@@ -72,14 +79,20 @@
 			</g:row>
 			<g:row>
 				<g:customCell>
-					<g:Label styleName="{style.label}">Mapping mode</g:Label>
+					<g:Label styleName="{style.label}">Columns</g:Label>
 				</g:customCell>
 				<g:customCell>
-					<g:ListBox ui:field="mappingMode"></g:ListBox>
+					<g:FlexTable ui:field="columnsTable" />
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell>
+					<g:Label styleName="{style.label}">Tolerate missing codes</g:Label>
+				</g:customCell>
+				<g:customCell>
+					<g:CheckBox ui:field="mappingMode" />
 				</g:customCell>
 			</g:row>
 		</g:Grid>
-
-		<g:FlexTable ui:field="columnsTable" />
 	</g:HTMLPanel>
 </ui:UiBinder> 

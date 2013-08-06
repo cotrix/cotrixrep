@@ -12,12 +12,16 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -33,15 +37,15 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	@UiTemplate("UploadStep.ui.xml")
 	interface UploadStepUiBinder extends UiBinder<Widget, UploadStepViewImpl> {}
 	
-	@UiField Button browseButton;	
+	@UiField FocusPanel browseButton;	
 	@UiField FileUploadExt fileUploadButton;
 	
-	@UiField HTML deleteButton;
-	@UiField HorizontalPanel fileWrapperPanel;
+	@UiField HTMLPanel captionPanel;
+	
+	@UiField VerticalPanel fileWrapperPanel;
 	
 	@UiField Label fileNameLabel;
 	@UiField Label fileSizeLabel;
-	@UiField Label fileTypeLabel;
 	
 	@UiField Label retryButton;
 	
@@ -72,9 +76,8 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	
 	public void setupUpload(String filename, long filesize)
 	{
-		browseButton.setEnabled(false);
+		//captionPanel.setVisible(false);
 		fileWrapperPanel.setVisible(true);
-		fileTypeLabel.setVisible(false);
 		
 		uploadPanel.setVisible(true);
 		uploadFailPanel.setVisible(false);
@@ -107,8 +110,8 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	}
 
 	public void resetFileUpload() {
-		fileTypeLabel.setVisible(false);
-		browseButton.setEnabled(true);
+		//browseButton.setEnabled(true);
+		captionPanel.setVisible(true);
 		fileWrapperPanel.setVisible(false);
 	}
 	
@@ -123,11 +126,6 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	@UiHandler("retryButton")
 	public void onRetryButtonClicked(ClickEvent event) {
 		presenter.onRetryButtonClicked();
-	}
-
-	@UiHandler("deleteButton")
-	public void onDeleteButtonClicked(ClickEvent event) {
-		presenter.onDeleteButtonClicked();
 	}
 
 	@UiHandler("browseButton")

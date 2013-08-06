@@ -3,20 +3,26 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style
 		type="org.cotrix.web.importwizard.client.util.AttributeDefinitionPanel.Style">
-			.important {
-				font-weight: bold;
-			}
 			
 			.textPadding {
 				padding-left: 10px;
 				padding-right: 10px;
-				font-weight: bold;
-				color: #333;
+				/*font-weight: bold;
+							color: #333;*/
 				vertical-align: middle;
+				font-size: 19px;
+				color: #333;
+				font-weight: normal;
 			}
 			
 			.listBox {
 				float: left;
+				font-size: 14px;
+				color: #333;
+				height: 29px;
+				border-radius: 5px;
+				background-color: #fafafa;
+				border-color: #999;
 			}
 			
 			.listBoxError {

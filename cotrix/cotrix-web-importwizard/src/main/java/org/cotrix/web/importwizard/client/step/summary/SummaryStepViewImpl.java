@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 
 	protected static final int FILE_FIELD_ROW = 0;
+	protected static final int PROPERTIES_FIELD_ROW = 2;
 	protected static final int MAPPING_MODE_FIELD_ROW = 3;
 
 	@UiTemplate("SummaryStep.ui.xml")
@@ -92,9 +93,11 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 		propertiesTable.removeAllRows();
 
 		if (metadata.getAttributes().size() == 0) {
-			propertiesTable.setVisible(false);
+			panel.getRowFormatter().setVisible(PROPERTIES_FIELD_ROW, false);
+			//propertiesTable.setVisible(false);
 		} else {
-			propertiesTable.setVisible(true);
+			panel.getRowFormatter().setVisible(PROPERTIES_FIELD_ROW, true);
+			//propertiesTable.setVisible(true);
 			propertiesTable.setText(0, 0, "Name");
 			propertiesTable.setText(0, 1, "Value");
 			propertiesTable.getCellFormatter().setStyleName(0, 0, style.headerlabel());

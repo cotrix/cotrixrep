@@ -22,5 +22,8 @@ public interface Resources extends ClientBundle {
 
 	@Source("computer.png")
 	public ImageResource computer();
+	
+	@Source("close.png")
+	public ImageResource close();
 
 }
