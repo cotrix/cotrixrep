@@ -8,8 +8,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -22,8 +22,8 @@ public class SourceSelectionStepViewImpl extends Composite implements SourceSele
 	interface SourceSelectionStepUiBinder extends UiBinder<Widget, SourceSelectionStepViewImpl> {}
 	private static SourceSelectionStepUiBinder uiBinder = GWT.create(SourceSelectionStepUiBinder.class);
 	
-	@UiField Button cloudButton;
-	@UiField Button localButton;
+	@UiField FocusPanel myComputerPanel;
+	@UiField FocusPanel cloudPanel;
 	
 	private AlertDialog alertDialog;
 	private Presenter presenter;
@@ -36,13 +36,13 @@ public class SourceSelectionStepViewImpl extends Composite implements SourceSele
 		this.presenter = presenter;
 	}
 	
-	@UiHandler("cloudButton")
-	public void onCloudButtonClicked(ClickEvent event){
+	@UiHandler("cloudPanel")
+	public void onCloudClicked(ClickEvent event){
 		presenter.onCloudButtonClick();
 	}
 	
-	@UiHandler("localButton")
-	public void onLocalButtonClicked(ClickEvent event){
+	@UiHandler("myComputerPanel")
+	public void onLocalClicked(ClickEvent event){
 		presenter.onLocalButtonClick();
 	}
 	

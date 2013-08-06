@@ -16,5 +16,11 @@ public interface Resources extends ClientBundle {
 	
 	@Source("style.css")
 	public ImportCss css();
+	
+	@Source("cloud.png")
+	public ImageResource cloud();
+
+	@Source("computer.png")
+	public ImageResource computer();
 
 }
