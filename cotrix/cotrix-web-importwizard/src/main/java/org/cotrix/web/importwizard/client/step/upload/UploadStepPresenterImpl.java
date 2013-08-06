@@ -105,7 +105,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		if (Arrays.binarySearch(CSV_MIMETYPE, type)>=0) return true;
 		if (type.startsWith(XML_MIMETYPE)) return true;
 		
-		onError("The file should be a CSV or an SDMX file");
+		onError("Only CSV or SDMX for now");
 		return false;
 	}
 	

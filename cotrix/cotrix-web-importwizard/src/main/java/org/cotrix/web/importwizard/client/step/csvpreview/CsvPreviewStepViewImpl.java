@@ -44,7 +44,6 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 	@UiField (provided=true) 
 	PreviewGrid preview;
 
-	@UiField Button showCsvConfigurationButton;
 	@UiField Style style;
 
 	private AlertDialog alertDialog;
@@ -86,12 +85,6 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 		}
 		alertDialog.setMessage(message);
 		alertDialog.show();
-	}
-	
-	
-	@UiHandler("showCsvConfigurationButton")
-	public void onClick(ClickEvent event) {
-		presenter.onShowCsvConfigurationButtonClicked();
 	}
 
 	/** 

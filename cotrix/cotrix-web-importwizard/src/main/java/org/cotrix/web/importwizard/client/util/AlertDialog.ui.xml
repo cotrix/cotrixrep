@@ -19,7 +19,7 @@
 		
 		.label {
 			font-size: 20px;
-			color: #666;
+			color: #660000;
 		}
 		
 		.button {
