@@ -17,7 +17,6 @@ import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
-import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.selection.SelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
@@ -55,9 +54,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 			CsvMappingStepPresenter csvMappingStep,
 			SdmxMappingStepPresenter sdmxMappingStep, 
-
-			MetadataStepPresenter metadataStep,
-
 
 			SummaryStepPresenter summaryStep,
 			DoneStepPresenter doneStep,
@@ -110,7 +106,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		registerStep(sourceStep);
 		registerStep(uploadStep);
 		registerStep(selectionStep);
-		registerStep(metadataStep);
 		registerStep(csvPreviewStep);
 		registerStep(csvMappingStep);
 		registerStep(sdmxMappingStep);

@@ -16,10 +16,6 @@ import org.cotrix.web.importwizard.client.step.done.DoneStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepView;
 import org.cotrix.web.importwizard.client.step.done.DoneStepViewImpl;
 import org.cotrix.web.importwizard.client.step.done.ReportLogDataProvider;
-import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenter;
-import org.cotrix.web.importwizard.client.step.metadata.MetadataStepPresenterImpl;
-import org.cotrix.web.importwizard.client.step.metadata.MetadataStepView;
-import org.cotrix.web.importwizard.client.step.metadata.MetadataStepViewImpl;
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepView;
@@ -84,9 +80,6 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(SelectionStepView.class).to(SelectionStepViewImpl.class);
         bind(SelectionStepPresenter.class).to(SelectionStepPresenterImpl.class).in(Singleton.class);
         bind(AssetInfoDataProvider.class).in(Singleton.class);
-     
-        bind(MetadataStepView.class).to(MetadataStepViewImpl.class);
-        bind(MetadataStepPresenter.class).to(MetadataStepPresenterImpl.class);
         
         bind(CsvPreviewStepView.class).to(CsvPreviewStepViewImpl.class);
         bind(CsvPreviewStepPresenter.class).to(CsvPreviewStepPresenterImpl.class);
