@@ -14,12 +14,9 @@ public class CsvParserConfiguration implements Serializable {
 	
 	private static final long serialVersionUID = 2424486900885043596L;
 	
-	public enum NewLine {LF, CRLF, CR};
-	
 	protected String charset;
 	protected char fieldSeparator;
 	protected char comment;
-	protected NewLine lineSeparator;
 	protected char quote;
 	protected boolean hasHeader;
 	
@@ -61,18 +58,7 @@ public class CsvParserConfiguration implements Serializable {
 	public void setComment(char comment) {
 		this.comment = comment;
 	}
-	/**
-	 * @return the lineSeparator
-	 */
-	public NewLine getLineSeparator() {
-		return lineSeparator;
-	}
-	/**
-	 * @param lineSeparator the lineSeparator to set
-	 */
-	public void setLineSeparator(NewLine lineSeparator) {
-		this.lineSeparator = lineSeparator;
-	}
+
 	/**
 	 * @return the quote
 	 */
@@ -122,8 +108,6 @@ public class CsvParserConfiguration implements Serializable {
 		result = prime * result + comment;
 		result = prime * result + fieldSeparator;
 		result = prime * result + (hasHeader ? 1231 : 1237);
-		result = prime * result
-				+ ((lineSeparator == null) ? 0 : lineSeparator.hashCode());
 		result = prime * result + quote;
 		return result;
 	}
@@ -150,8 +134,6 @@ public class CsvParserConfiguration implements Serializable {
 			return false;
 		if (hasHeader != other.hasHeader)
 			return false;
-		if (lineSeparator != other.lineSeparator)
-			return false;
 		if (quote != other.quote)
 			return false;
 		return true;
@@ -168,8 +150,6 @@ public class CsvParserConfiguration implements Serializable {
 		builder.append(fieldSeparator);
 		builder.append(", comment=");
 		builder.append(comment);
-		builder.append(", lineSeparator=");
-		builder.append(lineSeparator);
 		builder.append(", quote=");
 		builder.append(quote);
 		builder.append(", hasHeader=");
