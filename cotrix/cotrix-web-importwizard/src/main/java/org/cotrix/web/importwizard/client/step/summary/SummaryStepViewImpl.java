@@ -70,15 +70,16 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 		for (AttributeMapping mapping:mappings) {
 			StringBuilder mappingDescription = new StringBuilder();
 			String originalName = mapping.getField().getLabel();
-			mappingDescription.append("<b>").append(originalName).append("</b>");
+			
 			if (mapping.isMapped()) {
+				mappingDescription.append("Import <b>").append(originalName).append("</b>");
 				AttributeDefinition definition = mapping.getAttributeDefinition();
 				if (!originalName.equals(definition.getName())) mappingDescription.append(" as ").append(definition.getName());
 				if (definition.getType() !=null) {
-					mappingDescription.append(" is ").append(definition.getType().toString());
+					mappingDescription.append(" as ").append(definition.getType().toString());
 					if (definition.getLanguage()!=null) mappingDescription.append(" in ").append(definition.getLanguage());
 				}
-			} else mappingDescription.append(" ignored");
+			} else mappingDescription.append("Ignore <b>").append(originalName).append("</b>");
 
 			HTML mappingLabel = new HTML(mappingDescription.toString());
 			customTable.setWidget(row, 0, mappingLabel);
