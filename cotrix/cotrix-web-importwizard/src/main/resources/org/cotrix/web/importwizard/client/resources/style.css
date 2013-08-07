@@ -1,42 +1,60 @@
-/**
- * The file contains styles for GWT widgets in the standard theme.
- *
- * In order to maintain cross-browser compatibility, the following syntax is
- * used to create IE6 specific style rules:
- *    .gwt-Widget {
- *      property: rule applies to all browsers
- *      -property: rule applies only to IE6 (overrides previous rule)
- *    }
- *    * html .gwt-Widget {
- *      property: rule applies to all versions of IE
- *    }
-
-
-body, table td, select {
-  font-family: Arial Unicode MS, Arial, sans-serif;
-  font-size: small;
-}
-pre {
-  font-family: "courier new", courier;
-  font-size: small;
-}
-body {
-  color: black;
-  margin: 0px;
-  border: 0px;
-  padding: 0px;
-  background: #fff;
-  direction: ltr;
-}
-a, a:visited, a:hover {
-  color: #0000AA;
-} */
-
 .gwt-PopupPanelGlass {
-  background-color: #000;
-  opacity: 0.3;
-  filter: alpha(opacity=30);
+	background-color: #000;
+	opacity: 0.3;
+	filter: alpha(opacity = 30);
 }
 
+.simpleCheckbox {
+	width: 20px;
+	height: 20px;
+}
 
+.propertyLabel {
+	font-size: 16px;
+}
 
+.paddedText {
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 19px;
+	vertical-align: middle; 
+	color : #333;
+	font-weight: normal;
+	color: #333;
+}
+
+.listBox {
+	float: left;
+	font-size: 14px;
+	color: #333;
+	height: 29px;
+	border-radius: 5px;
+	background-color: #fafafa;
+	border-color: #999;
+}
+
+.textBox {
+	padding: 5px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 0px 0px;
+	border: 1px solid #999999;
+}
+
+.textBox:focus {
+	outline: none;
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px #61C5FA;
+	border: 1px solid #5AB0DB;
+}
+
+.textBox:hover {
+	border: 1px solid #999;
+	border-radius: 5px;
+}
+
+.textBox:focus:hover {
+	outline: none;
+	box-shadow: 0px 0px 5px #61C5FA;
+	border: 1px solid #5AB0DB;
+	border-radius: 5px;
+}

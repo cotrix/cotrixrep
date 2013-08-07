@@ -1,40 +1,19 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+		<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
+		field="resources"></ui:with>
 	<ui:style
 		type="org.cotrix.web.importwizard.client.util.AttributeDefinitionPanel.Style">
-			
-			.textPadding {
-				padding-left: 10px;
-				padding-right: 10px;
-				/*font-weight: bold;
-							color: #333;*/
-				vertical-align: middle;
-				font-size: 19px;
-				color: #333;
-				font-weight: normal;
-			}
-			
-			.listBox {
-				float: left;
-				font-size: 14px;
-				color: #333;
-				height: 29px;
-				border-radius: 5px;
-				background-color: #fafafa;
-				border-color: #999;
-			}
 			
 			.listBoxError {
 				float: left;
 				border: 2px solid #df484f;
 			}
 		</ui:style>
-	<g:FlowPanel>
-		<g:HorizontalPanel>
-			<g:ListBox ui:field="typeList" styleName="{style.listBox}" />
-			<g:Label ui:field="inLabel" styleName="{style.textPadding}">in</g:Label>
-			<g:ListBox ui:field="languageList" styleName="{style.listBox}" />
+		<g:HorizontalPanel verticalAlignment="middle">
+			<g:ListBox ui:field="typeList" styleName="{resources.css.listBox}" />
+			<g:Label ui:field="inLabel" styleName="{resources.css.paddedText}">in</g:Label>
+			<g:ListBox ui:field="languageList" styleName="{resources.css.listBox}" />
 		</g:HorizontalPanel>
-	</g:FlowPanel>
 </ui:UiBinder> 

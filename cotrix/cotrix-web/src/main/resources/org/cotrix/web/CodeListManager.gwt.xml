@@ -23,6 +23,9 @@
 	<!-- GWT LOGGING SETUP -->
 	<inherits name="com.allen_sauer.gwt.log.gwt-log-TRACE" />
 	<set-property name="log_DivLogger" value="DISABLED" />
+	
+	
+	<!-- <set-configuration-property name="CssResource.style" value="pretty" />-->
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class='org.cotrix.web.client.CodeListManager' />

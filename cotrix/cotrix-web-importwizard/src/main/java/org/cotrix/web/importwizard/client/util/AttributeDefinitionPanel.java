@@ -3,6 +3,7 @@ package org.cotrix.web.importwizard.client.util;
 import java.util.Arrays;
 
 import org.cotrix.web.importwizard.client.resources.ImportConstants;
+import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.shared.AttributeType;
 
 import com.google.gwt.core.client.GWT;
@@ -31,13 +32,10 @@ public class AttributeDefinitionPanel extends Composite {
 	@UiField Label inLabel;
 	@UiField ListBox languageList;
 
-	@UiField
-	Style style;
+	@UiField Style style;
 
 	interface Style extends CssResource {
-		public String textPadding();
 		String listBoxError();
-		String listBox();
 	}
 
 	public AttributeDefinitionPanel() {
@@ -127,7 +125,7 @@ public class AttributeDefinitionPanel extends Composite {
 	}
 
 	public void setNormalStyle(){
-		typeList.setStyleName(style.listBox());
+		typeList.setStyleName(Resources.INSTANCE.css().listBox());
 	}
 	
 	public void setEnabled(boolean enabled)

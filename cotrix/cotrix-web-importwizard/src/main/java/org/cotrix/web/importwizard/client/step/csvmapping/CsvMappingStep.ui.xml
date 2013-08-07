@@ -1,85 +1,33 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
+		field="resources"></ui:with>
 	<ui:style
 		type="org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepViewImpl.Style">
-			.headerlabel {
-				font-weight: bold;
-				color: #333;
-			}
 			
 			.grid {
 				vertical-align: top;
+				margin-right: 20px;
 			}
 			
 			.cell {
 				padding: 5px;
-				font-size: 19px;
-				color: #333;
-			}
-			
-			.textPadding {
-				padding-left: 10px;
-				padding-right: 10px;
-				font-size: 19px;
-				color: #333;
-				font-weight: normal;
-			}
-			
-			input[type="text"] {
-				padding: 5px;
-				border-radius: 5px;
-				box-shadow: 0px 0px 0px 0px;
-				border: 1px solid #999999;
-			}
-			
-			input[type="text"]:focus {
-				outline: none;
-				border-radius: 5px;
-				box-shadow: 0px 0px 5px #61C5FA;
-				border: 1px solid #5AB0DB;
-			}
-			
-			input[type="text"]:hover {
-				border: 1px solid #999;
-				border-radius: 5px;
-			}
-			
-			input[type="text"]:focus:hover {
-				outline: none;
-				box-shadow: 0px 0px 5px #61C5FA;
-				border: 1px solid #5AB0DB;
-				border-radius: 5px;
-			}
-			
-			.checkbox {
-				width: 20px;
-				height: 20px;
-			}
-			
-			.label {
-				margin-right: 20px;
-				font-size: 16px;
-				vertical-align: top;
-			}
-			
-			.labelColumn {
-				vertical-align: top;
 			}
 		</ui:style>
 	<g:HTMLPanel>
 		<g:Grid styleName="{style.grid}" ui:field="mainTable">
 			<g:row>
 				<g:customCell>
-					<g:Label styleName="{style.label}">Name</g:Label>
+					<g:Label styleName="{resources.css.propertyLabel}">Name</g:Label>
 				</g:customCell>
 				<g:customCell>
-					<g:TextBox width="300px" ui:field="name"></g:TextBox>
+					<g:TextBox width="300px" ui:field="name" styleName="{resources.css.textBox}"></g:TextBox>
 				</g:customCell>
 			</g:row>
 			<g:row>
 				<g:customCell>
-					<g:Label styleName="{style.label}">Columns</g:Label>
+					<g:Label styleName="{resources.css.propertyLabel}">Columns</g:Label>
 				</g:customCell>
 				<g:customCell>
 					<g:FlexTable ui:field="columnsTable" />
@@ -87,10 +35,10 @@
 			</g:row>
 			<g:row>
 				<g:customCell>
-					<g:Label styleName="{style.label}">Tolerate missing codes</g:Label>
+					<g:Label styleName="{resources.css.propertyLabel}">Tolerate missing codes</g:Label>
 				</g:customCell>
 				<g:customCell>
-					<g:CheckBox ui:field="mappingMode" />
+					<g:SimpleCheckBox ui:field="mappingMode" styleName="{resources.css.simpleCheckbox}"/>
 				</g:customCell>
 			</g:row>
 		</g:Grid>

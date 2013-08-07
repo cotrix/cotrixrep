@@ -3,6 +3,7 @@ package org.cotrix.web.importwizard.client.step.csvmapping;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.client.util.AttributeDefinitionPanel;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
@@ -18,13 +19,12 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -46,41 +46,31 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 
 	@UiField Grid mainTable;
 	@UiField TextBox name;
-	@UiField CheckBox mappingMode;
+	@UiField SimpleCheckBox mappingMode;
 	@UiField FlexTable columnsTable;
 	@UiField Style style;
 
 	private AlertDialog alertDialog;
 
 	interface Style extends CssResource {
-		String headerlabel();
 		String cell();
-		String textPadding();
-		String label();
-		String checkbox();
-		String labelColumn();
 	}
 
-	protected List<CheckBox> includeCheckboxes = new ArrayList<CheckBox>();
+	protected List<SimpleCheckBox> includeCheckboxes = new ArrayList<SimpleCheckBox>();
 	protected List<TextBox> nameFields = new ArrayList<TextBox>();
 	protected List<AttributeDefinitionPanel> columnPanels = new ArrayList<AttributeDefinitionPanel>();
 	protected List<Field> fields = new ArrayList<Field>();
 
 	public CsvMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		//mainTable.getColumnFormatter().se setStyleName(0, style.labelColumn());
+
 		//FIXME
 		mainTable.getCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
 		mainTable.getCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
 		mainTable.getCellFormatter().setVerticalAlignment(2, 0, HasVerticalAlignment.ALIGN_TOP);
-		//setupMappingMode();
+		Resources.INSTANCE.css().ensureInjected();
 	}
-	
-	/*protected void setupMappingMode()
-	{
-		for (MappingMode mode:MappingMode.values()) mappingMode.addItem(getMappingModeLabel(mode), mode.toString());
-		mappingMode.setSelectedIndex(0);
-	}*/
+
 	
 	protected String getMappingModeLabel(MappingMode mode)
 	{
@@ -94,22 +84,11 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	
 	public MappingMode getMappingMode()
 	{
-		/*int selectedIndex = mappingMode.getSelectedIndex();
-		if (selectedIndex<0) return null;
-		String value = mappingMode.getValue(selectedIndex);
-		return MappingMode.valueOf(value);*/
 		return mappingMode.getValue()?MappingMode.LOG:MappingMode.STRICT;
 	}
 	
 	public void setMappingMode(MappingMode mode)
 	{
-		/*String value = mode.toString();
-		for (int i = 0; i < mappingMode.getItemCount(); i++) {
-			if (mappingMode.getValue(i).equals(value)) {
-				mappingMode.setSelectedIndex(i);
-				return;
-			}
-		}*/
 		mappingMode.setValue(mode==MappingMode.LOG);
 	}
 	
@@ -135,15 +114,13 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		nameFields.clear();
 		fields.clear();
 		
-		//addHeader();
-		
 		FlexCellFormatter cellFormatter = columnsTable.getFlexCellFormatter();
 
 		for (AttributeMapping attributeMapping:mapping) {
 			final int row = columnsTable.getRowCount();
 			
-			final CheckBox includeCheckBox = new CheckBox();
-			includeCheckBox.setStyleName(style.checkbox());
+			final SimpleCheckBox includeCheckBox = new SimpleCheckBox();
+			includeCheckBox.setStyleName(Resources.INSTANCE.css().simpleCheckbox());
 			includeCheckBox.addClickHandler(new ClickHandler() {
 				
 				@Override
@@ -158,13 +135,14 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 			fields.add(field);
 		
 			TextBox nameField = new TextBox();
+			nameField.setStyleName(Resources.INSTANCE.css().textBox());
 			nameField.setValue(field.getLabel());
 			columnsTable.setWidget(row, NAME_COLUMN, nameField);
 			cellFormatter.setStyleName(row, NAME_COLUMN, style.cell());
 			nameFields.add(nameField);
 			
 			columnsTable.setWidget(row, LABEL_COLUMN, new Label("is a"));
-			cellFormatter.setStyleName(row, LABEL_COLUMN, style.textPadding());
+			cellFormatter.setStyleName(row, LABEL_COLUMN, Resources.INSTANCE.css().paddedText());
 
 			AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
 			columnPanels.add(definitionPanel);
@@ -172,24 +150,13 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
 			if (attributeDefinition == null) {
 				includeCheckBox.setValue(false);
-				//setIncluded(row, false);
 			} else {
 				includeCheckBox.setValue(true);
-				//setIncluded(row, true);
 				definitionPanel.setType(attributeDefinition.getType());
 				definitionPanel.setLanguage(attributeDefinition.getLanguage());
 			}
 			cellFormatter.setStyleName(row, DEFINITION_COLUMN, style.cell());
 		}
-	}
-	
-	protected void addHeader()
-	{
-		Label csvHeader = new Label("Columns");
-		csvHeader.setStyleName(style.label());
-		columnsTable.setWidget(0, 0, csvHeader);
-		columnsTable.getCellFormatter().setStyleName(0, 0, style.headerlabel());
-		columnsTable.getFlexCellFormatter().setColSpan(0, 0, 3);
 	}
 	
 	protected void setIncluded(int row, boolean include)
