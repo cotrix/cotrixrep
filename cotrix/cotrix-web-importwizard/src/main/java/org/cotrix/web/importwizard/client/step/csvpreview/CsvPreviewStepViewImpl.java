@@ -3,18 +3,15 @@ package org.cotrix.web.importwizard.client.step.csvpreview;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.importwizard.client.step.csvpreview.CsvParserConfigurationDialog.DialogSaveHandler;
+import org.cotrix.web.importwizard.client.step.csvpreview.CsvParserConfigurationPanel.DialogSaveHandler;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.PreviewStyle;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -40,14 +37,17 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 	
 	}
 
+	@UiField 
+	CsvParserConfigurationPanel configurationPanel;
 	
 	@UiField (provided=true) 
 	PreviewGrid preview;
+	
 
 	@UiField Style style;
 
 	private AlertDialog alertDialog;
-	protected CsvParserConfigurationDialog configurationDialog;
+	
 
 	private Presenter presenter;
 	
@@ -60,6 +60,7 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 		preview = new PreviewGrid(dataProvider);
 		initWidget(uiBinder.createAndBindUi(this));
 		preview.setStyle(style);
+		configurationPanel.setSaveHandler(this);
 	}
 
 	/** 
@@ -92,14 +93,12 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 	 */
 	@Override
 	public void showCsvConfigurationDialog() {
-		ensureInitializedConfigurationDialog();
-		configurationDialog.center();
+		//configurationDialog.center();
 	}
 	
 	@Override
 	public void setCsvParserConfiguration(CsvParserConfiguration configuration) {
-		ensureInitializedConfigurationDialog();
-		configurationDialog.setConfiguration(configuration);
+		configurationPanel.setConfiguration(configuration);
 		updatePreview(configuration);
 	}
 
@@ -107,11 +106,6 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 	public void onSave(CsvParserConfiguration configuration) {
 		updatePreview(configuration);
 		presenter.onCsvConfigurationEdited(configuration);
-	}
-	
-	protected void ensureInitializedConfigurationDialog()
-	{
-		if (configurationDialog == null) configurationDialog = new CsvParserConfigurationDialog(this);
 	}
 	
 	

@@ -1,8 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
-	xmlns:p="urn:import:org.cotrix.web.importwizard.client.step.csvpreview">
-		<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p="urn:import:org.cotrix.web.importwizard.client.step.csvpreview">
+	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
 	<ui:style
 		type="org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepViewImpl.Style">
@@ -42,84 +41,9 @@
 			.textbox {
 				width: 80%;
 			}
-			
-			.headerlabel {
-				margin-right: 20px;
-				font-weight: bold;
-				color: #333;
-			}
-			
-			.valuelabel {
-				margin-right: 20px;
-				color: #999;
-			}
-			
-			.toolbar {
-				width: 100%;
-				border: 1px solid #999;
-				border-radius: 5px;
-				margin-bottom: 10px;
-			}
-			
-			.toolbarLabel {
-				font-weight: normal;
-
-			}
-			
-			.refreshIcon {
-				cursor: pointer;
-
-			}
-			
-			.listBox {
-				float: left;
-				font-size: 14px;
-				color: #333;
-				height: 29px;
-				border-radius: 5px;
-				background-color: #fafafa;
-				border-color: #999;
-			}
 		</ui:style>
 	<g:HTMLPanel>
-		<g:HorizontalPanel spacing="5" verticalAlignment="middle"
-			styleName="{style.toolbar}">
-			<g:HorizontalPanel verticalAlignment="middle" spacing="3">
-				<g:Label styleName="{style.toolbarLabel}">Header</g:Label>
-				<g:CheckBox />
-			</g:HorizontalPanel>
-			<g:HorizontalPanel verticalAlignment="middle" spacing="3">
-				<g:Label styleName="{style.toolbarLabel}">Separator</g:Label>
-				<g:ListBox title="Separator" styleName="{style.listBox}">
-					<g:item>Comma</g:item>
-					<g:item>Custom</g:item>
-				</g:ListBox>
-				<g:TextBox maxLength="1" width="20px" visible="false">,</g:TextBox>
-			</g:HorizontalPanel>
-
-			<g:HorizontalPanel verticalAlignment="middle" spacing="3">
-				<g:Label styleName="{style.toolbarLabel}">Quote</g:Label>
-				<g:ListBox title="Separator" styleName="{style.listBox}">
-					<g:item>Double quote</g:item>
-					<g:item>Single quote</g:item>
-				</g:ListBox>
-				<g:TextBox maxLength="1" width="20px" visible="false">"</g:TextBox>
-			</g:HorizontalPanel>
-			<g:HorizontalPanel verticalAlignment="middle" spacing="3">
-				<g:Label styleName="{style.toolbarLabel}">Comment</g:Label>
-				<g:TextBox maxLength="1" width="20px">#</g:TextBox>
-			</g:HorizontalPanel>
-			<g:HorizontalPanel verticalAlignment="middle" spacing="3">
-				<g:Label styleName="{style.toolbarLabel}">Encoding</g:Label>
-				<g:ListBox title="Separator" styleName="{style.listBox}">
-					<g:item>UTF-8</g:item>
-					<g:item>Single quote</g:item>
-				</g:ListBox>
-			</g:HorizontalPanel>
-			<g:PushButton styleName="{style.refreshIcon}">
-			<g:upFace image="{resources.refresh}"></g:upFace>
-			</g:PushButton>
-		</g:HorizontalPanel>
+		<p:CsvParserConfigurationPanel ui:field="configurationPanel" />
 		<div style="margin-top:20px;">
 			<p:PreviewGrid ui:field="preview" />
 		</div>

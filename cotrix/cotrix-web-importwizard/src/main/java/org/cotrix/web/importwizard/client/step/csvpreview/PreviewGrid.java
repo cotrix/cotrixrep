@@ -6,6 +6,7 @@ package org.cotrix.web.importwizard.client.step.csvpreview;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -122,7 +123,7 @@ public class PreviewGrid extends Composite {
 			if (editable) {
 				TextBox headerField = new TextBox();
 				headerField.setValue(headerLabel);
-				headerField.setStyleName(style.textbox());
+				headerField.setStyleName(Resources.INSTANCE.css().textBox());
 				headerFields.add(headerField);
 				header = headerField;
 			} else {
