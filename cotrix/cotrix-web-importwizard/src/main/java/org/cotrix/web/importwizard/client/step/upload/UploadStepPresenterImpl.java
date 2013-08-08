@@ -174,9 +174,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	}
 
 	public boolean isComplete() {
-		//FIXME for test
-		//importEventBus.fireEvent(new FileUploadedEvent());
-		return true;//FIXME for test complete;
+		return complete;
 	}
 	
 	public void onError(String message) {
@@ -201,9 +199,9 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 	protected void reset()
 	{
 		progressPolling.cancel();
-		//view.resetFileUpload();
 		view.reset();
 		complete = false;
+		fileName = null;
 	}
 
 }

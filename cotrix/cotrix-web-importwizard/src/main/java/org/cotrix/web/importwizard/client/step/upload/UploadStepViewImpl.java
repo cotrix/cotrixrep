@@ -1,11 +1,12 @@
 package org.cotrix.web.importwizard.client.step.upload;
 
+import org.cotrix.web.importwizard.client.resources.ImportConstants;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
+import org.cotrix.web.importwizard.client.util.TextUtil;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -29,7 +30,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 
 	private static UploadStepUiBinder uiBinder = GWT.create(UploadStepUiBinder.class);
 	
-	protected static NumberFormat format = NumberFormat.getDecimalFormat();
+	
 
 	@UiTemplate("UploadStep.ui.xml")
 	interface UploadStepUiBinder extends UiBinder<Widget, UploadStepViewImpl> {}
@@ -81,10 +82,11 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 		progressBar.setVisible(true);
 		progressBar.setProgress(0);
 		
-		fileNameLabel.setText(filename);
+		String ellipsedName = TextUtil.ellipsize(filename, ImportConstants.INSTANCE.fileNameMaxSize());
+		fileNameLabel.setText(ellipsedName);
+		fileNameLabel.setTitle(filename);
 		
-		long size = filesize==0?0:(filesize/1000);
-		fileSizeLabel.setText("("+format.format(size)+"K)");
+		fileSizeLabel.setText("("+TextUtil.toKiloBytes(filesize)+"K)");
 	}
 	
 	public void setUploadProgress(int progress)

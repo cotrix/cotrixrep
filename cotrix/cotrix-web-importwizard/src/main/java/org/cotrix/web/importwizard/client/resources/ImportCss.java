@@ -38,4 +38,8 @@ public interface ImportCss extends CssResource {
 	String paddedTextDisabled();
 	
 	String imageButton();
+	
+	String verticalHeadersSingleItem();
+	
+	String verticalHeadersMultipleItem();
 }

@@ -12,6 +12,7 @@ import org.cotrix.web.importwizard.shared.AttributeType;
 import org.cotrix.web.importwizard.shared.Field;
 import org.cotrix.web.importwizard.shared.MappingMode;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -22,7 +23,6 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
@@ -66,22 +66,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	public CsvMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		//FIXME
-		mainTable.getCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
-		mainTable.getCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
-		mainTable.getCellFormatter().setVerticalAlignment(2, 0, HasVerticalAlignment.ALIGN_TOP);
 		Resources.INSTANCE.css().ensureInjected();
-	}
-
-	
-	protected String getMappingModeLabel(MappingMode mode)
-	{
-		switch (mode) {
-			case IGNORE: return "Ignore";
-			case LOG: return "Log";
-			case STRICT: return "Strict";
-			default: throw new IllegalArgumentException("Unkown label for mapping mode "+mode);
-		}
 	}
 	
 	public MappingMode getMappingMode()
@@ -121,13 +106,14 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		for (AttributeMapping attributeMapping:mapping) {
 			final int row = columnsTable.getRowCount();
 			
-			final ToggleButton excludeButton = new ToggleButton(new Image(Resources.INSTANCE.trasTick()), new Image(Resources.INSTANCE.trash()));
+			final ToggleButton excludeButton = new ToggleButton(new Image(Resources.INSTANCE.trash()), new Image(Resources.INSTANCE.trasTick()));
 			excludeButton.setStyleName(Resources.INSTANCE.css().imageButton());
 			excludeButton.addClickHandler(new ClickHandler() {
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					setIncluded(row, excludeButton.isDown());
+					Log.trace("Exclude is Down? "+excludeButton.isDown());
+					setExclude(row, excludeButton.isDown());
 				}
 			});
 			columnsTable.setWidget(row, IGNORE_COLUMN, excludeButton);
@@ -151,9 +137,9 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 			columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
 			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
 			if (attributeDefinition == null) {
-				excludeButton.setValue(false);
+				excludeButton.setDown(true);
 			} else {
-				excludeButton.setValue(true);
+				excludeButton.setDown(false);
 				definitionPanel.setType(attributeDefinition.getType());
 				definitionPanel.setLanguage(attributeDefinition.getLanguage());
 			}
@@ -161,11 +147,11 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		}
 	}
 	
-	protected void setIncluded(int row, boolean include)
+	protected void setExclude(int row, boolean exclude)
 	{
-		((TextBox)columnsTable.getWidget(row, NAME_COLUMN)).setEnabled(include);
-		((Label)columnsTable.getWidget(row, LABEL_COLUMN)).setStyleName(Resources.INSTANCE.css().paddedTextDisabled(), !include);;
-		((AttributeDefinitionPanel)columnsTable.getWidget(row, DEFINITION_COLUMN)).setEnabled(include);
+		((TextBox)columnsTable.getWidget(row, NAME_COLUMN)).setEnabled(!exclude);
+		((Label)columnsTable.getWidget(row, LABEL_COLUMN)).setStyleName(Resources.INSTANCE.css().paddedTextDisabled(), exclude);
+		((AttributeDefinitionPanel)columnsTable.getWidget(row, DEFINITION_COLUMN)).setEnabled(!exclude);
 	}
 	
 

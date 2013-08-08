@@ -103,20 +103,20 @@
 		</g:row>
 		<g:row>
 			<g:customCell>
-				<g:Label styleName="{style.label}">Mapping mode</g:Label>
-			</g:customCell>
-			<g:customCell>
-				<g:Label ui:field="mappingModeField" styleName="{style.value}" />
-			</g:customCell>
-		</g:row>
-		<g:row>
-			<g:customCell>
-				<g:Label styleName="{style.label}">Mapping</g:Label>
+				<g:Label styleName="{style.label}">Directives</g:Label>
 			</g:customCell>
 			<g:customCell>
 				<g:FlexTable ui:field="customTable" cellPadding="0"
 					cellSpacing="0" borderWidth="1" styleName="{style.summaryTable}"
 					width="100%"></g:FlexTable>
+			</g:customCell>
+		</g:row>
+		<g:row>
+			<g:customCell>
+				<g:Label styleName="{style.label}">Fail on errors</g:Label>
+			</g:customCell>
+			<g:customCell>
+				<g:Label ui:field="mappingModeField" styleName="{style.value}" />
 			</g:customCell>
 		</g:row>
 	</g:Grid>

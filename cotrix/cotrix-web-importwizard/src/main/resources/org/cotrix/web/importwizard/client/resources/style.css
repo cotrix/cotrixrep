@@ -1,7 +1,7 @@
 .gwt-PopupPanelGlass {
 	background-color: #000;
 	opacity: 0.3;
-	filter: alpha(opacity = 30);
+	filter: alpha(opacity =       30);
 }
 
 .simpleCheckbox {
@@ -17,14 +17,14 @@
 	padding-left: 10px;
 	padding-right: 10px;
 	font-size: 19px;
-	vertical-align: middle; 
-	color : #333;
+	vertical-align: middle;
+	color: #333;
 	font-weight: normal;
 	color: #333;
 }
 
 .paddedTextDisabled {
-	color : rgb(84, 84, 84);
+	color: rgb(84, 84, 84);
 }
 
 .listBox {
@@ -43,15 +43,12 @@
 	color: rgb(84, 84, 84);
 }
 
-
-
 .imageButton {
 	cursor: pointer;
 	outline: none;
 }
 
 /* TEXT BOX */
-
 .textBox {
 	padding: 5px;
 	border-radius: 5px;
@@ -76,4 +73,14 @@
 	box-shadow: 0px 0px 5px #61C5FA;
 	border: 1px solid #5AB0DB;
 	border-radius: 5px;
+}
+
+/** GRID **/
+.verticalHeadersSingleItem {
+	vertical-align: middle;
+}
+
+.verticalHeadersMultipleItem {
+	padding-top: 13px;
+	vertical-align: top;
 }

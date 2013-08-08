@@ -18,7 +18,7 @@
 	<g:HTMLPanel>
 		<g:Grid styleName="{style.grid}" ui:field="mainTable">
 			<g:row>
-				<g:customCell>
+				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
 					<g:Label styleName="{resources.css.propertyLabel}">Name</g:Label>
 				</g:customCell>
 				<g:customCell>
@@ -26,7 +26,7 @@
 				</g:customCell>
 			</g:row>
 			<g:row>
-				<g:customCell>
+				<g:customCell styleName="{resources.css.verticalHeadersMultipleItem}">
 					<g:Label styleName="{resources.css.propertyLabel}">Columns</g:Label>
 				</g:customCell>
 				<g:customCell>
@@ -34,8 +34,8 @@
 				</g:customCell>
 			</g:row>
 			<g:row>
-				<g:customCell>
-					<g:Label styleName="{resources.css.propertyLabel}">Tolerate missing codes</g:Label>
+				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
+					<g:Label styleName="{resources.css.propertyLabel}">Fail on errors</g:Label>
 				</g:customCell>
 				<g:customCell>
 					<g:SimpleCheckBox ui:field="mappingMode" styleName="{resources.css.simpleCheckbox}"/>

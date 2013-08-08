@@ -16,6 +16,7 @@ import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpd
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -60,7 +61,8 @@ ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelect
 		
 		if (attributesMappings.getMappingMode()==null) view.setMappingModeVisible(false);
 		else {
-			view.setMappingMode(attributesMappings.getMappingMode().toString());
+			String mode = attributesMappings.getMappingMode()==MappingMode.STRICT?"No":"Yes";
+			view.setMappingMode(mode);
 			view.setMappingModeVisible(true);
 		}
 	}

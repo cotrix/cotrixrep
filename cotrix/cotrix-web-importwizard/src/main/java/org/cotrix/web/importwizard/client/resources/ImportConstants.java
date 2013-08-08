@@ -16,5 +16,8 @@ public interface ImportConstants extends Constants {
 	
 	@DefaultStringArrayValue({"en","fr"})
 	String[] languages();
+	
+	@DefaultIntValue(30)
+	int fileNameMaxSize();
 
 }
