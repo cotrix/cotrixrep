@@ -28,22 +28,11 @@ public class PreviewGrid extends Composite {
 	
 	protected static final int HEADER_ROW = 0;
 	
-	interface PreviewStyle {
-
-		String textbox();
-
-		String header();
-		
-		String preview();
-	
-	}
-	
 	protected ScrollPanel scroll;
 	protected FlexTable grid;
 	protected FlexTable loadingContainter;
 	
 	protected List<TextBox> headerFields = new ArrayList<TextBox>();
-	protected PreviewStyle style;
 	
 	protected DataProvider dataProvider;
 	
@@ -55,18 +44,11 @@ public class PreviewGrid extends Composite {
 		
 		scroll = new ScrollPanel();
 		grid = new FlexTable();
+		grid.setStyleName(Resources.INSTANCE.css().preview());
 		scroll.setWidget(grid);
 		
 		setupLoadingContainer();
 		initWidget(scroll);
-	}
-	
-	/**
-	 * @param style the style to set
-	 */
-	public void setStyle(PreviewStyle style) {
-		this.style = style;
-		grid.setStyleName(style.preview());
 	}
 
 	protected void setupLoadingContainer()
@@ -131,7 +113,7 @@ public class PreviewGrid extends Composite {
 			}
 			
 			grid.setWidget(HEADER_ROW, i, header);
-			grid.getCellFormatter().setStyleName(HEADER_ROW, i, style.header());
+			grid.getCellFormatter().setStyleName(HEADER_ROW, i, Resources.INSTANCE.css().previewHeader());
 		}
 	}
 	
@@ -146,6 +128,7 @@ public class PreviewGrid extends Composite {
 		for (int i = 0; i < row.size(); i++) {
 			String cell = row.get(i);
 			grid.setWidget(rowIndex, i, new HTML(cell));
+			grid.getCellFormatter().setStyleName(rowIndex, i, Resources.INSTANCE.css().previewCell());
 		}
 	}
 

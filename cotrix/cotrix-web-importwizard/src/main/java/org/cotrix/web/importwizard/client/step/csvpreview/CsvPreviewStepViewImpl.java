@@ -4,11 +4,9 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvParserConfigurationPanel.DialogSaveHandler;
-import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.PreviewStyle;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
@@ -27,24 +25,12 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 	@UiTemplate("CsvPreviewStep.ui.xml")
 	interface PreviewStepUiBinder extends UiBinder<Widget, CsvPreviewStepViewImpl> {}
 	private static PreviewStepUiBinder uiBinder = GWT.create(PreviewStepUiBinder.class);
-	
-	interface Style extends CssResource, PreviewStyle {
-
-		String preview();
-		String textbox();
-
-		String header(); 
-	
-	}
 
 	@UiField 
 	CsvParserConfigurationPanel configurationPanel;
 	
 	@UiField (provided=true) 
 	PreviewGrid preview;
-	
-
-	@UiField Style style;
 
 	private AlertDialog alertDialog;
 	
@@ -59,7 +45,6 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 		this.dataProvider = dataProvider;
 		preview = new PreviewGrid(dataProvider);
 		initWidget(uiBinder.createAndBindUi(this));
-		preview.setStyle(style);
 		configurationPanel.setSaveHandler(this);
 	}
 

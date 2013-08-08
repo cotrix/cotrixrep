@@ -44,4 +44,8 @@ public interface ImportCss extends CssResource {
 	String verticalHeadersMultipleItem();
 	
 	String verticalHeadersFieldItem();
+	
+	String previewHeader();
+	String preview();
+	String previewCell();
 }

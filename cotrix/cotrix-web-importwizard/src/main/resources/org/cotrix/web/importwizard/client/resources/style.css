@@ -1,7 +1,7 @@
 .gwt-PopupPanelGlass {
 	background-color: #000;
 	opacity: 0.3;
-	filter: alpha(opacity =       30);
+	filter: alpha(opacity =         30);
 }
 
 .simpleCheckbox {
@@ -89,3 +89,31 @@
 	vertical-align: top;
 }
 
+.previewHeader {
+	background-color: #eee;
+	margin: 0;
+	border-color: #ccc;
+	padding: 3px;
+	border-width: 1px 1px 0 0;
+	border-style: solid;
+}
+
+.preview {
+	border-width: 0 0 1px 1px;
+	border-spacing: 0;
+	border-color: #ccc;
+	background-color: white;
+	border-collapse: collapse;
+	color: #666;
+	font-size: 8px;
+	border-style: solid;
+	text-align: center;
+}
+
+.previewCell {
+	margin: 0;
+	border-color: #ccc;
+	padding: 3px;
+	border-width: 1px 1px 0 0;
+	border-style: solid;
+}
