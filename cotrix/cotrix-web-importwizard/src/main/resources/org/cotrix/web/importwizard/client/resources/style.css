@@ -31,7 +31,15 @@
 	border-radius: 5px;
 	background-color: #fafafa;
 	border-color: #999;
+	outline: none;
 }
+
+.imageButton {
+	cursor: pointer;
+	outline: none;
+}
+
+/* TEXT BOX */
 
 .textBox {
 	padding: 5px;

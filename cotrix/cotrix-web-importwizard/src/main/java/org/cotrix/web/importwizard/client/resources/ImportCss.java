@@ -11,27 +11,29 @@ import com.google.gwt.user.client.ui.SimpleCheckBox;
  *
  */
 public interface ImportCss extends CssResource {
-	
-	
+
+
 	@ClassName("gwt-PopupPanelGlass")
 	String glassPanel();
 
-	
+
 	/**
 	 * Style for {@link SimpleCheckBox}
 	 * @return
 	 */
 	String simpleCheckbox();
-	
+
 	/**
 	 * Style for property label
 	 * @return
 	 */
 	String propertyLabel();
-	
+
 	String listBox();
-	
+
 	String textBox();
-	
+
 	String paddedText();
+
+	String imageButton();
 }

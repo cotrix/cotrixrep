@@ -4,16 +4,6 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
 	<ui:style>
-		.headerlabel {
-			margin-right: 20px;
-			font-weight: bold;
-			color: #333;
-		}
-		
-		.valuelabel {
-			margin-right: 20px;
-			color: #999;
-		}
 		
 		.toolbar {
 			width: 100%;
@@ -25,56 +15,53 @@
 		.toolbarLabel {
 			font-weight: normal;
 		}
-		
-		.refreshIcon {
-			cursor: pointer;
-		}
+
 	</ui:style>
 	<g:HorizontalPanel spacing="5" verticalAlignment="middle"
 		styleName="{style.toolbar}">
 		
 		<g:HorizontalPanel verticalAlignment="middle"
 			spacing="3">
-			<g:Label styleName="{style.toolbarLabel}">Header</g:Label>
+			<g:Label styleName="{style.toolbarLabel}">header?</g:Label>
 			<g:SimpleCheckBox ui:field="hasHeaderField" styleName="{resources.css.simpleCheckbox}" />
 		</g:HorizontalPanel>
 		
 		<g:HorizontalPanel verticalAlignment="middle"
 			spacing="3">
-			<g:Label styleName="{style.toolbarLabel}">Separator</g:Label>
+			<g:Label styleName="{style.toolbarLabel}">delimiter</g:Label>
 			<g:ListBox ui:field="separatorField" styleName="{resources.css.listBox}">
-				<g:item value=",">Comma</g:item>
-				<g:item value="tab">Tab</g:item>
-				<g:item value="custom">Custom</g:item>
+				<g:item value=",">comma</g:item>
+				<g:item value="tab">tab</g:item>
+				<g:item value="custom">other</g:item>
 			</g:ListBox>
-			<g:TextBox ui:field="customSeparatorField" maxLength="1" width="20px" visible="false"
+			<g:TextBox ui:field="customSeparatorField" maxLength="1" width="20px" enabled="false"
 				styleName="{resources.css.textBox}">,</g:TextBox>
 		</g:HorizontalPanel>
 
 		<g:HorizontalPanel verticalAlignment="middle"
 			spacing="3">
-			<g:Label styleName="{style.toolbarLabel}">Quote</g:Label>
+			<g:Label styleName="{style.toolbarLabel}">quote</g:Label>
 			<g:ListBox ui:field="quoteField" styleName="{resources.css.listBox}">
-				<g:item value='"'>Double quote</g:item>
-				<g:item value="'">Single quote</g:item>
-				<g:item value="custom">Custom</g:item>
+				<g:item value='"'>double quote</g:item>
+				<g:item value="'">single quote</g:item>
+				<g:item value="custom">other</g:item>
 			</g:ListBox>
-			<g:TextBox ui:field="customQuoteField"  maxLength="1" width="20px" visible="false"
+			<g:TextBox ui:field="customQuoteField"  maxLength="1" width="20px" enabled="false"
 				styleName="{resources.css.textBox}">"</g:TextBox>
 		</g:HorizontalPanel>
 		
 		<g:HorizontalPanel verticalAlignment="middle"
 			spacing="3">
-			<g:Label styleName="{style.toolbarLabel}">Comment</g:Label>
+			<g:Label styleName="{style.toolbarLabel}">comments</g:Label>
 			<g:TextBox ui:field="commentField" maxLength="1" width="20px" styleName="{resources.css.textBox}">#</g:TextBox>
 		</g:HorizontalPanel>
 		
 		<g:HorizontalPanel verticalAlignment="middle" spacing="3">
-			<g:Label styleName="{style.toolbarLabel}">Encoding</g:Label>
+			<g:Label styleName="{style.toolbarLabel}">encoding</g:Label>
 			<g:ListBox ui:field="charsetField" styleName="{resources.css.listBox}" />
 		</g:HorizontalPanel>
 		
-		<g:PushButton ui:field="refreshButton" styleName="{style.refreshIcon}">
+		<g:PushButton ui:field="refreshButton" styleName="{resources.css.imageButton}">
 			<g:upFace image="{resources.refresh}"></g:upFace>
 		</g:PushButton>
 	</g:HorizontalPanel>

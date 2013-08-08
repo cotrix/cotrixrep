@@ -73,7 +73,7 @@ public class CsvParserConfigurationPanel extends Composite {
 				int index = listBox.getSelectedIndex();
 				if (index>=0) {
 					String value = listBox.getValue(index);
-					textBox.setVisible(CUSTOM.equals(value));
+					textBox.setEnabled(CUSTOM.equals(value));
 				}
 			}
 		});
