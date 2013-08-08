@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -46,21 +45,12 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 
 	interface Style extends CssResource {
 		String headerlabel();
-		String valuelabel();
-		String summaryTable();
-		String summaryTableHeader();
-		String grid();
-		String cell();
-		String metadata();
-		String metadataLabel();
 	}
 
 	private ProgressDialog progressDialog;
 
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		panel.getColumnFormatter().setWidth(0, "150px");
-		panel.getRowFormatter().setVerticalAlign(4, HasVerticalAlignment.ALIGN_TOP);
 	}
 
 	public void setMapping(List<AttributeMapping> mappings)

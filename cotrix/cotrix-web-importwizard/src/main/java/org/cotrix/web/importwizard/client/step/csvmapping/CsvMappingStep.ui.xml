@@ -26,7 +26,7 @@
 				</g:customCell>
 			</g:row>
 			<g:row>
-				<g:customCell styleName="{resources.css.verticalHeadersMultipleItem}">
+				<g:customCell styleName="{resources.css.verticalHeadersFieldItem}">
 					<g:Label styleName="{resources.css.propertyLabel}">Columns</g:Label>
 				</g:customCell>
 				<g:customCell>

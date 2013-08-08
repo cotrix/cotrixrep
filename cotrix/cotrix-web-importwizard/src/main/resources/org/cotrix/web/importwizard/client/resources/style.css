@@ -81,6 +81,11 @@
 }
 
 .verticalHeadersMultipleItem {
+	vertical-align: top;
+}
+
+.verticalHeadersFieldItem {
 	padding-top: 13px;
 	vertical-align: top;
 }
+

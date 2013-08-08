@@ -1,27 +1,14 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
+		field="resources"></ui:with>
 	<ui:style
 		type="org.cotrix.web.importwizard.client.step.summary.SummaryStepViewImpl.Style">
-			.important {
-				font-weight: bold;
-			}
-			
 			.headerlabel {
 				margin-right: 20px;
 				font-weight: bold;
 				color: #333;
-			}
-			
-			.valuelabel {
-				margin-right: 20px;
-				color: #999;
-			}
-			
-			.cell {
-				padding: 5px;
-				font-size: 14px;
-				color: #666;
 			}
 			
 			.summaryTable {
@@ -50,20 +37,6 @@
 				border-style: solid;
 			}
 			
-			.metadata {
-				vertical-align: top;
-			}
-			
-			.metadataLabel {
-				text-align: right;
-				font-weight: bold;
-			}
-			
-			.label {
-				font-size: 14px;
-				vertical-align: top;
-			}
-			
 			.value {
 				padding: 5px;
 				font-size: 14px;
@@ -72,53 +45,56 @@
 			
 			.grid {
 				vertical-align: top;
+				margin-right: 20px;
 			}
 		</ui:style>
-	<g:Grid ui:field="panel" styleName="{style.grid}">
-		<g:row>
-			<g:customCell>
-				<g:Label styleName="{style.label}">File</g:Label>
-			</g:customCell>
-			<g:customCell>
-				<g:Label ui:field="fileField" styleName="{style.value}" />
-			</g:customCell>
-		</g:row>
-		<g:row>
-			<g:customCell>
-				<g:Label styleName="{style.label}">Codelist</g:Label>
-			</g:customCell>
-			<g:customCell>
-				<g:Label ui:field="codelistField" styleName="{style.value}" />
-			</g:customCell>
-		</g:row>
-		<g:row>
-			<g:customCell>
-				<g:Label styleName="{style.label}">Properties</g:Label>
-			</g:customCell>
-			<g:customCell>
-				<g:FlexTable ui:field="propertiesTable" cellPadding="0"
-					cellSpacing="0" borderWidth="1" styleName="{style.summaryTable}"
-					width="100%" />
-			</g:customCell>
-		</g:row>
-		<g:row>
-			<g:customCell>
-				<g:Label styleName="{style.label}">Directives</g:Label>
-			</g:customCell>
-			<g:customCell>
-				<g:FlexTable ui:field="customTable" cellPadding="0"
-					cellSpacing="0" borderWidth="1" styleName="{style.summaryTable}"
-					width="100%"></g:FlexTable>
-			</g:customCell>
-		</g:row>
-		<g:row>
-			<g:customCell>
-				<g:Label styleName="{style.label}">Fail on errors</g:Label>
-			</g:customCell>
-			<g:customCell>
-				<g:Label ui:field="mappingModeField" styleName="{style.value}" />
-			</g:customCell>
-		</g:row>
-	</g:Grid>
+	<g:HTMLPanel>
+		<g:Grid ui:field="panel" styleName="{style.grid}">
+			<g:row>
+				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
+					<g:Label styleName="{resources.css.propertyLabel}">File</g:Label>
+				</g:customCell>
+				<g:customCell>
+					<g:Label ui:field="fileField" styleName="{style.value}" />
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
+					<g:Label styleName="{resources.css.propertyLabel}">Codelist</g:Label>
+				</g:customCell>
+				<g:customCell>
+					<g:Label ui:field="codelistField" styleName="{style.value}" />
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell styleName="{resources.css.verticalHeadersMultipleItem}">
+					<g:Label styleName="{resources.css.propertyLabel}">Properties</g:Label>
+				</g:customCell>
+				<g:customCell>
+					<g:FlexTable ui:field="propertiesTable" cellPadding="0"
+						cellSpacing="0" borderWidth="1" styleName="{style.summaryTable}"
+						width="100%" />
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell styleName="{resources.css.verticalHeadersMultipleItem}">
+					<g:Label styleName="{resources.css.propertyLabel}">Directives</g:Label>
+				</g:customCell>
+				<g:customCell>
+					<g:FlexTable ui:field="customTable" cellPadding="0"
+						cellSpacing="0" borderWidth="1" styleName="{style.summaryTable}"
+						width="100%"></g:FlexTable>
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
+					<g:Label styleName="{resources.css.propertyLabel}">Fail on errors</g:Label>
+				</g:customCell>
+				<g:customCell>
+					<g:Label ui:field="mappingModeField" styleName="{style.value}" />
+				</g:customCell>
+			</g:row>
+		</g:Grid>
+	</g:HTMLPanel>
 
 </ui:UiBinder> 
