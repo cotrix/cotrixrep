@@ -23,6 +23,10 @@
 	color: #333;
 }
 
+.paddedTextDisabled {
+	color : rgb(84, 84, 84);
+}
+
 .listBox {
 	float: left;
 	font-size: 14px;
@@ -33,6 +37,13 @@
 	border-color: #999;
 	outline: none;
 }
+
+.listBox:disabled {
+	background-color: rgb(235, 235, 228);
+	color: rgb(84, 84, 84);
+}
+
+
 
 .imageButton {
 	cursor: pointer;

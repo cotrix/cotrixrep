@@ -131,6 +131,7 @@ public class AttributeDefinitionPanel extends Composite {
 	public void setEnabled(boolean enabled)
 	{
 		typeList.setEnabled(enabled);
+		inLabel.setStyleName(Resources.INSTANCE.css().paddedTextDisabled(), !enabled);
 		languageList.setEnabled(enabled);
 	}
 

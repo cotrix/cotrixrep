@@ -10,13 +10,15 @@ import com.google.gwt.resources.client.ImageResource;
  */
 public interface Resources extends ClientBundle {
 	public static final Resources INSTANCE = GWT.create(Resources.class);
-
-	@Source("loader.gif")
-	ImageResource loader();
 	
 	@Source("style.css")
 	public ImportCss css();
 	
+	
+
+	@Source("loader.gif")
+	public ImageResource loader();
+
 	@Source("cloud.png")
 	public ImageResource cloud();
 
@@ -28,5 +30,11 @@ public interface Resources extends ClientBundle {
 	
 	@Source("refresh.png")
 	public ImageResource refresh();
+	
+	@Source("trash.png")
+	public ImageResource trash();
+	
+	@Source("trash_tick.png")
+	public ImageResource trasTick();
 
 }

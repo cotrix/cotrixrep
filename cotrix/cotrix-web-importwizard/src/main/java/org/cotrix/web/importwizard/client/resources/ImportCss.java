@@ -35,5 +35,7 @@ public interface ImportCss extends CssResource {
 
 	String paddedText();
 
+	String paddedTextDisabled();
+	
 	String imageButton();
 }
