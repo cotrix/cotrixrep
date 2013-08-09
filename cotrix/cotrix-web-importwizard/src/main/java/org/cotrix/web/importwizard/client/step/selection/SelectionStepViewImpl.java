@@ -1,19 +1,22 @@
 package org.cotrix.web.importwizard.client.step.selection;
 
+import org.cotrix.web.importwizard.client.resources.DataGridResource;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 
-import com.google.gwt.cell.client.ButtonCell;
+import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
@@ -29,13 +32,11 @@ import com.google.inject.Inject;
  */
 public class SelectionStepViewImpl extends Composite implements SelectionStepView {
 
-	protected static final String[] headers = new String[]{"Name", "Type", "Repository"};
-
 	@UiTemplate("SelectionStep.ui.xml")
 	interface ChannelStepUiBinder extends UiBinder<Widget, SelectionStepViewImpl> {}
 
 	private static ChannelStepUiBinder uiBinder = GWT.create(ChannelStepUiBinder.class);
-
+	
 	@UiField (provided = true) 
 	DataGrid<AssetInfo> dataGrid;
 
@@ -49,6 +50,15 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	protected CodelistDetailsDialog detailsDialog;
 
 	private Presenter presenter;
+	
+	protected interface Style extends CssResource {
+		String detailsText();
+	}
+	
+	@UiField 
+	protected Style style;
+	
+	protected Column<AssetInfo, String> nameColumn;
 
 	@Inject
 	public SelectionStepViewImpl(AssetInfoDataProvider assetInfoDataProvider) {
@@ -56,8 +66,13 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
-		setHeight("500px");
+		setHeight("520px");
+		
+		nameColumn.setCellStyleNames(style.detailsText());
+		System.out.println(style.detailsText());
 	}
+	
+	
 	
 
 	/** 
@@ -75,9 +90,9 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 
 	protected void setupGrid()
 	{
-		dataGrid = new DataGrid<AssetInfo>(AssetInfoKeyProvider.INSTANCE);
+
+		dataGrid = new DataGrid<AssetInfo>(10, DataGridResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
-		dataGrid.setPageSize(10);
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 
@@ -98,22 +113,51 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		});
 		dataGrid.setSelectionModel(selectionModel);
 
+		//ClickableTextCell cell = new ClickableTextCell();
+		
+		TextHeader nameHeader = new TextHeader("Name");
+		
+		Column<AssetInfo, Boolean> checkColumn = new Column<AssetInfo, Boolean>(new SelectionCheckBoxCell()) {
+			
+			@Override
+			public Boolean getValue(AssetInfo object) {
+				return false;
+			}
+		};
+		
+		dataGrid.addColumn(checkColumn, nameHeader);
+		dataGrid.setColumnWidth(checkColumn, "35px");
+		
 		// Name
-		Column<AssetInfo, String> nameColumn = new Column<AssetInfo, String>(new TextCell()) {
+		nameColumn = new Column<AssetInfo, String>(new ClickableTextCell()) {
 			@Override
 			public String getValue(AssetInfo object) {
 				return object.getName();
 			}
 		};
 		nameColumn.setSortable(false);
+		
+		
+		nameColumn.setFieldUpdater(new FieldUpdater<AssetInfo, String>() {
+
+			@Override
+			public void update(int index, AssetInfo object, String value) {
+				System.out.println("UPDATE UPDATE UPDATE index");
+				presenter.assetDetails(object);
+			}
+		});
+
+		
+		//nameColumn.setCellStyleNames(styleNames);
+		
 		/*sortHandler.setComparator(firstNameColumn, new Comparator<ContactInfo>() {
 	      @Override
 	      public int compare(ContactInfo o1, ContactInfo o2) {
 	        return o1.getFirstName().compareTo(o2.getFirstName());
 	      }
 	    });*/
-		dataGrid.addColumn(nameColumn, "Name");
-		
+		dataGrid.addColumn(nameColumn, nameHeader);
+
 
 		// type
 		Column<AssetInfo, String> typeColumn = new Column<AssetInfo, String>(new TextCell()) {
@@ -130,6 +174,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 			      }
 			    });*/
 		dataGrid.addColumn(typeColumn, "Type");
+		dataGrid.setColumnWidth(typeColumn, "20%");
 		
 
 		// repository
@@ -146,11 +191,11 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 			        return o1.getFirstName().compareTo(o2.getFirstName());
 			      }
 			    });*/
-		dataGrid.addColumn(repositoryColumn, "Repository");
-		
+		dataGrid.addColumn(repositoryColumn, "Origin");
+		dataGrid.setColumnWidth(repositoryColumn, "20%");
 		
 		//details
-		Column<AssetInfo, String> detailsColumn = new Column<AssetInfo, String>(new ButtonCell()) {
+		/*Column<AssetInfo, String> detailsColumn = new Column<AssetInfo, String>(new ButtonCell()) {
 			@Override
 			public String getValue(AssetInfo object) {
 				return "Details";
@@ -165,7 +210,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 			}
 		});
 		
-		dataGrid.addColumn(detailsColumn, "");
+		dataGrid.addColumn(detailsColumn, "");*/
 		
 		
 		
