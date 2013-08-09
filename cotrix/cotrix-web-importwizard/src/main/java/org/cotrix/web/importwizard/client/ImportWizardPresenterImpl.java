@@ -167,10 +167,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		view.showStep(currentStep);
 		WizardStepConfiguration configuration = currentStep.getConfiguration();
 		applyStepConfiguration(configuration);
-
-		//check steps bounds
-		if (flow.isFirst()) view.hideBackwardButton();
-		if (flow.isLast()) view.hideForwardButton();
 	}
 
 	protected void applyStepConfiguration(WizardStepConfiguration configuration)

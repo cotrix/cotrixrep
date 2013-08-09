@@ -80,31 +80,33 @@
 			color: #E8E8E8;
 			background-color: #427EC7;
 			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
-				color-stop(100%, #518EE2) );
+				color-stop(100%, #518EE2));
 			background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
 			background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
 			background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
 			background-image: -o-linear-gradient(top, #427EC7, #518EE2);
 			background-image: linear-gradient(top, #427EC7, #518EE2);
-			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#427EC7, endColorstr=#518EE2)");
+			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#427EC7, endColorstr=#518EE2)"
+				);
 		}
 		
 		.forwardButton:hover {
 			border: 1px solid #254d7e;
 			background-color: #3165a5;
 			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
-				color-stop(100%, #2572db) );
+				color-stop(100%, #2572db));
 			background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
 			background-image: -moz-linear-gradient(top, #3165a5, #2572db);
 			background-image: -ms-linear-gradient(top, #3165a5, #2572db);
 			background-image: -o-linear-gradient(top, #3165a5, #2572db);
 			background-image: linear-gradient(top, #3165a5, #2572db);
-			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#3165a5, endColorstr=#2572db)");
+			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#3165a5, endColorstr=#2572db)"
+				);
 		}
 		
 		.backwardButton {
-			float:left;
-			margin-left:20px;
+			float: left;
+			margin-left: 20px;
 			border: 1px solid #d7dada;
 			-webkit-border-radius: 5px;
 			-moz-border-radius: 5px;
@@ -119,28 +121,34 @@
 			color: #7D7D7D;
 			background-color: #f4f5f5;
 			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4f5f5),
-				color-stop(100%, #dfdddd) );
+				color-stop(100%, #dfdddd));
 			background-image: -webkit-linear-gradient(top, #f4f5f5, #dfdddd);
 			background-image: -moz-linear-gradient(top, #f4f5f5, #dfdddd);
 			background-image: -ms-linear-gradient(top, #f4f5f5, #dfdddd);
 			background-image: -o-linear-gradient(top, #f4f5f5, #dfdddd);
 			background-image: linear-gradient(top, #f4f5f5, #dfdddd);
-			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f5f5, endColorstr=#dfdddd)");
+			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f5f5, endColorstr=#dfdddd)"
+				);
 		}
 		
 		.backwardButton:hover {
 			border: 1px solid #bfc4c4;
 			background-color: #d9dddd;
 			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d9dddd),
-				color-stop(100%, #c6c3c3) );
+				color-stop(100%, #c6c3c3));
 			background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
 			background-image: -moz-linear-gradient(top, #d9dddd, #c6c3c3);
 			background-image: -ms-linear-gradient(top, #d9dddd, #c6c3c3);
 			background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
 			background-image: linear-gradient(top, #d9dddd, #c6c3c3);
-			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3)");
+			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3)"
+				);
 		}
 		
+		.buttonPanel {
+			padding-bottom: 5px;
+
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<g:FlowPanel styleName="{style.mainPanel}">
@@ -148,10 +156,17 @@
 			<g:FlowPanel ui:field="contentPanel" styleName="{style.panel}">
 				<g:Label text="Title" styleName="{style.title}" ui:field="titlePanel" />
 				<g:DeckPanel ui:field="stepsPanel" styleName="{style.contentPanel}" />
-				<g:FlowPanel ui:field="navigationBar" styleName="{style.navigationBar}">
-					<g:Button text="Back" styleName="{style.backwardButton}" ui:field="backwardButton" />
-					<g:Button text="Next" styleName="{style.forwardButton}" ui:field="forwardButton" />
-				</g:FlowPanel>
+				<g:HorizontalPanel width="100%" styleName="{style.buttonPanel}">
+					<g:cell horizontalAlignment="center">
+						<g:Button ui:field="backwardButton" styleName="{style.backwardButton}"
+							text="Back" />
+					</g:cell>
+					<g:cell horizontalAlignment="center">
+						<g:Button ui:field="forwardButton" styleName="{style.forwardButton}"
+							text="Next" />
+					</g:cell>
+				</g:HorizontalPanel>
+
 			</g:FlowPanel>
 		</g:FlowPanel>
 	</g:HTMLPanel>

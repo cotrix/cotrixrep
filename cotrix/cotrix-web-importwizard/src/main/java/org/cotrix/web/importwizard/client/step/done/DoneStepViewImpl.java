@@ -5,16 +5,13 @@ import org.cotrix.web.importwizard.shared.ReportLog;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -38,11 +35,9 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	
 	@UiField(provided = true)
 	DataGrid<ReportLog> reportGrid;
+	
 	@UiField(provided = true)
 	SimplePager reportPager;
-	
-	@UiField Button importButton;
-	@UiField Button manageButton;
 	
 	protected Presenter presenter;
 	protected ReportLogDataProvider dataProvider;
@@ -135,17 +130,5 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	{
 		Log.trace("requesting page 0 to report");
 		reportGrid.setVisibleRangeAndClearData(reportGrid.getVisibleRange(), true);
-	}
-
-	@UiHandler("importButton")
-	protected void onImportButtonClicked(ClickEvent clickEvent)
-	{
-		presenter.importButtonClicked();
-	}
-	
-	@UiHandler("manageButton")
-	protected void onManageButtonClicked(ClickEvent clickEvent)
-	{
-		presenter.manageButtonClicked();
 	}
 }

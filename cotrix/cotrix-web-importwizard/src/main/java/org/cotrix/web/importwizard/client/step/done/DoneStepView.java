@@ -9,8 +9,6 @@ import com.google.gwt.user.client.ui.Widget;
 public interface DoneStepView {
 	
 	public interface Presenter {
-		public void importButtonClicked();
-		public void manageButtonClicked();
 	}
 	
 	void setPresenter(Presenter presenter);

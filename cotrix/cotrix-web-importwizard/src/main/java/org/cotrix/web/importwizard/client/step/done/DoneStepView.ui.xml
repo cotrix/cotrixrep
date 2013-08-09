@@ -122,13 +122,5 @@
 				</tr>
 			</table>
 		</g:HTMLPanel>
-		<g:HorizontalPanel width="100%">
-			<g:cell horizontalAlignment="center">
-				<g:Button ui:field="importButton" styleName="{style.uploadOther}">Import another</g:Button>
-			</g:cell>
-			<g:cell horizontalAlignment="center">
-				<g:Button ui:field="manageButton" styleName="{style.manageCodelist}">Manage it</g:Button>
-			</g:cell>
-		</g:HorizontalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
