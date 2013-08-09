@@ -14,7 +14,7 @@ public interface DoneStepView {
 	}
 	
 	void setPresenter(Presenter presenter);
+	public void setSubTitle(String subtitle);
 	public void loadReport();
-	void setMessage(String message);
 	Widget asWidget();
 }

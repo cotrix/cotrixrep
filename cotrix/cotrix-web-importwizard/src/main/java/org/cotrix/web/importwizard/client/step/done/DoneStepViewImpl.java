@@ -34,6 +34,7 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	}
 	
 	@UiField HTMLPanel reportPanel;
+	@UiField Label subtitle;
 	
 	@UiField(provided = true)
 	DataGrid<ReportLog> reportGrid;
@@ -66,8 +67,7 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 		//The problem would be in the DeckLayoutPanel that don't call onresize
 		if (visible) {
 			reportGrid.onResize();
-			//reportGrid.setVisibleRange(0, reportPager.getPageSize());
-			reportPager.setPage(0);
+			reportGrid.setVisibleRangeAndClearData(reportGrid.getVisibleRange(), true);
 		}
 	}
 	
@@ -125,16 +125,16 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
-
-	public void setMessage(String message) {
-		
+	
+	public void setSubTitle(String subtitle)
+	{
+		this.subtitle.setText(subtitle);
 	}
 	
 	public void loadReport()
 	{
 		Log.trace("requesting page 0 to report");
 		reportGrid.setVisibleRangeAndClearData(reportGrid.getVisibleRange(), true);
-		//reportPager.setPage(0);
 	}
 
 	@UiHandler("importButton")

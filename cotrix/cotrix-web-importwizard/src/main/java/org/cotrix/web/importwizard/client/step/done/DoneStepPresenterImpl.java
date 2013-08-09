@@ -38,12 +38,12 @@ public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneSte
 		switch (event.getProgress().getStatus()) {
 			case DONE: {
 				configuration.setTitle("That's done");
+				view.setSubTitle("Here's a log of what's happened.");
 				view.loadReport();
-				
-				//view.setMessage(event.getProgress().getReport());
 			} break;
 			case FAILED: {
 				configuration.setTitle("...Oops!");
+				view.setSubTitle("Something went wrong, check the log.");
 				view.loadReport();
 			} break;
 
