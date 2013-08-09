@@ -87,7 +87,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 			@Override
 			public void onCodeListSelected(CodeListSelectedEvent event) {
-				importedItemUpdated();
+				selectedItemUpdated();
 			}});
 
 		importEventBus.addHandler(MetadataUpdatedEvent.TYPE, new MetadataUpdatedHandler(){
@@ -142,6 +142,35 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 					case CSV: {
 						Log.trace("getting parser configuration");
 						getCsvParserConfiguration(); 
+						Log.trace("getting metadata");
+						getMetadata();
+					} break;
+					default: break;
+				}				
+			}
+		});
+		
+		Log.trace("getting mapping");
+		getMappings();
+		
+		Log.trace("done importedItemUpdated");
+	}
+	
+	protected void selectedItemUpdated()
+	{
+		Log.trace("importedItemUpdated");
+
+		Log.trace("getting codelist type");
+		getCodeListType(new Callback<CodeListType, Void>() {
+
+			@Override
+			public void onFailure(Void reason) {
+			}
+
+			@Override
+			public void onSuccess(CodeListType result) {
+				switch (result) {
+					case CSV: {
 						Log.trace("getting metadata");
 						getMetadata();
 					} break;

@@ -274,11 +274,24 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		WizardImportSession session = WizardImportSession.getCleanImportSession(httpSession);
 		Asset asset = getAsset(assetId);
 		session.setSelectedAsset(asset);
-		AttributesMappings mappings = mappingsGuesser.getSdmxDefaultMappings();
-		session.setMappings(mappings);
+		
+		ImportMetadata metadata = new ImportMetadata();
+		metadata.setName(asset.name());
+		session.setGuessedMetadata(metadata);
+		
+		if (asset.type() == SdmxCodelist.type) {
+			session.setCodeListType(CodeListType.SDMX);
+			AttributesMappings mappings = mappingsGuesser.getSdmxDefaultMappings();
+			session.setMappings(mappings);
+		}
 
-		if (asset.type() == SdmxCodelist.type) session.setCodeListType(CodeListType.SDMX);
-		if (asset.type() == CsvCodelist.type) session.setCodeListType(CodeListType.CSV);
+		
+		if (asset.type() == CsvCodelist.type) {
+			session.setCodeListType(CodeListType.CSV);
+			Table table = remoteRepository.retrieve(asset, Table.class);
+			AttributesMappings mappings = mappingsGuesser.guessMappings(table);
+			session.setMappings(mappings);
+		}
 
 	}
 
