@@ -63,4 +63,18 @@ public class WizardStepConfiguration {
 	public NavigationButtonConfiguration getForwardButton() {
 		return forwardButton;
 	}
+
+	/**
+	 * @param backwardButton the backwardButton to set
+	 */
+	public void setBackwardButton(NavigationButtonConfiguration backwardButton) {
+		this.backwardButton = backwardButton;
+	}
+
+	/**
+	 * @param forwardButton the forwardButton to set
+	 */
+	public void setForwardButton(NavigationButtonConfiguration forwardButton) {
+		this.forwardButton = forwardButton;
+	}
 }

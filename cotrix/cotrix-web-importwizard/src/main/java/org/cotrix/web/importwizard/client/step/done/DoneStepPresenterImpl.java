@@ -2,7 +2,6 @@ package org.cotrix.web.importwizard.client.step.done;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
-import org.cotrix.web.importwizard.client.event.NewImportEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent.ImportProgressHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
@@ -56,7 +55,7 @@ public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneSte
 
 	@Override
 	public void importButtonClicked() {
-		importEventBus.fireEvent(new NewImportEvent());
+		
 	}
 
 	@Override

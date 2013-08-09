@@ -15,6 +15,7 @@ import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration.ButtonAction;
 import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.MappingMode;
 
@@ -30,7 +31,7 @@ ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelect
 
 	@Inject
 	public SummaryStepPresenterImpl(SummaryStepView view, @ImportBus EventBus importEventBus) {
-		super("summary", "Summary", "Recap", NavigationButtonConfiguration.DEFAULT_BACKWARD, new NavigationButtonConfiguration("Import"));
+		super("summary", "Summary", "Recap", NavigationButtonConfiguration.DEFAULT_BACKWARD, new NavigationButtonConfiguration("Import", ButtonAction.NEXT));
 		this.view = view;
 		
 		this.importEventBus = importEventBus;

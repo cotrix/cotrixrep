@@ -3,6 +3,7 @@ package org.cotrix.web.importwizard.client;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.NewImportEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
@@ -24,6 +25,7 @@ import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
+import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration.ButtonAction;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationHandler;
 
@@ -43,6 +45,9 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	protected ImportWizardView view;
 
 	protected EventBus importEventBus;
+	
+	protected ButtonAction backwardAction;
+	protected ButtonAction forwardAction;
 
 	@Inject
 	public ImportWizardPresenterImpl(@ImportBus final EventBus importEventBus, ImportWizardView view,  
@@ -185,6 +190,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			view.setBackwardButtonLabel(label);
 			view.showBackwardButton();
 		}
+		backwardAction = buttonConfiguration.getAction();
 	}
 
 	protected void configureForwardButton(NavigationButtonConfiguration buttonConfiguration)
@@ -195,6 +201,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			view.setForwardButtonLabel(label);
 			view.showForwardButton();
 		}
+		forwardAction = buttonConfiguration.getAction();
 	}
 
 	protected void goForward()
@@ -221,19 +228,35 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		flow.goBack();
 		updateCurrentStep();
 	}
+	
+	protected void doAction(ButtonAction action)
+	{
+		switch (action) {
+			case BACK: goBack(); break;
+			case NEXT: goForward(); break;
+			case MANAGE: {
+				//TODO
+			} break;
+			case NEW_IMPORT: {
+				importEventBus.fireEvent(new NewImportEvent());
+			} break;
+			default:
+				break;
+		}
+	}
 
 	/** 
 	 * {@inheritDoc}
 	 */
 	public void onFowardButtonClicked() {
-		goForward();
+		doAction(forwardAction);
 	}
 
 	/** 
 	 * {@inheritDoc}
 	 */
 	public void onBackwardButtonClicked() {
-		goBack();
+		doAction(backwardAction);
 	}
 
 	/**
