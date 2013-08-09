@@ -3,6 +3,7 @@ package org.cotrix.web.importwizard.client.step.done;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent.ImportProgressHandler;
+import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration.ButtonAction;
@@ -13,8 +14,8 @@ import com.google.web.bindery.event.shared.EventBus;
 
 public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneStepPresenter, ImportProgressHandler {
 	
-	protected static final NavigationButtonConfiguration NEW_IMPORT = new NavigationButtonConfiguration("Import another", ButtonAction.NEW_IMPORT);
-	protected static final NavigationButtonConfiguration MANAGE = new NavigationButtonConfiguration("Manage it", ButtonAction.MANAGE);
+	protected static final NavigationButtonConfiguration NEW_IMPORT = new NavigationButtonConfiguration("Import another", ButtonAction.NEW_IMPORT, Resources.INSTANCE.css().blueButton());
+	protected static final NavigationButtonConfiguration MANAGE = new NavigationButtonConfiguration("Manage it", ButtonAction.MANAGE, Resources.INSTANCE.css().blueButton());
 	
 	protected DoneStepView view;
 	protected EventBus importEventBus;

@@ -107,9 +107,10 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 		backwardButton.setVisible(true);
 	}
 	
-	public void setBackwardButtonLabel(String label)
+	public void setBackwardButton(String label, String style)
 	{
 		backwardButton.setText(label);
+		backwardButton.setStyleName(style);
 	}
 	
 	public void hideForwardButton()
@@ -122,9 +123,10 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 		forwardButton.setVisible(true);
 	}
 	
-	public void setForwardButtonLabel(String label)
+	public void setForwardButton(String label, String style)
 	{
 		forwardButton.setText(label);
+		forwardButton.setStyleName(style);
 	}
 	
 	@UiHandler("forwardButton")

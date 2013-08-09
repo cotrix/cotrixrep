@@ -183,7 +183,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		if (buttonConfiguration == NavigationButtonConfiguration.NONE) view.hideBackwardButton();
 		else {
 			String label = buttonConfiguration.getLabel();
-			view.setBackwardButtonLabel(label);
+			String style = buttonConfiguration.getStyle();
+			view.setBackwardButton(label, style);
 			view.showBackwardButton();
 		}
 		backwardAction = buttonConfiguration.getAction();
@@ -194,7 +195,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		if (buttonConfiguration == NavigationButtonConfiguration.NONE) view.hideForwardButton();
 		else {
 			String label = buttonConfiguration.getLabel();
-			view.setForwardButtonLabel(label);
+			String style = buttonConfiguration.getStyle();
+			view.setForwardButton(label, style);
 			view.showForwardButton();
 		}
 		forwardAction = buttonConfiguration.getAction();

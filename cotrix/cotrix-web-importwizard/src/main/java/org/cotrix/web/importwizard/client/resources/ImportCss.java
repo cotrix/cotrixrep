@@ -48,4 +48,7 @@ public interface ImportCss extends CssResource {
 	String previewHeader();
 	String preview();
 	String previewCell();
+	
+	String blueButton();
+	String grayButton();
 }

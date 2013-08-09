@@ -22,11 +22,11 @@ public interface ImportWizardView {
 	
 	public void hideBackwardButton();
 	public void showBackwardButton();
-	public void setBackwardButtonLabel(String label);
+	public void setBackwardButton(String label, String style);
 	
 	public void hideForwardButton();
 	public void showForwardButton();
-	public void setForwardButtonLabel(String label);
+	public void setForwardButton(String label, String style);
 	
 	Widget asWidget();
 
