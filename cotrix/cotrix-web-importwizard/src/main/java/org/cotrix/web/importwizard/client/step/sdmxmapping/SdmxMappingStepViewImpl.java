@@ -52,6 +52,7 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	protected List<ToggleButton> excludeButtons = new ArrayList<ToggleButton>();
 	protected List<TextBox> nameFields = new ArrayList<TextBox>();
 	protected List<Field> fields = new ArrayList<Field>();
+	protected List<AttributeDefinition> definitions = new ArrayList<AttributeDefinition>();
 
 	public SdmxMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -64,6 +65,7 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 		excludeButtons.clear();
 		nameFields.clear();
 		fields.clear();
+		definitions.clear();
 
 		FlexCellFormatter cellFormatter = columnsTable.getFlexCellFormatter();
 
@@ -94,6 +96,7 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 			nameFields.add(nameField);
 			
 			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
+			definitions.add(attributeDefinition);
 			if (attributeDefinition == null) {
 				excludeButton.setDown(true);
 			} else {
@@ -128,7 +131,7 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	{
 		if (excludeButtons.get(index).isDown()) return null;
 
-		AttributeDefinition attributeDefinition = new AttributeDefinition();
+		AttributeDefinition attributeDefinition = definitions.get(index);
 
 		String name = nameFields.get(index).getValue();
 		attributeDefinition.setName(name);

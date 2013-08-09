@@ -8,6 +8,7 @@ import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -28,7 +29,7 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 
 	protected static final int FILE_FIELD_ROW = 0;
 	protected static final int PROPERTIES_FIELD_ROW = 2;
-	protected static final int MAPPING_MODE_FIELD_ROW = 3;
+	protected static final int MAPPING_MODE_FIELD_ROW = 4;
 
 	@UiTemplate("SummaryStep.ui.xml")
 	interface SummaryStepUiBinder extends UiBinder<Widget, SummaryStepViewImpl> {}
@@ -55,9 +56,13 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 
 	public void setMapping(List<AttributeMapping> mappings)
 	{
+		Log.trace("Setting "+mappings.size()+" mappings");
+		
 		customTable.removeAllRows();
 		int row = 0;
 		for (AttributeMapping mapping:mappings) {
+			Log.trace("setting "+mapping);
+			Log.trace("row "+row);
 			StringBuilder mappingDescription = new StringBuilder();
 			String originalName = mapping.getField().getLabel();
 			
@@ -71,6 +76,8 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 				}
 			} else mappingDescription.append("ignore <b>").append(originalName).append("</b>");
 
+			Log.trace("label "+mappingDescription.toString());
+			
 			HTML mappingLabel = new HTML(mappingDescription.toString());
 			customTable.setWidget(row, 0, mappingLabel);
 			row++;
