@@ -1,27 +1,33 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style type="org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepViewImpl.Style">
-		.important {
-			font-weight: bold;
-		}
-		
-		.headerlabel {
-			/*margin-right: 20px;*/
-			font-weight: bold;
-			color: #333;
-		}
-		
-		.grid {
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
+		field="resources"></ui:with>
+	<ui:style
+		type="org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepViewImpl.Style">
+			.grid {
+				vertical-align: top;
+				margin-right: 20px;
+			}
 			
-		}
-		
-		.cell {
-			padding: 5px;
-			font-size: 14px;
-			color: #666;
-		}
-	</ui:style>
-	<g:FlexTable ui:field="columnsTable">
-		 
-	</g:FlexTable>
+			.cell {
+				padding: 5px;
+			}
+		</ui:style>
+
+
+	<g:HTMLPanel>
+		<g:Grid styleName="{style.grid}" ui:field="mainTable">
+
+			<g:row>
+				<g:customCell styleName="{resources.css.verticalHeadersFieldItem}">
+					<g:Label styleName="{resources.css.propertyLabel}">Columns</g:Label>
+				</g:customCell>
+				<g:customCell>
+					<g:FlexTable ui:field="columnsTable" />
+				</g:customCell>
+			</g:row>
+
+		</g:Grid>
+	</g:HTMLPanel>
 </ui:UiBinder> 

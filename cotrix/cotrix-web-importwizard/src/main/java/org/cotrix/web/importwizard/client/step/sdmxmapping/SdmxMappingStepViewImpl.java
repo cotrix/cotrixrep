@@ -3,11 +3,13 @@ package org.cotrix.web.importwizard.client.step.sdmxmapping;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.Field;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -15,10 +17,12 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
@@ -32,8 +36,9 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, SdmxMappingStepViewImpl> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 
-	protected static int INCLUDE_COLUMN = 0;
+	protected static int IGNORE_COLUMN = 0;
 	protected static int NAME_COLUMN = 1;
+	protected static int LABEL_COLUMN = 2;
 
 	@UiField FlexTable columnsTable;
 	@UiField Style style;
@@ -41,23 +46,22 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	private AlertDialog alertDialog;
 
 	interface Style extends CssResource {
-		String headerlabel();
 		String cell();
 	}
 
-	protected List<CheckBox> includeCheckboxes = new ArrayList<CheckBox>();
+	protected List<ToggleButton> excludeButtons = new ArrayList<ToggleButton>();
 	protected List<TextBox> nameFields = new ArrayList<TextBox>();
 	protected List<Field> fields = new ArrayList<Field>();
 
 	public SdmxMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		columnsTable.getColumnFormatter().setWidth(INCLUDE_COLUMN, "20px");
+		Resources.INSTANCE.css().ensureInjected();
 	}
 
 	public void setAttributes(List<AttributeMapping> mappings)
 	{
 		columnsTable.removeAllRows();
-		includeCheckboxes.clear();
+		excludeButtons.clear();
 		nameFields.clear();
 		fields.clear();
 
@@ -66,41 +70,42 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 		for (AttributeMapping attributeMapping:mappings) {
 			final int row = columnsTable.getRowCount();
 
-			final CheckBox includeCheckBox = new CheckBox();
-			includeCheckBox.addClickHandler(new ClickHandler() {
-
+			final ToggleButton excludeButton = new ToggleButton(new Image(Resources.INSTANCE.trash()), new Image(Resources.INSTANCE.trasTick()));
+			excludeButton.setStyleName(Resources.INSTANCE.css().imageButton());
+			excludeButton.addClickHandler(new ClickHandler() {
+				
 				@Override
 				public void onClick(ClickEvent event) {
-					setIncluded(row, includeCheckBox.getValue());
+					Log.trace("Exclude is Down? "+excludeButton.isDown());
+					setExclude(row, excludeButton.isDown());
 				}
 			});
-			columnsTable.setWidget(row, INCLUDE_COLUMN, includeCheckBox);
-			includeCheckboxes.add(includeCheckBox);
+			columnsTable.setWidget(row, IGNORE_COLUMN, excludeButton);
+			excludeButtons.add(excludeButton);
 
 			Field field = attributeMapping.getField();
 			fields.add(field);
 
 			TextBox nameField = new TextBox();
+			nameField.setStyleName(Resources.INSTANCE.css().textBox());
 			nameField.setValue(field.getLabel());
-			nameField.setStyleName(style.headerlabel());
 			columnsTable.setWidget(row, NAME_COLUMN, nameField);
 			cellFormatter.setStyleName(row, NAME_COLUMN, style.cell());
 			nameFields.add(nameField);
 			
 			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
 			if (attributeDefinition == null) {
-				includeCheckBox.setValue(false);
-				//setIncluded(row, false);
+				excludeButton.setDown(true);
 			} else {
-				includeCheckBox.setValue(true);
-				//setIncluded(row, true);
+				excludeButton.setDown(false);
 			}
 		}
 	}
 
-	protected void setIncluded(int row, boolean include)
+	protected void setExclude(int row, boolean exclude)
 	{
-		((TextBox)columnsTable.getWidget(row, NAME_COLUMN)).setEnabled(include);
+		((TextBox)columnsTable.getWidget(row, NAME_COLUMN)).setEnabled(!exclude);
+		((Label)columnsTable.getWidget(row, LABEL_COLUMN)).setStyleName(Resources.INSTANCE.css().paddedTextDisabled(), exclude);
 	}
 	
 	public List<AttributeMapping> getMappings()
@@ -121,7 +126,7 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	
 	protected AttributeDefinition getDefinition(int index)
 	{
-		if (!includeCheckboxes.get(index).getValue()) return null;
+		if (excludeButtons.get(index).isDown()) return null;
 
 		AttributeDefinition attributeDefinition = new AttributeDefinition();
 
