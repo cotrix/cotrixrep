@@ -109,7 +109,6 @@
 	<g:HTMLPanel>
 		<g:Label ui:field="title" styleName="{style.title}"></g:Label>
 		<g:HTMLPanel ui:field="reportPanel">
-			<div>Report</div>
 			<table cellspacing='0' cellpadding='0' style='width:100%;'>
 				<tr>
 					<td valign='top'>

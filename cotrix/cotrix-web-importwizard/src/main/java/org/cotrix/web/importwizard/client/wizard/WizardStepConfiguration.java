@@ -44,6 +44,13 @@ public class WizardStepConfiguration {
 	}
 	
 	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	/**
 	 * @return the backwardButton
 	 */
 	public NavigationButtonConfiguration getBackwardButton() {
