@@ -8,6 +8,7 @@ import org.virtualrepository.Asset;
 import org.virtualrepository.AssetType;
 import org.virtualrepository.RepositoryService;
 import org.virtualrepository.VirtualRepository;
+import org.virtualrepository.csv.CsvCodelist;
 import org.virtualrepository.sdmx.SdmxCodelist;
 
 /**
@@ -26,7 +27,7 @@ public class Channels {
 	/**
 	 * The types supported for import.
 	 */
-	public static final AssetType[] importTypes = {SdmxCodelist.type};
+	public static final AssetType[] importTypes = {SdmxCodelist.type, CsvCodelist.type};
 	
 	private final VirtualRepository repository;
 	
