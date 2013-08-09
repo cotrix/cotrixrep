@@ -73,6 +73,7 @@ public class Importer<T> implements Runnable {
 			logger.trace("is failed? {}", report.isFailure());
 			logger.trace("Report: {}", report.toString());
 			
+			logger.trace("found {} logs item", report.logs().size());
 			List<ReportLog> logs = convertLogs(report.logs());
 			importSession.setLogs(logs);
 

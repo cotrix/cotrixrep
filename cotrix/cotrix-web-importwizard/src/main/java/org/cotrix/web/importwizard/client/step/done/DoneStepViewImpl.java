@@ -2,6 +2,7 @@ package org.cotrix.web.importwizard.client.step.done;
 
 import org.cotrix.web.importwizard.shared.ReportLog;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -32,7 +33,6 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	interface DoneStepViewUiBinder extends UiBinder<Widget, DoneStepViewImpl> {
 	}
 	
-	@UiField Label title;
 	@UiField HTMLPanel reportPanel;
 	
 	@UiField(provided = true)
@@ -129,14 +129,12 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	public void setMessage(String message) {
 		
 	}
-
-	public void setStepTitle(String title) {
-		this.title.setText(title);
-	}
 	
-	public void setReportPanelVisible(boolean visible)
+	public void loadReport()
 	{
-		//reportPanel.setVisible(visible);
+		Log.trace("requesting page 0 to report");
+		reportGrid.setVisibleRangeAndClearData(reportGrid.getVisibleRange(), true);
+		//reportPager.setPage(0);
 	}
 
 	@UiHandler("importButton")

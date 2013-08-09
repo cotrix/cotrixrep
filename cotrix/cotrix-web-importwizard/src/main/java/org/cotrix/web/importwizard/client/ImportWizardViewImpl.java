@@ -92,7 +92,8 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	
 	public void showLabel(WizardStep step)
 	{
-		int labelIndex = labelsIndexes.get(step.getId());
+		Integer labelIndex = labelsIndexes.get(step.getId());
+		if (labelIndex == null) throw new IllegalArgumentException("Label for step "+step.getId()+" not registered");
 		progressTracker.setCurrentStep(labelIndex);
 	}
 	
