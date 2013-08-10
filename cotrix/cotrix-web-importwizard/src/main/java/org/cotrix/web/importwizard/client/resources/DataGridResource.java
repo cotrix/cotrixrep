@@ -16,6 +16,11 @@ public interface DataGridResource extends DataGrid.Resources {
 	
 
 	@Source("datagrid.css")
-	DataGrid.Style dataGridStyle();
+	DataGridStyle dataGridStyle();
+	
+	
+	public interface DataGridStyle extends DataGrid.Style {
+		
+	}
 
 }
