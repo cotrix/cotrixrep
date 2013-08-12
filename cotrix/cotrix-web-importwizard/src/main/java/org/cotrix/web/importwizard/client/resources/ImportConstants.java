@@ -19,5 +19,8 @@ public interface ImportConstants extends Constants {
 	
 	@DefaultIntValue(30)
 	int fileNameMaxSize();
+	
+	String[] csvMimeTypes();
+	String[] xmlMimeTypes();
 
 }

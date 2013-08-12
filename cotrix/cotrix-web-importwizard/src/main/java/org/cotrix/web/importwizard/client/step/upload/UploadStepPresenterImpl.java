@@ -1,12 +1,11 @@
 package org.cotrix.web.importwizard.client.step.upload;
 
-import java.util.Arrays;
-
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.importwizard.client.resources.ImportConstants;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
@@ -27,8 +26,6 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class UploadStepPresenterImpl extends AbstractWizardStep implements UploadStepPresenter, ResetWizardHandler {
 
-	protected static final String[] CSV_MIMETYPE = new String[]{"text/csv","text/plain"};
-	protected static final String XML_MIMETYPE = "text/xml";
 	protected static final int POLLING_TIME = 500;
 	protected static final int POLLING_ERROR_TRESHOLD = 3;
 	
@@ -102,13 +99,18 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		}
 		
 		
-		if (Arrays.binarySearch(CSV_MIMETYPE, type)>=0) return true;
-		if (type.startsWith(XML_MIMETYPE)) return true;
+		if (contains(ImportConstants.INSTANCE.csvMimeTypes(), type)) return true;
+		if (contains(ImportConstants.INSTANCE.xmlMimeTypes(), type)) return true;
 		
 		onError("Only CSV or SDMX for now");
 		return false;
 	}
 	
+	protected boolean contains(String[] array, String value)
+	{
+		for (String arrayValue:array) if (arrayValue.equals(value)) return true;
+		return false;
+	}
 	protected void startUpload(File file)
 	{
 		complete = false;
