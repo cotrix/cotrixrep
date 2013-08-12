@@ -56,7 +56,7 @@
 			<g:FlowPanel>
 				<g:VerticalPanel spacing="5">
 					<g:Label text="Asset Details" styleName="{resources.css.sectionTitle}" />
-					<g:Grid>
+					<g:Grid ui:field="assetDetails">
 						<g:row>
 							<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
 								<g:Label text="Id" styleName="{resources.css.propertyLabel}" />
@@ -86,7 +86,7 @@
 								<g:Label text="Properties" styleName="{resources.css.propertyLabel}" />
 							</g:customCell>
 							<g:customCell>
-								<g:FlexTable ui:field="assetDetails" cellPadding="0"
+								<g:FlexTable ui:field="assetProperties" cellPadding="0"
 									cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
 									width="100%" />
 							</g:customCell>
@@ -97,7 +97,7 @@
 			<g:FlowPanel styleName="style.details">
 				<g:VerticalPanel spacing="5">
 					<g:Label text="Repository Details" styleName="{resources.css.sectionTitle}" />
-					<g:Grid>
+					<g:Grid ui:field="repositoryDetails">
 						<g:row>
 							<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
 								<g:Label text="Name" styleName="{resources.css.propertyLabel}" />
@@ -127,7 +127,7 @@
 								<g:Label text="Properties" styleName="{resources.css.propertyLabel}" />
 							</g:customCell>
 							<g:customCell>
-								<g:FlexTable ui:field="repositoryDetails"
+								<g:FlexTable ui:field="repositoryProperties"
 									cellPadding="0" cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
 									width="100%" />
 							</g:customCell>

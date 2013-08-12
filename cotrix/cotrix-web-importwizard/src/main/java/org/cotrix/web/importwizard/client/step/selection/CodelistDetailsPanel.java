@@ -17,6 +17,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,6 +27,9 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class CodelistDetailsPanel extends Composite {
+	
+	protected static final int ASSET_PROPERTIES_ROW = 3;
+	protected static final int REPOSITORY_PROPERTIES_ROW = 3;
 
 	private static ChannelDetailsPanelUiBinder uiBinder = GWT.create(ChannelDetailsPanelUiBinder.class);
 
@@ -38,15 +42,17 @@ public class CodelistDetailsPanel extends Composite {
 	
 	@UiField PushButton backButton;
 
+	@UiField Grid assetDetails;
 	@UiField Label assetId;
 	@UiField Label assetName;
 	@UiField Label assetType;
-	@UiField FlexTable assetDetails;	
+	@UiField FlexTable assetProperties;	
 
+	@UiField Grid repositoryDetails;
 	@UiField Label repositoryName;
 	@UiField Label repositoryPublishedTypes;
 	@UiField Label repositoryReturnedTypes;
-	@UiField FlexTable repositoryDetails;
+	@UiField FlexTable repositoryProperties;
 	
 	protected BackHandler backHandler;
 
@@ -55,9 +61,6 @@ public class CodelistDetailsPanel extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		setWidth("500px");
 
-		setupEmpty(assetDetails);
-		setupEmpty(repositoryDetails);
-		
 	}
 	
 	/**
@@ -96,28 +99,25 @@ public class CodelistDetailsPanel extends Composite {
 
 	public void addAssetProperties(List<Property> properties)
 	{
-		assetDetails.removeAllRows();
+		assetProperties.removeAllRows();
+		assetDetails.getRowFormatter().setVisible(ASSET_PROPERTIES_ROW, !properties.isEmpty());
+		
 		if (!properties.isEmpty()) {
-			setupHeaders(assetDetails);
-			for (Property property:properties) addRow(assetDetails, property.getName(), property.getValue(), property.getDescription());
-		} else setupEmpty(assetDetails);
+			setupHeaders(assetProperties);
+			for (Property property:properties) addRow(assetProperties, property.getName(), property.getValue(), property.getDescription());
+		}
 	}
 
 	public void addRepositoryProperties(List<Property> properties)
 	{
-		repositoryDetails.removeAllRows();
+		repositoryProperties.removeAllRows();
+		repositoryDetails.getRowFormatter().setVisible(REPOSITORY_PROPERTIES_ROW, !properties.isEmpty());
+		
 		if (!properties.isEmpty()) {
-			setupHeaders(repositoryDetails);
-			for (Property property:properties) addRow(repositoryDetails, property.getName(), property.getValue(), property.getDescription());
-		} else setupEmpty(repositoryDetails);
+			setupHeaders(repositoryProperties);
+			for (Property property:properties) addRow(repositoryProperties, property.getName(), property.getValue(), property.getDescription());
+		}
 	}
-
-	protected void setupEmpty(FlexTable table)
-	{
-		table.setWidget(0, 0, getHeaderLabel("No properties"));
-		table.getFlexCellFormatter().setColSpan(0, 0, 3);
-	}
-
 
 	protected void setupHeaders(FlexTable table)
 	{
