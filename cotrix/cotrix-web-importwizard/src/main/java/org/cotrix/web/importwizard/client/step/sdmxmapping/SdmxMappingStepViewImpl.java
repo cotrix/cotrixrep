@@ -83,7 +83,7 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 		for (AttributeMapping attributeMapping:mappings) {
 			final int row = columnsTable.getRowCount();
 
-			final ToggleButton excludeButton = new ToggleButton(new Image(Resources.INSTANCE.trash()), new Image(Resources.INSTANCE.trasTick()));
+			final ToggleButton excludeButton = new ToggleButton(new Image(Resources.INSTANCE.trash()), new Image(Resources.INSTANCE.trashTick()));
 			excludeButton.setStyleName(Resources.INSTANCE.css().imageButton());
 			excludeButton.addClickHandler(new ClickHandler() {
 				

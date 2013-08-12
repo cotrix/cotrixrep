@@ -106,7 +106,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		for (AttributeMapping attributeMapping:mapping) {
 			final int row = columnsTable.getRowCount();
 			
-			final ToggleButton excludeButton = new ToggleButton(new Image(Resources.INSTANCE.trash()), new Image(Resources.INSTANCE.trasTick()));
+			final ToggleButton excludeButton = new ToggleButton(new Image(Resources.INSTANCE.trash()), new Image(Resources.INSTANCE.trashTick()));
 			excludeButton.setStyleName(Resources.INSTANCE.css().imageButton());
 			excludeButton.addClickHandler(new ClickHandler() {
 				

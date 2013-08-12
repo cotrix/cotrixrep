@@ -33,7 +33,7 @@ public interface Resources extends ClientBundle {
 	public ImageResource trash();
 	
 	@Source("trash_tick.png")
-	public ImageResource trasTick();
+	public ImageResource trashTick();
 	
 	@Source("download.png")
 	public ImageResource download();
