@@ -2,37 +2,6 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
 	<ui:style type="org.cotrix.web.importwizard.client.step.selection.SelectionStepViewImpl.Style">
-		.important {
-			font-weight: bold;
-		}
-		
-		.flexTable {
-			border-width: 0 0 1px 1px;
-			border-spacing: 0;
-			border-color: #ccc;
-			background-color: white;
-			border-collapse: collapse;
-			color: #666;
-			font-size: 8px;
-			border-style: solid;
-			text-align: center;
-		}
-		
-		.flextTableHeader {
-			background-color: #eee;
-		}
-		
-		.flexTable td,.flexTable th {
-			margin: 0;
-			border-color: #ccc;
-			padding: 3px;
-			border-width: 1px 1px 0 0;
-			border-style: solid;
-		}
-		
-		.textbox {
-			width: 80%;
-		}
 		
 		.detailsText {
 			color: blue;
