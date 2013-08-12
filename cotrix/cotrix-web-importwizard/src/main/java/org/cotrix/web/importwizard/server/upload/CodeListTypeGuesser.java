@@ -16,8 +16,8 @@ public class CodeListTypeGuesser {
 	protected static final String XML_EXTENSION = "xml";
 	protected static final String CSV_EXTENSION = "csv";
 	
-	protected static final String[] CSV_MIME_TYPES = {"text/plain","text/csv"};
-	protected static final String[] XML_MIME_TYPES = {"application/xml"};
+	protected static final String[] CSV_MIME_TYPES = {"text/csv","text/plain","application/vnd.ms-excel","text/comma-separated-values","application/csv","application/excel","application/vnd.msexcel","text/anytex"};
+	protected static final String[] XML_MIME_TYPES = {"application/xml","text/xml"};
 	
 	protected Logger logger = LoggerFactory.getLogger(CodeListTypeGuesser.class);
 	
