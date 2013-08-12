@@ -256,8 +256,8 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			th.start();
 			session.setImporter(importer);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error during import starting", e);
+			throw new ImportServiceException("An error occurred starting import: "+e.getMessage());
 		}
 	}
 
@@ -278,6 +278,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		session.setSelectedAsset(asset);
 		
 		ImportMetadata metadata = new ImportMetadata();
+		metadata.setOriginalName(asset.name());
 		metadata.setName(asset.name());
 		session.setGuessedMetadata(metadata);
 		

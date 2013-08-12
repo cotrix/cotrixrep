@@ -28,6 +28,7 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 
 	protected CsvMappingStepView view;
 	protected EventBus importEventBus;
+	protected ImportMetadata metadata;
 	
 	@Inject
 	public CsvMappingStepPresenterImpl(CsvMappingStepView view, @ImportBus EventBus importEventBus){
@@ -63,7 +64,7 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 			AttributesMappings attributesMappings = new AttributesMappings(mappings, mappingMode); 
 			importEventBus.fireEvent(new MappingsUpdatedEvent(attributesMappings, true));
 			
-			ImportMetadata metadata = new ImportMetadata();
+			if (metadata == null) metadata = new ImportMetadata();
 			metadata.setName(csvName);
 			importEventBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
 		}
@@ -118,6 +119,9 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 
 	@Override
 	public void onMetadataUpdated(MetadataUpdatedEvent event) {
-		if (!event.isUserEdited()) view.setCsvName(event.getMetadata().getName());
+		if (!event.isUserEdited()) {
+			view.setCsvName(event.getMetadata().getName());
+			this.metadata = event.getMetadata();
+		}
 	}
 }

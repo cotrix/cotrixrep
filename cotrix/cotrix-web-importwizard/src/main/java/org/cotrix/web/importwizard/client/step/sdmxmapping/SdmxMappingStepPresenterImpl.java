@@ -11,6 +11,7 @@ import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -25,6 +26,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 
 	protected SdmxMappingStepView view;
 	protected EventBus importEventBus;
+	protected ImportMetadata metadata;
 
 	@Inject
 	public SdmxMappingStepPresenterImpl(SdmxMappingStepView view, @ImportBus EventBus importEventBus){
@@ -57,6 +59,10 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 
 			AttributesMappings attributesMappings = new AttributesMappings(mappings, null); 
 			importEventBus.fireEvent(new MappingsUpdatedEvent(attributesMappings, true));
+			
+			if (metadata == null) metadata = new ImportMetadata();
+			metadata.setName(codelistName);
+			importEventBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
 		}
 
 		return valid;
@@ -97,6 +103,9 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 
 	@Override
 	public void onMetadataUpdated(MetadataUpdatedEvent event) {
-		if (!event.isUserEdited()) view.setCodelistName(event.getMetadata().getName());
+		if (!event.isUserEdited()) {
+			view.setCodelistName(event.getMetadata().getName());
+			this.metadata = event.getMetadata();
+		}
 	}
 }

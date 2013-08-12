@@ -11,8 +11,23 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class ImportMetadata implements IsSerializable {
 	
+	protected String originalName;
 	protected String name;
 	protected Map<String, String> attributes = new HashMap<String, String>();
+
+	/**
+	 * @return the originalName
+	 */
+	public String getOriginalName() {
+		return originalName;
+	}
+
+	/**
+	 * @param originalName the originalName to set
+	 */
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
 
 	/**
 	 * @return the name

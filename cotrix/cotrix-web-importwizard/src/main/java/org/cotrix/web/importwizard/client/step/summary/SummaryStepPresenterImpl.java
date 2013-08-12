@@ -18,6 +18,7 @@ import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration.ButtonAction;
 import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -71,8 +72,12 @@ ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelect
 
 	@Override
 	public void onMetadataUpdated(MetadataUpdatedEvent event) {
-		this.view.setMetadata(event.getMetadata());
 		
+		ImportMetadata metadata = event.getMetadata();
+		if (metadata.getOriginalName()==null || metadata.getOriginalName().equals(metadata.getName())) view.setCodelistName(metadata.getName());
+		else view.setCodelistName(metadata.getOriginalName()+" as "+metadata.getName());
+		
+		this.view.setMetadataAttributes(metadata.getAttributes());		
 	}
 
 	@Override

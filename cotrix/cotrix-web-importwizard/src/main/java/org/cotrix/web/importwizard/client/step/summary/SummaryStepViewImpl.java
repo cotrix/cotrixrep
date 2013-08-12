@@ -1,12 +1,12 @@
 package org.cotrix.web.importwizard.client.step.summary;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.cotrix.web.importwizard.client.util.ProgressDialog;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
-import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -83,14 +83,16 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 			row++;
 		}
 	}
+	
+	public void setCodelistName(String name) {
+		codelistField.setText(name);
+	}
 
-	public void setMetadata(ImportMetadata metadata) {
-
-		codelistField.setText(metadata.getName());
+	public void setMetadataAttributes(Map<String, String> properties){
 
 		propertiesTable.removeAllRows();
 
-		if (metadata.getAttributes().size() == 0) {
+		if (properties.size() == 0) {
 			panel.getRowFormatter().setVisible(PROPERTIES_FIELD_ROW, false);
 			//propertiesTable.setVisible(false);
 		} else {
@@ -101,7 +103,7 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 			propertiesTable.getCellFormatter().setStyleName(0, 0, style.headerlabel());
 			propertiesTable.getCellFormatter().setStyleName(0, 1, style.headerlabel());
 			int row = 1;
-			for (Entry<String, String> attribute:metadata.getAttributes().entrySet()) {
+			for (Entry<String, String> attribute:properties.entrySet()) {
 				propertiesTable.setText(row, 0, attribute.getKey());
 				propertiesTable.setText(row, 1, attribute.getValue());
 				row++;

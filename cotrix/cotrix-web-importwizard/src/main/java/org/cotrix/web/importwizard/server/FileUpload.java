@@ -159,6 +159,7 @@ public class FileUpload extends HttpServlet{
 				CodelistBean codelistBean = parsingHelper.parse(fileField.getInputStream());
 				String codelistName = codelistBean.getName();
 				ImportMetadata metadata = new ImportMetadata();
+				metadata.setOriginalName(codelistName);
 				metadata.setName(codelistName);
 				session.setGuessedMetadata(metadata);
 			} break;

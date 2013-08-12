@@ -1,9 +1,9 @@
 package org.cotrix.web.importwizard.client.step.summary;
 
 import java.util.List;
+import java.util.Map;
 
 import org.cotrix.web.importwizard.shared.AttributeMapping;
-import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -17,7 +17,10 @@ public interface SummaryStepView {
 	}
 
 	public void setMapping(List<AttributeMapping> mapping);
-	void setMetadata(ImportMetadata metadata);
+	
+	void setCodelistName(String name);
+	
+	void setMetadataAttributes(Map<String, String> properties);
 	
 	public void setFileName(String fileName);
 	public void setFileNameVisible(boolean visible);
