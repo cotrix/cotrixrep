@@ -159,7 +159,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	
 	protected void selectedItemUpdated()
 	{
-		Log.trace("importedItemUpdated");
+		Log.trace("selectedItemUpdated");
 
 		Log.trace("getting codelist type");
 		getCodeListType(new Callback<CodeListType, Void>() {
@@ -179,7 +179,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		Log.trace("getting mapping");
 		getMappings();
 		
-		Log.trace("done importedItemUpdated");
+		Log.trace("done selectedItemUpdated");
 	}
 	
 	protected void getCodeListType(final Callback<CodeListType, Void> callaback)

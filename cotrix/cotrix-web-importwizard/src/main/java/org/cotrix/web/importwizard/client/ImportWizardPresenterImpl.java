@@ -161,8 +161,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	protected void updateCurrentStep()
 	{
-		//Log.trace("updateCurrentStep currentStepIndex: "+currentStepIndex);
-		WizardStep currentStep = flow.getCurrentItem(); //steps.get(currentStepIndex);
+		WizardStep currentStep = flow.getCurrentItem();
 		Log.trace("current step "+currentStep.getId());
 		view.showStep(currentStep);
 		WizardStepConfiguration configuration = currentStep.getConfiguration();

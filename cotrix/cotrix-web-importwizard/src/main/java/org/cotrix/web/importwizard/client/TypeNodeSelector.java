@@ -13,6 +13,7 @@ import org.cotrix.web.importwizard.client.flow.AbstractNodeSelector;
 import org.cotrix.web.importwizard.client.flow.FlowNode;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
@@ -57,6 +58,7 @@ public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> implement
 
 	@Override
 	public void onCodeListTypeUpdated(CodeListTypeUpdatedEvent event) {
+		Log.trace("TypeNodeSelector updating next to "+event.getCodeListType());
 		switch (event.getCodeListType()) {
 			case CSV: nextStep = csvStep; break;
 			case SDMX: nextStep = sdmxStep; break;

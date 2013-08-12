@@ -6,6 +6,7 @@ import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
@@ -25,9 +26,6 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SelectionChangeEvent.Handler;
-import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 
 /**
@@ -104,21 +102,9 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		pager.setDisplay(dataGrid);
-
-		final SingleSelectionModel<AssetInfo> selectionModel = new SingleSelectionModel<AssetInfo>(AssetInfoKeyProvider.INSTANCE);
-		selectionModel.addSelectionChangeHandler(new Handler() {
-			
-			@Override
-			public void onSelectionChange(SelectionChangeEvent event) {
-				AssetInfo selectedAsset = selectionModel.getSelectedObject();
-				presenter.assetSelected(selectedAsset);
-			}
-		});
-		dataGrid.setSelectionModel(selectionModel);
 		
 		dataGrid.addColumnSortHandler(new AsyncHandler(dataGrid));
 
-		
 		// Check
 		TextHeader nameHeader = new TextHeader("Name");
 		
@@ -129,6 +115,14 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 				return false;
 			}
 		};
+		checkColumn.setFieldUpdater(new FieldUpdater<AssetInfo, Boolean>() {
+
+			@Override
+			public void update(int index, AssetInfo object, Boolean value) {
+				Log.trace("check changed, row "+index+" value: "+value);
+				if (value) presenter.assetSelected(object);			
+			}
+		});
 		
 		dataGrid.addColumn(checkColumn, nameHeader);
 		dataGrid.setColumnWidth(checkColumn, "35px");
@@ -147,7 +141,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 
 			@Override
 			public void update(int index, AssetInfo object, String value) {
-				System.out.println("UPDATE UPDATE UPDATE index");
+				Log.trace("details selected for row "+index);
 				presenter.assetDetails(object);
 			}
 		});

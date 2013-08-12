@@ -73,7 +73,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
 		return importSession;
 	}
-	
+
 	protected AssetInfosCache getAssetInfos()
 	{
 		HttpSession httpSession = this.getThreadLocalRequest().getSession();
@@ -92,7 +92,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			AssetInfosCache cache = getAssetInfos();
 			List<AssetInfo> assets = cache.getAssets(columnSortInfo.getName());
 			List<AssetInfo> sublist = columnSortInfo.isAscending()?Ranges.subList(assets, range):Ranges.subListReverseOrder(assets, range);
-				
+
 			/*assets.add(new AssetInfo("urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FAO:CL_DIVISION(0.1)", "CL_DIVISION", "sdmx/codelist", "D4Science Development Registry"));
 			assets.add(new AssetInfo("321", "Gears", "SDMX", "D4Science Development Registry"));
 			assets.add(new AssetInfo("333", "Species Year 2013", "CSV", "D4Science Development Registry"));
@@ -143,8 +143,10 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	protected Asset getAsset(String id)
 	{
-		for (Asset asset:remoteRepository) if (asset.id().equals(id)) return asset;
-		throw new IllegalArgumentException("Asset with id "+id+" not found");
+		AssetInfosCache cache = getAssetInfos();
+		Asset asset = cache.getAsset(id);
+		if (asset == null) throw new IllegalArgumentException("Asset with id "+id+" not found");
+		return asset;
 	}
 
 	@Override
@@ -263,32 +265,33 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	@Override
 	public void setAsset(String assetId) throws ImportServiceException {
+		logger.trace("setAsset {}", assetId);
 		
 		try {
-		HttpSession httpSession = this.getThreadLocalRequest().getSession();
-		WizardImportSession session = WizardImportSession.getCleanImportSession(httpSession);
-		Asset asset = getAsset(assetId);	
-		session.setSelectedAsset(asset);
-		
-		ImportMetadata metadata = new ImportMetadata();
-		metadata.setOriginalName(asset.name());
-		metadata.setName(asset.name());
-		session.setGuessedMetadata(metadata);
-		
-		if (asset.type() == SdmxCodelist.type) {
-			session.setCodeListType(CodeListType.SDMX);
-			AttributesMappings mappings = mappingsGuesser.getSdmxDefaultMappings();
-			session.setMappings(mappings);
-		}
+			HttpSession httpSession = this.getThreadLocalRequest().getSession();
+			WizardImportSession session = WizardImportSession.getCleanImportSession(httpSession);
+			Asset asset = getAsset(assetId);	
+			session.setSelectedAsset(asset);
 
-		
-		if (asset.type() == CsvCodelist.type) {
-			session.setCodeListType(CodeListType.CSV);
-			Table table = remoteRepository.retrieve(asset, Table.class);
-			AttributesMappings mappings = mappingsGuesser.guessMappings(table);
-			session.setMappings(mappings);
-		}
-		
+			ImportMetadata metadata = new ImportMetadata();
+			metadata.setOriginalName(asset.name());
+			metadata.setName(asset.name());
+			session.setGuessedMetadata(metadata);
+
+			if (asset.type() == SdmxCodelist.type) {
+				session.setCodeListType(CodeListType.SDMX);
+				AttributesMappings mappings = mappingsGuesser.getSdmxDefaultMappings();
+				session.setMappings(mappings);
+			}
+
+
+			if (asset.type() == CsvCodelist.type) {
+				session.setCodeListType(CodeListType.CSV);
+				Table table = remoteRepository.retrieve(asset, Table.class);
+				AttributesMappings mappings = mappingsGuesser.guessMappings(table);
+				session.setMappings(mappings);
+			}
+
 		} catch(Exception e)
 		{
 			logger.error("Error setting the Asset",e);

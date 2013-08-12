@@ -31,7 +31,7 @@ public class SelectionStepPresenterImpl extends AbstractWizardStep implements Se
 	
 	protected EventBus importEventBus;
 	
-	protected AssetInfo assetInfo;
+	protected AssetInfo selectedAsset;
 	
 	@Inject
 	public SelectionStepPresenterImpl(SelectionStepView view, @ImportBus EventBus importEventBus) {
@@ -47,13 +47,15 @@ public class SelectionStepPresenterImpl extends AbstractWizardStep implements Se
 	}
 
 	public boolean isComplete() {
-		return assetInfo!=null;
+		return selectedAsset!=null;
 	}
 
 	@Override
 	public void assetSelected(AssetInfo asset) {
 		Log.trace("Asset selected "+asset);
-		this.assetInfo = asset;
+		if (selectedAsset!=null && selectedAsset.equals(asset)) return;
+		
+		this.selectedAsset = asset;
 		importService.setAsset(asset.getId(), new AsyncCallback<Void>() {
 
 			@Override
