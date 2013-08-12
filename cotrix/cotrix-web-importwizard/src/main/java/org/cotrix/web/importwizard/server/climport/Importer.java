@@ -76,6 +76,7 @@ public class Importer<T> implements Runnable {
 			logger.trace("found {} logs item", report.logs().size());
 			List<ReportLog> logs = convertLogs(report.logs());
 			importSession.setLogs(logs);
+			importSession.setReport(report.toString());
 
 			if (!report.isFailure()) {
 
@@ -92,6 +93,7 @@ public class Importer<T> implements Runnable {
 			logger.error("Error during import", throwable);
 			progress.setStatus(Status.FAILED);
 			importSession.setLogs(Collections.singletonList(new ReportLog(LogType.ERROR, throwable.getMessage())));
+			importSession.setReport(throwable.getMessage());
 		}
 	}
 	

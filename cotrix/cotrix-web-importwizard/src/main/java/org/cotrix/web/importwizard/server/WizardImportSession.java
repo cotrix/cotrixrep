@@ -63,6 +63,7 @@ public class WizardImportSession {
 	protected Importer<?> importer;
 	
 	protected List<ReportLog> logs;
+	protected String report;
 
 	/**
 	 * @return the uploadProgress
@@ -217,6 +218,20 @@ public class WizardImportSession {
 	 */
 	public void setLogs(List<ReportLog> logs) {
 		this.logs = logs;
+	}
+
+	/**
+	 * @return the report
+	 */
+	public String getReport() {
+		return report;
+	}
+
+	/**
+	 * @param report the report to set
+	 */
+	public void setReport(String report) {
+		this.report = report;
 	}
 
 }

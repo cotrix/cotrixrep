@@ -14,16 +14,24 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>importWizardServlet</servlet-name>
+		<servlet-name>importWizardFileUploadServlet</servlet-name>
 		<servlet-class>org.cotrix.web.importwizard.server.FileUpload</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
 	<servlet>
-		<servlet-name>importServiceServlet</servlet-name>
+		<servlet-name>importWizardServiceServlet</servlet-name>
 		<servlet-class>org.cotrix.web.importwizard.server.ImportServiceImpl</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>importWizardReportDownloadServlet</servlet-name>
+		<servlet-class>org.cotrix.web.importwizard.server.ReportDownload</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	
 
 	<!-- 
 	<servlet>
@@ -43,13 +51,23 @@
 	 -->
 
 	<servlet-mapping>
-		<servlet-name>importWizardServlet</servlet-name>
+		<servlet-name>importWizardFileUploadServlet</servlet-name>
 		<url-pattern>/CodeListManager/fileupload</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
-		<servlet-name>importServiceServlet</servlet-name>
+		<servlet-name>importWizardServiceServlet</servlet-name>
 		<url-pattern>/CodeListManager/importService</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>importWizardFileUploadServlet</servlet-name>
+		<url-pattern>/CodeListManager/fileupload</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>importWizardReportDownloadServlet</servlet-name>
+		<url-pattern>/CodeListManager/reportDownload</url-pattern>
 	</servlet-mapping>
 	
 	

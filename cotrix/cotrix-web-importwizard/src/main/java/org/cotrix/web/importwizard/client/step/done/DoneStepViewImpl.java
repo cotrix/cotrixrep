@@ -5,16 +5,20 @@ import org.cotrix.web.importwizard.shared.ReportLog;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -24,13 +28,19 @@ import com.google.inject.Inject;
  */
 public class DoneStepViewImpl extends Composite implements DoneStepView {
 
+	protected static final String DOWNLOAD_URL = GWT.getModuleBaseURL()+"reportDownload";
+	
 	private static DoneStepViewUiBinder uiBinder = GWT.create(DoneStepViewUiBinder.class);
 
 	@UiTemplate("DoneStepView.ui.xml")
 	interface DoneStepViewUiBinder extends UiBinder<Widget, DoneStepViewImpl> {
 	}
 	
+	
 	@UiField HTMLPanel reportPanel;
+	
+	@UiField PushButton reportDownload;
+	
 	
 	@UiField(provided = true)
 	DataGrid<ReportLog> reportGrid;
@@ -47,6 +57,11 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		setHeight("500px");
+	}
+	
+	@UiHandler("reportDownload")
+	protected void downloadReport(ClickEvent clickEvent) {
+		Window.open(DOWNLOAD_URL, "_blank", "");
 	}
 	
 	/** 
