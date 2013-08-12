@@ -121,13 +121,11 @@
 
 /** BUTTONS **/
 .blueButton {
-/*	float: right;
-	margin-right: 20px;*/
 	border: 1px solid #3063a1;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	width: 80px;
+	width: 103px;
 	font-size: 12px;
 	font-family: arial, helvetica, sans-serif;
 	padding: 8px 8px 8px 8px;
@@ -163,13 +161,11 @@
 }
 
 .grayButton {
-/*	float: left;
-	margin-left: 20px;*/
 	border: 1px solid #d7dada;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	width: 80px;
+	width: 103px;
 	font-size: 12px;
 	font-family: arial, helvetica, sans-serif;
 	padding: 8px 8px 8px 8px;
