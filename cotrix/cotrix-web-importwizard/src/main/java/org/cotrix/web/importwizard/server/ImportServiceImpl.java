@@ -151,7 +151,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	protected Asset getAsset(String id)
 	{
 		for (Asset asset:remoteRepository) if (asset.id().equals(id)) return asset;
-		return null;
+		throw new IllegalArgumentException("Asset with id "+id+" not found");
 	}
 
 	@Override
@@ -270,9 +270,11 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	@Override
 	public void setAsset(String assetId) throws ImportServiceException {
+		
+		try {
 		HttpSession httpSession = this.getThreadLocalRequest().getSession();
 		WizardImportSession session = WizardImportSession.getCleanImportSession(httpSession);
-		Asset asset = getAsset(assetId);
+		Asset asset = getAsset(assetId);	
 		session.setSelectedAsset(asset);
 		
 		ImportMetadata metadata = new ImportMetadata();
@@ -291,6 +293,12 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			Table table = remoteRepository.retrieve(asset, Table.class);
 			AttributesMappings mappings = mappingsGuesser.guessMappings(table);
 			session.setMappings(mappings);
+		}
+		
+		} catch(Exception e)
+		{
+			logger.error("Error setting the Asset",e);
+			throw new ImportServiceException("Error setting the Asset: "+e.getMessage());
 		}
 
 	}

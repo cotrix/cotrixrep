@@ -17,6 +17,7 @@ public interface ImportWizardView {
 	void addStep(WizardStep step);
 	public void setLabels(List<WizardStep> steps);
 	public void setStepTitle(String title);
+	public void setStepSubtitle(String subtitle);
 	public void showStep(WizardStep step);
 	public void showLabel(WizardStep step);
 	

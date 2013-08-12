@@ -22,9 +22,8 @@ public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneSte
 	
 	@Inject
 	public DoneStepPresenterImpl(DoneStepView view, @ImportBus EventBus importEventBus) {
-		super("done","Done", "Done", NEW_IMPORT, MANAGE);
+		super("done","Done", "Done", "Done", NEW_IMPORT, MANAGE);
 		this.view = view;
-		view.setPresenter(this);
 		this.importEventBus = importEventBus;
 		importEventBus.addHandler(ImportProgressEvent.TYPE, this);
 	}
@@ -44,16 +43,14 @@ public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneSte
 				configuration.setTitle("That's done");
 				configuration.setBackwardButton(NEW_IMPORT);
 				configuration.setForwardButton(MANAGE);
-				
-				view.setSubTitle("Here's a log of what's happened.");
+				configuration.setSubtitle("Here's a log of what's happened.");
 				view.loadReport();
 			} break;
 			case FAILED: {
 				configuration.setTitle("...Oops!");
 				configuration.setBackwardButton(NavigationButtonConfiguration.DEFAULT_BACKWARD);
 				configuration.setForwardButton(NavigationButtonConfiguration.NONE);
-				
-				view.setSubTitle("Something went wrong, check the log.");
+				configuration.setSubtitle("Something went wrong, check the log.");
 				view.loadReport();
 			} break;
 

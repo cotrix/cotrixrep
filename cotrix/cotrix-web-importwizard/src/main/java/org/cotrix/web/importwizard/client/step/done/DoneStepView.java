@@ -8,11 +8,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public interface DoneStepView {
 	
-	public interface Presenter {
-	}
-	
-	void setPresenter(Presenter presenter);
-	public void setSubTitle(String subtitle);
 	public void loadReport();
 	Widget asWidget();
 }

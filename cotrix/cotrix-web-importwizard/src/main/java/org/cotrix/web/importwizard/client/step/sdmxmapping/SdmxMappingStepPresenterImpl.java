@@ -26,7 +26,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 
 	@Inject
 	public SdmxMappingStepPresenterImpl(SdmxMappingStepView view, @ImportBus EventBus importEventBus){
-		super("sdmx-mapping", "Customize", "Customize it", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("sdmx-mapping", "Customize", "Customize it", "Tells us which columns to use, and how.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 
 		this.importEventBus = importEventBus;

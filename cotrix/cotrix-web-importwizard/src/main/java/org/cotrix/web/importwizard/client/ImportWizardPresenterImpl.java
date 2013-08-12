@@ -173,6 +173,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	{
 		String title = configuration.getTitle();
 		view.setStepTitle(title);
+		view.setStepSubtitle(configuration.getSubtitle());
 
 		configureBackwardButton(configuration.getBackwardButton());
 		configureForwardButton(configuration.getForwardButton());

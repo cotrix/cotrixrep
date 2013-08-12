@@ -31,7 +31,6 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	}
 	
 	@UiField HTMLPanel reportPanel;
-	@UiField Label subtitle;
 	
 	@UiField(provided = true)
 	DataGrid<ReportLog> reportGrid;
@@ -39,7 +38,6 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	@UiField(provided = true)
 	SimplePager reportPager;
 	
-	protected Presenter presenter;
 	protected ReportLogDataProvider dataProvider;
 
 	@Inject
@@ -114,16 +112,6 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 
 		dataProvider.addDataDisplay(reportGrid);
 		
-	}
-	
-	@Override
-	public void setPresenter(Presenter presenter) {
-		this.presenter = presenter;
-	}
-	
-	public void setSubTitle(String subtitle)
-	{
-		this.subtitle.setText(subtitle);
 	}
 	
 	public void loadReport()

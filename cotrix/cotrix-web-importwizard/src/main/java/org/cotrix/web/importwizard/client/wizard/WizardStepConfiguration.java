@@ -11,6 +11,7 @@ public class WizardStepConfiguration {
 	
 	protected String label;
 	protected String title;
+	protected String subtitle;
 	protected NavigationButtonConfiguration backwardButton;
 	protected NavigationButtonConfiguration forwardButton;
 	
@@ -20,11 +21,12 @@ public class WizardStepConfiguration {
 	 * @param backwardButton
 	 * @param forwardButton
 	 */
-	public WizardStepConfiguration(String label, String title,
+	public WizardStepConfiguration(String label, String title, String subtitle,
 			NavigationButtonConfiguration backwardButton,
 			NavigationButtonConfiguration forwardButton) {
 		this.label = label;
 		this.title = title;
+		this.subtitle = subtitle;
 		this.backwardButton = backwardButton;
 		this.forwardButton = forwardButton;
 	}
@@ -42,12 +44,26 @@ public class WizardStepConfiguration {
 	public String getTitle() {
 		return title;
 	}
-	
+
 	/**
 	 * @param title the title to set
 	 */
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	/**
+	 * @return the subtitle
+	 */
+	public String getSubtitle() {
+		return subtitle;
+	}
+
+	/**
+	 * @param subtitle the subtitle to set
+	 */
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
 	}
 
 	/**

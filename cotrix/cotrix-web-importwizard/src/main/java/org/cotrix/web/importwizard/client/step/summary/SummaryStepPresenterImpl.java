@@ -32,7 +32,7 @@ ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelect
 
 	@Inject
 	public SummaryStepPresenterImpl(SummaryStepView view, @ImportBus EventBus importEventBus) {
-		super("summary", "Summary", "Recap", NavigationButtonConfiguration.DEFAULT_BACKWARD, new NavigationButtonConfiguration("Import", ButtonAction.NEXT, Resources.INSTANCE.css().blueButton()));
+		super("summary", "Summary", "Recap", "", NavigationButtonConfiguration.DEFAULT_BACKWARD, new NavigationButtonConfiguration("Import", ButtonAction.NEXT, Resources.INSTANCE.css().blueButton()));
 		this.view = view;
 		
 		this.importEventBus = importEventBus;

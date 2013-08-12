@@ -33,7 +33,8 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	//FIXME we should use DeckLayoutPanel
 	@UiField DeckPanel stepsPanel;
 	
-	@UiField Label titlePanel;
+	@UiField Label title;
+	@UiField Label subtitle;
 	
 	@UiField Button forwardButton;
 	@UiField Button backwardButton;
@@ -79,7 +80,12 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	
 	public void setStepTitle(String title)
 	{
-		this.titlePanel.setText(title);
+		this.title.setText(title);
+	}
+	
+	public void setStepSubtitle(String subtitle)
+	{
+		this.subtitle.setText(subtitle);
 	}
 	
 	public void showStep(WizardStep step)
@@ -140,7 +146,7 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	}
 
 	public void setFormTitle(String title) {
-		this.titlePanel.setText(title);
+		this.title.setText(title);
 	}
 
 	public void showBackButton(boolean isVisible) {

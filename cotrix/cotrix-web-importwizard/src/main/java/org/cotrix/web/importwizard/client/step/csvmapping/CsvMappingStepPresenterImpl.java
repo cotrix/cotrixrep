@@ -31,7 +31,7 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 	
 	@Inject
 	public CsvMappingStepPresenterImpl(CsvMappingStepView view, @ImportBus EventBus importEventBus){
-		super("csv-mapping", "Customize", "Customize it", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("csv-mapping", "Customize", "Customize it", "Tells us which columns to use, and how.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 		
 		this.importEventBus = importEventBus;
