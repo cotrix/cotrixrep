@@ -1,6 +1,7 @@
 package org.cotrix.web.importwizard.client.step.selection;
 
 import org.cotrix.web.importwizard.client.resources.DataGridResource;
+import org.cotrix.web.importwizard.client.step.selection.CodelistDetailsPanel.BackHandler;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
@@ -19,6 +20,8 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -37,6 +40,9 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 
 	private static ChannelStepUiBinder uiBinder = GWT.create(ChannelStepUiBinder.class);
 	
+	@UiField FlowPanel mainPanel;
+	@UiField DockLayoutPanel gridPanel;
+	
 	@UiField (provided = true) 
 	DataGrid<AssetInfo> dataGrid;
 
@@ -47,7 +53,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 
 	private AlertDialog alertDialog;
 	
-	protected CodelistDetailsDialog detailsDialog;
+	protected CodelistDetailsPanel detailsPanel;
 
 	private Presenter presenter;
 	
@@ -69,11 +75,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		setHeight("520px");
 		
 		nameColumn.setCellStyleNames(style.detailsText());
-		System.out.println(style.detailsText());
 	}
-	
-	
-	
 
 	/** 
 	 * {@inheritDoc}
@@ -233,9 +235,29 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 
 	@Override
 	public void showAssetDetails(AssetDetails asset) {
-		if (detailsDialog == null) detailsDialog = new CodelistDetailsDialog();
-		detailsDialog.setAsset(asset);
-		detailsDialog.center();
+		if (detailsPanel == null) {
+			detailsPanel = new CodelistDetailsPanel();
+			detailsPanel.setBackHandler(new BackHandler() {
+				
+				@Override
+				public void backPressed() {
+					switchPanels();
+				}
+			});
+		}
+		detailsPanel.setAsset(asset);
+		switchPanels();
+	}
+	
+	protected void switchPanels()
+	{
+		if (mainPanel.getWidget(0)==gridPanel) {
+			mainPanel.remove(gridPanel);
+			mainPanel.add(detailsPanel);
+		} else {
+			mainPanel.remove(detailsPanel);
+			mainPanel.add(gridPanel);
+		}
 	}
 	
 	public void reset()

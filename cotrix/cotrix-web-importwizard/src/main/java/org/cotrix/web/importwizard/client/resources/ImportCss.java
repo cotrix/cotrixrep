@@ -28,12 +28,14 @@ public interface ImportCss extends CssResource {
 	 * @return
 	 */
 	String propertyLabel();
+	String propertyValue();
 
 	String listBox();
 
 	String textBox();
 
 	String paddedText();
+	String sectionTitle();
 
 	String paddedTextDisabled();
 	

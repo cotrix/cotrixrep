@@ -37,12 +37,6 @@
 				border-style: solid;
 			}
 			
-			.value {
-				padding: 5px;
-				font-size: 14px;
-				color: #666;
-			}
-			
 			.grid {
 				vertical-align: top;
 				margin-right: 20px;
@@ -55,7 +49,7 @@
 					<g:Label styleName="{resources.css.propertyLabel}">File</g:Label>
 				</g:customCell>
 				<g:customCell>
-					<g:Label ui:field="fileField" styleName="{style.value}" />
+					<g:Label ui:field="fileField" styleName="{resources.css.propertyValue}" />
 				</g:customCell>
 			</g:row>
 			<g:row>
@@ -63,7 +57,7 @@
 					<g:Label styleName="{resources.css.propertyLabel}">Codelist</g:Label>
 				</g:customCell>
 				<g:customCell>
-					<g:Label ui:field="codelistField" styleName="{style.value}" />
+					<g:Label ui:field="codelistField" styleName="{resources.css.propertyValue}" />
 				</g:customCell>
 			</g:row>
 			<g:row>
@@ -91,7 +85,7 @@
 					<g:Label styleName="{resources.css.propertyLabel}">Fail on errors</g:Label>
 				</g:customCell>
 				<g:customCell>
-					<g:Label ui:field="mappingModeField" styleName="{style.value}" />
+					<g:Label ui:field="mappingModeField" styleName="{resources.css.propertyValue}" />
 				</g:customCell>
 			</g:row>
 		</g:Grid>

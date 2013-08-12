@@ -10,25 +10,30 @@ import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistDetailsDialog extends DialogBox {
+public class CodelistDetailsPanel extends Composite {
 
-	private static ChannelDetailsDialogUiBinder uiBinder = GWT
-			.create(ChannelDetailsDialogUiBinder.class);
+	private static ChannelDetailsPanelUiBinder uiBinder = GWT.create(ChannelDetailsPanelUiBinder.class);
 
-	interface ChannelDetailsDialogUiBinder extends
-	UiBinder<Widget, CodelistDetailsDialog> {
+	public interface BackHandler {
+		public void backPressed();
+	}
+	
+	interface ChannelDetailsPanelUiBinder extends UiBinder<Widget, CodelistDetailsPanel> {
 	}
 
 	interface Style extends CssResource {
@@ -42,6 +47,8 @@ public class CodelistDetailsDialog extends DialogBox {
 		String metadataLabel();
 
 	}
+	
+	@UiField PushButton backButton;
 
 	@UiField Label assetId;
 	@UiField Label assetName;
@@ -54,26 +61,32 @@ public class CodelistDetailsDialog extends DialogBox {
 	@UiField FlexTable repositoryDetails;
 
 	@UiField Style style;
+	
+	protected BackHandler backHandler;
 
-	public CodelistDetailsDialog() {
-		setModal(true);
-		setGlassEnabled(true);
-		setAnimationEnabled(true);
-		setAutoHideEnabled(true);
+	public CodelistDetailsPanel() {
+
+		initWidget(uiBinder.createAndBindUi(this));
 		setWidth("500px");
-
-		/*Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			public void execute() {
-				int left = Window.getScrollLeft()+ ((Window.getClientWidth( ) - box.getOffsetWidth( )) / 2); 
-				int top = Window.getScrollTop()+((Window.getClientHeight( ) - box.getOffsetHeight( )) / 4);
-				box.setPopupPosition(left, top);
-			}
-		});*/
-		setWidget(uiBinder.createAndBindUi(this));
 
 		setupEmpty(assetDetails);
 		setupEmpty(repositoryDetails);
 		
+	}
+	
+	/**
+	 * @param backHandler the backHandler to set
+	 */
+	public void setBackHandler(BackHandler backHandler) {
+		this.backHandler = backHandler;
+	}
+
+
+
+	@UiHandler("backButton")
+	protected void backButtonPressed(ClickEvent clickEvent)
+	{
+		if (backHandler!=null) backHandler.backPressed();
 	}
 
 	public void setAsset(AssetDetails asset)

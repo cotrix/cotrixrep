@@ -2,7 +2,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
-		field="resources"></ui:with>
+		field="resources" />
 	<ui:style
 		type="org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepViewImpl.Style">
 			.grid {

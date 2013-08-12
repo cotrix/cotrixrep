@@ -37,5 +37,8 @@ public interface Resources extends ClientBundle {
 	
 	@Source("download.png")
 	public ImageResource download();
+	
+	@Source("back.png")
+	public ImageResource back();
 
 }
