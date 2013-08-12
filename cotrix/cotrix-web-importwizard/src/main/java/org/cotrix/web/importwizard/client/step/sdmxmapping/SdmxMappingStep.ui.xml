@@ -28,7 +28,7 @@
 			</g:row>
 			<g:row>
 				<g:customCell styleName="{resources.css.verticalHeadersFieldItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Columns</g:Label>
+					<g:Label styleName="{resources.css.propertyLabel}">Elements</g:Label>
 				</g:customCell>
 				<g:customCell>
 					<g:FlexTable ui:field="columnsTable" />
