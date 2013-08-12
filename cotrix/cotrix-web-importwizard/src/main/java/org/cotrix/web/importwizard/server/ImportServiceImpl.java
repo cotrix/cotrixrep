@@ -12,18 +12,20 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import org.cotrix.io.Channels;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.climport.Importer;
 import org.cotrix.web.importwizard.server.climport.ImporterFactory;
 import org.cotrix.web.importwizard.server.upload.MappingGuesser;
+import org.cotrix.web.importwizard.server.util.AssetInfosCache;
 import org.cotrix.web.importwizard.server.util.Assets;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
+import org.cotrix.web.importwizard.server.util.Ranges;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AssetsBatch;
 import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.ColumnSortInfo;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
@@ -71,45 +73,36 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
 		return importSession;
 	}
+	
+	protected AssetInfosCache getAssetInfos()
+	{
+		HttpSession httpSession = this.getThreadLocalRequest().getSession();
+		return AssetInfosCache.getFromSession(httpSession, remoteRepository);
+	}	
 
 	/** 
 	 * {@inheritDoc}
 	 * @throws ImportServiceException 
 	 */
 	@Override
-	public AssetsBatch getAssets(Range range) throws ImportServiceException {
-
+	public AssetsBatch getAssets(Range range, ColumnSortInfo columnSortInfo) throws ImportServiceException {
+		logger.trace("getAssets range: "+range+" columnSortInfo: "+columnSortInfo);
 		try {
 
-			ArrayList<AssetInfo> assets = new ArrayList<AssetInfo>();
-
-			int discovered = remoteRepository.discover(Channels.importTypes);
-			logger.trace("discovered "+discovered+" remote codelist");
-
-			int i = -1;
-
-			for (Asset asset:remoteRepository) {
-				i++;
-				if (i<range.getStart()) continue;
-				if (i>=(range.getStart() + range.getLength())) continue;
-
-				AssetInfo assetInfo = Assets.convert(asset);
-				logger.trace("converted {} to {}", asset.name(), assetInfo);
-				assets.add(assetInfo);
-			}
-
+			AssetInfosCache cache = getAssetInfos();
+			List<AssetInfo> assets = cache.getAssets(columnSortInfo.getName());
+			List<AssetInfo> sublist = columnSortInfo.isAscending()?Ranges.subList(assets, range):Ranges.subListReverseOrder(assets, range);
+				
 			/*assets.add(new AssetInfo("urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FAO:CL_DIVISION(0.1)", "CL_DIVISION", "sdmx/codelist", "D4Science Development Registry"));
 			assets.add(new AssetInfo("321", "Gears", "SDMX", "D4Science Development Registry"));
 			assets.add(new AssetInfo("333", "Species Year 2013", "CSV", "D4Science Development Registry"));
 			assets.add(new AssetInfo("324", "Country", "SDMX", "D4Science Development Registry"));*/
 
-			logger.trace("returning "+assets.size()+" elements");
+			logger.trace("returning "+sublist.size()+" elements");
 
-			return new AssetsBatch(assets, i+1);
+			return new AssetsBatch(sublist, assets.size());
 		} catch(Exception e)
 		{
-			e.printStackTrace();
-
 			logger.error("Error retrieving assets", e);
 			throw new ImportServiceException(e.getMessage());
 		}
@@ -310,9 +303,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		try {
 			WizardImportSession session = getImportSession();
 			List<ReportLog> logs = (session==null || session.getLogs()==null)?Collections.<ReportLog>emptyList():session.getLogs();
-			int startIndex = Math.max(0, range.getStart());
-			int endIndex = Math.min(startIndex+range.getLength(), logs.size());
-			List<ReportLog> subLogs = new ArrayList<ReportLog>(logs.subList(startIndex, endIndex));
+			List<ReportLog> subLogs = Ranges.subList(logs, range);
 			return new ReportLogsBatch(subLogs, logs.size());
 		} catch(Exception e)
 		{

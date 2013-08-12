@@ -4,6 +4,7 @@ import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvid
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetsBatch;
 import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.ColumnSortInfo;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
@@ -22,7 +23,7 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("importService")
 public interface ImportService extends RemoteService {
 	
-	public AssetsBatch getAssets(Range range) throws ImportServiceException;
+	public AssetsBatch getAssets(Range range, ColumnSortInfo columnSortInfo) throws ImportServiceException;
 	
 	public AssetDetails getAssetDetails(String assetId) throws ImportServiceException;
 	

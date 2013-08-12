@@ -16,6 +16,9 @@ public class AssetInfo implements Serializable {
 	 */
 	private static final long serialVersionUID = 8076433432548925281L;
 	
+	public static final String NAME_FIELD = "NAME";
+	public static final String REPOSITORY_FIELD = "REPOSITORY";
+	
 	protected String id;
 	protected String name;
 	protected String type;

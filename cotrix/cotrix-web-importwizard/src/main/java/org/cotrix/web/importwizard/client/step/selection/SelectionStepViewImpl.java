@@ -15,6 +15,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextHeader;
@@ -114,9 +115,11 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 			}
 		});
 		dataGrid.setSelectionModel(selectionModel);
-
-		//ClickableTextCell cell = new ClickableTextCell();
 		
+		dataGrid.addColumnSortHandler(new AsyncHandler(dataGrid));
+
+		
+		// Check
 		TextHeader nameHeader = new TextHeader("Name");
 		
 		Column<AssetInfo, Boolean> checkColumn = new Column<AssetInfo, Boolean>(new SelectionCheckBoxCell()) {
@@ -137,8 +140,8 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 				return object.getName();
 			}
 		};
-		nameColumn.setSortable(false);
-		
+		nameColumn.setSortable(true);
+		nameColumn.setDataStoreName(AssetInfo.NAME_FIELD);
 		
 		nameColumn.setFieldUpdater(new FieldUpdater<AssetInfo, String>() {
 
@@ -148,76 +151,38 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 				presenter.assetDetails(object);
 			}
 		});
-
 		
-		//nameColumn.setCellStyleNames(styleNames);
-		
-		/*sortHandler.setComparator(firstNameColumn, new Comparator<ContactInfo>() {
-	      @Override
-	      public int compare(ContactInfo o1, ContactInfo o2) {
-	        return o1.getFirstName().compareTo(o2.getFirstName());
-	      }
-	    });*/
 		dataGrid.addColumn(nameColumn, nameHeader);
 
 
-		// type
+		// Type
 		Column<AssetInfo, String> typeColumn = new Column<AssetInfo, String>(new TextCell()) {
 			@Override
 			public String getValue(AssetInfo object) {
 				return object.getType();
 			}
 		};
+		
 		typeColumn.setSortable(false);
-		/*sortHandler.setComparator(firstNameColumn, new Comparator<ContactInfo>() {
-			      @Override
-			      public int compare(ContactInfo o1, ContactInfo o2) {
-			        return o1.getFirstName().compareTo(o2.getFirstName());
-			      }
-			    });*/
 		dataGrid.addColumn(typeColumn, "Type");
 		dataGrid.setColumnWidth(typeColumn, "20%");
 		
 
-		// repository
+		// Repository
 		Column<AssetInfo, String> repositoryColumn = new Column<AssetInfo, String>(new TextCell()) {
 			@Override
 			public String getValue(AssetInfo object) {
 				return object.getRepositoryName();
 			}
 		};
-		repositoryColumn.setSortable(false);
-		/*sortHandler.setComparator(firstNameColumn, new Comparator<ContactInfo>() {
-			      @Override
-			      public int compare(ContactInfo o1, ContactInfo o2) {
-			        return o1.getFirstName().compareTo(o2.getFirstName());
-			      }
-			    });*/
+		repositoryColumn.setSortable(true);
+		repositoryColumn.setDataStoreName(AssetInfo.REPOSITORY_FIELD);
+		
 		dataGrid.addColumn(repositoryColumn, "Origin");
 		dataGrid.setColumnWidth(repositoryColumn, "20%");
-		
-		//details
-		/*Column<AssetInfo, String> detailsColumn = new Column<AssetInfo, String>(new ButtonCell()) {
-			@Override
-			public String getValue(AssetInfo object) {
-				return "Details";
-			}
-		};
-		detailsColumn.setSortable(false);
-		detailsColumn.setFieldUpdater(new FieldUpdater<AssetInfo, String>() {
 			
-			@Override
-			public void update(int index, AssetInfo object, String value) {
-				presenter.assetDetails(object);
-			}
-		});
-		
-		dataGrid.addColumn(detailsColumn, "");*/
-		
-		
-		
+		assetInfoDataProvider.setDatagrid(dataGrid);
 		assetInfoDataProvider.addDataDisplay(dataGrid);
-		
 	}
 
 	public void setPresenter(Presenter presenter) {
