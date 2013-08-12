@@ -24,4 +24,8 @@ public interface SdmxMappingStepView {
 	
 	Widget asWidget();
 
+	void setCodelistName(String name);
+
+	String getCodelistName();
+
 }

@@ -142,13 +142,14 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 					case CSV: {
 						Log.trace("getting parser configuration");
 						getCsvParserConfiguration(); 
-						Log.trace("getting metadata");
-						getMetadata();
 					} break;
 					default: break;
 				}				
 			}
 		});
+		
+		Log.trace("getting metadata");
+		getMetadata();
 		
 		Log.trace("getting mapping");
 		getMappings();
@@ -168,16 +169,12 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 
 			@Override
-			public void onSuccess(CodeListType result) {
-				switch (result) {
-					case CSV: {
-						Log.trace("getting metadata");
-						getMetadata();
-					} break;
-					default: break;
-				}				
+			public void onSuccess(CodeListType result) {			
 			}
 		});
+		
+		Log.trace("getting metadata");
+		getMetadata();
 		
 		Log.trace("getting mapping");
 		getMappings();

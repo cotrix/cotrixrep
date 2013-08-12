@@ -41,6 +41,7 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	protected static int LABEL_COLUMN = 2;
 
 	@UiField FlexTable columnsTable;
+	@UiField TextBox name;
 	@UiField Style style;
 
 	private AlertDialog alertDialog;
@@ -57,6 +58,16 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	public SdmxMappingStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		Resources.INSTANCE.css().ensureInjected();
+	}
+	
+	@Override
+	public void setCodelistName(String name) {
+		this.name.setValue(name);
+	}
+
+	@Override
+	public String getCodelistName() {
+		return this.name.getValue();
 	}
 
 	public void setAttributes(List<AttributeMapping> mappings)

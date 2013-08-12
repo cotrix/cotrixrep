@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
+import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
@@ -19,7 +21,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements SdmxMappingStepPresenter, MappingsUpdatedHandler {
+public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements SdmxMappingStepPresenter, MappingsUpdatedHandler, MetadataUpdatedHandler {
 
 	protected SdmxMappingStepView view;
 	protected EventBus importEventBus;
@@ -31,6 +33,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 
 		this.importEventBus = importEventBus;
 		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, this);
+		importEventBus.addHandler(MetadataUpdatedEvent.TYPE, this);
 	}
 
 	/** 
@@ -47,6 +50,8 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 		Log.trace(mappings.size()+" mappings to check");
 
 		boolean valid = validateMappings(mappings);
+		String codelistName = view.getCodelistName();
+		valid &= validateAttributes(codelistName);
 
 		if (valid) {
 
@@ -55,6 +60,17 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 		}
 
 		return valid;
+	}
+	
+
+	protected boolean validateAttributes(String codelistName)
+	{
+		if (codelistName==null || codelistName.isEmpty()) {
+			view.alert("You should choose a codelist name");
+			return false;
+		}
+		
+		return true;
 	}
 
 	protected boolean validateMappings(List<AttributeMapping> mappings)
@@ -76,5 +92,11 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 		if (event.isUserEdit()) return;
 		AttributesMappings attributesMappings = event.getMappings();
 		view.setAttributes(attributesMappings.getMappings());
+	}
+	
+
+	@Override
+	public void onMetadataUpdated(MetadataUpdatedEvent event) {
+		if (!event.isUserEdited()) view.setCodelistName(event.getMetadata().getName());
 	}
 }
