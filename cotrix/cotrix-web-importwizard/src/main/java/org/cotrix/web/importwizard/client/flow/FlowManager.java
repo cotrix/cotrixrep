@@ -11,6 +11,7 @@ import java.util.TreeSet;
 
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.HasFlowUpdatedHandlers;
+import org.cotrix.web.importwizard.client.flow.NodeStateChangedEvent.NodeStateChangedHandler;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.shared.GwtEvent;
@@ -21,7 +22,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class FlowManager<T> implements FlowUpdatedHandler, HasFlowUpdatedHandlers {
+public class FlowManager<T> implements NodeStateChangedHandler, HasFlowUpdatedHandlers {
 
 	protected FlowNode<T> flowRoot;
 	protected FlowNode<T> currentNode;
@@ -97,13 +98,6 @@ public class FlowManager<T> implements FlowUpdatedHandler, HasFlowUpdatedHandler
 	public HandlerRegistration addFlowUpdatedHandler(FlowUpdatedHandler handler) {
 		return handlerManager.addHandler(FlowUpdatedEvent.TYPE, handler);
 	}
-
-	@Override
-	public void onFlowUpdated(FlowUpdatedEvent event) {
-		Log.trace("FlowManage flow updated");
-		fireEvent(event);		
-	}
-
 	public String toDot(LabelProvider<T> labelProvider)
 	{
 		StringBuilder dot = new StringBuilder();
@@ -135,4 +129,11 @@ public class FlowManager<T> implements FlowUpdatedHandler, HasFlowUpdatedHandler
 	public interface LabelProvider<T> {
 		public String getLabel(T item);
 	}
+
+	@Override
+	public void onNodeStateChange(NodeStateChangedEvent event) {
+		Log.trace("node state changed firing flow updated");
+		FlowUpdatedEvent.fire(this);
+	}
+
 }

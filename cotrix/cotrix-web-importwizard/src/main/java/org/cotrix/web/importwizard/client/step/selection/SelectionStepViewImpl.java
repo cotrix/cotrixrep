@@ -222,6 +222,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	public void reset()
 	{
 		dataGrid.redraw();
+		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}
 
 

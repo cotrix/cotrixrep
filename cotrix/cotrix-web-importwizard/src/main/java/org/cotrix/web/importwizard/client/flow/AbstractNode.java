@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.importwizard.client.flow;
 
-import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
+import org.cotrix.web.importwizard.client.flow.NodeStateChangedEvent.NodeStateChangedHandler;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
@@ -34,8 +34,8 @@ public abstract class AbstractNode<T> implements FlowNode<T> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public HandlerRegistration addFlowUpdatedHandler(FlowUpdatedHandler handler) {
-		return manager.addHandler(FlowUpdatedEvent.TYPE, handler);
+	public HandlerRegistration addNodeStateChangeHandler(NodeStateChangedHandler handler) {
+		return manager.addHandler(NodeStateChangedEvent.TYPE, handler);
 	}
 
 	/** 
@@ -45,6 +45,5 @@ public abstract class AbstractNode<T> implements FlowNode<T> {
 	public void fireEvent(GwtEvent<?> event) {
 		manager.fireEvent(event);		
 	}
-	
 	
 }

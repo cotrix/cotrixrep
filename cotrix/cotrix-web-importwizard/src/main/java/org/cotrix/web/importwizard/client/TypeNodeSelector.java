@@ -58,12 +58,13 @@ public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> implement
 
 	@Override
 	public void onCodeListTypeUpdated(CodeListTypeUpdatedEvent event) {
-		Log.trace("TypeNodeSelector updating next to "+event.getCodeListType());
+		Log.trace("TypeNodeSelector updating next to "+event.getCodeListType()+" event: "+event.toDebugString());
 		switch (event.getCodeListType()) {
 			case CSV: nextStep = csvStep; break;
 			case SDMX: nextStep = sdmxStep; break;
 		}
 		switchUpdated();
+
 	}
 
 }

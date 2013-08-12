@@ -12,7 +12,7 @@ import org.cotrix.web.importwizard.client.flow.CheckPointNode;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
 import org.cotrix.web.importwizard.client.flow.FlowNode;
 import org.cotrix.web.importwizard.client.flow.CheckPointNode.CheckPointHandler;
-import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
+import org.cotrix.web.importwizard.client.flow.NodeStateChangedEvent.NodeStateChangedHandler;
 import org.cotrix.web.importwizard.client.flow.SingleNode;
 import org.cotrix.web.importwizard.client.flow.SwitchNode;
 import org.cotrix.web.importwizard.client.flow.SwitchNode.NodeSelector;
@@ -97,13 +97,13 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 		if (nexts!=null) for (FlowManagerBuilder<T> next:nexts) next.resetBuilt(); 
 	}
 	
-	protected FlowNode<T> internalBuild(FlowUpdatedHandler handler)
+	protected FlowNode<T> internalBuild(NodeStateChangedHandler handler)
 	{
 		if (built!=null) return built;
 		
 		if (nexts == null) {
 			SingleNode<T> node = new SingleNode<T>(item);
-			node.addFlowUpdatedHandler(handler);
+			node.addNodeStateChangeHandler(handler);
 			return wrapCheckPoint(node);
 		}
 		
@@ -113,7 +113,7 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 			SingleNode<T> node = new SingleNode<T>(item);
 			node.setNext(next);
 			
-			node.addFlowUpdatedHandler(handler);
+			node.addNodeStateChangeHandler(handler);
 			
 			return wrapCheckPoint(node);
 		}
@@ -126,7 +126,7 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 			}
 		
 			SwitchNode<T> node = new SwitchNode<T>(item, children, selector);
-			node.addFlowUpdatedHandler(handler);
+			node.addNodeStateChangeHandler(handler);
 			return wrapCheckPoint(node);
 		}
 		

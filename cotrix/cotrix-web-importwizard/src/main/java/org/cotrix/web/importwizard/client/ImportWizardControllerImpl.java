@@ -173,11 +173,11 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 		});
 		
-		Log.trace("getting metadata");
+		/*Log.trace("getting metadata");
 		getMetadata();
 		
 		Log.trace("getting mapping");
-		getMappings();
+		getMappings();*/
 		
 		Log.trace("done selectedItemUpdated");
 	}
@@ -188,6 +188,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			
 			@Override
 			public void onSuccess(CodeListType type) {
+				Log.trace("retrieved codelist type "+type);
 				importEventBus.fireEvent(new CodeListTypeUpdatedEvent(type));
 				callaback.onSuccess(type);
 			}

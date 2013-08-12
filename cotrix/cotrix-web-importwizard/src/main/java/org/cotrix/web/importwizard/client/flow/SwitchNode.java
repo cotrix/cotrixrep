@@ -39,7 +39,7 @@ public class SwitchNode<T> extends AbstractNode<T> implements SwitchSelectionUpd
 
 	@Override
 	public void onSwitchSelectionUpdated(SwitchSelectionUpdatedEvent event) {
-		FlowUpdatedEvent.fire(this);
+		NodeStateChangedEvent.fire(this);
 	}
 
 	@Override

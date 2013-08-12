@@ -6,7 +6,7 @@ package org.cotrix.web.importwizard.client.flow;
 import java.util.Collections;
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
+import org.cotrix.web.importwizard.client.flow.NodeStateChangedEvent.NodeStateChangedHandler;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -33,12 +33,6 @@ public class CheckPointNode<T> implements FlowNode<T> {
 	{
 		return handler.check();
 	}
-	
-
-	@Override
-	public HandlerRegistration addFlowUpdatedHandler(FlowUpdatedHandler handler) {
-		return innerNode.addFlowUpdatedHandler(handler);
-	}
 
 	@Override
 	public void fireEvent(GwtEvent<?> event) {
@@ -62,6 +56,11 @@ public class CheckPointNode<T> implements FlowNode<T> {
 	@Override
 	public List<FlowNode<T>> getChildren() {
 		return Collections.singletonList(innerNode);
+	}
+
+	@Override
+	public HandlerRegistration addNodeStateChangeHandler(NodeStateChangedHandler handler) {
+		return innerNode.addNodeStateChangeHandler(handler);
 	}
 
 }

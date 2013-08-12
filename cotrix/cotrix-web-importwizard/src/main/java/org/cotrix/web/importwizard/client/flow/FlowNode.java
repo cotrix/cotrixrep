@@ -5,13 +5,13 @@ package org.cotrix.web.importwizard.client.flow;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.HasFlowUpdatedHandlers;
+import org.cotrix.web.importwizard.client.flow.NodeStateChangedEvent.HasNodeStateChangedHandlers;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface FlowNode<T> extends HasFlowUpdatedHandlers {
+public interface FlowNode<T> extends HasNodeStateChangedHandlers {
 	
 	public T getItem();
 	

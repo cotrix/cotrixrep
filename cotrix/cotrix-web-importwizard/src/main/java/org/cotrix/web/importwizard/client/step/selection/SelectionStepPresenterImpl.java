@@ -65,6 +65,7 @@ public class SelectionStepPresenterImpl extends AbstractWizardStep implements Se
 
 			@Override
 			public void onSuccess(Void result) {
+				Log.trace("asset selected on server, firing event");
 				importEventBus.fireEvent(new CodeListSelectedEvent());
 			}
 		});
