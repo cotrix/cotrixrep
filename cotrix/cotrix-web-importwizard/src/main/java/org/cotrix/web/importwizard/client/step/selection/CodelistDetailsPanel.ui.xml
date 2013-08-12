@@ -3,59 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources" />
-	<ui:style
-		type="org.cotrix.web.importwizard.client.step.selection.CodelistDetailsPanel.Style">
-			
-			.headerlabel {
-				margin-right: 20px;
-				font-weight: bold;
-				color: #333;
-			}
-			
-			.cell {
-				padding: 5px;
-				font-size: 14px;
-				color: #666;
-			}
-			
-			.flexTable {
-				border-width: 0 0 1px 1px;
-				border-spacing: 0;
-				border-color: #ccc;
-				background-color: white;
-				border-collapse: collapse;
-				color: #666;
-				font-size: 8px;
-				border-style: solid;
-				text-align: left;
-			}
-			
-			.flexTableHeader {
-				background-color: #eee;
-				text-align: center;
-			}
-			
-			.flexTable td,.flexTable th {
-				margin: 0;
-				border-color: #ccc;
-				padding: 3px;
-				padding-left: 10px;
-				border-width: 1px 1px 0 0;
-				border-style: solid;
-			}
-			
-			.metadata {
-				vertical-align: top;
-			}
-			
-			.metadataLabel {
-				text-align: right;
-				font-weight: bold;
-			}
-			
-			.details {
-				margin-top: 6px;
-			}
+	<ui:style >
 			
 			.blueButton {
 				border: 1px solid #3063a1;
@@ -139,7 +87,7 @@
 							</g:customCell>
 							<g:customCell>
 								<g:FlexTable ui:field="assetDetails" cellPadding="0"
-									cellSpacing="0" borderWidth="1" styleName="{style.flexTable}"
+									cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
 									width="100%" />
 							</g:customCell>
 						</g:row>
@@ -180,7 +128,7 @@
 							</g:customCell>
 							<g:customCell>
 								<g:FlexTable ui:field="repositoryDetails"
-									cellPadding="0" cellSpacing="0" borderWidth="1" styleName="{style.flexTable}"
+									cellPadding="0" cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
 									width="100%" />
 							</g:customCell>
 						</g:row>

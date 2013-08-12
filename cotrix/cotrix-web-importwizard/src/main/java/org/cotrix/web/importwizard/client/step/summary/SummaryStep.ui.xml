@@ -3,8 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
-	<ui:style
-		type="org.cotrix.web.importwizard.client.step.summary.SummaryStepViewImpl.Style">
+	<ui:style>
 			.headerlabel {
 				margin-right: 20px;
 				font-weight: bold;
@@ -76,7 +75,7 @@
 				</g:customCell>
 				<g:customCell>
 					<g:FlexTable ui:field="customTable" cellPadding="0"
-						cellSpacing="0" borderWidth="1" styleName="{style.summaryTable}"
+						cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
 						width="100%"></g:FlexTable>
 				</g:customCell>
 			</g:row>

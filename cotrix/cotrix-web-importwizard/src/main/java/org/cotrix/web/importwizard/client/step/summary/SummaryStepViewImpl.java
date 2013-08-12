@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.util.ProgressDialog;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
@@ -42,11 +42,6 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	@UiField FlexTable propertiesTable;
 	@UiField Label mappingModeField;
 	@UiField FlexTable customTable;
-	@UiField Style style;
-
-	interface Style extends CssResource {
-		String headerlabel();
-	}
 
 	private ProgressDialog progressDialog;
 
@@ -94,14 +89,12 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 
 		if (properties.size() == 0) {
 			panel.getRowFormatter().setVisible(PROPERTIES_FIELD_ROW, false);
-			//propertiesTable.setVisible(false);
 		} else {
 			panel.getRowFormatter().setVisible(PROPERTIES_FIELD_ROW, true);
-			//propertiesTable.setVisible(true);
 			propertiesTable.setText(0, 0, "Name");
 			propertiesTable.setText(0, 1, "Value");
-			propertiesTable.getCellFormatter().setStyleName(0, 0, style.headerlabel());
-			propertiesTable.getCellFormatter().setStyleName(0, 1, style.headerlabel());
+			propertiesTable.getCellFormatter().setStyleName(0, 0, Resources.INSTANCE.css().propertiesTableHeader());
+			propertiesTable.getCellFormatter().setStyleName(0, 1, Resources.INSTANCE.css().propertiesTableHeader());
 			int row = 1;
 			for (Entry<String, String> attribute:properties.entrySet()) {
 				propertiesTable.setText(row, 0, attribute.getKey());

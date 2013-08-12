@@ -29,6 +29,9 @@ public interface ImportCss extends CssResource {
 	 */
 	String propertyLabel();
 	String propertyValue();
+	
+	String propertiesTable();
+	String propertiesTableHeader();
 
 	String listBox();
 

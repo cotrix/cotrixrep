@@ -5,13 +5,13 @@ package org.cotrix.web.importwizard.client.step.selection;
 
 import java.util.List;
 
+import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -35,18 +35,6 @@ public class CodelistDetailsPanel extends Composite {
 	
 	interface ChannelDetailsPanelUiBinder extends UiBinder<Widget, CodelistDetailsPanel> {
 	}
-
-	interface Style extends CssResource {
-		String headerlabel();
-		String valuelabel();
-		String flexTable();
-		String flexTableHeader();
-		String grid();
-		String cell();
-		String metadata();
-		String metadataLabel();
-
-	}
 	
 	@UiField PushButton backButton;
 
@@ -59,8 +47,6 @@ public class CodelistDetailsPanel extends Composite {
 	@UiField Label repositoryPublishedTypes;
 	@UiField Label repositoryReturnedTypes;
 	@UiField FlexTable repositoryDetails;
-
-	@UiField Style style;
 	
 	protected BackHandler backHandler;
 
@@ -144,7 +130,7 @@ public class CodelistDetailsPanel extends Composite {
 	protected Label getHeaderLabel(String text)
 	{
 		Label headerLabel = new Label(text);
-		headerLabel.setStyleName(style.headerlabel());
+		headerLabel.setStyleName(Resources.INSTANCE.css().propertiesTableHeader());
 		return headerLabel;
 	}
 
