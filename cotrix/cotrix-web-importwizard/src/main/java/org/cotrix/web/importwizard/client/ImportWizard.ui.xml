@@ -53,18 +53,22 @@
 		
 		.subtitle {
 			margin-left: 20px;
-			font-size: 25px;
+			font-size: 18px;
+			font-weight: normal;
 			color: #999;
+			margin-top: -3px;
 		}
 		
 		.contentPanel {
 			text-align: left;
 			padding: 20px;
 			height: 100%;
+			margin-top: 22px;
 		}
 		
 		.buttonPanel {
 			padding-bottom: 5px;
+			padding-top: 30px;
 		}
 		
 		.leftButtonPanel {
@@ -83,9 +87,10 @@
 			<g:FlowPanel ui:field="progressTrackerPanel" styleName="{style.progressTrackerPanel}" />
 			<g:FlowPanel ui:field="contentPanel" styleName="{style.panel}">
 				<g:Label text="Title" styleName="{style.title}" ui:field="title" />
-				<g:Label ui:field="subtitle" styleName="{style.subtitle}">If you don't have it, we can find it.</g:Label>
+				<g:Label ui:field="subtitle" styleName="{style.subtitle}">If you don't have it,
+					we can find it.</g:Label>
 				<g:DeckPanel ui:field="stepsPanel" styleName="{style.contentPanel}" />
-				<g:Grid width="100%"  styleName="{style.buttonPanel}">
+				<g:Grid width="100%" styleName="{style.buttonPanel}">
 					<g:row>
 						<g:customCell styleName="{style.leftButtonPanel}">
 							<g:Button ui:field="backwardButton" styleName="{resources.css.grayButton}"
