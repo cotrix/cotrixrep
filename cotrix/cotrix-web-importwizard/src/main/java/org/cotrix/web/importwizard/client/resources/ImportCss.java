@@ -56,4 +56,6 @@ public interface ImportCss extends CssResource {
 	
 	String blueButton();
 	String grayButton();
+	
+	String areaHighlight();
 }

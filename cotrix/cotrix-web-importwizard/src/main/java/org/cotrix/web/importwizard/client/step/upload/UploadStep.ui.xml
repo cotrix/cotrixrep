@@ -57,18 +57,12 @@
 		}
 		
 		.browse-panel {
-			cursor: pointer;
 			margin-left: auto;
 			margin-right: auto;
 			display: inline-block;
 			outline: 0;
-			padding: 10px;
 		}
-		
-		.browse-panel:HOVER {
-			box-shadow: 0px 0px 5px #61C5FA;
-		}
-		
+
 		.icon_panel {
 			border-radius: 5px;
 			padding: 10px;
@@ -99,7 +93,7 @@
 						<g:customCell styleName="{style.cell}">
 							<g:VerticalPanel styleName="{style.icon_panel}"
 								horizontalAlignment="center">
-								<g:FocusPanel ui:field="browseButton" styleName="{style.browse-panel}">
+								<g:FocusPanel ui:field="browseButton" styleName="{style.browse-panel} {resources.css.areaHighlight}">
 									<g:HTMLPanel>
 										<g:Image resource="{resources.computer}" />
 										<g:HTMLPanel styleName="{style.caption}" ui:field="captionPanel">

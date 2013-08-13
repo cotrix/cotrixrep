@@ -1,7 +1,7 @@
 .gwt-PopupPanelGlass {
 	background-color: #000;
 	opacity: 0.3;
-	filter: alpha(opacity =                 30);
+	filter: alpha(opacity =                   30);
 }
 
 .simpleCheckbox {
@@ -213,7 +213,6 @@
 }
 
 /** PROPERTIES TABLE **/
-
 .propertiesTableHeader {
 	text-align: center;
 }
@@ -237,4 +236,15 @@
 	padding-left: 10px;
 	border-width: 1px 1px 0 0;
 	border-style: solid;
+}
+
+/** AREA HOVER HIGHLIGHT **/
+.areaHightlight {
+	cursor: pointer;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.areaHighlight:HOVER {
+	box-shadow: 0px 0px 5px #61C5FA;
 }
