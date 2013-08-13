@@ -62,6 +62,7 @@ public class WizardImportSession {
 	
 	protected Importer<?> importer;
 	
+	protected String importedCodelistName;
 	protected List<ReportLog> logs;
 	protected String report;
 
@@ -232,6 +233,20 @@ public class WizardImportSession {
 	 */
 	public void setReport(String report) {
 		this.report = report;
+	}
+
+	/**
+	 * @return the importedCodelistName
+	 */
+	public String getImportedCodelistName() {
+		return importedCodelistName;
+	}
+
+	/**
+	 * @param importedCodelistName the importedCodelistName to set
+	 */
+	public void setImportedCodelistName(String importedCodelistName) {
+		this.importedCodelistName = importedCodelistName;
 	}
 
 }

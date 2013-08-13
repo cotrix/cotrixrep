@@ -18,7 +18,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.upload.CodeListTypeGuesser;
 import org.cotrix.web.importwizard.server.upload.CsvParserConfigurationGuesser;
-import org.cotrix.web.importwizard.server.upload.FileNameCleaner;
+import org.cotrix.web.importwizard.server.upload.FileNameUtil;
 import org.cotrix.web.importwizard.server.upload.MappingGuesser;
 import org.cotrix.web.importwizard.server.upload.UploadProgressListener;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
@@ -147,7 +147,7 @@ public class FileUpload extends HttpServlet{
 				AttributesMappings mappings = mappingsGuesser.guessMappings(table);
 				session.setMappings(mappings);
 
-				String filename = FileNameCleaner.clean(fileField.getName());
+				String filename = FileNameUtil.toHumanReadable(fileField.getName());
 				ImportMetadata metadata = new ImportMetadata();
 				metadata.setName(filename);
 				session.setGuessedMetadata(metadata);

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.cotrix.web.importwizard.server.upload.FileNameUtil;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -32,9 +33,11 @@ public class ReportDownload extends HttpServlet {
 			return;
 		}
 		
+		String filename = FileNameUtil.toValidFileName("report-"+session.getImportedCodelistName()+".log");
+		
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType("text/plain; charset=UTF-8");
-		response.setHeader("Content-Disposition", "attachment;filename=report.log");
+		response.setHeader("Content-Disposition", "attachment;filename="+filename);
 		OutputStream os = response.getOutputStream();
 		IOUtils.copy(new StringReader(report), os);
 		os.flush();
