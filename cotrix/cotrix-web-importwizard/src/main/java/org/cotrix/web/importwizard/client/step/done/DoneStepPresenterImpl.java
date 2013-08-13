@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client.step.done;
 
+import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent.ImportProgressHandler;
@@ -22,7 +23,7 @@ public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneSte
 	
 	@Inject
 	public DoneStepPresenterImpl(DoneStepView view, @ImportBus EventBus importEventBus) {
-		super("done","Done", "Done", "Done", NEW_IMPORT, MANAGE);
+		super("done", TrackerLabels.DONE, "Done", "Done", NEW_IMPORT, MANAGE);
 		this.view = view;
 		this.importEventBus = importEventBus;
 		importEventBus.addHandler(ImportProgressEvent.TYPE, this);

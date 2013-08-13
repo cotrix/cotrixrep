@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.importwizard.client.step;
 
+import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 
@@ -18,7 +19,7 @@ public abstract class AbstractWizardStep implements WizardStep {
 	/**
 	 * @param id
 	 */
-	public AbstractWizardStep(String id, String label, String title, String subtitle,
+	public AbstractWizardStep(String id, ProgressStep label, String title, String subtitle,
 			NavigationButtonConfiguration backwardButton,
 			NavigationButtonConfiguration forwardButton) {
 		this.id = id;

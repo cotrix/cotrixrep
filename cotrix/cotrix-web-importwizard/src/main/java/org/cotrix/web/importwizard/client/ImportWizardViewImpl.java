@@ -1,11 +1,11 @@
 package org.cotrix.web.importwizard.client;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker;
+import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -29,13 +29,13 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	private static ImportWizardUiBinder uiBinder = GWT.create(ImportWizardUiBinder.class);
 
 	@UiField FlowPanel progressTrackerPanel;
-	
+
 	//FIXME we should use DeckLayoutPanel
 	@UiField DeckPanel stepsPanel;
-	
+
 	@UiField Label title;
 	@UiField Label subtitle;
-	
+
 	@UiField Button forwardButton;
 	@UiField Button backwardButton;
 
@@ -55,91 +55,80 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 		progressTrackerPanel.add(progressTracker);
 		decksIndexes = new HashMap<String, Integer>();
 	}
-	
+
 	public void addStep(WizardStep step)
 	{
 		Log.trace("Adding "+step.getId());
-			step.go(stepsPanel);
-			decksIndexes.put(step.getId(), currentIndex++);
+		step.go(stepsPanel);
+		decksIndexes.put(step.getId(), currentIndex++);
 		Log.trace("Totalpanels in deck "+stepsPanel.getWidgetCount());
 
 	}
-	
-	public void setLabels(List<WizardStep> steps) {
+
+	public void setLabels(List<ProgressStep> steps) {
 		Log.trace("setting "+steps.size()+" labels");
-		List<String> labels = new ArrayList<String>();
-		labelsIndexes = new HashMap<String, Integer>();
-		int index = 0;
-		for (WizardStep step:steps){
-			String label = step.getConfiguration().getLabel();
-			labels.add(label);
-			labelsIndexes.put(step.getId(), index++);
-		}
-		progressTracker.init(labels);
+		progressTracker.init(steps);	
 	}
-	
+
 	public void setStepTitle(String title)
 	{
 		this.title.setText(title);
 	}
-	
+
 	public void setStepSubtitle(String subtitle)
 	{
 		this.subtitle.setText(subtitle);
 	}
-	
+
 	public void showStep(WizardStep step)
 	{
 		Log.trace("showStep "+step.getId()+" steps: "+stepsPanel.getWidgetCount());
 		int deckIndex = decksIndexes.get(step.getId());
 		stepsPanel.showWidget(deckIndex);
-		showLabel(step);
 	}
-	
-	public void showLabel(WizardStep step)
+
+	public void showLabel(ProgressStep step)
 	{
-		Integer labelIndex = labelsIndexes.get(step.getId());
-		if (labelIndex == null) throw new IllegalArgumentException("Label for step "+step.getId()+" not registered");
-		progressTracker.setCurrentStep(labelIndex);
+		progressTracker.setCurrentStep(step);
 	}
-	
+
 	public void hideBackwardButton()
 	{
 		backwardButton.setVisible(false);
 	}
-	
+
 	public void showBackwardButton()
 	{
 		backwardButton.setVisible(true);
 	}
-	
+
 	public void setBackwardButton(String label, String style)
 	{
 		backwardButton.setText(label);
 		backwardButton.setStyleName(style);
 	}
-	
+
 	public void hideForwardButton()
 	{
 		forwardButton.setVisible(false);
 	}
-	
+
 	public void showForwardButton()
 	{
 		forwardButton.setVisible(true);
 	}
-	
+
 	public void setForwardButton(String label, String style)
 	{
 		forwardButton.setText(label);
 		forwardButton.setStyleName(style);
 	}
-	
+
 	@UiHandler("forwardButton")
 	public void onForwardButtonClicked(ClickEvent event){
 		presenter.onFowardButtonClicked();
 	}
-	
+
 	@UiHandler("backwardButton")
 	public void onBackwardButtonClicked(ClickEvent event){
 		presenter.onBackwardButtonClicked();

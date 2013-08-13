@@ -1,6 +1,7 @@
 package org.cotrix.web.importwizard.client.step.upload;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
@@ -45,7 +46,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 
 	@Inject
 	public UploadStepPresenterImpl(UploadStepView view, @ImportBus EventBus importEventBus) {
-		super("upload", "Acquire", "Upload it", "Choose a CSV or SDMX file on you computer.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("upload", TrackerLabels.ACQUIRE, "Upload it", "Choose a CSV or SDMX file on you computer.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		

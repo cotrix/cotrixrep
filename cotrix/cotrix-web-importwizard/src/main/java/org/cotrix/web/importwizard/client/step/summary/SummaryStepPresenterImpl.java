@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client.step.summary;
 
+import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
@@ -33,7 +34,7 @@ ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelect
 
 	@Inject
 	public SummaryStepPresenterImpl(SummaryStepView view, @ImportBus EventBus importEventBus) {
-		super("summary", "Summary", "Recap", "", NavigationButtonConfiguration.DEFAULT_BACKWARD, new NavigationButtonConfiguration("Import", ButtonAction.NEXT, Resources.INSTANCE.css().blueButton()));
+		super("summary", TrackerLabels.SUMMARY, "Recap", "", NavigationButtonConfiguration.DEFAULT_BACKWARD, new NavigationButtonConfiguration("Import", ButtonAction.NEXT, Resources.INSTANCE.css().blueButton()));
 		this.view = view;
 		
 		this.importEventBus = importEventBus;

@@ -2,6 +2,7 @@ package org.cotrix.web.importwizard.client.step.csvmapping;
 
 import java.util.List;
 
+import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
@@ -33,7 +34,7 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 	
 	@Inject
 	public CsvMappingStepPresenterImpl(CsvMappingStepView view, @ImportBus EventBus importEventBus){
-		super("csv-mapping", "Customize", "Customize it", "Tells us which columns to use, and how.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("csv-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tells us which columns to use, and how.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 		view.setPresenter(this);
 		

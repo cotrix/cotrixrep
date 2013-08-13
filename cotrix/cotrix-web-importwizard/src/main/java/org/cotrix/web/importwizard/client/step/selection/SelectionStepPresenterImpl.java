@@ -1,6 +1,7 @@
 package org.cotrix.web.importwizard.client.step.selection;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
@@ -35,7 +36,7 @@ public class SelectionStepPresenterImpl extends AbstractWizardStep implements Se
 	
 	@Inject
 	public SelectionStepPresenterImpl(SelectionStepView view, @ImportBus EventBus importEventBus) {
-		super("selection", "Acquire", "Pick a codelist", "", DEFAULT_BACKWARD, DEFAULT_FORWARD);
+		super("selection", TrackerLabels.ACQUIRE, "Pick a codelist", "", DEFAULT_BACKWARD, DEFAULT_FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		this.importEventBus = importEventBus;

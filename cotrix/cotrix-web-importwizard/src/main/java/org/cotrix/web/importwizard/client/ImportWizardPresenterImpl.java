@@ -1,6 +1,9 @@
 package org.cotrix.web.importwizard.client;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.NewImportEvent;
@@ -14,6 +17,7 @@ import org.cotrix.web.importwizard.client.flow.builder.FlowManagerBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.RootNodeBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SingleNodeBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SwitchNodeBuilder;
+import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepPresenter;
@@ -152,11 +156,20 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	protected void updateTrackerLabels()
 	{
-		List<WizardStep> labels = flow.getCurrentFlow();
+		List<WizardStep> steps = flow.getCurrentFlow();
 		Log.trace("New FLOW:");
-		for (WizardStep step:labels) Log.trace("step: "+step.getId());
-		view.setLabels(labels);
-		view.showLabel(flow.getCurrentItem());
+		for (WizardStep step:steps) Log.trace("step: "+step.getId());
+		
+		List<ProgressStep> psteps = new ArrayList<ProgressStep>();
+		Set<String> saw = new HashSet<String>();
+		for (WizardStep step:steps) {
+			ProgressStep pstep = step.getConfiguration().getLabel();
+			if (saw.contains(pstep.getId())) continue;
+			psteps.add(pstep);
+		}
+		
+		view.setLabels(psteps);
+		view.showLabel(flow.getCurrentItem().getConfiguration().getLabel());
 	}
 
 	protected void updateCurrentStep()
@@ -164,6 +177,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		WizardStep currentStep = flow.getCurrentItem();
 		Log.trace("current step "+currentStep.getId());
 		view.showStep(currentStep);
+		view.showLabel(currentStep.getConfiguration().getLabel());
 		WizardStepConfiguration configuration = currentStep.getConfiguration();
 		applyStepConfiguration(configuration);
 	}

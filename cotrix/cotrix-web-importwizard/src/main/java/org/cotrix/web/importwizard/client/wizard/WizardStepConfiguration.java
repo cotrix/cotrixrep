@@ -3,13 +3,15 @@
  */
 package org.cotrix.web.importwizard.client.wizard;
 
+import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 public class WizardStepConfiguration {
 	
-	protected String label;
+	protected ProgressStep label;
 	protected String title;
 	protected String subtitle;
 	protected NavigationButtonConfiguration backwardButton;
@@ -21,7 +23,7 @@ public class WizardStepConfiguration {
 	 * @param backwardButton
 	 * @param forwardButton
 	 */
-	public WizardStepConfiguration(String label, String title, String subtitle,
+	public WizardStepConfiguration(ProgressStep label, String title, String subtitle,
 			NavigationButtonConfiguration backwardButton,
 			NavigationButtonConfiguration forwardButton) {
 		this.label = label;
@@ -34,7 +36,7 @@ public class WizardStepConfiguration {
 	/**
 	 * @return the label
 	 */
-	public String getLabel() {
+	public ProgressStep getLabel() {
 		return label;
 	}
 	
