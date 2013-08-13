@@ -56,7 +56,7 @@ public class AssetInfosCache {
 	
 	protected Map<String, Asset> assetsCache;
 	protected OrderedList<AssetInfo> cache;
-	protected boolean cacheInitialized = false;
+	protected boolean cacheLoaded = false;
 	
 	/**
 	 * @param remoteRepository
@@ -79,6 +79,13 @@ public class AssetInfosCache {
 	{
 		int discovered = remoteRepository.discover(Channels.importTypes);
 		logger.trace("discovered "+discovered+" remote codelist");
+		loadCache();
+	}
+	
+	public void loadCache()
+	{
+		cache.clear();
+		assetsCache.clear();
 
 		for (Asset asset:remoteRepository) {
 	
@@ -93,9 +100,9 @@ public class AssetInfosCache {
 	
 	protected void ensureCacheInitialized()
 	{
-		if (!cacheInitialized) {
-			refreshCache();
-			cacheInitialized = true;
+		if (!cacheLoaded) {
+			loadCache();
+			cacheLoaded = true;
 		}
 	}
 	

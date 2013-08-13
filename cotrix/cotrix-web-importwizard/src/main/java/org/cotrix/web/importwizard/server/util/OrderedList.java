@@ -35,11 +35,16 @@ public class OrderedList<T> {
 		size++;
 	}
 	
+	public void reset()
+	{
+		clear();
+		comparators.clear();
+		orderedLists.clear();
+	}
+	
 	public void clear()
 	{
-		comparators.clear();
 		for (List<T> list:orderedLists.values()) list.clear();
-		orderedLists.clear();
 		size = 0;
 	}
 	

@@ -173,11 +173,11 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 		});
 		
-		/*Log.trace("getting metadata");
+		Log.trace("getting metadata");
 		getMetadata();
 		
 		Log.trace("getting mapping");
-		getMappings();*/
+		getMappings();
 		
 		Log.trace("done selectedItemUpdated");
 	}

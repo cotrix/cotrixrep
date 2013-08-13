@@ -10,8 +10,10 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 
+import org.cotrix.io.Channels;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.climport.Importer;
@@ -66,6 +68,16 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	@Inject
 	protected ImporterFactory importerFactory;
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void init() throws ServletException {
+		logger.trace("discovering remote code lists");
+		int discovered = remoteRepository.discover(Channels.importTypes);
+		logger.trace("discovered "+discovered+" remote codelist");
+	}
 
 	protected WizardImportSession getImportSession()
 	{
