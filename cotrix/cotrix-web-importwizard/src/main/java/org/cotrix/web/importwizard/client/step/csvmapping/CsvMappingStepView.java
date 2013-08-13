@@ -13,8 +13,10 @@ import com.google.gwt.user.client.ui.Widget;
 public interface CsvMappingStepView {
 	
 	public interface Presenter {
-
+		public void onReload();
 	}
+	
+	public void setPresenter(Presenter presenter);
 	
 	public void setCsvName(String name);
 	public String getCsvName();

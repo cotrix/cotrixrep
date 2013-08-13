@@ -9,18 +9,21 @@
 				color: blue;
 				cursor: pointer;
 			}
+			
 			.refreshButton {
 				float: right;
 				position: relative !important;
 			}
 		</ui:style>
 	<g:FlowPanel ui:field="mainPanel">
-		<g:DockLayoutPanel width="100%" height="100%" unit="EM" ui:field="gridPanel">
-		<g:north size="3">
-			<g:PushButton ui:field="refreshButton" styleName="{resources.css.imageButton} {style.refreshButton}">
-			<g:upFace image="{resources.refresh}" />
-			</g:PushButton>
-		</g:north>
+		<g:DockLayoutPanel width="100%" height="100%" unit="EM"
+			ui:field="gridPanel">
+			<g:north size="3">
+				<g:PushButton ui:field="refreshButton"
+					styleName="{resources.css.imageButton} {style.refreshButton}">
+					<g:upFace image="{resources.refresh}" />
+				</g:PushButton>
+			</g:north>
 			<!-- DataGrid. -->
 			<g:center>
 

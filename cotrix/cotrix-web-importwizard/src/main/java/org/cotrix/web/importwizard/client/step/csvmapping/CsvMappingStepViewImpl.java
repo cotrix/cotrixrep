@@ -19,10 +19,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
@@ -41,22 +41,23 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, CsvMappingStepViewImpl> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 	
+	interface Style extends CssResource {
+		String cell();
+	}
+	
 	protected static int IGNORE_COLUMN = 0;
 	protected static int NAME_COLUMN = 1;
 	protected static int LABEL_COLUMN = 2;
 	protected static int DEFINITION_COLUMN = 3;
 
-	@UiField Grid mainTable;
 	@UiField TextBox name;
 	@UiField SimpleCheckBox mappingMode;
 	@UiField FlexTable columnsTable;
 	@UiField Style style;
+	
+	protected Presenter presenter;
 
-	private AlertDialog alertDialog;
-
-	interface Style extends CssResource {
-		String cell();
-	}
+	protected AlertDialog alertDialog;
 
 	protected List<ToggleButton> excludeButtons = new ArrayList<ToggleButton>();
 	protected List<TextBox> nameFields = new ArrayList<TextBox>();
@@ -69,6 +70,13 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		Resources.INSTANCE.css().ensureInjected();
 	}
 	
+	/**
+	 * @param presenter the presenter to set
+	 */
+	public void setPresenter(Presenter presenter) {
+		this.presenter = presenter;
+	}
+
 	public MappingMode getMappingMode()
 	{
 		return mappingMode.getValue()?MappingMode.LOG:MappingMode.STRICT;
@@ -79,7 +87,6 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		mappingMode.setValue(mode==MappingMode.LOG);
 	}
 	
-
 	@Override
 	public void setCsvName(String name) {
 		this.name.setValue(name);
@@ -88,6 +95,12 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	@Override
 	public String getCsvName() {
 		return this.name.getValue();
+	}
+	
+	@UiHandler("reloadButton")
+	protected void reload(ClickEvent clickEvent)
+	{
+		presenter.onReload();
 	}
 
 	/** 
@@ -199,7 +212,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		
 		return attributeDefinition;
 	}
-
+	
 	public void alert(String message) {
 		if(alertDialog == null){
 			alertDialog = new AlertDialog();

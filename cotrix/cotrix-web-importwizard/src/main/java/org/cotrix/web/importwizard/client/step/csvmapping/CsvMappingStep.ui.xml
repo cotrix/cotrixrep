@@ -5,42 +5,45 @@
 		field="resources"></ui:with>
 	<ui:style
 		type="org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepViewImpl.Style">
-			
-			.grid {
-				vertical-align: top;
-				margin-right: 20px;
-			}
-			
 			.cell {
 				padding: 5px;
 			}
 		</ui:style>
 	<g:HTMLPanel>
-		<g:Grid styleName="{style.grid}" ui:field="mainTable">
-			<g:row>
-				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
+		<table>
+			<tr>
+				<td class="{resources.css.verticalHeadersSingleItem}">
 					<g:Label styleName="{resources.css.propertyLabel}">Name</g:Label>
-				</g:customCell>
-				<g:customCell>
-					<g:TextBox width="300px" ui:field="name" styleName="{resources.css.textBox}"></g:TextBox>
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:customCell styleName="{resources.css.verticalHeadersFieldItem}">
+				</td>
+				<td>
+					<g:TextBox width="300px" ui:field="name"
+						styleName="{resources.css.textBox}"></g:TextBox>
+				</td>
+			</tr>
+			<tr>
+				<td class="{resources.css.verticalHeadersFieldItem}">
 					<g:Label styleName="{resources.css.propertyLabel}">Columns</g:Label>
-				</g:customCell>
-				<g:customCell>
+				</td>
+				<td>
 					<g:FlexTable ui:field="columnsTable" />
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
+				</td>
+			</tr>
+			<tr>
+				<td class="{resources.css.verticalHeadersSingleItem}">
 					<g:Label styleName="{resources.css.propertyLabel}">Fail on errors</g:Label>
-				</g:customCell>
-				<g:customCell>
-					<g:SimpleCheckBox ui:field="mappingMode" styleName="{resources.css.simpleCheckbox}"/>
-				</g:customCell>
-			</g:row>
-		</g:Grid>
+				</td>
+				<td>
+					<g:SimpleCheckBox ui:field="mappingMode"
+						styleName="{resources.css.simpleCheckbox}" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<g:PushButton ui:field="reloadButton" styleName="{resources.css.imageButton}">
+						<g:upFace image="{resources.reload}" />
+					</g:PushButton>
+				</td>
+			</tr>
+		</table>
 	</g:HTMLPanel>
 </ui:UiBinder> 

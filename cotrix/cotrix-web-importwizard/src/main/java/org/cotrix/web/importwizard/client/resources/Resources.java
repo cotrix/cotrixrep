@@ -40,5 +40,8 @@ public interface Resources extends ClientBundle {
 	
 	@Source("back.png")
 	public ImageResource back();
+	
+	@Source("reload.png")
+	public ImageResource reload();
 
 }
