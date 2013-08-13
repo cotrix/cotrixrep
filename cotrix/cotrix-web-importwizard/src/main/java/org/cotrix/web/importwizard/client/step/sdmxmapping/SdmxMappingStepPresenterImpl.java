@@ -30,7 +30,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 
 	@Inject
 	public SdmxMappingStepPresenterImpl(SdmxMappingStepView view, @ImportBus EventBus importEventBus){
-		super("sdmx-mapping", "Customize", "Customize it", "Tells us which columns to use, and how.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("sdmx-mapping", "Customize", "Customize it", "Tells us which elements to use, and how.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 
 		this.importEventBus = importEventBus;
@@ -84,7 +84,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 
 		for (AttributeMapping mapping:mappings) {
 			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().isEmpty()) {
-				view.alert("Name field required");
+				view.alert("don't leave elements blank, bin them instead");
 				return false;
 			}
 		}

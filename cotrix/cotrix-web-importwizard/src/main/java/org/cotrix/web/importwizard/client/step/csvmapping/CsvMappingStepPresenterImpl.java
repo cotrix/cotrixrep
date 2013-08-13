@@ -91,7 +91,7 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 			Log.trace("mapping: "+mapping);
 			if (mapping.isMapped() && mapping.getAttributeDefinition().getType()==AttributeType.CODE) codeCount++;
 			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().isEmpty()) {
-				view.alert("Name field required");
+				view.alert("don't leave columns blank, bin them instead");
 				return false;
 			}
 		}
