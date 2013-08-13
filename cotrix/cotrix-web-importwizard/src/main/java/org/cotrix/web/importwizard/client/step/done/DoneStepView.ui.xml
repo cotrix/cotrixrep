@@ -12,18 +12,16 @@
 		.report {
 			padding-top: 10px;
 		}
-		
-		.reportPager {
-			/*margin-left: auto;
-					margin-right: auto;*/
-			
-		}
-		
-		.reportDownload {
-			/*margin-left: auto;
-					margin-right: 10px;*/
-			
-		}
+
+		/**
+		Workaround to GWT issue #8275
+		https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
+		**/
+		.borderFix table {
+			border-collapse: collapse;
+
+	 	}
+
 	</ui:style>
 	<g:HTMLPanel>
 		<g:HTMLPanel ui:field="reportPanel" styleName="{style.report}">
@@ -37,12 +35,12 @@
 				</tr>
 				<tr>
 					<td valign='top'>
-						<c:DataGrid ui:field='reportGrid' />
+						<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}"/>
 					</td>
 				</tr>
 				<tr>
 					<td align='center'>
-						<c:SimplePager ui:field='reportPager' styleName="{style.reportPager}" />
+						<c:SimplePager ui:field='reportPager' />
 					</td>
 				</tr>
 			</table>

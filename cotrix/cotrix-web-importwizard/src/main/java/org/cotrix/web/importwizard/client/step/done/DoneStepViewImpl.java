@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client.step.done;
 
+import org.cotrix.web.importwizard.client.resources.DataGridReportResource;
 import org.cotrix.web.importwizard.shared.ReportLog;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -56,7 +57,6 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 		setupGrid();
 		
 		initWidget(uiBinder.createAndBindUi(this));
-		setHeight("500px");
 	}
 	
 	@UiHandler("reportDownload")
@@ -81,10 +81,9 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	
 	protected void setupGrid()
 	{
-		reportGrid = new DataGrid<ReportLog>();
+		reportGrid = new DataGrid<ReportLog>(12, DataGridReportResource.INSTANCE);
 		reportGrid.setWidth("100%");
-		reportGrid.setHeight("300px");
-		reportGrid.setPageSize(10);
+		reportGrid.setHeight("400px");
 
 		reportGrid.setAutoHeaderRefreshDisabled(true);
 
@@ -101,13 +100,8 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 			}
 		};
 		typeColumn.setSortable(false);
-		/*sortHandler.setComparator(firstNameColumn, new Comparator<ContactInfo>() {
-	      @Override
-	      public int compare(ContactInfo o1, ContactInfo o2) {
-	        return o1.getFirstName().compareTo(o2.getFirstName());
-	      }
-	    });*/
-		reportGrid.addColumn(typeColumn, "Type");
+
+		reportGrid.addColumn(typeColumn);
 		reportGrid.setColumnWidth(typeColumn, "100px");
 		
 		Column<ReportLog, String> messageColumn = new Column<ReportLog, String>(new TextCell()) {
@@ -117,13 +111,8 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 			}
 		};
 		messageColumn.setSortable(false);
-		/*sortHandler.setComparator(firstNameColumn, new Comparator<ContactInfo>() {
-			      @Override
-			      public int compare(ContactInfo o1, ContactInfo o2) {
-			        return o1.getFirstName().compareTo(o2.getFirstName());
-			      }
-			    });*/
-		reportGrid.addColumn(messageColumn, "Message");
+
+		reportGrid.addColumn(messageColumn);
 
 		dataProvider.addDataDisplay(reportGrid);
 		
