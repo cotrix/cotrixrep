@@ -4,61 +4,6 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
 	<ui:style>
-		.important {
-			font-weight: bold;
-		}
-		
-		.title {
-			font-weight: bold;
-			color: #999;
-			text-align: left;
-		}
-		
-		.uploadForm {
-			text-align: left;
-			padding-top: 10px;
-			padding-bottom: 10px;
-		}
-		
-		.uploadButton {
-			border: 1px solid #d7dada;
-			-webkit-border-radius: 5px;
-			-moz-border-radius: 5px;
-			float: left;
-			border-radius: 5px;
-			width: 80px;
-			font-size: 12px;
-			font-family: arial, helvetica, sans-serif;
-			padding: 8px 8px 8px 8px;
-			text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
-			font-weight: bold;
-			text-align: center;
-			color: #7D7D7D;
-			background-color: #f4f5f5;
-			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4f5f5),
-				color-stop(100%, #dfdddd));
-			background-image: -webkit-linear-gradient(top, #f4f5f5, #dfdddd);
-			background-image: -moz-linear-gradient(top, #f4f5f5, #dfdddd);
-			background-image: -ms-linear-gradient(top, #f4f5f5, #dfdddd);
-			background-image: -o-linear-gradient(top, #f4f5f5, #dfdddd);
-			background-image: linear-gradient(top, #f4f5f5, #dfdddd);
-			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f5f5, endColorstr=#dfdddd)"
-				);
-		}
-		
-		.uploadButton:hover {
-			border: 1px solid #bfc4c4;
-			background-color: #d9dddd;
-			background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d9dddd),
-				color-stop(100%, #c6c3c3));
-			background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
-			background-image: -moz-linear-gradient(top, #d9dddd, #c6c3c3);
-			background-image: -ms-linear-gradient(top, #d9dddd, #c6c3c3);
-			background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
-			background-image: linear-gradient(top, #d9dddd, #c6c3c3);
-			filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3)"
-				);
-		}
 		
 		.div {
 			height: 30px;
@@ -72,20 +17,16 @@
 			float: left;
 			line-height: 30px;
 			vertical-align: middle;
-			/*margin-left: 20px;*/
 			font-size: 18px;
 			font-weight: bold;
 			color: #666;
-			/*margin-right: 5px;*/
 		}
 		
 		.fileSize {
 			float: left;
-			/*line-height: 30px;*/
 			vertical-align: middle;
 			font-size: 14px;
 			color: #999;
-			/*margin-right: 20px;*/
 			text-align: center;
 			width: 100%;
 		}
@@ -100,51 +41,10 @@
 			cursor: hand;
 		}
 		
-		.closeButton {
-			background-color: #eee;
-			color: #999;
-			margin-left: 6px;
-			margin-right: 6px;
-			float: left;
-			border-radius: 50px;
-			width: 20px;
-			font-size: 15px;
-			height: 20px;
-			padding-left: 1px;
-			line-height: 30px;
-			text-align: center;
-			cursor: hand;
-			cursor: pointer;
-			padding-bottom: 1px;
-			vertical-align: middle;
-		}
-		
-		.closeButton:hover {
-			color: #333;
-			padding-left: 1px;
-			padding-bottom: 1px;
-			float: left;
-			border-radius: 50px;
-			width: 20px;
-			height: 20px;
-			line-height: 30px;
-			text-align: center;
-			cursor: hand;
-			cursor: pointer;
-			vertical-align: middle;
-		}
-		
 		.fileWrapperPanel {
 			float: left;
 			margin-top: 10px;
-			/*margin-bottom: 16px;*/ /*background-color: #eee;*/
-			/*margin-left: 20px;*/ /*border: 1px solid #ccc;*/
-			/*border-radius: 5px;*/
 			height: 30px;
-			width: 100%;
-		}
-		
-		.grid {
 			width: 100%;
 		}
 		
@@ -169,17 +69,7 @@
 			box-shadow: 0px 0px 5px #61C5FA;
 		}
 		
-		.icon_label {
-			
-		}
-		
-		.icon {
-			outline: 0;
-			cursor: pointer;
-		}
-		
 		.icon_panel {
-			/*border: 2px solid #ccc;*/
 			border-radius: 5px;
 			padding: 10px;
 			margin-left: auto;
@@ -188,7 +78,6 @@
 		
 		.caption {
 			padding-top: 10px;
-			/*padding-left: 10px;*/
 			font-size: 20px;
 			font-weight: normal;
 		}
@@ -205,17 +94,16 @@
 
 				<f:FileUploadExt ui:field="fileUploadButton"
 					styleName="{style.customUpload}" name="file" />
-				<g:Grid styleName="{style.grid}" width="100%">
+				<g:Grid width="100%">
 					<g:row>
 						<g:customCell styleName="{style.cell}">
 							<g:VerticalPanel styleName="{style.icon_panel}"
 								horizontalAlignment="center">
-
 								<g:FocusPanel ui:field="browseButton" styleName="{style.browse-panel}">
 									<g:HTMLPanel>
 										<g:Image resource="{resources.computer}" />
 										<g:HTMLPanel styleName="{style.caption}" ui:field="captionPanel">
-											<g:Label>Pick CSV or SDMX</g:Label>
+											<g:Label>Browse</g:Label>
 										</g:HTMLPanel>
 									</g:HTMLPanel>
 								</g:FocusPanel>

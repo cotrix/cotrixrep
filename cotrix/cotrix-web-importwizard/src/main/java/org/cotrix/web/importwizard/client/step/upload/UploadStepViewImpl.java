@@ -30,8 +30,6 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 
 	private static UploadStepUiBinder uiBinder = GWT.create(UploadStepUiBinder.class);
 	
-	
-
 	@UiTemplate("UploadStep.ui.xml")
 	interface UploadStepUiBinder extends UiBinder<Widget, UploadStepViewImpl> {}
 	
