@@ -11,9 +11,11 @@ import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
@@ -25,6 +27,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -40,7 +43,11 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	private static ChannelStepUiBinder uiBinder = GWT.create(ChannelStepUiBinder.class);
 	
 	@UiField FlowPanel mainPanel;
+	
 	@UiField DockLayoutPanel gridPanel;
+	
+	@UiField
+	protected PushButton refreshButton;
 	
 	@UiField (provided = true) 
 	DataGrid<AssetInfo> dataGrid;
@@ -48,7 +55,10 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	@UiField(provided = true)
 	SimplePager pager;
 	
-	protected AssetInfoDataProvider assetInfoDataProvider;
+	@UiField 
+	protected Style style;
+	
+	protected AssetInfoDataProvider dataProvider;
 
 	private AlertDialog alertDialog;
 	
@@ -60,14 +70,13 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		String detailsText();
 	}
 	
-	@UiField 
-	protected Style style;
+
 	
 	protected Column<AssetInfo, String> nameColumn;
 
 	@Inject
 	public SelectionStepViewImpl(AssetInfoDataProvider assetInfoDataProvider) {
-		this.assetInfoDataProvider = assetInfoDataProvider;
+		this.dataProvider = assetInfoDataProvider;
 		
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
@@ -175,8 +184,8 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		dataGrid.addColumn(repositoryColumn, "Origin");
 		dataGrid.setColumnWidth(repositoryColumn, "20%");
 			
-		assetInfoDataProvider.setDatagrid(dataGrid);
-		assetInfoDataProvider.addDataDisplay(dataGrid);
+		dataProvider.setDatagrid(dataGrid);
+		dataProvider.addDataDisplay(dataGrid);
 	}
 
 	public void setPresenter(Presenter presenter) {
@@ -208,6 +217,13 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		switchPanels();
 	}
 	
+	@UiHandler("refreshButton")
+	protected void refresh(ClickEvent clickEvent)
+	{
+		dataProvider.setForceRefresh(true);
+		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
+	}
+	
 	protected void switchPanels()
 	{
 		if (mainPanel.getWidget(0)==gridPanel) {
@@ -224,7 +240,5 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		dataGrid.redraw();
 		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}
-
-
 
 }

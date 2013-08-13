@@ -23,7 +23,7 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("importService")
 public interface ImportService extends RemoteService {
 	
-	public AssetsBatch getAssets(Range range, ColumnSortInfo columnSortInfo) throws ImportServiceException;
+	public AssetsBatch getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ImportServiceException;
 	
 	public AssetDetails getAssetDetails(String assetId) throws ImportServiceException;
 	

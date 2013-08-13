@@ -30,6 +30,7 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 	@Inject
 	protected ImportServiceAsync importService;
 	protected DataGrid<AssetInfo> datagrid;
+	protected boolean forceRefresh;
 	
 	/**
 	 * @param importService
@@ -43,6 +44,13 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 	 */
 	public void setDatagrid(DataGrid<AssetInfo> datagrid) {
 		this.datagrid = datagrid;
+	}
+
+	/**
+	 * @param forceRefresh the forceRefresh to set
+	 */
+	public void setForceRefresh(boolean forceRefresh) {
+		this.forceRefresh = forceRefresh;
 	}
 
 	@Override
@@ -61,7 +69,10 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 		
 		Log.trace("sortInfo: "+sortInfo);
 		
-		importService.getAssets(range, sortInfo, new AsyncCallback<AssetsBatch>() {
+		boolean force = forceRefresh;
+		forceRefresh = false;
+		
+		importService.getAssets(range, sortInfo, force, new AsyncCallback<AssetsBatch>() {
 			
 			@Override
 			public void onSuccess(AssetsBatch batch) {

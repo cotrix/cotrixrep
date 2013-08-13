@@ -85,11 +85,12 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	 * @throws ImportServiceException 
 	 */
 	@Override
-	public AssetsBatch getAssets(Range range, ColumnSortInfo columnSortInfo) throws ImportServiceException {
-		logger.trace("getAssets range: "+range+" columnSortInfo: "+columnSortInfo);
+	public AssetsBatch getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ImportServiceException {
+		logger.trace("getAssets range: {} columnSortInfo: {} forceRefresh: {}", range, columnSortInfo, forceRefresh);
 		try {
 
 			AssetInfosCache cache = getAssetInfos();
+			if (forceRefresh) cache.refreshCache();
 			List<AssetInfo> assets = cache.getAssets(columnSortInfo.getName());
 			List<AssetInfo> sublist = columnSortInfo.isAscending()?Ranges.subList(assets, range):Ranges.subListReverseOrder(assets, range);
 
