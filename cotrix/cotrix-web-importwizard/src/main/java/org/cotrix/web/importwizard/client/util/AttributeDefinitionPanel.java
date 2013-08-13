@@ -28,6 +28,34 @@ public class AttributeDefinitionPanel extends Composite {
 	interface AttributeDefinitionPanelUiBinder extends UiBinder<Widget, AttributeDefinitionPanel> {
 	}
 
+	public interface TypeLabelProvider {
+		String getLabel(AttributeType type);
+	}
+
+	public static final TypeLabelProvider SDMXTypeLabelProvider  = new TypeLabelProvider() {
+
+		@Override
+		public String getLabel(AttributeType type) {
+			switch (type) {
+				case CODE: return "Code";
+				case DESCRIPTION: return "Description";
+				default: throw new IllegalArgumentException("No label mapping found for attribute type "+type);
+			}
+		}
+	};
+
+	public static final TypeLabelProvider CSVTypeLabelProvider  = new TypeLabelProvider() {
+
+		@Override
+		public String getLabel(AttributeType type) {
+			switch (type) {
+				case CODE: return "Primary code";
+				case DESCRIPTION: return "Other";
+				default: throw new IllegalArgumentException("No label mapping found for attribute type "+type);
+			}
+		}
+	};
+
 	@UiField ListBox typeList;
 	@UiField Label inLabel;
 	@UiField ListBox languageList;
@@ -37,8 +65,13 @@ public class AttributeDefinitionPanel extends Composite {
 	interface Style extends CssResource {
 		String listBoxError();
 	}
+	
+	protected TypeLabelProvider typeLabelProvider;
+	
 
-	public AttributeDefinitionPanel() {
+	public AttributeDefinitionPanel(TypeLabelProvider typeLabelProvider) {
+		this.typeLabelProvider = typeLabelProvider;
+		
 		initWidget(uiBinder.createAndBindUi(this));
 
 		typeList.addChangeHandler(new ChangeHandler() {
@@ -57,14 +90,10 @@ public class AttributeDefinitionPanel extends Composite {
 	{
 		for (AttributeType type:AttributeType.values()) typeList.addItem(getTypeLabel(type), type.toString());
 	}
-	
+
 	protected String getTypeLabel(AttributeType type)
 	{
-		switch (type) {
-			case CODE: return "Code";
-			case DESCRIPTION: return "Description";
-			default: throw new IllegalArgumentException("No label mapping found for attribute type "+type);
-		}
+		return typeLabelProvider.getLabel(type);
 	}
 
 	protected void setupLanguageList()
@@ -127,7 +156,7 @@ public class AttributeDefinitionPanel extends Composite {
 	public void setNormalStyle(){
 		typeList.setStyleName(Resources.INSTANCE.css().listBox());
 	}
-	
+
 	public void setEnabled(boolean enabled)
 	{
 		typeList.setEnabled(enabled);

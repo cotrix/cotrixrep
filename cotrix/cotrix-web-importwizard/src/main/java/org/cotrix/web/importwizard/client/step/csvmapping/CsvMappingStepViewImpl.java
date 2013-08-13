@@ -132,7 +132,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 			columnsTable.setWidget(row, LABEL_COLUMN, new Label("is a"));
 			cellFormatter.setStyleName(row, LABEL_COLUMN, Resources.INSTANCE.css().paddedText());
 
-			AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
+			AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel(AttributeDefinitionPanel.CSVTypeLabelProvider);
 			columnPanels.add(definitionPanel);
 			columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
 			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
