@@ -27,11 +27,13 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 	protected SdmxMappingStepView view;
 	protected EventBus importEventBus;
 	protected ImportMetadata metadata;
+	protected AttributesMappings attributesMappings;
 
 	@Inject
 	public SdmxMappingStepPresenterImpl(SdmxMappingStepView view, @ImportBus EventBus importEventBus){
 		super("sdmx-mapping", "Customize", "Customize it", "Tells us which elements to use, and how.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
+		this.view.setPresenter(this);
 
 		this.importEventBus = importEventBus;
 		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, this);
@@ -57,7 +59,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 
 		if (valid) {
 
-			AttributesMappings attributesMappings = new AttributesMappings(mappings, null); 
+			attributesMappings = new AttributesMappings(mappings, null); 
 			importEventBus.fireEvent(new MappingsUpdatedEvent(attributesMappings, true));
 			
 			if (metadata == null) metadata = new ImportMetadata();
@@ -96,7 +98,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 	@Override
 	public void onMappingUpdated(MappingsUpdatedEvent event) {
 		if (event.isUserEdit()) return;
-		AttributesMappings attributesMappings = event.getMappings();
+		attributesMappings = event.getMappings();
 		view.setAttributes(attributesMappings.getMappings());
 	}
 	
@@ -107,5 +109,11 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 			view.setCodelistName(event.getMetadata().getName());
 			this.metadata = event.getMetadata();
 		}
+	}
+
+	@Override
+	public void onReload() {
+		view.setCodelistName(metadata.getName());
+		view.setAttributes(attributesMappings.getMappings());
 	}
 }

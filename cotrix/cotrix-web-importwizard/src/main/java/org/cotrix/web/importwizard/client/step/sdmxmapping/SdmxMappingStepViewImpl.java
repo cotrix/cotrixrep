@@ -16,11 +16,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -38,7 +38,6 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 
 	protected static int IGNORE_COLUMN = 0;
 	protected static int NAME_COLUMN = 1;
-	protected static int LABEL_COLUMN = 2;
 
 	@UiField FlexTable columnsTable;
 	@UiField TextBox name;
@@ -49,6 +48,8 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	interface Style extends CssResource {
 		String cell();
 	}
+	
+	protected Presenter presenter;
 
 	protected List<ToggleButton> excludeButtons = new ArrayList<ToggleButton>();
 	protected List<TextBox> nameFields = new ArrayList<TextBox>();
@@ -60,6 +61,13 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 		Resources.INSTANCE.css().ensureInjected();
 	}
 	
+	/**
+	 * @param presenter the presenter to set
+	 */
+	public void setPresenter(Presenter presenter) {
+		this.presenter = presenter;
+	}
+
 	@Override
 	public void setCodelistName(String name) {
 		this.name.setValue(name);
@@ -68,6 +76,13 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	@Override
 	public String getCodelistName() {
 		return this.name.getValue();
+	}
+	
+	
+	@UiHandler("reloadButton")
+	protected void reload(ClickEvent clickEvent)
+	{
+		presenter.onReload();
 	}
 
 	public void setAttributes(List<AttributeMapping> mappings)
@@ -119,7 +134,6 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 	protected void setExclude(int row, boolean exclude)
 	{
 		((TextBox)columnsTable.getWidget(row, NAME_COLUMN)).setEnabled(!exclude);
-		((Label)columnsTable.getWidget(row, LABEL_COLUMN)).setStyleName(Resources.INSTANCE.css().paddedTextDisabled(), exclude);
 	}
 	
 	public List<AttributeMapping> getMappings()

@@ -12,8 +12,10 @@ import com.google.gwt.user.client.ui.Widget;
 public interface SdmxMappingStepView {
 	
 	public interface Presenter {
-
+		public void onReload();
 	}
+	
+	public void setPresenter(Presenter presenter);
 	
 	public void setAttributes(List<AttributeMapping> attributes);
 	

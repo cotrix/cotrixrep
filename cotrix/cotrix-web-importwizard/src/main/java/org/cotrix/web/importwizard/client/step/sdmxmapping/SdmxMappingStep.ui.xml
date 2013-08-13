@@ -17,24 +17,30 @@
 
 
 	<g:HTMLPanel>
-		<g:Grid styleName="{style.grid}" ui:field="mainTable">
-			<g:row>
-				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
+		<table>
+			<tr>
+				<td class="{resources.css.verticalHeadersSingleItem}">
 					<g:Label styleName="{resources.css.propertyLabel}">Name</g:Label>
-				</g:customCell>
-				<g:customCell>
+				</td>
+				<td>
 					<g:TextBox width="300px" ui:field="name" styleName="{resources.css.textBox}"></g:TextBox>
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:customCell styleName="{resources.css.verticalHeadersFieldItem}">
+				</td>
+			</tr>
+			<tr>
+				<td class="{resources.css.verticalHeadersFieldItem}">
 					<g:Label styleName="{resources.css.propertyLabel}">Elements</g:Label>
-				</g:customCell>
-				<g:customCell>
+				</td>
+				<td>
 					<g:FlexTable ui:field="columnsTable" />
-				</g:customCell>
-			</g:row>
-
-		</g:Grid>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<g:PushButton ui:field="reloadButton" styleName="{resources.css.imageButton}">
+						<g:upFace image="{resources.reload}" />
+					</g:PushButton>
+				</td>
+			</tr>
+		</table>
 	</g:HTMLPanel>
 </ui:UiBinder> 
