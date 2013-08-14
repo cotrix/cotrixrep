@@ -182,17 +182,34 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		}
 	}
 
+	public void startUpload() throws ImportServiceException {
+		logger.trace("startUpload");
+		try {
+			WizardImportSession.getCleanImportSession(this.getThreadLocalRequest().getSession());
+		} catch(Exception e)
+		{
+			logger.error("An error occurred on server side", e);
+			throw new ImportServiceException("An error occurred on server side: "+e.getMessage());
+		}
+	}
+
 	@Override
 	public FileUploadProgress getUploadProgress() throws ImportServiceException {
 
-		WizardImportSession session = getImportSession();
+		try {
+			WizardImportSession session = getImportSession();
 
-		FileUploadProgress uploadProgress = session.getUploadProgress();
-		if (uploadProgress == null) {
-			logger.error("Unexpected upload progress null.");
-			throw new ImportServiceException("Upload progress not available");
+			FileUploadProgress uploadProgress = session.getUploadProgress();
+			if (uploadProgress == null) {
+				logger.error("Unexpected upload progress null.");
+				throw new ImportServiceException("Upload progress not available");
+			}
+			return uploadProgress;
+		} catch(Exception e)
+		{
+			logger.error("An error occurred on server side", e);
+			throw new ImportServiceException("An error occurred on server side: "+e.getMessage());
 		}
-		return uploadProgress;
 	}
 
 	@Override

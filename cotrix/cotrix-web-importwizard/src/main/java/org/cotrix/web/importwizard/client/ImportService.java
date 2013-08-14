@@ -32,6 +32,8 @@ public interface ImportService extends RemoteService {
 	
 	public void setAsset(String assetId) throws ImportServiceException;
 	
+	public void startUpload() throws ImportServiceException;
+	
 	public FileUploadProgress getUploadProgress() throws ImportServiceException;
 	
 	public PreviewData getCsvPreviewData(CsvParserConfiguration configuration) throws ImportServiceException;

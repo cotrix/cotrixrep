@@ -118,11 +118,23 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		
 		fileName = file.getName();
 		view.setupUpload(fileName, file.getSize());
-		view.submitForm();
 		
-		//start polling
-		pollingErrors = 0;
-		progressPolling.scheduleRepeating(POLLING_TIME);
+		importService.startUpload(new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("Error starting upload", caught);
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				view.submitForm();
+				
+				//start polling
+				pollingErrors = 0;
+				progressPolling.scheduleRepeating(POLLING_TIME);
+			}
+		});
 	}
 	
 	protected void getUploadProgress()
