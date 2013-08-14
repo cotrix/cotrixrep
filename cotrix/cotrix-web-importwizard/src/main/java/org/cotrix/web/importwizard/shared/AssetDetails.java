@@ -17,7 +17,8 @@ public class AssetDetails implements Serializable {
 	protected String name;
 	protected String type;
 	protected List<Property> properties;
-	protected RepositoryDetails repository;
+	protected String repositoryName;
+	protected String repositoryId;
 	
 	public AssetDetails(){}
 	
@@ -30,12 +31,14 @@ public class AssetDetails implements Serializable {
 	 * @param repository
 	 */
 	public AssetDetails(String id, String name, String type,
-			List<Property> properties, RepositoryDetails repository) {
+			List<Property> properties, String repositoryName, String repositoryId) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
 		this.properties = properties;
-		this.repository = repository;
+		this.repositoryName = repositoryName;
+		this.repositoryId = repositoryId;
+
 	}
 
 	/**
@@ -67,10 +70,17 @@ public class AssetDetails implements Serializable {
 	}
 
 	/**
-	 * @return the repository
+	 * @return the repositoryName
 	 */
-	public RepositoryDetails getRepository() {
-		return repository;
+	public String getRepositoryName() {
+		return repositoryName;
+	}
+
+	/**
+	 * @return the repositoryId
+	 */
+	public String getRepositoryId() {
+		return repositoryId;
 	}
 
 	/**
@@ -102,10 +112,17 @@ public class AssetDetails implements Serializable {
 	}
 
 	/**
-	 * @param repository the repository to set
+	 * @param repositoryName the repositoryName to set
 	 */
-	public void setRepository(RepositoryDetails repository) {
-		this.repository = repository;
+	public void setRepositoryName(String repositoryName) {
+		this.repositoryName = repositoryName;
+	}
+
+	/**
+	 * @param repositoryId the repositoryId to set
+	 */
+	public void setRepositoryId(String repositoryId) {
+		this.repositoryId = repositoryId;
 	}
 
 	/** 
@@ -122,8 +139,10 @@ public class AssetDetails implements Serializable {
 		builder.append(type);
 		builder.append(", properties=");
 		builder.append(properties);
-		builder.append(", repository=");
-		builder.append(repository);
+		builder.append(", repositoryName=");
+		builder.append(repositoryName);
+		builder.append(", repositoryId=");
+		builder.append(repositoryId);
 		builder.append("]");
 		return builder.toString();
 	}

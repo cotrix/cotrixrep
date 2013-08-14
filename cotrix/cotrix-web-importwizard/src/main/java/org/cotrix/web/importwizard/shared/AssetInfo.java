@@ -22,23 +22,27 @@ public class AssetInfo implements Serializable {
 	protected String id;
 	protected String name;
 	protected String type;
+	protected String repositoryId;
 	protected String repositoryName;
 	
 	public AssetInfo(){}
-	
+
 	/**
 	 * @param id
 	 * @param name
 	 * @param type
+	 * @param repositoryId
 	 * @param repositoryName
 	 */
-	public AssetInfo(String id, String name, String type, String repositoryName) {
+	public AssetInfo(String id, String name, String type, String repositoryId,
+			String repositoryName) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
+		this.repositoryId = repositoryId;
 		this.repositoryName = repositoryName;
 	}
-	
+
 	/**
 	 * @return the id
 	 */
@@ -95,6 +99,20 @@ public class AssetInfo implements Serializable {
 		this.repositoryName = repositoryName;
 	}
 
+	/**
+	 * @return the repositoryId
+	 */
+	public String getRepositoryId() {
+		return repositoryId;
+	}
+
+	/**
+	 * @param repositoryId the repositoryId to set
+	 */
+	public void setRepositoryId(String repositoryId) {
+		this.repositoryId = repositoryId;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -107,6 +125,8 @@ public class AssetInfo implements Serializable {
 		builder.append(name);
 		builder.append(", type=");
 		builder.append(type);
+		builder.append(", repositoryId=");
+		builder.append(repositoryId);
 		builder.append(", repositoryName=");
 		builder.append(repositoryName);
 		builder.append("]");

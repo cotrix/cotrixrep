@@ -30,6 +30,7 @@ public class Assets {
 		assetInfo.setId(asset.id());
 		assetInfo.setName(asset.name());
 		assetInfo.setType(asset.type().toString());
+		assetInfo.setRepositoryId(asset.service().name().toString());
 		assetInfo.setRepositoryName(asset.service().name().toString());
 		
 		return assetInfo;
@@ -43,12 +44,14 @@ public class Assets {
 		details.setName(asset.name());
 		details.setProperties(convert(asset.properties()));
 		details.setType(String.valueOf(asset.type()));
-		details.setRepository(convert(asset.service()));
+		details.setRepositoryName(asset.service().name().toString());
+		details.setRepositoryId(asset.service().name().toString());
 		return details;
 	}
 	
-	protected static RepositoryDetails convert(RepositoryService service) {
+	public static RepositoryDetails convert(RepositoryService service) {
 		RepositoryDetails details = new RepositoryDetails();
+		details.setId(service.name().toString());
 		details.setName(service.name().toString());
 		details.setProperties(convert(service.properties()));
 		details.setPublishedTypes(convert(service.publishedTypes()));

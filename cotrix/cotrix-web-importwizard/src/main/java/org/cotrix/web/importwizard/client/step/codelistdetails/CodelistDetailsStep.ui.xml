@@ -1,0 +1,44 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
+		field="resources" />
+	<g:ScrollPanel width="100%">
+			<g:Grid ui:field="assetDetails">
+				<g:row>
+					<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
+						<g:Label text="Name" styleName="{resources.css.propertyLabel}" />
+					</g:customCell>
+					<g:customCell>
+						<g:Label ui:field="assetName" styleName="{resources.css.propertyValue}" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
+						<g:Label text="Type" styleName="{resources.css.propertyLabel}" />
+					</g:customCell>
+					<g:customCell>
+						<g:Label ui:field="assetType" styleName="{resources.css.propertyValue}" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell styleName="{resources.css.verticalHeadersMultipleItem}">
+						<g:Label text="Properties" styleName="{resources.css.propertyLabel}" />
+					</g:customCell>
+					<g:customCell>
+						<g:FlexTable ui:field="assetProperties" cellPadding="0"
+							cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
+							width="100%" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
+						<g:Label text="Repository" styleName="{resources.css.propertyLabel}" />
+					</g:customCell>
+					<g:customCell>
+						<g:Label ui:field="repository" styleName="{resources.css.propertyValue} {resources.css.linkText}" />
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+	</g:ScrollPanel>
+</ui:UiBinder> 

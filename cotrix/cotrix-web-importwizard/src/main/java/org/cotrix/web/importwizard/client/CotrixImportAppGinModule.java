@@ -2,6 +2,10 @@ package org.cotrix.web.importwizard.client;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.session.ImportSession;
+import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
+import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepView;
+import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepViewImpl;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepView;
@@ -16,6 +20,10 @@ import org.cotrix.web.importwizard.client.step.done.DoneStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.done.DoneStepView;
 import org.cotrix.web.importwizard.client.step.done.DoneStepViewImpl;
 import org.cotrix.web.importwizard.client.step.done.ReportLogDataProvider;
+import org.cotrix.web.importwizard.client.step.repositorydetails.RepositoryDetailsStepPresenter;
+import org.cotrix.web.importwizard.client.step.repositorydetails.RepositoryDetailsStepPresenterImpl;
+import org.cotrix.web.importwizard.client.step.repositorydetails.RepositoryDetailsStepView;
+import org.cotrix.web.importwizard.client.step.repositorydetails.RepositoryDetailsStepViewImpl;
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepView;
@@ -80,6 +88,13 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(SelectionStepView.class).to(SelectionStepViewImpl.class);
         bind(SelectionStepPresenter.class).to(SelectionStepPresenterImpl.class).in(Singleton.class);
         bind(AssetInfoDataProvider.class).in(Singleton.class);
+        bind(DetailsNodeSelector.class).in(Singleton.class);
+        
+        bind(CodelistDetailsStepView.class).to(CodelistDetailsStepViewImpl.class);
+        bind(CodelistDetailsStepPresenter.class).to(CodelistDetailsStepPresenterImpl.class).in(Singleton.class);
+        
+        bind(RepositoryDetailsStepView.class).to(RepositoryDetailsStepViewImpl.class);
+        bind(RepositoryDetailsStepPresenter.class).to(RepositoryDetailsStepPresenterImpl.class).in(Singleton.class);
         
         bind(CsvPreviewStepView.class).to(CsvPreviewStepViewImpl.class);
         bind(CsvPreviewStepPresenter.class).to(CsvPreviewStepPresenterImpl.class);

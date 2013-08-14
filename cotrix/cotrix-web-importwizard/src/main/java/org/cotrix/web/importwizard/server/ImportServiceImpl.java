@@ -36,6 +36,7 @@ import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.importwizard.shared.ReportLogsBatch;
+import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
@@ -133,9 +134,9 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 		Asset asset = getAsset(assetId);
 		if (asset == null) throw new ImportServiceException("Asset with id "+assetId+" not found");
-		AssetDetails details = Assets.convertToDetails(asset);
-		System.out.println(details);
-		return details;
+		AssetDetails assetDetails = Assets.convertToDetails(asset);
+		System.out.println(assetDetails);
+		return assetDetails;
 
 		/*List<Property> properties = new ArrayList<Property>();
 		properties.add(new Property("scope", "/gcube/devsec", "null"));
@@ -152,14 +153,20 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		return assetDetails;*/
 	}
 
-
-
 	protected Asset getAsset(String id)
 	{
 		AssetInfosCache cache = getAssetInfos();
 		Asset asset = cache.getAsset(id);
 		if (asset == null) throw new IllegalArgumentException("Asset with id "+id+" not found");
 		return asset;
+	}
+	
+	public RepositoryDetails getRepositoryDetails(String repositoryId) throws ImportServiceException
+	{
+		AssetInfosCache cache = getAssetInfos();
+		RepositoryDetails repository = cache.getRepository(repositoryId);
+		if (repository == null) throw new IllegalArgumentException("Repository with id "+repositoryId+" not found");
+		return repository;
 	}
 
 	@Override

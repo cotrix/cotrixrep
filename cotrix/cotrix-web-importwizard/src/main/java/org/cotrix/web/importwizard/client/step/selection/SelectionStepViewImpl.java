@@ -1,9 +1,8 @@
 package org.cotrix.web.importwizard.client.step.selection;
 
 import org.cotrix.web.importwizard.client.resources.DataGridResource;
-import org.cotrix.web.importwizard.client.step.selection.CodelistDetailsPanel.BackHandler;
+import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -12,7 +11,6 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -55,34 +53,20 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	@UiField(provided = true)
 	SimplePager pager;
 	
-	@UiField 
-	protected Style style;
-	
 	protected AssetInfoDataProvider dataProvider;
 
 	private AlertDialog alertDialog;
-	
-	protected CodelistDetailsPanel detailsPanel;
 
 	private Presenter presenter;
-	
-	protected interface Style extends CssResource {
-		String detailsText();
-	}
-	
-
-	
-	protected Column<AssetInfo, String> nameColumn;
 
 	@Inject
 	public SelectionStepViewImpl(AssetInfoDataProvider assetInfoDataProvider) {
 		this.dataProvider = assetInfoDataProvider;
-		
+		Resources.INSTANCE.css().ensureInjected();
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
 		setHeight("520px");
 		
-		nameColumn.setCellStyleNames(style.detailsText());
 	}
 
 	/** 
@@ -137,7 +121,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		dataGrid.setColumnWidth(checkColumn, "35px");
 		
 		// Name
-		nameColumn = new Column<AssetInfo, String>(new ClickableTextCell()) {
+		Column<AssetInfo, String> nameColumn = new Column<AssetInfo, String>(new ClickableTextCell()) {
 			@Override
 			public String getValue(AssetInfo object) {
 				return object.getName();
@@ -154,6 +138,8 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 				presenter.assetDetails(object);
 			}
 		});
+		
+		nameColumn.setCellStyleNames(Resources.INSTANCE.css().linkText());
 		
 		dataGrid.addColumn(nameColumn, nameHeader);
 
@@ -172,7 +158,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		
 
 		// Repository
-		Column<AssetInfo, String> repositoryColumn = new Column<AssetInfo, String>(new TextCell()) {
+		Column<AssetInfo, String> repositoryColumn = new Column<AssetInfo, String>(new ClickableTextCell()) {
 			@Override
 			public String getValue(AssetInfo object) {
 				return object.getRepositoryName();
@@ -180,6 +166,15 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		};
 		repositoryColumn.setSortable(true);
 		repositoryColumn.setDataStoreName(AssetInfo.REPOSITORY_FIELD);
+		repositoryColumn.setFieldUpdater(new FieldUpdater<AssetInfo, String>() {
+
+			@Override
+			public void update(int index, AssetInfo object, String value) {
+				Log.trace("repository details selected for row "+index);
+				presenter.repositoryDetails(object.getRepositoryId());
+			}
+		});
+		repositoryColumn.setCellStyleNames(Resources.INSTANCE.css().linkText());
 		
 		dataGrid.addColumn(repositoryColumn, "Origin");
 		dataGrid.setColumnWidth(repositoryColumn, "20%");
@@ -200,39 +195,12 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		alertDialog.show();
 	}
 
-
-	@Override
-	public void showAssetDetails(AssetDetails asset) {
-		if (detailsPanel == null) {
-			detailsPanel = new CodelistDetailsPanel();
-			detailsPanel.setBackHandler(new BackHandler() {
-				
-				@Override
-				public void backPressed() {
-					switchPanels();
-				}
-			});
-		}
-		detailsPanel.setAsset(asset);
-		switchPanels();
-	}
 	
 	@UiHandler("refreshButton")
 	protected void refresh(ClickEvent clickEvent)
 	{
 		dataProvider.setForceRefresh(true);
 		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
-	}
-	
-	protected void switchPanels()
-	{
-		if (mainPanel.getWidget(0)==gridPanel) {
-			mainPanel.remove(gridPanel);
-			mainPanel.add(detailsPanel);
-		} else {
-			mainPanel.remove(detailsPanel);
-			mainPanel.add(gridPanel);
-		}
 	}
 	
 	public void reset()

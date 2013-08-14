@@ -12,10 +12,13 @@ import javax.servlet.http.HttpSession;
 import org.cotrix.io.Channels;
 import org.cotrix.web.importwizard.server.util.FieldComparator.ValueProvider;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
+import org.virtualrepository.RepositoryService;
 import org.virtualrepository.VirtualRepository;
+import org.virtualrepository.impl.Services;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -55,6 +58,7 @@ public class AssetInfosCache {
 	protected VirtualRepository remoteRepository;
 	
 	protected Map<String, Asset> assetsCache;
+	protected Map<String, RepositoryDetails> repositoriesCache;
 	protected OrderedList<AssetInfo> cache;
 	protected boolean cacheLoaded = false;
 	
@@ -73,6 +77,7 @@ public class AssetInfosCache {
 		cache.addField(AssetInfo.REPOSITORY_FIELD, REPOSITORY_PROVIDER);
 		
 		assetsCache = new HashMap<String, Asset>();
+		repositoriesCache = new HashMap<String, RepositoryDetails>();
 	}
 	
 	public void refreshCache()
@@ -86,6 +91,7 @@ public class AssetInfosCache {
 	{
 		cache.clear();
 		assetsCache.clear();
+		repositoriesCache.clear();
 
 		for (Asset asset:remoteRepository) {
 	
@@ -93,6 +99,12 @@ public class AssetInfosCache {
 			logger.trace("converted {} to {}", asset.name(), assetInfo);
 			cache.add(assetInfo);
 			assetsCache.put(asset.id(), asset);
+		}
+		
+		Services services = remoteRepository.services();
+		for (RepositoryService repositoryService:services) {
+			RepositoryDetails repositoryDetails = Assets.convert(repositoryService);
+			repositoriesCache.put(repositoryDetails.getName(), repositoryDetails);
 		}
 		
 		cache.sort();
@@ -110,6 +122,12 @@ public class AssetInfosCache {
 	{
 		ensureCacheInitialized();
 		return assetsCache.get(id);
+	}
+	
+	public RepositoryDetails getRepository(String id)
+	{
+		ensureCacheInitialized();
+		return repositoriesCache.get(id);
 	}
 	
 	public List<AssetInfo> getAssets(String field)

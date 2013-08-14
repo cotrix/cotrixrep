@@ -12,6 +12,7 @@ import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ReportLogsBatch;
+import org.cotrix.web.importwizard.shared.RepositoryDetails;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -26,6 +27,8 @@ public interface ImportService extends RemoteService {
 	public AssetsBatch getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ImportServiceException;
 	
 	public AssetDetails getAssetDetails(String assetId) throws ImportServiceException;
+	
+	public RepositoryDetails getRepositoryDetails(String repositoryId) throws ImportServiceException;
 	
 	public void setAsset(String assetId) throws ImportServiceException;
 	

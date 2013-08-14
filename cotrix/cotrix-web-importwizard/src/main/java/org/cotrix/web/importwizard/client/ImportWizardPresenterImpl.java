@@ -19,9 +19,11 @@ import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SingleNodeBui
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SwitchNodeBuilder;
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
+import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepPresenter;
 import org.cotrix.web.importwizard.client.step.done.DoneStepPresenter;
+import org.cotrix.web.importwizard.client.step.repositorydetails.RepositoryDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.selection.SelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
@@ -34,6 +36,12 @@ import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationHandler;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.LegacyHandlerWrapper;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -42,7 +50,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler, FlowUpdatedHandler, ResetWizardHandler {
+public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler, FlowUpdatedHandler, ResetWizardHandler, HasValueChangeHandlers<WizardStep> {
 
 	protected FlowManager<WizardStep> flow;
 
@@ -59,7 +67,10 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			UploadStepPresenter uploadStep,
 			CsvPreviewStepPresenter csvPreviewStep,
 
+			DetailsNodeSelector detailsNodeSelector,
 			SelectionStepPresenter selectionStep,
+			CodelistDetailsStepPresenter codelistDetailsStep,
+			RepositoryDetailsStepPresenter repositoryDetailsStep,
 
 			CsvMappingStepPresenter csvMappingStep,
 			SdmxMappingStepPresenter sdmxMappingStep, 
@@ -81,9 +92,15 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		SingleNodeBuilder<WizardStep> csvMapping = csvPreview.next(csvMappingStep);
 		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(sdmxMappingStep);
 
-		SwitchNodeBuilder<WizardStep> selection = source.alternative(selectionStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvMappingStep, sdmxMappingStep));
+		SwitchNodeBuilder<WizardStep> selection = source.alternative(selectionStep).hasAlternatives(detailsNodeSelector);
+		SingleNodeBuilder<WizardStep> codelistDetails = selection.alternative(codelistDetailsStep);
+		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
+		codelistDetails.next(repositoryDetails);
+		
 		selection.alternative(sdmxMapping);
 		selection.alternative(csvMapping);
+		
+		
 
 		SingleNodeBuilder<WizardStep> summary = csvMapping.next(summaryStep);
 		sdmxMapping.next(summary);
@@ -115,6 +132,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		registerStep(sourceStep);
 		registerStep(uploadStep);
 		registerStep(selectionStep);
+		registerStep(codelistDetailsStep);
+		registerStep(repositoryDetailsStep);
 		registerStep(csvPreviewStep);
 		registerStep(csvMappingStep);
 		registerStep(sdmxMappingStep);
@@ -180,6 +199,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		view.showLabel(currentStep.getConfiguration().getLabel());
 		WizardStepConfiguration configuration = currentStep.getConfiguration();
 		applyStepConfiguration(configuration);
+		ValueChangeEvent.fire(this, currentStep);
 	}
 
 	protected void applyStepConfiguration(WizardStepConfiguration configuration)
@@ -286,6 +306,16 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	@Override
 	public void onFlowUpdated(FlowUpdatedEvent event) {
 		updateTrackerLabels();
+	}
+
+	@Override
+	public void fireEvent(GwtEvent<?> event) {
+		importEventBus.fireEvent(event);		
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<WizardStep> handler) {
+		return new LegacyHandlerWrapper(importEventBus.addHandler(ValueChangeEvent.getType(), handler));
 	}
 
 

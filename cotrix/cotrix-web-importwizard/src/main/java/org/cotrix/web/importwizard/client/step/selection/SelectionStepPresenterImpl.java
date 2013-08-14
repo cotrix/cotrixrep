@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client.step.selection;
 
+import org.cotrix.web.importwizard.client.DetailsNodeSelector;
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
@@ -7,8 +8,10 @@ import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
+import org.cotrix.web.importwizard.client.step.repositorydetails.RepositoryDetailsStepPresenter;
+import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 
-import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -30,6 +33,15 @@ public class SelectionStepPresenterImpl extends AbstractWizardStep implements Se
 	@Inject
 	protected ImportServiceAsync importService;
 	
+	@Inject
+	protected DetailsNodeSelector detailsNodeSelector;
+	
+	@Inject
+	protected CodelistDetailsStepPresenter codelistDetailsPresenter;
+	
+	@Inject
+	protected RepositoryDetailsStepPresenter repositoryDetailsPresenter;
+	
 	protected EventBus importEventBus;
 	
 	protected AssetInfo selectedAsset;
@@ -48,7 +60,7 @@ public class SelectionStepPresenterImpl extends AbstractWizardStep implements Se
 	}
 
 	public boolean isComplete() {
-		return selectedAsset!=null;
+		return detailsNodeSelector.toDetails() || selectedAsset!=null;
 	}
 
 	@Override
@@ -74,7 +86,7 @@ public class SelectionStepPresenterImpl extends AbstractWizardStep implements Se
 
 	@Override
 	public void assetDetails(AssetInfo asset) {
-		Log.trace("getting asset details for "+asset);
+		/*Log.trace("getting asset details for "+asset);
 		importService.getAssetDetails(asset.getId(), new AsyncCallback<AssetDetails>() {
 			
 			@Override
@@ -86,11 +98,22 @@ public class SelectionStepPresenterImpl extends AbstractWizardStep implements Se
 			public void onFailure(Throwable caught) {
 				Log.error("Failed loading asset details", caught);
 			}
-		});
+		});*/
+		
+		codelistDetailsPresenter.setAsset(asset);
+		detailsNodeSelector.switchToCodeListDetails();
+		importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
 
 	@Override
 	public void onResetWizard(ResetWizardEvent event) {
 		view.reset();
+	}
+
+	@Override
+	public void repositoryDetails(String repositoryId) {
+		repositoryDetailsPresenter.setRepository(repositoryId);
+		detailsNodeSelector.switchToRepositoryDetails();
+		importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
 }

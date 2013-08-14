@@ -3,13 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources" />
-	<ui:style
-		type="org.cotrix.web.importwizard.client.step.selection.SelectionStepViewImpl.Style">
-			.detailsText {
-				color: blue;
-				cursor: pointer;
-			}
-			
+	<ui:style>
 			.refreshButton {
 				float: right;
 				position: relative !important;

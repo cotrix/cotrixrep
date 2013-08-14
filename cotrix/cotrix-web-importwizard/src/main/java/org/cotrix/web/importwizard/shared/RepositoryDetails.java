@@ -13,6 +13,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class RepositoryDetails implements Serializable {
 	
+	protected String id;
 	protected String name;
 	protected String publishedTypes;
 	protected String returnedTypes;
@@ -21,17 +22,26 @@ public class RepositoryDetails implements Serializable {
 	public RepositoryDetails(){}
 	
 	/**
+	 * @param id
 	 * @param name
 	 * @param publishedTypes
 	 * @param returnedTypes
 	 * @param properties
 	 */
-	public RepositoryDetails(String name, String publishedTypes,
+	public RepositoryDetails(String id, String name, String publishedTypes,
 			String returnedTypes, List<Property> properties) {
+		this.id = id;
 		this.name = name;
 		this.publishedTypes = publishedTypes;
 		this.returnedTypes = returnedTypes;
 		this.properties = properties;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
 	}
 
 	/**
@@ -60,6 +70,13 @@ public class RepositoryDetails implements Serializable {
 	 */
 	public List<Property> getProperties() {
 		return properties;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	/**
@@ -96,7 +113,9 @@ public class RepositoryDetails implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("RepositoryDetails [name=");
+		builder.append("RepositoryDetails [id=");
+		builder.append(id);
+		builder.append(", name=");
 		builder.append(name);
 		builder.append(", publishedTypes=");
 		builder.append(publishedTypes);
@@ -107,4 +126,5 @@ public class RepositoryDetails implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
+
 }

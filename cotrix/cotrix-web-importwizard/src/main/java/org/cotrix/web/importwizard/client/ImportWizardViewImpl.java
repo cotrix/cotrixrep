@@ -83,7 +83,8 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	public void showStep(WizardStep step)
 	{
 		Log.trace("showStep "+step.getId()+" steps: "+stepsPanel.getWidgetCount());
-		int deckIndex = decksIndexes.get(step.getId());
+		Integer deckIndex = decksIndexes.get(step.getId());
+		if (deckIndex == null) throw new IllegalArgumentException("Step "+step.getId()+" not found in deck, forgot to register?");
 		stepsPanel.showWidget(deckIndex);
 	}
 

@@ -1,7 +1,7 @@
 .gwt-PopupPanelGlass {
 	background-color: #000;
 	opacity: 0.3;
-	filter: alpha(opacity =                   30);
+	filter: alpha(opacity =                     30);
 }
 
 .simpleCheckbox {
@@ -21,6 +21,11 @@
 
 .paddedTextDisabled {
 	color: rgb(84, 84, 84);
+}
+
+.linkText {
+	color: blue !important;
+	cursor: pointer;
 }
 
 .sectionTitle {
