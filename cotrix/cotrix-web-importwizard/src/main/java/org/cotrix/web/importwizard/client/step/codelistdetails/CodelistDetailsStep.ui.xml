@@ -22,6 +22,14 @@
 					</g:customCell>
 				</g:row>
 				<g:row>
+					<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
+						<g:Label text="Origin" styleName="{resources.css.propertyLabel}" />
+					</g:customCell>
+					<g:customCell>
+						<g:Label ui:field="repository" styleName="{resources.css.propertyValue} {resources.css.linkText}" />
+					</g:customCell>
+				</g:row>
+				<g:row>
 					<g:customCell styleName="{resources.css.verticalHeadersMultipleItem}">
 						<g:Label text="Properties" styleName="{resources.css.propertyLabel}" />
 					</g:customCell>
@@ -29,14 +37,6 @@
 						<g:FlexTable ui:field="assetProperties" cellPadding="0"
 							cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
 							width="100%" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
-						<g:Label text="Repository" styleName="{resources.css.propertyLabel}" />
-					</g:customCell>
-					<g:customCell>
-						<g:Label ui:field="repository" styleName="{resources.css.propertyValue} {resources.css.linkText}" />
 					</g:customCell>
 				</g:row>
 			</g:Grid>

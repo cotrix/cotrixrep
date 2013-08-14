@@ -28,6 +28,10 @@
 	cursor: pointer;
 }
 
+.missingValueText {
+	font-style: italic;
+}
+
 .sectionTitle {
 	font-weight: bold;
 	color: black;

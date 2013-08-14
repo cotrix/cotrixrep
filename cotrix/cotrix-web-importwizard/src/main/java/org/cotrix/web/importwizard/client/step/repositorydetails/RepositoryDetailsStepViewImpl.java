@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class RepositoryDetailsStepViewImpl extends Composite implements RepositoryDetailsStepView {
 	
+	protected static final String NOTHING = "nothing";
 	protected static final int ASSET_PROPERTIES_ROW = 3;
 	protected static final int REPOSITORY_PROPERTIES_ROW = 3;
 
@@ -42,14 +43,18 @@ public class RepositoryDetailsStepViewImpl extends Composite implements Reposito
 
 	public RepositoryDetailsStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+		Resources.INSTANCE.css().ensureInjected();
 	}
 
 	public void setRepository(RepositoryDetails repository)
 	{
 		repositoryName.setText(repository.getName());
-		repositoryPublishedTypes.setText(repository.getPublishedTypes());
-		repositoryReturnedTypes.setText(repository.getReturnedTypes());
-
+		repositoryPublishedTypes.setText(repository.getPublishedTypes().isEmpty()?NOTHING:repository.getPublishedTypes());
+		repositoryPublishedTypes.setStyleName(Resources.INSTANCE.css().missingValueText(), repository.getPublishedTypes().isEmpty());
+		
+		repositoryReturnedTypes.setText(repository.getReturnedTypes().isEmpty()?NOTHING:repository.getReturnedTypes());
+		repositoryReturnedTypes.setStyleName(Resources.INSTANCE.css().missingValueText(), repository.getReturnedTypes().isEmpty());
+		
 		addRepositoryProperties(repository.getProperties());
 	}
 

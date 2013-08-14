@@ -15,7 +15,7 @@
 			</g:row>
 			<g:row>
 				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
-					<g:Label text="Published types" styleName="{resources.css.propertyLabel}" />
+					<g:Label text="Accepts" styleName="{resources.css.propertyLabel}" />
 				</g:customCell>
 				<g:customCell>
 					<g:Label ui:field="repositoryPublishedTypes" styleName="{resources.css.propertyValue}" />
@@ -23,7 +23,7 @@
 			</g:row>
 			<g:row>
 				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
-					<g:Label text="Returned types" styleName="{resources.css.propertyLabel}" />
+					<g:Label text="Disseminates" styleName="{resources.css.propertyLabel}" />
 				</g:customCell>
 				<g:customCell>
 					<g:Label ui:field="repositoryReturnedTypes" styleName="{resources.css.propertyValue}" />

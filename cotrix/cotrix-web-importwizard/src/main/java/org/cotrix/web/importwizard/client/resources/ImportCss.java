@@ -40,6 +40,7 @@ public interface ImportCss extends CssResource {
 	String paddedText();
 	String sectionTitle();
 	String linkText();
+	String missingValueText();
 
 	String paddedTextDisabled();
 	
