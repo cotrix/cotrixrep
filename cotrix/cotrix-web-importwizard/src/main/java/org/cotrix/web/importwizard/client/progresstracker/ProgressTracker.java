@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -92,7 +93,8 @@ public class ProgressTracker extends Composite {
 			ProgressTrackerLabel label = new ProgressTrackerLabel(stepLabel, lineWidth + BUTTON_WIDTH);
 			labels.add(label);
 			textPanel.add(label);
-			index.put(step.getId(), i);
+			Log.trace("setting step "+i+" with step id: "+step.getId()+" label: "+step.getLabel());
+			index.put(step.getId(), i++);
 		}
 	}
 
@@ -104,13 +106,17 @@ public class ProgressTracker extends Composite {
 			ProgressStep step = steps.get(i);
 			String stepLabel = step.getLabel();
 			label.setText(stepLabel);
+			Log.trace("updating step "+i+" with step id: "+step.getId()+" label: "+step.getLabel());
 			index.put(step.getId(), i);
 		}
 	}
 
 	public void setCurrentStep(ProgressStep step)
 	{
+		Log.trace("setCurrentStep step: "+step.getId());
 		int stepIndex = index.get(step.getId());
+		Log.trace("stepIndex: "+stepIndex);
+		
 		int stepsCount = buttons.size();
 		for (int i = 0; i < stepsCount; i++) {
 			buttons.get(i).setActive(i<=stepIndex);

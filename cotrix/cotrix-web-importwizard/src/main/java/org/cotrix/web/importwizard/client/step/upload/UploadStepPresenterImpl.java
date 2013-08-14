@@ -131,6 +131,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 			
 			@Override
 			public void onSuccess(FileUploadProgress result) {
+				Log.trace("progress "+result);
 				updateProgress(result);
 			}
 			

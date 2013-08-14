@@ -211,6 +211,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 			@Override
 			public void onSuccess(CsvParserConfiguration result) {
+				Log.trace("parser configuration loaded: "+result);
 				importEventBus.fireEvent(new CsvParserConfigurationUpdatedEvent(result));				
 			}
 		});

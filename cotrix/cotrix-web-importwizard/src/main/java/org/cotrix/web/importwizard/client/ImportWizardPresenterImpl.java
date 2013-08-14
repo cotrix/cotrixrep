@@ -177,7 +177,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	{
 		List<WizardStep> steps = flow.getCurrentFlow();
 		Log.trace("New FLOW:");
-		for (WizardStep step:steps) Log.trace("step: "+step.getId());
+		if (Log.isTraceEnabled()) for (WizardStep step:steps) Log.trace("step: "+step.getId());
 		
 		List<ProgressStep> psteps = new ArrayList<ProgressStep>();
 		Set<String> saw = new HashSet<String>();
@@ -185,7 +185,10 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			ProgressStep pstep = step.getConfiguration().getLabel();
 			if (saw.contains(pstep.getId())) continue;
 			psteps.add(pstep);
+			saw.add(pstep.getId());
 		}
+		Log.trace("Progress steps:");
+		if (Log.isTraceEnabled()) for (ProgressStep step:psteps) Log.trace("step: "+step.getId());
 		
 		view.setLabels(psteps);
 		view.showLabel(flow.getCurrentItem().getConfiguration().getLabel());

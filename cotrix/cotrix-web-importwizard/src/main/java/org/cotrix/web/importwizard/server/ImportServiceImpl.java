@@ -132,13 +132,14 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public AssetDetails getAssetDetails(String assetId) throws ImportServiceException {
 
-		Asset asset = getAsset(assetId);
-		if (asset == null) throw new ImportServiceException("Asset with id "+assetId+" not found");
-		AssetDetails assetDetails = Assets.convertToDetails(asset);
-		System.out.println(assetDetails);
-		return assetDetails;
+		try {
+			Asset asset = getAsset(assetId);
+			if (asset == null) throw new ImportServiceException("Asset with id "+assetId+" not found");
+			AssetDetails assetDetails = Assets.convertToDetails(asset);
+			System.out.println(assetDetails);
+			return assetDetails;
 
-		/*List<Property> properties = new ArrayList<Property>();
+			/*List<Property> properties = new ArrayList<Property>();
 		properties.add(new Property("scope", "/gcube/devsec", "null"));
 		RepositoryDetails repository = new RepositoryDetails("D4Science Development Registry", "sdmx/codelist",  "sdmx/codelist", properties);
 
@@ -151,6 +152,11 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 				"CL_DIVISION", "sdmx/codelist", properties, repository);
 
 		return assetDetails;*/
+		} catch(Exception e)
+		{
+			logger.error("An error occurred on server side", e);
+			throw new ImportServiceException("An error occurred on server side: "+e.getMessage());
+		}
 	}
 
 	protected Asset getAsset(String id)
@@ -160,13 +166,20 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		if (asset == null) throw new IllegalArgumentException("Asset with id "+id+" not found");
 		return asset;
 	}
-	
+
 	public RepositoryDetails getRepositoryDetails(String repositoryId) throws ImportServiceException
 	{
-		AssetInfosCache cache = getAssetInfos();
-		RepositoryDetails repository = cache.getRepository(repositoryId);
-		if (repository == null) throw new IllegalArgumentException("Repository with id "+repositoryId+" not found");
-		return repository;
+		try {
+
+			AssetInfosCache cache = getAssetInfos();
+			RepositoryDetails repository = cache.getRepository(repositoryId);
+			if (repository == null) throw new IllegalArgumentException("Repository with id "+repositoryId+" not found");
+			return repository;
+		} catch(Exception e)
+		{
+			logger.error("An error occurred on server side", e);
+			throw new ImportServiceException("An error occurred on server side: "+e.getMessage());
+		}
 	}
 
 	@Override
@@ -185,16 +198,16 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public PreviewData getCsvPreviewData(CsvParserConfiguration configuration) throws ImportServiceException {
 
-		WizardImportSession session = getImportSession();
-
-		if (session.getCodeListType()!=CodeListType.CSV) {
-			logger.error("Requested CSV preview data when CodeList type is {}", session.getCodeListType());
-			throw new ImportServiceException("No preview data available");
-		}
-
-		if (session.getCsvParserConfiguration()!=null && session.getCsvParserConfiguration().equals(configuration)) return session.getPreviewCache();
-
 		try {
+			WizardImportSession session = getImportSession();
+
+			if (session.getCodeListType()!=CodeListType.CSV) {
+				logger.error("Requested CSV preview data when CodeList type is {}", session.getCodeListType());
+				throw new ImportServiceException("No preview data available");
+			}
+
+			if (session.getCsvParserConfiguration()!=null && session.getCsvParserConfiguration().equals(configuration)) return session.getPreviewCache();
+
 
 			session.setCsvParserConfiguration(configuration);
 
@@ -220,15 +233,29 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	 */
 	@Override
 	public CodeListType getCodeListType() throws ImportServiceException {
-		WizardImportSession session = getImportSession();
+		try {
 
-		return session.getCodeListType();
+			WizardImportSession session = getImportSession();
+
+			return session.getCodeListType();
+		} catch(Exception e)
+		{
+			logger.error("An error occurred on server side", e);
+			throw new ImportServiceException("An error occurred on server side: "+e.getMessage());
+		}
 	}
 
 	@Override
 	public ImportMetadata getMetadata() throws ImportServiceException {
-		WizardImportSession session = getImportSession();
-		return session.getGuessedMetadata();
+
+		try {
+			WizardImportSession session = getImportSession();
+			return session.getGuessedMetadata();
+		} catch(Exception e)
+		{
+			logger.error("An error occurred on server side", e);
+			throw new ImportServiceException("An error occurred on server side: "+e.getMessage());
+		}
 	}
 
 	/** 
@@ -236,10 +263,16 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	 */
 	@Override
 	public CsvParserConfiguration getCsvParserConfiguration() throws ImportServiceException {
-		WizardImportSession session = getImportSession();
-		CsvParserConfiguration configuration = session.getCsvParserConfiguration();
-		configuration.setAvailablesCharset(getEncodings());
-		return configuration;
+		try {
+			WizardImportSession session = getImportSession();
+			CsvParserConfiguration configuration = session.getCsvParserConfiguration();
+			configuration.setAvailablesCharset(getEncodings());
+			return configuration;
+		} catch(Exception e)
+		{
+			logger.error("An error occurred on server side", e);
+			throw new ImportServiceException("An error occurred on server side: "+e.getMessage());
+		}
 	}
 
 	protected List<String> getEncodings()
@@ -256,8 +289,14 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	 */
 	@Override
 	public AttributesMappings getMappings() throws ImportServiceException {
-		WizardImportSession session = getImportSession();
-		return session.getMappings();
+		try {
+			WizardImportSession session = getImportSession();
+			return session.getMappings();
+		} catch(Exception e)
+		{
+			logger.error("An error occurred on server side", e);
+			throw new ImportServiceException("An error occurred on server side: "+e.getMessage());
+		}
 	}
 
 	@Override
@@ -280,14 +319,20 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	@Override
 	public ImportProgress getImportProgress() throws ImportServiceException {
-		WizardImportSession session = getImportSession();
-		return session.getImporter().getProgress();
+		try {
+			WizardImportSession session = getImportSession();
+			return session.getImporter().getProgress();
+		} catch(Exception e)
+		{
+			logger.error("An error occurred on server side", e);
+			throw new ImportServiceException("An error occurred on server side: "+e.getMessage());
+		}
 	}
 
 	@Override
 	public void setAsset(String assetId) throws ImportServiceException {
 		logger.trace("setAsset {}", assetId);
-		
+
 		try {
 			HttpSession httpSession = this.getThreadLocalRequest().getSession();
 			WizardImportSession session = WizardImportSession.getCleanImportSession(httpSession);

@@ -89,6 +89,7 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 
 	@Override
 	public void onSave(CsvParserConfiguration configuration) {
+		if (dataProvider.getConfiguration().equals(configuration)) return;
 		updatePreview(configuration);
 		presenter.onCsvConfigurationEdited(configuration);
 	}
@@ -96,9 +97,7 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 	
 	protected void updatePreview(CsvParserConfiguration configuration)
 	{
-		if (dataProvider.getConfiguration()==null || !dataProvider.getConfiguration().equals(configuration)) {
-			dataProvider.setConfiguration(configuration);
-			preview.loadData();
-		}
+		dataProvider.setConfiguration(configuration);
+		preview.loadData();
 	}
 }
