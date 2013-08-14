@@ -266,6 +266,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 
 		try {
+			session.setImportedCodelistName(metadata.getName());
 			Importer<?> importer = importerFactory.createImporter(session, metadata, mappings);
 			Thread th = new Thread(importer);
 			th.start();

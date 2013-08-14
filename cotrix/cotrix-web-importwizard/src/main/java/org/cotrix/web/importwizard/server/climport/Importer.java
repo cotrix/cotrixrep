@@ -77,7 +77,6 @@ public class Importer<T> implements Runnable {
 			List<ReportLog> logs = convertLogs(report.logs());
 			importSession.setLogs(logs);
 			importSession.setReport(report.toString());
-			importSession.setImportedCodelistName(outcome.result().name().toString());
 
 			if (!report.isFailure()) {
 

@@ -27,7 +27,7 @@ public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements C
 	
 	@Inject
 	public CsvPreviewStepPresenterImpl(CsvPreviewStepView view, @ImportBus EventBus importEventBus) {
-		super("csv-preview", TrackerLabels.PREVIEW, "Does it look right?", "", DEFAULT_BACKWARD, DEFAULT_FORWARD);
+		super("csv-preview", TrackerLabels.PREVIEW, "Does it look right?", "Adjust the parameters until it does.", DEFAULT_BACKWARD, DEFAULT_FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		

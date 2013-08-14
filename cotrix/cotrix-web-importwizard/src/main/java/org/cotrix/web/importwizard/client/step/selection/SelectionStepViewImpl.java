@@ -85,7 +85,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	protected void setupGrid()
 	{
 
-		dataGrid = new DataGrid<AssetInfo>(10, DataGridResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
+		dataGrid = new DataGrid<AssetInfo>(9, DataGridResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);

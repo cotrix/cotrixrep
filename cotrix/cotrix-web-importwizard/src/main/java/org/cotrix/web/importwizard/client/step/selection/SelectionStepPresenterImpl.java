@@ -48,7 +48,7 @@ public class SelectionStepPresenterImpl extends AbstractWizardStep implements Se
 	
 	@Inject
 	public SelectionStepPresenterImpl(SelectionStepView view, @ImportBus EventBus importEventBus) {
-		super("selection", TrackerLabels.ACQUIRE, "Pick a codelist", "", DEFAULT_BACKWARD, DEFAULT_FORWARD);
+		super("selection", TrackerLabels.ACQUIRE, "Pick a codelist", "We found a few nearby.", DEFAULT_BACKWARD, DEFAULT_FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		this.importEventBus = importEventBus;

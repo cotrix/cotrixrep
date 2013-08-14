@@ -44,7 +44,7 @@ public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneSte
 				configuration.setTitle("That's done");
 				configuration.setBackwardButton(NEW_IMPORT);
 				configuration.setForwardButton(MANAGE);
-				configuration.setSubtitle("Here's a log of what's happened.");
+				configuration.setSubtitle("Check the log for potential errors or warnings.");
 				view.loadReport();
 			} break;
 			case FAILED: {

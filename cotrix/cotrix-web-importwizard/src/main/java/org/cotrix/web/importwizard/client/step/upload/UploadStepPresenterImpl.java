@@ -46,7 +46,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 
 	@Inject
 	public UploadStepPresenterImpl(UploadStepView view, @ImportBus EventBus importEventBus) {
-		super("upload", TrackerLabels.ACQUIRE, "Upload it", "Choose a CSV or SDMX file on you computer.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("upload", TrackerLabels.ACQUIRE, "Upload it", "Choose any CSV or SDMX file.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		
