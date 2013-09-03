@@ -1,91 +1,19 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:dp="urn:import:com.google.gwt.user.datepicker.client" xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
-		field="resources"></ui:with>
-	<ui:style>
-		
-		.label {
-			margin-right: 20px;
-		}
-		
-		.cell-left {
-			padding: 5px;
-			text-align: right;
-			font-size: 14px;
-			color: #666;
-			width: 50%;
-		}
-		.cell-right {
-			padding: 5px;
-			text-align: left;
-			font-size: 14px;
-			color: #666;
-			width: 50%;
-		}
-		
-		.icon {
-			outline: 0;
-		}
-		
-		.icon_label {
-			font-size: 24px;
-			font-weight: normal;
-		}
-		
-		.subtext {
-			padding-top: 10px;
-			padding-left: 10px;
-			font-size: 16px;
-			font-weight: normal;
-		}
-		
-		.icon_panel_container_left {
-			margin-left: auto;
-			margin-right: 20px;
-			display: inline-block;
-			outline: 0;
-		}
-		
-		.icon_panel_container_right {
-			margin-left: 20px;
-			margin-right: auto;
-			display: inline-block;
-			outline: 0;
-		}
-		
-		.icon_panel {
-			padding: 10px;
-		}
-
-	</ui:style>
+	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources" field="resources"></ui:with>
 	<g:HTMLPanel>
-		<g:Grid width="100%">
-			<g:row>
-				<g:customCell styleName="{style.cell-left}">
-					<g:FocusPanel ui:field="myComputerPanel" styleName="{style.icon_panel_container_left}">
-						<g:VerticalPanel styleName="{style.icon_panel} {resources.css.areaHighlight}" horizontalAlignment="center">
-							<g:HorizontalPanel spacing="10" verticalAlignment="middle">
-								<g:Image resource="{resources.computer}" />
-							</g:HorizontalPanel>
-							<g:Label styleName="{style.icon_label}">On my computer</g:Label>
-							<!-- <g:Label styleName="{style.subtext}">Select a file from my computer</g:Label> -->
-						</g:VerticalPanel>
-					</g:FocusPanel>
-				</g:customCell>
-				<g:customCell styleName="{style.cell-right}">
-					<g:FocusPanel ui:field="cloudPanel" styleName="{style.icon_panel_container_right}">
-						<g:VerticalPanel styleName="{style.icon_panel} {resources.css.areaHighlight}"  horizontalAlignment="center">
-							<g:HorizontalPanel spacing="10"
-								verticalAlignment="middle">
-								<g:Image resource="{resources.cloud}" />								
-							</g:HorizontalPanel>
-							<g:Label styleName="{style.icon_label}">In the cloud</g:Label>
-							<!--<g:Label styleName="{style.subtext}">Select a file from a cloud service</g:Label>-->
-						</g:VerticalPanel>
-					</g:FocusPanel>
-				</g:customCell>
-			</g:row>
-		</g:Grid>
+		<table width="100%" style="padding-top:100px;">
+			<tr>
+				<td width="50%">
+					<g:Button ui:field="myComputerPanel" text="On my computer"
+						styleName="{resources.css.buttonComputer}" />
+				</td>
+				<td width="50%">
+					<g:Button ui:field="cloudPanel" text="In the cloud"
+						styleName="{resources.css.buttonCloud}" />
+				</td>
+			</tr>
+		</table>
 	</g:HTMLPanel>
 </ui:UiBinder> 
