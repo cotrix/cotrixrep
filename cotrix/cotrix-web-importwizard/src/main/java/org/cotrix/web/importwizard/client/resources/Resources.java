@@ -28,6 +28,12 @@ public interface Resources extends ClientBundle {
 	
 	@Source("cloud-hover.png")
 	public ImageResource cloudHover();
+	
+	@Source("browse.png")
+	public ImageResource browse();
+	
+	@Source("browse-hover.png")
+	public ImageResource browseHover();
 
 	@Source("close.png")
 	public ImageResource close();
@@ -49,5 +55,5 @@ public interface Resources extends ClientBundle {
 	
 	@Source("reload.png")
 	public ImageResource reload();
-
+	
 }

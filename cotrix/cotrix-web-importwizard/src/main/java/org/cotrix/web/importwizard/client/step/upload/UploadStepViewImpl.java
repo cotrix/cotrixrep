@@ -12,14 +12,12 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -33,15 +31,10 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	@UiTemplate("UploadStep.ui.xml")
 	interface UploadStepUiBinder extends UiBinder<Widget, UploadStepViewImpl> {}
 	
-	@UiField FocusPanel browseButton;	
 	@UiField FileUploadExt fileUploadButton;
 	
-	@UiField HTMLPanel captionPanel;
-	
-	@UiField VerticalPanel fileWrapperPanel;
-	
-	@UiField Label fileNameLabel;
-	@UiField Label fileSizeLabel;
+	@UiField InlineLabel fileNameLabel;
+	@UiField InlineLabel fileSizeLabel;
 	
 	@UiField Label retryButton;
 	
@@ -72,8 +65,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	
 	public void setupUpload(String filename, long filesize)
 	{
-		//captionPanel.setVisible(false);
-		fileWrapperPanel.setVisible(true);
+		
 		
 		uploadPanel.setVisible(true);
 		uploadFailPanel.setVisible(false);
@@ -83,8 +75,10 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 		String ellipsedName = TextUtil.ellipsize(filename, ImportConstants.INSTANCE.fileNameMaxSize());
 		fileNameLabel.setText(ellipsedName);
 		fileNameLabel.setTitle(filename);
+		fileNameLabel.setVisible(true);
 		
 		fileSizeLabel.setText("("+TextUtil.toKiloBytes(filesize)+"K)");
+		fileSizeLabel.setVisible(true);
 	}
 	
 	public void setUploadProgress(int progress)
@@ -100,16 +94,12 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	
 	public void setUploadComplete(String codeListType)
 	{
-		progressBar.setVisible(false);
-		//TODO remove label
-		/*fileTypeLabel.setText(codeListType);
-		fileTypeLabel.setVisible(true);*/
+		
 	}
 
 	public void resetFileUpload() {
-		//browseButton.setEnabled(true);
-		captionPanel.setVisible(true);
-		fileWrapperPanel.setVisible(false);
+		fileNameLabel.setVisible(false);
+		fileSizeLabel.setVisible(false);
 	}
 	
 	public void alert(String message) {

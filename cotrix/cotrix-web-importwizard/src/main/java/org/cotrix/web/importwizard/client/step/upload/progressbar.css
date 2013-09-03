@@ -1,12 +1,15 @@
 .shell {
   background-color: #AAAAAA;
   height: 14pt;
-  width: 50%;
+  width: 80%;
   min-width: 150px;
+  margin: auto;
+  border-radius: 20px;
 }
 
 .shell .bar {
-  background-color: #67A7E3;
+  background-color: #89d488;
+  border-radius: 20px;
 }
 
 .shell .text {
