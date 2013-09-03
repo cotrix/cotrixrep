@@ -25,6 +25,12 @@ public class SdmxMapDirectives implements MapDirectives<CodelistBean> {
 	
 	public static enum SdmxElement {FINAL,AGENCY, VALID_FROM, VALID_TO, NAME, DESCRIPTION, ANNOTATION,URI}
 	
+	
+	private QName name;
+	
+	/**
+	 * Creates an instance with default directives.
+	 */
 	public SdmxMapDirectives() {
 		
 		map(FINAL,new QName(sdmx,"final"));
@@ -56,5 +62,33 @@ public class SdmxMapDirectives implements MapDirectives<CodelistBean> {
 	}
 	
 	
+	/**
+	 * Sets the name of the target codelist for these directives.
+	 * 
+	 * @param name the name
+	 * @return these directives
+	 */
+	public SdmxMapDirectives name(QName name) {
+		this.name = name;
+		return this;
+	}
 	
+	/**
+	 * Sets the name of the target codelist for these directives.
+	 * 
+	 * @param name the name
+	 * @return these directives
+	 */
+	public SdmxMapDirectives name(String name) {
+		return name(new QName(name));
+	}
+	
+	/**
+	 * Returns the name of the target codelist for these directives.
+	 * 
+	 * @return the name
+	 */
+	public QName name() {
+		return name;
+	}
 }

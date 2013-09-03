@@ -35,7 +35,7 @@ public class Sdmx2Codelist {
 						build());
 		
 		Codelist codelist = codelist().
-				name(listBean.getId()).
+				name(directives.name()==null?new QName(listBean.getId()):directives.name()).
 				with(codes).
 				attributes(attributesOf(listBean,directives)).
 				version(listBean.getVersion()).

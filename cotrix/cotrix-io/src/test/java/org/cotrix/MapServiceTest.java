@@ -84,9 +84,10 @@ public class MapServiceTest {
 		
 		CodelistBean bean = parser.parse(stream, SdmxParseDirectives.DEFAULT);
 		
-		Outcome outcome = service.map(bean, SdmxMapDirectives.DEFAULT);
+		Outcome outcome = service.map(bean, new SdmxMapDirectives().name("test"));
 		
 		assertNotNull(outcome.result());
+		assertEquals(new QName("test"), outcome.result().name());
 		
 	}
 	
