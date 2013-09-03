@@ -28,6 +28,8 @@ import org.virtualrepository.impl.Repository;
  */
 public class CdiProducers {
 
+	private final VirtualRepository repository = new Repository();
+	
 	@Inject
 	private Instance<ParseTask<Object,ParseDirectives<Object>>> parseTasks;
 	
@@ -92,7 +94,7 @@ public class CdiProducers {
 	 */
 	@Produces @Singleton
 	public VirtualRepository virtualRepository() {
-		return new Repository();
+		return repository;
 	}
 	
 	/**
