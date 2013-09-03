@@ -28,23 +28,23 @@ import org.virtualrepository.impl.Repository;
  */
 public class CdiProducers {
 
-	private final VirtualRepository repository = new Repository();
+	private final static VirtualRepository repository = new Repository();
 	
 	@Inject
-	private Instance<ParseTask<Object,ParseDirectives<Object>>> parseTasks;
+	private static Instance<ParseTask<Object,ParseDirectives<Object>>> parseTasks;
 	
 	@Inject
-	private Instance<MapTask<Object,MapDirectives<Object>>> mapTasks;
+	private static Instance<MapTask<Object,MapDirectives<Object>>> mapTasks;
 	
 	@Inject
-	private Instance<PublicationTask<PublicationDirectives>> publishTasks;
+	private static Instance<PublicationTask<PublicationDirectives>> publishTasks;
 	
 	/**
 	 * Produces a {@link Registry} of {@link ParseDirectives}s for CDI injection.
 	 * @return the registry
 	 */
 	@Produces @Singleton
-	public Registry<ParseTask<Object,ParseDirectives<Object>>> parseTasks() {
+	public static Registry<ParseTask<Object,ParseDirectives<Object>>> parseTasks() {
 		
 		List<ParseTask<Object,ParseDirectives<Object>>> tasks = new ArrayList<ParseTask<Object,ParseDirectives<Object>>>();
 		
@@ -60,7 +60,7 @@ public class CdiProducers {
 	 * @return the registry
 	 */
 	@Produces @Singleton
-	public Registry<MapTask<Object,MapDirectives<Object>>> mapTasks() {
+	public static Registry<MapTask<Object,MapDirectives<Object>>> mapTasks() {
 		
 		List<MapTask<Object,MapDirectives<Object>>> tasks = new ArrayList<MapTask<Object,MapDirectives<Object>>>();
 		
@@ -77,7 +77,7 @@ public class CdiProducers {
 	 * @return the registry
 	 */
 	@Produces @Singleton
-	public Registry<PublicationTask<PublicationDirectives>> publishTasks() {
+	public static Registry<PublicationTask<PublicationDirectives>> publishTasks() {
 		
 		List<PublicationTask<PublicationDirectives>> tasks = new ArrayList<PublicationTask<PublicationDirectives>>();
 		
@@ -93,7 +93,7 @@ public class CdiProducers {
 	 * @return the repository
 	 */
 	@Produces @Singleton
-	public VirtualRepository virtualRepository() {
+	public static VirtualRepository virtualRepository() {
 		return repository;
 	}
 	
