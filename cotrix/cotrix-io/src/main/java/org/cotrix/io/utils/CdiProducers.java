@@ -31,20 +31,20 @@ public class CdiProducers {
 	private final static VirtualRepository repository = new Repository();
 	
 	@Inject
-	private static Instance<ParseTask<Object,ParseDirectives<Object>>> parseTasks;
+	private Instance<ParseTask<Object,ParseDirectives<Object>>> parseTasks;
 	
 	@Inject
-	private static Instance<MapTask<Object,MapDirectives<Object>>> mapTasks;
+	private Instance<MapTask<Object,MapDirectives<Object>>> mapTasks;
 	
 	@Inject
-	private static Instance<PublicationTask<PublicationDirectives>> publishTasks;
+	private Instance<PublicationTask<PublicationDirectives>> publishTasks;
 	
 	/**
 	 * Produces a {@link Registry} of {@link ParseDirectives}s for CDI injection.
 	 * @return the registry
 	 */
 	@Produces @Singleton
-	public static Registry<ParseTask<Object,ParseDirectives<Object>>> parseTasks() {
+	public Registry<ParseTask<Object,ParseDirectives<Object>>> parseTasks() {
 		
 		List<ParseTask<Object,ParseDirectives<Object>>> tasks = new ArrayList<ParseTask<Object,ParseDirectives<Object>>>();
 		
@@ -60,7 +60,7 @@ public class CdiProducers {
 	 * @return the registry
 	 */
 	@Produces @Singleton
-	public static Registry<MapTask<Object,MapDirectives<Object>>> mapTasks() {
+	public Registry<MapTask<Object,MapDirectives<Object>>> mapTasks() {
 		
 		List<MapTask<Object,MapDirectives<Object>>> tasks = new ArrayList<MapTask<Object,MapDirectives<Object>>>();
 		
@@ -77,7 +77,7 @@ public class CdiProducers {
 	 * @return the registry
 	 */
 	@Produces @Singleton
-	public static Registry<PublicationTask<PublicationDirectives>> publishTasks() {
+	public Registry<PublicationTask<PublicationDirectives>> publishTasks() {
 		
 		List<PublicationTask<PublicationDirectives>> tasks = new ArrayList<PublicationTask<PublicationDirectives>>();
 		
