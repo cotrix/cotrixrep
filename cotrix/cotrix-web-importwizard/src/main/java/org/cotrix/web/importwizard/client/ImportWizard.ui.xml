@@ -4,6 +4,10 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
 	<ui:style>
+		.wizardPanel {
+			padding-bottom: 20px;
+		}
+		
 		.progressTrackerPanel {
 			width: 100%;
 			height: 100%;
@@ -11,27 +15,30 @@
 			text-align: center;
 		}
 		
-		/*form panel container of deck*/
-		.formPanel {
+		.contentPanel {
+			width: 880px;
+			height: 100%;
+			margin: 0 auto;
+		}
+		
+		.title {
+			font-size: 20px;
+			color: #595959;
+			text-align: center;
+		}
+		
+		.subtitle {
+			font-family: 'Kite One', sans-serif;
+			color: #989898;
+			text-align: center;
+			margin-top: 2px;
+		}
+		
+		.stepsPanel {
 			width: 100%;
 			height: 100%;
 			margin: 0 auto;
 			text-align: center;
-		}
-		
-		.mainPanel {
-			padding-bottom: 20px;
-		}
-		
-		.panel {
-			font-weight: bold;
-			background-color: #FAFAFA;
-			width: 880px;
-			margin: 0 auto;
-			-moz-border-radius: 5px;
-			border-radius: 5px;
-			border: 1px solid #ccc;
-			height: 100%;
 		}
 		
 		.navigationBar {
@@ -40,30 +47,6 @@
 			height: 40px;
 			border-radius: 0px 0px 5px 5px;
 			-moz-border-radius: 0px 0px 5px 5px;
-		}
-		
-		.title {
-			font-weight: bold;
-			font-size: xx-large;
-			text-align: left;
-			color: #999;
-			margin-left: 20px;
-			padding-top: 12px;
-		}
-		
-		.subtitle {
-			margin-left: 20px;
-			font-size: 18px;
-			font-weight: normal;
-			color: #999;
-			margin-top: 2px;
-		}
-		
-		.contentPanel {
-			text-align: left;
-			padding: 20px;
-			height: 100%;
-			margin-top: 22px;
 		}
 		
 		.buttonPanel {
@@ -83,13 +66,13 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:FlowPanel styleName="{style.mainPanel}">
+		<g:FlowPanel styleName="{style.wizardPanel}">
 			<g:FlowPanel ui:field="progressTrackerPanel" styleName="{style.progressTrackerPanel}" />
-			<g:FlowPanel ui:field="contentPanel" styleName="{style.panel}">
+			<g:FlowPanel ui:field="contentPanel" styleName="{style.contentPanel}">
 				<g:Label text="Title" styleName="{style.title}" ui:field="title" />
 				<g:Label ui:field="subtitle" styleName="{style.subtitle}">If you don't have it,
 					we can find it.</g:Label>
-				<g:DeckPanel ui:field="stepsPanel" styleName="{style.contentPanel}" />
+				<g:DeckPanel ui:field="stepsPanel" styleName="{style.stepsPanel}" />
 				<g:Grid width="100%" styleName="{style.buttonPanel}">
 					<g:row>
 						<g:customCell styleName="{style.leftButtonPanel}">
@@ -102,12 +85,6 @@
 						</g:customCell>
 					</g:row>
 				</g:Grid>
-				<!-- <g:HorizontalPanel width="100%" styleName="{style.buttonPanel}"> 
-					<g:cell styleName="{style.leftButtonPanel}"> <g:Button ui:field="backwardButton" 
-					styleName="{resources.css.grayButton}" text="Back" /> </g:cell> <g:cell styleName="{style.leftButtonPanel}"> 
-					<g:Button ui:field="forwardButton" styleName="{resources.css.blueButton}" 
-					text="Next" /> </g:cell> </g:HorizontalPanel> -->
-
 			</g:FlowPanel>
 		</g:FlowPanel>
 	</g:HTMLPanel>
