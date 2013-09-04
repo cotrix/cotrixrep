@@ -10,7 +10,6 @@ import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
 import org.cotrix.web.importwizard.shared.Field;
-import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -23,11 +22,9 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
@@ -51,7 +48,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	protected static int DEFINITION_COLUMN = 3;
 
 	@UiField TextBox name;
-	@UiField SimpleCheckBox mappingMode;
+	//@UiField SimpleCheckBox mappingMode;
 	@UiField FlexTable columnsTable;
 	@UiField Style style;
 	
@@ -59,7 +56,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 
 	protected AlertDialog alertDialog;
 
-	protected List<ToggleButton> excludeButtons = new ArrayList<ToggleButton>();
+	protected List<SimpleCheckBox> excludeButtons = new ArrayList<SimpleCheckBox>();
 	protected List<TextBox> nameFields = new ArrayList<TextBox>();
 	protected List<AttributeDefinitionPanel> columnPanels = new ArrayList<AttributeDefinitionPanel>();
 	protected List<Field> fields = new ArrayList<Field>();
@@ -77,7 +74,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		this.presenter = presenter;
 	}
 
-	public MappingMode getMappingMode()
+	/*public MappingMode getMappingMode()
 	{
 		return mappingMode.getValue()?MappingMode.LOG:MappingMode.STRICT;
 	}
@@ -85,7 +82,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	public void setMappingMode(MappingMode mode)
 	{
 		mappingMode.setValue(mode==MappingMode.LOG);
-	}
+	}*/
 	
 	@Override
 	public void setCsvName(String name) {
@@ -119,18 +116,19 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		for (AttributeMapping attributeMapping:mapping) {
 			final int row = columnsTable.getRowCount();
 			
-			final ToggleButton excludeButton = new ToggleButton(new Image(Resources.INSTANCE.trash()), new Image(Resources.INSTANCE.trashTick()));
-			excludeButton.setStyleName(Resources.INSTANCE.css().imageButton());
-			excludeButton.addClickHandler(new ClickHandler() {
+			final SimpleCheckBox checkBox = new SimpleCheckBox();
+			checkBox.setStyleName(Resources.INSTANCE.css().simpleCheckbox());
+			checkBox.addClickHandler(new ClickHandler() {
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					Log.trace("Exclude is Down? "+excludeButton.isDown());
-					setExclude(row, excludeButton.isDown());
+					Log.trace("Exclude? "+checkBox.getValue());
+					setExclude(row, checkBox.getValue());
 				}
 			});
-			columnsTable.setWidget(row, IGNORE_COLUMN, excludeButton);
-			excludeButtons.add(excludeButton);
+
+			columnsTable.setWidget(row, IGNORE_COLUMN, checkBox);
+			excludeButtons.add(checkBox);
 			
 			Field field = attributeMapping.getField();
 			fields.add(field);
@@ -150,9 +148,9 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 			columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
 			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
 			if (attributeDefinition == null) {
-				excludeButton.setDown(true);
+				checkBox.setValue(true);
 			} else {
-				excludeButton.setDown(false);
+				checkBox.setValue(false);
 				definitionPanel.setType(attributeDefinition.getType());
 				definitionPanel.setLanguage(attributeDefinition.getLanguage());
 			}
@@ -199,7 +197,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	
 	protected AttributeDefinition getDefinition(int index)
 	{
-		if (excludeButtons.get(index).isDown()) return null;
+		if (excludeButtons.get(index).getValue()) return null;
 		AttributeDefinitionPanel panel = columnPanels.get(index);
 		AttributeType type = panel.getType();
 		String language = panel.getLanguage();

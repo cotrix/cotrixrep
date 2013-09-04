@@ -59,7 +59,8 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		boolean valid = validateMappings(mappings);
 		
 		String csvName = view.getCsvName();
-		MappingMode mappingMode = view.getMappingMode();
+		//MappingMode mappingMode = view.getMappingMode();
+		MappingMode mappingMode = MappingMode.LOG; //FIXME
 		valid &= validateAttributes(csvName, mappingMode);
 		
 		if (valid) {
@@ -117,7 +118,7 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		if (event.isUserEdit()) return;
 		attributesMappings = event.getMappings();
 		view.setMapping(attributesMappings.getMappings());
-		view.setMappingMode(attributesMappings.getMappingMode());
+		//view.setMappingMode(attributesMappings.getMappingMode());
 	}
 
 	@Override
@@ -132,6 +133,6 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 	public void onReload() {
 		view.setCsvName(metadata.getName());
 		view.setMapping(attributesMappings.getMappings());
-		view.setMappingMode(attributesMappings.getMappingMode());
+		//view.setMappingMode(attributesMappings.getMappingMode());
 	}
 }

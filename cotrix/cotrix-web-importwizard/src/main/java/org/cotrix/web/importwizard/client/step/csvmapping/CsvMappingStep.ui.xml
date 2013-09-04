@@ -5,45 +5,50 @@
 		field="resources"></ui:with>
 	<ui:style
 		type="org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepViewImpl.Style">
-			.cell {
+					.cell {
 				padding: 5px;
 			}
+			.topPadding {
+				padding-top: 10px;
+			}
+			.reloadButton {
+			margin: auto;
+			outline: none;
+		}
 		</ui:style>
 	<g:HTMLPanel>
-		<table>
+		<table style="border: 1px solid #d1d1d1; width: 100%; background-color:#f6f6f6;">
 			<tr>
-				<td class="{resources.css.verticalHeadersSingleItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Name</g:Label>
+				<td class="{resources.css.verticalHeadersSingleItem}" style="padding-top:10px;width:10%;">
+					<span class="{resources.css.propertyLabel}" style="padding-left:31px;padding-right:5px;">Name</span>
 				</td>
-				<td>
-					<g:TextBox width="300px" ui:field="name"
-						styleName="{resources.css.textBox}"></g:TextBox>
+				<td style="padding-top:10px;width:85%;">
+					<g:TextBox width="99%" ui:field="name" styleName="{resources.css.textBox}" />
 				</td>
-			</tr>
-			<tr>
-				<td class="{resources.css.verticalHeadersFieldItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Columns</g:Label>
-				</td>
-				<td>
-					<g:FlexTable ui:field="columnsTable" />
-				</td>
-			</tr>
-			<tr>
-				<td class="{resources.css.verticalHeadersSingleItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Fail on errors</g:Label>
-				</td>
-				<td>
-					<g:SimpleCheckBox ui:field="mappingMode"
-						styleName="{resources.css.simpleCheckbox}" />
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<g:PushButton ui:field="reloadButton" styleName="{resources.css.imageButton}">
-						<g:upFace image="{resources.reload}" />
+				<td style="padding-top:10px;width:5%;">
+					<g:PushButton ui:field="reloadButton"
+						styleName="{resources.css.buttonRefresh} {style.reloadButton}">
+						<g:upFace image="{resources.refresh}" />
 					</g:PushButton>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="3" align="left" style="padding: 20px;">
+					<table style="border-collapse:collapse; width: 100%;">
+						<tr>
+							<td class="{resources.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
+								<span class="{resources.css.propertyLabel}">Columns</span>
+							</td>
+						</tr>
+						<tr>
+							<td style="border: 1px solid #d1d1d1;padding-left:5px;">
+								<g:FlexTable ui:field="columnsTable" />
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
 		</table>
 	</g:HTMLPanel>
 </ui:UiBinder> 

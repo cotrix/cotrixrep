@@ -8,6 +8,8 @@
 .simpleCheckbox {
 	width: 20px;
 	height: 20px;
+	border-radius: 0px;
+	background-color: #000;
 }
 
 .paddedText {
@@ -15,13 +17,12 @@
 	padding-right: 10px;
 	font-size: 19px;
 	vertical-align: middle;
-	color: #333;
+	color: #4f4e4e;
 	font-weight: normal;
-	color: #333;
 }
 
 .paddedTextDisabled {
-	color: rgb(84, 84, 84);
+	color: #dedede;
 }
 
 .linkText {
@@ -42,7 +43,7 @@
 .listBox {
 	float: left;
 	font-size: 14px;
-	color: #333;
+	color: #4f4e4e;
 	height: 29px;
 	border-radius: 5px;
 	background-color: #fafafa;
@@ -51,8 +52,9 @@
 }
 
 .listBox:disabled {
-	background-color: rgb(235, 235, 228);
-	color: rgb(84, 84, 84);
+	background-color: #ededed;
+	border-color: #b7b6b6;
+	color: #acabab;
 }
 
 .imageButton {
@@ -64,8 +66,10 @@
 .textBox {
 	padding: 5px;
 	border-radius: 5px;
+	background-color: #fafafa;
 	box-shadow: 0px 0px 0px 0px;
 	border: 1px solid #999999;
+	color: #4f4e4e;
 }
 
 .textBox:focus {
@@ -85,6 +89,12 @@
 	box-shadow: 0px 0px 5px #61C5FA;
 	border: 1px solid #5AB0DB;
 	border-radius: 5px;
+}
+
+.textBox:disabled {
+	background-color: #ededed;
+	border-color: #b7b6b6;
+	color: #acabab;
 }
 
 /** GRID **/
@@ -175,13 +185,16 @@
 }
 
 .propertyLabel {
-	font-size: 16px;
+	font-size: 20px;
+	color: #5e5e5e;
 }
 
 .propertyValue {
 	padding: 5px;
-	font-size: 14px;
-	color: #666;
+	/*font-size: 14px;
+	color: #666;*/
+	font-size: 20px;
+	color: #5e5e5e;
 }
 
 /** PROPERTIES TABLE **/
@@ -301,5 +314,5 @@
 .buttonRefresh:hover {
 	background-color:#31529d;
 	border: 1px solid #31529d;
-	cursor:hand;
+	cursor:pointer;
 }
