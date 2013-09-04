@@ -4,13 +4,15 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources" />
 	<ui:style>
-		.subtitle {
-			font-size: 25px;
-			color: #999;
-		}
 		
 		.report {
 			padding-top: 10px;
+			vertical-align: top;
+			margin-right: 20px;
+			background-color: #f6f6f6;
+			border: 1px solid #d1d1d1;
+			width: 100%;
+			border-spacing: 5px;
 		}
 
 		/**
@@ -23,14 +25,11 @@
 	 	}
 
 	</ui:style>
-	<g:HTMLPanel>
-		<g:HTMLPanel ui:field="reportPanel" styleName="{style.report}">
-			<table cellspacing='0' cellpadding='0' style='width:100%;'>
+		<g:HTMLPanel ui:field="reportPanel">
+			<table cellspacing='0' cellpadding='0' class="{style.report}">
 				<tr>
 					<td align='right'>
-						<g:PushButton ui:field='reportDownload' styleName="{resources.css.imageButton}">
-							<g:upFace image="{resources.download}"></g:upFace>
-						</g:PushButton>
+						<g:Button ui:field="reportDownload" text="DOWNLOAD" styleName="{resources.css.buttonDownload}" />
 					</td>
 				</tr>
 				<tr>
@@ -44,6 +43,5 @@
 					</td>
 				</tr>
 			</table>
-		</g:HTMLPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

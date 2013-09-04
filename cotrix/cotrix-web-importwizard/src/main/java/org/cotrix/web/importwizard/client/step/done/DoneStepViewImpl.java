@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client.step.done;
 
+import org.cotrix.web.importwizard.client.resources.CotrixSimplePager;
 import org.cotrix.web.importwizard.client.resources.DataGridReportResource;
 import org.cotrix.web.importwizard.shared.ReportLog;
 
@@ -16,10 +17,10 @@ import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -40,7 +41,7 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	
 	@UiField HTMLPanel reportPanel;
 	
-	@UiField PushButton reportDownload;
+	@UiField Button reportDownload;
 	
 	
 	@UiField(provided = true)
@@ -89,7 +90,7 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 
 		reportGrid.setEmptyTableWidget(new Label("No data"));
 
-		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		SimplePager.Resources pagerResources = GWT.create(CotrixSimplePager.class);
 		reportPager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		reportPager.setDisplay(reportGrid);
 
