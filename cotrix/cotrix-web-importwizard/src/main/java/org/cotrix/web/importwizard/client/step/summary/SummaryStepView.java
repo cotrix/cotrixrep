@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.cotrix.web.importwizard.shared.AttributeMapping;
+import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -25,7 +26,8 @@ public interface SummaryStepView {
 	public void setFileName(String fileName);
 	public void setFileNameVisible(boolean visible);
 	
-	public void setMappingMode(String mappingMode);
+	public MappingMode getMappingMode();
+	public void setMappingMode(MappingMode mode);
 	public void setMappingModeVisible(boolean visible);
 	
 	void showProgress();

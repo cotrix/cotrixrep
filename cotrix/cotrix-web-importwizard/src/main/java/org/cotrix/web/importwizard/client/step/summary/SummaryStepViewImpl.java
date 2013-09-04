@@ -8,6 +8,7 @@ import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.util.ProgressDialog;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
+import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -19,6 +20,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -40,7 +42,7 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	@UiField Label fileField;
 	@UiField Label codelistField;
 	@UiField FlexTable propertiesTable;
-	@UiField Label mappingModeField;
+	@UiField SimpleCheckBox mappingMode;
 	@UiField FlexTable customTable;
 
 	private ProgressDialog progressDialog;
@@ -126,10 +128,15 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	{
 		panel.getRowFormatter().setVisible(FILE_FIELD_ROW, visible);
 	}
-
-	public void setMappingMode(String mappingMode)
+	
+	public MappingMode getMappingMode()
 	{
-		mappingModeField.setText(mappingMode);
+		return mappingMode.getValue()?MappingMode.LOG:MappingMode.STRICT;
+	}
+	
+	public void setMappingMode(MappingMode mode)
+	{
+		mappingMode.setValue(mode==MappingMode.LOG);
 	}
 
 	public void setMappingModeVisible(boolean visible)

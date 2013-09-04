@@ -31,6 +31,7 @@ ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelect
 
 	protected SummaryStepView view;
 	protected EventBus importEventBus;
+	protected AttributesMappings attributesMappings;
 
 	@Inject
 	public SummaryStepPresenterImpl(SummaryStepView view, @ImportBus EventBus importEventBus) {
@@ -55,18 +56,19 @@ ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelect
 	 */
 	@Override
 	public boolean isComplete() {
+		MappingMode mappingMode = view.getMappingMode();
+		//TODO
 		return true;
 	}
 
 	@Override
 	public void onMappingUpdated(MappingsUpdatedEvent event) {
-		AttributesMappings attributesMappings = event.getMappings();
+		attributesMappings = event.getMappings();
 		this.view.setMapping(attributesMappings.getMappings());
 		
 		if (attributesMappings.getMappingMode()==null) view.setMappingModeVisible(false);
 		else {
-			String mode = attributesMappings.getMappingMode()==MappingMode.STRICT?"No":"Yes";
-			view.setMappingMode(mode);
+			view.setMappingMode(attributesMappings.getMappingMode());
 			view.setMappingModeVisible(true);
 		}
 	}

@@ -48,7 +48,6 @@
 					</table>
 				</td>
 			</tr>
-
 		</table>
 	</g:HTMLPanel>
 </ui:UiBinder> 

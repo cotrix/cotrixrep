@@ -48,7 +48,6 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	protected static int DEFINITION_COLUMN = 3;
 
 	@UiField TextBox name;
-	//@UiField SimpleCheckBox mappingMode;
 	@UiField FlexTable columnsTable;
 	@UiField Style style;
 	
@@ -73,16 +72,6 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
-
-	/*public MappingMode getMappingMode()
-	{
-		return mappingMode.getValue()?MappingMode.LOG:MappingMode.STRICT;
-	}
-	
-	public void setMappingMode(MappingMode mode)
-	{
-		mappingMode.setValue(mode==MappingMode.LOG);
-	}*/
 	
 	@Override
 	public void setCsvName(String name) {

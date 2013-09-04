@@ -84,9 +84,7 @@
 					<g:Label styleName="{resources.css.propertyLabel}">Fail on errors</g:Label>
 				</g:customCell>
 				<g:customCell>
-					<g:Label ui:field="mappingModeField" styleName="{resources.css.propertyValue}" />
-									<!-- 	<g:SimpleCheckBox ui:field="mappingMode"
-						styleName="{resources.css.simpleCheckbox}" />  -->
+					<g:SimpleCheckBox ui:field="mappingMode" styleName="{resources.css.simpleCheckbox}" />
 				</g:customCell>
 			</g:row>
 		</g:Grid>
