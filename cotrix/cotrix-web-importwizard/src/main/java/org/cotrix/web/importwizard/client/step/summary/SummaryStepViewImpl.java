@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,7 +32,6 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 
 	protected static final int FILE_FIELD_ROW = 0;
 	protected static final int PROPERTIES_FIELD_ROW = 2;
-	protected static final int MAPPING_MODE_FIELD_ROW = 4;
 
 	@UiTemplate("SummaryStep.ui.xml")
 	interface SummaryStepUiBinder extends UiBinder<Widget, SummaryStepViewImpl> {}
@@ -42,6 +42,7 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	@UiField Label fileField;
 	@UiField Label codelistField;
 	@UiField FlexTable propertiesTable;
+	@UiField HTMLPanel mappingPanel;
 	@UiField SimpleCheckBox mappingMode;
 	@UiField FlexTable customTable;
 
@@ -141,6 +142,6 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 
 	public void setMappingModeVisible(boolean visible)
 	{
-		panel.getRowFormatter().setVisible(MAPPING_MODE_FIELD_ROW, visible);
+		mappingPanel.setVisible(visible);
 	}
 }

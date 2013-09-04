@@ -100,10 +100,12 @@
 /** GRID **/
 .verticalHeadersSingleItem {
 	vertical-align: middle;
+	text-align: left;
 }
 
 .verticalHeadersMultipleItem {
 	vertical-align: top;
+	text-align: left;
 }
 
 .verticalHeadersFieldItem {
@@ -204,10 +206,9 @@
 
 .propertyValue {
 	padding: 5px;
-	/*font-size: 14px;
-	color: #666;*/
 	font-size: 20px;
 	color: #5e5e5e;
+	text-align: left;
 }
 
 /** PROPERTIES TABLE **/
@@ -216,24 +217,18 @@
 }
 
 .propertiesTable {
-	border-width: 0 0 1px 1px;
-	border-spacing: 0;
-	border-color: #ccc;
-	background-color: white;
-	border-collapse: collapse;
-	color: #666;
 	font-size: 8px;
-	border-style: solid;
 	text-align: left;
+	border: none;
 }
 
 .propertiesTable td,.propertiesTable th {
 	margin: 0;
-	border-color: #ccc;
 	padding: 3px;
 	padding-left: 10px;
-	border-width: 1px 1px 0 0;
-	border-style: solid;
+	border: none;
+	font-size: 16px;
+	color: #5e5e5e;
 }
 
 /** AREA HOVER HIGHLIGHT **/
