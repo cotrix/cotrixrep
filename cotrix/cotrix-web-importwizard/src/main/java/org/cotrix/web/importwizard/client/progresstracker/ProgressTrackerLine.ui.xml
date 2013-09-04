@@ -41,11 +41,11 @@
 			float: left;
 			border-radius: 0px;
 			height: 5px;
-			background-color: #8fc400;
+			background-color: #89d488;
 		}
 		
 		.active_round_right {
-			background-color: #8fc400;
+			background-color: #89d488;
 			width: 85px;
 			margin-top: 12px;
 			float: left;
@@ -55,7 +55,7 @@
 		}
 		
 		.active_round_left {
-			background-color: #8fc400;
+			background-color: #89d488;
 			width: 85px;
 			margin-top: 12px;
 			float: left;

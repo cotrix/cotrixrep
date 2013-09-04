@@ -9,7 +9,7 @@
 			width: 130px;
 			text-align: center;
 			float: left;
-			color: #666;
+			color: #89d488;
 		}
 		.inactive{
 			width: 130px;
