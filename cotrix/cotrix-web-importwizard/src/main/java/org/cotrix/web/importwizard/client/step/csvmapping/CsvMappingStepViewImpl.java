@@ -55,7 +55,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 
 	protected AlertDialog alertDialog;
 
-	protected List<SimpleCheckBox> excludeButtons = new ArrayList<SimpleCheckBox>();
+	protected List<SimpleCheckBox> includeCheckBoxes = new ArrayList<SimpleCheckBox>();
 	protected List<TextBox> nameFields = new ArrayList<TextBox>();
 	protected List<AttributeDefinitionPanel> columnPanels = new ArrayList<AttributeDefinitionPanel>();
 	protected List<Field> fields = new ArrayList<Field>();
@@ -96,7 +96,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	{
 		columnsTable.removeAllRows();
 		columnPanels.clear();
-		excludeButtons.clear();
+		includeCheckBoxes.clear();
 		nameFields.clear();
 		fields.clear();
 		
@@ -111,13 +111,13 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					Log.trace("Exclude? "+checkBox.getValue());
-					setExclude(row, checkBox.getValue());
+					Log.trace("Include? "+checkBox.getValue());
+					setInclude(row, checkBox.getValue());
 				}
 			});
 
 			columnsTable.setWidget(row, IGNORE_COLUMN, checkBox);
-			excludeButtons.add(checkBox);
+			includeCheckBoxes.add(checkBox);
 			
 			Field field = attributeMapping.getField();
 			fields.add(field);
@@ -137,9 +137,9 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 			columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
 			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
 			if (attributeDefinition == null) {
-				checkBox.setValue(true);
-			} else {
 				checkBox.setValue(false);
+			} else {
+				checkBox.setValue(true);
 				definitionPanel.setType(attributeDefinition.getType());
 				definitionPanel.setLanguage(attributeDefinition.getLanguage());
 			}
@@ -147,11 +147,11 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 		}
 	}
 	
-	protected void setExclude(int row, boolean exclude)
+	protected void setInclude(int row, boolean include)
 	{
-		((TextBox)columnsTable.getWidget(row, NAME_COLUMN)).setEnabled(!exclude);
-		((Label)columnsTable.getWidget(row, LABEL_COLUMN)).setStyleName(Resources.INSTANCE.css().paddedTextDisabled(), exclude);
-		((AttributeDefinitionPanel)columnsTable.getWidget(row, DEFINITION_COLUMN)).setEnabled(!exclude);
+		((TextBox)columnsTable.getWidget(row, NAME_COLUMN)).setEnabled(include);
+		((Label)columnsTable.getWidget(row, LABEL_COLUMN)).setStyleName(Resources.INSTANCE.css().paddedTextDisabled(), !include);
+		((AttributeDefinitionPanel)columnsTable.getWidget(row, DEFINITION_COLUMN)).setEnabled(include);
 	}
 	
 
@@ -186,7 +186,7 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	
 	protected AttributeDefinition getDefinition(int index)
 	{
-		if (excludeButtons.get(index).getValue()) return null;
+		if (!includeCheckBoxes.get(index).getValue()) return null;
 		AttributeDefinitionPanel panel = columnPanels.get(index);
 		AttributeType type = panel.getType();
 		String language = panel.getLanguage();

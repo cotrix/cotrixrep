@@ -151,6 +151,19 @@
 	border-style: solid;*/
 }
 
+/** MAPPING **/
+.mappingTable {
+	border: 1px solid #d1d1d1; 
+	width: 100%; 
+	background-color:#f6f6f6;
+}
+
+.mappingTableNameHeader {
+	vertical-align: middle;
+	padding-top:10px;
+	width:10%;
+}
+
 /** BUTTONS **/
 /*	width: 103px;*/
 .blueButton {

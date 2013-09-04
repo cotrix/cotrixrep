@@ -13,32 +13,44 @@
 			.cell {
 				padding: 5px;
 			}
+			
+			.reloadButton {
+				margin: auto;
+				outline: none;
+			}
 		</ui:style>
 
 
 	<g:HTMLPanel>
-		<table>
+		<table class="{resources.css.mappingTable}">
 			<tr>
-				<td class="{resources.css.verticalHeadersSingleItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Name</g:Label>
+				<td class="{resources.css.mappingTableNameHeader}">
+					<span class="{resources.css.propertyLabel}" style="padding-left:31px;padding-right:5px;">Name</span>
 				</td>
-				<td>
-					<g:TextBox width="300px" ui:field="name" styleName="{resources.css.textBox}"></g:TextBox>
+				<td style="padding-top:10px;width:85%;">
+					<g:TextBox width="99%" ui:field="name" styleName="{resources.css.textBox}" />
 				</td>
-			</tr>
-			<tr>
-				<td class="{resources.css.verticalHeadersFieldItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Elements</g:Label>
-				</td>
-				<td>
-					<g:FlexTable ui:field="columnsTable" />
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<g:PushButton ui:field="reloadButton" styleName="{resources.css.imageButton}">
-						<g:upFace image="{resources.reload}" />
+				<td style="padding-top:10px;width:5%;">
+					<g:PushButton ui:field="reloadButton"
+						styleName="{resources.css.buttonRefresh} {style.reloadButton}">
+						<g:upFace image="{resources.refresh}" />
 					</g:PushButton>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" align="left" style="padding: 20px;">
+					<table style="border-collapse:collapse; width: 100%;">
+						<tr>
+							<td class="{resources.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
+								<span class="{resources.css.propertyLabel}">Elements</span>
+							</td>
+						</tr>
+						<tr>
+							<td style="border: 1px solid #d1d1d1;padding-left:5px;">
+								<g:FlexTable ui:field="columnsTable" />
+							</td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</table>

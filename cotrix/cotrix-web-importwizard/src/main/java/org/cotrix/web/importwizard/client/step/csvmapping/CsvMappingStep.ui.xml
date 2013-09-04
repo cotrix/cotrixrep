@@ -5,21 +5,23 @@
 		field="resources"></ui:with>
 	<ui:style
 		type="org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepViewImpl.Style">
-					.cell {
+			.cell {
 				padding: 5px;
 			}
+			
 			.topPadding {
 				padding-top: 10px;
 			}
+			
 			.reloadButton {
-			margin: auto;
-			outline: none;
-		}
+				margin: auto;
+				outline: none;
+			}
 		</ui:style>
 	<g:HTMLPanel>
-		<table style="border: 1px solid #d1d1d1; width: 100%; background-color:#f6f6f6;">
+		<table class="{resources.css.mappingTable}">
 			<tr>
-				<td class="{resources.css.verticalHeadersSingleItem}" style="padding-top:10px;width:10%;">
+				<td class="{resources.css.mappingTableNameHeader}">
 					<span class="{resources.css.propertyLabel}" style="padding-left:31px;padding-right:5px;">Name</span>
 				</td>
 				<td style="padding-top:10px;width:85%;">
