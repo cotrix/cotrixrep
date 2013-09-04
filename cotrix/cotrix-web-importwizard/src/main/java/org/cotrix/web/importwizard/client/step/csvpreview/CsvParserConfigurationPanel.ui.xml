@@ -4,65 +4,77 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
 	<ui:style>
-		
 		.toolbar {
 			width: 100%;
-			border: 1px solid #999;
-			border-radius: 5px;
+			border: 1px solid #d4d4d4;
 			margin-bottom: 10px;
+			border-spacing: 1px;
 		}
 		
 		.toolbarLabel {
 			font-weight: normal;
+			color: #989898;
 		}
-
+		
+		.refreshButton {
+			margin: auto;
+			outline: none;
+		}
 	</ui:style>
-	<g:HorizontalPanel spacing="5" verticalAlignment="middle"
-		styleName="{style.toolbar}">
-		
-		<g:HorizontalPanel verticalAlignment="middle"
-			spacing="3">
-			<g:Label styleName="{style.toolbarLabel}">header?</g:Label>
-			<g:SimpleCheckBox ui:field="hasHeaderField" styleName="{resources.css.simpleCheckbox}" />
-		</g:HorizontalPanel>
-		
-		<g:HorizontalPanel verticalAlignment="middle"
-			spacing="3">
-			<g:Label styleName="{style.toolbarLabel}">delimiter</g:Label>
-			<g:ListBox ui:field="separatorField" styleName="{resources.css.listBox}">
-				<g:item value=",">comma</g:item>
-				<g:item value="tab">tab</g:item>
-				<g:item value="custom">other</g:item>
-			</g:ListBox>
-			<g:TextBox ui:field="customSeparatorField" maxLength="1" width="20px" enabled="false"
-				styleName="{resources.css.textBox}">,</g:TextBox>
-		</g:HorizontalPanel>
-
-		<g:HorizontalPanel verticalAlignment="middle"
-			spacing="3">
-			<g:Label styleName="{style.toolbarLabel}">quote</g:Label>
-			<g:ListBox ui:field="quoteField" styleName="{resources.css.listBox}">
-				<g:item value='"'>double quote</g:item>
-				<g:item value="'">single quote</g:item>
-				<g:item value="custom">other</g:item>
-			</g:ListBox>
-			<g:TextBox ui:field="customQuoteField"  maxLength="1" width="20px" enabled="false"
-				styleName="{resources.css.textBox}">"</g:TextBox>
-		</g:HorizontalPanel>
-		
-		<g:HorizontalPanel verticalAlignment="middle"
-			spacing="3">
-			<g:Label styleName="{style.toolbarLabel}">comments</g:Label>
-			<g:TextBox ui:field="commentField" maxLength="1" width="20px" styleName="{resources.css.textBox}">#</g:TextBox>
-		</g:HorizontalPanel>
-		
-		<g:HorizontalPanel verticalAlignment="middle" spacing="3">
-			<g:Label styleName="{style.toolbarLabel}">encoding</g:Label>
-			<g:ListBox ui:field="charsetField" styleName="{resources.css.listBox}" />
-		</g:HorizontalPanel>
-		
-		<g:PushButton ui:field="refreshButton" styleName="{resources.css.imageButton}">
-			<g:upFace image="{resources.refresh}"></g:upFace>
-		</g:PushButton>
-	</g:HorizontalPanel>
+	<g:HTMLPanel>
+		<table class="{style.toolbar}">
+			<tr>
+				<td width="18%" style="border-right:1px solid #bababa;">
+					<div class="{style.toolbarLabel}">header?</div>
+					<div>
+						<g:SimpleCheckBox ui:field="hasHeaderField"
+							styleName="{resources.css.simpleCheckbox}" />
+					</div>
+				</td>
+				<td width="18%" style="border-right:1px solid #bababa;">
+					<div class="{style.toolbarLabel}">delimiter</div>
+					<div>
+						<g:ListBox ui:field="separatorField" styleName="{resources.css.listBox}">
+							<g:item value=",">comma</g:item>
+							<g:item value="tab">tab</g:item>
+							<g:item value="custom">other</g:item>
+						</g:ListBox>
+						<g:TextBox ui:field="customSeparatorField" maxLength="1"
+							width="20px" enabled="false" styleName="{resources.css.textBox}">,</g:TextBox>
+					</div>
+				</td>
+				<td width="18%" style="border-right:1px solid #bababa;">
+					<div class="{style.toolbarLabel}">quote</div>
+					<div>
+						<g:ListBox ui:field="quoteField" styleName="{resources.css.listBox}">
+							<g:item value='"'>double quote</g:item>
+							<g:item value="'">single quote</g:item>
+							<g:item value="custom">other</g:item>
+						</g:ListBox>
+						<g:TextBox ui:field="customQuoteField" maxLength="1"
+							width="20px" enabled="false" styleName="{resources.css.textBox}">"</g:TextBox>
+					</div>
+				</td>
+				<td width="18%" style="border-right:1px solid #bababa;">
+					<div class="{style.toolbarLabel}">comments</div>
+					<div>
+						<g:TextBox ui:field="commentField" maxLength="1" width="20px"
+							styleName="{resources.css.textBox}">#</g:TextBox>
+					</div>
+				</td>
+				<td width="18%" style="border-right:1px solid #bababa;">
+					<div class="{style.toolbarLabel}">encoding</div>
+					<div>
+						<g:ListBox ui:field="charsetField" styleName="{resources.css.listBox}" />
+					</div>
+				</td>
+				<td width="10%" style="text-align:center;vertical-align:middle;">
+					<g:PushButton ui:field="refreshButton"
+						styleName="{resources.css.buttonRefresh} {style.refreshButton}">
+						<g:upFace image="{resources.refresh}" />
+					</g:PushButton>
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
 </ui:UiBinder> 

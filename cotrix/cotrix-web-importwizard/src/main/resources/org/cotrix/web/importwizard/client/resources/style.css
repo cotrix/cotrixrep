@@ -103,16 +103,23 @@
 
 /** PREVIEW **/
 .previewHeader {
-	background-color: #eee;
+	background-color:#e1e1e1;
+	color:#686868;
+	padding: 5px;
+	
+	/*background-color: #eee;
 	margin: 0;
 	border-color: #ccc;
 	padding: 3px;
 	border-width: 1px 1px 0 0;
-	border-style: solid;
+	border-style: solid;*/
 }
 
 .preview {
-	border-width: 0 0 1px 1px;
+	background-color:#d1d1d1;
+	border-spacing: 1px;
+	border-color: gray;
+	/*border-width: 0 0 1px 1px;
 	border-spacing: 0;
 	border-color: #ccc;
 	background-color: white;
@@ -120,15 +127,18 @@
 	color: #666;
 	font-size: 8px;
 	border-style: solid;
-	text-align: center;
+	text-align: center;*/
 }
 
 .previewCell {
-	margin: 0;
+	background-color:#f6f6f6;
+	color:#989898;
+	padding: 5px;
+	/*margin: 0;
 	border-color: #ccc;
 	padding: 3px;
 	border-width: 1px 1px 0 0;
-	border-style: solid;
+	border-style: solid;*/
 }
 
 /** BUTTONS **/
@@ -276,4 +286,20 @@
 	cursor: pointer;
 	width: 290px;
 	height: 70px;
+}
+
+.buttonRefresh {
+	background-color:#5674b9;
+	border-radius:100px;
+	border: 1px solid #5674b9;
+	padding:5px;
+	height: 20px;
+	width: 21px;
+	color:#fff;	
+}
+
+.buttonRefresh:hover {
+	background-color:#31529d;
+	border: 1px solid #31529d;
+	cursor:hand;
 }

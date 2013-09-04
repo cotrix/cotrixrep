@@ -3,7 +3,12 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p="urn:import:org.cotrix.web.importwizard.client.step.csvpreview">
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
-	<g:HTMLPanel>
+			<ui:style>
+			.main {
+				padding-top: 20px;
+			}
+		</ui:style>
+	<g:HTMLPanel styleName="{style.main}">
 		<p:CsvParserConfigurationPanel ui:field="configurationPanel" />
 		<div style="margin-top:20px;">
 			<p:PreviewGrid ui:field="preview" />
