@@ -1,69 +1,97 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:with field='res' type='org.cotrix.web.menu.client.resources.CotrixMenuResources' />
+	<ui:with field='res'
+		type='org.cotrix.web.menu.client.resources.CotrixMenuResources' />
 	<ui:style type="org.cotrix.web.menu.client.view.MenuViewImpl.Style">
-		.important {
-			font-weight: bold;
-		}
-		
 		.header {
-			background-color: #333;
-			padding: 5px;
-			vertical-align: middle;
-			padding-left: 20px;
+			background-color: #363636;
+			height: 60px;
 		}
 		
-		.menubar {
-			padding: 5px;
+		.title {
+			color: #f66a03;
+			margin-left: 10px;
+			font-size: 28px;
+		}
+		
+		.subtitle {
+			color: #ccc;
+			margin-left: 10px;
+			font-size: 12px;
+		}
+		
+		.navigation {
 			float: right;
-			background-color: #666;
 		}
 		
-		.cotrixMenuLabel {
+		.menu {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			display: inline;
+		}
+		
+		.menuItem {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			display: inline;
 			float: left;
-			padding: 10px;
-			font-size: 13px;
-			color: #666;
+			position: relative;
+		}
+		
+		.menuLink {
+			display: inline-block;
+			color: #aaaaaa;
+			padding: 14px 18px 26px 18px;
+			text-transform: uppercase;
+			text-decoration: none;
+			font-weight: bold;
+			font-size: 12px;
+			border-top: 5px solid transparent;
+			-webkit-transition: all 0.1s ease;
+			-moz-transition: all 0.1s ease;
+			-ms-transition: all 0.1s ease;
+			-o-transition: all 0.1s ease;
+			transition: all 0.1s ease;
+			margin: 0 -4px 0 0;
+		}
+		
+		.menuLink:hover {
+			background: #3f3f3f;
+			border-top: 5px solid #f66a03;
+			color: #ffffff;
 			cursor: pointer;
 		}
 		
-		.cotrixMenuLabel:hover {
-			color: #ccc;
-			border-radius: 5px;
-		}
-		
-		.cotrixMenuLabel:active {
-			color: #ccc;
-		}
-		
-		.selectedLabel {
-			float: left;
-			padding: 10px;
-			font-size: 13px;
-			color: #ccc;
-			cursor: pointer;
-		}
-		
-		.menubar-wrapper {
-			float: right;
-			vertical-align: middle;
-			margin: 0 auto;
-			position:absolute;
-			top:5px;
-			right:20px;
+		.menuSelected {
+			background: #3f3f3f !important;
+			border-top: 5px solid #f66a03 !important;
+			color: #ffffff !important;
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<div class="{style.header}" >
-			<g:Image resource='{res.logo}' width="120px;" />
-			<g:FlowPanel styleName="{style.menubar-wrapper}"
-				ui:field="menubar">
-				<g:Label styleName="{style.selectedLabel}">HOME</g:Label>
-				<g:Label styleName="{style.cotrixMenuLabel}">IMPORT</g:Label>
-				<g:Label styleName="{style.cotrixMenuLabel}">MANAGE</g:Label>
-				<g:Label styleName="{style.cotrixMenuLabel}">PUBLISH</g:Label>
-			</g:FlowPanel>
+		<div class="{style.header}">
+			<div class="{style.navigation}">
+				<ul class="{style.menu}">
+					<li class="{style.menuItem}">
+						<g:Label ui:field="homeMenu" styleName="{style.menuLink} {style.menuSelected}">Home</g:Label>
+					</li>
+					<li class="{style.menuItem}">
+						<g:Label ui:field="importMenu" styleName="{style.menuLink}">IMPORT</g:Label>
+					</li>
+					<li class="{style.menuItem}">
+						<g:Label ui:field="manageMenu" styleName="{style.menuLink}">MANAGE</g:Label>
+					</li>
+					<li class="{style.menuItem}">
+						<g:Label ui:field="publishMenu" styleName="{style.menuLink}">PUBLISH</g:Label>
+					</li>
+				</ul>
+			</div>
+			<span class="{style.title}">Cotrix</span>
+			<br />
+			<span class="{style.subtitle}">A codelist management tool.</span>
 		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 

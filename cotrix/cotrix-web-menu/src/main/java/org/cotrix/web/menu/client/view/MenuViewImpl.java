@@ -1,7 +1,5 @@
 package org.cotrix.web.menu.client.view;
 
-import org.cotrix.web.menu.client.presenter.MenuPresenter;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -10,55 +8,91 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class MenuViewImpl extends Composite implements MenuView {
 
 	@UiTemplate("MenuView.ui.xml")
 	interface MenuViewUiBinder extends UiBinder<Widget, MenuViewImpl> {}
 	private static MenuViewUiBinder uiBinder = GWT.create(MenuViewUiBinder.class);
 
-	@UiField FlowPanel menubar;
+	//FIXME tmp solution
+	protected enum Menu {
+		HOME(0), 
+		IMPORT(1), 
+		MANAGE(2), 
+		PUBLISH(3);
+
+		protected int index;
+
+		/**
+		 * @param index
+		 */
+		private Menu(int index) {
+			this.index = index;
+		}
+
+		/**
+		 * @return the index
+		 */
+		public int getIndex() {
+			return index;
+		}
+
+	};
+
+	@UiField Label homeMenu;
+	@UiField Label importMenu;
+	@UiField Label manageMenu;
+	@UiField Label publishMenu;
+
 	@UiField Style style;
-	
-	
+
+
 	interface Style extends CssResource {
-		String selectedLabel();
-		String cotrixMenuLabel();
+		String menuSelected();
 	}
-	
+
 	private Presenter presenter;
-	
+
 	public MenuViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+		setupMenu();
+	}
+
+	protected void setupMenu()
+	{
+		addListener(homeMenu, Menu.HOME);
+		addListener(importMenu, Menu.IMPORT);
+		addListener(manageMenu, Menu.MANAGE);
+		addListener(publishMenu, Menu.PUBLISH);
 	}
 	
-	public void showMenu() {
-		for (int i = 0; i < menubar.getWidgetCount(); i++) {
-			Label label = (Label) menubar.getWidget(i);
-			final int index = i;
-			label.addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					setSelectedMenu(index);
-					presenter.onMenuClicked(index);
-				}
-			});
-		}
-	}
-	
-	private void setSelectedMenu(int index){
-		for (int i = 0; i < menubar.getWidgetCount(); i++) {
-			Label label = (Label) menubar.getWidget(i);
-			if(index == i){
-				label.setStyleName(style.selectedLabel());
-			}else{
-				label.setStyleName(style.cotrixMenuLabel());
+	protected void addListener(final Label item, final Menu menu)
+	{
+		item.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				resetMenu();
+				item.setStyleName(style.menuSelected(), true);
+				presenter.onMenuClicked(menu.getIndex());
 			}
-		}
+		});
 	}
-	
+
+	protected void resetMenu() {
+		homeMenu.setStyleName(style.menuSelected(), false);
+		importMenu.setStyleName(style.menuSelected(), false);
+		manageMenu.setStyleName(style.menuSelected(), false);
+		publishMenu.setStyleName(style.menuSelected(), false);
+	}
+
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}

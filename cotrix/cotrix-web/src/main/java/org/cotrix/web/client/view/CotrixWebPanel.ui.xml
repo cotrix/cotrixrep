@@ -20,7 +20,7 @@
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX'>
-		<g:north size='47'>
+		<g:north size='60'>
 			<g:FlowPanel styleName="{style.menu}" ui:field="menu"></g:FlowPanel>
 		</g:north>
 
