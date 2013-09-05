@@ -16,6 +16,15 @@ public interface CotrixResources extends ClientBundle {
 	@Source("home.png")
 	ImageResource home();
 	
+	@Source("block-howto.png")
+	ImageResource howto();
+	
+	@Source("block-communities.png")
+	ImageResource communities();
+	
+	@Source("block-statistic.png")
+	ImageResource statistic();
+	
 	@Source("style.css")
 	public CssResource css();
 
