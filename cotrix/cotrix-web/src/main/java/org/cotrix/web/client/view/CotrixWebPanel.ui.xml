@@ -2,13 +2,6 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-		.menu {
-			height: 47px;
-		}
-		
-		.mainPanel {
-			height: 100%;
-		}
 		
 		.footer {
 			background-color: #363636;
@@ -23,12 +16,10 @@
 	</ui:style>
 	<g:DockLayoutPanel unit='PX'>
 		<g:north size='60'>
-			<g:FlowPanel styleName="{style.menu}" ui:field="menu" />
+			<g:FlowPanel ui:field="menu" />
 		</g:north>
-
 		<g:center>
-			<g:DeckLayoutPanel styleName="{style.mainPanel}"
-				ui:field="body" />
+			<g:DeckLayoutPanel ui:field="body" />
 		</g:center>
 		<g:south size="60">
 			<g:HTMLPanel styleName="{style.footer}">

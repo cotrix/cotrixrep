@@ -6,13 +6,7 @@
 			font-weight: bold;
 		}
 		
-		.progressbar {
-			display: inline-block;
-			margin: 20px;
-			text-align: center;
-		}
-		
-		.tracker { 
+		.tracker {
 			width: 880px;
 		}
 		
@@ -20,10 +14,8 @@
 			width: 840px;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		<g:FlowPanel styleName="{style.progressbar}">
+		<g:FlowPanel width="880px" height="60px">
 			<g:FlowPanel styleName="{style.tracker}" ui:field="barPanel" />
 			<g:FlowPanel styleName="{style.text}" ui:field="textPanel" />
 		</g:FlowPanel>
-	</g:HTMLPanel>
 </ui:UiBinder> 

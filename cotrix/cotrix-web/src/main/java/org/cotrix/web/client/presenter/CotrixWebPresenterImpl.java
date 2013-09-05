@@ -13,7 +13,7 @@ import org.cotrix.web.menu.client.view.MenuViewImpl;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.inject.Inject;
 
 public class CotrixWebPresenterImpl implements CotrixWebPresenter {
@@ -46,12 +46,13 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 		Home home  = new Home();
 		view.getBody().add(home);
 		
-		ScrollPanel scrollPanel = new ScrollPanel();
-		scrollPanel.setSize("100%", "100%");
+		SimpleLayoutPanel importPanel = new SimpleLayoutPanel();
+		
 		CotrixImportAppGinInjector cotrixImportAppGinInjector = GWT.create(CotrixImportAppGinInjector.class);
 		ImportWizardController cotrixImportAppController = cotrixImportAppGinInjector.getAppController();	
-		cotrixImportAppController.go(scrollPanel);
-		view.getBody().add(scrollPanel);
+		cotrixImportAppController.go(importPanel);
+		
+		view.getBody().add(importPanel);
 
 	/*	CotrixManagerAppGinInjector cotrixManagerAppGinInjector = GWT.create(CotrixManagerAppGinInjector.class);
 		cotrixManagerAppController = cotrixManagerAppGinInjector.getAppController();	

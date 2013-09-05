@@ -27,7 +27,7 @@ public class SourceSelectionStepPresenterImpl extends AbstractWizardStep impleme
 
 	@Inject
 	public SourceSelectionStepPresenterImpl(SourceSelectionStepView view) {
-		super("sourceSelection", TrackerLabels.LOCATE, "Where is the codelist?", "Either you have it or we try to find it.", NavigationButtonConfiguration.NONE, NavigationButtonConfiguration.NONE);
+		super("sourceSelection", TrackerLabels.LOCATE, "Where is the codelist?", "Either you have it or we try to find it.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 	}

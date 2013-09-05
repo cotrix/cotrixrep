@@ -16,22 +16,26 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.DeckPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ImportWizardViewImpl extends Composite implements ImportWizardView {
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class ImportWizardViewImpl extends ResizeComposite implements ImportWizardView {
 
 	@UiTemplate("ImportWizard.ui.xml")
 	interface ImportWizardUiBinder extends UiBinder<Widget, ImportWizardViewImpl> {}
 	private static ImportWizardUiBinder uiBinder = GWT.create(ImportWizardUiBinder.class);
 
-	@UiField FlowPanel progressTrackerPanel;
+	@UiField ProgressTracker progressTracker;
 
 	//FIXME we should use DeckLayoutPanel
-	@UiField DeckPanel stepsPanel;
+	@UiField DeckLayoutPanel stepsPanel;
 
 	@UiField Label title;
 	@UiField Label subtitle;
@@ -39,7 +43,6 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	@UiField Button forwardButton;
 	@UiField Button backwardButton;
 
-	private ProgressTracker progressTracker;
 	protected int currentIndex = 0;
 	protected Map<String, Integer> decksIndexes;
 	protected Map<String, Integer> labelsIndexes;
@@ -51,8 +54,6 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 
 	public ImportWizardViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		progressTracker = new ProgressTracker();
-		progressTrackerPanel.add(progressTracker);
 		decksIndexes = new HashMap<String, Integer>();
 	}
 
