@@ -2,10 +2,6 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-		.important {
-			font-weight: bold;
-		}
-		
 		.menu {
 			height: 47px;
 		}
@@ -14,18 +10,35 @@
 			height: 100%;
 		}
 		
-		.p {
-			height: 100%;
-			width: 100%;
+		.footer {
+			background-color: #363636;
+			height: 60px;
+		}
+		
+		.footerText {
+			vertical-align: middle;
+			font-size: 11px;
+			color: #999;
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX'>
 		<g:north size='60'>
-			<g:FlowPanel styleName="{style.menu}" ui:field="menu"></g:FlowPanel>
+			<g:FlowPanel styleName="{style.menu}" ui:field="menu" />
 		</g:north>
 
 		<g:center>
-				<g:DeckLayoutPanel styleName="{style.mainPanel}" ui:field="body"></g:DeckLayoutPanel>
+			<g:DeckLayoutPanel styleName="{style.mainPanel}"
+				ui:field="body" />
 		</g:center>
+		<g:south size="60">
+			<g:HTMLPanel styleName="{style.footer}">
+				<span class="{style.footerText}">
+					COPYRIGHT 2013 Cotrix All Right Reserve
+					<br />
+					<font style="color:#f66a03">Cotrix</font>
+					is founded by iMarine.
+				</span>
+			</g:HTMLPanel>
+		</g:south>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 
