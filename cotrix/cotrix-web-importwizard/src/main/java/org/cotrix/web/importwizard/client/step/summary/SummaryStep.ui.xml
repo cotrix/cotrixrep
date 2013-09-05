@@ -7,10 +7,6 @@
 		.grid {
 			vertical-align: top;
 			margin-right: 20px;
-			background-color: #f6f6f6;
-			border: 1px solid #d1d1d1;
-			width: 100%;
-			border-spacing: 5px;
 		}
 		
 		.mappingPanelItem {
@@ -36,7 +32,7 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:Grid ui:field="panel" styleName="{style.grid}">
+		<g:Grid ui:field="panel" styleName="{style.grid} {resources.css.wizardPanel}">
 			<g:row>
 				<g:cell styleName="{resources.css.verticalHeadersSingleItem} {style.firstColumn}">
 					<span class="{resources.css.propertyLabel}">File</span>

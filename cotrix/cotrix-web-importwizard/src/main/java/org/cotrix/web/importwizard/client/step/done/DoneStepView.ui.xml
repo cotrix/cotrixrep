@@ -4,7 +4,6 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources" />
 	<ui:style>
-		
 		.report {
 			padding-top: 10px;
 			vertical-align: top;
@@ -14,34 +13,33 @@
 			width: 100%;
 			border-spacing: 5px;
 		}
-
+		
 		/**
-		Workaround to GWT issue #8275
-		https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
-		**/
+				Workaround to GWT issue #8275
+				https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
+				**/
 		.borderFix table {
 			border-collapse: collapse;
-
-	 	}
-
+		}
 	</ui:style>
-		<g:HTMLPanel ui:field="reportPanel">
-			<table cellspacing='0' cellpadding='0' class="{style.report}">
-				<tr>
-					<td align='right'>
-						<g:Button ui:field="reportDownload" text="DOWNLOAD" styleName="{resources.css.buttonDownload}" />
-					</td>
-				</tr>
-				<tr>
-					<td valign='top'>
-						<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}"/>
-					</td>
-				</tr>
-				<tr>
-					<td align='center'>
-						<c:SimplePager ui:field='reportPager' />
-					</td>
-				</tr>
-			</table>
+	<g:HTMLPanel ui:field="reportPanel">
+		<table cellspacing='0' cellpadding='0' class="{style.report}">
+			<tr>
+				<td align='right'>
+					<g:Button ui:field="reportDownload" text="DOWNLOAD"
+						styleName="{resources.css.buttonDownload}" />
+				</td>
+			</tr>
+			<tr>
+				<td valign='top'>
+					<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}" />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>
+					<c:SimplePager ui:field='reportPager' />
+				</td>
+			</tr>
+		</table>
 	</g:HTMLPanel>
 </ui:UiBinder> 

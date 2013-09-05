@@ -2,7 +2,7 @@
 .gwt-PopupPanelGlass {
 	background-color: #000;
 	opacity: 0.3;
-	filter: alpha(opacity =                         30);
+	filter: alpha(opacity =                           30);
 }
 
 .simpleCheckbox {
@@ -26,7 +26,7 @@
 }
 
 .linkText {
-	color: blue !important;
+	color: #5674b9 !important;
 	cursor: pointer;
 }
 
@@ -95,6 +95,13 @@
 	background-color: #ededed;
 	border-color: #b7b6b6;
 	color: #acabab;
+}
+
+.wizardPanel {
+	background-color: #f6f6f6;
+	border: 1px solid #d1d1d1;
+	width: 100%;
+	border-spacing: 5px;
 }
 
 /** GRID **/

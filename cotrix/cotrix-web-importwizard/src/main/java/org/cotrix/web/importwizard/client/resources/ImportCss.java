@@ -72,4 +72,6 @@ public interface ImportCss extends CssResource {
 	String mappingTableNameHeader();
 	
 	String buttonDownload();
+	
+	String wizardPanel();
 }

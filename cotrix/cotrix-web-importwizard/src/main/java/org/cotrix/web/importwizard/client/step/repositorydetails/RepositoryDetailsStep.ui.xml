@@ -4,7 +4,7 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources" />
 	<g:ScrollPanel>
-		<g:Grid ui:field="repositoryDetails">
+		<g:Grid ui:field="repositoryDetails" styleName="{resources.css.wizardPanel}">
 			<g:row>
 				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
 					<g:Label text="Name" styleName="{resources.css.propertyLabel}" />
