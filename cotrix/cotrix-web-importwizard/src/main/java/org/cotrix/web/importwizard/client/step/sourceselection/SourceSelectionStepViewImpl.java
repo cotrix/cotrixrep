@@ -43,7 +43,7 @@ public class SourceSelectionStepViewImpl extends Composite implements SourceSele
 	
 	public void alert(String message) {
 		if(alertDialog == null){
-			alertDialog = new AlertDialog();
+			alertDialog = new AlertDialog(false);
 		}
 		alertDialog.setMessage(message);
 		alertDialog.show();

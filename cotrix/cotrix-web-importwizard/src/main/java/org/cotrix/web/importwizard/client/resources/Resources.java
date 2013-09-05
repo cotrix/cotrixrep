@@ -56,4 +56,7 @@ public interface Resources extends ClientBundle {
 	@Source("reload.png")
 	public ImageResource reload();
 	
+	@Source("popup-arrow.png")
+	public ImageResource popupArrow();
+	
 }

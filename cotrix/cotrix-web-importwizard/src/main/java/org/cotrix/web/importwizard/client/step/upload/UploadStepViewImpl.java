@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
@@ -31,6 +32,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	@UiTemplate("UploadStep.ui.xml")
 	interface UploadStepUiBinder extends UiBinder<Widget, UploadStepViewImpl> {}
 	
+	@UiField Button browseButton;
 	@UiField FileUploadExt fileUploadButton;
 	
 	@UiField InlineLabel fileNameLabel;
@@ -65,8 +67,6 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	
 	public void setupUpload(String filename, long filesize)
 	{
-		
-		
 		uploadPanel.setVisible(true);
 		uploadFailPanel.setVisible(false);
 		progressBar.setVisible(true);
@@ -104,10 +104,10 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	
 	public void alert(String message) {
 		if(alertDialog == null){
-			alertDialog = new AlertDialog();
+			alertDialog = new AlertDialog(true);
 		}
 		alertDialog.setMessage(message);
-		alertDialog.show();
+		alertDialog.showRelative(browseButton);
 	}
 
 	@UiHandler("retryButton")

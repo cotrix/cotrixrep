@@ -190,7 +190,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 
 	public void alert(String message) {
 		if(alertDialog == null){
-			alertDialog = new AlertDialog();
+			alertDialog = new AlertDialog(false);
 		}
 		alertDialog.setMessage(message);
 		alertDialog.show();
