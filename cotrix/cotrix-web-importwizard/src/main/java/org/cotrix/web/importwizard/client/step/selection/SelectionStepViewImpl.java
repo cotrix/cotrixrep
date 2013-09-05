@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client.step.selection;
 
+import org.cotrix.web.importwizard.client.resources.CotrixSimplePager;
 import org.cotrix.web.importwizard.client.resources.DataGridResource;
 import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
@@ -22,11 +23,9 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 
 /**
@@ -40,13 +39,6 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 
 	private static ChannelStepUiBinder uiBinder = GWT.create(ChannelStepUiBinder.class);
 	
-	@UiField FlowPanel mainPanel;
-	
-	@UiField DockLayoutPanel gridPanel;
-	
-	@UiField
-	protected PushButton refreshButton;
-	
 	@UiField (provided = true) 
 	DataGrid<AssetInfo> dataGrid;
 
@@ -54,6 +46,8 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	SimplePager pager;
 	
 	protected AssetInfoDataProvider dataProvider;
+	
+	protected SingleSelectionModel<AssetInfo> selectionModel;
 
 	private AlertDialog alertDialog;
 
@@ -87,27 +81,34 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 
 		dataGrid = new DataGrid<AssetInfo>(9, DataGridResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
+		dataGrid.setHeight("500px");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 
 		dataGrid.setEmptyTableWidget(new Label("No data"));
 
-		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		SimplePager.Resources pagerResources = GWT.create(CotrixSimplePager.class);
 		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		pager.setDisplay(dataGrid);
 		
 		dataGrid.addColumnSortHandler(new AsyncHandler(dataGrid));
+		
+		selectionModel = new SingleSelectionModel<AssetInfo>(AssetInfoKeyProvider.INSTANCE);
+		dataGrid.setSelectionModel(selectionModel);
 
 		// Check
 		TextHeader nameHeader = new TextHeader("Name");
 		
-		Column<AssetInfo, Boolean> checkColumn = new Column<AssetInfo, Boolean>(new SelectionCheckBoxCell()) {
+		Column<AssetInfo, Boolean> checkColumn = new Column<AssetInfo, Boolean>(new SelectionCheckBoxCell(false, false)) {
 			
 			@Override
 			public Boolean getValue(AssetInfo object) {
-				return false;
+				boolean selected = selectionModel.isSelected(object);
+				Log.trace("Item "+object.getId()+" selected? "+selected+" selection model selected: "+selectionModel.getSelectedObject());
+				return selected;
 			}
 		};
+		
 		checkColumn.setFieldUpdater(new FieldUpdater<AssetInfo, Boolean>() {
 
 			@Override
@@ -205,6 +206,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	
 	public void reset()
 	{
+		selectionModel.clear();
 		dataGrid.redraw();
 		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}

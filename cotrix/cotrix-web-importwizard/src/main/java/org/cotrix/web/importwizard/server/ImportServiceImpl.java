@@ -117,6 +117,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			return new AssetsBatch(sublist, assets.size());
 		} catch(Exception e)
 		{
+			e.printStackTrace();
 			logger.error("Error retrieving assets", e);
 			throw new ImportServiceException(e.getMessage());
 		}
