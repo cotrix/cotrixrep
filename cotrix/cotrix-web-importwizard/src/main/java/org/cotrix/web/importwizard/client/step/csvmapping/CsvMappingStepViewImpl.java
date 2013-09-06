@@ -65,6 +65,16 @@ public class CsvMappingStepViewImpl extends Composite implements CsvMappingStepV
 	{
 		presenter.onReload();
 	}
+	
+	public void setMappingLoading()
+	{
+		mappingPanel.setLoading();
+	}
+	
+	public void unsetMappingLoading()
+	{
+		mappingPanel.unsetLoading();
+	}
 
 	/** 
 	 * {@inheritDoc}

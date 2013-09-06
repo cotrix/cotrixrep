@@ -78,7 +78,6 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 			public void onSuccess(AssetsBatch batch) {
 				List<AssetInfo> assets = batch.getAssets();
 				Log.trace("loaded "+assets.size()+" assets");
-				for (AssetInfo assetInfo:assets) Log.trace("Asset: "+assetInfo);
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), assets);
 			}

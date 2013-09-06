@@ -60,10 +60,10 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 
 	public void addStep(WizardStep step)
 	{
-		Log.trace("Adding "+step.getId());
+		//Log.trace("Adding "+step.getId());
 		step.go(stepsPanel);
 		decksIndexes.put(step.getId(), currentIndex++);
-		Log.trace("Totalpanels in deck "+stepsPanel.getWidgetCount());
+		//Log.trace("Totalpanels in deck "+stepsPanel.getWidgetCount());
 
 	}
 

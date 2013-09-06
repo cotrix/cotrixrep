@@ -12,23 +12,17 @@ public class MappingsUpdatedEvent extends GwtEvent<MappingsUpdatedEvent.Mappings
 
 	public static Type<MappingsUpdatedHandler> TYPE = new Type<MappingsUpdatedHandler>();
 	private AttributesMappings mappings;
-	private boolean userEdit;
 
 	public interface MappingsUpdatedHandler extends EventHandler {
 		void onMappingUpdated(MappingsUpdatedEvent event);
 	}
 
-	public MappingsUpdatedEvent(AttributesMappings mappings, boolean userEdit) {
+	public MappingsUpdatedEvent(AttributesMappings mappings) {
 		this.mappings = mappings;
-		this.userEdit = userEdit;
 	}
 
 	public AttributesMappings getMappings() {
 		return mappings;
-	}
-
-	public boolean isUserEdit() {
-		return userEdit;
 	}
 
 	@Override

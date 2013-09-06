@@ -65,9 +65,19 @@ public class SdmxMappingStepViewImpl extends Composite implements SdmxMappingSte
 		presenter.onReload();
 	}
 
-	public void setAttributes(List<AttributeMapping> mappings)
+	public void setMappings(List<AttributeMapping> mappings)
 	{
 		mappingPanel.setMapping(mappings);
+	}
+	
+	public void setMappingLoading()
+	{
+		mappingPanel.setLoading();
+	}
+	
+	public void unsetMappingLoading()
+	{
+		mappingPanel.unsetLoading();
 	}
 	
 	public List<AttributeMapping> getMappings()

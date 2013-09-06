@@ -76,7 +76,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 				}
 			} else mappingDescription.append("ignore <b>").append(originalName).append("</b>");
 
-			Log.trace("label "+mappingDescription.toString());
+			//Log.trace("label "+mappingDescription.toString());
 			
 			HTML mappingLabel = new HTML(mappingDescription.toString());
 			customTable.setWidget(row, 0, mappingLabel);

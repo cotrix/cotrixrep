@@ -12,7 +12,6 @@ import org.cotrix.web.importwizard.client.event.NewImportEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
-import org.cotrix.web.importwizard.client.flow.FlowManager.LabelProvider;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
 import org.cotrix.web.importwizard.client.flow.builder.FlowManagerBuilder;
@@ -121,7 +120,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		flow.addFlowUpdatedHandler(this);
 
 		//only for debug
-		if (Log.isTraceEnabled()) {
+		/*if (Log.isTraceEnabled()) {
 			String dot = flow.toDot(new LabelProvider<WizardStep>() {
 
 				@Override
@@ -130,7 +129,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 				}
 			});
 			Log.trace("dot: "+dot);
-		}
+		}*/
 
 		Log.trace("Adding steps");
 		registerStep(sourceStep);
@@ -180,8 +179,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	protected void updateTrackerLabels()
 	{
 		List<WizardStep> steps = flow.getCurrentFlow();
-		Log.trace("New FLOW:");
-		if (Log.isTraceEnabled()) for (WizardStep step:steps) Log.trace("step: "+step.getId());
+		Log.trace("New FLOW: "+steps);
 		
 		List<ProgressStep> psteps = new ArrayList<ProgressStep>();
 		Set<String> saw = new HashSet<String>();
@@ -191,8 +189,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			psteps.add(pstep);
 			saw.add(pstep.getId());
 		}
-		Log.trace("Progress steps:");
-		if (Log.isTraceEnabled()) for (ProgressStep step:psteps) Log.trace("step: "+step.getId());
+		Log.trace("Progress steps: "+psteps);
 		
 		view.setLabels(psteps);
 		view.showLabel(flow.getCurrentItem().getConfiguration().getLabel());

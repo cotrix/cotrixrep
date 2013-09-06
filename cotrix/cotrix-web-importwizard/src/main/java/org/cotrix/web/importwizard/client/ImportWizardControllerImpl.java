@@ -9,6 +9,9 @@ import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEve
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportStartedEvent;
+import org.cotrix.web.importwizard.client.event.MappingLoadFailedEvent;
+import org.cotrix.web.importwizard.client.event.MappingLoadedEvent;
+import org.cotrix.web.importwizard.client.event.MappingLoadingEvent;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.NewImportEvent;
 import org.cotrix.web.importwizard.client.event.NewImportEvent.NewImportHandler;
@@ -108,7 +111,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			
 			@Override
 			public void onMappingUpdated(MappingsUpdatedEvent event) {
-				if (event.isUserEdit()) mappings = event.getMappings();
+				mappings = event.getMappings();
 			}
 		});
 		importEventBus.addHandler(SaveEvent.TYPE, new SaveHandler() {
@@ -229,16 +232,21 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	
 	protected void getMappings()
 	{
+		Log.trace("getMappings");
+		
+		importEventBus.fireEvent(new MappingLoadingEvent());
 		importService.getMappings(new AsyncCallback<AttributesMappings>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Error getting the mappings", caught);
+				importEventBus.fireEvent(new MappingLoadFailedEvent(caught));
 			}
 
 			@Override
 			public void onSuccess(AttributesMappings result) {
-				importEventBus.fireEvent(new MappingsUpdatedEvent(result, false));
+				Log.trace("mapping retrieved");
+				importEventBus.fireEvent(new MappingLoadedEvent(result));
 				mappings = result;
 			}
 		});

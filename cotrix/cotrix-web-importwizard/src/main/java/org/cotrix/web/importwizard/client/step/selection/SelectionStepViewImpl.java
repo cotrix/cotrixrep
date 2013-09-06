@@ -104,7 +104,6 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 			@Override
 			public Boolean getValue(AssetInfo object) {
 				boolean selected = selectionModel.isSelected(object);
-				Log.trace("Item "+object.getId()+" selected? "+selected+" selection model selected: "+selectionModel.getSelectedObject());
 				return selected;
 			}
 		};
@@ -113,7 +112,6 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 
 			@Override
 			public void update(int index, AssetInfo object, Boolean value) {
-				Log.trace("check changed, row "+index+" value: "+value);
 				if (value) presenter.assetSelected(object);			
 			}
 		});

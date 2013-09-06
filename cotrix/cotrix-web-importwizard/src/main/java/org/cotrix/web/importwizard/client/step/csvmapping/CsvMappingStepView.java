@@ -20,7 +20,10 @@ public interface CsvMappingStepView {
 	public void setCsvName(String name);
 	public String getCsvName();
 	
+	public void setMappingLoading();
 	public void setMapping(List<AttributeMapping> mapping);
+	public void unsetMappingLoading();
+	
 	public void setCodeTypeError();
 	public void cleanStyle();
 	

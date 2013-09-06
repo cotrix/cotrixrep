@@ -9,38 +9,41 @@
 			outline: none;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		<table class="{resources.css.mappingTable}">
-			<tr>
-				<td class="{resources.css.mappingTableNameHeader}">
-					<span class="{resources.css.propertyLabel}" style="padding-left:31px;padding-right:5px;">Name</span>
-				</td>
-				<td style="padding-top:10px;width:85%;">
-					<g:TextBox width="99%" ui:field="name" styleName="{resources.css.textBox}" />
-				</td>
-				<td style="padding-top:10px;width:5%;">
-					<g:PushButton ui:field="reloadButton"
-						styleName="{resources.css.buttonRefresh} {style.reloadButton}">
-						<g:upFace image="{resources.refresh}" />
-					</g:PushButton>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3" align="left" style="padding: 20px;">
-					<table style="border-collapse:collapse; width: 100%;">
-						<tr>
-							<td class="{resources.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
-								<span class="{resources.css.propertyLabel}">Elements</span>
-							</td>
-						</tr>
-						<tr>
-							<td style="border: 1px solid #d1d1d1;padding-left:5px;">
-								<u:MappingPanel ui:field="mappingPanel" />
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</g:HTMLPanel>
+	<g:ScrollPanel styleName="{resources.css.mappingTable}">
+		<g:HTMLPanel>
+			<table width="100%">
+				<tr>
+					<td class="{resources.css.mappingTableNameHeader}">
+						<span class="{resources.css.propertyLabel}" style="padding-left:31px;padding-right:5px;">Name</span>
+					</td>
+					<td style="padding-top:10px;width:85%;">
+						<g:TextBox width="99%" ui:field="name"
+							styleName="{resources.css.textBox}" />
+					</td>
+					<td style="padding-top:10px;width:5%;">
+						<g:PushButton ui:field="reloadButton"
+							styleName="{resources.css.buttonRefresh} {style.reloadButton}">
+							<g:upFace image="{resources.refresh}" />
+						</g:PushButton>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" align="left" style="padding: 20px;">
+						<table style="border-collapse:collapse; width: 100%;">
+							<tr>
+								<td class="{resources.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
+									<span class="{resources.css.propertyLabel}">Elements</span>
+								</td>
+							</tr>
+							<tr>
+								<td style="border: 1px solid #d1d1d1;padding-left:5px;">
+									<u:MappingPanel ui:field="mappingPanel" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</g:HTMLPanel>
+	</g:ScrollPanel>
 </ui:UiBinder> 

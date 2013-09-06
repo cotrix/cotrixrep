@@ -93,7 +93,7 @@ public class ProgressTracker extends Composite {
 			ProgressTrackerLabel label = new ProgressTrackerLabel(stepLabel, lineWidth + BUTTON_WIDTH);
 			labels.add(label);
 			textPanel.add(label);
-			Log.trace("setting step "+i+" with step id: "+step.getId()+" label: "+step.getLabel());
+			//Log.trace("setting step "+i+" with step id: "+step.getId()+" label: "+step.getLabel());
 			index.put(step.getId(), i++);
 		}
 	}
@@ -106,7 +106,6 @@ public class ProgressTracker extends Composite {
 			ProgressStep step = steps.get(i);
 			String stepLabel = step.getLabel();
 			label.setText(stepLabel);
-			Log.trace("updating step "+i+" with step id: "+step.getId()+" label: "+step.getLabel());
 			index.put(step.getId(), i);
 		}
 	}

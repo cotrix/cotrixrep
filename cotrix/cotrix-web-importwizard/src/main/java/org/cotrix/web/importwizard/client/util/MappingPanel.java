@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
@@ -33,7 +34,9 @@ public class MappingPanel extends Composite {
 	protected static int LABEL_COLUMN = 2;
 	protected static int DEFINITION_COLUMN = 3;
 
+	protected SimplePanel container;
 	protected FlexTable columnsTable;
+	protected FlexTable loadingContainter;
 
 	protected boolean typeDefinition;
 
@@ -46,10 +49,31 @@ public class MappingPanel extends Composite {
 	public MappingPanel(boolean typeDefinition)
 	{
 		this.typeDefinition = typeDefinition;
+		container = new SimplePanel();
 		columnsTable = new FlexTable();
-		initWidget(columnsTable);
+		setupLoadingContainer();
+		
+		container.setWidget(columnsTable);
+		initWidget(container);
 
 		Resources.INSTANCE.css().ensureInjected();
+	}
+	
+	protected void setupLoadingContainer()
+	{
+		loadingContainter = new FlexTable();
+		loadingContainter.getElement().setAttribute("align", "center");
+		loadingContainter.setWidget(0, 0, new Label("loading..."));
+	}
+	
+	public void setLoading()
+	{
+		container.setWidget(loadingContainter);
+	}
+	
+	public void unsetLoading()
+	{
+		container.setWidget(columnsTable);
 	}
 
 	/** 
