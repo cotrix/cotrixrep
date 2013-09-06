@@ -77,92 +77,101 @@ public class FileUpload extends HttpServlet{
 		FileUploadProgress uploadProgress = new FileUploadProgress(0, Status.ONGOING, null);
 		session.setUploadProgress(uploadProgress);
 
-		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-		if (!isMultipart) {
-			logger.error("Expected multipart request");
-			uploadProgress.setStatus(Status.FAILED);
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Expected multipart request");
-			return;
-		}
+		try {
 
-		ServletFileUpload upload = new ServletFileUpload(factory);
-		UploadProgressListener progressListener = new UploadProgressListener(uploadProgress);
-		upload.setProgressListener(progressListener);
-
-		FileItem fileField = null;
-		try{
-			// Parse the request
-			List<FileItem> items = upload.parseRequest(request);
-
-			for (FileItem item:items) {
-				if (!item.isFormField() && FILE_FIELD_NAME.equals(item.getFieldName())) {
-					fileField = item;
-					break;
-				}
+			boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+			if (!isMultipart) {
+				logger.error("Expected multipart request");
+				uploadProgress.setStatus(Status.FAILED);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Expected multipart request");
+				return;
 			}
 
-		} catch(FileUploadException fue)
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			UploadProgressListener progressListener = new UploadProgressListener(uploadProgress);
+			upload.setProgressListener(progressListener);
+
+			FileItem fileField = null;
+			try{
+				// Parse the request
+				List<FileItem> items = upload.parseRequest(request);
+
+				for (FileItem item:items) {
+					if (!item.isFormField() && FILE_FIELD_NAME.equals(item.getFieldName())) {
+						fileField = item;
+						break;
+					}
+				}
+
+			} catch(FileUploadException fue)
+			{
+				logger.error("Error parsing upload request", fue);
+				uploadProgress.setStatus(Status.FAILED);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, fue.getMessage());
+				return;
+			}
+
+			if (fileField == null) {
+				logger.error("Missing field "+FILE_FIELD_NAME+" in upload request");
+				uploadProgress.setStatus(Status.FAILED);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing field "+FILE_FIELD_NAME);
+				return;
+			}
+
+			logger.trace("Received file {} with size {} and content type {}", fileField.getName(), fileField.getSize(), fileField.getContentType());
+			CodeListType codeListType = typeGuesser.guess(fileField.getName(), fileField.getContentType());
+
+			if (codeListType == null) {
+				logger.error("failed to guess the codelist type");
+				uploadProgress.setStatus(Status.FAILED);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing field "+FILE_FIELD_NAME);
+				return;
+			}
+
+			session.setFileField(fileField);
+			uploadProgress.setCodeListType(codeListType);
+			session.setCodeListType(codeListType);
+			response.setStatus(HttpServletResponse.SC_OK);
+
+			switch (codeListType) {
+				case CSV: {
+					CsvParserConfiguration configuration = csvParserConfigurationGuesser.guessConfiguration(fileField);
+					session.setCsvParserConfiguration(configuration);
+					uploadProgress.setProgress(95);
+
+					//TODO check if csv config is valid
+					//FIXME duplicate code
+					Table table = parsingHelper.parse(configuration, fileField.getInputStream());
+					PreviewData previewData = parsingHelper.convert(table, !configuration.isHasHeader(), ParsingHelper.ROW_LIMIT);
+					session.setPreviewCache(previewData);
+					session.setCacheDirty(false);
+
+					AttributesMappings mappings = mappingsGuesser.guessMappings(table);
+					session.setMappings(mappings);
+
+					String filename = FileNameUtil.toHumanReadable(fileField.getName());
+					ImportMetadata metadata = new ImportMetadata();
+					metadata.setName(filename);
+					session.setGuessedMetadata(metadata);
+				} break;
+				case SDMX: {
+					AttributesMappings mappings = mappingsGuesser.getSdmxDefaultMappings();
+					session.setMappings(mappings);
+
+					CodelistBean codelistBean = parsingHelper.parse(fileField.getInputStream());
+					String codelistName = codelistBean.getName();
+					ImportMetadata metadata = new ImportMetadata();
+					metadata.setOriginalName(codelistName);
+					metadata.setName(codelistName);
+					session.setGuessedMetadata(metadata);
+				} break;
+			}
+
+		} catch(Exception e)
 		{
-			logger.error("Error parsing upload request", fue);
+			logger.error("Error during file post", e);
 			uploadProgress.setStatus(Status.FAILED);
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, fue.getMessage());
-			return;
-		}
-
-		if (fileField == null) {
-			logger.error("Missing field "+FILE_FIELD_NAME+" in upload request");
-			uploadProgress.setStatus(Status.FAILED);
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing field "+FILE_FIELD_NAME);
-			return;
-		}
-
-		logger.trace("Received file {} with size {} and content type {}", fileField.getName(), fileField.getSize(), fileField.getContentType());
-		CodeListType codeListType = typeGuesser.guess(fileField.getName(), fileField.getContentType());
-
-		if (codeListType == null) {
-			logger.error("failed to guess the codelist type");
-			uploadProgress.setStatus(Status.FAILED);
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing field "+FILE_FIELD_NAME);
-			return;
-		}
-
-		session.setFileField(fileField);
-		uploadProgress.setCodeListType(codeListType);
-		session.setCodeListType(codeListType);
-		response.setStatus(HttpServletResponse.SC_OK);
-
-		switch (codeListType) {
-			case CSV: {
-				CsvParserConfiguration configuration = csvParserConfigurationGuesser.guessConfiguration(fileField);
-				session.setCsvParserConfiguration(configuration);
-				uploadProgress.setProgress(95);
-
-				//TODO check if csv config is valid
-				//FIXME duplicate code
-				Table table = parsingHelper.parse(configuration, fileField.getInputStream());
-				PreviewData previewData = parsingHelper.convert(table, !configuration.isHasHeader(), ParsingHelper.ROW_LIMIT);
-				session.setPreviewCache(previewData);
-				session.setCacheDirty(false);
-
-				AttributesMappings mappings = mappingsGuesser.guessMappings(table);
-				session.setMappings(mappings);
-
-				String filename = FileNameUtil.toHumanReadable(fileField.getName());
-				ImportMetadata metadata = new ImportMetadata();
-				metadata.setName(filename);
-				session.setGuessedMetadata(metadata);
-			} break;
-			case SDMX: {
-				AttributesMappings mappings = mappingsGuesser.getSdmxDefaultMappings();
-				session.setMappings(mappings);
-				
-				CodelistBean codelistBean = parsingHelper.parse(fileField.getInputStream());
-				String codelistName = codelistBean.getName();
-				ImportMetadata metadata = new ImportMetadata();
-				metadata.setOriginalName(codelistName);
-				metadata.setName(codelistName);
-				session.setGuessedMetadata(metadata);
-			} break;
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Failed "+e.getMessage());
 		}
 
 		uploadProgress.setProgress(100);
