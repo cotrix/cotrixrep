@@ -14,6 +14,10 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class AlertDialog extends PopupPanel {
 	
 	protected static final int HEIGHT_WITH_ARROW = 115;
@@ -172,7 +176,7 @@ public class AlertDialog extends PopupPanel {
 		// Make sure scrolling is taken into account, since
 		// box.getAbsoluteTop() takes scrolling into account.
 		int windowTop = Window.getScrollTop();
-		int windowBottom = Window.getScrollTop() + Window.getClientHeight();
+		/*int windowBottom = Window.getScrollTop() + Window.getClientHeight();*/
 
 		// Distance from the top edge of the window to the top edge of the
 		// text box
@@ -180,8 +184,8 @@ public class AlertDialog extends PopupPanel {
 
 		// Distance from the bottom edge of the window to the bottom edge of
 		// the text box
-		int distanceToWindowBottom = windowBottom
-				- (top + relativeObject.getOffsetHeight());
+		/*int distanceToWindowBottom = windowBottom
+				- (top + relativeObject.getOffsetHeight());*/
 
 		// If there is not enough space for the popup's height below the text
 		// box and there IS enough space for the popup's height above the text

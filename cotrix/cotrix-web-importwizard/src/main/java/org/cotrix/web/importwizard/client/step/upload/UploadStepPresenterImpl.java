@@ -112,6 +112,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		for (String arrayValue:array) if (arrayValue.equals(value)) return true;
 		return false;
 	}
+	
 	protected void startUpload(File file)
 	{
 		complete = false;
