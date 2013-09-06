@@ -13,8 +13,9 @@
 				outline: none;
 			}
 		</ui:style>
+		<g:ScrollPanel styleName="{resources.css.mappingTable}">
 	<g:HTMLPanel>
-		<table class="{resources.css.mappingTable}">
+		<table width="100%">
 			<tr>
 				<td class="{resources.css.mappingTableNameHeader}">
 					<span class="{resources.css.propertyLabel}" style="padding-left:31px;padding-right:5px;">Name</span>
@@ -47,4 +48,5 @@
 			</tr>
 		</table>
 	</g:HTMLPanel>
+	</g:ScrollPanel>
 </ui:UiBinder> 

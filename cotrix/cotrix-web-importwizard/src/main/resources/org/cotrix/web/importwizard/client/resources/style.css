@@ -103,10 +103,6 @@
 	border-spacing: 5px;
 }
 
-.mappingCell {
-	padding: 5px;
-}
-
 /** GRID **/
 .verticalHeadersSingleItem {
 	vertical-align: middle;
@@ -166,7 +162,6 @@
 /** MAPPING **/
 .mappingTable {
 	border: 1px solid #d1d1d1;
-	width: 100%;
 	background-color: #f6f6f6;
 }
 
@@ -174,6 +169,10 @@
 	vertical-align: middle;
 	padding-top: 10px;
 	width: 10%;
+}
+
+.mappingCell {
+	padding: 5px;
 }
 
 /** BUTTONS **/
