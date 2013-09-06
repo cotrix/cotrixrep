@@ -40,7 +40,7 @@ public class CodelistDetailsStepPresenterImpl extends AbstractWizardStep impleme
 	
 	@Inject
 	public CodelistDetailsStepPresenterImpl(CodelistDetailsStepView view, @ImportBus EventBus importEventBus) {
-		super("codelistDetails", TrackerLabels.ACQUIRE, "Codelist Details", "", DEFAULT_BACKWARD, NONE);
+		super("codelistDetails", TrackerLabels.ACQUIRE, "Codelist Details", "", BACKWARD);
 		this.view = view;
 		view.setPresenter(this);
 		this.importEventBus = importEventBus;

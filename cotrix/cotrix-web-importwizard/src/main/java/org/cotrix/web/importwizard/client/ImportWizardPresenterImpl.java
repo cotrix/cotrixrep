@@ -1,10 +1,12 @@
 package org.cotrix.web.importwizard.client;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.cotrix.web.importwizard.client.ImportWizardView.WizardButton;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.NewImportEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
@@ -57,6 +59,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	protected ImportWizardView view;
 
 	protected EventBus importEventBus;
+	
+	protected EnumMap<WizardButton, ButtonAction> buttonsActions = new EnumMap<WizardButton, ButtonAction>(WizardButton.class);
 	
 	protected ButtonAction backwardAction;
 	protected ButtonAction forwardAction;
@@ -211,32 +215,23 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		view.setStepTitle(title);
 		view.setStepSubtitle(configuration.getSubtitle());
 
-		configureBackwardButton(configuration.getBackwardButton());
-		configureForwardButton(configuration.getForwardButton());
+		configureButtons(configuration.getButtons());
+	}
+	
+	protected void configureButtons(NavigationButtonConfiguration ... buttons)
+	{
+		view.hideAllButtons();
+		buttonsActions.clear();
+		
+		if (buttons!=null) for (NavigationButtonConfiguration button:buttons) configureButton(button);
+		
 	}
 
-	protected void configureBackwardButton(NavigationButtonConfiguration buttonConfiguration)
+	protected void configureButton(NavigationButtonConfiguration button)
 	{
-		if (buttonConfiguration == NavigationButtonConfiguration.NONE) view.hideBackwardButton();
-		else {
-			String label = buttonConfiguration.getLabel();
-			String style = buttonConfiguration.getStyle();
-			view.setBackwardButton(label, style);
-			view.showBackwardButton();
-		}
-		backwardAction = buttonConfiguration.getAction();
-	}
-
-	protected void configureForwardButton(NavigationButtonConfiguration buttonConfiguration)
-	{
-		if (buttonConfiguration == NavigationButtonConfiguration.NONE) view.hideForwardButton();
-		else {
-			String label = buttonConfiguration.getLabel();
-			String style = buttonConfiguration.getStyle();
-			view.setForwardButton(label, style);
-			view.showForwardButton();
-		}
-		forwardAction = buttonConfiguration.getAction();
+		WizardButton wizardButton = button.getWizardButton();
+		view.showButton(wizardButton);
+		buttonsActions.put(wizardButton, button.getAction());
 	}
 
 	protected void goForward()
@@ -280,20 +275,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		}
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
-	public void onFowardButtonClicked() {
-		doAction(forwardAction);
-	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	public void onBackwardButtonClicked() {
-		doAction(backwardAction);
-	}
-
 	/**
 	 * @param event
 	 */
@@ -321,5 +302,13 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		return new LegacyHandlerWrapper(importEventBus.addHandler(ValueChangeEvent.getType(), handler));
 	}
 
-
+	@Override
+	public void onButtonClicked(WizardButton button) {
+		ButtonAction action = buttonsActions.get(button);
+		if (action == null) {
+			Log.fatal("Action not found for clicked button "+button);
+			throw new IllegalArgumentException("Action not found for clicked button "+button);
+		}
+		doAction(action);
+	}
 }

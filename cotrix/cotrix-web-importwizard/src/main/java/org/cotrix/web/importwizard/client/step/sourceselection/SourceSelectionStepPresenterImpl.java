@@ -4,7 +4,6 @@ import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
-import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -27,7 +26,7 @@ public class SourceSelectionStepPresenterImpl extends AbstractWizardStep impleme
 
 	@Inject
 	public SourceSelectionStepPresenterImpl(SourceSelectionStepView view) {
-		super("sourceSelection", TrackerLabels.LOCATE, "Where is the codelist?", "Either you have it or we try to find it.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("sourceSelection", TrackerLabels.LOCATE, "Where is the codelist?", "Either you have it or we try to find it.");
 		this.view = view;
 		this.view.setPresenter(this);
 	}

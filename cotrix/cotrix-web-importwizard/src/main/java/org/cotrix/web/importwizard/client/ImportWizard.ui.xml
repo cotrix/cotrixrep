@@ -80,12 +80,24 @@
 		<g:south size="60">
 			<g:HTMLPanel styleName="{style.buttonPanel}">
 				<div class="{style.leftButton}">
-					<g:Button ui:field="backwardButton" styleName="{resources.css.grayButton}"
+					<g:Button ui:field="backButton" styleName="{resources.css.grayButton}"
 						text="Back" />
 				</div>
 				<div class="{style.rightButton}">
-					<g:Button ui:field="forwardButton" styleName="{resources.css.blueButton}"
+					<g:Button ui:field="nextButton" styleName="{resources.css.blueButton}"
 						text="Next" />
+				</div>
+				<div class="{style.rightButton}">
+					<g:Button ui:field="importButton" styleName="{resources.css.blueButton}"
+						text="Import" />
+				</div>
+				<div class="{style.rightButton}">
+					<g:Button ui:field="manageButton" styleName="{resources.css.buttonManage}"
+						text="MANAGE IT" />
+				</div>
+				<div class="{style.rightButton}">
+					<g:Button ui:field="newImportButton" styleName="{resources.css.buttonImport}"
+						text="IMPORT ANOTHER" />
 				</div>
 			</g:HTMLPanel>
 		</g:south>

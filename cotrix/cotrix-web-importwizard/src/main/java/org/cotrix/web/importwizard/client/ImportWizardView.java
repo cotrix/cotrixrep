@@ -8,11 +8,14 @@ import org.cotrix.web.importwizard.client.step.WizardStep;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface ImportWizardView {
+	
+	public enum WizardButton {NEXT, BACK, IMPORT, MANAGE, NEW_IMPORT};
+	
 	void setPresenter(Presenter presenter);
 
 	public interface Presenter {
-		void onFowardButtonClicked();
-		void onBackwardButtonClicked();
+		
+		void onButtonClicked(WizardButton button);
 	}
 	
 	void addStep(WizardStep step);
@@ -22,13 +25,10 @@ public interface ImportWizardView {
 	public void showStep(WizardStep step);
 	public void showLabel(ProgressStep step);
 	
-	public void hideBackwardButton();
-	public void showBackwardButton();
-	public void setBackwardButton(String label, String style);
+	public void showButton(WizardButton button);
+	public void hideButton(WizardButton button);
 	
-	public void hideForwardButton();
-	public void showForwardButton();
-	public void setForwardButton(String label, String style);
+	public void hideAllButtons();
 	
 	Widget asWidget();
 

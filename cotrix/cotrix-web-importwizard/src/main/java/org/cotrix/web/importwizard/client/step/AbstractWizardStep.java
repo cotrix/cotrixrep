@@ -20,10 +20,9 @@ public abstract class AbstractWizardStep implements WizardStep {
 	 * @param id
 	 */
 	public AbstractWizardStep(String id, ProgressStep label, String title, String subtitle,
-			NavigationButtonConfiguration backwardButton,
-			NavigationButtonConfiguration forwardButton) {
+			NavigationButtonConfiguration ... buttons) {
 		this.id = id;
-		this.configuration = new WizardStepConfiguration(label, title, subtitle, backwardButton, forwardButton);
+		this.configuration = new WizardStepConfiguration(label, title, subtitle, buttons);
 	}
 
 	/**

@@ -33,14 +33,16 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 
 	@UiField ProgressTracker progressTracker;
 
-	//FIXME we should use DeckLayoutPanel
 	@UiField DeckLayoutPanel stepsPanel;
 
 	@UiField Label title;
 	@UiField Label subtitle;
 
-	@UiField Button forwardButton;
-	@UiField Button backwardButton;
+	@UiField Button nextButton;
+	@UiField Button backButton;
+	@UiField Button newImportButton;
+	@UiField Button importButton;
+	@UiField Button manageButton;
 
 	protected int currentIndex = 0;
 	protected Map<String, Integer> decksIndexes;
@@ -95,44 +97,34 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 
 	public void hideBackwardButton()
 	{
-		backwardButton.setVisible(false);
+		backButton.setVisible(false);
 	}
 
 	public void showBackwardButton()
 	{
-		backwardButton.setVisible(true);
+		backButton.setVisible(true);
 	}
 
 	public void setBackwardButton(String label, String style)
 	{
-		backwardButton.setText(label);
-		backwardButton.setStyleName(style);
+		backButton.setText(label);
+		backButton.setStyleName(style);
 	}
 
 	public void hideForwardButton()
 	{
-		forwardButton.setVisible(false);
+		nextButton.setVisible(false);
 	}
 
 	public void showForwardButton()
 	{
-		forwardButton.setVisible(true);
+		nextButton.setVisible(true);
 	}
 
 	public void setForwardButton(String label, String style)
 	{
-		forwardButton.setText(label);
-		forwardButton.setStyleName(style);
-	}
-
-	@UiHandler("forwardButton")
-	public void onForwardButtonClicked(ClickEvent event){
-		presenter.onFowardButtonClicked();
-	}
-
-	@UiHandler("backwardButton")
-	public void onBackwardButtonClicked(ClickEvent event){
-		presenter.onBackwardButtonClicked();
+		nextButton.setText(label);
+		nextButton.setStyleName(style);
 	}
 
 	public void setFormTitle(String title) {
@@ -140,11 +132,69 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	}
 
 	public void showBackButton(boolean isVisible) {
-		this.backwardButton.setVisible(isVisible);
+		this.backButton.setVisible(isVisible);
 	}
 
 	public void showNextButton(boolean isVisible) {
-		this.forwardButton.setVisible(isVisible);
+		this.nextButton.setVisible(isVisible);
+	}
+	
+	@UiHandler("nextButton")
+	public void onNextButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(WizardButton.NEXT);
+	}
+
+	@UiHandler("backButton")
+	public void onBackButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(WizardButton.BACK);
+	}
+	
+	@UiHandler("importButton")
+	public void onImportButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(WizardButton.IMPORT);
+	}
+	
+	@UiHandler("newImportButton")
+	public void onNewImportButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(WizardButton.NEW_IMPORT);
+	}
+
+	@UiHandler("manageButton")
+	public void onManageButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(WizardButton.MANAGE);
+	}
+
+	@Override
+	public void showButton(WizardButton wizardButton) {
+		Button button = getButton(wizardButton);
+		button.setVisible(true);
+	}
+
+	@Override
+	public void hideButton(WizardButton wizardButton) {
+		Button button = getButton(wizardButton);
+		button.setVisible(false);
+	}
+	
+	@Override
+	public void hideAllButtons()
+	{
+		for (WizardButton button:WizardButton.values()) hideButton(button);
+	}
+	
+	protected Button getButton(WizardButton button)
+	{
+		switch (button) {
+			case BACK: return backButton;
+			case IMPORT: return importButton;
+			case NEW_IMPORT: return newImportButton;
+			case MANAGE: return manageButton;
+			case NEXT: return nextButton;
+			default: {
+				Log.fatal("Unknow button "+button);
+				throw new IllegalArgumentException("Unknow button "+button);
+			}
+		}
 	}
 
 }

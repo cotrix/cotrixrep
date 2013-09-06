@@ -74,4 +74,7 @@ public interface ImportCss extends CssResource {
 	String buttonDownload();
 	
 	String wizardPanel();
+	
+	String buttonManage();
+	String buttonImport();
 }

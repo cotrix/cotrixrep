@@ -248,6 +248,7 @@
 	box-shadow: 0px 0px 5px #61C5FA;
 }
 
+/** BUTTONS **/
 /** SOURCE SELECTION moved here due to https://code.google.com/p/google-web-toolkit/issues/detail?id=5320 **/
 @sprite .buttonComputer {
 	gwt-image: "computer";
@@ -352,4 +353,50 @@
 	cursor: pointer;
 	width: 170px;
 	height: 40px;
+}
+
+@sprite .buttonManage {
+	gwt-image: "manage";
+	background-color:#5674b9;
+	border:1px solid #5674b9;
+	border-radius:5px;
+	text-align:center;
+	width:220px;
+	font-size:15px;
+	padding-left:55px;
+	height:40px;
+
+	color:#eee;
+}
+
+@sprite .buttonManage:hover{
+	gwt-image: "manage";
+	background-color: #344e89 ;
+	color: #eee;
+	cursor: pointer;
+	width: 220px;
+	height:40px;
+}
+
+@sprite .buttonImport{
+	gwt-image: "importIcon";
+	background-color:#5674b9;
+	border:1px solid #5674b9;
+	border-radius:5px;
+	text-align:center;
+	width:220px;
+	font-size:15px;
+	padding-left:70px;
+	height:40px;
+	
+	color:#eee;
+}
+
+@sprite .buttonImport:hover{
+	gwt-image: "importIcon";
+	background-color:#344e89;
+	color:#eee;
+	cursor:pointer;
+	width:220px;
+	height:40px;
 }

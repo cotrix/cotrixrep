@@ -59,4 +59,11 @@ public interface Resources extends ClientBundle {
 	@Source("popup-arrow.png")
 	public ImageResource popupArrow();
 	
+	@Source("manage.png")
+	public ImageResource manage();
+	
+	@Source("import.png")
+	public ImageResource importIcon();
+	
+	
 }

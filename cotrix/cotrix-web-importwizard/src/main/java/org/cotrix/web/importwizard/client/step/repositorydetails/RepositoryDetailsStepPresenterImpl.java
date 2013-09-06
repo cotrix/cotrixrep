@@ -35,7 +35,7 @@ public class RepositoryDetailsStepPresenterImpl extends AbstractWizardStep imple
 	
 	@Inject
 	public RepositoryDetailsStepPresenterImpl(RepositoryDetailsStepView view, @ImportBus EventBus importEventBus) {
-		super("repositoryDetails", TrackerLabels.ACQUIRE, "Repository Details", "", DEFAULT_BACKWARD, NONE);
+		super("repositoryDetails", TrackerLabels.ACQUIRE, "Repository Details", "", BACKWARD);
 		this.view = view;
 		this.importEventBus = importEventBus;
 		importEventBus.addHandler(ResetWizardEvent.TYPE, this);
