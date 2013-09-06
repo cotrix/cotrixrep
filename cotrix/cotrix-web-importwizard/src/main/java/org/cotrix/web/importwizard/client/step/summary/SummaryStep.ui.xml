@@ -23,7 +23,7 @@
 			margin-top: 10px;
 			background-color: #dfdfdf;
 			border: 1px solid #b0b0b0;
-			overflow:hidden;
+			overflow: hidden;
 		}
 		
 		.firstColumn {
@@ -31,50 +31,59 @@
 			width: 120px;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		<g:Grid ui:field="panel" styleName="{style.grid} {resources.css.wizardPanel}">
-			<g:row>
-				<g:cell styleName="{resources.css.verticalHeadersSingleItem} {style.firstColumn}">
-					<span class="{resources.css.propertyLabel}">File</span>
-				</g:cell>
-				<g:customCell>
-					<g:Label ui:field="fileField" styleName="{resources.css.propertyValue}" />
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell styleName="{resources.css.verticalHeadersSingleItem} {style.firstColumn}">
-					<span class="{resources.css.propertyLabel}">Codelist</span>
-				</g:cell>
-				<g:customCell>
-					<g:Label ui:field="codelistField" styleName="{resources.css.propertyValue}" />
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell styleName="{resources.css.verticalHeadersMultipleItem} {style.firstColumn}">
-					<span class="{resources.css.propertyLabel}">Properties</span>
-				</g:cell>
-				<g:customCell>
-					<g:FlexTable ui:field="propertiesTable" cellPadding="0"
-						cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
-						width="100%" />
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:cell styleName="{resources.css.verticalHeadersMultipleItem} {style.firstColumn}">
-					<span class="{resources.css.propertyLabel}">Directives</span>
-				</g:cell>
-				<g:customCell>
-					<g:FlexTable ui:field="customTable" cellPadding="0"
-						cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
-						width="100%"></g:FlexTable>
-				</g:customCell>
-			</g:row>
-
-		</g:Grid>
-		<g:HTMLPanel ui:field="mappingPanel" width="100%" styleName="{style.mappingPanel}">
-			<span class="{resources.css.propertyLabel} {style.mappingPanelItem}">Fail on errors</span>
-			<g:SimpleCheckBox ui:field="mappingMode"
-				styleName="{resources.css.simpleCheckbox} {style.mappingPanelItem} {style.mappingPanelCheckBox}"/>
-		</g:HTMLPanel>
-	</g:HTMLPanel>
+	<g:DockLayoutPanel unit='PX'>
+		<g:center>
+			<g:SimpleLayoutPanel styleName="{resources.css.wizardPanel}">
+			<g:Grid ui:field="panel" styleName="{style.grid}">
+				<g:row>
+					<g:cell
+						styleName="{resources.css.verticalHeadersSingleItem} {style.firstColumn}">
+						<span class="{resources.css.propertyLabel}">File</span>
+					</g:cell>
+					<g:customCell>
+						<g:Label ui:field="fileField" styleName="{resources.css.propertyValue}" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell
+						styleName="{resources.css.verticalHeadersSingleItem} {style.firstColumn}">
+						<span class="{resources.css.propertyLabel}">Codelist</span>
+					</g:cell>
+					<g:customCell>
+						<g:Label ui:field="codelistField" styleName="{resources.css.propertyValue}" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell
+						styleName="{resources.css.verticalHeadersMultipleItem} {style.firstColumn}">
+						<span class="{resources.css.propertyLabel}">Properties</span>
+					</g:cell>
+					<g:customCell>
+						<g:FlexTable ui:field="propertiesTable" cellPadding="0"
+							cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
+							width="100%" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell
+						styleName="{resources.css.verticalHeadersMultipleItem} {style.firstColumn}">
+						<span class="{resources.css.propertyLabel}">Directives</span>
+					</g:cell>
+					<g:customCell>
+						<g:FlexTable ui:field="customTable" cellPadding="0"
+							cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
+							width="100%"></g:FlexTable>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+			</g:SimpleLayoutPanel>
+		</g:center>
+		<g:south size="60">
+			<g:HTMLPanel ui:field="mappingPanel" styleName="{style.mappingPanel}">
+				<span class="{resources.css.propertyLabel} {style.mappingPanelItem}">Fail on errors</span>
+				<g:SimpleCheckBox ui:field="mappingMode"
+					styleName="{resources.css.simpleCheckbox} {style.mappingPanelItem} {style.mappingPanelCheckBox}" />
+			</g:HTMLPanel>
+		</g:south>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 
