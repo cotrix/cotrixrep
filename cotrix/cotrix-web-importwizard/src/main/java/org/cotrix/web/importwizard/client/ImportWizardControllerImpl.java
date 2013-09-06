@@ -22,6 +22,7 @@ import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent.SaveHandler;
 import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
+import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListType;
@@ -87,7 +88,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 			@Override
 			public void onCodeListSelected(CodeListSelectedEvent event) {
-				selectedItemUpdated();
+				selectedItemUpdated(event.getSelectedCodelist());
 			}});
 
 		importEventBus.addHandler(MetadataUpdatedEvent.TYPE, new MetadataUpdatedHandler(){
@@ -145,29 +146,32 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		Log.trace("done importedItemUpdated");
 	}
 	
-	protected void selectedItemUpdated()
+	protected void selectedItemUpdated(AssetInfo asset)
 	{
 		Log.trace("selectedItemUpdated");
-
-		Log.trace("getting codelist type");
-		getCodeListType(new Callback<CodeListType, Void>() {
+		
+		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(asset.getCodeListType()));
+		
+		importService.setAsset(asset.getId(), new AsyncCallback<Void>() {
 
 			@Override
-			public void onFailure(Void reason) {
+			public void onFailure(Throwable caught) {
+				Log.error("Failed setting the selected asset", caught);
 			}
 
 			@Override
-			public void onSuccess(CodeListType result) {			
+			public void onSuccess(Void result) {
+				Log.trace("asset selected on server");
+				
+				Log.trace("getting metadata");
+				getMetadata();
+				
+				Log.trace("getting mapping");
+				getMappings();
+				
+				Log.trace("done selectedItemUpdated");
 			}
-		});
-		
-		Log.trace("getting metadata");
-		getMetadata();
-		
-		Log.trace("getting mapping");
-		getMappings();
-		
-		Log.trace("done selectedItemUpdated");
+		});	
 	}
 	
 	protected void getCodeListType(final Callback<CodeListType, Void> callaback)
