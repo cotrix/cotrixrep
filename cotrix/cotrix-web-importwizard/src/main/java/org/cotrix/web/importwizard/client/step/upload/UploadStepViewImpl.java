@@ -69,8 +69,8 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	{
 		uploadPanel.setVisible(true);
 		uploadFailPanel.setVisible(false);
-		progressBar.setVisible(true);
 		progressBar.setProgress(0);
+		progressBar.setVisible(true);
 		
 		String ellipsedName = TextUtil.ellipsize(filename, ImportConstants.INSTANCE.fileNameMaxSize());
 		fileNameLabel.setText(ellipsedName);
@@ -98,6 +98,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	}
 
 	public void resetFileUpload() {
+		progressBar.setVisible(false);
 		fileNameLabel.setVisible(false);
 		fileSizeLabel.setVisible(false);
 	}
