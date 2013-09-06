@@ -4,42 +4,50 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources" />
 	<ui:style>
+		.downloadButtonPanel {
+			float: right;
+			padding: 5px;
+		}
+		
 		.report {
 			padding-top: 10px;
 			vertical-align: top;
 			margin-right: 20px;
-			background-color: #f6f6f6;
-			border: 1px solid #d1d1d1;
 			width: 100%;
 			border-spacing: 5px;
 		}
 		
 		/**
-				Workaround to GWT issue #8275
-				https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
-				**/
+										Workaround to GWT issue #8275
+										https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
+										**/
 		.borderFix table {
 			border-collapse: collapse;
 		}
+		
+		.pagerPanel {
+			margin: 0 auto;
+		}
 	</ui:style>
-	<g:HTMLPanel ui:field="reportPanel">
-		<table cellspacing='0' cellpadding='0' class="{style.report}">
-			<tr>
-				<td align='right'>
+	<g:DockLayoutPanel unit='PX' ui:field="reportPanel"
+		styleName="{resources.css.wizardPanel}">
+		<g:north size="45">
+			<g:HTMLPanel>
+				<div class="{style.downloadButtonPanel}">
 					<g:Button ui:field="reportDownload" text="DOWNLOAD"
 						styleName="{resources.css.buttonDownload}" />
-				</td>
-			</tr>
-			<tr>
-				<td valign='top'>
-					<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}" />
-				</td>
-			</tr>
-			<tr>
-				<td align='center'>
-					<c:SimplePager ui:field='reportPager' />
-				</td>
-			</tr>
-		</table>
-	</g:HTMLPanel>
+				</div>
+			</g:HTMLPanel>
+		</g:north>
+		<g:center>
+			<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}" />
+		</g:center>
+		<g:south size="60">
+			<g:HTMLPanel>
+				<div class="{style.pagerPanel}">
+					<c:SimplePager ui:field='reportPager' styleName="{style.pagerPanel}" />
+				</div>
+			</g:HTMLPanel>
+		</g:south>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 

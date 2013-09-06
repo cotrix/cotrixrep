@@ -18,9 +18,8 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -28,7 +27,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class DoneStepViewImpl extends Composite implements DoneStepView {
+public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 
 	protected static final String DOWNLOAD_URL = GWT.getModuleBaseURL()+"reportDownload";
 	
@@ -37,9 +36,6 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	@UiTemplate("DoneStepView.ui.xml")
 	interface DoneStepViewUiBinder extends UiBinder<Widget, DoneStepViewImpl> {
 	}
-	
-	
-	@UiField HTMLPanel reportPanel;
 	
 	@UiField Button reportDownload;
 	
@@ -83,9 +79,6 @@ public class DoneStepViewImpl extends Composite implements DoneStepView {
 	protected void setupGrid()
 	{
 		reportGrid = new DataGrid<ReportLog>(12, DataGridReportResource.INSTANCE);
-		reportGrid.setWidth("100%");
-		reportGrid.setHeight("400px");
-
 		reportGrid.setAutoHeaderRefreshDisabled(true);
 
 		reportGrid.setEmptyTableWidget(new Label("No data"));
