@@ -103,6 +103,10 @@
 	border-spacing: 5px;
 }
 
+.mappingCell {
+	padding: 5px;
+}
+
 /** GRID **/
 .verticalHeadersSingleItem {
 	vertical-align: middle;

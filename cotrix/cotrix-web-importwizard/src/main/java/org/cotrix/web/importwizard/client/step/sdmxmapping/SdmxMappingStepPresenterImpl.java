@@ -107,7 +107,8 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 	@Override
 	public void onMetadataUpdated(MetadataUpdatedEvent event) {
 		if (!event.isUserEdited()) {
-			view.setCodelistName(event.getMetadata().getName());
+			String name = event.getMetadata().getName();
+			view.setCodelistName(name == null?"":name);
 			this.metadata = event.getMetadata();
 		}
 	}

@@ -77,4 +77,6 @@ public interface ImportCss extends CssResource {
 	
 	String buttonManage();
 	String buttonImport();
+	
+	String mappingCell();
 }
