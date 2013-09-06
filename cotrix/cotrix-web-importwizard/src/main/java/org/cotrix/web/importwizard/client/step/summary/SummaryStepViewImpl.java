@@ -15,6 +15,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -37,6 +38,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	interface SummaryStepUiBinder extends UiBinder<Widget, SummaryStepViewImpl> {}
 	private static SummaryStepUiBinder uiBinder = GWT.create(SummaryStepUiBinder.class);
 
+	@UiField DockLayoutPanel mainPanel;
 	@UiField Grid panel;
 
 	@UiField Label fileField;
@@ -142,6 +144,6 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 
 	public void setMappingModeVisible(boolean visible)
 	{
-		mappingPanel.setVisible(visible);
+		mainPanel.setWidgetHidden(mappingPanel, !visible);
 	}
 }
