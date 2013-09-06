@@ -14,9 +14,7 @@
 			margin-top: 10px;
 		}
 		
-		.contentPanel {
-			width: 880px;
-			height: 100%;
+		.titlePanel {
 			margin: 0 auto;
 		}
 		
@@ -34,7 +32,7 @@
 		}
 		
 		.stepsPanel {
-			width: 100%;
+			width: 880px;
 			height: 100%;
 			margin: 0 auto;
 			text-align: center;
@@ -52,7 +50,6 @@
 			vertical-align: middle;
 			margin: 0 auto;
 			width: 880px;
-
 		}
 		
 		.leftButton {
@@ -65,20 +62,20 @@
 			float: right;
 		}
 	</ui:style>
-	<g:DockLayoutPanel unit='PX'
-		styleName="{style.wizardPanel}">
+	<g:DockLayoutPanel unit='PX' styleName="{style.wizardPanel}">
 		<g:north size='60'>
 			<p:ProgressTracker ui:field="progressTracker"
 				styleName="{style.progressTracker}" />
 		</g:north>
-		<g:center>
-			<g:FlowPanel ui:field="contentPanel" styleName="{style.contentPanel}">
+		<g:north size='60'>
+			<g:FlowPanel styleName="{style.titlePanel}">
 				<g:Label text="Title" styleName="{style.title}" ui:field="title" />
 				<g:Label ui:field="subtitle" styleName="{style.subtitle}">If you don't have it,
 					we can find it.</g:Label>
-				<g:DeckLayoutPanel ui:field="stepsPanel" styleName="{style.stepsPanel}" />
-
 			</g:FlowPanel>
+		</g:north>
+		<g:center>
+			<g:DeckLayoutPanel ui:field="stepsPanel" styleName="{style.stepsPanel}" />
 		</g:center>
 		<g:south size="60">
 			<g:HTMLPanel styleName="{style.buttonPanel}">
