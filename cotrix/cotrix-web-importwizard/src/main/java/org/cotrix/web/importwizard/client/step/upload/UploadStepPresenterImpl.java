@@ -176,7 +176,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		progressPolling.cancel();
 		view.setUploadProgress(progress.getProgress());
 		complete = true;
-		importEventBus.fireEvent(new FileUploadedEvent(fileName));
+		importEventBus.fireEvent(new FileUploadedEvent(fileName, progress.getCodeListType()));
 		view.setUploadComplete(progress.getCodeListType().toString());
 	}
 	

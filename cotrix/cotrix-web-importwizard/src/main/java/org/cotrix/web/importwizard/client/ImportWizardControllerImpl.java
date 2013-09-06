@@ -80,7 +80,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 			@Override
 			public void onFileUploaded(FileUploadedEvent event) {
-				importedItemUpdated();
+				importedItemUpdated(event.getCodeListType());
 			}});
 		
 		importEventBus.addHandler(CodeListSelectedEvent.TYPE, new CodeListSelectedHandler(){
@@ -125,28 +125,16 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}});
 	}
 	
-	protected void importedItemUpdated()
+	protected void importedItemUpdated(CodeListType codeListType)
 	{
-		Log.trace("importedItemUpdated");
+		Log.trace("importedItemUpdated codeListType: "+codeListType);
 
-		Log.trace("getting codelist type");
-		getCodeListType(new Callback<CodeListType, Void>() {
-
-			@Override
-			public void onFailure(Void reason) {
-			}
-
-			@Override
-			public void onSuccess(CodeListType result) {
-				switch (result) {
-					case CSV: {
-						Log.trace("getting parser configuration");
-						getCsvParserConfiguration(); 
-					} break;
-					default: break;
-				}				
-			}
-		});
+		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(codeListType));
+		
+		if (codeListType == CodeListType.CSV) {
+			Log.trace("getting parser configuration");
+			getCsvParserConfiguration(); 
+		}
 		
 		Log.trace("getting metadata");
 		getMetadata();

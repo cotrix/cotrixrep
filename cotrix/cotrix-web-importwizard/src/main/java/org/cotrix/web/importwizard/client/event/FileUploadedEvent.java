@@ -1,5 +1,7 @@
 package org.cotrix.web.importwizard.client.event;
 
+import org.cotrix.web.importwizard.shared.CodeListType;
+
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 
@@ -16,9 +18,11 @@ public class FileUploadedEvent extends GwtEvent<FileUploadedEvent.FileUploadedHa
 	}
 	
 	protected String fileName;
+	protected CodeListType codeListType;
 
-	public FileUploadedEvent(String fileName) {
+	public FileUploadedEvent(String fileName, CodeListType codeListType) {
 		this.fileName = fileName;
+		this.codeListType = codeListType;
 	}
 
 	/**
@@ -26,6 +30,13 @@ public class FileUploadedEvent extends GwtEvent<FileUploadedEvent.FileUploadedHa
 	 */
 	public String getFileName() {
 		return fileName;
+	}
+
+	/**
+	 * @return the codeListType
+	 */
+	public CodeListType getCodeListType() {
+		return codeListType;
 	}
 
 	@Override
