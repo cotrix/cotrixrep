@@ -8,6 +8,12 @@
 			padding-top: 10px;
 		}
 		
+		.reloadButtonCell {
+			padding-right: 24px;
+			padding-left: 10px;
+			width: 5%;
+		}
+		
 		.reloadButton {
 			margin: auto;
 			outline: none;
@@ -18,13 +24,13 @@
 			<table width="100%">
 				<tr>
 					<td class="{resources.css.mappingTableNameHeader}">
-						<span class="{resources.css.propertyLabel}" style="padding-left:31px;padding-right:5px;">Name</span>
+						<span class="{resources.css.propertyLabel}" style="padding-left:31px;padding-right:5px;">NAME</span>
 					</td>
 					<td style="padding-top:10px;width:85%;">
 						<g:TextBox width="99%" ui:field="name"
 							styleName="{resources.css.textBox}" />
 					</td>
-					<td style="padding-top:10px;width:5%;">
+					<td style="{style.reloadButtonCell}">
 						<g:PushButton ui:field="reloadButton"
 							styleName="{resources.css.buttonRefresh} {style.reloadButton}">
 							<g:upFace image="{resources.refresh}" />
@@ -36,7 +42,7 @@
 						<table style="border-collapse:collapse; width: 100%;">
 							<tr>
 								<td class="{resources.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
-									<span class="{resources.css.propertyLabel}">Columns</span>
+									<span class="{resources.css.propertyLabel}">COLUMNS</span>
 								</td>
 							</tr>
 							<tr>

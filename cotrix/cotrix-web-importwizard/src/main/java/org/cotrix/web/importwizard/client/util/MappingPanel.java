@@ -116,6 +116,7 @@ public class MappingPanel extends Composite {
 
 			TextBox nameField = new TextBox();
 			nameField.setStyleName(Resources.INSTANCE.css().textBox());
+			nameField.setWidth("200px");
 			nameField.setValue(field.getLabel());
 			columnsTable.setWidget(row, NAME_COLUMN, nameField);
 			cellFormatter.setStyleName(row, NAME_COLUMN, Resources.INSTANCE.css().mappingCell());

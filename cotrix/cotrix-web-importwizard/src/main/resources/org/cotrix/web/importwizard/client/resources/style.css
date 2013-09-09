@@ -42,7 +42,7 @@
 
 .listBox {
 	float: left;
-	font-size: 14px;
+	font-size: 16px;
 	color: #4f4e4e;
 	height: 29px;
 	border-radius: 5px;
@@ -70,6 +70,9 @@
 	box-shadow: 0px 0px 0px 0px;
 	border: 1px solid #999999;
 	color: #4f4e4e;
+	
+	height: 16px;
+	font-size: 16px;
 }
 
 .textBox:focus {
@@ -168,7 +171,7 @@
 .mappingTableNameHeader {
 	vertical-align: middle;
 	padding-top: 10px;
-	width: 10%;
+	width: 110px;
 }
 
 .mappingCell {

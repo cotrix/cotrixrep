@@ -12,7 +12,7 @@
 			}
 		</ui:style>
 		<g:HorizontalPanel verticalAlignment="middle">
-			<g:ListBox ui:field="typeList" styleName="{resources.css.listBox}" />
+			<g:ListBox ui:field="typeList" styleName="{resources.css.listBox}" width="150px"/>
 			<g:Label ui:field="inLabel" styleName="{resources.css.paddedText}">in</g:Label>
 			<g:ListBox ui:field="languageList" styleName="{resources.css.listBox}" />
 		</g:HorizontalPanel>
