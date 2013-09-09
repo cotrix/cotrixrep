@@ -14,7 +14,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -55,7 +55,8 @@ public class PreviewGrid extends ResizeComposite {
 	{
 		loadingContainter = new FlexTable();
 		loadingContainter.getElement().setAttribute("align", "center");
-		loadingContainter.setWidget(0, 0, new Label("loading..."));
+		Image loader = new Image(Resources.INSTANCE.previewLoader());
+		loadingContainter.setWidget(0, 0, loader);
 	}
 	
 	public void loadData()

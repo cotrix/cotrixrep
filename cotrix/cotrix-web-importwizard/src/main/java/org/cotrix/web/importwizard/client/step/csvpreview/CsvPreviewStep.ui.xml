@@ -9,7 +9,6 @@
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.main}">
-
 		<g:north size='85'>
 			<p:CsvParserConfigurationPanel
 				ui:field="configurationPanel" />
