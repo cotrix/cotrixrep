@@ -20,7 +20,7 @@
 		}
 		
 		.mappingPanel {
-			margin-top: 10px;
+			margin-top:10px;
 			background-color: #dfdfdf;
 			border: 1px solid #b0b0b0;
 			overflow: hidden;
@@ -33,7 +33,7 @@
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' ui:field="mainPanel">
 		<g:center>
-			<g:SimpleLayoutPanel styleName="{resources.css.wizardPanel}">
+			<g:ScrollPanel styleName="{resources.css.wizardPanel}">
 			<g:Grid ui:field="panel" styleName="{style.grid}">
 				<g:row>
 					<g:cell
@@ -76,9 +76,9 @@
 					</g:customCell>
 				</g:row>
 			</g:Grid>
-			</g:SimpleLayoutPanel>
+			</g:ScrollPanel>
 		</g:center>
-		<g:south size="60">
+		<g:south size="46">
 			<g:HTMLPanel ui:field="mappingPanel" styleName="{style.mappingPanel}">
 				<span class="{resources.css.propertyLabel} {style.mappingPanelItem}">Fail on errors</span>
 				<g:SimpleCheckBox ui:field="mappingMode" value="true"

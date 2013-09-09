@@ -57,12 +57,10 @@
 		}
 		
 		.leftButton {
-			padding: 5px;
 			float: left;
 		}
 		
 		.rightButton {
-			padding: 5px;
 			float: right;
 		}
 	</ui:style>
