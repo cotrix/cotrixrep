@@ -78,7 +78,7 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 	
 	protected void setupGrid()
 	{
-		reportGrid = new DataGrid<ReportLog>(12, DataGridReportResource.INSTANCE);
+		reportGrid = new DataGrid<ReportLog>(8, DataGridReportResource.INSTANCE);
 		reportGrid.setAutoHeaderRefreshDisabled(true);
 
 		reportGrid.setEmptyTableWidget(new Label("No data"));

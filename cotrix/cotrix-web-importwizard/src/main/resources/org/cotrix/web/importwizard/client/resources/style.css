@@ -376,11 +376,10 @@
 	border:1px solid #5674b9;
 	border-radius:5px;
 	text-align:center;
-	width:220px;
+	width:155px;
 	font-size:15px;
 	padding-left:55px;
 	height:40px;
-
 	color:#eee;
 }
 
@@ -389,7 +388,7 @@
 	background-color: #344e89 ;
 	color: #eee;
 	cursor: pointer;
-	width: 220px;
+	width:155px;
 	height:40px;
 }
 

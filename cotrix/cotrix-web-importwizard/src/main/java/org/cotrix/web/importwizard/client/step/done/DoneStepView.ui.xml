@@ -42,7 +42,7 @@
 		<g:center>
 			<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}" />
 		</g:center>
-		<g:south size="60">
+		<g:south size="40">
 			<g:HTMLPanel>
 				<div class="{style.pagerPanel}">
 					<c:SimplePager ui:field='reportPager' styleName="{style.pagerPanel}" />

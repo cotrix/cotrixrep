@@ -62,6 +62,7 @@
 		
 		.rightButton {
 			float: right;
+			margin-left:40px;
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.wizardPanel}">
