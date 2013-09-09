@@ -18,9 +18,9 @@
 		}
 		
 		/**
-										Workaround to GWT issue #8275
-										https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
-										**/
+												Workaround to GWT issue #8275
+												https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
+												**/
 		.borderFix table {
 			border-collapse: collapse;
 		}
@@ -44,9 +44,7 @@
 		</g:center>
 		<g:south size="40">
 			<g:HTMLPanel>
-				<div class="{style.pagerPanel}">
-					<c:SimplePager ui:field='reportPager' styleName="{style.pagerPanel}" />
-				</div>
+				<c:SimplePager ui:field='reportPager' styleName="{style.pagerPanel}" />
 			</g:HTMLPanel>
 		</g:south>
 	</g:DockLayoutPanel>

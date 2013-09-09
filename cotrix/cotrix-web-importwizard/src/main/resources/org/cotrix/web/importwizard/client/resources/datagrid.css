@@ -42,8 +42,9 @@
 	border-right: 1px solid #C2C2C2;
 	border-bottom: 1px solid #C2C2C2;
 	font-weight: normal;
-	font-size: 14px;
+	font-size: 18px;
 	padding: 8px 8px 8px 10px;
+	text-align: left;
 }
 
 .dataGridFirstColumnFooter {

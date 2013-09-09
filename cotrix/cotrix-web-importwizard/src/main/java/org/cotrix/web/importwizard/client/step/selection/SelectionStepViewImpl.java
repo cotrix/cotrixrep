@@ -22,8 +22,8 @@ import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -33,7 +33,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SelectionStepViewImpl extends Composite implements SelectionStepView {
+public class SelectionStepViewImpl extends ResizeComposite implements SelectionStepView {
 
 	@UiTemplate("SelectionStep.ui.xml")
 	interface ChannelStepUiBinder extends UiBinder<Widget, SelectionStepViewImpl> {}
@@ -60,8 +60,6 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		Resources.INSTANCE.css().ensureInjected();
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
-		setHeight("520px");
-		
 	}
 
 	/** 
@@ -80,9 +78,8 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	protected void setupGrid()
 	{
 
-		dataGrid = new DataGrid<AssetInfo>(9, DataGridResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
+		dataGrid = new DataGrid<AssetInfo>(6, DataGridResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
-		dataGrid.setHeight("500px");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 
@@ -117,14 +114,6 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 				return selected;
 			}
 		};
-		
-		/*checkColumn.setFieldUpdater(new FieldUpdater<AssetInfo, Boolean>() {
-
-			@Override
-			public void update(int index, AssetInfo object, Boolean value) {
-				if (value) presenter.assetSelected(object);			
-			}
-		});*/
 		
 		dataGrid.addColumn(checkColumn, nameHeader);
 		dataGrid.setColumnWidth(checkColumn, "35px");
