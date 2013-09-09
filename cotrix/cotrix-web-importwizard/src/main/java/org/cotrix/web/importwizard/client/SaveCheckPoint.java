@@ -20,7 +20,6 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class SaveCheckPoint implements CheckPointHandler, ImportProgressHandler, ResetWizardHandler {
 	
-
 	protected EventBus importEventBus;
 	
 	protected boolean importComplete = false;
@@ -45,6 +44,10 @@ public class SaveCheckPoint implements CheckPointHandler, ImportProgressHandler,
 			fireSaveEvent();
 			eventFired = true;
 		}
+		
+		//tricky
+		if (importComplete) eventFired = false;
+		
 		return importComplete;
 	}
 	

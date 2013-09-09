@@ -326,9 +326,10 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		try {
 			session.setImportedCodelistName(metadata.getName());
 			Importer<?> importer = importerFactory.createImporter(session, metadata, mappings, mappingMode);
+			session.setImporter(importer);
+			
 			Thread th = new Thread(importer);
 			th.start();
-			session.setImporter(importer);
 		} catch (IOException e) {
 			logger.error("Error during import starting", e);
 			throw new ImportServiceException("An error occurred starting import: "+e.getMessage());
