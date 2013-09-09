@@ -20,6 +20,7 @@ import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SingleNodeBui
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SwitchNodeBuilder;
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.importwizard.client.step.VisualWizardStep;
+import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepPresenter;
@@ -51,9 +52,9 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler, FlowUpdatedHandler, ResetWizardHandler, HasValueChangeHandlers<VisualWizardStep> {
+public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler, FlowUpdatedHandler, ResetWizardHandler, HasValueChangeHandlers<WizardStep> {
 
-	protected FlowManager<VisualWizardStep> flow;
+	protected FlowManager<WizardStep> flow;
 
 	protected ImportWizardView view;
 
@@ -87,17 +88,17 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		this.view = view;
 		this.view.setPresenter(this);
 
-		RootNodeBuilder<VisualWizardStep> root = FlowManagerBuilder.<VisualWizardStep>startFlow(sourceStep);
-		SwitchNodeBuilder<VisualWizardStep> source = root.hasAlternatives(selector);
+		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(sourceStep);
+		SwitchNodeBuilder<WizardStep> source = root.hasAlternatives(selector);
 
-		SwitchNodeBuilder<VisualWizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, sdmxMappingStep));
-		SingleNodeBuilder<VisualWizardStep> csvPreview = upload.alternative(csvPreviewStep);
-		SingleNodeBuilder<VisualWizardStep> csvMapping = csvPreview.next(csvMappingStep);
-		SingleNodeBuilder<VisualWizardStep> sdmxMapping = upload.alternative(sdmxMappingStep);
+		SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, sdmxMappingStep));
+		SingleNodeBuilder<WizardStep> csvPreview = upload.alternative(csvPreviewStep);
+		SingleNodeBuilder<WizardStep> csvMapping = csvPreview.next(csvMappingStep);
+		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(sdmxMappingStep);
 
-		SwitchNodeBuilder<VisualWizardStep> selection = source.alternative(selectionStep).hasAlternatives(detailsNodeSelector);
-		SingleNodeBuilder<VisualWizardStep> codelistDetails = selection.alternative(codelistDetailsStep);
-		SingleNodeBuilder<VisualWizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
+		SwitchNodeBuilder<WizardStep> selection = source.alternative(selectionStep).hasAlternatives(detailsNodeSelector);
+		SingleNodeBuilder<WizardStep> codelistDetails = selection.alternative(codelistDetailsStep);
+		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
 		codelistDetails.next(repositoryDetails);
 		
 		selection.alternative(sdmxMapping);
@@ -105,7 +106,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		
 		
 
-		SingleNodeBuilder<VisualWizardStep> summary = csvMapping.next(summaryStep);
+		SingleNodeBuilder<WizardStep> summary = csvMapping.next(summaryStep);
 		sdmxMapping.next(summary);
 
 		summary.hasCheckPoint(saveCheckPoint).next(doneStep);
@@ -178,32 +179,41 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	protected void updateTrackerLabels()
 	{
-		List<VisualWizardStep> steps = flow.getCurrentFlow();
+		List<WizardStep> steps = flow.getCurrentFlow();
 		Log.trace("New FLOW: "+steps);
 		
 		List<ProgressStep> psteps = new ArrayList<ProgressStep>();
 		Set<String> saw = new HashSet<String>();
-		for (VisualWizardStep step:steps) {
-			ProgressStep pstep = step.getConfiguration().getLabel();
+		for (WizardStep step:steps) {
+			if (step instanceof VisualWizardStep) {
+			ProgressStep pstep = ((VisualWizardStep)step).getConfiguration().getLabel();
 			if (saw.contains(pstep.getId())) continue;
 			psteps.add(pstep);
 			saw.add(pstep.getId());
+			}
 		}
 		Log.trace("Progress steps: "+psteps);
 		
 		view.setLabels(psteps);
-		view.showLabel(flow.getCurrentItem().getConfiguration().getLabel());
+		
+		//FIXME 
+		if (flow.getCurrentItem() instanceof VisualWizardStep) view.showLabel(((VisualWizardStep)flow.getCurrentItem()).getConfiguration().getLabel());
 	}
 
 	protected void updateCurrentStep()
 	{
-		VisualWizardStep currentStep = flow.getCurrentItem();
+		WizardStep currentStep = flow.getCurrentItem();
 		Log.trace("current step "+currentStep.getId());
-		view.showStep(currentStep);
-		view.showLabel(currentStep.getConfiguration().getLabel());
-		WizardStepConfiguration configuration = currentStep.getConfiguration();
-		applyStepConfiguration(configuration);
+		if (currentStep instanceof VisualWizardStep) showStep((VisualWizardStep)currentStep);
 		ValueChangeEvent.fire(this, currentStep);
+	}
+	
+	protected void showStep(VisualWizardStep step)
+	{
+		view.showStep(step);
+		view.showLabel(step.getConfiguration().getLabel());
+		WizardStepConfiguration configuration = step.getConfiguration();
+		applyStepConfiguration(configuration);
 	}
 
 	protected void applyStepConfiguration(WizardStepConfiguration configuration)
@@ -295,7 +305,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	}
 
 	@Override
-	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<VisualWizardStep> handler) {
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<WizardStep> handler) {
 		return new LegacyHandlerWrapper(importEventBus.addHandler(ValueChangeEvent.getType(), handler));
 	}
 

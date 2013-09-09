@@ -12,7 +12,6 @@ import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHand
 import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent.SourceTypeChangeHandler;
 import org.cotrix.web.importwizard.client.flow.AbstractNodeSelector;
 import org.cotrix.web.importwizard.client.flow.FlowNode;
-import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.selection.SelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
@@ -25,7 +24,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SourceNodeSelector extends AbstractNodeSelector<VisualWizardStep> implements SourceTypeChangeHandler, ResetWizardHandler {
+public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> implements SourceTypeChangeHandler, ResetWizardHandler {
 	
 	protected SelectionStepPresenter channelStep;
 	protected UploadStepPresenter uploadStep;
@@ -46,9 +45,9 @@ public class SourceNodeSelector extends AbstractNodeSelector<VisualWizardStep> i
 	 * {@inheritDoc}
 	 */
 	@Override
-	public FlowNode<VisualWizardStep> selectNode(List<FlowNode<VisualWizardStep>> children) {
+	public FlowNode<WizardStep> selectNode(List<FlowNode<WizardStep>> children) {
 		
-		for (FlowNode<VisualWizardStep> child:children) if (child.getItem().getId().equals(nextStep.getId())) return child;
+		for (FlowNode<WizardStep> child:children) if (child.getItem().getId().equals(nextStep.getId())) return child;
 		
 		return null;
 	}

@@ -11,7 +11,6 @@ import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.flow.AbstractNodeSelector;
 import org.cotrix.web.importwizard.client.flow.FlowNode;
-import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -21,7 +20,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class TypeNodeSelector extends AbstractNodeSelector<VisualWizardStep> implements CodeListTypeUpdatedHandler, ResetWizardHandler {
+public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> implements CodeListTypeUpdatedHandler, ResetWizardHandler {
 	
 	protected WizardStep csvStep;
 	protected WizardStep sdmxStep;
@@ -41,9 +40,9 @@ public class TypeNodeSelector extends AbstractNodeSelector<VisualWizardStep> imp
 	 * {@inheritDoc}
 	 */
 	@Override
-	public FlowNode<VisualWizardStep> selectNode(List<FlowNode<VisualWizardStep>> children) {
+	public FlowNode<WizardStep> selectNode(List<FlowNode<WizardStep>> children) {
 		
-		for (FlowNode<VisualWizardStep> child:children) if (child.getItem().getId().equals(nextStep.getId())) return child;
+		for (FlowNode<WizardStep> child:children) if (child.getItem().getId().equals(nextStep.getId())) return child;
 		
 		return null;
 	}
