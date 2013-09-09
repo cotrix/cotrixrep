@@ -10,11 +10,12 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.climport.Importer;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
+import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
 import org.virtualrepository.Asset;
 
@@ -58,7 +59,8 @@ public class WizardImportSession {
 	
 	protected ImportMetadata guessedMetadata;
 	
-	protected AttributesMappings mappings;
+	protected List<AttributeMapping> mappings;
+	protected MappingMode mappingMode;
 	
 	protected Importer<?> importer;
 	
@@ -168,15 +170,29 @@ public class WizardImportSession {
 	/**
 	 * @return the mappings
 	 */
-	public AttributesMappings getMappings() {
+	public List<AttributeMapping> getMappings() {
 		return mappings;
 	}
 
 	/**
 	 * @param mappings the mappings to set
 	 */
-	public void setMappings(AttributesMappings mappings) {
+	public void setMappings(List<AttributeMapping> mappings) {
 		this.mappings = mappings;
+	}
+
+	/**
+	 * @return the mappingMode
+	 */
+	public MappingMode getMappingMode() {
+		return mappingMode;
+	}
+
+	/**
+	 * @param mappingMode the mappingMode to set
+	 */
+	public void setMappingMode(MappingMode mappingMode) {
+		this.mappingMode = mappingMode;
 	}
 
 	/**

@@ -15,9 +15,7 @@ import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
-import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -33,7 +31,7 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 	protected CsvMappingStepView view;
 	protected EventBus importEventBus;
 	protected ImportMetadata metadata;
-	protected AttributesMappings attributesMappings;
+	protected List<AttributeMapping> mappings;
 	
 	@Inject
 	public CsvMappingStepPresenterImpl(CsvMappingStepView view, @ImportBus EventBus importEventBus){
@@ -63,14 +61,10 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		boolean valid = validateMappings(mappings);
 		
 		String csvName = view.getCsvName();
-		//MappingMode mappingMode = view.getMappingMode();
-		MappingMode mappingMode = MappingMode.LOG; //FIXME
-		valid &= validateAttributes(csvName, mappingMode);
+		valid &= validateAttributes(csvName);
 		
 		if (valid) {
-			
-			attributesMappings = new AttributesMappings(mappings, mappingMode); 
-			importEventBus.fireEvent(new MappingsUpdatedEvent(attributesMappings));
+			importEventBus.fireEvent(new MappingsUpdatedEvent(mappings));
 			
 			if (metadata == null) metadata = new ImportMetadata();
 			metadata.setName(csvName);
@@ -80,14 +74,14 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		return valid;
 	}
 	
-	protected boolean validateAttributes(String csvName, MappingMode mappingMode)
+	protected boolean validateAttributes(String csvName)
 	{
 		if (csvName==null || csvName.isEmpty()) {
 			view.alert("You should choose a codelist name");
 			return false;
 		}
 		
-		return mappingMode!=null;
+		return true;
 	}
 	
 	protected boolean validateMappings(List<AttributeMapping> mappings)
@@ -124,8 +118,8 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 	
 	@Override
 	public void onMappingLoaded(MappingLoadedEvent event) {
-		attributesMappings = event.getMappings();
-		view.setMapping(attributesMappings.getMappings());
+		mappings = event.getMappings();
+		view.setMapping(mappings);
 		view.unsetMappingLoading();
 	}
 
@@ -140,6 +134,6 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 	@Override
 	public void onReload() {
 		view.setCsvName(metadata.getName());
-		view.setMapping(attributesMappings.getMappings());
+		view.setMapping(mappings);
 	}
 }

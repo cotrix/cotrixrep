@@ -14,7 +14,6 @@ import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpd
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -31,7 +30,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 	protected SdmxMappingStepView view;
 	protected EventBus importEventBus;
 	protected ImportMetadata metadata;
-	protected AttributesMappings attributesMappings;
+	protected List<AttributeMapping> mappings;
 
 	@Inject
 	public SdmxMappingStepPresenterImpl(SdmxMappingStepView view, @ImportBus EventBus importEventBus){
@@ -64,8 +63,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 
 		if (valid) {
 
-			attributesMappings = new AttributesMappings(mappings, null); 
-			importEventBus.fireEvent(new MappingsUpdatedEvent(attributesMappings));
+			importEventBus.fireEvent(new MappingsUpdatedEvent(mappings));
 			
 			if (metadata == null) metadata = new ImportMetadata();
 			metadata.setName(codelistName);
@@ -115,14 +113,14 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 	
 	@Override
 	public void onMappingLoaded(MappingLoadedEvent event) {
-		attributesMappings = event.getMappings();
-		view.setMappings(attributesMappings.getMappings());
+		mappings = event.getMappings();
+		view.setMappings(mappings);
 		view.unsetMappingLoading();
 	}
 
 	@Override
 	public void onReload() {
 		view.setCodelistName(metadata.getName());
-		view.setMappings(attributesMappings.getMappings());
+		view.setMappings(mappings);
 	}
 }

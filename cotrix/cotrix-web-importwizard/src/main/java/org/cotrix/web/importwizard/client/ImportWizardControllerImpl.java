@@ -1,5 +1,7 @@
 package org.cotrix.web.importwizard.client;
 
+import java.util.List;
+
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent.CodeListSelectedHandler;
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
@@ -12,6 +14,7 @@ import org.cotrix.web.importwizard.client.event.ImportStartedEvent;
 import org.cotrix.web.importwizard.client.event.MappingLoadFailedEvent;
 import org.cotrix.web.importwizard.client.event.MappingLoadedEvent;
 import org.cotrix.web.importwizard.client.event.MappingLoadingEvent;
+import org.cotrix.web.importwizard.client.event.MappingModeUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.NewImportEvent;
 import org.cotrix.web.importwizard.client.event.NewImportEvent.NewImportHandler;
@@ -26,11 +29,12 @@ import org.cotrix.web.importwizard.client.event.SaveEvent.SaveHandler;
 import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.shared.AssetInfo;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
+import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
@@ -58,7 +62,8 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected ImportWizardPresenter importWizardPresenter;
 	
 	protected ImportMetadata metadata;
-	protected AttributesMappings mappings;
+	protected List<AttributeMapping> mappings;
+	protected MappingMode mappingMode;
 	
 	protected Timer importProgressPolling;
 	
@@ -112,6 +117,13 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			@Override
 			public void onMappingUpdated(MappingsUpdatedEvent event) {
 				mappings = event.getMappings();
+			}
+		});
+		importEventBus.addHandler(MappingModeUpdatedEvent.TYPE, new MappingModeUpdatedEvent.MappingModeUpdatedHandler() {
+			
+			@Override
+			public void onMappingModeUpdated(MappingModeUpdatedEvent event) {
+				mappingMode = event.getMappingMode();
 			}
 		});
 		importEventBus.addHandler(SaveEvent.TYPE, new SaveHandler() {
@@ -235,7 +247,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 		Log.trace("getMappings");
 		
 		importEventBus.fireEvent(new MappingLoadingEvent());
-		importService.getMappings(new AsyncCallback<AttributesMappings>() {
+		importService.getMappings(new AsyncCallback<List<AttributeMapping>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -244,7 +256,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 
 			@Override
-			public void onSuccess(AttributesMappings result) {
+			public void onSuccess(List<AttributeMapping> result) {
 				Log.trace("mapping retrieved");
 				importEventBus.fireEvent(new MappingLoadedEvent(result));
 				mappings = result;
@@ -255,7 +267,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected void startImport()
 	{
 		Log.trace("starting import");
-		importService.startImport(metadata, mappings, new AsyncCallback<Void>() {
+		importService.startImport(metadata, mappings, mappingMode, new AsyncCallback<Void>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

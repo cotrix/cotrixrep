@@ -81,7 +81,7 @@
 		<g:south size="60">
 			<g:HTMLPanel ui:field="mappingPanel" styleName="{style.mappingPanel}">
 				<span class="{resources.css.propertyLabel} {style.mappingPanelItem}">Fail on errors</span>
-				<g:SimpleCheckBox ui:field="mappingMode"
+				<g:SimpleCheckBox ui:field="mappingMode" value="true"
 					styleName="{resources.css.simpleCheckbox} {style.mappingPanelItem} {style.mappingPanelCheckBox}" />
 			</g:HTMLPanel>
 		</g:south>

@@ -1,9 +1,11 @@
 package org.cotrix.web.importwizard.client.event;
 
+import java.util.List;
+
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 
-import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -12,17 +14,17 @@ import org.cotrix.web.importwizard.shared.AttributesMappings;
 public class MappingLoadedEvent extends GwtEvent<MappingLoadedEvent.MappingLoadedHandler> {
 
 	public static Type<MappingLoadedHandler> TYPE = new Type<MappingLoadedHandler>();
-	private AttributesMappings mappings;
+	private List<AttributeMapping> mappings;
 
 	public interface MappingLoadedHandler extends EventHandler {
 		void onMappingLoaded(MappingLoadedEvent event);
 	}
 
-	public MappingLoadedEvent(AttributesMappings mappings) {
+	public MappingLoadedEvent(List<AttributeMapping> mappings) {
 		this.mappings = mappings;
 	}
 
-	public AttributesMappings getMappings() {
+	public List<AttributeMapping> getMappings() {
 		return mappings;
 	}
 

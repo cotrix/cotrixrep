@@ -22,7 +22,7 @@ import org.cotrix.web.importwizard.server.upload.FileNameUtil;
 import org.cotrix.web.importwizard.server.upload.MappingGuesser;
 import org.cotrix.web.importwizard.server.upload.UploadProgressListener;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
@@ -146,7 +146,7 @@ public class FileUpload extends HttpServlet{
 					session.setPreviewCache(previewData);
 					session.setCacheDirty(false);
 
-					AttributesMappings mappings = mappingsGuesser.guessMappings(table);
+					List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
 					session.setMappings(mappings);
 
 					String filename = FileNameUtil.toHumanReadable(fileField.getName());
@@ -155,7 +155,7 @@ public class FileUpload extends HttpServlet{
 					session.setGuessedMetadata(metadata);
 				} break;
 				case SDMX: {
-					AttributesMappings mappings = mappingsGuesser.getSdmxDefaultMappings();
+					List<AttributeMapping> mappings = mappingsGuesser.getSdmxDefaultMappings();
 					session.setMappings(mappings);
 
 					CodelistBean codelistBean = parsingHelper.parse(fileField.getInputStream());

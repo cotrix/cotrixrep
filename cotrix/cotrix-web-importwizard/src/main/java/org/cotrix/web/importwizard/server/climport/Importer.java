@@ -12,9 +12,10 @@ import org.cotrix.io.map.Report;
 import org.cotrix.io.map.Report.Log;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.importwizard.server.WizardImportSession;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportProgress.Status;
+import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.importwizard.shared.ReportLog.LogType;
 import org.slf4j.Logger;
@@ -33,18 +34,21 @@ public class Importer<T> implements Runnable {
 	protected ImporterMapper<T> mapper;
 	protected ImporterSource<T> source;
 	protected WizardImportSession importSession;
-	protected AttributesMappings mappings;
+	protected List<AttributeMapping> mappings;
+	protected MappingMode mappingMode;
 
 	public Importer(CodelistRepository repository,
 			ImporterSource<T> source,
 			ImporterMapper<T> mapper,
-			AttributesMappings mappings,
+			List<AttributeMapping> mappings,
+			MappingMode mappingMode,
 			WizardImportSession importSession) {
 
 		this.repository = repository;
 		this.mapper = mapper;
 		this.source = source;
 		this.mappings = mappings;
+		this.mappingMode = mappingMode;
 		this.importSession = importSession;
 
 		this.progress = new ImportProgress();
@@ -67,7 +71,7 @@ public class Importer<T> implements Runnable {
 			T codelist = source.getCodelist();
 
 			logger.trace("mapping codelist");
-			Outcome outcome = mapper.map(mappings, codelist);
+			Outcome outcome = mapper.map(mappings, mappingMode, codelist);
 
 			Report report = outcome.report();
 			logger.trace("is failed? {}", report.isFailure());

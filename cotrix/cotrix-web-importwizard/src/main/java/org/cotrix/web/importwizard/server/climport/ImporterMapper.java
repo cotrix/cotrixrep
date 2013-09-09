@@ -17,7 +17,6 @@ import org.cotrix.io.tabular.TableMapDirectives;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Column;
@@ -29,7 +28,7 @@ import org.virtualrepository.tabular.Table;
  */
 public interface ImporterMapper<T> {
 
-	public Outcome map(AttributesMappings mappings, T codelist);
+	public Outcome map(List<AttributeMapping> mappings, MappingMode mappingMode, T codelist);
 	
 	public class CsvMapper implements ImporterMapper<Table> {
 		
@@ -43,13 +42,13 @@ public interface ImporterMapper<T> {
 		}
 
 		@Override
-		public Outcome map(AttributesMappings mappings, Table codelist) {
+		public Outcome map(List<AttributeMapping> mappings, MappingMode mappingMode, Table codelist) {
 			
 			
 			AttributeMapping codeAttribute = null;
 			List<ColumnDirectives> columnDirectives = new ArrayList<ColumnDirectives>();
 			
-			for (AttributeMapping mapping:mappings.getMappings()) {
+			for (AttributeMapping mapping:mappings) {
 				if (mapping.isMapped() && mapping.getAttributeDefinition().getType()==AttributeType.CODE) codeAttribute = mapping;
 				else columnDirectives.add(getColumn(mapping));
 			}
@@ -60,7 +59,7 @@ public interface ImporterMapper<T> {
 			TableMapDirectives directives = new TableMapDirectives(column);
 			for (ColumnDirectives directive:columnDirectives) directives.add(directive);
 			
-			directives.mode(convertMappingMode(mappings.getMappingMode()));
+			directives.mode(convertMappingMode(mappingMode));
 			
 			Outcome outcome = mapper.map(codelist, directives);
 			return outcome;
@@ -105,11 +104,11 @@ public interface ImporterMapper<T> {
 
 
 		@Override
-		public Outcome map(AttributesMappings mappings, CodelistBean codelist) {
+		public Outcome map(List<AttributeMapping> mappings, MappingMode mappingMode, CodelistBean codelist) {
 			
 			SdmxMapDirectives directives = new SdmxMapDirectives();
 			
-			for (AttributeMapping mapping:mappings.getMappings()) setDirective(directives, mapping);
+			for (AttributeMapping mapping:mappings) setDirective(directives, mapping);
 			
 			Outcome outcome = mapper.map(codelist, directives);
 			return outcome;

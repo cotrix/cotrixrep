@@ -1,12 +1,14 @@
 package org.cotrix.web.importwizard.server.upload;
 
-import org.cotrix.web.importwizard.shared.AttributesMappings;
+import java.util.List;
+
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.virtualrepository.tabular.Table;
 
 public interface MappingGuesser {
 
-	public AttributesMappings guessMappings(Table table);
+	public List<AttributeMapping> guessMappings(Table table);
 	
-	public AttributesMappings getSdmxDefaultMappings();
+	public List<AttributeMapping> getSdmxDefaultMappings();
 
 }

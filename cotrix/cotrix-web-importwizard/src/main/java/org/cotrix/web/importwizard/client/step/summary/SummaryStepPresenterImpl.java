@@ -1,11 +1,16 @@
 package org.cotrix.web.importwizard.client.step.summary;
 
+import java.util.List;
+
 import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportStartedEvent;
+import org.cotrix.web.importwizard.client.event.MappingLoadedEvent;
+import org.cotrix.web.importwizard.client.event.MappingModeUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.MappingLoadedEvent.MappingLoadedHandler;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent.CodeListSelectedHandler;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHandler;
@@ -16,7 +21,7 @@ import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
 import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
 
@@ -24,12 +29,11 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
-public class SummaryStepPresenterImpl extends AbstractWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler, MappingsUpdatedHandler, 
+public class SummaryStepPresenterImpl extends AbstractWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler, MappingLoadedHandler, MappingsUpdatedHandler, 
 ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelectedHandler {
 
 	protected SummaryStepView view;
 	protected EventBus importEventBus;
-	protected AttributesMappings attributesMappings;
 
 	@Inject
 	public SummaryStepPresenterImpl(SummaryStepView view, @ImportBus EventBus importEventBus) {
@@ -55,20 +59,27 @@ ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelect
 	@Override
 	public boolean isComplete() {
 		MappingMode mappingMode = view.getMappingMode();
-		//TODO
+		importEventBus.fireEvent(new MappingModeUpdatedEvent(mappingMode));
 		return true;
+	}
+	
+	@Override
+	public void onMappingLoaded(MappingLoadedEvent event) {
+		List<AttributeMapping> attributesMappings = event.getMappings();
+		view.setMapping(attributesMappings);
 	}
 
 	@Override
 	public void onMappingUpdated(MappingsUpdatedEvent event) {
-		attributesMappings = event.getMappings();
-		this.view.setMapping(attributesMappings.getMappings());
+		List<AttributeMapping> attributesMappings = event.getMappings();
+		view.setMapping(attributesMappings);
 		
+		/*
 		if (attributesMappings.getMappingMode()==null) view.setMappingModeVisible(false);
 		else {
 			view.setMappingMode(attributesMappings.getMappingMode());
 			view.setMappingModeVisible(true);
-		}
+		}*/
 	}
 
 	@Override
@@ -101,4 +112,6 @@ ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelect
 	public void onCodeListSelected(CodeListSelectedEvent event) {
 		view.setFileNameVisible(false);
 	}
+
+
 }
