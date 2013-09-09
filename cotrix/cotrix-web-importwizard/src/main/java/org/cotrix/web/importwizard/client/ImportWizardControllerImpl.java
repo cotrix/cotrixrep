@@ -26,7 +26,6 @@ import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHa
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent.SaveHandler;
-import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
@@ -51,9 +50,6 @@ import com.google.web.bindery.event.shared.EventBus;
 public class ImportWizardControllerImpl implements ImportWizardController {
 	
 	protected EventBus importEventBus;
-	
-	@Inject
-	protected ImportSession session;
 	
 	@Inject
 	protected ImportServiceAsync importService;

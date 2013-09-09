@@ -1,7 +1,6 @@
 package org.cotrix.web.importwizard.client;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.session.ImportSession;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepView;
@@ -77,7 +76,6 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(ImportWizardPresenter.class).to(ImportWizardPresenterImpl.class);
         bind(SourceNodeSelector.class).in(Singleton.class);
         bind(SaveCheckPoint.class).in(Singleton.class);
-        bind(ImportSession.class).in(Singleton.class);
         
         bind(SourceSelectionStepView.class).to(SourceSelectionStepViewImpl.class).asEagerSingleton();
         bind(SourceSelectionStepPresenter.class).to(SourceSelectionStepPresenterImpl.class).asEagerSingleton();

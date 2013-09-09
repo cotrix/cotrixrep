@@ -1,6 +1,6 @@
 package org.cotrix.web.importwizard.client.event;
 
-import org.cotrix.web.importwizard.client.session.SourceType;
+import org.cotrix.web.importwizard.client.util.SourceType;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
