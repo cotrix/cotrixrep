@@ -12,7 +12,8 @@
 		}
 		
 		.toolbarLabel {
-			font-weight: normal;
+			font-size:16px;
+			padding-bottom: 3px;
 			color: #989898;
 		}
 		
@@ -25,14 +26,14 @@
 		<table class="{style.toolbar}">
 			<tr>
 				<td width="18%" style="border-right:1px solid #bababa;">
-					<div class="{style.toolbarLabel}">header?</div>
+					<div class="{style.toolbarLabel}">Header?</div>
 					<div>
 						<g:SimpleCheckBox ui:field="hasHeaderField"
 							styleName="{resources.css.simpleCheckbox}" />
 					</div>
 				</td>
 				<td width="18%" style="border-right:1px solid #bababa;">
-					<div class="{style.toolbarLabel}">delimiter</div>
+					<div class="{style.toolbarLabel}">Delimiter</div>
 					<div>
 						<g:ListBox ui:field="separatorField" styleName="{resources.css.listBox}">
 							<g:item value=",">comma</g:item>
@@ -44,7 +45,7 @@
 					</div>
 				</td>
 				<td width="18%" style="border-right:1px solid #bababa;">
-					<div class="{style.toolbarLabel}">quote</div>
+					<div class="{style.toolbarLabel}">Quote</div>
 					<div>
 						<g:ListBox ui:field="quoteField" styleName="{resources.css.listBox}">
 							<g:item value='"'>double quote</g:item>
@@ -56,14 +57,14 @@
 					</div>
 				</td>
 				<td width="18%" style="border-right:1px solid #bababa;">
-					<div class="{style.toolbarLabel}">comments</div>
+					<div class="{style.toolbarLabel}">Comments</div>
 					<div>
 						<g:TextBox ui:field="commentField" maxLength="1" width="20px"
 							styleName="{resources.css.textBox}">#</g:TextBox>
 					</div>
 				</td>
 				<td width="18%" style="border-right:1px solid #bababa;">
-					<div class="{style.toolbarLabel}">encoding</div>
+					<div class="{style.toolbarLabel}">Encoding</div>
 					<div>
 						<g:ListBox ui:field="charsetField" styleName="{resources.css.listBox}" />
 					</div>

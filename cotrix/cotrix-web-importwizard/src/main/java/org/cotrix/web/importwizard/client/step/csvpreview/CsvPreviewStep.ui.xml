@@ -3,15 +3,19 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p="urn:import:org.cotrix.web.importwizard.client.step.csvpreview">
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
-			<ui:style>
-			.main {
-				padding-top: 20px;
-			}
-		</ui:style>
-	<g:HTMLPanel styleName="{style.main}">
-		<p:CsvParserConfigurationPanel ui:field="configurationPanel" />
-		<div style="margin-top:20px;">
+	<ui:style>
+		.main {
+			padding-top: 20px;
+		}
+	</ui:style>
+	<g:DockLayoutPanel unit='PX' styleName="{style.main}">
+
+		<g:north size='85'>
+			<p:CsvParserConfigurationPanel
+				ui:field="configurationPanel" />
+		</g:north>
+		<g:center>
 			<p:PreviewGrid ui:field="preview" />
-		</div>
-	</g:HTMLPanel>
+		</g:center>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 
