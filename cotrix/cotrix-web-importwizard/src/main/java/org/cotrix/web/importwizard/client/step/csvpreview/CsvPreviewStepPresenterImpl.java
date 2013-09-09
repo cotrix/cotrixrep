@@ -5,7 +5,7 @@ import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEven
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent.CsvParserConfigurationUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -19,7 +19,7 @@ import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfigur
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements CsvPreviewStepPresenter, CsvParserConfigurationUpdatedHandler {
+public class CsvPreviewStepPresenterImpl extends AbstractVisualWizardStep implements CsvPreviewStepPresenter, CsvParserConfigurationUpdatedHandler {
 
 	private final CsvPreviewStepView view;
 	protected EventBus importEventBus;

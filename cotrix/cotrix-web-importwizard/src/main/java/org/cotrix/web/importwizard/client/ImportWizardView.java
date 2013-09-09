@@ -3,6 +3,7 @@ package org.cotrix.web.importwizard.client;
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
+import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -18,7 +19,7 @@ public interface ImportWizardView {
 		void onButtonClicked(WizardButton button);
 	}
 	
-	void addStep(WizardStep step);
+	void addStep(VisualWizardStep step);
 	public void setLabels(List<ProgressStep> steps);
 	public void setStepTitle(String title);
 	public void setStepSubtitle(String subtitle);

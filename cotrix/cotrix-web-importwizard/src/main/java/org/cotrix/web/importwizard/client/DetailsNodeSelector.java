@@ -12,6 +12,7 @@ import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent.CodeLis
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.flow.AbstractNodeSelector;
 import org.cotrix.web.importwizard.client.flow.FlowNode;
+import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
@@ -28,7 +29,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class DetailsNodeSelector extends AbstractNodeSelector<WizardStep> implements CodeListTypeUpdatedHandler, ResetWizardHandler, ValueChangeHandler<WizardStep> {
+public class DetailsNodeSelector extends AbstractNodeSelector<VisualWizardStep> implements CodeListTypeUpdatedHandler, ResetWizardHandler, ValueChangeHandler<VisualWizardStep> {
 	
 	protected WizardStep nextStep;
 	protected WizardStep oldNextStep;
@@ -57,9 +58,9 @@ public class DetailsNodeSelector extends AbstractNodeSelector<WizardStep> implem
 	
 
 	@Override
-	public FlowNode<WizardStep> selectNode(List<FlowNode<WizardStep>> children) {
+	public FlowNode<VisualWizardStep> selectNode(List<FlowNode<VisualWizardStep>> children) {
 		
-		for (FlowNode<WizardStep> child:children) if (child.getItem().getId().equals(nextStep.getId())) return child;
+		for (FlowNode<VisualWizardStep> child:children) if (child.getItem().getId().equals(nextStep.getId())) return child;
 		
 		return null;
 	}
@@ -108,7 +109,7 @@ public class DetailsNodeSelector extends AbstractNodeSelector<WizardStep> implem
 
 
 	@Override
-	public void onValueChange(ValueChangeEvent<WizardStep> event) {
+	public void onValueChange(ValueChangeEvent<VisualWizardStep> event) {
 		if (event.getValue().getId().equals(codelistDetailsStep.getId()) 
 				|| event.getValue().getId().equals(repositoryDetailsStep.getId())) switchToNormal();
 	}

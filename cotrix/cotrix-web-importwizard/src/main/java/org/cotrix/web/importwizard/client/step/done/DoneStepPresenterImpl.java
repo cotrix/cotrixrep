@@ -4,14 +4,14 @@ import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent.ImportProgressHandler;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
-public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneStepPresenter, ImportProgressHandler {
+public class DoneStepPresenterImpl extends AbstractVisualWizardStep implements DoneStepPresenter, ImportProgressHandler {
 	
 	protected DoneStepView view;
 	protected EventBus importEventBus;

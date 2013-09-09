@@ -5,7 +5,7 @@ import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
@@ -22,7 +22,7 @@ import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfigur
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class RepositoryDetailsStepPresenterImpl extends AbstractWizardStep implements RepositoryDetailsStepPresenter, ResetWizardHandler {
+public class RepositoryDetailsStepPresenterImpl extends AbstractVisualWizardStep implements RepositoryDetailsStepPresenter, ResetWizardHandler {
 
 	protected final RepositoryDetailsStepView view;
 	

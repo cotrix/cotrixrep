@@ -3,7 +3,7 @@ package org.cotrix.web.importwizard.client.step.sourceselection;
 import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -16,7 +16,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SourceSelectionStepPresenterImpl extends AbstractWizardStep implements SourceSelectionStepPresenter {
+public class SourceSelectionStepPresenterImpl extends AbstractVisualWizardStep implements SourceSelectionStepPresenter {
 
 	protected SourceSelectionStepView view;
 	

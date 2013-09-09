@@ -19,7 +19,7 @@ import org.cotrix.web.importwizard.client.event.ImportStartedEvent.ImportStarted
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
-public class SummaryStepPresenterImpl extends AbstractWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler, MappingLoadedHandler, MappingsUpdatedHandler, 
+public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler, MappingLoadedHandler, MappingsUpdatedHandler, 
 ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelectedHandler {
 
 	protected SummaryStepView view;

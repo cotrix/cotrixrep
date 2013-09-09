@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
+import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -58,7 +59,7 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 		decksIndexes = new HashMap<String, Integer>();
 	}
 
-	public void addStep(WizardStep step)
+	public void addStep(VisualWizardStep step)
 	{
 		//Log.trace("Adding "+step.getId());
 		step.go(stepsPanel);

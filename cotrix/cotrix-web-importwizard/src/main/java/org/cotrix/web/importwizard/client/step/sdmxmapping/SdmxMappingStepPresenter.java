@@ -1,11 +1,11 @@
 package org.cotrix.web.importwizard.client.step.sdmxmapping;
 
-import org.cotrix.web.importwizard.client.step.WizardStep;
+import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface SdmxMappingStepPresenter extends WizardStep, SdmxMappingStepView.Presenter {
+public interface SdmxMappingStepPresenter extends VisualWizardStep, SdmxMappingStepView.Presenter {
 
 }

@@ -11,7 +11,7 @@ import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MappingLoadedEvent.MappingLoadedHandler;
 import org.cotrix.web.importwizard.client.event.MappingLoadingEvent.MappingLoadingHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
@@ -25,7 +25,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements SdmxMappingStepPresenter, MetadataUpdatedHandler, MappingLoadingHandler, MappingLoadedHandler  {
+public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep implements SdmxMappingStepPresenter, MetadataUpdatedHandler, MappingLoadingHandler, MappingLoadedHandler  {
 
 	protected SdmxMappingStepView view;
 	protected EventBus importEventBus;

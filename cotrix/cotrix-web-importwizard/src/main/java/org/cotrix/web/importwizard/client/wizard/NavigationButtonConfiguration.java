@@ -11,23 +11,20 @@ import org.cotrix.web.importwizard.client.ImportWizardView.WizardButton;
  */
 public class NavigationButtonConfiguration {
 	
-	public enum ButtonAction {NONE, BACK, NEXT, NEW_IMPORT, MANAGE};
-	
-	/*public static final NavigationButtonConfiguration NONE = new NavigationButtonConfiguration(ButtonAction.NONE, null);*/
-	public static final NavigationButtonConfiguration BACKWARD = new NavigationButtonConfiguration(ButtonAction.BACK, WizardButton.BACK);
-	public static final NavigationButtonConfiguration FORWARD = new NavigationButtonConfiguration(ButtonAction.NEXT, WizardButton.NEXT);
-	public static final NavigationButtonConfiguration IMPORT = new NavigationButtonConfiguration(ButtonAction.NEXT, WizardButton.IMPORT);
-	public static final NavigationButtonConfiguration NEW_IMPORT = new NavigationButtonConfiguration(ButtonAction.NEW_IMPORT, WizardButton.NEW_IMPORT);
-	public static final NavigationButtonConfiguration MANAGE = new NavigationButtonConfiguration(ButtonAction.MANAGE, WizardButton.MANAGE);
+	public static final NavigationButtonConfiguration BACKWARD = new NavigationButtonConfiguration(WizardAction.BACK, WizardButton.BACK);
+	public static final NavigationButtonConfiguration FORWARD = new NavigationButtonConfiguration(WizardAction.NEXT, WizardButton.NEXT);
+	public static final NavigationButtonConfiguration IMPORT = new NavigationButtonConfiguration(WizardAction.NEXT, WizardButton.IMPORT);
+	public static final NavigationButtonConfiguration NEW_IMPORT = new NavigationButtonConfiguration(WizardAction.NEW_IMPORT, WizardButton.NEW_IMPORT);
+	public static final NavigationButtonConfiguration MANAGE = new NavigationButtonConfiguration(WizardAction.MANAGE, WizardButton.MANAGE);
 
-	protected ButtonAction action;
+	protected WizardAction action;
 	protected WizardButton wizardButton;
 	
 	/**
 	 * @param action
 	 * @param wizardButton
 	 */
-	public NavigationButtonConfiguration(ButtonAction action,
+	public NavigationButtonConfiguration(WizardAction action,
 			WizardButton wizardButton) {
 		this.action = action;
 		this.wizardButton = wizardButton;
@@ -36,7 +33,7 @@ public class NavigationButtonConfiguration {
 	/**
 	 * @return the action
 	 */
-	public ButtonAction getAction() {
+	public WizardAction getAction() {
 		return action;
 	}
 

@@ -19,7 +19,7 @@ import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.RootNodeBuild
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SingleNodeBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SwitchNodeBuilder;
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
-import org.cotrix.web.importwizard.client.step.WizardStep;
+import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepPresenter;
@@ -30,9 +30,9 @@ import org.cotrix.web.importwizard.client.step.selection.SelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
+import org.cotrix.web.importwizard.client.wizard.WizardAction;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
-import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration.ButtonAction;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationHandler;
 
@@ -51,18 +51,18 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler, FlowUpdatedHandler, ResetWizardHandler, HasValueChangeHandlers<WizardStep> {
+public class ImportWizardPresenterImpl implements ImportWizardPresenter, NavigationHandler, FlowUpdatedHandler, ResetWizardHandler, HasValueChangeHandlers<VisualWizardStep> {
 
-	protected FlowManager<WizardStep> flow;
+	protected FlowManager<VisualWizardStep> flow;
 
 	protected ImportWizardView view;
 
 	protected EventBus importEventBus;
 	
-	protected EnumMap<WizardButton, ButtonAction> buttonsActions = new EnumMap<WizardButton, ButtonAction>(WizardButton.class);
+	protected EnumMap<WizardButton, WizardAction> buttonsActions = new EnumMap<WizardButton, WizardAction>(WizardButton.class);
 	
-	protected ButtonAction backwardAction;
-	protected ButtonAction forwardAction;
+	protected WizardAction backwardAction;
+	protected WizardAction forwardAction;
 
 	@Inject
 	public ImportWizardPresenterImpl(@ImportBus final EventBus importEventBus, ImportWizardView view,  
@@ -87,17 +87,17 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		this.view = view;
 		this.view.setPresenter(this);
 
-		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(sourceStep);
-		SwitchNodeBuilder<WizardStep> source = root.hasAlternatives(selector);
+		RootNodeBuilder<VisualWizardStep> root = FlowManagerBuilder.<VisualWizardStep>startFlow(sourceStep);
+		SwitchNodeBuilder<VisualWizardStep> source = root.hasAlternatives(selector);
 
-		SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, sdmxMappingStep));
-		SingleNodeBuilder<WizardStep> csvPreview = upload.alternative(csvPreviewStep);
-		SingleNodeBuilder<WizardStep> csvMapping = csvPreview.next(csvMappingStep);
-		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(sdmxMappingStep);
+		SwitchNodeBuilder<VisualWizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, sdmxMappingStep));
+		SingleNodeBuilder<VisualWizardStep> csvPreview = upload.alternative(csvPreviewStep);
+		SingleNodeBuilder<VisualWizardStep> csvMapping = csvPreview.next(csvMappingStep);
+		SingleNodeBuilder<VisualWizardStep> sdmxMapping = upload.alternative(sdmxMappingStep);
 
-		SwitchNodeBuilder<WizardStep> selection = source.alternative(selectionStep).hasAlternatives(detailsNodeSelector);
-		SingleNodeBuilder<WizardStep> codelistDetails = selection.alternative(codelistDetailsStep);
-		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
+		SwitchNodeBuilder<VisualWizardStep> selection = source.alternative(selectionStep).hasAlternatives(detailsNodeSelector);
+		SingleNodeBuilder<VisualWizardStep> codelistDetails = selection.alternative(codelistDetailsStep);
+		SingleNodeBuilder<VisualWizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
 		codelistDetails.next(repositoryDetails);
 		
 		selection.alternative(sdmxMapping);
@@ -105,7 +105,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		
 		
 
-		SingleNodeBuilder<WizardStep> summary = csvMapping.next(summaryStep);
+		SingleNodeBuilder<VisualWizardStep> summary = csvMapping.next(summaryStep);
 		sdmxMapping.next(summary);
 
 		summary.hasCheckPoint(saveCheckPoint).next(doneStep);
@@ -154,7 +154,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		updateCurrentStep();
 	}
 
-	protected void registerStep(WizardStep step){
+	protected void registerStep(VisualWizardStep step){
 		view.addStep(step);
 	}
 
@@ -178,12 +178,12 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	protected void updateTrackerLabels()
 	{
-		List<WizardStep> steps = flow.getCurrentFlow();
+		List<VisualWizardStep> steps = flow.getCurrentFlow();
 		Log.trace("New FLOW: "+steps);
 		
 		List<ProgressStep> psteps = new ArrayList<ProgressStep>();
 		Set<String> saw = new HashSet<String>();
-		for (WizardStep step:steps) {
+		for (VisualWizardStep step:steps) {
 			ProgressStep pstep = step.getConfiguration().getLabel();
 			if (saw.contains(pstep.getId())) continue;
 			psteps.add(pstep);
@@ -197,7 +197,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	protected void updateCurrentStep()
 	{
-		WizardStep currentStep = flow.getCurrentItem();
+		VisualWizardStep currentStep = flow.getCurrentItem();
 		Log.trace("current step "+currentStep.getId());
 		view.showStep(currentStep);
 		view.showLabel(currentStep.getConfiguration().getLabel());
@@ -256,7 +256,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		updateCurrentStep();
 	}
 	
-	protected void doAction(ButtonAction action)
+	protected void doAction(WizardAction action)
 	{
 		switch (action) {
 			case BACK: goBack(); break;
@@ -295,13 +295,13 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	}
 
 	@Override
-	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<WizardStep> handler) {
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<VisualWizardStep> handler) {
 		return new LegacyHandlerWrapper(importEventBus.addHandler(ValueChangeEvent.getType(), handler));
 	}
 
 	@Override
 	public void onButtonClicked(WizardButton button) {
-		ButtonAction action = buttonsActions.get(button);
+		WizardAction action = buttonsActions.get(button);
 		if (action == null) {
 			Log.fatal("Action not found for clicked button "+button);
 			throw new IllegalArgumentException("Action not found for clicked button "+button);

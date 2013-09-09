@@ -7,7 +7,7 @@ import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.resources.ImportConstants;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.vectomatic.file.File;
@@ -25,7 +25,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UploadStepPresenterImpl extends AbstractWizardStep implements UploadStepPresenter, ResetWizardHandler {
+public class UploadStepPresenterImpl extends AbstractVisualWizardStep implements UploadStepPresenter, ResetWizardHandler {
 
 	protected static final int POLLING_TIME = 500;
 	protected static final int POLLING_ERROR_TRESHOLD = 3;

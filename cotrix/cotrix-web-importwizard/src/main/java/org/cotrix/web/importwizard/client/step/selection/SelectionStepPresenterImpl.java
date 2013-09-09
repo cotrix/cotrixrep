@@ -6,7 +6,7 @@ import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.step.repositorydetails.RepositoryDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
@@ -24,7 +24,7 @@ import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfigur
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SelectionStepPresenterImpl extends AbstractWizardStep implements SelectionStepPresenter, ResetWizardHandler {
+public class SelectionStepPresenterImpl extends AbstractVisualWizardStep implements SelectionStepPresenter, ResetWizardHandler {
 
 	protected final SelectionStepView view;
 	
