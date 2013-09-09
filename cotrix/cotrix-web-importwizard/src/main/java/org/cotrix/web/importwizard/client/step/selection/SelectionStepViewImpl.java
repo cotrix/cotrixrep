@@ -25,6 +25,7 @@ import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 
@@ -94,12 +95,21 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		dataGrid.addColumnSortHandler(new AsyncHandler(dataGrid));
 		
 		selectionModel = new SingleSelectionModel<AssetInfo>(AssetInfoKeyProvider.INSTANCE);
+		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+			
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				AssetInfo selected = selectionModel.getSelectedObject();
+				if (selected!=null) presenter.assetSelected(selected);	 
+			}
+		});
+		
 		dataGrid.setSelectionModel(selectionModel);
 
 		// Check
 		TextHeader nameHeader = new TextHeader("Name");
 		
-		Column<AssetInfo, Boolean> checkColumn = new Column<AssetInfo, Boolean>(new SelectionCheckBoxCell(false, false)) {
+		Column<AssetInfo, Boolean> checkColumn = new Column<AssetInfo, Boolean>(new SelectionCheckBoxCell(true, false)) {
 			
 			@Override
 			public Boolean getValue(AssetInfo object) {
@@ -108,13 +118,13 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 			}
 		};
 		
-		checkColumn.setFieldUpdater(new FieldUpdater<AssetInfo, Boolean>() {
+		/*checkColumn.setFieldUpdater(new FieldUpdater<AssetInfo, Boolean>() {
 
 			@Override
 			public void update(int index, AssetInfo object, Boolean value) {
 				if (value) presenter.assetSelected(object);			
 			}
-		});
+		});*/
 		
 		dataGrid.addColumn(checkColumn, nameHeader);
 		dataGrid.setColumnWidth(checkColumn, "35px");

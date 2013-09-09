@@ -55,6 +55,7 @@ public class SelectionStepPresenterImpl extends AbstractVisualWizardStep impleme
 	}
 
 	public boolean leave() {
+		Log.trace("SelectionStep leaving: "+(detailsNodeSelector.toDetails() || selectedAsset!=null));
 		return detailsNodeSelector.toDetails() || selectedAsset!=null;
 	}
 

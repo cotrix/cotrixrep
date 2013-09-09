@@ -33,6 +33,7 @@ import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionSt
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.importwizard.client.task.ImportTask;
+import org.cotrix.web.importwizard.client.task.RetrieveAssetTask;
 import org.cotrix.web.importwizard.client.wizard.WizardAction;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
@@ -79,13 +80,21 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			SelectionStepPresenter selectionStep,
 			CodelistDetailsStepPresenter codelistDetailsStep,
 			RepositoryDetailsStepPresenter repositoryDetailsStep,
+			
+			RetrieveAssetTask retrieveAssetTask,
+			MappingNodeSelector mappingNodeSelector,
 
 			CsvMappingStepPresenter csvMappingStep,
 			SdmxMappingStepPresenter sdmxMappingStep, 
-
+			
 			SummaryStepPresenter summaryStep,
+			
+
+			
 			DoneStepPresenter doneStep,
 			SourceNodeSelector selector,
+			
+			//FIXME to register the handler later :(
 			ImportTask importTask
 			) {
 
@@ -106,8 +115,9 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
 		codelistDetails.next(repositoryDetails);
 		
-		selection.alternative(sdmxMapping);
-		selection.alternative(csvMapping);
+		SwitchNodeBuilder<WizardStep> retrieveAsset = selection.alternative(retrieveAssetTask).hasAlternatives(mappingNodeSelector);
+		retrieveAsset.alternative(sdmxMapping);
+		retrieveAsset.alternative(csvMapping);
 		
 		SingleNodeBuilder<WizardStep> summary = csvMapping.next(summaryStep);
 		sdmxMapping.next(summary);

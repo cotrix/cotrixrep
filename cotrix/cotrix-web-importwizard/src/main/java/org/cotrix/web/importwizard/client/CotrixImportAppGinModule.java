@@ -45,6 +45,7 @@ import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepView;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepViewImpl;
 import org.cotrix.web.importwizard.client.task.ImportTask;
+import org.cotrix.web.importwizard.client.task.RetrieveAssetTask;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
@@ -76,8 +77,6 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(ImportWizardView.class).to(ImportWizardViewImpl.class).in(Singleton.class);
         bind(ImportWizardPresenter.class).to(ImportWizardPresenterImpl.class);
         bind(SourceNodeSelector.class).in(Singleton.class);
-        //bind(SaveCheckPoint.class).in(Singleton.class);
-        bind(ImportTask.class).in(Singleton.class);
         
         bind(SourceSelectionStepView.class).to(SourceSelectionStepViewImpl.class).asEagerSingleton();
         bind(SourceSelectionStepPresenter.class).to(SourceSelectionStepPresenterImpl.class).asEagerSingleton();
@@ -89,6 +88,9 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(SelectionStepPresenter.class).to(SelectionStepPresenterImpl.class).in(Singleton.class);
         bind(AssetInfoDataProvider.class).in(Singleton.class);
         bind(DetailsNodeSelector.class).in(Singleton.class);
+        
+        bind(RetrieveAssetTask.class).in(Singleton.class);
+        bind(MappingNodeSelector.class).in(Singleton.class);
         
         bind(CodelistDetailsStepView.class).to(CodelistDetailsStepViewImpl.class);
         bind(CodelistDetailsStepPresenter.class).to(CodelistDetailsStepPresenterImpl.class).in(Singleton.class);
@@ -108,6 +110,8 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         
         bind(SummaryStepView.class).to(SummaryStepViewImpl.class);
         bind(SummaryStepPresenter.class).to(SummaryStepPresenterImpl.class);
+        
+        bind(ImportTask.class).in(Singleton.class);
       
         bind(DoneStepView.class).to(DoneStepViewImpl.class);
         bind(DoneStepPresenter.class).to(DoneStepPresenterImpl.class);
