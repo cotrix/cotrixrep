@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.cotrix.web.importwizard.client.resources.Resources;
-import org.cotrix.web.importwizard.client.util.ProgressDialog;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.MappingMode;
@@ -47,8 +46,6 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	@UiField HTMLPanel mappingPanel;
 	@UiField SimpleCheckBox mappingMode;
 	@UiField FlexTable customTable;
-
-	private ProgressDialog progressDialog;
 
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -107,19 +104,6 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 				row++;
 			}
 		}
-	}
-
-	@Override
-	public void showProgress() {
-		if(progressDialog == null){
-			progressDialog = new ProgressDialog();
-		}
-		progressDialog.center();
-	}
-
-	@Override
-	public void hideProgress() {
-		if(progressDialog != null) progressDialog.hide();
 	}
 
 	public void setFileName(String fileName)

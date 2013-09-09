@@ -29,9 +29,6 @@ public interface SummaryStepView {
 	public MappingMode getMappingMode();
 	public void setMappingMode(MappingMode mode);
 	public void setMappingModeVisible(boolean visible);
-	
-	void showProgress();
-	void hideProgress();
 
 	Widget asWidget();
 }

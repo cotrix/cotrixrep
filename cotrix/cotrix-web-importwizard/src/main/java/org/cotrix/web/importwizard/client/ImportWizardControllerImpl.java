@@ -26,7 +26,6 @@ import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHa
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent.SaveHandler;
-import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
@@ -300,7 +299,6 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	{
 		if (progress.isComplete()) importProgressPolling.cancel();
 		importEventBus.fireEvent(new ImportProgressEvent(progress));
-		if (progress.isComplete()) importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
 	
 	protected void newImportRequested()

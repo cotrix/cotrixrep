@@ -44,6 +44,7 @@ import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepView;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepViewImpl;
+import org.cotrix.web.importwizard.client.task.ImportTask;
 import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
@@ -75,7 +76,8 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
         bind(ImportWizardView.class).to(ImportWizardViewImpl.class).in(Singleton.class);
         bind(ImportWizardPresenter.class).to(ImportWizardPresenterImpl.class);
         bind(SourceNodeSelector.class).in(Singleton.class);
-        bind(SaveCheckPoint.class).in(Singleton.class);
+        //bind(SaveCheckPoint.class).in(Singleton.class);
+        bind(ImportTask.class).in(Singleton.class);
         
         bind(SourceSelectionStepView.class).to(SourceSelectionStepViewImpl.class).asEagerSingleton();
         bind(SourceSelectionStepPresenter.class).to(SourceSelectionStepPresenterImpl.class).asEagerSingleton();

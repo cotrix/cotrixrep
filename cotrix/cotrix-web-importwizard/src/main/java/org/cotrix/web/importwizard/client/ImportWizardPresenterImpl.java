@@ -32,6 +32,7 @@ import org.cotrix.web.importwizard.client.step.selection.SelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
+import org.cotrix.web.importwizard.client.task.ImportTask;
 import org.cotrix.web.importwizard.client.wizard.WizardAction;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
@@ -85,7 +86,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			SummaryStepPresenter summaryStep,
 			DoneStepPresenter doneStep,
 			SourceNodeSelector selector,
-			SaveCheckPoint saveCheckPoint) {
+			ImportTask importTask
+			) {
 
 		this.importEventBus = importEventBus;
 		this.view = view;
@@ -107,18 +109,10 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		selection.alternative(sdmxMapping);
 		selection.alternative(csvMapping);
 		
-		
-
 		SingleNodeBuilder<WizardStep> summary = csvMapping.next(summaryStep);
 		sdmxMapping.next(summary);
 
-		summary.hasCheckPoint(saveCheckPoint).next(doneStep);
-
-
-		//.next(csvPreviewStep)
-		//channel.next(csvPreview);
-
-		//csvPreview.next(metadataStep).next(csvMappingStep).next(summaryStep).hasCheckPoint(saveCheckPoint).next(doneStep);
+		summary.next(importTask).next(doneStep);
 
 		flow = root.build();
 		flow.addFlowUpdatedHandler(this);
@@ -278,24 +272,29 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		boolean isComplete = flow.getCurrentItem().leave();
 		if (!isComplete) return;
 
-		//if (currentStepIndex == steps.size()-1)
 		if (flow.isLast())
 			throw new IllegalStateException("There are no more steps");
 
-		//currentStepIndex++;
 		flow.goNext();
 		updateCurrentStep();
 	}
 
 	protected void goBack()
 	{
-		//if (currentStepIndex == 0) 
 		if (flow.isFirst())
 			throw new IllegalStateException("We are already in the first step");
 
-		//currentStepIndex--;
-		flow.goBack();
+		goBackToFirstVisual();
 		updateCurrentStep();
+	}
+	
+	protected void goBackToFirstVisual()
+	{
+		do {
+			flow.goBack();
+		} while (!flow.isFirst() && !(flow.getCurrentItem() instanceof VisualWizardStep));
+		if (flow.isFirst())
+			throw new IllegalStateException("We are already in the first step");
 	}
 	
 	protected void doAction(WizardAction action)

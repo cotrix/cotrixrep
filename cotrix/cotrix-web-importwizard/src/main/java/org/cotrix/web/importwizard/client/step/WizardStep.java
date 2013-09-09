@@ -1,8 +1,10 @@
 package org.cotrix.web.importwizard.client.step;
 
-import org.cotrix.web.importwizard.client.Presenter;
-
-public interface WizardStep extends Presenter {
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public interface WizardStep {
 
 	public abstract String getId();
 

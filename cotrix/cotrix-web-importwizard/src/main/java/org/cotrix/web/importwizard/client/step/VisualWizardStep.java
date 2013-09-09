@@ -1,12 +1,13 @@
 package org.cotrix.web.importwizard.client.step;
 
+import org.cotrix.web.importwizard.client.Presenter;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
 
 /**
  * Represents a Wizard step.
  * @author "Federico De Faveri federico.defaveri@fao.org"
  */
-public interface VisualWizardStep extends WizardStep {
+public interface VisualWizardStep extends WizardStep, Presenter {
 	
 	/**
 	 * Gets the step configuration for this step.
