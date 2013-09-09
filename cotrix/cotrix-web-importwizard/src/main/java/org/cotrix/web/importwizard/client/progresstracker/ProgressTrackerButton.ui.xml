@@ -2,12 +2,9 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style type="org.cotrix.web.importwizard.client.progresstracker.ProgressTrackerButton.Style">
-		.important {
-			font-weight: bold;
-		}
 		
 		.inactive {
-			background-color: #ddd;
+			background-color: #bbbbbb;
 			width: 30px;
 			border-radius: 50px;
 			height: 30px;
@@ -15,6 +12,7 @@
 			float: left;
 			color: #fff;
 			line-height: 30px;
+			font-weight: bold;
 		}
 		
 		.active {
@@ -26,6 +24,7 @@
 			color: #fff;
 			line-height: 30px;
 			background-color: #89d488;
+			font-weight: bold;
 		}
 	</ui:style>
 	<g:HTMLPanel>

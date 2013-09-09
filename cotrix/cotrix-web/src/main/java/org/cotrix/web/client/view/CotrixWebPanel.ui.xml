@@ -15,13 +15,18 @@
 			color: #999;
 			font-weight: bold;
 		}
+		
+		.body {
+			width: 940px;
+			margin: 0 auto;
+		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' height="800px">
 		<g:north size='70'>
 			<g:FlowPanel ui:field="menu" />
 		</g:north>
 		<g:center>
-			<g:DeckLayoutPanel ui:field="body" />
+			<g:DeckLayoutPanel ui:field="body" styleName="{style.body}"/>
 		</g:center>
 		<g:south size="64">
 			<g:HTMLPanel styleName="{style.footer}">

@@ -15,7 +15,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ProgressTracker extends Composite {
 
-	public static final int TRACKER_WIDTH = 880;
+	//TODO make dynamic
+	public static final int TRACKER_WIDTH = 940;
 	public static final int BUTTON_WIDTH = 30;
 
 	private static ProgressTrackerUiBinder uiBinder = GWT.create(ProgressTrackerUiBinder.class);
@@ -50,6 +51,7 @@ public class ProgressTracker extends Composite {
 		} else {
 			//we initialize the labels
 			int buttonsWidth = BUTTON_WIDTH * numButtons;
+			
 			int lineWidth = (TRACKER_WIDTH - buttonsWidth) / (numButtons + 1);
 			int labelWidth = lineWidth / 2;
 
@@ -133,4 +135,5 @@ public class ProgressTracker extends Composite {
 		public String getId();
 		public String getLabel();
 	}
+
 }
