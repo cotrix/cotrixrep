@@ -8,6 +8,7 @@ import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
+import org.cotrix.web.importwizard.client.util.ProgressDialog;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -48,6 +49,8 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	protected int currentIndex = 0;
 	protected Map<String, Integer> decksIndexes;
 	protected Map<String, Integer> labelsIndexes;
+	
+	protected ProgressDialog progressDialog;
 
 	private Presenter presenter;
 	public void setPresenter(Presenter presenter) {
@@ -57,6 +60,19 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	public ImportWizardViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		decksIndexes = new HashMap<String, Integer>();
+	}
+	
+	@Override
+	public void showProgress() {
+		if(progressDialog == null){
+			progressDialog = new ProgressDialog();
+		}
+		progressDialog.center();
+	}
+
+	@Override
+	public void hideProgress() {
+		if(progressDialog != null) progressDialog.hide();
 	}
 
 	public void addStep(VisualWizardStep step)

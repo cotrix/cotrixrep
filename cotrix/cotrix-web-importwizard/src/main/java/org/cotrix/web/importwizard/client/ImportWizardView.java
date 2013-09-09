@@ -32,5 +32,7 @@ public interface ImportWizardView {
 	public void hideAllButtons();
 	
 	Widget asWidget();
+	void showProgress();
+	void hideProgress();
 
 }

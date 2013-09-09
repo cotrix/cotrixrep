@@ -19,6 +19,7 @@ import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.RootNodeBuild
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SingleNodeBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SwitchNodeBuilder;
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
+import org.cotrix.web.importwizard.client.step.TaskWizardStep;
 import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
@@ -44,6 +45,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.LegacyHandlerWrapper;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -62,6 +64,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	
 	protected EnumMap<WizardButton, WizardAction> buttonsActions = new EnumMap<WizardButton, WizardAction>(WizardButton.class);
 	
+	protected VisualWizardStep currentVisualStep;
 	protected WizardAction backwardAction;
 	protected WizardAction forwardAction;
 
@@ -196,8 +199,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		
 		view.setLabels(psteps);
 		
-		//FIXME 
-		if (flow.getCurrentItem() instanceof VisualWizardStep) view.showLabel(((VisualWizardStep)flow.getCurrentItem()).getConfiguration().getLabel());
+		if (currentVisualStep!=null) view.showLabel(currentVisualStep.getConfiguration().getLabel());
 	}
 
 	protected void updateCurrentStep()
@@ -205,15 +207,45 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		WizardStep currentStep = flow.getCurrentItem();
 		Log.trace("current step "+currentStep.getId());
 		if (currentStep instanceof VisualWizardStep) showStep((VisualWizardStep)currentStep);
+		if (currentStep instanceof TaskWizardStep) runStep((TaskWizardStep)currentStep);
 		ValueChangeEvent.fire(this, currentStep);
 	}
 	
 	protected void showStep(VisualWizardStep step)
 	{
+		currentVisualStep = step;
 		view.showStep(step);
 		view.showLabel(step.getConfiguration().getLabel());
 		WizardStepConfiguration configuration = step.getConfiguration();
 		applyStepConfiguration(configuration);
+	}
+	
+	protected void runStep(final TaskWizardStep step) {
+		showProgress();
+		step.run(new AsyncCallback<WizardAction>() {
+			
+			@Override
+			public void onSuccess(WizardAction result) {
+				doAction(result);
+				hideProgress();
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.trace("TaskWizardStep "+step.getId()+" failed", caught);
+				hideProgress();
+			}
+		});
+	}
+	
+	protected void showProgress()
+	{
+		view.showProgress();
+	}
+	
+	protected void hideProgress()
+	{
+		view.hideProgress();
 	}
 
 	protected void applyStepConfiguration(WizardStepConfiguration configuration)
