@@ -255,46 +255,51 @@
 /** SOURCE SELECTION moved here due to https://code.google.com/p/google-web-toolkit/issues/detail?id=5320 **/
 @sprite .buttonComputer {
 	gwt-image: "computer";
+	background-position: 0;
 	background-color: #ddd;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	text-align: center;
-	width: 290px;
-	font-size: 20px;
-	padding-left: 110px;
-	height: 70px;
+	width: 322px;
+	height: 100px;
+	font-size: 24px;
+	padding-left: 106px;
 	color: #666;
 }
 
 @sprite .buttonComputer:hover {
 	gwt-image: "computerHover";
+	background-position: 0;
 	background-color: #5674b9;
 	color: #fff;
 	cursor: pointer;
-	width: 290px;
-	height: 70px;
+	width: 322px;
+	height: 100px;
 }
 
 @sprite .buttonCloud {
 	gwt-image: "cloud";
+	background-position: 0;
 	background-color: #ddd;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	text-align: center;
-	width: 290px;
-	font-size: 20px;
-	padding-left: 110px;
-	height: 70px;
+	width: 322px;
+	height: 100px;
+	font-size: 24px;
+	padding-left: 106px;
 	color: #666;
+	vertical-align: middle;
 }
 
 @sprite .buttonCloud:hover {
 	gwt-image: "cloudHover";
+	background-position: 0;
 	background-color: #5674b9;
 	color: #fff;
 	cursor: pointer;
-	width: 290px;
-	height: 70px;
+	width: 322px;
+	height: 100px;
 }
 
 @sprite .buttonBrowse {

@@ -16,16 +16,17 @@
 		
 		.titlePanel {
 			margin: 0 auto;
+			padding-top: 34px;
 		}
 		
 		.title {
-			font-size: 20px;
+			font-size: 23px;
 			color: #595959;
 			text-align: center;
 		}
 		
 		.subtitle {
-			font-family: 'Kite One', sans-serif;
+			font-family: 'Kite One', cursive;
 			color: #989898;
 			text-align: center;
 			margin-top: 2px;
@@ -67,7 +68,7 @@
 			<p:ProgressTracker ui:field="progressTracker"
 				styleName="{style.progressTracker}" />
 		</g:north>
-		<g:north size='60'>
+		<g:north size='84'>
 			<g:FlowPanel styleName="{style.titlePanel}">
 				<g:Label text="Title" styleName="{style.title}" ui:field="title" />
 				<g:Label ui:field="subtitle" styleName="{style.subtitle}">If you don't have it,
