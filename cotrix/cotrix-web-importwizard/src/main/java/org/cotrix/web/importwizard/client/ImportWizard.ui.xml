@@ -29,7 +29,7 @@
 			font-family: 'Kite One', cursive;
 			color: #989898;
 			text-align: center;
-			margin-top: 2px;
+			margin-top: 10px;
 		}
 		
 		.stepsPanel {
@@ -50,7 +50,9 @@
 		.buttonPanel {
 			vertical-align: middle;
 			margin: 0 auto;
-			width: 880px;
+			padding-bottom: 28px;
+			padding-top: 32px;
+			width: 100%;
 		}
 		
 		.leftButton {
@@ -68,7 +70,7 @@
 			<p:ProgressTracker ui:field="progressTracker"
 				styleName="{style.progressTracker}" />
 		</g:north>
-		<g:north size='84'>
+		<g:north size='90'>
 			<g:FlowPanel styleName="{style.titlePanel}">
 				<g:Label text="Title" styleName="{style.title}" ui:field="title" />
 				<g:Label ui:field="subtitle" styleName="{style.subtitle}">If you don't have it,
@@ -78,19 +80,19 @@
 		<g:center>
 			<g:DeckLayoutPanel ui:field="stepsPanel" styleName="{style.stepsPanel}" />
 		</g:center>
-		<g:south size="60">
+		<g:south size="95">
 			<g:HTMLPanel styleName="{style.buttonPanel}">
 				<div class="{style.leftButton}">
 					<g:Button ui:field="backButton" styleName="{resources.css.grayButton}"
-						text="Back" />
+						text="BACK" />
 				</div>
 				<div class="{style.rightButton}">
 					<g:Button ui:field="nextButton" styleName="{resources.css.blueButton}"
-						text="Next" />
+						text="NEXT" />
 				</div>
 				<div class="{style.rightButton}">
 					<g:Button ui:field="importButton" styleName="{resources.css.blueButton}"
-						text="Import" />
+						text="IMPORT" />
 				</div>
 				<div class="{style.rightButton}">
 					<g:Button ui:field="manageButton" styleName="{resources.css.buttonManage}"
