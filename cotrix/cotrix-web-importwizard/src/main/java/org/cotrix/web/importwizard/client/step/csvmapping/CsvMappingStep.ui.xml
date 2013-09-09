@@ -30,7 +30,7 @@
 						<g:TextBox width="99%" ui:field="name"
 							styleName="{resources.css.textBox}" />
 					</td>
-					<td style="{style.reloadButtonCell}">
+					<td class="{style.reloadButtonCell} {style.topPadding}">
 						<g:PushButton ui:field="reloadButton"
 							styleName="{resources.css.buttonRefresh} {style.reloadButton}">
 							<g:upFace image="{resources.refresh}" />

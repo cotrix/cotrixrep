@@ -10,7 +10,6 @@
 		
 		.valueCell {
 			padding-left: 50px;
-
 		}
 	</ui:style>
 	<g:ScrollPanel styleName="{resources.css.wizardPanel}">
