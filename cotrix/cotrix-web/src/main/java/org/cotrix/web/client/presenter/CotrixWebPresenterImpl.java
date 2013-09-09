@@ -62,7 +62,7 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 		cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
 		cotrixPublishAppController.go(view.getBody());*/
 		
-		view.showMenu(1); // default menu;
+		view.showMenu(0); // default menu;
 	}
 
 	public void onMenuItemClick(int index) {
