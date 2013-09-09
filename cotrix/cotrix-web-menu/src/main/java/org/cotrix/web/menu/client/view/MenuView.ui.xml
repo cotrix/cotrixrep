@@ -9,10 +9,16 @@
 			height: 60px;
 		}
 		
+		.headerBar {
+			width: 940px;
+			margin: 0 auto;
+		}
+		
 		.title {
 			color: #f66a03;
 			margin-left: 10px;
 			font-size: 28px;
+			font-weight: bold;
 		}
 		
 		.subtitle {
@@ -71,8 +77,8 @@
 			color: #ffffff !important;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		<div class="{style.header}">
+	<g:HTMLPanel styleName="{style.header}">
+		<div class="{style.headerBar}">
 			<div class="{style.navigation}">
 				<ul class="{style.menu}">
 					<li class="{style.menuItem}">
@@ -91,7 +97,7 @@
 			</div>
 			<span class="{style.title}">Cotrix</span>
 			<br />
-			<span class="{style.subtitle}">A codelist management tool.</span>
+			<span class="{style.subtitle}">A codelist management tool</span>
 		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 
