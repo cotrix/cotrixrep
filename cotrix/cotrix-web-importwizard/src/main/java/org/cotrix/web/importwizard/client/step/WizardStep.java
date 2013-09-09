@@ -12,10 +12,10 @@ public interface WizardStep extends Presenter {
 	public String getId();
 	
 	/**
-	 * Checks if the step is complete.
+	 * Notify the step controller that the user want leave it.
 	 * @return
 	 */
-	public boolean isComplete();
+	public boolean leave();
 	
 	/**
 	 * Gets the step configuration for this step.

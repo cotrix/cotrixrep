@@ -52,7 +52,7 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		container.add(view.asWidget());
 	}
 	
-	public boolean isComplete() {
+	public boolean leave() {
 		Log.trace("checking csv mapping");
 		
 		List<AttributeMapping> mappings = view.getMappings();

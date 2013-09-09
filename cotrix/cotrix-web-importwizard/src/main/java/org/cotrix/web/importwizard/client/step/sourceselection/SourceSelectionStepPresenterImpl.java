@@ -41,7 +41,7 @@ public class SourceSelectionStepPresenterImpl extends AbstractWizardStep impleme
 	/** 
 	 * {@inheritDoc}
 	 */
-	public boolean isComplete() {
+	public boolean leave() {
 		return true;
 	}
 

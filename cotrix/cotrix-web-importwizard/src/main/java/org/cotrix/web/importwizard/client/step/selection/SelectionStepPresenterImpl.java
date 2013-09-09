@@ -54,7 +54,7 @@ public class SelectionStepPresenterImpl extends AbstractWizardStep implements Se
 		container.add(view.asWidget());
 	}
 
-	public boolean isComplete() {
+	public boolean leave() {
 		return detailsNodeSelector.toDetails() || selectedAsset!=null;
 	}
 

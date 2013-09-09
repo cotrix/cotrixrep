@@ -51,7 +51,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 		container.add(view.asWidget());
 	}
 
-	public boolean isComplete() {
+	public boolean leave() {
 		Log.trace("checking csv mapping");
 
 		List<AttributeMapping> mappings = view.getMappings();

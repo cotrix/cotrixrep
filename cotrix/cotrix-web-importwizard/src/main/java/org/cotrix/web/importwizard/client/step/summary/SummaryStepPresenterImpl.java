@@ -57,7 +57,7 @@ ImportStartedHandler, ImportProgressHandler, FileUploadedHandler, CodeListSelect
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isComplete() {
+	public boolean leave() {
 		MappingMode mappingMode = view.getMappingMode();
 		importEventBus.fireEvent(new MappingModeUpdatedEvent(mappingMode));
 		return true;

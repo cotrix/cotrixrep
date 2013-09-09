@@ -190,7 +190,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		reset();
 	}
 
-	public boolean isComplete() {
+	public boolean leave() {
 		return complete;
 	}
 	

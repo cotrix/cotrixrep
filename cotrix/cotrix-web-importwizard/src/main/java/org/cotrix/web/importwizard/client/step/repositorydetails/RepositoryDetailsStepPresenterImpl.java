@@ -45,7 +45,7 @@ public class RepositoryDetailsStepPresenterImpl extends AbstractWizardStep imple
 		container.add(view.asWidget());
 	}
 
-	public boolean isComplete() {
+	public boolean leave() {
 		return false;
 	}
 

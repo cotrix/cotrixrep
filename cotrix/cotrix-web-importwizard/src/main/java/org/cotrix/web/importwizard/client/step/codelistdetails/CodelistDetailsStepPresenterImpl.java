@@ -51,7 +51,7 @@ public class CodelistDetailsStepPresenterImpl extends AbstractWizardStep impleme
 		container.add(view.asWidget());
 	}
 
-	public boolean isComplete() {
+	public boolean leave() {
 		return true;
 	}
 

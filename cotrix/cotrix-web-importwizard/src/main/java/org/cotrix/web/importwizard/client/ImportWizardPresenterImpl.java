@@ -233,7 +233,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	protected void goForward()
 	{
-		boolean isComplete = flow.getCurrentItem().isComplete();
+		boolean isComplete = flow.getCurrentItem().leave();
 		if (!isComplete) return;
 
 		//if (currentStepIndex == steps.size()-1)

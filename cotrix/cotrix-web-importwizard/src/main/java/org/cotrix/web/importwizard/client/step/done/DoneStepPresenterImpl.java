@@ -28,7 +28,7 @@ public class DoneStepPresenterImpl extends AbstractWizardStep implements DoneSte
 		container.add(view.asWidget());
 	}
 
-	public boolean isComplete() {
+	public boolean leave() {
 		return true;
 	}
 

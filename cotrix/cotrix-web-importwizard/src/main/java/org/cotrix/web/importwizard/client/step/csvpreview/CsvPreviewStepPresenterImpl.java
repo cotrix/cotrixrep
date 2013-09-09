@@ -39,7 +39,7 @@ public class CsvPreviewStepPresenterImpl extends AbstractWizardStep implements C
 		container.add(view.asWidget());
 	}
 
-	public boolean isComplete() {
+	public boolean leave() {
 		if (headerRequired && !areHeadersValid()) {
 			view.alert("All header fields should be filled");
 			return false;
