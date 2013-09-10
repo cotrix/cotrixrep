@@ -75,7 +75,7 @@ public class Importer<T> implements Runnable {
 
 			Report report = outcome.report();
 			logger.trace("is failed? {}", report.isFailure());
-			logger.trace("Report: {}", report.toString());
+			//logger.trace("Report: {}", report.toString());
 			
 			logger.trace("found {} logs item", report.logs().size());
 			List<ReportLog> logs = convertLogs(report.logs());
