@@ -57,6 +57,12 @@ public class DefaultMapService implements MapService {
 			
 		}
 		catch(Exception e) {
+		
+			//make sure we free up resources
+			Report current = Report.report();
+			if (current!=null)
+				current.close();
+			
 			throw new IllegalStateException("could not map codelist with directives "+directives+" (see cause) ",e);
 		}
 	}

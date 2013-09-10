@@ -16,7 +16,6 @@ import org.cotrix.io.publish.PublicationDirectives;
 import org.cotrix.io.publish.PublicationTask;
 import org.sdmx.SdmxServiceFactory;
 import org.sdmxsource.sdmx.api.manager.output.StructureWritingManager;
-import org.sdmxsource.sdmx.api.manager.parse.StructureParsingManager;
 import org.virtualrepository.VirtualRepository;
 import org.virtualrepository.impl.Repository;
 
@@ -95,16 +94,6 @@ public class CdiProducers {
 	@Produces @Singleton
 	public static VirtualRepository virtualRepository() {
 		return repository;
-	}
-	
-	/**
-	 * Returns a {@link StructureParsingManager} service.
-	 * 
-	 * @return the service
-	 */
-	@Produces @Singleton
-	public static StructureParsingManager parser() {
-		return SdmxServiceFactory.parser();
 	}
 
 	/**
