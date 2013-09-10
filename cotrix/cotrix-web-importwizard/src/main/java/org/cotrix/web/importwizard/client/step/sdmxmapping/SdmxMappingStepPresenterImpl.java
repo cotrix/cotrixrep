@@ -4,14 +4,16 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.MappingLoadedEvent;
+import org.cotrix.web.importwizard.client.event.MappingLoadingEvent;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
-import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
+import org.cotrix.web.importwizard.client.event.MappingLoadedEvent.MappingLoadedHandler;
+import org.cotrix.web.importwizard.client.event.MappingLoadingEvent.MappingLoadingHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -23,22 +25,23 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements SdmxMappingStepPresenter, MappingsUpdatedHandler, MetadataUpdatedHandler {
+public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep implements SdmxMappingStepPresenter, MetadataUpdatedHandler, MappingLoadingHandler, MappingLoadedHandler  {
 
 	protected SdmxMappingStepView view;
 	protected EventBus importEventBus;
 	protected ImportMetadata metadata;
-	protected AttributesMappings attributesMappings;
+	protected List<AttributeMapping> mappings;
 
 	@Inject
 	public SdmxMappingStepPresenterImpl(SdmxMappingStepView view, @ImportBus EventBus importEventBus){
-		super("sdmx-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tell us what to import and how.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("sdmx-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tell us what to import and how.", NavigationButtonConfiguration.BACKWARD, NavigationButtonConfiguration.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 
 		this.importEventBus = importEventBus;
-		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, this);
 		importEventBus.addHandler(MetadataUpdatedEvent.TYPE, this);
+		importEventBus.addHandler(MappingLoadingEvent.TYPE, this);
+		importEventBus.addHandler(MappingLoadedEvent.TYPE, this);
 	}
 
 	/** 
@@ -48,7 +51,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 		container.add(view.asWidget());
 	}
 
-	public boolean isComplete() {
+	public boolean leave() {
 		Log.trace("checking csv mapping");
 
 		List<AttributeMapping> mappings = view.getMappings();
@@ -60,8 +63,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 
 		if (valid) {
 
-			attributesMappings = new AttributesMappings(mappings, null); 
-			importEventBus.fireEvent(new MappingsUpdatedEvent(attributesMappings, true));
+			importEventBus.fireEvent(new MappingsUpdatedEvent(mappings));
 			
 			if (metadata == null) metadata = new ImportMetadata();
 			metadata.setName(codelistName);
@@ -95,26 +97,30 @@ public class SdmxMappingStepPresenterImpl extends AbstractWizardStep implements 
 		return true;
 	}
 
-
-	@Override
-	public void onMappingUpdated(MappingsUpdatedEvent event) {
-		if (event.isUserEdit()) return;
-		attributesMappings = event.getMappings();
-		view.setAttributes(attributesMappings.getMappings());
-	}
-	
-
 	@Override
 	public void onMetadataUpdated(MetadataUpdatedEvent event) {
 		if (!event.isUserEdited()) {
-			view.setCodelistName(event.getMetadata().getName());
+			String name = event.getMetadata().getName();
+			view.setCodelistName(name == null?"":name);
 			this.metadata = event.getMetadata();
 		}
+	}
+	
+	@Override
+	public void onMappingLoading(MappingLoadingEvent event) {
+		view.setMappingLoading();
+	}
+	
+	@Override
+	public void onMappingLoaded(MappingLoadedEvent event) {
+		mappings = event.getMappings();
+		view.setMappings(mappings);
+		view.unsetMappingLoading();
 	}
 
 	@Override
 	public void onReload() {
 		view.setCodelistName(metadata.getName());
-		view.setAttributes(attributesMappings.getMappings());
+		view.setMappings(mappings);
 	}
 }

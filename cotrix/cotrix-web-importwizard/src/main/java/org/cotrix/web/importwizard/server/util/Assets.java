@@ -8,14 +8,19 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.virtualrepository.Asset;
 import org.virtualrepository.AssetType;
 import org.virtualrepository.Properties;
 import org.virtualrepository.RepositoryService;
+import org.virtualrepository.csv.CsvCodelist;
+import org.virtualrepository.sdmx.SdmxCodelist;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -30,11 +35,30 @@ public class Assets {
 		assetInfo.setId(asset.id());
 		assetInfo.setName(asset.name());
 		assetInfo.setType(asset.type().toString());
-		assetInfo.setRepositoryId(asset.service().name().toString());
-		assetInfo.setRepositoryName(asset.service().name().toString());
+		CodeListType codeListType = getCodeListType(asset.type());
+		assetInfo.setCodeListType(codeListType);
+		String serviceName = getServiceName(asset);
+		assetInfo.setRepositoryId(serviceName);
+		assetInfo.setRepositoryName(serviceName);
 		
 		return assetInfo;
 		
+	}
+	
+	protected static CodeListType getCodeListType(AssetType assetType)
+	{
+		if (assetType == SdmxCodelist.type) return CodeListType.SDMX;
+		if (assetType == CsvCodelist.type) return CodeListType.CSV;
+		throw new IllegalArgumentException("Unknow asset type "+assetType);
+	}
+	
+	protected static String getServiceName(Asset asset)
+	{
+		RepositoryService service = asset.service();
+		if (service == null) return null;
+		QName name = service.name();
+		if (name == null) return null;
+		return String.valueOf(name);
 	}
 	
 	public static AssetDetails convertToDetails(Asset asset)
@@ -44,8 +68,9 @@ public class Assets {
 		details.setName(asset.name());
 		details.setProperties(convert(asset.properties()));
 		details.setType(String.valueOf(asset.type()));
-		details.setRepositoryName(asset.service().name().toString());
-		details.setRepositoryId(asset.service().name().toString());
+		String serviceName = getServiceName(asset);
+		details.setRepositoryName(serviceName);
+		details.setRepositoryId(serviceName);
 		return details;
 	}
 	

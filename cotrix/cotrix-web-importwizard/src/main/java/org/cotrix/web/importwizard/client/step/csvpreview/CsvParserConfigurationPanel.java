@@ -56,6 +56,7 @@ public class CsvParserConfigurationPanel extends Composite {
 		bind(separatorField, customSeparatorField);
 		bind(quoteField, customQuoteField);
 
+		
 	}
 	
 	@UiHandler("refreshButton")

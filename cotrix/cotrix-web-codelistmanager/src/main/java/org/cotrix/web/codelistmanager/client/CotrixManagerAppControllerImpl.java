@@ -1,13 +1,16 @@
 package org.cotrix.web.codelistmanager.client;
 
 import org.cotrix.web.codelistmanager.client.presenter.CodeListManagerPresenter;
-import org.cotrix.web.codelistmanager.client.view.CodeListManagerView;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class CotrixManagerAppControllerImpl implements CotrixManagerAppController{
 	private ManagerServiceAsync rpcService;
 	private HandlerManager eventBus;

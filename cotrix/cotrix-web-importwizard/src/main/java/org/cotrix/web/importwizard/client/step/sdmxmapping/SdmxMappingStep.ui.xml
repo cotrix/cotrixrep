@@ -1,46 +1,59 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:u="urn:import:org.cotrix.web.importwizard.client.util">
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources" />
-	<ui:style
-		type="org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepViewImpl.Style">
-			.grid {
-				vertical-align: top;
-				margin-right: 20px;
-			}
+	<ui:style>
+		.topPadding {
+			padding-top: 10px;
+		}
 			
-			.cell {
-				padding: 5px;
-			}
-		</ui:style>
-
-
-	<g:HTMLPanel>
-		<table>
-			<tr>
-				<td class="{resources.css.verticalHeadersSingleItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Name</g:Label>
-				</td>
-				<td>
-					<g:TextBox width="300px" ui:field="name" styleName="{resources.css.textBox}"></g:TextBox>
-				</td>
-			</tr>
-			<tr>
-				<td class="{resources.css.verticalHeadersFieldItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Elements</g:Label>
-				</td>
-				<td>
-					<g:FlexTable ui:field="columnsTable" />
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<g:PushButton ui:field="reloadButton" styleName="{resources.css.imageButton}">
-						<g:upFace image="{resources.reload}" />
-					</g:PushButton>
-				</td>
-			</tr>
-		</table>
-	</g:HTMLPanel>
+		.reloadButtonCell {
+			padding-right: 24px;
+			padding-left: 10px;
+			width: 5%;
+		}
+		
+		.reloadButton {
+			margin: auto;
+			outline: none;
+		}
+	</ui:style>
+	<g:ScrollPanel styleName="{resources.css.mappingTable}">
+		<g:HTMLPanel>
+			<table width="100%">
+				<tr>
+					<td class="{resources.css.mappingTableNameHeader}">
+						<span class="{resources.css.propertyLabel}" style="padding-left:31px;padding-right:5px;">NAME</span>
+					</td>
+					<td style="padding-top:10px;width:85%;">
+						<g:TextBox width="99%" ui:field="name"
+							styleName="{resources.css.textBox}" />
+					</td>
+					<td class="{style.reloadButtonCell}  {style.topPadding}">
+						<g:PushButton ui:field="reloadButton"
+							styleName="{resources.css.buttonRefresh} {style.reloadButton}">
+							<g:upFace image="{resources.refresh}" />
+						</g:PushButton>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3" align="left" style="padding: 20px;">
+						<table style="border-collapse:collapse; width: 100%;">
+							<tr>
+								<td class="{resources.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
+									<span class="{resources.css.propertyLabel}">ELEMENTS</span>
+								</td>
+							</tr>
+							<tr>
+								<td style="border: 1px solid #d1d1d1;padding-left:5px;">
+									<u:MappingPanel ui:field="mappingPanel" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</g:HTMLPanel>
+	</g:ScrollPanel>
 </ui:UiBinder> 

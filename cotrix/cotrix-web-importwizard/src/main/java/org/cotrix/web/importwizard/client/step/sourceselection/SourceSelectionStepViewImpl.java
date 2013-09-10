@@ -5,11 +5,9 @@ import org.cotrix.web.importwizard.client.util.AlertDialog;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -21,9 +19,6 @@ public class SourceSelectionStepViewImpl extends Composite implements SourceSele
 	@UiTemplate("SourceSelectionStep.ui.xml")
 	interface SourceSelectionStepUiBinder extends UiBinder<Widget, SourceSelectionStepViewImpl> {}
 	private static SourceSelectionStepUiBinder uiBinder = GWT.create(SourceSelectionStepUiBinder.class);
-	
-	@UiField FocusPanel myComputerPanel;
-	@UiField FocusPanel cloudPanel;
 	
 	private AlertDialog alertDialog;
 	private Presenter presenter;
@@ -48,7 +43,7 @@ public class SourceSelectionStepViewImpl extends Composite implements SourceSele
 	
 	public void alert(String message) {
 		if(alertDialog == null){
-			alertDialog = new AlertDialog();
+			alertDialog = new AlertDialog(false);
 		}
 		alertDialog.setMessage(message);
 		alertDialog.show();

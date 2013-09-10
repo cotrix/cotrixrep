@@ -4,8 +4,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.ClientBundle.Source;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public interface CotrixManagerResources extends ClientBundle {
 	public static final CotrixManagerResources INSTANCE = GWT.create(CotrixManagerResources.class);
 
@@ -18,7 +21,7 @@ public interface CotrixManagerResources extends ClientBundle {
 	@Source("loading.gif")
 	ImageResource loading();
 
-	@Source( "style.css")
+	@Source("style.css")
 	public CssResource css();
 
 }

@@ -1,12 +1,15 @@
+/* DEFINITIONS */
 .gwt-PopupPanelGlass {
 	background-color: #000;
 	opacity: 0.3;
-	filter: alpha(opacity =                     30);
+	filter: alpha(opacity =                           30);
 }
 
 .simpleCheckbox {
 	width: 20px;
 	height: 20px;
+	border-radius: 0px;
+	background-color: #000;
 }
 
 .paddedText {
@@ -14,17 +17,16 @@
 	padding-right: 10px;
 	font-size: 19px;
 	vertical-align: middle;
-	color: #333;
+	color: #4f4e4e;
 	font-weight: normal;
-	color: #333;
 }
 
 .paddedTextDisabled {
-	color: rgb(84, 84, 84);
+	color: #dedede;
 }
 
 .linkText {
-	color: blue !important;
+	color: #5674b9 !important;
 	cursor: pointer;
 }
 
@@ -40,8 +42,8 @@
 
 .listBox {
 	float: left;
-	font-size: 14px;
-	color: #333;
+	font-size: 16px;
+	color: #4f4e4e;
 	height: 29px;
 	border-radius: 5px;
 	background-color: #fafafa;
@@ -50,8 +52,9 @@
 }
 
 .listBox:disabled {
-	background-color: rgb(235, 235, 228);
-	color: rgb(84, 84, 84);
+	background-color: #ededed;
+	border-color: #b7b6b6;
+	color: #acabab;
 }
 
 .imageButton {
@@ -63,8 +66,13 @@
 .textBox {
 	padding: 5px;
 	border-radius: 5px;
+	background-color: #fafafa;
 	box-shadow: 0px 0px 0px 0px;
 	border: 1px solid #999999;
+	color: #4f4e4e;
+	
+	height: 16px;
+	font-size: 16px;
 }
 
 .textBox:focus {
@@ -86,13 +94,27 @@
 	border-radius: 5px;
 }
 
+.textBox:disabled {
+	background-color: #ededed;
+	border-color: #b7b6b6;
+	color: #acabab;
+}
+
+.wizardPanel {
+	background-color: #f6f6f6;
+	border: 1px solid #d1d1d1;
+	border-spacing: 5px;
+}
+
 /** GRID **/
 .verticalHeadersSingleItem {
 	vertical-align: middle;
+	text-align: left;
 }
 
 .verticalHeadersMultipleItem {
 	vertical-align: top;
+	text-align: left;
 }
 
 .verticalHeadersFieldItem {
@@ -102,16 +124,23 @@
 
 /** PREVIEW **/
 .previewHeader {
-	background-color: #eee;
+	background-color: #e1e1e1;
+	color: #686868;
+	padding: 5px;
+
+	/*background-color: #eee;
 	margin: 0;
 	border-color: #ccc;
 	padding: 3px;
 	border-width: 1px 1px 0 0;
-	border-style: solid;
+	border-style: solid;*/
 }
 
 .preview {
-	border-width: 0 0 1px 1px;
+	background-color: #d1d1d1;
+	border-spacing: 1px;
+	border-color: gray;
+	/*border-width: 0 0 1px 1px;
 	border-spacing: 0;
 	border-color: #ccc;
 	background-color: white;
@@ -119,106 +148,81 @@
 	color: #666;
 	font-size: 8px;
 	border-style: solid;
-	text-align: center;
+	text-align: center;*/
 }
 
 .previewCell {
-	margin: 0;
+	background-color: #f6f6f6;
+	color: #989898;
+	padding: 5px;
+	/*margin: 0;
 	border-color: #ccc;
 	padding: 3px;
 	border-width: 1px 1px 0 0;
-	border-style: solid;
+	border-style: solid;*/
+}
+
+/** MAPPING **/
+.mappingTable {
+	border: 1px solid #d1d1d1;
+	background-color: #f6f6f6;
+}
+
+.mappingTableNameHeader {
+	vertical-align: middle;
+	padding-top: 10px;
+	width: 110px;
+}
+
+.mappingCell {
+	padding: 5px;
 }
 
 /** BUTTONS **/
+/*	width: 103px;*/
 .blueButton {
-	border: 1px solid #3063a1;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
+	background-color: #5674b9;
 	border-radius: 5px;
-	width: 103px;
-	font-size: 12px;
-	font-family: arial, helvetica, sans-serif;
-	padding: 8px 8px 8px 8px;
-	text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
-	font-weight: bold;
-	text-align: center;
-	color: #E8E8E8;
-	background-color: #427EC7;
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
-		color-stop(100%, #518EE2));
-	background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
-	background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
-	background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
-	background-image: -o-linear-gradient(top, #427EC7, #518EE2);
-	background-image: linear-gradient(top, #427EC7, #518EE2);
-	filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#427EC7, endColorstr=#518EE2)"
-		);
+	border: 1px solid #5674b9;
+	padding: 6px;
+	width: 98px;
+	height: 35px;
+	font-size: 18px;
+	color: #eee;
 }
 
 .blueButton:hover {
+	background-color: #31529d;
 	cursor: pointer;
-	border: 1px solid #254d7e;
-	background-color: #3165a5;
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
-		color-stop(100%, #2572db));
-	background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
-	background-image: -moz-linear-gradient(top, #3165a5, #2572db);
-	background-image: -ms-linear-gradient(top, #3165a5, #2572db);
-	background-image: -o-linear-gradient(top, #3165a5, #2572db);
-	background-image: linear-gradient(top, #3165a5, #2572db);
-	filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#3165a5, endColorstr=#2572db)"
-		);
 }
 
+/*	width: 103px;*/
 .grayButton {
-	border: 1px solid #d7dada;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
+	background-color: #bdbdbd;
 	border-radius: 5px;
-	width: 103px;
-	font-size: 12px;
-	font-family: arial, helvetica, sans-serif;
-	padding: 8px 8px 8px 8px;
-	text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
-	font-weight: bold;
-	text-align: center;
-	color: #7D7D7D;
-	background-color: #f4f5f5;
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4f5f5),
-		color-stop(100%, #dfdddd));
-	background-image: -webkit-linear-gradient(top, #f4f5f5, #dfdddd);
-	background-image: -moz-linear-gradient(top, #f4f5f5, #dfdddd);
-	background-image: -ms-linear-gradient(top, #f4f5f5, #dfdddd);
-	background-image: -o-linear-gradient(top, #f4f5f5, #dfdddd);
-	background-image: linear-gradient(top, #f4f5f5, #dfdddd);
-	filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f5f5, endColorstr=#dfdddd)"
-		);
+	border: 1px solid #bdbdbd;
+	padding: 6px;
+	width: 98px;
+	height: 35px;
+	font-size: 18px;
+	color: #696969;
 }
 
 .grayButton:hover {
+	background-color: #9d9d9d;
 	cursor: pointer;
-	border: 1px solid #bfc4c4;
-	background-color: #d9dddd;
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d9dddd),
-		color-stop(100%, #c6c3c3));
-	background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
-	background-image: -moz-linear-gradient(top, #d9dddd, #c6c3c3);
-	background-image: -ms-linear-gradient(top, #d9dddd, #c6c3c3);
-	background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
-	background-image: linear-gradient(top, #d9dddd, #c6c3c3);
-	filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3)"
-		);
 }
 
 .propertyLabel {
-	font-size: 16px;
+	font-size: 20px;
+	color: #5e5e5e;
 }
 
 .propertyValue {
 	padding: 5px;
-	font-size: 14px;
-	color: #666;
+	font-size: 20px;
+	color: #5e5e5e;
+	text-align: left;
 }
 
 /** PROPERTIES TABLE **/
@@ -227,24 +231,17 @@
 }
 
 .propertiesTable {
-	border-width: 0 0 1px 1px;
-	border-spacing: 0;
-	border-color: #ccc;
-	background-color: white;
-	border-collapse: collapse;
-	color: #666;
 	font-size: 8px;
-	border-style: solid;
 	text-align: left;
+	border: none;
 }
 
 .propertiesTable td,.propertiesTable th {
 	margin: 0;
-	border-color: #ccc;
 	padding: 3px;
-	padding-left: 10px;
-	border-width: 1px 1px 0 0;
-	border-style: solid;
+	border: none;
+	font-size: 16px;
+	color: #5e5e5e;
 }
 
 /** AREA HOVER HIGHLIGHT **/
@@ -256,4 +253,164 @@
 
 .areaHighlight:HOVER {
 	box-shadow: 0px 0px 5px #61C5FA;
+}
+
+/** BUTTONS **/
+/** SOURCE SELECTION moved here due to https://code.google.com/p/google-web-toolkit/issues/detail?id=5320 **/
+@sprite .buttonComputer {
+	gwt-image: "computer";
+	background-position: 0;
+	background-color: #ddd;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+	width: 322px;
+	height: 100px;
+	font-size: 24px;
+	padding-left: 106px;
+	color: #666;
+}
+
+@sprite .buttonComputer:hover {
+	gwt-image: "computerHover";
+	background-position: 0;
+	background-color: #5674b9;
+	color: #fff;
+	cursor: pointer;
+	width: 322px;
+	height: 100px;
+}
+
+@sprite .buttonCloud {
+	gwt-image: "cloud";
+	background-position: 0;
+	background-color: #ddd;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+	width: 322px;
+	height: 100px;
+	font-size: 24px;
+	padding-left: 106px;
+	color: #666;
+	vertical-align: middle;
+}
+
+@sprite .buttonCloud:hover {
+	gwt-image: "cloudHover";
+	background-position: 0;
+	background-color: #5674b9;
+	color: #fff;
+	cursor: pointer;
+	width: 322px;
+	height: 100px;
+}
+
+@sprite .buttonBrowse {
+	gwt-image: "browse";
+	background-position: 0;
+	background-color: #ddd;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+	width: 180px;
+	height: 70px;
+	font-size: 24px;
+	padding-left:84px;
+	padding-right:20px;
+	color: #666;
+}
+
+@sprite .buttonBrowse:hover {
+	gwt-image: "browseHover";
+	background-position: 0;
+	background-color: #5674b9;
+	color: #fff;
+	cursor: pointer;
+	width: 180px;
+	height: 70px;
+}
+
+.buttonRefresh {
+	background-color: #5674b9;
+	border-radius: 100px;
+	border: 1px solid #5674b9;
+	padding: 5px;
+	height: 20px;
+	width: 21px;
+	color: #fff;
+}
+
+.buttonRefresh:hover {
+	background-color: #31529d;
+	border: 1px solid #31529d;
+	cursor: pointer;
+}
+
+@sprite .buttonDownload {
+	gwt-image: "download";
+	background-color: #5674b9;
+	border: 1px solid #5674b9;
+	border-radius: 5px;
+	text-align: center;
+	width: 170px;
+	font-size: 15px;
+	padding-left: 55px;
+	height: 40px;
+	padding-right: 20px;
+	color: #eee;
+}
+
+@sprite .buttonDownload:hover {
+	gwt-image: "download";
+	background-color: #344e89;
+	color: #eee;
+	cursor: pointer;
+	width: 170px;
+	height: 40px;
+}
+
+@sprite .buttonManage {
+	gwt-image: "manage";
+	background-color:#5674b9;
+	border:1px solid #5674b9;
+	border-radius:5px;
+	text-align:center;
+	width:155px;
+	font-size:15px;
+	padding-left:55px;
+	height:40px;
+	color:#eee;
+}
+
+@sprite .buttonManage:hover{
+	gwt-image: "manage";
+	background-color: #344e89 ;
+	color: #eee;
+	cursor: pointer;
+	width:155px;
+	height:40px;
+}
+
+@sprite .buttonImport{
+	gwt-image: "importIcon";
+	background-color:#5674b9;
+	border:1px solid #5674b9;
+	border-radius:5px;
+	text-align:center;
+	width:220px;
+	font-size:15px;
+	padding-left:70px;
+	height:40px;
+	
+	color:#eee;
+}
+
+@sprite .buttonImport:hover{
+	gwt-image: "importIcon";
+	background-color:#344e89;
+	color:#eee;
+	cursor:pointer;
+	width:220px;
+	height:40px;
 }

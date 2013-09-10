@@ -4,6 +4,7 @@
 package org.cotrix.web.importwizard.client.resources;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.DataGrid;
 
 /**
@@ -14,7 +15,9 @@ public interface DataGridResource extends DataGrid.Resources {
 
 	public static DataGridResource INSTANCE = GWT.create(DataGridResource.class);
 	
-
+    @Source("previewLoader.gif")
+    ImageResource dataGridLoading();
+	
 	@Source("datagrid.css")
 	DataGridStyle dataGridStyle();
 	

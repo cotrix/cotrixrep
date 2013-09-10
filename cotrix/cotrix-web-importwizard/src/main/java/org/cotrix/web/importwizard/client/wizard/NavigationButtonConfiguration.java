@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.importwizard.client.wizard;
 
-import org.cotrix.web.importwizard.client.resources.Resources;
+import org.cotrix.web.importwizard.client.ImportWizardView.WizardButton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -11,44 +11,37 @@ import org.cotrix.web.importwizard.client.resources.Resources;
  */
 public class NavigationButtonConfiguration {
 	
-	public enum ButtonAction {NONE, BACK, NEXT, NEW_IMPORT, MANAGE};
+	public static final NavigationButtonConfiguration BACKWARD = new NavigationButtonConfiguration(WizardAction.BACK, WizardButton.BACK);
+	public static final NavigationButtonConfiguration FORWARD = new NavigationButtonConfiguration(WizardAction.NEXT, WizardButton.NEXT);
+	public static final NavigationButtonConfiguration IMPORT = new NavigationButtonConfiguration(WizardAction.NEXT, WizardButton.IMPORT);
+	public static final NavigationButtonConfiguration NEW_IMPORT = new NavigationButtonConfiguration(WizardAction.NEW_IMPORT, WizardButton.NEW_IMPORT);
+	public static final NavigationButtonConfiguration MANAGE = new NavigationButtonConfiguration(WizardAction.MANAGE, WizardButton.MANAGE);
+
+	protected WizardAction action;
+	protected WizardButton wizardButton;
 	
-	public static final NavigationButtonConfiguration NONE = new NavigationButtonConfiguration(null, ButtonAction.NONE, null);
-	public static final NavigationButtonConfiguration DEFAULT_BACKWARD = new NavigationButtonConfiguration("Back", ButtonAction.BACK, Resources.INSTANCE.css().grayButton());
-	public static final NavigationButtonConfiguration DEFAULT_FORWARD = new NavigationButtonConfiguration("Next", ButtonAction.NEXT, Resources.INSTANCE.css().blueButton());
-
-	protected String label;
-	protected ButtonAction action;
-	protected String style;
-
 	/**
-	 * @param label
 	 * @param action
-	 * @param style
+	 * @param wizardButton
 	 */
-	public NavigationButtonConfiguration(String label, ButtonAction action,
-			String style) {
-		this.label = label;
+	public NavigationButtonConfiguration(WizardAction action,
+			WizardButton wizardButton) {
 		this.action = action;
-		this.style = style;
-	}
-
-	public String getLabel()
-	{
-		return label;
+		this.wizardButton = wizardButton;
 	}
 
 	/**
 	 * @return the action
 	 */
-	public ButtonAction getAction() {
+	public WizardAction getAction() {
 		return action;
 	}
 
 	/**
-	 * @return the style
+	 * @return the wizardButton
 	 */
-	public String getStyle() {
-		return style;
+	public WizardButton getWizardButton() {
+		return wizardButton;
 	}
+
 }

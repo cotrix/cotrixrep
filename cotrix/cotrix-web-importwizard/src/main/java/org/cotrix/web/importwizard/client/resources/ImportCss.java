@@ -60,4 +60,23 @@ public interface ImportCss extends CssResource {
 	String grayButton();
 	
 	String areaHighlight();
+	
+	String buttonComputer();
+	String buttonCloud();
+	
+	String buttonBrowse();
+	
+	String buttonRefresh();
+	
+	String mappingTable();
+	String mappingTableNameHeader();
+	
+	String buttonDownload();
+	
+	String wizardPanel();
+	
+	String buttonManage();
+	String buttonImport();
+	
+	String mappingCell();
 }

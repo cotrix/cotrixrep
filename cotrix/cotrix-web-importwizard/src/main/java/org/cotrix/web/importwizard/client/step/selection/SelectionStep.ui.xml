@@ -4,39 +4,36 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources" />
 	<ui:style>
-			.refreshButton {
-				float: right;
-				position: relative !important;
-			}
-		</ui:style>
-	<g:FlowPanel ui:field="mainPanel">
-		<g:DockLayoutPanel width="100%" height="100%" unit="EM"
-			ui:field="gridPanel">
-			<g:north size="3">
-				<g:PushButton ui:field="refreshButton"
-					styleName="{resources.css.imageButton} {style.refreshButton}">
-					<g:upFace image="{resources.refresh}" />
-				</g:PushButton>
-			</g:north>
-			<!-- DataGrid. -->
-			<g:center>
+		.mainPanel {
+			width: 100%;
+		}
+		
+		.refreshButton {
+			margin-left: 7px;
+			outline: none;
+		}
+		
+		.pagerPanel {
+			margin: 0 auto;
+		}
+	</ui:style>
 
-				<c:DataGrid ui:field='dataGrid' />
+	<g:DockLayoutPanel unit='PX' ui:field="reportPanel"
+		styleName="{style.mainPanel}">
 
-			</g:center>
-
-			<!-- Pager. -->
-			<g:south size="3">
-				<g:HTMLPanel>
-					<table style="width:100%">
-						<tr>
-							<td align='center'>
-								<c:SimplePager ui:field='pager' />
-							</td>
-						</tr>
-					</table>
-				</g:HTMLPanel>
-			</g:south>
-		</g:DockLayoutPanel>
-	</g:FlowPanel>
+		<g:center>
+			<c:DataGrid ui:field='dataGrid' />
+		</g:center>
+		<g:east size="45">
+			<g:PushButton ui:field="refreshButton"
+				styleName="{resources.css.buttonRefresh} {style.refreshButton}">
+				<g:upFace image="{resources.refresh}" />
+			</g:PushButton>
+		</g:east>
+		<g:south size="40">
+			<g:HTMLPanel>
+				<c:SimplePager ui:field='pager' styleName="{style.pagerPanel}" />
+			</g:HTMLPanel>
+		</g:south>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 

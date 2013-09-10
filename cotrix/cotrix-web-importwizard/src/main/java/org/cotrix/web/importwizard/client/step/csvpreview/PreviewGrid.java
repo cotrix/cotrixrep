@@ -12,10 +12,10 @@ import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvid
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewGrid extends Composite {
+public class PreviewGrid extends ResizeComposite {
 	
 	protected static final int HEADER_ROW = 0;
 	
@@ -55,7 +55,8 @@ public class PreviewGrid extends Composite {
 	{
 		loadingContainter = new FlexTable();
 		loadingContainter.getElement().setAttribute("align", "center");
-		loadingContainter.setWidget(0, 0, new Label("loading..."));
+		Image loader = new Image(Resources.INSTANCE.previewLoader());
+		loadingContainter.setWidget(0, 0, loader);
 	}
 	
 	public void loadData()

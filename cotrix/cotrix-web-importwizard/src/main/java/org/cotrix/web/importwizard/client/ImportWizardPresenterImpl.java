@@ -1,16 +1,17 @@
 package org.cotrix.web.importwizard.client;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.cotrix.web.importwizard.client.ImportWizardView.WizardButton;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.NewImportEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.flow.FlowManager;
-import org.cotrix.web.importwizard.client.flow.FlowManager.LabelProvider;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent;
 import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
 import org.cotrix.web.importwizard.client.flow.builder.FlowManagerBuilder;
@@ -18,6 +19,8 @@ import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.RootNodeBuild
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SingleNodeBuilder;
 import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.SwitchNodeBuilder;
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
+import org.cotrix.web.importwizard.client.step.TaskWizardStep;
+import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
@@ -29,9 +32,11 @@ import org.cotrix.web.importwizard.client.step.selection.SelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionStepPresenter;
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
+import org.cotrix.web.importwizard.client.task.ImportTask;
+import org.cotrix.web.importwizard.client.task.RetrieveAssetTask;
+import org.cotrix.web.importwizard.client.wizard.WizardAction;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
-import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration.ButtonAction;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
 import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent.NavigationHandler;
 
@@ -42,6 +47,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.LegacyHandlerWrapper;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -58,8 +64,11 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 
 	protected EventBus importEventBus;
 	
-	protected ButtonAction backwardAction;
-	protected ButtonAction forwardAction;
+	protected EnumMap<WizardButton, WizardAction> buttonsActions = new EnumMap<WizardButton, WizardAction>(WizardButton.class);
+	
+	protected VisualWizardStep currentVisualStep;
+	protected WizardAction backwardAction;
+	protected WizardAction forwardAction;
 
 	@Inject
 	public ImportWizardPresenterImpl(@ImportBus final EventBus importEventBus, ImportWizardView view,  
@@ -71,14 +80,23 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			SelectionStepPresenter selectionStep,
 			CodelistDetailsStepPresenter codelistDetailsStep,
 			RepositoryDetailsStepPresenter repositoryDetailsStep,
+			
+			RetrieveAssetTask retrieveAssetTask,
+			MappingNodeSelector mappingNodeSelector,
 
 			CsvMappingStepPresenter csvMappingStep,
 			SdmxMappingStepPresenter sdmxMappingStep, 
-
+			
 			SummaryStepPresenter summaryStep,
+			
+
+			
 			DoneStepPresenter doneStep,
 			SourceNodeSelector selector,
-			SaveCheckPoint saveCheckPoint) {
+			
+			//FIXME to register the handler later :(
+			ImportTask importTask
+			) {
 
 		this.importEventBus = importEventBus;
 		this.view = view;
@@ -97,27 +115,20 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
 		codelistDetails.next(repositoryDetails);
 		
-		selection.alternative(sdmxMapping);
-		selection.alternative(csvMapping);
+		SwitchNodeBuilder<WizardStep> retrieveAsset = selection.alternative(retrieveAssetTask).hasAlternatives(mappingNodeSelector);
+		retrieveAsset.alternative(sdmxMapping);
+		retrieveAsset.alternative(csvMapping);
 		
-		
-
 		SingleNodeBuilder<WizardStep> summary = csvMapping.next(summaryStep);
 		sdmxMapping.next(summary);
 
-		summary.hasCheckPoint(saveCheckPoint).next(doneStep);
-
-
-		//.next(csvPreviewStep)
-		//channel.next(csvPreview);
-
-		//csvPreview.next(metadataStep).next(csvMappingStep).next(summaryStep).hasCheckPoint(saveCheckPoint).next(doneStep);
+		summary.next(importTask).next(doneStep);
 
 		flow = root.build();
 		flow.addFlowUpdatedHandler(this);
 
 		//only for debug
-		if (Log.isTraceEnabled()) {
+		/*if (Log.isTraceEnabled()) {
 			String dot = flow.toDot(new LabelProvider<WizardStep>() {
 
 				@Override
@@ -126,7 +137,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 				}
 			});
 			Log.trace("dot: "+dot);
-		}
+		}*/
 
 		Log.trace("Adding steps");
 		registerStep(sourceStep);
@@ -151,7 +162,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		updateCurrentStep();
 	}
 
-	protected void registerStep(WizardStep step){
+	protected void registerStep(VisualWizardStep step){
 		view.addStep(step);
 	}
 
@@ -176,33 +187,69 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	protected void updateTrackerLabels()
 	{
 		List<WizardStep> steps = flow.getCurrentFlow();
-		Log.trace("New FLOW:");
-		if (Log.isTraceEnabled()) for (WizardStep step:steps) Log.trace("step: "+step.getId());
+		Log.trace("New FLOW: "+steps);
 		
 		List<ProgressStep> psteps = new ArrayList<ProgressStep>();
 		Set<String> saw = new HashSet<String>();
 		for (WizardStep step:steps) {
-			ProgressStep pstep = step.getConfiguration().getLabel();
+			if (step instanceof VisualWizardStep) {
+			ProgressStep pstep = ((VisualWizardStep)step).getConfiguration().getLabel();
 			if (saw.contains(pstep.getId())) continue;
 			psteps.add(pstep);
 			saw.add(pstep.getId());
+			}
 		}
-		Log.trace("Progress steps:");
-		if (Log.isTraceEnabled()) for (ProgressStep step:psteps) Log.trace("step: "+step.getId());
+		Log.trace("Progress steps: "+psteps);
 		
 		view.setLabels(psteps);
-		view.showLabel(flow.getCurrentItem().getConfiguration().getLabel());
+		
+		if (currentVisualStep!=null) view.showLabel(currentVisualStep.getConfiguration().getLabel());
 	}
 
 	protected void updateCurrentStep()
 	{
 		WizardStep currentStep = flow.getCurrentItem();
 		Log.trace("current step "+currentStep.getId());
-		view.showStep(currentStep);
-		view.showLabel(currentStep.getConfiguration().getLabel());
-		WizardStepConfiguration configuration = currentStep.getConfiguration();
-		applyStepConfiguration(configuration);
+		if (currentStep instanceof VisualWizardStep) showStep((VisualWizardStep)currentStep);
+		if (currentStep instanceof TaskWizardStep) runStep((TaskWizardStep)currentStep);
 		ValueChangeEvent.fire(this, currentStep);
+	}
+	
+	protected void showStep(VisualWizardStep step)
+	{
+		currentVisualStep = step;
+		view.showStep(step);
+		view.showLabel(step.getConfiguration().getLabel());
+		WizardStepConfiguration configuration = step.getConfiguration();
+		applyStepConfiguration(configuration);
+	}
+	
+	protected void runStep(final TaskWizardStep step) {
+		showProgress();
+		step.run(new AsyncCallback<WizardAction>() {
+			
+			@Override
+			public void onSuccess(WizardAction result) {
+				doAction(result);
+				hideProgress();
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.trace("TaskWizardStep "+step.getId()+" failed", caught);
+				hideProgress();
+			}
+		});
+	}
+	
+	protected void showProgress()
+	{
+		view.showProgress();
+	}
+	
+	protected void hideProgress()
+	{
+		view.hideProgress();
 	}
 
 	protected void applyStepConfiguration(WizardStepConfiguration configuration)
@@ -211,60 +258,56 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		view.setStepTitle(title);
 		view.setStepSubtitle(configuration.getSubtitle());
 
-		configureBackwardButton(configuration.getBackwardButton());
-		configureForwardButton(configuration.getForwardButton());
+		configureButtons(configuration.getButtons());
+	}
+	
+	protected void configureButtons(NavigationButtonConfiguration ... buttons)
+	{
+		view.hideAllButtons();
+		buttonsActions.clear();
+		
+		if (buttons!=null) for (NavigationButtonConfiguration button:buttons) configureButton(button);
+		
 	}
 
-	protected void configureBackwardButton(NavigationButtonConfiguration buttonConfiguration)
+	protected void configureButton(NavigationButtonConfiguration button)
 	{
-		if (buttonConfiguration == NavigationButtonConfiguration.NONE) view.hideBackwardButton();
-		else {
-			String label = buttonConfiguration.getLabel();
-			String style = buttonConfiguration.getStyle();
-			view.setBackwardButton(label, style);
-			view.showBackwardButton();
-		}
-		backwardAction = buttonConfiguration.getAction();
-	}
-
-	protected void configureForwardButton(NavigationButtonConfiguration buttonConfiguration)
-	{
-		if (buttonConfiguration == NavigationButtonConfiguration.NONE) view.hideForwardButton();
-		else {
-			String label = buttonConfiguration.getLabel();
-			String style = buttonConfiguration.getStyle();
-			view.setForwardButton(label, style);
-			view.showForwardButton();
-		}
-		forwardAction = buttonConfiguration.getAction();
+		WizardButton wizardButton = button.getWizardButton();
+		view.showButton(wizardButton);
+		buttonsActions.put(wizardButton, button.getAction());
 	}
 
 	protected void goForward()
 	{
-		boolean isComplete = flow.getCurrentItem().isComplete();
+		boolean isComplete = flow.getCurrentItem().leave();
 		if (!isComplete) return;
 
-		//if (currentStepIndex == steps.size()-1)
 		if (flow.isLast())
 			throw new IllegalStateException("There are no more steps");
 
-		//currentStepIndex++;
 		flow.goNext();
 		updateCurrentStep();
 	}
 
 	protected void goBack()
 	{
-		//if (currentStepIndex == 0) 
 		if (flow.isFirst())
 			throw new IllegalStateException("We are already in the first step");
 
-		//currentStepIndex--;
-		flow.goBack();
+		goBackToFirstVisual();
 		updateCurrentStep();
 	}
 	
-	protected void doAction(ButtonAction action)
+	protected void goBackToFirstVisual()
+	{
+		do {
+			flow.goBack();
+		} while (!flow.isFirst() && !(flow.getCurrentItem() instanceof VisualWizardStep));
+		if (flow.isFirst())
+			throw new IllegalStateException("We are already in the first step");
+	}
+	
+	protected void doAction(WizardAction action)
 	{
 		switch (action) {
 			case BACK: goBack(); break;
@@ -278,20 +321,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			default:
 				break;
 		}
-	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	public void onFowardButtonClicked() {
-		doAction(forwardAction);
-	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	public void onBackwardButtonClicked() {
-		doAction(backwardAction);
 	}
 
 	/**
@@ -321,5 +350,13 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		return new LegacyHandlerWrapper(importEventBus.addHandler(ValueChangeEvent.getType(), handler));
 	}
 
-
+	@Override
+	public void onButtonClicked(WizardButton button) {
+		WizardAction action = buttonsActions.get(button);
+		if (action == null) {
+			Log.fatal("Action not found for clicked button "+button);
+			throw new IllegalArgumentException("Action not found for clicked button "+button);
+		}
+		doAction(action);
+	}
 }

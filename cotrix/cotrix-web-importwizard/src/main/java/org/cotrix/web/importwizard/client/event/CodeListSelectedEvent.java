@@ -1,5 +1,7 @@
 package org.cotrix.web.importwizard.client.event;
 
+import org.cotrix.web.importwizard.shared.AssetInfo;
+
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 
@@ -14,8 +16,18 @@ public class CodeListSelectedEvent extends GwtEvent<CodeListSelectedEvent.CodeLi
 	public interface CodeListSelectedHandler extends EventHandler {
 		void onCodeListSelected(CodeListSelectedEvent event);
 	}
+	
+	protected AssetInfo selectedCodelist;
 
-	public CodeListSelectedEvent() {
+	public CodeListSelectedEvent(AssetInfo selectedCodelist) {
+		this.selectedCodelist = selectedCodelist;
+	}
+
+	/**
+	 * @return the selectedCodelist
+	 */
+	public AssetInfo getSelectedCodelist() {
+		return selectedCodelist;
 	}
 
 	@Override

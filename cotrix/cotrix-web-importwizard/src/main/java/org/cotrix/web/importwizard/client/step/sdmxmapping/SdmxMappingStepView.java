@@ -17,7 +17,10 @@ public interface SdmxMappingStepView {
 	
 	public void setPresenter(Presenter presenter);
 	
-	public void setAttributes(List<AttributeMapping> attributes);
+	public void setMappingLoading();
+	public void unsetMappingLoading();
+	
+	public void setMappings(List<AttributeMapping> attributes);
 	
 	public List<AttributeMapping> getMappings();
 	

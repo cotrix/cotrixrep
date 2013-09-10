@@ -16,13 +16,28 @@ public interface Resources extends ClientBundle {
 
 	@Source("loader.gif")
 	public ImageResource loader();
-
-	@Source("cloud.png")
-	public ImageResource cloud();
-
+	
+	@Source("previewLoader.gif")
+	public ImageResource previewLoader();
+	
 	@Source("computer.png")
 	public ImageResource computer();
 	
+	@Source("computer-hover.png")
+	public ImageResource computerHover();
+
+	@Source("cloud.png")
+	public ImageResource cloud();
+	
+	@Source("cloud-hover.png")
+	public ImageResource cloudHover();
+	
+	@Source("browse.png")
+	public ImageResource browse();
+	
+	@Source("browse-hover.png")
+	public ImageResource browseHover();
+
 	@Source("close.png")
 	public ImageResource close();
 	
@@ -43,5 +58,15 @@ public interface Resources extends ClientBundle {
 	
 	@Source("reload.png")
 	public ImageResource reload();
-
+	
+	@Source("popup-arrow.png")
+	public ImageResource popupArrow();
+	
+	@Source("manage.png")
+	public ImageResource manage();
+	
+	@Source("import.png")
+	public ImageResource importIcon();
+	
+	
 }

@@ -22,6 +22,7 @@ public class AssetInfo implements Serializable {
 	protected String id;
 	protected String name;
 	protected String type;
+	protected CodeListType codeListType;
 	protected String repositoryId;
 	protected String repositoryName;
 	
@@ -34,11 +35,12 @@ public class AssetInfo implements Serializable {
 	 * @param repositoryId
 	 * @param repositoryName
 	 */
-	public AssetInfo(String id, String name, String type, String repositoryId,
+	public AssetInfo(String id, String name, String type, CodeListType codeListType, String repositoryId,
 			String repositoryName) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
+		this.codeListType = codeListType;
 		this.repositoryId = repositoryId;
 		this.repositoryName = repositoryName;
 	}
@@ -49,33 +51,19 @@ public class AssetInfo implements Serializable {
 	public String getId() {
 		return id;
 	}
-	
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-	
-	/**
-	 * @return the repositoryName
-	 */
-	public String getRepositoryName() {
-		return repositoryName;
-	}
-	
+
 	/**
 	 * @param id the id to set
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
 
 	/**
@@ -86,6 +74,13 @@ public class AssetInfo implements Serializable {
 	}
 
 	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
 	 * @param type the type to set
 	 */
 	public void setType(String type) {
@@ -93,10 +88,17 @@ public class AssetInfo implements Serializable {
 	}
 
 	/**
-	 * @param repositoryName the repositoryName to set
+	 * @return the codeListType
 	 */
-	public void setRepositoryName(String repositoryName) {
-		this.repositoryName = repositoryName;
+	public CodeListType getCodeListType() {
+		return codeListType;
+	}
+
+	/**
+	 * @param codeListType the codeListType to set
+	 */
+	public void setCodeListType(CodeListType codeListType) {
+		this.codeListType = codeListType;
 	}
 
 	/**
@@ -113,6 +115,20 @@ public class AssetInfo implements Serializable {
 		this.repositoryId = repositoryId;
 	}
 
+	/**
+	 * @return the repositoryName
+	 */
+	public String getRepositoryName() {
+		return repositoryName;
+	}
+
+	/**
+	 * @param repositoryName the repositoryName to set
+	 */
+	public void setRepositoryName(String repositoryName) {
+		this.repositoryName = repositoryName;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -125,12 +141,13 @@ public class AssetInfo implements Serializable {
 		builder.append(name);
 		builder.append(", type=");
 		builder.append(type);
+		builder.append(", codeListType=");
+		builder.append(codeListType);
 		builder.append(", repositoryId=");
 		builder.append(repositoryId);
 		builder.append(", repositoryName=");
 		builder.append(repositoryName);
 		builder.append("]");
 		return builder.toString();
-	}
-
+	}	
 }

@@ -1,8 +1,11 @@
 package org.cotrix.web.importwizard.client.event;
 
+import java.util.List;
+
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
+
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -11,24 +14,18 @@ import org.cotrix.web.importwizard.shared.AttributesMappings;
 public class MappingsUpdatedEvent extends GwtEvent<MappingsUpdatedEvent.MappingsUpdatedHandler> {
 
 	public static Type<MappingsUpdatedHandler> TYPE = new Type<MappingsUpdatedHandler>();
-	private AttributesMappings mappings;
-	private boolean userEdit;
+	private List<AttributeMapping> mappings;
 
 	public interface MappingsUpdatedHandler extends EventHandler {
 		void onMappingUpdated(MappingsUpdatedEvent event);
 	}
 
-	public MappingsUpdatedEvent(AttributesMappings mappings, boolean userEdit) {
+	public MappingsUpdatedEvent(List<AttributeMapping> mappings) {
 		this.mappings = mappings;
-		this.userEdit = userEdit;
 	}
 
-	public AttributesMappings getMappings() {
+	public List<AttributeMapping> getMappings() {
 		return mappings;
-	}
-
-	public boolean isUserEdit() {
-		return userEdit;
 	}
 
 	@Override

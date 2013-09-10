@@ -11,7 +11,7 @@ import org.cotrix.web.importwizard.client.wizard.WizardStepConfiguration;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public abstract class AbstractWizardStep implements WizardStep {
+public abstract class AbstractVisualWizardStep implements VisualWizardStep {
 
 	protected String id;
 	protected WizardStepConfiguration configuration;
@@ -19,11 +19,10 @@ public abstract class AbstractWizardStep implements WizardStep {
 	/**
 	 * @param id
 	 */
-	public AbstractWizardStep(String id, ProgressStep label, String title, String subtitle,
-			NavigationButtonConfiguration backwardButton,
-			NavigationButtonConfiguration forwardButton) {
+	public AbstractVisualWizardStep(String id, ProgressStep label, String title, String subtitle,
+			NavigationButtonConfiguration ... buttons) {
 		this.id = id;
-		this.configuration = new WizardStepConfiguration(label, title, subtitle, backwardButton, forwardButton);
+		this.configuration = new WizardStepConfiguration(label, title, subtitle, buttons);
 	}
 
 	/**

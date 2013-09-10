@@ -1,7 +1,6 @@
 package org.cotrix.web.codelistmanager.client.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +26,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class CodeListViewImpl extends Composite implements CodeListView,
 		KeyPressHandler ,KeyDownHandler{
 

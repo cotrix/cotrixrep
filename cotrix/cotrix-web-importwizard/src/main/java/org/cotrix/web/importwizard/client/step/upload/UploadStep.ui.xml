@@ -4,31 +4,13 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
 	<ui:style>
-		
-		.div {
-			height: 30px;
-		}
-		
 		.customUpload {
 			visibility: hidden;
 		}
 		
-		.fileName {
-			float: left;
-			line-height: 30px;
-			vertical-align: middle;
-			font-size: 18px;
-			font-weight: bold;
-			color: #666;
-		}
-		
-		.fileSize {
-			float: left;
-			vertical-align: middle;
-			font-size: 14px;
-			color: #999;
-			text-align: center;
-			width: 100%;
+		.uploadPanel {
+			padding-top: 50px;
+			margin: auto;
 		}
 		
 		.uploadFailedMessage {
@@ -41,88 +23,45 @@
 			cursor: hand;
 		}
 		
-		.fileWrapperPanel {
-			float: left;
-			margin-top: 10px;
-			height: 30px;
-			width: 100%;
-		}
-		
-		.cell {
-			padding: 5px;
-			text-align: center;
-			font-size: 14px;
-			color: #666;
-			width: 100%;
-		}
-		
-		.browse-panel {
-			margin-left: auto;
-			margin-right: auto;
-			display: inline-block;
-			outline: 0;
-		}
-
-		.icon_panel {
-			border-radius: 5px;
-			padding: 10px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		
-		.caption {
-			padding-top: 10px;
-			font-size: 20px;
-			font-weight: normal;
-		}
-		
-		.result_panel {
-			padding-left: 10px;
-
+		.fileInfo {
+			line-height: 30px;
+			vertical-align: middle;
+			font-size: 16px;
+			color: #989898;
 		}
 	</ui:style>
 
-	<g:HTMLPanel>
-		<g:FormPanel ui:field="form" method="post" encoding="multipart/form-data">
-			<g:HTMLPanel>
+	<g:FormPanel ui:field="form" method="post" encoding="multipart/form-data">
 
-				<f:FileUploadExt ui:field="fileUploadButton"
-					styleName="{style.customUpload}" name="file" />
-				<g:Grid width="100%">
-					<g:row>
-						<g:customCell styleName="{style.cell}">
-							<g:VerticalPanel styleName="{style.icon_panel}"
-								horizontalAlignment="center">
-								<g:FocusPanel ui:field="browseButton" styleName="{style.browse-panel} {resources.css.areaHighlight}">
-									<g:HTMLPanel>
-										<g:Image resource="{resources.computer}" />
-										<g:HTMLPanel styleName="{style.caption}" ui:field="captionPanel">
-											<g:Label>Browse</g:Label>
-										</g:HTMLPanel>
-									</g:HTMLPanel>
-								</g:FocusPanel>
-								<g:VerticalPanel horizontalAlignment="center"
-									styleName="{style.fileWrapperPanel}" ui:field="fileWrapperPanel"
-									visible="false">
-									<g:HorizontalPanel>
-										<g:Label ui:field="fileNameLabel" styleName="{style.fileName}" />
-										<g:cell verticalAlignment="ALIGN_MIDDLE">
-											<g:FlowPanel ui:field="uploadPanel" styleName="{style.result_panel}">
-												<f:ProgressBar ui:field="progressBar" visible="false" />
-												<g:HorizontalPanel ui:field="uploadFailPanel">
-													<g:Label styleName="{style.uploadFailedMessage}">Upload failed.</g:Label>
-													<g:Label ui:field="retryButton" styleName="{style.uploadRetryButton}">Retry</g:Label>
-												</g:HorizontalPanel>
-											</g:FlowPanel>
-										</g:cell>
-									</g:HorizontalPanel>
-									<g:Label ui:field="fileSizeLabel" styleName="{style.fileSize}" />
-								</g:VerticalPanel>
-							</g:VerticalPanel>
-						</g:customCell>
-					</g:row>
-				</g:Grid>
-			</g:HTMLPanel>
-		</g:FormPanel>
-	</g:HTMLPanel>
+		<g:HTMLPanel>
+			<f:FileUploadExt ui:field="fileUploadButton"
+				styleName="{style.customUpload}" name="file" />
+			<table width="100%" style="padding-top:100px;">
+				<tr>
+					<td>
+						<g:Button ui:field="browseButton" text="Browse"
+							styleName="{resources.css.buttonBrowse}" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<g:FlowPanel ui:field="uploadPanel" styleName="{style.uploadPanel}">
+							<f:ProgressBar ui:field="progressBar" visible="false" />
+							<g:HorizontalPanel ui:field="uploadFailPanel"
+								visible="false">
+								<g:Label styleName="{style.uploadFailedMessage}">Upload failed.</g:Label>
+								<g:Label ui:field="retryButton" styleName="{style.uploadRetryButton}">Retry</g:Label>
+							</g:HorizontalPanel>
+						</g:FlowPanel>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<g:InlineLabel ui:field="fileNameLabel" styleName="{style.fileInfo}" />
+						<g:InlineLabel ui:field="fileSizeLabel" styleName="{style.fileInfo}" />
+					</td>
+				</tr>
+			</table>
+		</g:HTMLPanel>
+	</g:FormPanel>
 </ui:UiBinder> 

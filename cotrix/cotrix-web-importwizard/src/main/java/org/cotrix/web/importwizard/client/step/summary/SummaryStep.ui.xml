@@ -4,90 +4,86 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
 	<ui:style>
-			.headerlabel {
-				margin-right: 20px;
-				font-weight: bold;
-				color: #333;
-			}
-			
-			.summaryTable {
-				border-width: 0 0 1px 1px;
-				border-spacing: 0;
-				border-color: #ccc;
-				background-color: white;
-				border-collapse: collapse;
-				color: #666;
-				font-size: 8px;
-				border-style: solid;
-				text-align: left;
-			}
-			
-			.summaryTableHeader {
-				background-color: #eee;
-				text-align: center;
-			}
-			
-			.summaryTable td,.summaryTablee th {
-				margin: 0;
-				border-color: #ccc;
-				padding: 3px;
-				padding-left: 10px;
-				border-width: 1px 1px 0 0;
-				border-style: solid;
-			}
-			
-			.grid {
-				vertical-align: top;
-				margin-right: 20px;
-			}
-		</ui:style>
-	<g:HTMLPanel>
-		<g:Grid ui:field="panel" styleName="{style.grid}">
-			<g:row>
-				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">File</g:Label>
-				</g:customCell>
-				<g:customCell>
-					<g:Label ui:field="fileField" styleName="{resources.css.propertyValue}" />
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Codelist</g:Label>
-				</g:customCell>
-				<g:customCell>
-					<g:Label ui:field="codelistField" styleName="{resources.css.propertyValue}" />
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:customCell styleName="{resources.css.verticalHeadersMultipleItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Properties</g:Label>
-				</g:customCell>
-				<g:customCell>
-					<g:FlexTable ui:field="propertiesTable" cellPadding="0"
-						cellSpacing="0" borderWidth="1" styleName="{style.summaryTable}"
-						width="100%" />
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:customCell styleName="{resources.css.verticalHeadersMultipleItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Directives</g:Label>
-				</g:customCell>
-				<g:customCell>
-					<g:FlexTable ui:field="customTable" cellPadding="0"
-						cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
-						width="100%"></g:FlexTable>
-				</g:customCell>
-			</g:row>
-			<g:row>
-				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
-					<g:Label styleName="{resources.css.propertyLabel}">Fail on errors</g:Label>
-				</g:customCell>
-				<g:customCell>
-					<g:Label ui:field="mappingModeField" styleName="{resources.css.propertyValue}" />
-				</g:customCell>
-			</g:row>
-		</g:Grid>
-	</g:HTMLPanel>
-
+		.grid {
+			vertical-align: top;
+			margin-right: 20px;
+		}
+		
+		.mappingPanelItem {
+			float: right;
+			padding: 5px;
+			vertical-align: middle;
+		}
+		
+		.mappingPanelCheckBox {
+			margin-top: 7px;
+		}
+		
+		.mappingPanel {
+			margin-top:10px;
+			background-color: #dfdfdf;
+			border: 1px solid #b0b0b0;
+			overflow: hidden;
+		}
+		
+		.firstColumn {
+			padding-left: 10px;
+			width: 120px;
+		}
+	</ui:style>
+	<g:DockLayoutPanel unit='PX' ui:field="mainPanel">
+		<g:center>
+			<g:ScrollPanel styleName="{resources.css.wizardPanel}">
+			<g:Grid ui:field="panel" styleName="{style.grid}">
+				<g:row>
+					<g:cell
+						styleName="{resources.css.verticalHeadersSingleItem} {style.firstColumn}">
+						<span class="{resources.css.propertyLabel}">File</span>
+					</g:cell>
+					<g:customCell>
+						<g:Label ui:field="fileField" styleName="{resources.css.propertyValue}" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell
+						styleName="{resources.css.verticalHeadersSingleItem} {style.firstColumn}">
+						<span class="{resources.css.propertyLabel}">Codelist</span>
+					</g:cell>
+					<g:customCell>
+						<g:Label ui:field="codelistField" styleName="{resources.css.propertyValue}" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell
+						styleName="{resources.css.verticalHeadersMultipleItem} {style.firstColumn}">
+						<span class="{resources.css.propertyLabel}">Properties</span>
+					</g:cell>
+					<g:customCell>
+						<g:FlexTable ui:field="propertiesTable" cellPadding="0"
+							cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
+							width="100%" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell
+						styleName="{resources.css.verticalHeadersMultipleItem} {style.firstColumn}">
+						<span class="{resources.css.propertyLabel}">Directives</span>
+					</g:cell>
+					<g:customCell>
+						<g:FlexTable ui:field="customTable" cellPadding="0"
+							cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
+							width="100%"></g:FlexTable>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+			</g:ScrollPanel>
+		</g:center>
+		<g:south size="46">
+			<g:HTMLPanel ui:field="mappingPanel" styleName="{style.mappingPanel}">
+				<span class="{resources.css.propertyLabel} {style.mappingPanelItem}">Fail on errors</span>
+				<g:SimpleCheckBox ui:field="mappingMode" value="true"
+					styleName="{resources.css.simpleCheckbox} {style.mappingPanelItem} {style.mappingPanelCheckBox}" />
+			</g:HTMLPanel>
+		</g:south>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 

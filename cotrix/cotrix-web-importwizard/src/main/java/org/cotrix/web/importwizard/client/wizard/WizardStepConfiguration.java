@@ -14,8 +14,7 @@ public class WizardStepConfiguration {
 	protected ProgressStep label;
 	protected String title;
 	protected String subtitle;
-	protected NavigationButtonConfiguration backwardButton;
-	protected NavigationButtonConfiguration forwardButton;
+	protected NavigationButtonConfiguration[] buttons;
 	
 	/**
 	 * @param label
@@ -24,13 +23,11 @@ public class WizardStepConfiguration {
 	 * @param forwardButton
 	 */
 	public WizardStepConfiguration(ProgressStep label, String title, String subtitle,
-			NavigationButtonConfiguration backwardButton,
-			NavigationButtonConfiguration forwardButton) {
+			NavigationButtonConfiguration ... buttons) {
 		this.label = label;
 		this.title = title;
 		this.subtitle = subtitle;
-		this.backwardButton = backwardButton;
-		this.forwardButton = forwardButton;
+		this.buttons = buttons;
 	}
 
 	/**
@@ -69,30 +66,16 @@ public class WizardStepConfiguration {
 	}
 
 	/**
-	 * @return the backwardButton
+	 * @return the buttons
 	 */
-	public NavigationButtonConfiguration getBackwardButton() {
-		return backwardButton;
-	}
-	
-	/**
-	 * @return the fowardButton
-	 */
-	public NavigationButtonConfiguration getForwardButton() {
-		return forwardButton;
+	public NavigationButtonConfiguration[] getButtons() {
+		return buttons;
 	}
 
 	/**
-	 * @param backwardButton the backwardButton to set
+	 * @param buttons the buttons to set
 	 */
-	public void setBackwardButton(NavigationButtonConfiguration backwardButton) {
-		this.backwardButton = backwardButton;
-	}
-
-	/**
-	 * @param forwardButton the forwardButton to set
-	 */
-	public void setForwardButton(NavigationButtonConfiguration forwardButton) {
-		this.forwardButton = forwardButton;
+	public void setButtons(NavigationButtonConfiguration ... buttons) {
+		this.buttons = buttons;
 	}
 }

@@ -1,14 +1,21 @@
 package org.cotrix.web.importwizard.client;
 
+import java.util.List;
+
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent.CodeListSelectedHandler;
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent.CsvParserConfigurationEditedHandler;
+import org.cotrix.web.importwizard.client.event.AssetRetrievedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportStartedEvent;
+import org.cotrix.web.importwizard.client.event.MappingLoadFailedEvent;
+import org.cotrix.web.importwizard.client.event.MappingLoadedEvent;
+import org.cotrix.web.importwizard.client.event.MappingLoadingEvent;
+import org.cotrix.web.importwizard.client.event.MappingModeUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.NewImportEvent;
 import org.cotrix.web.importwizard.client.event.NewImportEvent.NewImportHandler;
@@ -18,15 +25,16 @@ import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.RetrieveAssetEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent.SaveHandler;
-import org.cotrix.web.importwizard.client.session.ImportSession;
-import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
+import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
@@ -41,54 +49,62 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class ImportWizardControllerImpl implements ImportWizardController {
-	
+
 	protected EventBus importEventBus;
-	
-	@Inject
-	protected ImportSession session;
-	
+
 	@Inject
 	protected ImportServiceAsync importService;
-	
+
 	@Inject
 	protected ImportWizardPresenter importWizardPresenter;
-	
+
+	protected AssetInfo selectedAsset;
+
 	protected ImportMetadata metadata;
-	protected AttributesMappings mappings;
-	
+	protected List<AttributeMapping> mappings;
+	protected MappingMode mappingMode;
+
 	protected Timer importProgressPolling;
-	
+
 	@Inject
 	public ImportWizardControllerImpl(@ImportBus EventBus importEventBus)
 	{
 		this.importEventBus = importEventBus;
-		
+
 		importProgressPolling = new Timer() {
-			
+
 			@Override
 			public void run() {
 				getImportProgress();
 			}
 		};
-		
+
 		bind();
 	}
-	
+
 	protected void bind()
 	{
 		importEventBus.addHandler(FileUploadedEvent.TYPE, new FileUploadedHandler(){
 
 			@Override
 			public void onFileUploaded(FileUploadedEvent event) {
-				importedItemUpdated();
+				importedItemUpdated(event.getCodeListType());
 			}});
-		
+
 		importEventBus.addHandler(CodeListSelectedEvent.TYPE, new CodeListSelectedHandler(){
 
 			@Override
 			public void onCodeListSelected(CodeListSelectedEvent event) {
-				selectedItemUpdated();
+				selectedAsset = event.getSelectedCodelist();
 			}});
+
+		importEventBus.addHandler(RetrieveAssetEvent.TYPE, new RetrieveAssetEvent.RetrieveAssetHandler() {
+
+			@Override
+			public void onRetrieveAsset(RetrieveAssetEvent event) {
+				retrieveAsset();
+			}
+		});
 
 		importEventBus.addHandler(MetadataUpdatedEvent.TYPE, new MetadataUpdatedHandler(){
 
@@ -104,14 +120,21 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				getMappings();
 			}});
 		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedHandler() {
-			
+
 			@Override
 			public void onMappingUpdated(MappingsUpdatedEvent event) {
-				if (event.isUserEdit()) mappings = event.getMappings();
+				mappings = event.getMappings();
+			}
+		});
+		importEventBus.addHandler(MappingModeUpdatedEvent.TYPE, new MappingModeUpdatedEvent.MappingModeUpdatedHandler() {
+
+			@Override
+			public void onMappingModeUpdated(MappingModeUpdatedEvent event) {
+				mappingMode = event.getMappingMode();
 			}
 		});
 		importEventBus.addHandler(SaveEvent.TYPE, new SaveHandler() {
-			
+
 			@Override
 			public void onSave(SaveEvent event) {
 				startImport();
@@ -124,82 +147,73 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				newImportRequested();
 			}});
 	}
-	
-	protected void importedItemUpdated()
+
+	protected void importedItemUpdated(CodeListType codeListType)
 	{
-		Log.trace("importedItemUpdated");
+		Log.trace("importedItemUpdated codeListType: "+codeListType);
 
-		Log.trace("getting codelist type");
-		getCodeListType(new Callback<CodeListType, Void>() {
+		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(codeListType));
 
-			@Override
-			public void onFailure(Void reason) {
-			}
+		if (codeListType == CodeListType.CSV) {
+			Log.trace("getting parser configuration");
+			getCsvParserConfiguration(); 
+		}
 
-			@Override
-			public void onSuccess(CodeListType result) {
-				switch (result) {
-					case CSV: {
-						Log.trace("getting parser configuration");
-						getCsvParserConfiguration(); 
-					} break;
-					default: break;
-				}				
-			}
-		});
-		
 		Log.trace("getting metadata");
 		getMetadata();
-		
+
 		Log.trace("getting mapping");
 		getMappings();
-		
+
 		Log.trace("done importedItemUpdated");
 	}
-	
-	protected void selectedItemUpdated()
+
+	protected void retrieveAsset()
 	{
-		Log.trace("selectedItemUpdated");
+		Log.trace("retrieveAsset");
+		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(selectedAsset.getCodeListType()));
 
-		Log.trace("getting codelist type");
-		getCodeListType(new Callback<CodeListType, Void>() {
+		importService.setAsset(selectedAsset.getId(), new AsyncCallback<Void>() {
 
 			@Override
-			public void onFailure(Void reason) {
+			public void onFailure(Throwable caught) {
+				Log.error("Failed setting the selected asset", caught);
 			}
 
 			@Override
-			public void onSuccess(CodeListType result) {			
+			public void onSuccess(Void result) {
+				Log.trace("asset selected on server");
+				
+				Log.trace("getting metadata");
+				getMetadata();
+
+				Log.trace("getting mapping");
+				getMappings();
+
+				Log.trace("done selectedItemUpdated");
+				importEventBus.fireEvent(new AssetRetrievedEvent());
 			}
-		});
-		
-		Log.trace("getting metadata");
-		getMetadata();
-		
-		Log.trace("getting mapping");
-		getMappings();
-		
-		Log.trace("done selectedItemUpdated");
+		});	
 	}
-	
+
 	protected void getCodeListType(final Callback<CodeListType, Void> callaback)
 	{
 		importService.getCodeListType(new AsyncCallback<CodeListType>() {
-			
+
 			@Override
 			public void onSuccess(CodeListType type) {
 				Log.trace("retrieved codelist type "+type);
 				importEventBus.fireEvent(new CodeListTypeUpdatedEvent(type));
 				callaback.onSuccess(type);
 			}
-			
+
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Failed retrieving preview data", caught);
 			}
 		});
 	}
-	
+
 	protected void getCsvParserConfiguration()
 	{
 		importService.getCsvParserConfiguration(new AsyncCallback<CsvParserConfiguration>() {
@@ -216,7 +230,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 		});
 	}
-	
+
 	protected void getMetadata()
 	{
 		importService.getMetadata(new AsyncCallback<ImportMetadata>() {
@@ -224,7 +238,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Error getting the Metadata", caught);
-				
+
 			}
 
 			@Override
@@ -234,28 +248,33 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 		});
 	}
-	
+
 	protected void getMappings()
 	{
-		importService.getMappings(new AsyncCallback<AttributesMappings>() {
+		Log.trace("getMappings");
+
+		importEventBus.fireEvent(new MappingLoadingEvent());
+		importService.getMappings(new AsyncCallback<List<AttributeMapping>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Error getting the mappings", caught);
+				importEventBus.fireEvent(new MappingLoadFailedEvent(caught));
 			}
 
 			@Override
-			public void onSuccess(AttributesMappings result) {
-				importEventBus.fireEvent(new MappingsUpdatedEvent(result, false));
+			public void onSuccess(List<AttributeMapping> result) {
+				Log.trace("mapping retrieved");
+				importEventBus.fireEvent(new MappingLoadedEvent(result));
 				mappings = result;
 			}
 		});
 	}
-	
+
 	protected void startImport()
 	{
 		Log.trace("starting import");
-		importService.startImport(metadata, mappings, new AsyncCallback<Void>() {
+		importService.startImport(metadata, mappings, mappingMode, new AsyncCallback<Void>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -267,10 +286,10 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				importEventBus.fireEvent(new ImportStartedEvent());
 				importProgressPolling.scheduleRepeating(1000);
 			}
-			
+
 		});
 	}
-	
+
 	protected void getImportProgress()
 	{
 		importService.getImportProgress(new AsyncCallback<ImportProgress>() {
@@ -287,14 +306,13 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 		});
 	}
-	
+
 	protected void updateImportProgress(ImportProgress progress)
 	{
 		if (progress.isComplete()) importProgressPolling.cancel();
 		importEventBus.fireEvent(new ImportProgressEvent(progress));
-		if (progress.isComplete()) importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
-	
+
 	protected void newImportRequested()
 	{
 		metadata = null;

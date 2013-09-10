@@ -15,17 +15,17 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistDetailsStepViewImpl extends Composite implements CodelistDetailsStepView {
+public class CodelistDetailsStepViewImpl extends ResizeComposite implements CodelistDetailsStepView {
 	
 	protected static final int ASSET_PROPERTIES_ROW = 3;
 	protected static final int REPOSITORY_PROPERTIES_ROW = 3;

@@ -6,7 +6,7 @@ public interface MenuView {
 	public interface Presenter {
 		void onMenuClicked(int index);
 	}
-	void showMenu();
+
 	void setPresenter(Presenter presenter);
 	Widget asWidget();
 }

@@ -26,7 +26,7 @@ import org.cotrix.web.importwizard.server.util.Ranges;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AssetsBatch;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ColumnSortInfo;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListType;
@@ -34,6 +34,7 @@ import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
+import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.importwizard.shared.ReportLogsBatch;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
@@ -117,6 +118,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			return new AssetsBatch(sublist, assets.size());
 		} catch(Exception e)
 		{
+			e.printStackTrace();
 			logger.error("Error retrieving assets", e);
 			throw new ImportServiceException(e.getMessage());
 		}
@@ -234,7 +236,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			session.setPreviewCache(previewData);
 			session.setCacheDirty(false);
 
-			AttributesMappings mappings = mappingsGuesser.guessMappings(table);
+			List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
 			session.setMappings(mappings);
 
 			return previewData;
@@ -305,7 +307,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public AttributesMappings getMappings() throws ImportServiceException {
+	public List<AttributeMapping> getMappings() throws ImportServiceException {
 		try {
 			WizardImportSession session = getImportSession();
 			return session.getMappings();
@@ -317,16 +319,17 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public void startImport(ImportMetadata metadata, AttributesMappings mappings) throws ImportServiceException {
+	public void startImport(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ImportServiceException {
+		logger.trace("startImport metadata: {}, mappings: {}, mappingMode: {}", metadata, mappings, mappingMode);
 		WizardImportSession session = getImportSession();
-
 
 		try {
 			session.setImportedCodelistName(metadata.getName());
-			Importer<?> importer = importerFactory.createImporter(session, metadata, mappings);
+			Importer<?> importer = importerFactory.createImporter(session, metadata, mappings, mappingMode);
+			session.setImporter(importer);
+			
 			Thread th = new Thread(importer);
 			th.start();
-			session.setImporter(importer);
 		} catch (IOException e) {
 			logger.error("Error during import starting", e);
 			throw new ImportServiceException("An error occurred starting import: "+e.getMessage());
@@ -363,7 +366,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 			if (asset.type() == SdmxCodelist.type) {
 				session.setCodeListType(CodeListType.SDMX);
-				AttributesMappings mappings = mappingsGuesser.getSdmxDefaultMappings();
+				List<AttributeMapping> mappings = mappingsGuesser.getSdmxDefaultMappings();
 				session.setMappings(mappings);
 			}
 
@@ -371,7 +374,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			if (asset.type() == CsvCodelist.type) {
 				session.setCodeListType(CodeListType.CSV);
 				Table table = remoteRepository.retrieve(asset, Table.class);
-				AttributesMappings mappings = mappingsGuesser.guessMappings(table);
+				List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
 				session.setMappings(mappings);
 			}
 

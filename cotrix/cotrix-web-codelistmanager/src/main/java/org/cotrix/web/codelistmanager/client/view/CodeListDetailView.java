@@ -7,6 +7,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public interface CodeListDetailView {
 	public interface Presenter<T> {
 		void onNavLeftClicked(boolean isShowingNavLeft);

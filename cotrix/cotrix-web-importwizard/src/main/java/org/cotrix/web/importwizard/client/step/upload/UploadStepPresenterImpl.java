@@ -7,7 +7,7 @@ import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.resources.ImportConstants;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.vectomatic.file.File;
@@ -25,7 +25,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UploadStepPresenterImpl extends AbstractWizardStep implements UploadStepPresenter, ResetWizardHandler {
+public class UploadStepPresenterImpl extends AbstractVisualWizardStep implements UploadStepPresenter, ResetWizardHandler {
 
 	protected static final int POLLING_TIME = 500;
 	protected static final int POLLING_ERROR_TRESHOLD = 3;
@@ -46,7 +46,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 
 	@Inject
 	public UploadStepPresenterImpl(UploadStepView view, @ImportBus EventBus importEventBus) {
-		super("upload", TrackerLabels.ACQUIRE, "Upload it", "Choose any CSV or SDMX file.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("upload", TrackerLabels.ACQUIRE, "Upload it", "Choose any CSV or SDMX file.", NavigationButtonConfiguration.BACKWARD, NavigationButtonConfiguration.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		
@@ -112,6 +112,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		for (String arrayValue:array) if (arrayValue.equals(value)) return true;
 		return false;
 	}
+	
 	protected void startUpload(File file)
 	{
 		complete = false;
@@ -175,7 +176,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		progressPolling.cancel();
 		view.setUploadProgress(progress.getProgress());
 		complete = true;
-		importEventBus.fireEvent(new FileUploadedEvent(fileName));
+		importEventBus.fireEvent(new FileUploadedEvent(fileName, progress.getCodeListType()));
 		view.setUploadComplete(progress.getCodeListType().toString());
 	}
 	
@@ -189,7 +190,7 @@ public class UploadStepPresenterImpl extends AbstractWizardStep implements Uploa
 		reset();
 	}
 
-	public boolean isComplete() {
+	public boolean leave() {
 		return complete;
 	}
 	

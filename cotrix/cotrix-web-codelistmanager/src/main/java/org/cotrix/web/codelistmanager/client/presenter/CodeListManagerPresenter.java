@@ -4,6 +4,10 @@ import org.cotrix.web.codelistmanager.client.presenter.CodeListDetailPresenterIm
 import org.cotrix.web.codelistmanager.client.presenter.CodeListPresenterImpl.OnCodelistItemClicked;
 import org.cotrix.web.codelistmanager.client.view.CodeListManagerView;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public interface CodeListManagerPresenter extends Presenter<CodeListManagerPresenter> ,CodeListManagerView.Presenter<CodeListManagerPresenterImpl>,OnNavigationClicked,OnCodelistItemClicked{
 	public void refresh();
 }

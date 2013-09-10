@@ -4,6 +4,7 @@
 package org.cotrix.web.importwizard.server.climport;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,8 +16,9 @@ import org.cotrix.io.sdmx.SdmxParseDirectives;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.importwizard.server.WizardImportSession;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
+import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
+import org.cotrix.web.importwizard.shared.MappingMode;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
 import org.virtualrepository.VirtualRepository;
@@ -44,28 +46,28 @@ public class ImporterFactory {
 	@Inject
 	protected VirtualRepository remoteRepository;
 
-	public Importer<?> createImporter(WizardImportSession session, ImportMetadata metadata, AttributesMappings mappings) throws IOException
+	public Importer<?> createImporter(WizardImportSession session, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws IOException
 	{
 		switch (session.getCodeListType()) {
-			case CSV: return createCsvImporter(session, metadata, mappings); 
-			case SDMX: return createSdmxImporter(session, metadata, mappings);
+			case CSV: return createCsvImporter(session, metadata, mappings, mappingMode); 
+			case SDMX: return createSdmxImporter(session, metadata, mappings, mappingMode);
 		}
 		return null;
 	}
 
-	protected Importer<Table> createCsvImporter(WizardImportSession session, ImportMetadata metadata, AttributesMappings mappings) throws IOException
+	protected Importer<Table> createCsvImporter(WizardImportSession session, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws IOException
 	{
 		ImporterSource<Table> source = getCSVSource(session);
 		ImporterMapper<Table> mapper = new ImporterMapper.CsvMapper(mapservice);
-		Importer<Table> importer = new Importer<Table>(repository, source, mapper, mappings, session);
+		Importer<Table> importer = new Importer<Table>(repository, source, mapper, mappings, mappingMode, session);
 		return importer;
 	}
 	
-	protected Importer<CodelistBean> createSdmxImporter(WizardImportSession session, ImportMetadata metadata, AttributesMappings mappings) throws IOException
+	protected Importer<CodelistBean> createSdmxImporter(WizardImportSession session, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws IOException
 	{
 		ImporterSource<CodelistBean> source = getSdmxSource(session);
 		ImporterMapper<CodelistBean> mapper = new ImporterMapper.SdmxMapper(mapservice);
-		Importer<CodelistBean> importer = new Importer<CodelistBean>(repository, source, mapper, mappings, session);
+		Importer<CodelistBean> importer = new Importer<CodelistBean>(repository, source, mapper, mappings, mappingMode, session);
 		return importer;
 	}
 	

@@ -5,45 +5,47 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.cotrix.web.importwizard.client.resources.Resources;
-import org.cotrix.web.importwizard.client.util.ProgressDialog;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
+import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SummaryStepViewImpl extends Composite implements SummaryStepView {
+public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepView {
 
 	protected static final int FILE_FIELD_ROW = 0;
 	protected static final int PROPERTIES_FIELD_ROW = 2;
-	protected static final int MAPPING_MODE_FIELD_ROW = 4;
 
 	@UiTemplate("SummaryStep.ui.xml")
 	interface SummaryStepUiBinder extends UiBinder<Widget, SummaryStepViewImpl> {}
 	private static SummaryStepUiBinder uiBinder = GWT.create(SummaryStepUiBinder.class);
 
+	@UiField DockLayoutPanel mainPanel;
 	@UiField Grid panel;
 
 	@UiField Label fileField;
 	@UiField Label codelistField;
 	@UiField FlexTable propertiesTable;
-	@UiField Label mappingModeField;
+	@UiField HTMLPanel mappingPanel;
+	@UiField SimpleCheckBox mappingMode;
 	@UiField FlexTable customTable;
-
-	private ProgressDialog progressDialog;
 
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -71,7 +73,7 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 				}
 			} else mappingDescription.append("ignore <b>").append(originalName).append("</b>");
 
-			Log.trace("label "+mappingDescription.toString());
+			//Log.trace("label "+mappingDescription.toString());
 			
 			HTML mappingLabel = new HTML(mappingDescription.toString());
 			customTable.setWidget(row, 0, mappingLabel);
@@ -104,19 +106,6 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 		}
 	}
 
-	@Override
-	public void showProgress() {
-		if(progressDialog == null){
-			progressDialog = new ProgressDialog();
-		}
-		progressDialog.center();
-	}
-
-	@Override
-	public void hideProgress() {
-		if(progressDialog != null) progressDialog.hide();
-	}
-
 	public void setFileName(String fileName)
 	{
 		fileField.setText(fileName);
@@ -126,14 +115,19 @@ public class SummaryStepViewImpl extends Composite implements SummaryStepView {
 	{
 		panel.getRowFormatter().setVisible(FILE_FIELD_ROW, visible);
 	}
-
-	public void setMappingMode(String mappingMode)
+	
+	public MappingMode getMappingMode()
 	{
-		mappingModeField.setText(mappingMode);
+		return mappingMode.getValue()?MappingMode.STRICT:MappingMode.LOG;
+	}
+	
+	public void setMappingMode(MappingMode mode)
+	{
+		mappingMode.setValue(mode==MappingMode.LOG);
 	}
 
 	public void setMappingModeVisible(boolean visible)
 	{
-		panel.getRowFormatter().setVisible(MAPPING_MODE_FIELD_ROW, visible);
+		mainPanel.setWidgetHidden(mappingPanel, !visible);
 	}
 }

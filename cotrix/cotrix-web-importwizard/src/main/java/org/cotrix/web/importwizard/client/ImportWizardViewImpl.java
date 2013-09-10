@@ -6,7 +6,9 @@ import java.util.Map;
 
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
+import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
+import org.cotrix.web.importwizard.client.util.ProgressDialog;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -16,33 +18,39 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DeckPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ImportWizardViewImpl extends Composite implements ImportWizardView {
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class ImportWizardViewImpl extends ResizeComposite implements ImportWizardView {
 
 	@UiTemplate("ImportWizard.ui.xml")
 	interface ImportWizardUiBinder extends UiBinder<Widget, ImportWizardViewImpl> {}
 	private static ImportWizardUiBinder uiBinder = GWT.create(ImportWizardUiBinder.class);
 
-	@UiField FlowPanel progressTrackerPanel;
+	@UiField ProgressTracker progressTracker;
 
-	//FIXME we should use DeckLayoutPanel
-	@UiField DeckPanel stepsPanel;
+	@UiField DeckLayoutPanel stepsPanel;
 
 	@UiField Label title;
 	@UiField Label subtitle;
 
-	@UiField Button forwardButton;
-	@UiField Button backwardButton;
+	@UiField Button nextButton;
+	@UiField Button backButton;
+	@UiField Button newImportButton;
+	@UiField Button importButton;
+	@UiField Button manageButton;
 
-	private ProgressTracker progressTracker;
 	protected int currentIndex = 0;
 	protected Map<String, Integer> decksIndexes;
 	protected Map<String, Integer> labelsIndexes;
+	
+	protected ProgressDialog progressDialog;
 
 	private Presenter presenter;
 	public void setPresenter(Presenter presenter) {
@@ -51,17 +59,28 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 
 	public ImportWizardViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		progressTracker = new ProgressTracker();
-		progressTrackerPanel.add(progressTracker);
 		decksIndexes = new HashMap<String, Integer>();
 	}
+	
+	@Override
+	public void showProgress() {
+		if(progressDialog == null){
+			progressDialog = new ProgressDialog();
+		}
+		progressDialog.center();
+	}
 
-	public void addStep(WizardStep step)
+	@Override
+	public void hideProgress() {
+		if(progressDialog != null) progressDialog.hide();
+	}
+
+	public void addStep(VisualWizardStep step)
 	{
-		Log.trace("Adding "+step.getId());
+		//Log.trace("Adding "+step.getId());
 		step.go(stepsPanel);
 		decksIndexes.put(step.getId(), currentIndex++);
-		Log.trace("Totalpanels in deck "+stepsPanel.getWidgetCount());
+		//Log.trace("Totalpanels in deck "+stepsPanel.getWidgetCount());
 
 	}
 
@@ -95,44 +114,34 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 
 	public void hideBackwardButton()
 	{
-		backwardButton.setVisible(false);
+		backButton.setVisible(false);
 	}
 
 	public void showBackwardButton()
 	{
-		backwardButton.setVisible(true);
+		backButton.setVisible(true);
 	}
 
 	public void setBackwardButton(String label, String style)
 	{
-		backwardButton.setText(label);
-		backwardButton.setStyleName(style);
+		backButton.setText(label);
+		backButton.setStyleName(style);
 	}
 
 	public void hideForwardButton()
 	{
-		forwardButton.setVisible(false);
+		nextButton.setVisible(false);
 	}
 
 	public void showForwardButton()
 	{
-		forwardButton.setVisible(true);
+		nextButton.setVisible(true);
 	}
 
 	public void setForwardButton(String label, String style)
 	{
-		forwardButton.setText(label);
-		forwardButton.setStyleName(style);
-	}
-
-	@UiHandler("forwardButton")
-	public void onForwardButtonClicked(ClickEvent event){
-		presenter.onFowardButtonClicked();
-	}
-
-	@UiHandler("backwardButton")
-	public void onBackwardButtonClicked(ClickEvent event){
-		presenter.onBackwardButtonClicked();
+		nextButton.setText(label);
+		nextButton.setStyleName(style);
 	}
 
 	public void setFormTitle(String title) {
@@ -140,11 +149,69 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView 
 	}
 
 	public void showBackButton(boolean isVisible) {
-		this.backwardButton.setVisible(isVisible);
+		this.backButton.setVisible(isVisible);
 	}
 
 	public void showNextButton(boolean isVisible) {
-		this.forwardButton.setVisible(isVisible);
+		this.nextButton.setVisible(isVisible);
+	}
+	
+	@UiHandler("nextButton")
+	public void onNextButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(WizardButton.NEXT);
+	}
+
+	@UiHandler("backButton")
+	public void onBackButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(WizardButton.BACK);
+	}
+	
+	@UiHandler("importButton")
+	public void onImportButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(WizardButton.IMPORT);
+	}
+	
+	@UiHandler("newImportButton")
+	public void onNewImportButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(WizardButton.NEW_IMPORT);
+	}
+
+	@UiHandler("manageButton")
+	public void onManageButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(WizardButton.MANAGE);
+	}
+
+	@Override
+	public void showButton(WizardButton wizardButton) {
+		Button button = getButton(wizardButton);
+		button.setVisible(true);
+	}
+
+	@Override
+	public void hideButton(WizardButton wizardButton) {
+		Button button = getButton(wizardButton);
+		button.setVisible(false);
+	}
+	
+	@Override
+	public void hideAllButtons()
+	{
+		for (WizardButton button:WizardButton.values()) hideButton(button);
+	}
+	
+	protected Button getButton(WizardButton button)
+	{
+		switch (button) {
+			case BACK: return backButton;
+			case IMPORT: return importButton;
+			case NEW_IMPORT: return newImportButton;
+			case MANAGE: return manageButton;
+			case NEXT: return nextButton;
+			default: {
+				Log.fatal("Unknow button "+button);
+				throw new IllegalArgumentException("Unknow button "+button);
+			}
+		}
 	}
 
 }

@@ -41,7 +41,6 @@ public class ReportLogDataProvider extends AsyncDataProvider<ReportLog> {
 			public void onSuccess(ReportLogsBatch batch) {
 				List<ReportLog> logs = batch.getData();
 				Log.trace("loaded "+logs.size()+" logs");
-				for (ReportLog log:logs) Log.trace("log: "+log);
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), logs);
 			}

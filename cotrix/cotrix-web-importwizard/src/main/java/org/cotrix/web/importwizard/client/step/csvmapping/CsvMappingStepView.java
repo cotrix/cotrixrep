@@ -3,7 +3,6 @@ package org.cotrix.web.importwizard.client.step.csvmapping;
 import java.util.List;
 
 import org.cotrix.web.importwizard.shared.AttributeMapping;
-import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -20,10 +19,11 @@ public interface CsvMappingStepView {
 	
 	public void setCsvName(String name);
 	public String getCsvName();
-	public MappingMode getMappingMode();
-	public void setMappingMode(MappingMode mode);
 	
+	public void setMappingLoading();
 	public void setMapping(List<AttributeMapping> mapping);
+	public void unsetMappingLoading();
+	
 	public void setCodeTypeError();
 	public void cleanStyle();
 	

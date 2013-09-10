@@ -4,17 +4,18 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.MappingLoadedEvent;
+import org.cotrix.web.importwizard.client.event.MappingLoadingEvent;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
-import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
+import org.cotrix.web.importwizard.client.event.MappingLoadedEvent.MappingLoadedHandler;
+import org.cotrix.web.importwizard.client.event.MappingLoadingEvent.MappingLoadingHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
-import org.cotrix.web.importwizard.shared.AttributesMappings;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
-import org.cotrix.web.importwizard.shared.MappingMode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -25,22 +26,23 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements CsvMappingStepPresenter, MappingsUpdatedHandler, MetadataUpdatedHandler {
+public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implements CsvMappingStepPresenter, MetadataUpdatedHandler, MappingLoadingHandler, MappingLoadedHandler {
 
 	protected CsvMappingStepView view;
 	protected EventBus importEventBus;
 	protected ImportMetadata metadata;
-	protected AttributesMappings attributesMappings;
+	protected List<AttributeMapping> mappings;
 	
 	@Inject
 	public CsvMappingStepPresenterImpl(CsvMappingStepView view, @ImportBus EventBus importEventBus){
-		super("csv-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tell us what to import and how.", NavigationButtonConfiguration.DEFAULT_BACKWARD, NavigationButtonConfiguration.DEFAULT_FORWARD);
+		super("csv-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tell us what to import and how.", NavigationButtonConfiguration.BACKWARD, NavigationButtonConfiguration.FORWARD);
 		this.view = view;
 		view.setPresenter(this);
 		
 		this.importEventBus = importEventBus;
-		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, this);
 		importEventBus.addHandler(MetadataUpdatedEvent.TYPE, this);
+		importEventBus.addHandler(MappingLoadingEvent.TYPE, this);
+		importEventBus.addHandler(MappingLoadedEvent.TYPE, this);
 	}
 	
 	/** 
@@ -50,7 +52,7 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		container.add(view.asWidget());
 	}
 	
-	public boolean isComplete() {
+	public boolean leave() {
 		Log.trace("checking csv mapping");
 		
 		List<AttributeMapping> mappings = view.getMappings();
@@ -59,13 +61,10 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		boolean valid = validateMappings(mappings);
 		
 		String csvName = view.getCsvName();
-		MappingMode mappingMode = view.getMappingMode();
-		valid &= validateAttributes(csvName, mappingMode);
+		valid &= validateAttributes(csvName);
 		
 		if (valid) {
-			
-			attributesMappings = new AttributesMappings(mappings, mappingMode); 
-			importEventBus.fireEvent(new MappingsUpdatedEvent(attributesMappings, true));
+			importEventBus.fireEvent(new MappingsUpdatedEvent(mappings));
 			
 			if (metadata == null) metadata = new ImportMetadata();
 			metadata.setName(csvName);
@@ -75,14 +74,14 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		return valid;
 	}
 	
-	protected boolean validateAttributes(String csvName, MappingMode mappingMode)
+	protected boolean validateAttributes(String csvName)
 	{
 		if (csvName==null || csvName.isEmpty()) {
 			view.alert("You should choose a codelist name");
 			return false;
 		}
 		
-		return mappingMode!=null;
+		return true;
 	}
 	
 	protected boolean validateMappings(List<AttributeMapping> mappings)
@@ -91,7 +90,7 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		//only one code
 		int codeCount = 0;
 		for (AttributeMapping mapping:mappings) {
-			Log.trace("mapping: "+mapping);
+			//Log.trace("checking mapping: "+mapping);
 			if (mapping.isMapped() && mapping.getAttributeDefinition().getType()==AttributeType.CODE) codeCount++;
 			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().isEmpty()) {
 				view.alert("don't leave columns blank, bin them instead");
@@ -111,13 +110,17 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 		
 		return true;
 	}
-
+	
 	@Override
-	public void onMappingUpdated(MappingsUpdatedEvent event) {
-		if (event.isUserEdit()) return;
-		attributesMappings = event.getMappings();
-		view.setMapping(attributesMappings.getMappings());
-		view.setMappingMode(attributesMappings.getMappingMode());
+	public void onMappingLoading(MappingLoadingEvent event) {
+		view.setMappingLoading();
+	}
+	
+	@Override
+	public void onMappingLoaded(MappingLoadedEvent event) {
+		mappings = event.getMappings();
+		view.setMapping(mappings);
+		view.unsetMappingLoading();
 	}
 
 	@Override
@@ -131,7 +134,6 @@ public class CsvMappingStepPresenterImpl extends AbstractWizardStep implements C
 	@Override
 	public void onReload() {
 		view.setCsvName(metadata.getName());
-		view.setMapping(attributesMappings.getMappings());
-		view.setMappingMode(attributesMappings.getMappingMode());
+		view.setMapping(mappings);
 	}
 }

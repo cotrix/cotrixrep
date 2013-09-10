@@ -5,7 +5,7 @@ import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.importwizard.client.step.AbstractWizardStep;
+import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
@@ -22,7 +22,7 @@ import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfigur
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class RepositoryDetailsStepPresenterImpl extends AbstractWizardStep implements RepositoryDetailsStepPresenter, ResetWizardHandler {
+public class RepositoryDetailsStepPresenterImpl extends AbstractVisualWizardStep implements RepositoryDetailsStepPresenter, ResetWizardHandler {
 
 	protected final RepositoryDetailsStepView view;
 	
@@ -35,7 +35,7 @@ public class RepositoryDetailsStepPresenterImpl extends AbstractWizardStep imple
 	
 	@Inject
 	public RepositoryDetailsStepPresenterImpl(RepositoryDetailsStepView view, @ImportBus EventBus importEventBus) {
-		super("repositoryDetails", TrackerLabels.ACQUIRE, "Repository Details", "", DEFAULT_BACKWARD, NONE);
+		super("repositoryDetails", TrackerLabels.ACQUIRE, "Repository Details", "", BACKWARD);
 		this.view = view;
 		this.importEventBus = importEventBus;
 		importEventBus.addHandler(ResetWizardEvent.TYPE, this);
@@ -45,7 +45,7 @@ public class RepositoryDetailsStepPresenterImpl extends AbstractWizardStep imple
 		container.add(view.asWidget());
 	}
 
-	public boolean isComplete() {
+	public boolean leave() {
 		return false;
 	}
 

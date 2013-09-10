@@ -25,7 +25,6 @@ public class MenuPresenter implements Presenter<MenuPresenter> , MenuView.Presen
 	public void go(HasWidgets container) {
 		this.container = container;
 		this.container.add(view.asWidget());
-		view.showMenu();
 	}
 	public void setOnCotrixMenuItemClicked(OnCotrixMenuItemClicked onCotrixMenuItemClicked){
 		this.onCotrixMenuItemClicked = onCotrixMenuItemClicked;

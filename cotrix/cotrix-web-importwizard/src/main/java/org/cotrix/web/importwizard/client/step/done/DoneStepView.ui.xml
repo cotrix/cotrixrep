@@ -4,46 +4,48 @@
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources" />
 	<ui:style>
-		.subtitle {
-			font-size: 25px;
-			color: #999;
+		.downloadButtonPanel {
+			float: right;
+			padding: 5px;
 		}
 		
 		.report {
 			padding-top: 10px;
+			vertical-align: top;
+			margin-right: 20px;
+			width: 100%;
+			border-spacing: 5px;
 		}
-
+		
 		/**
-		Workaround to GWT issue #8275
-		https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
-		**/
+												Workaround to GWT issue #8275
+												https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
+												**/
 		.borderFix table {
 			border-collapse: collapse;
-
-	 	}
-
+		}
+		
+		.pagerPanel {
+			margin: 0 auto;
+		}
 	</ui:style>
-	<g:HTMLPanel>
-		<g:HTMLPanel ui:field="reportPanel" styleName="{style.report}">
-			<table cellspacing='0' cellpadding='0' style='width:100%;'>
-				<tr>
-					<td align='right'>
-						<g:PushButton ui:field='reportDownload' styleName="{resources.css.imageButton}">
-							<g:upFace image="{resources.download}"></g:upFace>
-						</g:PushButton>
-					</td>
-				</tr>
-				<tr>
-					<td valign='top'>
-						<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}"/>
-					</td>
-				</tr>
-				<tr>
-					<td align='center'>
-						<c:SimplePager ui:field='reportPager' />
-					</td>
-				</tr>
-			</table>
-		</g:HTMLPanel>
-	</g:HTMLPanel>
+	<g:DockLayoutPanel unit='PX' ui:field="reportPanel"
+		styleName="{resources.css.wizardPanel}">
+		<g:north size="45">
+			<g:HTMLPanel>
+				<div class="{style.downloadButtonPanel}">
+					<g:Button ui:field="reportDownload" text="DOWNLOAD"
+						styleName="{resources.css.buttonDownload}" />
+				</div>
+			</g:HTMLPanel>
+		</g:north>
+		<g:center>
+			<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}" />
+		</g:center>
+		<g:south size="40">
+			<g:HTMLPanel>
+				<c:SimplePager ui:field='reportPager' styleName="{style.pagerPanel}" />
+			</g:HTMLPanel>
+		</g:south>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 

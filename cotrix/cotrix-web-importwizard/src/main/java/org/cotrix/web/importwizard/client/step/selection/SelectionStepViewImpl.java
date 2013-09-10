@@ -1,5 +1,6 @@
 package org.cotrix.web.importwizard.client.step.selection;
 
+import org.cotrix.web.importwizard.client.resources.CotrixSimplePager;
 import org.cotrix.web.importwizard.client.resources.DataGridResource;
 import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
@@ -21,31 +22,23 @@ import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SelectionStepViewImpl extends Composite implements SelectionStepView {
+public class SelectionStepViewImpl extends ResizeComposite implements SelectionStepView {
 
 	@UiTemplate("SelectionStep.ui.xml")
 	interface ChannelStepUiBinder extends UiBinder<Widget, SelectionStepViewImpl> {}
 
 	private static ChannelStepUiBinder uiBinder = GWT.create(ChannelStepUiBinder.class);
-	
-	@UiField FlowPanel mainPanel;
-	
-	@UiField DockLayoutPanel gridPanel;
-	
-	@UiField
-	protected PushButton refreshButton;
 	
 	@UiField (provided = true) 
 	DataGrid<AssetInfo> dataGrid;
@@ -54,6 +47,8 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	SimplePager pager;
 	
 	protected AssetInfoDataProvider dataProvider;
+	
+	protected SingleSelectionModel<AssetInfo> selectionModel;
 
 	private AlertDialog alertDialog;
 
@@ -65,8 +60,6 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 		Resources.INSTANCE.css().ensureInjected();
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
-		setHeight("520px");
-		
 	}
 
 	/** 
@@ -85,37 +78,42 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	protected void setupGrid()
 	{
 
-		dataGrid = new DataGrid<AssetInfo>(9, DataGridResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
+		dataGrid = new DataGrid<AssetInfo>(6, DataGridResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 
 		dataGrid.setEmptyTableWidget(new Label("No data"));
 
-		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+		SimplePager.Resources pagerResources = GWT.create(CotrixSimplePager.class);
 		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 		pager.setDisplay(dataGrid);
 		
 		dataGrid.addColumnSortHandler(new AsyncHandler(dataGrid));
+		
+		selectionModel = new SingleSelectionModel<AssetInfo>(AssetInfoKeyProvider.INSTANCE);
+		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+			
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				AssetInfo selected = selectionModel.getSelectedObject();
+				if (selected!=null) presenter.assetSelected(selected);	 
+			}
+		});
+		
+		dataGrid.setSelectionModel(selectionModel);
 
 		// Check
 		TextHeader nameHeader = new TextHeader("Name");
 		
-		Column<AssetInfo, Boolean> checkColumn = new Column<AssetInfo, Boolean>(new SelectionCheckBoxCell()) {
+		Column<AssetInfo, Boolean> checkColumn = new Column<AssetInfo, Boolean>(new SelectionCheckBoxCell(true, false)) {
 			
 			@Override
 			public Boolean getValue(AssetInfo object) {
-				return false;
+				boolean selected = selectionModel.isSelected(object);
+				return selected;
 			}
 		};
-		checkColumn.setFieldUpdater(new FieldUpdater<AssetInfo, Boolean>() {
-
-			@Override
-			public void update(int index, AssetInfo object, Boolean value) {
-				Log.trace("check changed, row "+index+" value: "+value);
-				if (value) presenter.assetSelected(object);			
-			}
-		});
 		
 		dataGrid.addColumn(checkColumn, nameHeader);
 		dataGrid.setColumnWidth(checkColumn, "35px");
@@ -189,7 +187,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 
 	public void alert(String message) {
 		if(alertDialog == null){
-			alertDialog = new AlertDialog();
+			alertDialog = new AlertDialog(false);
 		}
 		alertDialog.setMessage(message);
 		alertDialog.show();
@@ -205,6 +203,7 @@ public class SelectionStepViewImpl extends Composite implements SelectionStepVie
 	
 	public void reset()
 	{
+		selectionModel.clear();
 		dataGrid.redraw();
 		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}

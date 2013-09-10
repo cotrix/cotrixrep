@@ -3,13 +3,22 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources" />
-	<g:ScrollPanel>
-		<g:Grid ui:field="repositoryDetails">
+	<ui:style>
+		.table {
+			padding: 23px;
+		}
+		
+		.valueCell {
+			padding-left: 50px;
+		}
+	</ui:style>
+	<g:ScrollPanel styleName="{resources.css.wizardPanel}">
+		<g:Grid ui:field="repositoryDetails" styleName="{style.table}">
 			<g:row>
 				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
 					<g:Label text="Name" styleName="{resources.css.propertyLabel}" />
 				</g:customCell>
-				<g:customCell>
+				<g:customCell styleName="{style.valueCell}">
 					<g:Label ui:field="repositoryName" styleName="{resources.css.propertyValue}" />
 				</g:customCell>
 			</g:row>
@@ -17,7 +26,7 @@
 				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
 					<g:Label text="Accepts" styleName="{resources.css.propertyLabel}" />
 				</g:customCell>
-				<g:customCell>
+				<g:customCell styleName="{style.valueCell}">
 					<g:Label ui:field="repositoryPublishedTypes" styleName="{resources.css.propertyValue}" />
 				</g:customCell>
 			</g:row>
@@ -25,7 +34,7 @@
 				<g:customCell styleName="{resources.css.verticalHeadersSingleItem}">
 					<g:Label text="Disseminates" styleName="{resources.css.propertyLabel}" />
 				</g:customCell>
-				<g:customCell>
+				<g:customCell styleName="{style.valueCell}">
 					<g:Label ui:field="repositoryReturnedTypes" styleName="{resources.css.propertyValue}" />
 				</g:customCell>
 			</g:row>
@@ -33,7 +42,7 @@
 				<g:customCell styleName="{resources.css.verticalHeadersMultipleItem}">
 					<g:Label text="Properties" styleName="{resources.css.propertyLabel}" />
 				</g:customCell>
-				<g:customCell>
+				<g:customCell styleName="{style.valueCell}">
 					<g:FlexTable ui:field="repositoryProperties"
 						cellPadding="0" cellSpacing="0" borderWidth="1"
 						styleName="{resources.css.propertiesTable}" width="100%" />

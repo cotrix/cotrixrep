@@ -10,7 +10,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -18,7 +18,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepView, DialogSaveHandler {
+public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPreviewStepView, DialogSaveHandler {
 	
 	protected static final int HEADER_ROW = 0;
 
@@ -67,7 +67,7 @@ public class CsvPreviewStepViewImpl extends Composite implements CsvPreviewStepV
 	 */
 	public void alert(String message) {
 		if(alertDialog == null){
-			alertDialog = new AlertDialog();
+			alertDialog = new AlertDialog(false);
 		}
 		alertDialog.setMessage(message);
 		alertDialog.show();

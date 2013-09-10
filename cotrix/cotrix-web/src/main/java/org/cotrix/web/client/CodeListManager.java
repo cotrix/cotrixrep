@@ -53,7 +53,8 @@ public class CodeListManager implements EntryPoint {
 	        @Override
 	        public void execute() {
 	        	CotrixResources.INSTANCE.css().ensureInjected();
-	    		Window.enableScrolling(true); Window.setMargin("0px");
+	    		Window.enableScrolling(true); 
+	    		Window.setMargin("0px");
 	    		 
 	    		AppGinInjector injector = GWT.create(AppGinInjector.class);
 	    		AppController appViewer = injector.getAppController();
