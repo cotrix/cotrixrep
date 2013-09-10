@@ -1,19 +1,16 @@
 package org.cotrix.web.codelistmanager.client.presenter;
 
-import java.util.ArrayList;
-
-import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.view.CodeListManagerView;
-import org.cotrix.web.share.shared.UICodelist;
-import org.cotrix.web.share.shared.CotrixImportModel;
 
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class CodeListManagerPresenterImpl implements CodeListManagerPresenter{
 	private ManagerServiceAsync rpcService;
 	private HandlerManager eventBus;

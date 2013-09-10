@@ -1,14 +1,12 @@
 package org.cotrix.web.codelistmanager.client.view;
 
-import java.util.ArrayList;
-
-import org.cotrix.web.share.shared.UICodelist;
-
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
-
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public interface CodeListManagerView {
 	public interface Presenter<T> {
 

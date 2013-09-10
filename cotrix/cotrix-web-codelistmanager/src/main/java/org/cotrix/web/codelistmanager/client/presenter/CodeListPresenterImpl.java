@@ -13,6 +13,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class CodeListPresenterImpl implements CodeListPresenter {
 	private ManagerServiceAsync rpcService;
 	private HandlerManager eventBus;

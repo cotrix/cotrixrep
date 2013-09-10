@@ -25,6 +25,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * The server side implementation of the RPC service.
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
  */
 @SuppressWarnings("serial")
 public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerService {

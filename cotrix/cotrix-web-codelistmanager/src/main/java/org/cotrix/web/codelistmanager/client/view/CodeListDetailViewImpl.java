@@ -38,8 +38,11 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.CellPreviewEvent.Handler;
 
-public class CodeListDetailViewImpl extends Composite implements
-CodeListDetailView, ContextMenuHandler {
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class CodeListDetailViewImpl extends Composite implements CodeListDetailView, ContextMenuHandler {
 
 	@UiTemplate("CodeListDetail.ui.xml")
 	interface CodeListDetailUiBinder extends
@@ -64,7 +67,7 @@ CodeListDetailView, ContextMenuHandler {
 	@UiField HTMLPanel pagerWrapper;
 	@UiField Button save;
 	@UiField Style style;
-	
+
 	private SimplePager pager;
 	private int row  = -1;
 	private int column  = -1;
@@ -84,7 +87,7 @@ CodeListDetailView, ContextMenuHandler {
 	public void onNavLeftClicked(ClickEvent event) {
 		presenter.onNavLeftClicked(this.isShowingNavLeft);
 	}
-	
+
 	@UiHandler("save")
 	public void onSaveButtonClicked(ClickEvent event){
 		presenter.onSaveButtonClicked()	;
@@ -110,7 +113,7 @@ CodeListDetailView, ContextMenuHandler {
 			super(cell);
 			this.index = index;
 		}
-		
+
 		@Override
 		public String getValue(UICode[] column) {
 			if(column.length <= index){
@@ -171,9 +174,9 @@ CodeListDetailView, ContextMenuHandler {
 			}
 		});
 
-		
+
 		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-	    pager = new SimplePager(TextLocation.CENTER,pagerResources, false, 0, true);
+		pager = new SimplePager(TextLocation.CENTER,pagerResources, false, 0, true);
 		pager.setStyleName(style.pager());
 		pager.setDisplay(dataGrid);
 		this.dataGridWrapper.clear();
@@ -193,11 +196,11 @@ CodeListDetailView, ContextMenuHandler {
 				}
 
 			});
-			
+
 			dataGrid.addColumn(column, headers[i]);
 			dataGrid.setColumnWidth(i, "200px");
 		}
-		
+
 		dataGrid.setRowCount(model.getTotalRow(), true);
 		dataGrid.setVisibleRange(0, 30);
 		dataGrid.getRowCount();

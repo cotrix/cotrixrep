@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
-import org.cotrix.web.codelistmanager.client.view.AlertDialog;
 import org.cotrix.web.codelistmanager.client.view.CodeListDetailView;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.UICode;
@@ -23,6 +22,10 @@ import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	public interface OnNavigationClicked {
 		public void onNavigationClicked(boolean isShowingNavLeft);
