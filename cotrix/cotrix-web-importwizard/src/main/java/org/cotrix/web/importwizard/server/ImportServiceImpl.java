@@ -328,6 +328,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			Importer<?> importer = importerFactory.createImporter(session, metadata, mappings, mappingMode);
 			session.setImporter(importer);
 			
+			//FIXME use a service provider
 			Thread th = new Thread(importer);
 			th.start();
 		} catch (IOException e) {

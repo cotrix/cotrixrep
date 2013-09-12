@@ -26,7 +26,7 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-io</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-menu</artifactId>
@@ -36,18 +36,24 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-importwizard</artifactId>
 		</dependency>
-		
-		<!-- <dependency> <groupId>org.cotrix</groupId> <artifactId>cotrix-web-codelistmanager</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> <scope>compile</scope> </dependency> <dependency> 
-			<groupId>org.cotrix</groupId> <artifactId>cotrix-web-publish</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> <scope>compile</scope> </dependency> -->
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-codelistmanager</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-publish</artifactId>
+			<scope>compile</scope>
+		</dependency>
 
 
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
@@ -62,7 +68,7 @@
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet-core</artifactId>
@@ -80,13 +86,13 @@
 			<version>3.2.1</version>
 		</dependency>
 
-		
+
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>

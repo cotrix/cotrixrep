@@ -3,6 +3,8 @@ package org.cotrix.web.client.presenter;
 import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.client.view.CotrixWebView;
 import org.cotrix.web.client.view.Home;
+import org.cotrix.web.codelistmanager.client.CotrixManagerAppController;
+import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.importwizard.client.ImportWizardController;
 import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
@@ -20,8 +22,8 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 	private MainServiceAsync rpcService;
 	private HandlerManager eventBus;
 	private CotrixWebView view;
-	/*private CotrixPublishAppController cotrixPublishAppController;
-	private CotrixManagerAppController cotrixManagerAppController;*/
+	/*private CotrixPublishAppController cotrixPublishAppController;*/
+	private CotrixManagerAppController cotrixManagerAppController;
 	
 	@Inject
 	public CotrixWebPresenterImpl(MainServiceAsync rpcService, HandlerManager eventBus, CotrixWebView view) {
@@ -51,14 +53,13 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 		CotrixImportAppGinInjector cotrixImportAppGinInjector = GWT.create(CotrixImportAppGinInjector.class);
 		ImportWizardController cotrixImportAppController = cotrixImportAppGinInjector.getAppController();	
 		cotrixImportAppController.go(importPanel);
-		
 		view.getBody().add(importPanel);
 
-	/*	CotrixManagerAppGinInjector cotrixManagerAppGinInjector = GWT.create(CotrixManagerAppGinInjector.class);
+		CotrixManagerAppGinInjector cotrixManagerAppGinInjector = GWT.create(CotrixManagerAppGinInjector.class);
 		cotrixManagerAppController = cotrixManagerAppGinInjector.getAppController();	
 		cotrixManagerAppController.go(view.getBody());
 	
-		CotrixPublishAppGinInjector cotrixPublishAppGinInjector = GWT.create(CotrixPublishAppGinInjector.class);
+		/*CotrixPublishAppGinInjector cotrixPublishAppGinInjector = GWT.create(CotrixPublishAppGinInjector.class);
 		cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
 		cotrixPublishAppController.go(view.getBody());*/
 		
