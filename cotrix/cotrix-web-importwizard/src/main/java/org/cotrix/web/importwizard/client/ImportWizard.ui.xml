@@ -21,13 +21,14 @@
 		}
 		
 		.title {
-			font-size: 23px;
+			font-size: 28px;
 			color: #595959;
 			text-align: center;
 		}
 		
 		.subtitle {
 			font-family: 'Kite One', cursive;
+			font-size: 22px;
 			color: #989898;
 			text-align: center;
 			margin-top: 10px;
