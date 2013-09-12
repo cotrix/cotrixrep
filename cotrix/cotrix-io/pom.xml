@@ -47,21 +47,21 @@
 			<groupId>org.virtualrepository</groupId>
 			<artifactId>virtual-sdmx-registry</artifactId>
 			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-			<scope>test</scope>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.virtualrepository</groupId>
 			<artifactId>virtual-semantic-repository</artifactId>
 			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-			<scope>test</scope>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.virtualrepository</groupId>
 			<artifactId>virtual-rtms</artifactId>
 			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-			<scope>test</scope>
+			<scope>runtime</scope>
 		</dependency>
 
 
@@ -109,7 +109,10 @@
 	<profiles>
 		<profile>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>noplugins</name>
+					<value>true</value>
+				</property>
 			</activation>
 			<id>vr-plugins</id>
 			<dependencies>
@@ -117,21 +120,21 @@
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-sdmx-registry</artifactId>
 					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>runtime</scope>
+					<scope>test</scope>
 				</dependency>
 
 				<dependency>
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-semantic-repository</artifactId>
 					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>runtime</scope>
+					<scope>test</scope>
 				</dependency>
 
 				<dependency>
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-rtms</artifactId>
 					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>runtime</scope>
+					<scope>test</scope>
 				</dependency>
 			</dependencies>
 		</profile>
