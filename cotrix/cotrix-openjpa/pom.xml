@@ -13,13 +13,11 @@
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-domain</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-repository</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
@@ -35,10 +33,6 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-		</dependency>
 
 	</dependencies>
 </project>

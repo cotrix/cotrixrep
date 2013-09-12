@@ -18,6 +18,16 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-io</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-repository</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<scope>provided</scope>
@@ -28,10 +38,10 @@
 			<artifactId>gson</artifactId>
 			<version>2.2.2</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.google.gwt.inject</groupId>
 			<artifactId>gin</artifactId>
-			<version>2.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -39,16 +49,11 @@
 			<artifactId>lib-gwt-file</artifactId>
 			<version>0.3.3</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-share</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-io</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -67,12 +72,7 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<scope>test</scope>
-		</dependency>
+		
 	</dependencies>
 
 	<build>

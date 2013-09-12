@@ -8,60 +8,13 @@
 	</parent>
 	<artifactId>cotrix-io</artifactId>
 
+
 	<dependencies>
+
 
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-domain</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-repository</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.virtualrepository</groupId>
-			<artifactId>virtual-repository</artifactId>
-			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.virtualrepository</groupId>
-			<artifactId>sdmxsource-adapter</artifactId>
-			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>2.2.2</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.virtualrepository</groupId>
-			<artifactId>virtual-sdmx-registry</artifactId>
-			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.virtualrepository</groupId>
-			<artifactId>virtual-semantic-repository</artifactId>
-			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.virtualrepository</groupId>
-			<artifactId>virtual-rtms</artifactId>
-			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
 		</dependency>
 
 		<dependency>
@@ -69,6 +22,55 @@
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.virtualrepository</groupId>
+			<artifactId>virtual-repository</artifactId>
+			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.virtualrepository</groupId>
+			<artifactId>sdmxsource-adapter</artifactId>
+			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.virtualrepository</groupId>
+			<artifactId>virtual-sdmx-registry</artifactId>
+			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.virtualrepository</groupId>
+			<artifactId>virtual-semantic-repository</artifactId>
+			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.virtualrepository</groupId>
+			<artifactId>virtual-rtms</artifactId>
+			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- to clarify if this is needed -->
+		<!-- <dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
+		</dependency> -->
 
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -76,15 +78,63 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
 		</dependency>
 
+
+		<!-- testing with CDI -->
 		<dependency>
 			<groupId>com.googlecode.jeeunit</groupId>
 			<artifactId>jeeunit-weld-se</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>weld-se-core</artifactId>
+					<groupId>org.jboss.weld.se</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.weld.se</groupId>
+			<artifactId>weld-se</artifactId>
+		</dependency>
+
+		<!-- ####################################################### -->
 
 
 	</dependencies>
+
+
+	<profiles>
+		<profile>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<id>vr-plugins</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-sdmx-registry</artifactId>
+					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+					<scope>runtime</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-semantic-repository</artifactId>
+					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+					<scope>runtime</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-rtms</artifactId>
+					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
 </project>

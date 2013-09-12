@@ -31,25 +31,26 @@ public class CdiProducers {
 	private final static VirtualRepository repository = new Repository();
 	
 	@Inject
-	private Instance<ParseTask<Object,ParseDirectives<Object>>> parseTasks;
+	private Instance<ParseTask<?,?>> parseTasks;
 	
 	@Inject
-	private Instance<MapTask<Object,MapDirectives<Object>>> mapTasks;
+	private Instance<MapTask<?,?>> mapTasks;
 	
 	@Inject
-	private Instance<PublicationTask<PublicationDirectives>> publishTasks;
+	private Instance<PublicationTask<?>> publishTasks;
 	
 	/**
 	 * Produces a {@link Registry} of {@link ParseDirectives}s for CDI injection.
 	 * @return the registry
 	 */
 	@Produces @Singleton
+	@SuppressWarnings("all")
 	public Registry<ParseTask<Object,ParseDirectives<Object>>> parseTasks() {
 		
 		List<ParseTask<Object,ParseDirectives<Object>>> tasks = new ArrayList<ParseTask<Object,ParseDirectives<Object>>>();
 		
-		for (ParseTask<Object,ParseDirectives<Object>> task : parseTasks)
-			tasks.add(task);
+		for (ParseTask<?,?> task : parseTasks)
+			tasks.add((ParseTask)task);
 		
 		return new Registry<ParseTask<Object,ParseDirectives<Object>>>(tasks);
 			
@@ -60,12 +61,13 @@ public class CdiProducers {
 	 * @return the registry
 	 */
 	@Produces @Singleton
+	@SuppressWarnings("all")
 	public Registry<MapTask<Object,MapDirectives<Object>>> mapTasks() {
 		
 		List<MapTask<Object,MapDirectives<Object>>> tasks = new ArrayList<MapTask<Object,MapDirectives<Object>>>();
 		
-		for (MapTask<Object,MapDirectives<Object>> task : mapTasks)
-			tasks.add(task);
+		for (MapTask<?,?> task : mapTasks)
+			tasks.add((MapTask)task);
 		
 		return new Registry<MapTask<Object,MapDirectives<Object>>>(tasks);
 			
@@ -77,12 +79,13 @@ public class CdiProducers {
 	 * @return the registry
 	 */
 	@Produces @Singleton
+	@SuppressWarnings("all")
 	public Registry<PublicationTask<PublicationDirectives>> publishTasks() {
 		
 		List<PublicationTask<PublicationDirectives>> tasks = new ArrayList<PublicationTask<PublicationDirectives>>();
 		
-		for (PublicationTask<PublicationDirectives> task : publishTasks)
-			tasks.add(task);
+		for (PublicationTask<?> task : publishTasks)
+			tasks.add((PublicationTask<PublicationDirectives>)task);
 		
 		return new Registry<PublicationTask<PublicationDirectives>>(tasks);
 			

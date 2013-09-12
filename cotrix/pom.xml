@@ -10,18 +10,23 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<slf4j.version>1.7.5</slf4j.version>
+		<weld.version>2.0.3.Final</weld.version>
+		<gwt.version>2.5.1</gwt.version>
 	</properties>
 
 	<modules>
 		<module>cotrix-web</module>
 		<module>cotrix-web-importwizard</module>
-		<module>cotrix-repository</module>
 		<module>cotrix-web-codelistmanager</module>
 		<module>cotrix-web-menu</module>
 		<module>cotrix-web-share</module>
 		<module>cotrix-web-publish</module>
-		<module>cotrix-openjpa</module>
+
+		<module>cotrix-repository</module>
+		<module>cotrix-domain</module>
 		<module>cotrix-io</module>
+		<module>cotrix-openjpa</module>
 
 	</modules>
 
@@ -70,35 +75,110 @@
 	<dependencyManagement>
 		<dependencies>
 
+			<!-- module dependencies -->
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-io</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-repository</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-share</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-menu</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-publish</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-codelistmanager</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-importwizard</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
 
 			<!-- logging -->
 
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.7.2</version>
+				<version>${slf4j.version}</version>
 				<scope>compile</scope>
 			</dependency>
 
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<version>1.7.2</version>
-				<scope>test</scope>
-			</dependency>
-
-			<!-- injection -->
-
-			<dependency>
-				<groupId>javax.inject</groupId>
-				<artifactId>javax.inject</artifactId>
-				<version>1</version>
-			</dependency>
+			<!-- CDI injection -->
 
 			<dependency>
 				<groupId>javax.enterprise</groupId>
 				<artifactId>cdi-api</artifactId>
-				<version>1.0-SP1</version>
+				<version>1.1</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.weld.servlet</groupId>
+				<artifactId>weld-servlet-core</artifactId>
+				<version>${weld.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.weld</groupId>
+				<artifactId>weld-core</artifactId>
+				<version>${weld.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<!-- GWT -->
+
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-servlet</artifactId>
+				<version>${gwt.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-user</artifactId>
+				<version>${gwt.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.gwt.inject</groupId>
+				<artifactId>gin</artifactId>
+				<version>2.0.0</version>
+				<scope>compile</scope>
 			</dependency>
 
 			<!-- testing -->
@@ -112,43 +192,37 @@
 
 			<dependency>
 				<groupId>com.googlecode.jeeunit</groupId>
-				<artifactId>jeeunit-openwebbeans</artifactId>
-				<version>1.0.0</version>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>com.googlecode.jeeunit</groupId>
 				<artifactId>jeeunit-weld-se</artifactId>
 				<version>1.0.0</version>
 				<scope>test</scope>
 			</dependency>
-
-			<!-- GWT -->
+			
+			<!-- required by jeeunit-weld-se -->
 			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-user</artifactId>
-				<version>2.5.1</version>
-				<scope>provided</scope>
+				<groupId>org.jboss.weld.se</groupId>
+				<artifactId>weld-se</artifactId>
+				<version>2.0.3.Final</version>
+				<scope>test</scope>
 			</dependency>
 
 			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-servlet</artifactId>
-				<version>2.5.1</version>
-				<scope>runtime</scope>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.0.13</version>
 			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>

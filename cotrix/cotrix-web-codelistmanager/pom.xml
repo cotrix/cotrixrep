@@ -29,26 +29,22 @@
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-share</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-repository</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-domain</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-io</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
