@@ -303,8 +303,6 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 		do {
 			flow.goBack();
 		} while (!flow.isFirst() && !(flow.getCurrentItem() instanceof VisualWizardStep));
-		if (flow.isFirst())
-			throw new IllegalStateException("We are already in the first step");
 	}
 	
 	protected void doAction(WizardAction action)
