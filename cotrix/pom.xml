@@ -11,7 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>1.7.5</slf4j.version>
-		<weld.version>2.0.3.Final</weld.version>
+		<weld.version>2.0.4.Final</weld.version>
 		<gwt.version>2.5.1</gwt.version>
 	</properties>
 
@@ -69,6 +69,20 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
+        <repository>
+          <id>jboss-public-repository-group</id>
+          <name>JBoss Public Maven Repository Group</name>
+          <url>http://repository.jboss.org/nexus/content/groups/public</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </repository>
 	</repositories>
 
 
