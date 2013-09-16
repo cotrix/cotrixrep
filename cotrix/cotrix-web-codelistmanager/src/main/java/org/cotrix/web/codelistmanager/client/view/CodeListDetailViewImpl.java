@@ -28,10 +28,13 @@ import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DeckLayoutPanel;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -42,7 +45,7 @@ import com.google.gwt.view.client.CellPreviewEvent.Handler;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeListDetailViewImpl extends Composite implements CodeListDetailView, ContextMenuHandler {
+public class CodeListDetailViewImpl extends ResizeComposite implements CodeListDetailView, ContextMenuHandler {
 
 	@UiTemplate("CodeListDetail.ui.xml")
 	interface CodeListDetailUiBinder extends
@@ -56,13 +59,19 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 
 	private Presenter presenter;
 	private boolean isShowingNavLeft = true;
+	
+	@UiField DeckLayoutPanel mainPanel;
+	@UiField VerticalPanel loadingPanel;
+	@UiField DockLayoutPanel contentPanel;
+	@UiField HTMLPanel blankPanel;
+	
+	@UiField VerticalPanel metadataPanel;
+	
 	@UiField Image nav;
 	@UiField Label codelistName;
 	@UiField Label metadata;
-	@UiField VerticalPanel metadataPanel;
-	@UiField VerticalPanel loadingPanel;
-	@UiField HTMLPanel contentPanel;
-	@UiField HTMLPanel blankPanel;
+
+
 	@UiField ResizeLayoutPanel dataGridWrapper;
 	@UiField HTMLPanel pagerWrapper;
 	@UiField Button save;
@@ -82,6 +91,12 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 	}
 	private PopupPanel contextMenu;
 	private CotrixDataGrid<UICode[]> dataGrid;
+	
+
+	public CodeListDetailViewImpl() {
+		initWidget(uiBinder.createAndBindUi(this));
+		mainPanel.showWidget(blankPanel);
+	}
 
 	@UiHandler("nav")
 	public void onNavLeftClicked(ClickEvent event) {
@@ -223,10 +238,6 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 		addDomHandler(this, ContextMenuEvent.getType());
 	}
 
-	public CodeListDetailViewImpl() {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
-
 	public void showNavLeft() {
 		nav.setStyleName(style.nav());
 		nav.setUrl(resources.nav_collapse_left().getSafeUri().asString());
@@ -252,15 +263,17 @@ public class CodeListDetailViewImpl extends Composite implements CodeListDetailV
 	}
 
 	private void showContentPanel() {
-		this.loadingPanel.setVisible(false);
+		mainPanel.showWidget(contentPanel);
+		/*this.loadingPanel.setVisible(false);
 		this.contentPanel.setVisible(true);
-		this.blankPanel.setVisible(false);
+		this.blankPanel.setVisible(false);*/
 	}
 
 	public void showActivityIndicator() {
-		this.contentPanel.setVisible(false);
+		mainPanel.showWidget(loadingPanel);
+		/*this.contentPanel.setVisible(false);
 		this.blankPanel.setVisible(false);
-		this.loadingPanel.setVisible(true);
+		this.loadingPanel.setVisible(true);*/
 	}
 
 	public void setData(CotrixImportModel model, String id) {
