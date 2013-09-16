@@ -5,8 +5,6 @@ import org.cotrix.web.client.view.CotrixWebView;
 import org.cotrix.web.client.view.Home;
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppController;
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
-import org.cotrix.web.importwizard.client.ImportWizardController;
-import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
 import org.cotrix.web.menu.client.view.MenuViewImpl;
 
@@ -50,10 +48,10 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 		
 		SimpleLayoutPanel importPanel = new SimpleLayoutPanel();
 		
-		CotrixImportAppGinInjector cotrixImportAppGinInjector = GWT.create(CotrixImportAppGinInjector.class);
+		/*CotrixImportAppGinInjector cotrixImportAppGinInjector = GWT.create(CotrixImportAppGinInjector.class);
 		ImportWizardController cotrixImportAppController = cotrixImportAppGinInjector.getAppController();	
 		cotrixImportAppController.go(importPanel);
-		view.getBody().add(importPanel);
+		view.getBody().add(importPanel);*/
 
 		CotrixManagerAppGinInjector cotrixManagerAppGinInjector = GWT.create(CotrixManagerAppGinInjector.class);
 		cotrixManagerAppController = cotrixManagerAppGinInjector.getAppController();	
@@ -63,7 +61,7 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 		cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
 		cotrixPublishAppController.go(view.getBody());*/
 		
-		view.showMenu(0); // default menu;
+		view.showMenu(1); // default menu;
 	}
 
 	public void onMenuItemClick(int index) {
