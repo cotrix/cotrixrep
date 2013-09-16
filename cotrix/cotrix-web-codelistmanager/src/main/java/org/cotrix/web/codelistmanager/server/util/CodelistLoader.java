@@ -5,6 +5,7 @@ package org.cotrix.web.codelistmanager.server.util;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.Iterator;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -12,6 +13,7 @@ import javax.inject.Singleton;
 import org.cotrix.io.map.MapService;
 import org.cotrix.io.map.Outcome;
 import org.cotrix.io.parse.ParseService;
+import org.cotrix.io.tabular.ColumnDirectives;
 import org.cotrix.io.tabular.TableMapDirectives;
 import org.cotrix.io.tabular.csv.CsvParseDirectives;
 import org.cotrix.repository.CodelistRepository;
@@ -63,11 +65,19 @@ public class CodelistLoader {
 
 			Table table = service.parse(inputStream, parseDirectives);
 
-			Column column = table.columns().get(0);
+			Iterator<Column> cols = table.columns().iterator();
+			Column column = cols.next();
 			TableMapDirectives mappingDirectives = new TableMapDirectives(column);
+			while(cols.hasNext()) mappingDirectives.add(new ColumnDirectives(cols.next()));
 
 			Outcome outcome = mapservice.map(table, mappingDirectives);
-			return !outcome.report().isFailure();
+			if (outcome.report().isFailure()) {
+				logger.trace("import failed");
+				return false;
+			}
+			
+			repository.add(outcome.result());
+			return true;
 		} catch(Exception e)
 		{
 			logger.error("Codelist import failed", e);

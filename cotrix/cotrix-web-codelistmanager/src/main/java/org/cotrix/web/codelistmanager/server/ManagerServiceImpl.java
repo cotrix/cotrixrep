@@ -50,10 +50,12 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 	public void init() throws ServletException {
 		super.init();
 		codelistLoader.importAllCodelist();
+		logger.trace("codelist in repository:");
+		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
+		logger.trace("done");
 	}
 	
-	public ArrayList<UICodelist> getAllCodelists()
-			throws IllegalArgumentException {
+	public ArrayList<UICodelist> getAllCodelists() throws IllegalArgumentException {
 
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
 		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
@@ -89,24 +91,27 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 	}
 
 	public CotrixImportModel getCodeListModel(String codelistId) {
-		System.out.println("Original codelist id " + codelistId);
-		Codelist c = repository.lookup(codelistId);
+		logger.trace("getCodeListModel codelistId {} ", codelistId);
+		
+		Codelist codelist = repository.lookup(codelistId);
+		logger.trace("lookup found {}", codelist.name().toString());
+		logger.trace("codelist size {}", codelist.codes().size());
 
 		Metadata meta = new Metadata();
-		meta.setName(c.name().toString());
+		meta.setName(codelist.name().toString());
 		meta.setOwner("FAO");
-		meta.setRowCount(c.codes().size());
-		meta.setVersion(c.version());
+		meta.setRowCount(codelist.codes().size());
+		meta.setVersion(codelist.version());
 		meta.setDescription("This data was compiled by hand from the above and may contain errors. One small modification is that the various insular areas of the United State listed above are recorded here as the single United States Minor Outlying Islands.");
 
 		CSVFile csvFile = new CSVFile();
 		csvFile.setData(new ArrayList<String[]>());
-		csvFile.setHeader(getHeader(c));
+		csvFile.setHeader(getHeader(codelist));
 
 		CotrixImportModel model = new CotrixImportModel();
 		model.setMetadata(meta);
 		model.setCsvFile(csvFile);
-		model.setTotalRow(c.codes().size());
+		model.setTotalRow(codelist.codes().size());
 		return model;
 	}
 
@@ -131,7 +136,9 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 	}
 
 	public ArrayList<UICode[]> getDataRange(String id, int start, int end) {
-
+		logger.trace("getDataRange id {}, start: {}, end: {}", id, start, end);
+		
+		
 		ArrayList<UICode[]> data = new ArrayList<UICode[]>();
 		CodelistQuery<Code> codes = allCodes(id);
 		codes.setRange(new Range(start,end));

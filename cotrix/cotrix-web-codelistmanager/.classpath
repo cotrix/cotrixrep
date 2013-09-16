@@ -8,7 +8,7 @@
 	</classpathentry>
 	<classpathentry including="**/*.java" kind="src" path="target/generated-sources/gwt"/>
 	<classpathentry including="**/*.java|**/*.xml" kind="src" path="src/main/resources"/>
-	<classpathentry kind="src" path="src/test/java">
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
