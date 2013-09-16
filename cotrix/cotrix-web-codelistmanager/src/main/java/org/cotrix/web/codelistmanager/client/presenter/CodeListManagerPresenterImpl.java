@@ -11,7 +11,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeListManagerPresenterImpl implements CodeListManagerPresenter{
+public class CodeListManagerPresenterImpl implements CodeListManagerPresenter {
 	private ManagerServiceAsync rpcService;
 	private HandlerManager eventBus;
 	private CodeListManagerView view;

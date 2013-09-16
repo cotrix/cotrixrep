@@ -6,6 +6,7 @@ import static org.cotrix.repository.Queries.*;
 import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import javax.inject.Inject;
+import javax.servlet.ServletException;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
@@ -14,12 +15,15 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
+import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.UIAttribute;
 import org.cotrix.web.share.shared.UICode;
 import org.cotrix.web.share.shared.UICodelist;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -31,13 +35,25 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerService {
 	
+	protected Logger logger = LoggerFactory.getLogger(ManagerServiceImpl.class);
+	
 	@Inject
 	CodelistRepository repository;
+	
+	@Inject
+	protected CodelistLoader codelistLoader;
 
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		codelistLoader.importAllCodelist();
+	}
+	
 	public ArrayList<UICodelist> getAllCodelists()
 			throws IllegalArgumentException {
-
-		//loadASFIS();
 
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
 		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
