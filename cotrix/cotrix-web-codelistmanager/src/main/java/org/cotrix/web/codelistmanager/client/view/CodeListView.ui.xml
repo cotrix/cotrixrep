@@ -4,16 +4,10 @@
 	xmlns:cotrix="urn:import:org.cotrix.web.codelistmanager.client.view">
 	<ui:style
 		type="org.cotrix.web.codelistmanager.client.view.CodeListViewImpl.Style">
-			.important {
-				font-weight: bold;
-			}
 			
 			.wrapper {
-				border-radius: 5px;
 				border: 1px solid #ccc;
-				height:100%;
 				background-color: white;
-				width: 225px;
 				margin-right: 10px;
 			}
 			
@@ -85,9 +79,8 @@
 		</ui:style>
 	<g:FlowPanel styleName="{style.wrapper}" ui:field="panel">
 		<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
-			<cotrix:PromptedTextBox ui:field="filterTextBox"></cotrix:PromptedTextBox>
+			<cotrix:PromptedTextBox ui:field="filterTextBox" />
 		</g:FlowPanel>
-		<g:FlowPanel ui:field="listPanel" styleName="{style.listPanel}">
-		</g:FlowPanel>
+		<g:FlowPanel ui:field="listPanel" styleName="{style.listPanel}" />
 	</g:FlowPanel>
 </ui:UiBinder> 

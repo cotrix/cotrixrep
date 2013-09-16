@@ -12,8 +12,10 @@ public interface CodeListManagerView {
 
 	}
 
-	HasWidgets getContentPanel();
-	void showLeftPanel(boolean isShow);
-	void setPresenter(Presenter presenter);
+	HasWidgets getWestPanel();
+	void showWestPanel(boolean isShow);
+	
+	HasWidgets getCenterPanel();
+	
 	Widget asWidget();
 }

@@ -25,20 +25,20 @@ public class CodeListManagerPresenterImpl implements CodeListManagerPresenter {
 		this.codeListPresenter = codeListPresenter;
 		this.codeListDetailPresenter = codeListDetailPresenter;
 		this.view = view;
-		this.view.setPresenter(this);
 	}
 	
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());
-		codeListPresenter.go(view.getContentPanel());
+		
+		codeListPresenter.go(view.getWestPanel());
 		codeListPresenter.setOnCodelistItemClicked(this);
-		codeListDetailPresenter.go(view.getContentPanel());
+		codeListDetailPresenter.go(view.getCenterPanel());
 		codeListDetailPresenter.setOnNavigationLeftClicked(CodeListManagerPresenterImpl.this);
 			
 	}
 
 	public void onNavigationClicked(boolean isShowingNavLeft) {
-		view.showLeftPanel(isShowingNavLeft);
+		view.showWestPanel(isShowingNavLeft);
 	}
 
 	public void onCodelistItemClicked(String id) {

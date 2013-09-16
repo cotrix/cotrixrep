@@ -54,9 +54,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	}
 
 	public void go(HasWidgets container) {
-		HorizontalPanel hp = (HorizontalPanel) container;
-		hp.add(view.asWidget());
-		hp.setCellWidth(hp.getWidget(1), "100%");
+		container.add(view.asWidget());
 	}
 
 	public void setOnNavigationLeftClicked(
