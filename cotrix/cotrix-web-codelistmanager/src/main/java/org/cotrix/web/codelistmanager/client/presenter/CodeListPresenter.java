@@ -7,7 +7,7 @@ import org.cotrix.web.codelistmanager.client.view.CodeListView;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface CodeListPresenter extends Presenter<CodeListPresenter> , CodeListView.Presenter<CodeListPresenter> {
+public interface CodeListPresenter extends Presenter, CodeListView.Presenter {
 	void setOnCodelistItemClicked(OnCodelistItemClicked onCodelistItemClicked);
 	void refresh();
 }

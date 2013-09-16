@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public interface CodeListManagerView {
-	public interface Presenter<T> {
+	public interface Presenter {
 
 	}
 

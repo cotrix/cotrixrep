@@ -11,7 +11,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CotrixManagerAppControllerImpl implements CotrixManagerAppController{
+public class CotrixManagerAppControllerImpl implements CotrixManagerAppController {
 	private ManagerServiceAsync rpcService;
 	private HandlerManager eventBus;
 	private CodeListManagerPresenter codeListManagerPresenter;

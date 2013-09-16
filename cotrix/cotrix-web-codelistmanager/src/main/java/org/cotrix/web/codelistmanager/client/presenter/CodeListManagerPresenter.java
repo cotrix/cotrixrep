@@ -8,6 +8,6 @@ import org.cotrix.web.codelistmanager.client.view.CodeListManagerView;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface CodeListManagerPresenter extends Presenter<CodeListManagerPresenter> ,CodeListManagerView.Presenter<CodeListManagerPresenterImpl>,OnNavigationClicked,OnCodelistItemClicked{
+public interface CodeListManagerPresenter extends Presenter, CodeListManagerView.Presenter, OnNavigationClicked, OnCodelistItemClicked{
 	public void refresh();
 }
