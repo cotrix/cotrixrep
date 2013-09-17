@@ -16,22 +16,21 @@
 		
 		.titlePanel {
 			margin: 0 auto;
-			padding-top: 34px;
+			padding-top: 18px;
 			padding-bottom: 36px;
 		}
 		
 		.title {
-			font-size: 28px;
+			font-size: 30px;
 			color: #595959;
 			text-align: center;
 		}
 		
 		.subtitle {
-			font-family: 'Kite One', cursive;
 			font-size: 22px;
 			color: #989898;
 			text-align: center;
-			margin-top: 10px;
+			margin-top: 5px;
 		}
 		
 		.stepsPanel {
