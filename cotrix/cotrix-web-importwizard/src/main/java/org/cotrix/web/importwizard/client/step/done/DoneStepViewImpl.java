@@ -72,7 +72,7 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 		//The problem would be in the DeckLayoutPanel that don't call onresize
 		if (visible) {
 			reportGrid.onResize();
-			reportGrid.setVisibleRangeAndClearData(reportGrid.getVisibleRange(), true);
+			reportPager.setPage(0);
 		}
 	}
 	
@@ -115,6 +115,6 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 	public void loadReport()
 	{
 		Log.trace("requesting page 0 to report");
-		reportGrid.setVisibleRangeAndClearData(reportGrid.getVisibleRange(), true);
+		reportPager.setPage(0);
 	}
 }

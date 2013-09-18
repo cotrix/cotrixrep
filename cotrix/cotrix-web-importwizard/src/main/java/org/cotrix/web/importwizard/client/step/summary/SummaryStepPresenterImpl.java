@@ -15,6 +15,8 @@ import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHa
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
+import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
+import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
@@ -25,7 +27,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
-public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler, MappingLoadedHandler, MappingsUpdatedHandler, FileUploadedHandler, CodeListSelectedHandler {
+public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler, MappingLoadedHandler, MappingsUpdatedHandler, FileUploadedHandler, CodeListSelectedHandler, ResetWizardHandler {
 
 	protected SummaryStepView view;
 	protected EventBus importEventBus;
@@ -40,6 +42,7 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, this);
 		importEventBus.addHandler(FileUploadedEvent.TYPE, this);
 		importEventBus.addHandler(CodeListSelectedEvent.TYPE, this);
+		importEventBus.addHandler(ResetWizardEvent.TYPE, this);
 	}
 	
 	public void go(HasWidgets container) {
@@ -94,6 +97,11 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 	@Override
 	public void onCodeListSelected(CodeListSelectedEvent event) {
 		view.setFileNameVisible(false);
+	}
+
+	@Override
+	public void onResetWizard(ResetWizardEvent event) {
+		view.setMappingMode(MappingMode.STRICT);
 	}
 
 

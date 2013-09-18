@@ -204,8 +204,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	public void reset()
 	{
 		selectionModel.clear();
-		dataGrid.redraw();
-		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
+		pager.setPage(0);
 	}
 
 }
