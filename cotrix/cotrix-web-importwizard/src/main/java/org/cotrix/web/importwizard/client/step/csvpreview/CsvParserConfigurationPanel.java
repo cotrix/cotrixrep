@@ -6,6 +6,7 @@ package org.cotrix.web.importwizard.client.step.csvpreview;
 
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -28,6 +29,69 @@ public class CsvParserConfigurationPanel extends Composite {
 	
 	protected static final String CUSTOM = "custom";
 	protected static final String TAB = "tab";
+	
+	protected interface Value {
+		public String getLabel();
+		public char getValue();
+	}
+	
+	protected enum Separator implements Value {
+		COMMA("comma",','),
+		SEMICOLON("semicolon",';'),
+		SPACE("space",' '),
+		TAB("tab",'\t')
+		;
+		protected String label;
+		protected char value;
+		/**
+		 * @param label
+		 * @param value
+		 */
+		private Separator(String label, char value) {
+			this.label = label;
+			this.value = value;
+		}
+		/**
+		 * @return the label
+		 */
+		public String getLabel() {
+			return label;
+		}
+		/**
+		 * @return the value
+		 */
+		public char getValue() {
+			return value;
+		}
+	}
+	
+	protected enum Quote implements Value {
+		DOUBLE("double quote",'"'),
+		SINGLE("single quote",'\'')
+		;
+		protected String label;
+		protected char value;
+		/**
+		 * @param label
+		 * @param value
+		 */
+		private Quote(String label, char value) {
+			this.label = label;
+			this.value = value;
+		}
+		/**
+		 * @return the label
+		 */
+		public String getLabel() {
+			return label;
+		}
+		/**
+		 * @return the value
+		 */
+		public char getValue() {
+			return value;
+		}
+	}
 	
 	private static CsvParserConfigurationDialogUiBinder uiBinder = GWT.create(CsvParserConfigurationDialogUiBinder.class);
 
@@ -53,16 +117,24 @@ public class CsvParserConfigurationPanel extends Composite {
 
 
 		initWidget(uiBinder.createAndBindUi(this));
+		setup(separatorField, Separator.values());
 		bind(separatorField, customSeparatorField);
+		setup(quoteField, Quote.values());
 		bind(quoteField, customQuoteField);
-
-		
 	}
 	
 	@UiHandler("refreshButton")
 	protected void refreshButtonClicked(ClickEvent clickEvent)
 	{
 		saveHandler.onSave(getConfiguration());
+	}
+	
+	protected void setup(final ListBox listBox, Value[] values)
+	{
+		for (Value value:values) {
+			listBox.addItem(value.getLabel(), String.valueOf(value.getValue()));
+		}
+		listBox.addItem("other", CUSTOM);
 	}
 	
 	protected void bind(final ListBox listBox, final TextBox textBox)
@@ -87,16 +159,13 @@ public class CsvParserConfigurationPanel extends Composite {
 		this.saveHandler = saveHandler;
 	}
 
-
-
 	public void setConfiguration(CsvParserConfiguration configuration)
 	{
 	
 		hasHeaderField.setValue(configuration.isHasHeader());
-		System.out.println("separator: "+configuration.getFieldSeparator());
-		String separator = configuration.getFieldSeparator()=='\t'?TAB:String.valueOf(configuration.getFieldSeparator());
-		updateListBox(separatorField, separator, customSeparatorField);
-		updateListBox(quoteField, String.valueOf(configuration.getQuote()), customQuoteField);
+		Log.trace("separator: "+configuration.getFieldSeparator());
+		updateListBox(separatorField, customSeparatorField, configuration.getFieldSeparator(), Separator.values());
+		updateListBox(quoteField, customQuoteField, configuration.getQuote(), Quote.values());
 		commentField.setValue(String.valueOf(configuration.getComment()));
 
 		charsetField.clear();
@@ -105,11 +174,15 @@ public class CsvParserConfigurationPanel extends Composite {
 		
 	}
 	
-	protected void updateListBox(ListBox listBox, String value, TextBox textBox)
+	protected void updateListBox(ListBox listBox, TextBox textBox, char fieldValue, Value[] values)
 	{
-		boolean listBoxUpdated = selectValue(listBox, value);
-		if (!listBoxUpdated) {
-			textBox.setValue(value);
+		String listValue = null;
+		for (Value value:values) if (value.getValue() == fieldValue) listValue = String.valueOf(value.getValue());
+		if (listValue!=null) {
+			selectValue(listBox, listValue);
+			textBox.setVisible(false);
+		} else {
+			textBox.setValue(String.valueOf(fieldValue));
 			textBox.setVisible(true);
 			selectValue(listBox, CUSTOM);
 		}
@@ -134,20 +207,19 @@ public class CsvParserConfigurationPanel extends Composite {
 		//TODO validation
 		configuration.setCharset(charsetField.getValue(charsetField.getSelectedIndex()));
 		configuration.setComment(commentField.getValue().charAt(0));
-		String separator = getValue(separatorField, customSeparatorField);
-		char separatorChar = TAB.equals(separator)?'\t':separator.charAt(0);
+		char separatorChar =  getValue(separatorField, customSeparatorField);
 		configuration.setFieldSeparator(separatorChar);
 		configuration.setHasHeader(hasHeaderField.getValue());
-		configuration.setQuote(getValue(quoteField, customQuoteField).charAt(0));
+		configuration.setQuote(getValue(quoteField, customQuoteField));
 		return configuration;
 	}
 	
-	protected String getValue(ListBox listBox, TextBox textBox)
+	protected char getValue(ListBox listBox, TextBox textBox)
 	{
 		int selectedIndex = listBox.getSelectedIndex();
 		if (selectedIndex<0) throw new IllegalStateException("Invalid selected index "+selectedIndex);
 		String value = listBox.getValue(selectedIndex);
-		if (CUSTOM.equals(value)) return textBox.getValue();
-		else return value;
+		if (CUSTOM.equals(value)) return textBox.getValue().charAt(0);
+		else return value.charAt(0);
 	}
 }

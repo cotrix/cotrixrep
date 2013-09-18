@@ -35,11 +35,7 @@
 				<td width="18%" style="border-right:1px solid #bababa;">
 					<div class="{style.toolbarLabel}">Delimiter</div>
 					<div>
-						<g:ListBox ui:field="separatorField" styleName="{resources.css.listBox}">
-							<g:item value=",">comma</g:item>
-							<g:item value="tab">tab</g:item>
-							<g:item value="custom">other</g:item>
-						</g:ListBox>
+						<g:ListBox ui:field="separatorField" styleName="{resources.css.listBox}" />
 						<g:TextBox ui:field="customSeparatorField" maxLength="1"
 							width="20px" enabled="false" styleName="{resources.css.textBox}">,</g:TextBox>
 					</div>
@@ -47,11 +43,7 @@
 				<td width="18%" style="border-right:1px solid #bababa;">
 					<div class="{style.toolbarLabel}">Quote</div>
 					<div>
-						<g:ListBox ui:field="quoteField" styleName="{resources.css.listBox}">
-							<g:item value='"'>double quote</g:item>
-							<g:item value="'">single quote</g:item>
-							<g:item value="custom">other</g:item>
-						</g:ListBox>
+						<g:ListBox ui:field="quoteField" styleName="{resources.css.listBox}" />
 						<g:TextBox ui:field="customQuoteField" maxLength="1"
 							width="20px" enabled="false" styleName="{resources.css.textBox}">"</g:TextBox>
 					</div>
