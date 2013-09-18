@@ -4,7 +4,11 @@
 package org.cotrix.web.importwizard.client.step.csvpreview;
 
 
+import java.util.EnumSet;
+
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
+import org.cotrix.web.share.client.EnumListBox;
+import org.cotrix.web.share.client.EnumListBox.LabelProvider;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -27,9 +31,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CsvParserConfigurationPanel extends Composite {
 	
-	protected static final String CUSTOM = "custom";
-	protected static final String TAB = "tab";
-	
 	protected interface Value {
 		public String getLabel();
 		public char getValue();
@@ -39,8 +40,16 @@ public class CsvParserConfigurationPanel extends Composite {
 		COMMA("comma",','),
 		SEMICOLON("semicolon",';'),
 		SPACE("space",' '),
-		TAB("tab",'\t')
+		TAB("tab",'\t'),
+		CUSTOM("other",(char)0)
 		;
+		public static LabelProvider<Separator> LABEL_PROVIDER = new LabelProvider<CsvParserConfigurationPanel.Separator>() {
+
+			@Override
+			public String getLabel(Separator item) {
+				return item.getLabel();
+			}
+		};
 		protected String label;
 		protected char value;
 		/**
@@ -67,8 +76,17 @@ public class CsvParserConfigurationPanel extends Composite {
 	
 	protected enum Quote implements Value {
 		DOUBLE("double quote",'"'),
-		SINGLE("single quote",'\'')
+		SINGLE("single quote",'\''),
+		CUSTOM("other",'o')
 		;
+		public static LabelProvider<Quote> LABEL_PROVIDER = new LabelProvider<CsvParserConfigurationPanel.Quote>() {
+
+			@Override
+			public String getLabel(Quote item) {
+				return item.getLabel();
+			}
+		};
+		
 		protected String label;
 		protected char value;
 		/**
@@ -105,22 +123,23 @@ public class CsvParserConfigurationPanel extends Composite {
 	
 	@UiField ListBox charsetField;
 	@UiField SimpleCheckBox hasHeaderField;
-	@UiField ListBox separatorField;
+	@UiField(provided=true) EnumListBox<Separator> separatorField;
 	@UiField TextBox customSeparatorField;
 	@UiField TextBox commentField;
-	@UiField ListBox quoteField;
+	@UiField(provided=true) EnumListBox<Quote> quoteField;
 	@UiField TextBox customQuoteField;
 	
 	protected DialogSaveHandler saveHandler;
 
 	public CsvParserConfigurationPanel() {
 
-
+		separatorField = new EnumListBox<CsvParserConfigurationPanel.Separator>(Separator.class, Separator.LABEL_PROVIDER);
+		quoteField = new EnumListBox<CsvParserConfigurationPanel.Quote>(Quote.class, Quote.LABEL_PROVIDER);
+		
 		initWidget(uiBinder.createAndBindUi(this));
-		setup(separatorField, Separator.values());
-		bind(separatorField, customSeparatorField);
-		setup(quoteField, Quote.values());
-		bind(quoteField, customQuoteField);
+		
+		bind(separatorField, customSeparatorField, Separator.CUSTOM);
+		bind(quoteField, customQuoteField, Quote.CUSTOM);
 	}
 	
 	@UiHandler("refreshButton")
@@ -129,25 +148,14 @@ public class CsvParserConfigurationPanel extends Composite {
 		saveHandler.onSave(getConfiguration());
 	}
 	
-	protected void setup(final ListBox listBox, Value[] values)
-	{
-		for (Value value:values) {
-			listBox.addItem(value.getLabel(), String.valueOf(value.getValue()));
-		}
-		listBox.addItem("other", CUSTOM);
-	}
-	
-	protected void bind(final ListBox listBox, final TextBox textBox)
+	protected <E extends Enum<E>> void bind(final EnumListBox<E> listBox, final TextBox textBox, final E custom)
 	{
 		listBox.addChangeHandler(new ChangeHandler() {
 			
 			@Override
 			public void onChange(ChangeEvent event) {
-				int index = listBox.getSelectedIndex();
-				if (index>=0) {
-					String value = listBox.getValue(index);
-					textBox.setEnabled(CUSTOM.equals(value));
-				}
+				E value = listBox.getSelectedValue();
+				textBox.setEnabled(value == custom);
 			}
 		});
 	}
@@ -164,8 +172,10 @@ public class CsvParserConfigurationPanel extends Composite {
 	
 		hasHeaderField.setValue(configuration.isHasHeader());
 		Log.trace("separator: "+configuration.getFieldSeparator());
-		updateListBox(separatorField, customSeparatorField, configuration.getFieldSeparator(), Separator.values());
-		updateListBox(quoteField, customQuoteField, configuration.getQuote(), Quote.values());
+		
+		updateListBox(Separator.class, separatorField, configuration.getFieldSeparator(), customSeparatorField, Separator.CUSTOM);
+		updateListBox(Quote.class, quoteField, configuration.getQuote(), customQuoteField, Quote.CUSTOM);
+		
 		commentField.setValue(String.valueOf(configuration.getComment()));
 
 		charsetField.clear();
@@ -174,18 +184,20 @@ public class CsvParserConfigurationPanel extends Composite {
 		
 	}
 	
-	protected void updateListBox(ListBox listBox, TextBox textBox, char fieldValue, Value[] values)
+	protected <E extends Enum<E> & Value> E getValue(Class<E> eclass, char value, E custom)
 	{
-		String listValue = null;
-		for (Value value:values) if (value.getValue() == fieldValue) listValue = String.valueOf(value.getValue());
-		if (listValue!=null) {
-			selectValue(listBox, listValue);
-			textBox.setVisible(false);
-		} else {
-			textBox.setValue(String.valueOf(fieldValue));
-			textBox.setVisible(true);
-			selectValue(listBox, CUSTOM);
+		for (E element : EnumSet.allOf(eclass)) {
+			if (element.getValue() == value) return element;
 		}
+		return custom;
+	}
+	
+	protected <E extends Enum<E> & Value> void updateListBox(Class<E> eclass, EnumListBox<E> listBox, char fieldValue, TextBox textBox, E custom)
+	{
+		E value = getValue(eclass, fieldValue, custom);
+		listBox.setSelectedValue(value);
+		textBox.setEnabled(value == custom);
+		if (value == custom) textBox.setValue(String.valueOf(fieldValue));
 	}
 	
 	protected boolean selectValue(ListBox listBox, String value)
@@ -207,19 +219,21 @@ public class CsvParserConfigurationPanel extends Composite {
 		//TODO validation
 		configuration.setCharset(charsetField.getValue(charsetField.getSelectedIndex()));
 		configuration.setComment(commentField.getValue().charAt(0));
-		char separatorChar =  getValue(separatorField, customSeparatorField);
-		configuration.setFieldSeparator(separatorChar);
+		configuration.setFieldSeparator(getValue(separatorField, customSeparatorField, Separator.CUSTOM));
 		configuration.setHasHeader(hasHeaderField.getValue());
-		configuration.setQuote(getValue(quoteField, customQuoteField));
+		configuration.setQuote(getValue(quoteField, customQuoteField, Quote.CUSTOM));
 		return configuration;
 	}
 	
-	protected char getValue(ListBox listBox, TextBox textBox)
+	protected <E extends Enum<E> & Value> char getValue(EnumListBox<E> listbox, TextBox textBox, E custom)
 	{
-		int selectedIndex = listBox.getSelectedIndex();
-		if (selectedIndex<0) throw new IllegalStateException("Invalid selected index "+selectedIndex);
-		String value = listBox.getValue(selectedIndex);
-		if (CUSTOM.equals(value)) return textBox.getValue().charAt(0);
-		else return value.charAt(0);
+		E value = listbox.getSelectedValue();
+		if (value == null) throw new IllegalStateException("Invalid selected index");
+		if (value == custom) {
+			String text = textBox.getValue();
+			if (text.isEmpty()) throw new IllegalStateException("Invalid box value, it is empty");
+			return text.charAt(0);
+		}
+		return value.getValue();
 	}
 }
