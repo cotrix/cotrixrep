@@ -2,7 +2,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:u="urn:import:org.cotrix.web.importwizard.client.util">
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
-		field="resources"></ui:with>
+		field="resources" />
 	<ui:style>
 		.topPadding {
 			padding-top: 10px;
@@ -11,7 +11,7 @@
 		.reloadButtonCell {
 			padding-right: 24px;
 			padding-left: 10px;
-			width: 5%;
+			width: 30px;
 		}
 		
 		.reloadButton {
@@ -24,9 +24,9 @@
 			<table width="100%">
 				<tr>
 					<td class="{resources.css.mappingTableNameHeader}">
-						<span class="{resources.css.propertyLabel}" style="padding-left:31px;padding-right:5px;">NAME</span>
+						<span class="{resources.css.propertyLabel}" style="text-align:left;padding-left:32px;padding-right:10px;">NAME</span>
 					</td>
-					<td style="padding-top:10px;width:85%;">
+					<td style="padding-top:10px;">
 						<g:TextBox width="99%" ui:field="name"
 							styleName="{resources.css.textBox}" />
 					</td>
