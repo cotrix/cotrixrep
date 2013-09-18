@@ -39,7 +39,7 @@
 					<div>
 						<s:EnumListBox ui:field="separatorField" styleName="{resources.css.listBox}" />
 						<g:TextBox ui:field="customSeparatorField" maxLength="1"
-							width="20px" enabled="false" styleName="{resources.css.textBox}">,</g:TextBox>
+							width="20px" enabled="false" styleName="{resources.css.textBox}">:</g:TextBox>
 					</div>
 				</td>
 				<td width="18%" style="border-right:1px solid #bababa;">
@@ -47,7 +47,7 @@
 					<div>
 						<s:EnumListBox ui:field="quoteField" styleName="{resources.css.listBox}" />
 						<g:TextBox ui:field="customQuoteField" maxLength="1"
-							width="20px" enabled="false" styleName="{resources.css.textBox}">"</g:TextBox>
+							width="20px" enabled="false" styleName="{resources.css.textBox}">|</g:TextBox>
 					</div>
 				</td>
 				<td width="18%" style="border-right:1px solid #bababa;">
