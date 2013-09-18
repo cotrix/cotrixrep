@@ -13,6 +13,11 @@
 			margin: auto;
 		}
 		
+		.uploadFailPanel {
+			margin: 0 auto;
+
+		}
+		
 		.uploadFailedMessage {
 			color: #c00;
 		}
@@ -20,7 +25,7 @@
 		.uploadRetryButton {
 			margin-left: 10px;
 			color: #15c;
-			cursor: hand;
+			cursor: pointer;
 		}
 		
 		.fileInfo {
@@ -47,8 +52,7 @@
 					<td>
 						<g:FlowPanel ui:field="uploadPanel" styleName="{style.uploadPanel}">
 							<f:ProgressBar ui:field="progressBar" visible="false" />
-							<g:HorizontalPanel ui:field="uploadFailPanel"
-								visible="false">
+							<g:HorizontalPanel ui:field="uploadFailPanel" visible="false" styleName="{style.uploadFailPanel}">
 								<g:Label styleName="{style.uploadFailedMessage}">Upload failed.</g:Label>
 								<g:Label ui:field="retryButton" styleName="{style.uploadRetryButton}">Retry</g:Label>
 							</g:HorizontalPanel>

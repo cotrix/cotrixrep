@@ -76,7 +76,7 @@ public class FileUpload extends HttpServlet{
 		WizardImportSession session = WizardImportSession.getCleanImportSession(httpSession);
 		FileUploadProgress uploadProgress = new FileUploadProgress(0, Status.ONGOING, null);
 		session.setUploadProgress(uploadProgress);
-
+		
 		try {
 
 			boolean isMultipart = ServletFileUpload.isMultipartContent(request);

@@ -41,6 +41,7 @@ public class UploadStepPresenterImpl extends AbstractVisualWizardStep implements
 	protected boolean complete = false;
 	
 	protected UploadStepView view;
+	protected File file;
 	protected String fileName;
 
 
@@ -117,6 +118,7 @@ public class UploadStepPresenterImpl extends AbstractVisualWizardStep implements
 	{
 		complete = false;
 		
+		this.file = file;
 		fileName = file.getName();
 		view.setupUpload(fileName, file.getSize());
 		
@@ -182,8 +184,8 @@ public class UploadStepPresenterImpl extends AbstractVisualWizardStep implements
 	
 	protected void uploadFailed()
 	{
-		view.setUploadFailed();
 		progressPolling.cancel();
+		view.setUploadFailed();
 	}
 	
 	public void onDeleteButtonClicked() {
@@ -204,8 +206,7 @@ public class UploadStepPresenterImpl extends AbstractVisualWizardStep implements
 
 	@Override
 	public void onRetryButtonClicked() {
-		// TODO Auto-generated method stub
-		
+		startUpload(file);	
 	}
 
 	@Override
