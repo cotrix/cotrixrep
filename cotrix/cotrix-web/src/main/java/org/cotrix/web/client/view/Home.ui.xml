@@ -15,8 +15,7 @@
 		}
 		
 		.blockContainer {
-			display: table;
-			margin: 0 auto;
+			width: 100%;
 			margin-top: 94px;
 		}
 		
@@ -25,9 +24,8 @@
 			border-radius: 5px;
 			width: 270px;
 			height: 200px;
-			margin: 20px;
+			margin: 0 auto;
 			border: 1px solid #d9d9d9;
-			float: left;
 		}
 		
 		.blockImg {
@@ -49,19 +47,24 @@
 		<div class="{style.div}">
 			<g:Image resource="{resources.home}" styleName="{style.screen}" />
 		</div>
-		<div class="{style.blockContainer}">
+		<table class="{style.blockContainer}">
+			<tr><td>
 			<div class="{style.block}">
 				<g:Image resource="{resources.communities}" styleName="{style.blockImg}" />
 				<div class="{style.blockTitle}">Communities</div>
 			</div>
+			</td>
+			<td>
 			<div class="{style.block}">
 				<g:Image resource="{resources.statistic}" styleName="{style.blockImg}" />
 				<div class="{style.blockTitle}">Statistic</div>
 			</div>
-			<div class="{style.block}">
+			</td>
+			<!-- <div class="{style.block}">
 				<g:Image resource="{resources.howto}" styleName="{style.blockImg}" />
 				<div class="{style.blockTitle}">How to?</div>
-			</div>
-		</div>
+			</div> -->
+			</tr>
+		</table>
 	</g:HTMLPanel>
 </ui:UiBinder> 
