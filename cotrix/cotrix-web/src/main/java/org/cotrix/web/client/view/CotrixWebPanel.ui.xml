@@ -16,7 +16,7 @@
 		}
 		
 		.body {
-			width: 940px;
+			width: 950px;
 			margin: 0 auto;
 		}
 	</ui:style>

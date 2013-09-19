@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ProgressTracker extends Composite {
 
 	//TODO make dynamic
-	public static final int TRACKER_WIDTH = 940;
+	public static final int TRACKER_WIDTH = 950;
 	public static final int BUTTON_WIDTH = 30;
 
 	private static ProgressTrackerUiBinder uiBinder = GWT.create(ProgressTrackerUiBinder.class);
