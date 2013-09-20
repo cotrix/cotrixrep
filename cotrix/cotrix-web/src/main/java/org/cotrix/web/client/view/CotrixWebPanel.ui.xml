@@ -16,8 +16,7 @@
 		}
 		
 		.body {
-			width: 950px;
-			margin: 0 auto;
+		/*	width: 950px;*/
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX'>
