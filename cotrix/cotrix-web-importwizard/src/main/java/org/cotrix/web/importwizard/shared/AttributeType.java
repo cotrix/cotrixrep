@@ -8,7 +8,8 @@ package org.cotrix.web.importwizard.shared;
  *
  */
 public enum AttributeType {
-	
+
 	CODE,
-	DESCRIPTION;
+	DESCRIPTION,
+	ANNOTATION;
 }

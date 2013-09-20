@@ -39,6 +39,7 @@ public class AttributeDefinitionPanel extends Composite {
 			switch (type) {
 				case CODE: return "Code";
 				case DESCRIPTION: return "Description";
+				case ANNOTATION: return "Annotation";
 				default: throw new IllegalArgumentException("No label mapping found for attribute type "+type);
 			}
 		}
@@ -50,7 +51,8 @@ public class AttributeDefinitionPanel extends Composite {
 		public String getLabel(AttributeType type) {
 			switch (type) {
 				case CODE: return "Primary code";
-				case DESCRIPTION: return "Other";
+				case DESCRIPTION: return "Description";
+				case ANNOTATION: return "Annotation";
 				default: throw new IllegalArgumentException("No label mapping found for attribute type "+type);
 			}
 		}
@@ -140,7 +142,7 @@ public class AttributeDefinitionPanel extends Composite {
 	protected void updateVisibilities()
 	{
 		AttributeType type = getType();
-		setLanguagePanelVisibile(type != null && type == AttributeType.DESCRIPTION);
+		setLanguagePanelVisibile(type != null && type != AttributeType.CODE);
 	}
 
 	protected void setLanguagePanelVisibile(boolean visible)

@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.utils.Constants;
 import org.cotrix.io.map.MapService;
 import org.cotrix.io.map.Outcome;
 import org.cotrix.io.sdmx.SdmxMapDirectives;
@@ -72,9 +73,20 @@ public interface ImporterMapper<T> {
 				AttributeDefinition definition = mapping.getAttributeDefinition();				
 				directive.name(definition.getName());
 				directive.language(definition.getLanguage());
+				directive.type(getType(definition.getType()));
 			} else directive.mode(org.cotrix.io.tabular.MappingMode.IGNORE);
 			
 			return directive;
+		}
+		
+		protected QName getType(AttributeType type)
+		{
+			switch (type) {
+				case ANNOTATION: return Constants.ANNOTATION_TYPE;
+				case DESCRIPTION: return Constants.DESCRIPTION_TYPE;
+				case CODE: return Constants.DEFAULT_TYPE;
+				default: throw new IllegalArgumentException("Unknow attribute type "+type);
+			}
 		}
 		
 		protected org.cotrix.io.tabular.MappingMode convertMappingMode(MappingMode mode)
