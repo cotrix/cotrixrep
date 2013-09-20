@@ -32,8 +32,4 @@ public class CodeListManagerPresenterImpl implements CodeListManagerPresenter {
 		codeListPresenter.go(view.getWestPanel());
 			
 	}
-	
-	public void refresh(){
-		this.codeListPresenter.refresh();
-	}
 }

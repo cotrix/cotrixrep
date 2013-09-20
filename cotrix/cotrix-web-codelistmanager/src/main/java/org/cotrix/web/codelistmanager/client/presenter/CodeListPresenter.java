@@ -7,5 +7,4 @@ import org.cotrix.web.codelistmanager.client.view.CodeListView;
  *
  */
 public interface CodeListPresenter extends Presenter, CodeListView.Presenter {
-	void refresh();
 }

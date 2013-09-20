@@ -38,8 +38,8 @@ public class CodeListViewImpl extends ResizeComposite implements CodeListView, K
 	@UiField(provided=true) 
 	CellList<UICodelist> codelists;
 	
-	@UiField FlowPanel filterPanel;
-	@UiField PromptedTextBox filterTextBox;
+	//@UiField FlowPanel filterPanel;
+	//@UiField PromptedTextBox filterTextBox;
 	
 	@UiFactory
 	PromptedTextBox getPromptedTextBox() {

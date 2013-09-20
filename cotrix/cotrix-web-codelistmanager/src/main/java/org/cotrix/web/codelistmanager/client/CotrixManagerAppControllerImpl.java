@@ -1,9 +1,12 @@
 package org.cotrix.web.codelistmanager.client;
 
+import org.cotrix.web.codelistmanager.client.event.ManagerBus;
+import org.cotrix.web.codelistmanager.client.event.RefreshCodeListsEvent;
 import org.cotrix.web.codelistmanager.client.presenter.CodeListManagerPresenter;
 import org.cotrix.web.share.client.event.CodeListImportedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -17,6 +20,10 @@ import com.google.web.bindery.event.shared.EventBus;
 public class CotrixManagerAppControllerImpl implements CotrixManagerAppController {
 	
 	protected EventBus cotrixBus;
+	
+	@Inject
+	@ManagerBus
+	protected EventBus managerBus;
 	
 	private ManagerServiceAsync rpcService;
 	private HandlerManager eventBus;
@@ -45,7 +52,8 @@ public class CotrixManagerAppControllerImpl implements CotrixManagerAppControlle
 	}
 
 	public void refreshCodeLists() {
-		
+		Log.trace("refreshCodeLists");
+		managerBus.fireEvent(new RefreshCodeListsEvent());
 	}
 
 }
