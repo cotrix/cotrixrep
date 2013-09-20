@@ -4,11 +4,14 @@ import org.cotrix.web.client.presenter.CotrixWebPresenter;
 import org.cotrix.web.client.presenter.CotrixWebPresenterImpl;
 import org.cotrix.web.client.view.CotrixWebView;
 import org.cotrix.web.client.view.CotrixWebViewImpl;
+import org.cotrix.web.share.client.event.CotrixBus;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.SimpleEventBus;
 
 public class AppGinModule extends AbstractGinModule {
 	@Provides
@@ -19,6 +22,7 @@ public class AppGinModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
+		bind(EventBus.class).annotatedWith(CotrixBus.class).to(SimpleEventBus.class).in(Singleton.class);
 		bind(AppController.class).to(AppControllerImpl.class);
 
 		bind(CotrixWebView.class).to(CotrixWebViewImpl.class);

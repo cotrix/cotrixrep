@@ -9,7 +9,7 @@
 		<groupId>org.cotrix</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>cotrix-web-share</artifactId>
 	<packaging>jar</packaging>
 	<name>cotrix-web-share</name>
@@ -20,6 +20,10 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt.inject</groupId>
+			<artifactId>gin</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -39,7 +43,7 @@
 				</executions>
 			</plugin>
 		</plugins>
-		
+
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>
@@ -63,10 +67,11 @@
 				</includes>
 			</resource>
 		</resources>
-		
+
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>

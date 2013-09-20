@@ -35,6 +35,8 @@ import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.MappingMode;
+import org.cotrix.web.share.client.event.CodeListImportedEvent;
+import org.cotrix.web.share.client.event.CotrixBus;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
@@ -51,6 +53,9 @@ import com.google.web.bindery.event.shared.EventBus;
 public class ImportWizardControllerImpl implements ImportWizardController {
 
 	protected EventBus importEventBus;
+	
+	@Inject @CotrixBus
+	protected EventBus cotrixBus;
 
 	@Inject
 	protected ImportServiceAsync importService;
@@ -309,8 +314,16 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 	protected void updateImportProgress(ImportProgress progress)
 	{
-		if (progress.isComplete()) importProgressPolling.cancel();
+		if (progress.isComplete()) codelistImportComplete();
 		importEventBus.fireEvent(new ImportProgressEvent(progress));
+	}
+	
+	protected void codelistImportComplete()
+	{
+		Log.trace("CodeList import complete");
+		importProgressPolling.cancel();
+		//FIXME add id
+		cotrixBus.fireEvent(new CodeListImportedEvent(null));
 	}
 
 	protected void newImportRequested()
