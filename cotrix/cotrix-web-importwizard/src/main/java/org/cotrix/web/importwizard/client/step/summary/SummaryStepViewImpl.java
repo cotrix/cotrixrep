@@ -123,7 +123,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	
 	public void setMappingMode(MappingMode mode)
 	{
-		mappingMode.setValue(mode==MappingMode.LOG);
+		mappingMode.setValue(mode==MappingMode.STRICT);
 	}
 
 	public void setMappingModeVisible(boolean visible)
