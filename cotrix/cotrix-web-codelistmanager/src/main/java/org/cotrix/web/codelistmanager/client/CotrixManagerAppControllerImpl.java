@@ -31,7 +31,7 @@ public class CotrixManagerAppControllerImpl implements CotrixManagerAppControlle
 	}
 
 	public void refresh() {
-		this.codeListManagerPresenter.refresh();
+		//FIXME this.codeListManagerPresenter.refresh();
 	}
 
 }

@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.shared.AssetInfo;
-import org.cotrix.web.importwizard.shared.AssetsBatch;
 import org.cotrix.web.importwizard.shared.ColumnSortInfo;
+import org.cotrix.web.share.shared.DataWindow;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.ColumnSortList;
@@ -72,11 +72,11 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 		boolean force = forceRefresh;
 		forceRefresh = false;
 		
-		importService.getAssets(range, sortInfo, force, new AsyncCallback<AssetsBatch>() {
+		importService.getAssets(range, sortInfo, force, new AsyncCallback<DataWindow<AssetInfo>>() {
 			
 			@Override
-			public void onSuccess(AssetsBatch batch) {
-				List<AssetInfo> assets = batch.getAssets();
+			public void onSuccess(DataWindow<AssetInfo> batch) {
+				List<AssetInfo> assets = batch.getData();
 				Log.trace("loaded "+assets.size()+" assets");
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), assets);

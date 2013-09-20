@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -22,10 +23,11 @@ public class CodeListManagerViewImpl extends ResizeComposite implements CodeList
 
 	@UiField SplitLayoutPanel mainPanel;
 	@UiField SimpleLayoutPanel westPanel;
-	@UiField SimpleLayoutPanel centerPanel;
+	@UiField(provided=true) ContentPanel contentPanel;
 
-
-	public CodeListManagerViewImpl() {
+	@Inject
+	public CodeListManagerViewImpl(ContentPanel contentPanel) {
+		this.contentPanel = contentPanel;
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -33,8 +35,8 @@ public class CodeListManagerViewImpl extends ResizeComposite implements CodeList
 		return westPanel;
 	}
 	
-	public HasWidgets getCenterPanel() {
-		return centerPanel;
+	public ContentPanel getContentPanel() {
+		return contentPanel;
 	}
 
 	public void showWestPanel(boolean show) {

@@ -6,6 +6,8 @@
 	<ui:style>
 		.wizardPanel {
 			padding-bottom: 20px;
+			width: 950px;
+			margin: 0 auto;
 		}
 		
 		.progressTracker {

@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.shared.ReportLog;
-import org.cotrix.web.importwizard.shared.ReportLogsBatch;
+import org.cotrix.web.share.shared.DataWindow;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -35,10 +35,10 @@ public class ReportLogDataProvider extends AsyncDataProvider<ReportLog> {
 	protected void onRangeChanged(HasData<ReportLog> display) {
 		final Range range = display.getVisibleRange();
 		Log.trace("onRangeChanged range: "+range);
-		importService.getReportLogs(range, new AsyncCallback<ReportLogsBatch>() {
+		importService.getReportLogs(range, new AsyncCallback<DataWindow<ReportLog>>() {
 			
 			@Override
-			public void onSuccess(ReportLogsBatch batch) {
+			public void onSuccess(DataWindow<ReportLog> batch) {
 				List<ReportLog> logs = batch.getData();
 				Log.trace("loaded "+logs.size()+" logs");
 				updateRowCount(batch.getTotalSize(), true);

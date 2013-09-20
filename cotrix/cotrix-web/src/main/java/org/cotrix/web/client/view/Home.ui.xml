@@ -41,29 +41,34 @@
 			color: #666;
 			border-bottom: 1px solid #d9d9d9;
 			padding: 5px;
-		}		
+		}
+		
+		.home {
+			width: 950px;
+			margin: 0 auto;
+		}
 	</ui:style>
-	<g:HTMLPanel>
+	<g:HTMLPanel styleName="{style.home}">
 		<div class="{style.div}">
 			<g:Image resource="{resources.home}" styleName="{style.screen}" />
 		</div>
 		<table class="{style.blockContainer}">
-			<tr><td>
-			<div class="{style.block}">
-				<g:Image resource="{resources.communities}" styleName="{style.blockImg}" />
-				<div class="{style.blockTitle}">Communities</div>
-			</div>
-			</td>
-			<td>
-			<div class="{style.block}">
-				<g:Image resource="{resources.statistic}" styleName="{style.blockImg}" />
-				<div class="{style.blockTitle}">Statistic</div>
-			</div>
-			</td>
-			<!-- <div class="{style.block}">
-				<g:Image resource="{resources.howto}" styleName="{style.blockImg}" />
-				<div class="{style.blockTitle}">How to?</div>
-			</div> -->
+			<tr>
+				<td>
+					<div class="{style.block}">
+						<g:Image resource="{resources.communities}" styleName="{style.blockImg}" />
+						<div class="{style.blockTitle}">Communities</div>
+					</div>
+				</td>
+				<td>
+					<div class="{style.block}">
+						<g:Image resource="{resources.statistic}" styleName="{style.blockImg}" />
+						<div class="{style.blockTitle}">Statistic</div>
+					</div>
+				</td>
+				<!-- <div class="{style.block}"> <g:Image resource="{resources.howto}" 
+					styleName="{style.blockImg}" /> <div class="{style.blockTitle}">How to?</div> 
+					</div> -->
 			</tr>
 		</table>
 	</g:HTMLPanel>

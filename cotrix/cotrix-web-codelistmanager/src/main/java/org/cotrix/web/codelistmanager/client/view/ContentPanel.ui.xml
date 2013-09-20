@@ -1,0 +1,70 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.contenPanel {
+			border: 1px solid #ccc;
+		}
+		
+		.initLabel {
+			font-size: 20px;
+			color: #999;
+			line-height: 100%;
+			width: 100%;
+			padding-top: 150px;
+			height: 100%;
+			text-align: center;
+		}
+		
+		.blankPanel {
+			height: 100%;
+			border-radius: 5px;
+		}
+		
+		.test {
+			background-color: blue;
+		}
+		
+		@external .gwt-TabLayoutPanelContent;
+		.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent {
+			overflow: hidden;
+			padding: 6px;
+		}
+		
+		@external .gwt-TabLayoutPanelTab;
+		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
+			margin-left: 4px;
+			padding: 4px 8px 4px 8px;
+			cursor: pointer;
+			cursor: hand;
+			color: white;
+			font-weight: normal;
+			text-align: center;
+			background: #8E8E8E;
+			-moz-border-radius: 3px 3px 0px 0px;
+			border-radius: 3px 3px 0px 0px;
+		}
+		
+		@external .gwt-TabLayoutPanelTab-selected;
+		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
+			cursor: default;
+			background: white;
+			color: #333;
+			font-weight: bold;
+		}
+		
+		@external .gwt-TabLayoutPanelTabs;
+		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
+			background: #ccc;
+			padding-top: 6 px;
+		}
+	</ui:style>
+	<g:DeckLayoutPanel ui:field="contenPanel" styleName="{style.contenPanel}">
+		<g:TabLayoutPanel ui:field="codelistsPanel"
+			barHeight="30" addStyleNames="{style.gwt-TabLayoutPanel}">
+		</g:TabLayoutPanel>
+		<g:HTMLPanel ui:field="blankPanel" styleName="{style.blankPanel}">
+			<g:Label styleName="{style.initLabel}">Select any code list in left panel.</g:Label>
+		</g:HTMLPanel>
+	</g:DeckLayoutPanel>
+</ui:UiBinder> 

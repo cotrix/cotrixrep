@@ -1,7 +1,11 @@
 package org.cotrix.web.codelistmanager.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import static org.cotrix.repository.Queries.*;
 import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.domain.dsl.Codes.*;
@@ -16,8 +20,11 @@ import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
+import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
+import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModel;
+import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.UIAttribute;
 import org.cotrix.web.share.shared.UICode;
@@ -178,5 +185,53 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 			data.add(line);	
 		}
 		return data;
+	}
+
+	@Override
+	public DataWindow<UICodelist> getCodelists(com.google.gwt.view.client.Range range) throws ManagerServiceException {
+		logger.trace("getCodelists range: {}", range);
+		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
+		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
+		while (it.hasNext()) {
+			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it
+					.next();
+			UICodelist c = new UICodelist();
+			c.setName(codelist.name().toString());
+			c.setId(codelist.id());
+			list.add(c);
+		}
+		return new DataWindow<UICodelist>(list);
+	}
+
+	@Override
+	public DataWindow<UICodeListRow> getCodelistRows(String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
+		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
+		
+		CodelistQuery<Code> query = allCodes(codelistId);
+		query.setRange(new Range(range.getStart(), range.getStart() + range.getLength()));
+
+		Codelist codelist = repository.lookup(codelistId);
+		
+		Iterable<Code> codes  = repository.queryFor(query);
+		List<UICodeListRow> rows = new ArrayList<UICodeListRow>(range.getLength());
+		for (Code code:codes) {
+
+			UICodeListRow row = new UICodeListRow(code.id(), code.id(), code.name().toString());
+			
+			Map<String, UIAttribute> rowAttributes = new HashMap<String, UIAttribute>(code.attributes().size());
+			
+			for (Attribute attribute:code.attributes()) {
+				UIAttribute rowAttribute = new UIAttribute();
+				rowAttribute.setName(attribute.name().toString());
+				rowAttribute.setType(attribute.type().toString());
+				rowAttribute.setLanguage(attribute.language());
+				rowAttribute.setValue(attribute.value());
+				rowAttribute.setId(attribute.id());
+				rowAttributes.put(attribute.name().toString(), rowAttribute);
+			}
+			row.setAttributes(rowAttributes);
+			rows.add(row);
+		}
+		return new DataWindow<UICodeListRow>(rows, codelist.codes().size());
 	}
 }

@@ -25,7 +25,6 @@ import org.cotrix.web.importwizard.server.util.ParsingHelper;
 import org.cotrix.web.importwizard.server.util.Ranges;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
-import org.cotrix.web.importwizard.shared.AssetsBatch;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ColumnSortInfo;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
@@ -36,8 +35,8 @@ import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
-import org.cotrix.web.importwizard.shared.ReportLogsBatch;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
+import org.cotrix.web.share.shared.DataWindow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
@@ -99,7 +98,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	 * @throws ImportServiceException 
 	 */
 	@Override
-	public AssetsBatch getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ImportServiceException {
+	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ImportServiceException {
 		logger.trace("getAssets range: {} columnSortInfo: {} forceRefresh: {}", range, columnSortInfo, forceRefresh);
 		try {
 
@@ -115,7 +114,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 			logger.trace("returning "+sublist.size()+" elements");
 
-			return new AssetsBatch(sublist, assets.size());
+			return new DataWindow<AssetInfo>(sublist, assets.size());
 		} catch(Exception e)
 		{
 			e.printStackTrace();
@@ -388,13 +387,13 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public ReportLogsBatch getReportLogs(Range range) throws ImportServiceException {
+	public DataWindow<ReportLog> getReportLogs(Range range) throws ImportServiceException {
 		logger.trace("getReportLogs range: {}", range);
 		try {
 			WizardImportSession session = getImportSession();
 			List<ReportLog> logs = (session==null || session.getLogs()==null)?Collections.<ReportLog>emptyList():session.getLogs();
 			List<ReportLog> subLogs = Ranges.subList(logs, range);
-			return new ReportLogsBatch(subLogs, logs.size());
+			return new DataWindow<ReportLog>(subLogs, logs.size());
 		} catch(Exception e)
 		{
 			logger.error("An error occurred getting the reports logs", e);

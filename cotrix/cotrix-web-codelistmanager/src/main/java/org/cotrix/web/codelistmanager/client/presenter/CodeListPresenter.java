@@ -1,6 +1,5 @@
 package org.cotrix.web.codelistmanager.client.presenter;
 
-import org.cotrix.web.codelistmanager.client.presenter.CodeListPresenterImpl.OnCodelistItemClicked;
 import org.cotrix.web.codelistmanager.client.view.CodeListView;
 
 /**
@@ -8,6 +7,5 @@ import org.cotrix.web.codelistmanager.client.view.CodeListView;
  *
  */
 public interface CodeListPresenter extends Presenter, CodeListView.Presenter {
-	void setOnCodelistItemClicked(OnCodelistItemClicked onCodelistItemClicked);
 	void refresh();
 }

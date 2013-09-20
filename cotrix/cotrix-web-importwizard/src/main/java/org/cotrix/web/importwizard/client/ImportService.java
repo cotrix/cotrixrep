@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.shared.AssetDetails;
-import org.cotrix.web.importwizard.shared.AssetsBatch;
+import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ColumnSortInfo;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
@@ -14,8 +14,9 @@ import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.MappingMode;
-import org.cotrix.web.importwizard.shared.ReportLogsBatch;
+import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
+import org.cotrix.web.share.shared.DataWindow;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -27,7 +28,7 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("importService")
 public interface ImportService extends RemoteService {
 	
-	public AssetsBatch getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ImportServiceException;
+	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ImportServiceException;
 	
 	public AssetDetails getAssetDetails(String assetId) throws ImportServiceException;
 	
@@ -53,6 +54,6 @@ public interface ImportService extends RemoteService {
 	
 	public ImportProgress getImportProgress() throws ImportServiceException;
 	
-	public ReportLogsBatch getReportLogs(Range range) throws ImportServiceException;
+	public DataWindow<ReportLog> getReportLogs(Range range) throws ImportServiceException;
 	
 }

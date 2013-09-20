@@ -55,7 +55,7 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 		cotrixImportAppController.go(importPanel);
 		view.getBody().add(importPanel);
 
-		CotrixManagerAppGinInjector cotrixManagerAppGinInjector = GWT.create(CotrixManagerAppGinInjector.class);
+		CotrixManagerAppGinInjector cotrixManagerAppGinInjector = CotrixManagerAppGinInjector.INSTANCE;
 		cotrixManagerAppController = cotrixManagerAppGinInjector.getAppController();	
 		cotrixManagerAppController.go(view.getBody());
 	

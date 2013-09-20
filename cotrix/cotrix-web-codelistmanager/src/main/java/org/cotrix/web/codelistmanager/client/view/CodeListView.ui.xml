@@ -77,10 +77,10 @@
 				
 			}
 		</ui:style>
-	<g:FlowPanel styleName="{style.wrapper}" ui:field="panel">
-		<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
+		<g:HeaderPanel styleName="{style.wrapper}">
+				<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
 			<cotrix:PromptedTextBox ui:field="filterTextBox" />
 		</g:FlowPanel>
-		<g:FlowPanel ui:field="listPanel" styleName="{style.listPanel}" />
-	</g:FlowPanel>
+			<c:CellList ui:field="codelists" styleName="{style.listPanel}"/>
+		</g:HeaderPanel>
 </ui:UiBinder> 
