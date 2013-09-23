@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.importwizard.client.util.MappingPanel;
+import org.cotrix.web.importwizard.client.util.AttributeMappingPanel;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 
 import com.google.gwt.core.client.GWT;
@@ -31,14 +31,14 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	@UiField TextBox version;
 	
 	@UiField(provided=true)
-	MappingPanel mappingPanel;
+	AttributeMappingPanel mappingPanel;
 	
 	protected Presenter presenter;
 
 	protected AlertDialog alertDialog;
 
 	public CsvMappingStepViewImpl() {
-		mappingPanel = new MappingPanel(true);
+		mappingPanel = new AttributeMappingPanel(true);
 		initWidget(uiBinder.createAndBindUi(this));
 
 		Resources.INSTANCE.css().ensureInjected();

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.importwizard.client.util.MappingPanel;
+import org.cotrix.web.importwizard.client.util.AttributeMappingPanel;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 
 import com.google.gwt.core.client.GWT;
@@ -30,14 +30,14 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	@UiField TextBox name;
 	
 	@UiField(provided=true)
-	MappingPanel mappingPanel;
+	AttributeMappingPanel mappingPanel;
 
 	private AlertDialog alertDialog;
 	
 	protected Presenter presenter;
 
 	public SdmxMappingStepViewImpl() {
-		mappingPanel = new MappingPanel(false);
+		mappingPanel = new AttributeMappingPanel(false);
 		initWidget(uiBinder.createAndBindUi(this));
 		Resources.INSTANCE.css().ensureInjected();
 	}

@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingPanel extends Composite {
+public class AttributeMappingPanel extends Composite {
 
 	protected static int IGNORE_COLUMN = 0;
 	protected static int NAME_COLUMN = 1;
@@ -46,7 +46,7 @@ public class MappingPanel extends Composite {
 	protected List<AttributeDefinition> definitions = new ArrayList<AttributeDefinition>();
 	protected List<Field> fields = new ArrayList<Field>();
 
-	public MappingPanel(boolean typeDefinition)
+	public AttributeMappingPanel(boolean typeDefinition)
 	{
 		this.typeDefinition = typeDefinition;
 		container = new SimplePanel();
