@@ -33,4 +33,8 @@ public interface SdmxMappingStepView {
 
 	String getCodelistName();
 
+	void setVersion(String version);
+
+	String getVersion();
+
 }

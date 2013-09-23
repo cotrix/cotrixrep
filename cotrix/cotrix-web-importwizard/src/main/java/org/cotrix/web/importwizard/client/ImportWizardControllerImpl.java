@@ -183,6 +183,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Failed setting the selected asset", caught);
+				//FIXME
 			}
 
 			@Override

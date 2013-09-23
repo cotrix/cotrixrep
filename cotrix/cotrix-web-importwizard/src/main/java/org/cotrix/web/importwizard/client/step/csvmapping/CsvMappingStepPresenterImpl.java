@@ -67,9 +67,10 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 		if (valid) {
 			importEventBus.fireEvent(new MappingsUpdatedEvent(mappings));
 			
-			if (metadata == null) metadata = new ImportMetadata();
+			ImportMetadata metadata = new ImportMetadata();
 			metadata.setName(csvName);
 			metadata.setVersion(version);
+			metadata.setAttributes(this.metadata.getAttributes());
 			importEventBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
 		}
 		
@@ -83,7 +84,7 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 			return false;
 		}
 		
-		if (version==null) {
+		if (version==null || version.isEmpty()) {
 			view.alert("You should specify a codelist version");
 			return false;
 		}

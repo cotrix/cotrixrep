@@ -2,44 +2,39 @@ package org.cotrix.web.importwizard.client.step.sdmxmapping;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.util.AlertDialog;
-import org.cotrix.web.importwizard.client.util.AttributeMappingPanel;
+import org.cotrix.web.importwizard.client.util.MappingPanel;
+import org.cotrix.web.importwizard.client.util.MappingPanel.ReloadButtonHandler;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMappingStepView {
+public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMappingStepView, ReloadButtonHandler {
 
 	@UiTemplate("SdmxMappingStep.ui.xml")
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, SdmxMappingStepViewImpl> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 	
-	@UiField TextBox name;
-	
-	@UiField(provided=true)
-	AttributeMappingPanel mappingPanel;
+	@UiField(provided = true) MappingPanel mappingPanel;
 
 	private AlertDialog alertDialog;
 	
 	protected Presenter presenter;
 
 	public SdmxMappingStepViewImpl() {
-		mappingPanel = new AttributeMappingPanel(false);
+		mappingPanel = new MappingPanel(false, "ELEMENTS");
+		mappingPanel.setReloadHandler(this);
+		
 		initWidget(uiBinder.createAndBindUi(this));
-		Resources.INSTANCE.css().ensureInjected();
 	}
 	
 	/**
@@ -51,18 +46,22 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 
 	@Override
 	public void setCodelistName(String name) {
-		this.name.setValue(name);
+		mappingPanel.setName(name);
 	}
 
 	@Override
 	public String getCodelistName() {
-		return this.name.getValue();
+		return mappingPanel.getName();
 	}
 	
-	@UiHandler("reloadButton")
-	protected void reload(ClickEvent clickEvent)
-	{
-		presenter.onReload();
+	@Override
+	public void setVersion(String version) {
+		mappingPanel.setVersion(version);
+	}
+
+	@Override
+	public String getVersion() {
+		return mappingPanel.getVersion();
 	}
 
 	public void setMappings(List<AttributeMapping> mappings)
@@ -72,12 +71,12 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	
 	public void setMappingLoading()
 	{
-		mappingPanel.setLoading();
+		mappingPanel.setMappingLoading();
 	}
 	
 	public void unsetMappingLoading()
 	{
-		mappingPanel.unsetLoading();
+		mappingPanel.unsetMappingLoading();
 	}
 	
 	public List<AttributeMapping> getMappings()
@@ -91,6 +90,11 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 		}
 		alertDialog.setMessage(message);
 		alertDialog.show();
+	}
+
+	@Override
+	public void onReloadButtonClicked() {
+		presenter.onReload();
 	}
 
 }
