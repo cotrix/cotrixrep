@@ -91,6 +91,24 @@ public class MapServiceTest {
 		
 	}
 	
+	@Test
+	public void mapSdmxBeanWithVersion() throws Exception {
+		
+		//we only need to test dispatching, mapping is tested separately
+		
+		InputStream stream = getClass().getClassLoader().getResourceAsStream("sampleasfissdmx.xml");
+		
+		CodelistBean bean = parser.parse(stream, SdmxParseDirectives.DEFAULT);
+		
+		Outcome outcome = service.map(bean, new SdmxMapDirectives().name("test").version("2.0"));
+		
+		assertNotNull(outcome.result());
+		assertEquals(new QName("test"), outcome.result().name());
+		assertEquals("2.0", outcome.result().version());
+		
+		
+	}
+	
 	// helper
 	private Table tableWith(String[][] data, String ... cols) {
 		
