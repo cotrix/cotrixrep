@@ -73,9 +73,7 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
-					<include>**/*.java</include>
-					<include>**/*.gwt.xml</include>
-					<include>**/*.ui.xml</include>
+					<include>**/*.*</include>
 				</includes>
 			</resource>
 		</resources>
