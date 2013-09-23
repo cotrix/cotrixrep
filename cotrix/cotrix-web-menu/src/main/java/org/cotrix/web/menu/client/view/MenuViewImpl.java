@@ -21,31 +21,6 @@ public class MenuViewImpl extends Composite implements MenuView {
 	interface MenuViewUiBinder extends UiBinder<Widget, MenuViewImpl> {}
 	private static MenuViewUiBinder uiBinder = GWT.create(MenuViewUiBinder.class);
 
-	//FIXME tmp solution
-	protected enum Menu {
-		HOME(0), 
-		IMPORT(1), 
-		MANAGE(2), 
-		PUBLISH(3);
-
-		protected int index;
-
-		/**
-		 * @param index
-		 */
-		private Menu(int index) {
-			this.index = index;
-		}
-
-		/**
-		 * @return the index
-		 */
-		public int getIndex() {
-			return index;
-		}
-
-	};
-
 	@UiField Label homeMenu;
 	@UiField Label importMenu;
 	@UiField Label manageMenu;
@@ -81,7 +56,7 @@ public class MenuViewImpl extends Composite implements MenuView {
 			public void onClick(ClickEvent event) {
 				resetMenu();
 				item.setStyleName(style.menuSelected(), true);
-				presenter.onMenuClicked(menu.getIndex());
+				presenter.onMenuClicked(menu);
 			}
 		});
 	}

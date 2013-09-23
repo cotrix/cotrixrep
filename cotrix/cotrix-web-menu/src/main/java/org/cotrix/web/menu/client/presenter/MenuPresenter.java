@@ -1,35 +1,48 @@
 package org.cotrix.web.menu.client.presenter;
 
 import org.cotrix.web.menu.client.view.MenuView;
+import org.cotrix.web.menu.client.view.MenuView.Menu;
+import org.cotrix.web.share.client.CotrixModule;
+import org.cotrix.web.share.client.event.CotrixBus;
+import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
-public class MenuPresenter implements Presenter<MenuPresenter> , MenuView.Presenter{
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class MenuPresenter implements Presenter<MenuPresenter> , MenuView.Presenter {
 
-	private final HandlerManager eventBus;
-	private final MenuView view;
-	private HasWidgets container;
+	@Inject
+	@CotrixBus
+	protected EventBus cotrixBus;
+	protected MenuView view;
 	
-	public interface OnCotrixMenuItemClicked{
-		void onMenuItemClick(int index);
-	}
-	private OnCotrixMenuItemClicked onCotrixMenuItemClicked;
-	
-	public MenuPresenter(HandlerManager eventBus,MenuView view) {
+	@Inject
+	public MenuPresenter(MenuView view) {
 		this.view = view;
-		this.eventBus = eventBus;
 		this.view.setPresenter(this);
 	}
 	
 	public void go(HasWidgets container) {
-		this.container = container;
-		this.container.add(view.asWidget());
+		container.add(view.asWidget());
 	}
-	public void setOnCotrixMenuItemClicked(OnCotrixMenuItemClicked onCotrixMenuItemClicked){
-		this.onCotrixMenuItemClicked = onCotrixMenuItemClicked;
+
+	public void onMenuClicked(Menu menu) {
+		CotrixModule module = getModuel(menu);
+		cotrixBus.fireEvent(new SwitchToModuleEvent(module));
 	}
-	public void onMenuClicked(int index) {
-		onCotrixMenuItemClicked.onMenuItemClick(index);
+	
+	protected CotrixModule getModuel(Menu menu){
+		switch (menu) {
+			case HOME: return CotrixModule.HOME;
+			case IMPORT: return CotrixModule.IMPORT;
+			case MANAGE: return CotrixModule.MANAGE;
+			case PUBLISH: return CotrixModule.PUBLISH;
+			default: throw new IllegalArgumentException("Unknow menu "+menu);
+		}
 	}
 }
