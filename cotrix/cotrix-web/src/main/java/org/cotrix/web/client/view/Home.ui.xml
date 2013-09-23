@@ -63,7 +63,7 @@
 				<td>
 					<div class="{style.block}">
 						<g:Image resource="{resources.statistic}" styleName="{style.blockImg}" />
-						<div class="{style.blockTitle}">Statistic</div>
+						<div class="{style.blockTitle}">Statistics</div>
 					</div>
 				</td>
 				<!-- <div class="{style.block}"> <g:Image resource="{resources.howto}" 
