@@ -70,7 +70,7 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 			alertDialog = new AlertDialog(false);
 		}
 		alertDialog.setMessage(message);
-		alertDialog.show();
+		alertDialog.center();
 	}
 
 	/** 

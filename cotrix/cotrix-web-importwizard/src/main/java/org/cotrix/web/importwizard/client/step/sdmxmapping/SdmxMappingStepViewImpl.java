@@ -89,7 +89,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 			alertDialog = new AlertDialog(false);
 		}
 		alertDialog.setMessage(message);
-		alertDialog.show();
+		alertDialog.center();
 	}
 
 	@Override

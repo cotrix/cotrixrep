@@ -46,6 +46,6 @@ public class SourceSelectionStepViewImpl extends Composite implements SourceSele
 			alertDialog = new AlertDialog(false);
 		}
 		alertDialog.setMessage(message);
-		alertDialog.show();
+		alertDialog.center();
 	}
 }

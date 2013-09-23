@@ -190,7 +190,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 			alertDialog = new AlertDialog(false);
 		}
 		alertDialog.setMessage(message);
-		alertDialog.show();
+		alertDialog.center();
 	}
 
 	

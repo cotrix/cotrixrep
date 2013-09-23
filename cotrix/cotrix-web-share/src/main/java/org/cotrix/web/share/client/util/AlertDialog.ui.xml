@@ -21,9 +21,9 @@
 		}
 		
 	</ui:style>
-	<g:HTMLPanel>
+	<g:HTMLPanel width="330px" height="116px">
 			<g:HTML ui:field="label" styleName="{style.labelPanel}"/>
-			<g:Image ui:field="arrow" resource="{resources.popupArrow}" styleName="{style.arrow}"/>
+			<g:Image ui:field="arrow" resource="{resources.popupArrow}" styleName="{style.arrow}" visible="false"/>
 	</g:HTMLPanel>
 
 </ui:UiBinder>

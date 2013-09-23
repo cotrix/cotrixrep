@@ -37,7 +37,6 @@ public class AlertDialog extends PopupPanel {
 		//this.setGlassEnabled(true);
 		this.setAnimationEnabled(true);
 		this.setAutoHideEnabled(true);
-		this.center();
 		
 		addDomHandler(new ClickHandler() {
 
@@ -51,8 +50,8 @@ public class AlertDialog extends PopupPanel {
 	
 	public void showArrow(boolean showArrow)
 	{
-		arrow.setVisible(showArrow);
-		height = showArrow?HEIGHT_WITH_ARROW:HEIGHT;
+	/*	arrow.setVisible(showArrow);
+		height = showArrow?HEIGHT_WITH_ARROW:HEIGHT;*/
 	}
 
 	public void setMessage(String message){
@@ -61,12 +60,13 @@ public class AlertDialog extends PopupPanel {
 
 
 	public void showRelative(final UIObject target) {
+		center();
 		// Set the position of the popup right before it is shown.
-		setPopupPositionAndShow(new PositionCallback() {
+		/*setPopupPositionAndShow(new PositionCallback() {
 			public void setPosition(int offsetWidth, int offsetHeight) {
 				positionRelative(target, offsetWidth, height);
 			}
-		});
+		});*/
 	}
 
 	/**
