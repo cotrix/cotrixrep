@@ -31,4 +31,6 @@ public interface SummaryStepView {
 	public void setMappingModeVisible(boolean visible);
 
 	Widget asWidget();
+
+	void setCodelistVersion(String version);
 }

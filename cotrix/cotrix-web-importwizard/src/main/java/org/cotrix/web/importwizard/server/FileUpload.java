@@ -147,22 +147,24 @@ public class FileUpload extends HttpServlet{
 					session.setCacheDirty(false);
 
 					List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
-					session.setMappings(mappings);
+					session.setGuessedMappings(mappings);
 
 					String filename = FileNameUtil.toHumanReadable(fileField.getName());
 					ImportMetadata metadata = new ImportMetadata();
 					metadata.setName(filename);
+					metadata.setVersion("1.0");
 					session.setGuessedMetadata(metadata);
 				} break;
 				case SDMX: {
 					List<AttributeMapping> mappings = mappingsGuesser.getSdmxDefaultMappings();
-					session.setMappings(mappings);
+					session.setGuessedMappings(mappings);
 
 					CodelistBean codelistBean = parsingHelper.parse(fileField.getInputStream());
 					String codelistName = codelistBean.getName();
 					ImportMetadata metadata = new ImportMetadata();
 					metadata.setOriginalName(codelistName);
 					metadata.setName(codelistName);
+					metadata.setVersion(codelistBean.getVersion());
 					session.setGuessedMetadata(metadata);
 				} break;
 			}

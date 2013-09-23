@@ -13,6 +13,7 @@ public class ImportMetadata implements IsSerializable {
 	
 	protected String originalName;
 	protected String name;
+	protected String version;
 	protected Map<String, String> attributes = new HashMap<String, String>();
 
 	/**
@@ -41,6 +42,20 @@ public class ImportMetadata implements IsSerializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 	/**

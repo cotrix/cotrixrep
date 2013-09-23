@@ -24,7 +24,7 @@
 			<table width="100%">
 				<tr>
 					<td class="{resources.css.mappingTableNameHeader}">
-						<span class="{resources.css.propertyLabel}" style="text-align:left;padding-left:32px;padding-right:10px;">NAME</span>
+						<span class="{resources.css.propertyLabel}" style="padding-left:32px;padding-right:10px;">NAME</span>
 					</td>
 					<td style="padding-top:10px;">
 						<g:TextBox width="99%" ui:field="name"
@@ -35,6 +35,15 @@
 							styleName="{resources.css.buttonRefresh} {style.reloadButton}">
 							<g:upFace image="{resources.refresh}" />
 						</g:PushButton>
+					</td>
+				</tr>
+				<tr>
+					<td class="{resources.css.mappingTableNameHeader}">
+						<span class="{resources.css.propertyLabel}" style="text-align:left;padding-left:32px;padding-right:10px;">VERSION</span>
+					</td>
+					<td style="padding-top:10px;padding-right: 70px;" colspan="2">
+						<g:TextBox width="99%" ui:field="version"
+							styleName="{resources.css.textBox}" />
 					</td>
 				</tr>
 				<tr>

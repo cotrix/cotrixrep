@@ -85,6 +85,8 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 		if (metadata.getOriginalName()==null || metadata.getOriginalName().equals(metadata.getName())) view.setCodelistName(metadata.getName());
 		else view.setCodelistName(metadata.getOriginalName()+" as "+metadata.getName());
 		
+		view.setCodelistVersion(metadata.getVersion());
+		
 		this.view.setMetadataAttributes(metadata.getAttributes());		
 	}
 

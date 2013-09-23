@@ -34,4 +34,8 @@ public interface CsvMappingStepView {
 	
 	Widget asWidget();
 
+	void setVersion(String version);
+
+	String getVersion();
+
 }

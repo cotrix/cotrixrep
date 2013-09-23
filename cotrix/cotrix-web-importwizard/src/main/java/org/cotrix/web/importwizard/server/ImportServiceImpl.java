@@ -37,6 +37,7 @@ import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.share.shared.DataWindow;
+import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
@@ -236,7 +237,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			session.setCacheDirty(false);
 
 			List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
-			session.setMappings(mappings);
+			session.setGuessedMappings(mappings);
 
 			return previewData;
 		} catch(Exception e)
@@ -309,7 +310,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	public List<AttributeMapping> getMappings() throws ImportServiceException {
 		try {
 			WizardImportSession session = getImportSession();
-			return session.getMappings();
+			return session.getGuessedMappings();
 		} catch(Exception e)
 		{
 			logger.error("An error occurred on server side", e);
@@ -366,16 +367,19 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 			if (asset.type() == SdmxCodelist.type) {
 				session.setCodeListType(CodeListType.SDMX);
+				CodelistBean codelist = remoteRepository.retrieve(asset, CodelistBean.class);
+				metadata.setVersion(codelist.getVersion());
 				List<AttributeMapping> mappings = mappingsGuesser.getSdmxDefaultMappings();
-				session.setMappings(mappings);
+				session.setGuessedMappings(mappings);
 			}
 
 
 			if (asset.type() == CsvCodelist.type) {
 				session.setCodeListType(CodeListType.CSV);
 				Table table = remoteRepository.retrieve(asset, Table.class);
+				metadata.setVersion("1.0");
 				List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
-				session.setMappings(mappings);
+				session.setGuessedMappings(mappings);
 			}
 
 		} catch(Exception e)

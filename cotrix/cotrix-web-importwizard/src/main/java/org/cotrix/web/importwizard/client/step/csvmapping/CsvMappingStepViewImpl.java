@@ -28,6 +28,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 	
 	@UiField TextBox name;
+	@UiField TextBox version;
 	
 	@UiField(provided=true)
 	MappingPanel mappingPanel;
@@ -58,6 +59,16 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	@Override
 	public String getCsvName() {
 		return this.name.getValue();
+	}
+	
+	@Override
+	public void setVersion(String version) {
+		this.version.setValue(version);
+	}
+
+	@Override
+	public String getVersion() {
+		return this.version.getValue();
 	}
 	
 	@UiHandler("reloadButton")
