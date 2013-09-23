@@ -35,6 +35,7 @@ import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.MappingMode;
+import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CodeListImportedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
 
@@ -337,5 +338,19 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 	public void go(HasWidgets container) {
 		importWizardPresenter.go(container);
+	}
+
+	@Override
+	public CotrixModule getModule() {
+		return CotrixModule.IMPORT;
+	}
+
+	@Override
+	public void activate() {
+		newImportRequested();
+	}
+
+	@Override
+	public void deactivate() {
 	}
 }
