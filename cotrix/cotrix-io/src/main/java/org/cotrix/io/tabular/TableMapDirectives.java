@@ -32,6 +32,8 @@ public class TableMapDirectives implements MapDirectives<Table> {
 	private final Column column;
 
 	private QName name;
+	
+	private String version = "1.0";
 
 	private List<Attribute> attributes = new ArrayList<Attribute>();
 
@@ -161,6 +163,24 @@ public class TableMapDirectives implements MapDirectives<Table> {
 	 */
 	public List<ColumnDirectives> columns() {
 		return columnDirectives;
+	}
+	
+	/**
+	 * Returns the version of the target codelist for these directives.
+	 * @return the version
+	 */
+	public String version() {
+		return version;
+	}
+	
+	/**
+	 * Sets the version of the target codelist for these directives
+	 * @param version
+	 * @return these directives
+	 */
+	public TableMapDirectives version(String version) {
+		this.version = version;
+		return this;
 	}
 	
 	/**

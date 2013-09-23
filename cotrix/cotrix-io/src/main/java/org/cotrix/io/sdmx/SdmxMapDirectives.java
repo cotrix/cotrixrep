@@ -25,6 +25,7 @@ public class SdmxMapDirectives implements MapDirectives<CodelistBean> {
 	
 	public static enum SdmxElement {FINAL,AGENCY, VALID_FROM, VALID_TO, NAME, DESCRIPTION, ANNOTATION,URI}
 	
+	private String version;
 	
 	private QName name;
 	
@@ -90,5 +91,23 @@ public class SdmxMapDirectives implements MapDirectives<CodelistBean> {
 	 */
 	public QName name() {
 		return name;
+	}
+	
+	/**
+	 * Returns the version of the target codelist for these directives.
+	 * @return the version
+	 */
+	public String version() {
+		return version;
+	}
+	
+	/**
+	 * Sets the version of the target codelist for these directives
+	 * @param version
+	 * @return these directives
+	 */
+	public SdmxMapDirectives version(String version) {
+		this.version = version;
+		return this;
 	}
 }

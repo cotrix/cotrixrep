@@ -38,7 +38,7 @@ public class Sdmx2Codelist {
 				name(directives.name()==null?new QName(listBean.getId()):directives.name()).
 				with(codes).
 				attributes(attributesOf(listBean,directives)).
-				version(listBean.getVersion()).
+				version(directives.version()==null?listBean.getVersion():directives.version()).
 				build();
 		
 		report().log("==============================");

@@ -101,7 +101,7 @@ public class Table2Codelist {
 		return codelist().
 				name(directives.name())
 				.with(codes.toArray(new Code[0]))
-				.attributes(directives.attributes().toArray(new Attribute[0])).build();
+				.attributes(directives.attributes().toArray(new Attribute[0])).version(directives.version()).build();
 	}
 	
 	//helper
