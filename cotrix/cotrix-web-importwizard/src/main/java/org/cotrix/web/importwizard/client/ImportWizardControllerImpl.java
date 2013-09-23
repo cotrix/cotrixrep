@@ -12,6 +12,7 @@ import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEve
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportStartedEvent;
+import org.cotrix.web.importwizard.client.event.ManageEvent;
 import org.cotrix.web.importwizard.client.event.MappingLoadFailedEvent;
 import org.cotrix.web.importwizard.client.event.MappingLoadedEvent;
 import org.cotrix.web.importwizard.client.event.MappingLoadingEvent;
@@ -38,6 +39,7 @@ import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CodeListImportedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
+import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
@@ -152,6 +154,14 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			public void onNewImport(NewImportEvent event) {
 				newImportRequested();
 			}});
+		
+		importEventBus.addHandler(ManageEvent.TYPE, new ManageEvent.ManageHandler() {
+			
+			@Override
+			public void onManage(ManageEvent event) {
+				cotrixBus.fireEvent(new SwitchToModuleEvent(CotrixModule.MANAGE));
+			}
+		});
 	}
 
 	protected void importedItemUpdated(CodeListType codeListType)
