@@ -1,6 +1,5 @@
-package org.cotrix.web.importwizard.client.util;
+package org.cotrix.web.share.client.util;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -79,7 +78,7 @@ public class AlertDialog extends PopupPanel {
 	 * @param offsetHeight the drop down's offset height
 	 */
 	private void positionRelative(final UIObject relativeObject, int offsetWidth, int offsetHeight) {
-		Log.trace("positionRelative offsetWidth: "+offsetWidth+" offsetHeight: "+offsetHeight);
+		System.out.println("positionRelative offsetWidth: "+offsetWidth+" offsetHeight: "+offsetHeight);
 
 		// Calculate left position for the popup. The computation for
 		// the left position is bidi-sensitive.
@@ -93,7 +92,7 @@ public class AlertDialog extends PopupPanel {
 		int left;
 
 		if (LocaleInfo.getCurrentLocale().isRTL()) { // RTL case
-			Log.trace("RTL");
+			System.out.println("RTL");
 
 			int textBoxAbsoluteLeft = relativeObject.getAbsoluteLeft();
 
@@ -135,7 +134,7 @@ public class AlertDialog extends PopupPanel {
 				}
 			}
 		} else { // LTR case
-			Log.trace("LTR");
+			System.out.println("LTR");
 			// Left-align the popup.
 			left = relativeObject.getAbsoluteLeft();
 
