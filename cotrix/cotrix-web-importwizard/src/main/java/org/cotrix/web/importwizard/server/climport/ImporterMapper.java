@@ -61,7 +61,7 @@ public interface ImporterMapper<T> {
 			for (ColumnDirectives directive:columnDirectives) directives.add(directive);
 			
 			directives.name(metadata.getName());
-			//FIXME Version?
+			directives.version(metadata.getVersion());
 			
 			directives.mode(convertMappingMode(mappingMode));
 			
@@ -126,7 +126,7 @@ public interface ImporterMapper<T> {
 			for (AttributeMapping mapping:mappings) setDirective(directives, mapping);
 			
 			directives.name(metadata.getName());
-			//FIXME version?
+			directives.version(metadata.getVersion());
 			
 			Outcome outcome = mapper.map(codelist, directives);
 			return outcome;
