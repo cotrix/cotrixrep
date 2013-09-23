@@ -83,4 +83,4 @@
 		</g:FlowPanel>-->
 		<c:CellList ui:field="codelists" styleName="{style.listPanel}"/>
 		</g:HeaderPanel>
-</ui:UiBinder> 
+</ui:UiBinder>

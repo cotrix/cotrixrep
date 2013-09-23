@@ -2,8 +2,11 @@ package org.cotrix.web.codelistmanager.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.event.shared.HasHandlers;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class RefreshCodeListsEvent extends
 		GwtEvent<RefreshCodeListsEvent.RefreshCodeListsHandler> {
 
@@ -28,9 +31,5 @@ public class RefreshCodeListsEvent extends
 
 	public static Type<RefreshCodeListsHandler> getType() {
 		return TYPE;
-	}
-
-	public static void fire(HasHandlers source) {
-		source.fireEvent(new RefreshCodeListsEvent());
 	}
 }
