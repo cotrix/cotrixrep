@@ -1,6 +1,6 @@
 package org.cotrix.web.importwizard.client.step.sourceselection;
 
-import org.cotrix.web.importwizard.client.util.AlertDialog;
+import org.cotrix.web.share.client.util.AlertDialog;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -46,6 +46,6 @@ public class SourceSelectionStepViewImpl extends Composite implements SourceSele
 			alertDialog = new AlertDialog(false);
 		}
 		alertDialog.setMessage(message);
-		alertDialog.show();
+		alertDialog.center();
 	}
 }

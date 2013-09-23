@@ -16,7 +16,7 @@ public interface CotrixImportAppGinInjector extends Ginjector {
     
     public UploadStepView getUploadForm();
     public UploadStepPresenter getUploadFormPresenter();
-    public ImportWizardController getAppController();
+    public ImportWizardController getController();
     public ImportWizardView getImportWizardView();
     public ImportWizardPresenter getImportWizardPresenter();
 }

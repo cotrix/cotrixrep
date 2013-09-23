@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.cotrix.web.importwizard.client.ImportWizardView.WizardButton;
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.ManageEvent;
 import org.cotrix.web.importwizard.client.event.NewImportEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
@@ -65,10 +66,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	protected EventBus importEventBus;
 	
 	protected EnumMap<WizardButton, WizardAction> buttonsActions = new EnumMap<WizardButton, WizardAction>(WizardButton.class);
-	
 	protected VisualWizardStep currentVisualStep;
-	protected WizardAction backwardAction;
-	protected WizardAction forwardAction;
 
 	@Inject
 	public ImportWizardPresenterImpl(@ImportBus final EventBus importEventBus, ImportWizardView view,  
@@ -94,7 +92,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			DoneStepPresenter doneStep,
 			SourceNodeSelector selector,
 			
-			//FIXME to register the handler later :(
+			//FIXME have to stay here to register the handler later :(
 			ImportTask importTask
 			) {
 
@@ -158,6 +156,8 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 	@Override
 	public void onResetWizard(ResetWizardEvent event) {
 		flow.reset();
+		currentVisualStep = null;
+		buttonsActions.clear();
 		updateTrackerLabels();
 		updateCurrentStep();
 	}
@@ -311,7 +311,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter, Navigat
 			case BACK: goBack(); break;
 			case NEXT: goForward(); break;
 			case MANAGE: {
-				//TODO
+				importEventBus.fireEvent(new ManageEvent());
 			} break;
 			case NEW_IMPORT: {
 				importEventBus.fireEvent(new NewImportEvent());

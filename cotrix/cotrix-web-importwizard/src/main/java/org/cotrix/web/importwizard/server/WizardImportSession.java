@@ -59,8 +59,8 @@ public class WizardImportSession {
 	
 	protected ImportMetadata guessedMetadata;
 	
-	protected List<AttributeMapping> mappings;
-	protected MappingMode mappingMode;
+	protected List<AttributeMapping> guessedMappings;
+	protected MappingMode guessedMappingMode;
 	
 	protected Importer<?> importer;
 	
@@ -170,29 +170,29 @@ public class WizardImportSession {
 	/**
 	 * @return the mappings
 	 */
-	public List<AttributeMapping> getMappings() {
-		return mappings;
+	public List<AttributeMapping> getGuessedMappings() {
+		return guessedMappings;
 	}
 
 	/**
 	 * @param mappings the mappings to set
 	 */
-	public void setMappings(List<AttributeMapping> mappings) {
-		this.mappings = mappings;
+	public void setGuessedMappings(List<AttributeMapping> mappings) {
+		this.guessedMappings = mappings;
 	}
 
 	/**
 	 * @return the mappingMode
 	 */
-	public MappingMode getMappingMode() {
-		return mappingMode;
+	public MappingMode getGuessedMappingMode() {
+		return guessedMappingMode;
 	}
 
 	/**
 	 * @param mappingMode the mappingMode to set
 	 */
-	public void setMappingMode(MappingMode mappingMode) {
-		this.mappingMode = mappingMode;
+	public void setGuessedMappingMode(MappingMode mappingMode) {
+		this.guessedMappingMode = mappingMode;
 	}
 
 	/**

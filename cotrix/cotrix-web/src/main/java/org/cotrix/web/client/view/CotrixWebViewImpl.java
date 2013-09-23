@@ -1,9 +1,5 @@
 package org.cotrix.web.client.view;
 
-import org.cotrix.web.client.presenter.CotrixWebPresenter;
-import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepPresenterImpl;
-import org.cotrix.web.menu.client.presenter.MenuPresenter;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -13,6 +9,10 @@ import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class CotrixWebViewImpl extends Composite implements CotrixWebView {
 
 	@UiTemplate("CotrixWebPanel.ui.xml")
@@ -22,27 +22,19 @@ public class CotrixWebViewImpl extends Composite implements CotrixWebView {
 	@UiField FlowPanel menu;
 	@UiField DeckLayoutPanel body;
 	
-	private Presenter<CotrixWebPresenter> presenter;
-	
 	public CotrixWebViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
-	public void setPresenter(CotrixWebPresenter presenter) {
-		this.presenter = presenter;
+	public FlowPanel getMenuPanel() {
+		return menu;
 	}
 
-	public void setMenu(MenuPresenter menuPresenter) {
-		menuPresenter.go(menu);
-	}
-	public DeckLayoutPanel getBody() {
-		return this.body;
+	public DeckLayoutPanel getModulesPanel() {
+		return body;
 	}
 
-	public void showMenu(int menuIndex) {
-		this.body.showWidget(menuIndex);
+	public void showModule(int moduleIndex) {
+		body.showWidget(moduleIndex);
 	}
-	
-
-
 }

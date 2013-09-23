@@ -1,4 +1,4 @@
-package org.cotrix.web.share.client;
+package org.cotrix.web.share.client.util;
 
 import java.util.EnumSet;
 

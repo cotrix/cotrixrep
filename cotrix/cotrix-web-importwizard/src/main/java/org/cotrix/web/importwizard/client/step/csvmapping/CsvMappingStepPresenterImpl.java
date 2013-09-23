@@ -61,23 +61,31 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 		boolean valid = validateMappings(mappings);
 		
 		String csvName = view.getCsvName();
-		valid &= validateAttributes(csvName);
+		String version = view.getVersion();
+		valid &= validateAttributes(csvName, version);
 		
 		if (valid) {
 			importEventBus.fireEvent(new MappingsUpdatedEvent(mappings));
 			
-			if (metadata == null) metadata = new ImportMetadata();
+			ImportMetadata metadata = new ImportMetadata();
 			metadata.setName(csvName);
+			metadata.setVersion(version);
+			metadata.setAttributes(this.metadata.getAttributes());
 			importEventBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
 		}
 		
 		return valid;
 	}
 	
-	protected boolean validateAttributes(String csvName)
+	protected boolean validateAttributes(String csvName, String version)
 	{
 		if (csvName==null || csvName.isEmpty()) {
 			view.alert("You should choose a codelist name");
+			return false;
+		}
+		
+		if (version==null || version.isEmpty()) {
+			view.alert("You should specify a codelist version");
 			return false;
 		}
 		
@@ -126,14 +134,16 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 	@Override
 	public void onMetadataUpdated(MetadataUpdatedEvent event) {
 		if (!event.isUserEdited()) {
-			view.setCsvName(event.getMetadata().getName());
 			this.metadata = event.getMetadata();
+			view.setCsvName(metadata.getName());
+			view.setVersion(metadata.getVersion());
 		}
 	}
 
 	@Override
 	public void onReload() {
 		view.setCsvName(metadata.getName());
+		view.setVersion(metadata.getVersion());
 		view.setMapping(mappings);
 	}
 }

@@ -1,17 +1,15 @@
 package org.cotrix.web.client.view;
 
+import org.cotrix.web.share.client.CotrixModule;
+import org.cotrix.web.share.client.CotrixModuleController;
+
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Home extends Composite {
+public class Home extends Composite implements CotrixModuleController {
 
 	private static HomeUiBinder uiBinder = GWT.create(HomeUiBinder.class);
 
@@ -20,6 +18,24 @@ public class Home extends Composite {
 
 	public Home() {
 		initWidget(uiBinder.createAndBindUi(this));
+	}
+
+	@Override
+	public CotrixModule getModule() {
+		return CotrixModule.HOME;
+	}
+
+	@Override
+	public void go(HasWidgets container) {
+		container.add(this);		
+	}
+
+	@Override
+	public void activate() {
+	}
+
+	@Override
+	public void deactivate() {
 	}
 
 }

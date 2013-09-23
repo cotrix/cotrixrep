@@ -1,47 +1,92 @@
 package org.cotrix.web.client;
 
-import org.cotrix.web.client.presenter.CotrixWebPresenter;
-import org.cotrix.web.client.presenter.Presenter;
-import org.cotrix.web.importwizard.client.ImportWizardController;
-import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
-import org.cotrix.web.menu.client.view.MenuViewImpl;
+import java.util.EnumMap;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.FlowPanel;
+import org.cotrix.web.client.presenter.CotrixWebPresenter;
+import org.cotrix.web.client.view.Home;
+import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
+import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
+import org.cotrix.web.menu.client.presenter.CotrixMenuGinInjector;
+import org.cotrix.web.menu.client.presenter.MenuPresenter;
+import org.cotrix.web.share.client.CotrixModule;
+import org.cotrix.web.share.client.CotrixModuleController;
+import org.cotrix.web.share.client.event.CotrixBus;
+import org.cotrix.web.share.client.event.SwitchToModuleEvent;
+
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class AppControllerImpl implements AppController {
-	private HandlerManager eventBus;
-	private MainServiceAsync rpcService;
-	private HasWidgets container;
-	private CotrixWebPresenter cotrixWebPresenter;
+	
+	protected EventBus cotrixBus;
+	protected CotrixWebPresenter cotrixWebPresenter;
+	protected EnumMap<CotrixModule, CotrixModuleController> controllers = new EnumMap<CotrixModule, CotrixModuleController>(CotrixModule.class);
+	protected CotrixModuleController currentController;
 	
 	@Inject
-	public AppControllerImpl(HandlerManager eventBus,MainServiceAsync rpcService,CotrixWebPresenter cotrixWebPresenter) {
-		this.eventBus = new HandlerManager(null);
-		this.rpcService = rpcService;
+	public AppControllerImpl(@CotrixBus EventBus cotrixBus, CotrixWebPresenter cotrixWebPresenter) {
+		this.cotrixBus = cotrixBus;
 		this.cotrixWebPresenter = cotrixWebPresenter;
+		
+		bind();
+		
+		initMenu();
+		
+		Home home = new Home();
+		addModule(home);
+		
+		CotrixImportAppGinInjector importInjector = GWT.create(CotrixImportAppGinInjector.class);
+		addModule(importInjector.getController());
+		
+		CotrixManagerAppGinInjector managerInjector = CotrixManagerAppGinInjector.INSTANCE;
+		addModule(managerInjector.getController());
+		
+		/*CotrixPublishAppGinInjector cotrixPublishAppGinInjector = GWT.create(CotrixPublishAppGinInjector.class);
+		cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
+		cotrixPublishAppController.go(view.getBody());*/
+		
+		showModule(CotrixModule.HOME);
 	}
-
-	private FlowPanel initPanel() {
-		FlowPanel panel = new FlowPanel();
-		FlowPanel content = new FlowPanel();
-		MenuViewImpl menu = new MenuViewImpl();
-
-		CotrixImportAppGinInjector cotrixImportInjector = GWT.create(CotrixImportAppGinInjector.class);
-		ImportWizardController  cotrixImportAppController = cotrixImportInjector.getAppController();
-		cotrixImportAppController.go(content);
-
-		panel.add(menu);
-		panel.add(content);
-		return panel;
+	
+	protected void bind()
+	{
+		cotrixBus.addHandler(SwitchToModuleEvent.TYPE, new SwitchToModuleEvent.SwitchToModuleHandler() {
+			
+			@Override
+			public void onSwitchToModule(SwitchToModuleEvent event) {
+				showModule(event.getModule());		
+			}
+		});
+	}
+	
+	protected void initMenu()
+	{
+		CotrixMenuGinInjector menuInjector = CotrixMenuGinInjector.INSTANCE;
+		MenuPresenter menuPresenter = menuInjector.getMenuPresenter();
+		cotrixWebPresenter.setMenu(menuPresenter);
+	}
+	
+	protected void addModule(CotrixModuleController controller)
+	{
+		cotrixWebPresenter.add(controller);
+		controllers.put(controller.getModule(), controller);
+	}
+	
+	protected void showModule(CotrixModule cotrixModule)
+	{
+		if (currentController!=null) currentController.deactivate();
+		currentController = controllers.get(cotrixModule);
+		cotrixWebPresenter.showModule(cotrixModule);
+		currentController.activate();
 	}
 
 	public void go(HasWidgets container) {
-		this.container = container;
-		
 		cotrixWebPresenter.go(container);
 	}
 

@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepView {
 
 	protected static final int FILE_FIELD_ROW = 0;
-	protected static final int PROPERTIES_FIELD_ROW = 2;
+	protected static final int PROPERTIES_FIELD_ROW = 3;
 
 	@UiTemplate("SummaryStep.ui.xml")
 	interface SummaryStepUiBinder extends UiBinder<Widget, SummaryStepViewImpl> {}
@@ -42,6 +42,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 
 	@UiField Label fileField;
 	@UiField Label codelistField;
+	@UiField Label versionField;
 	@UiField FlexTable propertiesTable;
 	@UiField HTMLPanel mappingPanel;
 	@UiField SimpleCheckBox mappingMode;
@@ -81,8 +82,14 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 		}
 	}
 	
+	@Override
 	public void setCodelistName(String name) {
 		codelistField.setText(name);
+	}
+	
+	@Override
+	public void setCodelistVersion(String version) {
+		versionField.setText(version);
 	}
 
 	public void setMetadataAttributes(Map<String, String> properties){

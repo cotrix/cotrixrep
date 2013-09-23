@@ -59,14 +59,17 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 
 		boolean valid = validateMappings(mappings);
 		String codelistName = view.getCodelistName();
-		valid &= validateAttributes(codelistName);
+		String version = view.getVersion();
+		valid &= validateAttributes(codelistName, version);
 
 		if (valid) {
 
 			importEventBus.fireEvent(new MappingsUpdatedEvent(mappings));
 			
-			if (metadata == null) metadata = new ImportMetadata();
+			ImportMetadata metadata = new ImportMetadata();
 			metadata.setName(codelistName);
+			metadata.setVersion(version);
+			metadata.setAttributes(this.metadata.getAttributes());
 			importEventBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
 		}
 
@@ -74,10 +77,15 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 	}
 	
 
-	protected boolean validateAttributes(String codelistName)
+	protected boolean validateAttributes(String csvName, String version)
 	{
-		if (codelistName==null || codelistName.isEmpty()) {
+		if (csvName==null || csvName.isEmpty()) {
 			view.alert("You should choose a codelist name");
+			return false;
+		}
+		
+		if (version==null || version.isEmpty()) {
+			view.alert("You should specify a codelist version");
 			return false;
 		}
 		
@@ -100,9 +108,10 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 	@Override
 	public void onMetadataUpdated(MetadataUpdatedEvent event) {
 		if (!event.isUserEdited()) {
-			String name = event.getMetadata().getName();
-			view.setCodelistName(name == null?"":name);
 			this.metadata = event.getMetadata();
+			String name = metadata.getName();
+			view.setCodelistName(name == null?"":name);
+			view.setVersion(metadata.getVersion());
 		}
 	}
 	
@@ -121,6 +130,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 	@Override
 	public void onReload() {
 		view.setCodelistName(metadata.getName());
+		view.setVersion(metadata.getVersion());
 		view.setMappings(mappings);
 	}
 }

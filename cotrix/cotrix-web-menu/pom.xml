@@ -22,6 +22,17 @@
 			<artifactId>gwt-user</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.google.gwt.inject</groupId>
+			<artifactId>gin</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-share</artifactId>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -62,9 +73,7 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
-					<include>**/*.java</include>
-					<include>**/*.gwt.xml</include>
-					<include>**/*.ui.xml</include>
+					<include>**/*.*</include>
 				</includes>
 			</resource>
 		</resources>

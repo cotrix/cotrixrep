@@ -19,7 +19,7 @@ public interface CotrixManagerAppGinInjector extends Ginjector {
 	public static CotrixManagerAppGinInjector INSTANCE = GWT.create(CotrixManagerAppGinInjector.class);
 
 	public ManagerServiceAsync getRpcService();
-	public CotrixManagerAppController getAppController();
+	public CotrixManagerAppController getController();
 	public CodeListPresenter getCodeListPresenter();
 	public CodeListManagerPresenter getCodeListManagerPresenter();
 	

@@ -3,8 +3,8 @@ package org.cotrix.web.importwizard.client.step.selection;
 import org.cotrix.web.importwizard.client.resources.CotrixSimplePager;
 import org.cotrix.web.importwizard.client.resources.DataGridResource;
 import org.cotrix.web.importwizard.client.resources.Resources;
-import org.cotrix.web.importwizard.client.util.AlertDialog;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.share.client.util.AlertDialog;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.ClickableTextCell;
@@ -190,7 +190,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 			alertDialog = new AlertDialog(false);
 		}
 		alertDialog.setMessage(message);
-		alertDialog.show();
+		alertDialog.center();
 	}
 
 	

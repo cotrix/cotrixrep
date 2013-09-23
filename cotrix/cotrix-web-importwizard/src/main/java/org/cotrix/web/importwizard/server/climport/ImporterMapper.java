@@ -18,6 +18,7 @@ import org.cotrix.io.tabular.TableMapDirectives;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
+import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Column;
@@ -29,7 +30,7 @@ import org.virtualrepository.tabular.Table;
  */
 public interface ImporterMapper<T> {
 
-	public Outcome map(List<AttributeMapping> mappings, MappingMode mappingMode, T codelist);
+	public Outcome map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, T codelist);
 	
 	public class CsvMapper implements ImporterMapper<Table> {
 		
@@ -43,8 +44,7 @@ public interface ImporterMapper<T> {
 		}
 
 		@Override
-		public Outcome map(List<AttributeMapping> mappings, MappingMode mappingMode, Table codelist) {
-			
+		public Outcome map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, Table codelist) {
 			
 			AttributeMapping codeAttribute = null;
 			List<ColumnDirectives> columnDirectives = new ArrayList<ColumnDirectives>();
@@ -59,6 +59,9 @@ public interface ImporterMapper<T> {
 			
 			TableMapDirectives directives = new TableMapDirectives(column);
 			for (ColumnDirectives directive:columnDirectives) directives.add(directive);
+			
+			directives.name(metadata.getName());
+			//FIXME Version?
 			
 			directives.mode(convertMappingMode(mappingMode));
 			
@@ -116,11 +119,14 @@ public interface ImporterMapper<T> {
 
 
 		@Override
-		public Outcome map(List<AttributeMapping> mappings, MappingMode mappingMode, CodelistBean codelist) {
+		public Outcome map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, CodelistBean codelist) {
 			
 			SdmxMapDirectives directives = new SdmxMapDirectives();
 			
 			for (AttributeMapping mapping:mappings) setDirective(directives, mapping);
+			
+			directives.name(metadata.getName());
+			//FIXME version?
 			
 			Outcome outcome = mapper.map(codelist, directives);
 			return outcome;

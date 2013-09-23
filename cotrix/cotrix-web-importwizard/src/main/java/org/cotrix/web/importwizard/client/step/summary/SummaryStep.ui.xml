@@ -55,6 +55,15 @@
 				</g:row>
 				<g:row>
 					<g:cell
+						styleName="{resources.css.verticalHeadersSingleItem} {style.firstColumn}">
+						<span class="{resources.css.propertyLabel}">Version</span>
+					</g:cell>
+					<g:customCell>
+						<g:Label ui:field="versionField" styleName="{resources.css.propertyValue}" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell
 						styleName="{resources.css.verticalHeadersMultipleItem} {style.firstColumn}">
 						<span class="{resources.css.propertyLabel}">Properties</span>
 					</g:cell>
