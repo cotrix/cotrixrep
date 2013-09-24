@@ -105,6 +105,30 @@
 				<artifactId>cotrix-io</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-user</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-engine</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-lifecycle</artifactId>
+				<version>${project.version}</version>
+			</dependency>			
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-security</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
