@@ -1,11 +1,11 @@
-package org.cotrix.engine;
+package org.cotrix.action;
 
 import static java.util.Arrays.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.engine.impl.DefaultAction;
+import org.cotrix.action.impl.DefaultAction;
 
 /**
  * An {@link Action} factory, as well as a builder for actions of the form <em>type,op*,instance?</em>.

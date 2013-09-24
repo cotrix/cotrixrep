@@ -2,11 +2,11 @@ package org.acme;
 
 
 import static java.util.Arrays.*;
-import static org.cotrix.engine.Action.*;
-import static org.cotrix.engine.ActionBuilder.*;
+import static org.cotrix.action.Action.*;
+import static org.cotrix.action.ActionBuilder.*;
 import static org.junit.Assert.*;
 
-import org.cotrix.engine.Action;
+import org.cotrix.action.Action;
 import org.junit.Test;
 
 public class ActionTest {

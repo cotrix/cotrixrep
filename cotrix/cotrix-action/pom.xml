@@ -5,14 +5,5 @@
     <artifactId>cotrix</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>cotrix-user</artifactId>
-  
-  
-  <dependencies>
-  	<dependency>
-  		<groupId>org.cotrix</groupId>
-  		<artifactId>cotrix-action</artifactId>
-  	</dependency>
-  </dependencies>
-  
+  <artifactId>cotrix-action</artifactId>
 </project>

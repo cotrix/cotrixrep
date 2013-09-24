@@ -31,6 +31,7 @@
 		<module>cotrix-user</module>
 		<module>cotrix-engine</module>
 		<module>cotrix-security</module>
+		<module>cotrix-action</module>
 	</modules>
 
 	<repositories>
@@ -115,6 +116,13 @@
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-engine</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-action</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
