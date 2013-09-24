@@ -1,22 +1,46 @@
 package org.cotrix.engine.impl;
 
+import static org.cotrix.engine.Utils.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.engine.Action;
 
+/**
+ * Default {@link Action} implementation.
+ * 
+ * @author Fabio Simeoni
+ *
+ */
 public class DefaultAction implements Action {
 	
 	private final List<String> parts = new ArrayList<String>();
 	
 	private final String instance;
 	
-	
+	/**
+	 * Creates an action from its parts.
+	 * @param parts the parts
+	 */
 	public DefaultAction(List<String> parts) {
-		this(parts,null);
+	
+		valid("parts",parts);
+		
+		this.parts.addAll(parts);
+		this.instance=null;
 	}
 	
+	/**
+	 * Creates an action from its parts and relatively to an instance. 
+	 * @param parts the parts
+	 * @param instance the instance
+	 */
 	public DefaultAction(List<String> parts,String instance) {
+		
+		valid("instance",instance);
+		valid("parts",parts);
+		
 		this.parts.addAll(parts); //defensive
 		this.instance=instance;
 	}
@@ -29,6 +53,66 @@ public class DefaultAction implements Action {
 	public String instance() {
 		return instance;
 	}
+	
+	@Override
+	public boolean isOnInstance() {
+		return instance!=null;
+	}
+	
+	
+	@Override
+	public boolean isIn(Action... actions) {
+		
+		for (Action a : actions)
+			if (this.matches(a))
+				return true;
+		
+		return false;
+	}
+	
+	
+	
+	//helpers   
+	
+	private boolean matches(Action a) {
+		
+		if (this.equals(a))
+			return true;
+		
+		if (this.isOnInstance() && !this.instance().equals(a.instance()))
+			return false;
+		
+		if (a.isOnInstance() && !a.instance().equals(this.instance()))
+			return false;
+		
+		return matches(a.parts());
+		
+	}
+	
+	private boolean matches(List<String> parts) {
+		
+		for (int i =0; i<parts.size(); i++) {
+			String part = parts.get(i);
+			//longer actions match if made of *-s
+			if (i>=this.parts.size()) {
+				if (part!=any)
+					return false;
+			}
+			else //compare matched parts
+				if (!matches(this.parts.get(i),part))
+					return false;
+		}
+		
+		return true;
+			
+	}
+	
+	private boolean matches(String thisPart, String superPart) {
+		return thisPart.equals(superPart) || superPart==any;
+	}
+	
+	
+	
 
 	@Override
 	public String toString() {
@@ -62,7 +146,6 @@ public class DefaultAction implements Action {
 			return false;
 		return true;
 	}
-	
 	
 	
 }

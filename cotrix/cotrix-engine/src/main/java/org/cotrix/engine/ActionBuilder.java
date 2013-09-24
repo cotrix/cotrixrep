@@ -1,7 +1,6 @@
 package org.cotrix.engine;
 
 import static java.util.Arrays.*;
-import static org.cotrix.engine.Action.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 import org.cotrix.engine.impl.DefaultAction;
 
 /**
- * An {@link Action} factory and a builder for three-part actions of the form <em>type:op:instance?</em>.
+ * An {@link Action} factory, as well as a builder for actions of the form <em>type,op*,instance?</em>.
  * 
  * @author Fabio Simeoni
  *
@@ -18,39 +17,38 @@ public class ActionBuilder {
 
 	private final List<String> parts = new ArrayList<String>();
 	
+	//forces use of factory methods
 	private ActionBuilder() {
 	}
 	
-	/**
-	 * Creates an action from its parts.
-	 * @param parts the parts
-	 * @return the action
-	 */
-	public static Action any() {
-		return type(any).end();
-	}
 	
 	/**
 	 * Creates an action from its parts.
 	 * @param parts the parts
 	 * @return the action
 	 */
-	public static Action action(String ... parts) {
-		return new DefaultAction(asList(parts));
+	public static Action action(String part, String ... parts) {
+		List<String> ps = new ArrayList<String>();
+		ps.add(part);
+		ps.addAll(asList(parts));
+		return new DefaultAction(ps);
 	}
 	
 	/**
-	 * Creates an action over an instance from its parts.
+	 * Creates an action on an instance from its parts.
 	 * @param instance the instance
 	 * @param parts the parts
 	 * @return the action
 	 */
-	public static Action action(String instance, String ... parts) {
-		return new DefaultAction(asList(parts),instance);
+	public static Action actionOn(String instance, String part, String ... parts) {
+		List<String> ps = new ArrayList<String>();
+		ps.add(part);
+		ps.addAll(asList(parts));
+		return new DefaultAction(ps,instance);
 	}
 	
 	/**
-	 * Build an action of a given type
+	 * Build an action of a given type.
 	 * @param type the type
 	 * @return the action builder
 	 */
@@ -61,7 +59,7 @@ public class ActionBuilder {
 	
 	
 	/**
-	 * Builds an action with a given operation
+	 * Builds an action with a given operation.
 	 * @param op the operation
 	 * @return this builder
 	 */

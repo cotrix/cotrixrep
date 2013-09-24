@@ -1,6 +1,7 @@
 package org.cotrix.engine;
 
 import java.io.File;
+import java.util.Collection;
 
 /**
  * Module-wide utilities
@@ -23,9 +24,21 @@ public class Utils {
 			throw new IllegalArgumentException(name+" is empty");
 	}
 	
+	public static void notEmpty(String name, Collection<? extends Object> o) throws IllegalArgumentException {
+		if (o.isEmpty())
+			throw new IllegalArgumentException(name+" is empty");
+	}
+	
 	public static void valid(String name, String o) throws IllegalArgumentException {
 		notNull(name, o);
 		notEmpty(name,o);
+	}
+	
+	public static void valid(String name, Collection<String> o) throws IllegalArgumentException {
+		notNull(name, o);
+		notEmpty(name,o);
+		for (String e : o)
+			valid(name+"'s element", e);
 	}
 	
 	public static void valid(File file) throws IllegalArgumentException {
