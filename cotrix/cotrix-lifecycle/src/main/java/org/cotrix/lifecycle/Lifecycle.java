@@ -6,6 +6,8 @@ import java.util.concurrent.Callable;
 
 import javax.enterprise.event.Event;
 
+import org.cotrix.action.Action;
+
 /**
  * The lifecycle of a resource.
  * 
@@ -67,16 +69,6 @@ public interface Lifecycle extends Serializable {
 	 * @param action the action
 	 */
 	void notify(Action action);
-	
-	/**
-	 * Performs a given action by executing a given task.
-	 * @param action the action 
-	 * @return the next clause in this sentence
-	 * 
-	 * @throw {@link IllegalStateException} if the given action cannot be performed in the current state of this lifecycle
-	 * 
-	 */
-	TaskClause perform(Action action);
 	
 	/**
 	 * Sets an event producer on this lifecycle

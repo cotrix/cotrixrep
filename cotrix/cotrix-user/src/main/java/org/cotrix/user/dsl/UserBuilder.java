@@ -13,7 +13,7 @@ public class UserBuilder {
 		po = new UserPO(id, name);
 	}
 	
-	UserBuilder with(Action ... actions) {
+	public UserBuilder can(Action ... actions) {
 		for (Action action : actions)
 			po.permissions().add(action);
 		return this;

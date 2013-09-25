@@ -1,5 +1,7 @@
 package org.cotrix.lifecycle;
 
+import org.cotrix.action.Action;
+
 /**
  * An event raised when an {@link Action} is performed on a given State of a given lifecycle {@link Lifecycle}
  * @author Fabio Simeoni

@@ -20,7 +20,7 @@ public class DefaultUser implements User, Serializable {
 	public DefaultUser(UserPO po) {
 		this.id=po.id();
 		this.name=po.name();
-		this.permissions().addAll(po.permissions());
+		this.permissions.addAll(po.permissions());
 	}
 	@Override
 	public String id() {

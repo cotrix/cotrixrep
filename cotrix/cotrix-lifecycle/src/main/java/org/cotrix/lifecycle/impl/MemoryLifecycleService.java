@@ -28,7 +28,7 @@ public class MemoryLifecycleService implements LifecycleService {
 	private Event<LifecycleEvent> event;
 	
 	@Inject 
-	LifecycleRegistry registry;
+	private LifecycleRegistry registry;
 	
 	private final Map<String,Lifecycle> instances = new HashMap<String, Lifecycle>();
 	

@@ -2,8 +2,7 @@ package org.acme;
 
 
 import static java.util.Arrays.*;
-import static org.cotrix.action.Action.*;
-import static org.cotrix.action.ActionBuilder.*;
+import static org.cotrix.action.Actions.*;
 import static org.junit.Assert.*;
 
 import org.cotrix.action.Action;

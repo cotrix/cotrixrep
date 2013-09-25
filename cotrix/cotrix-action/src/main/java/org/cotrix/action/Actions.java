@@ -13,12 +13,18 @@ import org.cotrix.action.impl.DefaultAction;
  * @author Fabio Simeoni
  *
  */
-public class ActionBuilder {
+public class Actions {
 
+	/**
+	 * @see Action#any
+	 */
+	public static final String any = Action.any; //convenience to avoid multiple imports
+
+	
 	private final List<String> parts = new ArrayList<String>();
 	
 	//forces use of factory methods
-	private ActionBuilder() {
+	private Actions() {
 	}
 	
 	
@@ -52,8 +58,8 @@ public class ActionBuilder {
 	 * @param type the type
 	 * @return the action builder
 	 */
-	public static ActionBuilder type(String type) {
-		return new ActionBuilder().op(type);
+	public static Actions type(String type) {
+		return new Actions().op(type);
 	}
 	
 	
@@ -63,7 +69,7 @@ public class ActionBuilder {
 	 * @param op the operation
 	 * @return this builder
 	 */
-	public ActionBuilder op(String op) {
+	public Actions op(String op) {
 		this.parts.add(op);
 		return this;
 	}
@@ -81,4 +87,6 @@ public class ActionBuilder {
 		return new DefaultAction(parts);
 	}
 
+	
+	
 }

@@ -1,6 +1,6 @@
 package org.cotrix.user;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.cotrix.action.Action;
 
@@ -10,5 +10,5 @@ public interface User {
 	
 	String name();
 	
-	List<Action> permissions();
+	Collection<Action> permissions();
 }

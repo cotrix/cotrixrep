@@ -1,8 +1,10 @@
 package org.cotrix.action.impl;
 
+import static java.util.Arrays.*;
 import static org.cotrix.action.Utils.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.cotrix.action.Action;
@@ -63,11 +65,22 @@ public class DefaultAction implements Action {
 	@Override
 	public boolean isIn(Action... actions) {
 		
+		return isIn(asList(actions));
+	}
+	
+	@Override
+	public boolean isIn(Collection<Action> actions) {
+		
 		for (Action a : actions)
 			if (this.matches(a))
 				return true;
 		
 		return false;
+	}
+	
+	@Override
+	public Action cloneFor(String instance) {
+		return new DefaultAction(this.parts,instance);
 	}
 	
 	
@@ -79,10 +92,18 @@ public class DefaultAction implements Action {
 		if (this.equals(a))
 			return true;
 		
-		if (this.isOnInstance() && !this.instance().equals(a.instance()))
+		boolean thisInstanceDoesNotMatchThatInstance = 
+				this.isOnInstance() && 
+				!(a.instance()==any || this.instance().equals(a.instance()));
+		
+		boolean thatInstanceDoesNotMatchThisInstance = 
+				a.isOnInstance() && 
+				!(a.instance()==any || a.instance().equals(this.instance()));
+		
+		if (thisInstanceDoesNotMatchThatInstance || thatInstanceDoesNotMatchThisInstance)
 			return false;
 		
-		if (a.isOnInstance() && !a.instance().equals(this.instance()))
+		if (a.isOnInstance() && !(a.instance().equals(any) || a.instance().equals(this.instance())))
 			return false;
 		
 		return matches(a.parts());
@@ -126,6 +147,7 @@ public class DefaultAction implements Action {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((instance == null) ? 0 : instance.hashCode());
 		result = prime * result + ((parts == null) ? 0 : parts.hashCode());
 		return result;
 	}
@@ -139,6 +161,11 @@ public class DefaultAction implements Action {
 		if (getClass() != obj.getClass())
 			return false;
 		DefaultAction other = (DefaultAction) obj;
+		if (instance == null) {
+			if (other.instance != null)
+				return false;
+		} else if (!instance.equals(other.instance))
+			return false;
 		if (parts == null) {
 			if (other.parts != null)
 				return false;
@@ -146,6 +173,8 @@ public class DefaultAction implements Action {
 			return false;
 		return true;
 	}
+
+
 	
 	
 }

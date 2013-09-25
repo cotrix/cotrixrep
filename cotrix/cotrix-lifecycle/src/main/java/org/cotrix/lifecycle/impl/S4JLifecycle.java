@@ -4,7 +4,7 @@ import static org.cotrix.lifecycle.utils.Utils.*;
 
 import java.util.Collection;
 
-import org.cotrix.lifecycle.Action;
+import org.cotrix.action.Action;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleEvent;
 import org.cotrix.lifecycle.State;
