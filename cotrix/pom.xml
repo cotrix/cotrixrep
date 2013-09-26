@@ -23,6 +23,7 @@
 		<module>cotrix-web-share</module>
 		<module>cotrix-web-publish</module>
 
+		<module>cotrix-common</module>
 		<module>cotrix-repository</module>
 		<module>cotrix-domain</module>
 		<module>cotrix-io</module>
@@ -32,6 +33,7 @@
 		<module>cotrix-engine</module>
 		<module>cotrix-security</module>
 		<module>cotrix-action</module>
+
 	</modules>
 
 	<repositories>
@@ -95,6 +97,12 @@
 
 			<!-- module dependencies -->
 
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-domain</artifactId>
