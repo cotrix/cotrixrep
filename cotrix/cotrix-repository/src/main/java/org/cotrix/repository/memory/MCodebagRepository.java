@@ -4,6 +4,7 @@ import static org.cotrix.common.Utils.*;
 
 import java.util.UUID;
 
+import org.cotrix.common.Utils;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
@@ -40,7 +41,7 @@ public class MCodebagRepository extends MRepository<Codebag,Codebag.Private> imp
 	public void add(Codebag bag) {
 
 		for (Attribute a: bag.attributes())
-				reveal(a,Attribute.Private.class).setId(UUID.randomUUID().toString());
+				Utils.reveal(a,Attribute.Private.class).setId(UUID.randomUUID().toString());
 			
 		//propagate addition
 		for (Codelist list : bag.lists())
