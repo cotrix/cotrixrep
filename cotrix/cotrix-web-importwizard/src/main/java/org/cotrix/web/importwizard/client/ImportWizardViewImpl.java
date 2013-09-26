@@ -9,6 +9,7 @@ import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.Progre
 import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.util.ProgressDialog;
+import org.cotrix.web.share.client.resources.CommonResources;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -60,6 +61,7 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	public ImportWizardViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		decksIndexes = new HashMap<String, Integer>();
+		CommonResources.INSTANCE.css().ensureInjected();
 	}
 	
 	@Override

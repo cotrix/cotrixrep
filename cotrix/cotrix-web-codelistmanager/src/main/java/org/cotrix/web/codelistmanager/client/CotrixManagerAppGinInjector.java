@@ -1,8 +1,9 @@
 package org.cotrix.web.codelistmanager.client;
 
-import org.cotrix.web.codelistmanager.client.presenter.CodeListManagerPresenter;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListPanelPresenter;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListPresenter;
+import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinModule.AssistedInjectionFactory;
+import org.cotrix.web.codelistmanager.client.codelist.CodeListPanelPresenter;
+import org.cotrix.web.codelistmanager.client.codelists.CodeListsPresenter;
+import org.cotrix.web.codelistmanager.client.manager.CodeListManagerPresenter;
 import org.cotrix.web.share.client.CommonGinModule;
 
 import com.google.gwt.core.shared.GWT;
@@ -20,8 +21,10 @@ public interface CotrixManagerAppGinInjector extends Ginjector {
 
 	public ManagerServiceAsync getRpcService();
 	public CotrixManagerAppController getController();
-	public CodeListPresenter getCodeListPresenter();
+	public CodeListsPresenter getCodeListPresenter();
 	public CodeListManagerPresenter getCodeListManagerPresenter();
 	
 	public CodeListPanelPresenter getCodeListPanelPresenter();
+	
+	public AssistedInjectionFactory getFactory();
 }

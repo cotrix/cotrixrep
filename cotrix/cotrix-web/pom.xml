@@ -42,11 +42,11 @@
 			<artifactId>cotrix-web-codelistmanager</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-publish</artifactId>
 			<scope>compile</scope>
-		</dependency>
+		</dependency> -->
 
 
 		<dependency>

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
+import org.cotrix.web.share.client.resources.CommonResources;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -55,7 +56,7 @@ public class PreviewGrid extends ResizeComposite {
 	{
 		loadingContainter = new FlexTable();
 		loadingContainter.getElement().setAttribute("align", "center");
-		Image loader = new Image(Resources.INSTANCE.previewLoader());
+		Image loader = new Image(CommonResources.INSTANCE.dataLoader());
 		loadingContainter.setWidget(0, 0, loader);
 	}
 	
@@ -106,7 +107,7 @@ public class PreviewGrid extends ResizeComposite {
 			if (editable) {
 				TextBox headerField = new TextBox();
 				headerField.setValue(headerLabel);
-				headerField.setStyleName(Resources.INSTANCE.css().textBox());
+				headerField.setStyleName(CommonResources.INSTANCE.css().textBox());
 				headerFields.add(headerField);
 				header = headerField;
 			} else {

@@ -1,27 +1,31 @@
 package org.cotrix.web.codelistmanager.client;
 
+import org.cotrix.web.codelistmanager.client.codelist.CodeListPanelPresenter;
+import org.cotrix.web.codelistmanager.client.codelist.CodeListPanelPresenterImpl;
+import org.cotrix.web.codelistmanager.client.codelist.CodeListPanelView;
+import org.cotrix.web.codelistmanager.client.codelist.CodeListPanelViewImpl;
+import org.cotrix.web.codelistmanager.client.codelist.CodeListRowDataProvider;
+import org.cotrix.web.codelistmanager.client.codelists.CodeListsPresenter;
+import org.cotrix.web.codelistmanager.client.codelists.CodeListsPresenterImpl;
+import org.cotrix.web.codelistmanager.client.codelists.CodeListsView;
+import org.cotrix.web.codelistmanager.client.codelists.CodeListsViewImpl;
+import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
+import org.cotrix.web.codelistmanager.client.data.MetadataSaver;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListDetailPresenter;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListDetailPresenterImpl;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListManagerPresenter;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListManagerPresenterImpl;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListPanelPresenter;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListPanelPresenterImpl;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListPresenter;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListPresenterImpl;
-import org.cotrix.web.codelistmanager.client.presenter.ContentPanelController;
-import org.cotrix.web.codelistmanager.client.view.CodeListDetailView;
-import org.cotrix.web.codelistmanager.client.view.CodeListDetailViewImpl;
-import org.cotrix.web.codelistmanager.client.view.CodeListManagerView;
-import org.cotrix.web.codelistmanager.client.view.CodeListManagerViewImpl;
-import org.cotrix.web.codelistmanager.client.view.CodeListPanelView;
-import org.cotrix.web.codelistmanager.client.view.CodeListPanelViewImpl;
-import org.cotrix.web.codelistmanager.client.view.CodeListView;
-import org.cotrix.web.codelistmanager.client.view.CodeListViewImpl;
-import org.cotrix.web.codelistmanager.client.view.ContentPanel;
+import org.cotrix.web.codelistmanager.client.manager.CodeListManagerPresenter;
+import org.cotrix.web.codelistmanager.client.manager.CodeListManagerPresenterImpl;
+import org.cotrix.web.codelistmanager.client.manager.CodeListManagerView;
+import org.cotrix.web.codelistmanager.client.manager.CodeListManagerViewImpl;
+import org.cotrix.web.codelistmanager.client.manager.ContentPanel;
+import org.cotrix.web.codelistmanager.client.manager.ContentPanelController;
+import org.cotrix.web.codelistmanager.client.old.CodeListDetailPresenter;
+import org.cotrix.web.codelistmanager.client.old.CodeListDetailPresenterImpl;
+import org.cotrix.web.codelistmanager.client.old.CodeListDetailView;
+import org.cotrix.web.codelistmanager.client.old.CodeListDetailViewImpl;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;
+import com.google.gwt.inject.client.assistedinject.GinFactoryModuleBuilder;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
@@ -44,8 +48,8 @@ public class CotrixManagerAppGinModule extends AbstractGinModule {
 		bind(CodeListManagerPresenter.class).to(CodeListManagerPresenterImpl.class);
 		bind(CodeListManagerView.class).to(CodeListManagerViewImpl.class);
 	
-		bind(CodeListPresenter.class).to(CodeListPresenterImpl.class);
-		bind(CodeListView.class).to(CodeListViewImpl.class);
+		bind(CodeListsPresenter.class).to(CodeListsPresenterImpl.class);
+		bind(CodeListsView.class).to(CodeListsViewImpl.class);
 		
 		bind(ContentPanelController.class).in(Singleton.class);
 		bind(ContentPanel.class).in(Singleton.class);
@@ -55,6 +59,14 @@ public class CotrixManagerAppGinModule extends AbstractGinModule {
 		
 		bind(CodeListDetailView.class).to(CodeListDetailViewImpl.class);
 		bind(CodeListDetailPresenter.class).to(CodeListDetailPresenterImpl.class);
+		
+		install(new GinFactoryModuleBuilder().build(AssistedInjectionFactory.class));
+	}
+	
+	public interface AssistedInjectionFactory {
+		public CodeListRowDataProvider createCodeListRowDataProvider(String codelistId);
+		public MetadataProvider createMetadataProvider(String codelistId);
+		public MetadataSaver createMetadataSaver(String codelistId);
 	}
 	
 

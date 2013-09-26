@@ -17,9 +17,6 @@ public interface Resources extends ClientBundle {
 	@Source("loader.gif")
 	public ImageResource loader();
 	
-	@Source("previewLoader.gif")
-	public ImageResource previewLoader();
-	
 	@Source("computer.png")
 	public ImageResource computer();
 	

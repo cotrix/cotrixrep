@@ -2,7 +2,6 @@ package org.cotrix.web.importwizard.client.util;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.client.util.AttributeMappingPanel;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 
@@ -44,7 +43,6 @@ public class MappingPanel extends ResizeComposite {
 		mappingPanel = new AttributeMappingPanel(hasTypeDefinition);
 		initWidget(uiBinder.createAndBindUi(this));
 		this.attributeMappingLabel.setText(attributeMappingLabel);
-		Resources.INSTANCE.css().ensureInjected();
 	}
 	
 	/**

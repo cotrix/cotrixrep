@@ -4,6 +4,7 @@ import org.cotrix.web.importwizard.client.resources.CotrixSimplePager;
 import org.cotrix.web.importwizard.client.resources.DataGridResource;
 import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.util.AlertDialog;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -137,7 +138,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 			}
 		});
 		
-		nameColumn.setCellStyleNames(Resources.INSTANCE.css().linkText());
+		nameColumn.setCellStyleNames(CommonResources.INSTANCE.css().linkText());
 		
 		dataGrid.addColumn(nameColumn, nameHeader);
 
@@ -172,7 +173,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 				presenter.repositoryDetails(object.getRepositoryId());
 			}
 		});
-		repositoryColumn.setCellStyleNames(Resources.INSTANCE.css().linkText());
+		repositoryColumn.setCellStyleNames(CommonResources.INSTANCE.css().linkText());
 		
 		dataGrid.addColumn(repositoryColumn, "Origin");
 		dataGrid.setColumnWidth(repositoryColumn, "20%");

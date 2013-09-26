@@ -1,6 +1,5 @@
 package org.cotrix.web.codelistmanager.client;
 
-import org.cotrix.web.codelistmanager.client.presenter.Presenter;
 import org.cotrix.web.share.client.CotrixModuleController;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;

@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.importwizard.client.step.selection;
 
-import org.cotrix.web.importwizard.client.resources.Resources;
+import org.cotrix.web.share.client.resources.CommonResources;
 
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.ValueUpdater;
@@ -25,12 +25,12 @@ public class SelectionCheckBoxCell extends AbstractEditableCell<Boolean, Boolean
   /**
    * An html string representation of a checked input box.
    */
-  private static final SafeHtml INPUT_CHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"radio\" name=\""+SelectionCheckBoxCell.class+"\" tabindex=\"-1\" class=\""+Resources.INSTANCE.css().simpleCheckbox()+"\" checked/>");
+  private static final SafeHtml INPUT_CHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"radio\" name=\""+SelectionCheckBoxCell.class+"\" tabindex=\"-1\" class=\""+CommonResources.INSTANCE.css().simpleCheckbox()+"\" checked/>");
 
   /**
    * An html string representation of an unchecked input box.
    */
-  private static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"radio\" name=\""+SelectionCheckBoxCell.class+"\" tabindex=\"-1\" class=\""+Resources.INSTANCE.css().simpleCheckbox()+"\" />");
+  private static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"radio\" name=\""+SelectionCheckBoxCell.class+"\" tabindex=\"-1\" class=\""+CommonResources.INSTANCE.css().simpleCheckbox()+"\" />");
 
   private final boolean dependsOnSelection;
   private final boolean handlesSelection;

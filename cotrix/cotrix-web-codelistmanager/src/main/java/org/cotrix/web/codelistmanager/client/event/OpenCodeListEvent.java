@@ -9,7 +9,7 @@ import com.google.gwt.event.shared.EventHandler;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class OpenCodeListEvent extends	GwtEvent<OpenCodeListEvent.OpenCodeListHandler> {
+public class OpenCodeListEvent extends GwtEvent<OpenCodeListEvent.OpenCodeListHandler> {
 
 	public static Type<OpenCodeListHandler> TYPE = new Type<OpenCodeListHandler>();
 

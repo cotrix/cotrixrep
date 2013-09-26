@@ -5,6 +5,8 @@
 	>
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
+	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
+		field="common" />
 	<ui:style>
 		.toolbar {
 			width: 100%;
@@ -34,36 +36,36 @@
 					<div class="{style.toolbarLabel}">First Row is Header</div>
 					<div>
 						<g:SimpleCheckBox ui:field="hasHeaderField"
-							styleName="{resources.css.simpleCheckbox}" />
+							styleName="{common.css.simpleCheckbox}" />
 					</div>
 				</td>
 				<td width="18%" style="border-right:1px solid #bababa;">
 					<div class="{style.toolbarLabel}">Delimiter</div>
 					<div>
-						<s:EnumListBox ui:field="separatorField" styleName="{resources.css.listBox}" />
+						<s:EnumListBox ui:field="separatorField" styleName="{common.css.listBox}" />
 						<g:TextBox ui:field="customSeparatorField" maxLength="1"
-							width="20px" enabled="false" styleName="{resources.css.textBox} {style.textbox}">,</g:TextBox>
+							width="20px" enabled="false" styleName="{common.css.textBox} {style.textbox}">,</g:TextBox>
 					</div>
 				</td>
 				<td width="18%" style="border-right:1px solid #bababa;">
 					<div class="{style.toolbarLabel}">Quote</div>
 					<div>
-						<s:EnumListBox ui:field="quoteField" styleName="{resources.css.listBox}" />
+						<s:EnumListBox ui:field="quoteField" styleName="{common.css.listBox}" />
 						<g:TextBox ui:field="customQuoteField" maxLength="1"
-							width="20px" enabled="false" styleName="{resources.css.textBox} {style.textbox}">"</g:TextBox>
+							width="20px" enabled="false" styleName="{common.css.textBox} {style.textbox}">"</g:TextBox>
 					</div>
 				</td>
 				<td width="18%" style="border-right:1px solid #bababa;">
 					<div class="{style.toolbarLabel}">Comment</div>
 					<div>
 						<g:TextBox ui:field="commentField" maxLength="1" width="20px"
-							styleName="{resources.css.textBox}">#</g:TextBox>
+							styleName="{common.css.textBox}">#</g:TextBox>
 					</div>
 				</td>
 				<td width="18%" style="border-right:1px solid #bababa;">
 					<div class="{style.toolbarLabel}">Encoding</div>
 					<div>
-						<g:ListBox ui:field="charsetField" styleName="{resources.css.listBox}" />
+						<g:ListBox ui:field="charsetField" styleName="{common.css.listBox}" />
 					</div>
 				</td>
 				<td width="10%" style="text-align:center;vertical-align:middle;">

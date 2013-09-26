@@ -13,6 +13,7 @@ import org.cotrix.web.share.client.CotrixModuleController;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -51,7 +52,7 @@ public class AppControllerImpl implements AppController {
 		cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
 		cotrixPublishAppController.go(view.getBody());*/
 		
-		showModule(CotrixModule.HOME);
+		showModule(CotrixModule.MANAGE);
 	}
 	
 	protected void bind()
@@ -80,10 +81,12 @@ public class AppControllerImpl implements AppController {
 	
 	protected void showModule(CotrixModule cotrixModule)
 	{
+		if (controllers.containsKey(cotrixModule)) {
 		if (currentController!=null) currentController.deactivate();
 		currentController = controllers.get(cotrixModule);
 		cotrixWebPresenter.showModule(cotrixModule);
 		currentController.activate();
+		} else Log.warn("Missing module "+cotrixModule+" forgot to register it?");
 	}
 
 	public void go(HasWidgets container) {

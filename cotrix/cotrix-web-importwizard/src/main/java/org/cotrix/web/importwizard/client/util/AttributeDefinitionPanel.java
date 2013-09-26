@@ -3,8 +3,8 @@ package org.cotrix.web.importwizard.client.util;
 import java.util.Arrays;
 
 import org.cotrix.web.importwizard.client.resources.ImportConstants;
-import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.shared.AttributeType;
+import org.cotrix.web.share.client.resources.CommonResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -156,13 +156,13 @@ public class AttributeDefinitionPanel extends Composite {
 	}
 
 	public void setNormalStyle(){
-		typeList.setStyleName(Resources.INSTANCE.css().listBox());
+		typeList.setStyleName(CommonResources.INSTANCE.css().listBox());
 	}
 
 	public void setEnabled(boolean enabled)
 	{
 		typeList.setEnabled(enabled);
-		inLabel.setStyleName(Resources.INSTANCE.css().paddedTextDisabled(), !enabled);
+		inLabel.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
 		languageList.setEnabled(enabled);
 	}
 

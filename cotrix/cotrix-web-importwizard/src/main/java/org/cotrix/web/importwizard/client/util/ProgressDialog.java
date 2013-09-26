@@ -1,6 +1,6 @@
 package org.cotrix.web.importwizard.client.util;
 
-import org.cotrix.web.importwizard.client.resources.Resources;
+import org.cotrix.web.share.client.resources.CommonResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -13,8 +13,8 @@ public class ProgressDialog extends DialogBox {
 
 	public ProgressDialog() {
 
-		Resources.INSTANCE.css().ensureInjected();
-		setGlassStyleName(Resources.INSTANCE.css().glassPanel());
+		CommonResources.INSTANCE.css().ensureInjected();
+		setGlassStyleName(CommonResources.INSTANCE.css().glassPanel());
 		
 		setModal(true);
 		setGlassEnabled(true);

@@ -11,6 +11,7 @@ import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
 import org.cotrix.web.importwizard.shared.Field;
+import org.cotrix.web.share.client.resources.CommonResources;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -97,7 +98,7 @@ public class AttributeMappingPanel extends Composite {
 			definitions.add(attributeDefinition);
 
 			final SimpleCheckBox checkBox = new SimpleCheckBox();
-			checkBox.setStyleName(Resources.INSTANCE.css().simpleCheckbox());
+			checkBox.setStyleName(CommonResources.INSTANCE.css().simpleCheckbox());
 			checkBox.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -115,7 +116,7 @@ public class AttributeMappingPanel extends Composite {
 			fields.add(field);
 
 			TextBox nameField = new TextBox();
-			nameField.setStyleName(Resources.INSTANCE.css().textBox());
+			nameField.setStyleName(CommonResources.INSTANCE.css().textBox());
 			nameField.setWidth("200px");
 			nameField.setValue(field.getLabel());
 			columnsTable.setWidget(row, NAME_COLUMN, nameField);
@@ -124,7 +125,7 @@ public class AttributeMappingPanel extends Composite {
 
 			if (typeDefinition) {
 				columnsTable.setWidget(row, LABEL_COLUMN, new Label("is a"));
-				cellFormatter.setStyleName(row, LABEL_COLUMN, Resources.INSTANCE.css().paddedText());
+				cellFormatter.setStyleName(row, LABEL_COLUMN, CommonResources.INSTANCE.css().paddedText());
 
 				AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel(AttributeDefinitionPanel.CSVTypeLabelProvider);
 				if (attributeDefinition != null) {
@@ -142,7 +143,7 @@ public class AttributeMappingPanel extends Composite {
 	{
 		((TextBox)columnsTable.getWidget(row, NAME_COLUMN)).setEnabled(include);
 		if (typeDefinition) {
-			((Label)columnsTable.getWidget(row, LABEL_COLUMN)).setStyleName(Resources.INSTANCE.css().paddedTextDisabled(), !include);
+			((Label)columnsTable.getWidget(row, LABEL_COLUMN)).setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !include);
 			((AttributeDefinitionPanel)columnsTable.getWidget(row, DEFINITION_COLUMN)).setEnabled(include);
 		}
 	}

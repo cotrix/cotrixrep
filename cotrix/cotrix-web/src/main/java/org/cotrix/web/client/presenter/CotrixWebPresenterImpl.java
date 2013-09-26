@@ -7,6 +7,7 @@ import org.cotrix.web.menu.client.presenter.MenuPresenter;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.CotrixModuleController;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
@@ -43,8 +44,11 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 
 	@Override
 	public void showModule(CotrixModule module) {
-		int index = indexes.get(module);
-		view.showModule(index);
+		Integer index = indexes.get(module);
+		if (index!=null) {
+			Log.warn("Missing module "+module+" forgot to add it?");
+			view.showModule(index);
+		}
 	}
 
 }

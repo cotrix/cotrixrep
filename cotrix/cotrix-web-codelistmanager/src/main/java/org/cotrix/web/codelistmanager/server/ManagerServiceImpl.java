@@ -1,6 +1,7 @@
 package org.cotrix.web.codelistmanager.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -9,17 +10,21 @@ import java.util.Map;
 import static org.cotrix.repository.Queries.*;
 import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.domain.dsl.Codes.*;
+
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.Container;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
+import org.cotrix.web.codelistmanager.shared.CodeListAttribute;
+import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.shared.CSVFile;
@@ -49,11 +54,10 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 	
 	@Inject
 	protected CodelistLoader codelistLoader;
-
+	
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void init() throws ServletException {
 		super.init();
 		codelistLoader.importAllCodelist();
@@ -103,6 +107,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		Codelist codelist = repository.lookup(codelistId);
 		logger.trace("lookup found {}", codelist.name().toString());
 		logger.trace("codelist size {}", codelist.codes().size());
+		
 
 		Metadata meta = new Metadata();
 		meta.setName(codelist.name().toString());
@@ -233,5 +238,43 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 			rows.add(row);
 		}
 		return new DataWindow<UICodeListRow>(rows, codelist.codes().size());
+	}
+
+	@Override
+	public CodeListMetadata getMetadata(String codelistId) throws ManagerServiceException {
+		logger.trace("getMetadata codelistId: {}", codelistId);
+		Codelist codelist = repository.lookup(codelistId);
+		CodeListMetadata metadata = new CodeListMetadata();
+		metadata.setId(codelist.id());
+		metadata.setName(codelist.name().toString());
+		metadata.setVersion(codelist.version());
+		metadata.setAttributes(getAttributes(codelist.attributes()));
+		return metadata;
+	}
+	
+	protected List<CodeListAttribute> getAttributes(Container<? extends Attribute> attributesContainer)
+	{
+		if (attributesContainer.size()==0) return Collections.emptyList();
+		List<CodeListAttribute> attributes = new ArrayList<CodeListAttribute>(attributesContainer.size());
+		
+		for (Attribute domainAttribute:attributesContainer) {
+			CodeListAttribute attribute = new CodeListAttribute();
+			attribute.setId(domainAttribute.id());
+			attribute.setName(domainAttribute.name().toString());
+			attribute.setType(domainAttribute.type().toString());
+			attribute.setLanguage(domainAttribute.language());
+			attribute.setValue(domainAttribute.value());
+			attributes.add(attribute);
+		}
+		
+		return attributes;
+	}
+
+	@Override
+	public void saveMetadata(String codelistId, CodeListMetadata metadata) throws ManagerServiceException {
+		logger.trace("saveMetadata codelistId: {}, metadata {}", codelistId, metadata);
+		Codelist changeset = codelist(codelistId).name(metadata.getName()).version(metadata.getVersion()).as(MODIFIED).build();
+		//TODO attributes?
+		repository.update(changeset);
 	}
 }

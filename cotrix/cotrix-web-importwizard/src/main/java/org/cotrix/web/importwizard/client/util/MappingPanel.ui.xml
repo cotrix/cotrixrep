@@ -3,6 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:u="urn:import:org.cotrix.web.importwizard.client.util">
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources" />
+	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
+		field="common" />
 	<ui:style>
 		.topPadding {
 			padding-top: 10px;
@@ -24,11 +26,11 @@
 			<table width="100%">
 				<tr>
 					<td class="{resources.css.mappingTableNameHeader}">
-						<span class="{resources.css.propertyLabel}" style="padding-left:32px;padding-right:10px;">NAME</span>
+						<span class="{common.css.propertyLabel}" style="padding-left:32px;padding-right:10px;">NAME</span>
 					</td>
 					<td style="padding-top:10px;">
 						<g:TextBox width="99%" ui:field="name"
-							styleName="{resources.css.textBox}" />
+							styleName="{common.css.textBox}" />
 					</td>
 					<td class="{style.reloadButtonCell} {style.topPadding}">
 						<g:PushButton ui:field="reloadButton"
@@ -39,19 +41,19 @@
 				</tr>
 				<tr>
 					<td class="{resources.css.mappingTableNameHeader}">
-						<span class="{resources.css.propertyLabel}" style="text-align:left;padding-left:32px;padding-right:10px;">VERSION</span>
+						<span class="{common.css.propertyLabel}" style="text-align:left;padding-left:32px;padding-right:10px;">VERSION</span>
 					</td>
 					<td style="padding-top:10px;padding-right: 70px;" colspan="2">
 						<g:TextBox width="99%" ui:field="version"
-							styleName="{resources.css.textBox}" />
+							styleName="{common.css.textBox}" />
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" align="left" style="padding: 20px;">
 						<table style="border-collapse:collapse; width: 100%;">
 							<tr>
-								<td class="{resources.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
-								<g:InlineLabel ui:field="attributeMappingLabel" styleName="{resources.css.propertyLabel}"/>
+								<td class="{common.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
+								<g:InlineLabel ui:field="attributeMappingLabel" styleName="{common.css.propertyLabel}"/>
 								</td>
 							</tr>
 							<tr>

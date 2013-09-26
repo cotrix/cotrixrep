@@ -1,8 +1,10 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p="urn:import:org.cotrix.web.importwizard.client.progresstracker">
+	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
+		field="common" />
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
-		field="resources"></ui:with>
+		field="resources" />
 	<ui:style>
 		.wizardPanel {
 			padding-bottom: 20px;
@@ -85,15 +87,15 @@
 		<g:south size="95">
 			<g:HTMLPanel styleName="{style.buttonPanel}">
 				<div class="{style.leftButton}">
-					<g:Button ui:field="backButton" styleName="{resources.css.grayButton}"
+					<g:Button ui:field="backButton" styleName="{common.css.grayButton}"
 						text="BACK" />
 				</div>
 				<div class="{style.rightButton}">
-					<g:Button ui:field="nextButton" styleName="{resources.css.blueButton}"
+					<g:Button ui:field="nextButton" styleName="{common.css.blueButton}"
 						text="NEXT" />
 				</div>
 				<div class="{style.rightButton}">
-					<g:Button ui:field="importButton" styleName="{resources.css.blueButton}"
+					<g:Button ui:field="importButton" styleName="{common.css.blueButton}"
 						text="IMPORT" />
 				</div>
 				<div class="{style.rightButton}">

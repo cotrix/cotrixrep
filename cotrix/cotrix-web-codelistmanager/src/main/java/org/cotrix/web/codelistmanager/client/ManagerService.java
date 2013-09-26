@@ -2,6 +2,7 @@ package org.cotrix.web.codelistmanager.client;
 
 import java.util.ArrayList;
 
+import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.shared.CotrixImportModel;
@@ -33,4 +34,7 @@ public interface ManagerService extends RemoteService {
 	
 	DataWindow<UICodelist> getCodelists(Range range) throws ManagerServiceException;
 	DataWindow<UICodeListRow> getCodelistRows(String codelistId, Range range) throws ManagerServiceException;
+	
+	CodeListMetadata getMetadata(String codelistId) throws ManagerServiceException;
+	void saveMetadata(String codelistId, CodeListMetadata metadata) throws ManagerServiceException;
 }

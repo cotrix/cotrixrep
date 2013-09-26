@@ -2,7 +2,7 @@ package org.cotrix.web.codelistmanager.client;
 
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
 import org.cotrix.web.codelistmanager.client.event.RefreshCodeListsEvent;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListManagerPresenter;
+import org.cotrix.web.codelistmanager.client.manager.CodeListManagerPresenter;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CodeListImportedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;

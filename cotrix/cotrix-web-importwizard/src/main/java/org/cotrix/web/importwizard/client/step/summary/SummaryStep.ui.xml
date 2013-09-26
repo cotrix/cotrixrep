@@ -3,6 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
 		field="resources"></ui:with>
+	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
+		field="common" />
 	<ui:style>
 		.grid {
 			vertical-align: top;
@@ -37,50 +39,50 @@
 			<g:Grid ui:field="panel" styleName="{style.grid}">
 				<g:row>
 					<g:cell
-						styleName="{resources.css.verticalHeadersSingleItem} {style.firstColumn}">
-						<span class="{resources.css.propertyLabel}">File</span>
+						styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
+						<span class="{common.css.propertyLabel}">File</span>
 					</g:cell>
 					<g:customCell>
-						<g:Label ui:field="fileField" styleName="{resources.css.propertyValue}" />
+						<g:Label ui:field="fileField" styleName="{common.css.propertyValue}" />
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:cell
-						styleName="{resources.css.verticalHeadersSingleItem} {style.firstColumn}">
-						<span class="{resources.css.propertyLabel}">Codelist</span>
+						styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
+						<span class="{common.css.propertyLabel}">Codelist</span>
 					</g:cell>
 					<g:customCell>
-						<g:Label ui:field="codelistField" styleName="{resources.css.propertyValue}" />
+						<g:Label ui:field="codelistField" styleName="{common.css.propertyValue}" />
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:cell
-						styleName="{resources.css.verticalHeadersSingleItem} {style.firstColumn}">
-						<span class="{resources.css.propertyLabel}">Version</span>
+						styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
+						<span class="{common.css.propertyLabel}">Version</span>
 					</g:cell>
 					<g:customCell>
-						<g:Label ui:field="versionField" styleName="{resources.css.propertyValue}" />
+						<g:Label ui:field="versionField" styleName="{common.css.propertyValue}" />
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:cell
-						styleName="{resources.css.verticalHeadersMultipleItem} {style.firstColumn}">
-						<span class="{resources.css.propertyLabel}">Properties</span>
+						styleName="{common.css.verticalHeadersMultipleItem} {style.firstColumn}">
+						<span class="{common.css.propertyLabel}">Properties</span>
 					</g:cell>
 					<g:customCell>
 						<g:FlexTable ui:field="propertiesTable" cellPadding="0"
-							cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
+							cellSpacing="0" borderWidth="1" styleName="{common.css.propertiesTable}"
 							width="100%" />
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:cell
-						styleName="{resources.css.verticalHeadersMultipleItem} {style.firstColumn}">
-						<span class="{resources.css.propertyLabel}">Directives</span>
+						styleName="{common.css.verticalHeadersMultipleItem} {style.firstColumn}">
+						<span class="{common.css.propertyLabel}">Directives</span>
 					</g:cell>
 					<g:customCell>
 						<g:FlexTable ui:field="customTable" cellPadding="0"
-							cellSpacing="0" borderWidth="1" styleName="{resources.css.propertiesTable}"
+							cellSpacing="0" borderWidth="1" styleName="{common.css.propertiesTable}"
 							width="100%"></g:FlexTable>
 					</g:customCell>
 				</g:row>
@@ -89,9 +91,9 @@
 		</g:center>
 		<g:south size="46">
 			<g:HTMLPanel ui:field="mappingPanel" styleName="{style.mappingPanel}">
-				<span class="{resources.css.propertyLabel} {style.mappingPanelItem}">Fail on errors</span>
+				<span class="{common.css.propertyLabel} {style.mappingPanelItem}">Fail on errors</span>
 				<g:SimpleCheckBox ui:field="mappingMode" value="true"
-					styleName="{resources.css.simpleCheckbox} {style.mappingPanelItem} {style.mappingPanelCheckBox}" />
+					styleName="{common.css.simpleCheckbox} {style.mappingPanelItem} {style.mappingPanelCheckBox}" />
 			</g:HTMLPanel>
 		</g:south>
 	</g:DockLayoutPanel>

@@ -8,6 +8,7 @@ import java.util.List;
 import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
+import org.cotrix.web.share.client.resources.CommonResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -80,7 +81,7 @@ public class RepositoryDetailsStepViewImpl extends Composite implements Reposito
 	protected Label getHeaderLabel(String text)
 	{
 		Label headerLabel = new Label(text);
-		headerLabel.setStyleName(Resources.INSTANCE.css().propertiesTableHeader());
+		headerLabel.setStyleName(CommonResources.INSTANCE.css().propertiesTableHeader());
 		return headerLabel;
 	}
 
