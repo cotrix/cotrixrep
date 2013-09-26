@@ -1,8 +1,8 @@
 package org.cotrix.lifecycle.impl;
 
 import static org.cotrix.action.CodelistActions.*;
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
-import static org.cotrix.lifecycle.utils.Utils.*;
 
 import org.cotrix.action.Action;
 import org.cotrix.lifecycle.Lifecycle;

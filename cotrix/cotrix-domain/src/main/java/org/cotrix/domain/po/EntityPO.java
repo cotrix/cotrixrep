@@ -1,7 +1,7 @@
 package org.cotrix.domain.po;
 
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.trait.Change.*;
-import static org.cotrix.domain.utils.Utils.*;
 
 import org.cotrix.domain.trait.Change;
 import org.cotrix.domain.trait.Mutable;

@@ -1,6 +1,6 @@
 package org.cotrix.lifecycle.impl;
 
-import static org.cotrix.lifecycle.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import javax.enterprise.event.Event;
 

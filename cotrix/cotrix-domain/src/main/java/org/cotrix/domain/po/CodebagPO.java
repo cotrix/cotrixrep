@@ -1,14 +1,14 @@
 package org.cotrix.domain.po;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import java.util.Collections;
 import java.util.List;
 
+import org.cotrix.common.Utils;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.Container;
-import org.cotrix.domain.utils.Utils;
 
 /**
  * Initialisation parameters for {@link Codebag}s.

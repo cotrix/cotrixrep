@@ -1,6 +1,6 @@
 package org.cotrix.domain.po;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import java.util.Collections;
 import java.util.List;

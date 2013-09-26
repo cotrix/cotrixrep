@@ -1,7 +1,7 @@
 package org.cotrix.domain;
 
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.trait.Change.*;
-import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,7 +55,7 @@ public interface Container<T> extends Iterable<T> {
 		 */
 		public Private(List<? extends T> objects) {
 			
-			notNull(objects);
+			notNull("elements",objects);
 			
 			for (T object : objects)
 				add(object);
@@ -99,7 +99,7 @@ public interface Container<T> extends Iterable<T> {
 
 		public void setChange(Change change) {
 
-			notNull(change);
+			notNull("change",change);
 
 			this.change = change;
 
@@ -147,7 +147,7 @@ public interface Container<T> extends Iterable<T> {
 
 		protected boolean add(T object) throws IllegalArgumentException {
 
-			notNull(object);
+			notNull("element",object);
 			
 			propagateChangeFrom(object);
 			

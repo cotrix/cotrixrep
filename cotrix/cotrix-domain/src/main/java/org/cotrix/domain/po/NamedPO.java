@@ -1,9 +1,10 @@
 package org.cotrix.domain.po;
 
+import static org.cotrix.common.Utils.*;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.utils.Utils;
 
 
 /**
@@ -35,7 +36,7 @@ public abstract class NamedPO extends AttributedPO {
 	 */
 	public void setName(QName name) {
 		
-		Utils.valid(name);
+		valid("name",name);
 		
 		this.name = name;
 	}	

@@ -1,6 +1,6 @@
 package org.cotrix.io.map;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.io.map.Report.Log.*;
 
 import java.util.ArrayList;

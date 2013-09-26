@@ -1,6 +1,6 @@
 package org.cotrix.domain.trait;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import org.cotrix.domain.po.VersionedPO;
 import org.cotrix.domain.spi.IdGenerator;

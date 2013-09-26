@@ -1,6 +1,6 @@
 package org.cotrix.io.sdmx;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import java.io.InputStream;
 import java.util.Set;

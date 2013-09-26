@@ -1,6 +1,6 @@
 package org.cotrix.engine.impl;
 
-import static org.cotrix.action.Utils.*;
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.engine.impl.Task.*;
 
 import java.util.ArrayList;

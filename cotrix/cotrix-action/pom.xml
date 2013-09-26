@@ -6,4 +6,13 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>cotrix-action</artifactId>
+  
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>org.cotrix</groupId>
+  		<artifactId>cotrix-common</artifactId>
+  	</dependency>
+  </dependencies>
+  
 </project>
