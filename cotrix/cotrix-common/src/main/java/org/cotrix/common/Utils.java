@@ -1,7 +1,5 @@
 package org.cotrix.common;
 
-import static org.cotrix.common.Utils.*;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
