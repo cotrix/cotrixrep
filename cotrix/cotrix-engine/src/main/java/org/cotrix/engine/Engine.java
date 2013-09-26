@@ -4,7 +4,25 @@ import java.util.concurrent.Callable;
 
 import org.cotrix.action.Action;
 
+/**
+ * Performs {@link Action}s by executing given tasks.
+ * <p>
+ * The engine represents the application, directly addressing its authorisation concerns and driving its transitions.
+ * 
+ * @author Fabio Simeoni
+ *
+ */
 public interface Engine {
+	
+	/**
+	 * Performs editAction given action by executing editAction given task
+	 * @param action the action
+	 * @return the task selection clause
+	 */
+	TaskClause perform(Action action);
+	
+	
+	
 	
 	/**
 	 * Clause to select editAction task for executing editAction given action.
@@ -13,7 +31,7 @@ public interface Engine {
 	public static interface TaskClause {
 		
 		/**
-		 * Performs the current action by executing editAction given task. 
+		 * Performs the current action by executing a given task. 
 		 * @param task the task
 		 * @return the {@link TaskOutcome outcome} of the task
 		 * 
@@ -24,7 +42,7 @@ public interface Engine {
 		<T> TaskOutcome<T> with(Callable<T> task);
 		
 		/**
-		 * Performs the current action by executing editAction given task. 
+		 * Performs the current action by executing a given task. 
 		 * @param task the task
 		 * @return the {@link TaskOutcome outcome} of the task
 		 * 
@@ -33,12 +51,5 @@ public interface Engine {
 		 */
 		TaskOutcome<Void> with(Runnable task);
 	}
-
-	/**
-	 * Performs editAction given action by executing editAction given task
-	 * @param action the action
-	 * @return the task selection clause
-	 */
-	TaskClause perform(Action action);
 	
 }

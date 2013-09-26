@@ -17,6 +17,12 @@ import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.user.User;
 
+/**
+ * Default {@link Engine} implementation
+ * 
+ * @author Fabio Simeoni
+ *
+ */
 @ApplicationScoped
 public class DefaultEngine implements Engine {
 

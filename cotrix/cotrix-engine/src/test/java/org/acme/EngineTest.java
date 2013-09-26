@@ -1,12 +1,12 @@
 package org.acme;
 
-import static java.util.Arrays.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.CodelistActions.*;
 import static org.cotrix.user.dsl.Users.*;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
-import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 
 import javax.enterprise.inject.Produces;
@@ -15,7 +15,10 @@ import javax.inject.Inject;
 import org.cotrix.action.Action;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
+import org.cotrix.engine.impl.DefaultEngine;
+import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
+import org.cotrix.lifecycle.impl.DefaultLifecycleFactory;
 import org.cotrix.user.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,13 +35,45 @@ public class EngineTest {
 	static Action editAny = edit.cloneFor(any);
 	static Action lockAny = lock.cloneFor(any);
 
-	static User joe = user("joe").can(editAny,lockAny).build();;
+	static User joe = user("joe").can(editAny,lockAny).build();
 	
 	@Inject
 	Engine engine;
 	
 	@Inject 
 	LifecycleService service;
+	
+	@Test
+	public void executeTasksForAllowedActions2() throws Exception {
+
+		User joe = user("joe").can(editAny).build();
+		
+		Lifecycle lifecycle = new DefaultLifecycleFactory().create("instance");
+
+		LifecycleService service = mock(LifecycleService.class);
+		when(service.lifecycleOf(any(String.class))).thenReturn(lifecycle);
+		
+		Engine engine = new DefaultEngine(joe,service);
+		
+		final CountDownLatch latch = new CountDownLatch(1);
+		
+		Runnable task = new Runnable() {
+			
+			@Override
+			public void run() {
+				latch.countDown();
+			}
+		};
+		
+		TaskOutcome<Void> outcome = engine.perform(edit).with(task);
+		
+		if (latch.getCount()!=0)
+			fail();
+		
+		assertEquals(joe.permissions(),outcome.nextActions());
+		
+		
+	}
 	
 	
 	@Test
@@ -140,5 +175,7 @@ public class EngineTest {
 		
 		return joe;
 	}
+	
+	
 	
 }
