@@ -40,7 +40,7 @@ public class Table2CodelistTest {
 		Codelist expected = codelist()
 				.name("c1")
 				.with(code().name("11").build(),
-					  code().name("21").build()).build();
+					  code().name("21").build()).version("1.0").build();
 
 		assertEquals(expected, list);
 
@@ -57,6 +57,7 @@ public class Table2CodelistTest {
 		
 		String name = "list";
 		directives.name(name);
+		directives.version("2.0");
 		
 		Attribute attribute = attr().name("a").value("v").build();
 		directives.attributes().add(attribute);
@@ -70,6 +71,7 @@ public class Table2CodelistTest {
 				.with(code().name("11").build(),
 					  code().name("21").build())
 				.attributes(attribute)
+				.version("2.0")
 				.build();
 
 		assertEquals(expected, list);
@@ -107,7 +109,7 @@ public class Table2CodelistTest {
 							  attr().name("attr").value("23").ofType("type").build()
 					   )
 				      .build())
-		.build();
+		.version("1.0").build();
 
 		assertEquals(expected, list);
 
