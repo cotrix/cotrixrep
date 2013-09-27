@@ -40,15 +40,15 @@ public class CdiTest {
 		contextController.openSession(new DummyHttpRequest());
 		
 		//show it's a proxy
-		System.out.println("Bean instance is a proxy: "+bean.sbean().getClass());
+		System.out.println("Foo instance is a proxy: "+bean.sbean().getClass());
 		
 		
-		System.out.println("Bean dependency is a proxy: "+bean);
+		System.out.println("Foo dependency is a proxy: "+bean);
 		
 		manager.populateSessionWith(10);
 
 		//show it's a proxy
-		System.out.println("first access to Bean");
+		System.out.println("first access to Foo");
 		
 		//the injected session bean comes from session
 		assertEquals(10,bean.sbean().a());

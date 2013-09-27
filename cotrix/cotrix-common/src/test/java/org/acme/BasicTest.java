@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 public class BasicTest {
 
 	@Inject
-	Bean bean;
+	Foo bean;
 	
 	@Test
 	public void cdiUnitJustWorks() {
@@ -32,16 +32,16 @@ public class BasicTest {
 	
 	
 	@ApplicationScoped //proxied scope
-	static class Bean {
+	static class Foo {
 		
 		//this is not a proxy
 		Dep dep;
 		
 		//must have a no=arg constructor for proxying to occur
-		Bean(){};
+		Foo(){};
 		
 		@Inject
-		Bean(Dep foo) {
+		Foo(Dep foo) {
 			this.dep=foo;
 		}
 		
