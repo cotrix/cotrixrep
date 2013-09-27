@@ -1,6 +1,6 @@
 package org.cotrix.lifecycle.impl;
 
-import static org.cotrix.action.CodelistActions.*;
+import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
 
@@ -43,12 +43,12 @@ public class DefaultLifecycleFactory implements LifecycleFactory {
 		StateMachine<State, Action> machine = new StateMachine<State, Action>(draft);
 		
 		machine.Configure(draft)
-						.PermitReentry(edit.cloneFor(id))
-					    .Permit(lock.cloneFor(id),locked)
-					    .Permit(seal.cloneFor(id),sealed);
+						.PermitReentry(EDIT.cloneFor(id))
+					    .Permit(LOCK.cloneFor(id),locked)
+					    .Permit(SEAL.cloneFor(id),sealed);
 		
 		machine.Configure(locked)
-						.Permit(unlock.cloneFor(id), draft);
+						.Permit(UNLOCK.cloneFor(id), draft);
 		
 		return machine;
 	}

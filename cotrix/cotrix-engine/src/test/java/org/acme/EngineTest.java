@@ -1,7 +1,7 @@
 package org.acme;
 
 import static org.cotrix.action.Actions.*;
-import static org.cotrix.action.CodelistActions.*;
+import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.user.dsl.Users.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
@@ -13,6 +13,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.cotrix.action.Action;
+import org.cotrix.action.Actions;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.engine.impl.DefaultEngine;
@@ -29,11 +30,11 @@ import com.googlecode.jeeunit.JeeunitRunner;
 public class EngineTest {
 
 	
-	static Action editAction = edit;
+	static Action editAction = EDIT;
 	
 	static Action bad = action("badaction");
-	static Action editAny = edit.cloneFor(any);
-	static Action lockAny = lock.cloneFor(any);
+	static Action editAny = EDIT.cloneFor(Actions.any);
+	static Action lockAny = LOCK.cloneFor(Actions.any);
 
 	static User joe = user("joe").can(editAny,lockAny).build();
 	
@@ -65,7 +66,7 @@ public class EngineTest {
 			}
 		};
 		
-		TaskOutcome<Void> outcome = engine.perform(edit).with(task);
+		TaskOutcome<Void> outcome = engine.perform(EDIT).with(task);
 		
 		if (latch.getCount()!=0)
 			fail();
@@ -121,9 +122,9 @@ public class EngineTest {
 		if (latch.getCount()!=0)
 			fail();
 		
-		assertTrue(outcome.nextActions().contains(edit.cloneFor("instance")));
-		assertTrue(outcome.nextActions().contains(lock.cloneFor("instance")));
-		assertFalse(outcome.nextActions().contains(seal.cloneFor("instance")));
+		assertTrue(outcome.nextActions().contains(EDIT.cloneFor("instance")));
+		assertTrue(outcome.nextActions().contains(LOCK.cloneFor("instance")));
+		assertFalse(outcome.nextActions().contains(SEAL.cloneFor("instance")));
 	}
 	
 	@Test(expected=IllegalAccessError.class)
@@ -166,7 +167,7 @@ public class EngineTest {
 			public void run() {}
 		};
 		
-		engine.perform(seal).with(task);
+		engine.perform(SEAL).with(task);
 		
 	}
 	
