@@ -1,7 +1,5 @@
 package org.cotrix.repository.memory;
 
-import static org.cotrix.common.Utils.*;
-
 import java.util.UUID;
 
 import org.cotrix.common.Utils;
