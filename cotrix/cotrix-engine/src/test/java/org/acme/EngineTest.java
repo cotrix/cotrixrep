@@ -13,6 +13,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.cotrix.action.Action;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.engine.impl.DefaultEngine;
@@ -170,7 +171,7 @@ public class EngineTest {
 		
 	}
 	
-	@Produces
+	@Produces @Current
 	public User testuser() {
 		
 		return joe;

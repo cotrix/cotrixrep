@@ -50,13 +50,13 @@ public class CdiTest {
 		//show it's a proxy
 		System.out.println("first access to Foo");
 		
-		//the injected session bean comes from session
+		//the injected session appbean comes from session
 		assertEquals(10,bean.sbean().a());
 		
 	
 	}
 	
-	@ApplicationScoped //must be as we're injecting a scoped bean inside
+	@ApplicationScoped //must be as we're injecting a scoped appbean inside
 	static class Bean {
 		
 		@Inject
@@ -73,7 +73,7 @@ public class CdiTest {
 		int a;
 		
 		public SessionBean() {
-			System.out.println("created non-proxy bean "+this);
+			System.out.println("created non-proxy appbean "+this);
 		}
 		
 		int a() {
@@ -89,16 +89,16 @@ public class CdiTest {
 		
 		public void populateSessionWith(int a) {
 			
-			//populate session bean
+			//populate session appbean
 			SessionBean sbean = new SessionBean();
 			sbean.a=a;
-			session.data().put("bean",sbean);
+			session.data().put("appbean",sbean);
 		}
 		
 		@Produces @ProducesAlternative  
 		@SessionScoped
 		SessionBean bean() {
-			SessionBean bean = (SessionBean) session.data().get("bean");
+			SessionBean bean = (SessionBean) session.data().get("appbean");
 			System.out.println("CDI is invoking the producer that returns the SessionBean "+bean);
 			return bean;
 		}

@@ -14,9 +14,9 @@ import javax.inject.Qualifier;
 @Documented
 @Qualifier
 /**
- * A CDI qualifier to qualify beans produced by producer methods and separate them from those that can be instantiated from classes
+ * A CDI qualifier for beans produced in session or request scope.
  * 
  * @author Fabio Simeoni
  *
  */
-@interface Produced {}
+public @interface Current {}

@@ -11,6 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.cotrix.action.Action;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.lifecycle.Lifecycle;
@@ -30,7 +31,7 @@ public class DefaultEngine implements Engine {
 	private final LifecycleService lcService;
 	
 	@Inject
-	public DefaultEngine(User user,LifecycleService lcService) {
+	public DefaultEngine(@Current User user,LifecycleService lcService) {
 		this.user=user;
 		this.lcService=lcService;
 	}
