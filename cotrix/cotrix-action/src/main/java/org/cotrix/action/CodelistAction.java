@@ -38,7 +38,12 @@ public enum CodelistAction implements Action {
 		return innerAction.isIn(actions);
 	}
 
-	public Action cloneFor(String instance) {
-		return innerAction.cloneFor(instance);
+	public Action on(String instance) {
+		return innerAction.on(instance);
+	}
+	
+	@Override
+	public Action onAny() {
+		return innerAction.onAny();
 	}
 }

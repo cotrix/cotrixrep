@@ -43,12 +43,12 @@ public class DefaultLifecycleFactory implements LifecycleFactory {
 		StateMachine<State, Action> machine = new StateMachine<State, Action>(draft);
 		
 		machine.Configure(draft)
-						.PermitReentry(EDIT.cloneFor(id))
-					    .Permit(LOCK.cloneFor(id),locked)
-					    .Permit(SEAL.cloneFor(id),sealed);
+						.PermitReentry(EDIT.on(id))
+					    .Permit(LOCK.on(id),locked)
+					    .Permit(SEAL.on(id),sealed);
 		
 		machine.Configure(locked)
-						.Permit(UNLOCK.cloneFor(id), draft);
+						.Permit(UNLOCK.on(id), draft);
 		
 		return machine;
 	}

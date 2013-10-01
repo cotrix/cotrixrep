@@ -34,8 +34,8 @@ public class EngineTest {
 	static Action editAction = EDIT;
 	
 	static Action bad = action("badaction");
-	static Action editAny = EDIT.cloneFor(Actions.any);
-	static Action lockAny = LOCK.cloneFor(Actions.any);
+	static Action editAny = EDIT.on(Actions.any);
+	static Action lockAny = LOCK.on(Actions.any);
 
 	static User joe = user("joe").can(editAny,lockAny).build();
 	
@@ -116,16 +116,16 @@ public class EngineTest {
 			}
 		};
 		
-		Action editInstance = editAction.cloneFor("instance");
+		Action editInstance = editAction.on("instance");
 		
 		TaskOutcome<Void> outcome = engine.perform(editInstance).with(task);
 		
 		if (latch.getCount()!=0)
 			fail();
 		
-		assertTrue(outcome.nextActions().contains(EDIT.cloneFor("instance")));
-		assertTrue(outcome.nextActions().contains(LOCK.cloneFor("instance")));
-		assertFalse(outcome.nextActions().contains(SEAL.cloneFor("instance")));
+		assertTrue(outcome.nextActions().contains(EDIT.on("instance")));
+		assertTrue(outcome.nextActions().contains(LOCK.on("instance")));
+		assertFalse(outcome.nextActions().contains(SEAL.on("instance")));
 	}
 	
 	@Test(expected=IllegalAccessError.class)
@@ -152,7 +152,7 @@ public class EngineTest {
 			public void run() {}
 		};
 		
-		engine.perform(bad.cloneFor("instance")).with(task);
+		engine.perform(bad.on("instance")).with(task);
 		
 	}
 	

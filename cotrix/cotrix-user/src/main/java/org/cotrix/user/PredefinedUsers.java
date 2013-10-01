@@ -7,4 +7,7 @@ public class PredefinedUsers {
 
 	//the root user
 	public static User cotrix = user("cotrix").can(action(any)).build();
+	
+	//the guest user TODO: restrict this 
+	public static User guest = user("cotrix").can(action(any)).build();
 }
