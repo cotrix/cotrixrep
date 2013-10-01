@@ -15,4 +15,5 @@ public interface CotrixWebView {
 	void showModule(int moduleIndex);
 
 	Widget asWidget();
+	FlowPanel getUserBarPanel();
 }

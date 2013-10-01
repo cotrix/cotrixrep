@@ -3,21 +3,31 @@ package org.cotrix.web.server;
 import java.util.ArrayList;
 
 import org.cotrix.web.client.MainService;
+import org.cotrix.web.share.shared.feature.Response;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
- * The server side implementation of the RPC service.
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
  */
 @SuppressWarnings("serial")
-public class MainServiceImpl extends RemoteServiceServlet implements
-   MainService {
+public class MainServiceImpl extends RemoteServiceServlet implements MainService {
 
-  public ArrayList<String> getList() throws IllegalArgumentException {
+	public ArrayList<String> getList() throws IllegalArgumentException {
 
-    String serverInfo = getServletContext().getServerInfo();
-    String userAgent = getThreadLocalRequest().getHeader("User-Agent");
+		return new ArrayList<String>();
+	}
 
-    return new ArrayList<String>();
-  }
+	@Override
+	public Response<String> login(String user, String password) {
+		
+		return Response.wrap(user);
+	}
+
+	@Override
+	public Response<Void> logout() {
+		return Response.wrap(null);
+	}
 
 }

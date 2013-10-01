@@ -4,7 +4,6 @@ import org.cotrix.web.client.resources.CotrixResources;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Window;
@@ -37,7 +36,7 @@ public class CodeListManager implements EntryPoint {
 		Window.enableScrolling(true); 
 		Window.setMargin("0px");
 		 
-		AppGinInjector injector = GWT.create(AppGinInjector.class);
+		AppGinInjector injector = AppGinInjector.INSTANCE;
 		AppController appViewer = injector.getAppController();
 		appViewer.go(RootLayoutPanel.get());
 	}

@@ -3,6 +3,7 @@ package org.cotrix.web.client.presenter;
 import java.util.EnumMap;
 
 import org.cotrix.web.client.view.CotrixWebView;
+import org.cotrix.web.client.view.UserBarView;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.CotrixModuleController;
@@ -39,6 +40,12 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 	@Override
 	public void setMenu(MenuPresenter menu) {
 		menu.go(view.getMenuPanel());		
+	}
+	
+	@Override
+	public void setUserBar(UserBarPresenter userBar)
+	{
+		userBar.go(view.getUserBarPanel());
 	}
 
 	@Override
