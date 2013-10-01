@@ -19,72 +19,36 @@ public class FeatureBinder {
 	@Inject @FeatureBus
 	protected static EventBus featureBus;
 	
+	public static void bind(HasFeature hasFeature, UIFeature feature)
+	{
+		ApplicationFeatureBind bind = new ApplicationFeatureBind(feature, hasFeature);
+		featureBus.addHandler(NewFeatureSetEvent.TYPE, bind);
+	}
+	
 	public static void bind(final HasVisibility hasVisibility, UIFeature feature)
 	{
-		AbstractApplicationFeatureBind bind = new AbstractApplicationFeatureBind(feature) {
-			
-			@Override
-			public void unsetFeature() {
-				hasVisibility.setVisible(false);				
-			}
-			
-			@Override
-			public void setFeature() {
-				hasVisibility.setVisible(true);
-			}
-		};
-		featureBus.addHandler(NewFeatureSetEvent.TYPE, bind);
+		bind(new HasVisibleFeature(hasVisibility), feature);
 	}
 	
 	public static void bind(final HasEnabled hasEnabled, UIFeature feature)
 	{
-		AbstractApplicationFeatureBind bind = new AbstractApplicationFeatureBind(feature) {
-			
-			@Override
-			public void unsetFeature() {
-				hasEnabled.setEnabled(false);
-			}
-			
-			@Override
-			public void setFeature() {
-				hasEnabled.setEnabled(true);
-			}
-		};
+		bind(new HasEnabledFeature(hasEnabled), feature);
+	}
+	
+	public static void bind(HasFeature hasFeature,  String codelistId, UIFeature feature)
+	{
+		CodelistFeatureBind bind = new CodelistFeatureBind(codelistId, feature, hasFeature);
 		featureBus.addHandler(NewFeatureSetEvent.TYPE, bind);
 	}
 	
 	public static void bind(final HasVisibility hasVisibility, String codelistId, UIFeature feature)
 	{
-		AbstractCodelistFeatureBind bind = new AbstractCodelistFeatureBind(codelistId, feature) {
-			
-			@Override
-			public void unsetFeature() {
-				hasVisibility.setVisible(false);				
-			}
-			
-			@Override
-			public void setFeature() {
-				hasVisibility.setVisible(true);
-			}
-		};
-		featureBus.addHandler(NewFeatureSetEvent.TYPE, bind);
+		bind(new HasVisibleFeature(hasVisibility), codelistId, feature);
 	}
 	
 	public static void bind(final HasEnabled hasEnabled, String codelistId, UIFeature feature)
 	{
-		AbstractCodelistFeatureBind bind = new AbstractCodelistFeatureBind(codelistId, feature) {
-			
-			@Override
-			public void unsetFeature() {
-				hasEnabled.setEnabled(false);
-			}
-			
-			@Override
-			public void setFeature() {
-				hasEnabled.setEnabled(true);
-			}
-		};
-		featureBus.addHandler(NewFeatureSetEvent.TYPE, bind);
+		bind(new HasEnabledFeature(hasEnabled), codelistId, feature);
 	}
 
 }

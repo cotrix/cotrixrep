@@ -10,15 +10,17 @@ import org.cotrix.web.share.shared.feature.UIFeature;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public abstract class AbstractApplicationFeatureBind implements NewFeatureSetHandler {
+public class ApplicationFeatureBind implements NewFeatureSetHandler {
 	
 	protected UIFeature feature;
+	protected HasFeature hasFeature;
 
 	/**
 	 * @param feature
 	 */
-	public AbstractApplicationFeatureBind(UIFeature feature) {
+	public ApplicationFeatureBind(UIFeature feature, HasFeature hasFeature) {
 		this.feature = feature;
+		this.hasFeature = hasFeature;
 	}
 
 	/** 
@@ -26,13 +28,7 @@ public abstract class AbstractApplicationFeatureBind implements NewFeatureSetHan
 	 */
 	@Override
 	public void onNewFeatureSet(NewFeatureSetEvent event) {
-		if (event.getApplicationFeatures().contains(feature)) setFeature();
-		else unsetFeature();
+		if (event.getApplicationFeatures().contains(feature)) hasFeature.setFeature();
+		else hasFeature.unsetFeature();
 	}
-	
-	public abstract void setFeature();
-	public abstract void unsetFeature();
-	
-	
-
 }

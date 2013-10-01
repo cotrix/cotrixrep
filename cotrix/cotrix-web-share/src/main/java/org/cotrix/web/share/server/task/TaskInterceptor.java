@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.share.server.task;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class TaskInterceptor {
 
 		Task taskAnnotation = method.getAnnotation(Task.class);
 		logger.trace("action: {}", taskAnnotation);
-
+		
 		if (taskAnnotation!=null) {
 
 			Callable<Object> task = new Callable<Object>() {
@@ -59,7 +60,9 @@ public class TaskInterceptor {
 			};
 
 			Action action = taskAnnotation.value();
-			String codelistId = getIdentifier(ctx.getParameters());
+			String codelistId = getIdentifier(ctx.getMethod().getParameterAnnotations(), ctx.getParameters());
+			
+			
 			logger.trace("codelist id: {}", codelistId);
 			if (codelistId!=null) action = action.on(codelistId);
 
@@ -90,7 +93,16 @@ public class TaskInterceptor {
 
 	}
 
-	protected String getIdentifier(Object[] parameters)
+	protected String getIdentifier(Annotation[][] parametersAnnotations, Object[] parameters)
+	{
+		if (parameters == null || parameters.length == 0) return null;
+		
+		String id = getIdentifierAsRequest(parameters);
+		if (id!=null) return id;
+		return getIdentifierFromAnnotated(parametersAnnotations, parameters);
+	}
+	
+	protected String getIdentifierAsRequest(Object[] parameters)
 	{
 		if (parameters == null || parameters.length == 0) return null;
 		for (Object parameter:parameters) {
@@ -99,6 +111,18 @@ public class TaskInterceptor {
 				return request.getId();
 			}
 		}
+		return null;
+	}
+	
+	protected String getIdentifierFromAnnotated(Annotation[][] parametersAnnotations, Object[] parameters)
+	{
+		for (int i = 0; i < parametersAnnotations.length; i++) {
+			Annotation[] parameterAnnotations = parametersAnnotations[i];
+			for (Annotation annotation:parameterAnnotations) {
+				if (annotation.annotationType().equals(Id.class)) return String.valueOf(parameters[i]);
+			}
+		}
+		
 		return null;
 	}
 
