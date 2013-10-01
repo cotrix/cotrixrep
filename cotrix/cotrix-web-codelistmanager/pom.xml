@@ -46,6 +46,11 @@
 			<artifactId>cotrix-web-share</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-engine</artifactId>
+		</dependency>
 
 	</dependencies>
 

@@ -15,4 +15,6 @@ public interface CodeListPanelView {
 
 	public abstract void setProvider(CodeListRowDataProvider dataProvider);
 
+	CodeListToolbar getToolBar();
+
 }

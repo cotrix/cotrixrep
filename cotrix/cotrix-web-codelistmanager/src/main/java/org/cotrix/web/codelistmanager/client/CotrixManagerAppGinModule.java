@@ -19,9 +19,16 @@ import org.cotrix.web.codelistmanager.client.view.CodeListPanelViewImpl;
 import org.cotrix.web.codelistmanager.client.view.CodeListView;
 import org.cotrix.web.codelistmanager.client.view.CodeListViewImpl;
 import org.cotrix.web.codelistmanager.client.view.ContentPanel;
+import org.cotrix.web.share.client.event.FeatureAsyncCallBack;
+import org.cotrix.web.share.client.feature.FeatureBinder;
+import org.cotrix.web.share.client.feature.FeatureBus;
+import org.cotrix.web.share.shared.UICodelist;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;
+import com.google.gwt.inject.client.assistedinject.GinFactoryModuleBuilder;
+import com.google.gwt.inject.client.binder.GinBinder;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
@@ -50,11 +57,17 @@ public class CotrixManagerAppGinModule extends AbstractGinModule {
 		bind(ContentPanelController.class).in(Singleton.class);
 		bind(ContentPanel.class).in(Singleton.class);
 		
-		bind(CodeListPanelPresenter.class).to(CodeListPanelPresenterImpl.class);
+		//bind(CodeListPanelPresenter.class).to(CodeListPanelPresenterImpl.class);
 		bind(CodeListPanelView.class).to(CodeListPanelViewImpl.class);
 		
 		bind(CodeListDetailView.class).to(CodeListDetailViewImpl.class);
 		bind(CodeListDetailPresenter.class).to(CodeListDetailPresenterImpl.class);
+		
+		install(new GinFactoryModuleBuilder().implement(CodeListPanelPresenter.class, CodeListPanelPresenterImpl.class).build(AssistedInjectionFactory.class));
+	}
+	
+	public interface AssistedInjectionFactory {
+	    public CodeListPanelPresenter createCodeListPanelPresenter(UICodelist codelist);
 	}
 	
 

@@ -12,12 +12,14 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.cotrix.domain.Codelist;
 import org.cotrix.io.map.MapService;
 import org.cotrix.io.map.Outcome;
 import org.cotrix.io.parse.ParseService;
 import org.cotrix.io.tabular.ColumnDirectives;
 import org.cotrix.io.tabular.TableMapDirectives;
 import org.cotrix.io.tabular.csv.CsvParseDirectives;
+import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +39,9 @@ public class CodelistLoader {
 
 	@Inject
 	protected CodelistRepository repository;
+	
+	@Inject
+	protected LifecycleService lifecycleService;
 
 	@Inject
 	protected ParseService service;
@@ -54,10 +59,10 @@ public class CodelistLoader {
 		}
 	}
 
-	public boolean importCodelist(String[] codelist)
+	public boolean importCodelist(String[] codelistInfo)
 	{
-		String resourceName = codelist[0];
-		String codeColumnName = codelist[1];
+		String resourceName = codelistInfo[0];
+		String codeColumnName = codelistInfo[1];
 		logger.trace("importCodelist resourceName: {}, codeColumnName: {}", resourceName, codeColumnName);
 		try {
 			InputStream inputStream = CodelistLoader.class.getResourceAsStream(resourceName);
@@ -89,7 +94,11 @@ public class CodelistLoader {
 				return false;
 			}
 			
-			repository.add(outcome.result());
+			Codelist codelist = outcome.result();
+			
+			repository.add(codelist);
+			lifecycleService.start(codelist.id());
+			
 			return true;
 		} catch(Exception e)
 		{

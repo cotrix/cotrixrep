@@ -1,7 +1,8 @@
 package org.cotrix.web.codelistmanager.client;
 
+//import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinModule.AssistedInjectionFactory;
+import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinModule.AssistedInjectionFactory;
 import org.cotrix.web.codelistmanager.client.presenter.CodeListManagerPresenter;
-import org.cotrix.web.codelistmanager.client.presenter.CodeListPanelPresenter;
 import org.cotrix.web.codelistmanager.client.presenter.CodeListPresenter;
 import org.cotrix.web.share.client.CommonGinModule;
 
@@ -22,6 +23,5 @@ public interface CotrixManagerAppGinInjector extends Ginjector {
 	public CotrixManagerAppController getController();
 	public CodeListPresenter getCodeListPresenter();
 	public CodeListManagerPresenter getCodeListManagerPresenter();
-	
-	public CodeListPanelPresenter getCodeListPanelPresenter();
+	public AssistedInjectionFactory getFactory();
 }

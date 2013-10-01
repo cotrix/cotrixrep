@@ -161,8 +161,11 @@
 			<g:Label ui:field="codelistName" styleName="{style.codelistName}" />
 			<g:FlowPanel styleName="{style.listBoxWrapper}">
 
-				<g:Button styleName="{style.save_inactive}" ui:field="save"	enabled="false">Save</g:Button>
-				<g:Button styleName="{style.save_active}" ui:field="metadata" visible="false">Metadata</g:Button>
+				<g:Button styleName="{style.save_active}" ui:field="save" enabled="true">Save</g:Button>
+				<g:Button styleName="{style.save_active}" ui:field="metadata" visible="true">Metadata</g:Button>
+				<g:Button styleName="{style.save_active}" ui:field="lock" visible="true">Lock</g:Button>
+				<g:Button styleName="{style.save_active}" ui:field="unlock" visible="true">Unlock</g:Button>
+				<g:Button styleName="{style.save_active}" ui:field="seal" visible="true">Seal</g:Button>
 <!--  				<g:ListBox styleName="{style.listbox}">
 					<g:item value='1'>
 						1.0

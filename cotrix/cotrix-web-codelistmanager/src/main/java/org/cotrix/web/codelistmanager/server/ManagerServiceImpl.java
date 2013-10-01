@@ -7,21 +7,34 @@ import java.util.List;
 import java.util.Map;
 
 import static org.cotrix.repository.Queries.*;
+import static org.cotrix.user.dsl.Users.user;
 import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import javax.inject.Inject;
-import javax.servlet.ServletException;
+import static org.cotrix.action.CodelistAction.*;
+import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.*;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+
+import org.cotrix.action.Action;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
+import org.cotrix.user.User;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
+
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
+import org.cotrix.web.share.server.CotrixRemoteServlet;
+import org.cotrix.web.share.server.task.ActionMapper;
+import org.cotrix.web.share.server.task.ContainsTask;
+import org.cotrix.web.share.server.task.Task;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.DataWindow;
@@ -29,10 +42,10 @@ import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.UIAttribute;
 import org.cotrix.web.share.shared.UICode;
 import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.feature.Request;
+import org.cotrix.web.share.shared.feature.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * The server side implementation of the RPC service.
@@ -40,9 +53,31 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  *
  */
 @SuppressWarnings("serial")
-public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerService {
+@ContainsTask
+public class ManagerServiceImpl implements ManagerService {
+	
+	@Produces
+	@Current
+	public User testuser() {
+
+		return user("joe").can(EDIT.cloneFor(Action.any), LOCK.cloneFor(Action.any), UNLOCK.cloneFor(Action.any)).build();
+	}
+	
+	public static class Servlet extends CotrixRemoteServlet {
+
+		@Inject
+		protected ManagerServiceImpl bean;
+
+		@Override
+		public Object getBean() {
+			return bean;
+		}
+	}
 	
 	protected Logger logger = LoggerFactory.getLogger(ManagerServiceImpl.class);
+	
+	@Inject
+	ActionMapper mapper;
 	
 	@Inject
 	CodelistRepository repository;
@@ -53,13 +88,17 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
-	public void init() throws ServletException {
-		super.init();
+	@PostConstruct
+	public void init() {
 		codelistLoader.importAllCodelist();
 		logger.trace("codelist in repository:");
 		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
 		logger.trace("done");
+		
+		mapper.map(EDIT).to(EDIT_METADATA);
+		mapper.map(LOCK).to(LOCK_CODELIST);
+		mapper.map(UNLOCK).to(UNLOCK_CODELIST);
+		mapper.map(SEAL).to(SEAL_CODELIST);
 	}
 	
 	public ArrayList<UICodelist> getAllCodelists() throws IllegalArgumentException {
@@ -188,6 +227,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 	}
 
 	@Override
+	@Task(EDIT)
 	public DataWindow<UICodelist> getCodelists(com.google.gwt.view.client.Range range) throws ManagerServiceException {
 		logger.trace("getCodelists range: {}", range);
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
@@ -204,6 +244,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 	}
 
 	@Override
+	@Task(LOCK)
 	public DataWindow<UICodeListRow> getCodelistRows(String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
 		
@@ -233,5 +274,29 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 			rows.add(row);
 		}
 		return new DataWindow<UICodeListRow>(rows, codelist.codes().size());
+	}
+
+	@Override
+	@Task(LOCK)
+	public Response<Void> saveMessage(String message) {
+		return new Response<Void>();
+	}
+
+	@Override
+	@Task(LOCK)
+	public Response<Void> lock(Request<Void> request) {
+		return new Response<Void>();
+	}
+
+	@Override
+	@Task(UNLOCK)
+	public Response<Void> unlock(Request<Void> request) {
+		return new Response<Void>();
+	}
+
+	@Override
+	@Task(SEAL)
+	public Response<Void> seal(Request<Void> request) {
+		return new Response<Void>();
 	}
 }
