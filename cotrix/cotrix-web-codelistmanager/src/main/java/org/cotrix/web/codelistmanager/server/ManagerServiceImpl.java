@@ -34,6 +34,7 @@ import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.ContainsTask;
+import org.cotrix.web.share.server.task.Id;
 import org.cotrix.web.share.server.task.Task;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModel;
@@ -95,10 +96,10 @@ public class ManagerServiceImpl implements ManagerService {
 		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
 		logger.trace("done");
 		
-		mapper.map(EDIT).to(EDIT_METADATA);
-		mapper.map(LOCK).to(LOCK_CODELIST);
-		mapper.map(UNLOCK).to(UNLOCK_CODELIST);
-		mapper.map(SEAL).to(SEAL_CODELIST);
+		mapper.map(EDIT.getInnerAction()).to(EDIT_METADATA);
+		mapper.map(LOCK.getInnerAction()).to(LOCK_CODELIST);
+		mapper.map(UNLOCK.getInnerAction()).to(UNLOCK_CODELIST);
+		mapper.map(SEAL.getInnerAction()).to(SEAL_CODELIST);
 	}
 	
 	public ArrayList<UICodelist> getAllCodelists() throws IllegalArgumentException {
@@ -227,7 +228,6 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	@Task(EDIT)
 	public DataWindow<UICodelist> getCodelists(com.google.gwt.view.client.Range range) throws ManagerServiceException {
 		logger.trace("getCodelists range: {}", range);
 		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
@@ -244,8 +244,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	@Task(LOCK)
-	public DataWindow<UICodeListRow> getCodelistRows(String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
+	public DataWindow<UICodeListRow> getCodelistRows(@Id String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
 		
 		CodelistQuery<Code> query = allCodes(codelistId);

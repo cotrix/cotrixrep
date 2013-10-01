@@ -4,14 +4,11 @@
 package org.cotrix.web.codelistmanager.client.view;
 
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
-import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
 import org.cotrix.web.share.client.event.FeatureAsyncCallBack;
-import org.cotrix.web.share.client.feature.FeatureBinder;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -19,8 +16,6 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasEnabled;
-import com.google.gwt.user.client.ui.HasVisibility;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -40,7 +35,6 @@ public class CodeListToolbar extends Composite {
 	
 	public CodeListToolbar() {
 		initWidget(uiBinder.createAndBindUi(this));
-		FeatureBinder.bind((HasVisibility)metadata, ManagerUIFeature.VIEW_METADATA);
 	}
 	
 	boolean meta = true;

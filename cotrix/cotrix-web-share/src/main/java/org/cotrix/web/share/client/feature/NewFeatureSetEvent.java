@@ -3,7 +3,6 @@ package org.cotrix.web.share.client.feature;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,7 +25,7 @@ public class NewFeatureSetEvent extends GwtEvent<NewFeatureSetEvent.NewFeatureSe
 
 	public NewFeatureSetEvent(Set<UIFeature> applicationFeatures, Map<String, Set<UIFeature>> codelistsFeatures) {
 		this.applicationFeatures = applicationFeatures;
-		this.codelistsFeatures = codelistsFeatures!=null?codelistsFeatures:Collections.<String, Set<UIFeature>>emptyMap();
+		this.codelistsFeatures = codelistsFeatures;
 	}
 
 	public Set<UIFeature> getApplicationFeatures() {

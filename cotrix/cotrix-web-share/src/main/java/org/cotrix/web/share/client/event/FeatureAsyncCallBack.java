@@ -3,11 +3,15 @@
  */
 package org.cotrix.web.share.client.event;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+
 import org.cotrix.web.share.client.feature.FeatureBus;
 import org.cotrix.web.share.client.feature.NewFeatureSetEvent;
 import org.cotrix.web.share.shared.feature.Response;
+import org.cotrix.web.share.shared.feature.UIFeature;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -52,9 +56,9 @@ public class FeatureAsyncCallBack<T> implements AsyncCallback<Response<T>> {
 
 	@Override
 	public void onSuccess(Response<T> result) {
-		if (result.getApplicationFeatures()!=null) featureBus.fireEvent(new NewFeatureSetEvent(result.getApplicationFeatures(), result.getCodelistsFeatures()));
-		else Log.warn("No features in response");
-		
+		Set<UIFeature> applicationFeatures = result.getApplicationFeatures()!=null?result.getApplicationFeatures():Collections.<UIFeature>emptySet();
+		Map<String, Set<UIFeature>> codelistsFeatures = result.getCodelistsFeatures()!=null?result.getCodelistsFeatures():Collections.<String, Set<UIFeature>>emptyMap();
+		featureBus.fireEvent(new NewFeatureSetEvent(applicationFeatures, codelistsFeatures));
 		innerCallBack.onSuccess(result.getPayload());
 	}
 

@@ -91,7 +91,7 @@
 					);
 			}
 			
-			.save_inactive {
+			.save_active[disabled] {
 				float: right;
 				margin-right: 0px;
 				border: 1px solid #999999;
@@ -153,6 +153,22 @@
 			
 
 	}
+	
+	.blueButton {
+	background-color: #5674b9;
+	border-radius: 5px;
+	border: 1px solid #5674b9;
+	padding: 6px;
+	width: 98px;
+	height: 35px;
+	font-size: 18px;
+	color: #eee;
+}
+
+.blueButton:hover {
+	background-color: #31529d;
+	cursor: pointer;
+}
 		</ui:style>
 	<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
 		<g:FlowPanel>
@@ -161,11 +177,11 @@
 			<g:Label ui:field="codelistName" styleName="{style.codelistName}" />
 			<g:FlowPanel styleName="{style.listBoxWrapper}">
 
-				<g:Button styleName="{style.save_active}" ui:field="save" enabled="true">Save</g:Button>
-				<g:Button styleName="{style.save_active}" ui:field="metadata" visible="true">Metadata</g:Button>
-				<g:Button styleName="{style.save_active}" ui:field="lock" visible="true">Lock</g:Button>
-				<g:Button styleName="{style.save_active}" ui:field="unlock" visible="true">Unlock</g:Button>
-				<g:Button styleName="{style.save_active}" ui:field="seal" visible="true">Seal</g:Button>
+				<g:Button ui:field="save" enabled="true">Save</g:Button>
+				<g:Button ui:field="metadata" visible="true">Metadata</g:Button>
+				<g:Button ui:field="lock" visible="true">Lock</g:Button>
+				<g:Button ui:field="unlock" visible="true">Unlock</g:Button>
+				<g:Button ui:field="seal" visible="true">Seal</g:Button>
 <!--  				<g:ListBox styleName="{style.listbox}">
 					<g:item value='1'>
 						1.0
