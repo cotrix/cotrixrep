@@ -41,4 +41,9 @@ public enum CodelistAction implements Action {
 	public Action cloneFor(String instance) {
 		return innerAction.cloneFor(instance);
 	}
+	
+	public Action getInnerAction()
+	{
+		return innerAction;
+	}
 }
