@@ -61,7 +61,7 @@ public class TaskInterceptor {
 			Action action = taskAnnotation.value();
 			String codelistId = getIdentifier(ctx.getParameters());
 			logger.trace("codelist id: {}", codelistId);
-			if (codelistId!=null) action = action.cloneFor(codelistId);
+			if (codelistId!=null) action = action.on(codelistId);
 
 			TaskOutcome<Object> outcome = engine.perform(action).with(task);
 			Object output = outcome.output();

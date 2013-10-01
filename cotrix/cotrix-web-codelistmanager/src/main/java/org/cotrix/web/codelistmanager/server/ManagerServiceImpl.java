@@ -60,7 +60,7 @@ public class ManagerServiceImpl implements ManagerService {
 	@Current
 	public User testuser() {
 
-		return user("joe").can(EDIT.cloneFor(Action.any), LOCK.cloneFor(Action.any), UNLOCK.cloneFor(Action.any)).build();
+		return user("joe").can(EDIT.on(Action.any), LOCK.on(Action.any), UNLOCK.on(Action.any)).build();
 	}
 	
 	public static class Servlet extends CotrixRemoteServlet {
