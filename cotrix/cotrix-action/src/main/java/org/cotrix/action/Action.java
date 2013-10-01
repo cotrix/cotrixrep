@@ -68,5 +68,11 @@ public interface Action {
 	 * @param instance the instance.
 	 * @return
 	 */
-	Action cloneFor(String instance);
+	Action on(String instance);
+	
+	/**
+	 * Returns an action with the same parts as this action but on no specific instance.
+	 * @return the action
+	 */
+	Action onAny();
 }

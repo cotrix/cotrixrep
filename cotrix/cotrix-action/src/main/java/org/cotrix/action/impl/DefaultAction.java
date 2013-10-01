@@ -63,6 +63,11 @@ public class DefaultAction implements Action {
 	
 	
 	@Override
+	public Action onAny() {
+		return new DefaultAction(this.parts());
+	}
+	
+	@Override
 	public boolean isIn(Action... actions) {
 		
 		return isIn(asList(actions));
@@ -79,7 +84,7 @@ public class DefaultAction implements Action {
 	}
 	
 	@Override
-	public Action cloneFor(String instance) {
+	public Action on(String instance) {
 		return new DefaultAction(this.parts,instance);
 	}
 	
@@ -131,6 +136,8 @@ public class DefaultAction implements Action {
 	private boolean matches(String thisPart, String superPart) {
 		return thisPart.equals(superPart) || superPart==any;
 	}
+	
+	
 	
 	
 	
