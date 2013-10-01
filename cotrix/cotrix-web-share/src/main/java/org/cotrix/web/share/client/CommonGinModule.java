@@ -1,6 +1,9 @@
 package org.cotrix.web.share.client;
 
 import org.cotrix.web.share.client.event.CotrixBus;
+import org.cotrix.web.share.client.event.FeatureAsyncCallBack;
+import org.cotrix.web.share.client.feature.FeatureBinder;
+import org.cotrix.web.share.client.feature.FeatureBus;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
@@ -19,6 +22,8 @@ public class CommonGinModule extends AbstractGinModule {
 	 */
 	protected static EventBus cotrixBus = new SimpleEventBus();
 	
+	protected static EventBus featureBus = new SimpleEventBus();
+	
 	@Provides
 	@Singleton
 	@CotrixBus
@@ -26,9 +31,20 @@ public class CommonGinModule extends AbstractGinModule {
 	{
 		return cotrixBus;
 	}
+	
+	@Provides
+	@Singleton
+	@FeatureBus
+	protected EventBus getFeatureBus()
+	{
+		return featureBus;
+	}
 
 	@Override
 	protected void configure() {
+		
+		requestStaticInjection(FeatureBinder.class);
+		requestStaticInjection(FeatureAsyncCallBack.class);
 	}
 
 }

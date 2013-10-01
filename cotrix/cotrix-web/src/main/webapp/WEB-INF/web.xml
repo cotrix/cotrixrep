@@ -51,7 +51,7 @@
 
 	<servlet>
 		<servlet-name>codelistManagerServlet</servlet-name>
-		<servlet-class>org.cotrix.web.codelistmanager.server.ManagerServiceImpl</servlet-class>
+		<servlet-class>org.cotrix.web.codelistmanager.server.ManagerServiceImpl$Servlet</servlet-class>
 	</servlet>
 
 	<!--<servlet> <servlet-name>codelistPublishServlet</servlet-name> <servlet-class>org.cotrix.web.publish.server.PublishServiceImpl</servlet-class> 
