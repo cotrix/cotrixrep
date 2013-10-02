@@ -2,7 +2,6 @@ package org.cotrix.user.dsl;
 
 import org.cotrix.action.Action;
 import org.cotrix.user.User;
-import org.cotrix.user.impl.DefaultUser;
 import org.cotrix.user.po.UserPO;
 
 public class UserBuilder {
@@ -20,6 +19,6 @@ public class UserBuilder {
 	}
 	
 	public User build() {
-		return new DefaultUser(po);
+		return new User.Private(po);
 	}
 }

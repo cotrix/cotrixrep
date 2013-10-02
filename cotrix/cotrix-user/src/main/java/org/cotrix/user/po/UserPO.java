@@ -4,20 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.action.Action;
+import org.cotrix.domain.po.EntityPO;
 
-public class UserPO {
+public class UserPO extends EntityPO {
 
-	private final String id;
 	private final String name;
 	private final List<Action> permissions = new ArrayList<Action>();
 	
 	public UserPO(String id,String name) {
-		this.id=id;
+		super(id);
 		this.name=name;
-	}
-	
-	public String id() {
-		return id;
 	}
 	
 	public String name() {

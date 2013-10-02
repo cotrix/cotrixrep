@@ -1,62 +1,65 @@
 package org.acme;
 
-import static org.junit.Assert.*;
+import static junit.framework.Assert.*;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import java.io.Serializable;
+
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.Session;
+import org.cotrix.common.cdi.BeanSession;
 import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.ContextController;
 import org.jglue.cdiunit.DummyHttpRequest;
+import org.jglue.cdiunit.ProducesAlternative;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+@SuppressWarnings("serial")
 @RunWith(CdiRunner.class)
 public class SessionTest {
 
 	@Inject
-	Service service;
-	
+	BeanSession session;
 	
 	@Inject
-	ContextController contextController; 
-
+	Bean bean;
 	
-	@Ignore
+	@Inject
+	ContextController scopes;
+	
+	@Ignore //waiting for cdi-unit 2.1.2
 	@Test
-	public void sessionScopeJustWorks() {
+	public void sessionScenario() {
 
-		contextController.openSession(new DummyHttpRequest());
-
-		System.out.println("touching service");
+		scopes.openRequest(new DummyHttpRequest());
 		
-		service.session().data().put("one",1);
+		//producer cannot produce yet
+		try {
+			bean.toString();
+			fail();
+		}
+		catch(IllegalStateException e){}
 		
-		contextController.closeSession();
+		//create data to be produced
+		session.add(Bean.class,new Bean());
 		
-		contextController.openSession(new DummyHttpRequest()); 
-
-		assertFalse(service.session().data().containsKey("one"));
+		//access now succeeds
+		bean.toString();
 		
-		contextController.closeSession();
+		scopes.closeRequest();
+		
+		scopes.closeSession();
+		
 	}
 	
-	@ApplicationScoped
-	static class Service {
+	@Produces @ProducesAlternative @SessionScoped
+	Bean sessionBeanProducer(BeanSession session) {
 		
-		@Inject
-		Session session;
-		
-		Session session() {
-			return session;
-		}
-		
-		@PostConstruct
-		public void init() {
-			System.out.println(session.getClass());
-		}
+		return session.get(Bean.class);
 	}
+	
+	static class Bean implements Serializable {}
 }

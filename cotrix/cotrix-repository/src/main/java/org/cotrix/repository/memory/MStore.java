@@ -47,7 +47,7 @@ public class MStore {
 		
 		objectsOf(type).put(object.id(),object);
 		
-		log.info("added {} ({})",object.getClass(),object.id());
+		log.info("added a {} ({})",object.getClass().getName(),object.id());
 		
 	}
 	
