@@ -49,7 +49,7 @@ public interface User extends Identified {
 		
 		@Override
 		public Private copy(IdGenerator generator) {
-			UserPO po = new UserPO(generator.generateId(), name);
+			UserPO po = new UserPO(name);
 			po.setPermissions(permissions);
 			return new Private(po);
 		}

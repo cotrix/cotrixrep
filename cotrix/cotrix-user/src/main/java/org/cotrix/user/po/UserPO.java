@@ -8,11 +8,14 @@ import org.cotrix.domain.po.EntityPO;
 
 public class UserPO extends EntityPO {
 
-	private final String name;
+	private String name;
 	private final List<Action> permissions = new ArrayList<Action>();
 	
-	public UserPO(String id,String name) {
+	public UserPO(String id) {
 		super(id);
+	}
+	
+	public void setName(String name) {
 		this.name=name;
 	}
 	

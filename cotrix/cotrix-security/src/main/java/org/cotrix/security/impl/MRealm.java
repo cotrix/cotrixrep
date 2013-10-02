@@ -20,7 +20,6 @@ public class MRealm implements Realm<NameAndPassword> {
 	private static Logger log = LoggerFactory.getLogger(MRealm.class);
 	
 	private Map<String,String> pwds = new HashMap<String,String>();
-	private Map<String,User> identities = new HashMap<String,User>();
 	
 	
 	@PostConstruct
@@ -28,10 +27,8 @@ public class MRealm implements Realm<NameAndPassword> {
 	
 		log.info("loading predefined users");
 		
-		for (User user : PredefinedUsers.values) {
-			identities.put(user.name(),user);
-			pwds.put(user.name(),user.name());
-		}
+		for (User user : PredefinedUsers.values)
+			pwds.put(user.id(),user.id());
 	}
 	
 	@Override
@@ -43,9 +40,8 @@ public class MRealm implements Realm<NameAndPassword> {
 	public String login(NameAndPassword token) {
 		
 		String password = pwds.get(token.name());
-		User user = identities.get(token.name());
-
 		
-		return password!=null && password.equals(token.password())? user.id():null;
+		
+		return password!=null && password.equals(token.password())? token.name():null;
 	}
 }

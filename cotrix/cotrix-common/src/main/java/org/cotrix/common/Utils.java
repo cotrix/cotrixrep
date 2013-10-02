@@ -37,6 +37,21 @@ public class Utils {
 			throw new IllegalArgumentException(name+" is empty");
 	}
 	
+	
+	/**
+	 * Throws an exception if a given array with a given name is empty.
+	 * @param name the name
+	 * @param a the array
+	 * @throws IllegalArgumentException if the array is null
+	 */
+	public static void notEmpty(String name, Object[] a) throws IllegalArgumentException {
+		
+		notNull(name,a);
+		
+		if (a.length==0)
+			throw new IllegalArgumentException(name+" is empty");
+	}
+	
 	/**
 	 * Throws an exception if a given string with a given name is null or empty.
 	 * @param name the name
@@ -63,13 +78,26 @@ public class Utils {
 	 * Throws an exception if a given collection of a strings with a given name is null, empty, or contains null or empty elements.
 	 * @param name the name
 	 * @param c the collection
-	 * @throws IllegalArgumentException if the collection is null or emopt
+	 * @throws IllegalArgumentException if the collection is null or empty
 	 */
 	public static void valid(String name, Collection<String> c) throws IllegalArgumentException {
 		notNull(name, c);
 		notEmpty(name,c);
 		for (String e : c)
 			valid(name+"'s element", e);
+	}
+	
+	
+	/**
+	 * Throws an exception if a given array with a given name is null, empty, or contains null elements.
+	 * @param name the name
+	 * @param a the array
+	 * @throws IllegalArgumentException if the array is null or empty
+	 */
+	public static void valid(String name, Object[] a) throws IllegalArgumentException {
+		notEmpty(name,a);
+		for (Object e : a)
+			notNull(name+"'s element", e);
 	}
 	
 	
@@ -84,30 +112,47 @@ public class Utils {
 		valid(text,name.getLocalPart());
 	}
 	
+	/**
+	 * Return a clone of a given name.
+	 * @param name the name
+	 * @return the clone
+	 */
 	public static QName copyName(QName name) {
 		return new QName(name.getNamespaceURI(),name.getLocalPart());
 	}
 	
 	
-	public static <T> T reveal(Object publicObject, Class<T> privateClass) {
+	/**
+	 * Reveals a given runtime type of a given object.
+	 * @param o the object
+	 * @param type the type
+	 * @return the object under the revealed type
+	 */
+	public static <T> T reveal(Object o, Class<T> type) {
 		
-		notNull("object",publicObject);
+		notNull("object",o);
 		
 		try {
-			return privateClass.cast(publicObject);
+			return type.cast(o);
 		}
 		catch(ClassCastException e) {
-			throw new IllegalArgumentException("expected a "+privateClass+ "found instead a "+publicObject.getClass());
+			throw new IllegalArgumentException("expected a "+type+ "found instead a "+o.getClass());
 		}
 	}
 	
-	public static <PUBLIC, PRIVATE extends PUBLIC > List<PRIVATE> reveal(Iterable<? extends PUBLIC> publicObjects, Class<PRIVATE> privateClass) {
+	/**
+	 * Reveals a given runtime type for all the objects in an {@link Iterable}.
+	 * @param objects the iterable
+	 * @param type the runtime type
+	 * @return the objects under the revealed type
+	 */
+	public static <PUBLIC, PRIVATE extends PUBLIC > List<PRIVATE> reveal(Iterable<? extends PUBLIC> objects, Class<PRIVATE> privateClass) {
 		
-		notNull("objects",publicObjects);
+		notNull("objects",objects);
 		
 		List<PRIVATE> privates = new ArrayList<PRIVATE>();
 		
-		for (PUBLIC publicObject : publicObjects)
+		for (PUBLIC publicObject : objects)
 			privates.add(reveal(publicObject,privateClass));
 		
 		return privates;
