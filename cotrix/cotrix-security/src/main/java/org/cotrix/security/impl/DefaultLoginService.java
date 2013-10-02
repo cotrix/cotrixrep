@@ -18,6 +18,7 @@ import org.cotrix.security.LoginService;
 import org.cotrix.security.Realm;
 import org.cotrix.security.Token;
 import org.cotrix.security.TokenCollector;
+import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.user.User;
 
 @ApplicationScoped
@@ -51,8 +52,14 @@ public class DefaultLoginService implements LoginService {
 			//from credentials to an identity
 			String identity = identifyFrom(token);
 			
+			if (identity==null)
+				throw new UnknownUserException("unknown user for token "+token);
+			
 			//from identity to currentUser
 			user = users.lookup(identity);
+			
+			if (user==null)
+				throw new UnknownUserException("unknown user "+identity);
 		}
 		
 		
@@ -71,7 +78,7 @@ public class DefaultLoginService implements LoginService {
 		catch(IllegalStateException e) {
 
 			//this should never happen: let's be more specific
-			throw new IllegalAccessError("a protected resource has passed the barrier without an authenticated currentUser");
+			throw new IllegalAccessError("a protected resource has passed through the barrier without an authenticated user");
 			
 		}		
 	}
@@ -94,6 +101,7 @@ public class DefaultLoginService implements LoginService {
 		Iterator<Realm<?>> it = realms.iterator();
 		
 		String id = null;
+		
 		search: while (it.hasNext() && id==null) {
 			
 			@SuppressWarnings("unchecked")
@@ -105,10 +113,6 @@ public class DefaultLoginService implements LoginService {
 					break search;
 			}
 		}
-		
-
-		if (id==null)
-			throw new RuntimeException("unknown user for "+token);
 		
 		return id;
 	}
