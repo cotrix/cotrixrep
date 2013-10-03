@@ -1,7 +1,7 @@
 package org.cotrix.domain.dsl.builder;
 
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.trait.Change.*;
-import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,7 +61,7 @@ public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause
 	@Override
 	public FinalClause target(Codelist target) {
 		
-		notNull(target);
+		notNull("codelist",target);
 
 		if (target.id()==null)
 			throw new IllegalArgumentException("cannot link to an unidentified codelist");

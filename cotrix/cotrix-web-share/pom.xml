@@ -21,9 +21,20 @@
 			<artifactId>gwt-user</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.allen-sauer.gwt.log</groupId>
+			<artifactId>gwt-log</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.google.gwt.inject</groupId>
 			<artifactId>gin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-engine</artifactId>
 		</dependency>
 	</dependencies>
 

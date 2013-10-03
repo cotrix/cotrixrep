@@ -1,10 +1,10 @@
 package org.cotrix.lifecycle.impl;
 
-import static org.cotrix.lifecycle.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import java.util.Collection;
 
-import org.cotrix.lifecycle.Action;
+import org.cotrix.action.Action;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleEvent;
 import org.cotrix.lifecycle.State;

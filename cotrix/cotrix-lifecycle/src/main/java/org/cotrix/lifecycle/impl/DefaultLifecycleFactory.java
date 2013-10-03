@@ -1,10 +1,10 @@
 package org.cotrix.lifecycle.impl;
 
-import static org.cotrix.lifecycle.Action.*;
+import static org.cotrix.action.CodelistAction.*;
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
-import static org.cotrix.lifecycle.utils.Utils.*;
 
-import org.cotrix.lifecycle.Action;
+import org.cotrix.action.Action;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleFactory;
 import org.cotrix.lifecycle.State;
@@ -31,27 +31,27 @@ public class DefaultLifecycleFactory implements LifecycleFactory {
 		valid("resource identifier",id);
 		
 		try {
-			return new S4JLifecycle(name(), id, machine());
+			return new S4JLifecycle(name(), id, machine(id));
 		} catch (Exception e) {
 			throw new RuntimeException("error creating lifecycle", e);
 		}
 	}
 
 	//helper
-	private StateMachine<State, Action> machine() throws Exception {
+	private StateMachine<State, Action> machine(String id) throws Exception {
 		
 		StateMachine<State, Action> machine = new StateMachine<State, Action>(draft);
 		
 		machine.Configure(draft)
-						.PermitReentry(edit)
-					    .Permit(lock,locked)
-					    .Permit(seal,sealed);
+						.PermitReentry(EDIT.on(id))
+					    .Permit(LOCK.on(id),locked)
+					    .Permit(SEAL.on(id),sealed);
 		
 		machine.Configure(locked)
-						.Permit(unlock, draft);
+						.Permit(UNLOCK.on(id), draft);
 		
 		return machine;
 	}
 
-	
+
 }

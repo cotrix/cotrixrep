@@ -9,6 +9,8 @@ import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.UICode;
 import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.feature.Request;
+import org.cotrix.web.share.shared.feature.Response;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -35,6 +37,14 @@ public interface ManagerService extends RemoteService {
 	DataWindow<UICodelist> getCodelists(Range range) throws ManagerServiceException;
 	DataWindow<UICodeListRow> getCodelistRows(String codelistId, Range range) throws ManagerServiceException;
 	
+
 	CodeListMetadata getMetadata(String codelistId) throws ManagerServiceException;
 	void saveMetadata(String codelistId, CodeListMetadata metadata) throws ManagerServiceException;
+
+	Response<Void> saveMessage(String message); 
+	
+	Response<Void> lock(Request<Void> request);
+	Response<Void> unlock(Request<Void> request);
+	Response<Void> seal(Request<Void> request);
+
 }

@@ -20,6 +20,7 @@ public class CotrixWebViewImpl extends Composite implements CotrixWebView {
 	private static CotrixMainPanelUiBinder uiBinder = GWT.create(CotrixMainPanelUiBinder.class);
 	
 	@UiField FlowPanel menu;
+	@UiField FlowPanel userBar;
 	@UiField DeckLayoutPanel body;
 	
 	public CotrixWebViewImpl() {
@@ -28,6 +29,11 @@ public class CotrixWebViewImpl extends Composite implements CotrixWebView {
 	
 	public FlowPanel getMenuPanel() {
 		return menu;
+	}
+	
+	@Override
+	public FlowPanel getUserBarPanel() {
+		return userBar;
 	}
 
 	public DeckLayoutPanel getModulesPanel() {

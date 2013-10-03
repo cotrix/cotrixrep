@@ -3,6 +3,7 @@ package org.cotrix.web.client;
 import java.util.EnumMap;
 
 import org.cotrix.web.client.presenter.CotrixWebPresenter;
+import org.cotrix.web.client.presenter.UserBarPresenter;
 import org.cotrix.web.client.view.Home;
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
@@ -39,6 +40,8 @@ public class AppControllerImpl implements AppController {
 		
 		initMenu();
 		
+		initUserBar();
+		
 		Home home = new Home();
 		addModule(home);
 		
@@ -52,7 +55,7 @@ public class AppControllerImpl implements AppController {
 		cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
 		cotrixPublishAppController.go(view.getBody());*/
 		
-		showModule(CotrixModule.MANAGE);
+		showModule(CotrixModule.HOME);
 	}
 	
 	protected void bind()
@@ -71,6 +74,12 @@ public class AppControllerImpl implements AppController {
 		CotrixMenuGinInjector menuInjector = CotrixMenuGinInjector.INSTANCE;
 		MenuPresenter menuPresenter = menuInjector.getMenuPresenter();
 		cotrixWebPresenter.setMenu(menuPresenter);
+	}
+	
+	protected void initUserBar()
+	{
+		UserBarPresenter presenter = AppGinInjector.INSTANCE.getPresenter();
+		cotrixWebPresenter.setUserBar(presenter);
 	}
 	
 	protected void addModule(CotrixModuleController controller)

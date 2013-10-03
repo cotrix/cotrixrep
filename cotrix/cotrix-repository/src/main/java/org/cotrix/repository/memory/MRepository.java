@@ -3,8 +3,8 @@ package org.cotrix.repository.memory;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.common.Utils;
 import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.utils.Utils;
 import org.cotrix.repository.Repository;
 import org.cotrix.repository.query.Query;
 

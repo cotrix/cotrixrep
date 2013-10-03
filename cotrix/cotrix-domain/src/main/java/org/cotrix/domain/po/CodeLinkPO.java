@@ -1,6 +1,6 @@
 package org.cotrix.domain.po;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import org.cotrix.domain.Codelink;
 import org.cotrix.domain.CodelistLink;
@@ -31,7 +31,7 @@ public final class CodeLinkPO extends AttributedPO {
 
 	public void setTargetId(String id) {
 
-		notNull(id);
+		notNull("id",id);
 
 		this.targetId = id;
 	}
@@ -42,7 +42,7 @@ public final class CodeLinkPO extends AttributedPO {
 
 	public void setDefinition(CodelistLink.Private definition) {
 		
-		notNull(definition);
+		notNull("definition",definition);
 
 		propagateChangeFrom(definition);
 
@@ -51,7 +51,7 @@ public final class CodeLinkPO extends AttributedPO {
 	
 	public void setDefinition(CodelistLink definition) {
 		
-		notNull(definition);
+		notNull("definition",definition);
 
 		setDefinition(reveal(definition,CodelistLink.Private.class));
 	}

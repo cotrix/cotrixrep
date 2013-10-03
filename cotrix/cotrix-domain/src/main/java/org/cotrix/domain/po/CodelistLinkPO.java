@@ -1,6 +1,6 @@
 package org.cotrix.domain.po;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import org.cotrix.domain.CodelistLink;
 
@@ -24,7 +24,7 @@ public class CodelistLinkPO extends NamedPO {
 	}
 	
 	public void setTargetId(String id) {
-		notNull(id);
+		notNull("id",id);
 		this.targetId=id;
 	}
 }

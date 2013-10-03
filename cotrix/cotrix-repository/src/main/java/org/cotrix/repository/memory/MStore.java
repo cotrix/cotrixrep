@@ -1,6 +1,6 @@
 package org.cotrix.repository.memory;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class MStore {
 	 */
 	public <T extends Identified.Abstract<T>> void add(T object, Class<T> type) {
 
-		notNull(object);
+		notNull("element",object);
 
 		if (object.isChangeset())
 			throw new IllegalArgumentException(type.getSimpleName()+" instance is a changeset and cannot be added");
@@ -47,7 +47,7 @@ public class MStore {
 		
 		objectsOf(type).put(object.id(),object);
 		
-		log.info("added {} ({})",object.getClass(),object.id());
+		log.info("added a {} ({})",object.getClass().getName(),object.id());
 		
 	}
 	
@@ -72,7 +72,7 @@ public class MStore {
 	 */
 	public <T extends Identified.Abstract<T>> void update(T changeset, Class<T> type) {
 		
-		notNull(changeset);
+		notNull("changeset",changeset);
 		
 		if (!changeset.isChangeset())
 			throw new IllegalArgumentException(type.getSimpleName()+" instance is a not changeset and cannot be used to update");
@@ -96,7 +96,7 @@ public class MStore {
 		
 		valid("the identifier of this "+type.getSimpleName()+"'s instance",id);
 		
-		notNull(type);
+		notNull("type",type);
 		
 		if (objectsOf(type).remove(id)==null)
 			throw new IllegalStateException("unkown object "+id+" of type "+type);

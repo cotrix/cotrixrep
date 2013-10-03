@@ -19,8 +19,11 @@
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX'>
-		<g:north size='70'>
+		<g:north size='60'>
 			<g:FlowPanel ui:field="menu" />
+		</g:north>
+		<g:north size='20'>
+			<g:FlowPanel ui:field="userBar" />
 		</g:north>
 		<g:center>
 			<g:ScrollPanel>

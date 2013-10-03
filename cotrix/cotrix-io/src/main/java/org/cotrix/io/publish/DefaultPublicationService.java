@@ -1,6 +1,6 @@
 package org.cotrix.io.publish;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

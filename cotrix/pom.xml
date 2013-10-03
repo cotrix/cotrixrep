@@ -23,6 +23,7 @@
 		<module>cotrix-web-share</module>
 		<module>cotrix-web-publish</module>
 
+		<module>cotrix-common</module>
 		<module>cotrix-repository</module>
 		<module>cotrix-domain</module>
 		<module>cotrix-io</module>
@@ -31,6 +32,8 @@
 		<module>cotrix-user</module>
 		<module>cotrix-engine</module>
 		<module>cotrix-security</module>
+		<module>cotrix-action</module>
+
 	</modules>
 
 	<repositories>
@@ -72,20 +75,20 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
-        <repository>
-          <id>jboss-public-repository-group</id>
-          <name>JBoss Public Maven Repository Group</name>
-          <url>http://repository.jboss.org/nexus/content/groups/public</url>
-          <layout>default</layout>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-            <updatePolicy>never</updatePolicy>
-          </snapshots>
-        </repository>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
 	</repositories>
 
 
@@ -96,6 +99,12 @@
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-domain</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -103,6 +112,37 @@
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-io</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-user</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-engine</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-action</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-lifecycle</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-security</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -213,7 +253,7 @@
 				<version>1.0.0</version>
 				<scope>test</scope>
 			</dependency>
-			
+
 			<!-- required by jeeunit-weld-se -->
 			<dependency>
 				<groupId>org.jboss.weld.se</groupId>
@@ -221,6 +261,14 @@
 				<version>2.0.3.Final</version>
 				<scope>test</scope>
 			</dependency>
+
+			<dependency>
+				<groupId>org.jglue.cdi-unit</groupId>
+				<artifactId>cdi-unit</artifactId>
+				<version>2.1.1</version>
+				<scope>test</scope>
+			</dependency>
+
 
 			<dependency>
 				<groupId>ch.qos.logback</groupId>

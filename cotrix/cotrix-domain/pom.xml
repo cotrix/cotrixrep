@@ -7,4 +7,12 @@
   </parent>
   <artifactId>cotrix-domain</artifactId>
   <packaging>jar</packaging>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>org.cotrix</groupId>
+  		<artifactId>cotrix-common</artifactId>
+  	</dependency>
+  </dependencies>
+  
 </project>

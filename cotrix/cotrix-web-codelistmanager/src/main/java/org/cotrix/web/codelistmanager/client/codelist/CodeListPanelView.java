@@ -23,5 +23,7 @@ public interface CodeListPanelView {
 	void setMetadataProvider(AsyncDataProvider<CodeListMetadata> dataProvider);
 
 	void setMetadataEditor(DataEditor<CodeListMetadata> editor);
+	
+	CodeListToolbar getToolBar();
 
 }

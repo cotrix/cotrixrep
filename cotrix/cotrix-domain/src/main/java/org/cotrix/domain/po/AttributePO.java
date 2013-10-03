@@ -1,12 +1,11 @@
 package org.cotrix.domain.po;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.utils.Constants;
-import org.cotrix.domain.utils.Utils;
 
 /**
  * Initialisation parameters for {@link Attribute}s.
@@ -42,7 +41,7 @@ public final class AttributePO extends EntityPO {
 	 */
 	public void setName(QName name) {
 		
-		Utils.valid(name);
+		valid("name",name);
 		
 		this.name = name;
 	}	

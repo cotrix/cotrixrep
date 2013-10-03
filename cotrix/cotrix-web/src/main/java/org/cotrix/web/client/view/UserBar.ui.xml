@@ -1,0 +1,30 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+
+	.userLabel {
+		color: gray;
+	}
+	
+		.userName {
+		padding-left:5px;
+		font-weight: bold;
+		color: black;
+	}
+	
+	.actionlabel {
+		padding-left:10px;
+		font-weight: bold;
+		color: blue;
+		cursor: pointer;
+	}
+	</ui:style>
+	<g:FlowPanel>
+	<g:InlineHTML styleName="{style.userLabel}">User:  </g:InlineHTML>
+	<g:InlineLabel styleName="{style.userName}" ui:field="username">none</g:InlineLabel>
+	<g:InlineLabel styleName="{style.actionlabel}" ui:field="login">login</g:InlineLabel>
+	<g:InlineLabel styleName="{style.actionlabel}" ui:field="logout">logout</g:InlineLabel>
+	</g:FlowPanel>
+
+</ui:UiBinder> 

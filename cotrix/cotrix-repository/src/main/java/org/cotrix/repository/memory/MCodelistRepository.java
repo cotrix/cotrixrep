@@ -4,12 +4,12 @@ import java.util.UUID;
 
 import javax.inject.Singleton;
 
+import org.cotrix.common.Utils;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelink;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.CodelistLink;
-import org.cotrix.domain.utils.Utils;
 import org.cotrix.repository.CodelistRepository;
 
 /**

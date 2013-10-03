@@ -1,12 +1,13 @@
 package org.cotrix.domain.po;
 
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import java.util.Collections;
 import java.util.List;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Container;
+import org.cotrix.domain.trait.Attributed;
 /**
  * Partial implementation of initialisation parameters for {@link Attributed} entities.
  * 
@@ -35,7 +36,7 @@ public class AttributedPO extends EntityPO {
 	 */
 	public void setAttributes(Container.Private<Attribute.Private> attributes) {
 		
-		notNull(attributes);
+		notNull("attributes",attributes);
 	
 		propagateChangeFrom(attributes);
 		
@@ -49,7 +50,7 @@ public class AttributedPO extends EntityPO {
 	 */
 	public void setAttributes(List<? extends Attribute> attributes) {
 		
-		notNull(attributes);
+		notNull("attributes",attributes);
 		
 		//switches from public to private interfaces
 		Container.Private<Attribute.Private> privateAttributes = new Container.Private<Attribute.Private>(reveal(attributes,Attribute.Private.class));

@@ -3,9 +3,10 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
 	<ui:with field='res'
 		type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
-	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
-		field="common" />
 	<ui:style>
+			
+
+
 			
 			.headerPanel {
 				border-top-right-radius: 5px;
@@ -29,7 +30,15 @@
 				filter: literal("progid:DXImageTransform.Microsoft.gradient(endColorstr='#e5e5e5', GradientType=0)"
 					); /* IE6-9 */
 			}
-
+			
+			.nav {
+				cursor: pointer;
+				float: left;
+			}
+			
+			img.nav {
+				height: 35px;
+			}
 			
 			.codelistName {
 				float: left;
@@ -37,6 +46,69 @@
 				color: #999;
 				cursor: pointer;
 				line-height: 35px;
+			}
+			
+			.save_active {
+				float: right;
+				margin-right: 0px;
+				border: 1px solid #3063a1;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				width: 80px;
+				font-size: 12px;
+				font-family: arial, helvetica, sans-serif;
+				padding: 4px 4px 4px 4px;
+				position: relative;
+				top: 3px;
+				text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+				font-weight: bold;
+				text-align: center;
+				color: #E8E8E8;
+				background-color: #427EC7;
+				background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #427EC7),
+					color-stop(100%, #518EE2));
+				background-image: -webkit-linear-gradient(top, #427EC7, #518EE2);
+				background-image: -moz-linear-gradient(top, #427EC7, #518EE2);
+				background-image: -ms-linear-gradient(top, #427EC7, #518EE2);
+				background-image: -o-linear-gradient(top, #427EC7, #518EE2);
+				background-image: linear-gradient(top, #427EC7, #518EE2);
+				filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#427EC7, endColorstr=#518EE2)"
+					);
+			}
+			
+			.save_active:hover {
+				border: 1px solid #254d7e;
+				background-color: #3165a5;
+				background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3165a5),
+					color-stop(100%, #2572db));
+				background-image: -webkit-linear-gradient(top, #3165a5, #2572db);
+				background-image: -moz-linear-gradient(top, #3165a5, #2572db);
+				background-image: -ms-linear-gradient(top, #3165a5, #2572db);
+				background-image: -o-linear-gradient(top, #3165a5, #2572db);
+				background-image: linear-gradient(top, #3165a5, #2572db);
+				filter: literal("progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#3165a5, endColorstr=#2572db)"
+					);
+			}
+			
+			.save_active[disabled] {
+				float: right;
+				margin-right: 0px;
+				border: 1px solid #999999;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				width: 80px;
+				font-size: 12px;
+				font-family: arial, helvetica, sans-serif;
+				padding: 4px 4px 4px 4px;
+				position: relative;
+				top: 3px;
+				text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+				font-weight: bold;
+				text-align: center;
+				color: #E8E8E8;
+				background-color: #c7c7c7;
 			}
 			
 			.metadata {
@@ -81,13 +153,54 @@
 			
 
 	}
+	
+	.blueButton {
+	background-color: #5674b9;
+	border-radius: 5px;
+	border: 1px solid #5674b9;
+	padding: 6px;
+	width: 98px;
+	height: 35px;
+	font-size: 18px;
+	color: #eee;
+}
+
+.blueButton:hover {
+	background-color: #31529d;
+	cursor: pointer;
+}
 		</ui:style>
 	<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
 		<g:FlowPanel>
+			<!-- <g:Image url="{res.nav_collapse_left.getSafeUri.asString}"
+				styleName="{style.nav}" ui:field="nav"></g:Image> -->
 			<g:Label ui:field="codelistName" styleName="{style.codelistName}" />
 			<g:FlowPanel styleName="{style.listBoxWrapper}">
-				<g:Button styleName="{common.css.blueButton}" ui:field="metadata" visible="true">Metadata</g:Button>
+
+				<g:Button ui:field="save" enabled="true">Save</g:Button>
+				<g:Button ui:field="metadata" visible="true">Metadata</g:Button>
+				<g:Button ui:field="lock" visible="true">Lock</g:Button>
+				<g:Button ui:field="unlock" visible="true">Unlock</g:Button>
+				<g:Button ui:field="seal" visible="true">Seal</g:Button>
+<!--  				<g:ListBox styleName="{style.listbox}">
+					<g:item value='1'>
+						1.0
+					</g:item>
+					<g:item value='2'>
+						1.1
+					</g:item>
+					<g:item value='3'>
+						1.9
+					</g:item>
+					<g:item value='4'>
+						2.1
+					</g:item>
+					<g:item value='5'>
+						2.6
+					</g:item>
+				</g:ListBox>-->
 			</g:FlowPanel>
+			<!--  <g:Label ui:field="version" styleName="{style.labelversion}">Version</g:Label>-->
 		</g:FlowPanel>
 	</g:FlowPanel>
 </ui:UiBinder> 

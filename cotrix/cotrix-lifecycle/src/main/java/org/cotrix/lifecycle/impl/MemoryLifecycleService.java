@@ -1,6 +1,6 @@
 package org.cotrix.lifecycle.impl;
 
-import static org.cotrix.lifecycle.utils.Utils.*;
+import static org.cotrix.common.Utils.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ public class MemoryLifecycleService implements LifecycleService {
 	private Event<LifecycleEvent> event;
 	
 	@Inject 
-	LifecycleRegistry registry;
+	private LifecycleRegistry registry;
 	
 	private final Map<String,Lifecycle> instances = new HashMap<String, Lifecycle>();
 	

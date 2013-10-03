@@ -84,4 +84,9 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 		metadata.setEditor(editor);
 	}
 
+	@Override
+	public CodeListToolbar getToolBar()
+	{
+		return toolbar;
+	}
 }

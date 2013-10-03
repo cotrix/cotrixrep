@@ -2,10 +2,10 @@ package org.cotrix.repository.memory;
 
 import java.util.UUID;
 
+import org.cotrix.common.Utils;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.utils.Utils;
 import org.cotrix.repository.CodebagRepository;
 import org.cotrix.repository.CodelistRepository;
 

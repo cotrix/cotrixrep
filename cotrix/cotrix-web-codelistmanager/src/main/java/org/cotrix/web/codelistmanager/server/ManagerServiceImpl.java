@@ -1,5 +1,11 @@
 package org.cotrix.web.codelistmanager.server;
 
+import static org.cotrix.action.CodelistAction.*;
+import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.trait.Change.*;
+import static org.cotrix.repository.Queries.*;
+import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,12 +13,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+
 import static org.cotrix.repository.Queries.*;
 import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.servlet.ServletException;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
@@ -27,6 +34,11 @@ import org.cotrix.web.codelistmanager.shared.CodeListAttribute;
 import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
+import org.cotrix.web.share.server.CotrixRemoteServlet;
+import org.cotrix.web.share.server.task.ActionMapper;
+import org.cotrix.web.share.server.task.ContainsTask;
+import org.cotrix.web.share.server.task.Id;
+import org.cotrix.web.share.server.task.Task;
 import org.cotrix.web.share.shared.CSVFile;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.DataWindow;
@@ -34,10 +46,10 @@ import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.UIAttribute;
 import org.cotrix.web.share.shared.UICode;
 import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.feature.Request;
+import org.cotrix.web.share.shared.feature.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * The server side implementation of the RPC service.
@@ -45,9 +57,24 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  *
  */
 @SuppressWarnings("serial")
-public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerService {
+@ContainsTask
+public class ManagerServiceImpl implements ManagerService {
+	
+	public static class Servlet extends CotrixRemoteServlet {
+
+		@Inject
+		protected ManagerServiceImpl bean;
+
+		@Override
+		public Object getBean() {
+			return bean;
+		}
+	}
 	
 	protected Logger logger = LoggerFactory.getLogger(ManagerServiceImpl.class);
+	
+	@Inject
+	ActionMapper mapper;
 	
 	@Inject
 	CodelistRepository repository;
@@ -58,12 +85,17 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void init() throws ServletException {
-		super.init();
+	@PostConstruct
+	public void init() {
 		codelistLoader.importAllCodelist();
 		logger.trace("codelist in repository:");
 		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
 		logger.trace("done");
+		
+		mapper.map(EDIT.getInnerAction()).to(EDIT_METADATA);
+		mapper.map(LOCK.getInnerAction()).to(LOCK_CODELIST);
+		mapper.map(UNLOCK.getInnerAction()).to(UNLOCK_CODELIST);
+		mapper.map(SEAL.getInnerAction()).to(SEAL_CODELIST);
 	}
 	
 	public ArrayList<UICodelist> getAllCodelists() throws IllegalArgumentException {
@@ -209,7 +241,7 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 	}
 
 	@Override
-	public DataWindow<UICodeListRow> getCodelistRows(String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
+	public DataWindow<UICodeListRow> getCodelistRows(@Id String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
 		
 		CodelistQuery<Code> query = allCodes(codelistId);
@@ -276,5 +308,28 @@ public class ManagerServiceImpl extends RemoteServiceServlet implements ManagerS
 		Codelist changeset = codelist(codelistId).name(metadata.getName()).version(metadata.getVersion()).as(MODIFIED).build();
 		//TODO attributes?
 		repository.update(changeset);
+	}
+	
+	@Task(LOCK)
+	public Response<Void> saveMessage(String message) {
+		return new Response<Void>();
+	}
+
+	@Override
+	@Task(LOCK)
+	public Response<Void> lock(Request<Void> request) {
+		return new Response<Void>();
+	}
+
+	@Override
+	@Task(UNLOCK)
+	public Response<Void> unlock(Request<Void> request) {
+		return new Response<Void>();
+	}
+
+	@Override
+	@Task(SEAL)
+	public Response<Void> seal(Request<Void> request) {
+		return new Response<Void>();
 	}
 }

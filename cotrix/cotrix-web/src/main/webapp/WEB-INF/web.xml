@@ -5,10 +5,10 @@
 
 <web-app>
 
-	<context-param>
-		<param-name>org.jboss.weld.servlet.ConversationFilter.registered</param-name>
-		<param-value>true</param-value>
-	</context-param>
+<!-- 	<context-param> -->
+<!-- 		<param-name>org.jboss.weld.servlet.ConversationFilter.registered</param-name> -->
+<!-- 		<param-value>true</param-value> -->
+<!-- 	</context-param> -->
 
 	<listener>
 		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
@@ -25,7 +25,12 @@
 	<listener>
 		<listener-class>org.cotrix.web.portlet.CotrixServletContextListener</listener-class>
 	</listener>
-
+	
+	<!-- <filter>
+		<filter-name>authbarrier</filter-name>
+		<filter-class>org.cotrix.security.AuthBarrier</filter-class>
+	</filter> --> 
+	
 	<servlet>
 		<servlet-name>listServlet</servlet-name>
 		<servlet-class>org.cotrix.web.server.MainServiceImpl</servlet-class>
@@ -51,7 +56,7 @@
 
 	<servlet>
 		<servlet-name>codelistManagerServlet</servlet-name>
-		<servlet-class>org.cotrix.web.codelistmanager.server.ManagerServiceImpl</servlet-class>
+		<servlet-class>org.cotrix.web.codelistmanager.server.ManagerServiceImpl$Servlet</servlet-class>
 	</servlet>
 
 	<!--<servlet> <servlet-name>codelistPublishServlet</servlet-name> <servlet-class>org.cotrix.web.publish.server.PublishServiceImpl</servlet-class> 
@@ -81,6 +86,11 @@
 		<servlet-name>codelistManagerServlet</servlet-name>
 		<url-pattern>/CodeListManager/manager</url-pattern>
 	</servlet-mapping>
+	
+	<!-- <filter-mapping>
+		<filter-name>authbarrier</filter-name>
+		<url-pattern>/CodeListManager/*</url-pattern>
+	</filter-mapping> -->
 
 	<!-- Default page to serve -->
 	<welcome-file-list>

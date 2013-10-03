@@ -60,8 +60,8 @@ public class RetrieveIntegrationTests {
 //			}
 //		
 //		if (srCodelist!=null) {
-//			CodelistBean bean = repository.retrieve(srCodelist, CodelistBean.class);
-//			Outcome outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT); 
+//			CodelistBean appbean = repository.retrieve(srCodelist, CodelistBean.class);
+//			Outcome outcome = mapper.map(appbean, SdmxMapDirectives.DEFAULT); 
 //			System.out.println(outcome.result());
 //		}
 //	}

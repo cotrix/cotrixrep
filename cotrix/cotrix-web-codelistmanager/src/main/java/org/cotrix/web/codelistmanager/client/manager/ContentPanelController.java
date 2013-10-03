@@ -39,9 +39,10 @@ public class ContentPanelController implements OpenCodeListHandler {
 		Log.trace("opening codelist "+event.getCodelist());
 		UICodelist codelist = event.getCodelist();
 		
-		CodeListPanelPresenter codeListPanelPresenter = CotrixManagerAppGinInjector.INSTANCE.getCodeListPanelPresenter();
+
+		CodeListPanelPresenter codeListPanelPresenter = CotrixManagerAppGinInjector.INSTANCE.getFactory().createCodeListPanelPresenter(codelist);
 		presenters.add(codeListPanelPresenter);
-		codeListPanelPresenter.setCodeList(codelist);
+		//codeListPanelPresenter.setCodeList(codelist);
 
 		
 		view.addCodeListPanel(codeListPanelPresenter.getView().asWidget(), codelist.getName());
