@@ -14,8 +14,8 @@ public class DefaultNameAndPasswordCollector implements TokenCollector {
 	@Override
 	public Token token(HttpServletRequest request) {
 		
-		String name = request.getParameter(nameParam);
-		String pwd = request.getParameter(pwdParam);
+		String name = (String) request.getAttribute(nameParam);
+		String pwd = (String) request.getAttribute(pwdParam);
 		
 		return name!=null && pwd!=null? new NameAndPassword(name,pwd):null;
 	}

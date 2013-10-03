@@ -55,6 +55,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, username);
 		httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, password);
 		User user = loginService.login(httpServletRequest);	
+		logger.trace("returned user: {}",user);
 		
 		Set<UIFeature> features = actionMapper.mapActions(user.permissions());
 		
