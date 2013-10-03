@@ -1,35 +1,29 @@
 package org.cotrix.web.codelistmanager.server;
 
+import static org.cotrix.action.CodelistAction.*;
+import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.trait.Change.*;
+import static org.cotrix.repository.Queries.*;
+import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static org.cotrix.repository.Queries.*;
-import static org.cotrix.user.dsl.Users.user;
-import static org.cotrix.domain.trait.Change.*;
-import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.action.CodelistAction.*;
-import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.*;
-
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import org.cotrix.action.Action;
-import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
-import org.cotrix.user.User;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
-
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
 import org.cotrix.web.share.server.task.ActionMapper;
@@ -56,13 +50,6 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("serial")
 @ContainsTask
 public class ManagerServiceImpl implements ManagerService {
-	
-	@Produces
-	@Current
-	public User testuser() {
-
-		return user("joe").can(EDIT.on(Action.any), LOCK.on(Action.any), UNLOCK.on(Action.any)).build();
-	}
 	
 	public static class Servlet extends CotrixRemoteServlet {
 
