@@ -11,6 +11,7 @@ import org.cotrix.web.client.view.UserBarView.Presenter;
 import org.cotrix.web.share.client.event.FeatureAsyncCallBack;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.HasFeature;
+import org.cotrix.web.share.shared.feature.Response;
 import org.cotrix.web.shared.AuthenticationFeature;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,19 +24,44 @@ import com.google.inject.Inject;
  */
 public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginDialogListener {
 	
-	@Inject
+	protected static final String GUEST_USERNAME = null;
+	protected static final String GUEST_PASSWORD = null;
+	
 	protected MainServiceAsync service;
 	
 	protected UserBarView view;
 	
 	protected LoginDialog loginDialog = new LoginDialog(this);
 	
+	protected AsyncCallback<Response<String>> callback = FeatureAsyncCallBack.wrap(new AsyncCallback<String>() {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(String result) {
+			view.setUsername(result);
+		}
+	});
+	
 	@Inject
-	public UserBarPresenterImpl(UserBarView view)
+	public UserBarPresenterImpl(MainServiceAsync service, UserBarView view)
 	{
+		this.service = service;
 		this.view = view;
 		view.setPresenter(this);
 		bindFeatures();
+		
+		logGuest();
+	}
+	
+	protected void logGuest()
+	{
+		//TODO right position?
+		service.login(GUEST_USERNAME, GUEST_PASSWORD, callback);
 	}
 	
 	protected void bindFeatures()
@@ -74,7 +100,8 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 
 	@Override
 	public void onLogoutClick() {
-		service.logout(FeatureAsyncCallBack.<Void>nop());
+		logGuest();
+		//service.logout(FeatureAsyncCallBack.<Void>nop());
 	}
 
 	@Override
@@ -85,19 +112,7 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 	@Override
 	public void onLogin(String username, String password) {
 		loginDialog.hide();
-		service.login(username, password, FeatureAsyncCallBack.wrap(new AsyncCallback<String>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(String result) {
-				view.setUsername(result);
-			}
-		}));
+		service.login(username, password, callback);
 	}
 
 	@Override

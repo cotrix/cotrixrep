@@ -26,6 +26,11 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-io</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-security</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.cotrix</groupId>
