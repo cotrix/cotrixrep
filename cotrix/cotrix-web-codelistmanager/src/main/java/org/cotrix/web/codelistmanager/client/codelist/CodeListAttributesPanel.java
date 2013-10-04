@@ -15,8 +15,6 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
-import static com.google.gwt.dom.client.BrowserEvents.*;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -32,12 +30,11 @@ import org.cotrix.web.share.client.widgets.ImageResourceCell;
 import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
-import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.builder.shared.BodyBuilder;
 import com.google.gwt.dom.builder.shared.DivBuilder;
@@ -45,7 +42,6 @@ import com.google.gwt.dom.builder.shared.TableBuilder;
 import com.google.gwt.dom.builder.shared.TableCellBuilder;
 import com.google.gwt.dom.builder.shared.TableRowBuilder;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.FontWeight;
@@ -63,8 +59,8 @@ import com.google.gwt.user.cellview.client.AbstractCellTable.Style;
 import com.google.gwt.user.cellview.client.AbstractCellTableBuilder;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.RowStyles;
-import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
@@ -99,7 +95,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 	interface DataGridStyle extends DataGrid.Style {
 
-		String groupHeaderCell();
+		String headerCode();
 	}
 
 	enum AttributeSwitchState {
@@ -126,6 +122,8 @@ public class CodeListAttributesPanel extends ResizeComposite {
 	protected EventBus editorBus;
 
 	protected ListDataProvider<UIAttribute> dataProvider;
+
+	protected AttributeHeader header;
 
 	public CodeListAttributesPanel(EventBus editorBus) {
 
@@ -160,6 +158,9 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 			@Override
 			public void onRowSelected(RowSelectedEvent event) {
+				header.setText(event.getRow().getName());
+				dataGrid.redrawHeaders();
+				
 				List<UIAttribute> attributes = dataProvider.getList();
 				attributes.clear();
 				attributes.addAll(event.getRow().getAttributes());
@@ -201,7 +202,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 	private void setupColumns() {
 
 
-		TextHeader header = new TextHeader("Attributes");
+		header = new AttributeHeader("");
 
 		SafeHtmlRenderer<AttributeSwitchState> switchRenderer = new AbstractSafeHtmlRenderer<AttributeSwitchState>() {
 
@@ -236,7 +237,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 		dataGrid.addColumn(switchColumn, header);
 		dataGrid.setColumnWidth(0, 35, Unit.PX);
 
-		
+
 
 		attributeNameColumn = new Column<UIAttribute, String>(new ClickableTextCell()) {
 			@Override
@@ -244,7 +245,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 				return object.getName();
 			}
 		};
-		
+
 		attributeNameColumn.setFieldUpdater(new FieldUpdater<UIAttribute, String>() {
 			@Override
 			public void update(int index, UIAttribute object, String value) {
@@ -261,7 +262,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 				dataGrid.redrawRow(index);
 			}
 		});
-		
+
 
 		dataGrid.addColumn(attributeNameColumn, header);
 	}
@@ -382,11 +383,11 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 
 			addRow(body, "Name", attribute.getName());
-			
+
 			addRow(body, "Type", attribute.getType());
 
 			addRow(body, "Language", attribute.getLanguage());
-			
+
 			addRow(body, "Value", attribute.getValue());
 
 			body.end();
@@ -512,5 +513,48 @@ public class CodeListAttributesPanel extends ResizeComposite {
 			tr.endTR();
 		}
 	}
-	
+
+	protected class AttributeHeader extends Header<String> {
+
+		
+		private String text;
+
+		/**
+		 * Construct a new TextHeader.
+		 *
+		 * @param text the header text as a String
+		 */
+		public AttributeHeader(String text) {
+			super(new AbstractCell<String>() {
+
+				@Override
+				public void render(com.google.gwt.cell.client.Cell.Context context,
+						String value, SafeHtmlBuilder sb) {
+					sb.appendHtmlConstant("<span>Attributes:</span>");
+					sb.appendHtmlConstant("<span class=\""+resource.dataGridStyle().headerCode()+"\">");
+					sb.append(SafeHtmlUtils.fromString(value));
+					sb.appendHtmlConstant("</span>");
+				}
+			});
+			this.text = text;
+		}
+
+		/**
+		 * Return the header text.
+		 */
+		@Override
+		public String getValue() {
+			return text;
+		}
+
+		/**
+		 * @param text the text to set
+		 */
+		public void setText(String text) {
+			this.text = text;
+		}
+
+
+	}
+
 }

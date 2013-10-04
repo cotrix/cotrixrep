@@ -1,9 +1,5 @@
-.groupHeaderCell {
-  padding: 1px 15px;
-  color: #4b4a4a;
-  text-shadow: #ddf 1px 1px 0;
-  font-size: 130%;
-  background: #eee;
+.headerCode {
+  color: orange;
 }
 
 .dataGridWidget {
@@ -30,8 +26,8 @@
 }
 
 .dataGridHeader {
-		overflow: visible;
-	text-align: center;
+	overflow: visible;
+	text-align: left;
 	color: #999;
 	font-weight:normal;
 	font-size:15px;

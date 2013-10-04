@@ -2,10 +2,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:org.cotrix.web.codelistmanager.client.codelist">
 	<ui:style>
-		.test {
-			background-color: red;
-
-		}
+		
 	</ui:style>
 	<g:DockLayoutPanel ui:field="contentPanel" unit='EM'>
 		<g:north size='2.7'>
@@ -20,7 +17,7 @@
 					</g:DeckLayoutPanel>
 				</g:center>
 				<g:east size="300">
-				<v:CodeListAttributesPanel ui:field="attributes" />
+					<v:CodeListAttributesPanel ui:field="attributes" />
 				</g:east>
 			</g:SplitLayoutPanel>
 		</g:center>
