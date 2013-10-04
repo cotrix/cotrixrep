@@ -189,8 +189,13 @@ public class CodeListAttributesPanel extends ResizeComposite {
 	{
 		Log.trace("refreshAttribute attribute: "+attribute);
 		List<UIAttribute> attributes = dataProvider.getList();
-		int index = attributes.indexOf(attribute);
-		attributes.set(index, attribute);
+		for (int i = 0; i < attributes.size(); i++) {
+			if (attributes.get(i).getName().equals(attribute.getName())) {
+				attributes.set(i, attribute);
+				return;
+			}
+		}
+		Log.warn("attribute "+attribute+" not found in data provider");
 	}
 
 	private void setupColumns() {

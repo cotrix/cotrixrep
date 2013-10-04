@@ -94,15 +94,11 @@ public class CodeListEditor extends ResizeComposite {
 	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 	protected DataGridResources resource = GWT.create(DataGridResources.class);
 
-	private final Set<String> showExpanded = new HashSet<String>();
-
 	protected Set<String> attributeAsColumn = new HashSet<String>();
 	protected Map<String, Column<UICodeListRow, String>> attributesColumns = new HashMap<String, Column<UICodeListRow,String>>(); 
 	protected Map<String, Column<UICodeListRow, String>> switchesColumns = new HashMap<String, Column<UICodeListRow,String>>(); 
 
-//	private Column<UICodeListRow, String> codeColumn;
 	private Column<UICodeListRow, String> nameColumn;
-	private Column<UICodeListRow, Boolean> expandAttributesColumn;
 	
 	protected EventBus editorBus;
 
@@ -170,54 +166,6 @@ public class CodeListEditor extends ResizeComposite {
 	}
 
 	private void setupColumns() {
-
-		/*SafeHtmlRenderer<Boolean> expansionRenderer = new AbstractSafeHtmlRenderer<Boolean>() {
-			private BasicResources resources = GWT.create(BasicResources.class);
-
-			@Override
-			public SafeHtml render(Boolean object) {
-				if (object != null) return renderer.render(object?resources.cellTreeOpenItem():resources.cellTreeClosedItem());
-				SafeHtmlBuilder sb = new SafeHtmlBuilder();
-				return sb.toSafeHtml();
-			}
-		};
-
-		expandAttributesColumn = new Column<UICodeListRow, Boolean>(new ImageResourceCell(expansionRenderer)) {
-
-			@Override
-			public Boolean getValue(UICodeListRow object) {
-				if (object==null) return false; 
-				return showExpanded.contains(object.getId());
-			}
-		};
-		expandAttributesColumn.setFieldUpdater(new FieldUpdater<UICodeListRow, Boolean>() {
-			@Override
-			public void update(int index, UICodeListRow object, Boolean value) {
-
-				Log.trace("expand "+index+" "+object.getId());
-
-				if (showExpanded.contains(object.getId())) {
-					showExpanded.remove(object.getId());
-				} else {
-					showExpanded.add(object.getId());
-				}
-
-				// Redraw the modified row.
-				dataGrid.redrawRow(index);
-			}
-		});
-		dataGrid.addColumn(expandAttributesColumn);
-		dataGrid.setColumnWidth(0, 35, Unit.PX);*/
-
-	/*	codeColumn = new Column<UICodeListRow, String>(new TextCell()) {
-			@Override
-			public String getValue(UICodeListRow object) {
-				return object.getCode();
-			}
-		};
-
-		dataGrid.addColumn(codeColumn, "Code");*/
-		//dataGrid.setColumnWidth(1, 2000, Unit.PX);
 
 		nameColumn = new Column<UICodeListRow, String>(new TextCell()) {
 			@Override
