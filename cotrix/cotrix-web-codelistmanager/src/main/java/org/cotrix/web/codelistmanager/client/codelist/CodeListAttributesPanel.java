@@ -28,6 +28,7 @@ import org.cotrix.web.codelistmanager.client.event.AttributeSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.event.SwitchAttributeEvent;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.share.client.widgets.ImageResourceCell;
 import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -511,50 +512,5 @@ public class CodeListAttributesPanel extends ResizeComposite {
 			tr.endTR();
 		}
 	}
-
-
-	/**
-	 * An {@link AbstractCell} used to render an {@link ImageResource}.
-	 */
-	public class ImageResourceCell<T> extends AbstractCell<T> {
-		private SafeHtmlRenderer<T> renderer;
-
-		/**
-		 * Construct a new ImageResourceCell.
-		 */
-		public ImageResourceCell(SafeHtmlRenderer<T> renderer) {
-			super(CLICK, KEYDOWN);
-			this.renderer = renderer;
-		}
-
-		/** 
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void onBrowserEvent(Context context, Element parent, T value,
-				NativeEvent event, ValueUpdater<T> valueUpdater) {
-			super.onBrowserEvent(context, parent, value, event, valueUpdater);
-			if (CLICK.equals(event.getType())) {
-				System.out.println("CLICK EVENT vu: "+valueUpdater);
-				onEnterKeyDown(context, parent, value, event, valueUpdater);
-			}
-		}
-
-		@Override
-		protected void onEnterKeyDown(Context context, Element parent, T value,
-				NativeEvent event, ValueUpdater<T> valueUpdater) {
-			if (valueUpdater != null) {
-				System.out.println("UPDATING");
-				valueUpdater.update(value);
-			}
-		}
-
-		@Override
-		public void render(Context context, T value, SafeHtmlBuilder sb) {
-			if (value != null) {
-				sb.append(renderer.render(value));
-			}
-		}
-
-	}
+	
 }
