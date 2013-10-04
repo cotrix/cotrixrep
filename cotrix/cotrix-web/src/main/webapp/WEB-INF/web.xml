@@ -15,12 +15,12 @@
 	</listener>
 
 	<!-- TMP file cleaning -->
-	<listener>
-		<listener-class>
-			org.apache.commons.fileupload.servlet.FileCleanerCleanup
-		</listener-class>
+<!-- 	<listener> -->
+<!-- 		<listener-class> -->
+<!-- 			org.apache.commons.fileupload.servlet.FileCleanerCleanup -->
+<!-- 		</listener-class> -->
 
-	</listener>
+<!-- 	</listener> -->
 
 	<listener>
 		<listener-class>org.cotrix.web.portlet.CotrixServletContextListener</listener-class>
@@ -36,23 +36,23 @@
 		<servlet-class>org.cotrix.web.server.MainServiceImpl</servlet-class>
 	</servlet>
 
-	<servlet>
-		<servlet-name>importWizardFileUploadServlet</servlet-name>
-		<servlet-class>org.cotrix.web.importwizard.server.FileUpload</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>importWizardFileUploadServlet</servlet-name> -->
+<!-- 		<servlet-class>org.cotrix.web.importwizard.server.FileUpload</servlet-class> -->
+<!-- 		<load-on-startup>1</load-on-startup> -->
+<!-- 	</servlet> -->
 
-	<servlet>
-		<servlet-name>importWizardServiceServlet</servlet-name>
-		<servlet-class>org.cotrix.web.importwizard.server.ImportServiceImpl</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>importWizardServiceServlet</servlet-name> -->
+<!-- 		<servlet-class>org.cotrix.web.importwizard.server.ImportServiceImpl</servlet-class> -->
+<!-- 		<load-on-startup>1</load-on-startup> -->
+<!-- 	</servlet> -->
 
-	<servlet>
-		<servlet-name>importWizardReportDownloadServlet</servlet-name>
-		<servlet-class>org.cotrix.web.importwizard.server.ReportDownload</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>importWizardReportDownloadServlet</servlet-name> -->
+<!-- 		<servlet-class>org.cotrix.web.importwizard.server.ReportDownload</servlet-class> -->
+<!-- 		<load-on-startup>1</load-on-startup> -->
+<!-- 	</servlet> -->
 
 	<servlet>
 		<servlet-name>codelistManagerServlet</servlet-name>
@@ -63,20 +63,20 @@
 		</servlet> <servlet-mapping> <servlet-name>codelistPublishServlet</servlet-name> 
 		<url-pattern>/CodeListManager/publish</url-pattern> </servlet-mapping> -->
 
-	<servlet-mapping>
-		<servlet-name>importWizardFileUploadServlet</servlet-name>
-		<url-pattern>/CodeListManager/fileupload</url-pattern>
-	</servlet-mapping>
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>importWizardFileUploadServlet</servlet-name> -->
+<!-- 		<url-pattern>/CodeListManager/fileupload</url-pattern> -->
+<!-- 	</servlet-mapping> -->
 
-	<servlet-mapping>
-		<servlet-name>importWizardServiceServlet</servlet-name>
-		<url-pattern>/CodeListManager/importService</url-pattern>
-	</servlet-mapping>
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>importWizardServiceServlet</servlet-name> -->
+<!-- 		<url-pattern>/CodeListManager/importService</url-pattern> -->
+<!-- 	</servlet-mapping> -->
 
-	<servlet-mapping>
-		<servlet-name>importWizardReportDownloadServlet</servlet-name>
-		<url-pattern>/CodeListManager/reportDownload</url-pattern>
-	</servlet-mapping>
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>importWizardReportDownloadServlet</servlet-name> -->
+<!-- 		<url-pattern>/CodeListManager/reportDownload</url-pattern> -->
+<!-- 	</servlet-mapping> -->
 
 	<servlet-mapping>
 		<servlet-name>listServlet</servlet-name>
