@@ -82,8 +82,8 @@
 		<dependency>
 			<groupId>org.jboss.weld</groupId>
 			<artifactId>weld-core</artifactId>
+			<scope>compile</scope>
 		</dependency>
-
 
 		<dependency>
 			<groupId>com.allen-sauer.gwt.log</groupId>
