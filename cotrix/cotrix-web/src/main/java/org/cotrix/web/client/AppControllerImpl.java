@@ -6,6 +6,7 @@ import org.cotrix.web.client.presenter.CotrixWebPresenter;
 import org.cotrix.web.client.presenter.UserBarPresenter;
 import org.cotrix.web.client.view.Home;
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
+import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
 import org.cotrix.web.menu.client.presenter.CotrixMenuGinInjector;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
 import org.cotrix.web.share.client.CotrixModule;
@@ -44,8 +45,8 @@ public class AppControllerImpl implements AppController {
 		Home home = new Home();
 		addModule(home);
 		
-		/*CotrixImportAppGinInjector importInjector = GWT.create(CotrixImportAppGinInjector.class);
-		addModule(importInjector.getController());*/
+		CotrixImportAppGinInjector importInjector = GWT.create(CotrixImportAppGinInjector.class);
+		addModule(importInjector.getController());
 		
 		CotrixManagerAppGinInjector managerInjector = CotrixManagerAppGinInjector.INSTANCE;
 		addModule(managerInjector.getController());
@@ -54,7 +55,7 @@ public class AppControllerImpl implements AppController {
 		cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
 		cotrixPublishAppController.go(view.getBody());*/
 		
-		showModule(CotrixModule.MANAGE);
+		showModule(CotrixModule.HOME);
 	}
 	
 	protected void bind()
