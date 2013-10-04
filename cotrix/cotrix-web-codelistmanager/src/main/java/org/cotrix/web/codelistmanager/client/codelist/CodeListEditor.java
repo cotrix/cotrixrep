@@ -138,7 +138,7 @@ public class CodeListEditor extends ResizeComposite {
 		dataGrid.setSelectionModel(selectionModel);
 
 		// Specify a custom table.
-		dataGrid.setTableBuilder(new CustomTableBuilder());
+		//dataGrid.setTableBuilder(new CustomTableBuilder());
 
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
@@ -152,7 +152,7 @@ public class CodeListEditor extends ResizeComposite {
 
 	private void setupColumns() {
 
-		SafeHtmlRenderer<Boolean> expansionRenderer = new AbstractSafeHtmlRenderer<Boolean>() {
+		/*SafeHtmlRenderer<Boolean> expansionRenderer = new AbstractSafeHtmlRenderer<Boolean>() {
 			private BasicResources resources = GWT.create(BasicResources.class);
 
 			@Override
@@ -188,7 +188,7 @@ public class CodeListEditor extends ResizeComposite {
 			}
 		});
 		dataGrid.addColumn(expandAttributesColumn);
-		dataGrid.setColumnWidth(0, 35, Unit.PX);
+		dataGrid.setColumnWidth(0, 35, Unit.PX);*/
 
 	/*	codeColumn = new Column<UICodeListRow, String>(new TextCell()) {
 			@Override
@@ -207,7 +207,7 @@ public class CodeListEditor extends ResizeComposite {
 			}
 		};
 
-		dataGrid.addColumn(nameColumn, "");
+		dataGrid.addColumn(nameColumn, "Code");
 		//dataGrid.setColumnWidth(2, 1000, Unit.PX);
 	}
 
