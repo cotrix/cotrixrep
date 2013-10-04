@@ -15,8 +15,7 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
-import static com.google.gwt.dom.client.BrowserEvents.CLICK;
-import static com.google.gwt.dom.client.BrowserEvents.KEYDOWN;
+import static com.google.gwt.dom.client.BrowserEvents.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,15 +23,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.cotrix.web.codelistmanager.client.event.AttributeSwitchType;
+import org.cotrix.web.codelistmanager.client.event.AttributeSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.event.RowSelectedEvent;
+import org.cotrix.web.codelistmanager.client.event.SwitchAttributeEvent;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
-import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell.Context;
-import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.cell.client.ValueUpdater;
@@ -52,6 +52,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.text.shared.AbstractSafeHtmlRenderer;
 import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -61,11 +62,8 @@ import com.google.gwt.user.cellview.client.AbstractCellTableBuilder;
 import com.google.gwt.user.cellview.client.CellTree.BasicResources;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.RowStyles;
-import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextHeader;
-import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
@@ -73,7 +71,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.web.bindery.event.shared.EventBus;
@@ -103,6 +100,11 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 		String groupHeaderCell();
 	}
+	
+	enum AttributeSwitchState {
+		COLUMN,
+		NORMAL;
+	}
 
 
 	@UiField(provided = true)
@@ -117,7 +119,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 	protected Map<String, Column<UIAttribute, String>> attributesColumns = new HashMap<String, Column<UIAttribute,String>>(); 
 
 	protected Column<UIAttribute, Boolean> expandAttributePropertiesColumn;
-	protected Column<UIAttribute, Boolean> switchColumn; 
+	protected Column<UIAttribute, AttributeSwitchState> switchColumn; 
 	protected Column<UIAttribute, String> attributeNameColumn;
 	protected Column<UIAttribute, String> attributeValueColumn;
 
@@ -164,6 +166,31 @@ public class CodeListAttributesPanel extends ResizeComposite {
 				dataProvider.refresh();
 			}
 		});
+		
+		editorBus.addHandler(AttributeSwitchedEvent.TYPE, new AttributeSwitchedEvent.AttributeSwitchedHandler() {
+			
+			@Override
+			public void onAttributeSwitched(AttributeSwitchedEvent event) {
+				UIAttribute attribute = event.getAttribute();
+				Log.trace("onAttributeSwitched attribute: "+attribute+" type: "+event.getSwitchType());
+				
+				switch (event.getSwitchType()) {
+					case TO_COLUMN: attributeAsColumn.add(attribute.getName()); break;
+					case TO_NORMAL: attributeAsColumn.remove(attribute.getName()); break;
+				}
+				
+				refreshAttribute(attribute);
+				
+			}
+		});
+	}
+	
+	protected void refreshAttribute(UIAttribute attribute)
+	{
+		Log.trace("refreshAttribute attribute: "+attribute);
+		List<UIAttribute> attributes = dataProvider.getList();
+		int index = attributes.indexOf(attribute);
+		attributes.set(index, attribute);
 	}
 
 	private void setupColumns() {
@@ -182,7 +209,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 			}
 		};
 
-		expandAttributePropertiesColumn = new Column<UIAttribute, Boolean>(new ImageResourceCell(expansionRenderer)) {
+		expandAttributePropertiesColumn = new Column<UIAttribute, Boolean>(new ImageResourceCell<Boolean>(expansionRenderer)) {
 
 			@Override
 			public Boolean getValue(UIAttribute object) {
@@ -209,29 +236,32 @@ public class CodeListAttributesPanel extends ResizeComposite {
 		dataGrid.addColumn(expandAttributePropertiesColumn, header);
 		dataGrid.setColumnWidth(0, 35, Unit.PX);
 		
-		SafeHtmlRenderer<Boolean> switchRenderer = new AbstractSafeHtmlRenderer<Boolean>() {
+		SafeHtmlRenderer<AttributeSwitchState> switchRenderer = new AbstractSafeHtmlRenderer<AttributeSwitchState>() {
 
 			@Override
-			public SafeHtml render(Boolean object) {
-				if (object != null) return renderer.render(object?CotrixManagerResources.INSTANCE.table():CotrixManagerResources.INSTANCE.tableDisabled());
-				SafeHtmlBuilder sb = new SafeHtmlBuilder();
-				return sb.toSafeHtml();
+			public SafeHtml render(AttributeSwitchState state) {
+				switch (state) {
+					case COLUMN: return renderer.render(CotrixManagerResources.INSTANCE.tableDisabled());
+					case NORMAL: return renderer.render(CotrixManagerResources.INSTANCE.table());	
+					default: return SafeHtmlUtils.EMPTY_SAFE_HTML;
+					
+				}
 			}
 		};
 		
 
-		switchColumn = new Column<UIAttribute, Boolean>(new ImageResourceCell(switchRenderer)) {
+		switchColumn = new Column<UIAttribute, AttributeSwitchState>(new ImageResourceCell<AttributeSwitchState>(switchRenderer)) {
 
 			@Override
-			public Boolean getValue(UIAttribute object) {
-				return !attributeAsColumn.contains(object.getName());
+			public AttributeSwitchState getValue(UIAttribute attribute) {
+				return attributeAsColumn.contains(attribute.getName())?AttributeSwitchState.COLUMN:AttributeSwitchState.NORMAL;
 			}
 		};
 
-		switchColumn.setFieldUpdater(new FieldUpdater<UIAttribute, Boolean>() {
+		switchColumn.setFieldUpdater(new FieldUpdater<UIAttribute, AttributeSwitchState>() {
 			@Override
-			public void update(int index, UIAttribute object, Boolean value) {
-				switchAttribute(object);
+			public void update(int index, UIAttribute object, AttributeSwitchState value) {
+				switchAttribute(object, value);
 				// Redraw the modified row.
 				dataGrid.redrawRow(index);
 			}
@@ -278,9 +308,12 @@ public class CodeListAttributesPanel extends ResizeComposite {
 		return column;
 	}
 
-	protected void switchAttribute(final UIAttribute attribute)
+	protected void switchAttribute(final UIAttribute attribute, AttributeSwitchState attributeSwitchState)
 	{
-		
+		switch (attributeSwitchState) {
+			case COLUMN: editorBus.fireEvent(new SwitchAttributeEvent(attribute, AttributeSwitchType.TO_NORMAL)); break;
+			case NORMAL: editorBus.fireEvent(new SwitchAttributeEvent(attribute, AttributeSwitchType.TO_COLUMN)); break;
+		}
 	}
 	
 	protected void switchToAttribute(String attributeName)
@@ -512,13 +545,13 @@ public class CodeListAttributesPanel extends ResizeComposite {
 	/**
 	 * An {@link AbstractCell} used to render an {@link ImageResource}.
 	 */
-	public class ImageResourceCell extends AbstractCell<Boolean> {
-		private SafeHtmlRenderer<Boolean> renderer;
+	public class ImageResourceCell<T> extends AbstractCell<T> {
+		private SafeHtmlRenderer<T> renderer;
 
 		/**
 		 * Construct a new ImageResourceCell.
 		 */
-		public ImageResourceCell(SafeHtmlRenderer<Boolean> renderer) {
+		public ImageResourceCell(SafeHtmlRenderer<T> renderer) {
 			super(CLICK, KEYDOWN);
 			this.renderer = renderer;
 		}
@@ -527,8 +560,8 @@ public class CodeListAttributesPanel extends ResizeComposite {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public void onBrowserEvent(Context context, Element parent, Boolean value,
-				NativeEvent event, ValueUpdater<Boolean> valueUpdater) {
+		public void onBrowserEvent(Context context, Element parent, T value,
+				NativeEvent event, ValueUpdater<T> valueUpdater) {
 			super.onBrowserEvent(context, parent, value, event, valueUpdater);
 			if (CLICK.equals(event.getType())) {
 				System.out.println("CLICK EVENT vu: "+valueUpdater);
@@ -537,8 +570,8 @@ public class CodeListAttributesPanel extends ResizeComposite {
 		}
 
 		@Override
-		protected void onEnterKeyDown(Context context, Element parent, Boolean value,
-				NativeEvent event, ValueUpdater<Boolean> valueUpdater) {
+		protected void onEnterKeyDown(Context context, Element parent, T value,
+				NativeEvent event, ValueUpdater<T> valueUpdater) {
 			if (valueUpdater != null) {
 				System.out.println("UPDATING");
 				valueUpdater.update(value);
@@ -546,7 +579,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 		}
 
 		@Override
-		public void render(Context context, Boolean value, SafeHtmlBuilder sb) {
+		public void render(Context context, T value, SafeHtmlBuilder sb) {
 			if (value != null) {
 				sb.append(renderer.render(value));
 			}
