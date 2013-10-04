@@ -15,6 +15,12 @@
 			font-weight: bold;
 		}
 		
+		.userBar {
+			background-color: #282828;
+			height: 25px;
+			
+		}
+		
 		.body {
 		}
 	</ui:style>
@@ -22,8 +28,8 @@
 		<g:north size='60'>
 			<g:FlowPanel ui:field="menu" />
 		</g:north>
-		<g:north size='20'>
-			<g:FlowPanel ui:field="userBar" />
+		<g:north size='25'>
+			<g:FlowPanel ui:field="userBar" styleName="{style.userBar}"/>
 		</g:north>
 		<g:center>
 			<g:ScrollPanel>
