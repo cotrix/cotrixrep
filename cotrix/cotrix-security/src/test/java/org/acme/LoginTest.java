@@ -46,8 +46,8 @@ public class LoginTest {
 	public void loginByNameAndPasswords() throws Exception {
 
 		DummyHttpRequest r = new DummyHttpRequest();
-		r.getParameterMap().put(nameParam, new String[] { cotrix.id() });
-		r.getParameterMap().put(pwdParam, new String[] { cotrix.id() });
+		r.setAttribute(nameParam, cotrix.id());
+		r.setAttribute(pwdParam, cotrix.id());
 
 		User logged = service.login(r);
 		
