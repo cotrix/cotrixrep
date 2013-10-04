@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.cotrix.web.codelistmanager.client.event.AttributeSwitchType;
 import org.cotrix.web.codelistmanager.client.event.AttributeSwitchedEvent;
+import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.event.SwitchAttributeEvent;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
@@ -70,6 +71,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
 
@@ -125,7 +127,8 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 	protected AttributeHeader header;
 
-	public CodeListAttributesPanel(EventBus editorBus) {
+	@Inject
+	public CodeListAttributesPanel(@EditorBus EventBus editorBus) {
 
 		this.editorBus = editorBus;
 

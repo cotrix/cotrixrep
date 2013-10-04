@@ -22,8 +22,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import org.cotrix.web.codelistmanager.client.event.AttributeSwitchType;
 import org.cotrix.web.codelistmanager.client.event.AttributeSwitchedEvent;
+import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.event.SwitchAttributeEvent;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
@@ -56,6 +59,7 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
 
@@ -104,8 +108,8 @@ public class CodeListEditor extends ResizeComposite {
 
 	protected SingleSelectionModel<UICodeListRow> selectionModel;
 
-	//TODO use injection
-	public CodeListEditor(EventBus editorBus) {
+	@Inject
+	public CodeListEditor(@EditorBus EventBus editorBus, CodeListRowDataProvider dataProvider) {
 		this.editorBus = editorBus;
 
 		dataGrid = new DataGrid<UICodeListRow>(20, resource, CodeListRowKeyProvider.INSTANCE);
@@ -127,6 +131,8 @@ public class CodeListEditor extends ResizeComposite {
 
 		// Specify a custom table.
 		//dataGrid.setTableBuilder(new CustomTableBuilder());
+		
+		dataProvider.addDataDisplay(dataGrid);
 		
 		bind();
 
@@ -158,11 +164,6 @@ public class CodeListEditor extends ResizeComposite {
 				}
 			}
 		});
-	}
-
-	public void setDataProvider(CodeListRowDataProvider dataProvider)
-	{
-		dataProvider.addDataDisplay(dataGrid);
 	}
 
 	private void setupColumns() {
