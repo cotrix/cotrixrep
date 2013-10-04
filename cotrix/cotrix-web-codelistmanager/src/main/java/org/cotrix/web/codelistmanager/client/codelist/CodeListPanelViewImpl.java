@@ -3,9 +3,12 @@ package org.cotrix.web.codelistmanager.client.codelist;
 import org.cotrix.web.codelistmanager.client.codelist.CodeListToolbar.ClickListener;
 import org.cotrix.web.codelistmanager.client.data.AsyncDataProvider;
 import org.cotrix.web.codelistmanager.client.data.DataEditor;
+import org.cotrix.web.codelistmanager.client.event.EditorBus;
+import org.cotrix.web.codelistmanager.client.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -14,6 +17,8 @@ import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -33,10 +38,15 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 	@UiField DockLayoutPanel contentPanel;
 	@UiField CodeListToolbar toolbar;
 	@UiField DeckLayoutPanel content;
-	@UiField CodeListEditor editor;
+	
+
+	@UiField(provided=true) CodeListEditor editor;
 	@UiField CodeListMetadataPanel metadata;
 	
-	public CodeListPanelViewImpl() {
+	@Inject
+	public CodeListPanelViewImpl(@EditorBus EventBus editorBus) {
+		editor = new CodeListEditor(editorBus);
+		
 		initWidget(uiBinder.createAndBindUi(this));
 		content.showWidget(editor);
 		toolbar.setClickListener(new ClickListener() {
@@ -45,6 +55,15 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 			public void onClick() {
 				switchContent();
 				
+			}
+		});
+		
+		//TODO test
+		editorBus.addHandler(RowSelectedEvent.TYPE, new RowSelectedEvent.RowSelectedHandler() {
+			
+			@Override
+			public void onRowSelected(RowSelectedEvent event) {
+				Log.trace("row selected: "+event.getRow());
 			}
 		});
 	}

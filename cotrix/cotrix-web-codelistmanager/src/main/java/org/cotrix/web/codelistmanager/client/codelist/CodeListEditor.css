@@ -117,19 +117,19 @@
 }
 
 .dataGridKeyboardSelectedRow {
-	
+	background-color: green;
 }
 
 .dataGridKeyboardSelectedRowCell {
-	
+	background-color: green;
 }
 
 .dataGridSelectedRow {
-	
+	background-color: green;
 }
 
 .dataGridSelectedRowCell {
-	
+	background-color: green;
 }
 
 /**

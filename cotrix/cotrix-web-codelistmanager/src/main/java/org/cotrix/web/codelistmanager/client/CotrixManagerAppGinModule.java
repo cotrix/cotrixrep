@@ -11,6 +11,7 @@ import org.cotrix.web.codelistmanager.client.codelists.CodeListsView;
 import org.cotrix.web.codelistmanager.client.codelists.CodeListsViewImpl;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.client.data.MetadataSaver;
+import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
 import org.cotrix.web.codelistmanager.client.manager.CodeListManagerPresenter;
 import org.cotrix.web.codelistmanager.client.manager.CodeListManagerPresenterImpl;
@@ -54,12 +55,13 @@ public class CotrixManagerAppGinModule extends AbstractGinModule {
 		
 		bind(ContentPanelController.class).in(Singleton.class);
 		bind(ContentPanel.class).in(Singleton.class);
-		
-		//bind(CodeListPanelPresenter.class).to(CodeListPanelPresenterImpl.class);
+
 		bind(CodeListPanelView.class).to(CodeListPanelViewImpl.class);
 		
 		bind(CodeListDetailView.class).to(CodeListDetailViewImpl.class);
 		bind(CodeListDetailPresenter.class).to(CodeListDetailPresenterImpl.class);
+		
+		bind(EventBus.class).annotatedWith(EditorBus.class).to(SimpleEventBus.class).in(Singleton.class);
 		
 		install(new GinFactoryModuleBuilder().implement(CodeListPanelPresenter.class, CodeListPanelPresenterImpl.class).build(AssistedInjectionFactory.class));
 	}

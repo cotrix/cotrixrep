@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.cotrix.web.codelistmanager.client.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.shared.UIAttribute;
 
@@ -69,7 +70,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
+import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.web.bindery.event.shared.EventBus;
 
 
 /**
@@ -116,8 +120,14 @@ public class CodeListEditor extends ResizeComposite {
 //	private Column<UICodeListRow, String> codeColumn;
 	private Column<UICodeListRow, String> nameColumn;
 	private Column<UICodeListRow, Boolean> expandAttributesColumn;
+	
+	protected EventBus editorBus;
 
-	public CodeListEditor() {
+	protected SingleSelectionModel<UICodeListRow> selectionModel;
+
+	//TODO use injection
+	public CodeListEditor(EventBus editorBus) {
+		this.editorBus = editorBus;
 
 		dataGrid = new DataGrid<UICodeListRow>(20, resource, CodeListRowKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
@@ -133,16 +143,29 @@ public class CodeListEditor extends ResizeComposite {
 		setupColumns();
 
 
-		// Add a selection model so we can select cells.
-		final SelectionModel<UICodeListRow> selectionModel = new MultiSelectionModel<UICodeListRow>(CodeListRowKeyProvider.INSTANCE);
+		selectionModel = new SingleSelectionModel<UICodeListRow>(CodeListRowKeyProvider.INSTANCE);
 		dataGrid.setSelectionModel(selectionModel);
 
 		// Specify a custom table.
 		//dataGrid.setTableBuilder(new CustomTableBuilder());
+		
+		bind();
 
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
+	}
+	
+	protected void bind()
+	{
+		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+			
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				UICodeListRow row = selectionModel.getSelectedObject();
+				if (row !=null) editorBus.fireEvent(new RowSelectedEvent(row));
+			}
+		});
 	}
 
 	public void setDataProvider(CodeListRowDataProvider dataProvider)
