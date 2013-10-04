@@ -23,5 +23,11 @@ public interface CotrixManagerResources extends ClientBundle {
 
 	@Source("style.css")
 	public CssResource css();
+	
+	@Source("table.png")
+	public ImageResource table();
+	
+	@Source("table_disabled.png")
+	public ImageResource tableDisabled();
 
 }

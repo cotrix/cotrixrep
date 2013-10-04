@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.cotrix.web.codelistmanager.client.event.RowSelectedEvent;
+import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.shared.UIAttribute;
 
@@ -114,11 +115,11 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 	protected Set<String> attributeAsColumn = new HashSet<String>();
 	protected Map<String, Column<UIAttribute, String>> attributesColumns = new HashMap<String, Column<UIAttribute,String>>(); 
-	protected Map<String, Column<UIAttribute, String>> switchesColumns = new HashMap<String, Column<UIAttribute,String>>(); 
 
-	private Column<UIAttribute, String> attributeValueColumn;
-	private Column<UIAttribute, String> attributeNameColumn;
-	private Column<UIAttribute, Boolean> expandAttributePropertiesColumn;
+	protected Column<UIAttribute, Boolean> expandAttributePropertiesColumn;
+	protected Column<UIAttribute, Boolean> switchColumn; 
+	protected Column<UIAttribute, String> attributeNameColumn;
+	protected Column<UIAttribute, String> attributeValueColumn;
 
 	protected EventBus editorBus;
 
@@ -207,16 +208,37 @@ public class CodeListAttributesPanel extends ResizeComposite {
 		});
 		dataGrid.addColumn(expandAttributePropertiesColumn, header);
 		dataGrid.setColumnWidth(0, 35, Unit.PX);
+		
+		SafeHtmlRenderer<Boolean> switchRenderer = new AbstractSafeHtmlRenderer<Boolean>() {
 
-	/*	codeColumn = new Column<UICodeListRow, String>(new TextCell()) {
 			@Override
-			public String getValue(UICodeListRow object) {
-				return object.getCode();
+			public SafeHtml render(Boolean object) {
+				if (object != null) return renderer.render(object?CotrixManagerResources.INSTANCE.table():CotrixManagerResources.INSTANCE.tableDisabled());
+				SafeHtmlBuilder sb = new SafeHtmlBuilder();
+				return sb.toSafeHtml();
+			}
+		};
+		
+
+		switchColumn = new Column<UIAttribute, Boolean>(new ImageResourceCell(switchRenderer)) {
+
+			@Override
+			public Boolean getValue(UIAttribute object) {
+				return !attributeAsColumn.contains(object.getName());
 			}
 		};
 
-		dataGrid.addColumn(codeColumn, "Code");*/
-		//dataGrid.setColumnWidth(1, 2000, Unit.PX);
+		switchColumn.setFieldUpdater(new FieldUpdater<UIAttribute, Boolean>() {
+			@Override
+			public void update(int index, UIAttribute object, Boolean value) {
+				switchAttribute(object);
+				// Redraw the modified row.
+				dataGrid.redrawRow(index);
+			}
+		});
+		dataGrid.addColumn(switchColumn, header);
+		dataGrid.setColumnWidth(1, 35, Unit.PX);
+		
 		
 		attributeNameColumn = new Column<UIAttribute, String>(new TextCell()) {
 			@Override
@@ -256,40 +278,9 @@ public class CodeListAttributesPanel extends ResizeComposite {
 		return column;
 	}
 
-	protected void switchToColumn(final String attributeName)
+	protected void switchAttribute(final UIAttribute attribute)
 	{
-		Column<UIAttribute, String> column = getAttributeColumn(attributeName);
-		attributeAsColumn.add(attributeName);
 		
-		SafeHtmlRenderer<String> anchorRenderer = new AbstractSafeHtmlRenderer<String>() {
-			@Override
-			public SafeHtml render(String object) {
-				 SafeHtmlBuilder sb = new SafeHtmlBuilder();
-			     sb.appendEscaped(attributeName);
-				 renderer.render(resource.remove(), sb);
-			     return sb.toSafeHtml();
-			}
-		};
-		
-		Header<String> header = new Header<String>(new ClickableTextCell(anchorRenderer)) {
-			
-			@Override
-			public String getValue() {
-				return attributeName;
-			}
-		};
-		header.setUpdater(new ValueUpdater<String>() {
-
-			@Override
-			public void update(String value) {
-				switchToAttribute(attributeName);				
-			}
-		});
-		
-		//ResizableHeader<UICodeListRow> resizableHeader = new ResizableHeader<UICodeListRow>(attributeName, dataGrid, column);
-		dataGrid.addColumn(column, header);
-		//dataGrid.setColumnWidth(dataGrid.getColumnCount()-1, 1, Unit.EM);
-		//dataGrid.clearTableWidth();
 	}
 	
 	protected void switchToAttribute(String attributeName)
@@ -318,49 +309,6 @@ public class CodeListAttributesPanel extends ResizeComposite {
 			}
 		}
 	}
-
-	protected Column<UIAttribute, String> getSwitchColumn(final String name)
-	{
-		Column<UIAttribute, String> column = switchesColumns.get(name);
-		if (column == null) {
-			SafeHtmlRenderer<String> anchorRenderer = new AbstractSafeHtmlRenderer<String>() {
-				@Override
-				public SafeHtml render(String object) {
-					return renderer.render(resource.add());
-				}
-			};
-			column = new Column<UIAttribute, String>(new ClickableTextCell(anchorRenderer)){
-
-				@Override
-				public String getValue(UIAttribute object) {
-					return name;
-				}
-			};
-
-			column.setFieldUpdater(new FieldUpdater<UIAttribute, String>() {
-				@Override
-				public void update(int index, UIAttribute object, String value) {
-					switchToColumn(name);
-					// Redraw the modified row.
-					dataGrid.redrawRow(index);
-				}
-			});
-			/*TextCell cell = new TextCell();
-			column = new Column<UICodeListRow, String>(cell) {
-
-				@Override
-				public String getValue(UICodeListRow object) {
-					if (object == null) return null;
-					UIAttribute attribute = object.getAttribute(name);
-					if (attribute == null) return null;
-					return attribute.getValue();
-				}
-			};*/
-			switchesColumns.put(name, column);
-		}
-		return column;
-	}
-
 
 	private class CustomTableBuilder extends AbstractCellTableBuilder<UIAttribute> {
 
