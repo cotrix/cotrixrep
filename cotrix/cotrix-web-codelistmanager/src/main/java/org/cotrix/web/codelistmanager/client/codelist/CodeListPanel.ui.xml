@@ -19,9 +19,8 @@
 						<v:CodeListMetadataPanel ui:field="metadata" />
 					</g:DeckLayoutPanel>
 				</g:center>
-				<g:east size="100">
-				<g:SimpleLayoutPanel styleName="{style.test}">
-				</g:SimpleLayoutPanel>
+				<g:east size="300">
+				<v:CodeListAttributesPanel ui:field="attributes" />
 				</g:east>
 			</g:SplitLayoutPanel>
 		</g:center>

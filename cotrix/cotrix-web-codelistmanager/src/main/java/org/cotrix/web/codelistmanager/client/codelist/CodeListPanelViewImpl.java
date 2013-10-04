@@ -4,11 +4,9 @@ import org.cotrix.web.codelistmanager.client.codelist.CodeListToolbar.ClickListe
 import org.cotrix.web.codelistmanager.client.data.AsyncDataProvider;
 import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
-import org.cotrix.web.codelistmanager.client.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -38,14 +36,14 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 	@UiField DockLayoutPanel contentPanel;
 	@UiField CodeListToolbar toolbar;
 	@UiField DeckLayoutPanel content;
-	
-
 	@UiField(provided=true) CodeListEditor editor;
 	@UiField CodeListMetadataPanel metadata;
+	@UiField(provided=true) CodeListAttributesPanel attributes;
 	
 	@Inject
 	public CodeListPanelViewImpl(@EditorBus EventBus editorBus) {
 		editor = new CodeListEditor(editorBus);
+		attributes = new CodeListAttributesPanel(editorBus);
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		content.showWidget(editor);
@@ -55,15 +53,6 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 			public void onClick() {
 				switchContent();
 				
-			}
-		});
-		
-		//TODO test
-		editorBus.addHandler(RowSelectedEvent.TYPE, new RowSelectedEvent.RowSelectedHandler() {
-			
-			@Override
-			public void onRowSelected(RowSelectedEvent event) {
-				Log.trace("row selected: "+event.getRow());
 			}
 		});
 	}
