@@ -33,6 +33,7 @@ import org.cotrix.web.share.shared.UIAttribute;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.cell.client.ValueUpdater;
@@ -59,7 +60,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.AbstractCellTable.Style;
 import com.google.gwt.user.cellview.client.AbstractCellTableBuilder;
-import com.google.gwt.user.cellview.client.CellTree.BasicResources;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.RowStyles;
@@ -88,10 +88,10 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 		@Source("CodeListAttributesPanel.css")
 		DataGridStyle dataGridStyle();
-		
+
 		@Source("plus.png")
 		ImageResource add();
-		
+
 		@Source("minus.png")
 		ImageResource remove();
 	}
@@ -100,7 +100,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 		String groupHeaderCell();
 	}
-	
+
 	enum AttributeSwitchState {
 		COLUMN,
 		NORMAL;
@@ -121,14 +121,13 @@ public class CodeListAttributesPanel extends ResizeComposite {
 	protected Column<UIAttribute, Boolean> expandAttributePropertiesColumn;
 	protected Column<UIAttribute, AttributeSwitchState> switchColumn; 
 	protected Column<UIAttribute, String> attributeNameColumn;
-	protected Column<UIAttribute, String> attributeValueColumn;
 
 	protected EventBus editorBus;
 
 	protected ListDataProvider<UIAttribute> dataProvider;
-	
+
 	public CodeListAttributesPanel(EventBus editorBus) {
-		
+
 		this.editorBus = editorBus;
 
 		dataGrid = new DataGrid<UIAttribute>(20, resource);
@@ -143,21 +142,21 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 		// Specify a custom table.
 		dataGrid.setTableBuilder(new CustomTableBuilder());
-		
+
 		dataProvider = new ListDataProvider<UIAttribute>();
 		dataProvider.addDataDisplay(dataGrid);
-		
+
 		bind();
 
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-	
+
 	protected void bind()
 	{
 		editorBus.addHandler(RowSelectedEvent.TYPE, new RowSelectedEvent.RowSelectedHandler() {
-			
+
 			@Override
 			public void onRowSelected(RowSelectedEvent event) {
 				List<UIAttribute> attributes = dataProvider.getList();
@@ -166,25 +165,25 @@ public class CodeListAttributesPanel extends ResizeComposite {
 				dataProvider.refresh();
 			}
 		});
-		
+
 		editorBus.addHandler(AttributeSwitchedEvent.TYPE, new AttributeSwitchedEvent.AttributeSwitchedHandler() {
-			
+
 			@Override
 			public void onAttributeSwitched(AttributeSwitchedEvent event) {
 				UIAttribute attribute = event.getAttribute();
 				Log.trace("onAttributeSwitched attribute: "+attribute+" type: "+event.getSwitchType());
-				
+
 				switch (event.getSwitchType()) {
 					case TO_COLUMN: attributeAsColumn.add(attribute.getName()); break;
 					case TO_NORMAL: attributeAsColumn.remove(attribute.getName()); break;
 				}
-				
+
 				refreshAttribute(attribute);
-				
+
 			}
 		});
 	}
-	
+
 	protected void refreshAttribute(UIAttribute attribute)
 	{
 		Log.trace("refreshAttribute attribute: "+attribute);
@@ -199,48 +198,10 @@ public class CodeListAttributesPanel extends ResizeComposite {
 	}
 
 	private void setupColumns() {
-		
-		
+
+
 		TextHeader header = new TextHeader("Attributes");
 
-		SafeHtmlRenderer<Boolean> expansionRenderer = new AbstractSafeHtmlRenderer<Boolean>() {
-			private BasicResources resources = GWT.create(BasicResources.class);
-
-			@Override
-			public SafeHtml render(Boolean object) {
-				if (object != null) return renderer.render(object?resources.cellTreeOpenItem():resources.cellTreeClosedItem());
-				SafeHtmlBuilder sb = new SafeHtmlBuilder();
-				return sb.toSafeHtml();
-			}
-		};
-
-		expandAttributePropertiesColumn = new Column<UIAttribute, Boolean>(new ImageResourceCell<Boolean>(expansionRenderer)) {
-
-			@Override
-			public Boolean getValue(UIAttribute object) {
-				if (object==null) return false; 
-				return showExpanded.contains(object.getId());
-			}
-		};
-		expandAttributePropertiesColumn.setFieldUpdater(new FieldUpdater<UIAttribute, Boolean>() {
-			@Override
-			public void update(int index, UIAttribute object, Boolean value) {
-
-				Log.trace("expand "+index+" "+object.getId());
-
-				if (showExpanded.contains(object.getId())) {
-					showExpanded.remove(object.getId());
-				} else {
-					showExpanded.add(object.getId());
-				}
-
-				// Redraw the modified row.
-				dataGrid.redrawRow(index);
-			}
-		});
-		dataGrid.addColumn(expandAttributePropertiesColumn, header);
-		dataGrid.setColumnWidth(0, 35, Unit.PX);
-		
 		SafeHtmlRenderer<AttributeSwitchState> switchRenderer = new AbstractSafeHtmlRenderer<AttributeSwitchState>() {
 
 			@Override
@@ -249,11 +210,11 @@ public class CodeListAttributesPanel extends ResizeComposite {
 					case COLUMN: return renderer.render(CotrixManagerResources.INSTANCE.tableDisabled());
 					case NORMAL: return renderer.render(CotrixManagerResources.INSTANCE.table());	
 					default: return SafeHtmlUtils.EMPTY_SAFE_HTML;
-					
+
 				}
 			}
 		};
-		
+
 
 		switchColumn = new Column<UIAttribute, AttributeSwitchState>(new ImageResourceCell<AttributeSwitchState>(switchRenderer)) {
 
@@ -272,25 +233,36 @@ public class CodeListAttributesPanel extends ResizeComposite {
 			}
 		});
 		dataGrid.addColumn(switchColumn, header);
-		dataGrid.setColumnWidth(1, 35, Unit.PX);
+		dataGrid.setColumnWidth(0, 35, Unit.PX);
+
 		
-		
-		attributeNameColumn = new Column<UIAttribute, String>(new TextCell()) {
+
+		attributeNameColumn = new Column<UIAttribute, String>(new ClickableTextCell()) {
 			@Override
 			public String getValue(UIAttribute object) {
 				return object.getName();
 			}
 		};
 		
-		dataGrid.addColumn(attributeNameColumn, header);
-		
-		attributeValueColumn = new Column<UIAttribute, String>(new TextCell()) {
+		attributeNameColumn.setFieldUpdater(new FieldUpdater<UIAttribute, String>() {
 			@Override
-			public String getValue(UIAttribute object) {
-				return object.getValue();
+			public void update(int index, UIAttribute object, String value) {
+
+				Log.trace("expand "+index+" "+object.getId());
+
+				if (showExpanded.contains(object.getId())) {
+					showExpanded.remove(object.getId());
+				} else {
+					showExpanded.add(object.getId());
+				}
+
+				// Redraw the modified row.
+				dataGrid.redrawRow(index);
 			}
-		};
-		dataGrid.addColumn(attributeValueColumn, header);
+		});
+		
+
+		dataGrid.addColumn(attributeNameColumn, header);
 	}
 
 	protected Column<UIAttribute, String> getAttributeColumn(final String name)
@@ -320,7 +292,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 			case NORMAL: editorBus.fireEvent(new SwitchAttributeEvent(attribute, AttributeSwitchType.TO_COLUMN)); break;
 		}
 	}
-	
+
 	protected void switchToAttribute(String attributeName)
 	{
 		Column<UIAttribute, String> column = getAttributeColumn(attributeName);
@@ -328,7 +300,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 		dataGrid.removeColumn(column);
 		removeUnusedDataGridColumns(dataGrid);
 	}
-	
+
 	/**
 	 * Workaround issue #6711
 	 * https://code.google.com/p/google-web-toolkit/issues/detail?id=6711
@@ -405,41 +377,35 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 			BodyBuilder body = table.startBody();
 
-			//for (UIAttribute attribute:rowValue.getAttributes()) {
 			UIAttribute attribute = rowValue;
-				//if (attributeAsColumn.contains(attribute.getName())) continue;
-
-				TableRowBuilder tr = body.startTR();
-
-				/*Column<UIAttribute, String> switchColumn = getSwitchColumn(attribute.getName());
-				renderCell(tr, absRowIndex, switchColumn, rowValue);*/
-				
-				addCell(tr, "Type");
-				addCell(tr, attribute.getType());
-
-				/*Column<UIAttribute, String> propColumn = getAttributeColumn(attribute.getName());
-				renderCell(tr, absRowIndex, propColumn, rowValue);*/
-
-				tr.end();
-				
-				tr = body.startTR();
-
-				/*Column<UIAttribute, String> switchColumn = getSwitchColumn(attribute.getName());
-				renderCell(tr, absRowIndex, switchColumn, rowValue);*/
-				
-				addCell(tr, "Language");
-				addCell(tr, attribute.getLanguage());
 
 
-				/*Column<UIAttribute, String> propColumn = getAttributeColumn(attribute.getName());
-				renderCell(tr, absRowIndex, propColumn, rowValue);*/
+			addRow(body, "Name", attribute.getName());
+			
+			addRow(body, "Type", attribute.getType());
 
-				tr.end();
-				
-				
-			//}
+			addRow(body, "Language", attribute.getLanguage());
+			
+			addRow(body, "Value", attribute.getValue());
+
 			body.end();
 			table.end();
+		}
+
+		protected void addRow(BodyBuilder body, String label, String value)
+		{
+			TableRowBuilder tr = body.startTR();
+
+			/*Column<UIAttribute, String> switchColumn = getSwitchColumn(attribute.getName());
+			renderCell(tr, absRowIndex, switchColumn, rowValue);*/
+
+			addCell(tr, label);
+			addCell(tr, value);
+
+			/*Column<UIAttribute, String> propColumn = getAttributeColumn(attribute.getName());
+			renderCell(tr, absRowIndex, propColumn, rowValue);*/
+
+			tr.end();
 		}
 
 		protected void addCell(TableRowBuilder tr, String cellValue)
@@ -454,7 +420,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 			td.startDiv().text(cellValue).end();
 			td.end();
 		}
-		
+
 		protected void renderCell(TableRowBuilder tr, int absRowIndex, Column<UIAttribute, String> column, UIAttribute rowValue)
 		{
 			TableCellBuilder td = tr.startTD();

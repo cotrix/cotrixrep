@@ -125,11 +125,11 @@
 }
 
 .dataGridSelectedRow {
-	
+	background-color: green;
 }
 
 .dataGridSelectedRowCell {
-	
+	background-color: green;
 }
 
 /**
