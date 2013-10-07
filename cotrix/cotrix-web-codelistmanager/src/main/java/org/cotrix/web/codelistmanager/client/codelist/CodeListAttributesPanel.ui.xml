@@ -1,12 +1,16 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
-	<ui:style>
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client"
+	xmlns:v="urn:import:org.cotrix.web.codelistmanager.client.codelist">
+	<ui:style type="org.cotrix.web.codelistmanager.client.codelist.CodeListAttributesPanel.Style">
 		.plusButton {
 			float: left;
 		}
 		.minusButton {
 			float: right;
+		}
+		.headerCode {
+ 			 color: orange;
 		}
 	</ui:style>
 	<ui:image field="plus" src="plus.png" />
@@ -14,7 +18,7 @@
 	<g:DockLayoutPanel unit="EM">
 		<!-- DataGrid. -->
 		<g:center>
-			<c:DataGrid ui:field='dataGrid' />
+			<v:AttributesGrid ui:field='attributesGrid' />
 		</g:center>
 		<g:south size="2">
 			<g:FlowPanel>
