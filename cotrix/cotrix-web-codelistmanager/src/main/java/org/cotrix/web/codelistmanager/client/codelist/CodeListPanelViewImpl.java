@@ -35,7 +35,6 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 	@UiField DeckLayoutPanel content;
 	@UiField CodeListEditor editor;
 	@UiField CodeListMetadataPanel metadata;
-	@UiField CodeListAttributesPanel attributes;
 	
 	@Inject
 	public CodeListPanelViewImpl() {
@@ -56,12 +55,6 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 	protected CodeListEditor createEditor()
 	{
 		return CotrixManagerAppGinInjector.INSTANCE.getCodeListEditor();
-	}
-	
-	@UiFactory
-	protected CodeListAttributesPanel createAttributesPanel()
-	{
-		return CotrixManagerAppGinInjector.INSTANCE.getCodeListAttributesPanel();
 	}
 	
 	@UiFactory

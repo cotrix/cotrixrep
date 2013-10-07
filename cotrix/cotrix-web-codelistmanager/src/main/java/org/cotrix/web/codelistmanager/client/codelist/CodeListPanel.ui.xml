@@ -17,9 +17,10 @@
 					</g:DeckLayoutPanel>
 				</g:center>
 				<g:east size="300">
-					<v:CodeListAttributesPanel ui:field="attributes" />
+				<v:CodeListSidePanel />
 				</g:east>
 			</g:SplitLayoutPanel>
 		</g:center>
+
 	</g:DockLayoutPanel>
 </ui:UiBinder> 

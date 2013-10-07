@@ -16,7 +16,7 @@
 		<g:center>
 			<c:DataGrid ui:field='dataGrid' />
 		</g:center>
-		<g:south size="3">
+		<g:south size="2">
 			<g:FlowPanel>
 				<g:PushButton ui:field="plusButton" styleName="{style.plusButton}">
 					<g:upFace image="{plus}" />
@@ -26,5 +26,6 @@
 				</g:PushButton>
 			</g:FlowPanel>
 		</g:south>
+
 	</g:DockLayoutPanel>
 </ui:UiBinder>
