@@ -12,6 +12,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.map.MapService;
 import org.cotrix.io.map.Outcome;
@@ -25,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.tabular.Column;
 import org.virtualrepository.tabular.Table;
+import static org.cotrix.domain.dsl.Codes.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -87,6 +89,11 @@ public class CodelistLoader {
 			mappingDirectives.name(resourceName.substring(0, resourceName.lastIndexOf('.')));
 			
 			for(ColumnDirectives directive:directives) mappingDirectives.add(directive);
+			
+			Attribute att1 = attr().name("filename").value(resourceName).in("English").build();
+			Attribute att2 = attr().name("format").value("CSV").in("English").build();
+			
+			mappingDirectives.attributes(att1, att2);
 
 			Outcome outcome = mapservice.map(table, mappingDirectives);
 			if (outcome.report().isFailure()) {

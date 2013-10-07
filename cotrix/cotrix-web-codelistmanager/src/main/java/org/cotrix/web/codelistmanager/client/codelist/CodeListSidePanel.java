@@ -41,16 +41,9 @@ public class CodeListSidePanel extends ResizeComposite {
 
 	public CodeListSidePanel() {
 		initWidget(uiBinder.createAndBindUi(this));
-		tools.add(createAttributesPanel(), "Attributes");
-		/*tools.add(createAttributesPanel(), "Metadata");
-		tools.add(createAttributesPanel(), "Filters");*/
-	}
-	
-	
-	@UiFactory
-	protected CodeListAttributesPanel createAttributesPanel()
-	{
-		return CotrixManagerAppGinInjector.INSTANCE.getCodeListAttributesPanel();
+		tools.add(CotrixManagerAppGinInjector.INSTANCE.getCodeListAttributesPanel(), "Attributes");
+		tools.add(CotrixManagerAppGinInjector.INSTANCE.getCodeListMetadataPanel(), "Metadata");
+		/*tools.add(createAttributesPanel(), "Filters");*/
 	}
 	
 	@UiFactory
