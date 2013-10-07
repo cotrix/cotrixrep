@@ -4,6 +4,7 @@
 package org.cotrix.web.codelistmanager.client.manager;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.HasCloseHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
@@ -53,9 +54,11 @@ public class ContentPanel extends ResizeComposite {
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void addCodeListPanel(Widget panel, String title)
+	public HasCloseHandlers<Widget> addCodeListPanel(Widget panel, String title, String version)
 	{
-		codelistsPanel.add(panel, title);
+		CodeListTab tab = new CodeListTab(title, version);
+		codelistsPanel.add(panel, tab);
+		return tab;
 	}
 
 	/** 

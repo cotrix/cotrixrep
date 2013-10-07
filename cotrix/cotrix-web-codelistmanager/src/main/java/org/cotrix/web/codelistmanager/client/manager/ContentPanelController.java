@@ -1,10 +1,9 @@
 package org.cotrix.web.codelistmanager.client.manager;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.cotrix.web.codelistmanager.client.CodeListPanelFactory;
-import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.codelistmanager.client.codelist.CodeListPanelPresenter;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
 import org.cotrix.web.codelistmanager.client.event.OpenCodeListEvent;
@@ -12,6 +11,10 @@ import org.cotrix.web.codelistmanager.client.event.OpenCodeListEvent.OpenCodeLis
 import org.cotrix.web.share.shared.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.HasCloseHandlers;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
@@ -26,7 +29,7 @@ public class ContentPanelController implements OpenCodeListHandler {
 	protected CodeListPanelFactory codeListPanelFactory;
 	protected EventBus managerBus;
 	protected ContentPanel view;
-	protected List<CodeListPanelPresenter> presenters = new ArrayList<CodeListPanelPresenter>();
+	protected Map<String, CodeListPanelPresenter> presenters = new HashMap<String, CodeListPanelPresenter>();
 	
 
 	@Inject
@@ -41,15 +44,28 @@ public class ContentPanelController implements OpenCodeListHandler {
 	@Override
 	public void onOpenCodeList(OpenCodeListEvent event) {
 		Log.trace("opening codelist "+event.getCodelist());
-		UICodelist codelist = event.getCodelist();
+		final UICodelist codelist = event.getCodelist();
 		
 
 		CodeListPanelPresenter codeListPanelPresenter = codeListPanelFactory.build(codelist.getId());
-		presenters.add(codeListPanelPresenter);
-		//codeListPanelPresenter.setCodeList(codelist);
+		presenters.put(codelist.getId(), codeListPanelPresenter);
+		HasCloseHandlers<Widget> hasCloseHandlers = view.addCodeListPanel(codeListPanelPresenter.getView().asWidget(), codelist.getName(), codelist.getVersion());
+		hasCloseHandlers.addCloseHandler(new CloseHandler<Widget>() {
 
+			@Override
+			public void onClose(CloseEvent<Widget> event) {
+				closeCodeList(codelist.getId());
+			}
+		});
 		
-		view.addCodeListPanel(codeListPanelPresenter.getView().asWidget(), codelist.getName());
+		checkTabVisibility();
+	}
+	
+	protected void closeCodeList(String id)
+	{
+		CodeListPanelPresenter codeListPanelPresenter = presenters.get(id);
+		view.removeCodeListPanel(codeListPanelPresenter.getView().asWidget());
+		presenters.remove(id);
 		checkTabVisibility();
 	}
 	
