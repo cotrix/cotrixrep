@@ -49,7 +49,8 @@ public class ContentPanelController implements OpenCodeListHandler {
 
 		CodeListPanelPresenter codeListPanelPresenter = codeListPanelFactory.build(codelist.getId());
 		presenters.put(codelist.getId(), codeListPanelPresenter);
-		HasCloseHandlers<Widget> hasCloseHandlers = view.addCodeListPanel(codeListPanelPresenter.getView().asWidget(), codelist.getName(), codelist.getVersion());
+		Widget codelistPanel = codeListPanelPresenter.getView().asWidget();
+		HasCloseHandlers<Widget> hasCloseHandlers = view.addCodeListPanel(codelistPanel, codelist.getName(), codelist.getVersion());
 		hasCloseHandlers.addCloseHandler(new CloseHandler<Widget>() {
 
 			@Override
@@ -59,6 +60,8 @@ public class ContentPanelController implements OpenCodeListHandler {
 		});
 		
 		checkTabVisibility();
+		
+		view.setVisible(codelistPanel);
 	}
 	
 	protected void closeCodeList(String id)

@@ -60,6 +60,11 @@ public class ContentPanel extends ResizeComposite {
 		codelistsPanel.add(panel, tab);
 		return tab;
 	}
+	
+	public void setVisible(Widget codelistPanel)
+	{
+		codelistsPanel.selectTab(codelistPanel);
+	}
 
 	/** 
 	 * {@inheritDoc}
