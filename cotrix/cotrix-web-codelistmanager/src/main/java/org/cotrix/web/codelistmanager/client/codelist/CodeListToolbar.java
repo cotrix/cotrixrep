@@ -28,23 +28,12 @@ public class CodeListToolbar extends Composite {
 	interface CodelistToolbarUiBinder extends UiBinder<Widget, CodeListToolbar> {}
 	private static CodelistToolbarUiBinder uiBinder = GWT.create(CodelistToolbarUiBinder.class);
 	
-	@UiField Button metadata;
 	@UiField Button lock;
 	@UiField Button unlock;
 	@UiField Button seal;
 	
 	public CodeListToolbar() {
 		initWidget(uiBinder.createAndBindUi(this));
-	}
-	
-	boolean meta = true;
-	
-	@UiHandler("metadata")
-	protected void onMetadataClick(ClickEvent event)
-	{
-		this.meta = !meta;
-		metadata.setText(meta?"Metadata":"Data");
-		if (clickListener!=null) clickListener.onClick();
 	}
 	
 	@UiHandler("save")
@@ -78,23 +67,6 @@ public class CodeListToolbar extends Composite {
 	public Button getSealButton()
 	{
 		return seal;
-	}
-	
-	protected ClickListener clickListener;
-	
-	
-	
-	/**
-	 * @param clickListener the clickListener to set
-	 */
-	public void setClickListener(ClickListener clickListener) {
-		this.clickListener = clickListener;
-	}
-
-
-
-	interface ClickListener {
-		public void onClick();
 	}
 
 }

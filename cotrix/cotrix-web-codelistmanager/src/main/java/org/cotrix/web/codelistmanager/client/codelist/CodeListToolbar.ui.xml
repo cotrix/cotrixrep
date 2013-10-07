@@ -178,7 +178,6 @@
 			<g:FlowPanel styleName="{style.listBoxWrapper}">
 
 				<g:Button ui:field="save" enabled="true">Save</g:Button>
-				<g:Button ui:field="metadata" visible="true">Metadata</g:Button>
 				<g:Button ui:field="lock" visible="true">Lock</g:Button>
 				<g:Button ui:field="unlock" visible="true">Unlock</g:Button>
 				<g:Button ui:field="seal" visible="true">Seal</g:Button>
