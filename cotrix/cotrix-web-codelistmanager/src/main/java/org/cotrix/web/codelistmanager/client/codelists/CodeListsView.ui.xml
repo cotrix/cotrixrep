@@ -81,6 +81,6 @@
 <!-- 		<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}" visible="false"> -->
 <!-- 			<cotrix:PromptedTextBox ui:field="filterTextBox" /> -->
 <!-- 		</g:FlowPanel> -->
-		<c:CellList ui:field="codelists" styleName="{style.listPanel}" />
+		<c:CellTree ui:field="codelists" styleName="{style.listPanel}" />
 	</g:HeaderPanel>
 </ui:UiBinder>

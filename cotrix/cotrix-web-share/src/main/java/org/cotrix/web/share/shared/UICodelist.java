@@ -10,6 +10,7 @@ public class UICodelist implements IsSerializable
 {
 	protected String id;
 	protected String name;
+	protected String version;
 
 	public String getName() {
 		return name;
@@ -26,7 +27,21 @@ public class UICodelist implements IsSerializable
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
+	/**
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -37,8 +52,9 @@ public class UICodelist implements IsSerializable
 		builder.append(id);
 		builder.append(", name=");
 		builder.append(name);
+		builder.append(", version=");
+		builder.append(version);
 		builder.append("]");
 		return builder.toString();
 	}
-
 }
