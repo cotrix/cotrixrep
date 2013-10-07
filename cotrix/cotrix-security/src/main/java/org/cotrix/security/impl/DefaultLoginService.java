@@ -20,9 +20,13 @@ import org.cotrix.security.Token;
 import org.cotrix.security.TokenCollector;
 import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
 public class DefaultLoginService implements LoginService {
+	
+	private static Logger log = LoggerFactory.getLogger(LoginService.class);
 	
 	@Inject
 	private Instance<TokenCollector> collectors;
@@ -60,8 +64,10 @@ public class DefaultLoginService implements LoginService {
 			
 			if (user==null)
 				throw new UnknownUserException("unknown user "+identity);
+			
+			//log only for non-guests
+			log.info("{} ({}) has logged in",user.id(),user.name());
 		}
-		
 		
 		//remember for this session
 		session.add(User.class,user);
