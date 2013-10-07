@@ -1,14 +1,12 @@
 package org.cotrix.web.codelistmanager.client.codelist;
 
+import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.codelistmanager.client.codelist.CodeListToolbar.ClickListener;
-import org.cotrix.web.codelistmanager.client.data.AsyncDataProvider;
-import org.cotrix.web.codelistmanager.client.data.DataEditor;
-import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
-import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
@@ -16,7 +14,6 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -36,15 +33,12 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 	@UiField DockLayoutPanel contentPanel;
 	@UiField CodeListToolbar toolbar;
 	@UiField DeckLayoutPanel content;
-	@UiField(provided=true) CodeListEditor editor;
+	@UiField CodeListEditor editor;
 	@UiField CodeListMetadataPanel metadata;
-	@UiField(provided=true) CodeListAttributesPanel attributes;
+	@UiField CodeListAttributesPanel attributes;
 	
 	@Inject
-	public CodeListPanelViewImpl(@EditorBus EventBus editorBus) {
-		editor = new CodeListEditor(editorBus);
-		attributes = new CodeListAttributesPanel(editorBus);
-		
+	public CodeListPanelViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		content.showWidget(editor);
 		toolbar.setClickListener(new ClickListener() {
@@ -55,6 +49,25 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 				
 			}
 		});
+		metadata.loadData();
+	}
+	
+	@UiFactory
+	protected CodeListEditor createEditor()
+	{
+		return CotrixManagerAppGinInjector.INSTANCE.getCodeListEditor();
+	}
+	
+	@UiFactory
+	protected CodeListAttributesPanel createAttributesPanel()
+	{
+		return CotrixManagerAppGinInjector.INSTANCE.getCodeListAttributesPanel();
+	}
+	
+	@UiFactory
+	protected CodeListMetadataPanel getMetadataPanel()
+	{
+		return CotrixManagerAppGinInjector.INSTANCE.getCodeListMetadataPanel();
 	}
 	
 	/** 
@@ -68,28 +81,10 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 		onResize();
 	}
 	
-	@Override
-	public void setProvider(CodeListRowDataProvider dataProvider)
-	{
-		editor.setDataProvider(dataProvider);
-	}
-	
 	protected void switchContent()
 	{
 		if (content.getVisibleWidget()==editor) content.showWidget(metadata);
 		else content.showWidget(editor);
-	}
-	
-	@Override
-	public void setMetadataProvider(AsyncDataProvider<CodeListMetadata> dataProvider)
-	{
-		metadata.setDataProvider(dataProvider);
-	}
-	
-	@Override
-	public void setMetadataEditor(DataEditor<CodeListMetadata> editor)
-	{
-		metadata.setEditor(editor);
 	}
 
 	@Override

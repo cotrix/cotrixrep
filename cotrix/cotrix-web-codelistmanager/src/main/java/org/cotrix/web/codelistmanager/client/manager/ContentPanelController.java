@@ -3,6 +3,7 @@ package org.cotrix.web.codelistmanager.client.manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.web.codelistmanager.client.CodeListPanelFactory;
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.codelistmanager.client.codelist.CodeListPanelPresenter;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
@@ -20,6 +21,9 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class ContentPanelController implements OpenCodeListHandler {
 
+	
+	@Inject
+	protected CodeListPanelFactory codeListPanelFactory;
 	protected EventBus managerBus;
 	protected ContentPanel view;
 	protected List<CodeListPanelPresenter> presenters = new ArrayList<CodeListPanelPresenter>();
@@ -40,7 +44,7 @@ public class ContentPanelController implements OpenCodeListHandler {
 		UICodelist codelist = event.getCodelist();
 		
 
-		CodeListPanelPresenter codeListPanelPresenter = CotrixManagerAppGinInjector.INSTANCE.getFactory().createCodeListPanelPresenter(codelist);
+		CodeListPanelPresenter codeListPanelPresenter = codeListPanelFactory.build(codelist.getId());
 		presenters.add(codeListPanelPresenter);
 		//codeListPanelPresenter.setCodeList(codelist);
 

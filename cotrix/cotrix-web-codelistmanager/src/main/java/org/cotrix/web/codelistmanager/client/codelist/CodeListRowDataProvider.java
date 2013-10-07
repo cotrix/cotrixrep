@@ -15,7 +15,6 @@ import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -26,15 +25,8 @@ public class CodeListRowDataProvider extends AsyncDataProvider<UICodeListRow> {
 	@Inject
 	protected ManagerServiceAsync managerService;
 	
+	@Inject @CodelistId
 	protected String codelistId;
-
-	/**
-	 * @param codelistId
-	 */
-	@Inject
-	public CodeListRowDataProvider(@Assisted String codelistId) {
-		this.codelistId = codelistId;
-	}
 
 	@Override
 	protected void onRangeChanged(HasData<UICodeListRow> display) {

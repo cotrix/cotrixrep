@@ -4,11 +4,11 @@
 package org.cotrix.web.codelistmanager.client.data;
 
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
+import org.cotrix.web.codelistmanager.client.codelist.CodelistId;
 import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -19,14 +19,16 @@ public class MetadataSaver extends AbstractDataSaver<CodeListMetadata> {
 	@Inject
 	protected ManagerServiceAsync service;
 	
+	@Inject
+	@CodelistId
 	protected String codelistId;
 
 	/**
 	 * @param codelistId
 	 */
 	@Inject
-	public MetadataSaver(@Assisted String codelistId) {
-		this.codelistId = codelistId;
+	public MetadataSaver(MetadataEditor editor) {
+		editor.addDataEditHandler(this);
 	}
 
 	@Override
