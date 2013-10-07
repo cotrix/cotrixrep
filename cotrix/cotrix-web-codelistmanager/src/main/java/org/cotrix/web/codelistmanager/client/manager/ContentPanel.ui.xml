@@ -21,10 +21,6 @@
 			border-radius: 5px;
 		}
 		
-		.test {
-			background-color: blue;
-		}
-		
 		@external .gwt-TabLayoutPanelContent;
 		.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent {
 			overflow: hidden;
@@ -34,7 +30,7 @@
 		@external .gwt-TabLayoutPanelTab;
 		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
 			margin-left: 4px;
-			padding: 4px 8px 4px 8px;
+			padding: 4px 4px 4px 8px;
 			cursor: pointer;
 			cursor: hand;
 			color: white;
@@ -43,6 +39,8 @@
 			background: #8E8E8E;
 			-moz-border-radius: 3px 3px 0px 0px;
 			border-radius: 3px 3px 0px 0px;
+			
+			width: 130px;
 		}
 		
 		@external .gwt-TabLayoutPanelTab-selected;

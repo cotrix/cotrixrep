@@ -3,6 +3,7 @@ package org.cotrix.web.codelistmanager.client;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
 import org.cotrix.web.codelistmanager.client.event.RefreshCodeListsEvent;
 import org.cotrix.web.codelistmanager.client.manager.CodeListManagerPresenter;
+import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CodeListImportedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
@@ -36,6 +37,7 @@ public class CotrixManagerAppControllerImpl implements CotrixManagerAppControlle
 		this.eventBus = eventBus;
 		this.codeListManagerPresenter = codeListManagerPresenter;
 		this.cotrixBus = cotrixBus;
+		CotrixManagerResources.INSTANCE.css().ensureInjected();
 		this.cotrixBus.addHandler(CodeListImportedEvent.TYPE, new CodeListImportedEvent.CodeListImportedHandler() {
 			
 			@Override

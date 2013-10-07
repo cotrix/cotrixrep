@@ -1,6 +1,6 @@
 package org.cotrix.web.codelistmanager.client.codelists;
 
-import org.cotrix.web.codelistmanager.client.resources.CellListResources;
+import org.cotrix.web.codelistmanager.shared.CodeListGroup.Version;
 import org.cotrix.web.share.shared.UICodelist;
 
 import com.google.gwt.cell.client.AbstractCell;
@@ -15,9 +15,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -28,7 +27,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeListsViewImpl extends ResizeComposite implements CodeListsView, KeyPressHandler, KeyDownHandler{
+public class CodeListsViewImpl extends ResizeComposite implements CodeListsView, KeyPressHandler, KeyDownHandler {
 
 	private static CodeListsViewUiBinder uiBinder = GWT.create(CodeListsViewUiBinder.class);
 
@@ -36,7 +35,7 @@ public class CodeListsViewImpl extends ResizeComposite implements CodeListsView,
 	interface CodeListsViewUiBinder extends UiBinder<Widget, CodeListsViewImpl> {}
 
 	@UiField(provided=true) 
-	CellList<UICodelist> codelists;
+	CellTree codelists;
 	
 	//@UiField FlowPanel filterPanel;
 	//@UiField PromptedTextBox filterTextBox;
@@ -47,6 +46,8 @@ public class CodeListsViewImpl extends ResizeComposite implements CodeListsView,
 				style.filterTextBox());
 	}
 
+	protected CodeListDataProvider codeListDataProvider;
+	
 	private Presenter presenter;
 	
 	@UiField
@@ -64,33 +65,27 @@ public class CodeListsViewImpl extends ResizeComposite implements CodeListsView,
 
 	@Inject
 	public CodeListsViewImpl(CodeListDataProvider codeListDataProvider) {
-		setupCellList(codeListDataProvider);
+		this.codeListDataProvider = codeListDataProvider;
+		setupCellList();
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
-	protected void setupCellList(CodeListDataProvider codeListDataProvider)
+	protected void setupCellList()
 	{
-
-		// Create a cell to render each value.
-		CodeListCell cell = new CodeListCell();
-	    
-	    // Create a CellList that uses the cell.
-		codelists = new CellList<UICodelist>(cell,CellListResources.INSTANCE);
-		codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-
-	    // Add a selection model to handle user selection.
-	    final SingleSelectionModel<UICodelist> selectionModel = new SingleSelectionModel<UICodelist>();
-	    codelists.setSelectionModel(selectionModel);
+	
+		final SingleSelectionModel<Version> selectionModel = new SingleSelectionModel<Version>();
 	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 	      public void onSelectionChange(SelectionChangeEvent event) {
-	    	 UICodelist selected = selectionModel.getSelectedObject();
+	    	  Version selected = selectionModel.getSelectedObject();
 	        if (selected != null) {
-	        	presenter.onCodelistItemSelected(selected);
+	        	presenter.onCodelistItemSelected(selected.toUICodelist());
 	        }
 	      }
 	    });
 	    
-	    codeListDataProvider.addDataDisplay(codelists);
+		codelists = new CellTree(new CodeListTreeModel(codeListDataProvider, selectionModel), null);
+		
+		codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 	}
 
 	public void setPresenter(Presenter presenter) {
@@ -129,7 +124,8 @@ public class CodeListsViewImpl extends ResizeComposite implements CodeListsView,
 	
 	public void refresh()
 	{
-		codelists.setVisibleRangeAndClearData(codelists.getVisibleRange(), true);
+		codeListDataProvider.loadData();
+		//codelists.setVisibleRangeAndClearData(codelists.getVisibleRange(), true);
 	}
 	
 	protected class CodeListCell extends AbstractCell<UICodelist> {

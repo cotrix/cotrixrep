@@ -2,6 +2,7 @@ package org.cotrix.web.codelistmanager.client;
 
 import java.util.ArrayList;
 
+import org.cotrix.web.codelistmanager.shared.CodeListGroup;
 import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
@@ -32,10 +33,8 @@ public interface ManagerService extends RemoteService {
 	
 	void editCode(ArrayList<UICode> code);
 	
-	
-	
-	DataWindow<UICodelist> getCodelists(Range range) throws ManagerServiceException;
 	DataWindow<UICodeListRow> getCodelistRows(String codelistId, Range range) throws ManagerServiceException;
+	DataWindow<CodeListGroup> getCodelistsGrouped() throws ManagerServiceException;
 	
 
 	CodeListMetadata getMetadata(String codelistId) throws ManagerServiceException;

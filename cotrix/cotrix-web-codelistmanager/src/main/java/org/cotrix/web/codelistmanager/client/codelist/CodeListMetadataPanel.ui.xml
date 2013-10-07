@@ -19,13 +19,22 @@
 		}
 		
 		.panel {
-	background-color: #f6f6f6;
-	border: 1px solid #d1d1d1;
-	border-spacing: 5px;
-}
+			background-color: #f6f6f6;
+			border: 1px solid #d1d1d1;
+			border-spacing: 5px;
+		}
+		
+				.plusButton {
+			float: left;
+		}
+		.minusButton {
+			float: right;
+		}
 	</ui:style>
-	<g:SimpleLayoutPanel styleName="{style.padding}">
-		<g:ScrollPanel styleName="{style.panel}">
+	<ui:image field="plus" src="plus.png" />
+	<ui:image field="minus" src="minus.png" />
+	<g:DockLayoutPanel unit='PX'>
+		<g:north size="80">
 			<g:Grid ui:field="panel" styleName="{style.grid}">
 				<g:row>
 					<g:cell
@@ -33,7 +42,7 @@
 						<span class="{common.css.propertyLabel}">Name</span>
 					</g:cell>
 					<g:customCell>
-						<g:TextBox ui:field="nameField" styleName="{common.css.textBox}"/>
+						<g:TextBox ui:field="nameField" styleName="{common.css.textBox}" />
 					</g:customCell>
 				</g:row>
 				<g:row>
@@ -42,21 +51,23 @@
 						<span class="{common.css.propertyLabel}">Version</span>
 					</g:cell>
 					<g:customCell>
-						<g:TextBox ui:field="versionField" styleName="{common.css.textBox}"/>
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:cell
-						styleName="{common.css.verticalHeadersMultipleItem} {style.firstColumn}">
-						<span class="{common.css.propertyLabel}">Attributes</span>
-					</g:cell>
-					<g:customCell>
-						<g:FlexTable ui:field="propertiesTable" cellPadding="0"
-							cellSpacing="0" borderWidth="1" styleName="{common.css.propertiesTable}"
-							width="100%" />
+						<g:TextBox ui:field="versionField" styleName="{common.css.textBox}" />
 					</g:customCell>
 				</g:row>
 			</g:Grid>
-		</g:ScrollPanel>
-	</g:SimpleLayoutPanel>
+		</g:north>
+		<g:center>
+			<v:AttributesGrid ui:field="attributesGrid" />
+		</g:center>
+		<g:south size="28">
+			<g:FlowPanel>
+				<g:PushButton ui:field="plusButton" styleName="{style.plusButton}">
+					<g:upFace image="{plus}" />
+				</g:PushButton>
+				<g:PushButton ui:field="minusButton" styleName="{style.minusButton}">
+					<g:upFace image="{minus}" />
+				</g:PushButton>
+			</g:FlowPanel>
+		</g:south>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 

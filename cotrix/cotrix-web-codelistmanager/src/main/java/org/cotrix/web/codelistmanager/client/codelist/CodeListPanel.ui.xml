@@ -11,15 +11,13 @@
 		<g:center>
 			<g:SplitLayoutPanel>
 				<g:center>
-					<g:DeckLayoutPanel ui:field="content">
-						<v:CodeListEditor ui:field="editor" />
-						<v:CodeListMetadataPanel ui:field="metadata" />
-					</g:DeckLayoutPanel>
+					<v:CodeListEditor ui:field="editor" />
 				</g:center>
 				<g:east size="300">
-					<v:CodeListAttributesPanel ui:field="attributes" />
+				<v:CodeListSidePanel />
 				</g:east>
 			</g:SplitLayoutPanel>
 		</g:center>
+
 	</g:DockLayoutPanel>
 </ui:UiBinder> 

@@ -1,0 +1,42 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:u="urn:import:org.cotrix.web.share.client.widgets"
+	xmlns:v="urn:import:org.cotrix.web.codelistmanager.client.codelist">
+	<ui:style>
+		@external .gwt-TabLayoutPanelContent;
+		.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent {
+			overflow: hidden;
+			padding: 6px;
+		}
+		
+		@external .gwt-TabLayoutPanelTab;
+		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab {
+			margin-left: 4px;
+			padding: 4px 8px 4px 8px;
+			cursor: pointer;
+			cursor: hand;
+			color: white;
+			font-weight: normal;
+			text-align: center;
+			background: #8E8E8E;
+			-moz-border-radius: 0px 0px 3px 3px;
+			border-radius: 0px 0px 3px 3px;
+		}
+		
+		@external .gwt-TabLayoutPanelTab-selected;
+		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
+			cursor: default;
+			background: white;
+			color: #333;
+			font-weight: bold;
+		}
+		
+		@external .gwt-TabLayoutPanelTabs;
+		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
+			background: #ccc;
+			padding-top: 6 px;
+		}
+	</ui:style>
+	<u:BottomTabLayoutPanel ui:field="tools" addStyleNames="{style.gwt-TabLayoutPanel}" />
+</ui:UiBinder>

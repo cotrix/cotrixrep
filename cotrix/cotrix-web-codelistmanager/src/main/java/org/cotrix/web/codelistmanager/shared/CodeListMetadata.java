@@ -5,6 +5,8 @@ package org.cotrix.web.codelistmanager.shared;
 
 import java.util.List;
 
+import org.cotrix.web.share.shared.UIAttribute;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
@@ -16,7 +18,7 @@ public class CodeListMetadata implements IsSerializable {
 	protected String id;
 	protected String name;
 	protected String version;
-	protected List<CodeListAttribute> attributes;
+	protected List<UIAttribute> attributes;
 	
 	/**
 	 * @return the id
@@ -63,14 +65,14 @@ public class CodeListMetadata implements IsSerializable {
 	/**
 	 * @return the attributes
 	 */
-	public List<CodeListAttribute> getAttributes() {
+	public List<UIAttribute> getAttributes() {
 		return attributes;
 	}
 	
 	/**
 	 * @param attributes the attributes to set
 	 */
-	public void setAttributes(List<CodeListAttribute> attributes) {
+	public void setAttributes(List<UIAttribute> attributes) {
 		this.attributes = attributes;
 	}
 

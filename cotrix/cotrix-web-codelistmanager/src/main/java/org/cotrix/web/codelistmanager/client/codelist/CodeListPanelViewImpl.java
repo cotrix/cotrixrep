@@ -1,7 +1,6 @@
 package org.cotrix.web.codelistmanager.client.codelist;
 
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
-import org.cotrix.web.codelistmanager.client.codelist.CodeListToolbar.ClickListener;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 
 import com.google.gwt.core.client.GWT;
@@ -9,7 +8,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
@@ -32,42 +30,18 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 	
 	@UiField DockLayoutPanel contentPanel;
 	@UiField CodeListToolbar toolbar;
-	@UiField DeckLayoutPanel content;
 	@UiField CodeListEditor editor;
-	@UiField CodeListMetadataPanel metadata;
-	@UiField CodeListAttributesPanel attributes;
 	
 	@Inject
 	public CodeListPanelViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		content.showWidget(editor);
-		toolbar.setClickListener(new ClickListener() {
-			
-			@Override
-			public void onClick() {
-				switchContent();
-				
-			}
-		});
-		metadata.loadData();
+
 	}
 	
 	@UiFactory
 	protected CodeListEditor createEditor()
 	{
 		return CotrixManagerAppGinInjector.INSTANCE.getCodeListEditor();
-	}
-	
-	@UiFactory
-	protected CodeListAttributesPanel createAttributesPanel()
-	{
-		return CotrixManagerAppGinInjector.INSTANCE.getCodeListAttributesPanel();
-	}
-	
-	@UiFactory
-	protected CodeListMetadataPanel getMetadataPanel()
-	{
-		return CotrixManagerAppGinInjector.INSTANCE.getCodeListMetadataPanel();
 	}
 	
 	/** 
@@ -79,12 +53,6 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 		
 		//workaround issuse #7188 https://code.google.com/p/google-web-toolkit/issues/detail?id=7188
 		onResize();
-	}
-	
-	protected void switchContent()
-	{
-		if (content.getVisibleWidget()==editor) content.showWidget(metadata);
-		else content.showWidget(editor);
 	}
 
 	@Override

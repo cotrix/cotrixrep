@@ -13,13 +13,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
-import static org.cotrix.repository.Queries.*;
-import static org.cotrix.domain.trait.Change.*;
-import static org.cotrix.domain.dsl.Codes.*;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
@@ -30,7 +26,7 @@ import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
-import org.cotrix.web.codelistmanager.shared.CodeListAttribute;
+import org.cotrix.web.codelistmanager.shared.CodeListGroup;
 import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
@@ -223,21 +219,27 @@ public class ManagerServiceImpl implements ManagerService {
 		}
 		return data;
 	}
-
+	
 	@Override
-	public DataWindow<UICodelist> getCodelists(com.google.gwt.view.client.Range range) throws ManagerServiceException {
-		logger.trace("getCodelists range: {}", range);
-		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
+	public DataWindow<CodeListGroup> getCodelistsGrouped() throws ManagerServiceException {
+		logger.trace("getCodelistsGrouped");
+		
+		Map<QName, CodeListGroup> groups = new HashMap<QName, CodeListGroup>();
 		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
 		while (it.hasNext()) {
-			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it
-					.next();
-			UICodelist c = new UICodelist();
-			c.setName(codelist.name().toString());
-			c.setId(codelist.id());
-			list.add(c);
+			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
+			
+			CodeListGroup group = groups.get(codelist.name());
+			if (group == null) {
+				group = new CodeListGroup(codelist.name().toString());
+				groups.put(codelist.name(), group);
+			}
+			group.addVersion(codelist.id(), codelist.version());
 		}
-		return new DataWindow<UICodelist>(list);
+		
+		for (CodeListGroup group:groups.values()) Collections.sort(group.getVersions()); 
+		
+		return new DataWindow<CodeListGroup>(new ArrayList<CodeListGroup>(groups.values()));
 	}
 
 	@Override
@@ -258,12 +260,7 @@ public class ManagerServiceImpl implements ManagerService {
 			Map<String, UIAttribute> rowAttributes = new HashMap<String, UIAttribute>(code.attributes().size());
 			
 			for (Attribute attribute:code.attributes()) {
-				UIAttribute rowAttribute = new UIAttribute();
-				rowAttribute.setName(attribute.name().toString());
-				rowAttribute.setType(attribute.type().toString());
-				rowAttribute.setLanguage(attribute.language());
-				rowAttribute.setValue(attribute.value());
-				rowAttribute.setId(attribute.id());
+				UIAttribute rowAttribute = toUIAttribute(attribute);
 				rowAttributes.put(attribute.name().toString(), rowAttribute);
 			}
 			row.setAttributes(rowAttributes);
@@ -284,22 +281,27 @@ public class ManagerServiceImpl implements ManagerService {
 		return metadata;
 	}
 	
-	protected List<CodeListAttribute> getAttributes(Container<? extends Attribute> attributesContainer)
+	protected List<UIAttribute> getAttributes(Container<? extends Attribute> attributesContainer)
 	{
-		if (attributesContainer.size()==0) return Collections.emptyList();
-		List<CodeListAttribute> attributes = new ArrayList<CodeListAttribute>(attributesContainer.size());
+		List<UIAttribute> attributes = new ArrayList<UIAttribute>(attributesContainer.size());
 		
 		for (Attribute domainAttribute:attributesContainer) {
-			CodeListAttribute attribute = new CodeListAttribute();
-			attribute.setId(domainAttribute.id());
-			attribute.setName(domainAttribute.name().toString());
-			attribute.setType(domainAttribute.type().toString());
-			attribute.setLanguage(domainAttribute.language());
-			attribute.setValue(domainAttribute.value());
+			UIAttribute attribute = toUIAttribute(domainAttribute);
 			attributes.add(attribute);
 		}
 		
 		return attributes;
+	}
+	
+	protected UIAttribute toUIAttribute(Attribute domainAttribute)
+	{
+		UIAttribute attribute = new UIAttribute();
+		attribute.setName(domainAttribute.name().toString());
+		attribute.setType(domainAttribute.type().toString());
+		attribute.setLanguage(domainAttribute.language());
+		attribute.setValue(domainAttribute.value());
+		attribute.setId(domainAttribute.id());
+		return attribute;
 	}
 
 	@Override
@@ -332,4 +334,6 @@ public class ManagerServiceImpl implements ManagerService {
 	public Response<Void> seal(Request<Void> request) {
 		return new Response<Void>();
 	}
+
+	
 }
