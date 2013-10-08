@@ -34,8 +34,8 @@ public class LoginDialog extends PopupPanel {
 	public LoginDialog(LoginDialogListener listener) {
 		this.listener = listener;
 		setWidget(binder.createAndBindUi(this));
-		setWidth("320px");
-		setHeight("370px");
+		/*setWidth("320px");
+		setHeight("370px");*/
 		setAutoHideEnabled(true);
 	}
 	

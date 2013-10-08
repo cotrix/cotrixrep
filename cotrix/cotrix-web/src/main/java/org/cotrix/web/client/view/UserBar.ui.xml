@@ -19,9 +19,9 @@
 		
 	</ui:style>
 	<g:FlowPanel styleName="{style.info}">
-		<g:InlineHTML>User:&nbsp;</g:InlineHTML>
+		<g:InlineHTML>user:&nbsp;</g:InlineHTML>
 		<g:InlineLabel styleName="{style.active}" ui:field="username">none</g:InlineLabel>
-		<g:InlineHTML>,&nbsp;</g:InlineHTML>
+		<g:InlineHTML>&nbsp;|&nbsp;</g:InlineHTML>
 		<g:InlineLabel styleName="{style.active}" ui:field="login">Login</g:InlineLabel>
 		<g:InlineLabel styleName="{style.active}" ui:field="logout">Logout</g:InlineLabel>
 	</g:FlowPanel>

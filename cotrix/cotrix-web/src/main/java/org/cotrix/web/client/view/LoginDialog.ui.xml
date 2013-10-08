@@ -14,7 +14,7 @@
 			border-radius: 5px;
 			width: 300px;
 /*			margin-left: 100px;*/
-			height: 350px;
+			height: 300px;
 			padding: 20px;
 		}
 		
@@ -79,12 +79,12 @@
 			cursor: pointer;
 		}
 	</ui:style>
-	<g:HTMLPanel width="320px" height="370px" styleName="{style.box}">
+	<g:HTMLPanel styleName="{style.box}">
 			<div class="{style.title}">
 				Log in
 			</div>
 			<div class="{style.subtitle}">
-				Doesn't have any account? Click
+				Create new account!
 				<font style="color:#ff6600;">
 					<a href="#" class="{style.register}">Register</a>
 				</font>
@@ -96,19 +96,6 @@
 			<div class="{style.textfield}">
 				<div>Password</div>
 				<g:TextBox styleName="{style.textbox}" ui:field="password" />
-			</div>
-			<div class="{style.term}">
-				<div>
-					By clicking
-					<font style="font-weight:bold">"Submit"</font>
-					I agree that:
-				</div>
-				<div>
-					I have read and accepted the
-					<a href="#" class="{style.termLink}">User Agreement</a>
-					and
-					<a href="#" class="{style.termLink}">Privacy Policy.</a>
-				</div>
 			</div>
 			<div class="{style.textfield}">
 				<g:Button ui:field="login" styleName="{style.submit}">Submit</g:Button>

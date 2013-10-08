@@ -62,7 +62,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		if (user.equals(PredefinedUsers.guest)) features.add(AuthenticationFeature.CAN_LOGIN);
 		else features.add(AuthenticationFeature.CAN_LOGOUT);
 		
-		return new Response<String>(features, user.name());
+		return new Response<String>(features, user.id());
 	}
 
 	@Override
