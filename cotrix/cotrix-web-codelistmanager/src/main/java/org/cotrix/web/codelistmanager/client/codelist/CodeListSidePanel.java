@@ -16,13 +16,15 @@
 package org.cotrix.web.codelistmanager.client.codelist;
 
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
-import org.cotrix.web.share.client.widgets.BottomTabLayoutPanel;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -37,19 +39,40 @@ public class CodeListSidePanel extends ResizeComposite {
 	
 	private static Binder uiBinder = GWT.create(Binder.class);
 
-	@UiField BottomTabLayoutPanel tools;
+	@UiField Button attributesButton;
+	@UiField Button metadataButton;
+	
+	@UiField DeckLayoutPanel tools;
+	@UiField CodeListAttributesPanel attributesPanel;
+	@UiField CodeListMetadataPanel metadataPanel;
 
 	public CodeListSidePanel() {
 		initWidget(uiBinder.createAndBindUi(this));
-		tools.add(CotrixManagerAppGinInjector.INSTANCE.getCodeListAttributesPanel(), "Attributes");
-		tools.add(CotrixManagerAppGinInjector.INSTANCE.getCodeListMetadataPanel(), "Metadata");
-		/*tools.add(createAttributesPanel(), "Filters");*/
+		tools.showWidget(attributesPanel);
 	}
 	
 	@UiFactory
-	protected BottomTabLayoutPanel createBottomTabLayoutPanel()
+	protected CodeListAttributesPanel createCodeListAttributesPanel()
 	{
-		return new BottomTabLayoutPanel(3, Unit.EM);
+		return CotrixManagerAppGinInjector.INSTANCE.getCodeListAttributesPanel();
+	}
+	
+	@UiFactory
+	protected CodeListMetadataPanel createCodeListMetadataPanel()
+	{
+		return CotrixManagerAppGinInjector.INSTANCE.getCodeListMetadataPanel();
+	}
+	
+	@UiHandler("attributesButton")
+	protected void onAttributesButtonClicked(ClickEvent event)
+	{
+		tools.showWidget(attributesPanel);
+	}
+	
+	@UiHandler("metadataButton")
+	protected void onMetadataButtonClicked(ClickEvent event)
+	{
+		tools.showWidget(metadataPanel);
 	}
 
 }

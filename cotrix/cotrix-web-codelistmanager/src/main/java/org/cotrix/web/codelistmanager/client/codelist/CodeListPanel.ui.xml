@@ -1,23 +1,19 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:org.cotrix.web.codelistmanager.client.codelist">
-	<ui:style>
-		
-	</ui:style>
-	<g:DockLayoutPanel ui:field="contentPanel" unit='EM'>
-		<g:north size='2.7'>
-			<v:CodeListToolbar ui:field="toolbar" />
-		</g:north>
+	<g:SplitLayoutPanel>
 		<g:center>
-			<g:SplitLayoutPanel>
+			<g:DockLayoutPanel ui:field="contentPanel" unit='EM'>
+				<g:north size='2.7'>
+					<v:CodeListToolbar ui:field="toolbar" />
+				</g:north>
 				<g:center>
 					<v:CodeListEditor ui:field="editor" />
 				</g:center>
-				<g:east size="300">
-				<v:CodeListSidePanel />
-				</g:east>
-			</g:SplitLayoutPanel>
+			</g:DockLayoutPanel>
 		</g:center>
-
-	</g:DockLayoutPanel>
+		<g:east size="300">
+			<v:CodeListSidePanel />
+		</g:east>
+	</g:SplitLayoutPanel>
 </ui:UiBinder> 
