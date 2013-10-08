@@ -1,9 +1,7 @@
-package org.cotrix.web.codelistmanager.client.event;
+package org.cotrix.web.codelistmanager.client.codelist.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
-
-import org.cotrix.web.share.shared.UIAttribute;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -14,20 +12,20 @@ public class AttributeSwitchedEvent extends
 
 	public static Type<AttributeSwitchedHandler> TYPE = new Type<AttributeSwitchedHandler>();
 	
-	private UIAttribute attribute;
+	private String attributeName;
 	protected AttributeSwitchType switchType;
 
 	public interface AttributeSwitchedHandler extends EventHandler {
 		void onAttributeSwitched(AttributeSwitchedEvent event);
 	}
 
-	public AttributeSwitchedEvent(UIAttribute attribute, AttributeSwitchType switchType) {
-		this.attribute = attribute;
+	public AttributeSwitchedEvent(String attributeName, AttributeSwitchType switchType) {
+		this.attributeName = attributeName;
 		this.switchType = switchType;
 	}
 
-	public UIAttribute getAttribute() {
-		return attribute;
+	public String getAttributeName() {
+		return attributeName;
 	}	
 
 	/**

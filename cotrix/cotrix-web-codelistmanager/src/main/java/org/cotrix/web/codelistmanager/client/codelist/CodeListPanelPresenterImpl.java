@@ -72,6 +72,22 @@ public class CodeListPanelPresenterImpl implements CodeListPanelPresenter {
 				service.seal(Request.voidRequest(codelistId), FeatureAsyncCallBack.<Void>nop());
 			}
 		});
+		
+		toolbar.getAllColumns().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				view.getCodeListEditor().showAllAttributesAsColumn();			
+			}
+		});
+		
+		toolbar.getAllNormals().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				view.getCodeListEditor().showAllAttributesAsNormal();
+			}
+		});
 	}
 
 

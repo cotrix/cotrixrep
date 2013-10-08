@@ -1,4 +1,4 @@
-package org.cotrix.web.codelistmanager.client.event;
+package org.cotrix.web.codelistmanager.client.codelist.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;

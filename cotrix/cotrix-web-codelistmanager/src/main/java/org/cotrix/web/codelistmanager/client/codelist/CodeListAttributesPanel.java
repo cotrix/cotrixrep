@@ -19,11 +19,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.cotrix.web.codelistmanager.client.event.AttributeSwitchType;
-import org.cotrix.web.codelistmanager.client.event.AttributeSwitchedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchType;
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.SwitchAttributeEvent;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
-import org.cotrix.web.codelistmanager.client.event.RowSelectedEvent;
-import org.cotrix.web.codelistmanager.client.event.SwitchAttributeEvent;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.share.client.widgets.ImageResourceCell;
 import org.cotrix.web.share.shared.UIAttribute;
@@ -131,15 +131,15 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 			@Override
 			public void onAttributeSwitched(AttributeSwitchedEvent event) {
-				UIAttribute attribute = event.getAttribute();
-				Log.trace("onAttributeSwitched attribute: "+attribute+" type: "+event.getSwitchType());
+				String attributeName = event.getAttributeName();
+				Log.trace("onAttributeSwitched attributeName: "+attributeName+" type: "+event.getSwitchType());
 
 				switch (event.getSwitchType()) {
-					case TO_COLUMN: attributeAsColumn.add(attribute.getName()); break;
-					case TO_NORMAL: attributeAsColumn.remove(attribute.getName()); break;
+					case TO_COLUMN: attributeAsColumn.add(attributeName); break;
+					case TO_NORMAL: attributeAsColumn.remove(attributeName); break;
 				}
 
-				attributesGrid.refreshAttribute(attribute);
+				attributesGrid.refreshAttribute(attributeName);
 
 			}
 		});
@@ -186,8 +186,8 @@ public class CodeListAttributesPanel extends ResizeComposite {
 	protected void switchAttribute(final UIAttribute attribute, AttributeSwitchState attributeSwitchState)
 	{
 		switch (attributeSwitchState) {
-			case COLUMN: editorBus.fireEvent(new SwitchAttributeEvent(attribute, AttributeSwitchType.TO_NORMAL)); break;
-			case NORMAL: editorBus.fireEvent(new SwitchAttributeEvent(attribute, AttributeSwitchType.TO_COLUMN)); break;
+			case COLUMN: editorBus.fireEvent(new SwitchAttributeEvent(attribute.getName(), AttributeSwitchType.TO_NORMAL)); break;
+			case NORMAL: editorBus.fireEvent(new SwitchAttributeEvent(attribute.getName(), AttributeSwitchType.TO_COLUMN)); break;
 		}
 	}
 

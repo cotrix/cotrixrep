@@ -176,7 +176,9 @@
 				styleName="{style.nav}" ui:field="nav"></g:Image> -->
 			<g:Label ui:field="codelistName" styleName="{style.codelistName}" />
 			<g:FlowPanel styleName="{style.listBoxWrapper}">
-
+				<g:Button ui:field="allColumns" enabled="true">AllColumns</g:Button>
+				<g:Button ui:field="allNormals" enabled="true">AllNormals</g:Button>
+				
 				<g:Button ui:field="save" enabled="true">Save</g:Button>
 				<g:Button ui:field="lock" visible="true">Lock</g:Button>
 				<g:Button ui:field="unlock" visible="true">Unlock</g:Button>

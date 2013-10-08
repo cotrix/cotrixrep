@@ -8,7 +8,7 @@
 	<g:DockLayoutPanel unit="EM">
 		<!-- DataGrid. -->
 		<g:center>
-			<c:DataGrid ui:field='dataGrid' />
+			<c:PatchedDataGrid ui:field='dataGrid' />
 		</g:center>
 
 		<!-- Pager. -->
