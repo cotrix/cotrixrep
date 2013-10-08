@@ -36,6 +36,7 @@ public class CodeListManagerViewImpl extends ResizeComposite implements CodeList
 		this.mainPanel = new SplitLayoutPanel(5);
 		initWidget(uiBinder.createAndBindUi(this));
 		CommonResources.INSTANCE.css().ensureInjected();
+		mainPanel.setWidgetToggleDisplayAllowed(westPanel, true);
 	}
 
 	public HasWidgets getWestPanel() {

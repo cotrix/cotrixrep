@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -28,14 +29,16 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 
 	CotrixManagerResources resources = GWT.create(CotrixManagerResources.class);
 	
+	@UiField SplitLayoutPanel mainPanel;
 	@UiField DockLayoutPanel contentPanel;
 	@UiField CodeListToolbar toolbar;
 	@UiField CodeListEditor editor;
+	@UiField CodeListSidePanel sidePanel;
 	
 	@Inject
 	public CodeListPanelViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-
+		mainPanel.setWidgetToggleDisplayAllowed(sidePanel, true);
 	}
 	
 	@UiFactory
