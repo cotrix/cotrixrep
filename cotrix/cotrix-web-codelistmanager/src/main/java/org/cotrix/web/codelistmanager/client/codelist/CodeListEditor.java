@@ -37,6 +37,7 @@ import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -45,7 +46,7 @@ import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
@@ -67,7 +68,7 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 
 	interface Binder extends UiBinder<Widget, CodeListEditor> { }
 
-	interface DataGridResources extends DataGrid.Resources {
+	interface DataGridResources extends PatchedDataGrid.Resources {
 
 		@Source("CodeListEditor.css")
 		DataGridStyle dataGridStyle();
@@ -79,14 +80,14 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 		ImageResource remove();
 	}
 
-	interface DataGridStyle extends DataGrid.Style {
+	interface DataGridStyle extends PatchedDataGrid.Style {
 
 		String groupHeaderCell();
 	}
 
 
 	@UiField(provided = true)
-	DataGrid<UICodeListRow> dataGrid;
+	PatchedDataGrid<UICodeListRow> dataGrid;
 
 	@UiField(provided = true)
 	SimplePager pager;
@@ -103,12 +104,16 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 	protected EventBus editorBus;
 
 	protected SingleSelectionModel<UICodeListRow> selectionModel;
+	
+	protected CodeListRowDataProvider dataProvider;
+	protected HandlerRegistration registration;
 
 	@Inject
 	public CodeListEditor(@EditorBus EventBus editorBus, CodeListRowDataProvider dataProvider) {
 		this.editorBus = editorBus;
+		this.dataProvider = dataProvider;
 
-		dataGrid = new DataGrid<UICodeListRow>(20, resource, CodeListRowKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<UICodeListRow>(20, resource, CodeListRowKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label("Empty"));
 
@@ -136,6 +141,19 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
 	}
+
+	public void showAllAttributesAsColumn()
+	{
+		if (registration == null) registration = dataProvider.addAttributeSetChangedHandler(this);
+		switchAllAttributesToColumn();
+	}
+	
+	public void showAllAttributesAsNormal()
+	{
+		if (registration!=null) registration.removeHandler();
+		registration = null;
+		switchAllAttributesToNormal();
+	}
 	
 	protected void bind()
 	{
@@ -162,7 +180,7 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 		});
 	}
 
-	private void setupColumns() {
+	protected void setupColumns() {
 
 		nameColumn = new Column<UICodeListRow, String>(new TextCell()) {
 			@Override
@@ -195,8 +213,15 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 		return column;
 	}
 
-	protected void switchToColumn(final String attributeName)
+	protected void switchToColumn(String attributeName)
 	{
+		addAttributeColumn(attributeName);
+		editorBus.fireEvent(new AttributeSwitchedEvent(attributeName, AttributeSwitchType.TO_COLUMN));
+	}
+	
+	protected void addAttributeColumn(final String attributeName)
+	{
+		if (attributeAsColumn.contains(attributeName)) return;
 		Column<UICodeListRow, String> column = getAttributeColumn(attributeName);
 		attributeAsColumn.add(attributeName);
 		
@@ -229,17 +254,21 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 		dataGrid.addColumn(column, header);
 		//dataGrid.setColumnWidth(dataGrid.getColumnCount()-1, 1, Unit.EM);
 		//dataGrid.clearTableWidth();
-		editorBus.fireEvent(new AttributeSwitchedEvent(attributeName, AttributeSwitchType.TO_COLUMN));
 	}
 	
 	protected void switchToNormal(String attributeName)
 	{
+		removeAttributeColumn(attributeName);
+		editorBus.fireEvent(new AttributeSwitchedEvent(attributeName, AttributeSwitchType.TO_NORMAL));
+	}
+	
+	protected void removeAttributeColumn(String attributeName)
+	{
+		if (!attributeAsColumn.contains(attributeName)) return;
 		Column<UICodeListRow, String> column = getAttributeColumn(attributeName);
 		attributeAsColumn.remove(attributeName);
 		dataGrid.removeColumn(column);
-		removeUnusedDataGridColumns(dataGrid);
-		
-		editorBus.fireEvent(new AttributeSwitchedEvent(attributeName, AttributeSwitchType.TO_NORMAL));
+		//removeUnusedDataGridColumns(dataGrid);
 	}
 	
 	/**
@@ -247,22 +276,58 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 	 * https://code.google.com/p/google-web-toolkit/issues/detail?id=6711
 	 * @param dataGrid
 	 */
-	public static void removeUnusedDataGridColumns(DataGrid<?> dataGrid) {
+	public static void removeUnusedDataGridColumns(PatchedDataGrid<?> dataGrid) {
+		Log.trace("removeUnusedDataGridColumns");
 		int columnCount = dataGrid.getColumnCount();
 		NodeList<Element> colGroups = dataGrid.getElement().getElementsByTagName("colgroup");
 
+		Log.trace("  found "+colGroups.getLength()+" col groups");
+		
 		for (int i = 0; i < colGroups.getLength(); i++) {
 			Element colGroupEle = colGroups.getItem(i);
+			colGroupEle.setId("GROUP"+i);
+			Log.trace("checking group "+i+" ancestor: "+colGroupEle.getParentNode());
+			
 			NodeList<Element> colList = colGroupEle.getElementsByTagName("col");
-
+			Log.trace("  found "+colList.getLength()+" cols in group "+i+" expected "+columnCount);
+			
 			for (int j = colList.getLength()-1; j >= columnCount; j--) {
 				colGroupEle.removeChild(colList.getItem(j));
+				Log.trace("    removing group "+j);
 			}
 		}
 	}
 
 	@Override
 	public void onAttributeSetChanged(AttributeSetChangedEvent event) {
+		Set<String> attributes = event.getAttributesNames();
+		Log.trace("onAttributeSetChanged attributes: "+attributes);
 		
+		Set<String> columnsToRemove = new HashSet<String>(attributeAsColumn);
+		columnsToRemove.removeAll(attributes);
+		Log.trace("columns to remove: "+columnsToRemove);
+		
+		for (String toRemove:columnsToRemove) removeAttributeColumn(toRemove);
+		
+		for (String attribute:attributes) addAttributeColumn(attribute);
+	}
+	
+	public void switchAllAttributesToColumn() {
+		Log.trace("switchAllAttributesToColumn");
+		
+		Set<String> attributes = new HashSet<String>();
+		
+		for (UICodeListRow row:dataGrid.getVisibleItems()) attributes.addAll(row.getAttributesNames());
+		Log.trace("attributes: "+attributes);
+		
+		attributes.removeAll(attributeAsColumn);	
+		Log.trace("attributes to add: "+attributes);
+		
+		for (String attribute:attributes) switchToColumn(attribute);
+	}
+	
+	public void switchAllAttributesToNormal() {
+		Set<String> attributesToNormal = new HashSet<String>(attributeAsColumn);
+		for (String attribute:attributesToNormal) switchToNormal(attribute);
 	}
 }

@@ -15,5 +15,7 @@ public interface CodeListPanelView {
 	Widget asWidget();
 	
 	CodeListToolbar getToolBar();
+	
+	CodeListEditor getCodeListEditor();
 
 }

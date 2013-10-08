@@ -60,4 +60,9 @@ public class CodeListPanelViewImpl extends ResizeComposite implements CodeListPa
 	{
 		return toolbar;
 	}
+
+	@Override
+	public CodeListEditor getCodeListEditor() {
+		return editor;
+	}
 }

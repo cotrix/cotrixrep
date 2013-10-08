@@ -28,6 +28,9 @@ public class CodeListToolbar extends Composite {
 	interface CodelistToolbarUiBinder extends UiBinder<Widget, CodeListToolbar> {}
 	private static CodelistToolbarUiBinder uiBinder = GWT.create(CodelistToolbarUiBinder.class);
 	
+	@UiField Button allColumns;
+	@UiField Button allNormals;
+	
 	@UiField Button lock;
 	@UiField Button unlock;
 	@UiField Button seal;
@@ -52,6 +55,34 @@ public class CodeListToolbar extends Composite {
 				Log.trace("Save back");
 			}
 		}));
+	}
+
+	/**
+	 * @return the allColumns
+	 */
+	public Button getAllColumns() {
+		return allColumns;
+	}
+
+	/**
+	 * @param allColumns the allColumns to set
+	 */
+	public void setAllColumns(Button allColumns) {
+		this.allColumns = allColumns;
+	}
+
+	/**
+	 * @return the allNormals
+	 */
+	public Button getAllNormals() {
+		return allNormals;
+	}
+
+	/**
+	 * @param allNormals the allNormals to set
+	 */
+	public void setAllNormals(Button allNormals) {
+		this.allNormals = allNormals;
 	}
 
 	public Button getLockButton()

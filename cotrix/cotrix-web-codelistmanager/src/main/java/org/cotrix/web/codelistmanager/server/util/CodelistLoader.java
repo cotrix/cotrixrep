@@ -12,7 +12,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.dsl.Codes;
 import org.cotrix.io.map.MapService;
 import org.cotrix.io.map.Outcome;
 import org.cotrix.io.parse.ParseService;
@@ -63,6 +65,8 @@ public class CodelistLoader {
 			boolean imported = importCodelist(codelist);
 			logger.trace("import "+(imported?"complete":"failed"));
 		}
+		
+		importSparse();
 	}
 
 	public boolean importCodelist(CodeListInfo codelistInfo)
@@ -115,6 +119,29 @@ public class CodelistLoader {
 			logger.error("Codelist import failed", e);
 			return false;
 		}
+	}
+	
+	protected void importSparse()
+	{
+		Codelist codelist = createSparseCodelist(60);
+		repository.add(codelist);
+		lifecycleService.start(codelist.id());
+	}
+	
+	protected Codelist createSparseCodelist(int ncodes)
+	{
+		Attribute att = attr().name("format").value("Sparse").in("English").build();
+		
+		Code[] codes = new Code[ncodes];
+		for (int i = 0; i < codes.length; i++) {
+			int numAttributes = i/10 + 1;
+			Attribute[] attributes = new Attribute[numAttributes];
+			for (int l = 0; l<attributes.length; l++) attributes[l] = attr().name("attribute"+l).value("value "+i+"-"+l).in("English").build();
+						
+			codes[i] = code().name("code"+i).attributes(attributes).build();
+		}
+		
+		return Codes.codelist().name("Sparse").with(codes).attributes(att).build();
 	}
 	
 	protected static CodeListInfo codelist(String resourceName, String codeColumnName, String version)
