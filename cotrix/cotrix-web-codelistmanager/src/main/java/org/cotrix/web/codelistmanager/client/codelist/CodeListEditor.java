@@ -22,13 +22,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
-
-import org.cotrix.web.codelistmanager.client.event.AttributeSwitchType;
-import org.cotrix.web.codelistmanager.client.event.AttributeSwitchedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSetChangedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchType;
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.SwitchAttributeEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSetChangedEvent.AttributeSetChangedHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
-import org.cotrix.web.codelistmanager.client.event.RowSelectedEvent;
-import org.cotrix.web.codelistmanager.client.event.SwitchAttributeEvent;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.shared.UIAttribute;
 
@@ -67,7 +67,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeListEditor extends ResizeComposite {
+public class CodeListEditor extends ResizeComposite implements AttributeSetChangedHandler {
 
 	interface Binder extends UiBinder<Widget, CodeListEditor> { }
 
@@ -267,48 +267,8 @@ public class CodeListEditor extends ResizeComposite {
 		}
 	}
 
-	/**
-	 * An {@link AbstractCell} used to render an {@link ImageResource}.
-	 */
-	public class ImageResourceCell extends AbstractCell<Boolean> {
-		private SafeHtmlRenderer<Boolean> renderer;
-
-		/**
-		 * Construct a new ImageResourceCell.
-		 */
-		public ImageResourceCell(SafeHtmlRenderer<Boolean> renderer) {
-			super(CLICK, KEYDOWN);
-			this.renderer = renderer;
-		}
-
-		/** 
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void onBrowserEvent(Context context, Element parent, Boolean value,
-				NativeEvent event, ValueUpdater<Boolean> valueUpdater) {
-			super.onBrowserEvent(context, parent, value, event, valueUpdater);
-			if (CLICK.equals(event.getType())) {
-				System.out.println("CLICK EVENT vu: "+valueUpdater);
-				onEnterKeyDown(context, parent, value, event, valueUpdater);
-			}
-		}
-
-		@Override
-		protected void onEnterKeyDown(Context context, Element parent, Boolean value,
-				NativeEvent event, ValueUpdater<Boolean> valueUpdater) {
-			if (valueUpdater != null) {
-				System.out.println("UPDATING");
-				valueUpdater.update(value);
-			}
-		}
-
-		@Override
-		public void render(Context context, Boolean value, SafeHtmlBuilder sb) {
-			if (value != null) {
-				sb.append(renderer.render(value));
-			}
-		}
-
+	@Override
+	public void onAttributeSetChanged(AttributeSetChangedEvent event) {
+		
 	}
 }
