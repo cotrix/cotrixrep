@@ -5,6 +5,7 @@ package org.cotrix.web.codelistmanager.shared;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import org.cotrix.web.share.shared.UIAttribute;
 
@@ -58,6 +59,11 @@ public class UICodeListRow implements IsSerializable {
 	public UIAttribute getAttribute(String name)
 	{
 		return attributes.get(name);
+	}
+	
+	public Set<String> getAttributesNames()
+	{
+		return attributes.keySet();
 	}
 
 	/**
