@@ -15,31 +15,27 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
-import static com.google.gwt.dom.client.BrowserEvents.*;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSetChangedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSetChangedEvent.AttributeSetChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchAttributeEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSetChangedEvent.AttributeSetChangedHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -156,11 +152,11 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 			
 			@Override
 			public void onSwitchAttribute(SwitchAttributeEvent event) {
-				UIAttribute attribute = event.getAttribute();
-				Log.trace("onSwitchAttribute attribute: "+attribute+" type: "+event.getSwitchType());
+				String attributeName = event.getAttributeName();
+				Log.trace("onSwitchAttribute attribute: "+attributeName+" type: "+event.getSwitchType());
 				switch (event.getSwitchType()) {
-					case TO_COLUMN: switchToColumn(attribute); break;
-					case TO_NORMAL: switchToNormal(attribute); break;
+					case TO_COLUMN: switchToColumn(attributeName); break;
+					case TO_NORMAL: switchToNormal(attributeName); break;
 				}
 			}
 		});
@@ -199,9 +195,8 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 		return column;
 	}
 
-	protected void switchToColumn(final UIAttribute attribute)
+	protected void switchToColumn(final String attributeName)
 	{
-		final String attributeName = attribute.getName();
 		Column<UICodeListRow, String> column = getAttributeColumn(attributeName);
 		attributeAsColumn.add(attributeName);
 		
@@ -226,7 +221,7 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 
 			@Override
 			public void update(String value) {
-				switchToNormal(attribute);				
+				switchToNormal(attributeName);				
 			}
 		});
 		
@@ -234,18 +229,17 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 		dataGrid.addColumn(column, header);
 		//dataGrid.setColumnWidth(dataGrid.getColumnCount()-1, 1, Unit.EM);
 		//dataGrid.clearTableWidth();
-		editorBus.fireEvent(new AttributeSwitchedEvent(attribute, AttributeSwitchType.TO_COLUMN));
+		editorBus.fireEvent(new AttributeSwitchedEvent(attributeName, AttributeSwitchType.TO_COLUMN));
 	}
 	
-	protected void switchToNormal(UIAttribute attribute)
+	protected void switchToNormal(String attributeName)
 	{
-		String attributeName = attribute.getName();
 		Column<UICodeListRow, String> column = getAttributeColumn(attributeName);
 		attributeAsColumn.remove(attributeName);
 		dataGrid.removeColumn(column);
 		removeUnusedDataGridColumns(dataGrid);
 		
-		editorBus.fireEvent(new AttributeSwitchedEvent(attribute, AttributeSwitchType.TO_NORMAL));
+		editorBus.fireEvent(new AttributeSwitchedEvent(attributeName, AttributeSwitchType.TO_NORMAL));
 	}
 	
 	/**

@@ -126,17 +126,18 @@ public abstract class AttributesGrid extends ResizeComposite {
 		return column;
 	}
 
-	protected void refreshAttribute(UIAttribute attribute)
+	protected void refreshAttribute(String attributeName)
 	{
-		Log.trace("refreshAttribute attribute: "+attribute);
+		Log.trace("refreshAttribute attributeName: "+attributeName);
 		List<UIAttribute> attributes = dataProvider.getList();
 		for (int i = 0; i < attributes.size(); i++) {
-			if (attributes.get(i).getName().equals(attribute.getName())) {
+			UIAttribute attribute = attributes.get(i);
+			if (attribute.getName().equals(attributeName)) {
 				attributes.set(i, attribute);
 				return;
 			}
 		}
-		Log.warn("attribute "+attribute+" not found in data provider");
+		Log.warn("attribute "+attributeName+" not found in data provider");
 	}
 	
 	public abstract Header<String> getHeader();
