@@ -19,12 +19,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchAttributeEvent;
+import org.cotrix.web.codelistmanager.client.data.CodeListRowEditor;
+import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
+import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.client.widgets.ImageResourceCell;
 import org.cotrix.web.share.shared.UIAttribute;
 
@@ -84,23 +90,22 @@ public class CodeListAttributesPanel extends ResizeComposite {
 	protected ListDataProvider<UIAttribute> dataProvider;
 
 	protected AttributeHeader header;
+	
+	protected CodeListRowEditor rowEditor;
+	
+	protected UICodeListRow visualizedRow;
 
 	@Inject
-	public CodeListAttributesPanel(@EditorBus EventBus editorBus) {
+	public CodeListAttributesPanel(@EditorBus EventBus editorBus, CodeListRowEditor rowEditor) {
 
 		this.editorBus = editorBus;
+		this.rowEditor = rowEditor;
 		
 		this.dataProvider = new ListDataProvider<UIAttribute>();
 		
 		header = new AttributeHeader("");
 		
-		attributesGrid = new AttributesGrid(dataProvider) {
-			
-			@Override
-			public Header<String> getHeader() {
-				return header;
-			}
-		};
+		attributesGrid = new AttributesGrid(dataProvider, header);
 
 		setupColumns();
 
@@ -117,13 +122,7 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 			@Override
 			public void onRowSelected(RowSelectedEvent event) {
-				header.setText(event.getRow().getName());
-				attributesGrid.redrawHeaders();
-				
-				List<UIAttribute> attributes = dataProvider.getList();
-				attributes.clear();
-				attributes.addAll(event.getRow().getAttributes());
-				dataProvider.refresh();
+				updateVisualizedRow(event.getRow());
 			}
 		});
 
@@ -143,6 +142,38 @@ public class CodeListAttributesPanel extends ResizeComposite {
 
 			}
 		});
+		
+		attributesGrid.addAttributeChangedHandler(new AttributeChangedHandler() {
+			
+			@Override
+			public void onAttributeChanged(AttributeChangedEvent event) {
+				visualizedRow.updateAttribute(event.getOldName(), event.getAttribute());
+				rowEditor.edited(visualizedRow);
+			}
+		});
+		
+		
+		rowEditor.addDataEditHandler(new DataEditHandler<UICodeListRow>() {
+
+			@Override
+			public void onDataEdit(DataEditEvent<UICodeListRow> event) {
+				if (visualizedRow!=null && visualizedRow.equals(event.getData())) {
+					updateVisualizedRow(event.getData());
+				}
+			}
+		});
+	}
+	
+	protected void updateVisualizedRow(UICodeListRow row)
+	{
+		visualizedRow = row;
+		header.setText(visualizedRow.getName());
+		attributesGrid.redrawHeaders();
+		
+		List<UIAttribute> currentAttributes = dataProvider.getList();
+		currentAttributes.clear();
+		currentAttributes.addAll(visualizedRow.getAttributes());
+		dataProvider.refresh();
 	}
 
 	private void setupColumns() {

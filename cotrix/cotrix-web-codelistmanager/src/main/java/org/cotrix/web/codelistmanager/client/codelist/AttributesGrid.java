@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.HasAttributeChangedHandlers;
 import org.cotrix.web.share.client.util.EventUtil;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.shared.UIAttribute;
@@ -44,6 +47,7 @@ import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.OutlineStyle;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.cellview.client.AbstractCellTable.Style;
 import com.google.gwt.user.cellview.client.AbstractCellTableBuilder;
 import com.google.gwt.user.cellview.client.Column;
@@ -63,7 +67,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public abstract class AttributesGrid extends ResizeComposite {
+public class AttributesGrid extends ResizeComposite implements HasAttributeChangedHandlers {
 	
 	protected enum AttributeField {NAME, TYPE, LANGUAGE, VALUE};
 
@@ -90,9 +94,10 @@ public abstract class AttributesGrid extends ResizeComposite {
 
 	private Header<String> header;
 
-	public AttributesGrid(ListDataProvider<UIAttribute> dataProvider) {
+	public AttributesGrid(ListDataProvider<UIAttribute> dataProvider, Header<String> header) {
 		
 		this.dataProvider = dataProvider;
+		this.header = header;
 
 		dataGrid = new DataGrid<UIAttribute>(20, resource);
 		
@@ -141,6 +146,22 @@ public abstract class AttributesGrid extends ResizeComposite {
 					}
 				}
 			};
+			
+			column.setFieldUpdater(new FieldUpdater<UIAttribute, String>() {
+
+				@Override
+				public void update(int index, UIAttribute attribute, String value) {
+					String oldName = attribute.getName();
+					switch (field) {
+						case NAME: attribute.setName(value); break;
+						case LANGUAGE: attribute.setLanguage(value); break;
+						case TYPE: attribute.setType(value); break;
+						case VALUE: attribute.setValue(value); break;
+					}
+					AttributeChangedEvent.fire(AttributesGrid.this, oldName, attribute);
+				}
+			});
+			
 			attributePropertiesColumns.put(field, column);
 		}
 		return column;
@@ -159,13 +180,8 @@ public abstract class AttributesGrid extends ResizeComposite {
 		}
 		Log.warn("attribute "+attributeName+" not found in data provider");
 	}
-	
-	public abstract Header<String> getHeader();
 
 	private void setupColumns() {
-
-
-		header = getHeader();
 
 		attributeNameColumn = new Column<UIAttribute, String>(new ClickableTextCell()) {
 			@Override
@@ -438,5 +454,10 @@ public abstract class AttributesGrid extends ResizeComposite {
 	 */
 	public void removeColumn(Column<UIAttribute, ?> col) {
 		dataGrid.removeColumn(col);
+	}
+
+	@Override
+	public HandlerRegistration addAttributeChangedHandler(AttributeChangedHandler handler) {
+		return addHandler(handler, AttributeChangedEvent.getType());
 	}
 }

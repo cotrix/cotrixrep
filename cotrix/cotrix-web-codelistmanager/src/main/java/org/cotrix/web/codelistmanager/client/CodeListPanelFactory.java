@@ -22,11 +22,17 @@ public class CodeListPanelFactory {
 	@Inject
 	protected MetadataEditorProvider metadataEditorProvider;
 	
+	@Inject
+	protected CodeListRowEditorProvider codeListRowEditorProvider;
+	
+	
 	public CodeListPanelPresenter build(String codelistId)
 	{
 		codelistIdProvider.setCodelistId(codelistId);
 		editorEventBusProvider.generate();
 		metadataEditorProvider.generate();
+		codeListRowEditorProvider.generate();
+		
 		return CotrixManagerAppGinInjector.INSTANCE.getCodeListPanelPresenter();
 	}
 }

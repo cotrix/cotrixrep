@@ -16,7 +16,6 @@ import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.TextBox;
@@ -73,13 +72,7 @@ public class CodeListMetadataPanel extends LoadingPanel {
 	protected AttributesGrid createAttributesGrid()
 	{
 		this.attributesProvider = new ListDataProvider<UIAttribute>();
-		return new AttributesGrid(attributesProvider) {
-			
-			@Override
-			public Header<String> getHeader() {
-				return new TextHeader("Attributes");
-			}
-		};
+		return new AttributesGrid(attributesProvider, new TextHeader("Attributes"));
 	}
 
 	@UiHandler("nameField")

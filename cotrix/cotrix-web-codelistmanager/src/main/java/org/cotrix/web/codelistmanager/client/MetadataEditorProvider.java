@@ -14,15 +14,16 @@ import com.google.inject.Provider;
 public class MetadataEditorProvider implements Provider<MetadataEditor> {
 
 	protected MetadataEditor editor;
-	
+
 	public void generate()
 	{
 		editor = new MetadataEditor();
 	}
-	
+
 	@Override
 	public MetadataEditor get() {
 		return editor;
 	}
 
 }
+

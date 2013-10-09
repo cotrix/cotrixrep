@@ -26,6 +26,9 @@ import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchAttributeEvent;
+import org.cotrix.web.codelistmanager.client.data.CodeListRowEditor;
+import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
+import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
@@ -33,6 +36,7 @@ import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -106,11 +110,14 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 	
 	protected CodeListRowDataProvider dataProvider;
 	protected HandlerRegistration registration;
+	
+	protected CodeListRowEditor rowEditor;
 
 	@Inject
-	public CodeListEditor(@EditorBus EventBus editorBus, CodeListRowDataProvider dataProvider) {
+	public CodeListEditor(@EditorBus EventBus editorBus, CodeListRowDataProvider dataProvider, CodeListRowEditor rowEditor) {
 		this.editorBus = editorBus;
 		this.dataProvider = dataProvider;
+		this.rowEditor = rowEditor;
 
 		dataGrid = new PatchedDataGrid<UICodeListRow>(20, resource, CodeListRowKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
@@ -139,6 +146,28 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
+	}
+	
+	protected void setupColumns() {
+
+		nameColumn = new Column<UICodeListRow, String>(new DoubleClickEditTextCell()) {
+			@Override
+			public String getValue(UICodeListRow object) {
+				return object.getName();
+			}
+		};
+		
+		nameColumn.setFieldUpdater(new FieldUpdater<UICodeListRow, String>() {
+			
+			@Override
+			public void update(int index, UICodeListRow row, String value) {
+				row.setName(value);
+				rowEditor.edited(row);
+			}
+		});
+
+		dataGrid.addColumn(nameColumn, "Code");
+		//dataGrid.setColumnWidth(2, 1000, Unit.PX);
 	}
 
 	public void showAllAttributesAsColumn()
@@ -178,19 +207,17 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 				}
 			}
 		});
-	}
+		
+		rowEditor.addDataEditHandler(new DataEditHandler<UICodeListRow>() {
 
-	protected void setupColumns() {
-
-		nameColumn = new Column<UICodeListRow, String>(new DoubleClickEditTextCell()) {
 			@Override
-			public String getValue(UICodeListRow object) {
-				return object.getName();
+			public void onDataEdit(DataEditEvent<UICodeListRow> event) {
+				Log.trace("onDataEdit row: "+event.getData());
+				int index = dataGrid.getVisibleItems().indexOf(event.getData());
+				Log.trace("index: "+index);
+				if (index>=0) dataGrid.redrawRow(index);
 			}
-		};
-
-		dataGrid.addColumn(nameColumn, "Code");
-		//dataGrid.setColumnWidth(2, 1000, Unit.PX);
+		});
 	}
 
 	protected Column<UICodeListRow, String> getAttributeColumn(final String name)
@@ -201,13 +228,23 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 			column = new Column<UICodeListRow, String>(cell) {
 
 				@Override
-				public String getValue(UICodeListRow object) {
-					if (object == null) return null;
-					UIAttribute attribute = object.getAttribute(name);
-					if (attribute == null) return null;
+				public String getValue(UICodeListRow row) {
+					if (row == null) return "";
+					UIAttribute attribute = row.getAttribute(name);
+					if (attribute == null) return "";
 					return attribute.getValue();
 				}
 			};
+			column.setFieldUpdater(new FieldUpdater<UICodeListRow, String>() {
+
+				@Override
+				public void update(int index, UICodeListRow row, String value) {
+					UIAttribute attribute = row.getAttribute(name);
+					attribute.setValue(value);
+					rowEditor.edited(row);
+				}
+			});
+			
 			attributesColumns.put(name, column);
 		}
 		return column;
