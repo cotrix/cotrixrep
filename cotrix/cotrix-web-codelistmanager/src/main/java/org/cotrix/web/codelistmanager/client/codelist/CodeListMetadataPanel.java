@@ -2,6 +2,8 @@ package org.cotrix.web.codelistmanager.client.codelist;
 
 import java.util.List;
 
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.data.MetadataEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
@@ -53,6 +55,18 @@ public class CodeListMetadataPanel extends LoadingPanel {
 
 	public CodeListMetadataPanel() {
 		add(uiBinder.createAndBindUi(this));
+		bind();
+	}
+	
+	protected void bind()
+	{
+		attributesGrid.addAttributeChangedHandler(new AttributeChangedHandler() {
+			
+			@Override
+			public void onAttributeChanged(AttributeChangedEvent event) {
+				editor.edited(metadata);
+			}
+		});
 	}
 	
 	/** 
