@@ -46,7 +46,6 @@ import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SimplePager;
@@ -59,7 +58,6 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -117,7 +115,6 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 		dataGrid = new PatchedDataGrid<UICodeListRow>(20, resource, CodeListRowKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label("Empty"));
-		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.BOUND_TO_SELECTION);
 
 		//TODO add sorting
 
