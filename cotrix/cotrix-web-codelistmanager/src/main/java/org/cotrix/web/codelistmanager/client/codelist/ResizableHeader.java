@@ -15,6 +15,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
+import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
@@ -22,11 +23,11 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 public class ResizableHeader<T> extends Header<String> {
 
 	private Column<T, ?> column = null;
-	private AbstractCellTable<T> cellTable;
+	private PatchedDataGrid<T> cellTable;
 	private String title = "";
 	private static final int width = 20;
 
-	public ResizableHeader(String title, AbstractCellTable<T> cellTable, Column<T, ?> column) {
+	public ResizableHeader(String title, PatchedDataGrid<T> cellTable, Column<T, ?> column) {
 		super(new HeaderCell());
 		this.title = title;
 		this.cellTable = cellTable;
@@ -55,13 +56,13 @@ public class ResizableHeader<T> extends Header<String> {
 	class ColumnResizeHelper<E> implements NativePreviewHandler {
 
 		private HandlerRegistration handler;
-		private AbstractCellTable<E> table;
+		private PatchedDataGrid<E> table;
 		private Column<E, ?> col;
 		private Element el;
 		private boolean mousedown;
 		private Element measuringElement;
 
-		public ColumnResizeHelper(AbstractCellTable<E> table, Column<E, ?> col, Element el) {
+		public ColumnResizeHelper(PatchedDataGrid<E> table, Column<E, ?> col, Element el) {
 			this.el = el;
 			this.table = table;
 			this.col = col;
@@ -82,6 +83,7 @@ public class ResizableHeader<T> extends Header<String> {
 				int newWidth = clientX - absoluteLeft;
 				newWidth = newWidth < width ? width : newWidth;
 				table.setColumnWidth(col, newWidth + "px");
+				table.adjustTableWidth();
 				return;
 			}
 
@@ -121,6 +123,7 @@ public class ResizableHeader<T> extends Header<String> {
 				}
 				finishMeasuring();
 				table.setColumnWidth(col, (max + width) + "px");
+				table.adjustTableWidth();
 				removeHandler();
 			}
 		}

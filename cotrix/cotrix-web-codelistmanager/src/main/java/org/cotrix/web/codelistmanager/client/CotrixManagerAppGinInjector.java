@@ -1,11 +1,11 @@
 package org.cotrix.web.codelistmanager.client;
 
-import org.cotrix.web.codelistmanager.client.codelist.CodeListAttributesPanel;
-import org.cotrix.web.codelistmanager.client.codelist.CodeListEditor;
-import org.cotrix.web.codelistmanager.client.codelist.CodeListMetadataPanel;
-import org.cotrix.web.codelistmanager.client.codelist.CodeListPanelPresenter;
-import org.cotrix.web.codelistmanager.client.codelists.CodeListsPresenter;
-import org.cotrix.web.codelistmanager.client.manager.CodeListManagerPresenter;
+import org.cotrix.web.codelistmanager.client.codelist.CodelistAttributesPanel;
+import org.cotrix.web.codelistmanager.client.codelist.CodelistEditor;
+import org.cotrix.web.codelistmanager.client.codelist.CodelistMetadataPanel;
+import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelPresenter;
+import org.cotrix.web.codelistmanager.client.codelists.CodelistsPresenter;
+import org.cotrix.web.codelistmanager.client.manager.CodelistManagerPresenter;
 import org.cotrix.web.share.client.CommonGinModule;
 
 import com.google.gwt.core.shared.GWT;
@@ -23,12 +23,12 @@ public interface CotrixManagerAppGinInjector extends Ginjector {
 
 	public ManagerServiceAsync getRpcService();
 	public CotrixManagerAppController getController();
-	public CodeListsPresenter getCodeListPresenter();
-	public CodeListManagerPresenter getCodeListManagerPresenter();
+	public CodelistsPresenter getCodeListPresenter();
+	public CodelistManagerPresenter getCodeListManagerPresenter();
 	
-	public CodeListPanelPresenter getCodeListPanelPresenter();
+	public CodelistPanelPresenter getCodeListPanelPresenter();
 	
-	public CodeListEditor getCodeListEditor();
-	public CodeListAttributesPanel getCodeListAttributesPanel();
-	public CodeListMetadataPanel getCodeListMetadataPanel();
+	public CodelistEditor getCodeListEditor();
+	public CodelistAttributesPanel getCodeListAttributesPanel();
+	public CodelistMetadataPanel getCodeListMetadataPanel();
 }

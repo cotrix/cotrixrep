@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.client.step.upload;
 
 import org.cotrix.web.importwizard.client.resources.ImportConstants;
 import org.cotrix.web.importwizard.client.util.TextUtil;
-import org.cotrix.web.share.client.util.AlertDialog;
+import org.cotrix.web.share.client.widgets.AlertDialog;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;

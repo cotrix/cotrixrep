@@ -56,7 +56,7 @@ public class ContentPanel extends ResizeComposite {
 	 */
 	public HasCloseHandlers<Widget> addCodeListPanel(Widget panel, String title, String version)
 	{
-		CodeListTab tab = new CodeListTab(title, version);
+		CodelistTab tab = new CodelistTab(title, version);
 		codelistsPanel.add(panel, tab);
 		return tab;
 	}

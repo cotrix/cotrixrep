@@ -15,6 +15,7 @@
  */
 package com.google.gwt.user.cellview.client;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -787,6 +788,17 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		tableHeaderContainer.getElement().getStyle().setWidth(value, unit);
 		tableFooterContainer.getElement().getStyle().setWidth(value, unit);
 		tableDataContainer.getStyle().setWidth(value, unit);
+	}
+	
+	public void adjustTableWidth()
+	{
+		int width = 0;
+		for (int i = 0; i < getColumnCount(); i++) {
+			int colWidth = tableHeader.ensureTableColElement(i).getOffsetWidth();
+			Log.trace("col "+i+" width "+getColumnWidth(i));
+			width += colWidth;
+		}
+		setTableWidth(width, Unit.PX);
 	}
 
 	@Override

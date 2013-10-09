@@ -1,8 +1,8 @@
 package org.cotrix.web.codelistmanager.client;
 
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
-import org.cotrix.web.codelistmanager.client.event.RefreshCodeListsEvent;
-import org.cotrix.web.codelistmanager.client.manager.CodeListManagerPresenter;
+import org.cotrix.web.codelistmanager.client.event.RefreshCodelistsEvent;
+import org.cotrix.web.codelistmanager.client.manager.CodelistManagerPresenter;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CodeListImportedEvent;
@@ -29,10 +29,10 @@ public class CotrixManagerAppControllerImpl implements CotrixManagerAppControlle
 	
 	private ManagerServiceAsync rpcService;
 	private HandlerManager eventBus;
-	private CodeListManagerPresenter codeListManagerPresenter;
+	private CodelistManagerPresenter codeListManagerPresenter;
 	
 	@Inject
-	public CotrixManagerAppControllerImpl(@CotrixBus EventBus cotrixBus, ManagerServiceAsync rpcService,HandlerManager eventBus,CodeListManagerPresenter codeListManagerPresenter) {
+	public CotrixManagerAppControllerImpl(@CotrixBus EventBus cotrixBus, ManagerServiceAsync rpcService,HandlerManager eventBus,CodelistManagerPresenter codeListManagerPresenter) {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.codeListManagerPresenter = codeListManagerPresenter;
@@ -56,7 +56,7 @@ public class CotrixManagerAppControllerImpl implements CotrixManagerAppControlle
 
 	public void refreshCodeLists() {
 		Log.trace("refreshCodeLists");
-		managerBus.fireEvent(new RefreshCodeListsEvent());
+		managerBus.fireEvent(new RefreshCodelistsEvent());
 	}
 
 	@Override

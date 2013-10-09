@@ -5,7 +5,7 @@ import org.cotrix.web.importwizard.client.resources.DataGridResource;
 import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.share.client.resources.CommonResources;
-import org.cotrix.web.share.client.util.AlertDialog;
+import org.cotrix.web.share.client.widgets.AlertDialog;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.ClickableTextCell;

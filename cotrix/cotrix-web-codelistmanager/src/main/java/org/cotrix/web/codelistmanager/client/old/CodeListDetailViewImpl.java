@@ -2,6 +2,7 @@ package org.cotrix.web.codelistmanager.client.old;
 
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.client.resources.DataGridResource;
+import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.UICode;
@@ -202,7 +203,7 @@ public class CodeListDetailViewImpl extends ResizeComposite implements CodeListD
 		String[] headers = model.getCsvFile().getHeader();
 		for (int i = 0; i < headers.length; i++) {
 			final int columnIndex = i;
-			FlexColumn column = new FlexColumn(new CotrixEditTextCell(),i);
+			FlexColumn column = new FlexColumn(new DoubleClickEditTextCell(),i);
 			column.setSortable(true);
 			column.setFieldUpdater(new FieldUpdater<UICode[], String>() {
 				public void update(int index, UICode[] codes, String value) {

@@ -2,10 +2,10 @@ package org.cotrix.web.codelistmanager.client;
 
 import java.util.ArrayList;
 
-import org.cotrix.web.codelistmanager.shared.CodeListGroup;
-import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
+import org.cotrix.web.codelistmanager.shared.CodelistGroup;
+import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
-import org.cotrix.web.codelistmanager.shared.UICodeListRow;
+import org.cotrix.web.codelistmanager.shared.UICodelistRow;
 import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.UICode;
@@ -33,12 +33,15 @@ public interface ManagerService extends RemoteService {
 	
 	void editCode(ArrayList<UICode> code);
 	
-	DataWindow<UICodeListRow> getCodelistRows(String codelistId, Range range) throws ManagerServiceException;
-	DataWindow<CodeListGroup> getCodelistsGrouped() throws ManagerServiceException;
+	DataWindow<UICodelistRow> getCodelistRows(String codelistId, Range range) throws ManagerServiceException;
+	DataWindow<CodelistGroup> getCodelistsGrouped() throws ManagerServiceException;
 	
 
-	CodeListMetadata getMetadata(String codelistId) throws ManagerServiceException;
-	void saveMetadata(String codelistId, CodeListMetadata metadata) throws ManagerServiceException;
+	CodelistMetadata getMetadata(String codelistId) throws ManagerServiceException;
+	void saveMetadata(String codelistId, CodelistMetadata metadata) throws ManagerServiceException;
+	
+	void saveCodelistRow(String codelistId, UICodelistRow row) throws ManagerServiceException;
+	
 
 	Response<Void> saveMessage(String message); 
 	

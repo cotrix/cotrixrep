@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvParserConfigurationPanel.DialogSaveHandler;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
-import org.cotrix.web.share.client.util.AlertDialog;
+import org.cotrix.web.share.client.widgets.AlertDialog;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
