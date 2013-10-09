@@ -7,6 +7,7 @@ import static org.cotrix.repository.Queries.*;
 import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -308,9 +309,25 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public void saveMetadata(String codelistId, CodeListMetadata metadata) throws ManagerServiceException {
 		logger.trace("saveMetadata codelistId: {}, metadata {}", codelistId, metadata);
-		Codelist changeset = codelist(codelistId).name(metadata.getName()).version(metadata.getVersion()).as(MODIFIED).build();
+		Attribute[] attributes = toDomainAttributes(metadata.getAttributes());
+		Codelist changeset = codelist(codelistId).name(metadata.getName()).attributes(attributes).version(metadata.getVersion()).as(MODIFIED).build();
 		//TODO attributes?
 		repository.update(changeset);
+	}
+	
+	protected Attribute[] toDomainAttributes(Collection<UIAttribute> attributes)
+	{
+		Attribute[] domainAttributes = new Attribute[attributes.size()];
+		Iterator<UIAttribute> iterator = attributes.iterator();
+		for (int i = 0; i < domainAttributes.length; i++) {
+			domainAttributes[i] = toDomainAttribute(iterator.next());
+		}
+		return domainAttributes;
+	}
+	
+	protected Attribute toDomainAttribute(UIAttribute attribute)
+	{
+		return attr(attribute.getId()).name(attribute.getName()).value(attribute.getValue()).ofType(attribute.getType()).in(attribute.getLanguage()).build();
 	}
 	
 	@Task(LOCK)
@@ -334,6 +351,19 @@ public class ManagerServiceImpl implements ManagerService {
 	@Task(SEAL)
 	public Response<Void> seal(Request<Void> request) {
 		return new Response<Void>();
+	}
+
+	@Override
+	public void saveCodelistRow(String codelistId, UICodeListRow row) throws ManagerServiceException {
+		//FIXME why name???
+		Codelist codelist = repository.lookup(codelistId);
+		Codelist changeset = codelist(codelistId).name(codelist.name()).with(toCode(row)).as(MODIFIED).build();
+		repository.update(changeset);
+	}
+	
+	protected Code toCode(UICodeListRow row)
+	{
+		return code(row.getId()).name(row.getName()).attributes(toDomainAttributes(row.getAttributes())).build();
 	}
 
 	

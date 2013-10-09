@@ -39,6 +39,9 @@ public interface ManagerService extends RemoteService {
 
 	CodeListMetadata getMetadata(String codelistId) throws ManagerServiceException;
 	void saveMetadata(String codelistId, CodeListMetadata metadata) throws ManagerServiceException;
+	
+	void saveCodelistRow(String codelistId, UICodeListRow row) throws ManagerServiceException;
+	
 
 	Response<Void> saveMessage(String message); 
 	

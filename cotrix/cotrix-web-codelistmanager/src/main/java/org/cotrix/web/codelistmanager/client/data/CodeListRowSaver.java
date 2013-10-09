@@ -35,7 +35,7 @@ public class CodeListRowSaver extends AbstractDataSaver<UICodeListRow> {
 	@Override
 	public void save(UICodeListRow data, AsyncCallback<Void> callback) {
 		Log.trace("SAVING ROW: "+data);
-		//service.saveMetadata(codelistId, data, callback);
+		service.saveCodelistRow(codelistId, data, callback);
 	}
 
 }
