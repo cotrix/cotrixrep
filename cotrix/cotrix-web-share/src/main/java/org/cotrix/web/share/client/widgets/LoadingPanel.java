@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.share.client.util;
+package org.cotrix.web.share.client.widgets;
 
 import java.util.Iterator;
 

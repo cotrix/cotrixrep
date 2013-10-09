@@ -5,7 +5,7 @@ import java.util.List;
 import org.cotrix.web.importwizard.client.util.MappingPanel;
 import org.cotrix.web.importwizard.client.util.MappingPanel.ReloadButtonHandler;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
-import org.cotrix.web.share.client.util.AlertDialog;
+import org.cotrix.web.share.client.widgets.AlertDialog;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;

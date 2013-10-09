@@ -1,4 +1,4 @@
-package org.cotrix.web.share.client.util;
+package org.cotrix.web.share.client.widgets;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

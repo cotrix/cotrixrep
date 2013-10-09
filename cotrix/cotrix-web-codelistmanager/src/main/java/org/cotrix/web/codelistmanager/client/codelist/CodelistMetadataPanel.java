@@ -7,7 +7,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEven
 import org.cotrix.web.codelistmanager.client.data.MetadataEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
-import org.cotrix.web.share.client.util.LoadingPanel;
+import org.cotrix.web.share.client.widgets.LoadingPanel;
 import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
