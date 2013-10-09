@@ -39,6 +39,7 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -115,6 +116,7 @@ public class CodelistEditor extends ResizeComposite implements AttributeSetChang
 		dataGrid = new PatchedDataGrid<UICodelistRow>(20, resource, CodelistRowKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label("Empty"));
+		dataGrid.setTableWidth(100, Unit.PCT);
 
 		//TODO add sorting
 
@@ -158,6 +160,8 @@ public class CodelistEditor extends ResizeComposite implements AttributeSetChang
 				rowEditor.edited(row);
 			}
 		});
+		
+		//ResizableHeader<UICodelistRow> header = new ResizableHeader<UICodelistRow>("Code", dataGrid, nameColumn);
 
 		dataGrid.addColumn(nameColumn, "Code");
 		//dataGrid.setColumnWidth(2, 1000, Unit.PX);
@@ -254,8 +258,9 @@ public class CodelistEditor extends ResizeComposite implements AttributeSetChang
 		if (attributeAsColumn.contains(attributeName)) return;
 		Column<UICodelistRow, String> column = getAttributeColumn(attributeName);
 		attributeAsColumn.add(attributeName);
+
 		
-		//ResizableHeader<UICodeListRow> resizableHeader = new ResizableHeader<UICodeListRow>(attributeName, dataGrid, column);
+		//ResizableHeader<UICodelistRow> resizableHeader = new ResizableHeader<UICodelistRow>(attributeName, dataGrid, column);
 		dataGrid.addColumn(column, attributeName);
 		//dataGrid.setColumnWidth(dataGrid.getColumnCount()-1, 1, Unit.EM);
 		//dataGrid.clearTableWidth();

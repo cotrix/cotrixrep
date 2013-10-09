@@ -357,6 +357,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public void saveCodelistRow(String codelistId, UICodelistRow row) throws ManagerServiceException {
 		//FIXME why name???
 		Codelist codelist = repository.lookup(codelistId);
+		
 		Codelist changeset = codelist(codelistId).name(codelist.name()).with(toCode(row)).as(MODIFIED).build();
 		repository.update(changeset);
 	}
