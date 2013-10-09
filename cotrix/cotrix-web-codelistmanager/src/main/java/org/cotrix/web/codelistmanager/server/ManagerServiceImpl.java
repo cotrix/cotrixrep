@@ -25,7 +25,7 @@ import org.cotrix.domain.Container;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
-import org.cotrix.web.codelistmanager.client.ManagerService;
+import org.cotrix.web.codelistmanager.client.di.ManagerService;
 import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
 import org.cotrix.web.codelistmanager.server.util.ValueUtils;
 import org.cotrix.web.codelistmanager.shared.CodeListGroup;

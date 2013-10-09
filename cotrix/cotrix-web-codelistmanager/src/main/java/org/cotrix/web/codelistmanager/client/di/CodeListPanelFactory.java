@@ -1,8 +1,9 @@
 /**
  * 
  */
-package org.cotrix.web.codelistmanager.client;
+package org.cotrix.web.codelistmanager.client.di;
 
+import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.codelistmanager.client.codelist.CodeListPanelPresenter;
 
 import com.google.inject.Inject;

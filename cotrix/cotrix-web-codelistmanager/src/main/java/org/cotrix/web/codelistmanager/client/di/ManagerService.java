@@ -1,4 +1,4 @@
-package org.cotrix.web.codelistmanager.client;
+package org.cotrix.web.codelistmanager.client.di;
 
 import java.util.ArrayList;
 

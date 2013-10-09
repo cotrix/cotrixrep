@@ -3,8 +3,8 @@ package org.cotrix.web.codelistmanager.client.manager;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cotrix.web.codelistmanager.client.CodeListPanelFactory;
 import org.cotrix.web.codelistmanager.client.codelist.CodeListPanelPresenter;
+import org.cotrix.web.codelistmanager.client.di.CodeListPanelFactory;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
 import org.cotrix.web.codelistmanager.client.event.OpenCodeListEvent;
 import org.cotrix.web.codelistmanager.client.event.OpenCodeListEvent.OpenCodeListHandler;

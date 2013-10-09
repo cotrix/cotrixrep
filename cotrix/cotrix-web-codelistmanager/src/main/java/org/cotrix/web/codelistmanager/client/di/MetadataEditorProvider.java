@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.codelistmanager.client;
+package org.cotrix.web.codelistmanager.client.di;
 
 import org.cotrix.web.codelistmanager.client.data.MetadataEditor;
 
