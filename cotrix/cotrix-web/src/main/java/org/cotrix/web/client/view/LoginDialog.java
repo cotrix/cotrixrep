@@ -35,8 +35,6 @@ public class LoginDialog extends PopupPanel {
 	public LoginDialog(LoginDialogListener listener) {
 		this.listener = listener;
 		setWidget(binder.createAndBindUi(this));
-		/*setWidth("320px");
-		setHeight("370px");*/
 		setAutoHideEnabled(true);
 	}
 	
@@ -45,11 +43,5 @@ public class LoginDialog extends PopupPanel {
 	{
 		listener.onLogin(username.getText(), password.getText());
 	}
-	
-	/*@UiHandler("cancel")
-	protected void onCancel(ClickEvent clickEvent)
-	{
-		listener.onCancel();
-	}*/
 
 }
