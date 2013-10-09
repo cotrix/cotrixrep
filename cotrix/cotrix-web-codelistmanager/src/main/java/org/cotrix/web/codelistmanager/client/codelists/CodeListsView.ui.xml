@@ -7,7 +7,7 @@
 			.wrapper {
 				border: 1px solid #ccc;
 				background-color: white;
-				margin-right: 10px;
+				/*margin-right: 10px;*/
 			}
 			
 			.listPanel {

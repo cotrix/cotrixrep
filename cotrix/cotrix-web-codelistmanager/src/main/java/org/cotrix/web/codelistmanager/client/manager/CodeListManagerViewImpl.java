@@ -26,14 +26,13 @@ public class CodeListManagerViewImpl extends ResizeComposite implements CodeList
 	interface CodeListManagerUiBinder extends UiBinder<Widget, CodeListManagerViewImpl> {}
 	private static CodeListManagerUiBinder uiBinder = GWT.create(CodeListManagerUiBinder.class);
 
-	@UiField(provided=true) SplitLayoutPanel mainPanel;
+	@UiField SplitLayoutPanel mainPanel;
 	@UiField SimpleLayoutPanel westPanel;
 	@UiField(provided=true) ContentPanel contentPanel;
 
 	@Inject
 	public CodeListManagerViewImpl(ContentPanel contentPanel) {
 		this.contentPanel = contentPanel;
-		this.mainPanel = new SplitLayoutPanel(5);
 		initWidget(uiBinder.createAndBindUi(this));
 		CommonResources.INSTANCE.css().ensureInjected();
 		mainPanel.setWidgetToggleDisplayAllowed(westPanel, true);
