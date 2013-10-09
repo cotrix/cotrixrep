@@ -5,8 +5,9 @@ package org.cotrix.web.codelistmanager.client.data;
 
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistId;
-import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
+import org.cotrix.web.codelistmanager.shared.UICodelistRow;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 
@@ -14,7 +15,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MetadataSaver extends AbstractDataSaver<CodelistMetadata> {
+public class CodelistRowSaver extends AbstractDataSaver<UICodelistRow> {
 	
 	@Inject
 	protected ManagerServiceAsync service;
@@ -27,13 +28,14 @@ public class MetadataSaver extends AbstractDataSaver<CodelistMetadata> {
 	 * @param codelistId
 	 */
 	@Inject
-	public MetadataSaver(MetadataEditor editor) {
+	public CodelistRowSaver(CodelistRowEditor editor) {
 		editor.addDataEditHandler(this);
 	}
 
 	@Override
-	public void save(CodelistMetadata data, AsyncCallback<Void> callback) {
-		service.saveMetadata(codelistId, data, callback);
+	public void save(UICodelistRow data, AsyncCallback<Void> callback) {
+		Log.trace("SAVING ROW: "+data);
+		service.saveCodelistRow(codelistId, data, callback);
 	}
 
 }

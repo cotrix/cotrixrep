@@ -25,13 +25,13 @@ import org.cotrix.domain.Container;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
-import org.cotrix.web.codelistmanager.client.di.ManagerService;
+import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
 import org.cotrix.web.codelistmanager.server.util.ValueUtils;
-import org.cotrix.web.codelistmanager.shared.CodeListGroup;
-import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
+import org.cotrix.web.codelistmanager.shared.CodelistGroup;
+import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
-import org.cotrix.web.codelistmanager.shared.UICodeListRow;
+import org.cotrix.web.codelistmanager.shared.UICodelistRow;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.ContainsTask;
@@ -223,29 +223,29 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	
 	@Override
-	public DataWindow<CodeListGroup> getCodelistsGrouped() throws ManagerServiceException {
+	public DataWindow<CodelistGroup> getCodelistsGrouped() throws ManagerServiceException {
 		logger.trace("getCodelistsGrouped");
 		
-		Map<QName, CodeListGroup> groups = new HashMap<QName, CodeListGroup>();
+		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
 		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
 		while (it.hasNext()) {
 			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
 			
-			CodeListGroup group = groups.get(codelist.name());
+			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {
-				group = new CodeListGroup(codelist.name().toString());
+				group = new CodelistGroup(codelist.name().toString());
 				groups.put(codelist.name(), group);
 			}
 			group.addVersion(codelist.id(), codelist.version());
 		}
 		
-		for (CodeListGroup group:groups.values()) Collections.sort(group.getVersions()); 
+		for (CodelistGroup group:groups.values()) Collections.sort(group.getVersions()); 
 		
-		return new DataWindow<CodeListGroup>(new ArrayList<CodeListGroup>(groups.values()));
+		return new DataWindow<CodelistGroup>(new ArrayList<CodelistGroup>(groups.values()));
 	}
 
 	@Override
-	public DataWindow<UICodeListRow> getCodelistRows(@Id String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
+	public DataWindow<UICodelistRow> getCodelistRows(@Id String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
 		
 		CodelistQuery<Code> query = allCodes(codelistId);
@@ -254,10 +254,10 @@ public class ManagerServiceImpl implements ManagerService {
 		Codelist codelist = repository.lookup(codelistId);
 		
 		Iterable<Code> codes  = repository.queryFor(query);
-		List<UICodeListRow> rows = new ArrayList<UICodeListRow>(range.getLength());
+		List<UICodelistRow> rows = new ArrayList<UICodelistRow>(range.getLength());
 		for (Code code:codes) {
 
-			UICodeListRow row = new UICodeListRow(code.id(), code.id(), code.name().toString());
+			UICodelistRow row = new UICodelistRow(code.id(), code.id(), code.name().toString());
 			
 			Map<String, UIAttribute> rowAttributes = new HashMap<String, UIAttribute>(code.attributes().size());
 			
@@ -268,14 +268,14 @@ public class ManagerServiceImpl implements ManagerService {
 			row.setAttributes(rowAttributes);
 			rows.add(row);
 		}
-		return new DataWindow<UICodeListRow>(rows, codelist.codes().size());
+		return new DataWindow<UICodelistRow>(rows, codelist.codes().size());
 	}
 
 	@Override
-	public CodeListMetadata getMetadata(String codelistId) throws ManagerServiceException {
+	public CodelistMetadata getMetadata(String codelistId) throws ManagerServiceException {
 		logger.trace("getMetadata codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
-		CodeListMetadata metadata = new CodeListMetadata();
+		CodelistMetadata metadata = new CodelistMetadata();
 		metadata.setId(codelist.id());
 		metadata.setName(codelist.name().toString());
 		metadata.setVersion(codelist.version());
@@ -307,7 +307,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public void saveMetadata(String codelistId, CodeListMetadata metadata) throws ManagerServiceException {
+	public void saveMetadata(String codelistId, CodelistMetadata metadata) throws ManagerServiceException {
 		logger.trace("saveMetadata codelistId: {}, metadata {}", codelistId, metadata);
 		Attribute[] attributes = toDomainAttributes(metadata.getAttributes());
 		Codelist changeset = codelist(codelistId).name(metadata.getName()).attributes(attributes).version(metadata.getVersion()).as(MODIFIED).build();
@@ -354,14 +354,14 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public void saveCodelistRow(String codelistId, UICodeListRow row) throws ManagerServiceException {
+	public void saveCodelistRow(String codelistId, UICodelistRow row) throws ManagerServiceException {
 		//FIXME why name???
 		Codelist codelist = repository.lookup(codelistId);
 		Codelist changeset = codelist(codelistId).name(codelist.name()).with(toCode(row)).as(MODIFIED).build();
 		repository.update(changeset);
 	}
 	
-	protected Code toCode(UICodeListRow row)
+	protected Code toCode(UICodelistRow row)
 	{
 		return code(row.getId()).name(row.getName()).attributes(toDomainAttributes(row.getAttributes())).build();
 	}
