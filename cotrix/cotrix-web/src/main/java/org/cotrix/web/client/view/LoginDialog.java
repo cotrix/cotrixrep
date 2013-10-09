@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -27,7 +28,7 @@ public class LoginDialog extends PopupPanel {
 	TextBox username;
 	
 	@UiField
-	TextBox password;
+	PasswordTextBox password;
 	
 	protected LoginDialogListener listener;
 

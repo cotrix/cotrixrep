@@ -95,7 +95,7 @@
 			</div>
 			<div class="{style.textfield}">
 				<div>Password</div>
-				<g:TextBox styleName="{style.textbox}" ui:field="password" />
+				<g:PasswordTextBox styleName="{style.textbox}" ui:field="password"  />
 			</div>
 			<div class="{style.textfield}">
 				<g:Button ui:field="login" styleName="{style.submit}">Submit</g:Button>
