@@ -35,23 +35,16 @@ import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.text.shared.AbstractSafeHtmlRenderer;
-import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
-import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
@@ -262,33 +255,8 @@ public class CodelistEditor extends ResizeComposite implements AttributeSetChang
 		Column<UICodelistRow, String> column = getAttributeColumn(attributeName);
 		attributeAsColumn.add(attributeName);
 		
-		SafeHtmlRenderer<String> anchorRenderer = new AbstractSafeHtmlRenderer<String>() {
-			@Override
-			public SafeHtml render(String object) {
-				 SafeHtmlBuilder sb = new SafeHtmlBuilder();
-			     sb.appendEscaped(attributeName);
-				 renderer.render(resource.remove(), sb);
-			     return sb.toSafeHtml();
-			}
-		};
-		
-		Header<String> header = new Header<String>(new ClickableTextCell(anchorRenderer)) {
-			
-			@Override
-			public String getValue() {
-				return attributeName;
-			}
-		};
-		header.setUpdater(new ValueUpdater<String>() {
-
-			@Override
-			public void update(String value) {
-				switchToNormal(attributeName);				
-			}
-		});
-		
 		//ResizableHeader<UICodeListRow> resizableHeader = new ResizableHeader<UICodeListRow>(attributeName, dataGrid, column);
-		dataGrid.addColumn(column, header);
+		dataGrid.addColumn(column, attributeName);
 		//dataGrid.setColumnWidth(dataGrid.getColumnCount()-1, 1, Unit.EM);
 		//dataGrid.clearTableWidth();
 	}
