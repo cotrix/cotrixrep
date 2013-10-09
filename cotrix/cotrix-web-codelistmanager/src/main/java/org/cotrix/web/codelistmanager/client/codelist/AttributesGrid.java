@@ -46,6 +46,7 @@ import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.OutlineStyle;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.cellview.client.AbstractCellTable.Style;
@@ -323,10 +324,8 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 			cellValue = cellValue!=null?cellValue:"";
 
 			TableCellBuilder td = tr.startTD();
-
-			td.style().borderStyle(BorderStyle.SOLID).borderWidth(1, Unit.PX).trustedBorderColor("#C2C2C2")
-			.paddingBottom(8, Unit.PX).paddingLeft(10, Unit.PX).paddingRight(8, Unit.PX).paddingTop(8, Unit.PX)
-			.fontWeight(FontWeight.BOLD);
+			setCellStyle(td);
+			td.style().fontWeight(FontWeight.BOLD);
 			td.startDiv().text(cellValue).end();
 			td.end();
 		}
@@ -334,13 +333,18 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		protected void renderCell(TableRowBuilder tr, int absRowIndex, Column<UIAttribute, String> column, UIAttribute rowValue)
 		{
 			TableCellBuilder td = tr.startTD();
-			td.style().borderStyle(BorderStyle.SOLID).borderWidth(1, Unit.PX).trustedBorderColor("#C2C2C2")
-			.paddingBottom(8, Unit.PX).paddingLeft(10, Unit.PX).paddingRight(8, Unit.PX).paddingTop(8, Unit.PX);
+			setCellStyle(td);
 
 			Context context = new Context(absRowIndex, -1, "key");
 			renderCell(td, context, column, rowValue);
 
 			td.end();
+		}
+		
+		protected void setCellStyle(TableCellBuilder td)
+		{
+			td.style().borderStyle(BorderStyle.SOLID).borderWidth(1, Unit.PX).trustedBorderColor("#C2C2C2")
+			.paddingBottom(8, Unit.PX).paddingLeft(10, Unit.PX).paddingRight(8, Unit.PX).paddingTop(8, Unit.PX).overflow(Overflow.HIDDEN);
 		}
 
 		public void buildStandarRow(UIAttribute rowValue, int absRowIndex) {
