@@ -28,11 +28,11 @@ import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchAttributeEvent;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.shared.UICodeListRow;
+import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.ClickableTextCell;
-import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -46,6 +46,7 @@ import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SimplePager;
@@ -116,6 +117,7 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 		dataGrid = new PatchedDataGrid<UICodeListRow>(20, resource, CodeListRowKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label("Empty"));
+		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.BOUND_TO_SELECTION);
 
 		//TODO add sorting
 
@@ -162,6 +164,7 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
 				UICodeListRow row = selectionModel.getSelectedObject();
+				Log.trace("onSelectionChange row: "+row);
 				if (row !=null) editorBus.fireEvent(new RowSelectedEvent(row));
 			}
 		});
@@ -182,7 +185,7 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 
 	protected void setupColumns() {
 
-		nameColumn = new Column<UICodeListRow, String>(new TextCell()) {
+		nameColumn = new Column<UICodeListRow, String>(new DoubleClickEditTextCell()) {
 			@Override
 			public String getValue(UICodeListRow object) {
 				return object.getName();
@@ -197,7 +200,7 @@ public class CodeListEditor extends ResizeComposite implements AttributeSetChang
 	{
 		Column<UICodeListRow, String> column = attributesColumns.get(name);
 		if (column == null) {
-			TextCell cell = new TextCell();
+			DoubleClickEditTextCell cell = new DoubleClickEditTextCell();
 			column = new Column<UICodeListRow, String>(cell) {
 
 				@Override

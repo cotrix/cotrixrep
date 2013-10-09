@@ -15,25 +15,29 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
+import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.cotrix.web.share.client.util.EventUtil;
+import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.builder.shared.BodyBuilder;
 import com.google.gwt.dom.builder.shared.DivBuilder;
 import com.google.gwt.dom.builder.shared.TableBuilder;
 import com.google.gwt.dom.builder.shared.TableCellBuilder;
 import com.google.gwt.dom.builder.shared.TableRowBuilder;
+import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.BorderStyle;
@@ -60,6 +64,8 @@ import com.google.gwt.view.client.SingleSelectionModel;
  *
  */
 public abstract class AttributesGrid extends ResizeComposite {
+	
+	protected enum AttributeField {NAME, TYPE, LANGUAGE, VALUE};
 
 	interface DataGridResources extends DataGrid.Resources {
 
@@ -76,7 +82,7 @@ public abstract class AttributesGrid extends ResizeComposite {
 
 	private final Set<String> showExpanded = new HashSet<String>();
 
-	private Map<String, Column<UIAttribute, String>> attributesColumns = new HashMap<String, Column<UIAttribute,String>>(); 
+	protected Map<String, EnumMap<AttributeField, Column<UIAttribute, String>>> attributesPropertiesColumns = new HashMap<String, EnumMap<AttributeField,Column<UIAttribute,String>>>();
 
 	private Column<UIAttribute, String> attributeNameColumn;
 
@@ -89,6 +95,10 @@ public abstract class AttributesGrid extends ResizeComposite {
 		this.dataProvider = dataProvider;
 
 		dataGrid = new DataGrid<UIAttribute>(20, resource);
+		
+		//We need to listen dbclick events in order to enable editing
+		EventUtil.sinkEvents(dataGrid, Collections.singleton(BrowserEvents.DBLCLICK));
+		
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label("Empty"));
 
@@ -106,22 +116,32 @@ public abstract class AttributesGrid extends ResizeComposite {
 		initWidget(dataGrid);
 	}
 	
-	public Column<UIAttribute, String> getAttributeColumn(final String name)
+	public Column<UIAttribute, String> getAttributePropertyColumn(final String name, final AttributeField field)
 	{
-		Column<UIAttribute, String> column = attributesColumns.get(name);
+		EnumMap<AttributeField, Column<UIAttribute, String>> attributePropertiesColumns = attributesPropertiesColumns.get(name);
+		if (attributePropertiesColumns == null) {
+			attributePropertiesColumns = new EnumMap<AttributesGrid.AttributeField, Column<UIAttribute,String>>(AttributeField.class);
+			attributesPropertiesColumns.put(name, attributePropertiesColumns);
+		}
+		
+		Column<UIAttribute, String> column = attributePropertiesColumns.get(field);
 		if (column == null) {
-			TextCell cell = new TextCell();
+			DoubleClickEditTextCell cell = new DoubleClickEditTextCell();
 			column = new Column<UIAttribute, String>(cell) {
 
 				@Override
 				public String getValue(UIAttribute attribute) {
-					/*if (object == null) return null;
-					UIAttribute attribute = object.getAttribute(name);*/
-					if (attribute == null) return null;
-					return attribute.getValue();
+					if (attribute == null) return "";
+					switch (field) {
+						case NAME: return attribute.getName();
+						case LANGUAGE: return attribute.getLanguage();
+						case TYPE: return attribute.getType();
+						case VALUE: return attribute.getValue();
+						default: return "";
+					}
 				}
 			};
-			attributesColumns.put(name, column);
+			attributePropertiesColumns.put(field, column);
 		}
 		return column;
 	}
@@ -170,7 +190,6 @@ public abstract class AttributesGrid extends ResizeComposite {
 				dataGrid.redrawRow(index);
 			}
 		});
-
 
 		dataGrid.addColumn(attributeNameColumn, header);
 	}
@@ -251,34 +270,34 @@ public abstract class AttributesGrid extends ResizeComposite {
 			Log.trace("buildPropertiesTable for row "+rowValue.getId());
 
 			table.style().borderStyle(BorderStyle.SOLID).borderWidth(1, Unit.PX).trustedBorderColor("#8C8C8C")
-			.trustedProperty("border-collapse", "collapse").width(200, Unit.PX);
+			.trustedProperty("border-collapse", "collapse").width(100, Unit.PCT);
 
 			BodyBuilder body = table.startBody();
 
 			UIAttribute attribute = rowValue;
 
 
-			addRow(body, "Name", attribute.getName());
+			addRow(body, "Name", attribute.getName(), absRowIndex, rowValue, AttributeField.NAME);
 
-			addRow(body, "Type", attribute.getType());
+			addRow(body, "Type", attribute.getType(), absRowIndex, rowValue, AttributeField.TYPE);
 
-			addRow(body, "Language", attribute.getLanguage());
+			addRow(body, "Language", attribute.getLanguage(), absRowIndex, rowValue, AttributeField.LANGUAGE);
 
-			addRow(body, "Value", attribute.getValue());
+			addRow(body, "Value", attribute.getValue(), absRowIndex, rowValue, AttributeField.VALUE);
 
 			body.end();
 			table.end();
 		}
 
-		protected void addRow(BodyBuilder body, String label, String value)
+		protected void addRow(BodyBuilder body, String label, String value, int absRowIndex, UIAttribute attribute, AttributeField field)
 		{
 			TableRowBuilder tr = body.startTR();
 
 			addCell(tr, label);
-			addCell(tr, value);
+			/*addCell(tr, value);*/
 
-			/*Column<UIAttribute, String> propColumn = getAttributeColumn(attribute.getName());
-			renderCell(tr, absRowIndex, propColumn, rowValue);*/
+			Column<UIAttribute, String> propColumn = getAttributePropertyColumn(attribute.getName(), field);
+			renderCell(tr, absRowIndex, propColumn, attribute);
 
 			tr.end();
 		}
@@ -420,8 +439,4 @@ public abstract class AttributesGrid extends ResizeComposite {
 	public void removeColumn(Column<UIAttribute, ?> col) {
 		dataGrid.removeColumn(col);
 	}
-
-	
-	
-
 }

@@ -26,6 +26,7 @@ import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
+import org.cotrix.web.codelistmanager.server.util.ValueUtils;
 import org.cotrix.web.codelistmanager.shared.CodeListGroup;
 import org.cotrix.web.codelistmanager.shared.CodeListMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
@@ -296,11 +297,11 @@ public class ManagerServiceImpl implements ManagerService {
 	protected UIAttribute toUIAttribute(Attribute domainAttribute)
 	{
 		UIAttribute attribute = new UIAttribute();
-		attribute.setName(domainAttribute.name().toString());
-		attribute.setType(domainAttribute.type().toString());
-		attribute.setLanguage(domainAttribute.language());
-		attribute.setValue(domainAttribute.value());
-		attribute.setId(domainAttribute.id());
+		attribute.setName(ValueUtils.safeValue(domainAttribute.name()));
+		attribute.setType(ValueUtils.safeValue(domainAttribute.type()));
+		attribute.setLanguage(ValueUtils.safeValue(domainAttribute.language()));
+		attribute.setValue(ValueUtils.safeValue(domainAttribute.value()));
+		attribute.setId(ValueUtils.safeValue(domainAttribute.id()));
 		return attribute;
 	}
 

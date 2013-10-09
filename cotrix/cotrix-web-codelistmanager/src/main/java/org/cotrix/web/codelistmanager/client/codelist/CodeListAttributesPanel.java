@@ -191,14 +191,6 @@ public class CodeListAttributesPanel extends ResizeComposite {
 		}
 	}
 
-	protected void switchToAttribute(String attributeName)
-	{
-		Column<UIAttribute, String> column = attributesGrid.getAttributeColumn(attributeName);
-		attributeAsColumn.remove(attributeName);
-		attributesGrid.removeColumn(column);
-		attributesGrid.removeUnusedDataGridColumns();
-	}
-
 	protected class AttributeHeader extends Header<String> {
 
 		private String text;

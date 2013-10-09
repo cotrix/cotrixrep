@@ -1,4 +1,4 @@
-package org.cotrix.web.codelistmanager.client.old;
+package org.cotrix.web.share.client.widgets;
 
 import static com.google.gwt.dom.client.BrowserEvents.BLUR;
 import static com.google.gwt.dom.client.BrowserEvents.DBLCLICK;
@@ -6,6 +6,7 @@ import static com.google.gwt.dom.client.BrowserEvents.KEYDOWN;
 import static com.google.gwt.dom.client.BrowserEvents.KEYUP;
 
 import com.google.gwt.cell.client.AbstractEditableCell;
+import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -19,15 +20,15 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
 
+
 /**
- * An editable text cell. Click to edit, escape to cancel, return to commit.
- */
-/**
+ * An editable text cell. Double click to edit, escape to cancel, return to commit.
+ * The code is derived from {@link EditTextCell}.
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CotrixEditTextCell extends
-AbstractEditableCell<String, CotrixEditTextCell.ViewData> {
+public class DoubleClickEditTextCell extends
+AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
 
 	interface Template extends SafeHtmlTemplates {
 		@Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\"></input>")
@@ -135,7 +136,7 @@ AbstractEditableCell<String, CotrixEditTextCell.ViewData> {
 	 * Construct a new EditTextCell that will use a
 	 * {@link SimpleSafeHtmlRenderer}.
 	 */
-	public CotrixEditTextCell() {
+	public DoubleClickEditTextCell() {
 		this(SimpleSafeHtmlRenderer.getInstance());
 	}
 
@@ -146,7 +147,7 @@ AbstractEditableCell<String, CotrixEditTextCell.ViewData> {
 	 * @param renderer
 	 *            a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
 	 */
-	public CotrixEditTextCell(SafeHtmlRenderer<String> renderer) {
+	public DoubleClickEditTextCell(SafeHtmlRenderer<String> renderer) {
 		super(DBLCLICK, KEYUP, KEYDOWN, BLUR);
 		if (template == null) {
 			template = GWT.create(Template.class);
