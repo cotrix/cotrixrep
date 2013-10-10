@@ -33,6 +33,12 @@ public interface CotrixManagerResources extends ClientBundle {
 	@Source("close.png")
 	public ImageResource close();
 	
+	@Source("plus.png")
+	public ImageResource plus();
+	
+	@Source("minus.png")
+	public ImageResource minus();
+	
 	interface CotrixManagerStyle extends CssResource {
 
 	}

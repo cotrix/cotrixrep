@@ -86,6 +86,18 @@ public class UICodelistRow implements IsSerializable {
 		index.put(attribute.getName(), attribute);
 	}
 	
+	public void addAttribute(UIAttribute attribute)
+	{
+		index.put(attribute.getName(), attribute);
+		attributes.add(attribute);
+	}
+	
+	public void removeAttribute(UIAttribute attribute)
+	{
+		index.remove(attribute.getName());
+		attributes.remove(attribute);
+	}
+	
 	public UIAttribute getAttribute(String name)
 	{
 		return index.get(name);

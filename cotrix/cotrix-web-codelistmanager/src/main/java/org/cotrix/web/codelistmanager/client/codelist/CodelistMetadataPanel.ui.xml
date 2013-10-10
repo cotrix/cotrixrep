@@ -23,16 +23,7 @@
 			border: 1px solid #d1d1d1;
 			border-spacing: 5px;
 		}
-		
-				.plusButton {
-			float: left;
-		}
-		.minusButton {
-			float: right;
-		}
 	</ui:style>
-	<ui:image field="plus" src="plus.png" />
-	<ui:image field="minus" src="minus.png" />
 	<g:DockLayoutPanel unit='PX'>
 		<g:north size="80">
 			<g:Grid ui:field="panel" styleName="{style.grid}">
@@ -60,14 +51,7 @@
 			<v:AttributesGrid ui:field="attributesGrid" />
 		</g:center>
 		<g:south size="28">
-			<g:FlowPanel>
-				<g:PushButton ui:field="plusButton" styleName="{style.plusButton}">
-					<g:upFace image="{plus}" />
-				</g:PushButton>
-				<g:PushButton ui:field="minusButton" styleName="{style.minusButton}">
-					<g:upFace image="{minus}" />
-				</g:PushButton>
-			</g:FlowPanel>
+			<v:ItemToolbar ui:field="itemToolbar" />
 		</g:south>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 

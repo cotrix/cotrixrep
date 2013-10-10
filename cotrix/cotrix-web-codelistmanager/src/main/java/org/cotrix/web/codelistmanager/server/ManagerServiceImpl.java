@@ -111,12 +111,6 @@ public class ManagerServiceImpl implements ManagerService {
 		return list;
 	}
 
-	public void addCode(ArrayList<UICode> codes){
-		Attribute.Private a = (Attribute.Private) attr().name("TAXOCODE").value("OOOOOOO").as(NEW).build();
-		Code.Private code = (Code.Private) code().name("LAU").attributes(a).as(NEW).build();
-		Codelist changeset = codelist("id").name("sss").with(code).as(NEW).build();
-
-	}
 
 	public void editCode(ArrayList<UICode> editedCodes) {
 		for (UICode code : editedCodes) {
