@@ -2,10 +2,11 @@ package org.cotrix.web.codelistmanager.client.codelist;
 
 import java.util.List;
 
-import org.cotrix.web.codelistmanager.client.codelist.ItemToolbar.ButtonClickedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.client.data.MetadataEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;

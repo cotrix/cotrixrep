@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.codelistmanager.client.codelist;
+package org.cotrix.web.codelistmanager.client.common;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -53,7 +53,7 @@ public class ItemToolbar extends Composite {
 		void onButtonClicked(ButtonClickedEvent event);
 	}
 
-	static class ButtonClickedEvent extends GwtEvent<ButtonClickedHandler> {
+	public static class ButtonClickedEvent extends GwtEvent<ButtonClickedHandler> {
 
 		public static Type<ButtonClickedHandler> TYPE = new Type<ButtonClickedHandler>();
 		

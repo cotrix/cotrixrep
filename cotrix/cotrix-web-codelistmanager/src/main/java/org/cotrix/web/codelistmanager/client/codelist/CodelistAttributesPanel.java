@@ -19,14 +19,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.cotrix.web.codelistmanager.client.codelist.ItemToolbar.ButtonClickedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchAttributeEvent;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.client.data.CodelistRowEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;

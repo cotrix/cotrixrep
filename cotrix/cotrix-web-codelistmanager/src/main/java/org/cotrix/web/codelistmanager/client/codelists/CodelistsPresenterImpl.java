@@ -48,4 +48,16 @@ public class CodelistsPresenterImpl implements CodelistsPresenter, RefreshCodeLi
 		view.refresh();		
 	}
 
+	@Override
+	public void onCodelistRemove() {
+		// TODO to complete
+		
+	}
+
+	@Override
+	public void onCodelistCreate() {
+		// TODO to complete
+		
+	}
+
 }

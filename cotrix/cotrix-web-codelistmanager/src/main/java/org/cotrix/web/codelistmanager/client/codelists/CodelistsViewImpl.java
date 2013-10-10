@@ -1,5 +1,8 @@
 package org.cotrix.web.codelistmanager.client.codelists;
 
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup.Version;
 import org.cotrix.web.share.shared.UICodelist;
 
@@ -37,6 +40,8 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	@UiField(provided=true) 
 	CellTree codelists;
 	
+	@UiField ItemToolbar toolbar;
+	
 	//@UiField FlowPanel filterPanel;
 	//@UiField PromptedTextBox filterTextBox;
 	
@@ -68,6 +73,21 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 		this.codeListDataProvider = codeListDataProvider;
 		setupCellList();
 		initWidget(uiBinder.createAndBindUi(this));
+		bind();
+	}
+	
+	protected void bind()
+	{
+		toolbar.addButtonClickedHandler(new ButtonClickedHandler() {
+			
+			@Override
+			public void onButtonClicked(ButtonClickedEvent event) {
+				switch (event.getButton()) {
+					case MINUS: presenter.onCodelistRemove(); break;
+					case PLUS: presenter.onCodelistCreate(); break;
+				}
+			}
+		});
 	}
 	
 	protected void setupCellList()
