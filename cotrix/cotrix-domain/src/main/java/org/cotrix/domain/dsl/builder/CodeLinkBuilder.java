@@ -12,7 +12,8 @@ import org.cotrix.domain.Codelink;
 import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.CodeLinkStartClause;
 import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.FinalClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.CodeLinkClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.po.CodeLinkPO;
 import org.cotrix.domain.trait.Change;
@@ -23,7 +24,7 @@ import org.cotrix.domain.trait.Change;
  * @author Fabio Simeoni
  *
  */
-public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Code,FinalClause>,FinalClause {
+public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Code,FinalClause>,DeltaClause<CodeLinkClause<FinalClause>, CodeLinkClause<FinalClause>,Codelink> ,FinalClause {
 
 	
 	private final CodeLinkPO po;
@@ -31,6 +32,22 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 	
 	public CodeLinkBuilder(String id) {
 		this.po = new CodeLinkPO(id);
+	}
+	
+	@Override
+	public Codelink delete() {
+		return this.as(DELETED).build();
+	}
+	
+	
+	@Override
+	public CodeLinkClause<FinalClause> add() {
+		return this.as(NEW);
+	}
+	
+	@Override
+	public CodeLinkClause<FinalClause> modify() {
+		return this.as(MODIFIED);
 	}
 	
 	@Override
@@ -64,8 +81,7 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 		return this;
 	}
 
-	@Override
-	public BuildClause<Codelink> as(Change change) {
+	private CodeLinkBuilder as(Change change) {
 		if (change!=NEW && po.id()==null)
 			throw new IllegalStateException("object is marked as update but has its identifier is null");
 		po.setChange(change);

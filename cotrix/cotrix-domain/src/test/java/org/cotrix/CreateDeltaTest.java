@@ -7,7 +7,6 @@ import static org.cotrix.domain.trait.Change.*;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
-import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.Container;
 import org.cotrix.domain.po.AttributedPO;
@@ -89,7 +88,7 @@ public class CreateDeltaTest {
 	@Test
 	public void bagsWithNewObjectsBecomeNew() {
 
-		Attribute.Private a = (Attribute.Private) attr().name(name).value(value).as(NEW).build();
+		Attribute.Private a = (Attribute.Private) attr().add().name(name).value(value).build();
 
 		Container.Private<Attribute.Private> bag = bag(a);
 		
@@ -99,7 +98,7 @@ public class CreateDeltaTest {
 	@Test
 	public void bagsWithModifiedObjectsBecomeModified() {
 
-		Attribute.Private a = (Attribute.Private) attr("1").name(name).value(value).as(MODIFIED).build();
+		Attribute.Private a = (Attribute.Private) attr("1").modify().name(name).value(value).build();
 
 		Container.Private<Attribute.Private> bag = bag(a);
 
@@ -109,7 +108,7 @@ public class CreateDeltaTest {
 	@Test
 	public void bagsWithDeletedObjectsBecomeModified() {
 
-		Attribute.Private a = (Attribute.Private) attr("1").name(name).value(value).as(DELETED).build();
+		Attribute.Private a = (Attribute.Private) attr("1").delete();
 
 		Container.Private<Attribute.Private> bag = bag(a);
 
@@ -119,8 +118,8 @@ public class CreateDeltaTest {
 	@Test
 	public void newBagsWithNewObjectsRemainNew() {
 
-		Attribute.Private a1 = (Attribute.Private) attr().name(name).value(value).as(NEW).build();
-		Attribute.Private a2 = (Attribute.Private) attr().name(name2).value(value2).as(NEW).build();
+		Attribute.Private a1 = (Attribute.Private) attr().add().name(name).value(value).build();
+		Attribute.Private a2 = (Attribute.Private) attr().add().name(name2).value(value2).build();
 		
 		Container.Private<Attribute.Private> bag = bag(a1,a2);
 
@@ -130,8 +129,8 @@ public class CreateDeltaTest {
 	@Test
 	public void newBagsWithModifiedObjectsBecomeModified() {
 
-		Attribute.Private a1 = (Attribute.Private)attr().name(name).value(value).as(NEW).build();
-		Attribute.Private a2 = (Attribute.Private)attr("1").name(name2).value(value2).as(MODIFIED).build();
+		Attribute.Private a1 = (Attribute.Private) attr().add().name(name).value(value).build();
+		Attribute.Private a2 = (Attribute.Private) attr("1").modify().name(name2).value(value2).build();
 
 		Container.Private<Attribute.Private> bag = bag(a1,a2);
 
@@ -141,8 +140,8 @@ public class CreateDeltaTest {
 	@Test
 	public void newBagsWithDeletedObjectsBecomeModified() {
 
-		Attribute.Private a1 = (Attribute.Private)attr().name(name).value(value).as(NEW).build();
-		Attribute.Private a2 = (Attribute.Private)attr("1").name(name2).value(value2).as(DELETED).build();
+		Attribute.Private a1 = (Attribute.Private) attr().add().name(name).value(value).build();
+		Attribute.Private a2 = (Attribute.Private) attr("1").delete();
 		
 		Container.Private<Attribute.Private> bag = bag(a1,a2);
 
@@ -152,8 +151,8 @@ public class CreateDeltaTest {
 	@Test
 	public void modifiedBagsWithNewObjectsRemainModified() {
 
-		Attribute.Private a1 = (Attribute.Private)attr("1").name(name).value(value).as(MODIFIED).build();
-		Attribute.Private a2 = (Attribute.Private)attr().name(name2).value(value2).as(NEW).build();
+		Attribute.Private a1 = (Attribute.Private) attr("1").modify().name(name).value(value).build();
+		Attribute.Private a2 = (Attribute.Private) attr().add().name(name2).value(value2).build();
 		
 		Container.Private<Attribute.Private> bag = bag(a1,a2);
 
@@ -163,8 +162,8 @@ public class CreateDeltaTest {
 	@Test
 	public void modifiedBagsWithDeletedObjectsRemainModified() {
 
-		Attribute.Private a1 = (Attribute.Private)attr("1").name(name).value(value).as(MODIFIED).build();
-		Attribute.Private a2 = (Attribute.Private)attr("2").name(name2).value(value2).as(DELETED).build();
+		Attribute.Private a1 = (Attribute.Private)attr("1").modify().name(name).value(value).build();
+		Attribute.Private a2 = (Attribute.Private)attr("2").delete();
 		
 		Container.Private<Attribute.Private> bag = bag(a1,a2);
 
@@ -232,7 +231,7 @@ public class CreateDeltaTest {
 		};
 
 		// a NEW parameter
-		Attribute.Private deltaAttribute = (Attribute.Private) attr().name(name).value(value).as(NEW).build();
+		Attribute.Private deltaAttribute = (Attribute.Private) attr().add().name(name).value(value).build();
 
 		Container.Private<Attribute.Private> deltabag = bag(deltaAttribute);
 
@@ -322,52 +321,153 @@ public class CreateDeltaTest {
 
 	}
 	
-		
-	// / attributes: largely tested as generic DOs
+	
+	@Test
+	public void codelistWithNewAttribute() {
 
+		Attribute a = attr().add().name("name").value("val").build();
+	
+		Codelist.Private delta = (Codelist.Private) codelist("12").modify().attributes(a).build();
+	
+		assertEquals(MODIFIED,delta.change());
+	}
+	
+	
+	@Test
+	public void codelistWithNewCode() {
+
+		Code c = code().add().name("name").build();
+	
+		Codelist.Private delta = (Codelist.Private) codelist("12").modify().with(c).build();
+	
+		assertEquals(MODIFIED,delta.change());
+	}
+	
+	
+	
+	
+		
 	@Test
 	public void deltaAttributesCanBeFluentlyConstructed() {
 
-		Attribute.Private a = (Attribute.Private) attr().name(name).value(value).as(NEW).build();
+		Attribute a;
+		
+		//new attributes
+		 a =  attr().name(name).build();
+		 a =  attr().name(name).value(value).build();
+		 a =  attr().name(name).value(value).ofType("type").build();
+		 a =  attr().name(name).value(value).ofType("type").in("en").build();
+		 a =  attr().name(name).value(value).in("en").build();
+		 
+		 
+		assertFalse(((Attribute.Private) a).isChangeset());
+		assertNull(((Attribute.Private) a).change());
+			
+		//added attributes
+		 a = attr().add().name(name).value(value).build();
+		 a = attr().add().name(name).value(value).ofType("type").build();
+		 a = attr().add().name(name).value(value).ofType("type").in("en").build();
+		 a = attr().add().name(name).value(value).in("en").build();
+						  
+		assertTrue(((Attribute.Private) a).isChangeset());
+		assertEquals(NEW, ((Attribute.Private) a).change());		
+		
+		//modified attributes
+		 a = attr("1").modify().name(name).build();
+		 a = attr("1").modify().name(name).value(value).build();
+		 a = attr("1").modify().ofType("type").build();
+		 a = attr("1").modify().ofType("type").in("en").build();
+		 a = attr("1").modify().in("en").build();
 
-		assertTrue(a.isChangeset());
-		assertEquals(NEW, a.change());
+		assertTrue(((Attribute.Private) a).isChangeset());
+		assertEquals(MODIFIED, ((Attribute.Private) a).change());		
+		
+		
+		//removed attributes
+		a = attr("1").delete();
 
+		assertTrue(((Attribute.Private) a).isChangeset());
+		assertEquals(DELETED, ((Attribute.Private) a).change());		
 	}
+	
 
 	// codes: largely tested as attriuted DOs
 
 	@Test
 	public void deltaCodesCanBeFluentlyConstructed() {
+		
+		
+		Attribute a = attr().name("name").build();
+		Attribute added = attr().add().name("name").build();
+		Attribute modified = attr("1").modify().name("name").build();
+		Attribute deleted = attr("1").delete();
+		
+		Code c;
 
-		Code.Private code = (Code.Private) code().name(name).as(NEW).build();
+		//new codes
+		c = code().name(name).build();
+		c = code().name(name).attributes(a).build();
 
-		assertTrue(code.isChangeset());
-		assertTrue(code.change() == NEW);
+		assertEquals(null,((Code.Private) c).change());
+		
+		
+		//added codes
+		 c = code("1").add().name(name).build();
+		 c = code("1").add().name(name).attributes(added).build();
+						  
+		assertEquals(NEW,((Code.Private) c).change());
+		
+		c = code("1").modify().attributes(modified,added,deleted).build();
+		
+		//changed
+		assertEquals(MODIFIED,((Code.Private) c).change());
+		
+		c = code("1").delete();
 
+		assertEquals(DELETED,((Code.Private) c).change());
 	}
-
+	
+	
 	// codelists
 
 	@Test
 	public void deltaCodelistsCanBeFluentlyConstructed() {
 
-		Codelist.Private list = (Codelist.Private) codelist().name(name).as(NEW).build();
+		Attribute a = attr().name("name").build();
+		Attribute added = attr().add().name("name").build();
+		Attribute modified = attr("1").modify().name("name").build();
+		Attribute deleted = attr("1").delete();
+		
+		Code c = code().name("name").attributes(a).build();
+		Code addedCode = code("1").add().name("name").attributes(added).build();
+		Code modifiedCode = code("1").modify().name("name").attributes(added, modified, deleted).build();
+		Code deletedCode = code("1").delete();
 
-		assertTrue(list.isChangeset());
-		assertEquals(NEW, list.change());
+		Codelist l;
+		
+		//new codelists
+		l = codelist().name(name).build();
+		l = codelist().name(name).with(c).build();
+		l = codelist().name(name).attributes(a).build();
+		l = codelist().name(name).with(c).attributes(a).build();
 
-	}
+		assertEquals(null,((Codelist.Private) l).change());
+		
+		//added codes
+		l = codelist("1").add().name(name).build(); //plus all cases above
+						  
+		assertEquals(NEW,((Codelist.Private) l).change());
+		
+		l = codelist("1").modify().attributes(modified,added,deleted).build();
+		l = codelist("1").modify().with(modifiedCode,addedCode,deletedCode).build();
+		l = codelist("1").modify().with(modifiedCode,addedCode,deletedCode).attributes(modified,added,deleted).build();
+		
+		//changed
+		assertEquals(MODIFIED,((Codelist.Private) l).change());
+		
+		l = codelist("1").delete();
 
-	// code bags
-
-	@Test
-	public void deltaCodebagsCanBeFluentlyConstructed() {
-
-		Codebag.Private bag = (Codebag.Private) codebag().name(name).as(NEW).build();
-
-		assertTrue(bag.isChangeset());
-		assertEquals(NEW, bag.change());
+		assertEquals(DELETED,((Codelist.Private) l).change());
 
 	}
 

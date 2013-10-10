@@ -4,6 +4,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 
 /**
@@ -14,11 +15,13 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
  */
 public class AttributeGrammar {
 
-	public static interface AttributeStartClause extends NameClause<SecondClause> {
+	
+	public static interface AttributeStartClause extends NameClause<ValueClause>, DeltaClause<NameClause<ValueClause>,ChangeClause,Attribute> {	}
+		
 
-	}
+	public static interface ChangeClause extends NameClause<ValueClause>, ValueClause, TypeClause, LanguageClause {}
 
-	public static interface SecondClause {
+	public static interface ValueClause extends BuildClause<Attribute> {
 		
 		/**
 		 * Sets the value of the object.
@@ -26,10 +29,10 @@ public class AttributeGrammar {
 		 * @param value the value
 		 * @return the next clause in the sentence
 		 */
-		ThirdClause value(String value);
+		TypeClause value(String value);
 	}
 
-	public static interface ThirdClause extends FinalClause, BuildClause<Attribute> {
+	public static interface TypeClause extends LanguageClause {
 
 		/**
 		 * Sets the type of the object.
@@ -37,7 +40,7 @@ public class AttributeGrammar {
 		 * @param type the type
 		 * @return the next clause in the sentence
 		 */
-		FinalClause ofType(QName type);
+		LanguageClause ofType(QName type);
 		
 		/**
 		 * Sets the type of the object.
@@ -45,10 +48,10 @@ public class AttributeGrammar {
 		 * @param type the type
 		 * @return the next clause in the sentence
 		 */
-		FinalClause ofType(String type);
+		LanguageClause ofType(String type);
 	}
 
-	public static interface FinalClause extends BuildClause<Attribute> {
+	public static interface LanguageClause extends BuildClause<Attribute> {
 
 		/**
 		 * Sets the language of the object.

@@ -13,7 +13,6 @@ import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.ContextController;
 import org.jglue.cdiunit.DummyHttpRequest;
 import org.jglue.cdiunit.ProducesAlternative;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -30,7 +29,6 @@ public class SessionTest {
 	@Inject
 	ContextController scopes;
 	
-	@Ignore //waiting for cdi-unit 2.1.2
 	@Test
 	public void sessionScenario() {
 

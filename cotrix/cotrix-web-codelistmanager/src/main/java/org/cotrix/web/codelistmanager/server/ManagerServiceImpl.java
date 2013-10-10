@@ -2,7 +2,6 @@ package org.cotrix.web.codelistmanager.server;
 
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.trait.Change.*;
 import static org.cotrix.repository.Queries.*;
 import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.*;
 
@@ -111,18 +110,17 @@ public class ManagerServiceImpl implements ManagerService {
 		return list;
 	}
 
-
 	public void editCode(ArrayList<UICode> editedCodes) {
-		for (UICode code : editedCodes) {
-			Attribute changedAttribute = attr(code.getAttribute().getId()).name(code.getAttribute().getName()).value(code.getAttribute().getValue()).as(MODIFIED).build();
-			Code changeCode =  code(code.getId()).name(code.getName()).attributes(changedAttribute).as(MODIFIED).build();
-			Codelist changeset = codelist(code.getParent().getId()).name(code.getParent().getName()).with(changeCode).as(MODIFIED).build();
-			repository.update(changeset);
-		}
-		/*
-		Attribute a =  attr().name(code.getAttribute().getName()).value(code.getAttribute().getValue()).as(NEW).build();
-		Code c = code().name(code.getName()).attributes(a).as(NEW).build();
-		Codelist codelist = codelist(code.getParent().getId()).name(code.getParent().getName()).with(c).as(NEW).build();*/
+//		for (UICode code : editedCodes) {
+//			Attribute changedAttribute = attr(code.getAttribute().getId()).name(code.getAttribute().getName()).value(code.getAttribute().getValue()).as(MODIFIED).build();
+//			Code changeCode =  code(code.getId()).name(code.getName()).attributes(changedAttribute).as(MODIFIED).build();
+//			Codelist changeset = codelist(code.getParent().getId()).name(code.getParent().getName()).with(changeCode).as(MODIFIED).build();
+//			repository.update(changeset);
+//		}
+//		/*
+//		Attribute a =  attr().name(code.getAttribute().getName()).value(code.getAttribute().getValue()).as(NEW).build();
+//		Code c = code().name(code.getName()).attributes(a).as(NEW).build();
+//		Codelist codelist = codelist(code.getParent().getId()).name(code.getParent().getName()).with(c).as(NEW).build();*/
 	}
 
 	public CotrixImportModel getCodeListModel(String codelistId) {
@@ -306,11 +304,11 @@ public class ManagerServiceImpl implements ManagerService {
 
 	@Override
 	public void saveMetadata(String codelistId, CodelistMetadata metadata) throws ManagerServiceException {
-		logger.trace("saveMetadata codelistId: {}, metadata {}", codelistId, metadata);
-		Attribute[] attributes = toDomainAttributes(metadata.getAttributes());
-		Codelist changeset = codelist(codelistId).name(metadata.getName()).attributes(attributes).version(metadata.getVersion()).as(MODIFIED).build();
-		//TODO attributes?
-		repository.update(changeset);
+//		logger.trace("saveMetadata codelistId: {}, metadata {}", codelistId, metadata);
+//		Attribute[] attributes = toDomainAttributes(metadata.getAttributes());
+//		Codelist changeset = codelist(codelistId).name(metadata.getName()).attributes(attributes).version(metadata.getVersion()).as(MODIFIED).build();
+//		//TODO attributes?
+//		repository.update(changeset);
 	}
 	
 	protected Attribute[] toDomainAttributes(Collection<UIAttribute> attributes)
@@ -353,11 +351,11 @@ public class ManagerServiceImpl implements ManagerService {
 
 	@Override
 	public void saveCodelistRow(String codelistId, UICodelistRow row) throws ManagerServiceException {
-		//FIXME why name???
-		Codelist codelist = repository.lookup(codelistId);
-		
-		Codelist changeset = codelist(codelistId).name(codelist.name()).with(toCode(row)).as(MODIFIED).build();
-		repository.update(changeset);
+//		//FIXME why name???
+//		Codelist codelist = repository.lookup(codelistId);
+//		
+//		Codelist changeset = codelist(codelistId).name(codelist.name()).with(toCode(row)).as(MODIFIED).build();
+//		repository.update(changeset);
 	}
 	
 	protected Code toCode(UICodelistRow row)

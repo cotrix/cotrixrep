@@ -2,7 +2,6 @@ package org.cotrix;
 
 import static junit.framework.Assert.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.trait.Change.*;
 
 import javax.xml.namespace.QName;
 
@@ -60,7 +59,7 @@ public class SimpleRepositoryTest {
 		
 		repository.add(list);
 		
-		Attribute attributeChangeset = attr(attribute.id()).name(attribute.name()).value("newvalue").as(MODIFIED).build();
+		Attribute attributeChangeset = attr(attribute.id()).modify().name(attribute.name()).value("newvalue").build();
 		
 		QName updatedName = q(list.name().getLocalPart()+"-updated");
 		

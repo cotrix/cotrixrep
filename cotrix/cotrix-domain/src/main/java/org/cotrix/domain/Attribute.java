@@ -116,7 +116,7 @@ public interface Attribute extends Identified, Named {
 	
 		@Override
 		public String toString() {
-			return "Attribute [id=" +id()+", name=" + name() + ", value=" + value + ", language=" + language + (type==null?"":", type=" + type)+ (change()==null?"":"("+change()+")")+"]";
+			return "Attribute [id=" +id()+", name=" + name() + ", value=" + value + ", language=" + language + (type==null?"":", type=" + type)+ (change()==null?"":" ("+change()+") ")+"]";
 		}
 	
 		@Override

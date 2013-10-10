@@ -134,7 +134,7 @@ public class Codes {
 	public static CodelistStartClause codelist(String id) {
 		return new CodelistBuilder(id);
 	}
-
+	
 	/**
 	 * Starts a sentence to create an {@link CodelistLink} with a given identifier.
 	 * @param id the identifier
