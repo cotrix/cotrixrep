@@ -77,7 +77,7 @@ public abstract class EntityPO {
 
 		//other times: if not another NEW, MODIFIED
 		if (this.isDelta() && !parameter.isChangeset())
-			throw new IllegalArgumentException("object is a delta ("+this.change+") and can only contain other changes");
+			throw new IllegalArgumentException("object is a delta ("+this.change+") and can only contain other deltas");
 		
 		if (parameter.isChangeset() && !this.isDelta())
 			this.change=parameter.change()==NEW?NEW:MODIFIED;

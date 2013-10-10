@@ -10,7 +10,6 @@ import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.Container;
 import org.cotrix.domain.spi.IdGenerator;
-import org.cotrix.domain.trait.Change;
 import org.junit.Test;
 
 public class VersioningTest {
@@ -51,7 +50,7 @@ public class VersioningTest {
 	@Test
 	public void copiesDoNotPreserveDeltas() {
 		
-		Attribute.Private a = (Attribute.Private) attr().name(name).value(value).as(Change.NEW).build();
+		Attribute.Private a = (Attribute.Private) attr().add().name(name).value(value).build();
 		
 		Attribute.Private copy = a.copy(generator);
 		

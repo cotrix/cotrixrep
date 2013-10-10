@@ -14,16 +14,18 @@ import org.cotrix.security.impl.MRealm;
 import org.cotrix.user.User;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
+import org.jglue.cdiunit.ContextController;
 import org.jglue.cdiunit.DummyHttpRequest;
-import org.jglue.cdiunit.InSessionScope;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(CdiRunner.class)
-@InSessionScope
-@AdditionalClasses({ DummyHttpRequest.class, MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class })
+@AdditionalClasses({MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class })
 public class LoginTest {
 
+	@Inject
+	ContextController contextController;
+	
 	@Inject
 	@Current
 	User currentUser;
@@ -34,18 +36,27 @@ public class LoginTest {
 	@Test
 	public void loginAsGuestIfNoTokenIsAvailable() throws Exception {
 
-		User logged = service.login(new DummyHttpRequest());
+		DummyHttpRequest req = new DummyHttpRequest();
+		
+		contextController.openRequest(req);
+		
+		User logged = service.login(req);
 
 		assertEquals(guest, logged);
 
 		// annoyingly we cannot compare objects as current currentUser is a proxy
 		assertEquals(guest.toString(), currentUser.toString());
+		
+		contextController.closeRequest();
 	}
 
 	@Test
 	public void loginByNameAndPasswords() throws Exception {
 
 		DummyHttpRequest r = new DummyHttpRequest();
+		
+		contextController.openRequest(r);
+		
 		r.setAttribute(nameParam, cotrix.id());
 		r.setAttribute(pwdParam, cotrix.id());
 
@@ -55,6 +66,8 @@ public class LoginTest {
 		
 		// annoyingly we cannot compare objects as current currentUser is a proxy
 		assertEquals(cotrix.toString(), currentUser.toString());
+		
+		contextController.closeRequest();
 		
 	}
 

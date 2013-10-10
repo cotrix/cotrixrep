@@ -12,10 +12,12 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.ChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.SecondClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 import org.cotrix.domain.po.CodelistLinkPO;
 import org.cotrix.domain.trait.Change;
 
@@ -25,7 +27,7 @@ import org.cotrix.domain.trait.Change;
  * @author Fabio Simeoni
  *
  */
-public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause,FinalClause {
+public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause,FinalClause, DeltaClause<NameClause<SecondClause>, ChangeClause, CodelistLink>, ChangeClause {
 
 	
 	private final CodelistLinkPO po;
@@ -44,6 +46,22 @@ public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause
 	@Override
 	public SecondClause name(String name) {
 		return name(Codes.q(name));
+	}
+	
+	@Override
+	public CodelistLink delete() {
+		return this.as(DELETED).build();
+	}
+	
+	
+	@Override
+	public NameClause<SecondClause> add() {
+		return this.as(NEW);
+	}
+	
+	@Override
+	public ChangeClause modify() {
+		return this.as(MODIFIED);
 	}
 	
 	@Override
@@ -71,8 +89,7 @@ public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause
 		return this;
 	}
 
-	@Override
-	public BuildClause<CodelistLink> as(Change change) {
+	private CodelistLinkBuilder as(Change change) {
 		if (change!=NEW && po.id()==null)
 			throw new IllegalStateException("object is marked as update but has its identifier is null");
 		po.setChange(change);

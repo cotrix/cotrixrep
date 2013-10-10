@@ -12,11 +12,13 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.dsl.grammar.CodebagGrammar.ChangeClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.CodebagStartClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.ThirdClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 import org.cotrix.domain.po.CodebagPO;
 import org.cotrix.domain.trait.Change;
 import org.cotrix.domain.version.SimpleVersion;
@@ -28,7 +30,7 @@ import org.cotrix.domain.version.Version;
  * @author Fabio Simeoni
  *
  */
-public final class CodebagBuilder implements CodebagStartClause, SecondClause,ThirdClause,FinalClause {
+public final class CodebagBuilder implements CodebagStartClause, DeltaClause<NameClause<SecondClause>,ChangeClause,Codebag>, ChangeClause, ThirdClause ,FinalClause {
 
 	private final CodebagPO po;
 	
@@ -45,6 +47,22 @@ public final class CodebagBuilder implements CodebagStartClause, SecondClause,Th
 	@Override
 	public SecondClause name(String name) {
 		return name(Codes.q(name));
+	}
+	
+	@Override
+	public Codebag delete() {
+		return this.as(DELETED).build();
+	}
+	
+	
+	@Override
+	public NameClause<SecondClause> add() {
+		return this.as(NEW);
+	}
+	
+	@Override
+	public ChangeClause modify() {
+		return this.as(MODIFIED);
 	}
 	
 	@Override
@@ -81,8 +99,7 @@ public final class CodebagBuilder implements CodebagStartClause, SecondClause,Th
 		return this;
 	}
 	
-	@Override
-	public BuildClause<Codebag> as(Change change) {
+	private CodebagBuilder as(Change change) {
 		if (change!=NEW && po.id()==null)
 			throw new IllegalStateException("object is marked as update but has its identifier is null");
 		po.setChange(change);

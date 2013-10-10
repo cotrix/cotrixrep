@@ -7,7 +7,6 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.CodelistLink;
-import org.cotrix.domain.trait.Change;
 
 /**
  * Sentence clauses shared across grammars.
@@ -111,6 +110,30 @@ public class CommonClauses {
 		C name(String name);
 	}
 	
+	
+	public static interface DeltaClause<ADD,MODIFY,DELETE> {
+		
+		/**
+		 * Marks this object as a new for some containing object.
+		 * @return the next clause in the sentence
+		 */
+		ADD add();
+
+		
+		/**
+		 * Marks this object as a modified version of one with the same identifier.
+		 * @return the next clause in the sentence
+		 */
+		MODIFY modify();
+		
+
+		/**
+		 * Marks this object for deletion.
+		 * @return the next clause in the sentence
+		 */
+        DELETE delete();
+	}
+	
 	public static interface VersionClause<T> {
 
 		/**
@@ -122,18 +145,7 @@ public class CommonClauses {
 		BuildClause<T> version(String version);
 	}
 	
-	public static interface DeltaClause<T> {
-
-		/**
-		 * Mark object as an incremental change.
-		 * 
-		 * @param delta the type of change
-		 * @return the next clause in the sentence
-		 */
-		BuildClause<T> as(Change delta);
-	}
-	
-	public static interface BuildClause<T> extends DeltaClause<T> {
+	public static interface BuildClause<T> {
 
 		/**
 		 * Closes the sentence and returns the object.

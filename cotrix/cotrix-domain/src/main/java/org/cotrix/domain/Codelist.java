@@ -80,7 +80,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		@Override
 		public String toString() {
 			return "Codelist [id="+id()+", name=" + name() + ", codes=" + codes + ", attributes=" + attributes() + ", version="
-					+ version() + "]";
+					+ version() + (change()==null?"":" ("+change()+") ")+"]";
 		}
 
 		@Override

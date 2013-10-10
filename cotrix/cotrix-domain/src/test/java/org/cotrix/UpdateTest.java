@@ -3,7 +3,6 @@ package org.cotrix;
 import static junit.framework.Assert.*;
 import static org.cotrix.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.trait.Change.*;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Container;
@@ -55,7 +54,7 @@ public class UpdateTest {
 		
 		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
 		
-		Attribute.Private delta = (Attribute.Private)attr("1").name(name2).value(value).as(NEW).build();
+		Attribute.Private delta = (Attribute.Private)attr("1").add().name(name2).value(value).build();
 		
 		a.update(delta);
 		
@@ -68,7 +67,7 @@ public class UpdateTest {
 		
 		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
 		
-		Attribute.Private delta = (Attribute.Private)attr("1").name(name2).value(value).as(MODIFIED).build();
+		Attribute.Private delta = (Attribute.Private)attr("1").modify().name(name2).value(value).build();
 		
 		a.update(delta);
 		
@@ -80,7 +79,7 @@ public class UpdateTest {
 		
 		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
 		
-		Attribute.Private delta = (Attribute.Private)attr("1").name(name).value(value2).as(MODIFIED).build();
+		Attribute.Private delta = (Attribute.Private)attr("1").modify().name(name).value(value2).build();
 		
 		a.update(delta);
 		
@@ -92,7 +91,7 @@ public class UpdateTest {
 		
 		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
 		
-		Attribute.Private delta = (Attribute.Private)attr("1").name(name).value(value).ofType(type).as(MODIFIED).build();
+		Attribute.Private delta = (Attribute.Private)attr("1").modify().name(name).value(value).ofType(type).build();
 		
 		a.update(delta);
 		
@@ -104,7 +103,7 @@ public class UpdateTest {
 		
 		Attribute.Private a = (Attribute.Private) attr("1").name(name).value(value).in(language).build();
 		
-		Attribute.Private delta = (Attribute.Private)attr("1").name(name).value(value).in("another").as(MODIFIED).build();
+		Attribute.Private delta = (Attribute.Private)attr("1").modify().name(name).value(value).in("another").build();
 		
 		assertFalse(a.language().equals("another"));
 		
@@ -124,13 +123,13 @@ public class UpdateTest {
 		Container.Private<Attribute.Private> bag = bag(a1,a2);
 		
 		//a change
-		Attribute.Private deltaA1 = (Attribute.Private)attr("1").name(name).value(value+"updated").as(MODIFIED).build();
+		Attribute.Private deltaA1 = (Attribute.Private)attr("1").modify().name(name).value(value+"updated").build();
 		
 		// a deletion
-		Attribute.Private deltaA2 = (Attribute.Private)attr("2").name(name2).value(value2).as(DELETED).build();
+		Attribute.Private deltaA2 = (Attribute.Private)attr("2").delete();
 		
 		// a removal
-		Attribute.Private deltaA3 = (Attribute.Private)attr().name(name3).value(value3).as(NEW).build();
+		Attribute.Private deltaA3 = (Attribute.Private)attr().add().name(name3).value(value3).build();
 		
 		Container.Private<Attribute.Private> delta = bag(deltaA1,deltaA2,deltaA3);
 		

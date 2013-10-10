@@ -5,6 +5,7 @@ import org.cotrix.domain.Codelist;
 import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinksClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.VersionClause;
@@ -16,10 +17,13 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.WithManyClause;
  * @author Fabio Simeoni
  * 
  */
+@SuppressWarnings("all")
 public class CodelistGrammar {
 
-	public static interface CodelistStartClause extends NameClause<SecondClause> {}
-
+	public static interface CodelistStartClause extends NameClause<SecondClause>, DeltaClause<NameClause<SecondClause>,ChangeClause,Codelist> {}
+	
+	public static interface ChangeClause extends NameClause<SecondClause>, SecondClause {}
+	
 	public static interface SecondClause extends WithManyClause<Code,ThirdClause>,
 												 AttributeClause<Codelist,FinalClause>,
 												 VersionClause<Codelist> {}
@@ -29,4 +33,7 @@ public class CodelistGrammar {
 	public static interface FourthClause extends AttributeClause<Codelist,FinalClause>,VersionClause<Codelist> {}
 	
 	public static interface FinalClause extends VersionClause<Codelist>, BuildClause<Codelist> {}
+	
+
+	
 }

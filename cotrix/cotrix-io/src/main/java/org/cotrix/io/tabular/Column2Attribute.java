@@ -4,7 +4,7 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.io.map.Report.*;
 
 import org.cotrix.domain.Attribute;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.ThirdClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.TypeClause;
 import org.virtualrepository.tabular.Row;
 
 /**
@@ -40,7 +40,7 @@ public class Column2Attribute {
 		
 		Attribute attribute = null;
 		
-		ThirdClause sentence = attr().name(mapping.name()).value(value);
+		TypeClause sentence = attr().name(mapping.name()).value(value);
 		
 		if (mapping.type()!=null)
 			if (mapping.language()!=null)
