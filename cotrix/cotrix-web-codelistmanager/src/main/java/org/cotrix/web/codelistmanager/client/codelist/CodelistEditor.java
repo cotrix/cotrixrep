@@ -148,6 +148,7 @@ public class CodelistEditor extends ResizeComposite implements AttributeSetChang
 		nameColumn = new Column<UICodelistRow, String>(new DoubleClickEditTextCell()) {
 			@Override
 			public String getValue(UICodelistRow object) {
+				if (object == null) return "";
 				return object.getName();
 			}
 		};
