@@ -51,7 +51,7 @@
 			<v:AttributesGrid ui:field="attributesGrid" />
 		</g:center>
 		<g:south size="28">
-			<v:ItemToolbar ui:field="itemToolbar" />
+			<v:ItemToolbar ui:field="toolBar" />
 		</g:south>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 
