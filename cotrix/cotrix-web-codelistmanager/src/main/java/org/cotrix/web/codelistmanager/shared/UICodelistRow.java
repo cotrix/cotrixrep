@@ -3,7 +3,9 @@
  */
 package org.cotrix.web.codelistmanager.shared;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +22,8 @@ public class UICodelistRow implements IsSerializable {
 	protected String id;
 	protected String code;
 	protected String name;
-	protected Map<String, UIAttribute> attributes;
+	protected Map<String, UIAttribute> index;
+	protected List<UIAttribute> attributes;
 
 	protected UICodelistRow(){}
 	
@@ -67,30 +70,38 @@ public class UICodelistRow implements IsSerializable {
 
 	public Collection<UIAttribute> getAttributes()
 	{
-		return attributes.values();
+		return attributes;
 	}
 	
 	public void updateAttribute(String oldName, UIAttribute attribute)
 	{
-		attributes.remove(oldName);
-		attributes.put(attribute.getName(), attribute);
+		//get old attribute position
+		UIAttribute oldAttribute = index.get(oldName);
+		int oldAttributeIndex = attributes.indexOf(oldAttribute);
+		
+		//replace old attribute with new one
+		attributes.set(oldAttributeIndex, attribute);
+		//update index removing old one (the name can be changed) and putting the new one
+		index.remove(oldName);
+		index.put(attribute.getName(), attribute);
 	}
 	
 	public UIAttribute getAttribute(String name)
 	{
-		return attributes.get(name);
+		return index.get(name);
 	}
 	
 	public Set<String> getAttributesNames()
 	{
-		return attributes.keySet();
+		return index.keySet();
 	}
 
 	/**
 	 * @param attributes the attributes to set
 	 */
 	public void setAttributes(Map<String, UIAttribute> attributes) {
-		this.attributes = attributes;
+		this.index = attributes;
+		this.attributes = new ArrayList<UIAttribute>(attributes.values());
 	}
 
 	/** 
