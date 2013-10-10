@@ -95,6 +95,8 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 	private Header<String> header;
 
+	protected SingleSelectionModel<UIAttribute> selectionModel;
+
 	public AttributesGrid(ListDataProvider<UIAttribute> dataProvider, Header<String> header) {
 		
 		this.dataProvider = dataProvider;
@@ -110,8 +112,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 		setupColumns();
 
-		// Add a selection model so we can select cells.
-		final SelectionModel<UIAttribute> selectionModel = new SingleSelectionModel<UIAttribute>();
+		selectionModel = new SingleSelectionModel<UIAttribute>();
 		dataGrid.setSelectionModel(selectionModel);
 
 		// Specify a custom table.
@@ -122,7 +123,12 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		initWidget(dataGrid);
 	}
 	
-	public Column<UIAttribute, String> getAttributePropertyColumn(final String name, final AttributeField field)
+	public UIAttribute getSelectedAttribute()
+	{
+		return selectionModel.getSelectedObject();
+	}
+	
+	protected Column<UIAttribute, String> getAttributePropertyColumn(final String name, final AttributeField field)
 	{
 		EnumMap<AttributeField, Column<UIAttribute, String>> attributePropertiesColumns = attributesPropertiesColumns.get(name);
 		if (attributePropertiesColumns == null) {
@@ -213,6 +219,12 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 	
 	public void removeUnusedDataGridColumns() {
 		removeUnusedDataGridColumns(dataGrid);
+	}
+	
+	public void expand(UIAttribute attribute)
+	{
+		showExpanded.add(attribute.getId());
+		refreshAttribute(attribute.getName());
 	}
 
 	/**

@@ -20,6 +20,8 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	interface UserBarUiBinder extends UiBinder<Widget, UserBarViewImpl> {}
 	private static UserBarUiBinder uiBinder = GWT.create(UserBarUiBinder.class);
 	
+	@UiField InlineLabel status;
+	
 	@UiField InlineLabel username;
 	@UiField InlineLabel login;
 	@UiField InlineLabel logout;
@@ -28,6 +30,12 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	
 	public UserBarViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+	}
+	
+	@Override
+	public void setStatus(String status)
+	{
+		this.status.setText(status);
 	}
 
 	@UiHandler("login")
@@ -61,6 +69,4 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
-	
-
 }

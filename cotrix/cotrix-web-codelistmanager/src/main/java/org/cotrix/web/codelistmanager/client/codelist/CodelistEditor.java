@@ -41,7 +41,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
@@ -69,12 +68,6 @@ public class CodelistEditor extends ResizeComposite implements AttributeSetChang
 
 		@Source("CodelistEditor.css")
 		DataGridStyle dataGridStyle();
-		
-		@Source("plus.png")
-		ImageResource add();
-		
-		@Source("minus.png")
-		ImageResource remove();
 	}
 
 	interface DataGridStyle extends PatchedDataGrid.Style {
@@ -148,6 +141,7 @@ public class CodelistEditor extends ResizeComposite implements AttributeSetChang
 		nameColumn = new Column<UICodelistRow, String>(new DoubleClickEditTextCell()) {
 			@Override
 			public String getValue(UICodelistRow object) {
+				if (object == null) return "";
 				return object.getName();
 			}
 		};

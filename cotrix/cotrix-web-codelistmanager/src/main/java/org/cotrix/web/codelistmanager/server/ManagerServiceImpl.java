@@ -111,12 +111,6 @@ public class ManagerServiceImpl implements ManagerService {
 		return list;
 	}
 
-	public void addCode(ArrayList<UICode> codes){
-		Attribute.Private a = (Attribute.Private) attr().name("TAXOCODE").value("OOOOOOO").as(NEW).build();
-		Code.Private code = (Code.Private) code().name("LAU").attributes(a).as(NEW).build();
-		Codelist changeset = codelist("id").name("sss").with(code).as(NEW).build();
-
-	}
 
 	public void editCode(ArrayList<UICode> editedCodes) {
 		for (UICode code : editedCodes) {
@@ -249,7 +243,10 @@ public class ManagerServiceImpl implements ManagerService {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
 		
 		CodelistQuery<Code> query = allCodes(codelistId);
-		query.setRange(new Range(range.getStart(), range.getStart() + range.getLength()));
+		int from = range.getStart();
+		int to = range.getStart() + range.getLength();
+		logger.trace("query range from: {} to: {}", from ,to);
+		query.setRange(new Range(from, to));
 
 		Codelist codelist = repository.lookup(codelistId);
 		
@@ -268,6 +265,7 @@ public class ManagerServiceImpl implements ManagerService {
 			row.setAttributes(rowAttributes);
 			rows.add(row);
 		}
+		logger.trace("retrieved {} rows", rows.size());
 		return new DataWindow<UICodelistRow>(rows, codelist.codes().size());
 	}
 

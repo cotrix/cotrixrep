@@ -11,7 +11,10 @@ import com.google.gwt.user.client.ui.Widget;
 public interface CodelistsView {
 	
 	public interface Presenter {
-		void onCodelistItemSelected(UICodelist id);
+		void onCodelistItemSelected(UICodelist codelist);
+		void onCodelistRemove();
+		void onCodelistCreate();
+		
 	}
 	
 	public void refresh();

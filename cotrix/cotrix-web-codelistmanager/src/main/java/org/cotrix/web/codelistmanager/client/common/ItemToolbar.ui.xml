@@ -1,0 +1,22 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='resources'
+		type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
+	<ui:style>
+		.plusButton {
+			float: left;
+		}
+		.minusButton {
+			float: right;
+		}
+	</ui:style>
+	<g:FlowPanel height="28px">
+		<g:PushButton ui:field="plus" styleName="{style.plusButton}">
+			<g:upFace image="{resources.plus}" />
+		</g:PushButton>
+		<g:PushButton ui:field="minus" styleName="{style.minusButton}">
+			<g:upFace image="{resources.minus}" />
+		</g:PushButton>
+	</g:FlowPanel>
+</ui:UiBinder> 

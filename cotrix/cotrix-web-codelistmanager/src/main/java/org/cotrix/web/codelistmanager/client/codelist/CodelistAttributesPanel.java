@@ -25,6 +25,9 @@ import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchAttributeEvent;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.client.data.CodelistRowEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
@@ -79,6 +82,9 @@ public class CodelistAttributesPanel extends ResizeComposite {
 
 	@UiField(provided = true)
 	AttributesGrid attributesGrid;
+	
+	@UiField
+	ItemToolbar toolBar;
 
 	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 
@@ -109,11 +115,12 @@ public class CodelistAttributesPanel extends ResizeComposite {
 
 		setupColumns();
 
-		bind();
-
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		bind();
+
 	}
 
 	protected void bind()
@@ -162,6 +169,42 @@ public class CodelistAttributesPanel extends ResizeComposite {
 				}
 			}
 		});
+		
+		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
+			
+			@Override
+			public void onButtonClicked(ButtonClickedEvent event) {
+				switch (event.getButton()) {
+					case PLUS: addNewAttribute(); break;
+					case MINUS: removeSelectedAttribute(); break;
+				}
+			}
+		});
+	}
+	
+	protected void addNewAttribute()
+	{
+		if (visualizedRow!=null) {
+			UIAttribute attribute = new UIAttribute();
+			attribute.setName("attribute");
+			attribute.setValue("value");
+			dataProvider.getList().add(attribute);
+			dataProvider.refresh();
+			visualizedRow.addAttribute(attribute);
+			rowEditor.edited(visualizedRow);
+			attributesGrid.expand(attribute);
+		}
+	}
+	
+	protected void removeSelectedAttribute()
+	{
+		if (visualizedRow!=null && attributesGrid.getSelectedAttribute()!=null) {
+			UIAttribute selectedAttribute = attributesGrid.getSelectedAttribute();
+			dataProvider.getList().remove(selectedAttribute);
+			dataProvider.refresh();
+			visualizedRow.removeAttribute(selectedAttribute);
+			rowEditor.edited(visualizedRow);
+		}
 	}
 	
 	protected void updateVisualizedRow(UICodelistRow row)

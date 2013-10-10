@@ -2,7 +2,14 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-		.info {
+		.status {
+			color: #fff;
+			margin: auto;
+			text-align: center;
+			font-size: 12px;
+		}
+		
+		.userInfo {
 			color: #fff;
 			float: right;
 			margin-right: 20px;
@@ -16,14 +23,16 @@
 			font-weight: bold;
 			cursor: pointer;
 		}
-		
 	</ui:style>
-	<g:FlowPanel styleName="{style.info}">
-		<g:InlineHTML>user:&nbsp;</g:InlineHTML>
-		<g:InlineLabel styleName="{style.active}" ui:field="username">none</g:InlineLabel>
-		<g:InlineHTML>&nbsp;|&nbsp;</g:InlineHTML>
-		<g:InlineLabel styleName="{style.active}" ui:field="login">Login</g:InlineLabel>
-		<g:InlineLabel styleName="{style.active}" ui:field="logout">Logout</g:InlineLabel>
+	<g:FlowPanel>
+		<g:InlineLabel styleName="{style.status}" ui:field="status" />
+		<g:FlowPanel styleName="{style.userInfo}">
+			<g:InlineHTML>user:&nbsp;</g:InlineHTML>
+			<g:InlineLabel styleName="{style.active}" ui:field="username">none</g:InlineLabel>
+			<g:InlineHTML>&nbsp;|&nbsp;</g:InlineHTML>
+			<g:InlineLabel styleName="{style.active}" ui:field="login">Login</g:InlineLabel>
+			<g:InlineLabel styleName="{style.active}" ui:field="logout">Logout</g:InlineLabel>
+		</g:FlowPanel>
 	</g:FlowPanel>
 
 </ui:UiBinder> 
