@@ -19,4 +19,5 @@ public interface UserBarView {
 
 	public void setPresenter(Presenter presenter);
 	Widget asWidget();
+	void setStatus(String status);
 }

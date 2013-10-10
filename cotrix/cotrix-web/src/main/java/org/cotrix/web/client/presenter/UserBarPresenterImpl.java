@@ -3,20 +3,22 @@
  */
 package org.cotrix.web.client.presenter;
 
-import org.cotrix.web.client.MainServiceAsync;
+import org.cotrix.web.client.event.UserLoggedEvent;
+import org.cotrix.web.client.event.UserLoginEvent;
+import org.cotrix.web.client.event.UserLogoutEvent;
 import org.cotrix.web.client.view.LoginDialog;
 import org.cotrix.web.client.view.LoginDialog.LoginDialogListener;
 import org.cotrix.web.client.view.UserBarView;
 import org.cotrix.web.client.view.UserBarView.Presenter;
-import org.cotrix.web.share.client.event.FeatureAsyncCallBack;
+import org.cotrix.web.share.client.event.CotrixBus;
+import org.cotrix.web.share.client.event.StatusUpdatedEvent;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.HasFeature;
-import org.cotrix.web.share.shared.feature.Response;
 import org.cotrix.web.shared.AuthenticationFeature;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -24,46 +26,42 @@ import com.google.inject.Inject;
  */
 public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginDialogListener {
 	
-	protected static final String GUEST_USERNAME = null;
-	protected static final String GUEST_PASSWORD = null;
-	
-	protected MainServiceAsync service;
+	protected LoginDialog loginDialog = new LoginDialog(this);
 	
 	protected UserBarView view;
 	
-	protected LoginDialog loginDialog = new LoginDialog(this);
-	
-	protected AsyncCallback<Response<String>> callback = FeatureAsyncCallBack.wrap(new AsyncCallback<String>() {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(String result) {
-			view.setUsername(result);
-		}
-	});
+	protected EventBus cotrixBus;
 	
 	@Inject
-	public UserBarPresenterImpl(MainServiceAsync service, UserBarView view)
+	public UserBarPresenterImpl(UserBarView view, @CotrixBus EventBus cotrixBus)
 	{
-		this.service = service;
 		this.view = view;
+		this.cotrixBus = cotrixBus;
 		view.setPresenter(this);
 		bindFeatures();
-		
-		logGuest();
+		bind();
 	}
 	
-	protected void logGuest()
+	protected void bind()
 	{
-		//TODO right position?
-		service.login(GUEST_USERNAME, GUEST_PASSWORD, callback);
+		cotrixBus.addHandler(UserLoggedEvent.TYPE, new UserLoggedEvent.UserLoggedHandler() {
+			
+			@Override
+			public void onUserLogged(UserLoggedEvent event) {
+				view.setUsername(event.getUsername());
+			}
+		});
+		
+		cotrixBus.addHandler(StatusUpdatedEvent.TYPE, new StatusUpdatedEvent.StatusUpdatedHandler() {
+			
+			@Override
+			public void onStatusUpdated(StatusUpdatedEvent event) {
+				String status = event.getStatus();
+				view.setStatus(status!=null?status:"");
+			}
+		});
 	}
-	
+		
 	protected void bindFeatures()
 	{
 		FeatureBinder.bind(new HasFeature() {
@@ -100,8 +98,7 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 
 	@Override
 	public void onLogoutClick() {
-		logGuest();
-		//service.logout(FeatureAsyncCallBack.<Void>nop());
+		cotrixBus.fireEvent(new UserLogoutEvent());
 	}
 
 	@Override
@@ -112,7 +109,7 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 	@Override
 	public void onLogin(String username, String password) {
 		loginDialog.hide();
-		service.login(username, password, callback);
+		cotrixBus.fireEvent(new UserLoginEvent(username, password));
 	}
 
 	@Override
