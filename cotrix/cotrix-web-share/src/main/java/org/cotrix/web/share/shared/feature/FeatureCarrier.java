@@ -12,35 +12,20 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class Response<T> implements IsSerializable {
+public abstract class FeatureCarrier implements IsSerializable {
 	
-	public static <T> Response<T> wrap(T payload)
-	{
-		return new Response<T>(payload);
+	public static class Void extends FeatureCarrier {
+		
+	}
+	
+	public static Void getVoid() {
+		return new Void();
 	}
 	
 	protected Set<UIFeature> applicationFeatures;
 	protected Map<String, Set<UIFeature>> codelistsFeatures;
-	protected T payload;
 	
-	public Response(){}
-	
-	/**
-	 * @param applicationFeatures
-	 * @param payload
-	 */
-	public Response(T payload) {
-		this.payload = payload;
-	}
-	
-	/**
-	 * @param applicationFeatures
-	 * @param payload
-	 */
-	public Response(Set<UIFeature> applicationFeatures, T payload) {
-		this.applicationFeatures = applicationFeatures;
-		this.payload = payload;
-	}
+	public FeatureCarrier(){}
 
 	/**
 	 * @return the features
@@ -70,13 +55,6 @@ public class Response<T> implements IsSerializable {
 		this.codelistsFeatures = codelistsFeatures;
 	}
 
-	/**
-	 * @return the payload
-	 */
-	public T getPayload() {
-		return payload;
-	}
-
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -87,8 +65,6 @@ public class Response<T> implements IsSerializable {
 		builder.append(applicationFeatures);
 		builder.append(", codelistsFeatures=");
 		builder.append(codelistsFeatures);
-		builder.append(", payload=");
-		builder.append(payload);
 		builder.append("]");
 		return builder.toString();
 	}	

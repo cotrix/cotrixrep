@@ -19,7 +19,7 @@ import org.cotrix.action.Action;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.web.share.shared.feature.Request;
-import org.cotrix.web.share.shared.feature.Response;
+import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.UIFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,8 +69,8 @@ public class TaskInterceptor {
 			TaskOutcome<Object> outcome = engine.perform(action).with(task);
 			Object output = outcome.output();
 
-			if (output instanceof Response<?>) {
-				Response<?> response = (Response<?>) output;
+			if (output instanceof FeatureCarrier) {
+				FeatureCarrier response = (FeatureCarrier) output;
 				Set<UIFeature> features = actionMapper.mapActions(outcome.nextActions());
 				if (codelistId == null) {
 					logger.trace("setting application features set in response: {}", features);

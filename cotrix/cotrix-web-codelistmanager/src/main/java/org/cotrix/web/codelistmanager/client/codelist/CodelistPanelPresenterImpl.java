@@ -4,8 +4,9 @@ import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.data.CodelistRowSaver;
 import org.cotrix.web.codelistmanager.client.data.MetadataSaver;
 import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
-import org.cotrix.web.share.client.event.FeatureAsyncCallBack;
 import org.cotrix.web.share.client.feature.FeatureBinder;
+import org.cotrix.web.share.client.rpc.Nop;
+import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.Request;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -55,7 +56,7 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				service.lock(Request.voidRequest(codelistId), FeatureAsyncCallBack.<Void>nop());
+				service.lock(Request.voidRequest(codelistId), Nop.<FeatureCarrier.Void>getInstance());
 			}
 		});
 
@@ -64,7 +65,7 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				service.unlock(Request.voidRequest(codelistId), FeatureAsyncCallBack.<Void>nop());
+				service.unlock(Request.voidRequest(codelistId), Nop.<FeatureCarrier.Void>getInstance());
 			}
 		});
 
@@ -73,7 +74,7 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				service.seal(Request.voidRequest(codelistId), FeatureAsyncCallBack.<Void>nop());
+				service.seal(Request.voidRequest(codelistId), Nop.<FeatureCarrier.Void>getInstance());
 			}
 		});
 		

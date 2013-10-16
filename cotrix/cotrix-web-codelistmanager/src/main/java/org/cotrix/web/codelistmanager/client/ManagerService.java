@@ -6,7 +6,7 @@ import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.UICodelistRow;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.feature.Request;
-import org.cotrix.web.share.shared.feature.Response;
+import org.cotrix.web.share.shared.feature.FeatureCarrier;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -29,10 +29,10 @@ public interface ManagerService extends RemoteService {
 	void saveCodelistRow(String codelistId, UICodelistRow row) throws ManagerServiceException;
 	
 
-	Response<Void> saveMessage(String message); 
+	FeatureCarrier.Void saveMessage(String message); 
 	
-	Response<Void> lock(Request<Void> request);
-	Response<Void> unlock(Request<Void> request);
-	Response<Void> seal(Request<Void> request);
+	FeatureCarrier.Void lock(Request<Void> request);
+	FeatureCarrier.Void unlock(Request<Void> request);
+	FeatureCarrier.Void seal(Request<Void> request);
 
 }

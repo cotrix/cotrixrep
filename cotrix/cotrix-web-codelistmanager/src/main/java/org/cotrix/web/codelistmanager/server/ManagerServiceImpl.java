@@ -39,7 +39,7 @@ import org.cotrix.web.share.server.task.Id;
 import org.cotrix.web.share.server.task.Task;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.feature.Request;
-import org.cotrix.web.share.shared.feature.Response;
+import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -203,26 +203,26 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	
 	@Task(LOCK)
-	public Response<Void> saveMessage(String message) {
-		return new Response<Void>();
+	public FeatureCarrier.Void saveMessage(String message) {
+		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@Task(LOCK)
-	public Response<Void> lock(Request<Void> request) {
-		return new Response<Void>();
+	public FeatureCarrier.Void lock(Request<Void> request) {
+		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@Task(UNLOCK)
-	public Response<Void> unlock(Request<Void> request) {
-		return new Response<Void>();
+	public FeatureCarrier.Void unlock(Request<Void> request) {
+		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@Task(SEAL)
-	public Response<Void> seal(Request<Void> request) {
-		return new Response<Void>();
+	public FeatureCarrier.Void seal(Request<Void> request) {
+		return FeatureCarrier.getVoid();
 	}
 
 	@Override
