@@ -30,7 +30,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
-import org.cotrix.web.codelistmanager.client.data.CodelistRowEditor;
+import org.cotrix.web.codelistmanager.client.data.CodeEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
@@ -100,12 +100,12 @@ public class CodelistAttributesPanel extends ResizeComposite {
 
 	protected AttributeHeader header;
 	
-	protected CodelistRowEditor rowEditor;
+	protected CodeEditor rowEditor;
 	
 	protected UICode visualizedRow;
 
 	@Inject
-	public CodelistAttributesPanel(@EditorBus EventBus editorBus, CodelistRowEditor rowEditor) {
+	public CodelistAttributesPanel(@EditorBus EventBus editorBus, CodeEditor rowEditor) {
 
 		this.editorBus = editorBus;
 		this.rowEditor = rowEditor;

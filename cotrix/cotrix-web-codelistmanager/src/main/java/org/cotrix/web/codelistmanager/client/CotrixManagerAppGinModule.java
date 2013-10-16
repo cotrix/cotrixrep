@@ -9,7 +9,7 @@ import org.cotrix.web.codelistmanager.client.codelists.CodelistsPresenter;
 import org.cotrix.web.codelistmanager.client.codelists.CodelistsPresenterImpl;
 import org.cotrix.web.codelistmanager.client.codelists.CodelistsView;
 import org.cotrix.web.codelistmanager.client.codelists.CodelistsViewImpl;
-import org.cotrix.web.codelistmanager.client.data.CodelistRowEditor;
+import org.cotrix.web.codelistmanager.client.data.CodeEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataEditor;
 import org.cotrix.web.codelistmanager.client.di.CodelistPanelFactory;
 import org.cotrix.web.codelistmanager.client.di.CodelistRowEditorProvider;
@@ -70,7 +70,7 @@ public class CotrixManagerAppGinModule extends AbstractGinModule {
 		bind(MetadataEditor.class).toProvider(MetadataEditorProvider.class);
 		
 		bind(CodelistRowEditorProvider.class).in(Singleton.class);
-		bind(CodelistRowEditor.class).toProvider(CodelistRowEditorProvider.class);
+		bind(CodeEditor.class).toProvider(CodelistRowEditorProvider.class);
 	}
 
 }

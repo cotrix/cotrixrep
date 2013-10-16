@@ -15,7 +15,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistRowSaver extends AbstractDataSaver<UICode> {
+public class CodeSaver extends AbstractDataSaver<UICode> {
 	
 	@Inject
 	protected ManagerServiceAsync service;
@@ -28,7 +28,7 @@ public class CodelistRowSaver extends AbstractDataSaver<UICode> {
 	 * @param codelistId
 	 */
 	@Inject
-	public CodelistRowSaver(CodelistRowEditor editor) {
+	public CodeSaver(CodeEditor editor) {
 		editor.addDataEditHandler(this);
 	}
 

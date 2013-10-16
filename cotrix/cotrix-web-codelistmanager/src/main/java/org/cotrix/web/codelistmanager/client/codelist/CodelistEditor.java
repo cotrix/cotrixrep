@@ -28,7 +28,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
-import org.cotrix.web.codelistmanager.client.data.CodelistRowEditor;
+import org.cotrix.web.codelistmanager.client.data.CodeEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
@@ -98,10 +98,10 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected CodelistCodesDataProvider dataProvider;
 	protected HandlerRegistration registration;
 	
-	protected CodelistRowEditor rowEditor;
+	protected CodeEditor rowEditor;
 
 	@Inject
-	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesDataProvider dataProvider, CodelistRowEditor rowEditor) {
+	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesDataProvider dataProvider, CodeEditor rowEditor) {
 		this.editorBus = editorBus;
 		this.dataProvider = dataProvider;
 		this.rowEditor = rowEditor;

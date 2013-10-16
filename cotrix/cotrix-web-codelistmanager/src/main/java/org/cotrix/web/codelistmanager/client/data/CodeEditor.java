@@ -9,6 +9,6 @@ import org.cotrix.web.codelistmanager.shared.UICode;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistRowEditor extends DataEditor<UICode> {
+public class CodeEditor extends DataEditor<UICode> {
 
 }

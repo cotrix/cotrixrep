@@ -1,7 +1,7 @@
 package org.cotrix.web.codelistmanager.client.codelist;
 
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
-import org.cotrix.web.codelistmanager.client.data.CodelistRowSaver;
+import org.cotrix.web.codelistmanager.client.data.CodeSaver;
 import org.cotrix.web.codelistmanager.client.data.MetadataSaver;
 import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
 import org.cotrix.web.share.client.feature.FeatureBinder;
@@ -30,7 +30,7 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 	protected MetadataSaver metadataSaver;
 	
 	@Inject
-	protected CodelistRowSaver rowSaver;
+	protected CodeSaver rowSaver;
 
 	@Inject
 	public CodelistPanelPresenterImpl(CodelistPanelView view, @CodelistId String codelistId) {

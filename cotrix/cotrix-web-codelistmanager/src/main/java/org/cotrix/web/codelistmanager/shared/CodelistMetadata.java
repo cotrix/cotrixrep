@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.codelistmanager.shared;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
