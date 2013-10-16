@@ -68,7 +68,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 
 			@Override
 			public void onAttributeChanged(AttributeChangedEvent event) {
-				editor.edited(metadata);
+				editor.updated(metadata);
 			}
 		});
 
@@ -93,7 +93,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 			attributesProvider.getList().add(attribute);
 			attributesProvider.refresh();
 			//done by provider metadata.addAttribute(attribute);
-			editor.edited(metadata);
+			editor.added(metadata);
 			attributesGrid.expand(attribute);
 		}
 	}
@@ -105,7 +105,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 			attributesProvider.getList().remove(selectedAttribute);
 			attributesProvider.refresh();
 			//done by provider metadata.removeAttribute(selectedAttribute);
-			editor.edited(metadata);
+			editor.removed(metadata);
 		}
 	}
 
@@ -126,7 +126,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 	protected void nameUpdated(ValueChangeEvent<String> changedEvent)
 	{
 		metadata.setName(changedEvent.getValue());
-		editor.edited(metadata);
+		editor.updated(metadata);
 	}
 
 

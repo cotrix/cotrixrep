@@ -246,10 +246,15 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	@Task(EDIT)
-	public ModifyCommandResult modify(@Id String codelistId, ModifyCommand command) {
-		
+	//@Task(EDIT)
+	public ModifyCommandResult modify(@Id String codelistId, ModifyCommand command) throws ManagerServiceException {
+		try {
 		return commandHandler.handle(codelistId, command);
+		} catch(Throwable throwable)
+		{
+			logger.error("Error executing command "+command+" on codelist "+codelistId, throwable);
+			throw new ManagerServiceException(throwable.getMessage());
+		}
 	}
 
 	

@@ -151,7 +151,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			@Override
 			public void update(int index, UICode row, String value) {
 				row.setName(value);
-				rowEditor.edited(row);
+				rowEditor.updated(row);
 			}
 		});
 
@@ -227,7 +227,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 				public void update(int index, UICode row, String value) {
 					UIAttribute attribute = group.match(row.getAttributes());
 					attribute.setValue(value);
-					rowEditor.edited(row);
+					//TODO att editor rowEditor.edited(row);
 				}
 			});
 			

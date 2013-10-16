@@ -37,6 +37,6 @@ public interface ManagerService extends RemoteService {
 	FeatureCarrier.Void unlock(Request<Void> request);
 	FeatureCarrier.Void seal(Request<Void> request);
 	
-	public ModifyCommandResult modify(String codelistId, ModifyCommand command);
+	public ModifyCommandResult modify(String codelistId, ModifyCommand command) throws ManagerServiceException;
 
 }

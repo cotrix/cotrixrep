@@ -3,11 +3,13 @@
  */
 package org.cotrix.web.codelistmanager.shared.modify;
 
+import org.cotrix.web.codelistmanager.shared.Identifiable;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public abstract class AddCommand<T> implements ModifyCommand {
+public abstract class AddCommand<T extends Identifiable> implements ModifyCommand, ContainsIdentifiable {
 	
 	protected T item;
 	
@@ -26,4 +28,13 @@ public abstract class AddCommand<T> implements ModifyCommand {
 	public T getItem() {
 		return item;
 	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Identifiable getIdentifiable() {
+		return item;
+	}
+	
 }

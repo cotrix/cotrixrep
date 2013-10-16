@@ -3,12 +3,13 @@
  */
 package org.cotrix.web.codelistmanager.client.data;
 
-import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
-import org.cotrix.web.codelistmanager.client.codelist.CodelistId;
+import org.cotrix.web.codelistmanager.client.data.event.EditType;
 import org.cotrix.web.codelistmanager.shared.UICode;
+import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
+import org.cotrix.web.codelistmanager.shared.modify.code.AddCodeCommand;
+import org.cotrix.web.codelistmanager.shared.modify.code.RemoveCodeCommand;
+import org.cotrix.web.codelistmanager.shared.modify.code.UpdateCodeCommand;
 
-import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 
 /**
@@ -16,13 +17,6 @@ import com.google.inject.Inject;
  *
  */
 public class CodeSaver extends AbstractDataSaver<UICode> {
-	
-	@Inject
-	protected ManagerServiceAsync service;
-	
-	@Inject
-	@CodelistId
-	protected String codelistId;
 
 	/**
 	 * @param codelistId
@@ -32,10 +26,21 @@ public class CodeSaver extends AbstractDataSaver<UICode> {
 		editor.addDataEditHandler(this);
 	}
 
+
 	@Override
-	public void save(UICode data, AsyncCallback<Void> callback) {
-		Log.trace("SAVING ROW: "+data);
-		service.saveCodelistRow(codelistId, data, callback);
+	public ModifyCommand generateCommand(EditType editType, UICode data) {
+		switch (editType) {
+			case ADD: {
+				return new AddCodeCommand(data);
+			}
+			case UPDATE: {
+				return new UpdateCodeCommand(data.getId(), data.getName());
+			}
+			case REMOVE: {
+				return new RemoveCodeCommand(data.getId());
+			}
+		}
+		throw new IllegalArgumentException("Unknown edit type "+editType);
 	}
 
 }

@@ -12,7 +12,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UICode implements IsSerializable {
+public class UICode implements Identifiable, IsSerializable {
 	
 	protected String id;
 	protected String code;
@@ -37,6 +37,12 @@ public class UICode implements IsSerializable {
 	 */
 	public String getId() {
 		return id;
+	}
+	
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	public String getCode()

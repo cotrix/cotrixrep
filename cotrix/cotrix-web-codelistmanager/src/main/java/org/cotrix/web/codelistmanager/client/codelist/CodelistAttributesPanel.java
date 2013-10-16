@@ -30,6 +30,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
+import org.cotrix.web.codelistmanager.client.data.CodeAttributeEditor;
 import org.cotrix.web.codelistmanager.client.data.CodeEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
@@ -103,6 +104,9 @@ public class CodelistAttributesPanel extends ResizeComposite {
 	protected CodeEditor rowEditor;
 	
 	protected UICode visualizedRow;
+	
+	@Inject
+	protected CodeAttributeEditor attributeEditor;
 
 	@Inject
 	public CodelistAttributesPanel(@EditorBus EventBus editorBus, CodeEditor rowEditor) {
@@ -159,7 +163,8 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			
 			@Override
 			public void onAttributeChanged(AttributeChangedEvent event) {
-				rowEditor.edited(visualizedRow);
+				Log.trace("updated attribute "+event.getAttribute());
+				attributeEditor.updated(visualizedRow, event.getAttribute());
 			}
 		});
 		
@@ -197,7 +202,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			dataProvider.getList().add(attribute);
 			dataProvider.refresh();
 			
-			rowEditor.edited(visualizedRow);
+			attributeEditor.added(visualizedRow, attribute);
 			attributesGrid.expand(attribute);
 		}
 	}
@@ -209,7 +214,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			dataProvider.getList().remove(selectedAttribute);
 			dataProvider.refresh();
 			visualizedRow.removeAttribute(selectedAttribute);
-			rowEditor.edited(visualizedRow);
+			attributeEditor.removed(visualizedRow, selectedAttribute);
 		}
 	}
 	

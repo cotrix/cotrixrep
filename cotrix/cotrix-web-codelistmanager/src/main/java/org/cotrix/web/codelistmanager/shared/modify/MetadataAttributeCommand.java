@@ -13,6 +13,8 @@ public class MetadataAttributeCommand implements ModifyCommand {
 	
 	protected AttributeCommand command;
 	
+	protected MetadataAttributeCommand(){}
+	
 	/**
 	 * @param command
 	 */

@@ -24,4 +24,5 @@ public class AddAttributeCommand extends AddCommand<UIAttribute> implements Attr
 	public AddAttributeCommand(UIAttribute item) {
 		super(item);
 	}
+
 }

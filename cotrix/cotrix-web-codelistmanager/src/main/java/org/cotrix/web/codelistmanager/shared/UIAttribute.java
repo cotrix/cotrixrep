@@ -6,7 +6,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UIAttribute implements IsSerializable{
+public class UIAttribute implements Identifiable, IsSerializable {
 	
 	protected String id;
 	protected String name;

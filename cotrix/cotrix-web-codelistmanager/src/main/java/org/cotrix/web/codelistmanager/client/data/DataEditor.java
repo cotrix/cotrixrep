@@ -4,6 +4,7 @@
 package org.cotrix.web.codelistmanager.client.data;
 
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
+import org.cotrix.web.codelistmanager.client.data.event.EditType;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.HasDataEditHandlers;
 
@@ -19,9 +20,19 @@ public class DataEditor<T> implements HasDataEditHandlers<T> {
 	
 	protected HandlerManager handlerManager = new HandlerManager(this);
 	
-	public void edited(T data)
+	public void added(T data)
 	{
-		fireEvent(new DataEditEvent<T>(data));
+		fireEvent(new DataEditEvent<T>(data, EditType.ADD));
+	}
+	
+	public void updated(T data)
+	{
+		fireEvent(new DataEditEvent<T>(data, EditType.UPDATE));
+	}
+	
+	public void removed(T data)
+	{
+		fireEvent(new DataEditEvent<T>(data, EditType.REMOVE));
 	}
 
 	@Override

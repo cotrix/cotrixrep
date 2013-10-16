@@ -157,6 +157,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 				@Override
 				public void update(int index, UIAttribute attribute, String value) {
+					Log.trace("updated attribute "+attribute+" field: "+field+" value: "+value);
 					switch (field) {
 						case NAME: attribute.setName(value); break;
 						case LANGUAGE: attribute.setLanguage(value); break;

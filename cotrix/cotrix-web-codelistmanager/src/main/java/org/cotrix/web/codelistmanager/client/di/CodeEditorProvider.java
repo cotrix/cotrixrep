@@ -11,7 +11,7 @@ import com.google.inject.Provider;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistRowEditorProvider implements Provider<CodeEditor> {
+public class CodeEditorProvider implements Provider<CodeEditor> {
 
 	protected CodeEditor editor;
 	

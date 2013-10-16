@@ -14,6 +14,8 @@ public class CodeAttributeCommand implements ModifyCommand {
 	protected String codeId;
 	protected AttributeCommand command;
 	
+	protected CodeAttributeCommand(){}
+	
 	/**
 	 * @param codeId
 	 * @param command
