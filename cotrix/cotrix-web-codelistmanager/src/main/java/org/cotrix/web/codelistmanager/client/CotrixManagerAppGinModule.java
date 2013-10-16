@@ -24,10 +24,6 @@ import org.cotrix.web.codelistmanager.client.manager.CodelistManagerView;
 import org.cotrix.web.codelistmanager.client.manager.CodelistManagerViewImpl;
 import org.cotrix.web.codelistmanager.client.manager.ContentPanel;
 import org.cotrix.web.codelistmanager.client.manager.ContentPanelController;
-import org.cotrix.web.codelistmanager.client.old.CodeListDetailPresenter;
-import org.cotrix.web.codelistmanager.client.old.CodeListDetailPresenterImpl;
-import org.cotrix.web.codelistmanager.client.old.CodeListDetailView;
-import org.cotrix.web.codelistmanager.client.old.CodeListDetailViewImpl;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;
@@ -60,9 +56,6 @@ public class CotrixManagerAppGinModule extends AbstractGinModule {
 		bind(ContentPanel.class).in(Singleton.class);
 
 		bind(CodelistPanelView.class).to(CodelistPanelViewImpl.class);
-		
-		bind(CodeListDetailView.class).to(CodeListDetailViewImpl.class);
-		bind(CodeListDetailPresenter.class).to(CodeListDetailPresenterImpl.class);
 		
 		bind(CodelistPanelPresenter.class).to(CodelistPanelPresenterImpl.class);
 		bind(CodelistPanelFactory.class).in(Singleton.class);

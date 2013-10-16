@@ -3,7 +3,6 @@ package org.cotrix.web.publish.client.view;
 import java.util.ArrayList;
 
 import org.cotrix.web.publish.client.resources.CotrixPublishResources;
-import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.UIChanel;
 
@@ -159,12 +158,12 @@ CodeListDetailView, ContextMenuHandler {
 		this.loadingPanel.setVisible(true);
 	}
 
-	public void setData(CotrixImportModel model, String id) {
+	/*public void setData(CotrixImportModel model, String id) {
 		Metadata metadata = model.getMetadata();
 
 		this.codelistName.setText(metadata.getName());
 		showContentPanel();
-	}
+	}*/
 
 	public void onContextMenu(ContextMenuEvent event) {
 		// stop the browser from opening the context menu

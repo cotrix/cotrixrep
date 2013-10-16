@@ -37,11 +37,9 @@ import org.cotrix.web.share.server.task.ContainsTask;
 import org.cotrix.web.share.server.task.Id;
 import org.cotrix.web.share.server.task.Task;
 import org.cotrix.web.share.shared.CSVFile;
-import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.UIAttribute;
-import org.cotrix.web.share.shared.UICode;
 import org.cotrix.web.share.shared.UICodelist;
 import org.cotrix.web.share.shared.feature.Request;
 import org.cotrix.web.share.shared.feature.Response;
@@ -93,125 +91,6 @@ public class ManagerServiceImpl implements ManagerService {
 		mapper.map(LOCK.getInnerAction()).to(LOCK_CODELIST);
 		mapper.map(UNLOCK.getInnerAction()).to(UNLOCK_CODELIST);
 		mapper.map(SEAL.getInnerAction()).to(SEAL_CODELIST);
-	}
-	
-	public ArrayList<UICodelist> getAllCodelists() throws IllegalArgumentException {
-
-		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
-		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
-		while (it.hasNext()) {
-			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it
-					.next();
-			UICodelist c = new UICodelist();
-			c.setName(codelist.name().toString());
-			c.setId(codelist.id());
-			list.add(c);
-		}
-		return list;
-	}
-
-	public void editCode(ArrayList<UICode> editedCodes) {
-//		for (UICode code : editedCodes) {
-//			Attribute changedAttribute = attr(code.getAttribute().getId()).name(code.getAttribute().getName()).value(code.getAttribute().getValue()).as(MODIFIED).build();
-//			Code changeCode =  code(code.getId()).name(code.getName()).attributes(changedAttribute).as(MODIFIED).build();
-//			Codelist changeset = codelist(code.getParent().getId()).name(code.getParent().getName()).with(changeCode).as(MODIFIED).build();
-//			repository.update(changeset);
-//		}
-//		/*
-//		Attribute a =  attr().name(code.getAttribute().getName()).value(code.getAttribute().getValue()).as(NEW).build();
-//		Code c = code().name(code.getName()).attributes(a).as(NEW).build();
-//		Codelist codelist = codelist(code.getParent().getId()).name(code.getParent().getName()).with(c).as(NEW).build();*/
-	}
-
-	public CotrixImportModel getCodeListModel(String codelistId) {
-		logger.trace("getCodeListModel codelistId {} ", codelistId);
-		
-		Codelist codelist = repository.lookup(codelistId);
-		logger.trace("lookup found {}", codelist.name().toString());
-		logger.trace("codelist size {}", codelist.codes().size());
-		
-
-		Metadata meta = new Metadata();
-		meta.setName(codelist.name().toString());
-		meta.setOwner("FAO");
-		meta.setRowCount(codelist.codes().size());
-		meta.setVersion(codelist.version());
-		meta.setDescription("This data was compiled by hand from the above and may contain errors. One small modification is that the various insular areas of the United State listed above are recorded here as the single United States Minor Outlying Islands.");
-
-		CSVFile csvFile = new CSVFile();
-		csvFile.setData(new ArrayList<String[]>());
-		csvFile.setHeader(getHeader(codelist));
-
-		CotrixImportModel model = new CotrixImportModel();
-		model.setMetadata(meta);
-		model.setCsvFile(csvFile);
-		model.setTotalRow(codelist.codes().size());
-		return model;
-	}
-
-	private String[] getHeader(Codelist codelist) {
-		CodelistQuery<Code> codes = allCodes(codelist.id());
-		codes.setRange(new Range(0, 1));
-		String[] line = null;
-		Iterable<Code> inrange = repository.queryFor(codes);
-
-		Iterator<Code> it = inrange.iterator();
-		while (it.hasNext()) {
-			Code code = (Code) it.next();
-			line = new String[code.attributes().size()];
-			Iterator it2 = code.attributes().iterator();
-			int index = 0;
-			while (it2.hasNext()) {
-				Attribute a = (Attribute) it2.next();
-				line[index++] = a.name().toString();
-			}
-		}
-		return line;
-	}
-
-	public ArrayList<UICode[]> getDataRange(String id, int start, int end) {
-		logger.trace("getDataRange id {}, start: {}, end: {}", id, start, end);
-		
-		
-		ArrayList<UICode[]> data = new ArrayList<UICode[]>();
-		CodelistQuery<Code> codes = allCodes(id);
-		codes.setRange(new Range(start,end));
-
-		Codelist codelist = repository.lookup(id);
-		Iterable<Code> inrange  = repository.queryFor(codes);
-		Iterator<Code> it = inrange.iterator();
-		while (it.hasNext()) {
-			Code code = (Code)  it.next();
-			System.out.println("attribute size = "+code.attributes().size());
-			UICode[] line = new UICode[code.attributes().size()];
-			Iterator<Attribute> it2 =  (Iterator<Attribute>) code.attributes().iterator();
-			int index = 0 ;
-			while (it2.hasNext()) {
-				Attribute a = (Attribute) it2.next();
-
-				UIAttribute uiAttr = new UIAttribute();
-				uiAttr.setName(a.name().toString());
-				uiAttr.setType(a.type().toString());
-				uiAttr.setLanguage(a.language());
-				uiAttr.setValue(a.value());
-				uiAttr.setId(a.id());
-
-				UICodelist uiCodeList = new UICodelist();
-				uiCodeList.setId(codelist.id());
-				uiCodeList.setName(codelist.name().toString());
-
-				UICode uiCode = new UICode();
-				uiCode.setAttribute(uiAttr);
-				uiCode.setId(code.id());
-				uiCode.setName(code.name().toString());
-				uiCode.setParent(uiCodeList);
-
-				line[index++] = uiCode;
-
-			}
-			data.add(line);	
-		}
-		return data;
 	}
 	
 	@Override
