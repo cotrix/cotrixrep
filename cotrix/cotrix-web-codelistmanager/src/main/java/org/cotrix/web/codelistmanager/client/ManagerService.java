@@ -4,8 +4,8 @@ import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.UICode;
-import org.cotrix.web.codelistmanager.shared.update.AbstractUpdateCommand;
-import org.cotrix.web.codelistmanager.shared.update.UpdateCommandResult;
+import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
+import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.feature.Request;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
@@ -37,6 +37,6 @@ public interface ManagerService extends RemoteService {
 	FeatureCarrier.Void unlock(Request<Void> request);
 	FeatureCarrier.Void seal(Request<Void> request);
 	
-	//public <R extends UpdateCommandResult, C extends AbstractUpdateCommand<R>> R update(C command);
+	public ModifyCommandResult modify(String codelistId, ModifyCommand command);
 
 }

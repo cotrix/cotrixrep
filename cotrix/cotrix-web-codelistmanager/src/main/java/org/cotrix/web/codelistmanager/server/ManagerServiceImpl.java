@@ -25,6 +25,7 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
+import org.cotrix.web.codelistmanager.server.modify.ModifyCommandHandler;
 import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
 import org.cotrix.web.codelistmanager.server.util.ValueUtils;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
@@ -32,16 +33,16 @@ import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.UICode;
-import org.cotrix.web.codelistmanager.shared.update.AbstractUpdateCommand;
-import org.cotrix.web.codelistmanager.shared.update.UpdateCommandResult;
+import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
+import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.ContainsTask;
 import org.cotrix.web.share.server.task.Id;
 import org.cotrix.web.share.server.task.Task;
 import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.feature.Request;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
+import org.cotrix.web.share.shared.feature.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,6 +76,9 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	@Inject
 	protected CodelistLoader codelistLoader;
+	
+	@Inject
+	protected ModifyCommandHandler commandHandler;
 	
 	/** 
 	 * {@inheritDoc}
@@ -241,11 +245,12 @@ public class ManagerServiceImpl implements ManagerService {
 		return code(row.getId()).name(row.getName()).attributes(toDomainAttributes(row.getAttributes())).build();
 	}
 
-	/*@Override
-	public <R extends UpdateCommandResult, C extends AbstractUpdateCommand<R>> R update(C command) {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
+	@Override
+	@Task(EDIT)
+	public ModifyCommandResult modify(@Id String codelistId, ModifyCommand command) {
+		
+		return commandHandler.handle(codelistId, command);
+	}
 
 	
 }
