@@ -12,7 +12,7 @@ import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.HasGroupsChangedHandlers;
-import org.cotrix.web.codelistmanager.shared.UICodelistRow;
+import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.share.shared.DataWindow;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -29,7 +29,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistRowDataProvider extends AsyncDataProvider<UICodelistRow> implements HasGroupsChangedHandlers {
+public class CodelistCodesDataProvider extends AsyncDataProvider<UICode> implements HasGroupsChangedHandlers {
 	
 	protected HandlerManager handlerManager = new HandlerManager(this);
 	
@@ -40,12 +40,12 @@ public class CodelistRowDataProvider extends AsyncDataProvider<UICodelistRow> im
 	protected String codelistId;
 
 	@Override
-	protected void onRangeChanged(HasData<UICodelistRow> display) {
+	protected void onRangeChanged(HasData<UICode> display) {
 		
 
 		final Range range = display.getVisibleRange();
 		
-		managerService.getCodelistRows(codelistId, range, new AsyncCallback<DataWindow<UICodelistRow>>() {
+		managerService.getCodelistCodes(codelistId, range, new AsyncCallback<DataWindow<UICode>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -53,18 +53,18 @@ public class CodelistRowDataProvider extends AsyncDataProvider<UICodelistRow> im
 			}
 
 			@Override
-			public void onSuccess(DataWindow<UICodelistRow> result) {
-				List<UICodelistRow> rows = result.getData();
-				Log.trace("loaded "+rows.size()+" rows");
-				checkGroups(rows);
+			public void onSuccess(DataWindow<UICode> result) {
+				List<UICode> codes = result.getData();
+				Log.trace("loaded "+codes.size()+" rows");
+				checkGroups(codes);
 				updateRowCount(result.getTotalSize(), true);
-				updateRowData(range.getStart(), rows);
+				updateRowData(range.getStart(), codes);
 			}
 		});
 		
 	}
 	
-	protected void checkGroups(List<UICodelistRow> rows)
+	protected void checkGroups(List<UICode> rows)
 	{
 		Set<Group> groups = GroupFactory.getGroups(rows);
 		handlerManager.fireEvent(new GroupsChangedEvent(groups));

@@ -36,7 +36,7 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHa
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UICodelistRow;
+import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.share.client.widgets.ImageResourceCell;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -102,7 +102,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 	
 	protected CodelistRowEditor rowEditor;
 	
-	protected UICodelistRow visualizedRow;
+	protected UICode visualizedRow;
 
 	@Inject
 	public CodelistAttributesPanel(@EditorBus EventBus editorBus, CodelistRowEditor rowEditor) {
@@ -164,10 +164,10 @@ public class CodelistAttributesPanel extends ResizeComposite {
 		});
 		
 		
-		rowEditor.addDataEditHandler(new DataEditHandler<UICodelistRow>() {
+		rowEditor.addDataEditHandler(new DataEditHandler<UICode>() {
 
 			@Override
-			public void onDataEdit(DataEditEvent<UICodelistRow> event) {
+			public void onDataEdit(DataEditEvent<UICode> event) {
 				if (visualizedRow!=null && visualizedRow.equals(event.getData())) {
 					updateVisualizedRow(event.getData());
 				}
@@ -213,7 +213,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 		}
 	}
 	
-	protected void updateVisualizedRow(UICodelistRow row)
+	protected void updateVisualizedRow(UICode row)
 	{
 		visualizedRow = row;
 		header.setText(visualizedRow.getName());

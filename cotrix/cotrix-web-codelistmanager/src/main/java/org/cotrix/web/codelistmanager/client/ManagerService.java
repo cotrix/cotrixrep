@@ -3,7 +3,9 @@ package org.cotrix.web.codelistmanager.client;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
-import org.cotrix.web.codelistmanager.shared.UICodelistRow;
+import org.cotrix.web.codelistmanager.shared.UICode;
+import org.cotrix.web.codelistmanager.shared.update.AbstractUpdateCommand;
+import org.cotrix.web.codelistmanager.shared.update.UpdateCommandResult;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.feature.Request;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
@@ -20,13 +22,13 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("manager")
 public interface ManagerService extends RemoteService {
 	
-	DataWindow<UICodelistRow> getCodelistRows(String codelistId, Range range) throws ManagerServiceException;
+	DataWindow<UICode> getCodelistCodes(String codelistId, Range range) throws ManagerServiceException;
 	DataWindow<CodelistGroup> getCodelistsGrouped() throws ManagerServiceException;
 	
 	CodelistMetadata getMetadata(String codelistId) throws ManagerServiceException;
 	void saveMetadata(String codelistId, CodelistMetadata metadata) throws ManagerServiceException;
 	
-	void saveCodelistRow(String codelistId, UICodelistRow row) throws ManagerServiceException;
+	void saveCodelistRow(String codelistId, UICode row) throws ManagerServiceException;
 	
 
 	FeatureCarrier.Void saveMessage(String message); 
@@ -34,5 +36,7 @@ public interface ManagerService extends RemoteService {
 	FeatureCarrier.Void lock(Request<Void> request);
 	FeatureCarrier.Void unlock(Request<Void> request);
 	FeatureCarrier.Void seal(Request<Void> request);
+	
+	//public <R extends UpdateCommandResult, C extends AbstractUpdateCommand<R>> R update(C command);
 
 }

@@ -33,7 +33,7 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UICodelistRow;
+import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -77,7 +77,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 
 	@UiField(provided = true)
-	PatchedDataGrid<UICodelistRow> dataGrid;
+	PatchedDataGrid<UICode> dataGrid;
 
 	@UiField(provided = true)
 	SimplePager pager;
@@ -86,27 +86,27 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected DataGridResources resource = GWT.create(DataGridResources.class);
 
 	protected Set<Group> groupsAsColumn = new HashSet<Group>();
-	protected Map<Group, Column<UICodelistRow, String>> groupsColumns = new HashMap<Group, Column<UICodelistRow,String>>(); 
-	protected Map<String, Column<UICodelistRow, String>> switchesColumns = new HashMap<String, Column<UICodelistRow,String>>(); 
+	protected Map<Group, Column<UICode, String>> groupsColumns = new HashMap<Group, Column<UICode,String>>(); 
+	protected Map<String, Column<UICode, String>> switchesColumns = new HashMap<String, Column<UICode,String>>(); 
 
-	private Column<UICodelistRow, String> nameColumn;
+	private Column<UICode, String> nameColumn;
 	
 	protected EventBus editorBus;
 
-	protected SingleSelectionModel<UICodelistRow> selectionModel;
+	protected SingleSelectionModel<UICode> selectionModel;
 	
-	protected CodelistRowDataProvider dataProvider;
+	protected CodelistCodesDataProvider dataProvider;
 	protected HandlerRegistration registration;
 	
 	protected CodelistRowEditor rowEditor;
 
 	@Inject
-	public CodelistEditor(@EditorBus EventBus editorBus, CodelistRowDataProvider dataProvider, CodelistRowEditor rowEditor) {
+	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesDataProvider dataProvider, CodelistRowEditor rowEditor) {
 		this.editorBus = editorBus;
 		this.dataProvider = dataProvider;
 		this.rowEditor = rowEditor;
 
-		dataGrid = new PatchedDataGrid<UICodelistRow>(20, resource, CodelistRowKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label("Empty"));
 		dataGrid.setTableWidth(100, Unit.PCT);
@@ -121,7 +121,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		setupColumns();
 
 
-		selectionModel = new SingleSelectionModel<UICodelistRow>(CodelistRowKeyProvider.INSTANCE);
+		selectionModel = new SingleSelectionModel<UICode>(CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setSelectionModel(selectionModel);
 
 		// Specify a custom table.
@@ -138,18 +138,18 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	
 	protected void setupColumns() {
 
-		nameColumn = new Column<UICodelistRow, String>(new DoubleClickEditTextCell()) {
+		nameColumn = new Column<UICode, String>(new DoubleClickEditTextCell()) {
 			@Override
-			public String getValue(UICodelistRow object) {
+			public String getValue(UICode object) {
 				if (object == null) return "";
 				return object.getName();
 			}
 		};
 		
-		nameColumn.setFieldUpdater(new FieldUpdater<UICodelistRow, String>() {
+		nameColumn.setFieldUpdater(new FieldUpdater<UICode, String>() {
 			
 			@Override
-			public void update(int index, UICodelistRow row, String value) {
+			public void update(int index, UICode row, String value) {
 				row.setName(value);
 				rowEditor.edited(row);
 			}
@@ -177,7 +177,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
-				UICodelistRow row = selectionModel.getSelectedObject();
+				UICode row = selectionModel.getSelectedObject();
 				Log.trace("onSelectionChange row: "+row);
 				if (row !=null) editorBus.fireEvent(new RowSelectedEvent(row));
 			}
@@ -196,10 +196,10 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			}
 		});
 		
-		rowEditor.addDataEditHandler(new DataEditHandler<UICodelistRow>() {
+		rowEditor.addDataEditHandler(new DataEditHandler<UICode>() {
 
 			@Override
-			public void onDataEdit(DataEditEvent<UICodelistRow> event) {
+			public void onDataEdit(DataEditEvent<UICode> event) {
 				Log.trace("onDataEdit row: "+event.getData());
 				int index = dataGrid.getVisibleItems().indexOf(event.getData());
 				Log.trace("index: "+index);
@@ -208,23 +208,23 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		});
 	}
 
-	protected Column<UICodelistRow, String> getGroupColumn(final Group group)
+	protected Column<UICode, String> getGroupColumn(final Group group)
 	{
-		Column<UICodelistRow, String> column = groupsColumns.get(group);
+		Column<UICode, String> column = groupsColumns.get(group);
 		if (column == null) {
 			DoubleClickEditTextCell cell = new DoubleClickEditTextCell();
-			column = new Column<UICodelistRow, String>(cell) {
+			column = new Column<UICode, String>(cell) {
 
 				@Override
-				public String getValue(UICodelistRow row) {
+				public String getValue(UICode row) {
 					if (row == null) return "";
 					return group.getValue(row.getAttributes());
 				}
 			};
-			column.setFieldUpdater(new FieldUpdater<UICodelistRow, String>() {
+			column.setFieldUpdater(new FieldUpdater<UICode, String>() {
 
 				@Override
-				public void update(int index, UICodelistRow row, String value) {
+				public void update(int index, UICode row, String value) {
 					UIAttribute attribute = group.match(row.getAttributes());
 					attribute.setValue(value);
 					rowEditor.edited(row);
@@ -245,7 +245,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected void addGroupColumn(Group group)
 	{
 		if (groupsAsColumn.contains(group)) return;
-		Column<UICodelistRow, String> column = getGroupColumn(group);
+		Column<UICode, String> column = getGroupColumn(group);
 		groupsAsColumn.add(group);
 
 		dataGrid.addColumn(column, group.getLabel());
@@ -260,7 +260,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected void removeGroupColumn(Group group)
 	{
 		if (!groupsAsColumn.contains(group)) return;
-		Column<UICodelistRow, String> column = getGroupColumn(group);
+		Column<UICode, String> column = getGroupColumn(group);
 		groupsAsColumn.remove(group);
 		dataGrid.removeColumn(column);
 	}

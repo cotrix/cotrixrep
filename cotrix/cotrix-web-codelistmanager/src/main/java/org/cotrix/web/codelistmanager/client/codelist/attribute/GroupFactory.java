@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UICodelistRow;
+import org.cotrix.web.codelistmanager.shared.UICode;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -53,10 +53,10 @@ public class GroupFactory {
 		return false;
 	}*/
 	
-	public static Set<Group> getGroups(List<UICodelistRow> rows)
+	public static Set<Group> getGroups(List<UICode> rows)
 	{
 		Map<Group, Integer> groupsCounter = new HashMap<Group, Integer>();
-		for (UICodelistRow row:rows) {
+		for (UICode row:rows) {
 			Map<Group, Integer> attributeGroupsCounter = new HashMap<Group, Integer>();
 			for (UIAttribute attribute:row.getAttributes()) {
 				Group group = getGroup(attribute);

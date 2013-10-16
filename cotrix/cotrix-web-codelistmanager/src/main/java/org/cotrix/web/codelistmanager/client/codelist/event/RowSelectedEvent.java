@@ -3,7 +3,7 @@ package org.cotrix.web.codelistmanager.client.codelist.event;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 
-import org.cotrix.web.codelistmanager.shared.UICodelistRow;
+import org.cotrix.web.codelistmanager.shared.UICode;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -13,17 +13,17 @@ public class RowSelectedEvent extends
 		GwtEvent<RowSelectedEvent.RowSelectedHandler> {
 
 	public static Type<RowSelectedHandler> TYPE = new Type<RowSelectedHandler>();
-	private UICodelistRow row;
+	private UICode row;
 
 	public interface RowSelectedHandler extends EventHandler {
 		void onRowSelected(RowSelectedEvent event);
 	}
 
-	public RowSelectedEvent(UICodelistRow row) {
+	public RowSelectedEvent(UICode row) {
 		this.row = row;
 	}
 
-	public UICodelistRow getRow() {
+	public UICode getRow() {
 		return row;
 	}
 

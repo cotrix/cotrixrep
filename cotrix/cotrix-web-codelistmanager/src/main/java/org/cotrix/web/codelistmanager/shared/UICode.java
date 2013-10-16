@@ -12,21 +12,21 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UICodelistRow implements IsSerializable {
+public class UICode implements IsSerializable {
 	
 	protected String id;
 	protected String code;
 	protected String name;
 	protected List<UIAttribute> attributes;
 
-	protected UICodelistRow(){}
+	protected UICode(){}
 	
 	/**
 	 * @param id
 	 * @param code
 	 * @param name
 	 */
-	public UICodelistRow(String id, String code, String name) {
+	public UICode(String id, String code, String name) {
 		this.id = id;
 		this.code = code;
 		this.name = name;
@@ -106,7 +106,7 @@ public class UICodelistRow implements IsSerializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UICodelistRow other = (UICodelistRow) obj;
+		UICode other = (UICode) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

@@ -31,7 +31,9 @@ import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UICodelistRow;
+import org.cotrix.web.codelistmanager.shared.UICode;
+import org.cotrix.web.codelistmanager.shared.update.AbstractUpdateCommand;
+import org.cotrix.web.codelistmanager.shared.update.UpdateCommandResult;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.ContainsTask;
@@ -113,7 +115,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public DataWindow<UICodelistRow> getCodelistRows(@Id String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
+	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
 		
 		CodelistQuery<Code> query = allCodes(codelistId);
@@ -125,10 +127,10 @@ public class ManagerServiceImpl implements ManagerService {
 		Codelist codelist = repository.lookup(codelistId);
 		
 		Iterable<Code> codes  = repository.queryFor(query);
-		List<UICodelistRow> rows = new ArrayList<UICodelistRow>(range.getLength());
+		List<UICode> rows = new ArrayList<UICode>(range.getLength());
 		for (Code code:codes) {
 
-			UICodelistRow row = new UICodelistRow(code.id(), code.id(), code.name().toString());
+			UICode row = new UICode(code.id(), code.id(), code.name().toString());
 			
 			List<UIAttribute> attributes = new ArrayList<UIAttribute>(code.attributes().size());
 			
@@ -140,7 +142,7 @@ public class ManagerServiceImpl implements ManagerService {
 			rows.add(row);
 		}
 		logger.trace("retrieved {} rows", rows.size());
-		return new DataWindow<UICodelistRow>(rows, codelist.codes().size());
+		return new DataWindow<UICode>(rows, codelist.codes().size());
 	}
 
 	@Override
@@ -226,7 +228,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public void saveCodelistRow(String codelistId, UICodelistRow row) throws ManagerServiceException {
+	public void saveCodelistRow(String codelistId, UICode row) throws ManagerServiceException {
 //		//FIXME why name???
 //		Codelist codelist = repository.lookup(codelistId);
 //		
@@ -234,10 +236,16 @@ public class ManagerServiceImpl implements ManagerService {
 //		repository.update(changeset);
 	}
 	
-	protected Code toCode(UICodelistRow row)
+	protected Code toCode(UICode row)
 	{
 		return code(row.getId()).name(row.getName()).attributes(toDomainAttributes(row.getAttributes())).build();
 	}
+
+	/*@Override
+	public <R extends UpdateCommandResult, C extends AbstractUpdateCommand<R>> R update(C command) {
+		// TODO Auto-generated method stub
+		return null;
+	}*/
 
 	
 }
