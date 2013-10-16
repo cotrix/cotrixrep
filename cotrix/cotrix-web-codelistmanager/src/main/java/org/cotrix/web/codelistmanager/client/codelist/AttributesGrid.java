@@ -27,9 +27,9 @@ import org.cotrix.web.codelistmanager.client.codelist.attribute.AttributeField;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.HasAttributeChangedHandlers;
+import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.share.client.util.EventUtil;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
-import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.Cell.Context;

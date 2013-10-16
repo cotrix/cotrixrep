@@ -13,8 +13,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.UICodelistRow;
-import org.cotrix.web.share.shared.UIAttribute;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

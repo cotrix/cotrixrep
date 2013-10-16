@@ -1,4 +1,4 @@
-package org.cotrix.web.share.shared;
+package org.cotrix.web.codelistmanager.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 

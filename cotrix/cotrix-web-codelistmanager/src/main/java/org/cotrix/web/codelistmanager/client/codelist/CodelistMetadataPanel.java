@@ -8,8 +8,8 @@ import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHan
 import org.cotrix.web.codelistmanager.client.data.MetadataEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
+import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
-import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;

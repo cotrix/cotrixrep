@@ -20,8 +20,6 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.publish.client.PublishService;
-import org.cotrix.web.share.shared.CSVFile;
-import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.UIChanel;
 import org.cotrix.web.share.shared.UIChanelProperty;
 import org.cotrix.web.share.shared.UICodelist;

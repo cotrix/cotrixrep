@@ -6,7 +6,6 @@ package org.cotrix.web.codelistmanager.shared;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.web.share.shared.UIAttribute;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
