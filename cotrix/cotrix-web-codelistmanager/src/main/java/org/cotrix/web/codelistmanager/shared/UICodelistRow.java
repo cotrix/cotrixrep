@@ -3,11 +3,7 @@
  */
 package org.cotrix.web.codelistmanager.shared;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.cotrix.web.share.shared.UIAttribute;
 
@@ -22,7 +18,6 @@ public class UICodelistRow implements IsSerializable {
 	protected String id;
 	protected String code;
 	protected String name;
-	protected Map<String, UIAttribute> index;
 	protected List<UIAttribute> attributes;
 
 	protected UICodelistRow(){}
@@ -68,52 +63,26 @@ public class UICodelistRow implements IsSerializable {
 		this.name = name;
 	}
 
-	public Collection<UIAttribute> getAttributes()
+	public List<UIAttribute> getAttributes()
 	{
 		return attributes;
 	}
 	
-	public void updateAttribute(String oldName, UIAttribute attribute)
-	{
-		//get old attribute position
-		UIAttribute oldAttribute = index.get(oldName);
-		int oldAttributeIndex = attributes.indexOf(oldAttribute);
-		
-		//replace old attribute with new one
-		attributes.set(oldAttributeIndex, attribute);
-		//update index removing old one (the name can be changed) and putting the new one
-		index.remove(oldName);
-		index.put(attribute.getName(), attribute);
-	}
-	
 	public void addAttribute(UIAttribute attribute)
 	{
-		index.put(attribute.getName(), attribute);
 		attributes.add(attribute);
 	}
 	
 	public void removeAttribute(UIAttribute attribute)
 	{
-		index.remove(attribute.getName());
 		attributes.remove(attribute);
-	}
-	
-	public UIAttribute getAttribute(String name)
-	{
-		return index.get(name);
-	}
-	
-	public Set<String> getAttributesNames()
-	{
-		return index.keySet();
 	}
 
 	/**
 	 * @param attributes the attributes to set
 	 */
-	public void setAttributes(Map<String, UIAttribute> attributes) {
-		this.index = attributes;
-		this.attributes = new ArrayList<UIAttribute>(attributes.values());
+	public void setAttributes(List<UIAttribute> attributes) {
+		this.attributes = attributes;
 	}
 
 	/** 
@@ -164,6 +133,5 @@ public class UICodelistRow implements IsSerializable {
 		builder.append("]");
 		return builder.toString();
 	}
-	
 	
 }

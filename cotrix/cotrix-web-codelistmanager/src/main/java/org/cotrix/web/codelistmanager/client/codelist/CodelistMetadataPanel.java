@@ -1,7 +1,5 @@
 package org.cotrix.web.codelistmanager.client.codelist;
 
-import java.util.List;
-
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;

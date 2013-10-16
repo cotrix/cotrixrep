@@ -19,12 +19,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.cotrix.web.codelistmanager.client.codelist.attribute.Group;
+import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
-import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchType;
-import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
+import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.SwitchAttributeEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
@@ -41,6 +43,7 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -88,7 +91,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 
 	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 
-	private Set<String> attributeAsColumn = new HashSet<String>();
+	private Set<Group> groupsAsColumn = new HashSet<Group>();
 	private Column<UIAttribute, AttributeSwitchState> switchColumn; 
 
 	protected EventBus editorBus;
@@ -133,19 +136,21 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			}
 		});
 
-		editorBus.addHandler(AttributeSwitchedEvent.TYPE, new AttributeSwitchedEvent.AttributeSwitchedHandler() {
+		editorBus.addHandler(GroupSwitchedEvent.TYPE, new GroupSwitchedEvent.GroupSwitchedHandler() {
 
 			@Override
-			public void onAttributeSwitched(AttributeSwitchedEvent event) {
-				String attributeName = event.getAttributeName();
-				Log.trace("onAttributeSwitched attributeName: "+attributeName+" type: "+event.getSwitchType());
+			public void onGroupSwitched(GroupSwitchedEvent event) {
+				Group group = event.getGroup();
+				Log.trace("onAttributeSwitched group: "+group+" type: "+event.getSwitchType());
 
 				switch (event.getSwitchType()) {
-					case TO_COLUMN: attributeAsColumn.add(attributeName); break;
-					case TO_NORMAL: attributeAsColumn.remove(attributeName); break;
+					case TO_COLUMN: groupsAsColumn.add(group); break;
+					case TO_NORMAL: groupsAsColumn.remove(group); break;
 				}
-
-				attributesGrid.refreshAttribute(attributeName);
+				if (visualizedRow!=null) {
+					UIAttribute attribute = group.match(visualizedRow.getAttributes());
+					if (attribute!=null) attributesGrid.refreshAttribute(attribute);
+				}
 
 			}
 		});
@@ -154,7 +159,6 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			
 			@Override
 			public void onAttributeChanged(AttributeChangedEvent event) {
-				visualizedRow.updateAttribute(event.getOldName(), event.getAttribute());
 				rowEditor.edited(visualizedRow);
 			}
 		});
@@ -186,11 +190,13 @@ public class CodelistAttributesPanel extends ResizeComposite {
 	{
 		if (visualizedRow!=null) {
 			UIAttribute attribute = new UIAttribute();
+			attribute.setId(Document.get().createUniqueId());
 			attribute.setName("attribute");
 			attribute.setValue("value");
+			visualizedRow.addAttribute(attribute);
 			dataProvider.getList().add(attribute);
 			dataProvider.refresh();
-			visualizedRow.addAttribute(attribute);
+			
 			rowEditor.edited(visualizedRow);
 			attributesGrid.expand(attribute);
 		}
@@ -238,14 +244,14 @@ public class CodelistAttributesPanel extends ResizeComposite {
 
 			@Override
 			public AttributeSwitchState getValue(UIAttribute attribute) {
-				return attributeAsColumn.contains(attribute.getName())?AttributeSwitchState.COLUMN:AttributeSwitchState.NORMAL;
+				return isInGroupAsColumn(attribute)?AttributeSwitchState.COLUMN:AttributeSwitchState.NORMAL;
 			}
 		};
 
 		switchColumn.setFieldUpdater(new FieldUpdater<UIAttribute, AttributeSwitchState>() {
 			@Override
-			public void update(int index, UIAttribute object, AttributeSwitchState value) {
-				switchAttribute(object, value);
+			public void update(int index, UIAttribute attribute, AttributeSwitchState value) {
+				switchAttribute(attribute, value);
 				// Redraw the modified row.
 				attributesGrid.redrawRow(index);
 			}
@@ -255,13 +261,22 @@ public class CodelistAttributesPanel extends ResizeComposite {
 
 	}
 
+	protected boolean isInGroupAsColumn(UIAttribute attribute)
+	{
+		for (Group group:groupsAsColumn) if (group.accept(visualizedRow.getAttributes(), attribute)) return true;
+		return false;
+	}
 	
 
-	protected void switchAttribute(final UIAttribute attribute, AttributeSwitchState attributeSwitchState)
+	protected void switchAttribute(UIAttribute attribute, AttributeSwitchState attributeSwitchState)
 	{
+		Group group = GroupFactory.getGroup(attribute);
+		Log.trace("calculating position for "+attribute+" in: "+visualizedRow.getAttributes());
+		group.calculatePosition(visualizedRow.getAttributes(), attribute);
+	
 		switch (attributeSwitchState) {
-			case COLUMN: editorBus.fireEvent(new SwitchAttributeEvent(attribute.getName(), AttributeSwitchType.TO_NORMAL)); break;
-			case NORMAL: editorBus.fireEvent(new SwitchAttributeEvent(attribute.getName(), AttributeSwitchType.TO_COLUMN)); break;
+			case COLUMN: editorBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_NORMAL)); break;
+			case NORMAL: editorBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_COLUMN)); break;
 		}
 	}
 

@@ -3,14 +3,15 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
-import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSetChangedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSetChangedEvent.AttributeSetChangedHandler;
-import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSetChangedEvent.HasAttributeSetChangedHandlers;
+import org.cotrix.web.codelistmanager.client.codelist.attribute.Group;
+import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
+import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
+import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.HasGroupsChangedHandlers;
 import org.cotrix.web.codelistmanager.shared.UICodelistRow;
 import org.cotrix.web.share.shared.DataWindow;
 
@@ -28,7 +29,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistRowDataProvider extends AsyncDataProvider<UICodelistRow> implements HasAttributeSetChangedHandlers {
+public class CodelistRowDataProvider extends AsyncDataProvider<UICodelistRow> implements HasGroupsChangedHandlers {
 	
 	protected HandlerManager handlerManager = new HandlerManager(this);
 	
@@ -55,7 +56,7 @@ public class CodelistRowDataProvider extends AsyncDataProvider<UICodelistRow> im
 			public void onSuccess(DataWindow<UICodelistRow> result) {
 				List<UICodelistRow> rows = result.getData();
 				Log.trace("loaded "+rows.size()+" rows");
-				checkAttributeSet(rows);
+				checkGroups(rows);
 				updateRowCount(result.getTotalSize(), true);
 				updateRowData(range.getStart(), rows);
 			}
@@ -63,12 +64,10 @@ public class CodelistRowDataProvider extends AsyncDataProvider<UICodelistRow> im
 		
 	}
 	
-	protected void checkAttributeSet(List<UICodelistRow> rows)
+	protected void checkGroups(List<UICodelistRow> rows)
 	{
-		if (handlerManager.getHandlerCount(AttributeSetChangedEvent.TYPE) == 0) return;
-		Set<String> attributesNames = new HashSet<String>();
-		for (UICodelistRow row:rows) attributesNames.addAll(row.getAttributesNames());
-		handlerManager.fireEvent(new AttributeSetChangedEvent(attributesNames));
+		Set<Group> groups = GroupFactory.getGroups(rows);
+		handlerManager.fireEvent(new GroupsChangedEvent(groups));
 	}
 
 	@Override
@@ -77,8 +76,8 @@ public class CodelistRowDataProvider extends AsyncDataProvider<UICodelistRow> im
 	}
 
 	@Override
-	public HandlerRegistration addAttributeSetChangedHandler(AttributeSetChangedHandler handler) {
-		return handlerManager.addHandler(AttributeSetChangedEvent.TYPE, handler);
+	public HandlerRegistration addGroupsChangedHandler(GroupsChangedHandler handler) {
+		return handlerManager.addHandler(GroupsChangedEvent.TYPE, handler);
 	}
 
 }

@@ -63,20 +63,20 @@
 		</servlet> <servlet-mapping> <servlet-name>codelistPublishServlet</servlet-name> 
 		<url-pattern>/CodeListManager/publish</url-pattern> </servlet-mapping> -->
 
-	<servlet-mapping>
-		<servlet-name>importWizardFileUploadServlet</servlet-name>
-		<url-pattern>/CodeListManager/fileupload</url-pattern>
-	</servlet-mapping>
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>importWizardFileUploadServlet</servlet-name> -->
+<!-- 		<url-pattern>/CodeListManager/fileupload</url-pattern> -->
+<!-- 	</servlet-mapping> -->
 
-	<servlet-mapping>
-		<servlet-name>importWizardServiceServlet</servlet-name>
-		<url-pattern>/CodeListManager/importService</url-pattern>
-	</servlet-mapping>
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>importWizardServiceServlet</servlet-name> -->
+<!-- 		<url-pattern>/CodeListManager/importService</url-pattern> -->
+<!-- 	</servlet-mapping> -->
 
-	<servlet-mapping>
-		<servlet-name>importWizardReportDownloadServlet</servlet-name>
-		<url-pattern>/CodeListManager/reportDownload</url-pattern>
-	</servlet-mapping>
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>importWizardReportDownloadServlet</servlet-name> -->
+<!-- 		<url-pattern>/CodeListManager/reportDownload</url-pattern> -->
+<!-- 	</servlet-mapping> -->
 
 	<servlet-mapping>
 		<servlet-name>listServlet</servlet-name>

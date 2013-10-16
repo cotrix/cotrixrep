@@ -254,13 +254,13 @@ public class ManagerServiceImpl implements ManagerService {
 
 			UICodelistRow row = new UICodelistRow(code.id(), code.id(), code.name().toString());
 			
-			Map<String, UIAttribute> rowAttributes = new HashMap<String, UIAttribute>(code.attributes().size());
+			List<UIAttribute> attributes = new ArrayList<UIAttribute>(code.attributes().size());
 			
 			for (Attribute attribute:code.attributes()) {
 				UIAttribute rowAttribute = toUIAttribute(attribute);
-				rowAttributes.put(attribute.name().toString(), rowAttribute);
+				attributes.add(rowAttribute);
 			}
-			row.setAttributes(rowAttributes);
+			row.setAttributes(attributes);
 			rows.add(row);
 		}
 		logger.trace("retrieved {} rows", rows.size());

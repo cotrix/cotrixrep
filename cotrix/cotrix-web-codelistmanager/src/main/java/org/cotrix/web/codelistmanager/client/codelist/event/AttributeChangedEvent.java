@@ -2,8 +2,6 @@ package org.cotrix.web.codelistmanager.client.codelist.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
-import java.lang.String;
-
 import org.cotrix.web.share.shared.UIAttribute;
 
 import com.google.gwt.event.shared.HasHandlers;
@@ -17,7 +15,6 @@ public class AttributeChangedEvent extends GwtEvent<AttributeChangedEvent.Attrib
 
 	public static Type<AttributeChangedHandler> TYPE = new Type<AttributeChangedHandler>();
 	
-	private String oldName;
 	private UIAttribute attribute;
 
 	public interface AttributeChangedHandler extends EventHandler {
@@ -29,13 +26,8 @@ public class AttributeChangedEvent extends GwtEvent<AttributeChangedEvent.Attrib
 				AttributeChangedHandler handler);
 	}
 
-	public AttributeChangedEvent(String oldName, UIAttribute attribute) {
-		this.oldName = oldName;
+	public AttributeChangedEvent(UIAttribute attribute) {
 		this.attribute = attribute;
-	}
-
-	public String getOldName() {
-		return oldName;
 	}
 
 	public UIAttribute getAttribute() {
@@ -56,7 +48,7 @@ public class AttributeChangedEvent extends GwtEvent<AttributeChangedEvent.Attrib
 		return TYPE;
 	}
 
-	public static void fire(HasHandlers source, String oldName, UIAttribute attribute) {
-		source.fireEvent(new AttributeChangedEvent(oldName, attribute));
+	public static void fire(HasHandlers source, UIAttribute attribute) {
+		source.fireEvent(new AttributeChangedEvent(attribute));
 	}
 }

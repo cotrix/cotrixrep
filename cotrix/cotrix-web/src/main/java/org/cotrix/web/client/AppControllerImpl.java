@@ -54,7 +54,7 @@ public class AppControllerImpl implements AppController {
 		cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
 		cotrixPublishAppController.go(view.getBody());*/
 		
-		showModule(CotrixModule.HOME);
+		showModule(CotrixModule.MANAGE);
 	}
 	
 	protected void bind()
