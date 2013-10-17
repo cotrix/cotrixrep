@@ -111,7 +111,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 		
 		header = new AttributeHeader("");
 		
-		attributesGrid = new AttributesGrid(dataProvider, header);
+		attributesGrid = new AttributesGrid(dataProvider, header, "No code selected");
 
 		setupColumns();
 

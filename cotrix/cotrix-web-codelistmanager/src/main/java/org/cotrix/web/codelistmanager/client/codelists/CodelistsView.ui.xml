@@ -5,66 +5,75 @@
 	xmlns:common="urn:import:org.cotrix.web.codelistmanager.client.common">
 	<ui:style
 		type="org.cotrix.web.codelistmanager.client.codelists.CodelistsViewImpl.Style">
-			.wrapper {
-				border: 1px solid #ccc;
+			.mainPanel {
+				background-color: #efefef;
+			}
+			
+			.filterPanel {
+				border-top: 1px solid #a8a7a7;
+				border-left: 1px solid #a8a7a7;
+				border-right: 1px solid #a8a7a7;
 				background-color: white;
-				/*margin-right: 10px;*/
+				padding: 5px;
 			}
 			
 			.listPanel {
 				background-color: white;
+				border-left: 1px solid #a8a7a7;
+				border-right: 1px solid #a8a7a7;
+			}
+			
+			.toolbarPanel {
+				background-color: white;
+				border-bottom: 1px solid #a8a7a7;
+				border-left: 1px solid #a8a7a7;
+				border-right: 1px solid #a8a7a7;
 			}
 			
 			.filterTextBox {
 				width: 95%;
-				padding: 3px;
+				padding: 5px;
 				color: #666;
 				border: 1px solid #ccc;
-				border-radius: 50px;
+				border-radius: 6px;
 			}
 			
 			.filterTextBox :FOCUS {
 				width: 95%;
 				color: #666;
-				padding: 3px;
-				border-radius: 50px;
+				padding: 5px;
+				border-radius: 6px;
 			}
 			
 			.promptTextBox {
 				width: 95%;
-				padding: 3px;
+				padding: 5px;
 				color: #ccc;
 				border: 1px solid #ccc;
-				border-radius: 50px;
+				border-radius: 6px;
 			}
 			
 			.promptTextBox :FOCUS {
 				width: 95%;
 				color: #ccc;
-				padding: 3px;
+				padding: 5px;
 				border-radius: 50px;
 			}
 			
-			.filterPanel {
-				border-top-right-radius: 5px;
-				border-top-left-radius: 5px;
-				padding: 5px;
-				background: rgb(255, 255, 255); /* Old browsers */
-				background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
-					rgba(229, 229, 229, 1) 100%); /* FF3.6+ */
-				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,
-					255, 255, 1)), color-stop(100%, rgba(229, 229, 229, 1)));
-				/* Chrome,Safari4+ */
-				background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
-					rgba(229, 229, 229, 1) 100%); /* Chrome10+,Safari5.1+ */
-				background: -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
-					rgba(229, 229, 229, 1) 100%); /* Opera 11.10+ */
-				background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
-					rgba(229, 229, 229, 1) 100%); /* IE10+ */
-				background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
-					rgba(229, 229, 229, 1) 100%); /* W3C */
-				filter: literal("progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#e5e5e5', GradientType=0)"
-					); /* IE6-9 */
+		
+			.headerPanel {
+				overflow: visible;
+			text-align: left;
+			color: #464545;
+			font-weight:normal;
+			font-size:15px;
+			text-shadow:none;
+			background-color:#e9e9e9;
+			padding: 6px;
+			border-bottom: 1px solid #a8a7a7;
+			border-top: 1px solid #a8a7a7;
+			border-left: 1px solid #a8a7a7;
+			border-right: 1px solid #a8a7a7;
 			}
 			
 			.celllist {
@@ -78,20 +87,25 @@
 				padding-right: 20px;
 			}
 		</ui:style>
-	<g:DockLayoutPanel unit='PX' styleName="{style.wrapper}">
+	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
 		<g:north size='28'>
 			<g:SimpleLayoutPanel />
 		</g:north>
-		<g:north size='32'>
+		<g:north size='45'>
 			<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
 				<cotrix:PromptedTextBox ui:field="filterTextBox" />
 			</g:FlowPanel>
+		</g:north>
+		<g:north size='32'>
+			<g:HTMLPanel styleName="{style.headerPanel}">
+				Codelists
+			</g:HTMLPanel>
 		</g:north>
 		<g:center>
 			<c:CellTree ui:field="codelists" styleName="{style.listPanel}" />
 		</g:center>
 		<g:south size="28">
-			<common:ItemToolbar ui:field="toolbar"/>
+			<common:ItemToolbar ui:field="toolbar" styleName="{style.toolbarPanel}" />
 		</g:south>
 
 	</g:DockLayoutPanel>

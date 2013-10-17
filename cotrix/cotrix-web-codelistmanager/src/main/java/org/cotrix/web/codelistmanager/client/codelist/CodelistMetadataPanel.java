@@ -1,7 +1,5 @@
 package org.cotrix.web.codelistmanager.client.codelist;
 
-import java.util.List;
-
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
@@ -58,7 +56,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 
 	public CodelistMetadataPanel() {
 		this.attributesProvider = new ListDataProvider<UIAttribute>();
-		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Attributes"));
+		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Attributes"), "No attributes");
 
 		add(uiBinder.createAndBindUi(this));
 		bind();

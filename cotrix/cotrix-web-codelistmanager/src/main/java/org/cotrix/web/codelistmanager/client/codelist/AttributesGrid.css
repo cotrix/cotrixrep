@@ -1,3 +1,8 @@
+.emptyTableWidget {
+	padding-top: 10px;
+	color: #464545;
+}
+
 .dataGridWidget {
 
 
@@ -24,25 +29,20 @@
 .dataGridHeader {
 	overflow: visible;
 	text-align: left;
-	color: #999;
+	color: #464545;
 	font-weight:normal;
 	font-size:15px;
 	text-shadow:none;
-	background-color:#eee;
-
-	/*	overflow: visible;
-	text-align: center;
-	color: #999;
-	font-weight:normal;
-	font-size:15px;
-	text-shadow:none;
-	background-color:#eee;*/
+	background-color:#e9e9e9;
+	padding: 6px;
+	border-bottom: 1px solid #a8a7a7;
+	border-top: 1px solid #a8a7a7;
 }
 
 .dataGridCell {
 	color: #5A5A5A;
-	border-right: 1px solid #C2C2C2;
-	border-bottom: 1px solid #C2C2C2;
+	/*border-right: 1px solid #C2C2C2;
+	border-bottom: 1px solid #C2C2C2;*/
 	font-weight: normal;
 	font-size: 14px;
 	padding: 8px 8px 8px 10px;
@@ -54,8 +54,7 @@
 }
 
 .dataGridFirstColumnHeader {
-	border-left: 1px solid #C2C2C2;
-
+	/*border-left: 1px solid #a8a7a7;*/
 }
 
 .dataGridLastColumnFooter {
@@ -63,13 +62,11 @@
 }
 
 .dataGridLastColumnHeader {
-	border-right: 1px solid #C2C2C2;
-
+	/*border-right: 1px solid #a8a7a7;*/
 }
 
 .dataGridSortableHeader {
 	cursor: pointer;
-	cursor: hand;
 }
 
 .dataGridSortableHeader:hover {
@@ -102,6 +99,7 @@
 
 .dataGridHoveredRow {
 	background: #eee;
+	cursor: pointer;
 }
 
 .dataGridHoveredRowCell {
@@ -117,11 +115,11 @@
 }
 
 .dataGridSelectedRow {
-	background-color: green;
+	color: #097bfb;
 }
 
 .dataGridSelectedRowCell {
-	background-color: green;
+	color: #097bfb;
 }
 
 /**
