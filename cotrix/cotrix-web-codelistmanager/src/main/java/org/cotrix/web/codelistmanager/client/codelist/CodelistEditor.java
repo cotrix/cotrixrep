@@ -20,13 +20,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.bcel.classfile.Code;
 import org.cotrix.web.codelistmanager.client.codelist.attribute.Group;
 import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
-import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
@@ -103,13 +102,13 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 	protected SingleSelectionModel<UICode> selectionModel;
 	
-	protected CodelistCodesDataProvider dataProvider;
+	protected CodelistCodesProvider dataProvider;
 	protected HandlerRegistration registration;
 	
 	protected CodeEditor codeEditor;
 
 	@Inject
-	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesDataProvider dataProvider, CodeEditor codeEditor) {
+	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider, CodeEditor codeEditor) {
 		this.editorBus = editorBus;
 		this.dataProvider = dataProvider;
 		this.codeEditor = codeEditor;
@@ -237,9 +236,10 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	
 	protected void addCode()
 	{
-		UICode code = new UICode(Document.get().createUniqueId(), "code", "name");
-		dataProvider.getCodes().add(code);
+		UICode code = new UICode(Document.get().createUniqueId(), "name");
+		dataProvider.getCodes().add(0, code);
 		dataProvider.refresh();
+		selectionModel.setSelected(code, true);
 		codeEditor.added(code);
 	}
 

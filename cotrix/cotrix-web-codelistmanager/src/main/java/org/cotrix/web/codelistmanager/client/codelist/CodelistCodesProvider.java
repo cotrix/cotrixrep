@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -30,7 +29,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistCodesDataProvider extends AsyncDataProvider<UICode> implements HasGroupsChangedHandlers {
+public class CodelistCodesProvider extends AsyncDataProvider<UICode> implements HasGroupsChangedHandlers {
 	
 	protected HandlerManager handlerManager = new HandlerManager(this);
 	

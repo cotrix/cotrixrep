@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.codelistmanager.shared;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,21 +16,20 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class UICode implements Identifiable, IsSerializable {
 	
 	protected String id;
-	protected String code;
 	protected String name;
+
 	protected List<UIAttribute> attributes;
 
-	protected UICode(){}
+	public UICode(){}
 	
 	/**
 	 * @param id
-	 * @param code
 	 * @param name
 	 */
-	public UICode(String id, String code, String name) {
+	public UICode(String id, String name) {
 		this.id = id;
-		this.code = code;
 		this.name = name;
+		this.attributes = new ArrayList<UIAttribute>();
 	}
 
 	/**
@@ -39,26 +39,13 @@ public class UICode implements Identifiable, IsSerializable {
 		return id;
 	}
 	
-
 	@Override
 	public void setId(String id) {
 		this.id = id;
 	}
 	
-	public String getCode()
-	{
-		return code;
-	}
-	
 	public String getName() {
 		return name;
-	}
-	
-	/**
-	 * @param code the code to set
-	 */
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	/**
@@ -129,8 +116,6 @@ public class UICode implements Identifiable, IsSerializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UICodeListRow [id=");
 		builder.append(id);
-		builder.append(", code=");
-		builder.append(code);
 		builder.append(", name=");
 		builder.append(name);
 		builder.append(", attributes=");

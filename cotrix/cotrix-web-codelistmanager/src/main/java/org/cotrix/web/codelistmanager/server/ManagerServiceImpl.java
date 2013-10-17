@@ -134,7 +134,9 @@ public class ManagerServiceImpl implements ManagerService {
 		List<UICode> rows = new ArrayList<UICode>(range.getLength());
 		for (Code code:codes) {
 
-			UICode row = new UICode(code.id(), code.id(), code.name().toString());
+			UICode uicode = new UICode();
+			uicode.setId(code.id());
+			uicode.setName(code.name().toString());
 			
 			List<UIAttribute> attributes = new ArrayList<UIAttribute>(code.attributes().size());
 			
@@ -142,8 +144,8 @@ public class ManagerServiceImpl implements ManagerService {
 				UIAttribute rowAttribute = toUIAttribute(attribute);
 				attributes.add(rowAttribute);
 			}
-			row.setAttributes(attributes);
-			rows.add(row);
+			uicode.setAttributes(attributes);
+			rows.add(uicode);
 		}
 		logger.trace("retrieved {} rows", rows.size());
 		return new DataWindow<UICode>(rows, codelist.codes().size());
