@@ -56,8 +56,8 @@ public interface Versioned {
 
 			super.update(delta);
 
-			// name has changed?
-			if (!delta.version().equals(this.version()))
+			//version has changed?
+			if (delta.version()!=null && !delta.version().equals(this.version()))
 				throw new IllegalArgumentException("cannot change the version (" + version() + ") of entity " + id()
 						+ ". Versioning is performed by copy");
 		};
