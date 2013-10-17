@@ -1,10 +1,12 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.resources;
+package org.cotrix.web.share.client.resources;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ImageResource.ImageOptions;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 
 /**
@@ -12,6 +14,8 @@ import com.google.gwt.user.cellview.client.SimplePager.Resources;
  *
  */
 public interface CotrixSimplePager extends Resources {
+	
+	public static SimplePager.Resources INSTANCE = GWT.create(CotrixSimplePager.class);
 	
     /**
      * The image used to go to the first page.

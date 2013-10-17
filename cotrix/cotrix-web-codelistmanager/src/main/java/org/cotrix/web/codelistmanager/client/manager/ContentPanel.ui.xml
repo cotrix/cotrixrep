@@ -3,7 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
 		.contenPanel {
-			border: 1px solid #ccc;
+			/*border: 1px solid #ccc;*/
+			background-color: #efefef;
 		}
 		
 		.initLabel {
@@ -32,13 +33,15 @@
 			margin-left: 4px;
 			padding: 4px 4px 4px 8px;
 			cursor: pointer;
-			cursor: hand;
-			color: white;
+			color: #888888;
 			font-weight: normal;
 			text-align: center;
-			background: #8E8E8E;
-			-moz-border-radius: 3px 3px 0px 0px;
-			border-radius: 3px 3px 0px 0px;
+			background: #efefef;
+			-moz-border-radius: 6px 6px 0px 0px;
+			border-radius: 6px 6px 0px 0px;
+			border-left: 1px solid #a8a7a7;
+			border-right: 1px solid #a8a7a7;
+			border-top: 1px solid #a8a7a7;
 			
 			width: 140px;
 		}
@@ -47,13 +50,12 @@
 		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
 			cursor: default;
 			background: white;
-			color: #333;
 			font-weight: bold;
 		}
 		
 		@external .gwt-TabLayoutPanelTabs;
 		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
-			background: #ccc;
+			background: #efefef;
 			padding-top: 6 px;
 		}
 	</ui:style>

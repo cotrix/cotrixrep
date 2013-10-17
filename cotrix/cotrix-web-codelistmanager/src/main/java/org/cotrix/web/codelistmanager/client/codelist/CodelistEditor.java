@@ -34,6 +34,7 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHa
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.UICode;
+import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -114,8 +115,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		//TODO add sorting
 
 		// Create a Pager to control the table.
-		SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+		pager = new SimplePager(TextLocation.CENTER, CotrixSimplePager.INSTANCE, false, 0, true);
 		pager.setDisplay(dataGrid);
 
 		setupColumns();

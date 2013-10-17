@@ -4,14 +4,20 @@
 	<ui:with field='resources'
 		type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
 	<ui:style>
+		.toolbar {
+			background-color: #f1f1f1;
+			vertical-align: middle;
+		}
 		.plusButton {
 			float: left;
+			padding-top: 5px;
 		}
 		.minusButton {
 			float: right;
+			padding-top: 5px;
 		}
 	</ui:style>
-	<g:FlowPanel height="28px">
+	<g:FlowPanel height="28px" styleName="{style.toolbar}">
 		<g:PushButton ui:field="plus" styleName="{style.plusButton}">
 			<g:upFace image="{resources.plus}" />
 		</g:PushButton>

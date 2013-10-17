@@ -56,7 +56,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 
 	public CodelistMetadataPanel() {
 		this.attributesProvider = new ListDataProvider<UIAttribute>();
-		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Attributes"));
+		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Attributes"), "No attributes");
 
 		add(uiBinder.createAndBindUi(this));
 		bind();

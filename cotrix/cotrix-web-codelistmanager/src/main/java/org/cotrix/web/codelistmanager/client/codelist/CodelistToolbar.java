@@ -12,6 +12,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -34,25 +35,12 @@ public class CodelistToolbar extends Composite {
 	public CodelistToolbar() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-	
-	@UiHandler("save")
-	protected void onSaveClick(ClickEvent event)
-	{
-		Log.trace("onSaveClick");
-	}
 
 	/**
 	 * @return the allColumns
 	 */
 	public Button getAllColumns() {
 		return allColumns;
-	}
-
-	/**
-	 * @param allColumns the allColumns to set
-	 */
-	public void setAllColumns(Button allColumns) {
-		this.allColumns = allColumns;
 	}
 
 	/**

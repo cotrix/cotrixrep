@@ -31,3 +31,26 @@ body {
 a, a:visited, a:hover {
   color: #0000AA;
 }
+
+@sprite .buttonAllColumns {
+	gwt-image: "allColumns";
+	background-position: 0;
+	background-color: #ddd;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+	height: 20px;
+	width: 21px;
+	font-size: 24px;
+	color: #666;
+}
+
+@sprite .buttonAllColumns:hover {
+	gwt-image: "allColumnsHover";
+	background-position: 0;
+	background-color: #5674b9;
+	color: #fff;
+	cursor: pointer;
+	height: 20px;
+	width: 21px;
+}

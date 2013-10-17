@@ -1,17 +1,27 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:org.cotrix.web.codelistmanager.client.codelist">
-	<g:DockLayoutPanel unit='EM'>
+	<ui:style>
+		.tools {
+			margin-top: 7px;
+		}
+		
+		.mainPanel {
+			border: 1px solid #bababa;
+			background-color: #fff;
+		}
+	</ui:style>
+	<g:DockLayoutPanel unit='EM' styleName="{style.mainPanel}">
 		<g:north size='2.7'>
 			<g:FlowPanel>
-			<g:Button ui:field="attributesButton">Attributes</g:Button>
-			<g:Button ui:field="metadataButton">Metadata</g:Button>
+				<g:Button ui:field="attributesButton">Attributes</g:Button>
+				<g:Button ui:field="metadataButton">Metadata</g:Button>
 			</g:FlowPanel>
 		</g:north>
 		<g:center>
-			<g:DeckLayoutPanel ui:field="tools">
-				<v:CodelistAttributesPanel ui:field="attributesPanel"/>
-				<v:CodelistMetadataPanel ui:field="metadataPanel"/>
+			<g:DeckLayoutPanel ui:field="tools" styleName="{style.tools}">
+				<v:CodelistAttributesPanel ui:field="attributesPanel" />
+				<v:CodelistMetadataPanel ui:field="metadataPanel" />
 			</g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>

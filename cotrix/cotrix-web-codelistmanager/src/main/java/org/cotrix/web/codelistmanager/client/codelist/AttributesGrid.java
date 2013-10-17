@@ -78,6 +78,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 	}
 
 	interface DataGridStyle extends DataGrid.Style {
+		String emptyTableWidget();
 	}
 
 	DataGrid<UIAttribute> dataGrid;
@@ -96,7 +97,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 	protected SingleSelectionModel<UIAttribute> selectionModel;
 
-	public AttributesGrid(ListDataProvider<UIAttribute> dataProvider, Header<String> header) {
+	public AttributesGrid(ListDataProvider<UIAttribute> dataProvider, Header<String> header, String emptyMessage) {
 		
 		this.dataProvider = dataProvider;
 		this.header = header;
@@ -107,7 +108,9 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		EventUtil.sinkEvents(dataGrid, Collections.singleton(BrowserEvents.DBLCLICK));
 		
 		dataGrid.setAutoHeaderRefreshDisabled(true);
-		dataGrid.setEmptyTableWidget(new Label("Empty"));
+		Label emptyTableWidget = new Label(emptyMessage);
+		emptyTableWidget.setStyleName(resource.dataGridStyle().emptyTableWidget());
+		dataGrid.setEmptyTableWidget(emptyTableWidget);
 
 		setupColumns();
 
