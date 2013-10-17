@@ -56,7 +56,7 @@ public interface Named {
 			super.update(delta);
 			
 			//name has changed?
-			if (!delta.name().equals(name()))
+			if (delta.name()!=null && !delta.name().equals(name()))
 				this.name=delta.name();
 		}
 		
