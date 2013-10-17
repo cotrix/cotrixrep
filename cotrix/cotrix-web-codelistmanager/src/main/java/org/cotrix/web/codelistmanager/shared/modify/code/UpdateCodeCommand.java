@@ -13,6 +13,8 @@ public class UpdateCodeCommand implements ModifyCommand, CodeCommand  {
 	
 	protected String codeId;
 	protected String name;
+	
+	protected UpdateCodeCommand(){}
 
 	/**
 	 * @param name
