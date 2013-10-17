@@ -1,10 +1,10 @@
 package org.cotrix.web.importwizard.client.step.selection;
 
-import org.cotrix.web.importwizard.client.resources.CotrixSimplePager;
 import org.cotrix.web.importwizard.client.resources.DataGridResource;
 import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.share.client.resources.CommonResources;
+import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.widgets.AlertDialog;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -86,8 +86,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 
 		dataGrid.setEmptyTableWidget(new Label("No data"));
 
-		SimplePager.Resources pagerResources = GWT.create(CotrixSimplePager.class);
-		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+		pager = new SimplePager(TextLocation.CENTER, CotrixSimplePager.INSTANCE, false, 0, true);
 		pager.setDisplay(dataGrid);
 		
 		dataGrid.addColumnSortHandler(new AsyncHandler(dataGrid));
