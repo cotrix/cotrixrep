@@ -11,10 +11,14 @@
 		.plusButton {
 			float: left;
 			padding-top: 5px;
+			outline: none;
+			cursor: pointer;
 		}
 		.minusButton {
 			float: right;
 			padding-top: 5px;
+			outline: none;
+			cursor: pointer;
 		}
 	</ui:style>
 	<g:FlowPanel height="28px" styleName="{style.toolbar}">

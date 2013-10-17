@@ -7,11 +7,7 @@
 			border-right: 1px solid #a8a7a7;
 			border-bottom: 1px solid #a8a7a7;
 			background-color: #fff;
-		}
-		
-		.editor {
-			margin: 8px;
-		}
+		}		
 	</ui:style>
 	<g:SplitLayoutPanel ui:field="mainPanel">
 		<g:center>
@@ -20,7 +16,7 @@
 					<v:CodelistToolbar ui:field="toolbar" />
 				</g:north>
 				<g:center>
-					<v:CodelistEditor ui:field="editor" styleName="{style.editor}" />
+					<v:CodelistEditor ui:field="editor" />
 				</g:center>
 			</g:DockLayoutPanel>
 		</g:center>

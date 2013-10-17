@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.bcel.classfile.Code;
 import org.cotrix.web.codelistmanager.client.codelist.attribute.Group;
 import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
@@ -28,6 +29,9 @@ import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.client.data.CodeEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
@@ -40,6 +44,7 @@ import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -82,6 +87,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 	@UiField(provided = true)
 	SimplePager pager;
+	
+	@UiField ItemToolbar toolBar;
 
 	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 	protected DataGridResources resource = GWT.create(DataGridResources.class);
@@ -99,13 +106,13 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected CodelistCodesDataProvider dataProvider;
 	protected HandlerRegistration registration;
 	
-	protected CodeEditor rowEditor;
+	protected CodeEditor codeEditor;
 
 	@Inject
-	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesDataProvider dataProvider, CodeEditor rowEditor) {
+	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesDataProvider dataProvider, CodeEditor codeEditor) {
 		this.editorBus = editorBus;
 		this.dataProvider = dataProvider;
-		this.rowEditor = rowEditor;
+		this.codeEditor = codeEditor;
 
 		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
@@ -128,12 +135,12 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		//dataGrid.setTableBuilder(new CustomTableBuilder());
 		
 		dataProvider.addDataDisplay(dataGrid);
-		
-		bind();
 
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		bind();
 	}
 	
 	protected void setupColumns() {
@@ -151,7 +158,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			@Override
 			public void update(int index, UICode row, String value) {
 				row.setName(value);
-				rowEditor.updated(row);
+				codeEditor.updated(row);
 			}
 		});
 
@@ -196,7 +203,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			}
 		});
 		
-		rowEditor.addDataEditHandler(new DataEditHandler<UICode>() {
+		codeEditor.addDataEditHandler(new DataEditHandler<UICode>() {
 
 			@Override
 			public void onDataEdit(DataEditEvent<UICode> event) {
@@ -206,6 +213,34 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 				if (index>=0) dataGrid.redrawRow(index);
 			}
 		});
+		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
+			
+			@Override
+			public void onButtonClicked(ButtonClickedEvent event) {
+				switch (event.getButton()) {
+					case MINUS: removeSelectedCode(); break;
+					case PLUS: addCode(); break;
+				}
+			}
+		});
+	}
+	
+	protected void removeSelectedCode()
+	{
+		UICode code = selectionModel.getSelectedObject();
+		if (code!=null) {
+			dataProvider.getCodes().remove(code);
+			dataProvider.refresh();
+			codeEditor.removed(code);
+		}
+	}
+	
+	protected void addCode()
+	{
+		UICode code = new UICode(Document.get().createUniqueId(), "code", "name");
+		dataProvider.getCodes().add(code);
+		dataProvider.refresh();
+		codeEditor.added(code);
 	}
 
 	protected Column<UICode, String> getGroupColumn(final Group group)

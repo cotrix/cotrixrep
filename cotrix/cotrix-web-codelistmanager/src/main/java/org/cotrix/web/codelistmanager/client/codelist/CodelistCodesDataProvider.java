@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +34,9 @@ public class CodelistCodesDataProvider extends AsyncDataProvider<UICode> impleme
 	
 	protected HandlerManager handlerManager = new HandlerManager(this);
 	
+	protected Range lastRange;
+	protected List<UICode> codes;
+	
 	@Inject
 	protected ManagerServiceAsync managerService;
 	
@@ -54,11 +58,12 @@ public class CodelistCodesDataProvider extends AsyncDataProvider<UICode> impleme
 
 			@Override
 			public void onSuccess(DataWindow<UICode> result) {
-				List<UICode> codes = result.getData();
+				codes = result.getData();
 				Log.trace("loaded "+codes.size()+" rows");
 				checkGroups(codes);
 				updateRowCount(result.getTotalSize(), true);
 				updateRowData(range.getStart(), codes);
+				lastRange = range;
 			}
 		});
 		
@@ -68,6 +73,18 @@ public class CodelistCodesDataProvider extends AsyncDataProvider<UICode> impleme
 	{
 		Set<Group> groups = GroupFactory.getGroups(rows);
 		handlerManager.fireEvent(new GroupsChangedEvent(groups));
+	}
+	
+	public void refresh()
+	{
+		updateRowData(lastRange.getStart(), codes);
+	}
+
+	/**
+	 * @return the codes
+	 */
+	public List<UICode> getCodes() {
+		return codes;
 	}
 
 	@Override
