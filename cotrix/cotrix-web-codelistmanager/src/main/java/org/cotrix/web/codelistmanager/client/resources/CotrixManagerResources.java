@@ -45,6 +45,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	@Source("allColumns.png")
 	public ImageResource allColumnsHover();
 	
+	@Source("versionItem.png")
+	public ImageResource versionItem();
+	
 	interface CotrixManagerStyle extends CssResource {
 		String buttonAllColumns();
 	}

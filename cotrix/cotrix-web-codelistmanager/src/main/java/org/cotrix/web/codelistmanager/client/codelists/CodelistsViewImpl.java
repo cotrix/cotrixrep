@@ -3,6 +3,7 @@ package org.cotrix.web.codelistmanager.client.codelists;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
+import org.cotrix.web.codelistmanager.client.resources.CodelistsResources;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup.Version;
 import org.cotrix.web.share.shared.UICodelist;
 
@@ -103,9 +104,10 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	      }
 	    });
 	    
-		codelists = new CellTree(new CodelistTreeModel(codeListDataProvider, selectionModel), null);
+		codelists = new CellTree(new CodelistTreeModel(codeListDataProvider, selectionModel), null, CodelistsResources.INSTANCE);
 		
-		codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		//codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 	}
 
 	public void setPresenter(Presenter presenter) {
