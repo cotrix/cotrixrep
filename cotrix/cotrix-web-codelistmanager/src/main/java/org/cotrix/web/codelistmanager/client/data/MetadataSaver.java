@@ -6,6 +6,7 @@ package org.cotrix.web.codelistmanager.client.data;
 import org.cotrix.web.codelistmanager.client.data.event.EditType;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
+import org.cotrix.web.codelistmanager.shared.modify.metadata.UpdateMetadataCommand;
 
 import com.google.inject.Inject;
 
@@ -25,7 +26,11 @@ public class MetadataSaver extends AbstractDataSaver<CodelistMetadata> {
 
 	@Override
 	public ModifyCommand generateCommand(EditType editType,	CodelistMetadata data) {
-		throw new UnsupportedOperationException("Metadata saving not supported");
+		switch (editType) {
+			case UPDATE: return new UpdateMetadataCommand(data.getName());
+			default: throw new UnsupportedOperationException("Metadata edit type "+editType+" not supported");
+		}
+		
 	}
 
 }

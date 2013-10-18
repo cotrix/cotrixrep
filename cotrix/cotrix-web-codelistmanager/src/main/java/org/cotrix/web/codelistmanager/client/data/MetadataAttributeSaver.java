@@ -5,11 +5,11 @@ package org.cotrix.web.codelistmanager.client.data;
 
 import org.cotrix.web.codelistmanager.client.data.event.EditType;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.modify.MetadataAttributeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.attribute.AddAttributeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.attribute.RemoveAttributeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.attribute.UpdateAttributeCommand;
+import org.cotrix.web.codelistmanager.shared.modify.metadata.MetadataAttributeCommand;
 
 import com.google.inject.Inject;
 

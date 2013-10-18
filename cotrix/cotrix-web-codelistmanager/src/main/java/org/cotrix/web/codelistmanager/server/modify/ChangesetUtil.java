@@ -13,6 +13,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
+import org.cotrix.domain.Codelist;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.codelistmanager.shared.UIQName;
@@ -59,6 +60,11 @@ public class ChangesetUtil {
 	public static Code removeCode(String id)
 	{
 		return code(id).delete();
+	}
+	
+	public static Codelist updateCodelist(String id, UIQName name)
+	{
+		return codelist(id).modify().name(convert(name)).build();
 	}
 	
 	protected static String convert(String value)

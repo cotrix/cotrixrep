@@ -1,12 +1,10 @@
 package org.cotrix.web.codelistmanager.server;
 
 import static org.cotrix.action.CodelistAction.*;
-import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.repository.Queries.*;
 import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -157,7 +155,7 @@ public class ManagerServiceImpl implements ManagerService {
 		Codelist codelist = repository.lookup(codelistId);
 		CodelistMetadata metadata = new CodelistMetadata();
 		metadata.setId(codelist.id());
-		metadata.setName(codelist.name().toString());
+		metadata.setName(ValueUtils.safeValue(codelist.name()));
 		metadata.setVersion(codelist.version());
 		metadata.setAttributes(getAttributes(codelist.attributes()));
 		return metadata;
@@ -186,30 +184,6 @@ public class ManagerServiceImpl implements ManagerService {
 		return uiattribute;
 	}
 
-	@Override
-	public void saveMetadata(String codelistId, CodelistMetadata metadata) throws ManagerServiceException {
-//		logger.trace("saveMetadata codelistId: {}, metadata {}", codelistId, metadata);
-//		Attribute[] attributes = toDomainAttributes(metadata.getAttributes());
-//		Codelist changeset = codelist(codelistId).name(metadata.getName()).attributes(attributes).version(metadata.getVersion()).as(MODIFIED).build();
-//		//TODO attributes?
-//		repository.update(changeset);
-	}
-	
-	/*protected Attribute[] toDomainAttributes(Collection<UIAttribute> attributes)
-	{
-		Attribute[] domainAttributes = new Attribute[attributes.size()];
-		Iterator<UIAttribute> iterator = attributes.iterator();
-		for (int i = 0; i < domainAttributes.length; i++) {
-			domainAttributes[i] = toDomainAttribute(iterator.next());
-		}
-		return domainAttributes;
-	}
-	
-	protected Attribute toDomainAttribute(UIAttribute attribute)
-	{
-		return attr(attribute.getId()).name(attribute.getName()).value(attribute.getValue()).ofType(attribute.getType()).in(attribute.getLanguage()).build();
-	}*/
-	
 	@Task(LOCK)
 	public FeatureCarrier.Void saveMessage(String message) {
 		return FeatureCarrier.getVoid();
@@ -232,20 +206,6 @@ public class ManagerServiceImpl implements ManagerService {
 	public FeatureCarrier.Void seal(Request<Void> request) {
 		return FeatureCarrier.getVoid();
 	}
-
-	@Override
-	public void saveCodelistRow(String codelistId, UICode row) throws ManagerServiceException {
-//		//FIXME why name???
-//		Codelist codelist = repository.lookup(codelistId);
-//		
-//		Codelist changeset = codelist(codelistId).name(codelist.name()).with(toCode(row)).as(MODIFIED).build();
-//		repository.update(changeset);
-	}
-	
-	/*protected Code toCode(UICode row)
-	{
-		return code(row.getId()).name(row.getName()).attributes(toDomainAttributes(row.getAttributes())).build();
-	}*/
 
 	@Override
 	//@Task(EDIT)

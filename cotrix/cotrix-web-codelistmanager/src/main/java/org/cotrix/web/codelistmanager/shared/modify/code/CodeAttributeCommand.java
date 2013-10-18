@@ -1,8 +1,9 @@
 /**
  * 
  */
-package org.cotrix.web.codelistmanager.shared.modify;
+package org.cotrix.web.codelistmanager.shared.modify.code;
 
+import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.attribute.AttributeCommand;
 
 /**

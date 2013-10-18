@@ -13,10 +13,10 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.web.codelistmanager.shared.modify.CodeAttributeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.GeneratedId;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.codelistmanager.shared.modify.attribute.AttributeCommand;
+import org.cotrix.web.codelistmanager.shared.modify.code.CodeAttributeCommand;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

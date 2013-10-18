@@ -134,7 +134,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 	@UiHandler("nameField")
 	protected void nameUpdated(ValueChangeEvent<String> changedEvent)
 	{
-		metadata.setName(changedEvent.getValue());
+		metadata.getName().setLocalPart(changedEvent.getValue());
 		metadataEditor.updated(metadata);
 	}
 
@@ -162,7 +162,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 	protected void setMetadata(CodelistMetadata metadata)
 	{
 		this.metadata = metadata;
-		nameField.setText(metadata.getName());
+		nameField.setText(metadata.getName().getLocalPart());
 		versionField.setText(metadata.getVersion());
 
 		attributesProvider.setList(metadata.getAttributes());

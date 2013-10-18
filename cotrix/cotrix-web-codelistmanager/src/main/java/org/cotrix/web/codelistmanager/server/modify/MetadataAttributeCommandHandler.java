@@ -13,9 +13,9 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.codelistmanager.shared.modify.GeneratedId;
-import org.cotrix.web.codelistmanager.shared.modify.MetadataAttributeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.codelistmanager.shared.modify.attribute.AttributeCommand;
+import org.cotrix.web.codelistmanager.shared.modify.metadata.MetadataAttributeCommand;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
