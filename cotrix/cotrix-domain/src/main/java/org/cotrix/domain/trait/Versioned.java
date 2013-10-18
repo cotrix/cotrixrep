@@ -44,12 +44,14 @@ public interface Versioned {
 
 		@Override
 		public String version() {
-			return version.value();
+			return version==null?"":version.value();
 		}
 
 		protected void fillPO(IdGenerator generator, VersionedPO po) {
 			super.fillPO(generator, po);
-			po.setVersion(version);
+			
+			if (version!=null)
+				po.setVersion(version);
 		}
 
 		public void update(T delta) throws IllegalArgumentException, IllegalStateException {
