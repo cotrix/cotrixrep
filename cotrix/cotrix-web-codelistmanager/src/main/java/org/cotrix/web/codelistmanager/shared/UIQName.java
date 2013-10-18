@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UIQName implements IsSerializable, Comparable<UIQName> {
+public class UIQName implements IsSerializable, Comparable<UIQName>, Cloneable {
 	
 	protected String namespace;
 	protected String localPart;
@@ -51,6 +51,11 @@ public class UIQName implements IsSerializable, Comparable<UIQName> {
 	 */
 	public void setLocalPart(String localPart) {
 		this.localPart = localPart;
+	}
+	
+	public UIQName clone()
+	{
+		return new UIQName(namespace, localPart);
 	}
 
 	/** 

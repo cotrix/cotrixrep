@@ -31,6 +31,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
+import org.cotrix.web.codelistmanager.client.data.CodeAttributeEditor;
 import org.cotrix.web.codelistmanager.client.data.CodeEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
@@ -107,11 +108,14 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	
 	protected CodeEditor codeEditor;
 
+	protected CodeAttributeEditor attributeEditor;
+	
 	@Inject
-	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider, CodeEditor codeEditor) {
+	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider, CodeEditor codeEditor, CodeAttributeEditor attributeEditor) {
 		this.editorBus = editorBus;
 		this.dataProvider = dataProvider;
 		this.codeEditor = codeEditor;
+		this.attributeEditor = attributeEditor;
 
 		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
@@ -183,9 +187,9 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
-				UICode row = selectionModel.getSelectedObject();
-				Log.trace("onSelectionChange row: "+row);
-				if (row !=null) editorBus.fireEvent(new CodeSelectedEvent(row));
+				UICode code = selectionModel.getSelectedObject();
+				Log.trace("onSelectionChange code: "+code);
+				if (code !=null) editorBus.fireEvent(new CodeSelectedEvent(code));
 			}
 		});
 		
@@ -212,6 +216,16 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 				if (index>=0) dataGrid.redrawRow(index);
 			}
 		});
+		
+		attributeEditor.addDataEditHandler(new DataEditHandler<CodeAttributeEditor.CodeAttribute>() {
+
+			@Override
+			public void onDataEdit(DataEditEvent<CodeAttributeEditor.CodeAttribute> event) {
+					//dataProvider.refresh();
+					refreshCode(event.getData().getCode());
+			}
+		});
+		
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
 			
 			@Override
@@ -222,6 +236,14 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 				}
 			}
 		});
+	}
+	
+	protected void refreshCode(UICode code)
+	{
+		Log.trace("refreshCode code: "+code);
+		int row = dataProvider.getCodes().indexOf(code);
+		Log.trace("row: "+row);
+		if (row>=0) dataGrid.redrawRow(row);
 	}
 	
 	protected void removeSelectedCode()
@@ -259,10 +281,10 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			column.setFieldUpdater(new FieldUpdater<UICode, String>() {
 
 				@Override
-				public void update(int index, UICode row, String value) {
-					UIAttribute attribute = group.match(row.getAttributes());
+				public void update(int index, UICode code, String value) {
+					UIAttribute attribute = group.match(code.getAttributes());
 					attribute.setValue(value);
-					//TODO att editor rowEditor.edited(row);
+					attributeEditor.updated(code, attribute);
 				}
 			});
 			

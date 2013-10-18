@@ -101,6 +101,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 			attribute.setId(Document.get().createUniqueId());
 			attribute.setName(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeName()));
 			attribute.setType(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeType()));
+			attribute.setLanguage("");
 			attribute.setValue(constants.getDefaultAttributeValue());
 			attributesProvider.getList().add(attribute);
 			attributesProvider.refresh();

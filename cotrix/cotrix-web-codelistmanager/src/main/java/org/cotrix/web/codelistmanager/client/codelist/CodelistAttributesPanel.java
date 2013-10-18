@@ -107,17 +107,17 @@ public class CodelistAttributesPanel extends ResizeComposite {
 
 	protected UICode visualizedCode;
 
-	@Inject
 	protected CodeAttributeEditor attributeEditor;
 
 	@Inject
 	protected Constants constants;
 
 	@Inject
-	public CodelistAttributesPanel(@EditorBus EventBus editorBus, CodeEditor rowEditor) {
+	public CodelistAttributesPanel(@EditorBus EventBus editorBus, CodeEditor codeEditor, CodeAttributeEditor attributeEditor) {
 
 		this.editorBus = editorBus;
-		this.codeEditor = rowEditor;
+		this.codeEditor = codeEditor;
+		this.attributeEditor = attributeEditor;
 
 		this.dataProvider = new ListDataProvider<UIAttribute>();
 
@@ -188,6 +188,19 @@ public class CodelistAttributesPanel extends ResizeComposite {
 				}
 			}
 		});
+		
+		attributeEditor.addDataEditHandler(new DataEditHandler<CodeAttributeEditor.CodeAttribute>() {
+
+			@Override
+			public void onDataEdit(DataEditEvent<CodeAttributeEditor.CodeAttribute> event) {
+				if (visualizedCode!=null && visualizedCode.equals(event.getData().getCode())) {
+					switch (event.getEditType()) {
+						case UPDATE: attributesGrid.refreshAttribute(event.getData().getAttribute()); break;
+						default:
+					}
+				}
+			}
+		});
 
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
 
@@ -208,6 +221,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			attribute.setId(Document.get().createUniqueId());
 			attribute.setName(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeName()));
 			attribute.setType(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeType()));
+			attribute.setLanguage("");
 			attribute.setValue(constants.getDefaultAttributeValue());
 			visualizedCode.addAttribute(attribute);
 			dataProvider.getList().add(attribute);

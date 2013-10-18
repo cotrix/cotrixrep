@@ -27,8 +27,8 @@ public class Group implements Cloneable, Comparable<Group> {
 	 * @param language
 	 */
 	public Group(UIQName name, UIQName type, String language) {
-		this.name = name;
-		this.type = type;
+		this.name = name!=null?name.clone():null;
+		this.type = type!=null?type.clone():null;
 		this.language = language;
 		createLabel();
 	}

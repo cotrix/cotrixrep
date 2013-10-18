@@ -14,37 +14,37 @@ public class CodeAttributeEditor extends DataEditor<CodeAttributeEditor.CodeAttr
 	
 	public void added(UICode code, UIAttribute attribute)
 	{
-		this.added(new CodeAttribute(code.getId(), attribute));
+		this.added(new CodeAttribute(code, attribute));
 	}
 	
 	public void updated(UICode code, UIAttribute attribute)
 	{
-		this.updated(new CodeAttribute(code.getId(), attribute));
+		this.updated(new CodeAttribute(code, attribute));
 	}
 	
 	public void removed(UICode code, UIAttribute attribute)
 	{
-		this.removed(new CodeAttribute(code.getId(), attribute));
+		this.removed(new CodeAttribute(code, attribute));
 	}
 	
 	public class CodeAttribute {
 		
-		protected String codeId;
+		protected UICode code;
 		protected UIAttribute attribute;
 		
 		/**
 		 * @param codeId
 		 * @param attribute
 		 */
-		public CodeAttribute(String codeId, UIAttribute attribute) {
-			this.codeId = codeId;
+		public CodeAttribute(UICode code, UIAttribute attribute) {
+			this.code = code;
 			this.attribute = attribute;
 		}
 		/**
 		 * @return the codeId
 		 */
-		public String getCodeId() {
-			return codeId;
+		public UICode getCode() {
+			return code;
 		}
 		/**
 		 * @return the attribute

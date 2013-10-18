@@ -49,7 +49,9 @@ public class ChangesetUtil {
 	
 	public static Code addCode(UICode uicode)
 	{
-		return code().add().name(convert(uicode.getName())).attributes(addAttributes(uicode.getAttributes())).build();
+		//FIXME tmp workaround
+		if (uicode.getAttributes()==null || uicode.getAttributes().isEmpty()) return code().add().name(convert(uicode.getName())).build();
+		else return code().add().name(convert(uicode.getName())).attributes(addAttributes(uicode.getAttributes())).build();
 	}
 	
 	public static Code updateCode(String id, String name)
