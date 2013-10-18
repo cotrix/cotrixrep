@@ -68,29 +68,6 @@ public class CreateTest {
 	/// attributes
 	
 	@Test
-	public void attributesRejectNullParameters() {
-			
-
-		AttributePO po = new AttributePO("id");
-		
-		try {//null value
-			po.setValue(null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		try {//null language
-			po.setLanguage(null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		//type is defaulted
-		assertNotNull(po.type());
-			
-	}
-
-	@Test
 	public void attributesCanBeFluentlyConstructed() {
 		
 		Attribute a = attr().name(name).value(value).build();

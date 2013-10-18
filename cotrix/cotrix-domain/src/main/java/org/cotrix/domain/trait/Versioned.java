@@ -44,7 +44,7 @@ public interface Versioned {
 
 		@Override
 		public String version() {
-			return version==null?"":version.value();
+			return version==null?null:version.value();
 		}
 
 		protected void fillPO(IdGenerator generator, VersionedPO po) {
