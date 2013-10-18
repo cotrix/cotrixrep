@@ -36,8 +36,10 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.codelistmanager.client.util.Constants;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.UICode;
+import org.cotrix.web.codelistmanager.shared.UIQName;
 import org.cotrix.web.share.client.widgets.ImageResourceCell;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -107,6 +109,9 @@ public class CodelistAttributesPanel extends ResizeComposite {
 	
 	@Inject
 	protected CodeAttributeEditor attributeEditor;
+	
+	@Inject
+	protected Constants constants;
 
 	@Inject
 	public CodelistAttributesPanel(@EditorBus EventBus editorBus, CodeEditor rowEditor) {
@@ -196,8 +201,9 @@ public class CodelistAttributesPanel extends ResizeComposite {
 		if (visualizedRow!=null) {
 			UIAttribute attribute = new UIAttribute();
 			attribute.setId(Document.get().createUniqueId());
-			attribute.setName("attribute");
-			attribute.setValue("value");
+			attribute.setName(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeName()));
+			attribute.setType(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeType()));
+			attribute.setValue(constants.getDefaultAttributeValue());
 			visualizedRow.addAttribute(attribute);
 			dataProvider.getList().add(attribute);
 			dataProvider.refresh();

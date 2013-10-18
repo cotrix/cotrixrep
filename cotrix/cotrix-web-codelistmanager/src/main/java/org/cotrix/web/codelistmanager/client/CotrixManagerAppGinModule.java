@@ -11,6 +11,7 @@ import org.cotrix.web.codelistmanager.client.codelists.CodelistsView;
 import org.cotrix.web.codelistmanager.client.codelists.CodelistsViewImpl;
 import org.cotrix.web.codelistmanager.client.data.CodeAttributeEditor;
 import org.cotrix.web.codelistmanager.client.data.CodeEditor;
+import org.cotrix.web.codelistmanager.client.data.MetadataAttributeEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataEditor;
 import org.cotrix.web.codelistmanager.client.data.ModifyCommandSequencer;
 import org.cotrix.web.codelistmanager.client.di.CodeAttributeEditorProvider;
@@ -18,6 +19,7 @@ import org.cotrix.web.codelistmanager.client.di.CodelistPanelFactory;
 import org.cotrix.web.codelistmanager.client.di.CodeEditorProvider;
 import org.cotrix.web.codelistmanager.client.di.CodelistIdProvider;
 import org.cotrix.web.codelistmanager.client.di.EditorEventBusProvider;
+import org.cotrix.web.codelistmanager.client.di.MetadataAttributeEditorProvider;
 import org.cotrix.web.codelistmanager.client.di.MetadataEditorProvider;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
@@ -27,6 +29,7 @@ import org.cotrix.web.codelistmanager.client.manager.CodelistManagerView;
 import org.cotrix.web.codelistmanager.client.manager.CodelistManagerViewImpl;
 import org.cotrix.web.codelistmanager.client.manager.ContentPanel;
 import org.cotrix.web.codelistmanager.client.manager.ContentPanelController;
+import org.cotrix.web.codelistmanager.client.util.Constants;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;
@@ -72,6 +75,9 @@ public class CotrixManagerAppGinModule extends AbstractGinModule {
 		bind(MetadataEditorProvider.class).in(Singleton.class);
 		bind(MetadataEditor.class).toProvider(MetadataEditorProvider.class);
 		
+		bind(MetadataAttributeEditorProvider.class).in(Singleton.class);
+		bind(MetadataAttributeEditor.class).toProvider(MetadataAttributeEditorProvider.class);
+		
 		bind(CodeEditorProvider.class).in(Singleton.class);
 		bind(CodeEditor.class).toProvider(CodeEditorProvider.class);
 		
@@ -79,6 +85,7 @@ public class CotrixManagerAppGinModule extends AbstractGinModule {
 		bind(CodeAttributeEditor.class).toProvider(CodeAttributeEditorProvider.class);
 		
 		bind(ModifyCommandSequencer.class).in(Singleton.class);
+		bind(Constants.class).in(Singleton.class);
 	}
 
 }

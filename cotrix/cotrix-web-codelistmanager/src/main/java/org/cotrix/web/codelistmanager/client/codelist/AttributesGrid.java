@@ -147,9 +147,9 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 				public String getValue(UIAttribute attribute) {
 					if (attribute == null) return "";
 					switch (field) {
-						case NAME: return attribute.getName();
+						case NAME: return attribute.getName().getLocalPart();
 						case LANGUAGE: return attribute.getLanguage();
-						case TYPE: return attribute.getType();
+						case TYPE: return attribute.getType().getLocalPart();
 						case VALUE: return attribute.getValue();
 						default: return "";
 					}
@@ -162,9 +162,9 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 				public void update(int index, UIAttribute attribute, String value) {
 					Log.trace("updated attribute "+attribute+" field: "+field+" value: "+value);
 					switch (field) {
-						case NAME: attribute.setName(value); break;
+						case NAME: attribute.getName().setLocalPart(value); break;
 						case LANGUAGE: attribute.setLanguage(value); break;
-						case TYPE: attribute.setType(value); break;
+						case TYPE: attribute.getType().setLocalPart(value); break;
 						case VALUE: attribute.setValue(value); break;
 					}
 					AttributeChangedEvent.fire(AttributesGrid.this, attribute);
@@ -192,7 +192,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		attributeNameColumn = new Column<UIAttribute, String>(new ClickableTextCell()) {
 			@Override
 			public String getValue(UIAttribute object) {
-				return object.getName();
+				return object.getName().getLocalPart();
 			}
 		};
 
@@ -306,9 +306,9 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 			UIAttribute attribute = rowValue;
 
 
-			addRow(body, "Name", attribute.getName(), absRowIndex, rowValue, AttributeField.NAME);
+			addRow(body, "Name", attribute.getName().getLocalPart(), absRowIndex, rowValue, AttributeField.NAME);
 
-			addRow(body, "Type", attribute.getType(), absRowIndex, rowValue, AttributeField.TYPE);
+			addRow(body, "Type", attribute.getType().getLocalPart(), absRowIndex, rowValue, AttributeField.TYPE);
 
 			addRow(body, "Language", attribute.getLanguage(), absRowIndex, rowValue, AttributeField.LANGUAGE);
 
@@ -325,7 +325,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 			addCell(tr, label);
 			/*addCell(tr, value);*/
 
-			Column<UIAttribute, String> propColumn = getAttributePropertyColumn(attribute.getName(), field);
+			Column<UIAttribute, String> propColumn = getAttributePropertyColumn(attribute.getName().getLocalPart(), field);
 			renderCell(tr, absRowIndex, propColumn, attribute);
 
 			tr.end();
@@ -475,5 +475,9 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 	@Override
 	public HandlerRegistration addAttributeChangedHandler(AttributeChangedHandler handler) {
 		return addHandler(handler, AttributeChangedEvent.getType());
+	}
+
+	public void setSelectedAttribute(UIAttribute attribute) {
+		selectionModel.setSelected(attribute, true);
 	}
 }

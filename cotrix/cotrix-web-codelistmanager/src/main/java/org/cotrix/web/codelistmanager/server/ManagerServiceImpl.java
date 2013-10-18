@@ -175,15 +175,15 @@ public class ManagerServiceImpl implements ManagerService {
 		return attributes;
 	}
 	
-	protected UIAttribute toUIAttribute(Attribute domainAttribute)
+	protected UIAttribute toUIAttribute(Attribute attribute)
 	{
-		UIAttribute attribute = new UIAttribute();
-		attribute.setName(ValueUtils.safeValue(domainAttribute.name()));
-		attribute.setType(ValueUtils.safeValue(domainAttribute.type()));
-		attribute.setLanguage(ValueUtils.safeValue(domainAttribute.language()));
-		attribute.setValue(ValueUtils.safeValue(domainAttribute.value()));
-		attribute.setId(ValueUtils.safeValue(domainAttribute.id()));
-		return attribute;
+		UIAttribute uiattribute = new UIAttribute();
+		uiattribute.setName(ValueUtils.safeValue(attribute.name()));
+		uiattribute.setType(ValueUtils.safeValue(attribute.type()));
+		uiattribute.setLanguage(ValueUtils.safeValue(attribute.language()));
+		uiattribute.setValue(ValueUtils.safeValue(attribute.value()));
+		uiattribute.setId(ValueUtils.safeValue(attribute.id()));
+		return uiattribute;
 	}
 
 	@Override
@@ -195,7 +195,7 @@ public class ManagerServiceImpl implements ManagerService {
 //		repository.update(changeset);
 	}
 	
-	protected Attribute[] toDomainAttributes(Collection<UIAttribute> attributes)
+	/*protected Attribute[] toDomainAttributes(Collection<UIAttribute> attributes)
 	{
 		Attribute[] domainAttributes = new Attribute[attributes.size()];
 		Iterator<UIAttribute> iterator = attributes.iterator();
@@ -208,7 +208,7 @@ public class ManagerServiceImpl implements ManagerService {
 	protected Attribute toDomainAttribute(UIAttribute attribute)
 	{
 		return attr(attribute.getId()).name(attribute.getName()).value(attribute.getValue()).ofType(attribute.getType()).in(attribute.getLanguage()).build();
-	}
+	}*/
 	
 	@Task(LOCK)
 	public FeatureCarrier.Void saveMessage(String message) {
@@ -242,10 +242,10 @@ public class ManagerServiceImpl implements ManagerService {
 //		repository.update(changeset);
 	}
 	
-	protected Code toCode(UICode row)
+	/*protected Code toCode(UICode row)
 	{
 		return code(row.getId()).name(row.getName()).attributes(toDomainAttributes(row.getAttributes())).build();
-	}
+	}*/
 
 	@Override
 	//@Task(EDIT)

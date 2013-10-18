@@ -5,10 +5,13 @@ import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEven
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
+import org.cotrix.web.codelistmanager.client.data.MetadataAttributeEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
+import org.cotrix.web.codelistmanager.client.util.Constants;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
+import org.cotrix.web.codelistmanager.shared.UIQName;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -52,7 +55,13 @@ public class CodelistMetadataPanel extends LoadingPanel {
 	protected MetadataProvider dataProvider;
 
 	@Inject
-	protected MetadataEditor editor;
+	protected MetadataEditor metadataEditor;
+	
+	@Inject
+	protected MetadataAttributeEditor attributeEditor;
+	
+	@Inject
+	protected Constants constants;
 
 	public CodelistMetadataPanel() {
 		this.attributesProvider = new ListDataProvider<UIAttribute>();
@@ -68,7 +77,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 
 			@Override
 			public void onAttributeChanged(AttributeChangedEvent event) {
-				editor.updated(metadata);
+				attributeEditor.updated(event.getAttribute());
 			}
 		});
 
@@ -88,13 +97,14 @@ public class CodelistMetadataPanel extends LoadingPanel {
 	{
 		if (metadata!=null) {
 			UIAttribute attribute = new UIAttribute();
-			attribute.setName("attribute");
-			attribute.setValue("value");
+			attribute.setName(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeName()));
+			attribute.setType(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeType()));
+			attribute.setValue(constants.getDefaultAttributeValue());
 			attributesProvider.getList().add(attribute);
 			attributesProvider.refresh();
-			//done by provider metadata.addAttribute(attribute);
-			editor.added(metadata);
+			attributeEditor.added(attribute);
 			attributesGrid.expand(attribute);
+			attributesGrid.setSelectedAttribute(attribute);
 		}
 	}
 
@@ -104,8 +114,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 			UIAttribute selectedAttribute = attributesGrid.getSelectedAttribute();
 			attributesProvider.getList().remove(selectedAttribute);
 			attributesProvider.refresh();
-			//done by provider metadata.removeAttribute(selectedAttribute);
-			editor.removed(metadata);
+			attributeEditor.removed(selectedAttribute);
 		}
 	}
 
@@ -126,7 +135,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 	protected void nameUpdated(ValueChangeEvent<String> changedEvent)
 	{
 		metadata.setName(changedEvent.getValue());
-		editor.updated(metadata);
+		metadataEditor.updated(metadata);
 	}
 
 

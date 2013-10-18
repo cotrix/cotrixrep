@@ -9,26 +9,26 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class UIAttribute implements Identifiable, IsSerializable {
 	
 	protected String id;
-	protected String name;
-	protected String type;
+	protected UIQName name;
+	protected UIQName type;
 	protected String value;
 	protected String language;
 	
 	protected int position;
 	
-	public String getName() {
+	public UIQName getName() {
 		return name;
 	}
 	
-	public void setName(String name) {
+	public void setName(UIQName name) {
 		this.name = name;
 	}
 	
-	public String getType() {
+	public UIQName getType() {
 		return type;
 	}
 	
-	public void setType(String type) {
+	public void setType(UIQName type) {
 		this.type = type;
 	}
 	

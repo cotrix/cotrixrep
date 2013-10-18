@@ -88,13 +88,13 @@ public class GroupFactory {
 	
 	public static Group getGroup(UIAttribute attribute)
 	{
-		return new Group(attribute.getName(), null, attribute.getLanguage());
+		return new Group(attribute.getName().getLocalPart(), null, attribute.getLanguage());
 	}
 	
 	public static Group getGroup(UIAttribute attribute, AttributeField ... attributeFields)
 	{
-		String name = contains(AttributeField.NAME, attributeFields)?attribute.getName():null;
-		String type = contains(AttributeField.TYPE, attributeFields)?attribute.getType():null;
+		String name = contains(AttributeField.NAME, attributeFields)?attribute.getName().getLocalPart():null;
+		String type = contains(AttributeField.TYPE, attributeFields)?attribute.getType().getLocalPart():null;
 		String language = contains(AttributeField.LANGUAGE, attributeFields)?attribute.getLanguage():null;
 		Group group = new Group(name, type, language);
 		return group;

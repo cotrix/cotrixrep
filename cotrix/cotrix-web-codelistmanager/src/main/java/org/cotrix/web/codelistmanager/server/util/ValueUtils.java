@@ -5,6 +5,8 @@ package org.cotrix.web.codelistmanager.server.util;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.web.codelistmanager.shared.UIQName;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -16,9 +18,9 @@ public class ValueUtils {
 		return value==null?"":value;
 	}
 	
-	public static String safeValue(QName value)
+	public static UIQName safeValue(QName value)
 	{
-		return value==null?"":value.toString();
+		return value==null?new UIQName("", ""):new UIQName(value.getNamespaceURI(), value.getLocalPart());
 	}
 
 }

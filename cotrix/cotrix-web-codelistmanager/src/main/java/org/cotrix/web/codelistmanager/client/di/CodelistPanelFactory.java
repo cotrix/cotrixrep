@@ -24,6 +24,9 @@ public class CodelistPanelFactory {
 	protected MetadataEditorProvider metadataEditorProvider;
 	
 	@Inject
+	protected MetadataAttributeEditorProvider metadataAttributeEditorProvider;
+	
+	@Inject
 	protected CodeEditorProvider codeListRowEditorProvider;
 	
 	@Inject
@@ -37,6 +40,7 @@ public class CodelistPanelFactory {
 		metadataEditorProvider.generate();
 		codeListRowEditorProvider.generate();
 		codeAttributeEditorProvider.generate();
+		metadataAttributeEditorProvider.generate();
 		
 		return CotrixManagerAppGinInjector.INSTANCE.getCodeListPanelPresenter();
 	}
