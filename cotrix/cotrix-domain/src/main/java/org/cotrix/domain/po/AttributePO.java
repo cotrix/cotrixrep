@@ -54,13 +54,10 @@ public final class AttributePO extends EntityPO {
 	}
 	
 	public void setType(QName type) {
-		valid("type",type);
 		this.type = type;
 	}
 	
 	public void setValue(String value) {
-		
-		valid("value",value);
 		
 		this.value = value;
 	}
@@ -71,8 +68,6 @@ public final class AttributePO extends EntityPO {
 	}
 
 	public void setLanguage(String language) {
-		
-		valid("language",language);
 		
 		this.language = language;
 	}
