@@ -82,13 +82,13 @@ public class CodelistAttributesPanel extends ResizeComposite {
 		COLUMN,
 		NORMAL;
 	}
-	
+
 	@UiField
 	Style style;
 
 	@UiField(provided = true)
 	AttributesGrid attributesGrid;
-	
+
 	@UiField
 	ItemToolbar toolBar;
 
@@ -102,14 +102,14 @@ public class CodelistAttributesPanel extends ResizeComposite {
 	protected ListDataProvider<UIAttribute> dataProvider;
 
 	protected AttributeHeader header;
-	
-	protected CodeEditor rowEditor;
-	
-	protected UICode visualizedRow;
-	
+
+	protected CodeEditor codeEditor;
+
+	protected UICode visualizedCode;
+
 	@Inject
 	protected CodeAttributeEditor attributeEditor;
-	
+
 	@Inject
 	protected Constants constants;
 
@@ -117,12 +117,12 @@ public class CodelistAttributesPanel extends ResizeComposite {
 	public CodelistAttributesPanel(@EditorBus EventBus editorBus, CodeEditor rowEditor) {
 
 		this.editorBus = editorBus;
-		this.rowEditor = rowEditor;
-		
+		this.codeEditor = rowEditor;
+
 		this.dataProvider = new ListDataProvider<UIAttribute>();
-		
+
 		header = new AttributeHeader("");
-		
+
 		attributesGrid = new AttributesGrid(dataProvider, header, "No attributes to show");
 
 		setupColumns();
@@ -130,7 +130,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
-		
+
 		bind();
 
 	}
@@ -141,7 +141,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 
 			@Override
 			public void onCodeSelected(CodeSelectedEvent event) {
-				updateVisualizedRow(event.getCode());
+				updateVisualizedCode(event.getCode());
 			}
 		});
 
@@ -156,36 +156,41 @@ public class CodelistAttributesPanel extends ResizeComposite {
 					case TO_COLUMN: groupsAsColumn.add(group); break;
 					case TO_NORMAL: groupsAsColumn.remove(group); break;
 				}
-				if (visualizedRow!=null) {
-					UIAttribute attribute = group.match(visualizedRow.getAttributes());
+				if (visualizedCode!=null) {
+					UIAttribute attribute = group.match(visualizedCode.getAttributes());
 					if (attribute!=null) attributesGrid.refreshAttribute(attribute);
 				}
 
 			}
 		});
-		
+
 		attributesGrid.addAttributeChangedHandler(new AttributeChangedHandler() {
-			
+
 			@Override
 			public void onAttributeChanged(AttributeChangedEvent event) {
 				Log.trace("updated attribute "+event.getAttribute());
-				attributeEditor.updated(visualizedRow, event.getAttribute());
+				attributeEditor.updated(visualizedCode, event.getAttribute());
 			}
 		});
-		
-		
-		rowEditor.addDataEditHandler(new DataEditHandler<UICode>() {
+
+
+		codeEditor.addDataEditHandler(new DataEditHandler<UICode>() {
 
 			@Override
 			public void onDataEdit(DataEditEvent<UICode> event) {
-				if (visualizedRow!=null && visualizedRow.equals(event.getData())) {
-					updateVisualizedRow(event.getData());
+				if (visualizedCode!=null && visualizedCode.equals(event.getData())) {
+					switch (event.getEditType()) {
+						case UPDATE: updateVisualizedCode(event.getData()); break;
+						case REMOVE: clearVisualizedCode(); break;
+						default:
+					}
+
 				}
 			}
 		});
-		
+
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
-			
+
 			@Override
 			public void onButtonClicked(ButtonClickedEvent event) {
 				switch (event.getButton()) {
@@ -195,45 +200,59 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			}
 		});
 	}
-	
+
 	protected void addNewAttribute()
 	{
-		if (visualizedRow!=null) {
+		if (visualizedCode!=null) {
 			UIAttribute attribute = new UIAttribute();
 			attribute.setId(Document.get().createUniqueId());
 			attribute.setName(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeName()));
 			attribute.setType(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeType()));
 			attribute.setValue(constants.getDefaultAttributeValue());
-			visualizedRow.addAttribute(attribute);
+			visualizedCode.addAttribute(attribute);
 			dataProvider.getList().add(attribute);
 			dataProvider.refresh();
-			
-			attributeEditor.added(visualizedRow, attribute);
+
+			attributeEditor.added(visualizedCode, attribute);
 			attributesGrid.expand(attribute);
 		}
 	}
-	
+
 	protected void removeSelectedAttribute()
 	{
-		if (visualizedRow!=null && attributesGrid.getSelectedAttribute()!=null) {
+		if (visualizedCode!=null && attributesGrid.getSelectedAttribute()!=null) {
 			UIAttribute selectedAttribute = attributesGrid.getSelectedAttribute();
 			dataProvider.getList().remove(selectedAttribute);
 			dataProvider.refresh();
-			visualizedRow.removeAttribute(selectedAttribute);
-			attributeEditor.removed(visualizedRow, selectedAttribute);
+			visualizedCode.removeAttribute(selectedAttribute);
+			attributeEditor.removed(visualizedCode, selectedAttribute);
 		}
 	}
-	
-	protected void updateVisualizedRow(UICode row)
+
+	protected void updateVisualizedCode(UICode code)
 	{
-		visualizedRow = row;
-		header.setText(visualizedRow.getName());
-		attributesGrid.redrawHeaders();
-		
+		visualizedCode = code;
+		setHeader(visualizedCode.getName());
+
 		List<UIAttribute> currentAttributes = dataProvider.getList();
 		currentAttributes.clear();
-		currentAttributes.addAll(visualizedRow.getAttributes());
+		currentAttributes.addAll(visualizedCode.getAttributes());
 		dataProvider.refresh();
+	}
+
+	protected void clearVisualizedCode()
+	{
+		visualizedCode = null;
+		setHeader("");
+
+		dataProvider.getList().clear();
+		dataProvider.refresh();
+	}
+
+	protected void setHeader(String text)
+	{
+		header.setText(text);
+		attributesGrid.redrawHeaders();
 	}
 
 	private void setupColumns() {
@@ -274,17 +293,17 @@ public class CodelistAttributesPanel extends ResizeComposite {
 
 	protected boolean isInGroupAsColumn(UIAttribute attribute)
 	{
-		for (Group group:groupsAsColumn) if (group.accept(visualizedRow.getAttributes(), attribute)) return true;
+		for (Group group:groupsAsColumn) if (group.accept(visualizedCode.getAttributes(), attribute)) return true;
 		return false;
 	}
-	
+
 
 	protected void switchAttribute(UIAttribute attribute, AttributeSwitchState attributeSwitchState)
 	{
 		Group group = GroupFactory.getGroup(attribute);
-		Log.trace("calculating position for "+attribute+" in: "+visualizedRow.getAttributes());
-		group.calculatePosition(visualizedRow.getAttributes(), attribute);
-	
+		Log.trace("calculating position for "+attribute+" in: "+visualizedCode.getAttributes());
+		group.calculatePosition(visualizedCode.getAttributes(), attribute);
+
 		switch (attributeSwitchState) {
 			case COLUMN: editorBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_NORMAL)); break;
 			case NORMAL: editorBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_COLUMN)); break;
