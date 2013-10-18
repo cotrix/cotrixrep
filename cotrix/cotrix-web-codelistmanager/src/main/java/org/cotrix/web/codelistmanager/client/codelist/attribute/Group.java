@@ -6,6 +6,7 @@ package org.cotrix.web.codelistmanager.client.codelist.attribute;
 import java.util.List;
 
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
+import org.cotrix.web.codelistmanager.shared.UIQName;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -13,8 +14,8 @@ import org.cotrix.web.codelistmanager.shared.UIAttribute;
  */
 public class Group implements Cloneable, Comparable<Group> {
 	
-	protected String name;
-	protected String type;
+	protected UIQName name;
+	protected UIQName type;
 	protected String language;
 	protected int position;
 	
@@ -25,7 +26,7 @@ public class Group implements Cloneable, Comparable<Group> {
 	 * @param type
 	 * @param language
 	 */
-	public Group(String name, String type, String language) {
+	public Group(UIQName name, UIQName type, String language) {
 		this.name = name;
 		this.type = type;
 		this.language = language;
@@ -35,10 +36,10 @@ public class Group implements Cloneable, Comparable<Group> {
 	protected void createLabel()
 	{
 		StringBuilder labelBuilder = new StringBuilder();
-		if (name!=null) labelBuilder.append(name);
+		if (name!=null) labelBuilder.append(name.getLocalPart());
 		if (type!=null) {
 			if (labelBuilder.length() != 0) labelBuilder.append(" ");
-			labelBuilder.append(type);
+			labelBuilder.append(type.getLocalPart());
 		}
 		if (language!=null && !language.isEmpty()) {
 			if (labelBuilder.length() != 0) labelBuilder.append(" ");

@@ -3,10 +3,7 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist.attribute;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,6 +12,7 @@ import java.util.TreeSet;
 
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.UICode;
+import org.cotrix.web.codelistmanager.shared.UIQName;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -88,13 +86,13 @@ public class GroupFactory {
 	
 	public static Group getGroup(UIAttribute attribute)
 	{
-		return new Group(attribute.getName().getLocalPart(), null, attribute.getLanguage());
+		return new Group(attribute.getName(), null, attribute.getLanguage());
 	}
 	
 	public static Group getGroup(UIAttribute attribute, AttributeField ... attributeFields)
 	{
-		String name = contains(AttributeField.NAME, attributeFields)?attribute.getName().getLocalPart():null;
-		String type = contains(AttributeField.TYPE, attributeFields)?attribute.getType().getLocalPart():null;
+		UIQName name = contains(AttributeField.NAME, attributeFields)?attribute.getName():null;
+		UIQName type = contains(AttributeField.TYPE, attributeFields)?attribute.getType():null;
 		String language = contains(AttributeField.LANGUAGE, attributeFields)?attribute.getLanguage():null;
 		Group group = new Group(name, type, language);
 		return group;
