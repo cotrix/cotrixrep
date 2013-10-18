@@ -60,4 +60,25 @@ public class MCodelistRepository extends MRepository<Codelist, Codelist.Private>
 			
 	}
 	
+	public void update(Codelist changeset) {
+		
+		for (Code code : changeset.codes()) {
+			
+			if (code.id()==null)
+				Utils.reveal(code,Code.Private.class).setId(UUID.randomUUID().toString());
+				
+			for (Attribute attr : code.attributes())
+				if (attr.id()==null)
+					Utils.reveal(attr,Attribute.Private.class).setId(UUID.randomUUID().toString());
+				
+		}	
+		
+		for (Attribute attr : changeset.attributes())
+			if (attr.id()==null)
+				Utils.reveal(attr,Attribute.Private.class).setId(UUID.randomUUID().toString());
+		
+		super.update(changeset);
+		
+	};
+	
 }
