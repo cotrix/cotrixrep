@@ -73,7 +73,8 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 				IllegalStateException {
 			CodelistPO po = new CodelistPO(generator.generateId());
 			buildPO(generator,po);
-			po.setVersion(version);
+			if (version!=null)
+				po.setVersion(version);
 			return new Private(po);
 		}
 
