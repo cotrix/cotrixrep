@@ -36,5 +36,16 @@ public abstract class AddCommand<T extends Identifiable> implements ModifyComman
 	public Identifiable getIdentifiable() {
 		return item;
 	}
-	
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("AddCommand [item=");
+		builder.append(item);
+		builder.append("]");
+		return builder.toString();
+	}
 }

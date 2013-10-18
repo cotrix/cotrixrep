@@ -59,7 +59,7 @@ public class ModifyCommandSequencer {
 	{
 		taskAttempts++;
 		ModifyCommand command = task.getCommand();
-		Log.trace("command "+command+" attempt "+taskAttempts);
+		Log.trace("executing command "+command+" attempt "+taskAttempts);
 		service.modify(codelistId, command, new AsyncCallback<ModifyCommandResult>() {
 			
 			@Override
@@ -99,7 +99,10 @@ public class ModifyCommandSequencer {
 	
 	protected void commandSuccessfullyExecuted(Task task, ModifyCommandResult result)
 	{
+		Log.trace("commandSuccessfullyExecuted result: "+result);
+		
 		if (task.getCommand() instanceof ContainsIdentifiable && result instanceof GeneratedId) {
+			Log.trace("setting id in identifiable object");
 			ContainsIdentifiable containsIdentifiable = (ContainsIdentifiable) task.getCommand();
 			GeneratedId generatedId = (GeneratedId) result;
 			containsIdentifiable.getIdentifiable().setId(generatedId.getId());

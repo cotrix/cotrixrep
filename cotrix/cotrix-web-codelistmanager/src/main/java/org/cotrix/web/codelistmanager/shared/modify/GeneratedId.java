@@ -27,5 +27,15 @@ public class GeneratedId extends ModifyCommandResult {
 		return id;
 	}
 
-
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("GeneratedId [id=");
+		builder.append(id);
+		builder.append("]");
+		return builder.toString();
+	}
 }

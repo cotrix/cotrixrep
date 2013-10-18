@@ -23,5 +23,16 @@ public class RemoveCodeCommand extends RemoveCommand implements CodeCommand  {
 	public RemoveCodeCommand(String id) {
 		super(id);
 	}
-	
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("RemoveCodeCommand [id=");
+		builder.append(id);
+		builder.append("]");
+		return builder.toString();
+	}
 }

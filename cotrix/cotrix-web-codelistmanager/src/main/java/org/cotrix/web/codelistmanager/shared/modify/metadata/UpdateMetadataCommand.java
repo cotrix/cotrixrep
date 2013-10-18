@@ -30,4 +30,15 @@ public class UpdateMetadataCommand implements ModifyCommand, MetadataCommand {
 		return name;
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UpdateMetadataCommand [name=");
+		builder.append(name);
+		builder.append("]");
+		return builder.toString();
+	}
 }

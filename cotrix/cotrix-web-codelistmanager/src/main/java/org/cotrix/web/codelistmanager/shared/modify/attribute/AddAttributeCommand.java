@@ -25,4 +25,16 @@ public class AddAttributeCommand extends AddCommand<UIAttribute> implements Attr
 		super(item);
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("AddAttributeCommand [item=");
+		builder.append(item);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

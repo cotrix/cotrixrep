@@ -29,4 +29,16 @@ public class UpdateAttributeCommand implements ModifyCommand, AttributeCommand {
 	public UIAttribute getAttribute() {
 		return attribute;
 	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UpdateAttributeCommand [attribute=");
+		builder.append(attribute);
+		builder.append("]");
+		return builder.toString();
+	}
 }

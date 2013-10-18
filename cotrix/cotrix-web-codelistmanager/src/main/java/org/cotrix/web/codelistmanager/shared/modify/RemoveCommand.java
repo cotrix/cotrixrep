@@ -27,4 +27,15 @@ public abstract class RemoveCommand implements ModifyCommand {
 		return id;
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("RemoveCommand [id=");
+		builder.append(id);
+		builder.append("]");
+		return builder.toString();
+	}
 }

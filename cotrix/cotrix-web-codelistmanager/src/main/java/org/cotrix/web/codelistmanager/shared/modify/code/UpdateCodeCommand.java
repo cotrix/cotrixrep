@@ -37,4 +37,18 @@ public class UpdateCodeCommand implements ModifyCommand, CodeCommand  {
 	public String getCodeId() {
 		return codeId;
 	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UpdateCodeCommand [codeId=");
+		builder.append(codeId);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append("]");
+		return builder.toString();
+	}
 }

@@ -40,4 +40,18 @@ public class CodeAttributeCommand implements ModifyCommand {
 		return command;
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CodeAttributeCommand [codeId=");
+		builder.append(codeId);
+		builder.append(", command=");
+		builder.append(command);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
