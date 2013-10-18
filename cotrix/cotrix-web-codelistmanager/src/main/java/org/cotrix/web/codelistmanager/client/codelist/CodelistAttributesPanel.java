@@ -25,7 +25,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEven
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
@@ -137,11 +137,11 @@ public class CodelistAttributesPanel extends ResizeComposite {
 
 	protected void bind()
 	{
-		editorBus.addHandler(RowSelectedEvent.TYPE, new RowSelectedEvent.RowSelectedHandler() {
+		editorBus.addHandler(CodeSelectedEvent.TYPE, new CodeSelectedEvent.CodeSelectedHandler() {
 
 			@Override
-			public void onRowSelected(RowSelectedEvent event) {
-				updateVisualizedRow(event.getRow());
+			public void onCodeSelected(CodeSelectedEvent event) {
+				updateVisualizedRow(event.getCode());
 			}
 		});
 

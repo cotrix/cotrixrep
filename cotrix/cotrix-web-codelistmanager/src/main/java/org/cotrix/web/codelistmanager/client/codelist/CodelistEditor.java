@@ -26,7 +26,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
-import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
@@ -185,7 +185,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			public void onSelectionChange(SelectionChangeEvent event) {
 				UICode row = selectionModel.getSelectedObject();
 				Log.trace("onSelectionChange row: "+row);
-				if (row !=null) editorBus.fireEvent(new RowSelectedEvent(row));
+				if (row !=null) editorBus.fireEvent(new CodeSelectedEvent(row));
 			}
 		});
 		
