@@ -4,16 +4,16 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CotrixWebViewImpl extends Composite implements CotrixWebView {
+public class CotrixWebViewImpl extends ResizeComposite implements CotrixWebView {
 
 	@UiTemplate("CotrixWebPanel.ui.xml")
 	interface CotrixMainPanelUiBinder extends UiBinder<Widget, CotrixWebViewImpl> {}

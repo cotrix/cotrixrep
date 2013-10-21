@@ -10,17 +10,14 @@ import org.cotrix.web.client.view.CotrixWebViewImpl;
 import org.cotrix.web.client.view.UserBarView;
 import org.cotrix.web.client.view.UserBarViewImpl;
 
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class AppGinModule extends AbstractGinModule {
-	@Provides
-	@Singleton
-	public HandlerManager getEventBus() {
-		return new HandlerManager(null);
-	}
 
 	@Override
 	protected void configure() {

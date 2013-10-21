@@ -1,6 +1,5 @@
 package org.cotrix.web.server;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -39,11 +38,6 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	
 	@Inject
 	protected HttpServletRequest httpServletRequest;
-	
-	public ArrayList<String> getList() throws IllegalArgumentException {
-
-		return new ArrayList<String>();
-	}
 
 	@Override
 	public ResponseWrapper<String> login(String username, String password) {

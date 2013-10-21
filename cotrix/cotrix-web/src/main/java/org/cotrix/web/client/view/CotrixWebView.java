@@ -5,7 +5,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface CotrixWebView {
-	public interface Presenter<T> {
+	public interface Presenter {
 
 	}
 	

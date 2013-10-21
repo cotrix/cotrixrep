@@ -14,7 +14,6 @@ import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
