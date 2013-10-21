@@ -1,10 +1,10 @@
 package org.cotrix.web.codelistmanager.client;
 
+import org.cotrix.web.codelistmanager.client.codelist.CodelistId;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelPresenter;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelPresenterImpl;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelView;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelViewImpl;
-import org.cotrix.web.codelistmanager.client.codelist.CodelistId;
 import org.cotrix.web.codelistmanager.client.codelists.CodelistsPresenter;
 import org.cotrix.web.codelistmanager.client.codelists.CodelistsPresenterImpl;
 import org.cotrix.web.codelistmanager.client.codelists.CodelistsView;
@@ -15,9 +15,9 @@ import org.cotrix.web.codelistmanager.client.data.MetadataAttributeEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataEditor;
 import org.cotrix.web.codelistmanager.client.data.ModifyCommandSequencer;
 import org.cotrix.web.codelistmanager.client.di.CodeAttributeEditorProvider;
-import org.cotrix.web.codelistmanager.client.di.CodelistPanelFactory;
 import org.cotrix.web.codelistmanager.client.di.CodeEditorProvider;
 import org.cotrix.web.codelistmanager.client.di.CodelistIdProvider;
+import org.cotrix.web.codelistmanager.client.di.CodelistPanelFactory;
 import org.cotrix.web.codelistmanager.client.di.EditorEventBusProvider;
 import org.cotrix.web.codelistmanager.client.di.MetadataAttributeEditorProvider;
 import org.cotrix.web.codelistmanager.client.di.MetadataEditorProvider;
@@ -31,21 +31,12 @@ import org.cotrix.web.codelistmanager.client.manager.ContentPanel;
 import org.cotrix.web.codelistmanager.client.manager.ContentPanelController;
 import org.cotrix.web.codelistmanager.client.util.Constants;
 
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
 public class CotrixManagerAppGinModule extends AbstractGinModule {
-
-    @Provides
-    @Singleton
-    public HandlerManager getEventBus() {
-    	//FIXME remove
-        return new HandlerManager(null);
-    }
     
 	@Override
 	protected void configure() {

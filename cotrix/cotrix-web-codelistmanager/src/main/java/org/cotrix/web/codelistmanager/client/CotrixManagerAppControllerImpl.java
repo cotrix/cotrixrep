@@ -10,7 +10,6 @@ import org.cotrix.web.share.client.event.CotrixBus;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -27,14 +26,10 @@ public class CotrixManagerAppControllerImpl implements CotrixManagerAppControlle
 	@ManagerBus
 	protected EventBus managerBus;
 	
-	private ManagerServiceAsync rpcService;
-	private HandlerManager eventBus;
 	private CodelistManagerPresenter codeListManagerPresenter;
 	
 	@Inject
-	public CotrixManagerAppControllerImpl(@CotrixBus EventBus cotrixBus, ManagerServiceAsync rpcService,HandlerManager eventBus,CodelistManagerPresenter codeListManagerPresenter) {
-		this.rpcService = rpcService;
-		this.eventBus = eventBus;
+	public CotrixManagerAppControllerImpl(@CotrixBus EventBus cotrixBus, CodelistManagerPresenter codeListManagerPresenter) {
 		this.codeListManagerPresenter = codeListManagerPresenter;
 		this.cotrixBus = cotrixBus;
 		CotrixManagerResources.INSTANCE.css().ensureInjected();

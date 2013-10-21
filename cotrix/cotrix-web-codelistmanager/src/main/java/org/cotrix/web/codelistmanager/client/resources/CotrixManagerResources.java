@@ -10,16 +10,8 @@ import com.google.gwt.resources.client.ImageResource;
  *
  */
 public interface CotrixManagerResources extends ClientBundle {
-	public static final CotrixManagerResources INSTANCE = GWT.create(CotrixManagerResources.class);
-
-	@Source("navigation_collapse_left.png")
-	ImageResource nav_collapse_left();
 	
-	@Source("navigation_collapse_right.png")
-	ImageResource nav_collapse_right();
-
-	@Source("loading.gif")
-	ImageResource loading();
+	public static final CotrixManagerResources INSTANCE = GWT.create(CotrixManagerResources.class);
 
 	@Source("style.css")
 	public CotrixManagerStyle css();
