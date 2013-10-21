@@ -26,6 +26,8 @@ public interface ManagerService extends RemoteService {
 	DataWindow<CodelistGroup> getCodelistsGrouped() throws ManagerServiceException;
 	
 	CodelistMetadata getMetadata(String codelistId) throws ManagerServiceException;
+	
+	void removeCodelist(String codelistId) throws ManagerServiceException;
 
 	FeatureCarrier.Void saveMessage(String message); 
 	

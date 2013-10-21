@@ -219,5 +219,11 @@ public class ManagerServiceImpl implements ManagerService {
 		}
 	}
 
+	@Override
+	public void removeCodelist(String codelistId) throws ManagerServiceException {
+		logger.trace("removeCodelist codelistId: {}",codelistId);
+		repository.remove(codelistId);
+	}
+
 	
 }
