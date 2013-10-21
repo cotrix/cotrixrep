@@ -1,14 +1,31 @@
 .groupHeaderCell {
-  padding: 1px 15px;
-  color: #4b4a4a;
-  text-shadow: #ddf 1px 1px 0;
-  font-size: 130%;
-  background: #eee;
+	padding: 1px 15px;
+	color: #4b4a4a;
+	text-shadow: #ddf 1px 1px 0;
+	font-size: 130%;
+	background: #eee;
+}
+
+.language {
+	-webkit-border-radius: 999px;
+	-moz-border-radius: 999px;
+	border-radius: 999px;
+	border-radius: 12px;
+	/* one half of ( (border * 2) + height + padding ) */
+	/* width: 13px;*/
+	min-width: 14px;
+	/*  height: 13px;*/
+	height: 16px;
+	/* padding: 3px;*/
+	padding: 4px 3px 0 3px;
+	border: 1px solid #666;
+	color: #666;
+	text-align: center;
+	font: 11px Arial, sans-serif;
 }
 
 .dataGridWidget {
-
-
+	
 }
 
 .dataGridFirstColumn {
@@ -16,11 +33,10 @@
 }
 
 .dataGridLastColumn {
-
+	
 }
 
 .dataGridFooter {
-	
 	/*border-top: 2px solid #6f7277;
 	padding: 3px 15px;
 	text-align: left;
@@ -33,10 +49,10 @@
 	overflow: visible;
 	text-align: center;
 	color: #464545;
-	font-weight:normal;
-	font-size:15px;
-	text-shadow:none;
-	background-color:#e9e9e9;
+	font-weight: normal;
+	font-size: 15px;
+	text-shadow: none;
+	background-color: #e9e9e9;
 	padding: 6px;
 	border-bottom: 1px solid #a8a7a7;
 	border-top: 1px solid #a8a7a7;
@@ -54,7 +70,7 @@
 }
 
 .dataGridFirstColumnFooter {
-
+	
 }
 
 .dataGridFirstColumnHeader {

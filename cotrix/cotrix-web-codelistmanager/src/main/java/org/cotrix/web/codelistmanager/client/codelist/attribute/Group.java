@@ -45,12 +45,31 @@ public class Group implements Cloneable, Comparable<Group> {
 			if (labelBuilder.length() != 0) labelBuilder.append(" ");
 			labelBuilder.append('(').append(language).append(')');
 		}
-		if (labelBuilder.length() != 0) labelBuilder.append(" ");
-		labelBuilder.append('[').append(position).append(']');
 		
 		this.label = labelBuilder.toString(); 
 	}
 	
+	/**
+	 * @return the name
+	 */
+	public UIQName getName() {
+		return name;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public UIQName getType() {
+		return type;
+	}
+
+	/**
+	 * @return the language
+	 */
+	public String getLanguage() {
+		return language;
+	}
+
 	public String getLabel()
 	{
 		return label;

@@ -42,14 +42,20 @@ import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
@@ -79,6 +85,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	interface DataGridStyle extends PatchedDataGrid.Style {
 
 		String groupHeaderCell();
+		
+		String language();
 	}
 
 
@@ -315,7 +323,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		Column<UICode, String> column = getGroupColumn(group);
 		groupsAsColumn.add(group);
 
-		dataGrid.addColumn(column, group.getLabel());
+		dataGrid.addColumn(column, new GroupHeader(group));
 	}
 	
 	protected void switchToNormal(Group group)
@@ -361,5 +369,46 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	public void switchAllGroupsToNormal() {
 		Set<Group> groupsToNormal = new HashSet<Group>(groupsAsColumn);
 		for (Group group:groupsToNormal) switchToNormal(group);
+	}
+	
+	 static interface GroupHeaderTemplate extends SafeHtmlTemplates {
+		    @Template("<span>{0} ({1})</span>")
+		    SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, String style);
+		    
+		    @Template("<span>{0}</span>")
+		    SafeHtml header(SafeHtml name);
+		  }
+	 
+	 protected static final GroupHeaderTemplate HEADER_TEMPLATE = GWT.create(GroupHeaderTemplate.class);
+	
+	protected class GroupHeader extends Header<Group> {
+
+		private Group group;
+
+		/**
+		 * Construct a new TextHeader.
+		 *
+		 * @param text the header text as a String
+		 */
+		public GroupHeader(Group group) {
+			super(new AbstractCell<Group>() {
+
+				@Override
+				public void render(com.google.gwt.cell.client.Cell.Context context, Group value, SafeHtmlBuilder sb) {
+					if (value.getLanguage()!=null && !value.getLanguage().isEmpty()) {
+						sb.append(HEADER_TEMPLATE.headerWithLanguage(SafeHtmlUtils.fromString(value.getName().getLocalPart()), SafeHtmlUtils.fromString(value.getLanguage()), resource.dataGridStyle().language()));
+					} else sb.append(HEADER_TEMPLATE.header(SafeHtmlUtils.fromString(value.getName().getLocalPart())));
+				}
+			});
+			this.group = group;
+		}
+
+		/**
+		 * Return the header text.
+		 */
+		@Override
+		public Group getValue() {
+			return group;
+		}
 	}
 }
