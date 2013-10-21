@@ -283,8 +283,12 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 				@Override
 				public void update(int index, UICode code, String value) {
 					UIAttribute attribute = group.match(code.getAttributes());
-					attribute.setValue(value);
-					attributeEditor.updated(code, attribute);
+					if (attribute!=null) {
+						attribute.setValue(value);
+						attributeEditor.updated(code, attribute);
+					} else {
+						
+					}
 				}
 			});
 			

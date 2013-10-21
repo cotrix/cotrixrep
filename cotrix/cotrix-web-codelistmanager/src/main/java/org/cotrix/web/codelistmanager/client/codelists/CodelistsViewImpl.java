@@ -59,6 +59,8 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	@UiField
 	Style style;
 
+	protected SingleSelectionModel<Version> selectionModel;
+
 	interface Style extends CssResource {
 		String filterTextBox();
 
@@ -84,7 +86,10 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 			@Override
 			public void onButtonClicked(ButtonClickedEvent event) {
 				switch (event.getButton()) {
-					case MINUS: presenter.onCodelistRemove(); break;
+					case MINUS: {
+						Version selected = selectionModel.getSelectedObject();
+						if (selected!=null)	presenter.onCodelistRemove(selected.toUICodelist()); 
+					} break;
 					case PLUS: presenter.onCodelistCreate(); break;
 				}
 			}
@@ -94,7 +99,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	protected void setupCellList()
 	{
 	
-		final SingleSelectionModel<Version> selectionModel = new SingleSelectionModel<Version>();
+		selectionModel = new SingleSelectionModel<Version>();
 	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 	      public void onSelectionChange(SelectionChangeEvent event) {
 	    	  Version selected = selectionModel.getSelectedObject();

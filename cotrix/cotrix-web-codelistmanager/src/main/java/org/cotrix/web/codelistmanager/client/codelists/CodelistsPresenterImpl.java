@@ -4,6 +4,7 @@ import org.cotrix.web.codelistmanager.client.event.ManagerBus;
 import org.cotrix.web.codelistmanager.client.event.OpenCodelistEvent;
 import org.cotrix.web.codelistmanager.client.event.RefreshCodelistsEvent;
 import org.cotrix.web.codelistmanager.client.event.RefreshCodelistsEvent.RefreshCodeListsHandler;
+import org.cotrix.web.codelistmanager.client.event.RemoveCodelistEvent;
 import org.cotrix.web.share.shared.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -49,9 +50,8 @@ public class CodelistsPresenterImpl implements CodelistsPresenter, RefreshCodeLi
 	}
 
 	@Override
-	public void onCodelistRemove() {
-		// TODO to complete
-		
+	public void onCodelistRemove(UICodelist codelist) {
+		managerBus.fireEvent(new RemoveCodelistEvent(codelist.getId()));
 	}
 
 	@Override

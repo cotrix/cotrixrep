@@ -12,7 +12,7 @@ public interface CodelistsView {
 	
 	public interface Presenter {
 		void onCodelistItemSelected(UICodelist codelist);
-		void onCodelistRemove();
+		void onCodelistRemove(UICodelist codelist);
 		void onCodelistCreate();
 		
 	}
