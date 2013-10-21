@@ -287,7 +287,13 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 						attribute.setValue(value);
 						attributeEditor.updated(code, attribute);
 					} else {
-						
+						attribute = new UIAttribute();
+						attribute.setId(Document.get().createUniqueId());
+						attribute.setName(group.getName());
+						attribute.setLanguage(group.getLanguage());
+						attribute.setValue(value);
+						code.addAttribute(attribute);
+						attributeEditor.added(code, attribute);
 					}
 				}
 			});

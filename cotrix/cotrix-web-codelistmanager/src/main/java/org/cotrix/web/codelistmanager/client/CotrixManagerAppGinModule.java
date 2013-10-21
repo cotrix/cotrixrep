@@ -5,6 +5,7 @@ import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelPresenter;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelPresenterImpl;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelView;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelViewImpl;
+import org.cotrix.web.codelistmanager.client.codelist.attribute.AttributeFactory;
 import org.cotrix.web.codelistmanager.client.codelists.CodelistsPresenter;
 import org.cotrix.web.codelistmanager.client.codelists.CodelistsPresenterImpl;
 import org.cotrix.web.codelistmanager.client.codelists.CodelistsView;
@@ -77,6 +78,8 @@ public class CotrixManagerAppGinModule extends AbstractGinModule {
 		
 		bind(ModifyCommandSequencer.class).in(Singleton.class);
 		bind(Constants.class).in(Singleton.class);
+		
+		requestStaticInjection(AttributeFactory.class);
 	}
 
 }

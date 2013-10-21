@@ -19,13 +19,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.cotrix.web.codelistmanager.client.codelist.attribute.AttributeFactory;
 import org.cotrix.web.codelistmanager.client.codelist.attribute.Group;
 import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
+import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
@@ -36,17 +37,14 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
-import org.cotrix.web.codelistmanager.client.util.Constants;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.UICode;
-import org.cotrix.web.codelistmanager.shared.UIQName;
 import org.cotrix.web.share.client.widgets.ImageResourceCell;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -108,9 +106,6 @@ public class CodelistAttributesPanel extends ResizeComposite {
 	protected UICode visualizedCode;
 
 	protected CodeAttributeEditor attributeEditor;
-
-	@Inject
-	protected Constants constants;
 
 	@Inject
 	public CodelistAttributesPanel(@EditorBus EventBus editorBus, CodeEditor codeEditor, CodeAttributeEditor attributeEditor) {
@@ -195,6 +190,10 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			public void onDataEdit(DataEditEvent<CodeAttributeEditor.CodeAttribute> event) {
 				if (visualizedCode!=null && visualizedCode.equals(event.getData().getCode())) {
 					switch (event.getEditType()) {
+						case ADD: {
+							dataProvider.getList().add(event.getData().getAttribute());
+							dataProvider.refresh();
+						} break;
 						case UPDATE: attributesGrid.refreshAttribute(event.getData().getAttribute()); break;
 						default:
 					}
@@ -217,12 +216,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 	protected void addNewAttribute()
 	{
 		if (visualizedCode!=null) {
-			UIAttribute attribute = new UIAttribute();
-			attribute.setId(Document.get().createUniqueId());
-			attribute.setName(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeName()));
-			attribute.setType(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeType()));
-			attribute.setLanguage("");
-			attribute.setValue(constants.getDefaultAttributeValue());
+			UIAttribute attribute = AttributeFactory.createAttribute();
 			visualizedCode.addAttribute(attribute);
 			dataProvider.getList().add(attribute);
 			dataProvider.refresh();

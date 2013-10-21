@@ -1,5 +1,6 @@
 package org.cotrix.web.codelistmanager.client.codelist;
 
+import org.cotrix.web.codelistmanager.client.codelist.attribute.AttributeFactory;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
@@ -11,12 +12,10 @@ import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.client.util.Constants;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UIQName;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -97,12 +96,7 @@ public class CodelistMetadataPanel extends LoadingPanel {
 	protected void addNewAttribute()
 	{
 		if (metadata!=null) {
-			UIAttribute attribute = new UIAttribute();
-			attribute.setId(Document.get().createUniqueId());
-			attribute.setName(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeName()));
-			attribute.setType(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeType()));
-			attribute.setLanguage("");
-			attribute.setValue(constants.getDefaultAttributeValue());
+			UIAttribute attribute = AttributeFactory.createAttribute();
 			attributesProvider.getList().add(attribute);
 			attributesProvider.refresh();
 			attributeEditor.added(attribute);
