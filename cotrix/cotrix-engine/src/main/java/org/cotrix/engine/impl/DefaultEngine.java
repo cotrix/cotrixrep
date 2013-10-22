@@ -73,7 +73,7 @@ public class DefaultEngine implements Engine {
 		Lifecycle lifecycle = lcService.lifecycleOf(action.instance());
 			
 		if (!action.isIn(lifecycle.allowed()))
-			throw new IllegalStateException(user.name()+" cannot perform "+action);
+			throw new IllegalStateException(user.id()+" cannot perform "+action+", as the instance "+ lifecycle.resourceId()+" is in state "+lifecycle.state()+" and its lifecycle allows only "+lifecycle.allowed());
 		
 		Collection<Action> permissions = user.permissions();
 		
@@ -106,7 +106,7 @@ public class DefaultEngine implements Engine {
 	private <T> T perform(Action action, Callable<T> callable, Collection<Action> permissions) {
 		
 		if (!action.isIn(permissions))
-				throw new IllegalAccessError(user.name()+" cannot perform "+action);
+				throw new IllegalAccessError(user.id()+" cannot perform "+action+", as her permissions don't allow it");
 		
 		
 		Task<T> task = taskFor(callable); 

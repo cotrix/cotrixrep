@@ -84,7 +84,7 @@ public class DefaultLoginService implements LoginService {
 		catch(IllegalStateException e) {
 
 			//this should never happen: let's be more specific
-			throw new IllegalAccessError("a protected resource has passed through the barrier without an authenticated user");
+			throw new IllegalAccessError("an action over a protected resource has passed through the barrier without an authenticated user");
 			
 		}		
 	}

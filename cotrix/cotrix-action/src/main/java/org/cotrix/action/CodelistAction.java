@@ -8,10 +8,11 @@ import java.util.List;
 public enum CodelistAction implements Action {
 
 	EDIT(action("edit")),
+	VIEW(action("view")),
 	LOCK(action("lock")),
 	UNLOCK(action("unlock")),
-	SEAL(action("seal"))
-	;
+	SEAL(action("seal"));	
+
 	protected Action innerAction;
 
 	private CodelistAction(Action innerAction) {
@@ -47,7 +48,7 @@ public enum CodelistAction implements Action {
 		return innerAction.onAny();
 	}
 	
-	public Action getInnerAction()
+	public Action value()
 	{
 		return innerAction;
 	}

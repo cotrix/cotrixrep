@@ -77,7 +77,7 @@ public class DefaultAction implements Action {
 	public boolean isIn(Collection<Action> actions) {
 		
 		for (Action a : actions)
-			if (this.matches(a))
+			if (this.specialises(a))
 				return true;
 		
 		return false;
@@ -92,30 +92,23 @@ public class DefaultAction implements Action {
 	
 	//helpers   
 	
-	private boolean matches(Action a) {
+	private boolean specialises(Action a) {
 		
 		if (this.equals(a))
 			return true;
 		
-		boolean thisInstanceDoesNotMatchThatInstance = 
-				this.isOnInstance() && 
-				!(a.instance()==any || this.instance().equals(a.instance()));
-		
-		boolean thatInstanceDoesNotMatchThisInstance = 
-				a.isOnInstance() && 
-				!(a.instance()==any || a.instance().equals(this.instance()));
-		
-		if (thisInstanceDoesNotMatchThatInstance || thatInstanceDoesNotMatchThisInstance)
+		//if the parts do not match we stop here
+		if (!specialises(a.parts()))
 			return false;
 		
-		if (a.isOnInstance() && !(a.instance().equals(any) || a.instance().equals(this.instance())))
-			return false;
-		
-		return matches(a.parts());
-		
-	}
-	
-	private boolean matches(List<String> parts) {
+		//instances must match
+		if (this.isOnInstance() && a.isOnInstance())
+			return this.instance.equals(a.instance());
+			
+		return true;
+	}	
+
+	private boolean specialises(List<String> parts) {
 		
 		for (int i =0; i<parts.size(); i++) {
 			String part = parts.get(i);
@@ -125,7 +118,7 @@ public class DefaultAction implements Action {
 					return false;
 			}
 			else //compare matched parts
-				if (!matches(this.parts.get(i),part))
+				if (!specialises(this.parts.get(i),part))
 					return false;
 		}
 		
@@ -133,7 +126,7 @@ public class DefaultAction implements Action {
 			
 	}
 	
-	private boolean matches(String thisPart, String superPart) {
+	private boolean specialises(String thisPart, String superPart) {
 		return thisPart.equals(superPart) || superPart==any;
 	}
 	
