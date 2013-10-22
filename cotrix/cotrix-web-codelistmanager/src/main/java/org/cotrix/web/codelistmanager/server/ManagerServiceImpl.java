@@ -89,10 +89,10 @@ public class ManagerServiceImpl implements ManagerService {
 		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
 		logger.trace("done");
 		
-		mapper.map(EDIT.getInnerAction()).to(EDIT_METADATA);
-		mapper.map(LOCK.getInnerAction()).to(LOCK_CODELIST);
-		mapper.map(UNLOCK.getInnerAction()).to(UNLOCK_CODELIST);
-		mapper.map(SEAL.getInnerAction()).to(SEAL_CODELIST);
+		mapper.map(EDIT.value()).to(EDIT_METADATA);
+		mapper.map(LOCK.value()).to(LOCK_CODELIST);
+		mapper.map(UNLOCK.value()).to(UNLOCK_CODELIST);
+		mapper.map(SEAL.value()).to(SEAL_CODELIST);
 	}
 	
 	public ArrayList<UICodelist> getAllCodelists() throws IllegalArgumentException {

@@ -46,6 +46,8 @@ public class S4JLifecycle extends AbstractLifecycle {
 		
 		notNull("action",action);
 		
+		action = action.onAny();
+		
 		return machine.CanFire(action);
 	}
 	
@@ -53,6 +55,8 @@ public class S4JLifecycle extends AbstractLifecycle {
 	public void notify(Action action) {
 		
 		notNull("action",action);
+		
+		action = action.onAny();
 		
 		try {
 			State origin = state();

@@ -46,7 +46,7 @@ public class UIFeatures {
 	{
 		//TODO cache
 		for (CodelistAction codelistAction:CodelistAction.values()) {
-			if (codelistAction.getInnerAction().equals(action)) return codelistAction;
+			if (codelistAction.value().equals(action)) return codelistAction;
 		}
 		
 		throw new IllegalArgumentException("The action "+action+" can't be mapped to a CodelistAction");
