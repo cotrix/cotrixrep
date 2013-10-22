@@ -31,8 +31,8 @@ import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
-import org.cotrix.web.codelistmanager.client.data.CodeAttributeEditor;
-import org.cotrix.web.codelistmanager.client.data.CodeEditor;
+import org.cotrix.web.codelistmanager.client.data.CodeAttribute;
+import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
@@ -114,16 +114,16 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected CodelistCodesProvider dataProvider;
 	protected HandlerRegistration registration;
 	
-	protected CodeEditor codeEditor;
+	protected DataEditor<UICode> codeEditor;
 
-	protected CodeAttributeEditor attributeEditor;
+	protected DataEditor<CodeAttribute> attributeEditor;
 	
 	@Inject
-	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider, CodeEditor codeEditor, CodeAttributeEditor attributeEditor) {
+	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider) {
 		this.editorBus = editorBus;
 		this.dataProvider = dataProvider;
-		this.codeEditor = codeEditor;
-		this.attributeEditor = attributeEditor;
+		this.codeEditor = DataEditor.build(this);
+		this.attributeEditor = DataEditor.build(this);
 
 		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
@@ -214,7 +214,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			}
 		});
 		
-		codeEditor.addDataEditHandler(new DataEditHandler<UICode>() {
+		editorBus.addHandler(DataEditEvent.getType(UICode.class), new DataEditHandler<UICode>() {
 
 			@Override
 			public void onDataEdit(DataEditEvent<UICode> event) {
@@ -225,10 +225,10 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			}
 		});
 		
-		attributeEditor.addDataEditHandler(new DataEditHandler<CodeAttributeEditor.CodeAttribute>() {
+		editorBus.addHandler(DataEditEvent.getType(CodeAttribute.class), new DataEditHandler<CodeAttribute>() {
 
 			@Override
-			public void onDataEdit(DataEditEvent<CodeAttributeEditor.CodeAttribute> event) {
+			public void onDataEdit(DataEditEvent<CodeAttribute> event) {
 					//dataProvider.refresh();
 					refreshCode(event.getData().getCode());
 			}
@@ -293,7 +293,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 					UIAttribute attribute = group.match(code.getAttributes());
 					if (attribute!=null) {
 						attribute.setValue(value);
-						attributeEditor.updated(code, attribute);
+						attributeEditor.updated(new CodeAttribute(code, attribute));
 					} else {
 						attribute = new UIAttribute();
 						attribute.setId(Document.get().createUniqueId());
@@ -301,7 +301,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 						attribute.setLanguage(group.getLanguage());
 						attribute.setValue(value);
 						code.addAttribute(attribute);
-						attributeEditor.added(code, attribute);
+						attributeEditor.added(new CodeAttribute(code, attribute));
 					}
 				}
 			});

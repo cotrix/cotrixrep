@@ -3,10 +3,11 @@ package org.cotrix.web.codelistmanager.client.codelist;
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistToolbar.Action;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistToolbar.ToolBarListener;
-import org.cotrix.web.codelistmanager.client.data.CodeAttributeSaver;
-import org.cotrix.web.codelistmanager.client.data.CodeSaver;
-import org.cotrix.web.codelistmanager.client.data.MetadataAttributeSaver;
-import org.cotrix.web.codelistmanager.client.data.MetadataSaver;
+import org.cotrix.web.codelistmanager.client.data.CodeAttributeCommandGenerator;
+import org.cotrix.web.codelistmanager.client.data.CodeModifyCommandGenerator;
+import org.cotrix.web.codelistmanager.client.data.DataSaverManager;
+import org.cotrix.web.codelistmanager.client.data.MetadataAttributeModifyGenerator;
+import org.cotrix.web.codelistmanager.client.data.MetadataModifyCommandGenerator;
 import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.HasFeature;
@@ -29,22 +30,22 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 	protected ManagerServiceAsync service;
 	
 	@Inject
-	protected MetadataSaver metadataSaver;
-	
-	@Inject
-	protected CodeSaver rowSaver;
-	
-	@Inject
-	protected CodeAttributeSaver codeAttributeSaver;
-	
-	@Inject
-	protected MetadataAttributeSaver metadataAttributeSaver;
+	protected DataSaverManager saverManager;
 
 	@Inject
-	public CodelistPanelPresenterImpl(CodelistPanelView view, @CodelistId String codelistId) {
+	public CodelistPanelPresenterImpl(CodelistPanelView view, @CodelistId String codelistId, DataSaverManager saverManager) {
 		this.view = view;
 		this.codelistId = codelistId;
+		this.saverManager = saverManager;
 		bindFeatures();
+		bindSavers();
+	}
+
+	protected void bindSavers() {
+		saverManager.register(new CodeModifyCommandGenerator());
+		saverManager.register(new CodeAttributeCommandGenerator());
+		saverManager.register(new MetadataModifyCommandGenerator());
+		saverManager.register(new MetadataAttributeModifyGenerator());
 	}
 
 	public void go(HasWidgets container) {

@@ -3,23 +3,36 @@
  */
 package org.cotrix.web.codelistmanager.client.data;
 
+import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.EditType;
-import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
-import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.HasDataEditHandlers;
 
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class DataEditor<T> implements HasDataEditHandlers<T> {
+public class DataEditor<T> {
 	
-	protected HandlerManager handlerManager = new HandlerManager(this);
+	public static <T> DataEditor<T> build(Object source)
+	{
+		return new DataEditor<T>(source, CotrixManagerAppGinInjector.INSTANCE.getEditorBus());
+	}
 	
+	protected Object source;
+	protected EventBus editorBus;
+
+	/**
+	 * @param source
+	 * @param editorBus
+	 */
+	protected DataEditor(Object source, EventBus editorBus) {
+		this.source = source;
+		this.editorBus = editorBus;
+	}
+
 	public void added(T data)
 	{
 		fireEvent(new DataEditEvent<T>(data, EditType.ADD));
@@ -35,13 +48,7 @@ public class DataEditor<T> implements HasDataEditHandlers<T> {
 		fireEvent(new DataEditEvent<T>(data, EditType.REMOVE));
 	}
 
-	@Override
 	public void fireEvent(GwtEvent<?> event) {
-		handlerManager.fireEvent(event);
-	}
-
-	@Override
-	public HandlerRegistration addDataEditHandler(DataEditHandler<T> handler) {
-		return handlerManager.addHandler(DataEditEvent.TYPE, handler);
+		editorBus.fireEventFromSource(event, source);
 	}
 }

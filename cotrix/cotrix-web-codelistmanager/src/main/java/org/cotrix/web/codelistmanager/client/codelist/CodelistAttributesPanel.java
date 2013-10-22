@@ -31,8 +31,8 @@ import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
-import org.cotrix.web.codelistmanager.client.data.CodeAttributeEditor;
-import org.cotrix.web.codelistmanager.client.data.CodeEditor;
+import org.cotrix.web.codelistmanager.client.data.CodeAttribute;
+import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
@@ -101,18 +101,18 @@ public class CodelistAttributesPanel extends ResizeComposite {
 
 	protected AttributeHeader header;
 
-	protected CodeEditor codeEditor;
+	protected DataEditor<UICode> codeEditor;
 
 	protected UICode visualizedCode;
 
-	protected CodeAttributeEditor attributeEditor;
+	protected DataEditor<CodeAttribute> attributeEditor;
 
 	@Inject
-	public CodelistAttributesPanel(@EditorBus EventBus editorBus, CodeEditor codeEditor, CodeAttributeEditor attributeEditor) {
+	public CodelistAttributesPanel(@EditorBus EventBus editorBus) {
 
 		this.editorBus = editorBus;
-		this.codeEditor = codeEditor;
-		this.attributeEditor = attributeEditor;
+		this.codeEditor = DataEditor.build(this);
+		this.attributeEditor = DataEditor.build(this);
 
 		this.dataProvider = new ListDataProvider<UIAttribute>();
 
@@ -164,12 +164,12 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			@Override
 			public void onAttributeChanged(AttributeChangedEvent event) {
 				Log.trace("updated attribute "+event.getAttribute());
-				attributeEditor.updated(visualizedCode, event.getAttribute());
+				attributeEditor.updated(new CodeAttribute(visualizedCode, event.getAttribute()));
 			}
 		});
 
 
-		codeEditor.addDataEditHandler(new DataEditHandler<UICode>() {
+		editorBus.addHandler(DataEditEvent.getType(UICode.class), new DataEditHandler<UICode>() {
 
 			@Override
 			public void onDataEdit(DataEditEvent<UICode> event) {
@@ -184,10 +184,10 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			}
 		});
 		
-		attributeEditor.addDataEditHandler(new DataEditHandler<CodeAttributeEditor.CodeAttribute>() {
+		editorBus.addHandler(DataEditEvent.getType(CodeAttribute.class), new DataEditHandler<CodeAttribute>() {
 
 			@Override
-			public void onDataEdit(DataEditEvent<CodeAttributeEditor.CodeAttribute> event) {
+			public void onDataEdit(DataEditEvent<CodeAttribute> event) {
 				if (visualizedCode!=null && visualizedCode.equals(event.getData().getCode())) {
 					switch (event.getEditType()) {
 						case ADD: {
@@ -221,7 +221,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			dataProvider.getList().add(attribute);
 			dataProvider.refresh();
 
-			attributeEditor.added(visualizedCode, attribute);
+			attributeEditor.added(new CodeAttribute(visualizedCode, attribute));
 			attributesGrid.expand(attribute);
 		}
 	}
@@ -233,7 +233,7 @@ public class CodelistAttributesPanel extends ResizeComposite {
 			dataProvider.getList().remove(selectedAttribute);
 			dataProvider.refresh();
 			visualizedCode.removeAttribute(selectedAttribute);
-			attributeEditor.removed(visualizedCode, selectedAttribute);
+			attributeEditor.removed(new CodeAttribute(visualizedCode, selectedAttribute));
 		}
 	}
 

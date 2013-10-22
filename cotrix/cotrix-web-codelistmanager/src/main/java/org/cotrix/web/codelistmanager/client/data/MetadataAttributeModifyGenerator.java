@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.codelistmanager.client.data;
 
+import org.cotrix.web.codelistmanager.client.data.DataSaverManager.CommandGenerator;
 import org.cotrix.web.codelistmanager.client.data.event.EditType;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
@@ -11,22 +12,16 @@ import org.cotrix.web.codelistmanager.shared.modify.attribute.RemoveAttributeCom
 import org.cotrix.web.codelistmanager.shared.modify.attribute.UpdateAttributeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.metadata.MetadataAttributeCommand;
 
-import com.google.inject.Inject;
-
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MetadataAttributeSaver extends AbstractDataSaver<UIAttribute> {
-
-	/**
-	 * @param codelistId
-	 */
-	@Inject
-	public MetadataAttributeSaver(MetadataAttributeEditor editor) {
-		editor.addDataEditHandler(this);
+public class MetadataAttributeModifyGenerator implements CommandGenerator<UIAttribute> {
+	
+	@Override
+	public Class<UIAttribute> getType() {
+		return UIAttribute.class;
 	}
-
 
 	@Override
 	public ModifyCommand generateCommand(EditType editType, UIAttribute data) {

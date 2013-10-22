@@ -6,8 +6,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEven
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
-import org.cotrix.web.codelistmanager.client.data.MetadataAttributeEditor;
-import org.cotrix.web.codelistmanager.client.data.MetadataEditor;
+import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.client.util.Constants;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
@@ -54,18 +53,21 @@ public class CodelistMetadataPanel extends LoadingPanel {
 	@Inject
 	protected MetadataProvider dataProvider;
 
-	@Inject
-	protected MetadataEditor metadataEditor;
+	protected DataEditor<CodelistMetadata> metadataEditor;
 	
-	@Inject
-	protected MetadataAttributeEditor attributeEditor;
+
+	protected DataEditor<UIAttribute> attributeEditor;
 	
 	@Inject
 	protected Constants constants;
 
-	public CodelistMetadataPanel() {
+	@Inject
+	public CodelistMetadataPanel( ) {
 		this.attributesProvider = new ListDataProvider<UIAttribute>();
 		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Attributes"), "No attributes");
+		
+		metadataEditor = DataEditor.build(this);
+		attributeEditor = DataEditor.build(this);
 
 		add(uiBinder.createAndBindUi(this));
 		bind();
