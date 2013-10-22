@@ -14,7 +14,7 @@ import org.cotrix.domain.trait.Attributed;
  * @author Fabio Simeoni
  *
  */
-public class AttributedPO extends EntityPO {
+public class AttributedPO extends DomainPO {
 
 	private Container.Private<Attribute.Private> attributes = new Container.Private<Attribute.Private>(Collections.<Attribute.Private>emptyList());
 
@@ -38,8 +38,6 @@ public class AttributedPO extends EntityPO {
 		
 		notNull("attributes",attributes);
 	
-		propagateChangeFrom(attributes);
-		
 		this.attributes = attributes;
 		
 	}

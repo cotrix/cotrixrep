@@ -44,8 +44,6 @@ public final class CodeLinkPO extends AttributedPO {
 		
 		notNull("definition",definition);
 
-		propagateChangeFrom(definition);
-
 		this.definition = definition;
 	}
 	

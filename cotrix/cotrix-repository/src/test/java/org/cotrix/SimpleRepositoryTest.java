@@ -17,160 +17,154 @@ import org.cotrix.repository.memory.MStore;
 import org.junit.Test;
 
 public class SimpleRepositoryTest {
-	
 
 	@Test
 	public void retrieveNotExistingCodeList() {
-		
+
 		CodelistRepository repository = new MCodelistRepository();
-		
+
 		assertNull(repository.lookup("unknown"));
-		
+
 	}
-	
+
 	@Test
 	public void addCodelist() {
-		
+
 		Codelist list = anylist();
-		
+
 		assertNull(list.id());
-		
+
 		CodelistRepository repository = new MCodelistRepository();
-		
+
 		repository.add(list);
-		
+
 		assertNotNull(list.id());
-		
-		assertEquals(list,repository.lookup(list.id()));
-		
-		
+
+		assertEquals(list, repository.lookup(list.id()));
+
 	}
-	
+
 	@Test
 	public void updateCodelist() {
-		
+
 		Attribute attribute = attr().name("test").value("val").build();
 		Code code = code().name("code").attributes(attribute).build();
 		Codelist list = codelist().name("name").with(code).build();
-		
+
 		assertNull(list.id());
-		
+
 		CodelistRepository repository = new MCodelistRepository();
-		
+
 		repository.add(list);
-		
+
 		Attribute attributeChangeset = attr(attribute.id()).modify().name(attribute.name()).value("newvalue").build();
-		
-		QName updatedName = q(list.name().getLocalPart()+"-updated");
-		
-		Codelist changeset = codelist(list.id()).name(updatedName).with(code(code.id()).name(code.name()).attributes(attributeChangeset).build()).build();
-				
+
+		QName updatedName = q(list.name().getLocalPart() + "-updated");
+
+		Codelist changeset = codelist(list.id()).modify().name(updatedName)
+				.with(code(code.id()).modify().name(code.name()).attributes(attributeChangeset).build()).build();
+
 		repository.update(changeset);
-		
+
 		list = repository.lookup(list.id());
-		
-		assertEquals(list.name(),updatedName);
-		
+
+		assertEquals(list.name(), updatedName);
+
 		Attribute firstAttribute = list.codes().iterator().next().attributes().iterator().next();
-		
-		assertEquals(firstAttribute.value(),"newvalue");
+
+		assertEquals(firstAttribute.value(), "newvalue");
 	}
-	
-	
+
 	@Test
 	public void removeCodelist() {
-		
+
 		Codelist list = anylist();
-		
+
 		assertNull(list.id());
-		
+
 		CodelistRepository repository = new MCodelistRepository();
-		
+
 		repository.add(list);
-		
+
 		assertNotNull(list.id());
-		
-		assertEquals(list,repository.lookup(list.id()));
-		
+
+		assertEquals(list, repository.lookup(list.id()));
+
 		repository.remove(list.id());
-		
+
 		assertNull(repository.lookup(list.id()));
-		
+
 	}
-	
-	
+
 	@Test
 	public void addCodebag() {
-		
+
 		Codelist list = anylist();
 		Codebag bag = anybagWith(list);
-		
+
 		assertNull(list.id());
 		assertNull(bag.id());
-		
+
 		MStore store = new MStore();
-		
+
 		CodebagRepository repository = new MCodebagRepository(store);
-		
+
 		repository.add(bag);
-		
+
 		assertNotNull(bag.id());
 		assertNotNull(bag.lists().iterator().next().id());
-		
-		assertEquals(bag,repository.lookup(bag.id()));
-		
+
+		assertEquals(bag, repository.lookup(bag.id()));
+
 		CodelistRepository listRepository = new MCodelistRepository(store);
-		
+
 		assertNotNull(listRepository.lookup(list.id()));
-		
+
 	}
-	
+
 	@Test
 	public void removeCodebag() {
-		
+
 		Codelist list = anylist();
 		Codebag bag = anybagWith(list);
-		
+
 		assertNull(list.id());
 		assertNull(bag.id());
-		
+
 		MStore store = new MStore();
-		
+
 		CodebagRepository repository = new MCodebagRepository(store);
-		
+
 		repository.add(bag);
-		
+
 		assertNotNull(bag.id());
 		assertNotNull(list.id());
-		
-		assertEquals(bag,repository.lookup(bag.id()));
-		
+
+		assertEquals(bag, repository.lookup(bag.id()));
+
 		CodelistRepository listRepository = new MCodelistRepository(store);
-		
+
 		assertNotNull(listRepository.lookup(list.id()));
-		
+
 		repository.remove(bag.id());
-		
+
 		assertNull(repository.lookup(bag.id()));
-		
-		assertEquals(list,listRepository.lookup(list.id()));
+
+		assertEquals(list, listRepository.lookup(list.id()));
 	}
-	
-	
-	
-	
-	//helper
+
+	// helper
 	Codelist anylist() {
 		return anylist(null);
 	}
-	
-	//helper
+
+	// helper
 	Codelist anylist(String id) {
-		return (id==null?codelist():codelist(id)).name("name").build();
+		return (id == null ? codelist() : codelist(id)).name("name").build();
 	}
-	
-	//helper
-	Codebag anybagWith(Codelist ...codelists) {
+
+	// helper
+	Codebag anybagWith(Codelist... codelists) {
 		return codebag().name("name").with(codelists).build();
 	}
 }

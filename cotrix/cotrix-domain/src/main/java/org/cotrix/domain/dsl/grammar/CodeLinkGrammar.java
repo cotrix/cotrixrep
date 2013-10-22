@@ -14,7 +14,7 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
  */
 public class CodeLinkGrammar {
 
-	public static interface CodeLinkStartClause extends CodeLinkClause<FinalClause>, DeltaClause<CodeLinkClause<FinalClause>, CodeLinkClause<FinalClause>, Codelink> {
+	public static interface CodeLinkStartClause extends CodeLinkClause<FinalClause>, DeltaClause<CodeLinkClause<FinalClause>, Codelink> {
 	}
 	
 	public static interface FinalClause extends AttributeClause<Codelink,FinalClause> {

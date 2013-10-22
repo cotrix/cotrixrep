@@ -1,5 +1,7 @@
 package org.cotrix.domain;
 
+import static org.cotrix.domain.utils.Constants.*;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.po.AttributePO;
@@ -103,20 +105,31 @@ public interface Attribute extends Identified, Named {
 		}
 		
 		@Override
-		public void update(Attribute.Private delta) throws IllegalArgumentException, IllegalStateException {
+		public void update(Attribute.Private changeset) throws IllegalArgumentException, IllegalStateException {
 			
-			super.update(delta);
+			super.update(changeset);
 			
-			name=delta.name();
-			type=delta.type();
-			value=delta.value();
-			language=delta.language();
+			if (changeset.name()!=null)
+				if (changeset.name()==NULL_QNAME)
+					throw new IllegalArgumentException("attribute name "+name+" cannot be erased");
+				else
+					name=changeset.name();
+			
+			if (changeset.type()!=null)
+				type = changeset.type()==NULL_QNAME ? null: changeset.type();
+			
+			if (changeset.value()!=null)
+				value = changeset.value()==NULL_STRING ? null: changeset.value();
+			
+			if (changeset.language()!=null)
+				language = changeset.language()==NULL_STRING ? null: changeset.language();
+			
 			
 		}
 	
 		@Override
 		public String toString() {
-			return "Attribute [id=" +id()+", name=" + name() + ", value=" + value + ", language=" + language + (type==null?"":", type=" + type)+ (change()==null?"":" ("+change()+") ")+"]";
+			return "Attribute [id=" +id()+", name=" + name() + ", value=" + value + ", language=" + language + (type==null?"":", type=" + type)+ (status()==null?"":" ("+status()+") ")+"]";
 		}
 	
 		@Override

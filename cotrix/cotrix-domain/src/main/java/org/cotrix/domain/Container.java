@@ -1,7 +1,6 @@
 package org.cotrix.domain;
 
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.trait.Change.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.cotrix.domain.spi.IdGenerator;
-import org.cotrix.domain.trait.Change;
 import org.cotrix.domain.trait.Copyable;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Mutable;
@@ -42,9 +40,7 @@ public interface Container<T> extends Iterable<T> {
 	 *
 	 * @param <T> the type of the contained objects 
 	 */
-	public class Private<T extends Identified.Abstract<T>> implements Container<T>, Mutable<Container.Private<T>>,Copyable<Container.Private<T>> {
-		
-		private Change change;
+	public class Private<T extends Identified.Abstract<T>> implements Container<T>, Copyable<Container.Private<T>> {
 		
 		private final Set<T> objects = new LinkedHashSet<T>();
 		
@@ -80,32 +76,7 @@ public interface Container<T> extends Iterable<T> {
 		public List<T> objects() {
 			return new ArrayList<T>(objects);
 		}
-		
 
-		@Override
-		public Change change() {
-			return change;
-		}
-
-		@Override
-		public boolean isChangeset() {
-			return change != null;
-		}
-
-		@Override
-		public void reset() {
-			setChange(null);
-		}
-
-		public void setChange(Change change) {
-
-			notNull("change",change);
-
-			this.change = change;
-
-		}
-
-		@Override
 		public void update(Private<T> delta) {
 			
 			Map<String, T> index = indexObjects();
@@ -115,22 +86,21 @@ public interface Container<T> extends Iterable<T> {
 				String id = object.id();
 
 				if (index.containsKey(id)) {
-					
-					switch (object.change()) {
-						case DELETED:
-							objects.remove(index.remove(id));
-							break;
-						case MODIFIED:
-							index.get(id).update(object);
-							break;
-
-					} 
+				
+					if (object.isChangeset())
+						switch (object.status()) {
+							case DELETED:
+								objects.remove(index.remove(id));
+								break;
+							case MODIFIED:
+								index.get(id).update(object);
+								break;
+	
+						} 
 				}
 				//add case
-				else {
-					object.reset();
+				else
 					add(object);
-				}
 
 			}	
 		}
@@ -149,8 +119,6 @@ public interface Container<T> extends Iterable<T> {
 
 			notNull("element",object);
 			
-			propagateChangeFrom(object);
-			
 			return objects.add(object);
 			
 		}
@@ -166,26 +134,6 @@ public interface Container<T> extends Iterable<T> {
 			
 		}
 		
-		// helper
-		protected void propagateChangeFrom(T object) throws IllegalArgumentException {
-
-			// redundant checks, but clearer
-
-			// first time: inherit NEW or MODIFIED
-			if (object.isChangeset() && !this.isChangeset())
-				this.setChange(object.change() == NEW ? NEW : MODIFIED);
-
-			// other times: if not another NEW, MODIFIED
-			if (object.isChangeset() && this.isChangeset())
-				if (object.change() != this.change)
-					this.setChange(MODIFIED);
-
-			if (this.isChangeset() && !object.isChangeset())
-				throw new IllegalArgumentException("object is " + this.change + " and can only contain other changes");
-
-		}
-		
-
 		@Override
 		public String toString() {
 			final int maxLen = 100;

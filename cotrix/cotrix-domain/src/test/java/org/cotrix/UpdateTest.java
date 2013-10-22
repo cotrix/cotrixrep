@@ -2,149 +2,225 @@ package org.cotrix;
 
 import static junit.framework.Assert.*;
 import static org.cotrix.Fixture.*;
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.utils.Constants.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Code;
 import org.cotrix.domain.Container;
+import org.cotrix.domain.trait.Mutable;
 import org.junit.Test;
 
 public class UpdateTest {
 
-	//we answer the question: can DOs be correctly updated?
+	// we answer the question: can DOs be correctly updated?
+
+	// ############################################## pre-conditions
+
+	// if it works for attributes it will work for all identified DOs
+
+	@Test
+	public void failsOnUnidentifiedObjects() {
+
+		try {
+		
+			update(attr().name(name).build(), attr("1").modify().build());
+			
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+	@Test
+	public void failsOnNewAndDeletedObjects() {
+
+		Attribute a = attr("1").name(name).build();
+
+		try {
+			
+			update(a, attr("1").name(name2).build());
+			
+			fail();
+		
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		}
+
+		try {
+			
+			update(a, attr("1").delete());
+			
+			fail();
+			
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+	@Test
+	public void failsWithDifferentIds() {
+
+		try {
+		
+			update(attr("1").name(name).build(), attr("2").modify().name(name2).build());
+		
+			fail();
+			
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+	// ###########################  attributes
+
+	@Test
+	public void changesAttributes() {
+
+		Attribute a = attr("1").name(name).value(value).ofType(type).in(language).build();
+
+		update(a, attr("1").modify().name(name2).value(value2).ofType(type2).in(language2).build());
+
+		assertEquals(name2, a.name());
+		assertEquals(value2, a.value());
+		assertEquals(type2, a.type());
+		assertEquals(language2, a.language());
+	}
+	
+	@Test
+	public void changesAttributesPartially() {
+
+		Attribute a = attr("1").name(name).value(value).ofType(type).in(language).build();
+
+		update(a, attr("1").modify().build()); //let's test by changing nothing
+
+		assertEquals(name, a.name());
+		assertEquals(value, a.value());
+		assertEquals(type, a.type());
+		assertEquals(language, a.language());
+	}
+
+	@Test
+	public void cannotErasetNameOfAttributes() {
+
+		Attribute a = attr("1").name(name).build();
+
+		try {
+			update(a, attr("1").modify().name(NULL_QNAME).build());
+			fail();
+		}
+		catch(IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+	
+	@Test
+	public void erasesAttributeValueTypeOrLanguage() {
+
+		Attribute a = attr("1").name(name).value(value).ofType(type).in(language).build();
+
+		update(a, attr("1").modify().value(NULL_STRING).ofType(NULL_QNAME).in(NULL_STRING).build());
+		
+		assertNull(a.value());
+		assertNull(a.type());
+		assertNull(a.language());
+	}
+	
+	
+	//####################################################### codes
 
 	
-	//update validation and change of name is performed by base class. if it works for attributes it will work for all DOs
-	//we should still be testing invocation of super(), but what the heck... 
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void updatesRequireIdentifiers() {
-		
-		Attribute.Private a = (Attribute.Private)attr().name(name).value(value).build();
-		
-		Attribute.Private delta = (Attribute.Private) attr("1").name(name2).value(value).build();
-		
-		a.update(delta);
-		
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void updatesRequireDeltas() {
-		
-		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
-		
-		Attribute.Private delta = (Attribute.Private)attr("1").name(name2).value(value).build();
-		
-		a.update(delta);
-		
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void updatesRequireMatchingIds() {
-		
-		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
-		
-		Attribute.Private delta = (Attribute.Private)attr("different").name(name2).value(value).build();
-		
-		a.update(delta);
-		
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void updatesRequireModifiedDeltas() {
-		
-		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
-		
-		Attribute.Private delta = (Attribute.Private)attr("1").add().name(name2).value(value).build();
-		
-		a.update(delta);
-		
-	}
-	
-	
-	
 	@Test
-	public void DOsCanChangeName() {
+	public void cannotEraseNameOfCodes() {
 		
-		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
+		try {
+			
+			update(code("1").name(name).build(),code("1").modify().name(NULL_QNAME).build());
+			
+			fail();
+		}
+		catch(IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		}
 		
-		Attribute.Private delta = (Attribute.Private)attr("1").modify().name(name2).value(value).build();
-		
-		a.update(delta);
-		
-		assertEquals(name2,a.name());
 	}
-	
-	@Test
-	public void attributesCanChangeValue() {
-		
-		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
-		
-		Attribute.Private delta = (Attribute.Private)attr("1").modify().name(name).value(value2).build();
-		
-		a.update(delta);
-		
-		assertEquals(value2,a.value());
-	}
-	
-	@Test
-	public void attributesCanChangeType() {
-		
-		Attribute.Private a = (Attribute.Private)attr("1").name(name).value(value).build();
-		
-		Attribute.Private delta = (Attribute.Private)attr("1").modify().name(name).value(value).ofType(type).build();
-		
-		a.update(delta);
-		
-		assertEquals(type,a.type());
-	}
-	
-	@Test
-	public void attributesCanChangeLanguage() {
-		
-		Attribute.Private a = (Attribute.Private) attr("1").name(name).value(value).in(language).build();
-		
-		Attribute.Private delta = (Attribute.Private)attr("1").modify().name(name).value(value).in("another").build();
-		
-		assertFalse(a.language().equals("another"));
-		
-		a.update(delta);
-		
-		assertEquals("another",a.language());
-	}
-	
-	///     bags
-	
-	@Test
-	public void bagsCanBeUpdated() {
 
-		Attribute.Private a1 = (Attribute.Private)attr("1").name(name).value(value).build();
-		Attribute.Private a2 = (Attribute.Private)attr("2").name(name2).value(value2).build();
+	@Test
+	public void changesNameOfCodes() {
+
+		Code code = code("1").name(name).build();
 		
-		Container.Private<Attribute.Private> bag = bag(a1,a2);
+		update(code,code("1").modify().name(name2).build());
 		
-		//a change
-		Attribute.Private deltaA1 = (Attribute.Private)attr("1").modify().name(name).value(value+"updated").build();
+		assertEquals(name2,code.name());
 		
+	}
+	
+	
+	@Test
+	public void changesCodeAttributes() {
+
+		Attribute a1 = attr("1").name(name).build();
+		Attribute a2 = attr("2").name(name2).build();
+		Attribute a3 = attr("3").name(name3).build();
+
+		Code code = code("1").name(name).attributes(a1,a2,a3).build();
+		
+		
+		QName newname = q("changed");
+		// a change
+		Attribute modified = attr("1").modify().name(newname).build();
+
 		// a deletion
-		Attribute.Private deltaA2 = (Attribute.Private)attr("2").delete();
+		Attribute deleted = attr("2").delete();
+
+		// an addition
+		Attribute a4 = attr().name("new").build();
+
+		Code change = code("1").modify().attributes(modified, deleted, a4).build();
 		
-		// a removal
-		Attribute.Private deltaA3 = (Attribute.Private)attr().add().name(name3).value(value3).build();
+
+		update(code,change);
+
 		
-		Container.Private<Attribute.Private> delta = bag(deltaA1,deltaA2,deltaA3);
+		List<Attribute> attributes = elements(code.attributes());
 		
-		bag.update(delta);
+		assertEquals(3, attributes.size());
 		
-		//changed stuff is updated
-		assertEquals(value+"updated",asMap(bag).get(name).get(0).value());
-		//removed stuff is ... removed
-		assertFalse(asMap(bag).containsKey(name2));
-		//new stuff is added
-		assertTrue(asMap(bag).containsKey(name3));
+		assertEquals(newname, attributes.get(0).name());
 		
-		//new stuff no longer a delta object
-		assertNull(asMap(bag).get(name3).get(0).change());
+		assertFalse(attributes.contains(a2));
 		
+		assertTrue(attributes.contains(a3));
+		
+		assertTrue(attributes.contains(a4));
+
 	}
 	
+	
+	
+	//helpers
+	
+	
+	private <T> List<T> elements(Container<? extends T> container) {
+		List<T> elements = new ArrayList<T>();
+		for (T t : container)
+			elements.add(t);
+		return elements;
+	}
+
+	@SuppressWarnings("all")
+	<T> void update(T o, T delta) {
+
+		reveal(o, Mutable.class).update(reveal(delta, Mutable.class));
+	}
 }

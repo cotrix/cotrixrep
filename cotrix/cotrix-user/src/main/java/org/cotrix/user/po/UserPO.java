@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.action.Action;
-import org.cotrix.domain.po.EntityPO;
+import org.cotrix.domain.po.DomainPO;
 
-public class UserPO extends EntityPO {
+public class UserPO extends DomainPO {
 
 	private String name;
 	private final List<Action> permissions = new ArrayList<Action>();

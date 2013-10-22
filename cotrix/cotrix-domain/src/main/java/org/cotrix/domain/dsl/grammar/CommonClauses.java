@@ -111,14 +111,7 @@ public class CommonClauses {
 	}
 	
 	
-	public static interface DeltaClause<ADD,MODIFY,DELETE> {
-		
-		/**
-		 * Marks this object as a new for some containing object.
-		 * @return the next clause in the sentence
-		 */
-		ADD add();
-
+	public static interface DeltaClause<MODIFY,DELETE> {
 		
 		/**
 		 * Marks this object as a modified version of one with the same identifier.

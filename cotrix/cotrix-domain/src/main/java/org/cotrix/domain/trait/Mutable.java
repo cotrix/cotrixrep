@@ -25,7 +25,7 @@ public interface Mutable<T> {
 	 * Returns the type of incremental change represented by this object, if any.
 	 * @return the type of change
 	 */
-	Change change();
+	Status status();
 	
 	/**
 	 * Returns <code>true</code> if the object represents a change.

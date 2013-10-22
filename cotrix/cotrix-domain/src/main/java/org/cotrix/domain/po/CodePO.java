@@ -42,9 +42,6 @@ public final class CodePO extends NamedPO {
 
 	public void setLinks(Container.Private<Codelink.Private> links) {
 		notNull("links", links);
-
-		propagateChangeFrom(links);
-
 		this.links = links;
 	}
 }

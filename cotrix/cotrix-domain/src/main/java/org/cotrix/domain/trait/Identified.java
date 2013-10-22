@@ -1,92 +1,86 @@
 package org.cotrix.domain.trait;
 
-import org.cotrix.domain.po.EntityPO;
-
+import org.cotrix.domain.po.DomainPO;
 
 /**
- * A domain object with an identity.
+ * The base interface of all domain objects.
  * 
  * @author Fabio Simeoni
- *
+ * 
  */
 public interface Identified {
 
 	/**
 	 * Returns the identifier of this object.
+	 * 
 	 * @return the identifier
 	 */
 	String id();
 
-	
 	/**
 	 * {@link Mutable} and {@link Copyable} implementation of {@link Identified}.
 	 * 
 	 * @param <T> the concrete type of instances
 	 */
-	public abstract class Abstract<T extends Abstract<T>> implements Identified,Mutable<T>,Copyable<T> {
-		
+	public abstract class Abstract<T extends Abstract<T>> implements Identified, Mutable<T>, Copyable<T> {
+
 		private String id;
-		private Change change;
-		
+		private Status change;
+
 		/**
 		 * Creates a new instance from a given set of parameters.
+		 * 
 		 * @param params the parameters
 		 */
-		protected Abstract(EntityPO po) {
+		protected Abstract(DomainPO po) {
 
-			this.id=po.id();
-			this.change=po.change();
+			this.id = po.id();
+			this.change = po.change();
 		}
-		
+
 		@Override
 		public String id() {
 			return id;
 		}
-		
+
 		public void setId(String id) {
-		
-			if (id()!=null)
-				throw new IllegalStateException("object has already an identifier ("+id()+")");
-			
-			this.id=id;
+
+			if (id() != null)
+				throw new IllegalStateException("object has already an identifier (" + id() + ")");
+
+			this.id = id;
 		}
-		
+
 		public boolean isChangeset() {
-			return change!=null;
+			return change != null;
 		}
-		
-		public Change change() {
+
+		public Status status() {
 			return change;
 		}
-		
+
 		public void reset() {
-			this.change=null;	
+			this.change = null;
 		}
-		
-		public void update(T delta) throws IllegalArgumentException ,IllegalStateException {
+
+		public void update(T changeset) throws IllegalArgumentException, IllegalStateException {
+
+			// note: this object may have an identifier without having been persisted. we will need to detect the
+			// problem later on, e.g. when the object is updated in the repository
+			if (this.id == null)
+				throw new IllegalArgumentException(this + " has not been persisted yet, hence cannot be updated");
+
 			
-			if (id()==null)
-				throw new IllegalArgumentException(this+" as no identifier, hence it cannot be updated");
-			
-			isValid(delta);
-		}
-		
-		//helper
-		private void isValid(T delta) {
-			
-			Change status = delta.change();
-			
-			//is the input a delta object ?
-			if (status==null)
-				throw new IllegalArgumentException("object "+id+" is not a delta update");
-			
-			//and is it a delta for this object?
-			if (id()!=null && ! id().equals(delta.id()))
-				throw new IllegalArgumentException("object "+delta.id()+" is not a delta update of this object ("+id()+")");
-			
-			//is it a change (removal and addition must be catered for at container level
-			if (status!=Change.MODIFIED)
-				throw new IllegalArgumentException("object "+id+" with update status "+status+" does not capture a change to this object ("+id()+")");
+			// is the input a delta object ?
+			if (changeset.status() == null || changeset.status() != Status.MODIFIED)
+				throw new IllegalArgumentException("object " + id + " cannot be updated with a "
+						+ (changeset.status() == null ? "NEW" : changeset.status()) + " object");
+
+			// and is it a delta for this object?
+			if (!id().equals(changeset.id()))
+				throw new IllegalArgumentException("object " + changeset.id()
+						+ " is not a changeset for object " + id());
+
 		}
 
 		@Override

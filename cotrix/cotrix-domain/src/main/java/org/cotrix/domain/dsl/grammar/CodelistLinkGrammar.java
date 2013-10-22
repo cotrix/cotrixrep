@@ -17,7 +17,7 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
  */
 public class CodelistLinkGrammar {
 
-	public static interface CodelistLinkStartClause extends NameClause<SecondClause>, DeltaClause<NameClause<SecondClause>, ChangeClause, CodelistLink>  {}
+	public static interface CodelistLinkStartClause extends NameClause<SecondClause>, DeltaClause<ChangeClause, CodelistLink>  {}
 	
 	public static interface ChangeClause extends NameClause<SecondClause>, SecondClause, FinalClause {}
 

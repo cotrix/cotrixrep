@@ -48,8 +48,6 @@ public final class CodebagPO extends VersionedPO {
 
 		notNull("lists", lists);
 
-		propagateChangeFrom(lists);
-
 		this.lists = lists;
 	}
 

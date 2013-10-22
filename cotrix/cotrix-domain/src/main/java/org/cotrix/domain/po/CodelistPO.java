@@ -56,8 +56,6 @@ public final class CodelistPO extends VersionedPO {
 
 		notNull("links", links);
 
-		propagateChangeFrom(links);
-
 		this.links = links;
 	}
 
@@ -69,8 +67,6 @@ public final class CodelistPO extends VersionedPO {
 	public void setCodes(Container.Private<Code.Private> codes) {
 
 		notNull("codes", codes);
-
-		propagateChangeFrom(codes);
 
 		this.codes = codes;
 	}

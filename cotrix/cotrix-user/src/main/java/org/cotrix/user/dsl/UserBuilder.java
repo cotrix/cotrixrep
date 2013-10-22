@@ -12,6 +12,9 @@ public class UserBuilder {
 	
 	public UserBuilder(String id) {
 		po = new UserPO(id);
+		
+		//use as default for full name too
+		fullName(id);
 	}
 	
 	public UserBuilder can(Action ... actions) {

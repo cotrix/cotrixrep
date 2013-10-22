@@ -13,7 +13,7 @@ import org.cotrix.domain.utils.Constants;
  * @author Fabio Simeoni
  *
  */
-public final class AttributePO extends EntityPO {
+public final class AttributePO extends DomainPO {
 
 	private QName name;
 	private QName type = Constants.DEFAULT_TYPE;

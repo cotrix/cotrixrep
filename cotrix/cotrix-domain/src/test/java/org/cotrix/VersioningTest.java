@@ -48,13 +48,13 @@ public class VersioningTest {
 	}
 	
 	@Test
-	public void copiesDoNotPreserveDeltas() {
+	public void copiesDoNotPreserveStatus() {
 		
-		Attribute.Private a = (Attribute.Private) attr().add().name(name).value(value).build();
+		Attribute.Private a = (Attribute.Private) attr().name(name).value(value).build();
 		
 		Attribute.Private copy = a.copy(generator);
 		
-		assertNull(copy.change());
+		assertNull(copy.status());
 	}
 	
 	@Test
@@ -79,7 +79,7 @@ public class VersioningTest {
 		Attribute.Private a = (Attribute.Private) attr(generator.generateId()).name(name).value(value).build();
 		Attribute.Private a2 = (Attribute.Private) attr(generator.generateId()).name(name2).value(value2).build();
 		
-		Container.Private<Attribute.Private> bag = bag(a,a2);
+		Container.Private<Attribute.Private> bag = container(a,a2);
 		
 		Container.Private<Attribute.Private> clone = bag.copy(generator);
 		

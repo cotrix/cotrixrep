@@ -15,7 +15,7 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
  */
 public class CodeGrammar {
 
-	public static interface CodeStartClause extends NameClause<SecondClause>, DeltaClause<NameClause<SecondClause>,ChangeClause,Code>  {}
+	public static interface CodeStartClause extends NameClause<SecondClause>, DeltaClause<ChangeClause,Code>  {}
 	
 	public static interface ChangeClause extends NameClause<SecondClause>, SecondClause, FinalClause {}
 

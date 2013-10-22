@@ -1,7 +1,7 @@
 package org.cotrix.domain.dsl.builder;
 
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.trait.Change.*;
+import static org.cotrix.domain.trait.Status.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,9 +17,7 @@ import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkStartClause
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 import org.cotrix.domain.po.CodelistLinkPO;
-import org.cotrix.domain.trait.Change;
 
 /**
  * Builds {@link Attribute}s.
@@ -27,7 +25,7 @@ import org.cotrix.domain.trait.Change;
  * @author Fabio Simeoni
  *
  */
-public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause,FinalClause, DeltaClause<NameClause<SecondClause>, ChangeClause, CodelistLink>, ChangeClause {
+public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause,FinalClause, DeltaClause<ChangeClause, CodelistLink>, ChangeClause {
 
 	
 	private final CodelistLinkPO po;
@@ -50,18 +48,14 @@ public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause
 	
 	@Override
 	public CodelistLink delete() {
-		return this.as(DELETED).build();
-	}
-	
-	
-	@Override
-	public NameClause<SecondClause> add() {
-		return this.as(NEW);
+		po.setChange(DELETED);
+		return build();
 	}
 	
 	@Override
 	public ChangeClause modify() {
-		return this.as(MODIFIED);
+		po.setChange(MODIFIED);
+		return this;
 	}
 	
 	@Override
@@ -86,13 +80,6 @@ public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause
 		
 		po.setTargetId(target.id());
 		
-		return this;
-	}
-
-	private CodelistLinkBuilder as(Change change) {
-		if (change!=NEW && po.id()==null)
-			throw new IllegalStateException("object is marked as update but has its identifier is null");
-		po.setChange(change);
 		return this;
 	}
 	

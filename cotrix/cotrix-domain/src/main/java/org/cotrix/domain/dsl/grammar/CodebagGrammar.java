@@ -17,7 +17,7 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.WithManyClause;
  */
 public class CodebagGrammar {
 
-	public static interface CodebagStartClause extends NameClause<SecondClause>, DeltaClause<NameClause<SecondClause>,ChangeClause,Codebag> {
+	public static interface CodebagStartClause extends NameClause<SecondClause>, DeltaClause<ChangeClause,Codebag> {
 
 	}
 

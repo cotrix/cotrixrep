@@ -43,7 +43,7 @@ public class Fixture {
 	public static Code c2 = code("id2").name(name2).attributes(a,a2).build();
 	public static Code c3 = code("id3").name(name3).attributes(a,a2,a3).build();
 	
-	public static <T extends Abstract<T>> Container.Private<T> bag(T ... ts) {
+	public static <T extends Abstract<T>> Container.Private<T> container(T ... ts) {
 		return new Container.Private<T>(Arrays.asList(ts));
 	}
 	
@@ -81,6 +81,7 @@ public class Fixture {
 	
 	
 	public static String language = "lang"; 
+	public static String language2 = "lang2"; 
 	public static String v = "1.0"; 
 
 }

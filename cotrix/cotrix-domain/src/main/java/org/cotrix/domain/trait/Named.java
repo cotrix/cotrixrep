@@ -1,5 +1,7 @@
 package org.cotrix.domain.trait;
 
+import static org.cotrix.domain.utils.Constants.*;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.po.NamedPO;
@@ -51,13 +53,15 @@ public interface Named {
 		}
 		
 		@Override
-		public void update(T delta) throws IllegalArgumentException ,IllegalStateException {
+		public void update(T changeset) throws IllegalArgumentException ,IllegalStateException {
 			
-			super.update(delta);
+			super.update(changeset);
 			
-			//name has changed?
-			if (delta.name()!=null && !delta.name().equals(name()))
-				this.name=delta.name();
+			if (changeset.name()!=null)
+				if (changeset.name()==NULL_QNAME)
+					throw new IllegalArgumentException("code name "+name+" cannot be erased");
+				else
+					name=changeset.name();
 		}
 		
 		@Override

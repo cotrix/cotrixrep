@@ -20,7 +20,7 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.WithManyClause;
 @SuppressWarnings("all")
 public class CodelistGrammar {
 
-	public static interface CodelistStartClause extends NameClause<SecondClause>, DeltaClause<NameClause<SecondClause>,ChangeClause,Codelist> {}
+	public static interface CodelistStartClause extends NameClause<SecondClause>, DeltaClause<ChangeClause,Codelist> {}
 	
 	public static interface ChangeClause extends NameClause<SecondClause>, SecondClause {}
 	

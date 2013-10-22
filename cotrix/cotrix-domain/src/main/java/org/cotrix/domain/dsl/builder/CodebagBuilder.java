@@ -1,7 +1,7 @@
 package org.cotrix.domain.dsl.builder;
 
 import static java.util.Arrays.*;
-import static org.cotrix.domain.trait.Change.*;
+import static org.cotrix.domain.trait.Status.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,9 +18,7 @@ import org.cotrix.domain.dsl.grammar.CodebagGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 import org.cotrix.domain.po.CodebagPO;
-import org.cotrix.domain.trait.Change;
 import org.cotrix.domain.version.SimpleVersion;
 import org.cotrix.domain.version.Version;
 
@@ -30,7 +28,7 @@ import org.cotrix.domain.version.Version;
  * @author Fabio Simeoni
  *
  */
-public final class CodebagBuilder implements CodebagStartClause, DeltaClause<NameClause<SecondClause>,ChangeClause,Codebag>, ChangeClause, ThirdClause ,FinalClause {
+public final class CodebagBuilder implements CodebagStartClause, DeltaClause<ChangeClause,Codebag>, ChangeClause, ThirdClause ,FinalClause {
 
 	private final CodebagPO po;
 	
@@ -51,18 +49,14 @@ public final class CodebagBuilder implements CodebagStartClause, DeltaClause<Nam
 	
 	@Override
 	public Codebag delete() {
-		return this.as(DELETED).build();
-	}
-	
-	
-	@Override
-	public NameClause<SecondClause> add() {
-		return this.as(NEW);
+		po.setChange(DELETED);
+		return build();
 	}
 	
 	@Override
 	public ChangeClause modify() {
-		return this.as(MODIFIED);
+		po.setChange(MODIFIED);
+		return this;
 	}
 	
 	@Override
@@ -96,13 +90,6 @@ public final class CodebagBuilder implements CodebagStartClause, DeltaClause<Nam
 	
 	public CodebagBuilder version(String version) {
 		po.setVersion(new SimpleVersion(version));
-		return this;
-	}
-	
-	private CodebagBuilder as(Change change) {
-		if (change!=NEW && po.id()==null)
-			throw new IllegalStateException("object is marked as update but has its identifier is null");
-		po.setChange(change);
 		return this;
 	}
 	

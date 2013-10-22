@@ -1,6 +1,6 @@
 package org.cotrix.domain.dsl.builder;
 
-import static org.cotrix.domain.trait.Change.*;
+import static org.cotrix.domain.trait.Status.*;
 
 import javax.xml.namespace.QName;
 
@@ -13,9 +13,7 @@ import org.cotrix.domain.dsl.grammar.AttributeGrammar.TypeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.ValueClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 import org.cotrix.domain.po.AttributePO;
-import org.cotrix.domain.trait.Change;
 
 /**
  * Builds {@link Attribute}s.
@@ -23,7 +21,7 @@ import org.cotrix.domain.trait.Change;
  * @author Fabio Simeoni
  *
  */
-public class AttributeBuilder implements AttributeStartClause, DeltaClause<NameClause<ValueClause>,ChangeClause,Attribute>, ValueClause, ChangeClause,
+public class AttributeBuilder implements AttributeStartClause, DeltaClause<ChangeClause,Attribute>, ValueClause, ChangeClause,
 										 		  TypeClause, LanguageClause {
 
 	
@@ -47,18 +45,16 @@ public class AttributeBuilder implements AttributeStartClause, DeltaClause<NameC
 	
 	@Override
 	public Attribute delete() {
-		return this.as(DELETED).build();
-	}
-	
-	
-	@Override
-	public NameClause<ValueClause> add() {
-		return this.as(NEW);
+		po.setChange(DELETED);
+		return build();
 	}
 	
 	@Override
 	public ChangeClause modify() {
-		return this.as(MODIFIED);
+		//override default for changest!
+		po.setType(null);
+		po.setChange(MODIFIED);
+		return this;
 	}
 
 	@Override
@@ -88,12 +84,5 @@ public class AttributeBuilder implements AttributeStartClause, DeltaClause<NameC
 	@Override
 	public Attribute build() {
 		return new Attribute.Private(po);
-	}
-	
-	private AttributeBuilder as(Change change) {
-		if (change!=NEW && po.id()==null)
-			throw new IllegalStateException("object is marked as update but has its identifier is null");
-		po.setChange(change);
-		return this;
 	}
 }
