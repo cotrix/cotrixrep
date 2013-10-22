@@ -19,7 +19,7 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class FeatureInterceptor implements CallBackListener {
-	
+
 	@Inject @FeatureBus
 	protected static EventBus featureBus;
 
@@ -32,9 +32,11 @@ public class FeatureInterceptor implements CallBackListener {
 	public boolean onSuccess(Object result) {
 		if (result instanceof FeatureCarrier) {
 			FeatureCarrier response = (FeatureCarrier) result;
-			Set<UIFeature> applicationFeatures = response.getApplicationFeatures()!=null?response.getApplicationFeatures():Collections.<UIFeature>emptySet();
-			Map<String, Set<UIFeature>> codelistsFeatures = response.getCodelistsFeatures()!=null?response.getCodelistsFeatures():Collections.<String, Set<UIFeature>>emptyMap();
-			featureBus.fireEvent(new NewFeatureSetEvent(applicationFeatures, codelistsFeatures));
+			if (response.getApplicationFeatures()!=null && response.getCodelistsFeatures()!=null) {
+				Set<UIFeature> applicationFeatures = response.getApplicationFeatures()!=null?response.getApplicationFeatures():Collections.<UIFeature>emptySet();
+				Map<String, Set<UIFeature>> codelistsFeatures = response.getCodelistsFeatures()!=null?response.getCodelistsFeatures():Collections.<String, Set<UIFeature>>emptyMap();
+				featureBus.fireEvent(new NewFeatureSetEvent(applicationFeatures, codelistsFeatures));
+			}
 		}
 		return true;
 	}

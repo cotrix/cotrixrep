@@ -13,9 +13,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.enterprise.inject.Default;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.action.Action;
+import org.cotrix.common.cdi.Current;
+import org.cotrix.user.PredefinedUsers;
+import org.cotrix.user.User;
+import org.cotrix.web.share.shared.feature.AuthenticationFeature;
 import org.cotrix.web.share.shared.feature.UIFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +32,12 @@ import org.slf4j.LoggerFactory;
 @Default
 @Singleton
 public class ActionMapper {
-	
+		
 	protected Logger logger = LoggerFactory.getLogger(ActionMapper.class);
+	
+	@Inject
+	@Current
+	protected User user;
 	
 	protected Map<Action, Set<UIFeature>> mapping = new HashMap<Action, Set<UIFeature>>();
 	
@@ -45,6 +54,10 @@ public class ActionMapper {
 				for (Entry<Action, Set<UIFeature>> entry:mapping.entrySet()) logger.warn("{} -> {}", entry.getKey(), entry.getValue());
 			}
 		}
+		
+		if (user.equals(PredefinedUsers.guest)) features.add(AuthenticationFeature.CAN_LOGIN);
+		else features.add(AuthenticationFeature.CAN_LOGOUT);
+		
 		return features;
 	}
 	

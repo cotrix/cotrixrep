@@ -1,9 +1,8 @@
 /**
  * 
  */
-package org.cotrix.web.shared;
+package org.cotrix.web.share.shared.feature;
 
-import org.cotrix.web.share.shared.feature.UIFeature;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

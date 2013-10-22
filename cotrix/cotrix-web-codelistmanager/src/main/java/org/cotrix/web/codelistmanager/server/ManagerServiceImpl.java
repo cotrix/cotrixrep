@@ -88,7 +88,8 @@ public class ManagerServiceImpl implements ManagerService {
 		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
 		logger.trace("done");
 		
-		mapper.map(EDIT.getInnerAction()).to(EDIT_METADATA);
+		mapper.map(VIEW.getInnerAction()).to(VIEW_CODELIST);
+		mapper.map(EDIT.getInnerAction()).to(EDIT_METADATA, EDIT_CODELIST);
 		mapper.map(LOCK.getInnerAction()).to(LOCK_CODELIST);
 		mapper.map(UNLOCK.getInnerAction()).to(UNLOCK_CODELIST);
 		mapper.map(SEAL.getInnerAction()).to(SEAL_CODELIST);
@@ -117,6 +118,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
+	@Task(VIEW)
 	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
 		
@@ -150,7 +152,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public CodelistMetadata getMetadata(String codelistId) throws ManagerServiceException {
+	public CodelistMetadata getMetadata(@Id String codelistId) throws ManagerServiceException {
 		logger.trace("getMetadata codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
 		CodelistMetadata metadata = new CodelistMetadata();

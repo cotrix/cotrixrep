@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -68,8 +69,44 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 			case ALL_COLUMN: allColumns.setEnabled(enabled); break;
 			case ALL_NORMAL: allNormals.setEnabled(enabled); break;
 			case FINALIZE: seal.setEnabled(enabled); break;
-			case LOCK: if (!enabled) lock.setDown(true); break;
-			case UNLOCK: if (!enabled) lock.setDown(false); break;
+			case LOCK: {
+				Log.trace("LOCK "+enabled);
+				if (enabled) {
+					lock.setDown(true);
+					lock.setEnabled(true);
+				} else if (!lock.isDown()) lock.setEnabled(false);
+				
+			} break;
+			case UNLOCK: {
+				Log.trace("UNLOCK "+enabled);
+				if (enabled) {
+					lock.setDown(false); 
+					lock.setEnabled(true);
+				} else if (lock.isDown()) lock.setEnabled(false);
+			} break;
+		}
+	}
+	
+	protected class LockToggler {
+		protected boolean lock = false;
+		protected boolean unlock = true;
+
+		public void setLock(boolean lock) {
+			this.lock = lock;
+		}
+
+		public void setUnlock(boolean unlock) {
+			this.unlock = unlock;
+		}
+
+		public boolean down()
+		{
+			return lock;
+		}
+		
+		public boolean enabled()
+		{
+			return lock ^ unlock;
 		}
 	}
 

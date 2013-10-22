@@ -14,7 +14,7 @@ import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.StatusUpdatedEvent;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.HasFeature;
-import org.cotrix.web.shared.AuthenticationFeature;
+import org.cotrix.web.share.shared.feature.AuthenticationFeature;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
