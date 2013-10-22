@@ -23,7 +23,7 @@
 			cursor: pointer;
 		}
 		
-		.finalize {
+		.seal {
 			padding-left: 5px;
 
 		}
@@ -44,7 +44,7 @@
 				<g:upFace image="{resources.lock}" />
 				<g:downFace image="{resources.unlock}" />
 			</g:ToggleButton>
-			<g:Button ui:field="finalize" visible="true"  styleName="{style.finalize}">Finalize</g:Button>
+			<g:Button ui:field="seal" visible="true"  styleName="{style.seal}">Finalize</g:Button>
 		</g:FlowPanel>
 		<g:FlowPanel styleName="{style.rightWrapper}">
 			<g:Button ui:field="allColumns" enabled="true">AllColumns</g:Button>

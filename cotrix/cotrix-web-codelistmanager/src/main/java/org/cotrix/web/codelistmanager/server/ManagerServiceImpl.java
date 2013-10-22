@@ -108,7 +108,7 @@ public class ManagerServiceImpl implements ManagerService {
 				group = new CodelistGroup(codelist.name().toString());
 				groups.put(codelist.name(), group);
 			}
-			group.addVersion(codelist.id(), codelist.version());
+			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()));
 		}
 		
 		for (CodelistGroup group:groups.values()) Collections.sort(group.getVersions()); 

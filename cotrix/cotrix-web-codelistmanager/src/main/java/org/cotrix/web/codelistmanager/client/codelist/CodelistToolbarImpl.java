@@ -28,7 +28,7 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 	@UiField Button allNormals;
 	
 	@UiField ToggleButton lock;
-	@UiField Button finalize;
+	@UiField Button seal;
 	
 	protected ToolBarListener listener;
 	
@@ -52,7 +52,7 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 		else listener.onAction(Action.UNLOCK);
 	}
 	
-	@UiHandler("finalize")
+	@UiHandler("seal")
 	protected void onSealClick(ClickEvent event) {
 		listener.onAction(Action.FINALIZE);
 	}
@@ -67,7 +67,7 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 		switch (action) {
 			case ALL_COLUMN: allColumns.setEnabled(enabled); break;
 			case ALL_NORMAL: allNormals.setEnabled(enabled); break;
-			case FINALIZE: finalize.setEnabled(enabled); break;
+			case FINALIZE: seal.setEnabled(enabled); break;
 			case LOCK: if (!enabled) lock.setDown(true); break;
 			case UNLOCK: if (!enabled) lock.setDown(false); break;
 		}
