@@ -191,8 +191,10 @@ public class CodelistAttributesPanel extends ResizeComposite {
 				if (visualizedCode!=null && visualizedCode.equals(event.getData().getCode())) {
 					switch (event.getEditType()) {
 						case ADD: {
-							dataProvider.getList().add(event.getData().getAttribute());
-							dataProvider.refresh();
+							if (event.getSource() != CodelistAttributesPanel.this) {
+								dataProvider.getList().add(event.getData().getAttribute());
+								dataProvider.refresh();
+							}
 						} break;
 						case UPDATE: attributesGrid.refreshAttribute(event.getData().getAttribute()); break;
 						default:
