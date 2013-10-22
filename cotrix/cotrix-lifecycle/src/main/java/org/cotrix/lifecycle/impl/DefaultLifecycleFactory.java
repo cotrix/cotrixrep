@@ -17,7 +17,7 @@ import com.googlecode.stateless4j.StateMachine;
  */
 public class DefaultLifecycleFactory implements LifecycleFactory {
 
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -27,9 +27,9 @@ public class DefaultLifecycleFactory implements LifecycleFactory {
 
 	@Override
 	public Lifecycle create(String id) {
-		
+
 		valid("resource identifier",id);
-		
+
 		try {
 			return new S4JLifecycle(name(), id, machine(id));
 		} catch (Exception e) {
@@ -39,19 +39,20 @@ public class DefaultLifecycleFactory implements LifecycleFactory {
 
 	//helper
 	private StateMachine<State, Action> machine(String id) throws Exception {
-		
+
 		StateMachine<State, Action> machine = new StateMachine<State, Action>(draft);
-		
+
 		machine.Configure(draft)
-						.PermitReentry(VIEW.value())
-						.PermitReentry(EDIT.value())
-					    .Permit(LOCK.value(),locked)
-					    .Permit(SEAL.value(),sealed);
-		
+								.PermitReentry(VIEW.value())
+								.PermitReentry(EDIT.value())
+								.Permit(LOCK.value(),locked)
+								.Permit(SEAL.value(),sealed);
+
 		machine.Configure(locked)
-					.PermitReentry(VIEW.value())
-						.Permit(UNLOCK.value(), draft);
-		
+								.PermitReentry(VIEW.value())
+								.Permit(UNLOCK.value(), draft);
+
+
 		return machine;
 	}
 

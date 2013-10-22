@@ -3,10 +3,8 @@
  */
 package org.cotrix.web.codelistmanager.shared;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.web.share.shared.UIAttribute;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -17,7 +15,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class CodelistMetadata implements IsSerializable {
 
 	protected String id;
-	protected String name;
+	protected UIQName name;
 	protected String version;
 	protected List<UIAttribute> attributes;
 	
@@ -38,14 +36,14 @@ public class CodelistMetadata implements IsSerializable {
 	/**
 	 * @return the name
 	 */
-	public String getName() {
+	public UIQName getName() {
 		return name;
 	}
 	
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(String name) {
+	public void setName(UIQName name) {
 		this.name = name;
 	}
 	

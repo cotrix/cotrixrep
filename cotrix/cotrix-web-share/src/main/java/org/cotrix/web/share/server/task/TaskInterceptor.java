@@ -16,10 +16,12 @@ import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
 import org.cotrix.action.Action;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
+import org.cotrix.user.User;
+import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.Request;
-import org.cotrix.web.share.shared.feature.Response;
 import org.cotrix.web.share.shared.feature.UIFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,10 @@ public class TaskInterceptor {
 	
 	@Inject
 	ActionMapper actionMapper;
+	
+	@Inject
+	@Current
+	User user;
 
 	@AroundInvoke
 	public Object manageTask(final InvocationContext ctx) throws Exception { 
@@ -46,7 +52,7 @@ public class TaskInterceptor {
 		logger.trace("manageTask method: {}", method.getName());
 
 		Task taskAnnotation = method.getAnnotation(Task.class);
-		logger.trace("action: {}", taskAnnotation);
+		logger.trace("action: {} user: {}", taskAnnotation, user);
 		
 		if (taskAnnotation!=null) {
 
@@ -69,8 +75,8 @@ public class TaskInterceptor {
 			TaskOutcome<Object> outcome = engine.perform(action).with(task);
 			Object output = outcome.output();
 
-			if (output instanceof Response<?>) {
-				Response<?> response = (Response<?>) output;
+			if (output instanceof FeatureCarrier) {
+				FeatureCarrier response = (FeatureCarrier) output;
 				Set<UIFeature> features = actionMapper.mapActions(outcome.nextActions());
 				if (codelistId == null) {
 					logger.trace("setting application features set in response: {}", features);

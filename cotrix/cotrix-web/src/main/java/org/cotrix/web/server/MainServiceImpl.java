@@ -1,6 +1,5 @@
 package org.cotrix.web.server;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -12,9 +11,10 @@ import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
-import org.cotrix.web.share.shared.feature.Response;
+import org.cotrix.web.share.shared.feature.AuthenticationFeature;
+import org.cotrix.web.share.shared.feature.FeatureCarrier;
+import org.cotrix.web.share.shared.feature.ResponseWrapper;
 import org.cotrix.web.share.shared.feature.UIFeature;
-import org.cotrix.web.shared.AuthenticationFeature;
 import org.jboss.weld.servlet.SessionHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,14 +38,9 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	
 	@Inject
 	protected HttpServletRequest httpServletRequest;
-	
-	public ArrayList<String> getList() throws IllegalArgumentException {
-
-		return new ArrayList<String>();
-	}
 
 	@Override
-	public Response<String> login(String username, String password) {
+	public ResponseWrapper<String> login(String username, String password) {
 		logger.trace("login username: {}",username);
 		
 		//HttpServletRequest httpServletRequest = getThreadLocalRequest();
@@ -57,17 +52,21 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		User user = loginService.login(httpServletRequest);	
 		logger.trace("returned user: {}",user);
 		
+		ResponseWrapper<String> wrapper = new ResponseWrapper<String>(user.id());
+		
 		Set<UIFeature> features = actionMapper.mapActions(user.permissions());
 		
 		if (user.equals(PredefinedUsers.guest)) features.add(AuthenticationFeature.CAN_LOGIN);
 		else features.add(AuthenticationFeature.CAN_LOGOUT);
 		
-		return new Response<String>(features, user.id());
+		wrapper.setApplicationFeatures(features);
+		
+		return wrapper;
 	}
 
 	@Override
-	public Response<Void> logout() {
-		return Response.wrap(null);
+	public FeatureCarrier.Void logout() {
+		return FeatureCarrier.getVoid();
 	}
 
 }

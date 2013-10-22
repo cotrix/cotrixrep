@@ -5,13 +5,13 @@ package org.cotrix.web.share.shared;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import org.cotrix.web.share.shared.feature.FeatureCarrier;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class DataWindow<T> implements IsSerializable {
+public class DataWindow<T> extends FeatureCarrier {
 	
 	protected List<T> data;
 	protected int totalSize;

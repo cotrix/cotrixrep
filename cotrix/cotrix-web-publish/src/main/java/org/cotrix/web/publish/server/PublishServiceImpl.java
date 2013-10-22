@@ -20,9 +20,6 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.publish.client.PublishService;
-import org.cotrix.web.share.shared.CSVFile;
-import org.cotrix.web.share.shared.CotrixImportModel;
-import org.cotrix.web.share.shared.Metadata;
 import org.cotrix.web.share.shared.UIChanel;
 import org.cotrix.web.share.shared.UIChanelProperty;
 import org.cotrix.web.share.shared.UICodelist;
@@ -117,7 +114,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		return line;
 	}
 	
-	public CotrixImportModel getCodeListModel(String codelistId) {
+	/*public CotrixImportModel getCodeListModel(String codelistId) {
 		Codelist c = repository.lookup(codelistId);
 
 		Metadata meta = new Metadata();
@@ -135,7 +132,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements
 		model.setMetadata(meta);
 		model.setCsvFile(csvFile);
 		return model;
-	}
+	}*/
 	
 	public void publishCodelist(String codelistID,ArrayList<String> chanels){
 		Codelist codelist = repository.lookup(codelistID);

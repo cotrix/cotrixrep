@@ -46,7 +46,6 @@ import org.cotrix.web.importwizard.client.step.upload.UploadStepView;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepViewImpl;
 import org.cotrix.web.importwizard.client.task.ImportTask;
 import org.cotrix.web.importwizard.client.task.RetrieveAssetTask;
-import org.cotrix.web.share.shared.CotrixImportModelController;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;
@@ -61,12 +60,6 @@ public class CotrixImportAppGinModule extends AbstractGinModule {
     @Singleton
     public HandlerManager getEventBus() {
         return new HandlerManager(null);
-    }
-   
-    @Provides
-    @Singleton
-    public CotrixImportModelController getModel() {
-    	return new CotrixImportModelController();
     }
 
     protected void configure() {

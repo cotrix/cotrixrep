@@ -31,7 +31,7 @@ public class AuthBarrier implements Filter {
 			session.get(User.class);
 		}
 		catch(IllegalStateException e) {
-			
+
 			//defaults to guest for unauthenticated users
 			session.add(User.class, PredefinedUsers.guest);
 			

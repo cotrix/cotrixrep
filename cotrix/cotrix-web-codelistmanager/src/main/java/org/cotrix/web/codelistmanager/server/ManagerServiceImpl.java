@@ -1,12 +1,10 @@
 package org.cotrix.web.codelistmanager.server;
 
 import static org.cotrix.action.CodelistAction.*;
-import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.repository.Queries.*;
 import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,26 +23,24 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
+import org.cotrix.web.codelistmanager.server.modify.ModifyCommandHandler;
 import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
 import org.cotrix.web.codelistmanager.server.util.ValueUtils;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
-import org.cotrix.web.codelistmanager.shared.UICodelistRow;
+import org.cotrix.web.codelistmanager.shared.UIAttribute;
+import org.cotrix.web.codelistmanager.shared.UICode;
+import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
+import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.ContainsTask;
 import org.cotrix.web.share.server.task.Id;
 import org.cotrix.web.share.server.task.Task;
-import org.cotrix.web.share.shared.CSVFile;
-import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.Metadata;
-import org.cotrix.web.share.shared.UIAttribute;
-import org.cotrix.web.share.shared.UICode;
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.Request;
-import org.cotrix.web.share.shared.feature.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,6 +75,9 @@ public class ManagerServiceImpl implements ManagerService {
 	@Inject
 	protected CodelistLoader codelistLoader;
 	
+	@Inject
+	protected ModifyCommandHandler commandHandler;
+	
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -95,125 +94,6 @@ public class ManagerServiceImpl implements ManagerService {
 		mapper.map(SEAL.value()).to(SEAL_CODELIST);
 	}
 	
-	public ArrayList<UICodelist> getAllCodelists() throws IllegalArgumentException {
-
-		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
-		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
-		while (it.hasNext()) {
-			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it
-					.next();
-			UICodelist c = new UICodelist();
-			c.setName(codelist.name().toString());
-			c.setId(codelist.id());
-			list.add(c);
-		}
-		return list;
-	}
-
-	public void editCode(ArrayList<UICode> editedCodes) {
-//		for (UICode code : editedCodes) {
-//			Attribute changedAttribute = attr(code.getAttribute().getId()).name(code.getAttribute().getName()).value(code.getAttribute().getValue()).as(MODIFIED).build();
-//			Code changeCode =  code(code.getId()).name(code.getName()).attributes(changedAttribute).as(MODIFIED).build();
-//			Codelist changeset = codelist(code.getParent().getId()).name(code.getParent().getName()).with(changeCode).as(MODIFIED).build();
-//			repository.update(changeset);
-//		}
-//		/*
-//		Attribute a =  attr().name(code.getAttribute().getName()).value(code.getAttribute().getValue()).as(NEW).build();
-//		Code c = code().name(code.getName()).attributes(a).as(NEW).build();
-//		Codelist codelist = codelist(code.getParent().getId()).name(code.getParent().getName()).with(c).as(NEW).build();*/
-	}
-
-	public CotrixImportModel getCodeListModel(String codelistId) {
-		logger.trace("getCodeListModel codelistId {} ", codelistId);
-		
-		Codelist codelist = repository.lookup(codelistId);
-		logger.trace("lookup found {}", codelist.name().toString());
-		logger.trace("codelist size {}", codelist.codes().size());
-		
-
-		Metadata meta = new Metadata();
-		meta.setName(codelist.name().toString());
-		meta.setOwner("FAO");
-		meta.setRowCount(codelist.codes().size());
-		meta.setVersion(codelist.version());
-		meta.setDescription("This data was compiled by hand from the above and may contain errors. One small modification is that the various insular areas of the United State listed above are recorded here as the single United States Minor Outlying Islands.");
-
-		CSVFile csvFile = new CSVFile();
-		csvFile.setData(new ArrayList<String[]>());
-		csvFile.setHeader(getHeader(codelist));
-
-		CotrixImportModel model = new CotrixImportModel();
-		model.setMetadata(meta);
-		model.setCsvFile(csvFile);
-		model.setTotalRow(codelist.codes().size());
-		return model;
-	}
-
-	private String[] getHeader(Codelist codelist) {
-		CodelistQuery<Code> codes = allCodes(codelist.id());
-		codes.setRange(new Range(0, 1));
-		String[] line = null;
-		Iterable<Code> inrange = repository.queryFor(codes);
-
-		Iterator<Code> it = inrange.iterator();
-		while (it.hasNext()) {
-			Code code = (Code) it.next();
-			line = new String[code.attributes().size()];
-			Iterator it2 = code.attributes().iterator();
-			int index = 0;
-			while (it2.hasNext()) {
-				Attribute a = (Attribute) it2.next();
-				line[index++] = a.name().toString();
-			}
-		}
-		return line;
-	}
-
-	public ArrayList<UICode[]> getDataRange(String id, int start, int end) {
-		logger.trace("getDataRange id {}, start: {}, end: {}", id, start, end);
-		
-		
-		ArrayList<UICode[]> data = new ArrayList<UICode[]>();
-		CodelistQuery<Code> codes = allCodes(id);
-		codes.setRange(new Range(start,end));
-
-		Codelist codelist = repository.lookup(id);
-		Iterable<Code> inrange  = repository.queryFor(codes);
-		Iterator<Code> it = inrange.iterator();
-		while (it.hasNext()) {
-			Code code = (Code)  it.next();
-			System.out.println("attribute size = "+code.attributes().size());
-			UICode[] line = new UICode[code.attributes().size()];
-			Iterator<Attribute> it2 =  (Iterator<Attribute>) code.attributes().iterator();
-			int index = 0 ;
-			while (it2.hasNext()) {
-				Attribute a = (Attribute) it2.next();
-
-				UIAttribute uiAttr = new UIAttribute();
-				uiAttr.setName(a.name().toString());
-				uiAttr.setType(a.type().toString());
-				uiAttr.setLanguage(a.language());
-				uiAttr.setValue(a.value());
-				uiAttr.setId(a.id());
-
-				UICodelist uiCodeList = new UICodelist();
-				uiCodeList.setId(codelist.id());
-				uiCodeList.setName(codelist.name().toString());
-
-				UICode uiCode = new UICode();
-				uiCode.setAttribute(uiAttr);
-				uiCode.setId(code.id());
-				uiCode.setName(code.name().toString());
-				uiCode.setParent(uiCodeList);
-
-				line[index++] = uiCode;
-
-			}
-			data.add(line);	
-		}
-		return data;
-	}
-	
 	@Override
 	public DataWindow<CodelistGroup> getCodelistsGrouped() throws ManagerServiceException {
 		logger.trace("getCodelistsGrouped");
@@ -228,7 +108,7 @@ public class ManagerServiceImpl implements ManagerService {
 				group = new CodelistGroup(codelist.name().toString());
 				groups.put(codelist.name(), group);
 			}
-			group.addVersion(codelist.id(), codelist.version());
+			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()));
 		}
 		
 		for (CodelistGroup group:groups.values()) Collections.sort(group.getVersions()); 
@@ -237,7 +117,8 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public DataWindow<UICodelistRow> getCodelistRows(@Id String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
+	@Task(VIEW)
+	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
 		
 		CodelistQuery<Code> query = allCodes(codelistId);
@@ -249,31 +130,33 @@ public class ManagerServiceImpl implements ManagerService {
 		Codelist codelist = repository.lookup(codelistId);
 		
 		Iterable<Code> codes  = repository.queryFor(query);
-		List<UICodelistRow> rows = new ArrayList<UICodelistRow>(range.getLength());
+		List<UICode> rows = new ArrayList<UICode>(range.getLength());
 		for (Code code:codes) {
 
-			UICodelistRow row = new UICodelistRow(code.id(), code.id(), code.name().toString());
+			UICode uicode = new UICode();
+			uicode.setId(code.id());
+			uicode.setName(code.name().toString());
 			
-			Map<String, UIAttribute> rowAttributes = new HashMap<String, UIAttribute>(code.attributes().size());
+			List<UIAttribute> attributes = new ArrayList<UIAttribute>(code.attributes().size());
 			
 			for (Attribute attribute:code.attributes()) {
 				UIAttribute rowAttribute = toUIAttribute(attribute);
-				rowAttributes.put(attribute.name().toString(), rowAttribute);
+				attributes.add(rowAttribute);
 			}
-			row.setAttributes(rowAttributes);
-			rows.add(row);
+			uicode.setAttributes(attributes);
+			rows.add(uicode);
 		}
 		logger.trace("retrieved {} rows", rows.size());
-		return new DataWindow<UICodelistRow>(rows, codelist.codes().size());
+		return new DataWindow<UICode>(rows, codelist.codes().size());
 	}
 
 	@Override
-	public CodelistMetadata getMetadata(String codelistId) throws ManagerServiceException {
+	public CodelistMetadata getMetadata(@Id String codelistId) throws ManagerServiceException {
 		logger.trace("getMetadata codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
 		CodelistMetadata metadata = new CodelistMetadata();
 		metadata.setId(codelist.id());
-		metadata.setName(codelist.name().toString());
+		metadata.setName(ValueUtils.safeValue(codelist.name()));
 		metadata.setVersion(codelist.version());
 		metadata.setAttributes(getAttributes(codelist.attributes()));
 		return metadata;
@@ -291,76 +174,56 @@ public class ManagerServiceImpl implements ManagerService {
 		return attributes;
 	}
 	
-	protected UIAttribute toUIAttribute(Attribute domainAttribute)
+	protected UIAttribute toUIAttribute(Attribute attribute)
 	{
-		UIAttribute attribute = new UIAttribute();
-		attribute.setName(ValueUtils.safeValue(domainAttribute.name()));
-		attribute.setType(ValueUtils.safeValue(domainAttribute.type()));
-		attribute.setLanguage(ValueUtils.safeValue(domainAttribute.language()));
-		attribute.setValue(ValueUtils.safeValue(domainAttribute.value()));
-		attribute.setId(ValueUtils.safeValue(domainAttribute.id()));
-		return attribute;
+		UIAttribute uiattribute = new UIAttribute();
+		uiattribute.setName(ValueUtils.safeValue(attribute.name()));
+		uiattribute.setType(ValueUtils.safeValue(attribute.type()));
+		uiattribute.setLanguage(ValueUtils.safeValue(attribute.language()));
+		uiattribute.setValue(ValueUtils.safeValue(attribute.value()));
+		uiattribute.setId(ValueUtils.safeValue(attribute.id()));
+		return uiattribute;
 	}
 
-	@Override
-	public void saveMetadata(String codelistId, CodelistMetadata metadata) throws ManagerServiceException {
-//		logger.trace("saveMetadata codelistId: {}, metadata {}", codelistId, metadata);
-//		Attribute[] attributes = toDomainAttributes(metadata.getAttributes());
-//		Codelist changeset = codelist(codelistId).name(metadata.getName()).attributes(attributes).version(metadata.getVersion()).as(MODIFIED).build();
-//		//TODO attributes?
-//		repository.update(changeset);
-	}
-	
-	protected Attribute[] toDomainAttributes(Collection<UIAttribute> attributes)
-	{
-		Attribute[] domainAttributes = new Attribute[attributes.size()];
-		Iterator<UIAttribute> iterator = attributes.iterator();
-		for (int i = 0; i < domainAttributes.length; i++) {
-			domainAttributes[i] = toDomainAttribute(iterator.next());
-		}
-		return domainAttributes;
-	}
-	
-	protected Attribute toDomainAttribute(UIAttribute attribute)
-	{
-		return attr(attribute.getId()).name(attribute.getName()).value(attribute.getValue()).ofType(attribute.getType()).in(attribute.getLanguage()).build();
-	}
-	
 	@Task(LOCK)
-	public Response<Void> saveMessage(String message) {
-		return new Response<Void>();
+	public FeatureCarrier.Void saveMessage(String message) {
+		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@Task(LOCK)
-	public Response<Void> lock(Request<Void> request) {
-		return new Response<Void>();
+	public FeatureCarrier.Void lock(Request<Void> request) {
+		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@Task(UNLOCK)
-	public Response<Void> unlock(Request<Void> request) {
-		return new Response<Void>();
+	public FeatureCarrier.Void unlock(Request<Void> request) {
+		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@Task(SEAL)
-	public Response<Void> seal(Request<Void> request) {
-		return new Response<Void>();
+	public FeatureCarrier.Void seal(Request<Void> request) {
+		return FeatureCarrier.getVoid();
 	}
 
 	@Override
-	public void saveCodelistRow(String codelistId, UICodelistRow row) throws ManagerServiceException {
-//		//FIXME why name???
-//		Codelist codelist = repository.lookup(codelistId);
-//		
-//		Codelist changeset = codelist(codelistId).name(codelist.name()).with(toCode(row)).as(MODIFIED).build();
-//		repository.update(changeset);
+	//@Task(EDIT)
+	public ModifyCommandResult modify(@Id String codelistId, ModifyCommand command) throws ManagerServiceException {
+		try {
+		return commandHandler.handle(codelistId, command);
+		} catch(Throwable throwable)
+		{
+			logger.error("Error executing command "+command+" on codelist "+codelistId, throwable);
+			throw new ManagerServiceException(throwable.getMessage());
+		}
 	}
-	
-	protected Code toCode(UICodelistRow row)
-	{
-		return code(row.getId()).name(row.getName()).attributes(toDomainAttributes(row.getAttributes())).build();
+
+	@Override
+	public void removeCodelist(String codelistId) throws ManagerServiceException {
+		logger.trace("removeCodelist codelistId: {}",codelistId);
+		repository.remove(codelistId);
 	}
 
 	

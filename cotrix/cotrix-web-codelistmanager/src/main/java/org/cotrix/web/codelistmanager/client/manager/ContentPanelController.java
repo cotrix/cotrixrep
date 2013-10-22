@@ -23,7 +23,6 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class ContentPanelController implements OpenCodeListHandler {
-
 	
 	@Inject
 	protected CodelistPanelFactory codeListPanelFactory;
@@ -31,7 +30,6 @@ public class ContentPanelController implements OpenCodeListHandler {
 	protected ContentPanel view;
 	protected Map<String, CodelistPanelPresenter> presenters = new HashMap<String, CodelistPanelPresenter>();
 	
-
 	@Inject
 	public ContentPanelController(@ManagerBus EventBus managerBus, ContentPanel view) {
 		this.managerBus = managerBus;
@@ -40,13 +38,11 @@ public class ContentPanelController implements OpenCodeListHandler {
 		checkTabVisibility();
 	}
 
-
 	@Override
 	public void onOpenCodeList(OpenCodelistEvent event) {
 		Log.trace("opening codelist "+event.getCodelist());
 		final UICodelist codelist = event.getCodelist();
 		
-
 		CodelistPanelPresenter codeListPanelPresenter = codeListPanelFactory.build(codelist.getId());
 		presenters.put(codelist.getId(), codeListPanelPresenter);
 		Widget codelistPanel = codeListPanelPresenter.getView().asWidget();
@@ -77,6 +73,4 @@ public class ContentPanelController implements OpenCodeListHandler {
 		if (presenters.size()>0) view.showCodelists();
 		else view.showBlank();
 	}
-
-
 }

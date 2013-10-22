@@ -9,8 +9,8 @@ import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLoginEvent.UserLoginHandler;
 import org.cotrix.web.client.event.UserLogoutEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
-import org.cotrix.web.share.client.event.FeatureAsyncCallBack;
-import org.cotrix.web.share.shared.feature.Response;
+import org.cotrix.web.share.client.feature.AsyncCallBackWrapper;
+import org.cotrix.web.share.shared.feature.ResponseWrapper;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Scheduler;
@@ -30,7 +30,7 @@ public class UserController {
 	
 	protected EventBus cotrixBus;
 	
-	protected AsyncCallback<Response<String>> callback = FeatureAsyncCallBack.wrap(new AsyncCallback<String>() {
+	protected AsyncCallback<ResponseWrapper<String>> callback = AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
 
 		@Override
 		public void onFailure(Throwable caught) {

@@ -5,7 +5,7 @@ import static org.cotrix.user.PredefinedUsers.*;
 import java.util.Iterator;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -75,7 +75,7 @@ public class DefaultLoginService implements LoginService {
 		return user;
 	}
 	
-	@Produces @SessionScoped
+	@Produces @RequestScoped
 	public @Current User currentUser() {
 	
 		try {
@@ -84,7 +84,7 @@ public class DefaultLoginService implements LoginService {
 		catch(IllegalStateException e) {
 
 			//this should never happen: let's be more specific
-			throw new IllegalAccessError("an action over a protected resource has passed through the barrier without an authenticated user");
+			throw new IllegalAccessError("detected an attempt to access a protected resource without an authenticated user: is the authentication barrier configured?");
 			
 		}		
 	}

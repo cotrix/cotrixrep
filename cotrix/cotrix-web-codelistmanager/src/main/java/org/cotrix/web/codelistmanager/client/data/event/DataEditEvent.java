@@ -8,8 +8,10 @@ import com.google.gwt.event.shared.HasHandlers;
 public class DataEditEvent<T> extends GwtEvent<DataEditEvent.DataEditHandler<T>> {
 
 	public static Type<DataEditHandler<?>> TYPE = new Type<DataEditHandler<?>>();
+	
+	protected EditType editType;
 	private T data;
-
+	
 	public interface DataEditHandler<T> extends EventHandler {
 		void onDataEdit(DataEditEvent<T> event);
 	}
@@ -24,12 +26,20 @@ public class DataEditEvent<T> extends GwtEvent<DataEditEvent.DataEditHandler<T>>
 		HandlerRegistration addDataEditHandler(DataEditHandler<T> handler);
 	}
 
-	public DataEditEvent(T data) {
+	public DataEditEvent(T data, EditType editType) {
 		this.data = data;
+		this.editType = editType;
 	}
 
 	public T getData() {
 		return data;
+	}
+
+	/**
+	 * @return the editType
+	 */
+	public EditType getEditType() {
+		return editType;
 	}
 
 	@Override

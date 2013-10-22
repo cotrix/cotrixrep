@@ -1,6 +1,10 @@
 package org.cotrix.web.client.presenter;
 import com.google.gwt.user.client.ui.HasWidgets;
 
-public abstract interface Presenter<T> {
-  public abstract void go(final HasWidgets container);
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public interface Presenter {
+	public void go(final HasWidgets container);
 }

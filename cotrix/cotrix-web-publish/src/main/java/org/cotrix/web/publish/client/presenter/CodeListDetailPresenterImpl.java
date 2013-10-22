@@ -7,7 +7,6 @@ import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.view.ChanelPropertyItem;
 import org.cotrix.web.publish.client.view.CodeListDetailView;
 import org.cotrix.web.publish.client.view.ProgressbarDialog;
-import org.cotrix.web.share.shared.CotrixImportModel;
 import org.cotrix.web.share.shared.UIChanel;
 
 import com.google.gwt.event.shared.HandlerManager;
@@ -93,7 +92,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 	public void setData(final String id) {
 		this.codelistID = id;
 		view.showActivityIndicator();
-		rpcService.getCodeListModel(id, new AsyncCallback<CotrixImportModel>() {
+		/*rpcService.getCodeListModel(id, new AsyncCallback<CotrixImportModel>() {
 			public void onSuccess(CotrixImportModel result) {
 				view.setData(result,id);
 			}
@@ -101,7 +100,7 @@ public class CodeListDetailPresenterImpl implements CodeListDetailPresenter {
 			public void onFailure(Throwable caught) {
 				Window.alert("Can not get codelist data");
 			}
-		});
+		});*/
 
 	}
 	public void onPublishButtonClicked() {

@@ -20,31 +20,42 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSetChangedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSetChangedEvent.AttributeSetChangedHandler;
-import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchType;
-import org.cotrix.web.codelistmanager.client.codelist.event.AttributeSwitchedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.RowSelectedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.SwitchAttributeEvent;
-import org.cotrix.web.codelistmanager.client.data.CodelistRowEditor;
+import org.cotrix.web.codelistmanager.client.codelist.attribute.Group;
+import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
+import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
+import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
+import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
+import org.cotrix.web.codelistmanager.client.data.CodeAttributeEditor;
+import org.cotrix.web.codelistmanager.client.data.CodeEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
-import org.cotrix.web.codelistmanager.shared.UICodelistRow;
+import org.cotrix.web.codelistmanager.shared.UIAttribute;
+import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
-import org.cotrix.web.share.shared.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
@@ -61,7 +72,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistEditor extends ResizeComposite implements AttributeSetChangedHandler {
+public class CodelistEditor extends ResizeComposite implements GroupsChangedHandler {
 
 	interface Binder extends UiBinder<Widget, CodelistEditor> { }
 
@@ -74,40 +85,47 @@ public class CodelistEditor extends ResizeComposite implements AttributeSetChang
 	interface DataGridStyle extends PatchedDataGrid.Style {
 
 		String groupHeaderCell();
+		
+		String language();
 	}
 
 
 	@UiField(provided = true)
-	PatchedDataGrid<UICodelistRow> dataGrid;
+	PatchedDataGrid<UICode> dataGrid;
 
 	@UiField(provided = true)
 	SimplePager pager;
+	
+	@UiField ItemToolbar toolBar;
 
 	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 	protected DataGridResources resource = GWT.create(DataGridResources.class);
 
-	protected Set<String> attributeAsColumn = new HashSet<String>();
-	protected Map<String, Column<UICodelistRow, String>> attributesColumns = new HashMap<String, Column<UICodelistRow,String>>(); 
-	protected Map<String, Column<UICodelistRow, String>> switchesColumns = new HashMap<String, Column<UICodelistRow,String>>(); 
+	protected Set<Group> groupsAsColumn = new HashSet<Group>();
+	protected Map<Group, Column<UICode, String>> groupsColumns = new HashMap<Group, Column<UICode,String>>(); 
+	protected Map<String, Column<UICode, String>> switchesColumns = new HashMap<String, Column<UICode,String>>(); 
 
-	private Column<UICodelistRow, String> nameColumn;
+	private Column<UICode, String> nameColumn;
 	
 	protected EventBus editorBus;
 
-	protected SingleSelectionModel<UICodelistRow> selectionModel;
+	protected SingleSelectionModel<UICode> selectionModel;
 	
-	protected CodelistRowDataProvider dataProvider;
+	protected CodelistCodesProvider dataProvider;
 	protected HandlerRegistration registration;
 	
-	protected CodelistRowEditor rowEditor;
+	protected CodeEditor codeEditor;
 
+	protected CodeAttributeEditor attributeEditor;
+	
 	@Inject
-	public CodelistEditor(@EditorBus EventBus editorBus, CodelistRowDataProvider dataProvider, CodelistRowEditor rowEditor) {
+	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider, CodeEditor codeEditor, CodeAttributeEditor attributeEditor) {
 		this.editorBus = editorBus;
 		this.dataProvider = dataProvider;
-		this.rowEditor = rowEditor;
+		this.codeEditor = codeEditor;
+		this.attributeEditor = attributeEditor;
 
-		dataGrid = new PatchedDataGrid<UICodelistRow>(20, resource, CodelistRowKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label("Empty"));
 		dataGrid.setTableWidth(100, Unit.PCT);
@@ -121,57 +139,54 @@ public class CodelistEditor extends ResizeComposite implements AttributeSetChang
 		setupColumns();
 
 
-		selectionModel = new SingleSelectionModel<UICodelistRow>(CodelistRowKeyProvider.INSTANCE);
+		selectionModel = new SingleSelectionModel<UICode>(CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setSelectionModel(selectionModel);
 
 		// Specify a custom table.
 		//dataGrid.setTableBuilder(new CustomTableBuilder());
 		
 		dataProvider.addDataDisplay(dataGrid);
-		
-		bind();
 
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		bind();
 	}
 	
 	protected void setupColumns() {
 
-		nameColumn = new Column<UICodelistRow, String>(new DoubleClickEditTextCell()) {
+		nameColumn = new Column<UICode, String>(new DoubleClickEditTextCell()) {
 			@Override
-			public String getValue(UICodelistRow object) {
+			public String getValue(UICode object) {
 				if (object == null) return "";
 				return object.getName();
 			}
 		};
 		
-		nameColumn.setFieldUpdater(new FieldUpdater<UICodelistRow, String>() {
+		nameColumn.setFieldUpdater(new FieldUpdater<UICode, String>() {
 			
 			@Override
-			public void update(int index, UICodelistRow row, String value) {
+			public void update(int index, UICode row, String value) {
 				row.setName(value);
-				rowEditor.edited(row);
+				codeEditor.updated(row);
 			}
 		});
-		
-		//ResizableHeader<UICodelistRow> header = new ResizableHeader<UICodelistRow>("Code", dataGrid, nameColumn);
 
 		dataGrid.addColumn(nameColumn, "Code");
-		//dataGrid.setColumnWidth(2, 1000, Unit.PX);
 	}
 
 	public void showAllAttributesAsColumn()
 	{
-		if (registration == null) registration = dataProvider.addAttributeSetChangedHandler(this);
-		switchAllAttributesToColumn();
+		if (registration == null) registration = dataProvider.addGroupsChangedHandler(this);
+		switchAllGroupsToColumn();
 	}
 	
 	public void showAllAttributesAsNormal()
 	{
 		if (registration!=null) registration.removeHandler();
 		registration = null;
-		switchAllAttributesToNormal();
+		switchAllGroupsToNormal();
 	}
 	
 	protected void bind()
@@ -180,158 +195,220 @@ public class CodelistEditor extends ResizeComposite implements AttributeSetChang
 			
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
-				UICodelistRow row = selectionModel.getSelectedObject();
-				Log.trace("onSelectionChange row: "+row);
-				if (row !=null) editorBus.fireEvent(new RowSelectedEvent(row));
+				UICode code = selectionModel.getSelectedObject();
+				Log.trace("onSelectionChange code: "+code);
+				if (code !=null) editorBus.fireEvent(new CodeSelectedEvent(code));
 			}
 		});
 		
-		editorBus.addHandler(SwitchAttributeEvent.TYPE, new SwitchAttributeEvent.SwitchAttributeHandler() {
+		editorBus.addHandler(SwitchGroupEvent.TYPE, new SwitchGroupEvent.SwitchAttributeHandler() {
 			
 			@Override
-			public void onSwitchAttribute(SwitchAttributeEvent event) {
-				String attributeName = event.getAttributeName();
-				Log.trace("onSwitchAttribute attribute: "+attributeName+" type: "+event.getSwitchType());
+			public void onSwitchAttribute(SwitchGroupEvent event) {
+				Group group = event.getGroup();
+				Log.trace("onSwitchAttribute group: "+group+" type: "+event.getSwitchType());
 				switch (event.getSwitchType()) {
-					case TO_COLUMN: switchToColumn(attributeName); break;
-					case TO_NORMAL: switchToNormal(attributeName); break;
+					case TO_COLUMN: switchToColumn(group); break;
+					case TO_NORMAL: switchToNormal(group); break;
 				}
 			}
 		});
 		
-		rowEditor.addDataEditHandler(new DataEditHandler<UICodelistRow>() {
+		codeEditor.addDataEditHandler(new DataEditHandler<UICode>() {
 
 			@Override
-			public void onDataEdit(DataEditEvent<UICodelistRow> event) {
+			public void onDataEdit(DataEditEvent<UICode> event) {
 				Log.trace("onDataEdit row: "+event.getData());
 				int index = dataGrid.getVisibleItems().indexOf(event.getData());
 				Log.trace("index: "+index);
 				if (index>=0) dataGrid.redrawRow(index);
 			}
 		});
+		
+		attributeEditor.addDataEditHandler(new DataEditHandler<CodeAttributeEditor.CodeAttribute>() {
+
+			@Override
+			public void onDataEdit(DataEditEvent<CodeAttributeEditor.CodeAttribute> event) {
+					//dataProvider.refresh();
+					refreshCode(event.getData().getCode());
+			}
+		});
+		
+		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
+			
+			@Override
+			public void onButtonClicked(ButtonClickedEvent event) {
+				switch (event.getButton()) {
+					case MINUS: removeSelectedCode(); break;
+					case PLUS: addCode(); break;
+				}
+			}
+		});
+	}
+	
+	protected void refreshCode(UICode code)
+	{
+		Log.trace("refreshCode code: "+code);
+		int row = dataProvider.getCodes().indexOf(code);
+		Log.trace("row: "+row);
+		if (row>=0) dataGrid.redrawRow(row);
+	}
+	
+	protected void removeSelectedCode()
+	{
+		UICode code = selectionModel.getSelectedObject();
+		if (code!=null) {
+			dataProvider.getCodes().remove(code);
+			dataProvider.refresh();
+			codeEditor.removed(code);
+		}
+	}
+	
+	protected void addCode()
+	{
+		UICode code = new UICode(Document.get().createUniqueId(), "name");
+		dataProvider.getCodes().add(0, code);
+		dataProvider.refresh();
+		selectionModel.setSelected(code, true);
+		codeEditor.added(code);
 	}
 
-	protected Column<UICodelistRow, String> getAttributeColumn(final String name)
+	protected Column<UICode, String> getGroupColumn(final Group group)
 	{
-		Column<UICodelistRow, String> column = attributesColumns.get(name);
+		Column<UICode, String> column = groupsColumns.get(group);
 		if (column == null) {
 			DoubleClickEditTextCell cell = new DoubleClickEditTextCell();
-			column = new Column<UICodelistRow, String>(cell) {
+			column = new Column<UICode, String>(cell) {
 
 				@Override
-				public String getValue(UICodelistRow row) {
+				public String getValue(UICode row) {
 					if (row == null) return "";
-					UIAttribute attribute = row.getAttribute(name);
-					if (attribute == null) return "";
-					return attribute.getValue();
+					return group.getValue(row.getAttributes());
 				}
 			};
-			column.setFieldUpdater(new FieldUpdater<UICodelistRow, String>() {
+			column.setFieldUpdater(new FieldUpdater<UICode, String>() {
 
 				@Override
-				public void update(int index, UICodelistRow row, String value) {
-					UIAttribute attribute = row.getAttribute(name);
-					attribute.setValue(value);
-					rowEditor.edited(row);
+				public void update(int index, UICode code, String value) {
+					UIAttribute attribute = group.match(code.getAttributes());
+					if (attribute!=null) {
+						attribute.setValue(value);
+						attributeEditor.updated(code, attribute);
+					} else {
+						attribute = new UIAttribute();
+						attribute.setId(Document.get().createUniqueId());
+						attribute.setName(group.getName());
+						attribute.setLanguage(group.getLanguage());
+						attribute.setValue(value);
+						code.addAttribute(attribute);
+						attributeEditor.added(code, attribute);
+					}
 				}
 			});
 			
-			attributesColumns.put(name, column);
+			groupsColumns.put(group, column);
 		}
 		return column;
 	}
 
-	protected void switchToColumn(String attributeName)
+	protected void switchToColumn(Group group)
 	{
-		addAttributeColumn(attributeName);
-		editorBus.fireEvent(new AttributeSwitchedEvent(attributeName, AttributeSwitchType.TO_COLUMN));
+		addGroupColumn(group);
+		editorBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_COLUMN));
 	}
 	
-	protected void addAttributeColumn(final String attributeName)
+	protected void addGroupColumn(Group group)
 	{
-		if (attributeAsColumn.contains(attributeName)) return;
-		Column<UICodelistRow, String> column = getAttributeColumn(attributeName);
-		attributeAsColumn.add(attributeName);
+		if (groupsAsColumn.contains(group)) return;
+		Column<UICode, String> column = getGroupColumn(group);
+		groupsAsColumn.add(group);
 
-		
-		//ResizableHeader<UICodelistRow> resizableHeader = new ResizableHeader<UICodelistRow>(attributeName, dataGrid, column);
-		dataGrid.addColumn(column, attributeName);
-		//dataGrid.setColumnWidth(dataGrid.getColumnCount()-1, 1, Unit.EM);
-		//dataGrid.clearTableWidth();
+		dataGrid.addColumn(column, new GroupHeader(group));
 	}
 	
-	protected void switchToNormal(String attributeName)
+	protected void switchToNormal(Group group)
 	{
-		removeAttributeColumn(attributeName);
-		editorBus.fireEvent(new AttributeSwitchedEvent(attributeName, AttributeSwitchType.TO_NORMAL));
+		removeGroupColumn(group);
+		editorBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_NORMAL));
 	}
 	
-	protected void removeAttributeColumn(String attributeName)
+	protected void removeGroupColumn(Group group)
 	{
-		if (!attributeAsColumn.contains(attributeName)) return;
-		Column<UICodelistRow, String> column = getAttributeColumn(attributeName);
-		attributeAsColumn.remove(attributeName);
+		if (!groupsAsColumn.contains(group)) return;
+		Column<UICode, String> column = getGroupColumn(group);
+		groupsAsColumn.remove(group);
 		dataGrid.removeColumn(column);
-		//removeUnusedDataGridColumns(dataGrid);
-	}
-	
-	/**
-	 * Workaround issue #6711
-	 * https://code.google.com/p/google-web-toolkit/issues/detail?id=6711
-	 * @param dataGrid
-	 */
-	public static void removeUnusedDataGridColumns(PatchedDataGrid<?> dataGrid) {
-		Log.trace("removeUnusedDataGridColumns");
-		int columnCount = dataGrid.getColumnCount();
-		NodeList<Element> colGroups = dataGrid.getElement().getElementsByTagName("colgroup");
-
-		Log.trace("  found "+colGroups.getLength()+" col groups");
-		
-		for (int i = 0; i < colGroups.getLength(); i++) {
-			Element colGroupEle = colGroups.getItem(i);
-			colGroupEle.setId("GROUP"+i);
-			Log.trace("checking group "+i+" ancestor: "+colGroupEle.getParentNode());
-			
-			NodeList<Element> colList = colGroupEle.getElementsByTagName("col");
-			Log.trace("  found "+colList.getLength()+" cols in group "+i+" expected "+columnCount);
-			
-			for (int j = colList.getLength()-1; j >= columnCount; j--) {
-				colGroupEle.removeChild(colList.getItem(j));
-				Log.trace("    removing group "+j);
-			}
-		}
 	}
 
 	@Override
-	public void onAttributeSetChanged(AttributeSetChangedEvent event) {
-		Set<String> attributes = event.getAttributesNames();
-		Log.trace("onAttributeSetChanged attributes: "+attributes);
+	public void onGroupsChanged(GroupsChangedEvent event) {
+		Set<Group> groups = event.getGroups();
+		Log.trace("onAttributeSetChanged groups: "+groups);
 		
-		Set<String> columnsToRemove = new HashSet<String>(attributeAsColumn);
-		columnsToRemove.removeAll(attributes);
+		Set<Group> columnsToRemove = new HashSet<Group>(groupsAsColumn);
+		columnsToRemove.removeAll(groups);
 		Log.trace("columns to remove: "+columnsToRemove);
 		
-		for (String toRemove:columnsToRemove) removeAttributeColumn(toRemove);
+		for (Group toRemove:columnsToRemove) removeGroupColumn(toRemove);
 		
-		for (String attribute:attributes) addAttributeColumn(attribute);
+		for (Group group:groups) addGroupColumn(group);
 	}
 	
-	public void switchAllAttributesToColumn() {
-		Log.trace("switchAllAttributesToColumn");
+	public void switchAllGroupsToColumn() {
+		Log.trace("switchAllGroupsToColumn");
 		
-		Set<String> attributes = new HashSet<String>();
+		Set<Group> groups = GroupFactory.getGroups(dataGrid.getVisibleItems());
+		Log.trace("groups: "+groups);
 		
-		for (UICodelistRow row:dataGrid.getVisibleItems()) attributes.addAll(row.getAttributesNames());
-		Log.trace("attributes: "+attributes);
+		groups.removeAll(groupsAsColumn);	
+		Log.trace("attributes to add: "+groups);
 		
-		attributes.removeAll(attributeAsColumn);	
-		Log.trace("attributes to add: "+attributes);
-		
-		for (String attribute:attributes) switchToColumn(attribute);
+		for (Group group:groups) switchToColumn(group);
 	}
 	
-	public void switchAllAttributesToNormal() {
-		Set<String> attributesToNormal = new HashSet<String>(attributeAsColumn);
-		for (String attribute:attributesToNormal) switchToNormal(attribute);
+	public void switchAllGroupsToNormal() {
+		Set<Group> groupsToNormal = new HashSet<Group>(groupsAsColumn);
+		for (Group group:groupsToNormal) switchToNormal(group);
+	}
+	
+	 static interface GroupHeaderTemplate extends SafeHtmlTemplates {
+		    @Template("<span>{0} ({1})</span>")
+		    SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, String style);
+		    
+		    @Template("<span>{0}</span>")
+		    SafeHtml header(SafeHtml name);
+		  }
+	 
+	 protected static final GroupHeaderTemplate HEADER_TEMPLATE = GWT.create(GroupHeaderTemplate.class);
+	
+	protected class GroupHeader extends Header<Group> {
+
+		private Group group;
+
+		/**
+		 * Construct a new TextHeader.
+		 *
+		 * @param text the header text as a String
+		 */
+		public GroupHeader(Group group) {
+			super(new AbstractCell<Group>() {
+
+				@Override
+				public void render(com.google.gwt.cell.client.Cell.Context context, Group value, SafeHtmlBuilder sb) {
+					if (value.getLanguage()!=null && !value.getLanguage().isEmpty()) {
+						sb.append(HEADER_TEMPLATE.headerWithLanguage(SafeHtmlUtils.fromString(value.getName().getLocalPart()), SafeHtmlUtils.fromString(value.getLanguage()), resource.dataGridStyle().language()));
+					} else sb.append(HEADER_TEMPLATE.header(SafeHtmlUtils.fromString(value.getName().getLocalPart())));
+				}
+			});
+			this.group = group;
+		}
+
+		/**
+		 * Return the header text.
+		 */
+		@Override
+		public Group getValue() {
+			return group;
+		}
 	}
 }

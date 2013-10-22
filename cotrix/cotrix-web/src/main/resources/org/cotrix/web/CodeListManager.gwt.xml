@@ -7,7 +7,7 @@
 	<inherits name="com.google.gwt.inject.Inject" />
 	
 	<inherits name='org.cotrix.web.menu.CotrixModuleMenu' />
-	<inherits name='org.cotrix.web.importwizard.CotrixModuleImport' />
+<!-- 	<inherits name='org.cotrix.web.importwizard.CotrixModuleImport' /> -->
 	<inherits name='org.cotrix.web.codelistmanager.CotrixModuleManager' />
 	
 	<!-- 	<inherits name='org.cotrix.web.publish.CotrixModulePublish' />
@@ -17,6 +17,11 @@
 	<!-- GWT LOGGING SETUP -->
 	<inherits name="com.allen_sauer.gwt.log.gwt-log-TRACE" />
 	<set-property name="log_DivLogger" value="DISABLED" />
+	
+	<!-- CallBack interceptor -->
+	<generate-with  class="org.cotrix.web.share.gen.CotrixServiceInterfaceProxyGenerator">
+    	<when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService"/>
+	</generate-with>
 	
 	<!-- <set-configuration-property name="CssResource.style" value="pretty" />-->
 

@@ -7,13 +7,15 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.data.event.DataSaveFailedEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataSavedEvent;
+import org.cotrix.web.codelistmanager.client.data.event.EditType;
 import org.cotrix.web.codelistmanager.client.data.event.SavingDataEvent;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
+import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.StatusUpdatedEvent;
 
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
@@ -22,6 +24,9 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public abstract class AbstractDataSaver<T> implements DataEditHandler<T> {
+	
+	@Inject
+	protected ModifyCommandSequencer commandSequencer;
 
 	@ManagerBus
 	@Inject
@@ -45,21 +50,21 @@ public abstract class AbstractDataSaver<T> implements DataEditHandler<T> {
 	public void onDataEdit(DataEditEvent<T> event) {
 		fireEvent(new SavingDataEvent());
 		cotrixBus.fireEvent(new StatusUpdatedEvent("Saving ..."));
-		//TODO retry policy
-		save(event.getData(), new AsyncCallback<Void>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				fireEvent(new DataSaveFailedEvent(caught));
-			}
-
+		ModifyCommand command = generateCommand(event.getEditType(), event.getData());
+		commandSequencer.enqueueCommand(command, new Callback<Void, Throwable>() {
+			
 			@Override
 			public void onSuccess(Void result) {
 				fireEvent(new DataSavedEvent());
 				cotrixBus.fireEvent(new StatusUpdatedEvent("All saved"));
 			}
+			
+			@Override
+			public void onFailure(Throwable reason) {
+				fireEvent(new DataSaveFailedEvent(reason));
+			}
 		});
 	}
 	
-	public abstract void save(T data, AsyncCallback<Void> callback);
+	public abstract ModifyCommand generateCommand(EditType editType, T data);
 }

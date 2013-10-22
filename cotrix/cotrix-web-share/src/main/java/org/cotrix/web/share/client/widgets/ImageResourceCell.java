@@ -36,7 +36,6 @@ public class ImageResourceCell<T> extends AbstractCell<T> {
 			NativeEvent event, ValueUpdater<T> valueUpdater) {
 		super.onBrowserEvent(context, parent, value, event, valueUpdater);
 		if (CLICK.equals(event.getType())) {
-			System.out.println("CLICK EVENT vu: "+valueUpdater);
 			onEnterKeyDown(context, parent, value, event, valueUpdater);
 		}
 	}
@@ -45,7 +44,6 @@ public class ImageResourceCell<T> extends AbstractCell<T> {
 	protected void onEnterKeyDown(Context context, Element parent, T value,
 			NativeEvent event, ValueUpdater<T> valueUpdater) {
 		if (valueUpdater != null) {
-			System.out.println("UPDATING");
 			valueUpdater.update(value);
 		}
 	}
