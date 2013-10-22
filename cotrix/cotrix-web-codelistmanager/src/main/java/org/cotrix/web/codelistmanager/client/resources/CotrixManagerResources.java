@@ -40,6 +40,10 @@ public interface CotrixManagerResources extends ClientBundle {
 	@Source("versionItem.png")
 	public ImageResource versionItem();
 	
+	public ImageResource lock();
+	
+	public ImageResource unlock();
+	
 	interface CotrixManagerStyle extends CssResource {
 		String buttonAllColumns();
 	}

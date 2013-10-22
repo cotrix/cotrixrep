@@ -3,69 +3,26 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
-
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistToolbar extends Composite {
+public interface CodelistToolbar {
 	
-	@UiTemplate("CodelistToolbar.ui.xml")
-	interface CodelistToolbarUiBinder extends UiBinder<Widget, CodelistToolbar> {}
-	private static CodelistToolbarUiBinder uiBinder = GWT.create(CodelistToolbarUiBinder.class);
+	enum Action {
+		LOCK,
+		UNLOCK,
+		ALL_COLUMN,
+		ALL_NORMAL,
+		FINALIZE;
+	}
 	
-	@UiField Button allColumns;
-	@UiField Button allNormals;
+	public interface ToolBarListener {
+		public void onAction(Action action);
+	}
 	
-	@UiField Button lock;
-	@UiField Button unlock;
-	@UiField Button seal;
-	
-	public CodelistToolbar() {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
+	public void setListener(ToolBarListener listener);
 
-	/**
-	 * @return the allColumns
-	 */
-	public Button getAllColumns() {
-		return allColumns;
-	}
-
-	/**
-	 * @return the allNormals
-	 */
-	public Button getAllNormals() {
-		return allNormals;
-	}
-
-	/**
-	 * @param allNormals the allNormals to set
-	 */
-	public void setAllNormals(Button allNormals) {
-		this.allNormals = allNormals;
-	}
-
-	public Button getLockButton()
-	{
-		return lock;
-	}
-
-	public Button getUnlockButton()
-	{
-		return unlock;
-	}
-
-	public Button getSealButton()
-	{
-		return seal;
-	}
+	public void setEnabled(Action action, boolean enable);
 
 }

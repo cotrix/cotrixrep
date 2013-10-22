@@ -31,7 +31,7 @@ public class CodelistPanelViewImpl extends ResizeComposite implements CodelistPa
 	
 	@UiField SplitLayoutPanel mainPanel;
 	@UiField DockLayoutPanel contentPanel;
-	@UiField CodelistToolbar toolbar;
+	@UiField CodelistToolbarImpl toolbar;
 	@UiField CodelistEditor editor;
 	@UiField CodelistSidePanel sidePanel;
 	

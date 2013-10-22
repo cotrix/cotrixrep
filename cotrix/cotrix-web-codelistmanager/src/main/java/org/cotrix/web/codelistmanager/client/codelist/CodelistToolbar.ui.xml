@@ -13,7 +13,19 @@
 		
 		.leftWrapper {
 			float: left;
-			line-height: 35px;
+		}
+		
+		.lock {
+			outline: none;
+			padding: 5px;
+			display: inline;
+			vertical-align: middle;
+			cursor: pointer;
+		}
+		
+		.finalize {
+			padding-left: 5px;
+
 		}
 		
 		.rightWrapper {
@@ -28,9 +40,11 @@
 	</ui:style>
 	<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
 		<g:FlowPanel styleName="{style.leftWrapper}">
-			<g:Button ui:field="lock" visible="true">Lock</g:Button>
-			<g:Button ui:field="unlock" visible="true">Unlock</g:Button>
-			<g:Button ui:field="seal" visible="true">Seal</g:Button>
+			<g:ToggleButton ui:field="lock"  styleName="{style.lock}">
+				<g:upFace image="{resources.lock}" />
+				<g:downFace image="{resources.unlock}" />
+			</g:ToggleButton>
+			<g:Button ui:field="finalize" visible="true"  styleName="{style.finalize}">Finalize</g:Button>
 		</g:FlowPanel>
 		<g:FlowPanel styleName="{style.rightWrapper}">
 			<g:Button ui:field="allColumns" enabled="true">AllColumns</g:Button>
