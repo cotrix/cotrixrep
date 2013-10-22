@@ -26,10 +26,15 @@
 		<listener-class>org.cotrix.web.portlet.CotrixServletContextListener</listener-class>
 	</listener>
 	
-	<!-- <filter>
+	<filter>
+		<filter-name>weldworkaround</filter-name>
+		<filter-class>org.cotrix.web.portlet.WeldWorkaroundFilter</filter-class>
+	</filter>
+	
+	<filter>
 		<filter-name>authbarrier</filter-name>
 		<filter-class>org.cotrix.security.AuthBarrier</filter-class>
-	</filter> --> 
+	</filter>
 	
 	<servlet>
 		<servlet-name>listServlet</servlet-name>
@@ -87,10 +92,14 @@
 		<url-pattern>/CodeListManager/manager</url-pattern>
 	</servlet-mapping>
 	
-	<!-- <filter-mapping>
+	<filter-mapping>
+		<filter-name>weldworkaround</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
 		<filter-name>authbarrier</filter-name>
 		<url-pattern>/CodeListManager/*</url-pattern>
-	</filter-mapping> -->
+	</filter-mapping>
 
 	<!-- Default page to serve -->
 	<welcome-file-list>
