@@ -8,6 +8,7 @@ import java.util.List;
 public enum CodelistAction implements Action {
 
 	EDIT(action("edit")),
+	VIEW(action("view")),
 	LOCK(action("lock")),
 	UNLOCK(action("unlock")),
 	SEAL(action("seal"))
