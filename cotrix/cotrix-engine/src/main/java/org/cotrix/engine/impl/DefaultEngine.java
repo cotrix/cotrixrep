@@ -73,7 +73,7 @@ public class DefaultEngine implements Engine {
 		Lifecycle lifecycle = lcService.lifecycleOf(action.instance());
 			
 		if (!action.isIn(lifecycle.allowed()))
-			throw new IllegalStateException(user.name()+" cannot perform "+action);
+			throw new IllegalStateException(user.name()+" cannot perform "+action+" as the action is not allowed by the instance lifecycle");
 		
 		Collection<Action> permissions = user.permissions();
 		
