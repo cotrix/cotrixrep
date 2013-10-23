@@ -1,7 +1,6 @@
 package org.acme;
 
 
-import static java.util.Arrays.*;
 import static org.cotrix.action.Actions.*;
 import static org.junit.Assert.*;
 
@@ -11,34 +10,7 @@ import org.junit.Test;
 public class ActionTest {
 
 	@Test
-	public void canBeBuiltIncrementally() {
-		
-		Action a = type(any).end();
-		
-		assertEquals(asList(any),a.parts());
-		assertNull(a.instance());
-		
-		a = type("a").end();
-		assertEquals(asList("a"),a.parts());
-		assertEquals(null,a.instance());
-		
-		a = type("a").op("b").end();
-		assertEquals(asList("a","b"),a.parts());
-		assertEquals(null,a.instance());
-		
-		a = type("a").op("b").op("c").on("d");
-		
-		assertEquals(asList("a","b","c"),a.parts());
-		assertEquals("d",a.instance());
-		
-		a = type("a").on("c");
-		
-		assertEquals(asList("a"),a.parts());
-		assertEquals("c",a.instance());
-	}
-	
-	@Test
-	public void cannotBeBuiltIncorrectly() {
+	public void isBuiltCorrectly() {
 		
 		try {
 			action(null);
@@ -59,89 +31,73 @@ public class ActionTest {
 		}
 		catch(IllegalArgumentException e){}
 		
-		try {
-			actionOn(null,"a");
-			fail();
-		}
-		catch(IllegalArgumentException e){}
-		
-		try {
-			actionOn("","a");
-			fail();
-		}
-		catch(IllegalArgumentException e){}
-		
-		
 	}
 	
 	
 	@Test
-	public void matchSameOrEquals() {
+	public void isInMoreGenericAndNotInLessGeneric() {
 		
-		Action a = type("a").end();
-		Action sameAsA = type("a").end();
+		Action a = action("a");
+		Action ab = action("a","b");
+		Action abc = action("a","b","c");
+		
+		assertTrue(ab.isIn(a));
+		assertTrue(abc.isIn(a));
+		assertFalse(a.isIn(ab));
+		assertFalse(a.isIn(abc));
+	}
+	
 
-		assertTrue(a.isIn(a));
-		
-		assertTrue(a.isIn(sameAsA));
-	}
+	
 	
 	@Test
-	public void matchGeneralisations() {
-		
-		Action a = type("a").end();
-		Action a1 = type("a").op("1").end();
-		Action a12 = type("a").op("1").op("2").end();
-		
-		assertTrue(a1.isIn(a));
-		
-		assertTrue(a12.isIn(a));
-	}
-	
-	@Test
-	public void doNotMatchSpecialisations() {
-		
-		Action a = type("a").end();
-		Action a1 = type("a").op("1").end();
-		
-		assertFalse(a.isIn(a1));
-	}
-	
-	@Test
-	public void matchOneOfMany() {
-		
-		Action a = type("a").end();
-		Action a1 = type("a").op("1").end();
-		Action a2 = type("a").op("2").end();
-		
-		//or semantics
-		assertTrue(a1.isIn(a2,a));
-	}
-	
-	@Test
-	public void matchWildCardGeneralisations() {
+	public void isInWildcard() {
 
 		
 		Action top = action(any);
 		Action a = action("a");
 	
-		//top-level wildcard
 		assertTrue(a.isIn(top));
+		assertFalse(top.isIn(a));
 	}
 	
 	@Test
-	public void matchWildCardExtensions() {
+	public void isInWildcardExtension() {
 
 		Action anya = action("a",any);
 		
 		Action a = action("a");
-		Action a1 = action("a","1");
+		Action ab = action("a","b");
+		Action aanyc = action("a",any,"c");
 		
-		//inner-level wildcard vs. empty
 		assertTrue(a.isIn(anya));
+		assertTrue(ab.isIn(anya));
+		assertTrue(aanyc.isIn(anya));
 		
-		//inner-level wildcard vs. any
-		assertTrue(a1.isIn(anya));
 		
 	}
+
+	
+	@Test
+	public void isInOneOfMany() {
+		
+		Action a = action("a");
+		Action ab = action("a","b");
+		Action abc = action("a","b","c");
+		
+		//or semantics
+		assertTrue(ab.isIn(a,abc));
+	}
+	
+	@Test
+	public void instanceIsInGenericAndGenericIsNotInstance() {
+		
+		Action a = action("a");
+		Action a1 = action("a").on("1");
+		Action ab1 = action("a","b").on("1");
+		
+		assertTrue(a1.isIn(a));
+		assertTrue(ab1.isIn(a));
+		assertFalse(a.isIn(a1));
+	}	
 }

@@ -9,12 +9,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.cotrix.action.GenericAction;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ANNOTATION_TYPE})
-public @interface Task {
+@Target({METHOD})
+@Task
+public @interface GenericTask {
+	
+	GenericAction value();
 
 }

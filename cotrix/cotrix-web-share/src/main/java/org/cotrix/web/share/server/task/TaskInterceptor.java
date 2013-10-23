@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
- *
+ * 
  */
 @ContainsTask
 @Interceptor
@@ -38,23 +38,23 @@ public class TaskInterceptor {
 
 	@Inject
 	Engine engine;
-	
+
 	@Inject
 	ActionMapper actionMapper;
-	
+
 	@Inject
 	@Current
 	User user;
 
 	@AroundInvoke
-	public Object manageTask(final InvocationContext ctx) throws Exception { 
+	public Object manageTask(final InvocationContext ctx) throws Exception {
 		Method method = ctx.getMethod();
 		logger.trace("manageTask method: {}", method.getName());
 
-		Task taskAnnotation = method.getAnnotation(Task.class);
+		Annotation taskAnnotation = getTaskAnnotation(method);
 		logger.trace("action: {} user: {}", taskAnnotation, user);
-		
-		if (taskAnnotation!=null) {
+
+		if (taskAnnotation != null) {
 
 			Callable<Object> task = new Callable<Object>() {
 
@@ -65,26 +65,31 @@ public class TaskInterceptor {
 				}
 			};
 
-			Action action = taskAnnotation.value();
-			String codelistId = getIdentifier(ctx.getMethod().getParameterAnnotations(), ctx.getParameters());
+			Action action = getAction(taskAnnotation);
 			
-			
-			logger.trace("codelist id: {}", codelistId);
-			if (codelistId!=null) action = action.on(codelistId);
+			String instance = getIdentifier(ctx.getMethod().getParameterAnnotations(), ctx.getParameters());
 
+			if (instance!=null) {
+
+				logger.trace("instance: {}", instance);
+				
+				action = action.on(instance);
+			}
+			
 			TaskOutcome<Object> outcome = engine.perform(action).with(task);
+			
 			Object output = outcome.output();
 
 			if (output instanceof FeatureCarrier) {
 				FeatureCarrier response = (FeatureCarrier) output;
 				Set<UIFeature> features = actionMapper.mapActions(outcome.nextActions());
-				if (codelistId == null) {
+				if (instance == null) {
 					logger.trace("setting application features set in response: {}", features);
 					response.setApplicationFeatures(features);
 				} else {
 					logger.trace("setting codelist features set in response: {}", features);
 					Map<String, Set<UIFeature>> codelistsFeatures = new HashMap<String, Set<UIFeature>>();
-					codelistsFeatures.put(codelistId, features);
+					codelistsFeatures.put(instance, features);
 					response.setCodelistsFeatures(codelistsFeatures);
 				}
 			}
@@ -93,25 +98,26 @@ public class TaskInterceptor {
 
 		} else {
 			Object result = ctx.getMethod().invoke(ctx.getTarget(), ctx.getParameters());
-			System.out.println("INVOKED "+ctx.getMethod().getName());
+			System.out.println("INVOKED " + ctx.getMethod().getName());
 			return result;
 		}
 
 	}
 
-	protected String getIdentifier(Annotation[][] parametersAnnotations, Object[] parameters)
-	{
-		if (parameters == null || parameters.length == 0) return null;
-		
+	protected String getIdentifier(Annotation[][] parametersAnnotations, Object[] parameters) {
+		if (parameters == null || parameters.length == 0)
+			return null;
+
 		String id = getIdentifierAsRequest(parameters);
-		if (id!=null) return id;
+		if (id != null)
+			return id;
 		return getIdentifierFromAnnotated(parametersAnnotations, parameters);
 	}
-	
-	protected String getIdentifierAsRequest(Object[] parameters)
-	{
-		if (parameters == null || parameters.length == 0) return null;
-		for (Object parameter:parameters) {
+
+	protected String getIdentifierAsRequest(Object[] parameters) {
+		if (parameters == null || parameters.length == 0)
+			return null;
+		for (Object parameter : parameters) {
 			if (parameter instanceof Request) {
 				Request<?> request = (Request<?>) parameter;
 				return request.getId();
@@ -119,17 +125,37 @@ public class TaskInterceptor {
 		}
 		return null;
 	}
-	
-	protected String getIdentifierFromAnnotated(Annotation[][] parametersAnnotations, Object[] parameters)
-	{
+
+	protected String getIdentifierFromAnnotated(Annotation[][] parametersAnnotations, Object[] parameters) {
 		for (int i = 0; i < parametersAnnotations.length; i++) {
 			Annotation[] parameterAnnotations = parametersAnnotations[i];
-			for (Annotation annotation:parameterAnnotations) {
-				if (annotation.annotationType().equals(Id.class)) return String.valueOf(parameters[i]);
+			for (Annotation annotation : parameterAnnotations) {
+				if (annotation.annotationType().equals(Id.class))
+					return String.valueOf(parameters[i]);
 			}
 		}
-		
+
 		return null;
 	}
 
+	//helper
+	
+	private Annotation getTaskAnnotation(Method m) {
+		
+		for (Annotation a : m.getAnnotations())
+			if (a.annotationType().isAnnotationPresent(Task.class))
+			return a;
+		
+		return null;
+	}
+	
+	private Action getAction(Annotation a) {
+		
+		try {
+			return Action.class.cast(a.getClass().getMethods()[0].invoke(a));
+		}
+		catch(Exception e) {
+			throw new RuntimeException("invalid Task annotation "+a+": first parameter is not an action");
+		}
+	}
 }
