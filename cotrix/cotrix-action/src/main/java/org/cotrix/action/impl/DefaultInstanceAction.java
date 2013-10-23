@@ -26,7 +26,7 @@ public class DefaultInstanceAction extends AbstractAction implements InstanceAct
 	public DefaultInstanceAction(Action action,String instance) {
 		
 		notNull("action",action);
-		notNull("isntance",instance);
+		notNull("instance",instance);
 		
 		this.action=action;
 		this.instance=instance;
@@ -49,8 +49,6 @@ public class DefaultInstanceAction extends AbstractAction implements InstanceAct
 	
 	@Override
 	public boolean isIn(Action a) {
-		
-		System.out.println("checking "+this+" with action "+a);
 		
 		if (a instanceof InstanceAction) {
 			
