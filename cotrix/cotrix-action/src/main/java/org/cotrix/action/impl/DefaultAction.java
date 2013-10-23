@@ -52,6 +52,11 @@ public class DefaultAction extends AbstractAction implements Action {
 		return false;
 	}
 	
+	@Override
+	public InstanceAction on(String instance) {
+		return new DefaultInstanceAction(this, instance);
+	}
+	
 	
 	public boolean isIn(Action a) {
 		

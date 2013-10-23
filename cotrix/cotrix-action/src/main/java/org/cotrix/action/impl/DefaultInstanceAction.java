@@ -43,6 +43,11 @@ public class DefaultInstanceAction extends AbstractAction implements InstanceAct
 	}
 	
 	@Override
+	public InstanceAction on(String instance) {
+		return new DefaultInstanceAction(action, instance);
+	}
+	
+	@Override
 	public boolean isIn(Action a) {
 		
 		System.out.println("checking "+this+" with action "+a);

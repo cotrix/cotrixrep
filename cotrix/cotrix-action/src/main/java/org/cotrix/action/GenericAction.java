@@ -5,6 +5,8 @@ import static org.cotrix.action.Actions.*;
 import java.util.Collection;
 import java.util.List;
 
+import org.cotrix.action.impl.DefaultInstanceAction;
+
 public enum GenericAction implements Action {
 
 	// TODO replace with first real case
@@ -36,7 +38,7 @@ public enum GenericAction implements Action {
 
 	@Override
 	public InstanceAction on(String instance) {
-		return innerAction.on(instance);
+		return new DefaultInstanceAction(this, instance);
 	}
 
 }
