@@ -52,16 +52,19 @@ public class DefaultAction extends AbstractAction implements Action {
 		return false;
 	}
 	
+	@Override
+	public InstanceAction on(String instance) {
+		return new DefaultInstanceAction(this, instance);
+	}
+	
 	
 	public boolean isIn(Action a) {
 		
 		if (this.equals(a))
 			return true;
 		
-		
-		return specialises(a.parts()) && (a instanceof InstanceAction? 
-											InstanceAction.class.cast(a).instance()==null:
-											true);
+		//must be generic and match 
+		return !(a instanceof InstanceAction) && specialises(a.parts());
 	}	
 
 
@@ -91,10 +94,6 @@ public class DefaultAction extends AbstractAction implements Action {
 	}
 	
 	
-	
-	
-	
-
 	@Override
 	public String toString() {
 		final int maxLen = 100;

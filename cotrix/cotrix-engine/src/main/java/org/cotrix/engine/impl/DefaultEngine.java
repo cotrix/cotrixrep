@@ -103,7 +103,6 @@ public class DefaultEngine implements Engine {
 	
 	private <T> T perform(Action action, Callable<T> callable, Collection<Action> permissions) {
 		
-		System.out.println("action="+action+":permissions "+permissions);
 		if (!action.isIn(permissions))
 				throw new IllegalAccessError(user.id()+" cannot perform "+action+", as her permissions don't allow it");
 		
