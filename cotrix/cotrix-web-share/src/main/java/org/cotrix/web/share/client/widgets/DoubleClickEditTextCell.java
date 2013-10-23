@@ -132,6 +132,8 @@ AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
 
 	private final SafeHtmlRenderer<String> renderer;
 
+	protected boolean editable;
+
 	/**
 	 * Construct a new EditTextCell that will use a
 	 * {@link SimpleSafeHtmlRenderer}.
@@ -156,6 +158,21 @@ AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
 			throw new IllegalArgumentException("renderer == null");
 		}
 		this.renderer = renderer;
+		editable = true;
+	}
+
+	/**
+	 * @return the editable
+	 */
+	public boolean isEditable() {
+		return editable;
+	}
+
+	/**
+	 * @param editable the editable to set
+	 */
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 
 	@Override
@@ -173,19 +190,22 @@ AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
 			// Handle the edit event.
 			editEvent(context, parent, value, viewData, event, valueUpdater);
 		} else {
-			String type = event.getType();
-			int keyCode = event.getKeyCode();
-			boolean enterPressed = KEYUP.equals(type)
-					&& keyCode == KeyCodes.KEY_ENTER;
-			if (DBLCLICK.equals(type) || enterPressed) {
-				// Go into edit mode.
-				if (viewData == null) {
-					viewData = new ViewData(value);
-					setViewData(key, viewData);
-				} else {
-					viewData.setEditing(true);
+
+			if (editable) {
+				String type = event.getType();
+				int keyCode = event.getKeyCode();
+				boolean enterPressed = KEYUP.equals(type)
+						&& keyCode == KeyCodes.KEY_ENTER;
+				if (DBLCLICK.equals(type) || enterPressed) {
+					// Go into edit mode.
+					if (viewData == null) {
+						viewData = new ViewData(value);
+						setViewData(key, viewData);
+					} else {
+						viewData.setEditing(true);
+					}
+					edit(context, parent, value);
 				}
-				edit(context, parent, value);
 			}
 		}
 	}

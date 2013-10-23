@@ -23,6 +23,7 @@
 		
 		.tabClose {
 			float: right;
+			cursor: pointer;
 		}
 	</ui:style>
 	<g:FlowPanel styleName="{style.tab}">

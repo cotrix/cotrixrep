@@ -1,6 +1,8 @@
 package org.cotrix.web.codelistmanager.client.codelist;
 
 
+import org.cotrix.web.share.client.widgets.HasEditing;
+
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -17,5 +19,9 @@ public interface CodelistPanelView {
 	CodelistToolbar getToolBar();
 	
 	CodelistEditor getCodeListEditor();
+	
+	HasEditing getMetadataEditor();
+	
+	HasEditing getAttributesEditor();
 
 }

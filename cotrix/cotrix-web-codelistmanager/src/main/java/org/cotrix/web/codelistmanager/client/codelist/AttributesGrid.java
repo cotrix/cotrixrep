@@ -15,6 +15,7 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEven
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.share.client.util.EventUtil;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
+import org.cotrix.web.share.client.widgets.HasEditing;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.Cell.Context;
@@ -69,7 +71,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class AttributesGrid extends ResizeComposite implements HasAttributeChangedHandlers {
+public class AttributesGrid extends ResizeComposite implements HasAttributeChangedHandlers, HasEditing {
 
 	interface DataGridResources extends DataGrid.Resources {
 
@@ -88,7 +90,9 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 	private final Set<String> showExpanded = new HashSet<String>();
 
 	protected Map<String, EnumMap<AttributeField, Column<UIAttribute, String>>> attributesPropertiesColumns = new HashMap<String, EnumMap<AttributeField,Column<UIAttribute,String>>>();
-
+	protected List<DoubleClickEditTextCell> cells = new ArrayList<DoubleClickEditTextCell>();
+	protected boolean editable = true;
+	
 	private Column<UIAttribute, String> attributeNameColumn;
 
 	private ListDataProvider<UIAttribute> dataProvider;
@@ -125,9 +129,52 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		initWidget(dataGrid);
 	}
 	
+	private void setupColumns() {
+
+		attributeNameColumn = new Column<UIAttribute, String>(new ClickableTextCell()) {
+			@Override
+			public String getValue(UIAttribute object) {
+				return object.getName().getLocalPart();
+			}
+		};
+
+		attributeNameColumn.setFieldUpdater(new FieldUpdater<UIAttribute, String>() {
+			@Override
+			public void update(int index, UIAttribute object, String value) {
+
+				Log.trace("expand "+index+" "+object.getId());
+
+				if (showExpanded.contains(object.getId())) {
+					showExpanded.remove(object.getId());
+				} else {
+					showExpanded.add(object.getId());
+				}
+
+				// Redraw the modified row.
+				dataGrid.redrawRow(index);
+			}
+		});
+
+		dataGrid.addColumn(attributeNameColumn, header);
+	}
+	
 	public UIAttribute getSelectedAttribute()
 	{
 		return selectionModel.getSelectedObject();
+	}
+	
+	public void setEditable(boolean editable)
+	{
+		this.editable = editable;
+		for (DoubleClickEditTextCell cell:cells) cell.setEditable(editable);
+	}
+
+	protected DoubleClickEditTextCell createCell()
+	{
+		DoubleClickEditTextCell cell = new DoubleClickEditTextCell();
+		cell.setEditable(editable);
+		cells.add(cell);
+		return cell;
 	}
 	
 	protected Column<UIAttribute, String> getAttributePropertyColumn(final String name, final AttributeField field)
@@ -140,8 +187,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		
 		Column<UIAttribute, String> column = attributePropertiesColumns.get(field);
 		if (column == null) {
-			DoubleClickEditTextCell cell = new DoubleClickEditTextCell();
-			column = new Column<UIAttribute, String>(cell) {
+			column = new Column<UIAttribute, String>(createCell()) {
 
 				@Override
 				public String getValue(UIAttribute attribute) {
@@ -185,35 +231,6 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 			attributes.set(index, attribute);
 			dataProvider.refresh();
 		} else Log.warn("attribute "+attribute+" not found in data provider");
-	}
-
-	private void setupColumns() {
-
-		attributeNameColumn = new Column<UIAttribute, String>(new ClickableTextCell()) {
-			@Override
-			public String getValue(UIAttribute object) {
-				return object.getName().getLocalPart();
-			}
-		};
-
-		attributeNameColumn.setFieldUpdater(new FieldUpdater<UIAttribute, String>() {
-			@Override
-			public void update(int index, UIAttribute object, String value) {
-
-				Log.trace("expand "+index+" "+object.getId());
-
-				if (showExpanded.contains(object.getId())) {
-					showExpanded.remove(object.getId());
-				} else {
-					showExpanded.add(object.getId());
-				}
-
-				// Redraw the modified row.
-				dataGrid.redrawRow(index);
-			}
-		});
-
-		dataGrid.addColumn(attributeNameColumn, header);
 	}
 	
 	public void removeUnusedDataGridColumns() {

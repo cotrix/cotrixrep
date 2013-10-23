@@ -20,27 +20,11 @@ public class CodelistPanelFactory {
 	@Inject
 	protected CodelistIdProvider codelistIdProvider;
 	
-	@Inject
-	protected MetadataEditorProvider metadataEditorProvider;
-	
-	@Inject
-	protected MetadataAttributeEditorProvider metadataAttributeEditorProvider;
-	
-	@Inject
-	protected CodeEditorProvider codeListRowEditorProvider;
-	
-	@Inject
-	protected CodeAttributeEditorProvider codeAttributeEditorProvider;
-	
 	
 	public CodelistPanelPresenter build(String codelistId)
 	{
 		codelistIdProvider.setCodelistId(codelistId);
 		editorEventBusProvider.generate();
-		metadataEditorProvider.generate();
-		codeListRowEditorProvider.generate();
-		codeAttributeEditorProvider.generate();
-		metadataAttributeEditorProvider.generate();
 		
 		return CotrixManagerAppGinInjector.INSTANCE.getCodeListPanelPresenter();
 	}

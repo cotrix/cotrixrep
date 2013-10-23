@@ -3,6 +3,9 @@
  */
 package org.cotrix.web.share.client.feature;
 
+import org.cotrix.web.share.client.feature.event.NewApplicationFeatureSetEvent;
+import org.cotrix.web.share.client.feature.event.NewCodelistsFeatureSetEvent;
+import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.shared.feature.UIFeature;
 
 import com.google.gwt.user.client.ui.HasEnabled;
@@ -22,7 +25,7 @@ public class FeatureBinder {
 	public static void bind(HasFeature hasFeature, UIFeature feature)
 	{
 		ApplicationFeatureBind bind = new ApplicationFeatureBind(feature, hasFeature);
-		featureBus.addHandler(NewFeatureSetEvent.TYPE, bind);
+		featureBus.addHandler(NewApplicationFeatureSetEvent.TYPE, bind);
 	}
 	
 	public static void bind(final HasVisibility hasVisibility, UIFeature feature)
@@ -38,7 +41,7 @@ public class FeatureBinder {
 	public static void bind(HasFeature hasFeature,  String codelistId, UIFeature feature)
 	{
 		CodelistFeatureBind bind = new CodelistFeatureBind(codelistId, feature, hasFeature);
-		featureBus.addHandler(NewFeatureSetEvent.TYPE, bind);
+		featureBus.addHandler(NewCodelistsFeatureSetEvent.TYPE, bind);
 	}
 	
 	public static void bind(final HasVisibility hasVisibility, String codelistId, UIFeature feature)
@@ -49,6 +52,11 @@ public class FeatureBinder {
 	public static void bind(final HasEnabled hasEnabled, String codelistId, UIFeature feature)
 	{
 		bind(new HasEnabledFeature(hasEnabled), codelistId, feature);
+	}
+	
+	public static void bind(final HasEditing hasEditing, String codelistId, UIFeature feature)
+	{
+		bind(new HasEditableFeature(hasEditing), codelistId, feature);
 	}
 
 }

@@ -32,6 +32,7 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 	@UiField Button seal;
 	
 	protected ToolBarListener listener;
+	protected LockToggler lockToggler = new LockToggler();
 	
 	public CodelistToolbarImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -49,8 +50,9 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 	
 	@UiHandler("lock")
 	protected void onLockClick(ClickEvent event) {
-		if (lock.isDown()) listener.onAction(Action.LOCK);
-		else listener.onAction(Action.UNLOCK);
+		Log.trace("onLockClick i down? "+lock.isDown());
+		if (lock.isDown()) listener.onAction(Action.UNLOCK);
+		else listener.onAction(Action.LOCK);
 	}
 	
 	@UiHandler("seal")
@@ -71,20 +73,22 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 			case FINALIZE: seal.setEnabled(enabled); break;
 			case LOCK: {
 				Log.trace("LOCK "+enabled);
-				if (enabled) {
-					lock.setDown(true);
-					lock.setEnabled(true);
-				} else if (!lock.isDown()) lock.setEnabled(false);
-				
+				lockToggler.setLock(enabled);
+				syncToggle();
 			} break;
 			case UNLOCK: {
 				Log.trace("UNLOCK "+enabled);
-				if (enabled) {
-					lock.setDown(false); 
-					lock.setEnabled(true);
-				} else if (lock.isDown()) lock.setEnabled(false);
+				lockToggler.setUnlock(enabled);
+				syncToggle();
 			} break;
 		}
+	}
+	
+	protected void syncToggle()
+	{
+		Log.trace("lock down? "+lockToggler.down()+" enabled? "+lockToggler.enabled());
+		lock.setDown(lockToggler.down());
+		lock.setEnabled(lockToggler.enabled());
 	}
 	
 	protected class LockToggler {

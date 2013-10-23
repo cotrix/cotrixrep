@@ -2,6 +2,7 @@ package org.cotrix.web.codelistmanager.client.codelist;
 
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.share.client.widgets.HasEditing;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -67,5 +68,15 @@ public class CodelistPanelViewImpl extends ResizeComposite implements CodelistPa
 	@Override
 	public CodelistEditor getCodeListEditor() {
 		return editor;
+	}
+
+	@Override
+	public HasEditing getMetadataEditor() {
+		return sidePanel.getMetadataPanel();
+	}
+
+	@Override
+	public HasEditing getAttributesEditor() {
+		return sidePanel.getAttributesPanel();
 	}
 }

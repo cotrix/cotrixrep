@@ -5,12 +5,14 @@ import org.cotrix.web.codelistmanager.client.codelist.CodelistEditor;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistMetadataPanel;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelPresenter;
 import org.cotrix.web.codelistmanager.client.codelists.CodelistsPresenter;
+import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.manager.CodelistManagerPresenter;
 import org.cotrix.web.share.client.CommonGinModule;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -31,4 +33,7 @@ public interface CotrixManagerAppGinInjector extends Ginjector {
 	public CodelistEditor getCodeListEditor();
 	public CodelistAttributesPanel getCodeListAttributesPanel();
 	public CodelistMetadataPanel getCodeListMetadataPanel();
+	
+	@EditorBus
+	public EventBus getEditorBus();
 }
