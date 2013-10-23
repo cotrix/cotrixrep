@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import org.cotrix.action.Action;
 import org.cotrix.action.CodelistAction;
+import org.cotrix.action.GenericAction;
 import org.cotrix.action.InstanceAction;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
@@ -79,13 +80,15 @@ public class DefaultEngine implements Engine {
 		
 		lifecycle.notify(action);
 		
-		
 		//build next actions filtering by current user's permissions
 		Collection<Action> next = new ArrayList<Action>();
+
+		Collection<Action> allowed = lifecycle.allowed();
 		
-		for (Action a : lifecycle.allowed())
-			if (a.isIn(permissions))
-				next.add(a);
+		for (Action permission : permissions)
+			if (permission instanceof GenericAction || permission.isIn(allowed))
+				next.add(permission);
+		
 		
 		return new TaskOutcome<T>(next, output);
 		

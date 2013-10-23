@@ -64,14 +64,14 @@ public class DefaultAction extends AbstractAction implements Action {
 			return true;
 		
 		//must be generic and match 
-		return !(a instanceof InstanceAction) && specialises(a.parts());
+		return !(a instanceof InstanceAction) && matches(a.parts());
 	}	
 
 
 	//helpers   
 	
 	
-	private boolean specialises(List<String> parts) {
+	private boolean matches(List<String> parts) {
 		
 		for (int i =0; i<parts.size(); i++) {
 			String part = parts.get(i);
@@ -81,7 +81,7 @@ public class DefaultAction extends AbstractAction implements Action {
 					return false;
 			}
 			else //compare matched parts
-				if (!specialises(this.parts.get(i),part))
+				if (!matches(this.parts.get(i),part))
 					return false;
 		}
 		
@@ -89,7 +89,7 @@ public class DefaultAction extends AbstractAction implements Action {
 			
 	}
 	
-	private boolean specialises(String thisPart, String superPart) {
+	private boolean matches(String thisPart, String superPart) {
 		return thisPart.equals(superPart) || superPart==any;
 	}
 	
