@@ -7,8 +7,8 @@ import java.util.List;
 
 public enum GenericAction implements Action {
 
-	// TODO replace with first real case
-	SAMPLE(action("sample"))
+	IMPORT(action("import")),
+	PUBLISH(action("publish"))
 
 	;
 

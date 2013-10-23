@@ -72,4 +72,14 @@ public class MenuViewImpl extends Composite implements MenuView {
 		this.presenter = presenter;
 	}
 
+	@Override
+	public void setVisible(Menu menu, boolean visible) {
+		switch (menu) {
+			case HOME: homeMenu.setVisible(visible); break;
+			case IMPORT: importMenu.setVisible(visible); break;
+			case MANAGE: manageMenu.setVisible(visible); break;
+			case PUBLISH: publishMenu.setVisible(visible); break;
+		}
+	}
+
 }

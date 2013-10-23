@@ -5,9 +5,6 @@ package org.cotrix.web.share.server.task;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
@@ -22,7 +19,6 @@ import org.cotrix.engine.TaskOutcome;
 import org.cotrix.user.User;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.Request;
-import org.cotrix.web.share.shared.feature.UIFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,16 +78,7 @@ public class TaskInterceptor {
 
 			if (output instanceof FeatureCarrier) {
 				FeatureCarrier response = (FeatureCarrier) output;
-				Set<UIFeature> features = actionMapper.mapActions(outcome.nextActions());
-				if (instance == null) {
-					logger.trace("setting application features set in response: {}", features);
-					response.setApplicationFeatures(features);
-				} else {
-					logger.trace("setting codelist features set in response: {}", features);
-					Map<String, Set<UIFeature>> codelistsFeatures = new HashMap<String, Set<UIFeature>>();
-					codelistsFeatures.put(instance, features);
-					response.setCodelistsFeatures(codelistsFeatures);
-				}
+				actionMapper.fillFeatures(response, instance, outcome.nextActions());
 			}
 
 			return output;

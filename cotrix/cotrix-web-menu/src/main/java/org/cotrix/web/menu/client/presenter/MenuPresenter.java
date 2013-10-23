@@ -5,6 +5,9 @@ import org.cotrix.web.menu.client.view.MenuView.Menu;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
+import org.cotrix.web.share.client.feature.FeatureBinder;
+import org.cotrix.web.share.client.feature.HasFeature;
+import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -14,7 +17,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MenuPresenter implements Presenter<MenuPresenter> , MenuView.Presenter {
+public class MenuPresenter implements Presenter<MenuPresenter>, MenuView.Presenter {
 
 	@Inject
 	@CotrixBus
@@ -27,16 +30,45 @@ public class MenuPresenter implements Presenter<MenuPresenter> , MenuView.Presen
 		this.view.setPresenter(this);
 	}
 	
+	protected void bindFeatures()
+	{
+		FeatureBinder.bind(new HasFeature() {
+			
+			@Override
+			public void unsetFeature() {
+				view.setVisible(Menu.IMPORT, false);
+			}
+			
+			@Override
+			public void setFeature() {
+				view.setVisible(Menu.IMPORT, true);
+			}
+		}, ApplicationFeatures.IMPORT_CODELIST);
+		
+		FeatureBinder.bind(new HasFeature() {
+			
+			@Override
+			public void unsetFeature() {
+				view.setVisible(Menu.PUBLISH, false);
+			}
+			
+			@Override
+			public void setFeature() {
+				view.setVisible(Menu.PUBLISH, true);
+			}
+		}, ApplicationFeatures.PUBLISH_CODELIST);
+	}
+	
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());
 	}
 
 	public void onMenuClicked(Menu menu) {
-		CotrixModule module = getModuel(menu);
+		CotrixModule module = getModule(menu);
 		cotrixBus.fireEvent(new SwitchToModuleEvent(module));
 	}
 	
-	protected CotrixModule getModuel(Menu menu){
+	protected CotrixModule getModule(Menu menu){
 		switch (menu) {
 			case HOME: return CotrixModule.HOME;
 			case IMPORT: return CotrixModule.IMPORT;

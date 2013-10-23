@@ -18,6 +18,8 @@ public interface MenuView {
 	public interface Presenter {
 		void onMenuClicked(Menu menu);
 	}
+	
+	public void setVisible(Menu menu, boolean visible);
 
 	void setPresenter(Presenter presenter);
 	Widget asWidget();

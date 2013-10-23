@@ -1,20 +1,18 @@
 package org.cotrix.web.server;
 
-import java.util.Set;
+import static org.cotrix.action.GenericAction.*;
+import static org.cotrix.web.share.shared.feature.ApplicationFeatures.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.security.LoginService;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
-import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
-import org.cotrix.web.share.shared.feature.AuthenticationFeature;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
-import org.cotrix.web.share.shared.feature.UIFeature;
 import org.jboss.weld.servlet.SessionHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +36,18 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	
 	@Inject
 	protected HttpServletRequest httpServletRequest;
+	
+	@Inject
+	ActionMapper mapper;
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	public void init() {
+		
+		mapper.map(IMPORT).to(IMPORT_CODELIST);
+		mapper.map(PUBLISH).to(PUBLISH_CODELIST);
+	}
 
 	@Override
 	public ResponseWrapper<String> login(String username, String password) {
@@ -54,12 +64,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		
 		ResponseWrapper<String> wrapper = new ResponseWrapper<String>(user.id());
 		
-		Set<UIFeature> features = actionMapper.mapActions(user.permissions());
-		
-		if (user.equals(PredefinedUsers.guest)) features.add(AuthenticationFeature.CAN_LOGIN);
-		else features.add(AuthenticationFeature.CAN_LOGOUT);
-		
-		wrapper.setApplicationFeatures(features);
+		actionMapper.fillFeatures(wrapper, null, user.permissions());
 		
 		return wrapper;
 	}
