@@ -33,7 +33,7 @@ public class EngineTest {
 	@Produces @Current
 	public User testuser() {
 		
-		return Users.user("joe").can(EDIT,LOCK,UNLOCK,SEAL.on("2")).build(); //but can't seal
+		return Users.user("joe").can(EDIT,LOCK,UNLOCK,PUBLISH.on("2")).build(); //but can't seal
 	}
 	
 	@Before
@@ -77,7 +77,7 @@ public class EngineTest {
 			}
 		};
 		
-		engine.perform(SEAL.on("2")).with(task);
+		engine.perform(PUBLISH.on("2")).with(task);
 		
 		if (latch.getCount()!=0)
 			fail();
@@ -160,7 +160,7 @@ public class EngineTest {
 		};
 		
 		try {
-			engine.perform(SEAL.on("1")).with(task);
+			engine.perform(PUBLISH.on("1")).with(task);
 			
 			fail();
 		}

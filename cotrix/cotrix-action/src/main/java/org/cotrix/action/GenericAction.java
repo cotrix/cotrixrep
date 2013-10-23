@@ -5,20 +5,17 @@ import static org.cotrix.action.Actions.*;
 import java.util.Collection;
 import java.util.List;
 
-import org.cotrix.action.impl.DefaultInstanceAction;
+public enum GenericAction implements Action {
 
-public enum CodelistAction implements Action {
+	// TODO replace with first real case
+	SAMPLE(action("sample"))
 
-	EDIT(action("edit")),
-	VIEW(action("view")),
-	LOCK(action("lock")),
-	UNLOCK(action("unlock")),
-	PUBLISH(action("seal"));	
+	;
 
 	protected Action innerAction;
 
-	private CodelistAction(Action action) {
-		this.innerAction = action;
+	private GenericAction(Action innerAction) {
+		this.innerAction = innerAction;
 	}
 
 	public List<String> parts() {
@@ -33,11 +30,13 @@ public enum CodelistAction implements Action {
 		return innerAction.isIn(actions);
 	}
 
-	public InstanceAction on(String instance) {
-		return new DefaultInstanceAction(this,instance);
-	}
-
 	public Action value() {
 		return innerAction;
 	}
+
+	@Override
+	public InstanceAction on(String instance) {
+		return innerAction.on(instance);
+	}
+
 }

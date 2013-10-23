@@ -34,20 +34,6 @@ public interface Action {
 	List<String> parts();
 
 	/**
-	 * Returns the identifier of the target instance for this action.
-	 * 
-	 * @return the target instance, or <code>null</code> if the action is not relative to an instance.
-	 */
-	String instance();
-
-	/**
-	 * Returns <code>true</code> if this action is on an instance.
-	 * 
-	 * @return <code>true</code> if this action is on an instance
-	 */
-	boolean isOnInstance();
-
-	/**
 	 * Returns <code>true</code> if this action is or specialises one of a list of actions.
 	 * 
 	 * @param actions the actions
@@ -68,11 +54,5 @@ public interface Action {
 	 * @param instance the instance.
 	 * @return
 	 */
-	Action on(String instance);
-	
-	/**
-	 * Returns an action with the same parts as this action but on no specific instance.
-	 * @return the action
-	 */
-	Action onAny();
+	InstanceAction on(String instance);
 }

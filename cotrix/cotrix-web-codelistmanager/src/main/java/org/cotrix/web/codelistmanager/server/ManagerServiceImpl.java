@@ -37,7 +37,7 @@ import org.cotrix.web.share.server.CotrixRemoteServlet;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.ContainsTask;
 import org.cotrix.web.share.server.task.Id;
-import org.cotrix.web.share.server.task.Task;
+import org.cotrix.web.share.server.task.CodelistTask;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.Request;
@@ -91,7 +91,7 @@ public class ManagerServiceImpl implements ManagerService {
 		mapper.map(EDIT.value()).to(EDIT_METADATA, EDIT_CODELIST);
 		mapper.map(LOCK.value()).to(LOCK_CODELIST);
 		mapper.map(UNLOCK.value()).to(UNLOCK_CODELIST);
-		mapper.map(SEAL.value()).to(SEAL_CODELIST);
+		mapper.map(PUBLISH.value()).to(SEAL_CODELIST);
 	}
 	
 	@Override
@@ -117,7 +117,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	@Task(VIEW)
+	@CodelistTask(VIEW)
 	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
 		
@@ -185,31 +185,31 @@ public class ManagerServiceImpl implements ManagerService {
 		return uiattribute;
 	}
 
-	@Task(LOCK)
+	@CodelistTask(LOCK)
 	public FeatureCarrier.Void saveMessage(String message) {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
-	@Task(LOCK)
+	@CodelistTask(LOCK)
 	public FeatureCarrier.Void lock(Request<Void> request) {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
-	@Task(UNLOCK)
+	@CodelistTask(UNLOCK)
 	public FeatureCarrier.Void unlock(Request<Void> request) {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
-	@Task(SEAL)
+	@CodelistTask(PUBLISH)
 	public FeatureCarrier.Void seal(Request<Void> request) {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
-	//@Task(EDIT)
+	//@CodelistTask(EDIT)
 	public ModifyCommandResult modify(@Id String codelistId, ModifyCommand command) throws ManagerServiceException {
 		try {
 		return commandHandler.handle(codelistId, command);

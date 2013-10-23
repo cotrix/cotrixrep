@@ -11,6 +11,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.cotrix.action.Action;
+import org.cotrix.action.CodelistAction;
+import org.cotrix.action.InstanceAction;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
@@ -38,37 +40,33 @@ public class DefaultEngine implements Engine {
 	
 	@Override
 	public TaskClause perform(final Action a) {
+		
+		notNull("action",a);
+		
 		return new TaskClause() {
 			
 			@Override
 			public <T> TaskOutcome<T> with(Callable<T> task) {
 				
-				return perform(a, task);
+				return a instanceof InstanceAction ? performOnInstance(InstanceAction.class.cast(a),task) : performGeneric(a, task);
 				
-			}
-			
-			@Override
-			public TaskOutcome<Void> with(Runnable task) {
-				
-				return with(asCallable(task));
 			}
 		};
 	}
 	
-	//helpers
-	
-	private <T> TaskOutcome<T> perform(Action action, Callable<T> callable) {
+	public <T> TaskOutcome<T> performOnInstance(final InstanceAction a, Callable<T> task) {
 		
-		notNull("action",action);
-		notNull("task",callable);
-		
-		return action.isOnInstance()?
-					performOnInstance(action, callable):
-					performForUser(action, callable);
-					
+		Action generic = a.onAny();
+		if (generic instanceof CodelistAction)
+			return performOnCodelist(a, task);
+		else 
+			//extend cases for future instance types
+			throw new IllegalArgumentException("unknown instance action "+a);
 	}
 	
-	private <T> TaskOutcome<T> performOnInstance(Action action, Callable<T> callable) {
+	//helpers
+	
+	private <T> TaskOutcome<T> performOnCodelist(InstanceAction action, Callable<T> task) {
 		
 		Lifecycle lifecycle = lcService.lifecycleOf(action.instance());
 			
@@ -77,7 +75,7 @@ public class DefaultEngine implements Engine {
 		
 		Collection<Action> permissions = user.permissions();
 		
-		T output =  perform(action, callable,permissions);
+		T output =  perform(action, task,permissions);
 		
 		lifecycle.notify(action);
 		
@@ -92,8 +90,8 @@ public class DefaultEngine implements Engine {
 		return new TaskOutcome<T>(next, output);
 		
 	}
-	
-	private <T> TaskOutcome<T> performForUser(Action action, Callable<T> callable) {
+
+	private <T> TaskOutcome<T> performGeneric(Action action, Callable<T> callable) {
 		
 		Collection<Action> permissions = user.permissions();
 		
@@ -105,6 +103,7 @@ public class DefaultEngine implements Engine {
 	
 	private <T> T perform(Action action, Callable<T> callable, Collection<Action> permissions) {
 		
+		System.out.println("action="+action+":permissions "+permissions);
 		if (!action.isIn(permissions))
 				throw new IllegalAccessError(user.id()+" cannot perform "+action+", as her permissions don't allow it");
 		
@@ -113,15 +112,5 @@ public class DefaultEngine implements Engine {
 		
 		return  task.execute(action,user);
 		
-	}
-	
-	private Callable<Void> asCallable(final Runnable task) {
-		return new Callable<Void>() {
-			@Override
-			public Void call() throws Exception {
-				task.run();
-				return null;
-			}
-		};
 	}
 }
