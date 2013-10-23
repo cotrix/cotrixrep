@@ -42,7 +42,11 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource lock();
 	
+	public ImageResource lockDisabled();
+	
 	public ImageResource unlock();
+	
+	public ImageResource unlockDisabled();
 	
 	interface CotrixManagerStyle extends CssResource {
 		String buttonAllColumns();

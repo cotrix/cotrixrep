@@ -15,6 +15,7 @@ import org.cotrix.web.share.client.rpc.Nop;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.Request;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
@@ -65,6 +66,7 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 			
 			@Override
 			public void onAction(Action action) {
+				Log.trace("toolbar onAction "+action);
 				switch (action) {
 					case ALL_COLUMN: view.getCodeListEditor().showAllAttributesAsColumn(); break;
 					case ALL_NORMAL: view.getCodeListEditor().showAllAttributesAsNormal(); break;

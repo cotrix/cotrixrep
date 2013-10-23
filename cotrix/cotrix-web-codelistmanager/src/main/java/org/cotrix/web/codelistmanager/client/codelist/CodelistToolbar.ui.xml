@@ -40,9 +40,11 @@
 	</ui:style>
 	<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
 		<g:FlowPanel styleName="{style.leftWrapper}">
-			<g:ToggleButton ui:field="lock"  styleName="{style.lock}">
-				<g:upFace image="{resources.lock}" />
-				<g:downFace image="{resources.unlock}" />
+			<g:ToggleButton ui:field="lock" styleName="{style.lock}">
+				<g:upFace image="{resources.unlock}" />
+				<g:upDisabledFace image="{resources.unlockDisabled}"/>
+				<g:downFace image="{resources.lock}" />
+				<g:downDisabledFace image="{resources.lockDisabled}"  />
 			</g:ToggleButton>
 			<g:Button ui:field="seal" visible="true"  styleName="{style.seal}">Finalize</g:Button>
 		</g:FlowPanel>
