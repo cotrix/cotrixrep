@@ -3,14 +3,16 @@
  */
 package org.cotrix.web.share.client.feature;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.cotrix.web.share.client.feature.event.NewApplicationFeatureSetEvent;
+import org.cotrix.web.share.client.feature.event.NewCodelistsFeatureSetEvent;
 import org.cotrix.web.share.client.rpc.CallBackListener;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.UIFeature;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
@@ -31,11 +33,19 @@ public class FeatureInterceptor implements CallBackListener {
 	@Override
 	public boolean onSuccess(Object result) {
 		if (result instanceof FeatureCarrier) {
+			Log.trace("intercepted FeatureCarrier "+result);
 			FeatureCarrier response = (FeatureCarrier) result;
-			if (response.getApplicationFeatures()!=null && response.getCodelistsFeatures()!=null) {
-				Set<UIFeature> applicationFeatures = response.getApplicationFeatures()!=null?response.getApplicationFeatures():Collections.<UIFeature>emptySet();
-				Map<String, Set<UIFeature>> codelistsFeatures = response.getCodelistsFeatures()!=null?response.getCodelistsFeatures():Collections.<String, Set<UIFeature>>emptyMap();
-				featureBus.fireEvent(new NewFeatureSetEvent(applicationFeatures, codelistsFeatures));
+			
+			if (response.getApplicationFeatures()!=null) {
+				Set<UIFeature> applicationFeatures = response.getApplicationFeatures();
+				Log.trace("broadcasting application features "+applicationFeatures);
+				featureBus.fireEvent(new NewApplicationFeatureSetEvent(applicationFeatures));
+			}
+			
+			if (response.getCodelistsFeatures()!=null) {
+				Map<String, Set<UIFeature>> codelistsFeatures = response.getCodelistsFeatures();
+				Log.trace("broadcasting codelists features "+codelistsFeatures);
+				featureBus.fireEvent(new NewCodelistsFeatureSetEvent(codelistsFeatures));
 			}
 		}
 		return true;
