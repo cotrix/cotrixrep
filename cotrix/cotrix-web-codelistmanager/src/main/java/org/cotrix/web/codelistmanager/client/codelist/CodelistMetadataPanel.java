@@ -11,6 +11,7 @@ import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.client.util.Constants;
 import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
+import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -31,7 +32,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistMetadataPanel extends LoadingPanel {
+public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 
 	@UiTemplate("CodelistMetadataPanel.ui.xml")
 	interface CodelistMetadataPanelUiBinder extends UiBinder<Widget, CodelistMetadataPanel> {
@@ -163,8 +164,16 @@ public class CodelistMetadataPanel extends LoadingPanel {
 		this.metadata = metadata;
 		nameField.setText(metadata.getName().getLocalPart());
 		versionField.setText(metadata.getVersion());
-
+		
 		attributesProvider.setList(metadata.getAttributes());
 		attributesProvider.refresh();
+	}
+
+	@Override
+	public void setEditable(boolean editable) {
+		
+		nameField.setReadOnly(!editable);
+		versionField.setReadOnly(!editable);
+		attributesGrid.setEditable(editable);
 	}
 }

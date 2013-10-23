@@ -75,4 +75,18 @@ public class CodelistSidePanel extends ResizeComposite {
 		tools.showWidget(metadataPanel);
 	}
 
+	/**
+	 * @return the attributesPanel
+	 */
+	public CodelistAttributesPanel getAttributesPanel() {
+		return attributesPanel;
+	}
+
+	/**
+	 * @return the metadataPanel
+	 */
+	public CodelistMetadataPanel getMetadataPanel() {
+		return metadataPanel;
+	}
+
 }

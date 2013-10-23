@@ -5,6 +5,7 @@ package org.cotrix.web.share.client.feature;
 
 import org.cotrix.web.share.client.feature.event.NewApplicationFeatureSetEvent;
 import org.cotrix.web.share.client.feature.event.NewCodelistsFeatureSetEvent;
+import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.shared.feature.UIFeature;
 
 import com.google.gwt.user.client.ui.HasEnabled;
@@ -51,6 +52,11 @@ public class FeatureBinder {
 	public static void bind(final HasEnabled hasEnabled, String codelistId, UIFeature feature)
 	{
 		bind(new HasEnabledFeature(hasEnabled), codelistId, feature);
+	}
+	
+	public static void bind(final HasEditing hasEditing, String codelistId, UIFeature feature)
+	{
+		bind(new HasEditableFeature(hasEditing), codelistId, feature);
 	}
 
 }

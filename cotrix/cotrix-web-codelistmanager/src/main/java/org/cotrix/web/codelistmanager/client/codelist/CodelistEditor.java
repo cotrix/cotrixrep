@@ -15,8 +15,10 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,6 +42,7 @@ import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
+import org.cotrix.web.share.client.widgets.HasEditing;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
@@ -72,7 +75,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistEditor extends ResizeComposite implements GroupsChangedHandler {
+public class CodelistEditor extends ResizeComposite implements GroupsChangedHandler, HasEditing {
 
 	interface Binder extends UiBinder<Widget, CodelistEditor> { }
 
@@ -85,17 +88,16 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	interface DataGridStyle extends PatchedDataGrid.Style {
 
 		String groupHeaderCell();
-		
+
 		String language();
 	}
-
 
 	@UiField(provided = true)
 	PatchedDataGrid<UICode> dataGrid;
 
 	@UiField(provided = true)
 	SimplePager pager;
-	
+
 	@UiField ItemToolbar toolBar;
 
 	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
@@ -104,20 +106,22 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected Set<Group> groupsAsColumn = new HashSet<Group>();
 	protected Map<Group, Column<UICode, String>> groupsColumns = new HashMap<Group, Column<UICode,String>>(); 
 	protected Map<String, Column<UICode, String>> switchesColumns = new HashMap<String, Column<UICode,String>>(); 
+	protected List<DoubleClickEditTextCell> cells = new ArrayList<DoubleClickEditTextCell>();
+	protected boolean editable = true;
 
 	private Column<UICode, String> nameColumn;
-	
+
 	protected EventBus editorBus;
 
 	protected SingleSelectionModel<UICode> selectionModel;
-	
+
 	protected CodelistCodesProvider dataProvider;
 	protected HandlerRegistration registration;
-	
+
 	protected DataEditor<UICode> codeEditor;
 
 	protected DataEditor<CodeAttribute> attributeEditor;
-	
+
 	@Inject
 	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider) {
 		this.editorBus = editorBus;
@@ -144,28 +148,27 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 		// Specify a custom table.
 		//dataGrid.setTableBuilder(new CustomTableBuilder());
-		
+
 		dataProvider.addDataDisplay(dataGrid);
 
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
-		
+
 		bind();
 	}
-	
-	protected void setupColumns() {
 
-		nameColumn = new Column<UICode, String>(new DoubleClickEditTextCell()) {
+	protected void setupColumns() {
+		nameColumn = new Column<UICode, String>(createCell()) {
 			@Override
 			public String getValue(UICode object) {
 				if (object == null) return "";
 				return object.getName();
 			}
 		};
-		
+
 		nameColumn.setFieldUpdater(new FieldUpdater<UICode, String>() {
-			
+
 			@Override
 			public void update(int index, UICode row, String value) {
 				row.setName(value);
@@ -181,7 +184,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		if (registration == null) registration = dataProvider.addGroupsChangedHandler(this);
 		switchAllGroupsToColumn();
 	}
-	
+
 	public void showAllAttributesAsNormal()
 	{
 		if (registration!=null) registration.removeHandler();
@@ -189,10 +192,24 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		switchAllGroupsToNormal();
 	}
 	
+	public void setEditable(boolean editable)
+	{
+		this.editable = editable;
+		for (DoubleClickEditTextCell cell:cells) cell.setEditable(editable);
+	}
+
+	protected DoubleClickEditTextCell createCell()
+	{
+		DoubleClickEditTextCell cell = new DoubleClickEditTextCell();
+		cell.setEditable(editable);
+		cells.add(cell);
+		return cell;
+	}
+
 	protected void bind()
 	{
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-			
+
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
 				UICode code = selectionModel.getSelectedObject();
@@ -200,9 +217,9 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 				if (code !=null) editorBus.fireEvent(new CodeSelectedEvent(code));
 			}
 		});
-		
+
 		editorBus.addHandler(SwitchGroupEvent.TYPE, new SwitchGroupEvent.SwitchAttributeHandler() {
-			
+
 			@Override
 			public void onSwitchAttribute(SwitchGroupEvent event) {
 				Group group = event.getGroup();
@@ -213,7 +230,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 				}
 			}
 		});
-		
+
 		editorBus.addHandler(DataEditEvent.getType(UICode.class), new DataEditHandler<UICode>() {
 
 			@Override
@@ -224,18 +241,18 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 				if (index>=0) dataGrid.redrawRow(index);
 			}
 		});
-		
+
 		editorBus.addHandler(DataEditEvent.getType(CodeAttribute.class), new DataEditHandler<CodeAttribute>() {
 
 			@Override
 			public void onDataEdit(DataEditEvent<CodeAttribute> event) {
-					//dataProvider.refresh();
-					refreshCode(event.getData().getCode());
+				//dataProvider.refresh();
+				refreshCode(event.getData().getCode());
 			}
 		});
-		
+
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
-			
+
 			@Override
 			public void onButtonClicked(ButtonClickedEvent event) {
 				switch (event.getButton()) {
@@ -245,7 +262,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			}
 		});
 	}
-	
+
 	protected void refreshCode(UICode code)
 	{
 		Log.trace("refreshCode code: "+code);
@@ -253,7 +270,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		Log.trace("row: "+row);
 		if (row>=0) dataGrid.redrawRow(row);
 	}
-	
+
 	protected void removeSelectedCode()
 	{
 		UICode code = selectionModel.getSelectedObject();
@@ -263,7 +280,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			codeEditor.removed(code);
 		}
 	}
-	
+
 	protected void addCode()
 	{
 		UICode code = new UICode(Document.get().createUniqueId(), "name");
@@ -277,8 +294,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	{
 		Column<UICode, String> column = groupsColumns.get(group);
 		if (column == null) {
-			DoubleClickEditTextCell cell = new DoubleClickEditTextCell();
-			column = new Column<UICode, String>(cell) {
+			column = new Column<UICode, String>(createCell()) {
 
 				@Override
 				public String getValue(UICode row) {
@@ -305,7 +321,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 					}
 				}
 			});
-			
+
+
 			groupsColumns.put(group, column);
 		}
 		return column;
@@ -316,7 +333,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		addGroupColumn(group);
 		editorBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_COLUMN));
 	}
-	
+
 	protected void addGroupColumn(Group group)
 	{
 		if (groupsAsColumn.contains(group)) return;
@@ -325,13 +342,13 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 		dataGrid.addColumn(column, new GroupHeader(group));
 	}
-	
+
 	protected void switchToNormal(Group group)
 	{
 		removeGroupColumn(group);
 		editorBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_NORMAL));
 	}
-	
+
 	protected void removeGroupColumn(Group group)
 	{
 		if (!groupsAsColumn.contains(group)) return;
@@ -344,43 +361,43 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	public void onGroupsChanged(GroupsChangedEvent event) {
 		Set<Group> groups = event.getGroups();
 		Log.trace("onAttributeSetChanged groups: "+groups);
-		
+
 		Set<Group> columnsToRemove = new HashSet<Group>(groupsAsColumn);
 		columnsToRemove.removeAll(groups);
 		Log.trace("columns to remove: "+columnsToRemove);
-		
+
 		for (Group toRemove:columnsToRemove) removeGroupColumn(toRemove);
-		
+
 		for (Group group:groups) addGroupColumn(group);
 	}
-	
-	public void switchAllGroupsToColumn() {
+
+	protected void switchAllGroupsToColumn() {
 		Log.trace("switchAllGroupsToColumn");
-		
+
 		Set<Group> groups = GroupFactory.getGroups(dataGrid.getVisibleItems());
 		Log.trace("groups: "+groups);
-		
+
 		groups.removeAll(groupsAsColumn);	
 		Log.trace("attributes to add: "+groups);
-		
+
 		for (Group group:groups) switchToColumn(group);
 	}
-	
-	public void switchAllGroupsToNormal() {
+
+	protected void switchAllGroupsToNormal() {
 		Set<Group> groupsToNormal = new HashSet<Group>(groupsAsColumn);
 		for (Group group:groupsToNormal) switchToNormal(group);
 	}
-	
-	 static interface GroupHeaderTemplate extends SafeHtmlTemplates {
-		    @Template("<span>{0} ({1})</span>")
-		    SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, String style);
-		    
-		    @Template("<span>{0}</span>")
-		    SafeHtml header(SafeHtml name);
-		  }
-	 
-	 protected static final GroupHeaderTemplate HEADER_TEMPLATE = GWT.create(GroupHeaderTemplate.class);
-	
+
+	static interface GroupHeaderTemplate extends SafeHtmlTemplates {
+		@Template("<span>{0} ({1})</span>")
+		SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, String style);
+
+		@Template("<span>{0}</span>")
+		SafeHtml header(SafeHtml name);
+	}
+
+	protected static final GroupHeaderTemplate HEADER_TEMPLATE = GWT.create(GroupHeaderTemplate.class);
+
 	protected class GroupHeader extends Header<Group> {
 
 		private Group group;

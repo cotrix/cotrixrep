@@ -12,6 +12,7 @@ import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.HasFeature;
 import org.cotrix.web.share.client.rpc.Nop;
+import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.Request;
 
@@ -38,6 +39,8 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 		this.view = view;
 		this.codelistId = codelistId;
 		this.saverManager = saverManager;
+		
+		bind();
 		bindFeatures();
 		bindSavers();
 	}
@@ -48,18 +51,10 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 		saverManager.register(new MetadataModifyCommandGenerator());
 		saverManager.register(new MetadataAttributeModifyGenerator());
 	}
-
-	public void go(HasWidgets container) {
-		container.add(view.asWidget());
-	}
-
-	@Override
-	public CodelistPanelView getView() {
-		return view;
-	}
 	
-	protected void bindFeatures()
+	protected void bind()
 	{
+		// TOOLBAR
 		CodelistToolbar toolbar = view.getToolBar();
 		
 		toolbar.setListener(new ToolBarListener() {
@@ -76,10 +71,26 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 				}
 			}
 		});
+	}
+
+	
+	protected void bindFeatures()
+	{
+		// TOOLBAR
+		CodelistToolbar toolbar = view.getToolBar();
 		
 		FeatureBinder.bind(new ActionEnabler(Action.LOCK, toolbar), codelistId, ManagerUIFeature.LOCK_CODELIST);
 		FeatureBinder.bind(new ActionEnabler(Action.UNLOCK, toolbar), codelistId, ManagerUIFeature.UNLOCK_CODELIST);
 		FeatureBinder.bind(new ActionEnabler(Action.FINALIZE, toolbar), codelistId, ManagerUIFeature.SEAL_CODELIST);
+		
+		// CODELIST EDITOR
+		FeatureBinder.bind((HasEditing)view.getCodeListEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
+		
+		//METADATA EDITOR
+		FeatureBinder.bind(view.getMetadataEditor(), codelistId, ManagerUIFeature.EDIT_METADATA);
+		
+		//ATTRIBUTES EDITOR
+		FeatureBinder.bind(view.getAttributesEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
 	}
 	
 	protected class ActionEnabler implements HasFeature {
@@ -105,6 +116,15 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 			toolbar.setEnabled(action, false);
 		}
 		
+	}
+	
+	public void go(HasWidgets container) {
+		container.add(view.asWidget());
+	}
+
+	@Override
+	public CodelistPanelView getView() {
+		return view;
 	}
 
 

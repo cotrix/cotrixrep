@@ -88,7 +88,7 @@ public class ManagerServiceImpl implements ManagerService {
 		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
 		logger.trace("done");
 		
-		mapper.map(EDIT.value()).to(EDIT_METADATA);
+		mapper.map(EDIT.value()).to(EDIT_METADATA, EDIT_CODELIST);
 		mapper.map(LOCK.value()).to(LOCK_CODELIST);
 		mapper.map(UNLOCK.value()).to(UNLOCK_CODELIST);
 		mapper.map(SEAL.value()).to(SEAL_CODELIST);

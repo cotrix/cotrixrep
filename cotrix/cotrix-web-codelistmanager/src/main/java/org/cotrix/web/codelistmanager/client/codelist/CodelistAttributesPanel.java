@@ -39,6 +39,7 @@ import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.UICode;
+import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.ImageResourceCell;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -68,7 +69,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistAttributesPanel extends ResizeComposite {
+public class CodelistAttributesPanel extends ResizeComposite implements HasEditing {
 
 	interface Binder extends UiBinder<Widget, CodelistAttributesPanel> { }
 
@@ -360,6 +361,11 @@ public class CodelistAttributesPanel extends ResizeComposite {
 		}
 
 
+	}
+
+	@Override
+	public void setEditable(boolean editable) {
+		attributesGrid.setEditable(editable);
 	}
 
 }
