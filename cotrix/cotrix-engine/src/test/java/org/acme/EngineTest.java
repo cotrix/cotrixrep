@@ -49,7 +49,7 @@ public class EngineTest {
 	}
 	
 	@Test
-	public void executesWildcardInstanceAction() throws Exception {
+	public void executesResourceActionAgainstCrossResourcePermission() throws Exception {
 
 		final CountDownLatch latch = new CountDownLatch(1);
 		
@@ -74,7 +74,7 @@ public class EngineTest {
 	}
 	
 	@Test
-	public void executesInstanceAction() throws Exception {
+	public void executesResourceAction() throws Exception {
 
 		final CountDownLatch latch = new CountDownLatch(1);
 		

@@ -1,5 +1,6 @@
 package org.cotrix.engine.impl;
 
+import static org.cotrix.action.Actions.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.engine.impl.Task.*;
 
@@ -92,11 +93,13 @@ public class DefaultEngine implements Engine {
 
 		// retain a) generic and codelist actions, whether they are b) cross-resource or c) resource-specific
 		for (Action permission : permissions)
-			if (permission instanceof GenericAction || // a)
+			if (permission == allActions ||
+					permission instanceof GenericAction || // a)
 					(permission.type()==CodelistAction.class && permission.on(action.resource()).isIn(allowed)) || //b)
-					 permission.isIn(allowed)) //c)
+					 permission.isIn(allowed)
+			) 
 
-				next.add(permission);
+			 next.add(permission);
 
 		return new TaskOutcome<T>(next, output);
 
@@ -112,7 +115,7 @@ public class DefaultEngine implements Engine {
 		Collection<Action> next = new ArrayList<Action>();
 
 		for (Action permission : permissions)
-			if (permission.type()==GenericAction.class)
+			if (permission==allActions || permission.type()==GenericAction.class)
 				next.add(permission);
 		
 		return new TaskOutcome<T>(next, output);
