@@ -43,67 +43,84 @@ public class ActionMapper {
 
 	protected Map<Class<?>, Set<UIFeature>> anys = new HashMap<Class<?>, Set<UIFeature>>();
 
-	protected Map<Class<?>, Map<Action, Set<UIFeature>>> mappings = new HashMap<Class<?>, Map<Action,Set<UIFeature>>>();
+	protected Map<Action, Set<UIFeature>> mappings = new HashMap<Action,Set<UIFeature>>();
 
 	protected <T extends Action> void addMapping(Class<T> type, T action, Set<UIFeature> features)
 	{
-		Map<Action, Set<UIFeature>> mapping = mappings.get(type);
 		Set<UIFeature> any = anys.get(type);
-		
-		if (mapping == null) {
-			mapping = new HashMap<Action, Set<UIFeature>>();
-			mappings.put(type, mapping);
+
+		if (any == null) {
 			any = new HashSet<UIFeature>();
 			anys.put(type, any);
-			mapping.put(Actions.action(Action.any), any);
+			mappings.put(Actions.action(Action.any), any);
 		}
 
-		mapping.put(action, features);
+		mappings.put(action, features);
 		any.addAll(features);
 	}
 
 	public void fillFeatures(FeatureCarrier carrier, String instanceId, Collection<Action> actions)
 	{
-		logger.trace("fillFeatures carrier: {} instanceId: {} actions: {}", carrier, instanceId, actions);
-		Set<UIFeature> applicationFeatures = mapActions(actions, GenericAction.class);
-		if (!applicationFeatures.isEmpty()) fillUserFeatures(applicationFeatures);
+		logger.trace("fillFeatures carrier: {} instanceId: {} actions: {}", carrier.getClass(), instanceId, actions);
+		Set<UIFeature> applicationFeatures = mapGenericActions(actions);
+		fillUserFeatures(applicationFeatures);
 		if (!applicationFeatures.isEmpty()) carrier.setApplicationFeatures(applicationFeatures);
-		
-		Set<UIFeature> codelistFeatures = mapActions(actions, CodelistAction.class);
-		if (!codelistFeatures.isEmpty()) carrier.setCodelistsFeatures(singletonMap(instanceId, codelistFeatures));
+
+		if (instanceId!=null) {
+			Set<UIFeature> codelistFeatures = mapInstanceActions(actions, instanceId);
+			carrier.setCodelistsFeatures(singletonMap(instanceId, codelistFeatures));
+		}
 	}
-	
+
 	protected Map<String,Set<UIFeature>> singletonMap(String instanceId, Set<UIFeature> codelistFeatures)
 	{
 		Map<String,Set<UIFeature>> codelistsFeatures = new HashMap<String, Set<UIFeature>>();
 		codelistsFeatures.put(instanceId, codelistFeatures);
 		return codelistsFeatures;
 	}
-	
+
 	protected void fillUserFeatures(Set<UIFeature> applicationFeatures)
 	{
 		logger.trace("fillUserFeatures current user: {}", user);
 		if (user.id().equals(PredefinedUsers.guest.id())) applicationFeatures.add(AuthenticationFeature.CAN_LOGIN);
 		else applicationFeatures.add(AuthenticationFeature.CAN_LOGOUT);
 	}
-	
 
-	protected <T extends Action> Set<UIFeature> mapActions(Collection<Action> actions, Class<T> type)
+	protected Set<UIFeature> mapGenericActions(Collection<Action> actions)
 	{
+		logger.trace("mapGenericActions actions {}",actions);
 		Set<UIFeature> features = new HashSet<UIFeature>();
-		Map<Action, Set<UIFeature>> mapping = mappings.get(type);
-		if (mapping == null) {
-			logger.warn("No mappings for type "+type);
-			return features;
-		}
-		
 		for (Action action:actions) {
-			if (action instanceof InstanceAction) action = ((InstanceAction) action).onAny();
-			Set<UIFeature> actionFeatures = mapping.get(action);
-			if (actionFeatures!=null) {
-				logger.trace("mapping {} to {}",action, actionFeatures);
-				features.addAll(actionFeatures);
+			if (!(action instanceof InstanceAction)) {
+				Set<UIFeature> actionFeatures = mappings.get(action);
+				if (actionFeatures!=null) {
+					logger.trace("mapping {} to {}", action, actionFeatures);
+					features.addAll(actionFeatures);
+				} else logger.warn("No mappings for action "+action);
 			}
+		}
+
+		return features;
+	}
+
+
+	protected Set<UIFeature> mapInstanceActions(Collection<Action> actions, String instanceId)
+	{
+		logger.trace("mapInstanceActions actions {}, instanceId {}",actions, instanceId);
+		Set<UIFeature> features = new HashSet<UIFeature>();
+
+		for (Action action:actions) {
+			if (action instanceof InstanceAction) {
+				InstanceAction instanceAction = (InstanceAction) action;
+				if (!instanceAction.instance().equals(instanceId)) continue;
+				action = instanceAction.onAny();
+				Set<UIFeature> actionFeatures = mappings.get(action);
+				if (actionFeatures!=null) {
+					logger.trace("mapping {} to {}",action, actionFeatures);
+					features.addAll(actionFeatures);
+				} else logger.warn("No mappings for action "+action);
+			}
+
 		}
 
 		return features;
