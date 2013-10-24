@@ -2,15 +2,20 @@ package org.acme;
 
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.CodelistAction.*;
+import static org.cotrix.action.GenericAction.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.CountDownLatch;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
+import org.cotrix.action.Action;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
+import org.cotrix.engine.TaskOutcome;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.user.User;
 import org.cotrix.user.dsl.Users;
@@ -33,7 +38,7 @@ public class EngineTest {
 	@Produces @Current
 	public User testuser() {
 		
-		return Users.user("joe").can(EDIT,LOCK.on("2"),UNLOCK).build(); //but can't seal
+		return Users.user("joe").can(IMPORT,EDIT,LOCK.on("2"),UNLOCK).build(); //but can't seal
 	}
 	
 	@Before
@@ -56,11 +61,15 @@ public class EngineTest {
 			}
 		};
 		
-		engine.perform(EDIT.on("1")).with(task);
+		TaskOutcome<Void> outcome = engine.perform(EDIT.on("1")).with(task);
 		
 		if (latch.getCount()!=0)
 			fail();
 		
+		Collection<Action> expected = new ArrayList<Action>();
+		expected.add(IMPORT);
+		expected.add(EDIT);
+		assertEquals(expected,outcome.nextActions());
 		
 	}
 	

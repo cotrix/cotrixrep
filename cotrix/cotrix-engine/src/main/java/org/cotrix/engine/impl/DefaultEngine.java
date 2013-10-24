@@ -80,13 +80,22 @@ public class DefaultEngine implements Engine {
 		
 		lifecycle.notify(action);
 		
+		//contextualise the lifecycle action to instance;
+		Collection<Action> allowed = new ArrayList<Action>();
+		for (Action a : lifecycle.allowed())
+			allowed.add(a.on(action.instance()));
+
 		//build next actions filtering by current user's permissions
 		Collection<Action> next = new ArrayList<Action>();
 
-		Collection<Action> allowed = lifecycle.allowed();
-		
 		for (Action permission : permissions)
-			if (permission instanceof GenericAction || permission.isIn(allowed))
+			//app-level action
+			if (permission instanceof GenericAction ||
+					//codelist action on Any
+					(permission instanceof CodelistAction && permission.on(action.instance()).isIn(allowed)) ||
+					//any other action
+					permission.isIn(allowed)
+			)
 				next.add(permission);
 		
 		
