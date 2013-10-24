@@ -52,7 +52,7 @@ public class Task<T>  {
 		
 		this.started = Calendar.getInstance();
 		
-		log.info("performing action {} with {}",action,this);
+		log.info("performing {}",action);
 		
 		try {
 			
@@ -63,7 +63,7 @@ public class Task<T>  {
 		}
 		finally {
 			this.completed = Calendar.getInstance();
-			log.info("task {} performed {} in {} ms.",this,action,completed.getTimeInMillis()-started.getTimeInMillis());
+			log.info("performed {} in {} ms.",action,completed.getTimeInMillis()-started.getTimeInMillis());
 		}
 		
 	}

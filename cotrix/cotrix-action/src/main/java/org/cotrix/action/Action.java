@@ -27,6 +27,12 @@ public interface Action {
 	public static final String any = "*";
 
 	/**
+	 * Returns the runtime type of this action.
+	 * @return the action type
+	 */
+	Class<? extends Action> type();
+	
+	/**
 	 * Returns the parts of this action.
 	 * 
 	 * @return the parts
@@ -50,9 +56,9 @@ public interface Action {
 	boolean isIn(Collection<Action> actions);
 	
 	/**
-	 * Returns an action with the same parts as this action but on a given instance.
-	 * @param instance the instance.
-	 * @return
+	 * Returns an action with the same parts as this action but on a given resource.
+	 * @param resourceId the resource identifier
+	 * @return the action with the same parts as this action but on the given resource
 	 */
-	InstanceAction on(String instance);
+	ResourceAction on(String resourceId);
 }

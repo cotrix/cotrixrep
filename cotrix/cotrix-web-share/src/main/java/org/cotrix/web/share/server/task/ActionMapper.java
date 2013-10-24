@@ -17,7 +17,7 @@ import org.cotrix.action.Action;
 import org.cotrix.action.Actions;
 import org.cotrix.action.CodelistAction;
 import org.cotrix.action.GenericAction;
-import org.cotrix.action.InstanceAction;
+import org.cotrix.action.ResourceAction;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
@@ -98,7 +98,7 @@ public class ActionMapper {
 		}
 		
 		for (Action action:actions) {
-			if (action instanceof InstanceAction) action = ((InstanceAction) action).onAny();
+			if (action instanceof ResourceAction) action = ((ResourceAction) action).onAny();
 			Set<UIFeature> actionFeatures = mapping.get(action);
 			if (actionFeatures!=null) {
 				logger.trace("mapping {} to {}",action, actionFeatures);

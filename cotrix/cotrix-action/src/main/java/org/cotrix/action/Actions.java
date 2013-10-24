@@ -20,6 +20,7 @@ public abstract class Actions {
 	 */
 	public static final String any = Action.any; //convenience to avoid multiple imports
 	
+	public static final Action allActions = action(any); 
 	
 	/**
 	 * Creates an action from its parts.
@@ -32,6 +33,19 @@ public abstract class Actions {
 		ps.add(part);
 		ps.addAll(asList(parts));
 		return new DefaultAction(ps);
+	}
+	
+	/**
+	 * Creates an action from its parts.
+	 * @param parts the parts
+	 * @return the action
+	 */
+	public static Action action(Class<? extends Action> type, String part, String ... parts) {
+		
+		List<String> ps = new ArrayList<String>();
+		ps.add(part);
+		ps.addAll(asList(parts));
+		return new DefaultAction(ps,type);
 	}
 	
 }

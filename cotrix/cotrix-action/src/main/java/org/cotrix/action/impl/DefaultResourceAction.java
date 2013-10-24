@@ -5,36 +5,41 @@ import static org.cotrix.common.Utils.*;
 import java.util.List;
 
 import org.cotrix.action.Action;
-import org.cotrix.action.InstanceAction;
+import org.cotrix.action.ResourceAction;
 
 /**
- * Default {@link InstanceAction} implementation.
+ * Default {@link ResourceAction} implementation.
  * 
  * @author Fabio Simeoni
  *
  */
-public class DefaultInstanceAction extends AbstractAction implements InstanceAction {
+public final class DefaultResourceAction extends AbstractAction implements ResourceAction {
 
 	private final Action action;
-	private final String instance;
+	private final String resource;
 	
 	/**
-	 * Creates an action from its parts and relatively to an instance. 
+	 * Creates an action from its parts and relatively to an resource. 
 	 * @param parts the parts
-	 * @param instance the instance
+	 * @param resource the resource
 	 */
-	public DefaultInstanceAction(Action action,String instance) {
+	public DefaultResourceAction(Action action,String resource) {
 		
 		notNull("action",action);
-		notNull("instance",instance);
+		notNull("resource",resource);
 		
 		this.action=action;
-		this.instance=instance;
+		this.resource=resource;
 	}
 	
 	@Override
-	public String instance() {
-		return instance;
+	public Class<? extends Action> type() {
+		return getClass();
+	}
+	
+	@Override
+	public String resource() {
+		return resource;
 	}
 	
 	@Override
@@ -43,19 +48,19 @@ public class DefaultInstanceAction extends AbstractAction implements InstanceAct
 	}
 	
 	@Override
-	public InstanceAction on(String instance) {
-		return new DefaultInstanceAction(action, instance);
+	public ResourceAction on(String instance) {
+		return new DefaultResourceAction(action, instance);
 	}
 	
 	@Override
 	public boolean isIn(Action a) {
 		
-		if (a instanceof InstanceAction) {
+		if (a instanceof ResourceAction) {
 			
-			InstanceAction instanceAction = InstanceAction.class.cast(a);
+			ResourceAction instanceAction = ResourceAction.class.cast(a);
 			Action generic = instanceAction.onAny();
 			
-			return action.isIn(generic) && this.instance.equals(instanceAction.instance());
+			return action.isIn(generic) && this.resource.equals(instanceAction.resource());
 		}
 		else
 			return action.isIn(a);
@@ -68,7 +73,7 @@ public class DefaultInstanceAction extends AbstractAction implements InstanceAct
 	
 	@Override
 	public String toString() {
-		return action.toString()+" on "+instance;
+		return action.toString()+" on "+resource;
 	}
 
 	@Override
@@ -76,7 +81,7 @@ public class DefaultInstanceAction extends AbstractAction implements InstanceAct
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((action == null) ? 0 : action.hashCode());
-		result = prime * result + ((instance == null) ? 0 : instance.hashCode());
+		result = prime * result + ((resource == null) ? 0 : resource.hashCode());
 		return result;
 	}
 
@@ -88,16 +93,16 @@ public class DefaultInstanceAction extends AbstractAction implements InstanceAct
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DefaultInstanceAction other = (DefaultInstanceAction) obj;
+		DefaultResourceAction other = (DefaultResourceAction) obj;
 		if (action == null) {
 			if (other.action != null)
 				return false;
 		} else if (!action.equals(other.action))
 			return false;
-		if (instance == null) {
-			if (other.instance != null)
+		if (resource == null) {
+			if (other.resource != null)
 				return false;
-		} else if (!instance.equals(other.instance))
+		} else if (!resource.equals(other.resource))
 			return false;
 		return true;
 	}

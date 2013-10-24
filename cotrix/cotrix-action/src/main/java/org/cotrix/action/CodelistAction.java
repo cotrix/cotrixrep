@@ -5,39 +5,44 @@ import static org.cotrix.action.Actions.*;
 import java.util.Collection;
 import java.util.List;
 
-import org.cotrix.action.impl.DefaultInstanceAction;
+import org.cotrix.action.impl.DefaultResourceAction;
 
 public enum CodelistAction implements Action {
 
-	EDIT(action("edit")),
-	VIEW(action("view")),
-	LOCK(action("lock")),
-	UNLOCK(action("unlock")),
-	PUBLISH(action("seal"));	
+	EDIT("edit"),
+	VIEW("view"),
+	LOCK("lock"),
+	UNLOCK("unlock"),
+	PUBLISH("seal");	
 
-	protected Action innerAction;
+	protected Action inner;
 
-	private CodelistAction(Action action) {
-		this.innerAction = action;
+	private CodelistAction(String part,String ... parts) {
+	  this.inner = action(CodelistAction.class,part,parts);
+	}
+	
+	@Override
+	public Class<? extends Action> type() {
+		return inner.type();
 	}
 
 	public List<String> parts() {
-		return innerAction.parts();
+		return inner.parts();
 	}
 
 	public boolean isIn(Action... actions) {
-		return innerAction.isIn(actions);
+		return inner.isIn(actions);
 	}
 
 	public boolean isIn(Collection<Action> actions) {
-		return innerAction.isIn(actions);
+		return inner.isIn(actions);
 	}
 
-	public InstanceAction on(String instance) {
-		return new DefaultInstanceAction(this,instance);
+	public ResourceAction on(String instance) {
+		return new DefaultResourceAction(this,instance);
 	}
 
 	public Action value() {
-		return innerAction;
+		return inner;
 	}
 }

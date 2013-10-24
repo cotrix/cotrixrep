@@ -5,6 +5,8 @@ import static org.cotrix.action.Actions.*;
 import static org.junit.Assert.*;
 
 import org.cotrix.action.Action;
+import org.cotrix.action.CodelistAction;
+import org.cotrix.action.GenericAction;
 import org.junit.Test;
 
 public class ActionTest {
@@ -33,6 +35,34 @@ public class ActionTest {
 		
 	}
 	
+
+	@Test
+	public void isAnAny() {
+		
+		Action ab = action("a","b");
+		Action top = action(any);
+
+		assertTrue(ab.isIn(top));
+		
+	}
+	
+	@Test
+	public void typedIsAnAny() {
+		
+		Action top = allActions;
+
+		assertTrue(GenericAction.IMPORT.isIn(top));
+		
+	}
+	
+	@Test
+	public void inclusionRespectsEnumTypes() {
+		
+		Action a = action(CodelistAction.class,"a");
+		Action aDifferentA = action(GenericAction.class,"a");
+		
+		assertFalse(a.isIn(aDifferentA));
+	}
 	
 	@Test
 	public void isInMoreGenericAndNotInLessGeneric() {

@@ -5,7 +5,7 @@ import static org.cotrix.common.Utils.*;
 import java.util.Collection;
 
 import org.cotrix.action.Action;
-import org.cotrix.action.InstanceAction;
+import org.cotrix.action.ResourceAction;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleEvent;
 import org.cotrix.lifecycle.State;
@@ -78,6 +78,6 @@ public class S4JLifecycle extends AbstractLifecycle {
 	//helpers
 	
 	private Action generic(Action a) {
-		return a instanceof InstanceAction? InstanceAction.class.cast(a).onAny():a;
+		return a instanceof ResourceAction? ResourceAction.class.cast(a).onAny():a;
 	}
 }
