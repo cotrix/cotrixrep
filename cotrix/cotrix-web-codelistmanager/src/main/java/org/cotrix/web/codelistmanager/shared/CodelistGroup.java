@@ -4,6 +4,7 @@
 package org.cotrix.web.codelistmanager.shared;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.cotrix.web.share.shared.UICodelist;
@@ -35,9 +36,22 @@ public class CodelistGroup implements IsSerializable {
 		return name;
 	}
 	
+	public void addVersion(Version version)
+	{
+		versions.add(version);
+		Collections.sort(versions);
+	}
+	
+	public void addVersions(List<Version> versions)
+	{
+		this.versions.addAll(versions);
+		Collections.sort(this.versions);
+	}
+	
 	public void addVersion(String id, String version)
 	{
 		versions.add(new Version(this, id, version));
+		Collections.sort(versions);
 	}
 
 	/**
@@ -59,8 +73,41 @@ public class CodelistGroup implements IsSerializable {
 		builder.append(versions);
 		builder.append("]");
 		return builder.toString();
-	}	
+	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CodelistGroup other = (CodelistGroup) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
+
+
 	public static class Version implements IsSerializable, Comparable<Version> {
 		
 		protected CodelistGroup parent;
@@ -89,6 +136,13 @@ public class CodelistGroup implements IsSerializable {
 			return version;
 		}
 		
+		/**
+		 * @return the parent
+		 */
+		public CodelistGroup getParent() {
+			return parent;
+		}
+
 		public UICodelist toUICodelist()
 		{
 			UICodelist codelist = new UICodelist();

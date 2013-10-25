@@ -1,5 +1,6 @@
 package org.cotrix.web.codelistmanager.client.codelists;
 
+import org.cotrix.web.codelistmanager.client.codelists.VersionDialog.VersionDialogListener;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
@@ -31,7 +32,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistsViewImpl extends ResizeComposite implements CodelistsView, KeyPressHandler, KeyDownHandler {
+public class CodelistsViewImpl extends ResizeComposite implements CodelistsView, KeyPressHandler, KeyDownHandler, VersionDialogListener {
 
 	private static CodeListsViewUiBinder uiBinder = GWT.create(CodeListsViewUiBinder.class);
 
@@ -51,13 +52,16 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 		return new PromptedTextBox("  Filter...", style.promptTextBox(),
 				style.filterTextBox());
 	}
+	
+	@UiField
+	Style style;
 
 	protected CodelistDataProvider codeListDataProvider;
 	
 	private Presenter presenter;
-	
-	@UiField
-	Style style;
+
+	protected VersionDialog versionDialog;
+
 
 	protected SingleSelectionModel<Version> selectionModel;
 
@@ -90,7 +94,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 						Version selected = selectionModel.getSelectedObject();
 						if (selected!=null)	presenter.onCodelistRemove(selected.toUICodelist()); 
 					} break;
-					case PLUS: presenter.onCodelistCreate(); break;
+					case PLUS: presenter.onCodelistCreate(selectionModel.getSelectedObject()); break;
 				}
 			}
 		});
@@ -98,7 +102,6 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	
 	protected void setupCellList()
 	{
-	
 		selectionModel = new SingleSelectionModel<Version>();
 	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 	      public void onSelectionChange(SelectionChangeEvent event) {
@@ -117,6 +120,14 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
+	}
+	
+	@Override
+	public void showVersionDialog(Version oldVersion)
+	{
+		if (versionDialog == null) versionDialog = new VersionDialog(this);
+		versionDialog.setOldVersion(oldVersion.getId(), oldVersion.getParent().getName(),  oldVersion.getVersion());
+		versionDialog.center();
 	}
 
 	/*private List<String> getMatchedItem(String token) {
@@ -152,7 +163,6 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	public void refresh()
 	{
 		codeListDataProvider.loadData();
-		//codelists.setVisibleRangeAndClearData(codelists.getVisibleRange(), true);
 	}
 	
 	protected class CodeListCell extends AbstractCell<UICodelist> {
@@ -161,5 +171,16 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 		public void render(com.google.gwt.cell.client.Cell.Context context,	UICodelist value, SafeHtmlBuilder sb) {
 			sb.appendEscaped(value.getName());
 		}
+	}
+
+	@Override
+	public void onCreate(String id, String newVersion) {
+		presenter.onCodelistNewVersion(id, newVersion);
+	}
+
+	@Override
+	public void onCancel() {
+		// TODO Auto-generated method stub
+		
 	}
 }

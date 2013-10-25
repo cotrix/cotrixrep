@@ -27,9 +27,8 @@ public interface ManagerService extends RemoteService {
 	
 	CodelistMetadata getMetadata(String codelistId) throws ManagerServiceException;
 	
+	CodelistGroup createNewCodelistVersion(String codelistId, String newVersion) throws ManagerServiceException;
 	void removeCodelist(String codelistId) throws ManagerServiceException;
-
-	FeatureCarrier.Void saveMessage(String message); 
 	
 	FeatureCarrier.Void lock(Request<Void> request);
 	FeatureCarrier.Void unlock(Request<Void> request);

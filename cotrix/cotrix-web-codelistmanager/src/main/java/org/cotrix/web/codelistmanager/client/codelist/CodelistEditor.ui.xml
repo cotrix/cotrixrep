@@ -3,10 +3,6 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client"
 	xmlns:common="urn:import:org.cotrix.web.codelistmanager.client.common">
 	<ui:style>
-		.pagerPanel {
-			margin: 0 auto;
-			width: 100%;
-		}
 		.editor {
 			margin: 8px;
 		}
@@ -20,7 +16,7 @@
 			<common:ItemToolbar ui:field="toolBar" />
 		</g:south>
 		<g:south size="35">
-			<g:HTMLPanel styleName="{style.pagerPanel}">
+			<g:HTMLPanel>
 				<table style="width:100%">
 					<tr>
 						<td align='center'>
