@@ -5,7 +5,6 @@ import static org.cotrix.common.Utils.*;
 import java.util.Collection;
 
 import org.cotrix.action.Action;
-import org.cotrix.action.ResourceAction;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleEvent;
 import org.cotrix.lifecycle.State;
@@ -48,15 +47,13 @@ public class S4JLifecycle extends AbstractLifecycle {
 		notNull("action",action);
 		
 		
-		return machine.CanFire(generic(action));
+		return machine.CanFire(action);
 	}
 	
 	@Override
 	public void notify(Action action) {
 		
 		notNull("action",action);
-		
-		action = generic(action);
 		
 		try {
 			State origin = state();
@@ -72,12 +69,5 @@ public class S4JLifecycle extends AbstractLifecycle {
 	@Override
 	public Collection<Action> allowed() {
 		return machine.getPermittedTriggers();
-	}
-	
-
-	//helpers
-	
-	private Action generic(Action a) {
-		return a instanceof ResourceAction? ResourceAction.class.cast(a).onAny():a;
 	}
 }

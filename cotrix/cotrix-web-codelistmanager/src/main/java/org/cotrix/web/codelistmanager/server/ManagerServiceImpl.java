@@ -91,7 +91,7 @@ public class ManagerServiceImpl implements ManagerService {
 		mapper.map(EDIT).to(EDIT_METADATA, EDIT_CODELIST);
 		mapper.map(LOCK).to(LOCK_CODELIST);
 		mapper.map(UNLOCK).to(UNLOCK_CODELIST);
-		mapper.map(PUBLISH).to(SEAL_CODELIST);
+		mapper.map(SEAL).to(SEAL_CODELIST);
 	}
 	
 	@Override
@@ -203,7 +203,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	@CodelistTask(PUBLISH)
+	@CodelistTask(SEAL)
 	public FeatureCarrier.Void seal(Request<Void> request) {
 		return FeatureCarrier.getVoid();
 	}

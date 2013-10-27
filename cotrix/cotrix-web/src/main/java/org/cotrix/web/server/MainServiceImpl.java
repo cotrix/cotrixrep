@@ -1,6 +1,6 @@
 package org.cotrix.web.server;
 
-import static org.cotrix.action.GenericAction.*;
+import static org.cotrix.action.MainAction.*;
 import static org.cotrix.web.share.shared.feature.ApplicationFeatures.*;
 
 import javax.inject.Inject;

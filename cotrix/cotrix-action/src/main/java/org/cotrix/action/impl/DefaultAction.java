@@ -6,10 +6,11 @@ import static org.cotrix.common.Utils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import org.cotrix.action.ActionType;
 import org.cotrix.action.Action;
-import org.cotrix.action.ResourceAction;
 
 /**
  * Default {@link Action} implementation.
@@ -17,52 +18,91 @@ import org.cotrix.action.ResourceAction;
  * @author Fabio Simeoni
  *
  */
-public final class DefaultAction extends AbstractAction implements Action {
-	
-	private final List<String> parts = new ArrayList<String>();
-	private final Class<? extends Action> type;
+public final class DefaultAction implements Action {
 
-	/**
-	 * Creates an action with given parts.
-	 * @param parts the parts
-	 */
-	public DefaultAction(List<String> parts) {
+	private final List<String> labels = new ArrayList<String>();
+	private final ActionType type;
+	private final String resource;
 	
-		this(parts,DefaultAction.class);
+	private static final ActionType noType =  new ActionType() {
+		
+		@Override
+		public Collection<? extends Action> values() {
+			return Collections.emptySet();
+		}
+	};
+	
+	/**
+	 * Creates an untyped template.
+	 * 
+	 * @param labels the labels of the template.
+	 */
+	public DefaultAction(List<String> labels) {
+	
+		this(labels,noType);
 	}
 	
 	/**
-	 * Creates an action with given parts and a given type .
-	 * @param parts the parts
-	 * @param type the type;
+	 * Creates a typed template.
+	 * @param labels the labels of the template
+	 * @param type the type of the template;
 	 */
-	public DefaultAction(List<String> parts, Class<? extends Action> type) {
+	public DefaultAction(List<String> parts, ActionType type) {
 	
-		valid("parts",parts);
+		this(parts,type,any);
+	}
+	
+	/**
+	 * Creates a typed action with given labels over a given resource.
+	 * @param labels the labels
+	 * @param type the type
+	 * @param resource the resource identifier
+	 */
+	private DefaultAction(List<String> parts, ActionType type, String resource) {
+	
+		valid("labels",parts);
+		notNull("type",type);
+		valid("resource identifier",resource);
 		
-		this.parts.addAll(parts);
-		
+		this.labels.addAll(parts);
 		this.type=type;
+		this.resource=resource;
 	}
 	
 	@Override
-	public Class<? extends Action> type() {
+	public Action on(String instance) {
+		return new DefaultAction(labels,type,instance);
+	}
+	
+	@Override
+	public ActionType type() {
 		return type;
 	}
 	
 	@Override
-	public List<String> parts() {
-		return parts;
+	public List<String> labels() {
+		return labels;
 	}
 	
 	@Override
-	public boolean isIn(Action... actions) {
+	public boolean isTemplate() {
+		return resource==any;
+	}
+	
+	@Override
+	public String resource() {
+		return resource;
+	}
+	
+	
+	@Override
+	public boolean included(Action... actions) {
 		
-		return isIn(asList(actions));
+		return included(asList(actions));
 	}
 	
 	@Override
-	public boolean isIn(Collection<Action> actions) {
+	public boolean included(Collection<? extends Action> actions) {
 		
 		for (Action a : actions)
 			if (this.isIn(a))
@@ -71,36 +111,29 @@ public final class DefaultAction extends AbstractAction implements Action {
 		return false;
 	}
 	
-	@Override
-	public ResourceAction on(String instance) {
-		return new DefaultResourceAction(this, instance);
-	}
-	
-	
 	public boolean isIn(Action a) {
 		
 		if (this.equals(a))
 			return true;
 		
-		//must either be any or must have same type and matching parts 
-		return a==allActions || (this.type()==a.type() && matches(a.parts()));
-	}	
-
-
-	//helpers   
+		return (a==allActions || type() == a.type()) && matches(a.labels()) && match(resource,a.resource());
 	
+	}
+
+
+	//helpers   	
 	
 	private boolean matches(List<String> parts) {
 		
 		for (int i =0; i<parts.size(); i++) {
 			String part = parts.get(i);
 			//longer actions match if made of *-s
-			if (i>=this.parts.size()) {
+			if (i>=labels().size()) {
 				if (part!=any)
 					return false;
 			}
-			else //compare matched parts
-				if (!matches(this.parts.get(i),part))
+			else //compare matched labels
+				if (!match(labels().get(i),part))
 					return false;
 		}
 		
@@ -108,23 +141,24 @@ public final class DefaultAction extends AbstractAction implements Action {
 			
 	}
 	
-	private boolean matches(String thisPart, String superPart) {
-		return thisPart.equals(superPart) || superPart==any;
+	private boolean match(String s1, String s2) {
+		return s1.equals(s2) || s2==any;
 	}
-	
 	
 	@Override
 	public String toString() {
 		final int maxLen = 100;
-		return parts.subList(0, Math.min(parts.size(), maxLen)).toString();
+		String ps= labels.subList(0, Math.min(labels.size(), maxLen)).toString();
 		
+		return ps+" on "+resource;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((parts == null) ? 0 : parts.hashCode());
+		result = prime * result + ((labels == null) ? 0 : labels.hashCode());
+		result = prime * result + ((resource == null) ? 0 : resource.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -138,10 +172,15 @@ public final class DefaultAction extends AbstractAction implements Action {
 		if (getClass() != obj.getClass())
 			return false;
 		DefaultAction other = (DefaultAction) obj;
-		if (parts == null) {
-			if (other.parts != null)
+		if (labels == null) {
+			if (other.labels != null)
 				return false;
-		} else if (!parts.equals(other.parts))
+		} else if (!labels.equals(other.labels))
+			return false;
+		if (resource == null) {
+			if (other.resource != null)
+				return false;
+		} else if (!resource.equals(other.resource))
 			return false;
 		if (type == null) {
 			if (other.type != null)
@@ -150,11 +189,6 @@ public final class DefaultAction extends AbstractAction implements Action {
 			return false;
 		return true;
 	}
-
-	
-	
-	
-
 
 
 	

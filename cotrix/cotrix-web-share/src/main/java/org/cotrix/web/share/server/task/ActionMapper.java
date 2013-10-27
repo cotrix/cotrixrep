@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.share.server.task;
 
+import static org.cotrix.action.Actions.*;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,11 +15,9 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.action.Action;
-import org.cotrix.action.Actions;
 import org.cotrix.action.CodelistAction;
-import org.cotrix.action.GenericAction;
-import org.cotrix.action.ResourceAction;
+import org.cotrix.action.MainAction;
+import org.cotrix.action.Action;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
@@ -55,17 +55,17 @@ public class ActionMapper {
 			mappings.put(type, mapping);
 			any = new HashSet<UIFeature>();
 			anys.put(type, any);
-			mapping.put(Actions.action(Action.any), any);
+			mapping.put(allActions, any);
 		}
 
 		mapping.put(action, features);
 		any.addAll(features);
 	}
 
-	public void fillFeatures(FeatureCarrier carrier, String instanceId, Collection<Action> actions)
+	public void fillFeatures(FeatureCarrier carrier, String instanceId, Collection<? extends Action> actions)
 	{
 		logger.trace("fillFeatures carrier: {} instanceId: {} actions: {}", carrier, instanceId, actions);
-		Set<UIFeature> applicationFeatures = mapActions(actions, GenericAction.class);
+		Set<UIFeature> applicationFeatures = mapActions(actions, MainAction.class);
 		if (!applicationFeatures.isEmpty()) fillUserFeatures(applicationFeatures);
 		if (!applicationFeatures.isEmpty()) carrier.setApplicationFeatures(applicationFeatures);
 		
@@ -88,7 +88,7 @@ public class ActionMapper {
 	}
 	
 
-	protected <T extends Action> Set<UIFeature> mapActions(Collection<Action> actions, Class<T> type)
+	protected <T extends Action> Set<UIFeature> mapActions(Collection<? extends Action> actions, Class<T> type)
 	{
 		Set<UIFeature> features = new HashSet<UIFeature>();
 		Map<Action, Set<UIFeature>> mapping = mappings.get(type);
@@ -98,7 +98,7 @@ public class ActionMapper {
 		}
 		
 		for (Action action:actions) {
-			if (action instanceof ResourceAction) action = ((ResourceAction) action).onAny();
+			//if (action instanceof Action) action = ((Action) action).template();
 			Set<UIFeature> actionFeatures = mapping.get(action);
 			if (actionFeatures!=null) {
 				logger.trace("mapping {} to {}",action, actionFeatures);
@@ -114,8 +114,8 @@ public class ActionMapper {
 		return new ActionMapBuilder<CodelistAction>(this, action, CodelistAction.class);
 	}
 
-	public ActionMapBuilder<GenericAction>  map(GenericAction action)
+	public ActionMapBuilder<MainAction>  map(MainAction action)
 	{
-		return new ActionMapBuilder<GenericAction>(this, action, GenericAction.class);
+		return new ActionMapBuilder<MainAction>(this, action, MainAction.class);
 	}
 }

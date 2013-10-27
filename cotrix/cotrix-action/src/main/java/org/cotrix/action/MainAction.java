@@ -6,49 +6,51 @@ import static org.cotrix.action.Actions.*;
 import java.util.Collection;
 import java.util.List;
 
-public enum CodelistAction implements Action {
+public enum MainAction implements Action {
 
-	EDIT("edit"),
-	VIEW("view"),
-	LOCK("lock"),
-	UNLOCK("unlock"),
-	SEAL("seal")
+
+	IMPORT("import"),
+	PUBLISH("publish")
+
+	;
 	
-	;	
+	public static final String app = "app";
+	
 	
 	protected Action inner;
 
-	private CodelistAction(String part,String ... parts) {
-	  this.inner = (Action) action(codelist,part,parts);
+	private MainAction(String part,String ... parts) {
+		this.inner = (Action) action(main,part,parts);
 	}
 	
 	@Override
 	public ActionType type() {
-		return codelist;
+		return main;
 	}
 
 	public List<String> labels() {
 		return inner.labels();
 	}
 
-	public Action on(String resource) {
-		return inner.on(resource);
-	}
-
 	public Action value() {
 		return inner;
-	}
-
-	@Override
-	public String resource() {
-		return inner.resource();
 	}
 	
 	@Override
 	public boolean isTemplate() {
 		return inner.isTemplate();
 	}
-	
+
+	@Override
+	public Action on(String instance) {
+		return inner.on(instance);
+	}
+
+	@Override
+	public String resource() {
+		return inner.resource();
+	}
+
 	@Override
 	public boolean included(Action... actions) {
 		return inner.included(actions);
@@ -58,5 +60,5 @@ public enum CodelistAction implements Action {
 	public boolean included(Collection<? extends Action> actions) {
 		return inner.included(actions);
 	}
-	
+
 }

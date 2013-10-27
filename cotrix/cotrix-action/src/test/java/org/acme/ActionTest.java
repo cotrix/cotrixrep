@@ -1,12 +1,13 @@
 package org.acme;
 
 
+import static org.cotrix.action.ActionType.*;
 import static org.cotrix.action.Actions.*;
+import static org.cotrix.action.MainAction.*;
 import static org.junit.Assert.*;
 
+import org.cotrix.action.MainAction;
 import org.cotrix.action.Action;
-import org.cotrix.action.CodelistAction;
-import org.cotrix.action.GenericAction;
 import org.junit.Test;
 
 public class ActionTest {
@@ -35,46 +36,48 @@ public class ActionTest {
 		
 	}
 	
-
 	@Test
-	public void isAnAny() {
+	public void canBeComparedForEquivalence() {
 		
-		Action ab = action("a","b");
-		Action top = action(any);
-
-		assertTrue(ab.isIn(top));
+	
+		assertEquals(IMPORT,IMPORT);
+		assertFalse(IMPORT.equals(MainAction.PUBLISH));
 		
+		assertEquals(IMPORT.on("1"),IMPORT.on("1"));
+		assertFalse(IMPORT.on("1").equals(IMPORT.on("2")));
+		
+		assertFalse(action(codelist,"a").equals(action(main,"a")));
 	}
 	
 	@Test
-	public void typedIsAnAny() {
+	public void isInAny() {
 		
-		Action top = allActions;
-
-		assertTrue(GenericAction.IMPORT.isIn(top));
+		Action a = MainAction.IMPORT.on("resource");
+	
+		assertTrue(a.included(allActions));
 		
 	}
 	
 	@Test
 	public void inclusionRespectsEnumTypes() {
 		
-		Action a = action(CodelistAction.class,"a");
-		Action aDifferentA = action(GenericAction.class,"a");
+		Action a = action(codelist,"a").on("resource");
+		Action aDifferentA = action(main,"a").on("resource");
 		
-		assertFalse(a.isIn(aDifferentA));
+		assertFalse(a.included(aDifferentA));
 	}
 	
 	@Test
 	public void isInMoreGenericAndNotInLessGeneric() {
 		
-		Action a = action("a");
-		Action ab = action("a","b");
-		Action abc = action("a","b","c");
+		Action a = action("a").on("resource");
+		Action ab = action("a","b").on("resource");
+		Action abc = action("a","b","c").on("resource");
 		
-		assertTrue(ab.isIn(a));
-		assertTrue(abc.isIn(a));
-		assertFalse(a.isIn(ab));
-		assertFalse(a.isIn(abc));
+		assertTrue(ab.included(a));
+		assertTrue(abc.included(a));
+		assertFalse(a.included(ab));
+		assertFalse(a.included(abc));
 	}
 	
 
@@ -84,11 +87,9 @@ public class ActionTest {
 	public void isInWildcard() {
 
 		
-		Action top = action(any);
-		Action a = action("a");
+		Action a = action("a").on("resource");
 	
-		assertTrue(a.isIn(top));
-		assertFalse(top.isIn(a));
+		assertTrue(a.included(allActions));
 	}
 	
 	@Test
@@ -96,13 +97,13 @@ public class ActionTest {
 
 		Action anya = action("a",any);
 		
-		Action a = action("a");
-		Action ab = action("a","b");
-		Action aanyc = action("a",any,"c");
+		Action a = action("a").on("resource");
+		Action ab = action("a","b").on("resource");
+		Action aanyc = action("a",any,"c").on("resource");
 		
-		assertTrue(a.isIn(anya));
-		assertTrue(ab.isIn(anya));
-		assertTrue(aanyc.isIn(anya));
+		assertTrue(a.included(anya));
+		assertTrue(ab.included(anya));
+		assertTrue(aanyc.included(anya));
 		
 		
 	}
@@ -112,11 +113,11 @@ public class ActionTest {
 	public void isInOneOfMany() {
 		
 		Action a = action("a");
-		Action ab = action("a","b");
+		Action ab = action("a","b").on("resource");
 		Action abc = action("a","b","c");
 		
 		//or semantics
-		assertTrue(ab.isIn(a,abc));
+		assertTrue(ab.included(a,abc));
 	}
 	
 	@Test
@@ -126,8 +127,8 @@ public class ActionTest {
 		Action a1 = action("a").on("1");
 		Action ab1 = action("a","b").on("1");
 		
-		assertTrue(a1.isIn(a));
-		assertTrue(ab1.isIn(a));
-		assertFalse(a.isIn(a1));
+		assertTrue(a1.included(a));
+		assertTrue(ab1.included(a));
+		assertFalse(a1.included(ab1));
 	}	
 }

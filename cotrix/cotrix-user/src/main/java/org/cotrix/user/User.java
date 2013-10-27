@@ -6,8 +6,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.cotrix.action.Action;
+import org.cotrix.domain.Codelist;
 import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Versioned;
 import org.cotrix.user.po.UserPO;
 
 public interface User extends Identified {

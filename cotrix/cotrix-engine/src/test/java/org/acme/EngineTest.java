@@ -1,8 +1,7 @@
 package org.acme;
 
-import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.CodelistAction.*;
-import static org.cotrix.action.GenericAction.*;
+import static org.cotrix.action.MainAction.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import java.util.concurrent.CountDownLatch;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
+import org.cotrix.action.MainAction;
 import org.cotrix.action.Action;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
@@ -49,7 +49,7 @@ public class EngineTest {
 	}
 	
 	@Test
-	public void executesResourceActionAgainstCrossResourcePermission() throws Exception {
+	public void executesResourceActionAgainstTemplate() throws Exception {
 
 		final CountDownLatch latch = new CountDownLatch(1);
 		
@@ -67,8 +67,7 @@ public class EngineTest {
 			fail();
 		
 		Collection<Action> expected = new ArrayList<Action>();
-		expected.add(IMPORT);
-		expected.add(EDIT);
+		expected.add(EDIT.on("1"));
 		assertEquals(expected,outcome.nextActions());
 		
 	}
@@ -95,8 +94,9 @@ public class EngineTest {
 	}
 	
 
+	
 	@Test
-	public void executesAction() throws Exception {
+	public void executesGenericAction() throws Exception {
 
 		final CountDownLatch latch = new CountDownLatch(1);
 		
@@ -108,16 +108,18 @@ public class EngineTest {
 			}
 		};
 		
-		engine.perform(EDIT).with(task);
+		TaskOutcome<Void> outcome = engine.perform(IMPORT.on(app)).with(task);
 		
 		if (latch.getCount()!=0)
 			fail();
 		
-		
+		Collection<Action> expected = new ArrayList<Action>();
+		expected.add(IMPORT.on(app));
+		assertEquals(expected,outcome.nextActions());
 	}
 	
 	@Test
-	public void failsDisallowedAction() throws Exception {
+	public void failsGenericAction() throws Exception {
 
 		Runnable task = new Runnable() {
 			
@@ -127,7 +129,7 @@ public class EngineTest {
 		
 		try {
 			
-			engine.perform(action("badaction")).with(task);
+			engine.perform(MainAction.PUBLISH.on(app)).with(task);
 			
 			fail();
 		}
@@ -136,7 +138,7 @@ public class EngineTest {
 		}
 		
 	}
-	
+
 	@Test
 	public void failsIllegalInstanceAction() throws Exception {
 

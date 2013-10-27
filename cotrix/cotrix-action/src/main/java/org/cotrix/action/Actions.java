@@ -1,6 +1,7 @@
 package org.cotrix.action;
 
 import static java.util.Arrays.*;
+import static org.cotrix.action.Action.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +16,8 @@ import org.cotrix.action.impl.DefaultAction;
  */
 public abstract class Actions {
 
-	/**
-	 * @see Action#any
-	 */
-	public static final String any = Action.any; //convenience to avoid multiple imports
-	
 	public static final Action allActions = action(any); 
+	
 	
 	/**
 	 * Creates an action from its parts.
@@ -40,7 +37,7 @@ public abstract class Actions {
 	 * @param parts the parts
 	 * @return the action
 	 */
-	public static Action action(Class<? extends Action> type, String part, String ... parts) {
+	public static Action action(ActionType type, String part, String ... parts) {
 		
 		List<String> ps = new ArrayList<String>();
 		ps.add(part);

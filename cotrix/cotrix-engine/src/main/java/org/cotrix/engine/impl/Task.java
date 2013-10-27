@@ -45,10 +45,9 @@ public class Task<T>  {
 	/**
 	 * Executes this task to perform editAction given {@link Action} on behalf of editAction given {@link User}
 	 * @param action the action
-	 * @param user the user
 	 * @return the output of the task
 	 */
-	public T execute(Action action,User user) {
+	public T execute(Action action) {
 		
 		this.started = Calendar.getInstance();
 		

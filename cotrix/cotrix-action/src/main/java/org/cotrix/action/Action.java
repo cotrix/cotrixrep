@@ -6,15 +6,23 @@ import java.util.List;
 /**
  * An action that may be taken by the application.
  * <p>
- * Actions have lists of one or more parts and are optionally relative to some target instance. The parts are plain strings,
- * with {@link #any} standing for any possible string. This defines a notion of <em>inclusion</em> between
- * actions whereby an action <code>A</code> includes another action <code>B</code> if:
+ * An action is comprised of:
  * 
  * <ul>
- * <li><code>A</code> and <code>B</code> operates on no instance or on the same instance;
- * <li>a part of <code>A</code> which is not {@link #any} is equals to the corresponding parts of <code>B</code>;
- * <ul>
+ * <li>a sequence of one ore more labels;
+ * <li>a resource identifier;
+ * <li>an optional {@link ActionType}.
+ * </ul>
  * 
+ * Labels and identifiers are plain strings, with {@link #any} standing for any possible string. An action over
+ * {@link #any} resource defines a <em>template</em>.<p>
+ * 
+ * The wildcard {@link #any} defines a notion of <em>inclusion</em> between actions: <code>A</code> is included in
+ * <code>B</code> if the labels and resource identifier of <code>A</code> <em>match</em> those of <code>B</code>, where
+ * a string matches only itself or {@link #any}.<p>
+ * 
+ * Note that any action is included in itself and equivalent actions (in the sense of {@link #equals(Object)}) are
+ * included in each other;
  * 
  * @author Fabio Simeoni
  * 
@@ -22,43 +30,61 @@ import java.util.List;
 public interface Action {
 
 	/**
-	 * The wildcard for an action's part.
+	 * The label and identifier wildcard.
 	 */
 	public static final String any = "*";
 
 	/**
-	 * Returns the runtime type of this action.
-	 * @return the action type
-	 */
-	Class<? extends Action> type();
-	
-	/**
-	 * Returns the parts of this action.
+	 * Returns the type of this action.
 	 * 
-	 * @return the parts
+	 * @return the type
 	 */
-	List<String> parts();
+	ActionType type();
 
 	/**
-	 * Returns <code>true</code> if this action is or specialises one of a list of actions.
+	 * Returns the labels of this action.
+	 * 
+	 * @return the labels
+	 */
+	List<String> labels();
+
+	/**
+	 * Returns an action with the same labels as this action but on a given resource.
+	 * 
+	 * @param resource the resource identifier
+	 * 
+	 * @return the action with the same labels as this action but on the given resource
+	 */
+	Action on(String resource);
+
+	/**
+	 * Returns the identifier of the resource for this action.
+	 * 
+	 * @return the identifier of the resource
+	 */
+	String resource();
+
+	/**
+	 * Returns <code>true</code> if this action is a template.
+	 * 
+	 * @return <code>true</code> if this action is a template
+	 */
+	boolean isTemplate();
+
+	/**
+	 * Returns <code>true</code> if this action is included in at least one of a list of actions.
 	 * 
 	 * @param actions the actions
-	 * @return <code>true</code> if this action is or specialises one of the actions in input.
+	 * @return <code>true</code> if this action is included in at least one of the actions in input.
 	 */
-	boolean isIn(Action... actions);
-	
+	boolean included(Action... actions);
+
 	/**
-	 * Returns <code>true</code> if this action is or specialises one of a list of actions.
+	 * Returns <code>true</code> if this action is included in at least one of a list of actions.
 	 * 
 	 * @param actions the actions
-	 * @return <code>true</code> if this action is or specialises one of the actions in input.
+	 * @return <code>true</code> if this action is included in at least one of the actions in input.
 	 */
-	boolean isIn(Collection<Action> actions);
-	
-	/**
-	 * Returns an action with the same parts as this action but on a given resource.
-	 * @param resourceId the resource identifier
-	 * @return the action with the same parts as this action but on the given resource
-	 */
-	ResourceAction on(String resourceId);
+	boolean included(Collection<? extends Action> actions);
+
 }

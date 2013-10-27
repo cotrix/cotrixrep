@@ -12,6 +12,7 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
+import org.cotrix.action.MainAction;
 import org.cotrix.action.Action;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
@@ -65,14 +66,15 @@ public class TaskInterceptor {
 			
 			String instance = getIdentifier(ctx.getMethod().getParameterAnnotations(), ctx.getParameters());
 
-			if (instance!=null) {
-
-				logger.trace("instance: {}", instance);
-				
-				action = action.on(instance);
-			}
+			if (instance==null)
+				instance = MainAction.app;
 			
-			TaskOutcome<Object> outcome = engine.perform(action).with(task);
+			logger.trace("instance: {}", instance);
+				
+			Action a = action.on(instance);
+			
+			
+			TaskOutcome<Object> outcome = engine.perform(a).with(task);
 			
 			Object output = outcome.output();
 
