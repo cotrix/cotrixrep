@@ -9,8 +9,10 @@ import java.util.List;
 public enum MainAction implements Action {
 
 
+	LOGIN("login"),
 	IMPORT("import"),
-	PUBLISH("publish")
+	PUBLISH("publish"),
+	LOGOUT("logout")
 
 	;
 	

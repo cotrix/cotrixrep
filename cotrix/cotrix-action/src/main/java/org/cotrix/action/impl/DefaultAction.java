@@ -113,7 +113,7 @@ public final class DefaultAction implements Action {
 	
 	public boolean isIn(Action a) {
 		
-		return (a==allActions || type() == a.type()) && matches(a.labels()) && match(resource,a.resource());
+		return type() == a.type() && matches(a.labels()) && match(resource,a.resource());
 	
 	}
 

@@ -24,6 +24,13 @@ public class UserBuilder {
 		return this;
 	}
 	
+	public UserBuilder cannot(Action ... actions) {
+		valid("actions",actions);
+		for (Action action : actions)
+			po.permissions().remove(action);
+		return this;
+	}
+	
 	public UserBuilder fullName(String name) {
 		valid("user name", name);
 		po.setName(name);

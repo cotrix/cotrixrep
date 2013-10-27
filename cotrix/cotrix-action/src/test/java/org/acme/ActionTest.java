@@ -4,7 +4,6 @@ package org.acme;
 import static org.cotrix.action.Action.*;
 import static org.cotrix.action.ActionType.*;
 import static org.cotrix.action.Actions.*;
-import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.action.MainAction.*;
 import static org.junit.Assert.*;
 
@@ -49,14 +48,6 @@ public class ActionTest {
 		assertFalse(IMPORT.on("1").equals(IMPORT.on("2")));
 		
 		assertFalse(action(codelist,"a").equals(action(main,"a")));
-	}
-	
-	@Test
-	public void isInAny() {
-		
-		assertTrue(IMPORT.included(allActions));
-		assertTrue(EDIT.on("resource").included(allActions));
-		
 	}
 	
 	@Test

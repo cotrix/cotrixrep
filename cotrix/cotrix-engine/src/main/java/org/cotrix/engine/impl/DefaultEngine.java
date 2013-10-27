@@ -1,6 +1,5 @@
 package org.cotrix.engine.impl;
 
-import static org.cotrix.action.Action.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.engine.impl.Task.*;
 
@@ -86,18 +85,11 @@ public class DefaultEngine implements Engine {
 		
 		for (Action permission : permissions)
 
-			if (permission == allActions) //expand and instantiate wildcard
-				for (Action a : action.type()) {
-					filtered.add(a.on(action.resource()));
-					break;
-				}
-			else 
-				if (action.type()==permission.type())
+			if (action.type()==permission.type())
 					filtered.add(
 							permission.isTemplate() ? permission.on(action.resource()):permission
 					);
 			
-		
 		return filtered;
 		
 	}

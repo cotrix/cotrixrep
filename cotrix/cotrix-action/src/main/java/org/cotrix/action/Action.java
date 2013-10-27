@@ -1,11 +1,7 @@
 package org.cotrix.action;
 
-import static java.util.Arrays.*;
-
 import java.util.Collection;
 import java.util.List;
-
-import org.cotrix.action.impl.DefaultAction;
 
 /**
  * An action that may be taken by the application.
@@ -38,12 +34,6 @@ public interface Action {
 	 */
 	public static final String any = "*";
 	
-
-	/**
-	 * The action in which any other action is included
-	 */
-	public static final Action allActions = new DefaultAction(asList(any)); 
-
 
 	/**
 	 * Returns the type of this action.

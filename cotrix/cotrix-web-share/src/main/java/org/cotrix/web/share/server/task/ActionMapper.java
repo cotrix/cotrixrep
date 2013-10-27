@@ -3,8 +3,6 @@
  */
 package org.cotrix.web.share.server.task;
 
-import static org.cotrix.action.Action.*;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -53,9 +51,9 @@ public class ActionMapper {
 		if (mapping == null) {
 			mapping = new HashMap<Action, Set<UIFeature>>();
 			mappings.put(type, mapping);
-			any = new HashSet<UIFeature>();
-			anys.put(type, any);
-			mapping.put(allActions, any);
+//			any = new HashSet<UIFeature>();
+//			anys.put(type, any);
+//			mapping.put(allActions, any);
 		}
 
 		mapping.put(action, features);
