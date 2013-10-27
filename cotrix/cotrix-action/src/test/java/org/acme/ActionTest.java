@@ -1,13 +1,15 @@
 package org.acme;
 
 
+import static org.cotrix.action.Action.*;
 import static org.cotrix.action.ActionType.*;
 import static org.cotrix.action.Actions.*;
+import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.action.MainAction.*;
 import static org.junit.Assert.*;
 
-import org.cotrix.action.MainAction;
 import org.cotrix.action.Action;
+import org.cotrix.action.MainAction;
 import org.junit.Test;
 
 public class ActionTest {
@@ -52,17 +54,16 @@ public class ActionTest {
 	@Test
 	public void isInAny() {
 		
-		Action a = MainAction.IMPORT.on("resource");
-	
-		assertTrue(a.included(allActions));
+		assertTrue(IMPORT.included(allActions));
+		assertTrue(EDIT.on("resource").included(allActions));
 		
 	}
 	
 	@Test
 	public void inclusionRespectsEnumTypes() {
 		
-		Action a = action(codelist,"a").on("resource");
-		Action aDifferentA = action(main,"a").on("resource");
+		Action a = action(codelist,"a");
+		Action aDifferentA = action(main,"a");
 		
 		assertFalse(a.included(aDifferentA));
 	}
@@ -70,9 +71,9 @@ public class ActionTest {
 	@Test
 	public void isInMoreGenericAndNotInLessGeneric() {
 		
-		Action a = action("a").on("resource");
-		Action ab = action("a","b").on("resource");
-		Action abc = action("a","b","c").on("resource");
+		Action a = action("a");
+		Action ab = action("a","b");
+		Action abc = action("a","b","c");
 		
 		assertTrue(ab.included(a));
 		assertTrue(abc.included(a));
@@ -80,26 +81,15 @@ public class ActionTest {
 		assertFalse(a.included(abc));
 	}
 	
-
-	
-	
-	@Test
-	public void isInWildcard() {
-
-		
-		Action a = action("a").on("resource");
-	
-		assertTrue(a.included(allActions));
-	}
 	
 	@Test
 	public void isInWildcardExtension() {
 
 		Action anya = action("a",any);
 		
-		Action a = action("a").on("resource");
-		Action ab = action("a","b").on("resource");
-		Action aanyc = action("a",any,"c").on("resource");
+		Action a = action("a");
+		Action ab = action("a","b");
+		Action aanyc = action("a",any,"c");
 		
 		assertTrue(a.included(anya));
 		assertTrue(ab.included(anya));
@@ -113,7 +103,7 @@ public class ActionTest {
 	public void isInOneOfMany() {
 		
 		Action a = action("a");
-		Action ab = action("a","b").on("resource");
+		Action ab = action("a","b");
 		Action abc = action("a","b","c");
 		
 		//or semantics

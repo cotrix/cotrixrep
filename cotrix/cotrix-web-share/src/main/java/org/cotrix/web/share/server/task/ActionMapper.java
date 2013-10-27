@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.share.server.task;
 
-import static org.cotrix.action.Actions.*;
+import static org.cotrix.action.Action.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,9 +15,9 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.cotrix.action.Action;
 import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
-import org.cotrix.action.Action;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;

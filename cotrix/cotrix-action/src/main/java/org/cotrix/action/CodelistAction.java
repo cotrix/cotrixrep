@@ -59,4 +59,9 @@ public enum CodelistAction implements Action {
 		return inner.included(actions);
 	}
 	
+	@Override
+	public String toString() {
+		return inner.toString();
+	}
+	
 }

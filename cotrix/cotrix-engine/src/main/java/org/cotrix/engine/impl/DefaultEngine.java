@@ -1,6 +1,6 @@
 package org.cotrix.engine.impl;
 
-import static org.cotrix.action.Actions.*;
+import static org.cotrix.action.Action.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.engine.impl.Task.*;
 
@@ -61,9 +61,7 @@ public class DefaultEngine implements Engine {
 		
 		//delegate based on action type if required
 		for (EngineDelegate delegate : delegates)
-			
 			if (delegate.type()==action.type())
-				
 				return delegate.perform(action,task,user.id(),permissions);
 		
 		//otherwise execute directly
@@ -78,7 +76,7 @@ public class DefaultEngine implements Engine {
 		
 		if (!action.included(permissions))
 			throw new IllegalAccessError(user + " cannot perform " + action
-					+ ", as her permissions don't allow it");
+					+ ", as her permissions allow only "+permissions);
 	}
 	
 	
@@ -88,13 +86,15 @@ public class DefaultEngine implements Engine {
 		
 		for (Action permission : permissions)
 
-			if (action == allActions) //expand and instantiate wildcard
-				for (Action a : action.type().values())
+			if (permission == allActions) //expand and instantiate wildcard
+				for (Action a : action.type()) {
 					filtered.add(a.on(action.resource()));
-			else
-				if (action.included(permission))
+					break;
+				}
+			else 
+				if (action.type()==permission.type())
 					filtered.add(
-							permission. isTemplate()?permission.on(action.resource()):action //instantiate
+							permission.isTemplate() ? permission.on(action.resource()):permission
 					);
 			
 		

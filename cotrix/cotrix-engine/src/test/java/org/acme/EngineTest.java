@@ -4,14 +4,11 @@ import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.action.MainAction.*;
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.concurrent.CountDownLatch;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import org.cotrix.action.MainAction;
 import org.cotrix.action.Action;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
@@ -49,7 +46,7 @@ public class EngineTest {
 	}
 	
 	@Test
-	public void executesResourceActionAgainstTemplate() throws Exception {
+	public void executesCodelistAction() throws Exception {
 
 		final CountDownLatch latch = new CountDownLatch(1);
 		
@@ -61,19 +58,24 @@ public class EngineTest {
 			}
 		};
 		
-		TaskOutcome<Void> outcome = engine.perform(EDIT.on("1")).with(task);
+		Action action = LOCK.on("2");
+		
+		TaskOutcome<Void> outcome = engine.perform(action).with(task);
 		
 		if (latch.getCount()!=0)
 			fail();
 		
-		Collection<Action> expected = new ArrayList<Action>();
-		expected.add(EDIT.on("1"));
-		assertEquals(expected,outcome.nextActions());
+		//actions are type-specific and resource-specific
+		for (Action a : outcome.nextActions()) {
+			assertEquals(a.resource(),action.resource());
+			assertSame(a.type(),action.type());
+		}
+		
 		
 	}
 	
 	@Test
-	public void executesResourceAction() throws Exception {
+	public void executesCodelistActionAllowedByTemplate() throws Exception {
 
 		final CountDownLatch latch = new CountDownLatch(1);
 		
@@ -85,18 +87,25 @@ public class EngineTest {
 			}
 		};
 		
-		engine.perform(LOCK.on("2")).with(task);
+		Action action = EDIT.on("1");
+		
+		TaskOutcome<Void> outcome = engine.perform(action).with(task);
 		
 		if (latch.getCount()!=0)
 			fail();
-		
+
+		//actions are type-specific and resource-specific
+		for (Action a : outcome.nextActions()) {
+			assertEquals(a.resource(),action.resource());
+			assertSame(a.type(),action.type());
+		}
 		
 	}
 	
 
 	
 	@Test
-	public void executesGenericAction() throws Exception {
+	public void executesMainAction() throws Exception {
 
 		final CountDownLatch latch = new CountDownLatch(1);
 		
@@ -108,18 +117,21 @@ public class EngineTest {
 			}
 		};
 		
-		TaskOutcome<Void> outcome = engine.perform(IMPORT.on(app)).with(task);
+		Action action = IMPORT;
+		TaskOutcome<Void> outcome = engine.perform(action).with(task);
 		
 		if (latch.getCount()!=0)
 			fail();
 		
-		Collection<Action> expected = new ArrayList<Action>();
-		expected.add(IMPORT.on(app));
-		assertEquals(expected,outcome.nextActions());
+		//actions are type-specific and resource-specific
+		for (Action a : outcome.nextActions()) {
+			assertEquals(a.resource(),action.resource());
+			assertSame(a.type(),action.type());
+		}
 	}
 	
 	@Test
-	public void failsGenericAction() throws Exception {
+	public void failsMainAction() throws Exception {
 
 		Runnable task = new Runnable() {
 			
@@ -129,7 +141,7 @@ public class EngineTest {
 		
 		try {
 			
-			engine.perform(MainAction.PUBLISH.on(app)).with(task);
+			engine.perform(PUBLISH).with(task);
 			
 			fail();
 		}

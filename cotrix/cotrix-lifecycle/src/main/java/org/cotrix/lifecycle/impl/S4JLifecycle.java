@@ -46,7 +46,6 @@ public class S4JLifecycle extends AbstractLifecycle {
 		
 		notNull("action",action);
 		
-		
 		return machine.CanFire(action);
 	}
 	

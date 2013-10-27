@@ -1,16 +1,16 @@
 package org.cotrix.action.impl;
 
 import static java.util.Arrays.*;
-import static org.cotrix.action.Actions.*;
 import static org.cotrix.common.Utils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
-import org.cotrix.action.ActionType;
 import org.cotrix.action.Action;
+import org.cotrix.action.ActionType;
 
 /**
  * Default {@link Action} implementation.
@@ -27,8 +27,8 @@ public final class DefaultAction implements Action {
 	private static final ActionType noType =  new ActionType() {
 		
 		@Override
-		public Collection<? extends Action> values() {
-			return Collections.emptySet();
+		public Iterator<Action> iterator() {
+			return Collections.<Action>emptySet().iterator();
 		}
 	};
 	
@@ -112,9 +112,6 @@ public final class DefaultAction implements Action {
 	}
 	
 	public boolean isIn(Action a) {
-		
-		if (this.equals(a))
-			return true;
 		
 		return (a==allActions || type() == a.type()) && matches(a.labels()) && match(resource,a.resource());
 	

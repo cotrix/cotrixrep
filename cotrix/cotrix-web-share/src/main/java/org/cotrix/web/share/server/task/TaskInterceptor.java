@@ -12,7 +12,6 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
-import org.cotrix.action.MainAction;
 import org.cotrix.action.Action;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
@@ -45,51 +44,47 @@ public class TaskInterceptor {
 
 	@AroundInvoke
 	public Object manageTask(final InvocationContext ctx) throws Exception {
+		
 		Method method = ctx.getMethod();
+		
 		logger.trace("manageTask method: {}", method.getName());
 
 		Annotation taskAnnotation = getTaskAnnotation(method);
+		
 		logger.trace("action: {} user: {}", taskAnnotation, user);
 
-		if (taskAnnotation != null) {
+		if (taskAnnotation ==null)
+			return ctx.proceed();
+		
+		Callable<Object> task = new Callable<Object>() {
 
-			Callable<Object> task = new Callable<Object>() {
-
-				@Override
-				public Object call() throws Exception {
-					Object result = ctx.getMethod().invoke(ctx.getTarget(), ctx.getParameters());
-					return result;
-				}
-			};
-
-			Action action = getAction(taskAnnotation);
-			
-			String instance = getIdentifier(ctx.getMethod().getParameterAnnotations(), ctx.getParameters());
-
-			if (instance==null)
-				instance = MainAction.app;
-			
-			logger.trace("instance: {}", instance);
-				
-			Action a = action.on(instance);
-			
-			
-			TaskOutcome<Object> outcome = engine.perform(a).with(task);
-			
-			Object output = outcome.output();
-
-			if (output instanceof FeatureCarrier) {
-				FeatureCarrier response = (FeatureCarrier) output;
-				actionMapper.fillFeatures(response, instance, outcome.nextActions());
+			@Override
+			public Object call() throws Exception {
+				return ctx.proceed();
 			}
+		};
 
-			return output;
+		Action action = getAction(taskAnnotation);
+		
+		String resource = getIdentifier(ctx.getMethod().getParameterAnnotations(), ctx.getParameters());
 
-		} else {
-			Object result = ctx.getMethod().invoke(ctx.getTarget(), ctx.getParameters());
-			System.out.println("INVOKED " + ctx.getMethod().getName());
-			return result;
+		if (resource!=null) {
+			
+			logger.trace("instance: {}", resource);
+			
+			action = action.on(resource);
 		}
+		
+		TaskOutcome<Object> outcome = engine.perform(action).with(task);
+		
+		Object output = outcome.output();
+
+		if (output instanceof FeatureCarrier) {
+			FeatureCarrier response = (FeatureCarrier) output;
+			actionMapper.fillFeatures(response, resource, outcome.nextActions());
+		}
+
+		return output;
 
 	}
 

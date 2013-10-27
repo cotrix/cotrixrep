@@ -14,9 +14,6 @@ public enum MainAction implements Action {
 
 	;
 	
-	public static final String app = "app";
-	
-	
 	protected Action inner;
 
 	private MainAction(String part,String ... parts) {
@@ -59,6 +56,11 @@ public enum MainAction implements Action {
 	@Override
 	public boolean included(Collection<? extends Action> actions) {
 		return inner.included(actions);
+	}
+	
+	@Override
+	public String toString() {
+		return inner.toString();
 	}
 
 }

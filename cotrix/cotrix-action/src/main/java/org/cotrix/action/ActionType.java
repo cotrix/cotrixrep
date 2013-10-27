@@ -1,25 +1,23 @@
 package org.cotrix.action;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Iterator;
 
-public interface ActionType {
-
-	Collection<? extends Action> values();
+public interface ActionType extends Iterable<Action>{
 
 	final ActionType main = new ActionType() {
 		
 		@Override
-		public Collection<MainAction> values() {
-			return Arrays.asList(MainAction.values());
+		public Iterator<Action> iterator() {
+			return Arrays.<Action>asList(MainAction.values()).iterator();
 		}
 	};
 	
 	final ActionType codelist = new ActionType() {
 		
 		@Override
-		public Collection<CodelistAction> values() {
-			return Arrays.asList(CodelistAction.values());
+		public Iterator<Action> iterator() {
+			return Arrays.<Action>asList(CodelistAction.values()).iterator();
 		}
 	};
 	

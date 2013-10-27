@@ -1,6 +1,6 @@
 package org.cotrix.user;
 
-import static org.cotrix.action.Actions.*;
+import static org.cotrix.action.Action.*;
 import static org.cotrix.user.dsl.Users.*;
 
 import java.util.Arrays;
