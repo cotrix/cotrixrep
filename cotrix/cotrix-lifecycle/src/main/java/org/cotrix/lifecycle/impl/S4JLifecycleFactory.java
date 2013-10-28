@@ -1,5 +1,6 @@
 package org.cotrix.lifecycle.impl;
 
+import static java.util.Arrays.*;
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
@@ -15,7 +16,7 @@ import com.googlecode.stateless4j.StateMachine;
  * Default {@link Lifecycle} factory. 
  * @author Fabio Simeoni
  */
-public class DefaultLifecycleFactory implements LifecycleFactory {
+public class S4JLifecycleFactory implements LifecycleFactory {
 
 
 	private static final long serialVersionUID = 1L;
@@ -28,19 +29,36 @@ public class DefaultLifecycleFactory implements LifecycleFactory {
 	@Override
 	public Lifecycle create(String id) {
 
+		return create(id,draft);
+	}
+	
+	@Override
+	public Lifecycle create(String id, State startState) {
+		
 		valid("resource identifier",id);
+		notNull("state",startState);
+		
 
+		StateMachine<State,Action> machine = null;
+		
+		if (!asList(DefaultLifecycleStates.values()).contains(startState))
+			throw new IllegalArgumentException("invalid state "+startState+" for this lifecycle");
+		
 		try {
-			return new S4JLifecycle(name(), id, machine(id));
+		
+			machine = machine(id,startState);
+		
 		} catch (Exception e) {
 			throw new RuntimeException("error creating lifecycle", e);
 		}
+		
+		return new S4JLifecycle(name(), id, machine);
 	}
 
 	//helper
-	private StateMachine<State, Action> machine(String id) throws Exception {
+	private StateMachine<State, Action> machine(String id, State state) throws Exception {
 
-		StateMachine<State, Action> machine = new StateMachine<State, Action>(draft);
+		StateMachine<State, Action> machine = new StateMachine<State, Action>(state);
 
 		machine.Configure(draft)
 								.PermitReentry(VIEW.on(id))

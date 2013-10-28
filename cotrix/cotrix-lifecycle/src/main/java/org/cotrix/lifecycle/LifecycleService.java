@@ -14,9 +14,22 @@ public interface LifecycleService {
 	 * @param id the identifier of the resource
 	 * @return a lifecycle with the given name for the resource with the given identifier 
 	 * 
-	 * @throws IllegalStateException if no lifecycle exists with the given name and/or for the given resource
+	 * @throws IllegalStateException if no lifecycle exists with the given name
 	 */
 	Lifecycle start(String name, String id);
+	
+	
+	/**
+	 * Start a given lifecycle in a given state for a given resource
+	 * @param name the name of the lifecycle
+	 * @param id the identifier of the resource
+	 * @param startState the initial state of the lifecycle
+	 * @return a lifecycle with the given name for the resource with the given identifier 
+	 * 
+	 * @throws IllegalStateException if no lifecycle exists with the given name
+	 * @throws IllegalArgumentException if the start state is illegal for a lifecycle with the given name
+	 */
+	Lifecycle start(String name, String id, State startState);
 	
 	
 	/**
@@ -24,9 +37,18 @@ public interface LifecycleService {
 	 * @param id the identifier of the resource
 	 * @return a default lifecycle for the resource with the given identifier 
 	 * 
-	 * @throws IllegalStateException if no default lifecycle exists for the given resource
 	 */
 	Lifecycle start(String id);
+	
+	/**
+	 * Start a default lifecycle in a given state for a given resource
+	 * @param id the identifier of the resource
+	 * @param startState the initial state of the lifecycle 
+	 * @return a default lifecycle for the resource with the given identifier 
+	 * 
+	 * @throws IllegalArgumentException if the start state is illegal for the default lifecycle
+	 */
+	Lifecycle start(String id, State startState);
 	
 	/**
 	 * Returns the lifecycle of a given resource
