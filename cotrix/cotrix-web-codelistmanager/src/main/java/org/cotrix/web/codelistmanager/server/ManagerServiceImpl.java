@@ -226,5 +226,18 @@ public class ManagerServiceImpl implements ManagerService {
 		repository.remove(codelistId);
 	}
 
+	@Override
+	public CodelistGroup createNewCodelistVersion(String codelistId, String newVersion)
+			throws ManagerServiceException {
+		Codelist codelist = repository.lookup(codelistId);
+		//FIXME
+		
+		CodelistGroup group = new CodelistGroup(codelist.name().toString());
+		group.addVersion(codelistId, newVersion);
+		
+		return group;
+		
+	}
+
 	
 }

@@ -266,7 +266,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected void refreshCode(UICode code)
 	{
 		Log.trace("refreshCode code: "+code);
-		int row = dataProvider.getCodes().indexOf(code);
+		int row = dataProvider.getCache().indexOf(code);
 		Log.trace("row: "+row);
 		if (row>=0) dataGrid.redrawRow(row);
 	}
@@ -275,7 +275,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	{
 		UICode code = selectionModel.getSelectedObject();
 		if (code!=null) {
-			dataProvider.getCodes().remove(code);
+			dataProvider.getCache().remove(code);
 			dataProvider.refresh();
 			codeEditor.removed(code);
 		}
@@ -284,7 +284,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected void addCode()
 	{
 		UICode code = new UICode(Document.get().createUniqueId(), "name");
-		dataProvider.getCodes().add(0, code);
+		dataProvider.getCache().add(0, code);
 		dataProvider.refresh();
 		selectionModel.setSelected(code, true);
 		codeEditor.added(code);

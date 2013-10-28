@@ -13,6 +13,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.HasGroupsChangedHandlers;
 import org.cotrix.web.codelistmanager.shared.UICode;
+import org.cotrix.web.share.client.util.CachedDataProvider;
 import org.cotrix.web.share.shared.DataWindow;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -20,7 +21,6 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
@@ -29,12 +29,9 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistCodesProvider extends AsyncDataProvider<UICode> implements HasGroupsChangedHandlers {
+public class CodelistCodesProvider extends CachedDataProvider<UICode> implements HasGroupsChangedHandlers {
 	
 	protected HandlerManager handlerManager = new HandlerManager(this);
-	
-	protected Range lastRange;
-	protected List<UICode> codes;
 	
 	@Inject
 	protected ManagerServiceAsync managerService;
@@ -57,12 +54,9 @@ public class CodelistCodesProvider extends AsyncDataProvider<UICode> implements 
 
 			@Override
 			public void onSuccess(DataWindow<UICode> result) {
-				codes = result.getData();
-				Log.trace("loaded "+codes.size()+" rows");
-				checkGroups(codes);
-				updateRowCount(result.getTotalSize(), true);
-				updateRowData(range.getStart(), codes);
-				lastRange = range;
+					Log.trace("loaded "+result.getData().size()+" rows");
+				checkGroups(result.getData());
+				updateData(result.getData(), range, result.getTotalSize());
 			}
 		});
 		
@@ -72,18 +66,6 @@ public class CodelistCodesProvider extends AsyncDataProvider<UICode> implements 
 	{
 		Set<Group> groups = GroupFactory.getGroups(rows);
 		handlerManager.fireEvent(new GroupsChangedEvent(groups));
-	}
-	
-	public void refresh()
-	{
-		updateRowData(lastRange.getStart(), codes);
-	}
-
-	/**
-	 * @return the codes
-	 */
-	public List<UICode> getCodes() {
-		return codes;
 	}
 
 	@Override
