@@ -1,9 +1,9 @@
 package org.cotrix.engine.impl;
 
+import static org.cotrix.action.Actions.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.engine.impl.Task.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 
@@ -56,7 +56,9 @@ public class DefaultEngine implements Engine {
 		//subset permissions to relevant type and resource
 		Collection<Action> permissions = filterForAction(action,user.permissions());
 		
-		authorize(action,permissions);
+		if (!action.included(permissions))
+			throw new IllegalAccessError(user + " cannot perform " + action
+					+ ", as her permissions allow only "+permissions);
 		
 		//delegate based on action type if required
 		for (EngineDelegate delegate : delegates)
@@ -65,33 +67,6 @@ public class DefaultEngine implements Engine {
 		
 		//otherwise execute directly
 		return new TaskOutcome<T>(permissions,task.execute(action));
-	}
-	
-	
-	
-	//helpers
-	
-	private void authorize(Action action, Collection<Action> permissions) {
-		
-		if (!action.included(permissions))
-			throw new IllegalAccessError(user + " cannot perform " + action
-					+ ", as her permissions allow only "+permissions);
-	}
-	
-	
-	private Collection<Action> filterForAction(Action action, Collection<Action> permissions) {
-		
-		Collection<Action> filtered = new ArrayList<Action>();
-		
-		for (Action permission : permissions)
-
-			if (action.type()==permission.type())
-					filtered.add(
-							permission.isTemplate() ? permission.on(action.resource()):permission
-					);
-			
-		return filtered;
-		
 	}
 
 }
