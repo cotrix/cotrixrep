@@ -75,7 +75,7 @@ public class UserController {
 			
 			@Override
 			public void onUserLogout(UserLogoutEvent event) {
-				logGuest();
+				logout();
 			}
 		});
 	}
@@ -84,6 +84,11 @@ public class UserController {
 	protected void logGuest()
 	{
 		service.login(GUEST_USERNAME, GUEST_PASSWORD, callback);
+	}
+	
+	protected void logout()
+	{
+		service.logout(callback);
 	}
 	
 	protected void logUser(String username, String password)

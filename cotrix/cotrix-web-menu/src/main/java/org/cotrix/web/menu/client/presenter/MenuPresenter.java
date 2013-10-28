@@ -28,6 +28,7 @@ public class MenuPresenter implements Presenter<MenuPresenter>, MenuView.Present
 	public MenuPresenter(MenuView view) {
 		this.view = view;
 		this.view.setPresenter(this);
+		bindFeatures();
 	}
 	
 	protected void bindFeatures()

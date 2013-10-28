@@ -1,7 +1,9 @@
 /**
  * 
  */
-package org.cotrix.web.share.shared.feature;
+package org.cotrix.web.shared;
+
+import org.cotrix.web.share.shared.feature.UIFeature;
 
 
 /**
