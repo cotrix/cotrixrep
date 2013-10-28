@@ -15,6 +15,7 @@ import org.cotrix.lifecycle.LifecycleEvent;
 import org.cotrix.lifecycle.LifecycleFactory;
 import org.cotrix.lifecycle.LifecycleRegistry;
 import org.cotrix.lifecycle.LifecycleService;
+import org.cotrix.lifecycle.State;
 
 /**
  * Memory-based implementation of {@link LifecycleService}
@@ -41,27 +42,52 @@ public class MemoryLifecycleService implements LifecycleService {
 	}
 	
 	@Override
-	public Lifecycle start(String name, String id) {
-		
-		valid("lifecycle name",name);
-		
-		return start(registry.get(name),id);
+	public Lifecycle start(String id) {
+
+		return start(id, (State) null);
 		
 	}
 	
 	@Override
-	public Lifecycle start(String id) {
+	public Lifecycle start(String id, State startState) {
 
-		return start(LifecycleFactory.DEFAULT,id);
+		return start(LifecycleFactory.DEFAULT,id,startState);
 		
 	}
 	
+	@Override
+	public Lifecycle start(String name, String id) {
+		
+		return start(name,id, null);
+		
+	}
+	
+	
+	@Override
+	public Lifecycle start(String name, String id,State state) {
+		
+		valid("lifecycle name",name);
+		
+		LifecycleFactory factory = registry.get(name);
+		
+		if (factory==null)
+			throw new IllegalStateException("factory "+name+" is unknown");
+		
+		return start(factory,id,state);
+		
+	}
+	
+
+	
 	//helper
-	private Lifecycle start(LifecycleFactory factory, String id) {
+	private Lifecycle start(LifecycleFactory factory, String id, State state) {
 		
 		valid("resource identifier",id);
-
-		Lifecycle lc = factory.create(id);
+		
+		Lifecycle lc = state==null? 
+				factory.create(id):
+				factory.create(id,state);
+		
 		lc.setEventProducer(event);
 		instances.put(lc.resourceId(),lc);
 		return lc;

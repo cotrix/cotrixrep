@@ -7,6 +7,9 @@ import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.MainAction.*;
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.cotrix.action.Action;
 import org.cotrix.action.MainAction;
 import org.junit.Test;
@@ -48,6 +51,16 @@ public class ActionTest {
 		assertFalse(IMPORT.on("1").equals(IMPORT.on("2")));
 		
 		assertFalse(action(codelist,"a").equals(action(main,"a")));
+	}
+	
+	
+	@Test
+	public void canBeUsedInMaps() {
+		
+		Map<Action,Boolean> map = new HashMap<Action, Boolean>();
+		map.put(IMPORT,true);
+		assertTrue(map.get(IMPORT));
+		assertNull(map.get(PUBLISH));
 	}
 	
 	@Test
