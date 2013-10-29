@@ -43,10 +43,4 @@ public abstract class CachedDataProvider<T> extends AsyncDataProvider<T> {
 	{
 		return handlerManager.addHandler(DataUpdatedEvent.getType(), handler);
 	}
-	
-	/**
-	 * Represents a range change event.
-	 */
-	
-
 }

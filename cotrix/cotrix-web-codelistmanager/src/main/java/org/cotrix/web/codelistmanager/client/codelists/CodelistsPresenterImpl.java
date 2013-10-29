@@ -27,7 +27,7 @@ public class CodelistsPresenterImpl implements CodelistsPresenter {
 	protected CodelistsView view;
 	
 	@Inject
-	protected CodelistDataProvider codelistDataProvider;
+	protected CodelistsDataProvider codelistDataProvider;
 
 	@Inject
 	public CodelistsPresenterImpl(@ManagerBus EventBus managerBus, CodelistsView view) {

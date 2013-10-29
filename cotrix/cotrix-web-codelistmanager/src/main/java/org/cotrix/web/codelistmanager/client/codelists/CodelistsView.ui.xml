@@ -5,99 +5,55 @@
 	xmlns:common="urn:import:org.cotrix.web.codelistmanager.client.common">
 	<ui:with field='resources'
 		type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
-	<ui:style
-		type="org.cotrix.web.codelistmanager.client.codelists.CodelistsViewImpl.Style">
-			.mainPanel {
-				background-color: #efefef;
-			}
-			
-			.filterPanel {
-				border-top: 1px solid #a8a7a7;
-				border-left: 1px solid #a8a7a7;
-				border-right: 1px solid #a8a7a7;
-				background-color: white;
-				padding: 5px;
-			}
-			
-			.listPanel {
-				background-color: white;
-				border-left: 1px solid #a8a7a7;
-				border-right: 1px solid #a8a7a7;
-				color: #9b9b9b;
-			}
-			
-			.toolbarPanel {
-				background-color: #efefef;
-				border-bottom: 1px solid #a8a7a7;
-				border-left: 1px solid #a8a7a7;
-				border-right: 1px solid #a8a7a7;
-			}
-			
-			.filterTextBox {
-				width: 95%;
-				padding: 5px;
-				color: #666;
-				border: 1px solid #ccc;
-				border-radius: 6px;
-			}
-			
-			.filterTextBox :FOCUS {
-				width: 95%;
-				color: #666;
-				padding: 5px;
-				border-radius: 6px;
-			}
-			
-			.promptTextBox {
-				width: 95%;
-				padding: 5px;
-				color: #ccc;
-				border: 1px solid #ccc;
-				border-radius: 6px;
-			}
-			
-			.promptTextBox :FOCUS {
-				width: 95%;
-				color: #ccc;
-				padding: 5px;
-				border-radius: 50px;
-			}
-			
+	<ui:style>
+		.mainPanel {
+			background-color: #efefef;
+		}
 		
-			.headerPanel {
-				overflow: visible;
+		.filterPanel {
+			border-top: 1px solid #a8a7a7;
+			border-left: 1px solid #a8a7a7;
+			border-right: 1px solid #a8a7a7;
+			background-color: white;
+			padding: 5px;
+		}
+		
+		.listPanel {
+			background-color: white;
+			border-left: 1px solid #a8a7a7;
+			border-right: 1px solid #a8a7a7;
+			color: #9b9b9b;
+		}
+		
+		.toolbarPanel {
+			background-color: #efefef;
+			border-bottom: 1px solid #a8a7a7;
+			border-left: 1px solid #a8a7a7;
+			border-right: 1px solid #a8a7a7;
+		}
+		
+		.headerPanel {
+			overflow: visible;
 			text-align: left;
 			color: #464545;
-			font-weight:normal;
-			font-size:15px;
-			text-shadow:none;
-			background-color:#e9e9e9;
+			font-weight: normal;
+			font-size: 15px;
+			text-shadow: none;
+			background-color: #e9e9e9;
 			padding: 6px;
 			border-bottom: 1px solid #a8a7a7;
 			border-top: 1px solid #a8a7a7;
 			border-left: 1px solid #a8a7a7;
 			border-right: 1px solid #a8a7a7;
-			}
-			
-			.celllist {
-				
-			}
-			
-			.cellitem {
-				padding-left: 20px;
-				padding-top: 30px;
-				padding-bottom: 30px;
-				padding-right: 20px;
-			}
-		</ui:style>
+		}
+	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
 		<g:north size='28'>
 			<g:SimpleLayoutPanel />
 		</g:north>
 		<g:north size='45'>
 			<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
-			<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}"/>
-<!-- 				<cotrix:PromptedTextBox ui:field="filterTextBox" /> -->
+				<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}" />
 			</g:FlowPanel>
 		</g:north>
 		<g:north size='32'>
@@ -109,8 +65,8 @@
 			<c:CellTree ui:field="codelists" styleName="{style.listPanel}" />
 		</g:center>
 		<g:south size="28">
-			<common:ItemToolbar ui:field="toolbar" styleName="{style.toolbarPanel}" />
+			<common:ItemToolbar ui:field="toolbar"
+				styleName="{style.toolbarPanel}" />
 		</g:south>
-
 	</g:DockLayoutPanel>
 </ui:UiBinder>

@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
-import org.cotrix.web.share.client.util.CachedDataProvider;
+import org.cotrix.web.share.client.util.FilteredCachedDataProvider;
 import org.cotrix.web.share.shared.DataWindow;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -20,7 +20,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistDataProvider extends CachedDataProvider<CodelistGroup> {
+public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGroup> {
 	
 	@Inject
 	protected ManagerServiceAsync managerService;

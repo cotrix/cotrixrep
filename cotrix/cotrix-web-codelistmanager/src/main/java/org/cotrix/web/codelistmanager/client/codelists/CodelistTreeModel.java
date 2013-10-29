@@ -53,13 +53,13 @@ public class CodelistTreeModel implements TreeViewModel {
 		}
 	};
 	
-	protected CodelistDataProvider dataProvider;
+	protected CodelistsDataProvider dataProvider;
 	protected SelectionModel<Version> selectionModel;
 
 	/**
 	 * @param dataProvider
 	 */
-	public CodelistTreeModel(CodelistDataProvider dataProvider, SelectionModel<Version> selectionModel) {
+	public CodelistTreeModel(CodelistsDataProvider dataProvider, SelectionModel<Version> selectionModel) {
 		this.dataProvider = dataProvider;
 		this.selectionModel = selectionModel;
 	}
