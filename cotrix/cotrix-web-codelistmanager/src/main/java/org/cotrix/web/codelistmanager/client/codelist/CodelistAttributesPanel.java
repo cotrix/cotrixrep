@@ -298,7 +298,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			}
 		});
 		attributesGrid.insertColumn(0, switchColumn);
-		attributesGrid.setColumnWidth(0, 35, Unit.PX);
+		attributesGrid.setColumnWidth(0, 25, Unit.PX);
 
 	}
 
