@@ -23,6 +23,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -38,6 +39,8 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 
 	@UiTemplate("CodelistsView.ui.xml")
 	interface CodeListsViewUiBinder extends UiBinder<Widget, CodelistsViewImpl> {}
+	
+	@UiField TextBox filterTextBox;
 
 	@UiField(provided=true) 
 	CellTree codelists;

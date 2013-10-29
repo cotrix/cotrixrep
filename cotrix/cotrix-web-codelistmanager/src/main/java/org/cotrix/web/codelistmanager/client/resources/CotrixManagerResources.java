@@ -48,8 +48,11 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource unlockDisabled();
 	
+	public ImageResource search();
+	
 	interface CotrixManagerStyle extends CssResource {
 		String buttonAllColumns();
+		String search();
 	}
 
 }

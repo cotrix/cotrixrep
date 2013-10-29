@@ -3,6 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client"
 	xmlns:cotrix="urn:import:org.cotrix.web.codelistmanager.client.codelists"
 	xmlns:common="urn:import:org.cotrix.web.codelistmanager.client.common">
+	<ui:with field='resources'
+		type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
 	<ui:style
 		type="org.cotrix.web.codelistmanager.client.codelists.CodelistsViewImpl.Style">
 			.mainPanel {
@@ -94,7 +96,8 @@
 		</g:north>
 		<g:north size='45'>
 			<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
-				<cotrix:PromptedTextBox ui:field="filterTextBox" />
+			<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}"/>
+<!-- 				<cotrix:PromptedTextBox ui:field="filterTextBox" /> -->
 			</g:FlowPanel>
 		</g:north>
 		<g:north size='32'>

@@ -11,25 +11,27 @@
  *      property: rule applies to all versions of IE
  *    }
  */
+body,table td,select {
+	font-family: Arial Unicode MS, Arial, sans-serif;
+	font-size: small;
+}
 
-body, table td, select {
-  font-family: Arial Unicode MS, Arial, sans-serif;
-  font-size: small;
-}
 pre {
-  font-family: "courier new", courier;
-  font-size: small;
+	font-family: "courier new", courier;
+	font-size: small;
 }
+
 body {
-  color: black;
-  margin: 0px;
-  border: 0px;
-  padding: 0px;
-  background: #fff;
-  direction: ltr;
+	color: black;
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	background: #fff;
+	direction: ltr;
 }
-a, a:visited, a:hover {
-  color: #0000AA;
+
+a,a:visited,a:hover {
+	color: #0000AA;
 }
 
 @sprite .buttonAllColumns {
@@ -53,4 +55,27 @@ a, a:visited, a:hover {
 	cursor: pointer;
 	height: 20px;
 	width: 21px;
+}
+
+@sprite .search {
+	gwt-image: "search";
+	background-repeat: no-repeat;
+	background-position: 3px 50%;
+	width: 100%;
+	height: 24px;
+	color: #666;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	outline: none;
+	background-color: #f7f7f7;
+}
+
+.search:focus {
+	background: none;
+	width: 100%;
+	height: 24px;
+	color: #666;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	outline: none;
 }
