@@ -64,6 +64,18 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 		return mappingPanel.getVersion();
 	}
 	
+	@Override
+	public void setSealed(boolean sealed)
+	{
+		mappingPanel.setSealed(sealed);
+	}
+	
+	@Override
+	public boolean getSealed()
+	{
+		return mappingPanel.getSealed();
+	}
+	
 	public void setMappingLoading()
 	{
 		mappingPanel.setMappingLoading();

@@ -38,4 +38,8 @@ public interface CsvMappingStepView {
 
 	String getVersion();
 
+	void setSealed(boolean sealed);
+
+	boolean getSealed();
+
 }

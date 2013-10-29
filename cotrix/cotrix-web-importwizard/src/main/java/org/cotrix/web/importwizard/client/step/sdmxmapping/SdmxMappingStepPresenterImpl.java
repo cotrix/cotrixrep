@@ -60,6 +60,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 		boolean valid = validateMappings(mappings);
 		String codelistName = view.getCodelistName();
 		String version = view.getVersion();
+		boolean sealed = view.getSealed();
 		valid &= validateAttributes(codelistName, version);
 
 		if (valid) {
@@ -69,6 +70,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 			ImportMetadata metadata = new ImportMetadata();
 			metadata.setName(codelistName);
 			metadata.setVersion(version);
+			metadata.setSealed(sealed);
 			metadata.setAttributes(this.metadata.getAttributes());
 			importEventBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
 		}
@@ -112,6 +114,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 			String name = metadata.getName();
 			view.setCodelistName(name == null?"":name);
 			view.setVersion(metadata.getVersion());
+			view.setSealed(metadata.isSealed());
 		}
 	}
 	
@@ -131,6 +134,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 	public void onReload() {
 		view.setCodelistName(metadata.getName());
 		view.setVersion(metadata.getVersion());
+		view.setSealed(metadata.isSealed());
 		view.setMappings(mappings);
 	}
 }

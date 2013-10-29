@@ -13,6 +13,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -32,6 +33,7 @@ public class MappingPanel extends ResizeComposite {
 	
 	@UiField TextBox name;
 	@UiField TextBox version;
+	@UiField SimpleCheckBox sealed;
 	@UiField InlineLabel attributeMappingLabel;
 	
 	@UiField(provided=true)
@@ -66,6 +68,16 @@ public class MappingPanel extends ResizeComposite {
 
 	public String getVersion() {
 		return this.version.getValue();
+	}
+	
+	public void setSealed(boolean sealed)
+	{
+		this.sealed.setValue(sealed);
+	}
+	
+	public boolean getSealed()
+	{
+		return sealed.getValue();
 	}
 	
 	@UiHandler("reloadButton")

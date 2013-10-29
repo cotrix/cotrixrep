@@ -13,6 +13,7 @@ import org.cotrix.io.map.MapService;
 import org.cotrix.io.parse.ParseDirectives;
 import org.cotrix.io.parse.ParseService;
 import org.cotrix.io.sdmx.SdmxParseDirectives;
+import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.importwizard.server.WizardImportSession;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
@@ -44,6 +45,9 @@ public class ImporterFactory {
 	protected CodelistRepository repository;
 	
 	@Inject
+	protected LifecycleService lifecycleService;
+	
+	@Inject
 	protected VirtualRepository remoteRepository;
 
 	public Importer<?> createImporter(WizardImportSession session, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws IOException
@@ -59,7 +63,9 @@ public class ImporterFactory {
 	{
 		ImporterSource<Table> source = getCSVSource(session);
 		ImporterMapper<Table> mapper = new ImporterMapper.CsvMapper(mapservice);
-		Importer<Table> importer = new Importer<Table>(repository, source, mapper, metadata, mappings, mappingMode, session);
+		Importer<Table> importer = new Importer<Table>(source, mapper, metadata, mappings, mappingMode, session);
+		importer.setLifecycleService(lifecycleService);
+		importer.setRepository(repository);
 		return importer;
 	}
 	
@@ -67,7 +73,9 @@ public class ImporterFactory {
 	{
 		ImporterSource<CodelistBean> source = getSdmxSource(session);
 		ImporterMapper<CodelistBean> mapper = new ImporterMapper.SdmxMapper(mapservice);
-		Importer<CodelistBean> importer = new Importer<CodelistBean>(repository, source, mapper, metadata, mappings, mappingMode, session);
+		Importer<CodelistBean> importer = new Importer<CodelistBean>(source, mapper, metadata, mappings, mappingMode, session);
+		importer.setLifecycleService(lifecycleService);
+		importer.setRepository(repository);
 		return importer;
 	}
 	

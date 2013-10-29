@@ -37,4 +37,8 @@ public interface SdmxMappingStepView {
 
 	String getVersion();
 
+	void setSealed(boolean sealed);
+
+	boolean getSealed();
+
 }

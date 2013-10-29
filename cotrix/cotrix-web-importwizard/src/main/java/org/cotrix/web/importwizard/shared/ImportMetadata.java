@@ -14,6 +14,7 @@ public class ImportMetadata implements IsSerializable {
 	protected String originalName;
 	protected String name;
 	protected String version;
+	protected boolean sealed;
 	protected Map<String, String> attributes = new HashMap<String, String>();
 
 	/**
@@ -72,14 +73,34 @@ public class ImportMetadata implements IsSerializable {
 		this.attributes = attributes;
 	}
 
+	/**
+	 * @return the sealed
+	 */
+	public boolean isSealed() {
+		return sealed;
+	}
+
+	/**
+	 * @param sealed the sealed to set
+	 */
+	public void setSealed(boolean sealed) {
+		this.sealed = sealed;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("ImportMetadata [name=");
+		builder.append("ImportMetadata [originalName=");
+		builder.append(originalName);
+		builder.append(", name=");
 		builder.append(name);
+		builder.append(", version=");
+		builder.append(version);
+		builder.append(", sealed=");
+		builder.append(sealed);
 		builder.append(", attributes=");
 		builder.append(attributes);
 		builder.append("]");

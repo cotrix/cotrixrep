@@ -33,4 +33,6 @@ public interface SummaryStepView {
 	Widget asWidget();
 
 	void setCodelistVersion(String version);
+
+	void setSealed(boolean sealed);
 }

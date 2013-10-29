@@ -63,6 +63,18 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	public String getVersion() {
 		return mappingPanel.getVersion();
 	}
+	
+	@Override
+	public void setSealed(boolean sealed)
+	{
+		mappingPanel.setSealed(sealed);
+	}
+	
+	@Override
+	public boolean getSealed()
+	{
+		return mappingPanel.getSealed();
+	}
 
 	public void setMappings(List<AttributeMapping> mappings)
 	{

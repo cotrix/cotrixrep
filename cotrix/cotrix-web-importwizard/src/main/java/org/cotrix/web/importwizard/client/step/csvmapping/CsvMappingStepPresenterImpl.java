@@ -62,6 +62,7 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 		
 		String csvName = view.getCsvName();
 		String version = view.getVersion();
+		boolean sealed = view.getSealed();
 		valid &= validateAttributes(csvName, version);
 		
 		if (valid) {
@@ -70,6 +71,7 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 			ImportMetadata metadata = new ImportMetadata();
 			metadata.setName(csvName);
 			metadata.setVersion(version);
+			metadata.setSealed(sealed);
 			metadata.setAttributes(this.metadata.getAttributes());
 			importEventBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
 		}
@@ -137,6 +139,7 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 			this.metadata = event.getMetadata();
 			view.setCsvName(metadata.getName());
 			view.setVersion(metadata.getVersion());
+			view.setSealed(metadata.isSealed());
 		}
 	}
 
@@ -144,6 +147,7 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 	public void onReload() {
 		view.setCsvName(metadata.getName());
 		view.setVersion(metadata.getVersion());
+		view.setSealed(metadata.isSealed());
 		view.setMapping(mappings);
 	}
 }
