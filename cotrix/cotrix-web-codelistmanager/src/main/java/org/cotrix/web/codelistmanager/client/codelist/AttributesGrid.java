@@ -46,10 +46,7 @@ import com.google.gwt.dom.builder.shared.TableRowBuilder;
 import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.Style.BorderStyle;
-import com.google.gwt.dom.client.Style.FontWeight;
 import com.google.gwt.dom.client.Style.OutlineStyle;
-import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.cellview.client.AbstractCellTable.Style;
@@ -81,11 +78,17 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 	interface DataGridStyle extends DataGrid.Style {
 		String emptyTableWidget();
+		
+		String expansionTable();
+		
+		String expansionHeader();
+		
+		String expansionValue();
 	}
 
 	DataGrid<UIAttribute> dataGrid;
 	
-	private DataGridResources resource = GWT.create(DataGridResources.class);
+	protected static DataGridResources gridResource = GWT.create(DataGridResources.class);
 
 	private final Set<String> showExpanded = new HashSet<String>();
 
@@ -106,14 +109,14 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		this.dataProvider = dataProvider;
 		this.header = header;
 
-		dataGrid = new DataGrid<UIAttribute>(20, resource);
+		dataGrid = new DataGrid<UIAttribute>(20, gridResource);
 		
 		//We need to listen dbclick events in order to enable editing
 		EventUtil.sinkEvents(dataGrid, Collections.singleton(BrowserEvents.DBLCLICK));
 		
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		Label emptyTableWidget = new Label(emptyMessage);
-		emptyTableWidget.setStyleName(resource.dataGridStyle().emptyTableWidget());
+		emptyTableWidget.setStyleName(gridResource.dataGridStyle().emptyTableWidget());
 		dataGrid.setEmptyTableWidget(emptyTableWidget);
 
 		setupColumns();
@@ -300,8 +303,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 			if (showExpanded.contains(rowValue.getId())) {
 
 				TableRowBuilder row = startRow();
-				TableCellBuilder td = row.startTD().colSpan(dataGrid.getColumnCount()).className(resource.dataGridStyle().dataGridCell());
-				td.style().trustedBackgroundColor("#efefef").endStyle();
+				TableCellBuilder td = row.startTD().colSpan(dataGrid.getColumnCount()).className(gridResource.dataGridStyle().dataGridCell());
 
 				TableBuilder table = td.startTable();
 				buildPropertiesTable(table, rowValue, absRowIndex);
@@ -315,8 +317,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		{
 			Log.trace("buildPropertiesTable for row "+rowValue.getId());
 
-			table.style().borderStyle(BorderStyle.SOLID).borderWidth(1, Unit.PX).trustedBorderColor("#8C8C8C")
-			.trustedProperty("border-collapse", "collapse").width(100, Unit.PCT);
+			table.className(gridResource.dataGridStyle().expansionTable());
 
 			BodyBuilder body = table.startBody();
 
@@ -340,7 +341,6 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 			TableRowBuilder tr = body.startTR();
 
 			addCell(tr, label);
-			/*addCell(tr, value);*/
 
 			Column<UIAttribute, String> propColumn = getAttributePropertyColumn(attribute.getName().getLocalPart(), field);
 			renderCell(tr, absRowIndex, propColumn, attribute);
@@ -353,8 +353,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 			cellValue = cellValue!=null?cellValue:"";
 
 			TableCellBuilder td = tr.startTD();
-			setCellStyle(td);
-			td.style().fontWeight(FontWeight.BOLD);
+			td.className(gridResource.dataGridStyle().expansionHeader());
 			td.startDiv().text(cellValue).end();
 			td.end();
 		}
@@ -362,18 +361,12 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		protected void renderCell(TableRowBuilder tr, int absRowIndex, Column<UIAttribute, String> column, UIAttribute rowValue)
 		{
 			TableCellBuilder td = tr.startTD();
-			setCellStyle(td);
+			td.className(gridResource.dataGridStyle().expansionValue());
 
 			Context context = new Context(absRowIndex, -1, "key");
 			renderCell(td, context, column, rowValue);
 
 			td.end();
-		}
-		
-		protected void setCellStyle(TableCellBuilder td)
-		{
-			td.style().borderStyle(BorderStyle.SOLID).borderWidth(1, Unit.PX).trustedBorderColor("#C2C2C2")
-			.paddingBottom(8, Unit.PX).paddingLeft(10, Unit.PX).paddingRight(8, Unit.PX).paddingTop(8, Unit.PX).overflow(Overflow.HIDDEN);
 		}
 
 		public void buildStandarRow(UIAttribute rowValue, int absRowIndex) {
