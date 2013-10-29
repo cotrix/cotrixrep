@@ -41,10 +41,12 @@ public class CodelistSidePanel extends ResizeComposite {
 
 	@UiField Button attributesButton;
 	@UiField Button metadataButton;
+	@UiField Button userButton;
 	
 	@UiField DeckLayoutPanel tools;
 	@UiField CodelistAttributesPanel attributesPanel;
 	@UiField CodelistMetadataPanel metadataPanel;
+	@UiField UserPreferencesPanel userPanel;
 
 	public CodelistSidePanel() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -73,6 +75,12 @@ public class CodelistSidePanel extends ResizeComposite {
 	protected void onMetadataButtonClicked(ClickEvent event)
 	{
 		tools.showWidget(metadataPanel);
+	}
+	
+	@UiHandler("userButton")
+	protected void onUserButtonClicked(ClickEvent event)
+	{
+		tools.showWidget(userPanel);
 	}
 
 	/**

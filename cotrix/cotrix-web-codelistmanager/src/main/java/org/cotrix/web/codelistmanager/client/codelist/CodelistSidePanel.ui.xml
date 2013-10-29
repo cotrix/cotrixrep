@@ -16,12 +16,14 @@
 			<g:FlowPanel>
 				<g:Button ui:field="attributesButton">Attributes</g:Button>
 				<g:Button ui:field="metadataButton">Metadata</g:Button>
+				<g:Button ui:field="userButton">Preferences</g:Button>
 			</g:FlowPanel>
 		</g:north>
 		<g:center>
 			<g:DeckLayoutPanel ui:field="tools" styleName="{style.tools}">
 				<v:CodelistAttributesPanel ui:field="attributesPanel" />
 				<v:CodelistMetadataPanel ui:field="metadataPanel" />
+				<v:UserPreferencesPanel ui:field="userPanel"/>
 			</g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>
