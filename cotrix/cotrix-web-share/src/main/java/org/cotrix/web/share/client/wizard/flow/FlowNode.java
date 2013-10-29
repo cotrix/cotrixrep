@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.flow;
+package org.cotrix.web.share.client.wizard.flow;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.flow.NodeStateChangedEvent.HasNodeStateChangedHandlers;
+import org.cotrix.web.share.client.wizard.flow.NodeStateChangedEvent.HasNodeStateChangedHandlers;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

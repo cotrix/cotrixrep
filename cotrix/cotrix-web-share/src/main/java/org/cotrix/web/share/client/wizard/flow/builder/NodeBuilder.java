@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.flow.builder;
+package org.cotrix.web.share.client.wizard.flow.builder;
 
-import org.cotrix.web.importwizard.client.flow.FlowManager;
-import org.cotrix.web.importwizard.client.flow.CheckPointNode.CheckPointHandler;
-import org.cotrix.web.importwizard.client.flow.SwitchNode.NodeSelector;
+import org.cotrix.web.share.client.wizard.flow.FlowManager;
+import org.cotrix.web.share.client.wizard.flow.CheckPointNode.CheckPointHandler;
+import org.cotrix.web.share.client.wizard.flow.SwitchNode.NodeSelector;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

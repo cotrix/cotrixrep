@@ -1,12 +1,12 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.flow;
+package org.cotrix.web.share.client.wizard.flow;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.flow.SwitchSelectionUpdatedEvent.HasSwitchSelectionUpdatedHandlers;
-import org.cotrix.web.importwizard.client.flow.SwitchSelectionUpdatedEvent.SwitchSelectionUpdatedHandler;
+import org.cotrix.web.share.client.wizard.flow.SwitchSelectionUpdatedEvent.HasSwitchSelectionUpdatedHandlers;
+import org.cotrix.web.share.client.wizard.flow.SwitchSelectionUpdatedEvent.SwitchSelectionUpdatedHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

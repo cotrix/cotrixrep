@@ -1,22 +1,22 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.flow.builder;
+package org.cotrix.web.share.client.wizard.flow.builder;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.flow.AbstractNode;
-import org.cotrix.web.importwizard.client.flow.CheckPointNode;
-import org.cotrix.web.importwizard.client.flow.FlowManager;
-import org.cotrix.web.importwizard.client.flow.FlowNode;
-import org.cotrix.web.importwizard.client.flow.CheckPointNode.CheckPointHandler;
-import org.cotrix.web.importwizard.client.flow.NodeStateChangedEvent.NodeStateChangedHandler;
-import org.cotrix.web.importwizard.client.flow.SingleNode;
-import org.cotrix.web.importwizard.client.flow.SwitchNode;
-import org.cotrix.web.importwizard.client.flow.SwitchNode.NodeSelector;
-import org.cotrix.web.importwizard.client.flow.builder.NodeBuilder.*;
+import org.cotrix.web.share.client.wizard.flow.AbstractNode;
+import org.cotrix.web.share.client.wizard.flow.CheckPointNode;
+import org.cotrix.web.share.client.wizard.flow.FlowManager;
+import org.cotrix.web.share.client.wizard.flow.FlowNode;
+import org.cotrix.web.share.client.wizard.flow.SingleNode;
+import org.cotrix.web.share.client.wizard.flow.SwitchNode;
+import org.cotrix.web.share.client.wizard.flow.CheckPointNode.CheckPointHandler;
+import org.cotrix.web.share.client.wizard.flow.NodeStateChangedEvent.NodeStateChangedHandler;
+import org.cotrix.web.share.client.wizard.flow.SwitchNode.NodeSelector;
+import org.cotrix.web.share.client.wizard.flow.builder.NodeBuilder.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

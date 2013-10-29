@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.flow;
+package org.cotrix.web.share.client.wizard.flow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
-import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.FlowUpdatedHandler;
-import org.cotrix.web.importwizard.client.flow.FlowUpdatedEvent.HasFlowUpdatedHandlers;
-import org.cotrix.web.importwizard.client.flow.NodeStateChangedEvent.NodeStateChangedHandler;
+import org.cotrix.web.share.client.wizard.flow.FlowUpdatedEvent.FlowUpdatedHandler;
+import org.cotrix.web.share.client.wizard.flow.FlowUpdatedEvent.HasFlowUpdatedHandlers;
+import org.cotrix.web.share.client.wizard.flow.NodeStateChangedEvent.NodeStateChangedHandler;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.shared.GwtEvent;

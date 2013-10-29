@@ -9,9 +9,9 @@ import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent.CodeListTypeUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.importwizard.client.flow.AbstractNodeSelector;
-import org.cotrix.web.importwizard.client.flow.FlowNode;
 import org.cotrix.web.importwizard.client.step.WizardStep;
+import org.cotrix.web.share.client.wizard.flow.AbstractNodeSelector;
+import org.cotrix.web.share.client.wizard.flow.FlowNode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.web.bindery.event.shared.EventBus;

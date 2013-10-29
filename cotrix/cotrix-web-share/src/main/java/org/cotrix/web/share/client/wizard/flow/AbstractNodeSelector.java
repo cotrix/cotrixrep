@@ -1,10 +1,10 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.flow;
+package org.cotrix.web.share.client.wizard.flow;
 
-import org.cotrix.web.importwizard.client.flow.SwitchNode.NodeSelector;
-import org.cotrix.web.importwizard.client.flow.SwitchSelectionUpdatedEvent.SwitchSelectionUpdatedHandler;
+import org.cotrix.web.share.client.wizard.flow.SwitchNode.NodeSelector;
+import org.cotrix.web.share.client.wizard.flow.SwitchSelectionUpdatedEvent.SwitchSelectionUpdatedHandler;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;

@@ -1,9 +1,9 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.flow;
+package org.cotrix.web.share.client.wizard.flow;
 
-import org.cotrix.web.importwizard.client.flow.NodeStateChangedEvent.NodeStateChangedHandler;
+import org.cotrix.web.share.client.wizard.flow.NodeStateChangedEvent.NodeStateChangedHandler;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.flow;
+package org.cotrix.web.share.client.wizard.flow;
 
 import java.util.Collections;
 import java.util.List;
