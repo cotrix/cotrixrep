@@ -24,6 +24,11 @@
 	font: 11px Arial, sans-serif;
 }
 
+.closeGroup {
+	float: right;
+	cursor: pointer;
+}
+
 .dataGridWidget {
 	
 }

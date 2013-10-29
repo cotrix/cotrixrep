@@ -15,6 +15,8 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
+import static com.google.gwt.dom.client.BrowserEvents.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,11 +26,11 @@ import java.util.Set;
 
 import org.cotrix.web.codelistmanager.client.codelist.attribute.Group;
 import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
+import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
-import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
@@ -38,6 +40,7 @@ import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
+import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
@@ -45,16 +48,22 @@ import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.client.widgets.HasEditing;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.cell.client.AbstractSafeHtmlCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.safehtml.shared.SafeUri;
+import com.google.gwt.text.shared.AbstractSafeHtmlRenderer;
+import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
@@ -90,6 +99,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		String groupHeaderCell();
 
 		String language();
+		
+		String closeGroup();
 	}
 
 	@UiField(provided = true)
@@ -191,7 +202,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		registration = null;
 		switchAllGroupsToNormal();
 	}
-	
+
 	public void setEditable(boolean editable)
 	{
 		this.editable = editable;
@@ -388,16 +399,6 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		for (Group group:groupsToNormal) switchToNormal(group);
 	}
 
-	static interface GroupHeaderTemplate extends SafeHtmlTemplates {
-		@Template("<span>{0} ({1})</span>")
-		SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, String style);
-
-		@Template("<span>{0}</span>")
-		SafeHtml header(SafeHtml name);
-	}
-
-	protected static final GroupHeaderTemplate HEADER_TEMPLATE = GWT.create(GroupHeaderTemplate.class);
-
 	protected class GroupHeader extends Header<Group> {
 
 		private Group group;
@@ -408,16 +409,16 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		 * @param text the header text as a String
 		 */
 		public GroupHeader(Group group) {
-			super(new AbstractCell<Group>() {
+			super(new ClickableGroupCell(new SafeHtmlGroupRenderer()));
+			this.group = group;
+			
+			setUpdater(new ValueUpdater<Group>() {
 
 				@Override
-				public void render(com.google.gwt.cell.client.Cell.Context context, Group value, SafeHtmlBuilder sb) {
-					if (value.getLanguage()!=null && !value.getLanguage().isEmpty()) {
-						sb.append(HEADER_TEMPLATE.headerWithLanguage(SafeHtmlUtils.fromString(value.getName().getLocalPart()), SafeHtmlUtils.fromString(value.getLanguage()), resource.dataGridStyle().language()));
-					} else sb.append(HEADER_TEMPLATE.header(SafeHtmlUtils.fromString(value.getName().getLocalPart())));
+				public void update(Group value) {
+					switchToNormal(value);
 				}
 			});
-			this.group = group;
 		}
 
 		/**
@@ -426,6 +427,73 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		@Override
 		public Group getValue() {
 			return group;
+		}
+	}
+
+	public class ClickableGroupCell extends AbstractSafeHtmlCell<Group> {
+
+
+		/**
+		 * Construct a new ClickableTextCell that will use a given
+		 * {@link SafeHtmlRenderer}.
+		 * 
+		 * @param renderer a {@link SafeHtmlRenderer SafeHtmlRenderer<Group>} instance
+		 */
+		public ClickableGroupCell(SafeHtmlRenderer<Group> renderer) {
+			super(renderer, CLICK, KEYDOWN);
+		}
+
+		@Override
+		public void onBrowserEvent(Context context, Element parent, Group value,
+				NativeEvent event, ValueUpdater<Group> valueUpdater) {
+			super.onBrowserEvent(context, parent, value, event, valueUpdater);
+			if (CLICK.equals(event.getType())) {
+				onEnterKeyDown(context, parent, value, event, valueUpdater);
+			}
+		}
+
+		@Override
+		protected void onEnterKeyDown(Context context, Element parent, Group value,
+				NativeEvent event, ValueUpdater<Group> valueUpdater) {
+			if (valueUpdater != null) {
+				valueUpdater.update(value);
+			}
+		}
+
+		@Override
+		protected void render(Context context, SafeHtml value, SafeHtmlBuilder sb) {
+			if (value != null) {
+				sb.append(value);
+			}
+		}
+	}
+	
+	static interface GroupHeaderTemplate extends SafeHtmlTemplates {
+		@Template("<span>{0} ({1})</span><span><img src=\"{2}\" class=\"{3}\"/></span>")
+		SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, SafeUri img, String imgStyle);
+
+		@Template("<span>{0}</span><span><img src=\"{1}\" class=\"{2}\"/></span>")
+		SafeHtml header(SafeHtml name, SafeUri img, String imgStyle);
+	}
+
+	protected static final GroupHeaderTemplate HEADER_TEMPLATE = GWT.create(GroupHeaderTemplate.class);
+
+	public class SafeHtmlGroupRenderer extends AbstractSafeHtmlRenderer<Group> {
+		@Override
+		public SafeHtml render(Group value) {
+			SafeHtmlBuilder sb = new SafeHtmlBuilder();
+			SafeHtml name = SafeHtmlUtils.fromString(value.getName().getLocalPart());
+			SafeUri img = CotrixManagerResources.INSTANCE.close().getSafeUri();
+			String imgStyle = resource.dataGridStyle().closeGroup();
+			if (value.getLanguage()!=null && !value.getLanguage().isEmpty()) {
+				SafeHtml language = SafeHtmlUtils.fromString(value.getLanguage());
+				SafeHtml header = HEADER_TEMPLATE.headerWithLanguage(name, language, img, imgStyle);
+				sb.append(header);
+			} else {
+				SafeHtml header = HEADER_TEMPLATE.header(name, img, imgStyle);
+				sb.append(header);
+			}
+			return sb.toSafeHtml();
 		}
 	}
 }
