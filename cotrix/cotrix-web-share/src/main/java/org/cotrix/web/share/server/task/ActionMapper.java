@@ -59,7 +59,7 @@ public class ActionMapper {
 		Set<UIFeature> features = new HashSet<UIFeature>();
 
 		for (Action action:actions) {
-			Set<UIFeature> actionFeatures = mappings.get(action);
+			Set<UIFeature> actionFeatures = mappings.get(action.on(Action.any));
 			if (actionFeatures!=null) {
 				logger.trace("mapping {} to {}", action, actionFeatures);
 				features.addAll(actionFeatures);
