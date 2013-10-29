@@ -17,7 +17,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MenuPresenter implements Presenter<MenuPresenter>, MenuView.Presenter {
+public class MenuPresenter implements MenuView.Presenter {
 
 	@Inject
 	@CotrixBus

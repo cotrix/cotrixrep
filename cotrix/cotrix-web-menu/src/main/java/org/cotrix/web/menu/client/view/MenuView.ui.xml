@@ -1,8 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:with field='res'
-		type='org.cotrix.web.menu.client.resources.CotrixMenuResources' />
 	<ui:style type="org.cotrix.web.menu.client.view.MenuViewImpl.Style">
 		.header {
 			background-color: #363636;
