@@ -5,8 +5,8 @@ import static org.cotrix.action.ActionType.*;
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.cotrix.action.ActionType;
 import org.cotrix.action.Action;
@@ -14,7 +14,7 @@ import org.cotrix.engine.TaskOutcome;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 
-@ApplicationScoped
+@Singleton
 public class CodelistActionDelegate implements EngineDelegate {
 
 	@Inject
