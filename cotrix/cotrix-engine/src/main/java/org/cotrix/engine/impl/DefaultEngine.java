@@ -4,11 +4,14 @@ import static org.cotrix.action.Actions.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.engine.impl.Task.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.cotrix.action.Action;
@@ -31,8 +34,9 @@ public class DefaultEngine implements Engine {
 	User user;
 
 	@Inject
-	private Instance<EngineDelegate> delegates;
-
+	private List<EngineDelegate> delegates;
+	
+	
 	@Override
 	public TaskClause perform(final Action a) {
 
@@ -43,16 +47,14 @@ public class DefaultEngine implements Engine {
 			@Override
 			public <T> TaskOutcome<T> with(Callable<T> task) {
 
-				return perform(a, task);
+				return perform(a, taskFor(task));
 
 			}
 		};
 	}
 
-	private <T> TaskOutcome<T> perform(Action action, Callable<T> callable) {
+	private <T> TaskOutcome<T> perform(Action action, Task<T> task) {
 
-		Task<T> task = taskFor(callable);
-		
 		//subset permissions to relevant type and resource
 		Collection<Action> permissions = filterForAction(action,user.permissions());
 		
@@ -69,4 +71,15 @@ public class DefaultEngine implements Engine {
 		return new TaskOutcome<T>(permissions,task.execute(action));
 	}
 
+	
+	@Produces
+	static List<EngineDelegate> produces(Instance<EngineDelegate> ds) {
+		
+		List<EngineDelegate> delegates = new ArrayList<EngineDelegate>();
+		
+		for (EngineDelegate delegate : ds)
+			delegates.add(delegate);
+		
+		return delegates;
+	}
 }
