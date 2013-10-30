@@ -58,12 +58,12 @@ public class SimpleRepositoryTest {
 
 		repository.add(list);
 
-		Attribute attributeChangeset = attr(attribute.id()).modify().name(attribute.name()).value("newvalue").build();
+		Attribute attributeChangeset = attr(attribute.id()).name(attribute.name()).value("newvalue").build();
 
 		QName updatedName = q(list.name().getLocalPart() + "-updated");
 
-		Codelist changeset = codelist(list.id()).modify().name(updatedName)
-				.with(code(code.id()).modify().name(code.name()).attributes(attributeChangeset).build()).build();
+		Codelist changeset = codelist(list.id()).name(updatedName)
+				.with(code(code.id()).name(code.name()).attributes(attributeChangeset).build()).build();
 
 		repository.update(changeset);
 

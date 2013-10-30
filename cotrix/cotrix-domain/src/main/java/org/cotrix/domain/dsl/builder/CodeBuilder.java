@@ -12,11 +12,10 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelink;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.CodeGrammar.ChangeClause;
-import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeStartClause;
+import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
+import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.SecondClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
 import org.cotrix.domain.po.CodePO;
 
 /**
@@ -25,24 +24,23 @@ import org.cotrix.domain.po.CodePO;
  * @author Fabio Simeoni
  *
  */
-public final class CodeBuilder implements CodeStartClause,ChangeClause,SecondClause,  DeltaClause<ChangeClause,Code>, FinalClause {
+public final class CodeBuilder implements CodeNewClause, CodeDeltaClause, FinalClause {
 
 	private final CodePO po;
 	
+	public CodeBuilder() {
+		po = new CodePO(null);
+	}
+	
 	public CodeBuilder(String id) {
 		po = new CodePO(id);
+		po.setChange(MODIFIED);
 	}
 	
 	@Override
 	public Code delete() {
 		po.setChange(DELETED);
 		return build();
-	}
-	
-	@Override
-	public ChangeClause modify() {
-		po.setChange(MODIFIED);
-		return this;
 	}
 	
 	@Override

@@ -12,11 +12,10 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.ChangeClause;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkStartClause;
+import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
+import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.SecondClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
 import org.cotrix.domain.po.CodelistLinkPO;
 
 /**
@@ -25,14 +24,18 @@ import org.cotrix.domain.po.CodelistLinkPO;
  * @author Fabio Simeoni
  *
  */
-public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause,FinalClause, DeltaClause<ChangeClause, CodelistLink>, ChangeClause {
+public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkChangeClause, FinalClause {
 
 	
 	private final CodelistLinkPO po;
 	
+	public CodelistLinkBuilder() {
+		this.po = new CodelistLinkPO(null);
+	}
 	
 	public CodelistLinkBuilder(String id) {
 		this.po = new CodelistLinkPO(id);
+		po.setChange(MODIFIED);
 	}
 	
 	@Override
@@ -50,12 +53,6 @@ public class CodelistLinkBuilder implements CodelistLinkStartClause,SecondClause
 	public CodelistLink delete() {
 		po.setChange(DELETED);
 		return build();
-	}
-	
-	@Override
-	public ChangeClause modify() {
-		po.setChange(MODIFIED);
-		return this;
 	}
 	
 	@Override

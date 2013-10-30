@@ -111,15 +111,8 @@ public class CommonClauses {
 	}
 	
 	
-	public static interface DeltaClause<MODIFY,DELETE> {
+	public static interface DeleteClause<DELETE> {
 		
-		/**
-		 * Marks this object as a modified version of one with the same identifier.
-		 * @return the next clause in the sentence
-		 */
-		MODIFY modify();
-		
-
 		/**
 		 * Marks this object for deletion.
 		 * @return the next clause in the sentence

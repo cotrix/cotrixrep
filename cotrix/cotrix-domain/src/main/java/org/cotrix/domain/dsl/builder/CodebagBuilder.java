@@ -12,12 +12,11 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.CodebagGrammar.ChangeClause;
+import org.cotrix.domain.dsl.grammar.CodebagGrammar.CodebagChangeClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.CodebagStartClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.ThirdClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
 import org.cotrix.domain.po.CodebagPO;
 import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
@@ -28,12 +27,17 @@ import org.cotrix.domain.version.Version;
  * @author Fabio Simeoni
  *
  */
-public final class CodebagBuilder implements CodebagStartClause, DeltaClause<ChangeClause,Codebag>, ChangeClause, ThirdClause ,FinalClause {
+public final class CodebagBuilder implements CodebagStartClause, CodebagChangeClause, ThirdClause ,FinalClause {
 
 	private final CodebagPO po;
 	
+	public CodebagBuilder() {
+		po = new CodebagPO(null);
+	}
+	
 	public CodebagBuilder(String id) {
 		po = new CodebagPO(id);
+		po.setChange(MODIFIED);
 	}
 	
 	@Override
@@ -51,12 +55,6 @@ public final class CodebagBuilder implements CodebagStartClause, DeltaClause<Cha
 	public Codebag delete() {
 		po.setChange(DELETED);
 		return build();
-	}
-	
-	@Override
-	public ChangeClause modify() {
-		po.setChange(MODIFIED);
-		return this;
 	}
 	
 	@Override

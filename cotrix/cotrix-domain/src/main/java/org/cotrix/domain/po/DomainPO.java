@@ -19,8 +19,6 @@ public abstract class DomainPO {
 	private Status status;
 
 	protected DomainPO(String id) {
-
-		// can be null, identifiers may be automatically generated when objects are stored in repositories.
 		this.id = id;
 	}
 

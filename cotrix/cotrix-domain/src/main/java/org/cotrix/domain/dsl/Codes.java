@@ -14,12 +14,17 @@ import org.cotrix.domain.dsl.builder.CodeLinkBuilder;
 import org.cotrix.domain.dsl.builder.CodebagBuilder;
 import org.cotrix.domain.dsl.builder.CodelistBuilder;
 import org.cotrix.domain.dsl.builder.CodelistLinkBuilder;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeDeltaClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
-import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeStartClause;
+import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
+import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.CodeLinkStartClause;
+import org.cotrix.domain.dsl.grammar.CodebagGrammar.CodebagChangeClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.CodebagStartClause;
-import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkStartClause;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
+import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
+import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
 
 /**
  * Model factory.
@@ -53,15 +58,15 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static AttributeStartClause attr() {
-		return attr(null);
+		return new AttributeBuilder();
 	}
 	
 	/**
-	 * Starts a sentence to create an {@link Attribute} with a given identifier.
-	 * @param id the identifier
+	 * Starts a sentence to create an {@link Attribute} changeset.
+	 * @param id the identifier of the target attribute
 	 * @return the next clause in the sentence
 	 */
-	public static AttributeStartClause attr(String id) {
+	public static AttributeDeltaClause attr(String id) {
 		return new AttributeBuilder(id);
 	}
 	
@@ -80,23 +85,23 @@ public class Codes {
 	 * @return the code
 	 */
 	public static Code ascode(QName name) {
-		return new CodeBuilder(null).name(name).build();
+		return new CodeBuilder().name(name).build();
 	}
 	
 	/**
 	 * Starts a sentence to create an {@link Code}.
 	 * @return the next clause in the sentence
 	 */
-	public static CodeStartClause code() {
-		return code(null);
+	public static CodeNewClause code() {
+		return new CodeBuilder();
 	}
 	
 	/**
-	 * Starts a sentence to create an {@link Code} with a given identifier.
-	 * @param id the identifier
+	 * Starts a sentence to create a {@link Code} changeset.
+	 * @param id the identifier of the target code
 	 * @return the next clause in the sentence
 	 */
-	public static CodeStartClause code(String id) {
+	public static CodeDeltaClause code(String id) {
 		return new CodeBuilder(id);
 	}
 	
@@ -115,42 +120,42 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodeLinkStartClause codeLink() {
-		return codeLink(null);
+		return new CodeLinkBuilder();
 	}
 	
 	/**
-	 * Starts a sentence to create an {@link Codelist}.
+	 * Starts a sentence to create a {@link Codelist}.
 	 * @return the next clause in the sentence
 	 */
-	public static CodelistStartClause codelist() {
-		return codelist(null);
+	public static CodelistNewClause codelist() {
+		return new CodelistBuilder();
 	}
 	
 	/**
-	 * Starts a sentence to create an {@link Codelist} with a given identifier.
-	 * @param id the identifier
+	 * Starts a sentence to create an {@link Codelist} changeset.
+	 * @param id the identifier of the target codelist
 	 * @return the next clause in the sentence
 	 */
-	public static CodelistStartClause codelist(String id) {
+	public static CodelistChangeClause codelist(String id) {
 		return new CodelistBuilder(id);
 	}
-	
+
 	/**
 	 * Starts a sentence to create an {@link CodelistLink} with a given identifier.
 	 * @param id the identifier
 	 * @return the next clause in the sentence
 	 */
-	public static CodelistLinkStartClause listLink(String id) {
-		return new CodelistLinkBuilder(id);
+	public static CodelistLinkNewClause listLink() {
+		return new CodelistLinkBuilder();
 	}
 	
 	/**
-	 * Starts a sentence to create an {@link CodelistLink} with a given identifier.
-	 * @param id the identifier
+	 * Starts a sentence to create a {@link CodelistLink} changeset.
+	 * @param id the identifier of the target link
 	 * @return the next clause in the sentence
 	 */
-	public static CodelistLinkStartClause listLink() {
-		return listLink(null);
+	public static CodelistLinkChangeClause listLink(String id) {
+		return new CodelistLinkBuilder(id);
 	}
 	
 	/**
@@ -158,15 +163,15 @@ public class Codes {
 	 * @return the next clause in the sentence
 	 */
 	public static CodebagStartClause codebag() {
-		return codebag(null);
+		return new CodebagBuilder();
 	}
 	
 	/**
-	 * Starts a sentence to create an {@link Codebag} with a given identifier.
-	 * @param id the identifier
+	 * Starts a sentence to create an {@link Codebag} changeset.
+	 * @param id the identifier of the target codebag
 	 * @return the next clause in the sentence
 	 */
-	public static CodebagStartClause codebag(String id) {
+	public static CodebagChangeClause codebag(String id) {
 		return new CodebagBuilder(id);
 	}
 }

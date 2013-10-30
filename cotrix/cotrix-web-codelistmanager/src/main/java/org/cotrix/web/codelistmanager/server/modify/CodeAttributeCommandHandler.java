@@ -35,8 +35,8 @@ public class CodeAttributeCommandHandler {
 		Attribute attribute = AttributeCommandUtil.handle(command);
 
 		String codeId = codeCommand.getCodeId();
-		Code code = code(codeId).modify().attributes(attribute).build();
-		Codelist changeset = codelist(codelistId).modify().with(code).build();
+		Code code = code(codeId).attributes(attribute).build();
+		Codelist changeset = codelist(codelistId).with(code).build();
 		
 		repository.update(changeset);
 

@@ -25,7 +25,7 @@ public class VersioningServiceTest {
 	@Test
 	public void versionCodelist() {
 		
-		Codelist codelist = codelist("1").name("test").build();
+		Codelist codelist = codelist().name("test").build();
 		
 		String version = codelist.version();
 		

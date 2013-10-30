@@ -30,7 +30,7 @@ public class UpdateTest {
 
 		try {
 		
-			update(attr().name(name).build(), attr("1").modify().build());
+			update(attr().name(name).build(), attr("1").build());
 			
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
@@ -45,7 +45,7 @@ public class UpdateTest {
 
 		try {
 			
-			update(a, attr("1").name(name2).build());
+			update(a, attr().name(name2).build());
 			
 			fail();
 		
@@ -70,7 +70,7 @@ public class UpdateTest {
 
 		try {
 		
-			update(attr("1").name(name).build(), attr("2").modify().name(name2).build());
+			update(attr("1").name(name).build(), attr("2").name(name2).build());
 		
 			fail();
 			
@@ -87,7 +87,7 @@ public class UpdateTest {
 
 		Attribute a = attr("1").name(name).value(value).ofType(type).in(language).build();
 
-		update(a, attr("1").modify().name(name2).value(value2).ofType(type2).in(language2).build());
+		update(a, attr("1").name(name2).value(value2).ofType(type2).in(language2).build());
 
 		assertEquals(name2, a.name());
 		assertEquals(value2, a.value());
@@ -100,7 +100,7 @@ public class UpdateTest {
 
 		Attribute a = attr("1").name(name).value(value).ofType(type).in(language).build();
 
-		update(a, attr("1").modify().build()); //let's test by changing nothing
+		update(a, attr("1").build()); //let's test by changing nothing
 
 		assertEquals(name, a.name());
 		assertEquals(value, a.value());
@@ -114,7 +114,7 @@ public class UpdateTest {
 		Attribute a = attr("1").name(name).build();
 
 		try {
-			update(a, attr("1").modify().name(NULL_QNAME).build());
+			update(a, attr("1").name(NULL_QNAME).build());
 			fail();
 		}
 		catch(IllegalArgumentException e) {
@@ -128,7 +128,7 @@ public class UpdateTest {
 
 		Attribute a = attr("1").name(name).value(value).ofType(type).in(language).build();
 
-		update(a, attr("1").modify().value(NULL_STRING).ofType(NULL_QNAME).in(NULL_STRING).build());
+		update(a, attr("1").value(NULL_STRING).ofType(NULL_QNAME).in(NULL_STRING).build());
 		
 		assertNull(a.value());
 		assertNull(a.type());
@@ -144,7 +144,7 @@ public class UpdateTest {
 		
 		try {
 			
-			update(code("1").name(name).build(),code("1").modify().name(NULL_QNAME).build());
+			update(code("1").name(name).build(),code("1").name(NULL_QNAME).build());
 			
 			fail();
 		}
@@ -159,7 +159,7 @@ public class UpdateTest {
 
 		Code code = code("1").name(name).build();
 		
-		update(code,code("1").modify().name(name2).build());
+		update(code,code("1").name(name2).build());
 		
 		assertEquals(name2,code.name());
 		
@@ -178,7 +178,7 @@ public class UpdateTest {
 		
 		QName newname = q("changed");
 		// a change
-		Attribute modified = attr("1").modify().name(newname).build();
+		Attribute modified = attr("1").name(newname).build();
 
 		// a deletion
 		Attribute deleted = attr("2").delete();
@@ -186,7 +186,7 @@ public class UpdateTest {
 		// an addition
 		Attribute a4 = attr().name("new").build();
 
-		Code change = code("1").modify().attributes(modified, deleted, a4).build();
+		Code change = code("1").attributes(modified, deleted, a4).build();
 		
 
 		update(code,change);
