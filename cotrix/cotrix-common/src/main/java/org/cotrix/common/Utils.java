@@ -136,7 +136,7 @@ public class Utils {
 			return type.cast(o);
 		}
 		catch(ClassCastException e) {
-			throw new IllegalArgumentException("expected a "+type+ "found instead a "+o.getClass());
+			throw new AssertionError("expected a "+type+ "found instead a "+o.getClass());
 		}
 	}
 	

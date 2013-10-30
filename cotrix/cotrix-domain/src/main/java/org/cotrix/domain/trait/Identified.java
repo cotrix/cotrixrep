@@ -82,6 +82,13 @@ public interface Identified {
 						+ " is not a changeset for object " + id());
 
 		}
+		
+		@Override
+		public final T copy() {
+			return copy(true);
+		}
+		
+		public abstract T copy(boolean retainId);
 
 		@Override
 		public int hashCode() {

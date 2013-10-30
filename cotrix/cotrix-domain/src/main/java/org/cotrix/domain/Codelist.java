@@ -1,7 +1,6 @@
 package org.cotrix.domain;
 
 import org.cotrix.domain.po.CodelistPO;
-import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -62,19 +61,29 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			return links;
 		}
 
-		protected void buildPO(IdGenerator generator,CodelistPO po) {
-			super.fillPO(generator,po);
-			po.setCodes(codes().copy(generator));
-			po.setLinks(links.copy(generator));
+		protected void buildPO(boolean withId,CodelistPO po) {
+			super.fillPO(withId,po);
+			po.setCodes(codes().copy(withId));
+			po.setLinks(links.copy(withId));
 		}
 
 		@Override
-		protected Private copy(IdGenerator generator, Version version) throws IllegalArgumentException,
+		public Private copy(boolean withId) {
+			CodelistPO po = new CodelistPO(withId?id():null);
+			buildPO(withId,po);
+			return new Private(po);
+		}
+		
+		@Override
+		protected final Private copyWith(Version version) throws IllegalArgumentException,
 				IllegalStateException {
-			CodelistPO po = new CodelistPO(generator.generateId());
-			buildPO(generator,po);
+			
+			CodelistPO po = new CodelistPO(null);
+			buildPO(false,po);
+			
 			if (version!=null)
 				po.setVersion(version);
+
 			return new Private(po);
 		}
 

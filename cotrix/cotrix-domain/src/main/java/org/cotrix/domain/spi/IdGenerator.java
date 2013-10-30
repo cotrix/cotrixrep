@@ -13,5 +13,5 @@ public interface IdGenerator {
 	 * Generates and returns an object identifier.
 	 * @return the identifier
 	 */
-	String generateId();
+	String id();
 }

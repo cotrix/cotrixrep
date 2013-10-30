@@ -1,16 +1,21 @@
 package org.cotrix.domain.version;
 
+import org.cotrix.common.Utils;
 
 
-public class SimpleVersion implements Version {
+
+public class DefaultVersion implements Version {
 	
 	private final String value;
 	
-	public SimpleVersion() {
-		this("0");
+	public DefaultVersion() {
+		this("1.0");
 	}
 	
-	public SimpleVersion(String value) {
+	public DefaultVersion(String value) {
+		
+		Utils.notEmpty("version",value);
+		
 		this.value=value;
 	}
 	
@@ -20,15 +25,15 @@ public class SimpleVersion implements Version {
 	}
 
 	@Override
-	public SimpleVersion bumpTo(String version) {
+	public DefaultVersion bumpTo(String version) {
 		if (value.compareToIgnoreCase(version)<0)
-			return new SimpleVersion(version);
+			return new DefaultVersion(version);
 		else
 			throw new IllegalStateException("cannot bump version "+value+" to "+version);
 	}
 	
 	public Version copy() {
-		return new SimpleVersion(value);
+		return new DefaultVersion(value);
 	}
 
 	@Override
@@ -52,7 +57,7 @@ public class SimpleVersion implements Version {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SimpleVersion other = (SimpleVersion) obj;
+		DefaultVersion other = (DefaultVersion) obj;
 		if (value == null) {
 			if (other.value != null)
 				return false;

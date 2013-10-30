@@ -5,7 +5,6 @@ import java.util.List;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Container;
 import org.cotrix.domain.po.AttributedPO;
-import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * A domain object with {@link Attribute}s.
@@ -61,9 +60,9 @@ public interface Attributed {
 			return attributes;
 		}
 			
-		protected void fillPO(IdGenerator generator,AttributedPO po) {
+		protected void fillPO(boolean withId, AttributedPO po) {
 		
-			po.setAttributes(attributes.copy(generator));
+			po.setAttributes(attributes.copy(withId));
 		}
 		
 		@Override

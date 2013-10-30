@@ -5,7 +5,6 @@ import static org.cotrix.domain.utils.Constants.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.po.NamedPO;
-import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * A named domain object.
@@ -42,8 +41,8 @@ public interface Named {
 			this.name=params.name();
 		}
 		
-		protected void fillPO(IdGenerator generator,NamedPO po) {
-			super.fillPO(generator, po);
+		protected void fillPO(boolean withId,NamedPO po) {
+			super.fillPO(withId,po);
 			po.setName(name());
 		}
 		

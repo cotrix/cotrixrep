@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.cotrix.domain.trait.Identified;
 import org.slf4j.Logger;
@@ -36,14 +35,13 @@ public class MStore {
 		if (object.isChangeset())
 			throw new IllegalArgumentException(type.getSimpleName()+" instance is a changeset and cannot be added");
 		
-		//generate/check identifier
 		String id = object.id();
+		
 		if (id==null)
-			object.setId(UUID.randomUUID().toString());
+			throw new AssertionError(type.getSimpleName()+" instance has no identifier");		
 		else
 			if (objectsOf(type).containsKey(id))
 				throw new IllegalStateException(type.getSimpleName()+" instance is already persisted");
-		
 		
 		objectsOf(type).put(object.id(),object);
 		

@@ -20,7 +20,7 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
 import org.cotrix.domain.po.CodelistPO;
-import org.cotrix.domain.version.SimpleVersion;
+import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
 /**
@@ -97,7 +97,7 @@ public final class CodelistBuilder implements CodelistStartClause, ChangeClause,
 	}
 	
 	public CodelistBuilder version(String version) {
-		po.setVersion(new SimpleVersion(version));
+		po.setVersion(new DefaultVersion(version));
 		return this;
 	}
 	

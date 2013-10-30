@@ -19,7 +19,7 @@ import org.cotrix.domain.dsl.grammar.CodebagGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodebagGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
 import org.cotrix.domain.po.CodebagPO;
-import org.cotrix.domain.version.SimpleVersion;
+import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
 /**
@@ -89,7 +89,7 @@ public final class CodebagBuilder implements CodebagStartClause, DeltaClause<Cha
 	}
 	
 	public CodebagBuilder version(String version) {
-		po.setVersion(new SimpleVersion(version));
+		po.setVersion(new DefaultVersion(version));
 		return this;
 	}
 	

@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 
 import org.cotrix.common.cdi.Current;
+import org.cotrix.domain.utils.UuidGenerator;
 import org.cotrix.repository.memory.MUserRepository;
 import org.cotrix.security.impl.DefaultLoginService;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
@@ -20,7 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(CdiRunner.class)
-@AdditionalClasses({MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class })
+@AdditionalClasses({MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class, UuidGenerator.class })
 public class LoginTest {
 
 	@Inject

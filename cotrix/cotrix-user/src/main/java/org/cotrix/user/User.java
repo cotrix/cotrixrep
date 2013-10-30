@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.cotrix.action.Action;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Versioned;
 import org.cotrix.user.po.UserPO;
@@ -50,8 +49,8 @@ public interface User extends Identified {
 		}
 		
 		@Override
-		public Private copy(IdGenerator generator) {
-			UserPO po = new UserPO(name);
+		public Private copy(boolean withId) {
+			UserPO po = new UserPO(withId?name:null);
 			po.setPermissions(permissions);
 			return new Private(po);
 		}

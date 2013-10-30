@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Copyable;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Mutable;
@@ -40,7 +39,7 @@ public interface Container<T> extends Iterable<T> {
 	 *
 	 * @param <T> the type of the contained objects 
 	 */
-	public class Private<T extends Identified.Abstract<T>> implements Container<T>, Copyable<Container.Private<T>> {
+	public class Private<T extends Identified.Abstract<T>> implements Container<T> {
 		
 		private final Set<T> objects = new LinkedHashSet<T>();
 		
@@ -123,12 +122,17 @@ public interface Container<T> extends Iterable<T> {
 			
 		}
 		
-		@Override
-		public Private<T> copy(IdGenerator generator) {
+		public Private<T> copy() {
+			
+			return copy(true); 
+			
+		}
+
+		public Private<T> copy(boolean retainId) {
 			
 			List<T> copied = new ArrayList<T>();
 			for (T object : this)
-				copied.add(object.copy(generator));
+				copied.add(object.copy(retainId));
 			
 			return new Private<T>(copied); 
 			

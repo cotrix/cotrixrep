@@ -1,11 +1,12 @@
 package org.cotrix.repository.memory;
 
-import java.util.UUID;
+import javax.inject.Inject;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.repository.CodebagRepository;
 import org.cotrix.repository.CodelistRepository;
 
@@ -22,24 +23,25 @@ public class MCodebagRepository extends MRepository<Codebag,Codebag.Private> imp
 	/**
 	 * Creates an instance over a private {@link MStore}.
 	 */
-	public MCodebagRepository() {
-		this(new MStore());
+	@Inject
+	public MCodebagRepository(IdGenerator generator) {
+		this(new MStore(),generator);
 	}
 	
 	/**
 	 * Creates an instance over a given {@link MStore}.
 	 * @param store
 	 */
-	public MCodebagRepository(MStore store) {
-		super(store,Codebag.class,Codebag.Private.class);
-		this.listRepository = new MCodelistRepository(store);
+	public MCodebagRepository(MStore store,IdGenerator generator) {
+		super(store,Codebag.class,Codebag.Private.class,generator);
+		this.listRepository = new MCodelistRepository(store,generator);
 	}
 	
 	@Override
 	public void add(Codebag bag) {
 
 		for (Attribute a: bag.attributes())
-				Utils.reveal(a,Attribute.Private.class).setId(UUID.randomUUID().toString());
+				Utils.reveal(a,Attribute.Private.class).setId(generateId());
 			
 		//propagate addition
 		for (Codelist list : bag.lists())

@@ -1,7 +1,6 @@
 package org.cotrix.domain;
 
 import org.cotrix.domain.po.CodebagPO;
-import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -47,15 +46,23 @@ public interface Codebag extends Identified,Attributed,Named,Versioned {
 			return lists;
 		}
 		
-		protected void buildPO(IdGenerator generator,CodebagPO po) {
-			super.fillPO(generator,po);
-			po.setLists(lists().copy(generator));
+		protected void buildPO(boolean withId,CodebagPO po) {
+			super.fillPO(withId,po);
+			po.setLists(lists().copy(withId));
 		}
 		
 		@Override
-		public Codebag.Private copy(IdGenerator generator,Version version) {
-			CodebagPO po = new CodebagPO(generator.generateId());
-			buildPO(generator,po);
+		public Private copy(boolean withId) {
+			CodebagPO po = new CodebagPO(withId?id():null);
+			buildPO(withId,po);
+			return new Private(po);
+		}
+		
+		@Override
+		public Codebag.Private copyWith(Version version) {
+		
+			CodebagPO po = new CodebagPO(null);
+			buildPO(false,po);
 			po.setVersion(version);
 			return new Codebag.Private(po);
 		}

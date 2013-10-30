@@ -9,6 +9,7 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.utils.UuidGenerator;
 import org.cotrix.repository.CodebagRepository;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.memory.MCodebagRepository;
@@ -21,7 +22,7 @@ public class SimpleRepositoryTest {
 	@Test
 	public void retrieveNotExistingCodeList() {
 
-		CodelistRepository repository = new MCodelistRepository();
+		CodelistRepository repository = new MCodelistRepository(new UuidGenerator());
 
 		assertNull(repository.lookup("unknown"));
 
@@ -34,7 +35,7 @@ public class SimpleRepositoryTest {
 
 		assertNull(list.id());
 
-		CodelistRepository repository = new MCodelistRepository();
+		CodelistRepository repository = new MCodelistRepository(new UuidGenerator());
 
 		repository.add(list);
 
@@ -53,7 +54,7 @@ public class SimpleRepositoryTest {
 
 		assertNull(list.id());
 
-		CodelistRepository repository = new MCodelistRepository();
+		CodelistRepository repository = new MCodelistRepository(new UuidGenerator());
 
 		repository.add(list);
 
@@ -82,7 +83,7 @@ public class SimpleRepositoryTest {
 
 		assertNull(list.id());
 
-		CodelistRepository repository = new MCodelistRepository();
+		CodelistRepository repository = new MCodelistRepository(new UuidGenerator());
 
 		repository.add(list);
 
@@ -107,7 +108,7 @@ public class SimpleRepositoryTest {
 
 		MStore store = new MStore();
 
-		CodebagRepository repository = new MCodebagRepository(store);
+		CodebagRepository repository = new MCodebagRepository(store, new UuidGenerator());
 
 		repository.add(bag);
 
@@ -116,7 +117,7 @@ public class SimpleRepositoryTest {
 
 		assertEquals(bag, repository.lookup(bag.id()));
 
-		CodelistRepository listRepository = new MCodelistRepository(store);
+		CodelistRepository listRepository = new MCodelistRepository(store,new UuidGenerator());
 
 		assertNotNull(listRepository.lookup(list.id()));
 
@@ -133,7 +134,7 @@ public class SimpleRepositoryTest {
 
 		MStore store = new MStore();
 
-		CodebagRepository repository = new MCodebagRepository(store);
+		CodebagRepository repository = new MCodebagRepository(store,new UuidGenerator());
 
 		repository.add(bag);
 
@@ -142,7 +143,7 @@ public class SimpleRepositoryTest {
 
 		assertEquals(bag, repository.lookup(bag.id()));
 
-		CodelistRepository listRepository = new MCodelistRepository(store);
+		CodelistRepository listRepository = new MCodelistRepository(store,new UuidGenerator());
 
 		assertNotNull(listRepository.lookup(list.id()));
 
