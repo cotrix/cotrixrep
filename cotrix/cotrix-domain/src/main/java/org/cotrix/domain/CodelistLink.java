@@ -44,12 +44,12 @@ public interface CodelistLink extends Identified, Attributed,Named {
 		}
 		
 		@Override
-		public void update(CodelistLink.Private delta) throws IllegalArgumentException, IllegalStateException {
+		public void update(CodelistLink.Private changeset) throws IllegalArgumentException, IllegalStateException {
 			
-			super.update(delta);
+			super.update(changeset);
 			
-			if (!targetId.equals(delta.targetId()))
-				targetId=delta.targetId();
+			if (!targetId.equals(changeset.targetId()))
+				targetId=changeset.targetId();
 		}
 		
 		//fills PO for copy/versioning purposes

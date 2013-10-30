@@ -74,9 +74,10 @@ public interface Code extends Identified,Attributed,Named {
 		}
 		
 		@Override
-		public void update(Private delta) throws IllegalArgumentException, IllegalStateException {
-			super.update(delta);
-			this.links.update(delta.links());
+		public void update(Private changeset) throws IllegalArgumentException, IllegalStateException {
+			
+			super.update(changeset);
+			this.links.update(changeset.links());
 		}
 
 		@Override

@@ -66,12 +66,11 @@ public interface Attributed {
 		}
 		
 		@Override
-		public void update(T delta) throws IllegalArgumentException ,IllegalStateException {
+		public void update(T changeset) throws IllegalArgumentException ,IllegalStateException {
 			
-			super.update(delta);
+			super.update(changeset);
 			
-			
-			Container.Private<Attribute.Private> attributes = delta.attributes();
+			Container.Private<Attribute.Private> attributes = changeset.attributes();
 
 			this.attributes.update(attributes);
 		}

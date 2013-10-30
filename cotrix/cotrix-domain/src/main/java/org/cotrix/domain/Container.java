@@ -74,11 +74,11 @@ public interface Container<T> extends Iterable<T> {
 			return new ArrayList<T>(objects);
 		}
 
-		public void update(Private<T> delta) {
+		public void update(Private<T> changeset) {
 			
 			Map<String, T> index = indexObjects();
 
-			for (T object : delta) {
+			for (T object : changeset) {
 		
 				String id = object.id();
 

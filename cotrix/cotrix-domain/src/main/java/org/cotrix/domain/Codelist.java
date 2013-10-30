@@ -75,8 +75,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		}
 		
 		@Override
-		protected final Private copyWith(Version version) throws IllegalArgumentException,
-				IllegalStateException {
+		protected final Private copyWith(Version version) {
 			
 			CodelistPO po = new CodelistPO(null);
 			buildPO(false,po);
@@ -94,9 +93,11 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		}
 
 		@Override
-		public void update(Private delta) throws IllegalArgumentException, IllegalStateException {
-			super.update(delta);
-			this.codes().update(delta.codes());
+		public void update(Private changeset) throws IllegalArgumentException, IllegalStateException {
+			
+			super.update(changeset);
+			
+			this.codes().update(changeset.codes());
 		}
 
 		@Override

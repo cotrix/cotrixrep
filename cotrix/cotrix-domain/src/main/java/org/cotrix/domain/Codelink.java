@@ -62,14 +62,14 @@ public interface Codelink extends Identified,Attributed {
 		}
 		
 		@Override
-		public void update(Private delta) throws IllegalArgumentException ,IllegalStateException {
+		public void update(Private changeset) throws IllegalArgumentException ,IllegalStateException {
 			
-			super.update(delta);
-
-			this.definition.update(delta.definition());
+			super.update(changeset);
 			
-			if (!targetId.equals(delta.targetId()))
-				targetId=delta.targetId();
+			this.definition.update(changeset.definition());
+			
+			if (!targetId.equals(changeset.targetId()))
+				targetId=changeset.targetId();
 		}
 		
 		//fills PO for copy/versioning purposes

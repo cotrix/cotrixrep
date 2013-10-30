@@ -32,7 +32,7 @@ public class UpdateTest {
 		
 			update(attr().name(name).build(), attr("1").build());
 			
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalStateException e) {
 			System.out.println(e.getMessage());
 		}
 
@@ -74,7 +74,7 @@ public class UpdateTest {
 		
 			fail();
 			
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalStateException e) {
 			System.out.println(e.getMessage());
 		}
 

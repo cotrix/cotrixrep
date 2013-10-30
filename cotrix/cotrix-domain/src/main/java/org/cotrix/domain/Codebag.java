@@ -68,9 +68,11 @@ public interface Codebag extends Identified,Attributed,Named,Versioned {
 		}
 		
 		@Override
-		public void update(Private delta) throws IllegalArgumentException, IllegalStateException {
-			super.update(delta);
-			this.lists().update(delta.lists());
+		public void update(Private changeset) {
+			
+			super.update(changeset);
+			
+			this.lists().update(changeset.lists());
 		}
 
 		@Override

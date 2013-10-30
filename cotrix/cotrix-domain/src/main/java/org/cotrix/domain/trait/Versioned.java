@@ -54,12 +54,12 @@ public interface Versioned {
 		}
 
 		@Override
-		public void update(T delta) throws IllegalArgumentException, IllegalStateException {
+		public void update(T changeset) throws IllegalArgumentException, IllegalStateException {
 
-			super.update(delta);
-
+			super.update(changeset);
+			
 			// version has changed?
-			if (delta.version() != null && !delta.version().equals(this.version()))
+			if (changeset.version() != null && !changeset.version().equals(this.version()))
 				throw new IllegalArgumentException("cannot change the version (" + version() + ") of entity " + id()
 						+ ". Versioning is performed by copy");
 		};
