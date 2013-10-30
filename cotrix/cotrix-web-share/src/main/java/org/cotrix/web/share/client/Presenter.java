@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client;
+package org.cotrix.web.share.client;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public abstract interface Presenter {

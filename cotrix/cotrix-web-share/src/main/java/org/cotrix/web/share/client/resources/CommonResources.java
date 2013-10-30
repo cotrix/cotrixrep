@@ -14,9 +14,11 @@ public interface CommonResources extends ClientBundle {
 	@Source("style.css")
 	public CommonCss css();
 	
+	@Source("loader.gif")
+	public ImageResource loader();
+	
 	@Source("popup-arrow.png")
 	public ImageResource popupArrow();
-	
 	
 	@Source("dataLoader.gif")
 	public ImageResource dataLoader();

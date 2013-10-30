@@ -13,9 +13,6 @@ public interface Resources extends ClientBundle {
 	
 	@Source("style.css")
 	public ImportCss css();
-
-	@Source("loader.gif")
-	public ImageResource loader();
 	
 	@Source("computer.png")
 	public ImageResource computer();
