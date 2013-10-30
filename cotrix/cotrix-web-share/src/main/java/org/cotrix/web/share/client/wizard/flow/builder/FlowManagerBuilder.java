@@ -101,7 +101,7 @@ public class FlowManagerBuilder<T> implements SingleNodeBuilder<T>, SwitchNodeBu
 	{
 		if (built!=null) return built;
 		
-		if (nexts == null) {
+		if (nexts == null || nexts.size() == 0) {
 			SingleNode<T> node = new SingleNode<T>(item);
 			node.addNodeStateChangeHandler(handler);
 			return wrapCheckPoint(node);

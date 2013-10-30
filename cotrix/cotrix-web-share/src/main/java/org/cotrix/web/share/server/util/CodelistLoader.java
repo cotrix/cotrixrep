@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.codelistmanager.server.util;
+package org.cotrix.web.share.server.util;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
