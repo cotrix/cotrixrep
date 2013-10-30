@@ -1,15 +1,15 @@
 package org.cotrix.web.importwizard.client.step.upload;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.resources.ImportConstants;
-import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
-import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileList;
 
@@ -47,7 +47,7 @@ public class UploadStepPresenterImpl extends AbstractVisualWizardStep implements
 
 	@Inject
 	public UploadStepPresenterImpl(UploadStepView view, @ImportBus EventBus importEventBus) {
-		super("upload", TrackerLabels.ACQUIRE, "Upload it", "Choose any CSV or SDMX file.", NavigationButtonConfiguration.BACKWARD, NavigationButtonConfiguration.FORWARD);
+		super("upload", TrackerLabels.ACQUIRE, "Upload it", "Choose any CSV or SDMX file.", ImportWizardStepButtons.BACKWARD, ImportWizardStepButtons.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		

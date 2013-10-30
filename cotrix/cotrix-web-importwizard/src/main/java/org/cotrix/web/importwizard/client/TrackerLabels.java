@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.importwizard.client;
 
-import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
+import org.cotrix.web.share.client.wizard.progresstracker.ProgressTracker.ProgressStep;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

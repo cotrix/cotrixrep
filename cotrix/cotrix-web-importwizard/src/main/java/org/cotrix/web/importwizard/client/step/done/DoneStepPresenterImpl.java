@@ -1,11 +1,11 @@
 package org.cotrix.web.importwizard.client.step.done;
 
+import org.cotrix.web.importwizard.client.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent.ImportProgressHandler;
-import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
-import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -18,7 +18,7 @@ public class DoneStepPresenterImpl extends AbstractVisualWizardStep implements D
 	
 	@Inject
 	public DoneStepPresenterImpl(DoneStepView view, @ImportBus EventBus importEventBus) {
-		super("done", TrackerLabels.DONE, "Done", "Done", NavigationButtonConfiguration.NEW_IMPORT, NavigationButtonConfiguration.MANAGE);
+		super("done", TrackerLabels.DONE, "Done", "Done", ImportWizardStepButtons.NEW_IMPORT, ImportWizardStepButtons.MANAGE);
 		this.view = view;
 		this.importEventBus = importEventBus;
 		importEventBus.addHandler(ImportProgressEvent.TYPE, this);
@@ -37,13 +37,13 @@ public class DoneStepPresenterImpl extends AbstractVisualWizardStep implements D
 		switch (event.getProgress().getStatus()) {
 			case DONE: {
 				configuration.setTitle("That's done");
-				configuration.setButtons(NavigationButtonConfiguration.NEW_IMPORT, NavigationButtonConfiguration.MANAGE);
+				configuration.setButtons(ImportWizardStepButtons.NEW_IMPORT, ImportWizardStepButtons.MANAGE);
 				configuration.setSubtitle("Check the log for potential errors or warnings.");
 				view.loadReport();
 			} break;
 			case FAILED: {
 				configuration.setTitle("...Oops!");
-				configuration.setButtons(NavigationButtonConfiguration.BACKWARD);
+				configuration.setButtons(ImportWizardStepButtons.BACKWARD);
 				configuration.setSubtitle("Something went wrong, check the log.");
 				view.loadReport();
 			} break;

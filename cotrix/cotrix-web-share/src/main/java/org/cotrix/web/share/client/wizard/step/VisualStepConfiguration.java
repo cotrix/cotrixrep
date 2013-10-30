@@ -1,20 +1,20 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.wizard;
+package org.cotrix.web.share.client.wizard.step;
 
-import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
+import org.cotrix.web.share.client.wizard.progresstracker.ProgressTracker.ProgressStep;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class WizardStepConfiguration {
+public class VisualStepConfiguration {
 	
 	protected ProgressStep label;
 	protected String title;
 	protected String subtitle;
-	protected NavigationButtonConfiguration[] buttons;
+	protected StepButton[] buttons;
 	
 	/**
 	 * @param label
@@ -22,8 +22,8 @@ public class WizardStepConfiguration {
 	 * @param backwardButton
 	 * @param forwardButton
 	 */
-	public WizardStepConfiguration(ProgressStep label, String title, String subtitle,
-			NavigationButtonConfiguration ... buttons) {
+	public VisualStepConfiguration(ProgressStep label, String title, String subtitle,
+			StepButton ... buttons) {
 		this.label = label;
 		this.title = title;
 		this.subtitle = subtitle;
@@ -68,14 +68,14 @@ public class WizardStepConfiguration {
 	/**
 	 * @return the buttons
 	 */
-	public NavigationButtonConfiguration[] getButtons() {
+	public StepButton[] getButtons() {
 		return buttons;
 	}
 
 	/**
 	 * @param buttons the buttons to set
 	 */
-	public void setButtons(NavigationButtonConfiguration ... buttons) {
+	public void setButtons(StepButton ... buttons) {
 		this.buttons = buttons;
 	}
 }

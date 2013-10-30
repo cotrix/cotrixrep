@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker;
-import org.cotrix.web.importwizard.client.progresstracker.ProgressTracker.ProgressStep;
-import org.cotrix.web.importwizard.client.step.VisualWizardStep;
-import org.cotrix.web.importwizard.client.step.WizardStep;
 import org.cotrix.web.importwizard.client.util.ProgressDialog;
 import org.cotrix.web.share.client.resources.CommonResources;
+import org.cotrix.web.share.client.wizard.progresstracker.ProgressTracker;
+import org.cotrix.web.share.client.wizard.progresstracker.ProgressTracker.ProgressStep;
+import org.cotrix.web.share.client.wizard.step.VisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -101,7 +100,7 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 		this.subtitle.setText(subtitle);
 	}
 
-	public void showStep(WizardStep step)
+	public void showStep(VisualWizardStep step)
 	{
 		Log.trace("showStep "+step.getId()+" steps: "+stepsPanel.getWidgetCount());
 		Integer deckIndex = decksIndexes.get(step.getId());
@@ -113,74 +112,30 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	{
 		progressTracker.setCurrentStep(step);
 	}
-
-	public void hideBackwardButton()
-	{
-		backButton.setVisible(false);
-	}
-
-	public void showBackwardButton()
-	{
-		backButton.setVisible(true);
-	}
-
-	public void setBackwardButton(String label, String style)
-	{
-		backButton.setText(label);
-		backButton.setStyleName(style);
-	}
-
-	public void hideForwardButton()
-	{
-		nextButton.setVisible(false);
-	}
-
-	public void showForwardButton()
-	{
-		nextButton.setVisible(true);
-	}
-
-	public void setForwardButton(String label, String style)
-	{
-		nextButton.setText(label);
-		nextButton.setStyleName(style);
-	}
-
-	public void setFormTitle(String title) {
-		this.title.setText(title);
-	}
-
-	public void showBackButton(boolean isVisible) {
-		this.backButton.setVisible(isVisible);
-	}
-
-	public void showNextButton(boolean isVisible) {
-		this.nextButton.setVisible(isVisible);
-	}
 	
 	@UiHandler("nextButton")
 	public void onNextButtonClicked(ClickEvent event){
-		presenter.onButtonClicked(WizardButton.NEXT);
+		presenter.onButtonClicked(ImportWizardButton.NEXT);
 	}
 
 	@UiHandler("backButton")
 	public void onBackButtonClicked(ClickEvent event){
-		presenter.onButtonClicked(WizardButton.BACK);
+		presenter.onButtonClicked(ImportWizardButton.BACK);
 	}
 	
 	@UiHandler("importButton")
 	public void onImportButtonClicked(ClickEvent event){
-		presenter.onButtonClicked(WizardButton.IMPORT);
+		presenter.onButtonClicked(ImportWizardButton.IMPORT);
 	}
 	
 	@UiHandler("newImportButton")
 	public void onNewImportButtonClicked(ClickEvent event){
-		presenter.onButtonClicked(WizardButton.NEW_IMPORT);
+		presenter.onButtonClicked(ImportWizardButton.NEW_IMPORT);
 	}
 
 	@UiHandler("manageButton")
 	public void onManageButtonClicked(ClickEvent event){
-		presenter.onButtonClicked(WizardButton.MANAGE);
+		presenter.onButtonClicked(ImportWizardButton.MANAGE);
 	}
 
 	@Override
@@ -198,12 +153,14 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	@Override
 	public void hideAllButtons()
 	{
-		for (WizardButton button:WizardButton.values()) hideButton(button);
+		for (ImportWizardButton button:ImportWizardButton.values()) hideButton(button);
 	}
 	
 	protected Button getButton(WizardButton button)
 	{
-		switch (button) {
+		assert button instanceof ImportWizardButton;
+		ImportWizardButton importWizardButton = (ImportWizardButton) button;
+		switch (importWizardButton) {
 			case BACK: return backButton;
 			case IMPORT: return importButton;
 			case NEW_IMPORT: return newImportButton;

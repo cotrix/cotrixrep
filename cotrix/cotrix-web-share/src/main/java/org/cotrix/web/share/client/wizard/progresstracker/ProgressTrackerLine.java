@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.progresstracker;
+package org.cotrix.web.share.client.wizard.progresstracker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;

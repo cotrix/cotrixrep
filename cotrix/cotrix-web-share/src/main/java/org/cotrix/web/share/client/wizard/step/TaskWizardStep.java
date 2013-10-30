@@ -1,9 +1,9 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.step;
+package org.cotrix.web.share.client.wizard.step;
 
-import org.cotrix.web.importwizard.client.wizard.WizardAction;
+import org.cotrix.web.share.client.wizard.WizardAction;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

@@ -1,24 +1,22 @@
 package org.cotrix.web.importwizard.client.step.codelistdetails;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
+import org.cotrix.web.importwizard.client.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.step.repositorydetails.RepositoryDetailsStepPresenter;
-import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
-
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.share.client.wizard.event.NavigationEvent;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-
-import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -40,7 +38,7 @@ public class CodelistDetailsStepPresenterImpl extends AbstractVisualWizardStep i
 	
 	@Inject
 	public CodelistDetailsStepPresenterImpl(CodelistDetailsStepView view, @ImportBus EventBus importEventBus) {
-		super("codelistDetails", TrackerLabels.ACQUIRE, "Codelist Details", "", BACKWARD);
+		super("codelistDetails", TrackerLabels.ACQUIRE, "Codelist Details", "", ImportWizardStepButtons.BACKWARD);
 		this.view = view;
 		view.setPresenter(this);
 		this.importEventBus = importEventBus;

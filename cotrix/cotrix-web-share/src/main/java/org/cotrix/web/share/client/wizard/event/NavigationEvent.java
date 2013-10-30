@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.wizard.event;
+package org.cotrix.web.share.client.wizard.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;

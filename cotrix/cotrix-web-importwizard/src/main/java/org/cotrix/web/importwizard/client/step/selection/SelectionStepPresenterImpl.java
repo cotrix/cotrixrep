@@ -1,24 +1,22 @@
 package org.cotrix.web.importwizard.client.step.selection;
 
 import org.cotrix.web.importwizard.client.DetailsNodeSelector;
+import org.cotrix.web.importwizard.client.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.step.repositorydetails.RepositoryDetailsStepPresenter;
-import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
-
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.share.client.wizard.event.NavigationEvent;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-
-import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -43,7 +41,7 @@ public class SelectionStepPresenterImpl extends AbstractVisualWizardStep impleme
 	
 	@Inject
 	public SelectionStepPresenterImpl(SelectionStepView view, @ImportBus EventBus importEventBus) {
-		super("selection", TrackerLabels.ACQUIRE, "Pick a codelist", "We found a few nearby.", BACKWARD, FORWARD);
+		super("selection", TrackerLabels.ACQUIRE, "Pick a codelist", "We found a few nearby.", ImportWizardStepButtons.BACKWARD, ImportWizardStepButtons.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		this.importEventBus = importEventBus;

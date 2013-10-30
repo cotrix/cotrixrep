@@ -1,7 +1,7 @@
 package org.cotrix.web.importwizard.client.step.codelistdetails;
 
-import org.cotrix.web.importwizard.client.step.VisualWizardStep;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.share.client.wizard.step.VisualWizardStep;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

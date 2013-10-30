@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client.progresstracker;
+package org.cotrix.web.share.client.wizard.progresstracker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
