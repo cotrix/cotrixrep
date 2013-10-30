@@ -33,7 +33,7 @@ public class MenuPresenter implements MenuView.Presenter {
 	
 	protected void bindFeatures()
 	{
-		FeatureBinder.bind(new HasFeature() {
+		/*FeatureBinder.bind(new HasFeature() {
 			
 			@Override
 			public void unsetFeature() {
@@ -57,7 +57,7 @@ public class MenuPresenter implements MenuView.Presenter {
 			public void setFeature() {
 				view.setVisible(Menu.PUBLISH, true);
 			}
-		}, ApplicationFeatures.PUBLISH_CODELIST);
+		}, ApplicationFeatures.PUBLISH_CODELIST);*/
 	}
 	
 	public void go(HasWidgets container) {

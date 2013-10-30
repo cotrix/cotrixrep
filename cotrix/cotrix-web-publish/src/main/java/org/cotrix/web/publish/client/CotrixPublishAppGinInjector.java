@@ -1,15 +1,15 @@
 package org.cotrix.web.publish.client;
 
-import org.cotrix.web.publish.client.presenter.ChanelPropertyDialogPresenter;
-import org.cotrix.web.publish.client.presenter.CodeListPublishPresenter;
-
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 @GinModules(CotrixPublishAppGinModule.class)
 public interface CotrixPublishAppGinInjector extends Ginjector {
 	public PublishServiceAsync getRpcService();
 	public CotrixPublishAppController getAppController();
-	public CodeListPublishPresenter getCodeListPublishPresenter();
-	public ChanelPropertyDialogPresenter getChanelPropertyDialogPresenter();
+
 }
