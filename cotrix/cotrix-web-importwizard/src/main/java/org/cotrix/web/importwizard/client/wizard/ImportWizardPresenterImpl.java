@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client;
+package org.cotrix.web.importwizard.client.wizard;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,6 +6,10 @@ import java.util.List;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ManageEvent;
 import org.cotrix.web.importwizard.client.event.NewImportEvent;
+import org.cotrix.web.importwizard.client.step.DetailsNodeSelector;
+import org.cotrix.web.importwizard.client.step.MappingNodeSelector;
+import org.cotrix.web.importwizard.client.step.SourceNodeSelector;
+import org.cotrix.web.importwizard.client.step.TypeNodeSelector;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.importwizard.client.step.csvpreview.CsvPreviewStepPresenter;

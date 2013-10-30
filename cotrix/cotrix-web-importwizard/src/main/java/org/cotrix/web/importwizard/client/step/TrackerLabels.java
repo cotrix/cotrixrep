@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client;
+package org.cotrix.web.importwizard.client.step;
 
 import org.cotrix.web.share.client.wizard.progresstracker.ProgressTracker.ProgressStep;
 

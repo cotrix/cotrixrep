@@ -1,11 +1,11 @@
 package org.cotrix.web.importwizard.client.step.csvpreview;
 
-import org.cotrix.web.importwizard.client.ImportWizardStepButtons;
-import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent.CsvParserConfigurationUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.step.TrackerLabels;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 

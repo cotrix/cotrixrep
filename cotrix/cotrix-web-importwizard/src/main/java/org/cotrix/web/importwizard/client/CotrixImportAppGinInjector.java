@@ -6,6 +6,8 @@ import com.google.gwt.inject.client.Ginjector;
 import org.cotrix.web.importwizard.client.step.selection.AssetInfoDataProvider;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepView;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardPresenter;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardView;
 import org.cotrix.web.share.client.CommonGinModule;
 
 @GinModules({CotrixImportAppGinModule.class, CommonGinModule.class})

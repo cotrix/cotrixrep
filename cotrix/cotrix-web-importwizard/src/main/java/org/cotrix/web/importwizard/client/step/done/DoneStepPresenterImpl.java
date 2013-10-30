@@ -1,10 +1,10 @@
 package org.cotrix.web.importwizard.client.step.done;
 
-import org.cotrix.web.importwizard.client.ImportWizardStepButtons;
-import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent.ImportProgressHandler;
+import org.cotrix.web.importwizard.client.step.TrackerLabels;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.google.gwt.user.client.ui.HasWidgets;

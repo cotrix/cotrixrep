@@ -2,8 +2,6 @@ package org.cotrix.web.importwizard.client.step.summary;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.ImportWizardStepButtons;
-import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
@@ -16,6 +14,8 @@ import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHa
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
+import org.cotrix.web.importwizard.client.step.TrackerLabels;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;

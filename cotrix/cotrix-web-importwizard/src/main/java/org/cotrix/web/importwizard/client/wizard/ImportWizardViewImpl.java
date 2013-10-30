@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client;
+package org.cotrix.web.importwizard.client.wizard;
 
 import java.util.HashMap;
 import java.util.List;

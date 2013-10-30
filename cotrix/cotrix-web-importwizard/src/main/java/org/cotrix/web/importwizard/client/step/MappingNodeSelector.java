@@ -1,12 +1,15 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client;
+package org.cotrix.web.importwizard.client.step;
 
 import java.util.List;
 
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent.CodeListTypeUpdatedHandler;
+import org.cotrix.web.importwizard.client.step.csvmapping.CsvMappingStepPresenter;
+import org.cotrix.web.importwizard.client.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.flow.AbstractNodeSelector;
@@ -14,37 +17,45 @@ import org.cotrix.web.share.client.wizard.flow.FlowNode;
 import org.cotrix.web.share.client.wizard.step.WizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> implements CodeListTypeUpdatedHandler, ResetWizardHandler {
+public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> implements CodeListTypeUpdatedHandler, ResetWizardHandler {
 	
-	protected WizardStep csvStep;
-	protected WizardStep sdmxStep;
 	protected WizardStep nextStep;
+	protected WizardStep oldNextStep;
 	
-	public TypeNodeSelector(EventBus importBus, WizardStep csvStep, WizardStep sdmxStep)
+	@Inject
+	protected CsvMappingStepPresenter csvStep;
+	
+	@Inject
+	protected SdmxMappingStepPresenter sdmxStep;
+	
+	@Inject
+	public MappingNodeSelector(@ImportBus EventBus importBus, CsvMappingStepPresenter csvStep)
 	{
 		this.csvStep = csvStep;
-		this.sdmxStep = sdmxStep;
-		this.nextStep = sdmxStep;
+		this.nextStep = csvStep;
 		importBus.addHandler(CodeListTypeUpdatedEvent.TYPE, this);
 		importBus.addHandler(ResetWizardEvent.TYPE, this);
 	}
 	
 
-	/** 
-	 * {@inheritDoc}
-	 */
 	@Override
 	public FlowNode<WizardStep> selectNode(List<FlowNode<WizardStep>> children) {
 		
 		for (FlowNode<WizardStep> child:children) if (child.getItem().getId().equals(nextStep.getId())) return child;
 		
 		return null;
+	}
+	
+	public void switchToNormal()
+	{
+		this.nextStep = oldNextStep;
 	}
 
 	/** 
@@ -64,7 +75,5 @@ public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> implement
 			case SDMX: nextStep = sdmxStep; break;
 		}
 		switchUpdated();
-
 	}
-
 }

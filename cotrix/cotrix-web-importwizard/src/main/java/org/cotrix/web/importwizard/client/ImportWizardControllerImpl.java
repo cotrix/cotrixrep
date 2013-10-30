@@ -28,6 +28,7 @@ import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.RetrieveAssetEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent.SaveHandler;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardPresenter;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CsvParserConfiguration;

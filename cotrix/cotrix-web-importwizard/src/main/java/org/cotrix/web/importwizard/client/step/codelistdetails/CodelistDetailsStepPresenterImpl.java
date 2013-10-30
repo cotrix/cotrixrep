@@ -1,10 +1,10 @@
 package org.cotrix.web.importwizard.client.step.codelistdetails;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.ImportWizardStepButtons;
-import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.step.TrackerLabels;
 import org.cotrix.web.importwizard.client.step.repositorydetails.RepositoryDetailsStepPresenter;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.share.client.wizard.event.NavigationEvent;

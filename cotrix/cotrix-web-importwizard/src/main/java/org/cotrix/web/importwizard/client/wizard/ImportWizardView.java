@@ -1,4 +1,4 @@
-package org.cotrix.web.importwizard.client;
+package org.cotrix.web.importwizard.client.wizard;
 
 import org.cotrix.web.share.client.wizard.WizardView;
 

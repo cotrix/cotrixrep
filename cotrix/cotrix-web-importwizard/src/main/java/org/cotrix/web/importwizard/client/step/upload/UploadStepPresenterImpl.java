@@ -1,11 +1,11 @@
 package org.cotrix.web.importwizard.client.step.upload;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.ImportWizardStepButtons;
-import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.resources.ImportConstants;
+import org.cotrix.web.importwizard.client.step.TrackerLabels;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;

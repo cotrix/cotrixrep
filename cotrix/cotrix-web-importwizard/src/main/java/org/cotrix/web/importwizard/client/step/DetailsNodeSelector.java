@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client;
+package org.cotrix.web.importwizard.client.step;
 
 import java.util.List;
 

@@ -3,11 +3,11 @@
  */
 package org.cotrix.web.importwizard.client.task;
 
-import org.cotrix.web.importwizard.client.ImportWizardAction;
 import org.cotrix.web.importwizard.client.event.AssetRetrievedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.AssetRetrievedEvent.AssetRetrievedHandler;
 import org.cotrix.web.importwizard.client.event.RetrieveAssetEvent;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardAction;
 import org.cotrix.web.share.client.wizard.WizardAction;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
