@@ -42,33 +42,44 @@ public interface Versioned {
 
 		@Override
 		public String version() {
-			return version==null?null:version.value();
+			return version == null ? null : version.value();
 		}
 
-		protected void fillPO(boolean withId,VersionedPO po) {
-			
-			super.fillPO(withId,po);
-			
-			if (version!=null)
+		protected void fillPO(boolean withId, VersionedPO po) {
+
+			super.fillPO(withId, po);
+
+			if (version != null)
 				po.setVersion(version);
 		}
 
+		@Override
 		public void update(T delta) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(delta);
 
-			//version has changed?
-			if (delta.version()!=null && !delta.version().equals(this.version()))
+			// version has changed?
+			if (delta.version() != null && !delta.version().equals(this.version()))
 				throw new IllegalArgumentException("cannot change the version (" + version() + ") of entity " + id()
 						+ ". Versioning is performed by copy");
 		};
 
+		/**
+		 * Returns a copy of this object with a new version and no identifiers.
+		 * 
+		 * @param version the new version.
+		 * @return the versioned copy of this object
+		 * 
+		 * @throws IllegalArgumentException if the version is invalid for the underlying versioning scheme
+		 * @throws IllegalStateException if the version does not follow the current version of this object according to
+		 *             the underlying versioning scheme
+		 */
 		public T bump(String version) {
 
 			Version newVersion = this.version.bumpTo(version);
 
 			T copy = copyWith(newVersion);
-			
+
 			return copy;
 		}
 

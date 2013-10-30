@@ -9,7 +9,7 @@ public class DefaultVersion implements Version {
 	private final String value;
 	
 	public DefaultVersion() {
-		this("1.0");
+		this("1");
 	}
 	
 	public DefaultVersion(String value) {
@@ -26,6 +26,7 @@ public class DefaultVersion implements Version {
 
 	@Override
 	public DefaultVersion bumpTo(String version) {
+		
 		if (value.compareToIgnoreCase(version)<0)
 			return new DefaultVersion(version);
 		else

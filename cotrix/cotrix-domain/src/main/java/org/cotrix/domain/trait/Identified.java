@@ -99,9 +99,9 @@ public interface Identified {
 		}
 		
 		/**
-		 * Returns a copy of this object.
+		 * Returns an exact copy of this object.
 		 * 
-		 * @return the copy
+		 * @return an exact copy of this object
 		 */
 		public final T copy() {
 			return copy(true);
