@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.cotrix.web.publish.client.event.PublishBus;
+import org.cotrix.web.publish.client.wizard.step.DestinationNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.destinationselection.DestinationSelectionStepPresenter;
+import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepPresenter;
 import org.cotrix.web.share.client.wizard.DefaultWizardActionHandler;
 import org.cotrix.web.share.client.wizard.WizardAction;
 import org.cotrix.web.share.client.wizard.WizardActionHandler;
@@ -13,6 +15,8 @@ import org.cotrix.web.share.client.wizard.WizardController;
 import org.cotrix.web.share.client.wizard.flow.FlowManager;
 import org.cotrix.web.share.client.wizard.flow.builder.FlowManagerBuilder;
 import org.cotrix.web.share.client.wizard.flow.builder.NodeBuilder.RootNodeBuilder;
+import org.cotrix.web.share.client.wizard.flow.builder.NodeBuilder.SingleNodeBuilder;
+import org.cotrix.web.share.client.wizard.flow.builder.NodeBuilder.SwitchNodeBuilder;
 import org.cotrix.web.share.client.wizard.step.WizardStep;
 
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -51,7 +55,9 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 	@Inject
 	public PublishWizardPresenterImpl(@PublishBus EventBus publishEventBus, PublishWizardView view,
 			CodelistSelectionStepPresenter codelistSelectionStep,
-			DestinationSelectionStepPresenter destinationSelectionStep
+			DestinationSelectionStepPresenter destinationSelectionStep,
+			DestinationNodeSelector destinationSelector, 
+			TypeSelectionStepPresenter typeSelectionStep
 			) {
 
 		this.publishEventBus = publishEventBus;
@@ -60,16 +66,16 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 		System.out.println("codelistSelectionStep "+codelistSelectionStep);
 		
 		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(codelistSelectionStep);
-		root.next(destinationSelectionStep);
-		/*SwitchNodeBuilder<WizardStep> source = root.hasAlternatives(selector);
+		SingleNodeBuilder<WizardStep> destination = root.next(destinationSelectionStep);
+		SwitchNodeBuilder<WizardStep> source = destination.hasAlternatives(destinationSelector);
 
-		SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, sdmxMappingStep));
+		/*SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, sdmxMappingStep));
 		SingleNodeBuilder<WizardStep> csvPreview = upload.alternative(csvPreviewStep);
 		SingleNodeBuilder<WizardStep> csvMapping = csvPreview.next(csvMappingStep);
-		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(sdmxMappingStep);
+		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(sdmxMappingStep);*/
 
-		SwitchNodeBuilder<WizardStep> selection = source.alternative(selectionStep).hasAlternatives(detailsNodeSelector);
-		SingleNodeBuilder<WizardStep> codelistDetails = selection.alternative(codelistDetailsStep);
+	/*	SwitchNodeBuilder<WizardStep> selection = */source.alternative(typeSelectionStep);/*.hasAlternatives(detailsNodeSelector);
+		/*SingleNodeBuilder<WizardStep> codelistDetails = selection.alternative(codelistDetailsStep);
 		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
 		codelistDetails.next(repositoryDetails);
 		
@@ -96,7 +102,7 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 			Log.trace("dot: "+dot);
 		}*/
 		
-		List<WizardStep> steps = Arrays.<WizardStep>asList(codelistSelectionStep, destinationSelectionStep);
+		List<WizardStep> steps = Arrays.<WizardStep>asList(codelistSelectionStep, destinationSelectionStep, typeSelectionStep);
 
 		wizardController = new WizardController(steps, flow, view, publishEventBus);
 		wizardController.addActionHandler(new DefaultWizardActionHandler());

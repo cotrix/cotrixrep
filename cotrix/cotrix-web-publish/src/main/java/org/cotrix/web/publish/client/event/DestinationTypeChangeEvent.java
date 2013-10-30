@@ -17,20 +17,20 @@ public class DestinationTypeChangeEvent extends GwtEvent<DestinationTypeChangeEv
 	private DestinationType destinationType;
 
 	public interface DestinationTypeChangeHandler extends EventHandler {
-		void onSourceTypeChange(DestinationTypeChangeEvent event);
+		void onDestinationTypeChange(DestinationTypeChangeEvent event);
 	}
 
-	public DestinationTypeChangeEvent(DestinationType sourceType) {
-		this.destinationType = sourceType;
+	public DestinationTypeChangeEvent(DestinationType destinationType) {
+		this.destinationType = destinationType;
 	}
 
-	public DestinationType getSourceType() {
+	public DestinationType getDestinationType() {
 		return destinationType;
 	}
 
 	@Override
 	protected void dispatch(DestinationTypeChangeHandler handler) {
-		handler.onSourceTypeChange(this);
+		handler.onDestinationTypeChange(this);
 	}
 
 	@Override

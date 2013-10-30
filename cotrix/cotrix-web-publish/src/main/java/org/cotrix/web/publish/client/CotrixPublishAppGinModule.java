@@ -5,6 +5,7 @@ import org.cotrix.web.publish.client.wizard.PublishWizardPresenter;
 import org.cotrix.web.publish.client.wizard.PublishWizardPresenterImpl;
 import org.cotrix.web.publish.client.wizard.PublishWizardView;
 import org.cotrix.web.publish.client.wizard.PublishWizardViewImpl;
+import org.cotrix.web.publish.client.wizard.step.DestinationNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepPresenterImpl;
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepView;
@@ -13,6 +14,10 @@ import org.cotrix.web.publish.client.wizard.step.destinationselection.Destinatio
 import org.cotrix.web.publish.client.wizard.step.destinationselection.DestinationSelectionStepPresenterImpl;
 import org.cotrix.web.publish.client.wizard.step.destinationselection.DestinationSelectionStepView;
 import org.cotrix.web.publish.client.wizard.step.destinationselection.DestinationSelectionStepViewImpl;
+import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepPresenter;
+import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepPresenterImpl;
+import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepView;
+import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepViewImpl;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
@@ -40,6 +45,10 @@ public class CotrixPublishAppGinModule extends AbstractGinModule {
 		
 		bind(DestinationSelectionStepPresenter.class).to(DestinationSelectionStepPresenterImpl.class);
 		bind(DestinationSelectionStepView.class).to(DestinationSelectionStepViewImpl.class);
+		bind(DestinationNodeSelector.class).in(Singleton.class);
+		
+		bind(TypeSelectionStepPresenter.class).to(TypeSelectionStepPresenterImpl.class);
+		bind(TypeSelectionStepView.class).to(TypeSelectionStepViewImpl.class);
 	}
 
 }
