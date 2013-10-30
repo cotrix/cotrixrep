@@ -34,8 +34,8 @@
 					</td>
 					<td class="{style.reloadButtonCell} {style.topPadding}">
 						<g:PushButton ui:field="reloadButton"
-							styleName="{resources.css.buttonRefresh} {style.reloadButton}">
-							<g:upFace image="{resources.refresh}" />
+							styleName="{common.css.buttonRefresh} {style.reloadButton}">
+							<g:upFace image="{common.refresh}" />
 						</g:PushButton>
 					</td>
 				</tr>

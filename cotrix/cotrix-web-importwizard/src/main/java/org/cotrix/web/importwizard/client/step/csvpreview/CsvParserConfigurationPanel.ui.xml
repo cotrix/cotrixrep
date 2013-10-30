@@ -3,8 +3,6 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:s="urn:import:org.cotrix.web.share.client.widgets"
 	>
-	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
-		field="resources"></ui:with>
 	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
 		field="common" />
 	<ui:style>
@@ -70,8 +68,8 @@
 				</td>
 				<td width="10%" style="text-align:center;vertical-align:middle;">
 					<g:PushButton ui:field="refreshButton"
-						styleName="{resources.css.buttonRefresh} {style.refreshButton}">
-						<g:upFace image="{resources.refresh}" />
+						styleName="{common.css.buttonRefresh} {style.refreshButton}">
+						<g:upFace image="{common.refresh}" />
 					</g:PushButton>
 				</td>
 			</tr>

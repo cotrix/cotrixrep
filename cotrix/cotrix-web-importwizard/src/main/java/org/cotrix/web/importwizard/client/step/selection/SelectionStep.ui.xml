@@ -1,8 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
-	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
-		field="resources" />
+	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
+		field="common" />
 	<ui:style>
 		.mainPanel {
 			width: 100%;
@@ -26,8 +26,8 @@
 		</g:center>
 		<g:east size="45">
 			<g:PushButton ui:field="refreshButton"
-				styleName="{resources.css.buttonRefresh} {style.refreshButton}">
-				<g:upFace image="{resources.refresh}" />
+				styleName="{common.css.buttonRefresh} {style.refreshButton}">
+				<g:upFace image="{common.refresh}" />
 			</g:PushButton>
 		</g:east>
 		<g:south size="40">

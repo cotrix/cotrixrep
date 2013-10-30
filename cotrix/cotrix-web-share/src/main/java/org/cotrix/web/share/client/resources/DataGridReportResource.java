@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.resources;
+package org.cotrix.web.share.client.resources;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ImageResource;
@@ -18,7 +18,7 @@ public interface DataGridReportResource extends DataGrid.Resources {
     @Source("previewLoader.gif")
     ImageResource dataGridLoading();
 	
-	@Source({"datagrid.css","datagrid-report.css"})
+	@Source({"datagrid-list.css","datagrid-report.css"})
 	DataGridReportStyle dataGridStyle();
 	
 	

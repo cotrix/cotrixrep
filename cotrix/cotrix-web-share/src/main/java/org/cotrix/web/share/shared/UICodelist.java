@@ -8,6 +8,8 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class UICodelist implements IsSerializable
 {
+	public static final String NAME_FIELD = "NAME";
+	
 	protected String id;
 	protected String name;
 	protected String version;

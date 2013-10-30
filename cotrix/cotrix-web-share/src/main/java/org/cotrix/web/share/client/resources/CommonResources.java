@@ -23,4 +23,6 @@ public interface CommonResources extends ClientBundle {
 
 	public ImageResource manage();
 
+	public ImageResource refresh();
+
 }

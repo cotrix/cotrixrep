@@ -192,3 +192,20 @@
 	width:155px;
 	height:40px;
 }
+
+
+.buttonRefresh {
+	background-color: #5674b9;
+	border-radius: 100px;
+	border: 1px solid #5674b9;
+	padding: 5px;
+	height: 20px;
+	width: 21px;
+	color: #fff;
+}
+
+.buttonRefresh:hover {
+	background-color: #31529d;
+	border: 1px solid #31529d;
+	cursor: pointer;
+}

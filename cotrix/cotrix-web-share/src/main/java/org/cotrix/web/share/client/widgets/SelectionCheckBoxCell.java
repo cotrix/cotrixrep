@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.step.selection;
+package org.cotrix.web.share.client.widgets;
 
 import org.cotrix.web.share.client.resources.CommonResources;
 

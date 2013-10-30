@@ -35,9 +35,6 @@ public interface Resources extends ClientBundle {
 	@Source("close.png")
 	public ImageResource close();
 	
-	@Source("refresh.png")
-	public ImageResource refresh();
-	
 	@Source("trash.png")
 	public ImageResource trash();
 	
