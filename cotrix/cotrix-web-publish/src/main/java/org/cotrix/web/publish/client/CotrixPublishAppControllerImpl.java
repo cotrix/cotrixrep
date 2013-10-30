@@ -1,5 +1,7 @@
 package org.cotrix.web.publish.client;
 
+import org.cotrix.web.publish.client.resources.Resources;
+import org.cotrix.web.publish.client.wizard.PublishWizardPresenter;
 import org.cotrix.web.share.client.CotrixModule;
 
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -11,6 +13,8 @@ import com.google.inject.Inject;
  */
 public class CotrixPublishAppControllerImpl implements CotrixPublishAppController {
 
+	@Inject
+	protected PublishWizardPresenter presenter;
 	
 	@Inject
 	public CotrixPublishAppControllerImpl() {
@@ -23,7 +27,8 @@ public class CotrixPublishAppControllerImpl implements CotrixPublishAppControlle
 
 	@Override
 	public void go(HasWidgets container) {
-		
+		Resources.INSTANCE.css().ensureInjected();
+		presenter.go(container);
 	}
 
 	@Override

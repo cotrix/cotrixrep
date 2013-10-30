@@ -1,0 +1,25 @@
+
+.buttonPublish {
+	/* @sprite FIXME 
+	gwt-image: "manage";*/
+	background-color:#5674b9;
+	border:1px solid #5674b9;
+	border-radius:5px;
+	text-align:center;
+	width:220px;
+	font-size:15px;
+	padding-left:70px;
+	height:40px;
+	
+	color:#eee;
+}
+
+.buttonPublish:hover {
+	/* FIXME @sprite 
+	gwt-image: "manage";*/
+	background-color:#344e89;
+	color:#eee;
+	cursor:pointer;
+	width:220px;
+	height:40px;
+}
