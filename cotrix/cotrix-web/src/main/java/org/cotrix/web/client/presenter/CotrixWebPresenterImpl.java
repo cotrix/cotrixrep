@@ -52,9 +52,8 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 	public void showModule(CotrixModule module) {
 		Integer index = indexes.get(module);
 		if (index!=null) {
-			Log.warn("Missing module "+module+" forgot to add it?");
-			view.showModule(index);
-		}
+				view.showModule(index);
+		} else Log.warn("Missing module "+module+" forgot to add it?");
 	}
 
 }

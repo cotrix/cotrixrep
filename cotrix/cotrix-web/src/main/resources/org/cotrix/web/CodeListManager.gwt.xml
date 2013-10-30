@@ -7,8 +7,8 @@
 	<inherits name="com.google.gwt.inject.Inject" />
 	
 	<inherits name='org.cotrix.web.menu.CotrixModuleMenu' />
-	<inherits name='org.cotrix.web.importwizard.CotrixModuleImport' />
-	<inherits name='org.cotrix.web.codelistmanager.CotrixModuleManager' />
+<!-- 	<inherits name='org.cotrix.web.importwizard.CotrixModuleImport' /> -->
+<!-- 	<inherits name='org.cotrix.web.codelistmanager.CotrixModuleManager' /> -->
 	<inherits name='org.cotrix.web.publish.CotrixModulePublish' />	 
 	
 	<!-- GWT LOGGING SETUP -->

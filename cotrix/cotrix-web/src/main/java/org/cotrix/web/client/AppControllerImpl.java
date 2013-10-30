@@ -45,16 +45,16 @@ public class AppControllerImpl implements AppController {
 		Home home = new Home();
 		addModule(home);
 		
-		CotrixImportAppGinInjector importInjector = CotrixImportAppGinInjector.INSTANCE;
+	/*	CotrixImportAppGinInjector importInjector = CotrixImportAppGinInjector.INSTANCE;
 		addModule(importInjector.getController());
 		
 		CotrixManagerAppGinInjector managerInjector = CotrixManagerAppGinInjector.INSTANCE;
-		addModule(managerInjector.getController());
+		addModule(managerInjector.getController());*/
 		
 		CotrixPublishAppGinInjector publishInjector = CotrixPublishAppGinInjector.INSTANCE;
 		addModule(publishInjector.getController());
 		
-		showModule(CotrixModule.IMPORT);
+		showModule(CotrixModule.PUBLISH);
 	}
 	
 	protected void bind()
