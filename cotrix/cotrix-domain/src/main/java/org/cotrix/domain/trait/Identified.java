@@ -22,7 +22,7 @@ public interface Identified {
 	 * 
 	 * @param <T> the concrete type of instances
 	 */
-	public abstract class Abstract<T extends Abstract<T>> implements Identified, Mutable<T>, Copyable<T> {
+	public abstract class Abstract<T extends Abstract<T>> implements Identified {
 
 		private String id;
 		private Status change;
@@ -51,10 +51,18 @@ public interface Identified {
 			this.id = id;
 		}
 
+		 /** Returns <code>true</code> if the object represents a change.
+		 * @return <code>true</code> if the object represents a change
+		 */
 		public boolean isChangeset() {
 			return change != null;
 		}
 
+		
+		/**
+		 * Returns the type of incremental change represented by this object, if any.
+		 * @return the type of change
+		 */
 		public Status status() {
 			return change;
 		}
@@ -63,6 +71,13 @@ public interface Identified {
 			this.change = null;
 		}
 
+		/**
+		 * Updates this object with a given delta object.
+		 * 
+		 * @param delta the delta object
+		 * @throws IllegalArgumentException if the delta object is malformed
+		 * @throws IllegalStateException if the object cannot be updated with the delta object
+		 */
 		public void update(T changeset) throws IllegalArgumentException, IllegalStateException {
 
 			// note: this object may have an identifier without having been persisted. we will need to detect the
@@ -83,7 +98,11 @@ public interface Identified {
 
 		}
 		
-		@Override
+		/**
+		 * Returns a copy of this object.
+		 * 
+		 * @return the copy
+		 */
 		public final T copy() {
 			return copy(true);
 		}

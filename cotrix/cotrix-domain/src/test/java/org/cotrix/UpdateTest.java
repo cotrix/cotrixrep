@@ -14,7 +14,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Container;
-import org.cotrix.domain.trait.Mutable;
+import org.cotrix.domain.trait.Identified;
 import org.junit.Test;
 
 public class UpdateTest {
@@ -221,6 +221,6 @@ public class UpdateTest {
 	@SuppressWarnings("all")
 	<T> void update(T o, T delta) {
 
-		reveal(o, Mutable.class).update(reveal(delta, Mutable.class));
+		reveal(o, Identified.Abstract.class).update(reveal(delta, Identified.Abstract.class));
 	}
 }

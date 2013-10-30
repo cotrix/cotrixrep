@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.cotrix.domain.trait.Copyable;
 import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.trait.Mutable;
 
 
 /**
@@ -33,7 +31,7 @@ public interface Container<T> extends Iterable<T> {
 	
 	
 	/**
-	 * A {@link Mutable}, {@link Copyable}, {@link Identified.Abstract} implementation of {@link Container}.
+	 * An {@link Identified.Abstract} implementation of {@link Container}.
 	 * 
 	 * @author Fabio Simeoni
 	 *
