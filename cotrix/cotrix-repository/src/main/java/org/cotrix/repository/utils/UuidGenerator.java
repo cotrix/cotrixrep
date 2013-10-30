@@ -1,4 +1,4 @@
-package org.cotrix.domain.utils;
+package org.cotrix.repository.utils;
 
 import java.util.UUID;
 

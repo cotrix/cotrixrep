@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 
 import org.cotrix.common.cdi.Current;
-import org.cotrix.domain.utils.UuidGenerator;
 import org.cotrix.repository.memory.MUserRepository;
+import org.cotrix.repository.utils.UuidGenerator;
 import org.cotrix.security.impl.DefaultLoginService;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.security.impl.MRealm;

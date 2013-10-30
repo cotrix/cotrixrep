@@ -9,11 +9,11 @@ import java.util.Iterator;
 
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.utils.UuidGenerator;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.memory.MCodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
+import org.cotrix.repository.utils.UuidGenerator;
 import org.junit.Test;
 
 public class MemoryQueryTest {

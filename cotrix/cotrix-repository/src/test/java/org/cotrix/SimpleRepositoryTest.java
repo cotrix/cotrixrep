@@ -9,12 +9,12 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.utils.UuidGenerator;
 import org.cotrix.repository.CodebagRepository;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.memory.MCodebagRepository;
 import org.cotrix.repository.memory.MCodelistRepository;
 import org.cotrix.repository.memory.MStore;
+import org.cotrix.repository.utils.UuidGenerator;
 import org.junit.Test;
 
 public class SimpleRepositoryTest {
