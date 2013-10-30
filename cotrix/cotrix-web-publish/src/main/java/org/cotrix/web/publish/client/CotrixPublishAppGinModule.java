@@ -9,6 +9,10 @@ import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelec
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepPresenterImpl;
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepView;
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepViewImpl;
+import org.cotrix.web.publish.client.wizard.step.destinationselection.DestinationSelectionStepPresenter;
+import org.cotrix.web.publish.client.wizard.step.destinationselection.DestinationSelectionStepPresenterImpl;
+import org.cotrix.web.publish.client.wizard.step.destinationselection.DestinationSelectionStepView;
+import org.cotrix.web.publish.client.wizard.step.destinationselection.DestinationSelectionStepViewImpl;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
@@ -33,6 +37,9 @@ public class CotrixPublishAppGinModule extends AbstractGinModule {
 		
 		bind(CodelistSelectionStepPresenter.class).to(CodelistSelectionStepPresenterImpl.class);
 		bind(CodelistSelectionStepView.class).to(CodelistSelectionStepViewImpl.class);
+		
+		bind(DestinationSelectionStepPresenter.class).to(DestinationSelectionStepPresenterImpl.class);
+		bind(DestinationSelectionStepView.class).to(DestinationSelectionStepViewImpl.class);
 	}
 
 }

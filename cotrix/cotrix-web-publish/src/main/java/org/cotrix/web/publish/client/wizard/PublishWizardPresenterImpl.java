@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepPresenter;
+import org.cotrix.web.publish.client.wizard.step.destinationselection.DestinationSelectionStepPresenter;
 import org.cotrix.web.share.client.wizard.DefaultWizardActionHandler;
 import org.cotrix.web.share.client.wizard.WizardAction;
 import org.cotrix.web.share.client.wizard.WizardActionHandler;
@@ -49,7 +50,8 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 
 	@Inject
 	public PublishWizardPresenterImpl(@PublishBus EventBus publishEventBus, PublishWizardView view,
-			CodelistSelectionStepPresenter codelistSelectionStep
+			CodelistSelectionStepPresenter codelistSelectionStep,
+			DestinationSelectionStepPresenter destinationSelectionStep
 			) {
 
 		this.publishEventBus = publishEventBus;
@@ -58,6 +60,7 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 		System.out.println("codelistSelectionStep "+codelistSelectionStep);
 		
 		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(codelistSelectionStep);
+		root.next(destinationSelectionStep);
 		/*SwitchNodeBuilder<WizardStep> source = root.hasAlternatives(selector);
 
 		SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, sdmxMappingStep));
@@ -93,7 +96,7 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 			Log.trace("dot: "+dot);
 		}*/
 		
-		List<WizardStep> steps = Arrays.<WizardStep>asList(codelistSelectionStep);
+		List<WizardStep> steps = Arrays.<WizardStep>asList(codelistSelectionStep, destinationSelectionStep);
 
 		wizardController = new WizardController(steps, flow, view, publishEventBus);
 		wizardController.addActionHandler(new DefaultWizardActionHandler());
