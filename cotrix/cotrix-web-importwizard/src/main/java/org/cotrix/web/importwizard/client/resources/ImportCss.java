@@ -30,6 +30,6 @@ public interface ImportCss extends CssResource {
 	String buttonBrowse();
 	String buttonRefresh();
 	String buttonDownload();
-	String buttonManage();
+
 	String buttonImport();
 }

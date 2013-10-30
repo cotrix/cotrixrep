@@ -99,7 +99,7 @@
 						text="IMPORT" />
 				</div>
 				<div class="{style.rightButton}">
-					<g:Button ui:field="manageButton" styleName="{resources.css.buttonManage}"
+					<g:Button ui:field="manageButton" styleName="{common.css.buttonManage}"
 						text="MANAGE IT" />
 				</div>
 				<div class="{style.rightButton}">

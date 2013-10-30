@@ -42,4 +42,6 @@ public interface CommonCss extends CssResource {
 	
 	String propertiesTable();
 	String propertiesTableHeader();
+	
+	String buttonManage();
 }

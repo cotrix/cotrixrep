@@ -165,28 +165,6 @@
 	height: 40px;
 }
 
-@sprite .buttonManage {
-	gwt-image: "manage";
-	background-color:#5674b9;
-	border:1px solid #5674b9;
-	border-radius:5px;
-	text-align:center;
-	width:155px;
-	font-size:15px;
-	padding-left:55px;
-	height:40px;
-	color:#eee;
-}
-
-@sprite .buttonManage:hover{
-	gwt-image: "manage";
-	background-color: #344e89 ;
-	color: #eee;
-	cursor: pointer;
-	width:155px;
-	height:40px;
-}
-
 @sprite .buttonImport{
 	gwt-image: "importIcon";
 	background-color:#5674b9;
