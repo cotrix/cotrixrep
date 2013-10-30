@@ -13,19 +13,7 @@ public interface Resources extends ClientBundle {
 	
 	@Source("style.css")
 	public ImportCss css();
-	
-	@Source("computer.png")
-	public ImageResource computer();
-	
-	@Source("computer-hover.png")
-	public ImageResource computerHover();
-
-	@Source("cloud.png")
-	public ImageResource cloud();
-	
-	@Source("cloud-hover.png")
-	public ImageResource cloudHover();
-	
+		
 	@Source("browse.png")
 	public ImageResource browse();
 	

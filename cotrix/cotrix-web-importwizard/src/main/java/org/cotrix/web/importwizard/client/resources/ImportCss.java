@@ -25,8 +25,6 @@ public interface ImportCss extends CssResource {
 	String mappingTableNameHeader();	
 	String mappingCell();
 	
-	String buttonComputer();
-	String buttonCloud();
 	String buttonBrowse();
 	String buttonDownload();
 
