@@ -1,7 +1,7 @@
 package org.cotrix.web.codelistmanager.client.codelists;
 
 import org.cotrix.web.codelistmanager.shared.CodelistGroup.Version;
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.google.gwt.user.client.ui.Widget;
 

@@ -14,9 +14,9 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UICode;
-import org.cotrix.web.codelistmanager.shared.UIQName;
+import org.cotrix.web.share.shared.codelist.UIAttribute;
+import org.cotrix.web.share.shared.codelist.UICode;
+import org.cotrix.web.share.shared.codelist.UIQName;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

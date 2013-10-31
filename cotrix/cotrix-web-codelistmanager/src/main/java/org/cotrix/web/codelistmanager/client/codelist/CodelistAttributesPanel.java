@@ -37,10 +37,10 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
-import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.ImageResourceCell;
+import org.cotrix.web.share.shared.codelist.UIAttribute;
+import org.cotrix.web.share.shared.codelist.UICode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;

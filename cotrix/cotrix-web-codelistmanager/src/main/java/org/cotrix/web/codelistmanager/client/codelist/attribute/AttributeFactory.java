@@ -4,8 +4,8 @@
 package org.cotrix.web.codelistmanager.client.codelist.attribute;
 
 import org.cotrix.web.codelistmanager.client.util.Constants;
-import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UIQName;
+import org.cotrix.web.share.shared.codelist.UIAttribute;
+import org.cotrix.web.share.shared.codelist.UIQName;
 
 import com.google.gwt.dom.client.Document;
 import com.google.inject.Inject;

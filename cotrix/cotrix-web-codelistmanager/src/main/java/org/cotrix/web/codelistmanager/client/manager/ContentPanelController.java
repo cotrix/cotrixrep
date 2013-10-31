@@ -8,7 +8,7 @@ import org.cotrix.web.codelistmanager.client.di.CodelistPanelFactory;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
 import org.cotrix.web.codelistmanager.client.event.OpenCodelistEvent;
 import org.cotrix.web.codelistmanager.client.event.OpenCodelistEvent.OpenCodeListHandler;
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.CloseEvent;

@@ -5,9 +5,9 @@ package org.cotrix.web.codelistmanager.client.data;
 
 import org.cotrix.web.codelistmanager.client.data.DataSaverManager.CommandGenerator;
 import org.cotrix.web.codelistmanager.client.data.event.EditType;
-import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.metadata.UpdateMetadataCommand;
+import org.cotrix.web.share.shared.codelist.CodelistMetadata;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

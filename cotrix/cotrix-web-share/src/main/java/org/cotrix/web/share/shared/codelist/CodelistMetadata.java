@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.codelistmanager.shared;
+package org.cotrix.web.share.shared.codelist;
 
 import java.util.List;
 

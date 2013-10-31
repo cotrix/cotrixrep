@@ -1,4 +1,4 @@
-package org.cotrix.web.share.shared;
+package org.cotrix.web.share.shared.codelist;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class UICodelist implements IsSerializable
 {
 	public static final String NAME_FIELD = "NAME";
+	public static final String VERSION_FIELD = "VERSION";
 	
 	protected String id;
 	protected String name;

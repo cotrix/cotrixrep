@@ -5,8 +5,8 @@ package org.cotrix.web.codelistmanager.client.codelist.attribute;
 
 import java.util.List;
 
-import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UIQName;
+import org.cotrix.web.share.shared.codelist.UIAttribute;
+import org.cotrix.web.share.shared.codelist.UIQName;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

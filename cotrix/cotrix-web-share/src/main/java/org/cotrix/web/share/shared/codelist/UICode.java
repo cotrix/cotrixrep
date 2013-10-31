@@ -1,10 +1,11 @@
 /**
  * 
  */
-package org.cotrix.web.codelistmanager.shared;
+package org.cotrix.web.share.shared.codelist;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 import com.google.gwt.user.client.rpc.IsSerializable;

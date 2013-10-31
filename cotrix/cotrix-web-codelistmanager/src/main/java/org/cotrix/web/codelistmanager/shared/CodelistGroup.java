@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 

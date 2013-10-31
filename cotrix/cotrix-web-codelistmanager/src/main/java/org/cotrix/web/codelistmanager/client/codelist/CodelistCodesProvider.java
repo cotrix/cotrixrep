@@ -12,9 +12,9 @@ import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.HasGroupsChangedHandlers;
-import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.share.client.util.CachedDataProvider;
 import org.cotrix.web.share.shared.DataWindow;
+import org.cotrix.web.share.shared.codelist.UICode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.shared.GwtEvent;

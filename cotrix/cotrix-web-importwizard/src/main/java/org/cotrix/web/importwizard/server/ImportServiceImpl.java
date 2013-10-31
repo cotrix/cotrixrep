@@ -22,7 +22,6 @@ import org.cotrix.web.importwizard.server.upload.MappingGuesser;
 import org.cotrix.web.importwizard.server.util.AssetInfosCache;
 import org.cotrix.web.importwizard.server.util.Assets;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
-import org.cotrix.web.importwizard.server.util.Ranges;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
@@ -34,6 +33,7 @@ import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
+import org.cotrix.web.share.server.util.Ranges;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.CsvParserConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
@@ -107,11 +107,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			if (forceRefresh) cache.refreshCache();
 			List<AssetInfo> assets = cache.getAssets(columnSortInfo.getName());
 			List<AssetInfo> sublist = columnSortInfo.isAscending()?Ranges.subList(assets, range):Ranges.subListReverseOrder(assets, range);
-
-			/*assets.add(new AssetInfo("urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FAO:CL_DIVISION(0.1)", "CL_DIVISION", "sdmx/codelist", "D4Science Development Registry"));
-			assets.add(new AssetInfo("321", "Gears", "SDMX", "D4Science Development Registry"));
-			assets.add(new AssetInfo("333", "Species Year 2013", "CSV", "D4Science Development Registry"));
-			assets.add(new AssetInfo("324", "Country", "SDMX", "D4Science Development Registry"));*/
 
 			logger.trace("returning "+sublist.size()+" elements");
 

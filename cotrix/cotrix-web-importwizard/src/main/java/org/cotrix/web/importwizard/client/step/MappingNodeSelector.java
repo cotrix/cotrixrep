@@ -29,7 +29,6 @@ public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> implem
 	protected WizardStep nextStep;
 	protected WizardStep oldNextStep;
 	
-	@Inject
 	protected CsvMappingStepPresenter csvStep;
 	
 	@Inject

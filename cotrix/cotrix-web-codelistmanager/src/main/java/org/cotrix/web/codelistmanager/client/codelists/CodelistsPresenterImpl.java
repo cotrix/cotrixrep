@@ -9,7 +9,7 @@ import org.cotrix.web.codelistmanager.client.event.RefreshCodelistsEvent.Refresh
 import org.cotrix.web.codelistmanager.client.event.RemoveCodelistEvent;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup.Version;
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;

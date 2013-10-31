@@ -5,7 +5,7 @@ package org.cotrix.web.codelistmanager.server.util;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.web.codelistmanager.shared.UIQName;
+import org.cotrix.web.share.shared.codelist.UIQName;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

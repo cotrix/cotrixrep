@@ -3,8 +3,8 @@
  */
 package org.cotrix.web.codelistmanager.shared.modify.attribute;
 
-import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
+import org.cotrix.web.share.shared.codelist.UIAttribute;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

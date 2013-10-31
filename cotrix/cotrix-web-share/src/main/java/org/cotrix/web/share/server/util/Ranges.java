@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.server.util;
+package org.cotrix.web.share.server.util;
 
 import java.util.ArrayList;
 import java.util.List;

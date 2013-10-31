@@ -1,12 +1,12 @@
 package org.cotrix.web.codelistmanager.client;
 
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
-import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
-import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.share.shared.DataWindow;
+import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UICode;
 import org.cotrix.web.share.shared.feature.Request;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 

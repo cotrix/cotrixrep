@@ -9,10 +9,10 @@ import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHan
 import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.client.util.Constants;
-import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
-import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
+import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
