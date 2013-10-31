@@ -1,8 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
-		field="resources"></ui:with>
 	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
 		field="common" />
 	<ui:style>
@@ -35,7 +33,7 @@
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' ui:field="mainPanel">
 		<g:center>
-			<g:ScrollPanel styleName="{resources.css.wizardPanel}">
+			<g:ScrollPanel styleName="{common.css.wizardPanel}">
 			<g:Grid ui:field="panel" styleName="{style.grid}">
 				<g:row>
 					<g:cell

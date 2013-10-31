@@ -29,25 +29,28 @@ public interface CommonCss extends CssResource {
 	String textBox();
 	
 	String verticalHeadersSingleItem();
-	
 	String verticalHeadersMultipleItem();
-	
 	String verticalHeadersFieldItem();
+	
+	
+	String wizardPanel();
 	
 	String blueButton();
 	String grayButton();
-
-	String propertyLabel();
-	String propertyValue();
 	
 	String propertiesTable();
 	String propertiesTableHeader();
-	
+
+	String propertyLabel();
+	String propertyValue();
+		
 	String buttonManage();
-
 	String buttonRefresh();
-
 	String buttonCloud();
-
 	String buttonComputer();
+	String buttonDownload();	
+	
+	String mappingTable();
+	String mappingTableNameHeader();	
+	String mappingCell();
 }

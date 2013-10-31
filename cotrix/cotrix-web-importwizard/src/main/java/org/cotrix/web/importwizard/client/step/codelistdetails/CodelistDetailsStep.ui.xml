@@ -1,8 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
-	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
-		field="resources" />
 	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
 		field="common" />
 	<ui:style>
@@ -15,7 +13,7 @@
 
 		}
 	</ui:style>
-	<g:ScrollPanel styleName="{resources.css.wizardPanel}">
+	<g:ScrollPanel styleName="{common.css.wizardPanel}">
 		<g:Grid ui:field="assetDetails" styleName="{style.table}">
 			<g:row>
 				<g:customCell styleName="{common.css.verticalHeadersSingleItem}">

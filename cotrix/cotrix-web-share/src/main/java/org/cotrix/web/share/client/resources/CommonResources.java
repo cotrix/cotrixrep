@@ -25,16 +25,16 @@ public interface CommonResources extends ClientBundle {
 
 	public ImageResource refresh();
 	
-	@Source("computer.png")
 	public ImageResource computer();
 	
 	@Source("computer-hover.png")
 	public ImageResource computerHover();
 
-	@Source("cloud.png")
 	public ImageResource cloud();
 	
 	@Source("cloud-hover.png")
 	public ImageResource cloudHover();
+	
+	public ImageResource download();
 
 }

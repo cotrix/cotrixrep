@@ -29,9 +29,6 @@ public interface Resources extends ClientBundle {
 	@Source("trash_tick.png")
 	public ImageResource trashTick();
 	
-	@Source("download.png")
-	public ImageResource download();
-	
 	@Source("back.png")
 	public ImageResource back();
 	

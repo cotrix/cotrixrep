@@ -5,6 +5,12 @@
 	filter: alpha(opacity = 30);
 }
 
+.wizardPanel {
+	background-color: #f6f6f6;
+	border: 1px solid #d1d1d1;
+	border-spacing: 5px;
+}
+
 .simpleCheckbox {
 	width: 20px;
 	height: 20px;
@@ -50,6 +56,23 @@
 .imageButton {
 	cursor: pointer;
 	outline: none;
+}
+
+/** MAPPING **/
+.mappingTable {
+	border: 1px solid #d1d1d1;
+	background-color: #f6f6f6;
+}
+
+.mappingTableNameHeader {
+	vertical-align: middle;
+	padding-top: 10px;
+	width: 80px;
+	text-align: left;
+}
+
+.mappingCell {
+	padding: 5px;
 }
 
 /* TEXT BOX */
@@ -257,4 +280,27 @@
 	cursor: pointer;
 	width: 322px;
 	height: 100px;
+}
+
+@sprite .buttonDownload {
+	gwt-image: "download";
+	background-color: #5674b9;
+	border: 1px solid #5674b9;
+	border-radius: 5px;
+	text-align: center;
+	width: 170px;
+	font-size: 15px;
+	padding-left: 55px;
+	height: 40px;
+	padding-right: 20px;
+	color: #eee;
+}
+
+@sprite .buttonDownload:hover {
+	gwt-image: "download";
+	background-color: #344e89;
+	color: #eee;
+	cursor: pointer;
+	width: 170px;
+	height: 40px;
 }
