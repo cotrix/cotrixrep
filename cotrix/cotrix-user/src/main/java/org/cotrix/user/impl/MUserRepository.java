@@ -1,14 +1,18 @@
-package org.cotrix.repository.memory;
+package org.cotrix.user.impl;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.cotrix.action.Action;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.repository.UserRepository;
+import org.cotrix.repository.memory.MRepository;
+import org.cotrix.repository.memory.MStore;
 import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
+import org.cotrix.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +26,9 @@ import org.slf4j.LoggerFactory;
 public class MUserRepository extends MRepository<User, User.Private> implements UserRepository {
 
 	private static Logger log = LoggerFactory.getLogger(MUserRepository.class);
+
+	@Inject @Current
+	User currentUser;
 	
 	/**
 	 * Creates an instance over a private {@link MStore}.
@@ -51,10 +58,23 @@ public class MUserRepository extends MRepository<User, User.Private> implements 
 
 	
 	@Override
-	public void add(User list) {
+	public void add(User user) {
 		
-		super.add(list);
+		super.add(user);
 		
+	}
+	
+	@Override
+	public void update(User changeset) {
+		
+			for (Action action : changeset.permissions())
+				if (currentUser!=PredefinedUsers.cotrix && action.isTemplate())
+					throw new IllegalAccessError(currentUser.name()+" cannot delegate template "+action+", as it does not have root privileges");
+				else
+					if (!action.included(currentUser.permissions()))
+						throw new IllegalAccessError(currentUser.name()+" cannot perform "+action+", hence cannot add|remove it for "+changeset.id());
+			
+		super.update(changeset);
 	}
 	
 }

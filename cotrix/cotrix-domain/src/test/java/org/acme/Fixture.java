@@ -1,4 +1,4 @@
-package org.cotrix;
+package org.acme;
 
 import static org.cotrix.domain.dsl.Codes.*;
 

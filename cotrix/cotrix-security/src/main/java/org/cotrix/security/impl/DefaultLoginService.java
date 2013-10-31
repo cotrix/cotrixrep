@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.repository.UserRepository;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.Realm;
 import org.cotrix.security.Token;
 import org.cotrix.security.TokenCollector;
 import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.user.User;
+import org.cotrix.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
