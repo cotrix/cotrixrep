@@ -4,12 +4,12 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import org.cotrix.action.Action;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.memory.MRepository;
 import org.cotrix.repository.memory.MStore;
+import org.cotrix.user.DelegationPolicy;
 import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
@@ -29,6 +29,9 @@ public class MUserRepository extends MRepository<User, User.Private> implements 
 
 	@Inject @Current
 	User currentUser;
+	
+	@Inject
+	DelegationPolicy policy;
 	
 	/**
 	 * Creates an instance over a private {@link MStore}.
@@ -67,13 +70,8 @@ public class MUserRepository extends MRepository<User, User.Private> implements 
 	@Override
 	public void update(User changeset) {
 		
-			for (Action action : changeset.permissions())
-				if (currentUser!=PredefinedUsers.cotrix && action.isTemplate())
-					throw new IllegalAccessError(currentUser.name()+" cannot delegate template "+action+", as it does not have root privileges");
-				else
-					if (!action.included(currentUser.permissions()))
-						throw new IllegalAccessError(currentUser.name()+" cannot perform "+action+", hence cannot add|remove it for "+changeset.id());
-			
+		policy.validate(currentUser,changeset.permissions());
+		
 		super.update(changeset);
 	}
 	

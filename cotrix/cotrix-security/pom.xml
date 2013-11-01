@@ -24,11 +24,6 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-user</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-repository</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>javax.enterprise</groupId>

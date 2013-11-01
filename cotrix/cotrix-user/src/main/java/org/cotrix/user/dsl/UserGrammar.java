@@ -1,5 +1,7 @@
 package org.cotrix.user.dsl;
 
+import java.util.Collection;
+
 import org.cotrix.action.Action;
 import org.cotrix.domain.Code;
 import org.cotrix.user.User;
@@ -33,6 +35,8 @@ public class UserGrammar {
 		
 		
 		ThirdClause can(Action ... permissions);
+		
+		ThirdClause can(Collection<Action> permissions);
 		
 		ThirdClause cannot(Action ... permissions);
 		

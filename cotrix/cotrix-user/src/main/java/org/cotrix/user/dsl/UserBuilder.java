@@ -3,6 +3,8 @@ package org.cotrix.user.dsl;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.trait.Status.*;
 
+import java.util.Collection;
+
 import org.cotrix.action.Action;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.user.User;
@@ -43,6 +45,12 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 		for (Action action : actions)
 			po.permissions().add(action);
 		return this;
+	}
+	
+	@Override
+	public UserBuilder can(Collection<Action> actions) {
+		
+		return can(actions.toArray(new Action[0]));
 	}
 	
 	public UserBuilder cannot(Action ... actions) {

@@ -13,6 +13,7 @@ import org.cotrix.security.impl.DefaultLoginService;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.security.impl.MRealm;
 import org.cotrix.user.User;
+import org.cotrix.user.impl.DefaultDelegationPolicy;
 import org.cotrix.user.impl.MUserRepository;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
@@ -22,7 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(CdiRunner.class)
-@AdditionalClasses({MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class, UuidGenerator.class })
+@AdditionalClasses({MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class, DefaultDelegationPolicy.class, UuidGenerator.class })
 public class LoginTest {
 
 	@Inject

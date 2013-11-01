@@ -70,9 +70,9 @@ public interface User extends Identified {
 			if (changeset.fullName() != null && !changeset.fullName().equals(fullName))
 				this.fullName = changeset.fullName();
 
-			for (Action a : changeset.permissions())
-				if (!a.included(permissions))
-					permissions.add(a);
+			//replace permissions
+			this.permissions.clear();
+			this.permissions.addAll(changeset.permissions());
 		}
 
 		@Override

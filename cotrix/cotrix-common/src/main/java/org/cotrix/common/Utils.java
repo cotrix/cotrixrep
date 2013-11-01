@@ -95,7 +95,7 @@ public class Utils {
 	 * @throws IllegalArgumentException if the array is null or empty
 	 */
 	public static void valid(String name, Object[] a) throws IllegalArgumentException {
-		notEmpty(name,a);
+		notNull(name,a);
 		for (Object e : a)
 			notNull(name+"'s element", e);
 	}
