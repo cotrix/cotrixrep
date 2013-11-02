@@ -1,10 +1,10 @@
 package org.cotrix.user;
 
-import java.util.Collection;
-
 import org.cotrix.action.Action;
 
 public interface DelegationPolicy {
 
-	void validate(User delegate,Collection<Action> actions);
+	void validateDelegation(User source, User target, Action ... actions);
+	
+	void validateRevocation(User source, User target, Action ... actions);
 }

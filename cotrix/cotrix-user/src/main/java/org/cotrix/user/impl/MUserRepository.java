@@ -4,12 +4,10 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.memory.MRepository;
 import org.cotrix.repository.memory.MStore;
-import org.cotrix.user.DelegationPolicy;
 import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
@@ -27,12 +25,6 @@ public class MUserRepository extends MRepository<User, User.Private> implements 
 
 	private static Logger log = LoggerFactory.getLogger(MUserRepository.class);
 
-	@Inject @Current
-	User currentUser;
-	
-	@Inject
-	DelegationPolicy policy;
-	
 	/**
 	 * Creates an instance over a private {@link MStore}.
 	 */
@@ -57,22 +49,6 @@ public class MUserRepository extends MRepository<User, User.Private> implements 
 		
 		for (User user : PredefinedUsers.values)
 			this.add(user);
-	}
-
-	
-	@Override
-	public void add(User user) {
-		
-		super.add(user);
-		
-	}
-	
-	@Override
-	public void update(User changeset) {
-		
-		policy.validate(currentUser,changeset.permissions());
-		
-		super.update(changeset);
 	}
 	
 }
