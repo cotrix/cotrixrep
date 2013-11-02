@@ -41,7 +41,7 @@ public interface PermissionDelegationService {
 		 * Selects the target user.
 		 * @param user the user
 		 * 
-		 * @throws IllegalAccessError if the delegation is not allowed by the current delegation policy.
+		 * @throws IllegalAccessError if the delegation is not allowed by the current policy
 		 */
 		void to(User user);
 	}
@@ -52,7 +52,8 @@ public interface PermissionDelegationService {
 		 * Selects the target user.
 		 * @param user the user
 		 * 
-		 * @throws IllegalAccessError if the delegation is not allowed by the current delegation policy.
+		 * @throws IllegalAccessError if the delegation is not allowed by the current policy
+		 * @throws IllegalStateException if the target user does not have one of the permissions
 		 */
 		void from(User u);
 	}

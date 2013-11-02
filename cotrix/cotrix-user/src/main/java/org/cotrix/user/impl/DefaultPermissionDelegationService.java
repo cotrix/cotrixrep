@@ -30,7 +30,7 @@ public class DefaultPermissionDelegationService implements PermissionDelegationS
 			
 			@Override
 			public void to(User u) {
-				
+		
 				policy.validateDelegation(currentUser, u, actions);
 				
 				User changeset = Users.user(u).can(actions).build();
@@ -56,6 +56,10 @@ public class DefaultPermissionDelegationService implements PermissionDelegationS
 			
 			@Override
 			public void from(User u) {
+	
+				for (Action p : actions)
+					if (!u.permissions().contains(p))
+						throw new IllegalStateException(u.name()+" does not have permission "+p);
 				
 				policy.validateDelegation(currentUser, u, actions);
 				

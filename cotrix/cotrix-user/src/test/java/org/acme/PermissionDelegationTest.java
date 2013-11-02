@@ -31,8 +31,10 @@ public class PermissionDelegationTest {
 	@Inject
 	PermissionDelegationService service;
 	
+	
+	
 	@Test(expected=IllegalAccessError.class)
-	public void addIllegalAction() {
+	public void delegateIllegalPermission() {
 		
 		User joe = user().name("joe").fullName("Joe The Plumber").can(EDIT.on("1")).build();
 		
@@ -44,7 +46,7 @@ public class PermissionDelegationTest {
 	}
 	
 	@Test(expected=IllegalAccessError.class)
-	public void addTemplate() {
+	public void delegateTemplate() {
 		
 		User joe = user().name("joe").fullName("Joe The Plumber").can(IMPORT).build();
 		
@@ -57,7 +59,7 @@ public class PermissionDelegationTest {
 	
 	
 	@Test
-	public void addTemplateAsRoot() {
+	public void delegateTemplateAsRoot() {
 		
 		currentUser.set(cotrix);
 		
@@ -73,7 +75,7 @@ public class PermissionDelegationTest {
 	}
 	
 	@Test
-	public void addAction() {
+	public void delegatePermission() {
 		
 		User joe = user().name("joe").fullName("Joe The Plumber").can(EDIT.on("1")).build();
 		
@@ -92,7 +94,7 @@ public class PermissionDelegationTest {
 	}
 	
 	@Test
-	public void removeAction() {
+	public void revokePermission() {
 		
 		Action action = EDIT.on("1");
 		
@@ -110,6 +112,21 @@ public class PermissionDelegationTest {
 
 		assertFalse(retrieved.permissions().contains(action));
 	
+	}
+	
+	@Test (expected=IllegalStateException.class)
+	public void revokeNotExistentPermission() {
+		
+		Action action = EDIT.on("1");
+		
+		User joe = user().name("joe").fullName("Joe The Plumber").can(action).build();
+		
+		currentUser.set(joe);
+		
+		User bill = user().name("bill").fullName("Bill the Baker").build();
+		
+		service.revoke(action).from(bill);
+			
 	}
 	
 	@Test
