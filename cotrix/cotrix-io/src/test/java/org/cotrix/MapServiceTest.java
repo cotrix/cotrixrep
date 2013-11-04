@@ -13,8 +13,9 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.Outcome;
+import org.cotrix.domain.Codelist;
 import org.cotrix.io.map.MapService;
-import org.cotrix.io.map.Outcome;
 import org.cotrix.io.sdmx.SdmxMapDirectives;
 import org.cotrix.io.sdmx.SdmxParseDirectives;
 import org.cotrix.io.sdmx.SdmxParseTask;
@@ -69,7 +70,7 @@ public class MapServiceTest {
 		  .add(column("Family"))
 		  .add(column("Order"));
 
-		Outcome outcome = service.map(table, directives);
+		Outcome<Codelist> outcome = service.map(table, directives);
 		
 		assertNotNull(outcome.result());
 	}
@@ -84,7 +85,7 @@ public class MapServiceTest {
 		
 		CodelistBean bean = parser.parse(stream, SdmxParseDirectives.DEFAULT);
 		
-		Outcome outcome = service.map(bean, new SdmxMapDirectives().name("test"));
+		Outcome<Codelist> outcome = service.map(bean, new SdmxMapDirectives().name("test"));
 		
 		assertNotNull(outcome.result());
 		assertEquals(new QName("test"), outcome.result().name());
@@ -100,7 +101,7 @@ public class MapServiceTest {
 		
 		CodelistBean bean = parser.parse(stream, SdmxParseDirectives.DEFAULT);
 		
-		Outcome outcome = service.map(bean, new SdmxMapDirectives().name("test").version("2.0"));
+		Outcome<Codelist> outcome = service.map(bean, new SdmxMapDirectives().name("test").version("2.0"));
 		
 		assertNotNull(outcome.result());
 		assertEquals(new QName("test"), outcome.result().name());

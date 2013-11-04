@@ -2,9 +2,10 @@ package org.cotrix;
 
 import javax.inject.Inject;
 
+import org.cotrix.common.Outcome;
+import org.cotrix.domain.Codelist;
 import org.cotrix.io.Channels;
 import org.cotrix.io.map.MapService;
-import org.cotrix.io.map.Outcome;
 import org.cotrix.io.sdmx.SdmxMapDirectives;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +43,7 @@ public class RetrieveIntegrationTests {
 		
 		CodelistBean bean = repository.retrieve(codelist, CodelistBean.class);
 		
-		Outcome outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT); 
+		Outcome<Codelist> outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT); 
 		
 		System.out.println(outcome.result());
 	}

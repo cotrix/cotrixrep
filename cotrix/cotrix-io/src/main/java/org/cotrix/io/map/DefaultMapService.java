@@ -5,6 +5,8 @@ import static org.cotrix.common.Utils.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.cotrix.common.Outcome;
+import org.cotrix.common.Report;
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.utils.Registry;
 import org.slf4j.Logger;
@@ -34,7 +36,7 @@ public class DefaultMapService implements MapService {
 	}
 	
 	@Override
-	public <T> Outcome map(T list, MapDirectives<T> directives) {
+	public <T> Outcome<Codelist> map(T list, MapDirectives<T> directives) {
 		
 		notNull("external codelist",list);
 		notNull("map directives",directives);
@@ -53,17 +55,20 @@ public class DefaultMapService implements MapService {
 			
 			log.info("mapped list in {} secs.",time);
 			
-			return new Outcome(mapped);
+			return new Outcome<Codelist>(mapped);
 			
 		}
 		catch(Exception e) {
 		
+			throw new IllegalStateException("could not map codelist with directives "+directives+" (see cause) ",e);
+		}
+		finally {
 			//make sure we free up resources
 			Report current = Report.report();
 			if (current!=null)
 				current.close();
 			
-			throw new IllegalStateException("could not map codelist with directives "+directives+" (see cause) ",e);
+		
 		}
 	}
 }

@@ -2,6 +2,7 @@ package org.cotrix.io;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.Report;
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.publish.PublicationDirectives;
 import org.virtualrepository.RepositoryService;
@@ -26,5 +27,5 @@ public interface PublicationService {
 	 * @throws IllegalStateException if a channel with the given name is unknown to this publisher
 	 * @throws RuntimeException if publishing the given codelist through the given channel fails
 	 */
-	void publish(Codelist codelist, PublicationDirectives directives, QName channel);
+	Report publish(Codelist codelist, PublicationDirectives directives, QName channel);
 }

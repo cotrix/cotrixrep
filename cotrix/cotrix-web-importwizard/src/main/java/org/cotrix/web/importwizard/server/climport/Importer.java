@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.cotrix.common.Outcome;
+import org.cotrix.common.Report;
+import org.cotrix.common.Report.Log;
 import org.cotrix.domain.Codelist;
-import org.cotrix.io.map.Outcome;
-import org.cotrix.io.map.Report;
-import org.cotrix.io.map.Report.Log;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
@@ -94,7 +94,7 @@ public class Importer<T> implements Runnable {
 			T data = source.getCodelist();
 
 			logger.trace("mapping codelist");
-			Outcome outcome = mapper.map(metadata, mappings, mappingMode, data);
+			Outcome<Codelist> outcome = mapper.map(metadata, mappings, mappingMode, data);
 
 			Report report = outcome.report();
 			logger.trace("is failed? {}", report.isFailure());

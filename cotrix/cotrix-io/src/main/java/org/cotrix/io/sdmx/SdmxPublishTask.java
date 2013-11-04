@@ -4,14 +4,13 @@ import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Codelist;
-import org.cotrix.io.publish.PublicationDirectives;
 import org.cotrix.io.publish.PublicationTask;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.RepositoryService;
 import org.virtualrepository.VirtualRepository;
 import org.virtualrepository.sdmx.SdmxCodelist;
 
-public class SdmxPublishTask implements PublicationTask<PublicationDirectives> {
+public class SdmxPublishTask implements PublicationTask<SdmxPublishDirectives> {
 
 	private final VirtualRepository repository;
 	
@@ -21,20 +20,20 @@ public class SdmxPublishTask implements PublicationTask<PublicationDirectives> {
 	}
 	
 	@Override
-	public Class<? extends PublicationDirectives> directedBy() {
+	public Class<? extends SdmxPublishDirectives> directedBy() {
 		return SdmxPublishDirectives.DEFAULT.getClass();
 	}
 	
 	@Override
-	public void publish(QName target,Codelist codelist, PublicationDirectives directives) throws Exception {
+	public void publish(QName target,Codelist codelist, SdmxPublishDirectives directives) throws Exception {
 		
 		RepositoryService service = repository.services().lookup(target);
 		
 		SdmxCodelist asset = new SdmxCodelist(codelist.name().getLocalPart(),service);
 		
-		CodelistBean transformed = new Codelist2Sdmx().apply(codelist);
+		CodelistBean bean = new Codelist2Sdmx().apply(codelist,directives);
 		
-		repository.publish(asset,transformed);
+		repository.publish(asset,bean);
 	}
 	
 	@Override
