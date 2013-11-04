@@ -53,7 +53,7 @@ public class AppControllerImpl implements AppController {
 		/*CotrixPublishAppGinInjector publishInjector = CotrixPublishAppGinInjector.INSTANCE;
 		addModule(publishInjector.getController());*/
 		
-		showModule(CotrixModule.HOME);
+		showModule(CotrixModule.MANAGE);
 	}
 	
 	protected void bind()
