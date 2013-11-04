@@ -2,7 +2,7 @@ package org.acme;
 
 import static junit.framework.Assert.*;
 import static org.cotrix.action.MainAction.*;
-import static org.cotrix.user.dsl.Users.*;
+import static org.cotrix.user.Users.*;
 
 import javax.inject.Inject;
 

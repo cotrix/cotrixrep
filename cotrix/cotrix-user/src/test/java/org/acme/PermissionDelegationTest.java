@@ -3,8 +3,7 @@ package org.acme;
 import static junit.framework.Assert.*;
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.action.MainAction.*;
-import static org.cotrix.user.PredefinedUsers.*;
-import static org.cotrix.user.dsl.Users.*;
+import static org.cotrix.user.Users.*;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -71,7 +70,7 @@ public class PermissionDelegationTest {
 		
 		User retrieved = repository.lookup(bill.id());
 
-		assertTrue(retrieved.permissions().contains(IMPORT));
+		assertTrue(retrieved.can(IMPORT));
 	}
 	
 	@Test
@@ -89,7 +88,7 @@ public class PermissionDelegationTest {
 		
 		User retrieved = repository.lookup(bill.id());
 
-		assertTrue(retrieved.permissions().contains(EDIT.on("1")));
+		assertTrue(retrieved.can(EDIT.on("1")));
 		
 	}
 	
@@ -110,7 +109,7 @@ public class PermissionDelegationTest {
 		
 		User retrieved = repository.lookup(bill.id());
 
-		assertFalse(retrieved.permissions().contains(action));
+		assertFalse(retrieved.can(action));
 	
 	}
 	
@@ -148,7 +147,7 @@ public class PermissionDelegationTest {
 		currentUser.set(joe);
 		
 		//joe imports codelist "1" and acquires EDIT on it;
-		User changeset = user(joe).can(EDIT.on("1")).build();
+		User changeset = user(joe).is(EDITOR.on("1")).build();
 		
 		repository.update(changeset);
 		

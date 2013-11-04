@@ -1,5 +1,7 @@
 package org.cotrix.user.impl;
 
+import static org.cotrix.user.Users.*;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -8,7 +10,6 @@ import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.memory.MRepository;
 import org.cotrix.repository.memory.MStore;
-import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
 import org.slf4j.Logger;
@@ -45,9 +46,9 @@ public class MUserRepository extends MRepository<User, User.Private> implements 
 	@PostConstruct
 	public void loadPredefinedUsers() {
 		
-		log.info("loading predefined users "+PredefinedUsers.values);
+		log.info("loading predefined users "+predefinedUsers);
 		
-		for (User user : PredefinedUsers.values)
+		for (User user : predefinedUsers)
 			this.add(user);
 	}
 	

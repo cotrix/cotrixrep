@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import org.cotrix.action.Action;
 import org.cotrix.domain.Code;
+import org.cotrix.user.Role;
+import org.cotrix.user.RoleModel;
 import org.cotrix.user.User;
 
 /**
@@ -38,8 +40,16 @@ public class UserGrammar {
 		
 		ThirdClause can(Collection<Action> permissions);
 		
+		ThirdClause is(RoleModel ... models);
+		
+		ThirdClause is(Role ... bindings);
+		
+		ThirdClause is(Collection<Role> roles);
+		
 		ThirdClause cannot(Action ... permissions);
 		
 		User build();
-	}
+		
+		RoleModel buildAsModel();
+	} 
 }

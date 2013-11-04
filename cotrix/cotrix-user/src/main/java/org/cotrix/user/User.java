@@ -1,8 +1,11 @@
 package org.cotrix.user;
 
+import static org.cotrix.common.Utils.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.cotrix.action.Action;
@@ -16,8 +19,19 @@ public interface User extends Identified {
 	String name();
 
 	String fullName();
+	
 
 	Collection<Action> permissions();
+	
+	Collection<Action> declaredPermissions();
+	
+	boolean can(Action action);
+	
+	Collection<Role> roles();
+	
+	boolean is(RoleModel model);
+	
+	boolean is(Role role);
 
 	/**
 	 * A {@link Versioned.Abstract} implementation of {@link Codelist}.
@@ -25,19 +39,21 @@ public interface User extends Identified {
 	 * @author Fabio Simeoni
 	 * 
 	 */
-	public class Private extends Identified.Abstract<Private> implements User, Serializable {
+	public class Private extends Identified.Abstract<Private> implements User, RoleModel, Serializable {
 
 		private static final long serialVersionUID = 1L;
 
 		private final String name;
 		private String fullName;
 		private final List<Action> permissions = new ArrayList<Action>();
+		private final List<Role> roles = new ArrayList<Role>();
 
 		public Private(UserPO po) {
 			super(po);
 			this.name = po.name();
 			this.fullName = po.fullName();
 			this.permissions.addAll(po.permissions());
+			this.roles.addAll(po.roles());
 		}
 
 		@Override
@@ -52,13 +68,69 @@ public interface User extends Identified {
 
 		@Override
 		public List<Action> permissions() {
-			return new ArrayList<Action>(permissions);
+			
+			ArrayList<Action> permissions = new ArrayList<Action>(declaredPermissions());
+
+			for (Role role : roles)
+				for (Action p : role.permissions())
+					if (!permissions.contains(p))
+						permissions.add(p);
+
+			return permissions;
+		}
+		
+		@Override
+		public Collection<Action> declaredPermissions() {
+			return Collections.unmodifiableCollection(this.permissions);
+		}
+		
+		@Override
+		public boolean can(Action action) {
+			
+			notNull("action", action);
+			
+			return action.included(permissions());
+		}
+		
+		@Override
+		public Collection<Role> roles() {
+			return new ArrayList<Role>(roles);
+		}
+		
+		@Override
+		public boolean is(RoleModel model) {
+	
+			return is(new Role(model));	
+			
+		}
+		
+		@Override
+		public boolean is(Role role) {
+	
+			notNull("role", role);
+			
+			for (Role r : roles)
+				if (r.equals(role) || r.is(role))
+						return true;
+	
+			return false;
+		}
+		
+		@Override
+		public Role on(String resource) {
+			return new Role(this,resource);
 		}
 
 		@Override
 		public Private copy(boolean withId) {
-			UserPO po = new UserPO(withId ? name : null);
+			
+			UserPO po = new UserPO(withId ? id() : null);
+			
+			po.setName(name);
+			po.setFullName(fullName);
 			po.setPermissions(permissions);
+			po.setRoles(roles);
+			
 			return new Private(po);
 		}
 
@@ -73,13 +145,18 @@ public interface User extends Identified {
 			//replace permissions
 			this.permissions.clear();
 			this.permissions.addAll(changeset.permissions());
+			
+			//replace models
+			this.roles.clear();
+			this.roles.addAll(changeset.roles());
 		}
 
 		@Override
 		public String toString() {
 			final int maxLen = 100;
 			return "Private [name=" + name + ", fullName=" + fullName + ", permissions="
-					+ (permissions != null ? permissions.subList(0, Math.min(permissions.size(), maxLen)) : null) + "]";
+					+ (permissions != null ? permissions.subList(0, Math.min(permissions.size(), maxLen)) : null)
+					+ ", roles=" + (roles != null ? roles.subList(0, Math.min(roles.size(), maxLen)) : null) + "]";
 		}
 
 		@Override
@@ -89,6 +166,7 @@ public interface User extends Identified {
 			result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
 			result = prime * result + ((name == null) ? 0 : name.hashCode());
 			result = prime * result + ((permissions == null) ? 0 : permissions.hashCode());
+			result = prime * result + ((roles == null) ? 0 : roles.hashCode());
 			return result;
 		}
 
@@ -116,8 +194,17 @@ public interface User extends Identified {
 					return false;
 			} else if (!permissions.equals(other.permissions))
 				return false;
+			if (roles == null) {
+				if (other.roles != null)
+					return false;
+			} else if (!roles.equals(other.roles))
+				return false;
 			return true;
 		}
+
+	
+
+		
 
 	}
 }

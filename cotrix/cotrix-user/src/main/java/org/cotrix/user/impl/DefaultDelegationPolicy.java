@@ -1,6 +1,6 @@
 package org.cotrix.user.impl;
 
-import static org.cotrix.user.PredefinedUsers.*;
+import static org.cotrix.user.Users.*;
 
 import org.cotrix.action.Action;
 import org.cotrix.user.DelegationPolicy;
@@ -12,10 +12,10 @@ public class DefaultDelegationPolicy implements DelegationPolicy {
 	public void validateDelegation(User source, User target, Action ... actions) {
 		
 		for (Action action : actions)
-			if (action.isTemplate() && !source.equals(cotrix)) //TODO use root role
-				throw new IllegalAccessError(source.name()+" cannot delegate or revoke template "+action+", as it does not have root privileges");
+			if (action.isTemplate() && !source.is(ROOT)) //TODO use ROOT role
+				throw new IllegalAccessError(source.name()+" cannot delegate or revoke template "+action+", as it does not have ROOT privileges");
 			else
-				if (!action.included(source.permissions()))
+				if (!source.can(action))
 					throw new IllegalAccessError(source.name()+" cannot perform "+action+", hence cannot delegate it or revoke it to or from "+target.name());
 		
 		

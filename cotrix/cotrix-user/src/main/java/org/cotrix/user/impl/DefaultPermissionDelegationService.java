@@ -10,7 +10,7 @@ import org.cotrix.user.DelegationPolicy;
 import org.cotrix.user.PermissionDelegationService;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
-import org.cotrix.user.dsl.Users;
+import org.cotrix.user.Users;
 
 public class DefaultPermissionDelegationService implements PermissionDelegationService {
 

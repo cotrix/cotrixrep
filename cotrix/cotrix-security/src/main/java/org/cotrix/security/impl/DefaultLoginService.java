@@ -1,6 +1,6 @@
 package org.cotrix.security.impl;
 
-import static org.cotrix.user.PredefinedUsers.*;
+import static org.cotrix.user.Users.*;
 
 import java.util.Iterator;
 

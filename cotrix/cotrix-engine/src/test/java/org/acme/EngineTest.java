@@ -15,7 +15,7 @@ import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.user.User;
-import org.cotrix.user.dsl.Users;
+import org.cotrix.user.Users;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
