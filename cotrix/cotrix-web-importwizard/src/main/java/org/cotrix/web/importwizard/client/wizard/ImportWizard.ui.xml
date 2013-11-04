@@ -45,7 +45,7 @@
 		}
 		
 		.navigationBar {
-			font-weight: bold;
+			font-weight: normal;
 			background-color: #FAFAFA;
 			height: 40px;
 			border-radius: 0px 0px 5px 5px;
