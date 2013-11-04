@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.codelistmanager.server.util;
+package org.cotrix.web.share.server.util;
 
 import javax.xml.namespace.QName;
 

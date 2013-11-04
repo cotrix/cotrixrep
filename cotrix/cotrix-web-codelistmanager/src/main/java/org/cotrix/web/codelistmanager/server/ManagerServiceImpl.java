@@ -15,26 +15,25 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.Container;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.modify.ModifyCommandHandler;
-import org.cotrix.web.codelistmanager.server.util.ValueUtils;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
 import org.cotrix.web.share.server.task.ActionMapper;
+import org.cotrix.web.share.server.task.CodelistTask;
 import org.cotrix.web.share.server.task.ContainsTask;
 import org.cotrix.web.share.server.task.Id;
-import org.cotrix.web.share.server.task.CodelistTask;
 import org.cotrix.web.share.server.util.CodelistLoader;
+import org.cotrix.web.share.server.util.Codelists;
+import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.CodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
@@ -137,12 +136,7 @@ public class ManagerServiceImpl implements ManagerService {
 			uicode.setId(code.id());
 			uicode.setName(code.name().toString());
 			
-			List<UIAttribute> attributes = new ArrayList<UIAttribute>(code.attributes().size());
-			
-			for (Attribute attribute:code.attributes()) {
-				UIAttribute rowAttribute = toUIAttribute(attribute);
-				attributes.add(rowAttribute);
-			}
+			List<UIAttribute> attributes = Codelists.toUIAttributes(code.attributes());
 			uicode.setAttributes(attributes);
 			rows.add(uicode);
 		}
@@ -154,37 +148,10 @@ public class ManagerServiceImpl implements ManagerService {
 	public CodelistMetadata getMetadata(@Id String codelistId) throws ManagerServiceException {
 		logger.trace("getMetadata codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
-		CodelistMetadata metadata = new CodelistMetadata();
-		metadata.setId(codelist.id());
-		metadata.setName(ValueUtils.safeValue(codelist.name()));
-		metadata.setVersion(codelist.version());
-		metadata.setAttributes(getAttributes(codelist.attributes()));
-		return metadata;
+		return Codelists.toCodelistMetadata(codelist);
 	}
 	
-	protected List<UIAttribute> getAttributes(Container<? extends Attribute> attributesContainer)
-	{
-		List<UIAttribute> attributes = new ArrayList<UIAttribute>(attributesContainer.size());
-		
-		for (Attribute domainAttribute:attributesContainer) {
-			UIAttribute attribute = toUIAttribute(domainAttribute);
-			attributes.add(attribute);
-		}
-		
-		return attributes;
-	}
 	
-	protected UIAttribute toUIAttribute(Attribute attribute)
-	{
-		UIAttribute uiattribute = new UIAttribute();
-		uiattribute.setName(ValueUtils.safeValue(attribute.name()));
-		uiattribute.setType(ValueUtils.safeValue(attribute.type()));
-		uiattribute.setLanguage(ValueUtils.safeValue(attribute.language()));
-		uiattribute.setValue(ValueUtils.safeValue(attribute.value()));
-		uiattribute.setId(ValueUtils.safeValue(attribute.id()));
-		return uiattribute;
-	}
-
 	@CodelistTask(LOCK)
 	public FeatureCarrier.Void saveMessage(String message) {
 		return FeatureCarrier.getVoid();
