@@ -11,7 +11,6 @@ import com.google.gwt.resources.client.CssResource;
  */
 public interface CommonCss extends CssResource {
 
-
 	@ClassName("gwt-PopupPanelGlass")
 	String glassPanel();
 
