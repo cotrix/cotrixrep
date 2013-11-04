@@ -16,14 +16,14 @@
 			color: #f66a03;
 			margin-left: 10px;
 			font-size: 28px;
-			font-weight: bold;
+			font-weight: normal;
 		}
 		
 		.subtitle {
 			color: #ccc;
 			margin-left: 10px;
 			font-size: 12px;
-			font-weight: bold;
+			font-weight: normal;
 		}
 		
 		.navigation {
@@ -52,7 +52,7 @@
 			padding: 14px 18px 26px 18px;
 			text-transform: uppercase;
 			text-decoration: none;
-			font-weight: bold;
+			font-weight: normal;
 			font-size: 12px;
 			border-top: 5px solid transparent;
 			-webkit-transition: all 0.1s ease;

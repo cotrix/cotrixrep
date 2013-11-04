@@ -56,11 +56,7 @@
 			<resource>
 				<directory>src/main/java</directory>
 				<includes>
-					<include>**/*.java</include>
-					<include>**/*.gwt.xml</include>
-					<include>**/*.ui.xml</include>
-					<include>**/*.png</include>
-					<include>**/*.css</include>
+					<include>**/*.*</include>
 				</includes>
 			</resource>
 			<resource>
