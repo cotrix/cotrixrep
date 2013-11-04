@@ -24,7 +24,7 @@
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='EM' styleName="{style.mainPanel}">
-		<g:north size='2.7'>
+		<g:north size='1.7'>
 			<g:FlowPanel>
 				<g:HorizontalPanel styleName="{style.buttonBar}">
 					<g:ToggleButton ui:field="attributesButton" width="32px"

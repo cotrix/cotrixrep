@@ -48,10 +48,10 @@
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
-		<g:north size='28'>
+		<g:north size='30'>
 			<g:SimpleLayoutPanel />
 		</g:north>
-		<g:north size='45'>
+		<g:north size='35'>
 			<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
 				<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}" />
 			</g:FlowPanel>

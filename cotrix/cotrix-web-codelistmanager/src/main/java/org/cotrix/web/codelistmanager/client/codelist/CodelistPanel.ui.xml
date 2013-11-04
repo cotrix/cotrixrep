@@ -12,7 +12,7 @@
 	<g:SplitLayoutPanel ui:field="mainPanel">
 		<g:center>
 			<g:DockLayoutPanel ui:field="contentPanel" unit='EM' styleName="{style.contentPanel}" >
-				<g:north size='2.7'>
+				<g:north size='1.7'>
 					<v:CodelistToolbarImpl ui:field="toolbar" />
 				</g:north>
 				<g:center>
