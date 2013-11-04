@@ -3,12 +3,11 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
 	<ui:with field='resources'
 		type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
+			<ui:with field='common'
+		type='org.cotrix.web.share.client.resources.CommonResources' />
 	<ui:style>
 		.headerPanel {
-			border-top-right-radius: 5px;
-			border-top-left-radius: 5px;
-			height: 50px;
-			padding-right: 20px;
+			padding-right: 5px;
 		}
 		
 		.leftWrapper {
@@ -25,34 +24,30 @@
 		
 		.seal {
 			padding-left: 5px;
-
 		}
 		
 		.rightWrapper {
 			float: right;
-			line-height: 35px;
-		}
-		
-		.allColumnsButton {
-			margin: auto;
-			outline: none;
+			vertical-align: middle;
 		}
 	</ui:style>
 	<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
 		<g:FlowPanel styleName="{style.leftWrapper}">
 			<g:ToggleButton ui:field="lock" styleName="{style.lock}">
 				<g:upFace image="{resources.unlock}" />
-				<g:upDisabledFace image="{resources.unlockDisabled}"/>
+				<g:upDisabledFace image="{resources.unlockDisabled}" />
 				<g:downFace image="{resources.lock}" />
-				<g:downDisabledFace image="{resources.lockDisabled}"  />
+				<g:downDisabledFace image="{resources.lockDisabled}" />
 			</g:ToggleButton>
-			<g:Button ui:field="seal" visible="true"  styleName="{style.seal}">Finalize</g:Button>
+			<g:Button ui:field="seal" visible="false" styleName="{style.seal}">Finalize</g:Button>
 		</g:FlowPanel>
-		<g:FlowPanel styleName="{style.rightWrapper}">
-			<g:Button ui:field="allColumns" enabled="true">AllColumns</g:Button>
-			<g:Button ui:field="allNormals" enabled="true">AllNormals</g:Button>
-
-		</g:FlowPanel>
-
+		<g:HorizontalPanel styleName="{style.rightWrapper}">
+			<g:PushButton ui:field="allColumns">
+				<g:upFace image="{resources.allColumns}" />
+			</g:PushButton>
+			<g:PushButton ui:field="allNormals">
+				<g:upFace image="{resources.allNormals}" />
+			</g:PushButton>
+		</g:HorizontalPanel>
 	</g:FlowPanel>
 </ui:UiBinder> 

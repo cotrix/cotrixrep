@@ -18,7 +18,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource table();
 	
-	@Source("table_disabled.png")
 	public ImageResource tableDisabled();
 	
 	public ImageResource close();
@@ -29,8 +28,7 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource allColumns();
 	
-	@Source("allColumns.png")
-	public ImageResource allColumnsHover();
+	public ImageResource allNormals();
 	
 	public ImageResource versionItem();
 	
@@ -57,7 +55,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource filterDisabled();
 	
 	interface CotrixManagerStyle extends CssResource {
-		String buttonAllColumns();
 		String search();
 	}
 

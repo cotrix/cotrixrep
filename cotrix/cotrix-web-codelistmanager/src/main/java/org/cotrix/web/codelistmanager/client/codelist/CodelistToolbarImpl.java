@@ -12,6 +12,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -25,8 +26,8 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 	interface CodelistToolbarUiBinder extends UiBinder<Widget, CodelistToolbarImpl> {}
 	private static CodelistToolbarUiBinder uiBinder = GWT.create(CodelistToolbarUiBinder.class);
 	
-	@UiField Button allColumns;
-	@UiField Button allNormals;
+	@UiField PushButton allColumns;
+	@UiField PushButton allNormals;
 	
 	@UiField ToggleButton lock;
 	@UiField Button seal;
