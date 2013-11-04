@@ -5,8 +5,8 @@
 		field="resources" />
 	<ui:style>
 		.box {
-			font-family: "HelveticaNeue-Light", "Helvetica Neue Light",
-				"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+/*			font-family: "HelveticaNeue-Light", "Helvetica Neue Light",
+				"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;*/
 			-moz-box-shadow: 0 0 7px 7px #999;
 			-webkit-box-shadow: 0 0 7px 7px #999;
 			box-shadow: 0 0 7px 7px #999;

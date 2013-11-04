@@ -1,8 +1,13 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
 /*body {
 	background-color: #efefef;
 	font-family: Arial Unicode MS, Arial, sans-serif;
 }*/
 
+/*
 body,table td,select {
 	font-family: Arial Unicode MS, Arial, sans-serif;
 	font-size: small;
@@ -22,7 +27,7 @@ body {
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light",
 		"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 	background-color: #efefef;
-}
+}*/
 
 /*a,a:visited,a:hover {
 	color: #0000AA;
