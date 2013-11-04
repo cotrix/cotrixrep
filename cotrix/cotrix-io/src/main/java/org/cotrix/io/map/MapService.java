@@ -1,5 +1,8 @@
 package org.cotrix.io.map;
 
+import org.cotrix.common.Outcome;
+import org.cotrix.domain.Codelist;
+
 
 /**
  * Maps codelists into domain objects according to given directives.
@@ -15,8 +18,8 @@ public interface MapService {
 	 * 
 	 * @param codelist the codelist
 	 * @param directives the directives
-	 * @return the domain object
+	 * @return the outcome the task.
 	 */
-	<T> Outcome map(T codelist, MapDirectives<T> directives);
+	<T> Outcome<Codelist> map(T codelist, MapDirectives<T> directives);
 
 }

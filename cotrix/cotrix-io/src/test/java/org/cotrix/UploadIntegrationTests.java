@@ -6,8 +6,9 @@ import java.io.InputStream;
 
 import javax.inject.Inject;
 
+import org.cotrix.common.Outcome;
+import org.cotrix.domain.Codelist;
 import org.cotrix.io.map.MapService;
-import org.cotrix.io.map.Outcome;
 import org.cotrix.io.parse.ParseService;
 import org.cotrix.io.sdmx.SdmxMapDirectives;
 import org.cotrix.io.sdmx.SdmxParseDirectives;
@@ -40,7 +41,7 @@ public class UploadIntegrationTests {
 		
 		CodelistBean bean = parser.parse(stream, SdmxParseDirectives.DEFAULT);
 		
-		Outcome outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT);
+		Outcome<Codelist> outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT);
 		
 		System.out.println(outcome.result());
 	}
@@ -68,7 +69,7 @@ public class UploadIntegrationTests {
 				  .add(column("Family"))
 				  .add(column("Order"));
 		
-		Outcome outcome = mapper.map(table, mDirectives);
+		Outcome<Codelist> outcome = mapper.map(table, mDirectives);
 		
 		System.out.println(outcome.result());
 		

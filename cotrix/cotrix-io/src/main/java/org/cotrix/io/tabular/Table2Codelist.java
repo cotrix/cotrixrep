@@ -1,7 +1,7 @@
 package org.cotrix.io.tabular;
 
+import static org.cotrix.common.Report.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.io.map.Report.*;
 
 import java.util.ArrayList;
 import java.util.List;

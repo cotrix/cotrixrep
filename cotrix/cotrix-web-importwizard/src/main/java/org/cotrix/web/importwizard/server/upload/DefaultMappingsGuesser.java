@@ -6,8 +6,8 @@ package org.cotrix.web.importwizard.server.upload;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.io.sdmx.SdmxMapDirectives;
-import org.cotrix.io.sdmx.SdmxMapDirectives.SdmxElement;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;

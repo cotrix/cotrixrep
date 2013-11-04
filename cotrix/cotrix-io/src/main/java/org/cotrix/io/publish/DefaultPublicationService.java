@@ -1,11 +1,13 @@
 package org.cotrix.io.publish;
 
+import static org.cotrix.common.Report.*;
 import static org.cotrix.common.Utils.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.Report;
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.PublicationService;
 import org.cotrix.io.utils.Registry;
@@ -34,7 +36,7 @@ public class DefaultPublicationService implements PublicationService {
 	}
 	
 	@Override
-	public void publish(Codelist codelist, PublicationDirectives directives, QName channel) {
+	public Report publish(Codelist codelist, PublicationDirectives directives, QName channel) {
 		
 		valid(codelist);
 		
@@ -45,11 +47,28 @@ public class DefaultPublicationService implements PublicationService {
 
 			PublicationTask<PublicationDirectives> task = registry.get(directives);
 			
+			report().log("publishing codelist '"+codelist.name()+"'");
+			report().log("==============================");
+			
 			task.publish(channel,codelist,directives);
+			
+			report().log("==============================");
+			report().log("terminated publication of codelist '"+codelist.name());
+			
+			return report();
 			
 		}
 		catch(Exception e) {
+			
 			throw new IllegalArgumentException("codelist "+codelist.name()+" ("+codelist.id()+") can't be published through channel "+channel+" (see cause)",e);
+		}
+		finally {
+			
+			//make sure we free up resources
+			Report current = Report.report();
+			if (current!=null)
+				current.close();
+			
 		}
 		
 		

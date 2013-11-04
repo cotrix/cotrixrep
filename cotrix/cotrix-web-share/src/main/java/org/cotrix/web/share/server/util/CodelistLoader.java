@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.share.server.util;
 
+import static org.cotrix.domain.dsl.Codes.*;
+
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -11,12 +13,12 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.cotrix.common.Outcome;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.io.map.MapService;
-import org.cotrix.io.map.Outcome;
 import org.cotrix.io.parse.ParseService;
 import org.cotrix.io.tabular.ColumnDirectives;
 import org.cotrix.io.tabular.TableMapDirectives;
@@ -27,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.tabular.Column;
 import org.virtualrepository.tabular.Table;
-import static org.cotrix.domain.dsl.Codes.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -104,7 +105,7 @@ public class CodelistLoader {
 
 			mappingDirectives.attributes(att1, att2);
 
-			Outcome outcome = mapservice.map(table, mappingDirectives);
+			Outcome<Codelist> outcome = mapservice.map(table, mappingDirectives);
 			if (outcome.report().isFailure()) {
 				logger.trace("import failed");
 				return false;

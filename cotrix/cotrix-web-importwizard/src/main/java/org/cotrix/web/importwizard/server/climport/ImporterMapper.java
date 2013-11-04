@@ -8,11 +8,12 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.Outcome;
+import org.cotrix.domain.Codelist;
 import org.cotrix.domain.utils.Constants;
 import org.cotrix.io.map.MapService;
-import org.cotrix.io.map.Outcome;
+import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.io.sdmx.SdmxMapDirectives;
-import org.cotrix.io.sdmx.SdmxMapDirectives.SdmxElement;
 import org.cotrix.io.tabular.ColumnDirectives;
 import org.cotrix.io.tabular.TableMapDirectives;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
@@ -30,7 +31,7 @@ import org.virtualrepository.tabular.Table;
  */
 public interface ImporterMapper<T> {
 
-	public Outcome map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, T codelist);
+	public Outcome<Codelist> map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, T codelist);
 	
 	public class CsvMapper implements ImporterMapper<Table> {
 		
@@ -44,7 +45,7 @@ public interface ImporterMapper<T> {
 		}
 
 		@Override
-		public Outcome map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, Table codelist) {
+		public Outcome<Codelist> map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, Table codelist) {
 			
 			AttributeMapping codeAttribute = null;
 			List<ColumnDirectives> columnDirectives = new ArrayList<ColumnDirectives>();
@@ -65,8 +66,7 @@ public interface ImporterMapper<T> {
 			
 			directives.mode(convertMappingMode(mappingMode));
 			
-			Outcome outcome = mapper.map(codelist, directives);
-			return outcome;
+			return mapper.map(codelist, directives);
 		}
 		
 		protected ColumnDirectives getColumn(AttributeMapping mapping) {
@@ -119,7 +119,7 @@ public interface ImporterMapper<T> {
 
 
 		@Override
-		public Outcome map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, CodelistBean codelist) {
+		public Outcome<Codelist> map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, CodelistBean codelist) {
 			
 			SdmxMapDirectives directives = new SdmxMapDirectives();
 			
@@ -128,8 +128,7 @@ public interface ImporterMapper<T> {
 			directives.name(metadata.getName());
 			directives.version(metadata.getVersion());
 			
-			Outcome outcome = mapper.map(codelist, directives);
-			return outcome;
+			return mapper.map(codelist, directives);
 		}
 		
 		protected void setDirective(SdmxMapDirectives directives, AttributeMapping mapping) {

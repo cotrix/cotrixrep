@@ -1,8 +1,8 @@
 package org.cotrix.io.sdmx;
 
+import static org.cotrix.common.Report.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.io.map.Report.*;
-import static org.cotrix.io.sdmx.SdmxMapDirectives.SdmxElement.*;
+import static org.cotrix.io.sdmx.SdmxElement.*;
 
 import java.util.ArrayList;
 import java.util.List;

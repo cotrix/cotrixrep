@@ -3,11 +3,11 @@ package org.cotrix;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.Outcome;
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.Channels;
 import org.cotrix.io.PublicationService;
 import org.cotrix.io.map.MapService;
-import org.cotrix.io.map.Outcome;
 import org.cotrix.io.sdmx.SdmxMapDirectives;
 import org.cotrix.io.sdmx.SdmxPublishDirectives;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class UseCases {
 		CodelistBean bean = repository.retrieve(codelist, CodelistBean.class);
 		
 		//import codelist with Cotrix import service (no mapping customisations, we do not have a Cotrix user)
-		Outcome outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT);
+		Outcome<Codelist> outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT);
 
 		Codelist importedCodelist = outcome.result();
 		

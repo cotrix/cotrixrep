@@ -1,14 +1,14 @@
-package org.cotrix.io.map;
+package org.cotrix.common;
 
+import static org.cotrix.common.Report.Log.*;
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.io.map.Report.Log.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- * A report on the mapping of a codelist onto a domain object.
+ * A task's report.
  * <p>
  * Reports are thread-locals.
  * 
