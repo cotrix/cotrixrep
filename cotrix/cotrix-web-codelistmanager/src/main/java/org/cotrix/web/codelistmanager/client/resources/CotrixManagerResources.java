@@ -16,28 +16,22 @@ public interface CotrixManagerResources extends ClientBundle {
 	@Source("style.css")
 	public CotrixManagerStyle css();
 	
-	@Source("table.png")
 	public ImageResource table();
 	
 	@Source("table_disabled.png")
 	public ImageResource tableDisabled();
 	
-	@Source("close.png")
 	public ImageResource close();
 	
-	@Source("plus.png")
 	public ImageResource plus();
 	
-	@Source("minus.png")
 	public ImageResource minus();
 	
-	@Source("allColumns.png")
 	public ImageResource allColumns();
 	
 	@Source("allColumns.png")
 	public ImageResource allColumnsHover();
 	
-	@Source("versionItem.png")
 	public ImageResource versionItem();
 	
 	public ImageResource lock();
@@ -49,6 +43,18 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource unlockDisabled();
 	
 	public ImageResource search();
+	
+	public ImageResource attributes();
+	public ImageResource attributesDisabled();
+	
+	public ImageResource metadata();
+	public ImageResource metadataDisabled();
+	
+	public ImageResource userPreferences();
+	public ImageResource userPreferencesDisabled();
+	
+	public ImageResource filter();
+	public ImageResource filterDisabled();
 	
 	interface CotrixManagerStyle extends CssResource {
 		String buttonAllColumns();

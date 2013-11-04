@@ -16,6 +16,7 @@
 package org.cotrix.web.codelistmanager.client.codelist;
 
 import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
+import org.cotrix.web.share.client.widgets.ToggleButtonGroup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,9 +24,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -39,18 +40,27 @@ public class CodelistSidePanel extends ResizeComposite {
 	
 	private static Binder uiBinder = GWT.create(Binder.class);
 
-	@UiField Button attributesButton;
-	@UiField Button metadataButton;
-	@UiField Button userButton;
+	protected ToggleButtonGroup buttonGroup = new ToggleButtonGroup();
+	@UiField ToggleButton attributesButton;
+	@UiField ToggleButton metadataButton;
+	@UiField ToggleButton filtersButton;
+	@UiField ToggleButton userButton;
 	
 	@UiField DeckLayoutPanel tools;
 	@UiField CodelistAttributesPanel attributesPanel;
 	@UiField CodelistMetadataPanel metadataPanel;
+	@UiField FiltersPanel filtersPanel;
 	@UiField UserPreferencesPanel userPanel;
 
 	public CodelistSidePanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 		tools.showWidget(attributesPanel);
+		
+		buttonGroup.addButton(attributesButton);
+		attributesButton.setDown(true);
+		buttonGroup.addButton(metadataButton);
+		buttonGroup.addButton(filtersButton);
+		buttonGroup.addButton(userButton);
 	}
 	
 	@UiFactory
@@ -75,6 +85,12 @@ public class CodelistSidePanel extends ResizeComposite {
 	protected void onMetadataButtonClicked(ClickEvent event)
 	{
 		tools.showWidget(metadataPanel);
+	}
+	
+	@UiHandler("filtersButton")
+	protected void onFiltersButtonClicked(ClickEvent event)
+	{
+		tools.showWidget(filtersPanel);
 	}
 	
 	@UiHandler("userButton")

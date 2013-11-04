@@ -1,7 +1,19 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:org.cotrix.web.codelistmanager.client.codelist">
+	<ui:with field='resources'
+		type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
 	<ui:style>
+		.buttonBar {
+			float: right;
+			vertical-align: middle;
+		}
+		
+		.button {
+			cursor: pointer;
+			outline: none;
+		}
+		
 		.tools {
 			margin-top: 7px;
 		}
@@ -14,16 +26,40 @@
 	<g:DockLayoutPanel unit='EM' styleName="{style.mainPanel}">
 		<g:north size='2.7'>
 			<g:FlowPanel>
-				<g:Button ui:field="attributesButton">Attributes</g:Button>
-				<g:Button ui:field="metadataButton">Metadata</g:Button>
-				<g:Button ui:field="userButton">Preferences</g:Button>
+				<g:HorizontalPanel styleName="{style.buttonBar}">
+					<g:ToggleButton ui:field="attributesButton" width="32px"
+						styleName="{style.button}">
+						<g:upFace image="{resources.attributesDisabled}" />
+						<g:downFace image="{resources.attributes}" />
+						<g:upHoveringFace image="{resources.attributes}" />
+					</g:ToggleButton>
+					<g:ToggleButton ui:field="metadataButton" width="32px"
+						styleName="{style.button}">
+						<g:upFace image="{resources.metadataDisabled}" />
+						<g:downFace image="{resources.metadata}" />
+						<g:upHoveringFace image="{resources.metadata}" />
+					</g:ToggleButton>
+					<g:ToggleButton ui:field="filtersButton" width="32px"
+						styleName="{style.button}">
+						<g:upFace image="{resources.filterDisabled}" />
+						<g:downFace image="{resources.filter}" />
+						<g:upHoveringFace image="{resources.filter}" />
+					</g:ToggleButton>
+					<g:ToggleButton ui:field="userButton" width="32px"
+						styleName="{style.button}">
+						<g:upFace image="{resources.userPreferencesDisabled}" />
+						<g:downFace image="{resources.userPreferences}" />
+						<g:upHoveringFace image="{resources.userPreferences}" />
+					</g:ToggleButton>
+				</g:HorizontalPanel>
 			</g:FlowPanel>
 		</g:north>
 		<g:center>
 			<g:DeckLayoutPanel ui:field="tools" styleName="{style.tools}">
 				<v:CodelistAttributesPanel ui:field="attributesPanel" />
 				<v:CodelistMetadataPanel ui:field="metadataPanel" />
-				<v:UserPreferencesPanel ui:field="userPanel"/>
+				<v:FiltersPanel ui:field="filtersPanel" />
+				<v:UserPreferencesPanel ui:field="userPanel" />
 			</g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>
