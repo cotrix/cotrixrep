@@ -5,7 +5,6 @@ import java.util.List;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Container;
 import org.cotrix.domain.po.AttributedPO;
-import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * A domain object with {@link Attribute}s.
@@ -61,18 +60,17 @@ public interface Attributed {
 			return attributes;
 		}
 			
-		protected void fillPO(IdGenerator generator,AttributedPO po) {
+		protected void fillPO(boolean withId, AttributedPO po) {
 		
-			po.setAttributes(attributes.copy(generator));
+			po.setAttributes(attributes.copy(withId));
 		}
 		
 		@Override
-		public void update(T delta) throws IllegalArgumentException ,IllegalStateException {
+		public void update(T changeset) throws IllegalArgumentException ,IllegalStateException {
 			
-			super.update(delta);
+			super.update(changeset);
 			
-			
-			Container.Private<Attribute.Private> attributes = delta.attributes();
+			Container.Private<Attribute.Private> attributes = changeset.attributes();
 
 			this.attributes.update(attributes);
 		}

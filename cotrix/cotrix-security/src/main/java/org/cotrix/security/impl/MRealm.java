@@ -27,8 +27,10 @@ public class MRealm implements Realm<NameAndPassword> {
 	
 		log.info("loading predefined users");
 		
-		for (User user : PredefinedUsers.values)
+		for (User user : PredefinedUsers.values) {
+			System.out.println(user.id());
 			pwds.put(user.id(),user.id());
+		}
 	}
 	
 	@Override

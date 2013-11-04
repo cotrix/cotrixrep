@@ -21,5 +21,13 @@ public interface ActionType extends Iterable<Action>{
 		}
 	};
 	
+	final ActionType user = new ActionType() {
+		
+		@Override
+		public Iterator<Action> iterator() {
+			return Arrays.<Action>asList(UserAction.values()).iterator();
+		}
+	};
+	
 	
 }

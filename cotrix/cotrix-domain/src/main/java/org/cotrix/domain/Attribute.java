@@ -5,7 +5,6 @@ import static org.cotrix.domain.utils.Constants.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.po.AttributePO;
-import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
@@ -97,9 +96,8 @@ public interface Attribute extends Identified, Named {
 				po.setLanguage(language);
 		}
 		
-		@Override
-		public Private copy(IdGenerator generator) {
-			AttributePO po = new AttributePO(generator.generateId());
+		public Private copy(boolean withId) {
+			AttributePO po = new AttributePO(withId?id():null);
 			fillPO(po);
 			return new Private(po);
 		}

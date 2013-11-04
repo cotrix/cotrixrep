@@ -1,4 +1,4 @@
-package org.cotrix;
+package org.acme;
 
 import static junit.framework.Assert.*;
 import static org.cotrix.domain.dsl.Codes.*;
@@ -13,6 +13,7 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.memory.MCodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
+import org.cotrix.repository.utils.UuidGenerator;
 import org.junit.Test;
 
 public class MemoryQueryTest {
@@ -21,7 +22,7 @@ public class MemoryQueryTest {
 	@Test
 	public void allCodelists() {
 		
-		CodelistRepository repository = new MCodelistRepository();
+		CodelistRepository repository = new MCodelistRepository(new UuidGenerator());
 		
 		Codelist list = codelist().name("name").build();
 		
@@ -36,7 +37,7 @@ public class MemoryQueryTest {
 	@Test
 	public void codeRanges() {
 		
-		CodelistRepository repository = new MCodelistRepository();
+		CodelistRepository repository = new MCodelistRepository(new UuidGenerator());
 		
 		Code code1 = code().name("c1").build();
 		Code code2 = code().name("c2").build();

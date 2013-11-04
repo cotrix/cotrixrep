@@ -46,7 +46,7 @@ public class CodeCommandHandler {
 			code = ChangesetUtil.removeCode(removeCodeCommand.getId());
 		}
 
-		Codelist changeset = codelist(codelistId).modify().with(code).build();
+		Codelist changeset = codelist(codelistId).with(code).build();
 		repository.update(changeset);
 
 		return new GeneratedId(code.id());

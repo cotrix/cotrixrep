@@ -3,7 +3,6 @@ package org.cotrix.domain;
 import java.util.List;
 
 import org.cotrix.domain.po.CodePO;
-import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -63,22 +62,22 @@ public interface Code extends Identified,Attributed,Named {
 		}
 		
 		//fills PO for copy/versioning purposes
-		protected void fillPO(IdGenerator generator,CodePO po) {
-			super.fillPO(generator,po);
-			po.setLinks(links.copy(generator));
+		protected void fillPO(boolean withId, CodePO po) {
+			super.fillPO(withId,po);
+			po.setLinks(links.copy(withId));
 		}
 		
-		@Override
-		public Private copy(IdGenerator generator) {
-			CodePO po = new CodePO(generator.generateId());
-			fillPO(generator,po);
+		public Private copy(boolean withId) {
+			CodePO po = new CodePO(withId?id():null);
+			fillPO(withId,po);
 			return new Private(po);
 		}
 		
 		@Override
-		public void update(Private delta) throws IllegalArgumentException, IllegalStateException {
-			super.update(delta);
-			this.links.update(delta.links());
+		public void update(Private changeset) throws IllegalArgumentException, IllegalStateException {
+			
+			super.update(changeset);
+			this.links.update(changeset.links());
 		}
 
 		@Override

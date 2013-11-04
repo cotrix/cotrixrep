@@ -1,4 +1,4 @@
-package org.cotrix;
+package org.acme;
 
 import static junit.framework.Assert.*;
 import static org.cotrix.domain.dsl.Codes.*;
@@ -14,6 +14,7 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.memory.MCodebagRepository;
 import org.cotrix.repository.memory.MCodelistRepository;
 import org.cotrix.repository.memory.MStore;
+import org.cotrix.repository.utils.UuidGenerator;
 import org.junit.Test;
 
 public class SimpleRepositoryTest {
@@ -21,7 +22,7 @@ public class SimpleRepositoryTest {
 	@Test
 	public void retrieveNotExistingCodeList() {
 
-		CodelistRepository repository = new MCodelistRepository();
+		CodelistRepository repository = new MCodelistRepository(new UuidGenerator());
 
 		assertNull(repository.lookup("unknown"));
 
@@ -34,7 +35,7 @@ public class SimpleRepositoryTest {
 
 		assertNull(list.id());
 
-		CodelistRepository repository = new MCodelistRepository();
+		CodelistRepository repository = new MCodelistRepository(new UuidGenerator());
 
 		repository.add(list);
 
@@ -53,16 +54,16 @@ public class SimpleRepositoryTest {
 
 		assertNull(list.id());
 
-		CodelistRepository repository = new MCodelistRepository();
+		CodelistRepository repository = new MCodelistRepository(new UuidGenerator());
 
 		repository.add(list);
 
-		Attribute attributeChangeset = attr(attribute.id()).modify().name(attribute.name()).value("newvalue").build();
+		Attribute attributeChangeset = attr(attribute.id()).name(attribute.name()).value("newvalue").build();
 
 		QName updatedName = q(list.name().getLocalPart() + "-updated");
 
-		Codelist changeset = codelist(list.id()).modify().name(updatedName)
-				.with(code(code.id()).modify().name(code.name()).attributes(attributeChangeset).build()).build();
+		Codelist changeset = codelist(list.id()).name(updatedName)
+				.with(code(code.id()).name(code.name()).attributes(attributeChangeset).build()).build();
 
 		repository.update(changeset);
 
@@ -82,7 +83,7 @@ public class SimpleRepositoryTest {
 
 		assertNull(list.id());
 
-		CodelistRepository repository = new MCodelistRepository();
+		CodelistRepository repository = new MCodelistRepository(new UuidGenerator());
 
 		repository.add(list);
 
@@ -107,7 +108,7 @@ public class SimpleRepositoryTest {
 
 		MStore store = new MStore();
 
-		CodebagRepository repository = new MCodebagRepository(store);
+		CodebagRepository repository = new MCodebagRepository(store, new UuidGenerator());
 
 		repository.add(bag);
 
@@ -116,7 +117,7 @@ public class SimpleRepositoryTest {
 
 		assertEquals(bag, repository.lookup(bag.id()));
 
-		CodelistRepository listRepository = new MCodelistRepository(store);
+		CodelistRepository listRepository = new MCodelistRepository(store,new UuidGenerator());
 
 		assertNotNull(listRepository.lookup(list.id()));
 
@@ -133,7 +134,7 @@ public class SimpleRepositoryTest {
 
 		MStore store = new MStore();
 
-		CodebagRepository repository = new MCodebagRepository(store);
+		CodebagRepository repository = new MCodebagRepository(store,new UuidGenerator());
 
 		repository.add(bag);
 
@@ -142,7 +143,7 @@ public class SimpleRepositoryTest {
 
 		assertEquals(bag, repository.lookup(bag.id()));
 
-		CodelistRepository listRepository = new MCodelistRepository(store);
+		CodelistRepository listRepository = new MCodelistRepository(store,new UuidGenerator());
 
 		assertNotNull(listRepository.lookup(list.id()));
 

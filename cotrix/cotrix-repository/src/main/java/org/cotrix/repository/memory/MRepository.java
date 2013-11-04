@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.common.Utils;
+import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Repository;
 import org.cotrix.repository.query.Query;
@@ -14,10 +15,12 @@ public class MRepository<T, S extends Identified.Abstract<S>> implements Reposit
 	private final Class<T> type;
 	private final Class<S> privateType;
 	private final MStore store;
+	private final IdGenerator generator;
 	
-	public MRepository(MStore store, Class<T> type, Class<S> privateType) {
+	public MRepository(MStore store, Class<T> type, Class<S> privateType, IdGenerator generator) {
 		this.store=store;
 		this.type=type;	
+		this.generator=generator;
 		
 		//validate types, as the compiler cannot
 		validParameters(type,privateType);
@@ -25,8 +28,18 @@ public class MRepository<T, S extends Identified.Abstract<S>> implements Reposit
 		this.privateType=privateType;
 	}
 	
+	protected final String generateId() {
+		return generator.id();
+	}
+	
 	@Override
 	public void add(T object) {
+		
+		S priv = reveal(object);
+		
+		if (priv.id()==null)
+			priv.setId(generator.id());
+		
 		store.add(reveal(object),privateType);
 	}
 	

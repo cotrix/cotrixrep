@@ -1,5 +1,7 @@
 package org.cotrix.domain.trait;
 
+import static org.cotrix.common.Utils.*;
+
 import org.cotrix.domain.po.DomainPO;
 
 /**
@@ -17,21 +19,17 @@ public interface Identified {
 	 */
 	String id();
 
+	
 	/**
-	 * {@link Mutable} and {@link Copyable} implementation of {@link Identified}.
+	 * Default {@link Identified} implementation.
 	 * 
-	 * @param <T> the concrete type of instances
+	 * @param <T> the self type of instances
 	 */
-	public abstract class Abstract<T extends Abstract<T>> implements Identified, Mutable<T>, Copyable<T> {
+	public abstract class Abstract<T extends Abstract<T>> implements Identified {
 
 		private String id;
 		private Status change;
 
-		/**
-		 * Creates a new instance from a given set of parameters.
-		 * 
-		 * @param params the parameters
-		 */
 		protected Abstract(DomainPO po) {
 
 			this.id = po.id();
@@ -43,46 +41,75 @@ public interface Identified {
 			return id;
 		}
 
-		public void setId(String id) {
+		/**
+		 * Sets the identifier of this object.
+		 * @param id the identifier
+		 * 
+		 * @throws IllegalArgumentException if the identifier is <code>null</code>
+ 		 * @throws IllegalStateException if this object is already identified
+		 */
+		public void setId(String id) throws IllegalStateException {
 
+			valid("object identifier",id);
+			
 			if (id() != null)
 				throw new IllegalStateException("object has already an identifier (" + id() + ")");
 
 			this.id = id;
 		}
 
+		 /** Returns <code>true</code> if this object is a changeset.
+		 * @return <code>true</code> if this object is a changeset
+		 */
 		public boolean isChangeset() {
 			return change != null;
 		}
 
+		
+		/**
+		 * Returns the type of change represented by this object, if any.
+		 * @return the type of change
+		 */
 		public Status status() {
 			return change;
 		}
 
-		public void reset() {
-			this.change = null;
-		}
-
+		/**
+		 * Applies a changeset to this object.
+		 * 
+		 * @param changeset the changeset
+		 * @throws IllegalArgumentException if the changeset has a status other than {@link Status#MODIFIED}
+		 * @throws IllegalStateException if this object is unidentified or the changeset does not match its identifier
+		 */
 		public void update(T changeset) throws IllegalArgumentException, IllegalStateException {
 
-			// note: this object may have an identifier without having been persisted. we will need to detect the
-			// problem later on, e.g. when the object is updated in the repository
 			if (this.id == null)
-				throw new IllegalArgumentException(this + " has not been persisted yet, hence cannot be updated");
+				throw new IllegalStateException(this + " has no identifier and cannot be updated");
 
-			
-			// is the input a delta object ?
 			if (changeset.status() == null || changeset.status() != Status.MODIFIED)
 				throw new IllegalArgumentException("object " + id + " cannot be updated with a "
 						+ (changeset.status() == null ? "NEW" : changeset.status()) + " object");
 
-			// and is it a delta for this object?
 			if (!id().equals(changeset.id()))
-				throw new IllegalArgumentException("object " + changeset.id()
+				throw new IllegalStateException("object " + changeset.id()
 						+ " is not a changeset for object " + id());
 
 		}
-
+		
+		
+		/**
+		 * Returns an exact copy of this object.
+		 * 
+		 * @return an exact copy of this object
+		 */
+		public final T copy() {
+			return copy(true);
+		}
+		
+		
+		//used for copying (withId=true) and versioning (withId=false)
+		public abstract T copy(boolean withId);
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;

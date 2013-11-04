@@ -5,7 +5,6 @@ import static org.cotrix.domain.utils.Constants.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.po.NamedPO;
-import org.cotrix.domain.spi.IdGenerator;
 
 /**
  * A named domain object.
@@ -23,27 +22,25 @@ public interface Named {
 
 	
 	/**
-	 * An {@link Attributed.Abstract} implementation of {@link Named}.
+	 * Default {@link Named} implementation.
 	 * 
-	 * @param <T> the concrete type of instances
+	 * @param <T> the self type of instances
 	 */
 	public abstract class Abstract<T extends Abstract<T>> extends Attributed.Abstract<T> implements Named {
 		
 		
 		private QName name;
 		
-		/**
-		 * Creates a new instance from a given set of parameters.
-		 * @param params the parameters
-		 */
+
 		protected Abstract(NamedPO params) {
 
 			super(params);
 			this.name=params.name();
 		}
 		
-		protected void fillPO(IdGenerator generator,NamedPO po) {
-			super.fillPO(generator, po);
+		//invoked by subclasses under copying
+		protected void fillPO(boolean withId,NamedPO po) {
+			super.fillPO(withId,po);
 			po.setName(name());
 		}
 		

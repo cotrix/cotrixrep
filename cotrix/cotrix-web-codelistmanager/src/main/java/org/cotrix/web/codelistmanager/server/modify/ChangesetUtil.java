@@ -30,7 +30,7 @@ public class ChangesetUtil {
 	}
 
 	public static Attribute updateAttribute(UIAttribute uiAttribute) {
-		return attr(uiAttribute.getId()).modify().name(convert(uiAttribute.getName()))
+		return attr(uiAttribute.getId()).name(convert(uiAttribute.getName()))
 				.value(convert(uiAttribute.getValue())).ofType(convert(uiAttribute.getType()))
 				.in(convert(uiAttribute.getLanguage())).build();
 	}
@@ -57,7 +57,7 @@ public class ChangesetUtil {
 	}
 
 	public static Code updateCode(String id, String name) {
-		return code(id).modify().name(convert(name)).build();
+		return code(id).name(convert(name)).build();
 	}
 
 	public static Code removeCode(String id) {
@@ -65,7 +65,7 @@ public class ChangesetUtil {
 	}
 
 	public static Codelist updateCodelist(String id, UIQName name) {
-		return codelist(id).modify().name(convert(name)).build();
+		return codelist(id).name(convert(name)).build();
 	}
 
 	protected static String convert(String value) {

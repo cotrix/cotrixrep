@@ -1,7 +1,7 @@
-package org.cotrix;
+package org.acme;
 
 import static junit.framework.Assert.*;
-import static org.cotrix.Fixture.*;
+import static org.acme.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;
 
@@ -51,11 +51,11 @@ public class ChangeSetTest {
 						  		
 		
 		//modified attributes
-		 a = attr("1").modify().name(name).build();
-		 a = attr("1").modify().name(name).value(value).build();
-		 a = attr("1").modify().ofType("type").build();
-		 a = attr("1").modify().ofType("type").in("en").build();
-		 a = attr("1").modify().in("en").build();
+		 a = attr("1").name(name).build();
+		 a = attr("1").name(name).value(value).build();
+		 a = attr("1").ofType("type").build();
+		 a = attr("1").ofType("type").in("en").build();
+		 a = attr("1").in("en").build();
 
 		assertTrue(((Attribute.Private) a).isChangeset());
 		assertEquals(MODIFIED, ((Attribute.Private) a).status());		
@@ -77,7 +77,7 @@ public class ChangeSetTest {
 		
 		Attribute a = attr().name("name").build();
 		Attribute added = attr().name("name").build();
-		Attribute modified = attr("1").modify().name("name").build();
+		Attribute modified = attr("1").name("name").build();
 		Attribute deleted = attr("1").delete();
 		
 		Code c;
@@ -94,7 +94,7 @@ public class ChangeSetTest {
 		 c = code("1").name(name).attributes(added).build();
 						 
 		
-		c = code("1").modify().attributes(modified,added,deleted).build();
+		c = code("1").attributes(modified,added,deleted).build();
 		
 		//changed
 		assertEquals(MODIFIED,((Code.Private) c).status());
@@ -112,12 +112,12 @@ public class ChangeSetTest {
 
 		Attribute a = attr().name("name").build();
 		Attribute added = attr().name("name").build();
-		Attribute modified = attr("1").modify().name("name").build();
+		Attribute modified = attr("1").name("name").build();
 		Attribute deleted = attr("1").delete();
 		
 		Code c = code().name("name").attributes(a).build();
 		Code addedCode = code("1").name("name").attributes(added).build();
-		Code modifiedCode = code("1").modify().name("name").attributes(added, modified, deleted).build();
+		Code modifiedCode = code("1").name("name").attributes(added, modified, deleted).build();
 		Code deletedCode = code("1").delete();
 
 		Codelist l;
@@ -134,9 +134,9 @@ public class ChangeSetTest {
 		l = codelist("1").name(name).build(); //plus all cases above
 
 		
-		l = codelist("1").modify().attributes(modified,added,deleted).build();
-		l = codelist("1").modify().with(modifiedCode,addedCode,deletedCode).build();
-		l = codelist("1").modify().with(modifiedCode,addedCode,deletedCode).attributes(modified,added,deleted).build();
+		l = codelist("1").attributes(modified,added,deleted).build();
+		l = codelist("1").with(modifiedCode,addedCode,deletedCode).build();
+		l = codelist("1").with(modifiedCode,addedCode,deletedCode).attributes(modified,added,deleted).build();
 		
 		//changed
 		assertEquals(MODIFIED,((Codelist.Private) l).status());

@@ -12,15 +12,14 @@ import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.CodelistGrammar.ChangeClause;
-import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistStartClause;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.FourthClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.ThirdClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
 import org.cotrix.domain.po.CodelistPO;
-import org.cotrix.domain.version.SimpleVersion;
+import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
 /**
@@ -29,13 +28,18 @@ import org.cotrix.domain.version.Version;
  * @author Fabio Simeoni
  *
  */
-public final class CodelistBuilder implements CodelistStartClause, ChangeClause, DeltaClause<ChangeClause,Codelist>, SecondClause,ThirdClause,FourthClause,FinalClause {
+public final class CodelistBuilder implements CodelistNewClause, CodelistChangeClause, ThirdClause, FourthClause,FinalClause {
 
 	private final CodelistPO po;
 	
 	
+	public CodelistBuilder() {
+		this.po = new CodelistPO(null);
+	}
+	
 	public CodelistBuilder(String id) {
 		this.po = new CodelistPO(id);
+		po.setChange(MODIFIED);
 	}
 	
 	@Override
@@ -53,12 +57,6 @@ public final class CodelistBuilder implements CodelistStartClause, ChangeClause,
 	public Codelist delete() {
 		po.setChange(DELETED);
 		return build();
-	}
-	
-	@Override
-	public ChangeClause modify() {
-		po.setChange(MODIFIED);
-		return this;
 	}
 	
 	@Override
@@ -97,7 +95,7 @@ public final class CodelistBuilder implements CodelistStartClause, ChangeClause,
 	}
 	
 	public CodelistBuilder version(String version) {
-		po.setVersion(new SimpleVersion(version));
+		po.setVersion(new DefaultVersion(version));
 		return this;
 	}
 	

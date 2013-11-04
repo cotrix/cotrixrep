@@ -6,13 +6,12 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeDeltaClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.ChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.LanguageClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.TypeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.ValueClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
 import org.cotrix.domain.po.AttributePO;
 
 /**
@@ -21,15 +20,20 @@ import org.cotrix.domain.po.AttributePO;
  * @author Fabio Simeoni
  *
  */
-public class AttributeBuilder implements AttributeStartClause, DeltaClause<ChangeClause,Attribute>, ValueClause, ChangeClause,
-										 		  TypeClause, LanguageClause {
+public class AttributeBuilder implements AttributeStartClause, AttributeDeltaClause {
 
-	
 	private final AttributePO po;
 
 	
+	public AttributeBuilder() {
+		this.po = new AttributePO(null);
+	}
+	
 	public AttributeBuilder(String id) {
 		this.po = new AttributePO(id);
+		po.setType(null);
+		po.setChange(MODIFIED);
+		
 	}
 	
 	@Override
@@ -47,14 +51,6 @@ public class AttributeBuilder implements AttributeStartClause, DeltaClause<Chang
 	public Attribute delete() {
 		po.setChange(DELETED);
 		return build();
-	}
-	
-	@Override
-	public ChangeClause modify() {
-		//override default for changest!
-		po.setType(null);
-		po.setChange(MODIFIED);
-		return this;
 	}
 
 	@Override

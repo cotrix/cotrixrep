@@ -1,4 +1,4 @@
-package org.cotrix;
+package org.acme;
 
 import static org.cotrix.domain.dsl.Codes.*;
 
@@ -16,7 +16,7 @@ import org.cotrix.domain.Codelist;
 import org.cotrix.domain.Container;
 import org.cotrix.domain.trait.Identified.Abstract;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.version.SimpleVersion;
+import org.cotrix.domain.version.DefaultVersion;
 
 public class Fixture {
 
@@ -74,7 +74,7 @@ public class Fixture {
 	
 	public static String version = "1.0";
 	
-	public static SimpleVersion no_version = new SimpleVersion();
+	public static DefaultVersion no_version = new DefaultVersion();
 	
 	public static Codelist cl = codelist("id1").name(name).with(c).attributes(a).version(no_version.value()).build();
 	public static Codelist cl2 = codelist("id2").name(name2).with(c,c2).attributes(a,a2).build();

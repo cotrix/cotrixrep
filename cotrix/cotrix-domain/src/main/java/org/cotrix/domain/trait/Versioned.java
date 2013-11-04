@@ -1,7 +1,5 @@
 package org.cotrix.domain.trait;
 
-import static org.cotrix.common.Utils.*;
-
 import org.cotrix.domain.po.VersionedPO;
 import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.version.Version;
@@ -44,44 +42,48 @@ public interface Versioned {
 
 		@Override
 		public String version() {
-			return version==null?null:version.value();
+			return version == null ? null : version.value();
 		}
 
-		protected void fillPO(IdGenerator generator, VersionedPO po) {
-			super.fillPO(generator, po);
-			
-			if (version!=null)
+		protected void fillPO(boolean withId, VersionedPO po) {
+
+			super.fillPO(withId, po);
+
+			if (version != null)
 				po.setVersion(version);
 		}
 
-		public void update(T delta) throws IllegalArgumentException, IllegalStateException {
+		@Override
+		public void update(T changeset) throws IllegalArgumentException, IllegalStateException {
 
-			super.update(delta);
-
-			//version has changed?
-			if (delta.version()!=null && !delta.version().equals(this.version()))
+			super.update(changeset);
+			
+			// version has changed?
+			if (changeset.version() != null && !changeset.version().equals(this.version()))
 				throw new IllegalArgumentException("cannot change the version (" + version() + ") of entity " + id()
 						+ ". Versioning is performed by copy");
 		};
 
-		public T bump(IdGenerator generator, String version) {
-
-			notNull("version", version);
-
-			if (id() == null)
-				throw new IllegalStateException("object cannot be versioned because it has no identifier");
+		/**
+		 * Returns a copy of this object with a new version and no identifiers.
+		 * 
+		 * @param version the new version.
+		 * @return the versioned copy of this object
+		 * 
+		 * @throws IllegalArgumentException if the version is invalid for the underlying versioning scheme
+		 * @throws IllegalStateException if the version does not follow the current version of this object according to
+		 *             the underlying versioning scheme
+		 */
+		public T bump(String version) {
 
 			Version newVersion = this.version.bumpTo(version);
 
-			return copy(generator, newVersion);
+			T copy = copyWith(newVersion);
+
+			return copy;
 		}
 
-		@Override
-		public T copy(IdGenerator generator) {
-			return copy(generator, version);
-		}
-
-		protected abstract T copy(IdGenerator generator, Version version);
+		protected abstract T copyWith(Version version);
 
 		@Override
 		public int hashCode() {

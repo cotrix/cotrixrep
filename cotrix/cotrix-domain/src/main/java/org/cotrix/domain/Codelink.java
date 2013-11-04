@@ -1,7 +1,6 @@
 package org.cotrix.domain;
 
 import org.cotrix.domain.po.CodeLinkPO;
-import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 
@@ -63,28 +62,28 @@ public interface Codelink extends Identified,Attributed {
 		}
 		
 		@Override
-		public void update(Private delta) throws IllegalArgumentException ,IllegalStateException {
+		public void update(Private changeset) throws IllegalArgumentException ,IllegalStateException {
 			
-			super.update(delta);
-
-			this.definition.update(delta.definition());
+			super.update(changeset);
 			
-			if (!targetId.equals(delta.targetId()))
-				targetId=delta.targetId();
+			this.definition.update(changeset.definition());
+			
+			if (!targetId.equals(changeset.targetId()))
+				targetId=changeset.targetId();
 		}
 		
 		//fills PO for copy/versioning purposes
-		protected void fillPO(IdGenerator generator,CodeLinkPO po) {
+		protected void fillPO(boolean withId,CodeLinkPO po) {
 			
-			super.fillPO(generator, po);
-			po.setDefinition(definition.copy(generator));
+			super.fillPO(withId,po);
+			po.setDefinition(definition.copy(withId));
 			po.setTargetId(targetId);
 			
 		}
 		
-		public Private copy(IdGenerator generator) {
-			CodeLinkPO po = new CodeLinkPO(generator.generateId());
-			fillPO(generator,po);
+		public Private copy(boolean withId) {
+			CodeLinkPO po = new CodeLinkPO(withId?id():null);
+			fillPO(withId,po);
 			return new Private(po);
 		}
 

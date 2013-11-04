@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.cotrix.domain.trait.Identified;
 import org.slf4j.Logger;
@@ -36,18 +35,17 @@ public class MStore {
 		if (object.isChangeset())
 			throw new IllegalArgumentException(type.getSimpleName()+" instance is a changeset and cannot be added");
 		
-		//generate/check identifier
 		String id = object.id();
+		
 		if (id==null)
-			object.setId(UUID.randomUUID().toString());
+			throw new AssertionError(type.getSimpleName()+" instance has no identifier");		
 		else
 			if (objectsOf(type).containsKey(id))
 				throw new IllegalStateException(type.getSimpleName()+" instance is already persisted");
 		
-		
 		objectsOf(type).put(object.id(),object);
 		
-		log.info("added a {} ({})",object.getClass().getName(),object.id());
+		log.info("added {} ({})",object.getClass().getCanonicalName(),object.id());
 		
 	}
 	
@@ -59,7 +57,7 @@ public class MStore {
 	 */
 	public <T> T lookup(String id, Class<T> type) {
 		
-		valid("the identifier of this "+type.getSimpleName()+"'s instance",id);
+		valid("the identifier of this "+type.getCanonicalName()+"'s instance",id);
 		
 		return objectsOf(type).get(id);
 		
@@ -83,7 +81,7 @@ public class MStore {
 		
 		pCurrent.update(changeset);
 		
-		log.info("updated {} ({})",type,changeset.id());
+		log.info("updated {} ({})",type.getCanonicalName(),changeset.id());
 		 
 	}
 	
@@ -101,7 +99,7 @@ public class MStore {
 		if (objectsOf(type).remove(id)==null)
 			throw new IllegalStateException("unkown object "+id+" of type "+type);
 		
-		log.info("removed {} ({})",type,id);
+		log.info("removed {} ({})",type.getCanonicalName(),id);
 	}
 	
 	/**

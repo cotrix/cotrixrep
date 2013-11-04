@@ -5,7 +5,7 @@ import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.CodelistLink;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.DeleteClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 
@@ -17,9 +17,9 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
  */
 public class CodelistLinkGrammar {
 
-	public static interface CodelistLinkStartClause extends NameClause<SecondClause>, DeltaClause<ChangeClause, CodelistLink>  {}
+	public static interface CodelistLinkNewClause extends NameClause<SecondClause>  {}
 	
-	public static interface ChangeClause extends NameClause<SecondClause>, SecondClause, FinalClause {}
+	public static interface CodelistLinkChangeClause extends DeleteClause<CodelistLink>, NameClause<SecondClause>, SecondClause, FinalClause {}
 
 	public static interface SecondClause extends AttributeClause<CodelistLink, FinalClause>,LinkTargetClause<Codelist,FinalClause> {}
 	

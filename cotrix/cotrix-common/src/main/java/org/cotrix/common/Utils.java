@@ -95,7 +95,7 @@ public class Utils {
 	 * @throws IllegalArgumentException if the array is null or empty
 	 */
 	public static void valid(String name, Object[] a) throws IllegalArgumentException {
-		notEmpty(name,a);
+		notNull(name,a);
 		for (Object e : a)
 			notNull(name+"'s element", e);
 	}
@@ -136,7 +136,7 @@ public class Utils {
 			return type.cast(o);
 		}
 		catch(ClassCastException e) {
-			throw new IllegalArgumentException("expected a "+type+ "found instead a "+o.getClass());
+			throw new AssertionError("expected a "+type+ "found instead a "+o.getClass());
 		}
 	}
 	

@@ -1,20 +1,43 @@
 package org.cotrix.user.dsl;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.trait.Status.*;
+
+import java.util.Collection;
 
 import org.cotrix.action.Action;
+import org.cotrix.domain.trait.Status;
 import org.cotrix.user.User;
+import org.cotrix.user.dsl.UserGrammar.UserChangeClause;
+import org.cotrix.user.dsl.UserGrammar.UserNewClause;
 import org.cotrix.user.po.UserPO;
 
-public class UserBuilder {
+public class UserBuilder implements UserNewClause, UserChangeClause {
 
 	private final UserPO po;
 	
 	public UserBuilder(String id) {
-		po = new UserPO(id);
 		
-		//use as default for full name too
-		fullName(id);
+		valid("identifier",id);
+		
+		po = new UserPO(id);
+		po.setChange(Status.MODIFIED);
+	}
+	
+	public UserBuilder() {
+		po = new UserPO(null);
+	}
+	
+	@Override
+	public User delete() {
+		po.setChange(DELETED);
+		return build();
+	}
+	
+	public UserBuilder name(String name) {
+		valid("user name",name);
+		po.setName(name);
+		return this;
 	}
 	
 	public UserBuilder can(Action ... actions) {
@@ -22,6 +45,12 @@ public class UserBuilder {
 		for (Action action : actions)
 			po.permissions().add(action);
 		return this;
+	}
+	
+	@Override
+	public UserBuilder can(Collection<Action> actions) {
+		
+		return can(actions.toArray(new Action[0]));
 	}
 	
 	public UserBuilder cannot(Action ... actions) {
@@ -32,8 +61,8 @@ public class UserBuilder {
 	}
 	
 	public UserBuilder fullName(String name) {
-		valid("user name", name);
-		po.setName(name);
+		valid("user's full name", name);
+		po.setFullName(name);
 		return this;
 	}
 	

@@ -4,7 +4,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.DeltaClause;
+import org.cotrix.domain.dsl.grammar.CommonClauses.DeleteClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 
 /**
@@ -16,10 +16,9 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 public class AttributeGrammar {
 
 	
-	public static interface AttributeStartClause extends NameClause<ValueClause>, DeltaClause<ChangeClause,Attribute> {	}
+	public static interface AttributeStartClause extends NameClause<ValueClause> {	}
 		
-
-	public static interface ChangeClause extends NameClause<ValueClause>, ValueClause, TypeClause, LanguageClause {}
+	public static interface AttributeDeltaClause extends DeleteClause<Attribute>, NameClause<ValueClause>, ValueClause, TypeClause, LanguageClause {}
 
 	public static interface ValueClause extends BuildClause<Attribute> {
 		

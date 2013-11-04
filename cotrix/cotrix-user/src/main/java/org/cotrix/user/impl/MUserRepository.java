@@ -1,12 +1,16 @@
-package org.cotrix.repository.memory;
+package org.cotrix.user.impl;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
+import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.repository.UserRepository;
+import org.cotrix.repository.memory.MRepository;
+import org.cotrix.repository.memory.MStore;
 import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
+import org.cotrix.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,36 +24,31 @@ import org.slf4j.LoggerFactory;
 public class MUserRepository extends MRepository<User, User.Private> implements UserRepository {
 
 	private static Logger log = LoggerFactory.getLogger(MUserRepository.class);
-	
+
 	/**
 	 * Creates an instance over a private {@link MStore}.
 	 */
-	public MUserRepository() {
-		this(new MStore());
+	@Inject
+	public MUserRepository(IdGenerator generator) {
+		this(new MStore(),generator);
 	}
-	
-	@PostConstruct
-	public void loadPredefinedUsers() {
-		
-		log.info("loading predefined users");
-		
-		for (User user : PredefinedUsers.values)
-			this.add(user);
-	}
+
 	
 	/**
 	 * Creates an instance over a given {@link MStore}.
 	 * @param store
 	 */
-	public MUserRepository(MStore store) {
-		super(store,User.class,User.Private.class);
+	public MUserRepository(MStore store,IdGenerator generator) {
+		super(store,User.class,User.Private.class,generator);
 	}
 	
-	@Override
-	public void add(User list) {
+	@PostConstruct
+	public void loadPredefinedUsers() {
 		
-		super.add(list);
+		log.info("loading predefined users "+PredefinedUsers.values);
 		
+		for (User user : PredefinedUsers.values)
+			this.add(user);
 	}
 	
 }
