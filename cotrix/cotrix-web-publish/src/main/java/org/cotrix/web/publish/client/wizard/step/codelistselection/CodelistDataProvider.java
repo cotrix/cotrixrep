@@ -8,7 +8,7 @@ import java.util.List;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.ColumnSortList;

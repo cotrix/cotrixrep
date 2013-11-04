@@ -17,6 +17,9 @@ public class CotrixPublishAppControllerImpl implements CotrixPublishAppControlle
 	protected PublishWizardPresenter presenter;
 	
 	@Inject
+	protected PublishController controller;
+	
+	@Inject
 	public CotrixPublishAppControllerImpl() {
 	}
 

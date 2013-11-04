@@ -1,0 +1,19 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
+		field="common" />
+	<ui:style
+		type="org.cotrix.web.publish.client.util.AttributeDefinitionPanel.Style">
+			
+			.listBoxError {
+				float: left;
+				border: 2px solid #df484f;
+			}
+		</ui:style>
+		<g:HorizontalPanel verticalAlignment="middle">
+			<g:ListBox ui:field="typeList" styleName="{common.css.listBox}" width="150px"/>
+			<g:Label ui:field="inLabel" styleName="{common.css.paddedText}">in</g:Label>
+			<g:ListBox ui:field="languageList" styleName="{common.css.listBox}" />
+		</g:HorizontalPanel>
+</ui:UiBinder> 

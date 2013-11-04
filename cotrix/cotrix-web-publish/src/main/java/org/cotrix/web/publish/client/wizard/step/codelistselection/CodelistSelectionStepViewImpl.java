@@ -1,12 +1,11 @@
 package org.cotrix.web.publish.client.wizard.step.codelistselection;
 
-import org.cotrix.web.publish.client.resources.Resources;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.resources.DataGridListResource;
 import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.client.widgets.SelectionCheckBoxCell;
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.ClickableTextCell;
@@ -70,7 +69,6 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		
-		//TODO we should use ResizeComposite instead of Composite
 		//The problem would be in the DeckLayoutPanel that don't call onresize
 		if (visible) dataGrid.onResize();
 	}

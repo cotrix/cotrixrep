@@ -3,6 +3,8 @@ package org.cotrix.web.publish.server;
 import static org.cotrix.repository.Queries.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,11 +13,17 @@ import javax.servlet.ServletException;
 
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.web.publish.client.PublishService;
+import org.cotrix.web.publish.shared.PublishServiceException;
+import org.cotrix.web.publish.shared.ReportLog;
 import org.cotrix.web.share.server.util.CodelistLoader;
+import org.cotrix.web.share.server.util.Codelists;
+import org.cotrix.web.share.server.util.Ranges;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,30 +64,57 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		
 		
 		//CodelistQuery<Code> query = allCodes(codelistId);
-		int from = range.getStart();
+		/*int from = range.getStart();
 		int to = range.getStart() + range.getLength();
-		logger.trace("query range from: {} to: {}", from ,to);
+		logger.trace("query range from: {} to: {}", from ,to);*/
 		//query.setRange(new Range(from, to));
 		
 		//FIXME use ranges
-		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
+		CodelistQuery<Codelist> query =	allLists();
+		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(query).iterator();
 		
-		List<UICodelist> codelists = new ArrayList<UICodelist>(range.getLength());
+		List<Codelist> codelists = new ArrayList<Codelist>();
+		while(it.hasNext()) codelists.add(it.next());
 		
-		int count = 0;
-		while(it.hasNext() && count<to) {
-			count++;
-			if (count<from) continue;
-			Codelist codelist = it.next();
+		Comparator<Codelist> comparator = Codelists.NAME_COMPARATOR;
+		if (sortInfo.getName()!=null && sortInfo.getName().equals(UICodelist.VERSION_FIELD)) comparator = Codelists.VERSION_COMPARATOR;
+		
+		Collections.sort(codelists, comparator);
+		
+		List<Codelist> data = (sortInfo.isAscending())?Ranges.subList(codelists, range):Ranges.subListReverseOrder(codelists, range);
+		
+		List<UICodelist> uicodelists = toUICodelists(data);
+		
+		return new DataWindow<UICodelist>(uicodelists);
+	}
+	
+	protected List<UICodelist> toUICodelists(List<Codelist> codelists)
+	{
+		List<UICodelist> uicodelists = new ArrayList<UICodelist>(codelists.size());
+		for (Codelist codelist:codelists) {
 			UICodelist uiCodelist = new UICodelist();
 			uiCodelist.setId(codelist.id());
 			uiCodelist.setName(codelist.name().getLocalPart());
 			uiCodelist.setVersion(codelist.version());
-			codelists.add(uiCodelist);
+			uicodelists.add(uiCodelist);
 		}
-		
-		
-		return new DataWindow<UICodelist>(codelists);
+		return uicodelists;
+	}
+	
+	@Override
+	public CodelistMetadata getMetadata(String codelistId) throws PublishServiceException {
+		logger.trace("getMetadata codelistId: {}", codelistId);
+		Codelist codelist = repository.lookup(codelistId);
+		return Codelists.toCodelistMetadata(codelist);
+	}
+	
+	
+
+	@Override
+	public DataWindow<ReportLog> getReportLogs(Range range)
+			throws PublishServiceException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

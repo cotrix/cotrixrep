@@ -1,13 +1,13 @@
 package org.cotrix.web.publish.client.wizard.step.codelistselection;
 
+import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.share.client.wizard.event.NavigationEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -49,26 +49,26 @@ public class CodelistSelectionStepPresenterImpl extends AbstractVisualWizardStep
 	}
 
 	public boolean leave() {
-		/*Log.trace("SelectionStep leaving: "+(detailsNodeSelector.toDetails() || selectedAsset!=null));
-		return detailsNodeSelector.toDetails() || selectedAsset!=null;*/
-		return true;
+		Log.trace("SelectionStep leaving: "+(selectedCodelist!=null));
+		return selectedCodelist!=null;
 	}
 
 	@Override
 	public void codelistSelected(UICodelist codelist) {
-		Log.trace("Codelist selected "+codelist);
+		Log.trace("Codelist selected "+codelist+" selectedCodelist: "+selectedCodelist);
 		if (selectedCodelist!=null && selectedCodelist.equals(codelist)) return;
 		
 		this.selectedCodelist = codelist;
-		//importEventBus.fireEvent(new CodeListSelectedEvent(selectedAsset));
+		Log.trace("selectedCodelist: "+selectedCodelist);
+		publishEventBus.fireEvent(new CodeListSelectedEvent(codelist));
 	}
 
 	@Override
 	public void codelistDetails(UICodelist codelist) {
 		
 		/*codelistDetailsPresenter.setAsset(asset);
-		detailsNodeSelector.switchToCodeListDetails();*/
-		publishEventBus.fireEvent(NavigationEvent.FORWARD);
+		detailsNodeSelector.switchToCodeListDetails();
+		publishEventBus.fireEvent(NavigationEvent.FORWARD);*/
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class CodelistSelectionStepPresenterImpl extends AbstractVisualWizardStep
 	@Override
 	public void repositoryDetails(String repositoryId) {
 		/*repositoryDetailsPresenter.setRepository(repositoryId);
-		detailsNodeSelector.switchToRepositoryDetails();*/
-		publishEventBus.fireEvent(NavigationEvent.FORWARD);
+		detailsNodeSelector.switchToRepositoryDetails();
+		publishEventBus.fireEvent(NavigationEvent.FORWARD);*/
 	}
 }

@@ -17,7 +17,7 @@ public class FormatTypeChangeEvent extends GwtEvent<FormatTypeChangeEvent.Format
 	private FormatType formatType;
 
 	public interface FormatTypeChangeHandler extends EventHandler {
-		void onSourceTypeChange(FormatTypeChangeEvent event);
+		void onFormatTypeChange(FormatTypeChangeEvent event);
 	}
 
 	public FormatTypeChangeEvent(FormatType formatType) {
@@ -30,7 +30,7 @@ public class FormatTypeChangeEvent extends GwtEvent<FormatTypeChangeEvent.Format
 
 	@Override
 	protected void dispatch(FormatTypeChangeHandler handler) {
-		handler.onSourceTypeChange(this);
+		handler.onFormatTypeChange(this);
 	}
 
 	@Override

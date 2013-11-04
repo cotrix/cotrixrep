@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.codelistselection;
 
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.google.gwt.user.client.ui.Widget;
 
