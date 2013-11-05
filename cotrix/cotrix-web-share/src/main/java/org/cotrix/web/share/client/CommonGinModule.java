@@ -6,6 +6,7 @@ import org.cotrix.web.share.client.feature.FeatureBus;
 import org.cotrix.web.share.client.feature.FeatureInterceptor;
 import org.cotrix.web.share.client.rpc.CallBackListenerManager;
 import org.cotrix.web.share.client.rpc.CotrixRemoteServiceProxy;
+import org.cotrix.web.share.client.util.StatusUpdates;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
@@ -61,6 +62,7 @@ public class CommonGinModule extends AbstractGinModule {
 		requestStaticInjection(FeatureBinder.class);
 		requestStaticInjection(FeatureInterceptor.class);
 		requestStaticInjection(CotrixRemoteServiceProxy.class);
+		requestStaticInjection(StatusUpdates.class);
 	}
 
 }
