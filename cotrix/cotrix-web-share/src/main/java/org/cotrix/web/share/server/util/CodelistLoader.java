@@ -18,11 +18,11 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.io.map.MapService;
-import org.cotrix.io.parse.ParseService;
-import org.cotrix.io.tabular.ColumnDirectives;
-import org.cotrix.io.tabular.TableMapDirectives;
-import org.cotrix.io.tabular.csv.CsvParseDirectives;
+import org.cotrix.io.MapService;
+import org.cotrix.io.ParseService;
+import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
+import org.cotrix.io.tabular.map.ColumnDirectives;
+import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
@@ -77,7 +77,7 @@ public class CodelistLoader {
 		logger.trace("importCodelist resourceName: {}, codeColumnName: {}", codelistInfo.getResourceName(), codelistInfo.getCodeColumnName());
 		try {
 			InputStream inputStream = CodelistLoader.class.getResourceAsStream(codelistInfo.getResourceName());
-			CsvParseDirectives parseDirectives = new CsvParseDirectives();
+			Csv2TableDirectives parseDirectives = new Csv2TableDirectives();
 			parseDirectives.options().hasHeader(true);
 			parseDirectives.options().setDelimiter('\t');
 			parseDirectives.options().setQuote('"');
@@ -94,7 +94,7 @@ public class CodelistLoader {
 			}
 			if (codeColumn == null) throw new IllegalArgumentException("Column with name "+codelistInfo.getCodeColumnName()+" not found");
 
-			TableMapDirectives mappingDirectives = new TableMapDirectives(codeColumn);
+			Table2CodelistDirectives mappingDirectives = new Table2CodelistDirectives(codeColumn);
 			mappingDirectives.name(codelistInfo.getResourceName().substring(0, codelistInfo.getResourceName().lastIndexOf('.')));
 			mappingDirectives.version(codelistInfo.getVersion());
 

@@ -5,8 +5,8 @@ package org.cotrix.web.importwizard.server.climport;
 
 import java.io.InputStream;
 
-import org.cotrix.io.parse.ParseDirectives;
-import org.cotrix.io.parse.ParseService;
+import org.cotrix.io.ParseService;
+import org.cotrix.io.ParseService.ParseDirectives;
 import org.virtualrepository.Asset;
 import org.virtualrepository.VirtualRepository;
 

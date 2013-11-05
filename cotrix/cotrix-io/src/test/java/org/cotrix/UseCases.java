@@ -6,15 +6,17 @@ import javax.xml.namespace.QName;
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.Channels;
-import org.cotrix.io.PublicationService;
-import org.cotrix.io.map.MapService;
-import org.cotrix.io.sdmx.SdmxMapDirectives;
-import org.cotrix.io.sdmx.SdmxPublishDirectives;
+import org.cotrix.io.MapService;
+import org.cotrix.io.SerialisationService;
+import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
+import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
+import org.virtualrepository.RepositoryService;
 import org.virtualrepository.VirtualRepository;
+import org.virtualrepository.sdmx.SdmxCodelist;
 
 import com.googlecode.jeeunit.JeeunitRunner;
 
@@ -28,7 +30,7 @@ public class UseCases {
 	VirtualRepository repository;
 
 	@Inject
-	PublicationService publicationService;
+	SerialisationService serialiser;
 	
 	
 	@Test
@@ -42,8 +44,8 @@ public class UseCases {
 
 		CodelistBean bean = repository.retrieve(codelist, CodelistBean.class);
 		
-		//import codelist with Cotrix import service (no mapping customisations, we do not have a Cotrix user)
-		Outcome<Codelist> outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT);
+		//import codelist with Cotrix import serialiser (no mapping customisations, we do not have a Cotrix user)
+		Outcome<Codelist> outcome = mapper.map(bean, Sdmx2CodelistDirectives.DEFAULT);
 
 		Codelist importedCodelist = outcome.result();
 		
@@ -51,8 +53,11 @@ public class UseCases {
 		QName channelName = new QName("semantic-repository");
 		
 		//publish imported codelist (no mapping customisations, we do not have a Cotrix user)
-		publicationService.publish(importedCodelist,SdmxPublishDirectives.DEFAULT,channelName);
+		Outcome<CodelistBean> outcome2 = mapper.map(importedCodelist,Codelist2SdmxDirectives.DEFAULT);
 
+		RepositoryService service = repository.services().lookup(channelName);
+		
+		repository.publish(new SdmxCodelist(codelist.name(),service), outcome2.result());
 	}
 
 }

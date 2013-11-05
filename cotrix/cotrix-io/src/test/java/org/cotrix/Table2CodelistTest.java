@@ -3,7 +3,7 @@ package org.cotrix;
 import static java.util.Arrays.*;
 import static junit.framework.Assert.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.io.tabular.ColumnDirectives.*;
+import static org.cotrix.io.tabular.map.ColumnDirectives.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +14,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codelist;
-import org.cotrix.io.tabular.Table2Codelist;
-import org.cotrix.io.tabular.TableMapDirectives;
+import org.cotrix.io.tabular.map.Table2Codelist;
+import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.junit.Test;
 import org.virtualrepository.tabular.Column;
 import org.virtualrepository.tabular.DefaultTable;
@@ -31,7 +31,7 @@ public class Table2CodelistTest {
 
 		Table table = tableWith(data,"c1","c2");
 
-		TableMapDirectives directives = new TableMapDirectives("c1");
+		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
 		
 		Table2Codelist transform = new Table2Codelist(directives);
 		
@@ -53,7 +53,7 @@ public class Table2CodelistTest {
 
 		Table table = tableWith(data,"c1","c2");
 
-		TableMapDirectives directives = new TableMapDirectives("c1");
+		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
 		
 		String name = "list";
 		directives.name(name);
@@ -88,7 +88,7 @@ public class Table2CodelistTest {
 		Table table = tableWith(data,"c1","c2","c3");
 
 
-		TableMapDirectives directives = new TableMapDirectives("c1");
+		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
 		
 		directives.add(column("c2").language("en")).
 				   add(column("c3").name("attr").type("type"));

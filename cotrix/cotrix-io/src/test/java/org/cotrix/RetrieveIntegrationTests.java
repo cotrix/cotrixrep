@@ -5,8 +5,8 @@ import javax.inject.Inject;
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.Channels;
-import org.cotrix.io.map.MapService;
-import org.cotrix.io.sdmx.SdmxMapDirectives;
+import org.cotrix.io.MapService;
+import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
@@ -43,7 +43,7 @@ public class RetrieveIntegrationTests {
 		
 		CodelistBean bean = repository.retrieve(codelist, CodelistBean.class);
 		
-		Outcome<Codelist> outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT); 
+		Outcome<Codelist> outcome = mapper.map(bean, Sdmx2CodelistDirectives.DEFAULT); 
 		
 		System.out.println(outcome.result());
 	}
@@ -62,7 +62,7 @@ public class RetrieveIntegrationTests {
 //		
 //		if (srCodelist!=null) {
 //			CodelistBean appbean = repository.retrieve(srCodelist, CodelistBean.class);
-//			Outcome outcome = mapper.map(appbean, SdmxMapDirectives.DEFAULT); 
+//			Outcome outcome = mapper.map(appbean, Sdmx2CodelistDirectives.DEFAULT); 
 //			System.out.println(outcome.result());
 //		}
 //	}

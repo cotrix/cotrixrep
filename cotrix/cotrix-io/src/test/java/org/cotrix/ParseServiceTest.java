@@ -6,9 +6,9 @@ import java.io.InputStream;
 
 import javax.inject.Inject;
 
-import org.cotrix.io.parse.ParseService;
-import org.cotrix.io.sdmx.SdmxParseDirectives;
-import org.cotrix.io.tabular.csv.CsvParseDirectives;
+import org.cotrix.io.ParseService;
+import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
+import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
@@ -37,7 +37,7 @@ public class ParseServiceTest {
 		
 		InputStream stream = getClass().getClassLoader().getResourceAsStream("sampleasfiscsv.txt");
 		
-		CsvParseDirectives directives = new CsvParseDirectives();
+		Csv2TableDirectives directives = new Csv2TableDirectives();
 		
 		directives.options().setDelimiter('\t');
 		directives.options().hasHeader(true);
@@ -54,7 +54,7 @@ public class ParseServiceTest {
 		
 		InputStream stream = getClass().getClassLoader().getResourceAsStream("samplenoheader.txt");
 		
-		CsvParseDirectives directives = new CsvParseDirectives();
+		Csv2TableDirectives directives = new Csv2TableDirectives();
 		
 		Table table = service.parse(stream, directives);
 		
@@ -71,7 +71,7 @@ public class ParseServiceTest {
 		
 		InputStream stream = getClass().getClassLoader().getResourceAsStream("sampleasfissdmx.xml");
 		
-		CodelistBean bean = service.parse(stream, SdmxParseDirectives.DEFAULT);
+		CodelistBean bean = service.parse(stream, Stream2SdmxDirectives.DEFAULT);
 		
 		assertNotNull(bean);
 		

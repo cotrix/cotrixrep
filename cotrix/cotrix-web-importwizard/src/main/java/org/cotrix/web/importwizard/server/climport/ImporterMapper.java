@@ -11,11 +11,11 @@ import javax.xml.namespace.QName;
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.utils.Constants;
-import org.cotrix.io.map.MapService;
+import org.cotrix.io.MapService;
 import org.cotrix.io.sdmx.SdmxElement;
-import org.cotrix.io.sdmx.SdmxMapDirectives;
-import org.cotrix.io.tabular.ColumnDirectives;
-import org.cotrix.io.tabular.TableMapDirectives;
+import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
+import org.cotrix.io.tabular.map.ColumnDirectives;
+import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
@@ -58,7 +58,7 @@ public interface ImporterMapper<T> {
 			
 			Column column = new Column(codeAttribute.getField().getId());
 			
-			TableMapDirectives directives = new TableMapDirectives(column);
+			Table2CodelistDirectives directives = new Table2CodelistDirectives(column);
 			for (ColumnDirectives directive:columnDirectives) directives.add(directive);
 			
 			directives.name(metadata.getName());
@@ -77,7 +77,7 @@ public interface ImporterMapper<T> {
 				directive.name(definition.getName());
 				directive.language(definition.getLanguage());
 				directive.type(getType(definition.getType()));
-			} else directive.mode(org.cotrix.io.tabular.MappingMode.IGNORE);
+			} else directive.mode(org.cotrix.io.tabular.map.MappingMode.IGNORE);
 			
 			return directive;
 		}
@@ -92,13 +92,13 @@ public interface ImporterMapper<T> {
 			}
 		}
 		
-		protected org.cotrix.io.tabular.MappingMode convertMappingMode(MappingMode mode)
+		protected org.cotrix.io.tabular.map.MappingMode convertMappingMode(MappingMode mode)
 		{
 			if (mode == null) return null;
 			switch (mode) {
-				case IGNORE: return org.cotrix.io.tabular.MappingMode.IGNORE;
-				case LOG: return org.cotrix.io.tabular.MappingMode.LOG;
-				case STRICT: return org.cotrix.io.tabular.MappingMode.STRICT;
+				case IGNORE: return org.cotrix.io.tabular.map.MappingMode.IGNORE;
+				case LOG: return org.cotrix.io.tabular.map.MappingMode.LOG;
+				case STRICT: return org.cotrix.io.tabular.map.MappingMode.STRICT;
 				default: throw new IllegalArgumentException("Uncovertible mapping mode "+mode);
 			}
 		}
@@ -121,7 +121,7 @@ public interface ImporterMapper<T> {
 		@Override
 		public Outcome<Codelist> map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, CodelistBean codelist) {
 			
-			SdmxMapDirectives directives = new SdmxMapDirectives();
+			Sdmx2CodelistDirectives directives = new Sdmx2CodelistDirectives();
 			
 			for (AttributeMapping mapping:mappings) setDirective(directives, mapping);
 			
@@ -131,7 +131,7 @@ public interface ImporterMapper<T> {
 			return mapper.map(codelist, directives);
 		}
 		
-		protected void setDirective(SdmxMapDirectives directives, AttributeMapping mapping) {
+		protected void setDirective(Sdmx2CodelistDirectives directives, AttributeMapping mapping) {
 			SdmxElement element = SdmxElement.valueOf(mapping.getField().getId());
 			if (mapping.isMapped()) {
 				AttributeDefinition definition = mapping.getAttributeDefinition();

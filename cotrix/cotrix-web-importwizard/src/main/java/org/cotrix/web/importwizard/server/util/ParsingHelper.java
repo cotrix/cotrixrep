@@ -11,9 +11,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.io.parse.ParseService;
-import org.cotrix.io.sdmx.SdmxParseDirectives;
-import org.cotrix.io.tabular.csv.CsvParseDirectives;
+import org.cotrix.io.ParseService;
+import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
+import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.share.shared.CsvParserConfiguration;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
@@ -53,7 +53,7 @@ public class ParsingHelper {
 	public Table parse(CsvParserConfiguration parserConfiguration, InputStream inputStream)
 	{
 
-		CsvParseDirectives directives = getDirectives(parserConfiguration);
+		Csv2TableDirectives directives = getDirectives(parserConfiguration);
 
 		logger.trace("parsing");
 		Table table = service.parse(inputStream, directives);
@@ -62,16 +62,16 @@ public class ParsingHelper {
 	}
 	
 	public CodelistBean parse(InputStream inputStream) {
-		SdmxParseDirectives directives = SdmxParseDirectives.DEFAULT;
+		Stream2SdmxDirectives directives = Stream2SdmxDirectives.DEFAULT;
 		
 		logger.trace("parsing");
 		CodelistBean codelistBean = service.parse(inputStream, directives);
 		return codelistBean;
 	}
 	
-	public CsvParseDirectives getDirectives(CsvParserConfiguration configuration)
+	public Csv2TableDirectives getDirectives(CsvParserConfiguration configuration)
 	{
-		CsvParseDirectives directives = new CsvParseDirectives();
+		Csv2TableDirectives directives = new Csv2TableDirectives();
 		directives.options().hasHeader(configuration.isHasHeader());
 		directives.options().setDelimiter(configuration.getFieldSeparator());
 		directives.options().setQuote(configuration.getQuote());

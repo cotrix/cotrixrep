@@ -5,17 +5,12 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import javax.inject.Inject;
-import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Codelist;
-import org.cotrix.io.PublicationService;
-import org.cotrix.io.sdmx.SdmxPublishDirectives;
+import org.cotrix.io.SerialisationService;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.virtual.sdmxregistry.GCubeProxy;
-import org.virtual.sdmxregistry.GCubeRegistry;
-import org.virtualrepository.RepositoryService;
 import org.virtualrepository.VirtualRepository;
 
 import com.googlecode.jeeunit.JeeunitRunner;
@@ -38,7 +33,7 @@ public class PublishIntegrationTests {
 	
 	
 	@Inject
-	PublicationService publisher;
+	SerialisationService publisher;
 	
 	@Inject
 	VirtualRepository repository;
@@ -88,7 +83,7 @@ public class PublishIntegrationTests {
 //		CSV2Codelist directives = new CSV2Codelist(mapping, options);
 //		
 //		
-//		Outcome<Codelist> outcome = service.importCodelist(new FileInputStream(file),directives);
+//		Outcome<Codelist> outcome = serialiser.importCodelist(new FileInputStream(file),directives);
 //		
 //		System.out.println(outcome.report());
 //		
@@ -101,16 +96,16 @@ public class PublishIntegrationTests {
 //		assertEquals(asfisName, asfis.name());
 		
 	}
-	
-	@Test
-	public void publishedInSdmxWithDefaultDirectives() throws Exception {
-		
-		GCubeRegistry registry = new GCubeRegistry(new QName("test"), "/gcube/devsec");
-		GCubeProxy proxy = new GCubeProxy(registry);
-		RepositoryService testService = new RepositoryService(registry.name(), proxy);
-		
-		repository.services().add(testService);
-		
-		publisher.publish(codelist,SdmxPublishDirectives.DEFAULT,registry.name());
-	}
+//	
+//	@Test
+//	public void mapCodelist2Sdmx() throws Exception {
+//		
+//		GCubeRegistry registry = new GCubeRegistry(new QName("test"), "/gcube/devsec");
+//		GCubeProxy proxy = new GCubeProxy(registry);
+//		RepositoryService testService = new RepositoryService(registry.name(), proxy);
+//		
+//		repository.services().add(testService);
+//		
+//		publisher.publish(codelist,Codelist2SdmxDirectives.DEFAULT,registry.name());
+//	}
 }

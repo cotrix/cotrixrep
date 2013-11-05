@@ -1,6 +1,6 @@
 package org.cotrix;
 
-import static org.cotrix.io.tabular.ColumnDirectives.*;
+import static org.cotrix.io.tabular.map.ColumnDirectives.*;
 
 import java.io.InputStream;
 
@@ -8,12 +8,12 @@ import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.Codelist;
-import org.cotrix.io.map.MapService;
-import org.cotrix.io.parse.ParseService;
-import org.cotrix.io.sdmx.SdmxMapDirectives;
-import org.cotrix.io.sdmx.SdmxParseDirectives;
-import org.cotrix.io.tabular.TableMapDirectives;
-import org.cotrix.io.tabular.csv.CsvParseDirectives;
+import org.cotrix.io.MapService;
+import org.cotrix.io.ParseService;
+import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
+import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
+import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
+import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
@@ -39,9 +39,9 @@ public class UploadIntegrationTests {
 		
 		InputStream stream = getClass().getClassLoader().getResourceAsStream("sampleasfissdmx.xml");
 		
-		CodelistBean bean = parser.parse(stream, SdmxParseDirectives.DEFAULT);
+		CodelistBean bean = parser.parse(stream, Stream2SdmxDirectives.DEFAULT);
 		
-		Outcome<Codelist> outcome = mapper.map(bean, SdmxMapDirectives.DEFAULT);
+		Outcome<Codelist> outcome = mapper.map(bean, Sdmx2CodelistDirectives.DEFAULT);
 		
 		System.out.println(outcome.result());
 	}
@@ -51,13 +51,13 @@ public class UploadIntegrationTests {
 		
 		InputStream stream = getClass().getClassLoader().getResourceAsStream("sampleasfiscsv.txt");
 		
-		CsvParseDirectives pDirectives = new CsvParseDirectives();
+		Csv2TableDirectives pDirectives = new Csv2TableDirectives();
 		pDirectives.options().hasHeader(true);
 		pDirectives.options().setDelimiter('\t');
 		
 		Table table = parser.parse(stream, pDirectives);
 		
-		TableMapDirectives mDirectives = new TableMapDirectives(new Column("3A_CODE"));
+		Table2CodelistDirectives mDirectives = new Table2CodelistDirectives(new Column("3A_CODE"));
 		
 		mDirectives.add(column("TAXOCODE"))
 				  .add(column("ISSCAAP"))

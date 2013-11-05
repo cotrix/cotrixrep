@@ -9,10 +9,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.io.map.MapService;
-import org.cotrix.io.parse.ParseDirectives;
-import org.cotrix.io.parse.ParseService;
-import org.cotrix.io.sdmx.SdmxParseDirectives;
+import org.cotrix.io.MapService;
+import org.cotrix.io.ParseService;
+import org.cotrix.io.ParseService.ParseDirectives;
+import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.importwizard.server.WizardImportSession;
@@ -98,7 +98,7 @@ public class ImporterFactory {
 	protected ImporterSource<CodelistBean> getSdmxSource(WizardImportSession session) throws IOException
 	{
 		if (session.getFileField()!=null) {
-			ParseDirectives<CodelistBean> parseDirectives = SdmxParseDirectives.DEFAULT;
+			ParseDirectives<CodelistBean> parseDirectives = Stream2SdmxDirectives.DEFAULT;
 			ImporterSource<CodelistBean> source = new ImporterSource.ParserSource<CodelistBean>(parseService, parseDirectives, session.getFileField().getInputStream());
 			return source;
 		} 

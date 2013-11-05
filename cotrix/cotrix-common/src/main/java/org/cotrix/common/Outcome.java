@@ -1,6 +1,7 @@
 package org.cotrix.common;
 
 
+
 /**
  * The outcome of a task.
  * 
@@ -18,9 +19,10 @@ public class Outcome<T> {
 	 * @param result the results
 	 */
 	public Outcome(T result) {
+		
 		this.result = result;
 		this.report = Report.report();
-		report.close();
+		
 	}
 
 	/**
@@ -41,7 +43,7 @@ public class Outcome<T> {
 	public T result() {
 
 		if (report.isFailure())
-			throw new RuntimeException("failed to publish ");// + result.name());
+			throw new RuntimeException("failed to perform task ");
 		else
 			return result;
 	}
