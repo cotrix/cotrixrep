@@ -20,6 +20,7 @@ public interface MenuView {
 	}
 	
 	public void setVisible(Menu menu, boolean visible);
+	public void setEnabled(Menu menu, boolean disabled);
 
 	void setPresenter(Presenter presenter);
 	Widget asWidget();

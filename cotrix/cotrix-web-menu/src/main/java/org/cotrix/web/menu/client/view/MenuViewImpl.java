@@ -1,5 +1,8 @@
 package org.cotrix.web.menu.client.view;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -28,9 +31,12 @@ public class MenuViewImpl extends Composite implements MenuView {
 
 	@UiField Style style;
 
+	protected Set<Menu> enabledMenu = EnumSet.noneOf(Menu.class);
 
 	interface Style extends CssResource {
 		String menuSelected();
+		String menuDisabled();
+		String menuLink();
 	}
 
 	private Presenter presenter;
@@ -54,6 +60,7 @@ public class MenuViewImpl extends Composite implements MenuView {
 			
 			@Override
 			public void onClick(ClickEvent event) {
+				if (!enabledMenu.contains(menu)) return;
 				resetMenu();
 				item.setStyleName(style.menuSelected(), true);
 				presenter.onMenuClicked(menu);
@@ -74,12 +81,26 @@ public class MenuViewImpl extends Composite implements MenuView {
 
 	@Override
 	public void setVisible(Menu menu, boolean visible) {
+		Label menuLabel = getLabel(menu);
+		menuLabel.setVisible(visible);
+	}
+	
+	@Override
+	public void setEnabled(Menu menu, boolean enabled) {
+		Label menuLabel = getLabel(menu);
+		menuLabel.setStyleName(style.menuLink(), enabled);
+		if (enabled) enabledMenu.add(menu);
+		else enabledMenu.remove(menu);
+	}
+	
+	protected Label getLabel(Menu menu) {
 		switch (menu) {
-			case HOME: homeMenu.setVisible(visible); break;
-			case IMPORT: importMenu.setVisible(visible); break;
-			case MANAGE: manageMenu.setVisible(visible); break;
-			case PUBLISH: publishMenu.setVisible(visible); break;
+			case HOME: return homeMenu;
+			case IMPORT: return importMenu;
+			case MANAGE: return manageMenu;
+			case PUBLISH: return publishMenu;
 		}
+		throw new IllegalArgumentException("The specified menu "+menu+" don't bind to a widget");
 	}
 
 }

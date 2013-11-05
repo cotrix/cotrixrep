@@ -70,6 +70,23 @@
 			cursor: pointer;
 		}
 		
+		.menuDisabled {
+			display: inline-block;
+			color: #aaaaaa;
+			padding: 14px 18px 26px 18px;
+			text-transform: uppercase;
+			text-decoration: none;
+			font-weight: normal;
+			font-size: 12px;
+			border-top: 5px solid transparent;
+			-webkit-transition: all 0.1s ease;
+			-moz-transition: all 0.1s ease;
+			-ms-transition: all 0.1s ease;
+			-o-transition: all 0.1s ease;
+			transition: all 0.1s ease;
+			margin: 0 -4px 0 0;
+		}
+		
 		.menuSelected {
 			background: #3f3f3f !important;
 			border-top: 5px solid #f66a03 !important;
@@ -81,16 +98,16 @@
 			<div class="{style.navigation}">
 				<ul class="{style.menu}">
 					<li class="{style.menuItem}">
-						<g:Label ui:field="homeMenu" styleName="{style.menuLink} {style.menuSelected}">Home</g:Label>
+						<g:Label ui:field="homeMenu" styleName="{style.menuDisabled}">Home</g:Label>
 					</li>
 					<li class="{style.menuItem}">
-						<g:Label ui:field="importMenu" styleName="{style.menuLink}">IMPORT</g:Label>
+						<g:Label ui:field="importMenu" styleName="{style.menuDisabled}">IMPORT</g:Label>
 					</li>
 					<li class="{style.menuItem}">
-						<g:Label ui:field="manageMenu" styleName="{style.menuLink}">MANAGE</g:Label>
+						<g:Label ui:field="manageMenu" styleName="{style.menuDisabled}">MANAGE</g:Label>
 					</li>
 					<li class="{style.menuItem}">
-						<g:Label ui:field="publishMenu" styleName="{style.menuLink}">PUBLISH</g:Label>
+						<g:Label ui:field="publishMenu" styleName="{style.menuDisabled}">PUBLISH</g:Label>
 					</li>
 				</ul>
 			</div>

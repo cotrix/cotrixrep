@@ -29,20 +29,27 @@ public class MenuPresenter implements MenuView.Presenter {
 		this.view = view;
 		this.view.setPresenter(this);
 		bindFeatures();
+		setDefaultMenus();
+	}
+	
+	protected void setDefaultMenus()
+	{
+		view.setEnabled(Menu.HOME, true);
+		view.setEnabled(Menu.MANAGE, true);
 	}
 	
 	protected void bindFeatures()
 	{
-		/*FeatureBinder.bind(new HasFeature() {
+		FeatureBinder.bind(new HasFeature() {
 			
 			@Override
 			public void unsetFeature() {
-				view.setVisible(Menu.IMPORT, false);
+				view.setEnabled(Menu.IMPORT, false);
 			}
 			
 			@Override
 			public void setFeature() {
-				view.setVisible(Menu.IMPORT, true);
+				view.setEnabled(Menu.IMPORT, true);
 			}
 		}, ApplicationFeatures.IMPORT_CODELIST);
 		
@@ -50,14 +57,14 @@ public class MenuPresenter implements MenuView.Presenter {
 			
 			@Override
 			public void unsetFeature() {
-				view.setVisible(Menu.PUBLISH, false);
+				view.setEnabled(Menu.PUBLISH, false);
 			}
 			
 			@Override
 			public void setFeature() {
-				view.setVisible(Menu.PUBLISH, true);
+				view.setEnabled(Menu.PUBLISH, true);
 			}
-		}, ApplicationFeatures.PUBLISH_CODELIST);*/
+		}, ApplicationFeatures.PUBLISH_CODELIST);
 	}
 	
 	public void go(HasWidgets container) {
