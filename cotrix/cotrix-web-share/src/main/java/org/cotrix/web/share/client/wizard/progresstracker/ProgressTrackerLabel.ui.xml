@@ -7,14 +7,14 @@
 			text-align: center;
 			float: left;
 			color: #89d488;
-			font-weight: bold;
+			font-weight: normal;
 		}
 		.inactive{
 			width: 130px;
 			text-align: center;
 			float: left;
 			color: #ddd;
-			font-weight: bold;
+			font-weight: normal;
 		}
  
 	</ui:style>

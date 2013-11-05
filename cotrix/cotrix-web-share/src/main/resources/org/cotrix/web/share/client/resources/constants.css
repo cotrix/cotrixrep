@@ -1,0 +1,18 @@
+/* COLORS */
+//Header title, menu selection
+@def ORANGE #f66a03;
+
+//Header subtitle, footer text
+@def GRAY #ccc;
+
+//Header/Footer background
+@def DARKGRAY #363636;
+
+@def WHITE #ffffff;
+
+/* FONT */
+@def BOLD bold;
+@def NORMAL normal;
+
+/* SIZES */
+

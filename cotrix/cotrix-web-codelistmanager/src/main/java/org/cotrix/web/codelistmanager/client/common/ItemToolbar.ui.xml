@@ -8,12 +8,19 @@
 			background-color: #f1f1f1;
 			vertical-align: middle;
 		}
+		
+		.box {
+			margin: 0 auto;
+			width: 40px;
+		}
+		
 		.plusButton {
 			float: left;
 			padding-top: 5px;
 			outline: none;
 			cursor: pointer;
 		}
+		
 		.minusButton {
 			float: right;
 			padding-top: 5px;
@@ -22,11 +29,13 @@
 		}
 	</ui:style>
 	<g:FlowPanel height="28px" styleName="{style.toolbar}">
-		<g:PushButton ui:field="plus" styleName="{style.plusButton}">
-			<g:upFace image="{resources.plus}" />
-		</g:PushButton>
-		<g:PushButton ui:field="minus" styleName="{style.minusButton}">
-			<g:upFace image="{resources.minus}" />
-		</g:PushButton>
+		<g:FlowPanel styleName="{style.box}">
+			<g:PushButton ui:field="plus" styleName="{style.plusButton}">
+				<g:upFace image="{resources.plus}" />
+			</g:PushButton>
+			<g:PushButton ui:field="minus" styleName="{style.minusButton}">
+				<g:upFace image="{resources.minus}" />
+			</g:PushButton>
+		</g:FlowPanel>
 	</g:FlowPanel>
 </ui:UiBinder> 

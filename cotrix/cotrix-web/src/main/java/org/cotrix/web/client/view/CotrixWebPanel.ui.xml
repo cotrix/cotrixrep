@@ -12,13 +12,12 @@
 			vertical-align: middle;
 			font-size: 11px;
 			color: #999;
-			font-weight: bold;
+			font-weight: normal;
 		}
 		
 		.userBar {
 			background-color: #282828;
 			height: 25px;
-			
 		}
 		
 		.body {

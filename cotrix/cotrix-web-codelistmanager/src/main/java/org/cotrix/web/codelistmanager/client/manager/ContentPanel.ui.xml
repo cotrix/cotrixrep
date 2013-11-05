@@ -34,7 +34,6 @@
 			padding: 4px 4px 4px 8px;
 			cursor: pointer;
 			color: #888888;
-			font-weight: normal;
 			text-align: center;
 			background: #efefef;
 			-moz-border-radius: 6px 6px 0px 0px;
@@ -50,7 +49,7 @@
 		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected {
 			cursor: default;
 			background: white;
-			font-weight: bold;
+			font-weight: normal;
 		}
 		
 		@external .gwt-TabLayoutPanelTabs;

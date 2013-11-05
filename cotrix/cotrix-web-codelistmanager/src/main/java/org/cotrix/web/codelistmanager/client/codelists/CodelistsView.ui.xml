@@ -36,7 +36,6 @@
 			overflow: visible;
 			text-align: left;
 			color: #464545;
-			font-weight: normal;
 			font-size: 15px;
 			text-shadow: none;
 			background-color: #e9e9e9;
