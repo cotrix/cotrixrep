@@ -27,10 +27,8 @@ public class MRealm implements Realm<NameAndPassword> {
 	
 		log.info("loading predefined users");
 		
-		for (User user : PredefinedUsers.values) {
-			System.out.println(user.id());
-			pwds.put(user.id(),user.id());
-		}
+		for (User user : PredefinedUsers.values)
+			pwds.put(user.name(),user.name());
 	}
 	
 	@Override
@@ -42,8 +40,7 @@ public class MRealm implements Realm<NameAndPassword> {
 	public String login(NameAndPassword token) {
 		
 		String password = pwds.get(token.name());
-		
-		
+
 		return password!=null && password.equals(token.password())? token.name():null;
 	}
 }
