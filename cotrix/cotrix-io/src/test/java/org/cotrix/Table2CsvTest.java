@@ -59,15 +59,14 @@ public class Table2CsvTest {
 	public void serialiseWithHeader() {
 		
 		String[][] data = {{"1"}};
-
 		Table table = asTable(data,"c1");
 		
-		Table2CsvDirectives defaultDirectives = new Table2CsvDirectives();
-		defaultDirectives.options().hasHeader(true);
+		Table2CsvDirectives directives = new Table2CsvDirectives();
+		directives.options().hasHeader(true);
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
-		serialiser.serialise(table,out,defaultDirectives);
+		serialiser.serialise(table,out,directives);
 		
 		//read and assert round trip
 		Csv2TableDirectives parseDirectives = new Csv2TableDirectives();
@@ -76,7 +75,36 @@ public class Table2CsvTest {
 		Table parsed = parser.parse(new ByteArrayInputStream(out.toByteArray()), parseDirectives);
 
 		System.out.println(table);
-		System.out.println(parsed);
+		System.out.println(serialise(parsed));
+
+		assertEquals(parsed,table);
+	}
+	
+	@Test
+	public void serialiseWithCustoms() {
+		
+		String[][] data = {{"1","2"}};
+		Table table = asTable(data,"c1","c2");
+		
+		Table2CsvDirectives directives = new Table2CsvDirectives();
+		directives.options().hasHeader(true);
+		directives.options().setDelimiter('*');
+		directives.options().setQuote('"');
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
+		serialiser.serialise(table,out,directives);
+		
+		//read and assert round trip
+		Csv2TableDirectives parseDirectives = new Csv2TableDirectives();
+		parseDirectives.options().hasHeader(true);
+		parseDirectives.options().setDelimiter('*');
+		parseDirectives.options().setQuote('"');
+		
+		Table parsed = parser.parse(new ByteArrayInputStream(out.toByteArray()), parseDirectives);
+
+		System.out.println(table);
+		System.out.println(serialise(parsed));
 
 		assertEquals(parsed,table);
 	}

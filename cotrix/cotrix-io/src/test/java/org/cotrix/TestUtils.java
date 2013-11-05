@@ -58,10 +58,20 @@ public class TestUtils {
 		return new DefaultTable(asList(columns), rows);
 	}
 	
-	public static void assertEquals(Table table1,Table table2) {
-		//tables are streamed and cannot easily establish equivalence, resort to their string serialisation for now
-		Assert.assertEquals(table1.toString(), table2.toString());
+	public static String serialise(Table table) {
+		
+		StringBuilder builder = new StringBuilder(table.toString()+"\n");
+		for (Row r : table)
+			builder.append(r);
+		
+		return builder.toString();
 	}
+	public static void assertEquals(Table table1,Table table2) {
+		
+		Assert.assertEquals(table1.toString(), table2.toString());
+		
+	}
+	
 	public static void assertEquals(Table table,String[][] data) {
 		
 		int i = 0;

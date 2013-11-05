@@ -30,6 +30,12 @@ public class Table2Csv implements SerialisationTask<Table,Table2CsvDirectives> {
 		
 		List<String> values = new ArrayList<String>();
 		
+		if (opts.hasHeader()) {
+			for (Column column : table.columns())
+				values.add(column.name().toString());
+			writer.writeNext(values.toArray(new String[0]));
+		}
+		
 		for (Row row : table) {
 			values.clear();
 			for (Column column : table.columns())
