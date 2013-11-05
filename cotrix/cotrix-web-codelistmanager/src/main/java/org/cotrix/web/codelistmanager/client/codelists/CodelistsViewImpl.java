@@ -8,6 +8,7 @@ import org.cotrix.web.codelistmanager.client.resources.CodelistsResources;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup.Version;
 import org.cotrix.web.share.client.util.FilteredCachedDataProvider.Filter;
+import org.cotrix.web.share.client.util.SingleSelectionModel;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -25,7 +26,6 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 
 /**
@@ -94,6 +94,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 		selectionModel = new SingleSelectionModel<Version>();
 	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 	      public void onSelectionChange(SelectionChangeEvent event) {
+	    	  System.out.println("SELECTED "+event);
 	    	  Version selected = selectionModel.getSelectedObject();
 	        if (selected != null) {
 	        	presenter.onCodelistItemSelected(selected.toUICodelist());
