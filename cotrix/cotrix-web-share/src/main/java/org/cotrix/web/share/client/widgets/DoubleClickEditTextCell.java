@@ -5,6 +5,8 @@ import static com.google.gwt.dom.client.BrowserEvents.DBLCLICK;
 import static com.google.gwt.dom.client.BrowserEvents.KEYDOWN;
 import static com.google.gwt.dom.client.BrowserEvents.KEYUP;
 
+import org.cotrix.web.share.client.resources.CommonResources;
+
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.ValueUpdater;
@@ -30,8 +32,8 @@ import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
 public class DoubleClickEditTextCell extends AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
 
 	interface Template extends SafeHtmlTemplates {
-		@Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\"></input>")
-		SafeHtml input(String value);
+		@Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\" class=\"{1}\"></input>")
+		SafeHtml input(String value, String style);
 	}
 
 	/**
@@ -229,7 +231,7 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 				 * text input element is always treated as text. SafeHtml isn't
 				 * valid in the context of the value attribute.
 				 */
-				sb.append(template.input(text));
+				sb.append(template.input(text, CommonResources.INSTANCE.css().textBox()));
 				return;
 			} else {
 				// The user pressed enter, but view data still exists.
