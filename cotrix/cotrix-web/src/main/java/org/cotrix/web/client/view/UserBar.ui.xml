@@ -29,6 +29,7 @@
 		}
 	</ui:style>
 	<g:FlowPanel>
+	   <g:HorizontalPanel width="100%">
 		<g:FlowPanel styleName="{style.statusContainer}">
 			<g:InlineLabel styleName="{style.status}" ui:field="status" />
 		</g:FlowPanel>
@@ -39,6 +40,7 @@
 			<g:InlineLabel styleName="{style.active}" ui:field="login">Login</g:InlineLabel>
 			<g:InlineLabel styleName="{style.active}" ui:field="logout">Logout</g:InlineLabel>
 		</g:FlowPanel>
+		</g:HorizontalPanel>
 	</g:FlowPanel>
 
 </ui:UiBinder> 

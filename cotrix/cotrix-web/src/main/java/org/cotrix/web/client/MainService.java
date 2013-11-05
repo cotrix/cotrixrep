@@ -16,6 +16,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface MainService extends RemoteService {
 	
 	public ResponseWrapper<String> login(String user, String password, List<String> openCodelists);
-	public ResponseWrapper<String> logout();
+	public ResponseWrapper<String> logout(List<String> openCodelists);
 	
 }

@@ -8,6 +8,9 @@ import org.cotrix.web.codelistmanager.client.di.CodelistPanelFactory;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
 import org.cotrix.web.codelistmanager.client.event.OpenCodelistEvent;
 import org.cotrix.web.codelistmanager.client.event.OpenCodelistEvent.OpenCodeListHandler;
+import org.cotrix.web.share.client.event.CodelistClosedEvent;
+import org.cotrix.web.share.client.event.CodelistOpenedEvent;
+import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -29,6 +32,10 @@ public class ContentPanelController implements OpenCodeListHandler {
 	protected EventBus managerBus;
 	protected ContentPanel view;
 	protected Map<String, CodelistPanelPresenter> presenters = new HashMap<String, CodelistPanelPresenter>();
+	
+	@Inject
+	@CotrixBus
+	protected EventBus cotrixBus;
 	
 	@Inject
 	public ContentPanelController(@ManagerBus EventBus managerBus, ContentPanel view) {
@@ -58,6 +65,7 @@ public class ContentPanelController implements OpenCodeListHandler {
 		checkTabVisibility();
 		
 		view.setVisible(codelistPanel);
+		cotrixBus.fireEvent(new CodelistOpenedEvent(codelist.getId()));
 	}
 	
 	protected void closeCodeList(String id)
@@ -66,6 +74,7 @@ public class ContentPanelController implements OpenCodeListHandler {
 		view.removeCodeListPanel(codeListPanelPresenter.getView().asWidget());
 		presenters.remove(id);
 		checkTabVisibility();
+		cotrixBus.fireEvent(new CodelistClosedEvent(id));
 	}
 	
 	protected void checkTabVisibility()

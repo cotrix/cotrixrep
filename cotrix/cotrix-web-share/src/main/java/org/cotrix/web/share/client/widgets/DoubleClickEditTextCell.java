@@ -27,8 +27,7 @@ import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class DoubleClickEditTextCell extends
-AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
+public class DoubleClickEditTextCell extends AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
 
 	interface Template extends SafeHtmlTemplates {
 		@Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\"></input>")
