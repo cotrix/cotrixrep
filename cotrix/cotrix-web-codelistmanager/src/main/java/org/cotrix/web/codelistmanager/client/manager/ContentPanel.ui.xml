@@ -42,7 +42,7 @@
 			border-right: 1px solid #a8a7a7;
 			border-top: 1px solid #a8a7a7;
 			
-			width: 140px;
+			min-width: 140px;
 		}
 		
 		@external .gwt-TabLayoutPanelTab-selected;
