@@ -4,6 +4,7 @@ import static org.cotrix.common.Report.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.cotrix.domain.Attribute;
@@ -30,10 +31,13 @@ public class Table2Codelist {
 	 */
 	public Table2Codelist(Table2CodelistDirectives directives) {
 		
+
+		
 		this.directives=directives;
 		
 		for (ColumnDirectives attributeMapping : directives.columns()) 
 			attributeMappers.add(new Column2Attribute(attributeMapping));
+		
 	}
 	
 	/**
@@ -52,7 +56,10 @@ public class Table2Codelist {
 	 */
 	public Codelist apply(Table table) {
 		
-		report().log("importing codelist '"+directives.name()+"'");
+		double time = System.currentTimeMillis();
+
+		report().log("mapping table to codelist "+directives.name());
+		report().log(Calendar.getInstance().getTime().toString());
 		report().log("==============================");
 		
 		for (Row row : table)
@@ -61,7 +68,7 @@ public class Table2Codelist {
 		Codelist list = list();
 		
 		report().log("==============================");
-		report().log("terminated import of codelist '"+directives.name()+"' with "+list.codes().size()+" codes.");
+		report().log("mapped table to codelist '"+directives.name()+"' with "+list.codes().size()+" codes in "+(System.currentTimeMillis()-time)/1000);
 		
 		return list;
 		

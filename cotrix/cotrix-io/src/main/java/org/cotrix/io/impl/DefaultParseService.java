@@ -26,7 +26,7 @@ public class DefaultParseService implements ParseService {
 		
 		this.registry=new Registry<ParseTask<?,?>>(tasks);
 		
-		log.info("configured with tasks {}",tasks);
+		log.info("configured with tasks {}",registry.tasks());
 	}
 	
 	@Override

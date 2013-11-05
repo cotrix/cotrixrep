@@ -37,10 +37,8 @@ public class ColumnDirectives {
 	private MappingMode mode = MappingMode.LOG;
 	
 	
-	//factory method for inlined construction
-	
 	/**
-	 * Creates {@link ColumnDirectives} for a given column.
+	 * Creates mapping directives for a given column.
 	 * @param name the column name
 	 * @return the directives
 	 */
@@ -49,7 +47,7 @@ public class ColumnDirectives {
 	}
 	
 	/**
-	 * Creates {@link ColumnDirectives} for a given column.
+	 * Creates mapping directives for a given column.
 	 * @param name the column name
 	 * @return the directives
 	 */
@@ -67,6 +65,7 @@ public class ColumnDirectives {
 	public ColumnDirectives(Column column) {
 		this.column = column;
 	}
+	
 	/**
 	 * Returns the column for these directives.
 	 * @return the column
@@ -74,9 +73,6 @@ public class ColumnDirectives {
 	public Column column() {
 		return column;
 	}
-	
-	
-	//accessors
 	
 	
 	/**

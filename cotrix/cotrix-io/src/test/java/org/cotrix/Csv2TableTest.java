@@ -18,17 +18,10 @@ import com.googlecode.jeeunit.JeeunitRunner;
 
 
 @RunWith(JeeunitRunner.class)
-public class ParseServiceTest {
+public class Csv2TableTest {
 
 	@Inject
-	ParseService service;
-	
-	@Test
-	public void servicesAreInjected() throws Exception {
-			
-		assertNotNull(service);
-		
-	}
+	ParseService parser;
 	
 	@Test
 	public void parseCsvStream() {
@@ -42,7 +35,7 @@ public class ParseServiceTest {
 		directives.options().setDelimiter('\t');
 		directives.options().hasHeader(true);
 		
-		Table table = service.parse(stream, directives);
+		Table table = parser.parse(stream, directives);
 		
 		assertNotNull(table);
 	}
@@ -56,7 +49,7 @@ public class ParseServiceTest {
 		
 		Csv2TableDirectives directives = new Csv2TableDirectives();
 		
-		Table table = service.parse(stream, directives);
+		Table table = parser.parse(stream, directives);
 		
 		assertNotNull(table);
 		
@@ -71,7 +64,7 @@ public class ParseServiceTest {
 		
 		InputStream stream = getClass().getClassLoader().getResourceAsStream("sampleasfissdmx.xml");
 		
-		CodelistBean bean = service.parse(stream, Stream2SdmxDirectives.DEFAULT);
+		CodelistBean bean = parser.parse(stream, Stream2SdmxDirectives.DEFAULT);
 		
 		assertNotNull(bean);
 		

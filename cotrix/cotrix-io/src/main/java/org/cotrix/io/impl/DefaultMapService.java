@@ -32,7 +32,7 @@ public class DefaultMapService implements MapService {
 		
 		this.registry= new Registry<MapTask<?,?,?>>(tasks);
 		
-		log.info("configured with tasks {}",tasks);
+		log.info("configured with tasks {}",registry.tasks());
 	}
 	
 	@Override
@@ -44,7 +44,7 @@ public class DefaultMapService implements MapService {
 		double time = System.currentTimeMillis();
 		
 		try {
-
+			
 			//safe:tasks are indexed by their directives, convince compiler
 			@SuppressWarnings("all")
 			MapTask<T,S,Object> task = (MapTask) registry.get(directives);

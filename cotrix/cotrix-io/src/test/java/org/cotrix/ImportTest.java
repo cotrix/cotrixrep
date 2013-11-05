@@ -24,7 +24,7 @@ import com.googlecode.jeeunit.JeeunitRunner;
 @RunWith(JeeunitRunner.class)
 public class ImportTest {
 
-	//won't test parsing or mapping, just their integration is successful
+	//won't test parsing or mapping, just their integration
 
 	@Inject
 	MapService service;

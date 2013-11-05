@@ -1,4 +1,4 @@
-package org.cotrix;
+package org.cotrix.integration;
 
 import static org.cotrix.io.tabular.map.ColumnDirectives.*;
 

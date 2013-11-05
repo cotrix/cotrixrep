@@ -1,139 +1,136 @@
 package org.cotrix;
 
-import static java.util.Arrays.*;
-import static junit.framework.Assert.*;
+import static org.cotrix.TestUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.io.tabular.map.ColumnDirectives.*;
+import static org.cotrix.io.tabular.map.MappingMode.*;
+import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.inject.Inject;
 
-import javax.xml.namespace.QName;
-
+import org.cotrix.common.Outcome;
 import org.cotrix.domain.Attribute;
+import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.io.tabular.map.Table2Codelist;
+import org.cotrix.io.MapService;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.junit.Test;
-import org.virtualrepository.tabular.Column;
-import org.virtualrepository.tabular.DefaultTable;
-import org.virtualrepository.tabular.Row;
+import org.junit.runner.RunWith;
 import org.virtualrepository.tabular.Table;
 
+import com.googlecode.jeeunit.JeeunitRunner;
+
+@RunWith(JeeunitRunner.class)
 public class Table2CodelistTest {
 
+	@Inject
+	MapService mapper;
+
 	@Test
-	public void mapBasicCodelist() throws Exception {
+	public void defaultNameIsCodeColumn() {
+		
+		String[][] data = {{}};
 
-		String[][] data = { { "11", "12" }, { "21", "22" } };
-
-		Table table = tableWith(data,"c1","c2");
+		Table table = asTable(data,"c1");
 
 		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
-		
-		Table2Codelist transform = new Table2Codelist(directives);
-		
-		Codelist list = transform.apply(table);
 
-		Codelist expected = codelist()
-				.name("c1")
-				.with(code().name("11").build(),
-					  code().name("21").build()).version("1.0").build();
+		directives.mode(IGNORE);
 
-		assertEquals(expected, list);
+		Outcome<Codelist> outcome = mapper.map(table, directives);
+
+		System.out.println(outcome.report());
+
+		Codelist expected = codelist().name("c1").build();
+
+		assertEquals(expected, outcome.result());
 
 	}
 	
 	@Test
-	public void mapCodelistWithNameAndAttributes() throws Exception {
+	public void nameCanBeCustomised() {
+		
+		String[][] data = {{}};
 
-		String[][] data = {{ "11", "12" }, { "21", "22" } };
-
-		Table table = tableWith(data,"c1","c2");
+		Table table = asTable(data,"c1");
 
 		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
-		
-		String name = "list";
-		directives.name(name);
-		directives.version("2.0");
-		
-		Attribute attribute = attr().name("a").value("v").build();
-		directives.attributes().add(attribute);
-		
-		Table2Codelist transform = new Table2Codelist(directives);
-		
-		Codelist list = transform.apply(table);
-		
-		Codelist expected = codelist()
-				.name(name)
-				.with(code().name("11").build(),
-					  code().name("21").build())
-				.attributes(attribute)
-				.version("2.0")
-				.build();
 
-		assertEquals(expected, list);
+		directives.mode(IGNORE);
+		directives.name("custom");
+
+		Outcome<Codelist> outcome = mapper.map(table, directives);
+
+		System.out.println(outcome.report());
+
+		Codelist expected = codelist().name("custom").build();
+
+		assertEquals(expected, outcome.result());
 
 	}
-	
 	
 	@Test
-	public void mapCodelistWithAttributedCodes() throws Exception {
-
+	public void versionCanBeCustomised() {
 		
-		String[][] data = { { "11", "12", "13" }, { "21", "22", "23" } };
+		String[][] data = {{}};
 
-		Table table = tableWith(data,"c1","c2","c3");
-
+		Table table = asTable(data,"c1");
 
 		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
-		
-		directives.add(column("c2").language("en")).
-				   add(column("c3").name("attr").type("type"));
-		
 
-		Table2Codelist transform = new Table2Codelist(directives);
-		
-		Codelist list = transform.apply(table);
+		directives.mode(IGNORE);
+		directives.version("2");
 
-		Codelist expected = codelist()
-				.name("c1")
-				.with(code().name("11").attributes(
-								attr().name("c2").value("12").in("en").build(),
-								attr().name("attr").value("13").ofType("type").build()
-							).build(),
-					  code().name("21").attributes(
-							  attr().name("c2").value("22").in("en").build(),
-							  attr().name("attr").value("23").ofType("type").build()
-					   )
-				      .build())
-		.version("1.0").build();
+		Outcome<Codelist> outcome = mapper.map(table, directives);
 
-		assertEquals(expected, list);
+		System.out.println(outcome.report());
+
+		Codelist expected = codelist().name("c1").version("2").build();
+
+		assertEquals(expected, outcome.result());
 
 	}
 	
-	// helper
-	private Table tableWith(String[][] data, String ... cols) {
+	@Test
+	public void codeNameIsCodeColumnValue() {
 		
-		Column[] columns = columns(cols);
-		List<Row> rows = new ArrayList<Row>();
-		for (String[] row : data) {
-			Map<QName,String> map = new HashMap<QName, String>(); 
-			for (int i=0;i<row.length;i++)
-					map.put(columns[i].name(),row[i]);
-			rows.add(new Row(map));	
-		}
-		
-		return new DefaultTable(asList(columns),rows);
+		String[][] data = {{"1"}};
+
+		Table table = asTable(data,"c1");
+
+		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
+
+		Outcome<Codelist> outcome = mapper.map(table, directives);
+
+		System.out.println(outcome.report());
+
+		Codelist expected = codelist().name("c1").with(code().name("1").build()).build();
+
+		assertEquals(expected, outcome.result());
 	}
 	
-	Column[] columns(String ...names) {
-		List<Column> list = new ArrayList<Column>();
-		for (String name : names)
-			list.add(new Column(name));
-		return list.toArray(new Column[0]);
+	@Test
+	public void codeAttributeIsMappedColumnValue() {
+		
+		String[][] data = {{"1", "2"}};
+
+		Table table = asTable(data,"c1","c2");
+
+		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
+
+		directives.add(column("c2").language("l").type("t"));
+
+		Outcome<Codelist> outcome = mapper.map(table, directives);
+
+		System.out.println(outcome.report());
+
+		Attribute attr = attr().name("c2").value("2").ofType("t").in("l").build();
+		Code code = code().name("1").attributes(attr).build();
+		Codelist expected = codelist().name("c1").with(code).build();
+
+		assertEquals(expected, outcome.result());
 	}
+
+	
+
 }

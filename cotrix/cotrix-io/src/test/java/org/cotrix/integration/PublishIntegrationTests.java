@@ -1,4 +1,4 @@
-package org.cotrix;
+package org.cotrix.integration;
 
 import static junit.framework.Assert.*;
 import static org.cotrix.domain.dsl.Codes.*;

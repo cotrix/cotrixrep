@@ -10,15 +10,15 @@ import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.sdmxsource.sdmx.structureparser.manager.impl.StructureWritingManagerImpl;
 import org.sdmxsource.sdmx.util.beans.container.SdmxBeansImpl;
 
-public class Sdmx2Stream implements SerialisationTask<CodelistBean,Sdmx2StreamDirectives> {
+public class Sdmx2Xml implements SerialisationTask<CodelistBean,Sdmx2XmlDirectives> {
 
 	@Override
-	public Class<Sdmx2StreamDirectives> directedBy() {
-		return Sdmx2StreamDirectives.class;
+	public Class<Sdmx2XmlDirectives> directedBy() {
+		return Sdmx2XmlDirectives.class;
 	}
 	
 	@Override
-	public void serialise(CodelistBean list, OutputStream stream, Sdmx2StreamDirectives directives) throws Exception {
+	public void serialise(CodelistBean list, OutputStream stream, Sdmx2XmlDirectives directives) throws Exception {
 
 		SdmxBeans beans = new SdmxBeansImpl(list);
 		
@@ -31,6 +31,6 @@ public class Sdmx2Stream implements SerialisationTask<CodelistBean,Sdmx2StreamDi
 	
 	@Override
 	public String toString() {
-		return "sdmx-2-stream";
+		return "sdmx-2-xml";
 	}
 }

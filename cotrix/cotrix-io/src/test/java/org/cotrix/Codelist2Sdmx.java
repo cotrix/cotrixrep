@@ -15,23 +15,22 @@ import org.cotrix.io.MapService;
 import org.cotrix.io.SerialisationService;
 import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
-import org.cotrix.io.sdmx.serialise.Sdmx2StreamDirectives;
+import org.cotrix.io.sdmx.serialise.Sdmx2XmlDirectives;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.sdmxsource.sdmx.util.date.DateUtil;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.googlecode.jeeunit.JeeunitRunner;
 
 //integration tests
 
 @RunWith(JeeunitRunner.class)
-public class SerialisationTest {
+public class Codelist2Sdmx {
 
-	//initialise spring underneath sdmxsource to enable proper error reporting and serialisation to XML
-	static ApplicationContext context = new ClassPathXmlApplicationContext("sdmxsource-context.xml");
+	QName customNameType = new QName("customname");
+	QName customDescriptionType = new QName("customdescription");
+	QName customAnnotationType = new QName("customannotation");
 	
 	@Inject
 	MapService mapper;
@@ -39,23 +38,9 @@ public class SerialisationTest {
 	@Inject
 	SerialisationService serialiser;
 	
-	@Test
-	public void sdmx2Stream() throws Exception {
-		
-		Outcome<CodelistBean> outcome = codelist2Sdmx();
-		
-		serialiser.serialise(outcome.result(),System.out,Sdmx2StreamDirectives.DEFAULT);	
-		
-	}
 	
-	public Outcome<CodelistBean> codelist2Sdmx() throws Exception {
-		
-		QName customNameType = new QName("customname");
-		QName customDescriptionType = new QName("customdescription");
-		QName customAnnotationType = new QName("customannotation");
-		
-		Codelist codelist = codelist("1").name("cotrix-testlist").
-				with(
+	Codelist list = codelist("1").name("cotrix-testlist").
+			with(
 					code("1").name("code1").build()
 					,code("2").name("code2").attributes(
 							attr().name("attr1").value("value1").build()
@@ -76,6 +61,11 @@ public class SerialisationTest {
 							,attr().name(VALID_TO.defaultName()).value("bad").build()
 				)
 				.version("1.0").build();
+	
+	@Test 
+	public void codelist2Sdmx2Xml() {
+		
+		//a poor test, but cannot possibly work with smdx-source API!
 		
 		Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
 		
@@ -88,10 +78,13 @@ public class SerialisationTest {
 		directives.map(customAnnotationType,SdmxElement.ANNOTATION);
 		
 		
-		Outcome<CodelistBean> outcome = mapper.map(codelist, directives);
+		Outcome<CodelistBean> outcome = mapper.map(list, directives);
+		
+		serialiser.serialise(outcome.result(),System.out,Sdmx2XmlDirectives.DEFAULT);	
 		
 		System.out.println(outcome.report());
 		
-		return outcome;
 	}
+	
+	
 }

@@ -76,16 +76,10 @@ public class TestUtils {
 		
 		int i = 0;
 		for (Row row : table) {
-			int j=0;
-			System.out.println("row: "+row);
-			for (Column column : table.columns()) {
-				String val = row.get(column);
-				if (val!=null)
-					if (!val.equals(data[i][j]))
-						Assert.fail();
-					else
-						j++;
-			}
+			List<String> vals = new ArrayList<String>();
+			for (Column column : table.columns())
+				vals.add(row.get(column));
+			Assert.assertEquals(vals,asList(data[i]));
 			i++;
 		}
 		
