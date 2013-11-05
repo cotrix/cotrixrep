@@ -1,7 +1,6 @@
 package org.cotrix.domain.po;
 
 import org.cotrix.common.Utils;
-import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
 
@@ -13,7 +12,7 @@ import org.cotrix.domain.version.Version;
  */
 public class VersionedPO extends NamedPO {
 
-	private Version version = new DefaultVersion();
+	private Version version;
 
 	public VersionedPO(String id) {
 		super(id);
