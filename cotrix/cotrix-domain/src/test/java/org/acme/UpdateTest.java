@@ -13,6 +13,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
+import org.cotrix.domain.Codelist;
 import org.cotrix.domain.Container;
 import org.cotrix.domain.trait.Identified;
 import org.junit.Test;
@@ -207,9 +208,21 @@ public class UpdateTest {
 	}
 	
 	
+	@Test
+	public void codelistCanChangeName() {
+		
+		Codelist list = codelist("1").with(code("2").name("c").build()).version("2.0").build();
+		
+		Codelist changeset = codelist("1").with(code("2").name("c1").build()).build();
+		
+		update(list,changeset);
+		
+		assertEquals("c1",list.codes().iterator().next().name().getLocalPart());
+		
+	}
+	
 	
 	//helpers
-	
 	
 	private <T> List<T> elements(Container<? extends T> container) {
 		List<T> elements = new ArrayList<T>();

@@ -35,6 +35,7 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	public CodelistBuilder() {
 		this.po = new CodelistPO(null);
+		this.po.setVersion(new DefaultVersion());
 	}
 	
 	public CodelistBuilder(String id) {
