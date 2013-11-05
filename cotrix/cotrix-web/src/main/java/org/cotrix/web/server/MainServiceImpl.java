@@ -6,6 +6,7 @@ import static org.cotrix.web.shared.AuthenticationFeature.*;
 
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
@@ -65,7 +66,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	}
 
 	@Override
-	public ResponseWrapper<String> login(final String username, final String password) {
+	public ResponseWrapper<String> login(final String username, final String password, List<String> openCodelists) {
 		logger.trace("login username: {}",username);
 		
 		//SessionHolder.sessionCreated(httpServletRequest.getSession());
@@ -99,7 +100,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		
 		User user = outcome.output();
 		
-		ResponseWrapper<String> wrapper = new ResponseWrapper<String>(user.id());
+		ResponseWrapper<String> wrapper = new ResponseWrapper<String>(user.fullName());
 		
 		Collection<Action> actions = Actions.filterForAction(action, user.permissions());
 		

@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Adapted from http://map-notes.blogspot.it/2012/11/fade-animation.html
@@ -20,18 +19,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class FadeAnimation extends Animation {
 	
-	public static void fadeIn(Widget target)
-	{
-		FadeAnimation animation = new FadeAnimation(target.getElement());
-		animation.fade(1500, 1);
-	}
-	
-	public static void fadeOut(Widget target)
-	{
-		FadeAnimation animation = new FadeAnimation(target.getElement());
-		animation.fade(1500, 0);
-	}
-
 	private Element element;
 	private double opacityIncrement;
 	private double targetOpacity;
@@ -50,6 +37,13 @@ public class FadeAnimation extends Animation {
 	protected void onComplete() {
 		super.onComplete();
 		element.getStyle().setOpacity(targetOpacity);
+	}
+	
+	public void fadeOut()
+	{
+		cancel();
+		element.getStyle().setOpacity(1);
+		fade(2000, 0);
 	}
 
 	public void fade(int duration, double targetOpacity) {

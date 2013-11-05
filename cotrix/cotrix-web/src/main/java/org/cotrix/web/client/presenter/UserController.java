@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.client.presenter;
 
+import java.util.ArrayList;
+
 import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.client.event.UserLoggedEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
@@ -25,8 +27,8 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class UserController {
 	
-	protected static final String GUEST_USERNAME = null;
-	protected static final String GUEST_PASSWORD = null;
+	protected static final String GUEST_USERNAME = "cotrix";
+	protected static final String GUEST_PASSWORD = "cotrix";
 	
 	protected EventBus cotrixBus;
 	
@@ -83,7 +85,7 @@ public class UserController {
 	
 	protected void logGuest()
 	{
-		service.login(GUEST_USERNAME, GUEST_PASSWORD, callback);
+		service.login(GUEST_USERNAME, GUEST_PASSWORD, new ArrayList<String>(), callback);
 	}
 	
 	protected void logout()
@@ -93,7 +95,7 @@ public class UserController {
 	
 	protected void logUser(String username, String password)
 	{
-		service.login(username, password, callback);
+		service.login(username, password, new ArrayList<String>(), callback);
 	}
 
 }

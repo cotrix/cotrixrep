@@ -29,16 +29,18 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	@UiField InlineLabel logout;
 	
 	protected Presenter presenter;
+	protected FadeAnimation statusAnimation;
 	
 	public UserBarViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+		statusAnimation = new FadeAnimation(status.getElement());
 	}
 	
 	@Override
 	public void setStatus(String status)
 	{
 		this.status.setText(status);
-		FadeAnimation.fadeOut(this.status);
+		statusAnimation.fadeOut();
 	}
 
 	@UiHandler("login")

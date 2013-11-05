@@ -6,6 +6,7 @@ package org.cotrix.web.share.client.util;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.StatusUpdatedEvent;
 
+import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
@@ -14,6 +15,7 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class StatusUpdates {
 	
+	@Inject
 	protected static @CotrixBus EventBus eventBus;
 	
 	public static void statusUpdate(String status)
