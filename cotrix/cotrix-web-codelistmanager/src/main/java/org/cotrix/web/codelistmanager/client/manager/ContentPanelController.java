@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelPresenter;
+import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelView;
 import org.cotrix.web.codelistmanager.client.di.CodelistPanelFactory;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
 import org.cotrix.web.codelistmanager.client.event.OpenCodelistEvent;
@@ -47,12 +48,25 @@ public class ContentPanelController implements OpenCodeListHandler {
 
 	@Override
 	public void onOpenCodeList(OpenCodelistEvent event) {
-		Log.trace("opening codelist "+event.getCodelist());
-		final UICodelist codelist = event.getCodelist();
+		Log.trace("onOpenCodeList codelist "+event.getCodelist());
+		UICodelist codelist = event.getCodelist();
 		
+		CodelistPanelPresenter presenter = presenters.get(codelist.getId());
+		
+		if (presenter == null) {
+			openCodelist(codelist);
+		} else {
+			view.setVisible(presenter.getView());
+		}
+		
+	}
+	
+	protected void openCodelist(final UICodelist codelist)
+	{
+		Log.trace("openCodelist codelist "+codelist);
 		CodelistPanelPresenter codeListPanelPresenter = codeListPanelFactory.build(codelist.getId());
 		presenters.put(codelist.getId(), codeListPanelPresenter);
-		Widget codelistPanel = codeListPanelPresenter.getView().asWidget();
+		CodelistPanelView codelistPanel = codeListPanelPresenter.getView();
 		HasCloseHandlers<Widget> hasCloseHandlers = view.addCodeListPanel(codelistPanel, codelist.getName(), codelist.getVersion());
 		hasCloseHandlers.addCloseHandler(new CloseHandler<Widget>() {
 
@@ -71,7 +85,7 @@ public class ContentPanelController implements OpenCodeListHandler {
 	protected void closeCodeList(String id)
 	{
 		CodelistPanelPresenter codeListPanelPresenter = presenters.get(id);
-		view.removeCodeListPanel(codeListPanelPresenter.getView().asWidget());
+		view.removeCodeListPanel(codeListPanelPresenter.getView());
 		presenters.remove(id);
 		checkTabVisibility();
 		cotrixBus.fireEvent(new CodelistClosedEvent(id));
