@@ -1,4 +1,4 @@
-package org.cotrix;
+package org.cotrix.serialise;
 
 import static org.cotrix.TestUtils.*;
 

@@ -1,4 +1,4 @@
-package org.cotrix;
+package org.cotrix.map;
 
 import static org.cotrix.TestUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;

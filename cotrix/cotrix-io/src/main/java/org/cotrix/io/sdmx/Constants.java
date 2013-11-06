@@ -4,5 +4,5 @@ public class Constants {
 
 	public static String sdmx_ns = "http://www.sdmx.org";
 	
-	public static String default_sdmx_agency="SDMX";
+	public static String DEFAULT_SDMX_AGENCY="SDMX";
 }

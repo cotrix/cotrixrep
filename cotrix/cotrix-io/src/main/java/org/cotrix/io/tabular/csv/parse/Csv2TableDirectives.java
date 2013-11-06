@@ -12,7 +12,9 @@ import org.virtualrepository.tabular.Table;
  */
 public class Csv2TableDirectives implements ParseDirectives<Table> {
 
-	//like for parsing, we reuse directives in the virtual repository.
+	public static final Csv2TableDirectives DEFAULT = new Csv2TableDirectives();
+	
+	//we reuse directives in the virtual repository.
 	private final CsvCodelist options;
 	
 	

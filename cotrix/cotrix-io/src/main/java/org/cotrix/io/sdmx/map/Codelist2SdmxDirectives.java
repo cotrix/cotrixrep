@@ -13,13 +13,12 @@ import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 
 public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 
-	public static final Codelist2SdmxDirectives DEFAULT = new Codelist2SdmxDirectives() {
-	};
+	public static final Codelist2SdmxDirectives DEFAULT = new Codelist2SdmxDirectives();
 
 	
 	private Map<QName,SdmxElement> elements = new HashMap<QName,SdmxElement>();
 	
-	private String agency = default_sdmx_agency;
+	private String agency = DEFAULT_SDMX_AGENCY;
 	private String name;
 	private String version;
 	private Boolean isFinal;

@@ -1,4 +1,4 @@
-package org.cotrix;
+package org.cotrix.integration;
 
 import static org.cotrix.TestUtils.*;
 
@@ -57,7 +57,7 @@ public class ImportTest {
 	@Test
 	public void sdmx2Codelist() throws Exception {
 
-		InputStream stream = getClass().getClassLoader().getResourceAsStream("sampleasfissdmx.xml");
+		InputStream stream = getClass().getClassLoader().getResourceAsStream("samplesdmx.xml");
 
 		CodelistBean bean = parser.parse(stream,Stream2SdmxDirectives.DEFAULT);
 

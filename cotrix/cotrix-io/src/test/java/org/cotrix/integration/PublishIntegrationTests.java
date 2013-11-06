@@ -89,7 +89,7 @@ public class PublishIntegrationTests {
 //		
 //		Codelist asfis = outcome.result();
 //		
-//		Codelist2Sdmx transform = new Codelist2Sdmx();
+//		Codelist2SdmxTest transform = new Codelist2SdmxTest();
 //		transform.apply(asfis);
 //		
 //		//System.out.println(asfis.codes());

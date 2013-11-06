@@ -1,4 +1,4 @@
-package org.cotrix;
+package org.cotrix.integration;
 
 import javax.inject.Inject;
 import javax.xml.namespace.QName;

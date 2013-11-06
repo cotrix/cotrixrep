@@ -48,12 +48,14 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 	 */
 	public CodelistBean map(Codelist codelist, Codelist2SdmxDirectives directives) throws Exception {
 		
-		log.trace("transforming codelist "+codelist.id()+" to sdmx");
+		String name = directives.name()==null?codelist.name().getLocalPart():directives.name();
+		
+		log.trace("transforming codelist "+name+" to sdmx");
 		
 		CodelistMutableBean codelistbean = new CodelistMutableBeanImpl();
 		
 		codelistbean.setAgencyId(directives.agency());
-		codelistbean.setId(directives.name()==null?codelist.name().getLocalPart():directives.name());
+		codelistbean.setId(name);
 		codelistbean.setVersion(directives.version()==null?codelist.version():directives.version());
 		codelistbean.setFinalStructure(directives.isFinal()==null?UNSET:directives.isFinal()==true?TRUE:FALSE);
 		
