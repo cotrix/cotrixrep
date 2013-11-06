@@ -1,11 +1,13 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='resources'
+		type='org.cotrix.web.client.resources.CotrixResources' />
 	<ui:style>
 		.statusContainer {
 			text-align: center;
 		}
-	
+		
 		.status {
 			color: #fff;
 			margin: auto;
@@ -20,26 +22,37 @@
 			font-size: 12px;
 		}
 		
+		.icon {
+			vertical-align: middle;
+
+		}
+		
+		.middle {
+			display:inline-block; 
+			vertical-align:middle
+		}
+		
 		.active {
 			color: #64a1e0;
-			line-height: 25px;
 			font-size: 12px;
 			font-weight: normal;
 			cursor: pointer;
 		}
 	</ui:style>
 	<g:FlowPanel>
-	   <g:HorizontalPanel width="100%">
-		<g:FlowPanel styleName="{style.statusContainer}">
-			<g:InlineLabel styleName="{style.status}" ui:field="status" />
-		</g:FlowPanel>
-		<g:FlowPanel styleName="{style.userInfo}">
-			<g:InlineHTML>user:&nbsp;</g:InlineHTML>
-			<g:InlineLabel styleName="{style.active}" ui:field="username">none</g:InlineLabel>
-			<g:InlineHTML>&nbsp;|&nbsp;</g:InlineHTML>
-			<g:InlineLabel styleName="{style.active}" ui:field="login">Login</g:InlineLabel>
-			<g:InlineLabel styleName="{style.active}" ui:field="logout">Logout</g:InlineLabel>
-		</g:FlowPanel>
+		<g:HorizontalPanel width="100%" verticalAlignment="middle">
+			<g:FlowPanel styleName="{style.statusContainer}">
+				<g:InlineLabel styleName="{style.status}" ui:field="status" />
+			</g:FlowPanel>
+			<g:FlowPanel styleName="{style.userInfo}">
+				<g:Image ui:field="user" visible="false" resource="{resources.user}" styleName="{style.icon}"/>
+				<g:Image ui:field="userDisabled" resource="{resources.userDisabled}"  styleName="{style.icon}"/>
+				<g:InlineHTML styleName="{style.middle}">user:&nbsp;</g:InlineHTML>
+				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="username">none</g:InlineLabel>
+				<g:InlineHTML styleName="{style.middle}">&nbsp;|&nbsp;</g:InlineHTML>
+				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="login">Login</g:InlineLabel>
+				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="logout">Logout</g:InlineLabel>
+			</g:FlowPanel>
 		</g:HorizontalPanel>
 	</g:FlowPanel>
 

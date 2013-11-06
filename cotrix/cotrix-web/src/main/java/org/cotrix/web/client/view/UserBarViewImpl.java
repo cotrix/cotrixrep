@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -23,6 +24,9 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	private static UserBarUiBinder uiBinder = GWT.create(UserBarUiBinder.class);
 	
 	@UiField InlineLabel status;
+	
+	@UiField Image user;
+	@UiField Image userDisabled;
 	
 	@UiField InlineLabel username;
 	@UiField InlineLabel login;
@@ -53,6 +57,12 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	protected void onLogoutClick(ClickEvent event)
 	{
 		presenter.onLogoutClick();
+	}
+	
+	@Override
+	public void setUserEnabled(boolean enabled) {
+		user.setVisible(enabled);
+		userDisabled.setVisible(!enabled);
 	}
 	
 	@Override

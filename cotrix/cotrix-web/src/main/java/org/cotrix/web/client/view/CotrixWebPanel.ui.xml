@@ -17,7 +17,7 @@
 		
 		.userBar {
 			background-color: #282828;
-			height: 25px;
+			height: 31px;
 		}
 		
 		.body {
@@ -27,7 +27,7 @@
 		<g:north size='60'>
 			<g:FlowPanel ui:field="menu" />
 		</g:north>
-		<g:north size='25'>
+		<g:north size='31'>
 			<g:FlowPanel ui:field="userBar" styleName="{style.userBar}"/>
 		</g:north>
 		<g:center>

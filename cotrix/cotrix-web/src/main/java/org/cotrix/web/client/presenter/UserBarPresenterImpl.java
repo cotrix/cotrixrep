@@ -49,6 +49,7 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 			@Override
 			public void onUserLogged(UserLoggedEvent event) {
 				view.setUsername(event.getUsername());
+				view.setUserEnabled(true);
 			}
 		});
 		
