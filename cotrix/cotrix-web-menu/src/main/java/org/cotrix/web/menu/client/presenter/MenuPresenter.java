@@ -76,6 +76,11 @@ public class MenuPresenter implements MenuView.Presenter {
 		cotrixBus.fireEvent(new SwitchToModuleEvent(module));
 	}
 	
+	public void selectModule(CotrixModule module)
+	{
+		view.setSelected(getMenu(module));
+	}
+	
 	protected CotrixModule getModule(Menu menu){
 		switch (menu) {
 			case HOME: return CotrixModule.HOME;
@@ -83,6 +88,16 @@ public class MenuPresenter implements MenuView.Presenter {
 			case MANAGE: return CotrixModule.MANAGE;
 			case PUBLISH: return CotrixModule.PUBLISH;
 			default: throw new IllegalArgumentException("Unknow menu "+menu);
+		}
+	}
+	
+	protected Menu getMenu(CotrixModule module){
+		switch (module) {
+			case HOME: return Menu.HOME;
+			case IMPORT: return Menu.IMPORT;
+			case MANAGE: return Menu.MANAGE;
+			case PUBLISH: return Menu.PUBLISH;
+			default: throw new IllegalArgumentException("Unknow module "+module);
 		}
 	}
 }

@@ -67,6 +67,14 @@ public class MenuViewImpl extends Composite implements MenuView {
 			}
 		});
 	}
+	
+
+	@Override
+	public void setSelected(Menu menu) {
+		resetMenu();
+		Label item = getLabel(menu);
+		item.setStyleName(style.menuSelected(), true);
+	}
 
 	protected void resetMenu() {
 		homeMenu.setStyleName(style.menuSelected(), false);
