@@ -15,12 +15,18 @@
  */
 package com.google.gwt.user.cellview.client;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.TableLayout;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TableColElement;
@@ -33,6 +39,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.CssResource.ImportedWithPrefix;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ImageResource.ImageOptions;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.LoadingStateChangeEvent.LoadingState;
 import com.google.gwt.user.client.ui.CustomScrollPanel;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -518,6 +525,9 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	private final Element tableFooterScroller;
 	private final SimplePanel tableHeaderContainer;
 	private final Element tableHeaderScroller;
+	private Map<Column<T, ?>, Double> columnWidths = new HashMap<Column<T, ?>, Double>();
+	private Element measuringElement;
+	private boolean autoAdjust = false;
 
 	/**
 	 * Constructs a table with a default page size of 50.
@@ -673,6 +683,134 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	 */
 	public PatchedDataGrid(ProvidesKey<T> keyProvider) {
 		this(DEFAULT_PAGESIZE, keyProvider);
+	}
+	
+	/**
+	 * @return the autoAdjust
+	 */
+	public boolean isAutoAdjust() {
+		return autoAdjust;
+	}
+
+	/**
+	 * @param autoAdjust the autoAdjust to set
+	 */
+	public void setAutoAdjust(boolean autoAdjust) {
+		this.autoAdjust = autoAdjust;
+	}
+
+	public void insertColumn(int beforeIndex, Column<T, ?> col, Header<?> header, Header<?> footer) {
+		super.insertColumn(beforeIndex, col, header, footer);
+		if (autoAdjust) {
+			double width = getRequiredSize(col);
+			setColumnWidth(col, width, Unit.PX);
+			columnWidths.put(col, width);
+			updateTableWidth();
+		}
+	}
+	
+	public void removeColumn(int index) {
+		super.removeColumn(index);
+		if (autoAdjust) {
+			Column<T, ?> column = getColumn(index);
+			columnWidths.remove(column);			
+			updateTableWidth();
+		}
+	}
+	
+	public void refreshColumnSizes()
+	{
+		for (int i = 0; i < getColumnCount(); i++) {
+			Column<T, ?> column = getColumn(i);
+			double width = getRequiredSize(column);
+			setColumnWidth(column, width, Unit.PX);
+			columnWidths.put(column, width);
+		}
+		updateTableWidth();
+	}
+
+	protected <D> double getRequiredSize(Column<T, D> column)
+	{
+		startMeasuring();
+		int colIndex = getColumnIndex(column);
+		Header header = getHeader(colIndex);
+		double max = measureHeaderCell(header.getCell(), header.getValue());
+		System.out.println("COLUMN "+header.getValue());
+		System.out.println("header width: "+max);
+		int absRow = 0;
+		for (T t : getVisibleItems()) {
+			D value = column.getValue(t);
+			Cell<D> cell = (Cell<D>) column.getCell();
+			Context context = new Context(absRow++, colIndex, getValueKey(t), absRow);
+			double valueWidth = measureCell(cell, value, context);
+			System.out.println("valueWidth "+valueWidth);
+			max = Math.max(valueWidth, max);
+		}
+		finishMeasuring();
+
+		System.out.println("col width "+max);
+
+		return max;
+	}
+
+	protected <D> void setColWidth(Column<T, D> column, double width) {
+		setColumnWidth(column, width, Unit.PX);
+		columnWidths.put(column, width);
+	}
+
+	protected void updateTableWidth()
+	{
+		double width = 0;
+		for (Double colWidth:columnWidths.values()) {
+			System.out.println("colWidth "+colWidth);
+			width += colWidth;
+		}
+		System.out.println("TOTAL: "+width);
+		int widgetWidth = getElement().getOffsetWidth();
+		System.out.println("widgetWidth: "+widgetWidth);
+		
+		double tableWidth = Math.max(width, widgetWidth);
+		System.out.println("tableWidth: "+tableWidth);
+		
+		setTableWidth(tableWidth, Unit.PX);
+	}
+
+	private void startMeasuring() {
+		Document document = Document.get();
+		measuringElement = document.createElement("div");
+		measuringElement.getStyle().setPosition(Position.ABSOLUTE);
+		measuringElement.getStyle().setLeft(-1000, Unit.PX);
+		measuringElement.getStyle().setTop(-1000, Unit.PX);
+		document.getBody().appendChild(measuringElement);
+	}
+	
+	private <D> double measureHeaderCell(Cell<D> cell, D value)
+	{
+		//FIXME 4px added as workaround
+		return 4 + measureCell(cell, value, null, getResources().style().header());
+	}
+	
+	private <D> double measureCell(Cell<D> cell, D value, Context context)
+	{
+		return measureCell(cell, value, context, getResources().style().cell());
+	}
+
+	private <D> double measureCell(Cell<D> cell, D value, Context context, String style)
+	{
+		SafeHtmlBuilder sb = new SafeHtmlBuilder();
+		cell.render(context, value, sb);
+		String valueHTML = "<div class=\""+style+"\" >"+sb.toSafeHtml().asString()+"</div>";//style=\"display: table-cell;\"
+		System.out.println("cell HTML: "+valueHTML);
+		return measureText(valueHTML);
+	}
+
+	private double measureText(String text) {
+		measuringElement.setInnerHTML(text);
+		return measuringElement.getOffsetWidth();
+	}
+
+	private void finishMeasuring() {
+		Document.get().getBody().removeChild(measuringElement);
 	}
 
 	@Override
@@ -856,6 +994,8 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 			// Empty table.
 			message = emptyTableWidgetContainer;
 		}
+		
+		if (autoAdjust && state == LoadingState.LOADED) refreshColumnSizes();
 
 		// Switch out the message to display.
 		tableDataScroller.setWidget(message);
