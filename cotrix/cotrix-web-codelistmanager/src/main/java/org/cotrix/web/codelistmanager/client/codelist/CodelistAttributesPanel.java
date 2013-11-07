@@ -336,7 +336,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 				@Override
 				public void render(com.google.gwt.cell.client.Cell.Context context,
 						String value, SafeHtmlBuilder sb) {
-					sb.appendHtmlConstant("<span>Attributes:</span>");
+					sb.appendHtmlConstant("<span>Attributes&nbsp;</span>");
 					sb.appendHtmlConstant("<span class=\""+style.headerCode()+"\">");
 					sb.append(SafeHtmlUtils.fromString(value));
 					sb.appendHtmlConstant("</span>");

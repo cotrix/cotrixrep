@@ -47,11 +47,11 @@
 			<g:FlowPanel styleName="{style.userInfo}">
 				<g:Image ui:field="user" visible="false" resource="{resources.user}" styleName="{style.icon}"/>
 				<g:Image ui:field="userDisabled" resource="{resources.userDisabled}"  styleName="{style.icon}"/>
-				<g:InlineHTML styleName="{style.middle}">user:&nbsp;</g:InlineHTML>
+				<g:InlineHTML styleName="{style.middle}">&nbsp;</g:InlineHTML>
 				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="username">none</g:InlineLabel>
 				<g:InlineHTML styleName="{style.middle}">&nbsp;|&nbsp;</g:InlineHTML>
-				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="login">Login</g:InlineLabel>
-				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="logout">Logout</g:InlineLabel>
+				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="login">login</g:InlineLabel>
+				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="logout">logout</g:InlineLabel>
 			</g:FlowPanel>
 		</g:HorizontalPanel>
 	</g:FlowPanel>
