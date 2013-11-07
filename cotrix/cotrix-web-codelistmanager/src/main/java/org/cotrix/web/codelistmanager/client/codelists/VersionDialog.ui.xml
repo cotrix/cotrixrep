@@ -14,7 +14,7 @@
 			border-radius: 5px;
 			width: 300px;
 /*			margin-left: 100px;*/
-			height: 300px;
+			height: 250px;
 			padding: 20px;
 		}
 		
@@ -24,6 +24,7 @@
 		}
 		
 		.subtitle {
+			padding-top: 10px;
 			color: #999;
 			font-size: 15px;
 		}
@@ -50,6 +51,10 @@
 			margin-top: 20px;
 			color: #666;
 			font-size: 15px;
+		}
+		
+		.oldVersion {
+			padding-top: 10px;
 		}
 		
 		.textbox {
@@ -81,21 +86,20 @@
 	</ui:style>
 	<g:HTMLPanel styleName="{style.box}">
 			<div class="{style.title}">
-				New Codelist version
+				Create new version
 			</div>
 			<div class="{style.subtitle}">
 				<g:Label ui:field="name" />
 			</div>
 			<div class="{style.textfield}">
-				<div>From</div>
-				<g:Label ui:field="oldVersion" />
+				<div>Current</div>
+				<g:Label ui:field="oldVersion" styleName="{style.oldVersion}"/>
 			</div>
 			<div class="{style.textfield}">
-				<div>To</div>
-				<g:TextBox styleName="{style.textbox}" ui:field="newVersion"  />
+				<div>New</div>
+				<g:TextBox styleName="{resources.css.textBox}" ui:field="newVersion"  />
 			</div>
 			<div class="{style.textfield}">
-			    <g:Button ui:field="cancel" styleName="{style.submit}">Cancel</g:Button>
 				<g:Button ui:field="create" styleName="{style.submit}">Create</g:Button>
 			</div>
 	</g:HTMLPanel>

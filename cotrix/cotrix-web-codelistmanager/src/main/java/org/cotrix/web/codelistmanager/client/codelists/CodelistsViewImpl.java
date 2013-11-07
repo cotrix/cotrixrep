@@ -162,12 +162,6 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	public void onCreate(String id, String newVersion) {
 		presenter.onCodelistNewVersion(id, newVersion);
 	}
-
-	@Override
-	public void onCancel() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	protected class ByNameFilter implements Filter<CodelistGroup> {
 		
