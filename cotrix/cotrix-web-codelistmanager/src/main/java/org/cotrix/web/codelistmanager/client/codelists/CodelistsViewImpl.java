@@ -5,6 +5,7 @@ import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.client.resources.CodelistsResources;
+import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup.Version;
 import org.cotrix.web.share.client.util.FilteredCachedDataProvider.Filter;
@@ -21,6 +22,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.CellTree;
+import com.google.gwt.user.cellview.client.CellTree.CellTreeMessages;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
@@ -39,13 +41,19 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	@UiTemplate("CodelistsView.ui.xml")
 	interface CodeListsViewUiBinder extends UiBinder<Widget, CodelistsViewImpl> {}
 	
+	protected interface TreeMessages extends CellTreeMessages {
+
+	    @DefaultMessage("no matches")
+	    String emptyTree();
+	}
+	
 	@UiField TextBox filterTextBox;
 
 	@UiField(provided=true) 
 	CellTree codelists;
 	
 	@UiField ItemToolbar toolbar;
-
+	
 
 	protected CodelistsDataProvider codeListDataProvider;
 	
@@ -60,6 +68,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 		this.codeListDataProvider = codeListDataProvider;
 		setupCellList();
 		initWidget(uiBinder.createAndBindUi(this));
+		updateSearchBoxStyle();
 		bind();
 	}
 	
@@ -85,6 +94,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 			public void onKeyUp(KeyUpEvent event) {
 				Log.trace("onKeyUp value: "+filterTextBox.getValue()+" text: "+filterTextBox.getText());
 				updateFilter();
+				updateSearchBoxStyle();
 			}
 		});
 	}
@@ -102,7 +112,8 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	      }
 	    });
 	    
-		codelists = new CellTree(new CodelistTreeModel(codeListDataProvider, selectionModel), null, CodelistsResources.INSTANCE);
+	    TreeMessages treeMessages = GWT.create(TreeMessages.class); 
+		codelists = new CellTree(new CodelistTreeModel(codeListDataProvider, selectionModel), null, CodelistsResources.INSTANCE, treeMessages);
 		
 		//codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
@@ -133,6 +144,10 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	public void refresh()
 	{
 		codeListDataProvider.loadData();
+	}
+	
+	public void updateSearchBoxStyle() {
+		filterTextBox.setStyleName(CotrixManagerResources.INSTANCE.css().searchBackground(), filterTextBox.getValue().isEmpty());
 	}
 	
 	protected class CodeListCell extends AbstractCell<UICodelist> {

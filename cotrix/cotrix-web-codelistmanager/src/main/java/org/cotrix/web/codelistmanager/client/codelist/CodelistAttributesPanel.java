@@ -119,7 +119,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 		header = new AttributeHeader("");
 
-		attributesGrid = new AttributesGrid(dataProvider, header, "No attributes to show");
+		attributesGrid = new AttributesGrid(dataProvider, header, "select a code");
 
 		setupColumns();
 

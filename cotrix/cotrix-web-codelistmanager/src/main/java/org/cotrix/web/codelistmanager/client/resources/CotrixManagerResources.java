@@ -56,6 +56,7 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	interface CotrixManagerStyle extends CssResource {
 		String search();
+		String searchBackground();
 	}
 
 }

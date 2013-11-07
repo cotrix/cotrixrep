@@ -4,7 +4,6 @@ import static org.cotrix.action.MainAction.*;
 import static org.cotrix.web.share.shared.feature.ApplicationFeatures.*;
 import static org.cotrix.web.shared.AuthenticationFeature.*;
 
-import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -70,9 +69,6 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		mapper.map(LOGOUT).to(CAN_LOGOUT);
 		mapper.map(IMPORT).to(IMPORT_CODELIST);
 		mapper.map(PUBLISH).to(PUBLISH_CODELIST);
-		
-		URL url = MainServiceImpl.class.getResource("/test.css");
-		System.out.println("URL RULR URURURURURURURURURURURURU "+url);
 	}
 
 	@Override
@@ -107,7 +103,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		
 		User user = outcome.output();
 		
-		ResponseWrapper<String> wrapper = new ResponseWrapper<String>(user.fullName());
+		ResponseWrapper<String> wrapper = new ResponseWrapper<String>(user.name());
 		
 		Collection<Action> actions = Actions.filterForAction(action, user.permissions());
 		
