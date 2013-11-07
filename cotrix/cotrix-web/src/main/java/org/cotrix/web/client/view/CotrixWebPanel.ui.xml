@@ -17,7 +17,8 @@
 		}
 		
 		.userBar {
-			background-color: #282828;
+			/*background-color: #282828;*/
+			background-color: #363636;
 			height: 31px;
 		}
 		

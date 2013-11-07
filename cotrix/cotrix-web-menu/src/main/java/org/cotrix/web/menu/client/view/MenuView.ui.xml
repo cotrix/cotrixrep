@@ -3,13 +3,18 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style type="org.cotrix.web.menu.client.view.MenuViewImpl.Style">
 		.header {
-			background-color: #363636;
+			/*background-color: #363636;*/
+			background-color: #282828;
 			height: 60px;
 		}
 		
 		.headerBar {
-			width: 940px;
 			margin: 0 auto;
+		}
+		
+		.titleArea {
+			float: left;
+			padding-left: 20px;
 		}
 		
 		.title {
@@ -29,6 +34,7 @@
 		
 		.navigation {
 			float: right;
+			padding-right: 6px;
 		}
 		
 		.menu {
@@ -112,9 +118,11 @@
 					</li>
 				</ul>
 			</div>
+			<div class="{style.titleArea}">
 			<span class="{style.title}">Cotrix</span>
 			<br />
 			<span class="{style.subtitle}">A codelist management tool</span>
+			</div>
 		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 
