@@ -133,11 +133,11 @@
 	background-color: #5674b9;
 	border-radius: 5px;
 	border: 1px solid #5674b9;
-	padding: 6px;
 	width: 98px;
 	height: 35px;
 	font-size: 18px;
 	color: #eee;
+	outline: none;
 }
 
 .blueButton:hover {
@@ -149,11 +149,11 @@
 	background-color: #bdbdbd;
 	border-radius: 5px;
 	border: 1px solid #bdbdbd;
-	padding: 6px;
 	width: 98px;
 	height: 35px;
 	font-size: 18px;
 	color: #696969;
+	outline: none;
 }
 
 .grayButton:hover {
@@ -204,6 +204,7 @@
 	padding-left:55px;
 	height:40px;
 	color:#eee;
+	outline: none;
 }
 
 @sprite .buttonManage:hover{
@@ -244,6 +245,7 @@
 	font-size: 24px;
 	padding-left: 106px;
 	color: #666;
+	outline: none;
 }
 
 @sprite .buttonComputer:hover {
@@ -269,6 +271,7 @@
 	padding-left: 106px;
 	color: #666;
 	vertical-align: middle;
+	outline: none;
 }
 
 @sprite .buttonCloud:hover {
@@ -293,6 +296,7 @@
 	height: 40px;
 	padding-right: 20px;
 	color: #eee;
+	outline: none;
 }
 
 @sprite .buttonDownload:hover {

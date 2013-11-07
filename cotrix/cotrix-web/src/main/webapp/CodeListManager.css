@@ -1,4 +1,8 @@
+/* FONT */
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
+
+/* RESET */
+
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0b1 | 201101 
@@ -63,6 +67,11 @@ table {
 	border-spacing: 0;
 }
 
+/* COTRIX (font loaded at the beginning) */
+body * {
+	font-family: 'Open Sans';
+	font-weight: 300;
+}
 
 
 /* DATE PICKER */
