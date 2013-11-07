@@ -16,14 +16,11 @@ import org.cotrix.web.share.shared.codelist.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.inject.Inject;
@@ -40,9 +37,6 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 
 	private static CodelistMetadataPanelUiBinder uiBinder = GWT.create(CodelistMetadataPanelUiBinder.class);
 
-	@UiField TextBox nameField;
-	@UiField TextBox versionField;
-
 	@UiField(provided=true) AttributesGrid attributesGrid;
 
 	@UiField ItemToolbar toolBar;
@@ -54,9 +48,6 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	protected MetadataProvider dataProvider;
 
-	protected DataEditor<CodelistMetadata> metadataEditor;
-	
-
 	protected DataEditor<UIAttribute> attributeEditor;
 	
 	@Inject
@@ -65,9 +56,8 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	public CodelistMetadataPanel( ) {
 		this.attributesProvider = new ListDataProvider<UIAttribute>();
-		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Attributes"), "No attributes");
-		
-		metadataEditor = DataEditor.build(this);
+		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Codelist attributes"), "No attributes");
+
 		attributeEditor = DataEditor.build(this);
 
 		add(uiBinder.createAndBindUi(this));
@@ -131,14 +121,6 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 		if (metadata == null) loadData();
 	}
 
-	@UiHandler("nameField")
-	protected void nameUpdated(ValueChangeEvent<String> changedEvent)
-	{
-		metadata.getName().setLocalPart(changedEvent.getValue());
-		metadataEditor.updated(metadata);
-	}
-
-
 	public void loadData()
 	{
 		showLoader();
@@ -162,8 +144,6 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	protected void setMetadata(CodelistMetadata metadata)
 	{
 		this.metadata = metadata;
-		nameField.setText(metadata.getName().getLocalPart());
-		versionField.setText(metadata.getVersion());
 		
 		attributesProvider.setList(metadata.getAttributes());
 		attributesProvider.refresh();
@@ -171,9 +151,6 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 
 	@Override
 	public void setEditable(boolean editable) {
-		
-		nameField.setReadOnly(!editable);
-		versionField.setReadOnly(!editable);
 		attributesGrid.setEditable(editable);
 	}
 }

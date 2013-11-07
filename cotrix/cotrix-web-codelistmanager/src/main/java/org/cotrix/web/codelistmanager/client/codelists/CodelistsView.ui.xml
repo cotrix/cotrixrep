@@ -11,6 +11,8 @@
 		}
 		
 		.filterPanel {
+			border-top-left-radius: 2px;
+			border-top-right-radius: 2px;
 			border-top: 1px solid #a8a7a7;
 			border-left: 1px solid #a8a7a7;
 			border-right: 1px solid #a8a7a7;

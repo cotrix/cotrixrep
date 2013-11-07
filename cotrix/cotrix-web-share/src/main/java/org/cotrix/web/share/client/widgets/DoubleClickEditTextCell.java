@@ -5,8 +5,6 @@ import static com.google.gwt.dom.client.BrowserEvents.DBLCLICK;
 import static com.google.gwt.dom.client.BrowserEvents.KEYDOWN;
 import static com.google.gwt.dom.client.BrowserEvents.KEYUP;
 
-import org.cotrix.web.share.client.resources.CommonResources;
-
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.ValueUpdater;
@@ -134,13 +132,14 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 	private final SafeHtmlRenderer<String> renderer;
 
 	protected boolean editable;
+	protected String editorStyle;
 
 	/**
 	 * Construct a new EditTextCell that will use a
 	 * {@link SimpleSafeHtmlRenderer}.
 	 */
-	public DoubleClickEditTextCell() {
-		this(SimpleSafeHtmlRenderer.getInstance());
+	public DoubleClickEditTextCell(String editorStyle) {
+		this(editorStyle, SimpleSafeHtmlRenderer.getInstance());
 	}
 
 	/**
@@ -150,7 +149,7 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 	 * @param renderer
 	 *            a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
 	 */
-	public DoubleClickEditTextCell(SafeHtmlRenderer<String> renderer) {
+	public DoubleClickEditTextCell(String editorStyle, SafeHtmlRenderer<String> renderer) {
 		super(DBLCLICK, KEYUP, KEYDOWN, BLUR);
 		if (template == null) {
 			template = GWT.create(Template.class);
@@ -160,6 +159,7 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 		}
 		this.renderer = renderer;
 		editable = true;
+		this.editorStyle = editorStyle;
 	}
 
 	/**
@@ -231,7 +231,7 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 				 * text input element is always treated as text. SafeHtml isn't
 				 * valid in the context of the value attribute.
 				 */
-				sb.append(template.input(text, CommonResources.INSTANCE.css().textBox()));
+				sb.append(template.input(text, editorStyle));
 				return;
 			} else {
 				// The user pressed enter, but view data still exists.

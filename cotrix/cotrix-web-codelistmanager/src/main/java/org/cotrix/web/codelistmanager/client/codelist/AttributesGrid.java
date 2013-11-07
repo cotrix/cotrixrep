@@ -28,9 +28,12 @@ import org.cotrix.web.codelistmanager.client.codelist.attribute.AttributeField;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.HasAttributeChangedHandlers;
+import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.util.EventUtil;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.client.widgets.HasEditing;
+import org.cotrix.web.share.client.widgets.StyledSafeHtmlRenderer;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -49,6 +52,12 @@ import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.OutlineStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates.Template;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.user.cellview.client.AbstractCellTable.Style;
 import com.google.gwt.user.cellview.client.AbstractCellTableBuilder;
 import com.google.gwt.user.cellview.client.Column;
@@ -84,6 +93,8 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		String expansionHeader();
 		
 		String expansionValue();
+		
+		String expansionValueText();
 	}
 
 	DataGrid<UIAttribute> dataGrid;
@@ -103,6 +114,8 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 	private Header<String> header;
 
 	protected SingleSelectionModel<UIAttribute> selectionModel;
+	
+	protected StyledSafeHtmlRenderer cellRenderer;
 
 	public AttributesGrid(ListDataProvider<UIAttribute> dataProvider, Header<String> header, String emptyMessage) {
 		
@@ -130,6 +143,8 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		dataProvider.addDataDisplay(dataGrid);
 
 		initWidget(dataGrid);
+		
+		cellRenderer = new StyledSafeHtmlRenderer(gridResource.dataGridStyle().expansionValueText());
 	}
 	
 	private void setupColumns() {
@@ -174,7 +189,8 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 	protected DoubleClickEditTextCell createCell()
 	{
-		DoubleClickEditTextCell cell = new DoubleClickEditTextCell();
+		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + CotrixManagerResources.INSTANCE.css().editor();
+		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, cellRenderer);
 		cell.setEditable(editable);
 		cells.add(cell);
 		return cell;

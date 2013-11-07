@@ -8,6 +8,9 @@
 				color: #097bfb;
 				padding-left: 5px;
 			}
+			.noAttributes {
+				background-color: #efefef;
+			}
 		</ui:style>
 	<g:DockLayoutPanel unit="PX">
 		<g:center>

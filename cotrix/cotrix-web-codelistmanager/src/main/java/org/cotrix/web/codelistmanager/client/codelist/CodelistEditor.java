@@ -41,6 +41,7 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.client.widgets.HasEditing;
@@ -212,7 +213,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 	protected DoubleClickEditTextCell createCell()
 	{
-		DoubleClickEditTextCell cell = new DoubleClickEditTextCell();
+		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + CotrixManagerResources.INSTANCE.css().editor();
+		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle);
 		cell.setEditable(editable);
 		cells.add(cell);
 		return cell;

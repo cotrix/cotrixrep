@@ -27,28 +27,6 @@
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX'>
-		<g:north size="80">
-			<g:Grid ui:field="panel" styleName="{style.grid}">
-				<g:row>
-					<g:cell
-						styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
-						<span class="{common.css.propertyLabel}">Name</span>
-					</g:cell>
-					<g:customCell>
-						<g:TextBox ui:field="nameField" styleName="{common.css.textBox}" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:cell
-						styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
-						<span class="{common.css.propertyLabel}">Version</span>
-					</g:cell>
-					<g:customCell>
-						<g:TextBox ui:field="versionField" styleName="{common.css.textBox}" />
-					</g:customCell>
-				</g:row>
-			</g:Grid>
-		</g:north>
 		<g:center>
 			<v:AttributesGrid ui:field="attributesGrid" />
 		</g:center>
