@@ -475,13 +475,13 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	
 	static interface GroupHeaderTemplate extends SafeHtmlTemplates {
 		
-		@Template("<span style=\"vertical-align:middle;\">{0} ({1})</span><img src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/>")
+		@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;\">{0} ({1})</span><img src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/></div>")
 		SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, SafeUri img, String imgStyle);
 		
-		@Template("<span style=\"vertical-align:middle;\">{0} <img src=\"{1}\" style=\"vertical-align:middle;\"/></span><img src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/>")
+		@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;\">{0} <img src=\"{1}\" style=\"vertical-align:middle;\"/></span><img src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/></div>")
 		SafeHtml headerWithLanguageImage(SafeHtml name, SafeUri language, SafeUri img, String imgStyle);
 
-		@Template("<span style=\"vertical-align:middle;\">{0}</span><img src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\"/>")
+		@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;\">{0}</span><img src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\"/></div>")
 		SafeHtml header(SafeHtml name, SafeUri img, String imgStyle);
 	}
 

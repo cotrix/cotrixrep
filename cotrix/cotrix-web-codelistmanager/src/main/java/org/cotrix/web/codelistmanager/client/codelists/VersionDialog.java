@@ -25,7 +25,7 @@ public class VersionDialog extends PopupPanel {
 	
 	@UiField Label name;
 	
-	@UiField Label oldVersion;
+	@UiField TextBox oldVersion;
 	
 	@UiField TextBox newVersion;
 	

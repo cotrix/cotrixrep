@@ -14,7 +14,7 @@
 			border-radius: 5px;
 			width: 300px;
 /*			margin-left: 100px;*/
-			height: 250px;
+			height: 330px;
 			padding: 20px;
 		}
 		
@@ -93,11 +93,11 @@
 			</div>
 			<div class="{style.textfield}">
 				<div>Current</div>
-				<g:Label ui:field="oldVersion" styleName="{style.oldVersion}"/>
+				<g:TextBox styleName="{style.textbox}" ui:field="oldVersion" readOnly="true" />
 			</div>
 			<div class="{style.textfield}">
 				<div>New</div>
-				<g:TextBox styleName="{resources.css.textBox}" ui:field="newVersion"  />
+				<g:TextBox styleName="{style.textbox}" ui:field="newVersion"  />
 			</div>
 			<div class="{style.textfield}">
 				<g:Button ui:field="create" styleName="{style.submit}">Create</g:Button>
