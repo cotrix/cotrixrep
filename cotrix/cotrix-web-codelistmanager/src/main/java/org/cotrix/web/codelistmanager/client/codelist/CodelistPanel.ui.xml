@@ -11,8 +11,8 @@
 	</ui:style>
 	<g:SplitLayoutPanel ui:field="mainPanel">
 		<g:center>
-			<g:DockLayoutPanel ui:field="contentPanel" unit='EM' styleName="{style.contentPanel}" >
-				<g:north size='1.7'>
+			<g:DockLayoutPanel ui:field="contentPanel" unit='PX' styleName="{style.contentPanel}" >
+				<g:north size='35'>
 					<v:CodelistToolbarImpl ui:field="toolbar" />
 				</g:north>
 				<g:center>

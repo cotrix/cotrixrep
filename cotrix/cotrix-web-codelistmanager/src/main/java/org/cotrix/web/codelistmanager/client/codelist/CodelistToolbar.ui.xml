@@ -29,11 +29,12 @@
 		.rightWrapper {
 			float: right;
 			vertical-align: middle;
+			padding: 5px;
 		}
 		
 		.status {
 			color: gray;
-
+			padding-right: 5px;
 		}
 	</ui:style>
 	<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
@@ -46,7 +47,7 @@
 			</g:PushButton>
 		</g:HorizontalPanel>
 		<g:FlowPanel styleName="{style.rightWrapper}">
-			<g:Label styleName="{style.status}">Draft</g:Label>
+			<g:InlineLabel styleName="{style.status}">Draft</g:InlineLabel>
 			<g:ToggleButton ui:field="lock" styleName="{style.lock}">
 				<g:upFace image="{resources.unlock}" />
 				<g:upDisabledFace image="{resources.unlockDisabled}" />

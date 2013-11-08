@@ -12,10 +12,11 @@
 		.button {
 			cursor: pointer;
 			outline: none;
+			vertical-align: middle;
 		}
 		
 		.tools {
-			margin-top: 7px;
+
 		}
 		
 		.mainPanel {
@@ -25,10 +26,10 @@
 			background-color: #fff;
 		}
 	</ui:style>
-	<g:DockLayoutPanel unit='EM' styleName="{style.mainPanel}">
-		<g:north size='1.7'>
+	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
+		<g:north size='35'>
 			<g:FlowPanel>
-				<g:HorizontalPanel styleName="{style.buttonBar}">
+				<g:HorizontalPanel styleName="{style.buttonBar}" verticalAlignment="middle" height="100%">
 					<g:ToggleButton ui:field="attributesButton" width="32px"
 						styleName="{style.button}">
 						<g:upFace image="{resources.attributesDisabled}" />
