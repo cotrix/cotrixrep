@@ -9,7 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.cotrix.io.Channels;
+import org.cotrix.io.CloudService;
 import org.cotrix.web.importwizard.server.util.FieldComparator.ValueProvider;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
@@ -17,8 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
 import org.virtualrepository.RepositoryService;
-import org.virtualrepository.VirtualRepository;
-import org.virtualrepository.impl.Services;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -44,10 +42,10 @@ public class AssetInfosCache {
 	
 	public static final String SESSION_ATTRIBUTE_NAME = AssetInfosCache.class.getSimpleName();
 	
-	public static AssetInfosCache getFromSession(HttpSession httpSession, VirtualRepository remoteRepository){
+	public static AssetInfosCache getFromSession(HttpSession httpSession, CloudService cloud){
 		AssetInfosCache assetCache = (AssetInfosCache) httpSession.getAttribute(SESSION_ATTRIBUTE_NAME);
 		if (assetCache == null) {
-			assetCache = new AssetInfosCache(remoteRepository);
+			assetCache = new AssetInfosCache(cloud);
 			httpSession.setAttribute(SESSION_ATTRIBUTE_NAME, assetCache);
 		}
 		return assetCache;
@@ -55,7 +53,7 @@ public class AssetInfosCache {
 	
 	protected Logger logger = LoggerFactory.getLogger(AssetInfosCache.class);
 	
-	protected VirtualRepository remoteRepository;
+	protected CloudService cloud;
 	
 	protected Map<String, Asset> assetsCache;
 	protected Map<String, RepositoryDetails> repositoriesCache;
@@ -63,10 +61,10 @@ public class AssetInfosCache {
 	protected boolean cacheLoaded = false;
 	
 	/**
-	 * @param remoteRepository
+	 * @param cloud
 	 */
-	public AssetInfosCache(VirtualRepository remoteRepository) {
-		this.remoteRepository = remoteRepository;
+	public AssetInfosCache(CloudService cloud) {
+		this.cloud = cloud;
 		setupCache();
 	}
 
@@ -82,8 +80,7 @@ public class AssetInfosCache {
 	
 	public void refreshCache()
 	{
-		int discovered = remoteRepository.discover(Channels.importTypes);
-		logger.trace("discovered "+discovered+" remote codelist");
+		cloud.discover();
 		loadCache();
 	}
 	
@@ -93,7 +90,7 @@ public class AssetInfosCache {
 		assetsCache.clear();
 		repositoriesCache.clear();
 
-		for (Asset asset:remoteRepository) {
+		for (Asset asset:cloud) {
 	
 			AssetInfo assetInfo = Assets.convert(asset);
 			logger.trace("converted {} to {}", asset.name(), assetInfo);
@@ -101,9 +98,8 @@ public class AssetInfosCache {
 			assetsCache.put(asset.id(), asset);
 		}
 		
-		Services services = remoteRepository.services();
-		for (RepositoryService repositoryService:services) {
-			RepositoryDetails repositoryDetails = Assets.convert(repositoryService);
+		for (RepositoryService repository: cloud.repositories()) {
+			RepositoryDetails repositoryDetails = Assets.convert(repository);
 			repositoriesCache.put(repositoryDetails.getName(), repositoryDetails);
 		}
 		

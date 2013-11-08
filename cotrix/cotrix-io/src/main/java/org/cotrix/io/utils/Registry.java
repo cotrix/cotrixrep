@@ -1,49 +1,52 @@
 package org.cotrix.io.utils;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cotrix.io.Directives;
-import org.cotrix.io.Task;
+import org.cotrix.io.impl.Task;
 
 /**
- * A collection of {@link Task}s, indexed by their {@link Directives}.
+ * A collection of directive-driven tasks, indexed by directive type.
  * 
  * @author Fabio Simeoni
  *
- * @param <T> the type of task
+ * @param <T> the type of tasks
  */
 public class Registry<T extends Task<?>> {
 
 	private final Map<Class<?>,T> tasks = new HashMap<Class<?>,T>();
 	
 	/**
-	 * Creates an instance with given {@link Task}s.
+	 * Creates an instance with given tasks.
 	 * @param tasks the tasks
 	 */
-	public Registry(Collection<? extends T> tasks) {
+	public Registry(Iterable<T> tasks) {
+		
 		for (T task : tasks)
 			this.tasks.put(task.directedBy(),task);
 	}
 	
 	/**
-	 * Returns the {@link Task} associated with given {@link Directives} in this registry.
-	 * @param mockDirectives the mockDirectives
+	 * Returns the task in this registry which is driven by given directives.
+	 * @param directives the directives
 	 * @return the task
+	 * 
 	 */
-	public T get(Directives directives) {
+	public T get(Object directives) {
+		
 		T s =  tasks.get(directives.getClass());
+		
 		if (s==null)
-			throw new IllegalStateException("type "+directives.getClass()+" is unbound in this registry");
+			throw new AssertionError("no task for directives "+directives.getClass());
+		
 		return s;
 	}
 	
 	/**
-	 * Returns all the {@link Task}s in this registry.
-	 * @return
+	 * Returns all the tasks in this registry.
+	 * @return the tasks
 	 */
-	public Collection<T> getAll() {
+	public Iterable<T> tasks() {
 		return tasks.values();
 	}
 }

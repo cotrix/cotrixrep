@@ -21,12 +21,22 @@
 			<artifactId>cotrix-domain</artifactId>
 		</dependency>
 		
-		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-repository</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-user</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-io</artifactId>
+		</dependency>
+
 
 		<!-- testing with CDI -->
 		<dependency>

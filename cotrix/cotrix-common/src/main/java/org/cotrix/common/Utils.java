@@ -219,23 +219,6 @@ public class Utils {
 		throw unchecked(msg,t);
 
 	}
-	
-//	public static boolean isActive(Instance<?> objects, String profile) {
-//		
-//		notNull("input", objects);
-//		
-//		Iterator<?> it = objects.iterator();
-//		
-//		while (it.hasNext()) {
-//		
-//			Class<?> type = it.next().getClass();
-//			if (type.isAnnotationPresent(Active.class)) {
-//				if (!type.getAnnotation(Active.class).value().equals(profile))
-//				 return false;
-//			}
-//		}
-//		return true;
-//	}
 
 	
 }
