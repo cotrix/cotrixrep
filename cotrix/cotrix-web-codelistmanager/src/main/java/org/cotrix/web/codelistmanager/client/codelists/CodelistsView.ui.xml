@@ -57,7 +57,7 @@
 				<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}" />
 			</g:FlowPanel>
 		</g:north>
-		<g:north size='32'>
+		<g:north size='30'>
 			<g:HTMLPanel styleName="{style.headerPanel}">
 				Codelists
 			</g:HTMLPanel>

@@ -27,7 +27,7 @@
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
-		<g:north size='35'>
+		<g:north size='34'>
 			<g:FlowPanel>
 				<g:HorizontalPanel styleName="{style.buttonBar}" verticalAlignment="middle" height="100%">
 					<g:ToggleButton ui:field="attributesButton" width="32px"
