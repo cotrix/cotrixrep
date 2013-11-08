@@ -2,6 +2,7 @@ package org.cotrix.application.impl;
 
 import static org.cotrix.repository.Queries.*;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.cotrix.application.StatisticsService;
@@ -11,6 +12,7 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.user.UserRepository;
 import org.virtualrepository.RepositoryService;
 
+@ApplicationScoped
 public class MStatisticsService implements StatisticsService {
 
 	@Inject
