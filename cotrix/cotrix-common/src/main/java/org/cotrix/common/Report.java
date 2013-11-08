@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * A task's report.
  * <p>
- * Reports are thread-locals.
+ * Reports are thread-locals and must be cleared after use.
  * 
  * @author Fabio Simeoni
  *

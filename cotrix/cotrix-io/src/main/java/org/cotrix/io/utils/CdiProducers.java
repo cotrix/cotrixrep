@@ -1,19 +1,13 @@
 package org.cotrix.io.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.io.map.MapDirectives;
-import org.cotrix.io.map.MapTask;
-import org.cotrix.io.parse.ParseDirectives;
-import org.cotrix.io.parse.ParseTask;
-import org.cotrix.io.publish.PublicationDirectives;
-import org.cotrix.io.publish.PublicationTask;
+import org.cotrix.io.impl.MapTask;
+import org.cotrix.io.impl.ParseTask;
+import org.cotrix.io.impl.SerialisationTask;
 import org.sdmx.SdmxServiceFactory;
 import org.sdmxsource.sdmx.api.manager.output.StructureWritingManager;
 import org.sdmxsource.sdmx.api.manager.parse.StructureParsingManager;
@@ -26,6 +20,7 @@ import org.virtualrepository.impl.Repository;
  * @author Fabio Simeoni
  *
  */
+@SuppressWarnings("all")
 public class CdiProducers {
 
 	private final static VirtualRepository repository = new Repository();
@@ -34,61 +29,27 @@ public class CdiProducers {
 	private Instance<ParseTask<?,?>> parseTasks;
 	
 	@Inject
-	private Instance<MapTask<?,?>> mapTasks;
+	private Instance<MapTask<?,?,?>> mapTasks;
 	
 	@Inject
-	private Instance<PublicationTask<?>> publishTasks;
+	private Instance<SerialisationTask<?,?>> serialisationTasks;
 	
-	/**
-	 * Produces a {@link Registry} of {@link ParseDirectives}s for CDI injection.
-	 * @return the registry
-	 */
-	@Produces @Singleton
-	@SuppressWarnings("all")
-	public Registry<ParseTask<Object,ParseDirectives<Object>>> parseTasks() {
-		
-		List<ParseTask<Object,ParseDirectives<Object>>> tasks = new ArrayList<ParseTask<Object,ParseDirectives<Object>>>();
-		
-		for (ParseTask<?,?> task : parseTasks)
-			tasks.add((ParseTask)task);
-		
-		return new Registry<ParseTask<Object,ParseDirectives<Object>>>(tasks);
-			
+
+	@Produces
+	public Iterable<ParseTask<Object,Object>> parseTasks() {
+		return (Iterable) parseTasks;
 	}
 	
-	/**
-	 * Produces a {@link Registry} of {@link MapDirectives}s for CDI injection.
-	 * @return the registry
-	 */
-	@Produces @Singleton
-	@SuppressWarnings("all")
-	public Registry<MapTask<Object,MapDirectives<Object>>> mapTasks() {
-		
-		List<MapTask<Object,MapDirectives<Object>>> tasks = new ArrayList<MapTask<Object,MapDirectives<Object>>>();
-		
-		for (MapTask<?,?> task : mapTasks)
-			tasks.add((MapTask)task);
-		
-		return new Registry<MapTask<Object,MapDirectives<Object>>>(tasks);
-			
+
+	@Produces
+	public Iterable<MapTask<Object,Object,Object>> mapTasks() {
+		return (Iterable) mapTasks;		
 	}
 	
 	
-	/**
-	 * Produces a {@link Registry} of {@link PublicationTask}s for CDI injection.
-	 * @return the registry
-	 */
-	@Produces @Singleton
-	@SuppressWarnings("all")
-	public Registry<PublicationTask<PublicationDirectives>> publishTasks() {
-		
-		List<PublicationTask<PublicationDirectives>> tasks = new ArrayList<PublicationTask<PublicationDirectives>>();
-		
-		for (PublicationTask<?> task : publishTasks)
-			tasks.add((PublicationTask<PublicationDirectives>)task);
-		
-		return new Registry<PublicationTask<PublicationDirectives>>(tasks);
-			
+	@Produces
+	public Iterable<SerialisationTask<Object,Object>> publishTasks() {
+		return (Iterable) serialisationTasks;
 	}
 	
 	/**
@@ -102,9 +63,9 @@ public class CdiProducers {
 
 	
 	/**
-	 * Returns a {@link StructureParsingManager} service.
+	 * Returns a {@link StructureParsingManager} serialiser.
 	 * 
-	 * @return the service
+	 * @return the serialiser
 	 */
 	@Produces @Singleton
 	public static StructureParsingManager parser() {
@@ -112,9 +73,9 @@ public class CdiProducers {
 	}
 	
 	/**
-	 * Returns a {@link StructureWritingManager} service.
+	 * Returns a {@link StructureWritingManager} serialiser.
 	 * 
-	 * @return the service
+	 * @return the serialiser
 	 */
 	@Produces @Singleton
 	public static StructureWritingManager writer() {

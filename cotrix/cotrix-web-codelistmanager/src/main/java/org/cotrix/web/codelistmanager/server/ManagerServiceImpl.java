@@ -44,7 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The server side implementation of the RPC service.
+ * The server side implementation of the RPC serialiser.
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */

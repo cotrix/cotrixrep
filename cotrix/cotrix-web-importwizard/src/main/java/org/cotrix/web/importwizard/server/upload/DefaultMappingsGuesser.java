@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.io.sdmx.SdmxElement;
-import org.cotrix.io.sdmx.SdmxMapDirectives;
+import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
 import org.cotrix.web.importwizard.shared.AttributeDefinition;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
@@ -114,7 +114,7 @@ public class DefaultMappingsGuesser implements MappingGuesser {
 	
 	protected AttributeDefinition getDefinition(SdmxElement element)
 	{
-		String name = SdmxMapDirectives.DEFAULT.get(element).toString();
+		String name = Sdmx2CodelistDirectives.DEFAULT.get(element).toString();
 		AttributeDefinition definition = new AttributeDefinition();
 		definition.setName(name);
 		definition.setType(AttributeType.DESCRIPTION);

@@ -9,10 +9,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.io.map.MapService;
-import org.cotrix.io.parse.ParseDirectives;
-import org.cotrix.io.parse.ParseService;
-import org.cotrix.io.sdmx.SdmxParseDirectives;
+import org.cotrix.io.CloudService;
+import org.cotrix.io.MapService;
+import org.cotrix.io.ParseService;
+import org.cotrix.io.ParseService.ParseDirectives;
+import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.importwizard.server.WizardImportSession;
@@ -22,7 +23,6 @@ import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
-import org.virtualrepository.VirtualRepository;
 import org.virtualrepository.tabular.Table;
 
 /**
@@ -48,7 +48,7 @@ public class ImporterFactory {
 	protected LifecycleService lifecycleService;
 	
 	@Inject
-	protected VirtualRepository remoteRepository;
+	protected CloudService cloud;
 
 	public Importer<?> createImporter(WizardImportSession session, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws IOException
 	{
@@ -88,7 +88,7 @@ public class ImporterFactory {
 		} 
 		if (session.getSelectedAsset()!=null) {
 			Asset asset = session.getSelectedAsset();
-			ImporterSource<Table> source = new ImporterSource.RetrieveSource<Table>(remoteRepository, asset, Table.class);
+			ImporterSource<Table> source = new ImporterSource.RetrieveSource<Table>(cloud, asset, Table.class);
 			return source;
 		}
 
@@ -98,13 +98,13 @@ public class ImporterFactory {
 	protected ImporterSource<CodelistBean> getSdmxSource(WizardImportSession session) throws IOException
 	{
 		if (session.getFileField()!=null) {
-			ParseDirectives<CodelistBean> parseDirectives = SdmxParseDirectives.DEFAULT;
+			ParseDirectives<CodelistBean> parseDirectives = Stream2SdmxDirectives.DEFAULT;
 			ImporterSource<CodelistBean> source = new ImporterSource.ParserSource<CodelistBean>(parseService, parseDirectives, session.getFileField().getInputStream());
 			return source;
 		} 
 		if (session.getSelectedAsset()!=null) {
 			Asset asset = session.getSelectedAsset();
-			ImporterSource<CodelistBean> source = new ImporterSource.RetrieveSource<CodelistBean>(remoteRepository, asset, CodelistBean.class);
+			ImporterSource<CodelistBean> source = new ImporterSource.RetrieveSource<CodelistBean>(cloud, asset, CodelistBean.class);
 			return source;
 		}
 		throw new IllegalArgumentException("Both filefield and selectasset null");
