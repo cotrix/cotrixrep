@@ -21,6 +21,7 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource tableDisabled();
 	
 	public ImageResource close();
+	public ImageResource closeSmall();
 	
 	public ImageResource plus();
 	
@@ -53,6 +54,13 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource filter();
 	public ImageResource filterDisabled();
+	
+	public ImageResource ar();
+	public ImageResource en();
+	public ImageResource es();
+	public ImageResource fr();
+	public ImageResource ru();
+	public ImageResource zh();
 	
 	interface CotrixManagerStyle extends CssResource {
 		String search();
