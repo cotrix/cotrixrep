@@ -44,4 +44,11 @@ public interface Repository<T> {
 	 * @param the set of changes to apply to the object.
 	 */
 	void update(T changeset);
+	
+	
+	/**
+	 * Returns the number of objects in this repository.
+	 * @return the number of objects in this repository
+	 */
+	int size();
 }

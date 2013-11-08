@@ -93,4 +93,9 @@ public class MRepository<T, S extends Identified.Abstract<S>> implements Reposit
 	
 		return cbQuery.execute(this);
 	}
+	
+	@Override
+	public int size() {
+		return store.size(privateType);
+	}
 }
