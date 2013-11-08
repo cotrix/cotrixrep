@@ -47,7 +47,7 @@
 			</g:PushButton>
 		</g:HorizontalPanel>
 		<g:FlowPanel styleName="{style.rightWrapper}">
-			<g:InlineLabel styleName="{style.status}">Draft</g:InlineLabel>
+			<g:InlineLabel styleName="{style.status}">draft</g:InlineLabel>
 			<g:ToggleButton ui:field="lock" styleName="{style.lock}">
 				<g:upFace image="{resources.unlock}" />
 				<g:upDisabledFace image="{resources.unlockDisabled}" />

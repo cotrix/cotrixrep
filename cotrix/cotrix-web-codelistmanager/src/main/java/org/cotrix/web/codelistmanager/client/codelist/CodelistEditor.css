@@ -6,6 +6,10 @@
 	background: #eee;
 }
 
+.textCell {
+	margin: 7px;
+}
+
 .language {
 	-webkit-border-radius: 999px;
 	-moz-border-radius: 999px;
@@ -71,7 +75,7 @@
 	border-right: 1px solid #c6c6c6;
 	border-bottom: 1px solid #c6c6c6;
 	font-size: 14px;
-	padding: 8px 8px 8px 10px;
+	/*padding: 8px 8px 8px 10px;*/
 	text-align: left;
 	overflow: hidden;
 }

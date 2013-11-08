@@ -114,6 +114,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		this.dataProvider = dataProvider;
 		this.header = header;
 
+		cellRenderer = new StyledSafeHtmlRenderer(gridResource.dataGridStyle().expansionValueText());
 		dataGrid = new PatchedDataGrid<UIAttribute>(20, gridResource);
 		
 		//We need to listen dbclick events in order to enable editing
@@ -136,7 +137,6 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 		initWidget(dataGrid);
 		
-		cellRenderer = new StyledSafeHtmlRenderer(gridResource.dataGridStyle().expansionValueText());
 	}
 	
 	private void setupColumns() {

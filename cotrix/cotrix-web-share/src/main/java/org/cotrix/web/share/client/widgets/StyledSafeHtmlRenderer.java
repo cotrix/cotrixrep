@@ -17,7 +17,7 @@ import com.google.gwt.text.shared.SafeHtmlRenderer;
 public class StyledSafeHtmlRenderer implements SafeHtmlRenderer<String> {
 	
 	interface Template extends SafeHtmlTemplates {
-		@Template("<span class=\"{1}\">{0}</span>")
+		@Template("<div class=\"{1}\">{0}</div>")
 		SafeHtml styled(SafeHtml value, String style);
 	}
 	

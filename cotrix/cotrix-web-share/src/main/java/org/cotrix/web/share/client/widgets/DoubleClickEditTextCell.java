@@ -155,7 +155,7 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 			template = GWT.create(Template.class);
 		}
 		if (renderer == null) {
-			throw new IllegalArgumentException("renderer == null");
+			throw new IllegalArgumentException("The renderer is null");
 		}
 		this.renderer = renderer;
 		editable = true;

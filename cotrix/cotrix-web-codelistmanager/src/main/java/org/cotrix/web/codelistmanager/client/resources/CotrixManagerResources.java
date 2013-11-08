@@ -33,6 +33,8 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource versionItem();
 	
+	public ImageResource bullet();
+	
 	public ImageResource lock();
 	
 	public ImageResource lockDisabled();

@@ -41,11 +41,11 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
-import org.cotrix.web.codelistmanager.client.resources.LanguageResources;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.client.widgets.HasEditing;
+import org.cotrix.web.share.client.widgets.StyledSafeHtmlRenderer;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
 
@@ -59,7 +59,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -100,6 +99,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	interface DataGridStyle extends PatchedDataGrid.Style {
 
 		String groupHeaderCell();
+		
+		String textCell();
 
 		String language();
 		
@@ -135,6 +136,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected DataEditor<UICode> codeEditor;
 
 	protected DataEditor<CodeAttribute> attributeEditor;
+	
+	protected StyledSafeHtmlRenderer cellRenderer;
 
 	@Inject
 	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider) {
@@ -143,6 +146,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		this.codeEditor = DataEditor.build(this);
 		this.attributeEditor = DataEditor.build(this);
 
+		cellRenderer = new StyledSafeHtmlRenderer(resource.dataGridStyle().textCell());
+		
 		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		dataGrid.setEmptyTableWidget(new Label("Empty"));
@@ -157,13 +162,12 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 		setupColumns();
 
-
 		selectionModel = new SingleSelectionModel<UICode>(CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setSelectionModel(selectionModel);
 
 		// Specify a custom table.
 		//dataGrid.setTableBuilder(new CustomTableBuilder());
-
+	
 		dataProvider.addDataDisplay(dataGrid);
 
 		// Create the UiBinder.
@@ -216,7 +220,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected DoubleClickEditTextCell createCell()
 	{
 		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + CotrixManagerResources.INSTANCE.css().editor();
-		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle);
+		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, cellRenderer);
 		cell.setEditable(editable);
 		cells.add(cell);
 		return cell;
@@ -475,11 +479,11 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	
 	static interface GroupHeaderTemplate extends SafeHtmlTemplates {
 		
-		@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;\">{0} ({1})</span><img src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/></div>")
+		@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;\">{0}</span><span style=\"vertical-align:middle;color:black;padding-left:5px;\">{1}</span><img src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/></div>")
 		SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, SafeUri img, String imgStyle);
 		
-		@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;\">{0} <img src=\"{1}\" style=\"vertical-align:middle;\"/></span><img src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/></div>")
-		SafeHtml headerWithLanguageImage(SafeHtml name, SafeUri language, SafeUri img, String imgStyle);
+		/*@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;\">{0} <img src=\"{1}\" style=\"vertical-align:middle;\"/></span><img src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/></div>")
+		SafeHtml headerWithLanguageImage(SafeHtml name, SafeUri language, SafeUri img, String imgStyle);*/
 
 		@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;\">{0}</span><img src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\"/></div>")
 		SafeHtml header(SafeHtml name, SafeUri img, String imgStyle);
@@ -494,9 +498,10 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			SafeUri img = CotrixManagerResources.INSTANCE.closeSmall().getSafeUri();
 			String imgStyle = resource.dataGridStyle().closeGroup();
 			if (value.getLanguage()!=null && !value.getLanguage().isEmpty()) {
-				ImageResource languageImage = LanguageResources.getResource(value.getLanguage());
+				/*ImageResource languageImage = LanguageResources.getResource(value.getLanguage());
 				if (languageImage != null) return HEADER_TEMPLATE.headerWithLanguageImage(name, languageImage.getSafeUri(), img, imgStyle);
-				else  return HEADER_TEMPLATE.headerWithLanguage(name, SafeHtmlUtils.fromString(value.getLanguage()), img, imgStyle);
+				else */ 
+				return HEADER_TEMPLATE.headerWithLanguage(name, SafeHtmlUtils.fromString(value.getLanguage()), img, imgStyle);
 			} else return HEADER_TEMPLATE.header(name, img, imgStyle);
 		}
 	}

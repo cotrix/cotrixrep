@@ -6,7 +6,6 @@
 		type="org.cotrix.web.codelistmanager.client.codelist.CodelistAttributesPanel.Style">
 			.headerCode {
 				color: #097bfb;
-				padding-left: 5px;
 			}
 			.noAttributes {
 				background-color: #efefef;

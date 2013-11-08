@@ -8,6 +8,7 @@ import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEve
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
+import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.client.util.Constants;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
@@ -15,12 +16,17 @@ import org.cotrix.web.share.shared.codelist.CodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.inject.Inject;
@@ -36,6 +42,8 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	}
 
 	private static CodelistMetadataPanelUiBinder uiBinder = GWT.create(CodelistMetadataPanelUiBinder.class);
+	
+	protected static ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 
 	@UiField(provided=true) AttributesGrid attributesGrid;
 
@@ -60,8 +68,24 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 
 		attributeEditor = DataEditor.build(this);
 
+		setupColumns();
+		
 		add(uiBinder.createAndBindUi(this));
 		bind();
+	}
+	
+	private void setupColumns() {
+
+		Column<UIAttribute, ImageResource> bulletColumn = new Column<UIAttribute, ImageResource>( new ImageResourceCell()) {
+
+			@Override
+			public ImageResource getValue(UIAttribute attribute) {
+				return CotrixManagerResources.INSTANCE.bullet();
+			}
+		};
+		attributesGrid.insertColumn(0, bulletColumn);
+		attributesGrid.setColumnWidth(0, 15, Unit.PX);
+
 	}
 
 	protected void bind()

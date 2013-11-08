@@ -92,7 +92,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	@UiField
 	ItemToolbar toolBar;
 
-	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
+	protected static ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 
 	private Set<Group> groupsAsColumn = new HashSet<Group>();
 	private Column<UIAttribute, AttributeSwitchState> switchColumn; 
