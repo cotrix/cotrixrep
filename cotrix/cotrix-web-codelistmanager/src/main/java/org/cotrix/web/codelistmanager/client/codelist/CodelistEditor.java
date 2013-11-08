@@ -500,33 +500,4 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			} else return HEADER_TEMPLATE.header(name, img, imgStyle);
 		}
 	}
-	
-	/*static interface GroupHeaderTemplate extends SafeHtmlTemplates {
-		@Template("<span style=\"display:inline-block;\"><span>{0} ({1})</span><span >{2}<span/></span>")
-		SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, SafeHtml img, String imgStyle);
-
-		@Template("<span style=\"display:inline-block;\"><span>{0}</span><span >{1}<span/></span>")
-		SafeHtml header(SafeHtml name, SafeHtml img, String imgStyle);
-	}
-
-	protected static final GroupHeaderTemplate HEADER_TEMPLATE = GWT.create(GroupHeaderTemplate.class);
-	protected static final SafeHtml CLOSE_HTML = AbstractImagePrototype.create(CotrixManagerResources.INSTANCE.close()).getSafeHtml();
-
-	public class SafeHtmlGroupRenderer extends AbstractSafeHtmlRenderer<Group> {
-		@Override
-		public SafeHtml render(Group value) {
-			SafeHtmlBuilder sb = new SafeHtmlBuilder();
-			SafeHtml name = SafeHtmlUtils.fromString(value.getName().getLocalPart());
-			String imgStyle = resource.dataGridStyle().closeGroup();
-			if (value.getLanguage()!=null && !value.getLanguage().isEmpty()) {
-				SafeHtml language = SafeHtmlUtils.fromString(value.getLanguage());
-				SafeHtml header = HEADER_TEMPLATE.headerWithLanguage(name, language, CLOSE_HTML, imgStyle);
-				sb.append(header);
-			} else {
-				SafeHtml header = HEADER_TEMPLATE.header(name, CLOSE_HTML, imgStyle);
-				sb.append(header);
-			}
-			return sb.toSafeHtml();
-		}
-	}*/
 }

@@ -657,8 +657,12 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		 */
 		emptyTableWidgetContainer = new FlexTable();
 		emptyTableWidgetContainer.getElement().setAttribute("align", "center");
+		emptyTableWidgetContainer.setWidth("100%");
+		emptyTableWidgetContainer.setHeight("100%");
 		loadingIndicatorContainer = new FlexTable();
 		loadingIndicatorContainer.getElement().setAttribute("align", "center");
+		loadingIndicatorContainer.setWidth("100%");
+		loadingIndicatorContainer.setHeight("100%");
 
 		// Set the loading indicator.
 		setLoadingIndicator(loadingIndicator); // Can be null.

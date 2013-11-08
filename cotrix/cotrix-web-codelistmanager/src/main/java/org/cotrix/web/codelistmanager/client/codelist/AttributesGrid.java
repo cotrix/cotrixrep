@@ -47,16 +47,14 @@ import com.google.gwt.dom.builder.shared.TableBuilder;
 import com.google.gwt.dom.builder.shared.TableCellBuilder;
 import com.google.gwt.dom.builder.shared.TableRowBuilder;
 import com.google.gwt.dom.client.BrowserEvents;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.OutlineStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.cellview.client.AbstractCellTable.Style;
 import com.google.gwt.user.cellview.client.AbstractCellTableBuilder;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.Header;
+import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
@@ -73,13 +71,13 @@ import com.google.gwt.view.client.SingleSelectionModel;
  */
 public class AttributesGrid extends ResizeComposite implements HasAttributeChangedHandlers, HasEditing {
 
-	interface DataGridResources extends DataGrid.Resources {
+	interface DataGridResources extends PatchedDataGrid.Resources {
 
 		@Source("AttributesGrid.css")
 		DataGridStyle dataGridStyle();
 	}
 
-	interface DataGridStyle extends DataGrid.Style {
+	interface DataGridStyle extends PatchedDataGrid.Style {
 		String emptyTableWidget();
 		
 		String expansionTable();
@@ -91,7 +89,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		String expansionValueText();
 	}
 
-	DataGrid<UIAttribute> dataGrid;
+	PatchedDataGrid<UIAttribute> dataGrid;
 	
 	protected static DataGridResources gridResource = GWT.create(DataGridResources.class);
 
@@ -116,7 +114,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		this.dataProvider = dataProvider;
 		this.header = header;
 
-		dataGrid = new DataGrid<UIAttribute>(20, gridResource);
+		dataGrid = new PatchedDataGrid<UIAttribute>(20, gridResource);
 		
 		//We need to listen dbclick events in order to enable editing
 		EventUtil.sinkEvents(dataGrid, Collections.singleton(BrowserEvents.DBLCLICK));
@@ -246,33 +244,10 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		} else Log.warn("attribute "+attribute+" not found in data provider");
 	}
 	
-	public void removeUnusedDataGridColumns() {
-		removeUnusedDataGridColumns(dataGrid);
-	}
-	
 	public void expand(UIAttribute attribute)
 	{
 		showExpanded.add(attribute.getId());
 		refreshAttribute(attribute);
-	}
-
-	/**
-	 * Workaround issue #6711
-	 * https://code.google.com/p/google-web-toolkit/issues/detail?id=6711
-	 * @param dataGrid
-	 */
-	protected static void removeUnusedDataGridColumns(DataGrid<?> dataGrid) {
-		int columnCount = dataGrid.getColumnCount();
-		NodeList<Element> colGroups = dataGrid.getElement().getElementsByTagName("colgroup");
-
-		for (int i = 0; i < colGroups.getLength(); i++) {
-			Element colGroupEle = colGroups.getItem(i);
-			NodeList<Element> colList = colGroupEle.getElementsByTagName("col");
-
-			for (int j = colList.getLength()-1; j >= columnCount; j--) {
-				colGroupEle.removeChild(colList.getItem(j));
-			}
-		}
 	}
 
 	private class CustomTableBuilder extends AbstractCellTableBuilder<UIAttribute> {
