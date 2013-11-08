@@ -22,4 +22,6 @@ public interface CodelistsView {
 	void setPresenter(Presenter presenter);
 	Widget asWidget();
 	void showVersionDialog(Version oldVersion);
+	void setAddVersionVisible(boolean visible);
+	void setRemoveCodelistVisible(boolean visible);
 }

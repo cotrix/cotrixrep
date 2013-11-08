@@ -4,6 +4,7 @@ import org.cotrix.web.codelistmanager.client.codelists.VersionDialog.VersionDial
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ItemButton;
 import org.cotrix.web.codelistmanager.client.resources.CodelistsResources;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
@@ -34,7 +35,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistsViewImpl extends ResizeComposite implements CodelistsView, VersionDialogListener {
+public class CodelistsViewImpl extends ResizeComposite implements CodelistsView {
 
 	private static CodeListsViewUiBinder uiBinder = GWT.create(CodeListsViewUiBinder.class);
 
@@ -126,9 +127,31 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	@Override
 	public void showVersionDialog(Version oldVersion)
 	{
-		if (versionDialog == null) versionDialog = new VersionDialog(this);
+		if (versionDialog == null) {
+			VersionDialogListener listener = new VersionDialogListener() {
+				
+				@Override
+				public void onCreate(String id, String newVersion) {
+					presenter.onCodelistNewVersion(id, newVersion);
+				}
+			};
+			
+			versionDialog = new VersionDialog(listener);
+		}
 		versionDialog.setOldVersion(oldVersion.getId(), oldVersion.getParent().getName(),  oldVersion.getVersion());
 		versionDialog.center();
+	}
+	
+	@Override
+	public void setAddVersionVisible(boolean visible)
+	{
+		toolbar.setVisible(ItemButton.PLUS, visible);
+	}
+	
+	@Override
+	public void setRemoveCodelistVisible(boolean visible)
+	{
+		toolbar.setVisible(ItemButton.MINUS, visible);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -156,11 +179,6 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 		public void render(com.google.gwt.cell.client.Cell.Context context,	UICodelist value, SafeHtmlBuilder sb) {
 			sb.appendEscaped(value.getName());
 		}
-	}
-
-	@Override
-	public void onCreate(String id, String newVersion) {
-		presenter.onCodelistNewVersion(id, newVersion);
 	}
 	
 	protected class ByNameFilter implements Filter<CodelistGroup> {

@@ -3,15 +3,19 @@
  */
 package org.cotrix.web.codelistmanager.client.common;
 
+import org.cotrix.web.share.client.util.FadeAnimation;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -25,9 +29,17 @@ public class ItemToolbar extends Composite {
 	@UiTemplate("ItemToolbar.ui.xml")
 	interface ItemToolbarUiBinder extends UiBinder<Widget, ItemToolbar> {}
 	private static ItemToolbarUiBinder uiBinder = GWT.create(ItemToolbarUiBinder.class);
+	
+	@UiField PushButton plus;
+	@UiField PushButton minus;
+	
+	protected FadeAnimation plusAnimation;
+	protected FadeAnimation minusAnimation;
 
 	public ItemToolbar() {
 		initWidget(uiBinder.createAndBindUi(this));
+		plusAnimation = new FadeAnimation(plus.getElement());
+		minusAnimation = new FadeAnimation(minus.getElement());
 	}
 
 	@UiHandler("plus")
@@ -47,6 +59,13 @@ public class ItemToolbar extends Composite {
 		return addHandler(handler, ButtonClickedEvent.getType());
 	}
 
+	public void setVisible(ItemButton button, boolean visible)
+	{
+		switch (button) {
+			case MINUS: minusAnimation.setVisibility(visible); break;
+			case PLUS: minusAnimation.setVisibility(visible); break;
+		}
+	}
 	
 
 	public interface ButtonClickedHandler extends EventHandler {

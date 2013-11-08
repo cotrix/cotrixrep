@@ -39,11 +39,24 @@ public class FadeAnimation extends Animation {
 		element.getStyle().setOpacity(targetOpacity);
 	}
 	
+	public void setVisibility(boolean visible)
+	{
+		if (visible) fadeIn();
+		else fadeOut();
+	}
+	
 	public void fadeOut()
 	{
 		cancel();
 		element.getStyle().setOpacity(1);
 		fade(2000, 0);
+	}
+	
+	public void fadeIn()
+	{
+		cancel();
+		element.getStyle().setOpacity(0);
+		fade(2000, 1);
 	}
 
 	public void fade(int duration, double targetOpacity) {
