@@ -19,10 +19,10 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
-import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
@@ -42,7 +42,7 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	private static RepositorySelectionStepUiBinder uiBinder = GWT.create(RepositorySelectionStepUiBinder.class);
 	
 	@UiField (provided = true) 
-	DataGrid<UICodelist> dataGrid;
+	PatchedDataGrid<UICodelist> dataGrid;
 
 	@UiField(provided = true)
 	SimplePager pager;
@@ -77,7 +77,7 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	protected void setupGrid()
 	{
 
-		dataGrid = new DataGrid<UICodelist>(6, DataGridListResource.INSTANCE, RepositoryKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<UICodelist>(6, DataGridListResource.INSTANCE, RepositoryKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);

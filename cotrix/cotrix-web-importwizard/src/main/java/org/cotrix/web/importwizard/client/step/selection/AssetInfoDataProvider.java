@@ -12,7 +12,7 @@ import org.cotrix.web.share.shared.DataWindow;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.ColumnSortList;
-import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.AsyncDataProvider;
@@ -29,7 +29,7 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 	
 	@Inject
 	protected ImportServiceAsync importService;
-	protected DataGrid<AssetInfo> datagrid;
+	protected PatchedDataGrid<AssetInfo> datagrid;
 	protected boolean forceRefresh;
 	
 	/**
@@ -42,7 +42,7 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 	/**
 	 * @param datagrid the datagrid to set
 	 */
-	public void setDatagrid(DataGrid<AssetInfo> datagrid) {
+	public void setDatagrid(PatchedDataGrid<AssetInfo> datagrid) {
 		this.datagrid = datagrid;
 	}
 

@@ -3,20 +3,16 @@
  */
 package org.cotrix.web.publish.client.wizard.step.repositoryselection;
 
-import java.util.List;
-
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.share.shared.ColumnSortInfo;
-import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.ColumnSortList;
-import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.view.client.Range;
+import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
+import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
 
 /**
@@ -29,7 +25,7 @@ public class RepositoryDataProvider extends AsyncDataProvider<UICodelist> {
 	
 	@Inject
 	protected PublishServiceAsync service;
-	protected DataGrid<UICodelist> datagrid;
+	protected PatchedDataGrid<UICodelist> datagrid;
 	protected boolean forceRefresh;
 	
 	/**
@@ -42,7 +38,7 @@ public class RepositoryDataProvider extends AsyncDataProvider<UICodelist> {
 	/**
 	 * @param datagrid the datagrid to set
 	 */
-	public void setDatagrid(DataGrid<UICodelist> datagrid) {
+	public void setDatagrid(PatchedDataGrid<UICodelist> datagrid) {
 		this.datagrid = datagrid;
 	}
 
@@ -72,7 +68,7 @@ public class RepositoryDataProvider extends AsyncDataProvider<UICodelist> {
 		boolean force = forceRefresh;
 		forceRefresh = false;
 		
-		service.getCodelists(range, sortInfo, force, new AsyncCallback<DataWindow<UICodelist>>() {
+		/*service.getCodelists(range, sortInfo, force, new AsyncCallback<DataWindow<UICodelist>>() {
 			
 			@Override
 			public void onSuccess(DataWindow<UICodelist> batch) {
@@ -87,7 +83,7 @@ public class RepositoryDataProvider extends AsyncDataProvider<UICodelist> {
 				//TODO show the error to the user?
 				Log.error("An error occurred loading the codelists", caught);
 			}
-		});
+		});*/
 	}
 
 }

@@ -6,13 +6,14 @@ package org.cotrix.web.publish.client.wizard.step.codelistselection;
 import java.util.List;
 
 import org.cotrix.web.publish.client.PublishServiceAsync;
+import org.cotrix.web.publish.shared.Codelist;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.ColumnSortList;
-import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.AsyncDataProvider;
@@ -23,14 +24,14 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
+public class CodelistDataProvider extends AsyncDataProvider<Codelist> {
 	
 	protected static final ColumnSortInfo DEFAULT_SORT_INFO = new ColumnSortInfo(UICodelist.NAME_FIELD, true);
 	
 	@Inject
 	protected PublishServiceAsync service;
-	protected DataGrid<UICodelist> datagrid;
-	protected boolean forceRefresh;
+	protected PatchedDataGrid<Codelist> datagrid;
+	protected boolean forceRefresh = true;
 	
 	/**
 	 * @param service
@@ -42,10 +43,10 @@ public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 	/**
 	 * @param datagrid the datagrid to set
 	 */
-	public void setDatagrid(DataGrid<UICodelist> datagrid) {
+	public void setDatagrid(PatchedDataGrid<Codelist> datagrid) {
 		this.datagrid = datagrid;
 	}
-
+	
 	/**
 	 * @param forceRefresh the forceRefresh to set
 	 */
@@ -54,7 +55,7 @@ public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 	}
 
 	@Override
-	protected void onRangeChanged(HasData<UICodelist> display) {
+	protected void onRangeChanged(HasData<Codelist> display) {
 	
 		final Range range = display.getVisibleRange();
 		Log.trace("onRangeChanged range: "+range);
@@ -72,11 +73,11 @@ public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 		boolean force = forceRefresh;
 		forceRefresh = false;
 		
-		service.getCodelists(range, sortInfo, force, new AsyncCallback<DataWindow<UICodelist>>() {
+		service.getCodelists(range, sortInfo, force, new AsyncCallback<DataWindow<Codelist>>() {
 			
 			@Override
-			public void onSuccess(DataWindow<UICodelist> batch) {
-				List<UICodelist> codelists = batch.getData();
+			public void onSuccess(DataWindow<Codelist> batch) {
+				List<Codelist> codelists = batch.getData();
 				Log.trace("loaded "+codelists.size()+" codelists");
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), codelists);

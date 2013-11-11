@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.server.util;
+package org.cotrix.web.share.server.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cotrix.web.importwizard.server.util.FieldComparator.ValueProvider;
+import org.cotrix.web.share.server.util.FieldComparator.ValueProvider;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -55,6 +55,11 @@ public class OrderedList<T> {
 			List<T> list = orderedLists.get(field);
 			Collections.sort(list, comparator);
 		}
+	}
+	
+	public int size()
+	{
+		return size;
 	}
 	
 	public List<T> getSortedList(String field)
