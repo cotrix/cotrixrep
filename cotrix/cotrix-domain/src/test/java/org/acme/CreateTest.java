@@ -64,6 +64,7 @@ public class CreateTest {
 		catch(IllegalArgumentException e) {}
 	}
 	
+	
 	/// attributes
 	
 	@Test
@@ -97,7 +98,9 @@ public class CreateTest {
 		Code code = code().name(name).build();
 		
 		assertEquals(name,code.name());
-		assertEquals(0,code.attributes().size());
+		
+		//creation time
+		assertEquals(1,code.attributes().size());
 		
 		assertEquals(code,ascode(name));
 		
@@ -105,11 +108,25 @@ public class CreateTest {
 		code = code("id").name(name).attributes(a).build();
 		
 		assertEquals("id",code.id());
+		
+		//no creation time on delta objects
 		assertEquals(1,code.attributes().size());
 		assertTrue(asList(code.attributes()).contains(a));
+		
+		System.out.println(code);
 	}
 	
+	@Test
+	public void codesAreCreatedwithATimestamp() {
+		
+		Code code  = code().name("name").build();
+		
+		for (Attribute a : code.attributes())
+			if (a.name().equals(Constants.CREATION_TIME))
+				return;
 
+		fail("creation time attribute is missing");
+	}
 	
 	//versioned
 	
@@ -179,7 +196,18 @@ public class CreateTest {
 
 	
 	
-	
+	@Test
+	public void codelistsAreCreatedwithATimestamp() {
+		
+		Code code  = code().name("name").build();
+		Codelist list = codelist().name("name").with(code).build();
+		
+		for (Attribute a : list.attributes())
+			if (a.name().equals(Constants.CREATION_TIME))
+				return;
+
+		fail("creation time attribute is missing");
+	}
 	//code bags
 	
 	
