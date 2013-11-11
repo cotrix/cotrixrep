@@ -105,19 +105,21 @@ public class MCodelistRepository extends MRepository<Codelist, Codelist.Private>
 
 		for (Code c : list.codes()) {
 			for (Attribute a : list.attributes()) {
-				if (!a.type().equals(SYSTEM_TYPE))
-					names.add(a.name());
-					types.add(a.type());
-					if (a.language() != null)
-						langs.add(a.language());
+				if (a.type().equals(SYSTEM_TYPE))
+					continue;
+				names.add(a.name());
+				types.add(a.type());
+				if (a.language() != null)
+					langs.add(a.language());
 			}
 			for (Attribute a : c.attributes()) {
-				if (!a.type().equals(SYSTEM_TYPE))
-					names.add(a.name());
-					types.add(a.type());
-					if (a.language() != null)
-						langs.add(a.language());
-			}
+				if (a.type().equals(SYSTEM_TYPE))
+					continue;
+				names.add(a.name());
+				types.add(a.type());
+				if (a.language() != null)
+					langs.add(a.language());
+				}
 		}
 
 		return new CodelistSummary(list.name(), size, names, types, langs);
