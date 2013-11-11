@@ -5,12 +5,13 @@ package org.cotrix.web.importwizard.client.task;
 
 import org.cotrix.web.importwizard.client.event.AssetRetrievedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.AssetRetrievedEvent.AssetRetrievedHandler;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.importwizard.client.event.RetrieveAssetEvent;
-import org.cotrix.web.importwizard.client.step.TaskWizardStep;
-import org.cotrix.web.importwizard.client.wizard.WizardAction;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardAction;
+import org.cotrix.web.share.client.wizard.WizardAction;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
@@ -64,7 +65,7 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler, As
 	@Override
 	public void onAssetRetrieved(AssetRetrievedEvent event) {
 		assetRetrieved = true;
-		callback.onSuccess(WizardAction.NEXT);
+		callback.onSuccess(ImportWizardAction.NEXT);
 	}
 
 }

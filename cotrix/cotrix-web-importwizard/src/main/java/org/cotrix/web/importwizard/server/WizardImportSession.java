@@ -12,11 +12,11 @@ import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvid
 import org.cotrix.web.importwizard.server.climport.Importer;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
-import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
+import org.cotrix.web.share.shared.CsvParserConfiguration;
 import org.virtualrepository.Asset;
 
 /**

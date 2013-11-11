@@ -33,6 +33,7 @@ public final class CodebagBuilder implements CodebagStartClause, CodebagChangeCl
 	
 	public CodebagBuilder() {
 		po = new CodebagPO(null);
+		this.po.setVersion(new DefaultVersion());
 	}
 	
 	public CodebagBuilder(String id) {

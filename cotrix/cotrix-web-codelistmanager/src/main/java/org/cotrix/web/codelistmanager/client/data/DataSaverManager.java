@@ -12,8 +12,7 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHa
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
-import org.cotrix.web.share.client.event.CotrixBus;
-import org.cotrix.web.share.client.event.StatusUpdatedEvent;
+import org.cotrix.web.share.client.util.StatusUpdates;
 
 import com.google.gwt.core.client.Callback;
 import com.google.inject.Inject;
@@ -41,10 +40,6 @@ public class DataSaverManager {
 	@Inject
 	protected EventBus editorBus;
 	
-	@CotrixBus
-	@Inject
-	protected EventBus cotrixBus;
-	
 	public <T> void register(CommandGenerator<T> generator)
 	{
 		editorBus.addHandler(DataEditEvent.getType(generator.getType()), new DataSaver<T>(generator));
@@ -65,14 +60,14 @@ public class DataSaverManager {
 		@Override
 		public void onDataEdit(DataEditEvent<T> event) {
 			managerBus.fireEvent(new SavingDataEvent());
-			cotrixBus.fireEvent(new StatusUpdatedEvent("Saving ..."));
+			StatusUpdates.statusUpdate("Saving ...");
 			ModifyCommand command = generator.generateCommand(event.getEditType(), event.getData());
 			commandSequencer.enqueueCommand(command, new Callback<Void, Throwable>() {
 				
 				@Override
 				public void onSuccess(Void result) {
 					managerBus.fireEvent(new DataSavedEvent());
-					cotrixBus.fireEvent(new StatusUpdatedEvent("All saved"));
+					StatusUpdates.statusUpdate("...saved.");
 				}
 				
 				@Override

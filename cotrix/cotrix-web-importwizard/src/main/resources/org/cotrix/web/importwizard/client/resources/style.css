@@ -1,17 +1,11 @@
 .sectionTitle {
-	font-weight: bold;
+	font-weight: normal;
 	color: black;
 	font-size: 20px;
 }
 
 .missingValueText {
 	font-style: italic;
-}
-
-.wizardPanel {
-	background-color: #f6f6f6;
-	border: 1px solid #d1d1d1;
-	border-spacing: 5px;
 }
 
 /** PREVIEW **/
@@ -33,74 +27,8 @@
 	padding: 5px;
 }
 
-/** MAPPING **/
-.mappingTable {
-	border: 1px solid #d1d1d1;
-	background-color: #f6f6f6;
-}
-
-.mappingTableNameHeader {
-	vertical-align: middle;
-	padding-top: 10px;
-	width: 80px;
-	text-align: left;
-}
-
-.mappingCell {
-	padding: 5px;
-}
-
 /** BUTTONS **/
 /** SOURCE SELECTION moved here due to https://code.google.com/p/google-web-toolkit/issues/detail?id=5320 **/
-@sprite .buttonComputer {
-	gwt-image: "computer";
-	background-position: 0;
-	background-color: #ddd;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	text-align: center;
-	width: 322px;
-	height: 100px;
-	font-size: 24px;
-	padding-left: 106px;
-	color: #666;
-}
-
-@sprite .buttonComputer:hover {
-	gwt-image: "computerHover";
-	background-position: 0;
-	background-color: #5674b9;
-	color: #fff;
-	cursor: pointer;
-	width: 322px;
-	height: 100px;
-}
-
-@sprite .buttonCloud {
-	gwt-image: "cloud";
-	background-position: 0;
-	background-color: #ddd;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	text-align: center;
-	width: 322px;
-	height: 100px;
-	font-size: 24px;
-	padding-left: 106px;
-	color: #666;
-	vertical-align: middle;
-}
-
-@sprite .buttonCloud:hover {
-	gwt-image: "cloudHover";
-	background-position: 0;
-	background-color: #5674b9;
-	color: #fff;
-	cursor: pointer;
-	width: 322px;
-	height: 100px;
-}
-
 @sprite .buttonBrowse {
 	gwt-image: "browse";
 	background-position: 0;
@@ -126,66 +54,6 @@
 	height: 70px;
 }
 
-.buttonRefresh {
-	background-color: #5674b9;
-	border-radius: 100px;
-	border: 1px solid #5674b9;
-	padding: 5px;
-	height: 20px;
-	width: 21px;
-	color: #fff;
-}
-
-.buttonRefresh:hover {
-	background-color: #31529d;
-	border: 1px solid #31529d;
-	cursor: pointer;
-}
-
-@sprite .buttonDownload {
-	gwt-image: "download";
-	background-color: #5674b9;
-	border: 1px solid #5674b9;
-	border-radius: 5px;
-	text-align: center;
-	width: 170px;
-	font-size: 15px;
-	padding-left: 55px;
-	height: 40px;
-	padding-right: 20px;
-	color: #eee;
-}
-
-@sprite .buttonDownload:hover {
-	gwt-image: "download";
-	background-color: #344e89;
-	color: #eee;
-	cursor: pointer;
-	width: 170px;
-	height: 40px;
-}
-
-@sprite .buttonManage {
-	gwt-image: "manage";
-	background-color:#5674b9;
-	border:1px solid #5674b9;
-	border-radius:5px;
-	text-align:center;
-	width:155px;
-	font-size:15px;
-	padding-left:55px;
-	height:40px;
-	color:#eee;
-}
-
-@sprite .buttonManage:hover{
-	gwt-image: "manage";
-	background-color: #344e89 ;
-	color: #eee;
-	cursor: pointer;
-	width:155px;
-	height:40px;
-}
 
 @sprite .buttonImport{
 	gwt-image: "importIcon";

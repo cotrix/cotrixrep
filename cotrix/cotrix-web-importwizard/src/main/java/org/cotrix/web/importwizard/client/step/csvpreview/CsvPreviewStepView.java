@@ -2,7 +2,7 @@ package org.cotrix.web.importwizard.client.step.csvpreview;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvParserConfiguration;
 
 import com.google.gwt.user.client.ui.Widget;
 

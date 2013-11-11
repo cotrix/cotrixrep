@@ -1,37 +1,46 @@
 package org.cotrix.web.publish.client;
 
-import org.cotrix.web.publish.client.presenter.CodeListPublishPresenter;
+import org.cotrix.web.publish.client.resources.Resources;
+import org.cotrix.web.publish.client.wizard.PublishWizardPresenter;
+import org.cotrix.web.share.client.CotrixModule;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
-public class CotrixPublishAppControllerImpl implements CotrixPublishAppController{
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class CotrixPublishAppControllerImpl implements CotrixPublishAppController {
 
-	private PublishServiceAsync rpcService;
-	private HandlerManager eventBus;
-	private CodeListPublishPresenter codeListPublishPresenter;
+	@Inject
+	protected PublishWizardPresenter presenter;
 	
 	@Inject
-	public CotrixPublishAppControllerImpl(PublishServiceAsync rpcService,HandlerManager eventBus,CodeListPublishPresenter codeListPubllishPresenter) {
-		this.rpcService = rpcService;
-		this.eventBus = eventBus;
-		this.codeListPublishPresenter = codeListPubllishPresenter;
+	protected PublishController controller;
+	
+	@Inject
+	public CotrixPublishAppControllerImpl() {
 	}
-	
 
-	
+	@Override
+	public CotrixModule getModule() {
+		return CotrixModule.PUBLISH;
+	}
+
+	@Override
 	public void go(HasWidgets container) {
-		this.codeListPublishPresenter.go(container);
-	}
-	
-	public void refresh(){
-		codeListPublishPresenter.refresh();
+		Resources.INSTANCE.css().ensureInjected();
+		presenter.go(container);
 	}
 
-	public void onValueChange(ValueChangeEvent<String> event) {
+	@Override
+	public void activate() {
+		
+	}
+
+	@Override
+	public void deactivate() {
 		
 	}
 

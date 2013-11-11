@@ -8,22 +8,25 @@ import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEve
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
+import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.client.util.Constants;
-import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
-import org.cotrix.web.codelistmanager.shared.UIAttribute;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
+import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.inject.Inject;
@@ -39,9 +42,8 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	}
 
 	private static CodelistMetadataPanelUiBinder uiBinder = GWT.create(CodelistMetadataPanelUiBinder.class);
-
-	@UiField TextBox nameField;
-	@UiField TextBox versionField;
+	
+	protected static ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 
 	@UiField(provided=true) AttributesGrid attributesGrid;
 
@@ -54,9 +56,6 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	protected MetadataProvider dataProvider;
 
-	protected DataEditor<CodelistMetadata> metadataEditor;
-	
-
 	protected DataEditor<UIAttribute> attributeEditor;
 	
 	@Inject
@@ -65,13 +64,28 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	public CodelistMetadataPanel( ) {
 		this.attributesProvider = new ListDataProvider<UIAttribute>();
-		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Attributes"), "No attributes");
-		
-		metadataEditor = DataEditor.build(this);
+		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Codelist attributes"), "No attributes");
+
 		attributeEditor = DataEditor.build(this);
 
+		setupColumns();
+		
 		add(uiBinder.createAndBindUi(this));
 		bind();
+	}
+	
+	private void setupColumns() {
+
+		Column<UIAttribute, ImageResource> bulletColumn = new Column<UIAttribute, ImageResource>( new ImageResourceCell()) {
+
+			@Override
+			public ImageResource getValue(UIAttribute attribute) {
+				return CotrixManagerResources.INSTANCE.bullet();
+			}
+		};
+		attributesGrid.insertColumn(0, bulletColumn);
+		attributesGrid.setColumnWidth(0, 15, Unit.PX);
+
 	}
 
 	protected void bind()
@@ -131,14 +145,6 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 		if (metadata == null) loadData();
 	}
 
-	@UiHandler("nameField")
-	protected void nameUpdated(ValueChangeEvent<String> changedEvent)
-	{
-		metadata.getName().setLocalPart(changedEvent.getValue());
-		metadataEditor.updated(metadata);
-	}
-
-
 	public void loadData()
 	{
 		showLoader();
@@ -162,8 +168,6 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	protected void setMetadata(CodelistMetadata metadata)
 	{
 		this.metadata = metadata;
-		nameField.setText(metadata.getName().getLocalPart());
-		versionField.setText(metadata.getVersion());
 		
 		attributesProvider.setList(metadata.getAttributes());
 		attributesProvider.refresh();
@@ -171,9 +175,6 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 
 	@Override
 	public void setEditable(boolean editable) {
-		
-		nameField.setReadOnly(!editable);
-		versionField.setReadOnly(!editable);
 		attributesGrid.setEditable(editable);
 	}
 }

@@ -17,6 +17,8 @@ public enum ManagerUIFeature implements UIFeature {
 	SEAL_CODELIST,
 	EDIT_CODELIST,
 	EDIT_METADATA,
-	VIEW_METADATA;
+	VIEW_METADATA,
+	ADD_CODE,
+	REMOVE_CODE;
 
 }

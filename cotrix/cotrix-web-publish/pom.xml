@@ -25,25 +25,20 @@
 		<dependency>
 			<groupId>com.google.gwt.inject</groupId>
 			<artifactId>gin</artifactId>
-			<version>2.0.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-share</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-repository</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-io</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
@@ -83,16 +78,7 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
-					<include>**/*.java</include>
-					<include>**/*.gwt.xml</include>
-					<include>**/*.ui.xml</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/webapp</directory>
-				<includes>
-					<include>**/beans.xml</include>
-					<include>**/*.png</include>
+					<include>**/*.*</include>
 				</includes>
 			</resource>
 		</resources>

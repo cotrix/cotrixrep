@@ -1,6 +1,9 @@
 package org.cotrix.web.importwizard.client;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.step.DetailsNodeSelector;
+import org.cotrix.web.importwizard.client.step.MappingNodeSelector;
+import org.cotrix.web.importwizard.client.step.SourceNodeSelector;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepPresenterImpl;
 import org.cotrix.web.importwizard.client.step.codelistdetails.CodelistDetailsStepView;
@@ -46,6 +49,10 @@ import org.cotrix.web.importwizard.client.step.upload.UploadStepView;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepViewImpl;
 import org.cotrix.web.importwizard.client.task.ImportTask;
 import org.cotrix.web.importwizard.client.task.RetrieveAssetTask;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardPresenter;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardPresenterImpl;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardView;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardViewImpl;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;

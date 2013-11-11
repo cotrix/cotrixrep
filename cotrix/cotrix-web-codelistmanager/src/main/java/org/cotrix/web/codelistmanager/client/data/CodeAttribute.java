@@ -3,8 +3,8 @@
  */
 package org.cotrix.web.codelistmanager.client.data;
 
-import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UICode;
+import org.cotrix.web.share.shared.codelist.UIAttribute;
+import org.cotrix.web.share.shared.codelist.UICode;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

@@ -39,11 +39,22 @@
 			<groupId>com.google.gwt.inject</groupId>
 			<artifactId>gin</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-engine</artifactId>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-io</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-repository</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>

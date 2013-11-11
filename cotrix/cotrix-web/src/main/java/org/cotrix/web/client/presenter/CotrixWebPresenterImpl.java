@@ -16,10 +16,11 @@ import com.google.inject.Inject;
  *
  */
 public class CotrixWebPresenterImpl implements CotrixWebPresenter {
-	
+
 	protected int modulesPanelIndex = 0;
 	protected EnumMap<CotrixModule, Integer> indexes = new EnumMap<CotrixModule, Integer>(CotrixModule.class);
-	private CotrixWebView view;
+	protected CotrixWebView view;
+	protected MenuPresenter menu;
 
 	@Inject
 	public CotrixWebPresenterImpl(CotrixWebView view) {
@@ -39,9 +40,10 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 
 	@Override
 	public void setMenu(MenuPresenter menu) {
+		this.menu = menu;
 		menu.go(view.getMenuPanel());		
 	}
-	
+
 	@Override
 	public void setUserBar(UserBarPresenter userBar)
 	{
@@ -52,9 +54,9 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 	public void showModule(CotrixModule module) {
 		Integer index = indexes.get(module);
 		if (index!=null) {
-			Log.warn("Missing module "+module+" forgot to add it?");
 			view.showModule(index);
-		}
+			menu.selectModule(module);
+		} else Log.warn("Missing module "+module+" forgot to add it?");
 	}
 
 }

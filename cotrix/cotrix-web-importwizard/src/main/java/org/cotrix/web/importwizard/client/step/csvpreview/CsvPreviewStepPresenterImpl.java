@@ -1,19 +1,18 @@
 package org.cotrix.web.importwizard.client.step.csvpreview;
 
-import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent.CsvParserConfigurationUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
-import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
+import org.cotrix.web.importwizard.client.step.TrackerLabels;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
+import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
+import org.cotrix.web.share.shared.CsvParserConfiguration;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-
-import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -27,7 +26,7 @@ public class CsvPreviewStepPresenterImpl extends AbstractVisualWizardStep implem
 	
 	@Inject
 	public CsvPreviewStepPresenterImpl(CsvPreviewStepView view, @ImportBus EventBus importEventBus) {
-		super("csv-preview", TrackerLabels.PREVIEW, "Does it look right?", "Adjust the parameters until it does.", BACKWARD, FORWARD);
+		super("csv-preview", TrackerLabels.PREVIEW, "Does it look right?", "Adjust the parameters until it does.", ImportWizardStepButtons.BACKWARD, ImportWizardStepButtons.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		

@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.codelistmanager.shared.modify;
 
-import org.cotrix.web.codelistmanager.shared.Identifiable;
+import org.cotrix.web.share.shared.codelist.Identifiable;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

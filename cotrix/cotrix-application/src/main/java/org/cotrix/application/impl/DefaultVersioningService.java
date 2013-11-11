@@ -2,6 +2,7 @@ package org.cotrix.application.impl;
 
 import static org.cotrix.common.Utils.*;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.cotrix.application.VersioningService;
@@ -16,6 +17,7 @@ import org.cotrix.domain.version.Version;
  * @author Fabio Simeoni
  *
  */
+@ApplicationScoped
 public class DefaultVersioningService implements VersioningService {
 	
 	@Inject

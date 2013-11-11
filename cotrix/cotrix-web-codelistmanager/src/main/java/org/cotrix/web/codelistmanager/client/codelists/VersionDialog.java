@@ -21,12 +21,11 @@ public class VersionDialog extends PopupPanel {
 	
 	public interface VersionDialogListener {
 		public void onCreate(String id, String newVersion);
-		public void onCancel();
 	}
 	
 	@UiField Label name;
 	
-	@UiField Label oldVersion;
+	@UiField TextBox oldVersion;
 	
 	@UiField TextBox newVersion;
 	
@@ -51,12 +50,6 @@ public class VersionDialog extends PopupPanel {
 	protected void onCreate(ClickEvent clickEvent)
 	{
 		listener.onCreate(id, newVersion.getValue());
-		hide();
-	}
-	
-	@UiHandler("cancel")
-	protected void onCancel(ClickEvent event)
-	{
 		hide();
 	}
 

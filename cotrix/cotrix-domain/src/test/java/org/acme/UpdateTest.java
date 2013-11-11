@@ -13,6 +13,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
+import org.cotrix.domain.Codelist;
 import org.cotrix.domain.Container;
 import org.cotrix.domain.trait.Identified;
 import org.junit.Test;
@@ -194,7 +195,7 @@ public class UpdateTest {
 		
 		List<Attribute> attributes = elements(code.attributes());
 		
-		assertEquals(3, attributes.size());
+		assertEquals(4, attributes.size());
 		
 		assertEquals(newname, attributes.get(0).name());
 		
@@ -206,10 +207,66 @@ public class UpdateTest {
 
 	}
 	
+	@Test
+	public void codesAcquireAndChangeUpdateTimeStamp() throws Exception {
+		
+		Attribute a1 = attr("1").name(name).build();
+
+		Code code = code("1").name(name).attributes(a1).build();
+		
+		// a change
+		Attribute modified = attr("1").name("newname").build();
+		
+		Code change = code("1").attributes(modified).build();
+
+		update(code,change);
+		
+		System.out.println(code);
+		
+		String update_time = null;
+		
+		for (Attribute a : code.attributes())
+			if (a.name().equals(UPDATE_TIME))
+				update_time = a.value();
+
+		assertNotNull("update time attribute is missing",update_time);
+		
+		//let at least one second pass
+		Thread.sleep(1000);
+		
+		modified = attr("1").name("yetanother").build();
+
+		change = code("1").attributes(modified).build();
+
+		update(code,change);
+		
+		System.out.println(code);
+		String new_update_time = null;
+		
+		for (Attribute a : code.attributes())
+			if (a.name().equals(UPDATE_TIME))
+				new_update_time = a.value();
+		
+		
+		assertNotNull("update time attribute is missing",new_update_time);
+		
+		assertFalse(update_time.equals(new_update_time));
+	}
+	@Test
+	public void codelistCanChangeName() {
+		
+		Codelist list = codelist("1").with(code("2").name("c").build()).version("2.0").build();
+		
+		Codelist changeset = codelist("1").with(code("2").name("c1").build()).build();
+		
+		update(list,changeset);
+		
+		assertEquals("c1",list.codes().iterator().next().name().getLocalPart());
+		
+	}
 	
 	
 	//helpers
-	
 	
 	private <T> List<T> elements(Container<? extends T> container) {
 		List<T> elements = new ArrayList<T>();

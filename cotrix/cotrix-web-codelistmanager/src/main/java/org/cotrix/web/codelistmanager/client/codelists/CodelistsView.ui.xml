@@ -11,6 +11,8 @@
 		}
 		
 		.filterPanel {
+			border-top-left-radius: 2px;
+			border-top-right-radius: 2px;
 			border-top: 1px solid #a8a7a7;
 			border-left: 1px solid #a8a7a7;
 			border-right: 1px solid #a8a7a7;
@@ -36,8 +38,7 @@
 			overflow: visible;
 			text-align: left;
 			color: #464545;
-			font-weight: normal;
-			font-size: 15px;
+			font-size: 16px;
 			text-shadow: none;
 			background-color: #e9e9e9;
 			padding: 6px;
@@ -48,15 +49,15 @@
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
-		<g:north size='28'>
+		<g:north size='30'>
 			<g:SimpleLayoutPanel />
 		</g:north>
-		<g:north size='45'>
+		<g:north size='35'>
 			<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
 				<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}" />
 			</g:FlowPanel>
 		</g:north>
-		<g:north size='32'>
+		<g:north size='30'>
 			<g:HTMLPanel styleName="{style.headerPanel}">
 				Codelists
 			</g:HTMLPanel>

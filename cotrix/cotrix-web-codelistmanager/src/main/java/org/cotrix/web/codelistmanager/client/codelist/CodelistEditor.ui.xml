@@ -4,7 +4,9 @@
 	xmlns:common="urn:import:org.cotrix.web.codelistmanager.client.common">
 	<ui:style>
 		.editor {
-			margin: 8px;
+			margin-bottom: 8px;
+			margin-left: 8px;
+			margin-right: 8px;
 		}
 	</ui:style>
 

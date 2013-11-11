@@ -15,22 +15,18 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
+import org.cotrix.application.VersioningService;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.domain.Container;
+import org.cotrix.lifecycle.Lifecycle;
+import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.modify.ModifyCommandHandler;
-import org.cotrix.web.codelistmanager.server.util.CodelistLoader;
-import org.cotrix.web.codelistmanager.server.util.ValueUtils;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
-import org.cotrix.web.codelistmanager.shared.CodelistMetadata;
 import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
-import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
@@ -38,14 +34,20 @@ import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.CodelistTask;
 import org.cotrix.web.share.server.task.ContainsTask;
 import org.cotrix.web.share.server.task.Id;
+import org.cotrix.web.share.server.util.CodelistLoader;
+import org.cotrix.web.share.server.util.Codelists;
+import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.DataWindow;
+import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UIAttribute;
+import org.cotrix.web.share.shared.codelist.UICode;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
-import org.cotrix.web.share.shared.feature.Request;
+import org.cotrix.web.share.shared.feature.ResponseWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The server side implementation of the RPC service.
+ * The server side implementation of the RPC serialiser.
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
@@ -78,6 +80,12 @@ public class ManagerServiceImpl implements ManagerService {
 	@Inject
 	protected ModifyCommandHandler commandHandler;
 	
+	@Inject
+	protected VersioningService versioningService;
+	
+	@Inject
+	protected LifecycleService lifecycleService;
+	
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -88,6 +96,7 @@ public class ManagerServiceImpl implements ManagerService {
 		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
 		logger.trace("done");
 		
+		mapper.map(VIEW).to(VIEW_CODELIST, VIEW_METADATA);
 		mapper.map(EDIT).to(EDIT_METADATA, EDIT_CODELIST);
 		mapper.map(LOCK).to(LOCK_CODELIST);
 		mapper.map(UNLOCK).to(UNLOCK_CODELIST);
@@ -137,12 +146,7 @@ public class ManagerServiceImpl implements ManagerService {
 			uicode.setId(code.id());
 			uicode.setName(code.name().toString());
 			
-			List<UIAttribute> attributes = new ArrayList<UIAttribute>(code.attributes().size());
-			
-			for (Attribute attribute:code.attributes()) {
-				UIAttribute rowAttribute = toUIAttribute(attribute);
-				attributes.add(rowAttribute);
-			}
+			List<UIAttribute> attributes = Codelists.toUIAttributes(code.attributes());
 			uicode.setAttributes(attributes);
 			rows.add(uicode);
 		}
@@ -154,62 +158,29 @@ public class ManagerServiceImpl implements ManagerService {
 	public CodelistMetadata getMetadata(@Id String codelistId) throws ManagerServiceException {
 		logger.trace("getMetadata codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
-		CodelistMetadata metadata = new CodelistMetadata();
-		metadata.setId(codelist.id());
-		metadata.setName(ValueUtils.safeValue(codelist.name()));
-		metadata.setVersion(codelist.version());
-		metadata.setAttributes(getAttributes(codelist.attributes()));
-		return metadata;
-	}
-	
-	protected List<UIAttribute> getAttributes(Container<? extends Attribute> attributesContainer)
-	{
-		List<UIAttribute> attributes = new ArrayList<UIAttribute>(attributesContainer.size());
-		
-		for (Attribute domainAttribute:attributesContainer) {
-			UIAttribute attribute = toUIAttribute(domainAttribute);
-			attributes.add(attribute);
-		}
-		
-		return attributes;
-	}
-	
-	protected UIAttribute toUIAttribute(Attribute attribute)
-	{
-		UIAttribute uiattribute = new UIAttribute();
-		uiattribute.setName(ValueUtils.safeValue(attribute.name()));
-		uiattribute.setType(ValueUtils.safeValue(attribute.type()));
-		uiattribute.setLanguage(ValueUtils.safeValue(attribute.language()));
-		uiattribute.setValue(ValueUtils.safeValue(attribute.value()));
-		uiattribute.setId(ValueUtils.safeValue(attribute.id()));
-		return uiattribute;
-	}
-
-	@CodelistTask(LOCK)
-	public FeatureCarrier.Void saveMessage(String message) {
-		return FeatureCarrier.getVoid();
+		return Codelists.toCodelistMetadata(codelist);
 	}
 
 	@Override
 	@CodelistTask(LOCK)
-	public FeatureCarrier.Void lock(Request<Void> request) {
+	public FeatureCarrier.Void  lock(@Id String codelistId) throws ManagerServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@CodelistTask(UNLOCK)
-	public FeatureCarrier.Void unlock(Request<Void> request) {
+	public FeatureCarrier.Void  unlock(@Id String codelistId) throws ManagerServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@CodelistTask(SEAL)
-	public FeatureCarrier.Void seal(Request<Void> request) {
+	public FeatureCarrier.Void  seal(@Id String codelistId) throws ManagerServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
-	//@CodelistTask(EDIT)
+	@CodelistTask(EDIT)
 	public ModifyCommandResult modify(@Id String codelistId, ModifyCommand command) throws ManagerServiceException {
 		try {
 		return commandHandler.handle(codelistId, command);
@@ -221,22 +192,35 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
+	@CodelistTask(EDIT)
 	public void removeCodelist(String codelistId) throws ManagerServiceException {
 		logger.trace("removeCodelist codelistId: {}",codelistId);
 		repository.remove(codelistId);
 	}
 
 	@Override
+	@CodelistTask(EDIT)
 	public CodelistGroup createNewCodelistVersion(String codelistId, String newVersion)
 			throws ManagerServiceException {
 		Codelist codelist = repository.lookup(codelistId);
-		//FIXME
+		Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
+		repository.add(newCodelist);
+		lifecycleService.start(newCodelist.id());
 		
-		CodelistGroup group = new CodelistGroup(codelist.name().toString());
-		group.addVersion(codelistId, newVersion);
+		CodelistGroup group = new CodelistGroup(newCodelist.name().toString());
+		group.addVersion(newCodelist.id(), newCodelist.version());
 		
 		return group;
 		
+	}
+
+	@Override
+	@CodelistTask(VIEW)
+	public ResponseWrapper<String> getCodelistState(@Id String codelistId) throws ManagerServiceException {
+		logger.trace("getCodelistState codelistId: {}",codelistId);
+		Lifecycle lifecycle = lifecycleService.lifecycleOf(codelistId);
+		String state = lifecycle.state().toString();
+		return ResponseWrapper.wrap(state.toUpperCase());
 	}
 
 	

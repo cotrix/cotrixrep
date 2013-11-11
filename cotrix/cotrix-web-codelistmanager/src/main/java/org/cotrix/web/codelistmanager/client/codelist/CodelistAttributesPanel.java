@@ -37,10 +37,10 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
-import org.cotrix.web.codelistmanager.shared.UIAttribute;
-import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.ImageResourceCell;
+import org.cotrix.web.share.shared.codelist.UIAttribute;
+import org.cotrix.web.share.shared.codelist.UICode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
@@ -75,6 +75,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 	interface Style extends CssResource {
 		String headerCode();
+		String noAttributes();
 	}
 
 	enum AttributeSwitchState {
@@ -91,7 +92,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	@UiField
 	ItemToolbar toolBar;
 
-	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
+	protected static ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 
 	private Set<Group> groupsAsColumn = new HashSet<Group>();
 	private Column<UIAttribute, AttributeSwitchState> switchColumn; 
@@ -117,9 +118,9 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 		this.dataProvider = new ListDataProvider<UIAttribute>();
 
-		header = new AttributeHeader("");
+		header = new AttributeHeader();
 
-		attributesGrid = new AttributesGrid(dataProvider, header, "No attributes to show");
+		attributesGrid = new AttributesGrid(dataProvider, header, "select a code");
 
 		setupColumns();
 
@@ -128,7 +129,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 		initWidget(uiBinder.createAndBindUi(this));
 
 		bind();
-
+		updateBackground();
 	}
 
 	protected void bind()
@@ -215,7 +216,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			}
 		});
 	}
-
+	
 	protected void addNewAttribute()
 	{
 		if (visualizedCode!=null) {
@@ -244,20 +245,28 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	{
 		visualizedCode = code;
 		setHeader(visualizedCode.getName());
+		updateBackground();
 
 		List<UIAttribute> currentAttributes = dataProvider.getList();
 		currentAttributes.clear();
 		currentAttributes.addAll(visualizedCode.getAttributes());
 		dataProvider.refresh();
+		Log.trace("request refresh of "+visualizedCode.getAttributes().size()+" attributes");
 	}
 
 	protected void clearVisualizedCode()
 	{
 		visualizedCode = null;
-		setHeader("");
+		setHeader(null);
+		updateBackground();
 
 		dataProvider.getList().clear();
 		dataProvider.refresh();
+	}
+	
+	protected void updateBackground()
+	{
+		setStyleName(style.noAttributes(), visualizedCode == null || visualizedCode.getAttributes().isEmpty());
 	}
 
 	protected void setHeader(String text)
@@ -330,19 +339,20 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 		 *
 		 * @param text the header text as a String
 		 */
-		public AttributeHeader(String text) {
+		public AttributeHeader() {
 			super(new AbstractCell<String>() {
 
 				@Override
 				public void render(com.google.gwt.cell.client.Cell.Context context,
 						String value, SafeHtmlBuilder sb) {
-					sb.appendHtmlConstant("<span>Attributes:</span>");
-					sb.appendHtmlConstant("<span class=\""+style.headerCode()+"\">");
-					sb.append(SafeHtmlUtils.fromString(value));
-					sb.appendHtmlConstant("</span>");
+					sb.appendHtmlConstant("<span>Attributes</span>");
+					if (value!=null) {
+						sb.appendHtmlConstant("&nbsp;for&nbsp;<span class=\""+style.headerCode()+"\">");
+						sb.append(SafeHtmlUtils.fromString(value));
+						sb.appendHtmlConstant("</span>");
+					}
 				}
 			});
-			this.text = text;
 		}
 
 		/**

@@ -5,6 +5,12 @@
 	filter: alpha(opacity = 30);
 }
 
+.wizardPanel {
+	background-color: #f6f6f6;
+	border: 1px solid #d1d1d1;
+	border-spacing: 5px;
+}
+
 .simpleCheckbox {
 	width: 20px;
 	height: 20px;
@@ -18,7 +24,6 @@
 	font-size: 19px;
 	vertical-align: middle;
 	color: #4f4e4e;
-	font-weight: normal;
 }
 
 .paddedTextDisabled {
@@ -50,6 +55,23 @@
 .imageButton {
 	cursor: pointer;
 	outline: none;
+}
+
+/** MAPPING **/
+.mappingTable {
+	border: 1px solid #d1d1d1;
+	background-color: #f6f6f6;
+}
+
+.mappingTableNameHeader {
+	vertical-align: middle;
+	padding-top: 10px;
+	width: 80px;
+	text-align: left;
+}
+
+.mappingCell {
+	padding: 5px;
 }
 
 /* TEXT BOX */
@@ -111,11 +133,11 @@
 	background-color: #5674b9;
 	border-radius: 5px;
 	border: 1px solid #5674b9;
-	padding: 6px;
 	width: 98px;
 	height: 35px;
 	font-size: 18px;
 	color: #eee;
+	outline: none;
 }
 
 .blueButton:hover {
@@ -127,11 +149,11 @@
 	background-color: #bdbdbd;
 	border-radius: 5px;
 	border: 1px solid #bdbdbd;
-	padding: 6px;
 	width: 98px;
 	height: 35px;
 	font-size: 18px;
 	color: #696969;
+	outline: none;
 }
 
 .grayButton:hover {
@@ -169,4 +191,119 @@
 	border: none;
 	font-size: 16px;
 	color: #5e5e5e;
+}
+
+@sprite .buttonManage {
+	gwt-image: "manage";
+	background-color:#5674b9;
+	border:1px solid #5674b9;
+	border-radius:5px;
+	text-align:center;
+	width:155px;
+	font-size:15px;
+	padding-left:55px;
+	height:40px;
+	color:#eee;
+	outline: none;
+}
+
+@sprite .buttonManage:hover{
+	gwt-image: "manage";
+	background-color: #344e89 ;
+	color: #eee;
+	cursor: pointer;
+	width:155px;
+	height:40px;
+}
+
+
+.buttonRefresh {
+	background-color: #5674b9;
+	border-radius: 100px;
+	border: 1px solid #5674b9;
+	padding: 5px;
+	height: 20px;
+	width: 21px;
+	color: #fff;
+}
+
+.buttonRefresh:hover {
+	background-color: #31529d;
+	border: 1px solid #31529d;
+	cursor: pointer;
+}
+
+@sprite .buttonComputer {
+	gwt-image: "computer";
+	background-position: 0;
+	background-color: #ddd;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+	width: 322px;
+	height: 100px;
+	font-size: 24px;
+	padding-left: 106px;
+	color: #666;
+	outline: none;
+}
+
+@sprite .buttonComputer:hover {
+	gwt-image: "computerHover";
+	background-position: 0;
+	background-color: #5674b9;
+	color: #fff;
+	cursor: pointer;
+	width: 322px;
+	height: 100px;
+}
+
+@sprite .buttonCloud {
+	gwt-image: "cloud";
+	background-position: 0;
+	background-color: #ddd;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+	width: 322px;
+	height: 100px;
+	font-size: 24px;
+	padding-left: 106px;
+	color: #666;
+	vertical-align: middle;
+	outline: none;
+}
+
+@sprite .buttonCloud:hover {
+	gwt-image: "cloudHover";
+	background-position: 0;
+	background-color: #5674b9;
+	color: #fff;
+	cursor: pointer;
+	width: 322px;
+	height: 100px;
+}
+
+@sprite .buttonDownload {
+	gwt-image: "download";
+	background-color: #5674b9;
+	border: 1px solid #5674b9;
+	border-radius: 5px;
+	text-align: center;
+	width: 170px;
+	font-size: 15px;
+	padding-left: 55px;
+	height: 40px;
+	padding-right: 20px;
+	color: #eee;
+	outline: none;
+}
+
+@sprite .buttonDownload:hover {
+	gwt-image: "download";
+	background-color: #344e89;
+	color: #eee;
+	cursor: pointer;
+	width: 170px;
+	height: 40px;
 }

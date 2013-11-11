@@ -42,16 +42,8 @@ public class ActionMapper {
 		logger.trace("fillFeatures carrier: {} instanceId: {} actions: {}", carrier.getClass(), instanceId, actions);
 
 		Set<UIFeature> codelistFeatures = mapActions(actions);
-		carrier.setCodelistsFeatures(singletonMap(instanceId, codelistFeatures));
+		carrier.addCodelistsFeatures(instanceId, codelistFeatures);
 	}
-
-	protected Map<String,Set<UIFeature>> singletonMap(String instanceId, Set<UIFeature> codelistFeatures)
-	{
-		Map<String,Set<UIFeature>> codelistsFeatures = new HashMap<String, Set<UIFeature>>();
-		codelistsFeatures.put(instanceId, codelistFeatures);
-		return codelistsFeatures;
-	}
-
 
 	protected Set<UIFeature> mapActions(Collection<? extends Action> actions)
 	{

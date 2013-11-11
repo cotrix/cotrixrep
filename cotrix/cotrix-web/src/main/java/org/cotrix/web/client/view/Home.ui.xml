@@ -10,8 +10,7 @@
 		}
 		
 		.screen {
-			height: 400px;
-			margin-top: 83px;
+			margin-top: 100px;
 		}
 		
 		.blockContainer {
@@ -41,6 +40,7 @@
 			color: #666;
 			border-bottom: 1px solid #d9d9d9;
 			padding: 5px;
+			line-height: 1.5;
 		}
 		
 		.home {
@@ -57,13 +57,13 @@
 				<td>
 					<div class="{style.block}">
 						<g:Image resource="{resources.communities}" styleName="{style.blockImg}" />
-						<div class="{style.blockTitle}">Communities</div>
+						<div class="{style.blockTitle}">community</div>
 					</div>
 				</td>
 				<td>
 					<div class="{style.block}">
 						<g:Image resource="{resources.statistic}" styleName="{style.blockImg}" />
-						<div class="{style.blockTitle}">Statistics</div>
+						<div class="{style.blockTitle}">statistics</div>
 					</div>
 				</td>
 				<!-- <div class="{style.block}"> <g:Image resource="{resources.howto}" 

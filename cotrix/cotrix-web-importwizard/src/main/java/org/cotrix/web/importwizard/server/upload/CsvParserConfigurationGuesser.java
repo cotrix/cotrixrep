@@ -4,7 +4,7 @@
 package org.cotrix.web.importwizard.server.upload;
 
 import org.apache.commons.fileupload.FileItem;
-import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvParserConfiguration;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

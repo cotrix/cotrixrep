@@ -3,11 +3,16 @@
  */
 package org.cotrix.web.client.presenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.client.event.UserLoggedEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLoginEvent.UserLoginHandler;
 import org.cotrix.web.client.event.UserLogoutEvent;
+import org.cotrix.web.share.client.event.CodelistClosedEvent;
+import org.cotrix.web.share.client.event.CodelistOpenedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.feature.AsyncCallBackWrapper;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
@@ -25,10 +30,11 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class UserController {
 	
-	protected static final String GUEST_USERNAME = null;
-	protected static final String GUEST_PASSWORD = null;
+	protected static final String GUEST_USERNAME = "cotrix";
+	protected static final String GUEST_PASSWORD = "cotrix";
 	
 	protected EventBus cotrixBus;
+	protected List<String> openedCodelists = new ArrayList<String>();
 	
 	protected AsyncCallback<ResponseWrapper<String>> callback = AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
 
@@ -78,22 +84,36 @@ public class UserController {
 				logout();
 			}
 		});
+		cotrixBus.addHandler(CodelistOpenedEvent.TYPE, new CodelistOpenedEvent.CodelistOpenedHandler() {
+			
+			@Override
+			public void onCodelistOpened(CodelistOpenedEvent event) {
+				openedCodelists.add(event.getCodelistId());
+			}
+		});
+		cotrixBus.addHandler(CodelistClosedEvent.TYPE, new CodelistClosedEvent.CodelistClosedHandler() {
+			
+			@Override
+			public void onCodelistClosed(CodelistClosedEvent event) {
+				openedCodelists.remove(event.getCodelistid());
+			}
+		});
 	}
 	
 	
 	protected void logGuest()
 	{
-		service.login(GUEST_USERNAME, GUEST_PASSWORD, callback);
+		service.login(GUEST_USERNAME, GUEST_PASSWORD, openedCodelists, callback);
 	}
 	
 	protected void logout()
 	{
-		service.logout(callback);
+		service.logout(openedCodelists, callback);
 	}
 	
 	protected void logUser(String username, String password)
 	{
-		service.login(username, password, callback);
+		service.login(username, password, openedCodelists, callback);
 	}
 
 }

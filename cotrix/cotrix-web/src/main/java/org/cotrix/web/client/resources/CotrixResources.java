@@ -13,7 +13,6 @@ public interface CotrixResources extends ClientBundle {
 	
 	public static final CotrixResources INSTANCE = GWT.create(CotrixResources.class);
 
-	@Source("home.png")
 	ImageResource home();
 	
 	@Source("block-howto.png")
@@ -27,6 +26,10 @@ public interface CotrixResources extends ClientBundle {
 	
 	@Source("style.css")
 	public CssResource css();
+	
+	ImageResource user();
+	
+	ImageResource userDisabled();
 
 
 }

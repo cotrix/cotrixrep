@@ -5,7 +5,7 @@ package org.cotrix.web.importwizard.client.step.csvpreview;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider;
-import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvParserConfiguration;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;

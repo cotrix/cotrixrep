@@ -4,11 +4,14 @@ import org.cotrix.web.codelistmanager.client.codelists.VersionDialog.VersionDial
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
+import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ItemButton;
 import org.cotrix.web.codelistmanager.client.resources.CodelistsResources;
+import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup.Version;
 import org.cotrix.web.share.client.util.FilteredCachedDataProvider.Filter;
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.client.util.SingleSelectionModel;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
@@ -20,24 +23,30 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.CellTree;
+import com.google.gwt.user.cellview.client.CellTree.CellTreeMessages;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistsViewImpl extends ResizeComposite implements CodelistsView, VersionDialogListener {
+public class CodelistsViewImpl extends ResizeComposite implements CodelistsView {
 
 	private static CodeListsViewUiBinder uiBinder = GWT.create(CodeListsViewUiBinder.class);
 
 	@UiTemplate("CodelistsView.ui.xml")
 	interface CodeListsViewUiBinder extends UiBinder<Widget, CodelistsViewImpl> {}
+	
+	protected interface TreeMessages extends CellTreeMessages {
+
+	    @DefaultMessage("no matches")
+	    String emptyTree();
+	}
 	
 	@UiField TextBox filterTextBox;
 
@@ -45,7 +54,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	CellTree codelists;
 	
 	@UiField ItemToolbar toolbar;
-
+	
 
 	protected CodelistsDataProvider codeListDataProvider;
 	
@@ -60,6 +69,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 		this.codeListDataProvider = codeListDataProvider;
 		setupCellList();
 		initWidget(uiBinder.createAndBindUi(this));
+		updateSearchBoxStyle();
 		bind();
 	}
 	
@@ -85,6 +95,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 			public void onKeyUp(KeyUpEvent event) {
 				Log.trace("onKeyUp value: "+filterTextBox.getValue()+" text: "+filterTextBox.getText());
 				updateFilter();
+				updateSearchBoxStyle();
 			}
 		});
 	}
@@ -94,6 +105,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 		selectionModel = new SingleSelectionModel<Version>();
 	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 	      public void onSelectionChange(SelectionChangeEvent event) {
+	    	  System.out.println("SELECTED "+event);
 	    	  Version selected = selectionModel.getSelectedObject();
 	        if (selected != null) {
 	        	presenter.onCodelistItemSelected(selected.toUICodelist());
@@ -101,7 +113,8 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	      }
 	    });
 	    
-		codelists = new CellTree(new CodelistTreeModel(codeListDataProvider, selectionModel), null, CodelistsResources.INSTANCE);
+	    TreeMessages treeMessages = GWT.create(TreeMessages.class); 
+		codelists = new CellTree(new CodelistTreeModel(codeListDataProvider, selectionModel), null, CodelistsResources.INSTANCE, treeMessages);
 		
 		//codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
@@ -114,9 +127,31 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 	@Override
 	public void showVersionDialog(Version oldVersion)
 	{
-		if (versionDialog == null) versionDialog = new VersionDialog(this);
+		if (versionDialog == null) {
+			VersionDialogListener listener = new VersionDialogListener() {
+				
+				@Override
+				public void onCreate(String id, String newVersion) {
+					presenter.onCodelistNewVersion(id, newVersion);
+				}
+			};
+			
+			versionDialog = new VersionDialog(listener);
+		}
 		versionDialog.setOldVersion(oldVersion.getId(), oldVersion.getParent().getName(),  oldVersion.getVersion());
 		versionDialog.center();
+	}
+	
+	@Override
+	public void setAddVersionVisible(boolean visible)
+	{
+		toolbar.setVisible(ItemButton.PLUS, visible);
+	}
+	
+	@Override
+	public void setRemoveCodelistVisible(boolean visible)
+	{
+		toolbar.setVisible(ItemButton.MINUS, visible);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -134,23 +169,16 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView,
 		codeListDataProvider.loadData();
 	}
 	
+	public void updateSearchBoxStyle() {
+		filterTextBox.setStyleName(CotrixManagerResources.INSTANCE.css().searchBackground(), filterTextBox.getValue().isEmpty());
+	}
+	
 	protected class CodeListCell extends AbstractCell<UICodelist> {
 
 		@Override
 		public void render(com.google.gwt.cell.client.Cell.Context context,	UICodelist value, SafeHtmlBuilder sb) {
 			sb.appendEscaped(value.getName());
 		}
-	}
-
-	@Override
-	public void onCreate(String id, String newVersion) {
-		presenter.onCodelistNewVersion(id, newVersion);
-	}
-
-	@Override
-	public void onCancel() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	protected class ByNameFilter implements Filter<CodelistGroup> {

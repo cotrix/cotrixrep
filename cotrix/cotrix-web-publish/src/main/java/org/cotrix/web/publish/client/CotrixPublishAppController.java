@@ -1,9 +1,12 @@
 package org.cotrix.web.publish.client;
 
-import org.cotrix.web.publish.client.presenter.Presenter;
+import org.cotrix.web.share.client.CotrixModuleController;
 
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
-public interface CotrixPublishAppController extends Presenter, ValueChangeHandler<String> {
-	public void refresh();
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public interface CotrixPublishAppController extends CotrixModuleController {
+	
 }

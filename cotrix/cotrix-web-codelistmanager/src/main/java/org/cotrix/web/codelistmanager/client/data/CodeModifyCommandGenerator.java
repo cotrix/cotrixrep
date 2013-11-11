@@ -5,11 +5,11 @@ package org.cotrix.web.codelistmanager.client.data;
 
 import org.cotrix.web.codelistmanager.client.data.DataSaverManager.CommandGenerator;
 import org.cotrix.web.codelistmanager.client.data.event.EditType;
-import org.cotrix.web.codelistmanager.shared.UICode;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.code.AddCodeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.code.RemoveCodeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.code.UpdateCodeCommand;
+import org.cotrix.web.share.shared.codelist.UICode;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

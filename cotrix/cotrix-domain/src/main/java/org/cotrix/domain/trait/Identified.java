@@ -52,8 +52,8 @@ public interface Identified {
 
 			valid("object identifier",id);
 			
-			if (id() != null)
-				throw new IllegalStateException("object has already an identifier (" + id() + ")");
+			if (this.id != null)
+				throw new IllegalStateException(this.getClass().getCanonicalName()+" has already an identifier (" + this.id + ")");
 
 			this.id = id;
 		}

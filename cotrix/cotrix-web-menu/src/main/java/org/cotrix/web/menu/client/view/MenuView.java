@@ -19,7 +19,9 @@ public interface MenuView {
 		void onMenuClicked(Menu menu);
 	}
 	
+	public void setSelected(Menu menu);
 	public void setVisible(Menu menu, boolean visible);
+	public void setEnabled(Menu menu, boolean disabled);
 
 	void setPresenter(Presenter presenter);
 	Widget asWidget();

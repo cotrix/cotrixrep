@@ -9,14 +9,14 @@ import org.cotrix.web.codelistmanager.client.data.DataSaverManager;
 import org.cotrix.web.codelistmanager.client.data.MetadataAttributeModifyGenerator;
 import org.cotrix.web.codelistmanager.client.data.MetadataModifyCommandGenerator;
 import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
+import org.cotrix.web.share.client.feature.AsyncCallBackWrapper;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.HasFeature;
-import org.cotrix.web.share.client.rpc.Nop;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
-import org.cotrix.web.share.shared.feature.Request;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
@@ -28,21 +28,49 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 
 	protected CodelistPanelView view;
 	protected String codelistId;
-	@Inject
 	protected ManagerServiceAsync service;
 	
 	@Inject
 	protected DataSaverManager saverManager;
+	
+	protected AsyncCallback<FeatureCarrier.Void> callBack = new AsyncCallback<FeatureCarrier.Void>() {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Log.error("State not retrieved", caught);
+		}
+
+		@Override
+		public void onSuccess(FeatureCarrier.Void result) {
+			loadState();
+		}
+	};
+	
+	protected AsyncCallBackWrapper<String> updateStateBack = AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Log.error("State not retrieved", caught);
+		}
+
+		@Override
+		public void onSuccess(String result) {
+			loadState();
+		}
+	});
 
 	@Inject
-	public CodelistPanelPresenterImpl(CodelistPanelView view, @CodelistId String codelistId, DataSaverManager saverManager) {
+	public CodelistPanelPresenterImpl(CodelistPanelView view, @CodelistId String codelistId, ManagerServiceAsync service, DataSaverManager saverManager) {
 		this.view = view;
 		this.codelistId = codelistId;
+		this.service = service;
 		this.saverManager = saverManager;
 		
 		bind();
 		bindFeatures();
 		bindSavers();
+		
+		loadState();
 	}
 
 	protected void bindSavers() {
@@ -65,12 +93,51 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 				switch (action) {
 					case ALL_COLUMN: view.getCodeListEditor().showAllAttributesAsColumn(); break;
 					case ALL_NORMAL: view.getCodeListEditor().showAllAttributesAsNormal(); break;
-					case LOCK: service.lock(Request.voidRequest(codelistId), Nop.<FeatureCarrier.Void>getInstance()); break;
-					case FINALIZE: service.seal(Request.voidRequest(codelistId), Nop.<FeatureCarrier.Void>getInstance()); break;
-					case UNLOCK: service.unlock(Request.voidRequest(codelistId), Nop.<FeatureCarrier.Void>getInstance()); break;
+					case LOCK: lock(); break;
+					case FINALIZE: finalizeCodelist(); break;
+					case UNLOCK: unlock(); break;
 				}
 			}
 		});
+	}
+	
+	protected void loadState() {
+		view.getToolBar().showStateLoader(true);
+		service.getCodelistState(codelistId, AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("State not retrieved", caught);
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				updateState(result);
+			}
+		}));
+	}
+	
+	protected void lock()
+	{
+		view.getToolBar().showStateLoader(true);
+		service.lock(codelistId, callBack);
+	}
+	
+	protected void unlock()
+	{
+		view.getToolBar().showStateLoader(true);
+		service.unlock(codelistId, callBack);
+	}
+	
+	protected void finalizeCodelist()
+	{
+		view.getToolBar().showStateLoader(true);
+		service.seal(codelistId, callBack);
+	}
+	
+	protected void updateState(String state) {
+		view.getToolBar().setState(state);
+		view.getToolBar().showStateLoader(false);
 	}
 
 	

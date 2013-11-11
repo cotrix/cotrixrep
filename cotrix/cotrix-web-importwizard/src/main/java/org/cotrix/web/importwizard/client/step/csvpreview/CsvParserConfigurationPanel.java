@@ -6,9 +6,9 @@ package org.cotrix.web.importwizard.client.step.csvpreview;
 
 import java.util.EnumSet;
 
-import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.share.client.widgets.EnumListBox;
 import org.cotrix.web.share.client.widgets.EnumListBox.LabelProvider;
+import org.cotrix.web.share.shared.CsvParserConfiguration;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;

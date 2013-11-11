@@ -60,7 +60,7 @@ public class DefaultLoginService implements LoginService {
 				throw new UnknownUserException("unknown user for token "+token);
 			
 			//from identity to currentUser
-			user = users.lookup(identity);
+			user = users.lookupByName(identity);
 			
 			if (user==null)
 				throw new UnknownUserException("unknown user "+identity);

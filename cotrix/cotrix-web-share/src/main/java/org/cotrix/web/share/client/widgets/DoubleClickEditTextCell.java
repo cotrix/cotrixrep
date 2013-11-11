@@ -27,12 +27,11 @@ import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class DoubleClickEditTextCell extends
-AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
+public class DoubleClickEditTextCell extends AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
 
 	interface Template extends SafeHtmlTemplates {
-		@Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\"></input>")
-		SafeHtml input(String value);
+		@Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\" class=\"{1}\"></input>")
+		SafeHtml input(String value, String style);
 	}
 
 	/**
@@ -133,13 +132,14 @@ AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
 	private final SafeHtmlRenderer<String> renderer;
 
 	protected boolean editable;
+	protected String editorStyle;
 
 	/**
 	 * Construct a new EditTextCell that will use a
 	 * {@link SimpleSafeHtmlRenderer}.
 	 */
-	public DoubleClickEditTextCell() {
-		this(SimpleSafeHtmlRenderer.getInstance());
+	public DoubleClickEditTextCell(String editorStyle) {
+		this(editorStyle, SimpleSafeHtmlRenderer.getInstance());
 	}
 
 	/**
@@ -149,16 +149,17 @@ AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
 	 * @param renderer
 	 *            a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
 	 */
-	public DoubleClickEditTextCell(SafeHtmlRenderer<String> renderer) {
+	public DoubleClickEditTextCell(String editorStyle, SafeHtmlRenderer<String> renderer) {
 		super(DBLCLICK, KEYUP, KEYDOWN, BLUR);
 		if (template == null) {
 			template = GWT.create(Template.class);
 		}
 		if (renderer == null) {
-			throw new IllegalArgumentException("renderer == null");
+			throw new IllegalArgumentException("The renderer is null");
 		}
 		this.renderer = renderer;
 		editable = true;
+		this.editorStyle = editorStyle;
 	}
 
 	/**
@@ -230,7 +231,7 @@ AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
 				 * text input element is always treated as text. SafeHtml isn't
 				 * valid in the context of the value attribute.
 				 */
-				sb.append(template.input(text));
+				sb.append(template.input(text, editorStyle));
 				return;
 			} else {
 				// The user pressed enter, but view data still exists.

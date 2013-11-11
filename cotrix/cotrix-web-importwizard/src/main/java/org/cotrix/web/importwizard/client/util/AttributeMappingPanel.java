@@ -120,7 +120,7 @@ public class AttributeMappingPanel extends Composite {
 			nameField.setWidth("200px");
 			nameField.setValue(field.getLabel());
 			columnsTable.setWidget(row, NAME_COLUMN, nameField);
-			cellFormatter.setStyleName(row, NAME_COLUMN, Resources.INSTANCE.css().mappingCell());
+			cellFormatter.setStyleName(row, NAME_COLUMN, CommonResources.INSTANCE.css().mappingCell());
 			nameFields.add(nameField);
 
 			if (typeDefinition) {
@@ -134,7 +134,7 @@ public class AttributeMappingPanel extends Composite {
 				}
 				definitionsPanels.add(definitionPanel);
 				columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
-				cellFormatter.setStyleName(row, DEFINITION_COLUMN, Resources.INSTANCE.css().mappingCell());
+				cellFormatter.setStyleName(row, DEFINITION_COLUMN, CommonResources.INSTANCE.css().mappingCell());
 			}
 		}
 	}

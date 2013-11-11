@@ -50,11 +50,10 @@ public class AppControllerImpl implements AppController {
 		CotrixManagerAppGinInjector managerInjector = CotrixManagerAppGinInjector.INSTANCE;
 		addModule(managerInjector.getController());
 		
-		/*CotrixPublishAppGinInjector cotrixPublishAppGinInjector = GWT.create(CotrixPublishAppGinInjector.class);
-		cotrixPublishAppController = cotrixPublishAppGinInjector.getAppController();
-		cotrixPublishAppController.go(view.getBody());*/
+		/*CotrixPublishAppGinInjector publishInjector = CotrixPublishAppGinInjector.INSTANCE;
+		addModule(publishInjector.getController());*/
 		
-		showModule(CotrixModule.MANAGE);
+		showModule(CotrixModule.HOME);
 	}
 	
 	protected void bind()

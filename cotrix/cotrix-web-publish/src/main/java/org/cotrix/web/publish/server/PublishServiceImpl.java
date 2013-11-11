@@ -1,144 +1,120 @@
 package org.cotrix.web.publish.server;
 
-import static org.cotrix.repository.Queries.allCodes;
-import static org.cotrix.repository.Queries.allLists;
+import static org.cotrix.repository.Queries.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.inject.Inject;
-import javax.xml.namespace.QName;
+import javax.servlet.ServletException;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.io.Channels;
-import org.cotrix.io.PublicationService;
-import org.cotrix.io.sdmx.SdmxPublishDirectives;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
-import org.cotrix.repository.query.Range;
 import org.cotrix.web.publish.client.PublishService;
-import org.cotrix.web.share.shared.UIChanel;
-import org.cotrix.web.share.shared.UIChanelProperty;
-import org.cotrix.web.share.shared.UICodelist;
-import org.cotrix.web.share.shared.UIChanelAssetType;
-import org.virtualrepository.AssetType;
-import org.virtualrepository.Properties;
-import org.virtualrepository.Property;
-import org.virtualrepository.RepositoryService;
+import org.cotrix.web.publish.shared.PublishServiceException;
+import org.cotrix.web.publish.shared.ReportLog;
+import org.cotrix.web.share.server.util.CodelistLoader;
+import org.cotrix.web.share.server.util.Codelists;
+import org.cotrix.web.share.server.util.Ranges;
+import org.cotrix.web.share.shared.ColumnSortInfo;
+import org.cotrix.web.share.shared.DataWindow;
+import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UICodelist;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.google.gwt.view.client.Range;
+
 
 /**
- * The server side implementation of the RPC service.
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
  */
 @SuppressWarnings("serial")
-public class PublishServiceImpl extends RemoteServiceServlet implements
-		PublishService {
-
-	@Inject CodelistRepository repository;
-	@Inject PublicationService service;
-	@Inject Channels channels;
+public class PublishServiceImpl extends RemoteServiceServlet implements PublishService {
 	
-	public ArrayList<UICodelist> getAllCodelists()throws IllegalArgumentException {
-		//loadASFIS();  // for testing
+	protected Logger logger = LoggerFactory.getLogger(PublishServiceImpl.class);
+	
+	@Inject
+	CodelistRepository repository;
+	
+	@Inject
+	protected CodelistLoader codelistLoader;
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		codelistLoader.importAllCodelist();
+		logger.trace("codelist in repository:");
+		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
+		logger.trace("done");
+	}
+
+	@Override
+	public DataWindow<UICodelist> getCodelists(Range range, ColumnSortInfo sortInfo, boolean force) {
+		logger.trace("getCodelists range: {} sortInfo: {} force: {}", range, sortInfo, force);
 		
-		ArrayList<UICodelist> list = new ArrayList<UICodelist>();
-		Iterator<Codelist> it  = repository.queryFor(allLists()).iterator();
-		while (it.hasNext()) {
-			Codelist codelist = (Codelist) it.next();
-			UICodelist c = new UICodelist();
-			c.setName(codelist.name().toString());
-			c.setId(codelist.id());
-			list.add(c);
-		}
-		return list;
-	}
-	
-	public ArrayList<UIChanel> getAllChanels(){
-		System.out.println("Start getting chanels");
-		ArrayList<UIChanel> uiChanels = new ArrayList<UIChanel>();
 		
-		Collection<RepositoryService> chanels = channels.publicationChannels();
-		for (RepositoryService chanel : chanels) {
-			Collection<AssetType> coll =  chanel.publishedTypes();
-			ArrayList<UIChanelAssetType> assetTypes = new ArrayList<UIChanelAssetType>();
-			for (Iterator iterator = coll.iterator(); iterator.hasNext();) {
-				AssetType assetType = (AssetType) iterator.next();
-				UIChanelAssetType propertyType = new UIChanelAssetType();
-				propertyType.setName(assetType.name());
-				
-				assetTypes.add(propertyType);
-			}
-			Properties properties = chanel.properties();
-			ArrayList<UIChanelProperty> uiProperties = new ArrayList<UIChanelProperty>();
-			for (Property property : properties) {
-				UIChanelProperty p = new UIChanelProperty();
-				p.setName(property.name());
-				p.setDescription(property.description());
-				p.setValue(property.value().toString());
-				System.out.println(p.getName() +"--"+p.getDescription()+"--"+p.getValue());
-				uiProperties.add(p);
-			}
-			System.out.println("finish getting properties");
-			
-			UIChanel uiChanel = new UIChanel();
-			uiChanel.setName(chanel.name().toString());
-			uiChanel.setAssetTypes(assetTypes);
-			uiChanel.setProperties(uiProperties);
-			
-			uiChanels.add(uiChanel);
-		}
-		return uiChanels;
+		//CodelistQuery<Code> query = allCodes(codelistId);
+		/*int from = range.getStart();
+		int to = range.getStart() + range.getLength();
+		logger.trace("query range from: {} to: {}", from ,to);*/
+		//query.setRange(new Range(from, to));
+		
+		//FIXME use ranges
+		CodelistQuery<Codelist> query =	allLists();
+		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(query).iterator();
+		
+		List<Codelist> codelists = new ArrayList<Codelist>();
+		while(it.hasNext()) codelists.add(it.next());
+		
+		Comparator<Codelist> comparator = Codelists.NAME_COMPARATOR;
+		if (sortInfo.getName()!=null && sortInfo.getName().equals(UICodelist.VERSION_FIELD)) comparator = Codelists.VERSION_COMPARATOR;
+		
+		Collections.sort(codelists, comparator);
+		
+		List<Codelist> data = (sortInfo.isAscending())?Ranges.subList(codelists, range):Ranges.subListReverseOrder(codelists, range);
+		
+		List<UICodelist> uicodelists = toUICodelists(data);
+		
+		return new DataWindow<UICodelist>(uicodelists);
 	}
 	
-	private String[] getHeader(Codelist codelist) {
-		CodelistQuery<Code> codes = allCodes(codelist.id());
-		codes.setRange(new Range(0, 1));
-		String[] line = null;
-		Iterable<Code> inrange = repository.queryFor(codes);
-
-		Iterator<Code> it = inrange.iterator();
-		while (it.hasNext()) {
-			Code code = (Code) it.next();
-			line = new String[code.attributes().size()];
-			Iterator it2 = code.attributes().iterator();
-			int index = 0;
-			while (it2.hasNext()) {
-				Attribute a = (Attribute) it2.next();
-				line[index++] = a.name().toString();
-			}
+	protected List<UICodelist> toUICodelists(List<Codelist> codelists)
+	{
+		List<UICodelist> uicodelists = new ArrayList<UICodelist>(codelists.size());
+		for (Codelist codelist:codelists) {
+			UICodelist uiCodelist = new UICodelist();
+			uiCodelist.setId(codelist.id());
+			uiCodelist.setName(codelist.name().getLocalPart());
+			uiCodelist.setVersion(codelist.version());
+			uicodelists.add(uiCodelist);
 		}
-		return line;
+		return uicodelists;
 	}
 	
-	/*public CotrixImportModel getCodeListModel(String codelistId) {
-		Codelist c = repository.lookup(codelistId);
-
-		Metadata meta = new Metadata();
-		meta.setName(c.name().toString());
-		meta.setOwner("FAO");
-		meta.setRowCount(c.codes().size());
-		meta.setVersion(c.version());
-		meta.setDescription("This data was compiled by hand from the above and may contain errors. One small modification is that the various insular areas of the United State listed above are recorded here as the single United States Minor Outlying Islands.");
-
-		CSVFile csvFile = new CSVFile();
-		csvFile.setData(new ArrayList<String[]>());
-		csvFile.setHeader(getHeader(c));
-
-		CotrixImportModel model = new CotrixImportModel();
-		model.setMetadata(meta);
-		model.setCsvFile(csvFile);
-		return model;
-	}*/
-	
-	public void publishCodelist(String codelistID,ArrayList<String> chanels){
-		Codelist codelist = repository.lookup(codelistID);
-		for (String chanel : chanels) {
-			System.out.println();
-			service.publish(codelist, SdmxPublishDirectives.DEFAULT, new QName(chanel));
-		}
+	@Override
+	public CodelistMetadata getMetadata(String codelistId) throws PublishServiceException {
+		logger.trace("getMetadata codelistId: {}", codelistId);
+		Codelist codelist = repository.lookup(codelistId);
+		return Codelists.toCodelistMetadata(codelist);
 	}
+	
+	
+
+	@Override
+	public DataWindow<ReportLog> getReportLogs(Range range)
+			throws PublishServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

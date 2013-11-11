@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
-import org.cotrix.web.codelistmanager.shared.UICode;
+import org.cotrix.web.share.shared.codelist.UICode;
 
 import com.google.gwt.view.client.ProvidesKey;
 

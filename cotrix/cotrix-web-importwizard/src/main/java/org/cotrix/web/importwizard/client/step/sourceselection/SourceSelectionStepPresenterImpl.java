@@ -1,10 +1,10 @@
 package org.cotrix.web.importwizard.client.step.sourceselection;
 
-import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.SourceTypeChangeEvent;
-import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
-import org.cotrix.web.importwizard.client.wizard.event.NavigationEvent;
+import org.cotrix.web.importwizard.client.step.TrackerLabels;
+import org.cotrix.web.share.client.wizard.event.NavigationEvent;
+import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;

@@ -125,4 +125,8 @@ public class MStore {
 		
 		return map;
 	}
+	
+	public int size(Class<?> type) {
+		return objects.get(type).size();
+	}
 }

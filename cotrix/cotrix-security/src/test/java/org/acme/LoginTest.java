@@ -63,8 +63,8 @@ public class LoginTest {
 		
 		contextController.openRequest(r);
 		
-		r.setAttribute(nameParam, cotrix.id());
-		r.setAttribute(pwdParam, cotrix.id());
+		r.setAttribute(nameParam, cotrix.name());
+		r.setAttribute(pwdParam, cotrix.name());
 
 		User logged = service.login(r);
 		

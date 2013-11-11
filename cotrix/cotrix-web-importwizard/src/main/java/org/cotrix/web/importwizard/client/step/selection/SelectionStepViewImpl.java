@@ -1,11 +1,12 @@
 package org.cotrix.web.importwizard.client.step.selection;
 
-import org.cotrix.web.importwizard.client.resources.DataGridResource;
 import org.cotrix.web.importwizard.client.resources.Resources;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
+import org.cotrix.web.share.client.resources.DataGridListResource;
 import org.cotrix.web.share.client.widgets.AlertDialog;
+import org.cotrix.web.share.client.widgets.SelectionCheckBoxCell;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.ClickableTextCell;
@@ -79,7 +80,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	protected void setupGrid()
 	{
 
-		dataGrid = new DataGrid<AssetInfo>(6, DataGridResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
+		dataGrid = new DataGrid<AssetInfo>(6, DataGridListResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);

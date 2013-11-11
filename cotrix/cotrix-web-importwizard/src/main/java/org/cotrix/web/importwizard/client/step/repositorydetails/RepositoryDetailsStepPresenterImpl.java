@@ -1,22 +1,20 @@
 package org.cotrix.web.importwizard.client.step.repositorydetails;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
-import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
-
+import org.cotrix.web.importwizard.client.step.TrackerLabels;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-
-import static org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -35,7 +33,7 @@ public class RepositoryDetailsStepPresenterImpl extends AbstractVisualWizardStep
 	
 	@Inject
 	public RepositoryDetailsStepPresenterImpl(RepositoryDetailsStepView view, @ImportBus EventBus importEventBus) {
-		super("repositoryDetails", TrackerLabels.ACQUIRE, "Repository Details", "", BACKWARD);
+		super("repositoryDetails", TrackerLabels.ACQUIRE, "Repository Details", "", ImportWizardStepButtons.BACKWARD);
 		this.view = view;
 		this.importEventBus = importEventBus;
 		importEventBus.addHandler(ResetWizardEvent.TYPE, this);

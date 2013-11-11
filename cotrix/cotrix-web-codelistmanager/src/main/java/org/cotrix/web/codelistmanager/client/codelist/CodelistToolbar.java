@@ -25,4 +25,8 @@ public interface CodelistToolbar {
 
 	public void setEnabled(Action action, boolean enable);
 
+	void setState(String msg);
+
+	void showStateLoader(boolean visible);
+
 }

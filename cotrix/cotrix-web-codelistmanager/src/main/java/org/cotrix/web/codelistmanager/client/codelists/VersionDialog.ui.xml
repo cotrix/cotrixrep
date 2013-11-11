@@ -5,8 +5,8 @@
 		field="resources" />
 	<ui:style>
 		.box {
-			font-family: "HelveticaNeue-Light", "Helvetica Neue Light",
-				"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+/*			font-family: "HelveticaNeue-Light", "Helvetica Neue Light",
+				"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;*/
 			-moz-box-shadow: 0 0 7px 7px #999;
 			-webkit-box-shadow: 0 0 7px 7px #999;
 			box-shadow: 0 0 7px 7px #999;
@@ -14,7 +14,7 @@
 			border-radius: 5px;
 			width: 300px;
 /*			margin-left: 100px;*/
-			height: 300px;
+			height: 330px;
 			padding: 20px;
 		}
 		
@@ -24,6 +24,7 @@
 		}
 		
 		.subtitle {
+			padding-top: 10px;
 			color: #999;
 			font-size: 15px;
 		}
@@ -50,6 +51,10 @@
 			margin-top: 20px;
 			color: #666;
 			font-size: 15px;
+		}
+		
+		.oldVersion {
+			padding-top: 10px;
 		}
 		
 		.textbox {
@@ -81,21 +86,20 @@
 	</ui:style>
 	<g:HTMLPanel styleName="{style.box}">
 			<div class="{style.title}">
-				New Codelist version
+				Create new version
 			</div>
 			<div class="{style.subtitle}">
 				<g:Label ui:field="name" />
 			</div>
 			<div class="{style.textfield}">
-				<div>From</div>
-				<g:Label ui:field="oldVersion" />
+				<div>Current</div>
+				<g:TextBox styleName="{style.textbox}" ui:field="oldVersion" readOnly="true" />
 			</div>
 			<div class="{style.textfield}">
-				<div>To</div>
+				<div>New</div>
 				<g:TextBox styleName="{style.textbox}" ui:field="newVersion"  />
 			</div>
 			<div class="{style.textfield}">
-			    <g:Button ui:field="cancel" styleName="{style.submit}">Cancel</g:Button>
 				<g:Button ui:field="create" styleName="{style.submit}">Create</g:Button>
 			</div>
 	</g:HTMLPanel>

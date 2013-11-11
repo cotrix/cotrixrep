@@ -12,13 +12,14 @@
 			vertical-align: middle;
 			font-size: 11px;
 			color: #999;
-			font-weight: bold;
+			font-weight: normal;
+			line-height: 2.0;
 		}
 		
 		.userBar {
-			background-color: #282828;
-			height: 25px;
-			
+			/*background-color: #282828;*/
+			background-color: #363636;
+			height: 31px;
 		}
 		
 		.body {
@@ -28,7 +29,7 @@
 		<g:north size='60'>
 			<g:FlowPanel ui:field="menu" />
 		</g:north>
-		<g:north size='25'>
+		<g:north size='31'>
 			<g:FlowPanel ui:field="userBar" styleName="{style.userBar}"/>
 		</g:north>
 		<g:center>
@@ -40,12 +41,14 @@
 					</g:center>
 					<g:south size="60">
 						<g:HTMLPanel styleName="{style.footer}">
+						<div style="padding-top:5px;">
 							<span class="{style.footerText}">
 								COPYRIGHT 2013 Cotrix All Right Reserve
 								<br />
 								<font style="color:#f66a03">Cotrix</font>
 								is founded by iMarine.
 							</span>
+						</div>
 						</g:HTMLPanel>
 					</g:south>
 				</g:DockLayoutPanel>

@@ -33,6 +33,17 @@ public class MUserRepository extends MRepository<User, User.Private> implements 
 	public MUserRepository(IdGenerator generator) {
 		this(new MStore(),generator);
 	}
+	
+	@Override
+	public User lookupByName(String id) {
+		for (User user : getAll())
+			if (user.name().equals(id))
+				return user;
+		
+		return null;
+						
+	}
+	
 
 	
 	/**

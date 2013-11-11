@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 
-import org.cotrix.io.Channels;
+import org.cotrix.io.CloudService;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.climport.Importer;
@@ -22,26 +22,25 @@ import org.cotrix.web.importwizard.server.upload.MappingGuesser;
 import org.cotrix.web.importwizard.server.util.AssetInfosCache;
 import org.cotrix.web.importwizard.server.util.Assets;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
-import org.cotrix.web.importwizard.server.util.Ranges;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
-import org.cotrix.web.importwizard.shared.ColumnSortInfo;
-import org.cotrix.web.importwizard.shared.CsvParserConfiguration;
 import org.cotrix.web.importwizard.shared.CodeListType;
+import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
-import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
+import org.cotrix.web.share.server.util.Ranges;
+import org.cotrix.web.share.shared.ColumnSortInfo;
+import org.cotrix.web.share.shared.CsvParserConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
-import org.virtualrepository.VirtualRepository;
 import org.virtualrepository.csv.CsvCodelist;
 import org.virtualrepository.sdmx.SdmxCodelist;
 import org.virtualrepository.tabular.Table;
@@ -60,7 +59,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	protected Logger logger = LoggerFactory.getLogger(ImportServiceImpl.class);
 
 	@Inject
-	VirtualRepository remoteRepository;
+	CloudService cloud;
 
 	@Inject
 	protected ParsingHelper parsingHelper;
@@ -76,9 +75,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	 */
 	@Override
 	public void init() throws ServletException {
-		logger.trace("discovering remote code lists");
-		int discovered = remoteRepository.discover(Channels.importTypes);
-		logger.trace("discovered "+discovered+" remote codelist");
+		cloud.discover();
 	}
 
 	protected WizardImportSession getImportSession()
@@ -91,7 +88,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	protected AssetInfosCache getAssetInfos()
 	{
 		HttpSession httpSession = this.getThreadLocalRequest().getSession();
-		return AssetInfosCache.getFromSession(httpSession, remoteRepository);
+		return AssetInfosCache.getFromSession(httpSession, cloud);
 	}	
 
 	/** 
@@ -107,11 +104,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			if (forceRefresh) cache.refreshCache();
 			List<AssetInfo> assets = cache.getAssets(columnSortInfo.getName());
 			List<AssetInfo> sublist = columnSortInfo.isAscending()?Ranges.subList(assets, range):Ranges.subListReverseOrder(assets, range);
-
-			/*assets.add(new AssetInfo("urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FAO:CL_DIVISION(0.1)", "CL_DIVISION", "sdmx/codelist", "D4Science Development Registry"));
-			assets.add(new AssetInfo("321", "Gears", "SDMX", "D4Science Development Registry"));
-			assets.add(new AssetInfo("333", "Species Year 2013", "CSV", "D4Science Development Registry"));
-			assets.add(new AssetInfo("324", "Country", "SDMX", "D4Science Development Registry"));*/
 
 			logger.trace("returning "+sublist.size()+" elements");
 
@@ -328,7 +320,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			Importer<?> importer = importerFactory.createImporter(session, metadata, mappings, mappingMode);
 			session.setImporter(importer);
 			
-			//FIXME use a service provider
+			//FIXME use a serialiser provider
 			Thread th = new Thread(importer);
 			th.start();
 		} catch (IOException e) {
@@ -367,7 +359,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 			if (asset.type() == SdmxCodelist.type) {
 				session.setCodeListType(CodeListType.SDMX);
-				CodelistBean codelist = remoteRepository.retrieve(asset, CodelistBean.class);
+				CodelistBean codelist = cloud.retrieveAsSdmx(asset.id());
 				metadata.setVersion(codelist.getVersion());
 				List<AttributeMapping> mappings = mappingsGuesser.getSdmxDefaultMappings();
 				session.setGuessedMappings(mappings);
@@ -376,7 +368,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 			if (asset.type() == CsvCodelist.type) {
 				session.setCodeListType(CodeListType.CSV);
-				Table table = remoteRepository.retrieve(asset, Table.class);
+				Table table = cloud.retrieveAsTable(asset.id());
 				metadata.setVersion("1.0");
 				List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
 				session.setGuessedMappings(mappings);

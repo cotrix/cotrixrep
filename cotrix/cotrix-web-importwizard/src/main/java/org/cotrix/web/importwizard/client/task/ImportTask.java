@@ -5,12 +5,13 @@ package org.cotrix.web.importwizard.client.task;
 
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent.ImportProgressHandler;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.importwizard.client.step.TaskWizardStep;
-import org.cotrix.web.importwizard.client.wizard.WizardAction;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardAction;
+import org.cotrix.web.share.client.wizard.WizardAction;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
@@ -65,7 +66,7 @@ public class ImportTask implements TaskWizardStep, ImportProgressHandler, ResetW
 	public void onImportProgress(ImportProgressEvent event) {
 		importComplete = event.getProgress().isComplete();
 		if (importComplete) {
-			callback.onSuccess(WizardAction.NEXT);
+			callback.onSuccess(ImportWizardAction.NEXT);
 		}
 	}
 

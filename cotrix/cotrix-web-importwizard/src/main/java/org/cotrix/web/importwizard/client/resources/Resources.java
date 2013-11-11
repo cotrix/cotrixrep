@@ -13,22 +13,7 @@ public interface Resources extends ClientBundle {
 	
 	@Source("style.css")
 	public ImportCss css();
-
-	@Source("loader.gif")
-	public ImageResource loader();
-	
-	@Source("computer.png")
-	public ImageResource computer();
-	
-	@Source("computer-hover.png")
-	public ImageResource computerHover();
-
-	@Source("cloud.png")
-	public ImageResource cloud();
-	
-	@Source("cloud-hover.png")
-	public ImageResource cloudHover();
-	
+		
 	@Source("browse.png")
 	public ImageResource browse();
 	
@@ -38,26 +23,17 @@ public interface Resources extends ClientBundle {
 	@Source("close.png")
 	public ImageResource close();
 	
-	@Source("refresh.png")
-	public ImageResource refresh();
-	
 	@Source("trash.png")
 	public ImageResource trash();
 	
 	@Source("trash_tick.png")
 	public ImageResource trashTick();
 	
-	@Source("download.png")
-	public ImageResource download();
-	
 	@Source("back.png")
 	public ImageResource back();
 	
 	@Source("reload.png")
 	public ImageResource reload();
-	
-	@Source("manage.png")
-	public ImageResource manage();
 	
 	@Source("import.png")
 	public ImageResource importIcon();

@@ -3,8 +3,8 @@
  */
 package org.cotrix.web.codelistmanager.shared.modify.metadata;
 
-import org.cotrix.web.codelistmanager.shared.UIQName;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
+import org.cotrix.web.share.shared.codelist.UIQName;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

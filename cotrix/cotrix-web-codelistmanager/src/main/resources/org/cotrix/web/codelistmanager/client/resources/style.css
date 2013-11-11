@@ -1,81 +1,34 @@
-/**
- * The file contains styles for GWT widgets in the standard theme.
- *
- * In order to maintain cross-browser compatibility, the following syntax is
- * used to create IE6 specific style rules:
- *    .gwt-Widget {
- *      property: rule applies to all browsers
- *      -property: rule applies only to IE6 (overrides previous rule)
- *    }
- *    * html .gwt-Widget {
- *      property: rule applies to all versions of IE
- *    }
- */
-body,table td,select {
-	font-family: Arial Unicode MS, Arial, sans-serif;
-	font-size: small;
-}
-
-pre {
-	font-family: "courier new", courier;
-	font-size: small;
-}
-
-body {
-	color: black;
-	margin: 0px;
-	border: 0px;
-	padding: 0px;
-	background: #fff;
-	direction: ltr;
-}
-
-a,a:visited,a:hover {
-	color: #0000AA;
-}
-
-@sprite .buttonAllColumns {
-	gwt-image: "allColumns";
-	background-position: 0;
-	background-color: #ddd;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	text-align: center;
-	height: 20px;
-	width: 21px;
-	font-size: 24px;
-	color: #666;
-}
-
-@sprite .buttonAllColumns:hover {
-	gwt-image: "allColumnsHover";
-	background-position: 0;
-	background-color: #5674b9;
-	color: #fff;
-	cursor: pointer;
-	height: 20px;
-	width: 21px;
-}
-
-@sprite .search {
+@sprite .searchBackground {
 	gwt-image: "search";
 	background-repeat: no-repeat;
 	background-position: 3px 50%;
+}
+
+.search {
+
 	width: 100%;
-	height: 24px;
-	color: #666;
-	border: 1px solid #ccc;
-	border-radius: 6px;
-	outline: none;
+	box-sizing: border-box;
 	background-color: #f7f7f7;
+	
+	padding: 5px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 0px 0px;
+	border: 1px solid #999999;
+	color: #4f4e4e;
+	
+	height: 24px;
+	font-size: 16px;
 }
 
 .search:focus {
 	background: none;
 	width: 100%;
-	height: 24px;
-	color: #666;
-	border: 1px solid #ccc;
-	border-radius: 6px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px #61C5FA;
+	border: 1px solid #5AB0DB;
 	outline: none;
+}
+
+.editor {
+	font-size: 14px;
 }

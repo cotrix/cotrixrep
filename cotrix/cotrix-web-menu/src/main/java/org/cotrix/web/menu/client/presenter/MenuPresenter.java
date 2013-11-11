@@ -29,6 +29,13 @@ public class MenuPresenter implements MenuView.Presenter {
 		this.view = view;
 		this.view.setPresenter(this);
 		bindFeatures();
+		setDefaultMenus();
+	}
+	
+	protected void setDefaultMenus()
+	{
+		view.setEnabled(Menu.HOME, true);
+		view.setEnabled(Menu.MANAGE, true);
 	}
 	
 	protected void bindFeatures()
@@ -37,12 +44,12 @@ public class MenuPresenter implements MenuView.Presenter {
 			
 			@Override
 			public void unsetFeature() {
-				view.setVisible(Menu.IMPORT, false);
+				view.setEnabled(Menu.IMPORT, false);
 			}
 			
 			@Override
 			public void setFeature() {
-				view.setVisible(Menu.IMPORT, true);
+				view.setEnabled(Menu.IMPORT, true);
 			}
 		}, ApplicationFeatures.IMPORT_CODELIST);
 		
@@ -50,12 +57,12 @@ public class MenuPresenter implements MenuView.Presenter {
 			
 			@Override
 			public void unsetFeature() {
-				view.setVisible(Menu.PUBLISH, false);
+				view.setEnabled(Menu.PUBLISH, false);
 			}
 			
 			@Override
 			public void setFeature() {
-				view.setVisible(Menu.PUBLISH, true);
+				view.setEnabled(Menu.PUBLISH, true);
 			}
 		}, ApplicationFeatures.PUBLISH_CODELIST);
 	}
@@ -69,6 +76,11 @@ public class MenuPresenter implements MenuView.Presenter {
 		cotrixBus.fireEvent(new SwitchToModuleEvent(module));
 	}
 	
+	public void selectModule(CotrixModule module)
+	{
+		view.setSelected(getMenu(module));
+	}
+	
 	protected CotrixModule getModule(Menu menu){
 		switch (menu) {
 			case HOME: return CotrixModule.HOME;
@@ -76,6 +88,16 @@ public class MenuPresenter implements MenuView.Presenter {
 			case MANAGE: return CotrixModule.MANAGE;
 			case PUBLISH: return CotrixModule.PUBLISH;
 			default: throw new IllegalArgumentException("Unknow menu "+menu);
+		}
+	}
+	
+	protected Menu getMenu(CotrixModule module){
+		switch (module) {
+			case HOME: return Menu.HOME;
+			case IMPORT: return Menu.IMPORT;
+			case MANAGE: return Menu.MANAGE;
+			case PUBLISH: return Menu.PUBLISH;
+			default: throw new IllegalArgumentException("Unknow module "+module);
 		}
 	}
 }

@@ -11,14 +11,33 @@ import com.google.gwt.resources.client.ImageResource;
 public interface CommonResources extends ClientBundle {
 	public static final CommonResources INSTANCE = GWT.create(CommonResources.class);
 	
+	@Source("constants.css")
+	public CssConstants cssConstants();
+	
 	@Source("style.css")
 	public CommonCss css();
+	
+	public ImageResource loader();
 	
 	@Source("popup-arrow.png")
 	public ImageResource popupArrow();
 	
-	
-	@Source("dataLoader.gif")
 	public ImageResource dataLoader();
+
+	public ImageResource manage();
+
+	public ImageResource refresh();
+	
+	public ImageResource computer();
+	
+	@Source("computer-hover.png")
+	public ImageResource computerHover();
+
+	public ImageResource cloud();
+	
+	@Source("cloud-hover.png")
+	public ImageResource cloudHover();
+	
+	public ImageResource download();
 
 }

@@ -2,7 +2,6 @@ package org.cotrix.web.importwizard.client.step.summary;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportBus;
@@ -15,13 +14,14 @@ import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHa
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent;
-import org.cotrix.web.importwizard.client.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
-import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.importwizard.client.step.TrackerLabels;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
+import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -34,7 +34,7 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 
 	@Inject
 	public SummaryStepPresenterImpl(SummaryStepView view, @ImportBus EventBus importEventBus) {
-		super("summary", TrackerLabels.SUMMARY, "Recap", "Here's the plan of action, let's do it.", NavigationButtonConfiguration.BACKWARD, NavigationButtonConfiguration.IMPORT);
+		super("summary", TrackerLabels.SUMMARY, "Recap", "Here's the plan of action, let's do it.", ImportWizardStepButtons.BACKWARD, ImportWizardStepButtons.IMPORT);
 		this.view = view;
 		
 		this.importEventBus = importEventBus;

@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.share.shared.feature;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,11 +49,9 @@ public abstract class FeatureCarrier implements IsSerializable {
 		return codelistsFeatures;
 	}
 
-	/**
-	 * @param codelistsFeatures the codelistsFeatures to set
-	 */
-	public void setCodelistsFeatures(Map<String, Set<UIFeature>> codelistsFeatures) {
-		this.codelistsFeatures = codelistsFeatures;
+	public void addCodelistsFeatures(String codelistId, Set<UIFeature> codelistFeatures) {
+		if (codelistsFeatures == null) codelistsFeatures = new HashMap<String, Set<UIFeature>>();
+		codelistsFeatures.put(codelistId, codelistFeatures);
 	}
 
 	/** 

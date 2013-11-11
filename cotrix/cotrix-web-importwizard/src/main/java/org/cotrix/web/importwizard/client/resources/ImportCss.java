@@ -15,21 +15,11 @@ public interface ImportCss extends CssResource {
 	
 	String missingValueText();
 	
-	String wizardPanel();
-	
 	String previewHeader();
 	String preview();
 	String previewCell();
 	
-	String mappingTable();
-	String mappingTableNameHeader();	
-	String mappingCell();
-	
-	String buttonComputer();
-	String buttonCloud();
 	String buttonBrowse();
-	String buttonRefresh();
-	String buttonDownload();
-	String buttonManage();
+
 	String buttonImport();
 }

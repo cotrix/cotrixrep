@@ -9,7 +9,7 @@ import org.cotrix.web.codelistmanager.client.event.RefreshCodelistsEvent.Refresh
 import org.cotrix.web.codelistmanager.client.event.RemoveCodelistEvent;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup.Version;
-import org.cotrix.web.share.shared.UICodelist;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -35,6 +35,7 @@ public class CodelistsPresenterImpl implements CodelistsPresenter {
 		this.view.setPresenter(this);
 		this.managerBus = managerBus;
 		bind();
+		featureBind();
 	}
 	
 	protected void bind()
@@ -53,6 +54,25 @@ public class CodelistsPresenterImpl implements CodelistsPresenter {
 				newCodelist(event.getCodelistGroup());
 			}
 		});
+	}
+	
+	protected void featureBind()
+	{
+	/*	FeatureBinder.bind(new FeatureToggler() {
+			
+			@Override
+			public void toggleFeature(boolean active) {
+				view.setAddVersionVisible(active);
+			}
+		}, ApplicationFeatures.VERSIONING_CODELIST);
+		
+		FeatureBinder.bind(new FeatureToggler() {
+			
+			@Override
+			public void toggleFeature(boolean active) {
+				view.setRemoveCodelistVisible(active);
+			}
+		}, ApplicationFeatures.REMOVE_CODELIST);*/
 	}
 	
 	public void go(HasWidgets container) {

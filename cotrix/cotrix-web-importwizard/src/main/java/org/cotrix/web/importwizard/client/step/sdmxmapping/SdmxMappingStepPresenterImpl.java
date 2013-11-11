@@ -2,7 +2,6 @@ package org.cotrix.web.importwizard.client.step.sdmxmapping;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.TrackerLabels;
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.MappingLoadedEvent;
 import org.cotrix.web.importwizard.client.event.MappingLoadingEvent;
@@ -11,10 +10,11 @@ import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MappingLoadedEvent.MappingLoadedHandler;
 import org.cotrix.web.importwizard.client.event.MappingLoadingEvent.MappingLoadingHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
-import org.cotrix.web.importwizard.client.step.AbstractVisualWizardStep;
-import org.cotrix.web.importwizard.client.wizard.NavigationButtonConfiguration;
+import org.cotrix.web.importwizard.client.step.TrackerLabels;
+import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
+import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -34,7 +34,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 
 	@Inject
 	public SdmxMappingStepPresenterImpl(SdmxMappingStepView view, @ImportBus EventBus importEventBus){
-		super("sdmx-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tell us what to import and how.", NavigationButtonConfiguration.BACKWARD, NavigationButtonConfiguration.FORWARD);
+		super("sdmx-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tell us what to import and how.", ImportWizardStepButtons.BACKWARD, ImportWizardStepButtons.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 
