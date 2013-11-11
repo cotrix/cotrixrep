@@ -43,6 +43,8 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.LoadingStateChangeEvent.LoadingState;
 import com.google.gwt.user.client.ui.CustomScrollPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -859,12 +861,14 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	@Override
 	public void setEmptyTableWidget(Widget widget) {
 		emptyTableWidgetContainer.setWidget(0, 0, widget);
+		emptyTableWidgetContainer.getFlexCellFormatter().setAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER, HasVerticalAlignment.ALIGN_MIDDLE);
 		super.setEmptyTableWidget(widget);
 	}
 
 	@Override
 	public void setLoadingIndicator(Widget widget) {
 		loadingIndicatorContainer.setWidget(0, 0, widget);
+		loadingIndicatorContainer.getFlexCellFormatter().setAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER, HasVerticalAlignment.ALIGN_MIDDLE);
 		super.setLoadingIndicator(widget);
 	}
 

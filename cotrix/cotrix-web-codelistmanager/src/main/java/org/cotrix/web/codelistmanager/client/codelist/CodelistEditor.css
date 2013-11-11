@@ -33,6 +33,13 @@
 	cursor: pointer;
 }
 
+.emptyTableWidget {
+	text-align: center;
+	vertical-align: middle;
+	padding-top: 10px;
+	color: #464545;
+}
+
 .dataGridWidget {
 	
 }

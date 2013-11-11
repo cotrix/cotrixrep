@@ -105,6 +105,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		String language();
 		
 		String closeGroup();
+		
+		String emptyTableWidget();
 	}
 
 	@UiField(provided = true)
@@ -150,7 +152,11 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		
 		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
-		dataGrid.setEmptyTableWidget(new Label("Empty"));
+		
+		Label emptyTable = new Label("No codes");
+		emptyTable.setStyleName(resource.dataGridStyle().emptyTableWidget());
+		dataGrid.setEmptyTableWidget(emptyTable);
+		
 		dataGrid.setTableWidth(100, Unit.PCT);
 		dataGrid.setAutoAdjust(false);
 

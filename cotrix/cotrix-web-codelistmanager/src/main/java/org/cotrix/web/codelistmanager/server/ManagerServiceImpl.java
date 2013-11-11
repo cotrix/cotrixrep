@@ -15,8 +15,10 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.application.VersioningService;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
+import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Range;
@@ -76,6 +78,12 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	@Inject
 	protected ModifyCommandHandler commandHandler;
+	
+	@Inject
+	protected VersioningService versioningService;
+	
+	@Inject
+	protected LifecycleService lifecycleService;
 	
 	/** 
 	 * {@inheritDoc}
@@ -177,7 +185,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	//@CodelistTask(EDIT)
+	@CodelistTask(EDIT)
 	public ModifyCommandResult modify(@Id String codelistId, ModifyCommand command) throws ManagerServiceException {
 		try {
 		return commandHandler.handle(codelistId, command);
@@ -198,10 +206,12 @@ public class ManagerServiceImpl implements ManagerService {
 	public CodelistGroup createNewCodelistVersion(String codelistId, String newVersion)
 			throws ManagerServiceException {
 		Codelist codelist = repository.lookup(codelistId);
-		//FIXME
+		Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
+		repository.add(newCodelist);
+		lifecycleService.start(newCodelist.id());
 		
-		CodelistGroup group = new CodelistGroup(codelist.name().toString());
-		group.addVersion(codelistId, newVersion);
+		CodelistGroup group = new CodelistGroup(newCodelist.name().toString());
+		group.addVersion(newCodelist.id(), newCodelist.version());
 		
 		return group;
 		

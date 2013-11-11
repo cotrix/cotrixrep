@@ -51,6 +51,11 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-engine</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-application</artifactId>
+		</dependency>
 
 	</dependencies>
 
