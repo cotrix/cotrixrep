@@ -82,6 +82,7 @@
 			border: 1px solid #ddd;
 			background-color: #7085b6;
 			cursor: pointer;
+			outline: none;
 		}
 	</ui:style>
 	<g:HTMLPanel styleName="{style.box}">
