@@ -52,7 +52,6 @@
 			<artifactId>cotrix-web-publish</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
