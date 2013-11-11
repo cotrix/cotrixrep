@@ -127,7 +127,12 @@
 				<artifactId>cotrix-engine</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-application</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
