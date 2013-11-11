@@ -70,8 +70,8 @@ public interface Container<T> extends Iterable<T> {
 		 * Returns the objects in this container.
 		 * @return the objects
 		 */
-		public List<T> objects() {
-			return new ArrayList<T>(objects);
+		public Set<T> objects() {
+			return objects;
 		}
 
 		public void update(Private<T> changeset) {

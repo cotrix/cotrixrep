@@ -77,10 +77,15 @@ public interface Attribute extends Identified, Named {
 		public QName type() {
 			return type;
 		}
+		
 	
 		@Override
 		public String value() {
 			return value;
+		}
+		
+		public void value(String value) {
+			this.value = value;
 		}
 		
 		@Override
