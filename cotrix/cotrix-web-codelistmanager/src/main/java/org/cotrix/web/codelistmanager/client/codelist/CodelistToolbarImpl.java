@@ -12,6 +12,8 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,6 +33,9 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 	
 	@UiField ToggleButton lock;
 	@UiField Button seal;
+	
+	@UiField InlineLabel state;
+	@UiField Image stateLoader;
 	
 	protected ToolBarListener listener;
 	protected LockToggler lockToggler = new LockToggler();
@@ -64,6 +69,19 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 	@Override
 	public void setListener(ToolBarListener listener) {
 		this.listener = listener;
+	}
+	
+	@Override
+	public void setState(String msg)
+	{
+		state.setText(msg);
+	}
+	
+	@Override
+	public void showStateLoader(boolean visible)
+	{
+		stateLoader.setVisible(visible);
+		state.setVisible(!visible);
 	}
 
 	@Override

@@ -60,8 +60,7 @@ public class CodelistPanelViewImpl extends ResizeComposite implements CodelistPa
 	}
 
 	@Override
-	public CodelistToolbar getToolBar()
-	{
+	public CodelistToolbar getToolBar()	{
 		return toolbar;
 	}
 

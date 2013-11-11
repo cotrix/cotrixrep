@@ -14,14 +14,6 @@
 			float: left;
 		}
 		
-		.lock {
-			outline: none;
-			padding: 5px;
-			display: inline;
-			vertical-align: middle;
-			cursor: pointer;
-		}
-		
 		.seal {
 			padding-left: 5px;
 		}
@@ -32,10 +24,36 @@
 			padding: 5px;
 		}
 		
-		.status {
+		.state {
 			color: gray;
 			padding-right: 5px;
+			font-size: 23px;
+			/*display: inline-block;*/
+			height: 100%;
+			vertical-align: middle;
 		}
+		
+		.stateLoaderWrapper {
+			height: 25px;
+			vertical-align: middle;
+			display: inline-block;
+		}
+		
+		.stateLoader {
+			margin: 8px;
+		}
+				
+		.lock {
+			outline: none;
+			padding: 5px;
+			display: inline;
+			cursor: pointer;
+		}
+		
+		.lock > img {
+			vertical-align: middle;
+		}
+		
 	</ui:style>
 	<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
 		<g:HorizontalPanel styleName="{style.leftWrapper}">
@@ -47,9 +65,12 @@
 			</g:PushButton>
 		</g:HorizontalPanel>
 		<g:FlowPanel styleName="{style.rightWrapper}">
-			<g:InlineLabel styleName="{style.status}">draft</g:InlineLabel>
+			<g:InlineLabel ui:field="state" styleName="{style.state}">draft</g:InlineLabel>
+			<g:FlowPanel styleName="{style.stateLoaderWrapper}">
+				<g:Image ui:field="stateLoader" resource="{common.dataLoader}" styleName="{style.stateLoader}" visible="false"/>
+			</g:FlowPanel>
 			<g:ToggleButton ui:field="lock" styleName="{style.lock}">
-				<g:upFace image="{resources.unlock}" />
+				<g:upFace image="{resources.unlock}"/>
 				<g:upDisabledFace image="{resources.unlockDisabled}" />
 				<g:downFace image="{resources.lock}" />
 				<g:downDisabledFace image="{resources.lockDisabled}" />

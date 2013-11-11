@@ -18,6 +18,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.application.VersioningService;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
+import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
@@ -41,7 +42,7 @@ import org.cotrix.web.share.shared.codelist.CodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
-import org.cotrix.web.share.shared.feature.Request;
+import org.cotrix.web.share.shared.feature.ResponseWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -159,28 +160,22 @@ public class ManagerServiceImpl implements ManagerService {
 		Codelist codelist = repository.lookup(codelistId);
 		return Codelists.toCodelistMetadata(codelist);
 	}
-	
-	
-	@CodelistTask(LOCK)
-	public FeatureCarrier.Void saveMessage(String message) {
-		return FeatureCarrier.getVoid();
-	}
 
 	@Override
 	@CodelistTask(LOCK)
-	public FeatureCarrier.Void lock(Request<Void> request) {
+	public FeatureCarrier.Void  lock(@Id String codelistId) throws ManagerServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@CodelistTask(UNLOCK)
-	public FeatureCarrier.Void unlock(Request<Void> request) {
+	public FeatureCarrier.Void  unlock(@Id String codelistId) throws ManagerServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@CodelistTask(SEAL)
-	public FeatureCarrier.Void seal(Request<Void> request) {
+	public FeatureCarrier.Void  seal(@Id String codelistId) throws ManagerServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
@@ -197,12 +192,14 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
+	@CodelistTask(EDIT)
 	public void removeCodelist(String codelistId) throws ManagerServiceException {
 		logger.trace("removeCodelist codelistId: {}",codelistId);
 		repository.remove(codelistId);
 	}
 
 	@Override
+	@CodelistTask(EDIT)
 	public CodelistGroup createNewCodelistVersion(String codelistId, String newVersion)
 			throws ManagerServiceException {
 		Codelist codelist = repository.lookup(codelistId);
@@ -215,6 +212,15 @@ public class ManagerServiceImpl implements ManagerService {
 		
 		return group;
 		
+	}
+
+	@Override
+	@CodelistTask(VIEW)
+	public ResponseWrapper<String> getCodelistState(@Id String codelistId) throws ManagerServiceException {
+		logger.trace("getCodelistState codelistId: {}",codelistId);
+		Lifecycle lifecycle = lifecycleService.lifecycleOf(codelistId);
+		String state = lifecycle.state().toString();
+		return ResponseWrapper.wrap(state);
 	}
 
 	
