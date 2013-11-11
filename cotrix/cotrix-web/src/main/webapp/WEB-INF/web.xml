@@ -63,10 +63,10 @@
 	<servlet-class>org.cotrix.web.codelistmanager.server.ManagerServiceImpl$Servlet</servlet-class>
 	</servlet>
 
-<!-- 	<servlet> -->
-<!-- 		<servlet-name>codelistPublishServlet</servlet-name> -->
-<!-- 		<servlet-class>org.cotrix.web.publish.server.PublishServiceImpl</servlet-class> -->
-<!-- 	</servlet> -->
+	<servlet>
+		<servlet-name>codelistPublishServlet</servlet-name>
+		<servlet-class>org.cotrix.web.publish.server.PublishServiceImpl</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>listServlet</servlet-name>
@@ -94,10 +94,10 @@
 		<url-pattern>/CodeListManager/manager</url-pattern>
 	</servlet-mapping>
 	
-<!-- 	<servlet-mapping> -->
-<!-- 		<servlet-name>codelistPublishServlet</servlet-name> -->
-<!-- 		<url-pattern>/CodeListManager/publish</url-pattern> -->
-<!-- 	</servlet-mapping> -->
+	<servlet-mapping>
+		<servlet-name>codelistPublishServlet</servlet-name>
+		<url-pattern>/CodeListManager/publish</url-pattern>
+	</servlet-mapping>
 
 	<filter-mapping>
 		<filter-name>weldworkaround</filter-name>
