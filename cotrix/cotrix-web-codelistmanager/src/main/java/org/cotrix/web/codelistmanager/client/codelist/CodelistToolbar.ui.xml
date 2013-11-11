@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
 	<ui:with field='resources'
 		type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
-			<ui:with field='common'
+	<ui:with field='common'
 		type='org.cotrix.web.share.client.resources.CommonResources' />
 	<ui:style>
 		.headerPanel {
@@ -12,6 +12,24 @@
 		
 		.leftWrapper {
 			float: left;
+			margin-left: 4px;
+		}
+		
+		.button {
+			padding: 5px;
+			cursor: pointer;
+
+		}
+				
+		.lock {
+			outline: none;
+			padding: 5px;
+			display: inline;
+			cursor: pointer;
+		}
+		
+		.lock>img {
+			vertical-align: middle;
 		}
 		
 		.seal {
@@ -25,11 +43,12 @@
 		}
 		
 		.state {
-			color: gray;
+			color: lightgray;
 			padding-right: 5px;
-			font-size: 23px;
-			/*display: inline-block;*/
+			padding-left: 5px;
+			font-size: 25px;
 			height: 100%;
+			line-height: 0;
 			vertical-align: middle;
 		}
 		
@@ -42,40 +61,30 @@
 		.stateLoader {
 			margin: 8px;
 		}
-				
-		.lock {
-			outline: none;
-			padding: 5px;
-			display: inline;
-			cursor: pointer;
-		}
-		
-		.lock > img {
-			vertical-align: middle;
-		}
-		
+
 	</ui:style>
 	<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
-		<g:HorizontalPanel styleName="{style.leftWrapper}">
-			<g:PushButton ui:field="allColumns">
+		<g:HorizontalPanel styleName="{style.leftWrapper}" verticalAlignment="middle" height="100%" spacing="5">
+			<g:PushButton ui:field="allColumns" styleName="{style.button}">
 				<g:upFace image="{resources.allColumns}" />
 			</g:PushButton>
-			<g:PushButton ui:field="allNormals">
+			<g:PushButton ui:field="allNormals" styleName="{style.button}">
 				<g:upFace image="{resources.allNormals}" />
 			</g:PushButton>
-		</g:HorizontalPanel>
-		<g:FlowPanel styleName="{style.rightWrapper}">
-			<g:InlineLabel ui:field="state" styleName="{style.state}">draft</g:InlineLabel>
-			<g:FlowPanel styleName="{style.stateLoaderWrapper}">
-				<g:Image ui:field="stateLoader" resource="{common.dataLoader}" styleName="{style.stateLoader}" visible="false"/>
-			</g:FlowPanel>
-			<g:ToggleButton ui:field="lock" styleName="{style.lock}">
-				<g:upFace image="{resources.unlock}"/>
+			<g:ToggleButton ui:field="lock" styleName="{style.button}">
+				<g:upFace image="{resources.unlock}" />
 				<g:upDisabledFace image="{resources.unlockDisabled}" />
 				<g:downFace image="{resources.lock}" />
 				<g:downDisabledFace image="{resources.lockDisabled}" />
 			</g:ToggleButton>
-			<g:Button ui:field="seal" visible="false" styleName="{style.seal}">Finalize</g:Button>
+			<g:Button ui:field="seal" visible="false" styleName="{style.seal} {style.button}">Finalize</g:Button>
+		</g:HorizontalPanel>
+		<g:FlowPanel styleName="{style.rightWrapper}">
+			<g:InlineLabel ui:field="state" styleName="{style.state}">draft</g:InlineLabel>
+			<g:FlowPanel styleName="{style.stateLoaderWrapper}">
+				<g:Image ui:field="stateLoader" resource="{common.dataLoader}"
+					styleName="{style.stateLoader}" visible="false" />
+			</g:FlowPanel>
 		</g:FlowPanel>
 	</g:FlowPanel>
 </ui:UiBinder> 

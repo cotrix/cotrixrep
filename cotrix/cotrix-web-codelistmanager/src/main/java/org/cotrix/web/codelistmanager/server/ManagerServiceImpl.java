@@ -220,7 +220,7 @@ public class ManagerServiceImpl implements ManagerService {
 		logger.trace("getCodelistState codelistId: {}",codelistId);
 		Lifecycle lifecycle = lifecycleService.lifecycleOf(codelistId);
 		String state = lifecycle.state().toString();
-		return ResponseWrapper.wrap(state);
+		return ResponseWrapper.wrap(state.toUpperCase());
 	}
 
 	
