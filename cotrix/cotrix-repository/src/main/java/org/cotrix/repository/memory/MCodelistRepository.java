@@ -1,5 +1,7 @@
 package org.cotrix.repository.memory;
 
+import static org.cotrix.domain.utils.Constants.*;
+
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -103,16 +105,18 @@ public class MCodelistRepository extends MRepository<Codelist, Codelist.Private>
 
 		for (Code c : list.codes()) {
 			for (Attribute a : list.attributes()) {
-				names.add(a.name());
-				types.add(a.type());
-				if (a.language() != null)
-					langs.add(a.language());
+				if (!a.type().equals(SYSTEM_TYPE))
+					names.add(a.name());
+					types.add(a.type());
+					if (a.language() != null)
+						langs.add(a.language());
 			}
 			for (Attribute a : c.attributes()) {
-				names.add(a.name());
-				types.add(a.type());
-				if (a.language() != null)
-					langs.add(a.language());
+				if (!a.type().equals(SYSTEM_TYPE))
+					names.add(a.name());
+					types.add(a.type());
+					if (a.language() != null)
+						langs.add(a.language());
 			}
 		}
 
