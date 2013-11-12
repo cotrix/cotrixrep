@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.cotrix.action.CodelistAction;
+import org.cotrix.action.GuestAction;
 import org.cotrix.action.MainAction;
 import org.cotrix.action.UserAction;
 import org.cotrix.user.dsl.UserBuilder;
@@ -54,9 +55,9 @@ public class Users {
 	
 	//predefined users
 	
-	public static User cotrix = user().name("cotrix").fullName("Cotrix Root User").is(ROOT).cannot(LOGIN).build();
+	public static User cotrix = user().name("cotrix").fullName("Cotrix Root User").is(ROOT).build();
 
-	public static User guest = user().name("cotrix-guest").fullName("Cotrix Guest User").can(VIEW, LOGIN).build();
+	public static User guest = user().name("cotrix-guest").fullName("Cotrix Guest User").can(GuestAction.values()).build();
 
 
 	public static List<User> predefinedUsers = Arrays.asList(cotrix, guest);

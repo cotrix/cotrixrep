@@ -1,5 +1,6 @@
 package org.cotrix.web.server;
 
+import static org.cotrix.action.GuestAction.*;
 import static org.cotrix.action.MainAction.*;
 import static org.cotrix.web.share.shared.feature.ApplicationFeatures.*;
 import static org.cotrix.web.shared.AuthenticationFeature.*;
