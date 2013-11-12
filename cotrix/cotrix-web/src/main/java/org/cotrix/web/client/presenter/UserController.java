@@ -59,13 +59,13 @@ public class UserController {
 		
 		bind();
 		
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+		/*Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			
 			@Override
 			public void execute() {
 				logGuest();
 			}
-		});		
+		});		*/
 	}
 
 	protected void bind()

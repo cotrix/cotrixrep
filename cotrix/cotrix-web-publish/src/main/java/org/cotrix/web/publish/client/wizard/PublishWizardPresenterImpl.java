@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.step.DestinationNodeSelector;
+import org.cotrix.web.publish.client.wizard.step.DetailsNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.TypeNodeSelector;
+import org.cotrix.web.publish.client.wizard.step.codelistdetails.CodelistDetailsStepPresenterImpl;
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.csvconfiguration.CsvConfigurationStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.csvmapping.CsvMappingStepPresenter;
@@ -15,6 +17,7 @@ import org.cotrix.web.publish.client.wizard.step.repositoryselection.RepositoryS
 import org.cotrix.web.publish.client.wizard.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.summary.SummaryStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepPresenter;
+import org.cotrix.web.publish.client.wizard.task.RetrieveMetadataTask;
 import org.cotrix.web.share.client.wizard.DefaultWizardActionHandler;
 import org.cotrix.web.share.client.wizard.WizardAction;
 import org.cotrix.web.share.client.wizard.WizardActionHandler;
@@ -38,7 +41,7 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 
-	public class ImportWizardActionHandler implements WizardActionHandler {
+	public class PublishWizardActionHandler implements WizardActionHandler {
 
 		@Override
 		public boolean handle(WizardAction action, WizardController controller) {
@@ -64,6 +67,9 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 	@Inject
 	public PublishWizardPresenterImpl(@PublishBus EventBus publishEventBus, PublishWizardView view,
 			CodelistSelectionStepPresenter codelistSelectionStep,
+			DetailsNodeSelector detailsNodeSelector,
+			RetrieveMetadataTask retrieveMetadataTask,
+			CodelistDetailsStepPresenterImpl codelistDetailsStep,
 			DestinationSelectionStepPresenter destinationSelectionStep,
 			DestinationNodeSelector destinationSelector, 
 			RepositorySelectionStepPresenter repositorySelectionStep,
@@ -78,10 +84,14 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 		this.publishEventBus = publishEventBus;
 		this.view = view;
 
-		System.out.println("codelistSelectionStep "+codelistSelectionStep);
+		System.out.println("retrieveMetadataTask "+retrieveMetadataTask);
+		
 		
 		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(codelistSelectionStep);
-		SwitchNodeBuilder<WizardStep> destination = root.next(destinationSelectionStep).hasAlternatives(destinationSelector);
+		SwitchNodeBuilder<WizardStep> selectionStep = root.hasAlternatives(detailsNodeSelector);
+		selectionStep.alternative(retrieveMetadataTask).next(codelistDetailsStep);
+		
+		SwitchNodeBuilder<WizardStep> destination = selectionStep.alternative(destinationSelectionStep).hasAlternatives(destinationSelector);
 		
 		TypeNodeSelector fileTypeSelector = new TypeNodeSelector(publishEventBus, csvConfigurationStep, sdmxMappingStep);
 		SwitchNodeBuilder<WizardStep> type = destination.alternative(typeSelectionStep).hasAlternatives(fileTypeSelector);
@@ -132,11 +142,13 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 			Log.trace("dot: "+dot);
 		}
 		
-		List<WizardStep> visualSteps = Arrays.<WizardStep>asList(codelistSelectionStep, destinationSelectionStep, repositorySelectionStep, typeSelectionStep, csvConfigurationStep, sdmxMappingStep, csvMappingStep, summaryStep, doneStep);
+		List<WizardStep> visualSteps = Arrays.<WizardStep>asList(
+				codelistSelectionStep, codelistDetailsStep, destinationSelectionStep, repositorySelectionStep, typeSelectionStep, csvConfigurationStep, 
+				sdmxMappingStep, csvMappingStep, summaryStep, doneStep);
 
 		wizardController = new WizardController(visualSteps, flow, view, publishEventBus);
 		wizardController.addActionHandler(new DefaultWizardActionHandler());
-		wizardController.addActionHandler(new ImportWizardActionHandler());
+		wizardController.addActionHandler(new PublishWizardActionHandler());
 	}
 
 

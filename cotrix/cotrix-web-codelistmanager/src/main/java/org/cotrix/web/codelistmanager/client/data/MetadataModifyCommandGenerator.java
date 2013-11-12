@@ -7,21 +7,21 @@ import org.cotrix.web.codelistmanager.client.data.DataSaverManager.CommandGenera
 import org.cotrix.web.codelistmanager.client.data.event.EditType;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.metadata.UpdateMetadataCommand;
-import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MetadataModifyCommandGenerator implements CommandGenerator<CodelistMetadata> {
+public class MetadataModifyCommandGenerator implements CommandGenerator<UICodelistMetadata> {
 
 	@Override
-	public Class<CodelistMetadata> getType() {
-		return CodelistMetadata.class;
+	public Class<UICodelistMetadata> getType() {
+		return UICodelistMetadata.class;
 	}
 
 	@Override
-	public ModifyCommand generateCommand(EditType editType,	CodelistMetadata data) {
+	public ModifyCommand generateCommand(EditType editType,	UICodelistMetadata data) {
 		switch (editType) {
 			case UPDATE: return new UpdateMetadataCommand(data.getName());
 			default: throw new UnsupportedOperationException("Metadata edit type "+editType+" not supported");

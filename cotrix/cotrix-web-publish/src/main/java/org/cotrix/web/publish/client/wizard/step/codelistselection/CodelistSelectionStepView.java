@@ -10,9 +10,8 @@ import com.google.gwt.user.client.ui.Widget;
 public interface CodelistSelectionStepView {
 	
 	public interface Presenter {
-		public void codelistSelected(UICodelist asset);
-		public void codelistDetails(UICodelist asset);
-		public void repositoryDetails(String repositoryId);
+		public void codelistSelected(UICodelist codelist);
+		public void codelistDetails(UICodelist codelist);
 	}
 
 	public void reset();

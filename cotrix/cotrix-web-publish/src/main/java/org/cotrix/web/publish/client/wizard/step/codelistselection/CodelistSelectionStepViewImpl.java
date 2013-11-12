@@ -1,6 +1,5 @@
 package org.cotrix.web.publish.client.wizard.step.codelistselection;
 
-import org.cotrix.web.publish.shared.Codelist;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.resources.DataGridListResource;
@@ -41,14 +40,14 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 	private static CodelistSelectionStepUiBinder uiBinder = GWT.create(CodelistSelectionStepUiBinder.class);
 
 	@UiField (provided = true) 
-	PatchedDataGrid<Codelist> dataGrid;
+	PatchedDataGrid<UICodelist> dataGrid;
 
 	@UiField(provided = true)
 	SimplePager pager;
 
 	protected CodelistDataProvider dataProvider;
 
-	protected SingleSelectionModel<Codelist> selectionModel;
+	protected SingleSelectionModel<UICodelist> selectionModel;
 
 	private AlertDialog alertDialog;
 
@@ -76,7 +75,7 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 	protected void setupGrid()
 	{
 
-		dataGrid = new PatchedDataGrid<Codelist>(6, DataGridListResource.INSTANCE, CodelistKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<UICodelist>(6, DataGridListResource.INSTANCE, CodelistKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
@@ -88,7 +87,7 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 
 		dataGrid.addColumnSortHandler(new AsyncHandler(dataGrid));
 
-		selectionModel = new SingleSelectionModel<Codelist>(CodelistKeyProvider.INSTANCE);
+		selectionModel = new SingleSelectionModel<UICodelist>(CodelistKeyProvider.INSTANCE);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 
 			@Override
@@ -103,10 +102,10 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 		// Check
 		TextHeader nameHeader = new TextHeader("Name");
 
-		Column<Codelist, Boolean> checkColumn = new Column<Codelist, Boolean>(new SelectionCheckBoxCell(true, false)) {
+		Column<UICodelist, Boolean> checkColumn = new Column<UICodelist, Boolean>(new SelectionCheckBoxCell(true, false)) {
 
 			@Override
-			public Boolean getValue(Codelist object) {
+			public Boolean getValue(UICodelist object) {
 				boolean selected = selectionModel.isSelected(object);
 				return selected;
 			}
@@ -116,19 +115,19 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 		dataGrid.setColumnWidth(checkColumn, "35px");
 
 		// Name
-		Column<Codelist, String> nameColumn = new Column<Codelist, String>(new ClickableTextCell()) {
+		Column<UICodelist, String> nameColumn = new Column<UICodelist, String>(new ClickableTextCell()) {
 			@Override
-			public String getValue(Codelist codelist) {
+			public String getValue(UICodelist codelist) {
 				return codelist!=null?codelist.getName():"n/a";
 			}
 		};
 		nameColumn.setSortable(true);
 		nameColumn.setDataStoreName(UICodelist.NAME_FIELD);
 
-		nameColumn.setFieldUpdater(new FieldUpdater<Codelist, String>() {
+		nameColumn.setFieldUpdater(new FieldUpdater<UICodelist, String>() {
 
 			@Override
-			public void update(int index, Codelist object, String value) {
+			public void update(int index, UICodelist object, String value) {
 				Log.trace("details selected for row "+index);
 				presenter.codelistDetails(object);
 			}
@@ -139,23 +138,23 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 		dataGrid.addColumn(nameColumn, nameHeader);
 
 		// State
-		Column<Codelist, String> stateColumn = new Column<Codelist, String>(new ClickableTextCell()) {
+		Column<UICodelist, String> stateColumn = new Column<UICodelist, String>(new ClickableTextCell()) {
 			@Override
-			public String getValue(Codelist object) {
+			public String getValue(UICodelist object) {
 				return object.getState();
 			}
 		};
 		stateColumn.setSortable(true);
-		stateColumn.setDataStoreName(Codelist.STATE_FIELD);
+		stateColumn.setDataStoreName(UICodelist.STATE_FIELD);
 
 		dataGrid.addColumn(stateColumn, "State");
 		dataGrid.setColumnWidth(stateColumn, "30%");
 
 
 		// Version
-		Column<Codelist, String> versionColumn = new Column<Codelist, String>(new TextCell()) {
+		Column<UICodelist, String> versionColumn = new Column<UICodelist, String>(new TextCell()) {
 			@Override
-			public String getValue(Codelist object) {
+			public String getValue(UICodelist object) {
 				return object.getVersion();
 			}
 		};

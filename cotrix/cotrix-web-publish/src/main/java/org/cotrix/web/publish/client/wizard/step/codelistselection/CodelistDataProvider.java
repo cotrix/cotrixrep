@@ -6,7 +6,6 @@ package org.cotrix.web.publish.client.wizard.step.codelistselection;
 import java.util.List;
 
 import org.cotrix.web.publish.client.PublishServiceAsync;
-import org.cotrix.web.publish.shared.Codelist;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.UICodelist;
@@ -24,13 +23,13 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistDataProvider extends AsyncDataProvider<Codelist> {
+public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 	
 	protected static final ColumnSortInfo DEFAULT_SORT_INFO = new ColumnSortInfo(UICodelist.NAME_FIELD, true);
 	
 	@Inject
 	protected PublishServiceAsync service;
-	protected PatchedDataGrid<Codelist> datagrid;
+	protected PatchedDataGrid<UICodelist> datagrid;
 	protected boolean forceRefresh = true;
 	
 	/**
@@ -43,7 +42,7 @@ public class CodelistDataProvider extends AsyncDataProvider<Codelist> {
 	/**
 	 * @param datagrid the datagrid to set
 	 */
-	public void setDatagrid(PatchedDataGrid<Codelist> datagrid) {
+	public void setDatagrid(PatchedDataGrid<UICodelist> datagrid) {
 		this.datagrid = datagrid;
 	}
 	
@@ -55,7 +54,7 @@ public class CodelistDataProvider extends AsyncDataProvider<Codelist> {
 	}
 
 	@Override
-	protected void onRangeChanged(HasData<Codelist> display) {
+	protected void onRangeChanged(HasData<UICodelist> display) {
 	
 		final Range range = display.getVisibleRange();
 		Log.trace("onRangeChanged range: "+range);
@@ -73,11 +72,11 @@ public class CodelistDataProvider extends AsyncDataProvider<Codelist> {
 		boolean force = forceRefresh;
 		forceRefresh = false;
 		
-		service.getCodelists(range, sortInfo, force, new AsyncCallback<DataWindow<Codelist>>() {
+		service.getCodelists(range, sortInfo, force, new AsyncCallback<DataWindow<UICodelist>>() {
 			
 			@Override
-			public void onSuccess(DataWindow<Codelist> batch) {
-				List<Codelist> codelists = batch.getData();
+			public void onSuccess(DataWindow<UICodelist> batch) {
+				List<UICodelist> codelists = batch.getData();
 				Log.trace("loaded "+codelists.size()+" codelists");
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), codelists);

@@ -19,7 +19,8 @@ import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.Ranges;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UICodelist;
+import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,23 +62,25 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	 * {@inheritDoc}
 	 */
 	@Override
-	public DataWindow<org.cotrix.web.publish.shared.Codelist> getCodelists(Range range, ColumnSortInfo sortInfo, boolean force) {
+	public DataWindow<UICodelist> getCodelists(Range range, ColumnSortInfo sortInfo, boolean force) {
 		logger.trace("getCodelists range: {} sortInfo: {} force: {}", range, sortInfo, force);
 		
 		if (force) session.loadCodelists();
 		
-		List<org.cotrix.web.publish.shared.Codelist> codelists = session.getCodelists(sortInfo.getName());
+		List<UICodelist> codelists = session.getOrderedCodelists(sortInfo.getName());
 		
-		List<org.cotrix.web.publish.shared.Codelist> codelistWindow = (sortInfo.isAscending())?Ranges.subList(codelists, range):Ranges.subListReverseOrder(codelists, range);
+		List<UICodelist> codelistWindow = (sortInfo.isAscending())?Ranges.subList(codelists, range):Ranges.subListReverseOrder(codelists, range);
 		
-		return new DataWindow<org.cotrix.web.publish.shared.Codelist>(codelistWindow, codelists.size());
+		return new DataWindow<UICodelist>(codelistWindow, codelists.size());
 	}
 	
 	@Override
-	public CodelistMetadata getMetadata(String codelistId) throws PublishServiceException {
+	public UICodelistMetadata getMetadata(String codelistId) throws PublishServiceException {
 		logger.trace("getMetadata codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
-		return Codelists.toCodelistMetadata(codelist);
+		UICodelist uiCodelist = session.getUiCodelist(codelistId);
+		
+		return Codelists.toCodelistMetadata(codelist, uiCodelist.getState());
 	}
 	
 	

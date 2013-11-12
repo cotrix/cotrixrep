@@ -5,12 +5,11 @@
 		field="common" />
 	<ui:style>
 		.table {
-			padding: 23px;
+			margin: 23px;
 		}
 		
 		.valueCell {
 			padding-left: 50px;
-
 		}
 	</ui:style>
 	<g:ScrollPanel styleName="{common.css.wizardPanel}">
@@ -32,12 +31,19 @@
 				</g:customCell>
 			</g:row>
 			<g:row>
+				<g:customCell styleName="{common.css.verticalHeadersSingleItem}">
+					<g:Label text="State" styleName="{common.css.propertyLabel}" />
+				</g:customCell>
+				<g:customCell styleName="{style.valueCell}">
+					<g:Label ui:field="state" styleName="{common.css.propertyValue}" />
+				</g:customCell>
+			</g:row>
+			<g:row>
 				<g:customCell styleName="{common.css.verticalHeadersMultipleItem}">
 					<g:Label text="Attributes" styleName="{common.css.propertyLabel}" />
 				</g:customCell>
 				<g:customCell styleName="{style.valueCell}">
-					<g:FlexTable ui:field="attributes" cellPadding="0"
-						cellSpacing="0" borderWidth="1" styleName="{common.css.propertiesTable}"
+					<g:FlexTable ui:field="attributes" borderWidth="1" styleName="{common.css.propertiesTable}"
 						width="100%" />
 				</g:customCell>
 			</g:row>

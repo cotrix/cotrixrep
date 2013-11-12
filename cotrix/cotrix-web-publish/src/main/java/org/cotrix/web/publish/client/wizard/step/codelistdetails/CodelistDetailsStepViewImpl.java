@@ -3,11 +3,7 @@
  */
 package org.cotrix.web.publish.client.wizard.step.codelistdetails;
 
-import java.util.List;
-
 import org.cotrix.web.share.client.resources.CommonResources;
-import org.cotrix.web.share.shared.codelist.CodelistMetadata;
-import org.cotrix.web.share.shared.codelist.UIAttribute;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -37,31 +33,52 @@ public class CodelistDetailsStepViewImpl extends ResizeComposite implements Code
 	@UiField Grid details;
 	@UiField Label name;
 	@UiField Label version;
+	@UiField Label state;
 	@UiField FlexTable attributes;
 
 	public CodelistDetailsStepViewImpl() {
 
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-
-	public void setCodelist(CodelistMetadata codelist)
-	{
-		name.setText(codelist.getName().getLocalPart());
-		version.setText(codelist.getVersion());
-		addAttributes(codelist.getAttributes());
+	
+	@Override
+	public void setName(String name) {
+		this.name.setText(name);
 	}
-
-	public void addAttributes(List<UIAttribute> attributes)
+	
+	@Override
+	public void setVersion(String version) {
+		this.version.setText(version);
+	}
+	
+	@Override
+	public void setState(String state) {
+		this.state.setText(state);
+	}
+	
+	@Override
+	public void setAttributesVisible(boolean visible)
+	{
+		details.getRowFormatter().setVisible(ASSET_PROPERTIES_ROW, visible);
+	}
+	
+	@Override
+	public void clearAttributes()
 	{
 		this.attributes.removeAllRows();
-		details.getRowFormatter().setVisible(ASSET_PROPERTIES_ROW, !attributes.isEmpty());
-		
-		if (!attributes.isEmpty()) {
-			setupHeaders();
-			for (UIAttribute property:attributes) addRow(property);
-		}
+		setupHeaders();
 	}
-
+	
+	@Override
+	public void addAttribute(String name, String type, String language, String value)
+	{
+		int numRows = attributes.getRowCount();
+		attributes.setWidget(numRows, 0, new Label(name));
+		attributes.setWidget(numRows, 1, new Label(type));
+		attributes.setWidget(numRows, 2, new Label(language));
+		attributes.setWidget(numRows, 3, new Label(value));
+	}
+	
 	protected void setupHeaders()
 	{
 		attributes.getFlexCellFormatter().setColSpan(0, 0, 1);
@@ -76,14 +93,5 @@ public class CodelistDetailsStepViewImpl extends ResizeComposite implements Code
 		Label headerLabel = new Label(text);
 		headerLabel.setStyleName(CommonResources.INSTANCE.css().propertiesTableHeader());
 		return headerLabel;
-	}
-
-	protected void addRow(UIAttribute attribute)
-	{
-		int numRows = attributes.getRowCount();
-		attributes.setWidget(numRows, 0, new Label(attribute.getName().getLocalPart()));
-		attributes.setWidget(numRows, 1, new Label(attribute.getType().getLocalPart()));
-		attributes.setWidget(numRows, 2, new Label(attribute.getLanguage()));
-		attributes.setWidget(numRows, 3, new Label(attribute.getValue()));
 	}
 }

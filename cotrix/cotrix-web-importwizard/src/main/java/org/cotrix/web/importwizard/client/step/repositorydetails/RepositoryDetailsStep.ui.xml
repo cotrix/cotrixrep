@@ -5,7 +5,7 @@
 		field="common" />
 	<ui:style>
 		.table {
-			padding: 23px;
+			margin: 23px;
 		}
 		
 		.valueCell {

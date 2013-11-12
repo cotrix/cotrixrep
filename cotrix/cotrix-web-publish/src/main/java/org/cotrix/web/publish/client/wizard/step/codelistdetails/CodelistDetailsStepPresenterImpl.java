@@ -1,16 +1,17 @@
 package org.cotrix.web.publish.client.wizard.step.codelistdetails;
 
-import org.cotrix.web.publish.client.PublishServiceAsync;
+import java.util.List;
+
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
-import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -24,21 +25,18 @@ public class CodelistDetailsStepPresenterImpl extends AbstractVisualWizardStep i
 	@Inject
 	protected CodelistDetailsStepView view;
 	
-	@Inject
-	protected PublishServiceAsync importService;
-	
-	protected CodelistMetadata visualizedCodelist;
+	protected UICodelistMetadata visualizedCodelist;
 	
 	@Inject
-	public CodelistDetailsStepPresenterImpl(@PublishBus EventBus importEventBus) {
-		super("codelistDetails", TrackerLabels.CODELIST_DETAILS, "Codelist Details", "", PublishWizardStepButtons.BACKWARD);
+	public CodelistDetailsStepPresenterImpl(@PublishBus EventBus publishBus) {
+		super("codelistDetails", TrackerLabels.SELECTION, "Codelist Details", "", PublishWizardStepButtons.BACKWARD);
 
-		bind(importEventBus);
+		bind(publishBus);
 	}
 	
-	protected void bind(EventBus importEventBus)
+	protected void bind(EventBus publishBus)
 	{
-		importEventBus.addHandler(ResetWizardEvent.TYPE, new ResetWizardHandler(){
+		publishBus.addHandler(ResetWizardEvent.TYPE, new ResetWizardHandler(){
 
 			@Override
 			public void onResetWizard(ResetWizardEvent event) {
@@ -53,21 +51,17 @@ public class CodelistDetailsStepPresenterImpl extends AbstractVisualWizardStep i
 		return true;
 	}
 
-
-	public void setAsset(CodelistMetadata codelist) {
-		Log.trace("getting codelist details for "+codelist);
-		importService.getMetadata(codelist.getId(), new AsyncCallback<CodelistMetadata>() {
-			
-			@Override
-			public void onSuccess(CodelistMetadata result) {
-				view.setCodelist(result);
-				visualizedCodelist = result;
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Failed loading codelist details", caught);
-			}
-		});
+	public void setCodelist(UICodelistMetadata codelistMetadata) {
+		Log.trace("codelist codelistMetadata: "+codelistMetadata);
+		view.setName(codelistMetadata.getName().getLocalPart());
+		view.setVersion(codelistMetadata.getVersion());
+		view.setState(codelistMetadata.getState());
+		List<UIAttribute> attributes = codelistMetadata.getAttributes();
+		if (attributes.isEmpty()) view.setAttributesVisible(false);
+		else {
+			view.clearAttributes();
+			for (UIAttribute attribute:attributes) view.addAttribute(attribute.getName().getLocalPart(), attribute.getType().getLocalPart(), attribute.getLanguage(), attribute.getValue());
+			view.setAttributesVisible(true);
+		}
 	}
 }

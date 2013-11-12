@@ -176,20 +176,19 @@
 
 /** PROPERTIES TABLE **/
 .propertiesTableHeader {
-	text-align: center;
+	font-size: 21px;
 }
 
 .propertiesTable {
-	font-size: 8px;
 	text-align: left;
 	border: none;
 }
 
 .propertiesTable td,.propertiesTable th {
 	margin: 0;
-	padding: 3px;
+	padding: 5px;
 	border: none;
-	font-size: 16px;
+	font-size: 18px;
 	color: #5e5e5e;
 }
 

@@ -6,18 +6,22 @@ package org.cotrix.web.publish.server.util;
 import static org.cotrix.repository.Queries.*;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
+import org.cotrix.domain.Codelist;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
-import org.cotrix.web.publish.shared.Codelist;
+import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.FieldComparator.ValueProvider;
 import org.cotrix.web.share.server.util.OrderedList;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,26 +33,26 @@ import org.slf4j.LoggerFactory;
 @SessionScoped
 public class PublishSession implements Serializable {
 	
-	protected static final ValueProvider<Codelist> NAME = new ValueProvider<Codelist>() {
+	protected static final ValueProvider<UICodelist> NAME = new ValueProvider<UICodelist>() {
 
 		@Override
-		public String getValue(Codelist item) {
+		public String getValue(UICodelist item) {
 			return item.getName();
 		}
 	};
 	
-	protected static final ValueProvider<Codelist> VERSION = new ValueProvider<Codelist>() {
+	protected static final ValueProvider<UICodelist> VERSION = new ValueProvider<UICodelist>() {
 
 		@Override
-		public String getValue(Codelist item) {
+		public String getValue(UICodelist item) {
 			return item.getVersion();
 		}
 	};
 	
-	protected static final ValueProvider<Codelist> STATE = new ValueProvider<Codelist>() {
+	protected static final ValueProvider<UICodelist> STATE = new ValueProvider<UICodelist>() {
 
 		@Override
-		public String getValue(Codelist item) {
+		public String getValue(UICodelist item) {
 			return item.getState();
 		}
 	};
@@ -61,38 +65,42 @@ public class PublishSession implements Serializable {
 	@Inject
 	transient LifecycleService lifecycleService;
 	
-	protected OrderedList<Codelist> codelists;
+	protected OrderedList<UICodelist> orderedCodelists;
+	protected Map<String, UICodelist> indexedCodelists;
 	
 	public PublishSession() {
-		codelists = new OrderedList<Codelist>();
-		codelists.addField(Codelist.NAME_FIELD, NAME);
-		codelists.addField(Codelist.VERSION_FIELD, VERSION);
-		codelists.addField(Codelist.STATE_FIELD, STATE);
+		orderedCodelists = new OrderedList<UICodelist>();
+		orderedCodelists.addField(UICodelist.NAME_FIELD, NAME);
+		orderedCodelists.addField(UICodelist.VERSION_FIELD, VERSION);
+		orderedCodelists.addField(UICodelist.STATE_FIELD, STATE);
+		indexedCodelists = new HashMap<String, UICodelist>();
 	}
 
 	public void loadCodelists()
 	{
-		CodelistQuery<org.cotrix.domain.Codelist> query =	allLists();
-		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(query).iterator();
-		codelists.clear();
+		CodelistQuery<Codelist> query =	allLists();
+		Iterator<Codelist> it = repository.queryFor(query).iterator();
+		
+		orderedCodelists.clear();
+		indexedCodelists.clear();
 
 		while(it.hasNext()) {
-			org.cotrix.domain.Codelist codelist = it.next();
-			Codelist uiCodelist = new Codelist();
-			uiCodelist.setId(codelist.id());
-			uiCodelist.setName(codelist.name().getLocalPart());
-			uiCodelist.setVersion(codelist.version());
-			
+			Codelist codelist = it.next();
 			String state = lifecycleService.start(codelist.id()).state().toString();
-			uiCodelist.setState(state);
-			
-			codelists.add(uiCodelist);
+			UICodelist uiCodelist = Codelists.toUICodelist(codelist, state);
+			orderedCodelists.add(uiCodelist);
+			indexedCodelists.put(uiCodelist.getId(), uiCodelist);
 		}
 		
-		logger.trace("loaded {} codelists", codelists.size());
+		logger.trace("loaded {} codelists", orderedCodelists.size());
 	}
 	
-	public List<Codelist> getCodelists(String sortingField) {
-		return codelists.getSortedList(sortingField);
+	public List<UICodelist> getOrderedCodelists(String sortingField) {
+		return orderedCodelists.getSortedList(sortingField);
+	}
+	
+	public UICodelist getUiCodelist(String id)
+	{
+		return indexedCodelists.get(id);
 	}
 }

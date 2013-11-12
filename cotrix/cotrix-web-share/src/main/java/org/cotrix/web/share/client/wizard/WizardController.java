@@ -15,6 +15,7 @@ import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
 import org.cotrix.web.share.client.wizard.step.VisualStepConfiguration;
 import org.cotrix.web.share.client.wizard.step.VisualWizardStep;
 import org.cotrix.web.share.client.wizard.step.WizardStep;
+import org.cotrix.web.share.client.wizard.step.WizardSteps;
 import org.cotrix.web.share.client.wizard.WizardView.WizardButton;
 import org.cotrix.web.share.client.wizard.flow.FlowManager;
 import org.cotrix.web.share.client.wizard.flow.FlowUpdatedEvent;
@@ -35,15 +36,15 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class WizardController implements WizardView.Presenter, HasValueChangeHandlers<WizardStep> {
-	
+
 	protected FlowManager<WizardStep> flow;
 
 	protected WizardView view;
 
 	protected EventBus eventBus;
-	
+
 	protected List<WizardActionHandler> handlers = new ArrayList<WizardActionHandler>();
-	
+
 	protected Map<WizardButton, WizardAction> buttonsActions = new HashMap<WizardButton, WizardAction>();
 	protected VisualWizardStep currentVisualStep;
 
@@ -68,20 +69,20 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 		Log.trace("Adding steps");
 		for (WizardStep step:steps) registerStep(step);
 		Log.trace("done");
-		
+
 		view.setPresenter(this);
 
 		bind();
 	}
-	
+
 	protected void registerStep(WizardStep step) {
 		if (step instanceof VisualWizardStep) view.addStep((VisualWizardStep)step);
 	}
-	
+
 	protected void bind()
 	{
 		eventBus.addHandler(NavigationEvent.TYPE, new NavigationEvent.NavigationHandler() {
-			
+
 			@Override
 			public void onNavigation(NavigationEvent event) {
 				Log.trace("onNavigation "+event.getNavigationType());
@@ -92,22 +93,22 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 			}
 		});
 		eventBus.addHandler(ResetWizardEvent.TYPE, new ResetWizardEvent.ResetWizardHandler() {
-			
+
 			@Override
 			public void onResetWizard(ResetWizardEvent event) {
 				resetWizard();
 			}
 		});
-		
+
 		flow.addFlowUpdatedHandler(new FlowUpdatedHandler() {
-			
+
 			@Override
 			public void onFlowUpdated(FlowUpdatedEvent event) {
 				updateTrackerLabels();
 			}
 		});
 	}
-	
+
 	public void addActionHandler(WizardActionHandler handler)
 	{
 		handlers.add(handler);
@@ -131,22 +132,22 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 	protected void updateTrackerLabels()
 	{
 		List<WizardStep> steps = flow.getCurrentFlow();
-		Log.trace("New FLOW: "+steps);
-		
+		Log.trace("New FLOW: "+WizardSteps.toString(steps));
+
 		List<ProgressStep> psteps = new ArrayList<ProgressStep>();
 		Set<String> saw = new HashSet<String>();
 		for (WizardStep step:steps) {
 			if (step instanceof VisualWizardStep) {
-			ProgressStep pstep = ((VisualWizardStep)step).getConfiguration().getLabel();
-			if (saw.contains(pstep.getId())) continue;
-			psteps.add(pstep);
-			saw.add(pstep.getId());
+				ProgressStep pstep = ((VisualWizardStep)step).getConfiguration().getLabel();
+				if (saw.contains(pstep.getId())) continue;
+				psteps.add(pstep);
+				saw.add(pstep.getId());
 			}
 		}
 		Log.trace("Progress steps: "+psteps);
-		
+
 		view.setLabels(psteps);
-		
+
 		if (currentVisualStep!=null) view.showLabel(currentVisualStep.getConfiguration().getLabel());
 	}
 
@@ -158,7 +159,7 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 		if (currentStep instanceof TaskWizardStep) runStep((TaskWizardStep)currentStep);
 		ValueChangeEvent.fire(this, currentStep);
 	}
-	
+
 	protected void showStep(VisualWizardStep step)
 	{
 		currentVisualStep = step;
@@ -167,17 +168,17 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 		VisualStepConfiguration configuration = step.getConfiguration();
 		applyStepConfiguration(configuration);
 	}
-	
+
 	protected void runStep(final TaskWizardStep step) {
 		showProgress();
 		step.run(new AsyncCallback<WizardAction>() {
-			
+
 			@Override
 			public void onSuccess(WizardAction result) {
 				doAction(result);
 				hideProgress();
 			}
-			
+
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.trace("TaskWizardStep "+step.getId()+" failed", caught);
@@ -185,12 +186,12 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 			}
 		});
 	}
-	
+
 	protected void showProgress()
 	{
 		view.showProgress();
 	}
-	
+
 	protected void hideProgress()
 	{
 		view.hideProgress();
@@ -204,14 +205,14 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 
 		configureButtons(configuration.getButtons());
 	}
-	
+
 	protected void configureButtons(StepButton ... buttons)
 	{
 		view.hideAllButtons();
 		buttonsActions.clear();
-		
+
 		if (buttons!=null) for (StepButton button:buttons) configureButton(button);
-		
+
 	}
 
 	protected void configureButton(StepButton button)
@@ -241,14 +242,14 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 		goBackToFirstVisual();
 		updateCurrentStep();
 	}
-	
+
 	protected void goBackToFirstVisual()
 	{
 		do {
 			flow.goBack();
 		} while (!flow.isFirst() && !(flow.getCurrentItem() instanceof VisualWizardStep));
 	}
-	
+
 	protected void doAction(WizardAction action)
 	{
 		for (WizardActionHandler handler:handlers) {

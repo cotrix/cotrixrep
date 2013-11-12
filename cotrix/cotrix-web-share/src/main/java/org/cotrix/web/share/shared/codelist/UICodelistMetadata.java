@@ -12,11 +12,12 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistMetadata implements IsSerializable {
+public class UICodelistMetadata implements IsSerializable {
 
 	protected String id;
 	protected UIQName name;
 	protected String version;
+	protected String state;
 	protected List<UIAttribute> attributes;
 	
 	/**
@@ -60,7 +61,21 @@ public class CodelistMetadata implements IsSerializable {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	
+
+	/**
+	 * @return the state
+	 */
+	public String getState() {
+		return state;
+	}
+
+	/**
+	 * @param state the state to set
+	 */
+	public void setState(String state) {
+		this.state = state;
+	}
+
 	/**
 	 * @return the attributes
 	 */
@@ -81,12 +96,14 @@ public class CodelistMetadata implements IsSerializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("CodeListMetadata [id=");
+		builder.append("UICodelistMetadata [id=");
 		builder.append(id);
 		builder.append(", name=");
 		builder.append(name);
 		builder.append(", version=");
 		builder.append(version);
+		builder.append(", state=");
+		builder.append(state);
 		builder.append(", attributes=");
 		builder.append(attributes);
 		builder.append("]");

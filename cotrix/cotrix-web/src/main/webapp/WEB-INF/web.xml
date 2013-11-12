@@ -15,11 +15,11 @@
 	</listener>
 
 	<!-- TMP file cleaning -->
-	<listener>
-	<listener-class>
-	org.apache.commons.fileupload.servlet.FileCleanerCleanup
-	</listener-class>
-	</listener>
+<!-- 	<listener> -->
+<!-- 	<listener-class> -->
+<!-- 	org.apache.commons.fileupload.servlet.FileCleanerCleanup -->
+<!-- 	</listener-class> -->
+<!-- 	</listener> -->
 
 	<listener>
 		<listener-class>org.cotrix.web.portlet.CotrixServletContextListener</listener-class>

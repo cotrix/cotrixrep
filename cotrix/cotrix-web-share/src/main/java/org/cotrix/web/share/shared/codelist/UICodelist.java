@@ -10,10 +10,12 @@ public class UICodelist implements IsSerializable
 {
 	public static final String NAME_FIELD = "NAME";
 	public static final String VERSION_FIELD = "VERSION";
+	public static final String STATE_FIELD = "STATE";
 	
 	protected String id;
 	protected String name;
 	protected String version;
+	protected String state;
 
 	public String getName() {
 		return name;
@@ -44,6 +46,20 @@ public class UICodelist implements IsSerializable
 	public void setVersion(String version) {
 		this.version = version;
 	}
+	
+	/**
+	 * @return the state
+	 */
+	public String getState() {
+		return state;
+	}
+
+	/**
+	 * @param state the state to set
+	 */
+	public void setState(String state) {
+		this.state = state;
+	}
 
 	/** 
 	 * {@inheritDoc}
@@ -57,6 +73,8 @@ public class UICodelist implements IsSerializable
 		builder.append(name);
 		builder.append(", version=");
 		builder.append(version);
+		builder.append(", state=");
+		builder.append(state);
 		builder.append("]");
 		return builder.toString();
 	}
