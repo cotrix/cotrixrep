@@ -8,12 +8,21 @@ import java.util.List;
 
 import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
+import org.cotrix.action.UserAction;
 import org.cotrix.user.dsl.UserBuilder;
 import org.cotrix.user.dsl.UserGrammar.UserChangeClause;
 import org.cotrix.user.dsl.UserGrammar.UserNewClause;
 
+/**
+ * Predefined users and factory methods.
+ * 
+ * @author Fabio Simeoni
+ *
+ */
 public class Users {
 
+	
+	
 	public static UserNewClause user() {
 		return new UserBuilder();
 	}
@@ -31,16 +40,15 @@ public class Users {
 	//pre-defined role models
 
 	
-	public static RoleModel ROOT = user().name("ROOT-model").fullName("Root Role Model").can(MainAction.values())
-			.can(CodelistAction.values()).buildAsModel();
+	public static RoleModel ROOT = user().name("root").fullName("Root Role").can(MainAction.values())
+			.can(CodelistAction.values()).can(UserAction.values()).buildAsModel();
 
-	public static RoleModel USER = user().name("user-model").fullName("New User Role Model").can(VIEW)
+	public static RoleModel USER = user().name("user").fullName("New User Role").can(VIEW)
 			.buildAsModel();
 
-	public static RoleModel MANAGER = user().name("MANAGER-model").fullName("Manager Role Model").can(IMPORT)
-			.can(CodelistAction.values()).buildAsModel();
+	public static RoleModel MANAGER = user().name("manager").fullName("Manager Role").can(IMPORT,PUBLISH).buildAsModel();
 	
-	public static RoleModel EDITOR = user().name("EDITOR-model").fullName("Editor Role Model").is(USER).can(EDIT).buildAsModel();
+	public static RoleModel EDITOR = user().name("editor").fullName("Editor Role").is(USER).can(EDIT).buildAsModel();
 
 	
 	

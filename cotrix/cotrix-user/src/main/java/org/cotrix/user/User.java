@@ -1,6 +1,7 @@
 package org.cotrix.user;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.user.Users.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,27 +13,83 @@ import org.cotrix.action.Action;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Versioned;
+import org.cotrix.user.impl.DefaultRole;
 import org.cotrix.user.po.UserPO;
 
+/**
+ * A user of the application.
+ * 
+ * @author Fabio Simeoni
+ *
+ */
 public interface User extends Identified {
 
+	/**
+	 * Returns the name of this user.
+	 * @return the name
+	 */
 	String name();
 
+	/**
+	 * Returns the full name of this user.
+	 * @return the full name
+	 */
 	String fullName();
 	
-
+	/**
+	 * Returns the permissions of this user, including those inherited from roles.
+	 * @return the permissions
+	 */
 	Collection<Action> permissions();
 	
-	Collection<Action> declaredPermissions();
+	/**
+	 * Returns the permissions directly assigned to this user.
+	 * @return the declared permissions
+	 */
+	Collection<Action> directPermissions();
 	
+	/**
+	 * Returns <code>true</code> if this user can perform a given action.
+	 * @param action the action
+	 * @return <code>true</code> if this user can perform the given action
+	 */
 	boolean can(Action action);
 	
+	/**
+	 * Returns the roles assigned to this user.
+	 * @return the roles
+	 */
 	Collection<Role> roles();
 	
-	boolean is(RoleModel model);
+	/**
+	 * Returns <code>true<code> if this user has a given role.
+	 * 
+	 * @param role the role
+	 * @return <code>true</code> if this user has the given role
+	 */
+	boolean is(RoleModel role);
 	
+	/**
+	 * Returns <code>true<code> if this user has a root role.
+	 * 
+	 * @return <code>true</code> if this user has a root role
+	 */
+	boolean isRoot();
+
+	/**
+	 * Returns <code>true<code> if this user has a given role.
+	 * 
+	 * @param role the role
+	 * @return <code>true</code> if this user has the given role
+	 */
 	boolean is(Role role);
 
+	
+	
+	
+	
+	
+	
 	/**
 	 * A {@link Versioned.Abstract} implementation of {@link Codelist}.
 	 * 
@@ -69,7 +126,7 @@ public interface User extends Identified {
 		@Override
 		public List<Action> permissions() {
 			
-			ArrayList<Action> permissions = new ArrayList<Action>(declaredPermissions());
+			ArrayList<Action> permissions = new ArrayList<Action>(directPermissions());
 
 			for (Role role : roles)
 				for (Action p : role.permissions())
@@ -80,7 +137,7 @@ public interface User extends Identified {
 		}
 		
 		@Override
-		public Collection<Action> declaredPermissions() {
+		public Collection<Action> directPermissions() {
 			return Collections.unmodifiableCollection(this.permissions);
 		}
 		
@@ -100,8 +157,13 @@ public interface User extends Identified {
 		@Override
 		public boolean is(RoleModel model) {
 	
-			return is(new Role(model));	
+			return is(new DefaultRole(model));	
 			
+		}
+		
+		@Override
+		public boolean isRoot() {
+			return is(ROOT);
 		}
 		
 		@Override
@@ -118,7 +180,7 @@ public interface User extends Identified {
 		
 		@Override
 		public Role on(String resource) {
-			return new Role(this,resource);
+			return new DefaultRole(this,resource);
 		}
 
 		@Override
@@ -146,7 +208,7 @@ public interface User extends Identified {
 			this.permissions.clear();
 			this.permissions.addAll(changeset.permissions());
 			
-			//replace models
+			//replace role
 			this.roles.clear();
 			this.roles.addAll(changeset.roles());
 		}

@@ -8,7 +8,8 @@ import java.util.List;
 
 public enum UserAction implements Action {
 
-	EDIT_ACTIONS("edit","action"),
+	ADD("add"),
+	EDIT("edit")
 	
 	;	
 	

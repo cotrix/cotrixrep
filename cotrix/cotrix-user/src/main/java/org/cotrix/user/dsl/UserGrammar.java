@@ -22,7 +22,7 @@ public class UserGrammar {
 		
 	}
 	
-	public static interface UserChangeClause extends SecondClause, ThirdClause {
+	public static interface UserChangeClause extends SecondClause, ThirdClause, FourthClause {
 		
 		User delete();
 	}
@@ -33,6 +33,7 @@ public class UserGrammar {
 		ThirdClause fullName (String string);
 	}
 	
+	
 	public static interface ThirdClause {
 		
 		
@@ -41,6 +42,8 @@ public class UserGrammar {
 		ThirdClause can(Collection<Action> permissions);
 		
 		ThirdClause is(RoleModel ... models);
+		
+		ThirdClause isRoot();
 		
 		ThirdClause is(Role ... bindings);
 		
@@ -52,4 +55,11 @@ public class UserGrammar {
 		
 		RoleModel buildAsModel();
 	} 
+	
+	public static interface FourthClause  {
+		
+		UserChangeClause isNot(Role ... roles);
+		
+		UserChangeClause isNot(RoleModel ... roles);
+	}
 }

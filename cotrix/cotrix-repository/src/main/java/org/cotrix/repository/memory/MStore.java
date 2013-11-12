@@ -45,7 +45,7 @@ public class MStore {
 		
 		objectsOf(type).put(object.id(),object);
 		
-		log.info("added {} ({})",object.getClass().getCanonicalName(),object.id());
+		log.trace("added {} ({})",object.getClass().getCanonicalName(),object.id());
 		
 	}
 	
@@ -77,11 +77,14 @@ public class MStore {
 		
 		T current = lookup(changeset.id(),type);
 		
+		if (current==null)
+			throw new IllegalStateException("object with id "+changeset.id()+" is unknown, hence cannot be updated.");
+		
 		T pCurrent = reveal(current,type);
 		
 		pCurrent.update(changeset);
 		
-		log.info("updated {} ({})",type.getCanonicalName(),changeset.id());
+		log.trace("updated {} ({})",type.getCanonicalName(),changeset.id());
 		 
 	}
 	

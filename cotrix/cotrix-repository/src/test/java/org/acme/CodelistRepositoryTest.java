@@ -49,7 +49,7 @@ public class CodelistRepositoryTest {
 		
 		assertEquals(q("n"), summary.name());
 		assertEquals(2, summary.size());
-		assertEqualSets(asList(CREATION_TIME,q("name1"),q("name2")),summary.names());
+		assertEqualSets(asList(q("name1"),q("name2")),summary.names());
 		assertEqualSets(asList(SYSTEM_TYPE,q("t1"),q("t2"),q("t3")),summary.types());
 		assertEqualSets(asList("l1","l2","l3"),summary.languages());
 		

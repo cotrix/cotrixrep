@@ -1,36 +1,40 @@
 package org.acme;
 
-import static java.util.Arrays.*;
 import static junit.framework.Assert.*;
-import static org.cotrix.action.CodelistAction.*;
+import static org.cotrix.action.Actions.*;
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.user.Users.*;
 
-import org.cotrix.user.RoleModel;
+import org.cotrix.action.Action;
 import org.cotrix.user.User;
+import org.cotrix.user.dsl.UserGrammar;
 import org.junit.Test;
 
 public class PermissionTest {
 
+	Action doit = action("doit");
+	Action dothat = action("dothat");
+	
 	@Test
 	public void permissionTemplate() {
 		
-		User joe = user().name("joe").fullName("joe").can(EDIT).build();
+		User bill = bill().can(doit).build();
 		
-		assertEquals(asList(EDIT),joe.permissions());
+		assertEqualSets(bill.permissions(),doit);
 		
-		assertTrue(joe.can(EDIT));
+		assertTrue(bill.can(doit));
 		
-		assertTrue(joe.can(EDIT.on("1")));
+		assertTrue(bill.can(doit.on("1")));
 		
-		assertFalse(joe.can(LOCK.on("1")));
+		assertFalse(bill.can(dothat.on("1")));
 	}
 	
 	@Test
-	public void permissionsCannotBeAddedTwice() {
+	public void permissionsAreNotAddedTwice() {
 		
-		User joe = user().name("joe").fullName("joe").can(EDIT,EDIT).build();
+		User bill = bill().can(doit,doit).build();
 		
-		assertEquals(asList(EDIT),joe.permissions());
+		assertEqualSets(bill.permissions(),doit);
 	}
 	
 	@Test
@@ -38,111 +42,16 @@ public class PermissionTest {
 		
 		//when we add or merge permissions we remove only duplicates, not redundant specifications 
 		
-		User joe = user().name("joe").fullName("joe").can(EDIT.on("1"),EDIT,EDIT.on("1")).build();
+		User bill = bill().can(doit.on("1"),doit,doit.on("1")).build();
 		
-		assertEquals(2,joe.permissions().size());
-	}
-	
-	@Test
-	public void roleWithTemplates() {
-
-		RoleModel editor = user().name("editor").fullName("editor").can(EDIT).buildAsModel();
-	
-		RoleModel editor2 = user().name("editor2").fullName("editor").can(EDIT).buildAsModel();
-		
-		User joe = user().name("joe").fullName("joe").is(editor).build();
-		
-
-		//role is assigned
-		assertTrue(joe.is(editor));
-		
-		//roles are more than that permissions
-		assertFalse(joe.is(editor2));
-		
-		//role permissions propagate
-		assertTrue(joe.can(EDIT));
-		
-	}
-	
-	@Test
-	public void roleWithResourceActions() {
-
-		RoleModel editor = user().name("editor").fullName("editor").can(EDIT).buildAsModel();
-	
-		User joe = user().name("joe").fullName("joe").is(editor.on("1")).build();
-		
-		assertFalse(joe.can(EDIT));
-		assertTrue(joe.can(EDIT.on("1")));
+		assertEqualSets(bill.permissions(),doit,doit.on("1"));
 	}
 	
 	
-	@Test
-	public void inheritedVsInheritedPermissions() {
-
-		RoleModel editor = user().name("editor").fullName("editor").can(EDIT).buildAsModel();
 	
-		User joe = user().name("joe").fullName("joe").is(editor.on("1")).can(LOCK).build();
-		
-		assertEquals(1,joe.declaredPermissions().size());
-		assertEquals(2,joe.permissions().size());
-	}
+	//helpers
 	
-	@Test
-	public void hierarchicalRole() {
-
-		RoleModel role1 = user().name("editor").fullName("editor").can(EDIT,LOCK).buildAsModel();
-	
-		RoleModel role2 = user().name("editor2").fullName("editor").is(role1).can(VIEW).buildAsModel();
-		
-		User joe = user().name("joe").fullName("joe").is(role2).build();
-		
-
-		assertTrue(joe.is(role1));
-		assertTrue(joe.is(role2));
-		
-		
-		//role permissions propagate
-		assertTrue(joe.can(EDIT));
-		assertTrue(joe.can(VIEW));
-		
-	}
-
-	@Test
-	public void rolesAndPermissionsCanOverlap() {
-
-		RoleModel role = user().name("editor").fullName("editor").can(EDIT).buildAsModel();
-	
-		User joe = user().name("joe").fullName("joe").is(role).can(EDIT).build();
-		
-		assertEquals(1,joe.permissions().size());
-		
-		
-	}
-	
-	@Test
-	public void rolesCanOverlap() {
-
-		RoleModel role1 = user().name("editor").fullName("editor").can(EDIT).buildAsModel();
-	
-		RoleModel role2 = user().name("editor2").fullName("editor").can(EDIT).buildAsModel();
-		
-		User joe = user().name("joe").fullName("joe").is(role1,role2).build();
-		
-		assertTrue(joe.is(role1));
-		assertTrue(joe.is(role2));
-		
-		assertEquals(1,joe.permissions().size());
-		
-		
-	}
-	
-	@Test
-	public void rolesCannotBeAddedTwice() {
-		
-		RoleModel role = user().name("editor").fullName("editor").can(EDIT,LOCK).buildAsModel();
-		
-		User joe = user().name("joe").fullName("joe").is(role,role).build();
-		
-		assertEquals(1,joe.roles().size());
+	private UserGrammar.ThirdClause bill() {
+		return user().name("bill").fullName("bill");
 	}
 }

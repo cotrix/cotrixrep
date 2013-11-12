@@ -27,14 +27,19 @@ public class CurrentUser implements User {
 	public String fullName() {
 		return test.fullName();
 	}
+	
+	@Override
+	public boolean isRoot() {
+		return test.isRoot();
+	}
 
 	public Collection<Action> permissions() {
 		return test.permissions();
 	}
 	
 	@Override
-	public Collection<Action> declaredPermissions() {
-		return test.declaredPermissions();
+	public Collection<Action> directPermissions() {
+		return test.directPermissions();
 	}
 	
 	@Override

@@ -10,6 +10,7 @@ import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.memory.MRepository;
 import org.cotrix.repository.memory.MStore;
+import org.cotrix.repository.utils.UuidGenerator;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
 import org.slf4j.Logger;
@@ -34,6 +35,10 @@ public class MUserRepository extends MRepository<User, User.Private> implements 
 		this(new MStore(),generator);
 	}
 	
+	public MUserRepository() {
+		this(new UuidGenerator());
+	}
+	
 	@Override
 	public User lookupByName(String id) {
 		for (User user : getAll())
@@ -44,7 +49,15 @@ public class MUserRepository extends MRepository<User, User.Private> implements 
 						
 	}
 	
-
+	@Override
+	public void add(User user) {
+		
+		for (User u : getAll())
+			if (user.name().equals(u.name()))
+				throw new IllegalStateException("user "+user.name()+" cannot be added as a user with the same name already exists");
+		
+		super.add(user);
+	}
 	
 	/**
 	 * Creates an instance over a given {@link MStore}.

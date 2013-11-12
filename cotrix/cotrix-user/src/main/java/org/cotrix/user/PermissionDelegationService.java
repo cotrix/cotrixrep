@@ -11,49 +11,84 @@ public interface PermissionDelegationService {
 	 * Delegates one or more permissions from the current user to a given user.
 	 * @param permissions the permissions
 	 * @return the clause for the selection of the target user
+	 * 
 	 */
-	DelegatePermissionClause delegate(Action ... permissions);
+	DelegateClause delegate(Action ... permissions);
 
 	/**
 	 * Delegates one or more permissions from the current user to a given user.
 	 * @param permissions the permissions
 	 * @return the clause for the selection of the target user
 	 */
-	DelegatePermissionClause delegate(Collection<Action> permissions);
+	DelegateClause delegate(Collection<Action> permissions);
+	
+	
+	/**
+	 * Delegates one or more roles from the current user to a given user.
+	 * @param roles the roles
+	 * @return the clause for the selection of the target user
+	 */
+	DelegateClause delegate(Role ... roles);
+	
+	/**
+	 * Delegates one or more roles from the current user to a given user.
+	 * @param roles the roles
+	 * @return the clause for the selection of the target user
+	 */
+	DelegateClause delegate(RoleModel ... roles);
 	
 	/**
 	 * Revokes one or more permissions from a given user.
 	 * @param permissions the permissions
 	 * @return the clause for the selection of the target user
 	 */
-	RevokePermissionClause revoke(Action ... permissions);
+	RevokeClause revoke(Action ... permissions);
+	
+	
+	/**
+	 * Revokes one or more roles from a given user.
+	 * @param roles the roles
+	 * @return the clause for the selection of the target user
+	 */
+	RevokeClause revoke(Role ... roles);
+	
+	
+	/**
+	 * Revokes one or more roles from a given user.
+	 * @param roles the roles
+	 * @return the clause for the selection of the target user
+	 */
+	RevokeClause revoke(RoleModel ... roles);
 
 	/**
 	 * Revokes one or more permissions from a given user.
 	 * @param permissions the permissions
 	 * @return the clause for the selection of the target user
 	 */
-	RevokePermissionClause revoke(Collection<Action> permissions);
+	RevokeClause revoke(Collection<Action> permissions);
 	
-	static interface DelegatePermissionClause {
+	
+	static interface DelegateClause {
 		
 		/**
-		 * Selects the target user.
+		 * Selects the target user for delegation.
 		 * @param user the user
 		 * 
+		 * 
+		 * @throws IllegalArgumentException if the user has no identifier
 		 * @throws IllegalAccessError if the delegation is not allowed by the current policy
-		 */
+		 * */
 		void to(User user);
 	}
 	
-	static interface RevokePermissionClause {
+	static interface RevokeClause {
 		
 		/**
 		 * Selects the target user.
 		 * @param user the user
 		 * 
-		 * @throws IllegalAccessError if the delegation is not allowed by the current policy
-		 * @throws IllegalStateException if the target user does not have one of the permissions
+		 * @throws IllegalArgumentException if the user has no identifier
+		 * @throws IllegalAccessError if the revocation is not allowed by the current policy
 		 */
 		void from(User u);
 	}

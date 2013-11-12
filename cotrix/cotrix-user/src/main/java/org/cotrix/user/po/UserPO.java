@@ -61,6 +61,14 @@ public class UserPO extends DomainPO {
 		
 	}
 	
+	public void remove(Role role) {
+		
+		notNull("role",role);
+		
+		this.roles.remove(role);
+		
+	}
+	
 	public void setRoles(Collection<Role> roles) {
 		
 		notNull("roles",roles);
