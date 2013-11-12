@@ -58,7 +58,7 @@ public class MUserRepository extends MRepository<User, User.Private> implements 
 		
 		super.add(user);
 	}
-	
+
 	/**
 	 * Creates an instance over a given {@link MStore}.
 	 * @param store

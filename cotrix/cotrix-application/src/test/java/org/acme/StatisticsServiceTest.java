@@ -4,17 +4,13 @@ import static junit.framework.Assert.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.user.Users.*;
 
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.cotrix.application.StatisticsService;
 import org.cotrix.application.StatisticsService.Statistics;
-import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.user.User;
-import org.cotrix.user.Users;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -52,11 +48,4 @@ public class StatisticsServiceTest {
 		
 	}
 	
-	
-	@Produces @Current
-	public User user() {
-		return Users.guest;
-	}
-	
-}
-
+}	

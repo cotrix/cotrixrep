@@ -2,7 +2,6 @@ package org.acme;
 
 import static java.util.Arrays.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.utils.Constants.*;
 import static org.junit.Assert.*;
 
 import java.util.Collection;
@@ -49,9 +48,14 @@ public class CodelistRepositoryTest {
 		
 		assertEquals(q("n"), summary.name());
 		assertEquals(2, summary.size());
+		
+		
 		assertEqualSets(asList(q("name1"),q("name2")),summary.names());
-		assertEqualSets(asList(SYSTEM_TYPE,q("t1"),q("t2"),q("t3")),summary.types());
+		assertEqualSets(asList(q("t1"),q("t2"),q("t3")),summary.types());
 		assertEqualSets(asList("l1","l2","l3"),summary.languages());
+		
+		assertEqualSets(asList(q("t1"),q("t2"),q("t3")),summary.typesFor(q("name1")));
+		assertEqualSets(asList("l1","l3"),summary.languagesFor(q("name1"),q("t1")));
 		
 	}
 	
