@@ -2,12 +2,14 @@ package org.cotrix.web.importwizard.client.step.csvpreview;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.step.csvpreview.CsvParserConfigurationPanel.DialogSaveHandler;
 import org.cotrix.web.share.client.widgets.AlertDialog;
+import org.cotrix.web.share.client.widgets.CsvConfigurationPanel;
+import org.cotrix.web.share.client.widgets.CsvConfigurationPanel.DialogSaveHandler;
 import org.cotrix.web.share.shared.CsvParserConfiguration;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
@@ -24,10 +26,16 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 
 	@UiTemplate("CsvPreviewStep.ui.xml")
 	interface PreviewStepUiBinder extends UiBinder<Widget, CsvPreviewStepViewImpl> {}
-	private static PreviewStepUiBinder uiBinder = GWT.create(PreviewStepUiBinder.class);
+	private static PreviewStepUiBinder uiBinder = GWT.create(PreviewStepUiBinder.class);	
 
-	@UiField 
-	CsvParserConfigurationPanel configurationPanel;
+	@UiTemplate("CsvParserConfigurationPanel.ui.xml")
+	interface CsvParserConfigurationPanelUiBinder extends UiBinder<Widget, CsvConfigurationPanel> {
+	}
+	
+	private static CsvParserConfigurationPanelUiBinder configurationPanelBinder = GWT.create(CsvParserConfigurationPanelUiBinder.class);
+
+	@UiField
+	CsvConfigurationPanel configurationPanel;
 	
 	@UiField (provided=true) 
 	PreviewGrid preview;
@@ -46,6 +54,12 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 		preview = new PreviewGrid(dataProvider);
 		initWidget(uiBinder.createAndBindUi(this));
 		configurationPanel.setSaveHandler(this);
+	}
+	
+	@UiFactory
+	public CsvConfigurationPanel createCsvParserConfigurationPanel()
+	{
+		return new CsvConfigurationPanel(configurationPanelBinder);
 	}
 
 	/** 
