@@ -3,8 +3,8 @@ package org.cotrix.web.client;
 import java.util.EnumMap;
 
 import org.cotrix.web.client.presenter.CotrixWebPresenter;
+import org.cotrix.web.client.presenter.HomeController;
 import org.cotrix.web.client.presenter.UserBarPresenter;
-import org.cotrix.web.client.view.Home;
 import org.cotrix.web.menu.client.presenter.CotrixMenuGinInjector;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
 import org.cotrix.web.publish.client.CotrixPublishAppGinInjector;
@@ -14,6 +14,7 @@ import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -29,6 +30,8 @@ public class AppControllerImpl implements AppController {
 	protected EnumMap<CotrixModule, CotrixModuleController> controllers = new EnumMap<CotrixModule, CotrixModuleController>(CotrixModule.class);
 	protected CotrixModuleController currentController;
 	
+	protected Timer statisticsUpdater;
+	
 	@Inject
 	public AppControllerImpl(@CotrixBus EventBus cotrixBus, CotrixWebPresenter cotrixWebPresenter) {
 		this.cotrixBus = cotrixBus;
@@ -40,7 +43,7 @@ public class AppControllerImpl implements AppController {
 		
 		initUserBar();
 		
-		Home home = new Home();
+		HomeController home = AppGinInjector.INSTANCE.getHomeController();
 		addModule(home);
 		
 		/*CotrixImportAppGinInjector importInjector = CotrixImportAppGinInjector.INSTANCE;

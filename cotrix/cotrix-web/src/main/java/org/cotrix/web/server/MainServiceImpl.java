@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.cotrix.action.Action;
 import org.cotrix.action.Actions;
 import org.cotrix.action.CodelistAction;
+import org.cotrix.application.StatisticsService;
+import org.cotrix.application.StatisticsService.Statistics;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.security.LoginService;
@@ -23,6 +25,7 @@ import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
+import org.cotrix.web.shared.UIStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +56,9 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	
 	@Inject
 	protected HttpServletRequest httpServletRequest;
+	
+	@Inject
+	protected StatisticsService statisticsService;
 	
 	@Inject
 	ActionMapper mapper;
@@ -124,6 +130,17 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		engine.perform(CodelistAction.VIEW.on(codelistId)).with(NOP);
 		Collection<Action> actions = Actions.filterForAction(CodelistAction.VIEW, user.permissions());
 		actionMapper.fillFeatures(featureCarrier, codelistId, actions);
+	}
+
+	@Override
+	public UIStatistics getStatistics() {
+		Statistics statistics = statisticsService.statistics();
+		UIStatistics uiStatistics = new UIStatistics();
+		uiStatistics.setCodelists(statistics.totalCodelists());
+		uiStatistics.setCodes(statistics.totalCodes());
+		uiStatistics.setUsers(statistics.totalUsers());
+		uiStatistics.setRepositories(statistics.totalRepositories());
+		return uiStatistics;
 	}
 
 }
