@@ -32,7 +32,6 @@ import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
-import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CodeListImportedEvent;
@@ -40,6 +39,7 @@ import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.shared.CsvConfiguration;
+import org.cotrix.web.share.shared.Progress;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
@@ -310,7 +310,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 	protected void getImportProgress()
 	{
-		importService.getImportProgress(new AsyncCallback<ImportProgress>() {
+		importService.getImportProgress(new AsyncCallback<Progress>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -318,14 +318,14 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 
 			@Override
-			public void onSuccess(ImportProgress result) {
+			public void onSuccess(Progress result) {
 				Log.trace("Import progress: "+result);
 				updateImportProgress(result);			
 			}
 		});
 	}
 
-	protected void updateImportProgress(ImportProgress progress)
+	protected void updateImportProgress(Progress progress)
 	{
 		if (progress.isComplete()) codelistImportComplete();
 		importEventBus.fireEvent(new ImportProgressEvent(progress));

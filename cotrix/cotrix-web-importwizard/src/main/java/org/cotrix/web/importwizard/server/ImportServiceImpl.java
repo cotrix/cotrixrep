@@ -26,7 +26,6 @@ import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
-import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
@@ -36,6 +35,7 @@ import org.cotrix.web.share.server.util.Ranges;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
+import org.cotrix.web.share.shared.Progress;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -307,7 +307,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 
 	@Override
-	public ImportProgress getImportProgress() throws ImportServiceException {
+	public Progress getImportProgress() throws ImportServiceException {
 		try {
 			WizardImportSession session = getImportSession();
 			return session.getImporter().getProgress();

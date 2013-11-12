@@ -8,7 +8,6 @@ import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
-import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.MappingMode;
@@ -17,6 +16,7 @@ import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
+import org.cotrix.web.share.shared.Progress;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -52,7 +52,7 @@ public interface ImportService extends RemoteService {
 	
 	public void startImport(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ImportServiceException;
 	
-	public ImportProgress getImportProgress() throws ImportServiceException;
+	public Progress getImportProgress() throws ImportServiceException;
 	
 	public DataWindow<ReportLog> getReportLogs(Range range) throws ImportServiceException;
 	

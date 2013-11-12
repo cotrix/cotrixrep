@@ -3,12 +3,16 @@
  */
 package org.cotrix.web.publish.client;
 
+import java.util.List;
+
 import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
 import org.cotrix.web.publish.client.event.DestinationType;
 import org.cotrix.web.publish.client.event.DestinationTypeChangeEvent;
 import org.cotrix.web.publish.client.event.FormatType;
 import org.cotrix.web.publish.client.event.FormatTypeChangeEvent;
+import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
+import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 
@@ -23,10 +27,10 @@ public class PublishController {
 	
 	protected EventBus eventBus;
 	
-	
 	protected UICodelist codelist;
 	protected DestinationType destination;
 	protected FormatType type;
+	protected List<AttributeMapping> mappings;
 	
 	@Inject
 	public PublishController(@PublishBus EventBus eventBus) {
@@ -59,6 +63,14 @@ public class PublishController {
 				type = event.getFormatType();
 			}
 		});
+		
+		eventBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedEvent.MappingsUpdatedHandler() {
+			
+			@Override
+			public void onMappingUpdated(MappingsUpdatedEvent event) {
+				mappings = event.getMappings();
+			}
+		});
 	}
 	
 	protected void reset()
@@ -66,6 +78,7 @@ public class PublishController {
 		codelist = null;
 		type = null;
 		destination = null;
+		mappings = null;
 		
 		eventBus.fireEvent(new ResetWizardEvent());
 	}

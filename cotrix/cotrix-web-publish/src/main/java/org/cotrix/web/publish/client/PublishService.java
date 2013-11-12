@@ -3,11 +3,13 @@ package org.cotrix.web.publish.client;
 import java.util.List;
 
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishServiceException;
 import org.cotrix.web.publish.shared.ReportLog;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
+import org.cotrix.web.share.shared.Progress;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 
@@ -30,5 +32,10 @@ public interface PublishService extends RemoteService {
 	CsvConfiguration getCsvWriterConfiguration(String codelistid)	throws PublishServiceException;
 
 	List<AttributeMapping> getMappings() throws PublishServiceException;
+
+	void startPublish(String codelistId, List<AttributeMapping> mappings,
+			MappingMode mappingMode) throws PublishServiceException;
+
+	Progress getPublishProgress() throws PublishServiceException;
 
 }

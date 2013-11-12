@@ -2,6 +2,7 @@ package org.cotrix.web.publish.server;
 
 import static org.cotrix.repository.Queries.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.cotrix.web.publish.client.PublishService;
 import org.cotrix.web.publish.server.util.PublishSession;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishServiceException;
 import org.cotrix.web.publish.shared.ReportLog;
 import org.cotrix.web.share.server.util.CodelistLoader;
@@ -24,6 +26,7 @@ import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
+import org.cotrix.web.share.shared.Progress;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIQName;
@@ -133,6 +136,38 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		attributeMapping.setMapped(mapped);
 		return attributeMapping;
 	}
+	
+	@Override
+	public void startPublish(String codelistId, List<AttributeMapping> mappings, MappingMode mappingMode) throws PublishServiceException {
+		logger.trace("startPublish codelistId: {}, mappings: {}, mappingMode: {}", codelistId, mappings, mappingMode);
+		
+
+		/*try {
+			session.setImportedCodelistName(metadata.getName());
+			Importer<?> importer = importerFactory.createImporter(session, metadata, mappings, mappingMode);
+			session.setImporter(importer);
+			
+			//FIXME use a serialiser provider
+			Thread th = new Thread(importer);
+			th.start();
+		} catch (IOException e) {
+			logger.error("Error during import starting", e);
+			throw new ImportServiceException("An error occurred starting import: "+e.getMessage());
+		}*/
+	}
+
+
+	@Override
+	public Progress getPublishProgress() throws PublishServiceException {
+		try {
+			return new Progress();
+		} catch(Exception e)
+		{
+			logger.error("An error occurred on server side", e);
+			throw new PublishServiceException("An error occurred on server side: "+e.getMessage());
+		}
+	}
+
 
 
 

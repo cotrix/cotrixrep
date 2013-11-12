@@ -17,6 +17,7 @@ import org.cotrix.web.publish.client.wizard.step.repositoryselection.RepositoryS
 import org.cotrix.web.publish.client.wizard.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.summary.SummaryStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepPresenter;
+import org.cotrix.web.publish.client.wizard.task.PublishTask;
 import org.cotrix.web.publish.client.wizard.task.RetrieveCSVConfigurationTask;
 import org.cotrix.web.publish.client.wizard.task.RetrieveMappingsTask;
 import org.cotrix.web.publish.client.wizard.task.RetrieveMetadataTask;
@@ -87,6 +88,7 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 			SdmxMappingStepPresenter sdmxMappingStep,
 
 			SummaryStepPresenter summaryStep,
+			PublishTask publishTask,
 			DoneStepPresenter doneStep
 			) {
 
@@ -115,7 +117,7 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 		SingleNodeBuilder<WizardStep> summary = csvMapping.next(summaryStep);
 		sdmxMapping.next(summary);
 		
-		summary.next(doneStep);
+		summary.next(publishTask).next(doneStep);
 		
 
 		/*SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, sdmxMappingStep));

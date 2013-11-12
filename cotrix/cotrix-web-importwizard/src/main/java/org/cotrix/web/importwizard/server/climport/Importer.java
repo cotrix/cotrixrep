@@ -18,11 +18,11 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.importwizard.server.WizardImportSession;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
-import org.cotrix.web.importwizard.shared.ImportProgress;
-import org.cotrix.web.importwizard.shared.ImportProgress.Status;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.importwizard.shared.ReportLog.LogType;
+import org.cotrix.web.share.shared.Progress;
+import org.cotrix.web.share.shared.Progress.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +37,7 @@ public class Importer<T> implements Runnable {
 	protected CodelistRepository repository;
 	protected LifecycleService lifecycleService;
 
-	protected ImportProgress progress;
+	protected Progress progress;
 	protected ImporterMapper<T> mapper;
 	protected ImporterSource<T> source;
 	protected WizardImportSession importSession;
@@ -60,7 +60,7 @@ public class Importer<T> implements Runnable {
 		this.mappingMode = mappingMode;
 		this.importSession = importSession;
 
-		this.progress = new ImportProgress();
+		this.progress = new Progress();
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class Importer<T> implements Runnable {
 	/**
 	 * @return the progress
 	 */
-	public ImportProgress getProgress() {
+	public Progress getProgress() {
 		return progress;
 	}
 
