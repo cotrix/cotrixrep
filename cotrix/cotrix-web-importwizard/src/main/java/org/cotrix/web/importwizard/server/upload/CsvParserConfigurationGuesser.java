@@ -4,7 +4,7 @@
 package org.cotrix.web.importwizard.server.upload;
 
 import org.apache.commons.fileupload.FileItem;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -12,10 +12,10 @@ import org.cotrix.web.share.shared.CsvParserConfiguration;
  */
 public class CsvParserConfigurationGuesser {
 	
-	public CsvParserConfiguration guessConfiguration(FileItem csvFile)
+	public CsvConfiguration guessConfiguration(FileItem csvFile)
 	{
 		//TODO implement
-		CsvParserConfiguration configuration = new CsvParserConfiguration();
+		CsvConfiguration configuration = new CsvConfiguration();
 		configuration.setCharset("ISO-8859-1");
 		configuration.setComment('#');
 		configuration.setFieldSeparator('\t');

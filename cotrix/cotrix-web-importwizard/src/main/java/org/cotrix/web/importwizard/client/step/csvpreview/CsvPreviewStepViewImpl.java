@@ -5,7 +5,7 @@ import java.util.List;
 import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.client.widgets.CsvConfigurationPanel;
 import org.cotrix.web.share.client.widgets.CsvConfigurationPanel.DialogSaveHandler;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -86,30 +86,22 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 		alertDialog.setMessage(message);
 		alertDialog.center();
 	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void showCsvConfigurationDialog() {
-		//configurationDialog.center();
-	}
 	
 	@Override
-	public void setCsvParserConfiguration(CsvParserConfiguration configuration) {
+	public void setCsvParserConfiguration(CsvConfiguration configuration) {
 		configurationPanel.setConfiguration(configuration);
 		updatePreview(configuration);
 	}
 
 	@Override
-	public void onSave(CsvParserConfiguration configuration) {
+	public void onSave(CsvConfiguration configuration) {
 		if (dataProvider.getConfiguration().equals(configuration)) return;
 		updatePreview(configuration);
 		presenter.onCsvConfigurationEdited(configuration);
 	}
 	
 	
-	protected void updatePreview(CsvParserConfiguration configuration)
+	protected void updatePreview(CsvConfiguration configuration)
 	{
 		dataProvider.setConfiguration(configuration);
 		preview.loadData();

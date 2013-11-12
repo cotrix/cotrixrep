@@ -4,8 +4,6 @@
 package org.cotrix.web.importwizard.server;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,9 +31,10 @@ import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
+import org.cotrix.web.share.server.util.Encodings;
 import org.cotrix.web.share.server.util.Ranges;
 import org.cotrix.web.share.shared.ColumnSortInfo;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
@@ -132,20 +131,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			AssetDetails assetDetails = Assets.convertToDetails(asset);
 			System.out.println(assetDetails);
 			return assetDetails;
-
-			/*List<Property> properties = new ArrayList<Property>();
-		properties.add(new Property("scope", "/gcube/devsec", "null"));
-		RepositoryDetails repository = new RepositoryDetails("D4Science Development Registry", "sdmx/codelist",  "sdmx/codelist", properties);
-
-		properties = new ArrayList<Property>();
-		properties.add(new Property("uri", 
-				"http://node8.d.d4science.research-infrastructures.eu:8080/FusionRegistry/ws/rest/codelist/FAO/CL_DIVISION/0.1", 
-				"asset's URI"));
-		properties.add(new Property("status", "partial", "asset's status"));
-		AssetDetails assetDetails = new AssetDetails("urn:sdmx:org.sdmx.infomodel.codelist.Codelist=FAO:CL_DIVISION(0.1)", 
-				"CL_DIVISION", "sdmx/codelist", properties, repository);
-
-		return assetDetails;*/
 		} catch(Exception e)
 		{
 			logger.error("An error occurred on server side", e);
@@ -207,7 +192,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public PreviewData getCsvPreviewData(CsvParserConfiguration configuration) throws ImportServiceException {
+	public PreviewData getCsvPreviewData(CsvConfiguration configuration) throws ImportServiceException {
 
 		try {
 			WizardImportSession session = getImportSession();
@@ -273,26 +258,17 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CsvParserConfiguration getCsvParserConfiguration() throws ImportServiceException {
+	public CsvConfiguration getCsvParserConfiguration() throws ImportServiceException {
 		try {
 			WizardImportSession session = getImportSession();
-			CsvParserConfiguration configuration = session.getCsvParserConfiguration();
-			configuration.setAvailablesCharset(getEncodings());
+			CsvConfiguration configuration = session.getCsvParserConfiguration();
+			configuration.setAvailablesCharset(Encodings.getEncodings());
 			return configuration;
 		} catch(Exception e)
 		{
 			logger.error("An error occurred on server side", e);
 			throw new ImportServiceException("An error occurred on server side: "+e.getMessage());
 		}
-	}
-
-	protected List<String> getEncodings()
-	{
-		List<String> charsets = new ArrayList<String>();
-		for (Charset charset:Charset.availableCharsets().values()) {
-			charsets.add(charset.displayName());
-		}
-		return charsets;
 	}
 
 	/** 

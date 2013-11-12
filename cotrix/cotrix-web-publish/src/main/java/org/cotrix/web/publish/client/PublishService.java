@@ -3,6 +3,7 @@ package org.cotrix.web.publish.client;
 import org.cotrix.web.publish.shared.PublishServiceException;
 import org.cotrix.web.publish.shared.ReportLog;
 import org.cotrix.web.share.shared.ColumnSortInfo;
+import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
@@ -22,5 +23,7 @@ public interface PublishService extends RemoteService {
 	public DataWindow<ReportLog> getReportLogs(Range range) throws PublishServiceException;
 
 	UICodelistMetadata getMetadata(String codelistId)	throws PublishServiceException;
+
+	CsvConfiguration getCsvWriterConfiguration(String codelistid)	throws PublishServiceException;
 
 }

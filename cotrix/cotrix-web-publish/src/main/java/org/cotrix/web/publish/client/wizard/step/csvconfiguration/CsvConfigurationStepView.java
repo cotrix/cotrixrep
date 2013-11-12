@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.csvconfiguration;
 
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -9,12 +9,10 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public interface CsvConfigurationStepView {
 	public interface Presenter {
-		void onShowCsvConfigurationButtonClicked();
-		void onCsvConfigurationEdited(CsvParserConfiguration configuration);
+		void onCsvConfigurationEdited(CsvConfiguration configuration);
 	}
 
-	public void showCsvConfigurationDialog();
-	public void setCsvParserConfiguration(CsvParserConfiguration configuration);
+	public void setCsvParserConfiguration(CsvConfiguration configuration);
 	
 	void alert(String message);
 

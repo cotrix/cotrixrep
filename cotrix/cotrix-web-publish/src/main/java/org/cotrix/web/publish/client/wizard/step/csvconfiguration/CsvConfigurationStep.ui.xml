@@ -9,9 +9,9 @@
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.main}">
-		<g:north size='85'>
+		<g:center>
 			<s:CsvConfigurationPanel
 				ui:field="configurationPanel" />
-		</g:north>
+		</g:center>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 

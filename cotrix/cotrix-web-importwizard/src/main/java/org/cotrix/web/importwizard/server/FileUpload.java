@@ -27,7 +27,7 @@ import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.FileUploadProgress.Status;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -135,7 +135,7 @@ public class FileUpload extends HttpServlet{
 
 			switch (codeListType) {
 				case CSV: {
-					CsvParserConfiguration configuration = csvParserConfigurationGuesser.guessConfiguration(fileField);
+					CsvConfiguration configuration = csvParserConfigurationGuesser.guessConfiguration(fileField);
 					session.setCsvParserConfiguration(configuration);
 					uploadProgress.setProgress(95);
 

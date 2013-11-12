@@ -17,6 +17,7 @@ import org.cotrix.web.publish.client.wizard.step.repositoryselection.RepositoryS
 import org.cotrix.web.publish.client.wizard.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.summary.SummaryStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepPresenter;
+import org.cotrix.web.publish.client.wizard.task.RetrieveCSVConfigurationTask;
 import org.cotrix.web.publish.client.wizard.task.RetrieveMetadataTask;
 import org.cotrix.web.share.client.wizard.DefaultWizardActionHandler;
 import org.cotrix.web.share.client.wizard.WizardAction;
@@ -74,6 +75,7 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 			DestinationNodeSelector destinationSelector, 
 			RepositorySelectionStepPresenter repositorySelectionStep,
 			TypeSelectionStepPresenter typeSelectionStep,
+			RetrieveCSVConfigurationTask retrieveCSVConfigurationTask,
 			CsvConfigurationStepPresenter csvConfigurationStep,
 			SdmxMappingStepPresenter sdmxMappingStep,
 			CsvMappingStepPresenter csvMappingStep,
@@ -93,9 +95,9 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 		
 		SwitchNodeBuilder<WizardStep> destination = selectionStep.alternative(destinationSelectionStep).hasAlternatives(destinationSelector);
 		
-		TypeNodeSelector fileTypeSelector = new TypeNodeSelector(publishEventBus, csvConfigurationStep, sdmxMappingStep);
+		TypeNodeSelector fileTypeSelector = new TypeNodeSelector(publishEventBus, retrieveCSVConfigurationTask, sdmxMappingStep);
 		SwitchNodeBuilder<WizardStep> type = destination.alternative(typeSelectionStep).hasAlternatives(fileTypeSelector);
-		SingleNodeBuilder<WizardStep> csvMapping = type.alternative(csvConfigurationStep).next(csvMappingStep);
+		SingleNodeBuilder<WizardStep> csvMapping = type.alternative(retrieveCSVConfigurationTask).next(csvConfigurationStep).next(csvMappingStep);
 		SingleNodeBuilder<WizardStep> sdmxMapping = type.alternative(sdmxMappingStep);
 		
 		TypeNodeSelector repositoryTypeSelector = new TypeNodeSelector(publishEventBus, csvMappingStep, sdmxMappingStep);

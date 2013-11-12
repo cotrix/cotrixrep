@@ -5,7 +5,7 @@ package org.cotrix.web.importwizard.client.step.csvpreview;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -20,19 +20,19 @@ public class PreviewDataProvider implements DataProvider {
 	@Inject
 	ImportServiceAsync service;
 	
-	CsvParserConfiguration configuration;
+	CsvConfiguration configuration;
 
 	/**
 	 * @return the configuration
 	 */
-	public CsvParserConfiguration getConfiguration() {
+	public CsvConfiguration getConfiguration() {
 		return configuration;
 	}
 
 	/**
 	 * @param configuration the configuration to set
 	 */
-	public void setConfiguration(CsvParserConfiguration configuration) {
+	public void setConfiguration(CsvConfiguration configuration) {
 		this.configuration = configuration;
 	}
 

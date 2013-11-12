@@ -16,7 +16,7 @@ import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 import org.virtualrepository.Asset;
 
 /**
@@ -51,7 +51,7 @@ public class WizardImportSession {
 	protected FileItem fileField;
 	protected CodeListType codeListType;
 	
-	protected CsvParserConfiguration csvParserConfiguration;
+	protected CsvConfiguration csvParserConfiguration;
 	protected PreviewData previewCache;
 	protected boolean isCacheDirty;
 	
@@ -113,7 +113,7 @@ public class WizardImportSession {
 	/**
 	 * @return the csvParserConfiguration
 	 */
-	public CsvParserConfiguration getCsvParserConfiguration() {
+	public CsvConfiguration getCsvParserConfiguration() {
 		return csvParserConfiguration;
 	}
 
@@ -121,7 +121,7 @@ public class WizardImportSession {
 	 * @param csvParserConfiguration the csvParserConfiguration to set
 	 */
 	public void setCsvParserConfiguration(
-			CsvParserConfiguration csvParserConfiguration) {
+			CsvConfiguration csvParserConfiguration) {
 		this.csvParserConfiguration = csvParserConfiguration;
 	}
 

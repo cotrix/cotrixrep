@@ -7,7 +7,7 @@ package org.cotrix.web.share.client.widgets;
 import java.util.EnumSet;
 
 import org.cotrix.web.share.client.widgets.EnumListBox.LabelProvider;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -110,7 +110,7 @@ public class CsvConfigurationPanel extends Composite {
 	}
 	
 	public interface DialogSaveHandler extends EventHandler {
-		public void onSave(CsvParserConfiguration configuration);
+		public void onSave(CsvConfiguration configuration);
 	}
 	
 	public @UiField ListBox charsetField;
@@ -159,7 +159,7 @@ public class CsvConfigurationPanel extends Composite {
 		this.saveHandler = saveHandler;
 	}
 
-	public void setConfiguration(CsvParserConfiguration configuration)
+	public void setConfiguration(CsvConfiguration configuration)
 	{
 	
 		hasHeaderField.setValue(configuration.isHasHeader());
@@ -204,9 +204,9 @@ public class CsvConfigurationPanel extends Composite {
 		return false;
 	}
 	
-	public CsvParserConfiguration getConfiguration()
+	public CsvConfiguration getConfiguration()
 	{
-		CsvParserConfiguration configuration = new CsvParserConfiguration();
+		CsvConfiguration configuration = new CsvConfiguration();
 		
 		//TODO validation
 		configuration.setCharset(charsetField.getValue(charsetField.getSelectedIndex()));

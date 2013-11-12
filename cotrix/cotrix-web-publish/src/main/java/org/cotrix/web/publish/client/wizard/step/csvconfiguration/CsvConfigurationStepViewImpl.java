@@ -3,7 +3,7 @@ package org.cotrix.web.publish.client.wizard.step.csvconfiguration;
 import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.client.widgets.CsvConfigurationPanel;
 import org.cotrix.web.share.client.widgets.CsvConfigurationPanel.DialogSaveHandler;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -70,22 +70,14 @@ public class CsvConfigurationStepViewImpl extends ResizeComposite implements Csv
 		alertDialog.setMessage(message);
 		alertDialog.center();
 	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void showCsvConfigurationDialog() {
-		//configurationDialog.center();
-	}
 	
 	@Override
-	public void setCsvParserConfiguration(CsvParserConfiguration configuration) {
+	public void setCsvParserConfiguration(CsvConfiguration configuration) {
 		configurationPanel.setConfiguration(configuration);
 	}
 
 	@Override
-	public void onSave(CsvParserConfiguration configuration) {
+	public void onSave(CsvConfiguration configuration) {
 		presenter.onCsvConfigurationEdited(configuration);
 	}
 

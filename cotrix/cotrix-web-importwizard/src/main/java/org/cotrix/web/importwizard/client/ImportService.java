@@ -15,7 +15,7 @@ import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.share.shared.ColumnSortInfo;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -40,13 +40,13 @@ public interface ImportService extends RemoteService {
 	
 	public FileUploadProgress getUploadProgress() throws ImportServiceException;
 	
-	public PreviewData getCsvPreviewData(CsvParserConfiguration configuration) throws ImportServiceException;
+	public PreviewData getCsvPreviewData(CsvConfiguration configuration) throws ImportServiceException;
 	
 	public CodeListType getCodeListType() throws ImportServiceException;
 	
 	public ImportMetadata getMetadata() throws ImportServiceException;
 	
-	public CsvParserConfiguration getCsvParserConfiguration() throws ImportServiceException;
+	public CsvConfiguration getCsvParserConfiguration() throws ImportServiceException;
 	
 	public List<AttributeMapping> getMappings() throws ImportServiceException;
 	

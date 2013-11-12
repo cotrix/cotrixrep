@@ -16,8 +16,10 @@ import org.cotrix.web.publish.shared.PublishServiceException;
 import org.cotrix.web.publish.shared.ReportLog;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
+import org.cotrix.web.share.server.util.Encodings;
 import org.cotrix.web.share.server.util.Ranges;
 import org.cotrix.web.share.shared.ColumnSortInfo;
+import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
@@ -82,6 +84,28 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		
 		return Codelists.toCodelistMetadata(codelist, uiCodelist.getState());
 	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public CsvConfiguration getCsvWriterConfiguration(String codelistid) throws PublishServiceException {
+		try {
+			CsvConfiguration configuration = new CsvConfiguration();
+			configuration.setAvailablesCharset(Encodings.getEncodings());
+			configuration.setCharset("UTF-8");
+			configuration.setComment('#');
+			configuration.setFieldSeparator(',');
+			configuration.setHasHeader(true);
+			configuration.setQuote('"');
+			return configuration;
+		} catch(Exception e)
+		{
+			logger.error("An error occurred on server side", e);
+			throw new PublishServiceException("An error occurred on server side: "+e.getMessage());
+		}
+	}
+
 	
 	
 
