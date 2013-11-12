@@ -2,8 +2,10 @@ package org.cotrix.repository.memory;
 
 import static org.cotrix.domain.utils.Constants.*;
 
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -99,29 +101,46 @@ public class MCodelistRepository extends MRepository<Codelist, Codelist.Private>
 
 		int size = list.codes().size();
 
-		Collection<QName> names = new HashSet<QName>();
-		Collection<QName> types = new HashSet<QName>();
-		Collection<String> langs = new HashSet<String>();
+		Map<QName,Map<QName,Set<String>>> fingerprint = new HashMap<QName, Map<QName,Set<String>>>();
+		
+		for (Attribute a : list.attributes())
+			addAttributeToFingerprint(fingerprint, a);
+		
+		for (Code c : list.codes())
+			for (Attribute a : c.attributes())
+				addAttributeToFingerprint(fingerprint, a);
 
-		for (Code c : list.codes()) {
-			for (Attribute a : list.attributes()) {
-				if (a.type().equals(SYSTEM_TYPE))
-					continue;
-				names.add(a.name());
-				types.add(a.type());
-				if (a.language() != null)
-					langs.add(a.language());
-			}
-			for (Attribute a : c.attributes()) {
-				if (a.type().equals(SYSTEM_TYPE))
-					continue;
-				names.add(a.name());
-				types.add(a.type());
-				if (a.language() != null)
-					langs.add(a.language());
-				}
+
+		System.out.println(fingerprint);
+		
+		return new CodelistSummary(list.name(), size, fingerprint);
+	}
+	
+	//helper
+	private void addAttributeToFingerprint(Map<QName,Map<QName,Set<String>>> fingerprint,Attribute a) {
+		
+		if (a.type().equals(SYSTEM_TYPE))
+			return;
+		
+		
+		Map<QName,Set<String>> typeForAttr = fingerprint.get(a.name());
+		
+		if (typeForAttr==null) {
+			
+			typeForAttr = new HashMap<QName, Set<String>>();
+			fingerprint.put(a.name(), typeForAttr);
+			
 		}
-
-		return new CodelistSummary(list.name(), size, names, types, langs);
+		
+		Set<String> langForType = typeForAttr.get(a.type());
+			
+		if (langForType==null) {
+			langForType = new HashSet<String>();
+			typeForAttr.put(a.type(),langForType);	
+		}
+		
+		if (a.language() != null)
+			langForType.add(a.language());
+		
 	}
 }
