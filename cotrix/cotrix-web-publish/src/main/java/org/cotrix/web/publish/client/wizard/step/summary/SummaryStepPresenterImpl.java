@@ -2,6 +2,7 @@ package org.cotrix.web.publish.client.wizard.step.summary;
 
 import java.util.List;
 
+import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
 import org.cotrix.web.publish.client.event.MappingLoadedEvent;
 import org.cotrix.web.publish.client.event.MappingModeUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
@@ -18,6 +19,7 @@ import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -26,17 +28,32 @@ import com.google.web.bindery.event.shared.EventBus;
 public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler, MappingLoadedHandler, MappingsUpdatedHandler, ResetWizardHandler {
 
 	protected SummaryStepView view;
-	protected EventBus importEventBus;
+	protected EventBus publishBus;
 
 	@Inject
-	public SummaryStepPresenterImpl(SummaryStepView view, @PublishBus EventBus importEventBus) {
+	public SummaryStepPresenterImpl(SummaryStepView view, @PublishBus EventBus publishBus) {
 		super("summary", TrackerLabels.SUMMARY, "Recap", "Here's the plan of action, let's do it.", PublishWizardStepButtons.BACKWARD, PublishWizardStepButtons.PUBLISH);
 		this.view = view;
 		
-		this.importEventBus = importEventBus;
-		importEventBus.addHandler(MetadataUpdatedEvent.TYPE, this);
-		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, this);
-		importEventBus.addHandler(ResetWizardEvent.TYPE, this);
+		this.publishBus = publishBus;
+		publishBus.addHandler(MetadataUpdatedEvent.TYPE, this);
+		publishBus.addHandler(MappingsUpdatedEvent.TYPE, this);
+		publishBus.addHandler(ResetWizardEvent.TYPE, this);
+		
+		bind();
+	}
+	
+	protected void bind() {
+		publishBus.addHandler(CodeListSelectedEvent.TYPE, new CodeListSelectedEvent.CodeListSelectedHandler() {
+			
+			@Override
+			public void onCodeListSelected(CodeListSelectedEvent event) {
+				UICodelist codelist = event.getSelectedCodelist();
+				view.setCodelistName(codelist.getName());
+				view.setCodelistVersion(codelist.getVersion());
+				view.setState(codelist.getState());
+			}
+		});
 	}
 	
 	public void go(HasWidgets container) {
@@ -49,7 +66,7 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 	@Override
 	public boolean leave() {
 		MappingMode mappingMode = view.getMappingMode();
-		importEventBus.fireEvent(new MappingModeUpdatedEvent(mappingMode));
+		publishBus.fireEvent(new MappingModeUpdatedEvent(mappingMode));
 		return true;
 	}
 	
@@ -63,13 +80,6 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 	public void onMappingUpdated(MappingsUpdatedEvent event) {
 		List<AttributeMapping> attributesMappings = event.getMappings();
 		view.setMapping(attributesMappings);
-		
-		/*
-		if (attributesMappings.getMappingMode()==null) view.setMappingModeVisible(false);
-		else {
-			view.setMappingMode(attributesMappings.getMappingMode());
-			view.setMappingModeVisible(true);
-		}*/
 	}
 
 	@Override
@@ -80,7 +90,7 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 		else view.setCodelistName(metadata.getOriginalName()+" as "+metadata.getName());
 		
 		view.setCodelistVersion(metadata.getVersion());
-		view.setSealed(metadata.isSealed());
+		//view.setState(metadata.isSealed());
 		
 		this.view.setMetadataAttributes(metadata.getAttributes());		
 	}

@@ -22,9 +22,7 @@ public interface SummaryStepView {
 	void setCodelistName(String name);
 	
 	void setMetadataAttributes(Map<String, String> properties);
-	
-	public void setFileName(String fileName);
-	public void setFileNameVisible(boolean visible);
+
 	
 	public MappingMode getMappingMode();
 	public void setMappingMode(MappingMode mode);
@@ -34,5 +32,5 @@ public interface SummaryStepView {
 
 	void setCodelistVersion(String version);
 
-	void setSealed(boolean sealed);
+	void setState(String state);
 }
