@@ -75,10 +75,17 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 					matches.put(directiveMap.get(a.name()).columnName(),a);
 			
 			//map match values in column order
-			for (Column c : columns)
-				if (matches.containsKey(c.name()))
-					values.put(c.name(),matches.get(c.name()).value());
-			
+			for (Column col : columns) {
+				String error = "mapping is ambiguous: code "+code.name()+" has multiple attributes that map onto column "+col.name();
+				if (matches.containsKey(col.name())) {
+					if (values.containsKey(col.name()))
+						switch (directives.mode()) {
+							case STRICT:throw new IllegalStateException(error);
+							case LOG: report().logWarning(error);
+						}
+					values.put(col.name(),matches.get(col.name()).value());
+				}
+			}
 			rows.add(new Row(values));
 		}
 			
