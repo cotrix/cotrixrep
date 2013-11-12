@@ -31,7 +31,7 @@ public interface PublishService extends RemoteService {
 
 	CsvConfiguration getCsvWriterConfiguration(String codelistid)	throws PublishServiceException;
 
-	List<AttributeMapping> getMappings() throws PublishServiceException;
+	List<AttributeMapping> getMappings(String codelistId) throws PublishServiceException;
 
 	void startPublish(String codelistId, List<AttributeMapping> mappings,
 			MappingMode mappingMode) throws PublishServiceException;

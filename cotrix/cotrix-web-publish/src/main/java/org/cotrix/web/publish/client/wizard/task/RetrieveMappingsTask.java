@@ -75,7 +75,7 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 	@Override
 	public void run(final AsyncCallback<WizardAction> callback) {
 		Log.trace("retrieving mappings for codelist "+selectedCodelist);
-		service.getMappings(new AsyncCallback<List<AttributeMapping>>() {
+		service.getMappings(selectedCodelist.getId(), new AsyncCallback<List<AttributeMapping>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

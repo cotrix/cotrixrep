@@ -2,15 +2,17 @@ package org.cotrix.web.publish.server;
 
 import static org.cotrix.repository.Queries.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
+import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.CodelistSummary;
 import org.cotrix.web.publish.client.PublishService;
 import org.cotrix.web.publish.server.util.PublishSession;
 import org.cotrix.web.publish.shared.AttributeDefinition;
@@ -29,7 +31,6 @@ import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.Progress;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
-import org.cotrix.web.share.shared.codelist.UIQName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,26 +115,35 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	}
 
 	@Override
-	public List<AttributeMapping> getMappings() throws PublishServiceException {
+	public List<AttributeMapping> getMappings(String codelistId) throws PublishServiceException {
+		
+		CodelistSummary summary = repository.summary(codelistId);
+		
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-		mappings.add(getAttributeMapping("code", "code", "", "code", true));
-		mappings.add(getAttributeMapping("name", "description", "en", "name(en)", true));
-		mappings.add(getAttributeMapping("name", "description", "fr", "name(fr)", false));
-		mappings.add(getAttributeMapping("name", "description", "sp", "name(sp)", true));
-		mappings.add(getAttributeMapping("author", "description", "", "author", true));
+		
+		for (QName attributeName:summary.names()) {
+			for (QName attributeType : summary.typesFor(attributeName)) {
+				Collection<String> languages = summary.languagesFor(attributeName, attributeType);
+				if (languages.isEmpty()) mappings.add(getAttributeMapping(attributeName, attributeType, null));
+				else for (String language:languages) mappings.add(getAttributeMapping(attributeName, attributeType, language));
+			}
+		}
 		return mappings;
 	}
 
-	protected AttributeMapping getAttributeMapping(String name, String type, String language, String colName, boolean mapped) {
+	protected AttributeMapping getAttributeMapping(QName name, QName type, String language) {
 		AttributeDefinition attr = new AttributeDefinition();
-		attr.setName(new UIQName("", name));
-		attr.setType(new UIQName("", type));
-		attr.setLanguage(language);
+		attr.setName(ValueUtils.safeValue(name));
+		attr.setType(ValueUtils.safeValue(type));
+		attr.setLanguage(ValueUtils.safeValue(language));
+		
+		StringBuilder columnName = new StringBuilder(name.getLocalPart());
+		if (language!=null) columnName.append('(').append(language).append(')');
 
 		AttributeMapping attributeMapping = new AttributeMapping();
 		attributeMapping.setAttributeDefinition(attr);
-		attributeMapping.setColumnName(colName);
-		attributeMapping.setMapped(mapped);
+		attributeMapping.setColumnName(columnName.toString());
+		attributeMapping.setMapped(true);
 		return attributeMapping;
 	}
 	
