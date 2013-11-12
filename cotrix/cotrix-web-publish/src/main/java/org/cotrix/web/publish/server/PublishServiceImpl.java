@@ -12,17 +12,21 @@ import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.publish.client.PublishService;
 import org.cotrix.web.publish.server.util.PublishSession;
+import org.cotrix.web.publish.shared.AttributeDefinition;
+import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.PublishServiceException;
 import org.cotrix.web.publish.shared.ReportLog;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.Encodings;
 import org.cotrix.web.share.server.util.Ranges;
+import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UIQName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,18 +40,18 @@ import com.google.gwt.view.client.Range;
  */
 @SuppressWarnings("serial")
 public class PublishServiceImpl extends RemoteServiceServlet implements PublishService {
-	
+
 	protected Logger logger = LoggerFactory.getLogger(PublishServiceImpl.class);
-	
+
 	@Inject
 	CodelistRepository repository;
-	
+
 	@Inject
 	protected CodelistLoader codelistLoader;
-	
+
 	@Inject
 	protected PublishSession session;
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -66,25 +70,25 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	@Override
 	public DataWindow<UICodelist> getCodelists(Range range, ColumnSortInfo sortInfo, boolean force) {
 		logger.trace("getCodelists range: {} sortInfo: {} force: {}", range, sortInfo, force);
-		
+
 		if (force) session.loadCodelists();
-		
+
 		List<UICodelist> codelists = session.getOrderedCodelists(sortInfo.getName());
-		
+
 		List<UICodelist> codelistWindow = (sortInfo.isAscending())?Ranges.subList(codelists, range):Ranges.subListReverseOrder(codelists, range);
-		
+
 		return new DataWindow<UICodelist>(codelistWindow, codelists.size());
 	}
-	
+
 	@Override
 	public UICodelistMetadata getMetadata(String codelistId) throws PublishServiceException {
 		logger.trace("getMetadata codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
 		UICodelist uiCodelist = session.getUiCodelist(codelistId);
-		
+
 		return Codelists.toCodelistMetadata(codelist, uiCodelist.getState());
 	}
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -106,8 +110,32 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		}
 	}
 
-	
-	
+	@Override
+	public List<AttributeMapping> getMappings() throws PublishServiceException {
+		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
+		mappings.add(getAttributeMapping("code", "code", "", "code", true));
+		mappings.add(getAttributeMapping("name", "description", "en", "name(en)", true));
+		mappings.add(getAttributeMapping("name", "description", "fr", "name(fr)", false));
+		mappings.add(getAttributeMapping("name", "description", "sp", "name(sp)", true));
+		mappings.add(getAttributeMapping("author", "description", "", "author", true));
+		return mappings;
+	}
+
+	protected AttributeMapping getAttributeMapping(String name, String type, String language, String colName, boolean mapped) {
+		AttributeDefinition attr = new AttributeDefinition();
+		attr.setName(new UIQName("", name));
+		attr.setType(new UIQName("", type));
+		attr.setLanguage(language);
+
+		AttributeMapping attributeMapping = new AttributeMapping();
+		attributeMapping.setAttributeDefinition(attr);
+		attributeMapping.setColumnName(colName);
+		attributeMapping.setMapped(mapped);
+		return attributeMapping;
+	}
+
+
+
 
 	@Override
 	public DataWindow<ReportLog> getReportLogs(Range range)

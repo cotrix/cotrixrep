@@ -63,7 +63,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 			Log.trace("setting "+mapping);
 			Log.trace("row "+row);
 			StringBuilder mappingDescription = new StringBuilder();
-			String originalName = mapping.getField().getLabel();
+			String originalName = mapping.getColumnName();
 			
 			if (mapping.isMapped()) {
 				mappingDescription.append("import <b>").append(originalName).append("</b>");

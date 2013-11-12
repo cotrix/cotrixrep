@@ -18,6 +18,7 @@ import org.cotrix.web.publish.client.wizard.step.sdmxmapping.SdmxMappingStepPres
 import org.cotrix.web.publish.client.wizard.step.summary.SummaryStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepPresenter;
 import org.cotrix.web.publish.client.wizard.task.RetrieveCSVConfigurationTask;
+import org.cotrix.web.publish.client.wizard.task.RetrieveMappingsTask;
 import org.cotrix.web.publish.client.wizard.task.RetrieveMetadataTask;
 import org.cotrix.web.share.client.wizard.DefaultWizardActionHandler;
 import org.cotrix.web.share.client.wizard.WizardAction;
@@ -68,17 +69,23 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 	@Inject
 	public PublishWizardPresenterImpl(@PublishBus EventBus publishEventBus, PublishWizardView view,
 			CodelistSelectionStepPresenter codelistSelectionStep,
+			
 			DetailsNodeSelector detailsNodeSelector,
 			RetrieveMetadataTask retrieveMetadataTask,
 			CodelistDetailsStepPresenterImpl codelistDetailsStep,
+			
 			DestinationSelectionStepPresenter destinationSelectionStep,
 			DestinationNodeSelector destinationSelector, 
 			RepositorySelectionStepPresenter repositorySelectionStep,
+			
 			TypeSelectionStepPresenter typeSelectionStep,
 			RetrieveCSVConfigurationTask retrieveCSVConfigurationTask,
 			CsvConfigurationStepPresenter csvConfigurationStep,
-			SdmxMappingStepPresenter sdmxMappingStep,
+			RetrieveMappingsTask retrieveMappingsTask,
 			CsvMappingStepPresenter csvMappingStep,
+			
+			SdmxMappingStepPresenter sdmxMappingStep,
+
 			SummaryStepPresenter summaryStep,
 			DoneStepPresenter doneStep
 			) {
@@ -97,7 +104,7 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 		
 		TypeNodeSelector fileTypeSelector = new TypeNodeSelector(publishEventBus, retrieveCSVConfigurationTask, sdmxMappingStep);
 		SwitchNodeBuilder<WizardStep> type = destination.alternative(typeSelectionStep).hasAlternatives(fileTypeSelector);
-		SingleNodeBuilder<WizardStep> csvMapping = type.alternative(retrieveCSVConfigurationTask).next(csvConfigurationStep).next(csvMappingStep);
+		SingleNodeBuilder<WizardStep> csvMapping = type.alternative(retrieveCSVConfigurationTask).next(csvConfigurationStep).next(retrieveMappingsTask).next(csvMappingStep);
 		SingleNodeBuilder<WizardStep> sdmxMapping = type.alternative(sdmxMappingStep);
 		
 		TypeNodeSelector repositoryTypeSelector = new TypeNodeSelector(publishEventBus, csvMappingStep, sdmxMappingStep);

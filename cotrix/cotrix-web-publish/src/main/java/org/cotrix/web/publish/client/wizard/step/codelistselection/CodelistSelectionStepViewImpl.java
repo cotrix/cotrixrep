@@ -160,6 +160,7 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 		};
 
 		versionColumn.setSortable(true);
+		versionColumn.setDataStoreName(UICodelist.VERSION_FIELD);
 		dataGrid.addColumn(versionColumn, "Version");
 		dataGrid.setColumnWidth(versionColumn, "20%");
 

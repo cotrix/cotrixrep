@@ -98,7 +98,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 	{
 
 		for (AttributeMapping mapping:mappings) {
-			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().isEmpty()) {
+			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().getLocalPart().isEmpty()) {
 				view.alert("don't leave elements blank, bin them instead");
 				return false;
 			}

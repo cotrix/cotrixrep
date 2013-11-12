@@ -12,8 +12,10 @@
 			}
 		</ui:style>
 		<g:HorizontalPanel verticalAlignment="middle">
-			<g:ListBox ui:field="typeList" styleName="{common.css.listBox}" width="150px"/>
+			<g:Label ui:field="name" styleName="{common.css.paddedText}" />
+			<g:Label ui:field="attributeLabel" styleName="{common.css.paddedText}">attribute</g:Label>
+			<g:Label ui:field="type" styleName="{common.css.paddedText}" />
 			<g:Label ui:field="inLabel" styleName="{common.css.paddedText}">in</g:Label>
-			<g:ListBox ui:field="languageList" styleName="{common.css.listBox}" />
+			<g:Label ui:field="language" styleName="{common.css.paddedText}" />
 		</g:HorizontalPanel>
 </ui:UiBinder> 

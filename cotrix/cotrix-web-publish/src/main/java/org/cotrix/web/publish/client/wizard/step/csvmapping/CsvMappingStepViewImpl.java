@@ -31,7 +31,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	protected AlertDialog alertDialog;
 
 	public CsvMappingStepViewImpl() {
-		mappingPanel = new MappingPanel(true, "COLUMNS");
+		mappingPanel = new MappingPanel(false, true, "COLUMNS");
 		mappingPanel.setReloadHandler(this);
 		
 		initWidget(uiBinder.createAndBindUi(this));

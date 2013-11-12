@@ -1,5 +1,8 @@
 package org.cotrix.web.publish.client;
 
+import java.util.List;
+
+import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.PublishServiceException;
 import org.cotrix.web.publish.shared.ReportLog;
 import org.cotrix.web.share.shared.ColumnSortInfo;
@@ -25,5 +28,7 @@ public interface PublishService extends RemoteService {
 	UICodelistMetadata getMetadata(String codelistId)	throws PublishServiceException;
 
 	CsvConfiguration getCsvWriterConfiguration(String codelistid)	throws PublishServiceException;
+
+	List<AttributeMapping> getMappings() throws PublishServiceException;
 
 }

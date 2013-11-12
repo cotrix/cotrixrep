@@ -22,7 +22,7 @@
 	<g:ScrollPanel styleName="{common.css.mappingTable}">
 		<g:HTMLPanel>
 			<table width="100%">
-				<tr>
+				<tr ui:field="nameRow" >
 					<td class="{common.css.mappingTableNameHeader}">
 						<span class="{common.css.propertyLabel}" style="padding-left:32px;padding-right:10px;">NAME</span>
 					</td>
@@ -37,7 +37,7 @@
 						</g:PushButton>
 					</td>
 				</tr>
-				<tr>
+				<tr ui:field="versionRow">
 					<td class="{common.css.mappingTableNameHeader}">
 						<span class="{common.css.propertyLabel}" style="text-align:left;padding-left:32px;padding-right:10px;">VERSION</span>
 					</td>
@@ -46,7 +46,7 @@
 							styleName="{common.css.textBox}" />
 					</td>
 				</tr>
-				<tr>
+				<tr ui:field="sealedRow">
 					<td class="{common.css.mappingTableNameHeader}">
 						<span class="{common.css.propertyLabel}" style="text-align:left;padding-left:32px;padding-right:10px;">SEALED</span>
 					</td>
