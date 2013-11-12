@@ -12,7 +12,8 @@ public enum MainAction implements Action {
 	LOGIN("login"),
 	IMPORT("import"),
 	PUBLISH("publish"),
-	LOGOUT("logout")
+	LOGOUT("logout"),
+	CREATEUSER("newuser")
 
 	;
 	
