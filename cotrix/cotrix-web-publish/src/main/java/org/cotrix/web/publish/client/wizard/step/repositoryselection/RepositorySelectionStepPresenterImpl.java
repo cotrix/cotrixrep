@@ -37,7 +37,7 @@ public class RepositorySelectionStepPresenterImpl extends AbstractVisualWizardSt
 	
 	@Inject
 	public RepositorySelectionStepPresenterImpl(RepositorySelectionStepView view, @PublishBus EventBus publishEventBus) {
-		super("repository", TrackerLabels.LOCATE, "Pick a codelist", "We found a few nearby.", PublishWizardStepButtons.FORWARD);
+		super("repository", TrackerLabels.TARGET, "Pick your target", "We found a few repositories nearby.", PublishWizardStepButtons.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		this.publishEventBus = publishEventBus;

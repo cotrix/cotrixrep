@@ -10,11 +10,11 @@ import org.cotrix.web.share.client.wizard.progresstracker.ProgressTracker.Progre
  *
  */
 public enum TrackerLabels implements ProgressStep {
-	SELECTION("Selection"),
-	DESTINATION("Destination"),
-	TYPE("Type"),
-	LOCATE("Locate"),
-	CSVCONFIG("CSV config"),
+	SELECTION("Select"),
+	DESTINATION("Direct"),
+	TYPE("Format"),
+	TARGET("Target"),
+	CSVCONFIG("Encode"),
 	CUSTOMIZE("Customize"),
 	SUMMARY("Summary"),
 	DONE("Done"),

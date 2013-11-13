@@ -37,7 +37,7 @@ public class CodelistSelectionStepPresenterImpl extends AbstractVisualWizardStep
 	
 	@Inject
 	public CodelistSelectionStepPresenterImpl(CodelistSelectionStepView view, @PublishBus EventBus publishEventBus) {
-		super("selection", TrackerLabels.SELECTION, "Pick a codelist", "We found a few nearby.", PublishWizardStepButtons.FORWARD);
+		super("selection", TrackerLabels.SELECTION, "Which one do we publish?", "Pick a codelist.", PublishWizardStepButtons.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		this.publishEventBus = publishEventBus;

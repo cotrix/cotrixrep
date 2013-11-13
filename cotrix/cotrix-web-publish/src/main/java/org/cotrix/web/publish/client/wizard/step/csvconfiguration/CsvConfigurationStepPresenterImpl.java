@@ -22,7 +22,7 @@ public class CsvConfigurationStepPresenterImpl extends AbstractVisualWizardStep 
 	
 	@Inject
 	public CsvConfigurationStepPresenterImpl(CsvConfigurationStepView view, @PublishBus EventBus publishBus) {
-		super("csv-preview", TrackerLabels.CSVCONFIG, "Does it look right?", "Adjust the parameters until it does.", PublishWizardStepButtons.BACKWARD, PublishWizardStepButtons.FORWARD);
+		super("csv-preview", TrackerLabels.CSVCONFIG, "about this CSV…", "Adjust the parameters as needed.", PublishWizardStepButtons.BACKWARD, PublishWizardStepButtons.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		
