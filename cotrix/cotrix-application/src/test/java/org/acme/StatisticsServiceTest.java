@@ -6,8 +6,6 @@ import static org.cotrix.domain.dsl.Codes.*;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import junit.framework.Assert;
-
 import org.cotrix.application.StatisticsService;
 import org.cotrix.application.StatisticsService.Statistics;
 import org.cotrix.common.cdi.Current;
