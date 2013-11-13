@@ -89,9 +89,9 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 		
 		SwitchNodeBuilder<WizardStep> destination = selectionStep.alternative(destinationSelectionStep).hasAlternatives(destinationSelector);
 		
-		TypeNodeSelector fileTypeSelector = new TypeNodeSelector(publishEventBus, retrieveCSVConfigurationTask, sdmxMappingStep);
+		TypeNodeSelector fileTypeSelector = new TypeNodeSelector(publishEventBus, retrieveMappingsTask, sdmxMappingStep);
 		SwitchNodeBuilder<WizardStep> type = destination.alternative(typeSelectionStep).hasAlternatives(fileTypeSelector);
-		SingleNodeBuilder<WizardStep> csvMapping = type.alternative(retrieveCSVConfigurationTask).next(csvConfigurationStep).next(retrieveMappingsTask).next(csvMappingStep);
+		SingleNodeBuilder<WizardStep> csvMapping = type.alternative(retrieveMappingsTask).next(csvMappingStep).next(retrieveCSVConfigurationTask).next(csvConfigurationStep);
 		SingleNodeBuilder<WizardStep> sdmxMapping = type.alternative(sdmxMappingStep);
 		
 		TypeNodeSelector repositoryTypeSelector = new TypeNodeSelector(publishEventBus, csvMappingStep, sdmxMappingStep);

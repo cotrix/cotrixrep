@@ -41,8 +41,8 @@
 	<g:HTMLPanel>
 		<table class="{style.toolbar}">
 			<tr>
-				<td width="180px" class="{style.toolbarHeaderCell}">
-					<div class="{style.toolbarLabel}">Put Header</div>
+				<td width="100px" class="{style.toolbarHeaderCell}">
+					<div class="{style.toolbarLabel}">Include header</div>
 				</td>
 				<td class="{style.toolbarValueCell}">
 					<div>
@@ -52,7 +52,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td width="180px" class="{style.toolbarHeaderCell}">
+				<td width="100px" class="{style.toolbarHeaderCell}">
 					<div class="{style.toolbarLabel}">Delimiter</div>
 				</td>
 				<td class="{style.toolbarValueCell}">
@@ -65,7 +65,7 @@
 
 			</tr>
 			<tr>
-				<td width="180px" class="{style.toolbarHeaderCell}">
+				<td width="100px" class="{style.toolbarHeaderCell}">
 					<div class="{style.toolbarLabel}">Quote</div>
 				</td>
 				<td class="{style.toolbarValueCell}">
@@ -76,8 +76,8 @@
 					</div>
 				</td>
 			</tr>
-			<tr>
-				<td width="180px" class="{style.toolbarHeaderCell}">
+			<tr style="display:none;">
+				<td width="100px" class="{style.toolbarHeaderCell}">
 					<div class="{style.toolbarLabel}">Comment</div>
 				</td>
 				<td class="{style.toolbarValueCell}">
@@ -88,7 +88,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td width="180px" class="{style.toolbarHeaderCell}">
+				<td width="100px" class="{style.toolbarHeaderCell}">
 					<div class="{style.toolbarLabel}">Encoding</div>
 				</td>
 				<td class="{style.toolbarValueCell}">
@@ -98,7 +98,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td width="180px" style="text-align:center;vertical-align:middle;">
+				<td width="100px" style="text-align:center;vertical-align:middle;">
 					<g:PushButton ui:field="refreshButton"
 						styleName="{common.css.buttonRefresh} {style.refreshButton}"
 						visible="false">
