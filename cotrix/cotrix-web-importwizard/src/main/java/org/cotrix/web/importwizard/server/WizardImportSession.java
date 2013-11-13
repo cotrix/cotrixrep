@@ -15,8 +15,8 @@ import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
-import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.share.shared.CsvConfiguration;
+import org.cotrix.web.share.shared.ReportLog;
 import org.virtualrepository.Asset;
 
 /**

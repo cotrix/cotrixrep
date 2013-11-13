@@ -18,6 +18,7 @@ import org.cotrix.domain.Codelist;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
+import org.cotrix.web.publish.server.publish.PublishStatus;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.FieldComparator.ValueProvider;
 import org.cotrix.web.share.server.util.OrderedList;
@@ -68,6 +69,8 @@ public class PublishSession implements Serializable {
 	protected OrderedList<UICodelist> orderedCodelists;
 	protected Map<String, UICodelist> indexedCodelists;
 	
+	protected PublishStatus publishStatus;
+	
 	public PublishSession() {
 		orderedCodelists = new OrderedList<UICodelist>();
 		orderedCodelists.addField(UICodelist.NAME_FIELD, NAME);
@@ -103,4 +106,19 @@ public class PublishSession implements Serializable {
 	{
 		return indexedCodelists.get(id);
 	}
+
+	/**
+	 * @return the publishStatus
+	 */
+	public PublishStatus getPublishStatus() {
+		return publishStatus;
+	}
+
+	/**
+	 * @param publishStatus the publishStatus to set
+	 */
+	public void setPublishStatus(PublishStatus publishStatus) {
+		this.publishStatus = publishStatus;
+	}
+	
 }

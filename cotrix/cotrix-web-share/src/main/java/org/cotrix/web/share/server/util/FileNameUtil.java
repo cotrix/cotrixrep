@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.server.upload;
+package org.cotrix.web.share.server.util;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

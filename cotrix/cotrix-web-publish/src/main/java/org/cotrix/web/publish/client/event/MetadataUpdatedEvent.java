@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.event;
 
-import org.cotrix.web.publish.shared.ImportMetadata;
+import org.cotrix.web.publish.shared.PublishMetadata;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
@@ -14,19 +14,19 @@ public class MetadataUpdatedEvent extends GwtEvent<MetadataUpdatedEvent.Metadata
 	public static Type<MetadataUpdatedHandler> TYPE = new Type<MetadataUpdatedHandler>();
 	
 
-	protected ImportMetadata metadata;
+	protected PublishMetadata metadata;
 	protected boolean userEdited;
 
 	public interface MetadataUpdatedHandler extends EventHandler {
 		void onMetadataUpdated(MetadataUpdatedEvent event);
 	}
 
-	public MetadataUpdatedEvent(ImportMetadata metadata, boolean userEdited) {
+	public MetadataUpdatedEvent(PublishMetadata metadata, boolean userEdited) {
 		this.metadata = metadata;
 		this.userEdited = userEdited;
 	}
 
-	public ImportMetadata getMetadata() {
+	public PublishMetadata getMetadata() {
 		return metadata;
 	}
 

@@ -42,7 +42,7 @@
 		<table class="{style.toolbar}">
 			<tr>
 				<td width="180px" class="{style.toolbarHeaderCell}">
-					<div class="{style.toolbarLabel}">First Row is Header</div>
+					<div class="{style.toolbarLabel}">Put Header</div>
 				</td>
 				<td class="{style.toolbarValueCell}">
 					<div>

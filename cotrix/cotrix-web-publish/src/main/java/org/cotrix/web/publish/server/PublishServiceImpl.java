@@ -2,6 +2,7 @@ package org.cotrix.web.publish.server;
 
 import static org.cotrix.repository.Queries.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,12 +15,16 @@ import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.web.publish.client.PublishService;
+import org.cotrix.web.publish.server.publish.PublishDestination;
+import org.cotrix.web.publish.server.publish.PublishMapper;
+import org.cotrix.web.publish.server.publish.PublishStatus;
+import org.cotrix.web.publish.server.publish.Publisher;
+import org.cotrix.web.publish.server.publish.SerializationDirectivesProducer;
 import org.cotrix.web.publish.server.util.PublishSession;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.MappingMode;
+import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishServiceException;
-import org.cotrix.web.publish.shared.ReportLog;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.Encodings;
@@ -29,10 +34,12 @@ import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.Progress;
+import org.cotrix.web.share.shared.ReportLog;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.virtualrepository.tabular.Table;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.view.client.Range;
@@ -116,11 +123,11 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 
 	@Override
 	public List<AttributeMapping> getMappings(String codelistId) throws PublishServiceException {
-		
+
 		CodelistSummary summary = repository.summary(codelistId);
-		
+
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-		
+
 		for (QName attributeName:summary.names()) {
 			for (QName attributeType : summary.typesFor(attributeName)) {
 				Collection<String> languages = summary.languagesFor(attributeName, attributeType);
@@ -136,7 +143,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		attr.setName(ValueUtils.safeValue(name));
 		attr.setType(ValueUtils.safeValue(type));
 		attr.setLanguage(ValueUtils.safeValue(language));
-		
+
 		StringBuilder columnName = new StringBuilder(name.getLocalPart());
 		if (language!=null) columnName.append('(').append(language).append(')');
 
@@ -147,30 +154,36 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		return attributeMapping;
 	}
 	
-	@Override
-	public void startPublish(String codelistId, List<AttributeMapping> mappings, MappingMode mappingMode) throws PublishServiceException {
-		logger.trace("startPublish codelistId: {}, mappings: {}, mappingMode: {}", codelistId, mappings, mappingMode);
-		
+	@Inject
+	public PublishMapper.CsvMapper csvMapper;
+	
+	@Inject
+	public SerializationDirectivesProducer.TableDesktopProducer tableDesktopProducer;
+	
+	@Inject
+	public PublishDestination.DesktopDestination desktopDestination;
 
-		/*try {
-			session.setImportedCodelistName(metadata.getName());
-			Importer<?> importer = importerFactory.createImporter(session, metadata, mappings, mappingMode);
-			session.setImporter(importer);
-			
-			//FIXME use a serialiser provider
-			Thread th = new Thread(importer);
-			th.start();
-		} catch (IOException e) {
-			logger.error("Error during import starting", e);
-			throw new ImportServiceException("An error occurred starting import: "+e.getMessage());
-		}*/
+	@Override
+	public void startPublish(PublishDirectives publishDirectives) throws PublishServiceException {
+		logger.trace("startPublish publishDirectives: {}", publishDirectives);
+
+		PublishStatus publishStatus = new PublishStatus();
+		session.setPublishStatus(publishStatus);
+		
+		Codelist codelist = repository.lookup(publishDirectives.getCodelistId());
+		publishStatus.setPublishedCodelist(codelist);
+		
+		Publisher<Table, File> publisher = new Publisher<Table, File>(publishDirectives, csvMapper, tableDesktopProducer, desktopDestination, publishStatus); 
+		//FIXME use a service provider
+		Thread th = new Thread(publisher);
+		th.start();
 	}
 
 
 	@Override
 	public Progress getPublishProgress() throws PublishServiceException {
 		try {
-			return new Progress();
+			return session.getPublishStatus().getProgress();
 		} catch(Exception e)
 		{
 			logger.error("An error occurred on server side", e);
@@ -183,9 +196,10 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 
 
 	@Override
-	public DataWindow<ReportLog> getReportLogs(Range range)
-			throws PublishServiceException {
-		return new DataWindow<ReportLog>(new ArrayList<ReportLog>());
+	public DataWindow<ReportLog> getReportLogs(Range range) throws PublishServiceException {
+		logger.trace("getReportLogs range: {}",range);
+		if (session.getPublishStatus() == null || session.getPublishStatus().getReportLogs() == null) return DataWindow.emptyWindow();
+		return new DataWindow<ReportLog>(Ranges.subList(session.getPublishStatus().getReportLogs(), range), session.getPublishStatus().getReportLogs().size());
 	}
 
 }

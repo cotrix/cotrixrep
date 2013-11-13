@@ -1,5 +1,7 @@
 package org.cotrix.web.publish.client.event;
 
+import org.cotrix.web.publish.shared.FormatType;
+
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 

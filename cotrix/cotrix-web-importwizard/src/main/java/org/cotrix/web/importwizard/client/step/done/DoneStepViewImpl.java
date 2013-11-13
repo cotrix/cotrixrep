@@ -1,8 +1,8 @@
 package org.cotrix.web.importwizard.client.step.done;
 
-import org.cotrix.web.importwizard.shared.ReportLog;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.resources.DataGridReportResource;
+import org.cotrix.web.share.shared.ReportLog;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.TextCell;

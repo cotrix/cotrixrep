@@ -7,21 +7,31 @@ import java.util.List;
 
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
-import org.cotrix.web.publish.client.event.DestinationType;
+import org.cotrix.web.publish.client.event.CsvWriterConfigurationUpdatedEvent;
 import org.cotrix.web.publish.client.event.DestinationTypeChangeEvent;
-import org.cotrix.web.publish.client.event.FormatType;
 import org.cotrix.web.publish.client.event.FormatTypeChangeEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
+import org.cotrix.web.publish.client.event.PublishCompleteEvent;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.DestinationType;
+import org.cotrix.web.publish.shared.DownloadType;
+import org.cotrix.web.publish.shared.FormatType;
+import org.cotrix.web.publish.shared.MappingMode;
+import org.cotrix.web.publish.shared.PublishDirectives;
+import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.share.client.wizard.WizardAction;
 import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
+import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.Progress;
+import org.cotrix.web.share.shared.Progress.Status;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -34,6 +44,8 @@ import com.google.web.bindery.event.shared.EventBus;
 @Singleton
 public class PublishTask implements TaskWizardStep {
 	
+	protected static final String DOWNLOAD_URL = GWT.getModuleBaseURL()+"publishDownload?"+DownloadType.PARAMETER_NAME+"="+DownloadType.CSV;
+	
 	@Inject
 	protected PublishServiceAsync service;
 	protected EventBus publishBus;
@@ -43,6 +55,10 @@ public class PublishTask implements TaskWizardStep {
 	protected DestinationType destination;
 	protected FormatType type;
 	protected List<AttributeMapping> mappings;
+	protected CsvConfiguration csvConfiguration;
+	//FIXME
+	protected MappingMode mappingMode = MappingMode.LOG;
+	protected PublishMetadata metadata;
 	
 	protected Timer publishProgressPolling;
 	
@@ -88,6 +104,16 @@ public class PublishTask implements TaskWizardStep {
 			}
 		});
 		
+		publishBus.addHandler(CsvWriterConfigurationUpdatedEvent.TYPE, new CsvWriterConfigurationUpdatedEvent.CsvWriterConfigurationUpdatedHandler() {
+			
+			@Override
+			public void onCsvWriterConfigurationUpdated(
+					CsvWriterConfigurationUpdatedEvent event) {
+				csvConfiguration = event.getConfiguration();
+				
+			}
+		});
+		
 		publishBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedEvent.MappingsUpdatedHandler() {
 			
 			@Override
@@ -111,7 +137,14 @@ public class PublishTask implements TaskWizardStep {
 	@Override
 	public void run(AsyncCallback<WizardAction> callback) {
 		this.callback = callback;
-		service.startPublish(codelist.getId(), mappings, null, new AsyncCallback<Void>() {
+		PublishDirectives directives = new PublishDirectives();
+		directives.setCodelistId(codelist.getId());
+		directives.setCsvConfiguration(csvConfiguration);
+		directives.setMappingMode(mappingMode);
+		directives.setMetadata(metadata);
+		directives.setMappings(mappings);
+		
+		service.startPublish(directives, new AsyncCallback<Void>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -139,7 +172,8 @@ public class PublishTask implements TaskWizardStep {
 			@Override
 			public void onSuccess(Progress result) {
 				Log.trace("Import progress: "+result);
-				if (result.isComplete()) publishComplete();
+				if (result.isComplete()) publishComplete(result.getStatus());
+				if (result.getStatus()==Status.DONE) startDownload();
 			}
 		});
 	}
@@ -152,9 +186,14 @@ public class PublishTask implements TaskWizardStep {
 		mappings = null;
 	}
 	
-	protected void publishComplete() {
+	protected void publishComplete(Status status) {
 		publishProgressPolling.cancel();
+		publishBus.fireEvent(new PublishCompleteEvent(status));
 		callback.onSuccess(PublishWizardAction.NEXT);
+	}
+	
+	protected void startDownload() {
+		Window.open(DOWNLOAD_URL, "myWindow", "");
 	}
 
 }

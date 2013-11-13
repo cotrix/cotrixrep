@@ -13,7 +13,7 @@ import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.ImportMetadata;
+import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -29,7 +29,7 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 
 	protected CsvMappingStepView view;
 	protected EventBus publishEventBus;
-	protected ImportMetadata metadata;
+	protected PublishMetadata metadata;
 	protected List<AttributeMapping> mappings;
 
 	@Inject

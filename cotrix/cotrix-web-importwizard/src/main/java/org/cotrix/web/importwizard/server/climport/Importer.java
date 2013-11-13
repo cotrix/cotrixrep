@@ -19,10 +19,11 @@ import org.cotrix.web.importwizard.server.WizardImportSession;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
-import org.cotrix.web.importwizard.shared.ReportLog;
-import org.cotrix.web.importwizard.shared.ReportLog.LogType;
+import org.cotrix.web.share.server.util.Reports;
 import org.cotrix.web.share.shared.Progress;
+import org.cotrix.web.share.shared.ReportLog;
 import org.cotrix.web.share.shared.Progress.Status;
+import org.cotrix.web.share.shared.ReportLog.LogType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,7 +102,7 @@ public class Importer<T> implements Runnable {
 			//logger.trace("Report: {}", report.toString());
 
 			logger.trace("found {} logs item", report.logs().size());
-			List<ReportLog> logs = convertLogs(report.logs());
+			List<ReportLog> logs = Reports.convertLogs(report.logs());
 			importSession.setLogs(logs);
 			importSession.setReport(report.toString());
 
@@ -125,30 +126,11 @@ public class Importer<T> implements Runnable {
 		{
 			logger.error("Error during import", throwable);
 			progress.setStatus(Status.FAILED);
-			importSession.setLogs(Collections.singletonList(new ReportLog(LogType.ERROR, throwable.getMessage())));
+			importSession.setLogs(Reports.convertLogs(throwable));
 			importSession.setReport(throwable.getMessage());
 		}
 	}
 
-	protected List<ReportLog> convertLogs(List<Log> logs)
-	{
-		List<ReportLog> reportLogs = new ArrayList<ReportLog>();
-		for (Log log:logs) {
-			LogType type = convert(log.type());
-			reportLogs.add(new ReportLog(type, log.message()));
-		}
-
-		return reportLogs;
-	}
-
-	protected LogType convert(Log.Type type)
-	{
-		switch (type) {
-			case INFO: return LogType.INFO;
-			case ERROR: return LogType.ERROR;
-			case WARN: return LogType.WARNING;
-			default: throw new IllegalArgumentException("Unconvertible log type "+type);
-		}
-	}
+	
 
 }

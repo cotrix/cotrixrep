@@ -6,13 +6,13 @@ package org.cotrix.web.publish.client;
 import java.util.List;
 
 import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
-import org.cotrix.web.publish.client.event.DestinationType;
 import org.cotrix.web.publish.client.event.DestinationTypeChangeEvent;
-import org.cotrix.web.publish.client.event.FormatType;
 import org.cotrix.web.publish.client.event.FormatTypeChangeEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.DestinationType;
+import org.cotrix.web.publish.shared.FormatType;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 

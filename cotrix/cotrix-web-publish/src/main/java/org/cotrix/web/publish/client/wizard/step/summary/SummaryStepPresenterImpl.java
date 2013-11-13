@@ -14,7 +14,7 @@ import org.cotrix.web.publish.client.event.MetadataUpdatedEvent.MetadataUpdatedH
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.ImportMetadata;
+import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
@@ -85,7 +85,7 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 	@Override
 	public void onMetadataUpdated(MetadataUpdatedEvent event) {
 		
-		ImportMetadata metadata = event.getMetadata();
+		PublishMetadata metadata = event.getMetadata();
 		if (metadata.getOriginalName()==null || metadata.getOriginalName().equals(metadata.getName())) view.setCodelistName(metadata.getName());
 		else view.setCodelistName(metadata.getOriginalName()+" as "+metadata.getName());
 		

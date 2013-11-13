@@ -6,8 +6,8 @@ package org.cotrix.web.publish.client.wizard.step.done;
 import java.util.List;
 
 import org.cotrix.web.publish.client.PublishServiceAsync;
-import org.cotrix.web.publish.shared.ReportLog;
 import org.cotrix.web.share.shared.DataWindow;
+import org.cotrix.web.share.shared.ReportLog;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;

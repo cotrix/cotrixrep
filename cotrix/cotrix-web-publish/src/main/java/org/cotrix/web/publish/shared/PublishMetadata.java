@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ImportMetadata implements IsSerializable {
+public class PublishMetadata implements IsSerializable {
 	
 	protected String originalName;
 	protected String name;
