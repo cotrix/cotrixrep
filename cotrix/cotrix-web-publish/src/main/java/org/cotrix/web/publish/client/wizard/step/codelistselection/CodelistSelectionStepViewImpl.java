@@ -186,6 +186,7 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 		dataProvider.setForceRefresh(true);
 		selectionModel.clear();
 		pager.setPage(0);
+		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}
 
 }
