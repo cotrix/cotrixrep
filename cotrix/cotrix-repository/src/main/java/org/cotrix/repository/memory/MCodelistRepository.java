@@ -2,6 +2,8 @@ package org.cotrix.repository.memory;
 
 import static org.cotrix.domain.utils.Constants.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -103,17 +105,16 @@ public class MCodelistRepository extends MRepository<Codelist, Codelist.Private>
 
 		Map<QName,Map<QName,Set<String>>> fingerprint = new HashMap<QName, Map<QName,Set<String>>>();
 		
+		Collection<Attribute> attributes = new ArrayList<Attribute>();
 		for (Attribute a : list.attributes())
-			addAttributeToFingerprint(fingerprint, a);
+			if (!a.type().equals(SYSTEM_TYPE))
+				attributes.add(a);
 		
 		for (Code c : list.codes())
 			for (Attribute a : c.attributes())
 				addAttributeToFingerprint(fingerprint, a);
-
-
-		System.out.println(fingerprint);
 		
-		return new CodelistSummary(list.name(), size, fingerprint);
+		return new CodelistSummary(list.name(), size, attributes, fingerprint);
 	}
 	
 	//helper
