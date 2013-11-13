@@ -99,4 +99,16 @@ public class RetrieveMetadataTask implements TaskWizardStep {
 		selectedCodelist = null;
 	}
 
+	@Override
+	public boolean isComplete() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public WizardAction getAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

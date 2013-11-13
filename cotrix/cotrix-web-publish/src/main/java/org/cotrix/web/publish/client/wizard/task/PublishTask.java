@@ -196,4 +196,14 @@ public class PublishTask implements TaskWizardStep {
 		Window.open(DOWNLOAD_URL, "myWindow", "");
 	}
 
+	@Override
+	public boolean isComplete() {
+		return false;
+	}
+
+	@Override
+	public WizardAction getAction() {
+		return null;
+	}
+
 }

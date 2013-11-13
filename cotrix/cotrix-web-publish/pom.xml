@@ -58,6 +58,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<returnRequest>true</returnRequest>
+				</configuration>
 			</plugin>
 		</plugins>
 

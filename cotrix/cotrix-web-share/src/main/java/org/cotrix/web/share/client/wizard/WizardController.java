@@ -170,21 +170,26 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 	}
 
 	protected void runStep(final TaskWizardStep step) {
-		showProgress();
-		step.run(new AsyncCallback<WizardAction>() {
 
-			@Override
-			public void onSuccess(WizardAction result) {
-				doAction(result);
-				hideProgress();
-			}
+		if (step.isComplete()) doAction(step.getAction());
+		else {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.trace("TaskWizardStep "+step.getId()+" failed", caught);
-				hideProgress();
-			}
-		});
+			showProgress();
+			step.run(new AsyncCallback<WizardAction>() {
+
+				@Override
+				public void onSuccess(WizardAction result) {
+					doAction(result);
+					hideProgress();
+				}
+
+				@Override
+				public void onFailure(Throwable caught) {
+					Log.trace("TaskWizardStep "+step.getId()+" failed", caught);
+					hideProgress();
+				}
+			});
+		}
 	}
 
 	protected void showProgress()

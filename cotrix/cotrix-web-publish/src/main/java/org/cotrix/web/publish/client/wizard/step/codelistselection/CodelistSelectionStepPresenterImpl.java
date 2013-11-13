@@ -50,6 +50,7 @@ public class CodelistSelectionStepPresenterImpl extends AbstractVisualWizardStep
 
 	public boolean leave() {
 		Log.trace("CodelistSelectionStep leaving");
+		if (selectedCodelist!=null && !detailsNodeSelector.isSwitchedToCodeListDetails()) publishEventBus.fireEvent(new CodeListSelectedEvent(selectedCodelist));
 		return selectedCodelist!=null || detailsNodeSelector.isSwitchedToCodeListDetails();
 	}
 
@@ -59,7 +60,6 @@ public class CodelistSelectionStepPresenterImpl extends AbstractVisualWizardStep
 		if (selectedCodelist!=null && selectedCodelist.equals(codelist)) return;
 		
 		this.selectedCodelist = codelist;
-		publishEventBus.fireEvent(new CodeListSelectedEvent(codelist));
 	}
 
 	@Override
