@@ -5,7 +5,6 @@ import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
-import org.cotrix.web.share.shared.CsvConfiguration;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -38,7 +37,7 @@ public class CsvConfigurationStepPresenterImpl extends AbstractVisualWizardStep 
 			@Override
 			public void onCsvWriterConfigurationUpdated(
 					CsvWriterConfigurationUpdatedEvent event) {
-				if (event.getSource() != CsvConfigurationStepPresenterImpl.this) view.setCsvParserConfiguration(event.getConfiguration());
+				if (event.getSource() != CsvConfigurationStepPresenterImpl.this) view.setCsvWriterConfiguration(event.getConfiguration());
 				
 			}
 		});
@@ -49,12 +48,8 @@ public class CsvConfigurationStepPresenterImpl extends AbstractVisualWizardStep 
 	}
 
 	public boolean leave() {
+		publishBus.fireEventFromSource(new CsvWriterConfigurationUpdatedEvent(view.getCsvWriterConfiguration()), this);
 		return true;
-	}
-
-	@Override
-	public void onCsvConfigurationEdited(CsvConfiguration configuration) {
-		publishBus.fireEventFromSource(new CsvWriterConfigurationUpdatedEvent(configuration), this);
 	}
 
 }

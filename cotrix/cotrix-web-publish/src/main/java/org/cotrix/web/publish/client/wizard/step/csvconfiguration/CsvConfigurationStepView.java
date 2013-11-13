@@ -9,10 +9,10 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public interface CsvConfigurationStepView {
 	public interface Presenter {
-		void onCsvConfigurationEdited(CsvConfiguration configuration);
 	}
 
-	public void setCsvParserConfiguration(CsvConfiguration configuration);
+	public void setCsvWriterConfiguration(CsvConfiguration configuration);
+	public CsvConfiguration getCsvWriterConfiguration();
 	
 	void alert(String message);
 

@@ -109,8 +109,8 @@ public class CsvConfigurationPanel extends Composite {
 		}
 	}
 	
-	public interface DialogSaveHandler extends EventHandler {
-		public void onSave(CsvConfiguration configuration);
+	public interface RefreshHandler extends EventHandler {
+		public void onRefresh(CsvConfiguration configuration);
 	}
 	
 	public @UiField ListBox charsetField;
@@ -121,7 +121,7 @@ public class CsvConfigurationPanel extends Composite {
 	public @UiField(provided=true) EnumListBox<Quote> quoteField;
 	public @UiField TextBox customQuoteField;
 	
-	protected DialogSaveHandler saveHandler;
+	protected RefreshHandler refreshHandler;
 
 	public CsvConfigurationPanel(UiBinder<Widget, CsvConfigurationPanel> binder) {
 
@@ -137,7 +137,7 @@ public class CsvConfigurationPanel extends Composite {
 	@UiHandler("refreshButton")
 	public void refreshButtonClicked(ClickEvent clickEvent)
 	{
-		saveHandler.onSave(getConfiguration());
+		refreshHandler.onRefresh(getConfiguration());
 	}
 	
 	protected <E extends Enum<E>> void bind(final EnumListBox<E> listBox, final TextBox textBox, final E custom)
@@ -153,10 +153,10 @@ public class CsvConfigurationPanel extends Composite {
 	}
 
 	/**
-	 * @param saveHandler the saveHandler to set
+	 * @param refreshHandler the saveHandler to set
 	 */
-	public void setSaveHandler(DialogSaveHandler saveHandler) {
-		this.saveHandler = saveHandler;
+	public void setRefreshHandler(RefreshHandler refreshHandler) {
+		this.refreshHandler = refreshHandler;
 	}
 
 	public void setConfiguration(CsvConfiguration configuration)

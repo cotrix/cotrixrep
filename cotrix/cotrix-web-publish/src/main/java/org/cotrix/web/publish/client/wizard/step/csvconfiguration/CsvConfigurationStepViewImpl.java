@@ -2,7 +2,6 @@ package org.cotrix.web.publish.client.wizard.step.csvconfiguration;
 
 import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.client.widgets.CsvConfigurationPanel;
-import org.cotrix.web.share.client.widgets.CsvConfigurationPanel.DialogSaveHandler;
 import org.cotrix.web.share.shared.CsvConfiguration;
 
 import com.google.gwt.core.client.GWT;
@@ -18,7 +17,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CsvConfigurationStepViewImpl extends ResizeComposite implements CsvConfigurationStepView, DialogSaveHandler {
+public class CsvConfigurationStepViewImpl extends ResizeComposite implements CsvConfigurationStepView {
 	
 	protected static final int HEADER_ROW = 0;
 
@@ -37,14 +36,9 @@ public class CsvConfigurationStepViewImpl extends ResizeComposite implements Csv
 
 	private AlertDialog alertDialog;
 	
-
-	private Presenter presenter;
-	
 	@Inject
 	public CsvConfigurationStepViewImpl() {
-		
 		initWidget(uiBinder.createAndBindUi(this));
-		configurationPanel.setSaveHandler(this);
 	}
 	
 	@UiFactory
@@ -57,7 +51,6 @@ public class CsvConfigurationStepViewImpl extends ResizeComposite implements Csv
 	 * {@inheritDoc}
 	 */
 	public void setPresenter(Presenter presenter) {
-		this.presenter = presenter;
 	}
 
 	/** 
@@ -72,13 +65,12 @@ public class CsvConfigurationStepViewImpl extends ResizeComposite implements Csv
 	}
 	
 	@Override
-	public void setCsvParserConfiguration(CsvConfiguration configuration) {
+	public void setCsvWriterConfiguration(CsvConfiguration configuration) {
 		configurationPanel.setConfiguration(configuration);
 	}
 
 	@Override
-	public void onSave(CsvConfiguration configuration) {
-		presenter.onCsvConfigurationEdited(configuration);
+	public CsvConfiguration getCsvWriterConfiguration() {
+		return configurationPanel.getConfiguration();
 	}
-
 }

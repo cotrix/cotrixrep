@@ -144,12 +144,13 @@ public class PublishTask implements TaskWizardStep {
 		directives.setMetadata(metadata);
 		directives.setMappings(mappings);
 		
+		Log.trace("PublishDirectives: "+directives);
+		
 		service.startPublish(directives, new AsyncCallback<Void>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
+				Log.error("publication start failed", caught);
 			}
 
 			@Override
