@@ -7,6 +7,7 @@
 		.grid {
 			vertical-align: top;
 			margin-right: 20px;
+			width: 100%;
 		}
 		
 		.mappingPanelItem {

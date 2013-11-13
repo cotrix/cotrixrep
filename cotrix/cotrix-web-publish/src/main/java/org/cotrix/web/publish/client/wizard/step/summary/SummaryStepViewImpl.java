@@ -66,13 +66,14 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 
 			if (mapping.isMapped()) {
 
-				mappingDescription.append("export all attributes with name <b>").append(definition.getName().getLocalPart()).append("</b>");
+				mappingDescription.append("map [<b>").append(definition.getName().getLocalPart()).append("</b>");
 
-				mappingDescription.append(" and type ").append(definition.getType().getLocalPart());
-				if (definition.getLanguage()!=null && !definition.getLanguage().isEmpty()) mappingDescription.append(" in ").append(definition.getLanguage());
-
+				mappingDescription.append(",").append(definition.getType().getLocalPart());
+				if (definition.getLanguage()!=null && !definition.getLanguage().isEmpty()) mappingDescription.append(",").append(definition.getLanguage());
+				mappingDescription.append("] to ");
+				
 				String columnName = mapping.getColumnName();
-				mappingDescription.append(" as column ").append(columnName);
+				mappingDescription.append(columnName);
 			} else mappingDescription.append("ignore <b>").append(definition.getName().getLocalPart()).append("</b>");
 
 			//Log.trace("label "+mappingDescription.toString());
