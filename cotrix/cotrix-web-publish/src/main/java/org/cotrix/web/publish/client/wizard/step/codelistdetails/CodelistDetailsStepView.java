@@ -19,5 +19,5 @@ public interface CodelistDetailsStepView {
 
 	void clearAttributes();
 
-	void addAttribute(String name, String type, String language, String value);
+	void addAttribute(String name, String value);
 }

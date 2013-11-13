@@ -204,8 +204,7 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 
 	protected void applyStepConfiguration(VisualStepConfiguration configuration)
 	{
-		String title = configuration.getTitle();
-		view.setStepTitle(title);
+		view.setStepTitle(configuration.getTitle());
 		view.setStepSubtitle(configuration.getSubtitle());
 
 		configureButtons(configuration.getButtons());

@@ -7,7 +7,7 @@ import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.step.DestinationNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.DetailsNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.TypeNodeSelector;
-import org.cotrix.web.publish.client.wizard.step.codelistdetails.CodelistDetailsStepPresenterImpl;
+import org.cotrix.web.publish.client.wizard.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.csvconfiguration.CsvConfigurationStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.csvmapping.CsvMappingStepPresenter;
@@ -56,7 +56,7 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 			
 			DetailsNodeSelector detailsNodeSelector,
 			RetrieveMetadataTask retrieveMetadataTask,
-			CodelistDetailsStepPresenterImpl codelistDetailsStep,
+			CodelistDetailsStepPresenter codelistDetailsStep,
 			
 			DestinationSelectionStepPresenter destinationSelectionStep,
 			DestinationNodeSelector destinationSelector, 
@@ -81,7 +81,7 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 		this.view = view;
 
 		System.out.println("retrieveMetadataTask "+retrieveMetadataTask);
-		
+	
 		
 		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(codelistSelectionStep);
 		SwitchNodeBuilder<WizardStep> selectionStep = root.hasAlternatives(detailsNodeSelector);

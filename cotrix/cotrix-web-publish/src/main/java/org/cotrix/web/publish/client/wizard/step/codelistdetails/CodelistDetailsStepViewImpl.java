@@ -66,27 +66,16 @@ public class CodelistDetailsStepViewImpl extends ResizeComposite implements Code
 	public void clearAttributes()
 	{
 		this.attributes.removeAllRows();
-		setupHeaders();
 	}
 	
 	@Override
-	public void addAttribute(String name, String type, String language, String value)
+	public void addAttribute(String name, String value)
 	{
 		int numRows = attributes.getRowCount();
 		attributes.setWidget(numRows, 0, new Label(name));
-		attributes.setWidget(numRows, 1, new Label(type));
-		attributes.setWidget(numRows, 2, new Label(language));
-		attributes.setWidget(numRows, 3, new Label(value));
+		attributes.setWidget(numRows, 1, new Label(value));
 	}
 	
-	protected void setupHeaders()
-	{
-		attributes.getFlexCellFormatter().setColSpan(0, 0, 1);
-		attributes.setWidget(0, 0, getHeaderLabel("Name"));
-		attributes.setWidget(0, 1, getHeaderLabel("Type"));
-		attributes.setWidget(0, 2, getHeaderLabel("Language"));
-		attributes.setWidget(0, 3, getHeaderLabel("Value"));
-	}
 
 	protected Label getHeaderLabel(String text)
 	{

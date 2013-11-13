@@ -53,6 +53,9 @@ public class CodelistDetailsStepPresenterImpl extends AbstractVisualWizardStep i
 
 	public void setCodelist(UICodelistMetadata codelistMetadata) {
 		Log.trace("codelist codelistMetadata: "+codelistMetadata);
+		
+		configuration.setTitle(codelistMetadata.getName().getLocalPart()+" Details");
+
 		view.setName(codelistMetadata.getName().getLocalPart());
 		view.setVersion(codelistMetadata.getVersion());
 		view.setState(codelistMetadata.getState());
@@ -60,7 +63,7 @@ public class CodelistDetailsStepPresenterImpl extends AbstractVisualWizardStep i
 		if (attributes.isEmpty()) view.setAttributesVisible(false);
 		else {
 			view.clearAttributes();
-			for (UIAttribute attribute:attributes) view.addAttribute(attribute.getName().getLocalPart(), attribute.getType().getLocalPart(), attribute.getLanguage(), attribute.getValue());
+			for (UIAttribute attribute:attributes) view.addAttribute(attribute.getName().getLocalPart(), attribute.getValue());
 			view.setAttributesVisible(true);
 		}
 	}

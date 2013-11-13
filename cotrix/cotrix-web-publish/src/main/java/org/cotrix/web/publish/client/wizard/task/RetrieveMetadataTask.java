@@ -6,7 +6,7 @@ package org.cotrix.web.publish.client.wizard.task;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
-import org.cotrix.web.publish.client.wizard.step.codelistdetails.CodelistDetailsStepPresenterImpl;
+import org.cotrix.web.publish.client.wizard.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.share.client.wizard.WizardAction;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
@@ -31,7 +31,7 @@ public class RetrieveMetadataTask implements TaskWizardStep {
 	protected AsyncCallback<WizardAction> callback;
 	protected UICodelist selectedCodelist;
 	@Inject
-	protected CodelistDetailsStepPresenterImpl codelistDetailsStep;
+	protected CodelistDetailsStepPresenter codelistDetailsStep;
 	
 	@Inject
 	public RetrieveMetadataTask(@PublishBus EventBus publishBus)
