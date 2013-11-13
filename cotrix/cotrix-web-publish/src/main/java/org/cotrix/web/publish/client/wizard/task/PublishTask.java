@@ -10,6 +10,7 @@ import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
 import org.cotrix.web.publish.client.event.CsvWriterConfigurationUpdatedEvent;
 import org.cotrix.web.publish.client.event.DestinationTypeChangeEvent;
 import org.cotrix.web.publish.client.event.FormatTypeChangeEvent;
+import org.cotrix.web.publish.client.event.MappingModeUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.event.PublishCompleteEvent;
@@ -56,8 +57,7 @@ public class PublishTask implements TaskWizardStep {
 	protected FormatType type;
 	protected List<AttributeMapping> mappings;
 	protected CsvConfiguration csvConfiguration;
-	//FIXME
-	protected MappingMode mappingMode = MappingMode.LOG;
+	protected MappingMode mappingMode;
 	protected PublishMetadata metadata;
 	
 	protected Timer publishProgressPolling;
@@ -119,6 +119,14 @@ public class PublishTask implements TaskWizardStep {
 			@Override
 			public void onMappingUpdated(MappingsUpdatedEvent event) {
 				mappings = event.getMappings();
+			}
+		});
+		
+		publishBus.addHandler(MappingModeUpdatedEvent.TYPE, new MappingModeUpdatedEvent.MappingModeUpdatedHandler() {
+			
+			@Override
+			public void onMappingModeUpdated(MappingModeUpdatedEvent event) {
+				mappingMode = event.getMappingMode(); 
 			}
 		});
 	}

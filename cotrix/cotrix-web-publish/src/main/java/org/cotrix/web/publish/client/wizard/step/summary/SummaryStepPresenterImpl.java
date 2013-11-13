@@ -1,23 +1,16 @@
 package org.cotrix.web.publish.client.wizard.step.summary;
 
-import java.util.List;
-
 import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
-import org.cotrix.web.publish.client.event.MappingLoadedEvent;
 import org.cotrix.web.publish.client.event.MappingModeUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.MetadataUpdatedEvent;
-import org.cotrix.web.publish.client.event.PublishBus;
-import org.cotrix.web.publish.client.event.MappingLoadedEvent.MappingLoadedHandler;
-import org.cotrix.web.publish.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
 import org.cotrix.web.publish.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
+import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.publish.shared.MappingMode;
+import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 
@@ -25,7 +18,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
-public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler, MappingLoadedHandler, MappingsUpdatedHandler, ResetWizardHandler {
+public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler{
 
 	protected SummaryStepView view;
 	protected EventBus publishBus;
@@ -37,9 +30,6 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 		
 		this.publishBus = publishBus;
 		publishBus.addHandler(MetadataUpdatedEvent.TYPE, this);
-		publishBus.addHandler(MappingsUpdatedEvent.TYPE, this);
-		publishBus.addHandler(ResetWizardEvent.TYPE, this);
-		
 		bind();
 	}
 	
@@ -54,6 +44,21 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 				view.setState(codelist.getState());
 			}
 		});
+		publishBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedEvent.MappingsUpdatedHandler() {
+			
+			@Override
+			public void onMappingUpdated(MappingsUpdatedEvent event) {
+				view.setMapping(event.getMappings());
+			}
+		});
+		
+		publishBus.addHandler(ResetWizardEvent.TYPE, new ResetWizardEvent.ResetWizardHandler() {
+			
+			@Override
+			public void onResetWizard(ResetWizardEvent event) {
+				resetWizard();
+			}
+		});		
 	}
 	
 	public void go(HasWidgets container) {
@@ -69,18 +74,6 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 		publishBus.fireEvent(new MappingModeUpdatedEvent(mappingMode));
 		return true;
 	}
-	
-	@Override
-	public void onMappingLoaded(MappingLoadedEvent event) {
-		List<AttributeMapping> attributesMappings = event.getMappings();
-		view.setMapping(attributesMappings);
-	}
-
-	@Override
-	public void onMappingUpdated(MappingsUpdatedEvent event) {
-		List<AttributeMapping> attributesMappings = event.getMappings();
-		view.setMapping(attributesMappings);
-	}
 
 	@Override
 	public void onMetadataUpdated(MetadataUpdatedEvent event) {
@@ -90,15 +83,11 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 		else view.setCodelistName(metadata.getOriginalName()+" as "+metadata.getName());
 		
 		view.setCodelistVersion(metadata.getVersion());
-		//view.setState(metadata.isSealed());
 		
 		this.view.setMetadataAttributes(metadata.getAttributes());		
 	}
 
-	@Override
-	public void onResetWizard(ResetWizardEvent event) {
+	protected void resetWizard() {
 		view.setMappingMode(MappingMode.STRICT);
 	}
-
-
 }
