@@ -127,6 +127,7 @@ public class MStore {
 	}
 	
 	public int size(Class<?> type) {
-		return objects.get(type).size();
+		Map<String,?> instances = objects.get(type);
+		return instances==null?0:instances.size();
 	}
 }
