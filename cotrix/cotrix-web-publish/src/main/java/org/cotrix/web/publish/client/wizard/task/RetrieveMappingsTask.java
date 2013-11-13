@@ -7,10 +7,12 @@ import java.util.List;
 
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
+import org.cotrix.web.publish.client.event.DestinationTypeChangeEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.DestinationType;
 import org.cotrix.web.share.client.wizard.WizardAction;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
@@ -33,6 +35,7 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 	protected PublishServiceAsync service;
 	
 	protected UICodelist selectedCodelist;
+	protected DestinationType destinationType;
 	
 	protected EventBus publishBus;
 	
@@ -58,7 +61,13 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 			public void onCodeListSelected(CodeListSelectedEvent event) {
 				selectedCodelist = event.getSelectedCodelist();
 			}
+		});
+		publishBus.addHandler(DestinationTypeChangeEvent.TYPE, new DestinationTypeChangeEvent.DestinationTypeChangeHandler() {
 			
+			@Override
+			public void onDestinationTypeChange(DestinationTypeChangeEvent event) {
+				destinationType = event.getDestinationType();
+			}
 		});
 	}
 
@@ -75,7 +84,7 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 	@Override
 	public void run(final AsyncCallback<WizardAction> callback) {
 		Log.trace("retrieving mappings for codelist "+selectedCodelist);
-		service.getMappings(selectedCodelist.getId(), new AsyncCallback<List<AttributeMapping>>() {
+		service.getMappings(selectedCodelist.getId(), destinationType, new AsyncCallback<List<AttributeMapping>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

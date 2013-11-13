@@ -23,6 +23,7 @@ import org.cotrix.web.publish.server.publish.SerializationDirectivesProducer;
 import org.cotrix.web.publish.server.util.PublishSession;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.DestinationType;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishServiceException;
 import org.cotrix.web.share.server.util.CodelistLoader;
@@ -122,15 +123,30 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	}
 
 	@Override
-	public List<AttributeMapping> getMappings(String codelistId) throws PublishServiceException {
-
+	public List<AttributeMapping> getMappings(String codelistId, DestinationType type) throws PublishServiceException {
+		logger.trace("getMappings codelistId{} type {}", codelistId, type);
+		
 		CodelistSummary summary = repository.summary(codelistId);
+		
+		switch (type) {
+			case FILE: return getFileMappings(summary);
+			case CHANNEL: return getChannelMappings(summary);
+			default: return new ArrayList<AttributeMapping>();
+		}
 
+	}
+	
+	protected List<AttributeMapping> getChannelMappings(CodelistSummary summary) {
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-
-		for (QName attributeName:summary.names()) {
-			for (QName attributeType : summary.typesFor(attributeName)) {
-				Collection<String> languages = summary.languagesFor(attributeName, attributeType);
+		
+		return mappings;
+	}
+	
+	protected List<AttributeMapping> getFileMappings(CodelistSummary summary) {
+		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
+		for (QName attributeName:summary.codeNames()) {
+			for (QName attributeType : summary.codeTypesFor(attributeName)) {
+				Collection<String> languages = summary.codeLanguagesFor(attributeName, attributeType);
 				if (languages.isEmpty()) mappings.add(getAttributeMapping(attributeName, attributeType, null));
 				else for (String language:languages) mappings.add(getAttributeMapping(attributeName, attributeType, language));
 			}
