@@ -11,5 +11,7 @@ import com.google.gwt.resources.client.CssResource;
  */
 public interface PublishCss extends CssResource {
 
-	String buttonPublish();
+	String mappingCell();
+	String mappingAttributeCell();
+	String mappingAttributeTable();
 }

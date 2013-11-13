@@ -103,7 +103,7 @@
 						text="MANAGE IT" />
 				</div>
 				<div class="{style.rightButton}">
-					<g:Button ui:field="newPublishButton" styleName="{resources.css.buttonPublish}"
+					<g:Button ui:field="newPublishButton" styleName="{common.css.buttonManage}"
 						text="PUBLISH ANOTHER" />
 				</div>
 			</g:HTMLPanel>

@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -21,11 +22,11 @@ public class AttributeDefinitionPanel extends Composite {
 	interface AttributeDefinitionPanelUiBinder extends UiBinder<Widget, AttributeDefinitionPanel> {
 	}
 
-	@UiField Label name;
+	@UiField TextBox name;
 	@UiField Label attributeLabel;
-	@UiField Label type;
+	@UiField TextBox type;
 	@UiField Label inLabel;
-	@UiField Label language;
+	@UiField TextBox language;
 
 	@UiField Style style;
 
@@ -62,10 +63,10 @@ public class AttributeDefinitionPanel extends Composite {
 
 	public void setEnabled(boolean enabled)
 	{
-		name.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
+		name.setEnabled(enabled);
 		attributeLabel.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
-		type.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
+		type.setEnabled(enabled);
 		inLabel.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
-		language.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
+		language.setEnabled(enabled);
 	}
 }

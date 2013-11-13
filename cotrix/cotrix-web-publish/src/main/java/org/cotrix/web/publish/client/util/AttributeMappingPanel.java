@@ -6,16 +6,20 @@ package org.cotrix.web.publish.client.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.web.publish.client.resources.Resources;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.share.client.resources.CommonResources;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -29,7 +33,8 @@ public class AttributeMappingPanel extends Composite {
 
 	protected static int IGNORE_COLUMN = 0;
 	protected static int DEFINITION_COLUMN = 1;
-	protected static int NAME_COLUMN = 2;
+	protected static int IMAGE_COLUMN = 2;
+	protected static int NAME_COLUMN = 3;
 
 	protected SimplePanel container;
 	protected FlexTable columnsTable;
@@ -41,12 +46,18 @@ public class AttributeMappingPanel extends Composite {
 	protected List<TextBox> nameFields = new ArrayList<TextBox>();
 	protected List<AttributeDefinitionPanel> definitionsPanels = new ArrayList<AttributeDefinitionPanel>();
 	protected List<AttributeDefinition> definitions = new ArrayList<AttributeDefinition>();
+	
+	protected String headerLabel;
 
-	public AttributeMappingPanel(boolean typeDefinition)
+	public AttributeMappingPanel(boolean typeDefinition, String headerLabel)
 	{
 		this.typeDefinition = typeDefinition;
+		this.headerLabel = headerLabel;
 		container = new SimplePanel();
 		columnsTable = new FlexTable();
+		columnsTable.setCellPadding(5);
+		columnsTable.setCellSpacing(5);
+		columnsTable.setStyleName(Resources.INSTANCE.css().mappingAttributeTable());
 		setupLoadingContainer();
 
 		container.setWidget(columnsTable);
@@ -80,6 +91,8 @@ public class AttributeMappingPanel extends Composite {
 		includeCheckBoxes.clear();
 		nameFields.clear();
 		definitions.clear();
+		
+		setupHeader();
 
 		FlexCellFormatter cellFormatter = columnsTable.getFlexCellFormatter();
 
@@ -102,6 +115,7 @@ public class AttributeMappingPanel extends Composite {
 
 			checkBox.setValue(attributeMapping.isMapped());
 			columnsTable.setWidget(row, IGNORE_COLUMN, checkBox);
+			cellFormatter.setVerticalAlignment(row, IGNORE_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
 			includeCheckBoxes.add(checkBox);
 
 			if (typeDefinition) {
@@ -110,23 +124,49 @@ public class AttributeMappingPanel extends Composite {
 
 				definitionPanel.setName(attributeDefinition.getName().getLocalPart());
 				definitionPanel.setType(attributeDefinition.getType().getLocalPart());
-				definitionPanel.setLanguage(attributeDefinition.getLanguage());
+				if (attributeDefinition.getLanguage() == null || attributeDefinition.getLanguage().isEmpty()) {
+					definitionPanel.setLanguagePanelVisibile(false);
+				} else definitionPanel.setLanguage(attributeDefinition.getLanguage());
 				definitionPanel.setEnabled(attributeMapping.isMapped());
 
 				definitionsPanels.add(definitionPanel);
 				columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
+				cellFormatter.setVerticalAlignment(row, DEFINITION_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
 				//FIXME cellFormatter.setStyleName(row, DEFINITION_COLUMN, Resources.INSTANCE.css().mappingCell());
 			}
+			
+			Image arrow = new Image(Resources.INSTANCE.arrow());
+			columnsTable.setWidget(row, IMAGE_COLUMN, arrow);
+			cellFormatter.setVerticalAlignment(row, IMAGE_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
+			columnsTable.getCellFormatter().setWidth(row, IMAGE_COLUMN, "60px");
+			columnsTable.getCellFormatter().setHeight(row, IMAGE_COLUMN, "40px");
 
 			TextBox nameField = new TextBox();
 			nameField.setStyleName(CommonResources.INSTANCE.css().textBox());
 			nameField.setWidth("200px");
+			nameField.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 			nameField.setValue(attributeMapping.getColumnName());
 			nameField.setEnabled(attributeMapping.isMapped());
 			columnsTable.setWidget(row, NAME_COLUMN, nameField);
+			cellFormatter.setVerticalAlignment(row, NAME_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
 			//FIXME cellFormatter.setStyleName(row, NAME_COLUMN, Resources.INSTANCE.css().mappingCell());
 			nameFields.add(nameField);
 		}
+	}
+	
+	protected void setupHeader()
+	{
+		Label attributesLabel = new Label("ATTRIBUTES");
+		attributesLabel.setStyleName(CommonResources.INSTANCE.css().propertyValue());
+		columnsTable.setWidget(0, 0, attributesLabel);
+		columnsTable.getFlexCellFormatter().setColSpan(0, 0, 3);
+		columnsTable.getFlexCellFormatter().setStyleName(0, 0, Resources.INSTANCE.css().mappingAttributeCell());
+		
+				
+		Label columnsLabel = new Label(headerLabel);
+		columnsLabel.setStyleName(CommonResources.INSTANCE.css().propertyValue());
+		columnsTable.setWidget(0, 1, columnsLabel);
+		columnsTable.getFlexCellFormatter().setStyleName(0, 1, Resources.INSTANCE.css().mappingAttributeCell());
 	}
 
 	protected void setInclude(int row, boolean include)

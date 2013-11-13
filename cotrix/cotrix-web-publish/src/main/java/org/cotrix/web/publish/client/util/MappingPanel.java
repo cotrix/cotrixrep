@@ -41,7 +41,6 @@ public class MappingPanel extends ResizeComposite {
 	@UiField TextBox name;
 	@UiField TextBox version;
 	@UiField SimpleCheckBox sealed;
-	@UiField InlineLabel attributeMappingLabel;
 	
 	@UiField(provided=true)
 	AttributeMappingPanel mappingPanel;
@@ -53,9 +52,8 @@ public class MappingPanel extends ResizeComposite {
 	}
 
 	public MappingPanel(boolean showMetadata, boolean hasTypeDefinition, String attributeMappingLabel) {
-		mappingPanel = new AttributeMappingPanel(hasTypeDefinition);
+		mappingPanel = new AttributeMappingPanel(hasTypeDefinition, attributeMappingLabel);
 		initWidget(uiBinder.createAndBindUi(this));
-		this.attributeMappingLabel.setText(attributeMappingLabel);
 		if (!showMetadata) hideMetadata();
 	}
 	
