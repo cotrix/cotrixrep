@@ -47,7 +47,8 @@ public interface CommonCss extends CssResource {
 	String buttonRefresh();
 	String buttonCloud();
 	String buttonComputer();
-	String buttonDownload();	
+	String buttonDownload();
+	String buttonImport();
 	
 	String mappingTable();
 	String mappingTableNameHeader();	

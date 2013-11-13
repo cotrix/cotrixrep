@@ -44,7 +44,6 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 	@UiField Button backButton;
 	@UiField Button newPublishButton;
 	@UiField Button publishButton;
-	@UiField Button manageButton;
 
 	protected int currentIndex = 0;
 	protected Map<String, Integer> decksIndexes;
@@ -130,11 +129,6 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 		presenter.onButtonClicked(PublishWizardButton.NEW_PUBLISH);
 	}
 
-	@UiHandler("manageButton")
-	public void onManageButtonClicked(ClickEvent event){
-		presenter.onButtonClicked(PublishWizardButton.MANAGE);
-	}
-
 	@Override
 	public void showButton(WizardButton wizardButton) {
 		Button button = getButton(wizardButton);
@@ -161,7 +155,6 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 			case BACK: return backButton;
 			case PUBLISH: return publishButton;
 			case NEW_PUBLISH: return newPublishButton;
-			case MANAGE: return manageButton;
 			case NEXT: return nextButton;
 			default: {
 				Log.fatal("Unknow button "+button);

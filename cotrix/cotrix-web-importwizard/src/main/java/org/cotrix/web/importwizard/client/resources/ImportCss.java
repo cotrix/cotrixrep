@@ -20,6 +20,4 @@ public interface ImportCss extends CssResource {
 	String previewCell();
 	
 	String buttonBrowse();
-
-	String buttonImport();
 }

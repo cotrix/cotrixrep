@@ -21,7 +21,7 @@ public class DoneStepPresenterImpl extends AbstractVisualWizardStep implements D
 	
 	@Inject
 	public DoneStepPresenterImpl(DoneStepView view, @PublishBus EventBus publishBus) {
-		super("done", TrackerLabels.DONE, "Done", "Done", PublishWizardStepButtons.NEW_PUBLISH, PublishWizardStepButtons.MANAGE);
+		super("done", TrackerLabels.DONE, "Done", "Done", PublishWizardStepButtons.NEW_PUBLISH);
 		this.view = view;
 		this.publishBus = publishBus;
 		bind();
@@ -51,7 +51,7 @@ public class DoneStepPresenterImpl extends AbstractVisualWizardStep implements D
 	
 	protected void setDone() {
 		configuration.setTitle("That's done");
-		configuration.setButtons(PublishWizardStepButtons.NEW_PUBLISH, PublishWizardStepButtons.MANAGE);
+		configuration.setButtons(PublishWizardStepButtons.NEW_PUBLISH);
 		configuration.setSubtitle("Check the log for potential errors or warnings.");
 		view.loadReport();
 	}

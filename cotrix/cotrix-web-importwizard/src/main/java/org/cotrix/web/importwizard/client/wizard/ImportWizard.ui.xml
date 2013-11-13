@@ -103,7 +103,7 @@
 						text="MANAGE IT" />
 				</div>
 				<div class="{style.rightButton}">
-					<g:Button ui:field="newImportButton" styleName="{resources.css.buttonImport}"
+					<g:Button ui:field="newImportButton" styleName="{common.css.buttonImport}"
 						text="IMPORT ANOTHER" />
 				</div>
 			</g:HTMLPanel>
