@@ -22,8 +22,6 @@ import org.cotrix.web.publish.client.wizard.task.RetrieveCSVConfigurationTask;
 import org.cotrix.web.publish.client.wizard.task.RetrieveMappingsTask;
 import org.cotrix.web.publish.client.wizard.task.RetrieveMetadataTask;
 import org.cotrix.web.share.client.wizard.DefaultWizardActionHandler;
-import org.cotrix.web.share.client.wizard.WizardAction;
-import org.cotrix.web.share.client.wizard.WizardActionHandler;
 import org.cotrix.web.share.client.wizard.WizardController;
 import org.cotrix.web.share.client.wizard.flow.FlowManager;
 import org.cotrix.web.share.client.wizard.flow.FlowManager.LabelProvider;
@@ -43,21 +41,6 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class PublishWizardPresenterImpl implements PublishWizardPresenter {
-
-	public class PublishWizardActionHandler implements WizardActionHandler {
-
-		@Override
-		public boolean handle(WizardAction action, WizardController controller) {
-			if (action instanceof PublishWizardAction) {
-				PublishWizardAction importWizardAction = (PublishWizardAction)action;
-				switch (importWizardAction) {
-					
-				}
-			}
-			return false;
-		}
-		
-	}
 	
 	protected WizardController wizardController;
 	
@@ -89,7 +72,9 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 
 			SummaryStepPresenter summaryStep,
 			PublishTask publishTask,
-			DoneStepPresenter doneStep
+			DoneStepPresenter doneStep,
+			
+			PublishWizardActionHandler wizardActionHandler
 			) {
 
 		this.publishEventBus = publishEventBus;
@@ -159,7 +144,7 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 
 		wizardController = new WizardController(visualSteps, flow, view, publishEventBus);
 		wizardController.addActionHandler(new DefaultWizardActionHandler());
-		wizardController.addActionHandler(new PublishWizardActionHandler());
+		wizardController.addActionHandler(wizardActionHandler);
 	}
 
 
