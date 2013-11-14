@@ -42,15 +42,15 @@
 			<artifactId>cotrix-web-menu</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-web-importwizard</artifactId>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.cotrix</groupId> -->
+<!-- 			<artifactId>cotrix-web-importwizard</artifactId> -->
+<!-- 		</dependency> -->
 
-		<dependency>
-			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-web-codelistmanager</artifactId>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.cotrix</groupId> -->
+<!-- 			<artifactId>cotrix-web-codelistmanager</artifactId> -->
+<!-- 		</dependency> -->
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
