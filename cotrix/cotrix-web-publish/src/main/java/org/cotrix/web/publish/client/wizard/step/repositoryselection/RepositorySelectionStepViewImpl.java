@@ -1,11 +1,11 @@
 package org.cotrix.web.publish.client.wizard.step.repositoryselection;
 
+import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.resources.DataGridListResource;
 import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.client.widgets.SelectionCheckBoxCell;
-import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.ClickableTextCell;
@@ -42,14 +42,14 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	private static RepositorySelectionStepUiBinder uiBinder = GWT.create(RepositorySelectionStepUiBinder.class);
 	
 	@UiField (provided = true) 
-	PatchedDataGrid<UICodelist> dataGrid;
+	PatchedDataGrid<UIRepository> dataGrid;
 
 	@UiField(provided = true)
 	SimplePager pager;
 	
 	protected RepositoryDataProvider dataProvider;
 	
-	protected SingleSelectionModel<UICodelist> selectionModel;
+	protected SingleSelectionModel<UIRepository> selectionModel;
 
 	private AlertDialog alertDialog;
 
@@ -77,7 +77,7 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	protected void setupGrid()
 	{
 
-		dataGrid = new PatchedDataGrid<UICodelist>(6, DataGridListResource.INSTANCE, RepositoryKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<UIRepository>(6, DataGridListResource.INSTANCE, RepositoryKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
@@ -89,13 +89,13 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 		
 		dataGrid.addColumnSortHandler(new AsyncHandler(dataGrid));
 		
-		selectionModel = new SingleSelectionModel<UICodelist>(RepositoryKeyProvider.INSTANCE);
+		selectionModel = new SingleSelectionModel<UIRepository>(RepositoryKeyProvider.INSTANCE);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
-				UICodelist selected = selectionModel.getSelectedObject();
-				if (selected!=null) presenter.codelistSelected(selected);	 
+				UIRepository selected = selectionModel.getSelectedObject();
+				if (selected!=null) presenter.repositorySelected(selected);	 
 			}
 		});
 		
@@ -104,10 +104,10 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 		// Check
 		TextHeader nameHeader = new TextHeader("Name");
 		
-		Column<UICodelist, Boolean> checkColumn = new Column<UICodelist, Boolean>(new SelectionCheckBoxCell(true, false)) {
+		Column<UIRepository, Boolean> checkColumn = new Column<UIRepository, Boolean>(new SelectionCheckBoxCell(true, false)) {
 			
 			@Override
-			public Boolean getValue(UICodelist object) {
+			public Boolean getValue(UIRepository object) {
 				boolean selected = selectionModel.isSelected(object);
 				return selected;
 			}
@@ -117,21 +117,21 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 		dataGrid.setColumnWidth(checkColumn, "35px");
 		
 		// Name
-		Column<UICodelist, String> nameColumn = new Column<UICodelist, String>(new ClickableTextCell()) {
+		Column<UIRepository, String> nameColumn = new Column<UIRepository, String>(new ClickableTextCell()) {
 			@Override
-			public String getValue(UICodelist object) {
-				return object.getName();
+			public String getValue(UIRepository object) {
+				return object.getName().getLocalPart();
 			}
 		};
 		nameColumn.setSortable(true);
-		nameColumn.setDataStoreName(UICodelist.NAME_FIELD);
+		nameColumn.setDataStoreName(UIRepository.NAME_FIELD);
 		
-		nameColumn.setFieldUpdater(new FieldUpdater<UICodelist, String>() {
+		nameColumn.setFieldUpdater(new FieldUpdater<UIRepository, String>() {
 
 			@Override
-			public void update(int index, UICodelist object, String value) {
+			public void update(int index, UIRepository object, String value) {
 				Log.trace("details selected for row "+index);
-				presenter.codelistDetails(object);
+				presenter.repositoryDetails(object);
 			}
 		});
 		
@@ -140,40 +140,19 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 		dataGrid.addColumn(nameColumn, nameHeader);
 
 
-		// Type
-		Column<UICodelist, String> typeColumn = new Column<UICodelist, String>(new TextCell()) {
+		// Publish Type
+		Column<UIRepository, String> publishedTypesColumn = new Column<UIRepository, String>(new TextCell()) {
 			@Override
-			public String getValue(UICodelist object) {
-				return object.getVersion();
+			public String getValue(UIRepository object) {
+				return object.getPublishedTypes();
 			}
 		};
 		
-		typeColumn.setSortable(false);
-		dataGrid.addColumn(typeColumn, "Version");
-		dataGrid.setColumnWidth(typeColumn, "20%");
+		publishedTypesColumn.setSortable(true);
+		publishedTypesColumn.setDataStoreName(UIRepository.PUBLISHED_TYPES_FIELD);
 		
-
-		// Repository
-	/*	Column<UICodelist, String> repositoryColumn = new Column<UICodelist, String>(new ClickableTextCell()) {
-			@Override
-			public String getValue(UICodelist object) {
-				return object.getRepositoryName();
-			}
-		};
-		repositoryColumn.setSortable(true);
-		repositoryColumn.setDataStoreName(AssetInfo.REPOSITORY_FIELD);
-		repositoryColumn.setFieldUpdater(new FieldUpdater<AssetInfo, String>() {
-
-			@Override
-			public void update(int index, AssetInfo object, String value) {
-				Log.trace("repository details selected for row "+index);
-				presenter.repositoryDetails(object.getRepositoryId());
-			}
-		});
-		repositoryColumn.setCellStyleNames(CommonResources.INSTANCE.css().linkText());
-		
-		dataGrid.addColumn(repositoryColumn, "Origin");
-		dataGrid.setColumnWidth(repositoryColumn, "20%");*/
+		dataGrid.addColumn(publishedTypesColumn, "Published types");
+		dataGrid.setColumnWidth(publishedTypesColumn, "20%");
 			
 		dataProvider.setDatagrid(dataGrid);
 		dataProvider.addDataDisplay(dataGrid);

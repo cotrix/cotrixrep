@@ -4,8 +4,6 @@
 package org.cotrix.web.importwizard.server.util;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -15,6 +13,7 @@ import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
+import org.cotrix.web.share.server.util.AssetTypes;
 import org.virtualrepository.Asset;
 import org.virtualrepository.AssetType;
 import org.virtualrepository.Properties;
@@ -79,23 +78,11 @@ public class Assets {
 		details.setId(service.name().toString());
 		details.setName(service.name().toString());
 		details.setProperties(convert(service.properties()));
-		details.setPublishedTypes(convert(service.publishedTypes()));
-		details.setReturnedTypes(convert(service.returnedTypes()));
+		details.setPublishedTypes(AssetTypes.toString(service.publishedTypes()));
+		details.setReturnedTypes(AssetTypes.toString(service.returnedTypes()));
 		return details;
 	}
-	
-	protected static String convert(Collection<AssetType> types)
-	{
-		if (types.isEmpty()) return "";
-		StringBuilder builder = new StringBuilder();
-		Iterator<AssetType> iterator = types.iterator();
-		
-		while(iterator.hasNext()) {
-			builder.append(String.valueOf(iterator.next()));
-			if (iterator.hasNext()) builder.append(", ");
-		}
-		return builder.toString();
-	}
+
 	
 	protected static List<Property> convert(Properties properties)
 	{

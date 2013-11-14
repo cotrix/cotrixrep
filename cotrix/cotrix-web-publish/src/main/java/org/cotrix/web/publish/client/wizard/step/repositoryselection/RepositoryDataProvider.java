@@ -3,13 +3,17 @@
  */
 package org.cotrix.web.publish.client.wizard.step.repositoryselection;
 
+import java.util.List;
+
 import org.cotrix.web.publish.client.PublishServiceAsync;
+import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.shared.ColumnSortInfo;
-import org.cotrix.web.share.shared.codelist.UICodelist;
+import org.cotrix.web.share.shared.DataWindow;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
@@ -19,14 +23,14 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class RepositoryDataProvider extends AsyncDataProvider<UICodelist> {
+public class RepositoryDataProvider extends AsyncDataProvider<UIRepository> {
 	
-	protected static final ColumnSortInfo DEFAULT_SORT_INFO = new ColumnSortInfo(UICodelist.NAME_FIELD, true);
+	protected static final ColumnSortInfo DEFAULT_SORT_INFO = new ColumnSortInfo(UIRepository.NAME_FIELD, true);
 	
 	@Inject
 	protected PublishServiceAsync service;
-	protected PatchedDataGrid<UICodelist> datagrid;
-	protected boolean forceRefresh;
+	protected PatchedDataGrid<UIRepository> datagrid;
+	protected boolean forceRefresh = true;
 	
 	/**
 	 * @param service
@@ -38,7 +42,7 @@ public class RepositoryDataProvider extends AsyncDataProvider<UICodelist> {
 	/**
 	 * @param datagrid the datagrid to set
 	 */
-	public void setDatagrid(PatchedDataGrid<UICodelist> datagrid) {
+	public void setDatagrid(PatchedDataGrid<UIRepository> datagrid) {
 		this.datagrid = datagrid;
 	}
 
@@ -50,7 +54,7 @@ public class RepositoryDataProvider extends AsyncDataProvider<UICodelist> {
 	}
 
 	@Override
-	protected void onRangeChanged(HasData<UICodelist> display) {
+	protected void onRangeChanged(HasData<UIRepository> display) {
 	
 		final Range range = display.getVisibleRange();
 		Log.trace("onRangeChanged range: "+range);
@@ -68,11 +72,11 @@ public class RepositoryDataProvider extends AsyncDataProvider<UICodelist> {
 		boolean force = forceRefresh;
 		forceRefresh = false;
 		
-		/*service.getCodelists(range, sortInfo, force, new AsyncCallback<DataWindow<UICodelist>>() {
+		service.getRepositories(range, sortInfo, force, new AsyncCallback<DataWindow<UIRepository>>() {
 			
 			@Override
-			public void onSuccess(DataWindow<UICodelist> batch) {
-				List<UICodelist> codelists = batch.getData();
+			public void onSuccess(DataWindow<UIRepository> batch) {
+				List<UIRepository> codelists = batch.getData();
 				Log.trace("loaded "+codelists.size()+" codelists");
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), codelists);
@@ -83,7 +87,7 @@ public class RepositoryDataProvider extends AsyncDataProvider<UICodelist> {
 				//TODO show the error to the user?
 				Log.error("An error occurred loading the codelists", caught);
 			}
-		});*/
+		});
 	}
 
 }

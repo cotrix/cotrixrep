@@ -1,13 +1,12 @@
 package org.cotrix.web.publish.client.wizard.step.repositoryselection;
 
-import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
+import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
-import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -33,7 +32,7 @@ public class RepositorySelectionStepPresenterImpl extends AbstractVisualWizardSt
 	
 	protected EventBus publishEventBus;
 	
-	protected UICodelist selectedCodelist;
+	protected UIRepository selectedCodelist;
 	
 	@Inject
 	public RepositorySelectionStepPresenterImpl(RepositorySelectionStepView view, @PublishBus EventBus publishEventBus) {
@@ -54,16 +53,16 @@ public class RepositorySelectionStepPresenterImpl extends AbstractVisualWizardSt
 	}
 
 	@Override
-	public void codelistSelected(UICodelist codelist) {
-		Log.trace("Codelist selected "+codelist);
-		if (selectedCodelist!=null && selectedCodelist.equals(codelist)) return;
+	public void repositorySelected(UIRepository repository) {
+		Log.trace("Codelist selected "+repository);
+		if (selectedCodelist!=null && selectedCodelist.equals(repository)) return;
 		
-		this.selectedCodelist = codelist;
-		publishEventBus.fireEvent(new CodeListSelectedEvent(codelist));
+		this.selectedCodelist = repository;
+		//publishEventBus.fireEvent(new CodeListSelectedEvent(codelist));
 	}
 
 	@Override
-	public void codelistDetails(UICodelist codelist) {
+	public void repositoryDetails(UIRepository repository) {
 		
 		/*codelistDetailsPresenter.setAsset(asset);
 		detailsNodeSelector.switchToCodeListDetails();
@@ -75,10 +74,4 @@ public class RepositorySelectionStepPresenterImpl extends AbstractVisualWizardSt
 		view.reset();
 	}
 
-	@Override
-	public void repositoryDetails(String repositoryId) {
-		/*repositoryDetailsPresenter.setRepository(repositoryId);
-		detailsNodeSelector.switchToRepositoryDetails();
-		publishEventBus.fireEvent(NavigationEvent.FORWARD);*/
-	}
 }

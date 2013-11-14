@@ -26,6 +26,7 @@ import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.DestinationType;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishServiceException;
+import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.Encodings;
@@ -86,10 +87,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		if (force) session.loadCodelists();
 
 		List<UICodelist> codelists = session.getOrderedCodelists(sortInfo.getName());
-
-		List<UICodelist> codelistWindow = (sortInfo.isAscending())?Ranges.subList(codelists, range):Ranges.subListReverseOrder(codelists, range);
-
-		return new DataWindow<UICodelist>(codelistWindow, codelists.size());
+		return getDataWindow(codelists, sortInfo.isAscending(), range);
 	}
 
 	@Override
@@ -125,9 +123,9 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	@Override
 	public List<AttributeMapping> getMappings(String codelistId, DestinationType type) throws PublishServiceException {
 		logger.trace("getMappings codelistId{} type {}", codelistId, type);
-		
+
 		CodelistSummary summary = repository.summary(codelistId);
-		
+
 		switch (type) {
 			case FILE: return getFileMappings(summary);
 			case CHANNEL: return getChannelMappings(summary);
@@ -135,13 +133,13 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		}
 
 	}
-	
+
 	protected List<AttributeMapping> getChannelMappings(CodelistSummary summary) {
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-		
+
 		return mappings;
 	}
-	
+
 	protected List<AttributeMapping> getFileMappings(CodelistSummary summary) {
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
 		for (QName attributeName:summary.codeNames()) {
@@ -169,13 +167,13 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		attributeMapping.setMapped(true);
 		return attributeMapping;
 	}
-	
+
 	@Inject
 	public PublishMapper.CsvMapper csvMapper;
-	
+
 	@Inject
 	public SerializationDirectivesProducer.TableDesktopProducer tableDesktopProducer;
-	
+
 	@Inject
 	public PublishDestination.DesktopDestination desktopDestination;
 
@@ -185,10 +183,10 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 
 		PublishStatus publishStatus = new PublishStatus();
 		session.setPublishStatus(publishStatus);
-		
+
 		Codelist codelist = repository.lookup(publishDirectives.getCodelistId());
 		publishStatus.setPublishedCodelist(codelist);
-		
+
 		Publisher<Table, File> publisher = new Publisher<Table, File>(publishDirectives, csvMapper, tableDesktopProducer, desktopDestination, publishStatus); 
 		//FIXME use a service provider
 		Thread th = new Thread(publisher);
@@ -216,6 +214,22 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		logger.trace("getReportLogs range: {}",range);
 		if (session.getPublishStatus() == null || session.getPublishStatus().getReportLogs() == null) return DataWindow.emptyWindow();
 		return new DataWindow<ReportLog>(Ranges.subList(session.getPublishStatus().getReportLogs(), range), session.getPublishStatus().getReportLogs().size());
+	}
+
+	@Override
+	public DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, boolean force)	throws PublishServiceException {
+		logger.trace("getRepositories range: {} sortInfo: {} force: {}", range, sortInfo, force);
+
+		if (force) session.loadRepositories();
+		
+		List<UIRepository> codelists = session.getOrderedRepositories(sortInfo.getName());
+		return getDataWindow(codelists, sortInfo.isAscending(), range);
+	}
+
+	protected <T> DataWindow<T> getDataWindow(List<T> data, boolean ascending, Range range) {
+		List<T> dataWindow = (ascending)?Ranges.subList(data, range):Ranges.subListReverseOrder(data, range);
+
+		return new DataWindow<T>(dataWindow, data.size());
 	}
 
 }

@@ -6,6 +6,7 @@ import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.DestinationType;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishServiceException;
+import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
@@ -28,14 +29,16 @@ public interface PublishService extends RemoteService {
 	
 	public DataWindow<ReportLog> getReportLogs(Range range) throws PublishServiceException;
 
-	UICodelistMetadata getMetadata(String codelistId)	throws PublishServiceException;
+	UICodelistMetadata getMetadata(String codelistId) throws PublishServiceException;
 
-	CsvConfiguration getCsvWriterConfiguration(String codelistid)	throws PublishServiceException;
+	CsvConfiguration getCsvWriterConfiguration(String codelistid) throws PublishServiceException;
 
 	List<AttributeMapping> getMappings(String codelistId, DestinationType type) throws PublishServiceException;
 
 	void startPublish(PublishDirectives publishDirectives) throws PublishServiceException;
 
 	Progress getPublishProgress() throws PublishServiceException;
+	
+	DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, boolean force) throws PublishServiceException;
 
 }

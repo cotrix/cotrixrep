@@ -15,16 +15,21 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 import org.cotrix.domain.Codelist;
+import org.cotrix.io.CloudService;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.web.publish.server.publish.PublishStatus;
+import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.FieldComparator.ValueProvider;
+import org.cotrix.web.share.server.util.AssetTypes;
 import org.cotrix.web.share.server.util.OrderedList;
+import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.virtualrepository.RepositoryService;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -34,7 +39,7 @@ import org.slf4j.LoggerFactory;
 @SessionScoped
 public class PublishSession implements Serializable {
 	
-	protected static final ValueProvider<UICodelist> NAME = new ValueProvider<UICodelist>() {
+	protected static final ValueProvider<UICodelist> CODELIST_NAME = new ValueProvider<UICodelist>() {
 
 		@Override
 		public String getValue(UICodelist item) {
@@ -42,7 +47,7 @@ public class PublishSession implements Serializable {
 		}
 	};
 	
-	protected static final ValueProvider<UICodelist> VERSION = new ValueProvider<UICodelist>() {
+	protected static final ValueProvider<UICodelist> CODELIST_VERSION = new ValueProvider<UICodelist>() {
 
 		@Override
 		public String getValue(UICodelist item) {
@@ -50,11 +55,27 @@ public class PublishSession implements Serializable {
 		}
 	};
 	
-	protected static final ValueProvider<UICodelist> STATE = new ValueProvider<UICodelist>() {
+	protected static final ValueProvider<UICodelist> CODELIST_STATE = new ValueProvider<UICodelist>() {
 
 		@Override
 		public String getValue(UICodelist item) {
 			return item.getState();
+		}
+	};
+	
+	protected static final ValueProvider<UIRepository> REPOSITORY_NAME = new ValueProvider<UIRepository>() {
+
+		@Override
+		public String getValue(UIRepository item) {
+			return item.getName().getLocalPart();
+		}
+	};
+	
+	protected static final ValueProvider<UIRepository> REPOSITORY_PUBLISH_TYPE = new ValueProvider<UIRepository>() {
+
+		@Override
+		public String getValue(UIRepository item) {
+			return item.getPublishedTypes();
 		}
 	};
 	
@@ -64,6 +85,9 @@ public class PublishSession implements Serializable {
 	transient CodelistRepository repository;
 	
 	@Inject
+	transient CloudService cloud;
+	
+	@Inject
 	transient LifecycleService lifecycleService;
 	
 	protected OrderedList<UICodelist> orderedCodelists;
@@ -71,12 +95,18 @@ public class PublishSession implements Serializable {
 	
 	protected PublishStatus publishStatus;
 	
+	protected OrderedList<UIRepository> orderedRepositories;
+	
 	public PublishSession() {
 		orderedCodelists = new OrderedList<UICodelist>();
-		orderedCodelists.addField(UICodelist.NAME_FIELD, NAME);
-		orderedCodelists.addField(UICodelist.VERSION_FIELD, VERSION);
-		orderedCodelists.addField(UICodelist.STATE_FIELD, STATE);
+		orderedCodelists.addField(UICodelist.NAME_FIELD, CODELIST_NAME);
+		orderedCodelists.addField(UICodelist.VERSION_FIELD, CODELIST_VERSION);
+		orderedCodelists.addField(UICodelist.STATE_FIELD, CODELIST_STATE);
 		indexedCodelists = new HashMap<String, UICodelist>();
+		
+		orderedRepositories = new OrderedList<UIRepository>();
+		orderedRepositories.addField(UIRepository.NAME_FIELD, REPOSITORY_NAME);
+		orderedRepositories.addField(UIRepository.PUBLISHED_TYPES_FIELD, REPOSITORY_PUBLISH_TYPE);
 	}
 
 	public void loadCodelists()
@@ -105,6 +135,21 @@ public class PublishSession implements Serializable {
 	public UICodelist getUiCodelist(String id)
 	{
 		return indexedCodelists.get(id);
+	}
+	
+	public void loadRepositories() {
+		orderedRepositories.clear();
+		for (RepositoryService repository: cloud.repositories()) {
+			UIRepository uiRepository = new UIRepository();
+			uiRepository.setId(ValueUtils.safeValue(repository.name()));
+			uiRepository.setName(ValueUtils.safeValue(repository.name()));
+			uiRepository.setPublishedTypes(AssetTypes.toString(repository.publishedTypes()));
+			orderedRepositories.add(uiRepository);
+		}
+	}
+	
+	public List<UIRepository> getOrderedRepositories(String sortingField) {
+		return orderedRepositories.getSortedList(sortingField);
 	}
 
 	/**
