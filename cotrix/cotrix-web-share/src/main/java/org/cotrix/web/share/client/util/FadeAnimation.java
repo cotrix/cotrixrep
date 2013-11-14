@@ -54,8 +54,13 @@ public class FadeAnimation extends Animation {
 	
 	public void fadeIn()
 	{
+		fadeIn(0);
+	}
+	
+	public void fadeIn(double startingOpacity)
+	{
 		cancel();
-		element.getStyle().setOpacity(0);
+		element.getStyle().setOpacity(startingOpacity);
 		fade(2000, 1);
 	}
 

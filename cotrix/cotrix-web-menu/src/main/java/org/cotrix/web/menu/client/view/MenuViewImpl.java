@@ -3,6 +3,8 @@ package org.cotrix.web.menu.client.view;
 import java.util.EnumSet;
 import java.util.Set;
 
+import org.cotrix.web.share.client.util.FadeAnimation;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -19,6 +21,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class MenuViewImpl extends Composite implements MenuView {
+	
+	protected static final double BASE_OPACITY = 0.2;
 
 	@UiTemplate("MenuView.ui.xml")
 	interface MenuViewUiBinder extends UiBinder<Widget, MenuViewImpl> {}
@@ -49,9 +53,16 @@ public class MenuViewImpl extends Composite implements MenuView {
 	protected void setupMenu()
 	{
 		addListener(homeMenu, Menu.HOME);
+		homeMenu.getElement().getStyle().setOpacity(BASE_OPACITY);
+		
 		addListener(importMenu, Menu.IMPORT);
+		importMenu.getElement().getStyle().setOpacity(BASE_OPACITY);
+		
 		addListener(manageMenu, Menu.MANAGE);
+		manageMenu.getElement().getStyle().setOpacity(BASE_OPACITY);
+		
 		addListener(publishMenu, Menu.PUBLISH);
+		publishMenu.getElement().getStyle().setOpacity(BASE_OPACITY);
 	}
 	
 	protected void addListener(final Label item, final Menu menu)
@@ -99,6 +110,13 @@ public class MenuViewImpl extends Composite implements MenuView {
 		menuLabel.setStyleName(style.menuLink(), enabled);
 		if (enabled) enabledMenu.add(menu);
 		else enabledMenu.remove(menu);
+	}
+
+	@Override
+	public void makeAvailable(Menu menu) {
+		Label menuLabel = getLabel(menu);
+		FadeAnimation animation = new FadeAnimation(menuLabel.getElement());
+		animation.fadeIn(BASE_OPACITY);
 	}
 	
 	protected Label getLabel(Menu menu) {

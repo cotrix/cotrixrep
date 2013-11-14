@@ -18,6 +18,8 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class MenuPresenter implements MenuView.Presenter {
+	
+	protected static CotrixModule[] DEFAULT_MODULES = {CotrixModule.HOME, CotrixModule.MANAGE};
 
 	@Inject
 	@CotrixBus
@@ -29,13 +31,6 @@ public class MenuPresenter implements MenuView.Presenter {
 		this.view = view;
 		this.view.setPresenter(this);
 		bindFeatures();
-		setDefaultMenus();
-	}
-	
-	protected void setDefaultMenus()
-	{
-		view.setEnabled(Menu.HOME, true);
-		view.setEnabled(Menu.MANAGE, true);
 	}
 	
 	protected void bindFeatures()
@@ -79,6 +74,12 @@ public class MenuPresenter implements MenuView.Presenter {
 	public void selectModule(CotrixModule module)
 	{
 		view.setSelected(getMenu(module));
+	}
+	
+	public void makeAvailable(CotrixModule module) {
+		Menu menu = getMenu(module);
+		view.makeAvailable(menu);
+		for (CotrixModule defaultModule:DEFAULT_MODULES) if (defaultModule == module) view.setEnabled(menu, true);
 	}
 	
 	protected CotrixModule getModule(Menu menu){

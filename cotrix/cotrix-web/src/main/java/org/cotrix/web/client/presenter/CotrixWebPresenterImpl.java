@@ -36,6 +36,7 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 	public void add(CotrixModuleController moduleController) {
 		moduleController.go(view.getModulesPanel());
 		indexes.put(moduleController.getModule(), modulesPanelIndex++);
+		menu.makeAvailable(moduleController.getModule());
 	}
 
 	@Override
