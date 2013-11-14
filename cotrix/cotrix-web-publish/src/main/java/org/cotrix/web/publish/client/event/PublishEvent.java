@@ -7,15 +7,15 @@ import com.google.gwt.event.shared.EventHandler;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SaveEvent extends GwtEvent<SaveEvent.SaveHandler> {
+public class PublishEvent extends GwtEvent<PublishEvent.SaveHandler> {
 
 	public static Type<SaveHandler> TYPE = new Type<SaveHandler>();
 
 	public interface SaveHandler extends EventHandler {
-		void onSave(SaveEvent event);
+		void onSave(PublishEvent event);
 	}
 
-	public SaveEvent() {
+	public PublishEvent() {
 	}
 
 	@Override

@@ -15,7 +15,7 @@ import org.cotrix.io.ParseService;
 import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
 import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +37,7 @@ public class ParsingHelper {
 	@Inject
 	ParseService service;
 	
-	public PreviewData getCsvPreviewData(CsvParserConfiguration parserConfiguration, InputStream inputStream)
+	public PreviewData getCsvPreviewData(CsvConfiguration parserConfiguration, InputStream inputStream)
 	{
 		logger.trace("creating preview");
 
@@ -50,7 +50,7 @@ public class ParsingHelper {
 		return previewData;
 	}
 	
-	public Table parse(CsvParserConfiguration parserConfiguration, InputStream inputStream)
+	public Table parse(CsvConfiguration parserConfiguration, InputStream inputStream)
 	{
 
 		Csv2TableDirectives directives = getDirectives(parserConfiguration);
@@ -69,7 +69,7 @@ public class ParsingHelper {
 		return codelistBean;
 	}
 	
-	public Csv2TableDirectives getDirectives(CsvParserConfiguration configuration)
+	public Csv2TableDirectives getDirectives(CsvConfiguration configuration)
 	{
 		Csv2TableDirectives directives = new Csv2TableDirectives();
 		directives.options().hasHeader(configuration.isHasHeader());

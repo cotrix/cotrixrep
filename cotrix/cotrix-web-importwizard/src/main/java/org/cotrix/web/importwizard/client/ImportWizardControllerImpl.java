@@ -5,10 +5,9 @@ import java.util.List;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent.CodeListSelectedHandler;
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
-import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent;
-import org.cotrix.web.importwizard.client.event.CsvParserConfigurationEditedEvent.CsvParserConfigurationEditedHandler;
 import org.cotrix.web.importwizard.client.event.AssetRetrievedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
+import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent.CsvParserConfigurationUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportStartedEvent;
@@ -33,14 +32,14 @@ import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
-import org.cotrix.web.importwizard.shared.ImportProgress;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CodeListImportedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
+import org.cotrix.web.share.shared.Progress;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
@@ -122,12 +121,13 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				if (event.isUserEdited()) metadata = event.getMetadata();				
 			}
 		});
-		importEventBus.addHandler(CsvParserConfigurationEditedEvent.TYPE, new CsvParserConfigurationEditedHandler(){
+		importEventBus.addHandler(CsvParserConfigurationUpdatedEvent.TYPE, new CsvParserConfigurationUpdatedHandler() {
 
 			@Override
-			public void onCsvParserConfigurationEdited(CsvParserConfigurationEditedEvent event) {
-				getMappings();
-			}});
+			public void onCsvParserConfigurationUpdated(CsvParserConfigurationUpdatedEvent event) {
+				if (event.getSource() != ImportWizardControllerImpl.this) getMappings();
+			}
+		});
 		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedHandler() {
 
 			@Override
@@ -234,7 +234,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 	protected void getCsvParserConfiguration()
 	{
-		importService.getCsvParserConfiguration(new AsyncCallback<CsvParserConfiguration>() {
+		importService.getCsvParserConfiguration(new AsyncCallback<CsvConfiguration>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -242,9 +242,9 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 
 			@Override
-			public void onSuccess(CsvParserConfiguration result) {
+			public void onSuccess(CsvConfiguration result) {
 				Log.trace("parser configuration loaded: "+result);
-				importEventBus.fireEvent(new CsvParserConfigurationUpdatedEvent(result));				
+				importEventBus.fireEventFromSource(new CsvParserConfigurationUpdatedEvent(result), ImportWizardControllerImpl.this);				
 			}
 		});
 	}
@@ -310,7 +310,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 	protected void getImportProgress()
 	{
-		importService.getImportProgress(new AsyncCallback<ImportProgress>() {
+		importService.getImportProgress(new AsyncCallback<Progress>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -318,14 +318,14 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			}
 
 			@Override
-			public void onSuccess(ImportProgress result) {
+			public void onSuccess(Progress result) {
 				Log.trace("Import progress: "+result);
 				updateImportProgress(result);			
 			}
 		});
 	}
 
-	protected void updateImportProgress(ImportProgress progress)
+	protected void updateImportProgress(Progress progress)
 	{
 		if (progress.isComplete()) codelistImportComplete();
 		importEventBus.fireEvent(new ImportProgressEvent(progress));

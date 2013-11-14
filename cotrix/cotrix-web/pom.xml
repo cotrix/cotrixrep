@@ -29,6 +29,11 @@
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-application</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-security</artifactId>
 		</dependency>
 
@@ -46,11 +51,11 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-codelistmanager</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-publish</artifactId>
 		</dependency>
-
 
 		<dependency>
 			<groupId>com.google.gwt</groupId>

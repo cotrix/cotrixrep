@@ -5,7 +5,7 @@ import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UICode;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
@@ -25,7 +25,7 @@ public interface ManagerService extends RemoteService {
 	DataWindow<UICode> getCodelistCodes(String codelistId, Range range) throws ManagerServiceException;
 	DataWindow<CodelistGroup> getCodelistsGrouped() throws ManagerServiceException;
 	
-	CodelistMetadata getMetadata(String codelistId) throws ManagerServiceException;
+	UICodelistMetadata getMetadata(String codelistId) throws ManagerServiceException;
 	
 	CodelistGroup createNewCodelistVersion(String codelistId, String newVersion) throws ManagerServiceException;
 	void removeCodelist(String codelistId) throws ManagerServiceException;

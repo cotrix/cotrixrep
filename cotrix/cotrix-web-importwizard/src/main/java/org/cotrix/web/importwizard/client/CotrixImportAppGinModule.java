@@ -54,20 +54,12 @@ import org.cotrix.web.importwizard.client.wizard.ImportWizardPresenterImpl;
 import org.cotrix.web.importwizard.client.wizard.ImportWizardView;
 import org.cotrix.web.importwizard.client.wizard.ImportWizardViewImpl;
 
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
 public class CotrixImportAppGinModule extends AbstractGinModule {
-
-    @Provides
-    @Singleton
-    public HandlerManager getEventBus() {
-        return new HandlerManager(null);
-    }
 
     protected void configure() {
     	bind(EventBus.class).annotatedWith(ImportBus.class).to(SimpleEventBus.class).in(Singleton.class);

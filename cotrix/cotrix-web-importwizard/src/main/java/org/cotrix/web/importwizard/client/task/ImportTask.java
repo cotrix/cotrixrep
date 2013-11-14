@@ -70,4 +70,14 @@ public class ImportTask implements TaskWizardStep, ImportProgressHandler, ResetW
 		}
 	}
 
+	@Override
+	public boolean isComplete() {
+		return false;
+	}
+
+	@Override
+	public WizardAction getAction() {
+		return null;
+	}
+
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.shared;
+package org.cotrix.web.share.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ImportProgress implements IsSerializable {
+public class Progress implements IsSerializable {
 	
 	public enum Status {ONGOING, DONE, FAILED};
 	

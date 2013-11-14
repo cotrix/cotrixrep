@@ -6,12 +6,12 @@ package org.cotrix.web.share.client.wizard.step;
  */
 public interface WizardStep {
 
-	public abstract String getId();
+	public String getId();
 
 	/**
 	 * Notify the step controller that the user want leave it.
 	 * @return
 	 */
-	public abstract boolean leave();
+	public boolean leave();
 
 }

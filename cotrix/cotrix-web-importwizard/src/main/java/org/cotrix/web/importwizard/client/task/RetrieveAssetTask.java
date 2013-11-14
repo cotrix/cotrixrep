@@ -68,4 +68,14 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler, As
 		callback.onSuccess(ImportWizardAction.NEXT);
 	}
 
+	@Override
+	public boolean isComplete() {
+		return false;
+	}
+
+	@Override
+	public WizardAction getAction() {
+		return null;
+	}
+
 }

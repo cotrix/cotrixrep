@@ -10,9 +10,10 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.cotrix.io.CloudService;
-import org.cotrix.web.importwizard.server.util.FieldComparator.ValueProvider;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.RepositoryDetails;
+import org.cotrix.web.share.server.util.OrderedList;
+import org.cotrix.web.share.server.util.FieldComparator.ValueProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;

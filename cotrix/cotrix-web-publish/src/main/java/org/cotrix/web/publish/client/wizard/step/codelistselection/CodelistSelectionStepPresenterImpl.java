@@ -3,7 +3,10 @@ package org.cotrix.web.publish.client.wizard.step.codelistselection;
 import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
+import org.cotrix.web.publish.client.wizard.step.DetailsNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
+import org.cotrix.web.publish.client.wizard.task.RetrieveMetadataTask;
+import org.cotrix.web.share.client.wizard.event.NavigationEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
@@ -22,14 +25,11 @@ public class CodelistSelectionStepPresenterImpl extends AbstractVisualWizardStep
 
 	protected final CodelistSelectionStepView view;
 	
-	/*@Inject
-	protected DetailsNodeSelector detailsNodeSelector;*/
-	
-	/*@Inject
-	protected CodelistDetailsStepPresenter codelistDetailsPresenter;
+	@Inject
+	protected DetailsNodeSelector detailsNodeSelector;
 	
 	@Inject
-	protected RepositoryDetailsStepPresenter repositoryDetailsPresenter;*/
+	protected RetrieveMetadataTask retrieveMetadataTask;
 	
 	protected EventBus publishEventBus;
 	
@@ -37,7 +37,7 @@ public class CodelistSelectionStepPresenterImpl extends AbstractVisualWizardStep
 	
 	@Inject
 	public CodelistSelectionStepPresenterImpl(CodelistSelectionStepView view, @PublishBus EventBus publishEventBus) {
-		super("selection", TrackerLabels.SELECTION, "Pick a codelist", "We found a few nearby.", PublishWizardStepButtons.FORWARD);
+		super("selection", TrackerLabels.SELECTION, "Which one do we publish?", "Pick a codelist.", PublishWizardStepButtons.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		this.publishEventBus = publishEventBus;
@@ -49,37 +49,29 @@ public class CodelistSelectionStepPresenterImpl extends AbstractVisualWizardStep
 	}
 
 	public boolean leave() {
-		Log.trace("SelectionStep leaving: "+(selectedCodelist!=null));
-		return selectedCodelist!=null;
+		Log.trace("CodelistSelectionStep leaving");
+		if (selectedCodelist!=null && !detailsNodeSelector.isSwitchedToCodeListDetails()) publishEventBus.fireEvent(new CodeListSelectedEvent(selectedCodelist));
+		return selectedCodelist!=null || detailsNodeSelector.isSwitchedToCodeListDetails();
 	}
 
 	@Override
 	public void codelistSelected(UICodelist codelist) {
-		Log.trace("Codelist selected "+codelist+" selectedCodelist: "+selectedCodelist);
+		Log.trace("Codelist selected "+codelist);
 		if (selectedCodelist!=null && selectedCodelist.equals(codelist)) return;
 		
 		this.selectedCodelist = codelist;
-		Log.trace("selectedCodelist: "+selectedCodelist);
-		publishEventBus.fireEvent(new CodeListSelectedEvent(codelist));
 	}
 
 	@Override
 	public void codelistDetails(UICodelist codelist) {
-		
-		/*codelistDetailsPresenter.setAsset(asset);
+		Log.trace("codelistDetails "+codelist);
+		retrieveMetadataTask.setSelectedCodelist(codelist);
 		detailsNodeSelector.switchToCodeListDetails();
-		publishEventBus.fireEvent(NavigationEvent.FORWARD);*/
+		publishEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
 
 	@Override
 	public void onResetWizard(ResetWizardEvent event) {
 		view.reset();
-	}
-
-	@Override
-	public void repositoryDetails(String repositoryId) {
-		/*repositoryDetailsPresenter.setRepository(repositoryId);
-		detailsNodeSelector.switchToRepositoryDetails();
-		publishEventBus.fireEvent(NavigationEvent.FORWARD);*/
 	}
 }

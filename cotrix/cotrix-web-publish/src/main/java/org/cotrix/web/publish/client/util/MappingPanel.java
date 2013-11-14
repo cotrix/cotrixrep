@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.cotrix.web.publish.shared.AttributeMapping;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -30,20 +34,34 @@ public class MappingPanel extends ResizeComposite {
 		public void onReloadButtonClicked();
 	}
 	
+	@UiField TableRowElement nameRow;
+	@UiField TableRowElement versionRow;
+	@UiField TableRowElement sealedRow;
+	
 	@UiField TextBox name;
 	@UiField TextBox version;
 	@UiField SimpleCheckBox sealed;
-	@UiField InlineLabel attributeMappingLabel;
 	
 	@UiField(provided=true)
 	AttributeMappingPanel mappingPanel;
 	
 	protected ReloadButtonHandler reloadHandler;
-
+	
 	public MappingPanel(boolean hasTypeDefinition, String attributeMappingLabel) {
-		mappingPanel = new AttributeMappingPanel(hasTypeDefinition);
+		this(true, hasTypeDefinition, attributeMappingLabel);
+	}
+
+	public MappingPanel(boolean showMetadata, boolean hasTypeDefinition, String attributeMappingLabel) {
+		mappingPanel = new AttributeMappingPanel(hasTypeDefinition, attributeMappingLabel);
 		initWidget(uiBinder.createAndBindUi(this));
-		this.attributeMappingLabel.setText(attributeMappingLabel);
+		if (!showMetadata) hideMetadata();
+	}
+	
+	protected void hideMetadata()
+	{
+		nameRow.getStyle().setDisplay(Display.NONE);
+		versionRow.getStyle().setDisplay(Display.NONE);
+		sealedRow.getStyle().setDisplay(Display.NONE);
 	}
 	
 	/**

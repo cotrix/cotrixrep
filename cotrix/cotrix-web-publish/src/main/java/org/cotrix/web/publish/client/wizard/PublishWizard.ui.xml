@@ -99,11 +99,7 @@
 						text="PUBLISH" />
 				</div>
 				<div class="{style.rightButton}">
-					<g:Button ui:field="manageButton" styleName="{common.css.buttonManage}"
-						text="MANAGE IT" />
-				</div>
-				<div class="{style.rightButton}">
-					<g:Button ui:field="newPublishButton" styleName="{resources.css.buttonPublish}"
+					<g:Button ui:field="newPublishButton" styleName="{common.css.buttonImport}"
 						text="PUBLISH ANOTHER" />
 				</div>
 			</g:HTMLPanel>

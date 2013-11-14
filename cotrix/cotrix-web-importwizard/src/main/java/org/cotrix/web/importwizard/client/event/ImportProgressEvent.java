@@ -3,7 +3,7 @@ package org.cotrix.web.importwizard.client.event;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 
-import org.cotrix.web.importwizard.shared.ImportProgress;
+import org.cotrix.web.share.shared.Progress;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -12,17 +12,17 @@ import org.cotrix.web.importwizard.shared.ImportProgress;
 public class ImportProgressEvent extends GwtEvent<ImportProgressEvent.ImportProgressHandler> {
 
 	public static Type<ImportProgressHandler> TYPE = new Type<ImportProgressHandler>();
-	private ImportProgress progress;
+	private Progress progress;
 
 	public interface ImportProgressHandler extends EventHandler {
 		void onImportProgress(ImportProgressEvent event);
 	}
 
-	public ImportProgressEvent(ImportProgress progress) {
+	public ImportProgressEvent(Progress progress) {
 		this.progress = progress;
 	}
 
-	public ImportProgress getProgress() {
+	public Progress getProgress() {
 		return progress;
 	}
 

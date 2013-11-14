@@ -1,10 +1,10 @@
 package org.cotrix.web.publish.client.wizard.step.csvconfiguration;
 
+import org.cotrix.web.publish.client.event.CsvWriterConfigurationUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -17,16 +17,30 @@ import com.google.web.bindery.event.shared.EventBus;
 public class CsvConfigurationStepPresenterImpl extends AbstractVisualWizardStep implements CsvConfigurationStepPresenter {
 
 	private final CsvConfigurationStepView view;
-	protected EventBus importEventBus;
+	protected EventBus publishBus;
 	protected boolean headerRequired = false;
 	
 	@Inject
-	public CsvConfigurationStepPresenterImpl(CsvConfigurationStepView view, @PublishBus EventBus importEventBus) {
-		super("csv-preview", TrackerLabels.CSVCONFIG, "Does it look right?", "Adjust the parameters until it does.", PublishWizardStepButtons.BACKWARD, PublishWizardStepButtons.FORWARD);
+	public CsvConfigurationStepPresenterImpl(CsvConfigurationStepView view, @PublishBus EventBus publishBus) {
+		super("csv-preview", TrackerLabels.CSVCONFIG, "about this CSV…", "Adjust the parameters as needed.", PublishWizardStepButtons.BACKWARD, PublishWizardStepButtons.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 		
-		this.importEventBus = importEventBus;
+		this.publishBus = publishBus;
+		bind();
+	}
+	
+	protected void bind()
+	{
+		publishBus.addHandler(CsvWriterConfigurationUpdatedEvent.TYPE, new CsvWriterConfigurationUpdatedEvent.CsvWriterConfigurationUpdatedHandler() {
+			
+			@Override
+			public void onCsvWriterConfigurationUpdated(
+					CsvWriterConfigurationUpdatedEvent event) {
+				if (event.getSource() != CsvConfigurationStepPresenterImpl.this) view.setCsvWriterConfiguration(event.getConfiguration());
+				
+			}
+		});
 	}
 
 	public void go(HasWidgets container) {
@@ -34,18 +48,8 @@ public class CsvConfigurationStepPresenterImpl extends AbstractVisualWizardStep 
 	}
 
 	public boolean leave() {
+		publishBus.fireEventFromSource(new CsvWriterConfigurationUpdatedEvent(view.getCsvWriterConfiguration()), this);
 		return true;
-	}
-
-	@Override
-	public void onShowCsvConfigurationButtonClicked() {
-		view.showCsvConfigurationDialog();
-	}
-
-	@Override
-	public void onCsvConfigurationEdited(CsvParserConfiguration configuration) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

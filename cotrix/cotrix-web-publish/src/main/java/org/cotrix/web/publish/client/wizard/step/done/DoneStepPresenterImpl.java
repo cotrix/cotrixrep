@@ -1,8 +1,7 @@
 package org.cotrix.web.publish.client.wizard.step.done;
 
-import org.cotrix.web.publish.client.event.PublishProgressEvent;
+import org.cotrix.web.publish.client.event.PublishCompleteEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
-import org.cotrix.web.publish.client.event.PublishProgressEvent.PublishProgressHandler;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
@@ -15,17 +14,31 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class DoneStepPresenterImpl extends AbstractVisualWizardStep implements DoneStepPresenter, PublishProgressHandler {
+public class DoneStepPresenterImpl extends AbstractVisualWizardStep implements DoneStepPresenter {
 	
 	protected DoneStepView view;
-	protected EventBus importEventBus;
+	protected EventBus publishBus;
 	
 	@Inject
-	public DoneStepPresenterImpl(DoneStepView view, @PublishBus EventBus importEventBus) {
-		super("done", TrackerLabels.DONE, "Done", "Done", PublishWizardStepButtons.NEW_PUBLISH, PublishWizardStepButtons.MANAGE);
+	public DoneStepPresenterImpl(DoneStepView view, @PublishBus EventBus publishBus) {
+		super("done", TrackerLabels.DONE, "Done", "Done", PublishWizardStepButtons.NEW_PUBLISH);
 		this.view = view;
-		this.importEventBus = importEventBus;
-		importEventBus.addHandler(PublishProgressEvent.TYPE, this);
+		this.publishBus = publishBus;
+		bind();
+	}
+	
+	protected void bind() {
+		publishBus.addHandler(PublishCompleteEvent.TYPE, new PublishCompleteEvent.PublishCompleteHandler() {
+			
+			@Override
+			public void onPublishComplete(PublishCompleteEvent event) {
+				switch (event.getStatus()) {
+					case DONE: setDone(); break;
+					case FAILED: setFailed(); break;
+					default:;
+				}	
+			}
+		});
 	}
 	
 	public void go(HasWidgets container) {
@@ -35,27 +48,18 @@ public class DoneStepPresenterImpl extends AbstractVisualWizardStep implements D
 	public boolean leave() {
 		return true;
 	}
-
-	@Override
-	public void onPublishProgress(PublishProgressEvent event) {
-		switch (event.getProgress().getStatus()) {
-			case DONE: {
-				configuration.setTitle("That's done");
-				configuration.setButtons(PublishWizardStepButtons.NEW_PUBLISH, PublishWizardStepButtons.MANAGE);
-				configuration.setSubtitle("Check the log for potential errors or warnings.");
-				view.loadReport();
-			} break;
-			case FAILED: {
-				configuration.setTitle("...Oops!");
-				configuration.setButtons(PublishWizardStepButtons.BACKWARD);
-				configuration.setSubtitle("Something went wrong, check the log.");
-				view.loadReport();
-			} break;
-
-			default:
-				break;
-		}	
-		
-
+	
+	protected void setDone() {
+		configuration.setTitle("That's done");
+		configuration.setButtons(PublishWizardStepButtons.NEW_PUBLISH);
+		configuration.setSubtitle("Check the log for potential errors or warnings.");
+		view.loadReport();
+	}
+	
+	protected void setFailed() {
+		configuration.setTitle("...Oops!");
+		configuration.setButtons(PublishWizardStepButtons.BACKWARD);
+		configuration.setSubtitle("Something went wrong, check the log.");
+		view.loadReport();
 	}
 }

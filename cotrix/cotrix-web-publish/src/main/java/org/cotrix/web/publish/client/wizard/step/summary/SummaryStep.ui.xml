@@ -7,6 +7,7 @@
 		.grid {
 			vertical-align: top;
 			margin-right: 20px;
+			width: 100%;
 		}
 		
 		.mappingPanelItem {
@@ -38,15 +39,6 @@
 				<g:row>
 					<g:cell
 						styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
-						<span class="{common.css.propertyLabel}">File</span>
-					</g:cell>
-					<g:customCell>
-						<g:Label ui:field="fileField" styleName="{common.css.propertyValue}" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:cell
-						styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
 						<span class="{common.css.propertyLabel}">Codelist</span>
 					</g:cell>
 					<g:customCell>
@@ -65,10 +57,10 @@
 				<g:row>
 					<g:cell
 						styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
-						<span class="{common.css.propertyLabel}">Sealed</span>
+						<span class="{common.css.propertyLabel}">State</span>
 					</g:cell>
 					<g:customCell>
-						<g:Label ui:field="sealedField" styleName="{common.css.propertyValue}" />
+						<g:Label ui:field="stateField" styleName="{common.css.propertyValue}" />
 					</g:customCell>
 				</g:row>
 				<g:row>

@@ -1,17 +1,15 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.client.step.csvpreview;
+package org.cotrix.web.share.client.widgets;
 
 
 import java.util.EnumSet;
 
-import org.cotrix.web.share.client.widgets.EnumListBox;
 import org.cotrix.web.share.client.widgets.EnumListBox.LabelProvider;
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -29,7 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CsvParserConfigurationPanel extends Composite {
+public class CsvConfigurationPanel extends Composite {
 	
 	protected interface Value {
 		public String getLabel();
@@ -43,7 +41,7 @@ public class CsvParserConfigurationPanel extends Composite {
 		TAB("tab",'\t'),
 		CUSTOM("other",(char)0)
 		;
-		public static LabelProvider<Separator> LABEL_PROVIDER = new LabelProvider<CsvParserConfigurationPanel.Separator>() {
+		public static LabelProvider<Separator> LABEL_PROVIDER = new LabelProvider<CsvConfigurationPanel.Separator>() {
 
 			@Override
 			public String getLabel(Separator item) {
@@ -79,7 +77,7 @@ public class CsvParserConfigurationPanel extends Composite {
 		SINGLE("single quote",'\''),
 		CUSTOM("other",'o')
 		;
-		public static LabelProvider<Quote> LABEL_PROVIDER = new LabelProvider<CsvParserConfigurationPanel.Quote>() {
+		public static LabelProvider<Quote> LABEL_PROVIDER = new LabelProvider<CsvConfigurationPanel.Quote>() {
 
 			@Override
 			public String getLabel(Quote item) {
@@ -111,41 +109,35 @@ public class CsvParserConfigurationPanel extends Composite {
 		}
 	}
 	
-	private static CsvParserConfigurationDialogUiBinder uiBinder = GWT.create(CsvParserConfigurationDialogUiBinder.class);
-
-	interface CsvParserConfigurationDialogUiBinder extends
-	UiBinder<Widget, CsvParserConfigurationPanel> {
+	public interface RefreshHandler extends EventHandler {
+		public void onRefresh(CsvConfiguration configuration);
 	}
 	
-	interface DialogSaveHandler extends EventHandler {
-		public void onSave(CsvParserConfiguration configuration);
-	}
+	public @UiField ListBox charsetField;
+	public @UiField SimpleCheckBox hasHeaderField;
+	public @UiField(provided=true) EnumListBox<Separator> separatorField;
+	public @UiField TextBox customSeparatorField;
+	public @UiField TextBox commentField;
+	public @UiField(provided=true) EnumListBox<Quote> quoteField;
+	public @UiField TextBox customQuoteField;
 	
-	@UiField ListBox charsetField;
-	@UiField SimpleCheckBox hasHeaderField;
-	@UiField(provided=true) EnumListBox<Separator> separatorField;
-	@UiField TextBox customSeparatorField;
-	@UiField TextBox commentField;
-	@UiField(provided=true) EnumListBox<Quote> quoteField;
-	@UiField TextBox customQuoteField;
-	
-	protected DialogSaveHandler saveHandler;
+	protected RefreshHandler refreshHandler;
 
-	public CsvParserConfigurationPanel() {
+	public CsvConfigurationPanel(UiBinder<Widget, CsvConfigurationPanel> binder) {
 
-		separatorField = new EnumListBox<CsvParserConfigurationPanel.Separator>(Separator.class, Separator.LABEL_PROVIDER);
-		quoteField = new EnumListBox<CsvParserConfigurationPanel.Quote>(Quote.class, Quote.LABEL_PROVIDER);
+		separatorField = new EnumListBox<CsvConfigurationPanel.Separator>(Separator.class, Separator.LABEL_PROVIDER);
+		quoteField = new EnumListBox<CsvConfigurationPanel.Quote>(Quote.class, Quote.LABEL_PROVIDER);
 		
-		initWidget(uiBinder.createAndBindUi(this));
+		initWidget(binder.createAndBindUi(this));
 		
 		bind(separatorField, customSeparatorField, Separator.CUSTOM);
 		bind(quoteField, customQuoteField, Quote.CUSTOM);
 	}
 	
 	@UiHandler("refreshButton")
-	protected void refreshButtonClicked(ClickEvent clickEvent)
+	public void refreshButtonClicked(ClickEvent clickEvent)
 	{
-		saveHandler.onSave(getConfiguration());
+		refreshHandler.onRefresh(getConfiguration());
 	}
 	
 	protected <E extends Enum<E>> void bind(final EnumListBox<E> listBox, final TextBox textBox, final E custom)
@@ -161,13 +153,13 @@ public class CsvParserConfigurationPanel extends Composite {
 	}
 
 	/**
-	 * @param saveHandler the saveHandler to set
+	 * @param refreshHandler the saveHandler to set
 	 */
-	public void setSaveHandler(DialogSaveHandler saveHandler) {
-		this.saveHandler = saveHandler;
+	public void setRefreshHandler(RefreshHandler refreshHandler) {
+		this.refreshHandler = refreshHandler;
 	}
 
-	public void setConfiguration(CsvParserConfiguration configuration)
+	public void setConfiguration(CsvConfiguration configuration)
 	{
 	
 		hasHeaderField.setValue(configuration.isHasHeader());
@@ -212,9 +204,9 @@ public class CsvParserConfigurationPanel extends Composite {
 		return false;
 	}
 	
-	public CsvParserConfiguration getConfiguration()
+	public CsvConfiguration getConfiguration()
 	{
-		CsvParserConfiguration configuration = new CsvParserConfiguration();
+		CsvConfiguration configuration = new CsvConfiguration();
 		
 		//TODO validation
 		configuration.setCharset(charsetField.getValue(charsetField.getSelectedIndex()));

@@ -12,7 +12,7 @@ import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.ColumnSortList;
-import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.AsyncDataProvider;
@@ -29,8 +29,8 @@ public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 	
 	@Inject
 	protected PublishServiceAsync service;
-	protected DataGrid<UICodelist> datagrid;
-	protected boolean forceRefresh;
+	protected PatchedDataGrid<UICodelist> datagrid;
+	protected boolean forceRefresh = true;
 	
 	/**
 	 * @param service
@@ -42,10 +42,10 @@ public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 	/**
 	 * @param datagrid the datagrid to set
 	 */
-	public void setDatagrid(DataGrid<UICodelist> datagrid) {
+	public void setDatagrid(PatchedDataGrid<UICodelist> datagrid) {
 		this.datagrid = datagrid;
 	}
-
+	
 	/**
 	 * @param forceRefresh the forceRefresh to set
 	 */

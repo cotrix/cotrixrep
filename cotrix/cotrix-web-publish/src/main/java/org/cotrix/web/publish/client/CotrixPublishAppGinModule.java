@@ -5,7 +5,6 @@ import org.cotrix.web.publish.client.wizard.PublishWizardPresenter;
 import org.cotrix.web.publish.client.wizard.PublishWizardPresenterImpl;
 import org.cotrix.web.publish.client.wizard.PublishWizardView;
 import org.cotrix.web.publish.client.wizard.PublishWizardViewImpl;
-import org.cotrix.web.publish.client.wizard.step.DestinationNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.codelistdetails.CodelistDetailsStepPresenterImpl;
 import org.cotrix.web.publish.client.wizard.step.codelistdetails.CodelistDetailsStepView;
@@ -64,41 +63,40 @@ public class CotrixPublishAppGinModule extends AbstractGinModule {
 	    
 	   	bind(PublishController.class).in(Singleton.class);
 	   	
-		bind(CotrixPublishAppController.class).to(CotrixPublishAppControllerImpl.class);
+		bind(CotrixPublishAppController.class).to(CotrixPublishAppControllerImpl.class).in(Singleton.class);
 
-		bind(PublishWizardPresenter.class).to(PublishWizardPresenterImpl.class);
-		bind(PublishWizardView.class).to(PublishWizardViewImpl.class);
+		bind(PublishWizardPresenter.class).to(PublishWizardPresenterImpl.class).in(Singleton.class);
+		bind(PublishWizardView.class).to(PublishWizardViewImpl.class).in(Singleton.class);
 		
-		bind(CodelistSelectionStepPresenter.class).to(CodelistSelectionStepPresenterImpl.class);
-		bind(CodelistSelectionStepView.class).to(CodelistSelectionStepViewImpl.class);
+		bind(CodelistSelectionStepPresenter.class).to(CodelistSelectionStepPresenterImpl.class).in(Singleton.class);
+		bind(CodelistSelectionStepView.class).to(CodelistSelectionStepViewImpl.class).in(Singleton.class);
 		
-		bind(CodelistDetailsStepPresenter.class).to(CodelistDetailsStepPresenterImpl.class);
-		bind(CodelistDetailsStepView.class).to(CodelistDetailsStepViewImpl.class);
+		bind(CodelistDetailsStepPresenter.class).to(CodelistDetailsStepPresenterImpl.class).in(Singleton.class);
+		bind(CodelistDetailsStepView.class).to(CodelistDetailsStepViewImpl.class).in(Singleton.class);
 		
-		bind(DestinationSelectionStepPresenter.class).to(DestinationSelectionStepPresenterImpl.class);
-		bind(DestinationSelectionStepView.class).to(DestinationSelectionStepViewImpl.class);
-		bind(DestinationNodeSelector.class).in(Singleton.class);
+		bind(DestinationSelectionStepPresenter.class).to(DestinationSelectionStepPresenterImpl.class).in(Singleton.class);
+		bind(DestinationSelectionStepView.class).to(DestinationSelectionStepViewImpl.class).in(Singleton.class);
 		
-		bind(TypeSelectionStepPresenter.class).to(TypeSelectionStepPresenterImpl.class);
-		bind(TypeSelectionStepView.class).to(TypeSelectionStepViewImpl.class);
+		bind(TypeSelectionStepPresenter.class).to(TypeSelectionStepPresenterImpl.class).in(Singleton.class);
+		bind(TypeSelectionStepView.class).to(TypeSelectionStepViewImpl.class).in(Singleton.class);
 		
-		bind(CsvConfigurationStepPresenter.class).to(CsvConfigurationStepPresenterImpl.class);
-		bind(CsvConfigurationStepView.class).to(CsvConfigurationStepViewImpl.class);
+		bind(CsvConfigurationStepPresenter.class).to(CsvConfigurationStepPresenterImpl.class).in(Singleton.class);
+		bind(CsvConfigurationStepView.class).to(CsvConfigurationStepViewImpl.class).in(Singleton.class);
 		
-		bind(CsvMappingStepPresenter.class).to(CsvMappingStepPresenterImpl.class);
-		bind(CsvMappingStepView.class).to(CsvMappingStepViewImpl.class);
+		bind(CsvMappingStepPresenter.class).to(CsvMappingStepPresenterImpl.class).in(Singleton.class);
+		bind(CsvMappingStepView.class).to(CsvMappingStepViewImpl.class).in(Singleton.class);
 		
-		bind(SdmxMappingStepPresenter.class).to(SdmxMappingStepPresenterImpl.class);
-		bind(SdmxMappingStepView.class).to(SdmxMappingStepViewImpl.class);
+		bind(SdmxMappingStepPresenter.class).to(SdmxMappingStepPresenterImpl.class).in(Singleton.class);
+		bind(SdmxMappingStepView.class).to(SdmxMappingStepViewImpl.class).in(Singleton.class);
 		
-		bind(RepositorySelectionStepPresenter.class).to(RepositorySelectionStepPresenterImpl.class);
-		bind(RepositorySelectionStepView.class).to(RepositorySelectionStepViewImpl.class);
+		bind(RepositorySelectionStepPresenter.class).to(RepositorySelectionStepPresenterImpl.class).in(Singleton.class);
+		bind(RepositorySelectionStepView.class).to(RepositorySelectionStepViewImpl.class).in(Singleton.class);
 		
-		bind(SummaryStepPresenter.class).to(SummaryStepPresenterImpl.class);
-		bind(SummaryStepView.class).to(SummaryStepViewImpl.class);
+		bind(SummaryStepPresenter.class).to(SummaryStepPresenterImpl.class).in(Singleton.class);
+		bind(SummaryStepView.class).to(SummaryStepViewImpl.class).in(Singleton.class);
 		
-		bind(DoneStepPresenter.class).to(DoneStepPresenterImpl.class);
-		bind(DoneStepView.class).to(DoneStepViewImpl.class);
+		bind(DoneStepPresenter.class).to(DoneStepPresenterImpl.class).in(Singleton.class);
+		bind(DoneStepView.class).to(DoneStepViewImpl.class).in(Singleton.class);
 	}
 
 }

@@ -10,5 +10,5 @@ import org.cotrix.web.share.client.wizard.WizardAction;
  *
  */
 public enum PublishWizardAction implements WizardAction {
-	NEW_PUBLISH, MANAGE;
+	NEW_PUBLISH;
 }

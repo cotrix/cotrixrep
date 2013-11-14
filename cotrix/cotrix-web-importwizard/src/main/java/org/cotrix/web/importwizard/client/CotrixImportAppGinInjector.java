@@ -10,6 +10,10 @@ import org.cotrix.web.importwizard.client.wizard.ImportWizardPresenter;
 import org.cotrix.web.importwizard.client.wizard.ImportWizardView;
 import org.cotrix.web.share.client.CommonGinModule;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 @GinModules({CotrixImportAppGinModule.class, CommonGinModule.class})
 public interface CotrixImportAppGinInjector extends Ginjector {
 	

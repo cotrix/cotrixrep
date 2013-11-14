@@ -14,7 +14,6 @@ public interface PublishWizardView extends WizardView {
 		NEXT, 
 		BACK, 
 		PUBLISH, 
-		MANAGE, 
 		NEW_PUBLISH;
 
 		@Override

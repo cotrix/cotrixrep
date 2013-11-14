@@ -10,7 +10,7 @@ import java.util.List;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CsvParserConfiguration implements Serializable {
+public class CsvConfiguration implements Serializable {
 	
 	private static final long serialVersionUID = 2424486900885043596L;
 	
@@ -122,7 +122,7 @@ public class CsvParserConfiguration implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CsvParserConfiguration other = (CsvParserConfiguration) obj;
+		CsvConfiguration other = (CsvConfiguration) obj;
 		if (charset == null) {
 			if (other.charset != null)
 				return false;

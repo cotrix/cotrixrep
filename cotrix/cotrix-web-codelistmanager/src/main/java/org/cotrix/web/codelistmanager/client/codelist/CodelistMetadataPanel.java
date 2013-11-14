@@ -12,7 +12,7 @@ import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.client.util.Constants;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
-import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -51,7 +51,7 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 
 	protected ListDataProvider<UIAttribute> attributesProvider;
 
-	protected CodelistMetadata metadata;
+	protected UICodelistMetadata metadata;
 
 	@Inject
 	protected MetadataProvider dataProvider;
@@ -148,10 +148,10 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	public void loadData()
 	{
 		showLoader();
-		dataProvider.getData(new AsyncCallback<CodelistMetadata>() {
+		dataProvider.getData(new AsyncCallback<UICodelistMetadata>() {
 
 			@Override
-			public void onSuccess(CodelistMetadata result) {
+			public void onSuccess(UICodelistMetadata result) {
 				Log.trace("retrieved metadata: "+result);
 				setMetadata(result);
 				hideLoader();
@@ -165,7 +165,7 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 		});
 	}
 
-	protected void setMetadata(CodelistMetadata metadata)
+	protected void setMetadata(UICodelistMetadata metadata)
 	{
 		this.metadata = metadata;
 		

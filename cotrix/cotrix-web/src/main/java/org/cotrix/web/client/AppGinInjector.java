@@ -1,5 +1,6 @@
 package org.cotrix.web.client;
 
+import org.cotrix.web.client.presenter.HomeController;
 import org.cotrix.web.client.presenter.UserBarPresenter;
 import org.cotrix.web.share.client.CommonGinModule;
 
@@ -19,4 +20,6 @@ public interface AppGinInjector extends Ginjector {
 	public AppController getAppController();
 	
 	public UserBarPresenter getPresenter();
+	
+	public HomeController getHomeController();
 }

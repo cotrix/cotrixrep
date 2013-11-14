@@ -30,8 +30,8 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class UserController {
 	
-	protected static final String GUEST_USERNAME = "cotrix";
-	protected static final String GUEST_PASSWORD = "cotrix";
+	protected static final String GUEST_USERNAME = null; //"cotrix";
+	protected static final String GUEST_PASSWORD = null; //"cotrix";
 	
 	protected EventBus cotrixBus;
 	protected List<String> openedCodelists = new ArrayList<String>();
@@ -65,7 +65,7 @@ public class UserController {
 			public void execute() {
 				logGuest();
 			}
-		});		
+		});
 	}
 
 	protected void bind()

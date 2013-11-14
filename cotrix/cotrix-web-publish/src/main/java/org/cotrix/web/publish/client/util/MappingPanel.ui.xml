@@ -3,6 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:u="urn:import:org.cotrix.web.publish.client.util">
 	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
 		field="common" />
+	<ui:with type="org.cotrix.web.publish.client.resources.Resources"
+		field="resources" />
 	<ui:style>
 		.topPadding {
 			padding-top: 10px;
@@ -22,9 +24,9 @@
 	<g:ScrollPanel styleName="{common.css.mappingTable}">
 		<g:HTMLPanel>
 			<table width="100%">
-				<tr>
+				<tr ui:field="nameRow" >
 					<td class="{common.css.mappingTableNameHeader}">
-						<span class="{common.css.propertyLabel}" style="padding-left:32px;padding-right:10px;">NAME</span>
+						<span class="{common.css.propertyLabel} {resources.css.mappingCell}">NAME</span>
 					</td>
 					<td style="padding-top:10px;">
 						<g:TextBox width="99%" ui:field="name"
@@ -37,18 +39,18 @@
 						</g:PushButton>
 					</td>
 				</tr>
-				<tr>
+				<tr ui:field="versionRow">
 					<td class="{common.css.mappingTableNameHeader}">
-						<span class="{common.css.propertyLabel}" style="text-align:left;padding-left:32px;padding-right:10px;">VERSION</span>
+						<span class="{common.css.propertyLabel} {resources.css.mappingCell}">VERSION</span>
 					</td>
 					<td style="padding-top:10px;padding-right: 70px;" colspan="2">
 						<g:TextBox width="99%" ui:field="version"
 							styleName="{common.css.textBox}" />
 					</td>
 				</tr>
-				<tr>
+				<tr ui:field="sealedRow">
 					<td class="{common.css.mappingTableNameHeader}">
-						<span class="{common.css.propertyLabel}" style="text-align:left;padding-left:32px;padding-right:10px;">SEALED</span>
+						<span class="{common.css.propertyLabel} {resources.css.mappingCell}">SEALED</span>
 					</td>
 					<td style="padding-top:10px;padding-right: 70px;" colspan="2">
 						<g:SimpleCheckBox ui:field="sealed"
@@ -57,18 +59,8 @@
 				</tr>
 				<tr>
 					<td colspan="3" align="left" style="padding: 20px;">
-						<table style="border-collapse:collapse; width: 100%;">
-							<tr>
-								<td class="{common.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
-								<g:InlineLabel ui:field="attributeMappingLabel" styleName="{common.css.propertyLabel}"/>
-								</td>
-							</tr>
-							<tr>
-								<td style="border: 1px solid #d1d1d1;padding-left:5px;">
-									<u:AttributeMappingPanel ui:field="mappingPanel" />
-								</td>
-							</tr>
-						</table>
+						<u:AttributeMappingPanel ui:field="mappingPanel" />
+
 					</td>
 				</tr>
 			</table>

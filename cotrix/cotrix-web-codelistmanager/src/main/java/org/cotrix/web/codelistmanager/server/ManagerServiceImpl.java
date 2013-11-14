@@ -38,7 +38,7 @@ import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
@@ -155,7 +155,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public CodelistMetadata getMetadata(@Id String codelistId) throws ManagerServiceException {
+	public UICodelistMetadata getMetadata(@Id String codelistId) throws ManagerServiceException {
 		logger.trace("getMetadata codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
 		return Codelists.toCodelistMetadata(codelist);

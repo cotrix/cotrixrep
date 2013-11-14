@@ -27,7 +27,7 @@ public class TypeSelectionStepPresenterImpl extends AbstractVisualWizardStep imp
 
 	@Inject
 	public TypeSelectionStepPresenterImpl(TypeSelectionStepView view) {
-		super("typeSelection", TrackerLabels.TYPE, "Which format to publish the codelist?", "Either you have it or we try to find it.", PublishWizardStepButtons.BACKWARD);
+		super("typeSelection", TrackerLabels.TYPE, "How do we publish it?", "Choose a format.", PublishWizardStepButtons.BACKWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 	}

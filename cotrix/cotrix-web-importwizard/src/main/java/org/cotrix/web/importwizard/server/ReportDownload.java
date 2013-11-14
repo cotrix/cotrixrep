@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
-import org.cotrix.web.importwizard.server.upload.FileNameUtil;
+import org.cotrix.web.share.server.util.FileNameUtil;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

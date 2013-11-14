@@ -64,6 +64,12 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource ru();
 	public ImageResource zh();
 	
+	@Source("thumb_vertical.png")
+	public ImageResource thumbVertical();
+	
+	@Source("thumb_horz.png")
+	public ImageResource thumbHorizontal();
+	
 	interface CotrixManagerStyle extends CssResource {
 		String search();
 		String searchBackground();

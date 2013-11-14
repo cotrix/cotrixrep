@@ -22,5 +22,9 @@ public class ValueUtils {
 	{
 		return value==null?new UIQName("", ""):new UIQName(value.getNamespaceURI(), value.getLocalPart());
 	}
+	
+	public static QName toQName(UIQName name) {
+		return new QName(name.getNamespace(), name.getLocalPart());
+	}
 
 }

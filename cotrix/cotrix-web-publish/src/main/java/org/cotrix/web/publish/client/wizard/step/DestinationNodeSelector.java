@@ -5,10 +5,11 @@ package org.cotrix.web.publish.client.wizard.step;
 
 import java.util.List;
 
-import org.cotrix.web.publish.client.event.DestinationType;
 import org.cotrix.web.publish.client.event.DestinationTypeChangeEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
+import org.cotrix.web.publish.client.wizard.step.repositoryselection.RepositorySelectionStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepPresenter;
+import org.cotrix.web.publish.shared.DestinationType;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.flow.AbstractNodeSelector;
 import org.cotrix.web.share.client.wizard.flow.FlowNode;
@@ -16,23 +17,25 @@ import org.cotrix.web.share.client.wizard.step.WizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class DestinationNodeSelector extends AbstractNodeSelector<WizardStep> {
 	
 	protected TypeSelectionStepPresenter typeStep;
-	//protected UploadStepPresenter uploadStep;
+	protected RepositorySelectionStepPresenter repositorySelectionStep;
 	protected WizardStep nextStep;
 	
 	@Inject
-	public DestinationNodeSelector(@PublishBus EventBus publishBus, TypeSelectionStepPresenter typeStep/*, UploadStepPresenter uploadStep*/)
+	public DestinationNodeSelector(@PublishBus EventBus publishBus, TypeSelectionStepPresenter typeStep, RepositorySelectionStepPresenter repositorySelectionStep)
 	{
 		this.typeStep = typeStep;
-		/*this.uploadStep = typeStep;*/
+		this.repositorySelectionStep = repositorySelectionStep;
 		this.nextStep = typeStep;
 		
 		bind(publishBus);
@@ -74,7 +77,7 @@ public class DestinationNodeSelector extends AbstractNodeSelector<WizardStep> {
 	public void setDestination(DestinationType destination) {
 		Log.trace("switching destination to "+destination);
 		switch (destination) {
-			/*case CHANNEL:nextStep = typeStep; break;*/
+			case CHANNEL:nextStep = repositorySelectionStep; break;
 			case FILE: nextStep = typeStep; break;
 		}
 		switchUpdated();

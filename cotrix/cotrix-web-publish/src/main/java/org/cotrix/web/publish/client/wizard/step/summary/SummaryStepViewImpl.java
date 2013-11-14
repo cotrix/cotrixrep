@@ -30,7 +30,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepView {
 
-	protected static final int FILE_FIELD_ROW = 0;
 	protected static final int PROPERTIES_FIELD_ROW = 4;
 
 	@UiTemplate("SummaryStep.ui.xml")
@@ -40,10 +39,9 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	@UiField DockLayoutPanel mainPanel;
 	@UiField Grid panel;
 
-	@UiField Label fileField;
 	@UiField Label codelistField;
 	@UiField Label versionField;
-	@UiField Label sealedField;
+	@UiField Label stateField;
 	@UiField FlexTable propertiesTable;
 	@UiField HTMLPanel mappingPanel;
 	@UiField SimpleCheckBox mappingMode;
@@ -56,48 +54,51 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	public void setMapping(List<AttributeMapping> mappings)
 	{
 		Log.trace("Setting "+mappings.size()+" mappings");
-		
+
 		customTable.removeAllRows();
 		int row = 0;
 		for (AttributeMapping mapping:mappings) {
 			Log.trace("setting "+mapping);
 			Log.trace("row "+row);
 			StringBuilder mappingDescription = new StringBuilder();
-			String originalName = mapping.getField().getLabel();
-			
+
+			AttributeDefinition definition = mapping.getAttributeDefinition();
+
 			if (mapping.isMapped()) {
-				mappingDescription.append("import <b>").append(originalName).append("</b>");
-				AttributeDefinition definition = mapping.getAttributeDefinition();
-				if (!originalName.equals(definition.getName())) mappingDescription.append(" as ").append(definition.getName());
-				if (definition.getType() !=null) {
-					mappingDescription.append(" is ").append(definition.getType().toString());
-					if (definition.getLanguage()!=null) mappingDescription.append(" in ").append(definition.getLanguage());
-				}
-			} else mappingDescription.append("ignore <b>").append(originalName).append("</b>");
+
+				mappingDescription.append("map [<b>").append(definition.getName().getLocalPart()).append("</b>");
+
+				mappingDescription.append(",").append(definition.getType().getLocalPart());
+				if (definition.getLanguage()!=null && !definition.getLanguage().isEmpty()) mappingDescription.append(",").append(definition.getLanguage());
+				mappingDescription.append("] to ");
+				
+				String columnName = mapping.getColumnName();
+				mappingDescription.append(columnName);
+			} else mappingDescription.append("ignore <b>").append(definition.getName().getLocalPart()).append("</b>");
 
 			//Log.trace("label "+mappingDescription.toString());
-			
+
 			HTML mappingLabel = new HTML(mappingDescription.toString());
 			customTable.setWidget(row, 0, mappingLabel);
 			row++;
 		}
 	}
-	
+
 	@Override
 	public void setCodelistName(String name) {
 		codelistField.setText(name);
 	}
-	
+
 	@Override
 	public void setCodelistVersion(String version) {
 		versionField.setText(version);
 	}
-	
+
 	@Override
-	public void setSealed(boolean sealed)
+	public void setState(String state)
 	{
 		//TODO
-		sealedField.setText(sealed?"TRUE":"FALSE");
+		stateField.setText(state);
 	}
 
 	public void setMetadataAttributes(Map<String, String> properties){
@@ -121,21 +122,11 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 		}
 	}
 
-	public void setFileName(String fileName)
-	{
-		fileField.setText(fileName);
-	}
-
-	public void setFileNameVisible(boolean visible)
-	{
-		panel.getRowFormatter().setVisible(FILE_FIELD_ROW, visible);
-	}
-	
 	public MappingMode getMappingMode()
 	{
 		return mappingMode.getValue()?MappingMode.STRICT:MappingMode.LOG;
 	}
-	
+
 	public void setMappingMode(MappingMode mode)
 	{
 		mappingMode.setValue(mode==MappingMode.STRICT);

@@ -13,6 +13,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface TaskWizardStep extends WizardStep {
 	
+	public boolean isComplete();
+	public WizardAction getAction();
+	
 	public void run(AsyncCallback<WizardAction> callback);
 
 }

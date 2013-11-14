@@ -13,7 +13,7 @@ import org.cotrix.web.publish.client.event.MetadataUpdatedEvent.MetadataUpdatedH
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.ImportMetadata;
+import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -29,7 +29,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 
 	protected SdmxMappingStepView view;
 	protected EventBus importEventBus;
-	protected ImportMetadata metadata;
+	protected PublishMetadata metadata;
 	protected List<AttributeMapping> mappings;
 
 	@Inject
@@ -67,7 +67,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 
 			importEventBus.fireEvent(new MappingsUpdatedEvent(mappings));
 			
-			ImportMetadata metadata = new ImportMetadata();
+			PublishMetadata metadata = new PublishMetadata();
 			metadata.setName(codelistName);
 			metadata.setVersion(version);
 			metadata.setSealed(sealed);
@@ -98,7 +98,7 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 	{
 
 		for (AttributeMapping mapping:mappings) {
-			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().isEmpty()) {
+			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().getLocalPart().isEmpty()) {
 				view.alert("don't leave elements blank, bin them instead");
 				return false;
 			}

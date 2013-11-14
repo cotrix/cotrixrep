@@ -27,7 +27,7 @@ public class DestinationSelectionStepPresenterImpl extends AbstractVisualWizardS
 
 	@Inject
 	public DestinationSelectionStepPresenterImpl(DestinationSelectionStepView view) {
-		super("destinationSelection", TrackerLabels.DESTINATION, "Where to publish the codelist?", "Either you have it or we try to find it.", PublishWizardStepButtons.BACKWARD);
+		super("destinationSelection", TrackerLabels.DESTINATION, "Where is it going?", "Save it to your computer, or send it away to the cloud.", PublishWizardStepButtons.BACKWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 	}

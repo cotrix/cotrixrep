@@ -3,7 +3,7 @@ package org.cotrix.web.importwizard.client.event;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 
-import org.cotrix.web.share.shared.CsvParserConfiguration;
+import org.cotrix.web.share.shared.CsvConfiguration;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -12,18 +12,18 @@ import org.cotrix.web.share.shared.CsvParserConfiguration;
 public class CsvParserConfigurationUpdatedEvent	extends	GwtEvent<CsvParserConfigurationUpdatedEvent.CsvParserConfigurationUpdatedHandler> {
 
 	public static Type<CsvParserConfigurationUpdatedHandler> TYPE = new Type<CsvParserConfigurationUpdatedHandler>();
-	private CsvParserConfiguration configuration;
+	private CsvConfiguration configuration;
 
 	public interface CsvParserConfigurationUpdatedHandler extends EventHandler {
 		void onCsvParserConfigurationUpdated(
 				CsvParserConfigurationUpdatedEvent event);
 	}
 
-	public CsvParserConfigurationUpdatedEvent(CsvParserConfiguration configuration) {
+	public CsvParserConfigurationUpdatedEvent(CsvConfiguration configuration) {
 		this.configuration = configuration;
 	}
 
-	public CsvParserConfiguration getConfiguration() {
+	public CsvConfiguration getConfiguration() {
 		return configuration;
 	}
 

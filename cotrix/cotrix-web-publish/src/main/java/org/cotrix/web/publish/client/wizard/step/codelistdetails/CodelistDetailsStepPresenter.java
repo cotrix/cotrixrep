@@ -1,7 +1,7 @@
 package org.cotrix.web.publish.client.wizard.step.codelistdetails;
 
 import org.cotrix.web.share.client.wizard.step.VisualWizardStep;
-import org.cotrix.web.share.shared.codelist.CodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -9,5 +9,5 @@ import org.cotrix.web.share.shared.codelist.CodelistMetadata;
  */
 public interface CodelistDetailsStepPresenter extends VisualWizardStep {
 
-	public void setAsset(CodelistMetadata codelist);
+	public void setCodelist(UICodelistMetadata codelistMetadata);
 }

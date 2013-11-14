@@ -176,21 +176,24 @@
 
 /** PROPERTIES TABLE **/
 .propertiesTableHeader {
-	text-align: center;
+	font-size: 21px;
 }
 
 .propertiesTable {
-	font-size: 8px;
 	text-align: left;
 	border: none;
+	padding: 5px;
+	border: 1px solid #d1d1d1;
 }
 
 .propertiesTable td,.propertiesTable th {
-	margin: 0;
-	padding: 3px;
-	border: none;
-	font-size: 16px;
+	font-size: 18px;
 	color: #5e5e5e;
+	border: 1px solid #d1d1d1;
+}
+
+.propertiesTable div {
+	padding: 5px;
 }
 
 @sprite .buttonManage {
@@ -225,6 +228,7 @@
 	height: 20px;
 	width: 21px;
 	color: #fff;
+	outline: none;
 }
 
 .buttonRefresh:hover {
@@ -306,4 +310,28 @@
 	cursor: pointer;
 	width: 170px;
 	height: 40px;
+}
+
+
+@sprite .buttonImport{
+	gwt-image: "importIcon";
+	background-color:#5674b9;
+	border:1px solid #5674b9;
+	border-radius:5px;
+	text-align:center;
+	width:220px;
+	font-size:15px;
+	padding-left:70px;
+	height:40px;
+	
+	color:#eee;
+}
+
+@sprite .buttonImport:hover{
+	gwt-image: "importIcon";
+	background-color:#344e89;
+	color:#eee;
+	cursor:pointer;
+	width:220px;
+	height:40px;
 }

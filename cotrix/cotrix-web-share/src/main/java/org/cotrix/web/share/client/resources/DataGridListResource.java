@@ -5,13 +5,14 @@ package org.cotrix.web.share.client.resources;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.PatchedDataGrid;
+
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface DataGridListResource extends DataGrid.Resources {
+public interface DataGridListResource extends PatchedDataGrid.Resources {
 
 	public static DataGridListResource INSTANCE = GWT.create(DataGridListResource.class);
 	
@@ -22,7 +23,7 @@ public interface DataGridListResource extends DataGrid.Resources {
 	DataGridListStyle dataGridStyle();
 	
 	
-	public interface DataGridListStyle extends DataGrid.Style {
+	public interface DataGridListStyle extends PatchedDataGrid.Style {
 		
 	}
 

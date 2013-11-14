@@ -7,6 +7,8 @@ import org.cotrix.web.client.presenter.UserBarPresenterImpl;
 import org.cotrix.web.client.presenter.UserController;
 import org.cotrix.web.client.view.CotrixWebView;
 import org.cotrix.web.client.view.CotrixWebViewImpl;
+import org.cotrix.web.client.view.HomeView;
+import org.cotrix.web.client.view.HomeViewImpl;
 import org.cotrix.web.client.view.UserBarView;
 import org.cotrix.web.client.view.UserBarViewImpl;
 
@@ -30,6 +32,8 @@ public class AppGinModule extends AbstractGinModule {
 		bind(UserBarPresenter.class).to(UserBarPresenterImpl.class).in(Singleton.class);
 		
 		bind(UserController.class).asEagerSingleton();
+		
+		bind(HomeView.class).to(HomeViewImpl.class);
 	}
 
 }

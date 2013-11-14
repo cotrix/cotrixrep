@@ -20,7 +20,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
-import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
@@ -43,7 +43,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	private static ChannelStepUiBinder uiBinder = GWT.create(ChannelStepUiBinder.class);
 	
 	@UiField (provided = true) 
-	DataGrid<AssetInfo> dataGrid;
+	PatchedDataGrid<AssetInfo> dataGrid;
 
 	@UiField(provided = true)
 	SimplePager pager;
@@ -80,7 +80,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	protected void setupGrid()
 	{
 
-		dataGrid = new DataGrid<AssetInfo>(6, DataGridListResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<AssetInfo>(6, DataGridListResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);

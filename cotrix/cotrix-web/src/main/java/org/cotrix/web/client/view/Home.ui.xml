@@ -3,6 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with field='resources'
 		type='org.cotrix.web.client.resources.CotrixResources' />
+			<ui:with field='common'
+		type='org.cotrix.web.share.client.resources.CommonResources' />
 	<ui:style>
 		.div {
 			vertical-align: middle;
@@ -47,6 +49,16 @@
 			width: 950px;
 			margin: 0 auto;
 		}
+		.statistics {
+			padding: 13px;
+			line-height: 2;
+		}
+		
+		.statisticsLoader{
+			text-align: center;
+			vertical-align: middle;
+			padding-top: 10px;
+		}
 	</ui:style>
 	<g:HTMLPanel styleName="{style.home}">
 		<div class="{style.div}">
@@ -64,6 +76,10 @@
 					<div class="{style.block}">
 						<g:Image resource="{resources.statistic}" styleName="{style.blockImg}" />
 						<div class="{style.blockTitle}">statistics</div>
+						<g:HTML ui:field="statistics" visible="false" styleName="{style.statistics}"/>
+						<div class="{style.statisticsLoader}" ui:field="statisticsLoader">
+						<g:Image resource="{common.dataLoader}"/>
+						</div>
 					</div>
 				</td>
 				<!-- <div class="{style.block}"> <g:Image resource="{resources.howto}" 

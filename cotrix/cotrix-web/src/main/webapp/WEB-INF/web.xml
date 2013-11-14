@@ -68,6 +68,12 @@
 		<servlet-class>org.cotrix.web.publish.server.PublishServiceImpl</servlet-class>
 	</servlet>
 	
+	<servlet>
+		<servlet-name>publishDownloadServlet</servlet-name>
+		<servlet-class>org.cotrix.web.publish.server.DownloadServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>listServlet</servlet-name>
 		<url-pattern>/CodeListManager/main</url-pattern>
@@ -97,6 +103,11 @@
 	<servlet-mapping>
 		<servlet-name>codelistPublishServlet</servlet-name>
 		<url-pattern>/CodeListManager/publish</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>publishDownloadServlet</servlet-name>
+		<url-pattern>/CodeListManager/publishDownload</url-pattern>
 	</servlet-mapping>
 
 	<filter-mapping>

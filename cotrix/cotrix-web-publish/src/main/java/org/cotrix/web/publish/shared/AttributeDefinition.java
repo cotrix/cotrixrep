@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.publish.shared;
 
+import org.cotrix.web.share.shared.codelist.UIQName;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
@@ -11,20 +13,20 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class AttributeDefinition implements IsSerializable {
 	
-	protected String name;
-	protected AttributeType type;
+	protected UIQName name;
+	protected UIQName type;
 	protected String language;
 	
 	/**
 	 * @return the name
 	 */
-	public String getName() {
+	public UIQName getName() {
 		return name;
 	}
 	/**
 	 * @return the type
 	 */
-	public AttributeType getType() {
+	public UIQName getType() {
 		return type;
 	}
 	/**
@@ -37,14 +39,14 @@ public class AttributeDefinition implements IsSerializable {
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(String name) {
+	public void setName(UIQName name) {
 		this.name = name;
 	}
 	
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(AttributeType type) {
+	public void setType(UIQName type) {
 		this.type = type;
 	}
 	

@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.share.shared;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
@@ -12,6 +13,13 @@ import org.cotrix.web.share.shared.feature.FeatureCarrier;
  *
  */
 public class DataWindow<T> extends FeatureCarrier {
+	
+	protected static DataWindow<Object> EMPTY = new DataWindow<Object>(new ArrayList<Object>());
+	
+	@SuppressWarnings("unchecked")
+	public static <T> DataWindow<T> emptyWindow() {
+		return (DataWindow<T>) EMPTY;
+	}
 	
 	protected List<T> data;
 	protected int totalSize;

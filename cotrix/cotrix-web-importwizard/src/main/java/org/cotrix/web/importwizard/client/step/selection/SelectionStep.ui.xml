@@ -22,7 +22,7 @@
 		styleName="{style.mainPanel}">
 
 		<g:center>
-			<c:DataGrid ui:field='dataGrid' />
+			<c:PatchedDataGrid ui:field='dataGrid' />
 		</g:center>
 		<g:east size="45">
 			<g:PushButton ui:field="refreshButton"
