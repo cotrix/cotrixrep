@@ -6,8 +6,8 @@ package org.cotrix.web.importwizard.client.step.codelistdetails;
 import java.util.List;
 
 import org.cotrix.web.importwizard.shared.AssetDetails;
-import org.cotrix.web.importwizard.shared.Property;
 import org.cotrix.web.share.client.resources.CommonResources;
+import org.cotrix.web.share.shared.codelist.Property;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

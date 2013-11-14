@@ -3,20 +3,14 @@
  */
 package org.cotrix.web.importwizard.server.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.xml.namespace.QName;
 
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.CodeListType;
-import org.cotrix.web.importwizard.shared.Property;
-import org.cotrix.web.importwizard.shared.RepositoryDetails;
-import org.cotrix.web.share.server.util.AssetTypes;
+import org.cotrix.web.share.server.util.Repositories;
 import org.virtualrepository.Asset;
 import org.virtualrepository.AssetType;
-import org.virtualrepository.Properties;
 import org.virtualrepository.RepositoryService;
 import org.virtualrepository.csv.CsvCodelist;
 import org.virtualrepository.sdmx.SdmxCodelist;
@@ -65,38 +59,12 @@ public class Assets {
 		AssetDetails details = new AssetDetails();
 		details.setId(asset.id());
 		details.setName(asset.name());
-		details.setProperties(convert(asset.properties()));
+		details.setProperties(Repositories.convert(asset.properties()));
 		details.setType(String.valueOf(asset.type()));
 		String serviceName = getServiceName(asset);
 		details.setRepositoryName(serviceName);
 		details.setRepositoryId(serviceName);
 		return details;
-	}
-	
-	public static RepositoryDetails convert(RepositoryService service) {
-		RepositoryDetails details = new RepositoryDetails();
-		details.setId(service.name().toString());
-		details.setName(service.name().toString());
-		details.setProperties(convert(service.properties()));
-		details.setPublishedTypes(AssetTypes.toString(service.publishedTypes()));
-		details.setReturnedTypes(AssetTypes.toString(service.returnedTypes()));
-		return details;
-	}
-
-	
-	protected static List<Property> convert(Properties properties)
-	{
-		List<Property> props = new ArrayList<Property>();
-		for (org.virtualrepository.Property property:properties) {
-			if (property.isDisplay()) props.add(convert(property));
-		}
-		
-		return props;
-	}
-	
-	protected static Property convert(org.virtualrepository.Property property)
-	{
-		return new Property(property.name(), String.valueOf(property.value()), property.description());
 	}
 
 }

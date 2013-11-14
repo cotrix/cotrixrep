@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.CloudService;
@@ -23,10 +24,11 @@ import org.cotrix.web.publish.server.publish.PublishStatus;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.FieldComparator.ValueProvider;
-import org.cotrix.web.share.server.util.AssetTypes;
+import org.cotrix.web.share.server.util.Repositories;
 import org.cotrix.web.share.server.util.OrderedList;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.codelist.UICodelist;
+import org.cotrix.web.share.shared.codelist.UIQName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.RepositoryService;
@@ -96,6 +98,7 @@ public class PublishSession implements Serializable {
 	protected PublishStatus publishStatus;
 	
 	protected OrderedList<UIRepository> orderedRepositories;
+	protected Map<QName, RepositoryService> indexedRepositories;
 	
 	public PublishSession() {
 		orderedCodelists = new OrderedList<UICodelist>();
@@ -107,6 +110,7 @@ public class PublishSession implements Serializable {
 		orderedRepositories = new OrderedList<UIRepository>();
 		orderedRepositories.addField(UIRepository.NAME_FIELD, REPOSITORY_NAME);
 		orderedRepositories.addField(UIRepository.PUBLISHED_TYPES_FIELD, REPOSITORY_PUBLISH_TYPE);
+		indexedRepositories = new HashMap<QName, RepositoryService>();
 	}
 
 	public void loadCodelists()
@@ -143,13 +147,19 @@ public class PublishSession implements Serializable {
 			UIRepository uiRepository = new UIRepository();
 			uiRepository.setId(ValueUtils.safeValue(repository.name()));
 			uiRepository.setName(ValueUtils.safeValue(repository.name()));
-			uiRepository.setPublishedTypes(AssetTypes.toString(repository.publishedTypes()));
+			uiRepository.setPublishedTypes(Repositories.toString(repository.publishedTypes()));
 			orderedRepositories.add(uiRepository);
+			
+			indexedRepositories.put(repository.name(), repository);
 		}
 	}
 	
 	public List<UIRepository> getOrderedRepositories(String sortingField) {
 		return orderedRepositories.getSortedList(sortingField);
+	}
+	
+	public RepositoryService getRepositoryService(UIQName id) {
+		return indexedRepositories.get(ValueUtils.toQName(id));
 	}
 
 	/**

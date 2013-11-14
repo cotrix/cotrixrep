@@ -57,6 +57,10 @@
 	outline: none;
 }
 
+.missingValueText {
+	font-style: italic;
+}
+
 /** MAPPING **/
 .mappingTable {
 	border: 1px solid #d1d1d1;

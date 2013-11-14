@@ -6,6 +6,8 @@ package org.cotrix.web.importwizard.shared;
 import java.io.Serializable;
 import java.util.List;
 
+import org.cotrix.web.share.shared.codelist.Property;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *

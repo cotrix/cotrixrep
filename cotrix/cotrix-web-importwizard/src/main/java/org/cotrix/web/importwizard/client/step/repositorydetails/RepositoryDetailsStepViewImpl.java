@@ -5,10 +5,9 @@ package org.cotrix.web.importwizard.client.step.repositorydetails;
 
 import java.util.List;
 
-import org.cotrix.web.importwizard.client.resources.Resources;
-import org.cotrix.web.importwizard.shared.Property;
-import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.share.client.resources.CommonResources;
+import org.cotrix.web.share.shared.codelist.Property;
+import org.cotrix.web.share.shared.codelist.RepositoryDetails;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -44,17 +43,16 @@ public class RepositoryDetailsStepViewImpl extends Composite implements Reposito
 
 	public RepositoryDetailsStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-		Resources.INSTANCE.css().ensureInjected();
 	}
 
 	public void setRepository(RepositoryDetails repository)
 	{
 		repositoryName.setText(repository.getName());
 		repositoryPublishedTypes.setText(repository.getPublishedTypes().isEmpty()?NOTHING:repository.getPublishedTypes());
-		repositoryPublishedTypes.setStyleName(Resources.INSTANCE.css().missingValueText(), repository.getPublishedTypes().isEmpty());
+		repositoryPublishedTypes.setStyleName(CommonResources.INSTANCE.css().missingValueText(), repository.getPublishedTypes().isEmpty());
 		
 		repositoryReturnedTypes.setText(repository.getReturnedTypes().isEmpty()?NOTHING:repository.getReturnedTypes());
-		repositoryReturnedTypes.setStyleName(Resources.INSTANCE.css().missingValueText(), repository.getReturnedTypes().isEmpty());
+		repositoryReturnedTypes.setStyleName(CommonResources.INSTANCE.css().missingValueText(), repository.getReturnedTypes().isEmpty());
 		
 		addRepositoryProperties(repository.getProperties());
 	}

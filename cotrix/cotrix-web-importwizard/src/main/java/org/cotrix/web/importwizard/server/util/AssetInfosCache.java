@@ -11,9 +11,10 @@ import javax.servlet.http.HttpSession;
 
 import org.cotrix.io.CloudService;
 import org.cotrix.web.importwizard.shared.AssetInfo;
-import org.cotrix.web.importwizard.shared.RepositoryDetails;
 import org.cotrix.web.share.server.util.OrderedList;
 import org.cotrix.web.share.server.util.FieldComparator.ValueProvider;
+import org.cotrix.web.share.server.util.Repositories;
+import org.cotrix.web.share.shared.codelist.RepositoryDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
@@ -100,7 +101,7 @@ public class AssetInfosCache {
 		}
 		
 		for (RepositoryService repository: cloud.repositories()) {
-			RepositoryDetails repositoryDetails = Assets.convert(repository);
+			RepositoryDetails repositoryDetails = Repositories.convert(repository);
 			repositoriesCache.put(repositoryDetails.getName(), repositoryDetails);
 		}
 		

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.importwizard.shared;
+package org.cotrix.web.share.shared.codelist;
 
 import java.io.Serializable;
 import java.util.List;

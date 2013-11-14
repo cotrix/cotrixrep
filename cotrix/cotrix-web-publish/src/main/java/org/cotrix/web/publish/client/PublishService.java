@@ -12,8 +12,10 @@ import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.Progress;
 import org.cotrix.web.share.shared.ReportLog;
+import org.cotrix.web.share.shared.codelist.RepositoryDetails;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UIQName;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -40,5 +42,7 @@ public interface PublishService extends RemoteService {
 	Progress getPublishProgress() throws PublishServiceException;
 	
 	DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, boolean force) throws PublishServiceException;
+	
+	public RepositoryDetails getRepositoryDetails(UIQName repositoryId) throws PublishServiceException;
 
 }

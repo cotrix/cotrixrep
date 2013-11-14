@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Codelist;
+import org.cotrix.io.CloudService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.web.publish.client.PublishService;
@@ -31,16 +32,20 @@ import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.Encodings;
 import org.cotrix.web.share.server.util.Ranges;
+import org.cotrix.web.share.server.util.Repositories;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.Progress;
 import org.cotrix.web.share.shared.ReportLog;
+import org.cotrix.web.share.shared.codelist.RepositoryDetails;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.share.shared.codelist.UIQName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.virtualrepository.RepositoryService;
 import org.virtualrepository.tabular.Table;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -64,6 +69,9 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 
 	@Inject
 	protected PublishSession session;
+
+	@Inject
+	protected CloudService cloud;
 
 	/** 
 	 * {@inheritDoc}
@@ -205,10 +213,6 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		}
 	}
 
-
-
-
-
 	@Override
 	public DataWindow<ReportLog> getReportLogs(Range range) throws PublishServiceException {
 		logger.trace("getReportLogs range: {}",range);
@@ -221,7 +225,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		logger.trace("getRepositories range: {} sortInfo: {} force: {}", range, sortInfo, force);
 
 		if (force) session.loadRepositories();
-		
+
 		List<UIRepository> codelists = session.getOrderedRepositories(sortInfo.getName());
 		return getDataWindow(codelists, sortInfo.isAscending(), range);
 	}
@@ -230,6 +234,14 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		List<T> dataWindow = (ascending)?Ranges.subList(data, range):Ranges.subListReverseOrder(data, range);
 
 		return new DataWindow<T>(dataWindow, data.size());
+	}
+
+	public RepositoryDetails getRepositoryDetails(UIQName id) throws PublishServiceException
+	{
+		logger.trace("getRepositoryDetails id: {} ", id);
+		RepositoryService repository = session.getRepositoryService(id);
+		return Repositories.convert(repository);
+
 	}
 
 }
