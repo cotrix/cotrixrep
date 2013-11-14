@@ -1,9 +1,10 @@
 package org.cotrix.web.publish.client.wizard.step.destinationselection;
 
-import org.cotrix.web.publish.client.event.DestinationTypeChangeEvent;
+import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
+import org.cotrix.web.publish.shared.DestinationType;
 import org.cotrix.web.share.client.wizard.event.NavigationEvent;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
@@ -19,11 +20,14 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class DestinationSelectionStepPresenterImpl extends AbstractVisualWizardStep implements DestinationSelectionStepPresenter {
 
+	protected static final ItemUpdatedEvent<DestinationType> CHANNEL_EVENT = new ItemUpdatedEvent<DestinationType>(DestinationType.CHANNEL);
+	protected static final ItemUpdatedEvent<DestinationType> FILE_EVENT = new ItemUpdatedEvent<DestinationType>(DestinationType.FILE);
+	
 	protected DestinationSelectionStepView view;
 	
 	@Inject
 	@PublishBus
-	protected EventBus importEventBus;
+	protected EventBus publishBus;
 
 	@Inject
 	public DestinationSelectionStepPresenterImpl(DestinationSelectionStepView view) {
@@ -56,8 +60,8 @@ public class DestinationSelectionStepPresenterImpl extends AbstractVisualWizardS
 	@Override
 	public void onCloudButtonClick() {
 		Log.trace("onCloudButtonClick");
-		importEventBus.fireEvent(DestinationTypeChangeEvent.CHANNEL);
-		importEventBus.fireEvent(NavigationEvent.FORWARD);
+		publishBus.fireEvent(CHANNEL_EVENT);
+		publishBus.fireEvent(NavigationEvent.FORWARD);
 	}
 
 	/** 
@@ -66,7 +70,7 @@ public class DestinationSelectionStepPresenterImpl extends AbstractVisualWizardS
 	@Override
 	public void onLocalButtonClick() {
 		Log.trace("onLocalButtonClick");
-		importEventBus.fireEvent(DestinationTypeChangeEvent.FILE);
-		importEventBus.fireEvent(NavigationEvent.FORWARD);
+		publishBus.fireEvent(FILE_EVENT);
+		publishBus.fireEvent(NavigationEvent.FORWARD);
 	}
 }

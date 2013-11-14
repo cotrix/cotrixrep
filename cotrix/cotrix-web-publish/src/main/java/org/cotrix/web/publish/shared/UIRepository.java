@@ -19,6 +19,8 @@ public class UIRepository implements IsSerializable {
 	protected UIQName id;
 	protected UIQName name;
 	protected String publishedTypes;
+	protected FormatType publishedType;
+	
 	/**
 	 * @return the id
 	 */
@@ -54,6 +56,19 @@ public class UIRepository implements IsSerializable {
 	 */
 	public void setPublishedTypes(String publishedTypes) {
 		this.publishedTypes = publishedTypes;
+	}
+	
+	/**
+	 * @return the publishedType
+	 */
+	public FormatType getPublishedType() {
+		return publishedType;
+	}
+	/**
+	 * @param publishedType the publishedType to set
+	 */
+	public void setPublishedType(FormatType publishedType) {
+		this.publishedType = publishedType;
 	}
 	/** 
 	 * {@inheritDoc}

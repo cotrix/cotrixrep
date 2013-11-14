@@ -4,8 +4,8 @@
 package org.cotrix.web.publish.client.wizard.task;
 
 import org.cotrix.web.publish.client.PublishServiceAsync;
-import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
-import org.cotrix.web.publish.client.event.CsvWriterConfigurationUpdatedEvent;
+import org.cotrix.web.publish.client.event.ItemSelectedEvent;
+import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
 import org.cotrix.web.share.client.wizard.WizardAction;
@@ -50,11 +50,12 @@ public class RetrieveCSVConfigurationTask implements TaskWizardStep {
 				reset();
 			}
 		});
-		publishBus.addHandler(CodeListSelectedEvent.TYPE, new CodeListSelectedEvent.CodeListSelectedHandler(){
+		
+		publishBus.addHandler(ItemSelectedEvent.getType(UICodelist.class), new ItemSelectedEvent.ItemSelectedHandler<UICodelist>() {
 
 			@Override
-			public void onCodeListSelected(CodeListSelectedEvent event) {
-				selectedCodelist = event.getSelectedCodelist();
+			public void onItemSelected(ItemSelectedEvent<UICodelist> event) {
+				selectedCodelist = event.getItem();
 			}
 			
 		});
@@ -83,7 +84,7 @@ public class RetrieveCSVConfigurationTask implements TaskWizardStep {
 
 			@Override
 			public void onSuccess(CsvConfiguration result) {
-				publishBus.fireEventFromSource(new CsvWriterConfigurationUpdatedEvent(result), RetrieveCSVConfigurationTask.this);
+				publishBus.fireEventFromSource(new ItemUpdatedEvent<CsvConfiguration>(result), RetrieveCSVConfigurationTask.this);
 				callback.onSuccess(PublishWizardAction.NEXT);
 			}
 		});

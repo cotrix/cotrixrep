@@ -5,7 +5,7 @@ package org.cotrix.web.publish.client.wizard.step;
 
 import java.util.List;
 
-import org.cotrix.web.publish.client.event.DestinationTypeChangeEvent;
+import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.step.repositoryselection.RepositorySelectionStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepPresenter;
@@ -43,11 +43,11 @@ public class DestinationNodeSelector extends AbstractNodeSelector<WizardStep> {
 	
 	protected void bind(EventBus publishBus)
 	{
-		publishBus.addHandler(DestinationTypeChangeEvent.TYPE, new DestinationTypeChangeEvent.DestinationTypeChangeHandler() {
-			
+		publishBus.addHandler(ItemUpdatedEvent.getType(DestinationType.class), new ItemUpdatedEvent.ItemUpdatedHandler<DestinationType>() {
+
 			@Override
-			public void onDestinationTypeChange(DestinationTypeChangeEvent event) {
-				setDestination(event.getDestinationType());
+			public void onItemUpdated(ItemUpdatedEvent<DestinationType> event) {
+				setDestination(event.getItem());
 			}
 		});
 		publishBus.addHandler(ResetWizardEvent.TYPE, new ResetWizardEvent.ResetWizardHandler() {

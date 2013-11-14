@@ -6,11 +6,8 @@ package org.cotrix.web.publish.client.wizard.task;
 import java.util.List;
 
 import org.cotrix.web.publish.client.PublishServiceAsync;
-import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
-import org.cotrix.web.publish.client.event.CsvWriterConfigurationUpdatedEvent;
-import org.cotrix.web.publish.client.event.DestinationTypeChangeEvent;
-import org.cotrix.web.publish.client.event.FormatTypeChangeEvent;
-import org.cotrix.web.publish.client.event.MappingModeUpdatedEvent;
+import org.cotrix.web.publish.client.event.ItemSelectedEvent;
+import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.event.PublishCompleteEvent;
@@ -80,37 +77,35 @@ public class PublishTask implements TaskWizardStep {
 	
 	protected void bind()
 	{
-		publishBus.addHandler(CodeListSelectedEvent.TYPE, new CodeListSelectedEvent.CodeListSelectedHandler() {
-			
+		publishBus.addHandler(ItemSelectedEvent.getType(UICodelist.class), new ItemSelectedEvent.ItemSelectedHandler<UICodelist>() {
+
 			@Override
-			public void onCodeListSelected(CodeListSelectedEvent event) {
-				codelist = event.getSelectedCodelist();
+			public void onItemSelected(ItemSelectedEvent<UICodelist> event) {
+				codelist = event.getItem();
 			}
 		});
 		
-		publishBus.addHandler(DestinationTypeChangeEvent.TYPE, new DestinationTypeChangeEvent.DestinationTypeChangeHandler() {
-			
+		publishBus.addHandler(ItemUpdatedEvent.getType(DestinationType.class), new ItemUpdatedEvent.ItemUpdatedHandler<DestinationType>() {
+
 			@Override
-			public void onDestinationTypeChange(DestinationTypeChangeEvent event) {
-				destination = event.getDestinationType();
+			public void onItemUpdated(ItemUpdatedEvent<DestinationType> event) {
+				destination = event.getItem();
 			}
 		});
 		
-		publishBus.addHandler(FormatTypeChangeEvent.TYPE, new FormatTypeChangeEvent.FormatTypeChangeHandler() {
-			
+		publishBus.addHandler(ItemUpdatedEvent.getType(FormatType.class), new ItemUpdatedEvent.ItemUpdatedHandler<FormatType>() {
+
 			@Override
-			public void onFormatTypeChange(FormatTypeChangeEvent event) {
-				type = event.getFormatType();
+			public void onItemUpdated(ItemUpdatedEvent<FormatType> event) {
+				type = event.getItem();
 			}
 		});
 		
-		publishBus.addHandler(CsvWriterConfigurationUpdatedEvent.TYPE, new CsvWriterConfigurationUpdatedEvent.CsvWriterConfigurationUpdatedHandler() {
-			
+		publishBus.addHandler(ItemUpdatedEvent.getType(CsvConfiguration.class), new ItemUpdatedEvent.ItemUpdatedHandler<CsvConfiguration>() {
+
 			@Override
-			public void onCsvWriterConfigurationUpdated(
-					CsvWriterConfigurationUpdatedEvent event) {
-				csvConfiguration = event.getConfiguration();
-				
+			public void onItemUpdated(ItemUpdatedEvent<CsvConfiguration> event) {
+				csvConfiguration = event.getItem();
 			}
 		});
 		
@@ -122,11 +117,11 @@ public class PublishTask implements TaskWizardStep {
 			}
 		});
 		
-		publishBus.addHandler(MappingModeUpdatedEvent.TYPE, new MappingModeUpdatedEvent.MappingModeUpdatedHandler() {
-			
+		publishBus.addHandler(ItemUpdatedEvent.getType(MappingMode.class), new ItemUpdatedEvent.ItemUpdatedHandler<MappingMode>() {
+
 			@Override
-			public void onMappingModeUpdated(MappingModeUpdatedEvent event) {
-				mappingMode = event.getMappingMode(); 
+			public void onItemUpdated(ItemUpdatedEvent<MappingMode> event) {
+				mappingMode = event.getItem();
 			}
 		});
 	}

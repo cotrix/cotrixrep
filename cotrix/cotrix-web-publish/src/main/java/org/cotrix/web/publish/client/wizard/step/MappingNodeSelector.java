@@ -5,13 +5,12 @@ package org.cotrix.web.publish.client.wizard.step;
 
 import java.util.List;
 
-import org.cotrix.web.publish.client.event.CodeListTypeUpdatedEvent;
+import org.cotrix.web.publish.client.event.CodeListType;
+import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
-import org.cotrix.web.publish.client.event.CodeListTypeUpdatedEvent.CodeListTypeUpdatedHandler;
 import org.cotrix.web.publish.client.wizard.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.flow.AbstractNodeSelector;
 import org.cotrix.web.share.client.wizard.flow.FlowNode;
 import org.cotrix.web.share.client.wizard.step.WizardStep;
@@ -24,7 +23,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> implements CodeListTypeUpdatedHandler, ResetWizardHandler {
+public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> {
 	
 	protected WizardStep nextStep;
 	protected WizardStep oldNextStep;
@@ -35,12 +34,31 @@ public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> implem
 	protected SdmxMappingStepPresenter sdmxStep;
 	
 	@Inject
-	public MappingNodeSelector(@PublishBus EventBus importBus, CsvMappingStepPresenter csvStep)
+	public MappingNodeSelector(@PublishBus EventBus publishBus, CsvMappingStepPresenter csvStep)
 	{
 		this.csvStep = csvStep;
 		this.nextStep = csvStep;
-		importBus.addHandler(CodeListTypeUpdatedEvent.TYPE, this);
-		importBus.addHandler(ResetWizardEvent.TYPE, this);
+
+		bind(publishBus);
+	}
+	
+	protected void bind(EventBus publishBus) {
+		publishBus.addHandler(ItemUpdatedEvent.getType(CodeListType.class), new ItemUpdatedEvent.ItemUpdatedHandler<CodeListType>() {
+
+			@Override
+			public void onItemUpdated(ItemUpdatedEvent<CodeListType> event) {
+				setCodelistType(event.getItem());
+			}
+		});
+		
+		publishBus.addHandler(ResetWizardEvent.TYPE, new ResetWizardEvent.ResetWizardHandler() {
+			
+			@Override
+			public void onResetWizard(ResetWizardEvent event) {
+				reset();
+			}
+		});
+		
 	}
 	
 
@@ -57,19 +75,15 @@ public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> implem
 		this.nextStep = oldNextStep;
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onResetWizard(ResetWizardEvent event) {
+
+	protected void reset() {
 		nextStep = sdmxStep;		
 	}
 
 
-	@Override
-	public void onCodeListTypeUpdated(CodeListTypeUpdatedEvent event) {
-		Log.trace("TypeNodeSelector updating next to "+event.getCodeListType()+" event: "+event.toDebugString());
-		switch (event.getCodeListType()) {
+	protected void setCodelistType(CodeListType codeListType) {
+		Log.trace("TypeNodeSelector updating next to "+codeListType);
+		switch (codeListType) {
 			case CSV: nextStep = csvStep; break;
 			case SDMX: nextStep = sdmxStep; break;
 		}

@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.codelistselection;
 
-import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
+import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.DetailsNodeSelector;
@@ -50,7 +50,7 @@ public class CodelistSelectionStepPresenterImpl extends AbstractVisualWizardStep
 
 	public boolean leave() {
 		Log.trace("CodelistSelectionStep leaving");
-		if (selectedCodelist!=null && !detailsNodeSelector.isSwitchedToCodeListDetails()) publishEventBus.fireEvent(new CodeListSelectedEvent(selectedCodelist));
+		if (selectedCodelist!=null && !detailsNodeSelector.isSwitchedToCodeListDetails()) publishEventBus.fireEvent(new ItemSelectedEvent<UICodelist>(selectedCodelist));
 		return selectedCodelist!=null || detailsNodeSelector.isSwitchedToCodeListDetails();
 	}
 

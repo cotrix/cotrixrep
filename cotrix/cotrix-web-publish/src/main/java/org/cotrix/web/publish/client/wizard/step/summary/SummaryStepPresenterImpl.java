@@ -1,7 +1,7 @@
 package org.cotrix.web.publish.client.wizard.step.summary;
 
-import org.cotrix.web.publish.client.event.CodeListSelectedEvent;
-import org.cotrix.web.publish.client.event.MappingModeUpdatedEvent;
+import org.cotrix.web.publish.client.event.ItemSelectedEvent;
+import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.publish.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
@@ -18,6 +18,10 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler{
 
 	protected SummaryStepView view;
@@ -34,11 +38,11 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 	}
 	
 	protected void bind() {
-		publishBus.addHandler(CodeListSelectedEvent.TYPE, new CodeListSelectedEvent.CodeListSelectedHandler() {
-			
+		publishBus.addHandler(ItemSelectedEvent.getType(UICodelist.class), new ItemSelectedEvent.ItemSelectedHandler<UICodelist>() {
+
 			@Override
-			public void onCodeListSelected(CodeListSelectedEvent event) {
-				UICodelist codelist = event.getSelectedCodelist();
+			public void onItemSelected(ItemSelectedEvent<UICodelist> event) {
+				UICodelist codelist = event.getItem();
 				view.setCodelistName(codelist.getName());
 				view.setCodelistVersion(codelist.getVersion());
 				view.setState(codelist.getState());
@@ -71,7 +75,7 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 	@Override
 	public boolean leave() {
 		MappingMode mappingMode = view.getMappingMode();
-		publishBus.fireEvent(new MappingModeUpdatedEvent(mappingMode));
+		publishBus.fireEvent(new ItemUpdatedEvent<MappingMode>(mappingMode));
 		return true;
 	}
 

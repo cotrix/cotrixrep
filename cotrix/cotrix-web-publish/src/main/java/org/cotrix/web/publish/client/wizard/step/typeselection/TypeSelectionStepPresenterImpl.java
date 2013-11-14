@@ -1,9 +1,10 @@
 package org.cotrix.web.publish.client.wizard.step.typeselection;
 
-import org.cotrix.web.publish.client.event.FormatTypeChangeEvent;
+import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
+import org.cotrix.web.publish.shared.FormatType;
 import org.cotrix.web.share.client.wizard.event.NavigationEvent;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
@@ -18,6 +19,9 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class TypeSelectionStepPresenterImpl extends AbstractVisualWizardStep implements TypeSelectionStepPresenter {
+	
+	protected static final ItemUpdatedEvent<FormatType> SDMX_EVENT = new ItemUpdatedEvent<FormatType>(FormatType.SDMX);
+	protected static final ItemUpdatedEvent<FormatType> CSV_EVENT = new ItemUpdatedEvent<FormatType>(FormatType.CSV);
 
 	protected TypeSelectionStepView view;
 	
@@ -56,7 +60,7 @@ public class TypeSelectionStepPresenterImpl extends AbstractVisualWizardStep imp
 	@Override
 	public void onSDMXButtonClick() {
 		Log.trace("onSDMXButtonClick");
-		importEventBus.fireEvent(FormatTypeChangeEvent.SDMX);
+		importEventBus.fireEvent(SDMX_EVENT);
 		importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
 
@@ -66,7 +70,7 @@ public class TypeSelectionStepPresenterImpl extends AbstractVisualWizardStep imp
 	@Override
 	public void onCSVButtonClick() {
 		Log.trace("onCSVButtonClick");
-		importEventBus.fireEvent(FormatTypeChangeEvent.CSV);
+		importEventBus.fireEvent(CSV_EVENT);
 		importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
 }

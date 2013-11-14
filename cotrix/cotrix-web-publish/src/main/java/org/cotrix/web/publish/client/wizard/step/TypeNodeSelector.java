@@ -5,8 +5,9 @@ package org.cotrix.web.publish.client.wizard.step;
 
 import java.util.List;
 
-import org.cotrix.web.publish.client.event.FormatTypeChangeEvent;
+import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.shared.FormatType;
+import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.flow.AbstractNodeSelector;
 import org.cotrix.web.share.client.wizard.flow.FlowNode;
@@ -35,11 +36,11 @@ public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> {
 	
 	protected void bind(EventBus publishBus)
 	{
-		publishBus.addHandler(FormatTypeChangeEvent.TYPE, new FormatTypeChangeEvent.FormatTypeChangeHandler() {
-			
+		publishBus.addHandler(ItemSelectedEvent.getType(UIRepository.class), new ItemSelectedEvent.ItemSelectedHandler<UIRepository>() {
+
 			@Override
-			public void onFormatTypeChange(FormatTypeChangeEvent event) {
-				setTyped(event.getFormatType());				
+			public void onItemSelected(ItemSelectedEvent<UIRepository> event) {
+				setTyped(event.getItem().getPublishedType());
 			}
 		});
 		publishBus.addHandler(ResetWizardEvent.TYPE, new ResetWizardEvent.ResetWizardHandler() {

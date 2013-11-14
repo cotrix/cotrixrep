@@ -21,6 +21,7 @@ import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.web.publish.server.publish.PublishStatus;
+import org.cotrix.web.publish.shared.FormatType;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.FieldComparator.ValueProvider;
@@ -148,6 +149,9 @@ public class PublishSession implements Serializable {
 			uiRepository.setId(ValueUtils.safeValue(repository.name()));
 			uiRepository.setName(ValueUtils.safeValue(repository.name()));
 			uiRepository.setPublishedTypes(Repositories.toString(repository.publishedTypes()));
+			
+			//FIXME
+			uiRepository.setPublishedType(FormatType.CSV);
 			orderedRepositories.add(uiRepository);
 			
 			indexedRepositories.put(repository.name(), repository);

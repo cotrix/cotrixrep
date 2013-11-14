@@ -3,20 +3,16 @@
  */
 package org.cotrix.web.publish.client.wizard.task;
 
-import java.util.List;
-
 import org.cotrix.web.publish.client.PublishServiceAsync;
-import org.cotrix.web.publish.client.event.ItemSelectedEvent;
+import org.cotrix.web.publish.client.event.ItemDetailsRequestedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
-import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
-import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.DestinationType;
+import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.client.wizard.WizardAction;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
-import org.cotrix.web.share.shared.codelist.UICodelist;
+import org.cotrix.web.share.shared.codelist.RepositoryDetails;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -29,24 +25,24 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 @Singleton
-public class RetrieveMappingsTask implements TaskWizardStep {
+public class RetrieveRepositoryDetailsTask implements TaskWizardStep {
 	
 	@Inject
 	protected PublishServiceAsync service;
+	protected AsyncCallback<WizardAction> callback;
 	
-	protected UICodelist selectedCodelist;
-	protected DestinationType destinationType;
+	protected UIRepository selectedRepository;
 	
 	protected EventBus publishBus;
 	
 	@Inject
-	public RetrieveMappingsTask(@PublishBus EventBus publishBus)
+	public RetrieveRepositoryDetailsTask(@PublishBus EventBus publishBus)
 	{
 		this.publishBus = publishBus;
-		bind();
+		bind(publishBus);
 	}
 	
-	protected void bind()
+	protected void bind(EventBus publishBus)
 	{
 		publishBus.addHandler(ResetWizardEvent.TYPE, new ResetWizardEvent.ResetWizardHandler() {
 			
@@ -55,26 +51,18 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 				reset();
 			}
 		});
-		
-		publishBus.addHandler(ItemSelectedEvent.getType(UICodelist.class), new ItemSelectedEvent.ItemSelectedHandler<UICodelist>() {
+		publishBus.addHandler(ItemDetailsRequestedEvent.getType(UIRepository.class), new ItemDetailsRequestedEvent.ItemDetailsRequestedHandler<UIRepository>() {
 
 			@Override
-			public void onItemSelected(ItemSelectedEvent<UICodelist> event) {
-				selectedCodelist = event.getItem();
-			}
-		});
-		publishBus.addHandler(ItemUpdatedEvent.getType(DestinationType.class), new ItemUpdatedEvent.ItemUpdatedHandler<DestinationType>() {
-
-			@Override
-			public void onItemUpdated(ItemUpdatedEvent<DestinationType> event) {
-				destinationType = event.getItem();
+			public void onItemDetailsRequest(ItemDetailsRequestedEvent<UIRepository> event) {
+				selectedRepository = event.getItem();
 			}
 		});
 	}
 
 	@Override
 	public String getId() {
-		return "RetrieveMappingsTask";
+		return "RetrieveRepositoryDetailsTask";
 	}
 
 	@Override
@@ -84,8 +72,9 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 
 	@Override
 	public void run(final AsyncCallback<WizardAction> callback) {
-		Log.trace("retrieving mappings for codelist "+selectedCodelist);
-		service.getMappings(selectedCodelist.getId(), destinationType, new AsyncCallback<List<AttributeMapping>>() {
+		Log.trace("retrieving details for repository "+selectedRepository);
+		this.callback = callback;
+		service.getRepositoryDetails(selectedRepository.getId(), new AsyncCallback<RepositoryDetails>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -93,15 +82,16 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 			}
 
 			@Override
-			public void onSuccess(List<AttributeMapping> result) {
-				publishBus.fireEventFromSource(new MappingsUpdatedEvent(result),  RetrieveMappingsTask.this);
+			public void onSuccess(RepositoryDetails result) {
+				publishBus.fireEvent(new ItemUpdatedEvent<RepositoryDetails>(result));
 				callback.onSuccess(PublishWizardAction.NEXT);
 			}
 		});
 	}
 	
 	public void reset() {
-		selectedCodelist = null;
+		callback = null;
+		selectedRepository = null;
 	}
 
 	@Override

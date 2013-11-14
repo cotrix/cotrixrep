@@ -29,6 +29,10 @@ import org.cotrix.web.publish.client.wizard.step.done.DoneStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.done.DoneStepPresenterImpl;
 import org.cotrix.web.publish.client.wizard.step.done.DoneStepView;
 import org.cotrix.web.publish.client.wizard.step.done.DoneStepViewImpl;
+import org.cotrix.web.publish.client.wizard.step.repositorydetails.RepositoryDetailsStepPresenter;
+import org.cotrix.web.publish.client.wizard.step.repositorydetails.RepositoryDetailsStepPresenterImpl;
+import org.cotrix.web.publish.client.wizard.step.repositorydetails.RepositoryDetailsStepView;
+import org.cotrix.web.publish.client.wizard.step.repositorydetails.RepositoryDetailsStepViewImpl;
 import org.cotrix.web.publish.client.wizard.step.repositoryselection.RepositorySelectionStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.repositoryselection.RepositorySelectionStepPresenterImpl;
 import org.cotrix.web.publish.client.wizard.step.repositoryselection.RepositorySelectionStepView;
@@ -60,8 +64,6 @@ public class CotrixPublishAppGinModule extends AbstractGinModule {
 	@Override
 	protected void configure() {
 	   	bind(EventBus.class).annotatedWith(PublishBus.class).to(SimpleEventBus.class).in(Singleton.class);
-	    
-	   	bind(PublishController.class).in(Singleton.class);
 	   	
 		bind(CotrixPublishAppController.class).to(CotrixPublishAppControllerImpl.class).in(Singleton.class);
 
@@ -91,6 +93,9 @@ public class CotrixPublishAppGinModule extends AbstractGinModule {
 		
 		bind(RepositorySelectionStepPresenter.class).to(RepositorySelectionStepPresenterImpl.class).in(Singleton.class);
 		bind(RepositorySelectionStepView.class).to(RepositorySelectionStepViewImpl.class).in(Singleton.class);
+		
+		bind(RepositoryDetailsStepPresenter.class).to(RepositoryDetailsStepPresenterImpl.class).in(Singleton.class);
+		bind(RepositoryDetailsStepView.class).to(RepositoryDetailsStepViewImpl.class).in(Singleton.class);
 		
 		bind(SummaryStepPresenter.class).to(SummaryStepPresenterImpl.class).in(Singleton.class);
 		bind(SummaryStepView.class).to(SummaryStepViewImpl.class).in(Singleton.class);

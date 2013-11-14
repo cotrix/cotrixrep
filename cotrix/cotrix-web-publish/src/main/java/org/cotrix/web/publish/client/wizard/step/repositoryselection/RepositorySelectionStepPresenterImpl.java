@@ -1,11 +1,13 @@
 package org.cotrix.web.publish.client.wizard.step.repositoryselection;
 
+import org.cotrix.web.publish.client.event.ItemDetailsRequestedEvent;
+import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.shared.UIRepository;
+import org.cotrix.web.share.client.wizard.event.NavigationEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -17,30 +19,34 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class RepositorySelectionStepPresenterImpl extends AbstractVisualWizardStep implements RepositorySelectionStepPresenter, ResetWizardHandler {
+public class RepositorySelectionStepPresenterImpl extends AbstractVisualWizardStep implements RepositorySelectionStepPresenter {
 
 	protected final RepositorySelectionStepView view;
 	
-	/*@Inject
-	protected DetailsNodeSelector detailsNodeSelector;*/
+	protected EventBus publishBus;
 	
-	/*@Inject
-	protected CodelistDetailsStepPresenter codelistDetailsPresenter;
+	protected UIRepository selectedRepository;
 	
-	@Inject
-	protected RepositoryDetailsStepPresenter repositoryDetailsPresenter;*/
-	
-	protected EventBus publishEventBus;
-	
-	protected UIRepository selectedCodelist;
+	protected boolean repositoryDetails = false;
 	
 	@Inject
-	public RepositorySelectionStepPresenterImpl(RepositorySelectionStepView view, @PublishBus EventBus publishEventBus) {
-		super("repository", TrackerLabels.TARGET, "Pick your target", "We found a few repositories nearby.", PublishWizardStepButtons.FORWARD);
+	public RepositorySelectionStepPresenterImpl(RepositorySelectionStepView view, @PublishBus EventBus publishBus) {
+		super("repositorySelection", TrackerLabels.TARGET, "Pick your target", "We found a few repositories nearby.", PublishWizardStepButtons.BACKWARD, PublishWizardStepButtons.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
-		this.publishEventBus = publishEventBus;
-		publishEventBus.addHandler(ResetWizardEvent.TYPE, this);
+		this.publishBus = publishBus;
+		
+		bind();
+	}
+	
+	protected void bind() {
+		publishBus.addHandler(ResetWizardEvent.TYPE, new ResetWizardEvent.ResetWizardHandler() {
+			
+			@Override
+			public void onResetWizard(ResetWizardEvent event) {
+				reset();
+			}
+		});
 	}
 
 	public void go(HasWidgets container) {
@@ -48,29 +54,30 @@ public class RepositorySelectionStepPresenterImpl extends AbstractVisualWizardSt
 	}
 
 	public boolean leave() {
-		Log.trace("SelectionStep leaving: "+(selectedCodelist!=null));
-		return selectedCodelist!=null;
+		Log.trace("SelectionStep leaving");
+		return selectedRepository!=null || repositoryDetails;
 	}
 
 	@Override
 	public void repositorySelected(UIRepository repository) {
 		Log.trace("Codelist selected "+repository);
-		if (selectedCodelist!=null && selectedCodelist.equals(repository)) return;
+		if (selectedRepository!=null && selectedRepository.equals(repository)) return;
 		
-		this.selectedCodelist = repository;
-		//publishEventBus.fireEvent(new CodeListSelectedEvent(codelist));
+		this.selectedRepository = repository;
+		publishBus.fireEvent(new ItemSelectedEvent<UIRepository>(repository));
 	}
 
 	@Override
 	public void repositoryDetails(UIRepository repository) {
 		
-		/*codelistDetailsPresenter.setAsset(asset);
-		detailsNodeSelector.switchToCodeListDetails();
-		publishEventBus.fireEvent(NavigationEvent.FORWARD);*/
+		publishBus.fireEvent(new ItemDetailsRequestedEvent<UIRepository>(repository));
+		repositoryDetails = true;
+		publishBus.fireEvent(NavigationEvent.FORWARD);
+		repositoryDetails = false;
 	}
 
-	@Override
-	public void onResetWizard(ResetWizardEvent event) {
+
+	protected void reset() {
 		view.reset();
 	}
 
