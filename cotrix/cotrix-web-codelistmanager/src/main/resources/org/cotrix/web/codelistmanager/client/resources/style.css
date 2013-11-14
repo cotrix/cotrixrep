@@ -1,5 +1,4 @@
-@
-sprite .searchBackground {
+@sprite .searchBackground {
 	gwt-image: "search";
 	background-repeat: no-repeat;
 	background-position: 3px 50%;
