@@ -42,4 +42,6 @@ public interface CsvMappingStepView {
 
 	boolean getSealed();
 
+	void showMetadata(boolean visible);
+
 }

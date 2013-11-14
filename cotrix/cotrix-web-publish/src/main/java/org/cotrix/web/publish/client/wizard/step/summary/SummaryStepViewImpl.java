@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepView {
 
-	protected static final int PROPERTIES_FIELD_ROW = 4;
+	protected static final int PROPERTIES_FIELD_ROW = 3;
 
 	@UiTemplate("SummaryStep.ui.xml")
 	interface SummaryStepUiBinder extends UiBinder<Widget, SummaryStepViewImpl> {}

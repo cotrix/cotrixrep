@@ -3,8 +3,6 @@ package org.cotrix.web.publish.client.wizard.step.summary;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
-import org.cotrix.web.publish.client.event.MetadataUpdatedEvent;
-import org.cotrix.web.publish.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
@@ -22,7 +20,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implements SummaryStepPresenter, MetadataUpdatedHandler{
+public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implements SummaryStepPresenter {
 
 	protected SummaryStepView view;
 	protected EventBus publishBus;
@@ -33,7 +31,7 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 		this.view = view;
 		
 		this.publishBus = publishBus;
-		publishBus.addHandler(MetadataUpdatedEvent.TYPE, this);
+
 		bind();
 	}
 	
@@ -62,7 +60,15 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 			public void onResetWizard(ResetWizardEvent event) {
 				resetWizard();
 			}
-		});		
+		});	
+		
+		publishBus.addHandler(ItemUpdatedEvent.getType(PublishMetadata.class), new ItemUpdatedEvent.ItemUpdatedHandler<PublishMetadata>() {
+
+			@Override
+			public void onItemUpdated(ItemUpdatedEvent<PublishMetadata> event) {
+				setMetadata(event.getItem());
+			}
+		});
 	}
 	
 	public void go(HasWidgets container) {
@@ -79,10 +85,9 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 		return true;
 	}
 
-	@Override
-	public void onMetadataUpdated(MetadataUpdatedEvent event) {
+
+	protected void setMetadata(PublishMetadata metadata) {
 		
-		PublishMetadata metadata = event.getMetadata();
 		if (metadata.getOriginalName()==null || metadata.getOriginalName().equals(metadata.getName())) view.setCodelistName(metadata.getName());
 		else view.setCodelistName(metadata.getOriginalName()+" as "+metadata.getName());
 		

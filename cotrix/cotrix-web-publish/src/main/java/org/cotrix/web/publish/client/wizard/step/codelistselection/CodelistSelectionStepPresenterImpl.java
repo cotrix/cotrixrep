@@ -1,11 +1,13 @@
 package org.cotrix.web.publish.client.wizard.step.codelistselection;
 
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
+import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.DetailsNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.client.wizard.task.RetrieveMetadataTask;
+import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.share.client.wizard.event.NavigationEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
@@ -50,7 +52,15 @@ public class CodelistSelectionStepPresenterImpl extends AbstractVisualWizardStep
 
 	public boolean leave() {
 		Log.trace("CodelistSelectionStep leaving");
-		if (selectedCodelist!=null && !detailsNodeSelector.isSwitchedToCodeListDetails()) publishEventBus.fireEvent(new ItemSelectedEvent<UICodelist>(selectedCodelist));
+		if (selectedCodelist!=null && !detailsNodeSelector.isSwitchedToCodeListDetails()) {
+			publishEventBus.fireEvent(new ItemSelectedEvent<UICodelist>(selectedCodelist));
+			PublishMetadata metadata = new PublishMetadata();
+			metadata.setName(selectedCodelist.getName());
+			metadata.setOriginalName(selectedCodelist.getName());
+			metadata.setVersion(selectedCodelist.getVersion());
+			//TODO sealed
+			publishEventBus.fireEvent(new ItemUpdatedEvent<PublishMetadata>(metadata));
+		}
 		return selectedCodelist!=null || detailsNodeSelector.isSwitchedToCodeListDetails();
 	}
 

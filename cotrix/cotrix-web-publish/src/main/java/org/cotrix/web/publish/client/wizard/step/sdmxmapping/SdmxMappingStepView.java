@@ -41,4 +41,6 @@ public interface SdmxMappingStepView {
 
 	boolean getSealed();
 
+	void showMetadata(boolean visible);
+
 }

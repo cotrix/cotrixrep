@@ -8,7 +8,6 @@ import java.util.List;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
-import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.event.PublishCompleteEvent;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
@@ -109,11 +108,11 @@ public class PublishTask implements TaskWizardStep {
 			}
 		});
 		
-		publishBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedEvent.MappingsUpdatedHandler() {
-			
+		publishBus.addHandler(ItemUpdatedEvent.getType(PublishMetadata.class), new ItemUpdatedEvent.ItemUpdatedHandler<PublishMetadata>() {
+
 			@Override
-			public void onMappingUpdated(MappingsUpdatedEvent event) {
-				mappings = event.getMappings();
+			public void onItemUpdated(ItemUpdatedEvent<PublishMetadata> event) {
+				metadata = event.getItem();
 			}
 		});
 		

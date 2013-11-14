@@ -7,7 +7,6 @@ import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -46,22 +45,18 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 	AttributeMappingPanel<T> mappingPanel;
 	
 	protected ReloadButtonHandler reloadHandler;
-	
-	public MappingPanel(DefinitionWidgetProvider<T> widgetProvider, String attributeMappingLabel) {
-		this(true, widgetProvider, attributeMappingLabel);
-	}
 
-	public MappingPanel(boolean showMetadata, DefinitionWidgetProvider<T> widgetProvider , String attributeMappingLabel) {
+	public MappingPanel(DefinitionWidgetProvider<T> widgetProvider , String attributeMappingLabel) {
 		mappingPanel = new AttributeMappingPanel<T>(widgetProvider, attributeMappingLabel);
 		initWidget(uiBinder.createAndBindUi(this));
-		if (!showMetadata) hideMetadata();
 	}
 	
-	protected void hideMetadata()
+	public void showMetadata(boolean visible)
 	{
-		nameRow.getStyle().setDisplay(Display.NONE);
-		versionRow.getStyle().setDisplay(Display.NONE);
-		sealedRow.getStyle().setDisplay(Display.NONE);
+		String value = visible?"table-row":"none";
+		nameRow.getStyle().setProperty("display", value);
+		versionRow.getStyle().setProperty("display", value);
+		sealedRow.getStyle().setProperty("display", value);
 	}
 	
 	/**

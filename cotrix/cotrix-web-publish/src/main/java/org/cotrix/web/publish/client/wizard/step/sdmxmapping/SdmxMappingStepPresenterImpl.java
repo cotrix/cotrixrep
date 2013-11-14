@@ -3,17 +3,12 @@ package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 import java.util.List;
 
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
-import org.cotrix.web.publish.client.event.MappingLoadedEvent;
-import org.cotrix.web.publish.client.event.MappingLoadedEvent.MappingLoadedHandler;
-import org.cotrix.web.publish.client.event.MappingLoadingEvent;
-import org.cotrix.web.publish.client.event.MappingLoadingEvent.MappingLoadingHandler;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
-import org.cotrix.web.publish.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
-import org.cotrix.web.publish.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
@@ -27,13 +22,14 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep implements SdmxMappingStepPresenter, MetadataUpdatedHandler, MappingLoadingHandler, MappingLoadedHandler  {
+public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep implements SdmxMappingStepPresenter {
 
 	protected SdmxMappingStepView view;
 	protected EventBus publishBus;
 	protected PublishMetadata metadata;
 	protected List<AttributeMapping> mappings;
 	protected Format formatType;
+	protected boolean showMetadata = false;
 
 	@Inject
 	public SdmxMappingStepPresenterImpl(SdmxMappingStepView view, @PublishBus EventBus publishBus){
@@ -42,14 +38,20 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 		this.view.setPresenter(this);
 
 		this.publishBus = publishBus;
-		publishBus.addHandler(MetadataUpdatedEvent.TYPE, this);
-		publishBus.addHandler(MappingLoadingEvent.TYPE, this);
-		publishBus.addHandler(MappingLoadedEvent.TYPE, this);
 
 		bind();
 	}
 
 	protected void bind() {
+		publishBus.addHandler(ItemUpdatedEvent.getType(Destination.class), new ItemUpdatedEvent.ItemUpdatedHandler<Destination>() {
+
+			@Override
+			public void onItemUpdated(ItemUpdatedEvent<Destination> event) {
+				showMetadata = event.getItem() == Destination.CHANNEL;
+				view.showMetadata(showMetadata);
+			}
+		});
+
 		publishBus.addHandler(ItemUpdatedEvent.getType(Format.class), new ItemUpdatedEvent.ItemUpdatedHandler<Format>() {
 
 			@Override
@@ -57,7 +59,15 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 				formatType = event.getItem();		
 			}
 		});
-		
+
+		publishBus.addHandler(ItemUpdatedEvent.getType(PublishMetadata.class), new ItemUpdatedEvent.ItemUpdatedHandler<PublishMetadata>() {
+
+			@Override
+			public void onItemUpdated(ItemUpdatedEvent<PublishMetadata> event) {
+				setMetadata(event.getItem());
+			}
+		});
+
 		publishBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedEvent.MappingsUpdatedHandler() {
 
 			@Override
@@ -84,26 +94,28 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 		Log.trace(mappings.size()+" mappings to check");
 
 		boolean valid = validateMappings(mappings);
-		String codelistName = view.getCodelistName();
-		String version = view.getVersion();
-		boolean sealed = view.getSealed();
-		valid &= validateAttributes(codelistName, version);
+
+		if (showMetadata) {
+			String csvName = view.getCodelistName();
+			String version = view.getVersion();
+			valid &= validateAttributes(csvName, version);
+		}
 
 		if (valid) {
 
 			publishBus.fireEventFromSource(new MappingsUpdatedEvent(mappings), this);
-			
+
 			PublishMetadata metadata = new PublishMetadata();
-			metadata.setName(codelistName);
-			metadata.setVersion(version);
-			metadata.setSealed(sealed);
+			metadata.setName(view.getCodelistName());
+			metadata.setVersion(view.getVersion());
+			metadata.setSealed(view.getSealed());
 			metadata.setAttributes(this.metadata.getAttributes());
-			publishBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
+			publishBus.fireEventFromSource(new ItemUpdatedEvent<PublishMetadata>(metadata), this);
 		}
 
 		return valid;
 	}
-	
+
 
 	protected boolean validateAttributes(String csvName, String version)
 	{
@@ -111,12 +123,12 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 			view.alert("You should choose a codelist name");
 			return false;
 		}
-		
+
 		if (version==null || version.isEmpty()) {
 			view.alert("You should specify a codelist version");
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -133,27 +145,13 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 		return true;
 	}
 
-	@Override
-	public void onMetadataUpdated(MetadataUpdatedEvent event) {
-		if (!event.isUserEdited()) {
-			this.metadata = event.getMetadata();
-			String name = metadata.getName();
-			view.setCodelistName(name == null?"":name);
-			view.setVersion(metadata.getVersion());
-			view.setSealed(metadata.isSealed());
-		}
-	}
-	
-	@Override
-	public void onMappingLoading(MappingLoadingEvent event) {
-		view.setMappingLoading();
-	}
-	
-	@Override
-	public void onMappingLoaded(MappingLoadedEvent event) {
-		mappings = event.getMappings();
-		view.setMappings(mappings);
-		view.unsetMappingLoading();
+
+	protected void setMetadata(PublishMetadata metadata) {
+		this.metadata = metadata;
+		String name = metadata.getName();
+		view.setCodelistName(name == null?"":name);
+		view.setVersion(metadata.getVersion());
+		view.setSealed(metadata.isSealed());
 	}
 
 	@Override

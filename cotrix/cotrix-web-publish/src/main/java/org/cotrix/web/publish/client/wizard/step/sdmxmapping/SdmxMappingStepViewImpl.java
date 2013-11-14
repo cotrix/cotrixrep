@@ -76,6 +76,12 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
+	
+	@Override
+	public void showMetadata(boolean visible) {
+		mappingPanel.showMetadata(visible);
+	}
+	
 	/**
 	 * @param presenter the presenter to set
 	 */
