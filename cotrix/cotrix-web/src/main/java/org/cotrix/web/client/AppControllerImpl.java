@@ -16,6 +16,8 @@ import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -48,14 +50,48 @@ public class AppControllerImpl implements AppController {
 		HomeController home = AppGinInjector.INSTANCE.getHomeController();
 		addModule(home);
 		
-		CotrixImportAppGinInjector importInjector = CotrixImportAppGinInjector.INSTANCE;
-		addModule(importInjector.getController());
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			@Override
+			public void onSuccess() {
+				CotrixImportAppGinInjector importInjector = CotrixImportAppGinInjector.INSTANCE;
+				addModule(importInjector.getController());
+			}
+			
+			@Override
+			public void onFailure(Throwable reason) {
+				Log.fatal("Import module not loaded", reason);
+			}
+		});
 		
-		CotrixManagerAppGinInjector managerInjector = CotrixManagerAppGinInjector.INSTANCE;
-		addModule(managerInjector.getController());
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			@Override
+			public void onSuccess() {
+				CotrixManagerAppGinInjector managerInjector = CotrixManagerAppGinInjector.INSTANCE;
+				addModule(managerInjector.getController());
+			}
+			
+			@Override
+			public void onFailure(Throwable reason) {
+				Log.fatal("Manager module not loaded", reason);
+			}
+		});
 		
-		CotrixPublishAppGinInjector publishInjector = CotrixPublishAppGinInjector.INSTANCE;
-		addModule(publishInjector.getController());
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			@Override
+			public void onSuccess() {
+				CotrixPublishAppGinInjector publishInjector = CotrixPublishAppGinInjector.INSTANCE;
+				addModule(publishInjector.getController());
+			}
+			
+			@Override
+			public void onFailure(Throwable reason) {
+				Log.fatal("Publish module not loaded", reason);
+			}
+		});
+
 		
 		showModule(CotrixModule.HOME);
 	}
