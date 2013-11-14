@@ -72,8 +72,8 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 				if (definition.getLanguage()!=null && !definition.getLanguage().isEmpty()) mappingDescription.append(",").append(definition.getLanguage());
 				mappingDescription.append("] to ");
 				
-				String columnName = mapping.getColumnName();
-				mappingDescription.append(columnName);
+				String mappingDestination = mapping.getMapping().getLabel();
+				mappingDescription.append(mappingDestination);
 			} else mappingDescription.append("ignore <b>").append(definition.getName().getLocalPart()).append("</b>");
 
 			//Log.trace("label "+mappingDescription.toString());

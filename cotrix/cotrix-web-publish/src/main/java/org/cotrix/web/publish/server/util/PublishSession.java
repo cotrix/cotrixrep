@@ -6,6 +6,7 @@ package org.cotrix.web.publish.server.util;
 import static org.cotrix.repository.Queries.*;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,8 +32,14 @@ import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UIQName;
 import org.slf4j.Logger;
+
+import org.virtualrepository.AssetType;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.RepositoryService;
+import org.virtualrepository.csv.CsvCodelistType;
+import org.virtualrepository.csv.CsvGenericType;
+import org.virtualrepository.sdmx.SdmxCodelistType;
+import org.virtualrepository.sdmx.SdmxGenericType;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -145,17 +152,30 @@ public class PublishSession implements Serializable {
 	public void loadRepositories() {
 		orderedRepositories.clear();
 		for (RepositoryService repository: cloud.repositories()) {
+			FormatType type = selectType(repository.publishedTypes());
+			if (type == null) continue;
 			UIRepository uiRepository = new UIRepository();
 			uiRepository.setId(ValueUtils.safeValue(repository.name()));
 			uiRepository.setName(ValueUtils.safeValue(repository.name()));
 			uiRepository.setPublishedTypes(Repositories.toString(repository.publishedTypes()));
-			
-			//FIXME
-			uiRepository.setPublishedType(FormatType.CSV);
+			uiRepository.setPublishedType(type);
 			orderedRepositories.add(uiRepository);
 			
 			indexedRepositories.put(repository.name(), repository);
 		}
+	}
+	
+	protected FormatType selectType(Collection<AssetType> types) {
+		Iterator<AssetType> typesIterator = types.iterator();
+		boolean foundCSV = false;
+		while(typesIterator.hasNext()) {
+			AssetType type = typesIterator.next();
+			if (type instanceof CsvGenericType || type instanceof CsvCodelistType) foundCSV = true;
+			if (type instanceof SdmxGenericType || type instanceof SdmxCodelistType) return FormatType.SDMX;
+		}
+		
+		if (foundCSV) return FormatType.CSV;
+		return null;
 	}
 	
 	public List<UIRepository> getOrderedRepositories(String sortingField) {

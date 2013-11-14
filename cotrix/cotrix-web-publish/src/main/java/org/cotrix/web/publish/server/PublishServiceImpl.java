@@ -24,9 +24,12 @@ import org.cotrix.web.publish.server.publish.SerializationDirectivesProducer;
 import org.cotrix.web.publish.server.util.PublishSession;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
+import org.cotrix.web.publish.shared.Column;
 import org.cotrix.web.publish.shared.DestinationType;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishServiceException;
+import org.cotrix.web.publish.shared.SdmxElement;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
@@ -144,8 +147,21 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 
 	protected List<AttributeMapping> getChannelMappings(CodelistSummary summary) {
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
+		for (QName attributeName:summary.codeNames()) {
+			for (QName attributeType : summary.codeTypesFor(attributeName)) {
+				Collection<String> languages = summary.codeLanguagesFor(attributeName, attributeType);
+				if (languages.isEmpty()) mappings.add(getChannelAttributeMapping(attributeName, attributeType, null));
+				else for (String language:languages) mappings.add(getChannelAttributeMapping(attributeName, attributeType, language));
+			}
+		}
 
 		return mappings;
+	}
+	
+	protected AttributeMapping getChannelAttributeMapping(QName name, QName type, String language) {
+
+		SdmxElement sdmxElement = SdmxElement.DESCRIPTION;
+		return getAttributeMapping(name, type, language, sdmxElement);
 	}
 
 	protected List<AttributeMapping> getFileMappings(CodelistSummary summary) {
@@ -153,25 +169,33 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		for (QName attributeName:summary.codeNames()) {
 			for (QName attributeType : summary.codeTypesFor(attributeName)) {
 				Collection<String> languages = summary.codeLanguagesFor(attributeName, attributeType);
-				if (languages.isEmpty()) mappings.add(getAttributeMapping(attributeName, attributeType, null));
-				else for (String language:languages) mappings.add(getAttributeMapping(attributeName, attributeType, language));
+				if (languages.isEmpty()) mappings.add(getFileAttributeMapping(attributeName, attributeType, null));
+				else for (String language:languages) mappings.add(getFileAttributeMapping(attributeName, attributeType, language));
 			}
 		}
 		return mappings;
 	}
+	
+	protected AttributeMapping getFileAttributeMapping(QName name, QName type, String language) {
 
-	protected AttributeMapping getAttributeMapping(QName name, QName type, String language) {
+		StringBuilder columnName = new StringBuilder(name.getLocalPart());
+		if (language!=null) columnName.append('(').append(language).append(')');
+		Column column = new Column();
+		column.setName(columnName.toString());
+
+		return getAttributeMapping(name, type, language, column);
+	}
+
+	protected AttributeMapping getAttributeMapping(QName name, QName type, String language, Mapping mapping) {
 		AttributeDefinition attr = new AttributeDefinition();
 		attr.setName(ValueUtils.safeValue(name));
 		attr.setType(ValueUtils.safeValue(type));
 		attr.setLanguage(ValueUtils.safeValue(language));
 
-		StringBuilder columnName = new StringBuilder(name.getLocalPart());
-		if (language!=null) columnName.append('(').append(language).append(')');
 
 		AttributeMapping attributeMapping = new AttributeMapping();
 		attributeMapping.setAttributeDefinition(attr);
-		attributeMapping.setColumnName(columnName.toString());
+		attributeMapping.setMapping(mapping);
 		attributeMapping.setMapped(true);
 		return attributeMapping;
 	}

@@ -17,6 +17,7 @@ import org.cotrix.io.tabular.map.Codelist2TableDirectives;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.Column;
 import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.share.server.util.ValueUtils;
@@ -47,7 +48,8 @@ public interface PublishMapper<T> {
 			for (AttributeMapping mapping:publishDirectives.getMappings()) {
 				if (mapping.isMapped()) {
 					Attribute template = getTemplate(mapping.getAttributeDefinition());
-					directives.add(AttributeDirectives.map(template).to(mapping.getColumnName()));
+					Column column = (Column) mapping.getMapping();
+					directives.add(AttributeDirectives.map(template).to(column.getName()));
 				}
 			}
 			
@@ -59,14 +61,14 @@ public interface PublishMapper<T> {
 
 		}
 		
-		protected Codelist2TableDirectives getColumnDirectives(AttributeMapping mapping) {
+		/*protected Codelist2TableDirectives getColumnDirectives(AttributeMapping mapping) {
 			
 			Attribute template = getTemplate(mapping.getAttributeDefinition());
 			Codelist2TableDirectives directive = new Codelist2TableDirectives();
 			directive.add(template);
 			directive.codeColumnName(mapping.getColumnName());			
 			return directive;
-		}
+		}*/
 		
 		protected Attribute getTemplate(AttributeDefinition definition) {
 			LanguageClause attributeBuilder = attr().name(ValueUtils.toQName(definition.getName())).value(null).ofType(ValueUtils.toQName(definition.getType()));

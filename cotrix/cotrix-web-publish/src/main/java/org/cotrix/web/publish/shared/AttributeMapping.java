@@ -11,8 +11,12 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class AttributeMapping implements IsSerializable {
 	
+	public interface Mapping extends IsSerializable {
+		public String getLabel();
+	}
+	
 	protected AttributeDefinition attributeDefinition;
-	protected String columnName;
+	protected Mapping mapping;
 	protected boolean mapped;
 	
 	/**
@@ -27,18 +31,7 @@ public class AttributeMapping implements IsSerializable {
 	public void setAttributeDefinition(AttributeDefinition attributeDefinition) {
 		this.attributeDefinition = attributeDefinition;
 	}
-	/**
-	 * @return the columnName
-	 */
-	public String getColumnName() {
-		return columnName;
-	}
-	/**
-	 * @param columnName the columnName to set
-	 */
-	public void setColumnName(String columnName) {
-		this.columnName = columnName;
-	}
+
 	
 	/**
 	 * @return the mapped
@@ -53,7 +46,18 @@ public class AttributeMapping implements IsSerializable {
 	public void setMapped(boolean mapped) {
 		this.mapped = mapped;
 	}
-	
+	/**
+	 * @return the mapping
+	 */
+	public Mapping getMapping() {
+		return mapping;
+	}
+	/**
+	 * @param mapping the mapping to set
+	 */
+	public void setMapping(Mapping mapping) {
+		this.mapping = mapping;
+	}
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -62,8 +66,8 @@ public class AttributeMapping implements IsSerializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("AttributeMapping [attributeDefinition=");
 		builder.append(attributeDefinition);
-		builder.append(", columnName=");
-		builder.append(columnName);
+		builder.append(", mapping=");
+		builder.append(mapping);
 		builder.append(", mapped=");
 		builder.append(mapped);
 		builder.append("]");

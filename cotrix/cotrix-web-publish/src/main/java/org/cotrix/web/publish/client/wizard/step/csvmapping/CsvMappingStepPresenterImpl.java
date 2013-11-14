@@ -13,6 +13,7 @@ import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.Column;
 import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
@@ -114,7 +115,8 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 
 		for (AttributeMapping mapping:mappings) {
 			//Log.trace("checking mapping: "+mapping);
-			if (mapping.isMapped() && mapping.getColumnName().isEmpty()) {
+			Column column = (Column) mapping.getMapping();
+			if (mapping.isMapped() && column.getName().isEmpty()) {
 				view.alert("don't leave columns blank, bin them instead");
 				return false;
 			}

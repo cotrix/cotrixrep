@@ -2,7 +2,9 @@ package org.cotrix.web.publish.client.util;
 
 import java.util.List;
 
+import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Display;
@@ -21,8 +23,9 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingPanel extends ResizeComposite {
+public class MappingPanel<T extends Mapping> extends ResizeComposite {
 
+	@SuppressWarnings("rawtypes")
 	@UiTemplate("MappingPanel.ui.xml")
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, MappingPanel> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
@@ -40,16 +43,16 @@ public class MappingPanel extends ResizeComposite {
 	@UiField SimpleCheckBox sealed;
 	
 	@UiField(provided=true)
-	AttributeMappingPanel mappingPanel;
+	AttributeMappingPanel<T> mappingPanel;
 	
 	protected ReloadButtonHandler reloadHandler;
 	
-	public MappingPanel(boolean hasTypeDefinition, String attributeMappingLabel) {
-		this(true, hasTypeDefinition, attributeMappingLabel);
+	public MappingPanel(DefinitionWidgetProvider<T> widgetProvider, String attributeMappingLabel) {
+		this(true, widgetProvider, attributeMappingLabel);
 	}
 
-	public MappingPanel(boolean showMetadata, boolean hasTypeDefinition, String attributeMappingLabel) {
-		mappingPanel = new AttributeMappingPanel(hasTypeDefinition, attributeMappingLabel);
+	public MappingPanel(boolean showMetadata, DefinitionWidgetProvider<T> widgetProvider , String attributeMappingLabel) {
+		mappingPanel = new AttributeMappingPanel<T>(widgetProvider, attributeMappingLabel);
 		initWidget(uiBinder.createAndBindUi(this));
 		if (!showMetadata) hideMetadata();
 	}
