@@ -4,7 +4,7 @@ import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.publish.shared.DestinationType;
+import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.share.client.wizard.event.NavigationEvent;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
@@ -20,8 +20,8 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class DestinationSelectionStepPresenterImpl extends AbstractVisualWizardStep implements DestinationSelectionStepPresenter {
 
-	protected static final ItemUpdatedEvent<DestinationType> CHANNEL_EVENT = new ItemUpdatedEvent<DestinationType>(DestinationType.CHANNEL);
-	protected static final ItemUpdatedEvent<DestinationType> FILE_EVENT = new ItemUpdatedEvent<DestinationType>(DestinationType.FILE);
+	protected static final ItemUpdatedEvent<Destination> CHANNEL_EVENT = new ItemUpdatedEvent<Destination>(Destination.CHANNEL);
+	protected static final ItemUpdatedEvent<Destination> FILE_EVENT = new ItemUpdatedEvent<Destination>(Destination.FILE);
 	
 	protected DestinationSelectionStepView view;
 	

@@ -6,6 +6,7 @@ import org.cotrix.web.publish.client.event.MappingLoadedEvent;
 import org.cotrix.web.publish.client.event.MappingLoadedEvent.MappingLoadedHandler;
 import org.cotrix.web.publish.client.event.MappingLoadingEvent;
 import org.cotrix.web.publish.client.event.MappingLoadingEvent.MappingLoadingHandler;
+import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.publish.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
@@ -14,6 +15,7 @@ import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.Column;
+import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
@@ -29,32 +31,41 @@ import com.google.web.bindery.event.shared.EventBus;
 public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implements CsvMappingStepPresenter, MetadataUpdatedHandler, MappingLoadingHandler, MappingLoadedHandler {
 
 	protected CsvMappingStepView view;
-	protected EventBus publishEventBus;
+	protected EventBus publishBus;
 	protected PublishMetadata metadata;
 	protected List<AttributeMapping> mappings;
+	protected Format formatType;
 
 	@Inject
-	public CsvMappingStepPresenterImpl(CsvMappingStepView view, @PublishBus EventBus publishEventBus){
+	public CsvMappingStepPresenterImpl(CsvMappingStepView view, @PublishBus EventBus publishBus){
 		super("csv-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tells us what to include and how.", PublishWizardStepButtons.BACKWARD, PublishWizardStepButtons.FORWARD);
 		this.view = view;
 		view.setPresenter(this);
 
-		this.publishEventBus = publishEventBus;
-		publishEventBus.addHandler(MetadataUpdatedEvent.TYPE, this);
-		publishEventBus.addHandler(MappingLoadingEvent.TYPE, this);
-		publishEventBus.addHandler(MappingLoadedEvent.TYPE, this);
+		this.publishBus = publishBus;
+		publishBus.addHandler(MetadataUpdatedEvent.TYPE, this);
+		publishBus.addHandler(MappingLoadingEvent.TYPE, this);
+		publishBus.addHandler(MappingLoadedEvent.TYPE, this);
 
 		bind();
 	}
 
 	protected void bind() {
-		publishEventBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedEvent.MappingsUpdatedHandler() {
+		publishBus.addHandler(ItemUpdatedEvent.getType(Format.class), new ItemUpdatedEvent.ItemUpdatedHandler<Format>() {
+
+			@Override
+			public void onItemUpdated(ItemUpdatedEvent<Format> event) {
+				formatType = event.getItem();		
+			}
+		});
+		
+		publishBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedEvent.MappingsUpdatedHandler() {
 
 			@Override
 			public void onMappingUpdated(MappingsUpdatedEvent event) {
-				if (event.getSource()!=CsvMappingStepPresenterImpl.this) {
+				if (event.getSource()!=CsvMappingStepPresenterImpl.this && formatType == Format.CSV) {
 					mappings = event.getMappings();
-					view.setMapping(mappings);
+					view.setMappings(mappings);
 				}
 			}
 		});
@@ -82,7 +93,7 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 		valid &= validateAttributes(csvName, version);*/
 
 		if (valid) {
-			publishEventBus.fireEventFromSource(new MappingsUpdatedEvent(mappings), this);
+			publishBus.fireEventFromSource(new MappingsUpdatedEvent(mappings), this);
 
 			/*ImportMetadata metadata = new ImportMetadata();
 			metadata.setName(csvName);
@@ -133,7 +144,7 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 	@Override
 	public void onMappingLoaded(MappingLoadedEvent event) {
 		mappings = event.getMappings();
-		view.setMapping(mappings);
+		view.setMappings(mappings);
 		view.unsetMappingLoading();
 	}
 
@@ -152,6 +163,6 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 		view.setCsvName(metadata.getName());
 		view.setVersion(metadata.getVersion());
 		view.setSealed(metadata.isSealed());
-		view.setMapping(mappings);
+		view.setMappings(mappings);
 	}
 }

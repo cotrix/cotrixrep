@@ -13,9 +13,9 @@ import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.event.PublishCompleteEvent;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
 import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.DestinationType;
+import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.DownloadType;
-import org.cotrix.web.publish.shared.FormatType;
+import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishMetadata;
@@ -50,8 +50,8 @@ public class PublishTask implements TaskWizardStep {
 	protected AsyncCallback<WizardAction> callback;
 	
 	protected UICodelist codelist;
-	protected DestinationType destination;
-	protected FormatType type;
+	protected Destination destination;
+	protected Format type;
 	protected List<AttributeMapping> mappings;
 	protected CsvConfiguration csvConfiguration;
 	protected MappingMode mappingMode;
@@ -85,18 +85,18 @@ public class PublishTask implements TaskWizardStep {
 			}
 		});
 		
-		publishBus.addHandler(ItemUpdatedEvent.getType(DestinationType.class), new ItemUpdatedEvent.ItemUpdatedHandler<DestinationType>() {
+		publishBus.addHandler(ItemUpdatedEvent.getType(Destination.class), new ItemUpdatedEvent.ItemUpdatedHandler<Destination>() {
 
 			@Override
-			public void onItemUpdated(ItemUpdatedEvent<DestinationType> event) {
+			public void onItemUpdated(ItemUpdatedEvent<Destination> event) {
 				destination = event.getItem();
 			}
 		});
 		
-		publishBus.addHandler(ItemUpdatedEvent.getType(FormatType.class), new ItemUpdatedEvent.ItemUpdatedHandler<FormatType>() {
+		publishBus.addHandler(ItemUpdatedEvent.getType(Format.class), new ItemUpdatedEvent.ItemUpdatedHandler<Format>() {
 
 			@Override
-			public void onItemUpdated(ItemUpdatedEvent<FormatType> event) {
+			public void onItemUpdated(ItemUpdatedEvent<Format> event) {
 				type = event.getItem();
 			}
 		});

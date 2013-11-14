@@ -4,12 +4,10 @@ import static org.cotrix.repository.Queries.*;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
-import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.CloudService;
@@ -21,22 +19,20 @@ import org.cotrix.web.publish.server.publish.PublishMapper;
 import org.cotrix.web.publish.server.publish.PublishStatus;
 import org.cotrix.web.publish.server.publish.Publisher;
 import org.cotrix.web.publish.server.publish.SerializationDirectivesProducer;
+import org.cotrix.web.publish.server.util.Mappings;
+import org.cotrix.web.publish.server.util.Mappings.MappingProvider;
 import org.cotrix.web.publish.server.util.PublishSession;
-import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
-import org.cotrix.web.publish.shared.Column;
-import org.cotrix.web.publish.shared.DestinationType;
+import org.cotrix.web.publish.shared.Destination;
+import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishServiceException;
-import org.cotrix.web.publish.shared.SdmxElement;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.Encodings;
 import org.cotrix.web.share.server.util.Ranges;
 import org.cotrix.web.share.server.util.Repositories;
-import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.DataWindow;
@@ -132,73 +128,25 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	}
 
 	@Override
-	public List<AttributeMapping> getMappings(String codelistId, DestinationType type) throws PublishServiceException {
-		logger.trace("getMappings codelistId{} type {}", codelistId, type);
+	public List<AttributeMapping> getMappings(String codelistId, Destination destination, Format type) throws PublishServiceException {
+		logger.trace("getMappings codelistId{} destination {} type {}", codelistId, destination, type);
 
 		CodelistSummary summary = repository.summary(codelistId);
-
+		
+		MappingProvider<?> provider = null;
 		switch (type) {
-			case FILE: return getFileMappings(summary);
-			case CHANNEL: return getChannelMappings(summary);
+			case CSV: provider = Mappings.COLUMN_PROVIDER; break;
+			case SDMX: provider = Mappings.SDMX_PROVIDER; break;
 			default: return new ArrayList<AttributeMapping>();
 		}
 
-	}
-
-	protected List<AttributeMapping> getChannelMappings(CodelistSummary summary) {
-		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-		for (QName attributeName:summary.codeNames()) {
-			for (QName attributeType : summary.codeTypesFor(attributeName)) {
-				Collection<String> languages = summary.codeLanguagesFor(attributeName, attributeType);
-				if (languages.isEmpty()) mappings.add(getChannelAttributeMapping(attributeName, attributeType, null));
-				else for (String language:languages) mappings.add(getChannelAttributeMapping(attributeName, attributeType, language));
-			}
+		switch (destination) {
+			case FILE: return Mappings.getFileMappings(summary, provider);
+			case CHANNEL: return Mappings.getChannelMappings(summary, provider);
+			default: return new ArrayList<AttributeMapping>();
 		}
-
-		return mappings;
-	}
-	
-	protected AttributeMapping getChannelAttributeMapping(QName name, QName type, String language) {
-
-		SdmxElement sdmxElement = SdmxElement.DESCRIPTION;
-		return getAttributeMapping(name, type, language, sdmxElement);
 	}
 
-	protected List<AttributeMapping> getFileMappings(CodelistSummary summary) {
-		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-		for (QName attributeName:summary.codeNames()) {
-			for (QName attributeType : summary.codeTypesFor(attributeName)) {
-				Collection<String> languages = summary.codeLanguagesFor(attributeName, attributeType);
-				if (languages.isEmpty()) mappings.add(getFileAttributeMapping(attributeName, attributeType, null));
-				else for (String language:languages) mappings.add(getFileAttributeMapping(attributeName, attributeType, language));
-			}
-		}
-		return mappings;
-	}
-	
-	protected AttributeMapping getFileAttributeMapping(QName name, QName type, String language) {
-
-		StringBuilder columnName = new StringBuilder(name.getLocalPart());
-		if (language!=null) columnName.append('(').append(language).append(')');
-		Column column = new Column();
-		column.setName(columnName.toString());
-
-		return getAttributeMapping(name, type, language, column);
-	}
-
-	protected AttributeMapping getAttributeMapping(QName name, QName type, String language, Mapping mapping) {
-		AttributeDefinition attr = new AttributeDefinition();
-		attr.setName(ValueUtils.safeValue(name));
-		attr.setType(ValueUtils.safeValue(type));
-		attr.setLanguage(ValueUtils.safeValue(language));
-
-
-		AttributeMapping attributeMapping = new AttributeMapping();
-		attributeMapping.setAttributeDefinition(attr);
-		attributeMapping.setMapping(mapping);
-		attributeMapping.setMapped(true);
-		return attributeMapping;
-	}
 
 	@Inject
 	public PublishMapper.CsvMapper csvMapper;

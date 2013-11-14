@@ -6,7 +6,7 @@ package org.cotrix.web.publish.client.wizard.step;
 import java.util.List;
 
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
-import org.cotrix.web.publish.shared.DestinationType;
+import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.flow.AbstractNodeSelector;
 import org.cotrix.web.share.client.wizard.flow.FlowNode;
@@ -37,10 +37,10 @@ public class DestinationNodeSelector extends AbstractNodeSelector<WizardStep> {
 	
 	protected void bind(EventBus publishBus)
 	{
-		publishBus.addHandler(ItemUpdatedEvent.getType(DestinationType.class), new ItemUpdatedEvent.ItemUpdatedHandler<DestinationType>() {
+		publishBus.addHandler(ItemUpdatedEvent.getType(Destination.class), new ItemUpdatedEvent.ItemUpdatedHandler<Destination>() {
 
 			@Override
-			public void onItemUpdated(ItemUpdatedEvent<DestinationType> event) {
+			public void onItemUpdated(ItemUpdatedEvent<Destination> event) {
 				Log.trace("onItemUpdated DestinationType "+event.getItem());
 				setDestination(event.getItem());
 			}
@@ -74,7 +74,7 @@ public class DestinationNodeSelector extends AbstractNodeSelector<WizardStep> {
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void setDestination(DestinationType destination) {
+	public void setDestination(Destination destination) {
 		Log.trace("switching destination to "+destination);
 		switch (destination) {
 			case CHANNEL:nextStep = channel; break;

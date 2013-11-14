@@ -4,7 +4,7 @@ import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.publish.shared.FormatType;
+import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.share.client.wizard.event.NavigationEvent;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
@@ -20,8 +20,8 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class TypeSelectionStepPresenterImpl extends AbstractVisualWizardStep implements TypeSelectionStepPresenter {
 	
-	protected static final ItemUpdatedEvent<FormatType> SDMX_EVENT = new ItemUpdatedEvent<FormatType>(FormatType.SDMX);
-	protected static final ItemUpdatedEvent<FormatType> CSV_EVENT = new ItemUpdatedEvent<FormatType>(FormatType.CSV);
+	protected static final ItemUpdatedEvent<Format> SDMX_EVENT = new ItemUpdatedEvent<Format>(Format.SDMX);
+	protected static final ItemUpdatedEvent<Format> CSV_EVENT = new ItemUpdatedEvent<Format>(Format.CSV);
 
 	protected TypeSelectionStepView view;
 	

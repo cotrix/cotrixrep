@@ -8,8 +8,8 @@ import java.io.File;
 import javax.inject.Inject;
 
 import org.cotrix.domain.Codelist;
-import org.cotrix.web.publish.shared.DestinationType;
-import org.cotrix.web.publish.shared.FormatType;
+import org.cotrix.web.publish.shared.Destination;
+import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.virtualrepository.tabular.Table;
 
@@ -36,7 +36,7 @@ public class PublisherBuilder<M,O> {
 			this.codelist = codelist;
 		}
 		
-		public DestinationBuilder<?> as(FormatType type) {
+		public DestinationBuilder<?> as(Format type) {
 			
 			switch (type) {
 				case CSV: return new DestinationBuilder<Table>(codelist, type, csvMapper);
@@ -50,16 +50,16 @@ public class PublisherBuilder<M,O> {
 	public static class DestinationBuilder<M> {
 		
 		protected Codelist codelist;
-		protected FormatType type;
+		protected Format type;
 		protected PublishMapper<M> mapper;
 		
-		protected DestinationBuilder(Codelist codelist, FormatType type, PublishMapper<M> mapper) {
+		protected DestinationBuilder(Codelist codelist, Format type, PublishMapper<M> mapper) {
 			this.codelist = codelist;
 			this.type = type;
 			this.mapper = mapper;
 		}
 		
-		 public PublisherBuilder<M,?> to(DestinationType destination) {
+		 public PublisherBuilder<M,?> to(Destination destination) {
 			 switch (destination) {
 				case FILE: return new PublisherBuilder<M, File>(codelist, mapper, desktopDestination);
 				default:

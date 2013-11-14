@@ -19,7 +19,7 @@ public class UIRepository implements IsSerializable {
 	protected UIQName id;
 	protected UIQName name;
 	protected String publishedTypes;
-	protected FormatType publishedType;
+	protected Format publishedType;
 	
 	/**
 	 * @return the id
@@ -61,13 +61,13 @@ public class UIRepository implements IsSerializable {
 	/**
 	 * @return the publishedType
 	 */
-	public FormatType getPublishedType() {
+	public Format getPublishedType() {
 		return publishedType;
 	}
 	/**
 	 * @param publishedType the publishedType to set
 	 */
-	public void setPublishedType(FormatType publishedType) {
+	public void setPublishedType(Format publishedType) {
 		this.publishedType = publishedType;
 	}
 	/** 

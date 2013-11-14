@@ -2,6 +2,7 @@ package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 
 import java.util.List;
 
+import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingLoadedEvent;
 import org.cotrix.web.publish.client.event.MappingLoadedEvent.MappingLoadedHandler;
 import org.cotrix.web.publish.client.event.MappingLoadingEvent;
@@ -13,6 +14,7 @@ import org.cotrix.web.publish.client.event.MetadataUpdatedEvent.MetadataUpdatedH
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
@@ -28,20 +30,44 @@ import com.google.web.bindery.event.shared.EventBus;
 public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep implements SdmxMappingStepPresenter, MetadataUpdatedHandler, MappingLoadingHandler, MappingLoadedHandler  {
 
 	protected SdmxMappingStepView view;
-	protected EventBus importEventBus;
+	protected EventBus publishBus;
 	protected PublishMetadata metadata;
 	protected List<AttributeMapping> mappings;
+	protected Format formatType;
 
 	@Inject
-	public SdmxMappingStepPresenterImpl(SdmxMappingStepView view, @PublishBus EventBus importEventBus){
+	public SdmxMappingStepPresenterImpl(SdmxMappingStepView view, @PublishBus EventBus publishBus){
 		super("sdmx-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tell us what to import and how.", PublishWizardStepButtons.BACKWARD, PublishWizardStepButtons.FORWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 
-		this.importEventBus = importEventBus;
-		importEventBus.addHandler(MetadataUpdatedEvent.TYPE, this);
-		importEventBus.addHandler(MappingLoadingEvent.TYPE, this);
-		importEventBus.addHandler(MappingLoadedEvent.TYPE, this);
+		this.publishBus = publishBus;
+		publishBus.addHandler(MetadataUpdatedEvent.TYPE, this);
+		publishBus.addHandler(MappingLoadingEvent.TYPE, this);
+		publishBus.addHandler(MappingLoadedEvent.TYPE, this);
+
+		bind();
+	}
+
+	protected void bind() {
+		publishBus.addHandler(ItemUpdatedEvent.getType(Format.class), new ItemUpdatedEvent.ItemUpdatedHandler<Format>() {
+
+			@Override
+			public void onItemUpdated(ItemUpdatedEvent<Format> event) {
+				formatType = event.getItem();		
+			}
+		});
+		
+		publishBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedEvent.MappingsUpdatedHandler() {
+
+			@Override
+			public void onMappingUpdated(MappingsUpdatedEvent event) {
+				if (event.getSource()!=SdmxMappingStepPresenterImpl.this && formatType == Format.SDMX) {
+					mappings = event.getMappings();
+					view.setMappings(mappings);
+				}
+			}
+		});
 	}
 
 	/** 
@@ -65,14 +91,14 @@ public class SdmxMappingStepPresenterImpl extends AbstractVisualWizardStep imple
 
 		if (valid) {
 
-			importEventBus.fireEvent(new MappingsUpdatedEvent(mappings));
+			publishBus.fireEventFromSource(new MappingsUpdatedEvent(mappings), this);
 			
 			PublishMetadata metadata = new PublishMetadata();
 			metadata.setName(codelistName);
 			metadata.setVersion(version);
 			metadata.setSealed(sealed);
 			metadata.setAttributes(this.metadata.getAttributes());
-			importEventBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
+			publishBus.fireEvent(new MetadataUpdatedEvent(metadata, true));
 		}
 
 		return valid;

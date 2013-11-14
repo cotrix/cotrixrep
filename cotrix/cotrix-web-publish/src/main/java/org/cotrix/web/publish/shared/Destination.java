@@ -7,9 +7,9 @@ package org.cotrix.web.publish.shared;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public enum FormatType {
+public enum Destination {
 	
-	SDMX,
-	CSV;
+	CHANNEL,
+	FILE;
 
 }

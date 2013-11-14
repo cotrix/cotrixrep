@@ -22,7 +22,7 @@ import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.web.publish.server.publish.PublishStatus;
-import org.cotrix.web.publish.shared.FormatType;
+import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.FieldComparator.ValueProvider;
@@ -152,7 +152,7 @@ public class PublishSession implements Serializable {
 	public void loadRepositories() {
 		orderedRepositories.clear();
 		for (RepositoryService repository: cloud.repositories()) {
-			FormatType type = selectType(repository.publishedTypes());
+			Format type = selectType(repository.publishedTypes());
 			if (type == null) continue;
 			UIRepository uiRepository = new UIRepository();
 			uiRepository.setId(ValueUtils.safeValue(repository.name()));
@@ -165,16 +165,16 @@ public class PublishSession implements Serializable {
 		}
 	}
 	
-	protected FormatType selectType(Collection<AssetType> types) {
+	protected Format selectType(Collection<AssetType> types) {
 		Iterator<AssetType> typesIterator = types.iterator();
 		boolean foundCSV = false;
 		while(typesIterator.hasNext()) {
 			AssetType type = typesIterator.next();
 			if (type instanceof CsvGenericType || type instanceof CsvCodelistType) foundCSV = true;
-			if (type instanceof SdmxGenericType || type instanceof SdmxCodelistType) return FormatType.SDMX;
+			if (type instanceof SdmxGenericType || type instanceof SdmxCodelistType) return Format.SDMX;
 		}
 		
-		if (foundCSV) return FormatType.CSV;
+		if (foundCSV) return Format.CSV;
 		return null;
 	}
 	

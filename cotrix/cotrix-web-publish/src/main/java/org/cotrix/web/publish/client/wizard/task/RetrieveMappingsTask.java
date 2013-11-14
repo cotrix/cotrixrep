@@ -12,7 +12,8 @@ import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
 import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.DestinationType;
+import org.cotrix.web.publish.shared.Destination;
+import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.share.client.wizard.WizardAction;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
@@ -35,7 +36,8 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 	protected PublishServiceAsync service;
 	
 	protected UICodelist selectedCodelist;
-	protected DestinationType destinationType;
+	protected Destination destination;
+	protected Format format;
 	
 	protected EventBus publishBus;
 	
@@ -63,11 +65,20 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 				selectedCodelist = event.getItem();
 			}
 		});
-		publishBus.addHandler(ItemUpdatedEvent.getType(DestinationType.class), new ItemUpdatedEvent.ItemUpdatedHandler<DestinationType>() {
+		
+		publishBus.addHandler(ItemUpdatedEvent.getType(Destination.class), new ItemUpdatedEvent.ItemUpdatedHandler<Destination>() {
 
 			@Override
-			public void onItemUpdated(ItemUpdatedEvent<DestinationType> event) {
-				destinationType = event.getItem();
+			public void onItemUpdated(ItemUpdatedEvent<Destination> event) {
+				destination = event.getItem();
+			}
+		});
+		
+		publishBus.addHandler(ItemUpdatedEvent.getType(Format.class), new ItemUpdatedEvent.ItemUpdatedHandler<Format>() {
+
+			@Override
+			public void onItemUpdated(ItemUpdatedEvent<Format> event) {
+				format = event.getItem();
 			}
 		});
 	}
@@ -84,8 +95,8 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 
 	@Override
 	public void run(final AsyncCallback<WizardAction> callback) {
-		Log.trace("retrieving mappings for codelist "+selectedCodelist);
-		service.getMappings(selectedCodelist.getId(), destinationType, new AsyncCallback<List<AttributeMapping>>() {
+		Log.trace("retrieving mappings for codelist "+selectedCodelist+" destinationType: "+destination+" format: "+format);
+		service.getMappings(selectedCodelist.getId(),  destination, format, new AsyncCallback<List<AttributeMapping>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

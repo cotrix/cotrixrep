@@ -14,7 +14,8 @@ import com.google.gwt.event.shared.EventHandler;
 public class MappingsUpdatedEvent extends GwtEvent<MappingsUpdatedEvent.MappingsUpdatedHandler> {
 
 	public static Type<MappingsUpdatedHandler> TYPE = new Type<MappingsUpdatedHandler>();
-	private List<AttributeMapping> mappings;
+	
+	protected List<AttributeMapping> mappings;
 
 	public interface MappingsUpdatedHandler extends EventHandler {
 		void onMappingUpdated(MappingsUpdatedEvent event);

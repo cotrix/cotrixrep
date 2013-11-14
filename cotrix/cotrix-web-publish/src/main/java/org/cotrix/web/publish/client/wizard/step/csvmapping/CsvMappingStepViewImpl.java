@@ -122,7 +122,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void setMapping(List<AttributeMapping> mapping)
+	public void setMappings(List<AttributeMapping> mapping)
 	{
 		mappingPanel.setMapping(mapping);
 	}
