@@ -5,9 +5,8 @@ package org.cotrix.web.publish.client.wizard.step;
 
 import java.util.List;
 
-import org.cotrix.web.publish.client.event.ItemSelectedEvent;
+import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.shared.FormatType;
-import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.flow.AbstractNodeSelector;
 import org.cotrix.web.share.client.wizard.flow.FlowNode;
@@ -36,11 +35,11 @@ public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> {
 	
 	protected void bind(EventBus publishBus)
 	{
-		publishBus.addHandler(ItemSelectedEvent.getType(UIRepository.class), new ItemSelectedEvent.ItemSelectedHandler<UIRepository>() {
+		publishBus.addHandler(ItemUpdatedEvent.getType(FormatType.class), new ItemUpdatedEvent.ItemUpdatedHandler<FormatType>() {
 
 			@Override
-			public void onItemSelected(ItemSelectedEvent<UIRepository> event) {
-				setTyped(event.getItem().getPublishedType());
+			public void onItemUpdated(ItemUpdatedEvent<FormatType> event) {
+				setType(event.getItem());				
 			}
 		});
 		publishBus.addHandler(ResetWizardEvent.TYPE, new ResetWizardEvent.ResetWizardHandler() {
@@ -71,7 +70,7 @@ public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> {
 	}
 
 
-	public void setTyped(FormatType type) {
+	public void setType(FormatType type) {
 		Log.trace("TypeNodeSelector updating next to "+type);
 		switch (type) {
 			case CSV: nextStep = csvStep; break;

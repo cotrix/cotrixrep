@@ -6,9 +6,6 @@ package org.cotrix.web.publish.client.wizard.step;
 import java.util.List;
 
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
-import org.cotrix.web.publish.client.event.PublishBus;
-import org.cotrix.web.publish.client.wizard.step.repositoryselection.RepositorySelectionStepPresenter;
-import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepPresenter;
 import org.cotrix.web.publish.shared.DestinationType;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.flow.AbstractNodeSelector;
@@ -16,27 +13,24 @@ import org.cotrix.web.share.client.wizard.flow.FlowNode;
 import org.cotrix.web.share.client.wizard.step.WizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@Singleton
 public class DestinationNodeSelector extends AbstractNodeSelector<WizardStep> {
 	
-	protected TypeSelectionStepPresenter typeStep;
-	protected RepositorySelectionStepPresenter repositorySelectionStep;
+	protected WizardStep channel;
+	protected WizardStep file;
 	protected WizardStep nextStep;
 	
-	@Inject
-	public DestinationNodeSelector(@PublishBus EventBus publishBus, TypeSelectionStepPresenter typeStep, RepositorySelectionStepPresenter repositorySelectionStep)
+
+	public DestinationNodeSelector(EventBus publishBus, WizardStep channel, WizardStep file)
 	{
-		this.typeStep = typeStep;
-		this.repositorySelectionStep = repositorySelectionStep;
-		this.nextStep = typeStep;
+		this.channel = channel;
+		this.file = file;
+		this.nextStep = file;
 		
 		bind(publishBus);
 	}
@@ -47,6 +41,7 @@ public class DestinationNodeSelector extends AbstractNodeSelector<WizardStep> {
 
 			@Override
 			public void onItemUpdated(ItemUpdatedEvent<DestinationType> event) {
+				Log.trace("onItemUpdated DestinationType "+event.getItem());
 				setDestination(event.getItem());
 			}
 		});
@@ -65,9 +60,14 @@ public class DestinationNodeSelector extends AbstractNodeSelector<WizardStep> {
 	 */
 	@Override
 	public FlowNode<WizardStep> selectNode(List<FlowNode<WizardStep>> children) {
-		
-		for (FlowNode<WizardStep> child:children) if (child.getItem().getId().equals(nextStep.getId())) return child;
-		
+		Log.trace("DestinationNodeSelector nextStep: "+nextStep.getId()+" proposed children: "+children);
+		for (FlowNode<WizardStep> child:children)  {
+			Log.trace("checking for "+child.getItem().getId());
+			if (child.getItem().getId().equals(nextStep.getId())) {
+				Log.trace("returning "+nextStep.getId());
+				return child;
+			}
+		}
 		return null;
 	}
 
@@ -77,9 +77,11 @@ public class DestinationNodeSelector extends AbstractNodeSelector<WizardStep> {
 	public void setDestination(DestinationType destination) {
 		Log.trace("switching destination to "+destination);
 		switch (destination) {
-			case CHANNEL:nextStep = repositorySelectionStep; break;
-			case FILE: nextStep = typeStep; break;
+			case CHANNEL:nextStep = channel; break;
+			case FILE: nextStep = file; break;
 		}
+		
+		Log.trace("nextStep: "+nextStep.getId());
 		switchUpdated();
 	}
 
@@ -88,7 +90,7 @@ public class DestinationNodeSelector extends AbstractNodeSelector<WizardStep> {
 	 * {@inheritDoc}
 	 */
 	public void reset() {
-		nextStep = typeStep;		
+		nextStep = file;		
 	}
 
 }

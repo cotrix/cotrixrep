@@ -62,7 +62,6 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 			CodelistDetailsStepPresenter codelistDetailsStep,
 			
 			DestinationSelectionStepPresenter destinationSelectionStep,
-			DestinationNodeSelector destinationSelector, 
 			RepositorySelectionStepPresenter repositorySelectionStep,
 			RepositoryDetailsNodeSelector repositoryDetailsNodeSelector,
 			RetrieveRepositoryDetailsTask repositoryDetailsTask,
@@ -93,6 +92,8 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 		SwitchNodeBuilder<WizardStep> selectionStep = root.hasAlternatives(detailsNodeSelector);
 		selectionStep.alternative(retrieveMetadataTask).next(codelistDetailsStep);
 		
+		//TypeSelectionStepPresenter typeStep, RepositorySelectionStepPresenter repositorySelectionStep
+		DestinationNodeSelector destinationSelector = new DestinationNodeSelector(publishEventBus, repositorySelectionStep, typeSelectionStep);
 		SwitchNodeBuilder<WizardStep> destination = selectionStep.alternative(destinationSelectionStep).hasAlternatives(destinationSelector);
 		SingleNodeBuilder<WizardStep> type = destination.alternative(typeSelectionStep);
 		
@@ -105,8 +106,11 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 		repository.alternative(repositoryDetailsTask).next(repositoryDetailsStep);
 		repository.alternative(retrieveMappings);
 	
+		DestinationNodeSelector csvDestinationSelector = new DestinationNodeSelector(publishEventBus, summaryStep, retrieveCSVConfigurationTask);
+		SwitchNodeBuilder<WizardStep> csvPostMapping = csvMapping.hasAlternatives(csvDestinationSelector); 
+		SingleNodeBuilder<WizardStep> summary = csvPostMapping.alternative(retrieveCSVConfigurationTask).next(csvConfigurationStep).next(summaryStep);
+		csvPostMapping.alternative(summary);
 		
-		SingleNodeBuilder<WizardStep> summary = csvMapping.next(retrieveCSVConfigurationTask).next(csvConfigurationStep).next(summaryStep);
 		sdmxMapping.next(summary);
 		
 		summary.next(publishTask).next(doneStep);
