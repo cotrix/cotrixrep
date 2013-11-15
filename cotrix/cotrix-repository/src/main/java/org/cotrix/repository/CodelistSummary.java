@@ -98,14 +98,23 @@ public class CodelistSummary {
 	
 	public Collection<QName> allTypesFor(QName name) {
 		
-		Collection<QName> values = new HashSet<QName>(globalFingerprint.get(name).keySet());
+		Collection<QName> values = new HashSet<QName>();
+	
+		Map<QName,Set<String>> typeMap = globalFingerprint.get(name);
 		
-		values.addAll(fingerprint.get(name).keySet());
+		if (typeMap!=null)
+			values.addAll(typeMap.keySet());
+		
+		typeMap = fingerprint.get(name);
+		
+		if (typeMap!=null)
+			values.addAll(typeMap.keySet());
 		
 		return values;
 	}
 	
 	public Collection<String> allLanguagesFor(QName name,QName type) {
+		
 		Collection<String> values = new HashSet<String>();
 
 		if (globalFingerprint.containsKey(name))

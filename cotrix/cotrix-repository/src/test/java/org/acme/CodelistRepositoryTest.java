@@ -5,9 +5,11 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.junit.Assert.*;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
@@ -58,12 +60,13 @@ public class CodelistRepositoryTest {
 		
 		assertEqualSets(asList(q("t1"),q("t2"),q("t3")),summary.allTypesFor(q("name1")));
 		assertEqualSets(asList("l1","l2","l3"),summary.allLanguagesFor(q("name1"),q("t1")));
-		
-		
+		assertEqualSets(Collections.<QName>emptyList(),summary.allTypesFor(q("foo")));
+		assertEqualSets(Collections.<String>emptyList(),summary.allLanguagesFor(q("foo"),q("boo")));
 		
 		assertEqualSets(asList(q("name1"),q("name2")),summary.codeNames());
 		assertEqualSets(asList(q("t1"),q("t2")),summary.codeTypesFor(q("name1")));
 		assertEqualSets(asList("l1","l2"),summary.codeLanguagesFor(q("name1"),q("t1")));
+		
 		
 		
 		
