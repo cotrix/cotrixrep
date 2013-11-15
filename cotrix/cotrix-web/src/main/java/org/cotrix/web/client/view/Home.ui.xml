@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with field='resources'
 		type='org.cotrix.web.client.resources.CotrixResources' />
-			<ui:with field='common'
+	<ui:with field='common'
 		type='org.cotrix.web.share.client.resources.CommonResources' />
 	<ui:style>
 		.div {
@@ -49,12 +49,24 @@
 			width: 950px;
 			margin: 0 auto;
 		}
+		
+		.news {
+			padding: 13px;
+			line-height: 2;
+		}
+		
+		.newsLoader {
+			text-align: center;
+			vertical-align: middle;
+			padding-top: 10px;
+		}
+		
 		.statistics {
 			padding: 13px;
 			line-height: 2;
 		}
 		
-		.statisticsLoader{
+		.statisticsLoader {
 			text-align: center;
 			vertical-align: middle;
 			padding-top: 10px;
@@ -70,15 +82,19 @@
 					<div class="{style.block}">
 						<g:Image resource="{resources.communities}" styleName="{style.blockImg}" />
 						<div class="{style.blockTitle}">community</div>
+						<g:HTML ui:field="news" visible="false" styleName="{style.news}" />
+						<div class="{style.newsLoader}" ui:field="newsLoader">
+							<g:Image resource="{common.dataLoader}" />
+						</div>
 					</div>
 				</td>
 				<td>
 					<div class="{style.block}">
 						<g:Image resource="{resources.statistic}" styleName="{style.blockImg}" />
 						<div class="{style.blockTitle}">statistics</div>
-						<g:HTML ui:field="statistics" visible="false" styleName="{style.statistics}"/>
+						<g:HTML ui:field="statistics" visible="false" styleName="{style.statistics}" />
 						<div class="{style.statisticsLoader}" ui:field="statisticsLoader">
-						<g:Image resource="{common.dataLoader}"/>
+							<g:Image resource="{common.dataLoader}" />
 						</div>
 					</div>
 				</td>

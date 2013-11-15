@@ -3,10 +3,13 @@
  */
 package org.cotrix.web.client.presenter;
 
+import java.util.List;
+
 import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.client.view.HomeView;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.CotrixModuleController;
+import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -33,6 +36,8 @@ public class HomeController implements CotrixModuleController {
 	
 	protected Timer statisticsUpdater;
 	
+	protected Timer newsUpdater;
+	
 	public HomeController() {
 		
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -51,6 +56,23 @@ public class HomeController implements CotrixModuleController {
 			}
 		};
 		statisticsUpdater.scheduleRepeating(5*60*1000);
+		
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			
+			@Override
+			public void execute() {
+				updateNews();				
+			}
+		});
+		
+		newsUpdater = new Timer() {
+			
+			@Override
+			public void run() {
+				updateNews();
+			}
+		};
+		newsUpdater.scheduleRepeating(5*60*1000);
 	}
 	
 	@Override
@@ -72,6 +94,22 @@ public class HomeController implements CotrixModuleController {
 			@Override
 			public void onSuccess(UIStatistics result) {
 				view.setStatistics(result.getCodelists(), result.getCodes(), result.getUsers(), result.getRepositories());				
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("Error getting statistics", caught);
+				
+			}
+		});
+	}
+	
+	protected void updateNews() {
+		service.getNews(new AsyncCallback<List<UINews>>() {
+			
+			@Override
+			public void onSuccess(List<UINews> result) {
+				view.setNews(result);				
 			}
 			
 			@Override

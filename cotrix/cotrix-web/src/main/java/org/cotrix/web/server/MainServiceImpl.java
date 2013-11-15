@@ -4,6 +4,7 @@ import static org.cotrix.action.MainAction.*;
 import static org.cotrix.web.share.shared.feature.ApplicationFeatures.*;
 import static org.cotrix.web.shared.AuthenticationFeature.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -14,8 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.cotrix.action.Action;
 import org.cotrix.action.Actions;
 import org.cotrix.action.CodelistAction;
+import org.cotrix.application.NewsService;
 import org.cotrix.application.StatisticsService;
+import org.cotrix.application.NewsService.NewsItem;
 import org.cotrix.application.StatisticsService.Statistics;
+import org.cotrix.application.impl.ReleaseNewsReporter;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
@@ -27,6 +31,7 @@ import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
+import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +66,9 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 
 	@Inject
 	protected StatisticsService statisticsService;
+	
+	@Inject
+	protected NewsService newsService;
 
 	@Inject
 	ActionMapper mapper;
@@ -71,6 +79,9 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	@Current
 	@Inject
 	User currentUser;
+	
+	@Inject
+	ReleaseNewsReporter newsReporter;
 
 	/** 
 	 * {@inheritDoc}
@@ -104,7 +115,11 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 
 		//FIXME workaround to returning user with active session
 		logger.trace("currentUser: "+currentUser);
-		if (username == null && password == null && currentUser != null && !currentUser.id().equals(PredefinedUsers.guest.id()) && action==LOGIN) {
+		if (username == null 
+				&& password == null 
+				&& currentUser != null 
+				&& !currentUser.id().equals(PredefinedUsers.guest.id()) 
+				&& action==LOGIN) {
 			user = currentUser;
 		} else {
 
@@ -156,6 +171,18 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		uiStatistics.setUsers(statistics.totalUsers());
 		uiStatistics.setRepositories(statistics.totalRepositories());
 		return uiStatistics;
+	}
+
+	@Override
+	public List<UINews> getNews() {
+		List<UINews> news = new ArrayList<UINews>();
+		for (NewsItem newsItem:newsService.news()) {
+			UINews uiNews = new UINews();
+			uiNews.setTimestamp(newsItem.timestamp());
+			uiNews.setText(newsItem.text());
+			news.add(uiNews);
+		}
+		return news;
 	}
 
 }

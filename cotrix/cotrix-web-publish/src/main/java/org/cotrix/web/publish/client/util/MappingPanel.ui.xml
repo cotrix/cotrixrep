@@ -28,7 +28,7 @@
 					<td class="{common.css.mappingTableNameHeader}">
 						<span class="{common.css.propertyLabel} {resources.css.mappingCell}">NAME</span>
 					</td>
-					<td style="padding-top:10px;">
+					<td style="padding-top:10px;vertical-align:middle;">
 						<g:TextBox width="99%" ui:field="name"
 							styleName="{common.css.textBox}" />
 					</td>

@@ -3,6 +3,7 @@ package org.cotrix.web.client;
 import java.util.List;
 
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
+import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -20,5 +21,7 @@ public interface MainService extends RemoteService {
 	public ResponseWrapper<String> logout(List<String> openCodelists);
 	
 	public UIStatistics getStatistics();
+	
+	public List<UINews> getNews();
 	
 }
