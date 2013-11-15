@@ -16,7 +16,6 @@ import org.cotrix.io.SerialisationService.SerialisationDirectives;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
-import org.virtualrepository.RepositoryService;
 import org.virtualrepository.tabular.Table;
 
 /**
@@ -56,19 +55,9 @@ public interface PublishToDestination<O> {
 		@Override
 		public <T> Void publish(T codelist, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives) {
 			
-			RepositoryService destination = null;
 			QName repositoryId = ValueUtils.toQName(publishDirectives.getRepositoryId());
-			for (RepositoryService repositoryService:cloud.repositories()) {
-				if (repositoryService.name().equals(repositoryId)) {
-					destination = repositoryService;
-					break;
-				}
-			}
-			
-			if (destination == null) throw new IllegalArgumentException("No repository with id "+repositoryId+" found");
-			
-			if (codelist instanceof Table) cloud.publish((Table) codelist, destination);
-			if (codelist instanceof CodelistBean) cloud.publish((CodelistBean) codelist, destination);
+			if (codelist instanceof Table) cloud.publish((Table) codelist, repositoryId);
+			if (codelist instanceof CodelistBean) cloud.publish((CodelistBean) codelist, repositoryId);
 			
 			return null;
 		}

@@ -1,8 +1,11 @@
 package org.cotrix.io.impl;
 
+import static org.cotrix.common.Utils.*;
+
 import java.util.Iterator;
 
 import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 import org.cotrix.io.CloudService;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
@@ -65,21 +68,33 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 	}
 	
 	@Override
-	public void publish(CodelistBean list, RepositoryService channel) {
-		
-		repository.publish(new SdmxCodelist(list.getId(),channel), list);
-	}
-	
-	@Override
 	public Table retrieveAsTable(String id) {
 		
 		return repository.retrieve(repository.lookup(id),Table.class);
 	}
+	
+	@Override
+	public void publish(CodelistBean list, QName name) {
+		
+		notNull("list",list);
+		notNull("repository name",name);
+		
+		RepositoryService service = repository.services().lookup(name);
+		
+		repository.publish(new SdmxCodelist(list.getId(),service), list);
+	}
+	
+	
 
 	@Override
-	public void publish(Table list, RepositoryService channel) {
+	public void publish(Table list, QName name) {
 		
-		repository.publish(new CsvCodelist("name",0,channel),list);
+		notNull("list",list);
+		notNull("repository name",name);
+		
+		RepositoryService service = repository.services().lookup(name);
+		
+		repository.publish(new CsvCodelist("name",0,service),list);
 	}
 	
 	
