@@ -12,14 +12,18 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.LanguageClause;
 import org.cotrix.io.MapService;
+import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
 import org.cotrix.io.tabular.map.AttributeDirectives;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
 import org.cotrix.repository.CodelistRepository;
+import org.cotrix.web.publish.server.util.SdmxElements;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.Column;
 import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
+import org.cotrix.web.publish.shared.PublishMetadata;
+import org.cotrix.web.publish.shared.SdmxElement;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Table;
@@ -61,23 +65,12 @@ public interface PublishMapper<T> {
 
 		}
 		
-		/*protected Codelist2TableDirectives getColumnDirectives(AttributeMapping mapping) {
-			
-			Attribute template = getTemplate(mapping.getAttributeDefinition());
-			Codelist2TableDirectives directive = new Codelist2TableDirectives();
-			directive.add(template);
-			directive.codeColumnName(mapping.getColumnName());			
-			return directive;
-		}*/
-		
 		protected Attribute getTemplate(AttributeDefinition definition) {
 			LanguageClause attributeBuilder = attr().name(ValueUtils.toQName(definition.getName())).value(null).ofType(ValueUtils.toQName(definition.getType()));
 			if (definition.getLanguage()!=null && !definition.getLanguage().isEmpty()) return attributeBuilder.in(definition.getLanguage()).build();
 			return attributeBuilder.build();
 		}
-		
-		
-		
+
 		protected org.cotrix.io.tabular.map.MappingMode convertMappingMode(MappingMode mode)
 		{
 			if (mode == null) return null;
@@ -95,28 +88,34 @@ public interface PublishMapper<T> {
 		
 		@Inject
 		protected MapService mapper;
+		
+		@Inject
+		protected CodelistRepository repository;
 
 		@Override
 		public Outcome<CodelistBean> map(PublishDirectives publishDirectives) {
 			
-			/*Sdmx2CodelistDirectives directives = new Sdmx2CodelistDirectives();
+			Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
 			
-			for (AttributeMapping mapping:mappings) setDirective(directives, mapping);
-			
+			PublishMetadata metadata = publishDirectives.getMetadata();
+			//FIXME directives.agency(metadata.get);
 			directives.name(metadata.getName());
 			directives.version(metadata.getVersion());
+			//FIXME directives.isFinal(isfinal)
 			
-			return mapper.map(codelist, directives);*/
-			return null;
-		}
-		
-	/*	protected void setDirective(Sdmx2CodelistDirectives directives, AttributeMapping mapping) {
-			SdmxElement element = SdmxElement.valueOf(mapping.getField().getId());
-			if (mapping.isMapped()) {
-				AttributeDefinition definition = mapping.getAttributeDefinition();
-				directives.map(element, new QName(definition.getName()));
-			} else directives.ignore(element);
-		}*/
-		
+			for (AttributeMapping mapping:publishDirectives.getMappings()) {
+				if (mapping.isMapped()) {
+					
+					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();
+					SdmxElement element = (SdmxElement) mapping.getMapping();
+					
+					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).to(SdmxElements.toSdmxElement(element));
+				}
+			}
+			
+			Codelist codelist = repository.lookup(publishDirectives.getCodelistId());
+
+			return mapper.map(codelist, directives);
+		}		
 	}
 }

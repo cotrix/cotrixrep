@@ -23,10 +23,10 @@ public class PublisherBuilder<M,O> {
 	public static PublishMapper.CsvMapper csvMapper;
 	
 	@Inject
-	public static SerializationDirectivesProducer.TableDesktopProducer tableDesktopProducer;
+	public static SerializationDirectivesProducer.CSVSerializationDirectivesProducer tableDesktopProducer;
 	
 	@Inject
-	public static PublishDestination.DesktopDestination desktopDestination;
+	public static PublishToDestination.DesktopDestination desktopDestination;
 	
 	
 	public static class FormatBuilder {
@@ -81,11 +81,11 @@ public class PublisherBuilder<M,O> {
 	protected Codelist codelist;
 	protected PublishMapper<M> mapper;
 	protected SerializationDirectivesProducer<M> serializationProducer;
-	protected PublishDestination<O> destination;
+	protected PublishToDestination<O> destination;
 	
 	protected PublishDirectives publishDirectives;
 	
-	protected PublisherBuilder(Codelist codelist, PublishMapper<M> mapper, PublishDestination<O> destination) {
+	protected PublisherBuilder(Codelist codelist, PublishMapper<M> mapper, PublishToDestination<O> destination) {
 		
 		this.codelist = codelist;
 		this.mapper = mapper;

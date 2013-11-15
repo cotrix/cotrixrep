@@ -2,7 +2,6 @@ package org.cotrix.web.publish.server;
 
 import static org.cotrix.repository.Queries.*;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +13,9 @@ import org.cotrix.io.CloudService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.web.publish.client.PublishService;
-import org.cotrix.web.publish.server.publish.PublishDestination;
-import org.cotrix.web.publish.server.publish.PublishMapper;
 import org.cotrix.web.publish.server.publish.PublishStatus;
 import org.cotrix.web.publish.server.publish.Publisher;
-import org.cotrix.web.publish.server.publish.SerializationDirectivesProducer;
+import org.cotrix.web.publish.server.publish.Publishers;
 import org.cotrix.web.publish.server.util.Mappings;
 import org.cotrix.web.publish.server.util.Mappings.MappingProvider;
 import org.cotrix.web.publish.server.util.PublishSession;
@@ -45,7 +42,6 @@ import org.cotrix.web.share.shared.codelist.UIQName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.RepositoryService;
-import org.virtualrepository.tabular.Table;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.view.client.Range;
@@ -71,6 +67,10 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 
 	@Inject
 	protected CloudService cloud;
+	
+
+	@Inject
+	public Publishers publishers;
 
 	/** 
 	 * {@inheritDoc}
@@ -147,16 +147,6 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		}
 	}
 
-
-	@Inject
-	public PublishMapper.CsvMapper csvMapper;
-
-	@Inject
-	public SerializationDirectivesProducer.TableDesktopProducer tableDesktopProducer;
-
-	@Inject
-	public PublishDestination.DesktopDestination desktopDestination;
-
 	@Override
 	public void startPublish(PublishDirectives publishDirectives) throws PublishServiceException {
 		logger.trace("startPublish publishDirectives: {}", publishDirectives);
@@ -167,7 +157,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		Codelist codelist = repository.lookup(publishDirectives.getCodelistId());
 		publishStatus.setPublishedCodelist(codelist);
 
-		Publisher<Table, File> publisher = new Publisher<Table, File>(publishDirectives, csvMapper, tableDesktopProducer, desktopDestination, publishStatus); 
+		Publisher<?, ?> publisher = publishers.createPublisher(publishDirectives, publishStatus);
 		//FIXME use a service provider
 		Thread th = new Thread(publisher);
 		th.start();

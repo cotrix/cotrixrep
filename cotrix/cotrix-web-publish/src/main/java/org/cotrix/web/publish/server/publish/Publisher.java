@@ -28,7 +28,7 @@ public class Publisher<T, O> implements Runnable {
 
 	protected PublishMapper<T> mapper;
 	protected SerializationDirectivesProducer<T> serializationProducer;
-	protected PublishDestination<O> destination;
+	protected PublishToDestination<O> destination;
 
 	protected PublishStatus publishStatus;
 	protected Progress progress = new Progress();
@@ -43,7 +43,7 @@ public class Publisher<T, O> implements Runnable {
 	public Publisher(PublishDirectives publishDirectives,
 			PublishMapper<T> mapper,
 			SerializationDirectivesProducer<T> serializationProducer,
-			PublishDestination<O> destination, PublishStatus publishStatus) {
+			PublishToDestination<O> destination, PublishStatus publishStatus) {
 		this.publishDirectives = publishDirectives;
 		this.mapper = mapper;
 		this.serializationProducer = serializationProducer;
@@ -79,7 +79,7 @@ public class Publisher<T, O> implements Runnable {
 
 			logger.trace("serializing");
 			SerialisationDirectives<T> serialisationDirectives = serializationProducer.produce(publishDirectives);
-			O output = destination.publish(outcome.result(), serialisationDirectives);
+			O output = destination.publish(outcome.result(), serialisationDirectives, publishDirectives);
 			publishStatus.setPublishResult(output);
 
 			logger.info("publish complete");

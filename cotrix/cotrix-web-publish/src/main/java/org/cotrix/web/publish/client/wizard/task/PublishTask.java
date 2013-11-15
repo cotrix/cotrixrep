@@ -8,6 +8,7 @@ import java.util.List;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
+import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.event.PublishCompleteEvent;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
@@ -18,12 +19,14 @@ import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishMetadata;
+import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.client.wizard.WizardAction;
 import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
 import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.Progress;
 import org.cotrix.web.share.shared.Progress.Status;
 import org.cotrix.web.share.shared.codelist.UICodelist;
+import org.cotrix.web.share.shared.codelist.UIQName;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -50,9 +53,10 @@ public class PublishTask implements TaskWizardStep {
 	
 	protected UICodelist codelist;
 	protected Destination destination;
-	protected Format type;
+	protected Format format;
 	protected List<AttributeMapping> mappings;
 	protected CsvConfiguration csvConfiguration;
+	protected UIQName repositoryId;
 	protected MappingMode mappingMode;
 	protected PublishMetadata metadata;
 	
@@ -96,7 +100,7 @@ public class PublishTask implements TaskWizardStep {
 
 			@Override
 			public void onItemUpdated(ItemUpdatedEvent<Format> event) {
-				type = event.getItem();
+				format = event.getItem();
 			}
 		});
 		
@@ -105,6 +109,14 @@ public class PublishTask implements TaskWizardStep {
 			@Override
 			public void onItemUpdated(ItemUpdatedEvent<CsvConfiguration> event) {
 				csvConfiguration = event.getItem();
+			}
+		});
+		
+		publishBus.addHandler(ItemSelectedEvent.getType(UIRepository.class), new ItemSelectedEvent.ItemSelectedHandler<UIRepository>() {
+
+			@Override
+			public void onItemSelected(ItemSelectedEvent<UIRepository> event) {
+				repositoryId = event.getItem().getId();
 			}
 		});
 		
@@ -121,6 +133,14 @@ public class PublishTask implements TaskWizardStep {
 			@Override
 			public void onItemUpdated(ItemUpdatedEvent<MappingMode> event) {
 				mappingMode = event.getItem();
+			}
+		});
+		
+		publishBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedEvent.MappingsUpdatedHandler() {
+			
+			@Override
+			public void onMappingUpdated(MappingsUpdatedEvent event) {
+				mappings = event.getMappings();
 			}
 		});
 	}
@@ -141,7 +161,10 @@ public class PublishTask implements TaskWizardStep {
 		this.callback = callback;
 		PublishDirectives directives = new PublishDirectives();
 		directives.setCodelistId(codelist.getId());
+		directives.setFormat(format);
+		directives.setDestination(destination);
 		directives.setCsvConfiguration(csvConfiguration);
+		directives.setRepositoryId(repositoryId);
 		directives.setMappingMode(mappingMode);
 		directives.setMetadata(metadata);
 		directives.setMappings(mappings);
@@ -184,7 +207,7 @@ public class PublishTask implements TaskWizardStep {
 	protected void reset() {
 		callback = null;
 		codelist = null;
-		type = null;
+		format = null;
 		destination = null;
 		mappings = null;
 	}

@@ -6,6 +6,7 @@ package org.cotrix.web.publish.shared;
 import java.util.List;
 
 import org.cotrix.web.share.shared.CsvConfiguration;
+import org.cotrix.web.share.shared.codelist.UIQName;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -16,10 +17,13 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class PublishDirectives implements IsSerializable {
 
 	protected String codelistId;
+	protected Format format;
+	protected Destination destination;
 	protected PublishMetadata metadata;
 	protected List<AttributeMapping> mappings;
 	protected MappingMode mappingMode;
 	protected CsvConfiguration csvConfiguration;
+	protected UIQName repositoryId;
 	
 	/**
 	 * @return the codelistId
@@ -91,6 +95,48 @@ public class PublishDirectives implements IsSerializable {
 		this.csvConfiguration = csvConfiguration;
 	}
 
+	/**
+	 * @return the repositoryId
+	 */
+	public UIQName getRepositoryId() {
+		return repositoryId;
+	}
+
+	/**
+	 * @param repositoryId the repositoryId to set
+	 */
+	public void setRepositoryId(UIQName repositoryId) {
+		this.repositoryId = repositoryId;
+	}
+
+	/**
+	 * @return the format
+	 */
+	public Format getFormat() {
+		return format;
+	}
+
+	/**
+	 * @param format the format to set
+	 */
+	public void setFormat(Format format) {
+		this.format = format;
+	}
+
+	/**
+	 * @return the destination
+	 */
+	public Destination getDestination() {
+		return destination;
+	}
+
+	/**
+	 * @param destination the destination to set
+	 */
+	public void setDestination(Destination destination) {
+		this.destination = destination;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -99,6 +145,10 @@ public class PublishDirectives implements IsSerializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("PublishDirectives [codelistId=");
 		builder.append(codelistId);
+		builder.append(", format=");
+		builder.append(format);
+		builder.append(", destination=");
+		builder.append(destination);
 		builder.append(", metadata=");
 		builder.append(metadata);
 		builder.append(", mappings=");
@@ -107,6 +157,8 @@ public class PublishDirectives implements IsSerializable {
 		builder.append(mappingMode);
 		builder.append(", csvConfiguration=");
 		builder.append(csvConfiguration);
+		builder.append(", repositoryId=");
+		builder.append(repositoryId);
 		builder.append("]");
 		return builder.toString();
 	}

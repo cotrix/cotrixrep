@@ -76,10 +76,10 @@ public class RepositoryDataProvider extends AsyncDataProvider<UIRepository> {
 			
 			@Override
 			public void onSuccess(DataWindow<UIRepository> batch) {
-				List<UIRepository> codelists = batch.getData();
-				Log.trace("loaded "+codelists.size()+" codelists");
+				List<UIRepository> repositories = batch.getData();
+				Log.trace("loaded "+repositories.size()+" repositories");
 				updateRowCount(batch.getTotalSize(), true);
-				updateRowData(range.getStart(), codelists);
+				updateRowData(range.getStart(), repositories);
 			}
 			
 			@Override

@@ -77,7 +77,7 @@ public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 			@Override
 			public void onSuccess(DataWindow<UICodelist> batch) {
 				List<UICodelist> codelists = batch.getData();
-				Log.trace("loaded "+codelists.size()+" codelists");
+				Log.trace("loaded "+codelists.size()+" codelists over "+batch.getTotalSize());
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), codelists);
 			}
