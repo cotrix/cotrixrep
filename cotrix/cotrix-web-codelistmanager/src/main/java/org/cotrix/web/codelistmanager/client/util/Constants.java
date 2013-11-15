@@ -3,13 +3,18 @@
  */
 package org.cotrix.web.codelistmanager.client.util;
 
+import org.cotrix.web.share.shared.codelist.UIQName;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 public class Constants {
 	
-	protected String defaultNamespace = "http://cotrix.org";
+	protected static String DEFAULT_NAMESPACE = "http://cotrix.org";
+	public static final UIQName SYSTEM_TYPE = new UIQName(DEFAULT_NAMESPACE, "system");
+
+	protected String defaultNamespace = DEFAULT_NAMESPACE;
 	protected String defaultAttributeType = "description";
 	protected String defaultAttributeName = "attribute";
 	protected String defaultAttributeValue = "value";

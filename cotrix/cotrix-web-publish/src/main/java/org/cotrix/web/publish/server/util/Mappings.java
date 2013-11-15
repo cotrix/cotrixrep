@@ -51,9 +51,9 @@ public class Mappings {
 
 	public static List<AttributeMapping> getChannelMappings(CodelistSummary summary, MappingProvider<?> provider) {
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-		for (QName attributeName:summary.codeNames()) {
-			for (QName attributeType : summary.codeTypesFor(attributeName)) {
-				Collection<String> languages = summary.codeLanguagesFor(attributeName, attributeType);
+		for (QName attributeName:summary.allNames()) {
+			for (QName attributeType : summary.allTypesFor(attributeName)) {
+				Collection<String> languages = summary.allLanguagesFor(attributeName, attributeType);
 				if (languages.isEmpty()) mappings.add(getAttributeMapping(attributeName, attributeType, null, provider));
 				else for (String language:languages) mappings.add(getAttributeMapping(attributeName, attributeType, language, provider));
 			}

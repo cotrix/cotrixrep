@@ -40,6 +40,7 @@ public class AttributeDefinitionPanel extends Composite {
 				case CODE: return "Code";
 				case DESCRIPTION: return "Description";
 				case ANNOTATION: return "Annotation";
+				case OTHER: return "Other";
 				default: throw new IllegalArgumentException("No label mapping found for attribute type "+type);
 			}
 		}
@@ -53,6 +54,7 @@ public class AttributeDefinitionPanel extends Composite {
 				case CODE: return "Primary code";
 				case DESCRIPTION: return "Description";
 				case ANNOTATION: return "Annotation";
+				case OTHER: return "Other";
 				default: throw new IllegalArgumentException("No label mapping found for attribute type "+type);
 			}
 		}

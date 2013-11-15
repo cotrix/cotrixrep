@@ -11,5 +11,6 @@ public enum AttributeType {
 
 	CODE,
 	DESCRIPTION,
-	ANNOTATION;
+	ANNOTATION,
+	OTHER;
 }

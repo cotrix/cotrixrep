@@ -12,6 +12,7 @@ public class Constants {
 	public static final QName DESCRIPTION_TYPE = q(NS,"description");
 	public static final QName ANNOTATION_TYPE = q(NS,"annotation");
 	public static final QName NAME_TYPE = q(NS,"name");
+	public static final QName OTHER_TYPE = q(NS,"other");
 	public static final QName DEFAULT_TYPE = DESCRIPTION_TYPE;
 	public static final QName SYSTEM_TYPE = q(NS,"system");
 	

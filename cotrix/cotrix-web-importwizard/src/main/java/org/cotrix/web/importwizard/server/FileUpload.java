@@ -152,7 +152,7 @@ public class FileUpload extends HttpServlet{
 					String filename = FileNameUtil.toHumanReadable(fileField.getName());
 					ImportMetadata metadata = new ImportMetadata();
 					metadata.setName(filename);
-					metadata.setVersion("1.0");
+					metadata.setVersion("1");
 					session.setGuessedMetadata(metadata);
 				} break;
 				case SDMX: {
