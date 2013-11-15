@@ -20,11 +20,14 @@ import org.cotrix.domain.Codelist;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.io.MapService;
 import org.cotrix.io.ParseService;
+import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
+import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
 import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
 import org.cotrix.io.tabular.map.ColumnDirectives;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
+import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.tabular.Column;
@@ -37,11 +40,16 @@ import org.virtualrepository.tabular.Table;
 @Singleton
 public class CodelistLoader {
 
-	protected static final CodeListInfo[] codelists = new CodeListInfo[]{
-		codelist("ASFIS_MINI.csv","3A_CODE", "1.0"),
-		codelist("ASFIS_MINI.csv","3A_CODE", "2.0"),
-		codelist("ASFIS_MINI.csv","3A_CODE", "3.0"),
-		codelist("countries.csv","ISO 3166-1-alpha-2 code", "1.0")
+	protected static final CodeListInfo[] CSV_CODELISTS = new CodeListInfo[]{
+		codelist("ASFIS_MINI.csv", "ASFIS", "3A_CODE", "2011"),
+		codelist("ASFIS_MINI.csv", "ASFIS", "3A_CODE", "2012"),
+		codelist("countries.csv", "COUNTRIES", "ISO 3166-1-alpha-2 code", "1.0")
+	};
+	
+	protected static final CodeListInfo[] SDMX_CODELISTS = new CodeListInfo[]{
+		codelist("CL_SPECIES.xml", "SPECIES", "", ""),
+		codelist("FAO_AREA.xml", "SPECIES", "", ""),
+
 	};
 
 	protected Logger logger = LoggerFactory.getLogger(CodelistLoader.class);
@@ -61,18 +69,24 @@ public class CodelistLoader {
 
 	public void importAllCodelist()
 	{
-		for (CodeListInfo codelist:codelists) {
+		for (CodeListInfo codelist:CSV_CODELISTS) {
 			logger.trace("importing "+codelist);
-			boolean imported = importCodelist(codelist);
+			boolean imported = importCSVCodelist(codelist);
+			logger.trace("import "+(imported?"complete":"failed"));
+		}
+		
+		for (CodeListInfo codelist:SDMX_CODELISTS) {
+			logger.trace("importing "+codelist);
+			boolean imported = importSDMXCodelist(codelist);
 			logger.trace("import "+(imported?"complete":"failed"));
 		}
 
-		importSparse();
-		importComplex();
-		importDemoCodelist();
+		//importSparse();
+		//importComplex();
+		//importDemoCodelist();
 	}
 
-	public boolean importCodelist(CodeListInfo codelistInfo)
+	public boolean importCSVCodelist(CodeListInfo codelistInfo)
 	{
 		logger.trace("importCodelist resourceName: {}, codeColumnName: {}", codelistInfo.getResourceName(), codelistInfo.getCodeColumnName());
 		try {
@@ -89,13 +103,14 @@ public class CodelistLoader {
 			List<ColumnDirectives> directives = new ArrayList<ColumnDirectives>();
 			Column codeColumn = null;
 			for (Column column:table.columns()) {
+				logger.trace("column name: "+column.name().toString());
 				if (column.name().toString().equals(codelistInfo.getCodeColumnName())) codeColumn = column;
 				else directives.add(new ColumnDirectives(column));
 			}
 			if (codeColumn == null) throw new IllegalArgumentException("Column with name "+codelistInfo.getCodeColumnName()+" not found");
 
 			Table2CodelistDirectives mappingDirectives = new Table2CodelistDirectives(codeColumn);
-			mappingDirectives.name(codelistInfo.getResourceName().substring(0, codelistInfo.getResourceName().lastIndexOf('.')));
+			mappingDirectives.name(codelistInfo.getCodelistName());
 			mappingDirectives.version(codelistInfo.getVersion());
 
 			for(ColumnDirectives directive:directives) mappingDirectives.add(directive);
@@ -106,6 +121,33 @@ public class CodelistLoader {
 			mappingDirectives.attributes(att1, att2);
 
 			Outcome<Codelist> outcome = mapservice.map(table, mappingDirectives);
+			if (outcome.report().isFailure()) {
+				logger.trace("import failed");
+				return false;
+			}
+
+			Codelist codelist = outcome.result();
+
+			repository.add(codelist);
+			lifecycleService.start(codelist.id());
+
+			return true;
+		} catch(Exception e)
+		{
+			logger.error("Codelist import failed", e);
+			return false;
+		}
+	}
+	
+	public boolean importSDMXCodelist(CodeListInfo codelistInfo)
+	{
+		logger.trace("importCodelist resourceName: {}, codeColumnName: {}", codelistInfo.getResourceName(), codelistInfo.getCodeColumnName());
+		try {
+			InputStream inputStream = CodelistLoader.class.getResourceAsStream(codelistInfo.getResourceName());
+
+			CodelistBean bean = service.parse(inputStream, Stream2SdmxDirectives.DEFAULT);
+
+			Outcome<Codelist> outcome = mapservice.map(bean, Sdmx2CodelistDirectives.DEFAULT);
 			if (outcome.report().isFailure()) {
 				logger.trace("import failed");
 				return false;
@@ -357,24 +399,28 @@ public class CodelistLoader {
 														version("2.2").build();
 	}
 
-	protected static CodeListInfo codelist(String resourceName, String codeColumnName, String version)
+	protected static CodeListInfo codelist(String resourceName, String codelistName, String codeColumnName, String version)
 	{
 
-		return new CodeListInfo(resourceName, codeColumnName, version);
+		return new CodeListInfo(resourceName, codelistName, codeColumnName, version);
 	}
 
 	public static class CodeListInfo {
 		protected String resourceName;
+		protected String codelistName;
 		protected String codeColumnName;
 		protected String version;
+		
 		/**
 		 * @param resourceName
+		 * @param codelistName
 		 * @param codeColumnName
 		 * @param version
 		 */
-		public CodeListInfo(String resourceName, String codeColumnName,
-				String version) {
+		public CodeListInfo(String resourceName, String codelistName,
+				String codeColumnName, String version) {
 			this.resourceName = resourceName;
+			this.codelistName = codelistName;
 			this.codeColumnName = codeColumnName;
 			this.version = version;
 		}
@@ -396,6 +442,13 @@ public class CodelistLoader {
 		public String getVersion() {
 			return version;
 		}
+		
+		/**
+		 * @return the codelistName
+		 */
+		public String getCodelistName() {
+			return codelistName;
+		}
 		/** 
 		 * {@inheritDoc}
 		 */
@@ -404,6 +457,8 @@ public class CodelistLoader {
 			StringBuilder builder = new StringBuilder();
 			builder.append("CodeListInfo [resourceName=");
 			builder.append(resourceName);
+			builder.append(", codelistName=");
+			builder.append(codelistName);
 			builder.append(", codeColumnName=");
 			builder.append(codeColumnName);
 			builder.append(", version=");

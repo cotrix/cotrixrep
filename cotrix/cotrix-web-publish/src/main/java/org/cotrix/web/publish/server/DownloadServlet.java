@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.cotrix.web.publish.server.util.PublishSession;
 import org.cotrix.web.publish.shared.DownloadType;
+import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.share.server.util.FileNameUtil;
 
 /**
@@ -39,10 +40,17 @@ public class DownloadServlet extends HttpServlet {
 			return;
 		}
 		
+		String formatParameter =  (String) request.getParameter(Format.PARAMETER_NAME);
+		if (formatParameter == null) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing parameter "+Format.PARAMETER_NAME);
+			return;
+		}
+		Format format = Format.valueOf(formatParameter);
+		
 		DownloadType downloadType = DownloadType.valueOf(dowloadTypeParameter);
 		switch (downloadType) {
 			case REPORT: flushReport(response); break;
-			case CSV: flushCSV(response); break;
+			case RESULT: flushFile(response, format); break;
 		}
 
 	}
@@ -60,7 +68,7 @@ public class DownloadServlet extends HttpServlet {
 		flushContent(response, filename, content);		
 	}
 	
-	protected void flushCSV(HttpServletResponse response) throws IOException
+	protected void flushFile(HttpServletResponse response, Format format) throws IOException
 	{
 		Object result = session.getPublishStatus().getPublishResult();
 		if (result == null) {
@@ -69,12 +77,17 @@ public class DownloadServlet extends HttpServlet {
 		}
 		
 		if (!(result instanceof File)) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "The result is not a CSV");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "The result is not a file");
 			return;
 		}
 		
 		File csv = (File) result;
-		String filename = FileNameUtil.toValidFileName(session.getPublishStatus().getPublishedCodelist().name().getLocalPart()+".csv");
+		String extension = "bin";
+		switch (format) {
+			case CSV: extension = "csv"; break;
+			case SDMX: extension = "sdmx"; break;
+		}
+		String filename = FileNameUtil.toValidFileName(session.getPublishStatus().getPublishedCodelist().name().getLocalPart()+"."+extension);
 		Reader content = new FileReader(csv);
 		flushContent(response, filename, content);
 		session.getPublishStatus().setPublishResult(null);

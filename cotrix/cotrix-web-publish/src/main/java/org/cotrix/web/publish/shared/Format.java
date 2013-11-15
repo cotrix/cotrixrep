@@ -11,5 +11,7 @@ public enum Format {
 	
 	SDMX,
 	CSV;
+	
+	public static String PARAMETER_NAME = "Format";
 
 }

@@ -118,6 +118,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		if (username == null 
 				&& password == null 
 				&& currentUser != null 
+				&& currentUser.id() != null 
 				&& !currentUser.id().equals(PredefinedUsers.guest.id()) 
 				&& action==LOGIN) {
 			user = currentUser;
@@ -177,6 +178,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	public List<UINews> getNews() {
 		List<UINews> news = new ArrayList<UINews>();
 		for (NewsItem newsItem:newsService.news()) {
+			logger.trace("news: {}",newsItem);
 			UINews uiNews = new UINews();
 			uiNews.setTimestamp(newsItem.timestamp());
 			uiNews.setText(newsItem.text());

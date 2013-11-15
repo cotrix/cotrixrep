@@ -26,6 +26,8 @@ import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.publish.shared.UISdmxElement;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.virtualrepository.tabular.Table;
 
 /**
@@ -37,6 +39,8 @@ public interface PublishMapper<T> {
 	public Outcome<T> map(PublishDirectives publishDirectives);
 	
 	public class CsvMapper implements PublishMapper<Table> {
+		
+		protected Logger logger = LoggerFactory.getLogger(CsvMapper.class);
 		
 		@Inject
 		protected MapService mapper;
@@ -53,6 +57,7 @@ public interface PublishMapper<T> {
 				if (mapping.isMapped()) {
 					Attribute template = getTemplate(mapping.getAttributeDefinition());
 					Column column = (Column) mapping.getMapping();
+					logger.trace("mapping {} to {}", template, column.getName());
 					directives.add(AttributeDirectives.map(template).to(column.getName()));
 				}
 			}

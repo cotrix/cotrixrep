@@ -3,13 +3,10 @@
  */
 package org.cotrix.web.importwizard.server.climport;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
-import org.cotrix.common.Report.Log;
 import org.cotrix.domain.Codelist;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
@@ -21,9 +18,8 @@ import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.share.server.util.Reports;
 import org.cotrix.web.share.shared.Progress;
-import org.cotrix.web.share.shared.ReportLog;
 import org.cotrix.web.share.shared.Progress.Status;
-import org.cotrix.web.share.shared.ReportLog.LogType;
+import org.cotrix.web.share.shared.ReportLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

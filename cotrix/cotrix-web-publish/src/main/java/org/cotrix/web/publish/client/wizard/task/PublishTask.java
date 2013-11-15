@@ -44,7 +44,7 @@ import com.google.web.bindery.event.shared.EventBus;
 @Singleton
 public class PublishTask implements TaskWizardStep {
 	
-	protected static final String DOWNLOAD_URL = GWT.getModuleBaseURL()+"publishDownload?"+DownloadType.PARAMETER_NAME+"="+DownloadType.CSV;
+	protected static final String DOWNLOAD_URL = GWT.getModuleBaseURL()+"publishDownload?"+DownloadType.PARAMETER_NAME+"="+DownloadType.RESULT;
 	
 	@Inject
 	protected PublishServiceAsync service;
@@ -219,7 +219,10 @@ public class PublishTask implements TaskWizardStep {
 	}
 	
 	protected void startDownload() {
-		Window.open(DOWNLOAD_URL, "myWindow", "");
+		String url = DOWNLOAD_URL;
+		if (format!=null) url += "&" + Format.PARAMETER_NAME+"="+format;
+		
+		Window.open(url, "myWindow", "");
 	}
 
 	@Override

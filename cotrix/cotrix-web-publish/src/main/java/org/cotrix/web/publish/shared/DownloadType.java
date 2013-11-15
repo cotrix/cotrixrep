@@ -10,7 +10,7 @@ package org.cotrix.web.publish.shared;
 public enum DownloadType {
 	
 	REPORT,
-	CSV;
+	RESULT;
 	
 	public static String PARAMETER_NAME = "DownloadType";
 
