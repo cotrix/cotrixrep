@@ -1,8 +1,10 @@
 package org.cotrix.io.sdmx.map;
 
+import static org.cotrix.common.Report.*;
 import static org.sdmxsource.sdmx.api.constants.TERTIARY_BOOL.*;
 
 import java.text.ParseException;
+import java.util.Calendar;
 
 import org.cotrix.common.Report;
 import org.cotrix.domain.Attribute;
@@ -21,8 +23,6 @@ import org.sdmxsource.sdmx.sdmxbeans.model.mutable.base.AnnotationMutableBeanImp
 import org.sdmxsource.sdmx.sdmxbeans.model.mutable.codelist.CodeMutableBeanImpl;
 import org.sdmxsource.sdmx.sdmxbeans.model.mutable.codelist.CodelistMutableBeanImpl;
 import org.sdmxsource.sdmx.util.date.DateUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A transformation from {@link Codelist} to {@link CodelistBean}.
@@ -32,8 +32,6 @@ import org.slf4j.LoggerFactory;
  */
 public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2SdmxDirectives> {
 
-	private static Logger log = LoggerFactory.getLogger(Codelist2Sdmx.class);
-	
 	@Override
 	public Class<Codelist2SdmxDirectives> directedBy() {
 		return Codelist2SdmxDirectives.class;
@@ -48,9 +46,12 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 	 */
 	public CodelistBean map(Codelist codelist, Codelist2SdmxDirectives directives) throws Exception {
 		
-		String name = directives.name()==null?codelist.name().getLocalPart():directives.name();
+		double time = System.currentTimeMillis();
+
+		report().log("mapping codelist "+codelist.name()+"("+codelist.id()+") to SDMX");
+		report().log(Calendar.getInstance().getTime().toString());
 		
-		log.trace("transforming codelist "+name+" to sdmx");
+		String name = directives.name()==null?codelist.name().getLocalPart():directives.name();
 		
 		CodelistMutableBean codelistbean = new CodelistMutableBeanImpl();
 		
@@ -72,6 +73,8 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			codelistbean.addItem(codebean);
 		}
 		
+		report().log("mapped codelist "+codelist.name()+"("+codelist.id()+") to SDMX in "+(System.currentTimeMillis()-time)/1000);
+
 		return codelistbean.getImmutableInstance();
 	}
 	
@@ -85,7 +88,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			
 
 			String val = a.value();
-			SdmxElement element = directives.get(a.name());
+			SdmxElement element = directives.get(a);
 			
 			if (element!=null)
 				switch(element) {
@@ -123,7 +126,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			String val = a.value();
 			String lang = a.language()==null?"en":a.language();
 			
-			SdmxElement element = directives.get(a.type());
+			SdmxElement element = directives.get(a);
 			
 			if (element!=null)
 				switch(element) {

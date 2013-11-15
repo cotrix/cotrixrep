@@ -2,7 +2,6 @@ package org.cotrix.lifecycle;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.concurrent.Callable;
 
 import javax.enterprise.event.Event;
 
@@ -16,23 +15,6 @@ import org.cotrix.action.Action;
  */
 public interface Lifecycle extends Serializable {
 
-	/**
-	 * The final clause of a {@link Lifecycle#perform(Action)} sentence.
-	 * 
-	 * @throw RuntimeException if the task could not be executed
-	 */
-	public interface TaskClause {
-		
-		/**
-		 * Specifies the task that performs the action
-		 * @param task the task
-		 * @return the result of the task
-		 * 
-		 * @throws RuntimeException if the taks cannot be executed
-		 */
-		<T> T with(Callable<T> task);
-	}
-	
 	/**
 	 * Returns the identifier of the resource bound to this lifecyclye.
 	 * @return the resource identifier

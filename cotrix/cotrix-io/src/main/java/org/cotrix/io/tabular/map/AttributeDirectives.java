@@ -18,9 +18,6 @@ public class AttributeDirectives {
 	private final Attribute template;
 	private QName columnName;
 	
-	private MappingMode mode = MappingMode.LOG;
-	
-	
 	/**
 	 * Creates mapping directives for a given attribute template.
 	 * @param template the template
@@ -33,14 +30,16 @@ public class AttributeDirectives {
 	
 	/**
 	 * Creates an instance for a given attribute template.
-	 * @param column the column
+	 * @param template the template
 	 */
 	public AttributeDirectives(Attribute template) {
 		this.template = template;
 	}
+	
+	
 	/**
-	 * Returns the template template for these directives.
-	 * @return the column
+	 * Returns the attribute template for these directives.
+	 * @return the template
 	 */
 	public Attribute template() {
 		return template;
@@ -48,11 +47,11 @@ public class AttributeDirectives {
 	
 	
 	/**
-	 * Returns the name of the target template
+	 * Returns the name of the target column.
 	 * <p>
-	 * By default, this is the name of the column.
+	 * By default, this is the name in the attribute template.
 	 * 
-	 * @return the name of the template
+	 * @return the name of the target column
 	 */
 	public QName columnName() {
 		return columnName==null?template.name():columnName;
@@ -60,9 +59,9 @@ public class AttributeDirectives {
 	
 	
 	/**
-	 * Sets the name of the target template
+	 * Sets the name of the target column.
 	 * 
-	 * @param the name
+	 * @param name the name
 	 * @return these directives
 	 */
 	public AttributeDirectives to(QName name) {
@@ -71,34 +70,13 @@ public class AttributeDirectives {
 	}
 	
 	/**
-	 * Sets the name of the target template
+	 * Sets the name of the target column
 	 * 
-	 * @param the name
+	 * @param name the name
 	 * @return these directives
 	 */
 	public AttributeDirectives to(String name) {
 		return to(new QName(name));
-	}
-	
-	/**
-	 * Sets the mode of these directives.
-	 * <p>
-	 * By default, the mode is {@link MappingMode#LOG}.
-	 * 
-	 * @param mode the mode
-	 * @return these directives
-	 */
-	public AttributeDirectives mode(MappingMode mode) {
-		this.mode = mode;
-		return this;
-	}
-	
-	/**
-	 * Returns the mode of these directives.
-	 * @return the mode
-	 */
-	public MappingMode mode() {
-		return mode;
 	}
 	
 }

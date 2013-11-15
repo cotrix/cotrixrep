@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Collection;
 
 import javax.inject.Inject;
-import javax.xml.namespace.QName;
 
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.Attribute;
@@ -36,9 +35,9 @@ import com.googlecode.jeeunit.JeeunitRunner;
 @RunWith(JeeunitRunner.class)
 public class Codelist2SdmxTest {
 
-	QName customNameType = new QName("customname");
-	QName customDescriptionType = new QName("customdescription");
-	QName customAnnotationType = new QName("customannotation");
+	String customNameType = "customname";
+	String customDescriptionType = "customdescription";
+	String customAnnotationType = "customannotation";
 	
 	@Inject
 	MapService mapper;
@@ -81,9 +80,9 @@ public class Codelist2SdmxTest {
 		directives.name("custom-name");
 		directives.version("2.0");
 		
-		directives.map(customNameType,SdmxElement.NAME);
-		directives.map(customDescriptionType,SdmxElement.DESCRIPTION);
-		directives.map(customAnnotationType,SdmxElement.ANNOTATION);
+		directives.map("list-attr3",customNameType).to(SdmxElement.NAME)
+				  .map("list-attr2",customDescriptionType).to(SdmxElement.DESCRIPTION)
+				  .map("list-attr7",customAnnotationType).to(SdmxElement.ANNOTATION);
 		
 		
 		Outcome<CodelistBean> outcome = mapper.map(list, directives);
@@ -156,6 +155,35 @@ public class Codelist2SdmxTest {
 		Codelist list = codelist().name("list").attributes(a1,a2,a3).build();
 		
 		Outcome<CodelistBean> outcome = mapper.map(list, Codelist2SdmxDirectives.DEFAULT);
+		
+		System.out.println(outcome.report());
+		
+		CodelistBean bean = outcome.result();
+		
+		serialise(bean);
+		
+		assertTrue(contains(bean.getDescriptions(),"val","en"));
+		assertTrue(contains(bean.getNames(),"val-b","fr"));
+		assertTrue(containsAnnotation(bean.getAnnotations(),"val-c","sp"));
+		
+
+	}
+	
+	@Test 
+	public void codelistAttributesWithCustomisation() {
+		
+		Attribute a1 = attr().name("a").value("val").ofType(customDescriptionType).build();
+		Attribute a2 = attr().name("b").value("val-b").ofType(customNameType).in("fr").build();
+		Attribute a3 = attr().name("a").value("val-c").ofType(customAnnotationType).in("sp").build();
+		Codelist list = codelist().name("list").attributes(a1,a2,a3).build();
+		
+		Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
+		
+		directives.map("a",customDescriptionType).to(DESCRIPTION)
+				  .map("b", customNameType).to(SdmxElement.NAME)
+				  .map("a", customAnnotationType).to(ANNOTATION);
+		
+		Outcome<CodelistBean> outcome = mapper.map(list,directives);
 		
 		System.out.println(outcome.report());
 		
