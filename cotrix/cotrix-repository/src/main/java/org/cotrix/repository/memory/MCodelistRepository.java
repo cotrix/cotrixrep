@@ -1,11 +1,11 @@
 package org.cotrix.repository.memory;
 
 import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.repository.CodelistSummary.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -103,45 +103,18 @@ public class MCodelistRepository extends MRepository<Codelist, Codelist.Private>
 
 		int size = list.codes().size();
 
-		Map<QName,Map<QName,Set<String>>> fingerprint = new HashMap<QName, Map<QName,Set<String>>>();
-		
 		Collection<Attribute> attributes = new ArrayList<Attribute>();
 		for (Attribute a : list.attributes())
 			if (!a.type().equals(SYSTEM_TYPE))
 				attributes.add(a);
 		
+		Map<QName,Map<QName,Set<String>>> fingerprint = new HashMap<QName, Map<QName,Set<String>>>();
+		
 		for (Code c : list.codes())
-			for (Attribute a : c.attributes())
-				addAttributeToFingerprint(fingerprint, a);
+			addToFingerprint(fingerprint,c.attributes());
 		
 		return new CodelistSummary(list.name(), size, attributes, fingerprint);
 	}
 	
-	//helper
-	private void addAttributeToFingerprint(Map<QName,Map<QName,Set<String>>> fingerprint,Attribute a) {
-		
-		if (a.type().equals(SYSTEM_TYPE))
-			return;
-		
-		
-		Map<QName,Set<String>> typeForAttr = fingerprint.get(a.name());
-		
-		if (typeForAttr==null) {
-			
-			typeForAttr = new HashMap<QName, Set<String>>();
-			fingerprint.put(a.name(), typeForAttr);
-			
-		}
-		
-		Set<String> langForType = typeForAttr.get(a.type());
-			
-		if (langForType==null) {
-			langForType = new HashSet<String>();
-			typeForAttr.put(a.type(),langForType);	
-		}
-		
-		if (a.language() != null)
-			langForType.add(a.language());
-		
-	}
+	
 }
