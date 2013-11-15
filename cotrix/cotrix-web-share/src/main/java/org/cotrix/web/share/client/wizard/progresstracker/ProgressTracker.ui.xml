@@ -7,11 +7,12 @@
 		}
 		
 		.text {
+			padding-top: 5px;
 			width: 100%;
 		}
 	</ui:style>
-		<g:FlowPanel width="100%" height="60px">
-			<g:FlowPanel styleName="{style.tracker}" ui:field="barPanel" />
-			<g:FlowPanel styleName="{style.text}" ui:field="textPanel" />
-		</g:FlowPanel>
+	<g:FlowPanel width="100%" height="60px">
+		<g:FlowPanel styleName="{style.tracker}" ui:field="barPanel" />
+		<g:FlowPanel styleName="{style.text}" ui:field="textPanel" />
+	</g:FlowPanel>
 </ui:UiBinder> 

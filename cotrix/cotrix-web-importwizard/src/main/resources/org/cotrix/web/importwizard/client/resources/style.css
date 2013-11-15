@@ -38,6 +38,7 @@
 	padding-left:84px;
 	padding-right:20px;
 	color: #666;
+	outline: none;
 }
 
 @sprite .buttonBrowse:hover {

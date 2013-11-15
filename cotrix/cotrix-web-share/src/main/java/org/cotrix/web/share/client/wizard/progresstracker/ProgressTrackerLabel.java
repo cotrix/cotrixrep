@@ -5,9 +5,13 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
 public class ProgressTrackerLabel extends Composite {
 
 	private static ProgressTrackerLabelUiBinder uiBinder = GWT
@@ -26,7 +30,7 @@ public class ProgressTrackerLabel extends Composite {
 	}
 
 	@UiField
-	Label label;
+	InlineLabel label;
 
 	public ProgressTrackerLabel(String title, int labelWidth) {
 		initWidget(uiBinder.createAndBindUi(this));

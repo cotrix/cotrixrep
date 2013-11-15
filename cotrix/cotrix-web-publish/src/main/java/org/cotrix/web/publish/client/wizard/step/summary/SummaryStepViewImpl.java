@@ -97,7 +97,6 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	@Override
 	public void setState(String state)
 	{
-		//TODO
 		stateField.setText(state);
 	}
 

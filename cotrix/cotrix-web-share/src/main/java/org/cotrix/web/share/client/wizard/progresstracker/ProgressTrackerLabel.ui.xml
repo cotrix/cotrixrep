@@ -8,6 +8,7 @@
 			float: left;
 			color: #89d488;
 			font-weight: normal;
+			height: 100%;
 		}
 		.inactive{
 			width: 130px;
@@ -15,10 +16,9 @@
 			float: left;
 			color: #ddd;
 			font-weight: normal;
+			height: 100%;
 		}
  
 	</ui:style>
-	<g:HTMLPanel>
-		<g:Label styleName="{style.inactive}" ui:field="label" />
-	</g:HTMLPanel>
+	<g:InlineLabel styleName="{style.inactive}" ui:field="label" />
 </ui:UiBinder> 

@@ -20,7 +20,7 @@
 		
 		.titlePanel {
 			margin: 0 auto;
-			padding-top: 18px;
+			padding-top: 10px;
 			padding-bottom: 36px;
 		}
 		
@@ -70,7 +70,7 @@
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.wizardPanel}">
-		<g:north size='85'>
+		<g:north size='100'>
 			<p:ProgressTracker ui:field="progressTracker"
 				styleName="{style.progressTracker}" />
 		</g:north>
