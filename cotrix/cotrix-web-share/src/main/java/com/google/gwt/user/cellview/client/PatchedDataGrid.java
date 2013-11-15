@@ -706,6 +706,14 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	}
 
 	public void insertColumn(int beforeIndex, Column<T, ?> col, Header<?> header, Header<?> footer) {
+		Log.trace("insertColumn "+header.getValue());
+		
+		/*if (autoAdjust) {
+			double width = getRequiredSize(col);
+			setColumnWidth(col, width, Unit.PX);
+			columnWidths.put(col, width);
+		}*/
+		
 		super.insertColumn(beforeIndex, col, header, footer);
 		if (autoAdjust) {
 			double width = getRequiredSize(col);
@@ -716,16 +724,23 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	}
 	
 	public void removeColumn(int index) {
-		super.removeColumn(index);
+		Log.trace("removeColumn "+index);
 		if (autoAdjust) {
-			Column<T, ?> column = getColumn(index);
+		Column<T, ?> column = getColumn(index);
+		columnWidths.remove(column);
+		}
+		
+		super.removeColumn(index);
+		/*if (autoAdjust) {
+			
 			columnWidths.remove(column);			
 			updateTableWidth();
-		}
+		}*/
 	}
 	
-	public void refreshColumnSizes()
-	{
+	public void refreshColumnSizes() {
+		Log.trace("refreshColumnSizes");
+		
 		for (int i = 0; i < getColumnCount(); i++) {
 			Column<T, ?> column = getColumn(i);
 			double width = getRequiredSize(column);
@@ -735,26 +750,27 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		updateTableWidth();
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected <D> double getRequiredSize(Column<T, D> column)
 	{
 		startMeasuring();
 		int colIndex = getColumnIndex(column);
 		Header header = getHeader(colIndex);
 		double max = measureHeaderCell(header.getCell(), header.getValue());
-		System.out.println("COLUMN "+header.getValue());
-		System.out.println("header width: "+max);
+		//System.out.println("COLUMN "+header.getValue());
+		//System.out.println("header width: "+max);
 		int absRow = 0;
 		for (T t : getVisibleItems()) {
 			D value = column.getValue(t);
 			Cell<D> cell = (Cell<D>) column.getCell();
 			Context context = new Context(absRow++, colIndex, getValueKey(t), absRow);
 			double valueWidth = measureCell(cell, value, context);
-			System.out.println("valueWidth "+valueWidth);
+			//System.out.println("valueWidth "+valueWidth);
 			max = Math.max(valueWidth, max);
 		}
 		finishMeasuring();
 
-		System.out.println("col width "+max);
+		Log.trace("col "+header.getValue()+" width "+max);
 
 		return max;
 	}
@@ -766,17 +782,18 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 
 	protected void updateTableWidth()
 	{
-		double width = 0;
+		Log.trace("updateTableWidth");
+		double columnsWidth = 0;
 		for (Double colWidth:columnWidths.values()) {
-			System.out.println("colWidth "+colWidth);
-			width += colWidth;
+			Log.trace("colWidth "+colWidth);
+			columnsWidth += colWidth;
 		}
-		System.out.println("TOTAL: "+width);
+		Log.trace("TOTAL columns width: "+columnsWidth);
 		int widgetWidth = getElement().getOffsetWidth();
-		System.out.println("widgetWidth: "+widgetWidth);
+		Log.trace("widgetWidth: "+widgetWidth);
 		
-		double tableWidth = Math.max(width, widgetWidth);
-		System.out.println("tableWidth: "+tableWidth);
+		double tableWidth = Math.max(columnsWidth, widgetWidth);
+		Log.trace("new tableWidth: "+tableWidth);
 		
 		setTableWidth(tableWidth, Unit.PX);
 	}
@@ -806,7 +823,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		SafeHtmlBuilder sb = new SafeHtmlBuilder();
 		cell.render(context, value, sb);
 		String valueHTML = "<div class=\""+style+"\" >"+sb.toSafeHtml().asString()+"</div>";//style=\"display: table-cell;\"
-		System.out.println("cell HTML: "+valueHTML);
+		//System.out.println("cell HTML: "+valueHTML);
 		return measureText(valueHTML);
 	}
 
@@ -994,6 +1011,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	 */
 	@Override
 	protected void onLoadingStateChanged(LoadingState state) {
+		Log.trace("onLoadingStateChanged state: "+state);
 		Widget message = tableData;
 		if (state == LoadingState.LOADING) {
 			// Loading indicator.

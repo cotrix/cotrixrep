@@ -158,7 +158,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		dataGrid.setEmptyTableWidget(emptyTable);
 		
 		dataGrid.setTableWidth(100, Unit.PCT);
-		dataGrid.setAutoAdjust(false);
+		dataGrid.setAutoAdjust(true);
 
 		//TODO add sorting
 
