@@ -110,6 +110,7 @@ public class AttributeMappingPanel extends Composite {
 
 			checkBox.setValue(attributeDefinition != null);
 			columnsTable.setWidget(row, IGNORE_COLUMN, checkBox);
+			cellFormatter.setStyleName(row, IGNORE_COLUMN, CommonResources.INSTANCE.css().mappingCell());
 			includeCheckBoxes.add(checkBox);
 
 			Field field = attributeMapping.getField();

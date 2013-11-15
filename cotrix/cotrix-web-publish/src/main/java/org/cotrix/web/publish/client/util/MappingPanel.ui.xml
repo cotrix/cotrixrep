@@ -50,9 +50,9 @@
 				</tr>
 				<tr ui:field="sealedRow">
 					<td class="{common.css.mappingTableNameHeader}">
-						<span class="{common.css.propertyLabel} {resources.css.mappingCell}">SEALED</span>
+						<span class="{common.css.propertyLabel} {resources.css.mappingCell}">LOCK</span>
 					</td>
-					<td style="padding-top:10px;padding-right: 70px;" colspan="2">
+					<td style="padding-top:10px;padding-right: 70px;text-align: left;" colspan="2">
 						<g:SimpleCheckBox ui:field="sealed"
 							styleName="{common.css.simpleCheckbox}" />
 					</td>

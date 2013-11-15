@@ -88,6 +88,7 @@ public interface ImporterMapper<T> {
 				case ANNOTATION: return Constants.ANNOTATION_TYPE;
 				case DESCRIPTION: return Constants.DESCRIPTION_TYPE;
 				case CODE: return Constants.DEFAULT_TYPE;
+				case OTHER: return Constants.OTHER_TYPE;
 				default: throw new IllegalArgumentException("Unknow attribute type "+type);
 			}
 		}

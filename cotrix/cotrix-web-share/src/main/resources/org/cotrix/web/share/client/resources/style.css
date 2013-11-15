@@ -76,6 +76,7 @@
 
 .mappingCell {
 	padding: 5px;
+	vertical-align: middle;
 }
 
 /* TEXT BOX */
