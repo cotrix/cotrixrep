@@ -16,10 +16,12 @@ import org.cotrix.action.Actions;
 import org.cotrix.action.CodelistAction;
 import org.cotrix.application.StatisticsService;
 import org.cotrix.application.StatisticsService.Statistics;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
+import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
@@ -39,7 +41,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class MainServiceImpl extends RemoteServiceServlet implements MainService {
 
 	protected Logger logger = LoggerFactory.getLogger(MainServiceImpl.class);
-	
+
 	protected static final Callable<Void> NOP = new Callable<Void>() {
 
 		@Override
@@ -47,30 +49,34 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			return null;
 		}
 	};
-	
+
 	@Inject
 	protected LoginService loginService;
-	
+
 	@Inject
 	protected ActionMapper actionMapper;
-	
+
 	@Inject
 	protected HttpServletRequest httpServletRequest;
-	
+
 	@Inject
 	protected StatisticsService statisticsService;
-	
+
 	@Inject
 	ActionMapper mapper;
-	
+
 	@Inject
 	Engine engine;
-	
+
+	@Current
+	@Inject
+	User currentUser;
+
 	/** 
 	 * {@inheritDoc}
 	 */
 	public void init() {
-		
+
 		mapper.map(LOGIN).to(CAN_LOGIN);
 		mapper.map(LOGOUT).to(CAN_LOGOUT);
 		mapper.map(IMPORT).to(IMPORT_CODELIST);
@@ -86,45 +92,54 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	@Override
 	public ResponseWrapper<String> logout(List<String> openCodelists) {
 		logger.trace("logout");
-		
+
 		return doLogin(LOGOUT, null, null, openCodelists);
 	}
-	
+
 	protected ResponseWrapper<String> doLogin(Action action, final String username, final String password, List<String> openCodelists)
 	{
 		logger.trace("doLogin action: {} username: {} openCodelists: {}", action, username, openCodelists);
-		
-		TaskOutcome<User> outcome = engine.perform(action).with(new Callable<User>() {
 
-			@Override
-			public User call() throws Exception {
-				httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, username);
-				httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, password);
-				User user = loginService.login(httpServletRequest);	
-				logger.trace("returned user: {}",user);
-				
-				return user;
-			}
-		});
-		
-		User user = outcome.output();
-		
+		User user = null;
+
+		//FIXME workaround to returning user with active session
+		logger.trace("currentUser: "+currentUser);
+		if (username == null && password == null && currentUser != null && !currentUser.id().equals(PredefinedUsers.guest.id()) && action==LOGIN) {
+			user = currentUser;
+		} else {
+
+			TaskOutcome<User> outcome = engine.perform(action).with(new Callable<User>() {
+
+				@Override
+				public User call() throws Exception {
+					httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, username);
+					httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, password);
+					User user = loginService.login(httpServletRequest);	
+					logger.trace("returned user: {}",user);
+
+					return user;
+				}
+			});
+
+			user = outcome.output();
+		}
+
 		ResponseWrapper<String> wrapper = new ResponseWrapper<String>(user.name());
-		
+
 		Collection<Action> actions = Actions.filterForAction(action, user.permissions());
-		
+
 		actionMapper.fillFeatures(wrapper, actions);
-		
+
 		fillOpenCodelistsActions(openCodelists, user, wrapper);
-		
+
 		return wrapper;
 	}
-	
+
 	protected void fillOpenCodelistsActions(List<String> openCodelists, User user, FeatureCarrier featureCarrier)
 	{
 		for (String openCodelist:openCodelists) fillCodelistActions(openCodelist, user, featureCarrier);
 	}
-	
+
 	protected void fillCodelistActions(String codelistId, User user, FeatureCarrier featureCarrier)
 	{
 		engine.perform(CodelistAction.VIEW.on(codelistId)).with(NOP);
