@@ -1,7 +1,5 @@
 package org.cotrix.web.publish.server;
 
-import static org.cotrix.repository.Queries.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,10 +76,10 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		codelistLoader.importAllCodelist();
+		/*codelistLoader.importAllCodelist();
 		logger.trace("codelist in repository:");
 		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
-		logger.trace("done");
+		logger.trace("done");*/
 	}
 
 	/** 
