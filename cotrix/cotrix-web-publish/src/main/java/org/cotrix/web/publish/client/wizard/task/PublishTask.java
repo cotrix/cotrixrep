@@ -199,7 +199,7 @@ public class PublishTask implements TaskWizardStep {
 			public void onSuccess(Progress result) {
 				Log.trace("Import progress: "+result);
 				if (result.isComplete()) publishComplete(result.getStatus());
-				if (result.getStatus()==Status.DONE) startDownload();
+				if (destination==Destination.FILE && result.getStatus()==Status.DONE) startDownload();
 			}
 		});
 	}

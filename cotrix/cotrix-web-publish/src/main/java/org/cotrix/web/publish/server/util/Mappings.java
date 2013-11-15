@@ -33,7 +33,7 @@ public class Mappings {
 		@Override
 		public Column getMapping(QName name, QName type, String language) {
 			StringBuilder columnName = new StringBuilder(name.getLocalPart());
-			if (language!=null) columnName.append('(').append(language).append(')');
+			if (language!=null) columnName.append(" (").append(language).append(')');
 			Column column = new Column();
 			column.setName(columnName.toString());
 			return column;
@@ -49,7 +49,6 @@ public class Mappings {
 		}
 	};
 
-	
 	public static List<AttributeMapping> getChannelMappings(CodelistSummary summary, MappingProvider<?> provider) {
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
 		for (QName attributeName:summary.codeNames()) {
@@ -62,7 +61,6 @@ public class Mappings {
 
 		return mappings;
 	}
-
 
 	public static List<AttributeMapping> getFileMappings(CodelistSummary summary, MappingProvider<?> provider) {
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();

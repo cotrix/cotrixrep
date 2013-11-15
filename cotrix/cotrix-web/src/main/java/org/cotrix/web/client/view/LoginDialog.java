@@ -1,7 +1,12 @@
 package org.cotrix.web.client.view;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -36,12 +41,45 @@ public class LoginDialog extends PopupPanel {
 		this.listener = listener;
 		setWidget(binder.createAndBindUi(this));
 		setAutoHideEnabled(true);
+		
+		KeyDownHandler enterHandler = new KeyDownHandler() {
+
+		    @Override
+		    public void onKeyDown(KeyDownEvent event) {
+		     if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+		    	 doLogin();
+		      }
+		    }
+		};
+		
+		username.addKeyDownHandler(enterHandler);
+		password.addKeyDownHandler(enterHandler);
 	}
 	
 	@UiHandler("login")
 	protected void onLogin(ClickEvent clickEvent)
 	{
+		doLogin();
+	}
+	
+	protected void doLogin() {
 		listener.onLogin(username.getText(), password.getText());
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void show() {
+		super.show();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+		    @Override
+		    public void execute() {
+		        username.setFocus(true);
+		    }
+		});
+	}
+
+	
 }

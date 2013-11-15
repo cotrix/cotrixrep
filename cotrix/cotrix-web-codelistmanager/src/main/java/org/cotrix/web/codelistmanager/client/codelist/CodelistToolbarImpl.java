@@ -3,19 +3,16 @@
  */
 package org.cotrix.web.codelistmanager.client.codelist;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -31,14 +28,14 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 	@UiField PushButton allColumns;
 	@UiField PushButton allNormals;
 	
-	@UiField ToggleButton lock;
-	@UiField Button seal;
+	@UiField PushButton lock;
+	@UiField PushButton unlock;
+	@UiField PushButton seal;
 	
 	@UiField InlineLabel state;
 	@UiField Image stateLoader;
 	
 	protected ToolBarListener listener;
-	protected LockToggler lockToggler = new LockToggler();
 	
 	public CodelistToolbarImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -56,9 +53,12 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 	
 	@UiHandler("lock")
 	protected void onLockClick(ClickEvent event) {
-		Log.trace("onLockClick i down? "+lock.isDown());
-		if (lock.isDown()) listener.onAction(Action.UNLOCK);
-		else listener.onAction(Action.LOCK);
+		listener.onAction(Action.LOCK);
+	}
+	
+	@UiHandler("unlock")
+	protected void onUnlockClick(ClickEvent event) {
+		listener.onAction(Action.UNLOCK);
 	}
 	
 	@UiHandler("seal")
@@ -90,46 +90,8 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 			case ALL_COLUMN: allColumns.setEnabled(enabled); break;
 			case ALL_NORMAL: allNormals.setEnabled(enabled); break;
 			case FINALIZE: seal.setEnabled(enabled); break;
-			case LOCK: {
-				Log.trace("LOCK "+enabled);
-				lockToggler.setLock(enabled);
-				syncToggle();
-			} break;
-			case UNLOCK: {
-				Log.trace("UNLOCK "+enabled);
-				lockToggler.setUnlock(enabled);
-				syncToggle();
-			} break;
-		}
-	}
-	
-	protected void syncToggle()
-	{
-		Log.trace("lock down? "+lockToggler.down()+" enabled? "+lockToggler.enabled());
-		lock.setDown(lockToggler.down());
-		lock.setEnabled(lockToggler.enabled());
-	}
-	
-	protected class LockToggler {
-		protected boolean lock = false;
-		protected boolean unlock = true;
-
-		public void setLock(boolean lock) {
-			this.lock = lock;
-		}
-
-		public void setUnlock(boolean unlock) {
-			this.unlock = unlock;
-		}
-
-		public boolean down()
-		{
-			return lock;
-		}
-		
-		public boolean enabled()
-		{
-			return lock ^ unlock;
+			case LOCK: lock.setEnabled(enabled); break;
+			case UNLOCK: unlock.setEnabled(enabled); break;
 		}
 	}
 

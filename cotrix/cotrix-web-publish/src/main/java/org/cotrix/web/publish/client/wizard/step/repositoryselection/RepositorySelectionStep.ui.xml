@@ -24,12 +24,6 @@
 		<g:center>
 			<c:PatchedDataGrid ui:field='dataGrid' />
 		</g:center>
-		<g:east size="45">
-			<g:PushButton ui:field="refreshButton"
-				styleName="{common.css.buttonRefresh} {style.refreshButton}">
-				<g:upFace image="{common.refresh}" />
-			</g:PushButton>
-		</g:east>
 		<g:south size="40">
 			<g:HTMLPanel>
 				<c:SimplePager ui:field='pager' styleName="{style.pagerPanel}" />
