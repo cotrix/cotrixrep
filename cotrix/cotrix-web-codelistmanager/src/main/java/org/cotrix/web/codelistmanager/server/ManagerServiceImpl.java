@@ -200,7 +200,7 @@ public class ManagerServiceImpl implements ManagerService {
 
 	@Override
 	@CodelistTask(EDIT)
-	public CodelistGroup createNewCodelistVersion(String codelistId, String newVersion)
+	public CodelistGroup createNewCodelistVersion(@Id String codelistId, String newVersion)
 			throws ManagerServiceException {
 		Codelist codelist = repository.lookup(codelistId);
 		Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
