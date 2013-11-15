@@ -17,7 +17,7 @@ public class UICodelistMetadata implements IsSerializable {
 	protected String id;
 	protected UIQName name;
 	protected String version;
-	protected String state;
+	protected LifecycleState state;
 	protected List<UIAttribute> attributes;
 	
 	/**
@@ -65,14 +65,14 @@ public class UICodelistMetadata implements IsSerializable {
 	/**
 	 * @return the state
 	 */
-	public String getState() {
+	public LifecycleState getState() {
 		return state;
 	}
 
 	/**
 	 * @param state the state to set
 	 */
-	public void setState(String state) {
+	public void setState(LifecycleState state) {
 		this.state = state;
 	}
 

@@ -9,11 +9,12 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.Column;
-import org.cotrix.web.publish.shared.SdmxElement;
+import org.cotrix.web.publish.shared.UISdmxElement;
 import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
 import org.cotrix.web.share.server.util.ValueUtils;
 
@@ -39,11 +40,12 @@ public class Mappings {
 		}
 	};
 	
-	public static final MappingProvider<SdmxElement> SDMX_PROVIDER = new MappingProvider<SdmxElement>() {
+	public static final MappingProvider<UISdmxElement> SDMX_PROVIDER = new MappingProvider<UISdmxElement>() {
 
 		@Override
-		public SdmxElement getMapping(QName name, QName type, String language) {
-			return SdmxElement.DESCRIPTION;
+		public UISdmxElement getMapping(QName name, QName type, String language) {
+			SdmxElement element = SdmxElements.findSdmxElement(name, type);
+			return SdmxElements.toUISdmxElement(element);
 		}
 	};
 

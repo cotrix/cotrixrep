@@ -141,7 +141,7 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 		Column<UICodelist, String> stateColumn = new Column<UICodelist, String>(new ClickableTextCell()) {
 			@Override
 			public String getValue(UICodelist object) {
-				return object.getState();
+				return object.getState().toString();
 			}
 		};
 		stateColumn.setSortable(true);

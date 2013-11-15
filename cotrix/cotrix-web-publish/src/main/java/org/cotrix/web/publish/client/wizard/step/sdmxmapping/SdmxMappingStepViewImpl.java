@@ -6,7 +6,7 @@ import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
 import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.SdmxElement;
+import org.cotrix.web.publish.shared.UISdmxElement;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.client.widgets.EnumListBox;
@@ -26,19 +26,19 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMappingStepView, ReloadButtonHandler {
 	
-	protected static final LabelProvider<SdmxElement> LABEL_PROVIDER = new LabelProvider<SdmxElement>() {
+	protected static final LabelProvider<UISdmxElement> LABEL_PROVIDER = new LabelProvider<UISdmxElement>() {
 
 		@Override
-		public String getLabel(SdmxElement item) {
+		public String getLabel(UISdmxElement item) {
 			return item.getLabel();
 		}
 	};
 	
-	public static final DefinitionWidgetProvider<SdmxElement> PROVIDER = new DefinitionWidgetProvider<SdmxElement>() {
+	public static final DefinitionWidgetProvider<UISdmxElement> PROVIDER = new DefinitionWidgetProvider<UISdmxElement>() {
 
 		@Override
-		public Widget getWidget(SdmxElement mapping) {
-			EnumListBox<SdmxElement> listBox = new EnumListBox<SdmxElement>(SdmxElement.class, LABEL_PROVIDER);
+		public Widget getWidget(UISdmxElement mapping) {
+			EnumListBox<UISdmxElement> listBox = new EnumListBox<UISdmxElement>(UISdmxElement.class, LABEL_PROVIDER);
 			listBox.setStyleName(CommonResources.INSTANCE.css().listBox());
 			listBox.setWidth("200px");
 			listBox.getElement().getStyle().setPaddingLeft(5, Unit.PX);
@@ -53,8 +53,8 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public SdmxElement getMapping(Widget widget) {
-			return ((EnumListBox<SdmxElement>)widget).getSelectedValue();
+		public UISdmxElement getMapping(Widget widget) {
+			return ((EnumListBox<UISdmxElement>)widget).getSelectedValue();
 		}
 
 	};
@@ -63,14 +63,14 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, SdmxMappingStepViewImpl> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 	
-	@UiField(provided = true) MappingPanel<SdmxElement> mappingPanel;
+	@UiField(provided = true) MappingPanel<UISdmxElement> mappingPanel;
 
 	private AlertDialog alertDialog;
 	
 	protected Presenter presenter;
 
 	public SdmxMappingStepViewImpl() {
-		mappingPanel = new MappingPanel<SdmxElement>(PROVIDER, "ELEMENTS");
+		mappingPanel = new MappingPanel<UISdmxElement>(PROVIDER, "ELEMENTS");
 		mappingPanel.setReloadHandler(this);
 		
 		initWidget(uiBinder.createAndBindUi(this));

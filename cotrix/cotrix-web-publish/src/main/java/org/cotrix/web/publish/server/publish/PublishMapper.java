@@ -23,7 +23,7 @@ import org.cotrix.web.publish.shared.Column;
 import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishMetadata;
-import org.cotrix.web.publish.shared.SdmxElement;
+import org.cotrix.web.publish.shared.UISdmxElement;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Table;
@@ -101,13 +101,13 @@ public interface PublishMapper<T> {
 			//FIXME directives.agency(metadata.get);
 			directives.name(metadata.getName());
 			directives.version(metadata.getVersion());
-			//FIXME directives.isFinal(isfinal)
+			directives.isFinal(metadata.isSealed());
 			
 			for (AttributeMapping mapping:publishDirectives.getMappings()) {
 				if (mapping.isMapped()) {
 					
 					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();
-					SdmxElement element = (SdmxElement) mapping.getMapping();
+					UISdmxElement element = (UISdmxElement) mapping.getMapping();
 					
 					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).to(SdmxElements.toSdmxElement(element));
 				}

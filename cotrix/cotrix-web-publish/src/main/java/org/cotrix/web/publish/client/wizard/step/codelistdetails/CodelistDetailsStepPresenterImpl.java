@@ -58,7 +58,7 @@ public class CodelistDetailsStepPresenterImpl extends AbstractVisualWizardStep i
 
 		view.setName(codelistMetadata.getName().getLocalPart());
 		view.setVersion(codelistMetadata.getVersion());
-		view.setState(codelistMetadata.getState());
+		view.setState(codelistMetadata.getState().toString());
 		List<UIAttribute> attributes = codelistMetadata.getAttributes();
 		if (attributes.isEmpty()) view.setAttributesVisible(false);
 		else {

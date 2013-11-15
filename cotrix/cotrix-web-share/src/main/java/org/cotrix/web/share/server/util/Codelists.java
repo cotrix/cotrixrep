@@ -10,6 +10,9 @@ import java.util.List;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.Container;
+import org.cotrix.lifecycle.State;
+import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
+import org.cotrix.web.share.shared.codelist.LifecycleState;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
@@ -36,7 +39,7 @@ public class Codelists {
 		}
 	};
 	
-	public static UICodelistMetadata toCodelistMetadata(Codelist codelist, String state)
+	public static UICodelistMetadata toCodelistMetadata(Codelist codelist, LifecycleState state)
 	{
 		UICodelistMetadata metadata = toCodelistMetadata(codelist);
 		metadata.setState(state);
@@ -53,10 +56,21 @@ public class Codelists {
 		return metadata;
 	}
 
-	public static UICodelist toUICodelist(Codelist codelist, String state) {
+	public static UICodelist toUICodelist(Codelist codelist, State state) {
 		UICodelist uiCodelist = toUICodelist(codelist);
-		uiCodelist.setState(state);
+		uiCodelist.setState(getLifecycleState(state));
 		return uiCodelist;
+	}
+	
+	protected static LifecycleState getLifecycleState(State state) {
+		if (!(state instanceof DefaultLifecycleStates)) throw new IllegalArgumentException("Inconvertible state "+state);
+		DefaultLifecycleStates defaultLifecycleStates = (DefaultLifecycleStates)state;
+		switch (defaultLifecycleStates) {
+			case draft: return LifecycleState.draft;
+			case locked: return LifecycleState.locked;
+			case sealed: return LifecycleState.sealed;
+		}
+		throw new IllegalArgumentException("Unknown default lifecycle state "+defaultLifecycleStates);
 	}
 
 	public static UICodelist toUICodelist(Codelist codelist) {

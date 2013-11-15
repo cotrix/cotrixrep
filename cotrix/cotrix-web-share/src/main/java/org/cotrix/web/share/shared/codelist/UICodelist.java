@@ -15,7 +15,7 @@ public class UICodelist implements IsSerializable
 	protected String id;
 	protected String name;
 	protected String version;
-	protected String state;
+	protected LifecycleState state;
 
 	public String getName() {
 		return name;
@@ -50,14 +50,14 @@ public class UICodelist implements IsSerializable
 	/**
 	 * @return the state
 	 */
-	public String getState() {
+	public LifecycleState getState() {
 		return state;
 	}
 
 	/**
 	 * @param state the state to set
 	 */
-	public void setState(String state) {
+	public void setState(LifecycleState state) {
 		this.state = state;
 	}
 

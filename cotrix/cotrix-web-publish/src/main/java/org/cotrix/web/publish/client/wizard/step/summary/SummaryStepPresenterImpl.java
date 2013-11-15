@@ -43,7 +43,7 @@ public class SummaryStepPresenterImpl extends AbstractVisualWizardStep implement
 				UICodelist codelist = event.getItem();
 				view.setCodelistName(codelist.getName());
 				view.setCodelistVersion(codelist.getVersion());
-				view.setState(codelist.getState());
+				view.setState(codelist.getState().toString());
 			}
 		});
 		publishBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedEvent.MappingsUpdatedHandler() {

@@ -19,6 +19,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.lifecycle.LifecycleService;
+import org.cotrix.lifecycle.State;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.web.publish.server.publish.PublishStatus;
@@ -69,7 +70,7 @@ public class PublishSession implements Serializable {
 
 		@Override
 		public String getValue(UICodelist item) {
-			return item.getState();
+			return item.getState().toString();
 		}
 	};
 	
@@ -131,7 +132,7 @@ public class PublishSession implements Serializable {
 
 		while(it.hasNext()) {
 			Codelist codelist = it.next();
-			String state = lifecycleService.start(codelist.id()).state().toString();
+			State state = lifecycleService.start(codelist.id()).state();
 			UICodelist uiCodelist = Codelists.toUICodelist(codelist, state);
 			orderedCodelists.add(uiCodelist);
 			indexedCodelists.put(uiCodelist.getId(), uiCodelist);

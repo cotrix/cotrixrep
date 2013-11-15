@@ -12,6 +12,7 @@ import org.cotrix.web.share.client.wizard.event.NavigationEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
+import org.cotrix.web.share.shared.codelist.LifecycleState;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -58,7 +59,7 @@ public class CodelistSelectionStepPresenterImpl extends AbstractVisualWizardStep
 			metadata.setName(selectedCodelist.getName());
 			metadata.setOriginalName(selectedCodelist.getName());
 			metadata.setVersion(selectedCodelist.getVersion());
-			//TODO sealed
+			metadata.setSealed(selectedCodelist.getState() == LifecycleState.sealed);
 			publishEventBus.fireEvent(new ItemUpdatedEvent<PublishMetadata>(metadata));
 		}
 		return selectedCodelist!=null || detailsNodeSelector.isSwitchedToCodeListDetails();

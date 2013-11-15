@@ -9,7 +9,7 @@ import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public enum SdmxElement implements Mapping {
+public enum UISdmxElement implements Mapping {
 	FINAL("final"), 
 	AGENCY("agency"), 
 	VALID_FROM("validFrom"), 
@@ -24,7 +24,7 @@ public enum SdmxElement implements Mapping {
 	/**
 	 * @param label
 	 */
-	private SdmxElement(String label) {
+	private UISdmxElement(String label) {
 		this.label = label;
 	}
 
