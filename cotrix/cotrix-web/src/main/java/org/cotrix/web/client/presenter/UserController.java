@@ -11,9 +11,11 @@ import org.cotrix.web.client.event.UserLoggedEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLoginEvent.UserLoginHandler;
 import org.cotrix.web.client.event.UserLogoutEvent;
+import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CodelistClosedEvent;
 import org.cotrix.web.share.client.event.CodelistOpenedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
+import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 import org.cotrix.web.share.client.feature.AsyncCallBackWrapper;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
 
@@ -46,6 +48,20 @@ public class UserController {
 		@Override
 		public void onSuccess(String result) {
 			cotrixBus.fireEvent(new UserLoggedEvent(result));
+		}
+	});
+	
+	protected AsyncCallback<ResponseWrapper<String>> logoutCallback = AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Log.error("Login failed", caught);
+		}
+
+		@Override
+		public void onSuccess(String result) {
+			cotrixBus.fireEvent(new UserLoggedEvent(result));
+			cotrixBus.fireEvent(new SwitchToModuleEvent(CotrixModule.HOME));
 		}
 	});
 	
@@ -108,7 +124,7 @@ public class UserController {
 	
 	protected void logout()
 	{
-		service.logout(openedCodelists, callback);
+		service.logout(openedCodelists, logoutCallback);
 	}
 	
 	protected void logUser(String username, String password)

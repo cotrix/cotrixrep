@@ -36,18 +36,14 @@ public class SdmxElements {
 	}
 	
 	public static SdmxElement findUnqualifiedSdmxElement(String name, String type) {
-		System.out.println("findUnqualifiedSdmxElement name: "+name+" type: "+type);
 		for (SdmxElement element:SdmxElement.values()) {
-			System.out.println("checking "+element+" name: "+element.defaultName()+" type: "+element.defaultType());
 			if (element.defaultName().getLocalPart().equals(name) && element.defaultType().getLocalPart().equals(type)) return element;
 		}
 		return  findSdmxElementByUnqualifiedType(type);
 	}
 	
 	public static SdmxElement findSdmxElementByUnqualifiedType(String type) {
-		System.out.println("findSdmxElementByType type: "+type);
 		for (SdmxElement element:SdmxElement.values()) {
-			System.out.println("checking "+element+" name: "+element.defaultName()+" type: "+element.defaultType());
 			if (element.defaultType().getLocalPart().equals(type)) return element;
 		}
 		return SdmxElement.DESCRIPTION;
