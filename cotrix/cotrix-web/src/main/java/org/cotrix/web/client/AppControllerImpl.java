@@ -93,7 +93,7 @@ public class AppControllerImpl implements AppController {
 		});
 
 		
-		showModule(CotrixModule.PUBLISH);
+		showModule(CotrixModule.HOME);
 	}
 	
 	protected void bind()
