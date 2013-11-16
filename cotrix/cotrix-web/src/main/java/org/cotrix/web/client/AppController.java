@@ -7,5 +7,6 @@ import org.cotrix.web.client.presenter.Presenter;
  *
  */
 public interface AppController extends Presenter {
+	
 
 }

@@ -13,6 +13,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -33,6 +34,7 @@ public class HomeViewImpl extends Composite implements HomeView {
 	
 	@UiField DivElement newsLoader;
 	@UiField HTML news;
+	@UiField ScrollPanel newsMain;
 
 	public HomeViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -67,11 +69,14 @@ public class HomeViewImpl extends Composite implements HomeView {
 		html.append("</ul>");
 		news.setHTML(html.toString());
 		newsLoader.getStyle().setDisplay(Display.NONE);
-		news.setVisible(true);
+		newsMain.setVisible(true);
 	}
 	
 	protected void addNew(StringBuilder html, UINews news) {
 		if (news.getText() == null) return;
-		html.append("<li>").append(SDF.format(news.getTimestamp())).append("<span style=\"float: right;\">").append(news.getText()).append("</span></li>");
+		html.append("<li>")
+		.append("<span style=\"font-size:12px;line-height: 1.4;display: block;\">").append(SDF.format(news.getTimestamp())).append("</span>")
+		.append("<span style=\"line-height: 1.4;display: block;\">").append(news.getText()).append("</span>")
+		.append("<span style=\"height: 8px;display: block;\"></span></li>");
 	}
 }

@@ -6,6 +6,7 @@ import static org.cotrix.web.shared.AuthenticationFeature.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -177,6 +178,32 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	@Override
 	public List<UINews> getNews() {
 		List<UINews> news = new ArrayList<UINews>();
+		
+		/*UINews testNews = new UINews();
+		testNews.setTimestamp(new Date());
+		testNews.setText("Test codelist ASFIS 2012 has moved to state draft");
+		news.add(testNews);
+		
+		testNews = new UINews();
+		testNews.setTimestamp(new Date());
+		testNews.setText("Test codelist ASFIS 2013 has moved to state draft");
+		news.add(testNews);
+		
+		testNews = new UINews();
+		testNews.setTimestamp(new Date());
+		testNews.setText("Test codelist ASFIS 2014 has moved to state draft");
+		news.add(testNews);
+		
+		testNews = new UINews();
+		testNews.setTimestamp(new Date());
+		testNews.setText("Test codelist ASFIS 2015 has moved to state draft");
+		news.add(testNews);
+		
+		testNews = new UINews();
+		testNews.setTimestamp(new Date());
+		testNews.setText("Test codelist ASFIS 2016 has moved to state draft");
+		news.add(testNews);*/
+
 		for (NewsItem newsItem:newsService.news()) {
 			logger.trace("news: {}",newsItem);
 			UINews uiNews = new UINews();

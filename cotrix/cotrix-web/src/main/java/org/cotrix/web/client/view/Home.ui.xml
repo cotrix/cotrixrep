@@ -50,6 +50,10 @@
 			margin: 0 auto;
 		}
 		
+		.newsMain {
+			height: 156px;
+		}
+		
 		.news {
 			padding: 13px;
 			line-height: 2;
@@ -82,7 +86,9 @@
 					<div class="{style.block}">
 						<g:Image resource="{resources.communities}" styleName="{style.blockImg}" />
 						<div class="{style.blockTitle}">community</div>
-						<g:HTML ui:field="news" visible="false" styleName="{style.news}" />
+						<g:ScrollPanel ui:field="newsMain" visible="false" styleName="{style.newsMain}">
+							<g:HTML ui:field="news" styleName="{style.news}" />
+						</g:ScrollPanel>
 						<div class="{style.newsLoader}" ui:field="newsLoader">
 							<g:Image resource="{common.dataLoader}" />
 						</div>
