@@ -132,7 +132,7 @@ public class PublishSession implements Serializable {
 
 		while(it.hasNext()) {
 			Codelist codelist = it.next();
-			State state = lifecycleService.start(codelist.id()).state();
+			State state = lifecycleService.lifecycleOf(codelist.id()).state();
 			UICodelist uiCodelist = Codelists.toUICodelist(codelist, state);
 			orderedCodelists.add(uiCodelist);
 			indexedCodelists.put(uiCodelist.getId(), uiCodelist);

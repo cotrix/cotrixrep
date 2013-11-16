@@ -77,6 +77,6 @@ public class HomeViewImpl extends Composite implements HomeView {
 		html.append("<li>")
 		.append("<span style=\"font-size:12px;line-height: 1.4;display: block;\">").append(SDF.format(news.getTimestamp())).append("</span>")
 		.append("<span style=\"line-height: 1.4;display: block;\">").append(news.getText()).append("</span>")
-		.append("<span style=\"height: 8px;display: block;\"></span></li>");
+		.append("<span style=\"height: 8px;display: block;margin-top: 5px;border-top: 1px solid #d9d9d9;\"></span></li>");
 	}
 }
