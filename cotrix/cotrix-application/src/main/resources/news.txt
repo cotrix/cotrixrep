@@ -1,1 +1,1 @@
-Cotrix ${project.version} currently in development!
+Cotrix 1.0.0 is in development!
