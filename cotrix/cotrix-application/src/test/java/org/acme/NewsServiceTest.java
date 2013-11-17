@@ -12,8 +12,12 @@ import javax.inject.Inject;
 
 import org.cotrix.application.NewsService;
 import org.cotrix.application.NewsService.NewsItem;
+import org.cotrix.application.impl.ReleaseNewsReporter;
+import org.cotrix.domain.Codelist;
+import org.cotrix.domain.dsl.Codes;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
+import org.cotrix.repository.CodelistRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -32,6 +36,12 @@ public class NewsServiceTest {
 	
 	@Inject
 	TestReporter reporter;
+	
+	@Inject
+	ReleaseNewsReporter rsReporter;
+	
+	@Inject
+	CodelistRepository repository;
 	
 
 	@Test
@@ -73,11 +83,19 @@ public class NewsServiceTest {
 	@Test
 	public void publishCodelistLifecycleNews() {
 	
-		Lifecycle lc = lcService.start("id");
+		Codelist list = Codes.codelist().name("mylist").build();
+		
+		repository.add(list);
+		
+		Lifecycle lc = lcService.start(list.id());
 
 		int size = service.news().size(); 
-
-		lc.notify(EDIT.on("id"));
+		
+		lc.notify(EDIT.on(list.id()));
+		
+		lc.notify(LOCK.on(list.id()));
+		
+		System.out.println(service.news());
 		
 		assertEquals(size+1,service.news().size());
 	}

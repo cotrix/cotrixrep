@@ -8,15 +8,19 @@ import org.cotrix.action.Action;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleEvent;
 import org.cotrix.lifecycle.State;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.googlecode.stateless4j.StateMachine;
 
 /**
- * An implementatin of {@link Lifecycle} based on Google's Stateless4j.
+ * An implementation of {@link Lifecycle} based on Google's Stateless4j.
  * @author Fabio Simeoni
  *
  */
 public class S4JLifecycle extends AbstractLifecycle {
+	
+	private static Logger log = LoggerFactory.getLogger(S4JLifecycle.class);
 	
 	private static final long serialVersionUID = 1L;
 
@@ -54,15 +58,24 @@ public class S4JLifecycle extends AbstractLifecycle {
 		
 		notNull("action",action);
 		
+		State origin = state();
+		
 		try {
-			State origin = state();
 			machine.Fire(action);
-			State target = state();
-			eventProducer().fire(new LifecycleEvent(id, origin, action,target));
 		}
 		catch(Exception e) {
 			throw new IllegalStateException(action.toString());
 		}
+		
+		State target = state();
+		
+		try {
+			eventProducer().fire(new LifecycleEvent(id, origin, action,target));
+		}
+		catch(Exception e) {
+			log.warn("could not deliver lifecycle event",e);
+		}
+		
 	}
 	
 	@Override

@@ -36,7 +36,7 @@ public class ReleaseNewsReporter {
 		
 		String item = null;
 
-		while ((item = reader.readLine())!=null);
+		while ((item = reader.readLine())!=null)
 			news.fire(new NewsItem(item));
 	
 	}
