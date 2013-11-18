@@ -10,14 +10,16 @@ import java.util.Collection;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
+import org.cotrix.application.ApplicationEvents;
+import org.cotrix.application.ApplicationEvents.Startup;
 import org.cotrix.application.NewsService;
 import org.cotrix.application.NewsService.NewsItem;
-import org.cotrix.application.impl.ReleaseNewsReporter;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -38,16 +40,21 @@ public class NewsServiceTest {
 	TestReporter reporter;
 	
 	@Inject
-	ReleaseNewsReporter rsReporter;
-	
-	@Inject
 	CodelistRepository repository;
+
+	@Inject
+	Event<ApplicationEvents.Startup> startup;
 	
+	@Before
+	public void setup() {
+		
+		startup.fire(Startup.INSTANCE);
+	}
 
 	@Test
 	public void publishNews() {
 	
-		reporter.fire(testItem);
+		reporter.fire(testItem); 
 		
 		Collection<NewsItem> news = service.news();
 		

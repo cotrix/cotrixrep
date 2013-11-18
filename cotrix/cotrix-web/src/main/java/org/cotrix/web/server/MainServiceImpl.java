@@ -6,21 +6,22 @@ import static org.cotrix.web.shared.AuthenticationFeature.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.action.Action;
 import org.cotrix.action.Actions;
 import org.cotrix.action.CodelistAction;
+import org.cotrix.application.ApplicationEvents;
+import org.cotrix.application.ApplicationEvents.Startup;
 import org.cotrix.application.NewsService;
-import org.cotrix.application.StatisticsService;
 import org.cotrix.application.NewsService.NewsItem;
+import org.cotrix.application.StatisticsService;
 import org.cotrix.application.StatisticsService.Statistics;
-import org.cotrix.application.impl.ReleaseNewsReporter;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
@@ -82,8 +83,8 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	User currentUser;
 	
 	@Inject
-	ReleaseNewsReporter newsReporter;
-
+	Event<ApplicationEvents.Startup> startup;
+	
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -93,6 +94,9 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		mapper.map(LOGOUT).to(CAN_LOGOUT);
 		mapper.map(IMPORT).to(IMPORT_CODELIST);
 		mapper.map(PUBLISH).to(PUBLISH_CODELIST);
+		
+		startup.fire(Startup.INSTANCE);
+		
 	}
 
 	@Override
@@ -181,27 +185,27 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		
 		/*UINews testNews = new UINews();
 		testNews.setTimestamp(new Date());
-		testNews.setText("Test codelist ASFIS 2012 has moved to state draft");
+		testNews.setText("Testino codelist ASFIS 2012 has moved to state draft");
 		news.add(testNews);
 		
 		testNews = new UINews();
 		testNews.setTimestamp(new Date());
-		testNews.setText("Test codelist ASFIS 2013 has moved to state draft");
+		testNews.setText("Testino codelist ASFIS 2013 has moved to state draft");
 		news.add(testNews);
 		
 		testNews = new UINews();
 		testNews.setTimestamp(new Date());
-		testNews.setText("Test codelist ASFIS 2014 has moved to state draft");
+		testNews.setText("Testino codelist ASFIS 2014 has moved to state draft");
 		news.add(testNews);
 		
 		testNews = new UINews();
 		testNews.setTimestamp(new Date());
-		testNews.setText("Test codelist ASFIS 2015 has moved to state draft");
+		testNews.setText("Testino codelist ASFIS 2015 has moved to state draft");
 		news.add(testNews);
 		
 		testNews = new UINews();
 		testNews.setTimestamp(new Date());
-		testNews.setText("Test codelist ASFIS 2016 has moved to state draft");
+		testNews.setText("Testino codelist ASFIS 2016 has moved to state draft");
 		news.add(testNews);*/
 
 		for (NewsItem newsItem:newsService.news()) {

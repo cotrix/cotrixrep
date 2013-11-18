@@ -4,10 +4,11 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import org.cotrix.application.ApplicationEvents.Startup;
 import org.cotrix.application.NewsService.NewsItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,7 @@ public class ReleaseNewsReporter {
 	@Inject
 	private Event<NewsItem> news;
 	
-	@PostConstruct
-	public void start() throws Exception {
+	public void start(@Observes Startup event) throws Exception {
 	
 		log.info("reading release news");
 		
