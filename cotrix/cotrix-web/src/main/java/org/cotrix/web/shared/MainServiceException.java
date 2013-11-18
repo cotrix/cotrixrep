@@ -13,6 +13,8 @@ public class MainServiceException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = 7184987134482636583L;
+	
+	public MainServiceException(){}
 
 	/**
 	 * @param message
