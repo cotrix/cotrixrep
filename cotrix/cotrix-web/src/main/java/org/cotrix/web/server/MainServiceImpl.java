@@ -6,7 +6,6 @@ import static org.cotrix.web.shared.AuthenticationFeature.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -32,6 +31,7 @@ import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
+import org.cotrix.web.shared.MainServiceException;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 import org.slf4j.Logger;
@@ -67,7 +67,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 
 	@Inject
 	protected StatisticsService statisticsService;
-	
+
 	@Inject
 	protected NewsService newsService;
 
@@ -80,7 +80,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	@Current
 	@Inject
 	User currentUser;
-	
+
 	@Inject
 	ReleaseNewsReporter newsReporter;
 
@@ -165,44 +165,24 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	}
 
 	@Override
-	public UIStatistics getStatistics() {
-		Statistics statistics = statisticsService.statistics();
-		UIStatistics uiStatistics = new UIStatistics();
-		uiStatistics.setCodelists(statistics.totalCodelists());
-		uiStatistics.setCodes(statistics.totalCodes());
-		uiStatistics.setUsers(statistics.totalUsers());
-		uiStatistics.setRepositories(statistics.totalRepositories());
-		return uiStatistics;
+	public UIStatistics getStatistics() throws MainServiceException {
+		try {
+			Statistics statistics = statisticsService.statistics();
+			UIStatistics uiStatistics = new UIStatistics();
+			uiStatistics.setCodelists(statistics.totalCodelists());
+			uiStatistics.setCodes(statistics.totalCodes());
+			uiStatistics.setUsers(statistics.totalUsers());
+			uiStatistics.setRepositories(statistics.totalRepositories());
+			return uiStatistics;
+		} catch(Exception e) {
+			logger.error("Error getting statistics", e);
+			throw new MainServiceException("Error getting statistics: "+e.getMessage());
+		}
 	}
 
 	@Override
 	public List<UINews> getNews() {
 		List<UINews> news = new ArrayList<UINews>();
-		
-		/*UINews testNews = new UINews();
-		testNews.setTimestamp(new Date());
-		testNews.setText("Test codelist ASFIS 2012 has moved to state draft");
-		news.add(testNews);
-		
-		testNews = new UINews();
-		testNews.setTimestamp(new Date());
-		testNews.setText("Test codelist ASFIS 2013 has moved to state draft");
-		news.add(testNews);
-		
-		testNews = new UINews();
-		testNews.setTimestamp(new Date());
-		testNews.setText("Test codelist ASFIS 2014 has moved to state draft");
-		news.add(testNews);
-		
-		testNews = new UINews();
-		testNews.setTimestamp(new Date());
-		testNews.setText("Test codelist ASFIS 2015 has moved to state draft");
-		news.add(testNews);
-		
-		testNews = new UINews();
-		testNews.setTimestamp(new Date());
-		testNews.setText("Test codelist ASFIS 2016 has moved to state draft");
-		news.add(testNews);*/
 
 		for (NewsItem newsItem:newsService.news()) {
 			logger.trace("news: {}",newsItem);
