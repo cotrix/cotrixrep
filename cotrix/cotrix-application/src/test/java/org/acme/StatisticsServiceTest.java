@@ -63,7 +63,7 @@ public class StatisticsServiceTest {
 	
 	@Produces @Current
 	public User user() {
-		return PredefinedUsers.guest;
+		return PredefinedUsers.cotrix;
 	}
 	
 }

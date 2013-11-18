@@ -10,6 +10,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.cotrix.action.Action;
+import org.cotrix.action.MainAction;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
@@ -141,7 +142,7 @@ public class EngineTest {
 		
 		try {
 			
-			engine.perform(PUBLISH).with(task);
+			engine.perform(MainAction.PUBLISH).with(task);
 			
 			fail();
 		}

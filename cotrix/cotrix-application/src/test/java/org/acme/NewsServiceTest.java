@@ -1,7 +1,6 @@
 package org.acme;
 
 import static java.util.Arrays.*;
-import static org.cotrix.action.CodelistAction.*;
 import static org.junit.Assert.*;
 
 import java.util.Calendar;
@@ -9,16 +8,15 @@ import java.util.Collection;
 
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
+import org.cotrix.action.events.CodelistActionEvents;
+import org.cotrix.action.events.CodelistActionEvents.Import;
 import org.cotrix.application.ApplicationEvents;
 import org.cotrix.application.ApplicationEvents.Startup;
 import org.cotrix.application.NewsService;
 import org.cotrix.application.NewsService.NewsItem;
-import org.cotrix.domain.Codelist;
-import org.cotrix.domain.dsl.Codes;
-import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
-import org.cotrix.repository.CodelistRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,10 +38,11 @@ public class NewsServiceTest {
 	TestReporter reporter;
 	
 	@Inject
-	CodelistRepository repository;
-
-	@Inject
 	Event<ApplicationEvents.Startup> startup;
+	
+	
+	@Inject
+	Event<CodelistActionEvents.CodelistEvent> actions;
 	
 	@Before
 	public void setup() {
@@ -88,23 +87,16 @@ public class NewsServiceTest {
 	}
 	
 	@Test
-	public void publishCodelistLifecycleNews() {
+	public void publishCodelistActions() {
 	
-		Codelist list = Codes.codelist().name("mylist").build();
-		
-		repository.add(list);
-		
-		Lifecycle lc = lcService.start(list.id());
-
 		int size = service.news().size(); 
-		
-		lc.notify(EDIT.on(list.id()));
-		
-		lc.notify(LOCK.on(list.id()));
+
+		actions.fire(new Import("id",new QName("name"), "1"));
 		
 		System.out.println(service.news());
 		
 		assertEquals(size+1,service.news().size());
+		
 	}
 	
 	

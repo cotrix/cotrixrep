@@ -40,8 +40,8 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-lifecycle</artifactId>
 		</dependency>
-
-
+		
+		
 		<!-- testing with CDI -->
 		<dependency>
 			<groupId>com.googlecode.jeeunit</groupId>

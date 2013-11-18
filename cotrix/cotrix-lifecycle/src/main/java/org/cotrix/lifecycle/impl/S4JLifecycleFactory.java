@@ -63,15 +63,21 @@ public class S4JLifecycleFactory implements LifecycleFactory {
 		machine.Configure(draft)
 								.PermitReentry(VIEW.on(id))
 								.PermitReentry(EDIT.on(id))
-								.Permit(LOCK.on(id),locked);
+								.Permit(LOCK.on(id),locked)
+								.PermitReentry(VERSION.on(id))
+								.PermitReentry(PUBLISH.on(id));
 
 		machine.Configure(locked)
 								.PermitReentry(VIEW.on(id))
 								.Permit(SEAL.on(id),sealed)
-								.Permit(UNLOCK.on(id), draft);
+								.Permit(UNLOCK.on(id), draft)
+								.PermitReentry(VERSION.on(id))
+								.PermitReentry(PUBLISH.on(id));
 		
 		machine.Configure(sealed)
-								.PermitReentry(VIEW.on(id));
+								.PermitReentry(VIEW.on(id))
+								.PermitReentry(VERSION.on(id))
+								.PermitReentry(PUBLISH.on(id));
 
 
 		return machine;

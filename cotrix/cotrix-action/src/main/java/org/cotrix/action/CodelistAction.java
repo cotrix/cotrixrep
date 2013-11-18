@@ -12,7 +12,9 @@ public enum CodelistAction implements Action {
 	VIEW("view"),
 	LOCK("lock"),
 	UNLOCK("unlock"),
-	SEAL("seal")
+	SEAL("seal"),
+	VERSION("version"),
+	PUBLISH("publish")
 	
 	;	
 	

@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
@@ -85,6 +87,9 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	@Inject
 	protected LifecycleService lifecycleService;
+	
+	@Inject
+	private Event<CodelistActionEvents.CodelistEvent> events;
 	
 	/** 
 	 * {@inheritDoc}
@@ -206,6 +211,8 @@ public class ManagerServiceImpl implements ManagerService {
 		Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
 		repository.add(newCodelist);
 		lifecycleService.start(newCodelist.id());
+		
+		events.fire(new CodelistActionEvents.Version(newCodelist.id(),newCodelist.name(),newVersion));
 		
 		CodelistGroup group = new CodelistGroup(newCodelist.name().toString());
 		group.addVersion(newCodelist.id(), newCodelist.version());
