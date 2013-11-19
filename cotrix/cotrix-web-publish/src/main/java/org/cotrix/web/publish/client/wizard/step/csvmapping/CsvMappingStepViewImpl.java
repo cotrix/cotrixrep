@@ -61,8 +61,6 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 
 	protected Presenter presenter;
 
-	protected AlertDialog alertDialog;
-
 	public CsvMappingStepViewImpl() {
 		mappingPanel = new MappingPanel<Column>(PROVIDER, "COLUMNS");
 		mappingPanel.setReloadHandler(this);
@@ -148,11 +146,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	}
 
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog(false);
-		}
-		alertDialog.setMessage(message);
-		alertDialog.show();
+		AlertDialog.INSTANCE.center(message);
 	}
 
 	@Override

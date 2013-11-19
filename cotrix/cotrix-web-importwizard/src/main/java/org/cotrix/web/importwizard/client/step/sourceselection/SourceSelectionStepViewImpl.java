@@ -20,7 +20,6 @@ public class SourceSelectionStepViewImpl extends Composite implements SourceSele
 	interface SourceSelectionStepUiBinder extends UiBinder<Widget, SourceSelectionStepViewImpl> {}
 	private static SourceSelectionStepUiBinder uiBinder = GWT.create(SourceSelectionStepUiBinder.class);
 	
-	private AlertDialog alertDialog;
 	private Presenter presenter;
 	
 	public SourceSelectionStepViewImpl() {
@@ -42,10 +41,6 @@ public class SourceSelectionStepViewImpl extends Composite implements SourceSele
 	}
 	
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog(false);
-		}
-		alertDialog.setMessage(message);
-		alertDialog.center();
+		AlertDialog.INSTANCE.center(message);
 	}
 }

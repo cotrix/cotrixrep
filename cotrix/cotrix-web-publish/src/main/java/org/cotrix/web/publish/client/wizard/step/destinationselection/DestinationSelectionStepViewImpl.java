@@ -20,7 +20,6 @@ public class DestinationSelectionStepViewImpl extends Composite implements Desti
 	interface DestinationSelectionStepUiBinder extends UiBinder<Widget, DestinationSelectionStepViewImpl> {}
 	private static DestinationSelectionStepUiBinder uiBinder = GWT.create(DestinationSelectionStepUiBinder.class);
 	
-	private AlertDialog alertDialog;
 	private Presenter presenter;
 	
 	public DestinationSelectionStepViewImpl() {
@@ -42,10 +41,6 @@ public class DestinationSelectionStepViewImpl extends Composite implements Desti
 	}
 	
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog(false);
-		}
-		alertDialog.setMessage(message);
-		alertDialog.center();
+		AlertDialog.INSTANCE.center(message);
 	}
 }

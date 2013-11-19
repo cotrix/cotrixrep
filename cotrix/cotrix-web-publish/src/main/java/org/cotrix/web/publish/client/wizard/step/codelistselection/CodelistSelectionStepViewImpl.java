@@ -49,8 +49,6 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 
 	protected SingleSelectionModel<UICodelist> selectionModel;
 
-	private AlertDialog alertDialog;
-
 	private Presenter presenter;
 
 	@Inject
@@ -173,11 +171,7 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 	}
 
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog(false);
-		}
-		alertDialog.setMessage(message);
-		alertDialog.center();
+		AlertDialog.INSTANCE.center(message);
 	}
 
 	public void reset()

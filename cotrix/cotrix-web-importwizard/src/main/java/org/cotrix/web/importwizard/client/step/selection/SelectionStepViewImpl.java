@@ -52,8 +52,6 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	
 	protected SingleSelectionModel<AssetInfo> selectionModel;
 
-	private AlertDialog alertDialog;
-
 	private Presenter presenter;
 
 	@Inject
@@ -187,11 +185,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	}
 
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog(false);
-		}
-		alertDialog.setMessage(message);
-		alertDialog.center();
+		AlertDialog.INSTANCE.center(message);
 	}
 
 	

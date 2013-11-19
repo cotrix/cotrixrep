@@ -64,8 +64,6 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 	
 	@UiField(provided = true) MappingPanel<UISdmxElement> mappingPanel;
-
-	private AlertDialog alertDialog;
 	
 	protected Presenter presenter;
 
@@ -142,11 +140,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	}
 
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog(false);
-		}
-		alertDialog.setMessage(message);
-		alertDialog.center();
+		AlertDialog.INSTANCE.center(message);
 	}
 
 	@Override

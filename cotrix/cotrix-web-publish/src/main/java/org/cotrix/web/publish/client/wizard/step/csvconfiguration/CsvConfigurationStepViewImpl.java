@@ -33,8 +33,6 @@ public class CsvConfigurationStepViewImpl extends ResizeComposite implements Csv
 
 	@UiField
 	CsvConfigurationPanel configurationPanel;
-
-	private AlertDialog alertDialog;
 	
 	@Inject
 	public CsvConfigurationStepViewImpl() {
@@ -57,11 +55,7 @@ public class CsvConfigurationStepViewImpl extends ResizeComposite implements Csv
 	 * {@inheritDoc}
 	 */
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog(false);
-		}
-		alertDialog.setMessage(message);
-		alertDialog.center();
+		AlertDialog.INSTANCE.center(message);
 	}
 	
 	@Override

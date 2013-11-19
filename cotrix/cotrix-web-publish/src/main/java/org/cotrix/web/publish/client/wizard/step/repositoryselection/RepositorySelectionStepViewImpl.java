@@ -50,8 +50,6 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	
 	protected SingleSelectionModel<UIRepository> selectionModel;
 
-	private AlertDialog alertDialog;
-
 	private Presenter presenter;
 
 	@Inject
@@ -162,11 +160,7 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	}
 
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog(false);
-		}
-		alertDialog.setMessage(message);
-		alertDialog.center();
+		AlertDialog.INSTANCE.center(message);
 	}
 	
 	//TODO REMOVED

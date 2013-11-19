@@ -47,7 +47,6 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	@UiField FormPanel form;
 
 	private Presenter presenter;
-	private AlertDialog alertDialog;
 
 	public UploadStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -104,11 +103,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	}
 	
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog(true);
-		}
-		alertDialog.setMessage(message);
-		alertDialog.showRelative(browseButton);
+		AlertDialog.INSTANCE.center(message);
 	}
 
 	@UiHandler("retryButton")

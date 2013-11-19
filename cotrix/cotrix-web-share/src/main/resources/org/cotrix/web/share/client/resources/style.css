@@ -339,3 +339,59 @@
 	width:220px;
 	height:40px;
 }
+
+
+@external .gwt-DisclosurePanel;
+.gwt-DisclosurePanel {
+	width: 100%;
+	margin: 5px;
+}
+
+@external .gwt-DisclosurePanel-open;
+.gwt-DisclosurePanel-open {
+	
+}
+
+@external .gwt-DisclosurePanel-closed;
+.gwt-DisclosurePanel-closed {
+	
+}
+
+@external .gwt-DisclosurePanel .header;
+.gwt-DisclosurePanel .header {
+		float: right;
+}
+
+
+@external .gwt-DisclosurePanel .header;
+.gwt-DisclosurePanel .header a,.gwt-DisclosurePanel .header td
+{
+	text-decoration: none;
+	color: white;
+	cursor: pointer;
+	cursor: hand;
+}
+
+@external .gwt-DisclosurePanel .content;
+.gwt-DisclosurePanel .content {
+	/*border-left: 3px solid #e7e7e7;*/
+	padding: 4px 0px 4px 8px;
+	margin-left: 6px;
+}
+
+.errorPanel {
+	border-radius: 5px;
+	background-color: #4e4e4e;
+	text-align: center;
+	color: #eee;
+}
+
+.errorMessageContainer {
+	vertical-align: middle;
+	padding: 15px;
+}
+
+.errorMessage {
+	text-align: center;
+	font-size: 17px;
+}

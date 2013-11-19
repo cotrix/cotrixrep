@@ -40,9 +40,6 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	@UiField (provided=true) 
 	PreviewGrid preview;
 
-	private AlertDialog alertDialog;
-	
-
 	private Presenter presenter;
 	
 	protected PreviewDataProvider dataProvider;
@@ -80,11 +77,7 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	 * {@inheritDoc}
 	 */
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog(false);
-		}
-		alertDialog.setMessage(message);
-		alertDialog.center();
+		AlertDialog.INSTANCE.center(message);
 	}
 	
 	@Override

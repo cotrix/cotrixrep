@@ -20,7 +20,6 @@ public class TypeSelectionStepViewImpl extends Composite implements TypeSelectio
 	interface TypeSelectionStepUiBinder extends UiBinder<Widget, TypeSelectionStepViewImpl> {}
 	private static TypeSelectionStepUiBinder uiBinder = GWT.create(TypeSelectionStepUiBinder.class);
 	
-	private AlertDialog alertDialog;
 	private Presenter presenter;
 	
 	public TypeSelectionStepViewImpl() {
@@ -42,10 +41,6 @@ public class TypeSelectionStepViewImpl extends Composite implements TypeSelectio
 	}
 	
 	public void alert(String message) {
-		if(alertDialog == null){
-			alertDialog = new AlertDialog(false);
-		}
-		alertDialog.setMessage(message);
-		alertDialog.center();
+		AlertDialog.INSTANCE.center(message);
 	}
 }

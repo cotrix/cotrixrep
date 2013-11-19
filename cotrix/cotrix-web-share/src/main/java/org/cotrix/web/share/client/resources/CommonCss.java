@@ -55,4 +55,9 @@ public interface CommonCss extends CssResource {
 	String mappingCell();
 	
 	String missingValueText();
+	
+	
+	String errorPanel();
+	String errorMessageContainer();
+	String errorMessage();
 }
