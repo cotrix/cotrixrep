@@ -32,6 +32,7 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	@UiField InlineLabel username;
 	@UiField InlineLabel login;
 	@UiField InlineLabel logout;
+	@UiField InlineLabel register;
 	
 	protected Presenter presenter;
 	protected FadeAnimation statusAnimation;
@@ -60,6 +61,12 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 		presenter.onLogoutClick();
 	}
 	
+	@UiHandler("register")
+	protected void onRegisterClick(ClickEvent event)
+	{
+		presenter.onRegisterClick();
+	}
+	
 	@Override
 	public void setUserEnabled(boolean enabled) {
 		user.setVisible(enabled);
@@ -79,6 +86,11 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	@Override
 	public void setLogoutVisible(boolean visible) {
 		logout.setVisible(visible);
+	}
+	
+	@Override
+	public void setRegisterVisible(boolean visible) {
+		register.setVisible(visible);
 	}
 
 	@Override

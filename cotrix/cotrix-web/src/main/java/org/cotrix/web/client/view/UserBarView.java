@@ -11,6 +11,7 @@ public interface UserBarView {
 	public interface Presenter {
 		public void onLoginClick();
 		public void onLogoutClick();
+		public void onRegisterClick();
 	}
 	
 	public void setUsername(String username);
@@ -21,4 +22,5 @@ public interface UserBarView {
 	Widget asWidget();
 	void setStatus(String status);
 	void setUserEnabled(boolean enabled);
+	void setRegisterVisible(boolean visible);
 }

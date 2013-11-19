@@ -92,7 +92,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	 */
 	public void init() {
 
-		mapper.map(LOGIN).to(CAN_LOGIN);
+		mapper.map(LOGIN).to(CAN_LOGIN, CAN_REGISTER);
 		mapper.map(LOGOUT).to(CAN_LOGOUT);
 		mapper.map(IMPORT).to(IMPORT_CODELIST);
 		mapper.map(PUBLISH).to(PUBLISH_CODELIST);
@@ -199,6 +199,13 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		}
 		Collections.reverse(news);
 		return news;
+	}
+
+	@Override
+	public ResponseWrapper<String> registerUser(String username, String password, String email) {
+		logger.trace("registerUser username: {} password: {} email: {}", username, password, email);
+		// TODO remove log
+		return ResponseWrapper.wrap("");
 	}
 
 }
