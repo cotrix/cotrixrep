@@ -6,6 +6,7 @@ import static org.cotrix.web.shared.AuthenticationFeature.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -188,7 +189,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	@Override
 	public List<UINews> getNews() {
 		List<UINews> news = new ArrayList<UINews>();
-
+	
 		for (NewsItem newsItem:newsService.news()) {
 			logger.trace("news: {}",newsItem);
 			UINews uiNews = new UINews();
@@ -196,6 +197,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			uiNews.setText(newsItem.text());
 			news.add(uiNews);
 		}
+		Collections.reverse(news);
 		return news;
 	}
 
