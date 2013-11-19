@@ -3,10 +3,13 @@ package org.cotrix.web.share.client.widgets;
 import org.cotrix.web.share.client.resources.CommonCss;
 import org.cotrix.web.share.client.resources.CommonResources;
 
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -52,11 +55,16 @@ public class AlertDialog extends PopupPanel {
 		messageContainer.add(message);
 		content.add(messageContainer);
 		
-		details = new HTML();
+		
 		detailsPanel = new DisclosurePanel("details");
 		detailsPanel.setWidth("325px");
 		detailsPanel.setAnimationEnabled(true);
-		detailsPanel.setContent(details);
+		
+		details = new HTML();
+		ScrollPanel detailsScrollablePanel = new ScrollPanel(details);
+		double maxHeight = Window.getClientHeight()/2 - 100;
+		detailsScrollablePanel.getElement().getStyle().setProperty("maxHeight", maxHeight, Unit.PX);
+		detailsPanel.setContent(detailsScrollablePanel);
 		
 		content.add(detailsPanel);
 
