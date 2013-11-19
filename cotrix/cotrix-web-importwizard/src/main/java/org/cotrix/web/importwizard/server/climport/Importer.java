@@ -5,6 +5,9 @@ package org.cotrix.web.importwizard.server.climport;
 
 import java.util.List;
 
+import javax.enterprise.event.Event;
+
+import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
 import org.cotrix.domain.Codelist;
@@ -33,6 +36,7 @@ public class Importer<T> implements Runnable {
 
 	protected CodelistRepository repository;
 	protected LifecycleService lifecycleService;
+	protected Event<CodelistActionEvents.CodelistEvent> events;
 
 	protected Progress progress;
 	protected ImporterMapper<T> mapper;
@@ -75,6 +79,13 @@ public class Importer<T> implements Runnable {
 	}
 
 	/**
+	 * @param events the events to set
+	 */
+	public void setEvents(Event<CodelistActionEvents.CodelistEvent> events) {
+		this.events = events;
+	}
+
+	/**
 	 * @return the progress
 	 */
 	public Progress getProgress() {
@@ -111,6 +122,8 @@ public class Importer<T> implements Runnable {
 			logger.trace("adding codelist");
 			Codelist codelist = outcome.result();
 			repository.add(codelist);
+			
+			events.fire(new CodelistActionEvents.Import(codelist.id(), codelist.name(), codelist.version()));
 
 			State startState = metadata.isSealed()?DefaultLifecycleStates.sealed:DefaultLifecycleStates.draft;
 			lifecycleService.start(codelist.id(), startState);

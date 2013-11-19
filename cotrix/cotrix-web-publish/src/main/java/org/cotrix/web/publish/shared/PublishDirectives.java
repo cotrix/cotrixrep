@@ -38,7 +38,7 @@ public class PublishDirectives implements IsSerializable {
 	public void setCodelistId(String codelistId) {
 		this.codelistId = codelistId;
 	}
-	
+
 	/**
 	 * @return the metadata
 	 */

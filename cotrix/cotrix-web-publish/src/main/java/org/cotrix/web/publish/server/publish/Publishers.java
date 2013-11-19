@@ -3,8 +3,6 @@
  */
 package org.cotrix.web.publish.server.publish;
 
-import java.io.File;
-
 import javax.inject.Inject;
 
 import org.cotrix.io.SerialisationService.SerialisationDirectives;
@@ -48,7 +46,7 @@ public class Publishers {
 	@Inject
 	public PublishToDestination.CloudDestination cloudDestination;
 	
-	public Publisher<?, ?> createPublisher(PublishDirectives publishDirectives, PublishStatus publishStatus) {
+	public Publisher<?> createPublisher(PublishDirectives publishDirectives, PublishStatus publishStatus) {
 
 		switch (publishDirectives.getFormat()) {
 			case CSV: return createPublisher(csvMapper, csvDesktopProducer, publishDirectives, publishStatus);
@@ -57,10 +55,10 @@ public class Publishers {
 		throw new IllegalArgumentException("Unknown format "+publishDirectives.getFormat());
 	}
 	
-	protected <T> Publisher<T, ?> createPublisher(PublishMapper<T> mapper, SerializationDirectivesProducer<T> serDir, PublishDirectives publishDirectives, PublishStatus publishStatus) {
+	protected <T> Publisher<T> createPublisher(PublishMapper<T> mapper, SerializationDirectivesProducer<T> serDir, PublishDirectives publishDirectives, PublishStatus publishStatus) {
 		switch (publishDirectives.getDestination()) {
-			case FILE: return new Publisher<T, File>(publishDirectives, mapper, serDir, desktopDestination, publishStatus);
-			case CHANNEL: return new Publisher<T, Void>(publishDirectives, mapper, Publishers.<T>getEmptySerializationDirectivesProducer(), cloudDestination, publishStatus);
+			case FILE: return new Publisher<T>(publishDirectives, mapper, serDir, desktopDestination, publishStatus);
+			case CHANNEL: return new Publisher<T>(publishDirectives, mapper, Publishers.<T>getEmptySerializationDirectivesProducer(), cloudDestination, publishStatus);
 		}
 		throw new IllegalArgumentException("Unknown destination type "+publishDirectives.getDestination());
 	}

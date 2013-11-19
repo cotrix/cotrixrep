@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class Publisher<T, O> implements Runnable {
+public class Publisher<T> implements Runnable {
 
 	protected Logger logger = LoggerFactory.getLogger(Publisher.class);
 
@@ -28,7 +28,7 @@ public class Publisher<T, O> implements Runnable {
 
 	protected PublishMapper<T> mapper;
 	protected SerializationDirectivesProducer<T> serializationProducer;
-	protected PublishToDestination<O> destination;
+	protected PublishToDestination destination;
 
 	protected PublishStatus publishStatus;
 	protected Progress progress = new Progress();
@@ -43,7 +43,7 @@ public class Publisher<T, O> implements Runnable {
 	public Publisher(PublishDirectives publishDirectives,
 			PublishMapper<T> mapper,
 			SerializationDirectivesProducer<T> serializationProducer,
-			PublishToDestination<O> destination, PublishStatus publishStatus) {
+			PublishToDestination destination, PublishStatus publishStatus) {
 		this.publishDirectives = publishDirectives;
 		this.mapper = mapper;
 		this.serializationProducer = serializationProducer;
@@ -79,8 +79,7 @@ public class Publisher<T, O> implements Runnable {
 
 			logger.trace("serializing");
 			SerialisationDirectives<T> serialisationDirectives = serializationProducer.produce(publishDirectives);
-			O output = destination.publish(outcome.result(), serialisationDirectives, publishDirectives);
-			publishStatus.setPublishResult(output);
+			destination.publish(outcome.result(), serialisationDirectives, publishDirectives, publishStatus);
 
 			logger.info("publish complete");
 			progress.setStatus(Status.DONE);

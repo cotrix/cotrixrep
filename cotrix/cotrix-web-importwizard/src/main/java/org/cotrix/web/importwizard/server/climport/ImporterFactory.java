@@ -6,9 +6,11 @@ package org.cotrix.web.importwizard.server.climport;
 import java.io.IOException;
 import java.util.List;
 
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.io.CloudService;
 import org.cotrix.io.MapService;
 import org.cotrix.io.ParseService;
@@ -49,6 +51,10 @@ public class ImporterFactory {
 	
 	@Inject
 	protected CloudService cloud;
+	
+	@Inject
+	private Event<CodelistActionEvents.CodelistEvent> events;
+	
 
 	public Importer<?> createImporter(WizardImportSession session, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws IOException
 	{
@@ -66,6 +72,7 @@ public class ImporterFactory {
 		Importer<Table> importer = new Importer<Table>(source, mapper, metadata, mappings, mappingMode, session);
 		importer.setLifecycleService(lifecycleService);
 		importer.setRepository(repository);
+		importer.setEvents(events);
 		return importer;
 	}
 	
@@ -76,6 +83,7 @@ public class ImporterFactory {
 		Importer<CodelistBean> importer = new Importer<CodelistBean>(source, mapper, metadata, mappings, mappingMode, session);
 		importer.setLifecycleService(lifecycleService);
 		importer.setRepository(repository);
+		importer.setEvents(events);
 		return importer;
 	}
 	

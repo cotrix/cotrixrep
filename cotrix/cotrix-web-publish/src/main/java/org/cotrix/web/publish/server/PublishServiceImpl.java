@@ -155,7 +155,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		Codelist codelist = repository.lookup(publishDirectives.getCodelistId());
 		publishStatus.setPublishedCodelist(codelist);
 
-		Publisher<?, ?> publisher = publishers.createPublisher(publishDirectives, publishStatus);
+		Publisher<?> publisher = publishers.createPublisher(publishDirectives, publishStatus);
 		//FIXME use a service provider
 		Thread th = new Thread(publisher);
 		th.start();
