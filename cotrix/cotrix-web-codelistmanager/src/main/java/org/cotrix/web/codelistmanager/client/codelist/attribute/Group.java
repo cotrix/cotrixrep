@@ -19,6 +19,8 @@ public class Group implements Cloneable, Comparable<Group> {
 	protected String language;
 	protected int position;
 	
+	protected boolean isSystemGroup;
+	
 	protected String label;
 		
 	/**
@@ -26,13 +28,14 @@ public class Group implements Cloneable, Comparable<Group> {
 	 * @param type
 	 * @param language
 	 */
-	public Group(UIQName name, UIQName type, String language) {
+	public Group(UIQName name, UIQName type, String language, boolean isSystemGroup) {
 		this.name = name!=null?name.clone():null;
 		this.type = type!=null?type.clone():null;
 		this.language = language;
+		this.isSystemGroup = isSystemGroup;
 		createLabel();
 	}
-	
+
 	protected void createLabel()
 	{
 		StringBuilder labelBuilder = new StringBuilder();
@@ -73,6 +76,10 @@ public class Group implements Cloneable, Comparable<Group> {
 	public String getLabel()
 	{
 		return label;
+	}
+	
+	public boolean isSystemGroup() {
+		return isSystemGroup;
 	}
 	
 	public void calculatePosition(List<UIAttribute> attributes, UIAttribute attribute)
@@ -140,7 +147,7 @@ public class Group implements Cloneable, Comparable<Group> {
 	
 	public Group clone()
 	{
-		Group clone = new Group(name, type, language);
+		Group clone = new Group(name, type, language, isSystemGroup);
 		clone.setPosition(position);
 		return clone;
 	}
@@ -213,6 +220,8 @@ public class Group implements Cloneable, Comparable<Group> {
 		builder.append(language);
 		builder.append(", position=");
 		builder.append(position);
+		builder.append(", isSystemGroup=");
+		builder.append(isSystemGroup);
 		builder.append("]");
 		return builder.toString();
 	}

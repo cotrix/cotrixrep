@@ -75,6 +75,7 @@ public interface CotrixManagerResources extends ClientBundle {
 		String search();
 		String searchBackground();
 		String editor();
+		String systemProperty();
 	}
 
 }
