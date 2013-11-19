@@ -1,6 +1,7 @@
 package org.cotrix.web.client.view;
 
 import org.cotrix.web.share.client.util.FadeAnimation;
+import org.cotrix.web.share.client.util.FadeAnimation.Speed;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,7 +45,7 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	public void setStatus(String status)
 	{
 		this.status.setText(status);
-		statusAnimation.fadeOut();
+		statusAnimation.fadeOut(Speed.SLOW);
 	}
 
 	@UiHandler("login")

@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import org.cotrix.web.share.client.util.FadeAnimation;
+import org.cotrix.web.share.client.util.FadeAnimation.Speed;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -116,7 +117,7 @@ public class MenuViewImpl extends Composite implements MenuView {
 	public void makeAvailable(Menu menu) {
 		Label menuLabel = getLabel(menu);
 		FadeAnimation animation = new FadeAnimation(menuLabel.getElement());
-		animation.fadeIn(BASE_OPACITY);
+		animation.fadeIn(BASE_OPACITY, Speed.FAST);
 	}
 	
 	protected Label getLabel(Menu menu) {

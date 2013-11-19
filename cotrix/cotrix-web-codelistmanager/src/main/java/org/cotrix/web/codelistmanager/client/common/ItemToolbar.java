@@ -4,6 +4,7 @@
 package org.cotrix.web.codelistmanager.client.common;
 
 import org.cotrix.web.share.client.util.FadeAnimation;
+import org.cotrix.web.share.client.util.FadeAnimation.Speed;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -62,8 +63,8 @@ public class ItemToolbar extends Composite {
 	public void setVisible(ItemButton button, boolean visible)
 	{
 		switch (button) {
-			case MINUS: minusAnimation.setVisibility(visible); break;
-			case PLUS: minusAnimation.setVisibility(visible); break;
+			case MINUS: minusAnimation.setVisibility(visible, Speed.FAST); break;
+			case PLUS: minusAnimation.setVisibility(visible, Speed.FAST); break;
 		}
 	}
 	

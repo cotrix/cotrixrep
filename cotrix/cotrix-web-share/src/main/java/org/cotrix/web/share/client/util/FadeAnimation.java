@@ -19,6 +19,29 @@ import com.google.gwt.user.client.Element;
  */
 public class FadeAnimation extends Animation {
 	
+	public enum Speed {
+		VERY_FAST(500),
+		FAST(1000),
+		NORMAL(1500),
+		SLOW(2000);
+		
+		private int time;
+
+		/**
+		 * @param time
+		 */
+		private Speed(int time) {
+			this.time = time;
+		}
+
+		/**
+		 * @return the time
+		 */
+		public int getTime() {
+			return time;
+		}		
+	}
+	
 	private Element element;
 	private double opacityIncrement;
 	private double targetOpacity;
@@ -39,29 +62,29 @@ public class FadeAnimation extends Animation {
 		element.getStyle().setOpacity(targetOpacity);
 	}
 	
-	public void setVisibility(boolean visible)
+	public void setVisibility(boolean visible, Speed speed)
 	{
-		if (visible) fadeIn();
-		else fadeOut();
+		if (visible) fadeIn(speed);
+		else fadeOut(speed);
 	}
 	
-	public void fadeOut()
+	public void fadeOut(Speed speed)
 	{
 		cancel();
 		element.getStyle().setOpacity(1);
-		fade(2000, 0);
+		fade(speed.getTime(), 0);
 	}
 	
-	public void fadeIn()
+	public void fadeIn(Speed speed)
 	{
-		fadeIn(0);
+		fadeIn(0, speed);
 	}
 	
-	public void fadeIn(double startingOpacity)
+	public void fadeIn(double startingOpacity, Speed speed)
 	{
 		cancel();
 		element.getStyle().setOpacity(startingOpacity);
-		fade(2000, 1);
+		fade(speed.getTime(), 1);
 	}
 
 	public void fade(int duration, double targetOpacity) {
