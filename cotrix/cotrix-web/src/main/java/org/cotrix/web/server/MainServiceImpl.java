@@ -187,7 +187,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	}
 
 	@Override
-	public List<UINews> getNews() {
+	public List<UINews> getNews() throws MainServiceException {
 		List<UINews> news = new ArrayList<UINews>();
 	
 		for (NewsItem newsItem:newsService.news()) {

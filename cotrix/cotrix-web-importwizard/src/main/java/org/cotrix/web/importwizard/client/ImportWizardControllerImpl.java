@@ -34,6 +34,7 @@ import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.share.client.CotrixModule;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CodeListImportedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
@@ -216,7 +217,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 	protected void getCodeListType(final Callback<CodeListType, Void> callaback)
 	{
-		importService.getCodeListType(new AsyncCallback<CodeListType>() {
+		importService.getCodeListType(new ManagedFailureCallback<CodeListType>() {
 
 			@Override
 			public void onSuccess(CodeListType type) {
@@ -225,21 +226,12 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				callaback.onSuccess(type);
 			}
 
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Failed retrieving preview data", caught);
-			}
 		});
 	}
 
 	protected void getCsvParserConfiguration()
 	{
-		importService.getCsvParserConfiguration(new AsyncCallback<CsvConfiguration>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Error retrieving CSV Parser configuration", caught);
-			}
+		importService.getCsvParserConfiguration(new ManagedFailureCallback<CsvConfiguration>() {
 
 			@Override
 			public void onSuccess(CsvConfiguration result) {
@@ -251,13 +243,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 	protected void getMetadata()
 	{
-		importService.getMetadata(new AsyncCallback<ImportMetadata>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Error getting the Metadata", caught);
-
-			}
+		importService.getMetadata(new ManagedFailureCallback<ImportMetadata>() {
 
 			@Override
 			public void onSuccess(ImportMetadata result) {
@@ -292,12 +278,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected void startImport()
 	{
 		Log.trace("starting import");
-		importService.startImport(metadata, mappings, mappingMode, new AsyncCallback<Void>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Error starting the import", caught);
-			}
+		importService.startImport(metadata, mappings, mappingMode, new ManagedFailureCallback<Void>() {
 
 			@Override
 			public void onSuccess(Void result) {
@@ -310,12 +291,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 	protected void getImportProgress()
 	{
-		importService.getImportProgress(new AsyncCallback<Progress>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Error getting the import progress", caught);
-			}
+		importService.getImportProgress(new ManagedFailureCallback<Progress>() {
 
 			@Override
 			public void onSuccess(Progress result) {

@@ -7,13 +7,13 @@ import org.cotrix.web.importwizard.client.step.repositorydetails.RepositoryDetai
 import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.AssetDetails;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.wizard.event.NavigationEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -56,17 +56,12 @@ public class CodelistDetailsStepPresenterImpl extends AbstractVisualWizardStep i
 
 	public void setAsset(AssetInfo asset) {
 		Log.trace("getting asset details for "+asset);
-		importService.getAssetDetails(asset.getId(), new AsyncCallback<AssetDetails>() {
+		importService.getAssetDetails(asset.getId(), new ManagedFailureCallback<AssetDetails>() {
 			
 			@Override
 			public void onSuccess(AssetDetails result) {
 				view.setAssetDetails(result);
 				visualizedAsset = result;
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Failed loading asset details", caught);
 			}
 		});
 	}

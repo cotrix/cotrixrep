@@ -12,6 +12,7 @@ import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.HasGroupsChangedHandlers;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.util.CachedDataProvider;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.UICode;
@@ -20,7 +21,6 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
@@ -45,12 +45,7 @@ public class CodelistCodesProvider extends CachedDataProvider<UICode> implements
 
 		final Range range = display.getVisibleRange();
 		
-		managerService.getCodelistCodes(codelistId, range, new AsyncCallback<DataWindow<UICode>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Codelist retrieving failed", caught);
-			}
+		managerService.getCodelistCodes(codelistId, range, new ManagedFailureCallback<DataWindow<UICode>>() {
 
 			@Override
 			public void onSuccess(DataWindow<UICode> result) {

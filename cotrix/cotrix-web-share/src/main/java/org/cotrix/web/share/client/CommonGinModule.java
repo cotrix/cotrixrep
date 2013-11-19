@@ -1,6 +1,7 @@
 package org.cotrix.web.share.client;
 
 import org.cotrix.web.share.client.error.CallbackFailureListener;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.FeatureBus;
@@ -64,6 +65,7 @@ public class CommonGinModule extends AbstractGinModule {
 		requestStaticInjection(FeatureBinder.class);
 		requestStaticInjection(FeatureInterceptor.class);
 		requestStaticInjection(CallbackFailureListener.class);
+		requestStaticInjection(ManagedFailureCallback.class);
 		requestStaticInjection(CotrixRemoteServiceProxy.class);
 		requestStaticInjection(StatusUpdates.class);
 	}

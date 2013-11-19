@@ -7,13 +7,13 @@ import java.util.List;
 
 import org.cotrix.web.importwizard.client.ImportServiceAsync;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.DataWindow;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
@@ -72,7 +72,7 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 		boolean force = forceRefresh;
 		forceRefresh = false;
 		
-		importService.getAssets(range, sortInfo, force, new AsyncCallback<DataWindow<AssetInfo>>() {
+		importService.getAssets(range, sortInfo, force, new ManagedFailureCallback<DataWindow<AssetInfo>>() {
 			
 			@Override
 			public void onSuccess(DataWindow<AssetInfo> batch) {
@@ -80,12 +80,6 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 				Log.trace("loaded "+assets.size()+" assets");
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), assets);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				//TODO show the error to the user?
-				Log.error("An error occurred loading the assets", caught);
 			}
 		});
 	}

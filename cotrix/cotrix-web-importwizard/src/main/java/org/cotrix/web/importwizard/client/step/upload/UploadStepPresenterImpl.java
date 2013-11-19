@@ -7,6 +7,7 @@ import org.cotrix.web.importwizard.client.resources.ImportConstants;
 import org.cotrix.web.importwizard.client.step.TrackerLabels;
 import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
@@ -122,12 +123,7 @@ public class UploadStepPresenterImpl extends AbstractVisualWizardStep implements
 		fileName = file.getName();
 		view.setupUpload(fileName, file.getSize());
 		
-		importService.startUpload(new AsyncCallback<Void>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Error starting upload", caught);
-			}
+		importService.startUpload(new ManagedFailureCallback<Void>() {
 
 			@Override
 			public void onSuccess(Void result) {

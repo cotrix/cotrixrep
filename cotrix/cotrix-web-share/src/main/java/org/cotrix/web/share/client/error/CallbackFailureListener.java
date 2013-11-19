@@ -18,8 +18,8 @@ public class CallbackFailureListener implements CallBackListener {
 	
 	@Override
 	public boolean onFailure(Throwable caught) {
-		errorManager.rpcFailure(caught);
-		return false;
+		//errorManager.rpcFailure(caught);
+		return true;
 	}
 
 	@Override

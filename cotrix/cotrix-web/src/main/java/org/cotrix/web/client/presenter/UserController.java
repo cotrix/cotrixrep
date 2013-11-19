@@ -40,7 +40,7 @@ public class UserController {
 	protected EventBus cotrixBus;
 	protected List<String> openedCodelists = new ArrayList<String>();
 	
-	protected AsyncCallback<ResponseWrapper<String>> callback = AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
+	protected AsyncCallback<ResponseWrapper<String>> loginCallback = AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -128,7 +128,7 @@ public class UserController {
 	
 	protected void logGuest()
 	{
-		service.login(GUEST_USERNAME, GUEST_PASSWORD, openedCodelists, callback);
+		service.login(GUEST_USERNAME, GUEST_PASSWORD, openedCodelists, loginCallback);
 	}
 	
 	protected void logout()
@@ -138,7 +138,7 @@ public class UserController {
 	
 	protected void logUser(String username, String password)
 	{
-		service.login(username, password, openedCodelists, callback);
+		service.login(username, password, openedCodelists, loginCallback);
 	}
 	
 	protected void registerUser(String username, String password, String email)

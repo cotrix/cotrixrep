@@ -9,6 +9,7 @@ import org.cotrix.web.codelistmanager.client.data.DataSaverManager;
 import org.cotrix.web.codelistmanager.client.data.MetadataAttributeModifyGenerator;
 import org.cotrix.web.codelistmanager.client.data.MetadataModifyCommandGenerator;
 import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.feature.AsyncCallBackWrapper;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.HasFeature;
@@ -16,7 +17,6 @@ import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 
@@ -33,12 +33,7 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 	@Inject
 	protected DataSaverManager saverManager;
 	
-	protected AsyncCallback<FeatureCarrier.Void> callBack = new AsyncCallback<FeatureCarrier.Void>() {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Log.error("State not retrieved", caught);
-		}
+	protected ManagedFailureCallback<FeatureCarrier.Void> callBack = new ManagedFailureCallback<FeatureCarrier.Void>() {
 
 		@Override
 		public void onSuccess(FeatureCarrier.Void result) {
@@ -46,12 +41,7 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 		}
 	};
 	
-	protected AsyncCallBackWrapper<String> updateStateBack = AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Log.error("State not retrieved", caught);
-		}
+	protected AsyncCallBackWrapper<String> updateStateBack = AsyncCallBackWrapper.wrap(new ManagedFailureCallback<String>() {
 
 		@Override
 		public void onSuccess(String result) {
@@ -103,12 +93,7 @@ public class CodelistPanelPresenterImpl implements CodelistPanelPresenter {
 	
 	protected void loadState() {
 		view.getToolBar().showStateLoader(true);
-		service.getCodelistState(codelistId, AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("State not retrieved", caught);
-			}
+		service.getCodelistState(codelistId, AsyncCallBackWrapper.wrap(new ManagedFailureCallback<String>() {
 
 			@Override
 			public void onSuccess(String result) {

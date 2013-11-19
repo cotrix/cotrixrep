@@ -10,12 +10,12 @@ import org.cotrix.web.codelistmanager.client.manager.CodelistManagerPresenter;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.share.client.CotrixModule;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CodeListImportedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -70,18 +70,12 @@ public class CotrixManagerAppControllerImpl implements CotrixManagerAppControlle
 	
 	public void createNewVersion(String codelistId, String newVersion)
 	{
-		service.createNewCodelistVersion(codelistId, newVersion, new AsyncCallback<CodelistGroup>() {
+		service.createNewCodelistVersion(codelistId, newVersion, new ManagedFailureCallback<CodelistGroup>() {
 			
 			@Override
 			public void onSuccess(CodelistGroup result) {
 				managerBus.fireEvent(new OpenCodelistEvent(result.getVersions().get(0).toUICodelist()));
 				managerBus.fireEvent(new CodelistCreatedEvent(result));
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 	}

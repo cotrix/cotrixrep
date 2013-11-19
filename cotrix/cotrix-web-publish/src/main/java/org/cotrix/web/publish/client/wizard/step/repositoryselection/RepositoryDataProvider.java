@@ -7,13 +7,13 @@ import java.util.List;
 
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.shared.UIRepository;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.DataWindow;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
@@ -72,7 +72,7 @@ public class RepositoryDataProvider extends AsyncDataProvider<UIRepository> {
 		boolean force = forceRefresh;
 		forceRefresh = false;
 		
-		service.getRepositories(range, sortInfo, force, new AsyncCallback<DataWindow<UIRepository>>() {
+		service.getRepositories(range, sortInfo, force, new ManagedFailureCallback<DataWindow<UIRepository>>() {
 			
 			@Override
 			public void onSuccess(DataWindow<UIRepository> batch) {
@@ -80,12 +80,6 @@ public class RepositoryDataProvider extends AsyncDataProvider<UIRepository> {
 				Log.trace("loaded "+repositories.size()+" repositories");
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), repositories);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				//TODO show the error to the user?
-				Log.error("An error occurred loading the codelists", caught);
 			}
 		});
 	}

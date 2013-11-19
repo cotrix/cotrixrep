@@ -5,13 +5,13 @@ import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.step.TrackerLabels;
 import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.AssetInfo;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 import org.cotrix.web.share.shared.codelist.RepositoryDetails;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -50,16 +50,11 @@ public class RepositoryDetailsStepPresenterImpl extends AbstractVisualWizardStep
 
 	public void setRepository(String repositoryId) {
 		Log.trace("getting asset details for "+repositoryId);
-		importService.getRepositoryDetails(repositoryId, new AsyncCallback<RepositoryDetails>() {
+		importService.getRepositoryDetails(repositoryId, new ManagedFailureCallback<RepositoryDetails>() {
 			
 			@Override
 			public void onSuccess(RepositoryDetails result) {
 				view.setRepository(result);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Failed loading asset details", caught);
 			}
 		});
 	}
