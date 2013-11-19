@@ -17,7 +17,7 @@ public abstract class IgnoreFailureCallback<T> implements AsyncCallback<T> {
 	 */
 	@Override
 	public void onFailure(Throwable caught) {
-		Log.trace("RPC failed - IGNORE", caught);
+		Log.trace("RPC failuser IGNORED: "+caught.getMessage());
 	}
 
 }

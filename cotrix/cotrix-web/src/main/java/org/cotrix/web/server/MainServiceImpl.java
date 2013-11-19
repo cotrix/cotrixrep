@@ -32,9 +32,9 @@ import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
+import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
-import org.cotrix.web.shared.MainServiceException;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 import org.slf4j.Logger;
@@ -171,7 +171,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	}
 
 	@Override
-	public UIStatistics getStatistics() throws MainServiceException {
+	public UIStatistics getStatistics() throws ServiceException {
 		try {
 			Statistics statistics = statisticsService.statistics();
 			UIStatistics uiStatistics = new UIStatistics();
@@ -182,12 +182,12 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			return uiStatistics;
 		} catch(Exception e) {
 			logger.error("Error getting statistics", e);
-			throw new MainServiceException("Error getting statistics: "+e.getMessage());
+			throw new ServiceException("Error getting statistics: "+e.getMessage());
 		}
 	}
 
 	@Override
-	public List<UINews> getNews() throws MainServiceException {
+	public List<UINews> getNews() throws ServiceException {
 		List<UINews> news = new ArrayList<UINews>();
 	
 		for (NewsItem newsItem:newsService.news()) {

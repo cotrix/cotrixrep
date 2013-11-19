@@ -8,7 +8,6 @@ import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
-import org.cotrix.web.importwizard.shared.ImportServiceException;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.MappingMode;
 import org.cotrix.web.share.shared.ColumnSortInfo;
@@ -17,6 +16,7 @@ import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.Progress;
 import org.cotrix.web.share.shared.ReportLog;
 import org.cotrix.web.share.shared.codelist.RepositoryDetails;
+import org.cotrix.web.share.shared.exception.ServiceException;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -28,32 +28,32 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("importService")
 public interface ImportService extends RemoteService {
 	
-	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ImportServiceException;
+	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ServiceException;
 	
-	public AssetDetails getAssetDetails(String assetId) throws ImportServiceException;
+	public AssetDetails getAssetDetails(String assetId) throws ServiceException;
 	
-	public RepositoryDetails getRepositoryDetails(String repositoryId) throws ImportServiceException;
+	public RepositoryDetails getRepositoryDetails(String repositoryId) throws ServiceException;
 	
-	public void setAsset(String assetId) throws ImportServiceException;
+	public void setAsset(String assetId) throws ServiceException;
 	
-	public void startUpload() throws ImportServiceException;
+	public void startUpload() throws ServiceException;
 	
-	public FileUploadProgress getUploadProgress() throws ImportServiceException;
+	public FileUploadProgress getUploadProgress() throws ServiceException;
 	
-	public PreviewData getCsvPreviewData(CsvConfiguration configuration) throws ImportServiceException;
+	public PreviewData getCsvPreviewData(CsvConfiguration configuration) throws ServiceException;
 	
-	public CodeListType getCodeListType() throws ImportServiceException;
+	public CodeListType getCodeListType() throws ServiceException;
 	
-	public ImportMetadata getMetadata() throws ImportServiceException;
+	public ImportMetadata getMetadata() throws ServiceException;
 	
-	public CsvConfiguration getCsvParserConfiguration() throws ImportServiceException;
+	public CsvConfiguration getCsvParserConfiguration() throws ServiceException;
 	
-	public List<AttributeMapping> getMappings() throws ImportServiceException;
+	public List<AttributeMapping> getMappings() throws ServiceException;
 	
-	public void startImport(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ImportServiceException;
+	public void startImport(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ServiceException;
 	
-	public Progress getImportProgress() throws ImportServiceException;
+	public Progress getImportProgress() throws ServiceException;
 	
-	public DataWindow<ReportLog> getReportLogs(Range range) throws ImportServiceException;
+	public DataWindow<ReportLog> getReportLogs(Range range) throws ServiceException;
 	
 }

@@ -3,22 +3,19 @@
  */
 package org.cotrix.web.share.client.error;
 
-import javax.inject.Inject;
-
 import org.cotrix.web.share.client.rpc.CallBackListener;
+
+import com.allen_sauer.gwt.log.client.Log;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CallbackFailureListener implements CallBackListener {
-
-	@Inject
-	protected static ErrorManager errorManager;
+public class CallbackFailureLogger implements CallBackListener {
 	
 	@Override
 	public boolean onFailure(Throwable caught) {
-		//errorManager.rpcFailure(caught);
+		Log.error("RPC error", caught);
 		return true;
 	}
 

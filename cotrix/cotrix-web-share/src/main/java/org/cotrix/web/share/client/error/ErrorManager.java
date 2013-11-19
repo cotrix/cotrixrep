@@ -16,7 +16,7 @@ public class ErrorManager {
 
 	public void rpcFailure(Throwable throwable) {
 		String details = getPrintStackTrace(throwable);
-		AlertDialog.INSTANCE.center("Ooops an error occurred during server communications", details);
+		AlertDialog.INSTANCE.center("Ooops an error occurred on server side", details);
 	}
 
 	protected String getPrintStackTrace(Throwable throwable) {

@@ -2,8 +2,8 @@ package org.cotrix.web.client;
 
 import java.util.List;
 
+import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
-import org.cotrix.web.shared.MainServiceException;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 
@@ -22,8 +22,8 @@ public interface MainService extends RemoteService {
 	public ResponseWrapper<String> logout(List<String> openCodelists);
 	public ResponseWrapper<String> registerUser(String username, String password, String email);
 	
-	public UIStatistics getStatistics() throws MainServiceException;
+	public UIStatistics getStatistics() throws ServiceException;
 	
-	public List<UINews> getNews() throws MainServiceException;
+	public List<UINews> getNews() throws ServiceException;
 	
 }

@@ -28,7 +28,6 @@ import org.cotrix.repository.query.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.modify.ModifyCommandHandler;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
-import org.cotrix.web.codelistmanager.shared.ManagerServiceException;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
@@ -43,6 +42,7 @@ import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
+import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
 import org.slf4j.Logger;
@@ -109,7 +109,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	
 	@Override
-	public DataWindow<CodelistGroup> getCodelistsGrouped() throws ManagerServiceException {
+	public DataWindow<CodelistGroup> getCodelistsGrouped() throws ServiceException {
 		logger.trace("getCodelistsGrouped");
 		
 		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
@@ -132,7 +132,7 @@ public class ManagerServiceImpl implements ManagerService {
 
 	@Override
 	@CodelistTask(VIEW)
-	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range) throws ManagerServiceException {
+	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range) throws ServiceException {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
 		
 		CodelistQuery<Code> query = allCodes(codelistId);
@@ -160,7 +160,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public UICodelistMetadata getMetadata(@Id String codelistId) throws ManagerServiceException {
+	public UICodelistMetadata getMetadata(@Id String codelistId) throws ServiceException {
 		logger.trace("getMetadata codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
 		return Codelists.toCodelistMetadata(codelist);
@@ -168,37 +168,37 @@ public class ManagerServiceImpl implements ManagerService {
 
 	@Override
 	@CodelistTask(LOCK)
-	public FeatureCarrier.Void  lock(@Id String codelistId) throws ManagerServiceException {
+	public FeatureCarrier.Void  lock(@Id String codelistId) throws ServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@CodelistTask(UNLOCK)
-	public FeatureCarrier.Void  unlock(@Id String codelistId) throws ManagerServiceException {
+	public FeatureCarrier.Void  unlock(@Id String codelistId) throws ServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@CodelistTask(SEAL)
-	public FeatureCarrier.Void  seal(@Id String codelistId) throws ManagerServiceException {
+	public FeatureCarrier.Void  seal(@Id String codelistId) throws ServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@CodelistTask(EDIT)
-	public ModifyCommandResult modify(@Id String codelistId, ModifyCommand command) throws ManagerServiceException {
+	public ModifyCommandResult modify(@Id String codelistId, ModifyCommand command) throws ServiceException {
 		try {
 		return commandHandler.handle(codelistId, command);
 		} catch(Throwable throwable)
 		{
 			logger.error("Error executing command "+command+" on codelist "+codelistId, throwable);
-			throw new ManagerServiceException(throwable.getMessage());
+			throw new ServiceException(throwable.getMessage());
 		}
 	}
 
 	@Override
 	@CodelistTask(EDIT)
-	public void removeCodelist(String codelistId) throws ManagerServiceException {
+	public void removeCodelist(String codelistId) throws ServiceException {
 		logger.trace("removeCodelist codelistId: {}",codelistId);
 		repository.remove(codelistId);
 	}
@@ -206,7 +206,7 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	@CodelistTask(VERSION)
 	public CodelistGroup createNewCodelistVersion(@Id String codelistId, String newVersion)
-			throws ManagerServiceException {
+			throws ServiceException {
 		Codelist codelist = repository.lookup(codelistId);
 		Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
 		repository.add(newCodelist);
@@ -223,7 +223,7 @@ public class ManagerServiceImpl implements ManagerService {
 
 	@Override
 	@CodelistTask(VIEW)
-	public ResponseWrapper<String> getCodelistState(@Id String codelistId) throws ManagerServiceException {
+	public ResponseWrapper<String> getCodelistState(@Id String codelistId) throws ServiceException {
 		logger.trace("getCodelistState codelistId: {}",codelistId);
 		Lifecycle lifecycle = lifecycleService.lifecycleOf(codelistId);
 		String state = lifecycle.state().toString();
