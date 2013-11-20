@@ -10,8 +10,7 @@ public enum GuestAction implements Action {
 
 
 	LOGIN("login"),
-	SIGN("sign-in"),
-	CONFIRM("confim-sign-in")
+	SIGNUP("signup")
 	;
 	
 	protected Action inner;
