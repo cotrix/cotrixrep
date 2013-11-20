@@ -12,6 +12,7 @@ import org.cotrix.web.share.shared.feature.UIFeature;
  */
 public enum AuthenticationFeature implements UIFeature {
 	
+	CAN_REGISTER,
 	CAN_LOGIN,
 	CAN_LOGOUT;
 

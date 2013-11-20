@@ -20,6 +20,7 @@ import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.publish.shared.UIRepository;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.wizard.WizardAction;
 import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
 import org.cotrix.web.share.shared.CsvConfiguration;
@@ -171,12 +172,7 @@ public class PublishTask implements TaskWizardStep {
 		
 		Log.trace("PublishDirectives: "+directives);
 		
-		service.startPublish(directives, new AsyncCallback<Void>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("publication start failed", caught);
-			}
+		service.startPublish(directives, new ManagedFailureCallback<Void>() {
 
 			@Override
 			public void onSuccess(Void result) {
@@ -188,12 +184,7 @@ public class PublishTask implements TaskWizardStep {
 	
 	protected void getPublishProgress()
 	{
-		service.getPublishProgress(new AsyncCallback<Progress>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Error getting the import progress", caught);
-			}
+		service.getPublishProgress(new ManagedFailureCallback<Progress>() {
 
 			@Override
 			public void onSuccess(Progress result) {

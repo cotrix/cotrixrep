@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.cotrix.web.codelistmanager.client.util.Attributes;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
 import org.cotrix.web.share.shared.codelist.UIQName;
@@ -86,7 +87,8 @@ public class GroupFactory {
 	
 	public static Group getGroup(UIAttribute attribute)
 	{
-		return new Group(attribute.getName(), null, attribute.getLanguage());
+		boolean isSystemGroup = Attributes.isSystemAttribute(attribute);
+		return new Group(attribute.getName(), null, attribute.getLanguage(), isSystemGroup);
 	}
 	
 	public static Group getGroup(UIAttribute attribute, AttributeField ... attributeFields)
@@ -94,7 +96,8 @@ public class GroupFactory {
 		UIQName name = contains(AttributeField.NAME, attributeFields)?attribute.getName():null;
 		UIQName type = contains(AttributeField.TYPE, attributeFields)?attribute.getType():null;
 		String language = contains(AttributeField.LANGUAGE, attributeFields)?attribute.getLanguage():null;
-		Group group = new Group(name, type, language);
+		boolean isSystemGroup = Attributes.isSystemAttribute(attribute);
+		Group group = new Group(name, type, language, isSystemGroup);
 		return group;
 	}
 	

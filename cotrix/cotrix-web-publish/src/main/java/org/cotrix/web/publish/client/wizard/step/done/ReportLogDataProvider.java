@@ -6,11 +6,11 @@ package org.cotrix.web.publish.client.wizard.step.done;
 import java.util.List;
 
 import org.cotrix.web.publish.client.PublishServiceAsync;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.ReportLog;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
@@ -35,7 +35,7 @@ public class ReportLogDataProvider extends AsyncDataProvider<ReportLog> {
 	protected void onRangeChanged(HasData<ReportLog> display) {
 		final Range range = display.getVisibleRange();
 		Log.trace("onRangeChanged range: "+range);
-		importService.getReportLogs(range, new AsyncCallback<DataWindow<ReportLog>>() {
+		importService.getReportLogs(range, new ManagedFailureCallback<DataWindow<ReportLog>>() {
 			
 			@Override
 			public void onSuccess(DataWindow<ReportLog> batch) {
@@ -43,12 +43,6 @@ public class ReportLogDataProvider extends AsyncDataProvider<ReportLog> {
 				Log.trace("loaded "+logs.size()+" logs");
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), logs);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				//TODO show the error to the user?
-				Log.error("An error occurred loading the logs", caught);
 			}
 		});
 	}

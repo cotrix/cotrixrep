@@ -3,7 +3,7 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
 		field="resources" />
-	<ui:style>
+	<ui:style type="org.cotrix.web.client.view.RegisterDialog.Style">
 		.box {
 			-moz-box-shadow: 0 0 7px 7px #999;
 			-webkit-box-shadow: 0 0 7px 7px #999;
@@ -11,7 +11,7 @@
 			background-color: #fff;
 			border-radius: 5px;
 			width: 300px;
-			height: 300px;
+			height: 360px;
 			padding: 20px;
 		}
 		
@@ -30,7 +30,6 @@
 			color: #64a1e0;
 			font-size: 15px;
 			text-decoration: none;
-			cursor: pointer;
 		}
 		
 		.term {
@@ -77,14 +76,18 @@
 			cursor: pointer;
 			outline: none;
 		}
+		
+		.invalidValue {
+			border-color: #B80000;
+		}
+		
 	</ui:style>
 	<g:HTMLPanel styleName="{style.box}">
 		<div class="{style.title}">
-			Log in
+			Register
 		</div>
 		<div class="{style.subtitle}">
-			<g:InlineLabel styleName="{style.register}" ui:field="register">Create</g:InlineLabel>
-			an account
+			Create an account
 		</div>
 		<div class="{style.textfield}">
 			<div>Username</div>
@@ -96,7 +99,11 @@
 				ui:field="password" />
 		</div>
 		<div class="{style.textfield}">
-			<g:Button ui:field="login" styleName="{style.submit}">Submit</g:Button>
+			<div>E-mail</div>
+			<g:TextBox styleName="{style.textbox}" ui:field="email" />
+		</div>
+		<div class="{style.textfield}">
+			<g:Button ui:field="create" styleName="{style.submit}">Create</g:Button>
 		</div>
 	</g:HTMLPanel>
 

@@ -6,7 +6,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -26,6 +25,7 @@ public class LoginDialog extends PopupPanel {
 	
 	public interface LoginDialogListener {
 		public void onLogin(String username, String password);
+		public void onRegister();
 		public void onCancel();
 	}
 	
@@ -41,25 +41,25 @@ public class LoginDialog extends PopupPanel {
 		this.listener = listener;
 		setWidget(binder.createAndBindUi(this));
 		setAutoHideEnabled(true);
-		
-		KeyDownHandler enterHandler = new KeyDownHandler() {
-
-		    @Override
-		    public void onKeyDown(KeyDownEvent event) {
-		     if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-		    	 doLogin();
-		      }
-		    }
-		};
-		
-		username.addKeyDownHandler(enterHandler);
-		password.addKeyDownHandler(enterHandler);
+	}
+	
+	@UiHandler({"username","password"})
+	protected void onKeyDown(KeyDownEvent event)
+	{
+		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+			 doLogin();
+	     }
 	}
 	
 	@UiHandler("login")
 	protected void onLogin(ClickEvent clickEvent)
 	{
 		doLogin();
+	}
+	
+	@UiHandler("register")
+	protected void onRegister(ClickEvent clickEvent) {
+		listener.onRegister();
 	}
 	
 	protected void doLogin() {
@@ -81,5 +81,9 @@ public class LoginDialog extends PopupPanel {
 		});
 	}
 
+	public void clean() {
+		username.setText("");
+		password.setText("");
+	}
 	
 }

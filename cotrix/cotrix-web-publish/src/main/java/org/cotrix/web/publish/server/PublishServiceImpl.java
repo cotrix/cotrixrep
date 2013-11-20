@@ -21,7 +21,6 @@ import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishDirectives;
-import org.cotrix.web.publish.shared.PublishServiceException;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
@@ -37,6 +36,7 @@ import org.cotrix.web.share.shared.codelist.RepositoryDetails;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIQName;
+import org.cotrix.web.share.shared.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.RepositoryService;
@@ -96,7 +96,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	}
 
 	@Override
-	public UICodelistMetadata getMetadata(String codelistId) throws PublishServiceException {
+	public UICodelistMetadata getMetadata(String codelistId) throws ServiceException {
 		logger.trace("getMetadata codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
 		UICodelist uiCodelist = session.getUiCodelist(codelistId);
@@ -108,7 +108,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CsvConfiguration getCsvWriterConfiguration(String codelistid) throws PublishServiceException {
+	public CsvConfiguration getCsvWriterConfiguration(String codelistid) throws ServiceException {
 		try {
 			CsvConfiguration configuration = new CsvConfiguration();
 			configuration.setAvailablesCharset(Encodings.getEncodings());
@@ -121,12 +121,12 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		} catch(Exception e)
 		{
 			logger.error("An error occurred on server side", e);
-			throw new PublishServiceException("An error occurred on server side: "+e.getMessage());
+			throw new ServiceException("An error occurred on server side: "+e.getMessage());
 		}
 	}
 
 	@Override
-	public List<AttributeMapping> getMappings(String codelistId, Destination destination, Format type) throws PublishServiceException {
+	public List<AttributeMapping> getMappings(String codelistId, Destination destination, Format type) throws ServiceException {
 		logger.trace("getMappings codelistId{} destination {} type {}", codelistId, destination, type);
 
 		CodelistSummary summary = repository.summary(codelistId);
@@ -146,7 +146,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	}
 
 	@Override
-	public void startPublish(PublishDirectives publishDirectives) throws PublishServiceException {
+	public void startPublish(PublishDirectives publishDirectives) throws ServiceException {
 		logger.trace("startPublish publishDirectives: {}", publishDirectives);
 
 		PublishStatus publishStatus = new PublishStatus();
@@ -163,25 +163,25 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 
 
 	@Override
-	public Progress getPublishProgress() throws PublishServiceException {
+	public Progress getPublishProgress() throws ServiceException {
 		try {
 			return session.getPublishStatus().getProgress();
 		} catch(Exception e)
 		{
 			logger.error("An error occurred on server side", e);
-			throw new PublishServiceException("An error occurred on server side: "+e.getMessage());
+			throw new ServiceException("An error occurred on server side: "+e.getMessage());
 		}
 	}
 
 	@Override
-	public DataWindow<ReportLog> getReportLogs(Range range) throws PublishServiceException {
+	public DataWindow<ReportLog> getReportLogs(Range range) throws ServiceException {
 		logger.trace("getReportLogs range: {}",range);
 		if (session.getPublishStatus() == null || session.getPublishStatus().getReportLogs() == null) return DataWindow.emptyWindow();
 		return new DataWindow<ReportLog>(Ranges.subList(session.getPublishStatus().getReportLogs(), range), session.getPublishStatus().getReportLogs().size());
 	}
 
 	@Override
-	public DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, boolean force)	throws PublishServiceException {
+	public DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, boolean force)	throws ServiceException {
 		logger.trace("getRepositories range: {} sortInfo: {} force: {}", range, sortInfo, force);
 
 		if (force) session.loadRepositories();
@@ -196,7 +196,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		return new DataWindow<T>(dataWindow, data.size());
 	}
 
-	public RepositoryDetails getRepositoryDetails(UIQName id) throws PublishServiceException
+	public RepositoryDetails getRepositoryDetails(UIQName id) throws ServiceException
 	{
 		logger.trace("getRepositoryDetails id: {} ", id);
 		RepositoryService repository = session.getRepositoryService(id);

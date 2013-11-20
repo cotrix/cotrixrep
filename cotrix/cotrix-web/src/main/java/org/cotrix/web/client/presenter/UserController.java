@@ -11,13 +11,18 @@ import org.cotrix.web.client.event.UserLoggedEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLoginEvent.UserLoginHandler;
 import org.cotrix.web.client.event.UserLogoutEvent;
+import org.cotrix.web.client.event.UserRegisterEvent;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CodelistClosedEvent;
 import org.cotrix.web.share.client.event.CodelistOpenedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 import org.cotrix.web.share.client.feature.AsyncCallBackWrapper;
+import org.cotrix.web.share.client.rpc.Nop;
+import org.cotrix.web.share.client.util.Exceptions;
+import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
+import org.cotrix.web.shared.UnknownUserException;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Scheduler;
@@ -38,11 +43,14 @@ public class UserController {
 	protected EventBus cotrixBus;
 	protected List<String> openedCodelists = new ArrayList<String>();
 	
-	protected AsyncCallback<ResponseWrapper<String>> callback = AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
+	protected AsyncCallback<ResponseWrapper<String>> loginCallback = AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			Log.error("Login failed", caught);
+			if (caught instanceof UnknownUserException) {
+				AlertDialog.INSTANCE.center("Unknown user please check you credentials and re-try.", Exceptions.getPrintStackTrace(caught));
+			}
 		}
 
 		@Override
@@ -114,12 +122,19 @@ public class UserController {
 				openedCodelists.remove(event.getCodelistid());
 			}
 		});
+		cotrixBus.addHandler(UserRegisterEvent.TYPE, new UserRegisterEvent.UserRegisterHandler() {
+			
+			@Override
+			public void onUserRegister(UserRegisterEvent event) {
+				registerUser(event.getUsername(), event.getPassword(), event.getEmail());
+			}
+		});
 	}
 	
 	
 	protected void logGuest()
 	{
-		service.login(GUEST_USERNAME, GUEST_PASSWORD, openedCodelists, callback);
+		service.login(GUEST_USERNAME, GUEST_PASSWORD, openedCodelists, loginCallback);
 	}
 	
 	protected void logout()
@@ -129,7 +144,12 @@ public class UserController {
 	
 	protected void logUser(String username, String password)
 	{
-		service.login(username, password, openedCodelists, callback);
+		service.login(username, password, openedCodelists, loginCallback);
+	}
+	
+	protected void registerUser(String username, String password, String email)
+	{
+		service.registerUser(username, password, email, Nop.<ResponseWrapper<String>>getInstance());
 	}
 
 }

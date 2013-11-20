@@ -31,6 +31,20 @@ public class StyledSafeHtmlRenderer implements SafeHtmlRenderer<String> {
 		this.style = style;
 	}
 
+	/**
+	 * @return the style
+	 */
+	public String getStyle() {
+		return style;
+	}
+
+	/**
+	 * @param style the style to set
+	 */
+	public void setStyle(String style) {
+		this.style = style;
+	}
+
 	@Override
 	public SafeHtml render(String object) {
 		return (object == null) ? SafeHtmlUtils.EMPTY_SAFE_HTML :  template.styled(SafeHtmlUtils.fromString(object), style);

@@ -129,9 +129,9 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 
 	private static Template template;
 
-	private final SafeHtmlRenderer<String> renderer;
+	private final StyledSafeHtmlRenderer renderer;
 
-	protected boolean editable;
+	protected boolean readOnly;
 	protected String editorStyle;
 
 	/**
@@ -139,7 +139,7 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 	 * {@link SimpleSafeHtmlRenderer}.
 	 */
 	public DoubleClickEditTextCell(String editorStyle) {
-		this(editorStyle, SimpleSafeHtmlRenderer.getInstance());
+		this(editorStyle, new StyledSafeHtmlRenderer(editorStyle));
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 	 * @param renderer
 	 *            a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
 	 */
-	public DoubleClickEditTextCell(String editorStyle, SafeHtmlRenderer<String> renderer) {
+	public DoubleClickEditTextCell(String editorStyle, StyledSafeHtmlRenderer renderer) {
 		super(DBLCLICK, KEYUP, KEYDOWN, BLUR);
 		if (template == null) {
 			template = GWT.create(Template.class);
@@ -158,22 +158,22 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 			throw new IllegalArgumentException("The renderer is null");
 		}
 		this.renderer = renderer;
-		editable = true;
+		readOnly = true;
 		this.editorStyle = editorStyle;
 	}
 
 	/**
 	 * @return the editable
 	 */
-	public boolean isEditable() {
-		return editable;
+	public boolean isReadOnly() {
+		return readOnly;
 	}
 
 	/**
-	 * @param editable the editable to set
+	 * @param readOnly the editable to set
 	 */
-	public void setEditable(boolean editable) {
-		this.editable = editable;
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
 	}
 
 	@Override
@@ -192,7 +192,7 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 			editEvent(context, parent, value, viewData, event, valueUpdater);
 		} else {
 
-			if (editable) {
+			if (!readOnly) {
 				String type = event.getType();
 				int keyCode = event.getKeyCode();
 				boolean enterPressed = KEYUP.equals(type)

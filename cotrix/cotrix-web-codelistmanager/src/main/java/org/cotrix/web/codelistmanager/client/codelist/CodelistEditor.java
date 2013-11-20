@@ -123,7 +123,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected Set<Group> groupsAsColumn = new HashSet<Group>();
 	protected Map<Group, Column<UICode, String>> groupsColumns = new HashMap<Group, Column<UICode,String>>(); 
 	protected Map<String, Column<UICode, String>> switchesColumns = new HashMap<String, Column<UICode,String>>(); 
-	protected List<DoubleClickEditTextCell> cells = new ArrayList<DoubleClickEditTextCell>();
+	protected List<DoubleClickEditTextCell> editableCells = new ArrayList<DoubleClickEditTextCell>();
 	protected boolean editable = true;
 
 	private Column<UICode, String> nameColumn;
@@ -140,6 +140,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected DataEditor<CodeAttribute> attributeEditor;
 	
 	protected StyledSafeHtmlRenderer cellRenderer;
+	protected StyledSafeHtmlRenderer systemAttributeCell = new StyledSafeHtmlRenderer(CotrixManagerResources.INSTANCE.css().systemProperty());
 
 	@Inject
 	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider) {
@@ -184,7 +185,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	}
 
 	protected void setupColumns() {
-		nameColumn = new Column<UICode, String>(createCell()) {
+		nameColumn = new Column<UICode, String>(createCell(false)) {
 			@Override
 			public String getValue(UICode object) {
 				if (object == null) return "";
@@ -220,15 +221,17 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	public void setEditable(boolean editable)
 	{
 		this.editable = editable;
-		for (DoubleClickEditTextCell cell:cells) cell.setEditable(editable);
+		for (DoubleClickEditTextCell cell:editableCells) cell.setReadOnly(!editable);
 	}
 
-	protected DoubleClickEditTextCell createCell()
+	protected DoubleClickEditTextCell createCell(boolean isSystemAttribute)
 	{
 		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + CotrixManagerResources.INSTANCE.css().editor();
-		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, cellRenderer);
-		cell.setEditable(editable);
-		cells.add(cell);
+		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, isSystemAttribute?systemAttributeCell:cellRenderer);
+		if (!isSystemAttribute) {
+			cell.setReadOnly(!editable);
+			editableCells.add(cell);
+		}
 		return cell;
 	}
 
@@ -318,9 +321,10 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 	protected Column<UICode, String> getGroupColumn(final Group group)
 	{
+		Log.trace("getGroupColumn group: "+group);
 		Column<UICode, String> column = groupsColumns.get(group);
 		if (column == null) {
-			column = new Column<UICode, String>(createCell()) {
+			column = new Column<UICode, String>(createCell(group.isSystemGroup())) {
 
 				@Override
 				public String getValue(UICode row) {

@@ -29,6 +29,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEven
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.HasAttributeChangedHandlers;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.codelistmanager.client.util.Attributes;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.util.EventUtil;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
@@ -79,26 +80,26 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 	interface DataGridStyle extends PatchedDataGrid.Style {
 		String emptyTableWidget();
-		
+
 		String expansionTable();
-		
+
 		String expansionHeader();
-		
+
 		String expansionValue();
-		
+
 		String expansionValueText();
 	}
 
 	PatchedDataGrid<UIAttribute> dataGrid;
-	
+
 	protected static DataGridResources gridResource = GWT.create(DataGridResources.class);
 
 	private final Set<String> showExpanded = new HashSet<String>();
 
 	protected Map<String, EnumMap<AttributeField, Column<UIAttribute, String>>> attributesPropertiesColumns = new HashMap<String, EnumMap<AttributeField,Column<UIAttribute,String>>>();
-	protected List<DoubleClickEditTextCell> cells = new ArrayList<DoubleClickEditTextCell>();
+	protected List<DoubleClickEditTextCell> editableCells = new ArrayList<DoubleClickEditTextCell>();
 	protected boolean editable = true;
-	
+
 	private Column<UIAttribute, String> attributeNameColumn;
 
 	private ListDataProvider<UIAttribute> dataProvider;
@@ -106,20 +107,21 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 	private Header<String> header;
 
 	protected SingleSelectionModel<UIAttribute> selectionModel;
-	
+
 	protected StyledSafeHtmlRenderer cellRenderer;
+	protected StyledSafeHtmlRenderer systemAttributeCell = new StyledSafeHtmlRenderer(CotrixManagerResources.INSTANCE.css().systemProperty());
 
 	public AttributesGrid(ListDataProvider<UIAttribute> dataProvider, Header<String> header, String emptyMessage) {
-		
+
 		this.dataProvider = dataProvider;
 		this.header = header;
 
 		cellRenderer = new StyledSafeHtmlRenderer(gridResource.dataGridStyle().expansionValueText());
 		dataGrid = new PatchedDataGrid<UIAttribute>(20, gridResource);
-		
+
 		//We need to listen dbclick events in order to enable editing
 		EventUtil.sinkEvents(dataGrid, Collections.singleton(BrowserEvents.DBLCLICK));
-		
+
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		Label emptyTableWidget = new Label(emptyMessage);
 		emptyTableWidget.setStyleName(gridResource.dataGridStyle().emptyTableWidget());
@@ -136,9 +138,9 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		dataProvider.addDataDisplay(dataGrid);
 
 		initWidget(dataGrid);
-		
+
 	}
-	
+
 	private void setupColumns() {
 
 		attributeNameColumn = new Column<UIAttribute, String>(new ClickableTextCell()) {
@@ -167,38 +169,40 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 		dataGrid.addColumn(attributeNameColumn, header);
 	}
-	
+
 	public UIAttribute getSelectedAttribute()
 	{
 		return selectionModel.getSelectedObject();
 	}
-	
+
 	public void setEditable(boolean editable)
 	{
 		this.editable = editable;
-		for (DoubleClickEditTextCell cell:cells) cell.setEditable(editable);
+		for (DoubleClickEditTextCell cell:editableCells) cell.setReadOnly(!editable);
 	}
 
-	protected DoubleClickEditTextCell createCell()
+	protected DoubleClickEditTextCell createCell(boolean isSystemAttribute)
 	{
 		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + CotrixManagerResources.INSTANCE.css().editor();
-		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, cellRenderer);
-		cell.setEditable(editable);
-		cells.add(cell);
+		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, isSystemAttribute?systemAttributeCell:cellRenderer);
+		if (!isSystemAttribute) {
+			cell.setReadOnly(!editable);
+			editableCells.add(cell);
+		}
 		return cell;
 	}
-	
-	protected Column<UIAttribute, String> getAttributePropertyColumn(final String name, final AttributeField field)
+
+	protected Column<UIAttribute, String> getAttributePropertyColumn(final String name, boolean isSystemAttribute, final AttributeField field)
 	{
 		EnumMap<AttributeField, Column<UIAttribute, String>> attributePropertiesColumns = attributesPropertiesColumns.get(name);
 		if (attributePropertiesColumns == null) {
 			attributePropertiesColumns = new EnumMap<AttributeField, Column<UIAttribute,String>>(AttributeField.class);
 			attributesPropertiesColumns.put(name, attributePropertiesColumns);
 		}
-		
+
 		Column<UIAttribute, String> column = attributePropertiesColumns.get(field);
 		if (column == null) {
-			column = new Column<UIAttribute, String>(createCell()) {
+			column = new Column<UIAttribute, String>(createCell(isSystemAttribute)) {
 
 				@Override
 				public String getValue(UIAttribute attribute) {
@@ -212,7 +216,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 					}
 				}
 			};
-			
+
 			column.setFieldUpdater(new FieldUpdater<UIAttribute, String>() {
 
 				@Override
@@ -227,7 +231,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 					AttributeChangedEvent.fire(AttributesGrid.this, attribute);
 				}
 			});
-			
+
 			attributePropertiesColumns.put(field, column);
 		}
 		return column;
@@ -243,7 +247,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 			dataProvider.refresh();
 		} else Log.warn("attribute "+attribute+" not found in data provider");
 	}
-	
+
 	public void expand(UIAttribute attribute)
 	{
 		showExpanded.add(attribute.getId());
@@ -327,7 +331,8 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 			addCell(tr, label);
 
-			Column<UIAttribute, String> propColumn = getAttributePropertyColumn(attribute.getName().getLocalPart(), field);
+			boolean isSystemAttribute = Attributes.isSystemAttribute(attribute);
+			Column<UIAttribute, String> propColumn = getAttributePropertyColumn(attribute.getName().getLocalPart(), isSystemAttribute, field);
 			renderCell(tr, absRowIndex, propColumn, attribute);
 
 			tr.end();

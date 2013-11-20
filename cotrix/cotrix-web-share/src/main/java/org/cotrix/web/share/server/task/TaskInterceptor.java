@@ -17,6 +17,7 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.user.User;
+import org.cotrix.web.share.shared.exception.IllegalActionException;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.Request;
 import org.slf4j.Logger;
@@ -75,16 +76,20 @@ public class TaskInterceptor {
 			action = action.on(resource);
 		}
 		
-		TaskOutcome<Object> outcome = engine.perform(action).with(task);
-		
-		Object output = outcome.output();
-
-		if (output instanceof FeatureCarrier) {
-			FeatureCarrier response = (FeatureCarrier) output;
-			actionMapper.fillFeatures(response, resource, outcome.nextActions());
+		try {
+			TaskOutcome<Object> outcome = engine.perform(action).with(task);
+			
+			Object output = outcome.output();
+	
+			if (output instanceof FeatureCarrier) {
+				FeatureCarrier response = (FeatureCarrier) output;
+				actionMapper.fillFeatures(response, resource, outcome.nextActions());
+			}
+	
+			return output;
+		} catch(IllegalAccessError e) {
+			throw new IllegalActionException(e.getMessage());
 		}
-
-		return output;
 
 	}
 

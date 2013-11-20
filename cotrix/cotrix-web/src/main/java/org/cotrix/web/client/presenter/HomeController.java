@@ -9,14 +9,14 @@ import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.client.view.HomeView;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.CotrixModuleController;
+import org.cotrix.web.share.client.error.IgnoreFailureCallback;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -89,33 +89,21 @@ public class HomeController implements CotrixModuleController {
 	}
 	
 	protected void updateStatistics() {
-		service.getStatistics(new AsyncCallback<UIStatistics>() {
+		service.getStatistics(new IgnoreFailureCallback<UIStatistics>() {
 			
 			@Override
 			public void onSuccess(UIStatistics result) {
 				view.setStatistics(result.getCodelists(), result.getCodes(), result.getUsers(), result.getRepositories());				
 			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Error getting statistics", caught);
-				
-			}
 		});
 	}
 	
 	protected void updateNews() {
-		service.getNews(new AsyncCallback<List<UINews>>() {
+		service.getNews(new ManagedFailureCallback<List<UINews>>() {
 			
 			@Override
 			public void onSuccess(List<UINews> result) {
 				view.setNews(result);				
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Error getting statistics", caught);
-				
 			}
 		});
 	}

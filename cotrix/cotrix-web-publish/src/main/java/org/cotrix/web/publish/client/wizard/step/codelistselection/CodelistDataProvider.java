@@ -6,6 +6,7 @@ package org.cotrix.web.publish.client.wizard.step.codelistselection;
 import java.util.List;
 
 import org.cotrix.web.publish.client.PublishServiceAsync;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.UICodelist;
@@ -13,7 +14,6 @@ import org.cotrix.web.share.shared.codelist.UICodelist;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
@@ -72,7 +72,7 @@ public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 		boolean force = forceRefresh;
 		forceRefresh = false;
 		
-		service.getCodelists(range, sortInfo, force, new AsyncCallback<DataWindow<UICodelist>>() {
+		service.getCodelists(range, sortInfo, force, new ManagedFailureCallback<DataWindow<UICodelist>>() {
 			
 			@Override
 			public void onSuccess(DataWindow<UICodelist> batch) {
@@ -80,12 +80,6 @@ public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 				Log.trace("loaded "+codelists.size()+" codelists over "+batch.getTotalSize());
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), codelists);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				//TODO show the error to the user?
-				Log.error("An error occurred loading the codelists", caught);
 			}
 		});
 	}
