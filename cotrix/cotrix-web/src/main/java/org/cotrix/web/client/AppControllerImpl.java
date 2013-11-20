@@ -5,12 +5,9 @@ import java.util.EnumMap;
 import org.cotrix.web.client.presenter.CotrixWebPresenter;
 import org.cotrix.web.client.presenter.HomeController;
 import org.cotrix.web.client.presenter.UserBarPresenter;
-import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
-import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
 import org.cotrix.web.menu.client.presenter.CotrixMenuGinInjector;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
 import org.cotrix.web.permissionmanager.client.CotrixPermissionGinInjector;
-import org.cotrix.web.publish.client.CotrixPublishAppGinInjector;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.CotrixModuleController;
 import org.cotrix.web.share.client.event.CotrixBus;
@@ -51,7 +48,7 @@ public class AppControllerImpl implements AppController {
 		HomeController home = AppGinInjector.INSTANCE.getHomeController();
 		addModule(home);
 		
-		GWT.runAsync(new RunAsyncCallback() {
+		/*GWT.runAsync(new RunAsyncCallback() {
 			
 			@Override
 			public void onSuccess() {
@@ -91,7 +88,7 @@ public class AppControllerImpl implements AppController {
 			public void onFailure(Throwable reason) {
 				Log.fatal("Publish module not loaded", reason);
 			}
-		});
+		});*/
 		
 		GWT.runAsync(new RunAsyncCallback() {
 			
@@ -108,7 +105,7 @@ public class AppControllerImpl implements AppController {
 		});
 
 		
-		showModule(CotrixModule.HOME);
+		showModule(CotrixModule.PERMISSION);
 	}
 	
 	protected void bind()
