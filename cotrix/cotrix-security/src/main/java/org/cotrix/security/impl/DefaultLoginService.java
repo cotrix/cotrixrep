@@ -67,7 +67,7 @@ public class DefaultLoginService implements LoginService {
 				throw new UnknownUserException("unknown user "+identity);
 			
 			//log only for non-guests
-			log.info("{} ({}) has logged in",user.id(),user.name());
+			log.info("user {} has logged in",user.name());
 		}
 		
 		//remember for this session

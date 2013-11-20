@@ -11,6 +11,7 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.repository.utils.UuidGenerator;
 import org.cotrix.security.impl.DefaultLoginService;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
+import org.cotrix.security.impl.DefaultSignupService;
 import org.cotrix.security.impl.MRealm;
 import org.cotrix.user.User;
 import org.cotrix.user.impl.MUserRepository;
@@ -38,6 +39,9 @@ public class LoginTest {
 	//initialises the repository to add default users
 	@Inject @New
 	MUserRepository repository;
+	
+	@Inject
+	DefaultSignupService signupService;
 
 	@Test
 	public void loginAsGuestIfNoTokenIsAvailable() throws Exception {
@@ -74,6 +78,28 @@ public class LoginTest {
 		assertEquals(cotrix.toString(), currentUser.toString());
 		
 		contextController.closeRequest();
+		
+	}
+	
+	
+	
+	@Test
+	public void signUp() throws Exception {
+
+		User user = user().name("fabio").fullName("fifi").build();
+		
+		signupService.signup(user,"fuffa");
+		
+		DummyHttpRequest r = new DummyHttpRequest();
+		
+		contextController.openRequest(r);
+		
+		r.setAttribute(nameParam, user.name());
+		r.setAttribute(pwdParam, "fuffa");
+		
+		User logged = service.login(r);
+		
+		assertEquals(logged.name(),user.name());
 		
 	}
 
