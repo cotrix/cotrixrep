@@ -27,11 +27,13 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.security.LoginService;
+import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
+import org.cotrix.web.share.server.util.ExceptionUtils;
 import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
@@ -102,9 +104,21 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	}
 
 	@Override
-	public ResponseWrapper<String> login(final String username, final String password, List<String> openCodelists) {
+	public ResponseWrapper<String> login(final String username, final String password, List<String> openCodelists) throws ServiceException {
 		logger.trace("login username: {}",username);
+		
+		try {
 		return doLogin(LOGIN, username, password, openCodelists);
+		} catch(Exception exception) {
+			logger.error("failed login for user "+username, exception);
+			
+			UnknownUserException unknownUserException = ExceptionUtils.unfoldException(exception, UnknownUserException.class);
+			if (unknownUserException!=null) {
+				throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
+			} else {
+				throw new ServiceException(exception.getMessage());
+			}
+		}
 	}
 
 	@Override

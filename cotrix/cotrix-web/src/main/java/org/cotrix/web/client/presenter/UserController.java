@@ -19,7 +19,10 @@ import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 import org.cotrix.web.share.client.feature.AsyncCallBackWrapper;
 import org.cotrix.web.share.client.rpc.Nop;
+import org.cotrix.web.share.client.util.Exceptions;
+import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
+import org.cotrix.web.shared.UnknownUserException;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Scheduler;
@@ -45,6 +48,9 @@ public class UserController {
 		@Override
 		public void onFailure(Throwable caught) {
 			Log.error("Login failed", caught);
+			if (caught instanceof UnknownUserException) {
+				AlertDialog.INSTANCE.center("Unknown user please check you credentials and re-try.", Exceptions.getPrintStackTrace(caught));
+			}
 		}
 
 		@Override
