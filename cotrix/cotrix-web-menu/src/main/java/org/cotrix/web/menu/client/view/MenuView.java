@@ -12,7 +12,8 @@ public interface MenuView {
 		HOME, 
 		IMPORT, 
 		MANAGE, 
-		PUBLISH;
+		PUBLISH,
+		PERMISSION;
 	};
 
 	public interface Presenter {

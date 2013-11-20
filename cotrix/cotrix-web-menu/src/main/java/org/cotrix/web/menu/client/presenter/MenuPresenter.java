@@ -6,7 +6,7 @@ import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 import org.cotrix.web.share.client.feature.FeatureBinder;
-import org.cotrix.web.share.client.feature.HasFeature;
+import org.cotrix.web.share.client.feature.FeatureToggler;
 import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -35,31 +35,29 @@ public class MenuPresenter implements MenuView.Presenter {
 	
 	protected void bindFeatures()
 	{
-		FeatureBinder.bind(new HasFeature() {
+		FeatureBinder.bind(new FeatureToggler() {
 			
 			@Override
-			public void unsetFeature() {
-				view.setEnabled(Menu.IMPORT, false);
-			}
-			
-			@Override
-			public void setFeature() {
-				view.setEnabled(Menu.IMPORT, true);
+			public void toggleFeature(boolean active) {
+				view.setEnabled(Menu.IMPORT, active);
 			}
 		}, ApplicationFeatures.IMPORT_CODELIST);
 		
-		FeatureBinder.bind(new HasFeature() {
+		FeatureBinder.bind(new FeatureToggler() {
 			
 			@Override
-			public void unsetFeature() {
-				view.setEnabled(Menu.PUBLISH, false);
-			}
-			
-			@Override
-			public void setFeature() {
-				view.setEnabled(Menu.PUBLISH, true);
+			public void toggleFeature(boolean active) {
+				view.setEnabled(Menu.PUBLISH, active);
 			}
 		}, ApplicationFeatures.PUBLISH_CODELIST);
+		
+		FeatureBinder.bind(new FeatureToggler() {
+			
+			@Override
+			public void toggleFeature(boolean active) {
+				view.setEnabled(Menu.PERMISSION, active);
+			}
+		}, ApplicationFeatures.MANAGE_PERSMISSION);
 	}
 	
 	public void go(HasWidgets container) {
@@ -88,6 +86,7 @@ public class MenuPresenter implements MenuView.Presenter {
 			case IMPORT: return CotrixModule.IMPORT;
 			case MANAGE: return CotrixModule.MANAGE;
 			case PUBLISH: return CotrixModule.PUBLISH;
+			case PERMISSION: return CotrixModule.PERMISSION;
 			default: throw new IllegalArgumentException("Unknow menu "+menu);
 		}
 	}
@@ -98,6 +97,7 @@ public class MenuPresenter implements MenuView.Presenter {
 			case IMPORT: return Menu.IMPORT;
 			case MANAGE: return Menu.MANAGE;
 			case PUBLISH: return Menu.PUBLISH;
+			case PERMISSION: return Menu.PERMISSION;
 			default: throw new IllegalArgumentException("Unknow module "+module);
 		}
 	}

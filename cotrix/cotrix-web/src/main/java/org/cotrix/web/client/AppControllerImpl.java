@@ -9,6 +9,7 @@ import org.cotrix.web.codelistmanager.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.importwizard.client.CotrixImportAppGinInjector;
 import org.cotrix.web.menu.client.presenter.CotrixMenuGinInjector;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
+import org.cotrix.web.permissionmanager.client.CotrixPermissionGinInjector;
 import org.cotrix.web.publish.client.CotrixPublishAppGinInjector;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.CotrixModuleController;
@@ -84,6 +85,20 @@ public class AppControllerImpl implements AppController {
 			public void onSuccess() {
 				CotrixPublishAppGinInjector publishInjector = CotrixPublishAppGinInjector.INSTANCE;
 				addModule(publishInjector.getController());
+			}
+			
+			@Override
+			public void onFailure(Throwable reason) {
+				Log.fatal("Publish module not loaded", reason);
+			}
+		});
+		
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			@Override
+			public void onSuccess() {
+				CotrixPermissionGinInjector permissionInjector = CotrixPermissionGinInjector.INSTANCE;
+				addModule(permissionInjector.getController());
 			}
 			
 			@Override
