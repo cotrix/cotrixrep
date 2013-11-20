@@ -20,7 +20,7 @@ public interface MainService extends RemoteService {
 	
 	public ResponseWrapper<String> login(String user, String password, List<String> openCodelists) throws ServiceException;
 	public ResponseWrapper<String> logout(List<String> openCodelists) throws ServiceException;
-	public ResponseWrapper<String> registerUser(String username, String password, String email) throws ServiceException;
+	public ResponseWrapper<String> registerUser(String username, String password, String email, List<String> openCodelists) throws ServiceException;
 	
 	public UIStatistics getStatistics() throws ServiceException;
 	

@@ -1,6 +1,7 @@
 package org.cotrix.web.server;
 
 import static org.cotrix.action.MainAction.*;
+import static org.cotrix.user.dsl.Users.*;
 import static org.cotrix.web.share.shared.feature.ApplicationFeatures.*;
 import static org.cotrix.web.shared.AuthenticationFeature.*;
 
@@ -27,6 +28,7 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.security.LoginService;
+import org.cotrix.security.SignupService;
 import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.user.PredefinedUsers;
@@ -77,6 +79,9 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	protected NewsService newsService;
 
 	@Inject
+	protected SignupService signupService;
+
+	@Inject
 	ActionMapper mapper;
 
 	@Inject
@@ -88,7 +93,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 
 	@Inject
 	Event<ApplicationEvents.Startup> startup;
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -98,20 +103,20 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		mapper.map(LOGOUT).to(CAN_LOGOUT);
 		mapper.map(IMPORT).to(IMPORT_CODELIST);
 		mapper.map(PUBLISH).to(PUBLISH_CODELIST);
-		
+
 		startup.fire(Startup.INSTANCE);
-		
+
 	}
 
 	@Override
 	public ResponseWrapper<String> login(final String username, final String password, List<String> openCodelists) throws ServiceException {
 		logger.trace("login username: {}",username);
-		
+
 		try {
-		return doLogin(LOGIN, username, password, openCodelists);
+			return doLogin(LOGIN, username, password, openCodelists);
 		} catch(Exception exception) {
 			logger.error("failed login for user "+username, exception);
-			
+
 			UnknownUserException unknownUserException = ExceptionUtils.unfoldException(exception, UnknownUserException.class);
 			if (unknownUserException!=null) {
 				throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
@@ -203,7 +208,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	@Override
 	public List<UINews> getNews() throws ServiceException {
 		List<UINews> news = new ArrayList<UINews>();
-	
+
 		for (NewsItem newsItem:newsService.news()) {
 			logger.trace("news: {}",newsItem);
 			UINews uiNews = new UINews();
@@ -216,10 +221,26 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	}
 
 	@Override
-	public ResponseWrapper<String> registerUser(String username, String password, String email) {
-		logger.trace("registerUser username: {} password: {} email: {}", username, password, email);
-		// TODO remove log
-		return ResponseWrapper.wrap("");
+	public ResponseWrapper<String> registerUser(String username, String password, String email, List<String> openCodelists) throws ServiceException {
+		logger.trace("registerUser username: {} email: {}", username, email);
+
+		try {
+			//FIXME 
+			User user = user().name(username).fullName(username).can(LOGOUT).build();
+			signupService.signup(user, password);
+
+
+			return doLogin(LOGIN, username, password, openCodelists);
+		} catch(Exception exception) {
+			logger.error("failed login for user "+username, exception);
+
+			UnknownUserException unknownUserException = ExceptionUtils.unfoldException(exception, UnknownUserException.class);
+			if (unknownUserException!=null) {
+				throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
+			} else {
+				throw new ServiceException(exception.getMessage());
+			}
+		}
 	}
 
 }
