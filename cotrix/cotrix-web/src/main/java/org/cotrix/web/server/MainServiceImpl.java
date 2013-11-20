@@ -1,6 +1,8 @@
 package org.cotrix.web.server;
 
+import static org.cotrix.action.GuestAction.*;
 import static org.cotrix.action.MainAction.*;
+import static org.cotrix.user.Users.*;
 import static org.cotrix.web.share.shared.feature.ApplicationFeatures.*;
 import static org.cotrix.web.shared.AuthenticationFeature.*;
 
@@ -29,7 +31,6 @@ import org.cotrix.engine.TaskOutcome;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
-import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
@@ -140,7 +141,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 				&& password == null 
 				&& currentUser != null 
 				&& currentUser.id() != null 
-				&& !currentUser.id().equals(PredefinedUsers.guest.id()) 
+				&& !currentUser.id().equals(guest.id()) 
 				&& action==LOGIN) {
 			user = currentUser;
 		} else {

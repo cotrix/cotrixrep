@@ -1,5 +1,7 @@
 package org.cotrix.security;
 
+import static org.cotrix.user.Users.*;
+
 import java.io.IOException;
 
 import javax.inject.Inject;
@@ -11,7 +13,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 
 public class AuthBarrier implements Filter {
@@ -33,7 +34,7 @@ public class AuthBarrier implements Filter {
 		catch(IllegalStateException e) {
 
 			//defaults to guest for unauthenticated users
-			session.add(User.class, PredefinedUsers.guest);
+			session.add(User.class, guest);
 			
 		}
 		

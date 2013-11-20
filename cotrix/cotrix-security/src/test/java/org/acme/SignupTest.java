@@ -1,6 +1,6 @@
 package org.acme;
 
-import static org.cotrix.user.dsl.Users.*;
+import static org.cotrix.user.Users.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;

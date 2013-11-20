@@ -206,7 +206,7 @@ public class ProgressBar extends Widget {
 
 	/**
 	 * Get the current percent complete, relative to the minimum and maximum
-	 * values. The percent will always be between 0.0 - 1.0.
+	 * predefinedUsers. The percent will always be between 0.0 - 1.0.
 	 *
 	 * @return the current percent complete
 	 */

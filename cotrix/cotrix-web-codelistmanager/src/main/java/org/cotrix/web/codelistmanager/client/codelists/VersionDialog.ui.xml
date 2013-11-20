@@ -57,6 +57,10 @@
 			padding-top: 10px;
 		}
 		
+		.oldVersion {
+			padding-top: 10px;
+		}
+		
 		.textbox {
 			color: #666;
 			height: 40px;

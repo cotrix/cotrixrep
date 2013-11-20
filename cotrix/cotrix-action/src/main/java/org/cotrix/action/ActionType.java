@@ -13,6 +13,14 @@ public interface ActionType extends Iterable<Action>{
 		}
 	};
 	
+	final ActionType guest = new ActionType() {
+		
+		@Override
+		public Iterator<Action> iterator() {
+			return Arrays.<Action>asList(GuestAction.values()).iterator();
+		}
+	};
+	
 	final ActionType codelist = new ActionType() {
 		
 		@Override

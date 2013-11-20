@@ -1,7 +1,7 @@
 package org.acme;
 
 import static org.cotrix.security.impl.DefaultNameAndPasswordCollector.*;
-import static org.cotrix.user.PredefinedUsers.*;
+import static org.cotrix.user.Users.*;
 import static org.junit.Assert.*;
 
 import javax.enterprise.inject.New;

@@ -2,6 +2,7 @@ package org.acme;
 
 import static junit.framework.Assert.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.user.Users.*;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -12,7 +13,6 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,15 +56,13 @@ public class StatisticsServiceTest {
 		
 		assertEquals(2,s.totalCodelists());
 		assertEquals(3,s.totalCodes());
-		assertEquals(PredefinedUsers.values.size(),s.totalUsers());
+		assertEquals(predefinedUsers.size(),s.totalUsers());
 		
 	}
 	
-	
 	@Produces @Current
 	public User user() {
-		return PredefinedUsers.cotrix;
+		return cotrix;
 	}
 	
 }
-

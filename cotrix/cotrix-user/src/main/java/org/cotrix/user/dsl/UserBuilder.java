@@ -2,14 +2,19 @@ package org.cotrix.user.dsl;
 
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.trait.Status.*;
+import static org.cotrix.user.Users.*;
 
 import java.util.Collection;
 
 import org.cotrix.action.Action;
 import org.cotrix.domain.trait.Status;
+import org.cotrix.user.Role;
+import org.cotrix.user.RoleModel;
 import org.cotrix.user.User;
+import org.cotrix.user.dsl.UserGrammar.ThirdClause;
 import org.cotrix.user.dsl.UserGrammar.UserChangeClause;
 import org.cotrix.user.dsl.UserGrammar.UserNewClause;
+import org.cotrix.user.impl.DefaultRole;
 import org.cotrix.user.po.UserPO;
 
 public class UserBuilder implements UserNewClause, UserChangeClause {
@@ -47,6 +52,47 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 		return this;
 	}
 	
+	public UserBuilder is(RoleModel ... models) {
+		valid("roles",models);
+		for (RoleModel model : models)
+			is(new DefaultRole(model));
+		return this;
+	}
+	
+	@Override
+	public ThirdClause isRoot() {
+		return is(ROOT);
+	}
+	
+	public UserBuilder is(Role ... roles) {
+		valid("roles",roles);
+		for (Role role : roles)
+			po.add(role);
+		return this;
+	}
+	
+	@Override
+	public UserBuilder is(Collection<Role> roles) {
+		return is(roles.toArray(new DefaultRole[0]));
+	}
+	
+	@Override
+	public UserChangeClause isNot(Role ... roles) {
+		valid("roles",roles);
+		for (Role role : roles)
+			po.remove(role);
+		return this;
+	}
+	
+	
+	@Override
+	public UserChangeClause isNot(RoleModel ... roles) {
+		valid("roles",roles);
+		for (RoleModel role : roles)
+			isNot(new DefaultRole(role));
+		return this;
+	}
+	
 	@Override
 	public UserBuilder can(Collection<Action> actions) {
 		
@@ -67,6 +113,10 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	}
 	
 	public User build() {
+		return buildAsModel();
+	}
+	
+	public RoleModel buildAsModel() {
 		return new User.Private(po);
 	}
 }

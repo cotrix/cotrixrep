@@ -5,7 +5,7 @@ import java.util.EnumSet;
 import com.google.gwt.user.client.ui.ListBox;
 
 /**
- * A {@link ListBox} that contains values of an enum.
+ * A {@link ListBox} that contains predefinedUsers of an enum.
  * Partial source from https://code.google.com/p/ooo-gwt-utils/source/browse/trunk/src/main/java/com/threerings/gwt/ui/EnumListBox.java?r=206
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -20,7 +20,7 @@ public class EnumListBox<E extends Enum<E>> extends ListBox
 	protected Class<E> _eclass;	
 
 	/**
-	 * Creates an enum list box that displays all values in the supplied enum.
+	 * Creates an enum list box that displays all predefinedUsers in the supplied enum.
 	 */
 	public EnumListBox(Class<E> eclass)
 	{
@@ -39,7 +39,7 @@ public class EnumListBox<E extends Enum<E>> extends ListBox
 	}
 
 	/**
-	 * Creates an enum list box that displays the values in the supplied set.
+	 * Creates an enum list box that displays the predefinedUsers in the supplied set.
 	 */
 	public EnumListBox(Class<E> eclass, EnumSet<E> elements, LabelProvider<E> labelProvider)
 	{

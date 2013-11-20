@@ -1,5 +1,7 @@
 package org.cotrix.security.impl;
 
+import static org.cotrix.user.Users.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +11,6 @@ import javax.enterprise.context.ApplicationScoped;
 import org.cotrix.security.Realm;
 import org.cotrix.security.Token;
 import org.cotrix.security.tokens.NameAndPassword;
-import org.cotrix.user.PredefinedUsers;
 import org.cotrix.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class MRealm implements Realm<NameAndPassword> {
 	
 		log.info("loading predefined users");
 		
-		for (User user : PredefinedUsers.values)
+		for (User user : predefinedUsers)
 			pwds.put(user.name(),user.name());
 	}
 	
