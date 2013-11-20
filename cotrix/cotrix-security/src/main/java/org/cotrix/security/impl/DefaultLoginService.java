@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -31,7 +32,7 @@ public class DefaultLoginService implements LoginService {
 	@Inject
 	private Instance<TokenCollector> collectors;
 	
-	@Inject
+	@Inject @Any
 	private Instance<Realm<?>> realms;
 	
 	@Inject

@@ -14,7 +14,7 @@ import org.cotrix.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ApplicationScoped
+@ApplicationScoped @Native
 public class MRealm implements Realm<NameAndPassword> {
 
 	private static Logger log = LoggerFactory.getLogger(MRealm.class);
@@ -42,5 +42,10 @@ public class MRealm implements Realm<NameAndPassword> {
 		String password = pwds.get(token.name());
 
 		return password!=null && password.equals(token.password())? token.name():null;
+	}
+	
+	@Override
+	public void signup(String name, String pwd) {
+		pwds.put(name,pwd);
 	}
 }
