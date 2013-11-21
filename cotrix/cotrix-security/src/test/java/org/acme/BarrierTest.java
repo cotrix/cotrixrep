@@ -1,7 +1,7 @@
 package org.acme;
 
 import static junit.framework.Assert.*;
-import static org.cotrix.user.PredefinedUsers.*;
+import static org.cotrix.user.Users.*;
 import static org.mockito.Mockito.*;
 
 import javax.inject.Inject;

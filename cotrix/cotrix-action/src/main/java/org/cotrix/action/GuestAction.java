@@ -6,16 +6,16 @@ import static org.cotrix.action.Actions.*;
 import java.util.Collection;
 import java.util.List;
 
-public enum MainAction implements Action {
+public enum GuestAction implements Action {
 
 
-	IMPORT("import"),
-	PUBLISH("publish"),
-	LOGOUT("logout");
+	LOGIN("login"),
+	SIGNUP("signup")
+	;
 	
 	protected Action inner;
 
-	private MainAction(String part,String ... parts) {
+	private GuestAction(String part,String ... parts) {
 		this.inner = (Action) action(main,part,parts);
 	}
 	

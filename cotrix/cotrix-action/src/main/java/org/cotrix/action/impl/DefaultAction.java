@@ -5,8 +5,6 @@ import static org.cotrix.common.Utils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.action.Action;
@@ -24,14 +22,6 @@ public final class DefaultAction implements Action {
 	private final ActionType type;
 	private final String resource;
 	
-	private static final ActionType noType =  new ActionType() {
-		
-		@Override
-		public Iterator<Action> iterator() {
-			return Collections.<Action>emptySet().iterator();
-		}
-	};
-	
 	/**
 	 * Creates an untyped template.
 	 * 
@@ -39,7 +29,7 @@ public final class DefaultAction implements Action {
 	 */
 	public DefaultAction(List<String> labels) {
 	
-		this(labels,noType);
+		this(labels,ActionType.none);
 	}
 	
 	/**
@@ -60,6 +50,7 @@ public final class DefaultAction implements Action {
 	 */
 	private DefaultAction(List<String> parts, ActionType type, String resource) {
 	
+		System.out.println(parts);
 		valid("labels",parts);
 		notNull("type",type);
 		valid("resource identifier",resource);

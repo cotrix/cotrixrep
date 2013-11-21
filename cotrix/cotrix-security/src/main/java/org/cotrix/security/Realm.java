@@ -26,4 +26,13 @@ public interface Realm<T extends Token> {
 	 *         with the token
 	 */
 	String login(T token);
+	
+	
+	/**
+	 * Adds a new identity to this realm.
+	 * 
+	 * @param name the username
+	 * @param pwd the password
+	 */
+	void signup(String name,String pwd);
 }

@@ -101,9 +101,19 @@ public class CsvMappingStepPresenterImpl extends AbstractVisualWizardStep implem
 		int codeCount = 0;
 		for (AttributeMapping mapping:mappings) {
 			//Log.trace("checking mapping: "+mapping);
-			if (mapping.isMapped() && mapping.getAttributeDefinition().getType()==AttributeType.CODE) codeCount++;
-			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().isEmpty()) {
+			if (!mapping.isMapped()) continue;
+			
+			if (mapping.getAttributeDefinition().getType()==AttributeType.CODE ||
+					mapping.getAttributeDefinition().getType()==AttributeType.OTHER_CODE) codeCount++;
+			
+			if (mapping.getAttributeDefinition().getName().isEmpty()) {
 				view.alert("don't leave columns blank, bin them instead");
+				return false;
+			}
+			
+			if (mapping.getAttributeDefinition().getType()==AttributeType.OTHER && 
+					mapping.getAttributeDefinition().getCustomType().isEmpty()) {
+				view.alert("don't leave the type blank");
 				return false;
 			}
 		}

@@ -1,11 +1,12 @@
 package org.cotrix.security.impl;
 
-import static org.cotrix.user.PredefinedUsers.*;
+import static org.cotrix.user.Users.*;
 
 import java.util.Iterator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -31,7 +32,7 @@ public class DefaultLoginService implements LoginService {
 	@Inject
 	private Instance<TokenCollector> collectors;
 	
-	@Inject
+	@Inject @Any
 	private Instance<Realm<?>> realms;
 	
 	@Inject
@@ -66,7 +67,7 @@ public class DefaultLoginService implements LoginService {
 				throw new UnknownUserException("unknown user "+identity);
 			
 			//log only for non-guests
-			log.info("{} ({}) has logged in",user.id(),user.name());
+			log.info("user {} has logged in",user.name());
 		}
 		
 		//remember for this session

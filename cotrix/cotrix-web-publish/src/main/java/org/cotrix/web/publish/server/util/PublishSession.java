@@ -16,12 +16,15 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.action.CodelistAction;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.query.CodelistQuery;
+import org.cotrix.user.User;
 import org.cotrix.web.publish.server.publish.PublishStatus;
 import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.UIRepository;
@@ -101,6 +104,10 @@ public class PublishSession implements Serializable {
 	@Inject
 	transient LifecycleService lifecycleService;
 	
+	@Current
+	@Inject
+	transient User currentUser;
+	
 	protected OrderedList<UICodelist> orderedCodelists;
 	protected Map<String, UICodelist> indexedCodelists;
 	
@@ -132,6 +139,9 @@ public class PublishSession implements Serializable {
 
 		while(it.hasNext()) {
 			Codelist codelist = it.next();
+			boolean canPublish = currentUser.can(CodelistAction.PUBLISH.on(codelist.id()));
+			if (!canPublish) continue;
+			
 			State state = lifecycleService.lifecycleOf(codelist.id()).state();
 			UICodelist uiCodelist = Codelists.toUICodelist(codelist, state);
 			orderedCodelists.add(uiCodelist);

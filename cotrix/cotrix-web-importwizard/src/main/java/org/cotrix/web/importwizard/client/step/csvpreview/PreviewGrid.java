@@ -56,6 +56,8 @@ public class PreviewGrid extends ResizeComposite {
 	{
 		loadingContainter = new FlexTable();
 		loadingContainter.getElement().setAttribute("align", "center");
+		loadingContainter.setWidth("100%");
+		loadingContainter.setHeight("100%");
 		Image loader = new Image(CommonResources.INSTANCE.dataLoader());
 		loadingContainter.setWidget(0, 0, loader);
 	}

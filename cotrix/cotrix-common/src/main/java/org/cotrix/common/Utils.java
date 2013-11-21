@@ -2,7 +2,9 @@ package org.cotrix.common;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -219,6 +221,13 @@ public class Utils {
 		throw unchecked(msg,t);
 
 	}
-
 	
+	public static void assertEqualSets(Collection<?> c1, Object ... ts) {
+		
+		HashSet<?> s1 = new HashSet<Object>(c1);
+		HashSet<?> s2 = new HashSet<Object>(Arrays.asList(ts));
+		if (!s1.equals(s2))
+				throw new AssertionError("expected "+s1+", was "+s2);
+		
+	}
 }

@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import org.cotrix.action.Action;
 import org.cotrix.domain.Code;
+import org.cotrix.user.Role;
+import org.cotrix.user.RoleModel;
 import org.cotrix.user.User;
 
 /**
@@ -20,7 +22,7 @@ public class UserGrammar {
 		
 	}
 	
-	public static interface UserChangeClause extends SecondClause, ThirdClause {
+	public static interface UserChangeClause extends SecondClause, ThirdClause, FourthClause {
 		
 		User delete();
 	}
@@ -31,6 +33,7 @@ public class UserGrammar {
 		ThirdClause fullName (String string);
 	}
 	
+	
 	public static interface ThirdClause {
 		
 		
@@ -38,8 +41,25 @@ public class UserGrammar {
 		
 		ThirdClause can(Collection<Action> permissions);
 		
+		ThirdClause is(RoleModel ... models);
+		
+		ThirdClause isRoot();
+		
+		ThirdClause is(Role ... bindings);
+		
+		ThirdClause is(Collection<Role> roles);
+		
 		ThirdClause cannot(Action ... permissions);
 		
 		User build();
+		
+		RoleModel buildAsModel();
+	} 
+	
+	public static interface FourthClause  {
+		
+		UserChangeClause isNot(Role ... roles);
+		
+		UserChangeClause isNot(RoleModel ... roles);
 	}
 }

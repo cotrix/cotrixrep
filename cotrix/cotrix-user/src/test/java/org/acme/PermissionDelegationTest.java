@@ -1,163 +1,285 @@
 package org.acme;
 
 import static junit.framework.Assert.*;
-import static org.cotrix.action.CodelistAction.*;
-import static org.cotrix.action.MainAction.*;
-import static org.cotrix.user.PredefinedUsers.*;
-import static org.cotrix.user.dsl.Users.*;
-
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
+import static org.cotrix.action.Actions.*;
+import static org.cotrix.user.Users.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import org.cotrix.action.Action;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.user.DelegationPolicy;
 import org.cotrix.user.PermissionDelegationService;
+import org.cotrix.user.RoleModel;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
-import org.cotrix.user.utils.CurrentUser;
+import org.cotrix.user.impl.DefaultDelegationService;
+import org.cotrix.user.impl.MUserRepository;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.googlecode.jeeunit.JeeunitRunner;
-
-@RunWith(JeeunitRunner.class)
 public class PermissionDelegationTest {
 
-	static CurrentUser currentUser = new CurrentUser();
+	static Action doit = action("doit");
 	
-	@Inject
-	UserRepository repository;
-	
-	@Inject
 	PermissionDelegationService service;
 	
+	UserRepository repository;
 	
+	DelegationPolicy policy;
 	
-	@Test(expected=IllegalAccessError.class)
-	public void delegateIllegalPermission() {
+	@Before
+	public void setup() {
 		
-		User joe = user().name("joe").fullName("Joe The Plumber").can(EDIT.on("1")).build();
 		
-		currentUser.set(joe);
+		//we dont care about repositories and policies here, so setting up defaults
+		repository = new MUserRepository();
+		policy = mock(DelegationPolicy.class);
 		
-		User bill = user().name("bill").fullName("Bill the Baker").build();
+		User current = user().name("current").fullName("current").build();
 		
-		service.delegate(LOCK.on("1")).to(bill);
+		//we would not want to test the impl, but using cdi to use configured alternative has its own issues
+		//also, we're not expecting yet multiple implementations for this service 
+		service = new DefaultDelegationService(current,repository,policy);
+		
+		
 	}
 	
-	@Test(expected=IllegalAccessError.class)
-	public void delegateTemplate() {
+	@Test(expected=IllegalArgumentException.class)
+	public void doesNotDelegateToUnidentifiedUser() {
 		
-		User joe = user().name("joe").fullName("Joe The Plumber").can(IMPORT).build();
+		User bill = user().name("bill").fullName("bill").build();
 		
-		currentUser.set(joe);
-		
-		User bill = user().name("bill").fullName("Bill the Baker").build();
-		
-		service.delegate(IMPORT).to(bill);
+		service.delegate(doit.on("1")).to(bill);
 	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void doesNotDelegateRoleToUnidentifiedUser() {
+		
+		User bill = user().name("bill").fullName("bill").build();
+		
+		service.delegate(aRole()).to(bill);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void doesNotRevokeFromUnidentifiedUser() {
+		
+		User bill = user().name("bill").fullName("bill").build();
+		
+		service.revoke(doit.on("1")).from(bill);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void doesNotRevokeRoleFromUnidentifiedUser() {
+		
+		User bill = user().name("bill").fullName("bill").build();
+		
+		service.revoke(aRole()).from(bill);
+	}
+	
+	
+	
+	
+	
 	
 	
 	@Test
-	public void delegateTemplateAsRoot() {
+	public void delegatesExistingPermission() {
 		
-		currentUser.set(cotrix);
+		User bill = billCan(doit);
 		
-		User bill = user().name("bill").fullName("Bill the Baker").build();
+		service.delegate(doit).to(bill);
 		
-		repository.add(bill);
-		
-		service.delegate(IMPORT).to(bill);
-		
-		User retrieved = repository.lookup(bill.id());
-
-		assertTrue(retrieved.permissions().contains(IMPORT));
-	}
-	
-	@Test
-	public void delegatePermission() {
-		
-		User joe = user().name("joe").fullName("Joe The Plumber").can(EDIT.on("1")).build();
-		
-		currentUser.set(joe);
-		
-		User bill = user().name("bill").fullName("Bill the Baker").build();
-		
-		repository.add(bill);
-		
-		service.delegate(EDIT.on("1")).to(bill);
-		
-		User retrieved = repository.lookup(bill.id());
-
-		assertTrue(retrieved.permissions().contains(EDIT.on("1")));
-		
-	}
-	
-	@Test
-	public void revokePermission() {
-		
-		Action action = EDIT.on("1");
-		
-		User joe = user().name("joe").fullName("Joe The Plumber").can(action).build();
-		
-		currentUser.set(joe);
-		
-		User bill = user().name("bill").fullName("Bill the Baker").can(action).build();
-		
-		repository.add(bill);
-		
-		service.revoke(action).from(bill);
-		
-		User retrieved = repository.lookup(bill.id());
-
-		assertFalse(retrieved.permissions().contains(action));
-	
-	}
-	
-	@Test (expected=IllegalStateException.class)
-	public void revokeNotExistentPermission() {
-		
-		Action action = EDIT.on("1");
-		
-		User joe = user().name("joe").fullName("Joe The Plumber").can(action).build();
-		
-		currentUser.set(joe);
-		
-		User bill = user().name("bill").fullName("Bill the Baker").build();
-		
-		service.revoke(action).from(bill);
+		assertEquals(1,bill.permissions().size());
 			
 	}
 	
 	@Test
-	public void delegationOnImportUseCase() {
+	public void delegatesExistingRole() {
 		
-		User joe = user().name("joe").fullName("Joe The Plumber").build();
-		User bill = user().name("bill").fullName("Bill the Baker").build();
+		RoleModel role = aRole();
 		
-		repository.add(joe);
-		repository.add(bill);
+		User bill = billIs(role);
 		
-		currentUser.set(cotrix);
+		service.delegate(role).to(bill);
 		
-		//cotrix delegates IMPORT to joe
-		service.delegate(IMPORT).to(joe);
-		
-		
-		
-		currentUser.set(joe);
-		
-		//joe imports codelist "1" and acquires EDIT on it;
-		User changeset = user(joe).can(EDIT.on("1")).build();
-		
-		repository.update(changeset);
-		
-		//joe delegates EDIT on "1" to bill
-		service.delegate(EDIT.on("1")).to(bill);
+		assertEquals(1,bill.roles().size());
+			
 	}
 	
-	@Produces @Current
-	static User current() {
-		return currentUser;
+	@Test(expected=IllegalStateException.class)
+	public void doesNotRevokeNotExistentPermission() {
+		
+		User bill = user().name("bill").fullName("bill").build();
+		
+		repository.add(bill);
+		
+		service.revoke(doit).from(bill);
+			
 	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void doesNotRevokeNotExistentRole() {
+		
+		User bill = bill();
+		
+		service.revoke(aRole()).from(bill);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	@Test
+	public void consultsPolicyForDelegation() {
+		
+		User bill = bill();
+		
+		service.delegate(doit).to(bill);
+		
+		verify(policy).validateDelegation(any(User.class),any(User.class),(Action[]) anyVararg());
+		
+	}
+	
+	@Test
+	public void consultsPolicyForEechRoleDelegation() {
+		
+		User bill = bill();
+		
+		service.delegate(aRole("r1"),aRole("r2")).to(bill);
+		
+		verify(policy,times(2)).validateDelegation(any(User.class),any(User.class),(Action[]) anyVararg());
+		
+	}
+	
+	@Test
+	public void consultsPolicyForRevocation() {
+		
+		User bill = billCan(doit);
+		
+		service.revoke(doit).from(bill);
+		
+		verify(policy).validateRevocation(any(User.class),any(User.class),(Action[]) anyVararg());
+	}
+	
+	@Test
+	public void consultsPolicyForEachRoleRevocation() {
+		
+		RoleModel r1 = aRole("r1");
+		RoleModel r2 = aRole("r2");
+		
+		User bill = billIs(r1,r2);
+		
+		service.revoke(r1,aRole("r2")).from(bill);
+		
+		verify(policy,times(2)).validateRevocation(any(User.class),any(User.class),(Action[]) anyVararg());
+		
+	}
+
+	
+	
+	
+	
+	
+	
+	@Test
+	public void persistsDelegation() {
+		
+		User bill = bill();
+		
+		service.delegate(doit).to(bill);
+		
+		User billAsRetrieved = repository.lookup(bill.id());
+		
+		assertTrue(billAsRetrieved.can(doit));
+		
+	}
+	
+	@Test
+	public void persistsRoleDelegation() {
+		
+		RoleModel role = aRole();
+		
+		User bill = bill();
+		
+		service.delegate(role).to(bill);
+		
+		User billAsRetrieved = repository.lookup(bill.id());
+		
+		assertTrue(billAsRetrieved.is(role));
+		
+	}
+	
+	@Test
+	public void persistsRevocation() {
+		
+		User bill = user().name("bill").fullName("bill").can(doit).build();
+		
+		repository.add(bill);
+		
+		service.revoke(doit).from(bill);
+		
+		User billAsRetrieved = repository.lookup(bill.id());
+		
+		assertFalse(billAsRetrieved.can(doit));
+		
+	}
+	
+	@Test
+	public void persistsRoleRevocation() {
+		
+		RoleModel role = aRole();
+		
+		User bill = billIs(role);
+		
+		service.revoke(role).from(bill);
+		
+		User billAsRetrieved = repository.lookup(bill.id());
+		
+		assertFalse(billAsRetrieved.is(role));
+		
+	}
+	
+	
+	//helper
+	private User bill() {
+		
+		User bill = user().name("bill").fullName("bill").build();
+		
+		repository.add(bill);
+		
+		return bill;
+	}
+	
+	private User billCan(Action ...actions) {
+		
+		User bill = user().name("bill").fullName("bill").can(actions).build();
+		
+		repository.add(bill);
+		
+		return bill;
+	}
+	
+	private User billIs(RoleModel ...roles) {
+		
+		User bill = user().name("bill").fullName("bill").is(roles).build();
+		
+		repository.add(bill);
+		
+		return bill;
+	}
+	
+	private RoleModel aRole() {
+		return user().name("role").fullName("role").buildAsModel();
+	}
+	
+	private RoleModel aRole(String name) {
+		return user().name(name).fullName(name).buildAsModel();
+	}
+	
+
+	
+	
 }

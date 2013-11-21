@@ -18,7 +18,6 @@ import org.cotrix.web.share.client.event.CodelistOpenedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 import org.cotrix.web.share.client.feature.AsyncCallBackWrapper;
-import org.cotrix.web.share.client.rpc.Nop;
 import org.cotrix.web.share.client.util.Exceptions;
 import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
@@ -149,7 +148,7 @@ public class UserController {
 	
 	protected void registerUser(String username, String password, String email)
 	{
-		service.registerUser(username, password, email, Nop.<ResponseWrapper<String>>getInstance());
+		service.registerUser(username, password, email, openedCodelists, loginCallback);
 	}
 
 }

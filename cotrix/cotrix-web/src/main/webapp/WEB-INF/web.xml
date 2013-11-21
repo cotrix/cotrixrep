@@ -118,7 +118,8 @@
 		<filter-name>authbarrier</filter-name>
 		<url-pattern>/CodeListManager/*</url-pattern>
 	</filter-mapping>
-
+	
+	
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>CodeListManager.html</welcome-file>

@@ -1,33 +1,51 @@
 package org.cotrix.action;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 
-public interface ActionType extends Iterable<Action>{
+public enum ActionType implements Iterable<Action>{
 
-	final ActionType main = new ActionType() {
+	//note: cannot factor out implementation of iterator() by passing action enum values in constructor..
+	// e.g. main(MainAction.values())....
+	//as the values depend on the type and will not be defined yet
+	
+	none() {
+		@Override
+		public Iterator<Action> iterator() {
+			return Collections.<Action>emptyList().iterator();
+		}
+	},
+	
+	main() {
 		
 		@Override
 		public Iterator<Action> iterator() {
 			return Arrays.<Action>asList(MainAction.values()).iterator();
 		}
-	};
+	},
 	
-	final ActionType codelist = new ActionType() {
+	guest {
+		
+		@Override
+		public Iterator<Action> iterator() {
+			return Arrays.<Action>asList(GuestAction.values()).iterator();
+		}
+	},
+	
+	codelist() {
 		
 		@Override
 		public Iterator<Action> iterator() {
 			return Arrays.<Action>asList(CodelistAction.values()).iterator();
 		}
-	};
+	},
 	
-	final ActionType user = new ActionType() {
+	user() {
 		
 		@Override
 		public Iterator<Action> iterator() {
 			return Arrays.<Action>asList(UserAction.values()).iterator();
 		}
 	};
-	
-	
 }

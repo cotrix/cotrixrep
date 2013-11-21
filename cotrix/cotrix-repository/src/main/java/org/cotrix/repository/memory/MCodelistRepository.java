@@ -71,7 +71,6 @@ public class MCodelistRepository extends MRepository<Codelist, Codelist.Private>
 		}
 
 	}
-
 	public void update(Codelist changeset) {
 
 		for (Code code : changeset.codes()) {
@@ -114,7 +113,6 @@ public class MCodelistRepository extends MRepository<Codelist, Codelist.Private>
 			addToFingerprint(fingerprint,c.attributes());
 		
 		return new CodelistSummary(list.name(), size, attributes, fingerprint);
+
 	}
-	
-	
 }
