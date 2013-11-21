@@ -21,6 +21,7 @@ import org.cotrix.web.importwizard.client.step.sourceselection.SourceSelectionSt
 import org.cotrix.web.importwizard.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.importwizard.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.importwizard.client.task.ImportTask;
+import org.cotrix.web.importwizard.client.task.MappingsLoadingTask;
 import org.cotrix.web.importwizard.client.task.RetrieveAssetTask;
 import org.cotrix.web.share.client.wizard.DefaultWizardActionHandler;
 import org.cotrix.web.share.client.wizard.WizardAction;
@@ -87,6 +88,7 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter {
 			RetrieveAssetTask retrieveAssetTask,
 			MappingNodeSelector mappingNodeSelector,
 
+			MappingsLoadingTask mappingsLoadingTask,
 			CsvMappingStepPresenter csvMappingStep,
 			SdmxMappingStepPresenter sdmxMappingStep, 
 			
@@ -107,17 +109,17 @@ public class ImportWizardPresenterImpl implements ImportWizardPresenter {
 		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(sourceStep);
 		SwitchNodeBuilder<WizardStep> source = root.hasAlternatives(selector);
 
-		SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, sdmxMappingStep));
+		SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, mappingsLoadingTask));
 		SingleNodeBuilder<WizardStep> csvPreview = upload.alternative(csvPreviewStep);
-		SingleNodeBuilder<WizardStep> csvMapping = csvPreview.next(csvMappingStep);
-		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(sdmxMappingStep);
+		SingleNodeBuilder<WizardStep> csvMapping = csvPreview.next(mappingsLoadingTask).next(csvMappingStep);
+		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(mappingsLoadingTask).next(sdmxMappingStep);
 
 		SwitchNodeBuilder<WizardStep> selection = source.alternative(selectionStep).hasAlternatives(detailsNodeSelector);
 		SingleNodeBuilder<WizardStep> codelistDetails = selection.alternative(codelistDetailsStep);
 		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
 		codelistDetails.next(repositoryDetails);
 		
-		SwitchNodeBuilder<WizardStep> retrieveAsset = selection.alternative(retrieveAssetTask).hasAlternatives(mappingNodeSelector);
+		SwitchNodeBuilder<WizardStep> retrieveAsset = selection.alternative(retrieveAssetTask).next(mappingsLoadingTask).hasAlternatives(mappingNodeSelector);
 		retrieveAsset.alternative(sdmxMapping);
 		retrieveAsset.alternative(csvMapping);
 		

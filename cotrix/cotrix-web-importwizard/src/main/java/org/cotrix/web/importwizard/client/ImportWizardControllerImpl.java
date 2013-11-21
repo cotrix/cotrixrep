@@ -2,28 +2,25 @@ package org.cotrix.web.importwizard.client;
 
 import java.util.List;
 
+import org.cotrix.web.importwizard.client.event.AssetRetrievedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent;
 import org.cotrix.web.importwizard.client.event.CodeListSelectedEvent.CodeListSelectedHandler;
 import org.cotrix.web.importwizard.client.event.CodeListTypeUpdatedEvent;
-import org.cotrix.web.importwizard.client.event.AssetRetrievedEvent;
 import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent;
-import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEvent.CsvParserConfigurationUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.FileUploadedEvent;
+import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHandler;
+import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportStartedEvent;
 import org.cotrix.web.importwizard.client.event.ManageEvent;
-import org.cotrix.web.importwizard.client.event.MappingLoadFailedEvent;
 import org.cotrix.web.importwizard.client.event.MappingLoadedEvent;
-import org.cotrix.web.importwizard.client.event.MappingLoadingEvent;
 import org.cotrix.web.importwizard.client.event.MappingModeUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent;
-import org.cotrix.web.importwizard.client.event.NewImportEvent;
-import org.cotrix.web.importwizard.client.event.NewImportEvent.NewImportHandler;
 import org.cotrix.web.importwizard.client.event.MappingsUpdatedEvent.MappingsUpdatedHandler;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.importwizard.client.event.MetadataUpdatedEvent.MetadataUpdatedHandler;
-import org.cotrix.web.importwizard.client.event.FileUploadedEvent.FileUploadedHandler;
-import org.cotrix.web.importwizard.client.event.ImportBus;
+import org.cotrix.web.importwizard.client.event.NewImportEvent;
+import org.cotrix.web.importwizard.client.event.NewImportEvent.NewImportHandler;
 import org.cotrix.web.importwizard.client.event.RetrieveAssetEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent;
 import org.cotrix.web.importwizard.client.event.SaveEvent.SaveHandler;
@@ -122,13 +119,6 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				if (event.isUserEdited()) metadata = event.getMetadata();				
 			}
 		});
-		importEventBus.addHandler(CsvParserConfigurationUpdatedEvent.TYPE, new CsvParserConfigurationUpdatedHandler() {
-
-			@Override
-			public void onCsvParserConfigurationUpdated(CsvParserConfigurationUpdatedEvent event) {
-				if (event.getSource() != ImportWizardControllerImpl.this) getMappings();
-			}
-		});
 		importEventBus.addHandler(MappingsUpdatedEvent.TYPE, new MappingsUpdatedHandler() {
 
 			@Override
@@ -164,6 +154,13 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				cotrixBus.fireEvent(new SwitchToModuleEvent(CotrixModule.MANAGE));
 			}
 		});
+		importEventBus.addHandler(MappingLoadedEvent.TYPE, new MappingLoadedEvent.MappingLoadedHandler() {
+			
+			@Override
+			public void onMappingLoaded(MappingLoadedEvent event) {
+				mappings = event.getMappings();
+			}
+		});
 	}
 
 	protected void importedItemUpdated(CodeListType codeListType)
@@ -179,9 +176,6 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 
 		Log.trace("getting metadata");
 		getMetadata();
-
-		Log.trace("getting mapping");
-		getMappings();
 
 		Log.trace("done importedItemUpdated");
 	}
@@ -205,9 +199,6 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				
 				Log.trace("getting metadata");
 				getMetadata();
-
-				Log.trace("getting mapping");
-				getMappings();
 
 				Log.trace("done selectedItemUpdated");
 				importEventBus.fireEvent(new AssetRetrievedEvent());
@@ -249,28 +240,6 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			public void onSuccess(ImportMetadata result) {
 				importEventBus.fireEvent(new MetadataUpdatedEvent(result, false));
 				metadata = result;
-			}
-		});
-	}
-
-	protected void getMappings()
-	{
-		Log.trace("getMappings");
-
-		importEventBus.fireEvent(new MappingLoadingEvent());
-		importService.getMappings(new AsyncCallback<List<AttributeMapping>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Error getting the mappings", caught);
-				importEventBus.fireEvent(new MappingLoadFailedEvent(caught));
-			}
-
-			@Override
-			public void onSuccess(List<AttributeMapping> result) {
-				Log.trace("mapping retrieved");
-				importEventBus.fireEvent(new MappingLoadedEvent(result));
-				mappings = result;
 			}
 		});
 	}

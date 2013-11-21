@@ -51,7 +51,9 @@ public interface ImporterMapper<T> {
 			List<ColumnDirectives> columnDirectives = new ArrayList<ColumnDirectives>();
 			
 			for (AttributeMapping mapping:mappings) {
-				if (mapping.isMapped() && mapping.getAttributeDefinition().getType()==AttributeType.CODE) codeAttribute = mapping;
+				if (mapping.isMapped() && (
+						mapping.getAttributeDefinition().getType()==AttributeType.CODE ||
+						mapping.getAttributeDefinition().getType()==AttributeType.OTHER_CODE)) codeAttribute = mapping;
 				else columnDirectives.add(getColumn(mapping));
 			}
 			if (codeAttribute == null) throw new IllegalArgumentException("Missing code mapping");
@@ -76,19 +78,20 @@ public interface ImporterMapper<T> {
 				AttributeDefinition definition = mapping.getAttributeDefinition();				
 				directive.name(definition.getName());
 				directive.language(definition.getLanguage());
-				directive.type(getType(definition.getType()));
+				directive.type(getType(definition.getType(), definition.getCustomType()));
 			} else directive.mode(org.cotrix.io.tabular.map.MappingMode.IGNORE);
 			
 			return directive;
 		}
 		
-		protected QName getType(AttributeType type)
+		protected QName getType(AttributeType type, String customType)
 		{
 			switch (type) {
 				case ANNOTATION: return Constants.ANNOTATION_TYPE;
 				case DESCRIPTION: return Constants.DESCRIPTION_TYPE;
 				case CODE: return Constants.DEFAULT_TYPE;
-				case OTHER: return Constants.OTHER_TYPE;
+				case OTHER_CODE: return Constants.DEFAULT_TYPE;
+				case OTHER: return new QName(Constants.NS, customType);
 				default: throw new IllegalArgumentException("Unknow attribute type "+type);
 			}
 		}

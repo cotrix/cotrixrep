@@ -130,7 +130,7 @@ public class AttributeMappingPanel extends Composite {
 
 				AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel(AttributeDefinitionPanel.CSVTypeLabelProvider);
 				if (attributeDefinition != null) {
-					definitionPanel.setType(attributeDefinition.getType());
+					definitionPanel.setType(attributeDefinition.getType(), attributeDefinition.getCustomType());
 					definitionPanel.setLanguage(attributeDefinition.getLanguage());
 				}
 				definitionsPanels.add(definitionPanel);
@@ -187,8 +187,12 @@ public class AttributeMappingPanel extends Composite {
 		if (typeDefinition) {
 			AttributeDefinitionPanel panel = definitionsPanels.get(index);
 			AttributeType type = panel.getType();
-			String language = panel.getLanguage();
 			attributeDefinition.setType(type);
+			
+			String customType = panel.getCustomType();
+			attributeDefinition.setCustomType(customType);
+			
+			String language = panel.getLanguage();
 			attributeDefinition.setLanguage(language);
 		}
 

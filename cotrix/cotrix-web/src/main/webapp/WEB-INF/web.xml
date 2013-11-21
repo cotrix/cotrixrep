@@ -101,6 +101,11 @@
 	</servlet-mapping>
 	
 	<servlet-mapping>
+		<servlet-name>codelistPublishServlet</servlet-name>
+		<url-pattern>/CodeListManager/publish</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
 		<servlet-name>publishDownloadServlet</servlet-name>
 		<url-pattern>/CodeListManager/publishDownload</url-pattern>
 	</servlet-mapping>
@@ -113,7 +118,8 @@
 		<filter-name>authbarrier</filter-name>
 		<url-pattern>/CodeListManager/*</url-pattern>
 	</filter-mapping>
-
+	
+	
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>CodeListManager.html</welcome-file>

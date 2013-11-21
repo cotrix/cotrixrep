@@ -10,6 +10,7 @@ package org.cotrix.web.importwizard.shared;
 public enum AttributeType {
 
 	CODE,
+	OTHER_CODE,
 	DESCRIPTION,
 	ANNOTATION,
 	OTHER;
