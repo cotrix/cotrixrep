@@ -530,6 +530,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	private Map<Column<T, ?>, Double> columnWidths = new HashMap<Column<T, ?>, Double>();
 	private Element measuringElement;
 	private boolean autoAdjust = false;
+	private LoadingState previousLoadingState;
 
 	/**
 	 * Constructs a table with a default page size of 50.
@@ -1011,7 +1012,8 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	 */
 	@Override
 	protected void onLoadingStateChanged(LoadingState state) {
-		Log.trace("onLoadingStateChanged state: "+state);
+		Log.trace("onLoadingStateChanged state: "+state+" LOADING? "+(state==LoadingState.LOADING)+" LOADED? "+(state==LoadingState.LOADED));
+		
 		Widget message = tableData;
 		if (state == LoadingState.LOADING) {
 			// Loading indicator.
@@ -1021,8 +1023,9 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 			message = emptyTableWidgetContainer;
 		}
 		
-		if (autoAdjust && state == LoadingState.LOADED) refreshColumnSizes();
-
+		if (autoAdjust && state == LoadingState.LOADED && previousLoadingState == LoadingState.LOADING) refreshColumnSizes();
+		previousLoadingState = state;
+		
 		// Switch out the message to display.
 		tableDataScroller.setWidget(message);
 
