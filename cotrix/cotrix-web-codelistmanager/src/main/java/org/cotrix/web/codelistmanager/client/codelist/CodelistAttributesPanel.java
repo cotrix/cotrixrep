@@ -216,6 +216,16 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			}
 		});
 	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		//GWT issue 7188 workaround
+		onResize();
+	}
 	
 	protected void addNewAttribute()
 	{

@@ -69,8 +69,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		
-		//TODO we should use ResizeComposite instead of Composite
-		//The problem would be in the DeckLayoutPanel that don't call onresize
+		//GWT issue 7188 workaround
 		if (visible) dataGrid.onResize();
 	}
 

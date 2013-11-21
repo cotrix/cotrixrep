@@ -171,9 +171,6 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 		selectionModel = new SingleSelectionModel<UICode>(CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setSelectionModel(selectionModel);
-
-		// Specify a custom table.
-		//dataGrid.setTableBuilder(new CustomTableBuilder());
 	
 		dataProvider.addDataDisplay(dataGrid);
 
