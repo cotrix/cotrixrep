@@ -19,7 +19,7 @@
 			outline: none;
 		}
 	</ui:style>
-	<g:ScrollPanel styleName="{common.css.mappingTable}">
+	<g:SimpleLayoutPanel styleName="{common.css.mappingTable}">
 		<g:HTMLPanel>
 			<table width="100%">
 				<tr>
@@ -27,8 +27,7 @@
 						<span class="{common.css.propertyLabel}" style="padding-left:32px;padding-right:10px;">NAME</span>
 					</td>
 					<td style="padding-top:10px;vertical-align:middle;">
-						<g:TextBox width="99%" ui:field="name"
-							styleName="{common.css.textBox}" />
+						<g:TextBox width="99%" ui:field="name" styleName="{common.css.textBox}" />
 					</td>
 					<td class="{style.reloadButtonCell} {style.topPadding}">
 						<g:PushButton ui:field="reloadButton"
@@ -39,18 +38,20 @@
 				</tr>
 				<tr>
 					<td class="{common.css.mappingTableNameHeader}">
-						<span class="{common.css.propertyLabel}" style="text-align:left;padding-left:32px;padding-right:10px;">VERSION</span>
+						<span class="{common.css.propertyLabel}"
+							style="text-align:left;padding-left:32px;padding-right:10px;">VERSION</span>
 					</td>
 					<td style="padding-top:10px;padding-right: 70px;" colspan="2">
-						<g:TextBox width="99%" ui:field="version"
-							styleName="{common.css.textBox}" />
+						<g:TextBox width="99%" ui:field="version" styleName="{common.css.textBox}" />
 					</td>
 				</tr>
 				<tr>
 					<td class="{common.css.mappingTableNameHeader}">
-						<span class="{common.css.propertyLabel}" style="text-align:left;padding-left:32px;padding-right:10px;">SEALED</span>
+						<span class="{common.css.propertyLabel}"
+							style="text-align:left;padding-left:32px;padding-right:10px;">SEALED</span>
 					</td>
-					<td style="padding-top:10px;padding-right: 70px;text-align: left;" colspan="2">
+					<td style="padding-top:10px;padding-right: 70px;text-align: left;"
+						colspan="2">
 						<g:SimpleCheckBox ui:field="sealed"
 							styleName="{common.css.simpleCheckbox}" />
 					</td>
@@ -60,12 +61,15 @@
 						<table style="border-collapse:collapse; width: 100%;">
 							<tr>
 								<td class="{common.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
-								<g:InlineLabel ui:field="attributeMappingLabel" styleName="{common.css.propertyLabel}"/>
+									<g:InlineLabel ui:field="attributeMappingLabel"
+										styleName="{common.css.propertyLabel}" />
 								</td>
 							</tr>
 							<tr>
 								<td style="border: 1px solid #d1d1d1;padding-left:5px;">
-									<u:AttributeMappingPanel ui:field="mappingPanel" />
+									<g:ScrollPanel height="175px">
+										<u:AttributeMappingPanel ui:field="mappingPanel" />
+									</g:ScrollPanel>
 								</td>
 							</tr>
 						</table>
@@ -73,5 +77,6 @@
 				</tr>
 			</table>
 		</g:HTMLPanel>
-	</g:ScrollPanel>
+	</g:SimpleLayoutPanel>
+
 </ui:UiBinder> 
