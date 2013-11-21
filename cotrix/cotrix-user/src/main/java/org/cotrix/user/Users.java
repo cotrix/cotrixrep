@@ -60,7 +60,7 @@ public class Users {
 
 	public static User cotrix = user().name("cotrix").fullName("Cotrix Root User").is(ROOT).build();
 
-	public static User guest = user().name("cotrix-guest").fullName("Cotrix Guest User").can(GuestAction.values())
+	public static User guest = user().name("guest").fullName("Cotrix Guest User").can(GuestAction.values())
 			.build();
 
 	public static List<User> predefinedUsers = asList(cotrix, guest);
