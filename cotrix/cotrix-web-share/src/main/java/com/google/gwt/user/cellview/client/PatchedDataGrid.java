@@ -739,6 +739,8 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		}*/
 	}
 	
+	
+	
 	public void refreshColumnSizes() {
 		Log.trace("refreshColumnSizes");
 		
@@ -867,6 +869,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	@Override
 	public void onResize() {
 		headerPanel.onResize();
+		if (autoAdjust) updateTableWidth();
 	}
 
 	@Override
