@@ -13,6 +13,7 @@ public class AttributeDefinition implements IsSerializable {
 	
 	protected String name;
 	protected AttributeType type;
+	protected String customType;
 	protected String language;
 	
 	/**
@@ -26,6 +27,18 @@ public class AttributeDefinition implements IsSerializable {
 	 */
 	public AttributeType getType() {
 		return type;
+	}
+	/**
+	 * @return the customType
+	 */
+	public String getCustomType() {
+		return customType;
+	}
+	/**
+	 * @param customType the customType to set
+	 */
+	public void setCustomType(String customType) {
+		this.customType = customType;
 	}
 	/**
 	 * @return the language
@@ -54,17 +67,18 @@ public class AttributeDefinition implements IsSerializable {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-	
 	/** 
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("ColumnDefinition [name=");
+		builder.append("AttributeDefinition [name=");
 		builder.append(name);
 		builder.append(", type=");
 		builder.append(type);
+		builder.append(", customType=");
+		builder.append(customType);
 		builder.append(", language=");
 		builder.append(language);
 		builder.append("]");

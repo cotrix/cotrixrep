@@ -5,6 +5,8 @@ import java.util.Arrays;
 import org.cotrix.web.importwizard.client.resources.ImportConstants;
 import org.cotrix.web.importwizard.shared.AttributeType;
 import org.cotrix.web.share.client.resources.CommonResources;
+import org.cotrix.web.share.client.widgets.EnumListBox;
+import org.cotrix.web.share.client.widgets.EnumListBox.LabelProvider;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -14,6 +16,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.Label;
 
@@ -28,16 +31,13 @@ public class AttributeDefinitionPanel extends Composite {
 	interface AttributeDefinitionPanelUiBinder extends UiBinder<Widget, AttributeDefinitionPanel> {
 	}
 
-	public interface TypeLabelProvider {
-		String getLabel(AttributeType type);
-	}
-
-	public static final TypeLabelProvider SDMXTypeLabelProvider  = new TypeLabelProvider() {
+	public static final LabelProvider<AttributeType> SDMXTypeLabelProvider  = new LabelProvider<AttributeType>() {
 
 		@Override
 		public String getLabel(AttributeType type) {
 			switch (type) {
 				case CODE: return "Code";
+				case OTHER_CODE: return "Other Code";
 				case DESCRIPTION: return "Description";
 				case ANNOTATION: return "Annotation";
 				case OTHER: return "Other";
@@ -46,12 +46,13 @@ public class AttributeDefinitionPanel extends Composite {
 		}
 	};
 
-	public static final TypeLabelProvider CSVTypeLabelProvider  = new TypeLabelProvider() {
+	public static final LabelProvider<AttributeType> CSVTypeLabelProvider  = new LabelProvider<AttributeType>() {
 
 		@Override
 		public String getLabel(AttributeType type) {
 			switch (type) {
 				case CODE: return "Primary code";
+				case OTHER_CODE: return "Other Code";
 				case DESCRIPTION: return "Description";
 				case ANNOTATION: return "Annotation";
 				case OTHER: return "Other";
@@ -60,7 +61,8 @@ public class AttributeDefinitionPanel extends Composite {
 		}
 	};
 
-	@UiField ListBox typeList;
+	@UiField(provided=true) EnumListBox<AttributeType> typeList;
+	@UiField TextBox customType;
 	@UiField Label inLabel;
 	@UiField ListBox languageList;
 
@@ -70,11 +72,9 @@ public class AttributeDefinitionPanel extends Composite {
 		String listBoxError();
 	}
 	
-	protected TypeLabelProvider typeLabelProvider;
-	
-
-	public AttributeDefinitionPanel(TypeLabelProvider typeLabelProvider) {
-		this.typeLabelProvider = typeLabelProvider;
+	public AttributeDefinitionPanel(LabelProvider<AttributeType> typeLabelProvider) {
+		
+		typeList = new EnumListBox<AttributeType>(AttributeType.class, typeLabelProvider);
 		
 		initWidget(uiBinder.createAndBindUi(this));
 
@@ -86,18 +86,7 @@ public class AttributeDefinitionPanel extends Composite {
 			}
 		});
 
-		setupTypeList();
 		setupLanguageList();
-	}
-
-	protected void setupTypeList()
-	{
-		for (AttributeType type:AttributeType.values()) typeList.addItem(getTypeLabel(type), type.toString());
-	}
-
-	protected String getTypeLabel(AttributeType type)
-	{
-		return typeLabelProvider.getLabel(type);
 	}
 
 	protected void setupLanguageList()
@@ -109,22 +98,18 @@ public class AttributeDefinitionPanel extends Composite {
 
 	public AttributeType getType()
 	{
-		int selectedIndex = typeList.getSelectedIndex();
-		if (selectedIndex<0) return null;
-		String value = typeList.getValue(selectedIndex);
-		return AttributeType.valueOf(value);
+		return typeList.getSelectedValue();
+	}
+	
+	public String getCustomType() {
+		return customType.getText();
 	}
 
-	public void setType(AttributeType type)
+	public void setType(AttributeType type, String customType)
 	{
-		String value = type.toString();
-		for (int i = 0; i < typeList.getItemCount(); i++) {
-			if (typeList.getValue(i).equals(value)) {
-				typeList.setSelectedIndex(i);
-				updateVisibilities();
-				return;
-			}
-		}
+		typeList.setSelectedValue(type);
+		this.customType.setText(customType);
+		updateVisibilities();
 	}
 
 	public String getLanguage()
@@ -144,7 +129,8 @@ public class AttributeDefinitionPanel extends Composite {
 	protected void updateVisibilities()
 	{
 		AttributeType type = getType();
-		setLanguagePanelVisibile(type != null && type != AttributeType.CODE);
+		setLanguagePanelVisibile(type != null && type != AttributeType.CODE && type != AttributeType.OTHER_CODE);
+		customType.setVisible(typeList.getSelectedValue() == AttributeType.OTHER);
 	}
 
 	protected void setLanguagePanelVisibile(boolean visible)
