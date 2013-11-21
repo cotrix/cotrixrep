@@ -38,11 +38,6 @@
 			font-weight: normal;
 			cursor: pointer;
 		}
-		
-		.register {
-			padding-left: 5px;
-
-		}
 	</ui:style>
 	<g:FlowPanel>
 		<g:HorizontalPanel width="100%" verticalAlignment="middle">
@@ -57,7 +52,8 @@
 				<g:InlineHTML styleName="{style.middle}">&nbsp;|&nbsp;</g:InlineHTML>
 				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="login" visible="false">login</g:InlineLabel>
 				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="logout" visible="false">logout</g:InlineLabel>
-				<g:InlineLabel styleName="{style.active} {style.middle} {style.register}" ui:field="register" visible="false">register</g:InlineLabel>
+				<g:InlineHTML ui:field="registerSeparator" styleName="{style.middle}" visible="false">&nbsp;|&nbsp;</g:InlineHTML>
+				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="register" visible="false">sign-up</g:InlineLabel>
 			</g:FlowPanel>
 		</g:HorizontalPanel>
 	</g:FlowPanel>
