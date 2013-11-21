@@ -186,9 +186,8 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 
 	protected void fillCodelistActions(String codelistId, User user, FeatureCarrier featureCarrier)
 	{
-		engine.perform(CodelistAction.VIEW.on(codelistId)).with(NOP);
-		Collection<Action> actions = Actions.filterForAction(CodelistAction.VIEW, user.permissions());
-		actionMapper.fillFeatures(featureCarrier, codelistId, actions);
+		TaskOutcome<Void> outcome = engine.perform(CodelistAction.VIEW.on(codelistId)).with(NOP);
+		actionMapper.fillFeatures(featureCarrier, codelistId, outcome.nextActions());
 	}
 
 	@Override
