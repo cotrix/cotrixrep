@@ -1,0 +1,27 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p="urn:import:org.cotrix.web.permissionmanager.client"
+	xmlns:menu="urn:import:org.cotrix.web.permissionmanager.client.menu"
+	xmlns:application="urn:import:org.cotrix.web.permissionmanager.client.application"
+	xmlns:codelists="urn:import:org.cotrix.web.permissionmanager.client.codelists"
+	xmlns:preferences="urn:import:org.cotrix.web.permissionmanager.client.preferences"
+	xmlns:profile="urn:import:org.cotrix.web.permissionmanager.client.profile">
+	<ui:style>
+		
+	</ui:style>
+	<g:SplitLayoutPanel>
+		<g:west size="200">
+			<menu:MenuPanel ui:field="menuPanel" />
+		</g:west>
+		<g:center>
+			<g:DeckLayoutPanel ui:field="contentPanel">
+				<application:ApplicationPermissionPanel
+					ui:field="applicationPermissionPanel" />
+				<codelists:CodelistsPermissionsPanel
+					ui:field="codelistsPermissionspanel" />
+				<preferences:PreferencesPanel ui:field="preferencesPanel" />
+				<profile:ProfilePanel ui:field="profilePanel" />
+			</g:DeckLayoutPanel>
+		</g:center>
+	</g:SplitLayoutPanel>
+</ui:UiBinder> 
