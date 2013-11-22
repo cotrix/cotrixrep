@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import org.cotrix.action.Action;
 import org.cotrix.action.MainAction;
+import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
@@ -32,6 +33,18 @@ public class EngineTest {
 	
 	@Inject 
 	LifecycleService service;
+	
+	@Produces @Current
+	public BeanSession session() {
+		
+		User user = Users.user("joe").can(IMPORT,EDIT,LOCK.on("2"),UNLOCK).build(); //but can't seal
+		
+		BeanSession session = new BeanSession();
+		
+		session.add(User.class,user);
+		
+		return session;
+	}
 	
 	@Produces @Current
 	public User testuser() {

@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import org.cotrix.action.Action;
 import org.cotrix.common.cdi.BeanSession;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.user.User;
@@ -29,7 +30,7 @@ import org.cotrix.user.User;
 @ApplicationScoped
 public class DefaultEngine implements Engine {
 
-	@Inject
+	@Inject @Current
 	private BeanSession session;
 
 	@Inject
