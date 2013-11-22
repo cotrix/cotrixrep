@@ -3,10 +3,12 @@
  */
 package org.cotrix.web.permissionmanager.client.codelists.tree;
 
-import org.cotrix.web.permissionmanager.client.codelists.tree.CodelistGroup.Version;
 import org.cotrix.web.permissionmanager.client.resources.CodelistsResources;
+import org.cotrix.web.permissionmanager.shared.CodelistGroup.Version;
 import org.cotrix.web.share.client.util.SingleSelectionModel;
+import org.cotrix.web.share.shared.codelist.UICodelist;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
@@ -26,13 +28,19 @@ public class CodelistsTreePanel extends ResizeComposite {
 	private static CodelistsTreePanelUiBinder uiBinder = GWT
 			.create(CodelistsTreePanelUiBinder.class);
 
-	interface CodelistsTreePanelUiBinder extends
-	UiBinder<Widget, CodelistsTreePanel> {
+	interface CodelistsTreePanelUiBinder extends UiBinder<Widget, CodelistsTreePanel> {
+	}
+	
+	public interface CodelistsTreePanelListener {
+		public void onCodelistSelected(UICodelist codelist);
 	}
 
 	@UiField CellTree codelistsTree;
 
-	public CodelistsTreePanel() {
+	protected CodelistsTreePanelListener listener;
+	
+	public CodelistsTreePanel(CodelistsTreePanelListener listener) {
+		this.listener = listener;
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -42,10 +50,12 @@ public class CodelistsTreePanel extends ResizeComposite {
 		final SingleSelectionModel<Version> selectionModel = new SingleSelectionModel<Version>();
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			public void onSelectionChange(SelectionChangeEvent event) {
-				System.out.println("SELECTED "+event);
+				
 				Version selected = selectionModel.getSelectedObject();
+				Log.trace("selected version "+selected);
+				
 				if (selected != null) {
-					//presenter.onCodelistItemSelected(selected.toUICodelist());
+					listener.onCodelistSelected(selected.toUICodelist());
 				}
 			}
 		});

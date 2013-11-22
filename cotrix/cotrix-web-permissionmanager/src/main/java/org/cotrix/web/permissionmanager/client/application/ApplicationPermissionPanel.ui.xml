@@ -1,9 +1,12 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:matrix="urn:import:org.cotrix.web.permissionmanager.client.matrix">
 	<ui:style>
+		
 	</ui:style>
-	<g:HTMLPanel>
-		Application coming soon.
-	</g:HTMLPanel>
+	<g:LayoutPanel>
+		<g:layer>
+			<matrix:UsersRolesMatrix ui:field="usersRolesMatrix" />
+		</g:layer>
+	</g:LayoutPanel>
 </ui:UiBinder> 

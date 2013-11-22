@@ -30,7 +30,7 @@ import org.cotrix.user.User;
 @ApplicationScoped
 public class DefaultEngine implements Engine {
 
-	@Inject @Current
+	@Inject
 	private BeanSession session;
 
 	@Inject

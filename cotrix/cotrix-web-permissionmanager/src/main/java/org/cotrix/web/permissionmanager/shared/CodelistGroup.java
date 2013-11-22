@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.permissionmanager.client.codelists.tree;
+package org.cotrix.web.permissionmanager.shared;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -125,7 +125,7 @@ public class CodelistGroup implements IsSerializable {
 		
 		protected Version(){}
 		
-		protected Version(CodelistGroup parent, String id, String version) {
+		public Version(CodelistGroup parent, String id, String version) {
 			this.parent = parent;
 			this.id = id;
 			this.version = version;

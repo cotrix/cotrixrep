@@ -1,16 +1,20 @@
 /**
  * 
  */
-package org.cotrix.web.permissionmanager.client.codelists.matrix;
+package org.cotrix.web.permissionmanager.shared;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class User {
+public class User implements IsSerializable {
 	
 	protected String id;
 	protected String username;
+	
+	public User(){}
 	
 	/**
 	 * @param id

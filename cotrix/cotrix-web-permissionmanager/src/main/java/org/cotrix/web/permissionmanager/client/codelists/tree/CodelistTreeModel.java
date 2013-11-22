@@ -3,12 +3,10 @@
  */
 package org.cotrix.web.permissionmanager.client.codelists.tree;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.cotrix.web.permissionmanager.client.codelists.tree.CodelistGroup.Version;
 import org.cotrix.web.permissionmanager.client.resources.CodelistsResources;
 import org.cotrix.web.permissionmanager.client.resources.PermissionsResources;
+import org.cotrix.web.permissionmanager.shared.CodelistGroup;
+import org.cotrix.web.permissionmanager.shared.CodelistGroup.Version;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.shared.GWT;
@@ -26,19 +24,6 @@ import com.google.gwt.view.client.TreeViewModel;
  *
  */
 public class CodelistTreeModel implements TreeViewModel {
-	
-	protected static List<CodelistGroup> GROUPS = Arrays.asList(
-			new CodelistGroup("ASFIS", Arrays.asList(
-					new Version(null, "1", "2011"),
-					new Version(null, "2", "2012"),
-					new Version(null, "3", "2013")
-					)),
-			new CodelistGroup("COUNTRIES", Arrays.asList(
-					new Version(null, "11", "2009"),
-					new Version(null, "21", "2011"),
-					new Version(null, "31", "2013")
-					))
-			);
 	
 	public interface VersionItemTemplate extends SafeHtmlTemplates {
 	    @Template("<div><img src=\"{0}\" style=\"vertical-align: middle;\"><span class=\"{1}\">version {2}</span></div>")
@@ -65,7 +50,7 @@ public class CodelistTreeModel implements TreeViewModel {
 		}
 	};
 	
-	protected ListDataProvider<CodelistGroup> dataProvider = new ListDataProvider<CodelistGroup>(GROUPS);
+	protected CodelistGroupsDataProvider dataProvider = new CodelistGroupsDataProvider();
 	protected SelectionModel<Version> selectionModel;
 
 	/**

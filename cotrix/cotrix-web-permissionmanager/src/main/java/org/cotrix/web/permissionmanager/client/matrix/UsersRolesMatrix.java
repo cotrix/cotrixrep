@@ -1,23 +1,26 @@
 /**
  * 
  */
-package org.cotrix.web.permissionmanager.client.codelists.matrix;
+package org.cotrix.web.permissionmanager.client.matrix;
 
-import java.util.Arrays;
 import java.util.List;
 
+import org.cotrix.web.permissionmanager.shared.RolesRow;
+import org.cotrix.web.share.client.widgets.LoadingPanel;
+
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.AbstractDataProvider;
+import com.google.gwt.view.client.Range;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -32,24 +35,30 @@ public class UsersRolesMatrix extends ResizeComposite {
 			UiBinder<Widget, UsersRolesMatrix> {
 	}
 	
-	protected static List<String> ROLES = Arrays.asList("USER", "EDITOR", "REVIEWER", "PUBLISHER");
-	protected static List<RolesRow> ROWS = Arrays.asList(
-			new RolesRow(new User("1", "Federico De Faveri"), ROLES.subList(0, 2)),
-			new RolesRow(new User("2", "Fabio Simeoni"), ROLES.subList(0, 2)),
-			new RolesRow(new User("3", "Anton Ellenbroek"), ROLES.subList(2, 3)),
-			new RolesRow(new User("4", "Aureliano Gentile"), ROLES.subList(1, 2)),
-			new RolesRow(new User("5", "Erik Van Ingen"), ROLES.subList(2, 3))			
-			);
-	
-	@UiField DataGrid<RolesRow> matrix;
-
-	public UsersRolesMatrix() {
-		initWidget(uiBinder.createAndBindUi(this));
+	public interface UsersRolesMatrixListener {
+		public void onRolesRowUpdated(RolesRow row);
 	}
 	
-	@UiFactory
-	protected DataGrid<RolesRow> setupMatrix() {
-		DataGrid<RolesRow> matrix = new DataGrid<RolesRow>();
+	@UiField LoadingPanel loader;
+	@UiField(provided=true) DataGrid<RolesRow> matrix;
+	
+	protected UsersRolesMatrixListener listener;
+
+	public UsersRolesMatrix(UsersRolesMatrixListener listener) {
+		this.listener = listener;
+		matrix = new DataGrid<RolesRow>();
+		initWidget(uiBinder.createAndBindUi(this));
+		loader.showLoader();
+		
+	}
+	
+	public void reload() {
+		Log.trace("reload");
+	     int pageSize = matrix.getPageSize();
+	     matrix.setVisibleRangeAndClearData(new Range(0, pageSize), true);
+	}
+	
+	public void setupMatrix(List<String> roles, AbstractDataProvider<RolesRow> dataProvider) {
 		
 		Column<RolesRow, String> userColumn = new Column<RolesRow, String>(new TextCell()) {
 			
@@ -60,15 +69,14 @@ public class UsersRolesMatrix extends ResizeComposite {
 		};
 		matrix.addColumn(userColumn, "Users");
 		
-		for (String role:ROLES) {
+		for (String role:roles) {
 			Column<RolesRow, Boolean> roleColumns = getColumn(role);
 			matrix.addColumn(roleColumns, role);
 		}
 		
-		ListDataProvider<RolesRow> dataProvider = new ListDataProvider<RolesRow>(ROWS);
 		dataProvider.addDataDisplay(matrix);
 		
-		return matrix;
+		loader.hideLoader();
 	}
 	
 	protected Column<RolesRow, Boolean> getColumn(final String role) {
@@ -85,6 +93,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 			@Override
 			public void update(int index, RolesRow row, Boolean value) {
 				row.addRole(role);
+				listener.onRolesRowUpdated(row);
 			}
 		});
 		

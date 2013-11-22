@@ -73,6 +73,12 @@
 <!-- 		<servlet-class>org.cotrix.web.publish.server.DownloadServlet</servlet-class> -->
 <!-- 		<load-on-startup>1</load-on-startup> -->
 <!-- 	</servlet> -->
+
+	<servlet>
+		<servlet-name>permissionServlet</servlet-name>
+		<servlet-class>org.cotrix.web.permissionmanager.server.PermissionServiceImpl</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>listServlet</servlet-name>
@@ -109,6 +115,11 @@
 <!-- 		<servlet-name>publishDownloadServlet</servlet-name> -->
 <!-- 		<url-pattern>/CodeListManager/publishDownload</url-pattern> -->
 <!-- 	</servlet-mapping> -->
+
+	<servlet-mapping>
+		<servlet-name>permissionServlet</servlet-name>
+		<url-pattern>/CodeListManager/permissionService</url-pattern>
+	</servlet-mapping>
 
 	<filter-mapping>
 		<filter-name>weldworkaround</filter-name>

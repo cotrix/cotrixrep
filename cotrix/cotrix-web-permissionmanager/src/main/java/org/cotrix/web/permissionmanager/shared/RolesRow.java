@@ -1,18 +1,22 @@
 /**
  * 
  */
-package org.cotrix.web.permissionmanager.client.codelists.matrix;
+package org.cotrix.web.permissionmanager.shared;
 
 import java.util.List;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class RolesRow {
+public class RolesRow implements IsSerializable {
 	
 	protected User user;
 	protected List<String> roles;
+	
+	public RolesRow(){}
 
 	/**
 	 * @param user

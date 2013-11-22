@@ -1,9 +1,9 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
-	xmlns:codelists="urn:import:org.cotrix.web.permissionmanager.client.codelists"
-	xmlns:matrix="urn:import:org.cotrix.web.permissionmanager.client.codelists.matrix"
-	xmlns:tree="urn:import:org.cotrix.web.permissionmanager.client.codelists.tree">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:codelists="urn:import:org.cotrix.web.permissionmanager.client.codelists"
+	xmlns:matrix="urn:import:org.cotrix.web.permissionmanager.client.matrix"
+	xmlns:tree="urn:import:org.cotrix.web.permissionmanager.client.codelists.tree"
+	xmlns:user="urn:import:org.cotrix.web.permissionmanager.client.codelists.user">
 	<ui:style>
 		
 	</ui:style>
@@ -15,7 +15,7 @@
 			<matrix:UsersRolesMatrix ui:field="usersRolesMatrix" />
 		</g:center>
 		<g:south size="40">
-		<codelists:RowCreatorPanel />
+			<user:UserAddPanel ui:field="userAddPanel"/>
 		</g:south>
 
 	</g:DockLayoutPanel>

@@ -7,9 +7,9 @@ import java.util.Iterator;
 
 import org.cotrix.web.share.client.resources.CommonResources;
 
-import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
-import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ResizeComposite;
@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class LoadingPanel extends ResizeComposite implements HasWidgets {
 	
 	protected DeckLayoutPanel container;
-	protected FlexTable loader;
+	protected HTMLPanel loader;
 	protected Widget innerWidget;
 	
 	public LoadingPanel()
@@ -34,11 +34,13 @@ public class LoadingPanel extends ResizeComposite implements HasWidgets {
 	
 	protected void setupLoadingContainer()
 	{
-		loader = new FlexTable();
-		loader.getElement().setAttribute("align", "center");
-		loader.getElement().getStyle().setPaddingLeft(50, Unit.PCT);
+		String id = Document.get().createUniqueId();
+		String html =  "<table width=\"100%\" height=\"100%\"><tr><td style=\"text-align: center; vertical-align: middle;\">" +
+				"<img id=\""+id+"\"/></td></tr></table>";
+		
+		loader = new HTMLPanel(html);
 		Image loaderImage = new Image(CommonResources.INSTANCE.dataLoader());
-		loader.setWidget(0, 0, loaderImage);
+		loader.addAndReplaceElement(loaderImage, id);
 
 		container.add(loader);
 	}
