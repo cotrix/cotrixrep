@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -32,6 +33,7 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	@UiField InlineLabel username;
 	@UiField InlineLabel login;
 	@UiField InlineLabel logout;
+	@UiField InlineHTML registerSeparator;
 	@UiField InlineLabel register;
 	
 	protected Presenter presenter;
@@ -90,6 +92,7 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	
 	@Override
 	public void setRegisterVisible(boolean visible) {
+		registerSeparator.setVisible(visible);
 		register.setVisible(visible);
 	}
 

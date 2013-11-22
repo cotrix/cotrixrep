@@ -84,7 +84,7 @@
 	</ui:style>
 	<g:HTMLPanel styleName="{style.box}">
 		<div class="{style.title}">
-			Register
+			Sign-up
 		</div>
 		<div class="{style.subtitle}">
 			Create an account
