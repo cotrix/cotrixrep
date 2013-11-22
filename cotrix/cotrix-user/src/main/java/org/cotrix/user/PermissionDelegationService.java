@@ -31,13 +31,6 @@ public interface PermissionDelegationService {
 	DelegateClause delegate(Role ... roles);
 	
 	/**
-	 * Delegates one or more roles from the current user to a given user.
-	 * @param roles the roles
-	 * @return the clause for the selection of the target user
-	 */
-	DelegateClause delegate(RoleModel ... roles);
-	
-	/**
 	 * Revokes one or more permissions from a given user.
 	 * @param permissions the permissions
 	 * @return the clause for the selection of the target user
@@ -51,14 +44,6 @@ public interface PermissionDelegationService {
 	 * @return the clause for the selection of the target user
 	 */
 	RevokeClause revoke(Role ... roles);
-	
-	
-	/**
-	 * Revokes one or more roles from a given user.
-	 * @param roles the roles
-	 * @return the clause for the selection of the target user
-	 */
-	RevokeClause revoke(RoleModel ... roles);
 
 	/**
 	 * Revokes one or more permissions from a given user.

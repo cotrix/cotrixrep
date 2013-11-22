@@ -2,7 +2,7 @@ package org.acme;
 
 
 import static org.cotrix.action.Action.*;
-import static org.cotrix.action.ActionType.*;
+import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.MainAction.*;
 import static org.junit.Assert.*;
@@ -50,7 +50,7 @@ public class ActionTest {
 		assertEquals(IMPORT.on("1"),IMPORT.on("1"));
 		assertFalse(IMPORT.on("1").equals(IMPORT.on("2")));
 		
-		assertFalse(action(codelist,"a").equals(action(main,"a")));
+		assertFalse(action(codelists,"a").equals(action(application,"a")));
 	}
 	
 	
@@ -66,8 +66,8 @@ public class ActionTest {
 	@Test
 	public void inclusionRespectsEnumTypes() {
 		
-		Action a = action(codelist,"a");
-		Action aDifferentA = action(main,"a");
+		Action a = action(codelists,"a");
+		Action aDifferentA = action(application,"a");
 		
 		assertFalse(a.included(aDifferentA));
 	}

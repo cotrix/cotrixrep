@@ -1,6 +1,7 @@
 package org.acme;
 
 import static junit.framework.Assert.*;
+import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.domain.trait.Status.*;
@@ -10,7 +11,7 @@ import org.cotrix.action.Action;
 import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
 import org.cotrix.common.Utils;
-import org.cotrix.user.RoleModel;
+import org.cotrix.user.Role;
 import org.cotrix.user.User;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class UserTest {
 	@Test
 	public void isBuiltCorrectly() {
 
-		RoleModel model = user().name("model").fullName("test model").can(MainAction.values()).buildAsModel();
+		Role model = user().name("model").fullName("test model").can(MainAction.values()).buildAsRoleFor(application);
 		
 		User joe = user().name("joe").fullName("joe the plummer").
 								can(CodelistAction.values()).cannot(LOCK).
@@ -45,7 +46,7 @@ public class UserTest {
 
 		String name = "name";
 		Action a = action("a");
-		RoleModel m = user().name(name).fullName(name).buildAsModel();
+		Role m = user().name(name).fullName(name).buildAsRoleFor(application);
 		User u;
 
 		// new users

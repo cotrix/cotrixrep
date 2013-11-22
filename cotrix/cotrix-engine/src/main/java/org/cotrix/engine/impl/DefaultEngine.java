@@ -15,6 +15,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.cotrix.action.Action;
+import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
@@ -29,9 +30,8 @@ import org.cotrix.user.User;
 @ApplicationScoped
 public class DefaultEngine implements Engine {
 
-	@Inject
-	private @Current
-	User user;
+	@Inject @Current
+	private BeanSession session;
 
 	@Inject
 	private List<EngineDelegate> delegates;
@@ -54,6 +54,8 @@ public class DefaultEngine implements Engine {
 	}
 
 	private <T> TaskOutcome<T> perform(Action action, Task<T> task) {
+		
+		User user = session.get(User.class);
 
 		//subset permissions to relevant type and resource
 		Collection<Action> permissions = filterForAction(action,user.permissions());

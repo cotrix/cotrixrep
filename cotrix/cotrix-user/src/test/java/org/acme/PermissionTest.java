@@ -47,8 +47,6 @@ public class PermissionTest {
 		assertEqualSets(bill.permissions(),doit,doit.on("1"));
 	}
 	
-	
-	
 	//helpers
 	
 	private UserGrammar.ThirdClause bill() {

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 
-public enum ActionType implements Iterable<Action>{
+public enum ResourceType implements Iterable<Action>{
 
 	//note: cannot factor out implementation of iterator() by passing action enum values in constructor..
 	// e.g. main(MainAction.values())....
@@ -17,7 +17,7 @@ public enum ActionType implements Iterable<Action>{
 		}
 	},
 	
-	main() {
+	application() {
 		
 		@Override
 		public Iterator<Action> iterator() {
@@ -25,15 +25,7 @@ public enum ActionType implements Iterable<Action>{
 		}
 	},
 	
-	guest {
-		
-		@Override
-		public Iterator<Action> iterator() {
-			return Arrays.<Action>asList(GuestAction.values()).iterator();
-		}
-	},
-	
-	codelist() {
+	codelists() {
 		
 		@Override
 		public Iterator<Action> iterator() {
@@ -41,7 +33,7 @@ public enum ActionType implements Iterable<Action>{
 		}
 	},
 	
-	user() {
+	users() {
 		
 		@Override
 		public Iterator<Action> iterator() {

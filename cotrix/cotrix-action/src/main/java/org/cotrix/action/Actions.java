@@ -37,7 +37,7 @@ public abstract class Actions {
 	 * @param labels the remaining labels, if any
 	 * @return the action
 	 */
-	public static Action action(ActionType type, String label, String ... labels) {
+	public static Action action(ResourceType type, String label, String ... labels) {
 		
 		List<String> ps = new ArrayList<String>();
 		ps.add(label);

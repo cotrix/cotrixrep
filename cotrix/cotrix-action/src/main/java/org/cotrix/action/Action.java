@@ -4,14 +4,14 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * An action that may be taken by the application.
+ * An action that may be taken by the application over a given resource.
  * <p>
  * An action is comprised of:
  * 
  * <ul>
  * <li>a sequence of one ore more labels;
  * <li>a resource identifier;
- * <li>an optional {@link ActionType}.
+ * <li>a {@link ResourceType}.
  * </ul>
  * 
  * Labels and identifiers are plain strings, with {@link #any} standing for any possible string. An action over
@@ -40,7 +40,7 @@ public interface Action {
 	 * 
 	 * @return the type
 	 */
-	ActionType type();
+	ResourceType type();
 
 	/**
 	 * Returns the labels of this action.
