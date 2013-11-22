@@ -8,8 +8,8 @@ import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.cotrix.application.ApplicationEvents.Startup;
 import org.cotrix.application.NewsService.NewsItem;
+import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

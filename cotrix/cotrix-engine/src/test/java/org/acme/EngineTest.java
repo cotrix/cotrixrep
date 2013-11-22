@@ -26,7 +26,6 @@ import com.googlecode.jeeunit.JeeunitRunner;
 
 @RunWith(JeeunitRunner.class)
 public class EngineTest {
-
 	
 	@Inject
 	Engine engine;
@@ -34,8 +33,8 @@ public class EngineTest {
 	@Inject 
 	LifecycleService service;
 	
-	@Produces @Current
-	public BeanSession session() {
+	@Produces
+	public @Current BeanSession session() {
 		
 		User user = Users.user("joe").can(IMPORT,EDIT,LOCK.on("2"),UNLOCK).build(); //but can't seal
 		

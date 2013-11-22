@@ -1,4 +1,4 @@
-package org.cotrix.user.impl;
+package org.cotrix.user.memory;
 
 import static org.cotrix.user.Users.*;
 
