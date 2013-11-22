@@ -15,14 +15,14 @@ import org.cotrix.user.impl.UserQueryFactory;
  */
 public class MUserQueryFactory implements UserQueryFactory {
 
-	static abstract class MUserQuery<R> extends MQuery<User, R> {}
-	
 	@Override
 	public Query<User, User> allUsers() {
-		return new MUserQuery<User>() {
+		
+		return new MQuery<User,User>() {
 			public Iterable<User> _execute(MRepository<User,?> repository) {
 				return repository.getAll();
 			}
 		};
+		
 	}
 }

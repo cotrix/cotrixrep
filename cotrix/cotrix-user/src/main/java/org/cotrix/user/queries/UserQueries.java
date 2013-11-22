@@ -2,7 +2,7 @@ package org.cotrix.user.queries;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.common.cdi.ApplicationEvents;
+import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.cotrix.repository.query.Query;
 import org.cotrix.user.User;
 import org.cotrix.user.impl.UserQueryFactory;
@@ -17,9 +17,11 @@ public class UserQueries {
 	}
 	
 	
+	//TODO...others
+	
 	static class CdiInjector {
 		
-		static void configure(@Observes ApplicationEvents.Startup event, UserQueryFactory factory) {
+		static void configure(@Observes Startup event, UserQueryFactory factory) {
 		
 			UserQueries.factory = factory;
 		}

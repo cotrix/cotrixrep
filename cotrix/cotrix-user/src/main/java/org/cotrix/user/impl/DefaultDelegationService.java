@@ -121,12 +121,11 @@ public class DefaultDelegationService implements PermissionDelegationService {
 				validate(user);
 	
 				for (Role r : roles)
-					if (!user.is(r))
-						throw new IllegalStateException(user.name()+" does not have role "+r);
-					else
+					if (user.is(r))
 						policy.validateRevocation(currentUser, user, toArray(r.permissions()));
 				
 				User changeset = Users.user(user).isNot(roles).build();
+				
 				repository.update(changeset);
 			}
 		};

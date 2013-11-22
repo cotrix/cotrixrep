@@ -118,17 +118,7 @@ public class PermissionDelegationTest {
 			
 	}
 	
-	@Test(expected=IllegalStateException.class)
-	public void doesNotRevokeNotExistentRole() {
-		
-		User bill = bill();
-		
-		service.revoke(aRole()).from(bill);
-		
-	}
-	
-	
-	
+
 	
 	
 	
