@@ -9,6 +9,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.cotrix.common.cdi.BeanSession;
+import org.cotrix.common.cdi.Current;
 import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.ContextController;
 import org.jglue.cdiunit.DummyHttpRequest;
@@ -20,7 +21,7 @@ import org.junit.runner.RunWith;
 @RunWith(CdiRunner.class)
 public class SessionTest {
 
-	@Inject
+	@Inject @Current
 	BeanSession session;
 	
 	@Inject
@@ -28,6 +29,12 @@ public class SessionTest {
 	
 	@Inject
 	ContextController scopes;
+	
+	@Produces @SessionScoped
+	public static @Current BeanSession session() {
+		
+		return new BeanSession();		
+	}
 	
 	@Test
 	public void sessionScenario() {
@@ -54,7 +61,7 @@ public class SessionTest {
 	}
 	
 	@Produces @ProducesAlternative @SessionScoped
-	Bean sessionBeanProducer(BeanSession session) {
+	Bean sessionBeanProducer(@Current BeanSession session) {
 		
 		return session.get(Bean.class);
 	}

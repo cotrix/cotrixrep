@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.enterprise.context.SessionScoped;
-
 
 /**
  * An injectable application-level notion of session backed up at runtime by an HTTP session. 
@@ -13,7 +11,6 @@ import javax.enterprise.context.SessionScoped;
  *
  */
 @SuppressWarnings("serial")
-@SessionScoped
 public class BeanSession implements Serializable {
 
 	private final Map<Class<?>,Object> data = new HashMap<Class<?>, Object>();
@@ -44,7 +41,7 @@ public class BeanSession implements Serializable {
 	public <T> T get(Class<T> type) {
 		
 		if (!contains(type))
-			throw new IllegalStateException("no bean of type "+type.getClass()+" is in session");
+			throw new IllegalStateException("no bean of type "+type+" is in session");
 
 		return type.cast(data.get(type));
 	}

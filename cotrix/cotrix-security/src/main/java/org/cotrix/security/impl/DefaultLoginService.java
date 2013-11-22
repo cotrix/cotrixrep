@@ -5,10 +5,8 @@ import static org.cotrix.user.Users.*;
 import java.util.Iterator;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,7 +36,7 @@ public class DefaultLoginService implements LoginService {
 	@Inject
 	private UserRepository users;
 	
-	@Inject
+	@Inject @Current
 	private BeanSession session;
 	
 	
@@ -74,20 +72,6 @@ public class DefaultLoginService implements LoginService {
 		session.add(User.class,user);
 
 		return user;
-	}
-	
-	@Produces @RequestScoped
-	public @Current User currentUser() {
-	
-		try {
-			return session.get(User.class);
-		}
-		catch(IllegalStateException e) {
-
-			//this should never happen: let's be more specific
-			throw new IllegalAccessError("detected an attempt to access a protected resource without an authenticated user: is the authentication barrier configured?");
-			
-		}		
 	}
 	
 	//helpers

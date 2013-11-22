@@ -4,9 +4,13 @@ import static org.cotrix.security.impl.DefaultNameAndPasswordCollector.*;
 import static org.cotrix.user.Users.*;
 import static org.junit.Assert.*;
 
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.New;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
+import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.repository.utils.UuidGenerator;
 import org.cotrix.security.impl.DefaultLoginService;
@@ -101,6 +105,18 @@ public class LoginTest {
 		
 		assertEquals(logged.name(),user.name());
 		
+	}
+	
+	@Produces @SessionScoped
+	public @Current BeanSession currentUser() {
+	
+		return new BeanSession();		
+	}
+	
+	@Produces @RequestScoped
+	public @Current User currentUser(@Current BeanSession session) {
+	
+		return session.get(User.class);		
 	}
 
 }

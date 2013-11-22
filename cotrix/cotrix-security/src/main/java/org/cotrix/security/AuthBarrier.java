@@ -13,11 +13,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.cotrix.common.cdi.BeanSession;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.user.User;
 
 public class AuthBarrier implements Filter {
 
-	@Inject
+	@Inject @Current
 	private BeanSession session;
 	
 	@Override

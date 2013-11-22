@@ -4,10 +4,13 @@ import static junit.framework.Assert.*;
 import static org.cotrix.user.Users.*;
 import static org.mockito.Mockito.*;
 
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.servlet.FilterChain;
 
 import org.cotrix.common.cdi.BeanSession;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.security.AuthBarrier;
 import org.cotrix.user.User;
 import org.jglue.cdiunit.CdiRunner;
@@ -24,7 +27,7 @@ public class BarrierTest {
 	@Inject
 	ContextController contextController;
 	
-	@Inject
+	@Inject @Current
 	BeanSession session;
 	
 	@Mock
@@ -63,5 +66,12 @@ public class BarrierTest {
 		
 		contextController.closeRequest();
 		
+	}
+	
+	
+	@Produces @SessionScoped
+	public static @Current BeanSession session() {
+	
+		return new BeanSession();
 	}
 }
