@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.permissionmanager.client.codelists.user;
 
-import org.cotrix.web.permissionmanager.shared.User;
+import org.cotrix.web.permissionmanager.shared.UIUser;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -30,7 +30,7 @@ public class UserAddPanel extends ResizeComposite {
 	}
 
 	public interface UserAddPanelListener {
-		public void onUserAdded(User user);
+		public void onUserAdded(UIUser user);
 	}
 
 
@@ -38,7 +38,7 @@ public class UserAddPanel extends ResizeComposite {
 
 	protected UserAddPanelListener listener;
 
-	protected User selectedUser;
+	protected UIUser selectedUser;
 
 	public UserAddPanel(UserAddPanelListener listener) {
 		this.listener = listener;

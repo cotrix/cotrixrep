@@ -13,7 +13,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class RolesRow implements IsSerializable {
 	
-	protected User user;
+	protected UIUser user;
 	protected List<String> roles;
 	
 	public RolesRow(){}
@@ -22,7 +22,7 @@ public class RolesRow implements IsSerializable {
 	 * @param user
 	 * @param roles
 	 */
-	public RolesRow(User user, List<String> roles) {
+	public RolesRow(UIUser user, List<String> roles) {
 		this.user = user;
 		this.roles = roles;
 	}
@@ -30,7 +30,7 @@ public class RolesRow implements IsSerializable {
 	/**
 	 * @return the user
 	 */
-	public User getUser() {
+	public UIUser getUser() {
 		return user;
 	}
 
@@ -40,6 +40,13 @@ public class RolesRow implements IsSerializable {
 	
 	public void addRole(String role) {
 		roles.add(role);
+	}
+
+	/**
+	 * @return the roles
+	 */
+	public List<String> getRoles() {
+		return roles;
 	}
 
 }

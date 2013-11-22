@@ -5,11 +5,14 @@ import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.action.MainAction.*;
 import static org.cotrix.user.Users.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
+import org.cotrix.action.ResourceType;
 import org.cotrix.action.UserAction;
 
 public class Roles {
@@ -30,4 +33,12 @@ public class Roles {
 
 	
 	public static Collection<Role> predefinedRoles = Arrays.asList(ROOT,USER,MANAGER,EDITOR);
+	
+	public static Collection<Role> getBy(ResourceType type) {
+		List<Role> roles = new ArrayList<Role>();
+		for (Role role:predefinedRoles) {
+			if (role.type() == type) roles.add(role);
+		}
+		return roles;
+	}
 }

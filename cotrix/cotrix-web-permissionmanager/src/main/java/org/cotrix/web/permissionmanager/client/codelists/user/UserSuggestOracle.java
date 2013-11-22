@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.cotrix.web.permissionmanager.client.PermissionService;
 import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
-import org.cotrix.web.permissionmanager.shared.User;
+import org.cotrix.web.permissionmanager.shared.UIUser;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -24,7 +24,7 @@ public class UserSuggestOracle extends SuggestOracle {
 	
 	protected PermissionServiceAsync service = GWT.create(PermissionService.class);
 	
-	protected List<User> cachedUsers;
+	protected List<UIUser> cachedUsers;
 
 	@Override
 	public void requestSuggestions(Request request, Callback callback) {
@@ -33,24 +33,24 @@ public class UserSuggestOracle extends SuggestOracle {
 	}
 	
 	protected void loadCacheAndSugges(final Request request, final Callback callback) {
-		service.getUsers(new ManagedFailureCallback<List<User>>() {
+		service.getUsers(new ManagedFailureCallback<List<UIUser>>() {
 
 			@Override
-			public void onSuccess(List<User> result) {
+			public void onSuccess(List<UIUser> result) {
 				cachedUsers = result;
 				doSuggestion(request, callback, result);				
 			}
 		});
 	}
 	
-	protected void doSuggestion(Request request, Callback callback, List<User> users) {
+	protected void doSuggestion(Request request, Callback callback, List<UIUser> users) {
 		String query = request.getQuery();
 		Log.trace("requestSuggestions query "+query);
 		
 		List<Suggestion> suggestions = new ArrayList<SuggestOracle.Suggestion>();
-		Iterator<User> usersIterator = users.iterator();
+		Iterator<UIUser> usersIterator = users.iterator();
 		while(usersIterator.hasNext() && suggestions.size()<request.getLimit()) {
-			User user = usersIterator.next();
+			UIUser user = usersIterator.next();
 			if (user.getUsername().toLowerCase().contains(query.toLowerCase())) {
 				Suggestion suggestion = new UserSuggestion(user);
 				suggestions.add(suggestion);

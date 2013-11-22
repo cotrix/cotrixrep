@@ -9,18 +9,18 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class User implements IsSerializable {
+public class UIUser implements IsSerializable {
 	
 	protected String id;
 	protected String username;
 	
-	public User(){}
+	public UIUser(){}
 	
 	/**
 	 * @param id
 	 * @param username
 	 */
-	public User(String id, String username) {
+	public UIUser(String id, String username) {
 		this.id = id;
 		this.username = username;
 	}

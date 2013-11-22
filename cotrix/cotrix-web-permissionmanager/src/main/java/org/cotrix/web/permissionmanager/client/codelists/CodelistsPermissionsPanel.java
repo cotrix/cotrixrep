@@ -16,7 +16,7 @@ import org.cotrix.web.permissionmanager.client.matrix.UsersRolesMatrix;
 import org.cotrix.web.permissionmanager.client.matrix.UsersRolesMatrix.UsersRolesMatrixListener;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
-import org.cotrix.web.permissionmanager.shared.User;
+import org.cotrix.web.permissionmanager.shared.UIUser;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 
@@ -92,7 +92,7 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 		userAddPanel = new UserAddPanel(new UserAddPanelListener() {
 			
 			@Override
-			public void onUserAdded(User user) {
+			public void onUserAdded(UIUser user) {
 				Log.trace("onUserAdded "+user);
 				RolesRow row = new RolesRow(user, new ArrayList<String>());
 				dataProvider.getCache().add(row);

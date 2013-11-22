@@ -5,7 +5,7 @@ import java.util.List;
 import org.cotrix.web.permissionmanager.shared.CodelistGroup;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
-import org.cotrix.web.permissionmanager.shared.User;
+import org.cotrix.web.permissionmanager.shared.UIUser;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.exception.ServiceException;
 
@@ -31,5 +31,5 @@ public interface PermissionService extends RemoteService {
 	
 	public DataWindow<CodelistGroup> getCodelistGroups() throws ServiceException;
 	
-	public List<User> getUsers() throws ServiceException;
+	public List<UIUser> getUsers() throws ServiceException;
 }
