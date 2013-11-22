@@ -18,7 +18,7 @@ import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.security.impl.DefaultSignupService;
 import org.cotrix.security.impl.MRealm;
 import org.cotrix.user.User;
-import org.cotrix.user.impl.MUserRepository;
+import org.cotrix.user.memory.MUserRepository;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.ContextController;

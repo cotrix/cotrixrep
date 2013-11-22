@@ -12,10 +12,10 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.action.events.CodelistActionEvents.Import;
-import org.cotrix.application.ApplicationEvents;
-import org.cotrix.application.ApplicationEvents.Startup;
 import org.cotrix.application.NewsService;
 import org.cotrix.application.NewsService.NewsItem;
+import org.cotrix.common.cdi.ApplicationEvents;
+import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.cotrix.lifecycle.LifecycleService;
 import org.junit.Before;
 import org.junit.Test;
