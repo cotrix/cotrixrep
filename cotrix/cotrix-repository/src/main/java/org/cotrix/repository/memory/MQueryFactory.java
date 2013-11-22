@@ -4,8 +4,6 @@ import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.QueryFactory;
-import org.cotrix.repository.memory.MQuery.CodebagMQuery;
-import org.cotrix.repository.memory.MQuery.CodelistMQuery;
 import org.cotrix.repository.query.CodebagQuery;
 import org.cotrix.repository.query.CodelistQuery;
 
@@ -16,6 +14,9 @@ import org.cotrix.repository.query.CodelistQuery;
  *
  */
 public class MQueryFactory implements QueryFactory {
+
+	static abstract class CodelistMQuery<R> extends MQuery<Codelist, R> implements CodelistQuery<R> {}
+	static abstract class CodebagMQuery<R> extends MQuery<Codebag, R> implements CodebagQuery<R> {}
 
 	
 	@Override

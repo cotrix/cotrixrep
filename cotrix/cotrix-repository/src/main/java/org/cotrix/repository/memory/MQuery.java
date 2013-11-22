@@ -3,11 +3,7 @@ package org.cotrix.repository.memory;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.domain.Codebag;
-import org.cotrix.domain.Codelist;
 import org.cotrix.repository.query.BaseQuery;
-import org.cotrix.repository.query.CodebagQuery;
-import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.repository.query.Query;
 import org.cotrix.repository.query.Range;
 
@@ -22,9 +18,6 @@ import org.cotrix.repository.query.Range;
  */
 public abstract class MQuery<T,R> extends BaseQuery<T,R> {
 
-	static abstract class CodelistMQuery<R> extends MQuery<Codelist, R> implements CodelistQuery<R> {}
-	static abstract class CodebagMQuery<R> extends MQuery<Codebag, R> implements CodebagQuery<R> {}
-	
 	/**
 	 * Creates an instance with default options.
 	 */
