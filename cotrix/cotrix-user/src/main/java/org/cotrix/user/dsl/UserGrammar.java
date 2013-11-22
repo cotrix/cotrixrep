@@ -3,9 +3,9 @@ package org.cotrix.user.dsl;
 import java.util.Collection;
 
 import org.cotrix.action.Action;
+import org.cotrix.action.ResourceType;
 import org.cotrix.domain.Code;
 import org.cotrix.user.Role;
-import org.cotrix.user.RoleModel;
 import org.cotrix.user.User;
 
 /**
@@ -41,8 +41,6 @@ public class UserGrammar {
 		
 		ThirdClause can(Collection<Action> permissions);
 		
-		ThirdClause is(RoleModel ... models);
-		
 		ThirdClause isRoot();
 		
 		ThirdClause is(Role ... bindings);
@@ -53,13 +51,11 @@ public class UserGrammar {
 		
 		User build();
 		
-		RoleModel buildAsModel();
+		Role buildAsRoleFor(ResourceType type);
 	} 
 	
 	public static interface FourthClause  {
 		
 		UserChangeClause isNot(Role ... roles);
-		
-		UserChangeClause isNot(RoleModel ... roles);
 	}
 }

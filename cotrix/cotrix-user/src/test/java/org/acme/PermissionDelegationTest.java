@@ -1,6 +1,7 @@
 package org.acme;
 
 import static junit.framework.Assert.*;
+import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.user.Users.*;
 import static org.mockito.Matchers.*;
@@ -9,7 +10,7 @@ import static org.mockito.Mockito.*;
 import org.cotrix.action.Action;
 import org.cotrix.user.DelegationPolicy;
 import org.cotrix.user.PermissionDelegationService;
-import org.cotrix.user.RoleModel;
+import org.cotrix.user.Role;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
 import org.cotrix.user.impl.DefaultDelegationService;
@@ -96,7 +97,7 @@ public class PermissionDelegationTest {
 	@Test
 	public void delegatesExistingRole() {
 		
-		RoleModel role = aRole();
+		Role role = aRole();
 		
 		User bill = billIs(role);
 		
@@ -167,8 +168,8 @@ public class PermissionDelegationTest {
 	@Test
 	public void consultsPolicyForEachRoleRevocation() {
 		
-		RoleModel r1 = aRole("r1");
-		RoleModel r2 = aRole("r2");
+		Role r1 = aRole("r1");
+		Role r2 = aRole("r2");
 		
 		User bill = billIs(r1,r2);
 		
@@ -200,7 +201,7 @@ public class PermissionDelegationTest {
 	@Test
 	public void persistsRoleDelegation() {
 		
-		RoleModel role = aRole();
+		Role role = aRole();
 		
 		User bill = bill();
 		
@@ -230,7 +231,7 @@ public class PermissionDelegationTest {
 	@Test
 	public void persistsRoleRevocation() {
 		
-		RoleModel role = aRole();
+		Role role = aRole();
 		
 		User bill = billIs(role);
 		
@@ -262,7 +263,7 @@ public class PermissionDelegationTest {
 		return bill;
 	}
 	
-	private User billIs(RoleModel ...roles) {
+	private User billIs(Role ...roles) {
 		
 		User bill = user().name("bill").fullName("bill").is(roles).build();
 		
@@ -271,12 +272,12 @@ public class PermissionDelegationTest {
 		return bill;
 	}
 	
-	private RoleModel aRole() {
-		return user().name("role").fullName("role").buildAsModel();
+	private Role aRole() {
+		return user().name("role").fullName("role").buildAsRoleFor(application);
 	}
 	
-	private RoleModel aRole(String name) {
-		return user().name(name).fullName(name).buildAsModel();
+	private Role aRole(String name) {
+		return user().name(name).fullName(name).buildAsRoleFor(application);
 	}
 	
 

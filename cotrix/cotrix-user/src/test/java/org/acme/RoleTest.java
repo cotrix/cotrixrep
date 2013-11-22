@@ -1,52 +1,52 @@
 package org.acme;
 
 import static junit.framework.Assert.*;
+import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.user.Users.*;
 
 import org.cotrix.action.Action;
-import org.cotrix.user.RoleModel;
+import org.cotrix.user.Role;
 import org.cotrix.user.User;
 import org.cotrix.user.dsl.UserGrammar;
-import org.cotrix.user.impl.DefaultRole;
 import org.junit.Test;
 
 public class RoleTest {
 	
-	Action doit = action("doit");
-	Action dothat = action("dothat");
-
+	Action doit = action(application,"doit");
+	Action dothat = action(application,"dothat");
+	Action dothatToo = action(application,"dothatToo");
+	
 	@Test
 	public void assignTemplateRole() {
 
-		RoleModel someone = aRole().buildAsModel();
+		Role something = aUserModel().buildAsRoleFor(application);
 	
-		User bill = bill().is(someone).build();
+		User bill = bill().is(something).build();
 		
-		assertTrue(bill.is(someone));
+		assertTrue(bill.is(something));
 		
 	}
 	
 	@Test
 	public void rolesHaveIdentity() {
 
-		RoleModel someone = aRole().can(doit).buildAsModel();
+		Role something = aUserModel().can(doit).buildAsRoleFor(application);
 	
 		User bill = bill().can(doit).build();
 		
-		assertFalse(bill.is(someone));
+		assertFalse(bill.is(something));
 		
 	}
 	
 	@Test
 	public void rolesGivePermissions() {
 
-		RoleModel someone = aRole().can(doit).buildAsModel();
+		Role something = aUserModel().can(doit).buildAsRoleFor(application);
 	
-		User bill = bill().is(someone).build();
+		User bill = bill().is(something).build();
 		
-		//role permissions propagate
 		assertTrue(bill.can(doit));
 		
 	}
@@ -54,9 +54,9 @@ public class RoleTest {
 	@Test
 	public void assignInstanceRoles() {
 
-		RoleModel someone = aRole().can(doit).buildAsModel();
+		Role something = aUserModel().can(doit).buildAsRoleFor(application);
 		
-		User bill = bill().is(someone.on("1")).build();
+		User bill = bill().is(something.on("1")).build();
 		
 		assertFalse(bill.can(doit));
 		
@@ -67,11 +67,9 @@ public class RoleTest {
 	@Test
 	public void permissionsCanBeDirectOrIndirect() {
 
-		RoleModel someone = aRole().can(doit).buildAsModel();
+		Role something = aUserModel().can(doit).buildAsRoleFor(application);
 	
-		User bill = bill().is(someone).can(dothat).build();
-		
-		System.out.println(bill.directPermissions().getClass());
+		User bill = bill().is(something).can(dothat).build();
 		
 		assertEqualSets(bill.directPermissions(),dothat);
 		assertEqualSets(bill.permissions(),doit,dothat);
@@ -81,24 +79,52 @@ public class RoleTest {
 	@Test
 	public void roleFormHierarchies() {
 
-		RoleModel someone = aRole("r1").can(doit).buildAsModel();
-		RoleModel someoneElse = aRole("r2").can(dothat).is(someone).buildAsModel();
+		Role something = aUserModel("role1").can(doit).buildAsRoleFor(application);
+		Role somethingElse = aUserModel("role2").can(dothat).is(something).buildAsRoleFor(application);
+		Role somethingElseStill = aUserModel("role3").can(dothatToo).is(somethingElse).buildAsRoleFor(application);
 	
-		User bill = bill().is(someoneElse).build();
+		User bill = bill().is(somethingElseStill).build();
 		
-		assertTrue(bill.is(someone));
-		assertTrue(bill.is(someoneElse));
+		assertEqualSets(bill.roles(),something,somethingElse, somethingElseStill);
+		
+		assertTrue(bill.is(something));
+		assertTrue(bill.is(somethingElse));
+		assertTrue(bill.is(somethingElseStill));
 		
 		//role permissions propagate
 		assertTrue(bill.can(doit));
 		assertTrue(bill.can(dothat));
+		assertTrue(bill.can(dothatToo));
+		
+	}
+	
+	@Test
+	public void roleHierarchiesFollowInstantiation() {
+
+		Role something = aUserModel("role1").can(doit).buildAsRoleFor(codelists);
+		Role somethingElse = aUserModel("role2").can(dothat).is(something).buildAsRoleFor(codelists);
+		Role somethingElseStill = aUserModel("role3").can(dothatToo).is(somethingElse).buildAsRoleFor(codelists);
+		
+	
+		User bill = bill().is(somethingElseStill.on("1")).build();
+		
+		assertEqualSets(bill.roles(),something.on("1"),somethingElse.on("1"), somethingElseStill.on("1"));
+		
+		assertTrue(bill.is(something.on("1")));
+		assertTrue(bill.is(somethingElse.on("1")));
+		assertTrue(bill.is(somethingElseStill.on("1")));
+		
+		//role permissions propagate
+		assertTrue(bill.can(doit.on("1")));
+		assertTrue(bill.can(dothat.on("1")));
+		assertTrue(bill.can(dothatToo.on("1")));
 		
 	}
 
 	@Test
 	public void rolesAndPermissionsCanOverlap() {
 
-		RoleModel someone = aRole().can(doit).buildAsModel();
+		Role someone = aUserModel().can(doit).buildAsRoleFor(application);
 	
 		User bill = bill().is(someone).can(doit).build();
 		
@@ -110,8 +136,8 @@ public class RoleTest {
 	@Test
 	public void rolesCanOverlap() {
 
-		RoleModel someone = aRole("r1").can(doit).buildAsModel();
-		RoleModel someoneElse = aRole("r2").can(doit).buildAsModel();
+		Role someone = aUserModel("r1").can(doit).buildAsRoleFor(application);
+		Role someoneElse = aUserModel("r2").can(doit).buildAsRoleFor(application);
 		
 		User bill = bill().is(someone,someoneElse).build();
 		
@@ -126,11 +152,11 @@ public class RoleTest {
 	@Test
 	public void rolesAreNotAddedTwice() {
 		
-		RoleModel someone = aRole().buildAsModel();
+		Role someone = aUserModel().buildAsRoleFor(application);
 		
 		User bill = bill().is(someone,someone).build();
 		
-		assertEqualSets(bill.roles(),new DefaultRole(someone));
+		assertEqualSets(bill.roles(),someone);
 	}
 	
 
@@ -143,11 +169,11 @@ public class RoleTest {
 	}
 	
 	
-	private UserGrammar.ThirdClause  aRole() {
-		return aRole("role");
+	private UserGrammar.ThirdClause  aUserModel() {
+		return aUserModel("role");
 	}
 	
-	private UserGrammar.ThirdClause aRole(String name) {
+	private UserGrammar.ThirdClause aUserModel(String name) {
 		return user().name(name).fullName(name);
 	}
 }

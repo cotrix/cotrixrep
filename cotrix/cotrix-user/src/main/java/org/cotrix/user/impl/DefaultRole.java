@@ -5,10 +5,12 @@ import static org.cotrix.common.Utils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.cotrix.action.Action;
+import org.cotrix.action.ResourceType;
 import org.cotrix.user.Role;
-import org.cotrix.user.RoleModel;
+import org.cotrix.user.User;
 
 /**
  * A user role.
@@ -21,18 +23,17 @@ import org.cotrix.user.RoleModel;
  */
 public class DefaultRole implements Role {
 
-	private final RoleModel model;
+	private final User model;
 	
 	private final String resource;
+	
+	private final ResourceType type;
 
-	/**
-	 * Creates a role with a given model and no specific resource.
-	 * 
-	 * @param model the model
-	 */
-	public DefaultRole(RoleModel model) {
-		this(model, any);
+	
+	public DefaultRole(User model,ResourceType type) {
+		this(model, type, any);
 	}
+
 
 	/**
 	 * Creates a role with a given model and a given resource.
@@ -40,61 +41,76 @@ public class DefaultRole implements Role {
 	 * @param model the model
 	 * @param resource the resource
 	 */
-	public DefaultRole(RoleModel model, String resource) {
+	public DefaultRole(User model, ResourceType type, String resource) {
 		
-		notNull("model", model);
+		notNull("role model", model);
+		notNull("type", type);
 		notNull("resource", resource);
 
 		this.model = model;
+		this.type=type;
 		this.resource = resource;
 	}
-
-	/* (non-Javadoc)
-	 * @see org.cotrix.user.Role#resource()
-	 */
+	
+	@Override
+	public ResourceType type() {
+		return type;
+	}
+	
+    @Override
+    public Role on(String resource) {
+    	return new DefaultRole(model,type,resource);
+    }
+    
 	@Override
 	public String resource() {
 		return resource;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.cotrix.user.Role#name()
-	 */
 	@Override
 	public String name() {
 		return model.name();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.cotrix.user.Role#description()
-	 */
 	@Override
 	public String description() {
 		return model.fullName();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cotrix.user.Role#is(org.cotrix.user.Role)
-	 */
 	@Override
-	public boolean is(Role role) {
-		return model.is(role);
+	public Collection<Role> roles() {
+		Collection<Role> roles = new HashSet<Role>();
+		
+		//specialise inherited roles of same type to bound resource
+		for (Role r : model.roles())
+			if (r.type().equals(this.type()))
+				roles.add(r.on(this.resource()));
+			else
+				roles.add(r);
+			
+		return roles;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cotrix.user.Role#permissions()
-	 */
+	@Override
+	public boolean is(Role role) {
+		return roles().contains(role);
+	}
+	
 	@Override
 	public Collection<Action> permissions() {
 		
 		Collection<Action> permissions = new ArrayList<Action>();
+		
 		for (Action p : model.permissions()) {
 			
-			if (permissions.contains(p)) //avoids duplicates
+			Action a =  p.type() == this.type() ? p.on(resource):p;
+			
+			if (permissions.contains(a)) //avoids duplicates
 				continue;
-				
-			permissions.add(resource==any?p:p.on(resource)); //instantiates only if needed
+			
+			permissions.add(a);
 		}
+		
 		return permissions;
 	}
 

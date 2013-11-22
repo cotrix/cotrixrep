@@ -2,7 +2,7 @@ package org.cotrix.engine.impl;
 
 import java.util.Collection;
 
-import org.cotrix.action.ActionType;
+import org.cotrix.action.ResourceType;
 import org.cotrix.action.Action;
 import org.cotrix.engine.TaskOutcome;
 
@@ -18,7 +18,7 @@ public interface EngineDelegate {
 	 * Returns the action types handled by this delegate 
 	 * @return
 	 */
-	ActionType type();
+	ResourceType type();
 	
 	/**
 	 * Performs an action with a given task for a given user.

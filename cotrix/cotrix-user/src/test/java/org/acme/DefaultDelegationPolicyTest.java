@@ -41,7 +41,7 @@ public class DefaultDelegationPolicyTest {
 	@Test
 	public void delegatesTemplatesForRootUsers() {
 		
-		User joe = user().name("joe").fullName("joe").isRoot().can(doit).buildAsModel();
+		User joe = user().name("joe").fullName("joe").isRoot().can(doit).build();
 		User bill = user().name("bill").fullName("Bill the Baker").build();
 		
 		policy.validateDelegation(joe, bill, doit);

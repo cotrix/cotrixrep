@@ -1,12 +1,13 @@
 package org.acme;
 
 import static junit.framework.Assert.*;
+import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.user.Users.*;
 
 import org.cotrix.action.Action;
-import org.cotrix.user.RoleModel;
+import org.cotrix.user.Role;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
 import org.cotrix.user.impl.MUserRepository;
@@ -54,7 +55,7 @@ public class UserRepositoryTest {
 	public void updateUser() {
 		
 		Action doit = action("doit");
-		RoleModel role = user().name("role").fullName("role").buildAsModel();
+		Role role = user().name("role").fullName("role").buildAsRoleFor(application);
 		
 		User bill = bill();
 		

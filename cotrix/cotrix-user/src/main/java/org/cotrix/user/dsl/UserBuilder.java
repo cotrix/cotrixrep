@@ -2,14 +2,14 @@ package org.cotrix.user.dsl;
 
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.trait.Status.*;
-import static org.cotrix.user.Users.*;
+import static org.cotrix.user.Roles.*;
 
 import java.util.Collection;
 
 import org.cotrix.action.Action;
+import org.cotrix.action.ResourceType;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.user.Role;
-import org.cotrix.user.RoleModel;
 import org.cotrix.user.User;
 import org.cotrix.user.dsl.UserGrammar.ThirdClause;
 import org.cotrix.user.dsl.UserGrammar.UserChangeClause;
@@ -52,13 +52,6 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 		return this;
 	}
 	
-	public UserBuilder is(RoleModel ... models) {
-		valid("roles",models);
-		for (RoleModel model : models)
-			is(new DefaultRole(model));
-		return this;
-	}
-	
 	@Override
 	public ThirdClause isRoot() {
 		return is(ROOT);
@@ -86,14 +79,6 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	
 	
 	@Override
-	public UserChangeClause isNot(RoleModel ... roles) {
-		valid("roles",roles);
-		for (RoleModel role : roles)
-			isNot(new DefaultRole(role));
-		return this;
-	}
-	
-	@Override
 	public UserBuilder can(Collection<Action> actions) {
 		
 		return can(actions.toArray(new Action[0]));
@@ -113,10 +98,10 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	}
 	
 	public User build() {
-		return buildAsModel();
+		return new User.Private(po);
 	}
 	
-	public RoleModel buildAsModel() {
-		return new User.Private(po);
+	public Role buildAsRoleFor(ResourceType type) {
+		return new DefaultRole(new User.Private(po),type);
 	}
 }

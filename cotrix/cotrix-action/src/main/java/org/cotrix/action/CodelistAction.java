@@ -1,6 +1,6 @@
 package org.cotrix.action;
 
-import static org.cotrix.action.ActionType.*;
+import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.action.Actions.*;
 
 import java.util.Collection;
@@ -21,12 +21,12 @@ public enum CodelistAction implements Action {
 	protected Action inner;
 
 	private CodelistAction(String part,String ... parts) {
-	  this.inner = (Action) action(codelist,part,parts);
+	  this.inner = (Action) action(codelists,part,parts);
 	}
 	
 	@Override
-	public ActionType type() {
-		return codelist;
+	public ResourceType type() {
+		return codelists;
 	}
 
 	public List<String> labels() {

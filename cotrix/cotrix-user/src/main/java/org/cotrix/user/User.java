@@ -1,19 +1,22 @@
 package org.cotrix.user;
 
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.user.Users.*;
+import static org.cotrix.user.Roles.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.cotrix.action.Action;
+import org.cotrix.action.ResourceType;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Versioned;
-import org.cotrix.user.impl.DefaultRole;
 import org.cotrix.user.po.UserPO;
 
 /**
@@ -62,14 +65,6 @@ public interface User extends Identified {
 	Collection<Role> roles();
 	
 	/**
-	 * Returns <code>true<code> if this user has a given role.
-	 * 
-	 * @param role the role
-	 * @return <code>true</code> if this user has the given role
-	 */
-	boolean is(RoleModel role);
-	
-	/**
 	 * Returns <code>true<code> if this user has a root role.
 	 * 
 	 * @return <code>true</code> if this user has a root role
@@ -85,8 +80,11 @@ public interface User extends Identified {
 	boolean is(Role role);
 
 	
-	
-	
+	/**
+	 * Returns the permissions and roles of the user, index by type and by resource.
+	 * @return the fingerprint
+	 */
+	Map<ResourceType,Map<String,RolesAndPermissions>> fingerprint();
 	
 	
 	
@@ -96,7 +94,7 @@ public interface User extends Identified {
 	 * @author Fabio Simeoni
 	 * 
 	 */
-	public class Private extends Identified.Abstract<Private> implements User, RoleModel, Serializable {
+	public class Private extends Identified.Abstract<Private> implements User, Serializable {
 
 		private static final long serialVersionUID = 1L;
 
@@ -151,14 +149,16 @@ public interface User extends Identified {
 		
 		@Override
 		public Collection<Role> roles() {
-			return new ArrayList<Role>(roles);
-		}
-		
-		@Override
-		public boolean is(RoleModel model) {
-	
-			return is(new DefaultRole(model));	
 			
+			Collection<Role> roles = new HashSet<Role>();
+			
+			//compute role closure, recursively
+			for (Role r : this.roles) {
+				roles.addAll(r.roles());
+				roles.add(r);
+			}
+				
+			return roles;
 		}
 		
 		@Override
@@ -171,16 +171,11 @@ public interface User extends Identified {
 	
 			notNull("role", role);
 			
-			for (Role r : roles)
-				if (r.equals(role) || r.is(role))
+			for (Role myrole : roles)
+				if (myrole.equals(role) || myrole.is(role))
 						return true;
 	
 			return false;
-		}
-		
-		@Override
-		public Role on(String resource) {
-			return new DefaultRole(this,resource);
 		}
 
 		@Override
@@ -211,6 +206,42 @@ public interface User extends Identified {
 			//replace role
 			this.roles.clear();
 			this.roles.addAll(changeset.roles());
+		}
+		
+		public Map<ResourceType,Map<String,RolesAndPermissions>> fingerprint() {
+			
+			Map<ResourceType,Map<String,RolesAndPermissions>> fp = new HashMap<ResourceType,Map<String,RolesAndPermissions>>();
+			
+			for (Action p : this.permissions())
+				target(fp,p).permissions().add(p);
+			
+			for (Role r : this.roles())
+				for (Action p : r.permissions()) {
+					if (p.type()==r.type())
+							target(fp,p).roles().add(r.name());
+				}
+			return fp;
+		}
+		
+		//helper
+		
+		private RolesAndPermissions target(Map<ResourceType,Map<String,RolesAndPermissions>> fp, Action p) {
+			
+			Map<String,RolesAndPermissions> resourceMap = fp.get(p.type());
+			
+			if (resourceMap==null) {
+				resourceMap = new HashMap<String,RolesAndPermissions>();
+				fp.put(p.type(),resourceMap);
+			}
+			
+			RolesAndPermissions randp = resourceMap.get(p.resource());
+			
+			if (randp == null) {
+				randp = new RolesAndPermissions();
+				resourceMap.put(p.resource(),randp);
+			}
+			
+			return randp;
 		}
 
 		@Override

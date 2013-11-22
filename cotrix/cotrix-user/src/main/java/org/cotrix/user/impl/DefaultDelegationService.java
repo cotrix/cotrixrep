@@ -2,7 +2,6 @@ package org.cotrix.user.impl;
 
 import static org.cotrix.common.Utils.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.inject.Inject;
@@ -12,7 +11,6 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.user.DelegationPolicy;
 import org.cotrix.user.PermissionDelegationService;
 import org.cotrix.user.Role;
-import org.cotrix.user.RoleModel;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
 import org.cotrix.user.Users;
@@ -89,18 +87,6 @@ public class DefaultDelegationService implements PermissionDelegationService {
 	
 	
 	@Override
-	public DelegateClause delegate(RoleModel ... models) {
-		
-		return delegate(asRoles(models));
-	}
-	
-	@Override
-	public RevokeClause revoke(RoleModel... models) {
-		return revoke(asRoles(models));
-	}
-	
-	
-	@Override
 	public RevokeClause revoke(final Action... actions) {
 		
 		return new RevokeClause() {
@@ -161,14 +147,6 @@ public class DefaultDelegationService implements PermissionDelegationService {
 		
 		if (u.id()==null)
 			throw new IllegalArgumentException("cannot delegate roles to unidentified user "+u);
-	}
-	
-	private Role[] asRoles(RoleModel ... models) {
-		
-		Collection<Role> roles = new ArrayList<Role>();
-		for (RoleModel model : models)
-			roles.add(new DefaultRole(model));
-		return roles.toArray(new Role[0]);
 	}
 	
 	Action[] toArray(Collection<Action> actions) {

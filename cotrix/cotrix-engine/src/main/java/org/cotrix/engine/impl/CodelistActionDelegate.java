@@ -1,6 +1,6 @@
 package org.cotrix.engine.impl;
 
-import static org.cotrix.action.ActionType.*;
+import static org.cotrix.action.ResourceType.*;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,7 +8,7 @@ import java.util.Iterator;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.action.ActionType;
+import org.cotrix.action.ResourceType;
 import org.cotrix.action.Action;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.lifecycle.Lifecycle;
@@ -21,8 +21,8 @@ public class CodelistActionDelegate implements EngineDelegate {
 	private LifecycleService lcService;
 	
 	@Override
-	public ActionType type() {
-		return codelist;
+	public ResourceType type() {
+		return codelists;
 	}
 	
 	public <T> TaskOutcome<T> perform(Action action, Task<T> task, String user, Collection<Action> permissions) {

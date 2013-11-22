@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.cotrix.action.Action;
-import org.cotrix.action.ActionType;
+import org.cotrix.action.ResourceType;
 
 /**
  * Default {@link Action} implementation.
@@ -19,7 +19,7 @@ import org.cotrix.action.ActionType;
 public final class DefaultAction implements Action {
 
 	private final List<String> labels = new ArrayList<String>();
-	private final ActionType type;
+	private final ResourceType type;
 	private final String resource;
 	
 	/**
@@ -29,7 +29,7 @@ public final class DefaultAction implements Action {
 	 */
 	public DefaultAction(List<String> labels) {
 	
-		this(labels,ActionType.none);
+		this(labels,ResourceType.none);
 	}
 	
 	/**
@@ -37,7 +37,7 @@ public final class DefaultAction implements Action {
 	 * @param labels the labels of the template
 	 * @param type the type of the template;
 	 */
-	public DefaultAction(List<String> parts, ActionType type) {
+	public DefaultAction(List<String> parts, ResourceType type) {
 	
 		this(parts,type,any);
 	}
@@ -48,9 +48,8 @@ public final class DefaultAction implements Action {
 	 * @param type the type
 	 * @param resource the resource identifier
 	 */
-	private DefaultAction(List<String> parts, ActionType type, String resource) {
+	private DefaultAction(List<String> parts, ResourceType type, String resource) {
 	
-		System.out.println(parts);
 		valid("labels",parts);
 		notNull("type",type);
 		valid("resource identifier",resource);
@@ -66,7 +65,7 @@ public final class DefaultAction implements Action {
 	}
 	
 	@Override
-	public ActionType type() {
+	public ResourceType type() {
 		return type;
 	}
 	
