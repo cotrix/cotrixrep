@@ -1,5 +1,8 @@
 package org.cotrix.repository.memory;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
@@ -23,7 +26,7 @@ public class MQueryFactory implements QueryFactory {
 	public CodelistQuery<Codelist> allLists() {
 		
 		return new CodelistMQuery<Codelist>() {
-			public Iterable<Codelist> _execute(MRepository<Codelist,?> repository) {
+			public Collection<Codelist> executeOn(MRepository<Codelist,?> repository) {
 				return repository.getAll();
 			}
 		};
@@ -32,7 +35,7 @@ public class MQueryFactory implements QueryFactory {
 	@Override
 	public CodebagQuery<Codebag> allBags() {
 		return new CodebagMQuery<Codebag>() {
-			public Iterable<Codebag> _execute(MRepository<Codebag,?> repository) {
+			public Collection<Codebag> executeOn(MRepository<Codebag,?> repository) {
 				return repository.getAll();
 			}
 		};
@@ -41,8 +44,11 @@ public class MQueryFactory implements QueryFactory {
 	@Override
 	public CodelistQuery<Code> allCodes(final String codelistId) {
 		return new CodelistMQuery<Code>() {
-			public Iterable<? extends Code> _execute(MRepository<Codelist,?> repository) {
-				return repository.lookup(codelistId).codes();
+			public Collection<? extends Code> executeOn(MRepository<Codelist,?> repository) {
+				Collection<Code> codes = new ArrayList<Code>();
+				for (Code c : repository.lookup(codelistId).codes())
+					codes.add(c);
+				return codes;
 			}
 		};
 	}

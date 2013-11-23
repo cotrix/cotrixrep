@@ -1,5 +1,10 @@
 package org.cotrix.repository.query;
 
+import static org.cotrix.common.Utils.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 
 /**
  * Partial implementation of {@link Query}.
@@ -10,22 +15,8 @@ package org.cotrix.repository.query;
  */
 public abstract class BaseQuery<T,R> implements Query<T,R> {
 
-	private Range range;
-	
-	/**
-	 * Creates an instance with default options.
-	 */
-	public BaseQuery() {
-		this.range=Range.ALL;
-	}
-	
-	/**
-	 * Creates an instance with a given {@link Range}.
-	 * @param range the range
-	 */
-	public BaseQuery(Range range) {
-		this.range=range;
-	}
+	private Range range = Range.ALL;
+	private Collection<Filter<T>> filters = new ArrayList<Filter<T>>();
 	
 	@Override
 	public Range range() {
@@ -35,4 +26,19 @@ public abstract class BaseQuery<T,R> implements Query<T,R> {
 	public void setRange(Range range) {
 		this.range = range;
 	}
+	
+	@Override
+	public Collection<? extends Filter<T>> filters() {
+		return filters;
+	}
+	
+	public BaseQuery<T,R> with(Filter<T> filter) {
+		
+		notNull("filter",filter);
+		filters.add(filter);
+		
+		return this;
+		
+	};
+	
 }

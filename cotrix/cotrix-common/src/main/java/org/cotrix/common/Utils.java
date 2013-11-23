@@ -29,6 +29,19 @@ public class Utils {
 	}
 	
 	/**
+	 * Throws an exception if a given object with a given name is null.
+	 * @param name the name
+	 * @param o the object
+	 * @throws IllegalArgumentException if the object is null
+	 */
+	public static void notNulls(String name, Object[] o) throws IllegalArgumentException {
+		notNull(name, o);
+		for (Object ob : o)
+			notNull("one of "+name, ob);
+		
+	}
+	
+	/**
 	 * Throws an exception if a given string with a given name is empty.
 	 * @param name the name
 	 * @param s the string
@@ -222,12 +235,33 @@ public class Utils {
 
 	}
 	
+	/**
+	 * Gathers the elements of an {@link Iterable} into a collection.
+	 * @param it the iterable
+	 * @return the collection
+	 */
+	public static <T>  Collection<T> gather(Iterable<T> it) {
+		
+		Collection<T> c = new ArrayList<T>();
+		for (T t : it)
+			c.add(t);
+		return c;
+			
+	}
+	
+	/**
+	 * Asserts that a collection has a given distinct elements
+	 * @param c1 the collection
+	 * @param ts the elements
+	 * 
+	 * @throws AssertionError if the distinct elements of the collection differ from the given ones.
+	 */
 	public static void assertEqualSets(Collection<?> c1, Object ... ts) {
 		
 		HashSet<?> s1 = new HashSet<Object>(c1);
 		HashSet<?> s2 = new HashSet<Object>(Arrays.asList(ts));
 		if (!s1.equals(s2))
-				throw new AssertionError("expected "+s1+", was "+s2);
+				throw new AssertionError("expected "+s2+" but was "+s1);
 		
 	}
 	

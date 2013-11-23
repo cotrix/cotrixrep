@@ -1,5 +1,7 @@
 package org.cotrix.repository.query;
 
+import java.util.Collection;
+
 
 /**
  * A query over domain objects.
@@ -18,4 +20,8 @@ public interface Query<T,R> {
 	Range range();
 	
 	void setRange(Range range);
+	
+	Collection<? extends Filter<T>> filters();
+	
+	Query<T,R> with(Filter<T> filter);
 }

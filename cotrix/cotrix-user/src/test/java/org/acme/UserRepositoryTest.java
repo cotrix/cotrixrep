@@ -11,6 +11,7 @@ import org.cotrix.action.Action;
 import org.cotrix.user.Role;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
+import org.cotrix.user.dsl.UserGrammar;
 import org.cotrix.user.memory.MUserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -84,10 +85,40 @@ public class UserRepositoryTest {
 		assertEquals(bill,users.iterator().next());
 	}
 	
+	@Test
+	public void getUsersByRole() {
+		
+		Role role = aRole().buildAsRoleFor(codelists);
+		User bill = aUser("bill").is(role.on("1")).build();
+		User joe = aUser("joe").is(role.on("2")).build();
+		
+		repository.add(bill);
+		repository.add(joe);
+		
+		
+		Iterable<User> users = repository.queryFor(allUsers().with(roleOn("1",codelists)));
+		
+		assertEqualSets(gather(users),bill);
+		
+	}
+	
+	
+	
 	//helper
+	
 	private User bill() {
 		
-		return user().name("bill").fullName("bill").build();
+		return aUser("bill").build();
+	}
+	
+	private UserGrammar.ThirdClause aUser(String name) {
+		
+		return user().name(name).fullName(name);
+	}
+	
+	private UserGrammar.ThirdClause aRole() {
+		
+		return user().name("role").fullName("role");
 	}
 	
 	

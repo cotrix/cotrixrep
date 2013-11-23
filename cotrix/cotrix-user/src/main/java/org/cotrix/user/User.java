@@ -213,32 +213,30 @@ public interface User extends Identified {
 			Map<ResourceType,Map<String,RolesAndPermissions>> fp = new HashMap<ResourceType,Map<String,RolesAndPermissions>>();
 			
 			for (Action p : this.permissions())
-				target(fp,p).permissions().add(p);
+				target(fp,p.type(),p.resource()).permissions().add(p);
 			
 			for (Role r : this.roles())
-				for (Action p : r.permissions()) {
-					if (p.type()==r.type())
-							target(fp,p).roles().add(r.name());
-				}
+				target(fp,r.type(),r.resource()).roles().add(r.name());
+			
 			return fp;
 		}
 		
 		//helper
 		
-		private RolesAndPermissions target(Map<ResourceType,Map<String,RolesAndPermissions>> fp, Action p) {
+		private RolesAndPermissions target(Map<ResourceType,Map<String,RolesAndPermissions>> fp, ResourceType type, String resource) {
 			
-			Map<String,RolesAndPermissions> resourceMap = fp.get(p.type());
+			Map<String,RolesAndPermissions> resourceMap = fp.get(type);
 			
 			if (resourceMap==null) {
 				resourceMap = new HashMap<String,RolesAndPermissions>();
-				fp.put(p.type(),resourceMap);
+				fp.put(type,resourceMap);
 			}
 			
-			RolesAndPermissions randp = resourceMap.get(p.resource());
+			RolesAndPermissions randp = resourceMap.get(resource);
 			
 			if (randp == null) {
 				randp = new RolesAndPermissions();
-				resourceMap.put(p.resource(),randp);
+				resourceMap.put(resource,randp);
 			}
 			
 			return randp;

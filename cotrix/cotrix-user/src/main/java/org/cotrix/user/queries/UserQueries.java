@@ -2,7 +2,9 @@ package org.cotrix.user.queries;
 
 import javax.enterprise.event.Observes;
 
+import org.cotrix.action.ResourceType;
 import org.cotrix.common.cdi.ApplicationEvents.Startup;
+import org.cotrix.repository.query.Filter;
 import org.cotrix.repository.query.Query;
 import org.cotrix.user.User;
 import org.cotrix.user.impl.UserQueryFactory;
@@ -16,6 +18,9 @@ public class UserQueries {
 		return factory.allUsers();
 	}
 	
+	public static Filter<User> roleOn(String resource, ResourceType type) {
+		return factory.roleOn(resource, type);
+	}
 	
 	//TODO...others
 	
