@@ -39,7 +39,7 @@ public class MUserQueryFactory implements UserQueryFactory {
 			@Override
 			public boolean matches(User user) {
 				try {
-					return !user.fingerprint().get(type).get(resource).roles().isEmpty();
+					return !user.fingerprint().rolesOver(resource,type).isEmpty();
 				}
 				catch(NullPointerException e) {
 					return false;

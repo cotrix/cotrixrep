@@ -1,12 +1,10 @@
 package org.cotrix.user.utils;
 
 import java.util.Collection;
-import java.util.Map;
 
 import org.cotrix.action.Action;
-import org.cotrix.action.ResourceType;
+import org.cotrix.user.FingerPrint;
 import org.cotrix.user.Role;
-import org.cotrix.user.RolesAndPermissions;
 import org.cotrix.user.User;
 
 
@@ -60,7 +58,7 @@ public class CurrentUser implements User {
 	}
 	
 	@Override
-	public Map<ResourceType, Map<String, RolesAndPermissions>> fingerprint() {
+	public FingerPrint fingerprint() {
 		return test.fingerprint();
 	}
 	

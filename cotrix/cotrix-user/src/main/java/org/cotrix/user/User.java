@@ -7,13 +7,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import org.cotrix.action.Action;
-import org.cotrix.action.ResourceType;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Versioned;
@@ -84,7 +81,7 @@ public interface User extends Identified {
 	 * Returns the permissions and roles of the user, index by type and by resource.
 	 * @return the fingerprint
 	 */
-	Map<ResourceType,Map<String,RolesAndPermissions>> fingerprint();
+	FingerPrint fingerprint();
 	
 	
 	
@@ -208,39 +205,11 @@ public interface User extends Identified {
 			this.roles.addAll(changeset.roles());
 		}
 		
-		public Map<ResourceType,Map<String,RolesAndPermissions>> fingerprint() {
+		public FingerPrint fingerprint() {
 			
-			Map<ResourceType,Map<String,RolesAndPermissions>> fp = new HashMap<ResourceType,Map<String,RolesAndPermissions>>();
-			
-			for (Action p : this.permissions())
-				target(fp,p.type(),p.resource()).permissions().add(p);
-			
-			for (Role r : this.roles())
-				target(fp,r.type(),r.resource()).roles().add(r.name());
-			
-			return fp;
+			return new FingerPrint(this);
 		}
 		
-		//helper
-		
-		private RolesAndPermissions target(Map<ResourceType,Map<String,RolesAndPermissions>> fp, ResourceType type, String resource) {
-			
-			Map<String,RolesAndPermissions> resourceMap = fp.get(type);
-			
-			if (resourceMap==null) {
-				resourceMap = new HashMap<String,RolesAndPermissions>();
-				fp.put(type,resourceMap);
-			}
-			
-			RolesAndPermissions randp = resourceMap.get(resource);
-			
-			if (randp == null) {
-				randp = new RolesAndPermissions();
-				resourceMap.put(resource,randp);
-			}
-			
-			return randp;
-		}
 
 		@Override
 		public String toString() {

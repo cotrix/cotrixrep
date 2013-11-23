@@ -7,13 +7,11 @@ import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.user.Users.*;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.cotrix.action.Action;
-import org.cotrix.action.ResourceType;
+import org.cotrix.user.FingerPrint;
 import org.cotrix.user.Role;
-import org.cotrix.user.RolesAndPermissions;
 import org.cotrix.user.User;
 import org.cotrix.user.dsl.UserGrammar;
 import org.junit.Test;
@@ -32,13 +30,13 @@ public class FingerprintTest {
 		
 		User bill = bill().can(doit,dothat).build();
 		
-		Map<ResourceType,Map<String,RolesAndPermissions>> fp = bill.fingerprint();
+		FingerPrint fp = bill.fingerprint();
 		
 		//System.out.println(fp);
 		
-		assertEquals(setOf(application),fp.keySet());
-		assertEquals(setOf(any),fp.get(application).keySet());
-		assertEquals(setOf(doit,dothat),fp.get(application).get(any).permissions());
+		assertEquals(setOf(application),fp.types());
+		assertEquals(setOf(any),fp.resources(application));
+		assertEquals(setOf(doit,dothat),fp.permissionsOver(any,application));
 	}
 	
 	@Test
@@ -46,17 +44,17 @@ public class FingerprintTest {
 		
 		User bill = bill().can(doit,doitOnCodes.on("1"), doThatOnCodes).build();
 		
-		Map<ResourceType,Map<String,RolesAndPermissions>> fp = bill.fingerprint();
+		FingerPrint fp = bill.fingerprint();
 		
 		//System.out.println(fp);
 		
-		assertEquals(setOf(application,codelists),fp.keySet());
-		assertEquals(setOf(any),fp.get(application).keySet());
-		assertEquals(setOf(doit),fp.get(application).get(any).permissions());
+		assertEquals(setOf(application,codelists),fp.types());
+		assertEquals(setOf(any),fp.resources(application));
+		assertEquals(setOf(doit),fp.permissionsOver(any,application));
 
-		assertEquals(setOf(any,"1"),fp.get(codelists).keySet());
-		assertEquals(setOf(doitOnCodes.on("1")),fp.get(codelists).get("1").permissions());
-		assertEquals(setOf(doThatOnCodes),fp.get(codelists).get(any).permissions());
+		assertEquals(setOf(any,"1"),fp.resources(codelists));
+		assertEquals(setOf(doitOnCodes.on("1")),fp.permissionsOver("1",codelists));
+		assertEquals(setOf(doThatOnCodes),fp.permissionsOver(any,codelists));
 
 	}
 	
@@ -70,13 +68,13 @@ public class FingerprintTest {
 		
 		User bill = bill().is(something).build();
 		
-		Map<ResourceType,Map<String,RolesAndPermissions>> fp = bill.fingerprint();
+		FingerPrint fp = bill.fingerprint();
 		
 		//System.out.println(fp);
 		
-		assertEquals(setOf(application),fp.keySet());
-		assertEquals(setOf(something.name()),fp.get(application).get(any).roles());
-		assertEquals(setOf(doit),fp.get(application).get(any).permissions());
+		assertEquals(setOf(application),fp.types());
+		assertEquals(setOf(something.name()),fp.rolesOver(any,application));
+		assertEquals(setOf(doit),fp.permissionsOver(any,application));
 		
 	}
 	
@@ -89,17 +87,17 @@ public class FingerprintTest {
 		
 		User bill = bill().is(something, somethingElse).build();
 		
-		Map<ResourceType,Map<String,RolesAndPermissions>> fp = bill.fingerprint();
+		FingerPrint fp = bill.fingerprint();
 		
 		//System.out.println(fp);
 		
-		assertEquals(setOf(application,codelists),fp.keySet());
+		assertEquals(setOf(application,codelists),fp.types());
 		
-		assertEquals(setOf(something.name()),fp.get(application).get(any).roles());
-		assertEquals(setOf(doit),fp.get(application).get(any).permissions());
+		assertEquals(setOf(something.name()),fp.rolesOver(any,application));
+		assertEquals(setOf(doit),fp.permissionsOver(any,application));
 		
-		assertEquals(setOf(somethingElse.name()),fp.get(codelists).get(any).roles());
-		assertEquals(setOf(doitOnCodes),fp.get(codelists).get(any).permissions());
+		assertEquals(setOf(somethingElse.name()),fp.rolesOver(any,codelists));
+		assertEquals(setOf(doitOnCodes),fp.permissionsOver(any,codelists));
 		
 	}
 	
@@ -112,17 +110,17 @@ public class FingerprintTest {
 		
 		User bill = bill().is(something, somethingElse.on("1")).build();
 		
-		Map<ResourceType,Map<String,RolesAndPermissions>> fp = bill.fingerprint();
+		FingerPrint fp = bill.fingerprint();
 		
 		//System.out.println(fp);
 		
-		assertEquals(setOf(application,codelists),fp.keySet());
+		assertEquals(setOf(application,codelists),fp.types());
 		
-		assertEquals(setOf(something.name()),fp.get(application).get(any).roles());
-		assertEquals(setOf(doit),fp.get(application).get(any).permissions());
+		assertEquals(setOf(something.name()),fp.rolesOver(any,application));
+		assertEquals(setOf(doit),fp.permissionsOver(any,application));
 		
-		assertEquals(setOf(somethingElse.name()),fp.get(codelists).get("1").roles());
-		assertEquals(setOf(doitOnCodes.on("1")),fp.get(codelists).get("1").permissions());
+		assertEquals(setOf(somethingElse.name()),fp.rolesOver("1",codelists));
+		assertEquals(setOf(doitOnCodes.on("1")),fp.permissionsOver("1",codelists));
 		
 	}
 	
@@ -135,13 +133,13 @@ public class FingerprintTest {
 		
 		User bill = bill().is(somethingElse).build();
 		
-		Map<ResourceType,Map<String,RolesAndPermissions>> fp = bill.fingerprint();
+		FingerPrint fp = bill.fingerprint();
 		
 		//System.out.println(fp);
 		
-		assertEquals(setOf(application),fp.keySet());
-		assertEquals(setOf(something.name(),somethingElse.name()),fp.get(application).get(any).roles());
-		assertEquals(setOf(doit,dothat),fp.get(application).get(any).permissions());
+		assertEquals(setOf(application),fp.types());
+		assertEquals(setOf(something.name(),somethingElse.name()),fp.rolesOver(any,application));
+		assertEquals(setOf(doit,dothat),fp.permissionsOver(any,application));
 		
 	}
 	
@@ -155,19 +153,19 @@ public class FingerprintTest {
 		
 		User bill = bill().is(somethingElseStill.on("1")).build();
 		
-		Map<ResourceType,Map<String,RolesAndPermissions>> fp = bill.fingerprint();
+		FingerPrint fp = bill.fingerprint();
 		
 		//System.out.println(fp);
 		
-		assertEquals(setOf(application,codelists),fp.keySet());
+		assertEquals(setOf(application,codelists),fp.types());
 		
-		assertEquals(setOf(something.name()),fp.get(application).get(any).roles());
-		assertEquals(setOf(doit),fp.get(application).get(any).permissions());
+		assertEquals(setOf(something.name()),fp.rolesOver(any,application));
+		assertEquals(setOf(doit),fp.permissionsOver(any,application));
 		
-		assertEquals(setOf("1"),fp.get(codelists).keySet());
+		assertEquals(setOf("1"),fp.resources(codelists));
 		
-		assertEquals(setOf(somethingElse.name(),somethingElseStill.name()),fp.get(codelists).get("1").roles());
-		assertEquals(setOf(doitOnCodes.on("1"),doThatOnCodes.on("1")),fp.get(codelists).get("1").permissions());
+		assertEquals(setOf(somethingElse.name(),somethingElseStill.name()),fp.rolesOver("1",codelists));
+		assertEquals(setOf(doitOnCodes.on("1"),doThatOnCodes.on("1")),fp.permissionsOver("1",codelists));
 		
 	}
 	
