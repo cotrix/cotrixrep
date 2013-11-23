@@ -1,5 +1,7 @@
 package org.cotrix.user;
 
+import static org.cotrix.action.Action.*;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,7 +40,13 @@ public class FingerPrint {
 		
 		Rights rights = target(resource,type);
 		
-		return rights== null? Collections.<String>emptySet() : rights.roles;
+		Collection<String> roles =  (rights== null)? Collections.<String>emptySet() : rights.roles;
+		
+		//add roles over all resources
+		if (!resource.equals(any))
+			roles.addAll(rolesOver(any,type));
+		
+		return roles;
 	}
 	
 	
@@ -46,7 +54,13 @@ public class FingerPrint {
 		
 		Rights rights = target(resource,type);
 		
-		return rights== null? Collections.<Action>emptySet() : rights.permissions;
+		Collection<Action> permissions = rights == null? Collections.<Action>emptySet() : rights.permissions;
+		
+		//add permission over all resources
+		if (!resource.equals(any))
+			permissions.addAll(permissionsOver(any, type));
+		
+		return permissions;
 	}
 
 

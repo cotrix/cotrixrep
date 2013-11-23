@@ -53,7 +53,10 @@ public class FingerprintTest {
 		assertEquals(setOf(doit),fp.permissionsOver(any,application));
 
 		assertEquals(setOf(any,"1"),fp.resources(codelists));
-		assertEquals(setOf(doitOnCodes.on("1")),fp.permissionsOver("1",codelists));
+		
+		//includes permission over all codelists
+		assertEquals(setOf(doThatOnCodes,doitOnCodes.on("1")),fp.permissionsOver("1",codelists));
+		
 		assertEquals(setOf(doThatOnCodes),fp.permissionsOver(any,codelists));
 
 	}
