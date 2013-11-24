@@ -1,13 +1,15 @@
 package org.cotrix.repository.memory;
 
+import static org.cotrix.repository.query.CodelistCoordinates.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.cotrix.domain.Code;
-import org.cotrix.domain.Codebag;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.QueryFactory;
-import org.cotrix.repository.query.CodebagQuery;
+import org.cotrix.repository.query.CodelistCoordinates;
 import org.cotrix.repository.query.CodelistQuery;
 
 /**
@@ -19,23 +21,13 @@ import org.cotrix.repository.query.CodelistQuery;
 public class MQueryFactory implements QueryFactory {
 
 	static abstract class CodelistMQuery<R> extends MQuery<Codelist, R> implements CodelistQuery<R> {}
-	static abstract class CodebagMQuery<R> extends MQuery<Codebag, R> implements CodebagQuery<R> {}
-
+	
 	
 	@Override
 	public CodelistQuery<Codelist> allLists() {
 		
 		return new CodelistMQuery<Codelist>() {
 			public Collection<Codelist> executeOn(MRepository<Codelist,?> repository) {
-				return repository.getAll();
-			}
-		};
-	}
-	
-	@Override
-	public CodebagQuery<Codebag> allBags() {
-		return new CodebagMQuery<Codebag>() {
-			public Collection<Codebag> executeOn(MRepository<Codebag,?> repository) {
 				return repository.getAll();
 			}
 		};
@@ -49,6 +41,18 @@ public class MQueryFactory implements QueryFactory {
 				for (Code c : repository.lookup(codelistId).codes())
 					codes.add(c);
 				return codes;
+			}
+		};
+	}
+	
+	@Override
+	public CodelistQuery<CodelistCoordinates> allListCoordinates() {
+		return new CodelistMQuery<CodelistCoordinates>() {
+			public Collection<CodelistCoordinates> executeOn(MRepository<Codelist,?> repository) {
+				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
+				for (Codelist list : repository.getAll())
+					coordinates.add(coords(list.id(),list.name(),list.version()));
+				return coordinates;
 			}
 		};
 	}

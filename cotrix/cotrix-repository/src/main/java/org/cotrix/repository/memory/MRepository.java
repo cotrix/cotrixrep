@@ -18,12 +18,13 @@ public class MRepository<T, S extends Identified.Abstract<S>> implements Reposit
 	private final IdGenerator generator;
 	
 	public MRepository(MStore store, Class<T> type, Class<S> privateType, IdGenerator generator) {
+		
 		this.store=store;
 		this.type=type;	
 		this.generator=generator;
 		
 		//validate types, as the compiler cannot
-		validParameters(type,privateType);
+		validateParameters(type,privateType);
 		
 		this.privateType=privateType;
 	}
@@ -60,8 +61,9 @@ public class MRepository<T, S extends Identified.Abstract<S>> implements Reposit
 	
 	
 	//valid parameters
-	private void validParameters(Class<?> type, Class<?> privateType) {
-		type.isAssignableFrom(privateType);
+	private void validateParameters(Class<?> type, Class<?> privateType) {
+		if (!type.isAssignableFrom(privateType))
+			throw new AssertionError(privateType+" is not a private implementation of "+type);
 	}
 		
 	//helper

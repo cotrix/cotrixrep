@@ -1,13 +1,13 @@
 package org.acme;
 
 import static java.util.Arrays.*;
+import static junit.framework.Assert.*;
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.junit.Assert.*;
+import static org.cotrix.repository.Queries.*;
+import static org.cotrix.repository.query.CodelistCoordinates.*;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-
+import javax.enterprise.inject.New;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
@@ -16,6 +16,10 @@ import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
+import org.cotrix.repository.memory.MCodelistRepository;
+import org.cotrix.repository.query.CodelistCoordinates;
+import org.cotrix.repository.query.CodelistQuery;
+import org.cotrix.repository.query.Range;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -23,9 +27,122 @@ import com.googlecode.jeeunit.JeeunitRunner;
 
 @RunWith(JeeunitRunner.class)
 public class CodelistRepositoryTest {
-
-	@Inject
+	
+	//would like to avoid dependency and be able to test any active repository...
+	//but, repository should be cleaned up after each test, but it's a singleton in production
+	//and I know of now way to narrow the scope of a bean during testing..
+	//@New does it, but required the concrete dependency (and it's deprecated)
+	
+	@Inject @New(MCodelistRepository.class)
 	CodelistRepository repository;
+	
+	@Test
+	public void retrieveNotExistingCodeList() {
+
+		assertNull(repository.lookup("unknown"));
+
+	}
+
+	@Test
+	public void addCodelist() {
+
+		Codelist list = codelist().name("name").build();
+
+		repository.add(list);
+
+		assertEquals(list, repository.lookup(list.id()));
+
+	}
+
+	@Test
+	public void updateCodelist() {
+
+		Attribute attribute = attr().name("test").value("val").build();
+		Code code = code().name("code").attributes(attribute).build();
+
+		Codelist list = codelist().name("name").with(code).build();
+
+		repository.add(list);
+
+		Attribute attributeChangeset = attr(attribute.id()).name(attribute.name()).value("newvalue").build();
+
+		QName updatedName = q(list.name().getLocalPart() + "-updated");
+
+		Codelist changeset = codelist(list.id()).name(updatedName)
+				.with(code(code.id()).name(code.name()).attributes(attributeChangeset).build()).build();
+
+		repository.update(changeset);
+
+		list = repository.lookup(list.id());
+
+		assertEquals(list.name(), updatedName);
+
+		Attribute firstAttribute = list.codes().iterator().next().attributes().iterator().next();
+
+		assertEquals(firstAttribute.value(), "newvalue");
+	}
+
+	@Test
+	public void removeCodelist() {
+
+		Codelist list = codelist().name("name").build();
+
+		repository.add(list);
+
+		repository.remove(list.id());
+
+		assertNull(repository.lookup(list.id()));
+
+	}
+	
+	@Test
+	public void allCodelists() {
+		
+		Codelist list = codelist().name("name").build();
+		
+		repository.add(list);
+		
+		Iterable<Codelist> lists  = repository.queryFor(allLists());
+		
+		assertEqualSets(gather(lists),list);
+	}
+	
+	@Test
+	public void codeRanges() {
+		
+		Code code1 = code().name("c1").build();
+		Code code2 = code().name("c2").build();
+		Code code3 = code().name("c3").build();
+		
+		Codelist list = codelist().name("l").with(code1,code2,code3).build();
+		
+		repository.add(list);
+		
+		System.out.println(list);
+		
+		CodelistQuery<Code> codes = allCodes(list.id());
+		
+		codes.setRange(new Range(2,3));
+		
+		Iterable<Code> inrange  = repository.queryFor(codes);
+		
+		assertEquals(asList(code2,code3),inrange);
+	}
+	
+	@Test
+	public void listCoordinates() {
+		
+		Codelist list1 = codelist().name("l1").version("1").build();
+		Codelist list2 = codelist().name("l2").version("2").build();
+		
+		repository.add(list1);
+		repository.add(list2);
+		
+		Iterable<CodelistCoordinates> results  = repository.queryFor(allListCoordinates());
+		
+		assertEqualSets(gather(results),coords(list1.id(),q("l1"),"1"),coords(list2.id(),q("l2"),"2"));
+	}
+	
 	
 	@Test
 	public void summary() {
@@ -54,25 +171,19 @@ public class CodelistRepositoryTest {
 		assertEquals(2, summary.size());
 		
 		
-		assertEqualSets(asList(q("name1"),q("name2"),q("name3")),summary.allNames());
-		assertEqualSets(asList(q("t1"),q("t2"),q("t3")),summary.allTypes());
-		assertEqualSets(asList("l1","l2","l3"),summary.allLanguages());
+		assertEqualSets(summary.allNames(),q("name1"),q("name2"),q("name3"));
+		assertEqualSets(summary.allTypes(),q("t1"),q("t2"),q("t3"));
+		assertEqualSets(summary.allLanguages(),"l1","l2","l3");
 		
-		assertEqualSets(asList(q("t1"),q("t2"),q("t3")),summary.allTypesFor(q("name1")));
-		assertEqualSets(asList("l1","l2","l3"),summary.allLanguagesFor(q("name1"),q("t1")));
-		assertEqualSets(Collections.<QName>emptyList(),summary.allTypesFor(q("foo")));
-		assertEqualSets(Collections.<String>emptyList(),summary.allLanguagesFor(q("foo"),q("boo")));
+		assertEqualSets(summary.allTypesFor(q("name1")),q("t1"),q("t2"),q("t3"));
+		assertEqualSets(summary.allLanguagesFor(q("name1"),q("t1")),"l1","l2","l3");
+		assertEqualSets(summary.allTypesFor(q("foo")));
+		assertEqualSets(summary.allLanguagesFor(q("foo"),q("boo")));
 		
-		assertEqualSets(asList(q("name1"),q("name2")),summary.codeNames());
-		assertEqualSets(asList(q("t1"),q("t2")),summary.codeTypesFor(q("name1")));
-		assertEqualSets(asList("l1","l2"),summary.codeLanguagesFor(q("name1"),q("t1")));
-		
-		
-		
+		assertEqualSets(summary.codeNames(),q("name1"),q("name2"));
+		assertEqualSets(summary.codeTypesFor(q("name1")),q("t1"),q("t2"));
+		assertEqualSets(summary.codeLanguagesFor(q("name1"),q("t1")),"l1","l2");
 		
 	}
 	
-	<T> void assertEqualSets(Collection<T> c1, Collection<T> c2) {
-		assertEquals(new HashSet<T>(c1),new HashSet<T>(c2));
-	}
 }

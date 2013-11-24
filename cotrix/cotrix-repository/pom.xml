@@ -51,6 +51,8 @@
 			<groupId>org.jboss.weld.se</groupId>
 			<artifactId>weld-se</artifactId>
 		</dependency>
+		
+		
 
 	</dependencies>
 

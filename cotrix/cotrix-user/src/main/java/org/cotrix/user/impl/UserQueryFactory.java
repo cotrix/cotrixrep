@@ -5,6 +5,7 @@ import org.cotrix.repository.Repository;
 import org.cotrix.repository.query.Filter;
 import org.cotrix.repository.query.Query;
 import org.cotrix.user.User;
+import org.cotrix.user.queries.UserQuery;
 
 /**
  * Returns implementation of {@link Query}s for given {@link Repository}s.
@@ -17,7 +18,7 @@ import org.cotrix.user.User;
  */
 public interface UserQueryFactory {
 
-	Query<User,User> allUsers();
+	UserQuery<User> allUsers();
 	
 	
 	Filter<User> roleOn(String resource, ResourceType type);

@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
 import org.cotrix.common.Utils;
@@ -29,7 +29,7 @@ import org.cotrix.repository.CodelistSummary;
  * @author Fabio Simeoni
  * 
  */
-@Singleton
+@ApplicationScoped
 public class MCodelistRepository extends MRepository<Codelist, Codelist.Private> implements CodelistRepository {
 
 	/**

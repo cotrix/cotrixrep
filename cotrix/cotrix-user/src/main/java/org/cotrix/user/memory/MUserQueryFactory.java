@@ -8,9 +8,9 @@ import org.cotrix.repository.memory.MFilter;
 import org.cotrix.repository.memory.MQuery;
 import org.cotrix.repository.memory.MRepository;
 import org.cotrix.repository.query.Filter;
-import org.cotrix.repository.query.Query;
 import org.cotrix.user.User;
 import org.cotrix.user.impl.UserQueryFactory;
+import org.cotrix.user.queries.UserQuery;
 
 /**
  * A {@link QueryFactory} for {@link MQuery}s.
@@ -20,10 +20,12 @@ import org.cotrix.user.impl.UserQueryFactory;
  */
 public class MUserQueryFactory implements UserQueryFactory {
 
+	static abstract class UserMQuery<R> extends MQuery<User, R> implements UserQuery<R> {}
+	
 	@Override
-	public Query<User, User> allUsers() {
+	public UserQuery<User> allUsers() {
 		
-		return new MQuery<User,User>() {
+		return new UserMQuery<User>() {
 			public Collection<User> executeOn(MRepository<User,?> repository) {
 				return repository.getAll();
 			}
