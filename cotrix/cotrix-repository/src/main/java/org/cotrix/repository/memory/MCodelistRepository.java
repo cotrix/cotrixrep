@@ -2,11 +2,11 @@ package org.cotrix.repository.memory;
 
 import javax.inject.Singleton;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelink;
-import org.cotrix.domain.Codelist;
-import org.cotrix.domain.CodelistLink;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.repository.CodelistRepository;
 
 /**

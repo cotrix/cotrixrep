@@ -2,16 +2,14 @@ package org.cotrix.domain.dsl;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codebag;
-import org.cotrix.domain.Codelink;
-import org.cotrix.domain.Codelist;
-import org.cotrix.domain.CodelistLink;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
 import org.cotrix.domain.dsl.builder.CodeLinkBuilder;
-import org.cotrix.domain.dsl.builder.CodebagBuilder;
 import org.cotrix.domain.dsl.builder.CodelistBuilder;
 import org.cotrix.domain.dsl.builder.CodelistLinkBuilder;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeDeltaClause;
@@ -19,8 +17,6 @@ import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.CodeLinkStartClause;
-import org.cotrix.domain.dsl.grammar.CodebagGrammar.CodebagChangeClause;
-import org.cotrix.domain.dsl.grammar.CodebagGrammar.CodebagStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
@@ -156,22 +152,5 @@ public class Codes {
 	 */
 	public static CodelistLinkChangeClause listLink(String id) {
 		return new CodelistLinkBuilder(id);
-	}
-	
-	/**
-	 * Starts a sentence to create an {@link Codebag}.
-	 * @return the next clause in the sentence
-	 */
-	public static CodebagStartClause codebag() {
-		return new CodebagBuilder();
-	}
-	
-	/**
-	 * Starts a sentence to create an {@link Codebag} changeset.
-	 * @param id the identifier of the target codebag
-	 * @return the next clause in the sentence
-	 */
-	public static CodebagChangeClause codebag(String id) {
-		return new CodebagBuilder(id);
 	}
 }

@@ -3,7 +3,7 @@ package org.cotrix.integration;
 import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.io.MapService;
 import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;

@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.cotrix.action.Action;
-import org.cotrix.domain.Role;
+import org.cotrix.domain.user.Role;
 
 public class UserPO extends DomainPO {
 

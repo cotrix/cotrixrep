@@ -1,4 +1,4 @@
-package org.cotrix.domain;
+package org.cotrix.domain.dsl;
 
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.action.MainAction.*;
@@ -11,6 +11,7 @@ import java.util.Collection;
 import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
 import org.cotrix.action.UserAction;
+import org.cotrix.domain.user.Role;
 
 public class Roles {
 

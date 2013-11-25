@@ -10,7 +10,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.domain.User;
+import org.cotrix.domain.user.User;
 import org.cotrix.security.Realm;
 import org.cotrix.security.Token;
 import org.cotrix.security.tokens.NameAndPassword;

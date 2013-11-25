@@ -1,6 +1,6 @@
 package org.cotrix.repository.memory;
 
-import org.cotrix.domain.User;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistRepository;
 
 /**

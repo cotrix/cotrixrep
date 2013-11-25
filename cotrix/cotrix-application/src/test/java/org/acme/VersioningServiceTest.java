@@ -6,7 +6,7 @@ import static org.cotrix.domain.dsl.Codes.*;
 import javax.inject.Inject;
 
 import org.cotrix.application.VersioningService;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.repository.CodelistRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;

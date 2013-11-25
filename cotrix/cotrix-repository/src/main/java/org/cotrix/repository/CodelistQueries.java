@@ -3,8 +3,8 @@ package org.cotrix.repository;
 import javax.enterprise.event.Observes;
 
 import org.cotrix.common.cdi.ApplicationEvents;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.repository.impl.CodelistQueryFactory;
 import org.cotrix.repository.memory.MQueryFactory;
 

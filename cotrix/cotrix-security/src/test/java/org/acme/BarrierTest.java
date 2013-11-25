@@ -11,7 +11,7 @@ import javax.servlet.FilterChain;
 
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.domain.User;
+import org.cotrix.domain.user.User;
 import org.cotrix.security.AuthBarrier;
 import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.ContextController;

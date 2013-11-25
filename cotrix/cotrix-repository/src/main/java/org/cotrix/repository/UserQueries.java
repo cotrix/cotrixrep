@@ -4,7 +4,7 @@ import javax.enterprise.event.Observes;
 
 import org.cotrix.action.ResourceType;
 import org.cotrix.common.cdi.ApplicationEvents;
-import org.cotrix.domain.User;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.impl.UserQueryFactory;
 import org.cotrix.repository.memory.MUserQueryFactory;
 

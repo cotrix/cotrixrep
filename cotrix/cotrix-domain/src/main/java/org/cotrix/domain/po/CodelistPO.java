@@ -5,10 +5,10 @@ import static org.cotrix.common.Utils.*;
 import java.util.Collections;
 import java.util.List;
 
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
-import org.cotrix.domain.CodelistLink;
-import org.cotrix.domain.Container;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.common.Container;
 
 /**
  * Initialisation parameters for {@link Codelist}s.

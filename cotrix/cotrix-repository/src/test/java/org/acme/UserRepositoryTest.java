@@ -8,9 +8,9 @@ import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.repository.UserQueries.*;
 
 import org.cotrix.action.Action;
-import org.cotrix.domain.Role;
-import org.cotrix.domain.User;
 import org.cotrix.domain.dsl.grammar.UserGrammar;
+import org.cotrix.domain.user.Role;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.repository.impl.DefaultUserRepository;
 import org.cotrix.repository.memory.MUserRepository;

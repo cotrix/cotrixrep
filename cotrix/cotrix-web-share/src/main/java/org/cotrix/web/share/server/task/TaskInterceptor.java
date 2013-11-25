@@ -14,7 +14,7 @@ import javax.interceptor.InvocationContext;
 
 import org.cotrix.action.Action;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.domain.User;
+import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.web.share.shared.exception.IllegalActionException;

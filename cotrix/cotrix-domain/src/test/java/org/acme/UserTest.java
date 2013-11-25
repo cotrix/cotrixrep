@@ -11,8 +11,8 @@ import org.cotrix.action.Action;
 import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
 import org.cotrix.common.Utils;
-import org.cotrix.domain.Role;
-import org.cotrix.domain.User;
+import org.cotrix.domain.user.Role;
+import org.cotrix.domain.user.User;
 import org.junit.Test;
 
 public class UserTest {

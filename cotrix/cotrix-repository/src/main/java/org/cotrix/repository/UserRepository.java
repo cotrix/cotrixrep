@@ -1,7 +1,7 @@
 package org.cotrix.repository;
 
-import org.cotrix.domain.Codelist;
-import org.cotrix.domain.User;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.user.User;
 
 
 /**

@@ -1,7 +1,7 @@
-package org.cotrix.domain;
+package org.cotrix.domain.user;
 
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.Roles.*;
+import static org.cotrix.domain.dsl.Roles.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.cotrix.action.Action;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.po.UserPO;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Versioned;

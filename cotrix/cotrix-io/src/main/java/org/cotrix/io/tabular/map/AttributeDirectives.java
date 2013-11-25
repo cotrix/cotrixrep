@@ -4,7 +4,7 @@ package org.cotrix.io.tabular.map;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
+import org.cotrix.domain.common.Attribute;
 
 /**
  * Directives to map codelist attributes onto table columns.

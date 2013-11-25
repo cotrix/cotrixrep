@@ -8,7 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.cotrix.common.Utils;
-import org.cotrix.domain.User;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.Repository;
 import org.cotrix.repository.UserRepository;
 import org.slf4j.Logger;

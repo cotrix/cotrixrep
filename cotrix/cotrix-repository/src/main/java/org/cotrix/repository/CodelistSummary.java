@@ -12,7 +12,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
+import org.cotrix.domain.common.Attribute;
 
 /**
  * Summary data about a codelist

@@ -3,7 +3,7 @@ package org.cotrix.repository.memory;
 import java.util.Collection;
 
 import org.cotrix.action.ResourceType;
-import org.cotrix.domain.User;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.Filter;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;

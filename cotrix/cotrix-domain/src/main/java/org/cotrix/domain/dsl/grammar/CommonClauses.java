@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.CodelistLink;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.common.Attribute;
 
 /**
  * Sentence clauses shared across grammars.

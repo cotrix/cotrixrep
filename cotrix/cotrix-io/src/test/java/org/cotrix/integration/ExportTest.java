@@ -5,8 +5,8 @@ import static org.cotrix.domain.dsl.Codes.*;
 import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.MapService;
 import org.cotrix.io.SerialisationService;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;

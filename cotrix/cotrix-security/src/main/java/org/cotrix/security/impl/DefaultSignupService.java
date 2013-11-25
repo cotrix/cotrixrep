@@ -4,7 +4,7 @@ import static org.cotrix.common.Utils.*;
 
 import javax.inject.Inject;
 
-import org.cotrix.domain.User;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.security.Realm;
 import org.cotrix.security.SignupService;

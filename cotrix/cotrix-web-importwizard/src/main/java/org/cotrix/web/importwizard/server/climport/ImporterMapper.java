@@ -9,7 +9,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.common.Outcome;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.utils.Constants;
 import org.cotrix.io.MapService;
 import org.cotrix.io.sdmx.SdmxElement;

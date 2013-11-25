@@ -18,8 +18,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
@@ -111,9 +111,9 @@ public class ManagerServiceImpl implements ManagerService {
 		logger.trace("getCodelistsGrouped");
 		
 		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
-		Iterator<org.cotrix.domain.Codelist> it = repository.get(allLists()).iterator();
+		Iterator<org.cotrix.domain.codelist.Codelist> it = repository.get(allLists()).iterator();
 		while (it.hasNext()) {
-			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
+			org.cotrix.domain.codelist.Codelist codelist = (org.cotrix.domain.codelist.Codelist) it.next();
 			
 			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {

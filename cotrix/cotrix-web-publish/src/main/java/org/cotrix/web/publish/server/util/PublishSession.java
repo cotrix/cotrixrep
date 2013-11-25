@@ -18,8 +18,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.action.CodelistAction;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.domain.Codelist;
-import org.cotrix.domain.User;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.user.User;
 import org.cotrix.io.CloudService;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;

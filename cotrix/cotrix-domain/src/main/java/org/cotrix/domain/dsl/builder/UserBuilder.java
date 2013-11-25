@@ -1,21 +1,21 @@
 package org.cotrix.domain.dsl.builder;
 
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.Roles.*;
+import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.trait.Status.*;
 
 import java.util.Collection;
 
 import org.cotrix.action.Action;
 import org.cotrix.action.ResourceType;
-import org.cotrix.domain.DefaultRole;
-import org.cotrix.domain.Role;
-import org.cotrix.domain.User;
 import org.cotrix.domain.dsl.grammar.UserGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserChangeClause;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserNewClause;
 import org.cotrix.domain.po.UserPO;
 import org.cotrix.domain.trait.Status;
+import org.cotrix.domain.user.DefaultRole;
+import org.cotrix.domain.user.Role;
+import org.cotrix.domain.user.User;
 
 public class UserBuilder implements UserNewClause, UserChangeClause {
 

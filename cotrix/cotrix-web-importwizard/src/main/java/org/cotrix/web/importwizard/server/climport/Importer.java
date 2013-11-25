@@ -10,7 +10,7 @@ import javax.enterprise.event.Event;
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;

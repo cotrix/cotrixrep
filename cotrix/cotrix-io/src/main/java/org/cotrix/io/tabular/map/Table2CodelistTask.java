@@ -1,6 +1,6 @@
 package org.cotrix.io.tabular.map;
 
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.impl.MapTask;
 import org.virtualrepository.tabular.Table;
 

@@ -7,9 +7,9 @@ import java.text.ParseException;
 import java.util.Calendar;
 
 import org.cotrix.common.Report;
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.io.impl.MapTask;

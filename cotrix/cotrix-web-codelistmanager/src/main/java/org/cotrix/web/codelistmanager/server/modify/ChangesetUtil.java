@@ -11,9 +11,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
 import org.cotrix.web.share.shared.codelist.UIQName;

@@ -13,9 +13,9 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.repository.CodelistCoordinates;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.MultiQuery;

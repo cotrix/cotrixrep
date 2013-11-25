@@ -8,7 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;

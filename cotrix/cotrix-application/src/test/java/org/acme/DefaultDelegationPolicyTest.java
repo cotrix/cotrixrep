@@ -6,7 +6,7 @@ import static org.cotrix.domain.dsl.Users.*;
 import org.cotrix.action.Action;
 import org.cotrix.application.DelegationPolicy;
 import org.cotrix.application.impl.DefaultDelegationPolicy;
-import org.cotrix.domain.User;
+import org.cotrix.domain.user.User;
 import org.junit.Test;
 
 public class DefaultDelegationPolicyTest {

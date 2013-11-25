@@ -4,7 +4,7 @@ import static org.cotrix.domain.trait.Status.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeDeltaClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;

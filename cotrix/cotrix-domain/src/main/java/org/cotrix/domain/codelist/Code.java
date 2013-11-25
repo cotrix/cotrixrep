@@ -1,13 +1,10 @@
-package org.cotrix.domain;
+package org.cotrix.domain.codelist;
 
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.po.CodePO;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-
-
-
-
 
 /**
  * An {@link Identified}, {@link Attributed}, and {@link Named} symbol.

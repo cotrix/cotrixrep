@@ -1,4 +1,4 @@
-package org.cotrix.domain;
+package org.cotrix.domain.user;
 
 import static org.cotrix.action.Action.*;
 

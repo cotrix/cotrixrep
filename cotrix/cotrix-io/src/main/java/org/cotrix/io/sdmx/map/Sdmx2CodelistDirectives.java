@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.MapService.MapDirectives;
 import org.cotrix.io.sdmx.SdmxElement;
 

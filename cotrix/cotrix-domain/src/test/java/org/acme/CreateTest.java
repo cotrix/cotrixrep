@@ -6,12 +6,10 @@ import static org.cotrix.domain.dsl.Codes.*;
 
 import java.util.List;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codebag;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.po.AttributedPO;
-import org.cotrix.domain.po.CodebagPO;
 import org.cotrix.domain.po.CodelistPO;
 import org.cotrix.domain.po.NamedPO;
 import org.cotrix.domain.po.VersionedPO;
@@ -207,52 +205,6 @@ public class CreateTest {
 				return;
 
 		fail("creation time attribute is missing");
-	}
-	//code bags
-	
-	
-	@Test
-	@SuppressWarnings("all")
-	public void codebagsRejectNullParameters() {
-			
-
-		CodebagPO po = new CodebagPO("id");
-		
-		try {//null value
-			po.setLists((List)null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-			
-	}
-	
-	@Test
-	public void codebagsCanBeFluentlyConstructed() {
-		
-		Codebag bag = codebag().name(name).build();
-		
-		assertEquals(name,bag.name());
-		
-		bag = codebag("id").name(name).build();
-		
-		assertEquals("id",bag.id());
-		
-		bag = codebag().name(name).attributes(a).build();
-		
-		assertTrue(asList(bag.attributes()).contains(a));
-		
-		bag = codebag().name(name).version(v).build();
-		
-		assertEquals(v,bag.version());
-		
-		bag = codebag().name(name).with(cl).build();
-		
-		assertTrue(asList(bag.lists()).contains(cl));
-		
-		//other correct sentences
-		codebag().name(name).with(cl).version(v).build();
-		codebag().name(name).with(cl).attributes(a).build();
-		codebag().name(name).with(cl).attributes(a).version(v).build();
 	}
 	
 }

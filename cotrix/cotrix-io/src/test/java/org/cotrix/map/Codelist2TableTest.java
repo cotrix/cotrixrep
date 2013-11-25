@@ -9,9 +9,9 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.io.MapService;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
 import org.junit.Test;

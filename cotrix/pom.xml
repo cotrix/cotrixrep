@@ -27,7 +27,6 @@
 		<module>cotrix-repository</module>
 		<module>cotrix-domain</module>
 		<module>cotrix-io</module>
-		<module>cotrix-openjpa</module>
 		<module>cotrix-lifecycle</module>
 		<module>cotrix-engine</module>
 		<module>cotrix-security</module>

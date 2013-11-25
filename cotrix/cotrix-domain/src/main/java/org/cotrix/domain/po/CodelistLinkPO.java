@@ -2,7 +2,7 @@ package org.cotrix.domain.po;
 
 import static org.cotrix.common.Utils.*;
 
-import org.cotrix.domain.CodelistLink;
+import org.cotrix.domain.codelist.CodelistLink;
 
 /**
  * Initialisation parameters for {@link CodelistLink}s.

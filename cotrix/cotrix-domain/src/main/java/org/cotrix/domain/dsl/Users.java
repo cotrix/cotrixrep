@@ -2,15 +2,15 @@ package org.cotrix.domain.dsl;
 
 import static java.util.Arrays.*;
 import static org.cotrix.action.CodelistAction.*;
-import static org.cotrix.domain.Roles.*;
+import static org.cotrix.domain.dsl.Roles.*;
 
 import java.util.List;
 
 import org.cotrix.action.GuestAction;
-import org.cotrix.domain.User;
 import org.cotrix.domain.dsl.builder.UserBuilder;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserChangeClause;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserNewClause;
+import org.cotrix.domain.user.User;
 
 /**
  * Predefined users and factory methods.

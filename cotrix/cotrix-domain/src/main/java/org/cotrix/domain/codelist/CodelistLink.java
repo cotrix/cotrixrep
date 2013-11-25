@@ -1,4 +1,4 @@
-package org.cotrix.domain;
+package org.cotrix.domain.codelist;
 
 import org.cotrix.domain.po.CodelistLinkPO;
 import org.cotrix.domain.trait.Attributed;

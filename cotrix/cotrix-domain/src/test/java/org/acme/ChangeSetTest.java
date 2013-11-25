@@ -5,9 +5,9 @@ import static org.acme.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.po.DomainPO;
 import org.junit.Test;
 

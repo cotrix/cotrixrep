@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.codelistmanager.server.modify;
 
-import org.cotrix.domain.Attribute;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.web.codelistmanager.shared.modify.attribute.AddAttributeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.attribute.AttributeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.attribute.RemoveAttributeCommand;
