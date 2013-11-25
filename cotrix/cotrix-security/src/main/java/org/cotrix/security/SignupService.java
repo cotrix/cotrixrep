@@ -1,6 +1,6 @@
 package org.cotrix.security;
 
-import org.cotrix.user.User;
+import org.cotrix.domain.User;
 
 public interface SignupService {
 	

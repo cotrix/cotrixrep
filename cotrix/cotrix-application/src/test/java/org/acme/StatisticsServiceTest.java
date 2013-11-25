@@ -1,7 +1,7 @@
 package org.acme;
 
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.user.Users.*;
+import static org.cotrix.domain.dsl.Users.*;
 import static org.junit.Assert.*;
 
 import javax.enterprise.event.Event;
@@ -15,8 +15,8 @@ import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
+import org.cotrix.domain.User;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.user.User;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;

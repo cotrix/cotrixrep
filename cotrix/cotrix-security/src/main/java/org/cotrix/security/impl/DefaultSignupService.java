@@ -4,10 +4,10 @@ import static org.cotrix.common.Utils.*;
 
 import javax.inject.Inject;
 
+import org.cotrix.domain.User;
+import org.cotrix.repository.UserRepository;
 import org.cotrix.security.Realm;
 import org.cotrix.security.SignupService;
-import org.cotrix.user.User;
-import org.cotrix.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

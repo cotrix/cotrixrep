@@ -1,7 +1,7 @@
 package org.acme;
 
+import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.security.impl.DefaultNameAndPasswordCollector.*;
-import static org.cotrix.user.Users.*;
 import static org.junit.Assert.*;
 
 import javax.enterprise.context.RequestScoped;
@@ -14,15 +14,15 @@ import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
+import org.cotrix.domain.User;
+import org.cotrix.domain.dsl.Users;
+import org.cotrix.repository.impl.DefaultUserRepository;
+import org.cotrix.repository.memory.MUserRepository;
 import org.cotrix.repository.utils.UuidGenerator;
 import org.cotrix.security.impl.DefaultLoginService;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.security.impl.DefaultSignupService;
 import org.cotrix.security.impl.MRealm;
-import org.cotrix.user.User;
-import org.cotrix.user.Users;
-import org.cotrix.user.impl.DefaultUserRepository;
-import org.cotrix.user.memory.MUserRepository;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.ContextController;

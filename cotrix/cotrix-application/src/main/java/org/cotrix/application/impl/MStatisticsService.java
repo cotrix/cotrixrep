@@ -9,7 +9,7 @@ import org.cotrix.application.StatisticsService;
 import org.cotrix.domain.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.user.UserRepository;
+import org.cotrix.repository.UserRepository;
 import org.virtualrepository.RepositoryService;
 
 @ApplicationScoped

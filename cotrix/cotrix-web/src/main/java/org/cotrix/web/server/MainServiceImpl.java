@@ -2,7 +2,7 @@ package org.cotrix.web.server;
 
 import static org.cotrix.action.GuestAction.*;
 import static org.cotrix.action.MainAction.*;
-import static org.cotrix.user.Users.*;
+import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.web.share.shared.feature.ApplicationFeatures.*;
 import static org.cotrix.web.shared.AuthenticationFeature.*;
 
@@ -26,14 +26,14 @@ import org.cotrix.application.StatisticsService.Statistics;
 import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.common.cdi.ApplicationEvents.Startup;
+import org.cotrix.domain.Roles;
+import org.cotrix.domain.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.SignupService;
 import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
-import org.cotrix.user.Roles;
-import org.cotrix.user.User;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.util.ExceptionUtils;

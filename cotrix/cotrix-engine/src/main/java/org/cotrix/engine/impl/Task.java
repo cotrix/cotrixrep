@@ -4,8 +4,8 @@ import java.util.Calendar;
 import java.util.concurrent.Callable;
 
 import org.cotrix.action.Action;
+import org.cotrix.domain.User;
 import org.cotrix.engine.Engine;
-import org.cotrix.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

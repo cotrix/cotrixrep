@@ -1,6 +1,6 @@
 package org.cotrix.security.impl;
 
-import static org.cotrix.user.Users.*;
+import static org.cotrix.domain.dsl.Users.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,10 +10,10 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
+import org.cotrix.domain.User;
 import org.cotrix.security.Realm;
 import org.cotrix.security.Token;
 import org.cotrix.security.tokens.NameAndPassword;
-import org.cotrix.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
