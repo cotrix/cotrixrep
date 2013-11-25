@@ -8,7 +8,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.cotrix.common.Utils;
-import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.repository.Repository;
 import org.cotrix.repository.impl.DefaultRepository;
 import org.cotrix.user.User;
@@ -44,7 +43,8 @@ public class DefaultUserRepository extends DefaultRepository<User,User.Private,R
 		
 		log.info("loading predefined users ");
 		
-		for (User user : predefinedUsers())
-			this.add(user);
+		for (User user : predefinedUsers)
+			if (user.id()==null) //add them only if they have not been added before
+				this.add(user);
 	}
 }

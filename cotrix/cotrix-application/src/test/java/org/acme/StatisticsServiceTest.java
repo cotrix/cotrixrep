@@ -11,13 +11,13 @@ import javax.inject.Inject;
 import org.cotrix.application.StatisticsService;
 import org.cotrix.application.StatisticsService.Statistics;
 import org.cotrix.common.cdi.ApplicationEvents.ApplicationEvent;
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
+import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.user.User;
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -31,14 +31,6 @@ public class StatisticsServiceTest {
 	
 	@Inject	
 	CodelistRepository repository;
-	
-	@Inject
-	Event<ApplicationEvent> events;
-	
-	@Before
-	public void init() {
-		events.fire(Startup.INSTANCE);
-	}
 	
 	@Test
 	public void statistics() {
@@ -76,5 +68,16 @@ public class StatisticsServiceTest {
 	public User user() {
 		return cotrix;
 	}
+	
+	@Inject
+	Event<ApplicationEvent> events;
+	
+	//sadly, we cannot control injection on a per-test basis, so we need to cleanup after each test
+	//we do it with end-of-app events
+	@After
+	public void shutdown() {
+		events.fire(Shutdown.INSTANCE);
+	}
+
 	
 }

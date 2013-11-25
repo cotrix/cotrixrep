@@ -1,6 +1,5 @@
 package org.cotrix.repository.memory;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.domain.Attribute;
@@ -9,7 +8,6 @@ import org.cotrix.domain.Codelink;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.CodelistLink;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.repository.utils.UuidGenerator;
 
 /**
  * An in-memory {@link CodelistRepository}.
@@ -19,11 +17,6 @@ import org.cotrix.repository.utils.UuidGenerator;
  */
 @Singleton
 public class MCodelistRepository extends MemoryRepository<Codelist.Private> {
-
-	@Inject
-	public MCodelistRepository() {
-		super(new UuidGenerator());
-	}
 
 	@Override
 	public void add(Codelist.Private list) {

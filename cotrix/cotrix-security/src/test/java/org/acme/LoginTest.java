@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
+import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.repository.utils.UuidGenerator;
 import org.cotrix.security.impl.DefaultLoginService;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
@@ -26,6 +27,7 @@ import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.ContextController;
 import org.jglue.cdiunit.DummyHttpRequest;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -124,6 +126,11 @@ public class LoginTest {
 	public @Current User currentUser(@Current BeanSession session) {
 	
 		return session.get(User.class);		
+	}
+	
+	@After
+	public void shutdown() {
+		events.fire(Shutdown.INSTANCE);
 	}
 
 }

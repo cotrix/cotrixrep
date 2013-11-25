@@ -10,8 +10,6 @@ import org.cotrix.action.GuestAction;
 import org.cotrix.user.dsl.UserBuilder;
 import org.cotrix.user.dsl.UserGrammar.UserChangeClause;
 import org.cotrix.user.dsl.UserGrammar.UserNewClause;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Predefined users and factory methods.
@@ -20,8 +18,6 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class Users {
-
-	private static Logger log = LoggerFactory.getLogger(Users.class);
 
 	public static UserNewClause user() {
 		return new UserBuilder();
@@ -51,9 +47,5 @@ public class Users {
 	}
 
 	public static List<User> predefinedUsers = asList(cotrix, guest);
-	
-	public static List<User> predefinedUsers() {
-		return asList(cotrix(), guest());
-	}
 
 }

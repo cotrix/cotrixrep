@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.cotrix.common.cdi.ApplicationEvents.ApplicationEvent;
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
+import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
@@ -21,7 +21,7 @@ import org.cotrix.repository.CodelistQuery;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.Range;
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -32,14 +32,6 @@ public class CodelistRepositoryTest {
 	
 	@Inject
 	CodelistRepository repository;
-	
-	@Inject
-	Event<ApplicationEvent> events;
-	
-	@Before
-	public void init() {
-		events.fire(Startup.INSTANCE);
-	}
 	
 	@Test
 	public void retrieveNotExistingCodeList() {
@@ -191,4 +183,14 @@ public class CodelistRepositoryTest {
 		
 	}
 	
+	@Inject
+	Event<ApplicationEvent> events;
+
+	//sadly, we cannot control injection on a per-test basis, so we need to cleanup after each test
+	//we do it with end-of-app events
+	@After
+	public void shutdown() {
+		events.fire(Shutdown.INSTANCE);
+	}
+
 }

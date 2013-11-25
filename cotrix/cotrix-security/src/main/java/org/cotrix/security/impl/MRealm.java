@@ -7,7 +7,9 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 
+import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.security.Realm;
 import org.cotrix.security.Token;
 import org.cotrix.security.tokens.NameAndPassword;
@@ -48,5 +50,10 @@ public class MRealm implements Realm<NameAndPassword> {
 	@Override
 	public void signup(String name, String pwd) {
 		pwds.put(name,pwd);
+	}
+	
+	public void clear(@Observes Shutdown event) {
+		log.info("clearing inner realm");
+		pwds.clear();
 	}
 }
