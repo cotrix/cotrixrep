@@ -1,4 +1,4 @@
-package org.cotrix.repository.impl;
+package org.cotrix.repository.codelist.impl;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;

@@ -13,9 +13,9 @@ import org.cotrix.application.PermissionDelegationService;
 import org.cotrix.application.impl.DefaultDelegationService;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.impl.DefaultUserRepository;
-import org.cotrix.repository.memory.MUserRepository;
 import org.cotrix.repository.user.UserRepository;
+import org.cotrix.repository.user.impl.DefaultUserRepository;
+import org.cotrix.repository.user.impl.MUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 

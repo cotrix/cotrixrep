@@ -1,4 +1,4 @@
-package org.cotrix.repository.memory;
+package org.cotrix.repository.impl.memory;
 
 import static org.cotrix.common.Utils.*;
 

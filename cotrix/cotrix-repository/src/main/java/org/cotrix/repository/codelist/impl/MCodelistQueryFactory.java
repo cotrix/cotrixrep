@@ -1,4 +1,4 @@
-package org.cotrix.repository.memory;
+package org.cotrix.repository.codelist.impl;
 
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.repository.codelist.CodelistCoordinates.*;
@@ -20,7 +20,9 @@ import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.codelist.CodelistCoordinates;
 import org.cotrix.repository.codelist.CodelistSummary;
-import org.cotrix.repository.impl.CodelistQueryFactory;
+import org.cotrix.repository.impl.memory.MMultiQuery;
+import org.cotrix.repository.impl.memory.MQuery;
+import org.cotrix.repository.impl.memory.MemoryRepository;
 
 /**
  * A {@link CodelistQueryFactory} for {@link MMultiQuery}s.
@@ -28,7 +30,7 @@ import org.cotrix.repository.impl.CodelistQueryFactory;
  * @author Fabio Simeoni
  *
  */
-public class MQueryFactory implements CodelistQueryFactory {
+public class MCodelistQueryFactory implements CodelistQueryFactory {
 	
 	
 	@Override

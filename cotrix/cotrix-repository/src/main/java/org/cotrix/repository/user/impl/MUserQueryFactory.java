@@ -1,4 +1,4 @@
-package org.cotrix.repository.memory;
+package org.cotrix.repository.user.impl;
 
 import java.util.Collection;
 
@@ -7,8 +7,11 @@ import org.cotrix.domain.user.User;
 import org.cotrix.repository.Filter;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
-import org.cotrix.repository.impl.CodelistQueryFactory;
-import org.cotrix.repository.impl.UserQueryFactory;
+import org.cotrix.repository.codelist.impl.CodelistQueryFactory;
+import org.cotrix.repository.impl.memory.MFilter;
+import org.cotrix.repository.impl.memory.MMultiQuery;
+import org.cotrix.repository.impl.memory.MQuery;
+import org.cotrix.repository.impl.memory.MemoryRepository;
 
 /**
  * A {@link CodelistQueryFactory} for {@link MMultiQuery}s.

@@ -11,9 +11,9 @@ import org.cotrix.action.Action;
 import org.cotrix.domain.dsl.grammar.UserGrammar;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.impl.DefaultUserRepository;
-import org.cotrix.repository.memory.MUserRepository;
 import org.cotrix.repository.user.UserRepository;
+import org.cotrix.repository.user.impl.DefaultUserRepository;
+import org.cotrix.repository.user.impl.MUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -7,12 +7,12 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
-import org.cotrix.repository.impl.CodelistQueryFactory;
-import org.cotrix.repository.memory.MQueryFactory;
+import org.cotrix.repository.codelist.impl.CodelistQueryFactory;
+import org.cotrix.repository.codelist.impl.MCodelistQueryFactory;
 
 public class CodelistQueries {
 
-	private static CodelistQueryFactory factory = new MQueryFactory();
+	private static CodelistQueryFactory factory = new MCodelistQueryFactory();
 	
 	public static void setFactory(CodelistQueryFactory factory) {
 		CodelistQueries.factory = factory;

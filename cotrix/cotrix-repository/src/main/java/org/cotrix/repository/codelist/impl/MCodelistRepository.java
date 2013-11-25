@@ -1,4 +1,4 @@
-package org.cotrix.repository.memory;
+package org.cotrix.repository.codelist.impl;
 
 import javax.inject.Singleton;
 
@@ -8,6 +8,7 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.repository.codelist.CodelistRepository;
+import org.cotrix.repository.impl.memory.MemoryRepository;
 
 /**
  * An in-memory {@link CodelistRepository}.
