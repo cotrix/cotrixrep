@@ -7,10 +7,12 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
 import static org.cotrix.repository.CodelistQueries.*;
 
-import javax.enterprise.inject.New;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.cdi.ApplicationEvents.ApplicationEvent;
+import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
@@ -19,7 +21,7 @@ import org.cotrix.repository.CodelistQuery;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.Range;
-import org.cotrix.repository.spi.DefaultCodelistRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -28,9 +30,16 @@ import com.googlecode.jeeunit.JeeunitRunner;
 @RunWith(JeeunitRunner.class)
 public class CodelistRepositoryTest {
 	
-	//we override the @ApplicationScoped directive to get a fresh repository for each and every test
-	@Inject @New(DefaultCodelistRepository.class)
+	@Inject
 	CodelistRepository repository;
+	
+	@Inject
+	Event<ApplicationEvent> events;
+	
+	@Before
+	public void init() {
+		events.fire(Startup.INSTANCE);
+	}
 	
 	@Test
 	public void retrieveNotExistingCodeList() {

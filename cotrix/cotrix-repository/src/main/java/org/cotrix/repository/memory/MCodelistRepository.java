@@ -1,14 +1,15 @@
 package org.cotrix.repository.memory;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelink;
 import org.cotrix.domain.Codelist;
 import org.cotrix.domain.CodelistLink;
-import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.utils.UuidGenerator;
 
 /**
  * An in-memory {@link CodelistRepository}.
@@ -16,14 +17,12 @@ import org.cotrix.repository.CodelistRepository;
  * @author Fabio Simeoni
  * 
  */
+@Singleton
 public class MCodelistRepository extends MemoryRepository<Codelist.Private> {
 
-	/**
-	 * Creates an instance over a private {@link MStore}.
-	 */
 	@Inject
-	public MCodelistRepository(IdGenerator generator) {
-		super(generator);
+	public MCodelistRepository() {
+		super(new UuidGenerator());
 	}
 
 	@Override

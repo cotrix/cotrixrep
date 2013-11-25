@@ -5,16 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.event.Observes;
+
 import org.cotrix.common.Utils;
+import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.Repository;
 import org.cotrix.repository.Specification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public abstract class MemoryRepository<S extends Identified.Abstract<S>> implements Repository<S> {
 
+	private static Logger log = LoggerFactory.getLogger(MemoryRepository.class);
+	
 	private final IdGenerator generator;
 	
 	private final Map<String,S> objects = new HashMap<String,S>();
@@ -23,7 +30,7 @@ public abstract class MemoryRepository<S extends Identified.Abstract<S>> impleme
 		this.generator=generator;
 	}
 	
-	protected final String generateId() {
+	protected String generateId() {
 		return generator.id();
 	}
 	
@@ -79,6 +86,10 @@ public abstract class MemoryRepository<S extends Identified.Abstract<S>> impleme
 		return objects.size();
 	}
 	
+	public void clear(@Observes Startup event) {
+		log.info("clearing "+this);
+		objects.clear();
+	}
 	
 	//helpers
 	

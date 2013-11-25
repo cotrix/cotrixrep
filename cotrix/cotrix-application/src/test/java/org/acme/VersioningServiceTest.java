@@ -52,5 +52,8 @@ public class VersioningServiceTest {
 		
 		assertNotNull(repository.lookup(versioned.id()));
 		
+		repository.remove(versioned.id());
+		repository.remove(codelist.id());
+		
 	}
 }
