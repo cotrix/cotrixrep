@@ -30,7 +30,7 @@ public class MStatisticsService implements StatisticsService {
 		int codelists = codelistRepository.size();
 		int codes = 0;
 		
-		for (Codelist list : codelistRepository.queryFor(allLists()))
+		for (Codelist list : codelistRepository.get(allLists()))
 			codes = codes + codelistRepository.get(summary(list.id())).size();
 		
 		int users = userRepository.size();

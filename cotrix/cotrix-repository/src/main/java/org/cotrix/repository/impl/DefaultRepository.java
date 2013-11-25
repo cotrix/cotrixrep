@@ -6,7 +6,6 @@ import org.cotrix.common.Utils;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.Repository;
-import org.cotrix.repository.Specification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,19 +50,11 @@ public class DefaultRepository<T extends Identified, S extends Identified.Abstra
 	};
 	
 	@Override
-	public <U> Iterable<U> queryFor(Query<T,U> query) {
+	public <U> U get(Query<T,U> query) {
 	
 		notNull("query", query);
 		
-		return repository.queryFor(reveal(query));
-	}
-	
-	@Override
-	public <U> U get(Specification<T,U> specs) {
-		
-		notNull("specifications",specs);
-	
-		return repository.get(reveal(specs));
+		return repository.get(reveal(query));
 	}
 	
 	@Override
@@ -112,11 +103,6 @@ public class DefaultRepository<T extends Identified, S extends Identified.Abstra
 	@SuppressWarnings("all")
 	private <R> Query<S,R> reveal(Query<T,R> query) {
 		return (Query<S,R>) query;
-	}
-	
-	@SuppressWarnings("all")
-	private <R> Specification<S,R> reveal(Specification<T,R> specs) {
-		return (Specification<S,R>) specs;
 	}
 	
 	

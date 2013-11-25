@@ -17,26 +17,24 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistCoordinates;
-import org.cotrix.repository.CodelistQuery;
 import org.cotrix.repository.CodelistSummary;
-import org.cotrix.repository.QueryFactory;
-import org.cotrix.repository.Specification;
+import org.cotrix.repository.MultiQuery;
+import org.cotrix.repository.Query;
+import org.cotrix.repository.impl.CodelistQueryFactory;
 
 /**
- * A {@link QueryFactory} for {@link MQuery}s.
+ * A {@link CodelistQueryFactory} for {@link MMultiQuery}s.
  * 
  * @author Fabio Simeoni
  *
  */
-public class MQueryFactory implements QueryFactory {
-
-	static abstract class CodelistMQuery<R> extends MQuery<Codelist, R> implements CodelistQuery<R> {}
+public class MQueryFactory implements CodelistQueryFactory {
 	
 	
 	@Override
-	public CodelistQuery<Codelist> allLists() {
+	public MultiQuery<Codelist,Codelist> allLists() {
 		
-		return new CodelistMQuery<Codelist>() {
+		return new MMultiQuery<Codelist,Codelist>() {
 			public Collection<? extends Codelist> executeOn(MemoryRepository<? extends Codelist> repository) {
 				return repository.getAll();
 			}
@@ -44,8 +42,8 @@ public class MQueryFactory implements QueryFactory {
 	}
 	
 	@Override
-	public CodelistQuery<Code> allCodes(final String codelistId) {
-		return new CodelistMQuery<Code>() {
+	public MultiQuery<Codelist,Code> allCodes(final String codelistId) {
+		return new  MMultiQuery<Codelist,Code>() {
 			public Collection<? extends Code> executeOn(MemoryRepository<? extends Codelist> repository) {
 				Collection<Code> codes = new ArrayList<Code>();
 				for (Code c : repository.lookup(codelistId).codes())
@@ -56,8 +54,8 @@ public class MQueryFactory implements QueryFactory {
 	}
 	
 	@Override
-	public CodelistQuery<CodelistCoordinates> allListCoordinates() {
-		return new CodelistMQuery<CodelistCoordinates>() {
+	public MultiQuery<Codelist,CodelistCoordinates> allListCoordinates() {
+		return new MMultiQuery<Codelist,CodelistCoordinates>() {
 			public Collection<CodelistCoordinates> executeOn(MemoryRepository<? extends Codelist> repository) {
 				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
 				for (Codelist list : repository.getAll())
@@ -68,9 +66,9 @@ public class MQueryFactory implements QueryFactory {
 	}
 	
 	
-	public Specification<Codelist,CodelistSummary> summary(final String id) {
+	public Query<Codelist,CodelistSummary> summary(final String id) {
 		
-		return new MSpecification<Codelist, CodelistSummary>() {
+		return new MQuery<Codelist, CodelistSummary>() {
 			@Override
 			public CodelistSummary execute(MemoryRepository<? extends Codelist> repository) {
 				

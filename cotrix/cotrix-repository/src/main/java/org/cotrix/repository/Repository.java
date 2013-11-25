@@ -43,14 +43,8 @@ public interface Repository<T> {
 	 * @param <R> the type of query results
 	 * 
 	 * @return the results
-	 */
-	// we choose an iterable for persistence bindings that stream results
-	// we prefer iterables to iterators here, for their convenience and because we do not need remove semantics
-	
-	<R> Iterable<R> queryFor(Query<T, R> query);
-
-	
-	<R> R get(Specification<T, R> specs);
+	 */	
+	<R> R get(Query<T, R> query);
 	
 	
 	/**

@@ -22,9 +22,7 @@ import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
-import org.cotrix.repository.CodelistQuery;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.repository.Range;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.modify.ModifyCommandHandler;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
@@ -39,9 +37,9 @@ import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
+import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
@@ -98,7 +96,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public void init() {
 		codelistLoader.importAllCodelist();
 		logger.trace("codelist in repository:");
-		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
+		for (Codelist codelist:repository.get(allLists())) logger.trace(codelist.name().toString());
 		logger.trace("done");
 		
 		mapper.map(VIEW).to(VIEW_CODELIST, VIEW_METADATA);
@@ -113,7 +111,7 @@ public class ManagerServiceImpl implements ManagerService {
 		logger.trace("getCodelistsGrouped");
 		
 		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
-		Iterator<org.cotrix.domain.Codelist> it = repository.queryFor(allLists()).iterator();
+		Iterator<org.cotrix.domain.Codelist> it = repository.get(allLists()).iterator();
 		while (it.hasNext()) {
 			org.cotrix.domain.Codelist codelist = (org.cotrix.domain.Codelist) it.next();
 			
@@ -135,15 +133,13 @@ public class ManagerServiceImpl implements ManagerService {
 	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range) throws ServiceException {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
 		
-		CodelistQuery<Code> query = allCodes(codelistId);
-		int from = range.getStart();
-		int to = range.getStart() + range.getLength();
-		logger.trace("query range from: {} to: {}", from ,to);
-		query.setRange(new Range(from, to));
-
+		int start = range.getStart();
+		int end = range.getStart() + range.getLength();
+		logger.trace("query range from: {} to: {}", start ,end);
+		
 		Codelist codelist = repository.lookup(codelistId);
 		
-		Iterable<Code> codes  = repository.queryFor(query);
+		Iterable<Code> codes  = repository.get(allCodesIn(codelistId).from(start).to(end));
 		List<UICode> rows = new ArrayList<UICode>(range.getLength());
 		for (Code code:codes) {
 

@@ -1,13 +1,12 @@
-package org.cotrix.user.queries;
+package org.cotrix.user;
 
 import javax.enterprise.event.Observes;
 
 import org.cotrix.action.ResourceType;
 import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.repository.Filter;
+import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
-import org.cotrix.repository.Specification;
-import org.cotrix.user.User;
 import org.cotrix.user.impl.UserQueryFactory;
 import org.cotrix.user.memory.MUserQueryFactory;
 
@@ -15,7 +14,7 @@ public class UserQueries {
 
 	private static UserQueryFactory factory = new MUserQueryFactory();
 	
-	public static Query<User,User> allUsers() {
+	public static MultiQuery<User,User> allUsers() {
 		return factory.allUsers();
 	}
 	
@@ -23,7 +22,7 @@ public class UserQueries {
 		return factory.roleOn(resource, type);
 	}
 	
-	public static Specification<User,User> userByName(String name) {
+	public static Query<User,User> userByName(String name) {
 		
 		return factory.userByName(name); 
 		

@@ -4,8 +4,8 @@ import static junit.framework.Assert.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.user.UserQueries.*;
 import static org.cotrix.user.Users.*;
-import static org.cotrix.user.queries.UserQueries.*;
 
 import org.cotrix.action.Action;
 import org.cotrix.user.Role;
@@ -82,7 +82,7 @@ public class UserRepositoryTest {
 		
 		repository.add(bill);
 		
-		Iterable<User> users = repository.queryFor(allUsers());
+		Iterable<User> users = repository.get(allUsers());
 		
 		assertEquals(bill,users.iterator().next());
 	}
@@ -98,7 +98,7 @@ public class UserRepositoryTest {
 		repository.add(joe);
 		
 		
-		Iterable<User> users = repository.queryFor(allUsers().with(roleOn("1",codelists)));
+		Iterable<User> users = repository.get(allUsers().with(roleOn("1",codelists)));
 		
 		assertEqualSets(gather(users),bill);
 		

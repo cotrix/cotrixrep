@@ -17,10 +17,8 @@ import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.CodelistCoordinates;
-import org.cotrix.repository.CodelistQuery;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
-import org.cotrix.repository.Range;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -99,7 +97,7 @@ public class CodelistRepositoryTest {
 		
 		repository.add(list);
 		
-		Iterable<Codelist> lists  = repository.queryFor(allLists());
+		Iterable<Codelist> lists  = repository.get(allLists());
 		
 		assertEqualSets(gather(lists),list);
 	}
@@ -117,11 +115,7 @@ public class CodelistRepositoryTest {
 		
 		System.out.println(list);
 		
-		CodelistQuery<Code> codes = allCodes(list.id());
-		
-		codes.setRange(new Range(2,3));
-		
-		Iterable<Code> inrange  = repository.queryFor(codes);
+		Iterable<Code> inrange  = repository.get(allCodesIn(list.id()).from(2).to(3));
 		
 		assertEquals(asList(code2,code3),inrange);
 	}
@@ -135,7 +129,7 @@ public class CodelistRepositoryTest {
 		repository.add(list1);
 		repository.add(list2);
 		
-		Iterable<CodelistCoordinates> results  = repository.queryFor(allListCoordinates());
+		Iterable<CodelistCoordinates> results  = repository.get(allListCoordinates());
 		
 		assertEqualSets(gather(results),coords(list1.id(),q("l1"),"1"),coords(list2.id(),q("l2"),"2"));
 	}

@@ -1,25 +1,17 @@
 package org.cotrix.repository;
 
 /**
- * A range of {@link Query} results.
+ * A range of {@link MultiQuery} results.
  *  
  * @author Fabio Simeoni
  *
  */
 public class Range {
 
-	public static final Range ALL = new Range(Integer.MAX_VALUE);
+	public static final Range ALL = new Range(1,Integer.MAX_VALUE);
 			
 	private final int from;
 	private final int to;
-	
-	/**
-	 * Creates an instance with an upper bound
-	 * @param to the upper bound
-	 */
-	public Range(int to) {
-		this(1,to);
-	}
 	
 	/**
 	 * Creates an instance with a lower bound and upper bound

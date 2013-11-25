@@ -1,7 +1,7 @@
 package org.cotrix.user.impl;
 
+import static org.cotrix.user.UserQueries.*;
 import static org.cotrix.user.Users.*;
-import static org.cotrix.user.queries.UserQueries.*;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;

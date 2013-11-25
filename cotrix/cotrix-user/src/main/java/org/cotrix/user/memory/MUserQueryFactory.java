@@ -4,30 +4,28 @@ import java.util.Collection;
 
 import org.cotrix.action.ResourceType;
 import org.cotrix.repository.Filter;
-import org.cotrix.repository.QueryFactory;
-import org.cotrix.repository.Specification;
+import org.cotrix.repository.MultiQuery;
+import org.cotrix.repository.Query;
+import org.cotrix.repository.impl.CodelistQueryFactory;
 import org.cotrix.repository.memory.MFilter;
+import org.cotrix.repository.memory.MMultiQuery;
 import org.cotrix.repository.memory.MQuery;
-import org.cotrix.repository.memory.MSpecification;
 import org.cotrix.repository.memory.MemoryRepository;
 import org.cotrix.user.User;
 import org.cotrix.user.impl.UserQueryFactory;
-import org.cotrix.user.queries.UserQuery;
 
 /**
- * A {@link QueryFactory} for {@link MQuery}s.
+ * A {@link CodelistQueryFactory} for {@link MMultiQuery}s.
  * 
  * @author Fabio Simeoni
  *
  */
 public class MUserQueryFactory implements UserQueryFactory {
-
-	static abstract class UserMQuery<R> extends MQuery<User, R> implements UserQuery<R> {}
-	
+ 
 	@Override
-	public UserQuery<User> allUsers() {
+	public MultiQuery<User,User> allUsers() {
 		
-		return new UserMQuery<User>() {
+		return new MMultiQuery<User,User>() {
 			public Collection<? extends User> executeOn(MemoryRepository<? extends User> repository) {
 				return repository.getAll();
 			}
@@ -37,8 +35,8 @@ public class MUserQueryFactory implements UserQueryFactory {
 	
 	
 	@Override
-	public Specification<User, User> userByName(final String name) {
-		return new MSpecification<User, User>() {
+	public Query<User, User> userByName(final String name) {
+		return new MQuery<User,User>() {
 			@Override
 			public User execute(MemoryRepository<? extends User> repository) {
 				
