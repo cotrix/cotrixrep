@@ -11,7 +11,4 @@ import org.cotrix.repository.Repository;
  * @author Fabio Simeoni
  *
  */
-public interface UserRepository extends Repository<User> {
-	
-	User lookupByName(String id);
-}
+public interface UserRepository extends Repository<User> {}

@@ -6,10 +6,11 @@ import static org.junit.Assert.*;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.New;
+import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
+import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.repository.utils.UuidGenerator;
@@ -18,6 +19,8 @@ import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.security.impl.DefaultSignupService;
 import org.cotrix.security.impl.MRealm;
 import org.cotrix.user.User;
+import org.cotrix.user.Users;
+import org.cotrix.user.impl.DefaultUserRepository;
 import org.cotrix.user.memory.MUserRepository;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
@@ -27,7 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(CdiRunner.class)
-@AdditionalClasses({MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class, UuidGenerator.class })
+@AdditionalClasses({Users.class,DefaultUserRepository.class, MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class, UuidGenerator.class })
 public class LoginTest {
 
 	@Inject
@@ -40,15 +43,16 @@ public class LoginTest {
 	@Inject
 	DefaultLoginService service;
 	
-	//initialises the repository to add default users
-	@Inject @New
-	MUserRepository repository;
-	
 	@Inject
 	DefaultSignupService signupService;
-
+	
+	@Inject
+	Event<ApplicationEvents.ApplicationEvent> events;
+	
 	@Test
 	public void loginAsGuestIfNoTokenIsAvailable() throws Exception {
+		
+		System.out.println(service);
 
 		DummyHttpRequest req = new DummyHttpRequest();
 		
@@ -66,7 +70,9 @@ public class LoginTest {
 
 	@Test
 	public void loginByNameAndPasswords() throws Exception {
-
+		
+		events.fire(ApplicationEvents.Startup.INSTANCE);
+		
 		DummyHttpRequest r = new DummyHttpRequest();
 		
 		contextController.openRequest(r);
@@ -75,11 +81,10 @@ public class LoginTest {
 		r.setAttribute(pwdParam, cotrix.name());
 
 		User logged = service.login(r);
-		
-		assertEquals(cotrix,logged);
-		
-		// annoyingly we cannot compare objects as current user is a proxy
-		assertEquals(cotrix.toString(), currentUser.toString());
+
+		//some users have ids others don't
+		assertEquals(cotrix.name(),logged.name());
+		assertEquals(cotrix.name(), currentUser.name());
 		
 		contextController.closeRequest();
 		
@@ -89,7 +94,9 @@ public class LoginTest {
 	
 	@Test
 	public void signUp() throws Exception {
-
+		
+		System.out.println(service);
+		
 		User user = user().name("fabio").fullName("fifi").build();
 		
 		signupService.signup(user,"fuffa");

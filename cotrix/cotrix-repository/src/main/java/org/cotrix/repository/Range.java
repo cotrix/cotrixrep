@@ -1,4 +1,4 @@
-package org.cotrix.repository.query;
+package org.cotrix.repository;
 
 /**
  * A range of {@link Query} results.

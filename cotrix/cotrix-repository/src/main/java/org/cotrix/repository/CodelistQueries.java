@@ -1,17 +1,18 @@
 package org.cotrix.repository;
 
+import javax.enterprise.event.Observes;
+
+import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
 import org.cotrix.repository.memory.MQueryFactory;
-import org.cotrix.repository.query.CodelistCoordinates;
-import org.cotrix.repository.query.CodelistQuery;
 
-public class Queries {
+public class CodelistQueries {
 
 	private static QueryFactory factory = new MQueryFactory();
 	
 	public static void setFactory(QueryFactory factory) {
-		Queries.factory = factory;
+		CodelistQueries.factory = factory;
 	}
 	
 	public static CodelistQuery<Codelist> allLists() {
@@ -24,5 +25,17 @@ public class Queries {
 	
 	public static CodelistQuery<CodelistCoordinates> allListCoordinates() {
 		return factory.allListCoordinates();
+	}
+	
+	public static Specification<Codelist,CodelistSummary> summary(String id) {
+		return factory.summary(id);
+	}
+	
+	static class QueryFactoryInjector {
+
+		void configure(@Observes ApplicationEvents.Startup event, QueryFactory factory) {	
+			
+			CodelistQueries.setFactory(factory);
+		}
 	}
 }

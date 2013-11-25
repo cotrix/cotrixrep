@@ -3,11 +3,13 @@ package org.cotrix.user.memory;
 import java.util.Collection;
 
 import org.cotrix.action.ResourceType;
+import org.cotrix.repository.Filter;
 import org.cotrix.repository.QueryFactory;
+import org.cotrix.repository.Specification;
 import org.cotrix.repository.memory.MFilter;
 import org.cotrix.repository.memory.MQuery;
-import org.cotrix.repository.memory.MRepository;
-import org.cotrix.repository.query.Filter;
+import org.cotrix.repository.memory.MSpecification;
+import org.cotrix.repository.memory.MemoryRepository;
 import org.cotrix.user.User;
 import org.cotrix.user.impl.UserQueryFactory;
 import org.cotrix.user.queries.UserQuery;
@@ -26,12 +28,29 @@ public class MUserQueryFactory implements UserQueryFactory {
 	public UserQuery<User> allUsers() {
 		
 		return new UserMQuery<User>() {
-			public Collection<User> executeOn(MRepository<User,?> repository) {
+			public Collection<? extends User> executeOn(MemoryRepository<? extends User> repository) {
 				return repository.getAll();
 			}
 		};
 		
 	}
+	
+	
+	@Override
+	public Specification<User, User> userByName(final String name) {
+		return new MSpecification<User, User>() {
+			@Override
+			public User execute(MemoryRepository<? extends User> repository) {
+				
+				for (User user : repository.getAll())
+					if (user.name().equals(name))
+						return user;
+				
+				return null;
+			}
+		};
+	}
+	
 	
 	@Override
 	public Filter<User> roleOn(final String resource, final ResourceType type) {

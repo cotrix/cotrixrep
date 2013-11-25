@@ -1,6 +1,7 @@
 package org.cotrix.security.impl;
 
 import static org.cotrix.user.Users.*;
+import static org.cotrix.user.queries.UserQueries.*;
 
 import java.util.Iterator;
 
@@ -59,7 +60,7 @@ public class DefaultLoginService implements LoginService {
 				throw new UnknownUserException("unknown user for token "+token);
 			
 			//from identity to currentUser
-			user = users.lookupByName(identity);
+			user = users.get(userByName(identity));
 			
 			if (user==null)
 				throw new UnknownUserException("unknown user "+identity);

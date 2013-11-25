@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.publish.server.util;
 
-import static org.cotrix.repository.Queries.*;
+import static org.cotrix.repository.CodelistQueries.*;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -22,8 +22,8 @@ import org.cotrix.domain.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
+import org.cotrix.repository.CodelistQuery;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.repository.query.CodelistQuery;
 import org.cotrix.user.User;
 import org.cotrix.web.publish.server.publish.PublishStatus;
 import org.cotrix.web.publish.shared.Format;

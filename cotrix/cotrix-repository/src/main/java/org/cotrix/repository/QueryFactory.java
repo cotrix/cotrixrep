@@ -2,9 +2,6 @@ package org.cotrix.repository;
 
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
-import org.cotrix.repository.query.CodelistCoordinates;
-import org.cotrix.repository.query.CodelistQuery;
-import org.cotrix.repository.query.Query;
 
 /**
  * Returns implementation of {@link Query}s for given {@link Repository}s.
@@ -35,5 +32,9 @@ public interface QueryFactory {
 	 * @return the query
 	 */
 	CodelistQuery<Code> allCodes(String codelistId);
+	
+	
+	Specification<Codelist,CodelistSummary> summary(String codelistId);
+	
 	
 }

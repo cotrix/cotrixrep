@@ -3,9 +3,10 @@ package org.cotrix.user.queries;
 import javax.enterprise.event.Observes;
 
 import org.cotrix.action.ResourceType;
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
-import org.cotrix.repository.query.Filter;
-import org.cotrix.repository.query.Query;
+import org.cotrix.common.cdi.ApplicationEvents;
+import org.cotrix.repository.Filter;
+import org.cotrix.repository.Query;
+import org.cotrix.repository.Specification;
 import org.cotrix.user.User;
 import org.cotrix.user.impl.UserQueryFactory;
 import org.cotrix.user.memory.MUserQueryFactory;
@@ -22,14 +23,18 @@ public class UserQueries {
 		return factory.roleOn(resource, type);
 	}
 	
-	//TODO...others
+	public static Specification<User,User> userByName(String name) {
+		
+		return factory.userByName(name); 
+		
+	}
 	
-	static class CdiInjector {
-		
-		static void configure(@Observes Startup event, UserQueryFactory factory) {
-		
-			UserQueries.factory = factory;
+	
+	static class QueryFactoryInjector {
+
+		void configure(@Observes ApplicationEvents.Startup event, UserQueryFactory factory) {	
+			
+			UserQueries.factory=factory;
 		}
-		
 	}
 }

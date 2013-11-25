@@ -5,6 +5,10 @@ import static org.cotrix.common.Utils.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.cotrix.repository.Filter;
+import org.cotrix.repository.Query;
+import org.cotrix.repository.Range;
+
 
 /**
  * Partial implementation of {@link Query}.

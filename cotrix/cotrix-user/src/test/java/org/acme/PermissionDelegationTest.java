@@ -1,8 +1,8 @@
 package org.acme;
 
 import static junit.framework.Assert.*;
-import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.action.Actions.*;
+import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.user.Users.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -14,6 +14,7 @@ import org.cotrix.user.Role;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
 import org.cotrix.user.impl.DefaultDelegationService;
+import org.cotrix.user.impl.DefaultUserRepository;
 import org.cotrix.user.memory.MUserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +34,8 @@ public class PermissionDelegationTest {
 		
 		
 		//we dont care about repositories and policies here, so setting up defaults
-		repository = new MUserRepository();
+		repository = new DefaultUserRepository(new MUserRepository());
+		
 		policy = mock(DelegationPolicy.class);
 		
 		User current = user().name("current").fullName("current").build();

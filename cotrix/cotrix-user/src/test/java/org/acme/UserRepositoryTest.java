@@ -12,19 +12,21 @@ import org.cotrix.user.Role;
 import org.cotrix.user.User;
 import org.cotrix.user.UserRepository;
 import org.cotrix.user.dsl.UserGrammar;
+import org.cotrix.user.impl.DefaultUserRepository;
 import org.cotrix.user.memory.MUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 
 public class UserRepositoryTest {
 
+	
 	UserRepository repository;
 	
 	@Before
 	public void setup() {
 	
 		//we get a fresh copy to isolate tests
-		repository = new MUserRepository();
+		repository = new DefaultUserRepository(new MUserRepository());
 	}
 	
 	@Test

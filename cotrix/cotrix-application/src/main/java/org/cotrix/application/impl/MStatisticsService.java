@@ -1,6 +1,6 @@
 package org.cotrix.application.impl;
 
-import static org.cotrix.repository.Queries.*;
+import static org.cotrix.repository.CodelistQueries.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -31,7 +31,7 @@ public class MStatisticsService implements StatisticsService {
 		int codes = 0;
 		
 		for (Codelist list : codelistRepository.queryFor(allLists()))
-			codes = codes + codelistRepository.summary(list.id()).size();
+			codes = codes + codelistRepository.get(summary(list.id())).size();
 		
 		int users = userRepository.size();
 		

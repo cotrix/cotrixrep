@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.cotrix.repository.Filter;
+import org.cotrix.repository.Query;
 import org.cotrix.repository.query.BaseQuery;
-import org.cotrix.repository.query.Filter;
-import org.cotrix.repository.query.Query;
 
 /**
  * Partial implementation of a {@link Query} evaluated against preloaded objects
@@ -26,7 +26,7 @@ public abstract class MQuery<T,R> extends BaseQuery<T,R> {
 	 * @param object the object
 	 * @return the results, or <code>null</code> if the object does not match the query.
 	 */
-	public abstract Collection<? extends R> executeOn(MRepository<T,?> repository);
+	public abstract Collection<? extends R> executeOn(MemoryRepository<? extends T> repository);
 	
 	
 	/**
@@ -35,7 +35,7 @@ public abstract class MQuery<T,R> extends BaseQuery<T,R> {
 	 * @return the results, or <code>null</code> if the object does not match the query.
 	 */
 	@SuppressWarnings("unchecked")
-	public Collection<R> execute(MRepository<T,?> repository) {
+	public Collection<R> execute(MemoryRepository<? extends T> repository) {
 		
 		Collection<? extends R> results = executeOn(repository);
 		

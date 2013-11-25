@@ -4,8 +4,8 @@ import static java.util.Arrays.*;
 import static junit.framework.Assert.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.repository.Queries.*;
-import static org.cotrix.repository.query.CodelistCoordinates.*;
+import static org.cotrix.repository.CodelistCoordinates.*;
+import static org.cotrix.repository.CodelistQueries.*;
 
 import javax.enterprise.inject.New;
 import javax.inject.Inject;
@@ -14,12 +14,12 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.Attribute;
 import org.cotrix.domain.Code;
 import org.cotrix.domain.Codelist;
+import org.cotrix.repository.CodelistCoordinates;
+import org.cotrix.repository.CodelistQuery;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
-import org.cotrix.repository.memory.MCodelistRepository;
-import org.cotrix.repository.query.CodelistCoordinates;
-import org.cotrix.repository.query.CodelistQuery;
-import org.cotrix.repository.query.Range;
+import org.cotrix.repository.Range;
+import org.cotrix.repository.spi.DefaultCodelistRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -28,12 +28,8 @@ import com.googlecode.jeeunit.JeeunitRunner;
 @RunWith(JeeunitRunner.class)
 public class CodelistRepositoryTest {
 	
-	//would like to avoid dependency and be able to test any active repository...
-	//but, repository should be cleaned up after each test, but it's a singleton in production
-	//and I know of now way to narrow the scope of a bean during testing..
-	//@New does it, but required the concrete dependency (and it's deprecated)
-	
-	@Inject @New(MCodelistRepository.class)
+	//we override the @ApplicationScoped directive to get a fresh repository for each and every test
+	@Inject @New(DefaultCodelistRepository.class)
 	CodelistRepository repository;
 	
 	@Test
@@ -145,7 +141,7 @@ public class CodelistRepositoryTest {
 	
 	
 	@Test
-	public void summary() {
+	public void getSummary() {
 		
 		Attribute a1 = attr().name("name1").value("v1").ofType("t1").in("l1").build();
 		Attribute a2 = attr().name("name2").value("v2").ofType("t2").build();
@@ -165,7 +161,7 @@ public class CodelistRepositoryTest {
 		
 		repository.add(list);
 		
-		CodelistSummary summary = repository.summary(list.id());
+		CodelistSummary summary = repository.get(summary(list.id()));
 		
 		assertEquals(q("n"), summary.name());
 		assertEquals(2, summary.size());
