@@ -7,7 +7,7 @@ import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.codelist.CodelistRepository;
 
 /**
  * An in-memory {@link CodelistRepository}.

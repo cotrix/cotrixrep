@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 import org.cotrix.application.VersioningService;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.codelist.CodelistRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

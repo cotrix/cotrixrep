@@ -26,7 +26,7 @@ import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
 import org.cotrix.io.tabular.map.ColumnDirectives;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.cotrix.lifecycle.LifecycleService;
-import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.codelist.CodelistRepository;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

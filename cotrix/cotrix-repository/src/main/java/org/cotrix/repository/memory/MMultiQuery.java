@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.cotrix.repository.Filter;
 import org.cotrix.repository.MultiQuery;
-import org.cotrix.repository.impl.BaseQuery;
+import org.cotrix.repository.impl.BaseMultiQuery;
 
 /**
  * Partial implementation of a {@link MultiQuery} evaluated against preloaded objects
@@ -19,7 +19,7 @@ import org.cotrix.repository.impl.BaseQuery;
  * @param <R> the type of query results
  * 
  */
-public abstract class MMultiQuery<T,R> extends BaseQuery<T,R> implements MQuery<T,Collection<R>> {
+public abstract class MMultiQuery<T,R> extends BaseMultiQuery<T,R> implements MQuery<T,Collection<R>> {
 
 	/**
 	 * Returns one or more results from a given object.

@@ -1,7 +1,7 @@
 package org.cotrix.security.impl;
 
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.repository.UserQueries.*;
+import static org.cotrix.repository.user.UserQueries.*;
 
 import java.util.Iterator;
 
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.UserRepository;
+import org.cotrix.repository.user.UserRepository;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.Realm;
 import org.cotrix.security.Token;

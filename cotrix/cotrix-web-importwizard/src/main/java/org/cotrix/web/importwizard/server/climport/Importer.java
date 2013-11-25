@@ -14,7 +14,7 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
-import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.codelist.CodelistRepository;
 import org.cotrix.web.importwizard.server.WizardImportSession;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;

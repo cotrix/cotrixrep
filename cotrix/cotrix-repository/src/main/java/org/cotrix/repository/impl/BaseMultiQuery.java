@@ -17,7 +17,7 @@ import org.cotrix.repository.Range;
  *
  * @param <T> the type of query results
  */
-public abstract class BaseQuery<T,R> implements MultiQuery<T,R> {
+public abstract class BaseMultiQuery<T,R> implements MultiQuery<T,R> {
 
 	private Range range = Range.ALL;
 	private Collection<Filter<T>> filters = new ArrayList<Filter<T>>();
@@ -32,7 +32,7 @@ public abstract class BaseQuery<T,R> implements MultiQuery<T,R> {
 			@Override
 			public MultiQuery<T, R> to(int to) {
 				range=new Range(from,to);
-				return BaseQuery.this;
+				return BaseMultiQuery.this;
 			}
 		};
 	}
@@ -42,7 +42,7 @@ public abstract class BaseQuery<T,R> implements MultiQuery<T,R> {
 		return filters;
 	}
 	
-	public BaseQuery<T,R> with(Filter<T> filter) {
+	public BaseMultiQuery<T,R> with(Filter<T> filter) {
 		
 		notNull("filter",filter);
 		filters.add(filter);

@@ -1,10 +1,12 @@
-package org.cotrix.repository;
+package org.cotrix.repository.codelist;
 
 import javax.enterprise.event.Observes;
 
 import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.repository.MultiQuery;
+import org.cotrix.repository.Query;
 import org.cotrix.repository.impl.CodelistQueryFactory;
 import org.cotrix.repository.memory.MQueryFactory;
 

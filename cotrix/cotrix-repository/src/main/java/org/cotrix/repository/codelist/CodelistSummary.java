@@ -1,4 +1,4 @@
-package org.cotrix.repository;
+package org.cotrix.repository.codelist;
 
 import static java.util.Collections.*;
 import static org.cotrix.domain.utils.Constants.*;

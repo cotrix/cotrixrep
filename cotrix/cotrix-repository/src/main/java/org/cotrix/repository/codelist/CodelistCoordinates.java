@@ -1,4 +1,4 @@
-package org.cotrix.repository;
+package org.cotrix.repository.codelist;
 
 import javax.xml.namespace.QName;
 

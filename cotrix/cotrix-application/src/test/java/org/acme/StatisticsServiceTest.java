@@ -16,7 +16,7 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.codelist.CodelistRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;

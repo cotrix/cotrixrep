@@ -1,6 +1,6 @@
 package org.cotrix.application.impl;
 
-import static org.cotrix.repository.CodelistQueries.*;
+import static org.cotrix.repository.codelist.CodelistQueries.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -8,8 +8,8 @@ import javax.inject.Inject;
 import org.cotrix.application.StatisticsService;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;
-import org.cotrix.repository.CodelistRepository;
-import org.cotrix.repository.UserRepository;
+import org.cotrix.repository.codelist.CodelistRepository;
+import org.cotrix.repository.user.UserRepository;
 import org.virtualrepository.RepositoryService;
 
 @ApplicationScoped

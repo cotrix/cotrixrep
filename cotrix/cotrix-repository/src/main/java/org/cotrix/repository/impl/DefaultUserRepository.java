@@ -1,7 +1,7 @@
 package org.cotrix.repository.impl;
 
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.repository.UserQueries.*;
+import static org.cotrix.repository.user.UserQueries.*;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import org.cotrix.common.Utils;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.Repository;
-import org.cotrix.repository.UserRepository;
+import org.cotrix.repository.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

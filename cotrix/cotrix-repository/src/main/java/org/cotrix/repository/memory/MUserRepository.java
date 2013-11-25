@@ -1,7 +1,7 @@
 package org.cotrix.repository.memory;
 
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.codelist.CodelistRepository;
 
 /**
  * An in-memory {@link CodelistRepository}.

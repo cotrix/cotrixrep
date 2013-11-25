@@ -1,7 +1,7 @@
 package org.cotrix.web.codelistmanager.server;
 
 import static org.cotrix.action.CodelistAction.*;
-import static org.cotrix.repository.CodelistQueries.*;
+import static org.cotrix.repository.codelist.CodelistQueries.*;
 import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.*;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
-import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.codelist.CodelistRepository;
 import org.cotrix.web.codelistmanager.client.ManagerService;
 import org.cotrix.web.codelistmanager.server.modify.ModifyCommandHandler;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
