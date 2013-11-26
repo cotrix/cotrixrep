@@ -36,7 +36,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 	}
 
 	public interface UsersRolesMatrixListener {
-		public void onRolesRowUpdated(RolesRow row);
+		public void onRolesRowUpdated(RolesRow row, String role, boolean value);
 	}
 
 	@UiField LoadingPanel loader;
@@ -101,8 +101,9 @@ public class UsersRolesMatrix extends ResizeComposite {
 
 			@Override
 			public void update(int index, RolesRow row, RoleState value) {
-				row.addRole(role);
-				listener.onRolesRowUpdated(row);
+				if (value.isChecked()) row.addRole(role);
+				else row.removeRole(role);
+				listener.onRolesRowUpdated(row, role, value.isChecked());
 			}
 		});
 

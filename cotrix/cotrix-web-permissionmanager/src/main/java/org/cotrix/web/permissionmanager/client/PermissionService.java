@@ -3,6 +3,7 @@ package org.cotrix.web.permissionmanager.client;
 import java.util.List;
 
 import org.cotrix.web.permissionmanager.shared.CodelistGroup;
+import org.cotrix.web.permissionmanager.shared.RoleAction;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.permissionmanager.shared.UIUser;
@@ -25,9 +26,9 @@ public interface PermissionService extends RemoteService {
 	
 	public DataWindow<RolesRow> getCodelistRolesRows(String codelistId) throws ServiceException;
 	
-	public void codelistRolesRowUpdated(String codelistId, RolesRow row) throws ServiceException;
+	public void codelistRoleUpdated(String userId, String codelistId, String role, RoleAction action) throws ServiceException;
 	
-	public void applicationRolesRowUpdated(RolesRow row) throws ServiceException;
+	public void applicationRoleUpdated(String userId, String role, RoleAction action) throws ServiceException;
 	
 	public DataWindow<CodelistGroup> getCodelistGroups() throws ServiceException;
 	

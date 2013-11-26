@@ -27,7 +27,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-
 		<dependency>
 			<groupId>com.allen-sauer.gwt.log</groupId>
 			<artifactId>gwt-log</artifactId>
@@ -42,6 +41,11 @@
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-share</artifactId>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-application</artifactId>
 		</dependency>
 
 	</dependencies>

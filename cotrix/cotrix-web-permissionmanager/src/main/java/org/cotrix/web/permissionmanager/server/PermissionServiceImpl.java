@@ -16,6 +16,7 @@ import javax.xml.namespace.QName;
 import org.acme.FingerprintTest;
 import org.cotrix.action.Action;
 import org.cotrix.action.ResourceType;
+import org.cotrix.application.DelegationPolicy;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.Roles;
@@ -27,6 +28,7 @@ import org.cotrix.repository.user.UserRepository;
 import org.cotrix.web.permissionmanager.client.PermissionService;
 import org.cotrix.web.permissionmanager.server.util.RolesSorter;
 import org.cotrix.web.permissionmanager.shared.CodelistGroup;
+import org.cotrix.web.permissionmanager.shared.RoleAction;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.permissionmanager.shared.UIUser;
@@ -69,6 +71,9 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	
 	@Inject
 	protected RolesSorter rolesSorter;
+	
+	@Inject
+	protected DelegationPolicy delegationPolicy;
 	
 	@Current
 	@Inject
@@ -139,11 +144,20 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	}
 
 	@Override
-	public void codelistRolesRowUpdated(String codelistId, RolesRow row) {
-		logger.trace("codelistRolesRowUpdated codelistId {} row {}", codelistId, row);
-		String userId = row.getUser().getId();
+	public void codelistRoleUpdated(String userId, String codelistId, String roleName, RoleAction action) {
+		logger.trace("codelistRoleUpdated userId: {} codelistId: {} role: {} action: {}", userId, codelistId, roleName, action);
+		
+		User target = userRepository.lookup(userId);
+		Role role = toRole(roleName).on(codelistId);
+		
+		switch (action) {
+			case DELEGATE: delegationPolicy.validateDelegation(user, target); break;
+			case REVOKE: delegationPolicy.validateRevocation(user, target); break;
+		}
+		
+		/*String userId = row.getUser().getId();
 		User user = userRepository.lookup(userId);
-		user(userId).can(user.permissions()).is(toRoles(row.getRoles()));
+		user(userId).can(user.permissions()).is(toRoles(row.getRoles()));*/
 	}
 	
 	protected Role[] toRoles(List<String> uiRoles) {
@@ -162,8 +176,15 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	}
 
 	@Override
-	public void applicationRolesRowUpdated(RolesRow row) {
-		logger.trace("applicationRolesRowUpdated row {}", row);
+	public void applicationRoleUpdated(String userId, String roleName, RoleAction action) {
+		logger.trace("applicationRoleUpdated userId: {} role: {} action: {}", userId, roleName, action);
+		User target = userRepository.lookup(userId);
+		Role role = toRole(roleName);
+		
+		switch (action) {
+			case DELEGATE: delegationPolicy.validateDelegation(user, target); break;
+			case REVOKE: delegationPolicy.validateRevocation(user, target); break;
+		}
 	}
 
 	@Override

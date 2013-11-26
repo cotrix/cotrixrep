@@ -14,6 +14,7 @@ import org.cotrix.web.permissionmanager.client.codelists.user.UserAddPanel.UserA
 import org.cotrix.web.permissionmanager.client.matrix.UsersRolesMatrix;
 import org.cotrix.web.permissionmanager.client.matrix.UsersRolesMatrix.UsersRolesMatrixListener;
 import org.cotrix.web.permissionmanager.shared.CodelistGroup.CodelistVersion;
+import org.cotrix.web.permissionmanager.shared.RoleAction;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.permissionmanager.shared.UIUser;
@@ -97,8 +98,8 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 		usersRolesMatrix.setListener(new UsersRolesMatrixListener() {
 
 			@Override
-			public void onRolesRowUpdated(RolesRow row) {
-				saveRow(row);
+			public void onRolesRowUpdated(RolesRow row, String role, boolean value) {
+				saveRow(row, role, value);
 			}
 		});
 		service.getRoles(RolesType.CODELISTS, new ManagedFailureCallback<List<String>>() {
@@ -120,7 +121,6 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 				RolesRow row = new RolesRow(user, new ArrayList<String>());
 				dataProvider.getCache().add(row);
 				dataProvider.refresh();
-				saveRow(row);
 			}
 		});
 	}
@@ -134,8 +134,10 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 		usersRolesMatrix.reload(codelist.getRoles());
 	}
 
-	protected void saveRow(RolesRow row) {
-		service.codelistRolesRowUpdated(currentCodelistId, row, new ManagedFailureCallback<Void>() {
+	protected void saveRow(RolesRow row, String role, boolean value) {
+		
+		RoleAction action = value?RoleAction.DELEGATE:RoleAction.REVOKE;
+		service.codelistRoleUpdated(row.getUser().getId(), currentCodelistId, role, action, new ManagedFailureCallback<Void>() {
 
 			@Override
 			public void onSuccess(Void result) {

@@ -41,6 +41,10 @@ public class RolesRow implements IsSerializable {
 	public void addRole(String role) {
 		roles.add(role);
 	}
+	
+	public void removeRole(String role) {
+		roles.remove(role);
+	}
 
 	/**
 	 * @return the roles
