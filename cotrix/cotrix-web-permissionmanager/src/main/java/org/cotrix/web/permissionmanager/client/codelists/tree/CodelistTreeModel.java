@@ -50,14 +50,15 @@ public class CodelistTreeModel implements TreeViewModel {
 		}
 	};
 	
-	protected CodelistGroupsDataProvider dataProvider = new CodelistGroupsDataProvider();
+	protected CodelistGroupsDataProvider dataProvider;
 	protected SelectionModel<CodelistVersion> selectionModel;
 
 	/**
 	 * @param dataProvider
 	 */
-	public CodelistTreeModel(SelectionModel<CodelistVersion> selectionModel) {
+	public CodelistTreeModel(SelectionModel<CodelistVersion> selectionModel, CodelistGroupsDataProvider dataProvider) {
 		this.selectionModel = selectionModel;
+		this.dataProvider = dataProvider;
 	}
 
 	@Override

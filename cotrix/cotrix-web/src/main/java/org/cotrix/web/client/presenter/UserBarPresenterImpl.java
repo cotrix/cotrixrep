@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.client.presenter;
 
-import org.cotrix.web.client.event.UserLoggedEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLogoutEvent;
 import org.cotrix.web.client.event.UserRegisterEvent;
@@ -15,6 +14,7 @@ import org.cotrix.web.client.view.UserBarView;
 import org.cotrix.web.client.view.UserBarView.Presenter;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.StatusUpdatedEvent;
+import org.cotrix.web.share.client.event.UserLoggedEvent;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.HasFeature;
 import org.cotrix.web.shared.AuthenticationFeature;

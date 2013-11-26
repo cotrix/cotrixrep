@@ -10,13 +10,13 @@ import org.cotrix.web.permissionmanager.client.menu.MenuPanel.MenuListener;
 import org.cotrix.web.permissionmanager.client.preferences.PreferencesPanel;
 import org.cotrix.web.permissionmanager.client.profile.ProfilePanel;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -24,24 +24,20 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class PermissionManagerPanel extends ResizeComposite {
 
-	private static PermissionManagerPanelUiBinder uiBinder = GWT
-			.create(PermissionManagerPanelUiBinder.class);
-
-	interface PermissionManagerPanelUiBinder extends
-			UiBinder<Widget, PermissionManagerPanel> {
+	interface PermissionManagerPanelUiBinder extends UiBinder<Widget, PermissionManagerPanel> {
 	}
 
 	@UiField MenuPanel menuPanel;
 	
 	@UiField DeckLayoutPanel contentPanel;
-	@UiField ApplicationPermissionPanel applicationPermissionPanel;
-	@UiField CodelistsPermissionsPanel codelistsPermissionspanel;
-	@UiField PreferencesPanel preferencesPanel;
-	@UiField ProfilePanel profilePanel;
+	@Inject @UiField(provided=true) ApplicationPermissionPanel applicationPermissionPanel;
+	@Inject @UiField(provided=true) CodelistsPermissionsPanel codelistsPermissionspanel;
+	@Inject @UiField(provided=true) PreferencesPanel preferencesPanel;
+	@Inject @UiField(provided=true) ProfilePanel profilePanel;
 	
-	public PermissionManagerPanel() {
+	@Inject
+	protected void init(PermissionManagerPanelUiBinder uiBinder) {
 		initWidget(uiBinder.createAndBindUi(this));
-		
 		switchContent(AdminArea.PROFILE);
 	}
 	

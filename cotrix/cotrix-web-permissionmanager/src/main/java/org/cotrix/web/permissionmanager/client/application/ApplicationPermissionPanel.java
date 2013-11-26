@@ -18,15 +18,15 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class ApplicationPermissionPanel extends ResizeComposite {
-
-	private static ApplicationPermissionPanelUiBinder uiBinder = GWT
-			.create(ApplicationPermissionPanelUiBinder.class);
 
 	interface ApplicationPermissionPanelUiBinder extends
 			UiBinder<Widget, ApplicationPermissionPanel> {
@@ -34,15 +34,16 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 	
 	protected PermissionServiceAsync service = GWT.create(PermissionService.class);
 	
-	@UiField(provided=true) UsersRolesMatrix usersRolesMatrix;
+	@Inject @UiField(provided=true) UsersRolesMatrix usersRolesMatrix;
 
-	public ApplicationPermissionPanel() {
-		setupMatrix();
+	@Inject
+	protected void init(ApplicationPermissionPanelUiBinder uiBinder) {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
+	@Inject
 	protected void setupMatrix() {
-		usersRolesMatrix = new UsersRolesMatrix(new UsersRolesMatrixListener() {
+		usersRolesMatrix.setListener(new UsersRolesMatrixListener() {
 			
 			@Override
 			public void onRolesRowUpdated(RolesRow row) {

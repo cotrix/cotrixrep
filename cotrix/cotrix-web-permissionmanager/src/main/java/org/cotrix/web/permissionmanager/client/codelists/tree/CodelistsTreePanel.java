@@ -8,24 +8,22 @@ import org.cotrix.web.permissionmanager.shared.CodelistGroup.CodelistVersion;
 import org.cotrix.web.share.client.util.SingleSelectionModel;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CodelistsTreePanel extends ResizeComposite {
-
-	private static CodelistsTreePanelUiBinder uiBinder = GWT
-			.create(CodelistsTreePanelUiBinder.class);
 
 	interface CodelistsTreePanelUiBinder extends UiBinder<Widget, CodelistsTreePanel> {
 	}
@@ -34,19 +32,36 @@ public class CodelistsTreePanel extends ResizeComposite {
 		public void onCodelistSelected(CodelistVersion codelist);
 	}
 
-	@UiField CellTree codelistsTree;
+	@UiField(provided=true) CellTree codelistsTree;
 
 	protected CodelistsTreePanelListener listener;
 	
-	public CodelistsTreePanel(CodelistsTreePanelListener listener) {
-		this.listener = listener;
+	@Inject
+	protected CodelistGroupsDataProvider dataProvider;
+	
+	protected SingleSelectionModel<CodelistVersion> selectionModel;
+	
+	@Inject
+	protected void init(CodelistsTreePanelUiBinder uiBinder) {
+		setupCodelistsTree();
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	@UiFactory
-	protected CellTree setupCodelistsTree() {
+	/**
+	 * @param listener the listener to set
+	 */
+	public void setListener(CodelistsTreePanelListener listener) {
+		this.listener = listener;
+	}
 
-		final SingleSelectionModel<CodelistVersion> selectionModel = new SingleSelectionModel<CodelistVersion>();
+	public void refresh() {
+		selectionModel.clear();
+		dataProvider.loadData();
+	}
+
+	protected void setupCodelistsTree() {
+
+		selectionModel = new SingleSelectionModel<CodelistVersion>();
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			public void onSelectionChange(SelectionChangeEvent event) {
 				
@@ -59,12 +74,11 @@ public class CodelistsTreePanel extends ResizeComposite {
 			}
 		});
 
-		CellTree codelistsTree = new CellTree(new CodelistTreeModel(selectionModel), null, CodelistsResources.INSTANCE);
+		codelistsTree = new CellTree(new CodelistTreeModel(selectionModel, dataProvider), null, CodelistsResources.INSTANCE);
 
 		//codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		codelistsTree.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 
-		return codelistsTree;
 	}
 
 }

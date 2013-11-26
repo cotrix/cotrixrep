@@ -16,5 +16,7 @@ public interface CotrixPermissionGinInjector extends Ginjector {
 	public static CotrixPermissionGinInjector INSTANCE = GWT.create(CotrixPermissionGinInjector.class);
 	
 	public CotrixPermissionManagerController getController();
+	
+	public PermissionManagerPanel getPermissionManagerPanel();
 
 }

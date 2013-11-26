@@ -33,17 +33,22 @@ public class UserAddPanel extends ResizeComposite {
 		public void onUserAdded(UIUser user);
 	}
 
-
 	@UiField(provided=true) SuggestBox usernameBox;
 
 	protected UserAddPanelListener listener;
 
 	protected UIUser selectedUser;
 
-	public UserAddPanel(UserAddPanelListener listener) {
-		this.listener = listener;
+	public UserAddPanel() {
 		setupUsernameBox();
 		initWidget(uiBinder.createAndBindUi(this));
+	}
+
+	/**
+	 * @param listener the listener to set
+	 */
+	public void setListener(UserAddPanelListener listener) {
+		this.listener = listener;
 	}
 
 	protected void setupUsernameBox() {

@@ -4,6 +4,7 @@ import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.CotrixModuleController;
 
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 
@@ -14,6 +15,9 @@ import com.google.inject.Singleton;
 @Singleton
 public class CotrixPermissionManagerController implements CotrixModuleController {
 
+	@Inject
+	protected PermissionManagerPanel permissionManagerPanel;
+	
 	@Override
 	public CotrixModule getModule() {
 		return CotrixModule.PERMISSION;
@@ -21,7 +25,7 @@ public class CotrixPermissionManagerController implements CotrixModuleController
 
 	@Override
 	public void go(HasWidgets container) {
-		container.add(new PermissionManagerPanel());		
+		container.add(permissionManagerPanel);		
 	}
 
 	@Override

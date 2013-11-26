@@ -22,6 +22,11 @@ public abstract class CachedDataProvider<T> extends AsyncDataProvider<T> {
 	protected Range lastRange;
 	protected List<T> cache;
 	
+	protected void updateData(DataWindow<T> dataWindow)
+	{
+		updateData(dataWindow.getData(), new Range(0, dataWindow.getTotalSize()), dataWindow.getTotalSize());
+	}
+	
 	protected void updateData(DataWindow<T> dataWindow, Range range)
 	{
 		updateData(dataWindow.getData(), range, dataWindow.getTotalSize());

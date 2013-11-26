@@ -45,12 +45,17 @@ public class UsersRolesMatrix extends ResizeComposite {
 	protected UsersRolesMatrixListener listener;
 	protected List<String> userRoles = new ArrayList<String>();
 
-	public UsersRolesMatrix(UsersRolesMatrixListener listener) {
-		this.listener = listener;
+	public UsersRolesMatrix() {
 		matrix = new DataGrid<RolesRow>();
 		initWidget(uiBinder.createAndBindUi(this));
 		loader.showLoader();
+	}
 
+	/**
+	 * @param listener the listener to set
+	 */
+	public void setListener(UsersRolesMatrixListener listener) {
+		this.listener = listener;
 	}
 
 	public void reload(List<String> userRoles) {
