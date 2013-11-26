@@ -17,12 +17,17 @@
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-common</artifactId>
+			<artifactId>cotrix-domain</artifactId>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-user</artifactId>
+			<artifactId>cotrix-repository</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-common</artifactId>
 		</dependency>
 
 		<dependency>

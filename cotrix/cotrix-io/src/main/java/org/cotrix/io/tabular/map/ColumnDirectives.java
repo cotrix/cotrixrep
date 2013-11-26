@@ -5,7 +5,7 @@ import java.text.AttributedCharacterIterator.Attribute;
 import javax.xml.namespace.QName;
 
 import org.apache.xmlbeans.impl.xb.ltgfmt.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.utils.Constants;
 import org.virtualrepository.tabular.Column;
 

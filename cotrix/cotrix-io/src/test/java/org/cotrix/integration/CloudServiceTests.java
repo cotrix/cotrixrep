@@ -6,8 +6,8 @@ import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.cotrix.common.Outcome;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.io.MapService;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;

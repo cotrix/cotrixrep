@@ -17,7 +17,7 @@ import org.cotrix.io.ParseService;
 import org.cotrix.io.ParseService.ParseDirectives;
 import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
 import org.cotrix.lifecycle.LifecycleService;
-import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.codelist.CodelistRepository;
 import org.cotrix.web.importwizard.server.WizardImportSession;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
 import org.cotrix.web.importwizard.shared.AttributeMapping;

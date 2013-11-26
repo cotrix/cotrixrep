@@ -4,11 +4,10 @@ import static junit.framework.Assert.*;
 import static org.acme.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codebag;
-import org.cotrix.domain.Codelist;
-import org.cotrix.domain.Container;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.common.Container;
 import org.junit.Test;
 
 public class VersioningTest {
@@ -104,25 +103,6 @@ public class VersioningTest {
 		assertFalse(list.equals(versioned));
 
 		assertFalse(list.codes().equals(versioned.codes()));
-		
-	}
-	
-	@Test
-	public void codebagsCanBeVersioned() {
-
-		Codelist.Private list = (Codelist.Private) codelist("id").name(name).build();
-		
-		Codebag.Private bag = (Codebag.Private) codebag("1").name(name).with(list).version(version).build(); 
-				
-		//a new version of the list
-		Codebag versioned = bag.bump("2");
-				
-		assertEquals("2",versioned.version());
-				
-		//the new version is a fork
-		assertFalse(bag.equals(versioned));
-		
-		assertFalse(bag.lists().equals(versioned.lists()));
 		
 	}
 	

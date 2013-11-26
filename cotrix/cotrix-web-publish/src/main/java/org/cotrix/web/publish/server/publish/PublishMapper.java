@@ -8,14 +8,14 @@ import static org.cotrix.domain.dsl.Codes.*;
 import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.LanguageClause;
 import org.cotrix.io.MapService;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
 import org.cotrix.io.tabular.map.AttributeDirectives;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
-import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.codelist.CodelistRepository;
 import org.cotrix.web.publish.server.util.SdmxElements;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;

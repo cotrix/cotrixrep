@@ -3,7 +3,7 @@ package org.cotrix.io.tabular.map;
 import static org.cotrix.common.Report.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
-import org.cotrix.domain.Attribute;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.TypeClause;
 import org.virtualrepository.tabular.Row;
 

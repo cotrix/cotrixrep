@@ -5,8 +5,8 @@ import static org.cotrix.common.Utils.*;
 import java.util.Collections;
 import java.util.List;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Container;
+import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.trait.Attributed;
 /**
  * Partial implementation of initialisation parameters for {@link Attributed} entities.

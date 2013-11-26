@@ -1,53 +1,78 @@
 package org.cotrix.repository;
 
-import org.cotrix.repository.query.Query;
 
 /**
  * A repository of domain objects.
  * 
  * @author Fabio Simeoni
- *
+ * 
  * @param <T> the type of objects in the repository
  */
 public interface Repository<T> {
+	
+	
 
 	/**
 	 * Adds an object to this repository.
+	 * <p>
+	 * The object acquires an identity as a side-effect.
+	 * 
 	 * @param object the object
+	 * 
+	 * @throws IllegalArgumentException if the object is a changeset or is already in this repository
 	 */
 	void add(T object);
+
+	
 	
 	/**
 	 * Returns an object in this repository.
+	 * 
 	 * @param id the object identifier
 	 * @return the object
 	 */
 	T lookup(String id);
 	
+	
+	
+
 	/**
-	 * Returns the results of a {@link Query} evaluated on the objects in this repository.
-	 * @param query the query
-	 * @return the results
+	 * Returns the results of a query evaluated over the objects in this repository.
 	 * 
-	 * @param <R> the type of results
-	 */
-	<R> Iterable<R> queryFor(Query<T,R> query);
+	 * @param query the query
+	 * @param <R> the type of query results
+	 * 
+	 * @return the results
+	 */	
+	<R> R get(Query<T, R> query);
+	
 	
 	/**
 	 * Removes an object from this repository.
+	 * 
 	 * @param id the object identifier
+	 * 
+	 * @throws IllegalStateException if an object with the given identifier is not in this repository
 	 */
 	void remove(String id);
+
+	
 	
 	/**
-	 * Updated an object in this repository.
-	 * @param the set of changes to apply to the object.
+	 * Updates an object in this repository.
+	 * 
+	 * @param the set of changes to apply to the object
+	 * 
+	 * @throws IllegalArgumentException if the object is not a changeset or it does not have an identifier
+	 * @throws IllegalStateException if the changeset refers to an object not in this repository
 	 */
 	void update(T changeset);
+
 	
 	
 	/**
 	 * Returns the number of objects in this repository.
+	 * 
 	 * @return the number of objects in this repository
 	 */
 	int size();

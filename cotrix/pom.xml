@@ -26,9 +26,7 @@
 		<module>cotrix-repository</module>
 		<module>cotrix-domain</module>
 		<module>cotrix-io</module>
-		<module>cotrix-openjpa</module>
 		<module>cotrix-lifecycle</module>
-		<module>cotrix-user</module>
 		<module>cotrix-engine</module>
 		<module>cotrix-security</module>
 		<module>cotrix-action</module>
@@ -113,12 +111,6 @@
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-io</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-user</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

@@ -7,8 +7,8 @@ import java.util.Calendar;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Container;
+import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.po.AttributePO;
 import org.cotrix.domain.po.AttributedPO;
 

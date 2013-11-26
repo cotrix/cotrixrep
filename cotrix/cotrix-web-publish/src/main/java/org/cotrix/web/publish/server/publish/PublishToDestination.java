@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.cotrix.action.events.CodelistActionEvents;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.io.SerialisationService;
 import org.cotrix.io.SerialisationService.SerialisationDirectives;

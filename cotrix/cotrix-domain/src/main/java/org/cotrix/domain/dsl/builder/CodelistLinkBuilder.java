@@ -8,9 +8,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Codelist;
-import org.cotrix.domain.CodelistLink;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;

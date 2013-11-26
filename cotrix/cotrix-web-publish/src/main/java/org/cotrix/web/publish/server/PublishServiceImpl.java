@@ -1,15 +1,17 @@
 package org.cotrix.web.publish.server;
 
+import static org.cotrix.repository.codelist.CodelistQueries.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;
-import org.cotrix.repository.CodelistRepository;
-import org.cotrix.repository.CodelistSummary;
+import org.cotrix.repository.codelist.CodelistRepository;
+import org.cotrix.repository.codelist.CodelistSummary;
 import org.cotrix.web.publish.client.PublishService;
 import org.cotrix.web.publish.server.publish.PublishStatus;
 import org.cotrix.web.publish.server.publish.Publisher;
@@ -129,7 +131,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	public List<AttributeMapping> getMappings(String codelistId, Destination destination, Format type) throws ServiceException {
 		logger.trace("getMappings codelistId{} destination {} type {}", codelistId, destination, type);
 
-		CodelistSummary summary = repository.summary(codelistId);
+		CodelistSummary summary = repository.get(summary(codelistId));
 		
 		MappingProvider<?> provider = null;
 		switch (type) {

@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.FinalClause;
 import org.virtualrepository.tabular.Row;
 import org.virtualrepository.tabular.Table;

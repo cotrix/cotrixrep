@@ -2,7 +2,7 @@ package org.cotrix.domain.dsl.grammar;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.DeleteClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;

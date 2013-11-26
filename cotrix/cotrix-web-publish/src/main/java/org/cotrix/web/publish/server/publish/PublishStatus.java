@@ -5,7 +5,7 @@ package org.cotrix.web.publish.server.publish;
 
 import java.util.List;
 
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.web.share.shared.Progress;
 import org.cotrix.web.share.shared.ReportLog;
 

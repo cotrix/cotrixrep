@@ -1,6 +1,7 @@
 package org.cotrix.security.impl;
 
-import static org.cotrix.user.Users.*;
+import static org.cotrix.domain.dsl.Users.*;
+import static org.cotrix.repository.user.UserQueries.*;
 
 import java.util.Iterator;
 
@@ -12,13 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
+import org.cotrix.domain.user.User;
+import org.cotrix.repository.user.UserRepository;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.Realm;
 import org.cotrix.security.Token;
 import org.cotrix.security.TokenCollector;
 import org.cotrix.security.exceptions.UnknownUserException;
-import org.cotrix.user.User;
-import org.cotrix.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +60,7 @@ public class DefaultLoginService implements LoginService {
 				throw new UnknownUserException("unknown user for token "+token);
 			
 			//from identity to currentUser
-			user = users.lookupByName(identity);
+			user = users.get(userByName(identity));
 			
 			if (user==null)
 				throw new UnknownUserException("unknown user "+identity);

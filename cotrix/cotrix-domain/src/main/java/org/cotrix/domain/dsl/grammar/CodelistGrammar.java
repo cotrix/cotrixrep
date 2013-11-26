@@ -1,8 +1,8 @@
 package org.cotrix.domain.dsl.grammar;
 
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
-import org.cotrix.domain.CodelistLink;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.DeleteClause;

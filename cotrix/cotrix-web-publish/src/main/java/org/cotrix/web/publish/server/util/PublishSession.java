@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.publish.server.util;
 
-import static org.cotrix.repository.Queries.*;
+import static org.cotrix.repository.codelist.CodelistQueries.*;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -18,27 +18,25 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.action.CodelistAction;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.user.User;
 import org.cotrix.io.CloudService;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
-import org.cotrix.repository.CodelistRepository;
-import org.cotrix.repository.query.CodelistQuery;
-import org.cotrix.user.User;
+import org.cotrix.repository.codelist.CodelistRepository;
 import org.cotrix.web.publish.server.publish.PublishStatus;
 import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.FieldComparator.ValueProvider;
-import org.cotrix.web.share.server.util.Repositories;
 import org.cotrix.web.share.server.util.OrderedList;
+import org.cotrix.web.share.server.util.Repositories;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UIQName;
 import org.slf4j.Logger;
-
-import org.virtualrepository.AssetType;
 import org.slf4j.LoggerFactory;
+import org.virtualrepository.AssetType;
 import org.virtualrepository.RepositoryService;
 import org.virtualrepository.csv.CsvCodelistType;
 import org.virtualrepository.csv.CsvGenericType;
@@ -131,8 +129,7 @@ public class PublishSession implements Serializable {
 
 	public void loadCodelists()
 	{
-		CodelistQuery<Codelist> query =	allLists();
-		Iterator<Codelist> it = repository.queryFor(query).iterator();
+		Iterator<Codelist> it = repository.get(allLists()).iterator();
 		
 		orderedCodelists.clear();
 		indexedCodelists.clear();

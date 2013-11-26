@@ -4,7 +4,7 @@ import static org.cotrix.common.Utils.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.utils.Constants;
 
 /**

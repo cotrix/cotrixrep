@@ -10,9 +10,9 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelist;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.io.impl.MapTask;
 import org.virtualrepository.tabular.Column;
 import org.virtualrepository.tabular.DefaultTable;

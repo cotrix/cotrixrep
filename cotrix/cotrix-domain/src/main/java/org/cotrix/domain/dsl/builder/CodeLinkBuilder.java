@@ -6,10 +6,10 @@ import static org.cotrix.domain.trait.Status.*;
 import java.util.Arrays;
 import java.util.List;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Code;
-import org.cotrix.domain.Codelink;
-import org.cotrix.domain.CodelistLink;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.CodeLinkStartClause;
 import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.DeleteClause;

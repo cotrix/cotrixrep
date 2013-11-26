@@ -1,7 +1,7 @@
 package org.acme;
 
 import static junit.framework.Assert.*;
-import static org.cotrix.user.Users.*;
+import static org.cotrix.domain.dsl.Users.*;
 import static org.mockito.Mockito.*;
 
 import javax.enterprise.context.SessionScoped;
@@ -11,8 +11,8 @@ import javax.servlet.FilterChain;
 
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
+import org.cotrix.domain.user.User;
 import org.cotrix.security.AuthBarrier;
-import org.cotrix.user.User;
 import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.ContextController;
 import org.jglue.cdiunit.DummyHttpRequest;

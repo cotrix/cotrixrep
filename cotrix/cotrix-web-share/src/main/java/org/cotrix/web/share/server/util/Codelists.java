@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import org.cotrix.domain.Attribute;
-import org.cotrix.domain.Codelist;
-import org.cotrix.domain.Container;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.common.Container;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
 import org.cotrix.web.share.shared.codelist.LifecycleState;

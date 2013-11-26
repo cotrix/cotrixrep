@@ -6,7 +6,7 @@ import javax.enterprise.inject.Produces;
 
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.user.User;
+import org.cotrix.domain.user.User;
 
 public class CdiProducers {
 	

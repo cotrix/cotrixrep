@@ -3,10 +3,6 @@
  */
 package org.cotrix.web.permissionmanager.server;
 
-import static org.cotrix.repository.Queries.*;
-import static org.cotrix.user.Users.*;
-import static org.cotrix.user.queries.UserQueries.*;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,14 +16,13 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.action.Action;
 import org.cotrix.action.ResourceType;
-import org.cotrix.domain.Codelist;
-import org.cotrix.repository.CodelistRepository;
-import org.cotrix.user.Role;
-import org.cotrix.user.Roles;
-import org.cotrix.user.RolesAndPermissions;
-import org.cotrix.user.User;
-import org.cotrix.user.UserRepository;
-import org.cotrix.user.Users;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.dsl.Roles;
+import org.cotrix.domain.user.FingerPrint;
+import org.cotrix.domain.user.Role;
+import org.cotrix.domain.user.User;
+import org.cotrix.repository.codelist.CodelistRepository;
+import org.cotrix.repository.user.UserRepository;
 import org.cotrix.web.permissionmanager.client.PermissionService;
 import org.cotrix.web.permissionmanager.shared.CodelistGroup;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
@@ -42,6 +37,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import static org.cotrix.repository.user.UserQueries.*;
+import static org.cotrix.repository.codelist.CodelistQueries.*;
+import static org.cotrix.domain.dsl.Users.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -148,7 +147,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	public void init() {
 		codelistLoader.importAllCodelist();
 		logger.trace("codelist in repository:");
-		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
+		for (Codelist codelist:repository.get(allLists())) logger.trace(codelist.name().toString());
 		logger.trace("done");
 
 	}
@@ -173,7 +172,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	public DataWindow<RolesRow> getApplicationRolesRows() throws ServiceException {
 		logger.trace("getApplicationRolesRows");
 		List<RolesRow> rows = new ArrayList<RolesRow>();
-		for (User user:userRepository.queryFor(allUsers())) {
+		for (User user:userRepository.get(allUsers())) {
 			RolesRow row = getApplicationRolesRow(user);
 			rows.add(row);
 		}
@@ -182,9 +181,9 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	}
 	
 	protected RolesRow getApplicationRolesRow(User user) {
-		Map<ResourceType,Map<String,RolesAndPermissions>> fp = user.fingerprint();
-		RolesAndPermissions rolesAndPermissions = fp.get(ResourceType.application).get(Action.any);
-		RolesRow row = new RolesRow(toUiUser(user), getRoles(rolesAndPermissions.roles()));
+		FingerPrint fp = user.fingerprint();
+		Collection<String> userRoles = fp.rolesOver(Action.any, ResourceType.application);
+		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles));
 		return row;
 	}
 
@@ -192,7 +191,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	public DataWindow<RolesRow> getCodelistRolesRows(String codelistId)	throws ServiceException {
 		logger.trace("getCodelistRolesRows codelistId {}", codelistId);
 		List<RolesRow> rows = new ArrayList<RolesRow>();
-		for (User user:userRepository.queryFor(allUsers())) {
+		for (User user:userRepository.get(allUsers())) {
 			if (user.isRoot()) continue;
 			RolesRow row = getCodelistRolesRow(user, codelistId);
 			if (row!=null) rows.add(row);
@@ -202,16 +201,8 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	}
 	
 	protected RolesRow getCodelistRolesRow(User user, String codelistId) {
-		Map<ResourceType,Map<String,RolesAndPermissions>> fp = user.fingerprint();
-		List<String> userRoles = new ArrayList<String>();
-		RolesAndPermissions rolesAndPermissions = fp.get(ResourceType.codelists).get(codelistId);
-		if (rolesAndPermissions != null) userRoles.addAll(rolesAndPermissions.roles());
-			
-		rolesAndPermissions = fp.get(ResourceType.codelists).get(Action.any);
-		if (rolesAndPermissions != null) userRoles.addAll(rolesAndPermissions.roles());
-		
-		if (userRoles.size() == 0) return null;
-		
+		FingerPrint fp = user.fingerprint();
+		Collection<String> userRoles = fp.rolesOver(codelistId, ResourceType.codelists);		
 		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles));
 		return row;
 	}
@@ -250,7 +241,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 		
 		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
 
-		for (org.cotrix.domain.Codelist codelist :repository.queryFor(allLists())) {
+		for (Codelist codelist :repository.get(allLists())) {
 
 			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {
@@ -270,7 +261,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 		logger.trace("getUsers");
 		List<UIUser> users = new ArrayList<UIUser>();
 		
-		for (User user:userRepository.queryFor(allUsers())) {
+		for (User user:userRepository.get(allUsers())) {
 			users.add(toUiUser(user));
 		}
 		return users;
