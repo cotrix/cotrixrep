@@ -36,7 +36,18 @@ public class UIUser implements IsSerializable {
 	public String getUsername() {
 		return username;
 	}
-	
-	
 
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UIUser [id=");
+		builder.append(id);
+		builder.append(", username=");
+		builder.append(username);
+		builder.append("]");
+		return builder.toString();
+	}
 }

@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.cotrix.web.share.shared.codelist.UICodelist;
-
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
@@ -18,7 +16,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class CodelistGroup implements IsSerializable {
 	
 	protected String name;
-	protected List<Version> versions = new ArrayList<Version>();
+	protected List<CodelistVersion> versions = new ArrayList<CodelistVersion>();
 	
 	public CodelistGroup(){}
 	
@@ -26,7 +24,7 @@ public class CodelistGroup implements IsSerializable {
 	 * @param name
 	 * @param versions
 	 */
-	public CodelistGroup(String name, List<Version> versions) {
+	public CodelistGroup(String name, List<CodelistVersion> versions) {
 		this.name = name;
 		this.versions = versions;
 	}
@@ -45,28 +43,28 @@ public class CodelistGroup implements IsSerializable {
 		return name;
 	}
 	
-	public void addVersion(Version version)
+	public void addVersion(CodelistVersion version)
 	{
 		versions.add(version);
 		Collections.sort(versions);
 	}
 	
-	public void addVersions(List<Version> versions)
+	public void addVersions(List<CodelistVersion> versions)
 	{
 		this.versions.addAll(versions);
 		Collections.sort(this.versions);
 	}
 	
-	public void addVersion(String id, String version)
+	public void addVersion(String id, String version, List<String> roles)
 	{
-		versions.add(new Version(this, id, version));
+		versions.add(new CodelistVersion(this.name, id, version, roles));
 		Collections.sort(versions);
 	}
 
 	/**
 	 * @return the versions
 	 */
-	public List<Version> getVersions() {
+	public List<CodelistVersion> getVersions() {
 		return versions;
 	}
 
@@ -117,18 +115,20 @@ public class CodelistGroup implements IsSerializable {
 
 
 
-	public static class Version implements IsSerializable, Comparable<Version> {
+	public static class CodelistVersion implements IsSerializable, Comparable<CodelistVersion> {
 		
-		protected CodelistGroup parent;
+		protected String name;
 		protected String id;
 		protected String version;
+		protected List<String> roles;
 		
-		protected Version(){}
+		protected CodelistVersion(){}
 		
-		public Version(CodelistGroup parent, String id, String version) {
-			this.parent = parent;
+		public CodelistVersion(String name, String id, String version, List<String> roles) {
+			this.name = name;
 			this.id = id;
 			this.version = version;
+			this.roles = roles;
 		}
 
 		/**
@@ -144,21 +144,19 @@ public class CodelistGroup implements IsSerializable {
 		public String getVersion() {
 			return version;
 		}
-		
+
 		/**
-		 * @return the parent
+		 * @return the name
 		 */
-		public CodelistGroup getParent() {
-			return parent;
+		public String getName() {
+			return name;
 		}
 
-		public UICodelist toUICodelist()
-		{
-			UICodelist codelist = new UICodelist();
-			codelist.setId(id);
-			codelist.setName(parent.getName());
-			codelist.setVersion(version);
-			return codelist;
+		/**
+		 * @return the roles
+		 */
+		public List<String> getRoles() {
+			return roles;
 		}
 
 		/** 
@@ -167,16 +165,20 @@ public class CodelistGroup implements IsSerializable {
 		@Override
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
-			builder.append("Version [id=");
+			builder.append("Version [name=");
+			builder.append(name);
+			builder.append(", id=");
 			builder.append(id);
 			builder.append(", version=");
 			builder.append(version);
+			builder.append(", roles=");
+			builder.append(roles);
 			builder.append("]");
 			return builder.toString();
 		}
 
 		@Override
-		public int compareTo(Version o) {
+		public int compareTo(CodelistVersion o) {
 			return String.CASE_INSENSITIVE_ORDER.compare(version, o.version);
 		}
 	}

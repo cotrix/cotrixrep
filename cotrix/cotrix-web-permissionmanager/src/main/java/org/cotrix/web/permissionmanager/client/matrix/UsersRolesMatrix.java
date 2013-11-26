@@ -3,13 +3,13 @@
  */
 package org.cotrix.web.permissionmanager.client.matrix;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
@@ -32,71 +32,75 @@ public class UsersRolesMatrix extends ResizeComposite {
 			.create(UsersRolesMatrixUiBinder.class);
 
 	interface UsersRolesMatrixUiBinder extends
-			UiBinder<Widget, UsersRolesMatrix> {
+	UiBinder<Widget, UsersRolesMatrix> {
 	}
-	
+
 	public interface UsersRolesMatrixListener {
 		public void onRolesRowUpdated(RolesRow row);
 	}
-	
+
 	@UiField LoadingPanel loader;
 	@UiField(provided=true) DataGrid<RolesRow> matrix;
-	
+
 	protected UsersRolesMatrixListener listener;
+	protected List<String> userRoles = new ArrayList<String>();
 
 	public UsersRolesMatrix(UsersRolesMatrixListener listener) {
 		this.listener = listener;
 		matrix = new DataGrid<RolesRow>();
 		initWidget(uiBinder.createAndBindUi(this));
 		loader.showLoader();
-		
+
 	}
-	
-	public void reload() {
+
+	public void reload(List<String> userRoles) {
 		Log.trace("reload");
-	     int pageSize = matrix.getPageSize();
-	     matrix.setVisibleRangeAndClearData(new Range(0, pageSize), true);
+		this.userRoles.clear();
+		this.userRoles.addAll(userRoles);
+		int pageSize = matrix.getPageSize();
+		matrix.setVisibleRangeAndClearData(new Range(0, pageSize), true);
 	}
-	
+
 	public void setupMatrix(List<String> roles, AbstractDataProvider<RolesRow> dataProvider) {
-		
+
 		Column<RolesRow, String> userColumn = new Column<RolesRow, String>(new TextCell()) {
-			
+
 			@Override
 			public String getValue(RolesRow row) {
 				return row.getUser().getUsername();
 			}
 		};
 		matrix.addColumn(userColumn, "Users");
-		
+
 		for (String role:roles) {
-			Column<RolesRow, Boolean> roleColumns = getColumn(role);
+			Column<RolesRow, RoleState> roleColumns = getColumn(role);
 			matrix.addColumn(roleColumns, role);
 		}
-		
+
 		dataProvider.addDataDisplay(matrix);
-		
+
 		loader.hideLoader();
 	}
-	
-	protected Column<RolesRow, Boolean> getColumn(final String role) {
-		Column<RolesRow, Boolean> column = new Column<RolesRow, Boolean>(new CheckboxCell()) {
-			
+
+	protected Column<RolesRow, RoleState> getColumn(final String role) {
+		Column<RolesRow, RoleState> column = new Column<RolesRow, RoleState>(new RoleCell()) {
+
 			@Override
-			public Boolean getValue(RolesRow row) {
-				return row.hasRole(role);
+			public RoleState getValue(RolesRow row) {
+				RoleState roleState = new RoleState(userRoles.contains(role), row.hasRole(role));
+				return roleState;
 			}
 		};
-		
-		column.setFieldUpdater(new FieldUpdater<RolesRow, Boolean>() {
-			
+
+		column.setFieldUpdater(new FieldUpdater<RolesRow, RoleState>() {
+
 			@Override
-			public void update(int index, RolesRow row, Boolean value) {
+			public void update(int index, RolesRow row, RoleState value) {
 				row.addRole(role);
 				listener.onRolesRowUpdated(row);
 			}
 		});
-		
+
 		return column;
 	}
 

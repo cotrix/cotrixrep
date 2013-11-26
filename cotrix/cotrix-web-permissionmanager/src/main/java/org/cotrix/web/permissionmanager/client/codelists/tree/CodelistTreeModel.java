@@ -6,7 +6,7 @@ package org.cotrix.web.permissionmanager.client.codelists.tree;
 import org.cotrix.web.permissionmanager.client.resources.CodelistsResources;
 import org.cotrix.web.permissionmanager.client.resources.PermissionsResources;
 import org.cotrix.web.permissionmanager.shared.CodelistGroup;
-import org.cotrix.web.permissionmanager.shared.CodelistGroup.Version;
+import org.cotrix.web.permissionmanager.shared.CodelistGroup.CodelistVersion;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.shared.GWT;
@@ -40,23 +40,23 @@ public class CodelistTreeModel implements TreeViewModel {
 		}
 	};
 	
-	protected static final AbstractCell<Version> VERSION_CELL = new AbstractCell<Version>() {
+	protected static final AbstractCell<CodelistVersion> VERSION_CELL = new AbstractCell<CodelistVersion>() {
 
 		@Override
 		public void render(com.google.gwt.cell.client.Cell.Context context,
-				Version value, SafeHtmlBuilder sb) {
+				CodelistVersion value, SafeHtmlBuilder sb) {
 			SafeHtml html = VERSION_ITEM_TEMPLATE.version(PermissionsResources.INSTANCE.versionItem().getSafeUri(), CodelistsResources.INSTANCE.cellTreeStyle().versionItem(), SafeHtmlUtils.fromString(value.getVersion()));
 			sb.append(html);
 		}
 	};
 	
 	protected CodelistGroupsDataProvider dataProvider = new CodelistGroupsDataProvider();
-	protected SelectionModel<Version> selectionModel;
+	protected SelectionModel<CodelistVersion> selectionModel;
 
 	/**
 	 * @param dataProvider
 	 */
-	public CodelistTreeModel(SelectionModel<Version> selectionModel) {
+	public CodelistTreeModel(SelectionModel<CodelistVersion> selectionModel) {
 		this.selectionModel = selectionModel;
 	}
 
@@ -69,7 +69,7 @@ public class CodelistTreeModel implements TreeViewModel {
 		if (value instanceof CodelistGroup) {
 			CodelistGroup group = (CodelistGroup) value;
 			
-			final ListDataProvider<Version> versiondaDataProvider = new ListDataProvider<Version>(group.getVersions());
+			final ListDataProvider<CodelistVersion> versiondaDataProvider = new ListDataProvider<CodelistVersion>(group.getVersions());
 			/*dataProvider.addDataUpdatedHandler(new DataUpdatedHandler() {
 				
 				@Override
@@ -78,7 +78,7 @@ public class CodelistTreeModel implements TreeViewModel {
 					versiondaDataProvider.refresh();
 				}
 			});*/
-			return new DefaultNodeInfo<Version>(versiondaDataProvider, VERSION_CELL, selectionModel, null);
+			return new DefaultNodeInfo<CodelistVersion>(versiondaDataProvider, VERSION_CELL, selectionModel, null);
 		}
 		return null;
 	}

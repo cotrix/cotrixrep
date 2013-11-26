@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
 jarsExcludedFromWebInfLib=
 lastWarOutDir=/home/lavoro/git/cotrixrep/cotrix/cotrix-web-permissionmanager/target/cotrix-web-permissionmanager-0.0.1-SNAPSHOT
-warSrcDir=src/main/webapp
+warSrcDir=
 warSrcDirIsOutput=false

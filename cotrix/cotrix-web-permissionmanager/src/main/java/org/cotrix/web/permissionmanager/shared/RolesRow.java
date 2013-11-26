@@ -49,4 +49,17 @@ public class RolesRow implements IsSerializable {
 		return roles;
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("RolesRow [user=");
+		builder.append(user);
+		builder.append(", roles=");
+		builder.append(roles);
+		builder.append("]");
+		return builder.toString();
+	}
 }

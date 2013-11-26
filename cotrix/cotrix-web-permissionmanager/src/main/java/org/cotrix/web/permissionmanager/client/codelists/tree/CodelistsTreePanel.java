@@ -4,9 +4,8 @@
 package org.cotrix.web.permissionmanager.client.codelists.tree;
 
 import org.cotrix.web.permissionmanager.client.resources.CodelistsResources;
-import org.cotrix.web.permissionmanager.shared.CodelistGroup.Version;
+import org.cotrix.web.permissionmanager.shared.CodelistGroup.CodelistVersion;
 import org.cotrix.web.share.client.util.SingleSelectionModel;
-import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -32,7 +31,7 @@ public class CodelistsTreePanel extends ResizeComposite {
 	}
 	
 	public interface CodelistsTreePanelListener {
-		public void onCodelistSelected(UICodelist codelist);
+		public void onCodelistSelected(CodelistVersion codelist);
 	}
 
 	@UiField CellTree codelistsTree;
@@ -47,15 +46,15 @@ public class CodelistsTreePanel extends ResizeComposite {
 	@UiFactory
 	protected CellTree setupCodelistsTree() {
 
-		final SingleSelectionModel<Version> selectionModel = new SingleSelectionModel<Version>();
+		final SingleSelectionModel<CodelistVersion> selectionModel = new SingleSelectionModel<CodelistVersion>();
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			public void onSelectionChange(SelectionChangeEvent event) {
 				
-				Version selected = selectionModel.getSelectedObject();
+				CodelistVersion selected = selectionModel.getSelectedObject();
 				Log.trace("selected version "+selected);
 				
 				if (selected != null) {
-					listener.onCodelistSelected(selected.toUICodelist());
+					listener.onCodelistSelected(selected);
 				}
 			}
 		});
