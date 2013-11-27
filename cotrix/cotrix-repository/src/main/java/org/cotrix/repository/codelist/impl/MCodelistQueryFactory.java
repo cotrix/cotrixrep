@@ -37,8 +37,8 @@ public class MCodelistQueryFactory implements CodelistQueryFactory {
 	public MultiQuery<Codelist,Codelist> allLists() {
 		
 		return new MMultiQuery<Codelist,Codelist>() {
-			public Collection<? extends Codelist> executeOn(MemoryRepository<? extends Codelist> repository) {
-				return repository.getAll();
+			public Collection<? extends Codelist> executeOn(MemoryRepository<? extends Codelist> r) {
+				return r.getAll();
 			}
 		};
 	}
@@ -46,9 +46,9 @@ public class MCodelistQueryFactory implements CodelistQueryFactory {
 	@Override
 	public MultiQuery<Codelist,Code> allCodes(final String codelistId) {
 		return new  MMultiQuery<Codelist,Code>() {
-			public Collection<? extends Code> executeOn(MemoryRepository<? extends Codelist> repository) {
+			public Collection<Code> executeOn(MemoryRepository<? extends Codelist> r) {
 				Collection<Code> codes = new ArrayList<Code>();
-				for (Code c : repository.lookup(codelistId).codes())
+				for (Code c : r.lookup(codelistId).codes())
 					codes.add(c);
 				return codes;
 			}
@@ -58,9 +58,9 @@ public class MCodelistQueryFactory implements CodelistQueryFactory {
 	@Override
 	public MultiQuery<Codelist,CodelistCoordinates> allListCoordinates() {
 		return new MMultiQuery<Codelist,CodelistCoordinates>() {
-			public Collection<CodelistCoordinates> executeOn(MemoryRepository<? extends Codelist> repository) {
+			public Collection<CodelistCoordinates> executeOn(MemoryRepository<? extends Codelist> r) {
 				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
-				for (Codelist list : repository.getAll())
+				for (Codelist list : r.getAll())
 					coordinates.add(coords(list.id(),list.name(),list.version()));
 				return coordinates;
 			}

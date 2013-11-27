@@ -1,13 +1,14 @@
 package org.cotrix.repository.impl.memory;
 
-import static org.cotrix.common.Utils.*;
-
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-import org.cotrix.repository.Filter;
+import org.cotrix.common.Utils;
+import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
+import org.cotrix.repository.Range;
 import org.cotrix.repository.impl.BaseMultiQuery;
 
 /**
@@ -21,11 +22,6 @@ import org.cotrix.repository.impl.BaseMultiQuery;
  */
 public abstract class MMultiQuery<T,R> extends BaseMultiQuery<T,R> implements MQuery<T,Collection<R>> {
 
-	/**
-	 * Returns one or more results from a given object.
-	 * @param object the object
-	 * @return the results, or <code>null</code> if the object does not match the query.
-	 */
 	public abstract Collection<? extends R> executeOn(MemoryRepository<? extends T> repository);
 	
 	
@@ -34,40 +30,49 @@ public abstract class MMultiQuery<T,R> extends BaseMultiQuery<T,R> implements MQ
 	 * @param object the object
 	 * @return the results, or <code>null</code> if the object does not match the query.
 	 */
-	@SuppressWarnings("unchecked")
 	public Collection<R> execute(MemoryRepository<? extends T> repository) {
 		
-		Collection<? extends R> results = executeOn(repository);
 		
-		List<R> filtered = new ArrayList<R>();
+		List<R> results = new ArrayList<R>(executeOn(repository));
 		
 		int count = 1;
+	
+		List<R> range = new ArrayList<R>();
 		
-		nextResult: for (R result: results) {
+		if (range()==Range.ALL)
+			range.addAll(results);
 		
-			for (Filter<T> f : filters())
-				//include only matches
-				if (!reveal(f,MFilter.class).matches(result))
-					continue nextResult;
+		else
 			
-			//include only in range
-			if (count<range().from()) {
-				count++;
-				continue nextResult;
-			}
-			else {
-				if (count>range().to())
-					break;
-				else { 
-					filtered.add(result);
+			nextResult: for (R result: results) {
+		
+				//include only in range
+				if (count<range().from()) {
 					count++;
+					continue nextResult;
+				}
+				else {
+					if (count>range().to())
+						break;
+					else { 
+						range.add(result);
+						count++;
+					}
 				}
 			}
 			
-		}
-		
-		return filtered;
+				
+		if (criterion()!=null)
+			Collections.sort(range,reveal(criterion()).comparator());
+		 
+		return range;
 		
 	}
 	
+	
+	//helper
+	@SuppressWarnings("all")
+	private MCriterion<R> reveal(Criterion<R> criterion) {
+		return Utils.reveal(criterion, MCriterion.class);
+	}
 }

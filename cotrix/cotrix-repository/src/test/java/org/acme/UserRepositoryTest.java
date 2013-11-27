@@ -98,7 +98,7 @@ public class UserRepositoryTest {
 		repository.add(joe);
 		
 		
-		Iterable<User> users = repository.get(allUsers().with(roleOn("1",codelists)));
+		Iterable<User> users = repository.get(roleOn("1",codelists));
 		
 		assertEqualSets(gather(users),bill);
 		
