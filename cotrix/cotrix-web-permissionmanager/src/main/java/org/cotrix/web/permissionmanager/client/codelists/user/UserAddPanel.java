@@ -6,7 +6,6 @@ package org.cotrix.web.permissionmanager.client.codelists.user;
 import org.cotrix.web.permissionmanager.shared.UIUser;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -16,15 +15,15 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class UserAddPanel extends ResizeComposite {
-
-	private static UserAddPanelUiBinder uiBinder = GWT
-			.create(UserAddPanelUiBinder.class);
 
 	interface UserAddPanelUiBinder extends UiBinder<Widget, UserAddPanel> {
 	}
@@ -39,8 +38,9 @@ public class UserAddPanel extends ResizeComposite {
 
 	protected UIUser selectedUser;
 
-	public UserAddPanel() {
-		setupUsernameBox();
+	@Inject
+	protected void init(UserAddPanelUiBinder uiBinder, UserSuggestOracle oracle) {
+		setupUsernameBox(oracle);
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -51,8 +51,7 @@ public class UserAddPanel extends ResizeComposite {
 		this.listener = listener;
 	}
 
-	protected void setupUsernameBox() {
-		UserSuggestOracle oracle = new UserSuggestOracle();
+	protected void setupUsernameBox(UserSuggestOracle oracle) {
 		usernameBox = new SuggestBox(oracle);
 		usernameBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
 

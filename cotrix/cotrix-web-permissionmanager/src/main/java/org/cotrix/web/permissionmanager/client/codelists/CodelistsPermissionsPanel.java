@@ -60,7 +60,9 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	@Inject @UiField(provided=true) UserAddPanel userAddPanel;
 
 	protected String currentCodelistId = null;
-	protected CodelistRolesRowDataProvider dataProvider = new CodelistRolesRowDataProvider(currentCodelistId);
+	
+	@Inject
+	protected CodelistRolesRowDataProvider dataProvider;
 
 	@Inject
 	protected void init(CodelistsPermissionsPanelUiBinder uiBinder) {

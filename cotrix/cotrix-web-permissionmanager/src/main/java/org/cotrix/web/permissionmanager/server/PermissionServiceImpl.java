@@ -17,6 +17,7 @@ import org.acme.FingerprintTest;
 import org.cotrix.action.Action;
 import org.cotrix.action.ResourceType;
 import org.cotrix.application.DelegationPolicy;
+import org.cotrix.application.PermissionDelegationService;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.Roles;
@@ -73,7 +74,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	protected RolesSorter rolesSorter;
 	
 	@Inject
-	protected DelegationPolicy delegationPolicy;
+	protected PermissionDelegationService delegationService;
 	
 	@Current
 	@Inject
@@ -149,10 +150,11 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 		
 		User target = userRepository.lookup(userId);
 		Role role = toRole(roleName).on(codelistId);
+		logger.trace("role for name {}: {}", roleName, role);
 		
 		switch (action) {
-			case DELEGATE: delegationPolicy.validateDelegation(user, target); break;
-			case REVOKE: delegationPolicy.validateRevocation(user, target); break;
+			case DELEGATE: delegationService.delegate(role).to(target); break;
+			case REVOKE: delegationService.revoke(role).from(target); break;
 		}
 		
 		/*String userId = row.getUser().getId();
@@ -180,10 +182,11 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 		logger.trace("applicationRoleUpdated userId: {} role: {} action: {}", userId, roleName, action);
 		User target = userRepository.lookup(userId);
 		Role role = toRole(roleName);
+		logger.trace("role for name {}: {}", roleName, role);
 		
 		switch (action) {
-			case DELEGATE: delegationPolicy.validateDelegation(user, target); break;
-			case REVOKE: delegationPolicy.validateRevocation(user, target); break;
+			case DELEGATE: delegationService.delegate(role).to(target); break;
+			case REVOKE: delegationService.revoke(role).from(target); break;
 		}
 	}
 

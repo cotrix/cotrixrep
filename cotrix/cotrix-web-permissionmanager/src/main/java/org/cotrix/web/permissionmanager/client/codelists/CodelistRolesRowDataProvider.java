@@ -3,32 +3,27 @@
  */
 package org.cotrix.web.permissionmanager.client.codelists;
 
-import org.cotrix.web.permissionmanager.client.PermissionService;
 import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.util.CachedDataProvider;
 import org.cotrix.web.share.shared.DataWindow;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.view.client.HasData;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CodelistRolesRowDataProvider extends CachedDataProvider<RolesRow> {
-	
-	protected PermissionServiceAsync service = GWT.create(PermissionService.class);
-	
-	protected String codelistId;
 
-	/**
-	 * @param codelistId
-	 */
-	public CodelistRolesRowDataProvider(String codelistId) {
-		this.codelistId = codelistId;
-	}
+	@Inject
+	protected PermissionServiceAsync service;
+
+	protected String codelistId;
 
 	/**
 	 * @param codelistId the codelistId to set
@@ -39,14 +34,15 @@ public class CodelistRolesRowDataProvider extends CachedDataProvider<RolesRow> {
 
 	@Override
 	protected void onRangeChanged(final HasData<RolesRow> display) {
-		
-		service.getCodelistRolesRows(codelistId, new ManagedFailureCallback<DataWindow<RolesRow>>() {
-			
-			@Override
-			public void onSuccess(DataWindow<RolesRow> result) {
-				updateData(result, display.getVisibleRange());
-			}
-		});
+		if (codelistId!=null) {
+			service.getCodelistRolesRows(codelistId, new ManagedFailureCallback<DataWindow<RolesRow>>() {
+
+				@Override
+				public void onSuccess(DataWindow<RolesRow> result) {
+					updateData(result, display.getVisibleRange());
+				}
+			});
+		}
 	}
 
 }
