@@ -40,6 +40,6 @@ public class DefaultDelegationPolicy implements DelegationPolicy {
 	
 	@Override
 	public void validateRevocation(User source, User target, Role... roles) {
-		validateRevocation(source, target, roles);
+		validateDelegation(source, target, roles);
 	}
 }

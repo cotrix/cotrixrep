@@ -136,16 +136,6 @@ public class PermissionDelegationTest {
 		
 	}
 	
-	@Test
-	public void consultsPolicyForEechRoleDelegation() {
-		
-		User bill = bill();
-		
-		service.delegate(aRole("r1"),aRole("r2")).to(bill);
-		
-		verify(policy,times(2)).validateDelegation(any(User.class),any(User.class),(Action[]) anyVararg());
-		
-	}
 	
 	@Test
 	public void consultsPolicyForRevocation() {
@@ -156,21 +146,6 @@ public class PermissionDelegationTest {
 		
 		verify(policy).validateRevocation(any(User.class),any(User.class),(Action[]) anyVararg());
 	}
-	
-	@Test
-	public void consultsPolicyForEachRoleRevocation() {
-		
-		Role r1 = aRole("r1");
-		Role r2 = aRole("r2");
-		
-		User bill = billIs(r1,r2);
-		
-		service.revoke(r1,aRole("r2")).from(bill);
-		
-		verify(policy,times(2)).validateRevocation(any(User.class),any(User.class),(Action[]) anyVararg());
-		
-	}
-
 	
 	
 	
@@ -266,10 +241,6 @@ public class PermissionDelegationTest {
 	
 	private Role aRole() {
 		return user().name("role").fullName("role").buildAsRoleFor(application);
-	}
-	
-	private Role aRole(String name) {
-		return user().name(name).fullName(name).buildAsRoleFor(application);
 	}
 	
 
