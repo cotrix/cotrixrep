@@ -62,6 +62,7 @@ public class UserAddPanel extends ResizeComposite {
 				if (event.getSelectedItem() instanceof UserSuggestion) {
 					UserSuggestion userSuggestion = (UserSuggestion)event.getSelectedItem();
 					listener.onUserAdded(userSuggestion.getUser());
+					usernameBox.setText("");
 				}
 			}
 		});

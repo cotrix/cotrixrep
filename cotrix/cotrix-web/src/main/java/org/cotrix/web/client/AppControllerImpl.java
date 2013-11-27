@@ -12,6 +12,7 @@ import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.CotrixModuleController;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
+import org.cotrix.web.share.client.resources.CommonResources;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -40,6 +41,8 @@ public class AppControllerImpl implements AppController {
 		this.cotrixWebPresenter = cotrixWebPresenter;
 		
 		bind();
+		
+		CommonResources.INSTANCE.css().ensureInjected();
 		
 		initMenu();
 		
