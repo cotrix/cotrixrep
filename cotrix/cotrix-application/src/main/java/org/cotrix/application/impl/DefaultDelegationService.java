@@ -74,8 +74,7 @@ public class DefaultDelegationService implements PermissionDelegationService {
 
 				validate(user);
 				
-				for (Role role : roles)
-					policy.validateDelegation(currentUser, user, toArray(role.permissions()));
+				policy.validateDelegation(currentUser, user, roles);
 				
 				User changeset = Users.user(user).is(roles).build();
 				
@@ -120,9 +119,7 @@ public class DefaultDelegationService implements PermissionDelegationService {
 				
 				validate(user);
 	
-				for (Role r : roles)
-					if (user.is(r))
-						policy.validateRevocation(currentUser, user, toArray(r.permissions()));
+				policy.validateRevocation(currentUser, user, roles);
 				
 				User changeset = Users.user(user).isNot(roles).build();
 				
