@@ -19,13 +19,18 @@ public class CurrentUser implements User {
 	public String id() {
 		return test.id();
 	}
-
+	
 	public String name() {
 		return test.name();
 	}
 
 	public String fullName() {
 		return test.fullName();
+	}
+	
+	@Override
+	public String email() {
+		return test.email();
 	}
 	
 	@Override

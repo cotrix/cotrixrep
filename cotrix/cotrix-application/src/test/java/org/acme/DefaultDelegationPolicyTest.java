@@ -21,8 +21,8 @@ public class DefaultDelegationPolicyTest {
 	@Test(expected=IllegalAccessError.class)
 	public void delegatesOnlyOwnPermissions() {
 	
-		User joe = user().name("joe").fullName("joe").build();
-		User bill = user().name("bill").fullName("bill").build();
+		User joe = user().name("joe").email("joe@me.com").build();
+		User bill = user().name("bill").email("bil@me.coml").build();
 
 		policy.validateDelegation(joe, bill, doit);
 
@@ -33,8 +33,8 @@ public class DefaultDelegationPolicyTest {
 	@Test(expected=IllegalAccessError.class)
 	public void doesNotDelegateTemplatesForNonRootUsers() {
 		
-		User joe = user().name("joe").fullName("joe").can(doit).build();
-		User bill = user().name("bill").fullName("bill").build();
+		User joe = user().name("joe").email("joe@me.com").can(doit).build();
+		User bill = user().name("bill").email("bill@me.com").build();
 		
 		policy.validateDelegation(joe, bill, doit);
 	}
@@ -42,8 +42,8 @@ public class DefaultDelegationPolicyTest {
 	@Test
 	public void delegatesTemplatesForRootUsers() {
 		
-		User joe = user().name("joe").fullName("joe").isRoot().can(doit).build();
-		User bill = user().name("bill").fullName("Bill the Baker").build();
+		User joe = user().name("joe").email("joe@me.com").isRoot().can(doit).build();
+		User bill = user().name("bill").email("bill@me.com").build();
 		
 		policy.validateDelegation(joe, bill, doit);
 
@@ -53,13 +53,13 @@ public class DefaultDelegationPolicyTest {
 	public void delegatesRolesWithTemplatesOfDifferentTypesForNonRootUsers() {
 		
 		Action doGeneric = action(application,"generic");
-		Role something = user().name("r1").fullName("r1").can(doGeneric).buildAsRoleFor(application);
+		Role something = user().name("r1").noMail().can(doGeneric).buildAsRoleFor(application);
 		
 		Action doSpecific = action(codelists,"specific");
-		Role somethingElse = user().name("r2").fullName("r2").is(something).can(doSpecific).buildAsRoleFor(codelists);
+		Role somethingElse = user().name("r2").noMail().is(something).can(doSpecific).buildAsRoleFor(codelists);
 		
-		User joe = user().name("joe").fullName("joe").is(somethingElse.on("1")).build();
-		User bill = user().name("bill").fullName("bill").build();
+		User joe = user().name("joe").email("joe@me.com").is(somethingElse.on("1")).build();
+		User bill = user().name("bill").email("bill@me.com").build();
 		
 		policy.validateDelegation(joe, bill, somethingElse.on("1"));
 		

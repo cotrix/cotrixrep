@@ -30,12 +30,16 @@ public class UserGrammar {
 	
 	public static interface SecondClause  {
 		
-		ThirdClause fullName (String string);
+		ThirdClause email(String email);
+		
+		ThirdClause noMail();
 	}
 	
 	
 	public static interface ThirdClause {
 		
+		
+		ThirdClause fullName(String name);
 		
 		ThirdClause can(Action ... permissions);
 		

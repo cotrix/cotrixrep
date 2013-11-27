@@ -59,7 +59,7 @@ public class UserRepositoryTest {
 	public void updateUser() {
 		
 		Action doit = action("doit");
-		Role role = user().name("role").fullName("role").buildAsRoleFor(application);
+		Role role = user().name("role").noMail().fullName("role").buildAsRoleFor(application);
 		
 		User bill = bill();
 		
@@ -134,12 +134,12 @@ public class UserRepositoryTest {
 	
 	private UserGrammar.ThirdClause aUser(String name) {
 		
-		return user().name(name).fullName(name);
+		return user().name(name).noMail().fullName(name);
 	}
 	
 	private UserGrammar.ThirdClause aRole() {
 		
-		return user().name("role").fullName("role");
+		return user().name("role").noMail().fullName("role");
 	}
 	
 	

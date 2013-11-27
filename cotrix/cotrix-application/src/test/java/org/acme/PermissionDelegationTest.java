@@ -38,7 +38,7 @@ public class PermissionDelegationTest {
 		
 		policy = mock(DelegationPolicy.class);
 		
-		User current = user().name("current").fullName("current").build();
+		User current = user().name("current").email("current@me.com").build();
 		
 		//we would not want to test the impl, but using cdi to use configured alternative has its own issues
 		//also, we're not expecting yet multiple implementations for this service 
@@ -50,7 +50,7 @@ public class PermissionDelegationTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void doesNotDelegateToUnidentifiedUser() {
 		
-		User bill = user().name("bill").fullName("bill").build();
+		User bill = user().name("bill").email("bill@me.com").build();
 		
 		service.delegate(doit.on("1")).to(bill);
 	}
@@ -58,7 +58,7 @@ public class PermissionDelegationTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void doesNotDelegateRoleToUnidentifiedUser() {
 		
-		User bill = user().name("bill").fullName("bill").build();
+		User bill = user().name("bill").email("bill@me.com").build();
 		
 		service.delegate(aRole()).to(bill);
 	}
@@ -66,7 +66,7 @@ public class PermissionDelegationTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void doesNotRevokeFromUnidentifiedUser() {
 		
-		User bill = user().name("bill").fullName("bill").build();
+		User bill = user().name("bill").email("bill@me.com").build();
 		
 		service.revoke(doit.on("1")).from(bill);
 	}
@@ -74,7 +74,7 @@ public class PermissionDelegationTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void doesNotRevokeRoleFromUnidentifiedUser() {
 		
-		User bill = user().name("bill").fullName("bill").build();
+		User bill = user().name("bill").email("bill@me.com").build();
 		
 		service.revoke(aRole()).from(bill);
 	}
@@ -112,7 +112,7 @@ public class PermissionDelegationTest {
 	@Test(expected=IllegalStateException.class)
 	public void doesNotRevokeNotExistentPermission() {
 		
-		User bill = user().name("bill").fullName("bill").build();
+		User bill = user().name("bill").noMail().fullName("bill").build();
 		
 		repository.add(bill);
 		
@@ -183,7 +183,7 @@ public class PermissionDelegationTest {
 	@Test
 	public void persistsRevocation() {
 		
-		User bill = user().name("bill").fullName("bill").can(doit).build();
+		User bill = user().name("bill").email("bill@me.com").fullName("bill").can(doit).build();
 		
 		repository.add(bill);
 		
@@ -214,7 +214,7 @@ public class PermissionDelegationTest {
 	//helper
 	private User bill() {
 		
-		User bill = user().name("bill").fullName("bill").build();
+		User bill = user().name("bill").email("bill@me.com").fullName("bill").build();
 		
 		repository.add(bill);
 		
@@ -223,7 +223,7 @@ public class PermissionDelegationTest {
 	
 	private User billCan(Action ...actions) {
 		
-		User bill = user().name("bill").fullName("bill").can(actions).build();
+		User bill = user().name("bill").email("bill@me.com").fullName("bill").can(actions).build();
 		
 		repository.add(bill);
 		
@@ -232,7 +232,7 @@ public class PermissionDelegationTest {
 	
 	private User billIs(Role ...roles) {
 		
-		User bill = user().name("bill").fullName("bill").is(roles).build();
+		User bill = user().name("bill").email("bill@me.com").fullName("bill").is(roles).build();
 		
 		repository.add(bill);
 		
@@ -240,7 +240,7 @@ public class PermissionDelegationTest {
 	}
 	
 	private Role aRole() {
-		return user().name("role").fullName("role").buildAsRoleFor(application);
+		return user().name("role").noMail().buildAsRoleFor(application);
 	}
 	
 

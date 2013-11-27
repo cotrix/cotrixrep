@@ -99,7 +99,7 @@ public class LoginTest {
 		
 		System.out.println(service);
 		
-		User user = user().name("fabio").fullName("fifi").build();
+		User user = user().name("fabio").noMail().fullName("fifi").build();
 		
 		signupService.signup(user,"fuffa");
 		

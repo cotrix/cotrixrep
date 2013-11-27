@@ -13,6 +13,7 @@ public class UserPO extends DomainPO {
 
 	private String userName;
 	private String fullName;
+	private String email = "unknown";
 	
 	private final Set<Action> permissions = new LinkedHashSet<Action>();
 	private final Set<Role> roles = new LinkedHashSet<Role>();
@@ -28,6 +29,14 @@ public class UserPO extends DomainPO {
 	
 	public String name() {
 		return userName;
+	}
+	
+	public String email() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String fullName() {

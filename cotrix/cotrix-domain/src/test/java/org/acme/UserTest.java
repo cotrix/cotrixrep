@@ -20,13 +20,14 @@ public class UserTest {
 	@Test
 	public void isBuiltCorrectly() {
 
-		Role model = user().name("model").fullName("test model").can(MainAction.values()).buildAsRoleFor(application);
+		Role model = user().name("model").noMail().fullName("test model").can(MainAction.values()).buildAsRoleFor(application);
 		
-		User joe = user().name("joe").fullName("joe the plummer").
+		User joe = user().name("joe").email("joe@me.com").fullName("joe the plummer").
 								can(CodelistAction.values()).cannot(LOCK).
 								is(model).build();
 
 		assertEquals("joe", joe.name());
+		assertEquals("joe@me.com", joe.email());
 		assertEquals("joe the plummer", joe.fullName());
 
 		for (Action a : CodelistAction.values())
@@ -46,23 +47,23 @@ public class UserTest {
 
 		String name = "name";
 		Action a = action("a");
-		Role m = user().name(name).fullName(name).buildAsRoleFor(application);
+		Role m = user().name(name).email("joe@me.com").buildAsRoleFor(application);
 		User u;
 
 		// new users
-		u = user().name(name).fullName(name).build();
-		u = user().name(name).fullName(name).can(a).build();
-		u = user().name(name).fullName(name).can(a).cannot(a).build();
-		u = user().name(name).fullName(name).can(a).is(m).build();
+		u = user().name(name).email("joe@me.com").build();
+		u = user().name(name).email("joe@me.com").can(a).build();
+		u = user().name(name).email("joe@me.com").can(a).cannot(a).build();
+		u = user().name(name).email("joe@me.com").can(a).is(m).build();
 
 		assertFalse(reveal(u).isChangeset());
 		assertNull(reveal(u).status());
 
 		// modified users
-		u = user("1").fullName(name).build();
-		u = user("1").fullName(name).can(a).build();
-		u = user("1").fullName(name).can(a).cannot(a).build();
-		u = user("1").fullName(name).can(a).cannot(a).is(m).build();
+		u = user("1").email("joe@me.com").build();
+		u = user("1").email("joe@me.com").can(a).build();
+		u = user("1").email("joe@me.com").can(a).cannot(a).build();
+		u = user("1").email("joe@me.com").can(a).cannot(a).is(m).build();
 
 		assertTrue(reveal(u).isChangeset());
 		assertEquals(MODIFIED, reveal(u).status());

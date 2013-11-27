@@ -24,4 +24,6 @@ public class Constants {
 	
 	public static final String NULL_STRING ="__ignore__";
 	public static final QName NULL_QNAME = q("__ignore__");
+	
+	public static final String NO_MAIL = "no@cotrix.mail";
 }
