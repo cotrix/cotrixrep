@@ -34,7 +34,6 @@ import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.permissionmanager.shared.UIUser;
 import org.cotrix.web.share.server.util.CodelistLoader;
-import org.cotrix.web.share.server.util.UserLoader;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.exception.ServiceException;
@@ -65,9 +64,6 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	protected CodelistLoader codelistLoader;
 	
 	@Inject
-	protected UserLoader userLoader;
-	
-	@Inject
 	protected UserRepository userRepository;
 	
 	@Inject
@@ -85,7 +81,6 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 		logger.trace("codelist in repository:");
 		for (Codelist codelist:repository.get(allLists())) logger.trace(codelist.name().toString());
 		logger.trace("done");
-		userLoader.loadUsers();
 	}
 
 	@Override
