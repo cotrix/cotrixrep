@@ -91,7 +91,14 @@ public class DefaultRole implements Role {
 
 	@Override
 	public boolean is(Role role) {
-		return roles().contains(role);
+		
+		notNull("role", role);
+		
+		for (Role myrole : roles())
+			if (myrole.equals(role) || myrole.is(role) || myrole.equals(role.on(any)))
+					return true;
+
+		return false;
 	}
 	
 	@Override
