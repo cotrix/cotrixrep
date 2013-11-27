@@ -19,7 +19,7 @@ public class Roles {
 	public static Role USER = user().name("user").fullName("User Role").can(VIEW, LOGOUT).buildAsRoleFor(application);
 
 	public static Role MANAGER = user().name("manager").fullName("Manager Role").is(USER)
-			.can(IMPORT, MainAction.PUBLISH).can(CodelistAction.values()).buildAsRoleFor(application);
+			.can(IMPORT, MainAction.PUBLISH).buildAsRoleFor(application);
 	
 	// a user that can edit given codelists.
 	public static Role EDITOR = user().name("editor").fullName("Editor Role").is(USER).can(EDIT).buildAsRoleFor(codelists);
@@ -38,8 +38,8 @@ public class Roles {
 	
 	// a user that has all the permissions and roles
 	public static Role ROOT = user().name("root").fullName("Root Role").can(MainAction.values())
-			.can(CodelistAction.values()).can(UserAction.values()).is(USER, OWNER).buildAsRoleFor(application);
+			.can(CodelistAction.values()).can(UserAction.values()).is(USER, MANAGER,OWNER).buildAsRoleFor(application);
 
 	
-	public static Collection<Role> predefinedRoles = Arrays.asList(ROOT,USER,OWNER,REVIEWER,EDITOR,PUBLISHER);
+	public static Collection<Role> predefinedRoles = Arrays.asList(ROOT,USER,MANAGER,OWNER,REVIEWER,EDITOR,PUBLISHER);
 }

@@ -1,5 +1,6 @@
 package org.cotrix.domain.user;
 
+import static org.cotrix.action.Action.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Roles.*;
 
@@ -169,7 +170,7 @@ public interface User extends Identified {
 			notNull("role", role);
 			
 			for (Role myrole : roles)
-				if (myrole.equals(role) || myrole.is(role))
+				if (myrole.equals(role) || myrole.equals(role.on(any)) || myrole.is(role))
 						return true;
 	
 			return false;
