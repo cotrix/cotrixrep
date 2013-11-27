@@ -41,7 +41,7 @@ public interface MultiQuery<T,R> extends Query<T,Collection<R>> {
 	 * Sets a result sorting criterion on this query.
 	 * @param criterion the criterion
 	 */
-	void sort(Criterion<R> criterion);
+	MultiQuery<T, R> sort(Criterion<R> criterion);
 	
 	/**
 	 * Returns the result sorting criterion set on this query.

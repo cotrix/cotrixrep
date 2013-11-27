@@ -38,8 +38,9 @@ public abstract class BaseMultiQuery<T,R> implements MultiQuery<T,R> {
 	}
 	
 	@Override
-	public void sort(Criterion<R> criterion) {
+	public MultiQuery<T, R> sort(Criterion<R> criterion) {
 		this.criterion=criterion;
+		return this;
 	}
 	
 }

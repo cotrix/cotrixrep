@@ -5,9 +5,11 @@ import java.util.HashSet;
 
 import org.cotrix.action.ResourceType;
 import org.cotrix.domain.user.User;
+import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.codelist.impl.CodelistQueryFactory;
+import org.cotrix.repository.impl.memory.MCriterion;
 import org.cotrix.repository.impl.memory.MMultiQuery;
 import org.cotrix.repository.impl.memory.MQuery;
 import org.cotrix.repository.impl.memory.MemoryRepository;
@@ -63,5 +65,16 @@ public class MUserQueryFactory implements UserQueryFactory {
 			}
 		};
 		
+	}
+	
+	@Override
+	public Criterion<User> byName() {
+		
+		return new MCriterion<User>() {
+			
+			public int compare(User o1, User o2) {
+				return o1.name().compareTo(o2.name());
+			};
+		};
 	}
 }

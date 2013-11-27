@@ -63,7 +63,7 @@ public abstract class MMultiQuery<T,R> extends BaseMultiQuery<T,R> implements MQ
 			
 				
 		if (criterion()!=null)
-			Collections.sort(range,reveal(criterion()).comparator());
+			Collections.sort(range,reveal(criterion()));
 		 
 		return range;
 		

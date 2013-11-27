@@ -98,9 +98,28 @@ public class UserRepositoryTest {
 		repository.add(joe);
 		
 		
-		Iterable<User> users = repository.get(roleOn("1",codelists));
+		Iterable<User> users = repository.get(usersWithRoleOn("1",codelists));
 		
 		assertEqualSets(gather(users),bill);
+		
+	}
+	
+	
+	@Test
+	public void sortUsers() {
+		
+		User bill = aUser("bill").build();
+		User joe = aUser("joe").build();
+		User zoe = aUser("zoe").build();
+	
+		repository.add(joe);
+		repository.add(zoe);
+		repository.add(bill);
+		
+		
+		Iterable<User> users = repository.get(allUsers().sort(byName()));
+		
+		assertEqualSets(gather(users),bill,joe,zoe);
 		
 	}
 	
