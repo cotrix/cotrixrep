@@ -40,9 +40,19 @@ public class CodelistQueries {
 		return factory.byCodelistName();
 	}
 	
+	public static Criterion<Codelist> byVersion() {
+		
+		return factory.byVersion();
+	}
+	
 	public static Criterion<Code> byCodeName() {
 		
 		return factory.byCodeName();
+	}
+	
+	public static <T> Criterion<T> all(Criterion<T> c1, Criterion<T> c2) {
+		
+		return factory.all(c1,c2);
 	}
 	
 	static class QueryFactoryInjector {

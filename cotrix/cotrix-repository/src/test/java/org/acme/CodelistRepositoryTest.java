@@ -149,6 +149,20 @@ public class CodelistRepositoryTest {
 	}
 	
 	@Test
+	public void listbyNameAndVersion() {
+		
+		Codelist list1 = codelist().name("l2").version("1").build();
+		Codelist list2 = codelist().name("l2").version("3").build();
+		
+		repository.add(list2);
+		repository.add(list1);
+		
+		Iterable<Codelist> results  = repository.get(allLists().sort(all(byCodelistName(),byVersion())));
+		
+		assertEquals(asList(list1,list2),gather(results));
+	}
+	
+	@Test
 	public void listbyCodeName() {
 		
 		Code c1 = code().name("c1").build();

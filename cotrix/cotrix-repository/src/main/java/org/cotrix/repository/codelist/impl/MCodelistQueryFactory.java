@@ -13,6 +13,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.Utils;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
@@ -82,6 +83,35 @@ public class MCodelistQueryFactory implements CodelistQueryFactory {
 		return byName();
 	}
 	
+	@Override
+	public <T> Criterion<T> all(final Criterion<T> c1, final Criterion<T> c2) {
+		
+		return new MCriterion<T>() {
+			
+			public int compare(T o1, T o2) {
+				int result = reveal(c1).compare(o1, o2);
+				
+				if (result==0)
+					result = reveal(c2).compare(o1, o2);
+				
+				return result;
+			};
+			
+		};
+	}
+	
+	@Override
+	public Criterion<Codelist> byVersion() {
+		
+		return new MCriterion<Codelist>() {
+			
+			public int compare(Codelist o1, Codelist o2) {
+				return o1.version().compareTo(o2.version());
+			};
+		};
+		
+	}
+	
 	private static <T extends Named> Criterion<T> byName() {
 		
 		return new MCriterion<T>() {
@@ -119,5 +149,12 @@ public class MCodelistQueryFactory implements CodelistQueryFactory {
 				return new CodelistSummary(list.name(), size, attributes, fingerprint);
 			}
 		};
+	}
+	
+	
+	//helper
+	@SuppressWarnings("all")
+	private static <R> MCriterion<R> reveal(Criterion<R> criterion) {
+		return Utils.reveal(criterion, MCriterion.class);
 	}
 }
