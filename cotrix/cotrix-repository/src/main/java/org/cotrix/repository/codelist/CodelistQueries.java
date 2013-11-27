@@ -5,6 +5,7 @@ import javax.enterprise.event.Observes;
 import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.codelist.impl.CodelistQueryFactory;
@@ -32,6 +33,16 @@ public class CodelistQueries {
 	
 	public static Query<Codelist,CodelistSummary> summary(String id) {
 		return factory.summary(id);
+	}
+	
+	public static Criterion<Codelist> byCodelistName() {
+		
+		return factory.byCodelistName();
+	}
+	
+	public static Criterion<Code> byCodeName() {
+		
+		return factory.byCodeName();
 	}
 	
 	static class QueryFactoryInjector {

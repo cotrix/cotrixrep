@@ -16,10 +16,13 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.trait.Named;
+import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.codelist.CodelistCoordinates;
 import org.cotrix.repository.codelist.CodelistSummary;
+import org.cotrix.repository.impl.memory.MCriterion;
 import org.cotrix.repository.impl.memory.MMultiQuery;
 import org.cotrix.repository.impl.memory.MQuery;
 import org.cotrix.repository.impl.memory.MemoryRepository;
@@ -64,6 +67,28 @@ public class MCodelistQueryFactory implements CodelistQueryFactory {
 					coordinates.add(coords(list.id(),list.name(),list.version()));
 				return coordinates;
 			}
+		};
+	}
+	
+	@Override
+	public Criterion<Codelist> byCodelistName() {
+		
+		return byName();
+	}
+	
+	@Override
+	public Criterion<Code> byCodeName() {
+		
+		return byName();
+	}
+	
+	private static <T extends Named> Criterion<T> byName() {
+		
+		return new MCriterion<T>() {
+			
+			public int compare(T o1, T o2) {
+				return o1.name().getLocalPart().compareTo(o2.name().getLocalPart());
+			};
 		};
 	}
 	

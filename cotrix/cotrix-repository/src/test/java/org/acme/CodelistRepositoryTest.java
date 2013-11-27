@@ -134,6 +134,35 @@ public class CodelistRepositoryTest {
 		assertEqualSets(gather(results),coords(list1.id(),q("l1"),"1"),coords(list2.id(),q("l2"),"2"));
 	}
 	
+	@Test
+	public void listbyName() {
+		
+		Codelist list1 = codelist().name("l1").build();
+		Codelist list2 = codelist().name("l2").build();
+		
+		repository.add(list2);
+		repository.add(list1);
+		
+		Iterable<Codelist> results  = repository.get(allLists().sort(byCodelistName()));
+		
+		assertEquals(asList(list1,list2),gather(results));
+	}
+	
+	@Test
+	public void listbyCodeName() {
+		
+		Code c1 = code().name("c1").build();
+		Code c2 = code().name("c2").build();
+		
+		Codelist list = codelist().name("l1").with(c2,c1).build();
+		
+		repository.add(list);
+		
+		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(byCodeName()));
+		
+		assertEquals(asList(c1,c2),gather(results));
+	}	
+	
 	
 	@Test
 	public void getSummary() {

@@ -29,7 +29,6 @@ public class UserQueries {
 		
 	}
 	
-	
 	public static Criterion<User> byName() {
 		
 		return factory.byName();

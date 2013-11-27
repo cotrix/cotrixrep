@@ -2,6 +2,7 @@ package org.cotrix.repository.codelist.impl;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.codelist.CodelistCoordinates;
@@ -40,6 +41,19 @@ public interface CodelistQueryFactory {
 	 * @return the query
 	 */
 	Query<Codelist,CodelistSummary> summary(String codelistId);
+	
+	
+	/**
+	 * Returns the criterion to sort codelist results by name. 
+	 * @return the criterion
+	 */
+	Criterion<Codelist> byCodelistName();
+	
+	/**
+	 * Returns the criterion to sort codelist results by name. 
+	 * @return the criterion
+	 */
+	Criterion<Code> byCodeName();
 	
 	
 }
