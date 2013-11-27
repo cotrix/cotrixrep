@@ -35,6 +35,7 @@ import org.cotrix.io.tabular.map.ColumnDirectives;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.codelist.CodelistRepository;
+import org.cotrix.repository.user.UserRepository;
 import org.cotrix.security.SignupService;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
@@ -80,27 +81,24 @@ public class CodelistLoader {
 	
 	protected List<User> owners = new ArrayList<User>();
 	
-	@Inject @Current
-	protected BeanSession session;
-	
 	@Inject
-	protected PermissionDelegationService delegationService;
+	protected UserRepository userRepository;
 	
 	protected void loadUsers() {
 		
-		User user = user().name("federico").fullName("Federico De Faveri").is(Roles.USER, Roles.EDITOR).build();
+		User user = user().name("federico").fullName("Federico De Faveri").is(Roles.USER).build();
 		signupService.signup(user, "federico");
 		owners.add(user);
 		
-		user = user().name("fabio").fullName("Fabio Simeoni").is(Roles.USER, Roles.EDITOR, Roles.REVIEWER).build();
+		user = user().name("fabio").fullName("Fabio Simeoni").is(Roles.USER).build();
 		signupService.signup(user, "fabio");
 		owners.add(user);
 		
-		user = user().name("anton").fullName("Anton Ellenbroek").is(Roles.USER, Roles.EDITOR, Roles.MANAGER, Roles.PUBLISHER).build();
+		user = user().name("anton").fullName("Anton Ellenbroek").is(Roles.USER).build();
 		signupService.signup(user, "anton");
 		owners.add(user);
 		
-		user = user().name("aureliano").fullName("Aureliano Gentile").is(Roles.ROOT).build();
+		user = user().name("aureliano").fullName("Aureliano Gentile").is(Roles.USER).build();
 		signupService.signup(user, "aureliano");
 		
 		user = user().name("albert").fullName("Albert Einstein").is(Roles.USER).build();
@@ -187,8 +185,8 @@ public class CodelistLoader {
 
 		Role role = Roles.OWNER.on(codelistId);
 		for (User user:owners) {
-			Users.user(user).is(role).build();
-
+			User changeSet = Users.user(user).is(role).build();
+			userRepository.update(changeSet);
 		}
 	}
 	
