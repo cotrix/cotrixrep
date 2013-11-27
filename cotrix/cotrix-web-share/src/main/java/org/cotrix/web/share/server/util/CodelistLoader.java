@@ -23,6 +23,7 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.Roles;
+import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.io.MapService;
@@ -183,14 +184,12 @@ public class CodelistLoader {
 	}
 	
 	protected void assignOwnership(String codelistId) {
-		User oldUser = session.get(User.class);
+
 		Role role = Roles.OWNER.on(codelistId);
 		for (User user:owners) {
-			session.add(User.class, user);
-			delegationService.delegate(role).to(user);
+			Users.user(user).is(role).build();
+
 		}
-		
-		session.add(User.class, oldUser);
 	}
 	
 	public boolean importSDMXCodelist(CodeListInfo codelistInfo)
