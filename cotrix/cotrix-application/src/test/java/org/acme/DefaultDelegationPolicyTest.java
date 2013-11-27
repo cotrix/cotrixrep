@@ -2,7 +2,6 @@ package org.acme;
 
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
-import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
 
 import org.cotrix.action.Action;
@@ -63,17 +62,6 @@ public class DefaultDelegationPolicyTest {
 		User bill = user().name("bill").fullName("bill").build();
 		
 		policy.validateDelegation(joe, bill, somethingElse.on("1"));
-		
-	}
-	
-	@Test
-	public void test() {
-		
-		User joe = user().name("joe").fullName("joe").is(EDITOR.on("1")).build();
-		User bill = user().name("bill").fullName("bill").build();
-		
-		policy.validateDelegation(joe, bill, EDITOR.on("1"));
-		
 		
 	}
 
