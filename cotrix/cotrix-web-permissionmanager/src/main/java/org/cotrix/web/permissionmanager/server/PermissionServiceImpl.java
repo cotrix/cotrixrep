@@ -142,7 +142,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	
 	protected RolesRow getCodelistRolesRow(User user, String codelistId) {
 		FingerPrint fp = user.fingerprint();
-		Collection<String> userRoles = fp.rolesOver(codelistId, ResourceType.codelists);		
+		Collection<String> userRoles = fp.rolesOver(codelistId, ResourceType.codelists);
 		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles), currentUser.id().equals(user.id()));
 		return row;
 	}
