@@ -55,7 +55,7 @@ public class PermissionManagerPanel extends ResizeComposite {
 	
 	protected void switchContent(AdminArea area) {
 		switch (area) {
-			case APPLICATION_PERMISSIONS: contentPanel.showWidget(applicationPermissionPanel); break;
+			case USERS_PERMISSIONS: contentPanel.showWidget(applicationPermissionPanel); break;
 			case CODELISTS_PERMISSIONS: contentPanel.showWidget(codelistsPermissionspanel); break;
 			case PREFERENCES: contentPanel.showWidget(preferencesPanel); break;
 			case PROFILE: contentPanel.showWidget(profilePanel); break;

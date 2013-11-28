@@ -23,13 +23,12 @@ public class MenuTreeViewModel implements TreeViewModel {
 	protected static final MenuItem PROFILE_MENU = new MenuArea("Profile", AdminArea.PROFILE);
 	protected static final MenuItem PREFERENCES_MENU = new MenuArea("Preferences", AdminArea.PREFERENCES);
 
-	protected static final MenuItem APPLICATION_MENU = new MenuArea("Application", AdminArea.APPLICATION_PERMISSIONS);
+	protected static final MenuItem USERS_MENU = new MenuArea("Users", AdminArea.USERS_PERMISSIONS);
 	protected static final MenuItem CODELISTS_MENU = new MenuArea("Codelists", AdminArea.CODELISTS_PERMISSIONS);
-	
-	protected static final MenuItem PERMISSIONS_MENU = new MenuFolder("Permissions", Arrays.asList(APPLICATION_MENU, CODELISTS_MENU));
 
-	protected static final ListDataProvider<MenuItem> ROOT_PROVIDER = new ListDataProvider<MenuItem>(Arrays.asList(PROFILE_MENU, PREFERENCES_MENU, PERMISSIONS_MENU));
-	protected static final ListDataProvider<MenuItem> PERMISSIONS_PROVIDER = new ListDataProvider<MenuItem>(((MenuFolder)PERMISSIONS_MENU).getChildren());
+	protected static final ListDataProvider<MenuItem> ROOT_MENU_PROVIDER = new ListDataProvider<MenuItem>(Arrays.asList(PROFILE_MENU, PREFERENCES_MENU, USERS_MENU, CODELISTS_MENU));
+	protected static final ListDataProvider<MenuItem> USER_MENU_PROVIDER = new ListDataProvider<MenuItem>(Arrays.asList(PROFILE_MENU, PREFERENCES_MENU, USERS_MENU, CODELISTS_MENU));
+	//protected static final ListDataProvider<MenuItem> PERMISSIONS_PROVIDER = new ListDataProvider<MenuItem>(((MenuFolder)PERMISSIONS_MENU).getChildren());
 	
 	protected static final AbstractCell<MenuItem> MENU_CELL = new AbstractCell<MenuItem>() {
 
@@ -43,14 +42,14 @@ public class MenuTreeViewModel implements TreeViewModel {
 	protected DefaultNodeInfo<MenuItem> permissionsNode;
 	
 	public MenuTreeViewModel(SelectionModel<MenuItem> selectionModel) {
-		rootNode = new DefaultNodeInfo<MenuItem>(ROOT_PROVIDER, MENU_CELL, selectionModel, null);
-		permissionsNode = new DefaultNodeInfo<MenuItem>(PERMISSIONS_PROVIDER, MENU_CELL, selectionModel, null);
+		rootNode = new DefaultNodeInfo<MenuItem>(USER_MENU_PROVIDER, MENU_CELL, selectionModel, null);
+		//permissionsNode = new DefaultNodeInfo<MenuItem>(PERMISSIONS_PROVIDER, MENU_CELL, selectionModel, null);
 	}
 	
 	@Override
 	public <T> NodeInfo<?> getNodeInfo(T value) {
 		if (value == null) return rootNode;
-		if (value == PERMISSIONS_MENU) return permissionsNode;
+		//if (value == PERMISSIONS_MENU) return permissionsNode;
 		return null;
 	}
 
