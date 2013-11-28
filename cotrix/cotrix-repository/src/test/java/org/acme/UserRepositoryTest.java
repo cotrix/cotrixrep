@@ -102,7 +102,7 @@ public class UserRepositoryTest {
 		
 		Iterable<User> users = repository.get(usersWithRoleOn("1",codelists));
 		
-		assertEqualSets(gather(users),bill,zoe);
+		assertEqualSets(gather(users),bill);
 		
 	}
 	
