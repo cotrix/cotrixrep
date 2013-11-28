@@ -6,6 +6,7 @@ package org.cotrix.web.permissionmanager.client.matrix;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
 
@@ -22,6 +23,8 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.AbstractDataProvider;
 import com.google.gwt.view.client.Range;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -29,15 +32,7 @@ import com.google.gwt.view.client.Range;
  */
 public class UsersRolesMatrix extends ResizeComposite {
 
-	private static UsersRolesMatrixUiBinder uiBinder = GWT
-			.create(UsersRolesMatrixUiBinder.class);
-
-	interface UsersRolesMatrixUiBinder extends UiBinder<Widget, UsersRolesMatrix> {
-	}
-
-	public interface UsersRolesMatrixListener {
-		public void onRolesRowUpdated(RolesRow row, String role, boolean value);
-	}
+	interface UsersRolesMatrixUiBinder extends UiBinder<Widget, UsersRolesMatrix> {}
 	
 	interface DataGridResources extends DataGrid.Resources {
 
@@ -64,22 +59,18 @@ public class UsersRolesMatrix extends ResizeComposite {
 
 	@UiField LoadingPanel loader;
 	@UiField(provided=true) DataGrid<RolesRow> matrix;
+	
+	@Inject @PermissionBus
+	protected EventBus bus;
 
 	protected DataGridResources dataGridResources = GWT.create(DataGridResources.class);
-	protected UsersRolesMatrixListener listener;
 	protected List<String> userRoles = new ArrayList<String>();
 
-	public UsersRolesMatrix() {
+	@Inject
+	protected void init(UsersRolesMatrixUiBinder uiBinder) {
 		matrix = new DataGrid<RolesRow>(20, dataGridResources);
 		initWidget(uiBinder.createAndBindUi(this));
 		loader.showLoader();
-	}
-
-	/**
-	 * @param listener the listener to set
-	 */
-	public void setListener(UsersRolesMatrixListener listener) {
-		this.listener = listener;
 	}
 
 	public void reload(List<String> userRoles) {
@@ -140,7 +131,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 			public void update(int index, RolesRow row, RoleState value) {
 				if (value.isChecked()) row.addRole(role);
 				else row.removeRole(role);
-				listener.onRolesRowUpdated(row, role, value.isChecked());
+				bus.fireEventFromSource(new RolesRowUpdatedEvent(row, role, value.isChecked()), UsersRolesMatrix.this);
 			}
 		});
 

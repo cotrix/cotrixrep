@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.permissionmanager.client.codelists.user;
 
-import org.cotrix.web.permissionmanager.shared.UIUser;
+import org.cotrix.web.permissionmanager.client.PermissionBus;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -25,30 +26,17 @@ import com.google.inject.Singleton;
 @Singleton
 public class UserAddPanel extends ResizeComposite {
 
-	interface UserAddPanelUiBinder extends UiBinder<Widget, UserAddPanel> {
-	}
-
-	public interface UserAddPanelListener {
-		public void onUserAdded(UIUser user);
-	}
+	interface UserAddPanelUiBinder extends UiBinder<Widget, UserAddPanel> { }
 
 	@UiField(provided=true) SuggestBox usernameBox;
 
-	protected UserAddPanelListener listener;
-
-	protected UIUser selectedUser;
-
+	@Inject @PermissionBus
+	protected EventBus bus;
+	
 	@Inject
 	protected void init(UserAddPanelUiBinder uiBinder, UserSuggestOracle oracle) {
 		setupUsernameBox(oracle);
 		initWidget(uiBinder.createAndBindUi(this));
-	}
-
-	/**
-	 * @param listener the listener to set
-	 */
-	public void setListener(UserAddPanelListener listener) {
-		this.listener = listener;
 	}
 
 	protected void setupUsernameBox(UserSuggestOracle oracle) {
@@ -60,7 +48,7 @@ public class UserAddPanel extends ResizeComposite {
 				Log.trace("selected suggestion "+event.getSelectedItem());
 				if (event.getSelectedItem() instanceof UserSuggestion) {
 					UserSuggestion userSuggestion = (UserSuggestion)event.getSelectedItem();
-					listener.onUserAdded(userSuggestion.getUser());
+					bus.fireEvent(new UserAddedEvent(userSuggestion.getUser()));
 					usernameBox.setText("");
 				}
 			}

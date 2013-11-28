@@ -6,18 +6,18 @@ package org.cotrix.web.permissionmanager.client.codelists;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
+import org.cotrix.web.permissionmanager.client.codelists.tree.CodelistSelectedEvent;
 import org.cotrix.web.permissionmanager.client.codelists.tree.CodelistsTreePanel;
-import org.cotrix.web.permissionmanager.client.codelists.tree.CodelistsTreePanel.CodelistsTreePanelListener;
 import org.cotrix.web.permissionmanager.client.codelists.user.UserAddPanel;
-import org.cotrix.web.permissionmanager.client.codelists.user.UserAddPanel.UserAddPanelListener;
+import org.cotrix.web.permissionmanager.client.codelists.user.UserAddedEvent;
+import org.cotrix.web.permissionmanager.client.matrix.RolesRowUpdatedEvent;
 import org.cotrix.web.permissionmanager.client.matrix.UsersRolesMatrix;
-import org.cotrix.web.permissionmanager.client.matrix.UsersRolesMatrix.UsersRolesMatrixListener;
 import org.cotrix.web.permissionmanager.shared.CodelistGroup.CodelistVersion;
 import org.cotrix.web.permissionmanager.shared.RoleAction;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
-import org.cotrix.web.permissionmanager.shared.UIUser;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.UserLoggedEvent;
@@ -34,6 +34,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -42,9 +44,8 @@ import com.google.web.bindery.event.shared.EventBus;
 @Singleton
 public class CodelistsPermissionsPanel extends ResizeComposite {
 
-	interface CodelistsPermissionsPanelUiBinder extends
-	UiBinder<Widget, CodelistsPermissionsPanel> {
-	}
+	interface CodelistsPermissionsPanelUiBinder extends	UiBinder<Widget, CodelistsPermissionsPanel> {}
+	interface CodelistsPermissionsPanelEventBinder extends EventBinder<CodelistsPermissionsPanel> {}
 
 	@Inject
 	protected PermissionServiceAsync service;
@@ -57,7 +58,7 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	@Inject @UiField(provided=true) UserAddPanel userAddPanel;
 
 	protected String currentCodelistId = null;
-	
+
 	@Inject
 	protected CodelistRolesRowDataProvider dataProvider;
 
@@ -66,11 +67,12 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 		initWidget(uiBinder.createAndBindUi(this));
 		centralPanel.showWidget(blankPanel);
 	}
-	
+
 	@Inject
-	protected void bind(@CotrixBus EventBus cotrixBus) {
+	protected void bind(@CotrixBus EventBus cotrixBus, @PermissionBus EventBus bus, CodelistsPermissionsPanelEventBinder binder) {
+		binder.bindEventHandlers(this, bus);
 		cotrixBus.addHandler(UserLoggedEvent.TYPE, new UserLoggedEvent.UserLoggedHandler() {
-			
+
 			@Override
 			public void onUserLogged(UserLoggedEvent event) {
 				currentCodelistId = null;
@@ -81,26 +83,7 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	}
 
 	@Inject
-	protected void setupTree() {
-		codelistsTreePanel.setListener(new CodelistsTreePanelListener() {
-
-			@Override
-			public void onCodelistSelected(CodelistVersion codelist) {
-				Log.trace("onCodelistSelected "+codelist);
-				showMatrix(codelist);
-			}
-		});
-	}
-
-	@Inject
 	protected void setupMatrix() {
-		usersRolesMatrix.setListener(new UsersRolesMatrixListener() {
-
-			@Override
-			public void onRolesRowUpdated(RolesRow row, String role, boolean value) {
-				saveRow(row, role, value);
-			}
-		});
 		service.getRoles(RolesType.CODELISTS, new ManagedFailureCallback<List<String>>() {
 
 			@Override
@@ -110,18 +93,24 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 		});
 	}
 
-	@Inject
-	protected void setupUserAddPanel() {
-		userAddPanel.setListener(new UserAddPanelListener() {
+	@EventHandler
+	protected void onRolesRowUpdate(RolesRowUpdatedEvent event) {
+		if (event.getSource()!=usersRolesMatrix) return;
+		saveRow(event.getRow(), event.getRole(), event.getValue());
+	}
 
-			@Override
-			public void onUserAdded(UIUser user) {
-				Log.trace("onUserAdded "+user);
-				RolesRow row = new RolesRow(user, new ArrayList<String>(), false);
-				dataProvider.getCache().add(row);
-				dataProvider.refresh();
-			}
-		});
+	@EventHandler
+	protected void onUserAdded(UserAddedEvent event) {
+		Log.trace("onUserAdded "+event.getUser());
+		RolesRow row = new RolesRow(event.getUser(), new ArrayList<String>(), false);
+		dataProvider.getCache().add(row);
+		dataProvider.refresh();
+	}
+
+	@EventHandler
+	protected void onCodelistSelected(CodelistSelectedEvent event) {
+		Log.trace("onCodelistSelected "+event.getCodelist());
+		showMatrix(event.getCodelist());
 	}
 
 	protected void showMatrix(CodelistVersion codelist) {
@@ -134,7 +123,7 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	}
 
 	protected void saveRow(RolesRow row, String role, boolean value) {
-		
+
 		RoleAction action = value?RoleAction.DELEGATE:RoleAction.REVOKE;
 		StatusUpdates.statusSaving();
 		service.codelistRoleUpdated(row.getUser().getId(), currentCodelistId, role, action, new ManagedFailureCallback<Void>() {

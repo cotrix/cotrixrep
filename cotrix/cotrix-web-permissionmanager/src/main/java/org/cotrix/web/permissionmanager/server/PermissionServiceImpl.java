@@ -3,9 +3,8 @@
  */
 package org.cotrix.web.permissionmanager.server;
 
-import static org.cotrix.repository.codelist.CodelistQueries.*;
-import static org.cotrix.repository.user.UserQueries.*;
 import static org.cotrix.domain.dsl.Users.*;
+import static org.cotrix.repository.user.UserQueries.*;
 
 import java.util.ArrayList;
 import java.util.Collection;

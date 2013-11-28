@@ -5,11 +5,11 @@ package org.cotrix.web.permissionmanager.client.application;
 
 import java.util.List;
 
+import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
+import org.cotrix.web.permissionmanager.client.matrix.RolesRowUpdatedEvent;
 import org.cotrix.web.permissionmanager.client.matrix.UsersRolesMatrix;
-import org.cotrix.web.permissionmanager.client.matrix.UsersRolesMatrix.UsersRolesMatrixListener;
 import org.cotrix.web.permissionmanager.shared.RoleAction;
-import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CotrixBus;
@@ -23,6 +23,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -31,9 +33,8 @@ import com.google.web.bindery.event.shared.EventBus;
 @Singleton
 public class ApplicationPermissionPanel extends ResizeComposite {
 
-	interface ApplicationPermissionPanelUiBinder extends
-	UiBinder<Widget, ApplicationPermissionPanel> {
-	}
+	interface ApplicationPermissionPanelUiBinder extends UiBinder<Widget, ApplicationPermissionPanel> {}
+	interface ApplicationPermissionPanelEventBinder extends EventBinder<ApplicationPermissionPanel> {}
 
 	@Inject
 	protected PermissionServiceAsync service;
@@ -46,7 +47,9 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 	}
 	
 	@Inject
-	protected void bind(@CotrixBus EventBus cotrixBus) {
+	protected void bind(@CotrixBus EventBus cotrixBus, @PermissionBus EventBus bus, ApplicationPermissionPanelEventBinder binder) {
+		binder.bindEventHandlers(this, bus);
+		
 		cotrixBus.addHandler(UserLoggedEvent.TYPE, new UserLoggedEvent.UserLoggedHandler() {
 			
 			@Override
@@ -55,26 +58,23 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 			}
 		});
 	}
+	
+	@EventHandler
+	protected void onRolesRowUpdate(RolesRowUpdatedEvent event) {
+		if (event.getSource()!=usersRolesMatrix) return;
+		RoleAction action = event.getValue()?RoleAction.DELEGATE:RoleAction.REVOKE;
+		StatusUpdates.statusSaving();
+		service.applicationRoleUpdated(event.getRow().getUser().getId(), event.getRole(), action, new ManagedFailureCallback<Void>() {
+
+			@Override
+			public void onSuccess(Void result) {
+				StatusUpdates.statusSaved();
+			}
+		});
+	}
 
 	@Inject
 	protected void setupMatrix(final ApplicationRolesRowDataProvider applicationRolesRowDataProvider) {
-		usersRolesMatrix.setListener(new UsersRolesMatrixListener() {
-
-			@Override
-			public void onRolesRowUpdated(RolesRow row, String role, boolean value) {
-
-				RoleAction action = value?RoleAction.DELEGATE:RoleAction.REVOKE;
-				StatusUpdates.statusSaving();
-				service.applicationRoleUpdated(row.getUser().getId(), role, action, new ManagedFailureCallback<Void>() {
-
-					@Override
-					public void onSuccess(Void result) {
-						StatusUpdates.statusSaved();
-					}
-				});
-
-			}
-		});
 		service.getRoles(RolesType.APPLICATION, new ManagedFailureCallback<List<String>>() {
 
 			@Override

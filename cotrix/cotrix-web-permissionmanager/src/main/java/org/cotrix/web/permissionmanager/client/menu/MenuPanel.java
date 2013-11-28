@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.permissionmanager.client.menu;
 
-import org.cotrix.web.permissionmanager.client.AdminArea;
+import org.cotrix.web.permissionmanager.client.PermissionBus;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -14,6 +14,8 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -21,14 +23,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
  */
 public class MenuPanel extends ResizeComposite {
 
-	private static MenuPanelUiBinder uiBinder = GWT
-			.create(MenuPanelUiBinder.class);
-
 	interface MenuPanelUiBinder extends UiBinder<Widget, MenuPanel> {
-	}
-	
-	public interface MenuListener {
-		public void onMenuSelected(AdminArea area);
 	}
 	
 	interface MenuResources extends CellTree.Resources {
@@ -49,11 +44,12 @@ public class MenuPanel extends ResizeComposite {
 	}
 	
 	@UiField CellTree menuTree;
-	
-	protected MenuListener listener;
 
-	public MenuPanel(MenuListener listener) {
-		this.listener = listener;
+	@Inject @PermissionBus
+	protected EventBus bus;
+
+	@Inject
+	protected void init(MenuPanelUiBinder uiBinder) {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
@@ -68,7 +64,7 @@ public class MenuPanel extends ResizeComposite {
 				MenuItem menuItem = selectionModel.getSelectedObject();
 				if (menuItem instanceof MenuArea) {
 					MenuArea menuArea = (MenuArea)menuItem;
-					listener.onMenuSelected(menuArea.getAdminArea());
+					bus.fireEvent(new MenuSelectedEvent(menuArea.getAdminArea()));
 				}
 			}});
 		

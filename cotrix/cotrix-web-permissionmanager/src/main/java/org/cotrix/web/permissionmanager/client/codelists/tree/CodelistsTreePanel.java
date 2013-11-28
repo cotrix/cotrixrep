@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.permissionmanager.client.codelists.tree;
 
+import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.permissionmanager.client.resources.CodelistsResources;
 import org.cotrix.web.permissionmanager.shared.CodelistGroup.CodelistVersion;
 import org.cotrix.web.share.client.util.SingleSelectionModel;
@@ -17,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -25,33 +27,22 @@ import com.google.inject.Singleton;
 @Singleton
 public class CodelistsTreePanel extends ResizeComposite {
 
-	interface CodelistsTreePanelUiBinder extends UiBinder<Widget, CodelistsTreePanel> {
-	}
-	
-	public interface CodelistsTreePanelListener {
-		public void onCodelistSelected(CodelistVersion codelist);
-	}
+	interface CodelistsTreePanelUiBinder extends UiBinder<Widget, CodelistsTreePanel> {}
 
 	@UiField(provided=true) CellTree codelistsTree;
-
-	protected CodelistsTreePanelListener listener;
 	
 	@Inject
 	protected CodelistGroupsDataProvider dataProvider;
 	
 	protected SingleSelectionModel<CodelistVersion> selectionModel;
 	
+	@Inject @PermissionBus
+	protected EventBus bus;
+	
 	@Inject
 	protected void init(CodelistsTreePanelUiBinder uiBinder) {
 		setupCodelistsTree();
 		initWidget(uiBinder.createAndBindUi(this));
-	}
-
-	/**
-	 * @param listener the listener to set
-	 */
-	public void setListener(CodelistsTreePanelListener listener) {
-		this.listener = listener;
 	}
 
 	public void refresh() {
@@ -69,7 +60,7 @@ public class CodelistsTreePanel extends ResizeComposite {
 				Log.trace("selected version "+selected);
 				
 				if (selected != null) {
-					listener.onCodelistSelected(selected);
+					bus.fireEvent(new CodelistSelectedEvent(selected));
 				}
 			}
 		});

@@ -38,6 +38,12 @@
 			<artifactId>gin</artifactId>
 		</dependency>
 		
+		 <dependency>
+	      <groupId>com.google.gwt.eventbinder</groupId>
+	      <artifactId>eventbinder</artifactId>
+	      <version>1.0.1</version>
+	    </dependency>
+		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-share</artifactId>
