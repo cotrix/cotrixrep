@@ -11,11 +11,10 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import org.cotrix.action.UserAction;
 import org.cotrix.common.cdi.ApplicationEvents;
+import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.user.impl.DefaultUserRepository;
@@ -32,7 +31,6 @@ import org.jglue.cdiunit.DummyHttpRequest;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.omg.CORBA.UserException;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({Users.class,DefaultUserRepository.class, MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class, UuidGenerator.class })
