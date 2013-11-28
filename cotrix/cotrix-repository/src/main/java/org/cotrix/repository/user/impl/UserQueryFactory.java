@@ -2,7 +2,7 @@ package org.cotrix.repository.user.impl;
 
 import org.cotrix.action.ResourceType;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.Filter;
+import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.Repository;
@@ -22,5 +22,7 @@ public interface UserQueryFactory {
 
 	Query<User, User> userByName(String name);
 
-	Filter<User> roleOn(String resource, ResourceType type);
+	MultiQuery<User, User> roleOn(String resource, ResourceType type);
+	
+	Criterion<User> byName();
 }

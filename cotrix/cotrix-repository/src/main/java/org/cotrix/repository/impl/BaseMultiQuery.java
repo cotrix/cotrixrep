@@ -1,11 +1,6 @@
 package org.cotrix.repository.impl;
 
-import static org.cotrix.common.Utils.*;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.cotrix.repository.Filter;
+import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Range;
 
@@ -20,7 +15,7 @@ import org.cotrix.repository.Range;
 public abstract class BaseMultiQuery<T,R> implements MultiQuery<T,R> {
 
 	private Range range = Range.ALL;
-	private Collection<Filter<T>> filters = new ArrayList<Filter<T>>();
+	private Criterion<R> criterion;
 	
 	@Override
 	public Range range() {
@@ -38,17 +33,14 @@ public abstract class BaseMultiQuery<T,R> implements MultiQuery<T,R> {
 	}
 	
 	@Override
-	public Collection<? extends Filter<T>> filters() {
-		return filters;
+	public Criterion<R> criterion() {
+		return criterion;
 	}
 	
-	public BaseMultiQuery<T,R> with(Filter<T> filter) {
-		
-		notNull("filter",filter);
-		filters.add(filter);
-		
+	@Override
+	public MultiQuery<T, R> sort(Criterion<R> criterion) {
+		this.criterion=criterion;
 		return this;
-		
-	};
+	}
 	
 }

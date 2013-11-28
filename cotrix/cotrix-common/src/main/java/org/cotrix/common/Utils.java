@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.xml.namespace.QName;
 
@@ -185,7 +186,17 @@ public class Utils {
 		if (!file.exists() || file.isDirectory() || !file.canRead())
 			throw new IllegalArgumentException(file+" does not exist, is a directory, or cannot be read");
 	}
+
+	private static final String EMAIL_PATTERN = 
+			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+	private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 	
+ 	public static void validEmail(String email) {
+		if (!pattern.matcher(email).matches())
+			throw new IllegalArgumentException("invalid email address "+email);
+	}
 	
 	/**
 	 * Returns a a {@link RuntimeException} that wraps a given fault.

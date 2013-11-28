@@ -126,7 +126,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 		
 		List<RolesRow> rows = new ArrayList<RolesRow>();
 		
-		for (User user:userRepository.get(allUsers().with(roleOn(codelistId, ResourceType.codelists)))) {
+		for (User user:userRepository.get(usersWithRoleOn(codelistId, ResourceType.codelists))) {
 			
 			// no roots
 			if (user.isRoot()) continue;

@@ -186,9 +186,9 @@ public class FingerprintTest {
 	}
 	
 	private UserGrammar.ThirdClause aUserModel(String name) {
-		return user().name(name).fullName(name);
+		return user().name(name).noMail().fullName(name);
 	}
 	private UserGrammar.ThirdClause bill() {
-		return user().name("bill").fullName("bill");
+		return user().name("bill").noMail().fullName("bill");
 	}
 }

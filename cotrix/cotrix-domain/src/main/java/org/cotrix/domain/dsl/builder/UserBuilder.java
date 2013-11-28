@@ -16,6 +16,7 @@ import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.user.DefaultRole;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
+import org.cotrix.domain.utils.Constants;
 
 public class UserBuilder implements UserNewClause, UserChangeClause {
 
@@ -43,6 +44,18 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 		valid("user name",name);
 		po.setName(name);
 		return this;
+	}
+	
+	@Override
+	public ThirdClause email(String email) {
+		validEmail(email);
+		po.setEmail(email);
+		return this;
+	}
+	
+	@Override
+	public ThirdClause noMail() {
+		return email(Constants.NO_MAIL);
 	}
 	
 	public UserBuilder can(Action ... actions) {

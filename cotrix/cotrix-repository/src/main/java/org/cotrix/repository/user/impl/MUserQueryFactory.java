@@ -1,14 +1,15 @@
 package org.cotrix.repository.user.impl;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.cotrix.action.ResourceType;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.Filter;
+import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.codelist.impl.CodelistQueryFactory;
-import org.cotrix.repository.impl.memory.MFilter;
+import org.cotrix.repository.impl.memory.MCriterion;
 import org.cotrix.repository.impl.memory.MMultiQuery;
 import org.cotrix.repository.impl.memory.MQuery;
 import org.cotrix.repository.impl.memory.MemoryRepository;
@@ -50,20 +51,30 @@ public class MUserQueryFactory implements UserQueryFactory {
 	
 	
 	@Override
-	public Filter<User> roleOn(final String resource, final ResourceType type) {
+	public MultiQuery<User,User> roleOn(final String resource, final ResourceType type) {
 		
-		return new MFilter<User>() {
+		return new MMultiQuery<User,User>() {
 			
 			@Override
-			public boolean matches(User user) {
-				try {
-					return !user.fingerprint().rolesOver(resource,type).isEmpty();
-				}
-				catch(NullPointerException e) {
-					return false;
-				}
+			public Collection<? extends User> executeOn(MemoryRepository<? extends User> repository) {
+				Collection<User> matches = new HashSet<User>();
+				for (User u : repository.getAll())
+					if (!u.fingerprint().rolesOver(resource,type).isEmpty())
+						matches.add(u);
+				return matches;
 			}
 		};
 		
+	}
+	
+	@Override
+	public Criterion<User> byName() {
+		
+		return new MCriterion<User>() {
+			
+			public int compare(User o1, User o2) {
+				return o1.name().compareTo(o2.name());
+			};
+		};
 	}
 }

@@ -83,22 +83,22 @@ public class CodelistLoader {
 	
 	protected void loadUsers() {
 		
-		User user = user().name("federico").fullName("Federico De Faveri").is(Roles.USER).build();
+		User user = user().name("federico").email("federico.defaveri@invented.com").fullName("Federico De Faveri").is(Roles.USER).build();
 		signupService.signup(user, "federico");
 		owners.add(user);
 		
-		user = user().name("fabio").fullName("Fabio Simeoni").is(Roles.USER).build();
+		user = user().name("fabio").email("fabio.simeoni@invented.com").fullName("Fabio Simeoni").is(Roles.USER).build();
 		signupService.signup(user, "fabio");
 		owners.add(user);
 		
-		user = user().name("anton").fullName("Anton Ellenbroek").is(Roles.USER).build();
+		user = user().name("anton").email("anton.ellenbroek@invented.com").fullName("Anton Ellenbroek").is(Roles.USER).build();
 		signupService.signup(user, "anton");
 		owners.add(user);
 		
-		user = user().name("aureliano").fullName("Aureliano Gentile").is(Roles.USER, Roles.EDITOR).build();
+		user = user().name("aureliano").email("gentile.aureliano@invented.com").fullName("Aureliano Gentile").is(Roles.USER, Roles.EDITOR).build();
 		signupService.signup(user, "aureliano");
 		
-		user = user().name("albert").fullName("Albert Einstein").is(Roles.USER).build();
+		user = user().name("albert").email("abert.einsteink@invented.com").fullName("Albert Einstein").is(Roles.USER).build();
 		signupService.signup(user, "albert");
 		
 	}

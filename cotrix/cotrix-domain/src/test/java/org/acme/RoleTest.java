@@ -171,7 +171,7 @@ public class RoleTest {
 	//helper
 	
 	private UserGrammar.ThirdClause bill() {
-		return user().name("bill").fullName("bill");
+		return user().name("bill").noMail().fullName("bill");
 	}
 	
 	
@@ -180,6 +180,6 @@ public class RoleTest {
 	}
 	
 	private UserGrammar.ThirdClause aUserModel(String name) {
-		return user().name(name).fullName(name);
+		return user().name(name).email("some@mail.com").fullName(name);
 	}
 }

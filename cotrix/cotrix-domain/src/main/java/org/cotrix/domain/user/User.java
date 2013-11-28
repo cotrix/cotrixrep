@@ -38,6 +38,12 @@ public interface User extends Identified {
 	String fullName();
 	
 	/**
+	 * Returns the email of this user.
+	 * @return the email
+	 */
+	String email();
+	
+	/**
 	 * Returns the permissions of this user, including those inherited from roles.
 	 * @return the permissions
 	 */
@@ -98,6 +104,7 @@ public interface User extends Identified {
 
 		private final String name;
 		private String fullName;
+		private String email;
 		private final List<Action> permissions = new ArrayList<Action>();
 		private final List<Role> roles = new ArrayList<Role>();
 
@@ -106,6 +113,7 @@ public interface User extends Identified {
 			this.name = po.name();
 			this.fullName = po.fullName();
 			this.permissions.addAll(po.permissions());
+			this.email = po.email();
 			this.roles.addAll(po.roles());
 		}
 
@@ -117,6 +125,11 @@ public interface User extends Identified {
 		@Override
 		public String fullName() {
 			return fullName;
+		}
+		
+		@Override
+		public String email() {
+			return email;
 		}
 
 		@Override
@@ -196,6 +209,9 @@ public interface User extends Identified {
 
 			if (changeset.fullName() != null && !changeset.fullName().equals(fullName))
 				this.fullName = changeset.fullName();
+			
+			if (changeset.email() != null && !changeset.email().equals(email))
+				this.email = changeset.email();
 
 			//replace permissions
 			this.permissions.clear();

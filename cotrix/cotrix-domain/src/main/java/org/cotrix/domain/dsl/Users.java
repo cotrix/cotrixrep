@@ -34,17 +34,17 @@ public class Users {
 
 	// predefined users
 
-	public static User cotrix = user().name("cotrix").fullName("Cotrix Root User").is(ROOT).build();
+	public static User cotrix = user().name("cotrix").noMail().fullName("Cotrix Root User").is(ROOT).build();
 
-	public static User guest = user().name("guest").fullName("Cotrix Guest User").can(GuestAction.values()).can(VIEW)
+	public static User guest = user().name("guest").noMail().fullName("Cotrix Guest User").can(GuestAction.values()).can(VIEW)
 			.build();
 
 	public static User cotrix() {
-		return user().name("cotrix").fullName("Cotrix Root User").is(ROOT).build();
+		return user().name("cotrix").noMail().fullName("Cotrix Root User").is(ROOT).build();
 	}
 
 	public static User guest() {
-		return user().name("guest").fullName("Cotrix Guest User").can(GuestAction.values()).can(VIEW).build();
+		return user().name("guest").noMail().fullName("Cotrix Guest User").can(GuestAction.values()).can(VIEW).build();
 	}
 
 	public static List<User> predefinedUsers = asList(cotrix, guest);

@@ -1,5 +1,6 @@
 package org.cotrix.repository;
 
-public interface Filter<T> {
+
+public interface Criterion<T> {
 
 }
