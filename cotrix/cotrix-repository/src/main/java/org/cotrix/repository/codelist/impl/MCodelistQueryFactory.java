@@ -1,5 +1,6 @@
 package org.cotrix.repository.codelist.impl;
 
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.repository.codelist.CodelistCoordinates.*;
 import static org.cotrix.repository.codelist.CodelistSummary.*;
@@ -84,6 +85,34 @@ public class MCodelistQueryFactory implements CodelistQueryFactory {
 	}
 	
 	@Override
+	public Criterion<CodelistCoordinates> byCoordinateName() {
+		
+		return byName();
+	}
+	
+	private <T extends Named> Criterion<T> byName() {
+		
+		return new MCriterion<T>() {
+			
+			public int compare(T o1, T o2) {
+				return o1.name().getLocalPart().compareTo(o2.name().getLocalPart());
+			};
+		};
+	}
+	
+	@Override
+	public Criterion<Codelist> byVersion() {
+		
+		return new MCriterion<Codelist>() {
+			
+			public int compare(Codelist o1, Codelist o2) {
+				return o1.version().compareTo(o2.version());
+			};
+		};
+		
+	}
+	
+	@Override
 	public <T> Criterion<T> all(final Criterion<T> c1, final Criterion<T> c2) {
 		
 		return new MCriterion<T>() {
@@ -101,27 +130,46 @@ public class MCodelistQueryFactory implements CodelistQueryFactory {
 	}
 	
 	@Override
-	public Criterion<Codelist> byVersion() {
+	public Criterion<Code> byAttribute(final Attribute attribute) {
 		
-		return new MCriterion<Codelist>() {
+		valid("attribute name",attribute.name());
+		
+		return new MCriterion<Code>() {
 			
-			public int compare(Codelist o1, Codelist o2) {
-				return o1.version().compareTo(o2.version());
-			};
+			private boolean matches(Attribute a) {
+				
+				return 
+						attribute.name().equals(a.name()) &&
+						(attribute.language()==null ?
+								true :
+								attribute.language().equals(a.language()));
+			}
+			
+			@Override
+			public int compare(Code c1, Code c2) {
+				
+				String c1First = null;
+				for (Attribute a : c1.attributes())
+					if (matches(a))
+						if (c1First==null || c1First.compareTo(a.value())>0)
+							c1First = a.value();
+				
+				String c2First = null;
+				for (Attribute a : c2.attributes())
+					if (matches(a))
+						if (c2First==null || c2First.compareTo(a.value())>0)
+							c2First = a.value();			
+				
+				
+				if (c1First==null)
+					return c2First==null? 0: 1;
+				
+				else
+					return c2First==null? -1: c1First.compareTo(c2First);
+			}
 		};
 		
 	}
-	
-	private static <T extends Named> Criterion<T> byName() {
-		
-		return new MCriterion<T>() {
-			
-			public int compare(T o1, T o2) {
-				return o1.name().getLocalPart().compareTo(o2.name().getLocalPart());
-			};
-		};
-	}
-	
 	
 	public Query<Codelist,CodelistSummary> summary(final String id) {
 		

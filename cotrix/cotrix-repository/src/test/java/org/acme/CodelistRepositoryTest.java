@@ -126,10 +126,11 @@ public class CodelistRepositoryTest {
 		Codelist list1 = codelist().name("l1").version("1").build();
 		Codelist list2 = codelist().name("l2").version("2").build();
 		
-		repository.add(list1);
+
 		repository.add(list2);
+		repository.add(list1);
 		
-		Iterable<CodelistCoordinates> results  = repository.get(allListCoordinates());
+		Iterable<CodelistCoordinates> results  = repository.get(allListCoordinates().sort(byCoordinateName()));
 		
 		assertEqualSets(gather(results),coords(list1.id(),q("l1"),"1"),coords(list2.id(),q("l2"),"2"));
 	}
@@ -175,7 +176,33 @@ public class CodelistRepositoryTest {
 		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(byCodeName()));
 		
 		assertEquals(asList(c1,c2),gather(results));
-	}	
+	}
+	
+	@Test
+	public void listCodesSortedByAttribute() {
+		
+		Attribute a1 = attr().name("a").value("1").build();
+		Attribute a2 = attr().name("a").value("2").build();
+		Attribute a3 = attr().name("a").value("0").in("en").build();
+		
+		Code c1 = code().name("c1").attributes(a1).build();
+		Code c2 = code().name("c2").attributes(a2).build();
+		Code c3 = code().name("c2").attributes(a3).build();
+		
+		Codelist list = codelist().name("l1").with(c2,c1,c3).build();
+		
+		repository.add(list);
+		
+		Attribute template = attr().name("a").value("ignore").build();
+		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template)));
+		
+		assertEquals(asList(c3,c1,c2),gather(results));
+		
+		template = attr().name("a").value("ignore").in("en").build();
+		results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template)));
+		
+		assertEquals(asList(c3,c2,c1),gather(results));
+	}
 	
 	
 	@Test

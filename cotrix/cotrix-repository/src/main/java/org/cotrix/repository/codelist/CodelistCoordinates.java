@@ -2,7 +2,9 @@ package org.cotrix.repository.codelist;
 
 import javax.xml.namespace.QName;
 
-public class CodelistCoordinates {
+import org.cotrix.domain.trait.Named;
+
+public class CodelistCoordinates implements Named {
 
 	private final String id;
 	private final QName name;

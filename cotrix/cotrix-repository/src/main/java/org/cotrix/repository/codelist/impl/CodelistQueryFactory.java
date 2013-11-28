@@ -2,6 +2,7 @@ package org.cotrix.repository.codelist.impl;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
@@ -58,6 +59,14 @@ public interface CodelistQueryFactory {
 	 * @return the criterion
 	 */
 	Criterion<Code> byCodeName();
+	
+	
+	/**
+	 * Returns the criterion to sort codelist results by name.
+	 * 
+	 * @return the criterion
+	 */
+	Criterion<CodelistCoordinates> byCoordinateName();
 
 	/**
 	 * Returns a criterion that sorts two results according to a given criterion whenever they are equal according to
@@ -75,5 +84,12 @@ public interface CodelistQueryFactory {
 	 * @return the criterion
 	 */
 	Criterion<Codelist> byVersion();
+	
+	/**
+	 * Returns the criterion to sort code results by attribute properties.
+	 * @param attribute the attribute the describes the required properties
+	 * @return  the criterion
+	 */
+	Criterion<Code> byAttribute(final Attribute attribute);
 
 }
