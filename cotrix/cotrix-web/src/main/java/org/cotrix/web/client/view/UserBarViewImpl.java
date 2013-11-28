@@ -50,6 +50,12 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 		this.status.setText(status);
 		statusAnimation.fadeOut(Speed.SLOW);
 	}
+	
+	@UiHandler("username")
+	protected void onUsernameClick(ClickEvent event)
+	{
+		presenter.onUserClick();
+	}
 
 	@UiHandler("login")
 	protected void onLoginClick(ClickEvent event)

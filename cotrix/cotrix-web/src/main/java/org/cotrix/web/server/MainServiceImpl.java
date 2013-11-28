@@ -36,6 +36,7 @@ import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
+import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.ExceptionUtils;
 import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
@@ -94,6 +95,9 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 
 	@Inject
 	Event<ApplicationEvents.Startup> startup;
+	
+	@Inject
+	protected CodelistLoader codelistLoader;
 
 	/** 
 	 * {@inheritDoc}
@@ -107,7 +111,8 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		mapper.map(PUBLISH).to(PUBLISH_CODELIST);
 
 		startup.fire(Startup.INSTANCE);
-
+		
+		codelistLoader.importAllCodelist();
 	}
 
 	@Override

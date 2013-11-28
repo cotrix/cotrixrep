@@ -15,12 +15,25 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class StatusUpdates {
 	
+	protected static final String SAVING = "Saving ...";
+	protected static final String SAVED = "...saved.";
+	
 	@Inject
 	protected static @CotrixBus EventBus eventBus;
 	
 	public static void statusUpdate(String status)
 	{
 		eventBus.fireEvent(new StatusUpdatedEvent(status));
+	}
+	
+	public static void statusSaving()
+	{
+		eventBus.fireEvent(new StatusUpdatedEvent(SAVING));
+	}
+	
+	public static void statusSaved()
+	{
+		eventBus.fireEvent(new StatusUpdatedEvent(SAVED));
 	}
 
 }

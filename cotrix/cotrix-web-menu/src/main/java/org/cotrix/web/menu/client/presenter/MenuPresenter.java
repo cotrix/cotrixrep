@@ -6,7 +6,7 @@ import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 import org.cotrix.web.share.client.feature.FeatureBinder;
-import org.cotrix.web.share.client.feature.HasFeature;
+import org.cotrix.web.share.client.feature.FeatureToggler;
 import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -18,50 +18,48 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class MenuPresenter implements MenuView.Presenter {
-	
+
 	protected static CotrixModule[] DEFAULT_MODULES = {CotrixModule.HOME, CotrixModule.MANAGE};
 
 	@Inject
 	@CotrixBus
 	protected EventBus cotrixBus;
 	protected MenuView view;
-	
+
 	@Inject
 	public MenuPresenter(MenuView view) {
 		this.view = view;
 		this.view.setPresenter(this);
 		bindFeatures();
 	}
-	
+
 	protected void bindFeatures()
 	{
-		FeatureBinder.bind(new HasFeature() {
-			
+		FeatureBinder.bind(new FeatureToggler() {
+
 			@Override
-			public void unsetFeature() {
-				view.setEnabled(Menu.IMPORT, false);
-			}
-			
-			@Override
-			public void setFeature() {
-				view.setEnabled(Menu.IMPORT, true);
+			public void toggleFeature(boolean active) {
+				view.setEnabled(Menu.IMPORT, active);
 			}
 		}, ApplicationFeatures.IMPORT_CODELIST);
-		
-		FeatureBinder.bind(new HasFeature() {
-			
+
+		FeatureBinder.bind(new FeatureToggler() {
+
 			@Override
-			public void unsetFeature() {
-				view.setEnabled(Menu.PUBLISH, false);
-			}
-			
-			@Override
-			public void setFeature() {
-				view.setEnabled(Menu.PUBLISH, true);
+			public void toggleFeature(boolean active) {
+				view.setEnabled(Menu.PUBLISH, active);
 			}
 		}, ApplicationFeatures.PUBLISH_CODELIST);
+
+		/*FeatureBinder.bind(new FeatureToggler() {
+
+			@Override
+			public void toggleFeature(boolean active) {
+				view.setEnabled(Menu.PERMISSION, active);
+			}
+		}, ApplicationFeatures.MANAGE_PERSMISSION);*/
 	}
-	
+
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());
 	}
@@ -70,35 +68,40 @@ public class MenuPresenter implements MenuView.Presenter {
 		CotrixModule module = getModule(menu);
 		cotrixBus.fireEvent(new SwitchToModuleEvent(module));
 	}
-	
+
 	public void selectModule(CotrixModule module)
 	{
-		view.setSelected(getMenu(module));
+		Menu menu = getMenu(module);
+		if (menu!=null) view.setSelected(menu);
 	}
-	
+
 	public void makeAvailable(CotrixModule module) {
 		Menu menu = getMenu(module);
-		view.makeAvailable(menu);
-		for (CotrixModule defaultModule:DEFAULT_MODULES) if (defaultModule == module) view.setEnabled(menu, true);
+		if (menu!=null) {
+			view.makeAvailable(menu);
+			for (CotrixModule defaultModule:DEFAULT_MODULES) if (defaultModule == module) view.setEnabled(menu, true);
+		}
 	}
-	
+
 	protected CotrixModule getModule(Menu menu){
 		switch (menu) {
 			case HOME: return CotrixModule.HOME;
 			case IMPORT: return CotrixModule.IMPORT;
 			case MANAGE: return CotrixModule.MANAGE;
 			case PUBLISH: return CotrixModule.PUBLISH;
+			//case PERMISSION: return CotrixModule.PERMISSION;
 			default: throw new IllegalArgumentException("Unknow menu "+menu);
 		}
 	}
-	
+
 	protected Menu getMenu(CotrixModule module){
 		switch (module) {
 			case HOME: return Menu.HOME;
 			case IMPORT: return Menu.IMPORT;
 			case MANAGE: return Menu.MANAGE;
 			case PUBLISH: return Menu.PUBLISH;
-			default: throw new IllegalArgumentException("Unknow module "+module);
+			//case PERMISSION: return Menu.PERMISSION;
+			default: return null;
 		}
 	}
 }

@@ -4,6 +4,7 @@
 package org.cotrix.web.share.server.util;
 
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Users.*;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -18,6 +19,10 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.dsl.Roles;
+import org.cotrix.domain.dsl.Users;
+import org.cotrix.domain.user.Role;
+import org.cotrix.domain.user.User;
 import org.cotrix.io.MapService;
 import org.cotrix.io.ParseService;
 import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
@@ -27,6 +32,8 @@ import org.cotrix.io.tabular.map.ColumnDirectives;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.codelist.CodelistRepository;
+import org.cotrix.repository.user.UserRepository;
+import org.cotrix.security.SignupService;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,10 +72,41 @@ public class CodelistLoader {
 
 	@Inject
 	protected MapService mapservice;
+	
+	@Inject
+	protected SignupService signupService;
+	
+	protected List<User> owners = new ArrayList<User>();
+	
+	@Inject
+	protected UserRepository userRepository;
+	
+	protected void loadUsers() {
+		
+		User user = user().name("federico").fullName("Federico De Faveri").is(Roles.USER).build();
+		signupService.signup(user, "federico");
+		owners.add(user);
+		
+		user = user().name("fabio").fullName("Fabio Simeoni").is(Roles.USER).build();
+		signupService.signup(user, "fabio");
+		owners.add(user);
+		
+		user = user().name("anton").fullName("Anton Ellenbroek").is(Roles.USER).build();
+		signupService.signup(user, "anton");
+		owners.add(user);
+		
+		user = user().name("aureliano").fullName("Aureliano Gentile").is(Roles.USER, Roles.EDITOR).build();
+		signupService.signup(user, "aureliano");
+		
+		user = user().name("albert").fullName("Albert Einstein").is(Roles.USER).build();
+		signupService.signup(user, "albert");
+		
+	}
 
 
 	public void importAllCodelist()
 	{
+		loadUsers();
 		for (CodeListInfo codelist:CSV_CODELISTS) {
 			logger.trace("importing "+codelist);
 			boolean imported = importCSVCodelist(codelist);
@@ -130,12 +168,22 @@ public class CodelistLoader {
 
 			repository.add(codelist);
 			lifecycleService.start(codelist.id());
+			assignOwnership(codelist.id());
 
 			return true;
 		} catch(Exception e)
 		{
 			logger.error("Codelist import failed", e);
 			return false;
+		}
+	}
+	
+	protected void assignOwnership(String codelistId) {
+
+		Role role = Roles.OWNER.on(codelistId);
+		for (User user:owners) {
+			User changeSet = Users.user(user).is(role).build();
+			userRepository.update(changeSet);
 		}
 	}
 	

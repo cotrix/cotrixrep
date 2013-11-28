@@ -5,6 +5,8 @@ package org.cotrix.web.share.client.util;
 
 import java.util.List;
 
+import org.cotrix.web.share.shared.DataWindow;
+
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.Range;
@@ -19,6 +21,16 @@ public abstract class CachedDataProvider<T> extends AsyncDataProvider<T> {
 	protected HandlerManager handlerManager = new HandlerManager(this);
 	protected Range lastRange;
 	protected List<T> cache;
+	
+	protected void updateData(DataWindow<T> dataWindow)
+	{
+		updateData(dataWindow.getData(), new Range(0, dataWindow.getTotalSize()), dataWindow.getTotalSize());
+	}
+	
+	protected void updateData(DataWindow<T> dataWindow, Range range)
+	{
+		updateData(dataWindow.getData(), range, dataWindow.getTotalSize());
+	}
 	
 	protected void updateData(List<T> data, Range range, int totalSize)
 	{

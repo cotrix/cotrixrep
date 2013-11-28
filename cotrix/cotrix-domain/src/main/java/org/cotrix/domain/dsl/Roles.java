@@ -5,11 +5,14 @@ import static org.cotrix.action.MainAction.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.domain.dsl.Users.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
+import org.cotrix.action.ResourceType;
 import org.cotrix.action.UserAction;
 import org.cotrix.domain.user.Role;
 
@@ -39,7 +42,15 @@ public class Roles {
 	// a user that has all the permissions and roles
 	public static Role ROOT = user().name("root").noMail().fullName("Root Role").can(MainAction.values())
 			.can(CodelistAction.values()).can(UserAction.values()).is(USER, MANAGER,OWNER).buildAsRoleFor(application);
-
+	
+	public static Collection<Role> getBy(ResourceType type) {
+		List<Role> roles = new ArrayList<Role>();
+		for (Role role:predefinedRoles) {
+			if (role.type() == type) roles.add(role);
+		}
+		return roles;
+	}
 	
 	public static Collection<Role> predefinedRoles = Arrays.asList(ROOT,USER,MANAGER,OWNER,REVIEWER,EDITOR,PUBLISHER);
+
 }

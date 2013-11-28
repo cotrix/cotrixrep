@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 public interface UserBarView {
 	
 	public interface Presenter {
+		public void onUserClick();
 		public void onLoginClick();
 		public void onLogoutClick();
 		public void onRegisterClick();

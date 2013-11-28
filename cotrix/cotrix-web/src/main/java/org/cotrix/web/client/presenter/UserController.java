@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.client.MainServiceAsync;
-import org.cotrix.web.client.event.UserLoggedEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLoginEvent.UserLoginHandler;
 import org.cotrix.web.client.event.UserLogoutEvent;
@@ -17,6 +16,7 @@ import org.cotrix.web.share.client.event.CodelistClosedEvent;
 import org.cotrix.web.share.client.event.CodelistOpenedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
+import org.cotrix.web.share.client.event.UserLoggedEvent;
 import org.cotrix.web.share.client.feature.AsyncCallBackWrapper;
 import org.cotrix.web.share.client.util.Exceptions;
 import org.cotrix.web.share.client.widgets.AlertDialog;

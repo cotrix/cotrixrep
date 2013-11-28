@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.client.presenter;
 
-import org.cotrix.web.client.event.UserLoggedEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLogoutEvent;
 import org.cotrix.web.client.event.UserRegisterEvent;
@@ -13,8 +12,11 @@ import org.cotrix.web.client.view.RegisterDialog;
 import org.cotrix.web.client.view.RegisterDialog.RegisterDialogListener;
 import org.cotrix.web.client.view.UserBarView;
 import org.cotrix.web.client.view.UserBarView.Presenter;
+import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.StatusUpdatedEvent;
+import org.cotrix.web.share.client.event.SwitchToModuleEvent;
+import org.cotrix.web.share.client.event.UserLoggedEvent;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.HasFeature;
 import org.cotrix.web.shared.AuthenticationFeature;
@@ -153,6 +155,11 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 	public void onRegister() {
 		registerDialog.clean();
 		registerDialog.center();
+	}
+
+	@Override
+	public void onUserClick() {
+		cotrixBus.fireEvent(new SwitchToModuleEvent(CotrixModule.PERMISSION));
 	}
 
 }

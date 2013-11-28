@@ -12,6 +12,7 @@ public enum CotrixModule {
 	HOME,
 	IMPORT,
 	MANAGE,
-	PUBLISH;
+	PUBLISH,
+	PERMISSION;
 
 }
