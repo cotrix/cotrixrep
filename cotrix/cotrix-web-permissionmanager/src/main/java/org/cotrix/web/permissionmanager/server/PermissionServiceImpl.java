@@ -76,10 +76,10 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	protected User currentUser;
 	
 	public void init() {
-		codelistLoader.importAllCodelist();
-		logger.trace("codelist in repository:");
-		for (Codelist codelist:codelistRepository.get(allLists())) logger.trace(codelist.name().toString());
-		logger.trace("done");
+//		codelistLoader.importAllCodelist();
+//		logger.trace("codelist in repository:");
+//		for (Codelist codelist:codelistRepository.get(allLists())) logger.trace(codelist.name().toString());
+//		logger.trace("done");
 	}
 
 	@Override

@@ -94,10 +94,10 @@ public class ManagerServiceImpl implements ManagerService {
 	 */
 	@PostConstruct
 	public void init() {
-		codelistLoader.importAllCodelist();
-		logger.trace("codelist in repository:");
-		for (Codelist codelist:repository.get(allLists())) logger.trace(codelist.name().toString());
-		logger.trace("done");
+//		codelistLoader.importAllCodelist();
+//		logger.trace("codelist in repository:");
+//		for (Codelist codelist:repository.get(allLists())) logger.trace(codelist.name().toString());
+//		logger.trace("done");
 		
 		mapper.map(VIEW).to(VIEW_CODELIST, VIEW_METADATA);
 		mapper.map(EDIT).to(EDIT_METADATA, EDIT_CODELIST);
