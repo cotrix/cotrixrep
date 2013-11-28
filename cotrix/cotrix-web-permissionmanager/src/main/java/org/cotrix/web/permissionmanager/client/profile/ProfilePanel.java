@@ -15,6 +15,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -35,6 +36,7 @@ public class ProfilePanel extends ResizeComposite {
 	@UiField Label username;
 	@UiField TextBox fullname;
 	@UiField TextBox email;
+	@UiField PasswordTextBox password;
 	
 	@Inject
 	protected PermissionServiceAsync service;
@@ -89,6 +91,7 @@ public class ProfilePanel extends ResizeComposite {
 		userDetails.setUsername(username.getText());
 		userDetails.setFullName(fullname.getText());
 		userDetails.setEmail(email.getText());
+		userDetails.setPassword(password.getText());
 		return userDetails;
 	}
 }

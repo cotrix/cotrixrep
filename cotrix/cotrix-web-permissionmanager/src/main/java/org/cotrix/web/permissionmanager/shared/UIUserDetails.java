@@ -15,6 +15,7 @@ public class UIUserDetails implements IsSerializable {
 	protected String username;
 	protected String fullName;
 	protected String email;
+	protected String password;
 
 	/**
 	 * @return the id
@@ -70,6 +71,20 @@ public class UIUserDetails implements IsSerializable {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	/** 
