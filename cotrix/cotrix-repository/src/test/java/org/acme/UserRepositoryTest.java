@@ -93,9 +93,11 @@ public class UserRepositoryTest {
 		Role role = aRole().buildAsRoleFor(codelists);
 		User bill = aUser("bill").is(role.on("1")).build();
 		User joe = aUser("joe").is(role.on("2")).build();
+		User zoe = aUser("zoe").is(role).build();
 		
 		repository.add(bill);
 		repository.add(joe);
+		repository.add(zoe);
 		
 		
 		Iterable<User> users = repository.get(usersWithRoleOn("1",codelists));

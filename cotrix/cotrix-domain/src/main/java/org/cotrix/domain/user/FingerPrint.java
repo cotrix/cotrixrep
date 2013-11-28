@@ -42,10 +42,6 @@ public class FingerPrint {
 		
 		Collection<String> roles =  (rights== null)? new HashSet<String>() : rights.roles;
 		
-		//add roles over all resources
-		if (!resource.equals(any))
-			roles.addAll(rolesOver(any,type));
-		
 		return roles;
 	}
 	

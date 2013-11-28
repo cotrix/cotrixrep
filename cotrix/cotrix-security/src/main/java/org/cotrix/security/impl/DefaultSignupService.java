@@ -1,6 +1,8 @@
 package org.cotrix.security.impl;
 
+import static org.cotrix.action.UserAction.*;
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.dsl.Users.*;
 
 import javax.inject.Inject;
 
@@ -30,6 +32,10 @@ public class DefaultSignupService implements SignupService {
 		realm.signup(user.name(),pwd);
 		
 		repository.add(user);
+		
+		User changeset = user(user).can(EDIT.on(user.id())).build();
+		
+		repository.update(changeset);
 		
 		log.info("signed up "+user.name());	
 	}

@@ -1,5 +1,6 @@
 package org.acme;
 
+import static org.cotrix.action.UserAction.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.security.impl.DefaultNameAndPasswordCollector.*;
 import static org.junit.Assert.*;
@@ -11,9 +12,9 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.cotrix.common.cdi.ApplicationEvents;
+import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.user.impl.DefaultUserRepository;
@@ -102,6 +103,8 @@ public class LoginTest {
 		User user = user().name("fabio").noMail().fullName("fifi").build();
 		
 		signupService.signup(user,"fuffa");
+		
+		assertTrue(user.can(EDIT.on(user.id())));
 		
 		DummyHttpRequest r = new DummyHttpRequest();
 		
