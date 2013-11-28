@@ -38,15 +38,39 @@ public class UsersRolesMatrix extends ResizeComposite {
 	public interface UsersRolesMatrixListener {
 		public void onRolesRowUpdated(RolesRow row, String role, boolean value);
 	}
+	
+	interface DataGridResources extends DataGrid.Resources {
+
+		@Source("Matrix.css")
+		DataGridStyle dataGridStyle();
+	}
+
+	interface DataGridStyle extends DataGrid.Style {
+
+		String groupHeaderCell();
+		
+		String textCell();
+
+		String language();
+		
+		String closeGroup();
+		
+		String emptyTableWidget();
+		
+		String currentUser();
+		
+		String otherUser();
+	}
 
 	@UiField LoadingPanel loader;
 	@UiField(provided=true) DataGrid<RolesRow> matrix;
 
+	protected DataGridResources dataGridResources = GWT.create(DataGridResources.class);
 	protected UsersRolesMatrixListener listener;
 	protected List<String> userRoles = new ArrayList<String>();
 
 	public UsersRolesMatrix() {
-		matrix = new DataGrid<RolesRow>();
+		matrix = new DataGrid<RolesRow>(20, dataGridResources);
 		initWidget(uiBinder.createAndBindUi(this));
 		loader.showLoader();
 	}
@@ -90,8 +114,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 			
 			@Override
 			public String getStyleNames(RolesRow row, int rowIndex) {
-				//TODO
-				return "";
+				return row.isCurrentUser()?dataGridResources.dataGridStyle().currentUser():dataGridResources.dataGridStyle().otherUser();
 			}
 		});
 

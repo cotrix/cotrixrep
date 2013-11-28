@@ -2,11 +2,13 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:matrix="urn:import:org.cotrix.web.permissionmanager.client.matrix">
 	<ui:style>
-		
+		.usersRolesMatrix {
+			margin: 5px;
+		}
 	</ui:style>
 	<g:LayoutPanel>
 		<g:layer>
-			<matrix:UsersRolesMatrix ui:field="usersRolesMatrix" />
+			<matrix:UsersRolesMatrix ui:field="usersRolesMatrix" styleName="{style.usersRolesMatrix}"/>
 		</g:layer>
 	</g:LayoutPanel>
 </ui:UiBinder> 

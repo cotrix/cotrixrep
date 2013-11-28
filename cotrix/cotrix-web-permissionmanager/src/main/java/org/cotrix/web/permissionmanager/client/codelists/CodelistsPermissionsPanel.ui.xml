@@ -5,6 +5,10 @@
 	xmlns:tree="urn:import:org.cotrix.web.permissionmanager.client.codelists.tree"
 	xmlns:user="urn:import:org.cotrix.web.permissionmanager.client.codelists.user">
 	<ui:style>
+		.rolesPanel {
+			margin: 5px;
+	
+		}
 		.blankPanel {
 			height: 100%;
 			border-radius: 5px;
@@ -22,9 +26,9 @@
 		</g:west>
 		<g:center>
 			<g:DeckLayoutPanel ui:field="centralPanel">
-				<g:DockLayoutPanel ui:field="rolesPanel">
+				<g:DockLayoutPanel ui:field="rolesPanel" styleName="{style.rolesPanel}">
 					<g:center>
-						<matrix:UsersRolesMatrix ui:field="usersRolesMatrix" />
+						<matrix:UsersRolesMatrix ui:field="usersRolesMatrix"/>
 					</g:center>
 						<g:south size="40">
 							<user:UserAddPanel ui:field="userAddPanel" />

@@ -31,6 +31,23 @@ public class MenuPanel extends ResizeComposite {
 		public void onMenuSelected(AdminArea area);
 	}
 	
+	interface MenuResources extends CellTree.Resources {
+		
+		public static final MenuResources INSTANCE = GWT.create(MenuResources.class);
+		
+	    /**
+	     * The styles used in this widget.
+	     */
+	    @Source("MenuStyle.css")
+	    MenuStyle cellTreeStyle();
+
+		public interface MenuStyle extends CellTree.Style {
+			
+			String versionItem();
+			
+		}
+	}
+	
 	@UiField CellTree menuTree;
 	
 	protected MenuListener listener;
@@ -55,8 +72,9 @@ public class MenuPanel extends ResizeComposite {
 				}
 			}});
 		
+		MenuResources resources = GWT.create(MenuResources.class);
 		MenuTreeViewModel menuTreeViewModel = new MenuTreeViewModel(selectionModel);
-		CellTree tree = new CellTree(menuTreeViewModel, null);
+		CellTree tree = new CellTree(menuTreeViewModel, null, resources);
 		return tree;
 	}
 	
