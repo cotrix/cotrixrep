@@ -17,6 +17,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.AbstractDataProvider;
@@ -31,8 +32,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 	private static UsersRolesMatrixUiBinder uiBinder = GWT
 			.create(UsersRolesMatrixUiBinder.class);
 
-	interface UsersRolesMatrixUiBinder extends
-	UiBinder<Widget, UsersRolesMatrix> {
+	interface UsersRolesMatrixUiBinder extends UiBinder<Widget, UsersRolesMatrix> {
 	}
 
 	public interface UsersRolesMatrixListener {
@@ -62,6 +62,10 @@ public class UsersRolesMatrix extends ResizeComposite {
 		Log.trace("reload");
 		this.userRoles.clear();
 		this.userRoles.addAll(userRoles);
+		refresh();
+	}
+	
+	public void refresh() {
 		int pageSize = matrix.getPageSize();
 		matrix.setVisibleRangeAndClearData(new Range(0, pageSize), true);
 	}
@@ -81,6 +85,15 @@ public class UsersRolesMatrix extends ResizeComposite {
 			Column<RolesRow, RoleState> roleColumns = getColumn(role);
 			matrix.addColumn(roleColumns, role);
 		}
+		
+		matrix.setRowStyles(new RowStyles<RolesRow>() {
+			
+			@Override
+			public String getStyleNames(RolesRow row, int rowIndex) {
+				//TODO
+				return "";
+			}
+		});
 
 		dataProvider.addDataDisplay(matrix);
 
@@ -92,7 +105,8 @@ public class UsersRolesMatrix extends ResizeComposite {
 
 			@Override
 			public RoleState getValue(RolesRow row) {
-				RoleState roleState = new RoleState(userRoles.contains(role), row.hasRole(role));
+				boolean enabled = userRoles.contains(role) && !row.isCurrentUser();
+				RoleState roleState = new RoleState(enabled, row.hasRole(role));
 				return roleState;
 			}
 		};

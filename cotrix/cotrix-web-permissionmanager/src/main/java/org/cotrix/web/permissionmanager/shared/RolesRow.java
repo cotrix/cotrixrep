@@ -15,16 +15,19 @@ public class RolesRow implements IsSerializable {
 	
 	protected UIUser user;
 	protected List<String> roles;
+	protected boolean isCurrentUser;
 	
 	public RolesRow(){}
 
 	/**
 	 * @param user
 	 * @param roles
+	 * @param isCurrentUser
 	 */
-	public RolesRow(UIUser user, List<String> roles) {
+	public RolesRow(UIUser user, List<String> roles, boolean isCurrentUser) {
 		this.user = user;
 		this.roles = roles;
+		this.isCurrentUser = isCurrentUser;
 	}
 
 	/**
@@ -53,6 +56,20 @@ public class RolesRow implements IsSerializable {
 		return roles;
 	}
 
+	/**
+	 * @return the isCurrentUser
+	 */
+	public boolean isCurrentUser() {
+		return isCurrentUser;
+	}
+
+	/**
+	 * @param isCurrentUser the isCurrentUser to set
+	 */
+	public void setCurrentUser(boolean isCurrentUser) {
+		this.isCurrentUser = isCurrentUser;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -63,6 +80,8 @@ public class RolesRow implements IsSerializable {
 		builder.append(user);
 		builder.append(", roles=");
 		builder.append(roles);
+		builder.append(", isCurrentUser=");
+		builder.append(isCurrentUser);
 		builder.append("]");
 		return builder.toString();
 	}

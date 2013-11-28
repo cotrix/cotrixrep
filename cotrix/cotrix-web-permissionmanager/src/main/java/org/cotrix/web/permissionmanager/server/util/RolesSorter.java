@@ -25,10 +25,17 @@ public class RolesSorter implements Comparator<RolesRow>, Serializable {
 	
 	@Inject @Current
 	private BeanSession session;
+	
+	protected User currentUser;
+	
+	public void syncUser() {
+		currentUser = session.get(User.class);
+	}
 
 	@Override
-	public int compare(RolesRow row1, RolesRow o2) {
-		if (row1.getUser().getId().equals(session.get(User.class).id())) return -1;
+	public int compare(RolesRow row1, RolesRow row2) {
+		if (row1.getUser().getId().equals(currentUser.id())) return -1;
+		if (row2.getUser().getId().equals(currentUser.id())) return 1;
 		return 0;
 	}
 

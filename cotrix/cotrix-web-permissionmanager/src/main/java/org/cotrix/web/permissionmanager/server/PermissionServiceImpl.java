@@ -3,6 +3,9 @@
  */
 package org.cotrix.web.permissionmanager.server;
 
+import static org.cotrix.repository.codelist.CodelistQueries.*;
+import static org.cotrix.repository.user.UserQueries.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,10 +16,8 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
-import org.acme.FingerprintTest;
 import org.cotrix.action.Action;
 import org.cotrix.action.ResourceType;
-import org.cotrix.application.DelegationPolicy;
 import org.cotrix.application.PermissionDelegationService;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.codelist.Codelist;
@@ -42,10 +43,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import static org.cotrix.repository.user.UserQueries.*;
-import static org.cotrix.repository.codelist.CodelistQueries.*;
-import static org.cotrix.domain.dsl.Users.*;
-
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -58,7 +55,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	protected Logger logger = LoggerFactory.getLogger(PermissionServiceImpl.class);
 	
 	@Inject
-	CodelistRepository repository;
+	protected CodelistRepository codelistRepository;
 	
 	@Inject
 	protected CodelistLoader codelistLoader;
@@ -74,12 +71,12 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	
 	@Current
 	@Inject
-	protected User user;
+	protected User currentUser;
 	
 	public void init() {
 		codelistLoader.importAllCodelist();
 		logger.trace("codelist in repository:");
-		for (Codelist codelist:repository.get(allLists())) logger.trace(codelist.name().toString());
+		for (Codelist codelist:codelistRepository.get(allLists())) logger.trace(codelist.name().toString());
 		logger.trace("done");
 	}
 
@@ -103,30 +100,40 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	public DataWindow<RolesRow> getApplicationRolesRows() throws ServiceException {
 		logger.trace("getApplicationRolesRows");
 		List<RolesRow> rows = new ArrayList<RolesRow>();
+		
 		for (User user:userRepository.get(allUsers())) {
 			RolesRow row = getApplicationRolesRow(user);
 			rows.add(row);
 		}
+		
+		rolesSorter.syncUser();
 		Collections.sort(rows, rolesSorter);
+		logger.trace("rows: {}", rows);
 		return new DataWindow<RolesRow>(rows);
-
 	}
 	
 	protected RolesRow getApplicationRolesRow(User user) {
 		FingerPrint fp = user.fingerprint();
 		Collection<String> userRoles = fp.rolesOver(Action.any, ResourceType.application);
-		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles));
+		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles), currentUser.id().equals(user.id()));
 		return row;
 	}
 
 	@Override
 	public DataWindow<RolesRow> getCodelistRolesRows(String codelistId)	throws ServiceException {
 		logger.trace("getCodelistRolesRows codelistId {}", codelistId);
+		
 		List<RolesRow> rows = new ArrayList<RolesRow>();
+		
 		for (User user:userRepository.get(allUsers().with(roleOn(codelistId, ResourceType.codelists)))) {
+			
+			// no roots
+			if (user.isRoot()) continue;
+			
 			RolesRow row = getCodelistRolesRow(user, codelistId);
 			if (row!=null) rows.add(row);
 		}
+		rolesSorter.syncUser();
 		Collections.sort(rows, rolesSorter);
 		return new DataWindow<RolesRow>(rows);
 
@@ -135,7 +142,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	protected RolesRow getCodelistRolesRow(User user, String codelistId) {
 		FingerPrint fp = user.fingerprint();
 		Collection<String> userRoles = fp.rolesOver(codelistId, ResourceType.codelists);		
-		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles));
+		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles), currentUser.id().equals(user.id()));
 		return row;
 	}
 
@@ -151,10 +158,6 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 			case DELEGATE: delegationService.delegate(role).to(target); break;
 			case REVOKE: delegationService.revoke(role).from(target); break;
 		}
-		
-		/*String userId = row.getUser().getId();
-		User user = userRepository.lookup(userId);
-		user(userId).can(user.permissions()).is(toRoles(row.getRoles()));*/
 	}
 	
 	protected Role[] toRoles(List<String> uiRoles) {
@@ -191,24 +194,28 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 
 		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
 
-		/*FingerPrint fp = user.fingerprint();
+		FingerPrint fp = currentUser.fingerprint();
 		
 		for (String codelistId:fp.resources(ResourceType.codelists)) {
 
 			logger.trace("checking codelist "+codelistId);
 			
+			//the user has any role with this codelist?
 			if (fp.rolesOver(codelistId, ResourceType.codelists).isEmpty()) continue;
 			
-			Codelist codelist = repository.lookup(codelistId);*/
+			//the user is a semi-root for the specified codelist?
+			if (Action.any.equals(codelistId)) continue;
+			
+			Codelist codelist = codelistRepository.lookup(codelistId);
 		
-		for (Codelist codelist:repository.get(allLists())) {
+		/*for (Codelist codelist:codelistRepository.get(allLists())) {*/
 			
 			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {
 				group = new CodelistGroup(codelist.name().toString());
 				groups.put(codelist.name(), group);
 			}
-			List<String> roles = getRoles(user.fingerprint().rolesOver(codelist.id(), ResourceType.codelists));
+			List<String> roles = getRoles(currentUser.fingerprint().rolesOver(codelist.id(), ResourceType.codelists));
 			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()), roles);
 		}
 		

@@ -14,10 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.application.PermissionDelegationService;
 import org.cotrix.common.Outcome;
-import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
@@ -98,7 +95,7 @@ public class CodelistLoader {
 		signupService.signup(user, "anton");
 		owners.add(user);
 		
-		user = user().name("aureliano").fullName("Aureliano Gentile").is(Roles.USER).build();
+		user = user().name("aureliano").fullName("Aureliano Gentile").is(Roles.USER, Roles.EDITOR).build();
 		signupService.signup(user, "aureliano");
 		
 		user = user().name("albert").fullName("Albert Einstein").is(Roles.USER).build();

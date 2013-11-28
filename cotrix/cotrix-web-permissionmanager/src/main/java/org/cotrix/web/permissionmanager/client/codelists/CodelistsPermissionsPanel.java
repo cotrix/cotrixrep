@@ -47,10 +47,6 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 
 	@Inject
 	protected PermissionServiceAsync service;
-	
-	@Inject
-	@CotrixBus
-	protected EventBus cotrixBus;
 
 	@UiField DeckLayoutPanel centralPanel;
 	@UiField HTMLPanel blankPanel;
@@ -71,7 +67,7 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	}
 	
 	@Inject
-	protected void bind() {
+	protected void bind(@CotrixBus EventBus cotrixBus) {
 		cotrixBus.addHandler(UserLoggedEvent.TYPE, new UserLoggedEvent.UserLoggedHandler() {
 			
 			@Override
@@ -120,7 +116,7 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 			@Override
 			public void onUserAdded(UIUser user) {
 				Log.trace("onUserAdded "+user);
-				RolesRow row = new RolesRow(user, new ArrayList<String>());
+				RolesRow row = new RolesRow(user, new ArrayList<String>(), false);
 				dataProvider.getCache().add(row);
 				dataProvider.refresh();
 			}

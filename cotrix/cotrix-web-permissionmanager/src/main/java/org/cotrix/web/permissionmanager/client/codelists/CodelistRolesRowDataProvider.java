@@ -9,6 +9,7 @@ import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.util.CachedDataProvider;
 import org.cotrix.web.share.shared.DataWindow;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.view.client.HasData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -39,6 +40,7 @@ public class CodelistRolesRowDataProvider extends CachedDataProvider<RolesRow> {
 
 				@Override
 				public void onSuccess(DataWindow<RolesRow> result) {
+					Log.trace("rows: "+result);
 					updateData(result, display.getVisibleRange());
 				}
 			});
