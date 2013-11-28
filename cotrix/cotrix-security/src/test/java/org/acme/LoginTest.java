@@ -1,5 +1,6 @@
 package org.acme;
 
+import static org.cotrix.action.UserAction.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.security.impl.DefaultNameAndPasswordCollector.*;
 import static org.junit.Assert.*;
@@ -10,6 +11,7 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
+import org.cotrix.action.UserAction;
 import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
@@ -30,6 +32,7 @@ import org.jglue.cdiunit.DummyHttpRequest;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.omg.CORBA.UserException;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({Users.class,DefaultUserRepository.class, MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class, UuidGenerator.class })
@@ -102,6 +105,8 @@ public class LoginTest {
 		User user = user().name("fabio").noMail().fullName("fifi").build();
 		
 		signupService.signup(user,"fuffa");
+		
+		assertTrue(user.can(EDIT.on(user.id())));
 		
 		DummyHttpRequest r = new DummyHttpRequest();
 		
