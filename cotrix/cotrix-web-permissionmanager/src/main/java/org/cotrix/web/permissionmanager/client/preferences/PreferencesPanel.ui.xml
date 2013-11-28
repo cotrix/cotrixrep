@@ -2,8 +2,11 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
+		.preferencesPanel {
+			margin: 5px;
+		}
 	</ui:style>
-	<g:HTMLPanel>
-		Preferences coming soon.
+	<g:HTMLPanel styleName="{style.preferencesPanel}">
+		Coming soon.
 	</g:HTMLPanel>
 </ui:UiBinder> 
