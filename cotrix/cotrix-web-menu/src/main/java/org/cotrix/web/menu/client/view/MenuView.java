@@ -13,7 +13,7 @@ public interface MenuView {
 		IMPORT, 
 		MANAGE, 
 		PUBLISH,
-		PERMISSION;
+		//PERMISSION;
 	};
 
 	public interface Presenter {

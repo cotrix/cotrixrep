@@ -116,9 +116,9 @@
 					<li class="{style.menuItem}">
 						<g:Label ui:field="publishMenu" styleName="{style.menuDisabled}">PUBLISH</g:Label>
 					</li>
-					<li class="{style.menuItem}">
+					<!-- <li class="{style.menuItem}">
 						<g:Label ui:field="permissionMenu" styleName="{style.menuDisabled}">PERMISSION</g:Label>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 			<div class="{style.titleArea}">
