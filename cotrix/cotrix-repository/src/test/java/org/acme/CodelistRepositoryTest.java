@@ -184,22 +184,27 @@ public class CodelistRepositoryTest {
 		Attribute a1 = attr().name("a").value("1").build();
 		Attribute a2 = attr().name("a").value("2").build();
 		Attribute a3 = attr().name("a").value("0").in("en").build();
+		Attribute a4 = attr().name("a").value("2").build();
+		Attribute a5 = attr().name("a").value("1").build();
 		
-		Code c1 = code().name("c1").attributes(a1).build();
-		Code c2 = code().name("c2").attributes(a2).build();
-		Code c3 = code().name("c2").attributes(a3).build();
+		Code c1 = code().name("c1").attributes(a1,a4).build();
+		Code c2 = code().name("c2").attributes(a2,a5).build();
+		Code c3 = code().name("c3").attributes(a3).build();
 		
 		Codelist list = codelist().name("l1").with(c2,c1,c3).build();
 		
 		repository.add(list);
 		
 		Attribute template = attr().name("a").value("ignore").build();
-		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template)));
+		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,1)));
 		
 		assertEquals(asList(c3,c1,c2),gather(results));
 		
+		results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,2)));
+		assertEquals(asList(c2,c1,c3),gather(results));
+		
 		template = attr().name("a").value("ignore").in("en").build();
-		results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template)));
+		results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,1)));
 		
 		assertEquals(asList(c3,c2,c1),gather(results));
 	}

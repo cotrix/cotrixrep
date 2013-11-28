@@ -87,9 +87,10 @@ public interface CodelistQueryFactory {
 	
 	/**
 	 * Returns the criterion to sort code results by attribute properties.
-	 * @param attribute the attribute the describes the required properties
+	 * @param attribute the attribute template that describes the required properties
+	 * @param position the position of attributes that should match the template
 	 * @return  the criterion
 	 */
-	Criterion<Code> byAttribute(final Attribute attribute);
+	Criterion<Code> byAttribute(final Attribute attribute,int position);
 
 }

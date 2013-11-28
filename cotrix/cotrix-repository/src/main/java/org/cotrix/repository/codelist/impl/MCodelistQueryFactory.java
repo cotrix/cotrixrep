@@ -130,7 +130,7 @@ public class MCodelistQueryFactory implements CodelistQueryFactory {
 	}
 	
 	@Override
-	public Criterion<Code> byAttribute(final Attribute attribute) {
+	public Criterion<Code> byAttribute(final Attribute attribute, final int position) {
 		
 		valid("attribute name",attribute.name());
 		
@@ -148,24 +148,34 @@ public class MCodelistQueryFactory implements CodelistQueryFactory {
 			@Override
 			public int compare(Code c1, Code c2) {
 				
-				String c1First = null;
+				int pos = 1;
+				String c1Match = null;
 				for (Attribute a : c1.attributes())
 					if (matches(a))
-						if (c1First==null || c1First.compareTo(a.value())>0)
-							c1First = a.value();
+						if (pos==position) {
+							c1Match = a.value();
+							break;
+						}
+						else
+							pos++;
 				
-				String c2First = null;
+				pos = 1;
+				String c2Match = null;
 				for (Attribute a : c2.attributes())
 					if (matches(a))
-						if (c2First==null || c2First.compareTo(a.value())>0)
-							c2First = a.value();			
+						if (pos==position) {
+							c2Match = a.value();
+							break;
+						}
+						else
+							pos++;
 				
 				
-				if (c1First==null)
-					return c2First==null? 0: 1;
+				if (c1Match==null)
+					return c2Match==null? 0: 1;
 				
 				else
-					return c2First==null? -1: c1First.compareTo(c2First);
+					return c2Match==null? -1: c1Match.compareTo(c2Match);
 			}
 		};
 		

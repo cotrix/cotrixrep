@@ -61,8 +61,8 @@ public class CodelistQueries {
 		return factory.all(c1,c2);
 	}
 	
-	public static Criterion<Code> byAttribute(final Attribute attribute) {
-		return factory.byAttribute(attribute);
+	public static Criterion<Code> byAttribute(final Attribute attribute, int position) {
+		return factory.byAttribute(attribute,position);
 	}
 	
 	static class QueryFactoryInjector {
