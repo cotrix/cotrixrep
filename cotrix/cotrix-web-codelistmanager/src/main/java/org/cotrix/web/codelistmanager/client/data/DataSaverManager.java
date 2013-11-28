@@ -60,14 +60,14 @@ public class DataSaverManager {
 		@Override
 		public void onDataEdit(DataEditEvent<T> event) {
 			managerBus.fireEvent(new SavingDataEvent());
-			StatusUpdates.statusUpdate("Saving ...");
+			StatusUpdates.statusSaving();
 			ModifyCommand command = generator.generateCommand(event.getEditType(), event.getData());
 			commandSequencer.enqueueCommand(command, new Callback<Void, Throwable>() {
 				
 				@Override
 				public void onSuccess(Void result) {
 					managerBus.fireEvent(new DataSavedEvent());
-					StatusUpdates.statusUpdate("...saved.");
+					StatusUpdates.statusSaved();
 				}
 				
 				@Override

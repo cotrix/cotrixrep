@@ -21,6 +21,7 @@ import org.cotrix.web.permissionmanager.shared.UIUser;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.UserLoggedEvent;
+import org.cotrix.web.share.client.util.StatusUpdates;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -135,12 +136,12 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	protected void saveRow(RolesRow row, String role, boolean value) {
 		
 		RoleAction action = value?RoleAction.DELEGATE:RoleAction.REVOKE;
+		StatusUpdates.statusSaving();
 		service.codelistRoleUpdated(row.getUser().getId(), currentCodelistId, role, action, new ManagedFailureCallback<Void>() {
 
 			@Override
 			public void onSuccess(Void result) {
-				// TODO Auto-generated method stub
-
+				StatusUpdates.statusSaved();
 			}
 		});
 	}

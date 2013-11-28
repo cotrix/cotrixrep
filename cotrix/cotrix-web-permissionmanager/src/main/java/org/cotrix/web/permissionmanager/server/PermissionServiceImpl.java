@@ -5,6 +5,7 @@ package org.cotrix.web.permissionmanager.server;
 
 import static org.cotrix.repository.codelist.CodelistQueries.*;
 import static org.cotrix.repository.user.UserQueries.*;
+import static org.cotrix.domain.dsl.Users.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,6 +35,7 @@ import org.cotrix.web.permissionmanager.shared.RoleAction;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.permissionmanager.shared.UIUser;
+import org.cotrix.web.permissionmanager.shared.UIUserDetails;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.DataWindow;
@@ -242,6 +244,26 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	protected List<String> getRoles(Collection<String> roles) {
 		if (roles == null) return null;
 		return new ArrayList<String>(roles);
+	}
+
+	@Override
+	public UIUserDetails getUserDetails() throws ServiceException {
+		logger.trace("getUserDetails");
+		UIUserDetails userDetails = new UIUserDetails();
+		userDetails.setId(currentUser.id());
+		userDetails.setFullName(currentUser.fullName());
+		userDetails.setUsername(currentUser.name());
+		//TODO update
+		userDetails.setEmail("n/a");
+		return userDetails;
+	}
+
+	@Override
+	public void saveUserDetails(UIUserDetails userDetails) throws ServiceException {
+		logger.trace("saveUserDetails userDetails: {}", userDetails);
+		//TODO email
+		User changeSet = user(currentUser).fullName(userDetails.getFullName()).build();
+		userRepository.update(changeSet);
 	}
 
 }

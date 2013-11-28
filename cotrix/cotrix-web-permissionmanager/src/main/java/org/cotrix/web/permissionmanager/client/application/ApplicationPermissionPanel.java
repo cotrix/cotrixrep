@@ -14,6 +14,7 @@ import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.UserLoggedEvent;
+import org.cotrix.web.share.client.util.StatusUpdates;
 
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -62,15 +63,13 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 			@Override
 			public void onRolesRowUpdated(RolesRow row, String role, boolean value) {
 
-
-
 				RoleAction action = value?RoleAction.DELEGATE:RoleAction.REVOKE;
+				StatusUpdates.statusSaving();
 				service.applicationRoleUpdated(row.getUser().getId(), role, action, new ManagedFailureCallback<Void>() {
 
 					@Override
 					public void onSuccess(Void result) {
-						// TODO Auto-generated method stub
-
+						StatusUpdates.statusSaved();
 					}
 				});
 
