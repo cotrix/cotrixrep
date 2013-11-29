@@ -15,6 +15,6 @@ public enum ApplicationFeatures implements UIFeature {
 	REMOVE_CODELIST,
 	IMPORT_CODELIST,
 	PUBLISH_CODELIST,
-	MANAGE_PERSMISSION;
+	ACCESS_ADMIN_AREA;
 
 }

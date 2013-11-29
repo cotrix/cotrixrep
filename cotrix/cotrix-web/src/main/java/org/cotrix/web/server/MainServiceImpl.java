@@ -2,6 +2,7 @@ package org.cotrix.web.server;
 
 import static org.cotrix.action.GuestAction.*;
 import static org.cotrix.action.MainAction.*;
+import static org.cotrix.action.UserAction.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.web.share.shared.feature.ApplicationFeatures.*;
 import static org.cotrix.web.shared.AuthenticationFeature.*;
@@ -109,6 +110,9 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		mapper.map(LOGOUT).to(CAN_LOGOUT);
 		mapper.map(IMPORT).to(IMPORT_CODELIST);
 		mapper.map(PUBLISH).to(PUBLISH_CODELIST);
+		
+		//FIXME tmp fix
+		mapper.map(LOGOUT).to(ACCESS_ADMIN_AREA);
 
 		startup.fire(Startup.INSTANCE);
 		

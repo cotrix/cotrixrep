@@ -24,4 +24,5 @@ public interface UserBarView {
 	void setStatus(String status);
 	void setUserEnabled(boolean enabled);
 	void setRegisterVisible(boolean visible);
+	void setUsernameClickEnabled(boolean enabled);
 }
