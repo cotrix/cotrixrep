@@ -24,5 +24,7 @@ public interface UserQueryFactory {
 
 	MultiQuery<User, User> roleOn(String resource, ResourceType type);
 	
+	MultiQuery<User,User> teamFor(String codelistId);
+	
 	Criterion<User> byName();
 }

@@ -23,6 +23,10 @@ public class UserQueries {
 		return factory.roleOn(resource, type);
 	}
 	
+	public static MultiQuery<User,User> teamFor(String codelistId) {
+		return factory.teamFor(codelistId);
+	}
+	
 	public static Query<User,User> userByName(String name) {
 		
 		return factory.userByName(name); 

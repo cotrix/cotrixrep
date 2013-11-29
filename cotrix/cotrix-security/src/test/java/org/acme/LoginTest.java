@@ -52,11 +52,10 @@ public class LoginTest {
 	@Inject
 	Event<ApplicationEvents.ApplicationEvent> events;
 	
+	
 	@Test
 	public void loginAsGuestIfNoTokenIsAvailable() throws Exception {
-		
-		System.out.println(service);
-
+	
 		DummyHttpRequest req = new DummyHttpRequest();
 		
 		contextController.openRequest(req);
@@ -72,39 +71,16 @@ public class LoginTest {
 	}
 
 	@Test
-	public void loginByNameAndPasswords() throws Exception {
-		
-		events.fire(ApplicationEvents.Startup.INSTANCE);
-		
-		DummyHttpRequest r = new DummyHttpRequest();
-		
-		contextController.openRequest(r);
-		
-		r.setAttribute(nameParam, cotrix.name());
-		r.setAttribute(pwdParam, cotrix.name());
-
-		User logged = service.login(r);
-
-		//some users have ids others don't
-		assertEquals(cotrix.name(),logged.name());
-		assertEquals(cotrix.name(), currentUser.name());
-		
-		contextController.closeRequest();
-		
-	}
-	
-	
-	
-	@Test
-	public void signUp() throws Exception {
+	public void signUpAndLogin() throws Exception {
 		
 		System.out.println(service);
 		
-		User user = user().name("fabio").noMail().fullName("fifi").build();
+		User user = user().name("fabio").email("fabio@me.com").fullName("fifi").build();
 		
 		signupService.signup(user,"fuffa");
 		
 		assertTrue(user.can(EDIT.on(user.id())));
+		assertEquals(user.email(),"fabio@me.com");
 		
 		DummyHttpRequest r = new DummyHttpRequest();
 		

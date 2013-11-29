@@ -115,7 +115,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	
 	protected RolesRow getApplicationRolesRow(User user) {
 		FingerPrint fp = user.fingerprint();
-		Collection<String> userRoles = fp.rolesOver(Action.any, ResourceType.application);
+		Collection<String> userRoles = fp.allRolesOver(Action.any, ResourceType.application);
 		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles), currentUser.id().equals(user.id()));
 		return row;
 	}
@@ -142,7 +142,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	
 	protected RolesRow getCodelistRolesRow(User user, String codelistId) {
 		FingerPrint fp = user.fingerprint();
-		Collection<String> userRoles = fp.rolesOver(codelistId, ResourceType.codelists);		
+		Collection<String> userRoles = fp.allRolesOver(codelistId, ResourceType.codelists);		
 		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles), currentUser.id().equals(user.id()));
 		return row;
 	}
@@ -202,7 +202,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 			logger.trace("checking codelist "+codelistId);
 			
 			//the user has any role with this codelist?
-			if (fp.rolesOver(codelistId, ResourceType.codelists).isEmpty()) continue;
+			if (fp.allRolesOver(codelistId, ResourceType.codelists).isEmpty()) continue;
 			
 			//the user is a semi-root for the specified codelist?
 			if (Action.any.equals(codelistId)) continue;
@@ -216,7 +216,7 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 				group = new CodelistGroup(codelist.name().toString());
 				groups.put(codelist.name(), group);
 			}
-			List<String> roles = getRoles(currentUser.fingerprint().rolesOver(codelist.id(), ResourceType.codelists));
+			List<String> roles = getRoles(currentUser.fingerprint().allRolesOver(codelist.id(), ResourceType.codelists));
 			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()), roles);
 		}
 		
