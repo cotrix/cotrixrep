@@ -1,5 +1,6 @@
 package org.cotrix.repository.codelist.impl;
 
+import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.repository.codelist.CodelistCoordinates.*;
@@ -19,6 +20,8 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.user.FingerPrint;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
@@ -66,7 +69,25 @@ public class MCodelistQueryFactory implements CodelistQueryFactory {
 			public Collection<CodelistCoordinates> executeOn(MemoryRepository<? extends Codelist> r) {
 				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
 				for (Codelist list : r.getAll())
-					coordinates.add(coords(list.id(),list.name(),list.version()));
+					coordinates.add(coordsOf(list));
+				return coordinates;
+			}
+		};
+	}
+	
+	@Override
+	public MultiQuery<Codelist, CodelistCoordinates> codelistsFor(User u) {
+		
+		final FingerPrint fp = u.fingerprint();
+		
+		return new MMultiQuery<Codelist,CodelistCoordinates>() {
+			public Collection<CodelistCoordinates> executeOn(MemoryRepository<? extends Codelist> r) {
+				
+				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
+				for (Codelist list : r.getAll())
+					if (!fp.allRolesOver(list.id(),codelists).isEmpty())
+						coordinates.add(coordsOf(list));
+				
 				return coordinates;
 			}
 		};

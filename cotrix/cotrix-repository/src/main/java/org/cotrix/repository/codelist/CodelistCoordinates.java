@@ -2,6 +2,7 @@ package org.cotrix.repository.codelist;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.trait.Named;
 
 public class CodelistCoordinates implements Named {
@@ -12,6 +13,10 @@ public class CodelistCoordinates implements Named {
 	
 	public static CodelistCoordinates coords(String id, QName name,String version) {
 		return new CodelistCoordinates(id, name, version);
+	}
+	
+	public static CodelistCoordinates coordsOf(Codelist list) {
+		return new CodelistCoordinates(list.id(), list.name(), list.version());
 	}
 	
 	public CodelistCoordinates(String id,QName name, String version) {
