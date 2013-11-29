@@ -6,6 +6,8 @@ package org.cotrix.web.permissionmanager.server;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.repository.user.UserQueries.*;
 
+import static org.cotrix.repository.codelist.CodelistQueries.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -40,7 +42,6 @@ import org.cotrix.web.permissionmanager.shared.UIUserDetails;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
 import org.cotrix.web.share.server.task.ContainsTask;
 import org.cotrix.web.share.server.task.UserTask;
-import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.exception.ServiceException;
@@ -73,9 +74,6 @@ public class PermissionServiceImpl implements PermissionService {
 	protected CodelistRepository codelistRepository;
 	
 	@Inject
-	protected CodelistLoader codelistLoader;
-	
-	@Inject
 	protected UserRepository userRepository;
 	
 	@Inject
@@ -90,10 +88,6 @@ public class PermissionServiceImpl implements PermissionService {
 	
 	@PostConstruct
 	protected void init() {
-//		codelistLoader.importAllCodelist();
-//		logger.trace("codelist in repository:");
-//		for (Codelist codelist:codelistRepository.get(allLists())) logger.trace(codelist.name().toString());
-//		logger.trace("done");
 	}
 
 	@Override
@@ -210,21 +204,7 @@ public class PermissionServiceImpl implements PermissionService {
 
 		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
 
-		FingerPrint fp = currentUser.fingerprint();
-		
-		for (String codelistId:fp.resources(ResourceType.codelists)) {
-
-			logger.trace("checking codelist "+codelistId);
-			
-			//the user has any role with this codelist?
-			if (fp.rolesOver(codelistId, ResourceType.codelists).isEmpty()) continue;
-			
-			//the user is a semi-root for the specified codelist?
-			if (Action.any.equals(codelistId)) continue;
-			
-			Codelist codelist = codelistRepository.lookup(codelistId);
-		
-		/*for (Codelist codelist:codelistRepository.get(allLists())) {*/
+		for (Codelist codelist:codelistRepository.get(allLists())) {
 			
 			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {
@@ -263,6 +243,8 @@ public class PermissionServiceImpl implements PermissionService {
 	@Override
 	public UIUserDetails getUserDetails() throws ServiceException {
 		logger.trace("getUserDetails");
+		logger.trace("currentUser.email: {}", currentUser.email());
+		
 		UIUserDetails userDetails = new UIUserDetails();
 		userDetails.setId(currentUser.id());
 		userDetails.setFullName(currentUser.fullName());

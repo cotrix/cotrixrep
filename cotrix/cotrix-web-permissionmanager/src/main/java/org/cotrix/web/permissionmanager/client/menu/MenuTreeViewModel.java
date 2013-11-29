@@ -24,7 +24,7 @@ public class MenuTreeViewModel implements TreeViewModel {
 	protected static final MenuItem PREFERENCES_MENU = new MenuArea("Preferences", AdminArea.PREFERENCES);
 
 	protected static final MenuItem USERS_MENU = new MenuArea("Users", AdminArea.USERS_PERMISSIONS);
-	protected static final MenuItem CODELISTS_MENU = new MenuArea("Codelists", AdminArea.CODELISTS_PERMISSIONS);
+	protected static final MenuItem CODELISTS_MENU = new MenuArea("My Codelists", AdminArea.CODELISTS_PERMISSIONS);
 
 	protected static final ListDataProvider<MenuItem> ROOT_MENU_PROVIDER = new ListDataProvider<MenuItem>(Arrays.asList(PROFILE_MENU, PREFERENCES_MENU, USERS_MENU, CODELISTS_MENU));
 	protected static final ListDataProvider<MenuItem> USER_MENU_PROVIDER = new ListDataProvider<MenuItem>(Arrays.asList(PROFILE_MENU, PREFERENCES_MENU, USERS_MENU, CODELISTS_MENU));
