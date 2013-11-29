@@ -76,8 +76,32 @@ public class FingerprintTest {
 		//System.out.println(fp);
 		
 		assertEquals(setOf(application),fp.types());
-		assertEquals(setOf(something.name()),fp.rolesOver(any,application));
+		assertEquals(setOf(something.name()),fp.allRolesOver(any,application));
+		assertEquals(setOf(something.name()),fp.specificRolesOver(any,application));
 		assertEquals(setOf(doit),fp.permissionsOver(any,application));
+		
+	}
+	
+	@Test
+	public void fingerprintWithRoleTemplates() {
+		
+
+		Role something = aUserModel().can(doitOnCodes).buildAsRoleFor(codelists);
+		Role somethingElse = aUserModel().can(doThatOnCodes).buildAsRoleFor(codelists);
+		
+		
+		User bill = bill().is(something,somethingElse.on("1")).build();
+		
+		FingerPrint fp = bill.fingerprint();
+		
+		//System.out.println(fp);
+		
+		assertEquals(setOf(codelists),fp.types());
+		assertEquals(setOf(something.name(),somethingElse.name()),fp.allRolesOver("1",codelists));
+		assertEquals(setOf(somethingElse.name()),fp.specificRolesOver("1",codelists));
+		assertEquals(setOf(something.name()),fp.allRolesOver(any,codelists));
+		assertEquals(setOf(something.name()),fp.specificRolesOver(any,codelists));
+		assertEquals(setOf(doitOnCodes),fp.permissionsOver(any,codelists));
 		
 	}
 	
@@ -96,10 +120,10 @@ public class FingerprintTest {
 		
 		assertEquals(setOf(application,codelists),fp.types());
 		
-		assertEquals(setOf(something.name()),fp.rolesOver(any,application));
+		assertEquals(setOf(something.name()),fp.allRolesOver(any,application));
 		assertEquals(setOf(doit),fp.permissionsOver(any,application));
 		
-		assertEquals(setOf(somethingElse.name()),fp.rolesOver(any,codelists));
+		assertEquals(setOf(somethingElse.name()),fp.allRolesOver(any,codelists));
 		assertEquals(setOf(doitOnCodes),fp.permissionsOver(any,codelists));
 		
 	}
@@ -119,10 +143,10 @@ public class FingerprintTest {
 		
 		assertEquals(setOf(application,codelists),fp.types());
 		
-		assertEquals(setOf(something.name()),fp.rolesOver(any,application));
+		assertEquals(setOf(something.name()),fp.allRolesOver(any,application));
 		assertEquals(setOf(doit),fp.permissionsOver(any,application));
 		
-		assertEquals(setOf(somethingElse.name()),fp.rolesOver("1",codelists));
+		assertEquals(setOf(somethingElse.name()),fp.allRolesOver("1",codelists));
 		assertEquals(setOf(doitOnCodes.on("1")),fp.permissionsOver("1",codelists));
 		
 	}
@@ -141,7 +165,7 @@ public class FingerprintTest {
 		//System.out.println(fp);
 		
 		assertEquals(setOf(application),fp.types());
-		assertEquals(setOf(something.name(),somethingElse.name()),fp.rolesOver(any,application));
+		assertEquals(setOf(something.name(),somethingElse.name()),fp.allRolesOver(any,application));
 		assertEquals(setOf(doit,dothat),fp.permissionsOver(any,application));
 		
 	}
@@ -162,12 +186,12 @@ public class FingerprintTest {
 		
 		assertEquals(setOf(application,codelists),fp.types());
 		
-		assertEquals(setOf(something.name()),fp.rolesOver(any,application));
+		assertEquals(setOf(something.name()),fp.allRolesOver(any,application));
 		assertEquals(setOf(doit),fp.permissionsOver(any,application));
 		
 		assertEquals(setOf("1"),fp.resources(codelists));
 		
-		assertEquals(setOf(somethingElse.name(),somethingElseStill.name()),fp.rolesOver("1",codelists));
+		assertEquals(setOf(somethingElse.name(),somethingElseStill.name()),fp.allRolesOver("1",codelists));
 		assertEquals(setOf(doitOnCodes.on("1"),doThatOnCodes.on("1")),fp.permissionsOver("1",codelists));
 		
 	}

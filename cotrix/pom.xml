@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cotrix</groupId>
 	<artifactId>cotrix</artifactId>
@@ -32,12 +33,12 @@
 		<module>cotrix-action</module>
 
 		<module>cotrix-application</module>
-    <module>cotrix-web-permissionmanager</module>
-  </modules>
+		<module>cotrix-web-permissionmanager</module>
+	</modules>
 
 	<repositories>
 		<repository>
-			<snapshots/>
+			<snapshots />
 			<id>fips-snapshots</id>
 			<name>fips-snapshots</name>
 			<url>http://artifactory.fao.org/artifactory/fips</url>
@@ -119,7 +120,7 @@
 				<artifactId>cotrix-engine</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-application</artifactId>
@@ -179,7 +180,7 @@
 				<artifactId>cotrix-web-importwizard</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-web-permissionmanager</artifactId>
@@ -290,6 +291,13 @@
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>

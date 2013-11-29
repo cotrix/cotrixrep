@@ -196,6 +196,7 @@ public interface User extends Identified {
 			
 			po.setName(name);
 			po.setFullName(fullName);
+			po.setEmail(email);
 			po.setPermissions(permissions);
 			po.setRoles(roles);
 			

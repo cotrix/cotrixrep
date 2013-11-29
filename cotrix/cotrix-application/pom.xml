@@ -35,6 +35,11 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-lifecycle</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-security</artifactId>
+		</dependency>
 
 
 		<!-- testing with CDI -->

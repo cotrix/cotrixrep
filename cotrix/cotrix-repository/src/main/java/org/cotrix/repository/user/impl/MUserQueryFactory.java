@@ -1,5 +1,7 @@
 package org.cotrix.repository.user.impl;
 
+import static org.cotrix.action.ResourceType.*;
+
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -59,12 +61,28 @@ public class MUserQueryFactory implements UserQueryFactory {
 			public Collection<? extends User> executeOn(MemoryRepository<? extends User> repository) {
 				Collection<User> matches = new HashSet<User>();
 				for (User u : repository.getAll())
-					if (!u.fingerprint().rolesOver(resource,type).isEmpty())
+					if (!u.fingerprint().allRolesOver(resource,type).isEmpty())
 						matches.add(u);
 				return matches;
 			}
 		};
 		
+	}
+	
+	@Override
+	public MultiQuery<User, User> teamFor(final String codelistId) {
+	
+		return new MMultiQuery<User,User>() {
+			
+			@Override
+			public Collection<? extends User> executeOn(MemoryRepository<? extends User> repository) {
+				Collection<User> matches = new HashSet<User>();
+				for (User u : repository.getAll())
+					if (!u.fingerprint().specificRolesOver(codelistId,codelists).isEmpty())
+						matches.add(u);
+				return matches;
+			}
+		};
 	}
 	
 	@Override

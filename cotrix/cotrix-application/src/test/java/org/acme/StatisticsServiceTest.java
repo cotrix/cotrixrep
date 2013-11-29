@@ -1,21 +1,17 @@
 package org.acme;
 
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.dsl.Users.*;
 import static org.junit.Assert.*;
 
 import javax.enterprise.event.Event;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.cotrix.application.StatisticsService;
 import org.cotrix.application.StatisticsService.Statistics;
 import org.cotrix.common.cdi.ApplicationEvents.ApplicationEvent;
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.user.User;
 import org.cotrix.repository.codelist.CodelistRepository;
 import org.junit.After;
 import org.junit.Test;
@@ -32,6 +28,9 @@ public class StatisticsServiceTest {
 	@Inject	
 	CodelistRepository repository;
 	
+	@Inject
+	Event<ApplicationEvent> events;
+
 	@Test
 	public void statistics() {
 		
@@ -50,9 +49,7 @@ public class StatisticsServiceTest {
 		System.out.println(s);
 		
 		assertEquals(2,s.totalCodelists());
-		assertEquals(3,s.totalCodes());
-		assertEquals(predefinedUsers.size(),s.totalUsers());
-		
+		assertEquals(3,s.totalCodes());		
 	}
 	
 	@Test
@@ -63,14 +60,6 @@ public class StatisticsServiceTest {
 		assertEquals(0, s.totalCodelists());
 		assertEquals(0, s.totalCodes());
 	}
-	
-	@Produces @Current
-	public User user() {
-		return cotrix;
-	}
-	
-	@Inject
-	Event<ApplicationEvent> events;
 	
 	//sadly, we cannot control injection on a per-test basis, so we need to cleanup after each test
 	//we do it with end-of-app events

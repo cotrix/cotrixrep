@@ -36,11 +36,25 @@ public class FingerPrint {
 		return resources;
 	}
 	
-	public Collection<String> rolesOver(String resource, ResourceType type) {
+	public Collection<String> specificRolesOver(String resource, ResourceType type) {
 		
 		Rights rights = target(resource,type);
 		
 		Collection<String> roles =  (rights== null)? new HashSet<String>() : rights.roles;
+		
+		return roles;
+	}
+	
+	
+	public Collection<String> allRolesOver(String resource, ResourceType type) {
+		
+		Rights rights = target(resource,type);
+		
+		Collection<String> roles =  (rights== null)? new HashSet<String>() : rights.roles;
+		
+		//add roles over all resources
+		if (!resource.equals(any))
+			roles.addAll(specificRolesOver(any,type));
 		
 		return roles;
 	}

@@ -21,7 +21,7 @@ public class RoleTest {
 	@Test
 	public void assignTemplateRole() {
 
-		Role something = aUserModel().buildAsRoleFor(application);
+		Role something = aRole().buildAsRoleFor(application);
 	
 		User bill = bill().is(something).build();
 		
@@ -32,7 +32,7 @@ public class RoleTest {
 	@Test
 	public void rolesHaveIdentity() {
 
-		Role something = aUserModel().can(doit).buildAsRoleFor(application);
+		Role something = aRole().can(doit).buildAsRoleFor(application);
 	
 		User bill = bill().can(doit).build();
 		
@@ -43,7 +43,7 @@ public class RoleTest {
 	@Test
 	public void rolesGivePermissions() {
 
-		Role something = aUserModel().can(doit).buildAsRoleFor(application);
+		Role something = aRole().can(doit).buildAsRoleFor(application);
 	
 		User bill = bill().is(something).build();
 		
@@ -54,7 +54,7 @@ public class RoleTest {
 	@Test
 	public void assignInstanceRoles() {
 
-		Role something = aUserModel().can(doit).buildAsRoleFor(application);
+		Role something = aRole().can(doit).buildAsRoleFor(application);
 		
 		User bill = bill().is(something.on("1")).build();
 		
@@ -67,7 +67,7 @@ public class RoleTest {
 	@Test
 	public void permissionsCanBeDirectOrIndirect() {
 
-		Role something = aUserModel().can(doit).buildAsRoleFor(application);
+		Role something = aRole().can(doit).buildAsRoleFor(application);
 	
 		User bill = bill().is(something).can(dothat).build();
 		
@@ -79,9 +79,9 @@ public class RoleTest {
 	@Test
 	public void roleFormHierarchies() {
 
-		Role something = aUserModel("role1").can(doit).buildAsRoleFor(application);
-		Role somethingElse = aUserModel("role2").can(dothat).is(something).buildAsRoleFor(application);
-		Role somethingElseStill = aUserModel("role3").can(dothatToo).is(somethingElse).buildAsRoleFor(application);
+		Role something = aRole("role1").can(doit).buildAsRoleFor(application);
+		Role somethingElse = aRole("role2").can(dothat).is(something).buildAsRoleFor(application);
+		Role somethingElseStill = aRole("role3").can(dothatToo).is(somethingElse).buildAsRoleFor(application);
 	
 		User bill = bill().is(somethingElseStill).build();
 		
@@ -101,9 +101,9 @@ public class RoleTest {
 	@Test
 	public void roleHierarchiesFollowInstantiation() {
 
-		Role something = aUserModel("role1").can(doit).buildAsRoleFor(codelists);
-		Role somethingElse = aUserModel("role2").can(dothat).is(something).buildAsRoleFor(codelists);
-		Role somethingElseStill = aUserModel("role3").can(dothatToo).is(somethingElse).buildAsRoleFor(codelists);
+		Role something = aRole("role1").can(doit).buildAsRoleFor(codelists);
+		Role somethingElse = aRole("role2").can(dothat).is(something).buildAsRoleFor(codelists);
+		Role somethingElseStill = aRole("role3").can(dothatToo).is(somethingElse).buildAsRoleFor(codelists);
 		
 	
 		User bill = bill().is(somethingElseStill.on("1")).build();
@@ -124,7 +124,7 @@ public class RoleTest {
 	@Test
 	public void rolesAndPermissionsCanOverlap() {
 
-		Role someone = aUserModel().can(doit).buildAsRoleFor(application);
+		Role someone = aRole().can(doit).buildAsRoleFor(application);
 	
 		User bill = bill().is(someone).can(doit).build();
 		
@@ -136,8 +136,8 @@ public class RoleTest {
 	@Test
 	public void rolesCanOverlap() {
 
-		Role someone = aUserModel("r1").can(doit).buildAsRoleFor(application);
-		Role someoneElse = aUserModel("r2").can(doit).buildAsRoleFor(application);
+		Role someone = aRole("r1").can(doit).buildAsRoleFor(application);
+		Role someoneElse = aRole("r2").can(doit).buildAsRoleFor(application);
 		
 		User bill = bill().is(someone,someoneElse).build();
 		
@@ -152,7 +152,7 @@ public class RoleTest {
 	@Test
 	public void rolesAreNotAddedTwice() {
 		
-		Role someone = aUserModel().buildAsRoleFor(application);
+		Role someone = aRole().buildAsRoleFor(application);
 		
 		User bill = bill().is(someone,someone).build();
 		
@@ -175,11 +175,11 @@ public class RoleTest {
 	}
 	
 	
-	private UserGrammar.ThirdClause  aUserModel() {
-		return aUserModel("role");
+	private UserGrammar.ThirdClause  aRole() {
+		return aRole("role");
 	}
 	
-	private UserGrammar.ThirdClause aUserModel(String name) {
-		return user().name(name).email("some@mail.com").fullName(name);
+	private UserGrammar.ThirdClause aRole(String name) {
+		return user().name(name).noMail().fullName(name);
 	}
 }

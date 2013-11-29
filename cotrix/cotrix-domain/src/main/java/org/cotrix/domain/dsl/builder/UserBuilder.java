@@ -48,7 +48,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	
 	@Override
 	public ThirdClause email(String email) {
-		validEmail(email);
+		notNull("email",email);
 		po.setEmail(email);
 		return this;
 	}
