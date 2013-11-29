@@ -2,7 +2,6 @@ package org.cotrix.web.server;
 
 import static org.cotrix.action.GuestAction.*;
 import static org.cotrix.action.MainAction.*;
-import static org.cotrix.action.UserAction.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.web.share.shared.feature.ApplicationFeatures.*;
 import static org.cotrix.web.shared.AuthenticationFeature.*;
@@ -20,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.cotrix.action.Action;
 import org.cotrix.action.Actions;
 import org.cotrix.action.CodelistAction;
+import org.cotrix.action.MainAction;
 import org.cotrix.application.NewsService;
 import org.cotrix.application.NewsService.NewsItem;
 import org.cotrix.application.StatisticsService;
@@ -40,6 +40,7 @@ import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.ExceptionUtils;
 import org.cotrix.web.share.shared.exception.ServiceException;
+import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
 import org.cotrix.web.shared.UINews;
@@ -110,9 +111,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		mapper.map(LOGOUT).to(CAN_LOGOUT);
 		mapper.map(IMPORT).to(IMPORT_CODELIST);
 		mapper.map(PUBLISH).to(PUBLISH_CODELIST);
-		
-		//FIXME tmp fix
-		mapper.map(LOGOUT).to(ACCESS_ADMIN_AREA);
+		mapper.map(MainAction.ACCESS_ADMIN_AREA).to(ApplicationFeatures.ACCESS_ADMIN_AREA);
 
 		startup.fire(Startup.INSTANCE);
 		

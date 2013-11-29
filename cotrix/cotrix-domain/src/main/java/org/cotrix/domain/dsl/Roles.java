@@ -19,7 +19,7 @@ import org.cotrix.domain.user.Role;
 public class Roles {
 
 	// the role of generic users, typically right after sign up: can view and logout
-	public static Role USER = user().name("user").noMail().fullName("User Role").can(VIEW, LOGOUT).buildAsRoleFor(application);
+	public static Role USER = user().name("user").noMail().fullName("User Role").can(VIEW, LOGOUT, ACCESS_ADMIN_AREA).buildAsRoleFor(application);
 
 	public static Role MANAGER = user().name("manager").noMail().fullName("Manager Role").is(USER)
 			.can(IMPORT, MainAction.PUBLISH).buildAsRoleFor(application);
