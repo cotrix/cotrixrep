@@ -25,6 +25,8 @@ public interface PermissionService extends RemoteService {
 	
 	public DataWindow<RolesRow> getApplicationRolesRows() throws ServiceException;
 	
+	public List<String> getUserApplicationRoles() throws ServiceException;
+	
 	public DataWindow<RolesRow> getCodelistRolesRows(String codelistId) throws ServiceException;
 	
 	public void codelistRoleUpdated(String userId, String codelistId, String role, RoleAction action) throws ServiceException;

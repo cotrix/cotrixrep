@@ -13,6 +13,7 @@ import org.cotrix.web.permissionmanager.client.profile.ProfilePanel;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -30,35 +31,46 @@ public class PermissionManagerPanel extends ResizeComposite {
 	interface PermissionManagerPanelEventBinder extends EventBinder<PermissionManagerPanel> {}
 
 	@Inject @UiField(provided=true) MenuPanel menuPanel;
-	
+
 	@UiField DeckLayoutPanel contentPanel;
 	@Inject @UiField(provided=true) ApplicationPermissionPanel applicationPermissionPanel;
 	@Inject @UiField(provided=true) CodelistsPermissionsPanel codelistsPermissionspanel;
 	@Inject @UiField(provided=true) PreferencesPanel preferencesPanel;
 	@Inject @UiField(provided=true) ProfilePanel profilePanel;
-	
+
 	@Inject
 	protected void init(PermissionManagerPanelUiBinder uiBinder) {
 		initWidget(uiBinder.createAndBindUi(this));
 		switchContent(AdminArea.PROFILE);
 	}
-	
+
 	@Inject
 	protected void bind(@PermissionBus EventBus bus, PermissionManagerPanelEventBinder eventBinder) {
 		eventBinder.bindEventHandlers(this, bus);
 	}
-	
+
 	@EventHandler
 	protected void onMenuSelected(MenuSelectedEvent event) {
 		switchContent(event.getAdminArea());
 	}
-	
+
 	protected void switchContent(AdminArea area) {
+		Widget areaWidget = getContentWidget(area);
+		contentPanel.showWidget(areaWidget);
+		
+		//GOOGLE issue workaround
+		if (areaWidget  instanceof RequiresResize) {
+			((RequiresResize)areaWidget).onResize();
+		}
+	}
+
+	protected Widget getContentWidget(AdminArea area) {
 		switch (area) {
-			case USERS_PERMISSIONS: contentPanel.showWidget(applicationPermissionPanel); break;
-			case CODELISTS_PERMISSIONS: contentPanel.showWidget(codelistsPermissionspanel); break;
-			case PREFERENCES: contentPanel.showWidget(preferencesPanel); break;
-			case PROFILE: contentPanel.showWidget(profilePanel); break;
+			case USERS_PERMISSIONS: return applicationPermissionPanel;
+			case CODELISTS_PERMISSIONS: return codelistsPermissionspanel;
+			case PREFERENCES: return preferencesPanel;
+			case PROFILE: return profilePanel;
+			default: throw new IllegalArgumentException("Unknown area "+area);
 		}
 	}
 }

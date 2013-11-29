@@ -90,20 +90,15 @@ public class PermissionServiceImpl implements PermissionService {
 	protected void init() {
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> getRoles(RolesType type) throws ServiceException {
 		logger.trace("getRoles type {}", type);
 		switch (type) {
-			case APPLICATION: return toRoles(Roles.getBy(ResourceType.application));
+			case APPLICATION: return toRoles(Roles.getBy(ResourceType.application), Roles.getBy(ResourceType.codelists));
 			case CODELISTS: return  toRoles(Roles.getBy(ResourceType.codelists));
 		}
 		return new ArrayList<String>();
-	}
-	
-	protected List<String> toRoles(Collection<Role> roles) {
-		List<String> uiRoles = new ArrayList<String>(roles.size());
-		for (Role role:roles) uiRoles.add(role.name());
-		return uiRoles;
 	}
 
 	@Override
@@ -112,6 +107,10 @@ public class PermissionServiceImpl implements PermissionService {
 		List<RolesRow> rows = new ArrayList<RolesRow>();
 		
 		for (User user:userRepository.get(allUsers())) {
+			
+			//skip current user
+			if (currentUser.id().equals(user.id())) continue;
+			
 			RolesRow row = getApplicationRolesRow(user);
 			rows.add(row);
 		}
@@ -122,11 +121,20 @@ public class PermissionServiceImpl implements PermissionService {
 		return new DataWindow<RolesRow>(rows);
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected RolesRow getApplicationRolesRow(User user) {
 		FingerPrint fp = user.fingerprint();
-		Collection<String> userRoles = fp.allRolesOver(Action.any, ResourceType.application);
-		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles));
+		Collection<String> appplicationRoles = fp.allRolesOver(Action.any, ResourceType.application);
+		Collection<String> codelistRoles = fp.allRolesOver(Action.any, ResourceType.codelists);
+		RolesRow row = new RolesRow(toUiUser(user), getRoles(appplicationRoles, codelistRoles));
 		return row;
+	}
+	
+	@Override
+	public List<String> getUserApplicationRoles() throws ServiceException {
+		logger.trace("getUserApplicationRoles");
+		RolesRow row = getApplicationRolesRow(currentUser);
+		return row.getRoles();
 	}
 
 	@Override
@@ -168,21 +176,6 @@ public class PermissionServiceImpl implements PermissionService {
 			case DELEGATE: delegationService.delegate(role).to(target); break;
 			case REVOKE: delegationService.revoke(role).from(target); break;
 		}
-	}
-	
-	protected Role[] toRoles(List<String> uiRoles) {
-		Role[] roles = new Role[uiRoles.size()];
-		for (int i = 0; i < roles.length; i++) {
-			roles[i] = toRole(uiRoles.get(i));
-		}
-		return roles;
-	}
-	
-	protected Role toRole(String name) {
-		for (Role role:Roles.predefinedRoles) {
-			if (role.name().equals(name)) return role;
-		}
-		throw new IllegalArgumentException("Unknown role name "+name);
 	}
 
 	@Override
@@ -235,15 +228,6 @@ public class PermissionServiceImpl implements PermissionService {
 		return users;
 	}
 	
-	protected UIUser toUiUser(User user) {
-		return new UIUser(user.id(), user.fullName());
-	}
-	
-	protected List<String> getRoles(Collection<String> roles) {
-		if (roles == null) return null;
-		return new ArrayList<String>(roles);
-	}
-
 	@Override
 	public UIUserDetails getUserDetails() throws ServiceException {
 		logger.trace("getUserDetails");
@@ -256,13 +240,57 @@ public class PermissionServiceImpl implements PermissionService {
 		userDetails.setEmail(currentUser.email());
 		return userDetails;
 	}
-
+	
 	@Override
 	@UserTask(UserAction.EDIT)
 	public void saveUserDetails(UIUserDetails userDetails) throws ServiceException {
 		logger.trace("saveUserDetails userDetails: {}", userDetails);
 		User changeSet = user(currentUser).email(userDetails.getEmail()).fullName(userDetails.getFullName()).build();
 		userRepository.update(changeSet);
+	}
+	
+	protected UIUser toUiUser(User user) {
+		return new UIUser(user.id(), user.fullName());
+	}
+	
+	protected List<String> getRoles(Collection<String> ... rolesSet) {
+		List<String> uiroles = new ArrayList<String>();
+		for (Collection<String> roles:rolesSet) uiroles.addAll(roles);
+		return uiroles;
+	}
+	
+	protected List<String> getRoles(Collection<String> roles) {
+		if (roles == null) return null;
+		return new ArrayList<String>(roles);
+	}
+	
+
+	protected List<String> toRoles(Collection<Role> ... rolesSets) {
+		List<String> uiRoles = new ArrayList<String>();
+		for (Collection<Role> roles: rolesSets) for (Role role:roles) uiRoles.add(role.name());
+		return uiRoles;
+	}
+	
+	protected List<String> toRoles(Collection<Role> roles) {
+		List<String> uiRoles = new ArrayList<String>(roles.size());
+		for (Role role:roles) uiRoles.add(role.name());
+		return uiRoles;
+	}
+
+	
+	protected Role[] toRoles(List<String> uiRoles) {
+		Role[] roles = new Role[uiRoles.size()];
+		for (int i = 0; i < roles.length; i++) {
+			roles[i] = toRole(uiRoles.get(i));
+		}
+		return roles;
+	}
+	
+	protected Role toRole(String name) {
+		for (Role role:Roles.predefinedRoles) {
+			if (role.name().equals(name)) return role;
+		}
+		throw new IllegalArgumentException("Unknown role name "+name);
 	}
 
 }

@@ -54,7 +54,13 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 			
 			@Override
 			public void onUserLogged(UserLoggedEvent event) {
-				usersRolesMatrix.refresh();
+				service.getUserApplicationRoles(new ManagedFailureCallback<List<String>>() {
+
+					@Override
+					public void onSuccess(List<String> result) {
+						usersRolesMatrix.reload(result);
+					}
+				});
 			}
 		});
 	}
