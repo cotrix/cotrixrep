@@ -11,7 +11,8 @@ public enum MainAction implements Action {
 	IMPORT("import"),
 	PUBLISH("publish"),
 	LOGOUT("logout"),
-	ACCESS_ADMIN_AREA("access_admin_area");
+	ACCESS_ADMIN_AREA("access_admin_area"),
+	MANAGE_USERS("manage_users");
 	
 	protected Action inner;
 

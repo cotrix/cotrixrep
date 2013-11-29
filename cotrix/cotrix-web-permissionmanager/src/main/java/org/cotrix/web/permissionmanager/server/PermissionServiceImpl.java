@@ -3,10 +3,12 @@
  */
 package org.cotrix.web.permissionmanager.server;
 
+import static org.cotrix.action.MainAction.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.repository.user.UserQueries.*;
 
 import static org.cotrix.repository.codelist.CodelistQueries.*;
+import static org.cotrix.web.permissionmanager.shared.PermissionUIFeatures.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,6 +42,7 @@ import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.permissionmanager.shared.UIUser;
 import org.cotrix.web.permissionmanager.shared.UIUserDetails;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
+import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.ContainsTask;
 import org.cotrix.web.share.server.task.UserTask;
 import org.cotrix.web.share.server.util.ValueUtils;
@@ -71,6 +74,9 @@ public class PermissionServiceImpl implements PermissionService {
 	protected Logger logger = LoggerFactory.getLogger(PermissionServiceImpl.class);
 	
 	@Inject
+	ActionMapper mapper;
+	
+	@Inject
 	protected CodelistRepository codelistRepository;
 	
 	@Inject
@@ -88,6 +94,8 @@ public class PermissionServiceImpl implements PermissionService {
 	
 	@PostConstruct
 	protected void init() {
+		
+		mapper.map(MANAGE_USERS).to(EDIT_USERS_ROLES);
 	}
 
 	@SuppressWarnings("unchecked")
