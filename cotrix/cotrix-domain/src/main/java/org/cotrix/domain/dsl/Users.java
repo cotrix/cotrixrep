@@ -29,7 +29,7 @@ public class Users {
 	}
 
 	public static UserChangeClause user(User u) {
-		return new UserBuilder(u.id()).can(u.permissions()).is(u.roles());
+		return new UserBuilder(u.id()).can(u.permissions()).is(u.directRoles());
 	}
 
 	// predefined users

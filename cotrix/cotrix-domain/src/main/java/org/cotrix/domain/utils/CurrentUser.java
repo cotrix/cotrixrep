@@ -1,4 +1,4 @@
-package org.cotrix.repository.utils;
+package org.cotrix.domain.utils;
 
 import java.util.Collection;
 
@@ -55,6 +55,16 @@ public class CurrentUser implements User {
 	@Override
 	public boolean is(Role binding) {
 		return test.is(binding);
+	}
+	
+	@Override
+	public boolean isDirectly(Role role) {
+		return test.isDirectly(role);
+	}
+	
+	@Override
+	public Collection<Role> directRoles() {
+		return test.directRoles();
 	}
 	
 	@Override
