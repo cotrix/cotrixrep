@@ -40,6 +40,7 @@ public class ProfilePanel extends ResizeComposite {
 	
 	@Inject
 	protected PermissionServiceAsync service;
+	protected UIUserDetails userDetails = new UIUserDetails();
 
 	@Inject
 	protected void init(ProfilePanelUiBinder uiBinder) {
@@ -80,14 +81,14 @@ public class ProfilePanel extends ResizeComposite {
 		});
 	}
 	
-	protected void setUserDetails(UIUserDetails user) {
-		username.setText(user.getUsername());
-		fullname.setText(user.getFullName());
-		email.setText(user.getEmail());
+	protected void setUserDetails(UIUserDetails userDetails) {
+		this.userDetails = userDetails;
+		username.setText(userDetails.getUsername());
+		fullname.setText(userDetails.getFullName());
+		email.setText(userDetails.getEmail());
 	}
 	
 	protected UIUserDetails getUserDetails() {
-		UIUserDetails userDetails = new UIUserDetails();
 		userDetails.setUsername(username.getText());
 		userDetails.setFullName(fullname.getText());
 		userDetails.setEmail(email.getText());
