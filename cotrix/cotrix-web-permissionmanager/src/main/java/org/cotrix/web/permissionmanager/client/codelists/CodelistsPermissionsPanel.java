@@ -102,7 +102,7 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	@EventHandler
 	protected void onUserAdded(UserAddedEvent event) {
 		Log.trace("onUserAdded "+event.getUser());
-		RolesRow row = new RolesRow(event.getUser(), new ArrayList<String>(), false);
+		RolesRow row = new RolesRow(event.getUser(), new ArrayList<String>());
 		dataProvider.getCache().add(row);
 		dataProvider.refresh();
 	}

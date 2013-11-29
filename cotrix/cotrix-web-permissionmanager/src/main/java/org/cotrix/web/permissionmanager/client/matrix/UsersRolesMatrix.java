@@ -18,7 +18,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.AbstractDataProvider;
@@ -100,14 +99,6 @@ public class UsersRolesMatrix extends ResizeComposite {
 			Column<RolesRow, RoleState> roleColumns = getColumn(role);
 			matrix.addColumn(roleColumns, role);
 		}
-		
-		matrix.setRowStyles(new RowStyles<RolesRow>() {
-			
-			@Override
-			public String getStyleNames(RolesRow row, int rowIndex) {
-				return row.isCurrentUser()?dataGridResources.dataGridStyle().currentUser():dataGridResources.dataGridStyle().otherUser();
-			}
-		});
 
 		dataProvider.addDataDisplay(matrix);
 
@@ -119,7 +110,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 
 			@Override
 			public RoleState getValue(RolesRow row) {
-				boolean enabled = userRoles.contains(role) && !row.isCurrentUser();
+				boolean enabled = userRoles.contains(role);
 				RoleState roleState = new RoleState(enabled, row.hasRole(role));
 				return roleState;
 			}

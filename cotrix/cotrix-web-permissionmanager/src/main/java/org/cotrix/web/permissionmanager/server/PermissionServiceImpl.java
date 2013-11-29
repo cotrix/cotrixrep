@@ -24,11 +24,11 @@ import org.cotrix.action.ResourceType;
 import org.cotrix.action.UserAction;
 import org.cotrix.application.PermissionDelegationService;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
+import org.cotrix.repository.codelist.CodelistCoordinates;
 import org.cotrix.repository.codelist.CodelistRepository;
 import org.cotrix.repository.user.UserRepository;
 import org.cotrix.web.permissionmanager.client.PermissionService;
@@ -125,7 +125,7 @@ public class PermissionServiceImpl implements PermissionService {
 	protected RolesRow getApplicationRolesRow(User user) {
 		FingerPrint fp = user.fingerprint();
 		Collection<String> userRoles = fp.allRolesOver(Action.any, ResourceType.application);
-		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles), currentUser.id().equals(user.id()));
+		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles));
 		return row;
 	}
 
@@ -135,13 +135,13 @@ public class PermissionServiceImpl implements PermissionService {
 		
 		List<RolesRow> rows = new ArrayList<RolesRow>();
 		
-		for (User user:userRepository.get(usersWithRoleOn(codelistId, ResourceType.codelists))) {
+		for (User user:userRepository.get(teamFor(codelistId))) {
 			
-			// no roots
-			if (user.isRoot()) continue;
+			//skip current user
+			if (currentUser.id().equals(user.id())) continue;
 			
 			RolesRow row = getCodelistRolesRow(user, codelistId);
-			if (row!=null) rows.add(row);
+			rows.add(row);
 		}
 		rolesSorter.syncUser();
 		Collections.sort(rows, rolesSorter);
@@ -152,7 +152,7 @@ public class PermissionServiceImpl implements PermissionService {
 	protected RolesRow getCodelistRolesRow(User user, String codelistId) {
 		FingerPrint fp = user.fingerprint();
 		Collection<String> userRoles = fp.allRolesOver(codelistId, ResourceType.codelists);		
-		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles), currentUser.id().equals(user.id()));
+		RolesRow row = new RolesRow(toUiUser(user), getRoles(userRoles));
 		return row;
 	}
 
@@ -204,14 +204,18 @@ public class PermissionServiceImpl implements PermissionService {
 
 		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
 
-		for (Codelist codelist:codelistRepository.get(allLists())) {
-			
+		FingerPrint fp = currentUser.fingerprint();
+		
+		for (CodelistCoordinates codelist:codelistRepository.get(codelistsFor(currentUser))) {
+
+			logger.trace("checking codelist "+codelist);
+		
 			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {
 				group = new CodelistGroup(codelist.name().toString());
 				groups.put(codelist.name(), group);
 			}
-			List<String> roles = getRoles(currentUser.fingerprint().allRolesOver(codelist.id(), ResourceType.codelists));
+			List<String> roles = getRoles(fp.allRolesOver(codelist.id(), ResourceType.codelists));
 			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()), roles);
 		}
 		
