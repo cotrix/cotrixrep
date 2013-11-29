@@ -101,6 +101,11 @@ public class FingerPrint {
 		return randp;
 	}
 	
+	@Override
+	public String toString() {
+		return fp.toString();
+	}
+	
 	
 	class Rights {
 

@@ -2,8 +2,11 @@ package org.acme;
 
 import static java.util.Arrays.*;
 import static junit.framework.Assert.*;
+import static org.cotrix.action.Actions.*;
+import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.repository.codelist.CodelistCoordinates.*;
 import static org.cotrix.repository.codelist.CodelistQueries.*;
 
@@ -11,11 +14,14 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.action.Action;
 import org.cotrix.common.cdi.ApplicationEvents.ApplicationEvent;
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.user.Role;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.codelist.CodelistCoordinates;
 import org.cotrix.repository.codelist.CodelistRepository;
 import org.cotrix.repository.codelist.CodelistSummary;
@@ -103,6 +109,43 @@ public class CodelistRepositoryTest {
 	}
 	
 	@Test
+	public void allCodelistForRootLikeUser() {
+		
+		Codelist list = codelist().name("1").build();
+		
+		repository.add(list);
+		
+		Action a = action(codelists,"a");
+		Role role = user().name("r").noMail().can(a).buildAsRoleFor(codelists);
+		
+		User u = user().name("joe").noMail().is(role).build();
+		
+		
+		Iterable<CodelistCoordinates> lists  = repository.get(codelistsFor(u));
+		
+		assertEqualSets(gather(lists),coordsOf(list));
+	}
+	
+	@Test
+	public void allCodelistForUser() {
+		
+		
+		Codelist list = codelist().name("1").build();
+		Codelist list2 = codelist().name("2").build();
+		
+		repository.add(list);
+		repository.add(list2);
+		
+		Action a = action(codelists,"a");
+		Role role = user().name("r").noMail().can(a).buildAsRoleFor(codelists);
+		User u = user().name("joe").noMail().is(role.on(list2.id())).build();
+		
+		Iterable<CodelistCoordinates> lists  = repository.get(codelistsFor(u));
+		
+		assertEqualSets(gather(lists),coordsOf(list2));
+	}
+	
+	@Test
 	public void codeRanges() {
 		
 		Code code1 = code().name("c1").build();
@@ -112,8 +155,6 @@ public class CodelistRepositoryTest {
 		Codelist list = codelist().name("l").with(code1,code2,code3).build();
 		
 		repository.add(list);
-		
-		System.out.println(list);
 		
 		Iterable<Code> inrange  = repository.get(allCodesIn(list.id()).from(2).to(3));
 		

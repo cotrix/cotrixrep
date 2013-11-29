@@ -3,6 +3,7 @@ package org.cotrix.repository.codelist.impl;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
@@ -84,6 +85,9 @@ public interface CodelistQueryFactory {
 	 * @return the criterion
 	 */
 	Criterion<Codelist> byVersion();
+	
+	
+	MultiQuery<Codelist,CodelistCoordinates> codelistsFor(User u);
 	
 	/**
 	 * Returns the criterion to sort code results by attribute properties.

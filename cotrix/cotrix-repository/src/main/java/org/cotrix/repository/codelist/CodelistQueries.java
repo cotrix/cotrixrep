@@ -6,6 +6,7 @@ import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
@@ -26,6 +27,10 @@ public class CodelistQueries {
 	
 	public static MultiQuery<Codelist,Code> allCodesIn(String codelistId) {
 		return factory.allCodes(codelistId);
+	}
+	
+	public static MultiQuery<Codelist,CodelistCoordinates> codelistsFor(User u) {
+		return factory.codelistsFor(u);
 	}
 	
 	public static MultiQuery<Codelist,CodelistCoordinates> allListCoordinates() {
