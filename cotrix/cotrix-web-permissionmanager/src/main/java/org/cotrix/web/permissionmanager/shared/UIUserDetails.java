@@ -3,18 +3,21 @@
  */
 package org.cotrix.web.permissionmanager.shared;
 
+import org.cotrix.web.share.shared.feature.Identified;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UIUserDetails implements IsSerializable {
+public class UIUserDetails implements IsSerializable, Identified {
 	
 	protected String id;
 	protected String username;
 	protected String fullName;
 	protected String email;
+	protected String password;
 
 	/**
 	 * @return the id
@@ -70,6 +73,20 @@ public class UIUserDetails implements IsSerializable {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	/** 

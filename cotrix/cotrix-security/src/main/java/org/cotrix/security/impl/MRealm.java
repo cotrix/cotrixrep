@@ -1,16 +1,12 @@
 package org.cotrix.security.impl;
 
-import static org.cotrix.domain.dsl.Users.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.domain.user.User;
 import org.cotrix.security.Realm;
 import org.cotrix.security.Token;
 import org.cotrix.security.tokens.NameAndPassword;
@@ -23,16 +19,6 @@ public class MRealm implements Realm<NameAndPassword> {
 	private static Logger log = LoggerFactory.getLogger(MRealm.class);
 	
 	private Map<String,String> pwds = new HashMap<String,String>();
-	
-	
-	@PostConstruct
-	public void loadPredefinedUsers() {
-	
-		log.info("loading predefined users");
-		
-		for (User user : predefinedUsers)
-			pwds.put(user.name(),user.name());
-	}
 	
 	@Override
 	public boolean supports(Token token) {

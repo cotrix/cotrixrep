@@ -19,7 +19,7 @@ import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.web.share.shared.exception.IllegalActionException;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
-import org.cotrix.web.share.shared.feature.Request;
+import org.cotrix.web.share.shared.feature.Identified;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,8 +107,8 @@ public class TaskInterceptor {
 		if (parameters == null || parameters.length == 0)
 			return null;
 		for (Object parameter : parameters) {
-			if (parameter instanceof Request) {
-				Request<?> request = (Request<?>) parameter;
+			if (parameter instanceof Identified) {
+				Identified request = (Identified) parameter;
 				return request.getId();
 			}
 		}

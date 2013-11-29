@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with field='resources'
 		type='org.cotrix.web.client.resources.CotrixResources' />
-	<ui:style>
+	<ui:style type="org.cotrix.web.client.view.UserBarViewImpl.Style">
 		.statusContainer {
 			text-align: center;
 		}
@@ -32,11 +32,15 @@
 			vertical-align:middle
 		}
 		
-		.active {
+		.activeLabel {
 			color: #64a1e0;
 			font-size: 12px;
 			font-weight: normal;
 			cursor: pointer;
+		}
+		
+		.activeLabelDisabled {
+			cursor: default;
 		}
 	</ui:style>
 	<g:FlowPanel>
@@ -48,12 +52,12 @@
 				<g:Image ui:field="user" visible="false" resource="{resources.user}" styleName="{style.icon}"/>
 				<g:Image ui:field="userDisabled" resource="{resources.userDisabled}"  styleName="{style.icon}"/>
 				<g:InlineHTML styleName="{style.middle}">&nbsp;</g:InlineHTML>
-				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="username">none</g:InlineLabel>
+				<g:InlineLabel styleName="{style.activeLabel} {style.middle}" ui:field="username">none</g:InlineLabel>
 				<g:InlineHTML styleName="{style.middle}">&nbsp;|&nbsp;</g:InlineHTML>
-				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="login" visible="false">login</g:InlineLabel>
-				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="logout" visible="false">logout</g:InlineLabel>
+				<g:InlineLabel styleName="{style.activeLabel} {style.middle}" ui:field="login" visible="false">login</g:InlineLabel>
+				<g:InlineLabel styleName="{style.activeLabel} {style.middle}" ui:field="logout" visible="false">logout</g:InlineLabel>
 				<g:InlineHTML ui:field="registerSeparator" styleName="{style.middle}" visible="false">&nbsp;or&nbsp;</g:InlineHTML>
-				<g:InlineLabel styleName="{style.active} {style.middle}" ui:field="register" visible="false">sign-up</g:InlineLabel>
+				<g:InlineLabel styleName="{style.activeLabel} {style.middle}" ui:field="register" visible="false">sign-up</g:InlineLabel>
 			</g:FlowPanel>
 		</g:HorizontalPanel>
 	</g:FlowPanel>

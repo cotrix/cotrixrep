@@ -76,7 +76,7 @@
 
 	<servlet>
 		<servlet-name>permissionServlet</servlet-name>
-		<servlet-class>org.cotrix.web.permissionmanager.server.PermissionServiceImpl</servlet-class>
+		<servlet-class>org.cotrix.web.permissionmanager.server.PermissionServiceImpl$Servlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	

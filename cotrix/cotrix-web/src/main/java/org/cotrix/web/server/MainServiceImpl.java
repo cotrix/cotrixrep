@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.cotrix.action.Action;
 import org.cotrix.action.Actions;
 import org.cotrix.action.CodelistAction;
+import org.cotrix.action.MainAction;
 import org.cotrix.application.NewsService;
 import org.cotrix.application.NewsService.NewsItem;
 import org.cotrix.application.StatisticsService;
@@ -39,6 +40,7 @@ import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.ExceptionUtils;
 import org.cotrix.web.share.shared.exception.ServiceException;
+import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.ResponseWrapper;
 import org.cotrix.web.shared.UINews;
@@ -109,6 +111,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		mapper.map(LOGOUT).to(CAN_LOGOUT);
 		mapper.map(IMPORT).to(IMPORT_CODELIST);
 		mapper.map(PUBLISH).to(PUBLISH_CODELIST);
+		mapper.map(MainAction.ACCESS_ADMIN_AREA).to(ApplicationFeatures.ACCESS_ADMIN_AREA);
 
 		startup.fire(Startup.INSTANCE);
 		

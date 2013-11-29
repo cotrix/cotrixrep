@@ -18,7 +18,8 @@ import org.cotrix.web.share.client.event.StatusUpdatedEvent;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 import org.cotrix.web.share.client.event.UserLoggedEvent;
 import org.cotrix.web.share.client.feature.FeatureBinder;
-import org.cotrix.web.share.client.feature.HasFeature;
+import org.cotrix.web.share.client.feature.FeatureToggler;
+import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 import org.cotrix.web.shared.AuthenticationFeature;
 
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -71,44 +72,38 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 		
 	protected void bindFeatures()
 	{
-		FeatureBinder.bind(new HasFeature() {
+		FeatureBinder.bind(new FeatureToggler() {
 			
 			@Override
-			public void unsetFeature() {
-				view.setLoginVisible(false);
-			}
-			
-			@Override
-			public void setFeature() {
-				view.setLoginVisible(true);
+			public void toggleFeature(boolean active) {
+				view.setLoginVisible(active);
 			}
 		}, AuthenticationFeature.CAN_LOGIN);
 		
-		FeatureBinder.bind(new HasFeature() {
+		FeatureBinder.bind(new FeatureToggler() {
 			
 			@Override
-			public void unsetFeature() {
-				view.setLogoutVisible(false);
+			public void toggleFeature(boolean active) {
+				view.setLogoutVisible(active);
 			}
-			
-			@Override
-			public void setFeature() {
-				view.setLogoutVisible(true);
-			}
+
 		}, AuthenticationFeature.CAN_LOGOUT);
 		
-		FeatureBinder.bind(new HasFeature() {
+		FeatureBinder.bind(new FeatureToggler() {
 			
 			@Override
-			public void unsetFeature() {
-				view.setRegisterVisible(false);
-			}
-			
-			@Override
-			public void setFeature() {
-				view.setRegisterVisible(true);
+			public void toggleFeature(boolean active) {
+				view.setRegisterVisible(active);
 			}
 		}, AuthenticationFeature.CAN_REGISTER);
+		
+		FeatureBinder.bind(new FeatureToggler() {
+			
+			@Override
+			public void toggleFeature(boolean active) {
+				view.setUsernameClickEnabled(active);
+			}
+		}, ApplicationFeatures.ACCESS_ADMIN_AREA);
 	}
 
 	@Override

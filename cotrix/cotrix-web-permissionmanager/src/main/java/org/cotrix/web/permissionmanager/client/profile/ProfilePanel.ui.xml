@@ -48,6 +48,14 @@
 				<g:TextBox ui:field="email" styleName="{common.css.textBox}" />
 			</g:customCell>
 		</g:row>
+		<g:row  styleName="{style.row}">
+			<g:customCell styleName="{common.css.verticalHeadersSingleItem}">
+				<g:Label text="Password" styleName="{common.css.propertyLabel}" />
+			</g:customCell>
+			<g:customCell styleName="{style.valueCell}">
+				<g:PasswordTextBox ui:field="password" styleName="{common.css.textBox}" />
+			</g:customCell>
+		</g:row>
 	</g:Grid>
 	</g:SimpleLayoutPanel>
 	<!-- <g:HTMLPanel styleName="{style.profilePanel}"> -->

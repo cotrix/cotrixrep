@@ -15,6 +15,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -35,9 +36,11 @@ public class ProfilePanel extends ResizeComposite {
 	@UiField Label username;
 	@UiField TextBox fullname;
 	@UiField TextBox email;
+	@UiField PasswordTextBox password;
 	
 	@Inject
 	protected PermissionServiceAsync service;
+	protected UIUserDetails userDetails = new UIUserDetails();
 
 	@Inject
 	protected void init(ProfilePanelUiBinder uiBinder) {
@@ -78,17 +81,18 @@ public class ProfilePanel extends ResizeComposite {
 		});
 	}
 	
-	protected void setUserDetails(UIUserDetails user) {
-		username.setText(user.getUsername());
-		fullname.setText(user.getFullName());
-		email.setText(user.getEmail());
+	protected void setUserDetails(UIUserDetails userDetails) {
+		this.userDetails = userDetails;
+		username.setText(userDetails.getUsername());
+		fullname.setText(userDetails.getFullName());
+		email.setText(userDetails.getEmail());
 	}
 	
 	protected UIUserDetails getUserDetails() {
-		UIUserDetails userDetails = new UIUserDetails();
 		userDetails.setUsername(username.getText());
 		userDetails.setFullName(fullname.getText());
 		userDetails.setEmail(email.getText());
+		userDetails.setPassword(password.getText());
 		return userDetails;
 	}
 }

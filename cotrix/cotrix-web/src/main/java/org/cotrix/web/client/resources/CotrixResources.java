@@ -24,6 +24,8 @@ public interface CotrixResources extends ClientBundle {
 	@Source("block-statistic.png")
 	ImageResource statistic();
 	
+	ImageResource logo();
+	
 	@Source("style.css")
 	public CssResource css();
 	

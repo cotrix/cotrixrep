@@ -8,10 +8,10 @@ import java.util.List;
 
 public enum MainAction implements Action {
 
-
 	IMPORT("import"),
 	PUBLISH("publish"),
-	LOGOUT("logout");
+	LOGOUT("logout"),
+	ACCESS_ADMIN_AREA("access_admin_area");
 	
 	protected Action inner;
 

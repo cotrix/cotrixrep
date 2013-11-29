@@ -13,11 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.cotrix.action.Action;
 import org.cotrix.action.ResourceType;
+import org.cotrix.action.UserAction;
 import org.cotrix.application.PermissionDelegationService;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.codelist.Codelist;
@@ -35,6 +37,9 @@ import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.permissionmanager.shared.UIUser;
 import org.cotrix.web.permissionmanager.shared.UIUserDetails;
+import org.cotrix.web.share.server.CotrixRemoteServlet;
+import org.cotrix.web.share.server.task.ContainsTask;
+import org.cotrix.web.share.server.task.UserTask;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.DataWindow;
@@ -42,15 +47,24 @@ import org.cotrix.web.share.shared.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PermissionServiceImpl extends RemoteServiceServlet implements PermissionService {
+@SuppressWarnings("serial")
+@ContainsTask
+public class PermissionServiceImpl implements PermissionService {
+	
+	public static class Servlet extends CotrixRemoteServlet {
 
-	private static final long serialVersionUID = 2621331963385532979L;
+		@Inject
+		protected PermissionServiceImpl bean;
+
+		@Override
+		public Object getBean() {
+			return bean;
+		}
+	}
 	
 	
 	protected Logger logger = LoggerFactory.getLogger(PermissionServiceImpl.class);
@@ -74,7 +88,8 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 	@Inject
 	protected User currentUser;
 	
-	public void init() {
+	@PostConstruct
+	protected void init() {
 //		codelistLoader.importAllCodelist();
 //		logger.trace("codelist in repository:");
 //		for (Codelist codelist:codelistRepository.get(allLists())) logger.trace(codelist.name().toString());
@@ -252,16 +267,15 @@ public class PermissionServiceImpl extends RemoteServiceServlet implements Permi
 		userDetails.setId(currentUser.id());
 		userDetails.setFullName(currentUser.fullName());
 		userDetails.setUsername(currentUser.name());
-		//TODO update
-		userDetails.setEmail("n/a");
+		userDetails.setEmail(currentUser.email());
 		return userDetails;
 	}
 
 	@Override
+	@UserTask(UserAction.EDIT)
 	public void saveUserDetails(UIUserDetails userDetails) throws ServiceException {
 		logger.trace("saveUserDetails userDetails: {}", userDetails);
-		//TODO email
-		User changeSet = user(currentUser).fullName(userDetails.getFullName()).build();
+		User changeSet = user(currentUser).email(userDetails.getEmail()).fullName(userDetails.getFullName()).build();
 		userRepository.update(changeSet);
 	}
 

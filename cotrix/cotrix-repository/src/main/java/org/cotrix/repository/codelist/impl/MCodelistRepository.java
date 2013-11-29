@@ -1,6 +1,6 @@
 package org.cotrix.repository.codelist.impl;
 
-import javax.inject.Singleton;
+import javax.enterprise.context.ApplicationScoped;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
@@ -16,7 +16,7 @@ import org.cotrix.repository.impl.memory.MemoryRepository;
  * @author Fabio Simeoni
  * 
  */
-@Singleton
+@ApplicationScoped
 public class MCodelistRepository extends MemoryRepository<Codelist.Private> {
 
 	@Override
