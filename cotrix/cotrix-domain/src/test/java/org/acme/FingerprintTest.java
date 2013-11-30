@@ -155,17 +155,17 @@ public class FingerprintTest {
 	public void fingerprintWithRoleHierarchies() {
 		
 
-		Role something = aUserModel("something").can(doit).buildAsRoleFor(application);
-		Role somethingElse = aUserModel("somethingElse").is(something).can(dothat).buildAsRoleFor(application);
+		Role some = aUserModel("some").can(doit).buildAsRoleFor(application);
+		Role more = aUserModel("more").is(some).can(dothat).buildAsRoleFor(application);
 		
-		User bill = bill().is(somethingElse).build();
+		User bill = bill().is(more).build();
 		
 		FingerPrint fp = bill.fingerprint();
 		
 		//System.out.println(fp);
 		
 		assertEquals(setOf(application),fp.types());
-		assertEquals(setOf(something.name(),somethingElse.name()),fp.allRolesOver(any,application));
+		assertEquals(setOf(some.name(),more.name()),fp.allRolesOver(any,application));
 		assertEquals(setOf(doit,dothat),fp.permissionsOver(any,application));
 		
 	}
@@ -174,11 +174,11 @@ public class FingerprintTest {
 	public void fingerprintWithMixedRoleHierarchies() {
 		
 
-		Role something = aUserModel("something").can(doit).buildAsRoleFor(application);
-		Role somethingElse = aUserModel("somethingElse").is(something).can(doitOnCodes).buildAsRoleFor(codelists);
-		Role somethingElseStill = aUserModel("somethingElseStill").is(somethingElse).can(doThatOnCodes).buildAsRoleFor(codelists);
+		Role some = aUserModel("some").can(doit).buildAsRoleFor(application);
+		Role more = aUserModel("more").is(some).can(doitOnCodes).buildAsRoleFor(codelists);
+		Role most = aUserModel("most").is(more).can(doThatOnCodes).buildAsRoleFor(codelists);
 		
-		User bill = bill().is(somethingElseStill.on("1")).build();
+		User bill = bill().is(most.on("1")).build();
 		
 		FingerPrint fp = bill.fingerprint();
 		
@@ -186,12 +186,12 @@ public class FingerprintTest {
 		
 		assertEquals(setOf(application,codelists),fp.types());
 		
-		assertEquals(setOf(something.name()),fp.allRolesOver(any,application));
+		assertEquals(setOf(some.name()),fp.allRolesOver(any,application));
 		assertEquals(setOf(doit),fp.permissionsOver(any,application));
 		
 		assertEquals(setOf("1"),fp.resources(codelists));
 		
-		assertEquals(setOf(somethingElse.name(),somethingElseStill.name()),fp.allRolesOver("1",codelists));
+		assertEquals(setOf(more.name(),most.name()),fp.allRolesOver("1",codelists));
 		assertEquals(setOf(doitOnCodes.on("1"),doThatOnCodes.on("1")),fp.permissionsOver("1",codelists));
 		
 	}

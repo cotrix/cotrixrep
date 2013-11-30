@@ -1,6 +1,7 @@
 package org.acme;
 
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Users.*;
 import static org.junit.Assert.*;
 
 import javax.enterprise.event.Event;
@@ -12,7 +13,9 @@ import org.cotrix.common.cdi.ApplicationEvents.ApplicationEvent;
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.codelist.CodelistRepository;
+import org.cotrix.repository.user.UserRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +30,9 @@ public class StatisticsServiceTest {
 	
 	@Inject	
 	CodelistRepository repository;
+	
+	@Inject
+	UserRepository uRepository;
 	
 	@Inject
 	Event<ApplicationEvent> events;
@@ -44,12 +50,16 @@ public class StatisticsServiceTest {
 		repository.add(l1);
 		repository.add(l2);
 		
-		Statistics s = service.statistics();
+		User joe = user().name("joe").email("joe@me.com").build();
 		
-		System.out.println(s);
+		uRepository.add(joe);
+		
+		
+		Statistics s = service.statistics();
 		
 		assertEquals(2,s.totalCodelists());
 		assertEquals(3,s.totalCodes());		
+		assertEquals(1,s.totalUsers());		
 	}
 	
 	@Test

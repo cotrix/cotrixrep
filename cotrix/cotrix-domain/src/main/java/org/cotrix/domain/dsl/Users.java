@@ -1,10 +1,7 @@
 package org.cotrix.domain.dsl;
 
-import static java.util.Arrays.*;
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.domain.dsl.Roles.*;
-
-import java.util.List;
 
 import org.cotrix.action.GuestAction;
 import org.cotrix.domain.dsl.builder.UserBuilder;
@@ -38,15 +35,5 @@ public class Users {
 
 	public static User guest = user().name("guest").noMail().fullName("Cotrix Guest User").can(GuestAction.values()).can(VIEW)
 			.build();
-
-	public static User cotrix() {
-		return user().name("cotrix").noMail().fullName("Cotrix Root User").is(ROOT).build();
-	}
-
-	public static User guest() {
-		return user().name("guest").noMail().fullName("Cotrix Guest User").can(GuestAction.values()).can(VIEW).build();
-	}
-
-	public static List<User> predefinedUsers = asList(cotrix, guest);
 
 }

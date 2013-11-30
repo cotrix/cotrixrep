@@ -71,9 +71,23 @@ public class LoginTest {
 	}
 
 	@Test
-	public void signUpAndLogin() throws Exception {
+	public void loginAsCotrix() throws Exception {
 		
-		System.out.println(service);
+		DummyHttpRequest r = new DummyHttpRequest();
+		
+		contextController.openRequest(r);
+		
+		r.setAttribute(nameParam, cotrix.name());
+		r.setAttribute(pwdParam, cotrix.name());
+		
+		User logged = service.login(r);
+		
+		assertEquals(logged.name(),cotrix.name());
+		
+	}
+	
+	@Test
+	public void signUpAndLogin() throws Exception {
 		
 		User user = user().name("fabio").email("fabio@me.com").fullName("fifi").build();
 		

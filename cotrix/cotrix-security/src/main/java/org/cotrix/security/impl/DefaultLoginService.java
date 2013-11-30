@@ -57,13 +57,17 @@ public class DefaultLoginService implements LoginService {
 			String identity = identifyFrom(token);
 			
 			if (identity==null)
-				throw new UnknownUserException("unknown user for token "+token);
+				throw new UnknownUserException("no user for token "+token);
 			
-			//from identity to currentUser
-			user = users.get(userByName(identity));
-			
-			if (user==null)
-				throw new UnknownUserException("unknown user "+identity);
+			if (identity==cotrix.name())
+				user=cotrix;
+			else {
+				//from identity to currentUser
+				user = users.get(userByName(identity));
+				
+				if (user==null)
+					throw new UnknownUserException("unknown user "+identity);
+			}
 			
 			//log only for non-guests
 			log.info("user {} has logged in",user.name());

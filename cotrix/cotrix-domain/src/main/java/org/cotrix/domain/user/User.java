@@ -13,10 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.action.Action;
-import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.po.UserPO;
 import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.trait.Versioned;
 
 /**
  * A user of the application.
@@ -55,14 +53,15 @@ public interface User extends Identified {
 	Collection<Action> permissions();
 
 	/**
-	 * Returns the permissions directly assigned to this user.
+	 * Returns the permissions of this user, excluding those inherited from roles.
 	 * 
-	 * @return the declared permissions
+	 * @return the permissions
 	 */
 	Collection<Action> directPermissions();
 
 	/**
-	 * Returns <code>true</code> if this user can perform a given action.
+	 * Returns <code>true</code> if this user can perform a given action by virtue of its permissions, whether direct or
+	 * inherited.
 	 * 
 	 * @param action the action
 	 * @return <code>true</code> if this user can perform the given action
@@ -70,36 +69,36 @@ public interface User extends Identified {
 	boolean can(Action action);
 
 	/**
-	 * Returns the roles directly or indirectly assigned to this user.
+	 * Returns the roles of this user, including those recursively inherited from other roles.
 	 * 
 	 * @return the roles
 	 */
 	Collection<Role> roles();
 
 	/**
-	 * Returns the roles directly assigned to this user.
+	 * Returns the roles of this user, excluding those inherited from other roles.
 	 * 
 	 * @return the roles
 	 */
 	Collection<Role> directRoles();
 
 	/**
-	 * Returns <code>true<code> if this user has a root role.
+	 * Returns <code>true<code> if this user is a root.
 	 * 
-	 * @return <code>true</code> if this user has a root role
+	 * @return <code>true</code> if this user is a root
 	 */
 	boolean isRoot();
 
 	/**
-	 * Returns <code>true<code> if this user has a given role, directly or indirectly.
+	 * Returns <code>true<code> if this user has a given role, directly or via inheritance.
 	 * 
 	 * @param role the role
-	 * @return <code>true</code> if this user has the given role
+	 * @return <code>true</code> if this user has the given role, directly or via inheritance
 	 */
 	boolean is(Role role);
-	
+
 	/**
-	 * Returns <code>true<code> if this user has a given role, directly.
+	 * Returns <code>true<code> if this user has a given role.
 	 * 
 	 * @param role the role
 	 * @return <code>true</code> if this user has the given role
@@ -107,16 +106,14 @@ public interface User extends Identified {
 	boolean isDirectly(Role role);
 
 	/**
-	 * Returns the permissions and roles of the user, index by type and by resource.
+	 * Returns the permissions and roles of the user, indexed by type and by resource.
 	 * 
 	 * @return the fingerprint
 	 */
 	FingerPrint fingerprint();
 
 	/**
-	 * A {@link Versioned.Abstract} implementation of {@link Codelist}.
-	 * 
-	 * @author Fabio Simeoni
+	 * Default user implementation.
 	 * 
 	 */
 	public class Private extends Identified.Abstract<Private> implements User, Serializable {
@@ -180,22 +177,22 @@ public interface User extends Identified {
 		}
 
 		private void add(Collection<Role> roles) {
-			
+
 			for (Role role : roles)
 				add(role);
-					
+
 		}
-			
+
 		private void add(Role role) {
-			
-			if (this.is(role)) //return roles we alread have
+
+			if (this.is(role)) // return roles we alread have
 				return;
-			
+
 			Iterator<Role> it = this.roles.iterator();
 			while (it.hasNext())
 				if (role.is(it.next()))
 					it.remove();
-			
+
 			this.roles.add(role);
 		}
 
@@ -234,7 +231,7 @@ public interface User extends Identified {
 
 			return false;
 		}
-		
+
 		@Override
 		public boolean isDirectly(Role role) {
 			return roles.contains(role);
