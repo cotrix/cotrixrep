@@ -10,13 +10,10 @@ import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.repository.codelist.CodelistCoordinates.*;
 import static org.cotrix.repository.codelist.CodelistQueries.*;
 
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.cotrix.action.Action;
-import org.cotrix.common.cdi.ApplicationEvents.ApplicationEvent;
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
@@ -25,14 +22,14 @@ import org.cotrix.domain.user.User;
 import org.cotrix.repository.codelist.CodelistCoordinates;
 import org.cotrix.repository.codelist.CodelistRepository;
 import org.cotrix.repository.codelist.CodelistSummary;
-import org.junit.After;
+import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.googlecode.jeeunit.JeeunitRunner;
 
 @RunWith(JeeunitRunner.class)
-public class CodelistRepositoryTest {
+public class CodelistRepositoryTest extends ApplicationTest {
 	
 	@Inject
 	CodelistRepository repository;
@@ -293,14 +290,4 @@ public class CodelistRepositoryTest {
 		
 	}
 	
-	@Inject
-	Event<ApplicationEvent> events;
-
-	//sadly, we cannot control injection on a per-test basis, so we need to cleanup after each test
-	//we do it with end-of-app events
-	@After
-	public void shutdown() {
-		events.fire(Shutdown.INSTANCE);
-	}
-
 }

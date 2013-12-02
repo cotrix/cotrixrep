@@ -7,12 +7,9 @@ import static org.junit.Assert.*;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.ApplicationEvents;
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.dsl.Users;
@@ -24,17 +21,17 @@ import org.cotrix.security.impl.DefaultLoginService;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.security.impl.DefaultSignupService;
 import org.cotrix.security.impl.MRealm;
+import org.cotrix.test.ApplicationTest;
 import org.jglue.cdiunit.AdditionalClasses;
 import org.jglue.cdiunit.CdiRunner;
 import org.jglue.cdiunit.ContextController;
 import org.jglue.cdiunit.DummyHttpRequest;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(CdiRunner.class)
 @AdditionalClasses({Users.class,DefaultUserRepository.class, MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class, UuidGenerator.class })
-public class LoginTest {
+public class LoginTest extends ApplicationTest {
 
 	@Inject
 	ContextController contextController;
@@ -48,10 +45,6 @@ public class LoginTest {
 	
 	@Inject
 	DefaultSignupService signupService;
-	
-	@Inject
-	Event<ApplicationEvents.ApplicationEvent> events;
-	
 	
 	@Test
 	public void loginAsGuestIfNoTokenIsAvailable() throws Exception {
@@ -119,11 +112,6 @@ public class LoginTest {
 	public @Current User currentUser(@Current BeanSession session) {
 	
 		return session.get(User.class);		
-	}
-	
-	@After
-	public void shutdown() {
-		events.fire(Shutdown.INSTANCE);
 	}
 
 }

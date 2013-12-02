@@ -14,10 +14,7 @@ import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.action.events.CodelistActionEvents.Import;
 import org.cotrix.application.NewsService;
 import org.cotrix.application.NewsService.NewsItem;
-import org.cotrix.common.cdi.ApplicationEvents;
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.cotrix.lifecycle.LifecycleService;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -38,18 +35,8 @@ public class NewsServiceTest {
 	TestReporter reporter;
 	
 	@Inject
-	Event<ApplicationEvents.Startup> startup;
-	
-	
-	@Inject
 	Event<CodelistActionEvents.CodelistEvent> actions;
 	
-	@Before
-	public void setup() {
-		
-		startup.fire(Startup.INSTANCE);
-	}
-
 	@Test
 	public void publishNews() {
 	

@@ -34,6 +34,10 @@
 
 		<module>cotrix-application</module>
 		<module>cotrix-web-permissionmanager</module>
+
+
+		<module>cotrix-test-common</module>
+
 	</modules>
 
 	<repositories>
@@ -244,6 +248,13 @@
 			</dependency>
 
 			<!-- testing -->
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-test-common</artifactId>
+				<version>${project.version}</version>
+				<scope>test</scope>
+			</dependency>
 
 			<dependency>
 				<groupId>org.mockito</groupId>
