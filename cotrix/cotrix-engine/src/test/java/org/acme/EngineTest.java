@@ -6,15 +6,13 @@ import static org.junit.Assert.*;
 
 import java.util.concurrent.CountDownLatch;
 
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.cotrix.action.Action;
 import org.cotrix.action.MainAction;
-import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.dsl.Users;
-import org.cotrix.domain.user.User;
+import org.cotrix.domain.dsl.grammar.UserGrammar.ThirdClause;
+import org.cotrix.domain.utils.CurrentUser;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.lifecycle.LifecycleService;
@@ -33,34 +31,22 @@ public class EngineTest {
 	@Inject 
 	LifecycleService service;
 	
-	@Produces
-	public @Current BeanSession session() {
-		
-		User user = Users.user("joe").can(IMPORT,EDIT,LOCK.on("2"),UNLOCK).build(); //but can't seal
-		
-		BeanSession session = new BeanSession();
-		
-		session.add(User.class,user);
-		
-		return session;
-	}
-	
-	@Produces @Current
-	public User testuser() {
-		
-		return Users.user("joe").can(IMPORT,EDIT,LOCK.on("2"),UNLOCK).build(); //but can't seal
-	}
+	@Inject
+	CurrentUser currentUser;
 	
 	@Before
 	public void setup() {
-		
+	
 		service.start("1");
 		service.start("2");
+		
 	}
 	
 	@Test
 	public void executesCodelistAction() throws Exception {
 
+		currentUser.set(aUser("joe").can(LOCK.on("2")).build());
+		
 		final CountDownLatch latch = new CountDownLatch(1);
 		
 		Runnable task = new Runnable() {
@@ -90,6 +76,8 @@ public class EngineTest {
 	@Test
 	public void executesCodelistActionAllowedByTemplate() throws Exception {
 
+		currentUser.set(aUser("joe").can(EDIT).build());
+		
 		final CountDownLatch latch = new CountDownLatch(1);
 		
 		Runnable task = new Runnable() {
@@ -120,6 +108,8 @@ public class EngineTest {
 	@Test
 	public void executesMainAction() throws Exception {
 
+		currentUser.set(aUser("joe").can(IMPORT).build());
+		
 		final CountDownLatch latch = new CountDownLatch(1);
 		
 		Runnable task = new Runnable() {
@@ -145,7 +135,9 @@ public class EngineTest {
 	
 	@Test
 	public void failsMainAction() throws Exception {
-
+		
+		currentUser.set(aUser("joe").build());
+		
 		Runnable task = new Runnable() {
 			
 			@Override
@@ -167,6 +159,8 @@ public class EngineTest {
 	@Test
 	public void failsIllegalInstanceAction() throws Exception {
 
+		currentUser.set(aUser("joe").can(UNLOCK.on("1")).build());
+		
 		Runnable task = new Runnable() {
 			
 			@Override
@@ -189,6 +183,8 @@ public class EngineTest {
 	@Test
 	public void failsDisallowedInstanceAction() throws Exception {
 
+		currentUser.set(aUser("joe").can(LOCK.on("2")).build());
+		
 		Runnable task = new Runnable() {
 			
 			@Override
@@ -204,6 +200,12 @@ public class EngineTest {
 			System.out.println(e.getMessage());
 		}
 		
+	}
+	
+	//helper
+	
+	ThirdClause aUser(String name) {
+		return Users.user().name(name).noMail().fullName(name);
 	}
 	
 }
