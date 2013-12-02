@@ -11,21 +11,17 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.io.MapService;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
+import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 
-import com.googlecode.jeeunit.JeeunitRunner;
-
-@RunWith(JeeunitRunner.class)
-public class CloudServiceTests {
+public class CloudServiceTests extends ApplicationTest {
 
 	@Inject
 	CloudService cloud;
 	
 	@Inject
 	MapService mapper;
-	
 	
 	@Test
 	public void publishToGCubeSdmxRegistry() {

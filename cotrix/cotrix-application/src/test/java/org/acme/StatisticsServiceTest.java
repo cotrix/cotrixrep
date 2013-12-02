@@ -15,11 +15,7 @@ import org.cotrix.repository.codelist.CodelistRepository;
 import org.cotrix.repository.user.UserRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.googlecode.jeeunit.JeeunitRunner;
-
-@RunWith(JeeunitRunner.class)
 public class StatisticsServiceTest extends ApplicationTest {
 
 	@Inject

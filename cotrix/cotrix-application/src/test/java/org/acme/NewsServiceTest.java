@@ -15,13 +15,10 @@ import org.cotrix.action.events.CodelistActionEvents.Import;
 import org.cotrix.application.NewsService;
 import org.cotrix.application.NewsService.NewsItem;
 import org.cotrix.lifecycle.LifecycleService;
+import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.googlecode.jeeunit.JeeunitRunner;
-
-@RunWith(JeeunitRunner.class)
-public class NewsServiceTest {
+public class NewsServiceTest extends ApplicationTest {
 
 	static NewsItem testItem = new NewsItem("text");
 	

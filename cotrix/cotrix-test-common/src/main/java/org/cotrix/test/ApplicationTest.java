@@ -8,7 +8,16 @@ import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 
+import com.googlecode.jeeunit.JeeunitRunner;
+
+/**
+ * Base class of integration tests that rely on startup and shutdown events.
+ * 
+ * 
+ */
+@RunWith(JeeunitRunner.class)
 public abstract class ApplicationTest {
 
 	@Inject

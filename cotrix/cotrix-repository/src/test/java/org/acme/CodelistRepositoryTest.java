@@ -24,11 +24,7 @@ import org.cotrix.repository.codelist.CodelistRepository;
 import org.cotrix.repository.codelist.CodelistSummary;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.googlecode.jeeunit.JeeunitRunner;
-
-@RunWith(JeeunitRunner.class)
 public class CodelistRepositoryTest extends ApplicationTest {
 	
 	@Inject

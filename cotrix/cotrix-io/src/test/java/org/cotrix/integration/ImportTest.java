@@ -14,15 +14,12 @@ import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
 import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
 import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
+import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Table;
 
-import com.googlecode.jeeunit.JeeunitRunner;
-
-@RunWith(JeeunitRunner.class)
-public class ImportTest {
+public class ImportTest extends ApplicationTest {
 
 	//won't test parsing or mapping, just their integration
 

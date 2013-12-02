@@ -7,18 +7,14 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.io.MapService;
 import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
+import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
 import org.virtualrepository.VirtualRepository;
 import org.virtualrepository.sdmx.SdmxCodelist;
 
-import com.googlecode.jeeunit.JeeunitRunner;
-
-
-@RunWith(JeeunitRunner.class)
-public class RetrieveIntegrationTests {
+public class RetrieveIntegrationTests extends ApplicationTest {
 
 	@Inject
 	MapService mapper;
