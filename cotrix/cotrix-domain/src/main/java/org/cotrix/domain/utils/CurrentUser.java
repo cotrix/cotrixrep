@@ -1,13 +1,15 @@
-package org.cotrix.repository.utils;
+package org.cotrix.domain.utils;
 
 import java.util.Collection;
+
+import javax.enterprise.inject.Vetoed;
 
 import org.cotrix.action.Action;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 
-
+@Vetoed
 public class CurrentUser implements User {
 
 	private User test;
@@ -58,6 +60,16 @@ public class CurrentUser implements User {
 	}
 	
 	@Override
+	public boolean isDirectly(Role role) {
+		return test.isDirectly(role);
+	}
+	
+	@Override
+	public Collection<Role> directRoles() {
+		return test.directRoles();
+	}
+	
+	@Override
 	public Collection<Role> roles() {
 		return test.roles();
 	}
@@ -75,6 +87,11 @@ public class CurrentUser implements User {
 	@Override
 	public int hashCode() {
 		return test.hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		return test.toString();
 	}
 	
 }

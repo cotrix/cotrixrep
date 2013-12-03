@@ -13,15 +13,12 @@ import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
 import org.cotrix.io.sdmx.serialise.Sdmx2XmlDirectives;
 import org.cotrix.io.tabular.csv.serialise.Table2CsvDirectives;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
+import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Table;
 
-import com.googlecode.jeeunit.JeeunitRunner;
-
-@RunWith(JeeunitRunner.class)
-public class ExportTest {
+public class ExportTest extends ApplicationTest {
 
 	//won't test mapping or serialisation, just their integration
 

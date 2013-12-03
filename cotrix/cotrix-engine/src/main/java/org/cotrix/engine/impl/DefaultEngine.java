@@ -56,7 +56,7 @@ public class DefaultEngine implements Engine {
 	private <T> TaskOutcome<T> perform(Action action, Task<T> task) {
 		
 		User user = session.get(User.class);
-
+		
 		//subset permissions to relevant type and resource
 		Collection<Action> permissions = filterForAction(action,user.permissions());
 		

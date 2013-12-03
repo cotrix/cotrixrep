@@ -11,24 +11,43 @@ import java.util.Map;
 import org.cotrix.action.Action;
 import org.cotrix.action.ResourceType;
 
+/**
+ * A view of the roles and permissions of a given user indexed by resource type and identifier. 
+ * 
+ * @author Fabio Simeoni
+ *
+ */
 public class FingerPrint {
 
 	private Map<ResourceType,Map<String,Rights>> fp = new HashMap<ResourceType,Map<String,Rights>>();
 	
+	/**
+	 * Creates an instance for a given user.
+	 * @param user the user
+	 */
 	public FingerPrint(User user) {
 	
 		for (Action p : user.permissions())
-			buildTarget(p.resource(),p.type()).permissions.add(p);
+			rightsOver(p.resource(),p.type()).permissions.add(p);
 		
 		for (Role r : user.roles())
-			buildTarget(r.resource(),r.type()).roles.add(r.name());
+			rightsOver(r.resource(),r.type()).roles.add(r.name());
 		
 	}
 	
+	/**
+	 * Returns the types of resources over which the user has permissions or roles.
+	 * @return the types
+	 */
 	public Collection<ResourceType> types() {
 		return fp.keySet();
 	}
 	
+	/**
+	 * Returns the identifiers of all the resources of a given type over which the user has permissions or roles.
+	 * @param type the type
+	 * @return the resource identifier
+	 */
 	public Collection<String> resources(ResourceType type) {
 		
 		Collection<String> resources = fp.containsKey(type)?fp.get(type).keySet():new HashSet<String>();
@@ -36,6 +55,12 @@ public class FingerPrint {
 		return resources;
 	}
 	
+	/**
+	 * Returns the roles of the user over a given resource, excluding those implied by role templates.
+	 * @param resource the resource identifier
+	 * @param type the resource type
+	 * @return the roles of the user over the resource
+	 */
 	public Collection<String> specificRolesOver(String resource, ResourceType type) {
 		
 		Rights rights = target(resource,type);
@@ -46,11 +71,15 @@ public class FingerPrint {
 	}
 	
 	
+	/**
+	 * Returns the roles of the user over a given resource, including those implied by role templates.
+	 * @param resource the resource identifier
+	 * @param type the resource type
+	 * @return the roles of the user over the resource
+	 */
 	public Collection<String> allRolesOver(String resource, ResourceType type) {
 		
-		Rights rights = target(resource,type);
-		
-		Collection<String> roles =  (rights== null)? new HashSet<String>() : rights.roles;
+		Collection<String> roles =  specificRolesOver(resource, type);
 		
 		//add roles over all resources
 		if (!resource.equals(any))
@@ -60,7 +89,32 @@ public class FingerPrint {
 	}
 	
 	
+	/**
+	 * Returns the permissions of the user over a given resource, including those implied by permission templates.
+	 * @param resource the resource identifier
+	 * @param type the resource type
+	 * @return the permissions of the user over the resource
+	 */
 	public Collection<Action> permissionsOver(String resource, ResourceType type) {
+		
+		Rights rights = target(resource,type);
+		
+		Collection<Action> permissions = rights == null? Collections.<Action>emptySet() : rights.permissions;
+		
+		//add permission over all resources
+		if (!resource.equals(any))
+			permissions.addAll(permissionsOver(any, type));
+		
+		return permissions;
+	}
+	
+	/**
+	 * Returns the permissions of the user over a specific resource, excluding those implied by permission templates.
+	 * @param resource the resource identifier
+	 * @param type the resource type
+	 * @return the permissions of the user over the resource
+	 */
+	public Collection<Action> specificPermissionsOver(String resource, ResourceType type) {
 		
 		Rights rights = target(resource,type);
 		
@@ -74,15 +128,18 @@ public class FingerPrint {
 	}
 
 
-	//helper
-	public Rights target(String resource, ResourceType type) {
+	
+	//helpers
+	
+	
+	private Rights target(String resource, ResourceType type) {
 		
 		Map<String,Rights> roleMap = fp.get(type);
 		
 		return roleMap!=null? roleMap.get(resource):null;
 	}
 	
-	private Rights buildTarget(String resource,ResourceType type) {
+	private Rights rightsOver(String resource,ResourceType type) {
 		
 		Map<String,Rights> resourceMap = fp.get(type);
 		

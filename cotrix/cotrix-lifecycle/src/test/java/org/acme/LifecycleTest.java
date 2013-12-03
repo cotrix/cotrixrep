@@ -14,13 +14,10 @@ import org.cotrix.lifecycle.LifecycleEvent;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
+import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.googlecode.jeeunit.JeeunitRunner;
-
-@RunWith(JeeunitRunner.class)
-public class LifecycleTest {
+public class LifecycleTest extends ApplicationTest {
 
 	String resourceId = "resource";
 	

@@ -7,6 +7,7 @@ import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Users.*;
 
 import org.cotrix.action.Action;
+import org.cotrix.common.Utils;
 import org.cotrix.domain.dsl.grammar.UserGrammar;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
@@ -21,11 +22,39 @@ public class RoleTest {
 	@Test
 	public void assignTemplateRole() {
 
-		Role something = aRole().buildAsRoleFor(application);
+		Role something = aRole("r1").buildAsRoleFor(application);
+		Role somethingElse = aRole("r2").buildAsRoleFor(application);
 	
-		User bill = bill().is(something).build();
+		User bill = bill().is(something,somethingElse).build();
 		
 		assertTrue(bill.is(something));
+		assertTrue(bill.is(somethingElse));
+		
+		assertEqualSets(bill.directRoles(), something, somethingElse);
+		assertEqualSets(bill.roles(), something, somethingElse);
+		
+	}
+	
+	@Test
+	public void revokeTemplateRole() {
+
+		Role something = aRole("r1").buildAsRoleFor(application);
+		Role somethingElse = aRole("r2").buildAsRoleFor(application);
+	
+		User bill = bill().is(something,somethingElse).build();
+		
+
+		reveal(bill).setId("1");
+		
+		User changeset = user(bill).isNot(something).build();
+		
+		update(bill, changeset);
+		
+		assertFalse(bill.is(something));
+		assertTrue(bill.is(somethingElse));
+		
+		assertEqualSets(bill.directRoles(), somethingElse);
+		assertEqualSets(bill.roles(),somethingElse);
 		
 	}
 	
@@ -63,6 +92,25 @@ public class RoleTest {
 		assertTrue(bill.can(doit.on("1")));
 	}
 	
+	@Test
+	public void revokeInstanceRole() {
+
+		Role something = aRole().can(doit).buildAsRoleFor(application);
+		
+		User bill = bill().is(something.on("1")).build();
+		
+		reveal(bill).setId("1");
+		
+		assertTrue(bill.is(something.on("1")));
+		
+		User changeset = user(bill).isNot(something.on("1")).build();
+		
+		update(bill, changeset);
+		
+		assertFalse(bill.is(something.on("1")));
+		
+	}
+	
 	
 	@Test
 	public void permissionsCanBeDirectOrIndirect() {
@@ -77,24 +125,90 @@ public class RoleTest {
 	
 	
 	@Test
-	public void roleFormHierarchies() {
+	public void rolesCompose() {
 
-		Role something = aRole("role1").can(doit).buildAsRoleFor(application);
-		Role somethingElse = aRole("role2").can(dothat).is(something).buildAsRoleFor(application);
-		Role somethingElseStill = aRole("role3").can(dothatToo).is(somethingElse).buildAsRoleFor(application);
+		Role small = aRole("r1").can(doit).buildAsRoleFor(application);
+		Role larger = aRole("r2").can(dothat).is(small).buildAsRoleFor(application);
+		Role largerStill = aRole("r3").can(dothatToo).is(larger).buildAsRoleFor(application);
 	
-		User bill = bill().is(somethingElseStill).build();
+		User bill = bill().is(largerStill).build();
 		
-		assertEqualSets(bill.roles(),something,somethingElse, somethingElseStill);
+		assertEqualSets(bill.roles(),small,larger,largerStill);
+		assertEqualSets(bill.directRoles(),largerStill);
 		
-		assertTrue(bill.is(something));
-		assertTrue(bill.is(somethingElse));
-		assertTrue(bill.is(somethingElseStill));
+		assertTrue(bill.is(small));
+		assertTrue(bill.is(larger));
+		assertTrue(bill.is(largerStill));
+		
+		assertTrue(bill.isDirectly(largerStill));
+		assertFalse(bill.isDirectly(larger));
+		assertFalse(bill.isDirectly(small));
 		
 		//role permissions propagate
 		assertTrue(bill.can(doit));
 		assertTrue(bill.can(dothat));
 		assertTrue(bill.can(dothatToo));
+		
+	}
+	
+	@Test
+	public void smallerRolesAreNotAdded() {
+		
+		
+		Role something = aRole("r1").can(doit).buildAsRoleFor(application);
+		Role somethingElse = aRole("r2").can(dothat).is(something).buildAsRoleFor(application);
+		
+		User bill = bill().is(somethingElse).build();
+		
+		reveal(bill).setId("1");
+		
+		//add smaller role
+		
+		User changeset = user(bill).is(something).build();
+		
+		update(bill, changeset);
+		
+		assertEqualSets(bill.directRoles(),somethingElse);
+	}
+	
+	@Test
+	public void largerRolesReplaceSmallerOnes() {
+
+		Role small = aRole("r1").can(doit).buildAsRoleFor(application);
+		Role large = aRole("r2").can(dothat).is(small).buildAsRoleFor(application);
+		
+		
+		User bill = bill().is(large).build();
+		
+		reveal(bill).setId("1");
+		
+		Role largerStill = aRole("r3").can(dothatToo).is(large).buildAsRoleFor(application);
+		
+		User changeset = user(bill).is(largerStill).build();
+		
+		update(bill, changeset);
+		
+		assertEqualSets(bill.directRoles(),largerStill);
+		
+		
+	}
+	
+	
+	@Test
+	public void revokeRoleFromHiearchy() {
+
+		Role something = aRole("something").can(doit).buildAsRoleFor(application);
+		Role somethingElse = aRole("somethingElse").can(dothat).is(something).buildAsRoleFor(application);
+		
+		User bill = bill().is(somethingElse).build();
+
+		reveal(bill).setId("1");
+		
+		User changeset = user(bill).isNot(something).build();
+		
+		update(bill, changeset);
+		
+		assertTrue(bill.is(something));
 		
 	}
 	
@@ -159,16 +273,17 @@ public class RoleTest {
 		assertEqualSets(bill.roles(),someone);
 	}
 	
-
-	@Test
-	public void test() {
-		
-		
-	}
-	
 	
 	
 	//helper
+	
+	private User.Private reveal(User u) {
+		return Utils.reveal(u,User.Private.class);
+	}
+	
+	private void update(User u, User changeset) {
+		reveal(u).update(reveal(changeset));
+	}
 	
 	private UserGrammar.ThirdClause bill() {
 		return user().name("bill").noMail().fullName("bill");

@@ -30,29 +30,17 @@
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-test-common</artifactId>
+		</dependency>
+		
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>com.googlecode.jeeunit</groupId>
-			<artifactId>jeeunit-weld-se</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>weld-se-core</artifactId>
-					<groupId>org.jboss.weld.se</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se</artifactId>
-		</dependency>
-		
-		
 
 	</dependencies>
 

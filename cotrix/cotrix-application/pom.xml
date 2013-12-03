@@ -41,22 +41,9 @@
 			<artifactId>cotrix-security</artifactId>
 		</dependency>
 
-
-		<!-- testing with CDI -->
 		<dependency>
-			<groupId>com.googlecode.jeeunit</groupId>
-			<artifactId>jeeunit-weld-se</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>weld-se-core</artifactId>
-					<groupId>org.jboss.weld.se</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se</artifactId>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-test-common</artifactId>
 		</dependency>
 		
 		<dependency>

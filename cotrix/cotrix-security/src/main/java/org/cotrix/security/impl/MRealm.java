@@ -1,5 +1,7 @@
 package org.cotrix.security.impl;
 
+import static org.cotrix.domain.dsl.Users.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +22,10 @@ public class MRealm implements Realm<NameAndPassword> {
 	
 	private Map<String,String> pwds = new HashMap<String,String>();
 	
+	public MRealm() {
+		loadPrimordialRoot();
+	}
+	
 	@Override
 	public boolean supports(Token token) {
 		return token instanceof NameAndPassword;
@@ -27,10 +33,17 @@ public class MRealm implements Realm<NameAndPassword> {
 	
 	@Override
 	public String login(NameAndPassword token) {
-		
+	
+	
 		String password = pwds.get(token.name());
 
 		return password!=null && password.equals(token.password())? token.name():null;
+	}
+	
+	private void loadPrimordialRoot() {
+		//TODO 
+		pwds.put(cotrix.name(),cotrix.name());
+
 	}
 	
 	@Override
