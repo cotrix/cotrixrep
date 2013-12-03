@@ -1,10 +1,10 @@
-package org.cotrix.web.permissionmanager.client.codelists.user;
+package org.cotrix.web.permissionmanager.client.matrix.user;
 
 import org.cotrix.web.permissionmanager.shared.UIUser;
 
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
-class UserSuggestion implements Suggestion {
+public class UserSuggestion implements Suggestion {
 	
 	protected UIUser user;
 

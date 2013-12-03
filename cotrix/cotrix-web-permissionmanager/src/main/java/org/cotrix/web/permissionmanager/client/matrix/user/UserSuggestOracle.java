@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.permissionmanager.client.codelists.user;
+package org.cotrix.web.permissionmanager.client.matrix.user;
 
 import java.util.ArrayList;
 import java.util.HashSet;

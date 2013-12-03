@@ -4,6 +4,7 @@
 package org.cotrix.web.permissionmanager.client.codelists;
 
 import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
+import org.cotrix.web.permissionmanager.client.matrix.EditorRow;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.util.CachedDataProvider;
@@ -41,6 +42,7 @@ public class CodelistRolesRowDataProvider extends CachedDataProvider<RolesRow> {
 				@Override
 				public void onSuccess(DataWindow<RolesRow> result) {
 					Log.trace("rows: "+result);
+					result.getData().add(new EditorRow());
 					updateData(result, display.getVisibleRange());
 				}
 			});

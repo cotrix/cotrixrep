@@ -3,17 +3,16 @@
  */
 package org.cotrix.web.permissionmanager.client.codelists;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
 import org.cotrix.web.permissionmanager.client.codelists.tree.CodelistSelectedEvent;
 import org.cotrix.web.permissionmanager.client.codelists.tree.CodelistsTreePanel;
-import org.cotrix.web.permissionmanager.client.codelists.user.UserAddPanel;
-import org.cotrix.web.permissionmanager.client.codelists.user.UserAddedEvent;
+import org.cotrix.web.permissionmanager.client.matrix.EditorRow;
 import org.cotrix.web.permissionmanager.client.matrix.RolesRowUpdatedEvent;
 import org.cotrix.web.permissionmanager.client.matrix.UsersRolesMatrix;
+import org.cotrix.web.permissionmanager.client.matrix.user.UserAddedEvent;
 import org.cotrix.web.permissionmanager.shared.CodelistGroup.CodelistVersion;
 import org.cotrix.web.permissionmanager.shared.RoleAction;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
@@ -55,7 +54,6 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	@UiField DockLayoutPanel rolesPanel;
 	@Inject @UiField(provided=true) UsersRolesMatrix usersRolesMatrix;
 	@Inject @UiField(provided=true) CodelistsTreePanel codelistsTreePanel;
-	@Inject @UiField(provided=true) UserAddPanel userAddPanel;
 
 	protected String currentCodelistId = null;
 
@@ -102,8 +100,13 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	@EventHandler
 	protected void onUserAdded(UserAddedEvent event) {
 		Log.trace("onUserAdded "+event.getUser());
-		RolesRow row = new RolesRow(event.getUser(), new ArrayList<String>());
-		dataProvider.getCache().add(row);
+
+		List<RolesRow> cache = dataProvider.getCache();
+		RolesRow editorRow = cache.remove(cache.size()-1);
+		RolesRow row = new RolesRow(event.getUser(), editorRow.getRoles());
+		for (String role:row.getRoles()) saveRow(row, role, true);
+		cache.add(row);
+		cache.add(new EditorRow());
 		dataProvider.refresh();
 	}
 

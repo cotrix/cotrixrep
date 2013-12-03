@@ -7,18 +7,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.permissionmanager.client.PermissionBus;
+import org.cotrix.web.permissionmanager.client.matrix.user.UserAddedEvent;
+import org.cotrix.web.permissionmanager.client.matrix.user.UserSuggestOracle;
+import org.cotrix.web.permissionmanager.client.matrix.user.UserSuggestion;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestOracle;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.AbstractDataProvider;
 import com.google.gwt.view.client.Range;
@@ -61,6 +68,9 @@ public class UsersRolesMatrix extends ResizeComposite {
 	
 	@Inject @PermissionBus
 	protected EventBus bus;
+	
+	@Inject
+	protected UserSuggestOracle oracle;
 
 	protected DataGridResources dataGridResources = GWT.create(DataGridResources.class);
 	protected List<String> userRoles = new ArrayList<String>();
@@ -85,14 +95,30 @@ public class UsersRolesMatrix extends ResizeComposite {
 	}
 
 	public void setupMatrix(List<String> roles, AbstractDataProvider<RolesRow> dataProvider) {
+		
+		UserCell userCell = new UserCell(oracle) {
 
-		Column<RolesRow, String> userColumn = new Column<RolesRow, String>(new TextCell()) {
-
+			/** 
+			 * {@inheritDoc}
+			 */
 			@Override
-			public String getValue(RolesRow row) {
-				return row.getUser().getUsername();
+			public void onSuggestBoxCreated(SuggestBox suggestBox) {
+				suggestBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
+
+					@Override
+					public void onSelection(SelectionEvent<Suggestion> event) {
+						Log.trace("selected suggestion "+event.getSelectedItem());
+						if (event.getSelectedItem() instanceof UserSuggestion) {
+							UserSuggestion userSuggestion = (UserSuggestion)event.getSelectedItem();
+							bus.fireEvent(new UserAddedEvent(userSuggestion.getUser()));
+						}
+					}
+				});
 			}
+			
 		};
+		
+		Column<RolesRow, String> userColumn = new UserColumn(userCell);
 		matrix.addColumn(userColumn, "Users");
 
 		for (String role:roles) {
@@ -122,7 +148,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 			public void update(int index, RolesRow row, RoleState value) {
 				if (value.isChecked()) row.addRole(role);
 				else row.removeRole(role);
-				bus.fireEventFromSource(new RolesRowUpdatedEvent(row, role, value.isChecked()), UsersRolesMatrix.this);
+				if (!(row instanceof EditorRow)) bus.fireEventFromSource(new RolesRowUpdatedEvent(row, role, value.isChecked()), UsersRolesMatrix.this);
 			}
 		});
 
