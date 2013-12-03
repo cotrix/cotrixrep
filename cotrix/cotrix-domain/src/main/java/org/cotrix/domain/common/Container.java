@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.cotrix.domain.trait.Identified;
 
@@ -30,6 +28,13 @@ public interface Container<T> extends Iterable<T> {
 	int size();
 	
 	
+	static interface Provider<T,S> {
+		
+		S stateOf(T s);
+		
+		T objectFor(S s);
+	}
+	
 	/**
 	 * An {@link Identified.Abstract} implementation of {@link Container}.
 	 * 
@@ -37,27 +42,28 @@ public interface Container<T> extends Iterable<T> {
 	 *
 	 * @param <T> the type of the contained objects 
 	 */
-	public class Private<T extends Identified.Abstract<T>> implements Container<T> {
+	public class Private<T extends Identified.Abstract<T>, S extends Identified.State<T>> implements Container<T> {
 		
-		private final Set<T> objects = new LinkedHashSet<T>();
+		private final Collection<S> objects;
+		private final Provider<T,S> provider;
 		
 		/**
 		 * Creates an instance that contain given entities.
 		 * 
 		 * @param objects the entities
 		 */
-		public Private(List<? extends T> objects) {
+		public Private(Collection<S> objects,Provider<T,S> provider) {
 			
 			notNull("elements",objects);
 			
-			for (T object : objects)
-				add(object);
+			this.objects=objects;
+			this.provider=provider;
 			
 		}
 		
 		@Override
 		public Iterator<T> iterator() {
-			return objects.iterator();
+			return new ElementIterator();
 		}
 
 		@Override
@@ -65,16 +71,7 @@ public interface Container<T> extends Iterable<T> {
 			return objects.size();
 		}
 		
-		
-		/**
-		 * Returns the objects in this container.
-		 * @return the objects
-		 */
-		public Set<T> objects() {
-			return objects;
-		}
-
-		public void update(Private<T> changeset) {
+		public void update(Private<T,S> changeset) {
 			
 			Map<String, T> index = indexObjects();
 
@@ -116,45 +113,30 @@ public interface Container<T> extends Iterable<T> {
 
 			notNull("element",object);
 			
-			return objects.add(object);
+			return objects.add(provider.stateOf(object));
 			
 		}
 		
-		public Private<T> copy() {
+		public Private<T,S> copy() {
 			
 			return copy(true); 
 			
 		}
 
-		public Private<T> copy(boolean retainId) {
+		public Private<T,S> copy(boolean retainId) {
 			
-			List<T> copied = new ArrayList<T>();
+			List<S> copied = new ArrayList<S>();
 			for (T object : this)
-				copied.add(object.copy(retainId));
+				copied.add(provider.stateOf(object.copy(retainId)));
 			
-			return new Private<T>(copied); 
+			return new Private<T,S>(copied, provider); 
 			
 		}
 		
-		@Override
-		public String toString() {
-			final int maxLen = 100;
-			return objects != null ? toString(objects, maxLen) : null;
+		public Collection<S> objects() {
+			return objects;
 		}
-
-		private String toString(Collection<?> collection, int maxLen) {
-			StringBuilder builder = new StringBuilder();
-			builder.append("[");
-			int i = 0;
-			for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < maxLen; i++) {
-				if (i > 0)
-					builder.append(", ");
-				builder.append(iterator.next());
-			}
-			builder.append("]");
-			return builder.toString();
-		}
-
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -171,7 +153,7 @@ public interface Container<T> extends Iterable<T> {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Private<?> other = (Private<?>) obj;
+			Private<?,?> other = (Private<?,?>) obj;
 			if (objects == null) {
 				if (other.objects != null)
 					return false;
@@ -179,7 +161,29 @@ public interface Container<T> extends Iterable<T> {
 				return false;
 			return true;
 		}
+	
 		
+		class ElementIterator implements Iterator<T> {
+			
+			Iterator<S> inner;
+			
+			public ElementIterator() {
+				this.inner=objects.iterator();
+			}
+			
+			
+			public boolean hasNext() {
+				return inner.hasNext();
+			}
+			
+			public T next() {
+				return provider.objectFor(inner.next());
+			}
+			
+			public void remove() {
+				inner.remove();
+			}
+		}
 	}
 
 }

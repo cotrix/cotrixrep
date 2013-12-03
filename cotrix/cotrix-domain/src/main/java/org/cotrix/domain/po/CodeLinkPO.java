@@ -11,10 +11,10 @@ import org.cotrix.domain.codelist.CodelistLink;
  * @author Fabio Simeoni
  * 
  */
-public final class CodeLinkPO extends AttributedPO {
+public final class CodeLinkPO extends AttributedPO<Codelink.Private> implements Codelink.State {
 
 	private String targetId;
-	private CodelistLink.Private definition;
+	private CodelistLink.State definition;
 
 	/**
 	 * Creates an instance with an identifier.
@@ -29,29 +29,29 @@ public final class CodeLinkPO extends AttributedPO {
 		return targetId;
 	}
 
-	public void setTargetId(String id) {
+	public void targetId(String id) {
 
 		notNull("id",id);
 
 		this.targetId = id;
 	}
 
-	public CodelistLink.Private definition() {
+	public CodelistLink.State definition() {
 		return definition;
 	}
 
-	public void setDefinition(CodelistLink.Private definition) {
+	public void definition(CodelistLink.State definition) {
 		
 		notNull("definition",definition);
 
 		this.definition = definition;
 	}
 	
-	public void setDefinition(CodelistLink definition) {
+	public void definition(CodelistLink definition) {
 		
 		notNull("definition",definition);
 
-		setDefinition(reveal(definition,CodelistLink.Private.class));
+		definition(reveal(definition,CodelistLink.Private.class));
 	}
 
 }

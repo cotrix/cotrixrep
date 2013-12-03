@@ -3,6 +3,7 @@ package org.cotrix.domain.dsl.builder;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.trait.Status.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,12 +36,12 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	
 	public CodelistLinkBuilder(String id) {
 		this.po = new CodelistLinkPO(id);
-		po.setChange(MODIFIED);
+		po.change(MODIFIED);
 	}
 	
 	@Override
 	public SecondClause name(QName name) {
-		po.setName(name);
+		po.name(name);
 		return this;
 	}
 	
@@ -51,19 +52,25 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	
 	@Override
 	public CodelistLink delete() {
-		po.setChange(DELETED);
+		po.change(DELETED);
 		return build();
 	}
 	
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
-		po.setAttributes(Arrays.asList(attributes));
-		return this;
+		return attributes(Arrays.asList(attributes));
 	}
 	
 	@Override
 	public FinalClause attributes(List<Attribute> attributes) {
-		po.setAttributes(attributes);
+		
+		List<Attribute.State> state = new ArrayList<Attribute.State>();
+		
+		for (Attribute a : attributes)
+			state.add(reveal(a,Attribute.Private.class).state());
+		
+		po.attributes(state);
+		
 		return this;
 	}
 	
@@ -75,7 +82,7 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 		if (target.id()==null)
 			throw new IllegalArgumentException("cannot link to an unidentified codelist");
 		
-		po.setTargetId(target.id());
+		po.targetId(target.id());
 		
 		return this;
 	}

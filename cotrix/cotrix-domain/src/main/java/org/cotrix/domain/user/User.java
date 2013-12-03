@@ -127,12 +127,17 @@ public interface User extends Identified {
 		private final List<Role> roles = new ArrayList<Role>();
 
 		public Private(UserPO po) {
-			super(po);
 			this.name = po.name();
 			this.fullName = po.fullName();
 			this.permissions.addAll(po.permissions());
 			this.email = po.email();
 			this.add(po.roles());
+		}
+		
+		@Override
+		public State<Private> state() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 		@Override

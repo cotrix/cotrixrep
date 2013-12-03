@@ -3,7 +3,6 @@ package org.acme;
 import static org.cotrix.domain.dsl.Codes.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.Container;
-import org.cotrix.domain.trait.Identified.Abstract;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.version.DefaultVersion;
 
@@ -42,10 +40,6 @@ public class Fixture {
 	public static Code c = code("id").name(name).attributes(a).build();
 	public static Code c2 = code("id2").name(name2).attributes(a,a2).build();
 	public static Code c3 = code("id3").name(name3).attributes(a,a2,a3).build();
-	
-	public static <T extends Abstract<T>> Container.Private<T> container(T ... ts) {
-		return new Container.Private<T>(Arrays.asList(ts));
-	}
 	
 	public static <T extends Named> Map<QName,List<T>> asMap(Container<T> container) {
 		

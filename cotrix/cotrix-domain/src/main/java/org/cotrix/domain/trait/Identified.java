@@ -2,8 +2,6 @@ package org.cotrix.domain.trait;
 
 import static org.cotrix.common.Utils.*;
 
-import org.cotrix.domain.po.DomainPO;
-
 /**
  * The base interface of all domain objects.
  * 
@@ -20,6 +18,15 @@ public interface Identified {
 	String id();
 
 	
+	static interface State<T extends Identified.Abstract<T>> {
+		
+		Status change();
+
+		String id();
+		
+		void id(String id);
+	}
+	
 	/**
 	 * Default {@link Identified} implementation.
 	 * 
@@ -27,18 +34,9 @@ public interface Identified {
 	 */
 	public abstract class Abstract<T extends Abstract<T>> implements Identified {
 
-		private String id;
-		private Status change;
-
-		protected Abstract(DomainPO po) {
-
-			this.id = po.id();
-			this.change = po.change();
-		}
-
 		@Override
 		public String id() {
-			return id;
+			return state().id();
 		}
 
 		/**
@@ -48,21 +46,21 @@ public interface Identified {
 		 * @throws IllegalArgumentException if the identifier is <code>null</code>
  		 * @throws IllegalStateException if this object is already identified
 		 */
-		public void setId(String id) throws IllegalStateException {
+		public void id(String id) throws IllegalStateException {
 
 			valid("object identifier",id);
 			
-			if (this.id != null)
-				throw new IllegalStateException(this.getClass().getCanonicalName()+" has already an identifier (" + this.id + ")");
+			if (state().id() != null)
+				throw new IllegalStateException(this.getClass().getCanonicalName()+" has already an identifier (" + state().id() + ")");
 
-			this.id = id;
+			state().id(id);
 		}
 
 		 /** Returns <code>true</code> if this object is a changeset.
 		 * @return <code>true</code> if this object is a changeset
 		 */
 		public boolean isChangeset() {
-			return change != null;
+			return state().change() != null;
 		}
 
 		
@@ -71,7 +69,7 @@ public interface Identified {
 		 * @return the type of change
 		 */
 		public Status status() {
-			return change;
+			return state().change();
 		}
 
 		/**
@@ -83,11 +81,11 @@ public interface Identified {
 		 */
 		public void update(T changeset) throws IllegalArgumentException, IllegalStateException {
 
-			if (this.id == null)
+			if (state().id() == null)
 				throw new IllegalStateException(this + " has no identifier and cannot be updated");
 
 			if (changeset.status() == null || changeset.status() != Status.MODIFIED)
-				throw new IllegalArgumentException("object " + id + " cannot be updated with a "
+				throw new IllegalArgumentException("object " + state().id() + " cannot be updated with a "
 						+ (changeset.status() == null ? "NEW" : changeset.status()) + " object");
 
 			if (!id().equals(changeset.id()))
@@ -109,34 +107,9 @@ public interface Identified {
 		
 		//used for copying (withId=true) and versioning (withId=false)
 		public abstract T copy(boolean withId);
+
+		public abstract State<T> state();
+
 		
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((change == null) ? 0 : change.hashCode());
-			result = prime * result + ((id == null) ? 0 : id.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Abstract<?> other = (Abstract<?>) obj;
-			if (change != other.change)
-				return false;
-			if (id == null) {
-				if (other.id != null)
-					return false;
-			} else if (!id.equals(other.id))
-				return false;
-			return true;
-		}
-
 	}
 }

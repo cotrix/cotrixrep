@@ -12,7 +12,6 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.po.AttributedPO;
 import org.cotrix.domain.po.CodelistPO;
 import org.cotrix.domain.po.NamedPO;
-import org.cotrix.domain.po.VersionedPO;
 import org.cotrix.domain.utils.Constants;
 import org.junit.Test;
 
@@ -30,18 +29,19 @@ public class CreateTest {
 	// first, all DOs: we test directly against base ObjectPO class simulating a subclass
 	
 	@Test
+	@SuppressWarnings("rawtypes")
 	public void DOsRejectNullParameters() {
 		
 		NamedPO po = new NamedPO(null) {};
 		
 		try {
-			po.setName(null);
+			po.name(null);
 			fail();
 		}
 		catch(IllegalArgumentException e) {}
 		
 		try {
-			po.setChange(null);
+			po.change(null);
 			fail();
 		}
 		catch(IllegalArgumentException e) {}
@@ -51,12 +51,13 @@ public class CreateTest {
 	//all attributed DOs: we workd directly against AttributedPO class simulating a subclass
 	
 	@Test
+	@SuppressWarnings("all")
 	public void attributedDOsRejectNullParameters() {
 		
 		AttributedPO po = new AttributedPO("id") {};
 		
 		try {
-			po.setAttributes((List<Attribute>)null);
+			po.attributes(null);
 			fail();
 		}
 		catch(IllegalArgumentException e) {}
@@ -126,23 +127,6 @@ public class CreateTest {
 		fail("creation time attribute is missing");
 	}
 	
-	//versioned
-	
-	@Test
-	public void versionedDOsRejectNullParameters() {
-		
-		VersionedPO po = new VersionedPO("id");
-		
-		try {
-			po.setVersion(null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-	}
-
-	
-	
 	// codelists
 	
 	
@@ -152,8 +136,8 @@ public class CreateTest {
 
 		CodelistPO po = new CodelistPO("id");
 		
-		try {//null value
-			po.setCodes((List<Code>)null);
+		try {
+			po.codes(null);
 			fail();
 		}
 		catch(IllegalArgumentException e) {}

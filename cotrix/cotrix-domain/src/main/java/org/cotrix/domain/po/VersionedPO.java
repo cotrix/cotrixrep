@@ -1,6 +1,7 @@
 package org.cotrix.domain.po;
 
 import org.cotrix.common.Utils;
+import org.cotrix.domain.trait.Versioned;
 import org.cotrix.domain.version.Version;
 
 
@@ -10,7 +11,7 @@ import org.cotrix.domain.version.Version;
  * @author Fabio Simeoni
  *
  */
-public class VersionedPO extends NamedPO {
+public abstract class VersionedPO<T extends Versioned.Abstract<T>> extends NamedPO<T> {
 
 	private Version version;
 
@@ -30,7 +31,7 @@ public class VersionedPO extends NamedPO {
 	 * Sets the version parameter.
 	 * @param version the parameter
 	 */
-	public void setVersion(Version version) {
+	public void version(Version version) {
 		Utils.notNull("version",version);
 		this.version = version;
 	}

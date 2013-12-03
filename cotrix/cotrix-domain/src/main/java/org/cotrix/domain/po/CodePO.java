@@ -1,13 +1,12 @@
 package org.cotrix.domain.po;
 
+import static java.util.Collections.*;
 import static org.cotrix.common.Utils.*;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.common.Container;
 
 /**
  * Initialisation parameters for {@link Code}s.
@@ -15,10 +14,9 @@ import org.cotrix.domain.common.Container;
  * @author Fabio Simeoni
  * 
  */
-public final class CodePO extends NamedPO {
+public final class CodePO extends NamedPO<Code.Private> implements Code.State {
 
-	private Container.Private<Codelink.Private> links = new Container.Private<Codelink.Private>(
-			Collections.<Codelink.Private> emptyList());
+	private Collection<Codelink.State> links = emptyList();
 
 	/**
 	 * Creates an instance with an identifier.
@@ -29,18 +27,12 @@ public final class CodePO extends NamedPO {
 		super(id);
 	}
 
-	public Container.Private<Codelink.Private> links() {
+	public Collection<Codelink.State> links() {
 		return links;
 	}
 
-	public void setLinks(List<Codelink> links) {
+	public void links(Collection<Codelink.State> links) {
 
-		Container.Private<Codelink.Private> privateLinks = new Container.Private<Codelink.Private>(reveal(links,
-				Codelink.Private.class));
-		this.setLinks(privateLinks);
-	}
-
-	public void setLinks(Container.Private<Codelink.Private> links) {
 		notNull("links", links);
 		this.links = links;
 	}

@@ -17,6 +17,14 @@ public interface Versioned {
 	 * @return the version
 	 */
 	String version();
+	
+	
+	static interface State<T extends Abstract<T>> extends Named.State<T> {
+		
+		void version(Version version);
+		
+		Version version();
+	}
 
 	/**
 	 * {@link Named.Abstract} implementation of {@link Versioned}.
@@ -26,31 +34,23 @@ public interface Versioned {
 	 * 
 	 * @param <T> the concrete type of instances, hence of their (versioned) copies
 	 */
-	public abstract class Abstract<T extends Abstract<T>> extends Named.Abstract<T> implements Versioned {
+	static abstract class Abstract<T extends Abstract<T>> extends Named.Abstract<T> implements Versioned {
 
-		private final Version version;
-
-		/**
-		 * Creates a new instance from a given set of parameters.
-		 * 
-		 * @param params the parameters
-		 */
-		public Abstract(VersionedPO params) {
-			super(params);
-			this.version = params.version();
-		}
-
+		
+		@Override
+		public abstract Versioned.State<T> state();
+		
 		@Override
 		public String version() {
-			return version == null ? null : version.value();
+			return state().version() == null ? null : state().version().value();
 		}
 
-		protected void fillPO(boolean withId, VersionedPO po) {
+		protected void fillPO(boolean withId, VersionedPO<T> po) {
 
 			super.fillPO(withId, po);
 
-			if (version != null)
-				po.setVersion(version);
+			if (state().version() != null)
+				po.version(state().version());
 		}
 
 		@Override
@@ -76,7 +76,7 @@ public interface Versioned {
 		 */
 		public T bump(String version) {
 
-			Version newVersion = this.version.bumpTo(version);
+			Version newVersion = state().version().bumpTo(version);
 
 			T copy = copyWith(newVersion);
 
@@ -84,31 +84,6 @@ public interface Versioned {
 		}
 
 		protected abstract T copyWith(Version version);
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = super.hashCode();
-			result = prime * result + ((version == null) ? 0 : version.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Versioned.Abstract<?> other = (Versioned.Abstract<?>) obj;
-			if (version == null) {
-				if (other.version != null)
-					return false;
-			} else if (!version.equals(other.version))
-				return false;
-			return true;
-		}
-
+		
 	}
 }

@@ -25,19 +25,19 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Private> {
 		super.add(list);
 
 		for (Attribute.Private a : list.attributes())
-			a.setId(generateId());
+			a.id(generateId());
 
 		for (CodelistLink.Private l : list.links())
-			l.setId(generateId());
+			l.id(generateId());
 
 		for (Code.Private c : list.codes()) {
 			for (Attribute.Private a : c.attributes())
-				a.setId(generateId());
+				a.id(generateId());
 
 			for (Codelink.Private l : c.links())
-				l.setId(generateId());
+				l.id(generateId());
 
-			c.setId(generateId());
+			c.id(generateId());
 		}
 
 	}

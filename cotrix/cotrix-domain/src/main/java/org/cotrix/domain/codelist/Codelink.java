@@ -27,6 +27,14 @@ public interface Codelink extends Identified,Attributed {
 	String targetId();
 	
 	
+	static interface State extends Attributed.State<Codelink.Private> {
+		
+		CodelistLink.State definition();
+		
+		String targetId();
+		
+		void targetId(String id);
+	}
 	
 	
 	/**
@@ -35,30 +43,26 @@ public interface Codelink extends Identified,Attributed {
 	 */
 	public class Private extends Attributed.Abstract<Private> implements Codelink {
 		
-		private final CodelistLink.Private definition;
-		private String targetId;
+		private final Codelink.State state;
 		
-		/**
-		 * Creates a new instance with given parameters
-		 * @param params the parameters
-		 */
-		public Private(CodeLinkPO params) {
+		public Private(Codelink.State state) {
 			
-			super(params);
-			
-			this.targetId = params.targetId();
-			this.definition=params.definition();
+			this.state=state;
 		}
 
+		@Override
+		public Codelink.State state() {
+			return state;
+		}
 		
 		@Override
 		public String targetId() {
-			return targetId;
+			return state.targetId();
 		}
 		
 		@Override
 		public CodelistLink.Private definition() {
-			return definition;
+			return new CodelistLink.Private(state.definition());
 		}
 		
 		@Override
@@ -66,18 +70,18 @@ public interface Codelink extends Identified,Attributed {
 			
 			super.update(changeset);
 			
-			this.definition.update(changeset.definition());
+			definition().update(changeset.definition());
 			
-			if (!targetId.equals(changeset.targetId()))
-				targetId=changeset.targetId();
+			if (!targetId().equals(changeset.targetId()))
+				state.targetId(changeset.targetId());
 		}
 		
 		//fills PO for copy/versioning purposes
 		protected void fillPO(boolean withId,CodeLinkPO po) {
 			
 			super.fillPO(withId,po);
-			po.setDefinition(definition.copy(withId));
-			po.setTargetId(targetId);
+			po.definition(definition().copy(withId));
+			po.targetId(targetId());
 			
 		}
 		
@@ -86,40 +90,6 @@ public interface Codelink extends Identified,Attributed {
 			fillPO(withId,po);
 			return new Private(po);
 		}
-
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = super.hashCode();
-			result = prime * result + ((definition == null) ? 0 : definition.hashCode());
-			result = prime * result + ((targetId == null) ? 0 : targetId.hashCode());
-			return result;
-		}
-
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Private other = (Private) obj;
-			if (definition == null) {
-				if (other.definition != null)
-					return false;
-			} else if (!definition.equals(other.definition))
-				return false;
-			if (targetId == null) {
-				if (other.targetId != null)
-					return false;
-			} else if (!targetId.equals(other.targetId))
-				return false;
-			return true;
-		}
-	
 	}
 }
 

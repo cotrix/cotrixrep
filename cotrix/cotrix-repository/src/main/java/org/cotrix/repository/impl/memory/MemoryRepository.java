@@ -33,7 +33,7 @@ public abstract class MemoryRepository<S extends Identified.Abstract<S>> impleme
 	@Override
 	public void add(S object) {
 		
-		object.setId(generator.id());
+		object.id(generator.id());
 		
 		objects.put(object.id(),object);
 	}

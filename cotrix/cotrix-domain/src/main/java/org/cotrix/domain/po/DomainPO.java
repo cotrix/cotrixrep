@@ -2,6 +2,7 @@ package org.cotrix.domain.po;
 
 import static org.cotrix.common.Utils.*;
 
+import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Status;
 
 /**
@@ -13,13 +14,18 @@ import org.cotrix.domain.trait.Status;
  * @author Fabio Simeoni
  * 
  */
-public abstract class DomainPO {
+public abstract class DomainPO<T extends Identified.Abstract<T>> implements Identified.State<T> {
 
-	private final String id;
+	private String id;
 	private Status status;
 
 	protected DomainPO(String id) {
 		this.id = id;
+	}
+	
+	@Override
+	public void id(String id) {
+		this.id=id;
 	}
 
 	/**
@@ -30,6 +36,7 @@ public abstract class DomainPO {
 	public String id() {
 		return id;
 	}
+	
 
 	/**
 	 * Returns the {@link Status} parameter.
@@ -40,10 +47,6 @@ public abstract class DomainPO {
 		return status;
 	}
 
-	public boolean isChangeset() {
-		return status != null;
-	}
-
 	/**
 	 * Sets the {@link Status} parameter.
 	 * 
@@ -51,7 +54,7 @@ public abstract class DomainPO {
 	 * 
 	 * @throws IllegalArgumentException if the parameter is null or is incompatible with the other parameters.
 	 */
-	public void setChange(Status change) throws IllegalArgumentException {
+	public void change(Status change) throws IllegalArgumentException {
 
 		notNull("status", change);
 

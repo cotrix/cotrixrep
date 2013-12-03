@@ -1,5 +1,8 @@
 package org.cotrix.domain.codelist;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.po.CodelistPO;
@@ -30,7 +33,20 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	 * @return the links.
 	 */
 	Container<? extends CodelistLink> links();
-
+	
+	
+	static interface State extends Versioned.State<Codelist.Private> {
+	
+		Collection<Code.State> codes();
+		
+		void codes(Collection<Code.State> codes);
+		
+		
+		Collection<CodelistLink.State> links();
+		
+		void links(Collection<CodelistLink.State> links);
+		
+	}
 	
 	/**
 	 * A {@link Versioned.Abstract} implementation of {@link Codelist}.
@@ -40,33 +56,57 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	 */
 	public class Private extends Versioned.Abstract<Private> implements Codelist {
 		
-		private final Container.Private<Code.Private> codes;
-		private final Container.Private<CodelistLink.Private> links;
+		private static Container.Provider<Code.Private,Code.State> codeProvider = new Container.Provider<Code.Private,Code.State>() {
+			@Override
+			public Code.Private objectFor(Code.State state) {
+				return new Code.Private(state);
+			}
+			@Override
+			public Code.State stateOf(Code.Private s) {
+				return s.state();
+			}
+		};
+		
+		private static Container.Provider<CodelistLink.Private,CodelistLink.State> linkProvider = new Container.Provider<CodelistLink.Private,CodelistLink.State>() {
+			@Override
+			public CodelistLink.Private objectFor(CodelistLink.State state) {
+				return new CodelistLink.Private(state);
+			}
+			@Override
+			public CodelistLink.State stateOf(CodelistLink.Private s) {
+				return s.state();
+			}
+		};
+		
+		private final Codelist.State state;
 
 		/**
-		 * Creates a new instance from a given set of parameters.
-		 * @param params the parameters
+		 * Creates a new instance with a given state.
+		 * @param state the state
 		 */
-		public Private(CodelistPO param) {
-			super(param);
-			this.codes = param.codes();
-			this.links = param.links();
-		}
-
-		@Override
-		public Container.Private<Code.Private> codes() {
-			return codes;
+		public Private( Codelist.State state) {
+			this.state=state;
 		}
 		
 		@Override
-		public Container<CodelistLink.Private> links() {
-			return links;
+		public Codelist.State state() {
+			return state;
+		}
+
+		@Override
+		public Container.Private<Code.Private,Code.State> codes() {
+			return new Container.Private<Code.Private,Code.State>(state.codes(),codeProvider);
+		}
+		
+		@Override
+		public Container.Private<CodelistLink.Private,CodelistLink.State> links() {
+			return new Container.Private<CodelistLink.Private,CodelistLink.State>(state.links(),linkProvider);
 		}
 
 		protected void buildPO(boolean withId,CodelistPO po) {
 			super.fillPO(withId,po);
-			po.setCodes(codes().copy(withId));
-			po.setLinks(links.copy(withId));
+			po.codes(new ArrayList<Code.State>(codes().copy(withId).objects()));
+			po.links(new ArrayList<CodelistLink.State>(links().copy(withId).objects()));
 		}
 
 		@Override
@@ -83,14 +123,14 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			buildPO(false,po);
 			
 			if (version!=null)
-				po.setVersion(version);
+				po.version(version);
 
 			return new Private(po);
 		}
 
 		@Override
 		public String toString() {
-			return "Codelist [id="+id()+", name=" + name() + ", codes=" + codes + ", attributes=" + attributes() + ", version="
+			return "Codelist [id="+id()+", name=" + name() + ", codes=" + codes() + ", attributes=" + attributes() + ", version="
 					+ version() + (status()==null?"":" ("+status()+") ")+"]";
 		}
 
@@ -102,30 +142,5 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			this.codes().update(changeset.codes());
 		}
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = super.hashCode();
-			result = prime * result + ((codes == null) ? 0 : codes.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Private other = (Private) obj;
-			if (codes == null) {
-				if (other.codes != null)
-					return false;
-			} else if (!codes.equals(other.codes))
-				return false;
-			return true;
-		}
-		
 	}
 }

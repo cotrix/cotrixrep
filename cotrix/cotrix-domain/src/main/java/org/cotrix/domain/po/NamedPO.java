@@ -13,7 +13,7 @@ import org.cotrix.domain.trait.Named;
  * @author Fabio Simeoni
  *
  */
-public abstract class NamedPO extends AttributedPO {
+public abstract class NamedPO<T extends Named.Abstract<T>> extends AttributedPO<T> implements Named.State<T> {
 
 	private QName name;
 	
@@ -34,7 +34,7 @@ public abstract class NamedPO extends AttributedPO {
 	 * Sets the name parameter
 	 * @param name the name parameter
 	 */
-	public void setName(QName name) {
+	public void name(QName name) {
 		
 		valid("name",name);
 		

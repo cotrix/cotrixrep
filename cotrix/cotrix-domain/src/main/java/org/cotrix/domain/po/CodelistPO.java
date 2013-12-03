@@ -1,14 +1,13 @@
 package org.cotrix.domain.po;
 
+import static java.util.Collections.*;
 import static org.cotrix.common.Utils.*;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.common.Container;
 
 /**
  * Initialisation parameters for {@link Codelist}s.
@@ -16,12 +15,10 @@ import org.cotrix.domain.common.Container;
  * @author Fabio Simeoni
  * 
  */
-public final class CodelistPO extends VersionedPO {
+public final class CodelistPO extends VersionedPO<Codelist.Private> implements Codelist.State {
 
-	private Container.Private<Code.Private> codes = new Container.Private<Code.Private>(
-			Collections.<Code.Private> emptyList());
-	private Container.Private<CodelistLink.Private> links = new Container.Private<CodelistLink.Private>(
-			Collections.<CodelistLink.Private> emptyList());
+	private Collection<Code.State> codes = emptyList();
+	private Collection<CodelistLink.State> links = emptyList();
 
 	/**
 	 * Creates an instance with an identifier.
@@ -32,30 +29,13 @@ public final class CodelistPO extends VersionedPO {
 		super(id);
 	}
 
-	/**
-	 * Returns the codes parameter.
-	 * 
-	 * @return the codes parameter
-	 */
-	public Container.Private<Code.Private> codes() {
-		return codes;
-	}
-
-	public Container.Private<CodelistLink.Private> links() {
+	public Collection<CodelistLink.State> links() {
 		return links;
 	}
 
-	public void setLinks(List<CodelistLink> links) {
-
-		Container.Private<CodelistLink.Private> privateLinks = new Container.Private<CodelistLink.Private>(reveal(links,
-				CodelistLink.Private.class));
-		this.setLinks(privateLinks);
-	}
-
-	public void setLinks(Container.Private<CodelistLink.Private> links) {
+	public void links(Collection<CodelistLink.State> links) {
 
 		notNull("links", links);
-
 		this.links = links;
 	}
 
@@ -64,21 +44,17 @@ public final class CodelistPO extends VersionedPO {
 	 * 
 	 * @param codes the codes parameter
 	 */
-	public void setCodes(Container.Private<Code.Private> codes) {
+	public void codes(Collection<Code.State> codes) {
 
 		notNull("codes", codes);
 
 		this.codes = codes;
 	}
-
-	/**
-	 * Sets the codes parameter.
-	 * 
-	 * @param codes the codes parameter
-	 */
-	public void setCodes(List<Code> codes) {
-
-		Container.Private<Code.Private> privateCodes = new Container.Private<Code.Private>(reveal(codes, Code.Private.class));
-		this.setCodes(privateCodes);
+	
+	@Override
+	public Collection<Code.State> codes() {
+		return codes;
 	}
+	
+	
 }

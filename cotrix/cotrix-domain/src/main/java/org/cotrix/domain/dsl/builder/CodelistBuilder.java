@@ -1,8 +1,10 @@
 package org.cotrix.domain.dsl.builder;
 
 import static java.util.Arrays.*;
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.trait.Status.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -35,17 +37,17 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	public CodelistBuilder() {
 		this.po = new CodelistPO(null);
-		this.po.setVersion(new DefaultVersion());
+		this.po.version(new DefaultVersion());
 	}
 	
 	public CodelistBuilder(String id) {
 		this.po = new CodelistPO(id);
-		po.setChange(MODIFIED);
+		po.change(MODIFIED);
 	}
 	
 	@Override
 	public SecondClause name(QName name) {
-		po.setName(name);
+		po.name(name);
 		return this;
 	}
 	
@@ -56,47 +58,63 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	@Override
 	public Codelist delete() {
-		po.setChange(DELETED);
+		po.change(DELETED);
 		return build();
 	}
 	
 	@Override
 	public ThirdClause with(List<Code> codes) {
-		po.setCodes(codes);
+		
+		List<Code.State> state = new ArrayList<Code.State>();
+		
+		for (Code a : codes)
+			state.add(reveal(a,Code.Private.class).state());
+		
+		po.codes(state);
+		
 		return this;
 	}
 	
 	@Override
 	public ThirdClause with(Code ... codes) {
-		po.setCodes(asList(codes));
-		return this;
+		return with(asList(codes));
 	}
 	
 	@Override
 	public FourthClause links(CodelistLink... links) {
-		po.setLinks(asList(links));
+		List<CodelistLink.State> state = new ArrayList<CodelistLink.State>();
+		
+		for (CodelistLink a : links)
+			state.add(reveal(a,CodelistLink.Private.class).state());
+		
+		po.links(state);
+		
 		return this;
 	}
 	
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
-		po.setAttributes(asList(attributes));
-		return this;
+		return attributes(asList(attributes));
 	}
 	
 	@Override
 	public FinalClause attributes(List<Attribute> attributes) {
-		po.setAttributes(attributes);
+		List<Attribute.State> state = new ArrayList<Attribute.State>();
+		
+		for (Attribute a : attributes)
+			state.add(reveal(a,Attribute.Private.class).state());
+		
+		po.attributes(state);
 		return this;
 	}
 	
 	public CodelistBuilder version(Version version) {
-		po.setVersion(version);
+		po.version(version);
 		return this;
 	}
 	
 	public CodelistBuilder version(String version) {
-		po.setVersion(new DefaultVersion(version));
+		po.version(new DefaultVersion(version));
 		return this;
 	}
 	

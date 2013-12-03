@@ -162,7 +162,7 @@ public class Utils {
 	 * @param type the runtime type
 	 * @return the objects under the revealed type
 	 */
-	public static <PUBLIC, PRIVATE extends PUBLIC > List<PRIVATE> reveal(Iterable<? extends PUBLIC> objects, Class<PRIVATE> privateClass) {
+	public static <PUBLIC, PRIVATE extends PUBLIC > List<PRIVATE> revealAll(Iterable<? extends PUBLIC> objects, Class<PRIVATE> privateClass) {
 		
 		notNull("objects",objects);
 		

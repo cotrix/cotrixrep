@@ -14,12 +14,13 @@ import org.junit.Test;
 public class ChangeSetTest {
 
 	@Test
+	@SuppressWarnings("all")
 	public void mustHaveIdentifiers() {
 
 		DomainPO po = new DomainPO(null) {};
 
 		try {
-			po.setChange(MODIFIED);
+			po.change(MODIFIED);
 			fail();
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());

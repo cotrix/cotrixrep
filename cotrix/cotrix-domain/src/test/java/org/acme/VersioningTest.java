@@ -7,7 +7,6 @@ import static org.cotrix.domain.dsl.Codes.*;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.common.Container;
 import org.junit.Test;
 
 public class VersioningTest {
@@ -48,26 +47,7 @@ public class VersioningTest {
 		
 		
 	}
-	
-	@Test
-	public void containersCanBeCopied() {
-		
-		Attribute.Private a = (Attribute.Private) attr().name(name).value(value).build();
-		Attribute.Private a2 = (Attribute.Private) attr().name(name2).value(value2).build();
-		
-		Container.Private<Attribute.Private> container = container(a,a2);
-		
-		Container.Private<Attribute.Private> clone = container.copy();
-		
-		System.out.println(container);
-		assertEquals(container,clone);
-		
-		//copy is recursive
-		assertNotSame(asMap(container).get(name).get(0), asMap(clone).get(name).get(0));
 
-	}
-
-	
 	@Test
 	public void codesCanBeCopied() {
 

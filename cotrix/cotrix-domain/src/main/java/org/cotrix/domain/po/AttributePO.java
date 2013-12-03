@@ -13,7 +13,7 @@ import org.cotrix.domain.utils.Constants;
  * @author Fabio Simeoni
  *
  */
-public final class AttributePO extends DomainPO {
+public final class AttributePO extends DomainPO<Attribute.Private> implements Attribute.State {
 
 	private QName name;
 	private QName type = Constants.DEFAULT_TYPE;
@@ -28,6 +28,7 @@ public final class AttributePO extends DomainPO {
 		super(id);
 	}
 	
+	
 	/** Returns the name parameter.
 	 * @return the name parameter
 	 */
@@ -39,7 +40,7 @@ public final class AttributePO extends DomainPO {
 	 * Sets the name parameter
 	 * @param name the name parameter
 	 */
-	public void setName(QName name) {
+	public void name(QName name) {
 		
 		valid("name",name);
 		
@@ -53,11 +54,11 @@ public final class AttributePO extends DomainPO {
 		return value;
 	}
 	
-	public void setType(QName type) {
+	public void type(QName type) {
 		this.type = type;
 	}
 	
-	public void setValue(String value) {
+	public void value(String value) {
 		
 		this.value = value;
 	}
@@ -67,7 +68,7 @@ public final class AttributePO extends DomainPO {
 		return language;
 	}
 
-	public void setLanguage(String language) {
+	public void language(String language) {
 		
 		this.language = language;
 	}

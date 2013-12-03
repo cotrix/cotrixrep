@@ -19,7 +19,17 @@ public interface Named {
 	 * @return the name
 	 */
 	QName name();
+	
+	
+	
+	
+	static interface State<T extends Named.Abstract<T>> extends Named, Attributed.State<T> {
+		
+		void name(QName name);
+	}
 
+	
+	
 	
 	/**
 	 * Default {@link Named} implementation.
@@ -29,24 +39,18 @@ public interface Named {
 	public abstract class Abstract<T extends Abstract<T>> extends Attributed.Abstract<T> implements Named {
 		
 		
-		private QName name;
-		
-
-		protected Abstract(NamedPO params) {
-
-			super(params);
-			this.name=params.name();
-		}
-		
 		//invoked by subclasses under copying
-		protected void fillPO(boolean withId,NamedPO po) {
+		protected void fillPO(boolean withId,NamedPO<T> po) {
 			super.fillPO(withId,po);
-			po.setName(name());
+			po.name(name());
 		}
 		
 		@Override
+		public abstract Named.State<T> state();
+		
+		@Override
 		public QName name() {
-			return name;
+			return state().name();
 		}
 		
 		@Override
@@ -56,34 +60,9 @@ public interface Named {
 			
 			if (changeset.name()!=null)
 				if (changeset.name()==NULL_QNAME)
-					throw new IllegalArgumentException("code name "+name+" cannot be erased");
+					throw new IllegalArgumentException("code name "+state().name()+" cannot be erased");
 				else
-					name=changeset.name();
-		}
-		
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = super.hashCode();
-			result = prime * result + ((name == null) ? 0 : name.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Named.Abstract<?> other = (Named.Abstract<?>) obj;
-			if (name == null) {
-				if (other.name != null)
-					return false;
-			} else if (!name.equals(other.name))
-				return false;
-			return true;
+					state().name(changeset.name());
 		}
 		
 	}

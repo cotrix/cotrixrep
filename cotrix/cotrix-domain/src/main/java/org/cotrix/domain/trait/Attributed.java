@@ -4,10 +4,12 @@ import static java.text.DateFormat.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import java.util.Calendar;
+import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.common.Attribute.Private;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.po.AttributePO;
 import org.cotrix.domain.po.AttributedPO;
@@ -26,42 +28,56 @@ public interface Attributed {
 	 * @return the attributes
 	 */
 	Container<? extends Attribute> attributes();
+	
+	
+	static interface State<T extends Attributed.Abstract<T>> extends Identified.State<T> {
+		
+		Collection<Attribute.State> attributes();
+		
+		void attributes(Collection<Attribute.State> attributes);
+	}
 
 	/**
 	 * An {@link Identified.Abstract} implementation of {@link Attributed}.
 	 * 
 	 * @param <T> the concrete type of instances
 	 */
-	public abstract class Abstract<T extends Abstract<T>> extends Identified.Abstract<T> implements Attributed {
+	abstract class Abstract<T extends Abstract<T>> extends Identified.Abstract<T> implements Attributed {
 
-		private Container.Private<Attribute.Private> attributes;
-
-		// //////////////////////////////////////////////////////////////////////////////
-
+		private static Container.Provider<Attribute.Private,Attribute.State> p = new Container.Provider<Attribute.Private,Attribute.State>() {
+			@Override
+			public Private objectFor(Attribute.State state) {
+				return new Attribute.Private(state);
+			}
+			@Override
+			public Attribute.State stateOf(Private s) {
+				return s.state();
+			}
+		};
+		
 		/**
 		 * Creates a new instance from a given set of parameters.
 		 * 
-		 * @param params the parameters
+		 * @param state the parameters
 		 */
-		public Abstract(AttributedPO params) {
-
-			super(params);
-
-			this.attributes = params.attributes();
+		public Abstract() {
 			
 			if (!isChangeset())
-				attributes.objects().add(timestamp(CREATION_TIME));
+				attributes().objects().add(timestamp(CREATION_TIME));
 
 		}
+		
+		@Override
+		public abstract Attributed.State<T> state();
 
 		@Override
-		public Container.Private<Attribute.Private> attributes() {
-			return attributes;
+		public Container.Private<Attribute.Private,Attribute.State> attributes() {
+			
+			return new Container.Private<Attribute.Private,Attribute.State>(state().attributes(),p);
 		}
 
-		protected void fillPO(boolean withId, AttributedPO po) {
-
-			po.setAttributes(attributes.copy(withId));
+		protected void fillPO(boolean withId, AttributedPO<T> po) {
+			po.attributes(attributes().copy(withId).objects());
 		}
 
 		@Override
@@ -69,19 +85,19 @@ public interface Attributed {
 
 			super.update(changeset);
 
-			Container.Private<Attribute.Private> attributes = changeset.attributes();
+			Container.Private<Attribute.Private,Attribute.State> attributes = changeset.attributes();
 
-			this.attributes.update(attributes);
+			attributes().update(attributes);
 			
-			Attribute.Private updateTime = null;
+			Attribute.State updateTime = null;
 			
-			for (Attribute.Private a : this.attributes.objects()) {
+			for (Attribute.State a : attributes().objects()) {
 				if (a.name().equals(UPDATE_TIME)) {
 					updateTime = a;
 				}
 			}
 			if (updateTime==null) 
-				this.attributes.objects().add(timestamp(UPDATE_TIME));
+				attributes().objects().add(timestamp(UPDATE_TIME));
 			else {
 				String value = getDateTimeInstance().format(Calendar.getInstance().getTime());
 				updateTime.value(value);
@@ -89,40 +105,15 @@ public interface Attributed {
 			
 		}
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = super.hashCode();
-			result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Attributed.Abstract<?> other = (Attributed.Abstract<?>) obj;
-			if (attributes == null) {
-				if (other.attributes != null)
-					return false;
-			} else if (!attributes.equals(other.attributes))
-				return false;
-			return true;
-		};
-		
 		// helpers
-		private Attribute.Private timestamp(QName name) {
+		private Attribute.State timestamp(QName name) {
 
 			AttributePO po = new AttributePO(null);
-			po.setName(name);
+			po.name(name);
 			String value = getDateTimeInstance().format(Calendar.getInstance().getTime());
-			po.setValue(value);
-			po.setType(SYSTEM_TYPE);
-			return new Attribute.Private(po);
+			po.value(value);
+			po.type(SYSTEM_TYPE);
+			return po;
 
 		}
 	}

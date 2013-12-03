@@ -31,14 +31,14 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	
 	public AttributeBuilder(String id) {
 		this.po = new AttributePO(id);
-		po.setType(null);
-		po.setChange(MODIFIED);
+		po.type(null);
+		po.change(MODIFIED);
 		
 	}
 	
 	@Override
 	public ValueClause name(QName name) {
-		po.setName(name);
+		po.name(name);
 		return this;
 	}
 	
@@ -49,13 +49,13 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	
 	@Override
 	public Attribute delete() {
-		po.setChange(DELETED);
+		po.change(DELETED);
 		return build();
 	}
 
 	@Override
 	public LanguageClause ofType(QName type) {
-		po.setType(type);
+		po.type(type);
 		return this;
 	}
 	
@@ -66,13 +66,13 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	
 	@Override
 	public BuildClause<Attribute> in(String language) {
-		po.setLanguage(language);
+		po.language(language);
 		return this;
 	}
 
 	@Override
 	public TypeClause value(String value) {
-		po.setValue(value);
+		po.value(value);
 		return this;
 
 	}

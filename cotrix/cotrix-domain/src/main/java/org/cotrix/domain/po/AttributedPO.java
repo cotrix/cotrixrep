@@ -1,12 +1,11 @@
 package org.cotrix.domain.po;
 
+import static java.util.Collections.*;
 import static org.cotrix.common.Utils.*;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
 
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.common.Container;
 import org.cotrix.domain.trait.Attributed;
 /**
  * Partial implementation of initialisation parameters for {@link Attributed} entities.
@@ -14,46 +13,27 @@ import org.cotrix.domain.trait.Attributed;
  * @author Fabio Simeoni
  *
  */
-public class AttributedPO extends DomainPO {
+public abstract class AttributedPO<T extends Attributed.Abstract<T>> extends DomainPO<T> implements Attributed.State<T> {
 
-	private Container.Private<Attribute.Private> attributes = new Container.Private<Attribute.Private>(Collections.<Attribute.Private>emptyList());
+	private Collection<Attribute.State> attributes = emptyList();
 
 	protected AttributedPO(String id) {
 		super(id);
 	}
-	
-	/**
-	 * Returns the attributes parameter.
-	 * @return the parameter
-	 */
-	public Container.Private<Attribute.Private> attributes() {
+
+	@Override
+	public Collection<Attribute.State> attributes() {
 		return attributes;
 	}
-
 	/**
 	 * Sets the attribute parameter.
 	 * @param attributes the parameter
 	 */
-	public void setAttributes(Container.Private<Attribute.Private> attributes) {
+	public void attributes(Collection<Attribute.State> attributes) {
 		
 		notNull("attributes",attributes);
 	
 		this.attributes = attributes;
 		
-	}
-	
-	/**
-	 * Sets the attribute parameter.
-	 * @param attributes the parameter
-	 */
-	public void setAttributes(List<? extends Attribute> attributes) {
-		
-		notNull("attributes",attributes);
-		
-		//switches from public to private interfaces
-		Container.Private<Attribute.Private> privateAttributes = new Container.Private<Attribute.Private>(reveal(attributes,Attribute.Private.class));
-		
-		setAttributes(privateAttributes);
-
 	}
 }

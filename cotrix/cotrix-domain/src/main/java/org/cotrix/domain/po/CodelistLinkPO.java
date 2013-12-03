@@ -10,7 +10,7 @@ import org.cotrix.domain.codelist.CodelistLink;
  * @author Fabio Simeoni
  *
  */
-public class CodelistLinkPO extends NamedPO {
+public class CodelistLinkPO extends NamedPO<CodelistLink.Private> implements CodelistLink.State {
 
 	private String targetId;
 	
@@ -23,7 +23,7 @@ public class CodelistLinkPO extends NamedPO {
 		return targetId;
 	}
 	
-	public void setTargetId(String id) {
+	public void targetId(String id) {
 		notNull("id",id);
 		this.targetId=id;
 	}

@@ -1,5 +1,8 @@
 package org.cotrix.domain.codelist;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.po.CodePO;
 import org.cotrix.domain.trait.Attributed;
@@ -20,33 +23,51 @@ public interface Code extends Identified,Attributed,Named {
 	 */
 	Container<? extends Codelink> links();
 	
+	
+	static interface State extends Named.State<Code.Private> {
+		
+		Collection<Codelink.State> links();
+		
+		void links(Collection<Codelink.State> links);
+		
+	}
+	
 	/**
 	 * A {@link Named.Abstract} implementation of {@link Code}.
 	 */
 	public class Private extends Named.Abstract<Private> implements Code {
 
-		private Container.Private<Codelink.Private> links;
+		private static Container.Provider<Codelink.Private,Codelink.State> provider = new Container.Provider<Codelink.Private,Codelink.State>() {
+			@Override
+			public Codelink.Private objectFor(Codelink.State state) {
+				return new Codelink.Private(state);
+			}
+			@Override
+			public Codelink.State stateOf(Codelink.Private s) {
+				return s.state();
+			}
+		};
 		
-		////////////////////////////////////////////////////////////////////////////////
+		private final Code.State state;
 		
-		/**
-		 * Creates an instance with given parameters.
-		 * @param params the parameters
-		 */
-		public Private(CodePO params) {
-			super(params);
-			this.links=params.links();
+		public Private(Code.State state) {
+			this.state=state;
 		}
 		
 		@Override
-		public Container.Private<Codelink.Private> links() {
-			return links;
+		public Code.State state() {
+			return state;
+		}
+		
+		@Override
+		public Container.Private<Codelink.Private,Codelink.State> links() {
+			return new Container.Private<Codelink.Private, Codelink.State>(state().links(),provider);
 		}
 		
 		//fills PO for copy/versioning purposes
 		protected void fillPO(boolean withId, CodePO po) {
 			super.fillPO(withId,po);
-			po.setLinks(links.copy(withId));
+			po.links(new ArrayList<Codelink.State>(links().copy(withId).objects()));
 		}
 		
 		public Private copy(boolean withId) {
@@ -59,7 +80,7 @@ public interface Code extends Identified,Attributed,Named {
 		public void update(Private changeset) throws IllegalArgumentException, IllegalStateException {
 			
 			super.update(changeset);
-			this.links.update(changeset.links());
+			links().update(changeset.links());
 		}
 
 		@Override
