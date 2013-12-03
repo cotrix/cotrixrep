@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.permissionmanager.client.matrix;
 
+import org.cotrix.web.permissionmanager.shared.RoleState;
+
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ValueUpdater;

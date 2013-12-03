@@ -30,8 +30,8 @@ public class UserColumn extends Column<RolesRow, String> {
 	}
 
 	@Override
-	public String getValue(RolesRow object) {
-		return object.getUser()!=null?object.getUser().getUsername():null;
+	public String getValue(RolesRow row) {
+		return (row instanceof EditorRow)?"":row.getUser()!=null?row.getUser().getFullName():null;
 	}
 
 	/** 

@@ -2,9 +2,9 @@ package org.cotrix.web.client;
 
 import java.util.List;
 
+import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.exception.IllegalActionException;
 import org.cotrix.web.share.shared.exception.ServiceException;
-import org.cotrix.web.share.shared.feature.ResponseWrapper;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 
@@ -20,9 +20,9 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface MainService extends RemoteService {
 	
 	//IllegalActionException necessary to make it serializable
-	public ResponseWrapper<String> login(String user, String password, List<String> openCodelists) throws ServiceException, IllegalActionException;
-	public ResponseWrapper<String> logout(List<String> openCodelists) throws ServiceException;
-	public ResponseWrapper<String> registerUser(String username, String password, String email, List<String> openCodelists) throws ServiceException;
+	public UIUser login(String user, String password, List<String> openCodelists) throws ServiceException, IllegalActionException;
+	public UIUser logout(List<String> openCodelists) throws ServiceException;
+	public UIUser registerUser(String username, String password, String email, List<String> openCodelists) throws ServiceException;
 	
 	public UIStatistics getStatistics() throws ServiceException;
 	

@@ -3,13 +3,13 @@
  */
 package org.cotrix.web.permissionmanager.client.matrix;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.permissionmanager.client.matrix.user.UserAddedEvent;
 import org.cotrix.web.permissionmanager.client.matrix.user.UserSuggestOracle;
 import org.cotrix.web.permissionmanager.client.matrix.user.UserSuggestion;
+import org.cotrix.web.permissionmanager.shared.RoleState;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
 
@@ -37,6 +37,8 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class UsersRolesMatrix extends ResizeComposite {
+	
+	final static RoleState NO_ROLE = new RoleState(false, false);
 
 	interface UsersRolesMatrixUiBinder extends UiBinder<Widget, UsersRolesMatrix> {}
 	
@@ -73,20 +75,12 @@ public class UsersRolesMatrix extends ResizeComposite {
 	protected UserSuggestOracle oracle;
 
 	protected DataGridResources dataGridResources = GWT.create(DataGridResources.class);
-	protected List<String> userRoles = new ArrayList<String>();
 
 	@Inject
 	protected void init(UsersRolesMatrixUiBinder uiBinder) {
 		matrix = new DataGrid<RolesRow>(20, dataGridResources);
 		initWidget(uiBinder.createAndBindUi(this));
 		loader.showLoader();
-	}
-
-	public void reload(List<String> userRoles) {
-		Log.trace("reload");
-		this.userRoles.clear();
-		this.userRoles.addAll(userRoles);
-		refresh();
 	}
 	
 	public void refresh() {
@@ -102,7 +96,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 			 * {@inheritDoc}
 			 */
 			@Override
-			public void onSuggestBoxCreated(SuggestBox suggestBox) {
+			public void onSuggestBoxCreated(final SuggestBox suggestBox) {
 				suggestBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
 
 					@Override
@@ -112,6 +106,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 							UserSuggestion userSuggestion = (UserSuggestion)event.getSelectedItem();
 							bus.fireEvent(new UserAddedEvent(userSuggestion.getUser()));
 						}
+						suggestBox.setText("");
 					}
 				});
 			}
@@ -136,9 +131,8 @@ public class UsersRolesMatrix extends ResizeComposite {
 
 			@Override
 			public RoleState getValue(RolesRow row) {
-				boolean enabled = userRoles.contains(role);
-				RoleState roleState = new RoleState(enabled, row.hasRole(role));
-				return roleState;
+				RoleState state = row.getRoleState(role);
+				return state!=null?state:NO_ROLE;
 			}
 		};
 
@@ -146,8 +140,8 @@ public class UsersRolesMatrix extends ResizeComposite {
 
 			@Override
 			public void update(int index, RolesRow row, RoleState value) {
-				if (value.isChecked()) row.addRole(role);
-				else row.removeRole(role);
+				/*if (value.isChecked()) row.addRole(role);
+				else row.removeRole(role);*/
 				if (!(row instanceof EditorRow)) bus.fireEventFromSource(new RolesRowUpdatedEvent(row, role, value.isChecked()), UsersRolesMatrix.this);
 			}
 		});

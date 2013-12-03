@@ -3,18 +3,19 @@
  */
 package org.cotrix.web.permissionmanager.client.codelists;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
 import org.cotrix.web.permissionmanager.client.codelists.tree.CodelistSelectedEvent;
 import org.cotrix.web.permissionmanager.client.codelists.tree.CodelistsTreePanel;
-import org.cotrix.web.permissionmanager.client.matrix.EditorRow;
 import org.cotrix.web.permissionmanager.client.matrix.RolesRowUpdatedEvent;
 import org.cotrix.web.permissionmanager.client.matrix.UsersRolesMatrix;
 import org.cotrix.web.permissionmanager.client.matrix.user.UserAddedEvent;
 import org.cotrix.web.permissionmanager.shared.CodelistGroup.CodelistVersion;
 import org.cotrix.web.permissionmanager.shared.RoleAction;
+import org.cotrix.web.permissionmanager.shared.RoleState;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
@@ -59,6 +60,8 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 
 	@Inject
 	protected CodelistRolesRowDataProvider dataProvider;
+	
+	protected List<String> roles;
 
 	@Inject
 	protected void init(CodelistsPermissionsPanelUiBinder uiBinder) {
@@ -102,11 +105,10 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 		Log.trace("onUserAdded "+event.getUser());
 
 		List<RolesRow> cache = dataProvider.getCache();
-		RolesRow editorRow = cache.remove(cache.size()-1);
-		RolesRow row = new RolesRow(event.getUser(), editorRow.getRoles());
-		for (String role:row.getRoles()) saveRow(row, role, true);
-		cache.add(row);
-		cache.add(new EditorRow());
+
+		RolesRow row = new RolesRow(event.getUser(), new HashMap<String, RoleState>());
+		saveRow(row, null, true);
+		cache.add(cache.size()-1, row);
 		dataProvider.refresh();
 	}
 
@@ -122,17 +124,19 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 
 		currentCodelistId = codelist.getId();
 		dataProvider.setCodelistId(currentCodelistId);
-		usersRolesMatrix.reload(codelist.getRoles());
+		usersRolesMatrix.refresh();
 	}
 
-	protected void saveRow(RolesRow row, String role, boolean value) {
+	protected void saveRow(final RolesRow row, String role, boolean value) {
 
 		RoleAction action = value?RoleAction.DELEGATE:RoleAction.REVOKE;
 		StatusUpdates.statusSaving();
-		service.codelistRoleUpdated(row.getUser().getId(), currentCodelistId, role, action, new ManagedFailureCallback<Void>() {
+		service.codelistRoleUpdated(row.getUser().getId(), currentCodelistId, role, action, new ManagedFailureCallback<RolesRow>() {
 
 			@Override
-			public void onSuccess(Void result) {
+			public void onSuccess(RolesRow updatedRow) {
+				row.setRoles(updatedRow.getRoles());
+				dataProvider.refresh();
 				StatusUpdates.statusSaved();
 			}
 		});

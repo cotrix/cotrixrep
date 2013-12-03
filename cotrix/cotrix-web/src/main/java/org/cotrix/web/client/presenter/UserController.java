@@ -17,10 +17,9 @@ import org.cotrix.web.share.client.event.CodelistOpenedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 import org.cotrix.web.share.client.event.UserLoggedEvent;
-import org.cotrix.web.share.client.feature.AsyncCallBackWrapper;
 import org.cotrix.web.share.client.util.Exceptions;
 import org.cotrix.web.share.client.widgets.AlertDialog;
-import org.cotrix.web.share.shared.feature.ResponseWrapper;
+import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.shared.UnknownUserException;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -42,23 +41,23 @@ public class UserController {
 	protected EventBus cotrixBus;
 	protected List<String> openedCodelists = new ArrayList<String>();
 	
-	protected AsyncCallback<ResponseWrapper<String>> loginCallback = AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
+	protected AsyncCallback<UIUser> loginCallback = new AsyncCallback<UIUser>() {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			Log.error("Login failed", caught);
 			if (caught instanceof UnknownUserException) {
-				AlertDialog.INSTANCE.center("Unknown user please check you credentials and re-try.", Exceptions.getPrintStackTrace(caught));
+				AlertDialog.INSTANCE.center("Unknown user please check your credentials and re-try.", Exceptions.getPrintStackTrace(caught));
 			}
 		}
 
 		@Override
-		public void onSuccess(String result) {
+		public void onSuccess(UIUser result) {
 			cotrixBus.fireEvent(new UserLoggedEvent(result));
 		}
-	});
+	};
 	
-	protected AsyncCallback<ResponseWrapper<String>> logoutCallback = AsyncCallBackWrapper.wrap(new AsyncCallback<String>() {
+	protected AsyncCallback<UIUser> logoutCallback = new AsyncCallback<UIUser>() {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -66,11 +65,11 @@ public class UserController {
 		}
 
 		@Override
-		public void onSuccess(String result) {
+		public void onSuccess(UIUser result) {
 			cotrixBus.fireEvent(new UserLoggedEvent(result));
 			cotrixBus.fireEvent(new SwitchToModuleEvent(CotrixModule.HOME));
 		}
-	});
+	};
 	
 	@Inject
 	protected MainServiceAsync service;

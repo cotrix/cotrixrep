@@ -3,7 +3,9 @@
  */
 package org.cotrix.web.permissionmanager.shared;
 
-import java.util.List;
+import java.util.Map;
+
+import org.cotrix.web.share.shared.UIUser;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -14,7 +16,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class RolesRow implements IsSerializable {
 	
 	protected UIUser user;
-	protected List<String> roles;
+	protected Map<String, RoleState> roles;
 	
 	public RolesRow(){}
 
@@ -22,7 +24,7 @@ public class RolesRow implements IsSerializable {
 	 * @param user
 	 * @param roles
 	 */
-	public RolesRow(UIUser user, List<String> roles) {
+	public RolesRow(UIUser user, Map<String, RoleState> roles) {
 		this.user = user;
 		this.roles = roles;
 	}
@@ -35,15 +37,11 @@ public class RolesRow implements IsSerializable {
 	}
 
 	public boolean hasRole(String role) {
-		return roles.contains(role);
+		return roles.containsKey(role);
 	}
 	
-	public void addRole(String role) {
-		roles.add(role);
-	}
-	
-	public void addRoles(List<String> roles) {
-		this.roles.addAll(roles);
+	public RoleState getRoleState(String role) {
+		return roles.get(role);
 	}
 	
 	public void removeRole(String role) {
@@ -53,9 +51,48 @@ public class RolesRow implements IsSerializable {
 	/**
 	 * @return the roles
 	 */
-	public List<String> getRoles() {
+	public Map<String, RoleState> getRoles() {
 		return roles;
 	}
+
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(Map<String, RoleState> roles) {
+		this.roles = roles;
+	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		return result;
+	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RolesRow other = (RolesRow) obj;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
+		return true;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */

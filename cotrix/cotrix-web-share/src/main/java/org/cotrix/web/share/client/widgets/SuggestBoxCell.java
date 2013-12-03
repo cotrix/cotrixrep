@@ -10,12 +10,15 @@ import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -154,8 +157,8 @@ public class SuggestBoxCell extends AbstractInputCell<String, SuggestBoxCell.Vie
 	}
 
 	@Override
-	public void onBrowserEvent(Context context, Element parent, String value,
-			NativeEvent event, ValueUpdater<String> valueUpdater) {
+	public void onBrowserEvent(Context context, final Element parent, final String value,
+			NativeEvent event, final ValueUpdater<String> valueUpdater) {
 		super.onBrowserEvent(context, parent, value, event, valueUpdater);
 
 		// Ignore events that don't target the input.
@@ -166,17 +169,24 @@ public class SuggestBoxCell extends AbstractInputCell<String, SuggestBoxCell.Vie
 		}
 
 		String eventType = event.getType();
-
-		//if (BrowserEvents.FOCUS.equals(eventType)) SuggestBox.wrap(oracle, input);
+		final Object key = context.getKey();
+		
 		if (BrowserEvents.FOCUS.equals(eventType)) {
 			TextBox textBox = new MyTextBox(getInputElement(parent));
 			textBox.setStyleName(style);
 			MySuggestBox suggestBox = new MySuggestBox(oracle, textBox);
 			suggestBox.onAttach();
 			onSuggestBoxCreated(suggestBox);
+			suggestBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
+				
+				@Override
+				public void onSelection(SelectionEvent<Suggestion> event) {
+					finishEditing(parent, value, key, valueUpdater);
+				}
+			});
 		}
 
-		Object key = context.getKey();
+
 		if (BrowserEvents.CHANGE.equals(eventType)) {
 			finishEditing(parent, value, key, valueUpdater);
 		} else if (BrowserEvents.KEYUP.equals(eventType)) {

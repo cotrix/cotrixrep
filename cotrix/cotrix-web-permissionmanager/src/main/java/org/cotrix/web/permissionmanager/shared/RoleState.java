@@ -1,16 +1,20 @@
 /**
  * 
  */
-package org.cotrix.web.permissionmanager.client.matrix;
+package org.cotrix.web.permissionmanager.shared;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class RoleState {
+public class RoleState implements IsSerializable {
 	
 	boolean enabled;
 	boolean checked;
+	
+	public RoleState() {}
 	
 	/**
 	 * @param enabled
@@ -49,4 +53,17 @@ public class RoleState {
 		this.checked = checked;
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("RoleState [enabled=");
+		builder.append(enabled);
+		builder.append(", checked=");
+		builder.append(checked);
+		builder.append("]");
+		return builder.toString();
+	}
 }
