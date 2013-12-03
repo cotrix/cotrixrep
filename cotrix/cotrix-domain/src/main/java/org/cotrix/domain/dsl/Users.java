@@ -4,6 +4,7 @@ import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.domain.dsl.Roles.*;
 
 import org.cotrix.action.GuestAction;
+import org.cotrix.common.Utils;
 import org.cotrix.domain.dsl.builder.UserBuilder;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserChangeClause;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserNewClause;
@@ -35,5 +36,14 @@ public class Users {
 
 	public static User guest = user().name("guest").noMail().fullName("Cotrix Guest User").can(GuestAction.values()).can(VIEW)
 			.build();
+	
+	static {
+		reveal(cotrix).setId("COTRIX-ID");
+		reveal(guest).setId("GUEST-ID");
+	}
+	
+	private static User.Private reveal(User u) {
+		return Utils.reveal(u,User.Private.class);
+	}
 
 }
