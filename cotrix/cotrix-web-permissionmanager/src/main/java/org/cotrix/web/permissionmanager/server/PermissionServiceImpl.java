@@ -166,7 +166,7 @@ public class PermissionServiceImpl implements PermissionService {
 		boolean tick = active;
 		boolean enable = delegable && (!active || direct);
 		logger.trace("tick: {}, enable: {}", tick, enable);
-		return new RoleState(enable, tick);
+		return new RoleState(enable, tick, false);
 	}
 
 	protected void printUser(User user) {

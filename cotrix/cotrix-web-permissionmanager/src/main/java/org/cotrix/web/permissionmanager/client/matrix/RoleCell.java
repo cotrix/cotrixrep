@@ -4,7 +4,9 @@
 package org.cotrix.web.permissionmanager.client.matrix;
 
 import org.cotrix.web.permissionmanager.shared.RoleState;
+import org.cotrix.web.share.client.resources.CommonResources;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ValueUpdater;
@@ -28,15 +30,17 @@ public class RoleCell extends AbstractEditableCell<RoleState, RoleState> {
 	 * class=\""+CommonResources.INSTANCE.css().+"\"
 	 */
 	private static final SafeHtml INPUT_CHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" checked />");
-	
+
 	private static final SafeHtml INPUT_CHECKED_DISABLED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" checked disabled/>");
 
 	/**
 	 * An html string representation of an unchecked input box.
 	 */
 	private static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\"/>");
-	
+
 	private static final SafeHtml INPUT_UNCHECKED_DISABLED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" disabled/>");
+
+	private static final SafeHtml INPUT_LOADING = SafeHtmlUtils.fromSafeConstant("<img src=\""+CommonResources.INSTANCE.circleLoader().getSafeUri().asString()+"\"/>");
 
 	private final boolean dependsOnSelection;
 	private final boolean handlesSelection;
@@ -91,9 +95,9 @@ public class RoleCell extends AbstractEditableCell<RoleState, RoleState> {
 	@Override
 	public void onBrowserEvent(Context context, Element parent, RoleState value, 
 			NativeEvent event, ValueUpdater<RoleState> valueUpdater) {
-		
+
 		if (!value.isEnabled()) return;
-		
+
 		String type = event.getType();
 
 		boolean enterPressed = BrowserEvents.KEYDOWN.equals(type)
@@ -119,13 +123,13 @@ public class RoleCell extends AbstractEditableCell<RoleState, RoleState> {
 			 * do not save the value because we can get into an inconsistent state.
 			 */
 			if (value.isChecked() != isChecked && !dependsOnSelection()) {
-				setViewData(context.getKey(), new RoleState(value.isEnabled(), isChecked));
+				setViewData(context.getKey(), new RoleState(value.isEnabled(), isChecked, value.isLoading()));
 			} else {
 				clearViewData(context.getKey());
 			}
 
 			if (valueUpdater != null) {
-				valueUpdater.update(new RoleState(value.isEnabled(), isChecked));
+				valueUpdater.update(new RoleState(value.isEnabled(), isChecked, value.isLoading()));
 			}
 		}
 	}
@@ -139,11 +143,16 @@ public class RoleCell extends AbstractEditableCell<RoleState, RoleState> {
 			clearViewData(key);
 			viewData = null;
 		}
+		
+		Log.trace("IS LOADING? "+value.isLoading()+" value: "+value);
+		if (value.isLoading()) sb.append(INPUT_LOADING);
+		else {
 
-		if (value != null && ((viewData != null) ? viewData.isChecked() : value.isChecked())) {
-			sb.append(value.isEnabled()?INPUT_CHECKED:INPUT_CHECKED_DISABLED);
-		} else {
-			sb.append(value.isEnabled()?INPUT_UNCHECKED:INPUT_UNCHECKED_DISABLED);
+			if (value != null && ((viewData != null) ? viewData.isChecked() : value.isChecked())) {
+				sb.append(value.isEnabled()?INPUT_CHECKED:INPUT_CHECKED_DISABLED);
+			} else {
+				sb.append(value.isEnabled()?INPUT_UNCHECKED:INPUT_UNCHECKED_DISABLED);
+			}
 		}
 	}
 }

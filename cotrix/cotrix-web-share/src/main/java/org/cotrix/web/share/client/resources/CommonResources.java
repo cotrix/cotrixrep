@@ -19,6 +19,8 @@ public interface CommonResources extends ClientBundle {
 	
 	public ImageResource loader();
 	
+	public ImageResource circleLoader();
+	
 	@Source("popup-arrow.png")
 	public ImageResource popupArrow();
 	

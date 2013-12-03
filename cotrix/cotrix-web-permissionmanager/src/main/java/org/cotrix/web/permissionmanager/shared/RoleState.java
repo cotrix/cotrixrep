@@ -13,6 +13,7 @@ public class RoleState implements IsSerializable {
 	
 	boolean enabled;
 	boolean checked;
+	boolean loading;
 	
 	public RoleState() {}
 	
@@ -20,9 +21,10 @@ public class RoleState implements IsSerializable {
 	 * @param enabled
 	 * @param checked
 	 */
-	public RoleState(boolean enabled, boolean checked) {
+	public RoleState(boolean enabled, boolean checked, boolean loading) {
 		this.enabled = enabled;
 		this.checked = checked;
+		this.loading = loading;
 	}
 
 	/**
@@ -53,6 +55,20 @@ public class RoleState implements IsSerializable {
 		this.checked = checked;
 	}
 
+	/**
+	 * @return the loading
+	 */
+	public boolean isLoading() {
+		return loading;
+	}
+
+	/**
+	 * @param loading the loading to set
+	 */
+	public void setLoading(boolean loading) {
+		this.loading = loading;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -63,6 +79,8 @@ public class RoleState implements IsSerializable {
 		builder.append(enabled);
 		builder.append(", checked=");
 		builder.append(checked);
+		builder.append(", loading=");
+		builder.append(loading);
 		builder.append("]");
 		return builder.toString();
 	}

@@ -17,6 +17,7 @@ public class RolesRow implements IsSerializable {
 	
 	protected UIUser user;
 	protected Map<String, RoleState> roles;
+	protected boolean loading = false;
 	
 	public RolesRow(){}
 
@@ -34,6 +35,21 @@ public class RolesRow implements IsSerializable {
 	 */
 	public UIUser getUser() {
 		return user;
+	}
+	
+	/**
+	 * @return the loading
+	 */
+	public boolean isLoading() {
+		return loading;
+	}
+
+	/**
+	 * @param loading the loading to set
+	 */
+	public void setLoading(boolean loading) {
+		this.loading = loading;
+		for (RoleState state:roles.values()) state.setLoading(loading);
 	}
 
 	public boolean hasRole(String role) {

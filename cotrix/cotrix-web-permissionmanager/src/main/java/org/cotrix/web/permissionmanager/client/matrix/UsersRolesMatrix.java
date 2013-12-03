@@ -38,7 +38,8 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class UsersRolesMatrix extends ResizeComposite {
 	
-	final static RoleState NO_ROLE = new RoleState(false, false);
+	final static RoleState NO_ROLE = new RoleState(false, false, false);
+	final static RoleState NO_ROLE_LOADING = new RoleState(false, false, true);
 
 	interface UsersRolesMatrixUiBinder extends UiBinder<Widget, UsersRolesMatrix> {}
 	
@@ -132,7 +133,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 			@Override
 			public RoleState getValue(RolesRow row) {
 				RoleState state = row.getRoleState(role);
-				return state!=null?state:NO_ROLE;
+				return state!=null?state:row.isLoading()?NO_ROLE_LOADING:NO_ROLE;
 			}
 		};
 
@@ -140,9 +141,11 @@ public class UsersRolesMatrix extends ResizeComposite {
 
 			@Override
 			public void update(int index, RolesRow row, RoleState value) {
-				/*if (value.isChecked()) row.addRole(role);
-				else row.removeRole(role);*/
-				if (!(row instanceof EditorRow)) bus.fireEventFromSource(new RolesRowUpdatedEvent(row, role, value.isChecked()), UsersRolesMatrix.this);
+				if (!(row instanceof EditorRow)) {
+					row.setLoading(true);
+					matrix.redrawRow(index);
+					bus.fireEventFromSource(new RolesRowUpdatedEvent(row, role, value.isChecked()), UsersRolesMatrix.this);
+				}
 			}
 		});
 
