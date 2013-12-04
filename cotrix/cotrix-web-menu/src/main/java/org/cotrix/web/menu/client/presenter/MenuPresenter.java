@@ -50,14 +50,6 @@ public class MenuPresenter implements MenuView.Presenter {
 				view.setEnabled(Menu.PUBLISH, active);
 			}
 		}, ApplicationFeatures.PUBLISH_CODELIST);
-
-		/*FeatureBinder.bind(new FeatureToggler() {
-
-			@Override
-			public void toggleFeature(boolean active) {
-				view.setEnabled(Menu.PERMISSION, active);
-			}
-		}, ApplicationFeatures.MANAGE_PERSMISSION);*/
 	}
 
 	public void go(HasWidgets container) {
@@ -73,6 +65,7 @@ public class MenuPresenter implements MenuView.Presenter {
 	{
 		Menu menu = getMenu(module);
 		if (menu!=null) view.setSelected(menu);
+		else view.resetMenu();
 	}
 
 	public void makeAvailable(CotrixModule module) {
@@ -89,7 +82,6 @@ public class MenuPresenter implements MenuView.Presenter {
 			case IMPORT: return CotrixModule.IMPORT;
 			case MANAGE: return CotrixModule.MANAGE;
 			case PUBLISH: return CotrixModule.PUBLISH;
-			//case PERMISSION: return CotrixModule.PERMISSION;
 			default: throw new IllegalArgumentException("Unknow menu "+menu);
 		}
 	}
@@ -100,7 +92,6 @@ public class MenuPresenter implements MenuView.Presenter {
 			case IMPORT: return Menu.IMPORT;
 			case MANAGE: return Menu.MANAGE;
 			case PUBLISH: return Menu.PUBLISH;
-			//case PERMISSION: return Menu.PERMISSION;
 			default: return null;
 		}
 	}

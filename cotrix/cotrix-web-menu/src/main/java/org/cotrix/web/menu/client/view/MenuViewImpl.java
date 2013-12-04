@@ -33,7 +33,6 @@ public class MenuViewImpl extends Composite implements MenuView {
 	@UiField Label importMenu;
 	@UiField Label manageMenu;
 	@UiField Label publishMenu;
-	//@UiField Label permissionMenu;
 
 	@UiField Style style;
 
@@ -65,9 +64,6 @@ public class MenuViewImpl extends Composite implements MenuView {
 		
 		addListener(publishMenu, Menu.PUBLISH);
 		publishMenu.getElement().getStyle().setOpacity(BASE_OPACITY);
-		
-		/*addListener(permissionMenu, Menu.PERMISSION);
-		permissionMenu.getElement().getStyle().setOpacity(BASE_OPACITY);*/
 	}
 	
 	protected void addListener(final Label item, final Menu menu)
@@ -92,12 +88,12 @@ public class MenuViewImpl extends Composite implements MenuView {
 		item.setStyleName(style.menuSelected(), true);
 	}
 
-	protected void resetMenu() {
+	@Override
+	public void resetMenu() {
 		homeMenu.setStyleName(style.menuSelected(), false);
 		importMenu.setStyleName(style.menuSelected(), false);
 		manageMenu.setStyleName(style.menuSelected(), false);
 		publishMenu.setStyleName(style.menuSelected(), false);
-		//permissionMenu.setStyleName(style.menuSelected(), false);
 	}
 
 	public void setPresenter(Presenter presenter) {
@@ -131,7 +127,6 @@ public class MenuViewImpl extends Composite implements MenuView {
 			case IMPORT: return importMenu;
 			case MANAGE: return manageMenu;
 			case PUBLISH: return publishMenu;
-			//case PERMISSION: return permissionMenu;
 		}
 		throw new IllegalArgumentException("The specified menu "+menu+" don't bind to a widget");
 	}
