@@ -30,8 +30,11 @@ import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
+import org.cotrix.repository.Criterion;
+import org.cotrix.repository.Query;
 import org.cotrix.repository.codelist.CodelistCoordinates;
 import org.cotrix.repository.codelist.CodelistRepository;
+import org.cotrix.repository.user.UserQueries;
 import org.cotrix.repository.user.UserRepository;
 import org.cotrix.web.permissionmanager.client.PermissionService;
 import org.cotrix.web.permissionmanager.server.util.RolesSorter;
@@ -121,17 +124,15 @@ public class PermissionServiceImpl implements PermissionService {
 		List<RolesRow> rows = new ArrayList<RolesRow>();
 
 		logger.trace("current user: "+currentUser);
+		
+		Criterion<User> sortCriterion = byName();
+		if (!sortInfo.isAscending()) sortCriterion = UserQueries.<User>descending(sortCriterion);
 
-		for (User user:userRepository.get(allUsers().sort(byName()).from(range.getStart()).to(range.getLength()+1))) {
+		for (User user:userRepository.get(allUsers().sort(sortCriterion).excluding(currentUser.id()).from(range.getStart()).to(range.getLength()))) {
 			logger.trace("retrieving permission for user "+user);
-
-			//skip current user
-			if (currentUser.name().equals(user.name())) continue;
 
 			RolesRow row = getRow(user, Action.any, Roles.getBy(ResourceType.application, ResourceType.codelists));
 			rows.add(row);
-			
-			if (rows.size() == range.getLength()) break;
 		}
 
 		rolesSorter.syncUser();
@@ -195,16 +196,14 @@ public class PermissionServiceImpl implements PermissionService {
 		logger.trace("getCodelistRolesRows codelistId {} range: {}, sortInfo: {}", codelistId, range, sortInfo);
 
 		List<RolesRow> rows = new ArrayList<RolesRow>();
+		
+		Criterion<User> sortCriterion = byName();
+		if (!sortInfo.isAscending()) sortCriterion = UserQueries.<User>descending(sortCriterion);
 
-		for (User user:userRepository.get(teamFor(codelistId).sort(byName()).from(range.getStart()).to(range.getLength() + 1))) {
-
-			//skip current user
-			if (currentUser.name().equals(user.name())) continue;
+		for (User user:userRepository.get(teamFor(codelistId).sort(sortCriterion).from(range.getStart()).to(range.getLength()))) {
 
 			RolesRow row = getRow(user, codelistId, Roles.getBy(ResourceType.codelists));
 			rows.add(row);
-			
-			if (rows.size() == range.getLength()) break;
 		}
 		rolesSorter.syncUser();
 		Collections.sort(rows, rolesSorter);

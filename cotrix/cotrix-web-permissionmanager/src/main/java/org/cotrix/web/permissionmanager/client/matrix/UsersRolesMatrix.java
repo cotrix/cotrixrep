@@ -28,6 +28,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -139,9 +140,11 @@ public class UsersRolesMatrix extends ResizeComposite {
 			}
 		};
 		
+		
 		userColumn.setSortable(true);
 		
 		matrix.addColumn(userColumn, header);
+		matrix.addColumnSortHandler(new AsyncHandler(matrix));
 
 		for (String role:roles) {
 			Column<RolesRow, RoleState> roleColumns = getColumn(role);
