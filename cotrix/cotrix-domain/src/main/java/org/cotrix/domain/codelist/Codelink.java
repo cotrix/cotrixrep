@@ -82,5 +82,40 @@ public interface Codelink extends Identified, Attributed {
 			return new Private(po);
 		}
 
+		
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((definition() == null) ? 0 : definition().hashCode());
+			result = prime * result + ((targetId() == null) ? 0 : targetId().hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (!(obj instanceof Codelink.Private ))
+				return false;
+			Codelink.Private other = (Codelink.Private ) obj;
+			if (definition() == null) {
+				if (other.definition() != null)
+					return false;
+			} else if (!definition().equals(other.definition()))
+				return false;
+			if (targetId() == null) {
+				if (other.targetId() != null)
+					return false;
+			} else if (!targetId().equals(other.targetId()))
+				return false;
+			return true;
+		}
+		
+		
+
 	}
 }

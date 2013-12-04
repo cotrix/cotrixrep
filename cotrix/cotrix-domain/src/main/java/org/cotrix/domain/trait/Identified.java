@@ -17,45 +17,40 @@ public interface Identified {
 	 */
 	String id();
 
-	
-	
 	static interface State {
-	
+
 		String id();
-		
+
 		void id(String id);
-		
+
 		Status status();
-		
+
 		void status(Status status);
 
 	}
-	
+
 	/**
 	 * @param <SELF> the type of implementations
 	 */
-	public abstract class Abstract<SELF extends Abstract<SELF,S>, S extends State> implements Identified {
+	public abstract class Abstract<SELF extends Abstract<SELF, S>, S extends State> implements Identified {
 
-		//NOTE: we need SELF because we have a covariant method #update(SELF)
-		//NOTE:	S is to give state back to family classes, which complicates client-use
-		//		we could use a template method but it's less safe and more redundant
-		
+		// NOTE: we need SELF because we have a covariant method #update(SELF)
+		// NOTE: S is to give state back to family classes, which complicates client-use
+		// we could use a template method but it's less safe and more redundant
+
 		private S state;
-		
-		
+
 		public Abstract(S state) {
-			
-			notNull("state bean",state);
-			
-			this.state=state;
+
+			notNull("state bean", state);
+
+			this.state = state;
 		}
-		
-		
-		
+
 		public S state() {
 			return state;
 		}
-		
+
 		@Override
 		public String id() {
 			return state.id();
@@ -63,14 +58,15 @@ public interface Identified {
 
 		public void id(String id) throws IllegalStateException {
 
-			valid("object identifier",id);
-			
+			valid("object identifier", id);
+
 			if (state.id() != null)
-				throw new IllegalStateException(this.getClass().getCanonicalName()+" has already an identifier (" + state.id() + ")");
+				throw new IllegalStateException(this.getClass().getCanonicalName() + " has already an identifier ("
+						+ state.id() + ")");
 
 			state.id(id);
 		}
-		
+
 		public boolean isChangeset() {
 			return state.status() != null;
 		}
@@ -79,11 +75,10 @@ public interface Identified {
 			return state.status();
 		}
 
-
 		public void update(SELF changeset) throws IllegalArgumentException, IllegalStateException {
 
-			notNull(this.getClass().getCanonicalName()+"'s changeset",changeset);
-			
+			notNull(this.getClass().getCanonicalName() + "'s changeset", changeset);
+
 			if (state.id() == null)
 				throw new IllegalStateException(this + " has no identifier and cannot be updated");
 
@@ -92,12 +87,10 @@ public interface Identified {
 						+ (changeset.status() == null ? "NEW" : changeset.status()) + " object");
 
 			if (!id().equals(changeset.id()))
-				throw new IllegalStateException("object " + changeset.id()
-						+ " is not a changeset for object " + id());
+				throw new IllegalStateException("object " + changeset.id() + " is not a changeset for object " + id());
 
 		}
-		
-		
+
 		/**
 		 * Returns an exact copy of this object.
 		 * 
@@ -106,16 +99,20 @@ public interface Identified {
 		public final SELF copy() {
 			return copy(true);
 		}
-		
-		
-		//used for copying (withId=true) and versioning (withId=false)
+
+		// used for copying (withId=true) and versioning (withId=false)
 		public abstract SELF copy(boolean withId);
 
+		
+		
+		
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((state == null) ? 0 : state.hashCode());
+			result = prime * result + ((id() == null) ? 0 : id().hashCode());
+			result = prime * result + ((status() == null) ? 0 : status().hashCode());
 			return result;
 		}
 
@@ -126,16 +123,18 @@ public interface Identified {
 				return true;
 			if (obj == null)
 				return false;
-			if (!(obj instanceof Abstract))
+			if (getClass() != obj.getClass())
 				return false;
-			Abstract other = (Abstract) obj;
-			if (state == null) {
-				if (other.state != null)
+			Identified.Abstract other = (Identified.Abstract) obj;
+			if (id() == null) {
+				if (other.id() != null)
 					return false;
-			} else if (!state.equals(other.state))
+			} else if (!id().equals(other.id()))
+				return false;
+			if (status() != other.status())
 				return false;
 			return true;
 		}
-		
+
 	}
 }

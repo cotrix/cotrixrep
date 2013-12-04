@@ -84,7 +84,38 @@ public interface Versioned {
 			return copy;
 		}
 
+		
+		
 		protected abstract T copyWith(Version version);
+	
+		
+		
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((version() == null) ? 0 : version().hashCode());
+			return result;
+		}
+
+		@Override
+		@SuppressWarnings("all")
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (!(obj instanceof Versioned.Abstract))
+				return false;
+			Versioned.Abstract other = (Versioned.Abstract) obj;
+			if (version() == null) {
+				if (other.version() != null)
+					return false;
+			} else if (!version().equals(other.version()))
+				return false;
+			return true;
+		}
 		
 	}
 }

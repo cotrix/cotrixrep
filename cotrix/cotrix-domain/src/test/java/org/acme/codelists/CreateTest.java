@@ -48,7 +48,6 @@ public class CreateTest {
 	//all attributed DOs: we workd directly against AttributedPO class simulating a subclass
 	
 	@Test
-	@SuppressWarnings("all")
 	public void attributedDOsRejectNullParameters() {
 		
 		AttributedPO po = new AttributedPO("id") {};
@@ -85,6 +84,15 @@ public class CreateTest {
 		attr().name(name).value(value).in(language).build();
 	}
 	
+	@Test
+	public void attributesSupportEquals() {
+
+		Attribute a1 = attr().name(name).value(value).ofType("type").in("lang").build();
+		Attribute a2 = attr().name(name).value(value).ofType("type").in("lang").build();
+
+		assertEquals(a1,a2);
+	}
+	
 	
 	/// codes
 
@@ -100,7 +108,6 @@ public class CreateTest {
 		
 		assertEquals(code,ascode(name));
 		
-		
 		code = code("id").name(name).attributes(a).build();
 		
 		assertEquals("id",code.id());
@@ -109,7 +116,15 @@ public class CreateTest {
 		assertEquals(1,code.attributes().size());
 		assertTrue(asList(code.attributes()).contains(a));
 		
-		System.out.println(code);
+	}
+	
+	@Test
+	public void codesSupportEquals() {
+
+		Attribute a1 = attr().name(name).value(value).ofType("type").in("lang").build();
+		Attribute a2 = attr().name(name).value(value).ofType("type").in("lang").build();
+
+		assertEquals(a1,a2);
 	}
 	
 	@Test

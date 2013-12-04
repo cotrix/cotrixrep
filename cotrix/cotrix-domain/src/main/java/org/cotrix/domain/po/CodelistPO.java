@@ -55,37 +55,6 @@ public final class CodelistPO extends VersionedPO implements Codelist.State {
 	public Collection<Code.State> codes() {
 		return codes;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((codes == null) ? 0 : codes.hashCode());
-		result = prime * result + ((links == null) ? 0 : links.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (!(obj instanceof CodelistPO))
-			return false;
-		CodelistPO other = (CodelistPO) obj;
-		if (codes == null) {
-			if (other.codes != null)
-				return false;
-		} else if (!codes.equals(other.codes))
-			return false;
-		if (links == null) {
-			if (other.links != null)
-				return false;
-		} else if (!links.equals(other.links))
-			return false;
-		return true;
-	}
 	
 	
 }

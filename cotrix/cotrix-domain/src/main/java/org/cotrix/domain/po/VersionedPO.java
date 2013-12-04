@@ -35,32 +35,4 @@ public abstract class VersionedPO extends NamedPO {
 		this.version = version;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((version == null) ? 0 : version.hashCode());
-		return result;
-	}
-
-	@Override
-	@SuppressWarnings("all")
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (!(obj instanceof VersionedPO))
-			return false;
-		VersionedPO other = (VersionedPO) obj;
-		if (version == null) {
-			if (other.version != null)
-				return false;
-		} else if (!version.equals(other.version))
-			return false;
-		return true;
-	}
-	
-	
-
 }
