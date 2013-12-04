@@ -130,7 +130,7 @@ public interface Container<T> extends Iterable<T> {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((elements() == null) ? 0 : elements().hashCode());
+			result = prime * result + ((elements == null) ? 0 : elements.hashCode());
 			return result;
 		}
 
@@ -144,21 +144,12 @@ public interface Container<T> extends Iterable<T> {
 			if (!(obj instanceof Private))
 				return false;
 			Private other = (Private) obj;
-			System.out.println(elements());
-			System.out.println(other.elements());
-			if (elements() == null) {
-				if (other.elements() != null)
+			if (elements == null) {
+				if (other.elements != null)
 					return false;
-			} else if (!elements().equals(other.elements()))
+			} else if (!elements.equals(other.elements))
 				return false;
 			return true;
-		}
-		
-		private Collection<T> elements() {
-			Collection<T> els = new ArrayList<T>(); 
-			for (S element : elements)
-				els.add(element.entity());
-			return els;
 		}
 
 		@Override
