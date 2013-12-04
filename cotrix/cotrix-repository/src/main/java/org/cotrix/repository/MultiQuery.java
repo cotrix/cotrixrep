@@ -36,16 +36,17 @@ public interface MultiQuery<T,R> extends Query<T,Collection<R>> {
 		 */
 		MultiQuery<T,R> to(int to);
 	}
-	
+
 	/**
 	 * Sets a result sorting criterion on this query.
 	 * @param criterion the criterion
 	 */
 	MultiQuery<T, R> sort(Criterion<R> criterion);
-	
+
 	/**
-	 * Returns the result sorting criterion set on this query.
-	 * @return the criterion
+	 * Excludes given objects from the results, if they are included.
+	 * @param excludes the results to exclude
 	 */
-	Criterion<R> criterion();
+	MultiQuery<T, R> excluding(String ... excludes);
+	
 }

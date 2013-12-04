@@ -66,6 +66,11 @@ public class CodelistQueries {
 		return factory.all(c1,c2);
 	}
 	
+	public static <T> Criterion<T> descending(Criterion<T> c) {
+		
+		return factory.descending(c);
+	}
+	
 	public static Criterion<Code> byAttribute(final Attribute attribute, int position) {
 		return factory.byAttribute(attribute,position);
 	}

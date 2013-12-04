@@ -101,6 +101,21 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		assertEqualSets(gather(lists),list);
 	}
 	
+	
+	@Test
+	public void allCodelistsExcludingSome() {
+		
+		Codelist list1 = codelist().name("name1").build();
+		Codelist list2 = codelist().name("name2").build();
+		
+		repository.add(list1);
+		repository.add(list2);
+		
+		Iterable<Codelist> lists  = repository.get(allLists().excluding(list1.id()));
+		
+		assertEqualSets(gather(lists),list2);
+	}
+	
 	@Test
 	public void allCodelistForRootLikeUser() {
 		
@@ -210,6 +225,23 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(byCodeName()));
 		
 		assertEquals(asList(c1,c2),gather(results));
+	}
+	
+	
+	@Test
+	public void listbyCodeNameDescending() {
+		
+		Code c1 = code().name("c1").build();
+		Code c2 = code().name("c2").build();
+		Code c3 = code().name("c3").build();
+		
+		Codelist list = codelist().name("l1").with(c2,c3,c1).build();
+		
+		repository.add(list);
+		
+		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(descending(byCodeName())));
+		
+		assertEquals(asList(c3,c2,c1),gather(results));
 	}
 	
 	@Test

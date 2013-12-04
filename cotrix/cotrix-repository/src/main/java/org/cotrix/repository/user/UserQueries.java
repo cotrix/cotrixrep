@@ -33,6 +33,16 @@ public class UserQueries {
 		
 	}
 	
+	public static <T> Criterion<T> all(Criterion<T> c1, Criterion<T> c2) {
+		
+		return factory.all(c1,c2);
+	}
+
+	public static <T> Criterion<T> descending(Criterion<T> c) {
+		
+		return factory.descending(c);
+	}
+
 	public static Criterion<User> byName() {
 		
 		return factory.byName();
