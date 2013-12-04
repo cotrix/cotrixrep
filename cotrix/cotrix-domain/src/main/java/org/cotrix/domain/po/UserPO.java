@@ -9,7 +9,7 @@ import java.util.Set;
 import org.cotrix.action.Action;
 import org.cotrix.domain.user.Role;
 
-public class UserPO extends DomainPO {
+public class UserPO extends IdentifiedPO {
 
 	private String userName;
 	private String fullName;

@@ -3,7 +3,7 @@ package org.cotrix.domain.trait;
 import static org.cotrix.common.Utils.*;
 
 /**
- * The base interface of all domain objects.
+ * The read-only interface common to all domain entities.
  * 
  * @author Fabio Simeoni
  * 
@@ -18,74 +18,77 @@ public interface Identified {
 	String id();
 
 	
-	static interface State<T extends Identified.Abstract<T>> {
-		
-		Status status();
-
+	
+	static interface State {
+	
 		String id();
 		
 		void id(String id);
+		
+		Status status();
+		
+		void status(Status status);
+
 	}
 	
 	/**
-	 * Default {@link Identified} implementation.
-	 * 
-	 * @param <T> the self type of instances
+	 * @param <SELF> the type of implementations
 	 */
-	public abstract class Abstract<T extends Abstract<T>> implements Identified {
+	public abstract class Abstract<SELF extends Abstract<SELF,S>, S extends State> implements Identified {
 
+		//NOTE: we need SELF because we have a covariant method #update(SELF)
+		//NOTE:	S is to give state back to family classes, which complicates client-use
+		//		we could use a template method but it's less safe and more redundant
+		
+		private S state;
+		
+		
+		public Abstract(S state) {
+			
+			notNull("state bean",state);
+			
+			this.state=state;
+		}
+		
+		
+		
+		public S state() {
+			return state;
+		}
+		
 		@Override
 		public String id() {
-			return state().id();
+			return state.id();
 		}
 
-		/**
-		 * Sets the identifier of this object.
-		 * @param id the identifier
-		 * 
-		 * @throws IllegalArgumentException if the identifier is <code>null</code>
- 		 * @throws IllegalStateException if this object is already identified
-		 */
 		public void id(String id) throws IllegalStateException {
 
 			valid("object identifier",id);
 			
-			if (state().id() != null)
-				throw new IllegalStateException(this.getClass().getCanonicalName()+" has already an identifier (" + state().id() + ")");
+			if (state.id() != null)
+				throw new IllegalStateException(this.getClass().getCanonicalName()+" has already an identifier (" + state.id() + ")");
 
-			state().id(id);
+			state.id(id);
 		}
-
-		 /** Returns <code>true</code> if this object is a changeset.
-		 * @return <code>true</code> if this object is a changeset
-		 */
-		public boolean isChangeset() {
-			return state().status() != null;
-		}
-
 		
-		/**
-		 * Returns the type of change represented by this object, if any.
-		 * @return the type of change
-		 */
-		public Status status() {
-			return state().status();
+		public boolean isChangeset() {
+			return state.status() != null;
 		}
 
-		/**
-		 * Applies a changeset to this object.
-		 * 
-		 * @param changeset the changeset
-		 * @throws IllegalArgumentException if the changeset has a status other than {@link Status#MODIFIED}
-		 * @throws IllegalStateException if this object is unidentified or the changeset does not match its identifier
-		 */
-		public void update(T changeset) throws IllegalArgumentException, IllegalStateException {
+		public Status status() {
+			return state.status();
+		}
 
-			if (state().id() == null)
+
+		public void update(SELF changeset) throws IllegalArgumentException, IllegalStateException {
+
+			notNull(this.getClass().getCanonicalName()+"'s changeset",changeset);
+			
+			if (state.id() == null)
 				throw new IllegalStateException(this + " has no identifier and cannot be updated");
 
 			if (changeset.status() == null || changeset.status() != Status.MODIFIED)
-				throw new IllegalArgumentException("object " + state().id() + " cannot be updated with a "
+				throw new IllegalArgumentException("object " + state.id() + " cannot be updated with a "
 						+ (changeset.status() == null ? "NEW" : changeset.status()) + " object");
 
 			if (!id().equals(changeset.id()))
@@ -100,20 +103,39 @@ public interface Identified {
 		 * 
 		 * @return an exact copy of this object
 		 */
-		public final T copy() {
+		public final SELF copy() {
 			return copy(true);
 		}
 		
 		
-		
-		
 		//used for copying (withId=true) and versioning (withId=false)
-		public abstract T copy(boolean withId);
+		public abstract SELF copy(boolean withId);
 
-		public abstract State<T> state();
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((state == null) ? 0 : state.hashCode());
+			return result;
+		}
 
-		
-		
+		@Override
+		@SuppressWarnings("all")
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (!(obj instanceof Abstract))
+				return false;
+			Abstract other = (Abstract) obj;
+			if (state == null) {
+				if (other.state != null)
+					return false;
+			} else if (!state.equals(other.state))
+				return false;
+			return true;
+		}
 		
 	}
 }

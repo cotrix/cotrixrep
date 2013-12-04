@@ -1,10 +1,8 @@
-package org.acme;
+package org.acme.codelists;
 
 import static junit.framework.Assert.*;
-import static org.acme.Fixture.*;
+import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
-
-import java.util.List;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
@@ -29,7 +27,6 @@ public class CreateTest {
 	// first, all DOs: we test directly against base ObjectPO class simulating a subclass
 	
 	@Test
-	@SuppressWarnings("rawtypes")
 	public void DOsRejectNullParameters() {
 		
 		NamedPO po = new NamedPO(null) {};

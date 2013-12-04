@@ -1,7 +1,6 @@
 package org.cotrix.domain.po;
 
 import org.cotrix.common.Utils;
-import org.cotrix.domain.trait.Versioned;
 import org.cotrix.domain.version.Version;
 
 
@@ -11,7 +10,7 @@ import org.cotrix.domain.version.Version;
  * @author Fabio Simeoni
  *
  */
-public abstract class VersionedPO<T extends Versioned.Abstract<T>> extends NamedPO<T> {
+public abstract class VersionedPO extends NamedPO {
 
 	private Version version;
 

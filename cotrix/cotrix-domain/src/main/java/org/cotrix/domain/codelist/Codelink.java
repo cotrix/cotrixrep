@@ -4,119 +4,82 @@ import org.cotrix.domain.po.CodeLinkPO;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 
-
-
 /**
  * An {@link Identified} and {@link Attributed} instance of a {@link CodelistLink}.
  * 
  * @author Fabio Simeoni
- *
+ * 
  */
-public interface Codelink extends Identified,Attributed {
-	
+public interface Codelink extends Identified, Attributed {
+
 	/**
-	 * Returns the definition of this link. 
+	 * Returns the definition of this link.
+	 * 
 	 * @return the definition
 	 */
 	CodelistLink definition();
 
 	/**
 	 * Returns the identifier of the target of this link.
+	 * 
 	 * @return the target identifier
 	 */
 	String targetId();
-	
-	
-	static interface State extends Attributed.State<Codelink.Private> {
-		
+
+	static interface State extends Attributed.State {
+
 		CodelistLink.State definition();
-		
+
 		String targetId();
-		
+
 		void targetId(String id);
 	}
-	
-	
+
 	/**
 	 * An {@link Attributed.Abstract} implementation of {@link Codelink}.
 	 * 
 	 */
-	public class Private extends Attributed.Abstract<Private> implements Codelink {
-		
-		private final Codelink.State state;
-		
+	public class Private extends Attributed.Abstract<Private, State> implements Codelink {
+
 		public Private(Codelink.State state) {
 			super(state);
-			this.state=state;
 		}
 
 		@Override
-		public Codelink.State state() {
-			return state;
-		}
-		
-		@Override
 		public String targetId() {
-			return state.targetId();
+			return state().targetId();
 		}
-		
+
 		@Override
 		public CodelistLink.Private definition() {
-			return new CodelistLink.Private(state.definition());
+			return new CodelistLink.Private(state().definition());
 		}
-		
+
 		@Override
-		public void update(Private changeset) throws IllegalArgumentException ,IllegalStateException {
-			
+		public void update(Private changeset) throws IllegalArgumentException, IllegalStateException {
+
 			super.update(changeset);
-			
+
 			definition().update(changeset.definition());
-			
+
 			if (!targetId().equals(changeset.targetId()))
-				state.targetId(changeset.targetId());
+				state().targetId(changeset.targetId());
 		}
-		
-		//fills PO for copy/versioning purposes
-		protected void fillPO(boolean withId,CodeLinkPO po) {
-			
-			super.fillPO(withId,po);
+
+		// fills PO for copy/versioning purposes
+		protected void fillPO(boolean withId, CodeLinkPO po) {
+
+			super.fillPO(withId, po);
 			po.definition(definition().copy(withId));
 			po.targetId(targetId());
-			
+
 		}
-		
+
 		public Private copy(boolean withId) {
-			CodeLinkPO po = new CodeLinkPO(withId?id():null);
-			fillPO(withId,po);
+			CodeLinkPO po = new CodeLinkPO(withId ? id() : null);
+			fillPO(withId, po);
 			return new Private(po);
 		}
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((state == null) ? 0 : state.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (!(obj instanceof Private))
-				return false;
-			Private other = (Private) obj;
-			if (state == null) {
-				if (other.state != null)
-					return false;
-			} else if (!state.equals(other.state))
-				return false;
-			return true;
-		}
-		
-		
 	}
 }
-

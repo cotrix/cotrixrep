@@ -23,7 +23,7 @@ public interface Named {
 	
 	
 	
-	static interface State<T extends Named.Abstract<T>> extends Named, Attributed.State<T> {
+	static interface State extends Named, Attributed.State {
 		
 		void name(QName name);
 	}
@@ -36,21 +36,18 @@ public interface Named {
 	 * 
 	 * @param <T> the self type of instances
 	 */
-	public abstract class Abstract<T extends Abstract<T>> extends Attributed.Abstract<T> implements Named {
+	public abstract class Abstract<T extends Abstract<T,S>,S extends State> extends Attributed.Abstract<T,S> implements Named {
 		
 		
-		public Abstract(Named.State<T> state) {
+		public Abstract(S state) {
 			super(state);
 		}
 		
 		//invoked by subclasses under copying
-		protected void fillPO(boolean withId,NamedPO<T> po) {
+		protected void fillPO(boolean withId,NamedPO po) {
 			super.fillPO(withId,po);
 			po.name(name());
 		}
-		
-		@Override
-		public abstract Named.State<T> state();
 		
 		@Override
 		public QName name() {

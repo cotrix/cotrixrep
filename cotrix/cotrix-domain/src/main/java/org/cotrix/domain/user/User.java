@@ -116,7 +116,7 @@ public interface User extends Identified {
 	 * Default user implementation.
 	 * 
 	 */
-	public class Private extends Identified.Abstract<Private> implements User, Serializable {
+	public class Private extends Identified.Abstract<Private,State> implements User, Serializable {
 
 		private static final long serialVersionUID = 1L;
 
@@ -127,6 +127,7 @@ public interface User extends Identified {
 		private final List<Role> roles = new ArrayList<Role>();
 
 		public Private(UserPO po) {
+			super(null);//TODO			
 			this.name = po.name();
 			this.fullName = po.fullName();
 			this.permissions.addAll(po.permissions());
@@ -135,7 +136,7 @@ public interface User extends Identified {
 		}
 		
 		@Override
-		public State<Private> state() {
+		public State state() {
 			// TODO Auto-generated method stub
 			return null;
 		}

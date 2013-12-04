@@ -1,4 +1,4 @@
-package org.acme;
+package org.acme.codelists;
 
 import static org.cotrix.domain.dsl.Codes.*;
 

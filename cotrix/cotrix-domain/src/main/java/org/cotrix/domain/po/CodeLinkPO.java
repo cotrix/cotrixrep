@@ -11,7 +11,7 @@ import org.cotrix.domain.codelist.CodelistLink;
  * @author Fabio Simeoni
  * 
  */
-public final class CodeLinkPO extends AttributedPO<Codelink.Private> implements Codelink.State {
+public final class CodeLinkPO extends AttributedPO implements Codelink.State {
 
 	private String targetId;
 	private CodelistLink.State definition;

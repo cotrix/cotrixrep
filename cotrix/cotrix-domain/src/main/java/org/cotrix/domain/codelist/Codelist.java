@@ -35,7 +35,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	Container<? extends CodelistLink> links();
 	
 	
-	static interface State extends Versioned.State<Codelist.Private> {
+	static interface State extends Versioned.State {
 	
 		Collection<Code.State> codes();
 		
@@ -54,7 +54,16 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	 * @author Fabio Simeoni
 	 *
 	 */
-	public class Private extends Versioned.Abstract<Private> implements Codelist {
+	public class Private extends Versioned.Abstract<Private,State> implements Codelist {
+		
+		/**
+		 * Creates a new instance with a given state.
+		 * @param state the state
+		 */
+		public Private( Codelist.State state) {
+			super(state);
+		}
+
 		
 		private static Container.Provider<Code.Private,Code.State> codeProvider = new Container.Provider<Code.Private,Code.State>() {
 			@Override
@@ -78,30 +87,14 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			}
 		};
 		
-		private final Codelist.State state;
-
-		/**
-		 * Creates a new instance with a given state.
-		 * @param state the state
-		 */
-		public Private( Codelist.State state) {
-			super(state);
-			this.state=state;
-		}
-		
-		@Override
-		public Codelist.State state() {
-			return state;
-		}
-
 		@Override
 		public Container.Private<Code.Private,Code.State> codes() {
-			return new Container.Private<Code.Private,Code.State>(state.codes(),codeProvider);
+			return new Container.Private<Code.Private,Code.State>(state().codes(),codeProvider);
 		}
 		
 		@Override
 		public Container.Private<CodelistLink.Private,CodelistLink.State> links() {
-			return new Container.Private<CodelistLink.Private,CodelistLink.State>(state.links(),linkProvider);
+			return new Container.Private<CodelistLink.Private,CodelistLink.State>(state().links(),linkProvider);
 		}
 
 		protected void buildPO(boolean withId,CodelistPO po) {
@@ -143,31 +136,5 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			this.codes().update(changeset.codes());
 		}
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((state == null) ? 0 : state.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (!(obj instanceof Private))
-				return false;
-			Private other = (Private) obj;
-			if (state == null) {
-				if (other.state != null)
-					return false;
-			} else if (!state.equals(other.state))
-				return false;
-			return true;
-		}
-
-		
 	}
 }

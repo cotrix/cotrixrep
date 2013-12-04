@@ -13,7 +13,7 @@ import org.cotrix.domain.trait.Attributed;
  * @author Fabio Simeoni
  *
  */
-public abstract class AttributedPO<T extends Attributed.Abstract<T>> extends DomainPO<T> implements Attributed.State<T> {
+public abstract class AttributedPO extends IdentifiedPO implements Attributed.State {
 
 	private Collection<Attribute.State> attributes = new ArrayList<Attribute.State>();
 

@@ -17,13 +17,6 @@ import org.cotrix.domain.trait.Named;
 public interface Attribute extends Identified, Named {
 
 	/**
-	 * Returns the name of the attribute.
-	 * 
-	 * @return the name
-	 */
-	QName name();
-
-	/**
 	 * Returns the type of the attribute.
 	 * 
 	 * @return the type
@@ -43,8 +36,9 @@ public interface Attribute extends Identified, Named {
 	 * @return the language
 	 */
 	String language();
+	
 
-	static interface State extends Attribute, Identified.State<Attribute.Private> {
+	static interface State extends Attribute, Identified.State {
 
 		void name(QName type);
 
@@ -61,47 +55,35 @@ public interface Attribute extends Identified, Named {
 	 * @author Fabio Simeoni
 	 * 
 	 */
-	static class Private extends Identified.Abstract<Private> implements Attribute {
+	static class Private extends Identified.Abstract<Private,State> implements Attribute {
 
-		private final Attribute.State state;
-
-		/**
-		 * Creates a new instance with a given state.
-		 * 
-		 * @param state the state
-		 */
 		public Private(Attribute.State state) {
 
-			this.state = state;
-		}
-
-		@Override
-		public Attribute.State state() {
-			return state;
+			super(state);
 		}
 
 		@Override
 		public QName name() {
-			return state.name();
+			return state().name();
 		}
 
 		@Override
 		public QName type() {
-			return state.type();
+			return state().type();
 		}
 
 		@Override
 		public String value() {
-			return state.value();
+			return state().value();
 		}
 
 		public void value(String value) {
-			state.value(value);
+			state().value(value);
 		}
 
 		@Override
 		public String language() {
-			return state.language();
+			return state().language();
 		}
 
 		protected void fillPO(AttributePO po) {
@@ -127,16 +109,16 @@ public interface Attribute extends Identified, Named {
 				if (changeset.name() == NULL_QNAME)
 					throw new IllegalArgumentException("attribute name " + name() + " cannot be erased");
 				else
-					state.name(changeset.name());
+					state().name(changeset.name());
 
 			if (changeset.type() != null)
-				state.type(changeset.type() == NULL_QNAME ? null : changeset.type());
+				state().type(changeset.type() == NULL_QNAME ? null : changeset.type());
 
 			if (changeset.value() != null)
-				state.value(changeset.value() == NULL_STRING ? null : changeset.value());
+				state().value(changeset.value() == NULL_STRING ? null : changeset.value());
 
 			if (changeset.language() != null)
-				state.language(changeset.language() == NULL_STRING ? null : changeset.language());
+				state().language(changeset.language() == NULL_STRING ? null : changeset.language());
 
 		}
 
@@ -147,32 +129,6 @@ public interface Attribute extends Identified, Named {
 					+ "]";
 		}
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((state == null) ? 0 : state.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (!(obj instanceof Private))
-				return false;
-			Private other = (Private) obj;
-			if (state == null) {
-				if (other.state != null)
-					return false;
-			} else if (!state.equals(other.state))
-				return false;
-			return true;
-		}
-		
-		
 
 	}
 	

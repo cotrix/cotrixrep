@@ -14,7 +14,7 @@ import org.cotrix.domain.codelist.Codelink;
  * @author Fabio Simeoni
  * 
  */
-public final class CodePO extends NamedPO<Code.Private> implements Code.State {
+public final class CodePO extends NamedPO implements Code.State {
 
 	private Collection<Codelink.State> links = new ArrayList<Codelink.State>();
 

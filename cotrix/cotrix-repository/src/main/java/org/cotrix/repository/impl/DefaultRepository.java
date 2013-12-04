@@ -9,7 +9,7 @@ import org.cotrix.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultRepository<T extends Identified, S extends Identified.Abstract<S>, R extends Repository<S>> implements Repository<T>  {
+public class DefaultRepository<T extends Identified, S extends Identified.Abstract<S,?>, R extends Repository<S>> implements Repository<T>  {
 	
 	private static Logger log = LoggerFactory.getLogger(Repository.class);
 	

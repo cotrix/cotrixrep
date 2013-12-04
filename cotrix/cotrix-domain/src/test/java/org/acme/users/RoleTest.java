@@ -1,4 +1,4 @@
-package org.acme;
+package org.acme.users;
 
 import static junit.framework.Assert.*;
 import static org.cotrix.action.ResourceType.*;

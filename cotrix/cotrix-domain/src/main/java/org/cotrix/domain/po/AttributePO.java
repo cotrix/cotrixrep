@@ -13,7 +13,7 @@ import org.cotrix.domain.utils.Constants;
  * @author Fabio Simeoni
  *
  */
-public final class AttributePO extends DomainPO<Attribute.Private> implements Attribute.State {
+public final class AttributePO extends IdentifiedPO implements Attribute.State {
 
 	private QName name;
 	private QName type = Constants.DEFAULT_TYPE;

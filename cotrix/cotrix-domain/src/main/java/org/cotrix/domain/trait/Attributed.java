@@ -30,11 +30,10 @@ public interface Attributed {
 	Container<? extends Attribute> attributes();
 	
 	
-	static interface State<T extends Attributed.Abstract<T>> extends Identified.State<T> {
+	static interface State extends Identified.State {
 		
 		Collection<Attribute.State> attributes();
 		
-		void attributes(Collection<Attribute.State> attributes);
 	}
 
 	/**
@@ -42,9 +41,10 @@ public interface Attributed {
 	 * 
 	 * @param <T> the concrete type of instances
 	 */
-	abstract class Abstract<T extends Abstract<T>> extends Identified.Abstract<T> implements Attributed {
+	abstract class Abstract<T extends Abstract<T,S>,S extends State> extends Identified.Abstract<T,S> implements Attributed {
 
-		private static Container.Provider<Attribute.Private,Attribute.State> p = new Container.Provider<Attribute.Private,Attribute.State>() {
+		private static Container.Provider<Attribute.Private,Attribute.State> provider = new Container.Provider<Attribute.Private,Attribute.State>() {
+			
 			@Override
 			public Private objectFor(Attribute.State state) {
 				return new Attribute.Private(state);
@@ -60,7 +60,9 @@ public interface Attributed {
 		 * 
 		 * @param state the parameters
 		 */
-		public Abstract(Attributed.State<T> state) {
+		public Abstract(S state) {
+			
+			super(state);
 			
 			Attribute.State created = timestamp(CREATION_TIME);
 			if (state.status()==null && !state.attributes().contains(created))
@@ -68,16 +70,18 @@ public interface Attributed {
 
 		}
 		
-		@Override
-		public abstract Attributed.State<T> state();
 
 		@Override
 		public Container.Private<Attribute.Private,Attribute.State> attributes() {
 			
-			return new Container.Private<Attribute.Private,Attribute.State>(state().attributes(),p);
-		}
 
-		protected void fillPO(boolean withId, AttributedPO<T> po) {
+			return new Container.Private<Attribute.Private,Attribute.State>(state().attributes(),provider);
+
+		}
+		
+		
+
+		protected void fillPO(boolean withId, AttributedPO po) {
 			po.attributes(attributes().copy(withId).objects());
 		}
 

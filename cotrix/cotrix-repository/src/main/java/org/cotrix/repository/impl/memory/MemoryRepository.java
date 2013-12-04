@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public abstract class MemoryRepository<S extends Identified.Abstract<S>> implements Repository<S> {
+public abstract class MemoryRepository<S extends Identified.Abstract<S,?>> implements Repository<S> {
 
 	private static Logger log = LoggerFactory.getLogger(MemoryRepository.class);
 	

@@ -14,12 +14,12 @@ import org.cotrix.domain.trait.Status;
  * @author Fabio Simeoni
  * 
  */
-public abstract class DomainPO<T extends Identified.Abstract<T>> implements Identified.State<T> {
+public abstract class IdentifiedPO implements Identified.State {
 
 	private String id;
 	private Status status;
 
-	protected DomainPO(String id) {
+	protected IdentifiedPO(String id) {
 		this.id = id;
 	}
 	
@@ -82,7 +82,7 @@ public abstract class DomainPO<T extends Identified.Abstract<T>> implements Iden
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DomainPO other = (DomainPO) obj;
+		IdentifiedPO other = (IdentifiedPO) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

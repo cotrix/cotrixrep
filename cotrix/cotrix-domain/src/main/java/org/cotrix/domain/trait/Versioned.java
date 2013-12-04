@@ -19,7 +19,7 @@ public interface Versioned {
 	String version();
 	
 	
-	static interface State<T extends Abstract<T>> extends Named.State<T> {
+	static interface State extends Named.State {
 		
 		void version(Version version);
 		
@@ -34,22 +34,19 @@ public interface Versioned {
 	 * 
 	 * @param <T> the concrete type of instances, hence of their (versioned) copies
 	 */
-	static abstract class Abstract<T extends Abstract<T>> extends Named.Abstract<T> implements Versioned {
+	static abstract class Abstract<T extends Abstract<T,S>,S extends State> extends Named.Abstract<T,S> implements Versioned {
 
 		
-		public Abstract(Versioned.State<T> state) {
+		public Abstract(S state) {
 			super(state);
 		}
-		
-		@Override
-		public abstract Versioned.State<T> state();
 		
 		@Override
 		public String version() {
 			return state().version() == null ? null : state().version().value();
 		}
 
-		protected void fillPO(boolean withId, VersionedPO<T> po) {
+		protected void fillPO(boolean withId, VersionedPO po) {
 
 			super.fillPO(withId, po);
 

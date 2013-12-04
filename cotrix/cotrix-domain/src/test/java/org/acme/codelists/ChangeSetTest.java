@@ -1,14 +1,14 @@
-package org.acme;
+package org.acme.codelists;
 
 import static junit.framework.Assert.*;
-import static org.acme.Fixture.*;
+import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.po.DomainPO;
+import org.cotrix.domain.po.IdentifiedPO;
 import org.junit.Test;
 
 public class ChangeSetTest {
@@ -17,7 +17,7 @@ public class ChangeSetTest {
 	@SuppressWarnings("all")
 	public void mustHaveIdentifiers() {
 
-		DomainPO po = new DomainPO(null) {};
+		IdentifiedPO po = new IdentifiedPO(null) {};
 
 		try {
 			po.status(MODIFIED);

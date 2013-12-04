@@ -42,7 +42,7 @@ public interface Container<T> extends Iterable<T> {
 	 *
 	 * @param <T> the type of the contained objects 
 	 */
-	public class Private<T extends Identified.Abstract<T>, S extends Identified.State<T>> implements Container<T> {
+	public class Private<T extends Identified.Abstract<T,S>, S extends Identified.State> implements Container<T> {
 		
 		private final Collection<S> objects;
 		private final Provider<T,S> provider;
@@ -63,7 +63,7 @@ public interface Container<T> extends Iterable<T> {
 		
 		@Override
 		public Iterator<T> iterator() {
-			return new ElementIterator();
+			return new IteratorAdapter<T,S>(objects.iterator(),provider);
 		}
 
 		@Override
@@ -140,28 +140,6 @@ public interface Container<T> extends Iterable<T> {
 		
 	
 		
-		class ElementIterator implements Iterator<T> {
-			
-			Iterator<S> inner;
-			
-			public ElementIterator() {
-				this.inner=objects.iterator();
-			}
-			
-			
-			public boolean hasNext() {
-				return inner.hasNext();
-			}
-			
-			public T next() {
-				return provider.objectFor(inner.next());
-			}
-			
-			public void remove() {
-				inner.remove();
-			}
-		}
-
 
 
 

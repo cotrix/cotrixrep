@@ -10,7 +10,7 @@ import org.cotrix.domain.codelist.CodelistLink;
  * @author Fabio Simeoni
  *
  */
-public class CodelistLinkPO extends NamedPO<CodelistLink.Private> implements CodelistLink.State {
+public class CodelistLinkPO extends NamedPO implements CodelistLink.State {
 
 	private String targetId;
 	
