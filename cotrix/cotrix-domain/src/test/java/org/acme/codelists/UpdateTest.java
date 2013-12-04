@@ -222,8 +222,6 @@ public class UpdateTest {
 
 		update(code,change);
 		
-		System.out.println(code);
-		
 		String update_time = null;
 		
 		for (Attribute a : code.attributes())
@@ -241,7 +239,6 @@ public class UpdateTest {
 
 		update(code,change);
 		
-		System.out.println(code);
 		String new_update_time = null;
 		
 		for (Attribute a : code.attributes())

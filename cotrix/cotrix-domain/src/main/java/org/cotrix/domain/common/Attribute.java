@@ -7,6 +7,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.po.AttributePO;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.trait.EntityProvider;
 
 /**
  * A named and typed attribute for a domain object.
@@ -38,7 +39,7 @@ public interface Attribute extends Identified, Named {
 	String language();
 	
 
-	static interface State extends Attribute, Identified.State {
+	static interface State extends Attribute, Identified.State, EntityProvider<Private> {
 
 		void name(QName type);
 
@@ -78,20 +79,24 @@ public interface Attribute extends Identified, Named {
 		}
 
 		public void value(String value) {
+		
 			state().value(value);
+		
 		}
 
 		@Override
 		public String language() {
+	
 			return state().language();
+		
 		}
 
 		protected void fillPO(AttributePO po) {
+			
 			po.name(name());
 			po.type(type());
 			po.value(value());
-			if (language() != null)
-				po.language(language());
+			po.language(language());
 		}
 
 		public Private copy(boolean withId) {

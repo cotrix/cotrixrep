@@ -89,7 +89,7 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	
 	@Override
 	public CodelistLink build() {
-		return new CodelistLink.Private(po);
+		return po.entity();
 	}
 	
 

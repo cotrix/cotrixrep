@@ -23,8 +23,20 @@ public abstract class IdentifiedPO implements Identified.State {
 		this.id = id;
 	}
 	
+	public IdentifiedPO(Identified.State copy, boolean withId) {
+		
+		if (withId)
+			id(copy.id());
+		
+		status = copy.status();
+	}
+	
+	
 	@Override
 	public void id(String id) {
+		
+		valid("identifier",id);
+		
 		this.id=id;
 	}
 
@@ -44,6 +56,7 @@ public abstract class IdentifiedPO implements Identified.State {
 	 * @return the parameter
 	 */
 	public Status status() {
+		
 		return status;
 	}
 

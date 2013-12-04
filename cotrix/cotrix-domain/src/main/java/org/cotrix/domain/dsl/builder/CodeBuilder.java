@@ -88,7 +88,7 @@ public final class CodeBuilder implements CodeNewClause, CodeDeltaClause, FinalC
 
 	
 	public Code build() {
-		return new Code.Private(po);
+		return po.entity();
 	}
 	
 }

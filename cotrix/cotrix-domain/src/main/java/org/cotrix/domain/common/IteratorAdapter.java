@@ -2,16 +2,14 @@ package org.cotrix.domain.common;
 
 import java.util.Iterator;
 
-import org.cotrix.domain.common.Container.Provider;
+import org.cotrix.domain.trait.EntityProvider;
 
-public class IteratorAdapter<T,S> implements Iterator<T> {
+public class IteratorAdapter<T,S extends EntityProvider<T>> implements Iterator<T> {
 	
 	Iterator<S> inner;
-	Provider<T,S> provider;
 	
-	public IteratorAdapter(Iterator<S> iterator,Provider<T,S> provider) {
+	public IteratorAdapter(Iterator<S> iterator) {
 		this.inner=iterator;
-		this.provider=provider;
 	}
 	
 	
@@ -20,7 +18,7 @@ public class IteratorAdapter<T,S> implements Iterator<T> {
 	}
 	
 	public T next() {
-		return provider.objectFor(inner.next());
+		return inner.next().entity();
 	}
 	
 	public void remove() {

@@ -83,7 +83,7 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 	
 	@Override
 	public Codelink build() {
-		return new Codelink.Private(po);
+		return po.entity();
 	}
 	
 

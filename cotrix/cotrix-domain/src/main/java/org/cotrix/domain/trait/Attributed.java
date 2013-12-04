@@ -1,6 +1,7 @@
 package org.cotrix.domain.trait;
 
 import static java.text.DateFormat.*;
+import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import java.util.Calendar;
@@ -9,7 +10,6 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.common.Attribute.Private;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.po.AttributePO;
 import org.cotrix.domain.po.AttributedPO;
@@ -43,18 +43,6 @@ public interface Attributed {
 	 */
 	abstract class Abstract<T extends Abstract<T,S>,S extends State> extends Identified.Abstract<T,S> implements Attributed {
 
-		private static Container.Provider<Attribute.Private,Attribute.State> provider = new Container.Provider<Attribute.Private,Attribute.State>() {
-			
-			@Override
-			public Private objectFor(Attribute.State state) {
-				return new Attribute.Private(state);
-			}
-			@Override
-			public Attribute.State stateOf(Private s) {
-				return s.state();
-			}
-		};
-		
 		/**
 		 * Creates a new instance from a given set of parameters.
 		 * 
@@ -65,7 +53,7 @@ public interface Attributed {
 			super(state);
 			
 			Attribute.State created = timestamp(CREATION_TIME);
-			if (state.status()==null && !state.attributes().contains(created))
+			if (!isChangeset() && !state.attributes().contains(created))
 				state.attributes().add(created);
 
 		}
@@ -74,15 +62,14 @@ public interface Attributed {
 		@Override
 		public Container.Private<Attribute.Private,Attribute.State> attributes() {
 			
-
-			return new Container.Private<Attribute.Private,Attribute.State>(state().attributes(),provider);
+			return container(state().attributes());
 
 		}
 		
 		
 
 		protected void fillPO(boolean withId, AttributedPO po) {
-			po.attributes(attributes().copy(withId).objects());
+			po.attributes(attributes().copy(withId).state());
 		}
 
 		@Override
@@ -96,13 +83,13 @@ public interface Attributed {
 			
 			Attribute.State updateTime = null;
 			
-			for (Attribute.State a : attributes().objects()) {
+			for (Attribute.State a : attributes().state()) {
 				if (a.name().equals(UPDATE_TIME)) {
 					updateTime = a;
 				}
 			}
 			if (updateTime==null) 
-				attributes().objects().add(timestamp(UPDATE_TIME));
+				attributes().state().add(timestamp(UPDATE_TIME));
 			else {
 				String value = getDateTimeInstance().format(Calendar.getInstance().getTime());
 				updateTime.value(value);

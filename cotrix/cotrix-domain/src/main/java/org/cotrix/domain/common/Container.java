@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.EntityProvider;
 
 
 /**
@@ -28,13 +28,6 @@ public interface Container<T> extends Iterable<T> {
 	int size();
 	
 	
-	static interface Provider<T,S> {
-		
-		S stateOf(T s);
-		
-		T objectFor(S s);
-	}
-	
 	/**
 	 * An {@link Identified.Abstract} implementation of {@link Container}.
 	 * 
@@ -42,79 +35,56 @@ public interface Container<T> extends Iterable<T> {
 	 *
 	 * @param <T> the type of the contained objects 
 	 */
-	public class Private<T extends Identified.Abstract<T,S>, S extends Identified.State> implements Container<T> {
+	public static class Private<T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> implements Container<T> {
 		
-		private final Collection<S> objects;
-		private final Provider<T,S> provider;
-		
-		/**
-		 * Creates an instance that contain given entities.
-		 * 
-		 * @param objects the entities
-		 */
-		public Private(Collection<S> objects,Provider<T,S> provider) {
+		private final Collection<S> elements;
+	
+		public Private(Collection<S> elements) {
 			
-			notNull("elements",objects);
+			notNull("elements",elements);
 			
-			this.objects=objects;
-			this.provider=provider;
+			this.elements = elements;
 			
 		}
 		
 		@Override
 		public Iterator<T> iterator() {
-			return new IteratorAdapter<T,S>(objects.iterator(),provider);
+			return new IteratorAdapter<T,S>(elements.iterator());
 		}
 
 		@Override
 		public int size() {
-			return objects.size();
+			return elements.size();
 		}
 		
+		
+		//in-memory update, this is where size will matter
 		public void update(Private<T,S> changeset) {
 			
-			Map<String,S> index = indexObjects();
+			Map<String,S> index = indexElements();
 
-			for (T object : changeset) {
+			for (T entityChangeset : changeset) {
 		
-				String id = object.id();
+				String id = entityChangeset.id();
 
-				if (index.containsKey(id)) {
+				if (index.containsKey(id))
 				
-					if (object.isChangeset())
-						switch (object.status()) {
-							case DELETED:
-								objects.remove(index.remove(id));
-								break;
-							case MODIFIED:
-								provider.objectFor(index.get(id)).update(object);
-								break;
-	
-						} 
-				}
-				//add case
+					switch (entityChangeset.status()) {
+							
+						case DELETED:
+							elements.remove(index.remove(id));
+							break;
+						
+						case MODIFIED: //wrap and dispatch
+							index.get(id).entity().update(entityChangeset);
+							break;
+
+					} 
+					
 				else
-					add(object);
+					elements.add(entityChangeset.state());
 
 			}	
-		}
-
-		private Map<String,S> indexObjects() {
-
-			Map<String, S> index = new HashMap<String,S>();
-
-			for (S object : objects)
-				index.put(object.id(),object);
-
-			return index;
-		}
-
-		protected boolean add(T object) throws IllegalArgumentException {
-
-			notNull("element",object);
-			
-			return objects.add(provider.stateOf(object));
-			
 		}
 		
 		public Private<T,S> copy() {
@@ -123,23 +93,36 @@ public interface Container<T> extends Iterable<T> {
 			
 		}
 
-		public Private<T,S> copy(boolean retainId) {
+		
+		public Private<T,S> copy(boolean withId) {
 			
-			List<S> copied = new ArrayList<S>();
-			for (T object : this)
-				copied.add(provider.stateOf(object.copy(retainId)));
+			Collection<S> copied = new ArrayList<S>();
 			
-			return new Private<T,S>(copied, provider); 
+			for (S element : elements)
+				copied.add(element.entity().copy(withId).state());
+			
+			return new Private<T,S>(copied); 
 			
 		}
 		
-		public Collection<S> objects() {
-			return objects;
+		public Collection<S> state() {
+			return elements;
 		}
 		
 		
 	
-		
+		//helpers
+
+		private Map<String,S> indexElements() {
+
+			Map<String, S> index = new HashMap<String,S>();
+
+			for (S object : elements)
+				index.put(object.id(),object);
+
+			return index;
+		}
+
 
 
 
@@ -147,7 +130,7 @@ public interface Container<T> extends Iterable<T> {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((objects == null) ? 0 : objects.hashCode());
+			result = prime * result + ((elements == null) ? 0 : elements.hashCode());
 			return result;
 		}
 
@@ -161,10 +144,10 @@ public interface Container<T> extends Iterable<T> {
 			if (!(obj instanceof Private))
 				return false;
 			Private other = (Private) obj;
-			if (objects == null) {
-				if (other.objects != null)
+			if (elements == null) {
+				if (other.elements != null)
 					return false;
-			} else if (!objects.equals(other.objects))
+			} else if (!elements.equals(other.elements))
 				return false;
 			return true;
 		}
@@ -172,7 +155,7 @@ public interface Container<T> extends Iterable<T> {
 		@Override
 		public String toString() {
 			final int maxLen = 100;
-			return "Private [objects=" + (objects != null ? toString(objects, maxLen) : null) + "]";
+			return "Private [objects=" + (elements != null ? toString(elements, maxLen) : null) + "]";
 		}
 
 		private String toString(Collection<?> collection, int maxLen) {

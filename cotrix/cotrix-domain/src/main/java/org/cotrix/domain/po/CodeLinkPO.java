@@ -4,6 +4,7 @@ import static org.cotrix.common.Utils.*;
 
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.Codelink.Private;
 
 /**
  * Initialisation parameters for {@link Codelink}s.
@@ -52,6 +53,11 @@ public final class CodeLinkPO extends AttributedPO implements Codelink.State {
 		notNull("definition",definition);
 
 		definition(reveal(definition,CodelistLink.Private.class));
+	}
+	
+	@Override
+	public Private entity() {
+		return new Codelink.Private(this);
 	}
 
 	@Override

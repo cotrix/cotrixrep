@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Code.Private;
 
 /**
  * Initialisation parameters for {@link Code}s.
@@ -35,5 +36,10 @@ public final class CodePO extends NamedPO implements Code.State {
 
 		notNull("links", links);
 		this.links = links;
+	}
+	
+	@Override
+	public Private entity() {
+		return new Code.Private(this);
 	}
 }

@@ -1,6 +1,7 @@
 package org.cotrix.domain.codelist;
 
-import java.util.ArrayList;
+import static org.cotrix.domain.dsl.Codes.*;
+
 import java.util.Collection;
 
 import org.cotrix.domain.common.Container;
@@ -8,6 +9,7 @@ import org.cotrix.domain.po.CodePO;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.trait.EntityProvider;
 
 /**
  * An {@link Identified}, {@link Attributed}, and {@link Named} symbol.
@@ -24,7 +26,7 @@ public interface Code extends Identified,Attributed,Named {
 	Container<? extends Codelink> links();
 	
 	
-	static interface State extends Named.State {
+	static interface State extends Named.State,EntityProvider<Private> {
 		
 		Collection<Codelink.State> links();
 		
@@ -37,37 +39,34 @@ public interface Code extends Identified,Attributed,Named {
 	 */
 	public class Private extends Named.Abstract<Private,State> implements Code {
 
-		private static Container.Provider<Codelink.Private,Codelink.State> provider = new Container.Provider<Codelink.Private,Codelink.State>() {
-			@Override
-			public Codelink.Private objectFor(Codelink.State state) {
-				return new Codelink.Private(state);
-			}
-			@Override
-			public Codelink.State stateOf(Codelink.Private s) {
-				return s.state();
-			}
-		};
-		
 		public Private(Code.State state) {
+			
 			super(state);
+		
 		}
 		
 		
 		@Override
 		public Container.Private<Codelink.Private,Codelink.State> links() {
-			return new Container.Private<Codelink.Private, Codelink.State>(state().links(),provider);
+			
+			return container(state().links());
+			
 		}
 		
 		//fills PO for copy/versioning purposes
 		protected void fillPO(boolean withId, CodePO po) {
+			
 			super.fillPO(withId,po);
-			po.links(new ArrayList<Codelink.State>(links().copy(withId).objects()));
+			po.links(links().copy(withId).state());
+			
 		}
 		
 		public Private copy(boolean withId) {
+
 			CodePO po = new CodePO(withId?id():null);
 			fillPO(withId,po);
 			return new Private(po);
+			
 		}
 		
 		@Override

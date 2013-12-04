@@ -1,5 +1,7 @@
 package org.cotrix.domain.dsl;
 
+import java.util.Collection;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
@@ -7,6 +9,7 @@ import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.common.Container.Private;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
 import org.cotrix.domain.dsl.builder.CodeLinkBuilder;
@@ -21,6 +24,8 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
+import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.EntityProvider;
 
 /**
  * Model factory.
@@ -153,4 +158,11 @@ public class Codes {
 	public static CodelistLinkChangeClause listLink(String id) {
 		return new CodelistLinkBuilder(id);
 	}
+	
+	//simplifies construction through method parameter inference (not available on constructors in Java 6..)
+	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Private<T,S> container(Collection<S> elements) {
+		return new Private<T, S>(elements);
+	}
+	
+	
 }

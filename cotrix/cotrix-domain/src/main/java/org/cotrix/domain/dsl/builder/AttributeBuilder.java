@@ -79,6 +79,6 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 
 	@Override
 	public Attribute build() {
-		return new Attribute.Private(po);
+		return po.entity();
 	}
 }

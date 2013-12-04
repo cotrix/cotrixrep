@@ -3,6 +3,7 @@ package org.cotrix.domain.codelist;
 import org.cotrix.domain.po.CodeLinkPO;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.EntityProvider;
 
 /**
  * An {@link Identified} and {@link Attributed} instance of a {@link CodelistLink}.
@@ -26,7 +27,7 @@ public interface Codelink extends Identified, Attributed {
 	 */
 	String targetId();
 
-	static interface State extends Attributed.State {
+	static interface State extends Attributed.State, EntityProvider<Private> {
 
 		CodelistLink.State definition();
 

@@ -72,6 +72,11 @@ public final class AttributePO extends IdentifiedPO implements Attribute.State {
 		
 		this.language = language;
 	}
+	
+	@Override
+	public Private entity() {
+		return new Attribute.Private(this);
+	}
 
 
 	@Override

@@ -1,6 +1,7 @@
 package org.cotrix.domain.codelist;
 
-import java.util.ArrayList;
+import static org.cotrix.domain.dsl.Codes.*;
+
 import java.util.Collection;
 
 import org.cotrix.domain.common.Attribute;
@@ -65,42 +66,20 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		}
 
 		
-		private static Container.Provider<Code.Private,Code.State> codeProvider = new Container.Provider<Code.Private,Code.State>() {
-			@Override
-			public Code.Private objectFor(Code.State state) {
-				return new Code.Private(state);
-			}
-			@Override
-			public Code.State stateOf(Code.Private s) {
-				return s.state();
-			}
-		};
-		
-		private static Container.Provider<CodelistLink.Private,CodelistLink.State> linkProvider = new Container.Provider<CodelistLink.Private,CodelistLink.State>() {
-			@Override
-			public CodelistLink.Private objectFor(CodelistLink.State state) {
-				return new CodelistLink.Private(state);
-			}
-			@Override
-			public CodelistLink.State stateOf(CodelistLink.Private s) {
-				return s.state();
-			}
-		};
-		
 		@Override
 		public Container.Private<Code.Private,Code.State> codes() {
-			return new Container.Private<Code.Private,Code.State>(state().codes(),codeProvider);
+			return container(state().codes());
 		}
 		
 		@Override
 		public Container.Private<CodelistLink.Private,CodelistLink.State> links() {
-			return new Container.Private<CodelistLink.Private,CodelistLink.State>(state().links(),linkProvider);
+			return container(state().links());
 		}
 
 		protected void buildPO(boolean withId,CodelistPO po) {
 			super.fillPO(withId,po);
-			po.codes(new ArrayList<Code.State>(codes().copy(withId).objects()));
-			po.links(new ArrayList<CodelistLink.State>(links().copy(withId).objects()));
+			po.codes(codes().copy(withId).state());
+			po.links(links().copy(withId).state());
 		}
 
 		@Override

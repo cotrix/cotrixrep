@@ -4,6 +4,7 @@ import org.cotrix.domain.po.CodelistLinkPO;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.trait.EntityProvider;
 
 /**
  * An {@link Identified}, {@link Attributed}, {@link Named} link between {@link Codelist}s.
@@ -20,7 +21,10 @@ public interface CodelistLink extends Identified, Attributed, Named {
 	 */
 	String targetId();
 
-	static interface State extends Named.State {
+	
+	
+	
+	static interface State extends Named.State, EntityProvider<Private> {
 
 		String targetId();
 
