@@ -15,6 +15,8 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class RolesRow implements IsSerializable {
 	
+	public static final String USER_NAME_FIELD = "NAME";
+	
 	protected UIUser user;
 	protected Map<String, RoleState> roles;
 	protected boolean loading = false;

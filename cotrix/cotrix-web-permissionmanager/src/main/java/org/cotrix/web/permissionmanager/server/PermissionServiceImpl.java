@@ -47,11 +47,14 @@ import org.cotrix.web.share.server.task.ContainsTask;
 import org.cotrix.web.share.server.task.UserTask;
 import org.cotrix.web.share.server.util.Users;
 import org.cotrix.web.share.server.util.ValueUtils;
+import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gwt.view.client.Range;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -113,13 +116,13 @@ public class PermissionServiceImpl implements PermissionService {
 
 
 	@Override
-	public DataWindow<RolesRow> getApplicationRolesRows() throws ServiceException {
-		logger.trace("getApplicationRolesRows");
+	public DataWindow<RolesRow> getApplicationRolesRows(Range range, ColumnSortInfo sortInfo) throws ServiceException {
+		logger.trace("getApplicationRolesRows range: {}, sortInfo: {}", range, sortInfo);
 		List<RolesRow> rows = new ArrayList<RolesRow>();
 
 		logger.trace("current user: "+currentUser);
 
-		for (User user:userRepository.get(allUsers())) {
+		for (User user:userRepository.get(allUsers().sort(byName()).from(range.getStart()).to(range.getLength()+1))) {
 			logger.trace("retrieving permission for user "+user);
 
 			//skip current user
@@ -127,6 +130,8 @@ public class PermissionServiceImpl implements PermissionService {
 
 			RolesRow row = getRow(user, Action.any, Roles.getBy(ResourceType.application, ResourceType.codelists));
 			rows.add(row);
+			
+			if (rows.size() == range.getLength()) break;
 		}
 
 		rolesSorter.syncUser();
@@ -186,18 +191,20 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 	@Override
-	public DataWindow<RolesRow> getCodelistRolesRows(String codelistId)	throws ServiceException {
-		logger.trace("getCodelistRolesRows codelistId {}", codelistId);
+	public DataWindow<RolesRow> getCodelistRolesRows(String codelistId, Range range, ColumnSortInfo sortInfo)	throws ServiceException {
+		logger.trace("getCodelistRolesRows codelistId {} range: {}, sortInfo: {}", codelistId, range, sortInfo);
 
 		List<RolesRow> rows = new ArrayList<RolesRow>();
 
-		for (User user:userRepository.get(teamFor(codelistId))) {
+		for (User user:userRepository.get(teamFor(codelistId).sort(byName()).from(range.getStart()).to(range.getLength() + 1))) {
 
 			//skip current user
 			if (currentUser.name().equals(user.name())) continue;
 
 			RolesRow row = getRow(user, codelistId, Roles.getBy(ResourceType.codelists));
 			rows.add(row);
+			
+			if (rows.size() == range.getLength()) break;
 		}
 		rolesSorter.syncUser();
 		Collections.sort(rows, rolesSorter);

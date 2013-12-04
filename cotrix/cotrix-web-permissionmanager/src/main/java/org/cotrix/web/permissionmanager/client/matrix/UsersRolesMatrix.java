@@ -139,6 +139,8 @@ public class UsersRolesMatrix extends ResizeComposite {
 			}
 		};
 		
+		userColumn.setSortable(true);
+		
 		matrix.addColumn(userColumn, header);
 
 		for (String role:roles) {
