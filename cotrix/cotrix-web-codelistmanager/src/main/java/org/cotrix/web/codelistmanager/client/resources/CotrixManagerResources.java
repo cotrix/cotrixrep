@@ -44,8 +44,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource seal();
 	public ImageResource sealDisabled();
 	
-	public ImageResource search();
-	
 	public ImageResource attributes();
 	public ImageResource attributesDisabled();
 	
@@ -69,8 +67,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource thumbHorizontal();
 	
 	interface CotrixManagerStyle extends CssResource {
-		String search();
-		String searchBackground();
 		String editor();
 		String systemProperty();
 	}

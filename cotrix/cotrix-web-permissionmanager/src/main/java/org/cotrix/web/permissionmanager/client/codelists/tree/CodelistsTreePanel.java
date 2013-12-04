@@ -5,15 +5,21 @@ package org.cotrix.web.permissionmanager.client.codelists.tree;
 
 import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.permissionmanager.client.resources.CodelistsResources;
+import org.cotrix.web.permissionmanager.shared.CodelistGroup;
 import org.cotrix.web.permissionmanager.shared.CodelistGroup.CodelistVersion;
+import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.util.SingleSelectionModel;
+import org.cotrix.web.share.client.util.FilteredCachedDataProvider.Filter;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
@@ -29,6 +35,8 @@ public class CodelistsTreePanel extends ResizeComposite {
 
 	interface CodelistsTreePanelUiBinder extends UiBinder<Widget, CodelistsTreePanel> {}
 
+	@UiField TextBox filterTextBox;
+	
 	@UiField(provided=true) CellTree codelistsTree;
 	
 	@Inject
@@ -43,6 +51,28 @@ public class CodelistsTreePanel extends ResizeComposite {
 	protected void init(CodelistsTreePanelUiBinder uiBinder) {
 		setupCodelistsTree();
 		initWidget(uiBinder.createAndBindUi(this));
+		updateSearchBoxStyle();
+	}
+	
+	@UiHandler("filterTextBox")
+	protected void onKeyUp(KeyUpEvent event) {
+		Log.trace("onKeyUp value: "+filterTextBox.getValue()+" text: "+filterTextBox.getText());
+		updateFilter();
+		updateSearchBoxStyle();
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected void updateFilter()
+	{
+		String filter = filterTextBox.getValue();
+		if (filter.isEmpty()) dataProvider.unapplyFilters();
+		else {
+			dataProvider.applyFilters(new ByNameFilter(filter));
+		}
+	}
+	
+	public void updateSearchBoxStyle() {
+		filterTextBox.setStyleName(CommonResources.INSTANCE.css().searchBackground(), filterTextBox.getValue().isEmpty());
 	}
 
 	public void refresh() {
@@ -70,6 +100,24 @@ public class CodelistsTreePanel extends ResizeComposite {
 		//codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		codelistsTree.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 
+	}
+	
+protected class ByNameFilter implements Filter<CodelistGroup> {
+		
+		protected String name;
+
+		/**
+		 * @param name
+		 */
+		public ByNameFilter(String name) {
+			this.name = name.toUpperCase();
+		}
+
+		@Override
+		public boolean accept(CodelistGroup data) {
+			return data.getName().toUpperCase().contains(name);
+		}
+		
 	}
 
 }

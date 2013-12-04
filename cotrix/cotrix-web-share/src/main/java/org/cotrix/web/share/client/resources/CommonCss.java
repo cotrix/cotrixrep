@@ -60,4 +60,7 @@ public interface CommonCss extends CssResource {
 	String errorPanel();
 	String errorMessageContainer();
 	String errorMessage();
+	
+	String search();
+	String searchBackground();
 }

@@ -4,7 +4,7 @@
 	xmlns:cotrix="urn:import:org.cotrix.web.codelistmanager.client.codelists"
 	xmlns:common="urn:import:org.cotrix.web.codelistmanager.client.common">
 	<ui:with field='resources'
-		type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
+		type='org.cotrix.web.share.client.resources.CommonResources' />
 	<ui:style>
 		.mainPanel {
 			background-color: #efefef;
