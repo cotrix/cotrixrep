@@ -1,6 +1,6 @@
 package org.cotrix.domain.codelist;
 
-import org.cotrix.domain.po.CodeLinkPO;
+import org.cotrix.domain.memory.CodelinkMS;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.EntityProvider;
@@ -67,19 +67,17 @@ public interface Codelink extends Identified, Attributed {
 				state().targetId(changeset.targetId());
 		}
 
-		// fills PO for copy/versioning purposes
-		protected void fillPO(boolean withId, CodeLinkPO po) {
-
-			super.fillPO(withId, po);
-			po.definition(definition().copy(withId));
-			po.targetId(targetId());
-
-		}
 
 		public Private copy(boolean withId) {
-			CodeLinkPO po = new CodeLinkPO(withId ? id() : null);
-			fillPO(withId, po);
-			return new Private(po);
+			
+			CodelinkMS state = new CodelinkMS(withId ? id() : null);
+			
+			super.buildState(withId, state);
+			
+			state.definition(definition().copy(withId));
+			state.targetId(targetId());
+			
+			return new Private(state);
 		}
 
 	}

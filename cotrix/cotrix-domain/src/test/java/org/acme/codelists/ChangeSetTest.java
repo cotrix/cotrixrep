@@ -8,7 +8,7 @@ import static org.cotrix.domain.trait.Status.*;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.po.IdentifiedPO;
+import org.cotrix.domain.memory.IdentifiedMS;
 import org.junit.Test;
 
 public class ChangeSetTest {
@@ -17,7 +17,7 @@ public class ChangeSetTest {
 	@SuppressWarnings("all")
 	public void mustHaveIdentifiers() {
 
-		IdentifiedPO po = new IdentifiedPO(null) {};
+		IdentifiedMS po = new IdentifiedMS(null) {};
 
 		try {
 			po.status(MODIFIED);

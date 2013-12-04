@@ -7,9 +7,9 @@ import static org.cotrix.domain.dsl.Codes.*;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.po.AttributedPO;
-import org.cotrix.domain.po.CodelistPO;
-import org.cotrix.domain.po.NamedPO;
+import org.cotrix.domain.memory.AttributedMS;
+import org.cotrix.domain.memory.CodelistMS;
+import org.cotrix.domain.memory.NamedMS;
 import org.cotrix.domain.utils.Constants;
 import org.junit.Test;
 
@@ -29,7 +29,7 @@ public class CreateTest {
 	@Test
 	public void DOsRejectNullParameters() {
 		
-		NamedPO po = new NamedPO(null) {};
+		NamedMS po = new NamedMS(null) {};
 		
 		try {
 			po.name(null);
@@ -45,13 +45,13 @@ public class CreateTest {
 		
 	}
 	
-	//all attributed DOs: we workd directly against AttributedPO class simulating a subclass
+	//all attributed DOs: we workd directly against AttributedMS class simulating a subclass
 	
 	@Test
 	@SuppressWarnings("all")
 	public void attributedDOsRejectNullParameters() {
 		
-		AttributedPO po = new AttributedPO("id") {};
+		AttributedMS po = new AttributedMS("id") {};
 		
 		try {
 			po.attributes(null);
@@ -131,7 +131,7 @@ public class CreateTest {
 	public void codelistsRejectNullParameters() {
 			
 
-		CodelistPO po = new CodelistPO("id");
+		CodelistMS po = new CodelistMS("id");
 		
 		try {
 			po.codes(null);

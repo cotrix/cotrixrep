@@ -11,8 +11,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.Container;
-import org.cotrix.domain.po.AttributePO;
-import org.cotrix.domain.po.AttributedPO;
+import org.cotrix.domain.memory.AttributeMS;
+import org.cotrix.domain.memory.AttributedMS;
 
 /**
  * A domain object with {@link Attribute}s.
@@ -66,10 +66,8 @@ public interface Attributed {
 
 		}
 		
-		
-
-		protected void fillPO(boolean withId, AttributedPO po) {
-			po.attributes(attributes().copy(withId).state());
+		protected void buildState(boolean withId, AttributedMS state) {
+			state.attributes(attributes().copy(withId).state());
 		}
 
 		@Override
@@ -100,7 +98,7 @@ public interface Attributed {
 		// helpers
 		private Attribute.State timestamp(QName name) {
 
-			AttributePO po = new AttributePO(null);
+			AttributeMS po = new AttributeMS(null);
 			po.name(name);
 			String value = getDateTimeInstance().format(Calendar.getInstance().getTime());
 			po.value(value);

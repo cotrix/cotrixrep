@@ -1,4 +1,4 @@
-package org.cotrix.domain.po;
+package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
@@ -15,7 +15,7 @@ import org.cotrix.domain.codelist.CodelistLink;
  * @author Fabio Simeoni
  * 
  */
-public final class CodelistPO extends VersionedPO implements Codelist.State {
+public final class CodelistMS extends VersionedMS implements Codelist.State {
 
 	private Collection<Code.State> codes = new ArrayList<Code.State>();
 	private Collection<CodelistLink.State> links = new ArrayList<CodelistLink.State>();
@@ -25,7 +25,7 @@ public final class CodelistPO extends VersionedPO implements Codelist.State {
 	 * 
 	 * @param id the identifier
 	 */
-	public CodelistPO(String id) {
+	public CodelistMS(String id) {
 		super(id);
 	}
 
@@ -71,9 +71,9 @@ public final class CodelistPO extends VersionedPO implements Codelist.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof CodelistPO))
+		if (!(obj instanceof CodelistMS))
 			return false;
-		CodelistPO other = (CodelistPO) obj;
+		CodelistMS other = (CodelistMS) obj;
 		if (codes == null) {
 			if (other.codes != null)
 				return false;

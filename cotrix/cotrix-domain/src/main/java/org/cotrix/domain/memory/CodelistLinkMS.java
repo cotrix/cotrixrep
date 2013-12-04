@@ -1,4 +1,4 @@
-package org.cotrix.domain.po;
+package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
@@ -11,11 +11,11 @@ import org.cotrix.domain.codelist.CodelistLink.Private;
  * @author Fabio Simeoni
  *
  */
-public class CodelistLinkPO extends NamedPO implements CodelistLink.State {
+public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 
 	private String targetId;
 	
-	public CodelistLinkPO(String id) {
+	public CodelistLinkMS(String id) {
 		super(id);
 	}
 
@@ -50,9 +50,9 @@ public class CodelistLinkPO extends NamedPO implements CodelistLink.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof CodelistLinkPO))
+		if (!(obj instanceof CodelistLinkMS))
 			return false;
-		CodelistLinkPO other = (CodelistLinkPO) obj;
+		CodelistLinkMS other = (CodelistLinkMS) obj;
 		if (targetId == null) {
 			if (other.targetId != null)
 				return false;

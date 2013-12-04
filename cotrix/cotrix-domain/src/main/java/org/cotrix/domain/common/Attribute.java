@@ -4,7 +4,7 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.po.AttributePO;
+import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.EntityProvider;
@@ -50,16 +50,9 @@ public interface Attribute extends Identified, Named {
 		void language(String language);
 	}
 
-	/**
-	 * {@link Attribute} implementation.
-	 * 
-	 * @author Fabio Simeoni
-	 * 
-	 */
 	static class Private extends Identified.Abstract<Private,State> implements Attribute {
 
 		public Private(Attribute.State state) {
-
 			super(state);
 		}
 
@@ -78,31 +71,20 @@ public interface Attribute extends Identified, Named {
 			return state().value();
 		}
 
-		public void value(String value) {
-		
-			state().value(value);
-		
-		}
-
 		@Override
 		public String language() {
-	
 			return state().language();
-		
-		}
-
-		protected void fillPO(AttributePO po) {
-			
-			po.name(name());
-			po.type(type());
-			po.value(value());
-			po.language(language());
 		}
 
 		public Private copy(boolean withId) {
-			AttributePO po = new AttributePO(withId ? id() : null);
-			fillPO(po);
-			return new Private(po);
+			
+			AttributeMS state = new AttributeMS(withId ? id() : null);
+			state.name(name());
+			state.type(type());
+			state.value(value());
+			state.language(language());
+			return new Private(state);
+			
 		}
 
 		@Override

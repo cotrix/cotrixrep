@@ -1,4 +1,4 @@
-package org.cotrix.domain.po;
+package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
@@ -15,7 +15,7 @@ import org.cotrix.domain.codelist.Code.Private;
  * @author Fabio Simeoni
  * 
  */
-public final class CodePO extends NamedPO implements Code.State {
+public final class CodeMS extends NamedMS implements Code.State {
 
 	private Collection<Codelink.State> links = new ArrayList<Codelink.State>();
 
@@ -24,7 +24,7 @@ public final class CodePO extends NamedPO implements Code.State {
 	 * 
 	 * @param id the identifier
 	 */
-	public CodePO(String id) {
+	public CodeMS(String id) {
 		super(id);
 	}
 

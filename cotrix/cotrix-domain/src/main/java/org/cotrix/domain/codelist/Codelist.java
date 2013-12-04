@@ -6,7 +6,7 @@ import java.util.Collection;
 
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.Container;
-import org.cotrix.domain.po.CodelistPO;
+import org.cotrix.domain.memory.CodelistMS;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -76,7 +76,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			return container(state().links());
 		}
 
-		protected void buildPO(boolean withId,CodelistPO po) {
+		protected void buildState(boolean withId,CodelistMS po) {
 			super.fillPO(withId,po);
 			po.codes(codes().copy(withId).state());
 			po.links(links().copy(withId).state());
@@ -84,26 +84,27 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 
 		@Override
 		public Private copy(boolean withId) {
-			CodelistPO po = new CodelistPO(withId?id():null);
-			buildPO(withId,po);
-			return new Private(po);
+			CodelistMS state = new CodelistMS(withId?id():null);
+			buildState(withId,state);
+			return new Private(state);
 		}
 		
 		@Override
 		protected final Private copyWith(Version version) {
 			
-			CodelistPO po = new CodelistPO(null);
-			buildPO(false,po);
+			CodelistMS state = new CodelistMS(null);
+			
+			buildState(false,state);
 			
 			if (version!=null)
-				po.version(version);
+				state.version(version);
 
-			return new Private(po);
+			return new Private(state);
 		}
 
 		@Override
 		public String toString() {
-			return "Codelist [id="+id()+", name=" + name() + ", codes=" + codes() + ", attributes=" + attributes() + ", version="
+			return "Codelist [id="+id()+", name=" + name() + ", codes=" + codes() + ", attributes=" + attributes() + ", links=" + links() + ", version="
 					+ version() + (status()==null?"":" ("+status()+") ")+"]";
 		}
 

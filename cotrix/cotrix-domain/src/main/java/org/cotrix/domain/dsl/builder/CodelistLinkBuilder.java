@@ -17,7 +17,7 @@ import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClaus
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.SecondClause;
-import org.cotrix.domain.po.CodelistLinkPO;
+import org.cotrix.domain.memory.CodelistLinkMS;
 
 /**
  * Builds {@link Attribute}s.
@@ -28,14 +28,14 @@ import org.cotrix.domain.po.CodelistLinkPO;
 public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkChangeClause, FinalClause {
 
 	
-	private final CodelistLinkPO po;
+	private final CodelistLinkMS po;
 	
 	public CodelistLinkBuilder() {
-		this.po = new CodelistLinkPO(null);
+		this.po = new CodelistLinkMS(null);
 	}
 	
 	public CodelistLinkBuilder(String id) {
-		this.po = new CodelistLinkPO(id);
+		this.po = new CodelistLinkMS(id);
 		po.status(MODIFIED);
 	}
 	

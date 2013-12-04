@@ -1,4 +1,4 @@
-package org.cotrix.domain.po;
+package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
@@ -12,7 +12,7 @@ import org.cotrix.domain.codelist.Codelink.Private;
  * @author Fabio Simeoni
  * 
  */
-public final class CodeLinkPO extends AttributedPO implements Codelink.State {
+public final class CodelinkMS extends AttributedMS implements Codelink.State {
 
 	private String targetId;
 	private CodelistLink.State definition;
@@ -22,7 +22,7 @@ public final class CodeLinkPO extends AttributedPO implements Codelink.State {
 	 * 
 	 * @param id the identifier
 	 */
-	public CodeLinkPO(String id) {
+	public CodelinkMS(String id) {
 		super(id);
 	}
 
@@ -75,9 +75,9 @@ public final class CodeLinkPO extends AttributedPO implements Codelink.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof CodeLinkPO))
+		if (!(obj instanceof CodelinkMS))
 			return false;
-		CodeLinkPO other = (CodeLinkPO) obj;
+		CodelinkMS other = (CodelinkMS) obj;
 		if (definition == null) {
 			if (other.definition != null)
 				return false;

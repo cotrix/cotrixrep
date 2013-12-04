@@ -1,4 +1,4 @@
-package org.cotrix.domain.po;
+package org.cotrix.domain.memory;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.version.Version;
@@ -10,11 +10,11 @@ import org.cotrix.domain.version.Version;
  * @author Fabio Simeoni
  *
  */
-public abstract class VersionedPO extends NamedPO {
+public abstract class VersionedMS extends NamedMS {
 
 	private Version version;
 
-	public VersionedPO(String id) {
+	public VersionedMS(String id) {
 		super(id);
 	}
 	
@@ -50,9 +50,9 @@ public abstract class VersionedPO extends NamedPO {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof VersionedPO))
+		if (!(obj instanceof VersionedMS))
 			return false;
-		VersionedPO other = (VersionedPO) obj;
+		VersionedMS other = (VersionedMS) obj;
 		if (version == null) {
 			if (other.version != null)
 				return false;

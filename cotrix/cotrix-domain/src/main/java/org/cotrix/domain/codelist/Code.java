@@ -5,7 +5,7 @@ import static org.cotrix.domain.dsl.Codes.*;
 import java.util.Collection;
 
 import org.cotrix.domain.common.Container;
-import org.cotrix.domain.po.CodePO;
+import org.cotrix.domain.memory.CodeMS;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -26,6 +26,8 @@ public interface Code extends Identified,Attributed,Named {
 	Container<? extends Codelink> links();
 	
 	
+	
+	
 	static interface State extends Named.State,EntityProvider<Private> {
 		
 		Collection<Codelink.State> links();
@@ -34,9 +36,8 @@ public interface Code extends Identified,Attributed,Named {
 		
 	}
 	
-	/**
-	 * A {@link Named.Abstract} implementation of {@link Code}.
-	 */
+	
+	
 	public class Private extends Named.Abstract<Private,State> implements Code {
 
 		public Private(Code.State state) {
@@ -53,19 +54,14 @@ public interface Code extends Identified,Attributed,Named {
 			
 		}
 		
-		//fills PO for copy/versioning purposes
-		protected void fillPO(boolean withId, CodePO po) {
-			
-			super.fillPO(withId,po);
-			po.links(links().copy(withId).state());
-			
-		}
-		
 		public Private copy(boolean withId) {
 
-			CodePO po = new CodePO(withId?id():null);
-			fillPO(withId,po);
-			return new Private(po);
+			CodeMS state = new CodeMS(withId?id():null);
+			
+			buildState(withId,state);
+			state.links(links().copy(withId).state());
+			
+			return new Private(state);
 			
 		}
 		
@@ -73,12 +69,13 @@ public interface Code extends Identified,Attributed,Named {
 		public void update(Private changeset) throws IllegalArgumentException, IllegalStateException {
 			
 			super.update(changeset);
+			
 			links().update(changeset.links());
 		}
 
 		@Override
 		public String toString() {
-			return "Code [id="+id()+", name=" + name() + ", attributes=" + attributes()+"]" ;
+			return "Code [id="+id()+", name=" + name() + ", attributes=" + attributes()+ ", links=" + links()+"]" ;
 		}
 
 	}

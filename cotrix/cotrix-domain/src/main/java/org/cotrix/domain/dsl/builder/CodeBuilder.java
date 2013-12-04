@@ -17,7 +17,7 @@ import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.SecondClause;
-import org.cotrix.domain.po.CodePO;
+import org.cotrix.domain.memory.CodeMS;
 
 /**
  * Builds {@link Code}s.
@@ -27,14 +27,14 @@ import org.cotrix.domain.po.CodePO;
  */
 public final class CodeBuilder implements CodeNewClause, CodeDeltaClause, FinalClause {
 
-	private final CodePO po;
+	private final CodeMS po;
 	
 	public CodeBuilder() {
-		po = new CodePO(null);
+		po = new CodeMS(null);
 	}
 	
 	public CodeBuilder(String id) {
-		po = new CodePO(id);
+		po = new CodeMS(id);
 		po.status(MODIFIED);
 	}
 	

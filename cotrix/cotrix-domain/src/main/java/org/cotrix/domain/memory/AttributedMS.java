@@ -1,4 +1,4 @@
-package org.cotrix.domain.po;
+package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
@@ -13,11 +13,11 @@ import org.cotrix.domain.trait.Attributed;
  * @author Fabio Simeoni
  *
  */
-public abstract class AttributedPO extends IdentifiedPO implements Attributed.State {
+public abstract class AttributedMS extends IdentifiedMS implements Attributed.State {
 
 	private Collection<Attribute.State> attributes = new ArrayList<Attribute.State>();
 
-	protected AttributedPO(String id) {
+	protected AttributedMS(String id) {
 		super(id);
 	}
 
@@ -52,9 +52,9 @@ public abstract class AttributedPO extends IdentifiedPO implements Attributed.St
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof AttributedPO))
+		if (!(obj instanceof AttributedMS))
 			return false;
-		AttributedPO other = (AttributedPO) obj;
+		AttributedMS other = (AttributedMS) obj;
 		if (attributes == null) {
 			if (other.attributes != null)
 				return false;

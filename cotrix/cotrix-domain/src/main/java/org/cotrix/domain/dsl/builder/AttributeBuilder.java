@@ -12,7 +12,7 @@ import org.cotrix.domain.dsl.grammar.AttributeGrammar.LanguageClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.TypeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.ValueClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
-import org.cotrix.domain.po.AttributePO;
+import org.cotrix.domain.memory.AttributeMS;
 
 /**
  * Builds {@link Attribute}s.
@@ -22,15 +22,15 @@ import org.cotrix.domain.po.AttributePO;
  */
 public class AttributeBuilder implements AttributeStartClause, AttributeDeltaClause {
 
-	private final AttributePO po;
+	private final AttributeMS po;
 
 	
 	public AttributeBuilder() {
-		this.po = new AttributePO(null);
+		this.po = new AttributeMS(null);
 	}
 	
 	public AttributeBuilder(String id) {
-		this.po = new AttributePO(id);
+		this.po = new AttributeMS(id);
 		po.type(null);
 		po.status(MODIFIED);
 		

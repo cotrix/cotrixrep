@@ -1,6 +1,6 @@
 package org.cotrix.domain.trait;
 
-import org.cotrix.domain.po.VersionedPO;
+import org.cotrix.domain.memory.VersionedMS;
 import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.version.Version;
 
@@ -46,12 +46,12 @@ public interface Versioned {
 			return state().version() == null ? null : state().version().value();
 		}
 
-		protected void fillPO(boolean withId, VersionedPO po) {
+		protected void fillPO(boolean withId, VersionedMS state) {
 
-			super.fillPO(withId, po);
+			super.buildState(withId, state);
 
 			if (state().version() != null)
-				po.version(state().version());
+				state.version(state().version());
 		}
 
 		@Override

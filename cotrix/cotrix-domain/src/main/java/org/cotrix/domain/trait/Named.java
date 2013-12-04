@@ -4,7 +4,7 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.po.NamedPO;
+import org.cotrix.domain.memory.NamedMS;
 
 /**
  * A named domain object.
@@ -44,9 +44,11 @@ public interface Named {
 		}
 		
 		//invoked by subclasses under copying
-		protected void fillPO(boolean withId,NamedPO po) {
-			super.fillPO(withId,po);
-			po.name(name());
+		protected void buildState(boolean withId,NamedMS state) {
+			
+			super.buildState(withId,state);
+			
+			state.name(name());
 		}
 		
 		@Override

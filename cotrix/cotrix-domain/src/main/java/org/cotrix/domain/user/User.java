@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.action.Action;
-import org.cotrix.domain.po.UserPO;
+import org.cotrix.domain.memory.UserMS;
 import org.cotrix.domain.trait.Identified;
 
 /**
@@ -126,13 +126,13 @@ public interface User extends Identified {
 		private final List<Action> permissions = new ArrayList<Action>();
 		private final List<Role> roles = new ArrayList<Role>();
 
-		public Private(UserPO po) {
+		public Private(UserMS state) {
 			super(null);//TODO			
-			this.name = po.name();
-			this.fullName = po.fullName();
-			this.permissions.addAll(po.permissions());
-			this.email = po.email();
-			this.add(po.roles());
+			this.name = state.name();
+			this.fullName = state.fullName();
+			this.permissions.addAll(state.permissions());
+			this.email = state.email();
+			this.add(state.roles());
 		}
 		
 		@Override
@@ -246,15 +246,15 @@ public interface User extends Identified {
 		@Override
 		public Private copy(boolean withId) {
 
-			UserPO po = new UserPO(withId ? id() : null);
+			UserMS state = new UserMS(withId ? id() : null);
 
-			po.setName(name);
-			po.setFullName(fullName);
-			po.setEmail(email);
-			po.setPermissions(permissions);
-			po.setRoles(roles);
+			state.setName(name);
+			state.setFullName(fullName);
+			state.setEmail(email);
+			state.setPermissions(permissions);
+			state.setRoles(roles);
 
-			return new Private(po);
+			return new Private(state);
 		}
 
 		@Override

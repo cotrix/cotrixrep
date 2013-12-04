@@ -20,7 +20,7 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.FourthClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.ThirdClause;
-import org.cotrix.domain.po.CodelistPO;
+import org.cotrix.domain.memory.CodelistMS;
 import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
@@ -32,16 +32,16 @@ import org.cotrix.domain.version.Version;
  */
 public final class CodelistBuilder implements CodelistNewClause, CodelistChangeClause, ThirdClause, FourthClause,FinalClause {
 
-	private final CodelistPO po;
+	private final CodelistMS po;
 	
 	
 	public CodelistBuilder() {
-		this.po = new CodelistPO(null);
+		this.po = new CodelistMS(null);
 		this.po.version(new DefaultVersion());
 	}
 	
 	public CodelistBuilder(String id) {
-		this.po = new CodelistPO(id);
+		this.po = new CodelistMS(id);
 		po.status(MODIFIED);
 	}
 	

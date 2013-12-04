@@ -1,4 +1,4 @@
-package org.cotrix.domain.po;
+package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
@@ -14,16 +14,16 @@ import org.cotrix.domain.trait.Status;
  * @author Fabio Simeoni
  * 
  */
-public abstract class IdentifiedPO implements Identified.State {
+public abstract class IdentifiedMS implements Identified.State {
 
 	private String id;
 	private Status status;
 
-	protected IdentifiedPO(String id) {
+	protected IdentifiedMS(String id) {
 		this.id = id;
 	}
 	
-	public IdentifiedPO(Identified.State copy, boolean withId) {
+	public IdentifiedMS(Identified.State copy, boolean withId) {
 		
 		if (withId)
 			id(copy.id());
@@ -95,7 +95,7 @@ public abstract class IdentifiedPO implements Identified.State {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		IdentifiedPO other = (IdentifiedPO) obj;
+		IdentifiedMS other = (IdentifiedMS) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

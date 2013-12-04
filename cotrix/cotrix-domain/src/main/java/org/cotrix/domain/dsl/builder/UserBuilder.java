@@ -11,7 +11,7 @@ import org.cotrix.action.ResourceType;
 import org.cotrix.domain.dsl.grammar.UserGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserChangeClause;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserNewClause;
-import org.cotrix.domain.po.UserPO;
+import org.cotrix.domain.memory.UserMS;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.user.DefaultRole;
 import org.cotrix.domain.user.Role;
@@ -20,18 +20,18 @@ import org.cotrix.domain.utils.Constants;
 
 public class UserBuilder implements UserNewClause, UserChangeClause {
 
-	private final UserPO po;
+	private final UserMS po;
 	
 	public UserBuilder(String id) {
 		
 		valid("identifier",id);
 		
-		po = new UserPO(id);
+		po = new UserMS(id);
 		po.status(Status.MODIFIED);
 	}
 	
 	public UserBuilder() {
-		po = new UserPO(null);
+		po = new UserMS(null);
 	}
 	
 	@Override

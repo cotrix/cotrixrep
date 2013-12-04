@@ -1,4 +1,4 @@
-package org.cotrix.domain.po;
+package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
@@ -9,7 +9,7 @@ import java.util.Set;
 import org.cotrix.action.Action;
 import org.cotrix.domain.user.Role;
 
-public class UserPO extends IdentifiedPO {
+public class UserMS extends IdentifiedMS {
 
 	private String userName;
 	private String fullName;
@@ -18,7 +18,7 @@ public class UserPO extends IdentifiedPO {
 	private final Set<Action> permissions = new LinkedHashSet<Action>();
 	private final Set<Role> roles = new LinkedHashSet<Role>();
 	
-	public UserPO(String id) {
+	public UserMS(String id) {
 		super(id);
 	}
 	

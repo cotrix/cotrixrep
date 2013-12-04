@@ -1,4 +1,4 @@
-package org.cotrix.domain.po;
+package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
@@ -13,7 +13,7 @@ import org.cotrix.domain.utils.Constants;
  * @author Fabio Simeoni
  *
  */
-public final class AttributePO extends IdentifiedPO implements Attribute.State {
+public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 
 	private QName name;
 	private QName type = Constants.DEFAULT_TYPE;
@@ -24,7 +24,7 @@ public final class AttributePO extends IdentifiedPO implements Attribute.State {
 	 * Creates an instance with an identifier.
 	 * @param id the identifier
 	 */
-	public AttributePO(String id) {
+	public AttributeMS(String id) {
 		super(id);
 	}
 	
@@ -98,9 +98,9 @@ public final class AttributePO extends IdentifiedPO implements Attribute.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof AttributePO))
+		if (!(obj instanceof AttributeMS))
 			return false;
-		AttributePO other = (AttributePO) obj;
+		AttributeMS other = (AttributeMS) obj;
 		if (language == null) {
 			if (other.language != null)
 				return false;
@@ -127,7 +127,7 @@ public final class AttributePO extends IdentifiedPO implements Attribute.State {
 
 	@Override
 	public String toString() {
-		return "AttributePO [name=" + name + ", type=" + type + ", value=" + value + ", language=" + language
+		return "AttributeMS [name=" + name + ", type=" + type + ", value=" + value + ", language=" + language
 				+ ", id()=" + id() + ", status()=" + status() + "]";
 	}
 

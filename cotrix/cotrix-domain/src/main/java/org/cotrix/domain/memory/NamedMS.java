@@ -1,4 +1,4 @@
-package org.cotrix.domain.po;
+package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
@@ -13,11 +13,11 @@ import org.cotrix.domain.trait.Named;
  * @author Fabio Simeoni
  *
  */
-public abstract class NamedPO extends AttributedPO implements Named.State {
+public abstract class NamedMS extends AttributedMS implements Named.State {
 
 	private QName name;
 	
-	protected NamedPO(String id) {
+	protected NamedMS(String id) {
 		
 		super(id);
 	}
@@ -56,9 +56,9 @@ public abstract class NamedPO extends AttributedPO implements Named.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof NamedPO))
+		if (!(obj instanceof NamedMS))
 			return false;
-		NamedPO other = (NamedPO) obj;
+		NamedMS other = (NamedMS) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
