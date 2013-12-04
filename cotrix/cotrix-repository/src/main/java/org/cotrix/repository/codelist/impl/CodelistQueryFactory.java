@@ -80,6 +80,16 @@ public interface CodelistQueryFactory {
 	 */
 	<T> Criterion<T> all(Criterion<T> c1, Criterion<T> c2);
 	
+
+	/**
+	 * Returns a criterion that inverts the order of a given criterion.
+	 * 
+	 * @param c the criterion
+	 * 
+	 * @return the inverted criterion
+	 */
+	<T> Criterion<T> descending(Criterion<T> c);
+	
 	/**
 	 * Returns the criterion to sort codelist results by version
 	 * @return the criterion

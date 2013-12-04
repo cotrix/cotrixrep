@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.cotrix.common.Utils;
+import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Range;
@@ -34,6 +35,15 @@ public abstract class MMultiQuery<T,R> extends BaseMultiQuery<T,R> implements MQ
 		
 		
 		List<R> results = new ArrayList<R>(executeOn(repository));
+		
+		List<R> excludes = new ArrayList<R>();
+		
+		for (R result : results)
+			if (result instanceof Identified && 
+					excludes().contains(Identified.class.cast(result).id()))
+				excludes.add(result);
+		
+		results.removeAll(excludes);
 		
 		int count = 1;
 	

@@ -14,6 +14,7 @@ import org.cotrix.repository.codelist.impl.CodelistQueryFactory;
 import org.cotrix.repository.impl.memory.MCriterion;
 import org.cotrix.repository.impl.memory.MMultiQuery;
 import org.cotrix.repository.impl.memory.MQuery;
+import org.cotrix.repository.impl.memory.MQueryFactory;
 import org.cotrix.repository.impl.memory.MemoryRepository;
 
 /**
@@ -22,7 +23,7 @@ import org.cotrix.repository.impl.memory.MemoryRepository;
  * @author Fabio Simeoni
  *
  */
-public class MUserQueryFactory implements UserQueryFactory {
+public class MUserQueryFactory extends MQueryFactory implements UserQueryFactory {
  
 	@Override
 	public MultiQuery<User,User> allUsers() {
@@ -84,6 +85,9 @@ public class MUserQueryFactory implements UserQueryFactory {
 			}
 		};
 	}
+	
+	
+	
 	
 	@Override
 	public Criterion<User> byName() {
