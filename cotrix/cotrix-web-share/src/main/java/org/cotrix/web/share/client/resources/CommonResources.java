@@ -44,5 +44,13 @@ public interface CommonResources extends ClientBundle {
 	
 	@Source("import.png")
 	public ImageResource importIcon();
+	
+	ImageResource user();
+	
+	ImageResource userDisabled();
+	
+	ImageResource userPreferences();
+	
+	ImageResource userPreferencesDisabled();
 
 }

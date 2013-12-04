@@ -28,10 +28,4 @@ public interface CotrixResources extends ClientBundle {
 	
 	@Source("style.css")
 	public CssResource css();
-	
-	ImageResource user();
-	
-	ImageResource userDisabled();
-
-
 }

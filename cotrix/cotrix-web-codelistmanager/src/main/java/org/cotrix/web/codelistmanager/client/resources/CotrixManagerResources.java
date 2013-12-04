@@ -52,9 +52,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource metadata();
 	public ImageResource metadataDisabled();
 	
-	public ImageResource userPreferences();
-	public ImageResource userPreferencesDisabled();
-	
 	public ImageResource filter();
 	public ImageResource filterDisabled();
 	

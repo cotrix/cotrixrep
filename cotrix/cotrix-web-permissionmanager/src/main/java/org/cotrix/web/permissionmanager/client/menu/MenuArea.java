@@ -5,6 +5,9 @@ package org.cotrix.web.permissionmanager.client.menu;
 
 import org.cotrix.web.permissionmanager.client.AdminArea;
 
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -17,8 +20,8 @@ public class MenuArea extends MenuItem {
 	 * @param label
 	 * @param adminArea
 	 */
-	public MenuArea(String label, AdminArea adminArea) {
-		super(label);
+	public MenuArea(String label, AdminArea adminArea, ImageResource image) {
+		super(label, AbstractImagePrototype.create(image).getHTML());
 		this.adminArea = adminArea;
 	}
 

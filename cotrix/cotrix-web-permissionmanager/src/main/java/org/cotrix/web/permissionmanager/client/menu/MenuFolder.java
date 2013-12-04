@@ -18,7 +18,7 @@ public class MenuFolder extends MenuItem {
 	 * @param children
 	 */
 	public MenuFolder(String label, List<MenuItem> children) {
-		super(label);
+		super(label, "");
 		this.children = children;
 	}
 
