@@ -397,11 +397,50 @@
 
 @external .gwt-SuggestBox;
 .gwt-SuggestBox {
-	padding: 5px 4px;
+	/*padding: 5px 4px;
 	border: 1px solid #ccc;
 	border-top: 1px solid #999;
 	font-size: 100%;
-	font-family: Arial Unicode MS, Arial, sans-serif;
+	font-family: Arial Unicode MS, Arial, sans-serif;*/
+	
+	padding: 5px;
+	border-radius: 5px;
+	background-color: #fafafa;
+	box-shadow: 0px 0px 0px 0px;
+	border: 1px solid #999999;
+	color: #4f4e4e;
+	
+	height: 16px;
+	font-size: 16px;
+}
+
+@external .gwt-SuggestBox;
+.gwt-SuggestBox:focus {
+	outline: none;
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px #61C5FA;
+	border: 1px solid #5AB0DB;
+}
+
+@external .gwt-SuggestBox;
+.gwt-SuggestBox:hover {
+	border: 1px solid #999;
+	border-radius: 5px;
+}
+
+@external .gwt-SuggestBox;
+.gwt-SuggestBox:focus:hover {
+	outline: none;
+	box-shadow: 0px 0px 5px #61C5FA;
+	border: 1px solid #5AB0DB;
+	border-radius: 5px;
+}
+
+@external .gwt-SuggestBox;
+.gwt-SuggestBox:disabled {
+	background-color: #ededed;
+	border-color: #b7b6b6;
+	color: #acabab;
 }
 
 @external .gwt-SuggestBoxPopup;

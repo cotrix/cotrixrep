@@ -59,7 +59,7 @@ public class DefaultLoginService implements LoginService {
 			if (identity==null)
 				throw new UnknownUserException("no user for token "+token);
 			
-			if (identity==cotrix.name())
+			if (identity.equals(cotrix.name()))
 				user=cotrix;
 			else {
 				//from identity to currentUser

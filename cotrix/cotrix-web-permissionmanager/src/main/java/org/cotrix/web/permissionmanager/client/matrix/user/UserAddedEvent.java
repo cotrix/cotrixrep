@@ -1,9 +1,9 @@
 /**
  * 
  */
-package org.cotrix.web.permissionmanager.client.codelists.user;
+package org.cotrix.web.permissionmanager.client.matrix.user;
 
-import org.cotrix.web.permissionmanager.shared.UIUser;
+import org.cotrix.web.share.shared.UIUser;
 
 import com.google.web.bindery.event.shared.binder.GenericEvent;
 

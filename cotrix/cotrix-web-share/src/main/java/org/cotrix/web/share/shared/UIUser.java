@@ -1,18 +1,19 @@
 /**
  * 
  */
-package org.cotrix.web.permissionmanager.shared;
+package org.cotrix.web.share.shared;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+import org.cotrix.web.share.shared.feature.FeatureCarrier;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UIUser implements IsSerializable {
+public class UIUser extends FeatureCarrier {
 	
 	protected String id;
 	protected String username;
+	protected String fullName;
 	
 	public UIUser(){}
 	
@@ -20,9 +21,10 @@ public class UIUser implements IsSerializable {
 	 * @param id
 	 * @param username
 	 */
-	public UIUser(String id, String username) {
+	public UIUser(String id, String username, String fullName) {
 		this.id = id;
 		this.username = username;
+		this.fullName = fullName;
 	}
 	/**
 	 * @return the id
@@ -37,6 +39,13 @@ public class UIUser implements IsSerializable {
 		return username;
 	}
 	
+	/**
+	 * @return the fullName
+	 */
+	public String getFullName() {
+		return fullName;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -78,6 +87,8 @@ public class UIUser implements IsSerializable {
 		builder.append(id);
 		builder.append(", username=");
 		builder.append(username);
+		builder.append(", fullName=");
+		builder.append(fullName);
 		builder.append("]");
 		return builder.toString();
 	}

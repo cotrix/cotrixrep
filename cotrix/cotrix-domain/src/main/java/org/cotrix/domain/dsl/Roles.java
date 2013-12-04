@@ -43,10 +43,15 @@ public class Roles {
 	public static Role ROOT = user().name("root").noMail().fullName("Root Role").can(MainAction.values())
 			.can(CodelistAction.values()).can(UserAction.values()).is(USER, MANAGER,OWNER).buildAsRoleFor(application);
 	
-	public static Collection<Role> getBy(ResourceType type) {
+	public static Collection<Role> getBy(ResourceType ... types) {
 		List<Role> roles = new ArrayList<Role>();
 		for (Role role:predefinedRoles) {
-			if (role.type() == type) roles.add(role);
+			for (ResourceType type:types) {
+				if (role.type() == type) {
+					roles.add(role);
+					break;
+				}
+			}
 		}
 		return roles;
 	}

@@ -10,6 +10,7 @@ import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
 import org.cotrix.web.permissionmanager.client.matrix.RolesRowUpdatedEvent;
 import org.cotrix.web.permissionmanager.client.matrix.UsersRolesMatrix;
 import org.cotrix.web.permissionmanager.shared.RoleAction;
+import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CotrixBus;
@@ -40,6 +41,9 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 	protected PermissionServiceAsync service;
 
 	@Inject @UiField(provided=true) UsersRolesMatrix usersRolesMatrix;
+	
+	@Inject
+	protected ApplicationRolesRowDataProvider dataProvider;
 
 	@Inject
 	protected void init(ApplicationPermissionPanelUiBinder uiBinder) {
@@ -54,13 +58,7 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 			
 			@Override
 			public void onUserLogged(UserLoggedEvent event) {
-				service.getUserApplicationRoles(new ManagedFailureCallback<List<String>>() {
-
-					@Override
-					public void onSuccess(List<String> result) {
-						usersRolesMatrix.reload(result);
-					}
-				});
+				usersRolesMatrix.refresh();
 			}
 		});
 	}
@@ -70,10 +68,13 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 		if (event.getSource()!=usersRolesMatrix) return;
 		RoleAction action = event.getValue()?RoleAction.DELEGATE:RoleAction.REVOKE;
 		StatusUpdates.statusSaving();
-		service.applicationRoleUpdated(event.getRow().getUser().getId(), event.getRole(), action, new ManagedFailureCallback<Void>() {
+		final RolesRow row = event.getRow();
+		service.applicationRoleUpdated(event.getRow().getUser().getId(), event.getRole(), action, new ManagedFailureCallback<RolesRow>() {
 
 			@Override
-			public void onSuccess(Void result) {
+			public void onSuccess(RolesRow  updatedRow) {
+				row.setRoles(updatedRow.getRoles());
+				dataProvider.refresh();
 				StatusUpdates.statusSaved();
 			}
 		});

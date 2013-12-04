@@ -3,6 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:org.cotrix.web.codelistmanager.client.codelist">
 	<ui:with field='resources'
 		type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
+	<ui:with field='commonresources'
+		type='org.cotrix.web.share.client.resources.CommonResources' />
 	<ui:style>
 		.buttonBar {
 			float: right;
@@ -50,9 +52,9 @@
 					</g:ToggleButton>
 					<g:ToggleButton ui:field="userButton" width="32px"
 						styleName="{style.button}">
-						<g:upFace image="{resources.userPreferencesDisabled}" />
-						<g:downFace image="{resources.userPreferences}" />
-						<g:upHoveringFace image="{resources.userPreferences}" />
+						<g:upFace image="{commonresources.userPreferencesDisabled}" />
+						<g:downFace image="{commonresources.userPreferences}" />
+						<g:upHoveringFace image="{commonresources.userPreferences}" />
 					</g:ToggleButton>
 				</g:HorizontalPanel>
 			</g:FlowPanel>

@@ -1,14 +1,16 @@
 package org.cotrix.web.permissionmanager.client;
 
 import java.util.List;
+import java.util.Map;
 
 import org.cotrix.web.permissionmanager.shared.CodelistGroup;
 import org.cotrix.web.permissionmanager.shared.RoleAction;
+import org.cotrix.web.permissionmanager.shared.RoleState;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
 import org.cotrix.web.permissionmanager.shared.RolesType;
-import org.cotrix.web.permissionmanager.shared.UIUser;
 import org.cotrix.web.permissionmanager.shared.UIUserDetails;
 import org.cotrix.web.share.shared.DataWindow;
+import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.exception.ServiceException;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -25,13 +27,13 @@ public interface PermissionService extends RemoteService {
 	
 	public DataWindow<RolesRow> getApplicationRolesRows() throws ServiceException;
 	
-	public List<String> getUserApplicationRoles() throws ServiceException;
+	public Map<String, RoleState> getUserApplicationRoles() throws ServiceException;
 	
 	public DataWindow<RolesRow> getCodelistRolesRows(String codelistId) throws ServiceException;
 	
-	public void codelistRoleUpdated(String userId, String codelistId, String role, RoleAction action) throws ServiceException;
+	public RolesRow codelistRoleUpdated(String userId, String codelistId, String role, RoleAction action) throws ServiceException;
 	
-	public void applicationRoleUpdated(String userId, String role, RoleAction action) throws ServiceException;
+	public RolesRow applicationRoleUpdated(String userId, String role, RoleAction action) throws ServiceException;
 	
 	public DataWindow<CodelistGroup> getCodelistGroups() throws ServiceException;
 	

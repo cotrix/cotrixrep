@@ -19,6 +19,8 @@ public interface CommonResources extends ClientBundle {
 	
 	public ImageResource loader();
 	
+	public ImageResource circleLoader();
+	
 	@Source("popup-arrow.png")
 	public ImageResource popupArrow();
 	
@@ -42,5 +44,13 @@ public interface CommonResources extends ClientBundle {
 	
 	@Source("import.png")
 	public ImageResource importIcon();
+	
+	ImageResource user();
+	
+	ImageResource userDisabled();
+	
+	ImageResource userPreferences();
+	
+	ImageResource userPreferencesDisabled();
 
 }

@@ -2,7 +2,9 @@ package org.cotrix.web.share.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
-import java.lang.String;
+
+import org.cotrix.web.share.shared.UIUser;
+
 import com.google.gwt.event.shared.HasHandlers;
 
 /**
@@ -12,18 +14,18 @@ import com.google.gwt.event.shared.HasHandlers;
 public class UserLoggedEvent extends GwtEvent<UserLoggedEvent.UserLoggedHandler> {
 
 	public static Type<UserLoggedHandler> TYPE = new Type<UserLoggedHandler>();
-	private String username;
+	private UIUser user;
 
 	public interface UserLoggedHandler extends EventHandler {
 		void onUserLogged(UserLoggedEvent event);
 	}
 
-	public UserLoggedEvent(String username) {
-		this.username = username;
+	public UserLoggedEvent(UIUser user) {
+		this.user = user;
 	}
 
-	public String getUsername() {
-		return username;
+	public UIUser getUser() {
+		return user;
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class UserLoggedEvent extends GwtEvent<UserLoggedEvent.UserLoggedHandler>
 		return TYPE;
 	}
 
-	public static void fire(HasHandlers source, String username) {
-		source.fireEvent(new UserLoggedEvent(username));
+	public static void fire(HasHandlers source, UIUser user) {
+		source.fireEvent(new UserLoggedEvent(user));
 	}
 }

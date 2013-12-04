@@ -10,12 +10,14 @@ package org.cotrix.web.permissionmanager.client.menu;
 public abstract class MenuItem {
 	
 	protected String label;
+	protected String imageHtml;
 
 	/**
 	 * @param label
 	 */
-	public MenuItem(String label) {
+	public MenuItem(String label, String imageHtml) {
 		this.label = label;
+		this.imageHtml = imageHtml;
 	}
 
 	/**
@@ -24,4 +26,12 @@ public abstract class MenuItem {
 	public String getLabel() {
 		return label;
 	}
+
+	/**
+	 * @return the imageHtml
+	 */
+	public String getImageHtml() {
+		return imageHtml;
+	}
+	
 }

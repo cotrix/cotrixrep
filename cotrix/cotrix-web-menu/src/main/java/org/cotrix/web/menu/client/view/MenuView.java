@@ -13,7 +13,6 @@ public interface MenuView {
 		IMPORT, 
 		MANAGE, 
 		PUBLISH,
-		//PERMISSION;
 	};
 
 	public interface Presenter {
@@ -27,4 +26,5 @@ public interface MenuView {
 	void setPresenter(Presenter presenter);
 	Widget asWidget();
 	void makeAvailable(Menu menu);
+	void resetMenu();
 }

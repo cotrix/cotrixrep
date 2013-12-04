@@ -39,10 +39,11 @@ import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.ExceptionUtils;
+import org.cotrix.web.share.server.util.Users;
+import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
-import org.cotrix.web.share.shared.feature.ResponseWrapper;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 import org.slf4j.Logger;
@@ -119,7 +120,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	}
 
 	@Override
-	public ResponseWrapper<String> login(final String username, final String password, List<String> openCodelists) throws ServiceException {
+	public UIUser login(final String username, final String password, List<String> openCodelists) throws ServiceException {
 		logger.trace("login username: {}",username);
 
 		try {
@@ -137,13 +138,13 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	}
 
 	@Override
-	public ResponseWrapper<String> logout(List<String> openCodelists) {
+	public UIUser logout(List<String> openCodelists) {
 		logger.trace("logout");
 
 		return doLogin(LOGOUT, null, null, openCodelists);
 	}
 
-	protected ResponseWrapper<String> doLogin(Action action, final String username, final String password, List<String> openCodelists)
+	protected UIUser doLogin(Action action, final String username, final String password, List<String> openCodelists)
 	{
 		logger.trace("doLogin action: {} username: {} openCodelists: {}", action, username, openCodelists);
 
@@ -176,15 +177,15 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			user = outcome.output();
 		}
 
-		ResponseWrapper<String> wrapper = new ResponseWrapper<String>(user.name());
+		UIUser uiUser = Users.toUiUser(user);
 
 		Collection<Action> actions = Actions.filterForAction(action, user.permissions());
 
-		actionMapper.fillFeatures(wrapper, actions);
+		actionMapper.fillFeatures(uiUser, actions);
 
-		fillOpenCodelistsActions(openCodelists, user, wrapper);
+		fillOpenCodelistsActions(openCodelists, user, uiUser);
 
-		return wrapper;
+		return uiUser;
 	}
 
 	protected void fillOpenCodelistsActions(List<String> openCodelists, User user, FeatureCarrier featureCarrier)
@@ -230,7 +231,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	}
 
 	@Override
-	public ResponseWrapper<String> registerUser(String username, String password, String email, List<String> openCodelists) throws ServiceException {
+	public UIUser registerUser(String username, String password, String email, List<String> openCodelists) throws ServiceException {
 		logger.trace("registerUser username: {} email: {}", username, email);
 
 		try {
