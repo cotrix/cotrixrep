@@ -6,20 +6,17 @@ package org.cotrix.web.permissionmanager.client.matrix;
 import java.util.List;
 
 import org.cotrix.web.permissionmanager.client.PermissionBus;
-import org.cotrix.web.permissionmanager.client.PermissionManagerPanel;
 import org.cotrix.web.permissionmanager.client.matrix.user.UserAddedEvent;
 import org.cotrix.web.permissionmanager.client.matrix.user.UserSuggestOracle;
 import org.cotrix.web.permissionmanager.client.matrix.user.UserSuggestion;
 import org.cotrix.web.permissionmanager.client.resources.PermissionsResources;
 import org.cotrix.web.permissionmanager.shared.RoleState;
 import org.cotrix.web.permissionmanager.shared.RolesRow;
-import org.cotrix.web.share.client.resources.CommonResources;
+import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.gargoylesoftware.htmlunit.html.HtmlTableRow.CellIterator;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -30,6 +27,8 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.Header;
+import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -77,6 +76,9 @@ public class UsersRolesMatrix extends ResizeComposite {
 	@UiField LoadingPanel loader;
 	@UiField(provided=true) DataGrid<RolesRow> matrix;
 	
+	@UiField(provided = true)
+	SimplePager pager;
+	
 	@Inject @PermissionBus
 	protected EventBus bus;
 	
@@ -88,6 +90,10 @@ public class UsersRolesMatrix extends ResizeComposite {
 	@Inject
 	protected void init(UsersRolesMatrixUiBinder uiBinder) {
 		matrix = new DataGrid<RolesRow>(20, dataGridResources);
+		// Create a Pager to control the table.
+		pager = new SimplePager(TextLocation.CENTER, CotrixSimplePager.INSTANCE, false, 0, true);
+		pager.setDisplay(matrix);
+		
 		initWidget(uiBinder.createAndBindUi(this));
 		loader.showLoader();
 	}

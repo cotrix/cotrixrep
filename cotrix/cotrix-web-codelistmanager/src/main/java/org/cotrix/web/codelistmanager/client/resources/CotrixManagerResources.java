@@ -23,10 +23,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource close();
 	public ImageResource closeSmall();
 	
-	public ImageResource plus();
-	
-	public ImageResource minus();
-	
 	public ImageResource allColumns();
 	
 	public ImageResource allNormals();

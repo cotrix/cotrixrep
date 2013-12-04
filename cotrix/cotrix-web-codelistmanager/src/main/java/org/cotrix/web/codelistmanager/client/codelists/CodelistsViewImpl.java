@@ -1,15 +1,15 @@
 package org.cotrix.web.codelistmanager.client.codelists;
 
 import org.cotrix.web.codelistmanager.client.codelists.VersionDialog.VersionDialogListener;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ItemButton;
 import org.cotrix.web.codelistmanager.client.resources.CodelistsResources;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup.Version;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.util.FilteredCachedDataProvider.Filter;
 import org.cotrix.web.share.client.util.SingleSelectionModel;
+import org.cotrix.web.share.client.widgets.ItemToolbar;
+import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedEvent;
+import org.cotrix.web.share.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
