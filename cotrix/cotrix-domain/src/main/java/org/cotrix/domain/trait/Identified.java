@@ -20,7 +20,7 @@ public interface Identified {
 	
 	static interface State<T extends Identified.Abstract<T>> {
 		
-		Status change();
+		Status status();
 
 		String id();
 		
@@ -60,7 +60,7 @@ public interface Identified {
 		 * @return <code>true</code> if this object is a changeset
 		 */
 		public boolean isChangeset() {
-			return state().change() != null;
+			return state().status() != null;
 		}
 
 		
@@ -69,7 +69,7 @@ public interface Identified {
 		 * @return the type of change
 		 */
 		public Status status() {
-			return state().change();
+			return state().status();
 		}
 
 		/**
@@ -105,11 +105,15 @@ public interface Identified {
 		}
 		
 		
+		
+		
 		//used for copying (withId=true) and versioning (withId=false)
 		public abstract T copy(boolean withId);
 
 		public abstract State<T> state();
 
+		
+		
 		
 	}
 }

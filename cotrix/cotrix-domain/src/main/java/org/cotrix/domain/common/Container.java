@@ -73,7 +73,7 @@ public interface Container<T> extends Iterable<T> {
 		
 		public void update(Private<T,S> changeset) {
 			
-			Map<String, T> index = indexObjects();
+			Map<String,S> index = indexObjects();
 
 			for (T object : changeset) {
 		
@@ -87,7 +87,7 @@ public interface Container<T> extends Iterable<T> {
 								objects.remove(index.remove(id));
 								break;
 							case MODIFIED:
-								index.get(id).update(object);
+								provider.objectFor(index.get(id)).update(object);
 								break;
 	
 						} 
@@ -99,12 +99,12 @@ public interface Container<T> extends Iterable<T> {
 			}	
 		}
 
-		private Map<String, T> indexObjects() {
+		private Map<String,S> indexObjects() {
 
-			Map<String, T> index = new HashMap<String, T>();
+			Map<String, S> index = new HashMap<String,S>();
 
-			for (T object : this)
-				index.put(object.id(), object);
+			for (S object : objects)
+				index.put(object.id(),object);
 
 			return index;
 		}
@@ -137,30 +137,7 @@ public interface Container<T> extends Iterable<T> {
 			return objects;
 		}
 		
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((objects == null) ? 0 : objects.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Private<?,?> other = (Private<?,?>) obj;
-			if (objects == null) {
-				if (other.objects != null)
-					return false;
-			} else if (!objects.equals(other.objects))
-				return false;
-			return true;
-		}
+		
 	
 		
 		class ElementIterator implements Iterator<T> {
@@ -184,6 +161,56 @@ public interface Container<T> extends Iterable<T> {
 				inner.remove();
 			}
 		}
+
+
+
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((objects == null) ? 0 : objects.hashCode());
+			return result;
+		}
+
+		@Override
+		@SuppressWarnings("all")
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (!(obj instanceof Private))
+				return false;
+			Private other = (Private) obj;
+			if (objects == null) {
+				if (other.objects != null)
+					return false;
+			} else if (!objects.equals(other.objects))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			final int maxLen = 100;
+			return "Private [objects=" + (objects != null ? toString(objects, maxLen) : null) + "]";
+		}
+
+		private String toString(Collection<?> collection, int maxLen) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("[");
+			int i = 0;
+			for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < maxLen; i++) {
+				if (i > 0)
+					builder.append(", ");
+				builder.append(iterator.next());
+			}
+			builder.append("]");
+			return builder.toString();
+		}
+		
+		
 	}
 
 }

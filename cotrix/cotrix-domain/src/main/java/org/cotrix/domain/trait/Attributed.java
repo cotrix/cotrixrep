@@ -60,10 +60,11 @@ public interface Attributed {
 		 * 
 		 * @param state the parameters
 		 */
-		public Abstract() {
+		public Abstract(Attributed.State<T> state) {
 			
-			if (!isChangeset())
-				attributes().objects().add(timestamp(CREATION_TIME));
+			Attribute.State created = timestamp(CREATION_TIME);
+			if (state.status()==null && !state.attributes().contains(created))
+				state.attributes().add(created);
 
 		}
 		

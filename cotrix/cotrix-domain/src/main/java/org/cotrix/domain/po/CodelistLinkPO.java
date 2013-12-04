@@ -27,4 +27,33 @@ public class CodelistLinkPO extends NamedPO<CodelistLink.Private> implements Cod
 		notNull("id",id);
 		this.targetId=id;
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((targetId == null) ? 0 : targetId.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof CodelistLinkPO))
+			return false;
+		CodelistLinkPO other = (CodelistLinkPO) obj;
+		if (targetId == null) {
+			if (other.targetId != null)
+				return false;
+		} else if (!targetId.equals(other.targetId))
+			return false;
+		return true;
+	}
+	
+	
 }

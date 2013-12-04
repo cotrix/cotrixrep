@@ -35,12 +35,12 @@ public final class CodeBuilder implements CodeNewClause, CodeDeltaClause, FinalC
 	
 	public CodeBuilder(String id) {
 		po = new CodePO(id);
-		po.change(MODIFIED);
+		po.status(MODIFIED);
 	}
 	
 	@Override
 	public Code delete() {
-		po.change(DELETED);
+		po.status(DELETED);
 		return build();
 	}
 	

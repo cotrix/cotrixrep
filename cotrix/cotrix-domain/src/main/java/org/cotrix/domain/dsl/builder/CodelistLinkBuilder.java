@@ -36,7 +36,7 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	
 	public CodelistLinkBuilder(String id) {
 		this.po = new CodelistLinkPO(id);
-		po.change(MODIFIED);
+		po.status(MODIFIED);
 	}
 	
 	@Override
@@ -52,7 +52,7 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	
 	@Override
 	public CodelistLink delete() {
-		po.change(DELETED);
+		po.status(DELETED);
 		return build();
 	}
 	

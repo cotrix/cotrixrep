@@ -42,7 +42,7 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	public CodelistBuilder(String id) {
 		this.po = new CodelistPO(id);
-		po.change(MODIFIED);
+		po.status(MODIFIED);
 	}
 	
 	@Override
@@ -58,7 +58,7 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	@Override
 	public Codelist delete() {
-		po.change(DELETED);
+		po.status(DELETED);
 		return build();
 	}
 	

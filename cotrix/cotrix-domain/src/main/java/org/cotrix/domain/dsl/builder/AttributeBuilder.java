@@ -32,7 +32,7 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	public AttributeBuilder(String id) {
 		this.po = new AttributePO(id);
 		po.type(null);
-		po.change(MODIFIED);
+		po.status(MODIFIED);
 		
 	}
 	
@@ -49,7 +49,7 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	
 	@Override
 	public Attribute delete() {
-		po.change(DELETED);
+		po.status(DELETED);
 		return build();
 	}
 

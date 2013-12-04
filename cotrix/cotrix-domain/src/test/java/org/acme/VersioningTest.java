@@ -58,8 +58,8 @@ public class VersioningTest {
 		
 		Code.Private copy = code.copy();
 		
-		System.out.println(copy);
-		assertEquals(code,copy);
+		
+		assertEquals(code.attributes(),copy.attributes());
 		
 		//copy is recusive
 		assertNotSame(code.attributes(), copy.attributes());

@@ -43,7 +43,7 @@ public abstract class DomainPO<T extends Identified.Abstract<T>> implements Iden
 	 * 
 	 * @return the parameter
 	 */
-	public Status change() {
+	public Status status() {
 		return status;
 	}
 
@@ -54,7 +54,7 @@ public abstract class DomainPO<T extends Identified.Abstract<T>> implements Iden
 	 * 
 	 * @throws IllegalArgumentException if the parameter is null or is incompatible with the other parameters.
 	 */
-	public void change(Status change) throws IllegalArgumentException {
+	public void status(Status change) throws IllegalArgumentException {
 
 		notNull("status", change);
 
@@ -63,5 +63,37 @@ public abstract class DomainPO<T extends Identified.Abstract<T>> implements Iden
 
 		this.status = change;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
+
+	@Override
+	@SuppressWarnings("all")
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DomainPO other = (DomainPO) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (status != other.status)
+			return false;
+		return true;
+	}
+	
+	
+	
 
 }

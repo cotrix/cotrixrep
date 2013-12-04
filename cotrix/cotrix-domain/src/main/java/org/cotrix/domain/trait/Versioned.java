@@ -37,6 +37,10 @@ public interface Versioned {
 	static abstract class Abstract<T extends Abstract<T>> extends Named.Abstract<T> implements Versioned {
 
 		
+		public Abstract(Versioned.State<T> state) {
+			super(state);
+		}
+		
 		@Override
 		public abstract Versioned.State<T> state();
 		

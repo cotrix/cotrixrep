@@ -173,7 +173,7 @@ public class UpdateTest {
 		Attribute a1 = attr("1").name(name).build();
 		Attribute a2 = attr("2").name(name2).build();
 		Attribute a3 = attr("3").name(name3).build();
-
+		
 		Code code = code("1").name(name).attributes(a1,a2,a3).build();
 		
 		
@@ -195,6 +195,7 @@ public class UpdateTest {
 		
 		List<Attribute> attributes = elements(code.attributes());
 		
+		System.out.println(attributes);
 		assertEquals(4, attributes.size());
 		
 		assertEquals(newname, attributes.get(0).name());

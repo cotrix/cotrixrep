@@ -41,7 +41,7 @@ public class CreateTest {
 		catch(IllegalArgumentException e) {}
 		
 		try {
-			po.change(null);
+			po.status(null);
 			fail();
 		}
 		catch(IllegalArgumentException e) {}

@@ -1,8 +1,8 @@
 package org.cotrix.domain.po;
 
-import static java.util.Collections.*;
 import static org.cotrix.common.Utils.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.cotrix.domain.codelist.Code;
@@ -16,7 +16,7 @@ import org.cotrix.domain.codelist.Codelink;
  */
 public final class CodePO extends NamedPO<Code.Private> implements Code.State {
 
-	private Collection<Codelink.State> links = emptyList();
+	private Collection<Codelink.State> links = new ArrayList<Codelink.State>();
 
 	/**
 	 * Creates an instance with an identifier.

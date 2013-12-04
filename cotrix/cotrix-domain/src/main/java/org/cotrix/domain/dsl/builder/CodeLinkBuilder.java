@@ -35,12 +35,12 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 	
 	public CodeLinkBuilder(String id) {
 		this.po = new CodeLinkPO(id);
-		po.change(MODIFIED);
+		po.status(MODIFIED);
 	}
 	
 	@Override
 	public Codelink delete() {
-		po.change(DELETED);
+		po.status(DELETED);
 		return build();
 	}
 	

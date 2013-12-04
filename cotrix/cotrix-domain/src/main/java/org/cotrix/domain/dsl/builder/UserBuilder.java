@@ -27,7 +27,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 		valid("identifier",id);
 		
 		po = new UserPO(id);
-		po.change(Status.MODIFIED);
+		po.status(Status.MODIFIED);
 	}
 	
 	public UserBuilder() {
@@ -36,7 +36,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	
 	@Override
 	public User delete() {
-		po.change(DELETED);
+		po.status(DELETED);
 		return build();
 	}
 	

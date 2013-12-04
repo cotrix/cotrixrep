@@ -39,6 +39,10 @@ public interface Named {
 	public abstract class Abstract<T extends Abstract<T>> extends Attributed.Abstract<T> implements Named {
 		
 		
+		public Abstract(Named.State<T> state) {
+			super(state);
+		}
+		
 		//invoked by subclasses under copying
 		protected void fillPO(boolean withId,NamedPO<T> po) {
 			super.fillPO(withId,po);

@@ -20,7 +20,7 @@ public class ChangeSetTest {
 		DomainPO po = new DomainPO(null) {};
 
 		try {
-			po.change(MODIFIED);
+			po.status(MODIFIED);
 			fail();
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
