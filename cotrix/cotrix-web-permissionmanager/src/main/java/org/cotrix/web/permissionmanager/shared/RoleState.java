@@ -73,6 +73,40 @@ public class RoleState implements IsSerializable {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (checked ? 1231 : 1237);
+		result = prime * result + (enabled ? 1231 : 1237);
+		result = prime * result + (loading ? 1231 : 1237);
+		return result;
+	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RoleState other = (RoleState) obj;
+		if (checked != other.checked)
+			return false;
+		if (enabled != other.enabled)
+			return false;
+		if (loading != other.loading)
+			return false;
+		return true;
+	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("RoleState [enabled=");

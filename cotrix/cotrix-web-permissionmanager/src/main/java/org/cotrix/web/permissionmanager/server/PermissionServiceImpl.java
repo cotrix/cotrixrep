@@ -142,6 +142,12 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 	protected Map<String, RoleState> getRolesStates(User user, String instance, Iterable<Role> roles) {
+		logger.trace("getRolesStates user: {}, instance: {}", user.fullName(), instance);
+		logger.trace("current user:");
+		printUser(currentUser);
+		logger.trace("user:");
+		printUser(user);
+		
 		Map<String, RoleState> rolesStates = new HashMap<String, RoleState>();
 		for (Role role:roles) {
 			RoleState state = getRoleState(user, role.on(instance));
@@ -155,17 +161,12 @@ public class PermissionServiceImpl implements PermissionService {
 		boolean delegable = currentUser.is(role);  //role flags
 		boolean active =  user.is(role);
 		boolean direct =  user.isDirectly(role);
-		logger.trace("current user:");
-		printUser(currentUser);
-		logger.trace("user:");
-		printUser(user);
-		logger.trace("role: {}", role);
-		logger.trace("delegable: {}, active: {}, direct: {}", delegable, active, direct);
-
+		logger.trace(" role: {}", role);
+		logger.trace(" delegable: {}, active: {}, direct: {}", delegable, active, direct);
 
 		boolean tick = active;
 		boolean enable = delegable && (!active || direct);
-		logger.trace("tick: {}, enable: {}", tick, enable);
+		logger.trace(" tick: {}, enable: {}", tick, enable);
 		return new RoleState(enable, tick, false);
 	}
 
@@ -220,6 +221,7 @@ public class PermissionServiceImpl implements PermissionService {
 			}
 		}
 		RolesRow row = getRow(target, codelistId, Roles.getBy(ResourceType.codelists));
+		logger.trace("row: {}", row);
 		return row;
 	}
 
@@ -235,6 +237,7 @@ public class PermissionServiceImpl implements PermissionService {
 			case REVOKE: delegationService.revoke(role).from(target); break;
 		}
 		RolesRow row = getRow(target, Action.any, Roles.getBy(ResourceType.codelists));
+		logger.trace("row: {}", row);
 		return row;
 	}
 
