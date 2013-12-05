@@ -27,6 +27,8 @@ public class RoleTest {
 	
 		User bill = bill().is(something,somethingElse).build();
 		
+		System.out.println(bill);
+		
 		assertTrue(bill.is(something));
 		assertTrue(bill.is(somethingElse));
 		

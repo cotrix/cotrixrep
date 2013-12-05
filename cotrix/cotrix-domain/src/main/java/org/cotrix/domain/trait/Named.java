@@ -14,6 +14,9 @@ import org.cotrix.domain.memory.NamedMS;
  */
 public interface Named {
 
+	
+	//public read-only interface
+	
 	/**
 	 * Returns the name of this object.
 	 * @return the name
@@ -21,33 +24,29 @@ public interface Named {
 	QName name();
 	
 	
+	//private state interface
 	
-	
-	static interface State extends Named, Attributed.State {
+	interface State extends Attributed.State {
+		
+		QName name();
 		
 		void name(QName name);
 	}
 
 	
 	
+	//private logic
 	
-	/**
-	 * Default {@link Named} implementation.
-	 * 
-	 * @param <T> the self type of instances
-	 */
-	public abstract class Abstract<T extends Abstract<T,S>,S extends State> extends Attributed.Abstract<T,S> implements Named {
+	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State> extends Attributed.Abstract<SELF,S> implements Named {
 		
 		
 		public Abstract(S state) {
 			super(state);
 		}
 		
-		//invoked by subclasses under copying
-		protected void buildState(boolean withId,NamedMS state) {
+		protected void buildState(NamedMS state) {
 			
-			super.buildState(withId,state);
-			
+			super.buildState(state);
 			state.name(name());
 		}
 		
@@ -55,9 +54,10 @@ public interface Named {
 		public QName name() {
 			return state().name();
 		}
+
 		
 		@Override
-		public void update(T changeset) throws IllegalArgumentException ,IllegalStateException {
+		public void update(SELF changeset) throws IllegalArgumentException ,IllegalStateException {
 			
 			super.update(changeset);
 			

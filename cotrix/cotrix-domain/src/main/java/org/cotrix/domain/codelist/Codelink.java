@@ -68,16 +68,16 @@ public interface Codelink extends Identified, Attributed {
 		}
 
 
-		public Private copy(boolean withId) {
+		public Codelink.State copy() {
 			
-			CodelinkMS state = new CodelinkMS(withId ? id() : null);
+			CodelinkMS state = new CodelinkMS();
 			
-			super.buildState(withId, state);
+			super.buildState(state);
 			
-			state.definition(definition().copy(withId));
+			state.definition(definition().copy());
 			state.targetId(targetId());
 			
-			return new Private(state);
+			return state;
 		}
 
 	}

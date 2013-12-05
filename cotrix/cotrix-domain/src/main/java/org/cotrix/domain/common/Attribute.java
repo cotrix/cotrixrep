@@ -17,6 +17,8 @@ import org.cotrix.domain.trait.EntityProvider;
  */
 public interface Attribute extends Identified, Named {
 
+	//public read-only interface
+	
 	/**
 	 * Returns the type of the attribute.
 	 * 
@@ -39,18 +41,34 @@ public interface Attribute extends Identified, Named {
 	String language();
 	
 
-	static interface State extends Attribute, Identified.State, EntityProvider<Private> {
+	//private state interface
+	
+	interface State extends Identified.State, EntityProvider<Private> {
+
+		QName name();
 
 		void name(QName type);
 
+		
+		QName type();
+
 		void type(QName type);
 
+		
+		String value();
+
 		void value(String value);
+
+		
+		String language();
 
 		void language(String language);
 	}
 
-	static class Private extends Identified.Abstract<Private,State> implements Attribute {
+	
+	//private logic
+	
+	final class Private extends Identified.Abstract<Private,State> implements Attribute {
 
 		public Private(Attribute.State state) {
 			super(state);
@@ -76,14 +94,14 @@ public interface Attribute extends Identified, Named {
 			return state().language();
 		}
 
-		public Private copy(boolean withId) {
+		public Attribute.State copy() {
 			
-			AttributeMS state = new AttributeMS(withId ? id() : null);
+			AttributeMS state = new AttributeMS(null);
 			state.name(name());
 			state.type(type());
 			state.value(value());
 			state.language(language());
-			return new Private(state);
+			return state;
 			
 		}
 

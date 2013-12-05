@@ -55,7 +55,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	}
 	
 	@Override
-	public Private entity() {
+	public Attribute.Private entity() {
 		return new Attribute.Private(this);
 	}
 

@@ -58,14 +58,14 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		
 
 		@Override
-		public Private copy(boolean withId) {
+		public CodelistLink.State copy() {
 			
-			CodelistLinkMS state = new CodelistLinkMS(withId ? id() : null);
+			CodelistLinkMS state = new CodelistLinkMS();
 			
-			super.buildState(withId, state);
+			super.buildState(state);
 			state.targetId(targetId());
 			
-			return new Private(state);
+			return state;
 		}
 
 	}

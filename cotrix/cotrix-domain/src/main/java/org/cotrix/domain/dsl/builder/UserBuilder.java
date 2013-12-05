@@ -42,14 +42,14 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	
 	public UserBuilder name(String name) {
 		valid("user name",name);
-		state.setName(name);
+		state.name(name);
 		return this;
 	}
 	
 	@Override
 	public ThirdClause email(String email) {
 		notNull("email",email);
-		state.setEmail(email);
+		state.email(email);
 		return this;
 	}
 	
@@ -106,7 +106,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	
 	public UserBuilder fullName(String name) {
 		valid("user's full name", name);
-		state.setFullName(name);
+		state.fullName(name);
 		return this;
 	}
 	

@@ -15,6 +15,10 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 
 	private Collection<CodelistLink.State> links = new ArrayList<CodelistLink.State>();
 
+	public CodelistMS() {
+		this(null);
+	}
+	
 	public CodelistMS(String id) {
 		super(id);
 	}
@@ -43,7 +47,7 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	}
 	
 	@Override
-	public Codelist entity() {
+	public Codelist.Private entity() {
 		return new Codelist.Private(this);
 	}
 

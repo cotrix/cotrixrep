@@ -22,6 +22,8 @@ import org.cotrix.domain.memory.AttributedMS;
  */
 public interface Attributed {
 
+	//public read-only interface
+	
 	/**
 	 * Returns the attributes of this object.
 	 * 
@@ -30,24 +32,20 @@ public interface Attributed {
 	Container<? extends Attribute> attributes();
 	
 	
-	static interface State extends Identified.State {
+	//private state interface
+	
+	interface State extends Identified.State {
 		
 		Collection<Attribute.State> attributes();
 		
 	}
+	
 
-	/**
-	 * An {@link Identified.Abstract} implementation of {@link Attributed}.
-	 * 
-	 * @param <T> the concrete type of instances
-	 */
-	abstract class Abstract<T extends Abstract<T,S>,S extends State> extends Identified.Abstract<T,S> implements Attributed {
+	//private logic
+	
+	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State> extends Identified.Abstract<SELF,S> implements Attributed {
 
-		/**
-		 * Creates a new instance from a given set of parameters.
-		 * 
-		 * @param state the parameters
-		 */
+
 		public Abstract(S state) {
 			
 			super(state);
@@ -63,47 +61,43 @@ public interface Attributed {
 		public Container.Private<Attribute.Private,Attribute.State> attributes() {
 			
 			return container(state().attributes());
-
+		
 		}
 		
-		protected void buildState(boolean withId, AttributedMS state) {
-			state.attributes(attributes().copy(withId).state());
+		protected void buildState(AttributedMS state) {
+			state.attributes(attributes().copy());
 		}
 
 		@Override
-		public void update(T changeset) throws IllegalArgumentException, IllegalStateException {
+		public void update(SELF changeset) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(changeset);
 
-			Container.Private<Attribute.Private,Attribute.State> attributes = changeset.attributes();
-
-			attributes().update(attributes);
+			attributes().update(changeset.attributes());
 			
 			Attribute.State updateTime = null;
 			
-			for (Attribute.State a : attributes().state()) {
-				if (a.name().equals(UPDATE_TIME)) {
+			for (Attribute.State a : state().attributes())
+				if (a.name().equals(UPDATE_TIME))
 					updateTime = a;
-				}
-			}
+	
 			if (updateTime==null) 
-				attributes().state().add(timestamp(UPDATE_TIME));
-			else {
-				String value = getDateTimeInstance().format(Calendar.getInstance().getTime());
-				updateTime.value(value);
-			}
+				state().attributes().add(timestamp(UPDATE_TIME));
+			else
+				updateTime.value(getDateTimeInstance().format(Calendar.getInstance().getTime()));
+			
 			
 		}
 
 		// helpers
 		private Attribute.State timestamp(QName name) {
 
-			AttributeMS po = new AttributeMS(null);
-			po.name(name);
+			AttributeMS state = new AttributeMS(null);
+			state.name(name);
 			String value = getDateTimeInstance().format(Calendar.getInstance().getTime());
-			po.value(value);
-			po.type(SYSTEM_TYPE);
-			return po;
+			state.value(value);
+			state.type(SYSTEM_TYPE);
+			return state;
 
 		}
 	}

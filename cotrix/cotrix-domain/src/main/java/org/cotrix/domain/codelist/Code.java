@@ -19,6 +19,7 @@ import org.cotrix.domain.trait.EntityProvider;
  */
 public interface Code extends Identified,Attributed,Named {
 	
+	//public, read-only interface
 	/**
 	 * Returns the {@link Codelink}s of this code.
 	 * @return the links
@@ -27,8 +28,9 @@ public interface Code extends Identified,Attributed,Named {
 	
 	
 	
+	//private state interface
 	
-	static interface State extends Named.State,EntityProvider<Private> {
+	interface State extends Named.State,EntityProvider<Private> {
 		
 		Collection<Codelink.State> links();
 		
@@ -37,13 +39,12 @@ public interface Code extends Identified,Attributed,Named {
 	}
 	
 	
+	//private logic
 	
-	public class Private extends Named.Abstract<Private,State> implements Code {
+	final class Private extends Named.Abstract<Private,State> implements Code {
 
 		public Private(Code.State state) {
-			
 			super(state);
-		
 		}
 		
 		
@@ -54,15 +55,14 @@ public interface Code extends Identified,Attributed,Named {
 			
 		}
 		
-		public Private copy(boolean withId) {
+		public Code.State copy() {
 
-			CodeMS state = new CodeMS(withId?id():null);
+			CodeMS state = new CodeMS(null);
 			
-			buildState(withId,state);
-			state.links(links().copy(withId).state());
+			buildState(state);
+			state.links(links().copy());
 			
-			return new Private(state);
-			
+			return state;
 		}
 		
 		@Override

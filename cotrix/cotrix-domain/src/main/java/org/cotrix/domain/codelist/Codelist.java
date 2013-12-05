@@ -24,6 +24,8 @@ import org.cotrix.domain.version.Version;
  */
 public interface Codelist extends Identified,Attributed,Named,Versioned {
 
+	//public read-only interface
+	
 	/**
 	 * Returns the codes of this list.
 	 * @return the codes
@@ -37,7 +39,9 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	Container<? extends CodelistLink> links();
 	
 	
-	static interface State extends Versioned.State, EntityProvider<Codelist> {
+	//private state interface
+	
+	interface State extends Versioned.State, EntityProvider<Private> {
 	
 		Collection<Code.State> codes();
 		
@@ -50,18 +54,10 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		
 	}
 	
-	/**
-	 * A {@link Versioned.Abstract} implementation of {@link Codelist}.
-	 * 
-	 * @author Fabio Simeoni
-	 *
-	 */
-	public class Private extends Versioned.Abstract<Private,State> implements Codelist {
+	//private logic
+	
+	final class Private extends Versioned.Abstract<Private,State> implements Codelist {
 		
-		/**
-		 * Creates a new instance with a given state.
-		 * @param state the state
-		 */
 		public Private( Codelist.State state) {
 			super(state);
 		}
@@ -77,30 +73,28 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			return container(state().links());
 		}
 
-		protected void buildState(boolean withId,CodelistMS po) {
-			super.fillPO(withId,po);
-			po.codes(codes().copy(withId).state());
-			po.links(links().copy(withId).state());
+		protected void buildState(CodelistMS state) {
+			super.buildState(state);
+			state.codes(codes().copy());
+			state.links(links().copy());
 		}
 
 		@Override
-		public Private copy(boolean withId) {
-			CodelistMS state = new CodelistMS(withId?id():null);
-			buildState(withId,state);
-			return new Private(state);
+		public Codelist.State copy() {
+			CodelistMS state = new CodelistMS();
+			buildState(state);
+			return state;
 		}
 		
 		@Override
 		protected final Private copyWith(Version version) {
 			
-			CodelistMS state = new CodelistMS(null);
-			
-			buildState(false,state);
+			Codelist.State state = copy();
 			
 			if (version!=null)
 				state.version(version);
 
-			return new Private(state);
+			return state.entity();
 		}
 
 		@Override
@@ -114,7 +108,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			
 			super.update(changeset);
 			
-			this.codes().update(changeset.codes());
+			codes().update(changeset.codes());
 		}
 
 	}

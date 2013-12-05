@@ -6,7 +6,6 @@ import static org.cotrix.domain.dsl.Codes.*;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Attribute;
 import org.junit.Test;
 
 public class VersioningTest {
@@ -15,56 +14,6 @@ public class VersioningTest {
 	//this applies to codebags and codelists but requires all DOs to yield copies
 	//so we mostly answer the question: can DOs be correctly copied?
 	
-	
-	@Test
-	public void copyPreserveName() {
-		
-		Attribute.Private a = (Attribute.Private) attr().name(name).value(value).build();
-		
-		Attribute copy = a.copy();
-		
-		assertEquals(name,copy.name());
-	}
-	
-	@Test
-	public void copiesDoNotPreserveStatus() {
-		
-		Attribute.Private a = (Attribute.Private) attr().name(name).value(value).build();
-		
-		Attribute.Private copy = a.copy();
-		
-		assertNull(copy.status());
-	}
-	
-	@Test
-	public void attributesCanBeCopied() {
-		
-		Attribute.Private a = (Attribute.Private) attr().name(name).value(value).in(language).build();
-		
-		Attribute copy = a.copy();
-		
-		assertEquals(a,copy);
-		
-		
-	}
-
-	@Test
-	public void codesCanBeCopied() {
-
-		Attribute a = attr().name(name).value(value).build();
-		Attribute a2 = attr().name(name2).value(value2).build();
-				
-		Code.Private code = (Code.Private) code().name(name).attributes(a,a2).build();
-		
-		Code.Private copy = code.copy();
-		
-		
-		assertEquals(code.attributes(),copy.attributes());
-		
-		//copy is recusive
-		assertNotSame(code.attributes(), copy.attributes());
-
-	}
 	
 	@Test
 	public void codelistsCanBeVersioned() {

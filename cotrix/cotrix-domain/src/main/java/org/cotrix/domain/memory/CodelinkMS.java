@@ -11,6 +11,10 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 	private String targetId;
 	private CodelistLink.State definition;
 
+	public CodelinkMS() {
+		this(null);
+	}
+	
 	public CodelinkMS(String id) {
 		super(id);
 	}

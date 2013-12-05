@@ -10,6 +10,9 @@ import static org.cotrix.common.Utils.*;
  */
 public interface Identified {
 
+	
+	//public read-only interface
+	
 	/**
 	 * Returns the identifier of this object.
 	 * 
@@ -17,9 +20,10 @@ public interface Identified {
 	 */
 	String id();
 
+
+	//private state interface
 	
-	
-	static interface State {
+	interface State {
 	
 		String id();
 		
@@ -31,10 +35,9 @@ public interface Identified {
 
 	}
 	
-	/**
-	 * @param <SELF> the type of implementations
-	 */
-	public abstract class Abstract<SELF extends Abstract<SELF,S>, S extends State> implements Identified {
+	//private logic
+	
+	abstract class Abstract<SELF extends Abstract<SELF,S>, S extends State> implements Identified {
 
 		//NOTE: we need SELF because we have a covariant method #update(SELF)
 		//NOTE:	S is to give state back to family classes, which complicates client-use
@@ -44,17 +47,14 @@ public interface Identified {
 		
 		
 		public Abstract(S state) {
-			
-			notNull("state bean",state);
-			
+			notNull("state",state);
 			this.state=state;
 		}
-		
-		
 		
 		public S state() {
 			return state;
 		}
+
 		
 		@Override
 		public String id() {
@@ -72,7 +72,7 @@ public interface Identified {
 		}
 		
 		public boolean isChangeset() {
-			return state.status() != null;
+			return status() != null;
 		}
 
 		public Status status() {
@@ -98,19 +98,11 @@ public interface Identified {
 		}
 		
 		
-		/**
-		 * Returns an exact copy of this object.
-		 * 
-		 * @return an exact copy of this object
-		 */
-		public final SELF copy() {
-			return copy(true);
-		}
-		
-		
-		//used for copying (withId=true) and versioning (withId=false)
-		public abstract SELF copy(boolean withId);
+		public abstract S copy();
 
+		
+		//delegates to state
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;

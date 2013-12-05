@@ -87,21 +87,16 @@ public interface Container<T> extends Iterable<T> {
 			}	
 		}
 		
-		public Private<T,S> copy() {
-			
-			return copy(true); 
-			
-		}
 
 		
-		public Private<T,S> copy(boolean withId) {
+		public Collection<S> copy() {
 			
 			Collection<S> copied = new ArrayList<S>();
 			
 			for (S element : elements)
-				copied.add(element.entity().copy(withId).state());
+				copied.add(element.entity().copy());
 			
-			return new Private<T,S>(copied); 
+			return copied; 
 			
 		}
 		
