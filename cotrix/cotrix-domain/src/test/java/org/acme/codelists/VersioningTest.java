@@ -4,6 +4,7 @@ import static junit.framework.Assert.*;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
+import org.cotrix.common.Utils;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.junit.Test;
@@ -14,20 +15,23 @@ public class VersioningTest {
 	//this applies to codebags and codelists but requires all DOs to yield copies
 	//so we mostly answer the question: can DOs be correctly copied?
 	
+	private Codelist.Private reveal(Codelist list) {
+		return Utils.reveal(list,Codelist.Private.class);
+	}
 	
 	@Test
 	public void codelistsCanBeVersioned() {
 
-		Code.Private code = (Code.Private) code("id").name(name).build();
+		Code code = code().name(name).build();
 		
-		Codelist.Private list = (Codelist.Private) codelist("1").name(name).with(code).version(version).build(); 
+		Codelist list = codelist().name(name).with(code).version(version).build(); 
 				
 		//a new version of the list
-		Codelist versioned = list.bump("2");
+		Codelist versioned = reveal(list).bump("2");
 				
 		assertEquals("2",versioned.version());
 		
-		assertNull(versioned.id());
+		assertFalse(list.id().equals(versioned.id()));
 				
 		assertFalse(list.equals(versioned));
 
@@ -38,10 +42,10 @@ public class VersioningTest {
 	@Test(expected=IllegalStateException.class)
 	public void versionsMustBeConsistent() {
 		
-		Codelist.Private list = (Codelist.Private) codelist("1").name(name).version("2").build(); 
+		Codelist list = codelist().name(name).version("2").build(); 
 		
 		//a failed attempt to version the list with an unacceptable number
-		list.bump("1.3");
+		reveal(list).bump("1.3");
 		
 	}
 	

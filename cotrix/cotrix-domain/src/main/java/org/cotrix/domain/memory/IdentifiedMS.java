@@ -2,79 +2,56 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
+import java.util.UUID;
+
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Status;
 
 /**
- * Partial implementation of <em>parameter objects</em> for domain objects.
- * <p>
- * A parameter object acts as a companion of a domain object, gathering all the parameters required to instantiate it.
- * It can be constructed incrementally and performs validation on behalf of the domain object.
+ * Partial implementation of in-memory state beans.
  * 
  * @author Fabio Simeoni
- * 
  */
 public abstract class IdentifiedMS implements Identified.State {
 
-	private String id;
-	private Status status;
+	public static boolean testmode = false;
+	
+	/*
+	  State beans can change across persistence bindings, but in-memory implementations are always used to:
+	  	- create entities, including new versions;
+	  	- create changesets;
+	  	
+	  Thus we use them for:
+	  	 - id generation
+	     - client input validation
+						
+	 */
+	
+	private final String id;
+	private final Status status;
 
-	protected IdentifiedMS(String id) {
-		this.id = id;
+	
+	protected IdentifiedMS() {
+		id = UUID.randomUUID().toString();
+		status=null;
 	}
 	
-	public IdentifiedMS(Identified.State copy, boolean withId) {
-		
-		if (withId)
-			id(copy.id());
-		
-		status = copy.status();
-	}
-	
-	
-	@Override
-	public void id(String id) {
+	protected IdentifiedMS(String id, Status status) {
 		
 		valid("identifier",id);
+		notNull("status",status);
 		
-		this.id=id;
+		this.id = id;
+		this.status=status;
 	}
 
-	/**
-	 * Returns the identifier parameter.
-	 * 
-	 * @return the identifier parameter
-	 */
 	public String id() {
 		return id;
 	}
 	
 
-	/**
-	 * Returns the {@link Status} parameter.
-	 * 
-	 * @return the parameter
-	 */
 	public Status status() {
-		
 		return status;
-	}
-
-	/**
-	 * Sets the {@link Status} parameter.
-	 * 
-	 * @param the parameter
-	 * 
-	 * @throws IllegalArgumentException if the parameter is null or is incompatible with the other parameters.
-	 */
-	public void status(Status change) throws IllegalArgumentException {
-
-		notNull("status", change);
-
-		if (id() == null)
-			throw new IllegalArgumentException("missing identifier: changeset does not identify a target object");
-
-		this.status = change;
 	}
 
 	@Override
@@ -87,7 +64,6 @@ public abstract class IdentifiedMS implements Identified.State {
 	}
 
 	@Override
-	@SuppressWarnings("all")
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -99,7 +75,7 @@ public abstract class IdentifiedMS implements Identified.State {
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id) && !testmode)
 			return false;
 		if (status != other.status)
 			return false;

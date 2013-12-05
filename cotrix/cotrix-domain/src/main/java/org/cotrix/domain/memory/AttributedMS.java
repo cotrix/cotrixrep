@@ -7,28 +7,24 @@ import java.util.Collection;
 
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.trait.Attributed;
-/**
- * Partial implementation of initialisation parameters for {@link Attributed} entities.
- * 
- * @author Fabio Simeoni
- *
- */
+import org.cotrix.domain.trait.Status;
+
 public abstract class AttributedMS extends IdentifiedMS implements Attributed.State {
 
 	private Collection<Attribute.State> attributes = new ArrayList<Attribute.State>();
 
-	protected AttributedMS(String id) {
-		super(id);
+	protected AttributedMS() {
+	}
+	
+	protected AttributedMS(String id,Status status) {
+		super(id,status);
 	}
 
 	@Override
 	public Collection<Attribute.State> attributes() {
 		return attributes;
 	}
-	/**
-	 * Sets the attribute parameter.
-	 * @param attributes the parameter
-	 */
+	
 	public void attributes(Collection<Attribute.State> attributes) {
 		
 		notNull("attributes",attributes);

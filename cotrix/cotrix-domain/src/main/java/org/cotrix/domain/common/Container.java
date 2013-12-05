@@ -150,14 +150,14 @@ public interface Container<T> extends Iterable<T> {
 		@Override
 		public String toString() {
 			final int maxLen = 100;
-			return "Private [objects=" + (elements != null ? toString(elements, maxLen) : null) + "]";
+			return "[" + (elements != null ? toString(maxLen) : null) + "]";
 		}
 
-		private String toString(Collection<?> collection, int maxLen) {
+		private String toString(int maxLen) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("[");
 			int i = 0;
-			for (Iterator<?> iterator = collection.iterator(); iterator.hasNext() && i < maxLen; i++) {
+			for (Iterator<?> iterator = this.iterator(); iterator.hasNext() && i < maxLen; i++) {
 				if (i > 0)
 					builder.append(", ");
 				builder.append(iterator.next());

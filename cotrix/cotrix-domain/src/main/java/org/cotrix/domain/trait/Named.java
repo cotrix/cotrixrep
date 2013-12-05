@@ -4,8 +4,6 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.memory.NamedMS;
-
 /**
  * A named domain object.
  * 
@@ -44,9 +42,9 @@ public interface Named {
 			super(state);
 		}
 		
-		protected void buildState(NamedMS state) {
+		public void build(S state) {
 			
-			super.buildState(state);
+			super.build(state);
 			state.name(name());
 		}
 		

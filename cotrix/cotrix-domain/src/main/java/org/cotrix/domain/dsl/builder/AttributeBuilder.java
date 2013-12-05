@@ -1,7 +1,5 @@
 package org.cotrix.domain.dsl.builder;
 
-import static org.cotrix.domain.trait.Status.*;
-
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
@@ -25,15 +23,8 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	private final AttributeMS state;
 
 	
-	public AttributeBuilder() {
-		this.state = new AttributeMS(null);
-	}
-	
-	public AttributeBuilder(String id) {
-		this.state = new AttributeMS(id);
-		state.type(null);
-		state.status(MODIFIED);
-		
+	public AttributeBuilder(AttributeMS state) {
+		this.state = state;
 	}
 	
 	@Override
@@ -45,12 +36,6 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	@Override
 	public ValueClause name(String name) {
 		return name(Codes.q(name));
-	}
-	
-	@Override
-	public Attribute delete() {
-		state.status(DELETED);
-		return build();
 	}
 
 	@Override

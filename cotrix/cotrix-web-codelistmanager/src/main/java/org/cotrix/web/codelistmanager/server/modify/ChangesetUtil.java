@@ -25,18 +25,18 @@ import org.cotrix.web.share.shared.codelist.UIQName;
 public class ChangesetUtil {
 
 	public static Attribute addAttribute(UIAttribute uiAttribute) {
-		return attr().name(convert(uiAttribute.getName())).value(convert(uiAttribute.getValue()))
+		return attribute().name(convert(uiAttribute.getName())).value(convert(uiAttribute.getValue()))
 				.ofType(convert(uiAttribute.getType())).in(convert(uiAttribute.getLanguage())).build();
 	}
 
 	public static Attribute updateAttribute(UIAttribute uiAttribute) {
-		return attr(uiAttribute.getId()).name(convert(uiAttribute.getName()))
+		return modifyAttribute(uiAttribute.getId()).name(convert(uiAttribute.getName()))
 				.value(convert(uiAttribute.getValue())).ofType(convert(uiAttribute.getType()))
 				.in(convert(uiAttribute.getLanguage())).build();
 	}
 
 	public static Attribute removeAttribute(String id) {
-		return attr(id).delete();
+		return deleteAttribute(id);
 	}
 
 	public static List<Attribute> addAttributes(List<UIAttribute> uiAttributes) {
@@ -57,15 +57,15 @@ public class ChangesetUtil {
 	}
 
 	public static Code updateCode(String id, String name) {
-		return code(id).name(convert(name)).build();
+		return modifyCode(id).name(convert(name)).build();
 	}
 
 	public static Code removeCode(String id) {
-		return code(id).delete();
+		return deleteCode(id);
 	}
 
 	public static Codelist updateCodelist(String id, UIQName name) {
-		return codelist(id).name(convert(name)).build();
+		return modifyCodelist(id).name(convert(name)).build();
 	}
 
 	protected static String convert(String value) {

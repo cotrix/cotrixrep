@@ -27,11 +27,7 @@ public interface Identified {
 	
 		String id();
 		
-		void id(String id);
-		
 		Status status();
-		
-		void status(Status status);
 
 	}
 	
@@ -61,16 +57,6 @@ public interface Identified {
 			return state.id();
 		}
 
-		public void id(String id) throws IllegalStateException {
-
-			valid("object identifier",id);
-			
-			if (state.id() != null)
-				throw new IllegalStateException(this.getClass().getCanonicalName()+" has already an identifier (" + state.id() + ")");
-
-			state.id(id);
-		}
-		
 		public boolean isChangeset() {
 			return status() != null;
 		}
@@ -98,8 +84,10 @@ public interface Identified {
 		}
 		
 		
-		public abstract S copy();
+		public abstract void build(S state);
 
+		
+		public abstract S copy();
 		
 		//delegates to state
 		

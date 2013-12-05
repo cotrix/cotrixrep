@@ -8,15 +8,18 @@ import java.util.Collection;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Code.Private;
+import org.cotrix.domain.trait.Status;
 
 
 public final class CodeMS extends NamedMS implements Code.State {
 
 	private Collection<Codelink.State> links = new ArrayList<Codelink.State>();
 
+	public CodeMS() {
+	}
 	
-	public CodeMS(String id) {
-		super(id);
+	public CodeMS(String id,Status status) {
+		super(id,status);
 	}
 
 	public Collection<Codelink.State> links() {

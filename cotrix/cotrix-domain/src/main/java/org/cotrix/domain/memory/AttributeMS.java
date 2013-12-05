@@ -5,17 +5,23 @@ import static org.cotrix.common.Utils.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.utils.Constants;
 
 public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 
 	private QName name;
-	private QName type = Constants.DEFAULT_TYPE;
+	private QName type;
 	private String value;
 	private String language;
 	
-	public AttributeMS(String id) {
-		super(id);
+	public AttributeMS() {
+		type=Constants.DEFAULT_TYPE;
+	}
+	
+	public AttributeMS(String id,Status status) {
+		super(id,status);
+		type(null);
 	}
 	
 	
@@ -82,6 +88,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		if (!(obj instanceof AttributeMS))
 			return false;
 		AttributeMS other = (AttributeMS) obj;
+
 		if (language == null) {
 			if (other.language != null)
 				return false;
@@ -105,17 +112,4 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		return true;
 	}
 
-
-	@Override
-	public String toString() {
-		return "AttributeMS [name=" + name + ", type=" + type + ", value=" + value + ", language=" + language
-				+ ", id()=" + id() + ", status()=" + status() + "]";
-	}
-
-
-
-	
-	
-	
-	
 }

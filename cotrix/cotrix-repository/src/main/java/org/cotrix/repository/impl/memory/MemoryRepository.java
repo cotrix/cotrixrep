@@ -9,11 +9,9 @@ import javax.enterprise.event.Observes;
 
 import org.cotrix.common.Utils;
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.Repository;
-import org.cotrix.repository.utils.UuidGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,18 +20,10 @@ public abstract class MemoryRepository<S extends Identified.Abstract<S,?>> imple
 
 	private static Logger log = LoggerFactory.getLogger(MemoryRepository.class);
 	
-	private final IdGenerator generator = new UuidGenerator();
-	
 	private final Map<String,S> objects = new HashMap<String,S>();
-	
-	protected String generateId() {
-		return generator.id();
-	}
 	
 	@Override
 	public void add(S object) {
-		
-		object.id(generator.id());
 		
 		objects.put(object.id(),object);
 	}

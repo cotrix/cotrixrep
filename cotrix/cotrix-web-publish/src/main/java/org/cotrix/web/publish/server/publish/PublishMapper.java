@@ -71,7 +71,7 @@ public interface PublishMapper<T> {
 		}
 		
 		protected Attribute getTemplate(AttributeDefinition definition) {
-			LanguageClause attributeBuilder = attr().name(ValueUtils.toQName(definition.getName())).value(null).ofType(ValueUtils.toQName(definition.getType()));
+			LanguageClause attributeBuilder = attribute().name(ValueUtils.toQName(definition.getName())).value(null).ofType(ValueUtils.toQName(definition.getType()));
 			if (definition.getLanguage()!=null && !definition.getLanguage().isEmpty()) return attributeBuilder.in(definition.getLanguage()).build();
 			return attributeBuilder.build();
 		}

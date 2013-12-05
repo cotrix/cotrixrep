@@ -2,7 +2,6 @@ package org.cotrix.domain.dsl.builder;
 
 import static java.util.Arrays.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
-import static org.cotrix.domain.trait.Status.*;
 
 import java.util.List;
 
@@ -34,14 +33,8 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	private final CodelistMS state;
 	
 	
-	public CodelistBuilder() {
-		this.state = new CodelistMS(null);
-		this.state.version(new DefaultVersion());
-	}
-	
-	public CodelistBuilder(String id) {
-		this.state = new CodelistMS(id);
-		state.status(MODIFIED);
+	public CodelistBuilder(CodelistMS state) {
+		this.state = state;
 	}
 	
 	@Override
@@ -53,12 +46,6 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	@Override
 	public SecondClause name(String name) {
 		return name(Codes.q(name));
-	}
-	
-	@Override
-	public Codelist delete() {
-		state.status(DELETED);
-		return build();
 	}
 	
 	@Override

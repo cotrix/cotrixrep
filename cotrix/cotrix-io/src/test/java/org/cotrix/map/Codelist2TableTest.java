@@ -78,7 +78,7 @@ public class Codelist2TableTest {
 	@Test
 	public void attributeSelectedByName() throws Exception {
 
-		Attribute a = attr().name("a1").value("val").build();
+		Attribute a = attribute().name("a1").value("val").build();
 		
 		Code code = code().name("c").attributes(a).build();
 		Codelist list = codelist().name("list").with(code).build();
@@ -86,7 +86,7 @@ public class Codelist2TableTest {
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
 		directives.codeColumnName("mycode");
 		
-		Attribute template = attr().name("a1").build();
+		Attribute template = attribute().name("a1").build();
 		directives.add(template);
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
@@ -107,7 +107,7 @@ public class Codelist2TableTest {
 	@Test
 	public void attributeSelectedByNameWithCustomisation() throws Exception {
 
-		Attribute a = attr().name("a1").value("val").build();
+		Attribute a = attribute().name("a1").value("val").build();
 		
 		Code code = code().name("c").attributes(a).build();
 		Codelist list = codelist().name("list").with(code).build();
@@ -115,7 +115,7 @@ public class Codelist2TableTest {
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
 		directives.codeColumnName("mycode");
 		
-		Attribute template = attr().name("a1").build();
+		Attribute template = attribute().name("a1").build();
 		
 		directives.add(map(template).to("custom"));
 		
@@ -138,8 +138,8 @@ public class Codelist2TableTest {
 	@Test
 	public void attributeSelectedByNameAndType() throws Exception {
 
-		Attribute a1 = attr().name("a1").value("val1").build();
-		Attribute a2 = attr().name("a2").value("val2").ofType("type").build();
+		Attribute a1 = attribute().name("a1").value("val1").build();
+		Attribute a2 = attribute().name("a2").value("val2").ofType("type").build();
 		
 		Code code = code().name("c").attributes(a1,a2).build();
 		Codelist list = codelist().name("list").with(code).build();
@@ -147,7 +147,7 @@ public class Codelist2TableTest {
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
 		directives.codeColumnName("mycode");
 		
-		Attribute template = attr().name("a2").value("..").ofType("type").build();
+		Attribute template = attribute().name("a2").value("..").ofType("type").build();
 		
 		directives.add(map(template).to("a2-type"));
 		
@@ -169,8 +169,8 @@ public class Codelist2TableTest {
 	@Test
 	public void attributeSelectedByNameAndLanguage() throws Exception {
 
-		Attribute a1 = attr().name("a1").value("val1").in("en").build();
-		Attribute a2 = attr().name("a1").value("val2").in("fr").build();
+		Attribute a1 = attribute().name("a1").value("val1").in("en").build();
+		Attribute a2 = attribute().name("a1").value("val2").in("fr").build();
 		
 		Code code = code().name("c").attributes(a1,a2).build();
 		Codelist list = codelist().name("list").with(code).build();
@@ -178,7 +178,7 @@ public class Codelist2TableTest {
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
 		directives.codeColumnName("mycode");
 		
-		Attribute template = attr().name("a1").value("..").in("fr").build();
+		Attribute template = attribute().name("a1").value("..").in("fr").build();
 		
 		directives.add(map(template).to("a1-fr"));
 		

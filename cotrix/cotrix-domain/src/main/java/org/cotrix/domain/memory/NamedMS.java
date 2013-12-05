@@ -5,35 +5,24 @@ import static org.cotrix.common.Utils.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.trait.Status;
 
 
-/**
- * Partial implementation of initialisation parameters for {@link Named} entities.
- * 
- * @author Fabio Simeoni
- *
- */
 public abstract class NamedMS extends AttributedMS implements Named.State {
 
 	private QName name;
 	
-	protected NamedMS(String id) {
-		
-		super(id);
+	public NamedMS() {		
+	}
+
+	public NamedMS(String id,Status status) {
+		super(id,status);
 	}
 	
-/**
-	 * Returns the name parameter.
-	 * @return the name parameter
-	 */
 	public QName name() {
 		return name;
 	}
 	
-	/**
-	 * Sets the name parameter
-	 * @param name the name parameter
-	 */
 	public void name(QName name) {
 		
 		valid("name",name);

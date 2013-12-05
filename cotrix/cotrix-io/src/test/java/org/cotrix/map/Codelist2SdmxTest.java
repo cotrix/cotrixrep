@@ -46,26 +46,26 @@ public class Codelist2SdmxTest {
 	SerialisationService serialiser;
 	
 	
-	Codelist list = codelist("1").name("cotrix-testlist").
+	Codelist list = codelist().name("cotrix-testlist").
 			with(
-					code("1").name("code1").build()
-					,code("2").name("code2").attributes(
-							attr().name("attr1").value("value1").build()
-						   , attr().name("attr2").value("value2").in("fr").build()
-						   ,attr().name("attr3").value("value3").ofType(NAME_TYPE).build()
-							,attr().name("attr4").value("value4").ofType(NAME_TYPE).in("sp").build()
+					code().name("code1").build()
+					,code().name("code2").attributes(
+							attribute().name("attr1").value("value1").build()
+						   , attribute().name("attr2").value("value2").in("fr").build()
+						   ,attribute().name("attr3").value("value3").ofType(NAME_TYPE).build()
+							,attribute().name("attr4").value("value4").ofType(NAME_TYPE).in("sp").build()
 				).build()).
 				attributes(
-							attr().name("list-attr1").value("value1").build()
-							,attr().name("list-attr2").value("value2").ofType(customDescriptionType).in("sp").build()
-						    ,attr().name("list-attr3").value("value3").ofType(customNameType).in("fr").build()
-						   ,attr().name("list-attr4").value("value4").ofType(NAME_TYPE).build()
-							,attr().name("list-attr5").value("value5").ofType(NAME_TYPE).in("sp").build()
-							,attr().name("list-attr6").value("value6").ofType(ANNOTATION_TYPE).in("sp").build()
-							,attr().name("list-attr7").value("value7").ofType(customAnnotationType).in("fr").build()
-							,attr().name("list-attr8").value("value8").ofType("unmappedtype").build()
-							,attr().name(VALID_FROM.defaultName()).value(DateUtil.formatDate(Calendar.getInstance().getTime())).build()
-							,attr().name(VALID_TO.defaultName()).value("bad").build()
+							attribute().name("list-attr1").value("value1").build()
+							,attribute().name("list-attr2").value("value2").ofType(customDescriptionType).in("sp").build()
+						    ,attribute().name("list-attr3").value("value3").ofType(customNameType).in("fr").build()
+						   ,attribute().name("list-attr4").value("value4").ofType(NAME_TYPE).build()
+							,attribute().name("list-attr5").value("value5").ofType(NAME_TYPE).in("sp").build()
+							,attribute().name("list-attr6").value("value6").ofType(ANNOTATION_TYPE).in("sp").build()
+							,attribute().name("list-attr7").value("value7").ofType(customAnnotationType).in("fr").build()
+							,attribute().name("list-attr8").value("value8").ofType("unmappedtype").build()
+							,attribute().name(VALID_FROM.defaultName()).value(DateUtil.formatDate(Calendar.getInstance().getTime())).build()
+							,attribute().name(VALID_TO.defaultName()).value("bad").build()
 				)
 				.version("1.0").build();
 	
@@ -131,6 +131,7 @@ public class Codelist2SdmxTest {
 		directives.isFinal(false);
 		directives.name("name");
 		
+		
 		Outcome<CodelistBean> outcome = mapper.map(list, directives);
 		
 		System.out.println(outcome.report());
@@ -149,9 +150,9 @@ public class Codelist2SdmxTest {
 	@Test 
 	public void codelistAttributesWithDefaults() {
 		
-		Attribute a1 = attr().name("a").value("val").build();
-		Attribute a2 = attr().name("b").value("val-b").ofType(NAME_TYPE).in("fr").build();
-		Attribute a3 = attr().name("a").value("val-c").ofType(ANNOTATION_TYPE).in("sp").build();
+		Attribute a1 = attribute().name("a").value("val").build();
+		Attribute a2 = attribute().name("b").value("val-b").ofType(NAME_TYPE).in("fr").build();
+		Attribute a3 = attribute().name("a").value("val-c").ofType(ANNOTATION_TYPE).in("sp").build();
 		Codelist list = codelist().name("list").attributes(a1,a2,a3).build();
 		
 		Outcome<CodelistBean> outcome = mapper.map(list, Codelist2SdmxDirectives.DEFAULT);
@@ -172,9 +173,9 @@ public class Codelist2SdmxTest {
 	@Test 
 	public void codelistAttributesWithCustomisation() {
 		
-		Attribute a1 = attr().name("a").value("val").ofType(customDescriptionType).build();
-		Attribute a2 = attr().name("b").value("val-b").ofType(customNameType).in("fr").build();
-		Attribute a3 = attr().name("a").value("val-c").ofType(customAnnotationType).in("sp").build();
+		Attribute a1 = attribute().name("a").value("val").ofType(customDescriptionType).build();
+		Attribute a2 = attribute().name("b").value("val-b").ofType(customNameType).in("fr").build();
+		Attribute a3 = attribute().name("a").value("val-c").ofType(customAnnotationType).in("sp").build();
 		Codelist list = codelist().name("list").attributes(a1,a2,a3).build();
 		
 		Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();

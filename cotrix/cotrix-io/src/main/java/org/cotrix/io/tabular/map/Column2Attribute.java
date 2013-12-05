@@ -40,7 +40,7 @@ public class Column2Attribute {
 		
 		Attribute attribute = null;
 		
-		TypeClause sentence = attr().name(mapping.name()).value(value);
+		TypeClause sentence = attribute().name(mapping.name()).value(value);
 		
 		if (mapping.type()!=null)
 			if (mapping.language()!=null)

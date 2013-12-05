@@ -12,7 +12,6 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.memory.AttributeMS;
-import org.cotrix.domain.memory.AttributedMS;
 
 /**
  * A domain object with {@link Attribute}s.
@@ -37,6 +36,8 @@ public interface Attributed {
 	interface State extends Identified.State {
 		
 		Collection<Attribute.State> attributes();
+		
+		void attributes(Collection<Attribute.State> attributes);
 		
 	}
 	
@@ -64,7 +65,7 @@ public interface Attributed {
 		
 		}
 		
-		protected void buildState(AttributedMS state) {
+		public void build(S state) {
 			state.attributes(attributes().copy());
 		}
 
@@ -92,7 +93,7 @@ public interface Attributed {
 		// helpers
 		private Attribute.State timestamp(QName name) {
 
-			AttributeMS state = new AttributeMS(null);
+			AttributeMS state = new AttributeMS();
 			state.name(name);
 			String value = getDateTimeInstance().format(Calendar.getInstance().getTime());
 			state.value(value);

@@ -2,7 +2,6 @@ package org.cotrix.domain.dsl.builder;
 
 import static java.util.Arrays.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
-import static org.cotrix.domain.trait.Status.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,19 +28,8 @@ public final class CodeBuilder implements CodeNewClause, CodeDeltaClause, FinalC
 
 	private final CodeMS state;
 	
-	public CodeBuilder() {
-		state = new CodeMS(null);
-	}
-	
-	public CodeBuilder(String id) {
-		state = new CodeMS(id);
-		state.status(MODIFIED);
-	}
-	
-	@Override
-	public Code delete() {
-		state.status(DELETED);
-		return build();
+	public CodeBuilder(CodeMS state) {
+		this.state = state;
 	}
 	
 	@Override

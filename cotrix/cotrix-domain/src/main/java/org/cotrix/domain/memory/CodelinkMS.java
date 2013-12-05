@@ -5,6 +5,7 @@ import static org.cotrix.common.Utils.*;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.Codelink.Private;
+import org.cotrix.domain.trait.Status;
 
 public final class CodelinkMS extends AttributedMS implements Codelink.State {
 
@@ -12,11 +13,10 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 	private CodelistLink.State definition;
 
 	public CodelinkMS() {
-		this(null);
 	}
 	
-	public CodelinkMS(String id) {
-		super(id);
+	public CodelinkMS(String id,Status status) {
+		super(id,status);
 	}
 
 	public String targetId() {

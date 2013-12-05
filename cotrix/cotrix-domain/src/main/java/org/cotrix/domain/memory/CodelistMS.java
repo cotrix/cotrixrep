@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.trait.Status;
 
 public final class CodelistMS extends VersionedMS implements Codelist.State {
 
@@ -16,13 +17,12 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	private Collection<CodelistLink.State> links = new ArrayList<CodelistLink.State>();
 
 	public CodelistMS() {
-		this(null);
 	}
 	
-	public CodelistMS(String id) {
-		super(id);
+	public CodelistMS(String id,Status status) {
+		super(id,status);
 	}
-
+	
 	public Collection<CodelistLink.State> links() {
 		return links;
 	}

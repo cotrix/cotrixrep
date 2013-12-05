@@ -136,6 +136,7 @@ public interface User extends Identified {
 
 		Collection<Action> permissions();
 
+		void permissions(Collection<Action> permissions);
 		
 		Collection<Role> roles();
 		
@@ -285,13 +286,18 @@ public interface User extends Identified {
 
 			UserMS state = new UserMS();
 
+			build(state);
+		
+			return state;
+		}
+		
+		@Override
+		public void build(User.State state) {
 			state.name(name());
 			state.fullName(fullName());
 			state.email(email());
 			state.permissions(directPermissions());
 			state.roles(directRoles());
-
-			return state;
 		}
 
 		@Override

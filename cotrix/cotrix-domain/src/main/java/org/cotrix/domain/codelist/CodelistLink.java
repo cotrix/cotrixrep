@@ -55,15 +55,17 @@ public interface CodelistLink extends Identified, Attributed, Named {
 				state().targetId(changeset.targetId());
 		}
 
-		
+		@Override
+		public void build(CodelistLink.State state) {
+			state.targetId(targetId());
+		}
 
 		@Override
 		public CodelistLink.State copy() {
 			
 			CodelistLinkMS state = new CodelistLinkMS();
 			
-			super.buildState(state);
-			state.targetId(targetId());
+			build(state);
 			
 			return state;
 		}

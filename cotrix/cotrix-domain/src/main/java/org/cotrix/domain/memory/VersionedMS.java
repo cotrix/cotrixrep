@@ -1,38 +1,34 @@
 package org.cotrix.domain.memory;
 
 import org.cotrix.common.Utils;
+import org.cotrix.domain.trait.Status;
+import org.cotrix.domain.trait.Versioned;
+import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
 
-/**
- * Partial implementation of initialisation parameters for {@link VersionedObject}s.
- * 
- * @author Fabio Simeoni
- *
- */
-public abstract class VersionedMS extends NamedMS {
+public abstract class VersionedMS extends NamedMS implements Versioned.State {
 
 	private Version version;
 
-	public VersionedMS(String id) {
-		super(id);
+	public VersionedMS() {
+		version = new DefaultVersion();
 	}
 	
-	/**
-	 * Returns the version parameter.
-	 * @return the parameter
-	 */
+	public VersionedMS(String id,Status status) {
+		super(id,status);
+	}
+	
 	public Version version() {
 		return version;
 	}
-
-	/**
-	 * Sets the version parameter.
-	 * @param version the parameter
-	 */
+	
+	@Override
 	public void version(Version version) {
+		
 		Utils.notNull("version",version);
-		this.version = version;
+		
+		this.version=version;
 	}
 
 	@Override

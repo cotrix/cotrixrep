@@ -7,9 +7,9 @@ import java.util.Collection;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.memory.CodeMS;
 import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.trait.EntityProvider;
 
 /**
  * An {@link Identified}, {@link Attributed}, and {@link Named} symbol.
@@ -55,14 +55,18 @@ public interface Code extends Identified,Attributed,Named {
 			
 		}
 		
+		@Override
 		public Code.State copy() {
+			Code.State state = new CodeMS();
+			build(state);
+			return state;
+		}
+		
+		public void build(Code.State state) {
 
-			CodeMS state = new CodeMS(null);
-			
-			buildState(state);
+			super.build(state);
 			state.links(links().copy());
 			
-			return state;
 		}
 		
 		@Override

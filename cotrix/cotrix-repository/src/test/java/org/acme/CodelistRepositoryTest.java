@@ -51,19 +51,19 @@ public class CodelistRepositoryTest extends ApplicationTest {
 	@Test
 	public void updateCodelist() {
 
-		Attribute attribute = attr().name("test").value("val").build();
+		Attribute attribute = attribute().name("test").value("val").build();
 		Code code = code().name("code").attributes(attribute).build();
 
 		Codelist list = codelist().name("name").with(code).build();
 
 		repository.add(list);
 
-		Attribute attributeChangeset = attr(attribute.id()).name(attribute.name()).value("newvalue").build();
+		Attribute attributeChangeset = modifyAttribute(attribute.id()).name(attribute.name()).value("newvalue").build();
 
 		QName updatedName = q(list.name().getLocalPart() + "-updated");
 
-		Codelist changeset = codelist(list.id()).name(updatedName)
-				.with(code(code.id()).name(code.name()).attributes(attributeChangeset).build()).build();
+		Codelist changeset = modifyCodelist(list.id()).name(updatedName)
+				.with(modifyCode(code.id()).name(code.name()).attributes(attributeChangeset).build()).build();
 
 		repository.update(changeset);
 
@@ -247,11 +247,11 @@ public class CodelistRepositoryTest extends ApplicationTest {
 	@Test
 	public void listCodesSortedByAttribute() {
 		
-		Attribute a1 = attr().name("a").value("1").build();
-		Attribute a2 = attr().name("a").value("2").build();
-		Attribute a3 = attr().name("a").value("0").in("en").build();
-		Attribute a4 = attr().name("a").value("2").build();
-		Attribute a5 = attr().name("a").value("1").build();
+		Attribute a1 = attribute().name("a").value("1").build();
+		Attribute a2 = attribute().name("a").value("2").build();
+		Attribute a3 = attribute().name("a").value("0").in("en").build();
+		Attribute a4 = attribute().name("a").value("2").build();
+		Attribute a5 = attribute().name("a").value("1").build();
 		
 		Code c1 = code().name("c1").attributes(a1,a4).build();
 		Code c2 = code().name("c2").attributes(a2,a5).build();
@@ -261,7 +261,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		
 		repository.add(list);
 		
-		Attribute template = attr().name("a").value("ignore").build();
+		Attribute template = attribute().name("a").value("ignore").build();
 		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,1)));
 		
 		assertEquals(asList(c3,c1,c2),gather(results));
@@ -269,7 +269,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,2)));
 		assertEquals(asList(c2,c1,c3),gather(results));
 		
-		template = attr().name("a").value("ignore").in("en").build();
+		template = attribute().name("a").value("ignore").in("en").build();
 		results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,1)));
 		
 		assertEquals(asList(c3,c2,c1),gather(results));
@@ -279,16 +279,16 @@ public class CodelistRepositoryTest extends ApplicationTest {
 	@Test
 	public void getSummary() {
 		
-		Attribute a1 = attr().name("name1").value("v1").ofType("t1").in("l1").build();
-		Attribute a2 = attr().name("name2").value("v2").ofType("t2").build();
-		Attribute a3 = attr().name("name1").value("v3").ofType("t2").in("l1").build();
-		Attribute a4 = attr().name("name1").value("v1").ofType("t1").in("l2").build();
-		Attribute a5 = attr().name("name2").value("v2").ofType("t2").build();
+		Attribute a1 = attribute().name("name1").value("v1").ofType("t1").in("l1").build();
+		Attribute a2 = attribute().name("name2").value("v2").ofType("t2").build();
+		Attribute a3 = attribute().name("name1").value("v3").ofType("t2").in("l1").build();
+		Attribute a4 = attribute().name("name1").value("v1").ofType("t1").in("l2").build();
+		Attribute a5 = attribute().name("name2").value("v2").ofType("t2").build();
 		
-		Attribute aa1 = attr().name("name1").value("v1").ofType("t3").in("l3").build();
-		Attribute aa2 = attr().name("name2").value("v2").ofType("t2").build();
-		Attribute aa3 = attr().name("name3").value("v3").ofType("t3").in("l2").build();
-		Attribute aa4 = attr().name("name1").value("v4").ofType("t1").in("l3").build();
+		Attribute aa1 = attribute().name("name1").value("v1").ofType("t3").in("l3").build();
+		Attribute aa2 = attribute().name("name2").value("v2").ofType("t2").build();
+		Attribute aa3 = attribute().name("name3").value("v3").ofType("t3").in("l2").build();
+		Attribute aa4 = attribute().name("name1").value("v4").ofType("t1").in("l3").build();
 		
 		Code c1 = code().name("c1").attributes(a1,a2,a3).build();
 		Code c2 = code().name("name1").attributes(a4,a5).build();

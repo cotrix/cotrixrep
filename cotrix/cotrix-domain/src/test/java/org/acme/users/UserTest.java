@@ -60,19 +60,13 @@ public class UserTest {
 		assertNull(reveal(u).status());
 
 		// modified users
-		u = user("1").email("joe@me.com").build();
-		u = user("1").email("joe@me.com").can(a).build();
-		u = user("1").email("joe@me.com").can(a).cannot(a).build();
-		u = user("1").email("joe@me.com").can(a).cannot(a).is(m).build();
+		u = modifyUser(u).email("joe@me.com").build();
+		u = modifyUser(u).email("joe@me.com").can(a).build();
+		u = modifyUser(u).email("joe@me.com").can(a).cannot(a).build();
+		u = modifyUser(u).email("joe@me.com").can(a).cannot(a).is(m).build();
 
 		assertTrue(reveal(u).isChangeset());
 		assertEquals(MODIFIED, reveal(u).status());
-
-		// removed attributes
-		u = user("1").delete();
-
-		assertTrue(reveal(u).isChangeset());
-		assertEquals(DELETED, reveal(u).status());
 
 	}
 

@@ -3,7 +3,6 @@ package org.cotrix.domain.dsl.grammar;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.DeleteClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinksClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 
@@ -17,7 +16,7 @@ public class CodeGrammar {
 
 	public static interface CodeNewClause extends NameClause<SecondClause>  {}
 	
-	public static interface CodeDeltaClause extends DeleteClause<Code>, NameClause<SecondClause>, SecondClause, FinalClause {}
+	public static interface CodeDeltaClause extends NameClause<SecondClause>, SecondClause, FinalClause {}
 
 	public static interface SecondClause extends LinksClause<Codelink,FinalClause>,AttributeClause<Code,FinalClause> {}
 	

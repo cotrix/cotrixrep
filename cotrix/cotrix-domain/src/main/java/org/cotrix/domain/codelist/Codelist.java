@@ -73,26 +73,27 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			return container(state().links());
 		}
 
-		protected void buildState(CodelistMS state) {
-			super.buildState(state);
+		public void buildState(CodelistMS state) {
+			super.build(state);
 			state.codes(codes().copy());
 			state.links(links().copy());
 		}
-
+		
 		@Override
 		public Codelist.State copy() {
-			CodelistMS state = new CodelistMS();
-			buildState(state);
+			Codelist.State state = new CodelistMS();
+			build(state);
 			return state;
 		}
-		
+
 		@Override
 		protected final Private copyWith(Version version) {
 			
-			Codelist.State state = copy();
+			Codelist.State state = new CodelistMS();
 			
-			if (version!=null)
-				state.version(version);
+			build(state);
+			
+			state.version(version);
 
 			return state.entity();
 		}

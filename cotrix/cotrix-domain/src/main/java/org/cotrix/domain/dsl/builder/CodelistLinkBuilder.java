@@ -2,7 +2,6 @@ package org.cotrix.domain.dsl.builder;
 
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
-import static org.cotrix.domain.trait.Status.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,13 +29,8 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	
 	private final CodelistLinkMS state;
 	
-	public CodelistLinkBuilder() {
-		this.state = new CodelistLinkMS(null);
-	}
-	
-	public CodelistLinkBuilder(String id) {
-		this.state = new CodelistLinkMS(id);
-		state.status(MODIFIED);
+	public CodelistLinkBuilder(CodelistLinkMS state) {
+		this.state = state;
 	}
 	
 	@Override
@@ -48,12 +42,6 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	@Override
 	public SecondClause name(String name) {
 		return name(Codes.q(name));
-	}
-	
-	@Override
-	public CodelistLink delete() {
-		state.status(DELETED);
-		return build();
 	}
 	
 	@Override

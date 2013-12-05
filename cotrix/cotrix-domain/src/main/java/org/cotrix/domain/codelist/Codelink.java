@@ -72,7 +72,7 @@ public interface Codelink extends Identified, Attributed {
 			
 			CodelinkMS state = new CodelinkMS();
 			
-			super.buildState(state);
+			super.build(state);
 			
 			state.definition(definition().copy());
 			state.targetId(targetId());

@@ -4,6 +4,7 @@ import static org.cotrix.common.Utils.*;
 
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.Private;
+import org.cotrix.domain.trait.Status;
 
 /**
  * Initialisation parameters for {@link CodelistLink}s.
@@ -16,11 +17,10 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	private String targetId;
 	
 	public CodelistLinkMS() {
-		super(null);
 	}
 	
-	public CodelistLinkMS(String id) {
-		super(id);
+	public CodelistLinkMS(String id,Status status) {
+		super(id,status);
 	}
 
 	

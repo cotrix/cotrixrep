@@ -41,9 +41,6 @@ public class DefaultRepository<T extends Identified, S extends Identified.Abstra
 		if (privateObject.isChangeset())
 			throw new IllegalArgumentException("this "+publicType.getCanonicalName()+" is a changeset and cannot be added");
 		
-		if (privateObject.id()!=null)
-			throw new IllegalArgumentException(publicType.getCanonicalName()+" ("+privateObject.id()+") has been already persisted");
-		
 		repository.add(privateObject);
 		
 		log.trace("added {} ({})",publicType.getCanonicalName(),object.id());

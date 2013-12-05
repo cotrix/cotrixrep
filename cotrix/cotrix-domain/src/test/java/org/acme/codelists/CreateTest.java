@@ -7,9 +7,7 @@ import static org.cotrix.domain.dsl.Codes.*;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.memory.AttributedMS;
 import org.cotrix.domain.memory.CodelistMS;
-import org.cotrix.domain.memory.NamedMS;
 import org.cotrix.domain.utils.Constants;
 import org.junit.Test;
 
@@ -26,39 +24,7 @@ public class CreateTest {
 	
 	// first, all DOs: we test directly against base ObjectPO class simulating a subclass
 	
-	@Test
-	public void DOsRejectNullParameters() {
-		
-		NamedMS po = new NamedMS(null) {};
-		
-		try {
-			po.name(null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-		try {
-			po.status(null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-		
-	}
 	
-	//all attributed DOs: we workd directly against AttributedMS class simulating a subclass
-	
-	@Test
-	@SuppressWarnings("all")
-	public void attributedDOsRejectNullParameters() {
-		
-		AttributedMS po = new AttributedMS("id") {};
-		
-		try {
-			po.attributes(null);
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
-	}
 	
 	
 	/// attributes
@@ -66,23 +32,22 @@ public class CreateTest {
 	@Test
 	public void attributesCanBeFluentlyConstructed() {
 		
-		Attribute a = attr().name(name).value(value).build();
+		Attribute a = attribute().name(name).value(value).build();
 		
 		assertEquals(name,a.name());
 		assertEquals(value,a.value());
 		assertEquals(Constants.DEFAULT_TYPE,a.type());
 		
-		a = attr("id").name(name).value(value).ofType(type).build();
+		a = attribute().name(name).value(value).ofType(type).build();
 		
-		assertEquals("id",a.id());
 		assertEquals(type,a.type());
 		
-		a = attr().name(name).value(value).ofType(name).in(language).build();
+		a = attribute().name(name).value(value).ofType(name).in(language).build();
 		
 		assertEquals(language,a.language());
 
 		//other sentences
-		attr().name(name).value(value).in(language).build();
+		attribute().name(name).value(value).in(language).build();
 	}
 	
 	
@@ -98,10 +63,7 @@ public class CreateTest {
 		//creation time
 		assertEquals(1,code.attributes().size());
 		
-		assertEquals(code,ascode(name));
-		
-		
-		code = code("id").name(name).attributes(a).build();
+		code = modifyCode("id").name(name).attributes(a).build();
 		
 		assertEquals("id",code.id());
 		
@@ -131,7 +93,7 @@ public class CreateTest {
 	public void codelistsRejectNullParameters() {
 			
 
-		CodelistMS po = new CodelistMS("id");
+		CodelistMS po = new CodelistMS();
 		
 		try {
 			po.codes(null);
@@ -149,7 +111,7 @@ public class CreateTest {
 		assertEquals(name,list.name());
 		assertEquals(0,list.codes().size());
 		
-		list = codelist("id").name(name).build();
+		list = modifyCodelist("id").name(name).build();
 		
 		assertEquals("id",list.id());
 		

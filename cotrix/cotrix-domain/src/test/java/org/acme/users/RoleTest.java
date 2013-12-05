@@ -45,10 +45,7 @@ public class RoleTest {
 	
 		User bill = bill().is(something,somethingElse).build();
 		
-
-		reveal(bill).id("1");
-		
-		User changeset = user(bill).isNot(something).build();
+		User changeset = modifyUser(bill).isNot(something).build();
 		
 		update(bill, changeset);
 		
@@ -101,11 +98,9 @@ public class RoleTest {
 		
 		User bill = bill().is(something.on("1")).build();
 		
-		reveal(bill).id("1");
-		
 		assertTrue(bill.is(something.on("1")));
 		
-		User changeset = user(bill).isNot(something.on("1")).build();
+		User changeset = modifyUser(bill).isNot(something.on("1")).build();
 		
 		update(bill, changeset);
 		
@@ -162,11 +157,9 @@ public class RoleTest {
 		
 		User bill = bill().is(somethingElse).build();
 		
-		reveal(bill).id("1");
-		
 		//add smaller role
 		
-		User changeset = user(bill).is(something).build();
+		User changeset = modifyUser(bill).is(something).build();
 		
 		update(bill, changeset);
 		
@@ -182,11 +175,9 @@ public class RoleTest {
 		
 		User bill = bill().is(large).build();
 		
-		reveal(bill).id("1");
-		
 		Role largerStill = aRole("r3").can(dothatToo).is(large).buildAsRoleFor(application);
 		
-		User changeset = user(bill).is(largerStill).build();
+		User changeset = modifyUser(bill).is(largerStill).build();
 		
 		update(bill, changeset);
 		
@@ -204,9 +195,7 @@ public class RoleTest {
 		
 		User bill = bill().is(somethingElse).build();
 
-		reveal(bill).id("1");
-		
-		User changeset = user(bill).isNot(something).build();
+		User changeset = modifyUser(bill).isNot(something).build();
 		
 		update(bill, changeset);
 		

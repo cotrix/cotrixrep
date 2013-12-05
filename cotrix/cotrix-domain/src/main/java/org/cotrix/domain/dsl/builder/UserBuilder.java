@@ -2,7 +2,6 @@ package org.cotrix.domain.dsl.builder;
 
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Roles.*;
-import static org.cotrix.domain.trait.Status.*;
 
 import java.util.Collection;
 
@@ -12,7 +11,6 @@ import org.cotrix.domain.dsl.grammar.UserGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserChangeClause;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserNewClause;
 import org.cotrix.domain.memory.UserMS;
-import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.user.DefaultRole;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
@@ -22,22 +20,8 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 
 	private final UserMS state;
 	
-	public UserBuilder(String id) {
-		
-		valid("identifier",id);
-		
-		state = new UserMS(id);
-		state.status(Status.MODIFIED);
-	}
-	
-	public UserBuilder() {
-		state = new UserMS(null);
-	}
-	
-	@Override
-	public User delete() {
-		state.status(DELETED);
-		return build();
+	public UserBuilder(UserMS state) {
+		this.state = state;
 	}
 	
 	public UserBuilder name(String name) {

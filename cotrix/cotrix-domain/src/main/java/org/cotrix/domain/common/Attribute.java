@@ -96,13 +96,18 @@ public interface Attribute extends Identified, Named {
 
 		public Attribute.State copy() {
 			
-			AttributeMS state = new AttributeMS(null);
+			AttributeMS state = new AttributeMS();
+			build(state);
+			return state;
+			
+		}
+		
+		@Override
+		public void build(org.cotrix.domain.common.Attribute.State state) {
 			state.name(name());
 			state.type(type());
 			state.value(value());
 			state.language(language());
-			return state;
-			
 		}
 
 		@Override
