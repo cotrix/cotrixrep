@@ -36,31 +36,31 @@ public class CodelistsTreePanel extends ResizeComposite {
 	interface CodelistsTreePanelUiBinder extends UiBinder<Widget, CodelistsTreePanel> {}
 
 	@UiField TextBox filterTextBox;
-	
+
 	@UiField(provided=true) CellTree codelistsTree;
-	
+
 	@Inject
 	protected CodelistGroupsDataProvider dataProvider;
-	
+
 	protected SingleSelectionModel<CodelistVersion> selectionModel;
-	
+
 	@Inject @PermissionBus
 	protected EventBus bus;
-	
+
 	@Inject
 	protected void init(CodelistsTreePanelUiBinder uiBinder) {
 		setupCodelistsTree();
 		initWidget(uiBinder.createAndBindUi(this));
 		updateSearchBoxStyle();
 	}
-	
+
 	@UiHandler("filterTextBox")
 	protected void onKeyUp(KeyUpEvent event) {
 		Log.trace("onKeyUp value: "+filterTextBox.getValue()+" text: "+filterTextBox.getText());
 		updateFilter();
 		updateSearchBoxStyle();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	protected void updateFilter()
 	{
@@ -70,7 +70,7 @@ public class CodelistsTreePanel extends ResizeComposite {
 			dataProvider.applyFilters(new ByNameFilter(filter));
 		}
 	}
-	
+
 	public void updateSearchBoxStyle() {
 		filterTextBox.setStyleName(CommonResources.INSTANCE.css().searchBackground(), filterTextBox.getValue().isEmpty());
 	}
@@ -85,10 +85,10 @@ public class CodelistsTreePanel extends ResizeComposite {
 		selectionModel = new SingleSelectionModel<CodelistVersion>();
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			public void onSelectionChange(SelectionChangeEvent event) {
-				
+
 				CodelistVersion selected = selectionModel.getSelectedObject();
 				Log.trace("selected version "+selected);
-				
+
 				if (selected != null) {
 					bus.fireEvent(new CodelistSelectedEvent(selected));
 				}
@@ -101,9 +101,9 @@ public class CodelistsTreePanel extends ResizeComposite {
 		codelistsTree.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 
 	}
-	
-protected class ByNameFilter implements Filter<CodelistGroup> {
-		
+
+	protected class ByNameFilter implements Filter<CodelistGroup> {
+
 		protected String name;
 
 		/**
@@ -117,7 +117,7 @@ protected class ByNameFilter implements Filter<CodelistGroup> {
 		public boolean accept(CodelistGroup data) {
 			return data.getName().toUpperCase().contains(name);
 		}
-		
+
 	}
 
 }

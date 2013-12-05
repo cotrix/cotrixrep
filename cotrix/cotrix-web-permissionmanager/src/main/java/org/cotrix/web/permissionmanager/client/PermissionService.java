@@ -11,7 +11,6 @@ import org.cotrix.web.permissionmanager.shared.RolesType;
 import org.cotrix.web.permissionmanager.shared.UIUserDetails;
 import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.exception.ServiceException;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -35,11 +34,13 @@ public interface PermissionService extends RemoteService {
 	
 	public RolesRow codelistRoleUpdated(String userId, String codelistId, String role, RoleAction action) throws ServiceException;
 	
+	public void codelistRolesRowRemoved(String codelistId, RolesRow row) throws ServiceException;
+	
 	public RolesRow applicationRoleUpdated(String userId, String role, RoleAction action) throws ServiceException;
 	
 	public DataWindow<CodelistGroup> getCodelistGroups() throws ServiceException;
 	
-	public List<UIUser> getUsers() throws ServiceException;
+	public DataWindow<UIUserDetails> getUsersDetails() throws ServiceException;
 	
 	public UIUserDetails getUserDetails() throws ServiceException;
 	

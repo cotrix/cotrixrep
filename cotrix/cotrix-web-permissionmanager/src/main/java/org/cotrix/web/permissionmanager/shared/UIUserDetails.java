@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.permissionmanager.shared;
 
+import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.feature.Identified;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -87,6 +88,10 @@ public class UIUserDetails implements IsSerializable, Identified {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public UIUser toUiUser() {
+		return new UIUser(id, username, fullName);
 	}
 
 	/** 

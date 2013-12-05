@@ -17,9 +17,6 @@
 				<c:DataGrid ui:field="matrix" />
 			</w:LoadingPanel>
 		</g:center>
-		<g:south size="28">
-			<w:ItemToolbar ui:field="toolBar" />
-		</g:south>
 		<g:south size="35">
 			<g:HTMLPanel>
 				<table style="width:100%">
