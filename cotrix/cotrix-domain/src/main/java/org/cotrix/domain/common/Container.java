@@ -12,48 +12,61 @@ import org.cotrix.domain.trait.Identified;
 
 
 /**
- * An immutable, typed container of domain objects.
+ * An immutable, typed container of domain entities.
  * 
  * @author Fabio Simeoni
  *
- * @param <T> the type of the contained objects 
+ * @param <T> the type of the container entities 
  */
 public interface Container<T> extends Iterable<T> {
 
+	//public read-only interface
+	
 	/**
-	 * Returns the number of objects in this container.
-	 * @return the number of objects
+	 * Returns the number of entities in this container.
+	 * @return the number of entities
 	 */
 	int size();
 	
-	
 	/**
-	 * An {@link Identified.Abstract} implementation of {@link Container}.
-	 * 
-	 * @author Fabio Simeoni
-	 *
-	 * @param <T> the type of the contained objects 
+	 * Returns <code>true</code> if this container contains a given entity. 
+	 * @param entity the entity
+	 * @return <code>true</code> if this container contains a given entity
 	 */
+	 boolean contains(Object entity);
+
+	
+	
+	//private logic
+	
 	public static class Private<T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> implements Container<T> {
 		
-		private final Collection<S> elements;
+		private final Collection<S> entities;
 	
-		public Private(Collection<S> elements) {
+		public Private(Collection<S> entities) {
 			
-			notNull("elements",elements);
+			notNull("entities",entities);
 			
-			this.elements = elements;
+			this.entities = entities;
 			
 		}
 		
 		@Override
 		public Iterator<T> iterator() {
-			return new IteratorAdapter<T,S>(elements.iterator());
+			return new IteratorAdapter<T,S>(entities.iterator());
 		}
+		
+		public boolean contains(Object entity) {
+			for (T e : this)
+				if (e.equals(entity))
+					return true;
+			
+			return false;
+		};
 
 		@Override
 		public int size() {
-			return elements.size();
+			return entities.size();
 		}
 		
 		
@@ -71,7 +84,7 @@ public interface Container<T> extends Iterable<T> {
 					switch (entityChangeset.status()) {
 							
 						case DELETED:
-							elements.remove(index.remove(id));
+							entities.remove(index.remove(id));
 							break;
 						
 						case MODIFIED: //wrap and dispatch
@@ -81,13 +94,13 @@ public interface Container<T> extends Iterable<T> {
 					} 
 					
 				else
-					elements.add(entityChangeset.state());
+					entities.add(entityChangeset.state());
 
 			}	
 		}
 		
 		public Collection<S> state() {
-			return elements;
+			return entities;
 		}
 		
 		
@@ -98,7 +111,7 @@ public interface Container<T> extends Iterable<T> {
 
 			Map<String, S> index = new HashMap<String,S>();
 
-			for (S object : elements)
+			for (S object : entities)
 				index.put(object.id(),object);
 
 			return index;
@@ -111,7 +124,7 @@ public interface Container<T> extends Iterable<T> {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((elements == null) ? 0 : elements.hashCode());
+			result = prime * result + ((entities == null) ? 0 : entities.hashCode());
 			return result;
 		}
 
@@ -125,10 +138,10 @@ public interface Container<T> extends Iterable<T> {
 			if (!(obj instanceof Private))
 				return false;
 			Private other = (Private) obj;
-			if (elements == null) {
-				if (other.elements != null)
+			if (entities == null) {
+				if (other.entities != null)
 					return false;
-			} else if (!elements.equals(other.elements))
+			} else if (!entities.equals(other.entities))
 				return false;
 			return true;
 		}
@@ -136,7 +149,7 @@ public interface Container<T> extends Iterable<T> {
 		@Override
 		public String toString() {
 			final int maxLen = 100;
-			return "[" + (elements != null ? toString(maxLen) : null) + "]";
+			return "[" + (entities != null ? toString(maxLen) : null) + "]";
 		}
 
 		private String toString(int maxLen) {

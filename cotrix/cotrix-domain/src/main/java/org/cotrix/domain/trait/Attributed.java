@@ -10,7 +10,7 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.memory.AttributeMS;
 
 /**
@@ -28,12 +28,12 @@ public interface Attributed {
 	 * 
 	 * @return the attributes
 	 */
-	Container<? extends Attribute> attributes();
+	NamedContainer<? extends Attribute> attributes();
 	
 	
 	//private state interface
 	
-	interface State extends Identified.State {
+	interface State {
 		
 		Collection<Attribute.State> attributes();
 		
@@ -44,24 +44,20 @@ public interface Attributed {
 
 	//private logic
 	
-	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State> extends Identified.Abstract<SELF,S> implements Attributed {
+	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State & Identified.State> extends Identified.Abstract<SELF,S> implements Attributed {
 
 
 		public Abstract(S state) {
 			
 			super(state);
-			
-			Attribute.State created = timestamp(CREATION_TIME);
-			if (!isChangeset() && !state.attributes().contains(created))
-				state.attributes().add(created);
 
 		}
 		
 
 		@Override
-		public Container.Private<Attribute.Private,Attribute.State> attributes() {
+		public NamedContainer.Private<Attribute.Private,Attribute.State> attributes() {
 			
-			return container(state().attributes());
+			return namedContainer(state().attributes());
 		
 		}
 

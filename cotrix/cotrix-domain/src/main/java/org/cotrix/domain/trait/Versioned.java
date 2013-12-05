@@ -21,7 +21,7 @@ public interface Versioned {
 	
 	//private state interface
 	
-	interface State extends Named.State {
+	interface State {
 		
 		Version version();
 		
@@ -31,7 +31,7 @@ public interface Versioned {
 
 	//private logic
 	
-	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State> extends Named.Abstract<SELF,S> implements Versioned {
+	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State & Identified.State & Attributed.State & Named.State> extends Named.Abstract<SELF,S> implements Versioned {
 
 		public Abstract(S state) {
 			super(state);

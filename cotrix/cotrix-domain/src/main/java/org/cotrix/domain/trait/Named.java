@@ -22,9 +22,7 @@ public interface Named {
 	QName name();
 	
 	
-	//private state interface
-	
-	interface State extends Attributed.State {
+	interface State {
 		
 		QName name();
 		
@@ -35,7 +33,7 @@ public interface Named {
 	
 	//private logic
 	
-	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State> extends Attributed.Abstract<SELF,S> implements Named {
+	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State & Identified.State & Attributed.State> extends Attributed.Abstract<SELF,S> implements Named {
 		
 		
 		public Abstract(S state) {

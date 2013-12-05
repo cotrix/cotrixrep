@@ -1,9 +1,14 @@
 package org.cotrix.domain.memory;
 
+import static java.text.DateFormat.*;
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.utils.Constants.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+
+import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.trait.Attributed;
@@ -14,6 +19,7 @@ public abstract class AttributedMS extends IdentifiedMS implements Attributed.St
 	private Collection<Attribute.State> attributes = new ArrayList<Attribute.State>();
 
 	public AttributedMS() {
+		attributes.add(timestamp(CREATION_TIME));
 	}
 	
 	public AttributedMS(String id,Status status) {
@@ -24,7 +30,18 @@ public abstract class AttributedMS extends IdentifiedMS implements Attributed.St
 		for (Attribute.State state : other.attributes())
 			attributes.add(new AttributeMS(state));
 	}
+	
+	// helpers
+	private Attribute.State timestamp(QName name) {
 
+		AttributeMS state = new AttributeMS();
+		state.name(name);
+		String value = getDateTimeInstance().format(Calendar.getInstance().getTime());
+		state.value(value);
+		state.type(SYSTEM_TYPE);
+		return state;
+
+	}
 	@Override
 	public Collection<Attribute.State> attributes() {
 		return attributes;
@@ -34,7 +51,7 @@ public abstract class AttributedMS extends IdentifiedMS implements Attributed.St
 		
 		notNull("attributes",attributes);
 	
-		this.attributes = attributes;
+		this.attributes.addAll(attributes);
 		
 	}
 

@@ -1,13 +1,16 @@
 package org.cotrix.domain.memory;
 
 import org.cotrix.common.Utils;
+import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.trait.Versioned;
 import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
 
-public abstract class VersionedMS extends NamedMS implements Versioned.State {
+public abstract class VersionedMS extends NamedMS implements Versioned.State, Identified.State, Attributed.State, Named.State {
 
 	private Version version;
 
@@ -19,7 +22,7 @@ public abstract class VersionedMS extends NamedMS implements Versioned.State {
 		super(id,status);
 	}
 	
-	public VersionedMS(Versioned.State state) {
+	public <T extends Attributed.State & Versioned.State & Named.State> VersionedMS(T state) {
 		super(state);
 		version(state.version());
 	}

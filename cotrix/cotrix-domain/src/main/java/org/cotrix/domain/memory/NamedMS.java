@@ -4,11 +4,12 @@ import static org.cotrix.common.Utils.*;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Status;
 
 
-public abstract class NamedMS extends AttributedMS implements Named.State {
+public abstract class NamedMS extends AttributedMS implements Named.State, Attributed.State {
 
 	private QName name;
 	
@@ -19,7 +20,7 @@ public abstract class NamedMS extends AttributedMS implements Named.State {
 		super(id,status);
 	}
 	
-	public NamedMS(Named.State state) {		
+	public <T extends Named.State & Attributed.State> NamedMS(T state) {		
 		super(state);
 		name(state.name());
 	}

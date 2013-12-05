@@ -71,7 +71,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 
 		assertEquals(list.name(), updatedName);
 
-		Attribute firstAttribute = list.codes().iterator().next().attributes().iterator().next();
+		Attribute firstAttribute = list.codes().lookup(code.name()).attributes().lookup(attribute.name());
 
 		assertEquals(firstAttribute.value(), "newvalue");
 	}

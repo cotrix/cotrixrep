@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Code.Private;
+import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Status;
 
 
-public final class CodeMS extends NamedMS implements Code.State {
+public final class CodeMS extends NamedMS implements Code.State, Attributed.State {
 
 	private Collection<Codelink.State> links = new ArrayList<Codelink.State>();
 

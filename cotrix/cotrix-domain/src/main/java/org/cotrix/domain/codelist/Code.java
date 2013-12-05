@@ -29,7 +29,7 @@ public interface Code extends Identified,Attributed,Named {
 	
 	//private state interface
 	
-	interface State extends Named.State,EntityProvider<Private> {
+	interface State extends Identified.State, Named.State, Attributed.State, EntityProvider<Private> {
 		
 		Collection<Codelink.State> links();
 		

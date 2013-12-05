@@ -25,7 +25,6 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 
 	public CodelistMS(Codelist.State state) {
 		super(state);
-		
 		for (Code.State code : state.codes())
 			codes.add(new CodeMS(code));
 		

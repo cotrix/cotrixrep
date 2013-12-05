@@ -5,7 +5,7 @@ import static org.cotrix.domain.dsl.Codes.*;
 import java.util.Collection;
 
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.memory.CodelistMS;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
@@ -30,18 +30,18 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	 * Returns the codes of this list.
 	 * @return the codes
 	 */
-	Container<? extends Code> codes();
+	NamedContainer<? extends Code> codes();
 	
 	/**
 	 * Returns the links of this list.
 	 * @return the links.
 	 */
-	Container<? extends CodelistLink> links();
+	NamedContainer<? extends CodelistLink> links();
 	
 	
 	//private state interface
 	
-	interface State extends Versioned.State, EntityProvider<Private> {
+	interface State extends Identified.State, Attributed.State, Named.State, Versioned.State, EntityProvider<Private> {
 	
 		Collection<Code.State> codes();
 		
@@ -64,13 +64,13 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 
 		
 		@Override
-		public Container.Private<Code.Private,Code.State> codes() {
-			return container(state().codes());
+		public NamedContainer.Private<Code.Private,Code.State> codes() {
+			return namedContainer(state().codes());
 		}
 		
 		@Override
-		public Container.Private<CodelistLink.Private,CodelistLink.State> links() {
-			return container(state().links());
+		public NamedContainer.Private<CodelistLink.Private,CodelistLink.State> links() {
+			return namedContainer(state().links());
 		}
 
 		@Override

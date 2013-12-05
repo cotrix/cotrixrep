@@ -6,15 +6,12 @@ import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.trait.Identified;
 import org.junit.Test;
 
@@ -195,13 +192,13 @@ public class UpdateTest {
 		update(code,change);
 
 		
-		List<Attribute> attributes = elements(code.attributes());
+		NamedContainer<? extends Attribute> attributes = code.attributes();
 		
 		System.out.println(attributes);
 		
 		assertEquals(5, attributes.size());
 		
-		assertEquals(newname, attributes.get(0).name());
+		assertTrue(attributes.contains(newname));
 		
 		assertFalse(attributes.contains(a2));
 		
@@ -272,14 +269,6 @@ public class UpdateTest {
 	
 	
 	//helpers
-	
-	private <T> List<T> elements(Container<? extends T> container) {
-		List<T> elements = new ArrayList<T>();
-		for (T t : container)
-			elements.add(t);
-		return elements;
-	}
-
 	@SuppressWarnings("all")
 	<T> void update(T o, T delta) {
 

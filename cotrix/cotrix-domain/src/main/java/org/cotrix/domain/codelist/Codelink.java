@@ -26,7 +26,7 @@ public interface Codelink extends Identified, Attributed {
 	 */
 	String targetId();
 
-	static interface State extends Attributed.State, EntityProvider<Private> {
+	static interface State extends Identified.State, Attributed.State, EntityProvider<Private> {
 
 		CodelistLink.State definition();
 

@@ -10,7 +10,8 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.common.Container.Private;
+import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
 import org.cotrix.domain.dsl.builder.CodelinkBuilder;
@@ -31,6 +32,7 @@ import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.memory.CodelistMS;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Named;
 
 /**
  * Model factory.
@@ -116,8 +118,13 @@ public class Codes {
 	}
 	
 	//simplifies construction through method parameter inference (not available on constructors in Java 6..)
-	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Private<T,S> container(Collection<S> elements) {
-		return new Private<T, S>(elements);
+	
+	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Container.Private<T, S> container(Collection<S> elements) {
+		return new Container.Private<T, S>(elements);
+	}
+	
+	public static <T extends Identified.Abstract<T,S> & Named, S extends Identified.State & Named.State & EntityProvider<T>> NamedContainer.Private<T, S> namedContainer(Collection<S> elements) {
+		return new NamedContainer.Private<T, S>(elements);
 	}
 	
 	

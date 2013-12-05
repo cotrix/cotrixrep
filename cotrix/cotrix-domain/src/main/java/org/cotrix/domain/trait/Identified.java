@@ -70,9 +70,6 @@ public interface Identified {
 
 			notNull(this.getClass().getCanonicalName()+"'s changeset",changeset);
 			
-			if (state.id() == null)
-				throw new IllegalStateException(this + " has no identifier and cannot be updated");
-
 			if (changeset.status() == null || changeset.status() != Status.MODIFIED)
 				throw new IllegalArgumentException("object " + state.id() + " cannot be updated with a "
 						+ (changeset.status() == null ? "NEW" : changeset.status()) + " object");

@@ -42,13 +42,8 @@ public interface Attribute extends Identified, Named {
 
 	//private state interface
 	
-	interface State extends Identified.State, EntityProvider<Private> {
+	interface State extends Identified.State, Named.State, EntityProvider<Private> {
 
-		QName name();
-
-		void name(QName type);
-
-		
 		QName type();
 
 		void type(QName type);
