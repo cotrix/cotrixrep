@@ -13,11 +13,16 @@ public abstract class AttributedMS extends IdentifiedMS implements Attributed.St
 
 	private Collection<Attribute.State> attributes = new ArrayList<Attribute.State>();
 
-	protected AttributedMS() {
+	public AttributedMS() {
 	}
 	
-	protected AttributedMS(String id,Status status) {
+	public AttributedMS(String id,Status status) {
 		super(id,status);
+	}
+	
+	public AttributedMS(Attributed.State other) {
+		for (Attribute.State state : other.attributes())
+			attributes.add(new AttributeMS(state));
 	}
 
 	@Override

@@ -2,14 +2,13 @@ package org.cotrix.domain.common;
 
 import static org.cotrix.common.Utils.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.Identified;
 
 
 /**
@@ -85,19 +84,6 @@ public interface Container<T> extends Iterable<T> {
 					elements.add(entityChangeset.state());
 
 			}	
-		}
-		
-
-		
-		public Collection<S> copy() {
-			
-			Collection<S> copied = new ArrayList<S>();
-			
-			for (S element : elements)
-				copied.add(element.entity().copy());
-			
-			return copied; 
-			
 		}
 		
 		public Collection<S> state() {

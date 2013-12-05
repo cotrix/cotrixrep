@@ -42,12 +42,6 @@ public interface Named {
 			super(state);
 		}
 		
-		public void build(S state) {
-			
-			super.build(state);
-			state.name(name());
-		}
-		
 		@Override
 		public QName name() {
 			return state().name();

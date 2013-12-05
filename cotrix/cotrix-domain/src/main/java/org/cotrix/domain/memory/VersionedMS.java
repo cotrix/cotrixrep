@@ -19,6 +19,11 @@ public abstract class VersionedMS extends NamedMS implements Versioned.State {
 		super(id,status);
 	}
 	
+	public VersionedMS(Versioned.State state) {
+		super(state);
+		version(state.version());
+	}
+	
 	public Version version() {
 		return version;
 	}

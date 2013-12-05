@@ -4,10 +4,9 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.memory.AttributeMS;
+import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.trait.EntityProvider;
 
 /**
  * A named and typed attribute for a domain object.
@@ -92,22 +91,6 @@ public interface Attribute extends Identified, Named {
 		@Override
 		public String language() {
 			return state().language();
-		}
-
-		public Attribute.State copy() {
-			
-			AttributeMS state = new AttributeMS();
-			build(state);
-			return state;
-			
-		}
-		
-		@Override
-		public void build(org.cotrix.domain.common.Attribute.State state) {
-			state.name(name());
-			state.type(type());
-			state.value(value());
-			state.language(language());
 		}
 
 		@Override

@@ -22,6 +22,11 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	public CodelistLinkMS(String id,Status status) {
 		super(id,status);
 	}
+	
+	public CodelistLinkMS(CodelistLink.State state) {
+		super(state);
+		targetId(state.targetId());
+	}
 
 	
 	public String targetId() {

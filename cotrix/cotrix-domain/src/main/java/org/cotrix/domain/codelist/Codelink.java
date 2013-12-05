@@ -1,9 +1,8 @@
 package org.cotrix.domain.codelist;
 
-import org.cotrix.domain.memory.CodelinkMS;
 import org.cotrix.domain.trait.Attributed;
-import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.Identified;
 
 /**
  * An {@link Identified} and {@link Attributed} instance of a {@link CodelistLink}.
@@ -65,19 +64,6 @@ public interface Codelink extends Identified, Attributed {
 
 			if (!targetId().equals(changeset.targetId()))
 				state().targetId(changeset.targetId());
-		}
-
-
-		public Codelink.State copy() {
-			
-			CodelinkMS state = new CodelinkMS();
-			
-			super.build(state);
-			
-			state.definition(definition().copy());
-			state.targetId(targetId());
-			
-			return state;
 		}
 
 	}

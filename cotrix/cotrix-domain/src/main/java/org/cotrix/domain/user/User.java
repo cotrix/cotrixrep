@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.action.Action;
-import org.cotrix.domain.memory.UserMS;
 import org.cotrix.domain.trait.Identified;
 
 /**
@@ -278,26 +277,6 @@ public interface User extends Identified {
 		@Override
 		public boolean isRoot() {
 			return is(ROOT);
-		}
-
-
-		@Override
-		public User.State copy() {
-
-			UserMS state = new UserMS();
-
-			build(state);
-		
-			return state;
-		}
-		
-		@Override
-		public void build(User.State state) {
-			state.name(name());
-			state.fullName(fullName());
-			state.email(email());
-			state.permissions(directPermissions());
-			state.roles(directRoles());
 		}
 
 		@Override

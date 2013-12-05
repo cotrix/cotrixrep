@@ -25,6 +25,14 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	}
 	
 	
+	public AttributeMS(Attribute.State state) {
+		
+		name(state.name());
+		type(state.type());
+		value(state.value());
+		language(state.language());
+	}
+	
 	public QName name() {
 		return name;
 	}

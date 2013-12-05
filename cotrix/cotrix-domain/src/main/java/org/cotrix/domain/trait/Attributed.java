@@ -64,10 +64,6 @@ public interface Attributed {
 			return container(state().attributes());
 		
 		}
-		
-		public void build(S state) {
-			state.attributes(attributes().copy());
-		}
 
 		@Override
 		public void update(SELF changeset) throws IllegalArgumentException, IllegalStateException {

@@ -22,7 +22,16 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	public CodelistMS(String id,Status status) {
 		super(id,status);
 	}
-	
+
+	public CodelistMS(Codelist.State state) {
+		super(state);
+		
+		for (Code.State code : state.codes())
+			codes.add(new CodeMS(code));
+		
+		for (CodelistLink.State link : state.links())
+			links.add(new CodelistLinkMS(link));
+	}
 	public Collection<CodelistLink.State> links() {
 		return links;
 	}

@@ -1,10 +1,9 @@
 package org.cotrix.domain.codelist;
 
-import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.trait.EntityProvider;
 
 /**
  * An {@link Identified}, {@link Attributed}, {@link Named} link between {@link Codelist}s.
@@ -53,21 +52,6 @@ public interface CodelistLink extends Identified, Attributed, Named {
 
 			if (!state().targetId().equals(changeset.targetId()))
 				state().targetId(changeset.targetId());
-		}
-
-		@Override
-		public void build(CodelistLink.State state) {
-			state.targetId(targetId());
-		}
-
-		@Override
-		public CodelistLink.State copy() {
-			
-			CodelistLinkMS state = new CodelistLinkMS();
-			
-			build(state);
-			
-			return state;
 		}
 
 	}

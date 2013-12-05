@@ -83,12 +83,6 @@ public interface Identified {
 
 		}
 		
-		
-		public abstract void build(S state);
-
-		
-		public abstract S copy();
-		
 		//delegates to state
 		
 		@Override

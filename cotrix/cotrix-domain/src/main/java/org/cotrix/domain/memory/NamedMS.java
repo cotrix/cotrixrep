@@ -19,6 +19,11 @@ public abstract class NamedMS extends AttributedMS implements Named.State {
 		super(id,status);
 	}
 	
+	public NamedMS(Named.State state) {		
+		super(state);
+		name(state.name());
+	}
+	
 	public QName name() {
 		return name;
 	}

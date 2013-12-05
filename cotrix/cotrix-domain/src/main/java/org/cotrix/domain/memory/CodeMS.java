@@ -25,6 +25,12 @@ public final class CodeMS extends NamedMS implements Code.State {
 	public Collection<Codelink.State> links() {
 		return links;
 	}
+	
+	public CodeMS(Code.State state) {
+		super(state);
+		for (Codelink.State link : state.links())
+			links.add(new CodelinkMS(link));
+	}
 
 	public void links(Collection<Codelink.State> links) {
 
