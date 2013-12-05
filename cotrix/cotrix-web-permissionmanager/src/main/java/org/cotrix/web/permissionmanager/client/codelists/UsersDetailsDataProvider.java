@@ -9,7 +9,6 @@ import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.util.FilteredCachedDataProvider;
 import org.cotrix.web.share.shared.DataWindow;
 
-import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
 
@@ -18,15 +17,15 @@ import com.google.inject.Inject;
  *
  */
 public class UsersDetailsDataProvider extends FilteredCachedDataProvider<UIUserDetails> {
-	
+
 	@Inject
 	protected PermissionServiceAsync service;
 
+
 	@Override
-	protected void onRangeChanged(HasData<UIUserDetails> display) {
-		final Range range = display.getVisibleRange();
+	protected void onRangeChanged(final Range range) {
 		service.getUsersDetails(new ManagedFailureCallback<DataWindow<UIUserDetails>>() {
-			
+
 			@Override
 			public void onSuccess(DataWindow<UIUserDetails> result) {
 				updateData(result, range);

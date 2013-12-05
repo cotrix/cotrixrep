@@ -112,11 +112,11 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 			
 			@Override
 			public void onSuccess(Void result) {
-				Log.trace("removed row "+row);
+				/*Log.trace("removed row "+row);
 				boolean removed = dataProvider.getCache().remove(row);
 				Log.trace("removed: "+removed);
-				Log.trace("current cache: "+dataProvider.getCache());
-				dataProvider.refresh();
+				Log.trace("current cache: "+dataProvider.getCache());*/
+				usersRolesMatrix.refresh();
 				StatusUpdates.statusSaved();
 			}
 		});

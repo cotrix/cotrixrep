@@ -7,8 +7,10 @@ import java.util.List;
 
 import org.cotrix.web.share.shared.DataWindow;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.view.client.AsyncDataProvider;
+import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
@@ -21,6 +23,17 @@ public abstract class CachedDataProvider<T> extends AsyncDataProvider<T> {
 	protected HandlerManager handlerManager = new HandlerManager(this);
 	protected Range lastRange;
 	protected List<T> cache;
+	
+	@Override
+	protected void onRangeChanged(final HasData<T> display) {
+		final Range range = display.getVisibleRange();
+		Log.trace("onRangeChanged range: "+range);
+
+		onRangeChanged(range);
+	}
+	
+	protected abstract void onRangeChanged(Range range);
+	
 	
 	protected void updateData(DataWindow<T> dataWindow)
 	{

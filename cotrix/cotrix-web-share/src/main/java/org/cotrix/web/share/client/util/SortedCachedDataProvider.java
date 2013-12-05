@@ -27,9 +27,7 @@ public abstract class SortedCachedDataProvider<T> extends CachedDataProvider<T> 
 	}
 
 	@Override
-	protected void onRangeChanged(final HasData<T> display) {
-		final Range range = display.getVisibleRange();
-		Log.trace("onRangeChanged range: "+range);
+	protected void onRangeChanged(Range range) {
 		
 		ColumnSortInfo sortInfo = getSortInfo();
 		Log.trace("sortInfo: "+sortInfo);
@@ -53,6 +51,4 @@ public abstract class SortedCachedDataProvider<T> extends CachedDataProvider<T> 
 	
 	protected abstract void onRangeChange(Range range, ColumnSortInfo sortInfo);
 	
-	
-
 }

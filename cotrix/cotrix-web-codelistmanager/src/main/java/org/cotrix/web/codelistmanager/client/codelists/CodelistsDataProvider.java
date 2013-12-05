@@ -28,16 +28,16 @@ public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGr
 	@Override
 	protected void onRangeChanged(HasData<CodelistGroup> display) {
 		final Range range = display.getVisibleRange();
-		loadData(range);
+		onRangeChanged(range);
 	}
 	
 	public void loadData()
 	{
-		loadData(null);
+		onRangeChanged((Range)null);
 	}
-	
-	protected void loadData(final Range range)
-	{
+
+	@Override
+	protected void onRangeChanged(final Range range) {
 		managerService.getCodelistsGrouped(new ManagedFailureCallback<DataWindow<CodelistGroup>>() {
 
 			@Override

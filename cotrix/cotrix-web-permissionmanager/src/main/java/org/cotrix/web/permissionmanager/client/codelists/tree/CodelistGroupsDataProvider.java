@@ -9,7 +9,7 @@ import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.util.FilteredCachedDataProvider;
 import org.cotrix.web.share.shared.DataWindow;
 
-import com.google.gwt.view.client.HasData;
+import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
 
 /**
@@ -20,12 +20,6 @@ public class CodelistGroupsDataProvider extends FilteredCachedDataProvider<Codel
 	
 	@Inject
 	protected PermissionServiceAsync service;
-
-	@Override
-	protected void onRangeChanged(final HasData<CodelistGroup> display) {
-
-		loadData();
-	}
 	
 	public void loadData() {
 		service.getCodelistGroups(new ManagedFailureCallback<DataWindow<CodelistGroup>>() {
@@ -35,6 +29,11 @@ public class CodelistGroupsDataProvider extends FilteredCachedDataProvider<Codel
 				updateData(result);
 			}
 		});
+	}
+
+	@Override
+	protected void onRangeChanged(Range range) {
+		loadData();
 	}
 
 }

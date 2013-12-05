@@ -21,7 +21,6 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
 
@@ -38,13 +37,10 @@ public class CodelistCodesProvider extends CachedDataProvider<UICode> implements
 	
 	@Inject @CodelistId
 	protected String codelistId;
+	
 
 	@Override
-	protected void onRangeChanged(HasData<UICode> display) {
-		
-
-		final Range range = display.getVisibleRange();
-		
+	protected void onRangeChanged(final Range range) {
 		managerService.getCodelistCodes(codelistId, range, new ManagedFailureCallback<DataWindow<UICode>>() {
 
 			@Override
@@ -54,7 +50,6 @@ public class CodelistCodesProvider extends CachedDataProvider<UICode> implements
 				updateData(result.getData(), range, result.getTotalSize());
 			}
 		});
-		
 	}
 	
 	protected void checkGroups(List<UICode> rows)
