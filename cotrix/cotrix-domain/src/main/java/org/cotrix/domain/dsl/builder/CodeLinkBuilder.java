@@ -1,9 +1,9 @@
 package org.cotrix.domain.dsl.builder;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 import static org.cotrix.domain.trait.Status.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,21 +26,21 @@ import org.cotrix.domain.memory.CodelinkMS;
 public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Code,FinalClause>,DeleteClause<Codelink> ,FinalClause {
 
 	
-	private final CodelinkMS po;
+	private final CodelinkMS state;
 	
 	
 	public CodeLinkBuilder() {
-		this.po = new CodelinkMS(null);
+		this.state = new CodelinkMS(null);
 	}
 	
 	public CodeLinkBuilder(String id) {
-		this.po = new CodelinkMS(id);
-		po.status(MODIFIED);
+		this.state = new CodelinkMS(id);
+		state.status(MODIFIED);
 	}
 	
 	@Override
 	public Codelink delete() {
-		po.status(DELETED);
+		state.status(DELETED);
 		return build();
 	}
 	
@@ -51,20 +51,13 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 	
 	@Override
 	public FinalClause attributes(List<Attribute> attributes) {
-
-		List<Attribute.State> state = new ArrayList<Attribute.State>();
-		
-		for (Attribute a : attributes)
-			state.add(reveal(a,Attribute.Private.class).state());
-		
-		po.attributes(state);
-		
+		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
 	}
 	
 	@Override
 	public LinkTargetClause<Code,FinalClause> instanceOf(CodelistLink def) {
-		po.definition(def);
+		state.definition(def);
 		return this;
 	}
 	
@@ -77,13 +70,13 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 		if (code.id()==null)
 			throw new IllegalArgumentException("cannot link to an unidentified code");
 		
-		po.targetId(code.id());
+		state.targetId(code.id());
 		return this;
 	}
 	
 	@Override
 	public Codelink build() {
-		return po.entity();
+		return state.entity();
 	}
 	
 

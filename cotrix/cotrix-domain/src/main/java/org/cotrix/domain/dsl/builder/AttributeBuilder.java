@@ -22,23 +22,23 @@ import org.cotrix.domain.memory.AttributeMS;
  */
 public class AttributeBuilder implements AttributeStartClause, AttributeDeltaClause {
 
-	private final AttributeMS po;
+	private final AttributeMS state;
 
 	
 	public AttributeBuilder() {
-		this.po = new AttributeMS(null);
+		this.state = new AttributeMS(null);
 	}
 	
 	public AttributeBuilder(String id) {
-		this.po = new AttributeMS(id);
-		po.type(null);
-		po.status(MODIFIED);
+		this.state = new AttributeMS(id);
+		state.type(null);
+		state.status(MODIFIED);
 		
 	}
 	
 	@Override
 	public ValueClause name(QName name) {
-		po.name(name);
+		state.name(name);
 		return this;
 	}
 	
@@ -49,13 +49,13 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	
 	@Override
 	public Attribute delete() {
-		po.status(DELETED);
+		state.status(DELETED);
 		return build();
 	}
 
 	@Override
 	public LanguageClause ofType(QName type) {
-		po.type(type);
+		state.type(type);
 		return this;
 	}
 	
@@ -66,19 +66,19 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	
 	@Override
 	public BuildClause<Attribute> in(String language) {
-		po.language(language);
+		state.language(language);
 		return this;
 	}
 
 	@Override
 	public TypeClause value(String value) {
-		po.value(value);
+		state.value(value);
 		return this;
 
 	}
 
 	@Override
 	public Attribute build() {
-		return po.entity();
+		return state.entity();
 	}
 }

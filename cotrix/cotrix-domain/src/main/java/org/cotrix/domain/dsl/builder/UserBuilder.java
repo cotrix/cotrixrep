@@ -20,36 +20,36 @@ import org.cotrix.domain.utils.Constants;
 
 public class UserBuilder implements UserNewClause, UserChangeClause {
 
-	private final UserMS po;
+	private final UserMS state;
 	
 	public UserBuilder(String id) {
 		
 		valid("identifier",id);
 		
-		po = new UserMS(id);
-		po.status(Status.MODIFIED);
+		state = new UserMS(id);
+		state.status(Status.MODIFIED);
 	}
 	
 	public UserBuilder() {
-		po = new UserMS(null);
+		state = new UserMS(null);
 	}
 	
 	@Override
 	public User delete() {
-		po.status(DELETED);
+		state.status(DELETED);
 		return build();
 	}
 	
 	public UserBuilder name(String name) {
 		valid("user name",name);
-		po.setName(name);
+		state.setName(name);
 		return this;
 	}
 	
 	@Override
 	public ThirdClause email(String email) {
 		notNull("email",email);
-		po.setEmail(email);
+		state.setEmail(email);
 		return this;
 	}
 	
@@ -61,7 +61,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	public UserBuilder can(Action ... actions) {
 		valid("actions",actions);
 		for (Action action : actions)
-			po.permissions().add(action);
+			state.permissions().add(action);
 		return this;
 	}
 	
@@ -73,7 +73,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	public UserBuilder is(Role ... roles) {
 		valid("roles",roles);
 		for (Role role : roles)
-			po.add(role);
+			state.add(role);
 		return this;
 	}
 	
@@ -86,7 +86,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	public UserChangeClause isNot(Role ... roles) {
 		valid("roles",roles);
 		for (Role role : roles)
-			po.remove(role);
+			state.remove(role);
 		return this;
 	}
 	
@@ -100,21 +100,21 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	public UserBuilder cannot(Action ... actions) {
 		valid("actions",actions);
 		for (Action action : actions)
-			po.permissions().remove(action);
+			state.permissions().remove(action);
 		return this;
 	}
 	
 	public UserBuilder fullName(String name) {
 		valid("user's full name", name);
-		po.setFullName(name);
+		state.setFullName(name);
 		return this;
 	}
 	
 	public User build() {
-		return new User.Private(po);
+		return new User.Private(state);
 	}
 	
 	public Role buildAsRoleFor(ResourceType type) {
-		return new DefaultRole(new User.Private(po),type);
+		return new DefaultRole(new User.Private(state),type);
 	}
 }

@@ -7,12 +7,6 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.utils.Constants;
 
-/**
- * Initialisation parameters for {@link Attribute}s.
- * 
- * @author Fabio Simeoni
- *
- */
 public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 
 	private QName name;
@@ -20,26 +14,15 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	private String value;
 	private String language;
 	
-	/**
-	 * Creates an instance with an identifier.
-	 * @param id the identifier
-	 */
 	public AttributeMS(String id) {
 		super(id);
 	}
 	
 	
-	/** Returns the name parameter.
-	 * @return the name parameter
-	 */
 	public QName name() {
 		return name;
 	}
 	
-	/**
-	 * Sets the name parameter
-	 * @param name the name parameter
-	 */
 	public void name(QName name) {
 		
 		valid("name",name);
@@ -50,6 +33,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	public QName type() {
 		return type;
 	}
+	
 	public String value() {
 		return value;
 	}
@@ -58,18 +42,15 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		this.type = type;
 	}
 	
-	public void value(String value) {
-		
+	public void value(String value) {	
 		this.value = value;
 	}
 
 	public String language() {
-		
 		return language;
 	}
 
-	public void language(String language) {
-		
+	public void language(String language) {		
 		this.language = language;
 	}
 	

@@ -1,9 +1,9 @@
 package org.cotrix.domain.dsl.builder;
 
-import static org.cotrix.common.Utils.*;
+import static java.util.Arrays.*;
+import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 import static org.cotrix.domain.trait.Status.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,26 +27,26 @@ import org.cotrix.domain.memory.CodeMS;
  */
 public final class CodeBuilder implements CodeNewClause, CodeDeltaClause, FinalClause {
 
-	private final CodeMS po;
+	private final CodeMS state;
 	
 	public CodeBuilder() {
-		po = new CodeMS(null);
+		state = new CodeMS(null);
 	}
 	
 	public CodeBuilder(String id) {
-		po = new CodeMS(id);
-		po.status(MODIFIED);
+		state = new CodeMS(id);
+		state.status(MODIFIED);
 	}
 	
 	@Override
 	public Code delete() {
-		po.status(DELETED);
+		state.status(DELETED);
 		return build();
 	}
 	
 	@Override
 	public SecondClause name(QName name) {
-		po.name(name);
+		state.name(name);
 		return this;
 	}
 
@@ -59,12 +59,7 @@ public final class CodeBuilder implements CodeNewClause, CodeDeltaClause, FinalC
 	@Override
 	public FinalClause links(Codelink... links) {
 		
-		List<Codelink.State> state = new ArrayList<Codelink.State>();
-		
-		for (Codelink a : links)
-			state.add(reveal(a,Codelink.Private.class).state());
-		
-		po.links(state);
+		state.links(reveal(asList(links),Codelink.Private.class));
 		
 		return this;
 	}
@@ -77,18 +72,14 @@ public final class CodeBuilder implements CodeNewClause, CodeDeltaClause, FinalC
 	@Override
 	public FinalClause attributes(List<Attribute> attributes) {
 		
-		List<Attribute.State> state = new ArrayList<Attribute.State>();
+		state.attributes(reveal(attributes,Attribute.Private.class));
 		
-		for (Attribute a : attributes)
-			state.add(reveal(a,Attribute.Private.class).state());
-		
-		po.attributes(state);
 		return this;
 	}
 
 	
 	public Code build() {
-		return po.entity();
+		return state.entity();
 	}
 	
 }

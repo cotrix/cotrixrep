@@ -6,22 +6,11 @@ import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.Codelink.Private;
 
-/**
- * Initialisation parameters for {@link Codelink}s.
- * 
- * @author Fabio Simeoni
- * 
- */
 public final class CodelinkMS extends AttributedMS implements Codelink.State {
 
 	private String targetId;
 	private CodelistLink.State definition;
 
-	/**
-	 * Creates an instance with an identifier.
-	 * 
-	 * @param id the identifier
-	 */
 	public CodelinkMS(String id) {
 		super(id);
 	}

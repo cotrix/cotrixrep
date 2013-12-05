@@ -9,22 +9,12 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 
-/**
- * Initialisation parameters for {@link Codelist}s.
- * 
- * @author Fabio Simeoni
- * 
- */
 public final class CodelistMS extends VersionedMS implements Codelist.State {
 
 	private Collection<Code.State> codes = new ArrayList<Code.State>();
+
 	private Collection<CodelistLink.State> links = new ArrayList<CodelistLink.State>();
 
-	/**
-	 * Creates an instance with an identifier.
-	 * 
-	 * @param id the identifier
-	 */
 	public CodelistMS(String id) {
 		super(id);
 	}
@@ -36,14 +26,10 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	public void links(Collection<CodelistLink.State> links) {
 
 		notNull("links", links);
+		
 		this.links = links;
 	}
 
-	/**
-	 * Sets the codes parameter.
-	 * 
-	 * @param codes the codes parameter
-	 */
 	public void codes(Collection<Code.State> codes) {
 
 		notNull("codes", codes);
@@ -54,6 +40,11 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	@Override
 	public Collection<Code.State> codes() {
 		return codes;
+	}
+	
+	@Override
+	public Codelist entity() {
+		return new Codelist.Private(this);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.memory.CodelistMS;
 import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Versioned;
@@ -36,7 +37,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	Container<? extends CodelistLink> links();
 	
 	
-	static interface State extends Versioned.State {
+	static interface State extends Versioned.State, EntityProvider<Codelist> {
 	
 		Collection<Code.State> codes();
 		

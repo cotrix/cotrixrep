@@ -1,9 +1,9 @@
 package org.cotrix.domain.dsl.builder;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 import static org.cotrix.domain.trait.Status.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,20 +28,20 @@ import org.cotrix.domain.memory.CodelistLinkMS;
 public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkChangeClause, FinalClause {
 
 	
-	private final CodelistLinkMS po;
+	private final CodelistLinkMS state;
 	
 	public CodelistLinkBuilder() {
-		this.po = new CodelistLinkMS(null);
+		this.state = new CodelistLinkMS(null);
 	}
 	
 	public CodelistLinkBuilder(String id) {
-		this.po = new CodelistLinkMS(id);
-		po.status(MODIFIED);
+		this.state = new CodelistLinkMS(id);
+		state.status(MODIFIED);
 	}
 	
 	@Override
 	public SecondClause name(QName name) {
-		po.name(name);
+		state.name(name);
 		return this;
 	}
 	
@@ -52,7 +52,7 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	
 	@Override
 	public CodelistLink delete() {
-		po.status(DELETED);
+		state.status(DELETED);
 		return build();
 	}
 	
@@ -63,14 +63,7 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	
 	@Override
 	public FinalClause attributes(List<Attribute> attributes) {
-		
-		List<Attribute.State> state = new ArrayList<Attribute.State>();
-		
-		for (Attribute a : attributes)
-			state.add(reveal(a,Attribute.Private.class).state());
-		
-		po.attributes(state);
-		
+		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
 	}
 	
@@ -82,14 +75,14 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 		if (target.id()==null)
 			throw new IllegalArgumentException("cannot link to an unidentified codelist");
 		
-		po.targetId(target.id());
+		state.targetId(target.id());
 		
 		return this;
 	}
 	
 	@Override
 	public CodelistLink build() {
-		return po.entity();
+		return state.entity();
 	}
 	
 
