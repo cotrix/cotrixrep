@@ -11,7 +11,6 @@ import org.junit.Test;
 public class AttributedTest {
 
 
-	
 	@Test
 	public void attributesMustBeValid() {
 		

@@ -58,7 +58,6 @@ public class IdentifiedMS implements Identified.State {
 	//will invalidate hash-based structures
 	@Override
 	public int hashCode() {
-		System.out.println("here");
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());

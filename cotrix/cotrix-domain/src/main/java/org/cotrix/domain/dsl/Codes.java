@@ -8,8 +8,10 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.Utils;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.Container;
@@ -137,5 +139,15 @@ public class Codes {
 		return namedContainer(new ArrayList<S>(Arrays.asList(elements)));
 	}
 	
+	public static Code.Private reveal(Code c) {
+		return Utils.reveal(c,Code.Private.class);
+	}
 	
+	public static Codelist.Private reveal(Codelist c) {
+		return Utils.reveal(c,Codelist.Private.class);
+	}
+	
+	public static Attribute.Private reveal(Attribute a) {
+		return Utils.reveal(a,Attribute.Private.class);
+	}
 }
