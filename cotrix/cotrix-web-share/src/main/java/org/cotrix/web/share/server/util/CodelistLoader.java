@@ -227,7 +227,7 @@ public class CodelistLoader {
 	{
 		Code[] codes = new Code[ncodes];
 		for (int i = 1; i <= codes.length; i++) {
-			Attribute[] attributes = new Attribute[]{attr().name("Row").value(String.valueOf(i)).in("English").build()};
+			Attribute[] attributes = new Attribute[]{attribute().name("Row").value(String.valueOf(i)).in("English").build()};
 
 			codes[i-1] = code().name("code "+i).attributes(attributes).build();
 		}
