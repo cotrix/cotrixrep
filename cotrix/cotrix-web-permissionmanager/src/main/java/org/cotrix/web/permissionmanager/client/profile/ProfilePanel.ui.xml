@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
 		field="common" />
-	<ui:style>
+	<ui:style type="org.cotrix.web.permissionmanager.client.profile.ProfilePanel.Style">
 		.profilePanel {
 			margin: 5px;
 		}
@@ -20,6 +20,10 @@
 		.row {
 			height: 35px;
 			vertical-align: middle;
+		}
+		
+		.invalidValue {
+			border-color: #B80000;
 		}
 	</ui:style>
 	<g:SimpleLayoutPanel>

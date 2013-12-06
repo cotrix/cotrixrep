@@ -1,12 +1,15 @@
 package org.cotrix.web.client.view;
 
+import java.util.HashSet;
+
+import org.cotrix.web.share.client.util.AccountValidator;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -23,7 +26,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class RegisterDialog extends PopupPanel {
 	
-	protected static final RegExp EMAIL_EXP = RegExp.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.(?:[a-zA-Z]{2,6})$");
 	
 	private static final Binder binder = GWT.create(Binder.class);
 	interface Binder extends UiBinder<Widget, RegisterDialog> {}
@@ -83,17 +85,17 @@ public class RegisterDialog extends PopupPanel {
 	protected boolean validate()
 	{
 		boolean valid = true;
-		if (username.getText() == null || username.getText().isEmpty()) {
+		if (!AccountValidator.validateUsername(username.getText())) {
 			username.setStyleName(style.invalidValue(), true);
 			valid = false;
 		}
 		
-		if (password.getText() == null || password.getText().isEmpty()) {
+		if (!AccountValidator.validatePassword(password.getText())) {
 			password.setStyleName(style.invalidValue(), true);
 			valid = false;
 		}
 		
-		if (email.getText() == null || email.getText().isEmpty() || !EMAIL_EXP.test(email.getText())) {
+		if (!AccountValidator.validateEMail(email.getText())) {
 			email.setStyleName(style.invalidValue(), true);
 			valid = false;
 		}
