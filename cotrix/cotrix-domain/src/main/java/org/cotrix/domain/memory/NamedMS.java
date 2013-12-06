@@ -37,14 +37,6 @@ public class NamedMS extends AttributedMS implements Named.State, Attributed.Sta
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	@Override
 	@SuppressWarnings("all")
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -49,6 +49,22 @@ public class CodelistRepositoryTest extends ApplicationTest {
 	}
 
 	@Test
+	public void removeCodeFromCodelist() {
+		
+		Code code = code().name("code").build();
+		Codelist list = codelist().name("name").with(code).build();
+
+		repository.add(list);
+		
+		assertEquals(1,list.codes().size());
+		
+		repository.update(modifyCodelist(list.id()).with(deleteCode(code.id())).build());
+		
+		assertEquals(0,list.codes().size());
+		
+	}
+	
+	@Test
 	public void updateCodelist() {
 
 		Attribute attribute = attribute().name("test").value("val").build();

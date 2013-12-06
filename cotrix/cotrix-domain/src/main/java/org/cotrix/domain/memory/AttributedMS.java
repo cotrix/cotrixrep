@@ -56,14 +56,6 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
-		return result;
-	}
-
-	@Override
 	@SuppressWarnings("all")
 	public boolean equals(Object obj) {
 		if (this == obj)

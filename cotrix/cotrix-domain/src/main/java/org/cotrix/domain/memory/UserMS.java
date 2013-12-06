@@ -99,10 +99,6 @@ public class UserMS extends IdentifiedMS implements User.State {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
-		result = prime * result + ((permissions == null) ? 0 : permissions.hashCode());
-		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}

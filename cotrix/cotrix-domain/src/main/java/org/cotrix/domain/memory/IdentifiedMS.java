@@ -54,12 +54,14 @@ public class IdentifiedMS implements Identified.State {
 		return status;
 	}
 
+	//gotta be careful here and use immutable properties or state changes
+	//will invalidate hash-based structures
 	@Override
 	public int hashCode() {
+		System.out.println("here");
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 

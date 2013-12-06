@@ -40,14 +40,6 @@ public abstract class VersionedMS extends NamedMS implements Versioned.State, Id
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((version == null) ? 0 : version.hashCode());
-		return result;
-	}
-
-	@Override
 	@SuppressWarnings("all")
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -64,7 +56,5 @@ public abstract class VersionedMS extends NamedMS implements Versioned.State, Id
 			return false;
 		return true;
 	}
-	
-	
 
 }

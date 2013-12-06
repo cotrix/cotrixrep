@@ -45,4 +45,23 @@ public final class CodeMS extends NamedMS implements Code.State, Attributed.Stat
 		
 		return new Code.Private(this);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof CodeMS))
+			return false;
+		CodeMS other = (CodeMS) obj;
+		if (links == null) {
+			if (other.links != null)
+				return false;
+		} else if (!links.equals(other.links))
+			return false;
+		return true;
+	}
+	
+	
 }

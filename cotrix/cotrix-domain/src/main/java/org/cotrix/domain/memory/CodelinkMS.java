@@ -60,15 +60,6 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((definition == null) ? 0 : definition.hashCode());
-		result = prime * result + ((targetId == null) ? 0 : targetId.hashCode());
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
