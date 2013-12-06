@@ -24,8 +24,15 @@
 			border-right: 1px solid #a8a7a7;
 			color: #9b9b9b;
 		}
+		
+		.spacer {
+			background-color: #efefef;
+		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
+		<g:north size='30'>
+			<g:SimpleLayoutPanel styleName="{style.spacer}"/>
+		</g:north>
 		<g:north size='35'>
 			<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
 				<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}" />

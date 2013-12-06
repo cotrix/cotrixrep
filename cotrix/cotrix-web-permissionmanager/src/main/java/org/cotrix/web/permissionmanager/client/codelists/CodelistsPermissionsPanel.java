@@ -37,7 +37,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -60,7 +59,7 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	protected PermissionServiceAsync service;
 
 	@UiField DeckLayoutPanel centralPanel;
-	@UiField HTMLPanel blankPanel;
+	@UiField DockLayoutPanel blankPanel;
 	@UiField DockLayoutPanel rolesPanel;
 	@Inject @UiField(provided=true) UsersRolesMatrix usersRolesMatrix;
 	@Inject @UiField(provided=true) CodelistsTreePanel codelistsTreePanel;
