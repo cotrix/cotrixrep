@@ -25,11 +25,11 @@ import com.google.gwt.view.client.TreeViewModel;
  */
 public class MenuTreeViewModel implements TreeViewModel {
 
-	protected static final MenuItem PROFILE_MENU = new MenuArea("My profile", AdminArea.PROFILE, PermissionsResources.INSTANCE.profile());
-	protected static final MenuItem PREFERENCES_MENU = new MenuArea("My preferences", AdminArea.PREFERENCES, CommonResources.INSTANCE.userPreferences());
+	protected static final MenuItem PROFILE_MENU = new MenuArea("My Profile", AdminArea.PROFILE, PermissionsResources.INSTANCE.profile());
+	protected static final MenuItem PREFERENCES_MENU = new MenuArea("My Preferences", AdminArea.PREFERENCES, CommonResources.INSTANCE.userPreferences());
 
-	protected static final MenuItem USERS_MENU = new MenuArea("My users", AdminArea.USERS_PERMISSIONS, PermissionsResources.INSTANCE.users());
-	protected static final MenuItem CODELISTS_MENU = new MenuArea("My codelists", AdminArea.CODELISTS_PERMISSIONS, PermissionsResources.INSTANCE.codelists());
+	protected static final MenuItem USERS_MENU = new MenuArea("My Users", AdminArea.USERS_PERMISSIONS, PermissionsResources.INSTANCE.users());
+	protected static final MenuItem CODELISTS_MENU = new MenuArea("My Codelists", AdminArea.CODELISTS_PERMISSIONS, PermissionsResources.INSTANCE.codelists());
 
 	protected ListDataProvider<MenuItem> MENU_PROVIDER = new ListDataProvider<MenuItem>(new ArrayList<MenuItem>(Arrays.asList(PROFILE_MENU, PREFERENCES_MENU, CODELISTS_MENU)));
 

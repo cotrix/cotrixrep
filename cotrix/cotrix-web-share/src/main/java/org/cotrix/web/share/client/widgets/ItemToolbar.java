@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.codelistmanager.client.common;
+package org.cotrix.web.share.client.widgets;
 
 import org.cotrix.web.share.client.util.FadeAnimation;
 import org.cotrix.web.share.client.util.FadeAnimation.Speed;

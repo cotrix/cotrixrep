@@ -119,6 +119,7 @@ public class CodelistLoader {
 			logger.trace("import "+(imported?"complete":"failed"));
 		}
 
+		importNumbered();
 		//importSparse();
 		//importComplex();
 		//importDemoCodelist();
@@ -212,6 +213,26 @@ public class CodelistLoader {
 			logger.error("Codelist import failed", e);
 			return false;
 		}
+	}
+	
+	protected void importNumbered()
+	{
+		Codelist codelist = importNumbered(60);
+		repository.add(codelist);
+		lifecycleService.start(codelist.id());
+		assignOwnership(codelist.id());
+	}
+
+	protected Codelist importNumbered(int ncodes)
+	{
+		Code[] codes = new Code[ncodes];
+		for (int i = 1; i <= codes.length; i++) {
+			Attribute[] attributes = new Attribute[]{attr().name("Row").value(String.valueOf(i)).in("English").build()};
+
+			codes[i-1] = code().name("code "+i).attributes(attributes).build();
+		}
+
+		return Codes.codelist().name("Numbered").with(codes).build();
 	}
 
 	protected void importSparse()

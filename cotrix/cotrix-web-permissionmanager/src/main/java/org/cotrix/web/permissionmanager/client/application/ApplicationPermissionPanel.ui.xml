@@ -3,12 +3,23 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:matrix="urn:import:org.cotrix.web.permissionmanager.client.matrix">
 	<ui:style>
 		.usersRolesMatrix {
-			margin: 5px;
+			/*margin-left: 5px;
+			margin-right: 5px;
+			margin-bottom: 5px;*/
+		}
+				
+		.spacer {
+			background-color: #efefef;
 		}
 	</ui:style>
-	<g:LayoutPanel>
-		<g:layer>
-			<matrix:UsersRolesMatrix ui:field="usersRolesMatrix" styleName="{style.usersRolesMatrix}"/>
-		</g:layer>
-	</g:LayoutPanel>
+	<g:DockLayoutPanel unit="PX">
+		<g:north size='30'>
+			<g:SimpleLayoutPanel styleName="{style.spacer}"/>
+		</g:north>
+		<g:center>
+			<matrix:UsersRolesMatrix ui:field="usersRolesMatrix"
+				styleName="{style.usersRolesMatrix}" />
+		</g:center>
+	</g:DockLayoutPanel>
+
 </ui:UiBinder> 

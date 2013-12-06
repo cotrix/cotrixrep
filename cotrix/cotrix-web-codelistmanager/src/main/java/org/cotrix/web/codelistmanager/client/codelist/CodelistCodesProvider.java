@@ -13,7 +13,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.HasGroupsChangedHandlers;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
-import org.cotrix.web.share.client.util.CachedDataProvider;
+import org.cotrix.web.share.client.util.CachedDataProviderExperimental;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.UICode;
 
@@ -21,7 +21,6 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
 
@@ -29,7 +28,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistCodesProvider extends CachedDataProvider<UICode> implements HasGroupsChangedHandlers {
+public class CodelistCodesProvider extends CachedDataProviderExperimental<UICode> implements HasGroupsChangedHandlers {
 	
 	protected HandlerManager handlerManager = new HandlerManager(this);
 	
@@ -38,23 +37,20 @@ public class CodelistCodesProvider extends CachedDataProvider<UICode> implements
 	
 	@Inject @CodelistId
 	protected String codelistId;
+	
 
 	@Override
-	protected void onRangeChanged(HasData<UICode> display) {
-		
-
-		final Range range = display.getVisibleRange();
-		
+	protected void onRangeChanged(final Range range, final ManagedFailureCallback<DataWindow<UICode>> callback) {
 		managerService.getCodelistCodes(codelistId, range, new ManagedFailureCallback<DataWindow<UICode>>() {
 
 			@Override
 			public void onSuccess(DataWindow<UICode> result) {
 					Log.trace("loaded "+result.getData().size()+" rows");
 				checkGroups(result.getData());
-				updateData(result.getData(), range, result.getTotalSize());
+				callback.onSuccess(result);
+				//updateData(result.getData(), range, result.getTotalSize());
 			}
 		});
-		
 	}
 	
 	protected void checkGroups(List<UICode> rows)

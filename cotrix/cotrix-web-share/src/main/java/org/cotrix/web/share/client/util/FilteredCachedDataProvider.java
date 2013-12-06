@@ -19,6 +19,22 @@ public abstract class FilteredCachedDataProvider<T> extends CachedDataProvider<T
 		public boolean accept(T data);
 	}
 	
+	public static class AndFilter<E> implements Filter<E> {
+		
+		protected Filter<E>[] filters;
+		
+		public AndFilter(Filter<E> ... filters) {
+			this.filters = filters;
+		}
+
+		@Override
+		public boolean accept(E data) {
+			for (Filter<E> filter:filters) if (!filter.accept(data)) return false;
+			return true;
+		}
+		
+	}
+	
 	protected List<Filter<T>> appliedFilters = new ArrayList<Filter<T>>();
 	protected List<T> unfilteredCache;
 	protected int totalCount;
@@ -33,14 +49,19 @@ public abstract class FilteredCachedDataProvider<T> extends CachedDataProvider<T
 		}
 	}
 	
-	public void applyFilters(Filter<T> ... filters)
+	public void setFilters(Filter<T> ... filters)
 	{
 		appliedFilters = new ArrayList<Filter<T>>(filters.length);
 		for (Filter<T> filter:filters) appliedFilters.add(filter);
+	}
+	
+	public void applyFilters(Filter<T> ... filters)
+	{
+		setFilters(filters);
 		applyFilters();
 	}
 	
-	protected void applyFilters()
+	public void applyFilters()
 	{
 		if (unfilteredCache == null) {
 			unfilteredCache = new ArrayList<T>(cache);

@@ -28,16 +28,16 @@ public class RoleCell extends AbstractEditableCell<RoleState, RoleState> {
 	 * An html string representation of a checked input box.
 	 * class=\""+CommonResources.INSTANCE.css().+"\"
 	 */
-	private static final SafeHtml INPUT_CHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" checked />");
+	private static final SafeHtml INPUT_CHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" class=\""+CommonResources.INSTANCE.css().simpleCheckbox()+"\" checked />");
 
-	private static final SafeHtml INPUT_CHECKED_DISABLED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" checked disabled/>");
+	private static final SafeHtml INPUT_CHECKED_DISABLED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" class=\""+CommonResources.INSTANCE.css().simpleCheckbox()+"\" checked disabled/>");
 
 	/**
 	 * An html string representation of an unchecked input box.
 	 */
-	private static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\"/>");
+	private static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" class=\""+CommonResources.INSTANCE.css().simpleCheckbox()+"\" tabindex=\"-1\"/>");
 
-	private static final SafeHtml INPUT_UNCHECKED_DISABLED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" disabled/>");
+	private static final SafeHtml INPUT_UNCHECKED_DISABLED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" class=\""+CommonResources.INSTANCE.css().simpleCheckbox()+"\" tabindex=\"-1\" disabled/>");
 
 	private static final SafeHtml INPUT_LOADING = SafeHtmlUtils.fromSafeConstant("<img src=\""+CommonResources.INSTANCE.circleLoader().getSafeUri().asString()+"\"/>");
 

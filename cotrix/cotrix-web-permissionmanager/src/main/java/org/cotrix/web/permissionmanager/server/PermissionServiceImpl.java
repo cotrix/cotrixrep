@@ -5,9 +5,8 @@ package org.cotrix.web.permissionmanager.server;
 
 import static org.cotrix.action.MainAction.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.repository.user.UserQueries.*;
-
 import static org.cotrix.repository.codelist.CodelistQueries.*;
+import static org.cotrix.repository.user.UserQueries.*;
 import static org.cotrix.web.permissionmanager.shared.PermissionUIFeatures.*;
 
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -30,8 +30,10 @@ import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
+import org.cotrix.repository.Criterion;
 import org.cotrix.repository.codelist.CodelistCoordinates;
 import org.cotrix.repository.codelist.CodelistRepository;
+import org.cotrix.repository.user.UserQueries;
 import org.cotrix.repository.user.UserRepository;
 import org.cotrix.web.permissionmanager.client.PermissionService;
 import org.cotrix.web.permissionmanager.server.util.RolesSorter;
@@ -44,14 +46,17 @@ import org.cotrix.web.permissionmanager.shared.UIUserDetails;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.ContainsTask;
+import org.cotrix.web.share.server.task.Id;
 import org.cotrix.web.share.server.task.UserTask;
 import org.cotrix.web.share.server.util.Users;
 import org.cotrix.web.share.server.util.ValueUtils;
+import org.cotrix.web.share.shared.ColumnSortInfo;
 import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gwt.view.client.Range;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -113,17 +118,17 @@ public class PermissionServiceImpl implements PermissionService {
 
 
 	@Override
-	public DataWindow<RolesRow> getApplicationRolesRows() throws ServiceException {
-		logger.trace("getApplicationRolesRows");
+	public DataWindow<RolesRow> getApplicationRolesRows(Range range, ColumnSortInfo sortInfo) throws ServiceException {
+		logger.trace("getApplicationRolesRows range: {}, sortInfo: {}", range, sortInfo);
 		List<RolesRow> rows = new ArrayList<RolesRow>();
 
 		logger.trace("current user: "+currentUser);
+		
+		Criterion<User> sortCriterion = byName();
+		if (!sortInfo.isAscending()) sortCriterion = UserQueries.<User>descending(sortCriterion);
 
-		for (User user:userRepository.get(allUsers())) {
+		for (User user:userRepository.get(allUsers().sort(sortCriterion).excluding(currentUser.id()).from(range.getStart()).to(range.getLength()))) {
 			logger.trace("retrieving permission for user "+user);
-
-			//skip current user
-			if (currentUser.name().equals(user.name())) continue;
 
 			RolesRow row = getRow(user, Action.any, Roles.getBy(ResourceType.application, ResourceType.codelists));
 			rows.add(row);
@@ -186,15 +191,15 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 	@Override
-	public DataWindow<RolesRow> getCodelistRolesRows(String codelistId)	throws ServiceException {
-		logger.trace("getCodelistRolesRows codelistId {}", codelistId);
+	public DataWindow<RolesRow> getCodelistRolesRows(String codelistId, Range range, ColumnSortInfo sortInfo)	throws ServiceException {
+		logger.trace("getCodelistRolesRows codelistId {} range: {}, sortInfo: {}", codelistId, range, sortInfo);
 
 		List<RolesRow> rows = new ArrayList<RolesRow>();
+		
+		Criterion<User> sortCriterion = byName();
+		if (!sortInfo.isAscending()) sortCriterion = UserQueries.<User>descending(sortCriterion);
 
-		for (User user:userRepository.get(teamFor(codelistId))) {
-
-			//skip current user
-			if (currentUser.name().equals(user.name())) continue;
+		for (User user:userRepository.get(teamFor(codelistId).sort(sortCriterion).from(range.getStart()).to(range.getLength()))) {
 
 			RolesRow row = getRow(user, codelistId, Roles.getBy(ResourceType.codelists));
 			rows.add(row);
@@ -223,6 +228,20 @@ public class PermissionServiceImpl implements PermissionService {
 		RolesRow row = getRow(target, codelistId, Roles.getBy(ResourceType.codelists));
 		logger.trace("row: {}", row);
 		return row;
+	}
+	
+
+	@Override
+	public void codelistRolesRowRemoved(String codelistId, RolesRow row) throws ServiceException {
+		logger.trace("codelistRolesRowRemoved codelistId: {} row: {}", codelistId, row);
+
+		User target = userRepository.lookup(row.getUser().getId());
+		for (Entry<String, RoleState> roleEntry:row.getRoles().entrySet()) {
+			if (roleEntry.getValue().isEnabled() && roleEntry.getValue().isChecked()) {
+				Role role = toRole(roleEntry.getKey()).on(codelistId);
+				delegationService.revoke(role).from(target);
+			}
+		}
 	}
 
 	@Override
@@ -268,14 +287,14 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 	@Override
-	public List<UIUser> getUsers() throws ServiceException {
-		logger.trace("getUsers");
-		List<UIUser> users = new ArrayList<UIUser>();
+	public DataWindow<UIUserDetails> getUsersDetails() throws ServiceException {
+		logger.trace("getUsersDetails");
+		List<UIUserDetails> users = new ArrayList<UIUserDetails>();
 
 		for (User user:userRepository.get(allUsers())) {
-			users.add(Users.toUiUser(user));
+			users.add(toUserDetails(user));
 		}
-		return users;
+		return new DataWindow<UIUserDetails>(users);
 	}
 
 	@Override
@@ -283,11 +302,16 @@ public class PermissionServiceImpl implements PermissionService {
 		logger.trace("getUserDetails");
 		logger.trace("currentUser.email: {}", currentUser.email());
 
+		UIUserDetails userDetails = toUserDetails(currentUser);
+		return userDetails;
+	}
+	
+	protected UIUserDetails toUserDetails(User user) {
 		UIUserDetails userDetails = new UIUserDetails();
-		userDetails.setId(currentUser.id());
-		userDetails.setFullName(currentUser.fullName());
-		userDetails.setUsername(currentUser.name());
-		userDetails.setEmail(currentUser.email());
+		userDetails.setId(user.id());
+		userDetails.setFullName(user.fullName());
+		userDetails.setUsername(user.name());
+		userDetails.setEmail(user.email());
 		return userDetails;
 	}
 
@@ -297,6 +321,14 @@ public class PermissionServiceImpl implements PermissionService {
 		logger.trace("saveUserDetails userDetails: {}", userDetails);
 		User changeSet = modifyUser(currentUser).email(userDetails.getEmail()).fullName(userDetails.getFullName()).build();
 		userRepository.update(changeSet);
+	}
+	
+
+	@Override
+	@UserTask(UserAction.EDIT)
+	public void saveUserPassword(@Id String userId, String password) throws ServiceException {
+		logger.trace("saveUserPassword ");
+		//TODO
 	}
 	
 	protected UIUserDetails toUiUserDetails(User user) {
@@ -347,5 +379,4 @@ public class PermissionServiceImpl implements PermissionService {
 		}
 		throw new IllegalArgumentException("Unknown role name "+name);
 	}
-
 }

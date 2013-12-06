@@ -54,7 +54,7 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("serial")
 @ContainsTask
 public class ManagerServiceImpl implements ManagerService {
-	
+
 	public static class Servlet extends CotrixRemoteServlet {
 
 		@Inject
@@ -65,56 +65,56 @@ public class ManagerServiceImpl implements ManagerService {
 			return bean;
 		}
 	}
-	
+
 	protected Logger logger = LoggerFactory.getLogger(ManagerServiceImpl.class);
-	
+
 	@Inject
 	ActionMapper mapper;
-	
+
 	@Inject
 	CodelistRepository repository;
-	
+
 	@Inject
 	protected CodelistLoader codelistLoader;
-	
+
 	@Inject
 	protected ModifyCommandHandler commandHandler;
-	
+
 	@Inject
 	protected VersioningService versioningService;
-	
+
 	@Inject
 	protected LifecycleService lifecycleService;
-	
+
 	@Inject
 	private Event<CodelistActionEvents.CodelistEvent> events;
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
 	@PostConstruct
 	public void init() {
-//		codelistLoader.importAllCodelist();
-//		logger.trace("codelist in repository:");
-//		for (Codelist codelist:repository.get(allLists())) logger.trace(codelist.name().toString());
-//		logger.trace("done");
-		
+		//		codelistLoader.importAllCodelist();
+		//		logger.trace("codelist in repository:");
+		//		for (Codelist codelist:repository.get(allLists())) logger.trace(codelist.name().toString());
+		//		logger.trace("done");
+
 		mapper.map(VIEW).to(VIEW_CODELIST, VIEW_METADATA);
 		mapper.map(EDIT).to(EDIT_METADATA, EDIT_CODELIST);
 		mapper.map(LOCK).to(LOCK_CODELIST);
 		mapper.map(UNLOCK).to(UNLOCK_CODELIST);
 		mapper.map(SEAL).to(SEAL_CODELIST);
 	}
-	
+
 	@Override
 	public DataWindow<CodelistGroup> getCodelistsGrouped() throws ServiceException {
 		logger.trace("getCodelistsGrouped");
-		
+
 		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
 		Iterator<org.cotrix.domain.codelist.Codelist> it = repository.get(allLists()).iterator();
 		while (it.hasNext()) {
 			org.cotrix.domain.codelist.Codelist codelist = (org.cotrix.domain.codelist.Codelist) it.next();
-			
+
 			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {
 				group = new CodelistGroup(codelist.name().toString());
@@ -122,9 +122,9 @@ public class ManagerServiceImpl implements ManagerService {
 			}
 			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()));
 		}
-		
+
 		for (CodelistGroup group:groups.values()) Collections.sort(group.getVersions()); 
-		
+
 		return new DataWindow<CodelistGroup>(new ArrayList<CodelistGroup>(groups.values()));
 	}
 
@@ -132,13 +132,13 @@ public class ManagerServiceImpl implements ManagerService {
 	@CodelistTask(VIEW)
 	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range) throws ServiceException {
 		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
-		
-		int start = range.getStart();
+
+		int start = range.getStart() + 1;
 		int end = range.getStart() + range.getLength();
 		logger.trace("query range from: {} to: {}", start ,end);
-		
+
 		Codelist codelist = repository.lookup(codelistId);
-		
+
 		Iterable<Code> codes  = repository.get(allCodesIn(codelistId).from(start).to(end));
 		List<UICode> rows = new ArrayList<UICode>(range.getLength());
 		for (Code code:codes) {
@@ -146,7 +146,7 @@ public class ManagerServiceImpl implements ManagerService {
 			UICode uicode = new UICode();
 			uicode.setId(code.id());
 			uicode.setName(code.name().toString());
-			
+
 			List<UIAttribute> attributes = Codelists.toUIAttributes(code.attributes());
 			uicode.setAttributes(attributes);
 			rows.add(uicode);
@@ -183,8 +183,9 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	@CodelistTask(EDIT)
 	public ModifyCommandResult modify(@Id String codelistId, ModifyCommand command) throws ServiceException {
+		logger.trace("modify codelistId: {} command: {}", codelistId, command);
 		try {
-		return commandHandler.handle(codelistId, command);
+			return commandHandler.handle(codelistId, command);
 		} catch(Throwable throwable)
 		{
 			logger.error("Error executing command "+command+" on codelist "+codelistId, throwable);
@@ -207,14 +208,14 @@ public class ManagerServiceImpl implements ManagerService {
 		Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
 		repository.add(newCodelist);
 		lifecycleService.start(newCodelist.id());
-		
+
 		events.fire(new CodelistActionEvents.Version(newCodelist.id(),newCodelist.name(),newVersion));
-		
+
 		CodelistGroup group = new CodelistGroup(newCodelist.name().toString());
 		group.addVersion(newCodelist.id(), newCodelist.version());
-		
+
 		return group;
-		
+
 	}
 
 	@Override
@@ -226,5 +227,5 @@ public class ManagerServiceImpl implements ManagerService {
 		return ResponseWrapper.wrap(state.toUpperCase());
 	}
 
-	
+
 }

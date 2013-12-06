@@ -22,33 +22,35 @@
 			border-right: 1px solid #a8a7a7;
 		}
 		
-				.icon {
+		.icon {
 			vertical-align: middle;
-
 		}
 		
-				.middle {
-			display:inline-block; 
-			vertical-align:middle
+		.middle {
+			display: inline-block;
+			vertical-align: middle
 		}
 		
-				.listPanel {
+		.listPanel {
 			background-color: white;
-			border-left: 1px solid #a8a7a7;
-			border-right: 1px solid #a8a7a7;
+			border: 1px solid #a8a7a7;
 			color: #9b9b9b;
 		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
 		<g:north size='30'>
-		<g:FlowPanel>
-				<g:Image ui:field="user" resource="{resources.user}" styleName="{style.icon}"/>
+			<g:SimpleLayoutPanel />
+		</g:north>
+		<g:north size='30'>
+			<g:FlowPanel>
+				<g:Image ui:field="user" resource="{resources.user}"
+					styleName="{style.icon}" />
 				<g:InlineHTML styleName="{style.middle}">&nbsp;</g:InlineHTML>
 				<g:InlineLabel styleName="{style.middle}" ui:field="username">none</g:InlineLabel>
-		</g:FlowPanel>
+			</g:FlowPanel>
 		</g:north>
 		<g:center>
-			<c:CellTree ui:field="menuTree"  styleName="{style.listPanel}" />
+			<c:CellTree ui:field="menuTree" styleName="{style.listPanel}" />
 		</g:center>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 

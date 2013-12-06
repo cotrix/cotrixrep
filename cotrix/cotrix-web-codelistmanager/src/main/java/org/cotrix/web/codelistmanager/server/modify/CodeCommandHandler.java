@@ -18,6 +18,8 @@ import org.cotrix.web.codelistmanager.shared.modify.code.AddCodeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.code.CodeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.code.RemoveCodeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.code.UpdateCodeCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -26,12 +28,15 @@ import org.cotrix.web.codelistmanager.shared.modify.code.UpdateCodeCommand;
 @Singleton
 @Default
 public class CodeCommandHandler {
+	
+	protected Logger logger = LoggerFactory.getLogger(CodeCommandHandler.class);
 
 	@Inject
 	CodelistRepository repository;
 
 	public ModifyCommandResult handle(String codelistId, CodeCommand command)
 	{
+		logger.trace("handler codelistId: {} command: {}", codelistId, command);
 		Code code = null;
 		if (command instanceof AddCodeCommand) {
 			AddCodeCommand addCodeCommand = (AddCodeCommand) command;

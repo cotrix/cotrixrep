@@ -3,15 +3,15 @@ package org.cotrix.web.codelistmanager.client.codelist;
 import org.cotrix.web.codelistmanager.client.codelist.attribute.AttributeFactory;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.client.util.Constants;
 import org.cotrix.web.share.client.widgets.HasEditing;
+import org.cotrix.web.share.client.widgets.ItemToolbar;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
+import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedEvent;
+import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 

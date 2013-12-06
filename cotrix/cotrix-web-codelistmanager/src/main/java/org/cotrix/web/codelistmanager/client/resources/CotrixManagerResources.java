@@ -23,10 +23,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource close();
 	public ImageResource closeSmall();
 	
-	public ImageResource plus();
-	
-	public ImageResource minus();
-	
 	public ImageResource allColumns();
 	
 	public ImageResource allNormals();
@@ -43,8 +39,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource seal();
 	public ImageResource sealDisabled();
-	
-	public ImageResource search();
 	
 	public ImageResource attributes();
 	public ImageResource attributesDisabled();
@@ -69,8 +63,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource thumbHorizontal();
 	
 	interface CotrixManagerStyle extends CssResource {
-		String search();
-		String searchBackground();
 		String editor();
 		String systemProperty();
 	}

@@ -3,10 +3,25 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
 		.preferencesPanel {
-			margin: 5px;
+			background-color: #efefef;
+		}
+		
+		.text {
+			vertical-align: middle;
+			text-align: center;
 		}
 	</ui:style>
-	<g:HTMLPanel styleName="{style.preferencesPanel}">
-		Coming soon.
-	</g:HTMLPanel>
+	<g:LayoutPanel styleName="{style.preferencesPanel}">
+		<g:layer>
+			<g:SimpleLayoutPanel>
+				<g:HTMLPanel>
+					<table width="100%" height="100%" align="center">
+						<tr>
+							<td class="{style.text}">Coming soon</td>
+						</tr>
+					</table>
+				</g:HTMLPanel>
+			</g:SimpleLayoutPanel>
+		</g:layer>
+	</g:LayoutPanel>
 </ui:UiBinder> 

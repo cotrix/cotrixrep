@@ -1,10 +1,11 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client"
 	xmlns:cotrix="urn:import:org.cotrix.web.codelistmanager.client.codelists"
-	xmlns:common="urn:import:org.cotrix.web.codelistmanager.client.common">
+	xmlns:common="urn:import:org.cotrix.web.share.client.widgets">
 	<ui:with field='resources'
-		type='org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources' />
+		type='org.cotrix.web.share.client.resources.CommonResources' />
 	<ui:style>
 		.mainPanel {
 			background-color: #efefef;

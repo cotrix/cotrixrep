@@ -1,26 +1,25 @@
 package org.cotrix.web.codelistmanager.client.codelists;
 
 import org.cotrix.web.codelistmanager.client.codelists.VersionDialog.VersionDialogListener;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ItemButton;
 import org.cotrix.web.codelistmanager.client.resources.CodelistsResources;
-import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup.Version;
+import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.util.FilteredCachedDataProvider.Filter;
 import org.cotrix.web.share.client.util.SingleSelectionModel;
+import org.cotrix.web.share.client.widgets.ItemToolbar;
+import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedEvent;
+import org.cotrix.web.share.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.CellTree.CellTreeMessages;
@@ -70,34 +69,24 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 		setupCellList();
 		initWidget(uiBinder.createAndBindUi(this));
 		updateSearchBoxStyle();
-		bind();
 	}
 	
-	protected void bind()
-	{
-		toolbar.addButtonClickedHandler(new ButtonClickedHandler() {
-			
-			@Override
-			public void onButtonClicked(ButtonClickedEvent event) {
-				switch (event.getButton()) {
-					case MINUS: {
-						Version selected = selectionModel.getSelectedObject();
-						if (selected!=null)	presenter.onCodelistRemove(selected.toUICodelist()); 
-					} break;
-					case PLUS: presenter.onCodelistCreate(selectionModel.getSelectedObject()); break;
-				}
-			}
-		});
-		
-		filterTextBox.addKeyUpHandler(new KeyUpHandler() {
-			
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				Log.trace("onKeyUp value: "+filterTextBox.getValue()+" text: "+filterTextBox.getText());
-				updateFilter();
-				updateSearchBoxStyle();
-			}
-		});
+	@UiHandler("toolbar")
+	protected void onButtonClicked(ButtonClickedEvent event) {
+		switch (event.getButton()) {
+			case MINUS: {
+				Version selected = selectionModel.getSelectedObject();
+				if (selected!=null)	presenter.onCodelistRemove(selected.toUICodelist()); 
+			} break;
+			case PLUS: presenter.onCodelistCreate(selectionModel.getSelectedObject()); break;
+		}
+	}
+	
+	@UiHandler("filterTextBox")
+	protected void onKeyUp(KeyUpEvent event) {
+		Log.trace("onKeyUp value: "+filterTextBox.getValue()+" text: "+filterTextBox.getText());
+		updateFilter();
+		updateSearchBoxStyle();
 	}
 	
 	protected void setupCellList()
@@ -170,7 +159,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	}
 	
 	public void updateSearchBoxStyle() {
-		filterTextBox.setStyleName(CotrixManagerResources.INSTANCE.css().searchBackground(), filterTextBox.getValue().isEmpty());
+		filterTextBox.setStyleName(CommonResources.INSTANCE.css().searchBackground(), filterTextBox.getValue().isEmpty());
 	}
 	
 	protected class CodeListCell extends AbstractCell<UICodelist> {

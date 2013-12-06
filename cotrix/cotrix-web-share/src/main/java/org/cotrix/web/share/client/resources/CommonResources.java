@@ -52,5 +52,11 @@ public interface CommonResources extends ClientBundle {
 	ImageResource userPreferences();
 	
 	ImageResource userPreferencesDisabled();
+	
+	ImageResource search();
+	
+	ImageResource plus();
+	
+	ImageResource minus();
 
 }

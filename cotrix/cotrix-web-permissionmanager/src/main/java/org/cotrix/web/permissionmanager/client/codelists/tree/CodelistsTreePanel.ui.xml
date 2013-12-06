@@ -1,12 +1,45 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c='urn:import:com.google.gwt.user.cellview.client'>
+	<ui:with field='resources'
+		type='org.cotrix.web.share.client.resources.CommonResources' />
 	<ui:style>
+		.mainPanel {
+			background-color: #efefef;
+		}
 		
+		.filterPanel {
+			border-top-left-radius: 2px;
+			border-top-right-radius: 2px;
+			border-top: 1px solid #a8a7a7;
+			border-left: 1px solid #a8a7a7;
+			border-right: 1px solid #a8a7a7;
+			background-color: white;
+			padding: 5px;
+		}
+		
+		.listPanel {
+			background-color: white;
+			border-left: 1px solid #a8a7a7;
+			border-right: 1px solid #a8a7a7;
+			color: #9b9b9b;
+		}
+		
+		.spacer {
+			background-color: #efefef;
+		}
 	</ui:style>
-	<g:LayoutPanel>
-		<g:layer>
-			<c:CellTree ui:field="codelistsTree" />
-		</g:layer>
-	</g:LayoutPanel>
+	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
+		<g:north size='30'>
+			<g:SimpleLayoutPanel styleName="{style.spacer}"/>
+		</g:north>
+		<g:north size='35'>
+			<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
+				<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}" />
+			</g:FlowPanel>
+		</g:north>
+		<g:center>
+			<c:CellTree ui:field="codelistsTree" styleName="{style.listPanel}" />
+		</g:center>
+	</g:DockLayoutPanel>
 </ui:UiBinder> 

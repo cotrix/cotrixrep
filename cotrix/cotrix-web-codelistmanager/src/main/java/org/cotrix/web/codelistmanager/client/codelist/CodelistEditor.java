@@ -32,9 +32,6 @@ import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedEvent;
-import org.cotrix.web.codelistmanager.client.common.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.codelistmanager.client.data.CodeAttribute;
 import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
@@ -45,7 +42,10 @@ import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.client.widgets.HasEditing;
+import org.cotrix.web.share.client.widgets.ItemToolbar;
 import org.cotrix.web.share.client.widgets.StyledSafeHtmlRenderer;
+import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedEvent;
+import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
 
@@ -301,8 +301,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	{
 		UICode code = selectionModel.getSelectedObject();
 		if (code!=null) {
-			dataProvider.getCache().remove(code);
-			dataProvider.refresh();
+			dataProvider.remove(code);/* getCache().remove(code);
+			dataProvider.refresh();*/
 			codeEditor.removed(code);
 		}
 	}

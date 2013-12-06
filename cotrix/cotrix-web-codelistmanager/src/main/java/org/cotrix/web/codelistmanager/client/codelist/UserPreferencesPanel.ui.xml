@@ -1,7 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:org.cotrix.web.codelistmanager.client.codelist"
-	xmlns:c="urn:import:org.cotrix.web.codelistmanager.client.common">
+	xmlns:c="urn:import:org.cotrix.web.share.client.widgets">
 	<ui:style>
 		.mainPanel {
 			background-color: #efefef;

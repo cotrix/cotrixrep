@@ -61,7 +61,7 @@ public class MenuPanel extends ResizeComposite {
 			
 			@Override
 			public void onUserLogged(UserLoggedEvent event) {
-				username.setText(event.getUser().getFullName());
+				username.setText(event.getUser().getUsername());
 				
 			}
 		});
