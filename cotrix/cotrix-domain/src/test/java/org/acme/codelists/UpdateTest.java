@@ -17,67 +17,6 @@ import org.junit.Test;
 
 public class UpdateTest {
 
-	// we answer the question: can DOs be correctly updated?
-
-	// ############################################## pre-conditions
-
-	// if it works for attributes it will work for all identified DOs
-
-	@Test
-	public void failsOnUnidentifiedObjects() {
-
-		try {
-		
-			update(attribute().name(name).build(), modifyAttribute("1").build());
-			
-		} catch (IllegalStateException e) {
-			System.out.println(e.getMessage());
-		}
-
-	}
-
-	@Test
-	public void failsOnNewAndDeletedObjects() {
-
-		Attribute a = modifyAttribute("1").name(name).build();
-
-		try {
-			
-			update(a, attribute().name(name2).build());
-			
-			fail();
-		
-		} catch (IllegalArgumentException e) {
-			System.out.println(e.getMessage());
-		}
-
-		try {
-			
-			update(a, deleteAttribute(a.id()));
-			
-			fail();
-			
-		} catch (IllegalArgumentException e) {
-			System.out.println(e.getMessage());
-		}
-
-	}
-
-	@Test
-	public void failsWithDifferentIds() {
-
-		try {
-		
-			update(modifyAttribute("1").name(name).build(), modifyAttribute("2").name(name2).build());
-		
-			fail();
-			
-		} catch (IllegalStateException e) {
-			System.out.println(e.getMessage());
-		}
-
-	}
-
 	// ###########################  attributes
 
 	@Test

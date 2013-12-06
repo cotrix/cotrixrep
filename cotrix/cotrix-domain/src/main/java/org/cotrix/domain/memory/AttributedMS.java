@@ -14,7 +14,7 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Status;
 
-public abstract class AttributedMS extends IdentifiedMS implements Attributed.State {
+public class AttributedMS extends IdentifiedMS implements Attributed.State {
 
 	private Collection<Attribute.State> attributes = new ArrayList<Attribute.State>();
 

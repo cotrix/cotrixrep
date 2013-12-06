@@ -2,6 +2,8 @@ package org.cotrix.domain.dsl;
 
 import static org.cotrix.domain.trait.Status.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.xml.namespace.QName;
@@ -123,8 +125,16 @@ public class Codes {
 		return new Container.Private<T, S>(elements);
 	}
 	
+	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Container.Private<T, S> container(S ... elements) {
+		return container(new ArrayList<S>(Arrays.asList(elements)));
+	}
+	
 	public static <T extends Identified.Abstract<T,S> & Named, S extends Identified.State & Named.State & EntityProvider<T>> NamedContainer.Private<T, S> namedContainer(Collection<S> elements) {
 		return new NamedContainer.Private<T, S>(elements);
+	}
+	
+	public static <T extends Identified.Abstract<T,S> & Named, S extends Identified.State & Named.State & EntityProvider<T>> NamedContainer.Private<T, S> namedContainer(S ... elements) {
+		return namedContainer(new ArrayList<S>(Arrays.asList(elements)));
 	}
 	
 	

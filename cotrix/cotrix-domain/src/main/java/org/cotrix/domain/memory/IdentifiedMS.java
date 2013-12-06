@@ -12,7 +12,7 @@ import org.cotrix.domain.trait.Status;
  * 
  * @author Fabio Simeoni
  */
-public abstract class IdentifiedMS implements Identified.State {
+public class IdentifiedMS implements Identified.State {
 
 	public static boolean testmode = false;
 	
@@ -31,12 +31,12 @@ public abstract class IdentifiedMS implements Identified.State {
 	private final Status status;
 
 	
-	protected IdentifiedMS() {
+	public IdentifiedMS() {
 		id = UUID.randomUUID().toString();
 		status=null;
 	}
 	
-	protected IdentifiedMS(String id, Status status) {
+	public IdentifiedMS(String id, Status status) {
 		
 		valid("identifier",id);
 		notNull("status",status);

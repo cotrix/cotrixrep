@@ -1,5 +1,7 @@
 package org.cotrix.domain.common;
 
+import static org.cotrix.common.Utils.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -67,11 +69,12 @@ public interface NamedContainer<T> extends Container<T> {
 		@Override
 		public Collection<T> getAll(QName name) {
 			
+			notNull("name", name);
+			
 			Collection<T> matches = new ArrayList<T>();
 			for (S state : state())
-				if (state.name().equals(name))
+				if (name.equals(state.name()))
 					matches.add(state.entity());
-			System.out.println(matches);
 			return matches;
 		}
 

@@ -21,6 +21,7 @@ import org.cotrix.domain.memory.AttributeMS;
  */
 public interface Attributed {
 
+	
 	//public read-only interface
 	
 	/**
@@ -29,6 +30,7 @@ public interface Attributed {
 	 * @return the attributes
 	 */
 	NamedContainer<? extends Attribute> attributes();
+	
 	
 	
 	//private state interface
@@ -76,7 +78,7 @@ public interface Attributed {
 	
 			if (updateTime==null) 
 				state().attributes().add(timestamp(UPDATE_TIME));
-			else
+			else 
 				updateTime.value(getDateTimeInstance().format(Calendar.getInstance().getTime()));
 			
 			

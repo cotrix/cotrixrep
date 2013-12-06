@@ -22,6 +22,8 @@ public interface Named {
 	QName name();
 	
 	
+	
+	
 	interface State {
 		
 		QName name();
@@ -51,10 +53,11 @@ public interface Named {
 			
 			super.update(changeset);
 			
+			
 			if (changeset.name()!=null)
 				if (changeset.name()==NULL_QNAME)
 					throw new IllegalArgumentException("code name "+state().name()+" cannot be erased");
-				else
+				else 
 					state().name(changeset.name());
 		}
 		

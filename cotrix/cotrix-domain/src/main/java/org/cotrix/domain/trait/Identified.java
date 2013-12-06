@@ -36,14 +36,15 @@ public interface Identified {
 	abstract class Abstract<SELF extends Abstract<SELF,S>, S extends State> implements Identified {
 
 		//NOTE: we need SELF because we have a covariant method #update(SELF)
-		//NOTE:	S is to give state back to family classes, which complicates client-use
-		//		we could use a template method but it's less safe and more redundant
+		//NOTE:	we need S to give state back to subclasses
 		
 		private S state;
 		
 		
 		public Abstract(S state) {
+			
 			notNull("state",state);
+			
 			this.state=state;
 		}
 		
@@ -70,12 +71,15 @@ public interface Identified {
 
 			notNull(this.getClass().getCanonicalName()+"'s changeset",changeset);
 			
+			if (isChangeset())
+				throw new IllegalStateException("entity " + state.id() + " is a changeset and cannot be updated");
+
 			if (changeset.status() == null || changeset.status() != Status.MODIFIED)
 				throw new IllegalArgumentException("object " + state.id() + " cannot be updated with a "
 						+ (changeset.status() == null ? "NEW" : changeset.status()) + " object");
 
 			if (!id().equals(changeset.id()))
-				throw new IllegalStateException("object " + changeset.id()
+				throw new IllegalArgumentException("object " + changeset.id()
 						+ " is not a changeset for object " + id());
 
 		}

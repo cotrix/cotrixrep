@@ -9,7 +9,7 @@ import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Status;
 
 
-public abstract class NamedMS extends AttributedMS implements Named.State, Attributed.State {
+public class NamedMS extends AttributedMS implements Named.State, Attributed.State {
 
 	private QName name;
 	

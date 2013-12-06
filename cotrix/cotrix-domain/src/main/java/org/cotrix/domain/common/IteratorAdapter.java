@@ -22,6 +22,6 @@ public class IteratorAdapter<T,S extends EntityProvider<T>> implements Iterator<
 	}
 	
 	public void remove() {
-		inner.remove();
+		throw new UnsupportedOperationException();
 	}
 }
