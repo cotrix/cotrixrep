@@ -14,6 +14,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.G
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.HasGroupsChangedHandlers;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.util.CachedDataProvider;
+import org.cotrix.web.share.client.util.CachedDataProviderExperimental;
 import org.cotrix.web.share.shared.DataWindow;
 import org.cotrix.web.share.shared.codelist.UICode;
 
@@ -28,7 +29,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistCodesProvider extends CachedDataProvider<UICode> implements HasGroupsChangedHandlers {
+public class CodelistCodesProvider extends CachedDataProviderExperimental<UICode> implements HasGroupsChangedHandlers {
 	
 	protected HandlerManager handlerManager = new HandlerManager(this);
 	
@@ -40,14 +41,15 @@ public class CodelistCodesProvider extends CachedDataProvider<UICode> implements
 	
 
 	@Override
-	protected void onRangeChanged(final Range range) {
+	protected void onRangeChanged(final Range range, final ManagedFailureCallback<DataWindow<UICode>> callback) {
 		managerService.getCodelistCodes(codelistId, range, new ManagedFailureCallback<DataWindow<UICode>>() {
 
 			@Override
 			public void onSuccess(DataWindow<UICode> result) {
 					Log.trace("loaded "+result.getData().size()+" rows");
 				checkGroups(result.getData());
-				updateData(result.getData(), range, result.getTotalSize());
+				callback.onSuccess(result);
+				//updateData(result.getData(), range, result.getTotalSize());
 			}
 		});
 	}

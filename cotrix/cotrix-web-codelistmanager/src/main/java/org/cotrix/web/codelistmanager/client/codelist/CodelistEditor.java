@@ -301,8 +301,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	{
 		UICode code = selectionModel.getSelectedObject();
 		if (code!=null) {
-			dataProvider.getCache().remove(code);
-			dataProvider.refresh();
+			dataProvider.remove(code);/* getCache().remove(code);
+			dataProvider.refresh();*/
 			codeEditor.removed(code);
 		}
 	}

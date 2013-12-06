@@ -21,6 +21,7 @@ import org.cotrix.web.codelistmanager.shared.modify.metadata.MetadataCommand;
 @Singleton
 @Default
 public class ModifyCommandHandler {
+	
 	@Inject
 	protected CodeAttributeCommandHandler codeAttributeCommandHandler;
 	
