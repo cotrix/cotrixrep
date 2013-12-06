@@ -3,7 +3,6 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
 		.preferencesPanel {
-			margin: 5px;
 			background-color: #efefef;
 		}
 		
