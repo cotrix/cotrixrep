@@ -1,32 +1,32 @@
-package org.cotrix.web.client.view;
+package org.cotrix.web.permissionmanager.client.profile;
 
 import org.cotrix.web.share.client.util.AccountValidator;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class RegisterDialog extends PopupPanel {
+public class PasswordUpdateDialog extends PopupPanel {
 	
-	
-	private static final Binder binder = GWT.create(Binder.class);
-	interface Binder extends UiBinder<Widget, RegisterDialog> {}
+	interface Binder extends UiBinder<Widget, PasswordUpdateDialog> {}
 	
 	public interface RegisterDialogListener {
 		public void onRegister(String username, String password, String email);
@@ -41,27 +41,19 @@ public class RegisterDialog extends PopupPanel {
 	Style style;
 	
 	@UiField
-	TextBox username;
-	
-	@UiField
 	PasswordTextBox password;
-	
-	@UiField
-	TextBox email;
-	
-	protected RegisterDialogListener listener;
 
-	public RegisterDialog(RegisterDialogListener listener) {
-		this.listener = listener;
+	@Inject
+	protected void init(Binder binder) {
 		setWidget(binder.createAndBindUi(this));
 		setAutoHideEnabled(true);
 	}
 	
-	@UiHandler({"username","password","email"})
+	@UiHandler({"password"})
 	protected void onKeyDown(KeyDownEvent event)
 	{
 		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-	    	 doRegister();
+	    	 doUpdate();
 	     }
 		 if (event.getSource() instanceof UIObject) {
 			 UIObject uiObject = (UIObject)event.getSource();
@@ -70,31 +62,24 @@ public class RegisterDialog extends PopupPanel {
 	}
 	
 	@UiHandler("create")
-	protected void onRegister(ClickEvent clickEvent)
+	protected void onUpdate(ClickEvent clickEvent)
 	{
-		doRegister();
+		doUpdate();
 	}
 	
-	protected void doRegister() {
+	protected void doUpdate() {
 		boolean valid = validate();
-		if (valid) listener.onRegister(username.getText(), password.getText(), email.getText());
+		if (valid) {
+			fireEvent(new PassworUpdatedEvent(password.getText()));
+			hide();
+		}
 	}
 	
 	protected boolean validate()
 	{
 		boolean valid = true;
-		if (!AccountValidator.validateUsername(username.getText())) {
-			username.setStyleName(style.invalidValue(), true);
-			valid = false;
-		}
-		
 		if (!AccountValidator.validatePassword(password.getText())) {
 			password.setStyleName(style.invalidValue(), true);
-			valid = false;
-		}
-		
-		if (!AccountValidator.validateEMail(email.getText())) {
-			email.setStyleName(style.invalidValue(), true);
 			valid = false;
 		}
 		
@@ -111,16 +96,56 @@ public class RegisterDialog extends PopupPanel {
 
 		    @Override
 		    public void execute() {
-		        username.setFocus(true);
+		        password.setFocus(true);
 		    }
 		});
 	}
 	
 
 	public void clean() {
-		username.setText("");
 		password.setText("");
-		email.setText("");
+	}
+	
+	public HandlerRegistration addPasswordUpdateHandler(PasswordUpdatedHandler handler)
+	{
+		return addHandler(handler, PassworUpdatedEvent.getType());
+	}
+	
+	public interface PasswordUpdatedHandler extends EventHandler {
+		void onAddUser(PassworUpdatedEvent event);
+	}
+
+	public static class PassworUpdatedEvent extends GwtEvent<PasswordUpdatedHandler> {
+
+		public static Type<PasswordUpdatedHandler> TYPE = new Type<PasswordUpdatedHandler>();
+		
+		protected String password;
+
+		public PassworUpdatedEvent(String password) {
+			this.password = password;
+		}
+
+		/**
+		 * @return the password
+		 */
+		public String getPassword() {
+			return password;
+		}
+
+
+		@Override
+		protected void dispatch(PasswordUpdatedHandler handler) {
+			handler.onAddUser(this);
+		}
+
+		@Override
+		public Type<PasswordUpdatedHandler> getAssociatedType() {
+			return TYPE;
+		}
+
+		public static Type<PasswordUpdatedHandler> getType() {
+			return TYPE;
+		}
 	}
 
 	

@@ -45,4 +45,6 @@ public interface PermissionService extends RemoteService {
 	public UIUserDetails getUserDetails() throws ServiceException;
 	
 	public void saveUserDetails(UIUserDetails userDetails) throws ServiceException;
+	
+	public void saveUserPassword(String userId, String password) throws ServiceException;
 }

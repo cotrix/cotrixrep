@@ -4,6 +4,8 @@
 package org.cotrix.web.permissionmanager.client.profile;
 
 import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
+import org.cotrix.web.permissionmanager.client.profile.PasswordUpdateDialog.PassworUpdatedEvent;
+import org.cotrix.web.permissionmanager.client.profile.PasswordUpdateDialog.PasswordUpdatedHandler;
 import org.cotrix.web.permissionmanager.shared.UIUserDetails;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CotrixBus;
@@ -12,13 +14,13 @@ import org.cotrix.web.share.client.util.AccountValidator;
 import org.cotrix.web.share.client.util.StatusUpdates;
 
 import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.UIObject;
@@ -43,7 +45,8 @@ public class ProfilePanel extends ResizeComposite {
 	@UiField Label username;
 	@UiField TextBox fullname;
 	@UiField TextBox email;
-	@UiField PasswordTextBox password;
+	
+	@Inject PasswordUpdateDialog passwordUpdateDialog;
 
 	@UiField Style style;
 
@@ -54,6 +57,20 @@ public class ProfilePanel extends ResizeComposite {
 	@Inject
 	protected void init(ProfilePanelUiBinder uiBinder) {
 		initWidget(uiBinder.createAndBindUi(this));
+		passwordUpdateDialog.addPasswordUpdateHandler(new PasswordUpdatedHandler() {
+			
+			@Override
+			public void onAddUser(PassworUpdatedEvent event) {
+				StatusUpdates.statusSaving();
+				service.saveUserPassword(userDetails.getId(), event.getPassword(), new ManagedFailureCallback<Void>() {
+
+					@Override
+					public void onSuccess(Void result) {
+						StatusUpdates.statusSaved();
+					}
+				});
+			}
+		});
 	}
 
 	@Inject
@@ -67,7 +84,12 @@ public class ProfilePanel extends ResizeComposite {
 		});
 	}
 	
-	@UiHandler({"fullname","password","email"})
+	@UiHandler("password")
+	protected void onPasswordChange(ClickEvent event) {
+		passwordUpdateDialog.center();
+	}
+	
+	@UiHandler({"fullname","email"})
 	protected void onKeyDown(KeyDownEvent event)
 	{
 		 if (event.getSource() instanceof UIObject) {
@@ -76,7 +98,7 @@ public class ProfilePanel extends ResizeComposite {
 		 }
 	}
 
-	@UiHandler({"fullname", "email", "password"})
+	@UiHandler({"fullname", "email"})
 	protected void onBlur(BlurEvent event) {
 		boolean valid = validate();
 		if (valid) {
@@ -98,11 +120,6 @@ public class ProfilePanel extends ResizeComposite {
 			fullname.setStyleName(style.invalidValue(), true);
 			valid = false;
 		}
-		
-		/*if (!AccountValidator.validatePassword(password.getText())) {
-			password.setStyleName(style.invalidValue(), true);
-			valid = false;
-		}*/
 
 		if (!AccountValidator.validateEMail(email.getText())) {
 			email.setStyleName(style.invalidValue(), true);
@@ -132,7 +149,6 @@ public class ProfilePanel extends ResizeComposite {
 		userDetails.setUsername(username.getText());
 		userDetails.setFullName(fullname.getText());
 		userDetails.setEmail(email.getText());
-		userDetails.setPassword(password.getText());
 		return userDetails;
 	}
 }

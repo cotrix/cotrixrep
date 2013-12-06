@@ -46,6 +46,7 @@ import org.cotrix.web.permissionmanager.shared.UIUserDetails;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
 import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.ContainsTask;
+import org.cotrix.web.share.server.task.Id;
 import org.cotrix.web.share.server.task.UserTask;
 import org.cotrix.web.share.server.util.Users;
 import org.cotrix.web.share.server.util.ValueUtils;
@@ -322,6 +323,14 @@ public class PermissionServiceImpl implements PermissionService {
 		userRepository.update(changeSet);
 	}
 	
+
+	@Override
+	@UserTask(UserAction.EDIT)
+	public void saveUserPassword(@Id String userId, String password) throws ServiceException {
+		logger.trace("saveUserPassword ");
+		//TODO
+	}
+	
 	protected UIUserDetails toUiUserDetails(User user) {
 		UIUserDetails userDetails = new UIUserDetails();
 		userDetails.setId(currentUser.id());
@@ -370,5 +379,4 @@ public class PermissionServiceImpl implements PermissionService {
 		}
 		throw new IllegalArgumentException("Unknown role name "+name);
 	}
-
 }

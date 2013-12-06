@@ -3,92 +3,147 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
 		field="common" />
-	<ui:style type="org.cotrix.web.permissionmanager.client.profile.ProfilePanel.Style">
-		.profilePanel {
-			margin: 5px;
-		}
-		
-		.table {
-			margin: 23px;
-		}
-		
-		.valueCell {
-			padding-left: 50px;
-			vertical-align: middle;
-		}
-		
-		.row {
-			height: 35px;
-			vertical-align: middle;
-		}
-		
-		.invalidValue {
-			border-color: #B80000;
-		}
-	</ui:style>
+	<ui:with
+		type="org.cotrix.web.permissionmanager.client.resources.PermissionsResources"
+		field="resources" />
+	<ui:style
+		type="org.cotrix.web.permissionmanager.client.profile.ProfilePanel.Style">
+			.profilePanel {
+				margin: 163px;
+			}
+			
+			.table {
+				margin: 23px;
+			}
+			
+			.valueCell {
+				padding-left: 50px;
+				vertical-align: middle;
+			}
+			
+			.row {
+				height: 35px;
+				vertical-align: middle;
+			}
+			
+			.fullname {
+				font-size: 56px !important;
+				height: 66px !important;
+			}
+			
+			/* TEXT BOX */
+			.textBox {
+				padding: 6px;
+				border: hidden;
+				color: #4f4e4e;
+				height: 16px;
+				font-size: 16px;
+			}
+			
+			.textBox:focus {
+				padding: 5px;
+				outline: none;
+				border-radius: 5px;
+				background-color: #fafafa;
+				border: 1px solid #999999;
+				box-shadow: 0px 0px 5px #61C5FA;
+				border: 1px solid #5AB0DB;
+			}
+			
+			.textBox:hover {
+				padding: 5px;
+				border: 1px solid #999;
+				box-shadow: 0px 0px 0px 0px;
+				border-radius: 5px;
+			}
+			
+			.textBox:focus:hover {
+				padding: 5px;
+				outline: none;
+				box-shadow: 0px 0px 5px #61C5FA;
+				border: 1px solid #5AB0DB;
+				border-radius: 5px;
+			}
+			
+			.textBox:disabled {
+				background-color: #ededed;
+				border-color: #b7b6b6;
+				color: #acabab;
+			}
+			
+			.invalidValue {
+				border-color: #B80000;
+			}
+			
+			.password {
+				width: 170px;
+			}
+			
+			.username {
+				padding-left: 12px;
+			}
+			
+			.email {
+
+			}
+			
+		</ui:style>
 	<g:SimpleLayoutPanel>
-	<g:Grid styleName="{style.table}" cellPadding="5" cellSpacing="5">
-		<g:row  styleName="{style.row}">
-			<g:customCell styleName="{common.css.verticalHeadersSingleItem}">
-				<g:Label text="Username" styleName="{common.css.propertyLabel}" />
-			</g:customCell>
-			<g:customCell styleName="{style.valueCell}">
-				<g:Label ui:field="username" styleName="{common.css.propertyValue}" />
-			</g:customCell>
-		</g:row>
-		<g:row  styleName="{style.row}">
-			<g:customCell styleName="{common.css.verticalHeadersSingleItem}">
-				<g:Label text="Fullname" styleName="{common.css.propertyLabel}" />
-			</g:customCell>
-			<g:customCell styleName="{style.valueCell}">
-				<g:TextBox ui:field="fullname" styleName="{common.css.textBox}" />
-			</g:customCell>
-		</g:row>
-		<g:row  styleName="{style.row}">
-			<g:customCell styleName="{common.css.verticalHeadersSingleItem}">
-				<g:Label text="E-Mail" styleName="{common.css.propertyLabel}" />
-			</g:customCell>
-			<g:customCell styleName="{style.valueCell}">
-				<g:TextBox ui:field="email" styleName="{common.css.textBox}" />
-			</g:customCell>
-		</g:row>
-		<g:row  styleName="{style.row}">
-			<g:customCell styleName="{common.css.verticalHeadersSingleItem}">
-				<g:Label text="Password" styleName="{common.css.propertyLabel}" />
-			</g:customCell>
-			<g:customCell styleName="{style.valueCell}">
-				<g:PasswordTextBox ui:field="password" styleName="{common.css.textBox}" />
-			</g:customCell>
-		</g:row>
-	</g:Grid>
+		<g:HTMLPanel styleName="{style.profilePanel}">
+
+			<table width="100%">
+				<tr>
+					<td style="text-align:right;vertical-align:top;padding-top:30px;">
+						<g:Image resource="{common.user}" />
+					</td>
+					<td style="vertical-align:top;">
+						<table>
+							<tr>
+								<td>
+									<g:TextBox ui:field="fullname"
+										styleName="{style.textBox} {style.fullname}" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<g:Label ui:field="username" styleName="{common.css.propertyValue}  {style.username}" />
+								</td>
+							</tr>
+							<tr>
+								<td style="padding-left: 4px;">
+									<g:TextBox ui:field="email" styleName="{style.textBox}" />
+								</td>
+							</tr>
+
+						</table>
+
+
+
+					</td>
+					<td style="text-align:center;">
+						<table style="width: 300px;">
+							<tr>
+								<td>
+									<g:Image resource="{resources.photo}" />
+								</td>
+							</tr>
+							<tr>
+								<td style="padding-top: 30px;">
+									<g:Button ui:field="password" styleName="{common.css.blueButton} {style.password}">Change password</g:Button>
+
+								</td>
+							</tr>
+
+
+						</table>
+
+					</td>
+
+				</tr>
+
+			</table>
+
+
+		</g:HTMLPanel>
 	</g:SimpleLayoutPanel>
-	<!-- <g:HTMLPanel styleName="{style.profilePanel}"> -->
-
-	<!-- <table> -->
-	<!-- <tr> -->
-	<!-- <td> -->
-	<!-- <span>Username</span> -->
-	<!-- </td> -->
-	<!-- <td><g:Label>federico</g:Label> -->
-
-	<!-- </td> -->
-	<!-- </tr> -->
-	<!-- <tr> -->
-	<!-- <td> -->
-	<!-- <span>Fullname</span> -->
-	<!-- </td> -->
-	<!-- <td><g:TextBox>Federico De Faveri</g:TextBox> -->
-	<!-- </td> -->
-	<!-- </tr> -->
-	<!-- <tr> -->
-	<!-- <td> -->
-	<!-- <span>E-Mail</span> -->
-	<!-- </td> -->
-	<!-- <td><g:TextBox>federico.defaveri@fao.org</g:TextBox> -->
-	<!-- </td> -->
-	<!-- </tr> -->
-
-	<!-- </table> -->
-
-	<!-- </g:HTMLPanel> -->
 </ui:UiBinder> 
