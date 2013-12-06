@@ -72,15 +72,15 @@ public interface Identified {
 			notNull(this.getClass().getCanonicalName()+"'s changeset",changeset);
 			
 			if (isChangeset())
-				throw new IllegalStateException("entity " + state.id() + " is a changeset and cannot be updated");
+				throw new IllegalStateException("entity " + state.id() + "("+getClass().getCanonicalName()+") is a changeset and cannot be updated");
 
 			if (changeset.status() == null || changeset.status() != Status.MODIFIED)
-				throw new IllegalArgumentException("object " + state.id() + " cannot be updated with a "
+				throw new IllegalArgumentException("entity " + state.id() + "("+getClass().getCanonicalName()+") cannot be updated with a "
 						+ (changeset.status() == null ? "NEW" : changeset.status()) + " object");
 
 			if (!id().equals(changeset.id()))
-				throw new IllegalArgumentException("object " + changeset.id()
-						+ " is not a changeset for object " + id());
+				throw new IllegalArgumentException("changeset " + changeset.id()
+						+ "("+changeset.getClass().getCanonicalName()+") is not a changeset for entity " + id());
 
 		}
 		

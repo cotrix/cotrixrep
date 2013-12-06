@@ -11,7 +11,6 @@ import static org.cotrix.repository.codelist.CodelistCoordinates.*;
 import static org.cotrix.repository.codelist.CodelistQueries.*;
 
 import javax.inject.Inject;
-import javax.xml.namespace.QName;
 
 import org.cotrix.action.Action;
 import org.cotrix.domain.codelist.Code;
@@ -31,7 +30,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 	CodelistRepository repository;
 	
 	@Test
-	public void retrieveNotExistingCodeList() {
+	public void retrieveUnknownCodeList() {
 
 		assertNull(repository.lookup("unknown"));
 
@@ -49,47 +48,80 @@ public class CodelistRepositoryTest extends ApplicationTest {
 	}
 
 	@Test
-	public void removeCodeFromCodelist() {
+	public void removeCode() {
 		
 		Code code = code().name("code").build();
+		
 		Codelist list = codelist().name("name").with(code).build();
 
 		repository.add(list);
 		
-		assertEquals(1,list.codes().size());
+		assertTrue(list.codes().contains(code));
 		
 		repository.update(modifyCodelist(list.id()).with(deleteCode(code.id())).build());
 		
-		assertEquals(0,list.codes().size());
+		assertFalse(list.codes().contains(code));
 		
 	}
 	
 	@Test
-	public void updateCodelist() {
+	public void addCode() {
+		
+		Codelist list = codelist().name("name").build();
 
-		Attribute attribute = attribute().name("test").value("val").build();
-		Code code = code().name("code").attributes(attribute).build();
+		repository.add(list);
+		
+		list = repository.lookup(list.id());
 
+		Code code = code().name("code").build();
+		
+		assertFalse(list.codes().contains(code));
+
+		repository.update(modifyCodelist(list.id()).with(code).build());
+		
+		list = repository.lookup(list.id());
+		
+		assertTrue(list.codes().contains(code));
+		
+	}
+	
+	@Test
+	public void updateCode() {
+
+		Code code = code().name("code").build();
+		
 		Codelist list = codelist().name("name").with(code).build();
 
 		repository.add(list);
+		
+		list = repository.lookup(list.id());
 
-		Attribute attributeChangeset = modifyAttribute(attribute.id()).name(attribute.name()).value("newvalue").build();
+		repository.update(modifyCodelist(list.id()).with(modifyCode(code.id()).name("name2").build()).build());
+		
+		list = repository.lookup(list.id());
+		
+		assertTrue(list.codes().contains(q("name2")));
+		
+	}
+	
+	@Test
+	public void updateAttribute() {
 
-		QName updatedName = q(list.name().getLocalPart() + "-updated");
+		Attribute a = attribute().name("n").value("v").build();
 
-		Codelist changeset = modifyCodelist(list.id()).name(updatedName)
-				.with(modifyCode(code.id()).name(code.name()).attributes(attributeChangeset).build()).build();
+		Codelist list = codelist().name("n").attributes(a).build();
+
+		repository.add(list);
+
+		Attribute modified = modifyAttribute(a.id()).value("v2").build();
+
+		Codelist changeset = modifyCodelist(list.id()).attributes(modified).build();
 
 		repository.update(changeset);
 
 		list = repository.lookup(list.id());
 
-		assertEquals(list.name(), updatedName);
-
-		Attribute firstAttribute = list.codes().lookup(code.name()).attributes().lookup(attribute.name());
-
-		assertEquals(firstAttribute.value(), "newvalue");
+		assertEquals(list.attributes().lookup(q("n")).value(), "v2");
 	}
 
 	@Test
