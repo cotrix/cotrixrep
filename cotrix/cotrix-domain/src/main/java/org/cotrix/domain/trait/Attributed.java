@@ -5,12 +5,12 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import java.util.Calendar;
-import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.memory.AttributeMS;
 
 /**
@@ -37,9 +37,7 @@ public interface Attributed {
 	
 	interface State {
 		
-		Collection<Attribute.State> attributes();
-		
-		void attributes(Collection<Attribute.State> attributes);
+		NamedStateContainer<Attribute.State> attributes();
 		
 	}
 	

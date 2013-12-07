@@ -4,19 +4,19 @@ import static java.text.DateFormat.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.utils.Constants.*;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Status;
 
 public class AttributedMS extends IdentifiedMS implements Attributed.State {
 
-	private Collection<Attribute.State> attributes = new ArrayList<Attribute.State>();
+	private NamedStateContainer<Attribute.State> attributes = new NamedStateContainer.Default<Attribute.State>();
 
 	public AttributedMS() {
 		attributes.add(timestamp(CREATION_TIME));
@@ -43,7 +43,7 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 
 	}
 	@Override
-	public Collection<Attribute.State> attributes() {
+	public NamedStateContainer<Attribute.State> attributes() {
 		return attributes;
 	}
 	
@@ -51,10 +51,11 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 		
 		notNull("attributes",attributes);
 	
-		this.attributes.addAll(attributes);
+		for (Attribute.State a : attributes)
+			this.attributes.add(a);
 		
 	}
-
+	
 	@Override
 	@SuppressWarnings("all")
 	public boolean equals(Object obj) {

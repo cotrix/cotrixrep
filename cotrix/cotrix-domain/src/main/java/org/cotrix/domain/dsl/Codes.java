@@ -2,7 +2,6 @@ package org.cotrix.domain.dsl;
 
 import static org.cotrix.domain.trait.Status.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -16,6 +15,8 @@ import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.common.NamedStateContainer;
+import org.cotrix.domain.common.StateContainer;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
 import org.cotrix.domain.dsl.builder.CodelinkBuilder;
@@ -123,20 +124,36 @@ public class Codes {
 	
 	//simplifies construction through method parameter inference (not available on constructors in Java 6..)
 	
-	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Container.Private<T, S> container(Collection<S> elements) {
-		return new Container.Private<T, S>(elements);
+	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Container.Private<T,S> container(StateContainer<S> elements) {
+		return new Container.Private<T,S>(elements);
 	}
 	
 	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Container.Private<T, S> container(S ... elements) {
-		return container(new ArrayList<S>(Arrays.asList(elements)));
+		return container(beans(elements));
 	}
 	
-	public static <T extends Identified.Abstract<T,S> & Named, S extends Identified.State & Named.State & EntityProvider<T>> NamedContainer.Private<T, S> namedContainer(Collection<S> elements) {
+	public static <T extends Identified.Abstract<T,S> & Named, S extends Identified.State & Named.State & EntityProvider<T>> NamedContainer.Private<T,S> namedContainer(NamedStateContainer<S> elements) {
 		return new NamedContainer.Private<T, S>(elements);
 	}
 	
+	public static <S extends Identified.State> StateContainer<S> beans(Collection<S> elements) {
+		return new StateContainer.Default<S>(elements);
+	}
+	
+	public static <S extends Identified.State & Named.State> NamedStateContainer<S> namedBeans(Collection<S> elements) {
+		return new NamedStateContainer.Default<S>(elements);
+	}
+	
+	public static <S extends Identified.State> StateContainer<S> beans(S ... elements) {
+		return new StateContainer.Default<S>(Arrays.asList(elements));
+	}
+	
+	public static <S extends Identified.State & Named.State> NamedStateContainer<S> namedBeans(S ... elements) {
+		return new NamedStateContainer.Default<S>(Arrays.asList(elements));
+	}
+	
 	public static <T extends Identified.Abstract<T,S> & Named, S extends Identified.State & Named.State & EntityProvider<T>> NamedContainer.Private<T, S> namedContainer(S ... elements) {
-		return namedContainer(new ArrayList<S>(Arrays.asList(elements)));
+		return namedContainer(namedBeans(elements));
 	}
 	
 	public static Code.Private reveal(Code c) {

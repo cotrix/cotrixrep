@@ -2,9 +2,8 @@ package org.cotrix.domain.codelist;
 
 import static org.cotrix.domain.dsl.Codes.*;
 
-import java.util.Collection;
-
 import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.StateContainer;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
@@ -31,9 +30,7 @@ public interface Code extends Identified,Attributed,Named {
 	
 	interface State extends Identified.State, Named.State, Attributed.State, EntityProvider<Private> {
 		
-		Collection<Codelink.State> links();
-		
-		void links(Collection<Codelink.State> links);
+		StateContainer<Codelink.State> links();
 		
 	}
 	

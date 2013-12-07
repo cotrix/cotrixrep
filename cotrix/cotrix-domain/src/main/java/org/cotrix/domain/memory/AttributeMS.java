@@ -72,11 +72,9 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	public Attribute.Private entity() {
 		return new Attribute.Private(this);
 	}
-
-
+	
 	@Override
 	public boolean equals(Object obj) {
-		
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
@@ -84,7 +82,6 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		if (!(obj instanceof AttributeMS))
 			return false;
 		AttributeMS other = (AttributeMS) obj;
-
 		if (language == null) {
 			if (other.language != null)
 				return false;

@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.common.StateContainer;
 import org.cotrix.domain.memory.NamedMS;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
@@ -33,11 +34,12 @@ public class ContainerTest {
 		MyBean bean1 = new MyBean();
 		MyBean bean2 = new MyBean();
 		
-		Container.Private<MyEntity,MyBean> c = container(bean1,bean2);
+		StateContainer<MyBean> beans = beans(bean1,bean2);
+		Container.Private<MyEntity,MyBean> c = container(beans);
 		
 
 		assertEquals(2,c.size());
-		assertEquals(asList(bean1,bean2),c.state());
+		assertEquals(beans,c.state());
 		
 	}
 	

@@ -66,6 +66,7 @@ public class CodeTest extends DomainTest {
 		Code.State state = reveal(c).state();
 		CodeMS clone = new CodeMS(state);
 		
+		System.out.println("comparing");
 		assertEquals(clone,state);
 		
 	}

@@ -13,18 +13,19 @@ import org.cotrix.domain.trait.Named;
 
 
 /**
- * A container of named entities.
+ * An immutable and typed collection of named domain entities.
  * 
  * @author Fabio Simeoni
  *
- * @param <T> the type of the container entities 
+ * @param <T> the type of entities
  */
 public interface NamedContainer<T> extends Container<T> {
 		
 	
-	
 		//public read-only API
 	
+		//(no implication entities are all in memory)
+		
 		/**
 		 * Returns <code>true</code> if this container contains at least an entity with a given name. 
 		 * @param name the name
@@ -53,38 +54,47 @@ public interface NamedContainer<T> extends Container<T> {
 		
 	//private logic
 	
-	final class Private<T extends Identified.Abstract<T,S>, S extends Identified.State & Named.State & EntityProvider<T>> extends Container.Private<T, S> implements NamedContainer<T> {
+	final class Private<T extends Identified.Abstract<T,S>, 
+						S extends Identified.State & Named.State & EntityProvider<T>> 
+						extends Container.Abstract<T, S,NamedStateContainer<S>> 
+						implements NamedContainer<T> {
 		
-		public Private(Collection<S> entities) {
-			
-			super(entities);
-			
+		
+		public Private(NamedStateContainer<S> state) {
+			super(state);
 		}
 
 		@Override
 		public boolean contains(QName name) {
-			return !getAll(name).isEmpty();
+			
+			notNull("name",name);
+			
+			return state().contains(name); 
 		}
 
 		@Override
 		public Collection<T> getAll(QName name) {
 			
-			notNull("name", name);
+			notNull("name",name);
 			
+			//delegate and wrap
 			Collection<T> matches = new ArrayList<T>();
-			for (S state : state())
-				if (name.equals(state.name()))
-					matches.add(state.entity());
+			
+			for (S state : state().getAll(name))
+				matches.add(state.entity());
+			
 			return matches;
+			
 		}
 
 		@Override
 		public T lookup(QName name) throws IllegalStateException {
-			Collection<T> matches = getAll(name);
-			if (matches.size()==1)
-				return matches.iterator().next();
-			else
-				throw new IllegalStateException("zero or more than one element with name "+name);
+			
+			notNull("name",name);
+			
+			S match = state().lookup(name);
+			
+			return match==null?null:match.entity();
 		}
 		
 		

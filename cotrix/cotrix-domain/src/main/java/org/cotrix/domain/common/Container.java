@@ -2,7 +2,6 @@ package org.cotrix.domain.common;
 
 import static org.cotrix.common.Utils.*;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -12,15 +11,17 @@ import org.cotrix.domain.trait.Identified;
 
 
 /**
- * An immutable, typed container of domain entities.
+ * An immutable and typed collection of domain entities.
  * 
  * @author Fabio Simeoni
  *
- * @param <T> the type of the container entities 
+ * @param <T> the type of entities
  */
 public interface Container<T> extends Iterable<T> {
 
 	//public read-only interface
+	
+	//(no implication entities are all in memory)
 	
 	/**
 	 * Returns the number of entities in this container.
@@ -31,100 +32,103 @@ public interface Container<T> extends Iterable<T> {
 	/**
 	 * Returns <code>true</code> if this container contains a given entity. 
 	 * @param entity the entity
-	 * @return <code>true</code> if this container contains a given entity
+	 * @return <code>true</code> if this container contains the given entity
 	 */
+     //broader than T, because we return Container<? extends T> to clients and yet must allow contains(T)
+	 //we return Container<? extends T> because we use Container<T.Private> in implementations 
 	 boolean contains(Object entity);
 
 	
 	
-	//private logic
+	//private domain logic
+	//we use this base class for both generic and named entities
 	
-	public static class Private<T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> implements Container<T> {
+	abstract class Abstract<T extends Identified.Abstract<T,S>, 
+							//type of state beans, must be able to return their wrappers
+							S extends Identified.State & EntityProvider<T>, 
+							//this is to return the state beans to subclasses
+							//we hide it from clients by instantiating it in subclasses
+							C extends StateContainer<S>> implements Container<T> {
+			
+			
+		private final C state;
 		
-		private final Collection<S> entities;
-	
-		public Private(Collection<S> entities) {
+		public Abstract(C state) {
 			
-			notNull("entities",entities);
+			notNull("state",state);
 			
-			this.entities = entities;
+			this.state = state;
 			
 		}
 		
 		@Override
 		public Iterator<T> iterator() {
-			return new IteratorAdapter<T,S>(entities.iterator());
+			return new IteratorAdapter<T,S>(state.iterator());
 		}
 		
+		@Override
 		public boolean contains(Object entity) {
-			for (T e : this)
-				if (e.equals(entity))
-					return true;
 			
-			return false;
+			notNull("entity",entity);
+			
+			//unwrap and delegate
+			
+			return entity instanceof Identified.Abstract ?
+				
+				state().contains(reveal(entity,Identified.Abstract.class).state())
+			:
+				false;
 		};
 
+		
 		@Override
 		public int size() {
-			return entities.size();
+			return state.size();
 		}
 		
 		
-		//in-memory update, this is where size will matter
-		public void update(Private<T,S> changeset) {
+		public void update(Abstract<T,S,C> changeset) {
 			
-			Map<String,S> index = indexElements();
+			Map<String,T> updates = new HashMap<String,T>();
 
 			for (T entityChangeset : changeset) {
 		
 				String id = entityChangeset.id();
 
-				if (index.containsKey(id))
-				
+				if (state.contains(id))
+					
 					switch (entityChangeset.status()) {
 							
 						case DELETED:
-							entities.remove(index.remove(id));
+							state.remove(id);
 							break;
 						
-						case MODIFIED: //wrap and dispatch
-							index.get(id).entity().update(entityChangeset);
+						case MODIFIED: //accumulate updates
+							updates.put(entityChangeset.id(),entityChangeset);
 							break;
 
 					} 
 					
 				else
-					entities.add(entityChangeset.state());
+					state.add(entityChangeset.state());
 
+				//process updates
+				if (!updates.isEmpty())
+					for (S toUpdate : state.get(updates.keySet()))
+						toUpdate.entity().update(updates.get(toUpdate.id())); 
+				
 			}	
 		}
 		
-		public Collection<S> state() {
-			return entities;
+		public C state() {
+			return state;
 		}
-		
-		
-	
-		//helpers
-
-		private Map<String,S> indexElements() {
-
-			Map<String, S> index = new HashMap<String,S>();
-
-			for (S object : entities)
-				index.put(object.id(),object);
-
-			return index;
-		}
-
-
-
 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((entities == null) ? 0 : entities.hashCode());
+			result = prime * result + ((state == null) ? 0 : state.hashCode());
 			return result;
 		}
 
@@ -135,13 +139,13 @@ public interface Container<T> extends Iterable<T> {
 				return true;
 			if (obj == null)
 				return false;
-			if (!(obj instanceof Private))
+			if (!(obj instanceof Abstract))
 				return false;
-			Private other = (Private) obj;
-			if (entities == null) {
-				if (other.entities != null)
+			Abstract other = (Abstract) obj;
+			if (state == null) {
+				if (other.state != null)
 					return false;
-			} else if (!entities.equals(other.entities))
+			} else if (!state.equals(other.state))
 				return false;
 			return true;
 		}
@@ -149,7 +153,7 @@ public interface Container<T> extends Iterable<T> {
 		@Override
 		public String toString() {
 			final int maxLen = 100;
-			return "[" + (entities != null ? toString(maxLen) : null) + "]";
+			return "[" + (state != null ? toString(maxLen) : null) + "]";
 		}
 
 		private String toString(int maxLen) {
@@ -166,6 +170,19 @@ public interface Container<T> extends Iterable<T> {
 		}
 		
 		
+	}
+	
+	
+	//derive to reduce parameters
+	
+	class Private<T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> extends Abstract<T,S,StateContainer<S>>  {
+		
+		public Private(StateContainer<S> state) {
+			
+			super(state);
+			
+		}
+				
 	}
 
 }

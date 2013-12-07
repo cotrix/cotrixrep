@@ -2,19 +2,19 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.trait.Status;
 
 public final class CodelistMS extends VersionedMS implements Codelist.State {
 
-	private Collection<Code.State> codes = new ArrayList<Code.State>();
+	private NamedStateContainer<Code.State> codes = new NamedStateContainer.Default<Code.State>();
 
-	private Collection<CodelistLink.State> links = new ArrayList<CodelistLink.State>();
+	private NamedStateContainer<CodelistLink.State> links = new NamedStateContainer.Default<CodelistLink.State>();
 
 	public CodelistMS() {
 	}
@@ -25,13 +25,16 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 
 	public CodelistMS(Codelist.State state) {
 		super(state);
+		
 		for (Code.State code : state.codes())
 			codes.add(new CodeMS(code));
 		
 		for (CodelistLink.State link : state.links())
 			links.add(new CodelistLinkMS(link));
 	}
-	public Collection<CodelistLink.State> links() {
+	
+	
+	public NamedStateContainer<CodelistLink.State> links() {
 		return links;
 	}
 
@@ -39,18 +42,20 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 
 		notNull("links", links);
 		
-		this.links = links;
+		for(CodelistLink.State link : links)
+			this.links.add(link);
 	}
 
 	public void codes(Collection<Code.State> codes) {
 
 		notNull("codes", codes);
 
-		this.codes = codes;
+		for(Code.State code : codes)
+			this.codes.add(code);
 	}
 	
 	@Override
-	public Collection<Code.State> codes() {
+	public NamedStateContainer<Code.State> codes() {
 		return codes;
 	}
 	
