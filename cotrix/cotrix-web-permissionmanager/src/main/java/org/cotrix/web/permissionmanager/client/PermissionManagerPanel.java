@@ -9,6 +9,8 @@ import org.cotrix.web.permissionmanager.client.menu.MenuPanel;
 import org.cotrix.web.permissionmanager.client.menu.MenuSelectedEvent;
 import org.cotrix.web.permissionmanager.client.preferences.PreferencesPanel;
 import org.cotrix.web.permissionmanager.client.profile.ProfilePanel;
+import org.cotrix.web.share.client.event.CotrixBus;
+import org.cotrix.web.share.client.event.UserLoggedEvent;
 
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -47,6 +49,17 @@ public class PermissionManagerPanel extends ResizeComposite {
 	@Inject
 	protected void bind(@PermissionBus EventBus bus, PermissionManagerPanelEventBinder eventBinder) {
 		eventBinder.bindEventHandlers(this, bus);
+	}
+	
+	@Inject
+	protected void init(@CotrixBus EventBus bus) {
+		bus.addHandler(UserLoggedEvent.TYPE, new UserLoggedEvent.UserLoggedHandler() {
+			
+			@Override
+			public void onUserLogged(UserLoggedEvent event) {
+				switchContent(AdminArea.PROFILE);
+			}
+		});
 	}
 
 	@EventHandler
