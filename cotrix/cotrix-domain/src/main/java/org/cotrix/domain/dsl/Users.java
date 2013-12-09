@@ -32,7 +32,7 @@ public class Users {
 	public static User cotrix = user().name("cotrix").noMail().fullName("Cotrix Root User")
 			.is(ROOT).build();
 
-	public static User guest = user().name("gest").noMail().fullName("Cotrix Guest User")
+	public static User guest = user().name("guest").noMail().fullName("Cotrix Guest User")
 			.can(GuestAction.values()).can(VIEW).build();
 
 }
