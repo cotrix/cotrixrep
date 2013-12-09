@@ -255,7 +255,7 @@ public class PermissionServiceImpl implements PermissionService {
 			case DELEGATE: delegationService.delegate(role).to(target); break;
 			case REVOKE: delegationService.revoke(role).from(target); break;
 		}
-		RolesRow row = getRow(target, Action.any, Roles.getBy(ResourceType.codelists));
+		RolesRow row = getRow(target, Action.any, Roles.getBy(ResourceType.application, ResourceType.codelists));
 		logger.trace("row: {}", row);
 		return row;
 	}
