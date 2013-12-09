@@ -9,14 +9,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
 
 import org.cotrix.io.CloudService;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
+import org.cotrix.web.importwizard.server.climport.ImportTaskSession;
 import org.cotrix.web.importwizard.server.climport.Importer;
 import org.cotrix.web.importwizard.server.climport.ImporterFactory;
 import org.cotrix.web.importwizard.server.upload.MappingGuesser;
+import org.cotrix.web.importwizard.server.upload.MappingsManager;
+import org.cotrix.web.importwizard.server.upload.PreviewDataManager;
 import org.cotrix.web.importwizard.server.util.AssetInfosCache;
 import org.cotrix.web.importwizard.server.util.Assets;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
@@ -58,7 +60,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	protected Logger logger = LoggerFactory.getLogger(ImportServiceImpl.class);
 
 	@Inject
-	CloudService cloud;
+	protected CloudService cloud;
 
 	@Inject
 	protected ParsingHelper parsingHelper;
@@ -68,6 +70,18 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	@Inject
 	protected ImporterFactory importerFactory;
+	
+	@Inject
+	protected ImportSession session;
+	
+	@Inject
+	protected AssetInfosCache assetInfosCache;
+	
+	@Inject
+	protected PreviewDataManager previewDataManager;
+	
+	@Inject
+	protected MappingsManager mappingsManager;
 
 	/** 
 	 * {@inheritDoc}
@@ -76,19 +90,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	public void init() throws ServletException {
 		cloud.discover();
 	}
-
-	protected WizardImportSession getImportSession()
-	{
-		HttpSession httpSession = this.getThreadLocalRequest().getSession();
-		WizardImportSession importSession = WizardImportSession.getImportSession(httpSession);
-		return importSession;
-	}
-
-	protected AssetInfosCache getAssetInfos()
-	{
-		HttpSession httpSession = this.getThreadLocalRequest().getSession();
-		return AssetInfosCache.getFromSession(httpSession, cloud);
-	}	
 
 	/** 
 	 * {@inheritDoc}
@@ -99,9 +100,8 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		logger.trace("getAssets range: {} columnSortInfo: {} forceRefresh: {}", range, columnSortInfo, forceRefresh);
 		try {
 
-			AssetInfosCache cache = getAssetInfos();
-			if (forceRefresh) cache.refreshCache();
-			List<AssetInfo> assets = cache.getAssets(columnSortInfo.getName());
+			if (forceRefresh) assetInfosCache.refreshCache();
+			List<AssetInfo> assets = assetInfosCache.getAssets(columnSortInfo.getName());
 			List<AssetInfo> sublist = columnSortInfo.isAscending()?Ranges.subList(assets, range):Ranges.subListReverseOrder(assets, range);
 
 			logger.trace("returning "+sublist.size()+" elements");
@@ -115,9 +115,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		}
 	}
 
-
-
-
 	/** 
 	 * {@inheritDoc}
 	 * @throws ServiceException 
@@ -126,10 +123,10 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	public AssetDetails getAssetDetails(String assetId) throws ServiceException {
 
 		try {
-			Asset asset = getAsset(assetId);
-			if (asset == null) throw new ServiceException("Asset with id "+assetId+" not found");
+			Asset asset = assetInfosCache.getAsset(assetId);
+			if (asset == null) throw new IllegalArgumentException("Asset with id "+assetId+" not found");
+			
 			AssetDetails assetDetails = Assets.convertToDetails(asset);
-			System.out.println(assetDetails);
 			return assetDetails;
 		} catch(Exception e)
 		{
@@ -138,20 +135,10 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		}
 	}
 
-	protected Asset getAsset(String id)
-	{
-		AssetInfosCache cache = getAssetInfos();
-		Asset asset = cache.getAsset(id);
-		if (asset == null) throw new IllegalArgumentException("Asset with id "+id+" not found");
-		return asset;
-	}
-
 	public RepositoryDetails getRepositoryDetails(String repositoryId) throws ServiceException
 	{
 		try {
-
-			AssetInfosCache cache = getAssetInfos();
-			RepositoryDetails repository = cache.getRepository(repositoryId);
+			RepositoryDetails repository = assetInfosCache.getRepository(repositoryId);
 			if (repository == null) throw new IllegalArgumentException("Repository with id "+repositoryId+" not found");
 			return repository;
 		} catch(Exception e)
@@ -164,7 +151,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	public void startUpload() throws ServiceException {
 		logger.trace("startUpload");
 		try {
-			WizardImportSession.getCleanImportSession(this.getThreadLocalRequest().getSession());
+			session.clean();
 		} catch(Exception e)
 		{
 			logger.error("An error occurred on server side", e);
@@ -176,8 +163,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	public FileUploadProgress getUploadProgress() throws ServiceException {
 
 		try {
-			WizardImportSession session = getImportSession();
-
 			FileUploadProgress uploadProgress = session.getUploadProgress();
 			if (uploadProgress == null) {
 				logger.error("Unexpected upload progress null.");
@@ -195,28 +180,14 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	public PreviewData getCsvPreviewData(CsvConfiguration configuration) throws ServiceException {
 
 		try {
-			WizardImportSession session = getImportSession();
-
 			if (session.getCodeListType()!=CodeListType.CSV) {
 				logger.error("Requested CSV preview data when CodeList type is {}", session.getCodeListType());
 				throw new ServiceException("No preview data available");
 			}
+			
+			previewDataManager.refresh(configuration);
 
-			if (session.getCsvParserConfiguration()!=null && session.getCsvParserConfiguration().equals(configuration)) return session.getPreviewCache();
-
-
-			session.setCsvParserConfiguration(configuration);
-
-			//FIXME duplicate code
-			Table table = parsingHelper.parse(session.getCsvParserConfiguration(), session.getFileField().getInputStream());
-			PreviewData previewData = parsingHelper.convert(table, !configuration.isHasHeader(), ParsingHelper.ROW_LIMIT);
-			session.setPreviewCache(previewData);
-			session.setCacheDirty(false);
-
-			List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
-			session.setGuessedMappings(mappings);
-
-			return previewData;
+			return previewDataManager.getPreviewData();
 		} catch(Exception e)
 		{
 			logger.error("Error converting the preview data", e);
@@ -230,9 +201,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public CodeListType getCodeListType() throws ServiceException {
 		try {
-
-			WizardImportSession session = getImportSession();
-
 			return session.getCodeListType();
 		} catch(Exception e)
 		{
@@ -245,7 +213,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	public ImportMetadata getMetadata() throws ServiceException {
 
 		try {
-			WizardImportSession session = getImportSession();
 			return session.getGuessedMetadata();
 		} catch(Exception e)
 		{
@@ -260,8 +227,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public CsvConfiguration getCsvParserConfiguration() throws ServiceException {
 		try {
-			WizardImportSession session = getImportSession();
-			CsvConfiguration configuration = session.getCsvParserConfiguration();
+			CsvConfiguration configuration = previewDataManager.getParserConfiguration();
 			configuration.setAvailablesCharset(Encodings.getEncodings());
 			return configuration;
 		} catch(Exception e)
@@ -277,8 +243,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public List<AttributeMapping> getMappings() throws ServiceException {
 		try {
-			WizardImportSession session = getImportSession();
-			return session.getGuessedMappings();
+			return mappingsManager.getMappings();
 		} catch(Exception e)
 		{
 			logger.error("An error occurred on server side", e);
@@ -287,13 +252,15 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	}
 
 	@Override
-	public void startImport(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ServiceException {
-		logger.trace("startImport metadata: {}, mappings: {}, mappingMode: {}", metadata, mappings, mappingMode);
-		WizardImportSession session = getImportSession();
+	public void startImport(CsvConfiguration csvConfiguration, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ServiceException {
+		logger.trace("startImport csvConfiguration: {}, metadata: {}, mappings: {}, mappingMode: {}", csvConfiguration, metadata, mappings, mappingMode);
 
 		try {
 			session.setImportedCodelistName(metadata.getName());
-			Importer<?> importer = importerFactory.createImporter(session, metadata, mappings, mappingMode);
+			
+			ImportTaskSession importTaskSession = session.createImportTaskSession();
+			importTaskSession.setUserOptions(csvConfiguration, metadata, mappings, mappingMode);
+			Importer<?> importer = importerFactory.createImporter(importTaskSession, session.getCodeListType());
 			session.setImporter(importer);
 			
 			//FIXME use a serialiser provider
@@ -309,7 +276,6 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public Progress getImportProgress() throws ServiceException {
 		try {
-			WizardImportSession session = getImportSession();
 			return session.getImporter().getProgress();
 		} catch(Exception e)
 		{
@@ -323,9 +289,8 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		logger.trace("setAsset {}", assetId);
 
 		try {
-			HttpSession httpSession = this.getThreadLocalRequest().getSession();
-			WizardImportSession session = WizardImportSession.getCleanImportSession(httpSession);
-			Asset asset = getAsset(assetId);	
+			Asset asset = assetInfosCache.getAsset(assetId);
+			if (asset == null) throw new IllegalArgumentException("Asset with id "+assetId+" not found");
 			session.setSelectedAsset(asset);
 
 			ImportMetadata metadata = new ImportMetadata();
@@ -337,17 +302,15 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 				session.setCodeListType(CodeListType.SDMX);
 				CodelistBean codelist = cloud.retrieveAsSdmx(asset.id());
 				metadata.setVersion(codelist.getVersion());
-				List<AttributeMapping> mappings = mappingsGuesser.getSdmxDefaultMappings();
-				session.setGuessedMappings(mappings);
+				mappingsManager.setDefaultSdmxMappings();
 			}
 
 
 			if (asset.type() == CsvCodelist.type) {
 				session.setCodeListType(CodeListType.CSV);
 				Table table = cloud.retrieveAsTable(asset.id());
-				metadata.setVersion("1.0");
-				List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
-				session.setGuessedMappings(mappings);
+				metadata.setVersion("1");
+				mappingsManager.updateMappings(table);
 			}
 
 		} catch(Exception e)
@@ -362,8 +325,8 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	public DataWindow<ReportLog> getReportLogs(Range range) throws ServiceException {
 		logger.trace("getReportLogs range: {}", range);
 		try {
-			WizardImportSession session = getImportSession();
-			List<ReportLog> logs = (session==null || session.getLogs()==null)?Collections.<ReportLog>emptyList():session.getLogs();
+			ImportTaskSession importTaskSession = session.getImportTaskSession();
+			List<ReportLog> logs = (importTaskSession==null || importTaskSession.getLogs()==null)?Collections.<ReportLog>emptyList():importTaskSession.getLogs();
 			List<ReportLog> subLogs = Ranges.subList(logs, range);
 			return new DataWindow<ReportLog>(subLogs, logs.size());
 		} catch(Exception e)

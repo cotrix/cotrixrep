@@ -50,7 +50,7 @@ public interface ImportService extends RemoteService {
 	
 	public List<AttributeMapping> getMappings() throws ServiceException;
 	
-	public void startImport(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ServiceException;
+	public void startImport(CsvConfiguration csvConfiguration, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ServiceException;
 	
 	public Progress getImportProgress() throws ServiceException;
 	

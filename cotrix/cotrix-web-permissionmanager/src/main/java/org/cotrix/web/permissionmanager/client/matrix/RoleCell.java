@@ -125,7 +125,7 @@ public class RoleCell extends AbstractEditableCell<RoleState, RoleState> {
 
 	@Override
 	public void render(Context context, RoleState value, SafeHtmlBuilder sb) {
-		
+
 		if (value.isLoading()) sb.append(INPUT_LOADING);
 		else {
 			

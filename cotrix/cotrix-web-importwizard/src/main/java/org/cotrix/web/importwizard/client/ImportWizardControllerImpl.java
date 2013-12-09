@@ -69,6 +69,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected ImportMetadata metadata;
 	protected List<AttributeMapping> mappings;
 	protected MappingMode mappingMode;
+	protected CsvConfiguration csvConfiguration;
 
 	protected Timer importProgressPolling;
 
@@ -161,6 +162,15 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 				mappings = event.getMappings();
 			}
 		});
+		
+		importEventBus.addHandler(CsvParserConfigurationUpdatedEvent.TYPE, new CsvParserConfigurationUpdatedEvent.CsvParserConfigurationUpdatedHandler() {
+			
+			@Override
+			public void onCsvParserConfigurationUpdated(CsvParserConfigurationUpdatedEvent event) {
+				csvConfiguration = event.getConfiguration();
+				
+			}
+		});
 	}
 
 	protected void importedItemUpdated(CodeListType codeListType)
@@ -227,6 +237,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 			@Override
 			public void onSuccess(CsvConfiguration result) {
 				Log.trace("parser configuration loaded: "+result);
+				csvConfiguration = result;
 				importEventBus.fireEventFromSource(new CsvParserConfigurationUpdatedEvent(result), ImportWizardControllerImpl.this);				
 			}
 		});
@@ -247,7 +258,7 @@ public class ImportWizardControllerImpl implements ImportWizardController {
 	protected void startImport()
 	{
 		Log.trace("starting import");
-		importService.startImport(metadata, mappings, mappingMode, new ManagedFailureCallback<Void>() {
+		importService.startImport(csvConfiguration, metadata, mappings, mappingMode, new ManagedFailureCallback<Void>() {
 
 			@Override
 			public void onSuccess(Void result) {

@@ -9,29 +9,24 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.upload.CodeListTypeGuesser;
-import org.cotrix.web.importwizard.server.upload.CsvParserConfigurationGuesser;
-import org.cotrix.web.importwizard.server.upload.MappingGuesser;
+import org.cotrix.web.importwizard.server.upload.MappingsManager;
+import org.cotrix.web.importwizard.server.upload.PreviewDataManager;
 import org.cotrix.web.importwizard.server.upload.UploadProgressListener;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
-import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.FileUploadProgress.Status;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.share.server.util.FileNameUtil;
-import org.cotrix.web.share.shared.CsvConfiguration;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.virtualrepository.tabular.Table;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -46,13 +41,18 @@ public class FileUpload extends HttpServlet{
 	protected Logger logger = LoggerFactory.getLogger(FileUpload.class);
 	protected DiskFileItemFactory factory;
 	protected CodeListTypeGuesser typeGuesser;
-	protected CsvParserConfigurationGuesser csvParserConfigurationGuesser;
 
 	@Inject
 	protected ParsingHelper parsingHelper;
-
+	
 	@Inject
-	protected MappingGuesser mappingsGuesser;
+	protected ImportSession session;
+	
+	@Inject
+	protected PreviewDataManager previewDataManager;
+	
+	@Inject
+	protected MappingsManager mappingsManager;
 
 	public FileUpload()
 	{
@@ -65,15 +65,12 @@ public class FileUpload extends HttpServlet{
 		factory.setRepository(repository);
 
 		typeGuesser = new CodeListTypeGuesser();
-		csvParserConfigurationGuesser = new CsvParserConfigurationGuesser();
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
 
 		logger.trace("processing upload request");
 
-		HttpSession httpSession = request.getSession();
-		WizardImportSession session = WizardImportSession.getCleanImportSession(httpSession);
 		FileUploadProgress uploadProgress = new FileUploadProgress(0, Status.ONGOING, null);
 		session.setUploadProgress(uploadProgress);
 		
@@ -135,19 +132,9 @@ public class FileUpload extends HttpServlet{
 
 			switch (codeListType) {
 				case CSV: {
-					CsvConfiguration configuration = csvParserConfigurationGuesser.guessConfiguration(fileField);
-					session.setCsvParserConfiguration(configuration);
+
+					previewDataManager.setup(fileField.getName(), fileField.getInputStream());
 					uploadProgress.setProgress(95);
-
-					//TODO check if csv config is valid
-					//FIXME duplicate code
-					Table table = parsingHelper.parse(configuration, fileField.getInputStream());
-					PreviewData previewData = parsingHelper.convert(table, !configuration.isHasHeader(), ParsingHelper.ROW_LIMIT);
-					session.setPreviewCache(previewData);
-					session.setCacheDirty(false);
-
-					List<AttributeMapping> mappings = mappingsGuesser.guessMappings(table);
-					session.setGuessedMappings(mappings);
 
 					String filename = FileNameUtil.toHumanReadable(fileField.getName());
 					ImportMetadata metadata = new ImportMetadata();
@@ -156,8 +143,7 @@ public class FileUpload extends HttpServlet{
 					session.setGuessedMetadata(metadata);
 				} break;
 				case SDMX: {
-					List<AttributeMapping> mappings = mappingsGuesser.getSdmxDefaultMappings();
-					session.setGuessedMappings(mappings);
+					mappingsManager.setDefaultSdmxMappings();
 
 					CodelistBean codelistBean = parsingHelper.parse(fileField.getInputStream());
 					String codelistName = codelistBean.getName();

@@ -3,11 +3,13 @@
  */
 package org.cotrix.web.importwizard.server.util;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
 import org.cotrix.io.CloudService;
 import org.cotrix.web.importwizard.shared.AssetInfo;
@@ -24,8 +26,14 @@ import org.virtualrepository.RepositoryService;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class AssetInfosCache {
+@SessionScoped
+public class AssetInfosCache implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5918630106298363538L;
+
 	protected static final ValueProvider<AssetInfo> NAME_PROVIDER = new ValueProvider<AssetInfo>() {
 
 		@Override
@@ -42,20 +50,10 @@ public class AssetInfosCache {
 		}
 	};
 	
-	public static final String SESSION_ATTRIBUTE_NAME = AssetInfosCache.class.getSimpleName();
-	
-	public static AssetInfosCache getFromSession(HttpSession httpSession, CloudService cloud){
-		AssetInfosCache assetCache = (AssetInfosCache) httpSession.getAttribute(SESSION_ATTRIBUTE_NAME);
-		if (assetCache == null) {
-			assetCache = new AssetInfosCache(cloud);
-			httpSession.setAttribute(SESSION_ATTRIBUTE_NAME, assetCache);
-		}
-		return assetCache;
-	}
-	
 	protected Logger logger = LoggerFactory.getLogger(AssetInfosCache.class);
 	
-	protected CloudService cloud;
+	@Inject
+	transient protected CloudService cloud;
 	
 	protected Map<String, Asset> assetsCache;
 	protected Map<String, RepositoryDetails> repositoriesCache;
@@ -65,8 +63,7 @@ public class AssetInfosCache {
 	/**
 	 * @param cloud
 	 */
-	public AssetInfosCache(CloudService cloud) {
-		this.cloud = cloud;
+	public AssetInfosCache() {
 		setupCache();
 	}
 

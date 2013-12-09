@@ -21,6 +21,11 @@ import org.virtualrepository.tabular.Table;
  */
 public class DefaultMappingsGuesser implements MappingGuesser {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8249977698878378562L;
+
 	/** 
 	 * {@inheritDoc}
 	 */

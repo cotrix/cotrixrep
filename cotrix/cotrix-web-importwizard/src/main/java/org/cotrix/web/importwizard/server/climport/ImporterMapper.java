@@ -6,6 +6,8 @@ package org.cotrix.web.importwizard.server.climport;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
 import org.cotrix.common.Outcome;
@@ -31,26 +33,21 @@ import org.virtualrepository.tabular.Table;
  */
 public interface ImporterMapper<T> {
 
-	public Outcome<Codelist> map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, T codelist);
+	public Outcome<Codelist> map(ImportTaskSession parameters, T codelist);
 	
+	@Singleton
 	public class CsvMapper implements ImporterMapper<Table> {
 		
+		@Inject
 		protected MapService mapper;
 
-		/**
-		 * @param mapper
-		 */
-		public CsvMapper(MapService mapper) {
-			this.mapper = mapper;
-		}
-
 		@Override
-		public Outcome<Codelist> map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, Table codelist) {
+		public Outcome<Codelist> map(ImportTaskSession parameters, Table codelist) {
 			
 			AttributeMapping codeAttribute = null;
 			List<ColumnDirectives> columnDirectives = new ArrayList<ColumnDirectives>();
 			
-			for (AttributeMapping mapping:mappings) {
+			for (AttributeMapping mapping:parameters.getMappings()) {
 				if (mapping.isMapped() && (
 						mapping.getAttributeDefinition().getType()==AttributeType.CODE ||
 						mapping.getAttributeDefinition().getType()==AttributeType.OTHER_CODE)) codeAttribute = mapping;
@@ -63,10 +60,11 @@ public interface ImporterMapper<T> {
 			Table2CodelistDirectives directives = new Table2CodelistDirectives(column);
 			for (ColumnDirectives directive:columnDirectives) directives.add(directive);
 			
+			ImportMetadata metadata = parameters.getMetadata();
 			directives.name(metadata.getName());
 			directives.version(metadata.getVersion());
 			
-			directives.mode(convertMappingMode(mappingMode));
+			directives.mode(convertMappingMode(parameters.getMappingMode()));
 			
 			return mapper.map(codelist, directives);
 		}
@@ -109,26 +107,20 @@ public interface ImporterMapper<T> {
 		
 	}
 	
+	@Singleton
 	public class SdmxMapper implements ImporterMapper<CodelistBean> {
 		
+		@Inject
 		protected MapService mapper;
 
-		/**
-		 * @param mapper
-		 */
-		public SdmxMapper(MapService mapper) {
-			this.mapper = mapper;
-		}
-
-
-
 		@Override
-		public Outcome<Codelist> map(ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode, CodelistBean codelist) {
+		public Outcome<Codelist> map(ImportTaskSession parameters, CodelistBean codelist) {
 			
 			Sdmx2CodelistDirectives directives = new Sdmx2CodelistDirectives();
 			
-			for (AttributeMapping mapping:mappings) setDirective(directives, mapping);
+			for (AttributeMapping mapping:parameters.getMappings()) setDirective(directives, mapping);
 			
+			ImportMetadata metadata = parameters.getMetadata();
 			directives.name(metadata.getName());
 			directives.version(metadata.getVersion());
 			

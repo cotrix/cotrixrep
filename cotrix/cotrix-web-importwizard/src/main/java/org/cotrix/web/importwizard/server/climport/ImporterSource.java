@@ -5,76 +5,89 @@ package org.cotrix.web.importwizard.server.climport;
 
 import java.io.InputStream;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.cotrix.io.CloudService;
 import org.cotrix.io.ParseService;
 import org.cotrix.io.ParseService.ParseDirectives;
+import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
+import org.cotrix.web.importwizard.server.util.ParsingHelper;
+import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
+import org.virtualrepository.tabular.Table;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface ImporterSource<T> {
+public class ImporterSource {
 
-	public T getCodelist();
-
-	public class ParserSource<T> implements ImporterSource<T> {
-
+		@Inject
 		protected ParseService parser;
-		protected ParseDirectives<T> directives;
-		protected InputStream is;
+		
 
-		/**
-		 * @param parser
-		 * @param directives
-		 * @param is
-		 */
-		public ParserSource(ParseService parser, ParseDirectives<T> directives,
-				InputStream is) {
-			this.parser = parser;
-			this.directives = directives;
-			this.is = is;
-		}
-
-		/** 
-		 * {@inheritDoc}
-		 */
-		@Override
-		public T getCodelist() {
-			return parser.parse(is, directives);
-		}
-
-	}
-
-	public class RetrieveSource<T> implements ImporterSource<T> {
-
-
+		@Inject
 		protected CloudService cloud;
-		protected Asset asset;
-		protected Class<T> type;
-
-		/**
-		 * @param repository
-		 * @param asset
-		 * @param type
-		 */
-		public RetrieveSource(CloudService repository, Asset asset,
-				Class<T> type) {
-			this.cloud = repository;
-			this.asset = asset;
-			this.type = type;
-		}
-
-
 
 		/** 
 		 * {@inheritDoc}
+		 * @throws Exception 
 		 */
-		@Override
-		public T getCodelist() {
-			return cloud.retrieve(asset.id(), type);
+		public <T> T getCodelist(ImportTaskSession parameters, SourceParameterProvider<T> parameterProvider) throws Exception {
+			if (parameters.getInputStream()!=null) {
+				InputStream is = parameters.getInputStream();
+				return parser.parse(is, parameterProvider.getParseDirectives(parameters));
+			}
+			
+			if (parameters.getAsset()!=null) {
+				Asset asset = parameters.getAsset();
+				return cloud.retrieve(asset.id(), parameterProvider.getTypeClass());
+			}
+			
+			throw new IllegalArgumentException("No source found");
 		}
 
+	
+	
+	public interface SourceParameterProvider<T> {
+		public ParseDirectives<T> getParseDirectives(ImportTaskSession parameters);
+		public Class<T> getTypeClass();
+		
+		
+		@Singleton
+		public class TableDirectivesProvider implements SourceParameterProvider<Table> {
+			
+			@Inject
+			protected ParsingHelper parsingHelper;
+
+			@Override
+			public ParseDirectives<Table> getParseDirectives(ImportTaskSession parameters) {
+				return parsingHelper.getDirectives(parameters.getCsvParserConfiguration());
+			}
+			
+			@Override
+			public Class<Table> getTypeClass() {
+				return Table.class;
+			}
+		}
+		
+		@Singleton
+		public class CodelistBeanDirectivesProvider implements SourceParameterProvider<CodelistBean> {
+
+			@Override
+			public ParseDirectives<CodelistBean> getParseDirectives(ImportTaskSession parameters) {
+				return Stream2SdmxDirectives.DEFAULT;
+			}
+			
+			@Override
+			public Class<CodelistBean> getTypeClass() {
+				return CodelistBean.class;
+			}
+		}
+	
 	}
+	
+	
 
 }

@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.cotrix.web.share.server.util.FileNameUtil;
@@ -22,12 +22,13 @@ import org.cotrix.web.share.server.util.FileNameUtil;
 public class ReportDownload extends HttpServlet {
 
 	private static final long serialVersionUID = 664872546900003111L;
+	
+	@Inject
+	protected ImportSession session;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		HttpSession httpSession = request.getSession();
-		WizardImportSession session = WizardImportSession.getImportSession(httpSession);
-		String report = session.getReport();
+		String report = session.getImportTaskSession().getReport();
 		if (report == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "There is no report in session");
 			return;

@@ -3,7 +3,8 @@
  */
 package org.cotrix.web.importwizard.server.upload;
 
-import org.apache.commons.fileupload.FileItem;
+import java.io.InputStream;
+
 import org.cotrix.web.share.shared.CsvConfiguration;
 
 /**
@@ -12,7 +13,7 @@ import org.cotrix.web.share.shared.CsvConfiguration;
  */
 public class CsvParserConfigurationGuesser {
 	
-	public CsvConfiguration guessConfiguration(FileItem csvFile)
+	public CsvConfiguration guessConfiguration(String fileName, InputStream inputStream)
 	{
 		//TODO implement
 		CsvConfiguration configuration = new CsvConfiguration();
