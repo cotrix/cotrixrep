@@ -8,22 +8,12 @@ import java.util.List;
 import org.cotrix.common.Utils;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Criterion;
-import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Range;
-import org.cotrix.repository.impl.BaseMultiQuery;
+import org.cotrix.repository.impl.AbstractMultiQuery;
 
-/**
- * Partial implementation of a {@link MultiQuery} evaluated against preloaded objects
- * 
- * @author Fabio Simeoni
- *
- * @param <T> the type of objects
- * @param <R> the type of query results
- * 
- */
-public abstract class MMultiQuery<T,R> extends BaseMultiQuery<T,R> implements MQuery<T,Collection<R>> {
+public abstract class MMultiQuery<T,S extends Identified.State,R> extends AbstractMultiQuery<T,R> implements MQuery<T,S,Collection<R>> {
 
-	public abstract Collection<? extends R> executeOn(MemoryRepository<? extends T> repository);
+	public abstract Collection<? extends R> executeOn(MemoryRepository<S> repository);
 	
 	
 	/**
@@ -31,7 +21,8 @@ public abstract class MMultiQuery<T,R> extends BaseMultiQuery<T,R> implements MQ
 	 * @param object the object
 	 * @return the results, or <code>null</code> if the object does not match the query.
 	 */
-	public Collection<R> execute(MemoryRepository<? extends T> repository) {
+	@Override
+	public Collection<R> execute(MemoryRepository<S> repository) {
 		
 		
 		List<R> results = new ArrayList<R>(executeOn(repository));

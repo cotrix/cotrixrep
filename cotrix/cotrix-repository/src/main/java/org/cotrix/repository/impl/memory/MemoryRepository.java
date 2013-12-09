@@ -12,14 +12,10 @@ import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public abstract class MemoryRepository<S extends Identified.State> implements Repository<S> {
 
-	private static Logger log = LoggerFactory.getLogger(MemoryRepository.class);
-	
 	private final Map<String,S> objects = new HashMap<String,S>();
 	
 	@Override
@@ -63,14 +59,13 @@ public abstract class MemoryRepository<S extends Identified.State> implements Re
 	}
 	
 	public void clear(@Observes Shutdown event) {
-		log.info("cleaning "+this.getClass().getCanonicalName());
 		objects.clear();
 	}
 	
 	//helpers
 	
 	@SuppressWarnings("all")
-	private <R> MQuery<S,R> reveal(Query<S,R> query) {
-		return (MQuery<S,R>) Utils.reveal(query,MQuery.class);
+	private <R> MQuery<?,S,R> reveal(Query<S,R> query) {
+		return Utils.reveal(query,MQuery.class);
 	}
 }

@@ -44,35 +44,45 @@ public class MCodelistQueryFactory extends MQueryFactory implements CodelistQuer
 	@Override
 	public MultiQuery<Codelist, Codelist> allLists() {
 
-		return new MMultiQuery<Codelist, Codelist>() {
-			public Collection<? extends Codelist> executeOn(MemoryRepository<? extends Codelist> r) {
-				return r.getAll();
+		return new MMultiQuery<Codelist, Codelist.State, Codelist>() {
+		
+			public Collection<? extends Codelist> executeOn(MemoryRepository<Codelist.State> repository) {
+				return adapt(repository.getAll());
 			}
+			
 		};
 	}
 
 	@Override
 	public MultiQuery<Codelist, Code> allCodes(final String codelistId) {
-		return new MMultiQuery<Codelist, Code>() {
-			public Collection<Code> executeOn(MemoryRepository<? extends Codelist> r) {
-				Collection<Code> codes = new ArrayList<Code>();
-				for (Code c : r.lookup(codelistId).codes())
-					codes.add(c);
-				return codes;
+		
+		return new MMultiQuery<Codelist, Codelist.State, Code>() {
+			
+			public Collection<? extends Code> executeOn(MemoryRepository<Codelist.State> repository) {
+				
+				Collection<Code.State> codes = new ArrayList<Code.State>();
+				
+				for (Code.State c : repository.lookup(codelistId).codes())
+						codes.add(c);
+				
+				return adapt(codes);
 			}
 		};
 	}
 
 	@Override
 	public MultiQuery<Codelist, CodelistCoordinates> allListCoordinates() {
-		return new MMultiQuery<Codelist, CodelistCoordinates>() {
-			public Collection<CodelistCoordinates> executeOn(MemoryRepository<? extends Codelist> r) {
+		
+		return new MMultiQuery<Codelist,Codelist.State,CodelistCoordinates>() {
+			
+			public Collection<CodelistCoordinates> executeOn(MemoryRepository<Codelist.State> repository) {
 				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
-				for (Codelist list : r.getAll())
+				for (Codelist.State list : repository.getAll())
 					coordinates.add(coordsOf(list));
 				return coordinates;
 			}
 		};
+		
 	}
 
 	@Override
@@ -80,15 +90,49 @@ public class MCodelistQueryFactory extends MQueryFactory implements CodelistQuer
 
 		final FingerPrint fp = u.fingerprint();
 
-		return new MMultiQuery<Codelist, CodelistCoordinates>() {
-			public Collection<CodelistCoordinates> executeOn(MemoryRepository<? extends Codelist> r) {
+		return new MMultiQuery<Codelist, Codelist.State, CodelistCoordinates>() {
+			
+			public Collection<CodelistCoordinates> executeOn(MemoryRepository<Codelist.State> repository) {
 
 				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
-				for (Codelist list : r.getAll())
+				for (Codelist.State list : repository.getAll())
 					if (!fp.allRolesOver(list.id(), codelists).isEmpty())
 						coordinates.add(coordsOf(list));
 
 				return coordinates;
+			}
+		};
+	}
+	
+
+	public Query<Codelist, CodelistSummary> summary(final String id) {
+
+		return new MQuery<Codelist, Codelist.State, CodelistSummary>() {
+		
+			@Override
+			public CodelistSummary execute(MemoryRepository<Codelist.State> repository) {
+
+				Codelist.State state = repository.lookup(id);
+
+				if (state == null)
+					throw new IllegalStateException("no such codelist: " + id);
+
+				int size = state.codes().size();
+
+				Codelist list = state.entity();
+				
+				Collection<Attribute> attributes = new ArrayList<Attribute>();
+				
+				for (Attribute a : list.attributes())
+					if (!a.type().equals(SYSTEM_TYPE))
+						attributes.add(a);
+
+				Map<QName, Map<QName, Set<String>>> fingerprint = new HashMap<QName, Map<QName, Set<String>>>();
+
+				for (Code c : list.codes())
+					addToFingerprint(fingerprint, c.attributes());
+
+				return new CodelistSummary(list.name(), size, attributes, fingerprint);
 			}
 		};
 	}
@@ -177,34 +221,6 @@ public class MCodelistQueryFactory extends MQueryFactory implements CodelistQuer
 			}
 		};
 
-	}
-
-	public Query<Codelist, CodelistSummary> summary(final String id) {
-
-		return new MQuery<Codelist, CodelistSummary>() {
-			@Override
-			public CodelistSummary execute(MemoryRepository<? extends Codelist> repository) {
-
-				Codelist list = repository.lookup(id);
-
-				if (list == null)
-					throw new IllegalStateException("no such codelist: " + id);
-
-				int size = list.codes().size();
-
-				Collection<Attribute> attributes = new ArrayList<Attribute>();
-				for (Attribute a : list.attributes())
-					if (!a.type().equals(SYSTEM_TYPE))
-						attributes.add(a);
-
-				Map<QName, Map<QName, Set<String>>> fingerprint = new HashMap<QName, Map<QName, Set<String>>>();
-
-				for (Code c : list.codes())
-					addToFingerprint(fingerprint, c.attributes());
-
-				return new CodelistSummary(list.name(), size, attributes, fingerprint);
-			}
-		};
 	}
 
 	// helper

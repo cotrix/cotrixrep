@@ -28,9 +28,10 @@ public class MUserQueryFactory extends MQueryFactory implements UserQueryFactory
 	@Override
 	public MultiQuery<User,User> allUsers() {
 		
-		return new MMultiQuery<User,User>() {
-			public Collection<? extends User> executeOn(MemoryRepository<? extends User> repository) {
-				return repository.getAll();
+		return new MMultiQuery<User,User.State,User>() {
+			
+			public Collection<? extends User> executeOn(MemoryRepository<User.State> repository) {
+				return adapt(repository.getAll());
 			}
 		};
 		
@@ -39,13 +40,14 @@ public class MUserQueryFactory extends MQueryFactory implements UserQueryFactory
 	
 	@Override
 	public Query<User, User> userByName(final String name) {
-		return new MQuery<User,User>() {
+		
+		return new MQuery<User,User.State,User>() {
 			@Override
-			public User execute(MemoryRepository<? extends User> repository) {
+			public User execute(MemoryRepository<User.State> repository) {
 				
-				for (User user : repository.getAll())
+				for (User.State user : repository.getAll())
 					if (user.name().equals(name))
-						return user;
+						return user.entity();
 				
 				return null;
 			}
@@ -56,14 +58,16 @@ public class MUserQueryFactory extends MQueryFactory implements UserQueryFactory
 	@Override
 	public MultiQuery<User,User> roleOn(final String resource, final ResourceType type) {
 		
-		return new MMultiQuery<User,User>() {
+		return new MMultiQuery<User,User.State,User>() {
 			
 			@Override
-			public Collection<? extends User> executeOn(MemoryRepository<? extends User> repository) {
+			public Collection<? extends User> executeOn(MemoryRepository<User.State> repository) {
 				Collection<User> matches = new HashSet<User>();
-				for (User u : repository.getAll())
-					if (!u.fingerprint().allRolesOver(resource,type).isEmpty())
-						matches.add(u);
+				for (User.State u : repository.getAll()) {
+					User user = u.entity();
+					if (!user.fingerprint().allRolesOver(resource,type).isEmpty())
+						matches.add(user);
+				}
 				return matches;
 			}
 		};
@@ -73,14 +77,18 @@ public class MUserQueryFactory extends MQueryFactory implements UserQueryFactory
 	@Override
 	public MultiQuery<User, User> teamFor(final String codelistId) {
 	
-		return new MMultiQuery<User,User>() {
+		return new MMultiQuery<User,User.State,User>() {
 			
 			@Override
-			public Collection<? extends User> executeOn(MemoryRepository<? extends User> repository) {
+			public Collection<? extends User> executeOn(MemoryRepository<User.State> repository) {
+				
 				Collection<User> matches = new HashSet<User>();
-				for (User u : repository.getAll())
-					if (!u.fingerprint().specificRolesOver(codelistId,codelists).isEmpty())
-						matches.add(u);
+				
+				for (User.State u : repository.getAll()) {
+					User user  = u.entity();
+					if (!user.fingerprint().specificRolesOver(codelistId,codelists).isEmpty())
+						matches.add(user);
+				}
 				return matches;
 			}
 		};

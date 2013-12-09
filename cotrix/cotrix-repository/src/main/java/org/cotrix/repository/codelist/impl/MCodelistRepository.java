@@ -15,5 +15,4 @@ import org.cotrix.repository.impl.memory.MemoryRepository;
 @ApplicationScoped
 public class MCodelistRepository extends MemoryRepository<Codelist.State> {
 
-
 }

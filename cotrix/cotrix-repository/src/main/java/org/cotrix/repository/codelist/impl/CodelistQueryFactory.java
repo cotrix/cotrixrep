@@ -18,93 +18,28 @@ import org.cotrix.repository.codelist.CodelistSummary;
  */
 public interface CodelistQueryFactory {
 
-	/**
-	 * Returns a query for all the codelists.
-	 * 
-	 * @return the query
-	 */
 	MultiQuery<Codelist, Codelist> allLists();
 
-	/**
-	 * Returns a query for the coordinates of all the codelists.
-	 * 
-	 * @return the query
-	 */
 	MultiQuery<Codelist, CodelistCoordinates> allListCoordinates();
 
-	/**
-	 * Returns a query for all the codes of a given codelist.
-	 * 
-	 * @return the query
-	 */
 	MultiQuery<Codelist, Code> allCodes(String codelistId);
 
-	/**
-	 * Returns a query for the summary of a given codelist.
-	 * 
-	 * @param codelistId the codelist identifier
-	 * @return the query
-	 */
+	MultiQuery<Codelist,CodelistCoordinates> codelistsFor(User u);
+
 	Query<Codelist, CodelistSummary> summary(String codelistId);
 
-	/**
-	 * Returns the criterion to sort codelist results by name.
-	 * 
-	 * @return the criterion
-	 */
 	Criterion<Codelist> byCodelistName();
 
-	/**
-	 * Returns the criterion to sort codelist results by name.
-	 * 
-	 * @return the criterion
-	 */
 	Criterion<Code> byCodeName();
 	
-	
-	/**
-	 * Returns the criterion to sort codelist results by name.
-	 * 
-	 * @return the criterion
-	 */
 	Criterion<CodelistCoordinates> byCoordinateName();
 
-	/**
-	 * Returns a criterion that sorts two results according to a given criterion whenever they are equal according to
-	 * yet another criterion.
-	 * 
-	 * @param c1 the first criterion
-	 * @param c2 the second criterion
-	 * 
-	 * @return the combined criteria
-	 */
 	<T> Criterion<T> all(Criterion<T> c1, Criterion<T> c2);
 	
-
-	/**
-	 * Returns a criterion that inverts the order of a given criterion.
-	 * 
-	 * @param c the criterion
-	 * 
-	 * @return the inverted criterion
-	 */
 	<T> Criterion<T> descending(Criterion<T> c);
 	
-	/**
-	 * Returns the criterion to sort codelist results by version
-	 * @return the criterion
-	 */
 	Criterion<Codelist> byVersion();
-	
-	
-	MultiQuery<Codelist,CodelistCoordinates> codelistsFor(User u);
-	
-	/**
-	 * Returns the criterion to sort code results by attribute properties.
-	 * @param attribute the attribute template that describes the required properties
-	 * @param position the position of attributes that should match the template
-	 * @return  the criterion
-	 */
+
 	Criterion<Code> byAttribute(final Attribute attribute,int position);
 
 }

@@ -15,6 +15,10 @@ public class CodelistCoordinates implements Named {
 		return new CodelistCoordinates(id, name, version);
 	}
 	
+	public static CodelistCoordinates coordsOf(Codelist.State list) {
+		return new CodelistCoordinates(list.id(), list.name(), list.version().value());
+	}
+	
 	public static CodelistCoordinates coordsOf(Codelist list) {
 		return new CodelistCoordinates(list.id(), list.name(), list.version());
 	}

@@ -9,7 +9,7 @@ import org.cotrix.repository.codelist.CodelistRepository;
 import org.cotrix.repository.impl.AbstractRepository;
 
 @ApplicationScoped
-public class DefaultCodelistRepository extends AbstractRepository<Codelist,Codelist.Private, Codelist.State> implements CodelistRepository {
+public class DefaultCodelistRepository extends AbstractRepository<Codelist,Codelist.Private,Codelist.State> implements CodelistRepository {
 
 	@Inject
 	public DefaultCodelistRepository(Repository<Codelist.State> repository) {
