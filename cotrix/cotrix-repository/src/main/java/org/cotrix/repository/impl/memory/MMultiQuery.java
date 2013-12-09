@@ -10,11 +10,11 @@ import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.Range;
 import org.cotrix.repository.impl.AbstractMultiQuery;
+import org.cotrix.repository.impl.memory.MemoryRepository.MCriterion;
 
 public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implements MQuery<T,Collection<R>> {
 
-	public abstract Collection<? extends R> _execute();
-	
+	abstract Collection<? extends R> _execute();
 	
 	/**
 	 * Returns one or more results from a given object.
@@ -24,9 +24,10 @@ public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implement
 	@Override
 	public Collection<R> execute() {
 		
-		
+		//compute query
 		List<R> results = new ArrayList<R>(_execute());
 		
+		//apply excludes
 		List<R> excludes = new ArrayList<R>();
 		
 		for (R result : results)
@@ -36,6 +37,8 @@ public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implement
 		
 		results.removeAll(excludes);
 		
+		
+		//extract range
 		int count = 1;
 	
 		List<R> range = new ArrayList<R>();
@@ -62,7 +65,7 @@ public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implement
 				}
 			}
 			
-				
+		//apply sort criteria
 		if (criterion()!=null)
 			Collections.sort(range,reveal(criterion()));
 		 

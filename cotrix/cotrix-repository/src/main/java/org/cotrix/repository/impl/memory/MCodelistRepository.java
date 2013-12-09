@@ -46,7 +46,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 		return new MMultiQuery<Codelist, Codelist>() {
 		
-			public Collection<? extends Codelist> _execute() {
+			Collection<? extends Codelist> _execute() {
 				return adapt(getAll());
 			}
 			

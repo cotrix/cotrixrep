@@ -2,6 +2,7 @@ package org.cotrix.repository.impl.memory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,15 +57,41 @@ public abstract class MemoryRepository<S extends Identified.State> implements St
 	}
 	
 	
+	
+	//definition shared by subclasses in their role of query factories
+	
+	
+	//memry criterion based on comparable
+	public interface MCriterion<T> extends Comparator<T>, Criterion<T> {}
+	
+	
 	public <T> Criterion<T> all(final Criterion<T> c1, final Criterion<T> c2) {
 
-		return MCriteria.all(c1, c2);
+		return new MCriterion<T>() {
+
+			public int compare(T o1, T o2) {
+				int result = reveal(c1).compare(o1, o2);
+
+				if (result == 0)
+					result = reveal(c2).compare(o1, o2);
+
+				return result;
+			};
+
+		};
 	}
 
 	public <T> Criterion<T> descending(final Criterion<T> c) {
 		
-		return MCriteria.descending(c);
+		return new MCriterion<T>() {
+
+			public int compare(T o1, T o2) {
+				return (-1)*reveal(c).compare(o1,o2);
+			};
+
+		};
 	}
+	
 	
 	public <R, SR extends EntityProvider<R>> Collection<R> adapt(Collection<SR> results) {
 		Collection<R> adapted = new ArrayList<R>();
@@ -72,6 +99,9 @@ public abstract class MemoryRepository<S extends Identified.State> implements St
 			adapted.add(result.entity());
 		return adapted;
 	}
+	
+	
+	
 	
 	//helpers
 	
@@ -82,5 +112,10 @@ public abstract class MemoryRepository<S extends Identified.State> implements St
 	@SuppressWarnings("all")
 	private <R> MQuery<S,R> reveal(Query<S,R> query) {
 		return Utils.reveal(query,MQuery.class);
+	}
+	
+	@SuppressWarnings("all")
+	private static <R> MCriterion<R> reveal(Criterion<R> criterion) {
+		return Utils.reveal(criterion, MCriterion.class);
 	}
 }

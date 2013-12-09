@@ -118,15 +118,17 @@ public abstract class AbstractRepository<T extends Identified,
 	
 
 	//helpers
-	
-	//hide ugly casts to convince compiler P is a T and T can only be P
-	//pragmatically safe as P is sole implementation of T;
+
+	/* query for entity repository is also good for corresponding state repository */
 	
 	@SuppressWarnings("all")
 	private <R> Query<S,R> retype(Query<T,R> query) {
 		return (Query) query;
 	}
-	
+
+	/* used to retype P as T and vice-versa.
+	   it's pragmatically safe because P the sole implementation of T;*/
+
 	@SuppressWarnings("all")
 	public <A,B> A retype(B entity) {
 		return (A) entity;
