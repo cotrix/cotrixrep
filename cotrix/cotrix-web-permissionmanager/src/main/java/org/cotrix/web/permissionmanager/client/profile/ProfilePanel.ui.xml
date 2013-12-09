@@ -99,8 +99,24 @@
 			<g:HTMLPanel styleName="{style.profilePanel}">
 				<table width="100%">
 					<tr>
-						<td style="text-align:right;vertical-align:top;padding-top:30px;">
-							<g:Image resource="{common.user}" />
+<!-- 						<td style="text-align:right;vertical-align:top;padding-top:30px;"> -->
+<!-- 							<g:Image resource="{common.user}" /> -->
+<!-- 						</td> -->
+						<td style="text-align:right;vertical-align:top;">
+							<table style="width: 200px;">
+								<tr>
+									<td style="text-align:center;">
+										<g:Image resource="{resources.photo}" />
+									</td>
+								</tr>
+								<tr>
+									<td style="padding-top: 30px;text-align:center;">
+										<g:Button ui:field="password"
+											styleName="{common.css.blueButton} {style.password}">Change password</g:Button>
+
+									</td>
+								</tr>
+							</table>
 						</td>
 						<td style="vertical-align:top;">
 							<table>
@@ -119,22 +135,6 @@
 								<tr>
 									<td style="padding-left: 4px;">
 										<g:TextBox ui:field="email" styleName="{style.textBox}" />
-									</td>
-								</tr>
-							</table>
-						</td>
-						<td style="text-align:center;">
-							<table style="width: 300px;">
-								<tr>
-									<td>
-										<g:Image resource="{resources.photo}" />
-									</td>
-								</tr>
-								<tr>
-									<td style="padding-top: 30px;">
-										<g:Button ui:field="password"
-											styleName="{common.css.blueButton} {style.password}">Change password</g:Button>
-
 									</td>
 								</tr>
 							</table>
