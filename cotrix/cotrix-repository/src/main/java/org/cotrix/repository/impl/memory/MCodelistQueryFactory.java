@@ -1,10 +1,10 @@
-package org.cotrix.repository.codelist.impl;
+package org.cotrix.repository.impl.memory;
 
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.utils.Constants.*;
-import static org.cotrix.repository.codelist.CodelistCoordinates.*;
-import static org.cotrix.repository.codelist.CodelistSummary.*;
+import static org.cotrix.repository.CodelistCoordinates.*;
+import static org.cotrix.repository.CodelistSummary.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,16 +22,12 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
+import org.cotrix.repository.CodelistCoordinates;
+import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
-import org.cotrix.repository.codelist.CodelistCoordinates;
-import org.cotrix.repository.codelist.CodelistSummary;
-import org.cotrix.repository.impl.memory.MCriterion;
-import org.cotrix.repository.impl.memory.MMultiQuery;
-import org.cotrix.repository.impl.memory.MQuery;
-import org.cotrix.repository.impl.memory.MQueryFactory;
-import org.cotrix.repository.impl.memory.MemoryRepository;
+import org.cotrix.repository.impl.CodelistQueryFactory;
 
 /**
  * A {@link CodelistQueryFactory} for {@link MMultiQuery}s.

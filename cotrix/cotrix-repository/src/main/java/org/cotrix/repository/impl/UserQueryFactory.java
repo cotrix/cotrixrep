@@ -1,4 +1,4 @@
-package org.cotrix.repository.user.impl;
+package org.cotrix.repository.impl;
 
 import org.cotrix.action.ResourceType;
 import org.cotrix.domain.user.User;

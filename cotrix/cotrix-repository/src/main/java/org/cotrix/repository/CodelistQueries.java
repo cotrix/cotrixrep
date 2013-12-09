@@ -1,4 +1,4 @@
-package org.cotrix.repository.codelist;
+package org.cotrix.repository;
 
 import javax.enterprise.event.Observes;
 
@@ -7,11 +7,8 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.Criterion;
-import org.cotrix.repository.MultiQuery;
-import org.cotrix.repository.Query;
-import org.cotrix.repository.codelist.impl.CodelistQueryFactory;
-import org.cotrix.repository.codelist.impl.MCodelistQueryFactory;
+import org.cotrix.repository.impl.CodelistQueryFactory;
+import org.cotrix.repository.impl.memory.MCodelistQueryFactory;
 
 public class CodelistQueries {
 

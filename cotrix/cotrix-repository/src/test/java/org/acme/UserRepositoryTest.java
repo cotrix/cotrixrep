@@ -5,7 +5,7 @@ import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.repository.user.UserQueries.*;
+import static org.cotrix.repository.UserQueries.*;
 
 import javax.inject.Inject;
 
@@ -13,7 +13,7 @@ import org.cotrix.action.Action;
 import org.cotrix.domain.dsl.grammar.UserGrammar;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.user.UserRepository;
+import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
 

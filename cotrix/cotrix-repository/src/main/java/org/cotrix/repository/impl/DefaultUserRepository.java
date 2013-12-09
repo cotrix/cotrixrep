@@ -1,6 +1,6 @@
-package org.cotrix.repository.user.impl;
+package org.cotrix.repository.impl;
 
-import static org.cotrix.repository.user.UserQueries.*;
+import static org.cotrix.repository.UserQueries.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -8,8 +8,7 @@ import javax.inject.Inject;
 import org.cotrix.common.Utils;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.Repository;
-import org.cotrix.repository.impl.AbstractRepository;
-import org.cotrix.repository.user.UserRepository;
+import org.cotrix.repository.UserRepository;
 
 
 @ApplicationScoped

@@ -1,4 +1,4 @@
-package org.cotrix.repository.user.impl;
+package org.cotrix.repository.impl.memory;
 
 import static org.cotrix.action.ResourceType.*;
 
@@ -10,12 +10,8 @@ import org.cotrix.domain.user.User;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
-import org.cotrix.repository.codelist.impl.CodelistQueryFactory;
-import org.cotrix.repository.impl.memory.MCriterion;
-import org.cotrix.repository.impl.memory.MMultiQuery;
-import org.cotrix.repository.impl.memory.MQuery;
-import org.cotrix.repository.impl.memory.MQueryFactory;
-import org.cotrix.repository.impl.memory.MemoryRepository;
+import org.cotrix.repository.impl.CodelistQueryFactory;
+import org.cotrix.repository.impl.UserQueryFactory;
 
 /**
  * A {@link CodelistQueryFactory} for {@link MMultiQuery}s.

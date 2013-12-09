@@ -10,7 +10,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.io.sdmx.SdmxElement;
-import org.cotrix.repository.codelist.CodelistSummary;
+import org.cotrix.repository.CodelistSummary;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.Column;

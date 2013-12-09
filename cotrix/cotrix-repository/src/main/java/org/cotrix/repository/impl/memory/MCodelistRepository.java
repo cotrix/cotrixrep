@@ -1,10 +1,9 @@
-package org.cotrix.repository.codelist.impl;
+package org.cotrix.repository.impl.memory;
 
 import javax.enterprise.context.ApplicationScoped;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.repository.codelist.CodelistRepository;
-import org.cotrix.repository.impl.memory.MemoryRepository;
+import org.cotrix.repository.CodelistRepository;
 
 /**
  * An in-memory {@link CodelistRepository}.

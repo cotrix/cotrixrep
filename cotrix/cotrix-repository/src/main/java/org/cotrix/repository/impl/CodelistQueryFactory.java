@@ -1,14 +1,14 @@
-package org.cotrix.repository.codelist.impl;
+package org.cotrix.repository.impl;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.user.User;
+import org.cotrix.repository.CodelistCoordinates;
+import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
-import org.cotrix.repository.codelist.CodelistCoordinates;
-import org.cotrix.repository.codelist.CodelistSummary;
 
 /**
  * Factory of queries over codelists.

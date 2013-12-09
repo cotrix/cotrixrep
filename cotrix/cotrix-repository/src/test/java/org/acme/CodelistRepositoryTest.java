@@ -7,8 +7,8 @@ import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.repository.codelist.CodelistCoordinates.*;
-import static org.cotrix.repository.codelist.CodelistQueries.*;
+import static org.cotrix.repository.CodelistCoordinates.*;
+import static org.cotrix.repository.CodelistQueries.*;
 
 import javax.inject.Inject;
 
@@ -18,9 +18,9 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.codelist.CodelistCoordinates;
-import org.cotrix.repository.codelist.CodelistRepository;
-import org.cotrix.repository.codelist.CodelistSummary;
+import org.cotrix.repository.CodelistCoordinates;
+import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.CodelistSummary;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
 
