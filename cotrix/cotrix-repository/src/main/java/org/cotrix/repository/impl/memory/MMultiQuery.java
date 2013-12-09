@@ -11,9 +11,9 @@ import org.cotrix.repository.Criterion;
 import org.cotrix.repository.Range;
 import org.cotrix.repository.impl.AbstractMultiQuery;
 
-public abstract class MMultiQuery<T,S extends Identified.State,R> extends AbstractMultiQuery<T,R> implements MQuery<T,S,Collection<R>> {
+public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implements MQuery<T,Collection<R>> {
 
-	public abstract Collection<? extends R> executeOn(MemoryRepository<S> repository);
+	public abstract Collection<? extends R> _execute();
 	
 	
 	/**
@@ -22,10 +22,10 @@ public abstract class MMultiQuery<T,S extends Identified.State,R> extends Abstra
 	 * @return the results, or <code>null</code> if the object does not match the query.
 	 */
 	@Override
-	public Collection<R> execute(MemoryRepository<S> repository) {
+	public Collection<R> execute() {
 		
 		
-		List<R> results = new ArrayList<R>(executeOn(repository));
+		List<R> results = new ArrayList<R>(_execute());
 		
 		List<R> excludes = new ArrayList<R>();
 		

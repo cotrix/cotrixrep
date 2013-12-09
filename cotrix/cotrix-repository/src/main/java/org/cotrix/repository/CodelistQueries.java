@@ -8,11 +8,10 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.impl.CodelistQueryFactory;
-import org.cotrix.repository.impl.memory.MCodelistQueryFactory;
 
 public class CodelistQueries {
 
-	private static CodelistQueryFactory factory = new MCodelistQueryFactory();
+	private static CodelistQueryFactory factory;
 	
 	public static void setFactory(CodelistQueryFactory factory) {
 		CodelistQueries.factory = factory;

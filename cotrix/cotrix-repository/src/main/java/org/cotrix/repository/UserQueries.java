@@ -6,11 +6,10 @@ import org.cotrix.action.ResourceType;
 import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.impl.UserQueryFactory;
-import org.cotrix.repository.impl.memory.MUserQueryFactory;
 
 public class UserQueries {
 
-	private static UserQueryFactory factory = new MUserQueryFactory();
+	private static UserQueryFactory factory;
 	
 	public static MultiQuery<User,User> allUsers() {
 		return factory.allUsers();
