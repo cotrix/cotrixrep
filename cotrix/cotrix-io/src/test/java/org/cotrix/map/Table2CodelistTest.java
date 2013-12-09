@@ -12,8 +12,10 @@ import org.cotrix.common.Outcome;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.memory.IdentifiedMS;
 import org.cotrix.io.MapService;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.virtualrepository.tabular.Table;
@@ -124,13 +126,23 @@ public class Table2CodelistTest {
 
 		System.out.println(outcome.report());
 
-		Attribute attr = attr().name("c2").value("2").ofType("t").in("l").build();
+		Attribute attr = attribute().name("c2").value("2").ofType("t").in("l").build();
 		Code code = code().name("1").attributes(attr).build();
 		Codelist expected = codelist().name("c1").with(code).build();
 
 		assertEquals(expected, outcome.result());
 	}
 
+	@BeforeClass
+	public static void setup() {
+		
+		IdentifiedMS.testmode=true;
+	}
 	
+	@BeforeClass
+	public static void after() {
+		
+		IdentifiedMS.testmode=false;
+	}
 
 }

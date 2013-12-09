@@ -137,7 +137,7 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 	}
 	
 	public Attribute templateFrom(QName name, QName type) {
-		return attr().name(name).value("?").ofType(type).build();
+		return modifyAttribute("*").name(name).value("?").ofType(type).build();
 	}
 	
 }

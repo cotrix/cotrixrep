@@ -1,7 +1,7 @@
 package org.cotrix.domain.dsl.builder;
 
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.trait.Status.*;
+import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClaus
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.SecondClause;
-import org.cotrix.domain.po.CodelistLinkPO;
+import org.cotrix.domain.memory.CodelistLinkMS;
 
 /**
  * Builds {@link Attribute}s.
@@ -27,20 +27,15 @@ import org.cotrix.domain.po.CodelistLinkPO;
 public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkChangeClause, FinalClause {
 
 	
-	private final CodelistLinkPO po;
+	private final CodelistLinkMS state;
 	
-	public CodelistLinkBuilder() {
-		this.po = new CodelistLinkPO(null);
-	}
-	
-	public CodelistLinkBuilder(String id) {
-		this.po = new CodelistLinkPO(id);
-		po.setChange(MODIFIED);
+	public CodelistLinkBuilder(CodelistLinkMS state) {
+		this.state = state;
 	}
 	
 	@Override
 	public SecondClause name(QName name) {
-		po.setName(name);
+		state.name(name);
 		return this;
 	}
 	
@@ -50,20 +45,13 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	}
 	
 	@Override
-	public CodelistLink delete() {
-		po.setChange(DELETED);
-		return build();
-	}
-	
-	@Override
 	public FinalClause attributes(Attribute ... attributes) {
-		po.setAttributes(Arrays.asList(attributes));
-		return this;
+		return attributes(Arrays.asList(attributes));
 	}
 	
 	@Override
 	public FinalClause attributes(List<Attribute> attributes) {
-		po.setAttributes(attributes);
+		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
 	}
 	
@@ -75,14 +63,14 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 		if (target.id()==null)
 			throw new IllegalArgumentException("cannot link to an unidentified codelist");
 		
-		po.setTargetId(target.id());
+		state.targetId(target.id());
 		
 		return this;
 	}
 	
 	@Override
 	public CodelistLink build() {
-		return new CodelistLink.Private(po);
+		return state.entity();
 	}
 	
 

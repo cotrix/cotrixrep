@@ -1,26 +1,43 @@
 package org.cotrix.domain.dsl;
 
+import static org.cotrix.domain.trait.Status.*;
+
+import java.util.Arrays;
+import java.util.Collection;
+
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.Utils;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.common.NamedStateContainer;
+import org.cotrix.domain.common.StateContainer;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
-import org.cotrix.domain.dsl.builder.CodeLinkBuilder;
+import org.cotrix.domain.dsl.builder.CodelinkBuilder;
 import org.cotrix.domain.dsl.builder.CodelistBuilder;
 import org.cotrix.domain.dsl.builder.CodelistLinkBuilder;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeDeltaClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
-import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.CodeLinkStartClause;
+import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
+import org.cotrix.domain.memory.AttributeMS;
+import org.cotrix.domain.memory.CodeMS;
+import org.cotrix.domain.memory.CodelinkMS;
+import org.cotrix.domain.memory.CodelistLinkMS;
+import org.cotrix.domain.memory.CodelistMS;
+import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Named;
 
 /**
  * Model factory.
@@ -30,127 +47,124 @@ import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
  */
 public class Codes {
 	
-	/**
-	 * Returns a unqualified name.
-	 * @param local the local part of the name
-	 * @return the name
-	 */
 	public static QName q(String local) {
 		return new QName(local);
 	}
 	
-	/**
-	 * Returns a qualified name.
-	 * @param ns the namespace part of the name
-	 * @param local the local part of the name
-	 * @return
-	 */
 	public static QName q(String ns, String local) {
 		return new QName(ns,local);
 	}
 	
-	/**
-	 * Starts a sentence to create an {@link Attribute}.
-	 * @return the next clause in the sentence
-	 */
-	public static AttributeStartClause attr() {
-		return new AttributeBuilder();
+	public static AttributeStartClause attribute() {
+		return new AttributeBuilder(new AttributeMS());
 	}
 	
-	/**
-	 * Starts a sentence to create an {@link Attribute} changeset.
-	 * @param id the identifier of the target attribute
-	 * @return the next clause in the sentence
-	 */
-	public static AttributeDeltaClause attr(String id) {
-		return new AttributeBuilder(id);
+	public static AttributeDeltaClause modifyAttribute(String id) {
+		return new AttributeBuilder(new AttributeMS(id,MODIFIED));
 	}
 	
-	/**
-	 * Returns a {@link Code} with a given unqualified name.
-	 * @param name the name
-	 * @return the code
-	 */
+	public static Attribute deleteAttribute(String id) {
+		return new AttributeMS(id,DELETED).entity();
+	}
+	
 	public static Code ascode(String name) {
 		return ascode(q(name));
 	}
 	
-	/**
-	 * Returns a {@link Code} with a given qualified name.
-	 * @param name the name
-	 * @return the code
-	 */
 	public static Code ascode(QName name) {
-		return new CodeBuilder().name(name).build();
+		return new CodeBuilder(new CodeMS()).name(name).build();
 	}
 	
-	/**
-	 * Starts a sentence to create an {@link Code}.
-	 * @return the next clause in the sentence
-	 */
 	public static CodeNewClause code() {
-		return new CodeBuilder();
+		return new CodeBuilder(new CodeMS());
 	}
 	
-	/**
-	 * Starts a sentence to create a {@link Code} changeset.
-	 * @param id the identifier of the target code
-	 * @return the next clause in the sentence
-	 */
-	public static CodeDeltaClause code(String id) {
-		return new CodeBuilder(id);
+	public static CodeDeltaClause modifyCode(String id) {
+		return new CodeBuilder(new CodeMS(id,MODIFIED));
 	}
 	
-	/**
-	 * Starts a sentence to create an {@link Codelink} with a given identifier.
-	 * @param id the identifier
-	 * @return the next clause in the sentence
-	 */
-	public static CodeLinkStartClause codeLink(String id) {
-		return new CodeLinkBuilder(id);
+	public static Code deleteCode(String id) {
+		return new CodeMS(id,DELETED).entity();
 	}
 	
-	/**
-	 * Starts a sentence to create an {@link Codelink} with a given identifier.
-	 * @param id the identifier
-	 * @return the next clause in the sentence
-	 */
-	public static CodeLinkStartClause codeLink() {
-		return new CodeLinkBuilder();
-	}
 	
-	/**
-	 * Starts a sentence to create a {@link Codelist}.
-	 * @return the next clause in the sentence
-	 */
+	
 	public static CodelistNewClause codelist() {
-		return new CodelistBuilder();
+		return new CodelistBuilder(new CodelistMS());
 	}
 	
-	/**
-	 * Starts a sentence to create an {@link Codelist} changeset.
-	 * @param id the identifier of the target codelist
-	 * @return the next clause in the sentence
-	 */
-	public static CodelistChangeClause codelist(String id) {
-		return new CodelistBuilder(id);
+	public static CodelistChangeClause modifyCodelist(String id) {
+		return new CodelistBuilder(new CodelistMS(id,MODIFIED));
+	}
+		
+	public static CodelinkStartClause codeLink() {
+		return new CodelinkBuilder(new CodelinkMS());
+	}
+	
+	public static CodelinkStartClause modifyCodelink(String id) {
+		return new CodelinkBuilder(new CodelinkMS(id,MODIFIED));
+	}
+	
+
+	public static Codelink deleteCodelink(String id) {
+		return new CodelinkMS(id,DELETED).entity();
 	}
 
-	/**
-	 * Starts a sentence to create an {@link CodelistLink} with a given identifier.
-	 * @param id the identifier
-	 * @return the next clause in the sentence
-	 */
 	public static CodelistLinkNewClause listLink() {
-		return new CodelistLinkBuilder();
+		return new CodelistLinkBuilder(new CodelistLinkMS());
 	}
 	
-	/**
-	 * Starts a sentence to create a {@link CodelistLink} changeset.
-	 * @param id the identifier of the target link
-	 * @return the next clause in the sentence
-	 */
-	public static CodelistLinkChangeClause listLink(String id) {
-		return new CodelistLinkBuilder(id);
+	public static CodelistLinkNewClause modifyListLink(String id) {
+		return new CodelistLinkBuilder(new CodelistLinkMS(id, MODIFIED));
+	}
+	
+	public static CodelistLink deleteListLink(String id) {
+		return new CodelistLinkMS(id, DELETED).entity();
+	}
+	
+	//simplifies construction through method parameter inference (not available on constructors in Java 6..)
+	
+	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Container.Private<T,S> container(StateContainer<S> elements) {
+		return new Container.Private<T,S>(elements);
+	}
+	
+	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Container.Private<T, S> container(S ... elements) {
+		return container(beans(elements));
+	}
+	
+	public static <T extends Identified.Abstract<T,S> & Named, S extends Identified.State & Named.State & EntityProvider<T>> NamedContainer.Private<T,S> namedContainer(NamedStateContainer<S> elements) {
+		return new NamedContainer.Private<T, S>(elements);
+	}
+	
+	public static <S extends Identified.State> StateContainer<S> beans(Collection<S> elements) {
+		return new StateContainer.Default<S>(elements);
+	}
+	
+	public static <S extends Identified.State & Named.State> NamedStateContainer<S> namedBeans(Collection<S> elements) {
+		return new NamedStateContainer.Default<S>(elements);
+	}
+	
+	public static <S extends Identified.State> StateContainer<S> beans(S ... elements) {
+		return new StateContainer.Default<S>(Arrays.asList(elements));
+	}
+	
+	public static <S extends Identified.State & Named.State> NamedStateContainer<S> namedBeans(S ... elements) {
+		return new NamedStateContainer.Default<S>(Arrays.asList(elements));
+	}
+	
+	public static <T extends Identified.Abstract<T,S> & Named, S extends Identified.State & Named.State & EntityProvider<T>> NamedContainer.Private<T, S> namedContainer(S ... elements) {
+		return namedContainer(namedBeans(elements));
+	}
+	
+	public static Code.Private reveal(Code c) {
+		return Utils.reveal(c,Code.Private.class);
+	}
+	
+	public static Codelist.Private reveal(Codelist c) {
+		return Utils.reveal(c,Codelist.Private.class);
+	}
+	
+	public static Attribute.Private reveal(Attribute a) {
+		return Utils.reveal(a,Attribute.Private.class);
 	}
 }

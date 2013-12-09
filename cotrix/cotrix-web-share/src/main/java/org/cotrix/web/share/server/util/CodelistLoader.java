@@ -154,8 +154,8 @@ public class CodelistLoader {
 
 			for(ColumnDirectives directive:directives) mappingDirectives.add(directive);
 
-			Attribute att1 = attr().name("filename").value(codelistInfo.getResourceName()).in("English").build();
-			Attribute att2 = attr().name("format").value("CSV").in("English").build();
+			Attribute att1 = attribute().name("filename").value(codelistInfo.getResourceName()).in("English").build();
+			Attribute att2 = attribute().name("format").value("CSV").in("English").build();
 
 			mappingDirectives.attributes(att1, att2);
 
@@ -183,7 +183,7 @@ public class CodelistLoader {
 
 		Role role = Roles.OWNER.on(codelistId);
 		for (User user:owners) {
-			User changeSet = Users.user(user).is(role).build();
+			User changeSet = Users.modifyUser(user).is(role).build();
 			userRepository.update(changeSet);
 		}
 	}
@@ -227,7 +227,7 @@ public class CodelistLoader {
 	{
 		Code[] codes = new Code[ncodes];
 		for (int i = 1; i <= codes.length; i++) {
-			Attribute[] attributes = new Attribute[]{attr().name("Row").value(String.valueOf(i)).in("English").build()};
+			Attribute[] attributes = new Attribute[]{attribute().name("Row").value(String.valueOf(i)).in("English").build()};
 
 			codes[i-1] = code().name("code "+i).attributes(attributes).build();
 		}
@@ -244,13 +244,13 @@ public class CodelistLoader {
 
 	protected Codelist createSparseCodelist(int ncodes)
 	{
-		Attribute att = attr().name("format").value("Sparse").in("English").build();
+		Attribute att = attribute().name("format").value("Sparse").in("English").build();
 
 		Code[] codes = new Code[ncodes];
 		for (int i = 0; i < codes.length; i++) {
 			int numAttributes = i/10 + 1;
 			Attribute[] attributes = new Attribute[numAttributes];
-			for (int l = 0; l<attributes.length; l++) attributes[l] = attr().name("attribute"+l).value("value "+i+"-"+l).in("English").build();
+			for (int l = 0; l<attributes.length; l++) attributes[l] = attribute().name("attribute"+l).value("value "+i+"-"+l).in("English").build();
 
 			codes[i] = code().name("code"+i).attributes(attributes).build();
 		}
@@ -268,9 +268,9 @@ public class CodelistLoader {
 	protected Codelist createComplexCodelist(int ncodes)
 	{
 		Attribute[] codelistAttributes = new Attribute[3];
-		codelistAttributes[0] = attr().name("format").value("complex").in("English").build();
-		codelistAttributes[1] = attr().name("Author").value("Federico").in("English").build();
-		codelistAttributes[2] = attr().name("Author").value("Fabio").in("English").build();
+		codelistAttributes[0] = attribute().name("format").value("complex").in("English").build();
+		codelistAttributes[1] = attribute().name("Author").value("Federico").in("English").build();
+		codelistAttributes[2] = attribute().name("Author").value("Fabio").in("English").build();
 
 		String[] languages = new String[]{"En", "Fr", "It"};
 
@@ -281,12 +281,12 @@ public class CodelistLoader {
 			for (int l = 0; l<numAttributes; l++) {
 
 				for (String language:languages){
-					Attribute attribute = attr().name("attLang"+l).value("value "+i+"-"+l+"."+language).in(language).build();
+					Attribute attribute = attribute().name("attLang"+l).value("value "+i+"-"+l+"."+language).in(language).build();
 					attributes.add(attribute);
 				}
 
 				for (int y = 0; y < 3;y++){
-					Attribute attribute = attr().name("attPos"+l).value("value "+i+"-"+l+".["+y+"]").in("En").build();
+					Attribute attribute = attribute().name("attPos"+l).value("value "+i+"-"+l+".["+y+"]").in("En").build();
 					attributes.add(attribute);
 				}
 			}
@@ -312,37 +312,37 @@ public class CodelistLoader {
 						code().
 						name("4060300201").
 						attributes(
-								attr().
+								attribute().
 								name("description").
 								value("Northern elephant seal").
 								ofType("description").
 								in("en").build(),
 
-								attr().
+								attribute().
 								name("description").
 								value("Éléphant de mer boréal").
 								ofType("description").
 								in("fr").build(),
 								
-								attr().
+								attribute().
 								name("description").
 								value("Foca elephante del norte").
 								ofType("description").
 								in("es").build(),
 								
-								attr().
+								attribute().
 								name("description").
 								value("Mirounga angustirostris").
 								ofType("description").
 								in("la").build(),
 								
-								attr().
+								attribute().
 								name("description").
 								value("Elefante marino settentrionale").
 								ofType("description").
 								in("it").build(),
 								
-								attr().
+								attribute().
 								name("author").
 								value("Gill 1876").
 								ofType("annotation").build()
@@ -351,37 +351,37 @@ public class CodelistLoader {
 								code().
 								name("4060300202").
 								attributes(
-										attr().
+										attribute().
 										name("description").
 										value("Southern elephant seal").
 										ofType("description").
 										in("en").build(),
 										
-										attr().
+										attribute().
 										name("description").
 										value("Éléphant de mer austral").
 										ofType("description").
 										in("fr").build(),
 										
-										attr().
+										attribute().
 										name("description").
 										value("Foca elephante del sur").
 										ofType("description").
 										in("es").build(),
 										
-										attr().
+										attribute().
 										name("description").
 										value("Mirounga leonina").
 										ofType("description").
 										in("la").build(),
 										
-										attr().
+										attribute().
 										name("description").
 										value("Elefante marino del Sud").
 										ofType("description").
 										in("it").build(),
 										
-										attr().
+										attribute().
 										name("author").
 										value("Linnaeus 1758").
 										ofType("annotation").build()
@@ -390,77 +390,77 @@ public class CodelistLoader {
 										code().
 										name("4060300203").
 										attributes(
-												attr().
+												attribute().
 												name("description").
 												value("Southern elephant").
 												ofType("description").
 												in("en").build(),
 												
-												attr().
+												attribute().
 												name("description").
 												value("South elephant").
 												ofType("description").
 												in("en").build(),
 												
-												attr().
+												attribute().
 												name("description").
 												value("Éléphant").
 												ofType("description").
 												in("fr").build(),
 												
-												attr().
+												attribute().
 												name("description").
 												value("Éléphant").
 												ofType("annotation").
 												in("fr").build(),
 												
-												attr().
+												attribute().
 												name("author").
 												value("Federico 2013").
 												ofType("annotation").build()	
 												,
-												attr().
+												attribute().
 												name("author").
 												value("Fabio 2013").
 												ofType("annotation").build()
 												).build()).
 
 												attributes(
-														attr().
+														attribute().
 														name("file").
 														value("complex_codelist.txt").
 														ofType("description").in("en").build(),
 														
-														attr().
+														attribute().
 														name("encoding").
 														value("UTF-8").
 														ofType("description").build(),
 														
-														attr().
+														attribute().
 														name("author").
 														value("Federico").
 														ofType("annotation").
 														in("it").build(),
 														
-														attr().
+														attribute().
 														name("author").
 														value("Fabio").
 														ofType("annotation").
 														in("it").build(),
 														
-														attr().
+														attribute().
 														name("author").
 														value("Marco").
 														ofType("description").
 														in("it").build(),
 														
-														attr().
+														attribute().
 														name("author").
 														value("Frederick").
 														ofType("annotation").
 														in("en").build(),
 														
-														attr().
+														attribute().
 														name("author").
 														value("Mark").
 														ofType("description").

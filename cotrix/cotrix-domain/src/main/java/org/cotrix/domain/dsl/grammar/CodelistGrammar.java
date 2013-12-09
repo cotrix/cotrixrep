@@ -22,7 +22,7 @@ public class CodelistGrammar {
 
 	public static interface CodelistNewClause extends NameClause<SecondClause> {}
 	
-	public static interface CodelistChangeClause extends DeleteClause<Codelist>, NameClause<SecondClause>, SecondClause {}
+	public static interface CodelistChangeClause extends NameClause<SecondClause>, SecondClause {}
 	
 	public static interface SecondClause extends WithManyClause<Code,ThirdClause>,
 												 AttributeClause<Codelist,FinalClause>,

@@ -1,7 +1,5 @@
 package org.cotrix.domain.dsl.builder;
 
-import static org.cotrix.domain.trait.Status.*;
-
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
@@ -12,7 +10,7 @@ import org.cotrix.domain.dsl.grammar.AttributeGrammar.LanguageClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.TypeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.ValueClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
-import org.cotrix.domain.po.AttributePO;
+import org.cotrix.domain.memory.AttributeMS;
 
 /**
  * Builds {@link Attribute}s.
@@ -22,23 +20,16 @@ import org.cotrix.domain.po.AttributePO;
  */
 public class AttributeBuilder implements AttributeStartClause, AttributeDeltaClause {
 
-	private final AttributePO po;
+	private final AttributeMS state;
 
 	
-	public AttributeBuilder() {
-		this.po = new AttributePO(null);
-	}
-	
-	public AttributeBuilder(String id) {
-		this.po = new AttributePO(id);
-		po.setType(null);
-		po.setChange(MODIFIED);
-		
+	public AttributeBuilder(AttributeMS state) {
+		this.state = state;
 	}
 	
 	@Override
 	public ValueClause name(QName name) {
-		po.setName(name);
+		state.name(name);
 		return this;
 	}
 	
@@ -46,16 +37,10 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	public ValueClause name(String name) {
 		return name(Codes.q(name));
 	}
-	
-	@Override
-	public Attribute delete() {
-		po.setChange(DELETED);
-		return build();
-	}
 
 	@Override
 	public LanguageClause ofType(QName type) {
-		po.setType(type);
+		state.type(type);
 		return this;
 	}
 	
@@ -66,19 +51,19 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	
 	@Override
 	public BuildClause<Attribute> in(String language) {
-		po.setLanguage(language);
+		state.language(language);
 		return this;
 	}
 
 	@Override
 	public TypeClause value(String value) {
-		po.setValue(value);
+		state.value(value);
 		return this;
 
 	}
 
 	@Override
 	public Attribute build() {
-		return new Attribute.Private(po);
+		return state.entity();
 	}
 }

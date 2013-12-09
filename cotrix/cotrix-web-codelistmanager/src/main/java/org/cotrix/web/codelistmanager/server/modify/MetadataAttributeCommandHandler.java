@@ -32,7 +32,7 @@ public class MetadataAttributeCommandHandler {
 	{
 		AttributeCommand command = codeCommand.getCommand();
 		Attribute attribute = AttributeCommandUtil.handle(command);
-		Codelist changeset = codelist(codelistId).attributes(attribute).build();
+		Codelist changeset = modifyCodelist(codelistId).attributes(attribute).build();
 		
 		repository.update(changeset);
 

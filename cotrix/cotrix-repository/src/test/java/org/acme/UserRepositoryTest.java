@@ -65,7 +65,7 @@ public class UserRepositoryTest {
 		
 		repository.add(bill);
 		
-		User changeset = user(bill).can(doit).is(role).build();
+		User changeset = modifyUser(bill).can(doit).is(role).build();
 		
 		update(bill,changeset);
 		

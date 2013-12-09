@@ -65,32 +65,32 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		
 		if (directives.isIncluded(FINAL))
-			attributes.add(attr().
+			attributes.add(attribute().
 					        name(directives.get(FINAL)).
 					        value(String.valueOf(list.isFinal().isTrue())).
 					        build());
 		
 		if (directives.isIncluded(AGENCY))
-			attributes.add(	attr().
+			attributes.add(	attribute().
 								name(directives.get(AGENCY)).
 								value(list.getAgencyId()).
 								build());
 		
 		if (directives.isIncluded(VALID_FROM) && list.getStartDate()!=null)
-			attributes.add(attr().
+			attributes.add(attribute().
 							name(directives.get(VALID_FROM)).
 							value(list.getStartDate().getDateInSdmxFormat()).
 							build());
 	
 		
 		if (directives.isIncluded(VALID_TO) && list.getEndDate()!=null)
-			attributes.add(attr().
+			attributes.add(attribute().
 						name(directives.get(VALID_TO)).
 						value(list.getEndDate().getDateInSdmxFormat())
 						.build());
 	   	
 		if (directives.isIncluded(URI) && list.getUri()!=null)
-			attributes.add(attr().
+			attributes.add(attribute().
 					name(directives.get(URI)).
 					value(list.getUri().toString())
 					.build());
@@ -113,7 +113,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 		
 		//names: at least one, all with language
 		for (TextTypeWrapper name : bean.getNames())
-			attributes.add(attr().
+			attributes.add(attribute().
 							 name(directives.get(NAME)).
 							 value(name.getValue()).
 							 ofType(Constants.NAME).
@@ -122,7 +122,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 		
 		//descriptions: might be none, all with language
 		for (TextTypeWrapper description :  bean.getDescriptions()) 
-			attributes.add(attr().
+			attributes.add(attribute().
 							name(directives.get(DESCRIPTION)).
 							value(description.getValue()).
 							ofType(Constants.DEFAULT_TYPE).
@@ -139,7 +139,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 			QName type = annotationBean.getType()==null?Constants.DEFAULT_TYPE:q(annotationBean.getType());
 			
 			for (TextTypeWrapper annotation :  annotationBean.getText()) // create an attribute for each annotation text piece
-				attributes.add(attr().
+				attributes.add(attribute().
 						        name(name).
 						        value(annotation.getValue()).
 						        ofType(type).

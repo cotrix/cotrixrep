@@ -1,6 +1,7 @@
 package org.cotrix.application.impl;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.dsl.Users.*;
 
 import java.util.Collection;
 
@@ -10,7 +11,6 @@ import org.cotrix.action.Action;
 import org.cotrix.application.DelegationPolicy;
 import org.cotrix.application.PermissionDelegationService;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.user.UserRepository;
@@ -47,7 +47,7 @@ public class DefaultDelegationService implements PermissionDelegationService {
 				
 				policy.validateDelegation(currentUser, user, actions);
 
-				User changeset = Users.user(user).can(actions).build();
+				User changeset = modifyUser(user).can(actions).build();
 				
 				repository.update(changeset);
 				
@@ -76,7 +76,7 @@ public class DefaultDelegationService implements PermissionDelegationService {
 				
 				policy.validateDelegation(currentUser, user, roles);
 				
-				User changeset = Users.user(user).is(roles).build();
+				User changeset = modifyUser(user).is(roles).build();
 				
 				repository.update(changeset);
 				
@@ -101,7 +101,7 @@ public class DefaultDelegationService implements PermissionDelegationService {
 				
 				policy.validateRevocation(currentUser, user, actions);
 				
-				User changeset = Users.user(user).cannot(actions).build();
+				User changeset = modifyUser(user).cannot(actions).build();
 				
 				repository.update(changeset);
 				
@@ -121,7 +121,7 @@ public class DefaultDelegationService implements PermissionDelegationService {
 	
 				policy.validateRevocation(currentUser, user, roles);
 				
-				User changeset = Users.user(user).isNot(roles).build();
+				User changeset = modifyUser(user).isNot(roles).build();
 				
 				repository.update(changeset);
 			}

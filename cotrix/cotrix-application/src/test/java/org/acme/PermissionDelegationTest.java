@@ -45,44 +45,7 @@ public class PermissionDelegationTest {
 		service = new DefaultDelegationService(current,repository,policy);
 		
 		
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void doesNotDelegateToUnidentifiedUser() {
-		
-		User bill = user().name("bill").email("bill@me.com").build();
-		
-		service.delegate(doit.on("1")).to(bill);
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void doesNotDelegateRoleToUnidentifiedUser() {
-		
-		User bill = user().name("bill").email("bill@me.com").build();
-		
-		service.delegate(aRole()).to(bill);
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void doesNotRevokeFromUnidentifiedUser() {
-		
-		User bill = user().name("bill").email("bill@me.com").build();
-		
-		service.revoke(doit.on("1")).from(bill);
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void doesNotRevokeRoleFromUnidentifiedUser() {
-		
-		User bill = user().name("bill").email("bill@me.com").build();
-		
-		service.revoke(aRole()).from(bill);
-	}
-	
-	
-	
-	
-	
+	}	
 	
 	
 	@Test

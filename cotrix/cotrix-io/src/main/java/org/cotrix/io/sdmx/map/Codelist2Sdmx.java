@@ -86,7 +86,6 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		//name-based pass
 		for (Attribute a : list.attributes()) {
 			
-
 			String val = a.value();
 			SdmxElement element = directives.get(a);
 			

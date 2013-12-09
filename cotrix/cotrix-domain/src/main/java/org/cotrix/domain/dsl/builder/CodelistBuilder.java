@@ -1,7 +1,7 @@
 package org.cotrix.domain.dsl.builder;
 
 import static java.util.Arrays.*;
-import static org.cotrix.domain.trait.Status.*;
+import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.FourthClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.ThirdClause;
-import org.cotrix.domain.po.CodelistPO;
+import org.cotrix.domain.memory.CodelistMS;
 import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
@@ -30,22 +30,16 @@ import org.cotrix.domain.version.Version;
  */
 public final class CodelistBuilder implements CodelistNewClause, CodelistChangeClause, ThirdClause, FourthClause,FinalClause {
 
-	private final CodelistPO po;
+	private final CodelistMS state;
 	
 	
-	public CodelistBuilder() {
-		this.po = new CodelistPO(null);
-		this.po.setVersion(new DefaultVersion());
-	}
-	
-	public CodelistBuilder(String id) {
-		this.po = new CodelistPO(id);
-		po.setChange(MODIFIED);
+	public CodelistBuilder(CodelistMS state) {
+		this.state = state;
 	}
 	
 	@Override
 	public SecondClause name(QName name) {
-		po.setName(name);
+		state.name(name);
 		return this;
 	}
 	
@@ -55,53 +49,45 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	}
 	
 	@Override
-	public Codelist delete() {
-		po.setChange(DELETED);
-		return build();
-	}
-	
-	@Override
 	public ThirdClause with(List<Code> codes) {
-		po.setCodes(codes);
+		state.codes(reveal(codes,Code.Private.class));
 		return this;
 	}
 	
 	@Override
 	public ThirdClause with(Code ... codes) {
-		po.setCodes(asList(codes));
-		return this;
+		return with(asList(codes));
 	}
 	
 	@Override
 	public FourthClause links(CodelistLink... links) {
-		po.setLinks(asList(links));
+		state.links(reveal(asList(links),CodelistLink.Private.class));
 		return this;
 	}
 	
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
-		po.setAttributes(asList(attributes));
-		return this;
+		return attributes(asList(attributes));
 	}
 	
 	@Override
-	public FinalClause attributes(List<Attribute> attributes) {
-		po.setAttributes(attributes);
+	public FinalClause attributes(List<Attribute> attributes) {	
+		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
 	}
 	
 	public CodelistBuilder version(Version version) {
-		po.setVersion(version);
+		state.version(version);
 		return this;
 	}
 	
 	public CodelistBuilder version(String version) {
-		po.setVersion(new DefaultVersion(version));
+		state.version(new DefaultVersion(version));
 		return this;
 	}
 	
 	public Codelist build() {
-		return new Codelist.Private(po);
+		return state.entity();
 	}
 	
 }

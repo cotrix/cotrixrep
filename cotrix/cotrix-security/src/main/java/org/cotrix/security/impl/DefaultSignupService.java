@@ -33,7 +33,7 @@ public class DefaultSignupService implements SignupService {
 		
 		repository.add(user);
 		
-		User changeset = user(user).can(EDIT.on(user.id())).build();
+		User changeset = modifyUser(user).can(EDIT.on(user.id())).build();
 		
 		repository.update(changeset);
 		

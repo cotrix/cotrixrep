@@ -22,10 +22,7 @@ public class UserGrammar {
 		
 	}
 	
-	public static interface UserChangeClause extends SecondClause, ThirdClause, FourthClause {
-		
-		User delete();
-	}
+	public static interface UserChangeClause extends SecondClause, ThirdClause, FourthClause {}
 
 	
 	public static interface SecondClause  {

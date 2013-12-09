@@ -31,13 +31,13 @@ public class ExportTest extends ApplicationTest {
 	@Test
 	public void codelist2csv() {
 		
-		Code code = code().name("c").attributes(attr().name("a").value("aval").build()).build();
+		Code code = code().name("c").attributes(attribute().name("a").value("aval").build()).build();
 		
 		Codelist list = codelist().name("list").with(code).build();
 
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
 		
-		directives.add(attr().name("a").build());
+		directives.add(attribute().name("a").build());
 		
 		Outcome<Table> outcome = mapper.map(list,directives);
 		
@@ -48,7 +48,7 @@ public class ExportTest extends ApplicationTest {
 	@Test
 	public void codelist2sdmx() {
 		
-		Code code = code().name("c").attributes(attr().name("a").value("aval").build()).build();
+		Code code = code().name("c").attributes(attribute().name("a").value("aval").build()).build();
 		
 		Codelist list = codelist().name("list").with(code).build();
 

@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.action.Action;
-import org.cotrix.domain.po.UserPO;
 import org.cotrix.domain.trait.Identified;
 
 /**
@@ -24,6 +23,8 @@ import org.cotrix.domain.trait.Identified;
  */
 public interface User extends Identified {
 
+	//public read-only interface
+	
 	/**
 	 * Returns the name of this user.
 	 * 
@@ -112,68 +113,70 @@ public interface User extends Identified {
 	 */
 	FingerPrint fingerprint();
 
-	/**
-	 * Default user implementation.
-	 * 
-	 */
-	public class Private extends Identified.Abstract<Private> implements User, Serializable {
+	
+	//private state interface
+	
+	interface State extends Identified.State {
+	
+		String name();
+
+		void name(String name);
+		
+		
+		String fullName();
+
+		void fullName(String name);
+		
+
+		String email();
+
+		void email(String name);
+		
+
+		Collection<Action> permissions();
+
+		void permissions(Collection<Action> permissions);
+		
+		Collection<Role> roles();
+		
+		void roles(Collection<Role> roles);
+
+	}
+	
+	
+	
+	class Private extends Identified.Abstract<Private,State> implements User, Serializable {
 
 		private static final long serialVersionUID = 1L;
 
-		private final String name;
-		private String fullName;
-		private String email;
-		private final List<Action> permissions = new ArrayList<Action>();
-		private final List<Role> roles = new ArrayList<Role>();
-
-		public Private(UserPO po) {
-			super(po);
-			this.name = po.name();
-			this.fullName = po.fullName();
-			this.permissions.addAll(po.permissions());
-			this.email = po.email();
-			this.add(po.roles());
+		public Private(User.State state) {
+			
+			super(state);
+			
+			//normalise roles
+			
+			Collection<Role> unprocessed = state().roles();
+			
+			state().roles(new HashSet<Role>());
+			
+			add(unprocessed);
+			
+		
 		}
-
+		
 		@Override
 		public String name() {
-			return name;
+			return state().name();
 		}
 
 		@Override
 		public String fullName() {
-			return fullName;
+			return state().fullName();
 		}
 
 		@Override
 		public String email() {
-			return email;
-		}
-
-		@Override
-		public List<Action> permissions() {
-
-			ArrayList<Action> permissions = new ArrayList<Action>(directPermissions());
-
-			for (Role role : roles)
-				for (Action p : role.permissions())
-					if (!permissions.contains(p))
-						permissions.add(p);
-
-			return permissions;
-		}
-
-		@Override
-		public Collection<Action> directPermissions() {
-			return Collections.unmodifiableCollection(this.permissions);
-		}
-
-		@Override
-		public boolean can(Action action) {
-
-			notNull("action", action);
-
-			return action.included(permissions());
+			return state().email();
 		}
 
 		private void add(Collection<Role> roles) {
@@ -182,27 +185,32 @@ public interface User extends Identified {
 				add(role);
 
 		}
-
+		
 		private void add(Role role) {
 
-			if (this.is(role)) // return roles we alread have
+			// return roles we already have, directly or indirectly
+			if (this.is(role)) 
 				return;
 
-			Iterator<Role> it = this.roles.iterator();
+			//return roles we should no longer have
+			Iterator<Role> it = state().roles().iterator();
 			while (it.hasNext())
 				if (role.is(it.next()))
 					it.remove();
 
-			this.roles.add(role);
+			state().roles().add(role);
 		}
-
+		
+		
+		
 		@Override
 		public Collection<Role> roles() {
 
+			// compute role closure
+			
 			Collection<Role> roles = new HashSet<Role>();
 
-			// compute role closure, recursively
-			for (Role r : this.roles) {
+			for (Role r : state().roles()) {
 				roles.addAll(r.roles());
 				roles.add(r);
 			}
@@ -212,20 +220,16 @@ public interface User extends Identified {
 
 		@Override
 		public Collection<Role> directRoles() {
-			return new HashSet<Role>(roles);
+			return new HashSet<Role>(state().roles());
 		}
-
-		@Override
-		public boolean isRoot() {
-			return is(ROOT);
-		}
+		
 
 		@Override
 		public boolean is(Role role) {
 
 			notNull("role", role);
 
-			for (Role myrole : roles)
+			for (Role myrole : state().roles())
 				if (myrole.equals(role) || myrole.equals(role.on(any)) || myrole.is(role))
 					return true;
 
@@ -234,21 +238,45 @@ public interface User extends Identified {
 
 		@Override
 		public boolean isDirectly(Role role) {
-			return roles.contains(role);
+			return state().roles().contains(role);
+		}
+		
+		
+		
+		@Override
+		public Collection<Action> directPermissions() {
+			return Collections.unmodifiableCollection(state().permissions());
+		}
+		
+		@Override
+		public List<Action> permissions() {
+
+			//compute permission closure
+			
+			ArrayList<Action> permissions = new ArrayList<Action>(state().permissions());
+
+			for (Role role : roles())
+				for (Action p : role.permissions())
+					if (!permissions.contains(p))
+						permissions.add(p);
+
+			return permissions;
 		}
 
+
 		@Override
-		public Private copy(boolean withId) {
+		public boolean can(Action action) {
 
-			UserPO po = new UserPO(withId ? id() : null);
+			notNull("action", action);
 
-			po.setName(name);
-			po.setFullName(fullName);
-			po.setEmail(email);
-			po.setPermissions(permissions);
-			po.setRoles(roles);
+			return action.included(permissions());
+		}
 
-			return new Private(po);
+
+
+		@Override
+		public boolean isRoot() {
+			return is(ROOT);
 		}
 
 		@Override
@@ -256,19 +284,19 @@ public interface User extends Identified {
 
 			super.update(changeset);
 
-			if (changeset.fullName() != null && !changeset.fullName().equals(fullName))
-				this.fullName = changeset.fullName();
+			if (changeset.fullName() != null && !changeset.fullName().equals(fullName()))
+				state().fullName(changeset.fullName());
 
-			if (changeset.email() != null && !changeset.email().equals(email))
-				this.email = changeset.email();
+			if (changeset.email() != null && !changeset.email().equals(email()))
+				state().email(changeset.email());
 
 			// replace permissions
-			this.permissions.clear();
-			this.permissions.addAll(changeset.permissions());
+			state().permissions().clear();
+			state().permissions().addAll(changeset.directPermissions());
 
-			// replace role
-			this.roles.clear();
-			this.add(changeset.directRoles());
+			// replace roles
+			state().roles().clear();
+			add(changeset.directRoles());
 		}
 
 		public FingerPrint fingerprint() {
@@ -278,53 +306,8 @@ public interface User extends Identified {
 
 		@Override
 		public String toString() {
-			final int maxLen = 100;
-			return "Private [name=" + name + ", fullName=" + fullName + ", permissions="
-					+ (permissions != null ? permissions.subList(0, Math.min(permissions.size(), maxLen)) : null)
-					+ ", roles=" + (roles != null ? roles.subList(0, Math.min(roles.size(), maxLen)) : null) + "]";
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = super.hashCode();
-			result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
-			result = prime * result + ((name == null) ? 0 : name.hashCode());
-			result = prime * result + ((permissions == null) ? 0 : permissions.hashCode());
-			result = prime * result + ((roles == null) ? 0 : roles.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Private other = (Private) obj;
-			if (fullName == null) {
-				if (other.fullName != null)
-					return false;
-			} else if (!fullName.equals(other.fullName))
-				return false;
-			if (name == null) {
-				if (other.name != null)
-					return false;
-			} else if (!name.equals(other.name))
-				return false;
-			if (permissions == null) {
-				if (other.permissions != null)
-					return false;
-			} else if (!permissions.equals(other.permissions))
-				return false;
-			if (roles == null) {
-				if (other.roles != null)
-					return false;
-			} else if (!roles.equals(other.roles))
-				return false;
-			return true;
+			return "Private [name=" + name() + ", fullName=" + fullName() + ", permissions="
+					+ directPermissions() + ", roles=" + directRoles() + "]";
 		}
 
 	}

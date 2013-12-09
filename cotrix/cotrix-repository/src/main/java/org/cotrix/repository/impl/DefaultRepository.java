@@ -9,7 +9,7 @@ import org.cotrix.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultRepository<T extends Identified, S extends Identified.Abstract<S>, R extends Repository<S>> implements Repository<T>  {
+public class DefaultRepository<T extends Identified, S extends Identified.Abstract<S,?>, R extends Repository<S>> implements Repository<T>  {
 	
 	private static Logger log = LoggerFactory.getLogger(Repository.class);
 	
@@ -40,9 +40,6 @@ public class DefaultRepository<T extends Identified, S extends Identified.Abstra
 		
 		if (privateObject.isChangeset())
 			throw new IllegalArgumentException("this "+publicType.getCanonicalName()+" is a changeset and cannot be added");
-		
-		if (privateObject.id()!=null)
-			throw new IllegalArgumentException(publicType.getCanonicalName()+" ("+privateObject.id()+") has been already persisted");
 		
 		repository.add(privateObject);
 		

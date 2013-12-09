@@ -1,20 +1,19 @@
 package org.cotrix.domain.dsl.builder;
 
+import static java.util.Arrays.*;
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.trait.Status.*;
+import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.CodeLinkStartClause;
-import org.cotrix.domain.dsl.grammar.CodeLinkGrammar.FinalClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.DeleteClause;
+import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkStartClause;
+import org.cotrix.domain.dsl.grammar.CodelinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
-import org.cotrix.domain.po.CodeLinkPO;
+import org.cotrix.domain.memory.CodelinkMS;
 
 /**
  * Builds {@link Attribute}s.
@@ -22,42 +21,30 @@ import org.cotrix.domain.po.CodeLinkPO;
  * @author Fabio Simeoni
  *
  */
-public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Code,FinalClause>,DeleteClause<Codelink> ,FinalClause {
+public class CodelinkBuilder implements CodelinkStartClause,LinkTargetClause<Code,FinalClause>, FinalClause {
 
 	
-	private final CodeLinkPO po;
+	private final CodelinkMS state;
 	
 	
-	public CodeLinkBuilder() {
-		this.po = new CodeLinkPO(null);
-	}
-	
-	public CodeLinkBuilder(String id) {
-		this.po = new CodeLinkPO(id);
-		po.setChange(MODIFIED);
-	}
-	
-	@Override
-	public Codelink delete() {
-		po.setChange(DELETED);
-		return build();
+	public CodelinkBuilder(CodelinkMS state) {
+		this.state = state;
 	}
 	
 	@Override
 	public FinalClause attributes(Attribute ... attributes) {
-		po.setAttributes(Arrays.asList(attributes));
-		return this;
+		return attributes(asList(attributes));
 	}
 	
 	@Override
 	public FinalClause attributes(List<Attribute> attributes) {
-		po.setAttributes(attributes);
+		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
 	}
 	
 	@Override
 	public LinkTargetClause<Code,FinalClause> instanceOf(CodelistLink def) {
-		po.setDefinition(def);
+		state.definition(def);
 		return this;
 	}
 	
@@ -70,13 +57,13 @@ public class CodeLinkBuilder implements CodeLinkStartClause,LinkTargetClause<Cod
 		if (code.id()==null)
 			throw new IllegalArgumentException("cannot link to an unidentified code");
 		
-		po.setTargetId(code.id());
+		state.targetId(code.id());
 		return this;
 	}
 	
 	@Override
 	public Codelink build() {
-		return new Codelink.Private(po);
+		return state.entity();
 	}
 	
 
