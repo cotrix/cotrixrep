@@ -1,19 +1,15 @@
-package org.cotrix.repository.user;
+package org.cotrix.repository;
 
 import javax.enterprise.event.Observes;
 
 import org.cotrix.action.ResourceType;
 import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.Criterion;
-import org.cotrix.repository.MultiQuery;
-import org.cotrix.repository.Query;
-import org.cotrix.repository.user.impl.MUserQueryFactory;
-import org.cotrix.repository.user.impl.UserQueryFactory;
+import org.cotrix.repository.impl.UserQueryFactory;
 
 public class UserQueries {
 
-	private static UserQueryFactory factory = new MUserQueryFactory();
+	private static UserQueryFactory factory;
 	
 	public static MultiQuery<User,User> allUsers() {
 		return factory.allUsers();
@@ -49,7 +45,7 @@ public class UserQueries {
 	}
 	
 	
-	static class QueryFactoryInjector {
+	public static class QueryFactoryInjector {
 
 		void configure(@Observes ApplicationEvents.Startup event, UserQueryFactory factory) {	
 			

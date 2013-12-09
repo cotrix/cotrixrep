@@ -11,8 +11,8 @@ import org.cotrix.application.StatisticsService.Statistics;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.codelist.CodelistRepository;
-import org.cotrix.repository.user.UserRepository;
+import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
 

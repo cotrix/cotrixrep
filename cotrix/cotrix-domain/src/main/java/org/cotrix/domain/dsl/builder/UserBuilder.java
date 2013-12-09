@@ -95,7 +95,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	}
 	
 	public User build() {
-		return new User.Private(state);
+		return state.entity();
 	}
 	
 	public Role buildAsRoleFor(ResourceType type) {

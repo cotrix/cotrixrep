@@ -1,6 +1,5 @@
 package org.cotrix.repository;
 
-import java.util.Collection;
 
 
 /**
@@ -11,7 +10,7 @@ import java.util.Collection;
  * @param <T> the type of domain objects
  * @param <R> the type of query results
  */
-public interface MultiQuery<T,R> extends Query<T,Collection<R>> {
+public interface MultiQuery<T,R> extends Query<T,Iterable<R>> {
 
 	/**
 	 * Returns the desired range of query results.

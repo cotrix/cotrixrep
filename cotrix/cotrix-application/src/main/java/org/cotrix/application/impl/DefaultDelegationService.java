@@ -13,7 +13,7 @@ import org.cotrix.application.PermissionDelegationService;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.user.UserRepository;
+import org.cotrix.repository.UserRepository;
 
 public class DefaultDelegationService implements PermissionDelegationService {
 

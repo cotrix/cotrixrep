@@ -8,34 +8,26 @@ import java.util.List;
 import org.cotrix.common.Utils;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Criterion;
-import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Range;
-import org.cotrix.repository.impl.BaseMultiQuery;
+import org.cotrix.repository.impl.AbstractMultiQuery;
+import org.cotrix.repository.impl.memory.MemoryRepository.MCriterion;
 
-/**
- * Partial implementation of a {@link MultiQuery} evaluated against preloaded objects
- * 
- * @author Fabio Simeoni
- *
- * @param <T> the type of objects
- * @param <R> the type of query results
- * 
- */
-public abstract class MMultiQuery<T,R> extends BaseMultiQuery<T,R> implements MQuery<T,Collection<R>> {
+public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implements MQuery<T,Iterable<R>> {
 
-	public abstract Collection<? extends R> executeOn(MemoryRepository<? extends T> repository);
-	
+	abstract Collection<? extends R> _execute();
 	
 	/**
 	 * Returns one or more results from a given object.
 	 * @param object the object
 	 * @return the results, or <code>null</code> if the object does not match the query.
 	 */
-	public Collection<R> execute(MemoryRepository<? extends T> repository) {
+	@Override
+	public Collection<R> execute() {
 		
+		//compute query
+		List<R> results = new ArrayList<R>(_execute());
 		
-		List<R> results = new ArrayList<R>(executeOn(repository));
-		
+		//apply excludes
 		List<R> excludes = new ArrayList<R>();
 		
 		for (R result : results)
@@ -45,6 +37,8 @@ public abstract class MMultiQuery<T,R> extends BaseMultiQuery<T,R> implements MQ
 		
 		results.removeAll(excludes);
 		
+		
+		//extract range
 		int count = 1;
 	
 		List<R> range = new ArrayList<R>();
@@ -71,7 +65,7 @@ public abstract class MMultiQuery<T,R> extends BaseMultiQuery<T,R> implements MQ
 				}
 			}
 			
-				
+		//apply sort criteria
 		if (criterion()!=null)
 			Collections.sort(range,reveal(criterion()));
 		 

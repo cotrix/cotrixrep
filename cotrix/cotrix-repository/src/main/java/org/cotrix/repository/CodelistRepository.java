@@ -1,7 +1,6 @@
-package org.cotrix.repository.codelist;
+package org.cotrix.repository;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.repository.Repository;
 
 
 /**

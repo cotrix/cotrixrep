@@ -14,8 +14,9 @@ import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.user.impl.DefaultUserRepository;
-import org.cotrix.repository.user.impl.MUserRepository;
+import org.cotrix.repository.UserQueries;
+import org.cotrix.repository.impl.DefaultUserRepository;
+import org.cotrix.repository.impl.memory.MUserRepository;
 import org.cotrix.repository.utils.UuidGenerator;
 import org.cotrix.security.impl.DefaultLoginService;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
@@ -30,7 +31,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(CdiRunner.class)
-@AdditionalClasses({Users.class,DefaultUserRepository.class, MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class, UuidGenerator.class })
+@AdditionalClasses({Users.class,DefaultUserRepository.class, UserQueries.QueryFactoryInjector.class, MUserRepository.class, DefaultNameAndPasswordCollector.class, MRealm.class, UuidGenerator.class })
 public class LoginTest extends ApplicationTest {
 
 	@Inject

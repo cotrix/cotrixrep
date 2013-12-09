@@ -1,4 +1,4 @@
-package org.cotrix.repository.codelist;
+package org.cotrix.repository;
 
 import javax.xml.namespace.QName;
 
@@ -13,6 +13,10 @@ public class CodelistCoordinates implements Named {
 	
 	public static CodelistCoordinates coords(String id, QName name,String version) {
 		return new CodelistCoordinates(id, name, version);
+	}
+	
+	public static CodelistCoordinates coordsOf(Codelist.State list) {
+		return new CodelistCoordinates(list.id(), list.name(), list.version().value());
 	}
 	
 	public static CodelistCoordinates coordsOf(Codelist list) {

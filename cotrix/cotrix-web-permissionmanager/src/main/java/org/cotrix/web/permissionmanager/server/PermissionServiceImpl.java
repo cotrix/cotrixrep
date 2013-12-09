@@ -5,8 +5,8 @@ package org.cotrix.web.permissionmanager.server;
 
 import static org.cotrix.action.MainAction.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.repository.codelist.CodelistQueries.*;
-import static org.cotrix.repository.user.UserQueries.*;
+import static org.cotrix.repository.CodelistQueries.*;
+import static org.cotrix.repository.UserQueries.*;
 import static org.cotrix.web.permissionmanager.shared.PermissionUIFeatures.*;
 
 import java.util.ArrayList;
@@ -30,11 +30,11 @@ import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
+import org.cotrix.repository.CodelistCoordinates;
+import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.Criterion;
-import org.cotrix.repository.codelist.CodelistCoordinates;
-import org.cotrix.repository.codelist.CodelistRepository;
-import org.cotrix.repository.user.UserQueries;
-import org.cotrix.repository.user.UserRepository;
+import org.cotrix.repository.UserQueries;
+import org.cotrix.repository.UserRepository;
 import org.cotrix.web.permissionmanager.client.PermissionService;
 import org.cotrix.web.permissionmanager.server.util.RolesSorter;
 import org.cotrix.web.permissionmanager.shared.CodelistGroup;

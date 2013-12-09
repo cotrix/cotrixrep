@@ -7,8 +7,8 @@ import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.repository.codelist.CodelistCoordinates.*;
-import static org.cotrix.repository.codelist.CodelistQueries.*;
+import static org.cotrix.repository.CodelistCoordinates.*;
+import static org.cotrix.repository.CodelistQueries.*;
 
 import javax.inject.Inject;
 
@@ -18,9 +18,9 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.codelist.CodelistCoordinates;
-import org.cotrix.repository.codelist.CodelistRepository;
-import org.cotrix.repository.codelist.CodelistSummary;
+import org.cotrix.repository.CodelistCoordinates;
+import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.CodelistSummary;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
 
@@ -28,6 +28,13 @@ public class CodelistRepositoryTest extends ApplicationTest {
 	
 	@Inject
 	CodelistRepository repository;
+
+	@Test
+	public void emptyRepo() {
+
+		assertEquals(0,repository.size());
+
+	}
 	
 	@Test
 	public void retrieveUnknownCodeList() {
@@ -39,10 +46,14 @@ public class CodelistRepositoryTest extends ApplicationTest {
 	@Test
 	public void addCodelist() {
 
+		int size = repository.size();
+		
 		Codelist list = codelist().name("name").build();
 
 		repository.add(list);
 
+		assertEquals(size+1,repository.size());
+		
 		assertEquals(list, repository.lookup(list.id()));
 
 	}
@@ -131,9 +142,22 @@ public class CodelistRepositoryTest extends ApplicationTest {
 
 		repository.add(list);
 
+		int size = repository.size();
+		
 		repository.remove(list.id());
 
+		assertEquals(size-1,repository.size());
+		
 		assertNull(repository.lookup(list.id()));
+
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void removeUnknownCodelist() {
+
+		Codelist list = codelist().name("name").build();
+
+		repository.remove(list.id());
 
 	}
 	
@@ -223,7 +247,6 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		Codelist list1 = codelist().name("l1").version("1").build();
 		Codelist list2 = codelist().name("l2").version("2").build();
 		
-
 		repository.add(list2);
 		repository.add(list1);
 		

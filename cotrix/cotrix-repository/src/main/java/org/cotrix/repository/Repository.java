@@ -1,6 +1,5 @@
 package org.cotrix.repository;
 
-
 /**
  * A repository of domain objects.
  * 
@@ -9,71 +8,59 @@ package org.cotrix.repository;
  * @param <T> the type of objects in the repository
  */
 public interface Repository<T> {
-	
-	
 
 	/**
-	 * Adds an object to this repository.
-	 * <p>
-	 * The object acquires an identity as a side-effect.
+	 * Adds an entity to this repository.
 	 * 
-	 * @param object the object
+	 * @param entity the entity
 	 * 
 	 * @throws IllegalArgumentException if the object is a changeset or is already in this repository
+	 * 
 	 */
 	void add(T object);
 
-	
-	
 	/**
-	 * Returns an object in this repository.
+	 * Returns an entity in this repository.
 	 * 
-	 * @param id the object identifier
-	 * @return the object
+	 * @param id the entity identifier
+	 * @return the entity, or <code>null</code> if no entity with the given identifier is in this repository
 	 */
 	T lookup(String id);
-	
-	
-	
 
 	/**
-	 * Returns the results of a query evaluated over the objects in this repository.
+	 * Returns the results of a query evaluated over the entities in this repository.
 	 * 
 	 * @param query the query
 	 * @param <R> the type of query results
 	 * 
 	 * @return the results
-	 */	
+	 */
 	<R> R get(Query<T, R> query);
-	
-	
+
 	/**
-	 * Removes an object from this repository.
+	 * Removes an entity from this repository.
 	 * 
-	 * @param id the object identifier
+	 * @param id the entity identifier
 	 * 
-	 * @throws IllegalStateException if an object with the given identifier is not in this repository
+	 * @throws IllegalStateException if no entity with the given identifier is this repository
 	 */
 	void remove(String id);
 
-	
-	
 	/**
-	 * Updates an object in this repository.
+	 * Updates an entity in this repository.
 	 * 
-	 * @param the set of changes to apply to the object
+	 * @param the set of changes to apply to the entity
 	 * 
-	 * @throws IllegalArgumentException if the object is not a changeset or it does not have an identifier
-	 * @throws IllegalStateException if the changeset refers to an object not in this repository
+	 * @throws IllegalArgumentException if the input is not a changeset
+	 * @throws IllegalStateException if the changeset refers to an entity not in this repository
 	 */
 	void update(T changeset);
 
-	
-	
 	/**
-	 * Returns the number of objects in this repository.
+	 * Returns the number of entities in this repository.
 	 * 
-	 * @return the number of objects in this repository
+	 * @return the number of entities in this repository
+	 * 
 	 */
 	int size();
 }

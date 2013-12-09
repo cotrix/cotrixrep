@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.action.Action;
+import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 
 /**
@@ -116,7 +117,7 @@ public interface User extends Identified {
 	
 	//private state interface
 	
-	interface State extends Identified.State {
+	interface State extends Identified.State, EntityProvider<User.Private> {
 	
 		String name();
 
