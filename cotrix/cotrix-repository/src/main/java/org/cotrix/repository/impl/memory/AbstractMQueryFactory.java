@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.repository.Criterion;
 
-public abstract class MQueryFactory {
+public abstract class AbstractMQueryFactory {
 
 	
 	public <T> Criterion<T> all(final Criterion<T> c1, final Criterion<T> c2) {

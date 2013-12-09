@@ -35,7 +35,7 @@ import org.cotrix.repository.impl.CodelistQueryFactory;
  * @author Fabio Simeoni
  * 
  */
-public class MCodelistQueryFactory extends MQueryFactory implements CodelistQueryFactory {
+public class MCodelistQueryFactory extends AbstractMQueryFactory implements CodelistQueryFactory {
 
 	@Override
 	public MultiQuery<Codelist, Codelist> allLists() {

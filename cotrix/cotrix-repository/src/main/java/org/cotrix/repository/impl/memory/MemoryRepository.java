@@ -11,10 +11,10 @@ import org.cotrix.common.Utils;
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Query;
-import org.cotrix.repository.Repository;
+import org.cotrix.repository.impl.StateRepository;
 
 
-public abstract class MemoryRepository<S extends Identified.State> implements Repository<S> {
+public abstract class MemoryRepository<S extends Identified.State> implements StateRepository<S> {
 
 	private final Map<String,S> objects = new HashMap<String,S>();
 	
@@ -30,18 +30,16 @@ public abstract class MemoryRepository<S extends Identified.State> implements Re
 	}
 	
 	@Override
-	public void remove(String id) {
-		
-		if (objects.remove(id)==null)
-			throw new IllegalStateException("object "+id+" is unknown, hence cannot be removed.");
-		
+	public boolean contains(String id) {
+		return objects.containsKey(id);
 	}
 	
-	public void update(S changeset) {
+	@Override
+	public void remove(String id) {
 		
-		throw new UnsupportedOperationException();
-	};
-	
+		objects.remove(id);
+			
+	}
 	
 	@Override
 	public <R> R get(Query<S,R> query) {

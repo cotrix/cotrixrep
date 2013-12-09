@@ -19,7 +19,7 @@ import org.cotrix.repository.impl.UserQueryFactory;
  * @author Fabio Simeoni
  *
  */
-public class MUserQueryFactory extends MQueryFactory implements UserQueryFactory {
+public class MUserQueryFactory extends AbstractMQueryFactory implements UserQueryFactory {
  
 	@Override
 	public MultiQuery<User,User> allUsers() {

@@ -23,7 +23,6 @@ public abstract class AbstractMultiQuery<T,R> implements MultiQuery<T,R> {
 	private Criterion<R> criterion;
 	private Collection<String> excludes = new ArrayList<String>();
 	
-	
 	@Override
 	public Range range() {
 		return range;

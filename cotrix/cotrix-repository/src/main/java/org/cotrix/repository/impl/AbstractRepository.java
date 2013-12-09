@@ -26,10 +26,10 @@ public abstract class AbstractRepository<T extends Identified,
 	
 	private static Logger log = LoggerFactory.getLogger(Repository.class);
 	
-	private final Repository<S> delegate;
+	private final StateRepository<S> delegate;
 	
 	
-	public AbstractRepository(Repository<S> repository) {
+	public AbstractRepository(StateRepository<S> repository) {
 		
 		notNull("delegate repository",repository);
 		
@@ -48,11 +48,8 @@ public abstract class AbstractRepository<T extends Identified,
 		if (implementation.isChangeset())
 			throw new IllegalArgumentException("entity "+entity.id()+" is a changeset and cannot be added");
 		
-		S existing  = delegate.lookup(implementation.id());
-		
-		if (existing!=null)
+		if (delegate.contains(implementation.id()))
 			throw new IllegalArgumentException("entity "+entity.id()+" is already in this repository");
-		
 		
 		delegate.add(implementation.state());
 		
@@ -112,6 +109,9 @@ public abstract class AbstractRepository<T extends Identified,
 	public void remove(String id) {
 		
 		valid("entity identifier",id);
+		
+		if (!delegate.contains(id))
+			throw new IllegalStateException("entity "+id+" is not in this repository, hence cannot be removed.");
 		
 		delegate.remove(id);	
 	}

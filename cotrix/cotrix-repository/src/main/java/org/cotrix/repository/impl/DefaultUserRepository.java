@@ -7,7 +7,6 @@ import javax.inject.Inject;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.Repository;
 import org.cotrix.repository.UserRepository;
 
 
@@ -15,7 +14,7 @@ import org.cotrix.repository.UserRepository;
 public class DefaultUserRepository extends AbstractRepository<User,User.Private,User.State> implements UserRepository {
 
 	@Inject
-	public DefaultUserRepository(Repository<User.State> repository) {
+	public DefaultUserRepository(StateRepository<User.State> repository) {
 		super(repository);
 	}
 	
