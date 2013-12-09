@@ -12,7 +12,7 @@ import org.cotrix.repository.Range;
 import org.cotrix.repository.impl.AbstractMultiQuery;
 import org.cotrix.repository.impl.memory.MemoryRepository.MCriterion;
 
-public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implements MQuery<T,Collection<R>> {
+public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implements MQuery<T,Iterable<R>> {
 
 	abstract Collection<? extends R> _execute();
 	

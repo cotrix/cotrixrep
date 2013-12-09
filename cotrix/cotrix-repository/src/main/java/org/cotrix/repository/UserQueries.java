@@ -45,7 +45,7 @@ public class UserQueries {
 	}
 	
 	
-	static class QueryFactoryInjector {
+	public static class QueryFactoryInjector {
 
 		void configure(@Observes ApplicationEvents.Startup event, UserQueryFactory factory) {	
 			
