@@ -10,4 +10,4 @@ import org.cotrix.repository.impl.memory.MemoryRepository;
  * @author Fabio Simeoni
  *
  */
-public class MUserRepository extends MemoryRepository<User.Private> {}
+public class MUserRepository extends MemoryRepository<User.State> {}

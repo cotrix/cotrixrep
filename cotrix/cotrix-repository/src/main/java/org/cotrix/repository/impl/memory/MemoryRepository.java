@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public abstract class MemoryRepository<S extends Identified.Abstract<S,?>> implements Repository<S> {
+public abstract class MemoryRepository<S extends Identified.State> implements Repository<S> {
 
 	private static Logger log = LoggerFactory.getLogger(MemoryRepository.class);
 	
@@ -43,12 +43,7 @@ public abstract class MemoryRepository<S extends Identified.Abstract<S,?>> imple
 	
 	public void update(S changeset) {
 		
-		S current = lookup(changeset.id());
-		
-		if (current==null)
-			throw new IllegalStateException("object "+changeset.id()+" is unknown, hence cannot be updated.");
-		
-		current.update(changeset);
+		throw new UnsupportedOperationException();
 	};
 	
 	

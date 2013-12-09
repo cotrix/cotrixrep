@@ -13,10 +13,10 @@ import org.cotrix.repository.user.UserRepository;
 
 
 @ApplicationScoped
-public class DefaultUserRepository extends AbstractRepository<User,User.Private> implements UserRepository {
+public class DefaultUserRepository extends AbstractRepository<User,User.Private,User.State> implements UserRepository {
 
 	@Inject
-	public DefaultUserRepository(Repository<User.Private> repository) {
+	public DefaultUserRepository(Repository<User.State> repository) {
 		super(repository);
 	}
 	
