@@ -58,6 +58,7 @@ public class PermissionManagerPanel extends ResizeComposite {
 			@Override
 			public void onUserLogged(UserLoggedEvent event) {
 				switchContent(AdminArea.PROFILE);
+				menuPanel.resetToProfile();
 			}
 		});
 	}

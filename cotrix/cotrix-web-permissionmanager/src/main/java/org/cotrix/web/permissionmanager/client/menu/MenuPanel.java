@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.permissionmanager.client.menu;
 
+import org.cotrix.web.permissionmanager.client.AdminArea;
 import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.UserLoggedEvent;
@@ -49,6 +50,7 @@ public class MenuPanel extends ResizeComposite {
 
 	@Inject @PermissionBus
 	protected EventBus bus;
+	protected SingleSelectionModel<MenuItem> selectionModel;
 
 	@Inject
 	protected void init(MenuPanelUiBinder uiBinder) {
@@ -67,10 +69,14 @@ public class MenuPanel extends ResizeComposite {
 		});
 	}
 	
+	public void resetToProfile() {
+		selectionModel.setSelected(MenuTreeViewModel.PROFILE_MENU, true);
+	}
+	
 	@UiFactory
 	protected CellTree setupTree() {
 		
-		final SingleSelectionModel<MenuItem> selectionModel = new SingleSelectionModel<MenuItem>();
+		selectionModel = new SingleSelectionModel<MenuItem>();
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler(){
 
 			@Override

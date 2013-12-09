@@ -208,7 +208,7 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
-
+		//Fix GWT issue
 		if (visible) onResize();
 	}
 
