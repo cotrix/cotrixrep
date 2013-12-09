@@ -8,16 +8,16 @@ import javax.inject.Inject;
 import org.cotrix.common.Utils;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.Repository;
-import org.cotrix.repository.impl.DefaultRepository;
+import org.cotrix.repository.impl.AbstractRepository;
 import org.cotrix.repository.user.UserRepository;
 
 
 @ApplicationScoped
-public class DefaultUserRepository extends DefaultRepository<User,User.Private,Repository<User.Private>> implements UserRepository {
+public class DefaultUserRepository extends AbstractRepository<User,User.Private> implements UserRepository {
 
 	@Inject
 	public DefaultUserRepository(Repository<User.Private> repository) {
-		super(repository,User.class,User.Private.class);
+		super(repository);
 	}
 	
 	@Override
