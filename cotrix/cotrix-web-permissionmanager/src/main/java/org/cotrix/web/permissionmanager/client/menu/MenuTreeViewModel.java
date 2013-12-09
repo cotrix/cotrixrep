@@ -38,8 +38,10 @@ public class MenuTreeViewModel implements TreeViewModel {
 		@Override
 		public void render(com.google.gwt.cell.client.Cell.Context context, MenuItem value, SafeHtmlBuilder sb) {
 			if (value != null) {
-				sb.appendHtmlConstant(value.getImageHtml()).appendEscaped(" ");
+				sb.appendHtmlConstant(value.getImageHtml());
+				sb.appendHtmlConstant("<span style='padding-left: 10px;'>");
 				sb.appendEscaped(value.getLabel());
+				sb.appendHtmlConstant("</span>");
 			}
 		}
 	};

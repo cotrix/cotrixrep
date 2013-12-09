@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.permissionmanager.client.menu;
 
-import org.cotrix.web.permissionmanager.client.AdminArea;
 import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.UserLoggedEvent;
