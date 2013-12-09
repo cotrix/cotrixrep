@@ -44,7 +44,7 @@
 		}
 	</ui:style>
 	<g:FlowPanel>
-		<g:HorizontalPanel width="100%" verticalAlignment="middle">
+		<g:HorizontalPanel width="100%" height="31px" verticalAlignment="middle">
 			<g:FlowPanel styleName="{style.statusContainer}">
 				<g:InlineLabel styleName="{style.status}" ui:field="status" />
 			</g:FlowPanel>

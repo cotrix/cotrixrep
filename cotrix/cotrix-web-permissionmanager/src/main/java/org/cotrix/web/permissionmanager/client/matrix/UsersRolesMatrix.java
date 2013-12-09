@@ -51,19 +51,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 
 	interface DataGridStyle extends DataGrid.Style {
 
-		String groupHeaderCell();
-
-		String textCell();
-
-		String language();
-
-		String closeGroup();
-
 		String emptyTableWidget();
-
-		String currentUser();
-
-		String otherUser();
 	}
 
 	@UiField LoadingPanel loader;
@@ -114,7 +102,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 
 			@Override
 			public ImageResource getValue() {
-				return PermissionsResources.INSTANCE.users();
+				return PermissionsResources.INSTANCE.usersGrey();
 			}
 		};
 

@@ -15,9 +15,11 @@ public interface PermissionsResources extends ClientBundle {
 	ImageResource versionItem();
 	
 	ImageResource users();
+	ImageResource usersGrey();
 	ImageResource codelists();
 	ImageResource profile();
 	ImageResource photo();
+	ImageResource listUser();
 
 
 }

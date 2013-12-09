@@ -3,6 +3,7 @@ package org.cotrix.web.permissionmanager.client.codelists;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.cotrix.web.permissionmanager.client.resources.PermissionsResources;
 import org.cotrix.web.permissionmanager.shared.UIUserDetails;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.util.FilteredCachedDataProvider;
@@ -59,7 +60,7 @@ public class AddUserDialog extends PopupPanel {
 			sb.appendHtmlConstant("<table>");
 
 			// Add the contact image.
-			sb.appendHtmlConstant("<tr><td rowspan='2' style=\"vertical-align: middle;\">");
+			sb.appendHtmlConstant("<tr><td rowspan='2' style=\"vertical-align: middle;padding-right:5px;\">");
 			sb.appendHtmlConstant(imageHtml);
 			sb.appendHtmlConstant("</td>");
 
@@ -111,7 +112,7 @@ public class AddUserDialog extends PopupPanel {
 
 	@Inject
 	protected void getCellList(UsersListResources resources) {
-		UserDetailsCell cell = new UserDetailsCell(CommonResources.INSTANCE.user());
+		UserDetailsCell cell = new UserDetailsCell(PermissionsResources.INSTANCE.listUser());
 		usersList = new CellList<UIUserDetails>(cell, resources);
 		
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
