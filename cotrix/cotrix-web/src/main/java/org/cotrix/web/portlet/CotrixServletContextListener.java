@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 public class CotrixServletContextListener implements ServletContextListener {
 	
 	protected Logger logger = LoggerFactory.getLogger(CotrixServletContextListener.class);
+	
+
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
@@ -29,7 +31,7 @@ public class CotrixServletContextListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		logger.info("Cotrix context initialized");		
+		logger.info("Cotrix context initialized");	
 	}
 
 }

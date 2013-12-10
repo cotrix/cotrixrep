@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,9 +23,7 @@ import org.cotrix.application.NewsService;
 import org.cotrix.application.NewsService.NewsItem;
 import org.cotrix.application.StatisticsService;
 import org.cotrix.application.StatisticsService.Statistics;
-import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
@@ -95,9 +92,6 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	@Current
 	@Inject
 	User currentUser;
-
-	@Inject
-	Event<ApplicationEvents.Startup> startup;
 	
 	@Inject
 	protected CodelistLoader codelistLoader;
@@ -113,9 +107,6 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		mapper.map(IMPORT).to(IMPORT_CODELIST);
 		mapper.map(PUBLISH).to(PUBLISH_CODELIST);
 		mapper.map(MainAction.ACCESS_ADMIN_AREA).to(ApplicationFeatures.ACCESS_ADMIN_AREA);
-
-		startup.fire(Startup.INSTANCE);
-		
 		codelistLoader.importAllCodelist();
 	}
 
