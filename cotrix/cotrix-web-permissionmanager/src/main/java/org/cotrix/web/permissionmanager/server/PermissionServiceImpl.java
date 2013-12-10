@@ -199,7 +199,7 @@ public class PermissionServiceImpl implements PermissionService {
 		Criterion<User> sortCriterion = byName();
 		if (!sortInfo.isAscending()) sortCriterion = UserQueries.<User>descending(sortCriterion);
 
-		for (User user:userRepository.get(teamFor(codelistId).sort(sortCriterion).from(range.getStart()).to(range.getLength()))) {
+		for (User user:userRepository.get(teamFor(codelistId).sort(sortCriterion).excluding(currentUser.id()).from(range.getStart()).to(range.getLength()))) {
 
 			RolesRow row = getRow(user, codelistId, Roles.getBy(ResourceType.codelists));
 			rows.add(row);
