@@ -195,8 +195,12 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 
 			@Override
 			public void onSuccess(RolesRow updatedRow) {
-				row.setRoles(updatedRow.getRoles());
-				dataProvider.refresh();
+				if (updatedRow.noRoles()) {
+					usersRolesMatrix.refresh();
+				} else {
+					row.setRoles(updatedRow.getRoles());
+					dataProvider.refresh();
+				}
 				StatusUpdates.statusSaved();
 			}
 		});

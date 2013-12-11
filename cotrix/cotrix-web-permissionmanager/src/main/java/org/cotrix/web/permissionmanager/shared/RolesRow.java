@@ -65,6 +65,11 @@ public class RolesRow implements IsSerializable {
 	public void removeRole(String role) {
 		roles.remove(role);
 	}
+	
+	public boolean noRoles() {
+		for (RoleState state:roles.values()) if (state.checked) return false;
+		return true;
+	}
 
 	/**
 	 * @return the roles
