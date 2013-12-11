@@ -34,10 +34,9 @@
 
 		<module>cotrix-application</module>
 		<module>cotrix-web-permissionmanager</module>
-
+		<module>cotrix-configuration</module>
 
 		<module>cotrix-test-common</module>
-
 	</modules>
 
 	<repositories>
@@ -104,6 +103,12 @@
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-configuration</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
