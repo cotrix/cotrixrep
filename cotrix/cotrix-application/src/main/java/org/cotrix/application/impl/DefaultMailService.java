@@ -14,6 +14,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -90,6 +92,7 @@ public class DefaultMailService implements MailService {
 	}
 
 	@XmlRootElement
+	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class MailServiceConfiguration implements Configuration {
 
 		@XmlElement
