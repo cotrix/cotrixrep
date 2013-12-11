@@ -18,6 +18,11 @@
 
 		<dependency>
 			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-configuration</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-domain</artifactId>
 		</dependency>
 
@@ -35,7 +40,7 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-lifecycle</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-security</artifactId>
@@ -45,10 +50,24 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-test-common</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.5.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jvnet.mock-javamail</groupId>
+			<artifactId>mock-javamail</artifactId>
+			<version>1.9</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

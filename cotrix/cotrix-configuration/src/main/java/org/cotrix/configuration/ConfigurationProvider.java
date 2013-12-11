@@ -16,7 +16,7 @@ public class ConfigurationProvider<T extends Configuration> {
 	/**
 	 * @param configuration
 	 */
-	protected ConfigurationProvider(T configuration) {
+	public ConfigurationProvider(T configuration) {
 		this.configuration = configuration;
 	}
 
