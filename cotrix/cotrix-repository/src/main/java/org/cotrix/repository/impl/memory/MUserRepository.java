@@ -8,6 +8,7 @@ import java.util.HashSet;
 import javax.enterprise.context.ApplicationScoped;
 
 import org.cotrix.action.ResourceType;
+import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.Criterion;
@@ -68,6 +69,24 @@ public class MUserRepository extends MemoryRepository<User.State> implements Use
 					User user = u.entity();
 					if (!user.fingerprint().allRolesOver(resource,type).isEmpty())
 						matches.add(user);
+				}
+				return matches;
+			}
+		};
+		
+	}
+	
+	@Override
+	public MultiQuery<User,User> role(final Role role) {
+		
+		return new MMultiQuery<User,User>() {
+			
+			@Override
+			public Collection<? extends User> _execute() {
+				Collection<User> matches = new HashSet<User>();
+				for (User.State u : getAll()) {
+					User user = u.entity();
+					if (user.is(role)) matches.add(user);
 				}
 				return matches;
 			}

@@ -1,6 +1,7 @@
 package org.cotrix.repository.impl;
 
 import org.cotrix.action.ResourceType;
+import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
@@ -31,4 +32,6 @@ public interface UserQueryFactory {
 	<T> Criterion<T> all(Criterion<T> c1, Criterion<T> c2);
 	
 	<T> Criterion<T> descending(Criterion<T> c);
+
+	MultiQuery<User, User> role(Role role);
 }
