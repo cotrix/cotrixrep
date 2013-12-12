@@ -51,6 +51,11 @@ public class DefaultMailService implements MailService {
 		logger.trace("sendMessage to: {} subject: {}: body: {}", toString(recipients), subject, messageBody);
 		
 		final MailServiceConfiguration configuration = configurationProvider.getConfiguration();
+		
+		if ("UNKNOWN".equals(configuration.getHost())) {
+			logger.warn("Missing MailServer configuration");
+			return;
+		}
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", configuration.isAuth());
