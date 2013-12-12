@@ -4,7 +4,6 @@
 package org.cotrix.application.impl;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -22,16 +21,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.cotrix.application.MailService;
 import org.cotrix.common.Configuration;
 import org.cotrix.configuration.ConfigurationProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 public class DefaultMailService implements MailService {
+	
+	protected Logger logger = LoggerFactory.getLogger(DefaultMailService.class);
 
 	@Inject
 	protected ConfigurationProvider<MailServiceConfiguration> configurationProvider;
-	
 	
 	public DefaultMailService() {
 	}
@@ -44,17 +46,19 @@ public class DefaultMailService implements MailService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void sendMessage(List<String> recipients, String subject, String messageBody) {
+	public void sendMessage(Iterable<String> recipients, String subject, String messageBody) {
 
-		final MailServiceConfiguration configuration = configurationProvider.getConfiguration();
+		logger.trace("sendMessage to: {} subject: {}: body: {}", toString(recipients), subject, messageBody);
 		
-		System.out.println(configuration.getHost());
+		final MailServiceConfiguration configuration = configurationProvider.getConfiguration();
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", configuration.isAuth());
 		props.put("mail.smtp.starttls.enable", configuration.isStarttls());
 		props.put("mail.smtp.host", configuration.getHost());
 		props.put("mail.smtp.port", configuration.getPort());
+		
+		logger.trace("Properties: {}", props);
 
 		Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
@@ -78,17 +82,19 @@ public class DefaultMailService implements MailService {
 			message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(addressList.toString()));
 			message.setSubject(subject);
 			message.setText(messageBody);
-			
-			System.out.println(message.toString());
 
 			Transport.send(message);
-
-			System.out.println("Done");
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
+	}
+	
+	protected String toString(Iterable<String> iterable) {
+		StringBuilder builder = new StringBuilder();
+		for (String item:iterable) builder.append(item).append(" ");
+		return builder.toString();
 	}
 
 	@XmlRootElement
@@ -213,7 +219,5 @@ public class DefaultMailService implements MailService {
 		public void setPort(int port) {
 			this.port = port;
 		}
-
 	}
-
 }

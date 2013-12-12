@@ -8,7 +8,7 @@
 
 		<auth>true</auth>
 		<starttls>true</starttls>
-		<host>smtp.gmail.com</host>
+		<host>UNKNOWN</host>
 		<port>587</port>
 	</mailServiceConfiguration>
 </cotrix>

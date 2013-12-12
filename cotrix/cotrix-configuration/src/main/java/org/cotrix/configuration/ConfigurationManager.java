@@ -33,6 +33,8 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class ConfigurationManager {
 	
+	protected static final String DEFAULT_CONFIGURATION_RESOURCE_NAME = "/default-configuration.xml";
+	
 	protected Logger logger = LoggerFactory.getLogger(ConfigurationManager.class);
 
 	@Inject
@@ -72,7 +74,7 @@ public class ConfigurationManager {
 			InputStream stream = providers.next().getStream();
 			if (stream != null) return stream;
 		}
-		throw new IllegalStateException("No configuration stream found");		
+		return ConfigurationManager.class.getResourceAsStream(DEFAULT_CONFIGURATION_RESOURCE_NAME);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -86,8 +88,11 @@ public class ConfigurationManager {
 	}
 	
 	public static class ConfigurationManagerInjector {
+		
+		protected Logger logger = LoggerFactory.getLogger(ConfigurationManagerInjector.class);
 
-		void configure(@Observes ApplicationEvents.Startup event, ConfigurationManager manager) {	
+		void configure(@Observes ApplicationEvents.Startup event, ConfigurationManager manager) {
+			logger.trace("ConfigurationManager initialized");
 		}
 	}
 }

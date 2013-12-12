@@ -11,10 +11,12 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.common.Outcome;
+import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
@@ -83,11 +85,11 @@ public class CodelistLoader {
 	
 	protected void loadUsers() {
 		
-		User user = user().name("federico").email("federico.defaveri@invented.com").fullName("Federico De Faveri").is(Roles.USER).build();
+		User user = user().name("federico").email("federico.defaveri@fao.org").fullName("Federico De Faveri").is(Roles.ROOT).build();
 		signupService.signup(user, "federico");
 		owners.add(user);
 		
-		user = user().name("fabio").email("fabio.simeoni@invented.com").fullName("Fabio Simeoni").is(Roles.USER).build();
+		user = user().name("fabio").email("fabio.simeoni@invented.com").fullName("Fabio Simeoni").is(Roles.ROOT).build();
 		signupService.signup(user, "fabio");
 		owners.add(user);
 		
@@ -101,10 +103,16 @@ public class CodelistLoader {
 		user = user().name("albert").email("abert.einsteink@invented.com").fullName("Albert Einstein").is(Roles.USER).build();
 		signupService.signup(user, "albert");
 		
+		user = user().name("fiorellato").email("fabio.fiorellato@invented.com").fullName("Fabio Fiorellato").is(Roles.USER).build();
+		signupService.signup(user, "fiorellato");
+		
+		user = user().name("baldassarre").email("claudio.baldassarre@invented.com").fullName("Claudio Baldassarre").is(Roles.USER).build();
+		signupService.signup(user, "baldassarre");
+		
 	}
 
 
-	public void importAllCodelist()
+	public void importAllCodelist(@Observes ApplicationEvents.Startup event)
 	{
 		loadUsers();
 		for (CodeListInfo codelist:CSV_CODELISTS) {

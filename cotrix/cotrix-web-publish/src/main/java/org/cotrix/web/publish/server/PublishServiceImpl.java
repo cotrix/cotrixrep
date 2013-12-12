@@ -60,9 +60,6 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	CodelistRepository repository;
 
 	@Inject
-	protected CodelistLoader codelistLoader;
-
-	@Inject
 	protected PublishSession session;
 
 	@Inject
@@ -78,10 +75,6 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		/*codelistLoader.importAllCodelist();
-		logger.trace("codelist in repository:");
-		for (Codelist codelist:repository.queryFor(allLists())) logger.trace(codelist.name().toString());
-		logger.trace("done");*/
 	}
 
 	/** 
