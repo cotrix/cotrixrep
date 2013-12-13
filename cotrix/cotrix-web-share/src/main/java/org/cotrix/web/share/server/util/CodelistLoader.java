@@ -89,7 +89,7 @@ public class CodelistLoader {
 		signupService.signup(user, "federico");
 		owners.add(user);
 		
-		user = user().name("fabio").email("fabio.simeoni@invented.com").fullName("Fabio Simeoni").is(Roles.ROOT).build();
+		user = user().name("fabio").email("fabio.simeoni@fao.org").fullName("Fabio Simeoni").is(Roles.ROOT).build();
 		signupService.signup(user, "fabio");
 		owners.add(user);
 		
