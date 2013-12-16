@@ -69,6 +69,7 @@ import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
@@ -118,7 +119,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	@UiField ItemToolbar toolBar;
 
 	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
-	protected DataGridResources resource = GWT.create(DataGridResources.class);
+	protected static DataGridResources resource = GWT.create(DataGridResources.class);
 
 	protected Set<Group> groupsAsColumn = new HashSet<Group>();
 	protected Map<Group, Column<UICode, String>> groupsColumns = new HashMap<Group, Column<UICode,String>>(); 
@@ -161,7 +162,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		dataGrid.setTableWidth(100, Unit.PCT);
 		dataGrid.setAutoAdjust(true);
 
-		//TODO add sorting
+		AsyncHandler asyncHandler = new AsyncHandler(dataGrid);
+		dataGrid.addColumnSortHandler(asyncHandler);
 
 		// Create a Pager to control the table.
 		pager = new SimplePager(TextLocation.CENTER, CotrixSimplePager.INSTANCE, false, 0, true);
@@ -471,7 +473,9 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		@Override
 		protected void onEnterKeyDown(Context context, Element parent, Group value,
 				NativeEvent event, ValueUpdater<Group> valueUpdater) {
-			if (valueUpdater != null) {
+			Element element = event.getEventTarget().cast();
+			
+			if (valueUpdater != null && element.getId().equals(SafeHtmlGroupRenderer.CLOSE_IMG_ID)) {
 				valueUpdater.update(value);
 			}
 		}
@@ -483,22 +487,21 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 			}
 		}
 	}
-	
-	static interface GroupHeaderTemplate extends SafeHtmlTemplates {
+
+	static class SafeHtmlGroupRenderer extends AbstractSafeHtmlRenderer<Group> {
 		
-		@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;padding-right: 7px;\">{0}</span><span style=\"vertical-align:middle;color:black;padding-left:5px;\">{1}</span><img src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/></div>")
-		SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, SafeUri img, String imgStyle);
+		static interface GroupHeaderTemplate extends SafeHtmlTemplates {
+			
+			@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;padding-right: 7px;\">{0}</span><span style=\"vertical-align:middle;color:black;padding-left:5px;\">{1}</span><img id=\"{4}\" src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/></div>")
+			SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, SafeUri img, String imgStyle, String imgId);
+
+			@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;padding-right: 7px;\">{0}</span><img id=\"{3}\"  src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\"/></div>")
+			SafeHtml header(SafeHtml name, SafeUri img, String imgStyle, String imgId);
+		}
 		
-		/*@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;\">{0} <img src=\"{1}\" style=\"vertical-align:middle;\"/></span><img src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/></div>")
-		SafeHtml headerWithLanguageImage(SafeHtml name, SafeUri language, SafeUri img, String imgStyle);*/
-
-		@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;padding-right: 7px;\">{0}</span><img src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\"/></div>")
-		SafeHtml header(SafeHtml name, SafeUri img, String imgStyle);
-	}
-
-	protected static final GroupHeaderTemplate HEADER_TEMPLATE = GWT.create(GroupHeaderTemplate.class);
-
-	public class SafeHtmlGroupRenderer extends AbstractSafeHtmlRenderer<Group> {
+		static final GroupHeaderTemplate HEADER_TEMPLATE = GWT.create(GroupHeaderTemplate.class);
+		public static final String CLOSE_IMG_ID = Document.get().createUniqueId();
+		
 		@Override
 		public SafeHtml render(Group value) {
 			SafeHtml name = SafeHtmlUtils.fromString(value.getName().getLocalPart());
@@ -508,8 +511,8 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 				/*ImageResource languageImage = LanguageResources.getResource(value.getLanguage());
 				if (languageImage != null) return HEADER_TEMPLATE.headerWithLanguageImage(name, languageImage.getSafeUri(), img, imgStyle);
 				else */ 
-				return HEADER_TEMPLATE.headerWithLanguage(name, SafeHtmlUtils.fromString(value.getLanguage()), img, imgStyle);
-			} else return HEADER_TEMPLATE.header(name, img, imgStyle);
+				return HEADER_TEMPLATE.headerWithLanguage(name, SafeHtmlUtils.fromString(value.getLanguage()), img, imgStyle, CLOSE_IMG_ID);
+			} else return HEADER_TEMPLATE.header(name, img, imgStyle, CLOSE_IMG_ID);
 		}
 	}
 }
