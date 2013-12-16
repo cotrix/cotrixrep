@@ -60,7 +60,7 @@
 	</ui:style>
 	<g:HTMLPanel styleName="{style.box}">
 		<div class="{style.title}">
-			Add a new user
+			User
 		</div>
 		<div class="{style.filterPanel}">
 			<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}" />

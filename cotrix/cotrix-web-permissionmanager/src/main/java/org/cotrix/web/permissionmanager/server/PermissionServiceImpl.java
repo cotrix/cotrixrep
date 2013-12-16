@@ -77,7 +77,6 @@ public class PermissionServiceImpl implements PermissionService {
 		}
 	}
 
-
 	protected Logger logger = LoggerFactory.getLogger(PermissionServiceImpl.class);
 
 	@Inject
@@ -206,6 +205,7 @@ public class PermissionServiceImpl implements PermissionService {
 		}
 		rolesSorter.syncUser();
 		Collections.sort(rows, rolesSorter);
+		logger.trace("returning "+rows.size()+" rows");
 		return new DataWindow<RolesRow>(rows);
 
 	}

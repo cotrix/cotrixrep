@@ -123,9 +123,9 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	
 	protected void userAdded(UIUser user) {
 		RolesRow row = new RolesRow(user, new HashMap<String, RoleState>());
-		saveRow(row, null, true);
 		dataProvider.getCache().add(row);
 		dataProvider.refresh();
+		saveRow(row, null, null);
 	}
 
 	@Inject
@@ -186,16 +186,21 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 		dataProvider.setCodelistId(currentCodelistId);
 		usersRolesMatrix.refresh();
 	}
-
+	
 	protected void saveRow(final RolesRow row, String role, boolean value) {
 
 		RoleAction action = value?RoleAction.DELEGATE:RoleAction.REVOKE;
+		saveRow(row, role, action);
+	}
+
+	protected void saveRow(final RolesRow row, String role, final RoleAction action) {
+
 		StatusUpdates.statusSaving();
 		service.codelistRoleUpdated(row.getUser().getId(), currentCodelistId, role, action, new ManagedFailureCallback<RolesRow>() {
 
 			@Override
 			public void onSuccess(RolesRow updatedRow) {
-				if (updatedRow.noRoles()) {
+				if (updatedRow.noRoles() && action!=null) {
 					usersRolesMatrix.refresh();
 				} else {
 					row.setRoles(updatedRow.getRoles());

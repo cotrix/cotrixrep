@@ -11,6 +11,8 @@ import org.cotrix.web.share.client.util.FilteredCachedDataProvider.Filter;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.shared.EventHandler;
@@ -108,6 +110,27 @@ public class AddUserDialog extends PopupPanel {
 	protected void onAddUserClick(ClickEvent event) {
 		fireEvent(new AddUserEvent(selectionModel.getSelectedObject()));
 		hide();
+	}
+	
+	public void clean() {
+		filterTextBox.setText("");
+		selectionModel.clear();
+	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void show() {
+		super.show();
+		clean();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+		    @Override
+		    public void execute() {
+		    	filterTextBox.setFocus(true);
+		    }
+		});
 	}
 
 	@Inject
