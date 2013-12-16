@@ -6,6 +6,7 @@ import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEven
 import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.codelistmanager.client.util.Attributes;
 import org.cotrix.web.codelistmanager.client.util.Constants;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.ItemToolbar;
@@ -169,6 +170,7 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	{
 		this.metadata = metadata;
 		
+		Attributes.sortByAttributeType(metadata.getAttributes());
 		attributesProvider.setList(metadata.getAttributes());
 		attributesProvider.refresh();
 	}

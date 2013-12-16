@@ -34,6 +34,7 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.codelistmanager.client.util.Attributes;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.ImageResourceCell;
 import org.cotrix.web.share.client.widgets.ItemToolbar;
@@ -259,6 +260,8 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 		List<UIAttribute> currentAttributes = dataProvider.getList();
 		currentAttributes.clear();
+		
+		Attributes.sortByAttributeType(visualizedCode.getAttributes());
 		currentAttributes.addAll(visualizedCode.getAttributes());
 		dataProvider.refresh();
 		Log.trace("request refresh of "+visualizedCode.getAttributes().size()+" attributes");
