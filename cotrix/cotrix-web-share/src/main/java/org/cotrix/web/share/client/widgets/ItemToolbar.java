@@ -64,7 +64,7 @@ public class ItemToolbar extends Composite {
 	{
 		switch (button) {
 			case MINUS: minusAnimation.setVisibility(visible, Speed.FAST); break;
-			case PLUS: minusAnimation.setVisibility(visible, Speed.FAST); break;
+			case PLUS: plusAnimation.setVisibility(visible, Speed.FAST); break;
 		}
 	}
 	

@@ -38,6 +38,9 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
+import org.cotrix.web.share.client.feature.FeatureBinder;
+import org.cotrix.web.share.client.feature.FeatureToggler;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
@@ -46,9 +49,9 @@ import org.cotrix.web.share.client.widgets.ItemToolbar;
 import org.cotrix.web.share.client.widgets.StyledSafeHtmlRenderer;
 import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedHandler;
+import org.cotrix.web.share.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
-import org.cotrix.web.share.shared.codelist.UIQName;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractSafeHtmlCell;
@@ -180,8 +183,6 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
-
-		bind();
 	}
 
 	protected void setupColumns() {
@@ -232,8 +233,25 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		return cell;
 	}
 
-	protected void bind()
+	@Inject
+	protected void bind(@CodelistId String codelistId)
 	{
+		FeatureBinder.bind(new FeatureToggler() {
+			
+			@Override
+			public void toggleFeature(boolean active) {
+				toolBar.setVisible(ItemButton.PLUS, active);
+			}
+		}, codelistId, ManagerUIFeature.ADD_CODE);
+		
+		FeatureBinder.bind(new FeatureToggler() {
+			
+			@Override
+			public void toggleFeature(boolean active) {
+				toolBar.setVisible(ItemButton.MINUS, active);
+			}
+		}, codelistId, ManagerUIFeature.REMOVE_CODE);
+		
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 
 			@Override

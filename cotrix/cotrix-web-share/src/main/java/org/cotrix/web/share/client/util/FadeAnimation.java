@@ -42,6 +42,9 @@ public class FadeAnimation extends Animation {
 		}		
 	}
 	
+	protected static final double INVISIBLE_OPACITY = 0.0;
+	protected static final double VISIBLE_OPACITY = 1.0;
+	
 	private Element element;
 	private double opacityIncrement;
 	private double targetOpacity;
@@ -64,20 +67,32 @@ public class FadeAnimation extends Animation {
 	
 	public void setVisibility(boolean visible, Speed speed)
 	{
+		if (!(visible ^ isElementVisible())) return;
 		if (visible) fadeIn(speed);
 		else fadeOut(speed);
+	}
+	
+	protected boolean isElementVisible() {
+		String opacityValue = element.getStyle().getOpacity();
+		if (opacityValue == null) return true;
+		try {
+			double opacity = new BigDecimal(opacityValue).doubleValue();
+			return opacity == VISIBLE_OPACITY;
+		} catch(NumberFormatException e) {
+			return true;
+		}
 	}
 	
 	public void fadeOut(Speed speed)
 	{
 		cancel();
 		element.getStyle().setOpacity(1);
-		fade(speed.getTime(), 0);
+		fade(speed.getTime(), INVISIBLE_OPACITY);
 	}
 	
 	public void fadeIn(Speed speed)
 	{
-		fadeIn(0, speed);
+		fadeIn(INVISIBLE_OPACITY, speed);
 	}
 	
 	public void fadeIn(double startingOpacity, Speed speed)

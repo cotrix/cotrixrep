@@ -96,7 +96,7 @@ public class ManagerServiceImpl implements ManagerService {
 	@PostConstruct
 	public void init() {
 		mapper.map(VIEW).to(VIEW_CODELIST, VIEW_METADATA);
-		mapper.map(EDIT).to(EDIT_METADATA, EDIT_CODELIST);
+		mapper.map(EDIT).to(EDIT_METADATA, EDIT_CODELIST, ADD_CODE, REMOVE_CODE);
 		mapper.map(LOCK).to(LOCK_CODELIST);
 		mapper.map(UNLOCK).to(UNLOCK_CODELIST);
 		mapper.map(SEAL).to(SEAL_CODELIST);
