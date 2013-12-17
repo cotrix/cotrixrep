@@ -56,7 +56,7 @@ public class ChangesetUtil {
 			return code().name(convert(uicode.getName())).attributes(addAttributes(uicode.getAttributes())).build();
 	}
 
-	public static Code updateCode(String id, String name) {
+	public static Code updateCode(String id, UIQName name) {
 		return modifyCode(id).name(convert(name)).build();
 	}
 

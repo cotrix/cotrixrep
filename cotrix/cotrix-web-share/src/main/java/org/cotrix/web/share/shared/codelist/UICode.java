@@ -17,7 +17,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class UICode implements Identifiable, IsSerializable {
 	
 	protected String id;
-	protected String name;
+	protected UIQName name;
 
 	protected List<UIAttribute> attributes;
 
@@ -27,7 +27,7 @@ public class UICode implements Identifiable, IsSerializable {
 	 * @param id
 	 * @param name
 	 */
-	public UICode(String id, String name) {
+	public UICode(String id, UIQName name) {
 		this.id = id;
 		this.name = name;
 		this.attributes = new ArrayList<UIAttribute>();
@@ -45,14 +45,14 @@ public class UICode implements Identifiable, IsSerializable {
 		this.id = id;
 	}
 	
-	public String getName() {
+	public UIQName getName() {
 		return name;
 	}
 
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(String name) {
+	public void setName(UIQName name) {
 		this.name = name;
 	}
 

@@ -4,6 +4,7 @@
 package org.cotrix.web.codelistmanager.shared.modify.code;
 
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
+import org.cotrix.web.share.shared.codelist.UIQName;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -12,14 +13,14 @@ import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 public class UpdateCodeCommand implements ModifyCommand, CodeCommand  {
 	
 	protected String codeId;
-	protected String name;
+	protected UIQName name;
 	
 	protected UpdateCodeCommand(){}
 
 	/**
 	 * @param name
 	 */
-	public UpdateCodeCommand(String codeId, String name) {
+	public UpdateCodeCommand(String codeId, UIQName name) {
 		this.codeId = codeId;
 		this.name = name;
 	}
@@ -27,7 +28,7 @@ public class UpdateCodeCommand implements ModifyCommand, CodeCommand  {
 	/**
 	 * @return the name
 	 */
-	public String getName() {
+	public UIQName getName() {
 		return name;
 	}
 

@@ -255,7 +255,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	protected void updateVisualizedCode(UICode code)
 	{
 		visualizedCode = code;
-		setHeader(visualizedCode.getName());
+		setHeader(visualizedCode.getName().getLocalPart());
 		updateBackground();
 
 		List<UIAttribute> currentAttributes = dataProvider.getList();

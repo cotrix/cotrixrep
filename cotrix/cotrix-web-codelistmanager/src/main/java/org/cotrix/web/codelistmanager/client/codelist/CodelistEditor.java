@@ -48,6 +48,7 @@ import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
+import org.cotrix.web.share.shared.codelist.UIQName;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractSafeHtmlCell;
@@ -193,7 +194,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 			@Override
 			public void update(int index, UICode row, String value) {
-				row.setName(value);
+				row.getName().setLocalPart(value);
 				codeEditor.updated(row);
 			}
 		});
@@ -308,7 +309,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 	protected void addCode()
 	{
-		UICode code = new UICode(Document.get().createUniqueId(), "name");
+		UICode code = CodeFactory.createCode();
 		dataProvider.getCache().add(0, code);
 		dataProvider.refresh();
 		selectionModel.setSelected(code, true);
@@ -424,7 +425,7 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 		@Override
 		public String getValue(UICode object) {
-			return object.getName();
+			return object.getName().getLocalPart();
 		}
 	}
 	

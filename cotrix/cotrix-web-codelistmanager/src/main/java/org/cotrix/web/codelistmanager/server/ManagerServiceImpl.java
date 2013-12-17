@@ -156,7 +156,7 @@ public class ManagerServiceImpl implements ManagerService {
 
 			UICode uicode = new UICode();
 			uicode.setId(code.id());
-			uicode.setName(code.name().toString());
+			uicode.setName(ValueUtils.safeValue(code.name()));
 
 			List<UIAttribute> attributes = Codelists.toUIAttributes(code.attributes());
 			uicode.setAttributes(attributes);
