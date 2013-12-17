@@ -37,6 +37,10 @@ public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implement
 		
 		results.removeAll(excludes);
 		
+		//apply sort criteria
+		if (criterion()!=null)
+			Collections.sort(results,reveal(criterion()));
+		
 		
 		//extract range
 		int count = 1;
@@ -65,9 +69,6 @@ public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implement
 				}
 			}
 			
-		//apply sort criteria
-		if (criterion()!=null)
-			Collections.sort(range,reveal(criterion()));
 		 
 		return range;
 		
