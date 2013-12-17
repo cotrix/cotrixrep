@@ -1,6 +1,7 @@
 package org.cotrix.web.codelistmanager.server;
 
 import static org.cotrix.action.CodelistAction.*;
+import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.repository.CodelistQueries.*;
 import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.*;
 
@@ -20,11 +21,15 @@ import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.MultiQuery;
 import org.cotrix.web.codelistmanager.client.ManagerService;
+import org.cotrix.web.codelistmanager.server.modify.ChangesetUtil;
 import org.cotrix.web.codelistmanager.server.modify.ModifyCommandHandler;
+import org.cotrix.web.codelistmanager.shared.CodelistEditorSortInfo;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
@@ -33,7 +38,6 @@ import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.CodelistTask;
 import org.cotrix.web.share.server.task.ContainsTask;
 import org.cotrix.web.share.server.task.Id;
-import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.DataWindow;
@@ -122,8 +126,8 @@ public class ManagerServiceImpl implements ManagerService {
 
 	@Override
 	@CodelistTask(VIEW)
-	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range) throws ServiceException {
-		logger.trace("getCodelistRows codelistId {}, range: {}", codelistId, range);
+	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range, CodelistEditorSortInfo sortInfo) throws ServiceException {
+		logger.trace("getCodelistRows codelistId {}, range: {} sortInfo: {}", codelistId, range, sortInfo);
 
 		int start = range.getStart() + 1;
 		int end = range.getStart() + range.getLength();
@@ -131,7 +135,22 @@ public class ManagerServiceImpl implements ManagerService {
 
 		Codelist codelist = repository.lookup(codelistId);
 
-		Iterable<Code> codes  = repository.get(allCodesIn(codelistId).from(start).to(end));
+		MultiQuery<Codelist, Code> query = allCodesIn(codelistId).from(start).to(end);
+		if (sortInfo!=null) {
+			if (sortInfo instanceof CodelistEditorSortInfo.CodeNameSortInfo) {
+				if (sortInfo.isAscending()) query.sort(descending(byCodeName()));
+				else query.sort(byCodeName());
+			}
+			if (sortInfo instanceof CodelistEditorSortInfo.AttributeGroupSortInfo) {
+				CodelistEditorSortInfo.AttributeGroupSortInfo attributeGroupSortInfo = (CodelistEditorSortInfo.AttributeGroupSortInfo) sortInfo;
+				Attribute attribute = attribute().name(ChangesetUtil.convert(attributeGroupSortInfo.getName())).value(null)
+						.ofType(ChangesetUtil.convert(attributeGroupSortInfo.getType())).in(ChangesetUtil.convert(attributeGroupSortInfo.getLanguage())).build();
+				if (sortInfo.isAscending()) query.sort(descending(byAttribute(attribute, attributeGroupSortInfo.getPosition() + 1)));
+				else query.sort(byAttribute(attribute, attributeGroupSortInfo.getPosition() + 1));
+			}
+		}
+		
+		Iterable<Code> codes  = repository.get(query);
 		List<UICode> rows = new ArrayList<UICode>(range.getLength());
 		for (Code code:codes) {
 

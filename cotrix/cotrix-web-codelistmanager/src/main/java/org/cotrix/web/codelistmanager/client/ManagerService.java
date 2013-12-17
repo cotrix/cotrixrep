@@ -1,5 +1,6 @@
 package org.cotrix.web.codelistmanager.client;
 
+import org.cotrix.web.codelistmanager.shared.CodelistEditorSortInfo;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
@@ -22,7 +23,7 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("manager")
 public interface ManagerService extends RemoteService {
 	
-	DataWindow<UICode> getCodelistCodes(String codelistId, Range range) throws ServiceException;
+	DataWindow<UICode> getCodelistCodes(String codelistId, Range range, CodelistEditorSortInfo sortInfo) throws ServiceException;
 	DataWindow<CodelistGroup> getCodelistsGrouped() throws ServiceException;
 	
 	UICodelistMetadata getMetadata(String codelistId) throws ServiceException;

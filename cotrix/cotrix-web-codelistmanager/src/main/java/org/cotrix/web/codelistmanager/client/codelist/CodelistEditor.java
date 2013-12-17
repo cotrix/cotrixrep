@@ -51,6 +51,7 @@ import org.cotrix.web.share.shared.codelist.UICode;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractSafeHtmlCell;
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
@@ -176,7 +177,6 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	
 		dataProvider.addDataDisplay(dataGrid);
 
-		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
 
@@ -184,13 +184,10 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	}
 
 	protected void setupColumns() {
-		nameColumn = new Column<UICode, String>(createCell(false)) {
-			@Override
-			public String getValue(UICode object) {
-				if (object == null) return "";
-				return object.getName();
-			}
-		};
+		
+		nameColumn = new CodeColumn(createCell(false));
+
+		nameColumn.setSortable(true);
 
 		nameColumn.setFieldUpdater(new FieldUpdater<UICode, String>() {
 
@@ -323,14 +320,9 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		Log.trace("getGroupColumn group: "+group);
 		Column<UICode, String> column = groupsColumns.get(group);
 		if (column == null) {
-			column = new Column<UICode, String>(createCell(group.isSystemGroup())) {
-
-				@Override
-				public String getValue(UICode row) {
-					if (row == null) return "";
-					return group.getValue(row.getAttributes());
-				}
-			};
+			column = new GroupColumn(createCell(group.isSystemGroup()), group);
+			column.setSortable(true);
+			
 			column.setFieldUpdater(new FieldUpdater<UICode, String>() {
 
 				@Override
@@ -416,6 +408,47 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		Set<Group> groupsToNormal = new HashSet<Group>(groupsAsColumn);
 		for (Group group:groupsToNormal) switchToNormal(group);
 	}
+	
+	public static abstract class CodelistEditorColumn<C> extends Column<UICode, C> {
+
+		public CodelistEditorColumn(Cell<C> cell) {
+			super(cell);
+		}
+	}
+	
+	public static class CodeColumn extends CodelistEditorColumn<String> {
+
+		public CodeColumn(Cell<String> cell) {
+			super(cell);
+		}
+
+		@Override
+		public String getValue(UICode object) {
+			return object.getName();
+		}
+	}
+	
+	public static class GroupColumn extends CodelistEditorColumn<String> {
+		
+		protected Group group;
+
+		public GroupColumn(Cell<String> cell, Group group) {
+			super(cell);
+			this.group = group;
+		}
+
+		@Override
+		public String getValue(UICode row) {
+			if (row == null) return "";
+			return group.getValue(row.getAttributes());
+		}
+
+		public Group getGroup() {
+			return group;
+		}
+	}
+	
+	
 
 	protected class GroupHeader extends Header<Group> {
 
