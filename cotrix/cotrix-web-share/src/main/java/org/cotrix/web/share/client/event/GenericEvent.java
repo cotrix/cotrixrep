@@ -31,7 +31,7 @@ public class GenericEvent<T> extends GwtEvent<GenericHandler<T>> {
 		this.resource = resource;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("all")
 	@Override
 	public Type<GenericHandler<T>> getAssociatedType() {
 		return (Type) GenericEvent.getType(this.resource.getClass());

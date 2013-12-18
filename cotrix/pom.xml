@@ -37,6 +37,7 @@
 		<module>cotrix-configuration</module>
 
 		<module>cotrix-test-common</module>
+		<module>cotrix-transient</module>
 	</modules>
 
 	<repositories>
@@ -105,7 +106,14 @@
 				<artifactId>cotrix-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-test-common</artifactId>
+				<version>${project.version}</version>
+				<scope>test</scope>
+			</dependency>
+
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-configuration</artifactId>
@@ -197,6 +205,13 @@
 			</dependency>
 
 
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-transient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+
 			<!-- logging -->
 
 			<dependency>
@@ -253,13 +268,6 @@
 			</dependency>
 
 			<!-- testing -->
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-test-common</artifactId>
-				<version>${project.version}</version>
-				<scope>test</scope>
-			</dependency>
 
 			<dependency>
 				<groupId>org.mockito</groupId>

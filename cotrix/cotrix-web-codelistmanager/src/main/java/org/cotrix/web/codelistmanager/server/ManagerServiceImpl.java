@@ -1,8 +1,20 @@
 package org.cotrix.web.codelistmanager.server;
 
-import static org.cotrix.action.CodelistAction.*;
-import static org.cotrix.repository.CodelistQueries.*;
-import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.*;
+import static org.cotrix.action.CodelistAction.EDIT;
+import static org.cotrix.action.CodelistAction.LOCK;
+import static org.cotrix.action.CodelistAction.SEAL;
+import static org.cotrix.action.CodelistAction.UNLOCK;
+import static org.cotrix.action.CodelistAction.VERSION;
+import static org.cotrix.action.CodelistAction.VIEW;
+import static org.cotrix.repository.CodelistQueries.allCodesIn;
+import static org.cotrix.repository.CodelistQueries.allLists;
+import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.EDIT_CODELIST;
+import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.EDIT_METADATA;
+import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.LOCK_CODELIST;
+import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.SEAL_CODELIST;
+import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.UNLOCK_CODELIST;
+import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.VIEW_CODELIST;
+import static org.cotrix.web.codelistmanager.shared.ManagerUIFeature.VIEW_METADATA;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +45,6 @@ import org.cotrix.web.share.server.task.ActionMapper;
 import org.cotrix.web.share.server.task.CodelistTask;
 import org.cotrix.web.share.server.task.ContainsTask;
 import org.cotrix.web.share.server.task.Id;
-import org.cotrix.web.share.server.util.CodelistLoader;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.DataWindow;
