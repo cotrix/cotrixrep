@@ -45,6 +45,7 @@ public class CommonClauses {
 		 * @param links the links
 		 * @return the next clause in the sentence
 		 */
+		@SuppressWarnings("unchecked")
 		C links(T ... links);
 	}
 	
@@ -79,6 +80,7 @@ public class CommonClauses {
 		 * @param parameters the parameters
 		 * @return the next clause in the sentence
 		 */
+		@SuppressWarnings("unchecked")
 		C with(T ... parameters);
 		
 		

@@ -17,17 +17,12 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-common</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-action</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-domain</artifactId>
@@ -39,35 +34,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-		</dependency>
-		
-		
-		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-test-common</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.googlecode.jeeunit</groupId>
-			<artifactId>jeeunit-weld-se</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>weld-se-core</artifactId>
-					<groupId>org.jboss.weld.se</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
 		</dependency>
 
 	</dependencies>

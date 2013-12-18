@@ -1,7 +1,7 @@
 package org.acme;
 
-import static junit.framework.Assert.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 

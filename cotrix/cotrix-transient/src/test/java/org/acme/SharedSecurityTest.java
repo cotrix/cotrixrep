@@ -5,9 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({CodelistRepositoryTest.class, UserRepositoryTest.class})
-
-public class SharedRepositoryTest {
+@SuiteClasses({BarrierTest.class,LoginTest.class})
+public class SharedSecurityTest {
 	
 	
 }

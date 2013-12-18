@@ -46,5 +46,10 @@ public class BeanSession implements Serializable {
 		return type.cast(data.get(type));
 	}
 	
+	public void clear(Class<?> type) {
+		
+		data.remove(type);
+	}
+	
 
 }

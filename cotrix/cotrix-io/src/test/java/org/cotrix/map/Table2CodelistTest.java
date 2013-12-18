@@ -15,6 +15,7 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.memory.IdentifiedMS;
 import org.cotrix.io.MapService;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,18 @@ public class Table2CodelistTest {
 	@Inject
 	MapService mapper;
 
+	@BeforeClass
+	public static void setup() {
+		
+		IdentifiedMS.testmode=true;
+	}
+	
+	@AfterClass
+	public static void after() {
+		
+		IdentifiedMS.testmode=false;
+	}
+	
 	@Test
 	public void defaultNameIsCodeColumn() {
 		
@@ -133,16 +146,5 @@ public class Table2CodelistTest {
 		assertEquals(expected, outcome.result());
 	}
 
-	@BeforeClass
-	public static void setup() {
-		
-		IdentifiedMS.testmode=true;
-	}
-	
-	@BeforeClass
-	public static void after() {
-		
-		IdentifiedMS.testmode=false;
-	}
 
 }

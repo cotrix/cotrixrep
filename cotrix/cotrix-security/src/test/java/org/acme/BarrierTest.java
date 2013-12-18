@@ -1,45 +1,40 @@
 package org.acme;
 
-import static junit.framework.Assert.*;
 import static org.cotrix.domain.dsl.Users.*;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.servlet.FilterChain;
+import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.security.AuthBarrier;
-import org.jglue.cdiunit.CdiRunner;
-import org.jglue.cdiunit.ContextController;
-import org.jglue.cdiunit.DummyHttpRequest;
-import org.jglue.cdiunit.InSessionScope;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 
-@RunWith(CdiRunner.class) 
+import com.googlecode.jeeunit.JeeunitRunner;
+
+@RunWith(JeeunitRunner.class) 
 public class BarrierTest {
 
-	@Inject
-	ContextController contextController;
-	
 	@Inject @Current
 	BeanSession session;
 	
-	@Mock
-	FilterChain chain;
+	FilterChain chain = mock(FilterChain.class);
 	
 	@Inject
 	AuthBarrier barrier;
+
+	HttpServletRequest req = mock(HttpServletRequest.class);
 	
-	@Test @InSessionScope
+	@Test
+	//@TestControl(startScopes = SessionScoped.class)
 	public void barrierDefaultsToGuest() throws Exception {
 
-		contextController.openRequest(new DummyHttpRequest());
+		session.clear(User.class);
 		
 		barrier.doFilter(null, null, chain);
 		
@@ -47,15 +42,11 @@ public class BarrierTest {
 		
 		verify(chain).doFilter(null,null);
 		
-		contextController.closeRequest();
-		
 	}
 	
 	@Test
 	public void barrierChecksUser() throws Exception {
 
-		contextController.openRequest(new DummyHttpRequest());
-		
 		session.add(User.class,cotrix);
 		
 		barrier.doFilter(null, null, chain);
@@ -64,14 +55,5 @@ public class BarrierTest {
 		
 		verify(chain).doFilter(null,null);
 		
-		contextController.closeRequest();
-		
-	}
-	
-	
-	@Produces @SessionScoped
-	public static @Current BeanSession session() {
-	
-		return new BeanSession();
 	}
 }

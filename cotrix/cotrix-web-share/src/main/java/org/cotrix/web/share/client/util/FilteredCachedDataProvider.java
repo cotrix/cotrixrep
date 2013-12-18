@@ -23,6 +23,7 @@ public abstract class FilteredCachedDataProvider<T> extends CachedDataProvider<T
 		
 		protected Filter<E>[] filters;
 		
+		@SuppressWarnings("unchecked")
 		public AndFilter(Filter<E> ... filters) {
 			this.filters = filters;
 		}
@@ -49,12 +50,14 @@ public abstract class FilteredCachedDataProvider<T> extends CachedDataProvider<T
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void setFilters(Filter<T> ... filters)
 	{
 		appliedFilters = new ArrayList<Filter<T>>(filters.length);
 		for (Filter<T> filter:filters) appliedFilters.add(filter);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void applyFilters(Filter<T> ... filters)
 	{
 		setFilters(filters);

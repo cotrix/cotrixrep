@@ -340,6 +340,7 @@ public class PermissionServiceImpl implements PermissionService {
 		return userDetails;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected List<String> getRoles(Collection<String> ... rolesSet) {
 		List<String> uiroles = new ArrayList<String>();
 		for (Collection<String> roles:rolesSet) uiroles.addAll(roles);
@@ -352,6 +353,7 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	protected List<String> toRoles(Collection<Role> ... rolesSets) {
 		List<String> uiRoles = new ArrayList<String>();
 		for (Collection<Role> roles: rolesSets) for (Role role:roles) uiRoles.add(role.name());

@@ -7,7 +7,6 @@ import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.User;
-import org.cotrix.domain.utils.CurrentUser;
 
 public class CdiProducers {
 

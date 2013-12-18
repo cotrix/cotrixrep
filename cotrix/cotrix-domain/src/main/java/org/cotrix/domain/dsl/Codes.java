@@ -128,6 +128,7 @@ public class Codes {
 		return new Container.Private<T,S>(elements);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Container.Private<T, S> container(S ... elements) {
 		return container(beans(elements));
 	}
@@ -144,14 +145,17 @@ public class Codes {
 		return new NamedStateContainer.Default<S>(elements);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <S extends Identified.State> StateContainer<S> beans(S ... elements) {
 		return new StateContainer.Default<S>(Arrays.asList(elements));
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static <S extends Identified.State & Named.State> NamedStateContainer<S> namedBeans(S ... elements) {
 		return new NamedStateContainer.Default<S>(Arrays.asList(elements));
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static <T extends Identified.Abstract<T,S> & Named, S extends Identified.State & Named.State & EntityProvider<T>> NamedContainer.Private<T, S> namedContainer(S ... elements) {
 		return namedContainer(namedBeans(elements));
 	}

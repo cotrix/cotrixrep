@@ -1,7 +1,7 @@
 package org.acme;
 
 import static java.util.Arrays.*;
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;

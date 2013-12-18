@@ -1,6 +1,6 @@
 package org.acme.users;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Users.*;

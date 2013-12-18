@@ -1,6 +1,6 @@
 package org.acme.users;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 import static org.cotrix.action.Action.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
@@ -196,6 +196,7 @@ public class FingerprintTest {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	<T> Set<T> setOf(T... ts) {
 		HashSet<T> set = new HashSet<T>();
 		for (T t : ts)

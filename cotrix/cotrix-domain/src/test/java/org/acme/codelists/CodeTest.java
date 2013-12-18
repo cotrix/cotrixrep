@@ -1,6 +1,6 @@
 package org.acme.codelists;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;

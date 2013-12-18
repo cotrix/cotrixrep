@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 //validates inputs and delegates to persistence-specific implementations based on private API 
 
 public abstract class AbstractRepository<T extends Identified, 
-										 P extends Identified.Abstract<? extends T,S>,
+										 P extends Identified.Abstract<P,S>,
 										 S extends Identified.State & EntityProvider<P>> 
 										  
 										implements Repository<T>

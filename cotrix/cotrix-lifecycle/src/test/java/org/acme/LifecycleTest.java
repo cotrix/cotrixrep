@@ -1,8 +1,8 @@
 package org.acme;
 
-import static junit.framework.Assert.*;
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
+import static org.junit.Assert.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -26,7 +26,6 @@ public class LifecycleTest extends ApplicationTest {
 	
 	@Inject
 	TestObserver observer;
-	
 	
 	@Test
 	public void startAndFetchDefaultLifecycle() {

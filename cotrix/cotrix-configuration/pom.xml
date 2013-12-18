@@ -11,50 +11,15 @@
 	<name>Cotrix configuration</name>
 
 	<dependencies>
+	
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-common</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jglue.cdi-unit</groupId>
-			<artifactId>cdi-unit</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>test</scope>
-		</dependency>
-		
-	<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- testing with CDI -->
-		<dependency>
-			<groupId>com.googlecode.jeeunit</groupId>
-			<artifactId>jeeunit-weld-se</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>weld-se-core</artifactId>
-					<groupId>org.jboss.weld.se</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se</artifactId>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-test-common</artifactId>
 		</dependency>
 
 	</dependencies>
