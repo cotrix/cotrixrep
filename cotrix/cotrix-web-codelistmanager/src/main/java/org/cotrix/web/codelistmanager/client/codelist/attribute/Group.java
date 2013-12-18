@@ -93,7 +93,11 @@ public class Group implements Cloneable, Comparable<Group> {
 		this.position = position;
 		createLabel();
 	}
-	
+
+	public int getPosition() {
+		return position;
+	}
+
 	protected int getPosition(List<UIAttribute> attributes, UIAttribute att)
 	{
 		int index = 0;

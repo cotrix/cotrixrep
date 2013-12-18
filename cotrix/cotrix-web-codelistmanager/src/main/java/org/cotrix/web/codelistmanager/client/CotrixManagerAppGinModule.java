@@ -1,5 +1,6 @@
 package org.cotrix.web.codelistmanager.client;
 
+import org.cotrix.web.codelistmanager.client.codelist.CodeFactory;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistId;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelPresenter;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistPanelPresenterImpl;
@@ -62,6 +63,7 @@ public class CotrixManagerAppGinModule extends AbstractGinModule {
 		bind(Constants.class).in(Singleton.class);
 		
 		requestStaticInjection(AttributeFactory.class);
+		requestStaticInjection(CodeFactory.class);
 	}
 
 }

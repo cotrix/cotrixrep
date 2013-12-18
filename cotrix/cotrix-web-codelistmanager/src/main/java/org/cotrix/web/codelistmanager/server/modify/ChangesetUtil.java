@@ -56,7 +56,7 @@ public class ChangesetUtil {
 			return code().name(convert(uicode.getName())).attributes(addAttributes(uicode.getAttributes())).build();
 	}
 
-	public static Code updateCode(String id, String name) {
+	public static Code updateCode(String id, UIQName name) {
 		return modifyCode(id).name(convert(name)).build();
 	}
 
@@ -68,11 +68,11 @@ public class ChangesetUtil {
 		return modifyCodelist(id).name(convert(name)).build();
 	}
 
-	protected static String convert(String value) {
+	public static String convert(String value) {
 		return (value == null || value.isEmpty()) ? null : value;
 	}
 
-	protected static QName convert(UIQName value) {
+	public static QName convert(UIQName value) {
 		return (value == null || value.getLocalPart() == null || value.getLocalPart().isEmpty()) ? null : new QName(
 				value.getNamespace(), value.getLocalPart());
 	}

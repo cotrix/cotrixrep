@@ -15,7 +15,7 @@ public class CallbackFailureLogger implements CallBackListener {
 	
 	@Override
 	public boolean onFailure(Throwable caught) {
-		Log.error("RPC error", caught);
+		Log.error("catched failure:", caught);
 		return true;
 	}
 

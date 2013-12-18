@@ -18,6 +18,7 @@ public class Constants {
 	protected String defaultAttributeType = "description";
 	protected String defaultAttributeName = "attribute";
 	protected String defaultAttributeValue = "value";
+	protected String defaultCodeName = "name";
 	
 	/**
 	 * @return the defaultAttributeName
@@ -73,7 +74,12 @@ public class Constants {
 	 */
 	public void setDefaultAttributeValue(String defaultAttributeValue) {
 		this.defaultAttributeValue = defaultAttributeValue;
-	}	
-	
+	}
 
+	/**
+	 * @return the defaultCodeName
+	 */
+	public String getDefaultCodeName() {
+		return defaultCodeName;
+	}
 }
