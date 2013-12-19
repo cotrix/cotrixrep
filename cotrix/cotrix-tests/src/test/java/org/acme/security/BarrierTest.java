@@ -1,4 +1,4 @@
-package org.acme;
+package org.acme.security;
 
 import static org.cotrix.domain.dsl.Users.*;
 import static org.junit.Assert.*;

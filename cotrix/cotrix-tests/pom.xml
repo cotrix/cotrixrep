@@ -6,20 +6,15 @@
 		<artifactId>cotrix</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>cotrix-transient</artifactId>
 
+	<artifactId>cotrix-tests</artifactId>
 
 
 	<dependencies>
 
 		<dependency>
 			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-common</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-security</artifactId>
+			<artifactId>cotrix-test-common</artifactId>
 		</dependency>
 
 		<dependency>
@@ -27,6 +22,36 @@
 			<artifactId>cotrix-repository</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-security</artifactId>
+		</dependency>
+
 	</dependencies>
+
+
+	<profiles>
+
+		<profile>
+		
+			<id>transient</id>
+
+ 			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-transient</artifactId>
+					<scope>test</scope>
+				</dependency>
+
+			</dependencies>
+
+		</profile>
+
+	</profiles>
 
 </project>

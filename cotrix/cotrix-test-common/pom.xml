@@ -12,6 +12,12 @@
 
 	<dependencies>
 
+		<!-- promote junit dep to compile scope for this module -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>compile</scope>
+		</dependency>
 
 		<!--  some facilities based on these core modules. they will not be able to use this module. -->
 		<dependency>
@@ -24,9 +30,7 @@
 			<artifactId>cotrix-domain</artifactId>
 		</dependency>
 
-
-		<!-- delta-spike for scope-aware tests -->
-
+		
 
 		<dependency>
 			<groupId>com.googlecode.jeeunit</groupId>

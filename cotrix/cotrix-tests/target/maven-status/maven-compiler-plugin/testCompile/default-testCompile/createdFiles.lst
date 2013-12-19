@@ -1,0 +1,4 @@
+org/acme/security/LoginTest.class
+org/acme/repository/CodelistRepositoryTest.class
+org/acme/repository/UserRepositoryTest.class
+org/acme/security/BarrierTest.class

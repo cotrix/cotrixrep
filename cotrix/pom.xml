@@ -37,7 +37,7 @@
 		<module>cotrix-configuration</module>
 
 		<module>cotrix-test-common</module>
-		<module>cotrix-transient</module>
+		<module>cotrix-tests</module>
 	</modules>
 
 	<repositories>
@@ -161,27 +161,11 @@
 				<artifactId>cotrix-security</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-security</artifactId>
-				<classifier>tests</classifier>
-				<version>${project.version}</version>
-				<scope>test</scope>
-			</dependency>
 			
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-repository</artifactId>
 				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-repository</artifactId>
-				<classifier>tests</classifier>
-				<version>${project.version}</version>
-				<scope>test</scope>
 			</dependency>
 
 			<dependency>
@@ -284,6 +268,13 @@
 			</dependency>
 
 			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.11</version>
+				<scope>test</scope>
+			</dependency>
+		
+			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
 				<version>1.0.13</version>
@@ -307,8 +298,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -381,6 +370,7 @@
 	</build>
 
 	<profiles>
+		
 		<profile>
 			<id>fao-ci</id>
 			<distributionManagement>
@@ -396,6 +386,24 @@
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>
+
+
+		<profile>
+		
+			<id>transient</id>
+			
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			
+			
+
+			<modules>
+				<module>cotrix-transient</module>
+			</modules>
+
+		</profile>
+
 	</profiles>
 
 </project>

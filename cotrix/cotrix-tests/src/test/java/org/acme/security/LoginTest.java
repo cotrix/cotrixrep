@@ -1,4 +1,4 @@
-package org.acme;
+package org.acme.security;
 
 import static org.cotrix.action.UserAction.*;
 import static org.cotrix.domain.dsl.Users.*;

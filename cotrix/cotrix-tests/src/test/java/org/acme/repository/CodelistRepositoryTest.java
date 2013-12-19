@@ -1,4 +1,4 @@
-package org.acme;
+package org.acme.repository;
 
 import static java.util.Arrays.*;
 import static org.junit.Assert.*;

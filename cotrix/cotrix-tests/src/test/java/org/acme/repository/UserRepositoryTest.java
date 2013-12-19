@@ -1,4 +1,4 @@
-package org.acme;
+package org.acme.repository;
 
 import static org.junit.Assert.*;
 import static org.cotrix.action.Actions.*;
