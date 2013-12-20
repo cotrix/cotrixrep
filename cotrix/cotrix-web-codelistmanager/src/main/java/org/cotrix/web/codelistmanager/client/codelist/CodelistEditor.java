@@ -56,6 +56,7 @@ import org.cotrix.web.share.shared.codelist.UICode;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractSafeHtmlCell;
 import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
@@ -490,6 +491,20 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 				}
 			});
 		}
+
+		/** 
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean onPreviewColumnSortEvent(Context context, Element elem,
+				NativeEvent event) {
+			System.out.println("onPreviewColumnSortEvent elem "+elem);
+			Element element = event.getEventTarget().cast();
+			System.out.println("onPreviewColumnSortEvent element.id "+element.getId());
+			return !element.getId().equals(SafeHtmlGroupRenderer.CLOSE_IMG_ID);
+		}
+
+
 
 		/**
 		 * Return the header text.
