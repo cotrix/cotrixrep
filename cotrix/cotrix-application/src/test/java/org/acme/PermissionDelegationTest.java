@@ -1,21 +1,21 @@
 package org.acme;
 
-import static org.junit.Assert.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.domain.dsl.Users.*;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import org.cotrix.action.Action;
 import org.cotrix.application.DelegationPolicy;
 import org.cotrix.application.PermissionDelegationService;
-import org.cotrix.application.impl.DefaultDelegationService;
+import org.cotrix.application.impl.delegation.DefaultDelegationService;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
-import org.cotrix.memory.repository.MUserRepository;
 import org.cotrix.repository.UserRepository;
-import org.cotrix.repository.impl.DefaultUserRepository;
+import org.cotrix.repository.impl.BaseUserRepository;
+import org.cotrix.repository.impl.memory.MUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +34,7 @@ public class PermissionDelegationTest {
 		
 		
 		//we dont care about repositories and policies here, so setting up defaults
-		repository = new DefaultUserRepository(new MUserRepository());
+		repository = new BaseUserRepository(new MUserRepository());
 		
 		policy = mock(DelegationPolicy.class);
 		

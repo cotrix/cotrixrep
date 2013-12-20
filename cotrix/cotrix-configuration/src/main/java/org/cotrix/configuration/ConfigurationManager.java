@@ -39,14 +39,17 @@ public class ConfigurationManager {
 
 	@Inject
 	protected Instance<Configuration> configurationSamples; 
+	
 	@Inject
 	protected Instance<ConfigurationStreamProvider> streamProviders;
+	
 	
 	protected Map<Class<? extends Configuration>, Configuration> configurations;
 	
 	@PostConstruct
 	@Inject
 	protected void init() {
+		
 		logger.trace("init ConfigurationManager");
 		
 		Iterator<Configuration> sampleIterator = configurationSamples.iterator();
@@ -92,7 +95,7 @@ public class ConfigurationManager {
 		protected Logger logger = LoggerFactory.getLogger(ConfigurationManagerInjector.class);
 
 		void configure(@Observes ApplicationEvents.Startup event, ConfigurationManager manager) {
-			logger.trace("ConfigurationManager initialized");
+			logger.trace("configuration mangement is initialized");
 		}
 	}
 }

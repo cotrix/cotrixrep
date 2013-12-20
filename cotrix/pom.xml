@@ -37,7 +37,6 @@
 		<module>cotrix-configuration</module>
 
 		<module>cotrix-test-common</module>
-		<module>cotrix-tests</module>
 	</modules>
 
 	<repositories>
@@ -146,6 +145,13 @@
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-mail</artifactId>
+				<version>${project.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-action</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -161,7 +167,7 @@
 				<artifactId>cotrix-security</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-repository</artifactId>
@@ -273,7 +279,7 @@
 				<version>4.11</version>
 				<scope>test</scope>
 			</dependency>
-		
+
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
@@ -288,6 +294,12 @@
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.2</version>
 		</dependency>
 
 		<dependency>
@@ -370,7 +382,7 @@
 	</build>
 
 	<profiles>
-		
+
 		<profile>
 			<id>fao-ci</id>
 			<distributionManagement>
@@ -387,20 +399,15 @@
 			</distributionManagement>
 		</profile>
 
-
 		<profile>
-		
-			<id>transient</id>
-			
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			
-			
+
+			<id>demo</id>
+
 
 			<modules>
-				<module>cotrix-transient</module>
+				<module>cotrix-mail</module>
 			</modules>
+
 
 		</profile>
 

@@ -8,13 +8,10 @@ import javax.inject.Inject;
 import org.cotrix.application.VersioningService;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.repository.CodelistRepository;
+import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.googlecode.jeeunit.JeeunitRunner;
-
-@RunWith(JeeunitRunner.class)
-public class VersioningServiceTest {
+public class VersioningServiceTest extends ApplicationTest {
 
 	@Inject
 	VersioningService service;

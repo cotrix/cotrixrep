@@ -26,12 +26,12 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-io</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-application</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-security</artifactId>
@@ -51,12 +51,12 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-codelistmanager</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-publish</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-permissionmanager</artifactId>
@@ -239,4 +239,23 @@
 		</resources>
 	</build>
 
+	<profiles>
+
+		<profile>
+
+			<id>demo</id>
+			
+			<dependencies>
+				
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-mail</artifactId>
+				</dependency>
+
+			</dependencies>
+
+		</profile>
+		
+	</profiles>
+	
 </project>
