@@ -27,7 +27,7 @@ public class MailerTest extends ApplicationTest {
 	SignupService signupService;
 	
 	@Produces @Alternative @Singleton
-	static MailService mockit() {
+	static MailService mockIt() {
 		return mock(MailService.class);
 	}
 	

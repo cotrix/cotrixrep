@@ -24,8 +24,7 @@ public class SignupMailer extends AbstractMailer {
 
 	public void onSignup(@Observes SignupEvent event) {
 		Collection<String> addresses = addressesOf(usersWithRole(Roles.ROOT));
-		//if (!addresses.isEmpty())
-			sendMail(addresses, SUBJECT, getText(TEMPLATE_NAME, "user", event.getUser()));
+		sendMail(addresses, SUBJECT, getText(TEMPLATE_NAME, "user", event.getUser()));
 	}
 
 	private Collection<String> addressesOf(Iterable<User> users) {
