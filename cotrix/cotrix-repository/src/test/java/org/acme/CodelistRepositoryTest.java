@@ -170,7 +170,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		
 		Iterable<Codelist> lists  = repository.get(allLists());
 		
-		assertEqualSets(gather(lists),list);
+		assertEqualSets(collect(lists),list);
 	}
 	
 	
@@ -185,7 +185,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		
 		Iterable<Codelist> lists  = repository.get(allLists().excluding(list1.id()));
 		
-		assertEqualSets(gather(lists),list2);
+		assertEqualSets(collect(lists),list2);
 	}
 	
 	@Test
@@ -203,7 +203,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		
 		Iterable<CodelistCoordinates> lists  = repository.get(codelistsFor(u));
 		
-		assertEqualSets(gather(lists),coordsOf(list));
+		assertEqualSets(collect(lists),coordsOf(list));
 	}
 	
 	@Test
@@ -222,7 +222,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		
 		Iterable<CodelistCoordinates> lists  = repository.get(codelistsFor(u));
 		
-		assertEqualSets(gather(lists),coordsOf(list2));
+		assertEqualSets(collect(lists),coordsOf(list2));
 	}
 	
 	@Test
@@ -252,7 +252,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		
 		Iterable<CodelistCoordinates> results  = repository.get(allListCoordinates().sort(byCoordinateName()));
 		
-		assertEqualSets(gather(results),coords(list1.id(),q("l1"),"1"),coords(list2.id(),q("l2"),"2"));
+		assertEqualSets(collect(results),coords(list1.id(),q("l1"),"1"),coords(list2.id(),q("l2"),"2"));
 	}
 	
 	@Test
@@ -266,7 +266,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		
 		Iterable<Codelist> results  = repository.get(allLists().sort(byCodelistName()));
 		
-		assertEquals(asList(list1,list2),gather(results));
+		assertEquals(asList(list1,list2),collect(results));
 	}
 	
 	@Test
@@ -280,7 +280,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		
 		Iterable<Codelist> results  = repository.get(allLists().sort(all(byCodelistName(),byVersion())));
 		
-		assertEquals(asList(list1,list2),gather(results));
+		assertEquals(asList(list1,list2),collect(results));
 	}
 	
 	@Test
@@ -295,7 +295,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		
 		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(byCodeName()));
 		
-		assertEquals(asList(c1,c2),gather(results));
+		assertEquals(asList(c1,c2),collect(results));
 	}
 	
 	
@@ -312,7 +312,7 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		
 		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(descending(byCodeName())));
 		
-		assertEquals(asList(c3,c2,c1),gather(results));
+		assertEquals(asList(c3,c2,c1),collect(results));
 	}
 	
 	@Test
@@ -335,15 +335,15 @@ public class CodelistRepositoryTest extends ApplicationTest {
 		Attribute template = attribute().name("a").value("ignore").build();
 		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,1)));
 		
-		assertEquals(asList(c3,c1,c2),gather(results));
+		assertEquals(asList(c3,c1,c2),collect(results));
 		
 		results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,2)));
-		assertEquals(asList(c2,c1,c3),gather(results));
+		assertEquals(asList(c2,c1,c3),collect(results));
 		
 		template = attribute().name("a").value("ignore").in("en").build();
 		results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,1)));
 		
-		assertEquals(asList(c3,c2,c1),gather(results));
+		assertEquals(asList(c3,c2,c1),collect(results));
 	}
 	
 	

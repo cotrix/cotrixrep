@@ -95,11 +95,11 @@ public class UserRepositoryTest extends ApplicationTest {
 		
 		Iterable<User> users = repository.get(usersWithRoleOn("1",codelists));
 		
-		assertEqualSets(gather(users),bill,zoe);
+		assertEqualSets(collect(users),bill,zoe);
 		
 		users = repository.get(teamFor("1"));
 		
-		assertEqualSets(gather(users),bill);
+		assertEqualSets(collect(users),bill);
 		
 	}
 	
@@ -118,7 +118,7 @@ public class UserRepositoryTest extends ApplicationTest {
 		
 		Iterable<User> users = repository.get(allUsers().sort(byName()));
 		
-		assertEqualSets(gather(users),bill,joe,zoe);
+		assertEqualSets(collect(users),bill,joe,zoe);
 		
 	}
 	

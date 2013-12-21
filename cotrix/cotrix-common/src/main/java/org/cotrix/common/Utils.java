@@ -251,7 +251,7 @@ public class Utils {
 	 * @param it the iterable
 	 * @return the collection
 	 */
-	public static <T>  Collection<T> gather(Iterable<T> it) {
+	public static <T>  Collection<T> collect(Iterable<T> it) {
 		
 		Collection<T> c = new ArrayList<T>();
 		for (T t : it)
@@ -275,6 +275,7 @@ public class Utils {
 				throw new AssertionError("expected "+s2+" but was "+s1);
 		
 	}
+	
 	
 	
 }

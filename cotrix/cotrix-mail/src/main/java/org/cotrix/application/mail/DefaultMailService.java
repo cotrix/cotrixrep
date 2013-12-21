@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.cotrix.application.MailService;
-import org.cotrix.common.Configuration;
-import org.cotrix.configuration.ConfigurationProvider;
+import org.cotrix.common.ConfigurationBean;
+import org.cotrix.configuration.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +40,7 @@ public class DefaultMailService implements MailService {
 	private static Logger log = LoggerFactory.getLogger(DefaultMailService.class);
 
 	@Inject
-	protected ConfigurationProvider<MailServiceConfiguration> configurationProvider;
+	protected Provider<MailServiceConfiguration> configurationProvider;
 	
 	/** 
 	 * {@inheritDoc}
@@ -50,7 +50,7 @@ public class DefaultMailService implements MailService {
 
 		log.trace("mailing {} about: {}", recipients, subject, messageBody);
 		
-		final MailServiceConfiguration configuration = configurationProvider.getConfiguration();
+		final MailServiceConfiguration configuration = configurationProvider.get();
 		
 		if ("UNKNOWN".equals(configuration.getHost())) {
 			log.warn("Missing MailServer configuration");
@@ -98,7 +98,7 @@ public class DefaultMailService implements MailService {
 
 	@XmlRootElement
 	@XmlAccessorType(XmlAccessType.FIELD)
-	public static class MailServiceConfiguration implements Configuration {
+	public static class MailServiceConfiguration implements ConfigurationBean {
 
 		@XmlElement
 		protected String senderEmail;
