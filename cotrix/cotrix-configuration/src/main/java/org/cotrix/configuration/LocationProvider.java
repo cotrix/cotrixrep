@@ -6,6 +6,8 @@ package org.cotrix.configuration;
 import static org.cotrix.common.Constants.*;
 import static org.cotrix.common.Utils.*;
 
+import java.io.File;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
@@ -69,4 +71,39 @@ public interface LocationProvider {
 		}
 
 	}
+	
+	class HomeDir implements LocationProvider {
+		
+		@Override
+		public String location() {
+			
+			String location = System.getProperty("user.home");
+			
+			if (location==null)
+				return PASS;
+			
+			File file = new File(location,DEFAULT_CONFIGURATION_NAME);
+			
+			return isValid(file) ? file.getAbsolutePath() : PASS;
+		}
+
+	}
+	
+	class WorkingDir implements LocationProvider {
+		
+		@Override
+		public String location() {
+			
+			String location = System.getProperty("user.dir");
+			
+			if (location==null)
+				return PASS;
+			
+			File file = new File(location,DEFAULT_CONFIGURATION_NAME);
+			
+			return isValid(file) ? file.getAbsolutePath() : PASS;
+		}
+
+	}
+	
 }

@@ -181,10 +181,28 @@ public class Utils {
 	 */
 	public static void valid(File file) throws IllegalArgumentException {
 		
+		if (!isValid(file))
+			throw new IllegalArgumentException(file+" does not exist, is a directory, or cannot be read");
+	}
+	
+	public static boolean isValid(File file) {
+		
 		notNull("file", file);
 		
-		if (!file.exists() || file.isDirectory() || !file.canRead())
-			throw new IllegalArgumentException(file+" does not exist, is a directory, or cannot be read");
+		return file.exists() && file.isDirectory() && file.canRead();
+	}
+	
+	public static void validDirectory(File dir) throws IllegalArgumentException {
+		
+		if (!isValidDirectory(dir))
+			throw new IllegalArgumentException(dir+" does not exist or cannot be read");
+	}
+	
+	public static boolean isValidDirectory(File dir) {
+		
+		notNull("directory", dir);
+		
+		return dir.exists() && dir.canRead();
 	}
 
 	private static final String EMAIL_PATTERN = 

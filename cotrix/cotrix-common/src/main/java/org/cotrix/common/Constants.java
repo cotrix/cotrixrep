@@ -9,6 +9,8 @@ public class Constants {
 	
 	public static final String CONFIGURATION_PROPERTY = "cotrix.config";
 	
+	public static final String DEFAULT_CONFIGURATION_NAME = "cotrix.xml";
+	
 	public static final String DEFAULT_CONFIGURATION_PATH = "/default-configuration.xml";
 	
 	
