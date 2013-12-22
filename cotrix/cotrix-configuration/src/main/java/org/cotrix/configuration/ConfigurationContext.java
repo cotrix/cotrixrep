@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
-import org.cotrix.common.ConfigurationBean;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -54,7 +53,8 @@ public class ConfigurationContext {
 
 			return container.beans();
 			
-		} catch (JAXBException e) {
+		}
+		catch (JAXBException e) {
 			throw unchecked("cannot read configuration", e);
 		}
 	}

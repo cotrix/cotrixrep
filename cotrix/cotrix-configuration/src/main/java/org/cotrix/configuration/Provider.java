@@ -2,7 +2,7 @@ package org.cotrix.configuration;
 
 import javax.enterprise.inject.Vetoed;
 
-import org.cotrix.common.ConfigurationBean;
+
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

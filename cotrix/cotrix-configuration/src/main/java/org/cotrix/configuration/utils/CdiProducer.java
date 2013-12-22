@@ -10,7 +10,7 @@ import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.common.ConfigurationBean;
+import org.cotrix.configuration.ConfigurationBean;
 import org.cotrix.configuration.ConfigurationManager;
 import org.cotrix.configuration.Provider;
 

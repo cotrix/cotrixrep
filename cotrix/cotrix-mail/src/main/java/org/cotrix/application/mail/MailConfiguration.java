@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.cotrix.common.ConfigurationBean;
+import org.cotrix.configuration.ConfigurationBean;
 
 
 @XmlRootElement(name="mail")

@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.cotrix.common.ConfigurationBean;
+import org.cotrix.configuration.ConfigurationBean;
 
 @XmlRootElement(name = "config")
 public class SampleConfig implements ConfigurationBean {

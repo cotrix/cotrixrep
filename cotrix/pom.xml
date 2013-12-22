@@ -37,6 +37,7 @@
 		<module>cotrix-configuration</module>
 
 		<module>cotrix-test-common</module>
+		<module>cotrix-neo</module>
 	</modules>
 
 	<repositories>

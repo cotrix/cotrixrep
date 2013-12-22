@@ -3,7 +3,6 @@
  */
 package org.cotrix.configuration;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,6 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.common.ConfigurationBean;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -25,13 +23,7 @@ public class ConfigurationManager {
 	@Inject
 	public ConfigurationManager(ConfigurationLocator locator, ConfigurationContext context) {
 
-		this(locator.locate(),context);
-
-	}
-	
-	public ConfigurationManager(InputStream stream, ConfigurationContext context) {
-
-		List<ConfigurationBean> list = context.bind(stream);
+		List<ConfigurationBean> list = context.bind(locator.locate());
 
 		for (ConfigurationBean configuration : list)
 			configurations.put(configuration.getClass(), configuration);

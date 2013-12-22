@@ -11,7 +11,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.cotrix.common.ConfigurationBean;
+import org.cotrix.configuration.ConfigurationBean;
 import org.cotrix.configuration.ConfigurationContext;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
