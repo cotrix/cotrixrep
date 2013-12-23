@@ -1,21 +1,28 @@
 package org.cotrix.neo;
 
-import static org.cotrix.common.Utils.*;
-
-import java.io.File;
 import java.util.Map;
 
+import javax.enterprise.inject.Produces;
+import javax.inject.Singleton;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.cotrix.common.Constants;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.configuration.ConfigurationBean;
+import org.cotrix.configuration.Provider;
 import org.cotrix.configuration.utils.Attributes;
 
 @XmlRootElement(name = "neo")
 public class NeoConfiguration implements ConfigurationBean {
 
+	@Produces @Singleton @Current
+	static NeoConfiguration produce(Provider<NeoConfiguration> provider) {
+		return provider.get();
+	}
+	
 	@XmlElement
 	private String location;
 
@@ -34,20 +41,7 @@ public class NeoConfiguration implements ConfigurationBean {
 	public void afterUnmarshal(Unmarshaller u, Object parent) throws UnmarshalException {
 
 		if (location==null)
-			
-			try {
-				
-				File touch = File.createTempFile("cotrix-", ".neo");
-				location = touch.getParentFile().getAbsolutePath();
-				touch.delete();
-			}
-			catch(Exception e) {
-				
-				rethrow("cannot set temporary location for Neo database (see cause)",e);
-			}
+			location = Constants.DEFAULT_STORAGE_DIR;
 		
-		else 
-			valid(new File(location));
-
 	}
 }

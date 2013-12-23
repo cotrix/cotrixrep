@@ -8,6 +8,9 @@
 	</parent>
 	<artifactId>cotrix-neo</artifactId>
 
+	<properties>
+		<neo.version>2.0.0-RC1</neo.version>
+	</properties>
 
 	<dependencies>
 	
@@ -26,12 +29,25 @@
 			<artifactId>cotrix-configuration</artifactId>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-security</artifactId>
+		</dependency>
+		
 		
 		
 		<dependency>
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j</artifactId>
-			<version>2.0.0-RC1</version>
+			<version>${neo.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-kernel</artifactId>
+			<version>${neo.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

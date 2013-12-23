@@ -1,10 +1,12 @@
-package org.cotrix.security.defaults;
+package org.cotrix.security.impl;
 
+import static org.cotrix.common.Constants.*;
 import static org.cotrix.domain.dsl.Users.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
@@ -12,12 +14,11 @@ import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.cotrix.security.Realm;
 import org.cotrix.security.Token;
-import org.cotrix.security.impl.Native;
 import org.cotrix.security.tokens.NameAndPassword;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ApplicationScoped @Native
+@Priority(DEFAULT) @ApplicationScoped @Native
 public class MRealm implements Realm<NameAndPassword> {
 
 	private static Logger log = LoggerFactory.getLogger(MRealm.class);

@@ -40,7 +40,7 @@ public class ConfigurationContext {
 
 		} catch (Exception e) {
 
-			rethrow("cannot create configuration context", e);
+			rethrow("cannot create configuration context (see cause)", e);
 		}
 	}
 
@@ -55,7 +55,7 @@ public class ConfigurationContext {
 			
 		}
 		catch (JAXBException e) {
-			throw unchecked("cannot read configuration", e);
+			throw unchecked("cannot read configuration (see cause)", e);
 		}
 	}
 
