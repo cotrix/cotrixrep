@@ -70,18 +70,18 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof CodelistMS))
+		if (!(obj instanceof Codelist.State))
 			return false;
-		CodelistMS other = (CodelistMS) obj;
+		Codelist.State other = (Codelist.State) obj;
 		if (codes == null) {
-			if (other.codes != null)
+			if (other.codes() != null)
 				return false;
-		} else if (!codes.equals(other.codes))
+		} else if (!codes.equals(other.codes()))
 			return false;
 		if (links == null) {
-			if (other.links != null)
+			if (other.links() != null)
 				return false;
-		} else if (!links.equals(other.links))
+		} else if (!links.equals(other.links()))
 			return false;
 		return true;
 	}

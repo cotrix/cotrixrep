@@ -65,18 +65,18 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof CodelinkMS))
+		if (!(obj instanceof Codelink.State))
 			return false;
-		CodelinkMS other = (CodelinkMS) obj;
+		Codelink.State other = (Codelink.State) obj;
 		if (definition == null) {
-			if (other.definition != null)
+			if (other.definition() != null)
 				return false;
-		} else if (!definition.equals(other.definition))
+		} else if (!definition.equals(other.definition()))
 			return false;
 		if (targetId == null) {
-			if (other.targetId != null)
+			if (other.targetId() != null)
 				return false;
-		} else if (!targetId.equals(other.targetId))
+		} else if (!targetId.equals(other.targetId()))
 			return false;
 		return true;
 	}

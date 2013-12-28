@@ -27,7 +27,7 @@ public interface StateContainer<S> extends Iterable<S> {
 	
 	void remove(String id);
 	
-	boolean contains(Object element);
+	boolean contains(Identified.State element);
 	
 	boolean contains(String id);
 	
@@ -70,7 +70,7 @@ public interface StateContainer<S> extends Iterable<S> {
 		}
 		
 		@Override
-		public boolean contains(Object element) {
+		public boolean contains(Identified.State element) {
 			return elements.containsValue(element);
 		}
 		

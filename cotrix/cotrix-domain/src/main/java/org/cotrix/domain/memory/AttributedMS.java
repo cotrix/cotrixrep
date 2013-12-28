@@ -63,13 +63,13 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof AttributedMS))
+		if (!(obj instanceof Attributed.State))
 			return false;
-		AttributedMS other = (AttributedMS) obj;
+		Attributed.State other = (Attributed.State) obj;
 		if (attributes == null) {
-			if (other.attributes != null)
+			if (other.attributes() != null)
 				return false;
-		} else if (!attributes.equals(other.attributes))
+		} else if (!attributes.equals(other.attributes()))
 			return false;
 		return true;
 	}

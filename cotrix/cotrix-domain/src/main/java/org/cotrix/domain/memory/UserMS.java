@@ -115,33 +115,33 @@ public class UserMS extends IdentifiedMS implements User.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof UserMS))
+		if (!(obj instanceof User.State))
 			return false;
-		UserMS other = (UserMS) obj;
+		User.State other = (User.State) obj;
 		if (email == null) {
-			if (other.email != null)
+			if (other.email() != null)
 				return false;
-		} else if (!email.equals(other.email))
+		} else if (!email.equals(other.email()))
 			return false;
 		if (fullName == null) {
-			if (other.fullName != null)
+			if (other.fullName() != null)
 				return false;
-		} else if (!fullName.equals(other.fullName))
+		} else if (!fullName.equals(other.fullName()))
 			return false;
 		if (permissions == null) {
-			if (other.permissions != null)
+			if (other.permissions() != null)
 				return false;
-		} else if (!permissions.equals(other.permissions))
+		} else if (!permissions.equals(other.permissions()))
 			return false;
 		if (roles == null) {
-			if (other.roles != null)
+			if (other.roles() != null)
 				return false;
-		} else if (!roles.equals(other.roles))
+		} else if (!roles.equals(other.roles()))
 			return false;
 		if (userName == null) {
-			if (other.userName != null)
+			if (other.name() != null)
 				return false;
-		} else if (!userName.equals(other.userName))
+		} else if (!userName.equals(other.name()))
 			return false;
 		return true;
 	}

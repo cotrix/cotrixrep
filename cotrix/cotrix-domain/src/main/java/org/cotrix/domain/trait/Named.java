@@ -24,7 +24,7 @@ public interface Named {
 	
 	
 	
-	interface State {
+	interface State extends Identified.State {
 		
 		QName name();
 		

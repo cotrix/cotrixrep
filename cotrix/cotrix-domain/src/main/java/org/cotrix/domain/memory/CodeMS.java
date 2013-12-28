@@ -57,13 +57,13 @@ public final class CodeMS extends NamedMS implements Code.State, Attributed.Stat
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof CodeMS))
+		if (!(obj instanceof Code.State))
 			return false;
-		CodeMS other = (CodeMS) obj;
+		Code.State other = (Code.State) obj;
 		if (links == null) {
-			if (other.links != null)
+			if (other.links() != null)
 				return false;
-		} else if (!links.equals(other.links))
+		} else if (!links.equals(other.links()))
 			return false;
 		return true;
 	}

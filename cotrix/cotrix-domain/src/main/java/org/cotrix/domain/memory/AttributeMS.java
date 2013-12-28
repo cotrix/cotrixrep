@@ -79,28 +79,28 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof AttributeMS))
+		if (!(obj instanceof Attribute.State))
 			return false;
-		AttributeMS other = (AttributeMS) obj;
+		Attribute.State other = (Attribute.State) obj;
 		if (language == null) {
-			if (other.language != null)
+			if (other.language() != null)
 				return false;
-		} else if (!language.equals(other.language))
+		} else if (!language.equals(other.language()))
 			return false;
 		if (name == null) {
-			if (other.name != null)
+			if (other.name() != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!name.equals(other.name()))
 			return false;
 		if (type == null) {
-			if (other.type != null)
+			if (other.type() != null)
 				return false;
-		} else if (!type.equals(other.type))
+		} else if (!type.equals(other.type()))
 			return false;
 		if (value == null) {
-			if (other.value != null)
+			if (other.value() != null)
 				return false;
-		} else if (!value.equals(other.value))
+		} else if (!value.equals(other.value()))
 			return false;
 		return true;
 	}

@@ -59,13 +59,13 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof CodelistLinkMS))
+		if (!(obj instanceof CodelistLink.State))
 			return false;
-		CodelistLinkMS other = (CodelistLinkMS) obj;
+		CodelistLink.State other = (CodelistLink.State) obj;
 		if (targetId == null) {
-			if (other.targetId != null)
+			if (other.targetId() != null)
 				return false;
-		} else if (!targetId.equals(other.targetId))
+		} else if (!targetId.equals(other.targetId()))
 			return false;
 		return true;
 	}

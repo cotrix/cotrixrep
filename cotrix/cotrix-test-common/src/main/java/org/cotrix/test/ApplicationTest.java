@@ -21,7 +21,7 @@ import com.googlecode.jeeunit.JeeunitRunner;
 public abstract class ApplicationTest {
 
 	@Inject
-	Event<ApplicationEvents.ApplicationEvent> events;
+	Event<ApplicationEvents.LifecycleEvent> events;
 	
 	@Before
 	public void startup() {

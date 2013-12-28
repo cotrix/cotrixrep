@@ -1,11 +1,14 @@
 package org.cotrix.repository.impl.memory;
 
 import static org.cotrix.action.ResourceType.*;
+import static org.cotrix.common.Constants.*;
 
 import java.util.Collection;
 import java.util.HashSet;
 
+import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Alternative;
 
 import org.cotrix.action.ResourceType;
 import org.cotrix.domain.user.Role;
@@ -22,7 +25,7 @@ import org.cotrix.repository.impl.UserQueryFactory;
  * @author Fabio Simeoni
  *
  */
-@ApplicationScoped
+@ApplicationScoped @Alternative @Priority(DEFAULT)
 public class MUserRepository extends MemoryRepository<User.State> implements UserQueryFactory {
 	
 	

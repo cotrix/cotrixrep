@@ -1,6 +1,7 @@
 package org.cotrix.repository.impl.memory;
 
 import static org.cotrix.action.ResourceType.*;
+import static org.cotrix.common.Constants.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
@@ -13,7 +14,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Alternative;
 import javax.xml.namespace.QName;
 
 import org.cotrix.common.Utils;
@@ -37,7 +40,7 @@ import org.cotrix.repository.impl.CodelistQueryFactory;
  * @author Fabio Simeoni
  * 
  */
-@ApplicationScoped
+@ApplicationScoped @Alternative @Priority(DEFAULT)
 public class MCodelistRepository extends MemoryRepository<Codelist.State> implements CodelistQueryFactory {
 
 	

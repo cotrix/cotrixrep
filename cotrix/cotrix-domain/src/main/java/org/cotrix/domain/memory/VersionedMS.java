@@ -46,13 +46,13 @@ public abstract class VersionedMS extends NamedMS implements Versioned.State, Id
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof VersionedMS))
+		if (!(obj instanceof Versioned.State))
 			return false;
-		VersionedMS other = (VersionedMS) obj;
+		Versioned.State other = (Versioned.State) obj;
 		if (version == null) {
-			if (other.version != null)
+			if (other.version() != null)
 				return false;
-		} else if (!version.equals(other.version))
+		} else if (!version.equals(other.version()))
 			return false;
 		return true;
 	}

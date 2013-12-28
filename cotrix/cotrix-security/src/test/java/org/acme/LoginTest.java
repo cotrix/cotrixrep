@@ -57,12 +57,12 @@ public class LoginTest extends ApplicationTest {
 	@Test
 	public void signUpAndLogin() throws Exception {
 		
-		User user = user().name("fabio").email("fabio@me.com").fullName("fifi").build();
+		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
 		
 		signupService.signup(user,"any");
 		
 		assertTrue(user.can(EDIT.on(user.id())));
-		assertEquals(user.email(),"fabio@me.com");
+		assertEquals(user.email(),"fifi@me.com");
 
 		when(req.getAttribute(nameParam)).thenReturn(user.name());
 		when(req.getAttribute(pwdParam)).thenReturn("any");
@@ -73,4 +73,15 @@ public class LoginTest extends ApplicationTest {
 		
 	}
 
+	@Test(expected=IllegalStateException.class)
+	public void identitiesAreUnique() throws Exception {
+		
+		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
+		
+		signupService.signup(user,"any");
+		
+		User homonymous = user().name("fifi").email("fifi@clone.com").fullName("fi").build();
+		
+		signupService.signup(homonymous,"any");
+	}
 }

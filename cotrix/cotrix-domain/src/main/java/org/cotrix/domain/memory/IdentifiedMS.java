@@ -70,15 +70,15 @@ public class IdentifiedMS implements Identified.State {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Identified.State))
 			return false;
-		IdentifiedMS other = (IdentifiedMS) obj;
+		Identified.State other = (Identified.State) obj;
 		if (id == null) {
-			if (other.id != null)
+			if (other.id() != null)
 				return false;
-		} else if (!id.equals(other.id) && !testmode)
+		} else if (!id.equals(other.id()) && !testmode)
 			return false;
-		if (status != other.status)
+		if (status != other.status())
 			return false;
 		return true;
 	}

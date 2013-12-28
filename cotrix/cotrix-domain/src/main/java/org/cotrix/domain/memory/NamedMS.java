@@ -43,13 +43,13 @@ public class NamedMS extends AttributedMS implements Named.State, Attributed.Sta
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof NamedMS))
+		if (!(obj instanceof Named.State))
 			return false;
-		NamedMS other = (NamedMS) obj;
+		Named.State other = (Named.State) obj;
 		if (name == null) {
-			if (other.name != null)
+			if (other.name() != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!name.equals(other.name()))
 			return false;
 		return true;
 	}	

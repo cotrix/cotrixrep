@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -294,6 +295,19 @@ public class Utils {
 		
 	}
 	
+	
+	public static <T> int count(Iterable<T> elements) {
+		return count(elements.iterator());
+	}
+	
+	public static <T> int count(Iterator<T> elements) {
+		int count = 0;
+		while(elements.hasNext()) {
+			elements.next();
+			count++;
+		}
+		return count;
+	}
 	
 	
 }
