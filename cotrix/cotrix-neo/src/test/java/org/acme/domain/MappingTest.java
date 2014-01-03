@@ -62,13 +62,15 @@ public class MappingTest extends ApplicationTest {
 			
 			assertEquals(created.attributes().size(),retrieved.attributes().size());
 			
-			assertTrue(created.attributes().contains(a.id()));
-			assertTrue(created.attributes().contains(reveal(a).state()));
-			assertTrue(created.attributes().contains(a.name()));
+			assertTrue(retrieved.attributes().contains(a.id()));
+			
+			
+			assertTrue(retrieved.attributes().contains(reveal(a).state()));
+			assertTrue(retrieved.attributes().contains(a.name()));
 				
 			
-			created.attributes().remove(a.id());
-			assertFalse(created.attributes().contains(a.id()));
+			retrieved.attributes().remove(a.id());
+			assertFalse(retrieved.attributes().contains(a.id()));
 			
 			tx.success();
 		}

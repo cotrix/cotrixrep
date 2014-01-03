@@ -13,7 +13,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.neo.domain.Constants;
+import org.cotrix.neo.NeoUtils;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
@@ -44,17 +44,16 @@ public class NeoContainer<S extends Named.State> implements NamedStateContainer<
 	@Override
 	public void remove(String id) {
 				
-		for (Node n : nodes())
+		Iterator<Relationship> it = node.getRelationships(Direction.OUTGOING,type).iterator();
+		while (it.hasNext()) {
+			Relationship rel = it.next();
+			Node n = rel.getEndNode();
 			if (id.equals(n.getProperty(id_prop))) {
-				
-				//node relationships
-				for (Relationship rel : n.getRelationships())
-					rel.delete();
-				
-				//and node itself
-				n.delete();
+				NeoUtils.remove(n);
+				rel.delete();
+				break;
 			}
-		
+		}
 	}
 
 	
@@ -66,7 +65,7 @@ public class NeoContainer<S extends Named.State> implements NamedStateContainer<
 	
 	@Override
 	public boolean contains(String id) {
-
+		
 		for (Node n : nodes())
 			if (id.equals(n.getProperty(id_prop)))
 				return true;
@@ -77,6 +76,7 @@ public class NeoContainer<S extends Named.State> implements NamedStateContainer<
 
 	@Override
 	public void add(S element) {
+		
 		node.createRelationshipTo(factory.nodeFrom(element), type);
 		
 	}
@@ -90,7 +90,7 @@ public class NeoContainer<S extends Named.State> implements NamedStateContainer<
 		
 		for (Node n : nodes()) {
 			
-			Object nodeId = node.getProperty(Constants.id_prop);
+			Object nodeId = n.getProperty(id_prop);
 			
 			if (idCopy.contains(nodeId)) {
 				
@@ -172,7 +172,7 @@ public class NeoContainer<S extends Named.State> implements NamedStateContainer<
 
 				@Override
 				public void remove() {
-					throw new UnsupportedOperationException();
+					it.next().delete();
 				}
 				
 			};

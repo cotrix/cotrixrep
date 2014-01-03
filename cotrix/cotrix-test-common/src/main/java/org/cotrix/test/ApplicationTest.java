@@ -8,6 +8,7 @@ import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 import com.googlecode.jeeunit.JeeunitRunner;
@@ -22,6 +23,11 @@ public abstract class ApplicationTest {
 
 	@Inject
 	Event<ApplicationEvents.LifecycleEvent> events;
+	
+	@BeforeClass
+	public static void init() {
+		System.setProperty("org.slf4j.simpleLogger.log.org.cotrix","trace");
+	}
 	
 	@Before
 	public void startup() {

@@ -1,7 +1,6 @@
 package org.acme;
 
 import static java.util.Arrays.*;
-import static org.junit.Assert.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
@@ -9,6 +8,7 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
 import static org.cotrix.repository.CodelistQueries.*;
+import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
@@ -24,143 +24,11 @@ import org.cotrix.repository.CodelistSummary;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
 
-public class CodelistRepositoryTest extends ApplicationTest {
+public class CodelistRepositoryQueryTest extends ApplicationTest {
 	
 	@Inject
 	CodelistRepository repository;
 
-	@Test
-	public void emptyRepo() {
-
-		assertEquals(0,repository.size());
-
-	}
-	
-	@Test
-	public void retrieveUnknownCodeList() {
-
-		assertNull(repository.lookup("unknown"));
-
-	}
-
-	@Test
-	public void addCodelist() {
-
-		int size = repository.size();
-		
-		Codelist list = codelist().name("name").build();
-
-		repository.add(list);
-
-		assertEquals(size+1,repository.size());
-		
-		assertEquals(list, repository.lookup(list.id()));
-
-	}
-
-	@Test
-	public void removeCode() {
-		
-		Code code = code().name("code").build();
-		
-		Codelist list = codelist().name("name").with(code).build();
-
-		repository.add(list);
-		
-		assertTrue(list.codes().contains(code));
-		
-		repository.update(modifyCodelist(list.id()).with(deleteCode(code.id())).build());
-		
-		assertFalse(list.codes().contains(code));
-		
-	}
-	
-	@Test
-	public void addCode() {
-		
-		Codelist list = codelist().name("name").build();
-
-		repository.add(list);
-		
-		list = repository.lookup(list.id());
-
-		Code code = code().name("code").build();
-		
-		assertFalse(list.codes().contains(code));
-
-		repository.update(modifyCodelist(list.id()).with(code).build());
-		
-		list = repository.lookup(list.id());
-		
-		assertTrue(list.codes().contains(code));
-		
-	}
-	
-	@Test
-	public void updateCode() {
-
-		Code code = code().name("code").build();
-		
-		Codelist list = codelist().name("name").with(code).build();
-
-		repository.add(list);
-		
-		list = repository.lookup(list.id());
-
-		repository.update(modifyCodelist(list.id()).with(modifyCode(code.id()).name("name2").build()).build());
-		
-		list = repository.lookup(list.id());
-		
-		assertTrue(list.codes().contains(q("name2")));
-		
-	}
-	
-	@Test
-	public void updateAttribute() {
-
-		Attribute a = attribute().name("n").value("v").build();
-
-		Codelist list = codelist().name("n").attributes(a).build();
-
-		repository.add(list);
-
-		Attribute modified = modifyAttribute(a.id()).value("v2").build();
-
-		Codelist changeset = modifyCodelist(list.id()).attributes(modified).build();
-
-		repository.update(changeset);
-
-		list = repository.lookup(list.id());
-
-		assertEquals(list.attributes().lookup(q("n")).value(), "v2");
-	}
-
-	@Test
-	public void removeCodelist() {
-
-		Codelist list = codelist().name("name").build();
-
-		repository.add(list);
-
-		int size = repository.size();
-		
-		repository.remove(list.id());
-
-		assertEquals(size-1,repository.size());
-		
-		assertNull(repository.lookup(list.id()));
-
-	}
-	
-	@Test(expected=IllegalStateException.class)
-	public void removeUnknownCodelist() {
-
-		Codelist list = codelist().name("name").build();
-
-		repository.remove(list.id());
-
-	}
-	
 	@Test
 	public void allCodelists() {
 		

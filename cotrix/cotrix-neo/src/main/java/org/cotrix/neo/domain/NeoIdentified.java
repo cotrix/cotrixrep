@@ -12,12 +12,12 @@ public abstract class NeoIdentified implements Identified.State {
 
 	private final Node node;
 	
-	//read/update scenario
+	//read/update scenario: node is fetched from store
 	public NeoIdentified(Node node) {
 		this.node=node;
 	}
 	
-	//write scenario
+	//add scenario: node is created
 	public NeoIdentified(NodeType type,Identified.State state) {
 		
 		this(newnode(type));
@@ -40,6 +40,7 @@ public abstract class NeoIdentified implements Identified.State {
 
 	@Override
 	public Status status() {
+		//changesets are never persisted|retrieved
 		return null;
 	}
 

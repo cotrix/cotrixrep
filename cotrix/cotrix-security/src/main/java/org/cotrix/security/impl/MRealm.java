@@ -12,6 +12,7 @@ import javax.enterprise.inject.Alternative;
 
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.common.cdi.ApplicationEvents.Startup;
+import org.cotrix.security.Realm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +38,10 @@ public class MRealm extends NativeRealm {
 
 	}
 	
-	public void clear(@Observes Shutdown event) {
-		log.trace("clearing inner realm");
-		pwds.clear();
+	public void clear(@Observes Shutdown event, @Native Realm<?> realm) {
+		if (this.getClass().isInstance(realm)) {
+			log.trace("clearing inner realm");
+			pwds.clear();
+		}
 	}
 }

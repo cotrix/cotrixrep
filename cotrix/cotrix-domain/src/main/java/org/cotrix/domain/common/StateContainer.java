@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.cotrix.common.Utils;
 import org.cotrix.domain.trait.Identified;
 
 /**
@@ -120,17 +121,13 @@ public interface StateContainer<S> extends Iterable<S> {
 				return true;
 			if (obj == null)
 				return false;
-			if (!(obj instanceof Default))
+			if (!(obj instanceof StateContainer))
 				return false;
-			Default other = (Default) obj;
-			if (elements == null) {
-				if (other.elements != null)
-					return false;
-			} else 
-				//wrapping in a collection (e.g. list) allows us to test with soft equality
-				//otherwise keys would still be taken into account
-				if (!new ArrayList(elements.values()).equals(new ArrayList(other.elements.values())))
-					return false;
+			StateContainer other = (StateContainer) obj;
+			//wrapping in a collection (e.g. list) allows us to test with soft equality
+			//otherwise keys would still be taken into account
+			if (!new ArrayList(elements.values()).equals(new ArrayList(Utils.collect(other))))
+				return false;
 			
 			return true;
 		}

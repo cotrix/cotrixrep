@@ -18,7 +18,7 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-repository</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-domain</artifactId>
@@ -42,6 +42,12 @@
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-security</artifactId>
+			<type>test-jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-repository</artifactId>
 			<type>test-jar</type>
 		</dependency>
 

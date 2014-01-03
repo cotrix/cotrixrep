@@ -184,6 +184,14 @@
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-repository</artifactId>
+				<version>${project.version}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-web-share</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -418,6 +426,20 @@
 
 
 		</profile>
+		
+		<profile>
+
+			<id>full</id>
+
+
+			<modules>
+				<module>cotrix-neo</module>
+			</modules>
+
+
+		</profile>
+		
+		
 
 	</profiles>
 

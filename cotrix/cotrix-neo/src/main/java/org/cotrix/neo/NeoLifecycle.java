@@ -14,12 +14,12 @@ import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
 
-import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.common.cdi.ApplicationEvents.NewStore;
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.neo.domain.Constants.NodeType;
+import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
@@ -32,7 +32,19 @@ public class NeoLifecycle {
 
 	private static Logger log = LoggerFactory.getLogger(NeoLifecycle.class);
 
-
+	public static class NewNeoStore implements NewStore {
+		
+		private final GraphDatabaseService store;
+		
+		public NewNeoStore(GraphDatabaseService store) {
+			this.store=store;
+		}
+		
+		public GraphDatabaseService store() {
+			return store;
+		}
+		
+	}
 
 	
 	@SuppressWarnings("deprecation")
@@ -60,7 +72,7 @@ public class NeoLifecycle {
 			
 			log.info("creating Neo store @ {}",config.location());
 			
-			events.fire(newstoreEvent);
+			events.fire(new NewNeoStore(store));
 		}
 		else 
 			log.info("starting Neo store @ {}",config.location());
@@ -68,16 +80,29 @@ public class NeoLifecycle {
 		return store;
 	}
 	
-	static void configureIndices(@Observes ApplicationEvents.NewStore event,GraphDatabaseService store) {
+	
+	@Produces
+	static ExecutionEngine engine(GraphDatabaseService store) {
+		
+		return new ExecutionEngine(store);
+	}
+	
+	static void configureIndices(@Observes NewNeoStore event) {
 		
 		log.info("creating indices"); 
 		
+		GraphDatabaseService store = event.store();
+		
 		//setup index
 		try (Transaction tx = store.beginTx()) {
-		    store.schema().indexFor(IDENTITY).on(name_prop).create();
-		    tx.success();
+		   
+			store.schema().indexFor(IDENTITY).on(name_prop).create();
+			store.schema().indexFor(CODELIST).on(id_prop).create();
+			
+			tx.success();
 		}
 	}
+
 	
 	//factory support
 	
