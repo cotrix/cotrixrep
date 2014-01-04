@@ -1,4 +1,4 @@
-package org.cotrix.repository.impl;
+package org.cotrix.repository.spi;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
@@ -18,13 +18,13 @@ import org.cotrix.repository.Query;
  */
 public interface CodelistQueryFactory {
 
-	MultiQuery<Codelist, Codelist> allLists();
+	MultiQuery<Codelist,? extends Codelist> allLists();
 
 	MultiQuery<Codelist, CodelistCoordinates> allListCoordinates();
 
-	MultiQuery<Codelist, Code> allCodes(String codelistId);
+	MultiQuery<Codelist, ? extends Code> allCodes(String codelistId);
 
-	MultiQuery<Codelist,CodelistCoordinates> codelistsFor(User u);
+	MultiQuery<Codelist, CodelistCoordinates> codelistsFor(User u);
 
 	Query<Codelist, CodelistSummary> summary(String codelistId);
 

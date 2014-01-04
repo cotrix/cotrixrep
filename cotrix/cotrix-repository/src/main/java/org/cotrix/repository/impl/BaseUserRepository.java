@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.cotrix.common.Utils;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
+import org.cotrix.repository.spi.StateRepository;
 
 
 @ApplicationScoped

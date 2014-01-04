@@ -17,7 +17,7 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
-import org.cotrix.repository.impl.UserQueryFactory;
+import org.cotrix.repository.spi.UserQueryFactory;
 
 /**
  * An in-memory {@link CodelistRepository}.
@@ -46,7 +46,7 @@ public class MUserRepository extends MemoryRepository<User.State> implements Use
 	@Override
 	public Query<User, User> userByName(final String name) {
 		
-		return new MQuery<User,User>() {
+		return new Query<User,User>() {
 			@Override
 			public User execute() {
 				

@@ -290,7 +290,17 @@ public class Utils {
 		
 		HashSet<?> s1 = new HashSet<Object>(c1);
 		HashSet<?> s2 = new HashSet<Object>(Arrays.asList(ts));
-		if (!s1.equals(s2))
+		if (!s2.equals(s1))
+				throw new AssertionError("expected "+s2+" but was "+s1);
+		
+	}
+	
+	
+	public static void assertEqual(Collection<?> c1, Object ... ts) {
+		
+		Collection<?> s1 = new ArrayList<Object>(c1);
+		Collection<?> s2 = Arrays.asList(ts);
+		if (!s2.equals(s1))
 				throw new AssertionError("expected "+s2+" but was "+s1);
 		
 	}

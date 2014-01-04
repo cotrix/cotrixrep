@@ -32,7 +32,7 @@ import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
-import org.cotrix.repository.impl.CodelistQueryFactory;
+import org.cotrix.repository.spi.CodelistQueryFactory;
 
 /**
  * An in-memory {@link CodelistRepository}.
@@ -45,11 +45,11 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 	
 	@Override
-	public MultiQuery<Codelist, Codelist> allLists() {
+	public MultiQuery<Codelist, Codelist.Private> allLists() {
 
-		return new MMultiQuery<Codelist, Codelist>() {
+		return new MMultiQuery<Codelist, Codelist.Private>() {
 		
-			Collection<? extends Codelist> _execute() {
+			Collection<Codelist.Private> _execute() {
 				return adapt(getAll());
 			}
 			
@@ -110,7 +110,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 	public Query<Codelist, CodelistSummary> summary(final String id) {
 
-		return new MQuery<Codelist, CodelistSummary>() {
+		return new Query<Codelist, CodelistSummary>() {
 		
 			@Override
 			public CodelistSummary execute() {

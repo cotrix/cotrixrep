@@ -33,12 +33,14 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 	public void allCodelists() {
 		
 		Codelist list = codelist().name("name").build();
+		Codelist list2 = codelist().name("name2").build();
 		
 		repository.add(list);
+		repository.add(list2);
 		
 		Iterable<Codelist> lists  = repository.get(allLists());
 		
-		assertEqualSets(collect(lists),list);
+		assertEqualSets(collect(lists),list,list2);
 	}
 	
 	
@@ -94,6 +96,22 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 	}
 	
 	@Test
+	public void allCodes() {
+		
+		Code code1 = code().name("c1").build();
+		Code code2 = code().name("c2").build();
+		Code code3 = code().name("c3").build();
+		
+		Codelist list = codelist().name("l").with(code1,code2,code3).build();
+		
+		repository.add(list);
+		
+		Iterable<Code> codes  = repository.get(allCodesIn(list.id()));
+		
+		assertEqual(collect(codes),code1,code2,code3);
+	}
+	
+	@Test
 	public void codeRanges() {
 		
 		Code code1 = code().name("c1").build();
@@ -106,7 +124,7 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		
 		Iterable<Code> inrange  = repository.get(allCodesIn(list.id()).from(2).to(3));
 		
-		assertEquals(asList(code2,code3),inrange);
+		assertEquals(asList(code2,code3),collect(inrange));
 	}
 	
 	@Test

@@ -5,6 +5,7 @@ import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 
 import javax.annotation.Priority;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
@@ -13,18 +14,21 @@ import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.neo.NeoUtils;
 import org.cotrix.neo.domain.NeoCodelist;
 import org.cotrix.repository.Query;
-import org.cotrix.repository.impl.StateRepository;
-import org.neo4j.cypher.javacompat.ExecutionEngine;
-import org.neo4j.cypher.javacompat.ExecutionResult;
+import org.cotrix.repository.spi.StateRepository;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.ResourceIterator;
 
-@Alternative @Priority(RUNTIME)
+@ApplicationScoped @Alternative @Priority(RUNTIME)
 public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 
 	@Inject
 	private GraphDatabaseService store;
+	
+	
+	@Inject
+	private NeoCodelistQueries queries;
+	
 	
 	@Override
 	public void add(State list) {
@@ -50,8 +54,8 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 
 	@Override
 	public <R> R get(Query<State, R> query) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return query.execute();
 	}
 
 	@Override
@@ -64,20 +68,7 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 
 	@Override
 	public int size() {
-		
-		//ideally, we would reuse the engine (not sure if it is an expensive object)
-		//but during testing we swap the database and we would have to work around that
-		ExecutionResult result = new ExecutionEngine(store)
-								.execute( "match (n:CODELIST) return count(n) as size" );
-		
-		try 
-		(
-		  ResourceIterator<Long> it = result.columnAs("size");
-		) 
-		{
-		  return it.next().intValue();
-		}
-		
+		return get(queries.repositorySize());
 	}
 	
 	

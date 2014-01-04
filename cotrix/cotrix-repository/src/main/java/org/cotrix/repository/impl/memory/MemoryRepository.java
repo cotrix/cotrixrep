@@ -15,7 +15,7 @@ import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.Query;
-import org.cotrix.repository.impl.StateRepository;
+import org.cotrix.repository.spi.StateRepository;
 
 public abstract class MemoryRepository<S extends Identified.State> implements StateRepository<S> {
 
@@ -44,7 +44,7 @@ public abstract class MemoryRepository<S extends Identified.State> implements St
 	@Override
 	public <R> R get(Query<S,R> query) {
 		
-		return reveal(query).execute();
+		return query.execute();
 	}
 	
 	public List<S> getAll() {
@@ -107,11 +107,6 @@ public abstract class MemoryRepository<S extends Identified.State> implements St
 	
 	public void clear(@Observes Shutdown event) {
 		objects.clear();
-	}
-	
-	@SuppressWarnings("all")
-	private <R> MQuery<S,R> reveal(Query<S,R> query) {
-		return Utils.reveal(query,MQuery.class);
 	}
 	
 	@SuppressWarnings("all")

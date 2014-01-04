@@ -5,6 +5,7 @@ import javax.inject.Inject;
 
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.spi.StateRepository;
 
 @ApplicationScoped
 public class BaseCodelistRepository extends AbstractRepository<Codelist,Codelist.Private,Codelist.State> implements CodelistRepository {

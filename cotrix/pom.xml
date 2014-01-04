@@ -433,6 +433,7 @@
 
 
 			<modules>
+				<module>cotrix-mail</module>
 				<module>cotrix-neo</module>
 			</modules>
 

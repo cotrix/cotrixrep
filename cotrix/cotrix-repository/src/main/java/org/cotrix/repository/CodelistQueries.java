@@ -7,8 +7,9 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.user.User;
-import org.cotrix.repository.impl.CodelistQueryFactory;
+import org.cotrix.repository.spi.CodelistQueryFactory;
 
+@SuppressWarnings("all")
 public class CodelistQueries {
 
 	private static CodelistQueryFactory factory;
@@ -18,11 +19,11 @@ public class CodelistQueries {
 	}
 	
 	public static MultiQuery<Codelist,Codelist> allLists() {
-		return factory.allLists();
+		return (MultiQuery) factory.allLists();
 	}
 	
 	public static MultiQuery<Codelist,Code> allCodesIn(String codelistId) {
-		return factory.allCodes(codelistId);
+		return (MultiQuery) factory.allCodes(codelistId);
 	}
 	
 	public static MultiQuery<Codelist,CodelistCoordinates> codelistsFor(User u) {

@@ -1,4 +1,4 @@
-package org.cotrix.repository.impl;
+package org.cotrix.repository.spi;
 
 import org.cotrix.action.ResourceType;
 import org.cotrix.domain.user.Role;

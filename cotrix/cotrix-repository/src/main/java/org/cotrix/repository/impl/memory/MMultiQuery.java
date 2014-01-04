@@ -3,16 +3,17 @@ package org.cotrix.repository.impl.memory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.Range;
-import org.cotrix.repository.impl.AbstractMultiQuery;
 import org.cotrix.repository.impl.memory.MemoryRepository.MCriterion;
+import org.cotrix.repository.spi.AbstractMultiQuery;
 
-public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implements MQuery<T,Iterable<R>> {
+public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> {
 
 	abstract Collection<? extends R> _execute();
 	
@@ -22,7 +23,7 @@ public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implement
 	 * @return the results, or <code>null</code> if the object does not match the query.
 	 */
 	@Override
-	public Collection<R> execute() {
+	public Iterator<R> iterator() {
 		
 		//compute query
 		List<R> results = new ArrayList<R>(_execute());
@@ -70,7 +71,7 @@ public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> implement
 			}
 			
 		 
-		return range;
+		return range.iterator();
 		
 	}
 	

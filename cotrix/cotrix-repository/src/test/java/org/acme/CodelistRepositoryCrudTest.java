@@ -5,15 +5,11 @@ import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
-import org.cotrix.common.tx.Transaction;
-import org.cotrix.common.tx.Transactions;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.test.ApplicationTest;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public class CodelistRepositoryCrudTest extends ApplicationTest {
@@ -21,21 +17,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 	@Inject
 	private CodelistRepository repository;
 
-	@Inject
-	Transactions txs;
-	
-	Transaction tx;
-	
-	@Before
-	public void startTransaction() {
-		tx = txs.open();
-	}
-	
-	@After
-	public void endTransaction() {
-		tx.close();
-	}
-	
+		
 	@Test
 	public void emptyRepo() {
 
@@ -65,8 +47,6 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		Codelist retrieved = repository.lookup(list.id());
 		
 		assertEquals(list,retrieved);
-
-		tx.commit();
 
 	}
 
