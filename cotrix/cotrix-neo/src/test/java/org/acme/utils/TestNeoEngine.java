@@ -2,6 +2,7 @@ package org.acme.utils;
 
 import static org.cotrix.common.Constants.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Priority;
@@ -30,11 +31,13 @@ public class TestNeoEngine implements NeoQueryEngine {
 	@Override
 	public ExecutionResult execute(String query) {
 		
-		return new ExecutionEngine(store).execute(query);
+		return execute(query,new HashMap<String, Object>());
 	}
 	
 	@Override
 	public ExecutionResult execute(String query, Map<String, Object> params) {
+		
+		log.info("executing Neo query: "+query);
 		return new ExecutionEngine(store).execute(query,params);
 	}
 }

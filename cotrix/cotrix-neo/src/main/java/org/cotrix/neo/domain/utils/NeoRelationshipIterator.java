@@ -2,15 +2,14 @@ package org.cotrix.neo.domain.utils;
 
 import java.util.Iterator;
 
-import org.cotrix.domain.trait.Identified;
 import org.neo4j.graphdb.Relationship;
 
-public class NeoIterator<S extends Identified.State> implements Iterator<S> {
+public class NeoRelationshipIterator<S> implements Iterator<S> {
 
 	private final Iterator<Relationship> inner;
-	private final NeoFactory<S> factory;
+	private final NeoBeanFactory<S> factory;
 	
-	public NeoIterator(Iterator<Relationship> inner,NeoFactory<S> provider) {
+	public NeoRelationshipIterator(Iterator<Relationship> inner,NeoBeanFactory<S> provider) {
 		this.inner = inner;
 		this.factory=provider;
 	}

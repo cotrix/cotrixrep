@@ -8,12 +8,12 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.Attribute.Private;
 import org.cotrix.domain.common.Attribute.State;
-import org.cotrix.neo.domain.utils.NeoFactory;
+import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
 public class NeoAttribute extends NeoIdentified implements Attribute.State {
 
-	public static final NeoFactory<Attribute.State> factory = new NeoFactory<Attribute.State>() {
+	public static final NeoStateFactory<Attribute.State> factory = new NeoStateFactory<Attribute.State>() {
 		
 		@Override
 		public State beanFrom(Node node) {

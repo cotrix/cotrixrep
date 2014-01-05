@@ -9,12 +9,12 @@ import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoContainer;
-import org.cotrix.neo.domain.utils.NeoFactory;
+import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
 public class NeoCodelist extends NeoVersioned implements Codelist.State {
 
-	public static final NeoFactory<Codelist.State> factory = new NeoFactory<Codelist.State>() {
+	public static final NeoStateFactory<Codelist.State> factory = new NeoStateFactory<Codelist.State>() {
 		
 		@Override
 		public Codelist.State beanFrom(Node node) {

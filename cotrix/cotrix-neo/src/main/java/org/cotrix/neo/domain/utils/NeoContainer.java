@@ -23,9 +23,9 @@ public class NeoContainer<S extends Named.State> implements NamedStateContainer<
  
 	private final Node node;
 	private final Relations type;
-	private final NeoFactory<S> factory;
+	private final NeoStateFactory<S> factory;
 	
-	public NeoContainer(Node node, Relations type,NeoFactory<S> mapper) {
+	public NeoContainer(Node node, Relations type,NeoStateFactory<S> mapper) {
 		this.node=node;
 		this.type=type;
 		this.factory=mapper;
@@ -33,7 +33,7 @@ public class NeoContainer<S extends Named.State> implements NamedStateContainer<
 	
 	@Override
 	public Iterator<S> iterator() {
-		return new NeoIterator<>(node.getRelationships(OUTGOING,type).iterator(),factory);
+		return new NeoRelationshipIterator<>(node.getRelationships(OUTGOING,type).iterator(),factory);
 	}
 
 	@Override

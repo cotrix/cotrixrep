@@ -44,4 +44,26 @@ public abstract class NeoIdentified implements Identified.State {
 		return null;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id().hashCode();
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Identified.State))
+			return false;
+		Identified.State other = (Identified.State) obj;
+		return id().equals(other.id());
+	}
+	
+	
+
 }

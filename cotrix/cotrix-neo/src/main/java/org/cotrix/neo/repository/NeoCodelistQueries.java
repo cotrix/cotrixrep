@@ -15,9 +15,11 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.IteratorAdapter;
 import org.cotrix.domain.user.User;
+import org.cotrix.neo.domain.Constants;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.NeoCode;
 import org.cotrix.neo.domain.NeoCodelist;
+import org.cotrix.neo.domain.utils.NeoBeanFactory;
 import org.cotrix.neo.domain.utils.NeoNodeIterator;
 import org.cotrix.repository.CodelistCoordinates;
 import org.cotrix.repository.CodelistSummary;
@@ -43,7 +45,7 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 			@Override
 			public Integer execute() {
 
-				String query = "match (n:" + CODELIST.name() + ") return count(n) as SIZE";
+				String query = "MATCH (n:" + CODELIST.name() + ") RETURN COUNT(n) as SIZE";
 
 				ExecutionResult result = engine.execute(query);
 
@@ -76,19 +78,34 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 
 	@Override
 	public MultiQuery<Codelist, CodelistCoordinates> allListCoordinates() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return new NeoMultiQuery<Codelist,CodelistCoordinates>(engine) {
+
+			@Override
+			public Iterator<CodelistCoordinates> iterator() {
+
+				String query = "MATCH (n:" + CODELIST.name() + ") RETURN n as NODE";
+
+				ExecutionResult result = execute(query);
+
+				ResourceIterator<Node> it = result.columnAs("NODE");
+
+				return coordinates(it);
+			}
+
+		};
 	}
 
 	@Override
-	public MultiQuery<Codelist,Code> allCodes(String codelistId) {
+	public MultiQuery<Codelist,Code> allCodes(final String codelistId) {
 		
 		return new NeoMultiQuery<Codelist,Code>(engine) {
 
 			@Override
 			public Iterator<Code> iterator() {
 
-				String query = "MATCH (n:" + CODELIST.name() + ") -[:"+Relations.CODE.name()+"] -> (c) RETURN c AS CODE";
+				String pattern = " {"+Constants.id_prop+":'"+codelistId+"'}";
+				String query = "MATCH (n:" + CODELIST.name() + pattern+") -[:"+Relations.CODE.name()+"] -> (c) RETURN c AS CODE";
 
 				ExecutionResult result = execute(query);
 
@@ -162,6 +179,23 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 	
 	Iterator<Code> codes(ResourceIterator<Node> it) {
 		return new IteratorAdapter<>(new NeoNodeIterator<>(it, NeoCode.factory));
+	}
+	
+	
+	Iterator<CodelistCoordinates> coordinates(ResourceIterator<Node> it) {
+		
+		NeoBeanFactory<CodelistCoordinates> factory = new NeoBeanFactory<CodelistCoordinates>() {
+			
+			public CodelistCoordinates beanFrom(Node node) {
+				
+				NeoCodelist list = new NeoCodelist(node);
+				
+				return new CodelistCoordinates(list.id(),list.name(),list.version().value());
+				
+			};
+		};
+		
+		return new NeoNodeIterator<>(it,factory);
 	}
 
 }

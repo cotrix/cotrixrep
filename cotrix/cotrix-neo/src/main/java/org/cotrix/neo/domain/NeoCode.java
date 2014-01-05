@@ -7,12 +7,12 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Code.Private;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.common.StateContainer;
-import org.cotrix.neo.domain.utils.NeoFactory;
+import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
 public class NeoCode extends NeoNamed implements Code.State {
 
-	public static final NeoFactory<Code.State> factory = new NeoFactory<Code.State>() {
+	public static final NeoStateFactory<Code.State> factory = new NeoStateFactory<Code.State>() {
 		
 		@Override
 		public Code.State beanFrom(Node node) {
