@@ -15,7 +15,7 @@ import org.cotrix.repository.spi.AbstractMultiQuery;
 
 public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> {
 
-	abstract Collection<? extends R> _execute();
+	abstract Collection<? extends R> executeInMemory();
 	
 	/**
 	 * Returns one or more results from a given object.
@@ -26,7 +26,7 @@ public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> {
 	public Iterator<R> iterator() {
 		
 		//compute query
-		List<R> results = new ArrayList<R>(_execute());
+		List<R> results = new ArrayList<R>(executeInMemory());
 		
 		//apply excludes
 		List<R> excludes = new ArrayList<R>();

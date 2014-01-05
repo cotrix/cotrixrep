@@ -35,7 +35,7 @@ public class MUserRepository extends MemoryRepository<User.State> implements Use
 		
 		return new MMultiQuery<User,User>() {
 			
-			public Collection<? extends User> _execute() {
+			public Collection<? extends User> executeInMemory() {
 				return adapt(getAll());
 			}
 		};
@@ -66,7 +66,7 @@ public class MUserRepository extends MemoryRepository<User.State> implements Use
 		return new MMultiQuery<User,User>() {
 			
 			@Override
-			public Collection<? extends User> _execute() {
+			public Collection<? extends User> executeInMemory() {
 				Collection<User> matches = new HashSet<User>();
 				for (User.State u : getAll()) {
 					User user = u.entity();
@@ -85,7 +85,7 @@ public class MUserRepository extends MemoryRepository<User.State> implements Use
 		return new MMultiQuery<User,User>() {
 			
 			@Override
-			public Collection<? extends User> _execute() {
+			public Collection<? extends User> executeInMemory() {
 				Collection<User> matches = new HashSet<User>();
 				for (User.State u : getAll()) {
 					User user = u.entity();
@@ -103,7 +103,7 @@ public class MUserRepository extends MemoryRepository<User.State> implements Use
 		return new MMultiQuery<User,User>() {
 			
 			@Override
-			public Collection<? extends User> _execute() {
+			public Collection<? extends User> executeInMemory() {
 				
 				Collection<User> matches = new HashSet<User>();
 				

@@ -11,7 +11,7 @@ import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Range;
 
 
-public abstract class AbstractMultiQuery<T,R> implements MultiQuery<T,R>, Iterable<R> {
+public abstract class AbstractMultiQuery<D,R> implements MultiQuery<D,R>, Iterable<R> {
 
 	private Range range = Range.ALL;
 	private Criterion<R> criterion;
@@ -21,7 +21,7 @@ public abstract class AbstractMultiQuery<T,R> implements MultiQuery<T,R>, Iterab
 	
 	//subclasses provide iterators and we provide here true iterables
 	@Override
-	public Iterable<R> execute() {
+	public final Iterable<R> execute() {
 		
 		return new Iterable<R>() {
 			
@@ -34,15 +34,13 @@ public abstract class AbstractMultiQuery<T,R> implements MultiQuery<T,R>, Iterab
 		};
 		
 	}
-	@Override
-	public Range range() {
-		return range;
-	}
 	
-	public RangeClause<T, R> from(final int from) {
-		return new RangeClause<T,R>() {
+	
+	
+	public RangeClause<D, R> from(final int from) {
+		return new RangeClause<D,R>() {
 			@Override
-			public MultiQuery<T, R> to(int to) {
+			public MultiQuery<D, R> to(int to) {
 				range=new Range(from,to);
 				return AbstractMultiQuery.this;
 			}
@@ -50,17 +48,28 @@ public abstract class AbstractMultiQuery<T,R> implements MultiQuery<T,R>, Iterab
 	}
 	
 	@Override
-	public MultiQuery<T, R> sort(Criterion<R> criterion) {
+	public MultiQuery<D, R> sort(Criterion<R> criterion) {
 		this.criterion=criterion;
 		return this;
 	}
 	
 
-	public MultiQuery<T,R> excluding(String ... excludes) {
+	
+	public MultiQuery<D,R> excluding(String ... excludes) {
 		
 		this.excludes.addAll(asList(excludes));
 		return this;
 	};
+	
+	
+	
+	
+	
+	
+	protected Range range() {
+		return range;
+	}
+	
 	
 	protected Criterion<R> criterion() {
 		return criterion;

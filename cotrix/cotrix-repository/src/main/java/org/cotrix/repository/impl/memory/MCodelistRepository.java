@@ -49,7 +49,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 		return new MMultiQuery<Codelist, Codelist.Private>() {
 		
-			Collection<Codelist.Private> _execute() {
+			Collection<Codelist.Private> executeInMemory() {
 				return adapt(getAll());
 			}
 			
@@ -61,7 +61,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		
 		return new MMultiQuery<Codelist, Code>() {
 			
-			public Collection<? extends Code> _execute() {
+			public Collection<? extends Code> executeInMemory() {
 				
 				Collection<Code.State> codes = new ArrayList<Code.State>();
 				
@@ -78,7 +78,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		
 		return new MMultiQuery<Codelist,CodelistCoordinates>() {
 			
-			public Collection<CodelistCoordinates> _execute() {
+			public Collection<CodelistCoordinates> executeInMemory() {
 				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
 				for (Codelist.State list : getAll())
 					coordinates.add(coordsOf(list));
@@ -95,7 +95,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 		return new MMultiQuery<Codelist, CodelistCoordinates>() {
 			
-			public Collection<CodelistCoordinates> _execute() {
+			public Collection<CodelistCoordinates> executeInMemory() {
 
 				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
 				for (Codelist.State list : getAll())
