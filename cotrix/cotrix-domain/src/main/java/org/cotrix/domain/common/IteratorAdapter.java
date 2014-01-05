@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import org.cotrix.domain.trait.EntityProvider;
 
-public class IteratorAdapter<T,S extends EntityProvider<T>> implements Iterator<T> {
+public class IteratorAdapter<T,S extends EntityProvider<? extends T>> implements Iterator<T> {
 	
 	Iterator<S> inner;
 	

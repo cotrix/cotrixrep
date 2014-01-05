@@ -93,7 +93,7 @@ public abstract class MemoryRepository<S extends Identified.State> implements St
 	}
 	
 	
-	public <R, SR extends EntityProvider<R>> Collection<R> adapt(Collection<SR> results) {
+	public <R, SR extends EntityProvider<? extends R>> Collection<R> adapt(Collection<SR> results) {
 		Collection<R> adapted = new ArrayList<R>();
 		for (SR result : results)
 			adapted.add(result.entity());

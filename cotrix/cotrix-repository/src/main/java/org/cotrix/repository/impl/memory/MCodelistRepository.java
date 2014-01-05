@@ -45,11 +45,11 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 	
 	@Override
-	public MultiQuery<Codelist, Codelist.Private> allLists() {
+	public MultiQuery<Codelist, Codelist> allLists() {
 
-		return new MMultiQuery<Codelist, Codelist.Private>() {
+		return new MMultiQuery<Codelist, Codelist>() {
 		
-			Collection<Codelist.Private> executeInMemory() {
+			Collection<Codelist> executeInMemory() {
 				return adapt(getAll());
 			}
 			
@@ -61,7 +61,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		
 		return new MMultiQuery<Codelist, Code>() {
 			
-			public Collection<? extends Code> executeInMemory() {
+			public Collection<Code> executeInMemory() {
 				
 				Collection<Code.State> codes = new ArrayList<Code.State>();
 				

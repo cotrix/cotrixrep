@@ -18,11 +18,11 @@ import org.cotrix.repository.Query;
  */
 public interface CodelistQueryFactory {
 
-	MultiQuery<Codelist,? extends Codelist> allLists();
+	MultiQuery<Codelist,Codelist> allLists();
 
 	MultiQuery<Codelist, CodelistCoordinates> allListCoordinates();
 
-	MultiQuery<Codelist, ? extends Code> allCodes(String codelistId);
+	MultiQuery<Codelist,Code> allCodes(String codelistId);
 
 	MultiQuery<Codelist, CodelistCoordinates> codelistsFor(User u);
 
