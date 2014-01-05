@@ -57,14 +57,14 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 	@Override
 	public MultiQuery<Codelist,Codelist> allLists() {
 
-		return new NeoMultiQuery<Codelist,Codelist>() {
+		return new NeoMultiQuery<Codelist,Codelist>(engine) {
 
 			@Override
 			public Iterator<Codelist> iterator() {
 
 				String query = "match (n:" + CODELIST.name() + ") return n as NODE";
 
-				ExecutionResult result = execute(engine,query);
+				ExecutionResult result = execute(query);
 
 				ResourceIterator<Node> it = result.columnAs("NODE");
 
@@ -83,14 +83,14 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 	@Override
 	public MultiQuery<Codelist,Code> allCodes(String codelistId) {
 		
-		return new NeoMultiQuery<Codelist,Code>() {
+		return new NeoMultiQuery<Codelist,Code>(engine) {
 
 			@Override
 			public Iterator<Code> iterator() {
 
-				String query = "match (n:" + CODELIST.name() + ") -[:"+Relations.CODE.name()+"] -> (c) return c as CODE";
+				String query = "MATCH (n:" + CODELIST.name() + ") -[:"+Relations.CODE.name()+"] -> (c) RETURN c AS CODE";
 
-				ExecutionResult result = engine.execute(query);
+				ExecutionResult result = execute(query);
 
 				ResourceIterator<Node> it = result.columnAs("CODE");
 

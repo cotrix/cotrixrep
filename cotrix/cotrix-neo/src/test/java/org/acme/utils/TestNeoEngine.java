@@ -35,7 +35,6 @@ public class TestNeoEngine implements NeoQueryEngine {
 	
 	@Override
 	public ExecutionResult execute(String query, Map<String, Object> params) {
-		
 		return new ExecutionEngine(store).execute(query,params);
 	}
 }
