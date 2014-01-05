@@ -2,5 +2,10 @@ package org.cotrix.repository;
 
 public interface Query<D,R> {
 
-	R execute();
+	
+	interface Private<D,R> extends Query<D,R> {
+
+		R execute();
+		
+	}
 }

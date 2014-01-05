@@ -46,7 +46,7 @@ public class MUserRepository extends MemoryRepository<User.State> implements Use
 	@Override
 	public Query<User, User> userByName(final String name) {
 		
-		return new Query<User,User>() {
+		return new Query.Private<User,User>() {
 			@Override
 			public User execute() {
 				

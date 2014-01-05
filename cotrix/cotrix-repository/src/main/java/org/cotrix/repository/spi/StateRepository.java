@@ -1,6 +1,5 @@
 package org.cotrix.repository.spi;
 
-import org.cotrix.repository.Query;
 
 public interface StateRepository<S> {
 
@@ -9,8 +8,6 @@ public interface StateRepository<S> {
 	boolean contains(String id);
 	
 	S lookup(String id);
-
-	<R> R get(Query<S,R> query);
 
 	void remove(String id);
 

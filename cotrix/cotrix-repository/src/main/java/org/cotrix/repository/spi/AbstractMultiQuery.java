@@ -11,7 +11,7 @@ import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Range;
 
 
-public abstract class AbstractMultiQuery<D,R> implements MultiQuery<D,R>, Iterable<R> {
+public abstract class AbstractMultiQuery<D,R> implements MultiQuery.Private<D,R>, Iterable<R> {
 
 	private Range range = Range.ALL;
 	private Criterion<R> criterion;

@@ -2,6 +2,7 @@ package org.cotrix.repository.impl;
 
 import static org.cotrix.common.Utils.*;
 
+import org.cotrix.common.Utils;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Query;
@@ -77,7 +78,7 @@ public abstract class AbstractRepository<T extends Identified,
 	
 		notNull("query", query);
 		
-		return delegate.get(retype(query));
+		return reveal(query).execute();
 	}
 	
 	@Override
@@ -123,8 +124,8 @@ public abstract class AbstractRepository<T extends Identified,
 	/* query for entity repository is also good for corresponding state repository */
 	
 	@SuppressWarnings("all")
-	private <R> Query<S,R> retype(Query<T,R> query) {
-		return (Query) query;
+	private <R> Query.Private<T,R> reveal(Query<T,R> query) {
+		return Utils.reveal(query,Query.Private.class);
 	}
 
 	/* used to retype P as T and vice-versa.

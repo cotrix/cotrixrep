@@ -13,7 +13,6 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.neo.NeoUtils;
 import org.cotrix.neo.domain.NeoCodelist;
-import org.cotrix.repository.Query;
 import org.cotrix.repository.spi.StateRepository;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -53,12 +52,6 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 	}
 
 	@Override
-	public <R> R get(Query<State, R> query) {
-		
-		return query.execute();
-	}
-
-	@Override
 	public void remove(String id) {
 		
 		//no need to check for null, infrastructure ensures codelist exists
@@ -68,7 +61,7 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 
 	@Override
 	public int size() {
-		return get(queries.repositorySize());
+		return queries.repositorySize().execute();
 	}
 	
 	

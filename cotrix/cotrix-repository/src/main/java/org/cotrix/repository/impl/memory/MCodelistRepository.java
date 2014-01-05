@@ -110,7 +110,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 	public Query<Codelist, CodelistSummary> summary(final String id) {
 
-		return new Query<Codelist, CodelistSummary>() {
+		return new Query.Private<Codelist, CodelistSummary>() {
 		
 			@Override
 			public CodelistSummary execute() {

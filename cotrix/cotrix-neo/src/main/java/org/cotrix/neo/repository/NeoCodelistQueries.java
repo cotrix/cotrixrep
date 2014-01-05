@@ -38,9 +38,9 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 	private NeoQueryEngine engine;
 	
 
-	public Query<Codelist.State, Integer> repositorySize() {
+	public Query.Private<Codelist, Integer> repositorySize() {
 
-		return new Query<Codelist.State, Integer>() {
+		return new Query.Private<Codelist, Integer>() {
 
 			@Override
 			public Integer execute() {
