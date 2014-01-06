@@ -204,14 +204,16 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 	@Test
 	public void listCodesSortedByAttribute() {
 		
-		Attribute a1 = attribute().name("a").value("1").build();
-		Attribute a2 = attribute().name("a").value("2").build();
-		Attribute a3 = attribute().name("a").value("0").in("en").build();
-		Attribute a4 = attribute().name("a").value("2").build();
-		Attribute a5 = attribute().name("a").value("1").build();
 		
-		Code c1 = code().name("c1").attributes(a1,a4).build();
-		Code c2 = code().name("c2").attributes(a2,a5).build();
+		Attribute a1 = attribute().name("a").value("1").build();
+		Attribute a12 = attribute().name("a").value("5").build();
+		Code c1 = code().name("c1").attributes(a1,a12).build();
+		
+		Attribute a2 = attribute().name("a").value("2").in("en").build();
+		Attribute a22 = attribute().name("a").value("3").build();
+		Code c2 = code().name("c2").attributes(a2,a22).build();
+		
+		Attribute a3 = attribute().name("a").value("0").in("en").build();
 		Code c3 = code().name("c3").attributes(a3).build();
 		
 		Codelist list = codelist().name("l1").with(c2,c1,c3).build();
