@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.cotrix.web.codelistmanager.client.codelist.attribute.AttributeFactory;
-import org.cotrix.web.codelistmanager.client.codelist.attribute.Group;
 import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
@@ -35,6 +34,7 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHa
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.client.util.Attributes;
+import org.cotrix.web.codelistmanager.shared.Group;
 import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.FeatureToggler;

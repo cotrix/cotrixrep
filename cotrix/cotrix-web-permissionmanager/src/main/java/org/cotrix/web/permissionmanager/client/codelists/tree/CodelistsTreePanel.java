@@ -13,10 +13,12 @@ import org.cotrix.web.share.client.util.FilteredCachedDataProvider.Filter;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.i18n.client.LocalizableResource.DefaultLocale;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.CellTree;
+import com.google.gwt.user.cellview.client.CellTree.CellTreeMessages;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
@@ -35,6 +37,13 @@ public class CodelistsTreePanel extends ResizeComposite {
 
 	interface CodelistsTreePanelUiBinder extends UiBinder<Widget, CodelistsTreePanel> {}
 
+	@DefaultLocale("en_US")
+	interface TreeMessages extends CellTreeMessages {
+
+		@DefaultMessage("You don''t own any codelist.")
+		String emptyTree();
+	}
+
 	@UiField TextBox filterTextBox;
 
 	@UiField(provided=true) CellTree codelistsTree;
@@ -46,6 +55,9 @@ public class CodelistsTreePanel extends ResizeComposite {
 
 	@Inject @PermissionBus
 	protected EventBus bus;
+	
+	@Inject
+	protected TreeMessages treeMessages;
 
 	@Inject
 	protected void init(CodelistsTreePanelUiBinder uiBinder) {
@@ -95,7 +107,7 @@ public class CodelistsTreePanel extends ResizeComposite {
 			}
 		});
 
-		codelistsTree = new CellTree(new CodelistTreeModel(selectionModel, dataProvider), null, CodelistsResources.INSTANCE);
+		codelistsTree = new CellTree(new CodelistTreeModel(selectionModel, dataProvider), null, CodelistsResources.INSTANCE, treeMessages);
 
 		//codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		codelistsTree.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);

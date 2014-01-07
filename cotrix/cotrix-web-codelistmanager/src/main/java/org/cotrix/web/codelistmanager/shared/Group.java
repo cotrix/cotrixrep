@@ -1,18 +1,20 @@
 /**
  * 
  */
-package org.cotrix.web.codelistmanager.client.codelist.attribute;
+package org.cotrix.web.codelistmanager.shared;
 
 import java.util.List;
 
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UIQName;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class Group implements Cloneable, Comparable<Group> {
+public class Group implements Cloneable, Comparable<Group>, IsSerializable {
 	
 	protected UIQName name;
 	protected UIQName type;
@@ -22,6 +24,10 @@ public class Group implements Cloneable, Comparable<Group> {
 	protected boolean isSystemGroup;
 	
 	protected String label;
+	
+	protected Group() {
+		
+	}
 		
 	/**
 	 * @param name
@@ -156,7 +162,7 @@ public class Group implements Cloneable, Comparable<Group> {
 		return clone;
 	}
 
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -164,7 +170,7 @@ public class Group implements Cloneable, Comparable<Group> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((label == null) ? 0 : label.hashCode());
+		result = prime * result + (isSystemGroup ? 1231 : 1237);
 		result = prime * result
 				+ ((language == null) ? 0 : language.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -185,10 +191,7 @@ public class Group implements Cloneable, Comparable<Group> {
 		if (getClass() != obj.getClass())
 			return false;
 		Group other = (Group) obj;
-		if (label == null) {
-			if (other.label != null)
-				return false;
-		} else if (!label.equals(other.label))
+		if (isSystemGroup != other.isSystemGroup)
 			return false;
 		if (language == null) {
 			if (other.language != null)
@@ -241,6 +244,10 @@ public class Group implements Cloneable, Comparable<Group> {
 		compare = (language !=null)?language.compareTo(o.language):1;
 		if (compare!=0) return compare;
 		
-		return position > o.position ? +1 : position < o.position ? -1 : 0;
+		compare = position > o.position ? +1 : position < o.position ? -1 : 0;
+		if (compare!=0) return compare;
+		
+		return isSystemGroup && !o.isSystemGroup ? +1 : !isSystemGroup && o.isSystemGroup ? -1 : 0;
 	}
+
 }

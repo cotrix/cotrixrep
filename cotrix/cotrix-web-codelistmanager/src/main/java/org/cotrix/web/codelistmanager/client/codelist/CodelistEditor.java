@@ -24,13 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.cotrix.web.codelistmanager.client.codelist.attribute.Group;
-import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
+import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.data.CodeAttribute;
 import org.cotrix.web.codelistmanager.client.data.DataEditor;
@@ -38,7 +35,9 @@ import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
+import org.cotrix.web.codelistmanager.shared.Group;
 import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.FeatureToggler;
 import org.cotrix.web.share.client.resources.CommonResources;
@@ -46,10 +45,10 @@ import org.cotrix.web.share.client.resources.CotrixSimplePager;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.ItemToolbar;
-import org.cotrix.web.share.client.widgets.StyledSafeHtmlRenderer;
 import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.share.client.widgets.ItemToolbar.ItemButton;
+import org.cotrix.web.share.client.widgets.StyledSafeHtmlRenderer;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
 
@@ -93,7 +92,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistEditor extends ResizeComposite implements GroupsChangedHandler, HasEditing {
+public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	interface Binder extends UiBinder<Widget, CodelistEditor> { }
 
@@ -149,6 +148,12 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 	protected StyledSafeHtmlRenderer cellRenderer;
 	protected StyledSafeHtmlRenderer systemAttributeCell = new StyledSafeHtmlRenderer(CotrixManagerResources.INSTANCE.css().systemProperty());
 
+	@Inject
+	protected ManagerServiceAsync managerService;
+	
+	@Inject @CodelistId
+	protected String codelistId;
+	
 	@Inject
 	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider) {
 		this.editorBus = editorBus;
@@ -206,14 +211,19 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 
 	public void showAllAttributesAsColumn()
 	{
-		if (registration == null) registration = dataProvider.addGroupsChangedHandler(this);
-		switchAllGroupsToColumn();
+		dataGrid.showLoader();
+		managerService.getAttributesGroups(codelistId, new ManagedFailureCallback<Set<Group>>() {
+
+			@Override
+			public void onSuccess(Set<Group> groups) {
+				setGroups(groups);
+				dataGrid.hideLoader();
+			}
+		});
 	}
 
 	public void showAllAttributesAsNormal()
 	{
-		if (registration!=null) registration.removeHandler();
-		registration = null;
 		switchAllGroupsToNormal();
 	}
 
@@ -398,28 +408,14 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		dataGrid.removeColumn(column);
 	}
 
-	@Override
-	public void onGroupsChanged(GroupsChangedEvent event) {
-		Set<Group> groups = event.getGroups();
-		Log.trace("onAttributeSetChanged groups: "+groups);
-
+	protected void setGroups(Set<Group> groups) {
+		
 		Set<Group> columnsToRemove = new HashSet<Group>(groupsAsColumn);
-		columnsToRemove.removeAll(groups);
+		//can't use removeall because based on comparable interface
+		for (Group group:groups) columnsToRemove.remove(group);
 		Log.trace("columns to remove: "+columnsToRemove);
 
-		for (Group toRemove:columnsToRemove) removeGroupColumn(toRemove);
-
-		for (Group group:groups) addGroupColumn(group);
-	}
-
-	protected void switchAllGroupsToColumn() {
-		Log.trace("switchAllGroupsToColumn");
-
-		Set<Group> groups = GroupFactory.getGroups(dataGrid.getVisibleItems());
-		Log.trace("groups: "+groups);
-
-		groups.removeAll(groupsAsColumn);	
-		Log.trace("attributes to add: "+groups);
+		for (Group toRemove:columnsToRemove) switchToNormal(toRemove);
 
 		for (Group group:groups) switchToColumn(group);
 	}
@@ -468,8 +464,6 @@ public class CodelistEditor extends ResizeComposite implements GroupsChangedHand
 		}
 	}
 	
-	
-
 	protected class GroupHeader extends Header<Group> {
 
 		private Group group;
