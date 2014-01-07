@@ -13,9 +13,7 @@ import org.cotrix.web.share.client.util.FilteredCachedDataProvider.Filter;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.i18n.client.Messages;
 import com.google.gwt.i18n.client.LocalizableResource.DefaultLocale;
-import com.google.gwt.i18n.client.Messages.DefaultMessage;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;

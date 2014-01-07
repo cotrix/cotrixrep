@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.event.Event;
@@ -31,6 +32,7 @@ import org.cotrix.web.codelistmanager.server.modify.ChangesetUtil;
 import org.cotrix.web.codelistmanager.server.modify.ModifyCommandHandler;
 import org.cotrix.web.codelistmanager.shared.CodelistEditorSortInfo;
 import org.cotrix.web.codelistmanager.shared.CodelistGroup;
+import org.cotrix.web.codelistmanager.shared.Group;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.share.server.CotrixRemoteServlet;
@@ -165,6 +167,19 @@ public class ManagerServiceImpl implements ManagerService {
 		logger.trace("retrieved {} rows", rows.size());
 		return new DataWindow<UICode>(rows, codelist.codes().size());
 	}
+	
+	@Override
+	@CodelistTask(VIEW)
+	public Set<Group> getAttributesGroups(@Id String codelistId) throws ServiceException {
+		logger.trace("getAttributesGroups codelistId {}", codelistId);
+
+		Iterable<Code> codes  = repository.get(allCodesIn(codelistId));
+		Set<Group> groups = GroupFactory.getGroups(codes);
+		
+		logger.trace("Generated {} groups: {}", groups.size(), groups);
+		
+		return groups;
+	}
 
 	@Override
 	public UICodelistMetadata getMetadata(@Id String codelistId) throws ServiceException {
@@ -226,7 +241,6 @@ public class ManagerServiceImpl implements ManagerService {
 		group.addVersion(newCodelist.id(), newCodelist.version());
 
 		return group;
-
 	}
 
 	@Override
@@ -237,6 +251,4 @@ public class ManagerServiceImpl implements ManagerService {
 		String state = lifecycle.state().toString();
 		return ResponseWrapper.wrap(state.toUpperCase());
 	}
-
-
 }

@@ -4,7 +4,7 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 import java.util.Set;
 
-import org.cotrix.web.codelistmanager.client.codelist.attribute.Group;
+import org.cotrix.web.codelistmanager.shared.Group;
 
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
