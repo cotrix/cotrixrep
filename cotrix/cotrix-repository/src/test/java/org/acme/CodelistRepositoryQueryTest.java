@@ -259,8 +259,7 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		CodelistSummary summary = repository.get(summary(list.id()));
 		
 		assertEquals(q("n"), summary.name());
-		assertEquals(2, summary.size());
-		
+		assertEquals(2, summary.size());	
 		
 		assertEqualSets(summary.allNames(),q("name1"),q("name2"),q("name3"));
 		assertEqualSets(summary.allTypes(),q("t1"),q("t2"),q("t3"));

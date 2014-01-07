@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.cotrix.neo.domain.Constants;
 import org.cotrix.repository.Range;
 import org.cotrix.repository.spi.AbstractMultiQuery;
 import org.neo4j.cypher.javacompat.ExecutionResult;
@@ -20,6 +21,7 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 	
 	private final List<String> matches = new ArrayList<>();
 	private final List<String> withs = new ArrayList<>();
+	private final List<String> wheres = new ArrayList<>();
 	private final List<String> orderBys = new ArrayList<>();
 	private final List<String> returns = new ArrayList<>();
 	
@@ -39,6 +41,10 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 		orderBys.add(clause);
 	}
 	
+	protected void where(String clause) {
+		wheres.add(clause);
+	}
+	
 	protected void rtrn(String clause) {
 		returns.add(clause);
 	}
@@ -49,8 +55,8 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 	
 	protected ExecutionResult executeNeo() {
 		
-		//  match with? return order-by? range?
-		String template = "MATCH %1$s %2$s RETURN %3$s %4$s %5$s";
+		//  match where? with? return order-by? range?
+		String template = "MATCH %1$s %2$s %3$s RETURN %4$s %5$s %6$s";
 		
 		String orderBy = "";
 		
@@ -62,6 +68,12 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 		}
 		
 		String match = flatten(matches);
+		
+		for (String exclude : excludes())
+			where(format("%1$s.%2$s <> '%3$s'",NeoCodelistQueries.$node,Constants.id_prop,exclude));
+		
+		String where = excludes().isEmpty()?"":"WHERE "+flatten(wheres);
+		
 		String with = withs.isEmpty()?"":"WITH "+flatten(withs);
 		String rtrn = flatten(returns);
 	
@@ -77,7 +89,7 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 			
 		}
 		
-		String query = format(template,match,with,rtrn,orderBy,range); 
+		String query = format(template,match,where,with,rtrn,orderBy,range); 
 				
 		return engine.execute(query,params);
 	}

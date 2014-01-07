@@ -29,8 +29,14 @@ public class DefaultQueryEngine implements NeoQueryEngine {
 	
 	public ExecutionResult execute(String query, Map<String,Object> params) {
 		
-		log.trace("executing Neo query: "+query);
+		log.info("executing Neo query {}",query);
 		
-		return engine.execute(query, params);
+		long time = System.currentTimeMillis();
+		
+		ExecutionResult result =  engine.execute(query,params);
+		
+		log.info("executed Neo query {} in {} ms",query,System.currentTimeMillis()-time);
+		
+		return result;
 	};
 }

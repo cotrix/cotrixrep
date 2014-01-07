@@ -37,7 +37,17 @@ public class TestNeoEngine implements NeoQueryEngine {
 	@Override
 	public ExecutionResult execute(String query, Map<String, Object> params) {
 		
-		log.info("executing Neo query: "+query);
-		return new ExecutionEngine(store).execute(query,params);
+		log.info("executing Neo query {}",query);
+		
+		ExecutionEngine engine = new ExecutionEngine(store);
+		
+		long time = System.currentTimeMillis();
+		
+		ExecutionResult result =  engine.execute(query,params);
+		
+		log.info("executed Neo query {} in {} ms",query,System.currentTimeMillis()-time);
+		
+		return result;
 	}
+	
 }

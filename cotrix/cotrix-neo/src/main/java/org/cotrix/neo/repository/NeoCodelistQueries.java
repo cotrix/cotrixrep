@@ -1,22 +1,34 @@
 package org.cotrix.neo.repository;
 
 import static java.lang.String.*;
+import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Constants.*;
+import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
+import static org.cotrix.repository.CodelistCoordinates.*;
+import static org.cotrix.repository.CodelistSummary.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Priority;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.xml.namespace.QName;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.IteratorAdapter;
+import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.NeoCode;
@@ -38,9 +50,7 @@ import org.neo4j.graphdb.ResourceIterator;
 @Priority(RUNTIME)
 public class NeoCodelistQueries implements CodelistQueryFactory {
 
-	private static final String $code = "C";
-	private static final String $codelist = "L";
-	private static final String $attribute = "A";
+	public static final String $node = "N";
 	private static final String $result = "RESULT";
 
 	@Inject
@@ -54,7 +64,7 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 			public Integer execute() {
 
 				String query = format("MATCH (%1$s:%2$s) RETURN COUNT(%1$s) as %3$s", 
-									  $codelist, 
+									  $node, 
 									  CODELIST.name(),
 									  $result);
 
@@ -75,8 +85,8 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 			@Override
 			public Iterator<Codelist> iterator() {
 
-				match(format("(%1$s:%2$s)",$codelist,CODELIST.name()));
-				rtrn(format("%1$s as %2$s",$codelist,$result));
+				match(format("(%1$s:%2$s)",$node,CODELIST.name()));
+				rtrn(format("%1$s as %2$s",$node,$result));
 				
 				ExecutionResult result = executeNeo();
 
@@ -96,8 +106,8 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 			@Override
 			public Iterator<CodelistCoordinates> iterator() {
 
-				match(format("(%1$s:%2$s)",$codelist,CODELIST.name()));
-				rtrn(format("%1$s as %2$s",$codelist,$result));
+				match(format("(%1$s:%2$s)",$node,CODELIST.name()));
+				rtrn(format("%1$s as %2$s",$node,$result));
 				
 				ExecutionResult result = executeNeo();
 
@@ -117,15 +127,14 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 			@Override
 			public Iterator<Code> iterator() {
 
-				match(format("(%1$s:%2$s {%3$s:'%4$s'})-[:%5$s]->(%6$s)",
-						$codelist,
+				match(format("(L:%1$s {%2$s:'%3$s'})-[:%4$s]->(%5$s)",
 						CODELIST.name(),
 						id_prop,
 						codelistId,
 						Relations.CODE.name(),
-						$code));
+						$node));
 				
-				rtrn(format("DISTINCT(%1$s) as %2$s",$code,$result));
+				rtrn(format("DISTINCT(%1$s) as %2$s",$node,$result));
 	
 				ExecutionResult result = executeNeo();
 
@@ -141,14 +150,89 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 
 	@Override
 	public MultiQuery<Codelist, CodelistCoordinates> codelistsFor(User u) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		final FingerPrint fp = u.fingerprint();
+		
+		return new NeoMultiQuery<Codelist, CodelistCoordinates>(engine) {
+
+			@Override
+			public Iterator<CodelistCoordinates> iterator() {
+
+				match(format("(%1$s:%2$s)",$node,CODELIST.name()));
+				
+				rtrn(format("%1$s as %2$s",$node,$result));
+				
+				ExecutionResult result = executeNeo();
+
+				//System.out.println(result.dumpToString());
+				
+				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
+				
+				try (
+					ResourceIterator<Node> it = result.columnAs($result);
+				) 
+				{
+					while (it.hasNext()) {
+						NeoCodelist state = new NeoCodelist(it.next());
+						if (!fp.allRolesOver(state.id(), codelists).isEmpty())
+								coordinates.add(coordsOf(state));
+					}
+						
+				}
+			
+				return coordinates.iterator();
+			}
+			
+		};
+			
 	}
 
 	@Override
-	public Query<Codelist, CodelistSummary> summary(String codelistId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Query<Codelist, CodelistSummary> summary(final String codelistId) {
+		
+		return new Query.Private<Codelist, CodelistSummary>() {
+
+			@Override
+			public CodelistSummary execute() {
+
+				String query = format("MATCH (%1$s:%2$s {%3$s:'%4$s'}) RETURN %1$s as %5$s", 
+									  $node, 
+									  CODELIST.name(),
+									  id_prop,
+									  codelistId,
+									  $result);
+
+				ExecutionResult result = engine.execute(query);
+
+				NeoCodelist state = null;
+				
+				try (ResourceIterator<Node> it = result.columnAs($result)) {
+					
+					if (!it.hasNext())
+						throw new IllegalStateException("no such codelist: " + codelistId);
+
+					state = new NeoCodelist(it.next());
+				}
+				
+				
+				int size = state.codes().size();
+
+				Codelist list = state.entity();
+				
+				Collection<Attribute> attributes = new ArrayList<Attribute>();
+				
+				for (Attribute a : list.attributes())
+					if (!a.type().equals(SYSTEM_TYPE))
+						attributes.add(a);
+
+				Map<QName, Map<QName, Set<String>>> fingerprint = new HashMap<QName, Map<QName, Set<String>>>();
+
+				for (Code c : list.codes())
+					addToFingerprint(fingerprint, c.attributes());
+
+				return new CodelistSummary(list.name(), size, attributes, fingerprint);
+			}
+		};
 	}
 
 	@Override
@@ -157,7 +241,7 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 			
 			@Override
 			protected String process(NeoMultiQuery<?, ?> query) {
-				return format("%1$s.%2$s",$codelist,name_prop);
+				return format("%1$s.%2$s",$node,name_prop);
 			}
 		};
 	}
@@ -169,7 +253,7 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 			
 			@Override
 			protected String process(NeoMultiQuery<?, ?> query) {
-				return format("%1$s.%2$s",$code,name_prop);
+				return format("%1$s.%2$s",$node,name_prop);
 			}
 		};
 		
@@ -188,7 +272,7 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 			
 			@Override
 			protected String process(NeoMultiQuery<?, ?> query) {
-				return String.format("%1$s,%2$s",reveal(c1).process(query),reveal(c2).process(query));
+				return format("%1$s,%2$s",reveal(c1).process(query),reveal(c2).process(query));
 			}
 		};
 		
@@ -201,7 +285,7 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 			
 			@Override
 			protected String process(NeoMultiQuery<?, ?> query) {
-				return String.format("%1$s DESC",reveal(c).process(query));
+				return format("%1$s DESC",reveal(c).process(query));
 			}
 		};
 	}
@@ -213,7 +297,7 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 			
 			@Override
 			protected String process(NeoMultiQuery<?, ?> query) {
-				return format("%1$s.%2$s",$codelist,version_prop);
+				return format("%1$s.%2$s",$node,version_prop);
 			}
 		};
 	}
@@ -226,17 +310,26 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 			@Override
 			protected String process(NeoMultiQuery<?,?> query) {
 				
-				query.match(format("%1$s-[:%2$s]->(%3$s)",$code,Relations.ATTRIBUTE.name(),$attribute));
-				query.with($code);
+				String $attribute = "A";
+				
+				//add match for attributes
+				query.match(format("%1$s-[:%2$s]->(%3$s)",$node,Relations.ATTRIBUTE.name(),$attribute));
+				
+				//brings codes in with expression
+				query.with($node);
+				
 				String caseTemplate = "CASE %1$s WHEN '%2$s' THEN %3$s END AS VAL ORDER BY VAL";
 				
 				String expression = attribute.language()==null?
 						format("%1$s.%2$s[%3$s]",$attribute,name_prop,position-1):
 						format("%1$s.%2$s[%3$s]+%1$s.%4$s",$attribute,name_prop,position-1,lang_prop);
+				
 				String value = attribute.language()==null?
 										attribute.name().toString():
 										attribute.name()+attribute.language();
+										
 				String caseValue = format("%1$s.%2$s",$attribute,value_prop);
+				
 				query.with(format(caseTemplate,expression,value,caseValue));
 				
 				return "";

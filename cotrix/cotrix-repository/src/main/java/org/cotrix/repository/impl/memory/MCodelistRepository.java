@@ -98,6 +98,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 			public Collection<CodelistCoordinates> executeInMemory() {
 
 				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
+				
 				for (Codelist.State list : getAll())
 					if (!fp.allRolesOver(list.id(), codelists).isEmpty())
 						coordinates.add(coordsOf(list));
