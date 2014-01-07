@@ -45,7 +45,6 @@ public class CodelistCodesProvider extends CachedDataProviderExperimental<UICode
 	@Inject @CodelistId
 	protected String codelistId;
 
-
 	@Override
 	protected void onRangeChanged(final Range range, final ManagedFailureCallback<DataWindow<UICode>> callback) {
 		CodelistEditorSortInfo sortInfo = getSortInfo();
@@ -84,6 +83,7 @@ public class CodelistCodesProvider extends CachedDataProviderExperimental<UICode
 
 	protected void checkGroups(List<UICode> rows)
 	{
+		if (handlerManager.getHandlerCount(GroupsChangedEvent.TYPE) == 0) return; 
 		Set<Group> groups = GroupFactory.getGroups(rows);
 		handlerManager.fireEvent(new GroupsChangedEvent(groups));
 	}
