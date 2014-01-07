@@ -1,6 +1,5 @@
 package org.cotrix.repository.spi;
 
-import org.cotrix.action.ResourceType;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.Criterion;
@@ -23,8 +22,6 @@ public interface UserQueryFactory {
 
 	Query<User, User> userByName(String name);
 
-	MultiQuery<User, User> roleOn(String resource, ResourceType type);
-	
 	MultiQuery<User,User> teamFor(String codelistId);
 	
 	Criterion<User> byName();
@@ -33,5 +30,5 @@ public interface UserQueryFactory {
 	
 	<T> Criterion<T> descending(Criterion<T> c);
 
-	MultiQuery<User, User> role(Role role);
+	MultiQuery<User, User> usersWithRole(Role role);
 }

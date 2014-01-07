@@ -90,7 +90,7 @@ public abstract class AbstractMailer {
 	}
 
 	public Iterable<User> usersWithRole(Role role) {
-		return userRepository.get(UserQueries.usersWithRole(role));
+		return userRepository.get(UserQueries.usersWith(role));
 	}
 
 	public void sendMail(Collection<String> recipients, String subject, String messageBody) {

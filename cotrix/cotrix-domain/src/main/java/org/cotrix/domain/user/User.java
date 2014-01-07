@@ -194,12 +194,15 @@ public interface User extends Identified {
 				return;
 
 			//return roles we should no longer have
-			Iterator<Role> it = state().roles().iterator();
+			Collection<Role> roles = state().roles();
+			Iterator<Role> it = roles.iterator();
 			while (it.hasNext())
 				if (role.is(it.next()))
 					it.remove();
 
-			state().roles().add(role);
+			roles.add(role);
+			
+			state().roles(roles);
 		}
 		
 		
@@ -293,7 +296,7 @@ public interface User extends Identified {
 
 			// replace permissions
 			state().permissions().clear();
-			state().permissions().addAll(changeset.directPermissions());
+			state().permissions(changeset.directPermissions());
 
 			// replace roles
 			state().roles().clear();

@@ -101,16 +101,10 @@ public class UserMS extends IdentifiedMS implements User.State {
 		return new User.Private(this);
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
-		return result;
-	}
 
 	@Override
 	public boolean equals(Object obj) {
+		
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
@@ -143,6 +137,7 @@ public class UserMS extends IdentifiedMS implements User.State {
 				return false;
 		} else if (!userName.equals(other.name()))
 			return false;
+		
 		return true;
 	}
 	

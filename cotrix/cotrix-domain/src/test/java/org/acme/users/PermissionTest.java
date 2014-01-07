@@ -20,7 +20,7 @@ public class PermissionTest {
 		
 		User bill = bill().can(doit).build();
 		
-		assertEqualSets(bill.permissions(),doit);
+		assertEqualUnordered(bill.permissions(),doit);
 		
 		assertTrue(bill.can(doit));
 		
@@ -34,7 +34,7 @@ public class PermissionTest {
 		
 		User bill = bill().can(doit,doit).build();
 		
-		assertEqualSets(bill.permissions(),doit);
+		assertEqualUnordered(bill.permissions(),doit);
 	}
 	
 	@Test
@@ -44,7 +44,7 @@ public class PermissionTest {
 		
 		User bill = bill().can(doit.on("1"),doit,doit.on("1")).build();
 		
-		assertEqualSets(bill.permissions(),doit,doit.on("1"));
+		assertEqualUnordered(bill.permissions(),doit,doit.on("1"));
 	}
 	
 	//helpers

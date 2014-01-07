@@ -40,7 +40,7 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		
 		Iterable<Codelist> lists  = repository.get(allLists());
 		
-		assertEqualSets(collect(lists),list,list2);
+		assertEqualUnordered(collect(lists),list,list2);
 	}
 	
 	
@@ -55,7 +55,7 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		
 		Iterable<Codelist> lists  = repository.get(allLists().excluding(list1.id()));
 		
-		assertEqualSets(collect(lists),list2);
+		assertEqualUnordered(collect(lists),list2);
 	}
 	
 	@Test
@@ -73,7 +73,7 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		
 		Iterable<CodelistCoordinates> lists  = repository.get(codelistsFor(u));
 		
-		assertEqualSets(collect(lists),coordsOf(list));
+		assertEqualUnordered(collect(lists),coordsOf(list));
 	}
 	
 	@Test
@@ -92,7 +92,7 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		
 		Iterable<CodelistCoordinates> lists  = repository.get(codelistsFor(u));
 		
-		assertEqualSets(collect(lists),coordsOf(list2));
+		assertEqualUnordered(collect(lists),coordsOf(list2));
 	}
 	
 	@Test
@@ -108,7 +108,7 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		
 		Iterable<Code> codes  = repository.get(allCodesIn(list.id()));
 		
-		assertEqual(collect(codes),code1,code2,code3);
+		assertEqualOrdered(collect(codes),code1,code2,code3);
 	}
 	
 	@Test
@@ -138,7 +138,7 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		
 		Iterable<CodelistCoordinates> results  = repository.get(allListCoordinates().sort(byCoordinateName()));
 		
-		assertEqualSets(collect(results),coords(list1.id(),q("l1"),"1"),coords(list2.id(),q("l2"),"2"));
+		assertEqualUnordered(collect(results),coords(list1.id(),q("l1"),"1"),coords(list2.id(),q("l2"),"2"));
 	}
 	
 	@Test
@@ -261,18 +261,18 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		assertEquals(q("n"), summary.name());
 		assertEquals(2, summary.size());	
 		
-		assertEqualSets(summary.allNames(),q("name1"),q("name2"),q("name3"));
-		assertEqualSets(summary.allTypes(),q("t1"),q("t2"),q("t3"));
-		assertEqualSets(summary.allLanguages(),"l1","l2","l3");
+		assertEqualUnordered(summary.allNames(),q("name1"),q("name2"),q("name3"));
+		assertEqualUnordered(summary.allTypes(),q("t1"),q("t2"),q("t3"));
+		assertEqualUnordered(summary.allLanguages(),"l1","l2","l3");
 		
-		assertEqualSets(summary.allTypesFor(q("name1")),q("t1"),q("t2"),q("t3"));
-		assertEqualSets(summary.allLanguagesFor(q("name1"),q("t1")),"l1","l2","l3");
-		assertEqualSets(summary.allTypesFor(q("foo")));
-		assertEqualSets(summary.allLanguagesFor(q("foo"),q("boo")));
+		assertEqualUnordered(summary.allTypesFor(q("name1")),q("t1"),q("t2"),q("t3"));
+		assertEqualUnordered(summary.allLanguagesFor(q("name1"),q("t1")),"l1","l2","l3");
+		assertEqualUnordered(summary.allTypesFor(q("foo")));
+		assertEqualUnordered(summary.allLanguagesFor(q("foo"),q("boo")));
 		
-		assertEqualSets(summary.codeNames(),q("name1"),q("name2"));
-		assertEqualSets(summary.codeTypesFor(q("name1")),q("t1"),q("t2"));
-		assertEqualSets(summary.codeLanguagesFor(q("name1"),q("t1")),"l1","l2");
+		assertEqualUnordered(summary.codeNames(),q("name1"),q("name2"));
+		assertEqualUnordered(summary.codeTypesFor(q("name1")),q("t1"),q("t2"));
+		assertEqualUnordered(summary.codeLanguagesFor(q("name1"),q("t1")),"l1","l2");
 		
 	}
 	

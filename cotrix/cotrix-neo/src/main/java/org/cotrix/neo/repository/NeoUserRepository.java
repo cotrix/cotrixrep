@@ -9,17 +9,16 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
-import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.Codelist.State;
+import org.cotrix.domain.user.User;
 import org.cotrix.neo.NeoUtils;
-import org.cotrix.neo.domain.NeoCodelist;
+import org.cotrix.neo.domain.NeoUser;
 import org.cotrix.repository.spi.StateRepository;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.ResourceIterator;
 
 @ApplicationScoped @Alternative @Priority(RUNTIME)
-public class NeoCodelistRepository implements StateRepository<Codelist.State> {
+public class NeoUserRepository implements StateRepository<User.State> {
 
 	@Inject
 	private GraphDatabaseService store;
@@ -30,9 +29,9 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 	
 	
 	@Override
-	public void add(State list) {
+	public void add(User.State user) {
 		
-		new NeoCodelist(list);
+		new NeoUser(user);
 		
 	}
 
@@ -44,11 +43,11 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 	}
 
 	@Override
-	public State lookup(String id) {
+	public User.State lookup(String id) {
 		
 		Node node = nodeFor(id);
 
-		return node == null? null : new NeoCodelist(node);
+		return node == null? null : new NeoUser(node);
 	}
 
 	@Override
@@ -61,7 +60,7 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 
 	@Override
 	public int size() {
-		return queries.repositorySize(CODELIST).execute();
+		return queries.repositorySize(USER).execute();
 	}
 	
 	
@@ -70,7 +69,7 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 	private Node nodeFor(String id) {
 		
 		try (
-			ResourceIterator<Node> retrieved = store.findNodesByLabelAndProperty(CODELIST,id_prop,id).iterator(); 
+			ResourceIterator<Node> retrieved = store.findNodesByLabelAndProperty(USER,id_prop,id).iterator(); 
 		) 
 		{
 			return retrieved.hasNext()? retrieved.next(): null;

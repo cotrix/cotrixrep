@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
+import org.cotrix.repository.UserRepository;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.SignupService;
 import org.cotrix.test.ApplicationTest;
@@ -24,6 +25,9 @@ public class LoginTest extends ApplicationTest {
 
 	@Inject
 	LoginService service;
+	
+	@Inject
+	UserRepository repository;
 	
 	@Inject
 	SignupService signupService;
@@ -60,6 +64,8 @@ public class LoginTest extends ApplicationTest {
 		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
 		
 		signupService.signup(user,"any");
+		
+		user = repository.lookup(user.id());
 		
 		assertTrue(user.can(EDIT.on(user.id())));
 		assertEquals(user.email(),"fifi@me.com");

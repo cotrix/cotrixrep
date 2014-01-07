@@ -8,6 +8,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({CodelistRepositoryCrudTest.class, CodelistRepositoryQueryTest.class})
-public class InterfaceTest {
+public class CodelistRepositoryRefTest {
 
 }

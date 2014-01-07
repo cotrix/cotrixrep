@@ -2,7 +2,6 @@ package org.cotrix.repository;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.action.ResourceType;
 import org.cotrix.common.cdi.ApplicationEvents;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
@@ -16,12 +15,8 @@ public class UserQueries {
 		return factory.allUsers();
 	}
 	
-	public static MultiQuery<User,User> usersWithRoleOn(String resource, ResourceType type) {
-		return factory.roleOn(resource, type);
-	}
-	
-	public static MultiQuery<User,User> usersWithRole(Role role) {
-		return factory.role(role);
+	public static MultiQuery<User,User> usersWith(Role role) {
+		return factory.usersWithRole(role);
 	}
 	
 	public static MultiQuery<User,User> teamFor(String codelistId) {

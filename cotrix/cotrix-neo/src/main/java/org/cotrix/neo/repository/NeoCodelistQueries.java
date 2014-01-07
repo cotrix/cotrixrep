@@ -19,11 +19,9 @@ import java.util.Set;
 
 import javax.annotation.Priority;
 import javax.enterprise.inject.Alternative;
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
-import org.cotrix.common.Utils;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
@@ -33,7 +31,6 @@ import org.cotrix.domain.user.User;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.NeoCode;
 import org.cotrix.neo.domain.NeoCodelist;
-import org.cotrix.neo.domain.utils.NeoBeanFactory;
 import org.cotrix.neo.domain.utils.NeoNodeIterator;
 import org.cotrix.repository.CodelistCoordinates;
 import org.cotrix.repository.CodelistSummary;
@@ -48,45 +45,22 @@ import org.neo4j.graphdb.ResourceIterator;
 @Singleton
 @Alternative
 @Priority(RUNTIME)
-public class NeoCodelistQueries implements CodelistQueryFactory {
-
-	public static final String $node = "N";
-	private static final String $result = "RESULT";
-
-	@Inject
-	private NeoQueryEngine engine;
-	
-	public Query.Private<Codelist, Integer> repositorySize() {
-
-		return new Query.Private<Codelist, Integer>() {
-
-			@Override
-			public Integer execute() {
-
-				String query = format("MATCH (%1$s:%2$s) RETURN COUNT(%1$s) as %3$s", 
-									  $node, 
-									  CODELIST.name(),
-									  $result);
-
-				ExecutionResult result = engine.execute(query);
-
-				try (ResourceIterator<Long> it = result.columnAs($result);) {
-					return it.next().intValue();
-				}
-			}
-		};
-	}
+public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFactory {
 
 	@Override
 	public MultiQuery<Codelist, Codelist> allLists() {
 
 		return new NeoMultiQuery<Codelist, Codelist>(engine) {
 
+			{
+				match(format("(%1$s:%2$s)",$node,CODELIST.name()));
+				rtrn(format("%1$s as %2$s",$node,$result));
+				
+			}
+			
 			@Override
 			public Iterator<Codelist> iterator() {
 
-				match(format("(%1$s:%2$s)",$node,CODELIST.name()));
-				rtrn(format("%1$s as %2$s",$node,$result));
 				
 				ExecutionResult result = executeNeo();
 
@@ -102,12 +76,16 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 	public MultiQuery<Codelist, CodelistCoordinates> allListCoordinates() {
 
 		return new NeoMultiQuery<Codelist, CodelistCoordinates>(engine) {
-
+			
+			{
+				match(format("(%1$s:%2$s)",$node,CODELIST.name()));
+				rtrn(format("%1$s as %2$s",$node,$result));
+			}
+			
 			@Override
 			public Iterator<CodelistCoordinates> iterator() {
 
-				match(format("(%1$s:%2$s)",$node,CODELIST.name()));
-				rtrn(format("%1$s as %2$s",$node,$result));
+				
 				
 				ExecutionResult result = executeNeo();
 
@@ -124,9 +102,8 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 
 		return new NeoMultiQuery<Codelist, Code>(engine) {
 
-			@Override
-			public Iterator<Code> iterator() {
-
+			{
+				
 				match(format("(L:%1$s {%2$s:'%3$s'})-[:%4$s]->(%5$s)",
 						CODELIST.name(),
 						id_prop,
@@ -134,7 +111,13 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 						Relations.CODE.name(),
 						$node));
 				
-				rtrn(format("DISTINCT(%1$s) as %2$s",$node,$result));
+				rtrn(format("DISTINCT(%1$s) as %2$s",$node,$result));	
+			}
+			
+			@Override
+			public Iterator<Code> iterator() {
+
+				
 	
 				ExecutionResult result = executeNeo();
 
@@ -155,13 +138,14 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 		
 		return new NeoMultiQuery<Codelist, CodelistCoordinates>(engine) {
 
+			{
+				match(format("(%1$s:%2$s)",$node,CODELIST.name()));
+				rtrn(format("%1$s as %2$s",$node,$result));
+			}
+			
 			@Override
 			public Iterator<CodelistCoordinates> iterator() {
 
-				match(format("(%1$s:%2$s)",$node,CODELIST.name()));
-				
-				rtrn(format("%1$s as %2$s",$node,$result));
-				
 				ExecutionResult result = executeNeo();
 
 				//System.out.println(result.dumpToString());
@@ -264,31 +248,8 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 	public Criterion<CodelistCoordinates> byCoordinateName() {
 		return (Criterion) byCodelistName();
 	}
-
-	@Override
-	public <T> Criterion<T> all(final Criterion<T> c1, final Criterion<T> c2) {
-		
-		return new NeoCriterion<T>() {
-			
-			@Override
-			protected String process(NeoMultiQuery<?, ?> query) {
-				return format("%1$s,%2$s",reveal(c1).process(query),reveal(c2).process(query));
-			}
-		};
-		
-	}
-
-	@Override
-	public <T> Criterion<T> descending(final Criterion<T> c) {
-
-		return new NeoCriterion<T>() {
-			
-			@Override
-			protected String process(NeoMultiQuery<?, ?> query) {
-				return format("%1$s DESC",reveal(c).process(query));
-			}
-		};
-	}
+	
+	
 
 	@Override
 	public Criterion<Codelist> byVersion() {
@@ -339,10 +300,6 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 
 	// helpers
 	
-	NeoCriterion<?> reveal(Criterion<?> c) {
-		return Utils.reveal(c,NeoCriterion.class);
-	}
-
 	Iterator<Codelist> codelists(ResourceIterator<Node> it) {
 		return new IteratorAdapter<>(new NeoNodeIterator<>(it, NeoCodelist.factory));
 	}
@@ -353,20 +310,4 @@ public class NeoCodelistQueries implements CodelistQueryFactory {
 	}
 
 	
-	Iterator<CodelistCoordinates> coordinates(ResourceIterator<Node> it) {
-
-		NeoBeanFactory<CodelistCoordinates> factory = new NeoBeanFactory<CodelistCoordinates>() {
-
-			public CodelistCoordinates beanFrom(Node node) {
-
-				NeoCodelist list = new NeoCodelist(node);
-
-				return new CodelistCoordinates(list.id(), list.name(), list.version().value());
-
-			};
-		};
-
-		return new NeoNodeIterator<>(it, factory);
-	}
-
 }

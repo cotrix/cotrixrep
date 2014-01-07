@@ -30,8 +30,8 @@ public class RoleTest {
 		assertTrue(bill.is(something));
 		assertTrue(bill.is(somethingElse));
 		
-		assertEqualSets(bill.directRoles(), something, somethingElse);
-		assertEqualSets(bill.roles(), something, somethingElse);
+		assertEqualUnordered(bill.directRoles(), something, somethingElse);
+		assertEqualUnordered(bill.roles(), something, somethingElse);
 		
 	}
 	
@@ -50,8 +50,8 @@ public class RoleTest {
 		assertFalse(bill.is(something));
 		assertTrue(bill.is(somethingElse));
 		
-		assertEqualSets(bill.directRoles(), somethingElse);
-		assertEqualSets(bill.roles(),somethingElse);
+		assertEqualUnordered(bill.directRoles(), somethingElse);
+		assertEqualUnordered(bill.roles(),somethingElse);
 		
 	}
 	
@@ -114,8 +114,8 @@ public class RoleTest {
 	
 		User bill = bill().is(something).can(dothat).build();
 		
-		assertEqualSets(bill.directPermissions(),dothat);
-		assertEqualSets(bill.permissions(),doit,dothat);
+		assertEqualUnordered(bill.directPermissions(),dothat);
+		assertEqualUnordered(bill.permissions(),doit,dothat);
 	}
 	
 	
@@ -128,8 +128,8 @@ public class RoleTest {
 	
 		User bill = bill().is(largerStill).build();
 		
-		assertEqualSets(bill.roles(),small,larger,largerStill);
-		assertEqualSets(bill.directRoles(),largerStill);
+		assertEqualUnordered(bill.roles(),small,larger,largerStill);
+		assertEqualUnordered(bill.directRoles(),largerStill);
 		
 		assertTrue(bill.is(small));
 		assertTrue(bill.is(larger));
@@ -161,7 +161,7 @@ public class RoleTest {
 		
 		update(bill, changeset);
 		
-		assertEqualSets(bill.directRoles(),somethingElse);
+		assertEqualUnordered(bill.directRoles(),somethingElse);
 	}
 	
 	@Test
@@ -179,7 +179,7 @@ public class RoleTest {
 		
 		update(bill, changeset);
 		
-		assertEqualSets(bill.directRoles(),largerStill);
+		assertEqualUnordered(bill.directRoles(),largerStill);
 		
 		
 	}
@@ -211,7 +211,7 @@ public class RoleTest {
 	
 		User bill = bill().is(somethingElseStill.on("1")).build();
 		
-		assertEqualSets(bill.roles(),something.on("1"),somethingElse.on("1"), somethingElseStill.on("1"));
+		assertEqualUnordered(bill.roles(),something.on("1"),somethingElse.on("1"), somethingElseStill.on("1"));
 		
 		assertTrue(bill.is(something.on("1")));
 		assertTrue(bill.is(somethingElse.on("1")));
@@ -231,7 +231,7 @@ public class RoleTest {
 	
 		User bill = bill().is(someone).can(doit).build();
 		
-		assertEqualSets(bill.permissions(),doit);
+		assertEqualUnordered(bill.permissions(),doit);
 		
 		
 	}
@@ -247,7 +247,7 @@ public class RoleTest {
 		assertTrue(bill.is(someone));
 		assertTrue(bill.is(someoneElse));
 		
-		assertEqualSets(bill.permissions(),doit);
+		assertEqualUnordered(bill.permissions(),doit);
 		
 		
 	}
@@ -259,7 +259,7 @@ public class RoleTest {
 		
 		User bill = bill().is(someone,someone).build();
 		
-		assertEqualSets(bill.roles(),someone);
+		assertEqualUnordered(bill.roles(),someone);
 	}
 	
 	

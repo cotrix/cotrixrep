@@ -10,7 +10,6 @@ import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 
-import org.cotrix.action.ResourceType;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistRepository;
@@ -61,26 +60,7 @@ public class MUserRepository extends MemoryRepository<User.State> implements Use
 	
 	
 	@Override
-	public MultiQuery<User,User> roleOn(final String resource, final ResourceType type) {
-		
-		return new MMultiQuery<User,User>() {
-			
-			@Override
-			public Collection<? extends User> executeInMemory() {
-				Collection<User> matches = new HashSet<User>();
-				for (User.State u : getAll()) {
-					User user = u.entity();
-					if (!user.fingerprint().allRolesOver(resource,type).isEmpty())
-						matches.add(user);
-				}
-				return matches;
-			}
-		};
-		
-	}
-	
-	@Override
-	public MultiQuery<User,User> role(final Role role) {
+	public MultiQuery<User,User> usersWithRole(final Role role) {
 		
 		return new MMultiQuery<User,User>() {
 			

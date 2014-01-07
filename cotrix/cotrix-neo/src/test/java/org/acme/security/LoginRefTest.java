@@ -7,6 +7,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({LoginTest.class})
-public class InterfaceTest {
+public class LoginRefTest {
 
 }

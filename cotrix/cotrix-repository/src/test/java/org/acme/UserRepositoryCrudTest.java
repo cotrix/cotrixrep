@@ -1,11 +1,10 @@
 package org.acme;
 
-import static org.junit.Assert.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.repository.UserQueries.*;
+import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
@@ -17,7 +16,7 @@ import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
 
-public class UserRepositoryTest extends ApplicationTest {
+public class UserRepositoryCrudTest extends ApplicationTest {
 
 	@Inject
 	UserRepository repository;
@@ -58,71 +57,17 @@ public class UserRepositoryTest extends ApplicationTest {
 		
 		repository.add(bill);
 		
+		bill = repository.lookup(bill.id());
+		
 		User changeset = modifyUser(bill).can(doit).is(role).build();
 		
 		update(bill,changeset);
 		
-		User billAsRetrieved = repository.lookup(bill.id());
+		bill = repository.lookup(bill.id());
 		
-		assertTrue(billAsRetrieved.can(doit));
-		assertTrue(billAsRetrieved.is(role));
+		assertTrue(bill.can(doit));
+		assertTrue(bill.is(role));
 	}
-	
-	@Test
-	public void getAllUsers() {
-		
-		User bill = bill();
-		
-		repository.add(bill);
-		
-		Iterable<User> users = repository.get(allUsers());
-		
-		assertEquals(bill,users.iterator().next());
-	}
-	
-	@Test
-	public void getUsersByRole() {
-		
-		Role role = aRole().buildAsRoleFor(codelists);
-		User bill = aUser("bill").is(role.on("1")).build();
-		User joe = aUser("joe").is(role.on("2")).build();
-		User zoe = aUser("zoe").is(role).build();
-		
-		repository.add(bill);
-		repository.add(joe);
-		repository.add(zoe);
-		
-		
-		Iterable<User> users = repository.get(usersWithRoleOn("1",codelists));
-		
-		assertEqualSets(collect(users),bill,zoe);
-		
-		users = repository.get(teamFor("1"));
-		
-		assertEqualSets(collect(users),bill);
-		
-	}
-	
-	
-	@Test
-	public void sortUsers() {
-		
-		User bill = aUser("bill").build();
-		User joe = aUser("joe").build();
-		User zoe = aUser("zoe").build();
-	
-		repository.add(joe);
-		repository.add(zoe);
-		repository.add(bill);
-		
-		
-		Iterable<User> users = repository.get(allUsers().sort(byName()));
-		
-		assertEqualSets(collect(users),bill,joe,zoe);
-		
-	}
-	
-	
 	
 	//helper
 	
@@ -135,12 +80,6 @@ public class UserRepositoryTest extends ApplicationTest {
 		
 		return user().name(name).noMail().fullName(name);
 	}
-	
-	private UserGrammar.ThirdClause aRole() {
-		
-		return user().name("role").noMail().fullName("role");
-	}
-	
 	
 	private void update(User bill, User changeset) {
 		

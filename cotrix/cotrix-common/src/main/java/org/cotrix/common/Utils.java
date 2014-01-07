@@ -286,7 +286,7 @@ public class Utils {
 	 * 
 	 * @throws AssertionError if the distinct elements of the collection differ from the given ones.
 	 */
-	public static void assertEqualSets(Collection<?> c1, Object ... ts) {
+	public static void assertEqualUnordered(Collection<?> c1, Object ... ts) {
 		
 		HashSet<?> s1 = new HashSet<Object>(c1);
 		HashSet<?> s2 = new HashSet<Object>(Arrays.asList(ts));
@@ -296,7 +296,7 @@ public class Utils {
 	}
 	
 	
-	public static void assertEqual(Collection<?> c1, Object ... ts) {
+	public static void assertEqualOrdered(Collection<?> c1, Object ... ts) {
 		
 		Collection<?> s1 = new ArrayList<Object>(c1);
 		Collection<?> s2 = Arrays.asList(ts);
