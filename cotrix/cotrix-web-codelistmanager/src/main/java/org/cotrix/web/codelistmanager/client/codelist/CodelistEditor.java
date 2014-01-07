@@ -24,12 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.cotrix.web.codelistmanager.client.codelist.attribute.AttributesGroupsProvider;
+import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent;
-import org.cotrix.web.codelistmanager.client.codelist.event.GroupsChangedEvent.GroupsChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.codelistmanager.client.data.CodeAttribute;
 import org.cotrix.web.codelistmanager.client.data.DataEditor;
@@ -39,6 +37,7 @@ import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.Group;
 import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
+import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.FeatureToggler;
 import org.cotrix.web.share.client.resources.CommonResources;
@@ -150,7 +149,10 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	protected StyledSafeHtmlRenderer systemAttributeCell = new StyledSafeHtmlRenderer(CotrixManagerResources.INSTANCE.css().systemProperty());
 
 	@Inject
-	protected AttributesGroupsProvider attributesGroupsProvider;
+	protected ManagerServiceAsync managerService;
+	
+	@Inject @CodelistId
+	protected String codelistId;
 	
 	@Inject
 	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider) {
@@ -209,7 +211,15 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	public void showAllAttributesAsColumn()
 	{
-		attributesGroupsProvider.loadGroups();
+		dataGrid.showLoader();
+		managerService.getAttributesGroups(codelistId, new ManagedFailureCallback<Set<Group>>() {
+
+			@Override
+			public void onSuccess(Set<Group> groups) {
+				setGroups(groups);
+				dataGrid.hideLoader();
+			}
+		});
 	}
 
 	public void showAllAttributesAsNormal()
@@ -304,16 +314,6 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 					case MINUS: removeSelectedCode(); break;
 					case PLUS: addCode(); break;
 				}
-			}
-		});
-		
-		attributesGroupsProvider.addGroupsChangedHandler(new GroupsChangedHandler() {
-			
-			@Override
-			public void onGroupsChanged(GroupsChangedEvent event) {
-				Set<Group> groups = event.getGroups();
-				Log.trace("onAttributeSetChanged groups: "+groups);
-				setGroups(groups);
 			}
 		});
 	}

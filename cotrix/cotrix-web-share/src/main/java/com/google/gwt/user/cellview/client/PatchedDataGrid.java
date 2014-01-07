@@ -1046,4 +1046,12 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		tableData.hideUnusedColumns(columnCount);
 		tableFooter.hideUnusedColumns(columnCount);
 	}
+	
+	public void showLoader() {
+		tableDataScroller.setWidget(loadingIndicatorContainer);
+	}
+	
+	public void hideLoader() {
+		tableDataScroller.setWidget(tableData);
+	}
 }
