@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.Container;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
 import org.cotrix.web.share.shared.codelist.LifecycleState;
+import org.cotrix.web.share.shared.codelist.UICode;
 import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
@@ -113,6 +115,18 @@ public class Codelists {
 		uiattribute.setValue(ValueUtils.safeValue(attribute.value()));
 		uiattribute.setId(ValueUtils.safeValue(attribute.id()));
 		return uiattribute;
+	}
+	
+	public static UICode toUiCode(Code code) {
+		if (code == null) return null;
+		
+		UICode uicode = new UICode();
+		uicode.setId(code.id());
+		uicode.setName(ValueUtils.safeValue(code.name()));
+
+		List<UIAttribute> attributes = Codelists.toUIAttributes(code.attributes());
+		uicode.setAttributes(attributes);
+		return uicode;
 	}
 
 

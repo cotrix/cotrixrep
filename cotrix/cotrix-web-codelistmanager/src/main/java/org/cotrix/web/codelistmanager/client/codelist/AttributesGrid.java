@@ -32,6 +32,7 @@ import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.client.util.Attributes;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.util.EventUtil;
+import org.cotrix.web.share.client.util.ValueUtils;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.StyledSafeHtmlRenderer;
@@ -208,9 +209,9 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 				public String getValue(UIAttribute attribute) {
 					if (attribute == null) return "";
 					switch (field) {
-						case NAME: return attribute.getName().getLocalPart();
+						case NAME: return ValueUtils.getValue(attribute.getName());
 						case LANGUAGE: return attribute.getLanguage();
-						case TYPE: return attribute.getType().getLocalPart();
+						case TYPE: return ValueUtils.getValue(attribute.getType());
 						case VALUE: return attribute.getValue();
 						default: return "";
 					}
@@ -313,9 +314,9 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 			UIAttribute attribute = rowValue;
 
 
-			addRow(body, "Name", attribute.getName().getLocalPart(), absRowIndex, rowValue, AttributeField.NAME);
+			addRow(body, "Name", ValueUtils.getValue(attribute.getName()), absRowIndex, rowValue, AttributeField.NAME);
 
-			addRow(body, "Type", attribute.getType().getLocalPart(), absRowIndex, rowValue, AttributeField.TYPE);
+			addRow(body, "Type", ValueUtils.getValue(attribute.getType()), absRowIndex, rowValue, AttributeField.TYPE);
 
 			addRow(body, "Language", attribute.getLanguage(), absRowIndex, rowValue, AttributeField.LANGUAGE);
 

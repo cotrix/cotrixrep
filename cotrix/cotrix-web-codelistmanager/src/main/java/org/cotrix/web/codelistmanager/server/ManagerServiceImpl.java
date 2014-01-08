@@ -43,7 +43,6 @@ import org.cotrix.web.share.server.task.Id;
 import org.cotrix.web.share.server.util.Codelists;
 import org.cotrix.web.share.server.util.ValueUtils;
 import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.exception.ServiceException;
@@ -153,19 +152,13 @@ public class ManagerServiceImpl implements ManagerService {
 		}
 		
 		Iterable<Code> codes  = repository.get(query);
-		List<UICode> rows = new ArrayList<UICode>(range.getLength());
+		List<UICode> uiCodes = new ArrayList<UICode>(range.getLength());
 		for (Code code:codes) {
-
-			UICode uicode = new UICode();
-			uicode.setId(code.id());
-			uicode.setName(ValueUtils.safeValue(code.name()));
-
-			List<UIAttribute> attributes = Codelists.toUIAttributes(code.attributes());
-			uicode.setAttributes(attributes);
-			rows.add(uicode);
+			UICode uicode = Codelists.toUiCode(code);
+			uiCodes.add(uicode);
 		}
-		logger.trace("retrieved {} rows", rows.size());
-		return new DataWindow<UICode>(rows, codelist.codes().size());
+		logger.trace("retrieved {} rows", uiCodes.size());
+		return new DataWindow<UICode>(uiCodes, codelist.codes().size());
 	}
 	
 	@Override

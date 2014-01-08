@@ -24,6 +24,7 @@ import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.CodeUpdatedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
@@ -191,7 +192,6 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			}
 		});
 
-
 		editorBus.addHandler(DataEditEvent.getType(UICode.class), new DataEditHandler<UICode>() {
 
 			@Override
@@ -204,6 +204,14 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 					}
 
 				}
+			}
+		});
+		
+		editorBus.addHandler(CodeUpdatedEvent.TYPE, new CodeUpdatedEvent.CodeUpdatedHandler() {
+			
+			@Override
+			public void onCodeUpdated(CodeUpdatedEvent event) {
+				updateVisualizedCode(event.getCode());
 			}
 		});
 		

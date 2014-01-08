@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.CodeUpdatedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
@@ -33,6 +34,7 @@ import org.cotrix.web.codelistmanager.client.data.CodeAttribute;
 import org.cotrix.web.codelistmanager.client.data.DataEditor;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
+import org.cotrix.web.codelistmanager.client.data.event.EditType;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.shared.Group;
@@ -42,6 +44,7 @@ import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.FeatureToggler;
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.resources.CotrixSimplePager;
+import org.cotrix.web.share.client.util.ValueUtils;
 import org.cotrix.web.share.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.ItemToolbar;
@@ -291,9 +294,15 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 			@Override
 			public void onDataEdit(DataEditEvent<UICode> event) {
 				Log.trace("onDataEdit row: "+event.getData());
-				int index = dataGrid.getVisibleItems().indexOf(event.getData());
-				Log.trace("index: "+index);
-				if (index>=0) dataGrid.redrawRow(index);
+				if (event.getEditType()!=EditType.REMOVE) refreshCode(event.getData());
+			}
+		});
+		
+		editorBus.addHandler(CodeUpdatedEvent.TYPE, new CodeUpdatedEvent.CodeUpdatedHandler() {
+			
+			@Override
+			public void onCodeUpdated(CodeUpdatedEvent event) {
+				refreshCode(event.getCode());
 			}
 		});
 
@@ -301,7 +310,6 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 			@Override
 			public void onDataEdit(DataEditEvent<CodeAttribute> event) {
-				//dataProvider.refresh();
 				refreshCode(event.getData().getCode());
 			}
 		});
@@ -312,7 +320,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 			public void onButtonClicked(ButtonClickedEvent event) {
 				switch (event.getButton()) {
 					case MINUS: removeSelectedCode(); break;
-					case PLUS: addCode(); break;
+					case PLUS: addNewCode(); break;
 				}
 			}
 		});
@@ -321,28 +329,34 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	protected void refreshCode(UICode code)
 	{
 		Log.trace("refreshCode code: "+code);
-		int row = dataProvider.getCache().indexOf(code);
-		Log.trace("row: "+row);
-		if (row>=0) dataGrid.redrawRow(row);
+		int providerIndex = dataProvider.getCache().indexOf(code);
+		Log.trace("providerIndex: "+providerIndex+" pageStart: "+dataGrid.getPageStart());
+		int absoluteIndex = dataProvider.getCache().indexOf(code) + dataGrid.getPageStart();
+		Log.trace("absoluteIndex: "+absoluteIndex);
+		if (absoluteIndex>=0) dataGrid.redrawRow(absoluteIndex);
 	}
 
 	protected void removeSelectedCode()
 	{
+		Log.trace("removeSelectedCode");
 		UICode code = selectionModel.getSelectedObject();
+		Log.trace("selected code: "+code);
 		if (code!=null) {
-			dataProvider.remove(code);/* getCache().remove(code);
-			dataProvider.refresh();*/
+			dataProvider.remove(code);
 			codeEditor.removed(code);
 		}
 	}
 
-	protected void addCode()
+	protected void addNewCode()
 	{
+		Log.trace("addNewCode");
 		UICode code = CodeFactory.createCode();
-		dataProvider.getCache().add(0, code);
-		dataProvider.refresh();
+		dataProvider.add(0, code);
+		Log.trace("adding code to dataprovider, index 0");
 		selectionModel.setSelected(code, true);
+		Log.trace("setting code selected");
 		codeEditor.added(code);
+		Log.trace("code added to editor");
 	}
 
 	protected Column<UICode, String> getGroupColumn(final Group group)
@@ -440,7 +454,8 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 		@Override
 		public String getValue(UICode object) {
-			return object.getName().getLocalPart();
+			if (object == null) return null;
+			return ValueUtils.getValue(object.getName());
 		}
 	}
 	
@@ -565,7 +580,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		
 		@Override
 		public SafeHtml render(Group value) {
-			SafeHtml name = SafeHtmlUtils.fromString(value.getName().getLocalPart());
+			SafeHtml name = SafeHtmlUtils.fromString(ValueUtils.getValue(value.getName()));
 			SafeUri img = CotrixManagerResources.INSTANCE.closeSmall().getSafeUri();
 			String imgStyle = resource.dataGridStyle().closeGroup();
 			if (value.getLanguage()!=null && !value.getLanguage().isEmpty()) {

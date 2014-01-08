@@ -8,8 +8,6 @@ import java.util.Queue;
 
 import org.cotrix.web.codelistmanager.client.ManagerServiceAsync;
 import org.cotrix.web.codelistmanager.client.codelist.CodelistId;
-import org.cotrix.web.codelistmanager.shared.modify.ContainsIdentifiable;
-import org.cotrix.web.codelistmanager.shared.modify.GeneratedId;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 
@@ -39,7 +37,7 @@ public class ModifyCommandSequencer {
 	protected int taskAttempts = 0;
 	protected boolean processing = false;
 	
-	public void enqueueCommand(ModifyCommand command, Callback<Void, Throwable> callback)
+	public void enqueueCommand(ModifyCommand command, Callback<ModifyCommandResult, Throwable> callback)
 	{
 		Task task = new Task(command, callback);
 		tasks.add(task);
@@ -100,15 +98,7 @@ public class ModifyCommandSequencer {
 	protected void commandSuccessfullyExecuted(Task task, ModifyCommandResult result)
 	{
 		Log.trace("commandSuccessfullyExecuted result: "+result);
-		
-		if (task.getCommand() instanceof ContainsIdentifiable && result instanceof GeneratedId) {
-			Log.trace("setting id in identifiable object");
-			ContainsIdentifiable containsIdentifiable = (ContainsIdentifiable) task.getCommand();
-			GeneratedId generatedId = (GeneratedId) result;
-			containsIdentifiable.getIdentifiable().setId(generatedId.getId());
-		}
-		
-		task.getCallback().onSuccess(null);
+		task.getCallback().onSuccess(result);
 		executeNext();
 	}
 	
@@ -125,13 +115,13 @@ public class ModifyCommandSequencer {
 	
 	protected class Task {
 		protected ModifyCommand command;
-		protected Callback<Void, Throwable> callback;
+		protected Callback<ModifyCommandResult, Throwable> callback;
 		
 		/**
 		 * @param command
 		 * @param callback
 		 */
-		public Task(ModifyCommand command, Callback<Void, Throwable> callback) {
+		public Task(ModifyCommand command, Callback<ModifyCommandResult, Throwable> callback) {
 			this.command = command;
 			this.callback = callback;
 		}
@@ -146,7 +136,7 @@ public class ModifyCommandSequencer {
 		/**
 		 * @return the callback
 		 */
-		public Callback<Void, Throwable> getCallback() {
+		public Callback<ModifyCommandResult, Throwable> getCallback() {
 			return callback;
 		}
 		

@@ -39,5 +39,15 @@ public class Attributes {
 	public static void sortByAttributeType(List<UIAttribute> attributes) {
 		Collections.sort(attributes, comparator);
 	}
+	
+	public static void mergeSystemAttributes(List<UIAttribute> destination, List<UIAttribute> source) {
+		for (UIAttribute sourceAttribute:source) {
+			if (Attributes.isSystemAttribute(sourceAttribute)) {
+				int index = destination.indexOf(sourceAttribute);
+				if (index >= 0) destination.set(index, sourceAttribute);
+				else destination.add(sourceAttribute);
+			}
+		}
+	}
 
 }
