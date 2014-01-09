@@ -31,7 +31,7 @@ public class Roles {
 	public static Role REVIEWER = user().name("reviewer").noMail().fullName("Reviewer Role").is(USER,EDITOR).can(LOCK,UNLOCK).buildAsRoleFor(codelists);
 
 	// a user that can review codelists.
-	public static Role PUBLISHER = user().name("publisher").noMail().fullName("Publisher Role").is(USER).can(CodelistAction.PUBLISH).buildAsRoleFor(codelists);
+	public static Role PUBLISHER = user().name("publisher").noMail().fullName("Publisher Role").is(USER).can(CodelistAction.PUBLISH, MainAction.PUBLISH).buildAsRoleFor(codelists);
 
 	// a user that has all the permissions and roles on given codelists.
 	public static Role OWNER = user().name("owner").noMail().fullName("Owner Role").is(USER, EDITOR, REVIEWER,PUBLISHER).can(CodelistAction.values()).buildAsRoleFor(codelists);
