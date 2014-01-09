@@ -111,6 +111,7 @@ public class ManagerServiceImpl implements ManagerService {
 		Iterator<org.cotrix.domain.codelist.Codelist> it = repository.get(allLists()).iterator();
 		while (it.hasNext()) {
 			org.cotrix.domain.codelist.Codelist codelist = (org.cotrix.domain.codelist.Codelist) it.next();
+			logger.trace("codelist {}", codelist);
 
 			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {
