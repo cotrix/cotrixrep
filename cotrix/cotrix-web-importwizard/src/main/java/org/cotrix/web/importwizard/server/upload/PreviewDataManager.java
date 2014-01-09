@@ -4,15 +4,17 @@
 package org.cotrix.web.importwizard.server.upload;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
+import org.apache.commons.fileupload.FileItem;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.util.ParsingHelper;
 import org.cotrix.web.share.shared.CsvConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.virtualrepository.tabular.Table;
 
 /**
@@ -27,29 +29,37 @@ public class PreviewDataManager implements Serializable {
 	 */
 	private static final long serialVersionUID = -7002044840644562951L;
 	
+	protected transient Logger logger = LoggerFactory.getLogger(PreviewDataManager.class);
+	
 	@Inject
 	transient protected CsvParserConfigurationGuesser configurationGuesser;
 
 	@Inject
 	transient protected ParsingHelper parsingHelper;
+	
 	@Inject
 	transient protected MappingGuesser mappingsGuesser;
+	
 	@Inject
 	transient protected MappingsManager mappingsManager;
 
 	protected CsvConfiguration parserConfiguration;
-	protected InputStream inputStream;
+	protected FileItem fileItem;
 
 	protected PreviewData previewData;
 
-	public void setup(String fileName, InputStream inputStream) throws IOException {
-		this.parserConfiguration = configurationGuesser.guessConfiguration(fileName, inputStream);
-		this.inputStream = inputStream;
+	public void setup(String fileName, FileItem fileItem) throws IOException {
+		this.fileItem = fileItem;
+		this.parserConfiguration = configurationGuesser.guessConfiguration(fileName, fileItem.getInputStream());
 		buildPreviewData();
 	}
 
 	public void refresh(CsvConfiguration parserConfiguration) {
-		if (this.parserConfiguration.equals(parserConfiguration)) return;
+		logger.trace("refresh parserConfiguration {}", parserConfiguration);
+		if (this.parserConfiguration.equals(parserConfiguration)) {
+			logger.trace("generation not necessary, the CSV parser configuration is the same as before");
+			return;
+		}
 		this.parserConfiguration = parserConfiguration;
 		buildPreviewData();
 	}
@@ -69,8 +79,15 @@ public class PreviewDataManager implements Serializable {
 	}
 
 	protected void buildPreviewData() {
-		Table table = parsingHelper.parse(parserConfiguration, inputStream);
-		previewData = parsingHelper.convert(table, !parserConfiguration.isHasHeader(), ParsingHelper.ROW_LIMIT);
-		mappingsManager.updateMappings(table);
+		logger.trace("buildPreviewData");
+		try {
+			Table table = parsingHelper.parse(parserConfiguration, fileItem.getInputStream());
+			
+			previewData = parsingHelper.convert(table, !parserConfiguration.isHasHeader(), ParsingHelper.ROW_LIMIT);
+			mappingsManager.updateMappings(table);
+		} catch(Exception e) {
+			logger.error("Failed building CSV preview", e);
+			throw new RuntimeException("Failed CSV preview generation", e);
+		}
 	}
 }

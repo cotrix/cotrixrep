@@ -133,7 +133,7 @@ public class FileUpload extends HttpServlet{
 			switch (codeListType) {
 				case CSV: {
 
-					previewDataManager.setup(fileField.getName(), fileField.getInputStream());
+					previewDataManager.setup(fileField.getName(), fileField);
 					uploadProgress.setProgress(95);
 
 					String filename = FileNameUtil.toHumanReadable(fileField.getName());

@@ -178,7 +178,8 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 
 	@Override
 	public PreviewData getCsvPreviewData(CsvConfiguration configuration) throws ServiceException {
-
+		logger.trace("getCsvPreviewData configuration: {}", configuration);
+		
 		try {
 			if (session.getCodeListType()!=CodeListType.CSV) {
 				logger.error("Requested CSV preview data when CodeList type is {}", session.getCodeListType());
