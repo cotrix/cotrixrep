@@ -6,6 +6,7 @@ import org.cotrix.web.share.client.CotrixModuleController;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.web.bindery.event.shared.EventBus;
 
 
 /**
@@ -17,6 +18,9 @@ public class CotrixPermissionManagerController implements CotrixModuleController
 
 	@Inject
 	protected PermissionManagerPanel permissionManagerPanel;
+	
+	@Inject @PermissionBus
+	protected EventBus permissionBus;
 	
 	@Override
 	public CotrixModule getModule() {
@@ -30,7 +34,7 @@ public class CotrixPermissionManagerController implements CotrixModuleController
 
 	@Override
 	public void activate() {
-		
+		permissionBus.fireEvent(new ModuleActivactedEvent());
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.cotrix.web.permissionmanager.client.ModuleActivactedEvent;
 import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
 import org.cotrix.web.permissionmanager.client.codelists.AddUserDialog.AddUserEvent;
@@ -176,6 +177,11 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	protected void onCodelistSelected(CodelistSelectedEvent event) {
 		Log.trace("onCodelistSelected "+event.getCodelist());
 		showMatrix(event.getCodelist());
+	}
+	
+	@EventHandler
+	protected void onModuleActivacted(ModuleActivactedEvent event) {
+		codelistsTreePanel.refresh();
 	}
 
 	protected void showMatrix(CodelistVersion codelist) {
