@@ -175,6 +175,24 @@ public class ColumnDirectives {
 		this.language = language;
 		return this;
 	}
-	
-	
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ColumnDirectives [column=");
+		builder.append(column);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", type=");
+		builder.append(type);
+		builder.append(", language=");
+		builder.append(language);
+		builder.append(", mode=");
+		builder.append(mode);
+		builder.append("]");
+		return builder.toString();
+	}
 }
