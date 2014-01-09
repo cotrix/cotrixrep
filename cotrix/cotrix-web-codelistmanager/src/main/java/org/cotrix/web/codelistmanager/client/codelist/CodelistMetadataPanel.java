@@ -8,11 +8,15 @@ import org.cotrix.web.codelistmanager.client.data.MetadataProvider;
 import org.cotrix.web.codelistmanager.client.resources.CotrixManagerResources;
 import org.cotrix.web.codelistmanager.client.util.Attributes;
 import org.cotrix.web.codelistmanager.client.util.Constants;
+import org.cotrix.web.codelistmanager.shared.ManagerUIFeature;
+import org.cotrix.web.share.client.feature.FeatureBinder;
+import org.cotrix.web.share.client.feature.FeatureToggler;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.client.widgets.ItemToolbar;
 import org.cotrix.web.share.client.widgets.LoadingPanel;
 import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.share.client.widgets.ItemToolbar.ButtonClickedHandler;
+import org.cotrix.web.share.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 
@@ -72,7 +76,6 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 		setupColumns();
 		
 		add(uiBinder.createAndBindUi(this));
-		bind();
 	}
 	
 	private void setupColumns() {
@@ -88,9 +91,27 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 		attributesGrid.setColumnWidth(0, 15, Unit.PX);
 
 	}
-
-	protected void bind()
+	
+	@Inject
+	protected void bind(@CodelistId String codelistId)
 	{
+		
+		FeatureBinder.bind(new FeatureToggler() {
+			
+			@Override
+			public void toggleFeature(boolean active) {
+				toolBar.setVisible(ItemButton.PLUS, active);
+			}
+		}, codelistId, ManagerUIFeature.EDIT_METADATA);
+		
+		FeatureBinder.bind(new FeatureToggler() {
+			
+			@Override
+			public void toggleFeature(boolean active) {
+				toolBar.setVisible(ItemButton.MINUS, active);
+			}
+		}, codelistId, ManagerUIFeature.EDIT_METADATA);
+		
 		attributesGrid.addAttributeChangedHandler(new AttributeChangedHandler() {
 
 			@Override

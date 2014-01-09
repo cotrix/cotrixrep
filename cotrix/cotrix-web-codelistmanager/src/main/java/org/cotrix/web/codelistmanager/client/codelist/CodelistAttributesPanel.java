@@ -146,7 +146,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			public void toggleFeature(boolean active) {
 				toolBar.setVisible(ItemButton.PLUS, active);
 			}
-		}, codelistId, ManagerUIFeature.ADD_CODE);
+		}, codelistId, ManagerUIFeature.EDIT_CODELIST);
 		
 		FeatureBinder.bind(new FeatureToggler() {
 			
@@ -154,7 +154,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			public void toggleFeature(boolean active) {
 				toolBar.setVisible(ItemButton.MINUS, active);
 			}
-		}, codelistId, ManagerUIFeature.REMOVE_CODE);
+		}, codelistId, ManagerUIFeature.EDIT_CODELIST);
 		
 		editorBus.addHandler(CodeSelectedEvent.TYPE, new CodeSelectedEvent.CodeSelectedHandler() {
 
