@@ -77,6 +77,7 @@ public class DefaultRole implements Role {
 
 	@Override
 	public Collection<Role> roles() {
+		
 		Collection<Role> roles = new HashSet<Role>();
 		
 		//specialise inherited roles of same type to bound resource
@@ -90,13 +91,24 @@ public class DefaultRole implements Role {
 	}
 
 	@Override
-	public boolean is(Role role) {
+	public boolean is(Role role) {  //does this role imply another?
 		
 		notNull("role", role);
 		
-		for (Role myrole : roles())
-			if (myrole.equals(role) || myrole.is(role) || myrole.equals(role.on(any)))
-					return true;
+		//equivalent to: is the other role implied by the closure of this one?
+		return role.isIn(roles());
+	}
+	
+	@Override
+	public boolean isIn(Collection<Role> roles) { //is this role _implied by_ another? 
+		
+		notNull("roles", roles);
+		
+		for (Role r : roles) 
+			if (r.equals(this) || //is it a match? 
+					r.equals(this.on(any)) || //maybe it's resource specific and is template is a match?
+					r.is(this)) //maybe is more general?
+				return true;
 
 		return false;
 	}

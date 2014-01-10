@@ -53,6 +53,15 @@ public interface Role {
 	 * @return <code>true</code> if this role is a specialisation of the given role
 	 */
 	boolean is(Role role);
+	
+	
+	/**
+	 * Returns <code>true</code> if this role is a specialisation of one of a set of other roles.
+	 * 
+	 * @param role the role
+	 * @return <code>true</code> if this role is a specialisation of the given role
+	 */
+	boolean isIn(Collection<Role> roles);
 
 	/**
 	 * Returns the permissions directly or indirectly assigned to this role.

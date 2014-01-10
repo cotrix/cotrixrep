@@ -3,6 +3,7 @@ package org.cotrix.domain.memory;
 import static org.cotrix.common.Utils.*;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -18,8 +19,8 @@ public class UserMS extends IdentifiedMS implements User.State {
 	private String fullName;
 	private String email;
 	
-	private final Set<Action> permissions = new LinkedHashSet<Action>();
-	private final Set<Role> roles = new LinkedHashSet<Role>();
+	private Set<Action> permissions = new LinkedHashSet<Action>();
+	private Set<Role> roles = new LinkedHashSet<Role>();
 	
 	public UserMS() {
 	}
@@ -59,7 +60,7 @@ public class UserMS extends IdentifiedMS implements User.State {
 
 		notNull("permissions",permissions);
 	
-		this.permissions.addAll(permissions);
+		this.permissions = new HashSet<>(permissions);
 	}
 	
 	public Collection<Action> permissions() {
@@ -87,6 +88,8 @@ public class UserMS extends IdentifiedMS implements User.State {
 	public void roles(Collection<Role> roles) {
 		
 		notNull("roles",roles);
+		
+		this.roles.clear();
 		
 		for (Role role : roles)
 			add(role);

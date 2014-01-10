@@ -1,6 +1,5 @@
 package org.cotrix.domain.user;
 
-import static org.cotrix.action.Action.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Roles.*;
 
@@ -10,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.cotrix.action.Action;
@@ -154,13 +154,8 @@ public interface User extends Identified {
 			
 			super(state);
 			
-			//normalise roles
-			
-			Collection<Role> unprocessed = state().roles();
-			
-			state().roles(new HashSet<Role>());
-			
-			add(unprocessed);
+			//normalise roles provided by user (may well not be)
+			set(state().roles());
 			
 		
 		}
@@ -180,32 +175,32 @@ public interface User extends Identified {
 			return state().email();
 		}
 
-		private void add(Collection<Role> roles) {
-
-			for (Role role : roles)
-				add(role);
-
-		}
 		
-		private void add(Role role) {
+		
+		private void set(Collection<Role> roles) {
 
-			// return roles we already have, directly or indirectly
-			if (this.is(role)) 
-				return;
-
-			//return roles we should no longer have
-			Collection<Role> roles = state().roles();
-			Iterator<Role> it = roles.iterator();
-			while (it.hasNext())
-				if (role.is(it.next()))
-					it.remove();
-
-			roles.add(role);
+			Collection<Role> newRoles = new LinkedHashSet<Role>();
 			
-			state().roles(roles);
+			for (Role role : roles) {
+				
+				//ignore the role if we already have it, directly or indirectly
+				if (role.isIn(newRoles)) 
+					continue;
+
+				//remove roles we should no longer directly have because this role brings them indirectly 
+				Iterator<Role> it = newRoles.iterator();
+				while (it.hasNext())
+					if (role.is(it.next()))
+						it.remove();
+				
+				newRoles.add(role);
+
+			}
+			
+			//set processing outcome
+			state().roles(newRoles);
+
 		}
-		
-		
 		
 		@Override
 		public Collection<Role> roles() {
@@ -233,11 +228,7 @@ public interface User extends Identified {
 
 			notNull("role", role);
 
-			for (Role myrole : state().roles())
-				if (myrole.equals(role) || myrole.equals(role.on(any)) || myrole.is(role))
-					return true;
-
-			return false;
+			return role.isIn(state().roles());
 		}
 
 		@Override
@@ -294,13 +285,11 @@ public interface User extends Identified {
 			if (changeset.email() != null && !changeset.email().equals(email()))
 				state().email(changeset.email());
 
-			// replace permissions
-			state().permissions().clear();
+			//replace permissions
 			state().permissions(changeset.directPermissions());
 
-			// replace roles
-			state().roles().clear();
-			add(changeset.directRoles());
+			//replace roles
+			set(changeset.directRoles());
 		}
 
 		public FingerPrint fingerprint() {
