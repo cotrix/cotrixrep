@@ -6,6 +6,8 @@
 		<artifactId>cotrix</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+
+
 	<artifactId>cotrix-io</artifactId>
 
 
@@ -16,7 +18,7 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-common</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-domain</artifactId>
@@ -37,29 +39,6 @@
 			<scope>compile</scope>
 		</dependency>
 
-
-		<dependency>
-			<groupId>org.virtualrepository</groupId>
-			<artifactId>virtual-sdmx-registry</artifactId>
-			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.virtualrepository</groupId>
-			<artifactId>virtual-semantic-repository</artifactId>
-			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.virtualrepository</groupId>
-			<artifactId>virtual-rtms</artifactId>
-			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-test-common</artifactId>
@@ -68,41 +47,29 @@
 		<!-- ####################################################### -->
 
 
+		<!-- enable for integration testing -->
+<!-- 		<dependency>
+			<groupId>org.virtualrepository</groupId>
+			<artifactId>virtual-sdmx-registry</artifactId>
+			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.virtualrepository</groupId>
+			<artifactId>virtual-semantic-repository</artifactId>
+			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.virtualrepository</groupId>
+			<artifactId>virtual-rtms</artifactId>
+			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+			<scope>test</scope>
+		</dependency> -->
+
 	</dependencies>
 
-
-	<profiles>
-		<profile>
-			<activation>
-				<property>
-					<name>noplugins</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<id>vr-plugins</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.virtualrepository</groupId>
-					<artifactId>virtual-sdmx-registry</artifactId>
-					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>test</scope>
-				</dependency>
-
-				<dependency>
-					<groupId>org.virtualrepository</groupId>
-					<artifactId>virtual-semantic-repository</artifactId>
-					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>test</scope>
-				</dependency>
-
-				<dependency>
-					<groupId>org.virtualrepository</groupId>
-					<artifactId>virtual-rtms</artifactId>
-					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>test</scope>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
 
 </project>

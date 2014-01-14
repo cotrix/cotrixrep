@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Priority;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.cotrix.neo.repository.NeoQueryEngine;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
@@ -16,7 +17,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Alternative @Priority(TEST)
+@Alternative @Singleton @Priority(TEST)
 public class TestNeoEngine implements NeoQueryEngine {
 
 	private static Logger log = LoggerFactory.getLogger(TestNeoEngine.class);

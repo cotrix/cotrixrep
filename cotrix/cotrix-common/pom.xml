@@ -9,6 +9,7 @@
 	<artifactId>cotrix-common</artifactId>
 
 	<dependencies>
+		
 		<dependency>
 			<groupId>com.googlecode.jeeunit</groupId>
 			<artifactId>jeeunit-weld-se</artifactId>
@@ -19,14 +20,14 @@
 				</exclusion>
 			</exclusions>
 			<version>1.0.0</version>
-			<scope>compile</scope>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.weld.se</groupId>
 			<artifactId>weld-se</artifactId>
 			<version>${weld.version}</version>
-			<scope>compile</scope>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

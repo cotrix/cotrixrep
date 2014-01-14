@@ -3,9 +3,7 @@ package org.cotrix.test;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.ApplicationEvents;
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
+import org.cotrix.common.cdi.ApplicationLifecycle;
 import org.cotrix.common.tx.Transaction;
 import org.cotrix.common.tx.Transactions;
 import org.junit.After;
@@ -22,9 +20,17 @@ import com.googlecode.jeeunit.JeeunitRunner;
  */
 @RunWith(JeeunitRunner.class)
 public abstract class ApplicationTest {
+	
+	//supports test initialisation ahead of app initialisation
+	public static class Start {
+		public static Start INSTANCE = new Start();
+	}
 
 	@Inject
-	Event<ApplicationEvents.LifecycleEvent> events;
+	ApplicationLifecycle app;
+	
+	@Inject
+	Event<Start> test;
 	
 	@Inject
 	Transactions txs;
@@ -38,13 +44,21 @@ public abstract class ApplicationTest {
 	
 	@Before
 	public void startup() {
-		events.fire(Startup.INSTANCE);
+		
+		//notifies test has started
+		test.fire(Start.INSTANCE);
+		
+		//simulates app start
+		app.start();
+		
 		tx = txs.open();
 	}
 	
 	@After
 	public void shutdown() {
+		
 		tx.close();
-		events.fire(Shutdown.INSTANCE);
+		
+		app.stop();
 	}
 }

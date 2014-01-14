@@ -1,6 +1,6 @@
 package org.cotrix.neo.domain;
 
-import static org.cotrix.neo.NeoLifecycle.*;
+import static org.cotrix.neo.NeoNodeFactory.*;
 import static org.cotrix.neo.domain.Constants.*;
 
 import org.cotrix.domain.trait.Identified;

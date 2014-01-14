@@ -14,11 +14,10 @@ import javax.interceptor.InvocationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author "Federico De Faveri federico.defaveri@fao.org"
- * 
- */
-@Transactional @Priority(RUNTIME) @Interceptor
+
+@Interceptor 
+@Transactional  
+@Priority(RUNTIME)
 public class TransactionInterceptor {
 
 	protected Logger log = LoggerFactory.getLogger(TransactionInterceptor.class);
@@ -46,7 +45,14 @@ public class TransactionInterceptor {
 			)
 			
 			{
+				
+				long time = System.currentTimeMillis();
+				
+				log.trace("transaction for {}",ctx.getMethod());
+				
 				Object result = ctx.proceed();
+				
+				log.trace("transaction for {} complete in {} ms.",ctx.getMethod(),System.currentTimeMillis()-time);
 				
 				tx.commit();
 				

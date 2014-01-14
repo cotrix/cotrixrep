@@ -16,7 +16,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.common.Outcome;
-import org.cotrix.common.cdi.ApplicationEvents;
+import org.cotrix.common.cdi.ApplicationEvents.FirstTime;
+import org.cotrix.common.cdi.ApplicationEvents.Ready;
+import org.cotrix.common.tx.Transactional;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
@@ -112,9 +114,12 @@ public class CodelistLoader {
 	}
 
 
-	public void importAllCodelist(@Observes ApplicationEvents.Startup event)
+	@Transactional
+	public void importAllCodelist(@Observes @FirstTime Ready event)
 	{
+		
 		loadUsers();
+		
 		for (CodeListInfo codelist:CSV_CODELISTS) {
 			logger.trace("importing "+codelist);
 			boolean imported = importCSVCodelist(codelist);

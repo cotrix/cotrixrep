@@ -14,7 +14,9 @@ import org.cotrix.io.sdmx.serialise.Sdmx2XmlDirectives;
 import org.cotrix.io.tabular.csv.serialise.Table2CsvDirectives;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
 import org.cotrix.test.ApplicationTest;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.sdmx.SdmxServiceFactory;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Table;
 
@@ -27,6 +29,12 @@ public class ExportTest extends ApplicationTest {
 
 	@Inject
 	SerialisationService serialiser;
+	
+	@BeforeClass
+	public static void init() {
+		
+		SdmxServiceFactory.init();
+	}
 	
 	@Test
 	public void codelist2csv() {

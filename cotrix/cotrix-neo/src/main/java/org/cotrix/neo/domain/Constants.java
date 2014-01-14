@@ -1,12 +1,9 @@
 package org.cotrix.neo.domain;
 
-import org.cotrix.common.cdi.ApplicationEvents.NewStore;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.RelationshipType;
 
 public class Constants {
-	
-	public static final NewStore newstoreEvent = new NewStore(){};
 	
 	public static final String id_prop="id";
 	public static final String name_prop="name";

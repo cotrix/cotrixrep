@@ -189,6 +189,12 @@
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-neo</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
@@ -429,11 +435,9 @@
 		
 		<profile>
 
-			<id>full</id>
-
+			<id>dev</id>
 
 			<modules>
-				<module>cotrix-mail</module>
 				<module>cotrix-neo</module>
 			</modules>
 

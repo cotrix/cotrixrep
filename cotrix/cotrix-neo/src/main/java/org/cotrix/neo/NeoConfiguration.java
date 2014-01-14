@@ -18,6 +18,7 @@ import org.cotrix.configuration.utils.Attributes;
 @XmlRootElement(name = "neo")
 public class NeoConfiguration implements ConfigurationBean {
 
+	//produces the configuration of the store as fetched from configuration provider
 	@Produces @Singleton @Current
 	static NeoConfiguration produce(Provider<NeoConfiguration> provider) {
 		return provider.get();

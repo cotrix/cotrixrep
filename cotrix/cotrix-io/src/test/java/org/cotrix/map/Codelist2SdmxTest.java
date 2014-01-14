@@ -20,8 +20,10 @@ import org.cotrix.io.SerialisationService;
 import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
 import org.cotrix.io.sdmx.serialise.Sdmx2XmlDirectives;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.sdmx.SdmxServiceFactory;
 import org.sdmxsource.sdmx.api.constants.TERTIARY_BOOL;
 import org.sdmxsource.sdmx.api.model.beans.base.AnnotationBean;
 import org.sdmxsource.sdmx.api.model.beans.base.TextTypeWrapper;
@@ -44,6 +46,12 @@ public class Codelist2SdmxTest {
 	
 	@Inject
 	SerialisationService serialiser;
+	
+	@BeforeClass
+	public static void init() {
+		
+		SdmxServiceFactory.init();
+	}
 	
 	
 	Codelist list = codelist().name("cotrix-testlist").

@@ -235,9 +235,9 @@
 		<profile>
 
 			<id>demo</id>
-			
+
 			<dependencies>
-				
+
 				<dependency>
 					<groupId>org.cotrix</groupId>
 					<artifactId>cotrix-mail</artifactId>
@@ -246,7 +246,55 @@
 			</dependencies>
 
 		</profile>
-		
+
+
+		<profile>
+
+			<id>neo</id>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-neo</artifactId>
+				</dependency>
+
+			</dependencies>
+
+		</profile>
+
+
+		<profile>
+
+			<id>vr-cloud</id>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-sdmx-registry</artifactId>
+					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+					<scope>runtime</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-semantic-repository</artifactId>
+					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+					<scope>runtime</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-rtms</artifactId>
+					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+					<scope>runtime</scope>
+				</dependency>
+
+			</dependencies>
+
+		</profile>
+
 	</profiles>
-	
+
 </project>

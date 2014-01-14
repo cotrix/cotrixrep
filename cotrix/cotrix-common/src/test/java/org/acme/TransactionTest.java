@@ -3,9 +3,12 @@ package org.acme;
 import static org.mockito.Mockito.*;
 
 import javax.annotation.Priority;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.cotrix.common.Constants;
 import org.cotrix.common.tx.Transaction;
@@ -28,6 +31,9 @@ public class TransactionTest {
 	
 	@Inject
 	ClassAnnotatedBean cab;
+	
+	@Inject
+	Event<MyEvent> events;
 	
 	@After
 	public void resetMockAfterEachTest() {
@@ -73,4 +79,25 @@ public class TransactionTest {
 		
 	}
 	
+	
+	@Test
+	public void consumerInterception() {
+		
+		events.fire(new MyEvent());
+		
+		verify(tx).commit();
+		
+	}
+	
+	static class MyEvent {}
+	
+	
+	@Singleton
+	static class Consumer {
+	
+		@Transactional
+		public void consumer(@Observes MyEvent e) {
+			//System.out.println(this.getClass());
+		}
+	}
 }
