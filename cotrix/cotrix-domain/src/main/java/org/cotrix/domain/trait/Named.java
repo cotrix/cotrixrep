@@ -35,7 +35,7 @@ public interface Named {
 	
 	//private logic
 	
-	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State & Identified.State & Attributed.State> extends Attributed.Abstract<SELF,S> implements Named {
+	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State & Attributed.State> extends Attributed.Abstract<SELF,S> implements Named {
 		
 		
 		public Abstract(S state) {

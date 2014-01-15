@@ -17,27 +17,44 @@
 
 	<modules>
 		<module>cotrix-web</module>
+		
 		<module>cotrix-web-importwizard</module>
+		
 		<module>cotrix-web-codelistmanager</module>
+		
 		<module>cotrix-web-menu</module>
+		
 		<module>cotrix-web-share</module>
+		
 		<module>cotrix-web-publish</module>
 
 		<module>cotrix-common</module>
+		
 		<module>cotrix-repository</module>
+		
 		<module>cotrix-domain</module>
+		<module>cotrix-test-domain</module>
+		
 		<module>cotrix-io</module>
+		
 		<module>cotrix-lifecycle</module>
+		
 		<module>cotrix-engine</module>
+		
 		<module>cotrix-security</module>
+		
 		<module>cotrix-action</module>
 
 		<module>cotrix-application</module>
+
 		<module>cotrix-web-permissionmanager</module>
+
 		<module>cotrix-configuration</module>
 
 		<module>cotrix-test-common</module>
+
 		<module>cotrix-gcube</module>
+
 	</modules>
 
 	<repositories>
@@ -124,6 +141,14 @@
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-domain</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-test-domain</artifactId>
+				<version>${project.version}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
 			</dependency>
 
 			<dependency>
