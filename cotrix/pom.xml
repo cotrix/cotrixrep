@@ -37,6 +37,7 @@
 		<module>cotrix-configuration</module>
 
 		<module>cotrix-test-common</module>
+		<module>cotrix-gcube</module>
 	</modules>
 
 	<repositories>
@@ -236,6 +237,12 @@
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-transient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-gcube</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
