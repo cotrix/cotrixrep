@@ -442,7 +442,7 @@
 
 		<profile>
 
-			<id>dev</id>
+			<id>neo</id>
 
 			<modules>
 				<module>cotrix-neo</module>
