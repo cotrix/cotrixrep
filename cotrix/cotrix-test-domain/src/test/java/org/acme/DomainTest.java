@@ -33,7 +33,7 @@ public abstract class DomainTest extends ApplicationTest {
 		return provider.like(object);
 	}
 	
-	protected NamedStateContainer<Attribute.State> like(Attribute ... attributes) {
+	protected NamedStateContainer<Attribute.State> likes(Attribute ... attributes) {
 		
 		Collection<Attribute.State> states = new ArrayList<>();
 		
