@@ -12,7 +12,7 @@
 
 	<artifactId>cotrix-web-share</artifactId>
 	<packaging>jar</packaging>
-	<name>cotrix-web-share</name>
+	
 	<description>Shared code between web modules</description>
 
 	<dependencies>

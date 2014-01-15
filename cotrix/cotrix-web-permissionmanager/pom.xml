@@ -11,8 +11,7 @@
 
 	<artifactId>cotrix-web-permissionmanager</artifactId>
 	<packaging>jar</packaging>
-	<name>Permission Manager</name>
-
+	
 	<dependencies>
 
 		<dependency>

@@ -9,7 +9,7 @@
 		<groupId>org.cotrix</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>cotrix-web-codelistmanager</artifactId>
+	
 	<packaging>jar</packaging>
 	<name>cotrix-web-codelistmanager</name>
 

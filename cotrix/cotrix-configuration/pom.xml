@@ -8,8 +8,7 @@
 	</parent>
 
 	<artifactId>cotrix-configuration</artifactId>
-	<name>Cotrix configuration</name>
-
+	
 	<dependencies>
 	
 		<dependency>

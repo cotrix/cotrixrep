@@ -12,7 +12,7 @@
 
 	<artifactId>cotrix-web-importwizard</artifactId>
 	<packaging>jar</packaging>
-	<name>cotrix-web-importwizard</name>
+	
 	<description>Widget with the cotrix import wizard</description>
 
 	<dependencies>
