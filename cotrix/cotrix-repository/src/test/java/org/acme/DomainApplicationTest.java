@@ -7,7 +7,7 @@ import org.cotrix.test.ApplicationTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-public class DomainApplicationTest extends ApplicationTest {
+public abstract class DomainApplicationTest extends ApplicationTest {
 
 	@Inject
 	SubjectProvider provider;

@@ -85,6 +85,7 @@
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet-core</artifactId>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
