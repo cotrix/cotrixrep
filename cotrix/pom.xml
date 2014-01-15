@@ -189,7 +189,7 @@
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-neo</artifactId>
@@ -432,7 +432,7 @@
 
 
 		</profile>
-		
+
 		<profile>
 
 			<id>dev</id>
@@ -443,8 +443,8 @@
 
 
 		</profile>
-		
-		
+
+
 
 	</profiles>
 

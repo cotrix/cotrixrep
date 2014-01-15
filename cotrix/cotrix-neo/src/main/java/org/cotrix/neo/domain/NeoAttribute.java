@@ -53,23 +53,34 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 
 	@Override
 	public QName type() {
-		return QName.valueOf((String) node().getProperty(type_prop));
+		
+		String val = (String) node().getProperty(type_prop,null);
+		
+		return val==null? null:QName.valueOf(val);
 	}
 
 	@Override
 	public void type(QName type) {
-		node().setProperty(type_prop,type.toString());
+		
+		if (type==null)
+			node().removeProperty(type_prop);
+		else
+			node().setProperty(type_prop,type.toString());
 		
 	}
 
 	@Override
 	public String value() {
-		return (String) node().getProperty(value_prop);
+		return (String) node().getProperty(value_prop,null);
 	}
 
 	@Override
 	public void value(String value) {
-		node().setProperty(value_prop,value);
+		
+		if (value==null)
+			node().removeProperty(value_prop);
+		else
+			node().setProperty(value_prop,value);
 		
 	}
 
@@ -80,7 +91,10 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 
 	@Override
 	public void language(String language) {
-		if (language!=null)
+		
+		if (language==null)
+			node().removeProperty(lang_prop);
+		else
 			node().setProperty(lang_prop,language);
 		
 	}

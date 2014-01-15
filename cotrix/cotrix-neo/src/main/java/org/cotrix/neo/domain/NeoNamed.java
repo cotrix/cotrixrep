@@ -25,12 +25,20 @@ public class NeoNamed extends NeoAttributed implements Named.State {
 	
 	@Override
 	public QName name() {
-		return QName.valueOf((String) node().getProperty(name_prop));
+		
+		String val = (String) node().getProperty(name_prop,null);
+		
+		return val==null? null:QName.valueOf(val);
+		
 	}
 
 	@Override
 	public void name(QName name) {
-		node().setProperty(name_prop,name.toString());
+		
+		if (name==null)
+			node().removeProperty(name_prop);
+		else
+			node().setProperty(name_prop,name.toString());
 	}
 
 	
