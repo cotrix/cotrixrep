@@ -41,6 +41,8 @@ import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
+import org.cotrix.web.shared.UsernamePasswordToken;
+import org.cotrix.web.shared.LoginToken;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 import org.slf4j.Logger;
@@ -107,13 +109,13 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	}
 
 	@Override
-	public UIUser login(final String username, final String password, List<String> openCodelists) throws ServiceException {
-		logger.trace("login username: {}",username);
+	public UIUser login(LoginToken token, List<String> openCodelists) throws ServiceException {
+		logger.trace("login token: {} openCodelists: {}",token, openCodelists);
 
 		try {
-			return doLogin(LOGIN, username, password, openCodelists);
+			return doLogin(LOGIN, token, openCodelists);
 		} catch(Exception exception) {
-			logger.error("failed login for user "+username, exception);
+			logger.error("failed login for token "+token, exception);
 
 			UnknownUserException unknownUserException = ExceptionUtils.unfoldException(exception, UnknownUserException.class);
 			if (unknownUserException!=null) {
@@ -128,19 +130,18 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	public UIUser logout(List<String> openCodelists) {
 		logger.trace("logout");
 
-		return doLogin(LOGOUT, null, null, openCodelists);
+		return doLogin(LOGOUT, UsernamePasswordToken.GUEST, openCodelists);
 	}
 
-	protected UIUser doLogin(Action action, final String username, final String password, List<String> openCodelists)
+	protected UIUser doLogin(Action action, final LoginToken token, List<String> openCodelists)
 	{
-		logger.trace("doLogin action: {} username: {} openCodelists: {}", action, username, openCodelists);
+		logger.trace("doLogin action: {} token: {} openCodelists: {}", action, token, openCodelists);
 
 		User user = null;
 
 		//FIXME workaround to returning user with active session
 		logger.trace("currentUser: "+currentUser);
-		if (username == null 
-				&& password == null 
+		if (UsernamePasswordToken.GUEST.equals(token) 
 				&& currentUser != null 
 				&& currentUser.id() != null 
 				&& !currentUser.id().equals(guest.id()) 
@@ -152,8 +153,11 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 
 				@Override
 				public User call() throws Exception {
-					httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, username);
-					httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, password);
+					if (token instanceof UsernamePasswordToken) {
+						UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
+						httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, usernamePasswordToken.getUsername());
+						httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, usernamePasswordToken.getPassword());
+					}
 					User user = loginService.login(httpServletRequest);	
 					logger.trace("returned user: {}",user);
 
@@ -225,7 +229,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			User user = user().name(username).email(email).fullName(username).is(Roles.USER).build();
 			signupService.signup(user, password);
 			
-			return doLogin(LOGIN, username, password, openCodelists);
+			return doLogin(LOGIN, new UsernamePasswordToken(username, password), openCodelists);
 		} catch(Exception exception) {
 			logger.error("failed login for user "+username, exception);
 

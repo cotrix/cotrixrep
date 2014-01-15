@@ -59,7 +59,7 @@ public class CodelistLoader {
 	
 	protected static final CodeListInfo[] SDMX_CODELISTS = new CodeListInfo[]{
 		codelist("CL_SPECIES.xml", "SPECIES", "", ""),
-		codelist("FAO_AREA.xml", "SPECIES", "", ""),
+		codelist("FAO_AREA.xml", "FAO AREA", "", ""),
 
 	};
 
@@ -99,7 +99,7 @@ public class CodelistLoader {
 		signupService.signup(user, "anton");
 		owners.add(user);
 		
-		user = user().name("aureliano").email("gentile.aureliano@invented.com").fullName("Aureliano Gentile").is(Roles.USER, Roles.EDITOR).build();
+		user = user().name("aureliano").email("gentile.aureliano@invented.com").fullName("Aureliano Gentile").is(Roles.USER).build();
 		signupService.signup(user, "aureliano");
 		
 		user = user().name("albert").email("abert.einsteink@invented.com").fullName("Albert Einstein").is(Roles.USER).build();

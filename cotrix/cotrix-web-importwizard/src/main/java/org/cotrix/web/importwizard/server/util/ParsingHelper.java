@@ -71,6 +71,7 @@ public class ParsingHelper {
 	
 	public Csv2TableDirectives getDirectives(CsvConfiguration configuration)
 	{
+		logger.trace("getDirectives configuration: {}", configuration);
 		Csv2TableDirectives directives = new Csv2TableDirectives();
 		directives.options().hasHeader(configuration.isHasHeader());
 		directives.options().setDelimiter(configuration.getFieldSeparator());

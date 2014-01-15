@@ -291,7 +291,7 @@ public class PermissionServiceImpl implements PermissionService {
 		logger.trace("getUsersDetails");
 		List<UIUserDetails> users = new ArrayList<UIUserDetails>();
 
-		for (User user:userRepository.get(allUsers())) {
+		for (User user:userRepository.get(allUsers().sort(byName()))) {
 			users.add(toUserDetails(user));
 		}
 		return new DataWindow<UIUserDetails>(users);

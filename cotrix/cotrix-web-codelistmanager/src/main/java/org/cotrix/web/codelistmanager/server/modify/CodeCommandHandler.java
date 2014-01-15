@@ -12,12 +12,13 @@ import javax.inject.Singleton;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.web.codelistmanager.shared.modify.GeneratedId;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
+import org.cotrix.web.codelistmanager.shared.modify.UpdatedCode;
 import org.cotrix.web.codelistmanager.shared.modify.code.AddCodeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.code.CodeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.code.RemoveCodeCommand;
 import org.cotrix.web.codelistmanager.shared.modify.code.UpdateCodeCommand;
+import org.cotrix.web.share.server.util.Codelists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +55,13 @@ public class CodeCommandHandler {
 		Codelist changeset = modifyCodelist(codelistId).with(code).build();
 		repository.update(changeset);
 
-		return new GeneratedId(code.id());
+		return new UpdatedCode(code.id(), Codelists.toUiCode(getCode(codelistId, code.id())));
+	}
+	
+	
+	protected Code getCode(String codelistId, String id) {
+		for (Code code:repository.lookup(codelistId).codes()) if (code.id().equals(id)) return code;
+		return null;
 	}
 
 }

@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.codelistmanager.client.data;
 
+import org.cotrix.web.codelistmanager.client.codelist.event.CodeUpdatedEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataSaveFailedEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataSavedEvent;
@@ -11,9 +12,16 @@ import org.cotrix.web.codelistmanager.client.data.event.SavingDataEvent;
 import org.cotrix.web.codelistmanager.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.codelistmanager.client.event.EditorBus;
 import org.cotrix.web.codelistmanager.client.event.ManagerBus;
+import org.cotrix.web.codelistmanager.client.util.Attributes;
+import org.cotrix.web.codelistmanager.shared.modify.HasCode;
+import org.cotrix.web.codelistmanager.shared.modify.HasId;
 import org.cotrix.web.codelistmanager.shared.modify.ModifyCommand;
+import org.cotrix.web.codelistmanager.shared.modify.ModifyCommandResult;
 import org.cotrix.web.share.client.util.StatusUpdates;
+import org.cotrix.web.share.shared.codelist.Identifiable;
+import org.cotrix.web.share.shared.codelist.UICode;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -23,37 +31,37 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class DataSaverManager {
-	
+
 	public interface CommandGenerator<T> {
 		public Class<T> getType();
 		public ModifyCommand generateCommand(EditType editType, T data); 
 	}
-	
+
 	@Inject
 	protected ModifyCommandSequencer commandSequencer;
 
 	@ManagerBus
 	@Inject
 	protected EventBus managerBus;
-	
+
 	@EditorBus 
 	@Inject
 	protected EventBus editorBus;
-	
+
 	public <T> void register(CommandGenerator<T> generator)
 	{
 		editorBus.addHandler(DataEditEvent.getType(generator.getType()), new DataSaver<T>(generator));
 	}
-	
+
 	protected class DataSaver<T> implements DataEditHandler<T> {
-		
+
 		protected CommandGenerator<T> generator;
-		
+
 		public DataSaver(CommandGenerator<T> generator)
 		{
 			this.generator = generator;
 		}
-		
+
 		/** 
 		 * {@inheritDoc}
 		 */
@@ -61,20 +69,43 @@ public class DataSaverManager {
 		public void onDataEdit(DataEditEvent<T> event) {
 			managerBus.fireEvent(new SavingDataEvent());
 			StatusUpdates.statusSaving();
-			ModifyCommand command = generator.generateCommand(event.getEditType(), event.getData());
-			commandSequencer.enqueueCommand(command, new Callback<Void, Throwable>() {
-				
+			final T data = event.getData();
+			final EditType editType = event.getEditType();
+			ModifyCommand command = generator.generateCommand(editType, data);
+			commandSequencer.enqueueCommand(command, new Callback<ModifyCommandResult, Throwable>() {
+
 				@Override
-				public void onSuccess(Void result) {
+				public void onSuccess(ModifyCommandResult result) {
+
+					if (editType!=EditType.REMOVE) {
+
+						if (data instanceof Identifiable && result instanceof HasId) {
+							Identifiable identifiable = (Identifiable) data;
+							HasId hasId = (HasId) result;
+							String id = hasId.getId();
+							Log.trace("setting id ("+id+") in identifiable object "+data);
+							identifiable.setId(id);
+						}
+
+						if (data instanceof HasCode && result instanceof HasCode) updateCode(((HasCode)data).getCode(), ((HasCode)result).getCode());
+						if (data instanceof UICode && result instanceof HasCode) updateCode((UICode)data, ((HasCode)result).getCode());
+					}
+
 					managerBus.fireEvent(new DataSavedEvent());
 					StatusUpdates.statusSaved();
 				}
-				
+
 				@Override
 				public void onFailure(Throwable reason) {
 					managerBus.fireEvent(new DataSaveFailedEvent(reason));
 				}
 			});
+		}
+
+		protected void updateCode(UICode code, UICode updated) {
+			Log.trace("updating code "+code+" with attributes in "+updated);
+			Attributes.mergeSystemAttributes(code.getAttributes(), updated.getAttributes());
+			editorBus.fireEvent(new CodeUpdatedEvent(code));
 		}
 	}
 

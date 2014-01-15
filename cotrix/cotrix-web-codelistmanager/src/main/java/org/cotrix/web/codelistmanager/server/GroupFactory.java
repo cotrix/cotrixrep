@@ -56,7 +56,7 @@ public class GroupFactory {
 	
 	public static Group getGroup(Attribute attribute)
 	{
-		boolean isSystemGroup = attribute.type().equals(Constants.SYSTEM_TYPE);
+		boolean isSystemGroup = attribute.type()!=null?attribute.type().equals(Constants.SYSTEM_TYPE):false;
 		return new Group(ValueUtils.safeValue(attribute.name()), null, ValueUtils.safeValue(attribute.language()), isSystemGroup);
 	}
 }

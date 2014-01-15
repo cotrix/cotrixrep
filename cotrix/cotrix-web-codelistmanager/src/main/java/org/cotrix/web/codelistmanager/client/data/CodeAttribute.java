@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.codelistmanager.client.data;
 
+import org.cotrix.web.codelistmanager.shared.modify.HasCode;
+import org.cotrix.web.share.shared.codelist.Identifiable;
 import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.share.shared.codelist.UICode;
 
@@ -10,7 +12,7 @@ import org.cotrix.web.share.shared.codelist.UICode;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeAttribute {
+public class CodeAttribute implements HasCode, Identifiable {
 	
 	protected UICode code;
 	protected UIAttribute attribute;
@@ -34,5 +36,16 @@ public class CodeAttribute {
 	 */
 	public UIAttribute getAttribute() {
 		return attribute;
+	}
+	
+	@Override
+	public String getId() {
+		return attribute.getId();
+	}
+	
+	@Override
+	public void setId(String id) {
+		attribute.setId(id);
+		
 	}
 }

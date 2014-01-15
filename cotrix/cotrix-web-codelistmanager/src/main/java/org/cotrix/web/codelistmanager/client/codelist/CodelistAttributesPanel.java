@@ -24,6 +24,7 @@ import org.cotrix.web.codelistmanager.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.codelistmanager.client.codelist.event.CodeSelectedEvent;
+import org.cotrix.web.codelistmanager.client.codelist.event.CodeUpdatedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.codelistmanager.client.codelist.event.GroupSwitchedEvent;
 import org.cotrix.web.codelistmanager.client.codelist.event.SwitchGroupEvent;
@@ -145,7 +146,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			public void toggleFeature(boolean active) {
 				toolBar.setVisible(ItemButton.PLUS, active);
 			}
-		}, codelistId, ManagerUIFeature.ADD_CODE);
+		}, codelistId, ManagerUIFeature.EDIT_CODELIST);
 		
 		FeatureBinder.bind(new FeatureToggler() {
 			
@@ -153,7 +154,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			public void toggleFeature(boolean active) {
 				toolBar.setVisible(ItemButton.MINUS, active);
 			}
-		}, codelistId, ManagerUIFeature.REMOVE_CODE);
+		}, codelistId, ManagerUIFeature.EDIT_CODELIST);
 		
 		editorBus.addHandler(CodeSelectedEvent.TYPE, new CodeSelectedEvent.CodeSelectedHandler() {
 
@@ -191,7 +192,6 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			}
 		});
 
-
 		editorBus.addHandler(DataEditEvent.getType(UICode.class), new DataEditHandler<UICode>() {
 
 			@Override
@@ -204,6 +204,14 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 					}
 
 				}
+			}
+		});
+		
+		editorBus.addHandler(CodeUpdatedEvent.TYPE, new CodeUpdatedEvent.CodeUpdatedHandler() {
+			
+			@Override
+			public void onCodeUpdated(CodeUpdatedEvent event) {
+				updateVisualizedCode(event.getCode());
 			}
 		});
 		

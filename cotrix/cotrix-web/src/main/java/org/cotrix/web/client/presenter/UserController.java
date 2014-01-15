@@ -20,11 +20,14 @@ import org.cotrix.web.share.client.event.UserLoggedEvent;
 import org.cotrix.web.share.client.util.Exceptions;
 import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.shared.UIUser;
+import org.cotrix.web.shared.SessionIdToken;
 import org.cotrix.web.shared.UnknownUserException;
+import org.cotrix.web.shared.UsernamePasswordToken;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -34,9 +37,6 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class UserController {
-	
-	protected static final String GUEST_USERNAME = null; //"cotrix";
-	protected static final String GUEST_PASSWORD = null; //"cotrix";
 	
 	protected EventBus cotrixBus;
 	protected List<String> openedCodelists = new ArrayList<String>();
@@ -85,7 +85,7 @@ public class UserController {
 			
 			@Override
 			public void execute() {
-				logGuest();
+				initialLogin();
 			}
 		});
 	}
@@ -129,10 +129,21 @@ public class UserController {
 		});
 	}
 	
+	protected void initialLogin() {
+		String sessionIdParameter = Location.getParameter("sessionId");
+		Log.trace("sessionIdParameter: "+sessionIdParameter);
+		if (sessionIdParameter == null) logGuest();
+		else logUsingSessionId(sessionIdParameter);
+	}
+	
 	
 	protected void logGuest()
 	{
-		service.login(GUEST_USERNAME, GUEST_PASSWORD, openedCodelists, loginCallback);
+		service.login(UsernamePasswordToken.GUEST, openedCodelists, loginCallback);
+	}
+	
+	protected void logUsingSessionId(String sessionId) {
+		service.login(new SessionIdToken(sessionId), openedCodelists, loginCallback);
 	}
 	
 	protected void logout()
@@ -142,7 +153,7 @@ public class UserController {
 	
 	protected void logUser(String username, String password)
 	{
-		service.login(username, password, openedCodelists, loginCallback);
+		service.login(new UsernamePasswordToken(username, password), openedCodelists, loginCallback);
 	}
 	
 	protected void registerUser(String username, String password, String email)

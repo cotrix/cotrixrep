@@ -69,37 +69,49 @@ public abstract class CachedDataProviderExperimental<T> extends AsyncDataProvide
 		updateRowData(lastRange.getStart(), cache);
 	}
 	
+	public void add(int index, T item) {
+		cache.add(index, item);
+		lastRowCount++;
+		updateRowCount(lastRowCount, true);
+		updateRowData(lastRange.getStart(), cache);
+	}
+	
 
 	public void remove(T item) {
+		Log.trace("remove item: "+item);
 		int index = cache.indexOf(item);
 		if (index>=0) remove(index);
 	}
 	
 	public void remove(int index) {
-		System.out.println("remove "+index);
+		Log.trace("remove index: "+index);
 		
 		if (index<0 || index>=cache.size()) throw new IndexOutOfBoundsException("Cache size "+cache.size());
+		
 		cache.remove(index);
 		final int nextItemIndex = lastRange.getStart() + cache.size() + 1;
 		Log.trace("nextItemIndex: "+nextItemIndex);
+		lastRowCount--;
+		Log.trace("lastRowCount: "+lastRowCount);
 		
 		if (nextItemIndex<lastRowCount) {
-			onRangeChanged(new Range(nextItemIndex,1), new ManagedFailureCallback<DataWindow<T>>() {
+			Range range = new Range(nextItemIndex,1);
+			Log.trace("loading missing items range: "+range);
+			onRangeChanged(range, new ManagedFailureCallback<DataWindow<T>>() {
 
 				@Override
 				public void onSuccess(DataWindow<T> result) {
-					Log.trace("retrieved "+result);
+					Log.trace("retrieved missing items: "+result);
 					cache.add(result.getData().get(0));
 					Log.trace("cache: "+cache);
-					lastRowCount--;
 					updateRowCount(lastRowCount, true);
-					updateRowData(lastRange.getStart(), cache);
+					//updateRowData(lastRange.getStart(), cache);
 				}
 			});
 		} else {
-			lastRowCount--;
+			Log.trace("updating rowCount and rowData");
 			updateRowCount(lastRowCount, true);
-			updateRowData(lastRange.getStart(), cache);
+			//updateRowData(lastRange.getStart(), cache);
 		}
 	}
 

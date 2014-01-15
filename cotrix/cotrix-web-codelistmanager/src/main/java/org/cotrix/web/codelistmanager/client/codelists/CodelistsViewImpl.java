@@ -69,6 +69,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 		setupCellList();
 		initWidget(uiBinder.createAndBindUi(this));
 		updateSearchBoxStyle();
+		toolbar.setVisible(ItemButton.MINUS, false);
 	}
 	
 	@UiHandler("toolbar")
