@@ -5,12 +5,13 @@ import static org.cotrix.action.Actions.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Users.*;
 
+import org.acme.DomainTest;
 import org.cotrix.action.Action;
 import org.cotrix.domain.dsl.grammar.UserGrammar;
 import org.cotrix.domain.user.User;
 import org.junit.Test;
 
-public class PermissionTest {
+public class PermissionTest extends DomainTest {
 
 	Action doit = action("doit");
 	Action dothat = action("dothat");
@@ -18,7 +19,7 @@ public class PermissionTest {
 	@Test
 	public void permissionTemplate() {
 		
-		User bill = bill().can(doit).build();
+		User bill = like(bill().can(doit).build());
 		
 		assertEqualUnordered(bill.permissions(),doit);
 		
@@ -32,7 +33,7 @@ public class PermissionTest {
 	@Test
 	public void permissionsAreNotAddedTwice() {
 		
-		User bill = bill().can(doit,doit).build();
+		User bill = like(bill().can(doit,doit).build());
 		
 		assertEqualUnordered(bill.permissions(),doit);
 	}
@@ -42,7 +43,7 @@ public class PermissionTest {
 		
 		//when we add or merge permissions we remove only duplicates, not redundant specifications 
 		
-		User bill = bill().can(doit.on("1"),doit,doit.on("1")).build();
+		User bill = like(bill().can(doit.on("1"),doit,doit.on("1")).build());
 		
 		assertEqualUnordered(bill.permissions(),doit,doit.on("1"));
 	}

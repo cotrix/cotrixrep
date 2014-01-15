@@ -17,6 +17,7 @@ import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.user.User;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.NeoAttribute;
 import org.cotrix.neo.domain.utils.NeoContainer;
@@ -40,7 +41,10 @@ public class NeoSubjectProvider implements SubjectProvider {
 
 		Object provided = null;
 
-		if (object instanceof Codelist)
+		if (object instanceof User)
+			provided = new User.Private(reveal(object, User.Private.class).state());
+		
+		else if (object instanceof Codelist)
 			provided = new Codelist.Private(reveal(object, Codelist.Private.class).state());
 
 		else if (object instanceof Code)
