@@ -34,10 +34,10 @@ public class ContainerTest extends DomainTest {
 	@Test
 	public void beansArePreserved() {
 		
-		Attribute bean1 = attribute().name(name).build();
-		Attribute bean2 = attribute().name(name2).build();
+		Attribute a1 = attribute().name(name).build();
+		Attribute a2 = attribute().name(name2).build();
 		
-		StateContainer<Attribute.State> beans = like(bean1,bean2);
+		StateContainer<Attribute.State> beans = like(a1,a2);
 		Container.Private<Attribute.Private,Attribute.State> c = container(beans);
 		
 
@@ -49,18 +49,19 @@ public class ContainerTest extends DomainTest {
 	@Test
 	public void beansAreWrapped() {
 		
-		MyBean bean1 = new MyBean();
-		MyBean bean2 = new MyBean();
+		Attribute a1 = attribute().name(name).build();
+		Attribute a2 = attribute().name(name2).build();
 		
-		Container<MyEntity> c = container(bean1,bean2);
+		Container.Private<Attribute.Private,Attribute.State> c = container(like(a1,a2));
 		
-		assertTrue(c.contains(bean1.entity()));
-		assertTrue(c.contains(bean2.entity()));
+		assertTrue(c.contains(a1));
+		assertTrue(c.contains(a2));
 
 		
-		Iterator<MyEntity> it = c.iterator();
-		assertEquals(bean1.entity(), it.next());
-		assertEquals(bean2.entity(), it.next());
+		Iterator<Attribute.Private> it = c.iterator();
+		
+		assertEquals(a1, it.next());
+		assertEquals(a2, it.next());
 		
 	}
 	
