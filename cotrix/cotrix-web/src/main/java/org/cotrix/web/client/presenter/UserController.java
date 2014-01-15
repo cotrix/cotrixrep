@@ -21,6 +21,7 @@ import org.cotrix.web.share.client.util.Exceptions;
 import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.shared.UnknownUserException;
+import org.cotrix.web.shared.UsernamePasswordToken;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Scheduler;
@@ -34,9 +35,6 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public class UserController {
-	
-	protected static final String GUEST_USERNAME = null; //"cotrix";
-	protected static final String GUEST_PASSWORD = null; //"cotrix";
 	
 	protected EventBus cotrixBus;
 	protected List<String> openedCodelists = new ArrayList<String>();
@@ -132,7 +130,7 @@ public class UserController {
 	
 	protected void logGuest()
 	{
-		service.login(GUEST_USERNAME, GUEST_PASSWORD, openedCodelists, loginCallback);
+		service.login(UsernamePasswordToken.GUEST, openedCodelists, loginCallback);
 	}
 	
 	protected void logout()
@@ -142,7 +140,7 @@ public class UserController {
 	
 	protected void logUser(String username, String password)
 	{
-		service.login(username, password, openedCodelists, loginCallback);
+		service.login(new UsernamePasswordToken(username, password), openedCodelists, loginCallback);
 	}
 	
 	protected void registerUser(String username, String password, String email)
