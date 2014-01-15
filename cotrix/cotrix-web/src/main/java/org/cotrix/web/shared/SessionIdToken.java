@@ -10,6 +10,8 @@ package org.cotrix.web.shared;
 public class SessionIdToken implements LoginToken {
 	
 	protected String sessionId;
+	
+	public SessionIdToken(){}
 
 	/**
 	 * @param sessionId
