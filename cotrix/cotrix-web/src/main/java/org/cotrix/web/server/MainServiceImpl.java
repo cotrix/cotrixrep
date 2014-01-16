@@ -226,7 +226,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		logger.trace("registerUser username: {} email: {}", username, email);
 
 		try {
-			User user = user().name(username).email(email).fullName(username).is(Roles.USER).build();
+			User user = user().name(username).email(email).fullName(username).is(Roles.USER).can(MainAction.LOGOUT).build();
 			signupService.signup(user, password);
 			
 			return doLogin(LOGIN, new UsernamePasswordToken(username, password), openCodelists);
