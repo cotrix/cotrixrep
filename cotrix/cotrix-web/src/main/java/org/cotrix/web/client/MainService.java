@@ -20,6 +20,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("main")
 public interface MainService extends RemoteService {
 	
+	public UIUser getCurrentUser() throws ServiceException;
 	//IllegalActionException necessary to make it serializable
 	public UIUser login(LoginToken token, List<String> openCodelists) throws ServiceException, IllegalActionException;
 	public UIUser logout(List<String> openCodelists) throws ServiceException;

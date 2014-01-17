@@ -86,7 +86,7 @@ public class DefaultLoginService implements LoginService {
 
 		Iterator<TokenCollector> it = collectors.iterator();
 		
-		while (it.hasNext() && token==null)
+		while (it.hasNext() && token==null) 
 			token = it.next().token(request);
 		
 		return token;

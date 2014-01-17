@@ -41,6 +41,7 @@ import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
+import org.cotrix.web.shared.SessionIdToken;
 import org.cotrix.web.shared.UsernamePasswordToken;
 import org.cotrix.web.shared.LoginToken;
 import org.cotrix.web.shared.UINews;
@@ -137,36 +138,9 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	{
 		logger.trace("doLogin action: {} token: {} openCodelists: {}", action, token, openCodelists);
 
-		User user = null;
-
-		//FIXME workaround to returning user with active session
-		logger.trace("currentUser: "+currentUser);
-		if (UsernamePasswordToken.GUEST.equals(token) 
-				&& currentUser != null 
-				&& currentUser.id() != null 
-				&& !currentUser.id().equals(guest.id()) 
-				&& action==LOGIN) {
-			user = currentUser;
-		} else {
-
-			TaskOutcome<User> outcome = engine.perform(action).with(new Callable<User>() {
-
-				@Override
-				public User call() throws Exception {
-					if (token instanceof UsernamePasswordToken) {
-						UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
-						httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, usernamePasswordToken.getUsername());
-						httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, usernamePasswordToken.getPassword());
-					}
-					User user = loginService.login(httpServletRequest);	
-					logger.trace("returned user: {}",user);
-
-					return user;
-				}
-			});
-
-			user = outcome.output();
-		}
+		produceToken(token);
+		User user = loginService.login(httpServletRequest);	
+		logger.trace("logged user: {}",user);
 
 		UIUser uiUser = Users.toUiUser(user);
 
@@ -177,6 +151,21 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		fillOpenCodelistsActions(openCodelists, user, uiUser);
 
 		return uiUser;
+	}
+
+	protected void produceToken(LoginToken token) {
+		if (token instanceof UsernamePasswordToken) {
+			UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
+			httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, usernamePasswordToken.getUsername());
+			httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, usernamePasswordToken.getPassword());
+			logger.trace("added name and psw");
+		}
+
+		if (token instanceof SessionIdToken) {
+			SessionIdToken sessionIdToken = (SessionIdToken)token;
+			httpServletRequest.setAttribute("GCUBE_SESSION_ID", sessionIdToken.getSessionId());
+			logger.trace("added session id");
+		}
 	}
 
 	protected void fillOpenCodelistsActions(List<String> openCodelists, User user, FeatureCarrier featureCarrier)
@@ -228,7 +217,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		try {
 			User user = user().name(username).email(email).fullName(username).is(Roles.USER).can(MainAction.LOGOUT).build();
 			signupService.signup(user, password);
-			
+
 			return doLogin(LOGIN, new UsernamePasswordToken(username, password), openCodelists);
 		} catch(Exception exception) {
 			logger.error("failed login for user "+username, exception);
@@ -240,6 +229,14 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 				throw new ServiceException(exception.getMessage());
 			}
 		}
+	}
+
+	@Override
+	public UIUser getCurrentUser() throws ServiceException {
+		logger.trace("getCurrentUser");
+		UIUser uiUser = Users.toUiUser(currentUser);
+		actionMapper.fillFeatures(uiUser, currentUser.permissions());
+		return uiUser;
 	}
 
 }
