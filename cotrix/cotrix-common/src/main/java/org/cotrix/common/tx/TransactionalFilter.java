@@ -9,9 +9,15 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TransactionalFilter implements Filter {
 
+	private static Logger log = LoggerFactory.getLogger(TransactionalFilter.class);
+	
 	@Inject
 	Transactions txs;
 	
@@ -23,11 +29,18 @@ public class TransactionalFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
 			ServletException {
 		
+		String path = HttpServletRequest.class.cast(request).getPathInfo();
+		
+		log.trace("start transaction for request @ {} ",path);
+		
 		try (
+	
 			Transaction tx = txs.open();
 		) 
 		{
 			chain.doFilter(request, response);
+			
+			log.trace("committing  transaction for request @ {} ",path);
 			
 			tx.commit();
 		}
