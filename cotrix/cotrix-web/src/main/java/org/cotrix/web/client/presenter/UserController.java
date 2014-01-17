@@ -132,14 +132,15 @@ public class UserController {
 	protected void initialLogin() {
 		String sessionIdParameter = Location.getParameter("sessionId");
 		Log.trace("sessionIdParameter: "+sessionIdParameter);
-		if (sessionIdParameter == null) logGuest();
+		if (sessionIdParameter == null) getCurrentUser();
 		else logUsingSessionId(sessionIdParameter);
 	}
 	
 	
-	protected void logGuest()
+	protected void getCurrentUser()
 	{
-		service.login(UsernamePasswordToken.GUEST, openedCodelists, loginCallback);
+		service.getCurrentUser(loginCallback);
+		//service.login(UsernamePasswordToken.GUEST, openedCodelists, loginCallback);
 	}
 	
 	protected void logUsingSessionId(String sessionId) {

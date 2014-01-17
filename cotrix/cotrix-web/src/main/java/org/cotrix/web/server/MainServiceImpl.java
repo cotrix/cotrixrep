@@ -138,32 +138,9 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	{
 		logger.trace("doLogin action: {} token: {} openCodelists: {}", action, token, openCodelists);
 
-		User user = null;
-
-		//FIXME workaround to returning user with active session
-		logger.trace("currentUser: "+currentUser);
-		if (UsernamePasswordToken.GUEST.equals(token) 
-				&& currentUser != null 
-				&& currentUser.id() != null 
-				&& !currentUser.id().equals(guest.id()) 
-				&& action==LOGIN) {
-			user = currentUser;
-		} else {
-
-			/*TaskOutcome<User> outcome = engine.perform(action).with(new Callable<User>() {
-
-				@Override
-				public User call() throws Exception {*/
-					produceToken(token);
-					user = loginService.login(httpServletRequest);	
-					logger.trace("returned user: {}",user);
-
-			/*		return user;
-				}
-			});
-
-			user = outcome.output();*/
-		}
+		produceToken(token);
+		User user = loginService.login(httpServletRequest);	
+		logger.trace("logged user: {}",user);
 
 		UIUser uiUser = Users.toUiUser(user);
 
@@ -175,7 +152,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 
 		return uiUser;
 	}
-	
+
 	protected void produceToken(LoginToken token) {
 		if (token instanceof UsernamePasswordToken) {
 			UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
@@ -183,7 +160,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, usernamePasswordToken.getPassword());
 			logger.trace("added name and psw");
 		}
-		
+
 		if (token instanceof SessionIdToken) {
 			SessionIdToken sessionIdToken = (SessionIdToken)token;
 			httpServletRequest.setAttribute("GCUBE_SESSION_ID", sessionIdToken.getSessionId());
@@ -240,7 +217,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		try {
 			User user = user().name(username).email(email).fullName(username).is(Roles.USER).can(MainAction.LOGOUT).build();
 			signupService.signup(user, password);
-			
+
 			return doLogin(LOGIN, new UsernamePasswordToken(username, password), openCodelists);
 		} catch(Exception exception) {
 			logger.error("failed login for user "+username, exception);
@@ -252,6 +229,14 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 				throw new ServiceException(exception.getMessage());
 			}
 		}
+	}
+
+	@Override
+	public UIUser getCurrentUser() throws ServiceException {
+		logger.trace("getCurrentUser");
+		UIUser uiUser = Users.toUiUser(currentUser);
+		actionMapper.fillFeatures(uiUser, currentUser.permissions());
+		return uiUser;
 	}
 
 }
