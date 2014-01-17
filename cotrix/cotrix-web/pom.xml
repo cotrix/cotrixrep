@@ -295,6 +295,23 @@
 			</dependencies>
 
 		</profile>
+		
+		<profile>
+
+			<id>gcube</id>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-gcube-security</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+					<scope>runtime</scope>
+				</dependency>
+
+			</dependencies>
+
+		</profile>
 
 	</profiles>
 

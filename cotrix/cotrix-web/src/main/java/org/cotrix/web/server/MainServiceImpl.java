@@ -41,6 +41,7 @@ import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
+import org.cotrix.web.shared.SessionIdToken;
 import org.cotrix.web.shared.UsernamePasswordToken;
 import org.cotrix.web.shared.LoginToken;
 import org.cotrix.web.shared.UINews;
@@ -149,23 +150,19 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			user = currentUser;
 		} else {
 
-			TaskOutcome<User> outcome = engine.perform(action).with(new Callable<User>() {
+			/*TaskOutcome<User> outcome = engine.perform(action).with(new Callable<User>() {
 
 				@Override
-				public User call() throws Exception {
-					if (token instanceof UsernamePasswordToken) {
-						UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
-						httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, usernamePasswordToken.getUsername());
-						httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, usernamePasswordToken.getPassword());
-					}
-					User user = loginService.login(httpServletRequest);	
+				public User call() throws Exception {*/
+					produceToken(token);
+					user = loginService.login(httpServletRequest);	
 					logger.trace("returned user: {}",user);
 
-					return user;
+			/*		return user;
 				}
 			});
 
-			user = outcome.output();
+			user = outcome.output();*/
 		}
 
 		UIUser uiUser = Users.toUiUser(user);
@@ -177,6 +174,21 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		fillOpenCodelistsActions(openCodelists, user, uiUser);
 
 		return uiUser;
+	}
+	
+	protected void produceToken(LoginToken token) {
+		if (token instanceof UsernamePasswordToken) {
+			UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
+			httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, usernamePasswordToken.getUsername());
+			httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, usernamePasswordToken.getPassword());
+			logger.trace("added name and psw");
+		}
+		
+		if (token instanceof SessionIdToken) {
+			SessionIdToken sessionIdToken = (SessionIdToken)token;
+			httpServletRequest.setAttribute("GCUBE_SESSION_ID", sessionIdToken.getSessionId());
+			logger.trace("added session id");
+		}
 	}
 
 	protected void fillOpenCodelistsActions(List<String> openCodelists, User user, FeatureCarrier featureCarrier)
