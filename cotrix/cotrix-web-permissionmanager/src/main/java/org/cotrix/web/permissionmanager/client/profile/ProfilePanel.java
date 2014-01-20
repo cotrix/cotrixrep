@@ -13,6 +13,7 @@ import org.cotrix.web.share.client.event.UserLoggedEvent;
 import org.cotrix.web.share.client.util.AccountValidator;
 import org.cotrix.web.share.client.util.StatusUpdates;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -139,6 +140,7 @@ public class ProfilePanel extends ResizeComposite {
 	}
 
 	protected void setUserDetails(UIUserDetails userDetails) {
+		Log.trace("setUserDetails "+userDetails);
 		this.userDetails = userDetails;
 		username.setText(userDetails.getUsername());
 		fullname.setText(userDetails.getFullName());
