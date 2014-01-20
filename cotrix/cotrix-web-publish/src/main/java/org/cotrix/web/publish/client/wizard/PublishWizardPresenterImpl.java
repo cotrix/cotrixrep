@@ -27,14 +27,12 @@ import org.cotrix.web.publish.client.wizard.task.RetrieveRepositoryDetailsTask;
 import org.cotrix.web.share.client.wizard.DefaultWizardActionHandler;
 import org.cotrix.web.share.client.wizard.WizardController;
 import org.cotrix.web.share.client.wizard.flow.FlowManager;
-import org.cotrix.web.share.client.wizard.flow.FlowManager.LabelProvider;
 import org.cotrix.web.share.client.wizard.flow.builder.FlowManagerBuilder;
 import org.cotrix.web.share.client.wizard.flow.builder.NodeBuilder.RootNodeBuilder;
 import org.cotrix.web.share.client.wizard.flow.builder.NodeBuilder.SingleNodeBuilder;
 import org.cotrix.web.share.client.wizard.flow.builder.NodeBuilder.SwitchNodeBuilder;
 import org.cotrix.web.share.client.wizard.step.WizardStep;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -114,31 +112,11 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 		sdmxMapping.next(summary);
 		
 		summary.next(publishTask).next(doneStep);
-		
-
-		/*SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(new TypeNodeSelector(importEventBus, csvPreviewStep, sdmxMappingStep));
-		SingleNodeBuilder<WizardStep> csvPreview = upload.alternative(csvPreviewStep);
-		SingleNodeBuilder<WizardStep> csvMapping = csvPreview.next(csvMappingStep);
-		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(sdmxMappingStep);*/
-
-	/*	SwitchNodeBuilder<WizardStep> selection = *//*.hasAlternatives(detailsNodeSelector);
-		/*SingleNodeBuilder<WizardStep> codelistDetails = selection.alternative(codelistDetailsStep);
-		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
-		codelistDetails.next(repositoryDetails);
-		
-		SwitchNodeBuilder<WizardStep> retrieveAsset = selection.alternative(retrieveAssetTask).hasAlternatives(mappingNodeSelector);
-		retrieveAsset.alternative(sdmxMapping);
-		retrieveAsset.alternative(csvMapping);
-		
-		SingleNodeBuilder<WizardStep> summary = csvMapping.next(summaryStep);
-		sdmxMapping.next(summary);
-
-		summary.next(importTask).next(doneStep);*/
 
 		flow = root.build();
 
 		//only for debug
-		if (Log.isTraceEnabled()) {
+		/*if (Log.isTraceEnabled()) {
 			String dot = flow.toDot(new LabelProvider<WizardStep>() {
 
 				@Override
@@ -147,7 +125,7 @@ public class PublishWizardPresenterImpl implements PublishWizardPresenter {
 				}
 			});
 			Log.trace("dot: "+dot);
-		}
+		}*/
 		
 		List<WizardStep> visualSteps = Arrays.<WizardStep>asList(
 				codelistSelectionStep, codelistDetailsStep, destinationSelectionStep, repositorySelectionStep, repositoryDetailsStep, typeSelectionStep, csvConfigurationStep, 

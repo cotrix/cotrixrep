@@ -5,7 +5,6 @@ package org.cotrix.web.share.client.util;
 
 import org.cotrix.web.share.shared.ColumnSortInfo;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.view.client.HasData;
@@ -28,10 +27,7 @@ public abstract class SortedCachedDataProvider<T> extends CachedDataProvider<T> 
 
 	@Override
 	protected void onRangeChanged(Range range) {
-		
 		ColumnSortInfo sortInfo = getSortInfo();
-		Log.trace("sortInfo: "+sortInfo);
-		
 		onRangeChange(range, sortInfo);
 	}
 	

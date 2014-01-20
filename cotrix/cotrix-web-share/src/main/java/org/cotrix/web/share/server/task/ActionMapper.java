@@ -47,13 +47,11 @@ public class ActionMapper {
 
 	protected Set<UIFeature> mapActions(Collection<? extends Action> actions)
 	{
-		logger.trace("mapMainActions actions {}", actions);
 		Set<UIFeature> features = new HashSet<UIFeature>();
 
 		for (Action action:actions) {
 			Set<UIFeature> actionFeatures = mappings.get(action.on(Action.any));
 			if (actionFeatures!=null) {
-				logger.trace("mapping {} to {}", action, actionFeatures);
 				features.addAll(actionFeatures);
 			} else logger.warn("No mappings for action {} current mappings: {} ", action, mappings);
 		}

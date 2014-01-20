@@ -98,7 +98,6 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 
 	public void showStep(VisualWizardStep step)
 	{
-		Log.trace("showStep "+step.getId()+" steps: "+stepsPanel.getWidgetCount());
 		Integer deckIndex = decksIndexes.get(step.getId());
 		if (deckIndex == null) throw new IllegalArgumentException("Step "+step.getId()+" not found in deck, forgot to register?");
 		stepsPanel.showWidget(deckIndex);
