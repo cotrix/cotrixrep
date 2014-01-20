@@ -46,9 +46,9 @@ public class TransactionInterceptor {
 			
 			{
 				
-				long time = System.currentTimeMillis();
+				log.trace("in transaction for {}",ctx.getMethod());
 				
-				log.trace("transaction for {}",ctx.getMethod());
+				long time = System.currentTimeMillis();
 				
 				Object result = ctx.proceed();
 				
