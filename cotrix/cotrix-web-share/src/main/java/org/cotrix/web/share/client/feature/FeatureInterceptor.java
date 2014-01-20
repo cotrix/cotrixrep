@@ -34,7 +34,6 @@ public class FeatureInterceptor implements CallBackListener {
 	public boolean onSuccess(Object result) {
 		if (result instanceof FeatureCarrier) {
 			FeatureCarrier response = (FeatureCarrier) result;
-			Log.trace("intercepted FeatureCarrier "+result.getClass().getName()+" applicationFeatures: "+response.getApplicationFeatures()+" codelistsFeatures: "+response.getCodelistsFeatures());
 
 			if (response.getApplicationFeatures()!=null) {
 				Set<UIFeature> applicationFeatures = response.getApplicationFeatures();

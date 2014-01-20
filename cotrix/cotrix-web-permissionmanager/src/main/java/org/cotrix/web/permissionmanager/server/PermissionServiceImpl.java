@@ -127,15 +127,13 @@ public class PermissionServiceImpl implements PermissionService {
 		if (!sortInfo.isAscending()) sortCriterion = UserQueries.<User>descending(sortCriterion);
 
 		for (User user:userRepository.get(allUsers().sort(sortCriterion).excluding(currentUser.id()).from(range.getStart()).to(range.getLength()))) {
-			logger.trace("retrieving permission for user "+user);
-
 			RolesRow row = getRow(user, Action.any, Roles.getBy(ResourceType.application, ResourceType.codelists));
 			rows.add(row);
 		}
 
 		rolesSorter.syncUser();
 		Collections.sort(rows, rolesSorter);
-		logger.trace("rows: {}", rows);
+		logger.trace("returning {} rows", rows.size());
 		return new DataWindow<RolesRow>(rows);
 	}
 
@@ -146,12 +144,6 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 	protected Map<String, RoleState> getRolesStates(User user, String instance, Iterable<Role> roles) {
-		logger.trace("getRolesStates user: {}, instance: {}", user.fullName(), instance);
-		logger.trace("current user:");
-		printUser(currentUser);
-		logger.trace("user:");
-		printUser(user);
-		
 		Map<String, RoleState> rolesStates = new HashMap<String, RoleState>();
 		for (Role role:roles) {
 			RoleState state = getRoleState(user, role.on(instance));
@@ -161,16 +153,12 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 	protected RoleState getRoleState(User user, Role role) {
-		logger.trace("getRoleState user: {}, roleName: {}", user.fullName(), role.name());
 		boolean delegable = currentUser.is(role);  //role flags
 		boolean active =  user.is(role);
 		boolean direct =  user.isDirectly(role);
-		logger.trace(" role: {}", role);
-		logger.trace(" delegable: {}, active: {}, direct: {}", delegable, active, direct);
 
 		boolean tick = active;
 		boolean enable = delegable && (!active || direct);
-		logger.trace(" tick: {}, enable: {}", tick, enable);
 		return new RoleState(enable, tick, false);
 	}
 
@@ -205,7 +193,7 @@ public class PermissionServiceImpl implements PermissionService {
 		}
 		rolesSorter.syncUser();
 		Collections.sort(rows, rolesSorter);
-		logger.trace("returning "+rows.size()+" rows");
+		logger.trace("returning {} rows", rows.size());
 		return new DataWindow<RolesRow>(rows);
 
 	}
@@ -218,7 +206,6 @@ public class PermissionServiceImpl implements PermissionService {
 
 		if (roleName!=null) {
 			Role role = toRole(roleName).on(codelistId);
-			logger.trace("role for name {}: {}", roleName, role);
 
 			switch (action) {
 				case DELEGATE: delegationService.delegate(role).to(target); break;
@@ -249,7 +236,6 @@ public class PermissionServiceImpl implements PermissionService {
 		logger.trace("applicationRoleUpdated userId: {} role: {} action: {}", userId, roleName, action);
 		User target = userRepository.lookup(userId);
 		Role role = toRole(roleName);
-		logger.trace("role for name {}: {}", roleName, role);
 
 		switch (action) {
 			case DELEGATE: delegationService.delegate(role).to(target); break;
@@ -269,8 +255,6 @@ public class PermissionServiceImpl implements PermissionService {
 		FingerPrint fp = currentUser.fingerprint();
 
 		for (CodelistCoordinates codelist:codelistRepository.get(codelistsFor(currentUser))) {
-
-			logger.trace("checking codelist "+codelist);
 
 			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {
@@ -300,7 +284,6 @@ public class PermissionServiceImpl implements PermissionService {
 	@Override
 	public UIUserDetails getUserDetails() throws ServiceException {
 		logger.trace("getUserDetails");
-		logger.trace("currentUser.email: {}", currentUser.email());
 
 		UIUserDetails userDetails = toUserDetails(currentUser);
 		return userDetails;
@@ -365,7 +348,6 @@ public class PermissionServiceImpl implements PermissionService {
 		for (Role role:roles) uiRoles.add(role.name());
 		return uiRoles;
 	}
-
 
 	protected Role[] toRoles(List<String> uiRoles) {
 		Role[] roles = new Role[uiRoles.size()];

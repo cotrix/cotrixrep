@@ -15,7 +15,6 @@ import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
 import org.cotrix.web.share.client.wizard.step.VisualStepConfiguration;
 import org.cotrix.web.share.client.wizard.step.VisualWizardStep;
 import org.cotrix.web.share.client.wizard.step.WizardStep;
-import org.cotrix.web.share.client.wizard.step.WizardSteps;
 import org.cotrix.web.share.client.wizard.WizardView.WizardButton;
 import org.cotrix.web.share.client.wizard.flow.FlowManager;
 import org.cotrix.web.share.client.wizard.flow.FlowUpdatedEvent;
@@ -66,9 +65,7 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 			Log.trace("dot: "+dot);
 		}*/
 
-		Log.trace("Adding steps");
 		for (WizardStep step:steps) registerStep(step);
-		Log.trace("done");
 
 		view.setPresenter(this);
 
@@ -132,7 +129,6 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 	protected void updateTrackerLabels()
 	{
 		List<WizardStep> steps = flow.getCurrentFlow();
-		Log.trace("New FLOW: "+WizardSteps.toString(steps));
 
 		List<ProgressStep> psteps = new ArrayList<ProgressStep>();
 		Set<String> saw = new HashSet<String>();
@@ -144,7 +140,6 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 				saw.add(pstep.getId());
 			}
 		}
-		Log.trace("Progress steps: "+psteps);
 
 		view.setLabels(psteps);
 
@@ -154,7 +149,6 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 	protected void updateCurrentStep()
 	{
 		WizardStep currentStep = flow.getCurrentItem();
-		Log.trace("current step "+currentStep.getId());
 		if (currentStep instanceof VisualWizardStep) showStep((VisualWizardStep)currentStep);
 		if (currentStep instanceof TaskWizardStep) runStep((TaskWizardStep)currentStep);
 		ValueChangeEvent.fire(this, currentStep);

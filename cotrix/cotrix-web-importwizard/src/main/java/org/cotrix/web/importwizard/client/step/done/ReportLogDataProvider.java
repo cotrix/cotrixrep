@@ -40,7 +40,6 @@ public class ReportLogDataProvider extends AsyncDataProvider<ReportLog> {
 			@Override
 			public void onSuccess(DataWindow<ReportLog> batch) {
 				List<ReportLog> logs = batch.getData();
-				Log.trace("loaded "+logs.size()+" logs");
 				updateRowCount(batch.getTotalSize(), true);
 				updateRowData(range.getStart(), logs);
 			}

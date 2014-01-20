@@ -155,7 +155,6 @@ public class CodelistLoader {
 			List<ColumnDirectives> directives = new ArrayList<ColumnDirectives>();
 			Column codeColumn = null;
 			for (Column column:table.columns()) {
-				logger.trace("column name: "+column.name().toString());
 				if (column.name().toString().equals(codelistInfo.getCodeColumnName())) codeColumn = column;
 				else directives.add(new ColumnDirectives(column));
 			}
