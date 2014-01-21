@@ -20,7 +20,7 @@ import org.cotrix.web.share.client.event.UserLoggedEvent;
 import org.cotrix.web.share.client.util.Exceptions;
 import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.shared.UIUser;
-import org.cotrix.web.shared.SessionIdToken;
+import org.cotrix.web.shared.UrlToken;
 import org.cotrix.web.shared.UnknownUserException;
 import org.cotrix.web.shared.UsernamePasswordToken;
 
@@ -130,10 +130,10 @@ public class UserController {
 	}
 	
 	protected void initialLogin() {
-		String sessionIdParameter = Location.getParameter("sessionId");
-		Log.trace("sessionIdParameter: "+sessionIdParameter);
-		if (sessionIdParameter == null) getCurrentUser();
-		else logUsingSessionId(sessionIdParameter);
+		String tokenParameter = Location.getParameter("token");
+		Log.trace("tokenParameter: "+tokenParameter);
+		if (tokenParameter == null) getCurrentUser();
+		else logUsingToken(tokenParameter);
 	}
 	
 	
@@ -143,8 +143,8 @@ public class UserController {
 		//service.login(UsernamePasswordToken.GUEST, openedCodelists, loginCallback);
 	}
 	
-	protected void logUsingSessionId(String sessionId) {
-		service.login(new SessionIdToken(sessionId), openedCodelists, loginCallback);
+	protected void logUsingToken(String token) {
+		service.login(new UrlToken(token), openedCodelists, loginCallback);
 	}
 	
 	protected void logout()

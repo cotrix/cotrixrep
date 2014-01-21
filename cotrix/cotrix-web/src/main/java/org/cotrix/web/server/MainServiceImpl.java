@@ -41,7 +41,7 @@ import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
-import org.cotrix.web.shared.SessionIdToken;
+import org.cotrix.web.shared.UrlToken;
 import org.cotrix.web.shared.UsernamePasswordToken;
 import org.cotrix.web.shared.LoginToken;
 import org.cotrix.web.shared.UINews;
@@ -161,10 +161,10 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			logger.trace("added name and psw");
 		}
 
-		if (token instanceof SessionIdToken) {
-			SessionIdToken sessionIdToken = (SessionIdToken)token;
-			httpServletRequest.setAttribute("GCUBE_SESSION_ID", sessionIdToken.getSessionId());
-			logger.trace("added session id");
+		if (token instanceof UrlToken) {
+			UrlToken urlToken = (UrlToken)token;
+			httpServletRequest.setAttribute("TOKEN", urlToken.getToken());
+			logger.trace("added token");
 		}
 	}
 
