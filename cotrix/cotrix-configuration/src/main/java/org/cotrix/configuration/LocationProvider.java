@@ -11,6 +11,9 @@ import java.io.File;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -24,26 +27,22 @@ public interface LocationProvider {
 
 	class Jndi implements LocationProvider {
 
+		private static Logger log = LoggerFactory.getLogger(Jndi.class);
+		
 		@Override
 		public String location() {
 			
-			Context ctx = null;
-			
 			try {
 				
-				ctx = (Context) new InitialContext().lookup("java:comp/env");
-				
-			}
-			catch(Exception e) {
-				//JNDI is not used or not configured
-				return PASS;
-			}
-			
-			try {
+				Context ctx = (Context) new InitialContext().lookup("java:comp/env");
+
 				return (String) ctx.lookup(CONFIGURATION_PROPERTY);
 			}
 			catch(Exception e) {
-				throw unchecked("cannot access JNDI context",e);
+				
+				log.info("no configuraton available via JNDI");
+				return PASS;
+				
 			}
 		}
 
