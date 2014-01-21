@@ -47,11 +47,12 @@ public class NeoLifecycle {
 
 		File dir = new File(config.location());
 
-		if (!dir.exists())
-			if (!dir.mkdirs())
+		if (dir.exists())
+			validDirectory(dir);
+		else
+			if (!dir.mkdirs()) 
 				throw new RuntimeException("cannot create directory @ location " + config.location());
-			else
-				validDirectory(dir);
+	
 
 		// remembers if directory was empty (new store)
 		newstore = dir.list().length == 0;
@@ -76,8 +77,8 @@ public class NeoLifecycle {
 	//(we know by now, as store has been produced)
 	void onStart(@Observes Startup event, ApplicationLifecycle app) {
 
-		if (newstore)
-			app.isFirstStart();
+		if (!newstore)
+			app.isRestart();
 		
 	}
 

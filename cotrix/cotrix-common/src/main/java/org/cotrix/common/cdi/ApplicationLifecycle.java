@@ -27,7 +27,7 @@ public class ApplicationLifecycle {
 	private Event<ApplicationEvent> events;
 	
 	//assume by default a restart scenario
-	private AnnotationLiteral<? extends Annotation> scenario = new AnnotationLiteral<Restart>() {};
+	private AnnotationLiteral<? extends Annotation> scenario;
 	
 	@Inject
 	public ApplicationLifecycle(Event<ApplicationEvent> events) {
@@ -38,6 +38,8 @@ public class ApplicationLifecycle {
 	//(if future CDI versions fire startup events that we can align and avoid explicit callers)
 	public void start() {
 		
+		scenario = new AnnotationLiteral<FirstTime>() {};
+		 
 		log.info("Cotrix is starting...");
 	
 		//wait for application do whatever it needs to do initialise
@@ -53,9 +55,9 @@ public class ApplicationLifecycle {
 	}
 	
 	
-	public void isFirstStart() {
+	public void isRestart() {
 		
-		scenario = new AnnotationLiteral<FirstTime>() {};
+		scenario = new AnnotationLiteral<Restart>() {};
 		
 	}
 	
