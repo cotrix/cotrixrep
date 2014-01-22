@@ -1,4 +1,4 @@
-package org.cotrix.lifecycle.impl;
+package org.cotrix.lifecycle.impl.memory;
 
 import static org.cotrix.common.Constants.*;
 
@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
+import org.cotrix.lifecycle.impl.LifecycleRepository;
 
 /**
  * Memory-based implementation of {@link LifecycleService}

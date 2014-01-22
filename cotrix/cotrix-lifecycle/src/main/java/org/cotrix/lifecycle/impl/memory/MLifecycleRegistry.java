@@ -1,4 +1,4 @@
-package org.cotrix.lifecycle.impl;
+package org.cotrix.lifecycle.impl.memory;
 
 import static org.cotrix.common.Utils.*;
 
