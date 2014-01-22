@@ -162,15 +162,6 @@ public class PermissionServiceImpl implements PermissionService {
 		return new RoleState(enable, tick, false);
 	}
 
-	protected void printUser(User user) {
-		logger.trace(" id: {}, name: {}, fullname: {}", user.id(), user.name(), user.fullName());
-		logger.trace(" roles [{}]:", user.roles().size());
-		for (Role role:user.roles()) {
-			logger.trace("  - {}", role);
-		}
-		logger.trace("");
-	}
-
 	@Override
 	public Map<String, RoleState> getUserApplicationRoles() throws ServiceException {
 		logger.trace("getUserApplicationRoles");

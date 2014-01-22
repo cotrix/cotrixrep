@@ -7,6 +7,7 @@ import static org.cotrix.repository.UserQueries.*;
 
 import javax.inject.Inject;
 
+import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.dsl.grammar.UserGrammar;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
@@ -34,6 +35,21 @@ public class UserRepositoryQueryTest extends ApplicationTest {
 		
 		assertEqualUnordered(collect(users),bill,joe,zoe);
 	}
+	
+	@Test
+	public void getRoots() {
+		
+		User bill = aUser("bill").isRoot().build();
+		User joe = aUser("joe").build();
+		
+		repository.add(bill);
+		repository.add(joe);
+		
+		Iterable<User> users = repository.get(usersWith(Roles.ROOT));
+		
+		assertEqualUnordered(collect(users),bill);
+	}
+	
 	
 	@Test
 	public void getUsersByRole() {

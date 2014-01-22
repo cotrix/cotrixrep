@@ -295,7 +295,7 @@
 			</dependencies>
 
 		</profile>
-		
+
 		<profile>
 
 			<id>gcube</id>
@@ -307,6 +307,23 @@
 					<artifactId>cotrix-gcube-security</artifactId>
 					<version>0.0.1-SNAPSHOT</version>
 					<scope>runtime</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-sdmx-registry</artifactId>
+					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+					<scope>runtime</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-mail</artifactId>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-neo</artifactId>
 				</dependency>
 
 			</dependencies>

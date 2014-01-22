@@ -19,6 +19,8 @@ import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserQueries;
 import org.cotrix.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
@@ -46,6 +48,9 @@ public abstract class AbstractMailer {
 
 	protected static Configuration templateEngineConfiguration;
 
+	private static final Logger log = LoggerFactory.getLogger(AbstractMailer.class);
+	
+	
 	protected synchronized static Configuration getEngineConfiguration() {
 		if (templateEngineConfiguration == null) {
 			templateEngineConfiguration = new Configuration();
@@ -94,7 +99,11 @@ public abstract class AbstractMailer {
 	}
 
 	public void sendMail(Collection<String> recipients, String subject, String messageBody) {
-		mailService.sendMessage(recipients, subject, messageBody);
+		
+		if (recipients.isEmpty())
+			log.warn("no recepients for email: {}. Send aborted.",subject);
+		else 
+			mailService.sendMessage(recipients, subject, messageBody);
 	}
 
 	static class ObjectWrapperExtension extends DefaultObjectWrapper {

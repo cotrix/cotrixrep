@@ -8,7 +8,6 @@ import java.util.Collection;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.application.impl.mail.AbstractMailer;
 import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.User;
 import org.cotrix.security.events.SignupEvent;
@@ -23,7 +22,11 @@ public class SignupMailer extends AbstractMailer {
 	protected static final String SUBJECT = "[Cotrix] New user registered";
 
 	public void onSignup(@Observes SignupEvent event) {
-		Collection<String> addresses = addressesOf(usersWithRole(Roles.ROOT));
+		
+		Iterable<User> roots = usersWithRole(Roles.ROOT);
+		
+		Collection<String> addresses = addressesOf(roots);
+		
 		sendMail(addresses, SUBJECT, getText(TEMPLATE_NAME, "user", event.getUser()));
 	}
 

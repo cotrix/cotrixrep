@@ -482,7 +482,18 @@
 
 		</profile>
 
+		
+		<profile>
 
+			<id>gcube</id>
+
+			<modules>
+				<module>cotrix-neo</module>
+				<module>cotrix-mail</module>
+			</modules>
+
+
+		</profile>
 
 	</profiles>
 
