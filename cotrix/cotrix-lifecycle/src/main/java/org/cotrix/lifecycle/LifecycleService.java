@@ -59,4 +59,7 @@ public interface LifecycleService {
 	 */
 	Lifecycle lifecycleOf(String id);
 	
+	
+	void update(Lifecycle lc);
+	
 }

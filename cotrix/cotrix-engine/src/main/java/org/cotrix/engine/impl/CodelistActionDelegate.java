@@ -46,6 +46,8 @@ public class CodelistActionDelegate implements EngineDelegate {
 		//notify lifecycle
 		lifecycle.notify(action);
 		
+		lcService.update(lifecycle);
+		
 		//compute next actions
 		Iterator<Action> it = permissions.iterator();
 		

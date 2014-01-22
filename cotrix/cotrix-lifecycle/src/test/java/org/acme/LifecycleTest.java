@@ -1,13 +1,12 @@
 package org.acme;
 
-import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
 import static org.junit.Assert.*;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Any;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleEvent;
@@ -28,7 +27,7 @@ public class LifecycleTest extends ApplicationTest {
 	TestObserver observer;
 	
 	@Test
-	public void startAndFetchDefaultLifecycle() {
+	public void startFetchAndUpdateDefaultLifecycle() {
 		
 		Lifecycle lifecycle = service.start(resourceId);
 		
@@ -38,6 +37,14 @@ public class LifecycleTest extends ApplicationTest {
 		Lifecycle retrieved = service.lifecycleOf(resourceId);
 		
 		assertEquals(lifecycle,retrieved);
+		
+		retrieved.notify(retrieved.allowed().iterator().next());
+		
+		service.update(retrieved);
+		
+		Lifecycle retrievedAfterUpdate = service.lifecycleOf(resourceId);
+		
+		assertEquals(retrieved,retrievedAfterUpdate);
 		
 	}
 		
@@ -61,38 +68,19 @@ public class LifecycleTest extends ApplicationTest {
 	@Test
 	public void fullUseStory() {
 		
-		/////////////////////////////// start lifecycle
-		
 		Lifecycle lc = service.start(resourceId);
 		
-		System.out.println("prepare GUI to allow only: "+lc.allowed());
-		
-		/////////////////////////////// move lifecycle
-		
-		
-		//grab lifecycle for given resource
 		lc = service.lifecycleOf(resourceId);
 		
 		assertFalse(observer.observed());
 		
-		//check action is allowed
-		if (!lc.allows(LOCK.on(resourceId)))
-			throw new IllegalStateException();
-		
-		System.out.println("performing action: "+LOCK.on(resourceId));
-		
-		//change lifecycle
-		lc.notify(LOCK.on(resourceId));
-		
-		System.out.println(observer);
+		lc.notify(lc.allowed().iterator().next());
 		
 		assertTrue(observer.observed());
 		
-		System.out.println("prepare GUI to allow only: "+lc.allowed());
-				
 	}
 		
-	@ApplicationScoped //ensures single object is injected here and in event producer
+	@Singleton //ensures single object is injected here and in event producer
 	static class TestObserver {
 		
 		boolean observed=false;
@@ -101,8 +89,6 @@ public class LifecycleTest extends ApplicationTest {
 			return observed;
 		}
 		public void observe(@Observes @Any LifecycleEvent event) {
-			System.out.println(this);
-			System.out.println("observed "+event);
 			observed=true;
 		}
 	}

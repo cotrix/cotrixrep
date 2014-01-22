@@ -2,13 +2,9 @@ package org.cotrix.lifecycle.impl;
 
 import static org.cotrix.common.Utils.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Any;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleEvent;
@@ -16,14 +12,10 @@ import org.cotrix.lifecycle.LifecycleFactory;
 import org.cotrix.lifecycle.LifecycleRegistry;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
+import org.cotrix.lifecycle.impl.LifecycleRepository.ResumptionToken;
 
-/**
- * Memory-based implementation of {@link LifecycleService}
- * @author Fabio Simeoni
- *
- */
-@Singleton
-public class MemoryLifecycleService implements LifecycleService {
+
+public class DefaultLifecycleService implements LifecycleService {
 
 	@Inject @Any
 	private Event<LifecycleEvent> event;
@@ -31,16 +23,9 @@ public class MemoryLifecycleService implements LifecycleService {
 	@Inject 
 	private LifecycleRegistry registry;
 	
-	private final Map<String,Lifecycle> instances = new HashMap<String, Lifecycle>();
-	
 	@Inject
-	public MemoryLifecycleService(LifecycleRegistry registry) {
-		
-		notNull("factory registry",registry);
-		
-		this.registry=registry;
-	}
-	
+	private LifecycleRepository repository;
+
 	@Override
 	public Lifecycle start(String id) {
 
@@ -67,43 +52,53 @@ public class MemoryLifecycleService implements LifecycleService {
 	public Lifecycle start(String name, String id,State state) {
 		
 		valid("lifecycle name",name);
-		
+		valid("resource identifier",id);
+
 		LifecycleFactory factory = registry.get(name);
 		
 		if (factory==null)
 			throw new IllegalStateException("factory "+name+" is unknown");
 		
-		return start(factory,id,state);
-		
-	}
-	
-
-	
-	//helper
-	private Lifecycle start(LifecycleFactory factory, String id, State state) {
-		
-		valid("resource identifier",id);
-		
 		Lifecycle lc = state==null? 
 				factory.create(id):
 				factory.create(id,state);
+				
+				
+		repository.add(lc);
 		
 		lc.setEventProducer(event);
-		instances.put(lc.resourceId(),lc);
-		return lc;
 		
+		return lc;
 	}
+	
 	
 	@Override
 	public Lifecycle lifecycleOf(String id) {
 		
 		valid("resource identifier",id);
 
-		Lifecycle lc = instances.get(id);
+		ResumptionToken token = repository.lookup(id);
 		
-		if (lc==null)
+		if (token==null)
 			throw new IllegalStateException("no known lifecycle for resource "+id);
+		
+		
+		LifecycleFactory factory = registry.get(token.name);
+		
+		Lifecycle lc = factory.create(id,token.state);
+				
+		lc.setEventProducer(event);
 		
 		return lc;
 	}
+	
+	@Override
+	public void update(Lifecycle lc) {
+		
+		notNull("lifecycle",lc);
+		
+		repository.update(lc);
+		
+	}
+	
 }
