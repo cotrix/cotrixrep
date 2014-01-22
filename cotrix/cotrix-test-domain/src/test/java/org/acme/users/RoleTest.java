@@ -3,6 +3,7 @@ package org.acme.users;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.junit.Assert.*;
 
@@ -285,6 +286,6 @@ public class RoleTest extends DomainTest {
 	}
 	
 	private UserGrammar.ThirdClause aRole(String name) {
-		return user().name(name).noMail().fullName(name);
+		return role(name).fullName(name);
 	}
 }

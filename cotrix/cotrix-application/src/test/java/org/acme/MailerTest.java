@@ -12,7 +12,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.application.MailService;
+import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.User;
+import org.cotrix.repository.UserRepository;
 import org.cotrix.security.SignupService;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
@@ -26,6 +28,9 @@ public class MailerTest extends ApplicationTest {
 	@Inject
 	SignupService signupService;
 	
+	@Inject
+	UserRepository repository;
+	
 	@Produces @Alternative @Singleton
 	static MailService mockIt() {
 		return mock(MailService.class);
@@ -35,6 +40,9 @@ public class MailerTest extends ApplicationTest {
 	public void mailOnSignup() {
 		
 		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
+		
+		//ad at least one root
+		repository.add(Roles.role("some").isRoot().build());
 		
 		signupService.signup(user,"any");
 			

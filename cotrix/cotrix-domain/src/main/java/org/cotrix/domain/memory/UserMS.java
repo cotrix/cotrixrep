@@ -25,6 +25,10 @@ public class UserMS extends IdentifiedMS implements User.State {
 	public UserMS() {
 	}
 	
+	public UserMS(String id) {
+		super(id);
+	}
+	
 	public UserMS(String id, Status status) {
 		super(id,status);
 	}

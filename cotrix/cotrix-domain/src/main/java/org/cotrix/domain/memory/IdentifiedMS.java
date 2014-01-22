@@ -32,16 +32,23 @@ public class IdentifiedMS implements Identified.State {
 
 	
 	public IdentifiedMS() {
-		id = UUID.randomUUID().toString();
-		status=null;
+		this(UUID.randomUUID().toString());
 	}
 	
-	public IdentifiedMS(String id, Status status) {
+	public IdentifiedMS(String id) {
 		
 		valid("identifier",id);
-		notNull("status",status);
 		
 		this.id = id;
+		this.status=null;
+	}
+
+	public IdentifiedMS(String id, Status status) {
+		
+		notNull("status",status);
+		valid("identifier",id);
+		
+		this.id=id;
 		this.status=status;
 	}
 
