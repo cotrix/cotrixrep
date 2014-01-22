@@ -16,10 +16,11 @@ public class Constants {
 	public static final String roles_prop="roles";
 	public static final String version_prop="ver";
 	public static final String pwd_prop = "pwd";
+	public static final String state_prop = "state";
 	
 	public static enum NodeType implements Label {
 		
-		ATTRIBUTE, CODE, CODELIST, IDENTITY, USER;
+		ATTRIBUTE, CODE, CODELIST, IDENTITY, LIFECYCLE, USER;
 	}
 	
 	public static enum Relations implements RelationshipType {

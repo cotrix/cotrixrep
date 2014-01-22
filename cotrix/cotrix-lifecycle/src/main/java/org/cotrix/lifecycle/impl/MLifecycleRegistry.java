@@ -19,12 +19,12 @@ import org.cotrix.lifecycle.LifecycleRegistry;
  *
  */
 @Singleton
-public class MemoryLifecycleRegistry implements LifecycleRegistry {
+public class MLifecycleRegistry implements LifecycleRegistry {
 
 	private final Map<String,LifecycleFactory> factories = new HashMap<String, LifecycleFactory>();
 	
 	@Inject
-	public MemoryLifecycleRegistry(List<? extends LifecycleFactory> factories) {
+	public MLifecycleRegistry(List<? extends LifecycleFactory> factories) {
 		
 		notNull("lifecycle factories",factories);
 		

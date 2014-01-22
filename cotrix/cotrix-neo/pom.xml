@@ -6,7 +6,7 @@
 		<artifactId>cotrix</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>cotrix-neo</artifactId>
 
 	<properties>
@@ -24,7 +24,12 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-domain</artifactId>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-lifecycle</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-test-common</artifactId>
@@ -59,26 +64,32 @@
 			<artifactId>xstream</artifactId>
 			<version>1.4.5</version>
 		</dependency>
-		
+
 
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-test-domain</artifactId>
 			<type>test-jar</type>
 		</dependency>
-				
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-security</artifactId>
 			<type>test-jar</type>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-lifecycle</artifactId>
+			<type>test-jar</type>
+		</dependency>
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-repository</artifactId>
 			<type>test-jar</type>
 		</dependency>
-		
+
 	</dependencies>
 
 

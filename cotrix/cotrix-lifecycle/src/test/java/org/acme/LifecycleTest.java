@@ -58,6 +58,7 @@ public class LifecycleTest extends ApplicationTest {
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
+	@SuppressWarnings("serial")
 	public void createInInvalidState() {
 		
 		service.start("resource", new State(){});
