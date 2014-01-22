@@ -7,14 +7,14 @@ import static org.cotrix.neo.domain.Constants.NodeType.*;
 import javax.annotation.Priority;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.cotrix.security.impl.NativeRealm;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.ResourceIterator;
-import org.neo4j.graphdb.Transaction;
 
-@Alternative @Priority(RUNTIME)
+@Singleton @Alternative @Priority(RUNTIME)
 public class NeoRealm extends NativeRealm {
 	
 	@Inject
@@ -26,16 +26,10 @@ public class NeoRealm extends NativeRealm {
 		
 		try 
 		(
-			Transaction tx = db.beginTx(); 
-		    ResourceIterator<Node> it = db.findNodesByLabelAndProperty(IDENTITY,name_prop, name).iterator()
+		 ResourceIterator<Node> it = db.findNodesByLabelAndProperty(IDENTITY,name_prop, name).iterator()
 		) 
 		{
-			
-			String result = it.hasNext() ? (String) it.next().getProperty(pwd_prop): null;
-			
-			tx.success();
-			
-			return result;
+			return it.hasNext() ? (String) it.next().getProperty(pwd_prop): null;
 		}
 
 		
@@ -45,19 +39,10 @@ public class NeoRealm extends NativeRealm {
 	@Override
 	protected void create(String name, String pwd) {
 		
-		try
-		(
-			Transaction tx = db.beginTx()
-		) 
-		{
-			
-			Node identity = db.createNode(IDENTITY);
-			identity.setProperty(name_prop,name);
-			identity.setProperty(pwd_prop,pwd);
-			
-			tx.success();
-		}
-		
+		Node identity = db.createNode(IDENTITY);
+		identity.setProperty(name_prop,name);
+		identity.setProperty(pwd_prop,pwd);
+					
 	}
 	
 }
