@@ -20,6 +20,9 @@ import org.cotrix.domain.user.Role;
 
 public class Roles {
 
+	//constructs a role on top of user-oriented DSL.
+	//notes must have a constant identifier (here the very role name) because if they were generated they would be JVM-specific
+	//and equality comparisons against the constants below would fail after a restart.
 	public static ThirdClause role(String name) {
 		return new UserBuilder(new UserMS(name)).name(name).noMail();
 	}
