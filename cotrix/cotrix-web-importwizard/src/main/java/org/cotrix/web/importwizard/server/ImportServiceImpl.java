@@ -14,7 +14,6 @@ import org.cotrix.io.CloudService;
 import org.cotrix.web.importwizard.client.ImportService;
 import org.cotrix.web.importwizard.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.importwizard.server.climport.ImportTaskSession;
-import org.cotrix.web.importwizard.server.climport.Importer;
 import org.cotrix.web.importwizard.server.climport.ImporterFactory;
 import org.cotrix.web.importwizard.server.upload.MappingGuesser;
 import org.cotrix.web.importwizard.server.upload.MappingsManager;
@@ -261,12 +260,8 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 			
 			ImportTaskSession importTaskSession = session.createImportTaskSession();
 			importTaskSession.setUserOptions(csvConfiguration, metadata, mappings, mappingMode);
-			Importer<?> importer = importerFactory.createImporter(importTaskSession, session.getCodeListType());
-			session.setImporter(importer);
-			
-			//FIXME use a serialiser provider
-			Thread th = new Thread(importer);
-			th.start();
+			Progress importerProgress = importerFactory.importCodelist(importTaskSession, session.getCodeListType());
+			session.setImporterProgress(importerProgress);
 		} catch (IOException e) {
 			logger.error("Error during import starting", e);
 			throw new ServiceException("An error occurred starting import: "+e.getMessage());
@@ -277,7 +272,7 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 	@Override
 	public Progress getImportProgress() throws ServiceException {
 		try {
-			return session.getImporter().getProgress();
+			return session.getImporterProgress();
 		} catch(Exception e)
 		{
 			logger.error("An error occurred on server side", e);

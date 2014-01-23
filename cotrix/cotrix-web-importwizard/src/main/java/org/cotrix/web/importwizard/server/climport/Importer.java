@@ -5,8 +5,15 @@ package org.cotrix.web.importwizard.server.climport;
 
 import java.util.List;
 
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import org.cotrix.action.events.CodelistActionEvents;
+import org.cotrix.action.events.CodelistActionEvents.Import;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
+import org.cotrix.common.tx.Transactional;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.web.importwizard.server.climport.ImporterSource.SourceParameterProvider;
 import org.cotrix.web.share.server.util.Reports;
@@ -20,42 +27,21 @@ import org.slf4j.LoggerFactory;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class Importer<T> implements Runnable {
+@Singleton
+public class Importer {
 
 	protected Logger logger = LoggerFactory.getLogger(Importer.class);
+	
+	@Inject
+	private Event<CodelistActionEvents.Import> events;
 
-	protected Progress progress;
-	protected ImporterMapper<T> mapper;
-	protected SourceParameterProvider<T> sourceParameterProvider;
-	protected ImporterSource source;
-	protected ImporterTarget target;
-	protected ImportTaskSession session;
-
-	public Importer(
-			SourceParameterProvider<T> sourceParameterProvider,
+	@Transactional
+	public <T> void importCodelist(Progress progress, SourceParameterProvider<T> sourceParameterProvider,
 			ImporterSource source,
 			ImporterMapper<T> mapper,
 			ImporterTarget target,
 			ImportTaskSession session) {
-
-		this.sourceParameterProvider = sourceParameterProvider;
-		this.mapper = mapper;
-		this.source = source;
-		this.target = target;
-		this.session = session;
-
-		this.progress = new Progress();
-	}
-
-	/**
-	 * @return the progress
-	 */
-	public Progress getProgress() {
-		return progress;
-	}
-
-	@Override
-	public void run() {
+		
 		logger.trace("starting import");
 		try {
 			progress.setStatus(Status.ONGOING);
@@ -86,6 +72,8 @@ public class Importer<T> implements Runnable {
 			target.save(codelist, session.getMetadata().isSealed(), session.getOwnerId());
 
 			progress.setStatus(Status.DONE);
+			
+			events.fire(new Import(codelist.id(), codelist.name(), codelist.version()));
 
 		} catch(Throwable throwable)
 		{

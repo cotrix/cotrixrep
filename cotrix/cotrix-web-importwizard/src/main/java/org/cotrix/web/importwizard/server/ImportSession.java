@@ -13,11 +13,11 @@ import org.apache.commons.fileupload.FileItem;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.web.importwizard.server.climport.ImportTaskSession;
-import org.cotrix.web.importwizard.server.climport.Importer;
 import org.cotrix.web.importwizard.shared.CodeListType;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
+import org.cotrix.web.share.shared.Progress;
 import org.virtualrepository.Asset;
 
 /**
@@ -39,7 +39,7 @@ public class ImportSession implements Serializable {
 
 	protected MappingMode guessedMappingMode;
 	
-	protected Importer<?> importer;
+	protected Progress importerProgress;
 	
 	protected String importedCodelistName;
 	
@@ -57,7 +57,7 @@ public class ImportSession implements Serializable {
 		
 		guessedMetadata = null;
 		guessedMappingMode = null;
-		importer = null;
+		importerProgress = null;
 		importedCodelistName = null;
 		
 		importTaskSession = null;
@@ -156,15 +156,15 @@ public class ImportSession implements Serializable {
 	/**
 	 * @return the importer
 	 */
-	public Importer<?> getImporter() {
-		return importer;
+	public Progress getImporterProgress() {
+		return importerProgress;
 	}
 
 	/**
 	 * @param importer the importer to set
 	 */
-	public void setImporter(Importer<?> importer) {
-		this.importer = importer;
+	public void setImporterProgress(Progress importerProgress) {
+		this.importerProgress = importerProgress;
 	}
 
 	/**

@@ -4,6 +4,8 @@
 package org.cotrix.web.importwizard.server.climport;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,8 +15,7 @@ import org.cotrix.web.importwizard.server.climport.ImporterMapper.SdmxMapper;
 import org.cotrix.web.importwizard.server.climport.ImporterSource.SourceParameterProvider.CodelistBeanDirectivesProvider;
 import org.cotrix.web.importwizard.server.climport.ImporterSource.SourceParameterProvider.TableDirectivesProvider;
 import org.cotrix.web.importwizard.shared.CodeListType;
-import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
-import org.virtualrepository.tabular.Table;
+import org.cotrix.web.share.shared.Progress;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -22,46 +23,53 @@ import org.virtualrepository.tabular.Table;
  */
 @Singleton
 public class ImporterFactory {
-	
+
 	@Inject
 	protected CsvMapper csvMapper;
-	
+
 	@Inject
 	protected SdmxMapper sdmxMapper;
-	
+
 	@Inject
 	protected ImporterSource importerSource;
-	
+
 	@Inject
 	protected TableDirectivesProvider tableDirectivesProvider;
-	
+
 	@Inject
 	protected CodelistBeanDirectivesProvider codelistBeanDirectivesProvider;
-	
+
 	@Inject
 	private ImporterTarget importerTarget;
-	
 
-	public Importer<?> createImporter(ImportTaskSession importTaskSession, CodeListType codeListType) throws IOException
+	protected ExecutorService executorService = Executors.newFixedThreadPool(10);
+
+	@Inject
+	protected Importer importer;
+
+	public Progress importCodelist(final ImportTaskSession importTaskSession, CodeListType codeListType) throws IOException
 	{
-
-		
+		final Progress progress = new Progress();
 		switch (codeListType) {
-			case CSV: return createCsvImporter(importTaskSession); 
-			case SDMX: return createSdmxImporter(importTaskSession);
-		}
-		return null;
-	}
+			case CSV: {
+				executorService.execute(new Runnable() {
 
-	protected Importer<Table> createCsvImporter(ImportTaskSession importTaskSession) throws IOException
-	{
-		Importer<Table> importer = new Importer<Table>(tableDirectivesProvider, importerSource, csvMapper, importerTarget, importTaskSession);
-		return importer;
-	}
-	
-	protected Importer<CodelistBean> createSdmxImporter(ImportTaskSession importTaskSession) throws IOException
-	{
-		Importer<CodelistBean> importer = new Importer<CodelistBean>(codelistBeanDirectivesProvider, importerSource, sdmxMapper, importerTarget, importTaskSession);
-		return importer;
+					@Override
+					public void run() {
+						importer.importCodelist(progress, tableDirectivesProvider, importerSource, csvMapper, importerTarget, importTaskSession);
+					}
+				});
+			} break;
+			case SDMX: {
+				executorService.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						importer.importCodelist(progress, codelistBeanDirectivesProvider, importerSource, sdmxMapper, importerTarget, importTaskSession);
+					}
+				});
+			} break;
+		}
+		return progress;
 	}
 }
