@@ -5,10 +5,8 @@ package org.cotrix.web.importwizard.server.climport;
 
 import static org.cotrix.domain.dsl.Users.*;
 
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
-import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.User;
@@ -35,9 +33,6 @@ public class ImporterTarget {
 	private LifecycleService lifecycleService;
 	
 	@Inject
-	private Event<CodelistActionEvents.CodelistEvent> events;
-	
-	@Inject
 	protected UserRepository userRepository;
 	
 	
@@ -52,8 +47,6 @@ public class ImporterTarget {
 		logger.trace("owner: {}", owner);
 		User changeset = modifyUser(owner).is(Roles.OWNER.on(codelist.id())).build();
 		userRepository.update(changeset);
-		
-		events.fire(new CodelistActionEvents.Import(codelist.id(), codelist.name(), codelist.version()));
 	}
 
 }

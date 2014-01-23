@@ -14,7 +14,6 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.web.publish.client.PublishService;
 import org.cotrix.web.publish.server.publish.PublishStatus;
-import org.cotrix.web.publish.server.publish.Publisher;
 import org.cotrix.web.publish.server.publish.Publishers;
 import org.cotrix.web.publish.server.util.Mappings;
 import org.cotrix.web.publish.server.util.Mappings.MappingProvider;
@@ -149,10 +148,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		Codelist codelist = repository.lookup(publishDirectives.getCodelistId());
 		publishStatus.setPublishedCodelist(codelist);
 
-		Publisher<?> publisher = publishers.createPublisher(publishDirectives, publishStatus);
-		//FIXME use a service provider
-		Thread th = new Thread(publisher);
-		th.start();
+		publishers.createPublisher(publishDirectives, publishStatus);
 	}
 
 

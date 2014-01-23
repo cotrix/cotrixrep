@@ -16,7 +16,7 @@ import org.cotrix.web.share.shared.ReportLog;
 public class PublishStatus {
 	
 	protected Codelist publishedCodelist;
-	protected Progress progress;
+	protected Progress progress = new Progress();
 	protected List<ReportLog> reportLogs;
 	protected String report;
 	protected Object publishResult;

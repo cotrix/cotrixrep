@@ -3,6 +3,9 @@
  */
 package org.cotrix.web.publish.server.publish;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javax.inject.Inject;
 
 import org.cotrix.io.SerialisationService.SerialisationDirectives;
@@ -24,43 +27,62 @@ public class Publishers {
 	};
 	
 	@Inject
-	public PublishMapper.CsvMapper csvMapper;
+	protected PublishMapper.CsvMapper csvMapper;
 	
 	@Inject
-	public PublishMapper.SdmxMapper sdmxMapper;
+	protected PublishMapper.SdmxMapper sdmxMapper;
 
 	@Inject
-	public SerializationDirectivesProducer.CSVSerializationDirectivesProducer csvDesktopProducer;
+	protected SerializationDirectivesProducer.CSVSerializationDirectivesProducer csvDesktopProducer;
 	
 	@Inject
-	public SerializationDirectivesProducer.XmlSerializationDirectivesProducer xmlDesktopProducer;
+	protected SerializationDirectivesProducer.XmlSerializationDirectivesProducer xmlDesktopProducer;
 	
 	@SuppressWarnings("unchecked")
-	public static <T> SerializationDirectivesProducer<T> getEmptySerializationDirectivesProducer() {
+	protected static <T> SerializationDirectivesProducer<T> getEmptySerializationDirectivesProducer() {
 		return (SerializationDirectivesProducer<T>)EMPTY_PRODUCER;
 	}
 
 	@Inject
-	public PublishToDestination.DesktopDestination desktopDestination;
+	protected PublishToDestination.DesktopDestination desktopDestination;
 	
 	@Inject
-	public PublishToDestination.CloudDestination cloudDestination;
+	protected PublishToDestination.CloudDestination cloudDestination;
 	
-	public Publisher<?> createPublisher(PublishDirectives publishDirectives, PublishStatus publishStatus) {
+	@Inject
+	protected Publisher publisher;
+	
+	protected ExecutorService executorService = Executors.newFixedThreadPool(10);
+	
+	public void createPublisher(PublishDirectives publishDirectives, PublishStatus publishStatus) {
 
 		switch (publishDirectives.getFormat()) {
-			case CSV: return createPublisher(csvMapper, csvDesktopProducer, publishDirectives, publishStatus);
-			case SDMX: return createPublisher(sdmxMapper, xmlDesktopProducer, publishDirectives, publishStatus);
+			case CSV: createPublisher(csvMapper, csvDesktopProducer, publishDirectives, publishStatus); break;
+			case SDMX: createPublisher(sdmxMapper, xmlDesktopProducer, publishDirectives, publishStatus); break;
 		}
-		throw new IllegalArgumentException("Unknown format "+publishDirectives.getFormat());
 	}
 	
-	protected <T> Publisher<T> createPublisher(PublishMapper<T> mapper, SerializationDirectivesProducer<T> serDir, PublishDirectives publishDirectives, PublishStatus publishStatus) {
+	protected <T> void createPublisher(final PublishMapper<T> mapper, final SerializationDirectivesProducer<T> serDir, final PublishDirectives publishDirectives, final PublishStatus publishStatus) {
 		switch (publishDirectives.getDestination()) {
-			case FILE: return new Publisher<T>(publishDirectives, mapper, serDir, desktopDestination, publishStatus);
-			case CHANNEL: return new Publisher<T>(publishDirectives, mapper, Publishers.<T>getEmptySerializationDirectivesProducer(), cloudDestination, publishStatus);
+			case FILE: {
+				executorService.execute(new Runnable() {
+					
+					@Override
+					public void run() {
+						publisher.publish(publishDirectives, mapper, serDir, desktopDestination, publishStatus);
+					}
+				});
+			} break;
+			case CHANNEL: {
+				executorService.execute(new Runnable() {
+					
+					@Override
+					public void run() {
+						publisher.publish(publishDirectives, mapper, Publishers.<T>getEmptySerializationDirectivesProducer(), cloudDestination, publishStatus);
+					}
+				});
+			} break;
 		}
-		throw new IllegalArgumentException("Unknown destination type "+publishDirectives.getDestination());
 	}
 
 }

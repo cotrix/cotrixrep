@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.cotrix.action.events.CodelistActionEvents;
+import org.cotrix.action.events.CodelistActionEvents.Publish;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.io.SerialisationService;
@@ -30,6 +31,9 @@ public interface PublishToDestination {
 	public <T> void publish(T codelist, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus) throws Exception;
 
 	public class DesktopDestination implements PublishToDestination {
+		
+		@Inject
+		private Event<CodelistActionEvents.Publish> events;
 
 		@Inject
 		protected SerialisationService serialiser;
@@ -43,6 +47,9 @@ public interface PublishToDestination {
 			OutputStream os = new FileOutputStream(destination);
 			serialiser.serialise(codelist, os, serializationDirectives);
 			publishStatus.setPublishResult(destination);
+			
+			Codelist publishedCodelist = publishStatus.getPublishedCodelist();
+			events.fire(new Publish(publishedCodelist.id(), publishedCodelist.name(), publishedCodelist.version(), new QName("File System")));
 		}
 
 	}
