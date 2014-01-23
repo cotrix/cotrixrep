@@ -102,6 +102,7 @@ public class PermissionServiceImpl implements PermissionService {
 	protected void init() {
 
 		mapper.map(MANAGE_USERS).to(EDIT_USERS_ROLES);
+		mapper.map(UserAction.EDIT).to(EDIT_PROFILE);
 	}
 
 	@SuppressWarnings("unchecked")

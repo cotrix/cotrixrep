@@ -112,7 +112,7 @@
 								<tr>
 									<td style="padding-top: 30px;text-align:center;">
 										<g:Button ui:field="password"
-											styleName="{common.css.blueButton} {style.password}">Change password</g:Button>
+											styleName="{common.css.blueButton} {style.password}" visible="true">Change password</g:Button>
 
 									</td>
 								</tr>
@@ -123,18 +123,18 @@
 								<tr>
 									<td>
 										<g:TextBox ui:field="fullname"
-											styleName="{style.textBox} {style.fullname}" />
+											styleName="{style.textBox} {style.fullname}" readOnly="true" />
 									</td>
 								</tr>
 								<tr>
 									<td>
 										<g:Label ui:field="username"
-											styleName="{common.css.propertyValue}  {style.username}" />
+											styleName="{common.css.propertyValue}  {style.username}"/>
 									</td>
 								</tr>
 								<tr>
 									<td style="padding-left: 4px;">
-										<g:TextBox ui:field="email" styleName="{style.textBox}" />
+										<g:TextBox ui:field="email" styleName="{style.textBox}" readOnly="true"/>
 									</td>
 								</tr>
 							</table>

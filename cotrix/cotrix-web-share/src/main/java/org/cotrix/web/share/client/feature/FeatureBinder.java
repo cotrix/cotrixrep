@@ -38,7 +38,7 @@ public class FeatureBinder {
 		bind(new HasEnabledFeature(hasEnabled), feature);
 	}
 	
-	public static void bind(HasFeature hasFeature,  String codelistId, UIFeature feature)
+	public static void bind(HasFeature hasFeature, String codelistId, UIFeature feature)
 	{
 		CodelistFeatureBind bind = new CodelistFeatureBind(codelistId, feature, hasFeature);
 		featureBus.addHandler(NewCodelistsFeatureSetEvent.TYPE, bind);

@@ -6,10 +6,13 @@ package org.cotrix.web.permissionmanager.client.profile;
 import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
 import org.cotrix.web.permissionmanager.client.profile.PasswordUpdateDialog.PassworUpdatedEvent;
 import org.cotrix.web.permissionmanager.client.profile.PasswordUpdateDialog.PasswordUpdatedHandler;
+import org.cotrix.web.permissionmanager.shared.PermissionUIFeatures;
 import org.cotrix.web.permissionmanager.shared.UIUserDetails;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.UserLoggedEvent;
+import org.cotrix.web.share.client.feature.FeatureBinder;
+import org.cotrix.web.share.client.feature.ValueBoxEditing;
 import org.cotrix.web.share.client.util.AccountValidator;
 import org.cotrix.web.share.client.util.StatusUpdates;
 
@@ -21,6 +24,8 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasVisibility;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
@@ -46,6 +51,7 @@ public class ProfilePanel extends ResizeComposite {
 	@UiField Label username;
 	@UiField TextBox fullname;
 	@UiField TextBox email;
+	@UiField Button password;
 	
 	@Inject PasswordUpdateDialog passwordUpdateDialog;
 
@@ -72,6 +78,10 @@ public class ProfilePanel extends ResizeComposite {
 				});
 			}
 		});
+		
+		FeatureBinder.bind(new ValueBoxEditing<String>(fullname), PermissionUIFeatures.EDIT_PROFILE);
+		FeatureBinder.bind(new ValueBoxEditing<String>(email), PermissionUIFeatures.EDIT_PROFILE);
+		FeatureBinder.bind((HasVisibility)password, PermissionUIFeatures.EDIT_PROFILE);
 	}
 
 	@Inject
@@ -82,7 +92,7 @@ public class ProfilePanel extends ResizeComposite {
 			public void onUserLogged(UserLoggedEvent event) {
 				updateUserProfile();
 			}
-		});
+		});	
 	}
 	
 	@UiHandler("password")
@@ -101,6 +111,8 @@ public class ProfilePanel extends ResizeComposite {
 
 	@UiHandler({"fullname", "email"})
 	protected void onBlur(BlurEvent event) {
+		if (fullname.isReadOnly() && email.isReadOnly()) return;
+		
 		boolean valid = validate();
 		if (valid) {
 			StatusUpdates.statusSaving();
