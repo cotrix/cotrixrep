@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.client.MainServiceAsync;
+import org.cotrix.web.client.event.CotrixStartupEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLoginEvent.UserLoginHandler;
 import org.cotrix.web.client.event.UserLogoutEvent;
@@ -25,8 +26,6 @@ import org.cotrix.web.shared.UnknownUserException;
 import org.cotrix.web.shared.UsernamePasswordToken;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
@@ -80,14 +79,6 @@ public class UserController {
 		this.cotrixBus = cotrixBus;
 		
 		bind();
-		
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			
-			@Override
-			public void execute() {
-				initialLogin();
-			}
-		});
 	}
 
 	protected void bind()
@@ -125,6 +116,14 @@ public class UserController {
 			@Override
 			public void onUserRegister(UserRegisterEvent event) {
 				registerUser(event.getUsername(), event.getPassword(), event.getEmail());
+			}
+		});
+
+		cotrixBus.addHandler(CotrixStartupEvent.TYPE, new CotrixStartupEvent.CotrixStartupHandler() {
+			
+			@Override
+			public void onCotrixStartup(CotrixStartupEvent event) {
+				initialLogin();
 			}
 		});
 	}

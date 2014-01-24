@@ -13,6 +13,7 @@ import org.cotrix.web.share.client.feature.FeatureBinder;
 import org.cotrix.web.share.client.feature.HasFeature;
 import org.cotrix.web.share.client.resources.CommonResources;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.view.client.ListDataProvider;
@@ -59,16 +60,19 @@ public class MenuTreeViewModel implements TreeViewModel {
 
 			@Override
 			public void unsetFeature() {
+				Log.trace("EDIT_USERS_ROLES unsetFeature");
 				MENU_PROVIDER.getList().remove(USERS_MENU);
 				MENU_PROVIDER.refresh();
 			}
 
 			@Override
 			public void setFeature() {
+				Log.trace("EDIT_USERS_ROLES setFeature");
 				MENU_PROVIDER.getList().add(USERS_MENU);
 				MENU_PROVIDER.refresh();
 			}
 		}, PermissionUIFeatures.EDIT_USERS_ROLES);
+		Log.trace("MenuTreeViewModel binded to EDIT_USERS_ROLES");
 	}
 
 	@Override

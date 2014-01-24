@@ -2,6 +2,7 @@ package org.cotrix.web.client;
 
 import java.util.EnumMap;
 
+import org.cotrix.web.client.event.CotrixStartupEvent;
 import org.cotrix.web.client.presenter.CotrixWebPresenter;
 import org.cotrix.web.client.presenter.HomeController;
 import org.cotrix.web.client.presenter.UserBarPresenter;
@@ -54,64 +55,66 @@ public class AppControllerImpl implements AppController {
 		HomeController home = AppGinInjector.INSTANCE.getHomeController();
 		addModule(home);
 		
-		GWT.runAsync(new RunAsyncCallback() {
+		/*GWT.runAsync(new RunAsyncCallback() {
 			
 			@Override
-			public void onSuccess() {
+			public void onSuccess() {*/
 				CotrixImportAppGinInjector importInjector = CotrixImportAppGinInjector.INSTANCE;
 				addModule(importInjector.getController());
-			}
+			/*}
 			
 			@Override
 			public void onFailure(Throwable reason) {
 				Log.fatal("Import module not loaded", reason);
 			}
-		});
+		});*/
 		
-		GWT.runAsync(new RunAsyncCallback() {
+		/*GWT.runAsync(new RunAsyncCallback() {
 			
 			@Override
-			public void onSuccess() {
+			public void onSuccess() {*/
 				CotrixManagerAppGinInjector managerInjector = CotrixManagerAppGinInjector.INSTANCE;
 				addModule(managerInjector.getController());
-			}
+			/*}
 			
 			@Override
 			public void onFailure(Throwable reason) {
 				Log.fatal("Manager module not loaded", reason);
 			}
-		});
+		});*/
 		
-		GWT.runAsync(new RunAsyncCallback() {
+		/*GWT.runAsync(new RunAsyncCallback() {
 			
 			@Override
-			public void onSuccess() {
+			public void onSuccess() {*/
 				CotrixPublishAppGinInjector publishInjector = CotrixPublishAppGinInjector.INSTANCE;
 				addModule(publishInjector.getController());
-			}
+			/*}
 			
 			@Override
 			public void onFailure(Throwable reason) {
 				Log.fatal("Publish module not loaded", reason);
 			}
-		});
+		});*/
 		
-		GWT.runAsync(new RunAsyncCallback() {
+		/*GWT.runAsync(new RunAsyncCallback() {
 			
 			@Override
-			public void onSuccess() {
+			public void onSuccess() {*/
 				CotrixPermissionGinInjector permissionInjector = CotrixPermissionGinInjector.INSTANCE;
 				addModule(permissionInjector.getController());
-			}
+			/*}
 			
 			@Override
 			public void onFailure(Throwable reason) {
 				Log.fatal("Publish module not loaded", reason);
 			}
-		});
+		});*/
 
 		
 		showModule(CotrixModule.HOME);
+		
+		cotrixBus.fireEvent(new CotrixStartupEvent());
 	}
 	
 	protected void bind()
