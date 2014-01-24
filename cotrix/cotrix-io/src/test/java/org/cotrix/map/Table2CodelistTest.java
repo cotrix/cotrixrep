@@ -12,11 +12,9 @@ import org.cotrix.common.Outcome;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.memory.IdentifiedMS;
 import org.cotrix.io.MapService;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.cotrix.test.DomainTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.virtualrepository.tabular.Table;
@@ -24,23 +22,11 @@ import org.virtualrepository.tabular.Table;
 import com.googlecode.jeeunit.JeeunitRunner;
 
 @RunWith(JeeunitRunner.class)
-public class Table2CodelistTest {
+public class Table2CodelistTest extends DomainTest {
 
 	@Inject
 	MapService mapper;
 
-	@BeforeClass
-	public static void setup() {
-		
-		IdentifiedMS.testmode=true;
-	}
-	
-	@AfterClass
-	public static void after() {
-		
-		IdentifiedMS.testmode=false;
-	}
-	
 	@Test
 	public void defaultNameIsCodeColumn() {
 		
