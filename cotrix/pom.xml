@@ -17,32 +17,32 @@
 
 	<modules>
 		<module>cotrix-web</module>
-		
+
 		<module>cotrix-web-importwizard</module>
-		
+
 		<module>cotrix-web-codelistmanager</module>
-		
+
 		<module>cotrix-web-menu</module>
-		
+
 		<module>cotrix-web-share</module>
-		
+
 		<module>cotrix-web-publish</module>
 
 		<module>cotrix-common</module>
-		
+
 		<module>cotrix-repository</module>
-		
+
 		<module>cotrix-domain</module>
 		<module>cotrix-test-domain</module>
-		
+
 		<module>cotrix-io</module>
-		
+
 		<module>cotrix-lifecycle</module>
-		
+
 		<module>cotrix-engine</module>
-		
+
 		<module>cotrix-security</module>
-		
+
 		<module>cotrix-action</module>
 
 		<module>cotrix-application</module>
@@ -140,7 +140,7 @@
 				<artifactId>cotrix-domain</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-test-domain</artifactId>
@@ -193,7 +193,7 @@
 				<type>test-jar</type>
 				<scope>test</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-security</artifactId>
@@ -270,7 +270,7 @@
 				<artifactId>cotrix-transient</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-gcube</artifactId>
@@ -294,6 +294,12 @@
 				<artifactId>cdi-api</artifactId>
 				<version>1.1</version>
 				<scope>compile</scope>
+				<exclusions>
+					<exclusion>
+						<artifactId>el-api</artifactId>
+						<groupId>javax.el</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>
@@ -301,6 +307,19 @@
 				<artifactId>weld-servlet-core</artifactId>
 				<version>${weld.version}</version>
 				<scope>runtime</scope>
+				<exclusions>
+					<exclusion>
+						<artifactId>jboss-el-api_3.0_spec</artifactId>
+						<groupId>org.jboss.spec.javax.el</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
+			<dependency>
+				<artifactId>jboss-el-api_3.0_spec</artifactId>
+				<groupId>org.jboss.spec.javax.el</groupId>
+				<version>1.0.0.Alpha1</version>
+				<scope>provided</scope>
 			</dependency>
 
 			<dependency>
@@ -482,7 +501,7 @@
 
 		</profile>
 
-		
+
 		<profile>
 
 			<id>gcube</id>
