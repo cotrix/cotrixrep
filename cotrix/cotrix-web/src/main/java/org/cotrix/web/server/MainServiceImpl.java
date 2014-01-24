@@ -24,7 +24,6 @@ import org.cotrix.application.NewsService.NewsItem;
 import org.cotrix.application.StatisticsService;
 import org.cotrix.application.StatisticsService.Statistics;
 import org.cotrix.common.cdi.Current;
-import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
@@ -34,18 +33,17 @@ import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
-
 import org.cotrix.web.share.server.util.ExceptionUtils;
 import org.cotrix.web.share.server.util.Users;
 import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.share.shared.exception.ServiceException;
 import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
-import org.cotrix.web.shared.UrlToken;
-import org.cotrix.web.shared.UsernamePasswordToken;
 import org.cotrix.web.shared.LoginToken;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
+import org.cotrix.web.shared.UrlToken;
+import org.cotrix.web.shared.UsernamePasswordToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -215,7 +213,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		logger.trace("registerUser username: {} email: {}", username, email);
 
 		try {
-			User user = user().name(username).email(email).fullName(username).is(Roles.USER).can(MainAction.LOGOUT).build();
+			User user = user().name(username).email(email).fullName(username).build();
 			signupService.signup(user, password);
 
 			return doLogin(LOGIN, new UsernamePasswordToken(username, password), openCodelists);

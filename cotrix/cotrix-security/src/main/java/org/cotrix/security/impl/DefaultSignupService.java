@@ -1,7 +1,9 @@
 package org.cotrix.security.impl;
 
+import static org.cotrix.action.MainAction.*;
 import static org.cotrix.action.UserAction.*;
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
 
 import javax.enterprise.event.Event;
@@ -38,7 +40,7 @@ public class DefaultSignupService implements SignupService {
 		
 		repository.add(user);
 		
-		User changeset = modifyUser(user).can(EDIT.on(user.id())).build();
+		User changeset = modifyUser(user).is(USER).can(LOGOUT,EDIT.on(user.id())).build();
 		
 		repository.update(changeset);
 		
