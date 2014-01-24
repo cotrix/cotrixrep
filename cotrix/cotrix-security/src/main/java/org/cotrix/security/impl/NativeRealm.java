@@ -1,16 +1,17 @@
 package org.cotrix.security.impl;
 
+import static org.cotrix.common.Utils.*;
+
 import javax.enterprise.context.ApplicationScoped;
 
 import org.cotrix.security.Realm;
-import org.cotrix.security.Token;
 import org.cotrix.security.tokens.NameAndPassword;
 
 @ApplicationScoped @Native
-public abstract class NativeRealm implements Realm<NameAndPassword> {
+public abstract class NativeRealm implements Realm {
 
 	@Override
-	public boolean supports(Token token) {
+	public boolean supports(Object token) {
 		return token instanceof NameAndPassword;
 	}
 	
@@ -19,17 +20,19 @@ public abstract class NativeRealm implements Realm<NameAndPassword> {
 	protected abstract void create(String name, String pwd);
 	
 	@Override
-	public String login(NameAndPassword token) {
+	public String login(Object token) {
 	
-		String pwd  = passwordFor(token.name());
+		NameAndPassword npwd = reveal(token,NameAndPassword.class);
+		
+		String pwd  = passwordFor(npwd.name());
 		
 		if (pwd==null)
 			return null;
 		
-		if (!token.password().equals(pwd))
-			throw new IllegalStateException("incorrect password for user "+token.name());
+		if (!npwd.password().equals(pwd))
+			throw new IllegalStateException("incorrect password for user "+npwd.name());
 		
-		return token.name();
+		return npwd.name();
 	}
 	
 	

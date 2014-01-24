@@ -2,7 +2,6 @@ package org.cotrix.security.impl;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.cotrix.security.Token;
 import org.cotrix.security.TokenCollector;
 import org.cotrix.security.tokens.NameAndPassword;
 
@@ -12,7 +11,7 @@ public class DefaultNameAndPasswordCollector implements TokenCollector {
 	public static final String pwdParam="pwd";
 	
 	@Override
-	public Token token(HttpServletRequest request) {
+	public Object token(HttpServletRequest request) {
 		
 		String name = (String) request.getAttribute(nameParam);
 		String pwd = (String) request.getAttribute(pwdParam);

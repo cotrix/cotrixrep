@@ -1,8 +1,7 @@
 package org.cotrix.security.tokens;
 
-import org.cotrix.security.Token;
 
-public class NameAndPassword implements Token {
+public class NameAndPassword {
 
 	public NameAndPassword(String name, String password) {
 		super();

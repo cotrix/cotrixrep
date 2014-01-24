@@ -38,7 +38,7 @@ public class MRealm extends NativeRealm {
 
 	}
 	
-	public void clear(@Observes Shutdown event, @Native Realm<?> realm) {
+	public void clear(@Observes Shutdown event, @Native Realm realm) {
 		if (this.getClass().isInstance(realm)) {
 			log.trace("clearing inner realm");
 			pwds.clear();

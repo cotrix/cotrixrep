@@ -15,5 +15,5 @@ public interface TokenCollector {
 	 * @param request the request
 	 * @return the authentication token, or <code>null</code> if the request does not carry one
 	 */
-	Token token(HttpServletRequest request);
+	Object token(HttpServletRequest request);
 }

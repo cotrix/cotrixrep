@@ -22,7 +22,7 @@ public class DefaultSignupService implements SignupService {
 	private static Logger log = LoggerFactory.getLogger(DefaultSignupService.class);
 	
 	@Inject @Native
-	private Realm<?> realm;
+	private Realm realm;
 	
 	@Inject
 	private UserRepository repository;

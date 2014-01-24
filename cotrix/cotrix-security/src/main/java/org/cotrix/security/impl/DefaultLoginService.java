@@ -17,7 +17,6 @@ import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.Realm;
-import org.cotrix.security.Token;
 import org.cotrix.security.TokenCollector;
 import org.cotrix.security.exceptions.UnknownUserException;
 import org.slf4j.Logger;
@@ -32,7 +31,7 @@ public class DefaultLoginService implements LoginService {
 	private Instance<TokenCollector> collectors;
 	
 	@Inject @Any
-	private Instance<Realm<?>> realms;
+	private Instance<Realm> realms;
 	
 	@Inject
 	private UserRepository users;
@@ -44,7 +43,7 @@ public class DefaultLoginService implements LoginService {
 	@Override
 	public User login(HttpServletRequest request) {
 	
-		Token token = collectTokenFrom(request);
+		Object token = collectTokenFrom(request);
 		
 		User user = null;
 		
@@ -80,9 +79,9 @@ public class DefaultLoginService implements LoginService {
 	}
 	
 	//helpers
-	private Token collectTokenFrom(HttpServletRequest request) {
+	private Object collectTokenFrom(HttpServletRequest request) {
 	
-		Token token =null;
+		Object token =null;
 
 		Iterator<TokenCollector> it = collectors.iterator();
 		
@@ -92,16 +91,15 @@ public class DefaultLoginService implements LoginService {
 		return token;
 	}
 	
-	private String identifyFrom(Token token) {
+	private String identifyFrom(Object token) {
 		
-		Iterator<Realm<?>> it = realms.iterator();
+		Iterator<Realm> it = realms.iterator();
 		
 		String id = null;
 		
 		search: while (it.hasNext() && id==null) {
 			
-			@SuppressWarnings("unchecked")
-			Realm<Token> authenticator = (Realm<Token>) it.next();
+			Realm authenticator =it.next();
 			
 			if (authenticator.supports(token)) {
 				id = authenticator.login(token);

@@ -7,7 +7,7 @@ package org.cotrix.security;
  * 
  * @param <T> the type authentication {@link Token} that identifies users in this realm.
  */
-public interface Realm<T extends Token> {
+public interface Realm {
 
 	/**
 	 * Returns <code>true</code> if this realm support an authentication token of a given type.
@@ -15,7 +15,7 @@ public interface Realm<T extends Token> {
 	 * @param token a token of the given type
 	 * @return <code>true</code> if this realm support the token of the given type
 	 */
-	boolean supports(Token token);
+	boolean supports(Object token);
 
 	/**
 	 * Returns the identity associated with a given token in this realm, or <code>null</code> if no identity is
@@ -25,7 +25,7 @@ public interface Realm<T extends Token> {
 	 * @return the identity associated with the token in this realm, or <code>null</code> if no identity is associated
 	 *         with the token
 	 */
-	String login(T token);
+	String login(Object token);
 	
 	
 	/**
