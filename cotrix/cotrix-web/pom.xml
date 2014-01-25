@@ -258,6 +258,26 @@
 			</dependencies>
 
 		</profile>
+		
+		
+		<profile>
+
+			<id>dev</id>
+			
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-stage</artifactId>
+				</dependency>
+
+			</dependencies>
+
+		</profile>
 
 
 		<profile>

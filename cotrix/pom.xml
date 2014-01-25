@@ -33,6 +33,7 @@
 		<module>cotrix-repository</module>
 
 		<module>cotrix-domain</module>
+		
 		<module>cotrix-test-domain</module>
 
 		<module>cotrix-io</module>
@@ -170,6 +171,13 @@
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-mail</artifactId>
+				<version>${project.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-stage</artifactId>
 				<version>${project.version}</version>
 				<scope>runtime</scope>
 			</dependency>
@@ -484,6 +492,7 @@
 
 
 			<modules>
+				<module>cotrix-stage</module>
 				<module>cotrix-mail</module>
 			</modules>
 
@@ -499,6 +508,16 @@
 			</modules>
 
 
+		</profile>
+		
+		<profile>
+				<id>dev</id>
+				<activation>
+					<activeByDefault>true</activeByDefault>
+				</activation>
+				<modules>
+					<module>cotrix-stage</module>
+				</modules>				
 		</profile>
 
 
