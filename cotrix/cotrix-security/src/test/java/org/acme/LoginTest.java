@@ -78,6 +78,26 @@ public class LoginTest extends ApplicationTest {
 		assertEquals(logged.name(),user.name());
 		
 	}
+	
+	@Test
+	public void changePwd() throws Exception {
+		
+		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
+		
+		signupService.signup(user,"old");
+		
+		user = repository.lookup(user.id());
+		
+		signupService.changePassword(user, "old", "new");
+		
+		when(req.getAttribute(nameParam)).thenReturn(user.name());
+		when(req.getAttribute(pwdParam)).thenReturn("new");
+
+		User logged = service.login(req);
+		
+		assertEquals(logged.name(),user.name());
+		
+	}
 
 	@Test(expected=IllegalStateException.class)
 	public void identitiesAreUnique() throws Exception {

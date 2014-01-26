@@ -10,7 +10,6 @@ import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Alternative;
 
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.security.Realm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +27,11 @@ public class MRealm extends NativeRealm {
 	
 	@Override
 	protected void create(String name, String pwd) {
+		update(name,pwd); //no difference
+	}
+	
+	@Override
+	protected void update(String name, String pwd) {
 		pwds.put(name,pwd);
 	}
 	
@@ -36,7 +40,8 @@ public class MRealm extends NativeRealm {
 		pwds.clear();
 	}
 	
-	public static void clear(@Observes Shutdown event, @Native Realm realm) {
+	public static void clear(@Observes Shutdown event, NativeRealm realm) {
+		
 		if (realm instanceof MRealm)
 			MRealm.class.cast(realm).clear();
 	}

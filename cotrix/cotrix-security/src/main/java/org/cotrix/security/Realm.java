@@ -34,5 +34,5 @@ public interface Realm {
 	 * @param name the username
 	 * @param pwd the password
 	 */
-	void signup(String name,String pwd);
+	void add(String name,String pwd);
 }

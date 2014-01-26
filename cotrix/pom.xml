@@ -512,9 +512,11 @@
 		
 		<profile>
 				<id>dev</id>
+				
 				<activation>
 					<activeByDefault>true</activeByDefault>
 				</activation>
+				
 				<modules>
 					<module>cotrix-stage</module>
 				</modules>				

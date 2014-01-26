@@ -24,15 +24,9 @@ public class NeoRealm extends NativeRealm {
 	@Override
 	protected String passwordFor(String name) {
 		
-		try 
-		(
-		 ResourceIterator<Node> it = db.findNodesByLabelAndProperty(IDENTITY,name_prop, name).iterator()
-		) 
-		{
-			return it.hasNext() ? (String) it.next().getProperty(pwd_prop): null;
-		}
+		Node node = lookup(name);
 
-		
+		return node==null ? null: (String) node.getProperty(pwd_prop);
 	
 	}
 	
@@ -45,4 +39,22 @@ public class NeoRealm extends NativeRealm {
 					
 	}
 	
+	@Override
+	protected void update(String name, String pwd) {
+		
+		//by now we know lookup() will succeed
+		lookup(name).setProperty(pwd_prop,pwd);
+	}
+	
+	//helper
+	private Node lookup(String name) {
+	
+		try 
+		(
+		 ResourceIterator<Node> it = db.findNodesByLabelAndProperty(IDENTITY,name_prop, name).iterator()
+		) 
+		{
+			return it.hasNext() ? it.next():null;
+		}
+	}
 }
