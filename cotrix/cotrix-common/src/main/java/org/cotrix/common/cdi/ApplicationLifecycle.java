@@ -13,6 +13,7 @@ import org.cotrix.common.cdi.ApplicationEvents.Ready;
 import org.cotrix.common.cdi.ApplicationEvents.Restart;
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.common.cdi.ApplicationEvents.Startup;
+import org.cotrix.common.tx.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,7 @@ public class ApplicationLifecycle {
 	
 	//for now, someone needs to explicitly tell us (servlet context listener)
 	//(if future CDI versions fire startup events that we can align and avoid explicit callers)
+	@Transactional
 	public void start() {
 		
 		scenario = new AnnotationLiteral<FirstTime>() {};

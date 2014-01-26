@@ -13,7 +13,7 @@ import javax.inject.Singleton;
 import org.cotrix.common.Constants;
 import org.cotrix.common.tx.Transaction;
 import org.cotrix.common.tx.Transactional;
-import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -35,7 +35,7 @@ public class TransactionTest {
 	@Inject
 	Event<MyEvent> events;
 	
-	@After
+	@Before
 	public void resetMockAfterEachTest() {
 		
 		reset(tx);

@@ -13,6 +13,8 @@ public class Constants {
 	
 	public static final String DEFAULT_CONFIGURATION_PATH = "/default-configuration.xml";
 	
+	public static final String DEFAULT_COTRIX_PWD = "cotrix";
+	
 	public static final String DEFAULT_STORAGE_DIR = System.getProperty("user.dir")+"/cotrix";
 	
 	//priorities for alternative 

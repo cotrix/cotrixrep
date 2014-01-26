@@ -1,7 +1,6 @@
 package org.cotrix.security.impl;
 
 import static org.cotrix.common.Constants.*;
-import static org.cotrix.domain.dsl.Users.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +10,6 @@ import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Alternative;
 
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.cotrix.security.Realm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,15 +31,13 @@ public class MRealm extends NativeRealm {
 		pwds.put(name,pwd);
 	}
 	
-	public void clear(@Observes Startup event) {
-		pwds.put(cotrix.name(),cotrix.name());
-
+	void clear() {
+		log.trace("clearing inner realm");
+		pwds.clear();
 	}
 	
-	public void clear(@Observes Shutdown event, @Native Realm realm) {
-		if (this.getClass().isInstance(realm)) {
-			log.trace("clearing inner realm");
-			pwds.clear();
-		}
+	public static void clear(@Observes Shutdown event, @Native Realm realm) {
+		if (realm instanceof MRealm)
+			MRealm.class.cast(realm).clear();
 	}
 }

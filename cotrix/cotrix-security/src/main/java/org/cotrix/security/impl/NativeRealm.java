@@ -6,10 +6,13 @@ import javax.enterprise.context.ApplicationScoped;
 
 import org.cotrix.security.Realm;
 import org.cotrix.security.tokens.NameAndPassword;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 
 @ApplicationScoped @Native
 public abstract class NativeRealm implements Realm {
 
+	BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
+	
 	@Override
 	public boolean supports(Object token) {
 		return token instanceof NameAndPassword;
@@ -29,12 +32,11 @@ public abstract class NativeRealm implements Realm {
 		if (pwd==null)
 			return null;
 		
-		if (!npwd.password().equals(pwd))
-			throw new IllegalStateException("incorrect password for user "+npwd.name());
-		
-		return npwd.name();
+		if (encryptor.checkPassword(npwd.password(), pwd))
+			 return npwd.name();
+					 
+		throw new IllegalStateException("incorrect password for user "+npwd.name());
 	}
-	
 	
 	@Override
 	public void signup(String name, String pwd) {
@@ -42,7 +44,9 @@ public abstract class NativeRealm implements Realm {
 		if (passwordFor(name)!=null)
 			throw new IllegalStateException("a user '"+name+"' has already signed up");
 		
-		create(name,pwd);
+		String encrypted = encryptor.encryptPassword(pwd);
+		
+		create(name,encrypted);
 	}
 	
 	
