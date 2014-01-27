@@ -519,6 +519,7 @@
 				
 				<modules>
 					<module>cotrix-stage</module>
+					<module>cotrix-neo</module>
 				</modules>				
 		</profile>
 
@@ -529,7 +530,6 @@
 
 			<modules>
 				<module>cotrix-neo</module>
-				<module>cotrix-mail</module>
 			</modules>
 
 

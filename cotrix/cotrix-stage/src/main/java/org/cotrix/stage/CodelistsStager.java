@@ -111,7 +111,7 @@ public class CodelistsStager {
 
 	void stageSDMX(Info info) {
 
-		log.info("staging {}", info.name);
+		log.info("staging {}({})", info.name, info.version);
 
 		InputStream inputStream = CodelistsStager.class.getResourceAsStream(info.resource);
 
