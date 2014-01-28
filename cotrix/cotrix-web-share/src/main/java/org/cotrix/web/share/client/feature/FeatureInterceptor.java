@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.cotrix.web.share.client.feature.event.NewApplicationFeatureSetEvent;
-import org.cotrix.web.share.client.feature.event.NewCodelistsFeatureSetEvent;
+import org.cotrix.web.share.client.feature.event.NewInstancesFeatureSetEvent;
 import org.cotrix.web.share.client.rpc.CallBackListener;
 import org.cotrix.web.share.shared.feature.FeatureCarrier;
 import org.cotrix.web.share.shared.feature.UIFeature;
@@ -41,10 +41,10 @@ public class FeatureInterceptor implements CallBackListener {
 				featureBus.fireEvent(new NewApplicationFeatureSetEvent(applicationFeatures));
 			}
 			
-			if (response.getCodelistsFeatures()!=null) {
-				Map<String, Set<UIFeature>> codelistsFeatures = response.getCodelistsFeatures();
-				Log.trace("broadcasting codelists features "+codelistsFeatures);
-				featureBus.fireEvent(new NewCodelistsFeatureSetEvent(codelistsFeatures));
+			if (response.getInstancesFeatures()!=null) {
+				Map<String, Set<UIFeature>> instancesFeatures = response.getInstancesFeatures();
+				Log.trace("broadcasting instances features "+instancesFeatures);
+				featureBus.fireEvent(new NewInstancesFeatureSetEvent(instancesFeatures));
 			}
 		}
 		return true;

@@ -11,5 +11,6 @@ import org.cotrix.web.share.shared.feature.UIFeature;
  */
 public enum PermissionUIFeatures implements UIFeature {
 	EDIT_USERS_ROLES,
-	EDIT_PROFILE;
+	EDIT_PROFILE,
+	CHANGE_PASSWORD;
 }

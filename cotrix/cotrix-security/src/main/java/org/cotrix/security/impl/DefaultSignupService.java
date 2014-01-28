@@ -45,7 +45,7 @@ public class DefaultSignupService implements SignupService {
 		
 		repository.add(user);
 		
-		User changeset = modifyUser(user).is(USER).can(LOGOUT,EDIT.on(user.id())).build();
+		User changeset = modifyUser(user).is(USER).can(LOGOUT,EDIT.on(user.id()), VIEW.on(user.id()), CHANGE_PASSWORD.on(user.id())).build();
 		
 		repository.update(changeset);
 		

@@ -83,6 +83,7 @@ public class TaskInterceptor {
 	
 			if (output instanceof FeatureCarrier) {
 				FeatureCarrier response = (FeatureCarrier) output;
+				logger.trace("nextActions: {}", outcome.nextActions());
 				actionMapper.fillFeatures(response, resource, outcome.nextActions());
 			}
 	
