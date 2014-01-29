@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.cotrix.action.events.CodelistActionEvents.Import;
 import org.cotrix.action.events.CodelistActionEvents.Publish;
+import org.cotrix.action.events.CodelistActionEvents.Version;
 import org.cotrix.application.NewsService.NewsItem;
 
 public class CodelistActionReporter {
@@ -19,7 +20,7 @@ public class CodelistActionReporter {
 	
 	}
 	
-	public void onVersion(@Observes Publish e) throws Exception {
+	public void onVersion(@Observes Version e) throws Exception {
 		
 		news.fire(new NewsItem("version "+e.version+" of "+e.name+" now available."));
 		

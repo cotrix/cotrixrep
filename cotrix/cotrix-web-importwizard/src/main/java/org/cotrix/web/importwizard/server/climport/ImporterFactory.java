@@ -10,6 +10,8 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.cotrix.common.cdi.BeanSession;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.web.importwizard.server.climport.ImporterMapper.CsvMapper;
 import org.cotrix.web.importwizard.server.climport.ImporterMapper.SdmxMapper;
 import org.cotrix.web.importwizard.server.climport.ImporterSource.SourceParameterProvider.CodelistBeanDirectivesProvider;
@@ -46,9 +48,13 @@ public class ImporterFactory {
 
 	@Inject
 	protected Importer importer;
+	
+	@Inject @Current
+	protected BeanSession session;
 
 	public Progress importCodelist(final ImportTaskSession importTaskSession, CodeListType codeListType) throws IOException
 	{
+		final BeanSession unscopedSession = this.session.copy();
 		final Progress progress = new Progress();
 		switch (codeListType) {
 			case CSV: {
@@ -56,7 +62,7 @@ public class ImporterFactory {
 
 					@Override
 					public void run() {
-						importer.importCodelist(progress, tableDirectivesProvider, importerSource, csvMapper, importerTarget, importTaskSession);
+						importer.importCodelist(progress, tableDirectivesProvider, importerSource, csvMapper, importerTarget, importTaskSession, unscopedSession);
 					}
 				});
 			} break;
@@ -65,7 +71,7 @@ public class ImporterFactory {
 
 					@Override
 					public void run() {
-						importer.importCodelist(progress, codelistBeanDirectivesProvider, importerSource, sdmxMapper, importerTarget, importTaskSession);
+						importer.importCodelist(progress, codelistBeanDirectivesProvider, importerSource, sdmxMapper, importerTarget, importTaskSession, unscopedSession);
 					}
 				});
 			} break;

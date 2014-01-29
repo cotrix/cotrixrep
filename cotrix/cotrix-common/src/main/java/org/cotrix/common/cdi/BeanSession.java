@@ -13,7 +13,15 @@ import java.util.Map;
 @SuppressWarnings("serial")
 public class BeanSession implements Serializable {
 
-	private final Map<Class<?>,Object> data = new HashMap<Class<?>, Object>();
+	private final Map<Class<?>,Object> data;
+	
+	public BeanSession() {
+		this.data = new HashMap<Class<?>, Object>();
+	}
+	
+	private BeanSession(Map<Class<?>,Object> data) {
+		this.data = data;
+	}
 	
 	/**
 	 * Adds a bean of a given type to this session, replacing any other bean of the same type.
@@ -51,5 +59,8 @@ public class BeanSession implements Serializable {
 		data.remove(type);
 	}
 	
+	public BeanSession copy() {
+		return new BeanSession(this.data);
+	}
 
 }

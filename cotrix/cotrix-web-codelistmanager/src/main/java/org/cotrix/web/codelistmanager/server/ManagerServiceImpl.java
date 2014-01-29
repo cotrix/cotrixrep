@@ -20,6 +20,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
+import org.cotrix.common.cdi.BeanSession;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
@@ -74,22 +76,25 @@ public class ManagerServiceImpl implements ManagerService {
 	protected Logger logger = LoggerFactory.getLogger(ManagerServiceImpl.class);
 
 	@Inject
-	ActionMapper mapper;
+	private ActionMapper mapper;
 
 	@Inject
-	CodelistRepository repository;
+	private CodelistRepository repository;
 
 	@Inject
-	protected ModifyCommandHandler commandHandler;
+	private ModifyCommandHandler commandHandler;
 
 	@Inject
-	protected VersioningService versioningService;
+	private VersioningService versioningService;
 
 	@Inject
-	protected LifecycleService lifecycleService;
+	private LifecycleService lifecycleService;
 
 	@Inject
 	private Event<CodelistActionEvents.CodelistEvent> events;
+	
+	@Inject @Current
+	private BeanSession session;
 
 	/** 
 	 * {@inheritDoc}
@@ -228,7 +233,7 @@ public class ManagerServiceImpl implements ManagerService {
 		repository.add(newCodelist);
 		lifecycleService.start(newCodelist.id());
 
-		events.fire(new CodelistActionEvents.Version(newCodelist.id(),newCodelist.name(),newVersion));
+		events.fire(new CodelistActionEvents.Version(newCodelist.id(),newCodelist.name(),newVersion, session));
 
 		CodelistGroup group = new CodelistGroup(newCodelist.name().toString());
 		group.addVersion(newCodelist.id(), newCodelist.version());

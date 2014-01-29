@@ -13,6 +13,7 @@ import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.action.events.CodelistActionEvents.Import;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
+import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.tx.Transactional;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.web.importwizard.server.climport.ImporterSource.SourceParameterProvider;
@@ -40,7 +41,8 @@ public class Importer {
 			ImporterSource source,
 			ImporterMapper<T> mapper,
 			ImporterTarget target,
-			ImportTaskSession session) {
+			ImportTaskSession session,
+			BeanSession beanSession) {
 		
 		logger.trace("starting import");
 		try {
@@ -73,7 +75,7 @@ public class Importer {
 
 			progress.setStatus(Status.DONE);
 			
-			events.fire(new Import(codelist.id(), codelist.name(), codelist.version()));
+			events.fire(new Import(codelist.id(), codelist.name(), codelist.version(), beanSession));
 
 		} catch(Throwable throwable)
 		{
