@@ -345,7 +345,7 @@
 
 				<dependency>
 					<groupId>org.cotrix</groupId>
-					<artifactId>cotrix-gcube-security</artifactId>
+					<artifactId>cotrix-gcube-extension</artifactId>
 					<version>0.0.1-SNAPSHOT</version>
 					<scope>runtime</scope>
 				</dependency>
