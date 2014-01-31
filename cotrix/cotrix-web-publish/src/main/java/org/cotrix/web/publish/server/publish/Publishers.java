@@ -8,6 +8,8 @@ import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
+import org.cotrix.common.cdi.BeanSession;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.io.SerialisationService.SerialisationDirectives;
 import org.cotrix.web.publish.shared.PublishDirectives;
 
@@ -52,6 +54,10 @@ public class Publishers {
 	@Inject
 	protected Publisher publisher;
 	
+	@Inject @Current
+	protected BeanSession session;
+	
+	
 	protected ExecutorService executorService = Executors.newFixedThreadPool(10);
 	
 	public void createPublisher(PublishDirectives publishDirectives, PublishStatus publishStatus) {
@@ -63,13 +69,14 @@ public class Publishers {
 	}
 	
 	protected <T> void createPublisher(final PublishMapper<T> mapper, final SerializationDirectivesProducer<T> serDir, final PublishDirectives publishDirectives, final PublishStatus publishStatus) {
+		final BeanSession unscopedSession = this.session.copy();
 		switch (publishDirectives.getDestination()) {
 			case FILE: {
 				executorService.execute(new Runnable() {
 					
 					@Override
 					public void run() {
-						publisher.publish(publishDirectives, mapper, serDir, desktopDestination, publishStatus);
+						publisher.publish(publishDirectives, mapper, serDir, desktopDestination, publishStatus, unscopedSession);
 					}
 				});
 			} break;
@@ -78,7 +85,7 @@ public class Publishers {
 					
 					@Override
 					public void run() {
-						publisher.publish(publishDirectives, mapper, Publishers.<T>getEmptySerializationDirectivesProducer(), cloudDestination, publishStatus);
+						publisher.publish(publishDirectives, mapper, Publishers.<T>getEmptySerializationDirectivesProducer(), cloudDestination, publishStatus, unscopedSession);
 					}
 				});
 			} break;

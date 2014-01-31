@@ -42,7 +42,7 @@ public class ActionMapper {
 		logger.trace("fillFeatures carrier: {} instanceId: {} actions: {}", carrier.getClass(), instanceId, actions);
 
 		Set<UIFeature> codelistFeatures = mapActions(actions);
-		carrier.addCodelistsFeatures(instanceId, codelistFeatures);
+		carrier.addInstancesFeatures(instanceId, codelistFeatures);
 	}
 
 	protected Set<UIFeature> mapActions(Collection<? extends Action> actions)

@@ -24,7 +24,7 @@ public abstract class FeatureCarrier implements IsSerializable {
 	}
 	
 	protected Set<UIFeature> applicationFeatures;
-	protected Map<String, Set<UIFeature>> codelistsFeatures;
+	protected Map<String, Set<UIFeature>> instancesFeatures;
 	
 	public FeatureCarrier(){}
 
@@ -45,13 +45,13 @@ public abstract class FeatureCarrier implements IsSerializable {
 	/**
 	 * @return the codelistsFeatures
 	 */
-	public Map<String, Set<UIFeature>> getCodelistsFeatures() {
-		return codelistsFeatures;
+	public Map<String, Set<UIFeature>> getInstancesFeatures() {
+		return instancesFeatures;
 	}
 
-	public void addCodelistsFeatures(String codelistId, Set<UIFeature> codelistFeatures) {
-		if (codelistsFeatures == null) codelistsFeatures = new HashMap<String, Set<UIFeature>>();
-		codelistsFeatures.put(codelistId, codelistFeatures);
+	public void addInstancesFeatures(String instanceId, Set<UIFeature> instanceFeatures) {
+		if (instancesFeatures == null) instancesFeatures = new HashMap<String, Set<UIFeature>>();
+		instancesFeatures.put(instanceId, instanceFeatures);
 	}
 
 	/** 
@@ -62,8 +62,8 @@ public abstract class FeatureCarrier implements IsSerializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Response [applicationFeatures=");
 		builder.append(applicationFeatures);
-		builder.append(", codelistsFeatures=");
-		builder.append(codelistsFeatures);
+		builder.append(", instancesFeatures=");
+		builder.append(instancesFeatures);
 		builder.append("]");
 		return builder.toString();
 	}	

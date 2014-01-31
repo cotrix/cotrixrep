@@ -42,7 +42,7 @@ public interface PermissionService extends RemoteService {
 	
 	public DataWindow<UIUserDetails> getUsersDetails() throws ServiceException;
 	
-	public UIUserDetails getUserDetails() throws ServiceException;
+	public UIUserDetails getUserDetails(String userId) throws ServiceException;
 	
 	public void saveUserDetails(UIUserDetails userDetails) throws ServiceException;
 	

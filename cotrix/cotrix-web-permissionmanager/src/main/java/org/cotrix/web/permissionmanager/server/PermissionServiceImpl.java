@@ -103,6 +103,7 @@ public class PermissionServiceImpl implements PermissionService {
 
 		mapper.map(MANAGE_USERS).to(EDIT_USERS_ROLES);
 		mapper.map(UserAction.EDIT).to(EDIT_PROFILE);
+		mapper.map(UserAction.CHANGE_PASSWORD).to(CHANGE_PASSWORD);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -274,10 +275,12 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 	@Override
-	public UIUserDetails getUserDetails() throws ServiceException {
+	@UserTask(UserAction.VIEW)
+	public UIUserDetails getUserDetails(@Id String userId) throws ServiceException {
 		logger.trace("getUserDetails");
 
-		UIUserDetails userDetails = toUserDetails(currentUser);
+		User user = userRepository.lookup(userId);
+		UIUserDetails userDetails = toUserDetails(user);
 		return userDetails;
 	}
 	

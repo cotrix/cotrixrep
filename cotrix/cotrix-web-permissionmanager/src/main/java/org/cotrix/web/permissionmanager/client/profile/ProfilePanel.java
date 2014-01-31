@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.permissionmanager.client.profile;
 
+import org.cotrix.web.permissionmanager.client.ModuleActivactedEvent;
+import org.cotrix.web.permissionmanager.client.PermissionBus;
 import org.cotrix.web.permissionmanager.client.PermissionServiceAsync;
 import org.cotrix.web.permissionmanager.client.profile.PasswordUpdateDialog.PassworUpdatedEvent;
 import org.cotrix.web.permissionmanager.client.profile.PasswordUpdateDialog.PasswordUpdatedHandler;
@@ -12,9 +14,12 @@ import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.UserLoggedEvent;
 import org.cotrix.web.share.client.feature.FeatureBinder;
+import org.cotrix.web.share.client.feature.HasVisibleFeature;
 import org.cotrix.web.share.client.feature.ValueBoxEditing;
+import org.cotrix.web.share.client.feature.InstanceFeatureBind.IdProvider;
 import org.cotrix.web.share.client.util.AccountValidator;
 import org.cotrix.web.share.client.util.StatusUpdates;
+import org.cotrix.web.share.shared.UIUser;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -25,7 +30,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasVisibility;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
@@ -34,6 +38,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -42,7 +48,8 @@ import com.google.web.bindery.event.shared.EventBus;
 @Singleton
 public class ProfilePanel extends ResizeComposite {
 
-	interface ProfilePanelUiBinder extends UiBinder<Widget, ProfilePanel> { }
+	interface ProfilePanelUiBinder extends UiBinder<Widget, ProfilePanel> {}
+	interface ProfilePanelEventBinder extends EventBinder<ProfilePanel> {}
 
 	protected interface Style extends CssResource {
 		String invalidValue();
@@ -60,6 +67,9 @@ public class ProfilePanel extends ResizeComposite {
 	@Inject
 	protected PermissionServiceAsync service;
 	protected UIUserDetails userDetails = new UIUserDetails();
+	
+	@Inject
+	protected UserIdProvider userIdProvider;	
 
 	@Inject
 	protected void init(ProfilePanelUiBinder uiBinder) {
@@ -79,20 +89,19 @@ public class ProfilePanel extends ResizeComposite {
 			}
 		});
 		
-		FeatureBinder.bind(new ValueBoxEditing<String>(fullname), PermissionUIFeatures.EDIT_PROFILE);
-		FeatureBinder.bind(new ValueBoxEditing<String>(email), PermissionUIFeatures.EDIT_PROFILE);
-		FeatureBinder.bind((HasVisibility)password, PermissionUIFeatures.EDIT_PROFILE);
+		FeatureBinder.bind(new ValueBoxEditing<String>(fullname), userIdProvider, PermissionUIFeatures.EDIT_PROFILE);
+		FeatureBinder.bind(new ValueBoxEditing<String>(email), userIdProvider, PermissionUIFeatures.EDIT_PROFILE);
+		FeatureBinder.bind(new HasVisibleFeature(password), userIdProvider, PermissionUIFeatures.CHANGE_PASSWORD);
 	}
-
+	
 	@Inject
-	protected void bind(@CotrixBus EventBus cotrixBus) {
-		cotrixBus.addHandler(UserLoggedEvent.TYPE, new UserLoggedEvent.UserLoggedHandler() {
-
-			@Override
-			public void onUserLogged(UserLoggedEvent event) {
-				updateUserProfile();
-			}
-		});	
+	protected void bind(@PermissionBus EventBus bus, ProfilePanelEventBinder eventBinder) {
+		eventBinder.bindEventHandlers(this, bus);
+	}
+	
+	@EventHandler
+	protected void onModuleActivated(ModuleActivactedEvent event) {
+		updateUserProfile(userIdProvider.getId());
 	}
 	
 	@UiHandler("password")
@@ -141,8 +150,8 @@ public class ProfilePanel extends ResizeComposite {
 		return valid;
 	}
 
-	protected void updateUserProfile() {
-		service.getUserDetails(new ManagedFailureCallback<UIUserDetails>() {
+	protected void updateUserProfile(String userId) {
+		service.getUserDetails(userId, new ManagedFailureCallback<UIUserDetails>() {
 
 			@Override
 			public void onSuccess(UIUserDetails result) {
@@ -164,5 +173,27 @@ public class ProfilePanel extends ResizeComposite {
 		userDetails.setFullName(fullname.getText());
 		userDetails.setEmail(email.getText());
 		return userDetails;
+	}
+	
+	@Singleton
+	public static class UserIdProvider implements IdProvider, UserLoggedEvent.UserLoggedHandler {
+		
+		protected UIUser user;
+		
+		@Inject
+		protected void init(@CotrixBus EventBus cotrixBus) {
+			cotrixBus.addHandler(UserLoggedEvent.TYPE, this);
+		}
+
+		@Override
+		public void onUserLogged(UserLoggedEvent event) {
+			this.user = event.getUser();
+		}
+
+		@Override
+		public String getId() {
+			return user!=null?user.getId():null;
+		}
+		
 	}
 }

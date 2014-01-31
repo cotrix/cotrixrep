@@ -3,8 +3,10 @@
  */
 package org.cotrix.web.share.client.feature;
 
+import org.cotrix.web.share.client.feature.InstanceFeatureBind.IdProvider;
+import org.cotrix.web.share.client.feature.InstanceFeatureBind.StaticId;
 import org.cotrix.web.share.client.feature.event.NewApplicationFeatureSetEvent;
-import org.cotrix.web.share.client.feature.event.NewCodelistsFeatureSetEvent;
+import org.cotrix.web.share.client.feature.event.NewInstancesFeatureSetEvent;
 import org.cotrix.web.share.client.widgets.HasEditing;
 import org.cotrix.web.share.shared.feature.UIFeature;
 
@@ -38,25 +40,31 @@ public class FeatureBinder {
 		bind(new HasEnabledFeature(hasEnabled), feature);
 	}
 	
-	public static void bind(HasFeature hasFeature, String codelistId, UIFeature feature)
+	public static void bind(HasFeature hasFeature, String instanceId, UIFeature feature)
 	{
-		CodelistFeatureBind bind = new CodelistFeatureBind(codelistId, feature, hasFeature);
-		featureBus.addHandler(NewCodelistsFeatureSetEvent.TYPE, bind);
+		InstanceFeatureBind bind = new InstanceFeatureBind(new StaticId(instanceId), feature, hasFeature);
+		featureBus.addHandler(NewInstancesFeatureSetEvent.TYPE, bind);
 	}
 	
-	public static void bind(final HasVisibility hasVisibility, String codelistId, UIFeature feature)
+	public static void bind(final HasVisibility hasVisibility, String instanceId, UIFeature feature)
 	{
-		bind(new HasVisibleFeature(hasVisibility), codelistId, feature);
+		bind(new HasVisibleFeature(hasVisibility), instanceId, feature);
 	}
 	
-	public static void bind(final HasEnabled hasEnabled, String codelistId, UIFeature feature)
+	public static void bind(final HasEnabled hasEnabled, String instanceId, UIFeature feature)
 	{
-		bind(new HasEnabledFeature(hasEnabled), codelistId, feature);
+		bind(new HasEnabledFeature(hasEnabled), instanceId, feature);
 	}
 	
-	public static void bind(final HasEditing hasEditing, String codelistId, UIFeature feature)
+	public static void bind(final HasEditing hasEditing, String instanceId, UIFeature feature)
 	{
-		bind(new HasEditableFeature(hasEditing), codelistId, feature);
+		bind(new HasEditableFeature(hasEditing), instanceId, feature);
+	}
+	
+	public static void bind(HasFeature hasFeature, IdProvider idProvider, UIFeature feature)
+	{
+		InstanceFeatureBind bind = new InstanceFeatureBind(idProvider, feature, hasFeature);
+		featureBus.addHandler(NewInstancesFeatureSetEvent.TYPE, bind);
 	}
 
 }

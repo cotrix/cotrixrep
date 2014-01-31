@@ -75,7 +75,7 @@ public class NewsServiceTest extends ApplicationTest {
 	
 		int size = service.news().size(); 
 
-		actions.fire(new Import("id",new QName("name"), "1"));
+		actions.fire(new Import("id",new QName("name"), "1", null));
 		
 		System.out.println(service.news());
 		

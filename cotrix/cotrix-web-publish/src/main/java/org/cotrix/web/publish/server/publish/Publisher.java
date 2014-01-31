@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
+import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.tx.Transactional;
 import org.cotrix.io.SerialisationService.SerialisationDirectives;
 import org.cotrix.web.publish.shared.PublishDirectives;
@@ -29,7 +30,7 @@ public class Publisher {
 	public <T> void publish(PublishDirectives publishDirectives,
 			PublishMapper<T> mapper,
 			SerializationDirectivesProducer<T> serializationProducer,
-			PublishToDestination destination, PublishStatus publishStatus) {
+			PublishToDestination destination, PublishStatus publishStatus, BeanSession session) {
 		try {
 			
 			Progress progress = publishStatus.getProgress();
@@ -58,7 +59,7 @@ public class Publisher {
 
 			logger.trace("serializing");
 			SerialisationDirectives<T> serialisationDirectives = serializationProducer.produce(publishDirectives);
-			destination.publish(outcome.result(), serialisationDirectives, publishDirectives, publishStatus);
+			destination.publish(outcome.result(), serialisationDirectives, publishDirectives, publishStatus, session);
 
 			logger.info("publish complete");
 			progress.setStatus(Status.DONE);
