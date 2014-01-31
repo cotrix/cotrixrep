@@ -35,7 +35,9 @@ public class CodelistIngester {
 
 		lifecycle.start(list.id());
 
-		for (User user : SomeUsers.owners)
-			users.update(modifyUser(user).is(OWNER.on(list.id())).build());
+		for (User user : SomeUsers.owners) {
+			User retrieved = users.lookup(user.id()); //get latest version of this object
+			users.update(modifyUser(retrieved).is(OWNER.on(list.id())).build());
+		}
 	}
 }
