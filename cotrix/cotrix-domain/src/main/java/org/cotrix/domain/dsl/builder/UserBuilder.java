@@ -74,6 +74,11 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 		return this;
 	}
 	
+	@Override
+	public UserChangeClause isNot(Collection<Role> roles) {
+		return isNot(roles.toArray(new DefaultRole[0]));
+	}
+	
 	
 	@Override
 	public UserBuilder can(Collection<Action> actions) {

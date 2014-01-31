@@ -33,7 +33,7 @@ public class UserGrammar {
 	}
 	
 	
-	public static interface ThirdClause {
+	public static interface ThirdClause extends FourthClause {
 		
 		
 		ThirdClause fullName(String name);
@@ -58,5 +58,7 @@ public class UserGrammar {
 	public static interface FourthClause  {
 		
 		UserChangeClause isNot(Role ... roles);
+		
+		UserChangeClause isNot(Collection<Role> roles);
 	}
 }
