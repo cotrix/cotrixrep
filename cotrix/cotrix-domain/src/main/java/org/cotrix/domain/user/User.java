@@ -13,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.cotrix.action.Action;
+import org.cotrix.domain.memory.UserMS;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 
@@ -150,13 +151,19 @@ public interface User extends Identified {
 
 		private static final long serialVersionUID = 1L;
 
-		public Private(User.State state) {
+		public Private(UserMS state) {
 			
 			super(state);
 			
-			//normalise roles provided by user (may well not be)
-			set(state().roles());
+			//normalise roles provided by client (may well not be)
+			set(state.roles());
 			
+		
+		}
+
+		public Private(User.State state) {
+			
+			super(state);			
 		
 		}
 		

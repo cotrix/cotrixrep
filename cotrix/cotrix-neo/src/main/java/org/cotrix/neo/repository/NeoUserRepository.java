@@ -46,7 +46,7 @@ public class NeoUserRepository implements StateRepository<User.State> {
 	public User.State lookup(String id) {
 		
 		Node node = nodeFor(id);
-
+		
 		return node == null? null : new NeoUser(node);
 	}
 

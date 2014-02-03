@@ -3,6 +3,7 @@ package org.acme;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.junit.Assert.*;
 
@@ -51,7 +52,7 @@ public class UserRepositoryCrudTest extends ApplicationTest {
 	public void updateUser() {
 		
 		Action doit = action("doit");
-		Role role = user().name("role").noMail().fullName("role").buildAsRoleFor(application);
+		Role role = role("role").fullName("role").buildAsRoleFor(application);
 		
 		User bill = bill();
 		
