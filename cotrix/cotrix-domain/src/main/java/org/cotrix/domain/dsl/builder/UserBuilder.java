@@ -67,7 +67,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	}
 	
 	@Override
-	public UserChangeClause isNot(Role ... roles) {
+	public UserChangeClause isNoLonger(Role ... roles) {
 		valid("roles",roles);
 		for (Role role : roles)
 			state.remove(role);
@@ -75,8 +75,8 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	}
 	
 	@Override
-	public UserChangeClause isNot(Collection<Role> roles) {
-		return isNot(roles.toArray(new DefaultRole[0]));
+	public UserChangeClause isNoLonger(Collection<Role> roles) {
+		return isNoLonger(roles.toArray(new DefaultRole[0]));
 	}
 	
 	

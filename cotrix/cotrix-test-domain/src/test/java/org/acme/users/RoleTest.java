@@ -40,12 +40,12 @@ public class RoleTest extends DomainTest {
 	@Test
 	public void revokeTemplateRole() {
 
-		Role something = aRole("r1").buildAsRoleFor(application);
-		Role somethingElse = aRole("r2").buildAsRoleFor(application);
+		Role something = aRole("r1").can(doit).buildAsRoleFor(application);
+		Role somethingElse = aRole("r2").can(dothat).buildAsRoleFor(application);
 	
 		User bill = like(bill().is(something,somethingElse).build());
 		
-		User changeset = modifyUser(bill).isNot(something).build();
+		User changeset = modifyUser(bill).isNoLonger(something).build();
 		
 		update(bill, changeset);
 		
@@ -69,13 +69,39 @@ public class RoleTest extends DomainTest {
 	}
 	
 	@Test
-	public void rolesGivePermissions() {
+	public void assigningRolesGivesPermissions() {
 
 		Role something = aRole().can(doit).buildAsRoleFor(application);
 	
 		User bill = like(bill().is(something).build());
 		
 		assertTrue(bill.can(doit));
+		
+	}
+	
+	@Test
+	public void revokingRolesRemovesPermissions() {
+
+		Role something = aRole().can(doit).buildAsRoleFor(application);
+	
+		User bill = like(bill().is(something).build());
+		
+		System.out.println(bill);
+		
+		assertTrue(bill.can(doit));
+		
+		System.out.println(bill);
+		
+		User changeset = modifyUser(bill).isNoLonger(something).build();
+		
+		System.out.println(bill);
+		
+		update(bill, changeset);
+		
+		System.out.println(bill);
+		
+		assertFalse(bill.can(doit));
+		
 		
 	}
 	
@@ -100,7 +126,7 @@ public class RoleTest extends DomainTest {
 		
 		assertTrue(bill.is(something.on("1")));
 		
-		User changeset = modifyUser(bill).isNot(something.on("1")).build();
+		User changeset = modifyUser(bill).isNoLonger(something.on("1")).build();
 		
 		update(bill, changeset);
 		
@@ -159,6 +185,7 @@ public class RoleTest extends DomainTest {
 		
 		//add smaller role
 		
+		System.out.println("UPDATING");
 		User changeset = modifyUser(bill).is(something).build();
 		
 		update(bill, changeset);
@@ -188,14 +215,14 @@ public class RoleTest extends DomainTest {
 	
 	
 	@Test
-	public void revokeRoleFromHiearchy() {
+	public void revokeRoleFromHierarchy() {
 
 		Role something = aRole("something").can(doit).buildAsRoleFor(application);
 		Role somethingElse = aRole("somethingElse").can(dothat).is(something).buildAsRoleFor(application);
 		
 		User bill = like(bill().is(somethingElse).build());
 
-		User changeset = modifyUser(bill).isNot(something).build();
+		User changeset = modifyUser(bill).isNoLonger(something).build();
 		
 		update(bill, changeset);
 		
@@ -262,6 +289,22 @@ public class RoleTest extends DomainTest {
 		User bill = like(bill().is(someone,someone).build());
 		
 		assertEqualUnordered(bill.roles(),someone);
+	}
+	
+	@Test
+	public void rolesCanBeReplaced() {
+		
+		Role someone = aRole("r1").buildAsRoleFor(application);
+		//show hierarchy does not matter, replacemnt is replacemente
+		Role someoneElse = aRole("r2").is(someone).buildAsRoleFor(application);
+		
+		User bill = like(bill().is(someoneElse).build());
+		
+		User changeset = modifyUser(bill).isNoLonger(bill.directRoles()).is(someone).build();
+		
+		update(bill,changeset);
+		
+		assertEqualUnordered(bill.directRoles(),someone);
 	}
 	
 	

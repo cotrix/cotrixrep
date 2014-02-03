@@ -121,7 +121,7 @@ public class DefaultDelegationService implements PermissionDelegationService {
 	
 				policy.validateRevocation(currentUser, user, roles);
 				
-				User changeset = modifyUser(user).isNot(roles).build();
+				User changeset = modifyUser(user).isNoLonger(roles).build();
 				
 				repository.update(changeset);
 			}

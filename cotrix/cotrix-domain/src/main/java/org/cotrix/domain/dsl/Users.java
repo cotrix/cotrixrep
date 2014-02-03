@@ -24,7 +24,7 @@ public class Users {
 	}
 
 	public static UserChangeClause modifyUser(User u) {
-		return new UserBuilder(new UserMS(u.id(),MODIFIED)).can(u.permissions()).is(u.directRoles());
+		return new UserBuilder(new UserMS(u.id(),MODIFIED)).can(u.directPermissions()).is(u.directRoles());
 	}
 
 	// predefined users

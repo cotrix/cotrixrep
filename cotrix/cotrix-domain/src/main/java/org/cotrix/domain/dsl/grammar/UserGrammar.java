@@ -57,8 +57,8 @@ public class UserGrammar {
 	
 	public static interface FourthClause  {
 		
-		UserChangeClause isNot(Role ... roles);
+		UserChangeClause isNoLonger(Role ... roles);
 		
-		UserChangeClause isNot(Collection<Role> roles);
+		UserChangeClause isNoLonger(Collection<Role> roles);
 	}
 }
