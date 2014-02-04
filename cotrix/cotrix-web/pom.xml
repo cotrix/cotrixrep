@@ -304,6 +304,19 @@
 			</dependencies>
 
 		</profile>
+		
+		<profile>
+
+			<id>dev-light</id>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-stage</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
 
 
 		<profile>

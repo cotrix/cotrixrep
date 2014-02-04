@@ -522,6 +522,14 @@
 					<module>cotrix-neo</module>
 				</modules>				
 		</profile>
+		
+		<profile>
+				<id>dev-light</id>
+				
+				<modules>
+					<module>cotrix-stage</module>
+				</modules>				
+		</profile>
 
 
 		<profile>
