@@ -25,4 +25,5 @@ public interface UserBarView {
 	void setUserEnabled(boolean enabled);
 	void setRegisterVisible(boolean visible);
 	void setUsernameClickEnabled(boolean enabled);
+	void setUserLoading(boolean loading);
 }

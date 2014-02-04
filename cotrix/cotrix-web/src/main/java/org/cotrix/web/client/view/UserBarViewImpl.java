@@ -12,6 +12,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -30,9 +31,12 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	interface Style extends CssResource {
 		String activeLabelDisabled();
 	}
-
+	
 	@UiField InlineLabel status;
 
+	@UiField Image loading;
+	@UiField FlowPanel userInfo;
+	
 	@UiField Image user;
 	@UiField Image userDisabled;
 
@@ -81,6 +85,12 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	protected void onRegisterClick(ClickEvent event)
 	{
 		presenter.onRegisterClick();
+	}
+	
+	@Override
+	public void setUserLoading(boolean loading) {
+		this.userInfo.setVisible(!loading);
+		this.loading.setVisible(loading);
 	}
 
 	@Override

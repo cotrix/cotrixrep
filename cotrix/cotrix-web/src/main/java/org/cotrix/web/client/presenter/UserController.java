@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.client.event.CotrixStartupEvent;
+import org.cotrix.web.client.event.UserLoggingInEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLoginEvent.UserLoginHandler;
 import org.cotrix.web.client.event.UserLogoutEvent;
@@ -135,14 +136,14 @@ public class UserController {
 		else logUsingToken(tokenParameter);
 	}
 	
-	
 	protected void getCurrentUser()
 	{
+		cotrixBus.fireEvent(new UserLoggingInEvent());
 		service.getCurrentUser(loginCallback);
-		//service.login(UsernamePasswordToken.GUEST, openedCodelists, loginCallback);
 	}
 	
 	protected void logUsingToken(String token) {
+		cotrixBus.fireEvent(new UserLoggingInEvent());
 		service.login(new UrlToken(token), openedCodelists, loginCallback);
 	}
 	
@@ -153,6 +154,7 @@ public class UserController {
 	
 	protected void logUser(String username, String password)
 	{
+		cotrixBus.fireEvent(new UserLoggingInEvent());
 		service.login(new UsernamePasswordToken(username, password), openedCodelists, loginCallback);
 	}
 	

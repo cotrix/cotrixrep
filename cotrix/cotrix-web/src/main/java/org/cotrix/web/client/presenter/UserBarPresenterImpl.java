@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.client.presenter;
 
+import org.cotrix.web.client.event.UserLoggingInEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLogoutEvent;
 import org.cotrix.web.client.event.UserRegisterEvent;
@@ -57,6 +58,7 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 			public void onUserLogged(UserLoggedEvent event) {
 				view.setUsername(event.getUser().getUsername());
 				view.setUserEnabled(true);
+				view.setUserLoading(false);
 			}
 		});
 		
@@ -66,6 +68,14 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 			public void onStatusUpdated(StatusUpdatedEvent event) {
 				String status = event.getStatus();
 				view.setStatus(status!=null?status:"");
+			}
+		});
+		
+		cotrixBus.addHandler(UserLoggingInEvent.TYPE, new UserLoggingInEvent.UserLoggingInEventHandler() {
+			
+			@Override
+			public void onUserLoggingIn(UserLoggingInEvent event) {
+				view.setUserLoading(true);
 			}
 		});
 	}
