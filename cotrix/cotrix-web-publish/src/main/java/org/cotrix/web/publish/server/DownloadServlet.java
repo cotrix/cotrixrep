@@ -40,14 +40,30 @@ public class DownloadServlet extends HttpServlet {
 			return;
 		}
 		
+		DownloadType downloadType = null;
+		try {
+			downloadType = DownloadType.valueOf(dowloadTypeParameter);
+		} catch(IllegalArgumentException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unknown download type "+dowloadTypeParameter);
+			return;
+		}
+		
 		String formatParameter =  (String) request.getParameter(Format.PARAMETER_NAME);
-		if (formatParameter == null) {
+		if (downloadType==DownloadType.RESULT && formatParameter == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing parameter "+Format.PARAMETER_NAME);
 			return;
 		}
-		Format format = Format.valueOf(formatParameter);
 		
-		DownloadType downloadType = DownloadType.valueOf(dowloadTypeParameter);
+		Format format = null;
+		if (formatParameter != null) {
+			try {
+				format = Format.valueOf(formatParameter);
+			} catch(IllegalArgumentException e) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unknown format "+formatParameter);
+				return;
+			}
+		}
+
 		switch (downloadType) {
 			case REPORT: flushReport(response); break;
 			case RESULT: flushFile(response, format); break;
