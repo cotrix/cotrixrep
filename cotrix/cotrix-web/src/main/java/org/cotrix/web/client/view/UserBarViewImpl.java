@@ -41,6 +41,7 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	@UiField Image userDisabled;
 
 	@UiField InlineLabel username;
+	@UiField InlineHTML logSeparator;
 	@UiField InlineLabel login;
 	@UiField InlineLabel logout;
 	@UiField InlineHTML registerSeparator;
@@ -129,11 +130,17 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	@Override
 	public void setLoginVisible(boolean visible) {
 		login.setVisible(visible);
+		updateLogSeparatorVisibility();
 	}
 
 	@Override
 	public void setLogoutVisible(boolean visible) {
 		logout.setVisible(visible);
+		updateLogSeparatorVisibility();
+	}
+	
+	protected void updateLogSeparatorVisibility() {
+		logSeparator.setVisible(login.isVisible()|logout.isVisible());
 	}
 
 	@Override
