@@ -10,6 +10,7 @@ import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.client.event.CotrixStartupEvent;
 import org.cotrix.web.client.event.UserLoggingInEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
+import org.cotrix.web.client.event.UserLoginFailedEvent;
 import org.cotrix.web.client.event.UserLoginEvent.UserLoginHandler;
 import org.cotrix.web.client.event.UserLogoutEvent;
 import org.cotrix.web.client.event.UserRegisterEvent;
@@ -21,7 +22,6 @@ import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 import org.cotrix.web.share.client.event.UserLoggedEvent;
 import org.cotrix.web.share.client.util.Exceptions;
-import org.cotrix.web.share.client.widgets.AlertDialog;
 import org.cotrix.web.share.shared.UIUser;
 import org.cotrix.web.shared.UrlToken;
 import org.cotrix.web.shared.UnknownUserException;
@@ -47,9 +47,7 @@ public class UserController {
 		@Override
 		public void onFailure(Throwable caught) {
 			Log.error("Login failed", caught);
-			if (caught instanceof UnknownUserException) {
-				AlertDialog.INSTANCE.center("Unknown user please check your credentials and re-try.", Exceptions.getPrintStackTrace(caught));
-			}
+			if (caught instanceof UnknownUserException) cotrixBus.fireEvent(new UserLoginFailedEvent(Exceptions.getPrintStackTrace(caught)));
 		}
 
 		@Override
