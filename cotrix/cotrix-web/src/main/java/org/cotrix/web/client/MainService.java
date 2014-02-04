@@ -17,7 +17,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@RemoteServiceRelativePath("main")
+@RemoteServiceRelativePath("service/main")
 public interface MainService extends RemoteService {
 	
 	public UIUser getCurrentUser() throws ServiceException;

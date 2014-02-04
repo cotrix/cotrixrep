@@ -51,7 +51,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	public UploadStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		form.setAction(GWT.getModuleBaseURL()+"fileupload");
+		form.setAction(GWT.getModuleBaseURL()+"service/fileupload");
 		
 		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
 			public void onSubmitComplete(SubmitCompleteEvent event) {

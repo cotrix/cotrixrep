@@ -92,43 +92,42 @@
 
 	<servlet-mapping>
 		<servlet-name>listServlet</servlet-name>
-		<url-pattern>/CodeListManager/main</url-pattern>
+		<url-pattern>/CodeListManager/service/main</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>importWizardFileUploadServlet</servlet-name>
-		<url-pattern>/CodeListManager/fileupload</url-pattern>
+		<url-pattern>/CodeListManager/service/fileupload</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>importWizardServiceServlet</servlet-name>
-		<url-pattern>/CodeListManager/importService</url-pattern>
+		<url-pattern>/CodeListManager/service/importService</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>importWizardReportDownloadServlet</servlet-name>
-		<url-pattern>/CodeListManager/reportDownload</url-pattern>
+		<url-pattern>/CodeListManager/service/reportDownload</url-pattern>
 	</servlet-mapping>
-
 
 	<servlet-mapping>
 		<servlet-name>codelistManagerServlet</servlet-name>
-		<url-pattern>/CodeListManager/manager</url-pattern>
+		<url-pattern>/CodeListManager/service/manager</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>codelistPublishServlet</servlet-name>
-		<url-pattern>/CodeListManager/publish</url-pattern>
+		<url-pattern>/CodeListManager/service/publish</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>publishDownloadServlet</servlet-name>
-		<url-pattern>/CodeListManager/publishDownload</url-pattern>
+		<url-pattern>/CodeListManager/service/publishDownload</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>permissionServlet</servlet-name>
-		<url-pattern>/CodeListManager/permissionService</url-pattern>
+		<url-pattern>/CodeListManager/service/permissionService</url-pattern>
 	</servlet-mapping>
 
 	<!-- <filter-mapping> -->
@@ -141,7 +140,7 @@
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>transactional</filter-name>
-		<url-pattern>/CodeListManager/*</url-pattern>
+		<url-pattern>/CodeListManager/service/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>authbarrier</filter-name>

@@ -30,7 +30,7 @@ import com.google.inject.Inject;
  */
 public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 
-	protected static final String DOWNLOAD_URL = GWT.getModuleBaseURL()+"publishDownload?"+DownloadType.PARAMETER_NAME+"="+DownloadType.REPORT;
+	protected static final String DOWNLOAD_URL = GWT.getModuleBaseURL()+"service/publishDownload?"+DownloadType.PARAMETER_NAME+"="+DownloadType.REPORT;
 	
 	private static DoneStepViewUiBinder uiBinder = GWT.create(DoneStepViewUiBinder.class);
 

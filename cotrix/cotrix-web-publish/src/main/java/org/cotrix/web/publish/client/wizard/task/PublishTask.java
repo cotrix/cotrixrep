@@ -45,7 +45,7 @@ import com.google.web.bindery.event.shared.EventBus;
 @Singleton
 public class PublishTask implements TaskWizardStep {
 	
-	protected static final String DOWNLOAD_URL = GWT.getModuleBaseURL()+"publishDownload?"+DownloadType.PARAMETER_NAME+"="+DownloadType.RESULT;
+	protected static final String DOWNLOAD_URL = GWT.getModuleBaseURL()+"service/publishDownload?"+DownloadType.PARAMETER_NAME+"="+DownloadType.RESULT;
 	
 	@Inject
 	protected PublishServiceAsync service;
