@@ -238,6 +238,11 @@
 					<groupId>org.cotrix</groupId>
 					<artifactId>cotrix-mail</artifactId>
 				</dependency>
+				
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-stage</artifactId>
+				</dependency>
 
 			</dependencies>
 
