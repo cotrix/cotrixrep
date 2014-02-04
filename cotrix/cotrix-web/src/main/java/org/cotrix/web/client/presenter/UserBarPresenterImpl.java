@@ -7,6 +7,7 @@ import org.cotrix.web.client.event.UserLoggingInEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLogoutEvent;
 import org.cotrix.web.client.event.UserRegisterEvent;
+import org.cotrix.web.client.event.UserRegisteringEvent;
 import org.cotrix.web.client.view.LoginDialog;
 import org.cotrix.web.client.view.LoginDialog.LoginDialogListener;
 import org.cotrix.web.client.view.RegisterDialog;
@@ -78,6 +79,15 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 				view.setUserLoading(true);
 			}
 		});
+		
+		cotrixBus.addHandler(UserRegisteringEvent.TYPE, new UserRegisteringEvent.UserRegisteringEventHandler() {
+			
+			@Override
+			public void onUserRegistering(UserRegisteringEvent event) {
+				view.setUserLoading(true);
+			}
+		});
+		
 	}
 		
 	protected void bindFeatures()

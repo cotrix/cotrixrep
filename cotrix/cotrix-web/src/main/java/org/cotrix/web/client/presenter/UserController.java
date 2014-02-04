@@ -13,6 +13,7 @@ import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLoginEvent.UserLoginHandler;
 import org.cotrix.web.client.event.UserLogoutEvent;
 import org.cotrix.web.client.event.UserRegisterEvent;
+import org.cotrix.web.client.event.UserRegisteringEvent;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.event.CodelistClosedEvent;
 import org.cotrix.web.share.client.event.CodelistOpenedEvent;
@@ -160,6 +161,7 @@ public class UserController {
 	
 	protected void registerUser(String username, String password, String email)
 	{
+		cotrixBus.fireEvent(new UserRegisteringEvent());
 		service.registerUser(username, password, email, openedCodelists, loginCallback);
 	}
 
