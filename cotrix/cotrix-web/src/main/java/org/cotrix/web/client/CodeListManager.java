@@ -8,6 +8,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -35,9 +36,16 @@ public class CodeListManager implements EntryPoint {
     	CotrixResources.INSTANCE.css().ensureInjected();
 		Window.enableScrolling(true); 
 		Window.setMargin("0px");
+		
+		hideLoader();
 		 
 		AppGinInjector injector = AppGinInjector.INSTANCE;
 		AppController appViewer = injector.getAppController();
 		appViewer.go(RootLayoutPanel.get());
+	}
+	
+	protected void hideLoader() {
+		RootPanel loader = RootPanel.get("cotrixLoader");
+		if (loader!=null) loader.setVisible(false);
 	}
 }
