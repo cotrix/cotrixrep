@@ -3,7 +3,6 @@ package org.cotrix.domain.user;
 import static org.cotrix.action.Action.*;
 import static org.cotrix.common.Utils.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -78,18 +77,14 @@ public class DefaultRole implements Role {
 	@Override
 	public Collection<Role> roles() {
 		
-		Collection<Role> roles = new HashSet<Role>();
-		
-		//specialise inherited roles of same type to bound resource
-		for (Role r : model.roles())
-			if (r.type().equals(this.type()))
-				roles.add(r.on(this.resource()));
-			else
-				roles.add(r);
-			
-		return roles;
+		return adaptRoles(model.roles());
 	}
-
+	
+	@Override
+	public Collection<Role> directRoles() {
+		return adaptRoles(model.directRoles());
+	}
+	
 	@Override
 	public boolean is(Role role) {  //does this role imply another?
 		
@@ -116,19 +111,44 @@ public class DefaultRole implements Role {
 	@Override
 	public Collection<Action> permissions() {
 		
-		Collection<Action> permissions = new ArrayList<Action>();
+		return adaptPermissions(model.permissions());
+	}
+	
+	@Override
+	public Collection<Action> directPermissions() {
 		
-		for (Action p : model.permissions()) {
+		return adaptPermissions(model.directPermissions());
+		
+	}
+	
+	private Collection<Action> adaptPermissions(Collection<Action> permissions) {
+		
+		Collection<Action> adapted = new HashSet<>();
+		
+		//specialise inherited permissions of same type to bound resource
+		for (Action p : permissions) {
 			
 			Action a =  p.type() == this.type() ? p.on(resource):p;
 			
-			if (permissions.contains(a)) //avoids duplicates
-				continue;
-			
-			permissions.add(a);
+			adapted.add(a);
 		}
 		
-		return permissions;
+		return adapted;
+	}
+	
+	private Collection<Role> adaptRoles(Collection<Role> roles) {
+		
+		Collection<Role> adapted = new HashSet<Role>();
+		
+		//specialise inherited roles of same type to bound resource
+		for (Role r : roles) {
+			
+			Role adaptedRole = r.type() == this.type()? r.on(this.resource()): r;
+		
+			adapted.add(adaptedRole);
+		}
+		
+		return adapted;
 	}
 
 	@Override

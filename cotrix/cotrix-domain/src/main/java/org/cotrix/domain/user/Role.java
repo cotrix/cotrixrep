@@ -83,5 +83,21 @@ public interface Role {
 	 * @return the inherited roles
 	 */
 	Collection<Role> roles(); 
+	
+	
+	/**
+	 * Returns the permissions of this user, excluding those inherited from roles.
+	 * 
+	 * @return the permissions
+	 */
+	Collection<Action> directPermissions();
+
+
+	/**
+	 * Returns the roles of this user, excluding those inherited from other roles.
+	 * 
+	 * @return the roles
+	 */
+	Collection<Role> directRoles();
 
 }

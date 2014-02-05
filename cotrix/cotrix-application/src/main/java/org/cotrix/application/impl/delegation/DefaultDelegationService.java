@@ -4,6 +4,7 @@ import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Users.*;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.inject.Inject;
 
@@ -121,7 +122,12 @@ public class DefaultDelegationService implements PermissionDelegationService {
 	
 				policy.validateRevocation(currentUser, user, roles);
 				
-				User changeset = modifyUser(user).isNoLonger(roles).build();
+				Collection<Role> parents = new HashSet<>();
+				
+				for (Role role : roles)
+					parents.addAll(role.directRoles());
+				
+				User changeset = modifyUser(user).isNoLonger(roles).is(parents).build();
 				
 				repository.update(changeset);
 			}
