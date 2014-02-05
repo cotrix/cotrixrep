@@ -116,6 +116,9 @@ public abstract class AbstractRepository<T extends Identified,
 			throw new IllegalStateException("entity "+id+" is not in this repository, hence cannot be removed.");
 		
 		delegate.remove(id);	
+		
+		log.info("removed entity "+id);
+
 	}
 	
 

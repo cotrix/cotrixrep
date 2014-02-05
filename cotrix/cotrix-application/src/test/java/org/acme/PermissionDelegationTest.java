@@ -161,17 +161,33 @@ public class PermissionDelegationTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void persistsRoleRevocation() {
+	public void rolesAreRevoked() {
+		
+		Role role1 = aRole();
+		Role role2 = aRole();
+		
+		//keep at least two roles
+		User bill = billIs(role1,role2);
+		
+		service.revoke(role2).from(bill);
+		
+		User billAsRetrieved = repository.lookup(bill.id());
+		
+		assertFalse(billAsRetrieved.is(role2));
+		
+	}
+	
+	@Test
+	public void revokingLastRoleRemovesUser() {
 		
 		Role role = aRole();
 		
+		//keep at least two roles
 		User bill = billIs(role);
 		
 		service.revoke(role).from(bill);
 		
-		User billAsRetrieved = repository.lookup(bill.id());
-		
-		assertFalse(billAsRetrieved.is(role));
+		assertNull(repository.lookup(bill.id()));
 		
 	}
 	

@@ -129,7 +129,10 @@ public class DefaultDelegationService implements PermissionDelegationService {
 				
 				User changeset = modifyUser(user).isNoLonger(roles).is(parents).build();
 				
-				repository.update(changeset);
+				if (changeset.directRoles().isEmpty())
+					repository.remove(user.id());
+				else
+					repository.update(changeset);
 			}
 		};
 		
