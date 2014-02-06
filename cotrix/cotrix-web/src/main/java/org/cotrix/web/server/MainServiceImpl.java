@@ -27,9 +27,9 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
+import org.cotrix.security.InvalidCredentialsException;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.SignupService;
-import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
@@ -116,7 +116,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		} catch(Exception exception) {
 			logger.error("failed login for token "+token, exception);
 
-			UnknownUserException unknownUserException = ExceptionUtils.unfoldException(exception, UnknownUserException.class);
+			InvalidCredentialsException unknownUserException = ExceptionUtils.unfoldException(exception, InvalidCredentialsException.class);
 			if (unknownUserException!=null) {
 				throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
 			} else {
@@ -220,7 +220,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		} catch(Exception exception) {
 			logger.error("failed login for user "+username, exception);
 
-			UnknownUserException unknownUserException = ExceptionUtils.unfoldException(exception, UnknownUserException.class);
+			InvalidCredentialsException unknownUserException = ExceptionUtils.unfoldException(exception, InvalidCredentialsException.class);
 			if (unknownUserException!=null) {
 				throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
 			} else {
