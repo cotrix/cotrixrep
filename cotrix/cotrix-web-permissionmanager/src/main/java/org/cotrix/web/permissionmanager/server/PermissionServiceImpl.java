@@ -362,4 +362,9 @@ public class PermissionServiceImpl implements PermissionService {
 		}
 		throw new IllegalArgumentException("Unknown role name "+name);
 	}
+
+	@Override
+	public void removeUser(String userId) throws ServiceException {
+		logger.trace("removeUser userId: {}", userId);
+	}
 }
