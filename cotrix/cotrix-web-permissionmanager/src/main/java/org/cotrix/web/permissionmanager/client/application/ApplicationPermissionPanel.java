@@ -16,7 +16,11 @@ import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.UserLoggedEvent;
 import org.cotrix.web.share.client.util.StatusUpdates;
+import org.cotrix.web.share.client.widgets.ConfirmDialog;
+import org.cotrix.web.share.client.widgets.ConfirmDialog.DialogButton;
 
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.ResizeComposite;
@@ -64,12 +68,40 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 	}
 	
 	@EventHandler
-	protected void onRolesRowUpdate(RolesRowUpdatedEvent event) {
-		if (event.getSource()!=usersRolesMatrix) return;
-		RoleAction action = event.getValue()?RoleAction.DELEGATE:RoleAction.REVOKE;
+	protected void onRolesRowUpdate(final RolesRowUpdatedEvent rowUpdatedEvent) {
+		if (rowUpdatedEvent.getSource()!=usersRolesMatrix) return;
+		
+		final RoleAction action = rowUpdatedEvent.getValue()?RoleAction.DELEGATE:RoleAction.REVOKE;
+		final RolesRow row = rowUpdatedEvent.getRow();
+		final String role = rowUpdatedEvent.getRole();
+		final int rowIndex = rowUpdatedEvent.getRowIndex();
+		
+		if (action == RoleAction.REVOKE && row.countActiveRoles() == 1) {
+			requestConfirmAndUpdateRole(row, role, action, rowIndex);
+		} else updateRole(row, role, action, rowIndex);	
+	}
+	
+	protected void requestConfirmAndUpdateRole(final RolesRow row, final String role, final RoleAction action, final int rowIndex) {
+		ConfirmDialog confirmDialog = new ConfirmDialog();
+		confirmDialog.addSelectionHandler(new SelectionHandler<ConfirmDialog.DialogButton>() {
+			
+			@Override
+			public void onSelection(SelectionEvent<DialogButton> event) {
+				if (event.getSelectedItem() == DialogButton.CONTINUE) updateRole(row, role, action, rowIndex);
+				else {
+					row.setLoading(false);
+					System.out.println("redraw "+rowIndex);
+					usersRolesMatrix.redrawRow(rowIndex);
+				}
+			}
+		});
+		confirmDialog.center("Removing this role will eliminate the user, are you sure to continue?");
+	}
+	
+	protected void updateRole(final RolesRow row, String role, RoleAction action, final int rowIndex) {
 		StatusUpdates.statusSaving();
-		final RolesRow row = event.getRow();
-		service.applicationRoleUpdated(event.getRow().getUser().getId(), event.getRole(), action, new ManagedFailureCallback<RolesRow>() {
+		
+		service.applicationRoleUpdated(row.getUser().getId(), role, action, new ManagedFailureCallback<RolesRow>() {
 
 			@Override
 			public void onSuccess(RolesRow updatedRow) {
@@ -77,7 +109,7 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 					usersRolesMatrix.refresh();
 				} else {
 					row.setRoles(updatedRow.getRoles());
-					dataProvider.refresh();
+					usersRolesMatrix.redrawRow(rowIndex);
 				}
 				StatusUpdates.statusSaved();
 			}

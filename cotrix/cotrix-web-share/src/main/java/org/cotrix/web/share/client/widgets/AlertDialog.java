@@ -32,16 +32,6 @@ public class AlertDialog extends PopupPanel {
 		setWidth("330px");
 		setHeight("60px");
 
-		/*addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				hide();
-
-			}}, ClickEvent.getType());*/
-		
-		//DockLayoutPanel content = new DockLayoutPanel(Unit.PX);
-
 		VerticalPanel content = new VerticalPanel();
 		content.setStyleName(style.errorPanel());
 		content.setSpacing(5);
@@ -92,6 +82,4 @@ public class AlertDialog extends PopupPanel {
 		setMessage(message, details);
 		center();
 	}
-		
-
 }

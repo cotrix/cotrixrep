@@ -13,6 +13,7 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  */
 public class RolesRowUpdatedEvent extends GenericEvent {
 	
+	protected int rowIndex;
 	protected RolesRow row; 
 	protected String role; 
 	protected boolean value;
@@ -22,10 +23,18 @@ public class RolesRowUpdatedEvent extends GenericEvent {
 	 * @param role
 	 * @param value
 	 */
-	public RolesRowUpdatedEvent(RolesRow row, String role, boolean value) {
+	public RolesRowUpdatedEvent(int rowIndex, RolesRow row, String role, boolean value) {
+		this.rowIndex = rowIndex;
 		this.row = row;
 		this.role = role;
 		this.value = value;
+	}
+
+	/**
+	 * @return the rowIndex
+	 */
+	public int getRowIndex() {
+		return rowIndex;
 	}
 
 	/**

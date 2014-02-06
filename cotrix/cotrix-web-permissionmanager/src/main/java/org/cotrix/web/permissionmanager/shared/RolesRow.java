@@ -87,6 +87,12 @@ public class RolesRow implements IsSerializable {
 		for (RoleState state:roles.values()) if (state.checked) return false;
 		return true;
 	}
+	
+	public int countActiveRoles() {
+		int count = 0;
+		for (RoleState state:roles.values()) if (state.checked) count++;
+		return count;
+	}
 
 	/**
 	 * @return the roles

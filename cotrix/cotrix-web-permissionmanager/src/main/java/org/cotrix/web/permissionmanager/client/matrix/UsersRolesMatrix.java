@@ -138,7 +138,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 			public void update(int index, RolesRow row, RoleState value) {
 				row.setLoading(true);
 				matrix.redrawRow(index);
-				bus.fireEventFromSource(new RolesRowUpdatedEvent(row, role, value.isChecked()), UsersRolesMatrix.this);
+				bus.fireEventFromSource(new RolesRowUpdatedEvent(index, row, role, value.isChecked()), UsersRolesMatrix.this);
 
 			}
 		});
@@ -146,4 +146,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 		return column;
 	}
 
+	public void redrawRow(int index) {
+		matrix.redrawRow(index);
+	}
 }

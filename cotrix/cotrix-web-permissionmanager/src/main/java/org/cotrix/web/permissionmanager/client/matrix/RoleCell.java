@@ -39,7 +39,7 @@ public class RoleCell extends AbstractEditableCell<RoleState, RoleState> {
 
 	private static final SafeHtml INPUT_UNCHECKED_DISABLED = SafeHtmlUtils.fromSafeConstant("<input type=\"checkbox\" class=\""+CommonResources.INSTANCE.css().simpleCheckbox()+"\" tabindex=\"-1\" disabled/>");
 
-	private static final SafeHtml INPUT_LOADING = SafeHtmlUtils.fromSafeConstant("<img src=\""+CommonResources.INSTANCE.circleLoader().getSafeUri().asString()+"\"/>");
+	private static final SafeHtml INPUT_LOADING = SafeHtmlUtils.fromSafeConstant("<img src=\""+CommonResources.INSTANCE.circleLoader().getSafeUri().asString()+"\" style=\"padding: 4px;\"/>");
 
 	private final boolean dependsOnSelection;
 	private final boolean handlesSelection;
