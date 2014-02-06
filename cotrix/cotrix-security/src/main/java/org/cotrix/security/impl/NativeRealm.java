@@ -4,6 +4,7 @@ import static org.cotrix.common.Utils.*;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import org.cotrix.security.InvalidCredentialsException;
 import org.cotrix.security.Realm;
 import org.cotrix.security.tokens.NameAndPassword;
 import org.jasypt.util.password.BasicPasswordEncryptor;
@@ -28,12 +29,9 @@ public abstract class NativeRealm implements Realm {
 		
 		String current = passwordFor(name);
 		
-		if (current==null)
-			throw new IllegalStateException("unknown identity "+name);
-		
-		if (!encryptor.checkPassword(oldPwd,current))
-			throw new IllegalStateException("cannot change password for "+name+",  invalid credentials");
-		
+		if (current==null || !encryptor.checkPassword(oldPwd,current))
+			throw new InvalidCredentialsException();
+			
 		update(name,encrypt(newPwd));
 	}
 	
