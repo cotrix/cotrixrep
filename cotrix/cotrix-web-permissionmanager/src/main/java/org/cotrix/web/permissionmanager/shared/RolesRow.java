@@ -17,11 +17,21 @@ public class RolesRow implements IsSerializable {
 	
 	public static final String USER_NAME_FIELD = "NAME";
 	
+	public static final RolesRow DELETED = new RolesRow(true);
+	
 	protected UIUser user;
 	protected Map<String, RoleState> roles;
 	protected boolean loading = false;
+	protected boolean deleted = false;
 	
 	public RolesRow(){}
+
+	/**
+	 * @param deleted
+	 */
+	private RolesRow(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 	/**
 	 * @param user
@@ -44,6 +54,13 @@ public class RolesRow implements IsSerializable {
 	 */
 	public boolean isLoading() {
 		return loading;
+	}
+
+	/**
+	 * @return the deleted
+	 */
+	public boolean isDeleted() {
+		return deleted;
 	}
 
 	/**

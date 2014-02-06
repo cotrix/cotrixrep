@@ -72,9 +72,13 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 		service.applicationRoleUpdated(event.getRow().getUser().getId(), event.getRole(), action, new ManagedFailureCallback<RolesRow>() {
 
 			@Override
-			public void onSuccess(RolesRow  updatedRow) {
-				row.setRoles(updatedRow.getRoles());
-				dataProvider.refresh();
+			public void onSuccess(RolesRow updatedRow) {
+				if (updatedRow.isDeleted()) {
+					usersRolesMatrix.refresh();
+				} else {
+					row.setRoles(updatedRow.getRoles());
+					dataProvider.refresh();
+				}
 				StatusUpdates.statusSaved();
 			}
 		});
