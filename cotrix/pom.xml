@@ -485,6 +485,17 @@
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>
+		
+		 <profile>
+			<id>gcube-ci</id>
+			<distributionManagement>
+				<snapshotRepository>
+					<id>gcube-snapshots</id>
+					<name>gCube Snapshots</name>
+					<url>http://maven.research-infrastructures.eu:8081/nexus/content/repositories/gcube-snapshots</url>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
 
 		<profile>
 
