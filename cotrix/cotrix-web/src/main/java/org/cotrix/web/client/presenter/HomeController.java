@@ -10,7 +10,6 @@ import org.cotrix.web.client.view.HomeView;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.CotrixModuleController;
 import org.cotrix.web.share.client.error.IgnoreFailureCallback;
-import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 
@@ -27,6 +26,8 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class HomeController implements CotrixModuleController {
+	
+	private static final int POLLING_DELAY = 5*60*1000;
 	
 	@Inject
 	protected MainServiceAsync service;
@@ -55,7 +56,7 @@ public class HomeController implements CotrixModuleController {
 				updateStatistics();
 			}
 		};
-		statisticsUpdater.scheduleRepeating(5*60*1000);
+		statisticsUpdater.scheduleRepeating(POLLING_DELAY);
 		
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			
@@ -72,7 +73,7 @@ public class HomeController implements CotrixModuleController {
 				updateNews();
 			}
 		};
-		newsUpdater.scheduleRepeating(5*60*1000);
+		newsUpdater.scheduleRepeating(POLLING_DELAY);
 	}
 	
 	@Override
@@ -88,7 +89,7 @@ public class HomeController implements CotrixModuleController {
 	public void deactivate() {
 	}
 	
-	protected void updateStatistics() {
+	private void updateStatistics() {
 		service.getStatistics(new IgnoreFailureCallback<UIStatistics>() {
 			
 			@Override
@@ -98,8 +99,8 @@ public class HomeController implements CotrixModuleController {
 		});
 	}
 	
-	protected void updateNews() {
-		service.getNews(new ManagedFailureCallback<List<UINews>>() {
+	private void updateNews() {
+		service.getNews(new IgnoreFailureCallback<List<UINews>>() {
 			
 			@Override
 			public void onSuccess(List<UINews> result) {
