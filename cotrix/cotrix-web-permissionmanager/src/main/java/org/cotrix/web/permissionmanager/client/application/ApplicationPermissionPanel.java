@@ -106,7 +106,8 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 				}
 			}
 		});
-		confirmDialog.center("Removing this role will eliminate the user, are you sure to continue?");
+		
+		confirmDialog.center("If you revoke this role, "+row.getUser().getFullName()+" will have none left and the account will be closed. Do you want to go ahead?");
 	}
 
 	protected void updateRole(final RolesRow row, String role, RoleAction action, final int rowIndex) {
@@ -153,7 +154,7 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 
 			});
 			
-			confirmDialog.center("Do you want really remove "+row.getUser().getFullName()+" from the system?");
+			confirmDialog.center( "This will close "+row.getUser().getFullName()+"'s account. Do you want to go ahead?");
 		}
 	}
 

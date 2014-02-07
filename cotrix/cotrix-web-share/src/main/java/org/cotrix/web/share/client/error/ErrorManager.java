@@ -25,8 +25,8 @@ public class ErrorManager {
 	}
 	
 	private String getErrorMessage(Throwable throwable) {
-		if (throwable instanceof IncompatibleRemoteServiceException) return "Looks like you're running an old version of Cotrix application, please <a href=\"http://en.wikipedia.org/wiki/Wikipedia:Bypass_your_cache\" target=\"_blank\">hard refresh</a> your browser";
-		if (throwable instanceof InvocationException) return "We are having some throubles trying to reach our servers, check if your connection is ok or retry in a few seconds";
+		if (throwable instanceof IncompatibleRemoteServiceException) return "Looks like you're running an old version of Cotrix, please <a href=\"http://en.wikipedia.org/wiki/Wikipedia:Bypass_your_cache\" target=\"_blank\">hard refresh</a> your browser";
+		if (throwable instanceof InvocationException) return "Uhm, we cannot reach our servers. Check your connection or try again in a little bit.";
 		if (throwable instanceof ServiceException) return "Ooops an error occurred on server side";
 		
 		return "Ooops an error occurred on server side";
