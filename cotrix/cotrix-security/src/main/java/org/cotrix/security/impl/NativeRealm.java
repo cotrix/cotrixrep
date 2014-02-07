@@ -48,7 +48,7 @@ public abstract class NativeRealm implements Realm {
 		if (encryptor.checkPassword(npwd.password(), pwd))
 			 return npwd.name();
 					 
-		throw new IllegalStateException("incorrect password for user "+npwd.name());
+		throw new InvalidCredentialsException();
 	}
 	
 	@Override
