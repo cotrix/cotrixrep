@@ -55,6 +55,17 @@ public class FingerPrint {
 		return resources;
 	}
 	
+	public Collection<String> resourcesFor(String role, ResourceType type) {
+		
+		Collection<String> resources = new HashSet<String>();
+		
+		for (String resource : resources(type))
+			if (rightsOver(resource,type).roles.contains(role))
+				resources.add(resource);
+		
+		return resources;
+	}
+	
 	/**
 	 * Returns the roles of the user over a given resource, excluding those implied by role templates.
 	 * @param resource the resource identifier
