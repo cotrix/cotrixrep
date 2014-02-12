@@ -64,28 +64,6 @@ public class CdiProducers {
 	public static VirtualRepository virtualRepository() {
 		return new Repository();
 	}
-
-	
-	/**
-	 * Returns a {@link StructureParsingManager} serialiser.
-	 * 
-	 * @return the serialiser
-	 */
-	@Produces @Singleton
-	public static StructureParsingManager parser() {
-		return SdmxServiceFactory.parser();
-	}
-	
-	/**
-	 * Returns a {@link StructureWritingManager} serialiser.
-	 * 
-	 * @return the serialiser
-	 */
-	@Produces @Singleton
-	public static StructureWriterManager writer() {
-		return SdmxServiceFactory.writer();
-	}
-	
 	
 	public static void onShutdown(@Observes Shutdown event, VirtualRepository repository) {
 		
