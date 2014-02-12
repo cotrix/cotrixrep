@@ -6,10 +6,13 @@ import org.cotrix.web.client.view.CotrixWebView;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
 import org.cotrix.web.share.client.CotrixModule;
 import org.cotrix.web.share.client.CotrixModuleController;
+import org.cotrix.web.share.client.event.CotrixBus;
+import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -21,10 +24,14 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 	protected EnumMap<CotrixModule, Integer> indexes = new EnumMap<CotrixModule, Integer>(CotrixModule.class);
 	protected CotrixWebView view;
 	protected MenuPresenter menu;
+	
+	@Inject @CotrixBus
+	protected EventBus cotrixBus; 
 
 	@Inject
 	public CotrixWebPresenterImpl(CotrixWebView view) {
 		this.view = view;
+		this.view.setPresenter(this);
 	}
 
 	public void go(HasWidgets container) {
@@ -58,6 +65,11 @@ public class CotrixWebPresenterImpl implements CotrixWebPresenter {
 			view.showModule(index);
 			menu.selectModule(module);
 		} else Log.warn("Missing module "+module+" forgot to add it?");
+	}
+
+	@Override
+	public void onTitleAreaClick() {
+		cotrixBus.fireEvent(new SwitchToModuleEvent(CotrixModule.HOME));
 	}
 
 }

@@ -6,8 +6,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public interface CotrixWebView {
 	public interface Presenter {
-
+		public void onTitleAreaClick();
 	}
+	
+	public void setPresenter(Presenter presenter);
 	
 	FlowPanel getMenuPanel();
 	DeckLayoutPanel getModulesPanel();

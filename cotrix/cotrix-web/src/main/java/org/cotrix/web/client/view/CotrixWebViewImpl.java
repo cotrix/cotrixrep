@@ -1,6 +1,8 @@
 package org.cotrix.web.client.view;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
@@ -19,12 +21,26 @@ public class CotrixWebViewImpl extends ResizeComposite implements CotrixWebView 
 	interface CotrixMainPanelUiBinder extends UiBinder<Widget, CotrixWebViewImpl> {}
 	private static CotrixMainPanelUiBinder uiBinder = GWT.create(CotrixMainPanelUiBinder.class);
 	
+	@UiField FlowPanel titleArea;
 	@UiField FlowPanel menu;
 	@UiField FlowPanel userBar;
 	@UiField DeckLayoutPanel body;
 	
+	protected Presenter presenter;
+	
 	public CotrixWebViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
+		titleArea.addDomHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				presenter.onTitleAreaClick();
+			}
+		}, ClickEvent.getType());
+	}
+	
+	public void setPresenter(Presenter presenter) {
+		this.presenter = presenter;
 	}
 	
 	public FlowPanel getMenuPanel() {
