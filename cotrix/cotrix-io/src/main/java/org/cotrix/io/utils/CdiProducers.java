@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.io.impl.MapTask;
 import org.cotrix.io.impl.ParseTask;
 import org.cotrix.io.impl.SerialisationTask;
@@ -63,6 +64,28 @@ public class CdiProducers {
 	@Produces @Singleton
 	public static VirtualRepository virtualRepository() {
 		return new Repository();
+	}
+	
+
+	
+	/**
+	 * Returns a {@link StructureParsingManager} serialiser.
+	 * 
+	 * @return the serialiser
+	 */
+	@Produces @Singleton @Current
+	public static StructureParsingManager parser() {
+		return SdmxServiceFactory.parser();
+	}
+	
+	/**
+	 * Returns a {@link StructureWritingManager} serialiser.
+	 * 
+	 * @return the serialiser
+	 */
+	@Produces @Singleton @Current
+	public static StructureWriterManager writer() {
+		return SdmxServiceFactory.writer();
 	}
 	
 	public static void onShutdown(@Observes Shutdown event, VirtualRepository repository) {

@@ -4,6 +4,7 @@ import java.io.OutputStream;
 
 import javax.inject.Inject;
 
+import org.cotrix.common.cdi.Current;
 import org.cotrix.io.impl.SerialisationTask;
 import org.sdmxsource.sdmx.api.constants.STRUCTURE_OUTPUT_FORMAT;
 import org.sdmxsource.sdmx.api.manager.output.StructureWriterManager;
@@ -14,7 +15,7 @@ import org.sdmxsource.sdmx.util.beans.container.SdmxBeansImpl;
 
 public class Sdmx2Xml implements SerialisationTask<CodelistBean,Sdmx2XmlDirectives> {
 
-	@Inject
+	@Inject @Current
 	StructureWriterManager manager;
 	
 	@Override
