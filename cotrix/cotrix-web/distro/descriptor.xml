@@ -18,17 +18,13 @@
 				<include>INSTALL</include>
 				<include>MAINTAINERS</include>
 				<include>changelog.xml</include>
+				<include>profile.xml</include>
 			</includes>
 			<fileMode>755</fileMode>
 			<filtered>true</filtered>
 		</fileSet>
 	</fileSets>
 	<files>
-		<file>
-			<source>${distroDirectory}/profile.xml</source>
-			<outputDirectory>/etc</outputDirectory>
-			<filtered>true</filtered>
-		</file>
 		<file>
 			<source>target/${build.finalName}.war</source>
 			<outputDirectory>/${artifactId}</outputDirectory>
