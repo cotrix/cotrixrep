@@ -54,6 +54,7 @@
 
 		<module>cotrix-test-common</module>
 
+		<module>cotrix-head</module>
 	</modules>
 
 	<repositories>
