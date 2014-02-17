@@ -4,17 +4,22 @@
 
 	<!-- POM file generated with GWT webAppCreator -->
 	<modelVersion>4.0.0</modelVersion>
+	
 	<parent>
-		<artifactId>cotrix</artifactId>
 		<groupId>org.cotrix</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<artifactId>cotrix-web-parent</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+		<relativePath>../cotrix-web-parent</relativePath>
 	</parent>
+	
+	
 	<artifactId>cotrix-web</artifactId>
+	
 	<packaging>jar</packaging>
 
+	
 	<properties>
 		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 		<timestamp>${maven.build.timestamp}</timestamp>
 		<display_version>v${project.version}-${timestamp}</display_version>
@@ -29,6 +34,11 @@
 
 	<dependencies>
 
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-importwizard</artifactId>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-io</artifactId>
@@ -51,11 +61,6 @@
 
 		<dependency>
 			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-web-importwizard</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-codelistmanager</artifactId>
 		</dependency>
 
@@ -71,17 +76,7 @@
 
 		<dependency>
 			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-user</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.gwt.inject</groupId>
-			<artifactId>gin</artifactId>
 		</dependency>
 
 		<dependency>
@@ -96,12 +91,6 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.allen-sauer.gwt.log</groupId>
-			<artifactId>gwt-log</artifactId>
-			<version>3.2.1</version>
-		</dependency>
-
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -110,310 +99,5 @@
 		</dependency>
 
 	</dependencies>
-
-	<build>
-		<!-- rq3 - compiled stuff in the folder used for developing mode 
-		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>-->
-
-		<plugins>
-
-			<!-- GWT Maven Plugin -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.5.1</version>
-				<executions>
-					<execution>
-						<goals>
-<!-- 							<goal>compile</goal> -->
-<!-- 							<goal>test</goal> -->
-							<goal>resources</goal>
-							<goal>generateAsync</goal>
-						</goals>
-					</execution>
-				</executions>
-				<!-- Plugin configuration. There are many available options, see gwt-maven-plugin 
-					documentation at codehaus.org -->
-<!-- 				<configuration> -->
-				
-<!-- 					<runTarget>CodeListManager.html</runTarget> -->
-<!-- 					<hostedWebapp>${webappDirectory}</hostedWebapp> -->
-<!-- 				</configuration> -->
-			</plugin>
-
-			<!-- Copy static web files before executing gwt:run -->
-			<!-- <plugin> -->
-			<!-- <groupId>org.apache.maven.plugins</groupId> -->
-			<!-- <artifactId>maven-war-plugin</artifactId> -->
-			<!-- <version>2.1.1</version> -->
-			<!-- <configuration> -->
-			<!-- <webappDirectory>${webappDirectory}</webappDirectory> -->
-			<!-- <webResources> -->
-			<!-- <resource> -->
-			<!-- <directory>src/main/webapp</directory> -->
-			<!-- <includes> -->
-			<!-- <include>CodeListManager.html</include> -->
-			<!-- </includes> -->
-			<!-- <filtering>true</filtering> -->
-			<!-- </resource> -->
-			<!-- </webResources> -->
-			<!-- </configuration> -->
-			<!-- </plugin> -->
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
-<!-- 				<artifactId>maven-assembly-plugin</artifactId> -->
-<!-- 				<configuration> -->
-<!-- 					<descriptors> -->
-<!-- 						<descriptor>${distroDirectory}/descriptor.xml</descriptor> -->
-<!-- 					</descriptors> -->
-<!-- 				</configuration> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>servicearchive</id> -->
-<!-- 						<phase>install</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>single</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>
-											gwt-maven-plugin
-										</artifactId>
-										<versionRange>
-											[2.5.1,)
-										</versionRange>
-										<goals>
-											<goal>i18n</goal>
-											<goal>resources</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.apache.maven.plugins
-										</groupId>
-										<artifactId>
-											maven-war-plugin
-										</artifactId>
-										<versionRange>
-											[2.1.1,)
-										</versionRange>
-										<goals>
-											<goal>exploded</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		
-		<resources>
-			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*.*</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>target/generated-sources/gwt</directory>
-				<includes>
-					<include>**/*.java</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*.*</include>
-				</includes>
-			</resource>
-		</resources>
-
-	</build>
-
-	<profiles>
-
-		<profile>
-
-			<id>demo</id>
-
-			<dependencies>
-
-				<dependency>
-					<groupId>org.cotrix</groupId>
-					<artifactId>cotrix-mail</artifactId>
-				</dependency>
-
-				<dependency>
-					<groupId>org.cotrix</groupId>
-					<artifactId>cotrix-stage</artifactId>
-				</dependency>
-
-			</dependencies>
-
-		</profile>
-
-
-		<profile>
-
-			<id>neo</id>
-
-			<dependencies>
-
-				<dependency>
-					<groupId>org.cotrix</groupId>
-					<artifactId>cotrix-neo</artifactId>
-				</dependency>
-
-			</dependencies>
-
-		</profile>
-
-
-		<profile>
-
-			<id>dev</id>
-
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-
-			<dependencies>
-
-				<dependency>
-					<groupId>org.cotrix</groupId>
-					<artifactId>cotrix-stage</artifactId>
-				</dependency>
-
-				<dependency>
-					<groupId>org.cotrix</groupId>
-					<artifactId>cotrix-neo</artifactId>
-				</dependency>
-
-				<dependency>
-					<groupId>org.virtualrepository</groupId>
-					<artifactId>virtual-sdmx-registry</artifactId>
-					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>runtime</scope>
-				</dependency>
-
-				<dependency>
-					<groupId>org.virtualrepository</groupId>
-					<artifactId>virtual-semantic-repository</artifactId>
-					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>runtime</scope>
-				</dependency>
-
-				<dependency>
-					<groupId>org.virtualrepository</groupId>
-					<artifactId>virtual-rtms</artifactId>
-					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>runtime</scope>
-				</dependency>
-
-			</dependencies>
-
-		</profile>
-
-		<profile>
-
-			<id>dev-light</id>
-
-			<dependencies>
-
-				<dependency>
-					<groupId>org.cotrix</groupId>
-					<artifactId>cotrix-stage</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-
-
-		<profile>
-
-			<id>vr-cloud</id>
-
-			<dependencies>
-
-				<dependency>
-					<groupId>org.virtualrepository</groupId>
-					<artifactId>virtual-sdmx-registry</artifactId>
-					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>runtime</scope>
-				</dependency>
-
-				<dependency>
-					<groupId>org.virtualrepository</groupId>
-					<artifactId>virtual-semantic-repository</artifactId>
-					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>runtime</scope>
-				</dependency>
-
-				<dependency>
-					<groupId>org.virtualrepository</groupId>
-					<artifactId>virtual-rtms</artifactId>
-					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>runtime</scope>
-				</dependency>
-
-			</dependencies>
-
-		</profile>
-
-		<profile>
-
-			<id>gcube</id>
-
-			<dependencies>
-
-				<dependency>
-					<groupId>org.cotrix</groupId>
-					<artifactId>cotrix-gcube-extension</artifactId>
-					<version>0.0.1-SNAPSHOT</version>
-					<scope>runtime</scope>
-				</dependency>
-
-				<dependency>
-					<groupId>org.virtualrepository</groupId>
-					<artifactId>virtual-sdmx-registry</artifactId>
-					<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-					<scope>runtime</scope>
-				</dependency>
-
-				<dependency>
-					<groupId>org.cotrix</groupId>
-					<artifactId>cotrix-neo</artifactId>
-				</dependency>
-
-			</dependencies>
-
-		</profile>
-
-	</profiles>
 
 </project>

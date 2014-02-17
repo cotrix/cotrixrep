@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cotrix</groupId>
 	<artifactId>cotrix</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -12,10 +12,10 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>1.7.5</slf4j.version>
 		<weld.version>2.0.4.Final</weld.version>
-		<gwt.version>2.5.1</gwt.version>
 	</properties>
 
 	<modules>
+
 		<module>cotrix-web</module>
 
 		<module>cotrix-web-importwizard</module>
@@ -54,7 +54,10 @@
 
 		<module>cotrix-test-common</module>
 
-		<module>cotrix-head</module>
+		<module>cotrix-head-shared</module>
+		<module>cotrix-head-parent</module>
+
+		<module>cotrix-web-parent</module>
 	</modules>
 
 	<repositories>
@@ -84,7 +87,7 @@
 				<updatePolicy>never</updatePolicy>
 			</snapshots>
 		</repository>
-		
+
 	</repositories>
 
 
@@ -214,40 +217,18 @@
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-share</artifactId>
+				<artifactId>cotrix-head-shared</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+
+
+
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-menu</artifactId>
+				<artifactId>cotrix-web</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-publish</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-codelistmanager</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-importwizard</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-permissionmanager</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
@@ -259,6 +240,23 @@
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-gcube</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+
+
+			<!-- "local" deps -->
+
+			<dependency>
+				<groupId>org.virtualrepository</groupId>
+				<artifactId>virtual-repository</artifactId>
+				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.virtualrepository</groupId>
+				<artifactId>sdmxsource-adapter</artifactId>
+				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+				<scope>compile</scope>
 			</dependency>
 
 
@@ -311,29 +309,6 @@
 				<artifactId>weld-core</artifactId>
 				<version>${weld.version}</version>
 				<scope>runtime</scope>
-			</dependency>
-
-			<!-- GWT -->
-
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-servlet</artifactId>
-				<version>${gwt.version}</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-user</artifactId>
-				<version>${gwt.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>com.google.gwt.inject</groupId>
-				<artifactId>gin</artifactId>
-				<version>2.1.1</version>
-				<scope>compile</scope>
 			</dependency>
 
 			<dependency>
@@ -423,6 +398,26 @@
 										<ignore></ignore>
 									</action>
 								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-remote-resources-plugin
+										</artifactId>
+										<versionRange>[1.5,)</versionRange>
+										<goals>
+											<goal>bundle</goal>
+											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -477,7 +472,7 @@
 						<enabled>false</enabled>
 					</snapshots>
 				</repository>
-				
+
 			</repositories>
 
 
@@ -500,10 +495,10 @@
 		</profile>
 
 		<profile>
-		
+
 			<id>gcube-ci</id>
 
-		
+
 			<distributionManagement>
 				<snapshotRepository>
 					<id>gcube-snapshots</id>
@@ -511,8 +506,9 @@
 					<url>http://maven.research-infrastructures.eu:8081/nexus/content/repositories/gcube-snapshots</url>
 				</snapshotRepository>
 			</distributionManagement>
-			
+
 		</profile>
+
 
 		<profile>
 
@@ -522,17 +518,7 @@
 			<modules>
 				<module>cotrix-stage</module>
 				<module>cotrix-mail</module>
-			</modules>
-
-
-		</profile>
-
-		<profile>
-
-			<id>neo</id>
-
-			<modules>
-				<module>cotrix-neo</module>
+				<module>cotrix-head-demo</module>
 			</modules>
 
 
@@ -549,18 +535,20 @@
 			<modules>
 				<module>cotrix-stage</module>
 				<module>cotrix-neo</module>
+				<module>cotrix-head-dev</module>
 			</modules>
 
 		</profile>
 
 		<profile>
-		
-			<id>dev-light</id>
+
+			<id>devlite</id>
 
 			<modules>
 				<module>cotrix-stage</module>
+				<module>cotrix-head-devlite</module>
 			</modules>
-		
+
 		</profile>
 
 
@@ -570,6 +558,8 @@
 
 			<modules>
 				<module>cotrix-neo</module>
+				<module>cotrix-mail</module>
+				<module>cotrix-head-gcube</module>
 			</modules>
 
 

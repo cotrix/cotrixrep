@@ -1,0 +1,502 @@
+aa;aar;afar;afar
+ab;abk;Abkhazian;abkhaze
+;ace;Achinese;aceh
+;ach;Acoli;acoli
+;ada;Adangme;adangme
+;ady;Adyghe,Adygei;adygh้
+;afa;Afro-Asiatic languages;afro-asiatiques, langues
+;afh;Afrihili;afrihili
+af;afr;Afrikaans;afrikaans
+;ain;Ainu;a๏nou
+ak;aka;Akan;akan
+;akk;Akkadian;akkadien
+sq;alb (B);Albanian;albanais
+sq;sqi (T);Albanian;albanais
+;ale;Aleut;al้oute
+;alg;Algonquian languages;algonquines, langues
+;alt;Southern Altai;altai du Sud
+am;amh;Amharic;amharique
+;ang;English, Old (ca. 450-1100);anglo-saxon
+;anp;Angika;angika
+;apa;Apache languages;apaches, langues
+ar;ara;Arabic;arabe
+;arc;Official Aramaic (700-300 BCE)/Imperial Aramaic (700-300 BCE);aram้en d'empire (700-300 BCE)
+an;arg;Aragnese;aragonais
+hy;arm (B);Armenian;arm้nien
+hy;hye (T);Armenian;arm้nien
+;arn;Mapudungun/Mapuche;mapudungun/mapuche/mapuce
+;arp;Arapaho;arapaho
+;art;Artificial languages;artificielles, langues
+;arw;Arawak;arawak
+as;asm;Assamese;assamais
+;ast;Asturian/Bable/Leonese/Asturleonese;asturien/bable/l้onais/asturol้onais
+;ath;Athapascan languages;athapascanes, langues
+;aus;Australian languages;australiennes, langues
+av;ava;Avaric;avar
+ae;ave;Avestan;avestique
+;awa;Awadhi;awadhi
+ay;aym;Aymara;aymara
+az;aze;Azerbaijani;az้ri
+;bad;Banda Languages;banda, langues
+;bai;Bamileke languages;bamil้k้, langues
+ba;bak;Bashkir;bachkir
+;bal;Baluchi;baloutchi
+bm;bam;Bambara;bambara
+;ban;Balinese;balinais
+eu;baq (B);Basque;basque
+eu;eus (T);Basque;basque
+;bas;Basa;basa
+;bat;Baltic Languages;baltes, langues
+;bej;Beja/ Bedawiyet;bedja
+be;bel;Belarusian;bi้lorusse
+;bem;Bemba;bemba
+bn;ben;Bengali;bengali
+;ber;Berber languages;berb่res, langues
+;bho;Bhojpuri;bhojpuri
+bh;bih;Bihari languages; langues biharis
+;bik;Bikol;bikol
+;bin;Bini/Edo;bini/edo
+bi;bis;Bislama;bichlamar
+;bla;Siksika;blackfoot
+;bnt;Bantu languages;bantou, langues
+bo;tib (B);Tibetan;tib้tain
+bo;bod (T);Tibetan;tib้tain
+bs;bos;Bosian;bosniaque
+;bra;Braj;braj
+br;bre;Breton;breton
+;btk;Batak languaes;batak, langues
+;bua;Buriat;bouriate
+;bug;Buginese;bugi
+bg;bul;Bulgarian;bulgare
+my;bur (B);Burmese;birman
+my;mya (T);Burmese;birman
+;byn;Blin/Bilin;blin/bilen
+;cad;Caddo;caddo
+;cai;Central American Indian languages;am้rindiennes de l'Am้rique centrale, langues
+;car;Galibi Carib;karib/galibi/carib
+ca;cat;Catalan/Valencian;catalan/valencien
+;cau;Caucasian languages;caucasiennes, langues
+;ceb;Cebuano;cebuano
+;cel;Celtic languages;celtiques, langues/celtes, langues
+cs;cze (B);Czech;tch่que
+cs;ces (T);Czech;tch่que
+ch;cha;Chamorro;chamorro
+;chb;Chibcha;chibcha
+ce;che;Chechen;tch้tch่ne
+;chg;Chagatai;djaghata๏
+zh;chi (B);Chinese;chinois
+zh;zho (T);Chinese;chinois
+;chk;Chuukese;chuuk
+;chm;Mari;mari
+;chn;Chinook jargon;chinook, jargon
+;cho;Choctaw;choctaw
+;chp;Chipewyan/ Dene Suline;chipewyan
+;chr;Cherokee;chipewyan
+cu;chu;Church Slavic/Old Slavonic/Church Slavonic/Old Bulgarian/Old Church Slavonic;slavon d'้glise/vieux slave/slavon liturgique/vieux bulgare
+cv;chv;Chuvash;tchouvache
+;chy;Cheyene;cheyene
+;cmc;Chamic languages; chames, langues
+;cop;Coptic;copte
+kw;cor;Cornish;cornique
+co;cos;Corsican;corse
+;cpe;Creoles and pidgins, English based;cr้oles et pidgins bas้s sur l'anglais
+cr;cre;Cree;cree
+;crh;Crimean Tatar/Crimean Turkish;tatar de Crim้
+;crp;Creoles and pidgins;cr้oles et pidgins
+;csb;Kashubian;kachoube
+;cus;Cushitic languages;couchitiques, langues
+cy;wel (B);Welsh;gallois
+cy;cym (T);Welsh;gallois
+;dak;Dakota;dakota
+da;dan;Danish;danois
+;dar;Dargwa;dargwa
+;day;Land Dayak languages;dayak, langues
+;del;Delaware;delaware
+;den;Slave (Athapascan);esclave (athapascan)
+de; ger (B);German;allemand
+de; deu (T);German;allemand
+;dge;Dorib;dorib
+;din;Dinka;dinka
+dv;div;Divehi/Dhivehi/Maldivian;maldivien
+;doi;Dogri;dogri
+;dra;Dravidian languages;dravidiennes, langues
+;dsb;Lower Sorbian;bas-sorabe
+;dua;Duala;douala
+;dum;Dutch, Middle (ca.1050-1350);n้erlandais moyen (ca. 1050-1350)
+nl; dut (B); Dutch/Flemish;n้erlandais/flamand
+nl; nld (B); Dutch/Flemish;n้erlandais/flamand
+;dyu;Dyula;dioula
+dz;dzo;Dzongkha;dzonkha
+;efi;Efik;efik
+;egy;Egyptian (Ancient);้gyptien
+;eka;Ekajuk;ekajuk
+el; gre (B);Greek, Modern (1453-);grec moderne (apr่s 1453)
+el; ell (T);Greek, Modern (1453-);grec moderne (apr่s 1453)
+;elx;Elamite;้lamite
+en;eng;English;anglais
+;enm;English, Middle (1100-1500);anglais moyen (1100-1500)
+eo;epo;Esperanto;esp้ranto
+et;est;Estonian;estonien
+ee;ewe;Ewe;้w้
+;ewo;Ewondo;้wondo
+;fan;Fang;fang
+fo;fao;Faroese;f้ro๏en
+fa; per (B); Persian;persan
+fa; fas (T); Persian;persan
+;fat;Fanti;fanti
+fj;fij;Fijian;fidjien
+;fil;Filipino/Philipino;filipino/philipino
+fi;fin;Finnish;finnois
+;fiu;Finno-Ugrian languages;finno-ougriennes, langues
+;fon;Fon;fon
+fr; fre (B);French;fran็ais
+fr; fra (T);French;fran็ais
+;frm;French, Middle (ca.1400-1600);fran็ais moyen (1400-1600)
+;fro;French, Old (842-ca.1400);fran็ais ancien (842-ca.1400)
+;frr;Northern Frisian;frison septentrional
+;frs;Easterm Frisian;frison oriental
+fy;fry;Western Frisian;frison occidental
+ff;ful;Fulah;peul
+;fur;Friulian;frioulan
+;gaa;Ga;ga
+;gay;Gayo;gayo
+;gba;Gbaya;gbaya
+;gem;Germanic languages;germaniques, langues
+;gez;Geez;gu่ze
+;gil;Gilbertese;kiribati
+gd;gla;Gaelic/ Scottish Gaelic;ga้lique/ga้lique ้cossais
+ga;gle;Irish;irlandais
+gl;glg;Galician;galicien
+gv;glv;Manx;manx/mannois
+;gmh;German, Middle High (ca.1050-1500);allemand, moyen haut (ca. 1050-1500)
+;goh;German, Old High (ca.750-1050);allemand, vieux haut (ca. 750-1050)
+;gon;Gondi;gond
+;gor;Gorontalo;gorontalo
+;got;Gothic;gothique
+;grb;Grebo;grebo
+;grc;Greek, Ancient (to 1453);grec ancien (jusqu'เ 1453)
+gn;grn;Guarani;guarani
+;gsw;Swiss German/Alemannic/Alsatian;suisse al้manique/al้manique/alsacien
+gu;guj;Gujarati;goudjrati
+;gwi;Gwich'in;gwich'in
+;hai;Haida;haida
+ht;hat;Haitian/Haitian Creole;ha๏tien/cr้ole ha๏tien
+ha;hau;Hausa;haoussa
+;haw;Hawaiian;hawa๏en
+he;heb;Hebrow;h้breu
+hz;her;Herero;herero
+;hil;Hiligaynon;hiligaynon
+;him;Himachali languages/Western Pahari languages;langues himachalis/langues paharis occidentales
+hi;hin;Hindi;hindi
+;hit;Hittite;hittite
+;hmn;Hmong/Mong;hmong
+ho;hmo;Hiri Motu;hiri motu
+hr;hrv;Crotian;croate
+;hsb;Upper Sorbian;haut-sorabe
+hu;hun;Hungarian;hongrois
+;hup;Hupa;hupa
+;iba;Iban;iban
+ig;ibo;Igbo;igbo
+is; ice (B);Icelandic;islandais
+is; isl (T);Icelandic;islandais
+io;ido;Ido;ido
+ii;iii;Sichuan Yi/Nuosu;yi de Sichuan
+;ijo;Ijo languages; ijo, langues
+iu;iku;Inuktitut;inuktitut
+ie;ile;Interlingue/Occidental; interlingue
+;ilo;Iloko;ilocano
+ia;ina;Interlingua (International Auxiliary Language Association);interlingua (langue auxiliaire internationale)
+;inc;Indic languages;indo-aryennes, langues
+id;ind;Indonesian;indon้sien
+;ine;Indo-European languages;indo-europ้ennes, langues
+;inh;Ingush;ingouche
+ik;ipk;Inupiaq;inpuiaq
+;ira;Iranian languages;iraniennes, langues
+;iro;Iroquoian languages;iroquoises, langues
+it;ita;Italian;italien
+jv;jav;Javanese;javanais
+;jbo;Lojban;lojban
+ja;jpn;Japanese;japonais
+;jpr;Judeo-Persian;jud้o-persan
+;jrb;Judeo-Arabic;jud้o-arabe
+;kaa;Kara-Kalpak;karakalpak
+;kab;Kabyle;kabyle
+;kac;Kachin/Jingpho;kachin/jingpho
+kl;kal;Kalaallisut/Greenlandic;groenlandais
+;kam;Kamba;kamba
+kn;kan;Kannada;kannada
+;kar;Karen languages;karen, langues
+ks;kas;Kashmiri;kashmiri
+ka; geo (B);Georgian;g้orgien
+ka; kat (T);Georgian;g้orgien
+kr;kau;Kanuri;kanouri
+;kaw;Kawi;kawi
+kk;kaz;Kazakh;kazakh
+;kbd;Kabardian; kabardien
+;kha;Khasi;khasi
+;khi;Khoisan languages;kho๏san, langues
+km;khm;Central Khmer;khmer central
+;kho;Khotanese/Sakan;khotanais/sakan
+ki;kik;Kikuyu/Gikuyu;kikuyu
+rw;kin;Kinyarwanda;rwanda
+;kmb;Kimbundu;kimbundu
+;kok;Konkani;konkani
+kv;kom;Komi;kom
+kg;kon;Kongo;kongo
+ko;kor;Korean;cor้en
+;kos;Kosraean;kosrae
+;kpe;Kpelle;kpell้
+;krc;Karachay-Balkar;karatchai balkar
+;krl;Karelian;car้lien
+;kro;Kru languages;krou, langues
+;kru;Kurukh;kurukh
+kj;kua;Kuanyama/Kwanyama;kuanyama/kwanyama
+;kum;Kumyk;koumyk
+ku;kur;Kurdish;kurde
+;kut;Kutenai;kutenai
+;lad;Ladino;jud้o-espagnol
+;lah;Lahnda;lahnda
+;lam;Lamba;lamba
+lo;lao;Lao;lao
+la;lat;Latin;latin
+lv;lav;Latvian;letton
+;lez;Lezghian;lezghien
+li;lim;Limburgan/Limburger/Limburgish;limbourgeois
+ln;lin;Lingala;lingala
+lt;lit;Lithuanian;lituanien
+;lol;Mongo;mongo
+;loz;Lozi;lozi
+lb;ltz;Luxembourgish/Letzeburgesch;luxembourgeois
+;lua;Luba-Lulua;luba-lulua
+lu;lub;Luba-Katanga;luba-katanga
+lg;lug;Ganda;ganda
+;lui;Luiseno;luiseno
+;lun;Lunda;lunda
+;luo;Luo (Kenya and Tanzania);luo (Kenya et Tanzanie)
+;lus;Lushai;lushai
+mk;mac (B);Macedonian;mac้donien
+mk;mkd (T);Macedonian;mac้donien
+;mad;Madurese;madourais
+;mag;Magahi;magahi
+mh;mah;Marshallese;marshall
+;mai;Maithili;maithili
+;mak;Makasar;makassar
+ml;mal;Malayalam;malayalam
+;man;Mandingo;mandingue
+mi; mao (B);Maori;maori
+mi; mri (T);Maori;maori
+;map;Austronesian languages;austron้siennes, langues
+mr;mar;Marathi;marathe
+;mas;Masai;massa๏
+ms; may (B);Malay;malais
+ms; msa (T);Malay;malais
+;mdf;Moksha;moksa
+;mdr;Mandar;mandar
+;men;Mende;mend้
+;mga;Irish, Middle (900-1200);irlandais moyen (900-1200)
+;mic;Mi'kmaq/Micmac;mi'kmaq/micmac
+;min;Minangkabau;minangkabau
+;mis;Uncoded languages;langues non cod้es
+;mkh;Mon-Khmer languages;m๔n-khmer, langues
+mg;mlg;Malagasy;malgache
+mt;mlt;Maltese;maltais
+;mnc;Manchu;mandchou
+;mni;Manipuri;manipuri
+;mno;Manobo languages; manobo, langues
+;moh;Mohawk;mohawk
+mn;mon;Mongolian;mongol
+;mos;Mossi;mor้
+;mul;Multiple languages;multilingue
+;mun;Munda languages;mounda, langues
+;mus;Creek;muskogee
+;mwl;Mirandese;mirandais
+;mwr;Marwari;marvari
+;myn;Mayan languages;maya, langues
+;myv;Erzya;erza
+;nah;Nahuatl languages;nahuatl, langues
+;nai;North American Indian languages;nord-am้rindiennes, langues
+;nap;Neapolitan;napolitain
+na;nau;Nauru;nauruan
+nv;nav;Navajo/Navaho;navaho
+nr;nbl;Ndebele, South/South Ndebele;nd้b้l้ du Sud
+nd;nde;Ndebele, North/North Ndebele;nd้b้l้ du Nord
+ng;ndo;Ndonga;ndonga
+;nds;Low German/Low Saxon/German, Low/Saxon, Low;bas allemand/bas saxon/allemand, bas/saxon, bas
+ne;nep;Nepali;n้palais
+;new;Nepal Bhasa/Newari;nepal bhasa/newari
+;nia;Nias;nias
+;nic;Niger-Kordofanian languages; nig้ro-kordofaniennes, langues
+;niu;Niuean;niu้
+nn;nno;Norwegian Nynorsk/Nynorsk, Norwegian;norv้gien nynorsk/nynorsk, norv้gien
+nb;nob;Bokmๅl, Norwegian/Norwegian Bokmๅl;norv้gien bokmๅl
+;nog;Nogai;noga๏/nogay
+;non;Norse, Old;norrois, vieux
+no;nor;Norwegian;norv้gien
+;nqo;N'Ko;n'ko
+;nso;Pedi/Sepedi/Northern Sotho;pedi/sepedi/sotho du Nord
+;nub;Nubian languages;nubiennes, langues
+;nwc;Classical Newari/Old Newari/Classical Nepal Bhasa;newari classique
+ny;nya;Chichewa/Chewa/Nyanja;chichewa/chewa/nyanja
+;nym;Nyamwezi;nyamwezi
+;nyn;Nyankole;nyankol้
+;nyo;Nyoro;nyoro
+;nzi;Nzima;nzema
+oc;oci;Occitan (post 1500);occitan (apr่s 1500)
+oj;oji;Ojibwa;oribwa
+or;ori;Oriya;oriya
+om;orm;Oromo;galla
+;osa;Osage;osage
+os;oss;Ossetian/Ossetic;oss่te
+;ota;Turkish, Ottoman (1500-1928);turc ottoman (1500-1928)
+;oto;Otomian languages;otomi, langues
+;paa;Papuan languages; papoues, langues
+;pag;Pangasinan;pangasinan
+;pal;Pahlavi;pahlavi
+;pam;Pampanga/Kapampangan;pampangan
+pa;pan;Panjabi/Punjabi;pendjabi
+;pap;Papiamento;papiamento
+;pau;Palauan;palau
+;peo;Persian, Old (ca.600-400 B.C.);perse, vieux (ca. 600-400 av. J.-C.)
+;phi;Phillippine languages;philippines, langues
+ph;phn;Phoenician;ph้nicien
+pi;pli;Pali;pali
+pl;pol;Polish;polonais
+;pon;Pohnpeian;pohnpei
+pt;por;Portugese;Portugais
+;pra;Prakrit languages;prโkrit, langues
+;pro;Proven็al, Old (to 1500)/Occitan, Old (to 1500);proven็al ancien (jusqu'เ 1500)/occitan ancien (jusqu'เ 1500)
+ps;pus;Pushto/Pashto;pachto
+;qaa-qtz;Reserved for local use;r้serv้e เ l'usage local
+qu;que;Quechua;quechua
+;raj;Rajasthani;rajasthani
+;rap;Rapanui;rapanui
+;rar;Rarotongan/Cook Islands Maori;rarotonga/maori des ๎les Cook
+;roa;Romance languages;romanes, langues
+rm;roh;Romaish;romanche
+;rom;Romany;tsigane
+ro; rum (B);Romanian/Moldavian/Moldovan;roumain/moldave
+ro; ron (T);Romanian/Moldavian/Moldovan;roumain/moldave
+rn;run;Rundi;rundi
+;rup;Aromanian/Arumanian/Macedo-Romanian;aroumain/mac้do-roumain
+ru;rus;Russian;russe
+;sad;Sandawe;sandawe
+sg;sag;Sango;sango
+;sah;Yakut;iakoute
+;sai;South American Indian languages;sud-am้rindiennes, langues
+;sal;Salishan languages;salishennes, langues
+;sam;Samaritan Aramaic;samaritain
+sa;san;Sanskrit;sanskrit
+;sas;Sasak;sasak
+;sat;Santali;santal
+;scn;Sicilian;sicilien
+;sco;Scots;้cossais
+;sel;Selkup;selkoupe
+;sem;Semitic languages;s้mitiques, langues
+;sga;Irish, Old (to 900);irlandais ancien (jusqu'เ 900)
+;sgn;lSign languages;langues des signes
+;shn;Shan;chan
+;sid;Sidamo;sidamo
+si;sin;Sinhala/Sinhalese;singhalais
+;sio;Siouan languages;sioux, langues
+;sit;Sino-Tibetan languages;sino-tib้taines, langues
+;sla;Slavic Languages; slaves, langues
+sk; slo (B); Sloval; slovaque
+sk; slk (T); Sloval; slovaque
+sl;slv;Slovenian;slov่ne
+;sma;Southern Sami; sami du Sud
+;sme;Northern Sami; sami du Nord
+;smi;Sami languages;sames, langues
+;smj;Lule Sami;sami de Lule
+;smn;Inari;sami d'Inari
+sm;smo;Samoan;samoan
+;sms;Skolt Sami;sami skolt
+sn;sna;Shona;shona
+sa;snd;Sindhi;sindhi
+;snk;Soninke;sonink้
+;sog;Sogdian;sogdien
+so;som;Somali;somali
+;son;Songhai languages;songhai, langues
+st;sot;Sotho, Southern; sotho du Sud
+es;spa;Spanish/Castilian;espagnol/castillan
+sc;srd;Sardinian;sarde
+;srn;Sranan Tongo; stanan tongo
+sr;srp;Serbian;serbe
+;srr;Serer;s้r่re
+;ssa;Nilo-Saharan languages;nilo-sahariennes, langues
+ss;ssw;Swati;swati
+;suk;Sukuma;sukuma
+su;sun;Sundanese;soundanais
+;sus;Susu;soussou
+;sux;Sumerian;sum้rien
+sw;swa;Swahili;swahili
+sv;swe;Swedish;su้dois
+;syc;Classical Syriac;syriaque classique
+;syr;Syriac;syriaque
+ty;tah;Tahitian;tahitien
+;tai;Tai languages; tai, langues
+ta;tam;Tamil;tamoul
+tt;tat;Tatar;tatar
+te;tel;Telugu;t้lougou
+;tem;Timne;temne
+;ter;Tereno;tereno
+;tet;Tetum;tetum
+tg;tgk;Tajik;tadjik
+tl;tgl;Tagalog;tagalog
+th;tha;Thai;tha๏
+;tig;Tige;tigr้
+ti;tir;Tigrinya;tigrigna
+;tiv;Tiv;tiv
+;tkl;Tokelau;tokelau
+;tlh;Klingon/tlhIngan-Hol;klingon
+;tli;Tlingit;tlingit
+;tmh;Tamashek;tamacheq
+;tog;Tonga (Nyasa);tonga (Nyasa)
+to;ton; Tonga (Tonga Islands);tongan (ฮles Tonga)
+;tpi;Tok Pisin;tok pisin
+;tsi;Tsimshian;tsimshian
+tn;tsn;Tswana;tswana
+ts;tso;Tsonga;tsonga
+tk;tuk;Turkmen;turkm่ne
+;tum;Tumbuka;tumbuka
+;tup;Tupi languages; tupi, langues
+tr;tur;Turkish;turc
+;tut;Altaic languages;alta๏ques, langues
+;tvl;Tuvalu;tuvalu
+tw;twi;Twi;twi
+;tyv;Tuvinian;touva
+;udm;Udmurt;oudmourte
+;uga;Ugaritic;ougaritique
+ug;uig;Uighur/Uyghur;ou๏gour
+uk;ukr;Ukrainian;ukrainien
+;umb;Umbundu;umbundu
+;und;Undetermined;ind้termin้e
+ur;urd;Urdu;ourdou
+uz;uzb;Uzbek;ouszbek
+;vai;Vai;va๏
+ve;ven;Venda;venda
+vi;vie;Vietnamese;vietnamien
+vo;vol;Volapk;volapk
+;vot;Voltic;vote
+;wak;Wakashan languages;wakashanes, langues
+;wal;Wolaitta/Wolaytta; wolaitta/wolaytta
+;war;Waray;waray
+;was;Washo;washo
+;wen;Sorbian languages; sorabes, langues
+wa;wln;Wallon;wallon
+wo;wol;Wolof;wolof
+;xal;Kalmyk/Oirat;kalmouk/o๏rat
+xh;xho;Xhosa;xhosa
+;yao;Yao;yao
+;yap;Yapese;yapois
+yi;yid;Yiddish;yiddish
+yo;yor;Yoruba;yoruba
+;ypk;Yupid languages; yupik, langues
+;zap;Zapotec;zapot่que
+;zbl;Blissymbols/Blissymbolics/Bliss;symboles Bliss/Bliss
+;zen;Zenaga;zenaga
+za;zha;Zhuang/Chuang;zhuang/chuang
+;znd;Zande languages; zand้, langues
+zu;zul;Zulu;zoulou
+;zun;Zuni;zuni
+;zxx;No linguistic content/Not applicable;pas de contenu linguistique/non applicable
+;zza;Zaza/Dimili/Dimli/Kirdki/Kirmanjki/Zazaki;zaza/dimili/dimli/kirdki/kirmanjki/zazaki
