@@ -76,7 +76,7 @@
 				<artifactId>cotrix-web-share</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-web-wizard</artifactId>
@@ -150,28 +150,24 @@
 
 	<build>
 
-		<plugins>
-		
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>gwt-maven-plugin</artifactId>
-				<version>${gwt.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>resources</goal>
-							<goal>generateAsync</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-		</plugins>
 
 		<pluginManagement>
 
-
 			<plugins>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>gwt-maven-plugin</artifactId>
+					<version>${gwt.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>resources</goal>
+								<goal>generateAsync</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 
 
 				<!-- m2e configuration -->

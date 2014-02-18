@@ -15,7 +15,7 @@
 
 		<!-- interpolated in homepage -->
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-		<display_version>v${project.version}-${maven.build.timestamp}</display_version>
+		<display_version>v${project.version}-${maven.build.timestamp.format}</display_version>
 
 
 		<!--WAR plugin default -->

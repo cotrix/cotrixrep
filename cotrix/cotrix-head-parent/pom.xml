@@ -15,11 +15,11 @@
 
 		<!-- interpolated in homepage -->
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-		<display_version>v${project.version}-${maven.build.timestamp}</display_version>
-		
+		<display_version>v${project.version}-${maven.build.timestamp.format}</display_version>
+
 		<shared-resources-dir>${project.build.directory}/head-resources</shared-resources-dir>
 		<shared-resources-coords>${project.groupId}:cotrix-head-shared:${project.version}</shared-resources-coords>
-		
+
 		<!--WAR plugin default -->
 		<exploded>${project.build.directory}/${project.build.finalName}</exploded>
 
@@ -48,78 +48,77 @@
 		<!-- compiling in exploded war supports GWT plugin in dev mode -->
 		<outputDirectory>${exploded}/WEB-INF/classes</outputDirectory>
 
-		<plugins>
+		<pluginManagement>
+			<plugins>
 
-			<!-- unpack shared resource bundle in default dir target/maven-shared-archive-resources -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-remote-resources-plugin</artifactId>
-				<version>1.5</version>
-				<configuration>
-					<outputDirectory>${shared-resources-dir}</outputDirectory>
-					<resourceBundles>
-						<resourceBundle>${shared-resources-coords}</resourceBundle>
-					</resourceBundles>
-					<includes>
-						<include>**/*</include>
-					</includes>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>process</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+				<!-- unpack shared resource bundle in default dir target/maven-shared-archive-resources -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-remote-resources-plugin</artifactId>
+					<version>1.5</version>
+					<configuration>
+						<outputDirectory>${shared-resources-dir}</outputDirectory>
+						<resourceBundles>
+							<resourceBundle>${shared-resources-coords}</resourceBundle>
+						</resourceBundles>
+						<includes>
+							<include>**/*</include>
+						</includes>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>process</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 
-			<!-- copies shared resources in project as appropriate -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<id>copy-head-resources</id>
-						<configuration>
-							<outputDirectory>src/main/webapp</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${shared-resources-dir}</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<phase>generate-resources</phase>
-					</execution>
-					<!-- <execution> <id>copy-webapp-runtime</id> <configuration> <outputDirectory>src/main/resources</outputDirectory> 
-						<resources> <resource> <directory>${project.build.directory}/maven-shared-archive-resources/runtime</directory> 
-						<filtering>true</filtering> </resource> </resources> </configuration> <goals> 
-						<goal>copy-resources</goal> </goals> <phase>generate-resources</phase> </execution> -->
-				</executions>
-			</plugin>
+				<!-- copies shared resources in project as appropriate -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.6</version>
+					<executions>
+						<execution>
+							<id>copy-head-resources</id>
+							<configuration>
+								<outputDirectory>src/main/webapp</outputDirectory>
+								<resources>
+									<resource>
+										<directory>${shared-resources-dir}</directory>
+										<filtering>true</filtering>
+									</resource>
+								</resources>
+							</configuration>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<phase>generate-resources</phase>
+						</execution>
+					</executions>
+				</plugin>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>gwt-maven-plugin</artifactId>
-				<version>${gwt.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<runTarget>cotrix.html</runTarget>
-					<hostedWebapp>${exploded}</hostedWebapp>
-				</configuration>
-			</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>gwt-maven-plugin</artifactId>
+					<version>${gwt.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>compile</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<runTarget>cotrix.html</runTarget>
+						<hostedWebapp>${exploded}</hostedWebapp>
+					</configuration>
+				</plugin>
 
-		</plugins>
+			</plugins>
+
+		</pluginManagement>
 
 	</build>
 

@@ -14,11 +14,11 @@
 	</parent>
 
 	<artifactId>cotrix-web-publish</artifactId>
-	
+
 	<packaging>jar</packaging>
 
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-wizard</artifactId>
@@ -33,19 +33,30 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-repository</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-io</artifactId>
 		</dependency>
-		
+
 		<!-- available in SDK but that's provided -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
 		</dependency>
-		
+
 	</dependencies>
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+
+	</build>
 
 </project>

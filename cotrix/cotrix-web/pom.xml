@@ -4,20 +4,20 @@
 
 	<!-- POM file generated with GWT webAppCreator -->
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>org.cotrix</groupId>
 		<artifactId>cotrix-web-parent</artifactId>
 		<version>0.1.0-SNAPSHOT</version>
 		<relativePath>../cotrix-web-parent</relativePath>
 	</parent>
-	
-	
+
+
 	<artifactId>cotrix-web</artifactId>
-	
+
 	<packaging>jar</packaging>
 
-	
+
 	<properties>
 		<distroDirectory>distro</distroDirectory>
 	</properties>
@@ -34,7 +34,7 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-importwizard</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-io</artifactId>
@@ -95,5 +95,16 @@
 		</dependency>
 
 	</dependencies>
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+
+	</build>
 
 </project>
