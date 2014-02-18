@@ -17,6 +17,7 @@
 	
 	<inherits name="com.google.gwt.inject.Inject" />
 	<inherits name='org.cotrix.web.share.CotrixModuleShare' />
+	<inherits name='org.cotrix.web.wizard.CotrixModuleWizard' />
 	<inherits name='com.google.web.bindery.autobean.AutoBean' />
 
 	

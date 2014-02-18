@@ -78,6 +78,13 @@
 				<artifactId>cotrix-web-share</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-wizard</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+			</dependency>
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
