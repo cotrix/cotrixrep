@@ -11,8 +11,8 @@ import org.cotrix.web.importwizard.client.event.MappingLoadFailedEvent;
 import org.cotrix.web.importwizard.client.event.MappingLoadedEvent;
 import org.cotrix.web.importwizard.client.wizard.ImportWizardAction;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
-import org.cotrix.web.share.client.wizard.WizardAction;
-import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
+import org.cotrix.web.wizard.client.WizardAction;
+import org.cotrix.web.wizard.client.step.TaskWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;

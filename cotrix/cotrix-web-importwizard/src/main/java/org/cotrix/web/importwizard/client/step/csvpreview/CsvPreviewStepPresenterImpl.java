@@ -5,8 +5,8 @@ import org.cotrix.web.importwizard.client.event.CsvParserConfigurationUpdatedEve
 import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.step.TrackerLabels;
 import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
-import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 import org.cotrix.web.share.shared.CsvConfiguration;
+import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;

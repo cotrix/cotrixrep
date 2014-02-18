@@ -10,11 +10,11 @@ import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.task.RetrieveMappingsTask;
 import org.cotrix.web.publish.client.wizard.task.RetrieveRepositoryDetailsTask;
 import org.cotrix.web.publish.shared.UIRepository;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.share.client.wizard.flow.AbstractNodeSelector;
-import org.cotrix.web.share.client.wizard.flow.FlowNode;
-import org.cotrix.web.share.client.wizard.step.WizardStep;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.wizard.client.flow.AbstractNodeSelector;
+import org.cotrix.web.wizard.client.flow.FlowNode;
+import org.cotrix.web.wizard.client.step.WizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;

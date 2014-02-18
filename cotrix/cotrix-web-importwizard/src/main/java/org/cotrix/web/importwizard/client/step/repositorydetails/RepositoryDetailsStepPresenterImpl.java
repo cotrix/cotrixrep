@@ -6,10 +6,10 @@ import org.cotrix.web.importwizard.client.step.TrackerLabels;
 import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.AssetInfo;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
 import org.cotrix.web.share.shared.codelist.RepositoryDetails;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;

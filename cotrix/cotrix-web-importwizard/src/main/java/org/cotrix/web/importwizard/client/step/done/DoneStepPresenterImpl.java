@@ -5,7 +5,7 @@ import org.cotrix.web.importwizard.client.event.ImportProgressEvent;
 import org.cotrix.web.importwizard.client.event.ImportProgressEvent.ImportProgressHandler;
 import org.cotrix.web.importwizard.client.step.TrackerLabels;
 import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
-import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
+import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;

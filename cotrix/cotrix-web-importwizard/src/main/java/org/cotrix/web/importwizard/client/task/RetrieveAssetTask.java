@@ -8,10 +8,10 @@ import org.cotrix.web.importwizard.client.event.ImportBus;
 import org.cotrix.web.importwizard.client.event.AssetRetrievedEvent.AssetRetrievedHandler;
 import org.cotrix.web.importwizard.client.event.RetrieveAssetEvent;
 import org.cotrix.web.importwizard.client.wizard.ImportWizardAction;
-import org.cotrix.web.share.client.wizard.WizardAction;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
+import org.cotrix.web.wizard.client.WizardAction;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.wizard.client.step.TaskWizardStep;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;

@@ -4,7 +4,7 @@ import org.cotrix.web.publish.client.event.PublishCompleteEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
+import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;

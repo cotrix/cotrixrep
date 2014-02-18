@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.cotrix.web.share.client.resources.CommonResources;
 import org.cotrix.web.share.client.widgets.ProgressDialog;
-import org.cotrix.web.share.client.wizard.progresstracker.ProgressTracker;
-import org.cotrix.web.share.client.wizard.progresstracker.ProgressTracker.ProgressStep;
-import org.cotrix.web.share.client.wizard.step.VisualWizardStep;
+import org.cotrix.web.wizard.client.progresstracker.ProgressTracker;
+import org.cotrix.web.wizard.client.progresstracker.ProgressTracker.ProgressStep;
+import org.cotrix.web.wizard.client.step.VisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;

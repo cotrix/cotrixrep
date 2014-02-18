@@ -12,7 +12,7 @@ import org.cotrix.web.publish.shared.Column;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishMetadata;
-import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
+import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;

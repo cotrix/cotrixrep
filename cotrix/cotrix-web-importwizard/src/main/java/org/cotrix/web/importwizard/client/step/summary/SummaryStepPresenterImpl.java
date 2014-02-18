@@ -19,9 +19,9 @@ import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
 import org.cotrix.web.importwizard.shared.MappingMode;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;

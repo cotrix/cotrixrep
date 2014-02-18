@@ -35,9 +35,9 @@ import org.cotrix.web.share.client.error.ManagedFailureCallback;
 import org.cotrix.web.share.client.event.CodeListImportedEvent;
 import org.cotrix.web.share.client.event.CotrixBus;
 import org.cotrix.web.share.client.event.SwitchToModuleEvent;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
 import org.cotrix.web.share.shared.CsvConfiguration;
 import org.cotrix.web.share.shared.Progress;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;

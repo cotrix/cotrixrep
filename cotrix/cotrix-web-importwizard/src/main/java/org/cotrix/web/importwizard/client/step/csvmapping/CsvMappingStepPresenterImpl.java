@@ -15,7 +15,7 @@ import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.AttributeMapping;
 import org.cotrix.web.importwizard.shared.AttributeType;
 import org.cotrix.web.importwizard.shared.ImportMetadata;
-import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
+import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;

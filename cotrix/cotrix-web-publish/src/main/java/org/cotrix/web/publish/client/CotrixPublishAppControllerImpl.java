@@ -4,7 +4,7 @@ import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.resources.Resources;
 import org.cotrix.web.publish.client.wizard.PublishWizardPresenter;
 import org.cotrix.web.share.client.CotrixModule;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;

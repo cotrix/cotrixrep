@@ -8,9 +8,9 @@ import org.cotrix.web.importwizard.client.step.TrackerLabels;
 import org.cotrix.web.importwizard.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.importwizard.shared.FileUploadProgress;
 import org.cotrix.web.share.client.error.ManagedFailureCallback;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileList;
 
