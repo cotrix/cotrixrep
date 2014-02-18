@@ -1,4 +1,4 @@
-package org.cotrix.web.share.shared.utils;
+package org.cotrix.web.share.server.util;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
