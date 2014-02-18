@@ -8,11 +8,19 @@
 	</parent>
 
 	<artifactId>cotrix-head</artifactId>
+
 	<packaging>war</packaging>
 
 	<properties>
-		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
-		<tmpwebappDirectory>${project.build.directory}/tmpwebapp/</tmpwebappDirectory>
+
+		<!-- interpolated in homepage -->
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+		<display_version>v${project.version}-${maven.build.timestamp}</display_version>
+
+
+		<!--WAR plugin default -->
+		<exploded>${project.build.directory}/${project.build.finalName}</exploded>
+
 	</properties>
 
 	<dependencies>
@@ -24,47 +32,103 @@
 
 	<build>
 
-		<!-- rq3 - compiled stuff in the folder used for developing mode -->
-		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
+
+		<!-- compiling in exploded war supports GWT plugin in dev mode -->
+		<outputDirectory>${exploded}/WEB-INF/classes</outputDirectory>
 
 		<plugins>
-				
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>add-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>src/main/webapp</directory>
+									<includes>
+										<include>cotrix.html</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>${gwt.version}</version>
 				<executions>
 					<execution>
 						<goals>
 							<goal>compile</goal>
-							<goal>generateAsync</goal>
 						</goals>
 					</execution>
 				</executions>
-				
 				<configuration>
-					<runTarget>CodeListManager.html</runTarget>
-					<hostedWebapp>${webappDirectory}</hostedWebapp>
+					<runTarget>cotrix.html</runTarget>
+					<hostedWebapp>${exploded}</hostedWebapp>
 				</configuration>
+
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<webappDirectory>${webappDirectory}</webappDirectory>
-					<webResources>
-						<resource>
-							<directory>src/main/webapp</directory>
-							<includes>
-								<include>CodeListManager.html</include>
-							</includes>
-							<filtering>true</filtering>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-war-plugin</artifactId> 
+				<version>2.2</version> <configuration> <webappDirectory>${exploded}</webappDirectory> 
+				<webResources> <resource> <directory>src/main/webapp</directory> <includes> 
+				<include>cotrix.html</include> </includes> <filtering>true</filtering> </resource> 
+				</webResources> </configuration> </plugin> -->
 		</plugins>
 	</build>
+
+	<profiles>
+
+		<profile>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<id>dev</id>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-stage</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-neo</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-sdmx-registry</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-semantic-repository</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-rtms</artifactId>
+				</dependency>
+
+			</dependencies>
+
+
+
+		</profile>
+
+	</profiles>
 </project>
