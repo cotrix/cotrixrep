@@ -13,6 +13,7 @@
 
 	<properties>
 
+		<gwt.version>2.5.1</gwt.version>
 		<gin.version>2.1.1</gin.version>
 
 		<compile-phase>compile</compile-phase>
@@ -75,6 +76,13 @@
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-web-share</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-wizard</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
 			</dependency>
 
 			<dependency>

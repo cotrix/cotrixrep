@@ -61,6 +61,8 @@
 		<module>cotrix-head-parent</module>
 
 		<module>cotrix-web-parent</module>
+		
+		<module>cotrix-web-wizard</module>
 	</modules>
 
 	<repositories>
