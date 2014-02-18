@@ -28,13 +28,11 @@
 		<dependency>
 			<groupId>org.virtualrepository</groupId>
 			<artifactId>virtual-repository</artifactId>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.virtualrepository</groupId>
 			<artifactId>sdmxsource-adapter</artifactId>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>

@@ -13,9 +13,7 @@
 
 	<properties>
 
-		<gwt.version>2.6.0</gwt.version>
 		<gin.version>2.1.1</gin.version>
-
 
 		<compile-phase>compile</compile-phase>
 

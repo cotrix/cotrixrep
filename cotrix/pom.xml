@@ -10,8 +10,11 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 		<slf4j.version>1.7.5</slf4j.version>
 		<weld.version>2.0.4.Final</weld.version>
+		<gwt.version>2.5.1</gwt.version>
+		
 	</properties>
 
 	<modules>
@@ -249,14 +252,12 @@
 				<groupId>org.virtualrepository</groupId>
 				<artifactId>virtual-repository</artifactId>
 				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-				<scope>compile</scope>
 			</dependency>
 
 			<dependency>
 				<groupId>org.virtualrepository</groupId>
 				<artifactId>sdmxsource-adapter</artifactId>
 				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-				<scope>compile</scope>
 			</dependency>
 
 

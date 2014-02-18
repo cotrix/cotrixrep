@@ -10,10 +10,22 @@
 	<artifactId>cotrix-head-parent</artifactId>
 
 	<packaging>pom</packaging>
-	
+
 	<properties>
-		<webappdir>${project.build.directory}/${project.build.finalName}</webappdir>
+
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<display_version>v${project.version}-${timestamp}</display_version>
+		
+		<shared-resources-dir>${project.build.directory}/head-resources</shared-resources-dir>
+		<shared-resources-coords>${project.groupId}:cotrix-head-shared:${project.version}</shared-resources-coords>
+		
+		<!--WAR plugin default -->
+		<exploded>${project.build.directory}/${project.build.finalName}</exploded>
+
 	</properties>
+
+
 
 	<dependencies>
 
@@ -29,19 +41,24 @@
 
 	</dependencies>
 
+
+
 	<build>
 
-		<outputDirectory>${webappdir}/WEB-INF/classes</outputDirectory>
+		<!-- compiling in exploded war supports GWT plugin in dev mode -->
+		<outputDirectory>${exploded}/WEB-INF/classes</outputDirectory>
 
 		<plugins>
 
+			<!-- unpack shared resource bundle in default dir target/maven-shared-archive-resources -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-remote-resources-plugin</artifactId>
 				<version>1.5</version>
 				<configuration>
+					<outputDirectory>${shared-resources-dir}</outputDirectory>
 					<resourceBundles>
-						<resourceBundle>${project.groupId}:cotrix-head-shared:${project.version}</resourceBundle>
+						<resourceBundle>${shared-resources-coords}</resourceBundle>
 					</resourceBundles>
 					<includes>
 						<include>**/*</include>
@@ -49,7 +66,6 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>open-webapp-bundle</id>
 						<goals>
 							<goal>process</goal>
 						</goals>
@@ -57,18 +73,19 @@
 				</executions>
 			</plugin>
 
+			<!-- copies shared resources in project as appropriate -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
 				<executions>
 					<execution>
-						<id>copy-webapp-static</id>
+						<id>copy-head-resources</id>
 						<configuration>
 							<outputDirectory>src/main/webapp</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${project.build.directory}/maven-shared-archive-resources/static</directory>
+									<directory>${shared-resources-dir}</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
@@ -78,29 +95,17 @@
 						</goals>
 						<phase>generate-resources</phase>
 					</execution>
-<!-- 					<execution>
-						<id>copy-webapp-runtime</id>
-						<configuration>
-							<outputDirectory>src/main/resources</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${project.build.directory}/maven-shared-archive-resources/runtime</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<phase>generate-resources</phase>
-					</execution> -->
+					<!-- <execution> <id>copy-webapp-runtime</id> <configuration> <outputDirectory>src/main/resources</outputDirectory> 
+						<resources> <resource> <directory>${project.build.directory}/maven-shared-archive-resources/runtime</directory> 
+						<filtering>true</filtering> </resource> </resources> </configuration> <goals> 
+						<goal>copy-resources</goal> </goals> <phase>generate-resources</phase> </execution> -->
 				</executions>
 			</plugin>
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>${gwt.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -110,8 +115,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<runTarget>CodeListManager.html</runTarget>
-					<hostedWebapp>${webappdir}</hostedWebapp>
+					<runTarget>cotrix.html</runTarget>
+					<hostedWebapp>${exploded}</hostedWebapp>
 				</configuration>
 			</plugin>
 

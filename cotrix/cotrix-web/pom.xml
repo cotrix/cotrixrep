@@ -19,10 +19,6 @@
 
 	
 	<properties>
-		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
-		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-		<timestamp>${maven.build.timestamp}</timestamp>
-		<display_version>v${project.version}-${timestamp}</display_version>
 		<distroDirectory>distro</distroDirectory>
 	</properties>
 
