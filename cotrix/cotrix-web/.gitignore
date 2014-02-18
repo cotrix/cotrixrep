@@ -3,3 +3,5 @@
 /.settings
 /extras
 /gen
+/gwt-unitCache
+/war
