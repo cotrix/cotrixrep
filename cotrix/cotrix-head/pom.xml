@@ -78,12 +78,7 @@
 				</configuration>
 
 			</plugin>
-
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-war-plugin</artifactId> 
-				<version>2.2</version> <configuration> <webappDirectory>${exploded}</webappDirectory> 
-				<webResources> <resource> <directory>src/main/webapp</directory> <includes> 
-				<include>cotrix.html</include> </includes> <filtering>true</filtering> </resource> 
-				</webResources> </configuration> </plugin> -->
+			
 		</plugins>
 	</build>
 
@@ -131,4 +126,5 @@
 		</profile>
 
 	</profiles>
+	
 </project>
