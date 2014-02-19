@@ -2,6 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.cotrix</groupId>
+		<artifactId>cotrix-bom</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+		<relativePath>cotrix-bom/</relativePath>
+	</parent>
+
+
 	<groupId>org.cotrix</groupId>
 	<artifactId>cotrix</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
@@ -12,9 +21,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<slf4j.version>1.7.5</slf4j.version>
-		
+
 		<weld.version>2.0.4.Final</weld.version>
-		
+
 		<gwt.version>2.5.1</gwt.version>
 
 	</properties>
@@ -66,6 +75,7 @@
 		<module>cotrix-web-parent</module>
 
 		<module>cotrix-web-wizard</module>
+
 	</modules>
 
 	<repositories>
@@ -98,259 +108,17 @@
 
 	</repositories>
 
-
-	<dependencyManagement>
+	<!--<dependencyManagement>
 		<dependencies>
-
-			<!-- module dependencies -->
-
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-common</artifactId>
-				<version>${project.version}</version>
+				<artifactId>cotrix-bom</artifactId>
+				<version>1.0.0</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-test-common</artifactId>
-				<version>${project.version}</version>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-configuration</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-domain</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-test-domain</artifactId>
-				<version>${project.version}</version>
-				<type>test-jar</type>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-io</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-engine</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-application</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-mail</artifactId>
-				<version>${project.version}</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-stage</artifactId>
-				<version>${project.version}</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-action</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-lifecycle</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-lifecycle</artifactId>
-				<version>${project.version}</version>
-				<type>test-jar</type>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-security</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-security</artifactId>
-				<version>${project.version}</version>
-				<type>test-jar</type>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-repository</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-repository</artifactId>
-				<version>${project.version}</version>
-				<type>test-jar</type>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-neo</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-head-shared</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-transient</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-gcube</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-
-			<!-- "local" deps -->
-
-			<dependency>
-				<groupId>org.virtualrepository</groupId>
-				<artifactId>virtual-repository</artifactId>
-				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.virtualrepository</groupId>
-				<artifactId>sdmxsource-adapter</artifactId>
-				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-			</dependency>
-
-
-			<dependency>
-				<groupId>org.virtualrepository</groupId>
-				<artifactId>virtual-sdmx-registry</artifactId>
-				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.virtualrepository</groupId>
-				<artifactId>virtual-semantic-repository</artifactId>
-				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.virtualrepository</groupId>
-				<artifactId>virtual-rtms</artifactId>
-				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<!-- logging -->
-
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-				<scope>compile</scope>
-			</dependency>
-
-			<!-- CDI injection -->
-
-			<dependency>
-				<groupId>javax.enterprise</groupId>
-				<artifactId>cdi-api</artifactId>
-				<version>1.1</version>
-				<scope>compile</scope>
-				<exclusions>
-					<exclusion>
-						<artifactId>el-api</artifactId>
-						<groupId>javax.el</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.jboss.weld.servlet</groupId>
-				<artifactId>weld-servlet-core</artifactId>
-				<version>${weld.version}</version>
-				<scope>runtime</scope>
-				<exclusions>
-					<exclusion>
-						<artifactId>jboss-el-api_3.0_spec</artifactId>
-						<groupId>org.jboss.spec.javax.el</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<artifactId>jboss-el-api_3.0_spec</artifactId>
-				<groupId>org.jboss.spec.javax.el</groupId>
-				<version>1.0.0.Alpha1</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.jboss.weld</groupId>
-				<artifactId>weld-core</artifactId>
-				<version>${weld.version}</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.11</version>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>1.0.13</version>
-			</dependency>
-
 		</dependencies>
-	</dependencyManagement>
+	</dependencyManagement>-->
 
 	<dependencies>
 

@@ -28,6 +28,50 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web</artifactId>
 		</dependency>
+
+		<!-- We want to exclude those dependencies from the final war -->
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-menu</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-wizard</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.allen-sauer.gwt.log</groupId>
+			<artifactId>gwt-log</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt.eventbinder</groupId>
+			<artifactId>eventbinder</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.vectomatic</groupId>
+			<artifactId>lib-gwt-file</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt.inject</groupId>
+			<artifactId>gin</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -37,29 +81,29 @@
 		<outputDirectory>${exploded}/WEB-INF/classes</outputDirectory>
 
 		<plugins>
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.codehaus.mojo</groupId> -->
-<!-- 				<artifactId>build-helper-maven-plugin</artifactId> -->
-<!-- 				<version>1.8</version> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<phase>generate-resources</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>add-resource</goal> -->
-<!-- 						</goals> -->
-<!-- 						<configuration> -->
-<!-- 							<resources> -->
-<!-- 								<resource> -->
-<!-- 									<directory>src/main/webapp</directory> -->
-<!-- 									<includes> -->
-<!-- 										<include>cotrix.html</include> -->
-<!-- 									</includes> -->
-<!-- 								</resource> -->
-<!-- 							</resources> -->
-<!-- 						</configuration> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+			<!-- <plugin> -->
+			<!-- <groupId>org.codehaus.mojo</groupId> -->
+			<!-- <artifactId>build-helper-maven-plugin</artifactId> -->
+			<!-- <version>1.8</version> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <phase>generate-resources</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>add-resource</goal> -->
+			<!-- </goals> -->
+			<!-- <configuration> -->
+			<!-- <resources> -->
+			<!-- <resource> -->
+			<!-- <directory>src/main/webapp</directory> -->
+			<!-- <includes> -->
+			<!-- <include>cotrix.html</include> -->
+			<!-- </includes> -->
+			<!-- </resource> -->
+			<!-- </resources> -->
+			<!-- </configuration> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -68,7 +112,7 @@
 				<executions>
 					<execution>
 						<configuration>
-						      <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+							<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
 						</configuration>
 						<goals>
 							<goal>compile</goal>
@@ -91,7 +135,7 @@
 					</compileSourcesArtifacts>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -103,12 +147,12 @@
 							<goal>exploded</goal>
 						</goals>
 					</execution>
- 				</executions>
+				</executions>
 				<configuration>
 					<webappDirectory>${exploded}</webappDirectory>
 				</configuration>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 
@@ -156,5 +200,5 @@
 		</profile>
 
 	</profiles>
-	
+
 </project>
