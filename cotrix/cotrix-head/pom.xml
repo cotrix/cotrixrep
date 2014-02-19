@@ -37,29 +37,29 @@
 		<outputDirectory>${exploded}/WEB-INF/classes</outputDirectory>
 
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.8</version>
-				<executions>
-					<execution>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>add-resource</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource>
-									<directory>src/main/webapp</directory>
-									<includes>
-										<include>cotrix.html</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.codehaus.mojo</groupId> -->
+<!-- 				<artifactId>build-helper-maven-plugin</artifactId> -->
+<!-- 				<version>1.8</version> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<phase>generate-resources</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>add-resource</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<resources> -->
+<!-- 								<resource> -->
+<!-- 									<directory>src/main/webapp</directory> -->
+<!-- 									<includes> -->
+<!-- 										<include>cotrix.html</include> -->
+<!-- 									</includes> -->
+<!-- 								</resource> -->
+<!-- 							</resources> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -67,6 +67,9 @@
 				<version>${gwt.version}</version>
 				<executions>
 					<execution>
+						<configuration>
+						      <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+						</configuration>
 						<goals>
 							<goal>compile</goal>
 						</goals>
@@ -75,8 +78,35 @@
 				<configuration>
 					<runTarget>cotrix.html</runTarget>
 					<hostedWebapp>${exploded}</hostedWebapp>
+					<failOnError>true</failOnError>
+					<compileSourcesArtifacts>
+						<compileSourcesArtifact>org.cotrix:cotrix-web-share</compileSourcesArtifact>
+						<compileSourcesArtifact>org.cotrix:cotrix-web-wizard</compileSourcesArtifact>
+						<compileSourcesArtifact>org.cotrix:cotrix-web-importwizard</compileSourcesArtifact>
+						<compileSourcesArtifact>org.cotrix:cotrix-web-menu</compileSourcesArtifact>
+						<compileSourcesArtifact>org.cotrix:cotrix-web-codelistmanager</compileSourcesArtifact>
+						<compileSourcesArtifact>org.cotrix:cotrix-web-publish</compileSourcesArtifact>
+						<compileSourcesArtifact>org.cotrix:cotrix-web-permissionmanager</compileSourcesArtifact>
+						<compileSourcesArtifact>org.cotrix:cotrix-web</compileSourcesArtifact>
+					</compileSourcesArtifacts>
 				</configuration>
-
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>exploded</goal>
+						</goals>
+					</execution>
+ 				</executions>
+				<configuration>
+					<webappDirectory>${exploded}</webappDirectory>
+				</configuration>
 			</plugin>
 			
 		</plugins>
