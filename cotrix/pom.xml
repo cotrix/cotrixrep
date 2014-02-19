@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cotrix</groupId>
 	<artifactId>cotrix</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -568,6 +568,19 @@
 			<id>gcube</id>
 
 			<modules>
+				<module>cotrix-neo</module>
+			</modules>
+
+
+		</profile>
+		
+		<profile>
+
+			<id>all</id>
+
+			<modules>
+				<module>cotrix-mail</module>
+				<module>cotrix-stage</module>
 				<module>cotrix-neo</module>
 			</modules>
 
