@@ -33,6 +33,17 @@
 				<scope>runtime</scope>
 			</dependency>
 
+			<dependency>
+				<groupId>com.google.gwt.inject</groupId>
+				<artifactId>gin</artifactId>
+				<version>${gin.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.allen-sauer.gwt.log</groupId>
+				<artifactId>gwt-log</artifactId>
+				<version>3.2.1</version>
+			</dependency>
 
 			<dependency>
 				<groupId>com.google.gwt.eventbinder</groupId>
@@ -68,6 +79,12 @@
 			</dependency>
 
 
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-user</artifactId>
+				<version>${gwt.version}</version>
+				<scope>provided</scope>
+			</dependency>
 
 			<!-- local modules -->
 
@@ -81,14 +98,12 @@
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-web-wizard</artifactId>
 				<version>${project.version}</version>
-				<scope>provided</scope>
 			</dependency>
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-web-menu</artifactId>
 				<version>${project.version}</version>
-				<scope>provided</scope>
 			</dependency>
 
 			<dependency>
@@ -128,20 +143,16 @@
 		<dependency>
 			<groupId>com.google.gwt.inject</groupId>
 			<artifactId>gin</artifactId>
-			<version>${gin.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.allen-sauer.gwt.log</groupId>
 			<artifactId>gwt-log</artifactId>
-			<version>3.2.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>${gwt.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 

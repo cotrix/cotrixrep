@@ -18,7 +18,7 @@
 		<display_version>v${project.version}-${maven.build.timestamp.format}</display_version>
 
 		<shared-resources-dir>${project.build.directory}/head-resources</shared-resources-dir>
-		<shared-resources-coords>${project.groupId}:cotrix-head-shared:${project.version}</shared-resources-coords>
+		<shared-resources-coords>${project.groupId}:cotrix-head-parent:${project.version}:pom</shared-resources-coords>
 
 		<!--WAR plugin default -->
 		<exploded>${project.build.directory}/${project.build.finalName}</exploded>
@@ -28,11 +28,6 @@
 
 
 	<dependencies>
-
-		<dependency>
-			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-head-shared</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.cotrix</groupId>
@@ -49,6 +44,7 @@
 		<outputDirectory>${exploded}/WEB-INF/classes</outputDirectory>
 
 		<pluginManagement>
+		
 			<plugins>
 
 				<!-- unpack shared resource bundle in default dir target/maven-shared-archive-resources -->
@@ -56,17 +52,18 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-remote-resources-plugin</artifactId>
 					<version>1.5</version>
-					<configuration>
-						<outputDirectory>${shared-resources-dir}</outputDirectory>
-						<resourceBundles>
-							<resourceBundle>${shared-resources-coords}</resourceBundle>
-						</resourceBundles>
-						<includes>
-							<include>**/*</include>
-						</includes>
-					</configuration>
 					<executions>
 						<execution>
+							<id>unpack-resources</id>
+							<configuration>
+								<outputDirectory>${shared-resources-dir}</outputDirectory>
+								<resourceBundles>
+									<resourceBundle>${shared-resources-coords}</resourceBundle>
+								</resourceBundles>
+								<includes>
+									<include>**/*</include>
+								</includes>
+							</configuration>
 							<goals>
 								<goal>process</goal>
 							</goals>
@@ -120,6 +117,35 @@
 
 		</pluginManagement>
 
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-remote-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack-resources</id>
+						<phase>none</phase>
+						<inherited>false</inherited>
+					</execution>
+					<execution>
+						<id>bundle-war-resources</id>
+						<configuration>
+							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</configuration>
+						<!-- this runs only here -->
+						<inherited>false</inherited>
+						<goals>
+							<goal>bundle</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
 	</build>
 
 </project>
