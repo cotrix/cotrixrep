@@ -21,8 +21,6 @@
 		<!--WAR plugin default -->
 		<exploded>${project.build.directory}/${project.build.finalName}</exploded>
 
-		<active_profile>**error**</active_profile>
-		
 		<draft>false</draft>
 		
 		

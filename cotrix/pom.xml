@@ -21,6 +21,10 @@
 		<gwt.version>2.5.1</gwt.version>
 
 		<gin.version>2.1.1</gin.version>
+		
+		
+		<!-- one must be defined -->
+		<active_profile>**error**</active_profile>
 
 	</properties>
 
@@ -65,8 +69,7 @@
 
 		<module>cotrix-test-common</module>
 		<module>cotrix-test-domain</module>
-
-
+		<module>cotrix-test-app</module>
 
 	</modules>
 
@@ -194,12 +197,6 @@
 				<version>${project.version}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-head-shared</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
 
 
 			<!-- mixed GWT modules -->
@@ -257,6 +254,11 @@
 			</dependency>
 
 
+
+
+			
+			
+			
 			<!-- CI deps -->
 
 			<dependency>
@@ -292,7 +294,6 @@
 				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
 				<scope>runtime</scope>
 			</dependency>
-
 
 
 
