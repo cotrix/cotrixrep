@@ -43,15 +43,28 @@
 	</dependencies>
 
 	<build>
-	
-	<plugins>
+
+
+		<!-- complements source-enrichment of 'resources' goal of Maven plugin to cover patched google case -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>com/google/**/*</include>
+				</includes>
+			</resource>
+		</resources>
+
+
+
+		<plugins>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
 		</plugins>
 

@@ -149,7 +149,7 @@
 
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>CodeListManager.html</welcome-file>
+		<welcome-file>cotrix.html</welcome-file>
 	</welcome-file-list>
 
 </web-app>

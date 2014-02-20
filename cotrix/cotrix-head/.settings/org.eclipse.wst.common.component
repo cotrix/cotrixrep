@@ -7,6 +7,12 @@
         <dependent-module archiveName="cotrix-web-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web/cotrix-web">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="cotrix-web-share-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-share/cotrix-web-share">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="cotrix-engine-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-engine/cotrix-engine">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="cotrix-web-importwizard-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-importwizard/cotrix-web-importwizard">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -22,16 +28,10 @@
         <dependent-module archiveName="cotrix-web-codelistmanager-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-codelistmanager/cotrix-web-codelistmanager">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cotrix-engine-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-engine/cotrix-engine">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="cotrix-web-publish-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-publish/cotrix-web-publish">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cotrix-web-permissionmanager-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-permissionmanager/cotrix-web-permissionmanager">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="cotrix-web-share-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-share/cotrix-web-share">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cotrix-stage-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-stage/cotrix-stage">
@@ -56,6 +56,9 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cotrix-configuration-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-configuration/cotrix-configuration">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sdmxsource-adapter-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sdmxsource-adapter/sdmxsource-adapter">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="cotrix-head"/>

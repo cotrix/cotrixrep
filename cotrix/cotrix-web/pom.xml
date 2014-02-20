@@ -32,6 +32,11 @@
 
 		<dependency>
 			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-share</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-importwizard</artifactId>
 		</dependency>
 
@@ -102,10 +107,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
 		</plugins>
 

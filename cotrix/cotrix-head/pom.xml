@@ -24,12 +24,14 @@
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web</artifactId>
 		</dependency>
 
-		<!-- We want to exclude those dependencies from the final war -->
+		<!-- exclude client-only GWT modules -->
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-menu</artifactId>
@@ -39,6 +41,26 @@
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-wizard</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- exclude other build-time only libraries -->
+
+		<dependency>
+			<groupId>com.google.gwt.inject</groupId>
+			<artifactId>gin</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -60,17 +82,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.google.gwt.inject</groupId>
-			<artifactId>gin</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-user</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
 	</dependencies>
 
@@ -81,30 +92,6 @@
 		<outputDirectory>${exploded}/WEB-INF/classes</outputDirectory>
 
 		<plugins>
-			<!-- <plugin> -->
-			<!-- <groupId>org.codehaus.mojo</groupId> -->
-			<!-- <artifactId>build-helper-maven-plugin</artifactId> -->
-			<!-- <version>1.8</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <phase>generate-resources</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>add-resource</goal> -->
-			<!-- </goals> -->
-			<!-- <configuration> -->
-			<!-- <resources> -->
-			<!-- <resource> -->
-			<!-- <directory>src/main/webapp</directory> -->
-			<!-- <includes> -->
-			<!-- <include>cotrix.html</include> -->
-			<!-- </includes> -->
-			<!-- </resource> -->
-			<!-- </resources> -->
-			<!-- </configuration> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
-
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
@@ -120,44 +107,24 @@
 					</execution>
 				</executions>
 				<configuration>
+					<draftCompile>true</draftCompile>
 					<runTarget>cotrix.html</runTarget>
 					<hostedWebapp>${exploded}</hostedWebapp>
 					<failOnError>true</failOnError>
-					<compileSourcesArtifacts>
-						<compileSourcesArtifact>org.cotrix:cotrix-web-share</compileSourcesArtifact>
-						<compileSourcesArtifact>org.cotrix:cotrix-web-wizard</compileSourcesArtifact>
-						<compileSourcesArtifact>org.cotrix:cotrix-web-importwizard</compileSourcesArtifact>
-						<compileSourcesArtifact>org.cotrix:cotrix-web-menu</compileSourcesArtifact>
-						<compileSourcesArtifact>org.cotrix:cotrix-web-codelistmanager</compileSourcesArtifact>
-						<compileSourcesArtifact>org.cotrix:cotrix-web-publish</compileSourcesArtifact>
-						<compileSourcesArtifact>org.cotrix:cotrix-web-permissionmanager</compileSourcesArtifact>
-						<compileSourcesArtifact>org.cotrix:cotrix-web</compileSourcesArtifact>
-					</compileSourcesArtifacts>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.2</version>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>exploded</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<webappDirectory>${exploded}</webappDirectory>
 				</configuration>
 			</plugin>
 
 		</plugins>
 	</build>
 
+
+
+
+
 	<profiles>
 
+
+		<!-- plugins, persistence, and staging -->
 		<profile>
 
 			<activation>
@@ -195,9 +162,26 @@
 
 			</dependencies>
 
+		</profile>
+
+
+		<!-- no plugins, no persistence, staging -->
+		<profile>
+
+			<id>devlite</id>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-stage</artifactId>
+				</dependency>
+
+			</dependencies>
 
 
 		</profile>
+
 
 	</profiles>
 

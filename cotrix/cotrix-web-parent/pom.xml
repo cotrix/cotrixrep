@@ -11,13 +11,6 @@
 
 	<packaging>pom</packaging>
 
-	<properties>
-
-		<compile-phase>compile</compile-phase>
-
-	</properties>
-
-
 	<dependencies>
 
 
@@ -31,6 +24,7 @@
 		<dependency>
 			<groupId>com.allen-sauer.gwt.log</groupId>
 			<artifactId>gwt-log</artifactId>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
@@ -56,25 +50,12 @@
 					<executions>
 						<execution>
 							<goals>
+								<goal>resources</goal>
 								<goal>generateAsync</goal>
 							</goals>
 						</execution>
 					</executions>
 				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
 
 				<!-- m2e configuration -->
 
