@@ -21,6 +21,13 @@
 		<!--WAR plugin default -->
 		<exploded>${project.build.directory}/${project.build.finalName}</exploded>
 
+		<active_profile>**error**</active_profile>
+		
+		<draft>false</draft>
+		
+		
+		<gwt_module>org.cotrix.head.Cotrix</gwt_module>
+
 	</properties>
 
 	<dependencies>
@@ -92,6 +99,8 @@
 		<outputDirectory>${exploded}/WEB-INF/classes</outputDirectory>
 
 		<plugins>
+
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
@@ -107,11 +116,25 @@
 					</execution>
 				</executions>
 				<configuration>
-					<draftCompile>true</draftCompile>
+					<module>${gwt_module}</module>
+					<draftCompile>${draft}</draftCompile>
 					<runTarget>cotrix.html</runTarget>
 					<hostedWebapp>${exploded}</hostedWebapp>
 					<failOnError>true</failOnError>
 				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-war</id>
+						<configuration>
+							<classifier>${active_profile}</classifier>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
@@ -132,6 +155,12 @@
 			</activation>
 
 			<id>dev</id>
+
+			<properties>
+				<active_profile>dev</active_profile>
+				<draft>true</draft>
+				<gwt_module>org.cotrix.head.CotrixDev</gwt_module>
+			</properties>
 
 			<dependencies>
 
@@ -172,6 +201,12 @@
 
 			<id>devlite</id>
 
+			<properties>
+				<active_profile>devlite</active_profile>
+				<draft>true</draft>
+				<gwt_module>org.cotrix.head.CotrixDev</gwt_module>
+			</properties>
+
 			<dependencies>
 
 				<dependency>
@@ -190,6 +225,10 @@
 		<profile>
 
 			<id>demo</id>
+
+			<properties>
+				<active_profile>demo</active_profile>
+			</properties>
 
 			<dependencies>
 
@@ -230,6 +269,10 @@
 
 			<id>gcube</id>
 
+			<properties>
+				<active_profile>gcube</active_profile>
+			</properties>
+			
 			<dependencies>
 
 				<dependency>
