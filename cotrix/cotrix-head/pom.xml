@@ -165,6 +165,8 @@
 		</profile>
 
 
+
+
 		<!-- no plugins, no persistence, staging -->
 		<profile>
 
@@ -182,6 +184,75 @@
 
 		</profile>
 
+
+
+		<!-- plugins, mailer, no persistence, staging -->
+		<profile>
+
+			<id>demo</id>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-mail</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-stage</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-sdmx-registry</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-semantic-repository</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-rtms</artifactId>
+				</dependency>
+
+
+			</dependencies>
+
+
+		</profile>
+
+
+		<!-- no mail, sdmx plugin, persistence, no staging -->
+		<profile>
+
+			<id>gcube</id>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-gcube-extension</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+					<scope>runtime</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-sdmx-registry</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-neo</artifactId>
+				</dependency>
+
+			</dependencies>
+
+		</profile>
 
 	</profiles>
 
