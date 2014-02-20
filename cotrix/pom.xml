@@ -26,51 +26,47 @@
 
 	<modules>
 
-		<module>cotrix-web</module>
-
-		<module>cotrix-web-importwizard</module>
-
-		<module>cotrix-web-codelistmanager</module>
-
-		<module>cotrix-web-menu</module>
-
-		<module>cotrix-web-share</module>
-
-		<module>cotrix-web-publish</module>
-
+		<!-- domain core -->
 		<module>cotrix-common</module>
-
 		<module>cotrix-repository</module>
-
 		<module>cotrix-domain</module>
-
-		<module>cotrix-test-domain</module>
-
 		<module>cotrix-io</module>
-
 		<module>cotrix-lifecycle</module>
-
 		<module>cotrix-engine</module>
-
 		<module>cotrix-security</module>
-
 		<module>cotrix-action</module>
-
 		<module>cotrix-application</module>
-
-		<module>cotrix-web-permissionmanager</module>
-
 		<module>cotrix-configuration</module>
 
-		<module>cotrix-test-common</module>
+		<!-- domain optional -->
+		<module>cotrix-neo</module>
+		<module>cotrix-mail</module>
+		<module>cotrix-stage</module>
+		
+		
+		<!--  GWT core -->
 
-		<module>cotrix-head</module>
-		<module>cotrix-head-shared</module>
-		<module>cotrix-head-parent</module>
-
+		<module>cotrix-web</module>
+		<module>cotrix-web-importwizard</module>
+		<module>cotrix-web-codelistmanager</module>
+		<module>cotrix-web-menu</module>
+		<module>cotrix-web-share</module>
+		<module>cotrix-web-publish</module>
 		<module>cotrix-web-parent</module>
-
 		<module>cotrix-web-wizard</module>
+		<module>cotrix-web-permissionmanager</module>
+
+
+		<!-- main module -->
+		<module>cotrix-head</module>
+
+
+		<!-- test suites -->
+
+		<module>cotrix-test-common</module>
+		<module>cotrix-test-domain</module>
+
+
 
 	</modules>
 
@@ -645,63 +641,7 @@
 			</distributionManagement>
 
 		</profile>
-
-
-		<profile>
-
-			<id>demo</id>
-
-
-			<modules>
-				<module>cotrix-stage</module>
-				<module>cotrix-mail</module>
-				<module>cotrix-head-demo</module>
-			</modules>
-
-
-		</profile>
-
-		<profile>
-
-			<id>dev</id>
-
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-
-			<modules>
-				<module>cotrix-stage</module>
-				<module>cotrix-neo</module>
-				<module>cotrix-head-dev</module>
-			</modules>
-
-		</profile>
-
-		<profile>
-
-			<id>devlite</id>
-
-			<modules>
-				<module>cotrix-stage</module>
-				<module>cotrix-head-devlite</module>
-			</modules>
-
-		</profile>
-
-
-		<profile>
-
-			<id>gcube</id>
-
-			<modules>
-				<module>cotrix-neo</module>
-				<module>cotrix-mail</module>
-				<module>cotrix-head-gcube</module>
-			</modules>
-
-
-		</profile>
-
+	
 	</profiles>
-
+	
 </project>
