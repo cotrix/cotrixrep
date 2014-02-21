@@ -2,21 +2,21 @@ package org.cotrix.web.publish.client;
 
 import java.util.List;
 
+import org.cotrix.web.common.shared.ColumnSortInfo;
+import org.cotrix.web.common.shared.CsvConfiguration;
+import org.cotrix.web.common.shared.DataWindow;
+import org.cotrix.web.common.shared.Progress;
+import org.cotrix.web.common.shared.ReportLog;
+import org.cotrix.web.common.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.UIRepository;
-import org.cotrix.web.share.shared.ColumnSortInfo;
-import org.cotrix.web.share.shared.CsvConfiguration;
-import org.cotrix.web.share.shared.DataWindow;
-import org.cotrix.web.share.shared.Progress;
-import org.cotrix.web.share.shared.ReportLog;
-import org.cotrix.web.share.shared.codelist.RepositoryDetails;
-import org.cotrix.web.share.shared.codelist.UICodelist;
-import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
-import org.cotrix.web.share.shared.codelist.UIQName;
-import org.cotrix.web.share.shared.exception.ServiceException;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

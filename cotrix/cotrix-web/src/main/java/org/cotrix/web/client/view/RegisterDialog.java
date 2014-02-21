@@ -1,6 +1,6 @@
 package org.cotrix.web.client.view;
 
-import org.cotrix.web.share.client.util.AccountValidator;
+import org.cotrix.web.common.client.util.AccountValidator;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;

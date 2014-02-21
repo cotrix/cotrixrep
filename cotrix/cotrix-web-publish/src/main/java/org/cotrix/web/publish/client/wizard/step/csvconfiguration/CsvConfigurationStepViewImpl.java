@@ -1,8 +1,8 @@
 package org.cotrix.web.publish.client.wizard.step.csvconfiguration;
 
-import org.cotrix.web.share.client.widgets.AlertDialog;
-import org.cotrix.web.share.client.widgets.CsvConfigurationPanel;
-import org.cotrix.web.share.shared.CsvConfiguration;
+import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.CsvConfigurationPanel;
+import org.cotrix.web.common.shared.CsvConfiguration;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;

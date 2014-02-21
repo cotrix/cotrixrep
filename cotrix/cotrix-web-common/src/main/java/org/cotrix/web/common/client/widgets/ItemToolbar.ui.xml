@@ -1,0 +1,41 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='resources'
+		type='org.cotrix.web.common.client.resources.CommonResources' />
+	<ui:style>
+		.toolbar {
+			background-color: #f1f1f1;
+			vertical-align: middle;
+		}
+		
+		.box {
+			margin: 0 auto;
+			width: 40px;
+		}
+		
+		.plusButton {
+			float: left;
+			padding-top: 5px;
+			outline: none;
+			cursor: pointer;
+		}
+		
+		.minusButton {
+			float: right;
+			padding-top: 5px;
+			outline: none;
+			cursor: pointer;
+		}
+	</ui:style>
+	<g:FlowPanel height="28px" styleName="{style.toolbar}">
+		<g:FlowPanel styleName="{style.box}">
+			<g:PushButton ui:field="plus" styleName="{style.plusButton}">
+				<g:upFace image="{resources.plus}" />
+			</g:PushButton>
+			<g:PushButton ui:field="minus" styleName="{style.minusButton}">
+				<g:upFace image="{resources.minus}" />
+			</g:PushButton>
+		</g:FlowPanel>
+	</g:FlowPanel>
+</ui:UiBinder> 

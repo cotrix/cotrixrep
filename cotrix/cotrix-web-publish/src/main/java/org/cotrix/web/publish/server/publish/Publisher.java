@@ -10,11 +10,11 @@ import org.cotrix.common.Report;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.tx.Transactional;
 import org.cotrix.io.SerialisationService.SerialisationDirectives;
+import org.cotrix.web.common.server.util.Reports;
+import org.cotrix.web.common.shared.Progress;
+import org.cotrix.web.common.shared.ReportLog;
+import org.cotrix.web.common.shared.Progress.Status;
 import org.cotrix.web.publish.shared.PublishDirectives;
-import org.cotrix.web.share.server.util.Reports;
-import org.cotrix.web.share.shared.Progress;
-import org.cotrix.web.share.shared.Progress.Status;
-import org.cotrix.web.share.shared.ReportLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

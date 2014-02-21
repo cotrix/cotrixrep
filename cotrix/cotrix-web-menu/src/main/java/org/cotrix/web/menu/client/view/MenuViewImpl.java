@@ -3,8 +3,8 @@ package org.cotrix.web.menu.client.view;
 import java.util.EnumSet;
 import java.util.Set;
 
-import org.cotrix.web.share.client.util.FadeAnimation;
-import org.cotrix.web.share.client.util.FadeAnimation.Speed;
+import org.cotrix.web.common.client.util.FadeAnimation;
+import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

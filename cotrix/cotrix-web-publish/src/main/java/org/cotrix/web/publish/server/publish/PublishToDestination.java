@@ -21,8 +21,8 @@ import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
+import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.publish.shared.PublishDirectives;
-import org.cotrix.web.share.server.util.ValueUtils;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Table;
 

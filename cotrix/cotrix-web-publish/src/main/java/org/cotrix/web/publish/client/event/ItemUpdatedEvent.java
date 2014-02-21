@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.event;
 
-import org.cotrix.web.share.client.event.GenericEventTypeManager;
+import org.cotrix.web.common.client.event.GenericEventTypeManager;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;

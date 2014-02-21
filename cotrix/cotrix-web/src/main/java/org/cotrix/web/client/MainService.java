@@ -2,9 +2,9 @@ package org.cotrix.web.client;
 
 import java.util.List;
 
-import org.cotrix.web.share.shared.UIUser;
-import org.cotrix.web.share.shared.exception.IllegalActionException;
-import org.cotrix.web.share.shared.exception.ServiceException;
+import org.cotrix.web.common.shared.UIUser;
+import org.cotrix.web.common.shared.exception.IllegalActionException;
+import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.shared.LoginToken;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;

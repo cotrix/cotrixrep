@@ -1,5 +1,7 @@
 package org.cotrix.web.publish.client.wizard.step.codelistselection;
 
+import org.cotrix.web.common.shared.codelist.LifecycleState;
+import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
@@ -8,12 +10,10 @@ import org.cotrix.web.publish.client.wizard.step.DetailsNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.client.wizard.task.RetrieveMetadataTask;
 import org.cotrix.web.publish.shared.PublishMetadata;
-import org.cotrix.web.share.client.wizard.event.NavigationEvent;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent.ResetWizardHandler;
-import org.cotrix.web.share.client.wizard.step.AbstractVisualWizardStep;
-import org.cotrix.web.share.shared.codelist.LifecycleState;
-import org.cotrix.web.share.shared.codelist.UICodelist;
+import org.cotrix.web.wizard.client.event.NavigationEvent;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
+import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;

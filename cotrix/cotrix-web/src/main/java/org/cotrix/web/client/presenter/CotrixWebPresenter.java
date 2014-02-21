@@ -1,9 +1,9 @@
 package org.cotrix.web.client.presenter;
 
 import org.cotrix.web.client.view.CotrixWebView;
+import org.cotrix.web.common.client.CotrixModule;
+import org.cotrix.web.common.client.CotrixModuleController;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
-import org.cotrix.web.share.client.CotrixModule;
-import org.cotrix.web.share.client.CotrixModuleController;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

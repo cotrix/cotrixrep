@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.csvconfiguration;
 
-import org.cotrix.web.share.shared.CsvConfiguration;
+import org.cotrix.web.common.shared.CsvConfiguration;
 
 import com.google.gwt.user.client.ui.Widget;
 

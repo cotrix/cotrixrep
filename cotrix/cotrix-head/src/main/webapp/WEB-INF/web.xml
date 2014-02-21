@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+      version="3.0">
+      
+	<!-- <context-param> -->
+	<!-- <param-name>org.jboss.weld.servlet.ConversationFilter.registered</param-name> -->
+	<!-- <param-value>true</param-value> -->
+	<!-- </context-param> -->
+
+	<listener>
+		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+	</listener>
+
+	<!-- TMP file cleaning -->
+	<listener>
+		<listener-class>
+			org.apache.commons.fileupload.servlet.FileCleanerCleanup
+		</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.cotrix.web.portlet.CotrixServletContextListener</listener-class>
+	</listener>
+
+	<!-- <filter> -->
+	<!-- <filter-name>slownetwork</filter-name> -->
+	<!-- <filter-class>org.cotrix.web.test.SlowNetworkFilter</filter-class> -->
+	<!-- </filter> -->
+
+	<filter>
+		<filter-name>weldworkaround</filter-name>
+		<filter-class>org.cotrix.web.portlet.WeldWorkaroundFilter</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>authbarrier</filter-name>
+		<filter-class>org.cotrix.security.AuthBarrier</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>transactional</filter-name>
+		<filter-class>org.cotrix.common.tx.TransactionalFilter</filter-class>
+	</filter>
+
+	<servlet>
+		<servlet-name>listServlet</servlet-name>
+		<servlet-class>org.cotrix.web.server.MainServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>importWizardFileUploadServlet</servlet-name>
+		<servlet-class>org.cotrix.web.ingest.server.FileUpload</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>importWizardServiceServlet</servlet-name>
+		<servlet-class>org.cotrix.web.ingest.server.ImportServiceImpl</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>importWizardReportDownloadServlet</servlet-name>
+		<servlet-class>org.cotrix.web.ingest.server.ReportDownload</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>codelistManagerServlet</servlet-name>
+		<servlet-class>org.cotrix.web.manage.server.ManagerServiceImpl$Servlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>codelistPublishServlet</servlet-name>
+		<servlet-class>org.cotrix.web.publish.server.PublishServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>publishDownloadServlet</servlet-name>
+		<servlet-class>org.cotrix.web.publish.server.DownloadServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>permissionServlet</servlet-name>
+		<servlet-class>org.cotrix.web.users.server.PermissionServiceImpl$Servlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>listServlet</servlet-name>
+		<url-pattern>/Cotrix/service/main</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>importWizardFileUploadServlet</servlet-name>
+		<url-pattern>/Cotrix/service/fileupload</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>importWizardServiceServlet</servlet-name>
+		<url-pattern>/Cotrix/service/importService</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>importWizardReportDownloadServlet</servlet-name>
+		<url-pattern>/Cotrix/service/reportDownload</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>codelistManagerServlet</servlet-name>
+		<url-pattern>/Cotrix/service/manager</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>codelistPublishServlet</servlet-name>
+		<url-pattern>/Cotrix/service/publish</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>publishDownloadServlet</servlet-name>
+		<url-pattern>/Cotrix/service/publishDownload</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>permissionServlet</servlet-name>
+		<url-pattern>/Cotrix/service/permissionService</url-pattern>
+	</servlet-mapping>
+
+	<!-- <filter-mapping> -->
+	<!-- <filter-name>slownetwork</filter-name> -->
+	<!-- <url-pattern>/*</url-pattern> -->
+	<!-- </filter-mapping> -->
+	
+	<filter-mapping>
+		<filter-name>weldworkaround</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>transactional</filter-name>
+		<url-pattern>/Cotrix/service/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>authbarrier</filter-name>
+		<url-pattern>/Cotrix/*</url-pattern>
+	</filter-mapping>
+
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>cotrix.html</welcome-file>
+	</welcome-file-list>
+
+</web-app>

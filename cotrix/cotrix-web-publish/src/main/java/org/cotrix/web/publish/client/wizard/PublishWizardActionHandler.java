@@ -4,10 +4,10 @@
 package org.cotrix.web.publish.client.wizard;
 
 import org.cotrix.web.publish.client.event.PublishBus;
-import org.cotrix.web.share.client.wizard.WizardAction;
-import org.cotrix.web.share.client.wizard.WizardActionHandler;
-import org.cotrix.web.share.client.wizard.WizardController;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
+import org.cotrix.web.wizard.client.WizardAction;
+import org.cotrix.web.wizard.client.WizardActionHandler;
+import org.cotrix.web.wizard.client.WizardController;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

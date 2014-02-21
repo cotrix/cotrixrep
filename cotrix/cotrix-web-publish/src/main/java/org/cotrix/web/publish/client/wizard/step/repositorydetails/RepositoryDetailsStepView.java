@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.repositorydetails;
 
-import org.cotrix.web.share.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 
 import com.google.gwt.user.client.ui.Widget;
 

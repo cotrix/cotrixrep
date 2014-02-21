@@ -2,13 +2,13 @@ package org.cotrix.web.publish.client.wizard.step.csvmapping;
 
 import java.util.List;
 
+import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.Column;
-import org.cotrix.web.share.client.resources.CommonResources;
-import org.cotrix.web.share.client.widgets.AlertDialog;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
