@@ -21,8 +21,8 @@
 		<gwt.version>2.5.1</gwt.version>
 
 		<gin.version>2.1.1</gin.version>
-		
-		
+
+
 		<!-- one must be defined -->
 		<active_profile>**error**</active_profile>
 
@@ -46,9 +46,9 @@
 		<module>cotrix-neo</module>
 		<module>cotrix-mail</module>
 		<module>cotrix-stage</module>
-		
-		
-		<!--  GWT core -->
+
+
+		<!-- GWT core -->
 
 		<module>cotrix-web</module>
 		<module>cotrix-web-ingest</module>
@@ -254,11 +254,6 @@
 			</dependency>
 
 
-
-
-			
-			
-			
 			<!-- CI deps -->
 
 			<dependency>
@@ -457,10 +452,6 @@
 
 	</repositories>
 
-	<!--<dependencyManagement> <dependencies> <dependency> <groupId>org.cotrix</groupId> 
-		<artifactId>cotrix-bom</artifactId> <version>1.0.0</version> <type>pom</type> 
-		<scope>import</scope> </dependency> </dependencies> </dependencyManagement> -->
-
 	<dependencies>
 
 		<dependency>
@@ -576,8 +567,6 @@
 	<profiles>
 
 
-
-
 		<profile>
 
 			<id>fao-ci</id>
@@ -632,7 +621,6 @@
 
 			<id>gcube-ci</id>
 
-
 			<distributionManagement>
 				<snapshotRepository>
 					<id>gcube-snapshots</id>
@@ -642,7 +630,7 @@
 			</distributionManagement>
 
 		</profile>
-	
+
 	</profiles>
-	
+
 </project>

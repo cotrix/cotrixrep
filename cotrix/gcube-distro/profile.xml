@@ -17,7 +17,7 @@
 					<version>${version}</version>
 				</MavenCoordinates>
 				<Files>
-					<File>${build.finalName}.jar</File>
+					<File>${war_name}</File>
 				</Files>
 			</Software>
 		</Packages>

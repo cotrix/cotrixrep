@@ -17,17 +17,6 @@
 
 	<packaging>jar</packaging>
 
-
-	<properties>
-		<distroDirectory>distro</distroDirectory>
-	</properties>
-
-	<scm>
-		<connection>scm:svn:http://svn.d4science.research-infrastructures.eu/gcube/trunk/application/${project.artifactId}</connection>
-		<developerConnection>scm:svn:https://svn.d4science.research-infrastructures.eu/gcube/trunk/application/${project.artifactId}</developerConnection>
-		<url>http://svn.d4science.research-infrastructures.eu/gcube/trunk/application/${project.artifactId}</url>
-	</scm>
-
 	<dependencies>
 
 		<dependency>

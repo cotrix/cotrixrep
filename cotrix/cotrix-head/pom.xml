@@ -23,7 +23,8 @@
 
 		<draft>false</draft>
 		
-		
+		<war_name>${project.artifactId}-${project.version}-${active_profile}.war</war_name>
+
 		<gwt_module>org.cotrix.head.Cotrix</gwt_module>
 
 	</properties>
@@ -270,7 +271,7 @@
 			<properties>
 				<active_profile>gcube</active_profile>
 			</properties>
-			
+
 			<dependencies>
 
 				<dependency>
@@ -293,6 +294,41 @@
 
 			</dependencies>
 
+		</profile>
+
+		<profile>
+
+			<id>gcube-ci</id>
+
+			<properties>
+				<distroDirectory>${project.parent.basedir}/gcube-distro</distroDirectory>
+				<description>Cotrix project</description>
+				<scm.url>http://svn.d4science.research-infrastructures.eu/gcube/trunk/application/${project.artifactId}</scm.url>
+			</properties>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<descriptors>
+								<descriptor>${distroDirectory}/descriptor.xml</descriptor>
+							</descriptors>
+						</configuration>
+						<executions>
+							<execution>
+								<id>servicearchive</id>
+								<phase>install</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+							</execution>
+						</executions>
+						<inherited>false</inherited>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 
 	</profiles>
