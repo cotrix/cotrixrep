@@ -5,8 +5,8 @@ package org.cotrix.web.publish.shared;
 
 import java.util.List;
 
-import org.cotrix.web.share.shared.CsvConfiguration;
-import org.cotrix.web.share.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.CsvConfiguration;
+import org.cotrix.web.common.shared.codelist.UIQName;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 

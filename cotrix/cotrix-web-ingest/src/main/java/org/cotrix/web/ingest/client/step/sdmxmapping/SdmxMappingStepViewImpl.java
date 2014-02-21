@@ -1,0 +1,106 @@
+package org.cotrix.web.ingest.client.step.sdmxmapping;
+
+import java.util.List;
+
+import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.ingest.client.util.MappingPanel;
+import org.cotrix.web.ingest.client.util.MappingPanel.ReloadButtonHandler;
+import org.cotrix.web.ingest.shared.AttributeMapping;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.Widget;
+
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ */
+public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMappingStepView, ReloadButtonHandler {
+
+	@UiTemplate("SdmxMappingStep.ui.xml")
+	interface HeaderTypeStepUiBinder extends UiBinder<Widget, SdmxMappingStepViewImpl> {}
+	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
+	
+	@UiField(provided = true) MappingPanel mappingPanel;
+	
+	protected Presenter presenter;
+
+	public SdmxMappingStepViewImpl() {
+		mappingPanel = new MappingPanel(false, "ELEMENTS");
+		mappingPanel.setReloadHandler(this);
+		
+		initWidget(uiBinder.createAndBindUi(this));
+	}
+	
+	/**
+	 * @param presenter the presenter to set
+	 */
+	public void setPresenter(Presenter presenter) {
+		this.presenter = presenter;
+	}
+
+	@Override
+	public void setCodelistName(String name) {
+		mappingPanel.setName(name);
+	}
+
+	@Override
+	public String getCodelistName() {
+		return mappingPanel.getName();
+	}
+	
+	@Override
+	public void setVersion(String version) {
+		mappingPanel.setVersion(version);
+	}
+
+	@Override
+	public String getVersion() {
+		return mappingPanel.getVersion();
+	}
+	
+	@Override
+	public void setSealed(boolean sealed)
+	{
+		mappingPanel.setSealed(sealed);
+	}
+	
+	@Override
+	public boolean getSealed()
+	{
+		return mappingPanel.getSealed();
+	}
+
+	public void setMappings(List<AttributeMapping> mappings)
+	{
+		mappingPanel.setMapping(mappings);
+	}
+	
+	public void setMappingLoading()
+	{
+		mappingPanel.setMappingLoading();
+	}
+	
+	public void unsetMappingLoading()
+	{
+		mappingPanel.unsetMappingLoading();
+	}
+	
+	public List<AttributeMapping> getMappings()
+	{
+		return mappingPanel.getMappings();
+	}
+
+	public void alert(String message) {
+		AlertDialog.INSTANCE.center(message);
+	}
+
+	@Override
+	public void onReloadButtonClicked() {
+		presenter.onReload();
+	}
+
+}

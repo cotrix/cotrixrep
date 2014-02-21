@@ -1,9 +1,9 @@
 package org.cotrix.web.publish.client.wizard.step.done;
 
+import org.cotrix.web.common.client.resources.CotrixSimplePager;
+import org.cotrix.web.common.client.resources.DataGridReportResource;
+import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.publish.shared.DownloadType;
-import org.cotrix.web.share.client.resources.CotrixSimplePager;
-import org.cotrix.web.share.client.resources.DataGridReportResource;
-import org.cotrix.web.share.shared.ReportLog;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.TextCell;

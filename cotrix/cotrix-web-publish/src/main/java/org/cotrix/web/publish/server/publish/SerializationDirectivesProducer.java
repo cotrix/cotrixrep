@@ -8,8 +8,8 @@ import java.nio.charset.Charset;
 import org.cotrix.io.SerialisationService.SerialisationDirectives;
 import org.cotrix.io.sdmx.serialise.Sdmx2XmlDirectives;
 import org.cotrix.io.tabular.csv.serialise.Table2CsvDirectives;
+import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.publish.shared.PublishDirectives;
-import org.cotrix.web.share.shared.CsvConfiguration;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Table;
 

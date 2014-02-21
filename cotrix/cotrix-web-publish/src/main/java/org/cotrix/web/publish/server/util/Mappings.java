@@ -11,12 +11,12 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.repository.CodelistSummary;
+import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.Column;
 import org.cotrix.web.publish.shared.UISdmxElement;
 import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
-import org.cotrix.web.share.server.util.ValueUtils;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

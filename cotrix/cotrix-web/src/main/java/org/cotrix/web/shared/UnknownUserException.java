@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.shared;
 
-import org.cotrix.web.share.shared.exception.ServiceException;
+import org.cotrix.web.common.shared.exception.ServiceException;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

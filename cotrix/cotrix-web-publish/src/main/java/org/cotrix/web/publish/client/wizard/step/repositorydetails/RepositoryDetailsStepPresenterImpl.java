@@ -1,10 +1,10 @@
 package org.cotrix.web.publish.client.wizard.step.repositorydetails;
 
+import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.share.shared.codelist.RepositoryDetails;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 

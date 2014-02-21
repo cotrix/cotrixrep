@@ -4,7 +4,7 @@
 	<ui:with field='resources'
 		type='org.cotrix.web.client.resources.CotrixResources' />
 	<ui:with field='common'
-		type='org.cotrix.web.share.client.resources.CommonResources' />
+		type='org.cotrix.web.common.client.resources.CommonResources' />
 	<ui:style>
 		.div {
 			vertical-align: middle;

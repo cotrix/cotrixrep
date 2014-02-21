@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.shared;
 
-import org.cotrix.web.share.shared.feature.UIFeature;
+import org.cotrix.web.common.shared.feature.UIFeature;
 
 
 /**

@@ -2,11 +2,11 @@ package org.cotrix.web.publish.client.wizard.step.codelistdetails;
 
 import java.util.List;
 
+import org.cotrix.web.common.shared.codelist.UIAttribute;
+import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
-import org.cotrix.web.share.shared.codelist.UIAttribute;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;

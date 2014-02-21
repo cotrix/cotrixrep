@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client;
 
-import org.cotrix.web.share.client.CotrixModuleController;
+import org.cotrix.web.common.client.CotrixModuleController;
 
 
 /**

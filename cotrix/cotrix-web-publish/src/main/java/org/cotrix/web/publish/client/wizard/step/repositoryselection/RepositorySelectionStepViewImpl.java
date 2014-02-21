@@ -1,11 +1,11 @@
 package org.cotrix.web.publish.client.wizard.step.repositoryselection;
 
+import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.resources.CotrixSimplePager;
+import org.cotrix.web.common.client.resources.DataGridListResource;
+import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
 import org.cotrix.web.publish.shared.UIRepository;
-import org.cotrix.web.share.client.resources.CommonResources;
-import org.cotrix.web.share.client.resources.CotrixSimplePager;
-import org.cotrix.web.share.client.resources.DataGridListResource;
-import org.cotrix.web.share.client.widgets.AlertDialog;
-import org.cotrix.web.share.client.widgets.SelectionCheckBoxCell;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.ClickableTextCell;

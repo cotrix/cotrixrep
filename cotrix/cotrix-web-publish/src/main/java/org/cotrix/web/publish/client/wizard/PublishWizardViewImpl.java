@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cotrix.web.share.client.resources.CommonResources;
-import org.cotrix.web.share.client.widgets.ProgressDialog;
+import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.widgets.ProgressDialog;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;

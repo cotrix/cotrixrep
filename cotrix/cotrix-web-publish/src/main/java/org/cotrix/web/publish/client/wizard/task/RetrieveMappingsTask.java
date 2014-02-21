@@ -5,6 +5,7 @@ package org.cotrix.web.publish.client.wizard.task;
 
 import java.util.List;
 
+import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
@@ -14,7 +15,6 @@ import org.cotrix.web.publish.client.wizard.PublishWizardAction;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.Format;
-import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.wizard.client.WizardAction;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 import org.cotrix.web.wizard.client.step.TaskWizardStep;

@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.codelistdetails;
 
-import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
 
 /**

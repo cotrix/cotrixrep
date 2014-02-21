@@ -4,7 +4,7 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
-import org.cotrix.web.share.client.CommonGinModule;
+import org.cotrix.web.common.client.CommonGinModule;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

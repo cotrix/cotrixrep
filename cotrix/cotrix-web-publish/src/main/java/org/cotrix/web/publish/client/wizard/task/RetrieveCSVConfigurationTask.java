@@ -3,13 +3,13 @@
  */
 package org.cotrix.web.publish.client.wizard.task;
 
+import org.cotrix.web.common.shared.CsvConfiguration;
+import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
-import org.cotrix.web.share.shared.CsvConfiguration;
-import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.wizard.client.WizardAction;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 import org.cotrix.web.wizard.client.step.TaskWizardStep;

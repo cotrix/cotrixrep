@@ -1,5 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.summary;
 
+import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
@@ -8,7 +9,6 @@ import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishMetadata;
-import org.cotrix.web.share.shared.codelist.UICodelist;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 

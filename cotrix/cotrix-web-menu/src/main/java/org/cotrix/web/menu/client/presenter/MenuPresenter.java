@@ -1,13 +1,13 @@
 package org.cotrix.web.menu.client.presenter;
 
+import org.cotrix.web.common.client.CotrixModule;
+import org.cotrix.web.common.client.event.CotrixBus;
+import org.cotrix.web.common.client.event.SwitchToModuleEvent;
+import org.cotrix.web.common.client.feature.FeatureBinder;
+import org.cotrix.web.common.client.feature.FeatureToggler;
+import org.cotrix.web.common.shared.feature.ApplicationFeatures;
 import org.cotrix.web.menu.client.view.MenuView;
 import org.cotrix.web.menu.client.view.MenuView.Menu;
-import org.cotrix.web.share.client.CotrixModule;
-import org.cotrix.web.share.client.event.CotrixBus;
-import org.cotrix.web.share.client.event.SwitchToModuleEvent;
-import org.cotrix.web.share.client.feature.FeatureBinder;
-import org.cotrix.web.share.client.feature.FeatureToggler;
-import org.cotrix.web.share.shared.feature.ApplicationFeatures;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;

@@ -3,11 +3,11 @@ package org.cotrix.web.client.presenter;
 import java.util.EnumMap;
 
 import org.cotrix.web.client.view.CotrixWebView;
+import org.cotrix.web.common.client.CotrixModule;
+import org.cotrix.web.common.client.CotrixModuleController;
+import org.cotrix.web.common.client.event.CotrixBus;
+import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
-import org.cotrix.web.share.client.CotrixModule;
-import org.cotrix.web.share.client.CotrixModuleController;
-import org.cotrix.web.share.client.event.CotrixBus;
-import org.cotrix.web.share.client.event.SwitchToModuleEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;

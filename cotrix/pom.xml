@@ -51,14 +51,14 @@
 		<!--  GWT core -->
 
 		<module>cotrix-web</module>
-		<module>cotrix-web-importwizard</module>
-		<module>cotrix-web-codelistmanager</module>
+		<module>cotrix-web-ingest</module>
+		<module>cotrix-web-manage</module>
 		<module>cotrix-web-menu</module>
-		<module>cotrix-web-share</module>
+		<module>cotrix-web-common</module>
 		<module>cotrix-web-publish</module>
 		<module>cotrix-web-parent</module>
 		<module>cotrix-web-wizard</module>
-		<module>cotrix-web-permissionmanager</module>
+		<module>cotrix-web-users</module>
 
 
 		<!-- main module -->
@@ -209,7 +209,7 @@
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-share</artifactId>
+				<artifactId>cotrix-web-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -221,19 +221,19 @@
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-codelistmanager</artifactId>
+				<artifactId>cotrix-web-manage</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-importwizard</artifactId>
+				<artifactId>cotrix-web-ingest</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-permissionmanager</artifactId>
+				<artifactId>cotrix-web-users</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

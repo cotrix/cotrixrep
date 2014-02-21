@@ -51,25 +51,25 @@
 
 	<servlet>
 		<servlet-name>importWizardFileUploadServlet</servlet-name>
-		<servlet-class>org.cotrix.web.importwizard.server.FileUpload</servlet-class>
+		<servlet-class>org.cotrix.web.ingest.server.FileUpload</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet>
 		<servlet-name>importWizardServiceServlet</servlet-name>
-		<servlet-class>org.cotrix.web.importwizard.server.ImportServiceImpl</servlet-class>
+		<servlet-class>org.cotrix.web.ingest.server.ImportServiceImpl</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet>
 		<servlet-name>importWizardReportDownloadServlet</servlet-name>
-		<servlet-class>org.cotrix.web.importwizard.server.ReportDownload</servlet-class>
+		<servlet-class>org.cotrix.web.ingest.server.ReportDownload</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet>
 		<servlet-name>codelistManagerServlet</servlet-name>
-		<servlet-class>org.cotrix.web.codelistmanager.server.ManagerServiceImpl$Servlet</servlet-class>
+		<servlet-class>org.cotrix.web.manage.server.ManagerServiceImpl$Servlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -85,7 +85,7 @@
 
 	<servlet>
 		<servlet-name>permissionServlet</servlet-name>
-		<servlet-class>org.cotrix.web.permissionmanager.server.PermissionServiceImpl$Servlet</servlet-class>
+		<servlet-class>org.cotrix.web.users.server.PermissionServiceImpl$Servlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 

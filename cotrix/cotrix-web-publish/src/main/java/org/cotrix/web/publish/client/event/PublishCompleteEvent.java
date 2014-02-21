@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.event;
 
-import org.cotrix.web.share.shared.Progress.Status;
+import org.cotrix.web.common.shared.Progress.Status;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;

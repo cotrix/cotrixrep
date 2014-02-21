@@ -6,8 +6,8 @@ package org.cotrix.web.publish.server.publish;
 import java.util.List;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.web.share.shared.Progress;
-import org.cotrix.web.share.shared.ReportLog;
+import org.cotrix.web.common.shared.Progress;
+import org.cotrix.web.common.shared.ReportLog;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client;
 
-import org.cotrix.web.share.client.CommonGinModule;
+import org.cotrix.web.common.client.CommonGinModule;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.inject.client.GinModules;

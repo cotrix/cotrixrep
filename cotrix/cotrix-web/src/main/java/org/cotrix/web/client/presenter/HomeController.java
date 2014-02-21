@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.client.view.HomeView;
-import org.cotrix.web.share.client.CotrixModule;
-import org.cotrix.web.share.client.CotrixModuleController;
-import org.cotrix.web.share.client.error.IgnoreFailureCallback;
+import org.cotrix.web.common.client.CotrixModule;
+import org.cotrix.web.common.client.CotrixModuleController;
+import org.cotrix.web.common.client.error.IgnoreFailureCallback;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
 
