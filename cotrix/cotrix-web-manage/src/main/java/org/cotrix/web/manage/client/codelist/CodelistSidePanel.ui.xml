@@ -45,13 +45,13 @@
 						<g:upHoveringFace image="{resources.metadata}" />
 					</g:ToggleButton>
 					<g:ToggleButton ui:field="filtersButton" width="32px"
-						styleName="{style.button}">
+						styleName="{style.button}" visible="false">
 						<g:upFace image="{resources.filterDisabled}" />
 						<g:downFace image="{resources.filter}" />
 						<g:upHoveringFace image="{resources.filter}" />
 					</g:ToggleButton>
 					<g:ToggleButton ui:field="userButton" width="32px"
-						styleName="{style.button}">
+						styleName="{style.button}" visible="false">
 						<g:upFace image="{commonresources.userPreferencesDisabled}" />
 						<g:downFace image="{commonresources.userPreferences}" />
 						<g:upHoveringFace image="{commonresources.userPreferences}" />

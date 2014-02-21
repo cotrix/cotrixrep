@@ -79,13 +79,6 @@
 				<g:upFace image="{resources.unlock}" />
 				<g:upDisabledFace image="{resources.unlockDisabled}" />
 			</g:PushButton>
-<!-- 			<g:ToggleButton ui:field="lock" styleName="{style.button}"> -->
-<!-- 				<g:upFace image="{resources.unlock}" /> -->
-<!-- 				<g:upDisabledFace image="{resources.unlockDisabled}" /> -->
-<!-- 				<g:downFace image="{resources.lock}" /> -->
-<!-- 				<g:downDisabledFace image="{resources.lockDisabled}" /> -->
-<!-- 			</g:ToggleButton> -->
-<!-- 			<g:Button ui:field="seal" visible="false" styleName="{style.seal} {style.button}">Finalize</g:Button> -->
 			<g:PushButton ui:field="seal" styleName="{style.button}">
 				<g:upFace image="{resources.seal}" />
 				<g:upDisabledFace image="{resources.sealDisabled}" />

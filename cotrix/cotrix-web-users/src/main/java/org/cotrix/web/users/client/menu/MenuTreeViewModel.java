@@ -32,7 +32,7 @@ public class MenuTreeViewModel implements TreeViewModel {
 	protected static final MenuItem USERS_MENU = new MenuArea("My Users", AdminArea.USERS_PERMISSIONS, PermissionsResources.INSTANCE.users());
 	protected static final MenuItem CODELISTS_MENU = new MenuArea("My Codelists", AdminArea.CODELISTS_PERMISSIONS, PermissionsResources.INSTANCE.codelists());
 
-	protected ListDataProvider<MenuItem> MENU_PROVIDER = new ListDataProvider<MenuItem>(new ArrayList<MenuItem>(Arrays.asList(PROFILE_MENU, PREFERENCES_MENU, CODELISTS_MENU)));
+	protected ListDataProvider<MenuItem> MENU_PROVIDER = new ListDataProvider<MenuItem>(new ArrayList<MenuItem>(Arrays.asList(PROFILE_MENU, /*PREFERENCES_MENU,*/ CODELISTS_MENU)));
 
 	protected static final AbstractCell<MenuItem> MENU_CELL = new AbstractCell<MenuItem>() {
 
