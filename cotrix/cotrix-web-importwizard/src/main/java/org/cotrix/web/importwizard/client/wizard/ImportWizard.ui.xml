@@ -1,0 +1,113 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p="urn:import:org.cotrix.web.share.client.wizard.progresstracker">
+	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
+		field="common" />
+	<ui:with type="org.cotrix.web.importwizard.client.resources.Resources"
+		field="resources" />
+	<ui:style>
+		.wizardPanel {
+			padding-bottom: 20px;
+			width: 950px;
+			margin: 0 auto;
+		}
+		
+		.progressTracker {
+			margin: 0 auto;
+			text-align: center;
+			margin-top: 37px;
+		}
+		
+		.titlePanel {
+			margin: 0 auto;
+			padding-top: 10px;
+			padding-bottom: 36px;
+		}
+		
+		.title {
+			font-size: 30px;
+			color: #595959;
+			text-align: center;
+		}
+		
+		.subtitle {
+			font-size: 22px;
+			color: #989898;
+			text-align: center;
+			margin-top: 5px;
+		}
+		
+		.stepsPanel {
+			width: 100%;
+			height: 100%;
+			margin: 0 auto;
+			text-align: center;
+		}
+		
+		.navigationBar {
+			font-weight: normal;
+			background-color: #FAFAFA;
+			height: 40px;
+			border-radius: 0px 0px 5px 5px;
+			-moz-border-radius: 0px 0px 5px 5px;
+		}
+		
+		.buttonPanel {
+			vertical-align: middle;
+			margin: 0 auto;
+			padding-bottom: 28px;
+			padding-top: 32px;
+			width: 100%;
+		}
+		
+		.leftButton {
+			float: left;
+		}
+		
+		.rightButton {
+			float: right;
+			margin-left:40px;
+		}
+	</ui:style>
+	<g:DockLayoutPanel unit='PX' styleName="{style.wizardPanel}">
+		<g:north size='100'>
+			<p:ProgressTracker ui:field="progressTracker"
+				styleName="{style.progressTracker}" />
+		</g:north>
+		<g:north size='126'>
+			<g:FlowPanel styleName="{style.titlePanel}">
+				<g:Label text="Title" styleName="{style.title}" ui:field="title" />
+				<g:Label ui:field="subtitle" styleName="{style.subtitle}">If you don't have it,
+					we can find it.</g:Label>
+			</g:FlowPanel>
+		</g:north>
+		<g:center>
+			<g:DeckLayoutPanel ui:field="stepsPanel" styleName="{style.stepsPanel}"/>
+		</g:center>
+		<g:south size="95">
+			<g:HTMLPanel styleName="{style.buttonPanel}">
+				<div class="{style.leftButton}">
+					<g:Button ui:field="backButton" styleName="{common.css.grayButton}"
+						text="BACK" />
+				</div>
+				<div class="{style.rightButton}">
+					<g:Button ui:field="nextButton" styleName="{common.css.blueButton}"
+						text="NEXT" />
+				</div>
+				<div class="{style.rightButton}">
+					<g:Button ui:field="importButton" styleName="{common.css.blueButton}"
+						text="IMPORT" />
+				</div>
+				<div class="{style.rightButton}">
+					<g:Button ui:field="manageButton" styleName="{common.css.buttonManage}"
+						text="MANAGE IT" />
+				</div>
+				<div class="{style.rightButton}">
+					<g:Button ui:field="newImportButton" styleName="{common.css.buttonImport}"
+						text="IMPORT ANOTHER" />
+				</div>
+			</g:HTMLPanel>
+		</g:south>
+	</g:DockLayoutPanel>
+
+</ui:UiBinder> 

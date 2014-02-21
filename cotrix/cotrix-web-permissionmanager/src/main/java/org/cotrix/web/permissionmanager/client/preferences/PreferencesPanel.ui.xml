@@ -1,0 +1,29 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.preferencesPanel {
+			background-color: #efefef;
+		}
+		
+		.text {
+			font-size: 42px;
+			color: #999;
+			vertical-align: middle;
+			text-align: center;
+		}
+	</ui:style>
+	<g:LayoutPanel styleName="{style.preferencesPanel}">
+		<g:layer>
+			<g:SimpleLayoutPanel>
+				<g:HTMLPanel>
+					<table width="100%" height="100%" align="center">
+						<tr>
+							<td class="{style.text}">Coming soon</td>
+						</tr>
+					</table>
+				</g:HTMLPanel>
+			</g:SimpleLayoutPanel>
+		</g:layer>
+	</g:LayoutPanel>
+</ui:UiBinder> 

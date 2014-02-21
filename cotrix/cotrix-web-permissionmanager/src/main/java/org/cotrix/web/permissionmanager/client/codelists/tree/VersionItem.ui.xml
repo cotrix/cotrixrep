@@ -1,0 +1,33 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="org.cotrix.web.permissionmanager.client.resources.PermissionsResources"
+		field="resources"></ui:with>
+	<ui:style>
+		.tab {
+			text-align: left;
+		}
+		
+		.tabLabel {
+
+		}
+		
+		.tabName {
+			
+		}
+		
+		.tabVersion {
+			padding-left: 10px;
+		}
+		
+		.ellipse {
+			float: left;
+		}
+	</ui:style>
+	<g:FlowPanel styleName="{style.tab}">
+		<g:Image styleName="{style.ellipse}" resource="{resources.versionItem}"/>
+	
+		<g:InlineLabel>version</g:InlineLabel>
+		<g:InlineLabel styleName="{style.tabVersion}" ui:field="version" />
+	</g:FlowPanel>
+</ui:UiBinder> 

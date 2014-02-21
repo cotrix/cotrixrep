@@ -1,0 +1,52 @@
+.sectionTitle {
+	font-weight: normal;
+	color: black;
+	font-size: 20px;
+}
+
+/** PREVIEW **/
+.previewHeader {
+	background-color: #e1e1e1;
+	color: #686868;
+	padding: 5px;
+}
+
+.preview {
+	background-color: #d1d1d1;
+	border-spacing: 1px;
+	border-color: gray;
+}
+
+.previewCell {
+	background-color: #f6f6f6;
+	color: #989898;
+	padding: 5px;
+}
+
+/** BUTTONS **/
+/** SOURCE SELECTION moved here due to https://code.google.com/p/google-web-toolkit/issues/detail?id=5320 **/
+@sprite .buttonBrowse {
+	gwt-image: "browse";
+	background-position: 0;
+	background-color: #ddd;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+	width: 180px;
+	height: 70px;
+	font-size: 24px;
+	padding-left:84px;
+	padding-right:20px;
+	color: #666;
+	outline: none;
+}
+
+@sprite .buttonBrowse:hover {
+	gwt-image: "browseHover";
+	background-position: 0;
+	background-color: #5674b9;
+	color: #fff;
+	cursor: pointer;
+	width: 180px;
+	height: 70px;
+}

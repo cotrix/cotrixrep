@@ -1,0 +1,78 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:c='urn:import:com.google.gwt.user.cellview.client' xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
+		field="resources" />
+	<ui:style>
+		.box {
+			-moz-box-shadow: 0 0 7px 7px #999;
+			-webkit-box-shadow: 0 0 7px 7px #999;
+			box-shadow: 0 0 7px 7px #999;
+			background-color: #fff;
+			border-radius: 5px;
+			width: 300px;
+			height: 330px;
+			padding: 20px;
+		}
+		
+		.title {
+			color: #ff6600;
+			font-size: 20px;
+		}
+		
+		.textfield {
+			margin-top: 20px;
+			color: #666;
+			font-size: 15px;
+		}
+		
+		.filterPanel {
+			/*border-top-left-radius: 2px;
+					border-top-right-radius: 2px;
+					border-top: 1px solid #a8a7a7;
+					border-left: 1px solid #a8a7a7;
+					border-right: 1px solid #a8a7a7;
+					background-color: white;*/
+			padding-top: 7px;
+			padding-left: 5px;
+			padding-right: 5px;
+			padding-bottom: 7px;
+		}
+		
+		.listPanel {
+			height: 200px;
+		}
+		
+		.submit {
+			color: #fff;
+			height: 40px;
+			width: 100%;
+			padding-left: 10px;
+			text-decoration: none;
+			border-radius: 5px;
+			font-size: 17px;
+			margin-top: 5px;
+			border: 1px solid #ddd;
+			background-color: #7085b6;
+			cursor: pointer;
+			outline: none;
+		}
+	</ui:style>
+	<g:HTMLPanel styleName="{style.box}">
+		<div class="{style.title}">
+			User
+		</div>
+		<div class="{style.filterPanel}">
+			<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}" />
+		</div>
+		<div>
+			<g:ScrollPanel styleName="{style.listPanel}">
+				<c:CellList ui:field="usersList" />
+			</g:ScrollPanel>
+		</div>
+		<div class="{style.textfield}">
+			<g:Button ui:field="addUser" styleName="{style.submit}">Add</g:Button>
+		</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

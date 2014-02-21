@@ -1,0 +1,32 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:c='urn:import:com.google.gwt.user.cellview.client'
+	xmlns:w='urn:import:org.cotrix.web.share.client.widgets'>
+	<ui:style>
+		.editor {
+			margin-bottom: 8px;
+			margin-left: 8px;
+			margin-right: 8px;
+		}
+	</ui:style>
+
+	<g:DockLayoutPanel unit="PX">
+		<g:center>
+			<w:LoadingPanel ui:field="loader">
+				<c:DataGrid ui:field="matrix" />
+			</w:LoadingPanel>
+		</g:center>
+		<g:south size="35">
+			<g:HTMLPanel>
+				<table style="width:100%">
+					<tr>
+						<td align='center'>
+							<c:SimplePager ui:field='pager' />
+						</td>
+					</tr>
+				</table>
+			</g:HTMLPanel>
+		</g:south>
+	</g:DockLayoutPanel>
+</ui:UiBinder> 

@@ -1,0 +1,91 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style type="org.cotrix.web.menu.client.view.MenuViewImpl.Style">
+		.navigation {
+			float: right;
+			padding-right: 6px;
+		}
+		
+		.menu {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			display: inline;
+		}
+		
+		.menuItem {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			display: inline;
+			float: left;
+			position: relative;
+		}
+		
+		.menuLink {
+			display: inline-block;
+			color: #aaaaaa;
+			padding: 14px 18px 29px 18px;
+			text-transform: uppercase;
+			text-decoration: none;
+			font-weight: normal;
+			font-size: 12px;
+			border-top: 5px solid transparent;
+			-webkit-transition: all 0.1s ease;
+			-moz-transition: all 0.1s ease;
+			-ms-transition: all 0.1s ease;
+			-o-transition: all 0.1s ease;
+			transition: all 0.1s ease;
+			margin: 0 -4px 0 0;
+		}
+		
+		.menuLink:hover {
+			background: #3f3f3f;
+			border-top: 5px solid #f66a03;
+			color: #ffffff;
+			cursor: pointer;
+		}
+		
+		.menuDisabled {
+			display: inline-block;
+			color: #aaaaaa;
+			padding: 14px 18px 29px 18px;
+			text-transform: uppercase;
+			text-decoration: none;
+			font-weight: normal;
+			font-size: 12px;
+			border-top: 5px solid transparent;
+			-webkit-transition: all 0.1s ease;
+			-moz-transition: all 0.1s ease;
+			-ms-transition: all 0.1s ease;
+			-o-transition: all 0.1s ease;
+			transition: all 0.1s ease;
+			margin: 0 -4px 0 0;
+		}
+		
+		.menuSelected {
+			background: #3f3f3f !important;
+			border-top: 5px solid #f66a03 !important;
+			color: #ffffff !important;
+		}
+	</ui:style>
+	<g:HTMLPanel styleName="{style.navigation}">
+		<ul class="{style.menu}">
+			<li class="{style.menuItem}">
+				<g:Label ui:field="homeMenu" styleName="{style.menuDisabled}">Home</g:Label>
+			</li>
+			<li class="{style.menuItem}">
+				<g:Label ui:field="importMenu" styleName="{style.menuDisabled}">IMPORT</g:Label>
+			</li>
+			<li class="{style.menuItem}">
+				<g:Label ui:field="manageMenu" styleName="{style.menuDisabled}">MANAGE</g:Label>
+			</li>
+			<li class="{style.menuItem}">
+				<g:Label ui:field="publishMenu" styleName="{style.menuDisabled}">PUBLISH</g:Label>
+			</li>
+			<!-- <li class="{style.menuItem}"> <g:Label ui:field="permissionMenu" 
+				styleName="{style.menuDisabled}">PERMISSION</g:Label> </li> -->
+		</ul>
+	</g:HTMLPanel>
+</ui:UiBinder> 

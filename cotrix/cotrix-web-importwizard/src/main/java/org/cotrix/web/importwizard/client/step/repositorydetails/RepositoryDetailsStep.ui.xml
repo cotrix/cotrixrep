@@ -1,0 +1,53 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
+		field="common" />
+	<ui:style>
+		.table {
+			margin: 23px;
+		}
+		
+		.valueCell {
+			padding-left: 50px;
+		}
+	</ui:style>
+	<g:ScrollPanel styleName="{common.css.wizardPanel}">
+		<g:Grid ui:field="repositoryDetails" styleName="{style.table}">
+			<g:row>
+				<g:customCell styleName="{common.css.verticalHeadersSingleItem}">
+					<g:Label text="Name" styleName="{common.css.propertyLabel}" />
+				</g:customCell>
+				<g:customCell styleName="{style.valueCell}">
+					<g:Label ui:field="repositoryName" styleName="{common.css.propertyValue}" />
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell styleName="{common.css.verticalHeadersSingleItem}">
+					<g:Label text="Accepts" styleName="{common.css.propertyLabel}" />
+				</g:customCell>
+				<g:customCell styleName="{style.valueCell}">
+					<g:Label ui:field="repositoryPublishedTypes" styleName="{common.css.propertyValue}" />
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell styleName="{common.css.verticalHeadersSingleItem}">
+					<g:Label text="Disseminates" styleName="{common.css.propertyLabel}" />
+				</g:customCell>
+				<g:customCell styleName="{style.valueCell}">
+					<g:Label ui:field="repositoryReturnedTypes" styleName="{common.css.propertyValue}" />
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell styleName="{common.css.verticalHeadersMultipleItem}">
+					<g:Label text="Properties" styleName="{common.css.propertyLabel}" />
+				</g:customCell>
+				<g:customCell styleName="{style.valueCell}">
+					<g:FlexTable ui:field="repositoryProperties"
+						cellPadding="0" cellSpacing="0" borderWidth="1"
+						styleName="{common.css.propertiesTable}" width="100%" />
+				</g:customCell>
+			</g:row>
+		</g:Grid>
+	</g:ScrollPanel>
+</ui:UiBinder> 

@@ -1,0 +1,115 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="org.cotrix.web.client.resources.CotrixResources"
+		field="resources" />
+	<ui:style>
+		.header {
+			/*background-color: #363636;*/
+			background-color: #282828;
+			height: 60px;
+		}
+		
+		.headerBar {
+			margin: 0 auto;
+		}
+		
+		.titleArea {
+			float: left;
+			padding-left: 5px;
+			cursor: pointer;
+		}
+		
+		.titleBock {
+			vertical-align: middle;
+		}
+		
+		.logo {
+			margin: 5px;
+			vertical-align: middle;
+		}
+		
+		.textblock {
+			display: inline-block;
+			vertical-align: middle;
+
+		}
+		
+		.title {
+			color: #f66a03;
+			margin-left: 10px;
+			font-size: 28px;
+			font-weight: normal;
+		}
+		
+		.subtitle {
+			color: #ccc;
+			margin-left: 10px;
+			font-size: 12px;
+			font-weight: normal;
+		}
+		
+		.footer {
+			background-color: #363636;
+			height: 60px;
+			text-align: center;
+		}
+		
+		.footerText {
+			vertical-align: middle;
+			font-size: 11px;
+			color: #999;
+			font-weight: normal;
+			line-height: 2.0;
+		}
+		
+		.userBar {
+			/*background-color: #282828;*/
+			background-color: #363636;
+			height: 31px;
+		}
+		
+		.body {
+			
+		}
+	</ui:style>
+	<g:DockLayoutPanel unit='PX'>
+		<g:north size='60'>
+			<g:HTMLPanel styleName="{style.header}">
+				<g:FlowPanel ui:field="menu" />
+				<g:FlowPanel ui:field="titleArea" styleName="{style.titleArea}">
+					<g:Image resource="{resources.logo}" styleName="{style.logo}" />
+					<g:FlowPanel styleName="{style.textblock}">
+						<g:Label styleName="{style.title}">Cotrix</g:Label>
+						<g:Label styleName="{style.subtitle}">A codelist management tool</g:Label>
+					</g:FlowPanel>
+				</g:FlowPanel>
+			</g:HTMLPanel>
+		</g:north>
+		<g:north size='31'>
+			<g:FlowPanel ui:field="userBar" styleName="{style.userBar}" />
+		</g:north>
+		<g:center>
+			<g:ScrollPanel>
+				<g:DockLayoutPanel unit='PX' height="730px">
+					<g:center>
+						<g:DeckLayoutPanel ui:field="body" styleName="{style.body}"
+							height="670px" />
+					</g:center>
+					<g:south size="60">
+						<g:HTMLPanel styleName="{style.footer}">
+							<div style="padding-top:5px;">
+								<span class="{style.footerText}">
+									COPYRIGHT 2013 Cotrix all rights reserved
+									<br />
+									<font style="color:#f66a03">Cotrix</font>
+									is funded by iMarine.
+								</span>
+							</div>
+						</g:HTMLPanel>
+					</g:south>
+				</g:DockLayoutPanel>
+			</g:ScrollPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder> 

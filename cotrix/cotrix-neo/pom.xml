@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.cotrix</groupId>
+		<artifactId>cotrix</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>cotrix-neo</artifactId>
+
+	<properties>
+		<neo.version>2.0.0-RC1</neo.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-repository</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-domain</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-lifecycle</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-test-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-configuration</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j</artifactId>
+			<version>${neo.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-kernel</artifactId>
+			<version>${neo.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.5</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-test-domain</artifactId>
+			<type>test-jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-security</artifactId>
+			<type>test-jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-lifecycle</artifactId>
+			<type>test-jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-repository</artifactId>
+			<type>test-jar</type>
+		</dependency>
+
+	</dependencies>
+
+
+</project>

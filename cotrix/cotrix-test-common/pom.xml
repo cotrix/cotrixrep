@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.cotrix</groupId>
+		<artifactId>cotrix</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>cotrix-test-common</artifactId>
+
+	<dependencies>
+
+		<!-- promote junit dep to compile scope for this module -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<!--  some facilities based on these core modules. they will not be able to use this module. -->
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-domain</artifactId>
+		</dependency>
+
+		
+
+		<dependency>
+			<groupId>com.googlecode.jeeunit</groupId>
+			<artifactId>jeeunit-weld-se</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>weld-se-core</artifactId>
+					<groupId>org.jboss.weld.se</groupId>
+				</exclusion>
+			</exclusions>
+			<version>1.0.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.weld.se</groupId>
+			<artifactId>weld-se</artifactId>
+			<version>${weld.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+	</dependencies>
+
+
+</project>
