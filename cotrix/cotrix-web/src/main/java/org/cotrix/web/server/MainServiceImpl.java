@@ -27,9 +27,9 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
+import org.cotrix.security.InvalidCredentialsException;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.SignupService;
-import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.share.server.task.ActionMapper;
@@ -116,7 +116,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		} catch(Exception exception) {
 			logger.error("failed login for token "+token, exception);
 
-			UnknownUserException unknownUserException = ExceptionUtils.unfoldException(exception, UnknownUserException.class);
+			InvalidCredentialsException unknownUserException = ExceptionUtils.unfoldException(exception, InvalidCredentialsException.class);
 			if (unknownUserException!=null) {
 				throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
 			} else {
@@ -188,24 +188,32 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			uiStatistics.setRepositories(statistics.totalRepositories());
 			return uiStatistics;
 		} catch(Exception e) {
-			logger.error("Error getting statistics", e);
-			throw new ServiceException("Error getting statistics: "+e.getMessage());
+			logger.error("Error occurred getting statistics", e);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
 	@Override
 	public List<UINews> getNews() throws ServiceException {
-		List<UINews> news = new ArrayList<UINews>();
+		logger.trace("getNews");
+		
+		try {
+			List<UINews> news = new ArrayList<UINews>();
 
-		for (NewsItem newsItem:newsService.news()) {
-			logger.trace("news: {}",newsItem);
-			UINews uiNews = new UINews();
-			uiNews.setTimestamp(newsItem.timestamp());
-			uiNews.setText(newsItem.text());
-			news.add(uiNews);
+			for (NewsItem newsItem:newsService.news()) {
+				UINews uiNews = new UINews();
+				uiNews.setTimestamp(newsItem.timestamp());
+				uiNews.setText(newsItem.text());
+				news.add(uiNews);
+			}
+
+			Collections.reverse(news);
+
+			return news;
+		} catch(Exception e) {
+			logger.error("Error occurred getting news", e);
+			throw new ServiceException(e.getMessage());
 		}
-		Collections.reverse(news);
-		return news;
 	}
 
 	@Override
@@ -220,7 +228,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		} catch(Exception exception) {
 			logger.error("failed login for user "+username, exception);
 
-			UnknownUserException unknownUserException = ExceptionUtils.unfoldException(exception, UnknownUserException.class);
+			InvalidCredentialsException unknownUserException = ExceptionUtils.unfoldException(exception, InvalidCredentialsException.class);
 			if (unknownUserException!=null) {
 				throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
 			} else {

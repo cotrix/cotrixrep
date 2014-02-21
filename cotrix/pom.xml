@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cotrix</groupId>
 	<artifactId>cotrix</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -33,7 +33,7 @@
 		<module>cotrix-repository</module>
 
 		<module>cotrix-domain</module>
-		
+
 		<module>cotrix-test-domain</module>
 
 		<module>cotrix-io</module>
@@ -57,15 +57,10 @@
 	</modules>
 
 	<repositories>
-		<repository>
-			<snapshots />
-			<id>fips-snapshots</id>
-			<name>fips-snapshots</name>
-			<url>http://artifactory.fao.org/artifactory/fips</url>
-		</repository>
+
 		<repository>
 			<id>sdmxsource</id>
-			<url>http://www.metadatatechnology.com/nexus/content/repositories/releases</url>
+			<url>http://sdmxsource.metadatatechnology.com/nexus/content/repositories/releases</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
@@ -73,28 +68,7 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
-		<repository>
-			<id>gcube-releases</id>
-			<name>gCube Releases</name>
-			<url>http://maven.research-infrastructures.eu/nexus/content/repositories/gcube-releases</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>gcube-externals</id>
-			<name>gCube Releases</name>
-			<url>http://maven.research-infrastructures.eu/nexus/content/repositories/gcube-externals</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
+
 		<repository>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Maven Repository Group</name>
@@ -109,6 +83,7 @@
 				<updatePolicy>never</updatePolicy>
 			</snapshots>
 		</repository>
+		
 	</repositories>
 
 
@@ -174,7 +149,7 @@
 				<version>${project.version}</version>
 				<scope>runtime</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-stage</artifactId>
@@ -322,7 +297,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			
+
 			<dependency>
 				<artifactId>jboss-el-api_3.0_spec</artifactId>
 				<groupId>org.jboss.spec.javax.el</groupId>
@@ -470,8 +445,42 @@
 
 	<profiles>
 
+
+
+
 		<profile>
+
 			<id>fao-ci</id>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<repositories>
+
+				<repository>
+					<snapshots />
+					<id>fips-snapshots</id>
+					<name>fips-snapshots</name>
+					<url>http://artifactory.fao.org/artifactory/fips</url>
+				</repository>
+
+				<repository>
+					<id>gcube-releases</id>
+					<name>gCube Releases</name>
+					<url>http://maven.research-infrastructures.eu/nexus/content/repositories/gcube-releases</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+				
+			</repositories>
+
+
+
 			<distributionManagement>
 				<repository>
 					<id>${dm.rel.id}</id>
@@ -484,6 +493,24 @@
 					<url>${dm.snap.id-url}</url>
 				</snapshotRepository>
 			</distributionManagement>
+
+
+
+		</profile>
+
+		<profile>
+		
+			<id>gcube-ci</id>
+
+		
+			<distributionManagement>
+				<snapshotRepository>
+					<id>gcube-snapshots</id>
+					<name>gCube Snapshots</name>
+					<url>http://maven.research-infrastructures.eu:8081/nexus/content/repositories/gcube-snapshots</url>
+				</snapshotRepository>
+			</distributionManagement>
+			
 		</profile>
 
 		<profile>
@@ -509,26 +536,30 @@
 
 
 		</profile>
-		
+
 		<profile>
-				<id>dev</id>
-				
-				<activation>
-					<activeByDefault>true</activeByDefault>
-				</activation>
-				
-				<modules>
-					<module>cotrix-stage</module>
-					<module>cotrix-neo</module>
-				</modules>				
+
+			<id>dev</id>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<modules>
+				<module>cotrix-stage</module>
+				<module>cotrix-neo</module>
+			</modules>
+
 		</profile>
-		
+
 		<profile>
-				<id>dev-light</id>
-				
-				<modules>
-					<module>cotrix-stage</module>
-				</modules>				
+		
+			<id>dev-light</id>
+
+			<modules>
+				<module>cotrix-stage</module>
+			</modules>
+		
 		</profile>
 
 
@@ -537,6 +568,19 @@
 			<id>gcube</id>
 
 			<modules>
+				<module>cotrix-neo</module>
+			</modules>
+
+
+		</profile>
+		
+		<profile>
+
+			<id>all</id>
+
+			<modules>
+				<module>cotrix-mail</module>
+				<module>cotrix-stage</module>
 				<module>cotrix-neo</module>
 			</modules>
 

@@ -19,6 +19,7 @@ import org.cotrix.web.share.client.feature.ValueBoxEditing;
 import org.cotrix.web.share.client.feature.InstanceFeatureBind.IdProvider;
 import org.cotrix.web.share.client.util.AccountValidator;
 import org.cotrix.web.share.client.util.StatusUpdates;
+import org.cotrix.web.share.client.widgets.LoadingPanel;
 import org.cotrix.web.share.shared.UIUser;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -31,7 +32,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
@@ -46,7 +46,7 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  *
  */
 @Singleton
-public class ProfilePanel extends ResizeComposite {
+public class ProfilePanel extends LoadingPanel {
 
 	interface ProfilePanelUiBinder extends UiBinder<Widget, ProfilePanel> {}
 	interface ProfilePanelEventBinder extends EventBinder<ProfilePanel> {}
@@ -58,6 +58,7 @@ public class ProfilePanel extends ResizeComposite {
 	@UiField Label username;
 	@UiField TextBox fullname;
 	@UiField TextBox email;
+	
 	@UiField Button password;
 	
 	@Inject PasswordUpdateDialog passwordUpdateDialog;
@@ -74,6 +75,7 @@ public class ProfilePanel extends ResizeComposite {
 	@Inject
 	protected void init(ProfilePanelUiBinder uiBinder) {
 		initWidget(uiBinder.createAndBindUi(this));
+		setAnimated(true);
 		passwordUpdateDialog.addPasswordUpdateHandler(new PasswordUpdatedHandler() {
 			
 			@Override
@@ -151,11 +153,14 @@ public class ProfilePanel extends ResizeComposite {
 	}
 
 	protected void updateUserProfile(String userId) {
+
+		showLoader();
 		service.getUserDetails(userId, new ManagedFailureCallback<UIUserDetails>() {
 
 			@Override
 			public void onSuccess(UIUserDetails result) {
-				setUserDetails(result);				
+				setUserDetails(result);
+				hideLoader();
 			}
 		});
 	}

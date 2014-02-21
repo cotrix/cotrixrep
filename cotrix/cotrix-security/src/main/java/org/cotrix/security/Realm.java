@@ -25,7 +25,7 @@ public interface Realm {
 	 * @return the identity associated with the token in this realm, or <code>null</code> if no identity is associated
 	 *         with the token
 	 */
-	String login(Object token);
+	String login(Object token) throws InvalidCredentialsException;
 	
 	
 	/**

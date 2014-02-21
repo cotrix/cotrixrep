@@ -61,15 +61,15 @@ public class Codelist2SdmxTest {
 							attribute().name("attr1").value("value1").build()
 						   , attribute().name("attr2").value("value2").in("fr").build()
 						   ,attribute().name("attr3").value("value3").ofType(NAME_TYPE).build()
-							,attribute().name("attr4").value("value4").ofType(NAME_TYPE).in("sp").build()
+							,attribute().name("attr4").value("value4").ofType(NAME_TYPE).in("es").build()
 				).build()).
 				attributes(
 							attribute().name("list-attr1").value("value1").build()
-							,attribute().name("list-attr2").value("value2").ofType(customDescriptionType).in("sp").build()
+							,attribute().name("list-attr2").value("value2").ofType(customDescriptionType).in("es").build()
 						    ,attribute().name("list-attr3").value("value3").ofType(customNameType).in("fr").build()
 						   ,attribute().name("list-attr4").value("value4").ofType(NAME_TYPE).build()
-							,attribute().name("list-attr5").value("value5").ofType(NAME_TYPE).in("sp").build()
-							,attribute().name("list-attr6").value("value6").ofType(ANNOTATION_TYPE).in("sp").build()
+							,attribute().name("list-attr5").value("value5").ofType(NAME_TYPE).in("es").build()
+							,attribute().name("list-attr6").value("value6").ofType(ANNOTATION_TYPE).in("es").build()
 							,attribute().name("list-attr7").value("value7").ofType(customAnnotationType).in("fr").build()
 							,attribute().name("list-attr8").value("value8").ofType("unmappedtype").build()
 							,attribute().name(VALID_FROM.defaultName()).value(DateUtil.formatDate(Calendar.getInstance().getTime())).build()
@@ -160,7 +160,7 @@ public class Codelist2SdmxTest {
 		
 		Attribute a1 = attribute().name("a").value("val").build();
 		Attribute a2 = attribute().name("b").value("val-b").ofType(NAME_TYPE).in("fr").build();
-		Attribute a3 = attribute().name("a").value("val-c").ofType(ANNOTATION_TYPE).in("sp").build();
+		Attribute a3 = attribute().name("a").value("val-c").ofType(ANNOTATION_TYPE).in("es").build();
 		Codelist list = codelist().name("list").attributes(a1,a2,a3).build();
 		
 		Outcome<CodelistBean> outcome = mapper.map(list, Codelist2SdmxDirectives.DEFAULT);
@@ -173,7 +173,7 @@ public class Codelist2SdmxTest {
 		
 		assertTrue(contains(bean.getDescriptions(),"val","en"));
 		assertTrue(contains(bean.getNames(),"val-b","fr"));
-		assertTrue(containsAnnotation(bean.getAnnotations(),"val-c","sp"));
+		assertTrue(containsAnnotation(bean.getAnnotations(),"val-c","es"));
 		
 
 	}
@@ -183,7 +183,7 @@ public class Codelist2SdmxTest {
 		
 		Attribute a1 = attribute().name("a").value("val").ofType(customDescriptionType).build();
 		Attribute a2 = attribute().name("b").value("val-b").ofType(customNameType).in("fr").build();
-		Attribute a3 = attribute().name("a").value("val-c").ofType(customAnnotationType).in("sp").build();
+		Attribute a3 = attribute().name("a").value("val-c").ofType(customAnnotationType).in("es").build();
 		Codelist list = codelist().name("list").attributes(a1,a2,a3).build();
 		
 		Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
@@ -202,7 +202,7 @@ public class Codelist2SdmxTest {
 		
 		assertTrue(contains(bean.getDescriptions(),"val","en"));
 		assertTrue(contains(bean.getNames(),"val-b","fr"));
-		assertTrue(containsAnnotation(bean.getAnnotations(),"val-c","sp"));
+		assertTrue(containsAnnotation(bean.getAnnotations(),"val-c","es"));
 		
 
 	}

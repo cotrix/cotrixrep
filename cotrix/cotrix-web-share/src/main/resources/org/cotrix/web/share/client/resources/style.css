@@ -395,6 +395,11 @@
 	font-size: 17px;
 }
 
+.errorMessage a {
+	color: #64a1e0;
+	text-decoration: none;
+}
+
 @external .gwt-SuggestBox;
 .gwt-SuggestBox {
 	/*padding: 5px 4px;

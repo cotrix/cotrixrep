@@ -71,6 +71,29 @@
 				color: #acabab;
 			}
 			
+			.textBox[readonly] {
+				border: none;
+			}
+			
+			.textBox[readonly]:hover {
+				padding: 6px;
+				border: none;
+			}
+			
+			.textBox[readonly]:focus {
+				padding: 6px;
+				border: none;
+				box-shadow: none;
+				background-color: white;
+			}
+			
+			.textBox[readonly]:focus:hover {
+				padding: 6px;
+				border: none;
+				box-shadow: none;
+				background-color: white;
+			}
+			
 			.invalidValue {
 				border-color: #B80000;
 			}
@@ -112,18 +135,17 @@
 								<tr>
 									<td style="padding-top: 30px;text-align:center;">
 										<g:Button ui:field="password"
-											styleName="{common.css.blueButton} {style.password}" visible="true">Change password</g:Button>
-
+											styleName="{common.css.blueButton} {style.password}" visible="false">Change password</g:Button>
 									</td>
 								</tr>
 							</table>
 						</td>
-						<td style="vertical-align:top;">
-							<table>
+						<td style="vertical-align:top;width:100%;">
+							<table style="width: 100%;">
 								<tr>
 									<td>
 										<g:TextBox ui:field="fullname"
-											styleName="{style.textBox} {style.fullname}" readOnly="true" />
+											styleName="{style.textBox} {style.fullname}" readOnly="true"/>
 									</td>
 								</tr>
 								<tr>

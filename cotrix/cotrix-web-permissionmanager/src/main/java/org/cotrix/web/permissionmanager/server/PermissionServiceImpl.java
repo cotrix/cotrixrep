@@ -161,6 +161,7 @@ public class PermissionServiceImpl implements PermissionService {
 
 		boolean tick = active;
 		boolean enable = delegable && (!active || direct);
+		logger.trace("role: {} active: {} direct: {} user: {}", role, active, direct, user);
 		return new RoleState(enable, tick, false);
 	}
 
@@ -234,6 +235,9 @@ public class PermissionServiceImpl implements PermissionService {
 			case DELEGATE: delegationService.delegate(role).to(target); break;
 			case REVOKE: delegationService.revoke(role).from(target); break;
 		}
+		
+		if (action == RoleAction.REVOKE && userRepository.lookup(userId) == null) return RolesRow.DELETED;
+		
 		RolesRow row = getRow(target, Action.any, Roles.getBy(ResourceType.application, ResourceType.codelists));
 		logger.trace("row: {}", row);
 		return row;
@@ -357,5 +361,10 @@ public class PermissionServiceImpl implements PermissionService {
 			if (role.name().equals(name)) return role;
 		}
 		throw new IllegalArgumentException("Unknown role name "+name);
+	}
+
+	@Override
+	public void removeUser(String userId) throws ServiceException {
+		logger.trace("removeUser userId: {}", userId);
 	}
 }

@@ -4,6 +4,10 @@ import org.cotrix.web.share.client.resources.CommonCss;
 import org.cotrix.web.share.client.resources.CommonResources;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.OpenEvent;
+import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -30,17 +34,6 @@ public class AlertDialog extends PopupPanel {
 		setModal(true);
 		setAutoHideEnabled(true);
 		setWidth("330px");
-		setHeight("60px");
-
-		/*addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				hide();
-
-			}}, ClickEvent.getType());*/
-		
-		//DockLayoutPanel content = new DockLayoutPanel(Unit.PX);
 
 		VerticalPanel content = new VerticalPanel();
 		content.setStyleName(style.errorPanel());
@@ -48,7 +41,6 @@ public class AlertDialog extends PopupPanel {
 		
 		FlowPanel messageContainer = new FlowPanel();
 		messageContainer.setStyleName(style.errorMessageContainer());
-		messageContainer.setHeight("12px");
 		
 		message = new HTML();
 		message.setStyleName(style.errorMessage());
@@ -59,6 +51,22 @@ public class AlertDialog extends PopupPanel {
 		detailsPanel = new DisclosurePanel("details");
 		detailsPanel.setWidth("325px");
 		detailsPanel.setAnimationEnabled(true);
+		
+		detailsPanel.addOpenHandler(new OpenHandler<DisclosurePanel>() {
+			
+			@Override
+			public void onOpen(OpenEvent<DisclosurePanel> event) {
+				center();
+			}
+		});
+		
+		detailsPanel.addCloseHandler(new CloseHandler<DisclosurePanel>() {
+			
+			@Override
+			public void onClose(CloseEvent<DisclosurePanel> event) {
+				center();
+			}
+		});
 		
 		details = new HTML();
 		ScrollPanel detailsScrollablePanel = new ScrollPanel(details);
@@ -92,6 +100,4 @@ public class AlertDialog extends PopupPanel {
 		setMessage(message, details);
 		center();
 	}
-		
-
 }
