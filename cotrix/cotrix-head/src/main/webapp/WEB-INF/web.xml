@@ -91,59 +91,60 @@
 
 	<servlet-mapping>
 		<servlet-name>listServlet</servlet-name>
-		<url-pattern>/CodeListManagerFao/service/main</url-pattern>
+		<url-pattern>/Cotrix/service/main</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>importWizardFileUploadServlet</servlet-name>
-		<url-pattern>/CodeListManagerFao/service/fileupload</url-pattern>
+		<url-pattern>/Cotrix/service/fileupload</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>importWizardServiceServlet</servlet-name>
-		<url-pattern>/CodeListManagerFao/service/importService</url-pattern>
+		<url-pattern>/Cotrix/service/importService</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>importWizardReportDownloadServlet</servlet-name>
-		<url-pattern>/CodeListManagerFao/service/reportDownload</url-pattern>
+		<url-pattern>/Cotrix/service/reportDownload</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>codelistManagerServlet</servlet-name>
-		<url-pattern>/CodeListManagerFao/service/manager</url-pattern>
+		<url-pattern>/Cotrix/service/manager</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>codelistPublishServlet</servlet-name>
-		<url-pattern>/CodeListManagerFao/service/publish</url-pattern>
+		<url-pattern>/Cotrix/service/publish</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>publishDownloadServlet</servlet-name>
-		<url-pattern>/CodeListManagerFao/service/publishDownload</url-pattern>
+		<url-pattern>/Cotrix/service/publishDownload</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>permissionServlet</servlet-name>
-		<url-pattern>/CodeListManagerFao/service/permissionService</url-pattern>
+		<url-pattern>/Cotrix/service/permissionService</url-pattern>
 	</servlet-mapping>
 
 	<!-- <filter-mapping> -->
 	<!-- <filter-name>slownetwork</filter-name> -->
 	<!-- <url-pattern>/*</url-pattern> -->
 	<!-- </filter-mapping> -->
+	
 	<filter-mapping>
 		<filter-name>weldworkaround</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>transactional</filter-name>
-		<url-pattern>/CodeListManagerFao/service/*</url-pattern>
+		<url-pattern>/Cotrix/service/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>authbarrier</filter-name>
-		<url-pattern>/CodeListManagerFao/*</url-pattern>
+		<url-pattern>/Cotrix/*</url-pattern>
 	</filter-mapping>
 
 

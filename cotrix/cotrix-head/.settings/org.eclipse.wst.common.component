@@ -58,9 +58,6 @@
         <dependent-module archiveName="cotrix-configuration-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-configuration/cotrix-configuration">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="sdmxsource-adapter-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sdmxsource-adapter/sdmxsource-adapter">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="context-root" value="cotrix-head"/>
         <property name="java-output-path" value="/cotrix-head/target/cotrix-head-0.1.0-SNAPSHOT/WEB-INF/classes"/>
     </wb-module>
