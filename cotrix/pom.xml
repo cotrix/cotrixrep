@@ -630,19 +630,6 @@
 			</distributionManagement>
 
 		</profile>
-		
-		<profile>
-
-			<id>all</id>
-
-			<modules>
-				<module>cotrix-mail</module>
-				<module>cotrix-stage</module>
-				<module>cotrix-neo</module>
-			</modules>
-
-
-		</profile>
 
 	</profiles>
 
