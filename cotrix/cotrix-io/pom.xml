@@ -40,31 +40,6 @@
 			<artifactId>cotrix-test-common</artifactId>
 		</dependency>
 
-		<!-- ####################################################### -->
-
-
-		<!-- enable for integration testing -->
-<!-- 		<dependency>
-			<groupId>org.virtualrepository</groupId>
-			<artifactId>virtual-sdmx-registry</artifactId>
-			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.virtualrepository</groupId>
-			<artifactId>virtual-semantic-repository</artifactId>
-			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.virtualrepository</groupId>
-			<artifactId>virtual-rtms</artifactId>
-			<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
-			<scope>test</scope>
-		</dependency> -->
-
 	</dependencies>
 
 

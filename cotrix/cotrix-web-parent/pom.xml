@@ -46,7 +46,6 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>gwt-maven-plugin</artifactId>
-					<version>${gwt.version}</version>
 					<executions>
 						<execution>
 							<goals>
@@ -55,37 +54,6 @@
 							</goals>
 						</execution>
 					</executions>
-				</plugin>
-
-				<!-- m2e configuration -->
-
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>
-											gwt-maven-plugin
-										</artifactId>
-										<versionRange>
-											[2.5.1,)
-										</versionRange>
-										<goals>
-											<goal>resources</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
 				</plugin>
 
 			</plugins>
