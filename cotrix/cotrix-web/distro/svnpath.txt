@@ -1,1 +1,1 @@
-${scm.url} 
+http://svn.d4science.research-infrastructures.eu/gcube/branches/application/cotrix/0.x/cotrix
