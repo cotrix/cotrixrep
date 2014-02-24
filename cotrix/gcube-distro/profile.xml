@@ -3,13 +3,13 @@
 	<ID />
 	<Type>Service</Type>
 	<Profile>
-		<Description>${description}</Description>
+		<Description>A Tool for Codelist Versioning Workflows</Description>
 		<Class>Application</Class>
-		<Name>${artifactId}</Name>
+		<Name>cotrix</Name>
 		<Version>1.0.0</Version>
 		<Packages>
 			<Software>
-				<Name>${artifactId}</Name>
+				<Name>cotrix</Name>
 				<Version>${version}</Version>
 				<MavenCoordinates>
 					<groupId>${groupId}</groupId>
@@ -17,7 +17,7 @@
 					<version>${version}</version>
 				</MavenCoordinates>
 				<Files>
-					<File>${war_name}</File>
+					<File>cotrix.war</File>
 				</Files>
 			</Software>
 		</Packages>

@@ -31,12 +31,13 @@
 			<filtered>true</filtered>
 		</file>
 		<file>
-			<source>target/${war_name}</source>
-			<outputDirectory>/${artifactId}</outputDirectory>
+			<source>target/${build.finalName}.war</source>
+			<outputDirectory>/cotrix</outputDirectory>
+			<destName>cotrix.war</destName>
 		</file>
 		<file>
 			<source>${distroDirectory}/svnpath.txt</source>
-			<outputDirectory>/${artifactId}</outputDirectory>
+			<outputDirectory>/cotrix</outputDirectory>
 			<filtered>true</filtered>
 		</file>
 	</files>

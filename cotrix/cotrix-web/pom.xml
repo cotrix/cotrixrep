@@ -18,6 +18,15 @@
 
 	<packaging>jar</packaging>
 
+	<properties>
+		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<display_version>v${project.version}-${timestamp}</display_version>
+		<distroDirectory>distro</distroDirectory>
+	</properties>
+	
 	<dependencies>
 
 		<dependency>
