@@ -77,7 +77,7 @@
 		<g:north size='60'>
 			<g:HTMLPanel styleName="{style.header}">
 				<g:FlowPanel ui:field="menu" />
-				<g:FlowPanel ui:field="titleArea" styleName="{style.titleArea}">
+				<g:FlowPanel ui:field="titleArea" styleName="{style.titleArea}" debugId="footer.logo">
 					<g:Image resource="{resources.logo}" styleName="{style.logo}" />
 					<g:FlowPanel styleName="{style.textblock}">
 						<g:Label styleName="{style.title}">Cotrix</g:Label>

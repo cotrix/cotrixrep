@@ -79,7 +79,7 @@
 		}
 	</ui:style>
 	<g:HTMLPanel styleName="{style.box}">
-		<div class="{style.title}">
+		<div class="{style.title}" id="login.title">
 			Log in
 		</div>
 		<div class="{style.subtitle}">
@@ -88,15 +88,14 @@
 		</div>
 		<div class="{style.textfield}">
 			<div>Username</div>
-			<g:TextBox styleName="{style.textbox}" ui:field="username" />
+			<g:TextBox styleName="{style.textbox}" ui:field="username" debugId="user.login.username"/>
 		</div>
 		<div class="{style.textfield}">
 			<div>Password</div>
-			<g:PasswordTextBox styleName="{style.textbox}"
-				ui:field="password" />
+			<g:PasswordTextBox styleName="{style.textbox}" ui:field="password" debugId="user.login.password"/>
 		</div>
 		<div class="{style.textfield}">
-			<g:Button ui:field="login" styleName="{style.submit}">Submit</g:Button>
+			<g:Button ui:field="login" styleName="{style.submit}" debugId="user.login.submit">Submit</g:Button>
 		</div>
 	</g:HTMLPanel>
 

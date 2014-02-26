@@ -4,6 +4,9 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <dependent-module archiveName="cotrix-web-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web/cotrix-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="cotrix-web-common-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-common/cotrix-web-common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -23,6 +26,9 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cotrix-web-manage-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-manage/cotrix-web-manage">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="cotrix-web-publish-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-publish/cotrix-web-publish">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cotrix-web-users-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-users/cotrix-web-users">
