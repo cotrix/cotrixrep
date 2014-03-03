@@ -34,25 +34,26 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginDialogListener, RegisterDialogListener {
+public class UserBarPresenterImpl implements Presenter, UserBarPresenter{
 
-	protected LoginDialog loginDialog = new LoginDialog(this);
-	protected RegisterDialog registerDialog = new RegisterDialog(this);
+	@Inject
+	protected LoginDialog loginDialog;
+	@Inject
+	protected RegisterDialog registerDialog;
 
 	protected UserBarView view;
 
+	@Inject @CotrixBus
 	protected EventBus cotrixBus;
 
 	@Inject
-	public UserBarPresenterImpl(UserBarView view, @CotrixBus EventBus cotrixBus)
+	public UserBarPresenterImpl(UserBarView view)
 	{
 		this.view = view;
-		this.cotrixBus = cotrixBus;
 		view.setPresenter(this);
-		bindFeatures();
-		bind();
 	}
 
+	@Inject
 	protected void bind()
 	{
 		cotrixBus.addHandler(UserLoggedEvent.TYPE, new UserLoggedEvent.UserLoggedHandler() {
@@ -98,9 +99,35 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 				AlertDialog.INSTANCE.center("Unknown user please check your credentials and re-try.", event.getDetails());
 			}
 		});
-
 	}
 
+	@Inject
+	private void bindDialogs() {
+		loginDialog.setListener(new LoginDialogListener() {
+
+			@Override
+			public void onRegister() {
+				showRegisterDialog();
+			}
+
+			@Override
+			public void onLogin(String username, String password) {
+				loginDialog.hide();
+				cotrixBus.fireEvent(new UserLoginEvent(username, password));
+			}
+		});
+		registerDialog.setListener(new RegisterDialogListener() {
+			
+			@Override
+			public void onRegister(String username, String password, String email) {
+				registerDialog.hide();
+				cotrixBus.fireEvent(new UserRegisterEvent(username, password, email));
+			}
+		});
+		
+	}
+
+	@Inject
 	protected void bindFeatures()
 	{
 		FeatureBinder.bind(new FeatureToggler() {
@@ -139,8 +166,7 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 
 	@Override
 	public void onLoginClick() {
-		loginDialog.clean();
-		loginDialog.center();
+		showLoginDialog();
 	}
 
 	@Override
@@ -154,33 +180,18 @@ public class UserBarPresenterImpl implements Presenter, UserBarPresenter, LoginD
 	}
 
 	@Override
-	public void onLogin(String username, String password) {
-		loginDialog.hide();
-		cotrixBus.fireEvent(new UserLoginEvent(username, password));
-	}
-
-	@Override
-	public void onCancel() {
-		loginDialog.hide();
-		registerDialog.hide();
-	}
-
-	@Override
 	public void onRegisterClick() {
-		registerDialog.clean();
-		registerDialog.center();
+		showRegisterDialog();
 	}
 
-	@Override
-	public void onRegister(String username, String password, String email) {
-		registerDialog.hide();
-		cotrixBus.fireEvent(new UserRegisterEvent(username, password, email));
+	private void showRegisterDialog() {
+		registerDialog.clean();
+		registerDialog.showCentered();
 	}
 
-	@Override
-	public void onRegister() {
-		registerDialog.clean();
-		registerDialog.center();
+	private void showLoginDialog() {
+		loginDialog.clean();
+		loginDialog.showCentered();
 	}
 
 	@Override

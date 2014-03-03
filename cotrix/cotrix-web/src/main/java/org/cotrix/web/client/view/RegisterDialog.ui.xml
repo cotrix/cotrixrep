@@ -3,7 +3,7 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
 		field="resources" />
-	<ui:style type="org.cotrix.web.client.view.RegisterDialog.Style">
+	<ui:style type="org.cotrix.web.client.view.RegisterDialogImpl.Style">
 		.box {
 			-moz-box-shadow: 0 0 7px 7px #999;
 			-webkit-box-shadow: 0 0 7px 7px #999;
