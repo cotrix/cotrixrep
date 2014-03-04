@@ -1,11 +1,13 @@
 package org.cotrix.web.client.view;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.ImplementedBy;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@ImplementedBy(UserBarView.class)
 public interface UserBarView {
 	
 	public interface Presenter {

@@ -32,7 +32,7 @@ public class LoginDialogImpl extends PopupPanel implements LoginDialog {
 	@UiField
 	PasswordTextBox password;
 	
-	protected LoginDialogListener listener;
+	private LoginDialogListener listener;
 
 	public LoginDialogImpl() {
 		setWidget(binder.createAndBindUi(this));
@@ -44,6 +44,13 @@ public class LoginDialogImpl extends PopupPanel implements LoginDialog {
 	 */
 	public void setListener(LoginDialogListener listener) {
 		this.listener = listener;
+	}
+
+	/**
+	 * @return the listener
+	 */
+	public LoginDialogListener getListener() {
+		return listener;
 	}
 
 	@UiHandler({"username","password"})

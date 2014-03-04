@@ -14,7 +14,6 @@ import org.cotrix.web.client.view.LoginDialog.LoginDialogListener;
 import org.cotrix.web.client.view.RegisterDialog;
 import org.cotrix.web.client.view.RegisterDialog.RegisterDialogListener;
 import org.cotrix.web.client.view.UserBarView;
-import org.cotrix.web.client.view.UserBarView.Presenter;
 import org.cotrix.web.common.client.CotrixModule;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.StatusUpdatedEvent;
@@ -34,7 +33,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UserBarPresenterImpl implements Presenter, UserBarPresenter{
+public class UserBarPresenterImpl implements UserBarPresenter{
 
 	@Inject
 	protected LoginDialog loginDialog;

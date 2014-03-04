@@ -14,10 +14,13 @@ public interface RegisterDialog {
 	}
 
 	public void setListener(RegisterDialogListener listener);
+	public RegisterDialogListener getListener();
 	
 	public void showCentered();
 	public void hide();
 
 	public void clean();
+
+	
 
 }

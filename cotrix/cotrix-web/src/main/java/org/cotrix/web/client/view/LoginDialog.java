@@ -15,6 +15,7 @@ public interface LoginDialog {
 	}
 
 	public void setListener(LoginDialogListener listener);
+	public LoginDialogListener getListener();
 	
 	public void showCentered();
 	

@@ -46,7 +46,7 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 	@UiField
 	TextBox email;
 	
-	protected RegisterDialogListener listener;
+	private RegisterDialogListener listener;
 
 	public RegisterDialogImpl() {
 		setWidget(binder.createAndBindUi(this));
@@ -60,6 +60,13 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 		this.listener = listener;
 	}
 	
+	/**
+	 * @return the listener
+	 */
+	public RegisterDialogListener getListener() {
+		return listener;
+	}
+
 	@UiHandler({"username","password","email"})
 	protected void onKeyDown(KeyDownEvent event)
 	{
