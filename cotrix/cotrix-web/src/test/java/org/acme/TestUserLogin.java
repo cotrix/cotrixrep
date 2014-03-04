@@ -5,8 +5,6 @@ package org.acme;
 
 import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
@@ -18,15 +16,12 @@ import org.cotrix.security.SignupService;
 import org.cotrix.test.ApplicationTest;
 import org.cotrix.web.client.MainService;
 import org.cotrix.web.client.MainServiceAsync;
-import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.presenter.UserBarPresenter;
 import org.cotrix.web.client.presenter.UserController;
 import org.cotrix.web.client.view.LoginDialog;
-import org.cotrix.web.client.view.LoginDialog.LoginDialogListener;
 import org.cotrix.web.client.view.RegisterDialog;
 import org.cotrix.web.client.view.UserBarView;
 import org.cotrix.web.common.client.event.CotrixBus;
-import org.cotrix.web.common.client.event.UserLoggedEvent;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureBus;
 import org.cotrix.web.common.client.widgets.AlertDialog;
@@ -37,9 +32,10 @@ import org.cotrix.web.server.MainServiceImpl;
 import org.cotrix.web.shared.LoginToken;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
-import org.cotrix.web.shared.UsernamePasswordToken;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.AbstractModule;
@@ -50,7 +46,6 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
-import com.google.web.bindery.event.shared.testing.CountingEventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -58,16 +53,19 @@ import com.google.web.bindery.event.shared.testing.CountingEventBus;
  */
 public class TestUserLogin extends ApplicationTest {
 	
-	public static final User testUser = user().name("testUser").email("testUser@fao.org").fullName("Test User").is(ROOT).build();
-
+	private static final User testUser = user().name("testUser").email("testUser@fao.org").fullName("Test User").is(ROOT).build();
+	private static final String testUserPassword = "testPassword";
+	
+	@Mock
 	private UserBarView userBarView;
 
-	private CountingEventBus bus = new CountingEventBus();
-
+	@Mock
 	private LoginDialog loginDialog;
 
+	@Mock
 	private RegisterDialog registerDialog;
 	
+	@Mock
 	private AlertDialog alertDialog;
 
 	private UserBarPresenter presenter;
@@ -81,6 +79,8 @@ public class TestUserLogin extends ApplicationTest {
 	private MainServiceAsync serviceAsync;
 
 	private class TestModule extends AbstractModule {
+		
+		private EventBus bus = new SimpleEventBus();
 
 		@Override
 		protected void configure() {
@@ -129,13 +129,8 @@ public class TestUserLogin extends ApplicationTest {
 	@Before
 	public void setup() {
 
-		loginDialog = mock(FakeLoginDialog.class);
-		doCallRealMethod().when(loginDialog).setListener(any(LoginDialogListener.class));
-		doCallRealMethod().when(loginDialog).getListener();
+		MockitoAnnotations.initMocks(this);
 
-		userBarView = mock(UserBarView.class);
-		registerDialog = mock(RegisterDialog.class);
-		alertDialog = mock(AlertDialog.class);
 		serviceAsync = new MainServiceBridge(service);
 
 		Module testModule = new TestModule();
@@ -143,48 +138,23 @@ public class TestUserLogin extends ApplicationTest {
 		presenter = injector.getInstance(UserBarPresenter.class);
 		injector.getInstance(UserController.class);
 		
-		signupService.signup(testUser, "testPassword");
+		signupService.signup(testUser, testUserPassword);
 	}
-
+	
 	@Test
 	public void testLogin() throws IllegalActionException, ServiceException {
-
-		UsernamePasswordToken expectedToken = new UsernamePasswordToken("testUser", "testPassword");
-
+		
+		//User clicks login
 		presenter.onLoginClick();
+		
+		//Login dialog appears
 		verify(loginDialog).showCentered();
 
-		LoginDialogListener listener = loginDialog.getListener();
-		assertNotNull(listener);
-
-		listener.onLogin(expectedToken.getUsername(), expectedToken.getPassword());
-		assertEquals(bus.getFiredCount(UserLoginEvent.TYPE),1);
-		assertEquals(bus.getFiredCount(UserLoggedEvent.TYPE),1);
-
-		verify(userBarView).setUserEnabled(true);
-		verify(userBarView).setUserLoading(false);
-		verify(userBarView).setUsername(expectedToken.getUsername());
-	}
-
-	private abstract class FakeLoginDialog implements LoginDialog {
-
-		LoginDialogListener listener;
-
-		/** 
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void setListener(LoginDialogListener listener) {
-			this.listener = listener;
-		}
-
-		/** 
-		 * {@inheritDoc}
-		 */
-		@Override
-		public LoginDialogListener getListener() {
-			return listener;
-		}		
+		//User fills login form and he submits it
+		presenter.onLogin(testUser.name(), testUserPassword);
+		
+		//User is logged
+		verify(userBarView).setUsername(testUser.name());
 	}
 
 	private class MainServiceBridge implements MainServiceAsync {
