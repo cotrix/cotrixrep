@@ -1,17 +1,21 @@
 package org.cotrix.test;
 
+import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 
+import org.cotrix.common.Constants;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.User;
 
+@Priority(Constants.TEST)
 public class CdiProducers {
 
 	//simnulates session for services that expect it
-	@Produces @Current @ApplicationScoped
+	@Produces @Current @ApplicationScoped @Alternative
 	public static BeanSession session(CurrentUser current) {
 		
 		BeanSession session = new BeanSession();
@@ -23,13 +27,13 @@ public class CdiProducers {
 	
 	
 	//produces current user for services that expect it
-	@Produces @Current @ApplicationScoped
+	@Produces @Current @ApplicationScoped @Alternative
 	public static User user(@Current BeanSession session) {
 		return session.get(User.class);
 	}
 	
 	//produces current user for tests that want to control it. it's cotrix by default
-	@Produces @ApplicationScoped
+	@Produces @ApplicationScoped @Alternative
 	public static CurrentUser current() {
 		CurrentUser user = new CurrentUser();
 		user.set(Users.cotrix);

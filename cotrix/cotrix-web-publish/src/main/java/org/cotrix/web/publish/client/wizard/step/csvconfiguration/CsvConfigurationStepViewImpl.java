@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.csvconfiguration;
 
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.AlertDialogImpl;
 import org.cotrix.web.common.client.widgets.CsvConfigurationPanel;
 import org.cotrix.web.common.shared.CsvConfiguration;
 
@@ -55,7 +55,7 @@ public class CsvConfigurationStepViewImpl extends ResizeComposite implements Csv
 	 * {@inheritDoc}
 	 */
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		AlertDialogImpl.INSTANCE.center(message);
 	}
 	
 	@Override

@@ -3,7 +3,7 @@ package org.cotrix.web.publish.client.wizard.step.csvmapping;
 import java.util.List;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.AlertDialogImpl;
 import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
@@ -146,7 +146,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	}
 
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		AlertDialogImpl.INSTANCE.center(message);
 	}
 
 	@Override

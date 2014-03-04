@@ -3,7 +3,7 @@ package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 import java.util.List;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.AlertDialogImpl;
 import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.EnumListBox.LabelProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
@@ -140,7 +140,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	}
 
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		AlertDialogImpl.INSTANCE.center(message);
 	}
 
 	@Override

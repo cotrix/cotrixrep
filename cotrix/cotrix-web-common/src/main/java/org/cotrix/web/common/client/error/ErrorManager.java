@@ -4,7 +4,7 @@
 package org.cotrix.web.common.client.error;
 
 import org.cotrix.web.common.client.util.Exceptions;
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.AlertDialogImpl;
 import org.cotrix.web.common.shared.exception.ServiceException;
 
 import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
@@ -21,7 +21,7 @@ public class ErrorManager {
 	public void rpcFailure(Throwable throwable) {
 		String details = Exceptions.getPrintStackTrace(throwable);
 		String errorMessage = getErrorMessage(throwable);
-		AlertDialog.INSTANCE.center(errorMessage, details);
+		AlertDialogImpl.INSTANCE.center(errorMessage, details);
 	}
 	
 	private String getErrorMessage(Throwable throwable) {

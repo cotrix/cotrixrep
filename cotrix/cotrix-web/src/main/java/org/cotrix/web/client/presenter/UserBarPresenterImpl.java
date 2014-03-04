@@ -39,6 +39,8 @@ public class UserBarPresenterImpl implements UserBarPresenter{
 	protected LoginDialog loginDialog;
 	@Inject
 	protected RegisterDialog registerDialog;
+	@Inject
+	protected AlertDialog alertDialog;
 
 	protected UserBarView view;
 
@@ -95,7 +97,7 @@ public class UserBarPresenterImpl implements UserBarPresenter{
 			@Override
 			public void onUserLoginFailed(UserLoginFailedEvent event) {
 				view.setUserLoading(false);
-				AlertDialog.INSTANCE.center("Unknown user please check your credentials and re-try.", event.getDetails());
+				alertDialog.center("Unknown user please check your credentials and re-try.", event.getDetails());
 			}
 		});
 	}

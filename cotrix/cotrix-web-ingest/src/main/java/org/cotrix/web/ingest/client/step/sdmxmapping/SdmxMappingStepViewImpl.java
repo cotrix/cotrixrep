@@ -2,7 +2,7 @@ package org.cotrix.web.ingest.client.step.sdmxmapping;
 
 import java.util.List;
 
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.AlertDialogImpl;
 import org.cotrix.web.ingest.client.util.MappingPanel;
 import org.cotrix.web.ingest.client.util.MappingPanel.ReloadButtonHandler;
 import org.cotrix.web.ingest.shared.AttributeMapping;
@@ -95,7 +95,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	}
 
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		AlertDialogImpl.INSTANCE.center(message);
 	}
 
 	@Override

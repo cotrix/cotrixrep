@@ -3,7 +3,7 @@ package org.cotrix.web.ingest.client.step.selection;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.AlertDialogImpl;
 import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
 import org.cotrix.web.ingest.client.resources.Resources;
 import org.cotrix.web.ingest.shared.AssetInfo;
@@ -184,7 +184,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	}
 
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		AlertDialogImpl.INSTANCE.center(message);
 	}
 
 	

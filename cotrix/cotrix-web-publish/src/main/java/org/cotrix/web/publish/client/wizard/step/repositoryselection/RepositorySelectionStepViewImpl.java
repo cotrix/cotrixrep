@@ -3,7 +3,7 @@ package org.cotrix.web.publish.client.wizard.step.repositoryselection;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.AlertDialogImpl;
 import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
 import org.cotrix.web.publish.shared.UIRepository;
 
@@ -160,7 +160,7 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	}
 
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		AlertDialogImpl.INSTANCE.center(message);
 	}
 	
 	//TODO REMOVED

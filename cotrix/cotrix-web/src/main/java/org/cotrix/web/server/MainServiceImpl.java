@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.action.Action;
 import org.cotrix.action.Actions;
@@ -28,6 +27,7 @@ import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.security.InvalidCredentialsException;
+import org.cotrix.security.LoginRequest;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.SignupService;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
@@ -71,9 +71,6 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 
 	@Inject
 	protected ActionMapper actionMapper;
-
-	@Inject
-	protected HttpServletRequest httpServletRequest;
 
 	@Inject
 	protected StatisticsService statisticsService;
@@ -136,8 +133,8 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	{
 		logger.trace("doLogin action: {} token: {} openCodelists: {}", action, token, openCodelists);
 
-		produceToken(token);
-		User user = loginService.login(httpServletRequest);	
+		LoginRequest loginRequest = toLoginRequest(token);
+		User user = loginService.login(loginRequest);	
 		logger.trace("logged user: {}",user);
 
 		UIUser uiUser = Users.toUiUser(user);
@@ -151,19 +148,21 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		return uiUser;
 	}
 
-	protected void produceToken(LoginToken token) {
+	protected LoginRequest toLoginRequest(LoginToken token) {
+		LoginRequest loginRequest = new LoginRequest();
 		if (token instanceof UsernamePasswordToken) {
 			UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
-			httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, usernamePasswordToken.getUsername());
-			httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, usernamePasswordToken.getPassword());
+			loginRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, usernamePasswordToken.getUsername());
+			loginRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, usernamePasswordToken.getPassword());
 			logger.trace("added name and psw");
 		}
 
 		if (token instanceof UrlToken) {
 			UrlToken urlToken = (UrlToken)token;
-			httpServletRequest.setAttribute("TOKEN", urlToken.getToken());
+			loginRequest.setAttribute("TOKEN", urlToken.getToken());
 			logger.trace("added token");
 		}
+		return loginRequest;
 	}
 
 	protected void fillOpenCodelistsActions(List<String> openCodelists, User user, FeatureCarrier featureCarrier)

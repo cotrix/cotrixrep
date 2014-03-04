@@ -1,6 +1,6 @@
 package org.cotrix.web.ingest.client.step.upload;
 
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.AlertDialogImpl;
 import org.cotrix.web.ingest.client.resources.ImportConstants;
 import org.cotrix.web.ingest.client.util.TextUtil;
 
@@ -103,7 +103,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	}
 	
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		AlertDialogImpl.INSTANCE.center(message);
 	}
 
 	@UiHandler("retryButton")

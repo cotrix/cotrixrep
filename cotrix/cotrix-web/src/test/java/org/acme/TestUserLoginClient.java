@@ -48,7 +48,7 @@ import com.google.web.bindery.event.shared.testing.CountingEventBus;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TestUserLoginCase {
+public class TestUserLoginClient {
 
 	@Mock
 	private UserBarView userBarView;

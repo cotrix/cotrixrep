@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.destinationselection;
 
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.AlertDialogImpl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -41,6 +41,6 @@ public class DestinationSelectionStepViewImpl extends Composite implements Desti
 	}
 	
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		AlertDialogImpl.INSTANCE.center(message);
 	}
 }
