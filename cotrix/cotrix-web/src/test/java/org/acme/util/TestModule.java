@@ -6,6 +6,7 @@ package org.acme.util;
 import static org.mockito.Mockito.*;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,10 +53,8 @@ public class TestModule extends AbstractModule {
 
 	private void scan(Object o)  {
 		Class<?> clazz = o.getClass();
-		System.out.println("scanning "+clazz.getName());
 		try {
 			for (Field field:clazz.getDeclaredFields()) {
-				System.out.println("checking field "+field.getName());
 				Provide annotation = field.getAnnotation(Provide.class);
 				if (annotation!=null) {
 					Class<?> type = field.getType();
@@ -108,7 +107,6 @@ public class TestModule extends AbstractModule {
 		bind(EventBus.class).annotatedWith(FeatureBus.class).toInstance(featuresBus);
 
 		for (Class<?>[] serviceBinding:serviceBindings) {
-			System.out.println("mocking "+serviceBinding);
 			Class<?> asyncServiceType = serviceBinding[0];
 			Class<?> serviceType = serviceBinding[1];
 			Object mock = mock(asyncServiceType, new ServiceInterceptor(serviceType));
@@ -140,9 +138,7 @@ public class TestModule extends AbstractModule {
 		}
 
 		@Override
-		public Object answer(InvocationOnMock invocation) throws NoSuchMethodException, SecurityException {
-
-			System.out.println("intercepting "+invocation.getMethod().getName());
+		public Object answer(InvocationOnMock invocation) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException {
 
 			instantiateService();
 
@@ -157,8 +153,8 @@ public class TestModule extends AbstractModule {
 			try {
 				Object result = method.invoke(service, args);
 				callback.onSuccess(result);
-			} catch(Exception e) {
-				callback.onFailure(e);
+			} catch(InvocationTargetException e) {
+				callback.onFailure(e.getTargetException());
 			}
 			return null;
 		}

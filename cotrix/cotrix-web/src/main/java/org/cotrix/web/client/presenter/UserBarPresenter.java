@@ -36,7 +36,7 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 @Singleton
-public class UserBarPresenter implements Presenter, LoginDialogListener {
+public class UserBarPresenter implements Presenter, LoginDialogListener, RegisterDialogListener {
 
 	@Inject
 	protected LoginDialog loginDialog;
@@ -108,15 +108,7 @@ public class UserBarPresenter implements Presenter, LoginDialogListener {
 	@Inject
 	private void bindDialogs() {
 		loginDialog.setListener(this);
-		registerDialog.setListener(new RegisterDialogListener() {
-			
-			@Override
-			public void onRegister(String username, String password, String email) {
-				registerDialog.hide();
-				cotrixBus.fireEvent(new UserRegisterEvent(username, password, email));
-			}
-		});
-		
+		registerDialog.setListener(this);
 	}
 	
 	@Override
@@ -128,6 +120,12 @@ public class UserBarPresenter implements Presenter, LoginDialogListener {
 	public void onLogin(String username, String password) {
 		loginDialog.hide();
 		cotrixBus.fireEvent(new UserLoginEvent(username, password));
+	}
+	
+	@Override
+	public void onRegister(String username, String password, String email) {
+		registerDialog.hide();
+		cotrixBus.fireEvent(new UserRegisterEvent(username, password, email));
 	}
 
 	@Inject

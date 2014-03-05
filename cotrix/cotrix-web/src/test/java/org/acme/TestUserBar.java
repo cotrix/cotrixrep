@@ -19,6 +19,7 @@ import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureBus;
+import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.shared.UIUser;
 import org.cotrix.web.common.shared.exception.IllegalActionException;
 import org.cotrix.web.common.shared.exception.ServiceException;
@@ -32,8 +33,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.google.web.bindery.event.shared.testing.CountingEventBus;
@@ -61,34 +60,13 @@ public class TestUserBar {
 		@Override
 		protected void configure() {
 			requestStaticInjection(FeatureBinder.class);
-		}
-		
-		@Provides
-		UserBarView getUserBarView() {
-			return userBarView;
-		}
-		
-		@Provides @CotrixBus
-		EventBus getEventBus() {
-			return bus;
-		}
-		
-		@Provides
-		LoginDialog getLoginDialog() {
-			return loginDialog;
-		}
-		
-		@Provides
-		RegisterDialog getRegisterDialog() {
-			return registerDialog;
-		}
-		
-		@Provides
-		@Singleton
-		@FeatureBus
-		protected EventBus getFeatureBus()
-		{
-			return new SimpleEventBus();
+			bind(UserBarView.class).toInstance(userBarView);
+			bind(LoginDialog.class).toInstance(loginDialog);
+			bind(RegisterDialog.class).toInstance(registerDialog);
+			bind(AlertDialog.class).toInstance(mock(AlertDialog.class));
+			bind(EventBus.class).annotatedWith(CotrixBus.class).toInstance(bus);
+			bind(EventBus.class).annotatedWith(FeatureBus.class).toInstance(new SimpleEventBus());
+			
 		}
 	}
 	
