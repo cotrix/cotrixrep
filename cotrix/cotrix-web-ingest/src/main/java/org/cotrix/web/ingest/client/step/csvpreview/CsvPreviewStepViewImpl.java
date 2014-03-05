@@ -2,7 +2,7 @@ package org.cotrix.web.ingest.client.step.csvpreview;
 
 import java.util.List;
 
-import org.cotrix.web.common.client.widgets.AlertDialogImpl;
+import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.CsvConfigurationPanel;
 import org.cotrix.web.common.client.widgets.CsvConfigurationPanel.RefreshHandler;
 import org.cotrix.web.common.shared.CsvConfiguration;
@@ -45,6 +45,9 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	protected PreviewDataProvider dataProvider;
 	
 	@Inject
+	AlertDialog alertDialog;
+	
+	@Inject
 	public CsvPreviewStepViewImpl(PreviewDataProvider dataProvider) {
 		
 		this.dataProvider = dataProvider;
@@ -77,7 +80,7 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	 * {@inheritDoc}
 	 */
 	public void alert(String message) {
-		AlertDialogImpl.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 	
 	@Override

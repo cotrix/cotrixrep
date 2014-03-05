@@ -1,6 +1,6 @@
 package org.cotrix.web.ingest.client.step.upload;
 
-import org.cotrix.web.common.client.widgets.AlertDialogImpl;
+import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.ingest.client.resources.ImportConstants;
 import org.cotrix.web.ingest.client.util.TextUtil;
 
@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -47,6 +48,9 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	@UiField FormPanel form;
 
 	private Presenter presenter;
+	
+	@Inject
+	AlertDialog alertDialog;
 
 	public UploadStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -103,7 +107,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	}
 	
 	public void alert(String message) {
-		AlertDialogImpl.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 
 	@UiHandler("retryButton")

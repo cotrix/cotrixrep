@@ -3,7 +3,7 @@ package org.cotrix.web.publish.client.wizard.step.csvmapping;
 import java.util.List;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.widgets.AlertDialogImpl;
+import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
@@ -18,6 +18,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -60,6 +61,9 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	@UiField(provided = true) MappingPanel<Column> mappingPanel;
 
 	protected Presenter presenter;
+	
+	@Inject
+	AlertDialog alertDialog;
 
 	public CsvMappingStepViewImpl() {
 		mappingPanel = new MappingPanel<Column>(PROVIDER, "COLUMNS");
@@ -146,7 +150,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	}
 
 	public void alert(String message) {
-		AlertDialogImpl.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 
 	@Override

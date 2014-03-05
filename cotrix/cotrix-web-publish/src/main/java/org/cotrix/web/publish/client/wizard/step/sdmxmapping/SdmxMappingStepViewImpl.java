@@ -3,7 +3,7 @@ package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 import java.util.List;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.widgets.AlertDialogImpl;
+import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.EnumListBox.LabelProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
@@ -19,6 +19,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -66,6 +67,9 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	@UiField(provided = true) MappingPanel<UISdmxElement> mappingPanel;
 	
 	protected Presenter presenter;
+	
+	@Inject
+	AlertDialog alertDialog;
 
 	public SdmxMappingStepViewImpl() {
 		mappingPanel = new MappingPanel<UISdmxElement>(PROVIDER, "ELEMENTS");
@@ -140,7 +144,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	}
 
 	public void alert(String message) {
-		AlertDialogImpl.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 
 	@Override

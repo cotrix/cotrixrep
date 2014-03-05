@@ -15,26 +15,26 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class AlertDialogImpl extends PopupPanel implements AlertDialog {
-
-	@Deprecated
-	public static AlertDialog INSTANCE = new AlertDialogImpl(); 
 	
 	protected HTML message;
 	protected HTML details;
 	protected DisclosurePanel detailsPanel;
 
-	private AlertDialogImpl() {
+	public AlertDialogImpl() {
 
 		CommonCss style = CommonResources.INSTANCE.css();
 		setModal(true);
 		setAutoHideEnabled(true);
 		setWidth("330px");
+		setAnimationEnabled(true);
 
 		VerticalPanel content = new VerticalPanel();
 		content.setStyleName(style.errorPanel());
@@ -51,7 +51,7 @@ public class AlertDialogImpl extends PopupPanel implements AlertDialog {
 		
 		detailsPanel = new DisclosurePanel("details");
 		detailsPanel.setWidth("325px");
-		detailsPanel.setAnimationEnabled(true);
+		detailsPanel.setAnimationEnabled(false);
 		
 		detailsPanel.addOpenHandler(new OpenHandler<DisclosurePanel>() {
 			
@@ -68,7 +68,7 @@ public class AlertDialogImpl extends PopupPanel implements AlertDialog {
 				center();
 			}
 		});
-		
+			
 		details = new HTML();
 		ScrollPanel detailsScrollablePanel = new ScrollPanel(details);
 		double maxHeight = Window.getClientHeight()/2 - 100;

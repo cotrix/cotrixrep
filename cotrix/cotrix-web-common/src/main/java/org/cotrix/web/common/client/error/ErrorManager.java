@@ -4,11 +4,12 @@
 package org.cotrix.web.common.client.error;
 
 import org.cotrix.web.common.client.util.Exceptions;
-import org.cotrix.web.common.client.widgets.AlertDialogImpl;
+import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.shared.exception.ServiceException;
 
 import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
 import com.google.gwt.user.client.rpc.InvocationException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 /**
@@ -17,11 +18,14 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class ErrorManager {
+	
+	@Inject
+	AlertDialog alertDialog;
 
 	public void rpcFailure(Throwable throwable) {
 		String details = Exceptions.getPrintStackTrace(throwable);
 		String errorMessage = getErrorMessage(throwable);
-		AlertDialogImpl.INSTANCE.center(errorMessage, details);
+		alertDialog.center(errorMessage, details);
 	}
 	
 	private String getErrorMessage(Throwable throwable) {
