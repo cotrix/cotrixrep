@@ -29,10 +29,10 @@ public class RepositoryDetailsStepViewImpl extends Composite implements Reposito
 	protected static final int ASSET_PROPERTIES_ROW = 3;
 	protected static final int REPOSITORY_PROPERTIES_ROW = 3;
 
-	private static repositoryDetailsUiBinder uiBinder = GWT.create(repositoryDetailsUiBinder.class);
+	private static RepositoryDetailsUiBinder uiBinder = GWT.create(RepositoryDetailsUiBinder.class);
 	
 	@UiTemplate("RepositoryDetailsStep.ui.xml")
-	interface repositoryDetailsUiBinder extends UiBinder<Widget, RepositoryDetailsStepViewImpl> {
+	interface RepositoryDetailsUiBinder extends UiBinder<Widget, RepositoryDetailsStepViewImpl> {
 	}
 
 	@UiField Grid repositoryDetails;
