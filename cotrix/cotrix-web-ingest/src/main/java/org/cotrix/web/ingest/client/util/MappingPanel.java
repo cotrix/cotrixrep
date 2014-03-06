@@ -42,7 +42,8 @@ public class MappingPanel extends ResizeComposite {
 	protected ReloadButtonHandler reloadHandler;
 
 	public MappingPanel(boolean hasTypeDefinition, String attributeMappingLabel) {
-		mappingPanel = new AttributeMappingPanel(hasTypeDefinition);
+		mappingPanel = new AttributeMappingPanel();
+		mappingPanel.setShowTypeDefinition(hasTypeDefinition);
 		initWidget(uiBinder.createAndBindUi(this));
 		this.attributeMappingLabel.setText(attributeMappingLabel);
 	}

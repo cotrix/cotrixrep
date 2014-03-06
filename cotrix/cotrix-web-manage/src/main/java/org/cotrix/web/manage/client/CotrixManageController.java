@@ -1,6 +1,8 @@
 package org.cotrix.web.manage.client;
 
 import org.cotrix.web.common.client.CotrixModule;
+import org.cotrix.web.common.client.CotrixModuleController;
+import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
@@ -17,15 +19,18 @@ import org.cotrix.web.manage.shared.CodelistGroup;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CotrixManagerAppControllerImpl implements CotrixManagerAppController {
+@Singleton
+public class CotrixManageController implements Presenter, ValueChangeHandler<String>, CotrixModuleController {
 	
 	@Inject
 	protected ManagerServiceAsync service;
@@ -36,12 +41,11 @@ public class CotrixManagerAppControllerImpl implements CotrixManagerAppControlle
 	private CodelistManagerPresenter codeListManagerPresenter;
 	
 	@Inject
-	public CotrixManagerAppControllerImpl(@CotrixBus EventBus cotrixBus, @ManagerBus EventBus managerBus, CodelistManagerPresenter codeListManagerPresenter) {
+	public CotrixManageController(@CotrixBus EventBus cotrixBus, @ManagerBus EventBus managerBus, CodelistManagerPresenter codeListManagerPresenter) {
 		this.codeListManagerPresenter = codeListManagerPresenter;
 		this.cotrixBus = cotrixBus;
 		this.managerBus = managerBus;
 		
-		CotrixManagerResources.INSTANCE.css().ensureInjected();
 		this.cotrixBus.addHandler(CodeListImportedEvent.TYPE, new CodeListImportedEvent.CodeListImportedHandler() {
 			
 			@Override
@@ -55,6 +59,11 @@ public class CotrixManagerAppControllerImpl implements CotrixManagerAppControlle
 			public void onCreateNewVersion(CreateNewVersionEvent event) {
 				createNewVersion(event.getCodelistId(), event.getNewVersion());
 			}});
+	}
+	
+	@Inject
+	private void setupCss(CotrixManagerResources resources) {
+		resources.css().ensureInjected();
 	}
 	
 	public void go(HasWidgets container) {

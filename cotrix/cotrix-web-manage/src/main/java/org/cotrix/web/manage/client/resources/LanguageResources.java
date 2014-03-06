@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class LanguageResources {
 	
 	private static Map<String, ImageResource> images = new HashMap<String, ImageResource>();

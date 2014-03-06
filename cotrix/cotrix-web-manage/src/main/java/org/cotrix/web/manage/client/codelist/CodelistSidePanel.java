@@ -16,7 +16,7 @@
 package org.cotrix.web.manage.client.codelist;
 
 import org.cotrix.web.common.client.widgets.ToggleButtonGroup;
-import org.cotrix.web.manage.client.CotrixManagerAppGinInjector;
+import org.cotrix.web.manage.client.CotrixManageGinInjector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -66,13 +66,13 @@ public class CodelistSidePanel extends ResizeComposite {
 	@UiFactory
 	protected CodelistAttributesPanel createCodeListAttributesPanel()
 	{
-		return CotrixManagerAppGinInjector.INSTANCE.getCodeListAttributesPanel();
+		return CotrixManageGinInjector.INSTANCE.getCodeListAttributesPanel();
 	}
 	
 	@UiFactory
 	protected CodelistMetadataPanel createCodeListMetadataPanel()
 	{
-		return CotrixManagerAppGinInjector.INSTANCE.getCodeListMetadataPanel();
+		return CotrixManageGinInjector.INSTANCE.getCodeListMetadataPanel();
 	}
 	
 	@UiHandler("attributesButton")

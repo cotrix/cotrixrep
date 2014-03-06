@@ -19,13 +19,13 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@GinModules({CotrixManagerAppGinModule.class, CommonGinModule.class})
-public interface CotrixManagerAppGinInjector extends Ginjector {
+@GinModules({CotrixManageGinModule.class, CommonGinModule.class})
+public interface CotrixManageGinInjector extends Ginjector {
 
-	public static CotrixManagerAppGinInjector INSTANCE = GWT.create(CotrixManagerAppGinInjector.class);
+	public static CotrixManageGinInjector INSTANCE = GWT.create(CotrixManageGinInjector.class);
 
 	public ManagerServiceAsync getRpcService();
-	public CotrixManagerAppController getController();
+	public CotrixManageController getController();
 	public CodelistsPresenter getCodeListPresenter();
 	public CodelistManagerPresenter getCodeListManagerPresenter();
 	

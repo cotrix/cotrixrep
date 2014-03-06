@@ -29,11 +29,13 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CodelistsViewImpl extends ResizeComposite implements CodelistsView {
 
 	private static CodeListsViewUiBinder uiBinder = GWT.create(CodeListsViewUiBinder.class);
