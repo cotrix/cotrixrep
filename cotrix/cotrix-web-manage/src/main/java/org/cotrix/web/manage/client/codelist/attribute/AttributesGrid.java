@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.cotrix.web.manage.client.codelist;
+package org.cotrix.web.manage.client.codelist.attribute;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,10 +31,8 @@ import org.cotrix.web.common.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.client.widgets.StyledSafeHtmlRenderer;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
-import org.cotrix.web.manage.client.codelist.attribute.AttributeField;
-import org.cotrix.web.manage.client.codelist.event.AttributeChangedEvent;
-import org.cotrix.web.manage.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
-import org.cotrix.web.manage.client.codelist.event.AttributeChangedEvent.HasAttributeChangedHandlers;
+import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent.AttributeChangedHandler;
+import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent.HasAttributeChangedHandlers;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
 
@@ -238,7 +236,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		return column;
 	}
 
-	protected void refreshAttribute(UIAttribute attribute)
+	public void refreshAttribute(UIAttribute attribute)
 	{
 		Log.trace("refreshAttribute attribute: "+attribute);
 		List<UIAttribute> attributes = dataProvider.getList();
