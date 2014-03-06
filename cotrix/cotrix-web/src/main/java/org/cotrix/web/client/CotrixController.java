@@ -5,13 +5,13 @@ import java.util.EnumMap;
 import org.cotrix.web.client.event.CotrixStartupEvent;
 import org.cotrix.web.client.presenter.CotrixWebPresenter;
 import org.cotrix.web.client.presenter.HomeController;
-import org.cotrix.web.client.presenter.UserBarPresenter;
 import org.cotrix.web.common.client.CotrixModule;
 import org.cotrix.web.common.client.CotrixModuleController;
+import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.ingest.client.CotrixImportAppGinInjector;
+import org.cotrix.web.ingest.client.CotrixIngestGinInjector;
 import org.cotrix.web.manage.client.CotrixManagerAppGinInjector;
 import org.cotrix.web.menu.client.presenter.CotrixMenuGinInjector;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
@@ -22,42 +22,40 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class AppControllerImpl implements AppController {
+@Singleton
+public class CotrixController implements Presenter {
 	
 	protected EventBus cotrixBus;
 	protected CotrixWebPresenter cotrixWebPresenter;
+	
 	protected EnumMap<CotrixModule, CotrixModuleController> controllers = new EnumMap<CotrixModule, CotrixModuleController>(CotrixModule.class);
 	protected CotrixModuleController currentController;
 	
 	protected Timer statisticsUpdater;
 	
 	@Inject
-	public AppControllerImpl(@CotrixBus EventBus cotrixBus, CotrixWebPresenter cotrixWebPresenter) {
-		this.cotrixBus = cotrixBus;
+	public CotrixController(@CotrixBus EventBus cotrixBus, CotrixWebPresenter cotrixWebPresenter, HomeController home) {
 		this.cotrixWebPresenter = cotrixWebPresenter;
-		
-		bind();
+		this.cotrixBus = cotrixBus;
 		
 		CommonResources.INSTANCE.css().ensureInjected();
 		
 		initMenu();
 		
-		initUserBar();
-		
-		HomeController home = AppGinInjector.INSTANCE.getHomeController();
 		addModule(home);
 		
 		/*GWT.runAsync(new RunAsyncCallback() {
 			
 			@Override
 			public void onSuccess() {*/
-				CotrixImportAppGinInjector importInjector = CotrixImportAppGinInjector.INSTANCE;
+				CotrixIngestGinInjector importInjector = CotrixIngestGinInjector.INSTANCE;
 				addModule(importInjector.getController());
 			/*}
 			
@@ -115,6 +113,7 @@ public class AppControllerImpl implements AppController {
 		cotrixBus.fireEvent(new CotrixStartupEvent());
 	}
 	
+	@Inject
 	protected void bind()
 	{
 		cotrixBus.addHandler(SwitchToModuleEvent.TYPE, new SwitchToModuleEvent.SwitchToModuleHandler() {
@@ -131,12 +130,6 @@ public class AppControllerImpl implements AppController {
 		CotrixMenuGinInjector menuInjector = CotrixMenuGinInjector.INSTANCE;
 		MenuPresenter menuPresenter = menuInjector.getMenuPresenter();
 		cotrixWebPresenter.setMenu(menuPresenter);
-	}
-	
-	protected void initUserBar()
-	{
-		UserBarPresenter presenter = AppGinInjector.INSTANCE.getPresenter();
-		cotrixWebPresenter.setUserBar(presenter);
 	}
 	
 	protected void addModule(CotrixModuleController controller)

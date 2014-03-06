@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@ImplementedBy(UserBarView.class)
+@ImplementedBy(UserBarViewImpl.class)
 public interface UserBarView {
 	
 	public interface Presenter {
