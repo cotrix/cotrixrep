@@ -15,10 +15,10 @@ import org.cotrix.web.ingest.client.wizard.ImportWizardView;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@GinModules({CotrixImportAppGinModule.class, CommonGinModule.class})
-public interface CotrixImportAppGinInjector extends Ginjector {
+@GinModules({CotrixIngestGinModule.class, CommonGinModule.class})
+public interface CotrixIngestGinInjector extends Ginjector {
 	
-	public static CotrixImportAppGinInjector INSTANCE = GWT.create(CotrixImportAppGinInjector.class);
+	public static CotrixIngestGinInjector INSTANCE = GWT.create(CotrixIngestGinInjector.class);
 	
     public ImportServiceAsync getRpcService();
     

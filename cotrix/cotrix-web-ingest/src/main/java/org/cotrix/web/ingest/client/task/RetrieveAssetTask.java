@@ -6,7 +6,6 @@ package org.cotrix.web.ingest.client.task;
 import org.cotrix.web.ingest.client.event.AssetRetrievedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.RetrieveAssetEvent;
-import org.cotrix.web.ingest.client.event.AssetRetrievedEvent.AssetRetrievedHandler;
 import org.cotrix.web.ingest.client.wizard.ImportWizardAction;
 import org.cotrix.web.wizard.client.WizardAction;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
@@ -15,28 +14,30 @@ import org.cotrix.web.wizard.client.step.TaskWizardStep;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler, AssetRetrievedHandler  {
+@Singleton
+public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
+	
+	protected static interface RetrieveAssetTaskEventBinder extends EventBinder<RetrieveAssetTask> {}
 	
 	protected EventBus importEventBus;
 	protected AsyncCallback<WizardAction> callback;
 	protected boolean assetRetrieved;
 	
 	@Inject
-	public RetrieveAssetTask(@ImportBus EventBus importEventBus)
+	protected void bind(RetrieveAssetTaskEventBinder binder, @ImportBus EventBus importEventBus)
 	{
+		binder.bindEventHandlers(this, importEventBus);
+		
 		this.importEventBus = importEventBus;
-		bind();
-	}
-	
-	protected void bind()
-	{
-		importEventBus.addHandler(AssetRetrievedEvent.TYPE, this);
 		importEventBus.addHandler(ResetWizardEvent.TYPE, this);
 	}
 
@@ -62,8 +63,8 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler, As
 		assetRetrieved = false;
 	}
 
-	@Override
-	public void onAssetRetrieved(AssetRetrievedEvent event) {
+	@EventHandler
+	void onAssetRetrieved(AssetRetrievedEvent event) {
 		assetRetrieved = true;
 		callback.onSuccess(ImportWizardAction.NEXT);
 	}

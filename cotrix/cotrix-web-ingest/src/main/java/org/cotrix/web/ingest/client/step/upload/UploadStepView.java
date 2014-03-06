@@ -5,11 +5,13 @@ import org.vectomatic.file.FileList;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.inject.ImplementedBy;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@ImplementedBy(UploadStepViewImpl.class)
 public interface UploadStepView {
 
 	public interface Presenter {

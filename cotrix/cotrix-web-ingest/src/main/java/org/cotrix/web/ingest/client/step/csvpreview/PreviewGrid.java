@@ -20,11 +20,15 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.ImplementedBy;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class PreviewGrid extends ResizeComposite {
 	
 	protected static final int HEADER_ROW = 0;
@@ -35,17 +39,18 @@ public class PreviewGrid extends ResizeComposite {
 	
 	protected List<TextBox> headerFields = new ArrayList<TextBox>();
 	
+	@Inject
 	protected DataProvider dataProvider;
 	
-	public PreviewGrid(){}
+	@Inject
+	Resources resources;
 	
-	public PreviewGrid(DataProvider dataProvider)
+	@Inject
+	public PreviewGrid(Resources resources)
 	{
-		this.dataProvider = dataProvider;
-		
 		scroll = new ScrollPanel();
 		grid = new FlexTable();
-		grid.setStyleName(Resources.INSTANCE.css().preview());
+		grid.setStyleName(resources.css().preview());
 		scroll.setWidget(grid);
 		
 		setupLoadingContainer();
@@ -117,7 +122,7 @@ public class PreviewGrid extends ResizeComposite {
 			}
 			
 			grid.setWidget(HEADER_ROW, i, header);
-			grid.getCellFormatter().setStyleName(HEADER_ROW, i, Resources.INSTANCE.css().previewHeader());
+			grid.getCellFormatter().setStyleName(HEADER_ROW, i, resources.css().previewHeader());
 		}
 	}
 	
@@ -132,7 +137,7 @@ public class PreviewGrid extends ResizeComposite {
 		for (int i = 0; i < row.size(); i++) {
 			String cell = row.get(i);
 			grid.setWidget(rowIndex, i, new HTML(cell));
-			grid.getCellFormatter().setStyleName(rowIndex, i, Resources.INSTANCE.css().previewCell());
+			grid.getCellFormatter().setStyleName(rowIndex, i, resources.css().previewCell());
 		}
 	}
 
@@ -143,6 +148,7 @@ public class PreviewGrid extends ResizeComposite {
 	}
 	
 	
+	@ImplementedBy(PreviewDataProvider.class)
 	public interface DataProvider {
 
 		public class PreviewData implements IsSerializable {

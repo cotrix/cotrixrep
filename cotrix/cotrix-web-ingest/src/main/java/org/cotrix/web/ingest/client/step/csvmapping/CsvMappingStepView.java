@@ -5,10 +5,12 @@ import java.util.List;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.ImplementedBy;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  */
+@ImplementedBy(CsvMappingStepViewImpl.class)
 public interface CsvMappingStepView {
 	
 	public interface Presenter {

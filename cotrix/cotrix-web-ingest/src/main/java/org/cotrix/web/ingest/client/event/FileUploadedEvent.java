@@ -2,21 +2,14 @@ package org.cotrix.web.ingest.client.event;
 
 import org.cotrix.web.ingest.shared.CodeListType;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.EventHandler;
+import com.google.web.bindery.event.shared.binder.GenericEvent;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class FileUploadedEvent extends GwtEvent<FileUploadedEvent.FileUploadedHandler> {
+public class FileUploadedEvent extends GenericEvent {
 
-	public static Type<FileUploadedHandler> TYPE = new Type<FileUploadedHandler>();
-
-	public interface FileUploadedHandler extends EventHandler {
-		void onFileUploaded(FileUploadedEvent event);
-	}
-	
 	protected String fileName;
 	protected CodeListType codeListType;
 
@@ -37,19 +30,5 @@ public class FileUploadedEvent extends GwtEvent<FileUploadedEvent.FileUploadedHa
 	 */
 	public CodeListType getCodeListType() {
 		return codeListType;
-	}
-
-	@Override
-	protected void dispatch(FileUploadedHandler handler) {
-		handler.onFileUploaded(this);
-	}
-
-	@Override
-	public Type<FileUploadedHandler> getAssociatedType() {
-		return TYPE;
-	}
-
-	public static Type<FileUploadedHandler> getType() {
-		return TYPE;
 	}
 }

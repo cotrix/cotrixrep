@@ -18,12 +18,14 @@ import org.cotrix.web.wizard.client.step.WizardStep;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class DetailsNodeSelector extends AbstractNodeSelector<WizardStep> implements ResetWizardHandler, ValueChangeHandler<WizardStep> {
 	
 	protected WizardStep nextStep;

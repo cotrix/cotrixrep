@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.SourceTypeChangeEvent;
-import org.cotrix.web.ingest.client.event.SourceTypeChangeEvent.SourceTypeChangeHandler;
 import org.cotrix.web.ingest.client.step.selection.SelectionStepPresenter;
 import org.cotrix.web.ingest.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
@@ -18,14 +17,20 @@ import org.cotrix.web.wizard.client.step.WizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> implements SourceTypeChangeHandler, ResetWizardHandler {
+@Singleton
+public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> implements  ResetWizardHandler {
 	
+	protected static interface SourceNodeSelectorEventBinder extends EventBinder<SourceNodeSelector> {}
+
 	protected SelectionStepPresenter channelStep;
 	protected UploadStepPresenter uploadStep;
 	protected WizardStep nextStep;
@@ -36,10 +41,13 @@ public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> impleme
 		this.channelStep = channelStep;
 		this.uploadStep = uploadStep;
 		this.nextStep = uploadStep;
-		importBus.addHandler(SourceTypeChangeEvent.TYPE, this);
 		importBus.addHandler(ResetWizardEvent.TYPE, this);
 	}
 	
+	@Inject
+	private void bind(SourceNodeSelectorEventBinder binder, @ImportBus EventBus importEventBus) {
+		binder.bindEventHandlers(this, importEventBus);
+	}
 
 	/** 
 	 * {@inheritDoc}
@@ -55,8 +63,8 @@ public class SourceNodeSelector extends AbstractNodeSelector<WizardStep> impleme
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
-	public void onSourceTypeChange(SourceTypeChangeEvent event) {
+	@EventHandler
+	void onSourceTypeChange(SourceTypeChangeEvent event) {
 		Log.trace("switching source to "+event.getSourceType());
 		switch (event.getSourceType()) {
 			case CHANNEL:nextStep = channelStep; break;
