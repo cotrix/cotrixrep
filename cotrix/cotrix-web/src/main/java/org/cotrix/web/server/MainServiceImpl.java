@@ -27,6 +27,7 @@ import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.security.InvalidCredentialsException;
+import org.cotrix.security.InvalidUsernameException;
 import org.cotrix.security.LoginRequest;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.SignupService;
@@ -226,13 +227,14 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			return doLogin(LOGIN, new UsernamePasswordToken(username, password), openCodelists);
 		} catch(Exception exception) {
 			logger.error("failed login for user "+username, exception);
-
+			
 			InvalidCredentialsException unknownUserException = ExceptionUtils.unfoldException(exception, InvalidCredentialsException.class);
-			if (unknownUserException!=null) {
-				throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
-			} else {
-				throw new ServiceException(exception.getMessage());
-			}
+			if (unknownUserException!=null) throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
+
+			InvalidUsernameException invalidUsernameException = ExceptionUtils.unfoldException(exception, InvalidUsernameException.class);
+			if (invalidUsernameException!=null) throw new org.cotrix.web.shared.InvalidUsernameException(invalidUsernameException.getMessage());
+
+			throw new ServiceException(exception.getMessage());
 		}
 	}
 

@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
+import org.cotrix.security.InvalidUsernameException;
 import org.cotrix.security.LoginRequest;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.SignupService;
@@ -99,7 +100,7 @@ public class LoginTest extends ApplicationTest {
 		
 	}
 
-	@Test(expected=IllegalStateException.class)
+	@Test(expected=InvalidUsernameException.class)
 	public void identitiesAreUnique() throws Exception {
 		
 		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();

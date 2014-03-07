@@ -30,7 +30,7 @@ import org.mockito.MockitoAnnotations;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class TestUserLogin extends ApplicationTest {
+public class TestUserAuth extends ApplicationTest {
 	
 	@Mock @Provide
 	UserBarView userBarView;
@@ -111,6 +111,24 @@ public class TestUserLogin extends ApplicationTest {
 		
 		//User is registered and logged
 		verify(userBarView).setUsername(username);
+	}
+	
+	@Test
+	public void testSignupFail() throws IllegalActionException, ServiceException {
+		
+		String username = testUserProvider.getUser().name();
+		
+		//User clicks sign-up
+		presenter.onRegister();
+		
+		//Register dialog appears
+		verify(registerDialog).showCentered();
+
+		//User fills register form and he submits it
+		presenter.onRegister(username, "newPassword", "email@test.te");
+		
+		//Alert dialog is shown
+		verify(alertDialog).center(Mockito.anyString(), Mockito.anyString());
 	}
 
 }

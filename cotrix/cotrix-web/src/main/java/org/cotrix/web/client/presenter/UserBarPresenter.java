@@ -9,6 +9,7 @@ import org.cotrix.web.client.event.UserLoginFailedEvent;
 import org.cotrix.web.client.event.UserLogoutEvent;
 import org.cotrix.web.client.event.UserRegisterEvent;
 import org.cotrix.web.client.event.UserRegisteringEvent;
+import org.cotrix.web.client.event.UserRegistrationFailedEvent;
 import org.cotrix.web.client.view.LoginDialog;
 import org.cotrix.web.client.view.LoginDialog.LoginDialogListener;
 import org.cotrix.web.client.view.RegisterDialog;
@@ -101,6 +102,16 @@ public class UserBarPresenter implements Presenter, LoginDialogListener, Registe
 			public void onUserLoginFailed(UserLoginFailedEvent event) {
 				view.setUserLoading(false);
 				alertDialog.center("Unknown user please check your credentials and re-try.", event.getDetails());
+			}
+		});
+		
+		cotrixBus.addHandler(UserRegistrationFailedEvent.TYPE, new UserRegistrationFailedEvent.UserRegistrationFailedEventHandler() {
+
+			@Override
+			public void onUserRegistrationFailed(UserRegistrationFailedEvent event) {
+				view.setUserLoading(false);
+				//TODO better message
+				alertDialog.center("Registration failed please check the registration details.", event.getDetails());
 			}
 		});
 	}

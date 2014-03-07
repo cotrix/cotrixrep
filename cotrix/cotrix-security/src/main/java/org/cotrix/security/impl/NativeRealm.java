@@ -5,6 +5,7 @@ import static org.cotrix.common.Utils.*;
 import javax.enterprise.context.ApplicationScoped;
 
 import org.cotrix.security.InvalidCredentialsException;
+import org.cotrix.security.InvalidUsernameException;
 import org.cotrix.security.Realm;
 import org.cotrix.security.tokens.NameAndPassword;
 import org.jasypt.util.password.BasicPasswordEncryptor;
@@ -55,7 +56,7 @@ public abstract class NativeRealm implements Realm {
 	public void add(String name, String pwd) {
 		
 		if (passwordFor(name)!=null)
-			throw new IllegalStateException("a user '"+name+"' has already signed up");
+			throw new InvalidUsernameException(name);
 		
 		create(name,encrypt(pwd));
 	}

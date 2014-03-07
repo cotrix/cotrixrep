@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.ImplementedBy;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -146,9 +145,7 @@ public class PreviewGrid extends ResizeComposite {
 		for (TextBox headerField:headerFields) headers.add(headerField.getText());
 		return headers;
 	}
-	
-	
-	@ImplementedBy(PreviewDataProvider.class)
+		
 	public interface DataProvider {
 
 		public class PreviewData implements IsSerializable {
