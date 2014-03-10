@@ -41,7 +41,10 @@ public class PasswordUpdateDialog extends PopupPanel {
 	Style style;
 	
 	@UiField
-	PasswordTextBox password;
+	PasswordTextBox oldpassword;
+	
+	@UiField
+	PasswordTextBox newpassword;
 
 	@Inject
 	protected void init(Binder binder) {
@@ -49,7 +52,7 @@ public class PasswordUpdateDialog extends PopupPanel {
 		setAutoHideEnabled(true);
 	}
 	
-	@UiHandler({"password"})
+	@UiHandler({"oldpassword","newpassword"})
 	protected void onKeyDown(KeyDownEvent event)
 	{
 		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
@@ -61,7 +64,7 @@ public class PasswordUpdateDialog extends PopupPanel {
 		 }
 	}
 	
-	@UiHandler("create")
+	@UiHandler("update")
 	protected void onUpdate(ClickEvent clickEvent)
 	{
 		doUpdate();
@@ -70,7 +73,7 @@ public class PasswordUpdateDialog extends PopupPanel {
 	protected void doUpdate() {
 		boolean valid = validate();
 		if (valid) {
-			fireEvent(new PassworUpdatedEvent(password.getText()));
+			fireEvent(new PasswordUpdatedEvent(oldpassword.getText(), newpassword.getText()));
 			hide();
 		}
 	}
@@ -78,8 +81,8 @@ public class PasswordUpdateDialog extends PopupPanel {
 	protected boolean validate()
 	{
 		boolean valid = true;
-		if (!AccountValidator.validatePassword(password.getText())) {
-			password.setStyleName(style.invalidValue(), true);
+		if (!AccountValidator.validatePassword(newpassword.getText())) {
+			newpassword.setStyleName(style.invalidValue(), true);
 			valid = false;
 		}
 		
@@ -96,42 +99,52 @@ public class PasswordUpdateDialog extends PopupPanel {
 
 		    @Override
 		    public void execute() {
-		        password.setFocus(true);
+		        oldpassword.setFocus(true);
 		    }
 		});
 	}
 	
 
 	public void clean() {
-		password.setText("");
+		oldpassword.setText("");
+		newpassword.setText("");
 	}
 	
 	public HandlerRegistration addPasswordUpdateHandler(PasswordUpdatedHandler handler)
 	{
-		return addHandler(handler, PassworUpdatedEvent.getType());
+		return addHandler(handler, PasswordUpdatedEvent.getType());
 	}
 	
 	public interface PasswordUpdatedHandler extends EventHandler {
-		void onAddUser(PassworUpdatedEvent event);
+		void onAddUser(PasswordUpdatedEvent event);
 	}
 
-	public static class PassworUpdatedEvent extends GwtEvent<PasswordUpdatedHandler> {
+	public static class PasswordUpdatedEvent extends GwtEvent<PasswordUpdatedHandler> {
 
 		public static Type<PasswordUpdatedHandler> TYPE = new Type<PasswordUpdatedHandler>();
 		
-		protected String password;
+		protected String oldPassword;
+		protected String newPassword;
+		
 
-		public PassworUpdatedEvent(String password) {
-			this.password = password;
+		public PasswordUpdatedEvent(String oldPassword, String newPassword) {
+			this.oldPassword = oldPassword;
+			this.newPassword = newPassword;
 		}
 
 		/**
-		 * @return the password
+		 * @return the oldPassword
 		 */
-		public String getPassword() {
-			return password;
+		public String getOldPassword() {
+			return oldPassword;
 		}
 
+		/**
+		 * @return the newPassword
+		 */
+		public String getNewPassword() {
+			return newPassword;
+		}
 
 		@Override
 		protected void dispatch(PasswordUpdatedHandler handler) {

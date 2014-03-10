@@ -18,6 +18,7 @@ import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.web.common.shared.exception.IllegalActionException;
+import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.common.shared.feature.Identified;
 import org.slf4j.Logger;
@@ -90,8 +91,9 @@ public class TaskInterceptor {
 			return output;
 		} catch(IllegalAccessError e) {
 			throw new IllegalActionException(e.getMessage());
+		} catch (Throwable e) {
+			throw new ServiceException(e.getMessage());
 		}
-
 	}
 
 	protected String getIdentifier(Annotation[][] parametersAnnotations, Object[] parameters) {

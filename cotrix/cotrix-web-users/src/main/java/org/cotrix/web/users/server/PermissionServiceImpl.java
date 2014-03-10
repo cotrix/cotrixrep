@@ -35,6 +35,7 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.UserQueries;
 import org.cotrix.repository.UserRepository;
+import org.cotrix.security.SignupService;
 import org.cotrix.web.common.server.CotrixRemoteServlet;
 import org.cotrix.web.common.server.task.ActionMapper;
 import org.cotrix.web.common.server.task.ContainsTask;
@@ -93,6 +94,9 @@ public class PermissionServiceImpl implements PermissionService {
 
 	@Inject
 	protected PermissionDelegationService delegationService;
+	
+	@Inject
+	protected SignupService signupService;
 
 	@Current
 	@Inject
@@ -308,9 +312,10 @@ public class PermissionServiceImpl implements PermissionService {
 
 	@Override
 	@UserTask(UserAction.EDIT)
-	public void saveUserPassword(@Id String userId, String password) throws ServiceException {
-		logger.trace("saveUserPassword ");
-		//TODO
+	public void updateUserPassword(@Id String userId, String oldPassword, String newPassword) throws ServiceException {
+		logger.trace("updateUserPassword userId: "+userId);
+		User user = userRepository.lookup(userId);
+		signupService.changePassword(user, oldPassword, newPassword);
 	}
 	
 	protected UIUserDetails toUiUserDetails(User user) {

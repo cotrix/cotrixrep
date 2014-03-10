@@ -98,6 +98,7 @@ public class AlertDialogImpl extends PopupPanel implements AlertDialog {
 	@Override
 	public void center(String message) {
 		setMessage(message);
+		detailsPanel.setOpen(false);
 		center();
 	}
 	
@@ -107,6 +108,7 @@ public class AlertDialogImpl extends PopupPanel implements AlertDialog {
 	@Override
 	public void center(String message, String details) {
 		setMessage(message, details);
+		detailsPanel.setOpen(false);
 		center();
 	}
 }
