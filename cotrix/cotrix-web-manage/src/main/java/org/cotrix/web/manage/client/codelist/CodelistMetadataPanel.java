@@ -66,6 +66,9 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	
 	@Inject
 	protected Constants constants;
+	
+	@Inject
+	protected CotrixManagerResources resources;
 
 	@Inject
 	public CodelistMetadataPanel( ) {
@@ -85,7 +88,7 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 
 			@Override
 			public ImageResource getValue(UIAttribute attribute) {
-				return CotrixManagerResources.INSTANCE.bullet();
+				return resources.bullet();
 			}
 		};
 		attributesGrid.insertColumn(0, bulletColumn);

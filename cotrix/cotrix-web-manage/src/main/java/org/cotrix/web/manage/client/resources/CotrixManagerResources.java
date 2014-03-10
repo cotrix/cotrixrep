@@ -52,13 +52,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource filter();
 	public ImageResource filterDisabled();
 	
-	public ImageResource ar();
-	public ImageResource en();
-	public ImageResource es();
-	public ImageResource fr();
-	public ImageResource ru();
-	public ImageResource zh();
-	
 	@Source("thumb_vertical.png")
 	public ImageResource thumbVertical();
 	

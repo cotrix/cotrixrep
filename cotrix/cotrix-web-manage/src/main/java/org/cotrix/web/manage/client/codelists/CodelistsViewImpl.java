@@ -1,8 +1,8 @@
 package org.cotrix.web.manage.client.codelists;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.util.SingleSelectionModel;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider.Filter;
+import org.cotrix.web.common.client.util.SingleSelectionModel;
 import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
@@ -55,7 +55,6 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	CellTree codelists;
 	
 	@UiField ItemToolbar toolbar;
-	
 
 	protected CodelistsDataProvider codeListDataProvider;
 	
