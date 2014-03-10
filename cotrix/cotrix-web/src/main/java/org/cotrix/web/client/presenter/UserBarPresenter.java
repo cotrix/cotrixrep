@@ -31,6 +31,8 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -38,6 +40,8 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 @Singleton
 public class UserBarPresenter implements Presenter, LoginDialogListener, RegisterDialogListener {
+
+	protected static interface UserBarPresenterEventBinder extends EventBinder<UserBarPresenter> {}
 
 	@Inject
 	protected LoginDialog loginDialog;
@@ -56,6 +60,11 @@ public class UserBarPresenter implements Presenter, LoginDialogListener, Registe
 	{
 		this.view = view;
 		view.setPresenter(this);
+	}
+
+	@Inject
+	private void bind(UserBarPresenterEventBinder binder) {
+		binder.bindEventHandlers(this, cotrixBus);
 	}
 
 	@Inject
@@ -79,49 +88,39 @@ public class UserBarPresenter implements Presenter, LoginDialogListener, Registe
 				view.setStatus(status!=null?status:"");
 			}
 		});
-
-		cotrixBus.addHandler(UserLoggingInEvent.TYPE, new UserLoggingInEvent.UserLoggingInEventHandler() {
-
-			@Override
-			public void onUserLoggingIn(UserLoggingInEvent event) {
-				view.setUserLoading(true);
-			}
-		});
-
-		cotrixBus.addHandler(UserRegisteringEvent.TYPE, new UserRegisteringEvent.UserRegisteringEventHandler() {
-
-			@Override
-			public void onUserRegistering(UserRegisteringEvent event) {
-				view.setUserLoading(true);
-			}
-		});
-
-		cotrixBus.addHandler(UserLoginFailedEvent.TYPE, new UserLoginFailedEvent.UserLoginFailedEventHandler() {
-
-			@Override
-			public void onUserLoginFailed(UserLoginFailedEvent event) {
-				view.setUserLoading(false);
-				alertDialog.center("Unknown user please check your credentials and re-try.", event.getDetails());
-			}
-		});
-		
-		cotrixBus.addHandler(UserRegistrationFailedEvent.TYPE, new UserRegistrationFailedEvent.UserRegistrationFailedEventHandler() {
-
-			@Override
-			public void onUserRegistrationFailed(UserRegistrationFailedEvent event) {
-				view.setUserLoading(false);
-				//TODO better message
-				alertDialog.center("Registration failed please check the registration details.", event.getDetails());
-			}
-		});
 	}
+
+	@EventHandler
+	void onUserLoggingIn(UserLoggingInEvent event) {
+		view.setUserLoading(true);
+	}
+
+	@EventHandler
+	void onUserRegistering(UserRegisteringEvent event) {
+		view.setUserLoading(true);
+	}
+
+	@EventHandler
+	void onUserLoginFailed(UserLoginFailedEvent event) {
+		view.setUserLoading(false);
+		alertDialog.center("Unknown user please check your credentials and re-try.", event.getDetails());
+	}
+
+	@EventHandler
+	void onUserRegistrationFailed(UserRegistrationFailedEvent event) {
+		view.setUserLoading(false);
+		//TODO better message
+		alertDialog.center("Registration failed please check the registration details.", event.getDetails());
+	}
+
+
 
 	@Inject
 	private void bindDialogs() {
 		loginDialog.setListener(this);
 		registerDialog.setListener(this);
 	}
-	
+
 	@Override
 	public void onRegister() {
 		showRegisterDialog();
@@ -132,7 +131,7 @@ public class UserBarPresenter implements Presenter, LoginDialogListener, Registe
 		loginDialog.hide();
 		cotrixBus.fireEvent(new UserLoginEvent(username, password));
 	}
-	
+
 	@Override
 	public void onRegister(String username, String password, String email) {
 		registerDialog.hide();

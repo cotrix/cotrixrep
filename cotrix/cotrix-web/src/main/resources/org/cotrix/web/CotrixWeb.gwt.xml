@@ -8,6 +8,7 @@
 
 	<!-- Other module inherits -->
 	<inherits name="com.google.gwt.inject.Inject" />
+	<inherits name='com.google.web.bindery.event.EventBinder'/>
 	<inherits name='org.cotrix.web.menu.CotrixMenu' />
 	<inherits name='org.cotrix.web.ingest.CotrixIngest' />
 	<inherits name='org.cotrix.web.manage.CotrixManage' />

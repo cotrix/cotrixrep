@@ -35,6 +35,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
+import com.google.web.bindery.event.shared.binder.impl.GenericEventType;
 import com.google.web.bindery.event.shared.testing.CountingEventBus;
 
 /**
@@ -105,7 +106,7 @@ public class TestUserBar {
 		
 		listener.onLogin("fakeUsername", "fakePassword");
 
-		assertEquals(bus.getFiredCount(UserLoginEvent.TYPE),1);
+		assertEquals(bus.getFiredCount(GenericEventType.getTypeOf(UserLoginEvent.class)),1);
 	}
 	
 	@Test
@@ -115,14 +116,14 @@ public class TestUserBar {
 		
 		listener.onRegister("fakeUsername", "fakePassword", "fakeEmail");
 
-		assertEquals(bus.getFiredCount(UserRegisterEvent.TYPE),1);
+		assertEquals(bus.getFiredCount(GenericEventType.getTypeOf(UserRegisterEvent.class)),1);
 	}
 	
 	@Test
 	public void testSendUserLogoutEvent() throws IllegalActionException, ServiceException {
 		presenter.onLogoutClick();
 
-		assertEquals(bus.getFiredCount(UserLogoutEvent.TYPE),1);
+		assertEquals(bus.getFiredCount(GenericEventType.getTypeOf(UserLogoutEvent.class)),1);
 	}
 	
 	@Test

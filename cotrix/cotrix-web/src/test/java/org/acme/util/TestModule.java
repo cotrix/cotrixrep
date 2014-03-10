@@ -27,8 +27,11 @@ import org.mockito.stubbing.Answer;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provider;
+import com.google.inject.matcher.Matchers;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.googlecode.jeeunit.cdi.BeanManagerLookup;
 
 /**
@@ -99,6 +102,9 @@ public class TestModule extends AbstractModule {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void configure() {
+		
+		bindListener(Matchers.any(), new EventBinderTypeListener());
+		
 		requestStaticInjection(FeatureBinder.class);
 
 		for (Binding binding:bindings) bind((Class<Object>)binding.type).toInstance(binding.value);
@@ -112,7 +118,14 @@ public class TestModule extends AbstractModule {
 			Object mock = mock(asyncServiceType, new ServiceInterceptor(serviceType));
 			bind((Class<Object>)asyncServiceType).toInstance(mock);
 		}
+		
+		bind(EventBinder.class).toProvider(new Provider<EventBinder>() {
 
+			@Override
+			public EventBinder get() {
+				return mock(EventBinder.class);
+			}
+		});
 	}
 
 	private class Binding {
