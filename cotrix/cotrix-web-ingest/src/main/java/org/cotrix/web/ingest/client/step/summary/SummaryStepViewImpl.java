@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Singleton;
@@ -40,6 +41,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	private static SummaryStepUiBinder uiBinder = GWT.create(SummaryStepUiBinder.class);
 
 	@UiField DockLayoutPanel mainPanel;
+	@UiField ScrollPanel summaryScrollPanel;
 	@UiField Grid panel;
 
 	@UiField Label fileField;
@@ -58,6 +60,9 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	public void setMapping(List<AttributeMapping> mappings)
 	{
 		Log.trace("Setting "+mappings.size()+" mappings");
+		
+		summaryScrollPanel.scrollToTop();
+		summaryScrollPanel.scrollToLeft();
 		
 		customTable.removeAllRows();
 		int row = 0;

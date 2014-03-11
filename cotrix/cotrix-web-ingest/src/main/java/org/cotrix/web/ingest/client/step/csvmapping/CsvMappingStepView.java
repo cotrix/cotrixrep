@@ -32,7 +32,6 @@ public interface CsvMappingStepView {
 	public List<AttributeMapping> getMappings();
 	
 	public void alert(String message);
-
 	
 	Widget asWidget();
 

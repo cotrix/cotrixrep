@@ -97,6 +97,8 @@ public class PreviewGrid extends ResizeComposite {
 	
 	protected void setData(PreviewData data)
 	{
+		scroll.scrollToTop();
+		scroll.scrollToLeft();
 		grid.removeAllRows();
 		setupHeader(data.getHeadersLabels(), data.isHeadersEditable());
 		setRows(data.getRows());

@@ -13,6 +13,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -35,6 +36,9 @@ public class MappingPanel extends ResizeComposite {
 	@UiField TextBox version;
 	@UiField SimpleCheckBox sealed;
 	@UiField InlineLabel attributeMappingLabel;
+	
+	@UiField
+	ScrollPanel scrollMappingPanel;
 	
 	@UiField(provided=true)
 	AttributeMappingPanel mappingPanel;
@@ -103,6 +107,8 @@ public class MappingPanel extends ResizeComposite {
 	public void setMapping(List<AttributeMapping> mapping)
 	{
 		mappingPanel.setMapping(mapping);
+		scrollMappingPanel.scrollToTop();
+		System.out.println("SCROLL POS: "+scrollMappingPanel.getVerticalScrollPosition());
 	}
 
 	public void setCodeTypeError()
