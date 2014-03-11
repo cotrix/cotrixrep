@@ -3,21 +3,22 @@
  */
 package org.cotrix.web.common.server.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cotrix.web.common.server.util.FieldComparator.ValueProvider;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class OrderedList<T> {
+public class OrderedLists<T> {
 	
-	protected Map<String, FieldComparator<T>> comparators = new HashMap<String, FieldComparator<T>>();
+	public interface ValueProvider<E> {
+		public String getValue(E item);
+	}
+	
 	protected Map<String, List<T>> orderedLists = new HashMap<String, List<T>>();
 	protected int size;
 	
@@ -25,8 +26,7 @@ public class OrderedList<T> {
 	{
 		if (size>0) throw new IllegalStateException("You can't add more fields after the first insertion");
 		FieldComparator<T> comparator = new FieldComparator<T>(valueProvider);
-		comparators.put(fieldName, comparator);
-		orderedLists.put(fieldName, new ArrayList<T>());
+		orderedLists.put(fieldName, new SortedList<T>(comparator));
 	}
 	
 	public void add(T item)
@@ -38,7 +38,6 @@ public class OrderedList<T> {
 	public void reset()
 	{
 		clear();
-		comparators.clear();
 		orderedLists.clear();
 	}
 	
@@ -46,15 +45,6 @@ public class OrderedList<T> {
 	{
 		for (List<T> list:orderedLists.values()) list.clear();
 		size = 0;
-	}
-	
-	public void sort()
-	{
-		for (String field:orderedLists.keySet()) {
-			FieldComparator<T> comparator = comparators.get(field);
-			List<T> list = orderedLists.get(field);
-			Collections.sort(list, comparator);
-		}
 	}
 	
 	public int size()
@@ -66,6 +56,30 @@ public class OrderedList<T> {
 	{
 		if (!orderedLists.containsKey(field)) throw new IllegalArgumentException("Unknow field "+field);
 		return orderedLists.get(field);
+	}
+	
+	static class FieldComparator<E> implements Comparator<E> {
+		
+
+		
+		protected ValueProvider<E> valueProvider;
+
+		/**
+		 * @param valueProvider
+		 */
+		public FieldComparator(ValueProvider<E> valueProvider) {
+			this.valueProvider = valueProvider;
+		}
+
+		@Override
+		public int compare(E item1, E item2) {
+			String value1 = valueProvider.getValue(item1);
+			String value2 = valueProvider.getValue(item2);
+			if (value1 == null) return -1;
+			if (value2 == null) return 1;
+			return String.CASE_INSENSITIVE_ORDER.compare(value1, value2);
+		}
+
 	}
 
 }
