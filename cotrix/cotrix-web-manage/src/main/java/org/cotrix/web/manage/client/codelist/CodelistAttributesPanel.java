@@ -34,6 +34,7 @@ import org.cotrix.web.manage.client.codelist.attribute.AttributeFactory;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesGrid;
 import org.cotrix.web.manage.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent.AttributeChangedHandler;
+import org.cotrix.web.manage.client.codelist.attribute.RemoveAttributeController;
 import org.cotrix.web.manage.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.event.GroupSwitchType;
@@ -68,6 +69,7 @@ import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
@@ -122,6 +124,9 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	
 	@Inject
 	private CotrixManagerResources resources;
+	
+	@Inject
+	protected RemoveAttributeController attributeController;
 
 	@Inject
 	public CodelistAttributesPanel() {
@@ -159,7 +164,9 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setVisible(ItemButton.MINUS, active);
+				attributeController.setUserCanEdit(active);
+				//we animate only if the user obtain the edit permission
+				updateRemoveButtonVisibility(active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_CODELIST);
 
@@ -217,6 +224,14 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 				}
 			}
 		});
+		
+		attributesGrid.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				selectedAttributeChanged();
+			}
+		});
 	}
 	
 	@Inject
@@ -247,7 +262,10 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			UIAttribute attribute = group.match(visualizedCode.getAttributes());
 			if (attribute!=null) attributesGrid.refreshAttribute(attribute);
 		}
-
+	}
+	
+	private void updateRemoveButtonVisibility(boolean animate) {
+		toolBar.setVisible(ItemButton.MINUS, attributeController.canRemove(), animate);
 	}
 	
 
@@ -278,10 +296,20 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	{
 		if (visualizedCode!=null && attributesGrid.getSelectedAttribute()!=null) {
 			UIAttribute selectedAttribute = attributesGrid.getSelectedAttribute();
+			if (Attributes.isSystemAttribute(selectedAttribute)) return; 
 			dataProvider.getList().remove(selectedAttribute);
 			dataProvider.refresh();
 			visualizedCode.removeAttribute(selectedAttribute);
 			attributeEditor.removed(new CodeAttribute(visualizedCode, selectedAttribute));
+		}
+	}
+	
+	protected void selectedAttributeChanged()
+	{
+		if (visualizedCode!=null && attributesGrid.getSelectedAttribute()!=null) {
+			UIAttribute selectedAttribute = attributesGrid.getSelectedAttribute();
+			attributeController.setAttributeCanBeRemoved(!Attributes.isSystemAttribute(selectedAttribute));
+			updateRemoveButtonVisibility(false);
 		}
 	}
 

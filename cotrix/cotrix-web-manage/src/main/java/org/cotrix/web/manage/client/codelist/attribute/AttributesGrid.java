@@ -61,6 +61,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConst
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 
@@ -172,6 +173,10 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 	public UIAttribute getSelectedAttribute()
 	{
 		return selectionModel.getSelectedObject();
+	}
+	
+	public void addSelectionChangeHandler(SelectionChangeEvent.Handler handler) {
+		selectionModel.addSelectionChangeHandler(handler);
 	}
 
 	public void setEditable(boolean editable)
