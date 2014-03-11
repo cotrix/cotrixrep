@@ -39,6 +39,14 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-test-common</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.virtualrepository</groupId>
+			<artifactId>virtual-sdmx-registry</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
 
 	</dependencies>
 

@@ -7,4 +7,7 @@
 		<name ns="http://www.i-marine.eu">iMarine Registry</name>
 		<property name="scope" value="/d4science.research-infrastructures.eu/gCubeApps"/>
 	</gcube>
+	<generic>
+		<address>http://hqldvtcdrsdmx1.hq.un.fao.org:18080/FusionRegistry/ws/rest/</address>
+	</generic>
 </registries>
