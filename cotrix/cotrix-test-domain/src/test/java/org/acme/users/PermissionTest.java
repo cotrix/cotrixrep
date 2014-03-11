@@ -51,6 +51,6 @@ public class PermissionTest extends DomainTest {
 	//helpers
 	
 	private UserGrammar.ThirdClause bill() {
-		return user().name("bill").email("bill@me.com").fullName("bill");
+		return user().name("bill").fullName("bill").email("bill@me.com");
 	}
 }

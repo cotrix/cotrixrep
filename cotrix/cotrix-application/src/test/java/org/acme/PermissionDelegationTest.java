@@ -40,7 +40,7 @@ public class PermissionDelegationTest extends ApplicationTest {
 		
 		policy = mock(DelegationPolicy.class);
 		
-		User current = user().name("current").email("current@me.com").build();
+		User current = user().name("current").fullName("current").email("current@me.com").build();
 		
 		//we would not want to test the impl, but using cdi to use configured alternative has its own issues
 		//also, we're not expecting yet multiple implementations for this service 
@@ -77,7 +77,7 @@ public class PermissionDelegationTest extends ApplicationTest {
 	@Test(expected=IllegalStateException.class)
 	public void doesNotRevokeNotExistentPermission() {
 		
-		User bill = user().name("bill").noMail().fullName("bill").build();
+		User bill = user().name("bill").fullName("bill").noMail().build();
 		
 		repository.add(bill);
 		
@@ -148,7 +148,7 @@ public class PermissionDelegationTest extends ApplicationTest {
 	@Test
 	public void persistsRevocation() {
 		
-		User bill = user().name("bill").email("bill@me.com").fullName("bill").can(doit).build();
+		User bill = user().name("bill").fullName("bill").email("bill@me.com").can(doit).build();
 		
 		repository.add(bill);
 		
@@ -212,7 +212,7 @@ public class PermissionDelegationTest extends ApplicationTest {
 	//helper
 	private User bill() {
 		
-		User bill = user().name("bill").email("bill@me.com").fullName("bill").build();
+		User bill = user().name("bill").fullName("bill").email("bill@me.com").build();
 		
 		repository.add(bill);
 		
@@ -221,7 +221,7 @@ public class PermissionDelegationTest extends ApplicationTest {
 	
 	private User billCan(Action ...actions) {
 		
-		User bill = user().name("bill").email("bill@me.com").fullName("bill").can(actions).build();
+		User bill = user().name("bill").fullName("bill").email("bill@me.com").can(actions).build();
 		
 		repository.add(bill);
 		
@@ -230,7 +230,7 @@ public class PermissionDelegationTest extends ApplicationTest {
 	
 	private User billIs(Role ...roles) {
 		
-		User bill = user().name("bill").email("bill@me.com").fullName("bill").is(roles).build();
+		User bill = user().name("bill").fullName("bill").email("bill@me.com").is(roles).build();
 		
 		repository.add(bill);
 		
@@ -238,7 +238,7 @@ public class PermissionDelegationTest extends ApplicationTest {
 	}
 	
 	private Role aRole() {
-		return user().name("role").noMail().buildAsRoleFor(application);
+		return user().name("role").fullName("role").noMail().buildAsRoleFor(application);
 	}
 	
 

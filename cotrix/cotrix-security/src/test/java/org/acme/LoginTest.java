@@ -61,7 +61,7 @@ public class LoginTest extends ApplicationTest {
 	@Test
 	public void signUpAndLogin() throws Exception {
 		
-		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
+		User user = user().name("fifi").fullName("fifi").email("fifi@me.com").build();
 		
 		signupService.signup(user,"any");
 		
@@ -82,7 +82,7 @@ public class LoginTest extends ApplicationTest {
 	@Test
 	public void changePwd() throws Exception {
 		
-		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
+		User user = user().name("fifi").fullName("fifi").email("fifi@me.com").build();
 		
 		signupService.signup(user,"old");
 		
@@ -102,11 +102,11 @@ public class LoginTest extends ApplicationTest {
 	@Test(expected=IllegalStateException.class)
 	public void identitiesAreUnique() throws Exception {
 		
-		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
+		User user = user().name("fifi").fullName("fifi").email("fifi@me.com").build();
 		
 		signupService.signup(user,"any");
 		
-		User homonymous = user().name("fifi").email("fifi@clone.com").fullName("fi").build();
+		User homonymous = user().name("fifi").fullName("fifi").email("fifi@clone.com").build();
 		
 		signupService.signup(homonymous,"any");
 	}

@@ -24,8 +24,8 @@ public class RoleTest extends DomainTest {
 	@Test
 	public void assignTemplateRole() {
 
-		Role something = aRole("r1").buildAsRoleFor(application);
-		Role somethingElse = aRole("r2").buildAsRoleFor(application);
+		Role something = role("r1").buildAsRoleFor(application);
+		Role somethingElse = role("r2").buildAsRoleFor(application);
 	
 		User bill = like(bill().is(something,somethingElse).build());
 		
@@ -40,8 +40,8 @@ public class RoleTest extends DomainTest {
 	@Test
 	public void revokeTemplateRole() {
 
-		Role something = aRole("r1").can(doit).buildAsRoleFor(application);
-		Role somethingElse = aRole("r2").can(dothat).buildAsRoleFor(application);
+		Role something = role("r1").can(doit).buildAsRoleFor(application);
+		Role somethingElse = role("r2").can(dothat).buildAsRoleFor(application);
 	
 		User bill = like(bill().is(something,somethingElse).build());
 		
@@ -150,9 +150,9 @@ public class RoleTest extends DomainTest {
 	@Test
 	public void rolesCompose() {
 
-		Role small = aRole("r1").can(doit).buildAsRoleFor(application);
-		Role larger = aRole("r2").can(dothat).is(small).buildAsRoleFor(application);
-		Role largerStill = aRole("r3").can(dothatToo).is(larger).buildAsRoleFor(application);
+		Role small = role("r1").can(doit).buildAsRoleFor(application);
+		Role larger = role("r2").can(dothat).is(small).buildAsRoleFor(application);
+		Role largerStill = role("r3").can(dothatToo).is(larger).buildAsRoleFor(application);
 	
 		User bill = like(bill().is(largerStill).build());
 		
@@ -178,8 +178,8 @@ public class RoleTest extends DomainTest {
 	public void smallerRolesAreNotAdded() {
 		
 		
-		Role something = aRole("r1").can(doit).buildAsRoleFor(application);
-		Role somethingElse = aRole("r2").can(dothat).is(something).buildAsRoleFor(application);
+		Role something = role("r1").can(doit).buildAsRoleFor(application);
+		Role somethingElse = role("r2").can(dothat).is(something).buildAsRoleFor(application);
 		
 		User bill = like(bill().is(somethingElse).build());
 		
@@ -196,13 +196,13 @@ public class RoleTest extends DomainTest {
 	@Test
 	public void largerRolesReplaceSmallerOnes() {
 
-		Role small = aRole("r1").can(doit).buildAsRoleFor(application);
-		Role large = aRole("r2").can(dothat).is(small).buildAsRoleFor(application);
+		Role small = role("r1").can(doit).buildAsRoleFor(application);
+		Role large = role("r2").can(dothat).is(small).buildAsRoleFor(application);
 		
 		
 		User bill = like(bill().is(large).build());
 		
-		Role largerStill = aRole("r3").can(dothatToo).is(large).buildAsRoleFor(application);
+		Role largerStill = role("r3").can(dothatToo).is(large).buildAsRoleFor(application);
 		
 		User changeset = modifyUser(bill).is(largerStill).build();
 		
@@ -217,8 +217,8 @@ public class RoleTest extends DomainTest {
 	@Test
 	public void revokeRoleFromHierarchy() {
 
-		Role something = aRole("something").can(doit).buildAsRoleFor(application);
-		Role somethingElse = aRole("somethingElse").can(dothat).is(something).buildAsRoleFor(application);
+		Role something = role("something").can(doit).buildAsRoleFor(application);
+		Role somethingElse = role("somethingElse").can(dothat).is(something).buildAsRoleFor(application);
 		
 		User bill = like(bill().is(somethingElse).build());
 
@@ -233,9 +233,9 @@ public class RoleTest extends DomainTest {
 	@Test
 	public void roleHierarchiesFollowInstantiation() {
 
-		Role something = aRole("role1").can(doit).buildAsRoleFor(codelists);
-		Role somethingElse = aRole("role2").can(dothat).is(something).buildAsRoleFor(codelists);
-		Role somethingElseStill = aRole("role3").can(dothatToo).is(somethingElse).buildAsRoleFor(codelists);
+		Role something = role("role1").can(doit).buildAsRoleFor(codelists);
+		Role somethingElse = role("role2").can(dothat).is(something).buildAsRoleFor(codelists);
+		Role somethingElseStill = role("role3").can(dothatToo).is(somethingElse).buildAsRoleFor(codelists);
 		
 	
 		User bill = like(bill().is(somethingElseStill.on("1")).build());
@@ -268,8 +268,8 @@ public class RoleTest extends DomainTest {
 	@Test
 	public void rolesCanOverlap() {
 
-		Role someone = aRole("r1").can(doit).buildAsRoleFor(application);
-		Role someoneElse = aRole("r2").can(doit).buildAsRoleFor(application);
+		Role someone = role("r1").can(doit).buildAsRoleFor(application);
+		Role someoneElse = role("r2").can(doit).buildAsRoleFor(application);
 		
 		User bill = like(bill().is(someone,someoneElse).build());
 		
@@ -294,9 +294,9 @@ public class RoleTest extends DomainTest {
 	@Test
 	public void rolesCanBeReplaced() {
 		
-		Role someone = aRole("r1").buildAsRoleFor(application);
+		Role someone = role("r1").buildAsRoleFor(application);
 		//show hierarchy does not matter, replacemnt is replacemente
-		Role someoneElse = aRole("r2").is(someone).buildAsRoleFor(application);
+		Role someoneElse =role("r2").is(someone).buildAsRoleFor(application);
 		
 		User bill = like(bill().is(someoneElse).build());
 		
@@ -320,15 +320,11 @@ public class RoleTest extends DomainTest {
 	}
 	
 	private UserGrammar.ThirdClause bill() {
-		return user().name("bill").noMail().fullName("bill");
+		return user().name("bill").fullName("bill").noMail();
 	}
 	
 	
 	private UserGrammar.ThirdClause  aRole() {
-		return aRole("role");
-	}
-	
-	private UserGrammar.ThirdClause aRole(String name) {
-		return role(name).fullName(name);
+		return role("role");
 	}
 }

@@ -301,7 +301,7 @@ public class PermissionServiceImpl implements PermissionService {
 	@UserTask(UserAction.EDIT)
 	public void saveUserDetails(UIUserDetails userDetails) throws ServiceException {
 		logger.trace("saveUserDetails userDetails: {}", userDetails);
-		User changeSet = modifyUser(currentUser).email(userDetails.getEmail()).fullName(userDetails.getFullName()).build();
+		User changeSet = modifyUser(currentUser).fullName(userDetails.getFullName()).email(userDetails.getEmail()).build();
 		userRepository.update(changeSet);
 	}
 	

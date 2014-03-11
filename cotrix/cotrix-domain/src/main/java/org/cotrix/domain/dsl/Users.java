@@ -29,10 +29,10 @@ public class Users {
 
 	// predefined users
 
-	public static User cotrix = user().name("cotrix").noMail().fullName("Cotrix Root User")
+	public static User cotrix = user().name("cotrix").fullName("Cotrix Root User").noMail()
 			.is(ROOT).build();
 
-	public static User guest = user().name("guest").noMail().fullName("Cotrix Guest User")
+	public static User guest = user().name("guest").fullName("Cotrix Guest User").noMail()
 			.can(GuestAction.values()).can(VIEW).build();
 
 }

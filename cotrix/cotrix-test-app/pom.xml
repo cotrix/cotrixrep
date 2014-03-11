@@ -19,6 +19,10 @@
 			<scope>test</scope> </dependency> -->
 
 	</dependencies>
+	
+	<properties>
+		<skipAcceptance>true</skipAcceptance>
+	</properties>
 
 	<build>
 
@@ -36,6 +40,10 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<configuration>
 					<encoding>UTF-8</encoding>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<skipTests>${skipAcceptance}</skipTests>
 				</configuration>
 				<executions>
 					<execution>

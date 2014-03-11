@@ -39,7 +39,7 @@ public class MailerTest extends ApplicationTest {
 	@Test
 	public void mailOnSignup() {
 		
-		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
+		User user = user().name("fifi").fullName("fifi").email("fifi@me.com").build();
 		
 		//ad at least one root
 		repository.add(Roles.role("some").isRoot().build());

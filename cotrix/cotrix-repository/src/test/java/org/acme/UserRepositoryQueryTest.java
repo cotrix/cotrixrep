@@ -81,7 +81,7 @@ public class UserRepositoryQueryTest extends ApplicationTest {
 	
 	
 	@Test
-	public void sortUsers() {
+	public void sortUsersByName() {
 		
 		User bill = aUser("bill").build();
 		User joe = aUser("joe").build();
@@ -98,17 +98,35 @@ public class UserRepositoryQueryTest extends ApplicationTest {
 		
 	}
 	
+	@Test
+	public void sortUsersByFullName() {
+		
+		User y = user().name("a").fullName("y").noMail().build();
+		User z = user().name("b").fullName("z").noMail().build();
+		User x = user().name("c").fullName("x").noMail().build();
+	
+		repository.add(y);
+		repository.add(z);
+		repository.add(x);
+		
+		
+		Iterable<User> users = repository.get(allUsers().sort(byFullName()));
+		
+		assertEqualOrdered(collect(users),x,y,z);
+		
+	}
+	
 	
 	
 	//helper
 	
 	private UserGrammar.ThirdClause aUser(String name) {
 		
-		return user().name(name).noMail().fullName(name);
+		return user().name(name).fullName(name).noMail();
 	}
 	
 	private UserGrammar.ThirdClause aRole() {
 		
-		return user().name("role").noMail().fullName("role");
+		return user().name("role").fullName("role").noMail();
 	}
 }
