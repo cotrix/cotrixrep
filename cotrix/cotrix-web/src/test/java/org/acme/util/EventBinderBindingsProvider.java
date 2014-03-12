@@ -35,7 +35,6 @@ public class EventBinderBindingsProvider implements BindingsProvider {
 
 	private static Reflections reflections = new Reflections("org.cotrix.web");
 
-
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<Binding> getBindings() {
@@ -52,14 +51,11 @@ public class EventBinderBindingsProvider implements BindingsProvider {
 
 	@SuppressWarnings("unchecked")
 	private <B,T extends EventBinder<B>> Binding generateBinding(Class<T> binder) {
-		System.out.println("binding "+binder.getName());
-
 
 		T mockedBinder = mock(binder);
 
 		ParameterizedType parameterizedType = (ParameterizedType) binder.getGenericInterfaces()[0];
 		Class<?> bindedClass = (Class<?>) parameterizedType.getActualTypeArguments()[0];
-		System.out.println("Binder for :"+bindedClass);
 
 		Set<Method> eventHandlerMethods = ReflectionUtils.getAllMethods(bindedClass, ReflectionUtils.withParametersAssignableTo(GenericEvent.class));
 

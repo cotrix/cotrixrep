@@ -11,18 +11,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 
 import org.acme.util.TestModule.Binding;
-import org.cotrix.web.client.MainServiceAsync;
-import org.cotrix.web.server.MainServiceImpl;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.reflections.Reflections;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RemoteService;
 import com.googlecode.jeeunit.cdi.BeanManagerLookup;
 
 /**
@@ -31,12 +32,11 @@ import com.googlecode.jeeunit.cdi.BeanManagerLookup;
  */
 public class ServiceBindingsProvider implements BindingsProvider {
 	
-	private Class<?>[][] serviceBindings = {
-			{MainServiceAsync.class, MainServiceImpl.class}
-	};
+	private static Reflections reflections = new Reflections("org.cotrix.web");
 
 	@Override
 	public List<Binding> getBindings() {
+		 List<Class<?>[]> serviceBindings = findServiceBindings();
 		List<Binding> bindings = new ArrayList<>();
 		for (Class<?>[] serviceBinding:serviceBindings) {
 			Class<?> asyncServiceType = serviceBinding[0];
@@ -45,6 +45,35 @@ public class ServiceBindingsProvider implements BindingsProvider {
 			bindings.add(new Binding(asyncServiceType, mock));
 		}
 		return bindings;
+	}
+	
+	private List<Class<?>[]> findServiceBindings() {
+		Set<Class<? extends RemoteService>> services = reflections.getSubTypesOf(RemoteService.class);
+		 List<Class<?>[]> serviceBindings = new ArrayList<>();
+
+		for (Class<? extends RemoteService> service:services) {
+			if (service.isInterface()) {
+				Class<? extends RemoteService> impl = findImpl(services, service);
+				if (impl == null) throw new RuntimeException("Implementation not found for service "+service);
+
+				String serviceAsyncInterfaceName = service.getName() + "Async";
+				try {
+					Class<?> asyncInterface = getClass().getClassLoader().loadClass(serviceAsyncInterfaceName);
+					serviceBindings.add(new Class[]{asyncInterface,impl});
+				} catch (ClassNotFoundException e) {
+					throw new RuntimeException("Async interface for "+service+" with name "+serviceAsyncInterfaceName+" not found", e);
+				}
+			}
+		}
+		return serviceBindings;
+	}
+	
+	private Class<? extends RemoteService> findImpl(Set<Class<? extends RemoteService>> services, Class<? extends RemoteService> serviceInterface) {
+		for (Class<? extends RemoteService> service:services) {
+			if (service.isInterface()) continue;
+			if (serviceInterface.isAssignableFrom(service)) return service;
+		}
+		return null;
 	}
 	
 	private class ServiceInterceptor implements Answer<Object> {
@@ -99,6 +128,4 @@ public class ServiceBindingsProvider implements BindingsProvider {
 			return lookup(clazz, bm);
 		}
 	}
-
-
 }
