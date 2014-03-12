@@ -10,11 +10,13 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class DestinationSelectionStepViewImpl extends Composite implements DestinationSelectionStepView {
 
 	@UiTemplate("DestinationSelectionStep.ui.xml")

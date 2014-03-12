@@ -15,7 +15,7 @@ import org.cotrix.web.ingest.client.CotrixIngestGinInjector;
 import org.cotrix.web.manage.client.CotrixManageGinInjector;
 import org.cotrix.web.menu.client.presenter.CotrixMenuGinInjector;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
-import org.cotrix.web.publish.client.CotrixPublishAppGinInjector;
+import org.cotrix.web.publish.client.CotrixPublishGinInjector;
 import org.cotrix.web.users.client.CotrixPermissionGinInjector;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -83,7 +83,7 @@ public class CotrixController implements Presenter {
 			
 			@Override
 			public void onSuccess() {*/
-				CotrixPublishAppGinInjector publishInjector = CotrixPublishAppGinInjector.INSTANCE;
+				CotrixPublishGinInjector publishInjector = CotrixPublishGinInjector.INSTANCE;
 				addModule(publishInjector.getController());
 			/*}
 			

@@ -18,11 +18,13 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class RepositoryDetailsStepViewImpl extends Composite implements RepositoryDetailsStepView {
 	
 	protected static final String NOTHING = "nothing";
