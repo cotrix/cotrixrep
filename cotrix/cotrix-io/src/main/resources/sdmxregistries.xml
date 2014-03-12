@@ -1,13 +1,16 @@
 <registries>
 	<gcube scope="/gcube/devsec">
 		<name ns="http://gcube-system.org">D4Science Development Registry</name>
-		<property name="scope" value="/gcube/devsec"/>
+		<property name="scope" value="/gcube/devsec" />
 	</gcube>
 	<gcube scope="/d4science.research-infrastructures.eu/gCubeApps">
 		<name ns="http://www.i-marine.eu">iMarine Registry</name>
-		<property name="scope" value="/d4science.research-infrastructures.eu/gCubeApps"/>
+		<property name="scope"
+			value="/d4science.research-infrastructures.eu/gCubeApps" />
 	</gcube>
 	<generic>
-		<address>http://hqldvtcdrsdmx1.hq.un.fao.org:18080/FusionRegistry/ws/rest/</address>
+		<name>FAO Sdmx Registry (Dev)</name>
+		<address>http://hqldvtcdrsdmx1.hq.un.fao.org:18080/FusionRegistry/ws/rest/
+		</address>
 	</generic>
 </registries>
