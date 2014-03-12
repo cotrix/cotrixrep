@@ -2,4 +2,8 @@
 	<gcube scope="/gcube/devsec">
 		<name ns="http://acme/org">iMarine Registry</name>
 	</gcube>
+	<generic>
+		<name>FAO Sdmx Registry (Dev)</name>
+		<address>http://hqldvtcdrsdmx1.hq.un.fao.org:18080/FusionRegistry/ws/rest/</address>
+	</generic>
 </registries>
