@@ -4,8 +4,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
         <dependent-module archiveName="cotrix-web-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web/cotrix-web">
             <dependency-type>uses</dependency-type>
@@ -14,6 +12,9 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cotrix-engine-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-engine/cotrix-engine">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="cotrix-web-ingest-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-ingest/cotrix-web-ingest">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cotrix-io-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-io/cotrix-io">
@@ -25,7 +26,13 @@
         <dependent-module archiveName="cotrix-security-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-security/cotrix-security">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="cotrix-web-manage-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-manage/cotrix-web-manage">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="cotrix-web-publish-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-publish/cotrix-web-publish">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="cotrix-web-users-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-users/cotrix-web-users">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cotrix-stage-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-stage/cotrix-stage">

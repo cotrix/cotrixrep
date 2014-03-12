@@ -35,6 +35,7 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.UserQueries;
 import org.cotrix.repository.UserRepository;
+import org.cotrix.security.InvalidCredentialsException;
 import org.cotrix.security.SignupService;
 import org.cotrix.web.common.server.CotrixRemoteServlet;
 import org.cotrix.web.common.server.task.ActionMapper;
@@ -49,6 +50,7 @@ import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.users.client.PermissionService;
 import org.cotrix.web.users.server.util.RolesSorter;
 import org.cotrix.web.users.shared.CodelistGroup;
+import org.cotrix.web.users.shared.InvalidPasswordException;
 import org.cotrix.web.users.shared.RoleAction;
 import org.cotrix.web.users.shared.RoleState;
 import org.cotrix.web.users.shared.RolesRow;
@@ -309,13 +311,16 @@ public class PermissionServiceImpl implements PermissionService {
 		userRepository.update(changeSet);
 	}
 	
-
 	@Override
 	@UserTask(UserAction.EDIT)
 	public void updateUserPassword(@Id String userId, String oldPassword, String newPassword) throws ServiceException {
 		logger.trace("updateUserPassword userId: "+userId);
-		User user = userRepository.lookup(userId);
-		signupService.changePassword(user, oldPassword, newPassword);
+		try {
+			User user = userRepository.lookup(userId);
+			signupService.changePassword(user, oldPassword, newPassword);
+		} catch(InvalidCredentialsException e) {
+			throw new InvalidPasswordException(e.getMessage());
+		}
 	}
 	
 	protected UIUserDetails toUiUserDetails(User user) {

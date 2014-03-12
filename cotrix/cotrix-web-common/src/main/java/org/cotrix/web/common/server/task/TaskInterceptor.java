@@ -92,6 +92,8 @@ public class TaskInterceptor {
 		} catch(IllegalAccessError e) {
 			throw new IllegalActionException(e.getMessage());
 		} catch (Throwable e) {
+			if (e instanceof ServiceException) throw e;
+			logger.error("An error occurred executing the task", e);
 			throw new ServiceException(e.getMessage());
 		}
 	}

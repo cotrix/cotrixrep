@@ -12,6 +12,7 @@ import org.cotrix.web.users.shared.RoleState;
 import org.cotrix.web.users.shared.RolesRow;
 import org.cotrix.web.users.shared.RolesType;
 import org.cotrix.web.users.shared.UIUserDetails;
+import org.cotrix.web.users.shared.InvalidPasswordException;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -46,7 +47,7 @@ public interface PermissionService extends RemoteService {
 	
 	public void saveUserDetails(UIUserDetails userDetails) throws ServiceException;
 	
-	public void updateUserPassword(String userId, String oldPassword, String newPassword) throws ServiceException;
+	public void updateUserPassword(String userId, String oldPassword, String newPassword) throws ServiceException, InvalidPasswordException;
 	
 	public void removeUser(String userId) throws ServiceException;
 }

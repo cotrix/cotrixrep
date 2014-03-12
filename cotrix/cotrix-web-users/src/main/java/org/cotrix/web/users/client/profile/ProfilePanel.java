@@ -4,6 +4,7 @@
 package org.cotrix.web.users.client.profile;
 
 import org.cotrix.web.users.client.PermissionServiceAsync;
+import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
@@ -13,12 +14,14 @@ import org.cotrix.web.common.client.feature.ValueBoxEditing;
 import org.cotrix.web.common.client.feature.InstanceFeatureBind.IdProvider;
 import org.cotrix.web.common.client.util.AccountValidator;
 import org.cotrix.web.common.client.util.StatusUpdates;
+import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.UIUser;
 import org.cotrix.web.users.client.ModuleActivactedEvent;
 import org.cotrix.web.users.client.PermissionBus;
 import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PasswordUpdatedEvent;
 import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PasswordUpdatedHandler;
+import org.cotrix.web.users.shared.InvalidPasswordException;
 import org.cotrix.web.users.shared.PermissionUIFeatures;
 import org.cotrix.web.users.shared.UIUserDetails;
 
@@ -30,6 +33,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -64,6 +68,12 @@ public class ProfilePanel extends LoadingPanel {
 	@Inject PasswordUpdateDialog passwordUpdateDialog;
 
 	@UiField Style style;
+	
+	@Inject
+	private AlertDialog alertDialog;
+	
+	@Inject
+	private ErrorManager errorManager;
 
 	@Inject
 	protected PermissionServiceAsync service;
@@ -81,7 +91,12 @@ public class ProfilePanel extends LoadingPanel {
 			@Override
 			public void onAddUser(PasswordUpdatedEvent event) {
 				StatusUpdates.statusSaving();
-				service.updateUserPassword(userDetails.getId(), event.getOldPassword(), event.getNewPassword(),new ManagedFailureCallback<Void>() {
+				service.updateUserPassword(userDetails.getId(), event.getOldPassword(), event.getNewPassword(), new AsyncCallback<Void>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						if (caught instanceof InvalidPasswordException) alertDialog.center("Invalid credentials.");
+						else errorManager.rpcFailure(caught);
+					}
 
 					@Override
 					public void onSuccess(Void result) {

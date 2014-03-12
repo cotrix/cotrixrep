@@ -7,7 +7,7 @@ package org.cotrix.web.common.shared.exception;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ServiceException extends Exception {
+public class ServiceException extends RuntimeException {
 
 	/**
 	 * 
