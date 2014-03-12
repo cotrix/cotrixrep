@@ -10,12 +10,12 @@ import com.google.gwt.inject.client.Ginjector;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@GinModules({CotrixPublishAppGinModule.class, CommonGinModule.class})
-public interface CotrixPublishAppGinInjector extends Ginjector {
+@GinModules({CotrixPublishGinModule.class, CommonGinModule.class})
+public interface CotrixPublishGinInjector extends Ginjector {
 	
-	public static final CotrixPublishAppGinInjector INSTANCE = GWT.create(CotrixPublishAppGinInjector.class);
+	public static final CotrixPublishGinInjector INSTANCE = GWT.create(CotrixPublishGinInjector.class);
 	
 	public PublishServiceAsync getRpcService();
-	public CotrixPublishAppController getController();
+	public CotrixPublishController getController();
 
 }

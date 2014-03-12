@@ -1,10 +1,12 @@
 package org.cotrix.web.publish.client.wizard.step.codelistdetails;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.ImplementedBy;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  */
+@ImplementedBy(CodelistDetailsStepViewImpl.class)
 public interface CodelistDetailsStepView {
 
 	Widget asWidget();

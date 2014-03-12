@@ -60,6 +60,15 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 		configurationPanel.setRefreshHandler(this);
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) preview.resetScroll();
+	}
+	
 	@UiFactory
 	public CsvConfigurationPanel createCsvParserConfigurationPanel()
 	{

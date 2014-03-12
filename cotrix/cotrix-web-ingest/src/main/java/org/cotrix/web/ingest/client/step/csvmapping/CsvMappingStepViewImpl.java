@@ -43,6 +43,15 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) mappingPanel.resetScroll();
+	}
+	
 	/**
 	 * @param presenter the presenter to set
 	 */

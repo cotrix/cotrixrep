@@ -1,6 +1,7 @@
 package org.cotrix.web.publish.client;
 
 import org.cotrix.web.common.client.CotrixModule;
+import org.cotrix.web.common.client.CotrixModuleController;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.resources.Resources;
 import org.cotrix.web.publish.client.wizard.PublishWizardPresenter;
@@ -8,13 +9,15 @@ import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CotrixPublishAppControllerImpl implements CotrixPublishAppController {
+@Singleton
+public class CotrixPublishController implements CotrixModuleController {
 
 	@Inject
 	protected PublishWizardPresenter presenter;
@@ -24,7 +27,7 @@ public class CotrixPublishAppControllerImpl implements CotrixPublishAppControlle
 	protected EventBus publishBus;
 	
 	@Inject
-	public CotrixPublishAppControllerImpl() {
+	public CotrixPublishController() {
 	}
 
 	@Override
@@ -45,7 +48,6 @@ public class CotrixPublishAppControllerImpl implements CotrixPublishAppControlle
 
 	@Override
 	public void deactivate() {
-		
 	}
 
 }

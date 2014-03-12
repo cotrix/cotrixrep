@@ -95,6 +95,11 @@ public class PreviewGrid extends ResizeComposite {
 		scroll.setWidget(grid);
 	}
 	
+	public void resetScroll() {
+		scroll.scrollToTop();
+		scroll.scrollToLeft();
+	}
+	
 	protected void setData(PreviewData data)
 	{
 		grid.removeAllRows();

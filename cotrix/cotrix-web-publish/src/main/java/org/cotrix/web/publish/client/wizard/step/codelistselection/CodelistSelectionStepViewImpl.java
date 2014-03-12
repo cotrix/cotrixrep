@@ -27,11 +27,13 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CodelistSelectionStepViewImpl extends ResizeComposite implements CodelistSelectionStepView {
 
 	@UiTemplate("CodelistSelectionStep.ui.xml")

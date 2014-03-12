@@ -14,6 +14,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -33,6 +34,7 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 		public void onReloadButtonClicked();
 	}
 	
+	@UiField ScrollPanel scrollMappingPanel;
 	@UiField TableRowElement nameRow;
 	@UiField TableRowElement versionRow;
 	@UiField TableRowElement sealedRow;
@@ -57,6 +59,11 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 		nameRow.getStyle().setProperty("display", value);
 		versionRow.getStyle().setProperty("display", value);
 		sealedRow.getStyle().setProperty("display", value);
+	}
+	
+	public void resetScroll() {
+		scrollMappingPanel.scrollToTop();
+		scrollMappingPanel.scrollToLeft();
 	}
 	
 	/**
