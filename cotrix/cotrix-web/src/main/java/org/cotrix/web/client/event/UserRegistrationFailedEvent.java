@@ -8,9 +8,11 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  */
 public class UserRegistrationFailedEvent extends GenericEvent {
 
+	protected String message;
 	protected String details;
 	
-	public UserRegistrationFailedEvent(String details) {
+	public UserRegistrationFailedEvent(String message, String details) {
+		this.message = message;
 		this.details = details;
 	}
 
@@ -19,5 +21,12 @@ public class UserRegistrationFailedEvent extends GenericEvent {
 	 */
 	public String getDetails() {
 		return details;
+	}
+
+	/**
+	 * @return the message
+	 */
+	public String getMessage() {
+		return message;
 	}
 }

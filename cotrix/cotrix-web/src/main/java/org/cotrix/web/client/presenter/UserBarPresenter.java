@@ -109,11 +109,8 @@ public class UserBarPresenter implements Presenter, LoginDialogListener, Registe
 	@EventHandler
 	void onUserRegistrationFailed(UserRegistrationFailedEvent event) {
 		view.setUserLoading(false);
-		//TODO better message
-		alertDialog.center("Registration failed please check the registration details.", event.getDetails());
+		alertDialog.center("Registration failed: "+event.getMessage(), event.getDetails());
 	}
-
-
 
 	@Inject
 	private void bindDialogs() {

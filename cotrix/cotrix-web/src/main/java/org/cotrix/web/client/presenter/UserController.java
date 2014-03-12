@@ -56,7 +56,7 @@ public class UserController {
 		public void onFailure(Throwable caught) {
 			Log.error("Login failed", caught);
 			if (caught instanceof UnknownUserException) cotrixBus.fireEvent(new UserLoginFailedEvent(Exceptions.getPrintStackTrace(caught)));
-			if (caught instanceof InvalidUsernameException) cotrixBus.fireEvent(new UserRegistrationFailedEvent(Exceptions.getPrintStackTrace(caught)));
+			if (caught instanceof InvalidUsernameException) cotrixBus.fireEvent(new UserRegistrationFailedEvent(caught.getMessage(), Exceptions.getPrintStackTrace(caught)));
 		}
 
 		@Override
