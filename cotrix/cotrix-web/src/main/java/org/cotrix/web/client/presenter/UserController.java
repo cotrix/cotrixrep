@@ -97,14 +97,23 @@ public class UserController {
 		logout();
 	}
 	
-	@EventHandler
-	void onCodelistOpened(CodelistOpenedEvent event) {
-		openedCodelists.add(event.getCodelistId());
-	}
-	
-	@EventHandler
-	void onCodelistClosed(CodelistClosedEvent event) {
-		openedCodelists.remove(event.getCodelistid());
+	@Inject
+	void bind() {
+		cotrixBus.addHandler(CodelistClosedEvent.TYPE, new CodelistClosedEvent.CodelistClosedHandler() {
+			
+			@Override
+			public void onCodelistClosed(CodelistClosedEvent event) {
+				openedCodelists.remove(event.getCodelistid());
+			}
+		});
+		
+		cotrixBus.addHandler(CodelistOpenedEvent.TYPE, new CodelistOpenedEvent.CodelistOpenedHandler() {
+			
+			@Override
+			public void onCodelistOpened(CodelistOpenedEvent event) {
+				openedCodelists.add(event.getCodelistId());
+			}
+		});
 	}
 	
 	@EventHandler
