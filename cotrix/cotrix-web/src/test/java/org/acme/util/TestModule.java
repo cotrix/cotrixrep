@@ -3,33 +3,19 @@
  */
 package org.acme.util;
 
-import static org.mockito.Mockito.*;
-
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.spi.Bean;
-import javax.enterprise.inject.spi.BeanManager;
-
-import org.cotrix.web.client.MainServiceAsync;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureBus;
-import org.cotrix.web.server.MainServiceImpl;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.AbstractModule;
+import com.google.inject.BindingAnnotation;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
-import com.googlecode.jeeunit.cdi.BeanManagerLookup;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -37,10 +23,7 @@ import com.googlecode.jeeunit.cdi.BeanManagerLookup;
  */
 public class TestModule extends AbstractModule {
 
-	private Class<?>[][] serviceBindings = {
-			{MainServiceAsync.class, MainServiceImpl.class}
-	};
-
+	private BindingsProvider[] providers = {new EventBinderBindingsProvider(), new ServiceBindingsProvider()};
 
 	private List<Binding> bindings = new ArrayList<>();
 
@@ -57,15 +40,23 @@ public class TestModule extends AbstractModule {
 			for (Field field:clazz.getDeclaredFields()) {
 				Provide annotation = field.getAnnotation(Provide.class);
 				if (annotation!=null) {
-					Class<?> type = field.getType();
+					Class<?> type = annotation.realType()!=void.class?annotation.realType():field.getType();
 					field.setAccessible(true);
 					Object value = field.get(o);
-					bindings.add(new Binding(type, value));
+					Class<? extends Annotation> bindingAnnotation = getBindingAnnotation(field.getAnnotations());
+					bindings.add(new Binding(type, value, bindingAnnotation));
 				}
 			}
 		} catch(Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	private Class<? extends Annotation> getBindingAnnotation(Annotation[] annotations) {
+		for (Annotation annotation:annotations) {
+			if (annotation.annotationType().isAnnotationPresent(BindingAnnotation.class)) return annotation.annotationType();
+		}
+		return null;
 	}
 
 	/**
@@ -99,86 +90,45 @@ public class TestModule extends AbstractModule {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void configure() {
-		requestStaticInjection(FeatureBinder.class);
 
-		for (Binding binding:bindings) bind((Class<Object>)binding.type).toInstance(binding.value);
-
-		bind(EventBus.class).annotatedWith(CotrixBus.class).toInstance(cotrixBus);
-		bind(EventBus.class).annotatedWith(FeatureBus.class).toInstance(featuresBus);
-
-		for (Class<?>[] serviceBinding:serviceBindings) {
-			Class<?> asyncServiceType = serviceBinding[0];
-			Class<?> serviceType = serviceBinding[1];
-			Object mock = mock(asyncServiceType, new ServiceInterceptor(serviceType));
-			bind((Class<Object>)asyncServiceType).toInstance(mock);
+		for (BindingsProvider provider:providers) {
+			bindings.addAll(provider.getBindings());
 		}
 
+		configureDefaultBindings();
+
+		for (Binding binding:bindings) {
+			if (binding.annotation!=null) bind((Class<Object>)binding.type).annotatedWith(binding.annotation).toInstance(binding.value);
+			else bind((Class<Object>)binding.type).toInstance(binding.value);
+		}
+	}
+	
+	private void configureDefaultBindings() {
+		requestStaticInjection(FeatureBinder.class);
+		if (!existBinding(EventBus.class, CotrixBus.class)) bind(EventBus.class).annotatedWith(CotrixBus.class).toInstance(cotrixBus);
+		if (!existBinding(EventBus.class, FeatureBus.class)) bind(EventBus.class).annotatedWith(FeatureBus.class).toInstance(featuresBus);
+	}
+	
+	private <T> boolean existBinding(Class<T> type, Class<? extends Annotation> annotation) {
+		for (Binding binding:bindings) if (binding.type == type && binding.annotation == annotation) return true;
+		return false;
 	}
 
-	private class Binding {
+	public static class Binding {
 		Class<?> type;
 		Object value;
-		/**
-		 * @param type
-		 * @param value
-		 */
-		private Binding(Class<?> type, Object value) {
+		Class<? extends Annotation> annotation;
+
+		public Binding(Class<?> type, Object value) {
 			this.type = type;
 			this.value = value;
 		}
-	}
 
-	private class ServiceInterceptor implements Answer<Object> {
-
-		Class<?> serviceType;
-		Object service;
-
-		private ServiceInterceptor(Class<?> serviceType) {
-			this.serviceType = serviceType;
-		}
-
-		@Override
-		public Object answer(InvocationOnMock invocation) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException {
-
-			instantiateService();
-
-			Class<?>[] parTypes = Arrays.copyOfRange(invocation.getMethod().getParameterTypes(), 0, invocation.getMethod().getParameterTypes().length-1);
-			Method method = service.getClass().getMethod(invocation.getMethod().getName(), parTypes);
-
-			Object[] args = Arrays.copyOfRange(invocation.getArguments(), 0, invocation.getArguments().length-1);
-
-			@SuppressWarnings("unchecked")
-			AsyncCallback<Object> callback = (AsyncCallback<Object>) invocation.getArguments()[invocation.getArguments().length-1];
-
-			try {
-				Object result = method.invoke(service, args);
-				callback.onSuccess(result);
-			} catch(InvocationTargetException e) {
-				callback.onFailure(e.getTargetException());
-			}
-			return null;
-		}
-
-		protected void instantiateService() {
-			if (service == null) service = lookup(serviceType);
-		}
-
-		@SuppressWarnings("unchecked")
-		private <T> T lookup(Class<T> clazz, BeanManager bm) {
-			Iterator<Bean< ? >> iter = bm.getBeans(clazz).iterator();
-			if (!iter.hasNext()) {
-				throw new IllegalStateException("CDI BeanManager cannot find an instance of requested type " + clazz.getName());
-			}
-			Bean<T> bean = (Bean<T>) iter.next();
-			CreationalContext<T> ctx = bm.createCreationalContext(bean);
-			T dao = (T) bm.getReference(bean, clazz, ctx);
-			return dao;
-		}
-
-		private <T> T lookup(Class<T> clazz) {
-			BeanManager bm = BeanManagerLookup.getBeanManager();
-			return lookup(clazz, bm);
+		public Binding(Class<?> type, Object value,
+				Class<? extends Annotation> annotation) {
+			this.type = type;
+			this.value = value;
+			this.annotation = annotation;
 		}
 	}
-
 }

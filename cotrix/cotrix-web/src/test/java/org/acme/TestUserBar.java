@@ -3,9 +3,13 @@
  */
 package org.acme;
 
-import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
+import org.acme.util.GuiceInject;
+import org.acme.util.ModuleAnnotations;
+import org.acme.util.Provide;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLogoutEvent;
 import org.cotrix.web.client.event.UserRegisterEvent;
@@ -17,8 +21,6 @@ import org.cotrix.web.client.view.RegisterDialog.RegisterDialogListener;
 import org.cotrix.web.client.view.UserBarView;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
-import org.cotrix.web.common.client.feature.FeatureBinder;
-import org.cotrix.web.common.client.feature.FeatureBus;
 import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.shared.UIUser;
 import org.cotrix.web.common.shared.exception.IllegalActionException;
@@ -29,12 +31,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Module;
 import com.google.web.bindery.event.shared.EventBus;
-import com.google.web.bindery.event.shared.SimpleEventBus;
+import com.google.web.bindery.event.shared.binder.impl.GenericEventType;
 import com.google.web.bindery.event.shared.testing.CountingEventBus;
 
 /**
@@ -44,31 +42,23 @@ import com.google.web.bindery.event.shared.testing.CountingEventBus;
 @RunWith(MockitoJUnitRunner.class)
 public class TestUserBar {
 
-	@Mock
+	@Mock @Provide
 	private UserBarView userBarView;
 	
+	@Provide(realType=EventBus.class) @CotrixBus
 	private CountingEventBus bus = new CountingEventBus();
 	
+	@Provide
 	private LoginDialog loginDialog;
 	
+	@Provide
 	private RegisterDialog registerDialog;
 	
+	@GuiceInject
 	private UserBarPresenter presenter;
 	
-	private class TestModule extends AbstractModule {
-
-		@Override
-		protected void configure() {
-			requestStaticInjection(FeatureBinder.class);
-			bind(UserBarView.class).toInstance(userBarView);
-			bind(LoginDialog.class).toInstance(loginDialog);
-			bind(RegisterDialog.class).toInstance(registerDialog);
-			bind(AlertDialog.class).toInstance(mock(AlertDialog.class));
-			bind(EventBus.class).annotatedWith(CotrixBus.class).toInstance(bus);
-			bind(EventBus.class).annotatedWith(FeatureBus.class).toInstance(new SimpleEventBus());
-			
-		}
-	}
+	@Mock @Provide
+	private AlertDialog alertDialog;
 	
 	@Before
 	public void setup() {
@@ -81,9 +71,7 @@ public class TestUserBar {
 		doCallRealMethod().when(registerDialog).setListener(any(RegisterDialogListener.class));
 		doCallRealMethod().when(registerDialog).getListener();
 		
-		Module testModule = new TestModule();
-		Injector injector = Guice.createInjector(testModule);
-		presenter = injector.getInstance(UserBarPresenter.class);
+		ModuleAnnotations.init(this);
 	}
 	
 	@Test
@@ -105,7 +93,7 @@ public class TestUserBar {
 		
 		listener.onLogin("fakeUsername", "fakePassword");
 
-		assertEquals(bus.getFiredCount(UserLoginEvent.TYPE),1);
+		assertEquals(bus.getFiredCount(GenericEventType.getTypeOf(UserLoginEvent.class)),1);
 	}
 	
 	@Test
@@ -115,14 +103,14 @@ public class TestUserBar {
 		
 		listener.onRegister("fakeUsername", "fakePassword", "fakeEmail");
 
-		assertEquals(bus.getFiredCount(UserRegisterEvent.TYPE),1);
+		assertEquals(bus.getFiredCount(GenericEventType.getTypeOf(UserRegisterEvent.class)),1);
 	}
 	
 	@Test
 	public void testSendUserLogoutEvent() throws IllegalActionException, ServiceException {
 		presenter.onLogoutClick();
 
-		assertEquals(bus.getFiredCount(UserLogoutEvent.TYPE),1);
+		assertEquals(bus.getFiredCount(GenericEventType.getTypeOf(UserLogoutEvent.class)),1);
 	}
 	
 	@Test

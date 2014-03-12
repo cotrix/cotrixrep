@@ -22,10 +22,8 @@ public class ModuleAnnotations {
 	
 	private static void inject(Object o, Injector injector)  {
 		Class<?> clazz = o.getClass();
-		System.out.println("scanning "+clazz.getName());
 		try {
 			for (Field field:clazz.getDeclaredFields()) {
-				System.out.println("checking field "+field.getName());
 				GuiceInject annotation = field.getAnnotation(GuiceInject.class);
 				if (annotation!=null) {
 					Class<?> type = field.getType();
