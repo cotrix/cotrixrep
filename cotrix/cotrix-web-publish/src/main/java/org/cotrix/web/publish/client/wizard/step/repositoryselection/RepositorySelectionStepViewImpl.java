@@ -28,11 +28,13 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class RepositorySelectionStepViewImpl extends ResizeComposite implements RepositorySelectionStepView {
 
 	@UiTemplate("RepositorySelectionStep.ui.xml")
@@ -51,6 +53,9 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	protected SingleSelectionModel<UIRepository> selectionModel;
 
 	private Presenter presenter;
+	
+	@Inject
+	AlertDialog alertDialog;
 
 	@Inject
 	public RepositorySelectionStepViewImpl(RepositoryDataProvider assetInfoDataProvider) {
@@ -160,7 +165,7 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	}
 
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 	
 	//TODO REMOVED

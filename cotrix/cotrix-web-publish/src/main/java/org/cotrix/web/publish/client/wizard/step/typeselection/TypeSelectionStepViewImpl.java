@@ -9,11 +9,14 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class TypeSelectionStepViewImpl extends Composite implements TypeSelectionStepView {
 
 	@UiTemplate("TypeSelectionStep.ui.xml")
@@ -21,6 +24,9 @@ public class TypeSelectionStepViewImpl extends Composite implements TypeSelectio
 	private static TypeSelectionStepUiBinder uiBinder = GWT.create(TypeSelectionStepUiBinder.class);
 	
 	private Presenter presenter;
+	
+	@Inject
+	AlertDialog alertDialog;
 	
 	public TypeSelectionStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -41,6 +47,6 @@ public class TypeSelectionStepViewImpl extends Composite implements TypeSelectio
 	}
 	
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 }

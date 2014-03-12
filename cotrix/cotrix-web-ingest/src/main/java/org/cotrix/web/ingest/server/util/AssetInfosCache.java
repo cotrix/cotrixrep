@@ -12,9 +12,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 import org.cotrix.io.CloudService;
-import org.cotrix.web.common.server.util.OrderedList;
+import org.cotrix.web.common.server.util.OrderedLists;
 import org.cotrix.web.common.server.util.Repositories;
-import org.cotrix.web.common.server.util.FieldComparator.ValueProvider;
+import org.cotrix.web.common.server.util.OrderedLists.ValueProvider;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.slf4j.Logger;
@@ -57,7 +57,7 @@ public class AssetInfosCache implements Serializable {
 	
 	protected Map<String, Asset> assetsCache;
 	protected Map<String, RepositoryDetails> repositoriesCache;
-	protected OrderedList<AssetInfo> cache;
+	protected OrderedLists<AssetInfo> cache;
 	protected boolean cacheLoaded = false;
 	
 	/**
@@ -69,7 +69,7 @@ public class AssetInfosCache implements Serializable {
 
 	protected void setupCache()
 	{
-		cache = new OrderedList<AssetInfo>();
+		cache = new OrderedLists<AssetInfo>();
 		cache.addField(AssetInfo.NAME_FIELD, NAME_PROVIDER);
 		cache.addField(AssetInfo.REPOSITORY_FIELD, REPOSITORY_PROVIDER);
 		
@@ -101,8 +101,6 @@ public class AssetInfosCache implements Serializable {
 			RepositoryDetails repositoryDetails = Repositories.convert(repository);
 			repositoriesCache.put(repositoryDetails.getName(), repositoryDetails);
 		}
-		
-		cache.sort();
 	}
 	
 	protected void ensureCacheInitialized()

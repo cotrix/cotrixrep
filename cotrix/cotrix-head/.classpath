@@ -29,11 +29,5 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="target/cotrix-head-0.1.0-SNAPSHOT/WEB-INF/classes" path="target/generated-sources/annotations">
-		<attributes>
-			<attribute name="optional" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="target/cotrix-head-0.1.0-SNAPSHOT/WEB-INF/classes"/>
 </classpath>

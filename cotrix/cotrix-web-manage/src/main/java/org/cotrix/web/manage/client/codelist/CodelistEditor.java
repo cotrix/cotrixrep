@@ -90,6 +90,8 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -97,8 +99,9 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class CodelistEditor extends ResizeComposite implements HasEditing {
 
-	interface Binder extends UiBinder<Widget, CodelistEditor> { }
-
+	interface Binder extends UiBinder<Widget, CodelistEditor> {}
+	interface CodelistEditorEventBinder extends EventBinder<CodelistEditor> {}
+	
 	interface DataGridResources extends PatchedDataGrid.Resources {
 
 		@Source("CodelistEditor.css")
@@ -137,6 +140,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	private Column<UICode, String> nameColumn;
 
+	@Inject @EditorBus
 	protected EventBus editorBus;
 
 	protected SingleSelectionModel<UICode> selectionModel;
@@ -158,8 +162,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	protected String codelistId;
 	
 	@Inject
-	public CodelistEditor(@EditorBus EventBus editorBus, CodelistCodesProvider dataProvider) {
-		this.editorBus = editorBus;
+	public CodelistEditor(CodelistCodesProvider dataProvider) {
 		this.dataProvider = dataProvider;
 		this.codeEditor = DataEditor.build(this);
 		this.attributeEditor = DataEditor.build(this);
@@ -192,6 +195,11 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
+	}
+	
+	@Inject
+	protected void bind(CodelistEditorEventBinder binder) {
+		binder.bindEventHandlers(this, editorBus);
 	}
 
 	protected void setupColumns() {
@@ -276,33 +284,12 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 			}
 		});
 
-		editorBus.addHandler(SwitchGroupEvent.TYPE, new SwitchGroupEvent.SwitchAttributeHandler() {
-
-			@Override
-			public void onSwitchAttribute(SwitchGroupEvent event) {
-				Group group = event.getGroup();
-				Log.trace("onSwitchAttribute group: "+group+" type: "+event.getSwitchType());
-				switch (event.getSwitchType()) {
-					case TO_COLUMN: switchToColumn(group); break;
-					case TO_NORMAL: switchToNormal(group); break;
-				}
-			}
-		});
-
 		editorBus.addHandler(DataEditEvent.getType(UICode.class), new DataEditHandler<UICode>() {
 
 			@Override
 			public void onDataEdit(DataEditEvent<UICode> event) {
 				Log.trace("onDataEdit row: "+event.getData());
 				if (event.getEditType()!=EditType.REMOVE) refreshCode(event.getData());
-			}
-		});
-		
-		editorBus.addHandler(CodeUpdatedEvent.TYPE, new CodeUpdatedEvent.CodeUpdatedHandler() {
-			
-			@Override
-			public void onCodeUpdated(CodeUpdatedEvent event) {
-				refreshCode(event.getCode());
 			}
 		});
 
@@ -324,6 +311,21 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 				}
 			}
 		});
+	}
+	
+	@EventHandler
+	void onCodeUpdated(CodeUpdatedEvent event) {
+		refreshCode(event.getCode());
+	}
+	
+	@EventHandler
+	void onSwitchAttribute(SwitchGroupEvent event) {
+		Group group = event.getGroup();
+		Log.trace("onSwitchAttribute group: "+group+" type: "+event.getSwitchType());
+		switch (event.getSwitchType()) {
+			case TO_COLUMN: switchToColumn(group); break;
+			case TO_NORMAL: switchToNormal(group); break;
+		}
 	}
 
 	protected void refreshCode(UICode code)

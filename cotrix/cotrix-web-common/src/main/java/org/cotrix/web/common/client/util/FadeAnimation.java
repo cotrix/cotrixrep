@@ -20,6 +20,7 @@ import com.google.gwt.user.client.Element;
 public class FadeAnimation extends Animation {
 	
 	public enum Speed {
+		IMMEDIATE(0),
 		VERY_FAST(500),
 		FAST(1000),
 		NORMAL(1500),

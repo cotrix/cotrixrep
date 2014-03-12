@@ -3,15 +3,17 @@
  */
 package org.cotrix.web.manage.client.di;
 
-import org.cotrix.web.manage.client.CotrixManagerAppGinInjector;
+import org.cotrix.web.manage.client.CotrixManageGinInjector;
 import org.cotrix.web.manage.client.codelist.CodelistPanelPresenter;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CodelistPanelFactory {
 		
 	@Inject
@@ -26,6 +28,6 @@ public class CodelistPanelFactory {
 		codelistIdProvider.setCodelistId(codelistId);
 		editorEventBusProvider.generate();
 		
-		return CotrixManagerAppGinInjector.INSTANCE.getCodeListPanelPresenter();
+		return CotrixManageGinInjector.INSTANCE.getCodeListPanelPresenter();
 	}
 }

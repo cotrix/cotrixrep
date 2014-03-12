@@ -15,18 +15,22 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPreviewStepView, RefreshHandler {
 	
 	protected static final int HEADER_ROW = 0;
 
 	@UiTemplate("CsvPreviewStep.ui.xml")
 	interface PreviewStepUiBinder extends UiBinder<Widget, CsvPreviewStepViewImpl> {}
-	private static PreviewStepUiBinder uiBinder = GWT.create(PreviewStepUiBinder.class);	
+	
+	@Inject
+	private PreviewStepUiBinder uiBinder;	
 
 	@UiTemplate("CsvParserConfigurationPanel.ui.xml")
 	interface CsvParserConfigurationPanelUiBinder extends UiBinder<Widget, CsvConfigurationPanel> {
@@ -42,15 +46,27 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 
 	private Presenter presenter;
 	
+	@Inject
 	protected PreviewDataProvider dataProvider;
 	
 	@Inject
-	public CsvPreviewStepViewImpl(PreviewDataProvider dataProvider) {
+	AlertDialog alertDialog;
+	
+	@Inject
+	private void init(PreviewGrid preview) {
 		
-		this.dataProvider = dataProvider;
-		preview = new PreviewGrid(dataProvider);
+		this.preview = preview;
 		initWidget(uiBinder.createAndBindUi(this));
 		configurationPanel.setRefreshHandler(this);
+	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) preview.resetScroll();
 	}
 	
 	@UiFactory
@@ -77,7 +93,7 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	 * {@inheritDoc}
 	 */
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 	
 	@Override

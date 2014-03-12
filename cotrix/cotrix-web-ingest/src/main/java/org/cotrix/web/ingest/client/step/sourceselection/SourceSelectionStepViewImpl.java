@@ -9,11 +9,14 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class SourceSelectionStepViewImpl extends Composite implements SourceSelectionStepView {
 
 	@UiTemplate("SourceSelectionStep.ui.xml")
@@ -21,6 +24,9 @@ public class SourceSelectionStepViewImpl extends Composite implements SourceSele
 	private static SourceSelectionStepUiBinder uiBinder = GWT.create(SourceSelectionStepUiBinder.class);
 	
 	private Presenter presenter;
+	
+	@Inject
+	private AlertDialog alertDialog;
 	
 	public SourceSelectionStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -41,6 +47,6 @@ public class SourceSelectionStepViewImpl extends Composite implements SourceSele
 	}
 	
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 }

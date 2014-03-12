@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.ingest.client.resources.Resources;
 import org.cotrix.web.ingest.shared.AttributeDefinition;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.AttributeType;
@@ -39,7 +38,7 @@ public class AttributeMappingPanel extends Composite {
 	protected FlexTable columnsTable;
 	protected FlexTable loadingContainter;
 
-	protected boolean typeDefinition;
+	protected boolean showTypeDefinition;
 
 	protected List<SimpleCheckBox> includeCheckBoxes = new ArrayList<SimpleCheckBox>();
 	protected List<TextBox> nameFields = new ArrayList<TextBox>();
@@ -47,19 +46,23 @@ public class AttributeMappingPanel extends Composite {
 	protected List<AttributeDefinition> definitions = new ArrayList<AttributeDefinition>();
 	protected List<Field> fields = new ArrayList<Field>();
 
-	public AttributeMappingPanel(boolean typeDefinition)
+	public AttributeMappingPanel()
 	{
-		this.typeDefinition = typeDefinition;
 		container = new SimplePanel();
 		columnsTable = new FlexTable();
 		setupLoadingContainer();
 		
 		container.setWidget(columnsTable);
 		initWidget(container);
-
-		Resources.INSTANCE.css().ensureInjected();
 	}
 	
+	/**
+	 * @param showTypeDefinition the showTypeDefinition to set
+	 */
+	public void setShowTypeDefinition(boolean showTypeDefinition) {
+		this.showTypeDefinition = showTypeDefinition;
+	}
+
 	protected void setupLoadingContainer()
 	{
 		loadingContainter = new FlexTable();
@@ -124,7 +127,7 @@ public class AttributeMappingPanel extends Composite {
 			cellFormatter.setStyleName(row, NAME_COLUMN, CommonResources.INSTANCE.css().mappingCell());
 			nameFields.add(nameField);
 
-			if (typeDefinition) {
+			if (showTypeDefinition) {
 				columnsTable.setWidget(row, LABEL_COLUMN, new Label("is a"));
 				cellFormatter.setStyleName(row, LABEL_COLUMN, CommonResources.INSTANCE.css().paddedText());
 
@@ -143,7 +146,7 @@ public class AttributeMappingPanel extends Composite {
 	protected void setInclude(int row, boolean include)
 	{
 		((TextBox)columnsTable.getWidget(row, NAME_COLUMN)).setEnabled(include);
-		if (typeDefinition) {
+		if (showTypeDefinition) {
 			((Label)columnsTable.getWidget(row, LABEL_COLUMN)).setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !include);
 			((AttributeDefinitionPanel)columnsTable.getWidget(row, DEFINITION_COLUMN)).setEnabled(include);
 		}
@@ -184,7 +187,7 @@ public class AttributeMappingPanel extends Composite {
 
 		AttributeDefinition attributeDefinition = definitions.get(index);
 
-		if (typeDefinition) {
+		if (showTypeDefinition) {
 			AttributeDefinitionPanel panel = definitionsPanels.get(index);
 			AttributeType type = panel.getType();
 			attributeDefinition.setType(type);

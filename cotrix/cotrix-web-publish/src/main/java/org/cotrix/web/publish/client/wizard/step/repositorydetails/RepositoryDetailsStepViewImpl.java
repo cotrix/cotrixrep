@@ -18,21 +18,23 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class RepositoryDetailsStepViewImpl extends Composite implements RepositoryDetailsStepView {
 	
 	protected static final String NOTHING = "nothing";
 	protected static final int ASSET_PROPERTIES_ROW = 3;
 	protected static final int REPOSITORY_PROPERTIES_ROW = 3;
 
-	private static repositoryDetailsUiBinder uiBinder = GWT.create(repositoryDetailsUiBinder.class);
+	private static RepositoryDetailsUiBinder uiBinder = GWT.create(RepositoryDetailsUiBinder.class);
 	
 	@UiTemplate("RepositoryDetailsStep.ui.xml")
-	interface repositoryDetailsUiBinder extends UiBinder<Widget, RepositoryDetailsStepViewImpl> {
+	interface RepositoryDetailsUiBinder extends UiBinder<Widget, RepositoryDetailsStepViewImpl> {
 	}
 
 	@UiField Grid repositoryDetails;

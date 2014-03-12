@@ -1,7 +1,7 @@
 package org.cotrix.web.manage.client.codelist;
 
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.manage.client.CotrixManagerAppGinInjector;
+import org.cotrix.web.manage.client.CotrixManageGinInjector;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.google.gwt.core.client.GWT;
@@ -14,11 +14,13 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CodelistPanelViewImpl extends ResizeComposite implements CodelistPanelView {
 
 	@UiTemplate("CodelistPanel.ui.xml")
@@ -45,7 +47,7 @@ public class CodelistPanelViewImpl extends ResizeComposite implements CodelistPa
 	@UiFactory
 	protected CodelistEditor createEditor()
 	{
-		return CotrixManagerAppGinInjector.INSTANCE.getCodeListEditor();
+		return CotrixManageGinInjector.INSTANCE.getCodeListEditor();
 	}
 	
 	/** 

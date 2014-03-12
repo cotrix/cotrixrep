@@ -1,19 +1,12 @@
 package org.cotrix.web.client.event;
 
-import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.event.shared.GwtEvent;
+import com.google.web.bindery.event.shared.binder.GenericEvent;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UserLoginFailedEvent extends GwtEvent<UserLoginFailedEvent.UserLoginFailedEventHandler> {
-
-	public static Type<UserLoginFailedEventHandler> TYPE = new Type<UserLoginFailedEventHandler>();
-
-	public interface UserLoginFailedEventHandler extends EventHandler {
-		void onUserLoginFailed(UserLoginFailedEvent event);
-	}
+public class UserLoginFailedEvent extends GenericEvent {
 
 	protected String details;
 	
@@ -26,19 +19,5 @@ public class UserLoginFailedEvent extends GwtEvent<UserLoginFailedEvent.UserLogi
 	 */
 	public String getDetails() {
 		return details;
-	}
-
-	@Override
-	protected void dispatch(UserLoginFailedEventHandler handler) {
-		handler.onUserLoginFailed(this);
-	}
-
-	@Override
-	public Type<UserLoginFailedEventHandler> getAssociatedType() {
-		return TYPE;
-	}
-
-	public static Type<UserLoginFailedEventHandler> getType() {
-		return TYPE;
 	}
 }

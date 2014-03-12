@@ -8,6 +8,7 @@
 
 	<!-- Other module inherits -->
 	<inherits name="com.google.gwt.inject.Inject" />
+	<inherits name='com.google.web.bindery.event.EventBinder'/>
 	<inherits name='org.cotrix.web.menu.CotrixMenu' />
 	<inherits name='org.cotrix.web.ingest.CotrixIngest' />
 	<inherits name='org.cotrix.web.manage.CotrixManage' />
@@ -24,6 +25,8 @@
 	</generate-with>
 	
 	<!-- <set-configuration-property name="CssResource.style" value="pretty" />-->
+	
+	<inherits name="com.google.gwt.user.Debug"/>
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class='org.cotrix.web.client.Cotrix' />

@@ -34,7 +34,7 @@
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' ui:field="mainPanel">
 		<g:center>
-			<g:ScrollPanel styleName="{common.css.wizardPanel}">
+			<g:ScrollPanel styleName="{common.css.wizardPanel}" ui:field="summaryScrollPanel">
 			<g:Grid ui:field="panel" styleName="{style.grid}">
 				<g:row>
 					<g:cell

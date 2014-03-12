@@ -9,11 +9,14 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class DestinationSelectionStepViewImpl extends Composite implements DestinationSelectionStepView {
 
 	@UiTemplate("DestinationSelectionStep.ui.xml")
@@ -21,6 +24,9 @@ public class DestinationSelectionStepViewImpl extends Composite implements Desti
 	private static DestinationSelectionStepUiBinder uiBinder = GWT.create(DestinationSelectionStepUiBinder.class);
 	
 	private Presenter presenter;
+	
+	@Inject
+	AlertDialog alertDialog;
 	
 	public DestinationSelectionStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -41,6 +47,6 @@ public class DestinationSelectionStepViewImpl extends Composite implements Desti
 	}
 	
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 }

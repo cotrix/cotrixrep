@@ -25,10 +25,10 @@ import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.Codelists;
-import org.cotrix.web.common.server.util.OrderedList;
+import org.cotrix.web.common.server.util.OrderedLists;
 import org.cotrix.web.common.server.util.Repositories;
 import org.cotrix.web.common.server.util.ValueUtils;
-import org.cotrix.web.common.server.util.FieldComparator.ValueProvider;
+import org.cotrix.web.common.server.util.OrderedLists.ValueProvider;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.publish.server.publish.PublishStatus;
@@ -106,22 +106,22 @@ public class PublishSession implements Serializable {
 	@Inject
 	transient User currentUser;
 	
-	protected OrderedList<UICodelist> orderedCodelists;
+	protected OrderedLists<UICodelist> orderedCodelists;
 	protected Map<String, UICodelist> indexedCodelists;
 	
 	protected PublishStatus publishStatus;
 	
-	protected OrderedList<UIRepository> orderedRepositories;
+	protected OrderedLists<UIRepository> orderedRepositories;
 	protected Map<QName, RepositoryService> indexedRepositories;
 	
 	public PublishSession() {
-		orderedCodelists = new OrderedList<UICodelist>();
+		orderedCodelists = new OrderedLists<UICodelist>();
 		orderedCodelists.addField(UICodelist.NAME_FIELD, CODELIST_NAME);
 		orderedCodelists.addField(UICodelist.VERSION_FIELD, CODELIST_VERSION);
 		orderedCodelists.addField(UICodelist.STATE_FIELD, CODELIST_STATE);
 		indexedCodelists = new HashMap<String, UICodelist>();
 		
-		orderedRepositories = new OrderedList<UIRepository>();
+		orderedRepositories = new OrderedLists<UIRepository>();
 		orderedRepositories.addField(UIRepository.NAME_FIELD, REPOSITORY_NAME);
 		orderedRepositories.addField(UIRepository.PUBLISHED_TYPES_FIELD, REPOSITORY_PUBLISH_TYPE);
 		indexedRepositories = new HashMap<QName, RepositoryService>();

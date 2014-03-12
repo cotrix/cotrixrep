@@ -1,8 +1,8 @@
 package org.cotrix.web.manage.client.codelists;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.util.SingleSelectionModel;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider.Filter;
+import org.cotrix.web.common.client.util.SingleSelectionModel;
 import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
@@ -29,11 +29,13 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CodelistsViewImpl extends ResizeComposite implements CodelistsView {
 
 	private static CodeListsViewUiBinder uiBinder = GWT.create(CodeListsViewUiBinder.class);
@@ -53,7 +55,6 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	CellTree codelists;
 	
 	@UiField ItemToolbar toolbar;
-	
 
 	protected CodelistsDataProvider codeListDataProvider;
 	

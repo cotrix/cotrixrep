@@ -23,11 +23,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 
 	protected static final String DOWNLOAD_URL = GWT.getModuleBaseURL()+"service/publishDownload?"+DownloadType.PARAMETER_NAME+"="+DownloadType.REPORT;

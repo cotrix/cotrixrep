@@ -10,11 +10,13 @@ import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CotrixWebViewImpl extends ResizeComposite implements CotrixWebView {
 
 	@UiTemplate("CotrixWebPanel.ui.xml")

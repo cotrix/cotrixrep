@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.cotrix.web.ingest.client.event.CodeListTypeUpdatedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
-import org.cotrix.web.ingest.client.event.CodeListTypeUpdatedEvent.CodeListTypeUpdatedHandler;
 import org.cotrix.web.ingest.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.ingest.client.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
@@ -18,14 +17,20 @@ import org.cotrix.web.wizard.client.step.WizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> implements CodeListTypeUpdatedHandler, ResetWizardHandler {
+@Singleton
+public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> implements ResetWizardHandler {
 	
+	protected static interface MappingNodeSelectorEventBinder extends EventBinder<MappingNodeSelector> {}
+
 	protected WizardStep nextStep;
 	protected WizardStep oldNextStep;
 	
@@ -39,10 +44,13 @@ public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> implem
 	{
 		this.csvStep = csvStep;
 		this.nextStep = csvStep;
-		importBus.addHandler(CodeListTypeUpdatedEvent.TYPE, this);
 		importBus.addHandler(ResetWizardEvent.TYPE, this);
 	}
 	
+	@Inject
+	private void bind(MappingNodeSelectorEventBinder binder, @ImportBus EventBus importEventBus) {
+		binder.bindEventHandlers(this, importEventBus);
+	}	
 
 	@Override
 	public FlowNode<WizardStep> selectNode(List<FlowNode<WizardStep>> children) {
@@ -66,8 +74,8 @@ public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> implem
 	}
 
 
-	@Override
-	public void onCodeListTypeUpdated(CodeListTypeUpdatedEvent event) {
+	@EventHandler
+	void onCodeListTypeUpdated(CodeListTypeUpdatedEvent event) {
 		Log.trace("TypeNodeSelector updating next to "+event.getCodeListType()+" event: "+event.toDebugString());
 		switch (event.getCodeListType()) {
 			case CSV: nextStep = csvStep; break;

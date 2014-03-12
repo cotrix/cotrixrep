@@ -9,13 +9,13 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.security.InvalidCredentialsException;
+import org.cotrix.security.LoginRequest;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.Realm;
 import org.cotrix.security.TokenCollector;
@@ -41,7 +41,7 @@ public class DefaultLoginService implements LoginService {
 	
 	
 	@Override
-	public User login(HttpServletRequest request) {
+	public User login(LoginRequest request) {
 	
 		Object token = collectTokenFrom(request);
 		
@@ -79,7 +79,7 @@ public class DefaultLoginService implements LoginService {
 	}
 	
 	//helpers
-	private Object collectTokenFrom(HttpServletRequest request) {
+	private Object collectTokenFrom(LoginRequest request) {
 	
 		Object token =null;
 
