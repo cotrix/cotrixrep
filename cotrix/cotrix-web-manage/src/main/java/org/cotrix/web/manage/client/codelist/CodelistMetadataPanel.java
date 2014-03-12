@@ -10,9 +10,10 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeFactory;
-import org.cotrix.web.manage.client.codelist.event.AttributeChangedEvent;
-import org.cotrix.web.manage.client.codelist.event.AttributeChangedEvent.AttributeChangedHandler;
+import org.cotrix.web.manage.client.codelist.attribute.AttributesGrid;
+import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.MetadataProvider;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
@@ -65,6 +66,9 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	
 	@Inject
 	protected Constants constants;
+	
+	@Inject
+	protected CotrixManagerResources resources;
 
 	@Inject
 	public CodelistMetadataPanel( ) {
@@ -84,7 +88,7 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 
 			@Override
 			public ImageResource getValue(UIAttribute attribute) {
-				return CotrixManagerResources.INSTANCE.bullet();
+				return resources.bullet();
 			}
 		};
 		attributesGrid.insertColumn(0, bulletColumn);

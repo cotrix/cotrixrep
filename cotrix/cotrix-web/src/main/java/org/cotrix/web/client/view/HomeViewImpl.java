@@ -15,11 +15,13 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class HomeViewImpl extends Composite implements HomeView {
 
 	private static HomeUiBinder uiBinder = GWT.create(HomeUiBinder.class);

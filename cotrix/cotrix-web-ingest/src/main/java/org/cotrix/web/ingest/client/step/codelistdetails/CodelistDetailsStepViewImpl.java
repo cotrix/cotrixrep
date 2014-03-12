@@ -9,7 +9,6 @@ import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.shared.codelist.Property;
 import org.cotrix.web.ingest.shared.AssetDetails;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -20,17 +19,21 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CodelistDetailsStepViewImpl extends ResizeComposite implements CodelistDetailsStepView {
 	
 	protected static final int ASSET_PROPERTIES_ROW = 3;
 	protected static final int REPOSITORY_PROPERTIES_ROW = 3;
 
-	private static CodelistDetailsUiBinder uiBinder = GWT.create(CodelistDetailsUiBinder.class);
+	@Inject
+	private CodelistDetailsUiBinder uiBinder;
 	
 	@UiTemplate("CodelistDetailsStep.ui.xml")
 	interface CodelistDetailsUiBinder extends UiBinder<Widget, CodelistDetailsStepViewImpl> {
@@ -44,8 +47,8 @@ public class CodelistDetailsStepViewImpl extends ResizeComposite implements Code
 	
 	protected Presenter presenter;
 	
-
-	public CodelistDetailsStepViewImpl() {
+	@Inject
+	private void init() {
 
 		initWidget(uiBinder.createAndBindUi(this));
 	}

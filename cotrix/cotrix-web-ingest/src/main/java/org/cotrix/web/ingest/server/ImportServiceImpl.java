@@ -285,6 +285,8 @@ public class ImportServiceImpl extends RemoteServiceServlet implements ImportSer
 		logger.trace("setAsset {}", assetId);
 
 		try {
+			session.clean();
+			
 			Asset asset = assetInfosCache.getAsset(assetId);
 			if (asset == null) throw new IllegalArgumentException("Asset with id "+assetId+" not found");
 			session.setSelectedAsset(asset);

@@ -4,13 +4,16 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public interface CotrixManagerResources extends ClientBundle {
 	
+	@Deprecated
 	public static final CotrixManagerResources INSTANCE = GWT.create(CotrixManagerResources.class);
 
 	@Source("style.css")
@@ -48,13 +51,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource filter();
 	public ImageResource filterDisabled();
-	
-	public ImageResource ar();
-	public ImageResource en();
-	public ImageResource es();
-	public ImageResource fr();
-	public ImageResource ru();
-	public ImageResource zh();
 	
 	@Source("thumb_vertical.png")
 	public ImageResource thumbVertical();

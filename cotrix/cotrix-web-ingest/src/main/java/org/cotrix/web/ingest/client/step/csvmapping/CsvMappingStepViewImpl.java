@@ -7,32 +7,49 @@ import org.cotrix.web.ingest.client.util.MappingPanel;
 import org.cotrix.web.ingest.client.util.MappingPanel.ReloadButtonHandler;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappingStepView, ReloadButtonHandler {
 
 	@UiTemplate("CsvMappingStep.ui.xml")
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, CsvMappingStepViewImpl> {}
-	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
+	
+	@Inject
+	private HeaderTypeStepUiBinder uiBinder;
 	
 	@UiField(provided = true) MappingPanel mappingPanel;
 	
 	protected Presenter presenter;
+	
+	@Inject
+	AlertDialog alertDialog;
 
-	public CsvMappingStepViewImpl() {
+	@Inject
+	private void init() {
 		mappingPanel = new MappingPanel(true, "COLUMNS");
 		mappingPanel.setReloadHandler(this);
 		
 		initWidget(uiBinder.createAndBindUi(this));
+	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) mappingPanel.resetScroll();
 	}
 	
 	/**
@@ -108,7 +125,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	}
 	
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 
 	@Override

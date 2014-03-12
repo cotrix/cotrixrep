@@ -4,11 +4,13 @@ import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.shared.CodelistGroup.Version;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.ImplementedBy;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@ImplementedBy(CodelistsViewImpl.class)
 public interface CodelistsView {
 	
 	public interface Presenter {

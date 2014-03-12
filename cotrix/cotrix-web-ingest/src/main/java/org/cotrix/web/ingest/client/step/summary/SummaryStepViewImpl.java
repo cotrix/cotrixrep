@@ -21,13 +21,16 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepView {
 
 	protected static final int FILE_FIELD_ROW = 0;
@@ -38,6 +41,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	private static SummaryStepUiBinder uiBinder = GWT.create(SummaryStepUiBinder.class);
 
 	@UiField DockLayoutPanel mainPanel;
+	@UiField ScrollPanel summaryScrollPanel;
 	@UiField Grid panel;
 
 	@UiField Label fileField;
@@ -52,11 +56,23 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) {
+			summaryScrollPanel.scrollToTop();
+			summaryScrollPanel.scrollToLeft();
+		}
+	}
 
 	public void setMapping(List<AttributeMapping> mappings)
 	{
 		Log.trace("Setting "+mappings.size()+" mappings");
-		
+	
 		customTable.removeAllRows();
 		int row = 0;
 		for (AttributeMapping mapping:mappings) {

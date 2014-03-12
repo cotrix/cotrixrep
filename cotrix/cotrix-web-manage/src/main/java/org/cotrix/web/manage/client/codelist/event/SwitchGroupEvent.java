@@ -2,24 +2,16 @@ package org.cotrix.web.manage.client.codelist.event;
 
 import org.cotrix.web.manage.shared.Group;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.EventHandler;
+import com.google.web.bindery.event.shared.binder.GenericEvent;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SwitchGroupEvent extends
-		GwtEvent<SwitchGroupEvent.SwitchAttributeHandler> {
+public class SwitchGroupEvent extends GenericEvent {
 
-	public static Type<SwitchAttributeHandler> TYPE = new Type<SwitchAttributeHandler>();
-	
 	protected Group group;
 	protected GroupSwitchType switchType;
-
-	public interface SwitchAttributeHandler extends EventHandler {
-		void onSwitchAttribute(SwitchGroupEvent event);
-	}
 
 	public SwitchGroupEvent(Group group, GroupSwitchType switchType) {
 		this.group = group;
@@ -35,19 +27,5 @@ public class SwitchGroupEvent extends
 	 */
 	public GroupSwitchType getSwitchType() {
 		return switchType;
-	}
-
-	@Override
-	protected void dispatch(SwitchAttributeHandler handler) {
-		handler.onSwitchAttribute(this);
-	}
-
-	@Override
-	public Type<SwitchAttributeHandler> getAssociatedType() {
-		return TYPE;
-	}
-
-	public static Type<SwitchAttributeHandler> getType() {
-		return TYPE;
 	}
 }

@@ -12,11 +12,13 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CsvConfigurationStepViewImpl extends ResizeComposite implements CsvConfigurationStepView {
 	
 	protected static final int HEADER_ROW = 0;
@@ -35,6 +37,9 @@ public class CsvConfigurationStepViewImpl extends ResizeComposite implements Csv
 	CsvConfigurationPanel configurationPanel;
 	
 	@Inject
+	AlertDialog alertDialog;
+	
+	@Inject
 	public CsvConfigurationStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
@@ -48,14 +53,8 @@ public class CsvConfigurationStepViewImpl extends ResizeComposite implements Csv
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void setPresenter(Presenter presenter) {
-	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 	
 	@Override

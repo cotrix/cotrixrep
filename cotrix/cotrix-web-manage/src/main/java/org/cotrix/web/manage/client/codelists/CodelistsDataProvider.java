@@ -15,11 +15,13 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGroup> {
 	
 	@Inject

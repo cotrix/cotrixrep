@@ -9,6 +9,7 @@
 	
 	<!-- Other module inherits -->
 	<inherits name="com.google.gwt.inject.Inject" />
+	<inherits name='com.google.web.bindery.event.EventBinder'/>
 	<inherits name='org.cotrix.web.common.CotrixCommon' />
 
 	<!-- Specify the paths for translatable code -->

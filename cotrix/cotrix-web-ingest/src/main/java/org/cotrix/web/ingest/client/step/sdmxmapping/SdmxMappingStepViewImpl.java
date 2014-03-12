@@ -13,11 +13,14 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMappingStepView, ReloadButtonHandler {
 
 	@UiTemplate("SdmxMappingStep.ui.xml")
@@ -27,12 +30,24 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	@UiField(provided = true) MappingPanel mappingPanel;
 	
 	protected Presenter presenter;
+	
+	@Inject
+	AlertDialog alertDialog;
 
 	public SdmxMappingStepViewImpl() {
 		mappingPanel = new MappingPanel(false, "ELEMENTS");
 		mappingPanel.setReloadHandler(this);
 		
 		initWidget(uiBinder.createAndBindUi(this));
+	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) mappingPanel.resetScroll();
 	}
 	
 	/**
@@ -95,7 +110,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	}
 
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 
 	@Override

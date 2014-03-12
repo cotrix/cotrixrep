@@ -5,7 +5,6 @@ import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
 import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
-import org.cotrix.web.ingest.client.resources.Resources;
 import org.cotrix.web.ingest.shared.AssetInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -30,11 +29,13 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class SelectionStepViewImpl extends ResizeComposite implements SelectionStepView {
 
 	@UiTemplate("SelectionStep.ui.xml")
@@ -53,11 +54,13 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	protected SingleSelectionModel<AssetInfo> selectionModel;
 
 	private Presenter presenter;
+	
+	@Inject
+	AlertDialog alertDialog;
 
 	@Inject
 	public SelectionStepViewImpl(AssetInfoDataProvider assetInfoDataProvider) {
 		this.dataProvider = assetInfoDataProvider;
-		Resources.INSTANCE.css().ensureInjected();
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
 	}
@@ -184,7 +187,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	}
 
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 
 	

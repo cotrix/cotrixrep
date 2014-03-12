@@ -18,11 +18,14 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappingStepView, ReloadButtonHandler {
 
 	public static final DefinitionWidgetProvider<Column> PROVIDER = new DefinitionWidgetProvider<Column>() {
@@ -60,6 +63,9 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	@UiField(provided = true) MappingPanel<Column> mappingPanel;
 
 	protected Presenter presenter;
+	
+	@Inject
+	AlertDialog alertDialog;
 
 	public CsvMappingStepViewImpl() {
 		mappingPanel = new MappingPanel<Column>(PROVIDER, "COLUMNS");
@@ -67,7 +73,16 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-	
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) mappingPanel.resetScroll();
+	}
+
 	@Override
 	public void showMetadata(boolean visible) {
 		mappingPanel.showMetadata(visible);
@@ -146,7 +161,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	}
 
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 
 	@Override

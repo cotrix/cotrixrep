@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.client.data;
 
-import org.cotrix.web.manage.client.CotrixManagerAppGinInjector;
+import org.cotrix.web.manage.client.CotrixManageGinInjector;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.data.event.EditType;
 
@@ -18,7 +18,7 @@ public class DataEditor<T> {
 	
 	public static <T> DataEditor<T> build(Object source)
 	{
-		return new DataEditor<T>(source, CotrixManagerAppGinInjector.INSTANCE.getEditorBus());
+		return new DataEditor<T>(source, CotrixManageGinInjector.INSTANCE.getEditorBus());
 	}
 	
 	protected Object source;

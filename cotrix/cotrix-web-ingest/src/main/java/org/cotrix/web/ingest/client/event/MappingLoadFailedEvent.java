@@ -1,20 +1,12 @@
 package org.cotrix.web.ingest.client.event;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.EventHandler;
+import com.google.web.bindery.event.shared.binder.GenericEvent;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingLoadFailedEvent extends	GwtEvent<MappingLoadFailedEvent.MappingLoadFailedHandler> {
-
-	public static Type<MappingLoadFailedHandler> TYPE = new Type<MappingLoadFailedHandler>();
-
-
-	public interface MappingLoadFailedHandler extends EventHandler {
-		void onMappingLoadFailed(MappingLoadFailedEvent event);
-	}
+public class MappingLoadFailedEvent extends	GenericEvent {
 
 	private Throwable throwable;
 	
@@ -24,19 +16,5 @@ public class MappingLoadFailedEvent extends	GwtEvent<MappingLoadFailedEvent.Mapp
 
 	public Throwable getThrowable() {
 		return throwable;
-	}
-
-	@Override
-	protected void dispatch(MappingLoadFailedHandler handler) {
-		handler.onMappingLoadFailed(this);
-	}
-
-	@Override
-	public Type<MappingLoadFailedHandler> getAssociatedType() {
-		return TYPE;
-	}
-
-	public static Type<MappingLoadFailedHandler> getType() {
-		return TYPE;
 	}
 }

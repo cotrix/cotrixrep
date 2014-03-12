@@ -20,11 +20,14 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class UploadStepViewImpl extends Composite implements UploadStepView {
 
 	private static UploadStepUiBinder uiBinder = GWT.create(UploadStepUiBinder.class);
@@ -47,6 +50,12 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	@UiField FormPanel form;
 
 	private Presenter presenter;
+	
+	@Inject
+	private AlertDialog alertDialog;
+	
+	@Inject
+	private ImportConstants constants;
 
 	public UploadStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -71,7 +80,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 		progressBar.setProgress(0);
 		progressBar.setVisible(true);
 		
-		String ellipsedName = TextUtil.ellipsize(filename, ImportConstants.INSTANCE.fileNameMaxSize());
+		String ellipsedName = TextUtil.ellipsize(filename, constants.fileNameMaxSize());
 		fileNameLabel.setText(ellipsedName);
 		fileNameLabel.setTitle(filename);
 		fileNameLabel.setVisible(true);
@@ -103,7 +112,7 @@ public class UploadStepViewImpl extends Composite implements UploadStepView {
 	}
 	
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 
 	@UiHandler("retryButton")

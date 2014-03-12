@@ -17,7 +17,7 @@ import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.UIUser;
 import org.cotrix.web.users.client.ModuleActivactedEvent;
 import org.cotrix.web.users.client.PermissionBus;
-import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PassworUpdatedEvent;
+import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PasswordUpdatedEvent;
 import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PasswordUpdatedHandler;
 import org.cotrix.web.users.shared.PermissionUIFeatures;
 import org.cotrix.web.users.shared.UIUserDetails;
@@ -79,9 +79,9 @@ public class ProfilePanel extends LoadingPanel {
 		passwordUpdateDialog.addPasswordUpdateHandler(new PasswordUpdatedHandler() {
 			
 			@Override
-			public void onAddUser(PassworUpdatedEvent event) {
+			public void onAddUser(PasswordUpdatedEvent event) {
 				StatusUpdates.statusSaving();
-				service.saveUserPassword(userDetails.getId(), event.getPassword(), new ManagedFailureCallback<Void>() {
+				service.updateUserPassword(userDetails.getId(), event.getOldPassword(), event.getNewPassword(),new ManagedFailureCallback<Void>() {
 
 					@Override
 					public void onSuccess(Void result) {
@@ -108,6 +108,7 @@ public class ProfilePanel extends LoadingPanel {
 	
 	@UiHandler("password")
 	protected void onPasswordChange(ClickEvent event) {
+		passwordUpdateDialog.clean();
 		passwordUpdateDialog.center();
 	}
 	

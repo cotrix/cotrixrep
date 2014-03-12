@@ -15,11 +15,13 @@ import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class ReportLogDataProvider extends AsyncDataProvider<ReportLog> {
 	
 	@Inject

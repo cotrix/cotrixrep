@@ -6,6 +6,7 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -33,15 +34,18 @@ public class Cotrix implements EntryPoint {
 	
 	protected void initialize()
 	{
-    	CotrixResources.INSTANCE.css().ensureInjected();
 		Window.enableScrolling(true); 
 		Window.setMargin("0px");
 		
 		hideLoader();
 		 
-		AppGinInjector injector = AppGinInjector.INSTANCE;
-		AppController appViewer = injector.getAppController();
-		appViewer.go(RootLayoutPanel.get());
+		CotrixGinInjector injector = GWT.create(CotrixGinInjector.class);
+		
+		CotrixResources resources = injector.getCotrixResources();
+		resources.css().ensureInjected();
+		
+		CotrixController appController = injector.getAppController();
+		appController.go(RootLayoutPanel.get());
 	}
 	
 	protected void hideLoader() {
