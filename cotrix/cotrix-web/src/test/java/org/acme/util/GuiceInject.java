@@ -10,9 +10,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
+ * The field will be injected by Guice.
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@Target({ FIELD}) @Retention(RUNTIME)
+@Target({FIELD}) @Retention(RUNTIME)
 public @interface GuiceInject {
 }

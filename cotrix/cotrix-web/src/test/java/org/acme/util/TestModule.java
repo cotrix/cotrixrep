@@ -3,6 +3,7 @@
  */
 package org.acme.util;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureBus;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.BindingAnnotation;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
@@ -38,15 +40,23 @@ public class TestModule extends AbstractModule {
 			for (Field field:clazz.getDeclaredFields()) {
 				Provide annotation = field.getAnnotation(Provide.class);
 				if (annotation!=null) {
-					Class<?> type = field.getType();
+					Class<?> type = annotation.realType()!=void.class?annotation.realType():field.getType();
 					field.setAccessible(true);
 					Object value = field.get(o);
-					bindings.add(new Binding(type, value));
+					Class<? extends Annotation> bindingAnnotation = getBindingAnnotation(field.getAnnotations());
+					bindings.add(new Binding(type, value, bindingAnnotation));
 				}
 			}
 		} catch(Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	private Class<? extends Annotation> getBindingAnnotation(Annotation[] annotations) {
+		for (Annotation annotation:annotations) {
+			if (annotation.annotationType().isAnnotationPresent(BindingAnnotation.class)) return annotation.annotationType();
+		}
+		return null;
 	}
 
 	/**
@@ -85,24 +95,40 @@ public class TestModule extends AbstractModule {
 			bindings.addAll(provider.getBindings());
 		}
 
+		configureDefaultBindings();
+
+		for (Binding binding:bindings) {
+			if (binding.annotation!=null) bind((Class<Object>)binding.type).annotatedWith(binding.annotation).toInstance(binding.value);
+			else bind((Class<Object>)binding.type).toInstance(binding.value);
+		}
+	}
+	
+	private void configureDefaultBindings() {
 		requestStaticInjection(FeatureBinder.class);
-
-		for (Binding binding:bindings) bind((Class<Object>)binding.type).toInstance(binding.value);
-
-		bind(EventBus.class).annotatedWith(CotrixBus.class).toInstance(cotrixBus);
-		bind(EventBus.class).annotatedWith(FeatureBus.class).toInstance(featuresBus);
+		if (!existBinding(EventBus.class, CotrixBus.class)) bind(EventBus.class).annotatedWith(CotrixBus.class).toInstance(cotrixBus);
+		if (!existBinding(EventBus.class, FeatureBus.class)) bind(EventBus.class).annotatedWith(FeatureBus.class).toInstance(featuresBus);
+	}
+	
+	private <T> boolean existBinding(Class<T> type, Class<? extends Annotation> annotation) {
+		for (Binding binding:bindings) if (binding.type == type && binding.annotation == annotation) return true;
+		return false;
 	}
 
 	public static class Binding {
 		Class<?> type;
 		Object value;
-		/**
-		 * @param type
-		 * @param value
-		 */
+		Class<? extends Annotation> annotation;
+
 		public Binding(Class<?> type, Object value) {
 			this.type = type;
 			this.value = value;
+		}
+
+		public Binding(Class<?> type, Object value,
+				Class<? extends Annotation> annotation) {
+			this.type = type;
+			this.value = value;
+			this.annotation = annotation;
 		}
 	}
 }

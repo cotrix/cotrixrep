@@ -33,7 +33,7 @@ import com.google.web.bindery.event.shared.binder.impl.GenericEventType;
  */
 public class EventBinderBindingsProvider implements BindingsProvider {
 
-	private static Reflections reflections = new Reflections("org.cotrix.web");
+	private static Reflections reflections = ReflectionsSingleton.getReflections();
 
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })

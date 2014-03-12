@@ -32,7 +32,7 @@ import com.googlecode.jeeunit.cdi.BeanManagerLookup;
  */
 public class ServiceBindingsProvider implements BindingsProvider {
 	
-	private static Reflections reflections = new Reflections("org.cotrix.web");
+	private static Reflections reflections = ReflectionsSingleton.getReflections();
 
 	@Override
 	public List<Binding> getBindings() {
