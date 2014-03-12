@@ -89,6 +89,7 @@ public class AttributeDefinitionPanel extends Composite {
 		setupLanguageList();
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void setupLanguageList()
 	{
 		String[] languages = ImportConstants.INSTANCE.languages();
