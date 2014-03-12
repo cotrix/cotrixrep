@@ -64,6 +64,13 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-users</artifactId>
 		</dependency>
+		
+		<!-- FIXME TMP -->
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-wizard</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -75,7 +82,7 @@
 			<artifactId>weld-servlet-core</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.gwt.eventbinder</groupId>
 			<artifactId>eventbinder</artifactId>
@@ -99,10 +106,17 @@
 			<version>1.9.5</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-test-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.9-RC1</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

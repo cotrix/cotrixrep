@@ -8,10 +8,12 @@ import static org.mockito.Mockito.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
@@ -22,16 +24,21 @@ import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureBus;
 import org.cotrix.web.server.MainServiceImpl;
+import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.reflections.ReflectionUtils;
+import org.reflections.Reflections;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.AbstractModule;
-import com.google.inject.Provider;
-import com.google.inject.matcher.Matchers;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.GenericEvent;
+import com.google.web.bindery.event.shared.binder.impl.GenericEventHandler;
+import com.google.web.bindery.event.shared.binder.impl.GenericEventType;
 import com.googlecode.jeeunit.cdi.BeanManagerLookup;
 
 /**
@@ -102,9 +109,9 @@ public class TestModule extends AbstractModule {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void configure() {
-		
-		bindListener(Matchers.any(), new EventBinderTypeListener());
-		
+
+		findEventBinders();
+
 		requestStaticInjection(FeatureBinder.class);
 
 		for (Binding binding:bindings) bind((Class<Object>)binding.type).toInstance(binding.value);
@@ -118,14 +125,100 @@ public class TestModule extends AbstractModule {
 			Object mock = mock(asyncServiceType, new ServiceInterceptor(serviceType));
 			bind((Class<Object>)asyncServiceType).toInstance(mock);
 		}
-		
-		bind(EventBinder.class).toProvider(new Provider<EventBinder>() {
+	}
 
-			@Override
-			public EventBinder get() {
-				return mock(EventBinder.class);
+	private static Reflections reflections = new Reflections("org.cotrix.web");
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void findEventBinders() {
+		Set<Class<? extends EventBinder>> binders = reflections.getSubTypesOf(EventBinder.class);
+		for (Class<? extends EventBinder> binder:binders) bindBinder(binder);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <B,T extends EventBinder<B>> void bindBinder(Class<T> binder) {
+		System.out.println("binding "+binder.getName());
+
+		try {
+
+			T myBinder = mock(binder);
+
+			ParameterizedType parameterizedType = (ParameterizedType) binder.getGenericInterfaces()[0];
+			Class<?> bindedClass = (Class<?>) parameterizedType.getActualTypeArguments()[0];
+			System.out.println("Binder for :"+bindedClass);
+
+			Set<Method> eventHandlerMethods = ReflectionUtils.getAllMethods(bindedClass, ReflectionUtils.withParametersAssignableTo(GenericEvent.class));
+
+			when(myBinder.bindEventHandlers((B)Mockito.any(), Mockito.any(EventBus.class))).thenAnswer(new EventBinderHelper<B>(eventHandlerMethods));
+
+			bind(binder).toInstance(myBinder);
+		} catch(Throwable throwable){
+			throwable.printStackTrace();
+		}
+	}
+
+	private class EventBinderHelper<T> implements Answer<HandlerRegistration> {
+		
+		Set<Method> eventHandlerMethods;
+		
+		/**
+		 * @param eventHandlerMethods
+		 */
+		private EventBinderHelper(Set<Method> eventHandlerMethods) {
+			this.eventHandlerMethods = eventHandlerMethods;
+		}
+
+		@SuppressWarnings("unchecked")
+		public HandlerRegistration answer(InvocationOnMock invocation) {
+			Object[] args = invocation.getArguments();
+
+			final List<HandlerRegistration> registrations = bind((T)args[0], (EventBus)args[1]);
+		    return new HandlerRegistration() {
+		      @Override
+		      public void removeHandler() {
+		        for (HandlerRegistration registration : registrations) {
+		          registration.removeHandler();
+		        }
+		        registrations.clear();
+		      }
+		    };
+		}
+
+		@SuppressWarnings("unchecked")
+		protected List<HandlerRegistration> bind(final T instance, EventBus eventBus) {
+			List<HandlerRegistration> registrations = new ArrayList<>();
+			for (final Method eventHandlerMethod:eventHandlerMethods) {
+				eventHandlerMethod.setAccessible(true);
+				Class<? extends GenericEvent> eventType = (Class<? extends GenericEvent>) eventHandlerMethod.getParameterTypes()[0];
+
+				GenericEventHandler eventHandler = new GenericEventHandler() {
+
+					@Override
+					public void handleEvent(GenericEvent event) {
+						try {
+							eventHandlerMethod.invoke(instance, event);
+						} catch (IllegalAccessException
+								| IllegalArgumentException
+								| InvocationTargetException e) {
+							throw new RuntimeException(e);
+						}
+					}
+				};
+
+				bind(eventBus, registrations, eventType, eventHandler);
+
 			}
-		});
+			return registrations;
+		}
+
+
+		protected final <U extends GenericEvent> void bind(
+				EventBus eventBus,
+				List<HandlerRegistration> registrations,
+				Class<U> type,
+				GenericEventHandler handler) {
+			registrations.add(eventBus.addHandler(GenericEventType.getTypeOf(type), handler));
+		}
 	}
 
 	private class Binding {
