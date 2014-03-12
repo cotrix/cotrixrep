@@ -86,6 +86,7 @@ public class CodelistSelectionStepPresenter extends AbstractVisualWizardStep imp
 
 	@Override
 	public void onResetWizard(ResetWizardEvent event) {
+		selectedCodelist = null;
 		view.reset();
 	}
 }
