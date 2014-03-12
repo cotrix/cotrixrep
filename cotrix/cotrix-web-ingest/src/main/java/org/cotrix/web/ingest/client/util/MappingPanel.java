@@ -52,6 +52,10 @@ public class MappingPanel extends ResizeComposite {
 		this.attributeMappingLabel.setText(attributeMappingLabel);
 	}
 	
+	public void resetScroll() {
+		scrollMappingPanel.scrollToTop();
+	}
+
 	/**
 	 * @param reloadHandler the reloadHandler to set
 	 */
@@ -107,8 +111,6 @@ public class MappingPanel extends ResizeComposite {
 	public void setMapping(List<AttributeMapping> mapping)
 	{
 		mappingPanel.setMapping(mapping);
-		scrollMappingPanel.scrollToTop();
-		System.out.println("SCROLL POS: "+scrollMappingPanel.getVerticalScrollPosition());
 	}
 
 	public void setCodeTypeError()

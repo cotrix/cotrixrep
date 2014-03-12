@@ -56,14 +56,23 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) {
+			summaryScrollPanel.scrollToTop();
+			summaryScrollPanel.scrollToLeft();
+		}
+	}
 
 	public void setMapping(List<AttributeMapping> mappings)
 	{
 		Log.trace("Setting "+mappings.size()+" mappings");
-		
-		summaryScrollPanel.scrollToTop();
-		summaryScrollPanel.scrollToLeft();
-		
+	
 		customTable.removeAllRows();
 		int row = 0;
 		for (AttributeMapping mapping:mappings) {
