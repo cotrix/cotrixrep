@@ -5,7 +5,7 @@ package org.cotrix.web.users.client.menu;
 
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
-import org.cotrix.web.users.client.PermissionBus;
+import org.cotrix.web.users.client.UsersBus;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -47,7 +47,7 @@ public class MenuPanel extends ResizeComposite {
 	@UiField CellTree menuTree;
 	@UiField InlineLabel username;
 
-	@Inject @PermissionBus
+	@Inject @UsersBus
 	protected EventBus bus;
 	protected SingleSelectionModel<MenuItem> selectionModel;
 

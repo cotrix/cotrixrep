@@ -10,7 +10,7 @@ import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.HasFeature;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.users.client.AdminArea;
-import org.cotrix.web.users.client.resources.PermissionsResources;
+import org.cotrix.web.users.client.resources.UsersResources;
 import org.cotrix.web.users.shared.PermissionUIFeatures;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -26,11 +26,11 @@ import com.google.gwt.view.client.TreeViewModel;
  */
 public class MenuTreeViewModel implements TreeViewModel {
 
-	protected static final MenuItem PROFILE_MENU = new MenuArea("My Profile", AdminArea.PROFILE, PermissionsResources.INSTANCE.profile());
+	protected static final MenuItem PROFILE_MENU = new MenuArea("My Profile", AdminArea.PROFILE, UsersResources.INSTANCE.profile());
 	protected static final MenuItem PREFERENCES_MENU = new MenuArea("My Preferences", AdminArea.PREFERENCES, CommonResources.INSTANCE.userPreferences());
 
-	protected static final MenuItem USERS_MENU = new MenuArea("My Users", AdminArea.USERS_PERMISSIONS, PermissionsResources.INSTANCE.users());
-	protected static final MenuItem CODELISTS_MENU = new MenuArea("My Codelists", AdminArea.CODELISTS_PERMISSIONS, PermissionsResources.INSTANCE.codelists());
+	protected static final MenuItem USERS_MENU = new MenuArea("My Users", AdminArea.USERS_PERMISSIONS, UsersResources.INSTANCE.users());
+	protected static final MenuItem CODELISTS_MENU = new MenuArea("My Codelists", AdminArea.CODELISTS_PERMISSIONS, UsersResources.INSTANCE.codelists());
 
 	protected ListDataProvider<MenuItem> MENU_PROVIDER = new ListDataProvider<MenuItem>(new ArrayList<MenuItem>(Arrays.asList(PROFILE_MENU, /*PREFERENCES_MENU,*/ CODELISTS_MENU)));
 

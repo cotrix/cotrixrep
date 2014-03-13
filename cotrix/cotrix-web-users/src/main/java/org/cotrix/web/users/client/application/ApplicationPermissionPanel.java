@@ -5,7 +5,7 @@ package org.cotrix.web.users.client.application;
 
 import java.util.List;
 
-import org.cotrix.web.users.client.PermissionServiceAsync;
+import org.cotrix.web.users.client.UsersServiceAsync;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
@@ -15,7 +15,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ConfirmDialog.DialogButton;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
-import org.cotrix.web.users.client.PermissionBus;
+import org.cotrix.web.users.client.UsersBus;
 import org.cotrix.web.users.client.matrix.RolesRowUpdatedEvent;
 import org.cotrix.web.users.client.matrix.UsersRolesMatrix;
 import org.cotrix.web.users.shared.RoleAction;
@@ -46,7 +46,7 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 	interface ApplicationPermissionPanelEventBinder extends EventBinder<ApplicationPermissionPanel> {}
 
 	@Inject
-	protected PermissionServiceAsync service;
+	protected UsersServiceAsync service;
 
 	@Inject @UiField(provided=true) UsersRolesMatrix usersRolesMatrix;
 	@UiField ItemToolbar toolBar;
@@ -61,7 +61,7 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 	}
 
 	@Inject
-	protected void bind(@CotrixBus EventBus cotrixBus, @PermissionBus EventBus bus, ApplicationPermissionPanelEventBinder binder) {
+	protected void bind(@CotrixBus EventBus cotrixBus, @UsersBus EventBus bus, ApplicationPermissionPanelEventBinder binder) {
 		binder.bindEventHandlers(this, bus);
 
 		cotrixBus.addHandler(UserLoggedEvent.TYPE, new UserLoggedEvent.UserLoggedHandler() {

@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.users.client.codelists.tree;
 
-import org.cotrix.web.users.client.PermissionServiceAsync;
+import org.cotrix.web.users.client.UsersServiceAsync;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider;
 import org.cotrix.web.common.shared.DataWindow;
@@ -19,7 +19,7 @@ import com.google.inject.Inject;
 public class CodelistGroupsDataProvider extends FilteredCachedDataProvider<CodelistGroup> {
 	
 	@Inject
-	protected PermissionServiceAsync service;
+	protected UsersServiceAsync service;
 	
 	public void loadData() {
 		service.getCodelistGroups(new ManagedFailureCallback<DataWindow<CodelistGroup>>() {

@@ -14,12 +14,12 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 @Singleton
-public class CotrixPermissionManagerController implements CotrixModuleController {
+public class CotrixUsersController implements CotrixModuleController {
 
 	@Inject
-	protected PermissionManagerPanel permissionManagerPanel;
+	protected UsersPanel permissionManagerPanel;
 	
-	@Inject @PermissionBus
+	@Inject @UsersBus
 	protected EventBus permissionBus;
 	
 	@Override

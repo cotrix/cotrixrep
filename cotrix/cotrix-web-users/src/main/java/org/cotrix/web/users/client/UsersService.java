@@ -22,8 +22,8 @@ import com.google.gwt.view.client.Range;
 /**
  * The client side stub for the RPC service.
  */
-@RemoteServiceRelativePath("service/permissionService")
-public interface PermissionService extends RemoteService {
+@RemoteServiceRelativePath("service/usersService")
+public interface UsersService extends RemoteService {
 	
 	public List<String> getRoles(RolesType type) throws ServiceException;
 	

@@ -6,7 +6,7 @@ package org.cotrix.web.users.client.codelists.tree;
 import org.cotrix.web.common.client.util.DataUpdatedEvent;
 import org.cotrix.web.common.client.util.DataUpdatedEvent.DataUpdatedHandler;
 import org.cotrix.web.users.client.resources.CodelistsResources;
-import org.cotrix.web.users.client.resources.PermissionsResources;
+import org.cotrix.web.users.client.resources.UsersResources;
 import org.cotrix.web.users.shared.CodelistGroup;
 import org.cotrix.web.users.shared.CodelistGroup.CodelistVersion;
 
@@ -48,7 +48,7 @@ public class CodelistTreeModel implements TreeViewModel {
 		@Override
 		public void render(com.google.gwt.cell.client.Cell.Context context,
 				CodelistVersion value, SafeHtmlBuilder sb) {
-			SafeHtml html = VERSION_ITEM_TEMPLATE.version(PermissionsResources.INSTANCE.versionItem().getSafeUri(), CodelistsResources.INSTANCE.cellTreeStyle().versionItem(), SafeHtmlUtils.fromString(value.getVersion()));
+			SafeHtml html = VERSION_ITEM_TEMPLATE.version(UsersResources.INSTANCE.versionItem().getSafeUri(), CodelistsResources.INSTANCE.cellTreeStyle().versionItem(), SafeHtmlUtils.fromString(value.getVersion()));
 			sb.append(html);
 		}
 	};

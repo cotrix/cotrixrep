@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
-import org.cotrix.web.users.client.PermissionBus;
-import org.cotrix.web.users.client.resources.PermissionsResources;
+import org.cotrix.web.users.client.UsersBus;
+import org.cotrix.web.users.client.resources.UsersResources;
 import org.cotrix.web.users.shared.RoleState;
 import org.cotrix.web.users.shared.RolesRow;
 
@@ -60,7 +60,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 	@UiField(provided = true)
 	SimplePager pager;
 
-	@Inject @PermissionBus
+	@Inject @UsersBus
 	protected EventBus bus;
 
 	protected SingleSelectionModel<RolesRow> selectionModel = new SingleSelectionModel<RolesRow>();
@@ -102,7 +102,7 @@ public class UsersRolesMatrix extends ResizeComposite {
 
 			@Override
 			public ImageResource getValue() {
-				return PermissionsResources.INSTANCE.usersGrey();
+				return UsersResources.INSTANCE.usersGrey();
 			}
 		};
 

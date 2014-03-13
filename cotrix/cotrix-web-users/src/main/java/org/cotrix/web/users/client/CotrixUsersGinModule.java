@@ -9,9 +9,9 @@ import com.google.web.bindery.event.shared.SimpleEventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CotrixPermissionGinModule extends AbstractGinModule {
+public class CotrixUsersGinModule extends AbstractGinModule {
 
 	protected void configure() {
-		bind(EventBus.class).annotatedWith(PermissionBus.class).to(SimpleEventBus.class).in(Singleton.class);
+		bind(EventBus.class).annotatedWith(UsersBus.class).to(SimpleEventBus.class).in(Singleton.class);
 	}
 }

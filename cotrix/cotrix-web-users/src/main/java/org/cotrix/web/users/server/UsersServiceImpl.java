@@ -47,7 +47,7 @@ import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.ColumnSortInfo;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.exception.ServiceException;
-import org.cotrix.web.users.client.PermissionService;
+import org.cotrix.web.users.client.UsersService;
 import org.cotrix.web.users.server.util.RolesSorter;
 import org.cotrix.web.users.shared.CodelistGroup;
 import org.cotrix.web.users.shared.InvalidPasswordException;
@@ -67,12 +67,12 @@ import com.google.gwt.view.client.Range;
  */
 @SuppressWarnings("serial")
 @ContainsTask
-public class PermissionServiceImpl implements PermissionService {
+public class UsersServiceImpl implements UsersService {
 
 	public static class Servlet extends CotrixRemoteServlet {
 
 		@Inject
-		protected PermissionServiceImpl bean;
+		protected UsersServiceImpl bean;
 
 		@Override
 		public Object getBean() {
@@ -80,7 +80,7 @@ public class PermissionServiceImpl implements PermissionService {
 		}
 	}
 
-	protected Logger logger = LoggerFactory.getLogger(PermissionServiceImpl.class);
+	protected Logger logger = LoggerFactory.getLogger(UsersServiceImpl.class);
 
 	@Inject
 	ActionMapper mapper;

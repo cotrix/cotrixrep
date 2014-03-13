@@ -6,7 +6,7 @@ package org.cotrix.web.users.client.codelists.tree;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.SingleSelectionModel;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider.Filter;
-import org.cotrix.web.users.client.PermissionBus;
+import org.cotrix.web.users.client.UsersBus;
 import org.cotrix.web.users.client.resources.CodelistsResources;
 import org.cotrix.web.users.shared.CodelistGroup;
 import org.cotrix.web.users.shared.CodelistGroup.CodelistVersion;
@@ -53,7 +53,7 @@ public class CodelistsTreePanel extends ResizeComposite {
 
 	protected SingleSelectionModel<CodelistVersion> selectionModel;
 
-	@Inject @PermissionBus
+	@Inject @UsersBus
 	protected EventBus bus;
 	
 	@Inject

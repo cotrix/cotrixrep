@@ -16,7 +16,7 @@ import org.cotrix.web.manage.client.CotrixManageGinInjector;
 import org.cotrix.web.menu.client.presenter.CotrixMenuGinInjector;
 import org.cotrix.web.menu.client.presenter.MenuPresenter;
 import org.cotrix.web.publish.client.CotrixPublishGinInjector;
-import org.cotrix.web.users.client.CotrixPermissionGinInjector;
+import org.cotrix.web.users.client.CotrixUsersGinInjector;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.Timer;
@@ -97,7 +97,7 @@ public class CotrixController implements Presenter {
 			
 			@Override
 			public void onSuccess() {*/
-				CotrixPermissionGinInjector permissionInjector = CotrixPermissionGinInjector.INSTANCE;
+				CotrixUsersGinInjector permissionInjector = CotrixUsersGinInjector.INSTANCE;
 				addModule(permissionInjector.getController());
 			/*}
 			

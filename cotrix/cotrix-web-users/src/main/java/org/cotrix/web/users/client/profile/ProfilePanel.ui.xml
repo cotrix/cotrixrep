@@ -4,7 +4,7 @@
 	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
 		field="common" />
 	<ui:with
-		type="org.cotrix.web.users.client.resources.PermissionsResources"
+		type="org.cotrix.web.users.client.resources.UsersResources"
 		field="resources" />
 	<ui:style
 		type="org.cotrix.web.users.client.profile.ProfilePanel.Style">

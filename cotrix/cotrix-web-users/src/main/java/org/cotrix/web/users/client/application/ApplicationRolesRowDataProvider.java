@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.users.client.application;
 
-import org.cotrix.web.users.client.PermissionServiceAsync;
+import org.cotrix.web.users.client.UsersServiceAsync;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.util.SortedCachedDataProvider;
 import org.cotrix.web.common.shared.ColumnSortInfo;
@@ -22,7 +22,7 @@ import com.google.inject.Singleton;
 public class ApplicationRolesRowDataProvider extends SortedCachedDataProvider<RolesRow> {
 	
 	@Inject
-	protected PermissionServiceAsync service;
+	protected UsersServiceAsync service;
 	
 	public ApplicationRolesRowDataProvider() {
 		super(RolesRow.USER_NAME_FIELD);

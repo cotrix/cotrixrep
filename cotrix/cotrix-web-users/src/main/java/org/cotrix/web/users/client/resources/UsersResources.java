@@ -8,9 +8,9 @@ import com.google.gwt.resources.client.ImageResource;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface PermissionsResources extends ClientBundle {
+public interface UsersResources extends ClientBundle {
 	
-	public static final PermissionsResources INSTANCE = GWT.create(PermissionsResources.class);
+	public static final UsersResources INSTANCE = GWT.create(UsersResources.class);
 
 	ImageResource versionItem();
 	

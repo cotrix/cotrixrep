@@ -6,7 +6,7 @@ import java.util.Set;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider.Filter;
-import org.cotrix.web.users.client.resources.PermissionsResources;
+import org.cotrix.web.users.client.resources.UsersResources;
 import org.cotrix.web.users.shared.UIUserDetails;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -135,7 +135,7 @@ public class AddUserDialog extends PopupPanel {
 
 	@Inject
 	protected void getCellList(UsersListResources resources) {
-		UserDetailsCell cell = new UserDetailsCell(PermissionsResources.INSTANCE.listUser());
+		UserDetailsCell cell = new UserDetailsCell(UsersResources.INSTANCE.listUser());
 		usersList = new CellList<UIUserDetails>(cell, resources);
 		
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {

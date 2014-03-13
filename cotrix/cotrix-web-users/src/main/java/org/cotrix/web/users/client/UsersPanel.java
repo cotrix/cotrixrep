@@ -27,10 +27,10 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PermissionManagerPanel extends ResizeComposite {
+public class UsersPanel extends ResizeComposite {
 
-	interface PermissionManagerPanelUiBinder extends UiBinder<Widget, PermissionManagerPanel> {}
-	interface PermissionManagerPanelEventBinder extends EventBinder<PermissionManagerPanel> {}
+	interface PermissionManagerPanelUiBinder extends UiBinder<Widget, UsersPanel> {}
+	interface PermissionManagerPanelEventBinder extends EventBinder<UsersPanel> {}
 
 	@Inject @UiField(provided=true) MenuPanel menuPanel;
 
@@ -47,7 +47,7 @@ public class PermissionManagerPanel extends ResizeComposite {
 	}
 
 	@Inject
-	protected void bind(@PermissionBus EventBus bus, PermissionManagerPanelEventBinder eventBinder) {
+	protected void bind(@UsersBus EventBus bus, PermissionManagerPanelEventBinder eventBinder) {
 		eventBinder.bindEventHandlers(this, bus);
 	}
 	

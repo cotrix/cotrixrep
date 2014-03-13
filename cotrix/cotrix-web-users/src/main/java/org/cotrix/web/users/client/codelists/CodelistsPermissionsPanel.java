@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.cotrix.web.users.client.PermissionServiceAsync;
+import org.cotrix.web.users.client.UsersServiceAsync;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
@@ -19,7 +19,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.shared.UIUser;
 import org.cotrix.web.users.client.ModuleActivactedEvent;
-import org.cotrix.web.users.client.PermissionBus;
+import org.cotrix.web.users.client.UsersBus;
 import org.cotrix.web.users.client.codelists.AddUserDialog.AddUserEvent;
 import org.cotrix.web.users.client.codelists.AddUserDialog.AddUserHandler;
 import org.cotrix.web.users.client.codelists.tree.CodelistSelectedEvent;
@@ -57,7 +57,7 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	interface CodelistsPermissionsPanelEventBinder extends EventBinder<CodelistsPermissionsPanel> {}
 
 	@Inject
-	protected PermissionServiceAsync service;
+	protected UsersServiceAsync service;
 
 	@UiField DeckLayoutPanel centralPanel;
 	@UiField DockLayoutPanel blankPanel;
@@ -130,7 +130,7 @@ public class CodelistsPermissionsPanel extends ResizeComposite {
 	}
 
 	@Inject
-	protected void bind(@CotrixBus EventBus cotrixBus, @PermissionBus EventBus bus, CodelistsPermissionsPanelEventBinder binder) {
+	protected void bind(@CotrixBus EventBus cotrixBus, @UsersBus EventBus bus, CodelistsPermissionsPanelEventBinder binder) {
 		binder.bindEventHandlers(this, bus);
 		cotrixBus.addHandler(UserLoggedEvent.TYPE, new UserLoggedEvent.UserLoggedHandler() {
 

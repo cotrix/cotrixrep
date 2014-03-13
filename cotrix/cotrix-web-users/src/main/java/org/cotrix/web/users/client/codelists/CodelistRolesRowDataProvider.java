@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.users.client.codelists;
 
-import org.cotrix.web.users.client.PermissionServiceAsync;
+import org.cotrix.web.users.client.UsersServiceAsync;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.util.SortedCachedDataProvider;
 import org.cotrix.web.common.shared.ColumnSortInfo;
@@ -23,7 +23,7 @@ import com.google.inject.Singleton;
 public class CodelistRolesRowDataProvider extends SortedCachedDataProvider<RolesRow> {
 
 	@Inject
-	protected PermissionServiceAsync service;
+	protected UsersServiceAsync service;
 
 	protected String codelistId;
 	public CodelistRolesRowDataProvider() {

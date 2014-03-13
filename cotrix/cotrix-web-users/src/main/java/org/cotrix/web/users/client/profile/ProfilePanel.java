@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.users.client.profile;
 
-import org.cotrix.web.users.client.PermissionServiceAsync;
+import org.cotrix.web.users.client.UsersServiceAsync;
 import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.event.CotrixBus;
@@ -18,7 +18,7 @@ import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.UIUser;
 import org.cotrix.web.users.client.ModuleActivactedEvent;
-import org.cotrix.web.users.client.PermissionBus;
+import org.cotrix.web.users.client.UsersBus;
 import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PasswordUpdatedEvent;
 import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PasswordUpdatedHandler;
 import org.cotrix.web.users.shared.InvalidPasswordException;
@@ -76,7 +76,7 @@ public class ProfilePanel extends LoadingPanel {
 	private ErrorManager errorManager;
 
 	@Inject
-	protected PermissionServiceAsync service;
+	protected UsersServiceAsync service;
 	protected UIUserDetails userDetails = new UIUserDetails();
 	
 	@Inject
@@ -112,7 +112,7 @@ public class ProfilePanel extends LoadingPanel {
 	}
 	
 	@Inject
-	protected void bind(@PermissionBus EventBus bus, ProfilePanelEventBinder eventBinder) {
+	protected void bind(@UsersBus EventBus bus, ProfilePanelEventBinder eventBinder) {
 		eventBinder.bindEventHandlers(this, bus);
 	}
 	
