@@ -1,0 +1,71 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:f='urn:import:org.cotrix.web.ingest.client.step.upload'>
+	<ui:with type="org.cotrix.web.ingest.client.resources.Resources"
+		field="resources"></ui:with>
+	<ui:style>
+		.customUpload {
+			visibility: hidden;
+		}
+		
+		.uploadPanel {
+			padding-top: 50px;
+			margin: auto;
+		}
+		
+		.uploadFailPanel {
+			margin: 0 auto;
+
+		}
+		
+		.uploadFailedMessage {
+			color: #c00;
+		}
+		
+		.uploadRetryButton {
+			margin-left: 10px;
+			color: #15c;
+			cursor: pointer;
+		}
+		
+		.fileInfo {
+			line-height: 30px;
+			vertical-align: middle;
+			font-size: 16px;
+			color: #989898;
+		}
+	</ui:style>
+
+	<g:FormPanel ui:field="form" method="post" encoding="multipart/form-data">
+
+		<g:HTMLPanel>
+			<f:FileUploadExt ui:field="fileUploadButton"
+				styleName="{style.customUpload}" name="file" />
+			<table width="100%" style="padding-top:100px;">
+				<tr>
+					<td>
+						<g:Button ui:field="browseButton" text="Browse"
+							styleName="{resources.css.buttonBrowse}" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<g:FlowPanel ui:field="uploadPanel" styleName="{style.uploadPanel}">
+							<f:ProgressBar ui:field="progressBar" visible="false" />
+							<g:HorizontalPanel ui:field="uploadFailPanel" visible="false" styleName="{style.uploadFailPanel}">
+								<g:Label styleName="{style.uploadFailedMessage}">Upload failed.</g:Label>
+								<g:Label ui:field="retryButton" styleName="{style.uploadRetryButton}">Retry</g:Label>
+							</g:HorizontalPanel>
+						</g:FlowPanel>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<g:InlineLabel ui:field="fileNameLabel" styleName="{style.fileInfo}" />
+						<g:InlineLabel ui:field="fileSizeLabel" styleName="{style.fileInfo}" />
+					</td>
+				</tr>
+			</table>
+		</g:HTMLPanel>
+	</g:FormPanel>
+</ui:UiBinder> 

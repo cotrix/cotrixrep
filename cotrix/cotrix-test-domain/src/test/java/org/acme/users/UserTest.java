@@ -1,11 +1,12 @@
 package org.acme.users;
 
-import static org.junit.Assert.*;
-import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.CodelistAction.*;
+import static org.cotrix.action.ResourceType.*;
+import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.domain.trait.Status.*;
+import static org.junit.Assert.*;
 
 import org.cotrix.action.Action;
 import org.cotrix.action.CodelistAction;
@@ -20,9 +21,9 @@ public class UserTest {
 	@Test
 	public void isBuiltCorrectly() {
 
-		Role model = user().name("model").noMail().fullName("test model").can(MainAction.values()).buildAsRoleFor(application);
+		Role model = role("model").can(MainAction.values()).buildAsRoleFor(application);
 		
-		User joe = user().name("joe").email("joe@me.com").fullName("joe the plummer").
+		User joe = user().name("joe").fullName("joe the plummer").email("joe@me.com").
 								can(CodelistAction.values()).cannot(LOCK).
 								is(model).build();
 
@@ -47,14 +48,14 @@ public class UserTest {
 
 		String name = "name";
 		Action a = action("a");
-		Role m = user().name(name).email("joe@me.com").buildAsRoleFor(application);
+		Role m = role(name).buildAsRoleFor(application);
 		User u;
 
 		// new users
-		u = user().name(name).email("joe@me.com").build();
-		u = user().name(name).email("joe@me.com").can(a).build();
-		u = user().name(name).email("joe@me.com").can(a).cannot(a).build();
-		u = user().name(name).email("joe@me.com").can(a).is(m).build();
+		u = user().name(name).fullName("name").email("joe@me.com").build();
+		u = user().name(name).fullName("name").email("joe@me.com").can(a).build();
+		u = user().name(name).fullName("name").email("joe@me.com").can(a).cannot(a).build();
+		u = user().name(name).fullName("name").email("joe@me.com").can(a).is(m).build();
 
 		assertFalse(reveal(u).isChangeset());
 		assertNull(reveal(u).status());

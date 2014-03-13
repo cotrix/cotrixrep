@@ -1,5 +1,6 @@
 /target
 
-/.settings
 /extras
 /gen
+/gwt-unitCache
+/war

@@ -3,7 +3,7 @@ package org.cotrix.web.server;
 import static org.cotrix.action.GuestAction.*;
 import static org.cotrix.action.MainAction.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.web.share.shared.feature.ApplicationFeatures.*;
+import static org.cotrix.web.common.shared.feature.ApplicationFeatures.*;
 import static org.cotrix.web.shared.AuthenticationFeature.*;
 
 import java.util.ArrayList;
@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.action.Action;
 import org.cotrix.action.Actions;
@@ -27,18 +26,20 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
+import org.cotrix.security.InvalidCredentialsException;
+import org.cotrix.security.InvalidUsernameException;
+import org.cotrix.security.LoginRequest;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.SignupService;
-import org.cotrix.security.exceptions.UnknownUserException;
 import org.cotrix.security.impl.DefaultNameAndPasswordCollector;
 import org.cotrix.web.client.MainService;
-import org.cotrix.web.share.server.task.ActionMapper;
-import org.cotrix.web.share.server.util.ExceptionUtils;
-import org.cotrix.web.share.server.util.Users;
-import org.cotrix.web.share.shared.UIUser;
-import org.cotrix.web.share.shared.exception.ServiceException;
-import org.cotrix.web.share.shared.feature.ApplicationFeatures;
-import org.cotrix.web.share.shared.feature.FeatureCarrier;
+import org.cotrix.web.common.server.task.ActionMapper;
+import org.cotrix.web.common.server.util.ExceptionUtils;
+import org.cotrix.web.common.server.util.Users;
+import org.cotrix.web.common.shared.UIUser;
+import org.cotrix.web.common.shared.exception.ServiceException;
+import org.cotrix.web.common.shared.feature.ApplicationFeatures;
+import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.shared.LoginToken;
 import org.cotrix.web.shared.UINews;
 import org.cotrix.web.shared.UIStatistics;
@@ -71,9 +72,6 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 
 	@Inject
 	protected ActionMapper actionMapper;
-
-	@Inject
-	protected HttpServletRequest httpServletRequest;
 
 	@Inject
 	protected StatisticsService statisticsService;
@@ -116,7 +114,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		} catch(Exception exception) {
 			logger.error("failed login for token "+token, exception);
 
-			UnknownUserException unknownUserException = ExceptionUtils.unfoldException(exception, UnknownUserException.class);
+			InvalidCredentialsException unknownUserException = ExceptionUtils.unfoldException(exception, InvalidCredentialsException.class);
 			if (unknownUserException!=null) {
 				throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
 			} else {
@@ -136,8 +134,8 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 	{
 		logger.trace("doLogin action: {} token: {} openCodelists: {}", action, token, openCodelists);
 
-		produceToken(token);
-		User user = loginService.login(httpServletRequest);	
+		LoginRequest loginRequest = toLoginRequest(token);
+		User user = loginService.login(loginRequest);	
 		logger.trace("logged user: {}",user);
 
 		UIUser uiUser = Users.toUiUser(user);
@@ -151,19 +149,21 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		return uiUser;
 	}
 
-	protected void produceToken(LoginToken token) {
+	protected LoginRequest toLoginRequest(LoginToken token) {
+		LoginRequest loginRequest = new LoginRequest();
 		if (token instanceof UsernamePasswordToken) {
 			UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
-			httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, usernamePasswordToken.getUsername());
-			httpServletRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, usernamePasswordToken.getPassword());
+			loginRequest.setAttribute(DefaultNameAndPasswordCollector.nameParam, usernamePasswordToken.getUsername());
+			loginRequest.setAttribute(DefaultNameAndPasswordCollector.pwdParam, usernamePasswordToken.getPassword());
 			logger.trace("added name and psw");
 		}
 
 		if (token instanceof UrlToken) {
 			UrlToken urlToken = (UrlToken)token;
-			httpServletRequest.setAttribute("TOKEN", urlToken.getToken());
+			loginRequest.setAttribute("TOKEN", urlToken.getToken());
 			logger.trace("added token");
 		}
+		return loginRequest;
 	}
 
 	protected void fillOpenCodelistsActions(List<String> openCodelists, User user, FeatureCarrier featureCarrier)
@@ -188,24 +188,32 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			uiStatistics.setRepositories(statistics.totalRepositories());
 			return uiStatistics;
 		} catch(Exception e) {
-			logger.error("Error getting statistics", e);
-			throw new ServiceException("Error getting statistics: "+e.getMessage());
+			logger.error("Error occurred getting statistics", e);
+			throw new ServiceException(e.getMessage());
 		}
 	}
 
 	@Override
 	public List<UINews> getNews() throws ServiceException {
-		List<UINews> news = new ArrayList<UINews>();
+		logger.trace("getNews");
+		
+		try {
+			List<UINews> news = new ArrayList<UINews>();
 
-		for (NewsItem newsItem:newsService.news()) {
-			logger.trace("news: {}",newsItem);
-			UINews uiNews = new UINews();
-			uiNews.setTimestamp(newsItem.timestamp());
-			uiNews.setText(newsItem.text());
-			news.add(uiNews);
+			for (NewsItem newsItem:newsService.news()) {
+				UINews uiNews = new UINews();
+				uiNews.setTimestamp(newsItem.timestamp());
+				uiNews.setText(newsItem.text());
+				news.add(uiNews);
+			}
+
+			Collections.reverse(news);
+
+			return news;
+		} catch(Exception e) {
+			logger.error("Error occurred getting news", e);
+			throw new ServiceException(e.getMessage());
 		}
-		Collections.reverse(news);
-		return news;
 	}
 
 	@Override
@@ -213,19 +221,20 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		logger.trace("registerUser username: {} email: {}", username, email);
 
 		try {
-			User user = user().name(username).email(email).fullName(username).build();
+			User user = user().name(username).fullName(username).email(email).build();
 			signupService.signup(user, password);
 
 			return doLogin(LOGIN, new UsernamePasswordToken(username, password), openCodelists);
 		} catch(Exception exception) {
 			logger.error("failed login for user "+username, exception);
+			
+			InvalidCredentialsException unknownUserException = ExceptionUtils.unfoldException(exception, InvalidCredentialsException.class);
+			if (unknownUserException!=null) throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
 
-			UnknownUserException unknownUserException = ExceptionUtils.unfoldException(exception, UnknownUserException.class);
-			if (unknownUserException!=null) {
-				throw new org.cotrix.web.shared.UnknownUserException(exception.getMessage());
-			} else {
-				throw new ServiceException(exception.getMessage());
-			}
+			InvalidUsernameException invalidUsernameException = ExceptionUtils.unfoldException(exception, InvalidUsernameException.class);
+			if (invalidUsernameException!=null) throw new org.cotrix.web.shared.InvalidUsernameException(invalidUsernameException.getMessage());
+
+			throw new ServiceException(exception.getMessage());
 		}
 	}
 

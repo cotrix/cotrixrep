@@ -7,15 +7,13 @@ import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.MappingMode;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.ImplementedBy;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  */
+@ImplementedBy(SummaryStepViewImpl.class)
 public interface SummaryStepView {
-	
-	public interface Presenter {
-		
-	}
 
 	public void setMapping(List<AttributeMapping> mapping);
 	

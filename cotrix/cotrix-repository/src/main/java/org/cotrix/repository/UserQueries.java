@@ -44,6 +44,11 @@ public class UserQueries {
 		return factory.byName();
 	}
 	
+	public static Criterion<User> byFullName() {
+		
+		return factory.byFullName();
+	}
+	
 	
 	public static class QueryFactoryInjector {
 

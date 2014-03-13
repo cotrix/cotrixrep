@@ -123,6 +123,18 @@ public class NeoUserQueries extends NeoQueries implements UserQueryFactory {
 		};
 	}
 	
+	@Override
+	public Criterion<User> byFullName() {
+		
+		return new NeoCriterion<User>() {
+			
+			@Override
+			protected String process(NeoMultiQuery<?, ?> query) {
+				return format("%1$s.%2$s",$node,fullname_prop);
+			}
+		};
+	}
+	
 
 	@Override
 	public MultiQuery<User, User> usersWithRole(final Role role) {

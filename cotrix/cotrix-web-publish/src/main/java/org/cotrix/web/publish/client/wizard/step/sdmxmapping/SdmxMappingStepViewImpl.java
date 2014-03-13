@@ -2,15 +2,15 @@ package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 
 import java.util.List;
 
+import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.EnumListBox;
+import org.cotrix.web.common.client.widgets.EnumListBox.LabelProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.UISdmxElement;
-import org.cotrix.web.share.client.resources.CommonResources;
-import org.cotrix.web.share.client.widgets.AlertDialog;
-import org.cotrix.web.share.client.widgets.EnumListBox;
-import org.cotrix.web.share.client.widgets.EnumListBox.LabelProvider;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -19,11 +19,14 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMappingStepView, ReloadButtonHandler {
 	
 	protected static final LabelProvider<UISdmxElement> LABEL_PROVIDER = new LabelProvider<UISdmxElement>() {
@@ -66,6 +69,9 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	@UiField(provided = true) MappingPanel<UISdmxElement> mappingPanel;
 	
 	protected Presenter presenter;
+	
+	@Inject
+	AlertDialog alertDialog;
 
 	public SdmxMappingStepViewImpl() {
 		mappingPanel = new MappingPanel<UISdmxElement>(PROVIDER, "ELEMENTS");
@@ -74,6 +80,14 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (visible) mappingPanel.resetScroll();
+	}	
 	
 	@Override
 	public void showMetadata(boolean visible) {
@@ -140,7 +154,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	}
 
 	public void alert(String message) {
-		AlertDialog.INSTANCE.center(message);
+		alertDialog.center(message);
 	}
 
 	@Override

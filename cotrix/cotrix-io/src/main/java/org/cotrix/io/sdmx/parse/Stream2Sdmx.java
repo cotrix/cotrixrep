@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.cotrix.common.cdi.Current;
 import org.cotrix.io.impl.ParseTask;
 import org.sdmxsource.sdmx.api.manager.parse.StructureParsingManager;
 import org.sdmxsource.sdmx.api.model.StructureWorkspace;
@@ -25,7 +26,7 @@ public class Stream2Sdmx implements ParseTask<CodelistBean, Stream2SdmxDirective
 	private final StructureParsingManager parser;
 
 	@Inject
-	public Stream2Sdmx(StructureParsingManager parser) {
+	public Stream2Sdmx(@Current StructureParsingManager parser) {
 
 		notNull("sdmx parser",parser);
 		

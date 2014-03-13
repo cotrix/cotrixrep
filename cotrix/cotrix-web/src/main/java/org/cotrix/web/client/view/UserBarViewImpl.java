@@ -1,7 +1,7 @@
 package org.cotrix.web.client.view;
 
-import org.cotrix.web.share.client.util.FadeAnimation;
-import org.cotrix.web.share.client.util.FadeAnimation.Speed;
+import org.cotrix.web.common.client.util.FadeAnimation;
+import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,11 +17,13 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class UserBarViewImpl extends Composite implements UserBarView {
 
 	@UiTemplate("UserBar.ui.xml")

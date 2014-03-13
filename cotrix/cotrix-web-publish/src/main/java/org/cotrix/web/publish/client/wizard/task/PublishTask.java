@@ -5,6 +5,12 @@ package org.cotrix.web.publish.client.wizard.task;
 
 import java.util.List;
 
+import org.cotrix.web.common.client.error.ManagedFailureCallback;
+import org.cotrix.web.common.shared.CsvConfiguration;
+import org.cotrix.web.common.shared.Progress;
+import org.cotrix.web.common.shared.Progress.Status;
+import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
@@ -20,14 +26,8 @@ import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.publish.shared.UIRepository;
-import org.cotrix.web.share.client.error.ManagedFailureCallback;
-import org.cotrix.web.share.client.wizard.WizardAction;
-import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
-import org.cotrix.web.share.shared.CsvConfiguration;
-import org.cotrix.web.share.shared.Progress;
-import org.cotrix.web.share.shared.Progress.Status;
-import org.cotrix.web.share.shared.codelist.UICodelist;
-import org.cotrix.web.share.shared.codelist.UIQName;
+import org.cotrix.web.wizard.client.WizardAction;
+import org.cotrix.web.wizard.client.step.TaskWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;

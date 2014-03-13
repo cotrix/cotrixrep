@@ -1,9 +1,9 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-	<ui:with type="org.cotrix.web.share.client.resources.CommonResources"
+	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
 		field="resources" />
-	<ui:style type="org.cotrix.web.client.view.RegisterDialog.Style">
+	<ui:style type="org.cotrix.web.client.view.RegisterDialogImpl.Style">
 		.box {
 			-moz-box-shadow: 0 0 7px 7px #999;
 			-webkit-box-shadow: 0 0 7px 7px #999;
@@ -83,7 +83,7 @@
 		
 	</ui:style>
 	<g:HTMLPanel styleName="{style.box}">
-		<div class="{style.title}">
+		<div class="{style.title}" id="signup.title">
 			Sign-up
 		</div>
 		<div class="{style.subtitle}">
@@ -91,19 +91,19 @@
 		</div>
 		<div class="{style.textfield}">
 			<div>Username</div>
-			<g:TextBox styleName="{style.textbox}" ui:field="username" />
+			<g:TextBox styleName="{style.textbox}" ui:field="username" debugId="signup.username"/>
 		</div>
 		<div class="{style.textfield}">
 			<div>Password</div>
 			<g:PasswordTextBox styleName="{style.textbox}"
-				ui:field="password" />
+				ui:field="password" debugId="signup.password"/>
 		</div>
 		<div class="{style.textfield}">
 			<div>E-mail</div>
-			<g:TextBox styleName="{style.textbox}" ui:field="email" />
+			<g:TextBox styleName="{style.textbox}" ui:field="email" debugId="signup.email"/>
 		</div>
 		<div class="{style.textfield}">
-			<g:Button ui:field="create" styleName="{style.submit}">Create</g:Button>
+			<g:Button ui:field="create" styleName="{style.submit}" debugId="signup.create">Create</g:Button>
 		</div>
 	</g:HTMLPanel>
 

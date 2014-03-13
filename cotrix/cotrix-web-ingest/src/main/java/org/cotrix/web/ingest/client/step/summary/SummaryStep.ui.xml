@@ -1,0 +1,107 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
+		field="common" />
+	<ui:style>
+	.grid {
+		vertical-align: top;
+		margin-right: 20px;
+	}
+	
+	.mappingPanelItem {
+		float: right;
+		padding: 5px;
+		vertical-align: middle;
+	}
+	
+	.mappingPanelCheckBox {
+		margin-top: 7px;
+	}
+	
+	.mappingPanel {
+		margin-top: 10px;
+		background-color: #dfdfdf;
+		border: 1px solid #b0b0b0;
+		overflow: hidden;
+	}
+	
+	.firstColumn {
+		padding-left: 10px;
+		width: 120px;
+	}
+	</ui:style>
+	<g:DockLayoutPanel unit='PX' ui:field="mainPanel">
+		<g:center>
+			<g:ScrollPanel styleName="{common.css.wizardPanel}" ui:field="summaryScrollPanel">
+				<g:Grid ui:field="panel" styleName="{style.grid}">
+					<g:row>
+						<g:cell
+							styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
+							<span class="{common.css.propertyLabel}">File</span>
+						</g:cell>
+						<g:customCell>
+							<g:Label ui:field="fileField" styleName="{common.css.propertyValue}" />
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:cell
+							styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
+							<span class="{common.css.propertyLabel}">Codelist</span>
+						</g:cell>
+						<g:customCell>
+							<g:Label ui:field="codelistField" styleName="{common.css.propertyValue}" />
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:cell
+							styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
+							<span class="{common.css.propertyLabel}">Version</span>
+						</g:cell>
+						<g:customCell>
+							<g:Label ui:field="versionField" styleName="{common.css.propertyValue}" />
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:cell
+							styleName="{common.css.verticalHeadersSingleItem} {style.firstColumn}">
+							<span class="{common.css.propertyLabel}">Sealed</span>
+						</g:cell>
+						<g:customCell>
+							<g:Label ui:field="sealedField" styleName="{common.css.propertyValue}" />
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:cell
+							styleName="{common.css.verticalHeadersMultipleItem} {style.firstColumn}">
+							<span class="{common.css.propertyLabel}">Properties</span>
+						</g:cell>
+						<g:customCell>
+							<g:FlexTable ui:field="propertiesTable" cellPadding="0"
+								cellSpacing="0" borderWidth="1" styleName="{common.css.propertiesTable}"
+								width="100%" />
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:cell
+							styleName="{common.css.verticalHeadersMultipleItem} {style.firstColumn}">
+							<span class="{common.css.propertyLabel}">Directives</span>
+						</g:cell>
+						<g:customCell>
+							<g:FlexTable ui:field="customTable" cellPadding="0"
+								cellSpacing="0" borderWidth="1" styleName="{common.css.propertiesTable}"
+								width="100%"></g:FlexTable>
+						</g:customCell>
+					</g:row>
+				</g:Grid>
+			</g:ScrollPanel>
+		</g:center>
+		<g:south size="46">
+			<g:HTMLPanel ui:field="mappingPanel" styleName="{style.mappingPanel}">
+				<span class="{common.css.propertyLabel} {style.mappingPanelItem}">Fail on errors</span>
+				<g:SimpleCheckBox ui:field="mappingMode" value="true"
+					styleName="{common.css.simpleCheckbox} {style.mappingPanelItem} {style.mappingPanelCheckBox}" />
+			</g:HTMLPanel>
+		</g:south>
+	</g:DockLayoutPanel>
+</ui:UiBinder> 

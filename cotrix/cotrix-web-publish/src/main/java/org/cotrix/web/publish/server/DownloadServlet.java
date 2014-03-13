@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.cotrix.web.common.server.util.FileNameUtil;
 import org.cotrix.web.publish.server.util.PublishSession;
 import org.cotrix.web.publish.shared.DownloadType;
 import org.cotrix.web.publish.shared.Format;
-import org.cotrix.web.share.server.util.FileNameUtil;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.util;
 
-import org.cotrix.web.share.client.resources.CommonResources;
+import org.cotrix.web.common.client.resources.CommonResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;

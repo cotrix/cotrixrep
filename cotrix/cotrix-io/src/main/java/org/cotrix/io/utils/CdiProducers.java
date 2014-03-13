@@ -7,16 +7,16 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.io.impl.MapTask;
 import org.cotrix.io.impl.ParseTask;
 import org.cotrix.io.impl.SerialisationTask;
 import org.sdmx.SdmxServiceFactory;
-import org.sdmxsource.sdmx.api.manager.output.StructureWritingManager;
+import org.sdmxsource.sdmx.api.manager.output.StructureWriterManager;
 import org.sdmxsource.sdmx.api.manager.parse.StructureParsingManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.VirtualRepository;
-import org.virtualrepository.impl.Repository;
 import org.virtualrepository.impl.Repository;
 
 /**
@@ -65,6 +65,7 @@ public class CdiProducers {
 	public static VirtualRepository virtualRepository() {
 		return new Repository();
 	}
+	
 
 	
 	/**
@@ -72,7 +73,7 @@ public class CdiProducers {
 	 * 
 	 * @return the serialiser
 	 */
-	@Produces @Singleton
+	@Produces @Singleton @Current
 	public static StructureParsingManager parser() {
 		return SdmxServiceFactory.parser();
 	}
@@ -82,11 +83,10 @@ public class CdiProducers {
 	 * 
 	 * @return the serialiser
 	 */
-	@Produces @Singleton
-	public static StructureWritingManager writer() {
+	@Produces @Singleton @Current
+	public static StructureWriterManager writer() {
 		return SdmxServiceFactory.writer();
 	}
-	
 	
 	public static void onShutdown(@Observes Shutdown event, VirtualRepository repository) {
 		

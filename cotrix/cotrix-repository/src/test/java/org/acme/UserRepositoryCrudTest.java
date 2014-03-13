@@ -52,7 +52,7 @@ public class UserRepositoryCrudTest extends ApplicationTest {
 	public void updateUser() {
 		
 		Action doit = action("doit");
-		Role role = role("role").fullName("role").buildAsRoleFor(application);
+		Role role = role("role").buildAsRoleFor(application);
 		
 		User bill = bill();
 		
@@ -79,7 +79,7 @@ public class UserRepositoryCrudTest extends ApplicationTest {
 	
 	private UserGrammar.ThirdClause aUser(String name) {
 		
-		return user().name(name).noMail().fullName(name);
+		return user().name(name).fullName(name).noMail();
 	}
 	
 	private void update(User bill, User changeset) {

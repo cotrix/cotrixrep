@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.shared.Destination;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.client.wizard.flow.AbstractNodeSelector;
-import org.cotrix.web.share.client.wizard.flow.FlowNode;
-import org.cotrix.web.share.client.wizard.step.WizardStep;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent;
+import org.cotrix.web.wizard.client.flow.AbstractNodeSelector;
+import org.cotrix.web.wizard.client.flow.FlowNode;
+import org.cotrix.web.wizard.client.step.WizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.web.bindery.event.shared.EventBus;

@@ -10,5 +10,4 @@ package org.cotrix.web.publish.client.event;
 public enum CodeListType {
 	CSV,
 	SDMX;
-
 }

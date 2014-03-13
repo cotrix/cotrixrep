@@ -9,16 +9,16 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
+import org.cotrix.security.InvalidCredentialsException;
+import org.cotrix.security.LoginRequest;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.Realm;
 import org.cotrix.security.TokenCollector;
-import org.cotrix.security.exceptions.UnknownUserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,7 @@ public class DefaultLoginService implements LoginService {
 	
 	
 	@Override
-	public User login(HttpServletRequest request) {
+	public User login(LoginRequest request) {
 	
 		Object token = collectTokenFrom(request);
 		
@@ -56,7 +56,7 @@ public class DefaultLoginService implements LoginService {
 			String identity = identifyFrom(token);
 			
 			if (identity==null)
-				throw new UnknownUserException("no user for token: "+token);
+				throw new InvalidCredentialsException();
 			
 			if (identity.equals(cotrix.name()))
 				user=cotrix;
@@ -65,7 +65,7 @@ public class DefaultLoginService implements LoginService {
 				user = users.get(userByName(identity));
 				
 				if (user==null)
-					throw new UnknownUserException("unknown user "+identity);
+					throw new InvalidCredentialsException();
 			}
 			
 			//log only for non-guests
@@ -79,7 +79,7 @@ public class DefaultLoginService implements LoginService {
 	}
 	
 	//helpers
-	private Object collectTokenFrom(HttpServletRequest request) {
+	private Object collectTokenFrom(LoginRequest request) {
 	
 		Object token =null;
 

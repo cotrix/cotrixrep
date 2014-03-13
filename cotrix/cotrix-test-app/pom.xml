@@ -1,0 +1,183 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.cotrix</groupId>
+		<artifactId>cotrix</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<selenium_version>2.39.0</selenium_version>
+		<servlet.port>8080</servlet.port>
+		<servlet.context>cotrix</servlet.context>
+		<cotrix.url>http://localhost:${servlet.port}/${servlet.context}/cotrix.html</cotrix.url>
+		<skipAcceptance>true</skipAcceptance>
+		<selenium.driver>htmlunit</selenium.driver>
+	</properties>
+
+	<artifactId>cotrix-test-app</artifactId>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>cotrix-head</artifactId>
+			<type>war</type>
+			<version>${project.version}</version>
+			<classifier>dev</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium_version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- needed for driver customization -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-htmlunit-driver</artifactId>
+			<version>${selenium_version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- needed to use recent version of htmlunit -->
+		<dependency>
+			<groupId>net.sourceforge.htmlunit</groupId>
+			<artifactId>htmlunit</artifactId>
+			<version>2.14</version>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>htmlunit</id>
+
+			<properties>
+				<selenium.driver>htmlunit</selenium.driver>
+			</properties>
+
+			<dependencies>
+
+			</dependencies>
+		</profile>
+		<profile>
+			<id>firefox</id>
+
+			<properties>
+				<selenium.driver>firefox</selenium.driver>
+			</properties>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-firefox-driver</artifactId>
+					<version>${selenium_version}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>start-cargo</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop-cargo</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<container>
+						<containerId>tomcat7x</containerId>
+						<artifactInstaller>
+							<groupId>org.apache.tomcat</groupId>
+							<artifactId>tomcat</artifactId>
+							<version>7.0.52</version>
+						</artifactInstaller>
+					</container>
+					<configuration>
+						<properties>
+							<cargo.servlet.port>${servlet.port}</cargo.servlet.port>
+						</properties>
+					</configuration>
+					<deployables>
+						<deployable>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>cotrix-head</artifactId>
+							<classifier>dev</classifier>
+							<type>war</type>
+							<properties>
+								<context>${servlet.context}</context>
+							</properties>
+						</deployable>
+					</deployables>
+				</configuration>
+			</plugin>
+
+
+			<!-- no unit tests in this suite -->
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<skipTests>${skipAcceptance}</skipTests>
+					<systemProperties>
+						<property>
+							<name>cotrix.url</name>
+							<value>${cotrix.url}</value>
+						</property>
+						<property>
+							<name>selenium.driver</name>
+							<value>${selenium.driver}</value>
+						</property>
+					</systemProperties>
+
+				</configuration>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>verify</id>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+
+	</build>
+</project>

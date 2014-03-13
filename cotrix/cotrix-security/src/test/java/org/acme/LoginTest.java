@@ -7,11 +7,12 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
+import org.cotrix.security.InvalidUsernameException;
+import org.cotrix.security.LoginRequest;
 import org.cotrix.security.LoginService;
 import org.cotrix.security.SignupService;
 import org.cotrix.test.ApplicationTest;
@@ -32,7 +33,7 @@ public class LoginTest extends ApplicationTest {
 	@Inject
 	SignupService signupService;
 
-	HttpServletRequest req = mock(HttpServletRequest.class);
+	LoginRequest req = mock(LoginRequest.class);
 
 	@Test
 	public void loginAsGuestIfNoTokenIsAvailable() throws Exception {
@@ -61,7 +62,7 @@ public class LoginTest extends ApplicationTest {
 	@Test
 	public void signUpAndLogin() throws Exception {
 		
-		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
+		User user = user().name("fifi").fullName("fifi").email("fifi@me.com").build();
 		
 		signupService.signup(user,"any");
 		
@@ -82,7 +83,7 @@ public class LoginTest extends ApplicationTest {
 	@Test
 	public void changePwd() throws Exception {
 		
-		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
+		User user = user().name("fifi").fullName("fifi").email("fifi@me.com").build();
 		
 		signupService.signup(user,"old");
 		
@@ -99,14 +100,14 @@ public class LoginTest extends ApplicationTest {
 		
 	}
 
-	@Test(expected=IllegalStateException.class)
+	@Test(expected=InvalidUsernameException.class)
 	public void identitiesAreUnique() throws Exception {
 		
-		User user = user().name("fifi").email("fifi@me.com").fullName("fifi").build();
+		User user = user().name("fifi").fullName("fifi").email("fifi@me.com").build();
 		
 		signupService.signup(user,"any");
 		
-		User homonymous = user().name("fifi").email("fifi@clone.com").fullName("fi").build();
+		User homonymous = user().name("fifi").fullName("fifi").email("fifi@clone.com").build();
 		
 		signupService.signup(homonymous,"any");
 	}

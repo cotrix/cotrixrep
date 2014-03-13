@@ -2,7 +2,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
 	xmlns:p="urn:import:org.cotrix.web.publish.client.wizard.step.csvconfiguration"
-	xmlns:s="urn:import:org.cotrix.web.share.client.widgets">
+	xmlns:s="urn:import:org.cotrix.web.common.client.widgets">
 	<ui:style>
 		.main {
 			padding-top: 20px;
