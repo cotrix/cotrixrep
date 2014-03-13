@@ -1,7 +1,7 @@
 package org.cotrix.web.ingest.client.step.upload;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
-import org.cotrix.web.ingest.client.ImportServiceAsync;
+import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.FileUploadedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.resources.ImportConstants;
@@ -35,7 +35,7 @@ public class UploadStepPresenter extends AbstractVisualWizardStep implements Vis
 	protected static final int POLLING_ERROR_TRESHOLD = 3;
 	
 	@Inject
-	protected ImportServiceAsync importService;
+	protected IngestServiceAsync importService;
 	
 	protected EventBus importEventBus;
 	

@@ -8,7 +8,7 @@ import java.util.List;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.ReportLog;
-import org.cotrix.web.ingest.client.ImportServiceAsync;
+import org.cotrix.web.ingest.client.IngestServiceAsync;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.view.client.Range;
@@ -25,7 +25,7 @@ import com.google.inject.Singleton;
 public class ReportLogDataProvider extends AsyncDataProvider<ReportLog> {
 	
 	@Inject
-	protected ImportServiceAsync importService;
+	protected IngestServiceAsync importService;
 	
 	/**
 	 * @param importService

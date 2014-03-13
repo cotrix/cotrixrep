@@ -1,7 +1,7 @@
 package org.cotrix.web.manage.client;
 
 import org.cotrix.web.common.client.CommonGinModule;
-import org.cotrix.web.manage.client.ManagerServiceAsync;
+import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodelistAttributesPanel;
 import org.cotrix.web.manage.client.codelist.CodelistEditor;
 import org.cotrix.web.manage.client.codelist.CodelistMetadataPanel;
@@ -24,7 +24,7 @@ public interface CotrixManageGinInjector extends Ginjector {
 
 	public static CotrixManageGinInjector INSTANCE = GWT.create(CotrixManageGinInjector.class);
 
-	public ManagerServiceAsync getRpcService();
+	public ManageServiceAsync getRpcService();
 	public CotrixManageController getController();
 	public CodelistsPresenter getCodeListPresenter();
 	public CodelistManagerPresenter getCodeListManagerPresenter();

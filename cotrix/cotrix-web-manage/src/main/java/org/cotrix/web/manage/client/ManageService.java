@@ -23,8 +23,8 @@ import com.google.gwt.view.client.Range;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@RemoteServiceRelativePath("service/manager")
-public interface ManagerService extends RemoteService {
+@RemoteServiceRelativePath("service/manageService")
+public interface ManageService extends RemoteService {
 	
 	DataWindow<UICode> getCodelistCodes(String codelistId, Range range, CodelistEditorSortInfo sortInfo) throws ServiceException;
 	Set<Group> getAttributesGroups(String codelistId) throws ServiceException;

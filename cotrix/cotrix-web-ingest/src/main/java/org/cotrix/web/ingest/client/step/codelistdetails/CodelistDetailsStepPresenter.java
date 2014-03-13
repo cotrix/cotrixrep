@@ -1,7 +1,7 @@
 package org.cotrix.web.ingest.client.step.codelistdetails;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
-import org.cotrix.web.ingest.client.ImportServiceAsync;
+import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
 import org.cotrix.web.ingest.client.step.repositorydetails.RepositoryDetailsStepPresenter;
@@ -30,7 +30,7 @@ public class CodelistDetailsStepPresenter extends AbstractVisualWizardStep imple
 	protected final CodelistDetailsStepView view;
 	
 	@Inject
-	protected ImportServiceAsync importService;
+	protected IngestServiceAsync importService;
 	
 	protected EventBus importEventBus;
 	

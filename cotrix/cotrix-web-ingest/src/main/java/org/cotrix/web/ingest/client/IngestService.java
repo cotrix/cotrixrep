@@ -25,8 +25,8 @@ import com.google.gwt.view.client.Range;
 /**
  * The client side stub for the RPC service.
  */
-@RemoteServiceRelativePath("service/importService")
-public interface ImportService extends RemoteService {
+@RemoteServiceRelativePath("service/ingestService")
+public interface IngestService extends RemoteService {
 	
 	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ServiceException;
 	

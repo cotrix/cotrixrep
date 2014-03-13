@@ -5,7 +5,7 @@ package org.cotrix.web.ingest.client.task;
 
 import java.util.List;
 
-import org.cotrix.web.ingest.client.ImportServiceAsync;
+import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.MappingLoadFailedEvent;
 import org.cotrix.web.ingest.client.event.MappingLoadedEvent;
@@ -28,7 +28,7 @@ import com.google.web.bindery.event.shared.EventBus;
 public class MappingsLoadingTask implements TaskWizardStep {
 	
 	@Inject
-	protected ImportServiceAsync importService;
+	protected IngestServiceAsync importService;
 	
 	@Inject
 	@ImportBus

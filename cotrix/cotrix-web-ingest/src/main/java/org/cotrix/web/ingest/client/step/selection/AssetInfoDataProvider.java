@@ -8,7 +8,7 @@ import java.util.List;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.shared.ColumnSortInfo;
 import org.cotrix.web.common.shared.DataWindow;
-import org.cotrix.web.ingest.client.ImportServiceAsync;
+import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.shared.AssetInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -30,7 +30,7 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 	protected static final ColumnSortInfo DEFAULT_SORT_INFO = new ColumnSortInfo(AssetInfo.NAME_FIELD, true);
 	
 	@Inject
-	protected ImportServiceAsync importService;
+	protected IngestServiceAsync importService;
 	protected PatchedDataGrid<AssetInfo> datagrid;
 	protected boolean forceRefresh;
 	

@@ -4,7 +4,7 @@ import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
 import org.cotrix.web.common.client.CommonGinModule;
-import org.cotrix.web.ingest.client.ImportServiceAsync;
+import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.step.selection.AssetInfoDataProvider;
 import org.cotrix.web.ingest.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.ingest.client.step.upload.UploadStepView;
@@ -20,13 +20,13 @@ public interface CotrixIngestGinInjector extends Ginjector {
 	
 	public static CotrixIngestGinInjector INSTANCE = GWT.create(CotrixIngestGinInjector.class);
 	
-    public ImportServiceAsync getRpcService();
+    public IngestServiceAsync getRpcService();
     
     public AssetInfoDataProvider getAssetInfoDataProvider();
     
     public UploadStepView getUploadForm();
     public UploadStepPresenter getUploadFormPresenter();
-    public ImportWizardController getController();
+    public IngestController getController();
     public ImportWizardView getImportWizardView();
     public ImportWizardPresenter getImportWizardPresenter();
 }

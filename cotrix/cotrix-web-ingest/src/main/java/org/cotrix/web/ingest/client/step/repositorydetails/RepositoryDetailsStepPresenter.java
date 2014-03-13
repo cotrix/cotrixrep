@@ -2,7 +2,7 @@ package org.cotrix.web.ingest.client.step.repositorydetails;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
-import org.cotrix.web.ingest.client.ImportServiceAsync;
+import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
 import org.cotrix.web.ingest.client.wizard.ImportWizardStepButtons;
@@ -28,7 +28,7 @@ public class RepositoryDetailsStepPresenter extends AbstractVisualWizardStep imp
 	protected final RepositoryDetailsStepView view;
 	
 	@Inject
-	protected ImportServiceAsync importService;
+	protected IngestServiceAsync importService;
 	
 	protected EventBus importEventBus;
 	

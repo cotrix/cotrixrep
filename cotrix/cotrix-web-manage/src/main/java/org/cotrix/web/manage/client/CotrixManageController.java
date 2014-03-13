@@ -6,7 +6,7 @@ import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
-import org.cotrix.web.manage.client.ManagerServiceAsync;
+import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
 import org.cotrix.web.manage.client.event.CreateNewVersionEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
@@ -33,7 +33,7 @@ import com.google.web.bindery.event.shared.EventBus;
 public class CotrixManageController implements Presenter, ValueChangeHandler<String>, CotrixModuleController {
 	
 	@Inject
-	protected ManagerServiceAsync service;
+	protected ManageServiceAsync service;
 	
 	protected EventBus cotrixBus;
 	protected EventBus managerBus;

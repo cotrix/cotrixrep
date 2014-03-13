@@ -8,7 +8,7 @@ import java.util.List;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider;
 import org.cotrix.web.common.shared.DataWindow;
-import org.cotrix.web.manage.client.ManagerServiceAsync;
+import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.shared.CodelistGroup;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -25,7 +25,7 @@ import com.google.inject.Singleton;
 public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGroup> {
 	
 	@Inject
-	protected ManagerServiceAsync managerService;
+	protected ManageServiceAsync managerService;
 
 	@Override
 	protected void onRangeChanged(HasData<CodelistGroup> display) {

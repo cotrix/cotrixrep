@@ -39,7 +39,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
-import org.cotrix.web.manage.client.ManagerServiceAsync;
+import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.event.GroupSwitchType;
@@ -156,7 +156,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	protected StyledSafeHtmlRenderer systemAttributeCell = new StyledSafeHtmlRenderer(CotrixManagerResources.INSTANCE.css().systemProperty());
 
 	@Inject
-	protected ManagerServiceAsync managerService;
+	protected ManageServiceAsync managerService;
 	
 	@Inject @CodelistId
 	protected String codelistId;

@@ -7,7 +7,7 @@ import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.HasFeature;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
-import org.cotrix.web.manage.client.ManagerServiceAsync;
+import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodelistToolbar.Action;
 import org.cotrix.web.manage.client.codelist.CodelistToolbar.ToolBarListener;
 import org.cotrix.web.manage.client.data.CodeAttributeCommandGenerator;
@@ -31,7 +31,7 @@ public class CodelistPanelPresenter implements Presenter {
 
 	protected CodelistPanelView view;
 	protected String codelistId;
-	protected ManagerServiceAsync service;
+	protected ManageServiceAsync service;
 	
 	@Inject
 	protected DataSaverManager saverManager;
@@ -53,7 +53,7 @@ public class CodelistPanelPresenter implements Presenter {
 	});
 
 	@Inject
-	public CodelistPanelPresenter(CodelistPanelView view, @CodelistId String codelistId, ManagerServiceAsync service, DataSaverManager saverManager) {
+	public CodelistPanelPresenter(CodelistPanelView view, @CodelistId String codelistId, ManageServiceAsync service, DataSaverManager saverManager) {
 		this.view = view;
 		this.codelistId = codelistId;
 		this.service = service;

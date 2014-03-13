@@ -25,7 +25,7 @@ import com.google.gwt.view.client.Range;
 /**
  * The client side stub for the RPC service.
  */
-@RemoteServiceRelativePath("service/publish")
+@RemoteServiceRelativePath("service/publishService")
 public interface PublishService extends RemoteService {
 	
 	public DataWindow<UICodelist> getCodelists(Range range, ColumnSortInfo sortInfo, boolean force) throws ServiceException;

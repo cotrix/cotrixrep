@@ -42,7 +42,7 @@ import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
-import org.cotrix.web.manage.client.ManagerService;
+import org.cotrix.web.manage.client.ManageService;
 import org.cotrix.web.manage.server.modify.ChangesetUtil;
 import org.cotrix.web.manage.server.modify.ModifyCommandHandler;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
@@ -60,12 +60,12 @@ import org.slf4j.LoggerFactory;
  */
 @SuppressWarnings("serial")
 @ContainsTask
-public class ManagerServiceImpl implements ManagerService {
+public class ManageServiceImpl implements ManageService {
 
 	public static class Servlet extends CotrixRemoteServlet {
 
 		@Inject
-		protected ManagerServiceImpl bean;
+		protected ManageServiceImpl bean;
 
 		@Override
 		public Object getBean() {
@@ -73,7 +73,7 @@ public class ManagerServiceImpl implements ManagerService {
 		}
 	}
 
-	protected Logger logger = LoggerFactory.getLogger(ManagerServiceImpl.class);
+	protected Logger logger = LoggerFactory.getLogger(ManageServiceImpl.class);
 
 	@Inject
 	private ActionMapper mapper;

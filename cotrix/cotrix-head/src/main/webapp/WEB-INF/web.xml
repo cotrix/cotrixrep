@@ -50,30 +50,30 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>importWizardFileUploadServlet</servlet-name>
+		<servlet-name>ingestFileUploadServlet</servlet-name>
 		<servlet-class>org.cotrix.web.ingest.server.FileUpload</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet>
-		<servlet-name>importWizardServiceServlet</servlet-name>
-		<servlet-class>org.cotrix.web.ingest.server.ImportServiceImpl</servlet-class>
+		<servlet-name>ingestServiceServlet</servlet-name>
+		<servlet-class>org.cotrix.web.ingest.server.IngestServiceImpl</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet>
-		<servlet-name>importWizardReportDownloadServlet</servlet-name>
+		<servlet-name>ingestReportDownloadServlet</servlet-name>
 		<servlet-class>org.cotrix.web.ingest.server.ReportDownload</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet>
-		<servlet-name>codelistManagerServlet</servlet-name>
-		<servlet-class>org.cotrix.web.manage.server.ManagerServiceImpl$Servlet</servlet-class>
+		<servlet-name>manageServlet</servlet-name>
+		<servlet-class>org.cotrix.web.manage.server.ManageServiceImpl$Servlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<servlet-name>codelistPublishServlet</servlet-name>
+		<servlet-name>publishServlet</servlet-name>
 		<servlet-class>org.cotrix.web.publish.server.PublishServiceImpl</servlet-class>
 	</servlet>
 
@@ -95,28 +95,28 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>importWizardFileUploadServlet</servlet-name>
+		<servlet-name>ingestFileUploadServlet</servlet-name>
 		<url-pattern>/Cotrix/service/fileupload</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>importWizardServiceServlet</servlet-name>
-		<url-pattern>/Cotrix/service/importService</url-pattern>
+		<servlet-name>ingestServiceServlet</servlet-name>
+		<url-pattern>/Cotrix/service/ingestService</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>importWizardReportDownloadServlet</servlet-name>
+		<servlet-name>ingestReportDownloadServlet</servlet-name>
 		<url-pattern>/Cotrix/service/reportDownload</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>codelistManagerServlet</servlet-name>
-		<url-pattern>/Cotrix/service/manager</url-pattern>
+		<servlet-name>manageServlet</servlet-name>
+		<url-pattern>/Cotrix/service/manageService</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>codelistPublishServlet</servlet-name>
-		<url-pattern>/Cotrix/service/publish</url-pattern>
+		<servlet-name>publishServlet</servlet-name>
+		<url-pattern>/Cotrix/service/publishService</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

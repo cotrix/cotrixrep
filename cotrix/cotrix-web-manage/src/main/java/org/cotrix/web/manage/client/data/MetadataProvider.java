@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
-import org.cotrix.web.manage.client.ManagerServiceAsync;
+import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodelistId;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -17,7 +17,7 @@ import com.google.inject.Inject;
 public class MetadataProvider implements AsyncDataProvider<UICodelistMetadata> {
 	
 	@Inject
-	protected ManagerServiceAsync service;
+	protected ManageServiceAsync service;
 	
 	@Inject @CodelistId
 	protected String codelistId;

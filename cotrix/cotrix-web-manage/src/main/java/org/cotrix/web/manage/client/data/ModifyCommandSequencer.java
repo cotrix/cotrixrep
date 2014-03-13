@@ -6,7 +6,7 @@ package org.cotrix.web.manage.client.data;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import org.cotrix.web.manage.client.ManagerServiceAsync;
+import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodelistId;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
@@ -27,7 +27,7 @@ public class ModifyCommandSequencer {
 	protected static final int MAX_ATTEMPTS = 3;
 	
 	@Inject
-	protected ManagerServiceAsync service;
+	protected ManageServiceAsync service;
 	
 	@Inject
 	@CodelistId

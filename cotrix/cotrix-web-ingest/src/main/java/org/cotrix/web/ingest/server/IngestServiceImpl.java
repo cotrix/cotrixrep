@@ -20,7 +20,7 @@ import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 import org.cotrix.web.common.shared.exception.ServiceException;
-import org.cotrix.web.ingest.client.ImportService;
+import org.cotrix.web.ingest.client.IngestService;
 import org.cotrix.web.ingest.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.ingest.server.climport.ImportTaskSession;
 import org.cotrix.web.ingest.server.climport.ImporterFactory;
@@ -54,9 +54,9 @@ import com.google.gwt.view.client.Range;
  *
  */
 @SuppressWarnings("serial")
-public class ImportServiceImpl extends RemoteServiceServlet implements ImportService {
+public class IngestServiceImpl extends RemoteServiceServlet implements IngestService {
 
-	protected Logger logger = LoggerFactory.getLogger(ImportServiceImpl.class);
+	protected Logger logger = LoggerFactory.getLogger(IngestServiceImpl.class);
 
 	@Inject
 	protected CloudService cloud;

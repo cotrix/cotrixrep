@@ -11,7 +11,7 @@ import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.Progress;
-import org.cotrix.web.ingest.client.ImportServiceAsync;
+import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.AssetRetrievedEvent;
 import org.cotrix.web.ingest.client.event.CodeListSelectedEvent;
 import org.cotrix.web.ingest.client.event.CodeListTypeUpdatedEvent;
@@ -52,9 +52,9 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  *
  */
 @Singleton
-public class ImportWizardController implements Presenter, CotrixModuleController {
+public class IngestController implements Presenter, CotrixModuleController {
 	
-	protected interface ImportWizardControllerBinder extends EventBinder<ImportWizardController> {}
+	protected interface ImportWizardControllerBinder extends EventBinder<IngestController> {}
 
 	protected EventBus importEventBus;
 	
@@ -62,7 +62,7 @@ public class ImportWizardController implements Presenter, CotrixModuleController
 	protected EventBus cotrixBus;
 
 	@Inject
-	protected ImportServiceAsync importService;
+	protected IngestServiceAsync importService;
 
 	@Inject
 	protected ImportWizardPresenter importWizardPresenter;
@@ -224,7 +224,7 @@ public class ImportWizardController implements Presenter, CotrixModuleController
 			public void onSuccess(CsvConfiguration result) {
 				Log.trace("parser configuration loaded: "+result);
 				csvConfiguration = result;
-				importEventBus.fireEventFromSource(new CsvParserConfigurationUpdatedEvent(result), ImportWizardController.this);				
+				importEventBus.fireEventFromSource(new CsvParserConfigurationUpdatedEvent(result), IngestController.this);				
 			}
 		});
 	}
