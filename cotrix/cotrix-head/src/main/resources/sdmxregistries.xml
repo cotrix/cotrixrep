@@ -10,7 +10,6 @@
 	</gcube>
 	<generic>
 		<name>FAO Sdmx Registry (Dev)</name>
-		<address>http://hqldvtcdrsdmx1.hq.un.fao.org:18080/FusionRegistry/ws/rest/
-		</address>
+		<address>http://hqldvtcdrsdmx1.hq.un.fao.org:18080/FusionRegistry/ws/rest/</address>
 	</generic>
 </registries>
