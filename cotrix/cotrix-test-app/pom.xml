@@ -11,7 +11,7 @@
 
 	<properties>
 		<selenium_version>2.39.0</selenium_version>
-		<servlet.port>8080</servlet.port>
+		<servlet.port>9999</servlet.port>
 		<servlet.context>cotrix</servlet.context>
 		<cotrix.url>http://localhost:${servlet.port}/${servlet.context}/cotrix.html</cotrix.url>
 		<skipAcceptance>true</skipAcceptance>
