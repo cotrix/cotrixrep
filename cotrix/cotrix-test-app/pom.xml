@@ -28,7 +28,8 @@
 			<artifactId>cotrix-head</artifactId>
 			<type>war</type>
 			<version>${project.version}</version>
-			<classifier>dev</classifier>
+			<classifier>${active_profile}</classifier>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -124,7 +125,7 @@
 						<deployable>
 							<groupId>${project.groupId}</groupId>
 							<artifactId>cotrix-head</artifactId>
-							<classifier>dev</classifier>
+							<classifier>${active_profile}</classifier>
 							<type>war</type>
 							<properties>
 								<context>${servlet.context}</context>
