@@ -100,7 +100,7 @@
 						<g:HTMLPanel styleName="{style.footer}">
 							<div style="padding-top:5px;">
 								<span class="{style.footerText}">
-									COPYRIGHT 2013 Cotrix all rights reserved
+									COPYRIGHT 2013-2014 Cotrix all rights reserved
 									<br />
 									<font style="color:#f66a03">Cotrix</font>
 									is funded by iMarine.

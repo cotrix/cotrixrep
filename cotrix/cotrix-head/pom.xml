@@ -155,7 +155,6 @@
 			<id>dev</id>
 
 			<properties>
-				<active_profile>dev</active_profile>
 				<draft>true</draft>
 				<gwt_module>org.cotrix.head.CotrixDev</gwt_module>
 			</properties>
@@ -200,7 +199,6 @@
 			<id>devlite</id>
 
 			<properties>
-				<active_profile>devlite</active_profile>
 				<draft>true</draft>
 				<gwt_module>org.cotrix.head.CotrixDev</gwt_module>
 			</properties>
@@ -223,12 +221,17 @@
 		<profile>
 
 			<id>demo</id>
-
+			
 			<properties>
-				<active_profile>demo</active_profile>
+				<gwt_module>org.cotrix.head.CotrixDemo</gwt_module>
 			</properties>
 
 			<dependencies>
+			
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-web-demo</artifactId>
+				</dependency>
 
 				<dependency>
 					<groupId>org.cotrix</groupId>
@@ -266,11 +269,7 @@
 		<profile>
 
 			<id>gcube</id>
-
-			<properties>
-				<active_profile>gcube</active_profile>
-			</properties>
-
+			
 			<dependencies>
 
 				<dependency>

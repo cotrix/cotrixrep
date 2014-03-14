@@ -1,4 +1,4 @@
-package org.cotrix.web.client.event;
+package org.cotrix.web.common.client.event;
 
 import com.google.web.bindery.event.shared.binder.GenericEvent;
 

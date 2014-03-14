@@ -2,13 +2,13 @@ package org.cotrix.web.client;
 
 import java.util.EnumMap;
 
-import org.cotrix.web.client.event.CotrixStartupEvent;
 import org.cotrix.web.client.presenter.CotrixWebPresenter;
 import org.cotrix.web.client.presenter.HomeController;
 import org.cotrix.web.common.client.CotrixModule;
 import org.cotrix.web.common.client.CotrixModuleController;
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.event.CotrixBus;
+import org.cotrix.web.common.client.event.CotrixStartupEvent;
 import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.ingest.client.CotrixIngestGinInjector;
@@ -112,6 +112,7 @@ public class CotrixController implements Presenter {
 		
 		cotrixBus.fireEvent(new CotrixStartupEvent());
 	}
+
 	
 	@Inject
 	protected void bind()

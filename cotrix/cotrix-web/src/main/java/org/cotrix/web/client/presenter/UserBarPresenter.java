@@ -18,6 +18,7 @@ import org.cotrix.web.client.view.UserBarView;
 import org.cotrix.web.client.view.UserBarView.Presenter;
 import org.cotrix.web.common.client.CotrixModule;
 import org.cotrix.web.common.client.event.CotrixBus;
+import org.cotrix.web.common.client.event.ExtensibleComponentReadyEvent;
 import org.cotrix.web.common.client.event.StatusUpdatedEvent;
 import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
@@ -60,6 +61,11 @@ public class UserBarPresenter implements Presenter, LoginDialogListener, Registe
 	{
 		this.view = view;
 		view.setPresenter(this);
+	}
+	
+	@Inject
+	private void extensionSetup(){
+		cotrixBus.fireEvent(new ExtensibleComponentReadyEvent(UserBarView.NAME, view));
 	}
 
 	@Inject

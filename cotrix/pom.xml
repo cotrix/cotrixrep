@@ -71,6 +71,8 @@
 		<module>cotrix-test-domain</module>
 		<module>cotrix-test-app</module>
 
+		<!-- Extensions -->
+		<module>cotrix-web-demo</module>
 	</modules>
 
 	<dependencyManagement>
@@ -251,6 +253,13 @@
 				<artifactId>cotrix-web-wizard</artifactId>
 				<version>${project.version}</version>
 				<scope>provided</scope>
+			</dependency>
+			
+			<!-- GWT extensions -->
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-demo</artifactId>
+				<version>${project.version}</version>
 			</dependency>
 
 
@@ -679,6 +688,54 @@
 			</distributionManagement>
 
 		</profile>
+
+
+		<profile>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<id>dev</id>
+
+			<properties>
+				<active_profile>dev</active_profile>
+			</properties>
+
+		</profile>
+
+		<profile>
+
+			<id>devlite</id>
+
+			<properties>
+				<active_profile>devlite</active_profile>
+			</properties>
+
+		</profile>
+
+		<profile>
+
+			<id>demo</id>
+
+			<properties>
+				<active_profile>demo</active_profile>
+			</properties>
+
+		</profile>
+
+		<profile>
+
+			<id>gcube</id>
+
+			<properties>
+				<active_profile>gcube</active_profile>
+			</properties>
+
+		</profile>
+
+
+
 
 	</profiles>
 

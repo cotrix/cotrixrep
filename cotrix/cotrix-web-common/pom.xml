@@ -39,6 +39,11 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-domain</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.google.gwt.eventbinder</groupId>
+			<artifactId>eventbinder</artifactId>
+		</dependency>
 
 	</dependencies>
 
