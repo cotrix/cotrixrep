@@ -15,7 +15,7 @@
 			font-size: 12px;
 		}
 		
-		.userInfo {
+		.rightPanel {
 			color: #fff;
 			float: right;
 			margin-right: 20px;
@@ -48,9 +48,11 @@
 			<g:FlowPanel styleName="{style.statusContainer}">
 				<g:InlineLabel styleName="{style.status}" ui:field="status" />
 			</g:FlowPanel>
-			<g:FlowPanel styleName="{style.userInfo}">
+			<g:FlowPanel styleName="{style.rightPanel}">
+
 				<g:Image ui:field="loading" resource="{resources.dataLoader}" styleName="{style.icon}"/>
 				<g:FlowPanel ui:field="userInfo" visible="false">
+					<g:FlowPanel styleName="{style.middle}" ui:field="extensionArea" visible="true" />
 					<g:Image ui:field="user" visible="false" resource="{resources.user}" styleName="{style.icon}"/>
 					<g:Image ui:field="userDisabled" resource="{resources.userDisabled}"  styleName="{style.icon}"/>
 					<g:InlineHTML styleName="{style.middle}">&nbsp;</g:InlineHTML>

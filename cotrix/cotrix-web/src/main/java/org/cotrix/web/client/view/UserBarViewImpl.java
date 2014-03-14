@@ -13,6 +13,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -36,6 +37,7 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	
 	@UiField InlineLabel status;
 
+	@UiField FlowPanel extensionArea;
 	@UiField Image loading;
 	@UiField FlowPanel userInfo;
 	
@@ -64,6 +66,11 @@ public class UserBarViewImpl extends Composite implements UserBarView {
 	{
 		this.status.setText(status);
 		statusAnimation.fadeOut(Speed.SLOW);
+	}
+	
+	@Override
+	public HasWidgets getExtensionArea() {
+		return extensionArea;
 	}
 
 	@UiHandler("username")
