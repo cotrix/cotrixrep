@@ -10,6 +10,8 @@ import org.cotrix.web.common.client.CotrixModuleController;
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.SwitchToModuleEvent;
+import org.cotrix.web.common.client.ext.CotrixExtension;
+import org.cotrix.web.common.client.ext.CotrixExtensionProvider;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.ingest.client.CotrixIngestGinInjector;
 import org.cotrix.web.manage.client.CotrixManageGinInjector;
@@ -19,6 +21,7 @@ import org.cotrix.web.publish.client.CotrixPublishGinInjector;
 import org.cotrix.web.users.client.CotrixUsersGinInjector;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -34,6 +37,8 @@ public class CotrixController implements Presenter {
 	
 	protected EventBus cotrixBus;
 	protected CotrixWebPresenter cotrixWebPresenter;
+	
+	protected CotrixExtensionProvider extensionProvider = GWT.create(CotrixExtensionProvider.class);
 	
 	protected EnumMap<CotrixModule, CotrixModuleController> controllers = new EnumMap<CotrixModule, CotrixModuleController>(CotrixModule.class);
 	protected CotrixModuleController currentController;
@@ -110,7 +115,18 @@ public class CotrixController implements Presenter {
 		
 		showModule(CotrixModule.HOME);
 		
+		activateExtensions();
+		
 		cotrixBus.fireEvent(new CotrixStartupEvent());
+	}
+	
+	protected void activateExtensions() {
+		Log.trace("Activating extensions");
+		for (CotrixExtension extension:extensionProvider.getExtensions()) {
+			Log.trace("Activating extension "+extension.getName());
+			extension.activate();
+		}
+		Log.trace("done.");
 	}
 	
 	@Inject
