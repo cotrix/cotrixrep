@@ -32,12 +32,26 @@ public class CotrixExtensionProviderGenerator extends Generator {
 	public String generate(TreeLogger logger, GeneratorContext context, String typeName) throws UnableToCompleteException {
 		
 		try {
-			List<String> extensions = getExtensions(context.getPropertyOracle());
-
 			JClassType classType = context.getTypeOracle().getType(typeName);
+			String packageName = classType.getPackage().getName();
+			String simpleName = classType.getSimpleSourceName() + "Generated";
+			PrintWriter printWriter = context.tryCreate(logger, packageName, simpleName);
+			String name = typeName + "Generated";
+			
+			if (printWriter == null) return name;
+			
+			ClassSourceFileComposerFactory composer = new ClassSourceFileComposerFactory(packageName, simpleName);
+			composer.addImplementedInterface(classType.getName());
 
-			// Here you would retrieve the metadata based on typeName for this Screen
-			SourceWriter src = getSourceWriter(classType, context, logger);
+			// Need to add whatever imports your generated class needs. 
+			composer.addImport(CotrixExtension.class.getName());
+			composer.addImport(List.class.getName());
+			composer.addImport(ArrayList.class.getName());
+			composer.addImport(Collections.class.getName());
+			
+			SourceWriter src = composer.createSourceWriter(context, printWriter);
+			
+			List<String> extensions = getExtensions(context.getPropertyOracle());
 			src.println("public List<CotrixExtension> getExtensions() {");
 			src.indent();
 			if (extensions.isEmpty()) src.println("return Collections.emptyList();");
@@ -69,27 +83,6 @@ public class CotrixExtensionProviderGenerator extends Generator {
 		} catch (BadPropertyValueException e) {
 			//We silent it
 			return Collections.emptyList();
-		}
-	}
-
-	private SourceWriter getSourceWriter(JClassType classType, GeneratorContext context, TreeLogger logger) {
-		String packageName = classType.getPackage().getName();
-		String simpleName = classType.getSimpleSourceName() + "Generated";
-		ClassSourceFileComposerFactory composer = new ClassSourceFileComposerFactory(packageName, simpleName);
-		composer.addImplementedInterface(classType.getName());
-
-		// Need to add whatever imports your generated class needs. 
-		composer.addImport(CotrixExtension.class.getName());
-		composer.addImport(List.class.getName());
-		composer.addImport(ArrayList.class.getName());
-		composer.addImport(Collections.class.getName());
-
-		PrintWriter printWriter = context.tryCreate(logger, packageName, simpleName);
-		if (printWriter == null) {
-			return null;
-		} else {
-			SourceWriter sw = composer.createSourceWriter(context, printWriter);
-			return sw;
 		}
 	}
 
