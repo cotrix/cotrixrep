@@ -71,6 +71,8 @@
 		<module>cotrix-test-domain</module>
 		<module>cotrix-test-app</module>
 
+		<!-- Extensions -->
+		<module>cotrix-web-demo</module>
 	</modules>
 
 	<dependencyManagement>
@@ -251,6 +253,13 @@
 				<artifactId>cotrix-web-wizard</artifactId>
 				<version>${project.version}</version>
 				<scope>provided</scope>
+			</dependency>
+			
+			<!-- GWT extensions -->
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-demo</artifactId>
+				<version>${project.version}</version>
 			</dependency>
 
 
