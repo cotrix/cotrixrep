@@ -1,7 +1,9 @@
 package org.cotrix.web.demo.client.credential;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,4 +33,8 @@ public class CredentialsPopupImpl extends PopupPanel implements CredentialsPopup
 		super.center();
 	}
 	
+	@UiHandler("gotIt")
+	void onGotInClick(ClickEvent event) {
+		hide();
+	}
 }
