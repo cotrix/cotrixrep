@@ -17,22 +17,22 @@ public interface Codelink extends Identified, Attributed {
 	 * 
 	 * @return the definition
 	 */
-	CodelistLink definition();
+	CodelistLink type();
 
 	/**
 	 * Returns the identifier of the target of this link.
 	 * 
 	 * @return the target identifier
 	 */
-	String targetId();
+	String target();
 
 	static interface State extends Identified.State, Attributed.State, EntityProvider<Private> {
 
-		CodelistLink.State definition();
+		CodelistLink.State type();
 
-		String targetId();
+		String target();
 
-		void targetId(String id);
+		void target(String id);
 	}
 
 	/**
@@ -46,13 +46,13 @@ public interface Codelink extends Identified, Attributed {
 		}
 
 		@Override
-		public String targetId() {
-			return state().targetId();
+		public String target() {
+			return state().target();
 		}
 
 		@Override
-		public CodelistLink.Private definition() {
-			return new CodelistLink.Private(state().definition());
+		public CodelistLink.Private type() {
+			return new CodelistLink.Private(state().type());
 		}
 
 		@Override
@@ -60,10 +60,10 @@ public interface Codelink extends Identified, Attributed {
 
 			super.update(changeset);
 
-			definition().update(changeset.definition());
+			type().update(changeset.type());
 
-			if (!targetId().equals(changeset.targetId()))
-				state().targetId(changeset.targetId());
+			if (!target().equals(changeset.target()))
+				state().target(changeset.target());
 		}
 
 	}

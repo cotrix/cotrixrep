@@ -57,7 +57,7 @@ public class CodelinkBuilder implements CodelinkStartClause,LinkTargetClause<Cod
 		if (code.id()==null)
 			throw new IllegalArgumentException("cannot link to an unidentified code");
 		
-		state.targetId(code.id());
+		state.target(code.id());
 		return this;
 	}
 	

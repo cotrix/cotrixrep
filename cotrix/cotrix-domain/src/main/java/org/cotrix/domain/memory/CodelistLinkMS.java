@@ -25,15 +25,15 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	
 	public CodelistLinkMS(CodelistLink.State state) {
 		super(state);
-		targetId(state.targetId());
+		image(state.image());
 	}
 
 	
-	public String targetId() {
+	public String image() {
 		return targetId;
 	}
 	
-	public void targetId(String id) {
+	public void image(String id) {
 		notNull("id",id);
 		this.targetId=id;
 	}
@@ -63,9 +63,9 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 			return false;
 		CodelistLink.State other = (CodelistLink.State) obj;
 		if (targetId == null) {
-			if (other.targetId() != null)
+			if (other.image() != null)
 				return false;
-		} else if (!targetId.equals(other.targetId()))
+		} else if (!targetId.equals(other.image()))
 			return false;
 		return true;
 	}

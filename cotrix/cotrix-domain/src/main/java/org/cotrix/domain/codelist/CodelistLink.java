@@ -18,16 +18,16 @@ public interface CodelistLink extends Identified, Attributed, Named {
 	 * 
 	 * @return the identifier
 	 */
-	String targetId();
+	String image();
 
 	
 	
 	
 	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
 
-		String targetId();
+		String image();
 
-		void targetId(String id);
+		void image(String id);
 	}
 
 	/**
@@ -41,8 +41,8 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		}
 
 		@Override
-		public String targetId() {
-			return state().targetId();
+		public String image() {
+			return state().image();
 		}
 
 		@Override
@@ -50,8 +50,8 @@ public interface CodelistLink extends Identified, Attributed, Named {
 
 			super.update(changeset);
 
-			if (!state().targetId().equals(changeset.targetId()))
-				state().targetId(changeset.targetId());
+			if (!state().image().equals(changeset.image()))
+				state().image(changeset.image());
 		}
 
 	}

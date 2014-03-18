@@ -63,7 +63,7 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 		if (target.id()==null)
 			throw new IllegalArgumentException("cannot link to an unidentified codelist");
 		
-		state.targetId(target.id());
+		state.image(target.id());
 		
 		return this;
 	}

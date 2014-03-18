@@ -21,22 +21,22 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 	
 	public CodelinkMS(Codelink.State state) {
 		super(state);
-		targetId(state.targetId());
-		definition(new CodelistLinkMS(state.definition()));
+		target(state.target());
+		definition(new CodelistLinkMS(state.type()));
 	}
 
-	public String targetId() {
+	public String target() {
 		return targetId;
 	}
 
-	public void targetId(String id) {
+	public void target(String id) {
 
 		notNull("id",id);
 
 		this.targetId = id;
 	}
 
-	public CodelistLink.State definition() {
+	public CodelistLink.State type() {
 		return definition;
 	}
 
@@ -69,14 +69,14 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 			return false;
 		Codelink.State other = (Codelink.State) obj;
 		if (definition == null) {
-			if (other.definition() != null)
+			if (other.type() != null)
 				return false;
-		} else if (!definition.equals(other.definition()))
+		} else if (!definition.equals(other.type()))
 			return false;
 		if (targetId == null) {
-			if (other.targetId() != null)
+			if (other.target() != null)
 				return false;
-		} else if (!targetId.equals(other.targetId()))
+		} else if (!targetId.equals(other.target()))
 			return false;
 		return true;
 	}
