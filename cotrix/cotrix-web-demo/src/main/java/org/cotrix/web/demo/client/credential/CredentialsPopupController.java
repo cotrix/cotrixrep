@@ -51,7 +51,7 @@ public class CredentialsPopupController {
 			Log.trace("UserBar Ready");
 			HasWidgets extensionArea = componentReadyEvent.getHasExtensionArea().getExtensionArea();
 			
-			InlineHTML demoLink = new InlineHTML("Demo");
+			InlineHTML demoLink = new InlineHTML("It's only a demo...");
 			demoLink.setStyleName(resources.css().demoLabel());
 			extensionArea.add(demoLink);
 			demoLink.addClickHandler(new ClickHandler() {
