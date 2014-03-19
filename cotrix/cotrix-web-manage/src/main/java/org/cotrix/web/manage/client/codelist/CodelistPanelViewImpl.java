@@ -14,13 +14,11 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@Singleton
 public class CodelistPanelViewImpl extends ResizeComposite implements CodelistPanelView {
 
 	@UiTemplate("CodelistPanel.ui.xml")

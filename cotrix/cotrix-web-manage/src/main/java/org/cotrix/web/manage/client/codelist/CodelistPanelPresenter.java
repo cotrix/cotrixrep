@@ -20,13 +20,11 @@ import org.cotrix.web.manage.shared.ManagerUIFeature;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@Singleton
 public class CodelistPanelPresenter implements Presenter {
 
 	protected CodelistPanelView view;
