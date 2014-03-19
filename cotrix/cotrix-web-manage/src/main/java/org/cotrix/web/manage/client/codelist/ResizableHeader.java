@@ -19,6 +19,11 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 
+/**
+ * @author "Federico De Faveri federico.defaveri@fao.org"
+ *
+ * @param <T>
+ */
 public class ResizableHeader<T> extends Header<String> {
 
 	private Column<T, ?> column = null;
