@@ -16,6 +16,7 @@
 package org.cotrix.web.manage.client.codelist.attribute;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -28,8 +29,10 @@ import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.EventUtil;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.DoubleClickEditTextCell;
+import org.cotrix.web.common.client.widgets.EditableCell;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.client.widgets.StyledSafeHtmlRenderer;
+import org.cotrix.web.common.client.widgets.SuggestBoxCell;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent.HasAttributeChangedHandlers;
@@ -37,6 +40,7 @@ import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
@@ -58,8 +62,11 @@ import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
+import com.google.gwt.user.client.ui.SuggestOracle.Callback;
+import com.google.gwt.user.client.ui.SuggestOracle.Request;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
@@ -97,7 +104,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 	private final Set<String> showExpanded = new HashSet<String>();
 
 	protected Map<String, EnumMap<AttributeField, Column<UIAttribute, String>>> attributesPropertiesColumns = new HashMap<String, EnumMap<AttributeField,Column<UIAttribute,String>>>();
-	protected List<DoubleClickEditTextCell> editableCells = new ArrayList<DoubleClickEditTextCell>();
+	protected List<EditableCell> editableCells = new ArrayList<EditableCell>();
 	protected boolean editable = true;
 
 	private Column<UIAttribute, String> attributeNameColumn;
@@ -110,11 +117,13 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 	protected StyledSafeHtmlRenderer cellRenderer;
 	protected StyledSafeHtmlRenderer systemAttributeCell = new StyledSafeHtmlRenderer(CotrixManagerResources.INSTANCE.css().systemProperty());
+	protected SuggestOracle attributeNameSuggestOracle;
 
-	public AttributesGrid(ListDataProvider<UIAttribute> dataProvider, Header<String> header, String emptyMessage) {
+	public AttributesGrid(ListDataProvider<UIAttribute> dataProvider, Header<String> header, String emptyMessage, SuggestOracle attributeNameSuggestOracle) {
 
 		this.dataProvider = dataProvider;
 		this.header = header;
+		this.attributeNameSuggestOracle = attributeNameSuggestOracle;
 
 		cellRenderer = new StyledSafeHtmlRenderer(gridResource.dataGridStyle().expansionValueText());
 		dataGrid = new PatchedDataGrid<UIAttribute>(20, gridResource);
@@ -182,10 +191,10 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 	public void setEditable(boolean editable)
 	{
 		this.editable = editable;
-		for (DoubleClickEditTextCell cell:editableCells) cell.setReadOnly(!editable);
+		for (EditableCell cell:editableCells) cell.setReadOnly(!editable);
 	}
-
-	protected DoubleClickEditTextCell createCell(boolean isSystemAttribute)
+	
+	protected AbstractEditableCell<String, ?> createDoubleClickEditTextCell(boolean isSystemAttribute)
 	{
 		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + CotrixManagerResources.INSTANCE.css().editor();
 		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, isSystemAttribute?systemAttributeCell:cellRenderer);
@@ -194,6 +203,28 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 			editableCells.add(cell);
 		}
 		return cell;
+	}
+	
+	protected AbstractEditableCell<String, ?> createNameSuggestBoxCell(boolean isSystemAttribute)
+	{
+		
+		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + CotrixManagerResources.INSTANCE.css().editor();
+		
+		SuggestBoxCell cell = new SuggestBoxCell(editorStyle, isSystemAttribute?systemAttributeCell:cellRenderer, attributeNameSuggestOracle);
+		if (!isSystemAttribute) {
+			cell.setReadOnly(!editable);
+			editableCells.add(cell);
+		}
+		return cell;
+	}
+	
+
+	protected AbstractEditableCell<String, ?> createCell(AttributeField field, boolean isSystemAttribute)
+	{
+		switch (field) {
+			case NAME: return createNameSuggestBoxCell(isSystemAttribute);
+			default: return createDoubleClickEditTextCell(isSystemAttribute);
+		}
 	}
 
 	protected Column<UIAttribute, String> getAttributePropertyColumn(final String name, boolean isSystemAttribute, final AttributeField field)
@@ -206,7 +237,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 		Column<UIAttribute, String> column = attributePropertiesColumns.get(field);
 		if (column == null) {
-			column = new Column<UIAttribute, String>(createCell(isSystemAttribute)) {
+			column = new Column<UIAttribute, String>(createCell(field, isSystemAttribute)) {
 
 				@Override
 				public String getValue(UIAttribute attribute) {

@@ -8,6 +8,7 @@ import static org.cotrix.web.manage.shared.ManagerUIFeature.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.repository.CodelistRepository;
+import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.web.common.server.CotrixRemoteServlet;
 import org.cotrix.web.common.server.task.ActionMapper;
@@ -39,6 +41,7 @@ import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
@@ -248,5 +251,17 @@ public class ManageServiceImpl implements ManageService {
 		Lifecycle lifecycle = lifecycleService.lifecycleOf(codelistId);
 		String state = lifecycle.state().toString();
 		return ResponseWrapper.wrap(state.toUpperCase());
+	}
+
+	@Override
+	public Set<UIQName> getAttributeNames(String codelistId) throws ServiceException {
+		logger.trace("getAttributeNames codelistId: {}",codelistId);
+		CodelistSummary summary = repository.get(summary(codelistId));
+		
+		Set<UIQName> names = new HashSet<>();
+		for (QName qName:summary.allNames()) {
+			names.add(ValueUtils.safeValue(qName));
+		}
+		return names;
 	}
 }
