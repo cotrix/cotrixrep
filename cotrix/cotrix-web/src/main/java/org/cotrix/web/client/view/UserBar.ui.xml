@@ -15,9 +15,10 @@
 	
 	.status {
 		color: #fff;
-		margin: auto;
+		margin-left:210px;
 		text-align: center;
 		font-size: 12px;
+		margin-right: 5px;
 	}
 	
 	.rightPanel {
@@ -51,13 +52,14 @@
 		<g:row>
 			<!-- LEFT -->
 			<g:customCell styleName="{style.block}">
-				<g:HTML></g:HTML>
+				<g:FlowPanel>
+					<g:InlineLabel styleName="{style.status}" ui:field="status" />
+				</g:FlowPanel>
 			</g:customCell>
 
 			<!-- CENTER -->
 			<g:customCell styleName="{style.block} {style.middleBlock}">
 				<g:FlowPanel>
-					<g:InlineLabel styleName="{style.status}" ui:field="status" />
 					<g:FlowPanel styleName="{style.middle}" ui:field="extensionArea" />
 				</g:FlowPanel>
 			</g:customCell>
