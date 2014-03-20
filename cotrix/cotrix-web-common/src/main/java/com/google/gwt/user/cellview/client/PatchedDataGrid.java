@@ -760,20 +760,17 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		int colIndex = getColumnIndex(column);
 		Header header = getHeader(colIndex);
 		double max = measureHeaderCell(header.getCell(), header.getValue());
-		//System.out.println("COLUMN "+header.getValue());
-		//System.out.println("header width: "+max);
 		int absRow = 0;
 		for (T t : getVisibleItems()) {
 			D value = column.getValue(t);
 			Cell<D> cell = (Cell<D>) column.getCell();
 			Context context = new Context(absRow++, colIndex, getValueKey(t), absRow);
 			double valueWidth = measureCell(cell, value, context);
-			//System.out.println("valueWidth "+valueWidth);
 			max = Math.max(valueWidth, max);
 		}
 		finishMeasuring();
 
-		Log.trace("col "+header.getValue()+" width "+max);
+		//Log.trace("col "+header.getValue()+" width "+max);
 
 		return max;
 	}
@@ -785,18 +782,18 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 
 	protected void updateTableWidth()
 	{
-		Log.trace("updateTableWidth");
+		//Log.trace("updateTableWidth");
 		double columnsWidth = 0;
 		for (Double colWidth:columnWidths.values()) {
-			Log.trace("colWidth "+colWidth);
+			//Log.trace("colWidth "+colWidth);
 			columnsWidth += colWidth;
 		}
-		Log.trace("TOTAL columns width: "+columnsWidth);
+		//Log.trace("TOTAL columns width: "+columnsWidth);
 		int widgetWidth = getElement().getOffsetWidth();
-		Log.trace("widgetWidth: "+widgetWidth);
+		//Log.trace("widgetWidth: "+widgetWidth);
 		
 		double tableWidth = Math.max(columnsWidth, widgetWidth);
-		Log.trace("new tableWidth: "+tableWidth);
+		//Log.trace("new tableWidth: "+tableWidth);
 		
 		setTableWidth(tableWidth, Unit.PX);
 	}
@@ -813,7 +810,8 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	private <D> double measureHeaderCell(Cell<D> cell, D value)
 	{
 		//FIXME 4px added as workaround
-		return 4 + measureCell(cell, value, null, getResources().style().header());
+		Context context = new Context(0, 0, "");
+		return 4 + measureCell(cell, value, context, getResources().style().header());
 	}
 	
 	private <D> double measureCell(Cell<D> cell, D value, Context context)

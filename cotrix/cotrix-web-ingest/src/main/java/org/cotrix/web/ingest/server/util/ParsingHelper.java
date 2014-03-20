@@ -32,7 +32,7 @@ public class ParsingHelper {
 	
 	protected Logger logger = LoggerFactory.getLogger(ParsingHelper.class);
 	
-	public static final int ROW_LIMIT = 5;
+	public static final int ROW_LIMIT = -1;
 	
 	@Inject
 	ParseService service;

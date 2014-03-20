@@ -33,6 +33,7 @@ import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.CsvPreviewHeaders;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.ingest.shared.MappingMode;
@@ -332,5 +333,40 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 			logger.error("An error occurred getting the reports logs", e);
 			throw new ServiceException("An error occurred getting the reports logs: "+e.getMessage());
 		}
+	}
+
+	@Override
+	public CsvPreviewHeaders getCsvPreviewHeaders(CsvConfiguration configuration) throws ServiceException {
+		logger.trace("getCsvPreviewHeaders configuration: {}", configuration);
+		
+		try {
+			if (session.getCodeListType()!=CodeListType.CSV) {
+				logger.error("Requested CSV preview data when CodeList type is {}", session.getCodeListType());
+				throw new ServiceException("No preview data available");
+			}
+			
+			previewDataManager.refresh(configuration);
+			
+			PreviewData previewData = previewDataManager.getPreviewData();
+
+			return new CsvPreviewHeaders(previewData.isHeadersEditable(), previewData.getHeadersLabels());
+		} catch(Exception e)
+		{
+			logger.error("Error converting the preview data", e);
+			throw new ServiceException(e.getMessage());
+		}
+
+	}
+
+	@Override
+	public DataWindow<List<String>> getCsvPreviewData(Range range) throws ServiceException {
+		logger.trace("getCsvPreviewData range: {}", range);
+		
+		PreviewData previewData = previewDataManager.getPreviewData();
+		if (previewData == null) return DataWindow.emptyWindow();
+		
+		List<List<String>> rows = Ranges.subList(previewData.getRows(), range);
+		
+		return new DataWindow<>(rows, previewData.getRows().size());
 	}
 }

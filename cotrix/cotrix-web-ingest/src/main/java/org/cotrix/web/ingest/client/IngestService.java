@@ -13,6 +13,7 @@ import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.CsvPreviewHeaders;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.ingest.shared.MappingMode;
@@ -55,5 +56,8 @@ public interface IngestService extends RemoteService {
 	public Progress getImportProgress() throws ServiceException;
 	
 	public DataWindow<ReportLog> getReportLogs(Range range) throws ServiceException;
+	
+	public CsvPreviewHeaders getCsvPreviewHeaders(CsvConfiguration configuration) throws ServiceException;
+	public DataWindow<List<String>> getCsvPreviewData(Range range) throws ServiceException;
 	
 }

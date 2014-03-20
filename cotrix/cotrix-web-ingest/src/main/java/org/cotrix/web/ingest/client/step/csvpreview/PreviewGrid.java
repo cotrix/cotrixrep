@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.cotrix.web.common.shared.CsvConfiguration;
 
-import com.google.gwt.user.client.ui.IsRenderable;
-
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface PreviewGrid extends IsRenderable {
+public interface PreviewGrid {
 
 	public void loadData();
 
