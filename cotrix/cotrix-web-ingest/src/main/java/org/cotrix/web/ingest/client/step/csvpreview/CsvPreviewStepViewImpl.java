@@ -42,18 +42,15 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	CsvConfigurationPanel configurationPanel;
 	
 	@UiField (provided=true) 
-	PreviewGrid preview;
+	PreviewGridDefaultImpl preview;
 
 	private Presenter presenter;
-	
-	@Inject
-	protected PreviewDataProvider dataProvider;
 	
 	@Inject
 	AlertDialog alertDialog;
 	
 	@Inject
-	private void init(PreviewGrid preview) {
+	private void init(PreviewGridDefaultImpl preview) {
 		
 		this.preview = preview;
 		initWidget(uiBinder.createAndBindUi(this));
@@ -104,7 +101,7 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 
 	@Override
 	public void onRefresh(CsvConfiguration configuration) {
-		if (dataProvider.getConfiguration().equals(configuration)) return;
+		if (preview.getConfiguration().equals(configuration)) return;
 		updatePreview(configuration);
 		presenter.onCsvConfigurationEdited(configuration);
 	}
@@ -112,7 +109,7 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	
 	protected void updatePreview(CsvConfiguration configuration)
 	{
-		dataProvider.setConfiguration(configuration);
+		preview.setConfiguration(configuration);
 		preview.loadData();
 	}
 }

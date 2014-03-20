@@ -15,7 +15,7 @@ import org.cotrix.io.ParseService;
 import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
 import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
 import org.cotrix.web.common.shared.CsvConfiguration;
-import org.cotrix.web.ingest.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
+import org.cotrix.web.ingest.shared.PreviewData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

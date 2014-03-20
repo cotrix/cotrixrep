@@ -9,7 +9,6 @@ import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 import org.cotrix.web.common.shared.exception.ServiceException;
-import org.cotrix.web.ingest.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
@@ -17,6 +16,7 @@ import org.cotrix.web.ingest.shared.CodeListType;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.ingest.shared.MappingMode;
+import org.cotrix.web.ingest.shared.PreviewData;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
