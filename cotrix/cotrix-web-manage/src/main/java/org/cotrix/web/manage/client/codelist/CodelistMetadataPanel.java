@@ -33,6 +33,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.inject.Inject;
@@ -73,7 +74,7 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	public CodelistMetadataPanel( ) {
 		this.attributesProvider = new ListDataProvider<UIAttribute>();
-		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Codelist attributes"), "No attributes");
+		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Codelist attributes"), "No attributes", new MultiWordSuggestOracle());
 
 		attributeEditor = DataEditor.build(this);
 
