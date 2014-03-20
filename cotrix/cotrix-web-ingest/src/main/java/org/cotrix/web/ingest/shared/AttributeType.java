@@ -8,10 +8,10 @@ package org.cotrix.web.ingest.shared;
  *
  */
 public enum AttributeType {
-
 	CODE,
 	OTHER_CODE,
 	DESCRIPTION,
 	ANNOTATION,
+	NAME,
 	OTHER;
 }

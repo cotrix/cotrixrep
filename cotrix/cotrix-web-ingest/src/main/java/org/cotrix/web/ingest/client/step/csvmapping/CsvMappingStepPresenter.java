@@ -109,8 +109,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 			//Log.trace("checking mapping: "+mapping);
 			if (!mapping.isMapped()) continue;
 			
-			if (mapping.getAttributeDefinition().getType()==AttributeType.CODE ||
-					mapping.getAttributeDefinition().getType()==AttributeType.OTHER_CODE) codeCount++;
+			if (mapping.getAttributeDefinition().getType()==AttributeType.CODE) codeCount++;
 			
 			if (mapping.getAttributeDefinition().getName().isEmpty()) {
 				view.alert("don't leave columns blank, bin them instead");

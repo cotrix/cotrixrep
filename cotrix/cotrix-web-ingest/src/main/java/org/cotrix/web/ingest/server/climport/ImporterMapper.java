@@ -98,7 +98,8 @@ public interface ImporterMapper<T> {
 				case ANNOTATION: return Constants.ANNOTATION_TYPE;
 				case DESCRIPTION: return Constants.DESCRIPTION_TYPE;
 				case CODE: return Constants.DEFAULT_TYPE;
-				case OTHER_CODE: return Constants.DEFAULT_TYPE;
+				case OTHER_CODE: return Constants.OTHER_CODE_TYPE;
+				case NAME: return Constants.NAME_TYPE;
 				case OTHER: return new QName(Constants.NS, customType);
 				default: throw new IllegalArgumentException("Unknow attribute type "+type);
 			}

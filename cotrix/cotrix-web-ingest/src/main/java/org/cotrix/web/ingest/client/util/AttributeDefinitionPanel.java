@@ -37,9 +37,10 @@ public class AttributeDefinitionPanel extends Composite {
 		public String getLabel(AttributeType type) {
 			switch (type) {
 				case CODE: return "Code";
-				case OTHER_CODE: return "Other Code";
+				case OTHER_CODE: return "Other code";
 				case DESCRIPTION: return "Description";
 				case ANNOTATION: return "Annotation";
+				case NAME: return "Name";
 				case OTHER: return "Other";
 				default: throw new IllegalArgumentException("No label mapping found for attribute type "+type);
 			}
@@ -52,9 +53,10 @@ public class AttributeDefinitionPanel extends Composite {
 		public String getLabel(AttributeType type) {
 			switch (type) {
 				case CODE: return "Primary code";
-				case OTHER_CODE: return "Other Code";
+				case OTHER_CODE: return "Other code";
 				case DESCRIPTION: return "Description";
 				case ANNOTATION: return "Annotation";
+				case NAME: return "Name";
 				case OTHER: return "Other";
 				default: throw new IllegalArgumentException("No label mapping found for attribute type "+type);
 			}
@@ -94,6 +96,7 @@ public class AttributeDefinitionPanel extends Composite {
 	{
 		String[] languages = ImportConstants.INSTANCE.languages();
 		Arrays.sort(languages);
+		languageList.addItem(" ");
 		for (String language:languages) languageList.addItem(language);
 	}
 
