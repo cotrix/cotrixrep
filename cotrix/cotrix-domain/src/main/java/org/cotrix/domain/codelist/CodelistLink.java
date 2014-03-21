@@ -14,7 +14,7 @@ import org.cotrix.domain.trait.Named;
 public interface CodelistLink extends Identified, Attributed, Named {
 
 	/**
-	 * Returns the identifier of the target codelist.
+	 * Returns the identifier of the codelist image.
 	 * 
 	 * @return the identifier
 	 */

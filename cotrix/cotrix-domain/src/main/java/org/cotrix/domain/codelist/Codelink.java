@@ -13,9 +13,9 @@ import org.cotrix.domain.trait.Identified;
 public interface Codelink extends Identified, Attributed {
 
 	/**
-	 * Returns the definition of this link.
+	 * Returns the type of this link.
 	 * 
-	 * @return the definition
+	 * @return the type
 	 */
 	CodelistLink type();
 
