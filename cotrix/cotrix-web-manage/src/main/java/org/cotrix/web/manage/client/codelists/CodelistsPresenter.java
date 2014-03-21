@@ -2,7 +2,9 @@ package org.cotrix.web.manage.client.codelists;
 
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.manage.client.codelists.NewCodelistDialog.NewCodelistDialogListener;
 import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
+import org.cotrix.web.manage.client.event.CreateNewCodelistEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.event.OpenCodelistEvent;
 import org.cotrix.web.manage.client.event.RefreshCodelistsEvent;
@@ -27,6 +29,9 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	
 	@Inject
 	protected CodelistsDataProvider codelistDataProvider;
+	
+	@Inject
+	private NewCodelistDialog newCodelistDialog;
 
 	@Inject
 	public CodelistsPresenter(@ManagerBus EventBus managerBus, CodelistsView view) {
@@ -74,6 +79,17 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 		}, ApplicationFeatures.REMOVE_CODELIST);*/
 	}
 	
+	@Inject
+	protected void setupDialog() {
+		newCodelistDialog.setListener(new NewCodelistDialogListener() {
+			
+			@Override
+			public void onCreate(String name, String version) {
+				managerBus.fireEvent(new CreateNewCodelistEvent(name, version));
+			}
+		});
+	}
+	
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());
 		view.refresh();
@@ -118,10 +134,8 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 		managerBus.fireEvent(new RemoveCodelistEvent(codelist.getId()));
 	}
 
-
-
 	@Override
-	public void onCodelistCreate(String name) {
-		
+	public void onCodelistCreate() {
+		newCodelistDialog.showCentered();
 	}
 }

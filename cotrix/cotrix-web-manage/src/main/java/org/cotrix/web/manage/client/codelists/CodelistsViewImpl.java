@@ -81,8 +81,8 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 				if (selected!=null)	presenter.onCodelistRemove(selected.toUICodelist()); 
 			} break;
 			case PLUS: {
-				//FIXME presenter.onCodelistCreate(selectionModel.getSelectedObject()); break;
-			}
+				presenter.onCodelistCreate();
+			} break;
 		}
 	}
 	

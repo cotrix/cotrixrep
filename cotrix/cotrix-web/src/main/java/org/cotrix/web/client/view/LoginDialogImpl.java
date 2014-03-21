@@ -1,5 +1,10 @@
 package org.cotrix.web.client.view;
 
+import javax.inject.Inject;
+
+import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.util.AccountValidator;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -13,6 +18,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Singleton;
 
@@ -33,6 +39,9 @@ public class LoginDialogImpl extends PopupPanel implements LoginDialog {
 	
 	@UiField
 	PasswordTextBox password;
+	
+	@Inject
+	CommonResources resources;
 	
 	private LoginDialogListener listener;
 
@@ -56,11 +65,15 @@ public class LoginDialogImpl extends PopupPanel implements LoginDialog {
 	}
 
 	@UiHandler({"username","password"})
-	protected void onKeyDown(KeyDownEvent event)
-	{
+	protected void onKeyDown(KeyDownEvent event) {
 		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 			 doLogin();
 	     }
+		 
+		 if (event.getSource() instanceof UIObject) {
+			 UIObject uiObject = (UIObject)event.getSource();
+			 uiObject.setStyleName(resources.css().dialogTextboxInvalid(), false);
+		 }
 	}
 	
 	@UiHandler("login")
@@ -74,8 +87,30 @@ public class LoginDialogImpl extends PopupPanel implements LoginDialog {
 		if (listener!=null) listener.onRegister();
 	}
 	
+	protected boolean validate() {
+		boolean valid = true;
+		
+		if (!AccountValidator.validateUsername(username.getText())) {
+			username.setStyleName(resources.css().dialogTextboxInvalid(), true);
+			valid = false;
+		}
+		
+		if (!AccountValidator.validatePassword(password.getText())) {
+			password.setStyleName(resources.css().dialogTextboxInvalid(), true);
+			valid = false;
+		}
+		
+		return valid;
+	}
+	
+	protected void cleanValidation() {
+		username.setStyleName(resources.css().dialogTextboxInvalid(), false);
+		password.setStyleName(resources.css().dialogTextboxInvalid(), false);
+	}
+	
 	protected void doLogin() {
-		if (listener!=null) listener.onLogin(username.getText(), password.getText());
+		boolean valid = validate();
+		if (valid && listener!=null) listener.onLogin(username.getText(), password.getText());
 	}
 
 	/** 
@@ -101,6 +136,7 @@ public class LoginDialogImpl extends PopupPanel implements LoginDialog {
 	public void clean() {
 		username.setText("");
 		password.setText("");
+		cleanValidation();
 	}
 	
 }

@@ -136,7 +136,7 @@ public class CodelistPanelPresenter implements Presenter {
 	
 	protected void newVersion() {
 		versionDialog.setOldVersion(codelistId, codelist.getName(),  codelist.getVersion());
-		versionDialog.center();
+		versionDialog.showCentered();
 	}
 	
 	protected void finalizeCodelist()

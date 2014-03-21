@@ -1,5 +1,8 @@
 package org.cotrix.web.client.view;
 
+import javax.inject.Inject;
+
+import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.AccountValidator;
 
 import com.google.gwt.core.client.GWT;
@@ -8,7 +11,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -31,13 +33,6 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 	
 	@UiTemplate("RegisterDialog.ui.xml")
 	interface Binder extends UiBinder<Widget, RegisterDialogImpl> {}
-
-	protected interface Style extends CssResource {
-		String invalidValue();
-	}
-	
-	@UiField
-	Style style;
 	
 	@UiField
 	TextBox username;
@@ -47,6 +42,9 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 	
 	@UiField
 	TextBox email;
+	
+	@Inject
+	CommonResources resources;
 	
 	private RegisterDialogListener listener;
 
@@ -77,7 +75,7 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 	     }
 		 if (event.getSource() instanceof UIObject) {
 			 UIObject uiObject = (UIObject)event.getSource();
-			 uiObject.setStyleName(style.invalidValue(), false);
+			 uiObject.setStyleName(resources.css().dialogTextboxInvalid(), false);
 		 }
 	}
 	
@@ -96,23 +94,29 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 	{
 		boolean valid = true;
 		if (!AccountValidator.validateUsername(username.getText())) {
-			username.setStyleName(style.invalidValue(), true);
+			username.setStyleName(resources.css().dialogTextboxInvalid(), true);
 			valid = false;
 		}
 		
 		if (!AccountValidator.validatePassword(password.getText())) {
-			password.setStyleName(style.invalidValue(), true);
+			password.setStyleName(resources.css().dialogTextboxInvalid(), true);
 			valid = false;
 		}
 		
 		if (!AccountValidator.validateEMail(email.getText())) {
-			email.setStyleName(style.invalidValue(), true);
+			email.setStyleName(resources.css().dialogTextboxInvalid(), true);
 			valid = false;
 		}
 		
 		return valid;
 	}
 
+	protected void cleanValidation() {
+		username.setStyleName(resources.css().dialogTextboxInvalid(), false);
+		password.setStyleName(resources.css().dialogTextboxInvalid(), false);
+		email.setStyleName(resources.css().dialogTextboxInvalid(), false);
+	}
+	
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -136,6 +140,7 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 		username.setText("");
 		password.setText("");
 		email.setText("");
+		cleanValidation();
 	}
 
 }

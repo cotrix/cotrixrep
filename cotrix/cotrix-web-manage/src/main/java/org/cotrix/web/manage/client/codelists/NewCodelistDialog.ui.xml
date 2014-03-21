@@ -5,18 +5,18 @@
 		field="resources" />
 	<g:HTMLPanel styleName="{resources.css.dialogBox}" width="300px" height="280px">
 			<div class="{resources.css.dialogTitle}">
-				Create new version
+				Create a new codelist
 			</div>
 			<div class="{resources.css.dialogSubtitle}">
-				<g:Label ui:field="name" />
+				Create a new codelist
 			</div>
 			<div class="{resources.css.dialogTextfield}">
-				<div>Current</div>
-				<g:TextBox styleName="{resources.css.dialogTextbox}" ui:field="oldVersion" readOnly="true" />
+				<div>Name</div>
+				<g:TextBox styleName="{resources.css.dialogTextbox}" ui:field="name" />
 			</div>
 			<div class="{resources.css.dialogTextfield}">
-				<div>New</div>
-				<g:TextBox styleName="{resources.css.dialogTextbox}" ui:field="newVersion"  />
+				<div>Version</div>
+				<g:TextBox styleName="{resources.css.dialogTextbox}" ui:field="version" />
 			</div>
 			<div class="{resources.css.dialogTextfield}">
 				<g:Button ui:field="create" styleName="{resources.css.dialogSubmit}">Create</g:Button>

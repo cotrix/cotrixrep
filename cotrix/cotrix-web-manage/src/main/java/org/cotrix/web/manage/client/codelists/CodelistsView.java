@@ -15,7 +15,7 @@ public interface CodelistsView {
 	public interface Presenter {
 		void onCodelistItemSelected(UICodelist codelist);
 		void onCodelistRemove(UICodelist codelist);
-		void onCodelistCreate(String name);
+		void onCodelistCreate();
 	}
 	
 	public void refresh();

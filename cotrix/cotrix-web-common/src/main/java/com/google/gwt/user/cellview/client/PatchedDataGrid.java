@@ -1013,7 +1013,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	 */
 	@Override
 	protected void onLoadingStateChanged(LoadingState state) {
-		Log.trace("onLoadingStateChanged state: "+state.getClass().getName()+" LOADING? "+(state==LoadingState.LOADING)+" LOADED? "+(state==LoadingState.LOADED));
+		//Log.trace("onLoadingStateChanged state: "+state.getClass().getName()+" LOADING? "+(state==LoadingState.LOADING)+" LOADED? "+(state==LoadingState.LOADED));
 		
 		Widget message = tableData;
 		if (state == LoadingState.LOADING) {

@@ -233,13 +233,9 @@ public class ManageServiceImpl implements ManageService {
 			throws ServiceException {
 		Codelist codelist = repository.lookup(codelistId);
 		Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
-		repository.add(newCodelist);
-		lifecycleService.start(newCodelist.id());
 
+		CodelistGroup group = addCodelist(newCodelist);
 		events.fire(new CodelistActionEvents.Version(newCodelist.id(),newCodelist.name(),newVersion, session));
-
-		CodelistGroup group = new CodelistGroup(newCodelist.name().toString());
-		group.addVersion(newCodelist.id(), newCodelist.version());
 
 		return group;
 	}
@@ -263,5 +259,24 @@ public class ManageServiceImpl implements ManageService {
 			names.add(ValueUtils.safeValue(qName));
 		}
 		return names;
+	}
+
+	@Override
+	public CodelistGroup createNewCodelist(String name, String version)	throws ServiceException {
+		logger.trace("createNewCodelist name: {}, version: {}",name, version);
+		Codelist newCodelist = codelist().name(name).version(version).build();
+		CodelistGroup group = addCodelist(newCodelist);
+		events.fire(new CodelistActionEvents.Create(newCodelist.id(),newCodelist.name(), newCodelist.version(), session));
+		return group;
+	}
+	
+	private CodelistGroup addCodelist(Codelist newCodelist) {
+		repository.add(newCodelist);
+		lifecycleService.start(newCodelist.id());
+
+		CodelistGroup group = new CodelistGroup(newCodelist.name().toString());
+		group.addVersion(newCodelist.id(), newCodelist.version());
+
+		return group;
 	}
 }

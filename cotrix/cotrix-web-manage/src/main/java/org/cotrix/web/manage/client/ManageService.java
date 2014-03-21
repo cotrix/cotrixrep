@@ -46,5 +46,8 @@ public interface ManageService extends RemoteService {
 	public ModifyCommandResult modify(String codelistId, ModifyCommand command) throws ServiceException;
 	
 	Set<UIQName> getAttributeNames(String codelistId) throws ServiceException;
+	
+	CodelistGroup createNewCodelist(String name, String version) throws ServiceException;
+	
 
 }

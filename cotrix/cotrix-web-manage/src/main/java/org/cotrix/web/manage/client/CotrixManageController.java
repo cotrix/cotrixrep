@@ -8,6 +8,7 @@ import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
+import org.cotrix.web.manage.client.event.CreateNewCodelistEvent;
 import org.cotrix.web.manage.client.event.CreateNewVersionEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.event.OpenCodelistEvent;
@@ -59,6 +60,14 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 			public void onCreateNewVersion(CreateNewVersionEvent event) {
 				createNewVersion(event.getCodelistId(), event.getNewVersion());
 			}});
+		this.managerBus.addHandler(CreateNewCodelistEvent.TYPE, new CreateNewCodelistEvent.CreateNewCodelistEventHandler() {
+			
+			@Override
+			public void onCreateNewCodelist(CreateNewCodelistEvent event) {
+				createNewCodelist(event.getName(), event.getVersion());
+				
+			}
+		});
 	}
 	
 	@Inject
@@ -82,6 +91,20 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	{
 		Log.trace("createNewVersion codelistId: "+codelistId+" newVersion: "+newVersion);
 		service.createNewCodelistVersion(codelistId, newVersion, new ManagedFailureCallback<CodelistGroup>() {
+			
+			@Override
+			public void onSuccess(CodelistGroup result) {
+				Log.trace("created "+result);
+				managerBus.fireEvent(new OpenCodelistEvent(result.getVersions().get(0).toUICodelist()));
+				managerBus.fireEvent(new CodelistCreatedEvent(result));
+			}
+		});
+	}
+	
+	public void createNewCodelist(String name, String version)
+	{
+		Log.trace("createNewVersion name: "+name+" version: "+version);
+		service.createNewCodelist(name, version, new ManagedFailureCallback<CodelistGroup>() {
 			
 			@Override
 			public void onSuccess(CodelistGroup result) {
