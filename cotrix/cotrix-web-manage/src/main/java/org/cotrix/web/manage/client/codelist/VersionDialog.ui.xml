@@ -14,7 +14,7 @@
 			border-radius: 5px;
 			width: 300px;
 /*			margin-left: 100px;*/
-			height: 330px;
+			height: 280px;
 			padding: 20px;
 		}
 		

@@ -1,4 +1,4 @@
-package org.cotrix.web.manage.client.codelists;
+package org.cotrix.web.manage.client.codelist;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;

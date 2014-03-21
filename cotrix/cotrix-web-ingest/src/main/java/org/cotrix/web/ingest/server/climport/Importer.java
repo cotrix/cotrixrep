@@ -79,7 +79,7 @@ public class Importer {
 
 		} catch(Throwable throwable)
 		{
-			logger.error("Error during import", throwable);
+			logger.error("Error during the import", throwable);
 			progress.setStatus(Status.FAILED);
 			session.setLogs(Reports.convertLogs(throwable));
 			session.setReport(throwable.getMessage());

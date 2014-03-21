@@ -10,6 +10,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
+import org.cotrix.common.cdi.Current;
+import org.cotrix.domain.user.User;
 import org.cotrix.io.CloudService;
 import org.cotrix.web.common.server.util.Encodings;
 import org.cotrix.web.common.server.util.Ranges;
@@ -82,6 +84,9 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	
 	@Inject
 	protected MappingsManager mappingsManager;
+	
+	@Inject @Current
+	protected User user;
 
 	/** 
 	 * {@inheritDoc}
@@ -258,7 +263,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 
 		try {
 			session.setImportedCodelistName(metadata.getName());
-			
+			logger.trace("user "+user.id()+" user "+user.fullName());
 			ImportTaskSession importTaskSession = session.createImportTaskSession();
 			importTaskSession.setUserOptions(csvConfiguration, metadata, mappings, mappingMode);
 			Progress importerProgress = importerFactory.importCodelist(importTaskSession, session.getCodeListType());

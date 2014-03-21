@@ -41,6 +41,12 @@
         <dependent-module archiveName="cotrix-web-users-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-users/cotrix-web-users">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="cotrix-web-demo-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-demo/cotrix-web-demo">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="cotrix-mail-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-mail/cotrix-mail">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="cotrix-stage-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-stage/cotrix-stage">
             <dependency-type>uses</dependency-type>
         </dependent-module>
