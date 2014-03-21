@@ -3,14 +3,12 @@ package org.cotrix.web.manage.client.codelists;
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
-import org.cotrix.web.manage.client.event.CreateNewVersionEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.event.OpenCodelistEvent;
 import org.cotrix.web.manage.client.event.RefreshCodelistsEvent;
-import org.cotrix.web.manage.client.event.RemoveCodelistEvent;
 import org.cotrix.web.manage.client.event.RefreshCodelistsEvent.RefreshCodeListsHandler;
+import org.cotrix.web.manage.client.event.RemoveCodelistEvent;
 import org.cotrix.web.manage.shared.CodelistGroup;
-import org.cotrix.web.manage.shared.CodelistGroup.Version;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -120,16 +118,10 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 		managerBus.fireEvent(new RemoveCodelistEvent(codelist.getId()));
 	}
 
-	@Override
-	public void onCodelistCreate(Version version) {
-		if (version!=null) {
-			view.showVersionDialog(version);
-		}
-	}
+
 
 	@Override
-	public void onCodelistNewVersion(String id, String newVersion) {
-		managerBus.fireEvent(new CreateNewVersionEvent(id, newVersion));
+	public void onCodelistCreate(String name) {
+		
 	}
-
 }

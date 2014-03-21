@@ -6,7 +6,6 @@ package org.cotrix.web.manage.client.data;
 import org.cotrix.web.common.client.util.StatusUpdates;
 import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.common.shared.codelist.UICode;
-import org.cotrix.web.manage.client.codelist.CodelistId;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.data.event.DataSaveFailedEvent;
@@ -14,6 +13,7 @@ import org.cotrix.web.manage.client.data.event.DataSavedEvent;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.data.event.SavingDataEvent;
 import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.util.Attributes;
@@ -39,7 +39,7 @@ public class DataSaverManager {
 	}
 	
 	@Inject
-	@CodelistId
+	@CurrentCodelist
 	protected String codelistId;
 
 	@Inject

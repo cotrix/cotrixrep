@@ -14,11 +14,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class VersionDialog extends PopupPanel {
 	
 	private static final Binder binder = GWT.create(Binder.class);
@@ -34,11 +36,10 @@ public class VersionDialog extends PopupPanel {
 	
 	@UiField TextBox newVersion;
 	
-	protected String id;
-	protected VersionDialogListener listener;
+	private String id;
+	private VersionDialogListener listener;
 
-	public VersionDialog(VersionDialogListener listener) {
-		this.listener = listener;
+	public VersionDialog() {
 		setWidget(binder.createAndBindUi(this));
 		setAutoHideEnabled(true);
 		
@@ -47,10 +48,14 @@ public class VersionDialog extends PopupPanel {
 		    @Override
 		    public void onKeyDown(KeyDownEvent event) {
 		     if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-		    	 doCreate();
+		    	 fireCreate();
 		      }
 		    }
 		});
+	}
+	
+	public void setListener(VersionDialogListener listener) {
+		this.listener = listener;
 	}
 	
 	/** 
@@ -79,11 +84,11 @@ public class VersionDialog extends PopupPanel {
 	@UiHandler("create")
 	protected void onCreate(ClickEvent clickEvent)
 	{
-		doCreate();
+		fireCreate();
 	}
 	
-	protected void doCreate() {
-		listener.onCreate(id, newVersion.getValue());
+	protected void fireCreate() {
+		if (listener!=null) listener.onCreate(id, newVersion.getValue());
 		hide();
 	}
 

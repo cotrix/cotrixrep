@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist;
+package org.cotrix.web.manage.client.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -17,6 +17,6 @@ import static java.lang.annotation.ElementType.METHOD;
  *
  */
 @BindingAnnotation @Target({ FIELD, PARAMETER, METHOD }) @Retention(RUNTIME)
-public @interface CodelistId {
+public @interface CurrentCodelist {
 
 }

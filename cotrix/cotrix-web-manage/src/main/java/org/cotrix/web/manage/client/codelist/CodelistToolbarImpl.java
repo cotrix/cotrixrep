@@ -28,6 +28,8 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 	@UiField PushButton allColumns;
 	@UiField PushButton allNormals;
 	
+	@UiField PushButton newVersion;
+	
 	@UiField PushButton lock;
 	@UiField PushButton unlock;
 	@UiField PushButton seal;
@@ -49,6 +51,11 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 	@UiHandler("allNormals")
 	protected void onAllNormalsClick(ClickEvent event) {
 		listener.onAction(Action.ALL_NORMAL);
+	}
+	
+	@UiHandler("newVersion")
+	protected void onNewVersionClick(ClickEvent event) {
+		listener.onAction(Action.NEW_VERSION);
 	}
 	
 	@UiHandler("lock")
@@ -89,6 +96,7 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 		switch (action) {
 			case ALL_COLUMN: allColumns.setEnabled(enabled); break;
 			case ALL_NORMAL: allNormals.setEnabled(enabled); break;
+			case NEW_VERSION: newVersion.setEnabled(enabled); break;
 			case FINALIZE: seal.setEnabled(enabled); break;
 			case LOCK: lock.setEnabled(enabled); break;
 			case UNLOCK: unlock.setEnabled(enabled); break;

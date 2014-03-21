@@ -6,20 +6,27 @@ import org.cotrix.web.common.client.feature.AsyncCallBackWrapper;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.HasFeature;
 import org.cotrix.web.common.client.widgets.HasEditing;
+import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodelistToolbar.Action;
 import org.cotrix.web.manage.client.codelist.CodelistToolbar.ToolBarListener;
+import org.cotrix.web.manage.client.codelists.VersionDialog;
+import org.cotrix.web.manage.client.codelists.VersionDialog.VersionDialogListener;
 import org.cotrix.web.manage.client.data.CodeAttributeCommandGenerator;
 import org.cotrix.web.manage.client.data.CodeModifyCommandGenerator;
 import org.cotrix.web.manage.client.data.DataSaverManager;
 import org.cotrix.web.manage.client.data.MetadataAttributeModifyGenerator;
 import org.cotrix.web.manage.client.data.MetadataModifyCommandGenerator;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
+import org.cotrix.web.manage.client.event.CreateNewVersionEvent;
+import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -27,31 +34,32 @@ import com.google.inject.Inject;
  */
 public class CodelistPanelPresenter implements Presenter {
 
-	protected CodelistPanelView view;
-	protected String codelistId;
-	protected ManageServiceAsync service;
+	private CodelistPanelView view;
+	private String codelistId;
+	private ManageServiceAsync service;
 	
 	@Inject
-	protected DataSaverManager saverManager;
+	private VersionDialog versionDialog;
 	
-	protected ManagedFailureCallback<FeatureCarrier.Void> callBack = new ManagedFailureCallback<FeatureCarrier.Void>() {
+	@Inject
+	private DataSaverManager saverManager;
+	
+	@Inject @CurrentCodelist
+	private UICodelist codelist;
+	
+	@Inject @ManagerBus
+	private EventBus managerBus;
+	
+	private ManagedFailureCallback<FeatureCarrier.Void> callBack = new ManagedFailureCallback<FeatureCarrier.Void>() {
 
 		@Override
 		public void onSuccess(FeatureCarrier.Void result) {
 			loadState();
 		}
 	};
-	
-	protected AsyncCallBackWrapper<String> updateStateBack = AsyncCallBackWrapper.wrap(new ManagedFailureCallback<String>() {
-
-		@Override
-		public void onSuccess(String result) {
-			loadState();
-		}
-	});
 
 	@Inject
-	public CodelistPanelPresenter(CodelistPanelView view, @CodelistId String codelistId, ManageServiceAsync service, DataSaverManager saverManager) {
+	public CodelistPanelPresenter(CodelistPanelView view, @CurrentCodelist String codelistId, ManageServiceAsync service, DataSaverManager saverManager) {
 		this.view = view;
 		this.codelistId = codelistId;
 		this.service = service;
@@ -62,6 +70,17 @@ public class CodelistPanelPresenter implements Presenter {
 		bindSavers();
 		
 		loadState();
+	}
+	
+	@Inject
+	protected void setupVersionDialog() {
+		versionDialog.setListener(new VersionDialogListener() {
+			
+			@Override
+			public void onCreate(String id, String newVersion) {
+				managerBus.fireEvent(new CreateNewVersionEvent(id, newVersion));
+			}
+		});
 	}
 
 	protected void bindSavers() {
@@ -84,6 +103,7 @@ public class CodelistPanelPresenter implements Presenter {
 				switch (action) {
 					case ALL_COLUMN: view.getCodeListEditor().showAllAttributesAsColumn(); break;
 					case ALL_NORMAL: view.getCodeListEditor().showAllAttributesAsNormal(); break;
+					case NEW_VERSION: newVersion(); break;
 					case LOCK: lock(); break;
 					case FINALIZE: finalizeCodelist(); break;
 					case UNLOCK: unlock(); break;
@@ -115,6 +135,11 @@ public class CodelistPanelPresenter implements Presenter {
 		service.unlock(codelistId, callBack);
 	}
 	
+	protected void newVersion() {
+		versionDialog.setOldVersion(codelistId, codelist.getName(),  codelist.getVersion());
+		versionDialog.center();
+	}
+	
 	protected void finalizeCodelist()
 	{
 		view.getToolBar().showStateLoader(true);
@@ -134,6 +159,7 @@ public class CodelistPanelPresenter implements Presenter {
 		
 		FeatureBinder.bind(new ActionEnabler(Action.LOCK, toolbar), codelistId, ManagerUIFeature.LOCK_CODELIST);
 		FeatureBinder.bind(new ActionEnabler(Action.UNLOCK, toolbar), codelistId, ManagerUIFeature.UNLOCK_CODELIST);
+		FeatureBinder.bind(new ActionEnabler(Action.NEW_VERSION, toolbar), codelistId, ManagerUIFeature.VERSION_CODELIST);
 		FeatureBinder.bind(new ActionEnabler(Action.FINALIZE, toolbar), codelistId, ManagerUIFeature.SEAL_CODELIST);
 		
 		// CODELIST EDITOR

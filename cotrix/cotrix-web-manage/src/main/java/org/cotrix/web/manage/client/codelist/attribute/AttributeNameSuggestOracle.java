@@ -10,8 +10,8 @@ import java.util.Set;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.CodelistId;
 import org.cotrix.web.manage.client.data.event.DataSavedEvent;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.ManagerBus;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -24,7 +24,7 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class AttributeNameSuggestOracle extends SuggestOracle {
 	
-	@Inject @CodelistId
+	@Inject @CurrentCodelist
 	private String codelistId;
 	
 	@Inject

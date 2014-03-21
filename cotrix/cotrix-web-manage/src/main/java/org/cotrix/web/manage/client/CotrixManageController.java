@@ -80,10 +80,12 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	
 	public void createNewVersion(String codelistId, String newVersion)
 	{
+		Log.trace("createNewVersion codelistId: "+codelistId+" newVersion: "+newVersion);
 		service.createNewCodelistVersion(codelistId, newVersion, new ManagedFailureCallback<CodelistGroup>() {
 			
 			@Override
 			public void onSuccess(CodelistGroup result) {
+				Log.trace("created "+result);
 				managerBus.fireEvent(new OpenCodelistEvent(result.getVersions().get(0).toUICodelist()));
 				managerBus.fireEvent(new CodelistCreatedEvent(result));
 			}

@@ -50,6 +50,7 @@ import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.shared.Group;
@@ -152,18 +153,22 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	protected DataEditor<CodeAttribute> attributeEditor;
 	
+	protected CotrixManagerResources resources;
+	
 	protected StyledSafeHtmlRenderer cellRenderer;
-	protected StyledSafeHtmlRenderer systemAttributeCell = new StyledSafeHtmlRenderer(CotrixManagerResources.INSTANCE.css().systemProperty());
+	protected StyledSafeHtmlRenderer systemAttributeCell;
 
 	@Inject
 	protected ManageServiceAsync managerService;
 	
-	@Inject @CodelistId
+	@Inject @CurrentCodelist
 	protected String codelistId;
 	
 	@Inject
-	public CodelistEditor(CodelistCodesProvider dataProvider) {
+	public CodelistEditor(CodelistCodesProvider dataProvider, CotrixManagerResources resources) {
 		this.dataProvider = dataProvider;
+		this.resources = resources;
+		this.systemAttributeCell = new StyledSafeHtmlRenderer(resources.css().systemProperty());
 		this.codeEditor = DataEditor.build(this);
 		this.attributeEditor = DataEditor.build(this);
 
@@ -246,7 +251,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	protected DoubleClickEditTextCell createCell(boolean isSystemAttribute)
 	{
-		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + CotrixManagerResources.INSTANCE.css().editor();
+		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + resources.css().editor();
 		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, isSystemAttribute?systemAttributeCell:cellRenderer);
 		if (!isSystemAttribute) {
 			cell.setReadOnly(!editable);
@@ -256,7 +261,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	}
 
 	@Inject
-	protected void bind(@CodelistId String codelistId)
+	protected void bind(@CurrentCodelist String codelistId)
 	{
 		FeatureBinder.bind(new FeatureToggler() {
 			

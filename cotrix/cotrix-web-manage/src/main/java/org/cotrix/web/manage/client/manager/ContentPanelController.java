@@ -66,7 +66,7 @@ public class ContentPanelController implements OpenCodeListHandler {
 	protected void openCodelist(final UICodelist codelist)
 	{
 		Log.trace("openCodelist codelist "+codelist);
-		CodelistPanelPresenter codeListPanelPresenter = codeListPanelFactory.build(codelist.getId());
+		CodelistPanelPresenter codeListPanelPresenter = codeListPanelFactory.build(codelist);
 		presenters.put(codelist.getId(), codeListPanelPresenter);
 		CodelistPanelView codelistPanel = codeListPanelPresenter.getView();
 		HasCloseHandlers<Widget> hasCloseHandlers = view.addCodeListPanel(codelistPanel, codelist.getName(), codelist.getVersion());

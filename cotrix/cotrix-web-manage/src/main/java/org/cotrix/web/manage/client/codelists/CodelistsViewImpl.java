@@ -7,7 +7,6 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.manage.client.codelists.VersionDialog.VersionDialogListener;
 import org.cotrix.web.manage.client.resources.CodelistsResources;
 import org.cotrix.web.manage.shared.CodelistGroup;
 import org.cotrix.web.manage.shared.CodelistGroup.Version;
@@ -56,17 +55,18 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	
 	@UiField ItemToolbar toolbar;
 
-	protected CodelistsDataProvider codeListDataProvider;
+	private CodelistsDataProvider codeListDataProvider;
 	
 	private Presenter presenter;
 
-	protected VersionDialog versionDialog;
-
-	protected SingleSelectionModel<Version> selectionModel;
+	private SingleSelectionModel<Version> selectionModel;
+	
+	private CodelistsResources resources;
 
 	@Inject
-	public CodelistsViewImpl(CodelistsDataProvider codeListDataProvider) {
+	public CodelistsViewImpl(CodelistsDataProvider codeListDataProvider, CodelistsResources resources) {
 		this.codeListDataProvider = codeListDataProvider;
+		this.resources = resources;
 		setupCellList();
 		initWidget(uiBinder.createAndBindUi(this));
 		updateSearchBoxStyle();
@@ -80,7 +80,9 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 				Version selected = selectionModel.getSelectedObject();
 				if (selected!=null)	presenter.onCodelistRemove(selected.toUICodelist()); 
 			} break;
-			case PLUS: presenter.onCodelistCreate(selectionModel.getSelectedObject()); break;
+			case PLUS: {
+				//FIXME presenter.onCodelistCreate(selectionModel.getSelectedObject()); break;
+			}
 		}
 	}
 	
@@ -105,7 +107,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	    });
 	    
 	    TreeMessages treeMessages = GWT.create(TreeMessages.class); 
-		codelists = new CellTree(new CodelistTreeModel(codeListDataProvider, selectionModel), null, CodelistsResources.INSTANCE, treeMessages);
+		codelists = new CellTree(new CodelistTreeModel(codeListDataProvider, selectionModel), null, resources, treeMessages);
 		
 		//codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
@@ -116,25 +118,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	}
 	
 	@Override
-	public void showVersionDialog(Version oldVersion)
-	{
-		if (versionDialog == null) {
-			VersionDialogListener listener = new VersionDialogListener() {
-				
-				@Override
-				public void onCreate(String id, String newVersion) {
-					presenter.onCodelistNewVersion(id, newVersion);
-				}
-			};
-			
-			versionDialog = new VersionDialog(listener);
-		}
-		versionDialog.setOldVersion(oldVersion.getId(), oldVersion.getParent().getName(),  oldVersion.getVersion());
-		versionDialog.center();
-	}
-	
-	@Override
-	public void setAddVersionVisible(boolean visible)
+	public void setAddCodelistVisible(boolean visible)
 	{
 		toolbar.setVisible(ItemButton.PLUS, visible);
 	}
