@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 /**
@@ -52,6 +53,7 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	protected Map<String, Integer> decksIndexes;
 	protected Map<String, Integer> labelsIndexes;
 	
+	@Inject
 	protected ProgressDialog progressDialog;
 
 	private Presenter presenter;
@@ -67,15 +69,12 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	
 	@Override
 	public void showProgress() {
-		if(progressDialog == null){
-			progressDialog = new ProgressDialog();
-		}
-		progressDialog.center();
+		progressDialog.showCentered();
 	}
 
 	@Override
 	public void hideProgress() {
-		if(progressDialog != null) progressDialog.hide();
+		progressDialog.hide();
 	}
 
 	public void addStep(VisualWizardStep step)

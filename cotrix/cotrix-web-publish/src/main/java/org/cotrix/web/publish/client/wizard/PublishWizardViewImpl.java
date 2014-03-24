@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 /**
@@ -51,6 +52,7 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 	protected Map<String, Integer> decksIndexes;
 	protected Map<String, Integer> labelsIndexes;
 	
+	@Inject
 	protected ProgressDialog progressDialog;
 
 	private Presenter presenter;
@@ -66,10 +68,7 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 	
 	@Override
 	public void showProgress() {
-		if(progressDialog == null){
-			progressDialog = new ProgressDialog();
-		}
-		progressDialog.center();
+		progressDialog.showCentered();
 	}
 
 	@Override
