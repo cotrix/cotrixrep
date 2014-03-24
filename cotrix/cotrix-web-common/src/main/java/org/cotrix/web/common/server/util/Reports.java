@@ -15,15 +15,28 @@ import org.cotrix.web.common.shared.ReportLog.LogType;
  *
  */
 public class Reports {
-	
+
 	public static List<ReportLog> convertLogs(Throwable throwable)
 	{
 		List<ReportLog> reportLogs = new ArrayList<ReportLog>();
-		ReportLog reportLog = new ReportLog(LogType.ERROR, throwable.getMessage());
-		reportLogs.add(reportLog);
+		while(throwable != null) {
+			ReportLog reportLog = new ReportLog(LogType.ERROR, throwable.getClass().getSimpleName()+": "+throwable.getMessage());
+			reportLogs.add(reportLog);
+			throwable = throwable.getCause();
+		}
 		return reportLogs;
 	}
 	
+	public static String convertToString(Throwable throwable)
+	{
+		StringBuilder reportLogs = new StringBuilder();
+		while(throwable != null) {
+			reportLogs.append(throwable.getClass().getSimpleName()).append(": ").append(throwable.getMessage()).append("\n");
+			throwable = throwable.getCause();
+		}
+		return reportLogs.toString();
+	}
+
 	public static List<ReportLog> convertLogs(List<Log> logs)
 	{
 		List<ReportLog> reportLogs = new ArrayList<ReportLog>();
