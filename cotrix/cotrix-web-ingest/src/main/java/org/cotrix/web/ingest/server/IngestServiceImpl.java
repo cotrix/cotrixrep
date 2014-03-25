@@ -21,6 +21,7 @@ import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.ingest.client.IngestService;
 import org.cotrix.web.ingest.server.climport.ImportTaskSession;
@@ -140,7 +141,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 		}
 	}
 
-	public RepositoryDetails getRepositoryDetails(String repositoryId) throws ServiceException
+	public RepositoryDetails getRepositoryDetails(UIQName repositoryId) throws ServiceException
 	{
 		try {
 			RepositoryDetails repository = assetInfosCache.getRepository(repositoryId);

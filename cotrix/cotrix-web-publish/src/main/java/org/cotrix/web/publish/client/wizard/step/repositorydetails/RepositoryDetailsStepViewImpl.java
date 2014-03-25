@@ -6,6 +6,7 @@ package org.cotrix.web.publish.client.wizard.step.repositorydetails;
 import java.util.List;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.Property;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 
@@ -50,7 +51,7 @@ public class RepositoryDetailsStepViewImpl extends Composite implements Reposito
 
 	public void setRepository(RepositoryDetails repository)
 	{
-		repositoryName.setText(repository.getName());
+		repositoryName.setText(repository.getName().toHtml());
 		repositoryPublishedTypes.setText(repository.getPublishedTypes().isEmpty()?NOTHING:repository.getPublishedTypes());
 		repositoryPublishedTypes.setStyleName(CommonResources.INSTANCE.css().missingValueText(), repository.getPublishedTypes().isEmpty());
 		

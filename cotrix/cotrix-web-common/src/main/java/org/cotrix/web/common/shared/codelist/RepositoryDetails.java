@@ -13,8 +13,8 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class RepositoryDetails implements Serializable {
 	
-	protected String id;
-	protected String name;
+	protected UIQName id;
+	protected UIQName name;
 	protected String publishedTypes;
 	protected String returnedTypes;
 	protected List<Property> properties;
@@ -28,7 +28,7 @@ public class RepositoryDetails implements Serializable {
 	 * @param returnedTypes
 	 * @param properties
 	 */
-	public RepositoryDetails(String id, String name, String publishedTypes,
+	public RepositoryDetails(UIQName id, UIQName name, String publishedTypes,
 			String returnedTypes, List<Property> properties) {
 		this.id = id;
 		this.name = name;
@@ -40,14 +40,14 @@ public class RepositoryDetails implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public String getId() {
+	public UIQName getId() {
 		return id;
 	}
 
 	/**
 	 * @return the name
 	 */
-	public String getName() {
+	public UIQName getName() {
 		return name;
 	}
 
@@ -75,14 +75,14 @@ public class RepositoryDetails implements Serializable {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(String id) {
+	public void setId(UIQName id) {
 		this.id = id;
 	}
 
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(String name) {
+	public void setName(UIQName name) {
 		this.name = name;
 	}
 

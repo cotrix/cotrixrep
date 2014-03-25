@@ -1,5 +1,6 @@
 package org.cotrix.web.ingest.client.step.selection;
 
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.client.event.CodeListSelectedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.step.DetailsNodeSelector;
@@ -71,20 +72,6 @@ public class SelectionStepPresenter extends AbstractVisualWizardStep implements 
 
 	@Override
 	public void assetDetails(AssetInfo asset) {
-		/*Log.trace("getting asset details for "+asset);
-		importService.getAssetDetails(asset.getId(), new AsyncCallback<AssetDetails>() {
-			
-			@Override
-			public void onSuccess(AssetDetails result) {
-				view.showAssetDetails(result);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Failed loading asset details", caught);
-			}
-		});*/
-		
 		codelistDetailsPresenter.setAsset(asset);
 		detailsNodeSelector.switchToCodeListDetails();
 		importEventBus.fireEvent(NavigationEvent.FORWARD);
@@ -96,7 +83,7 @@ public class SelectionStepPresenter extends AbstractVisualWizardStep implements 
 	}
 
 	@Override
-	public void repositoryDetails(String repositoryId) {
+	public void repositoryDetails(UIQName repositoryId) {
 		repositoryDetailsPresenter.setRepository(repositoryId);
 		detailsNodeSelector.switchToRepositoryDetails();
 		importEventBus.fireEvent(NavigationEvent.FORWARD);

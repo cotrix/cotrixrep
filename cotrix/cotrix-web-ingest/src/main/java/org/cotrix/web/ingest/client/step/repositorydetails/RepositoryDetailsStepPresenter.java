@@ -2,6 +2,7 @@ package org.cotrix.web.ingest.client.step.repositorydetails;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
@@ -51,7 +52,7 @@ public class RepositoryDetailsStepPresenter extends AbstractVisualWizardStep imp
 	}
 
 
-	public void setRepository(String repositoryId) {
+	public void setRepository(UIQName repositoryId) {
 		Log.trace("getting asset details for "+repositoryId);
 		importService.getRepositoryDetails(repositoryId, new ManagedFailureCallback<RepositoryDetails>() {
 			

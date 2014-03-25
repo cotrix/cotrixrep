@@ -3,9 +3,9 @@
  */
 package org.cotrix.web.ingest.server.util;
 
-import javax.xml.namespace.QName;
-
 import org.cotrix.web.common.server.util.Repositories;
+import org.cotrix.web.common.server.util.ValueUtils;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.CodeListType;
@@ -30,7 +30,7 @@ public class Assets {
 		assetInfo.setType(asset.type().toString());
 		CodeListType codeListType = getCodeListType(asset.type());
 		assetInfo.setCodeListType(codeListType);
-		String serviceName = getServiceName(asset);
+		UIQName serviceName = getServiceName(asset);
 		assetInfo.setRepositoryId(serviceName);
 		assetInfo.setRepositoryName(serviceName);
 		
@@ -45,13 +45,11 @@ public class Assets {
 		throw new IllegalArgumentException("Unknow asset type "+assetType);
 	}
 	
-	protected static String getServiceName(Asset asset)
+	protected static UIQName getServiceName(Asset asset)
 	{
 		RepositoryService service = asset.service();
 		if (service == null) return null;
-		QName name = service.name();
-		if (name == null) return null;
-		return String.valueOf(name);
+		return ValueUtils.safeValue(service.name());
 	}
 	
 	public static AssetDetails convertToDetails(Asset asset)
@@ -61,7 +59,7 @@ public class Assets {
 		details.setName(asset.name());
 		details.setProperties(Repositories.convert(asset.properties()));
 		details.setType(String.valueOf(asset.type()));
-		String serviceName = getServiceName(asset);
+		UIQName serviceName = getServiceName(asset);
 		details.setRepositoryName(serviceName);
 		details.setRepositoryId(serviceName);
 		return details;
