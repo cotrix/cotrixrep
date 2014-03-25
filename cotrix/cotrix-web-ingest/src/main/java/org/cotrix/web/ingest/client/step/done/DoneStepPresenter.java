@@ -1,5 +1,7 @@
 package org.cotrix.web.ingest.client.step.done;
 
+import org.cotrix.web.common.shared.Progress;
+import org.cotrix.web.common.shared.Progress.Status;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.ImportProgressEvent;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
@@ -48,22 +50,18 @@ public class DoneStepPresenter extends AbstractVisualWizardStep implements Visua
 
 	@EventHandler
 	void onImportProgress(ImportProgressEvent event) {
-		switch (event.getProgress().getStatus()) {
-			case DONE: {
-				configuration.setTitle("That's done");
-				configuration.setButtons(ImportWizardStepButtons.NEW_IMPORT, ImportWizardStepButtons.MANAGE);
-				configuration.setSubtitle("Check the log for potential errors or warnings.");
-				view.loadReport();
-			} break;
-			case FAILED: {
+		Progress progress = event.getProgress();
+		if (progress.getStatus() == Status.DONE) {
+			if (progress.isMappingFailed()) {
 				configuration.setTitle("...Oops!");
 				configuration.setButtons(ImportWizardStepButtons.BACKWARD);
 				configuration.setSubtitle("Something went wrong, check the log.");
-				view.loadReport();
-			} break;
-
-			default:
-				break;
+			} else {
+				configuration.setTitle("That's done");
+				configuration.setButtons(ImportWizardStepButtons.NEW_IMPORT, ImportWizardStepButtons.MANAGE);
+				configuration.setSubtitle("Check the log for potential errors or warnings.");
+			}
+			view.loadReport();
 		}	
 	}
 }

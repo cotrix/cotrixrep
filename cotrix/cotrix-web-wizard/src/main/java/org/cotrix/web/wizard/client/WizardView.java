@@ -37,4 +37,5 @@ public interface WizardView {
 	void showProgress();
 	void hideProgress();
 
+	void showError(Throwable throwable);
 }

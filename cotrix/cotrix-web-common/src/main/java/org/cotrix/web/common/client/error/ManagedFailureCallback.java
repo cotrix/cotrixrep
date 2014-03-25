@@ -21,7 +21,7 @@ public abstract class ManagedFailureCallback<T> implements AsyncCallback<T> {
 	 */
 	@Override
 	public void onFailure(Throwable caught) {
-		errorManager.rpcFailure(caught);
+		errorManager.showError(caught);
 	}
 
 }

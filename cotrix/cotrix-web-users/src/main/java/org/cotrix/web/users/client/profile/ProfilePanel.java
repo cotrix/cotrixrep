@@ -94,7 +94,7 @@ public class ProfilePanel extends LoadingPanel {
 					@Override
 					public void onFailure(Throwable caught) {
 						if (caught instanceof InvalidPasswordException) alertDialog.center("Invalid credentials.");
-						else errorManager.rpcFailure(caught);
+						else errorManager.showError(caught);
 					}
 
 					@Override

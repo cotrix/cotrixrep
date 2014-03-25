@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.ProgressDialog;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker;
@@ -54,6 +55,9 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 	
 	@Inject
 	protected ProgressDialog progressDialog;
+	
+	@Inject
+	protected ErrorManager errorManager;
 
 	private Presenter presenter;
 	public void setPresenter(Presenter presenter) {
@@ -161,6 +165,11 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 				throw new IllegalArgumentException("Unknow button "+button);
 			}
 		}
+	}
+
+	@Override
+	public void showError(Throwable throwable) {
+		errorManager.showError(throwable);
 	}
 
 }

@@ -180,7 +180,9 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 				@Override
 				public void onFailure(Throwable caught) {
 					Log.trace("TaskWizardStep "+step.getId()+" failed", caught);
+					goBack();
 					hideProgress();
+					view.showError(caught);
 				}
 			});
 		}

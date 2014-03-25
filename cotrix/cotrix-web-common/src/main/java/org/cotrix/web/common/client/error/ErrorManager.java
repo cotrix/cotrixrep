@@ -22,7 +22,7 @@ public class ErrorManager {
 	@Inject
 	AlertDialog alertDialog;
 
-	public void rpcFailure(Throwable throwable) {
+	public void showError(Throwable throwable) {
 		String details = Exceptions.getPrintStackTrace(throwable);
 		String errorMessage = getErrorMessage(throwable);
 		alertDialog.center(errorMessage, details);

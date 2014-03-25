@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.ingest.client.task;
 
+import org.cotrix.web.common.shared.Progress;
+import org.cotrix.web.common.shared.Progress.Status;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.ImportProgressEvent;
 import org.cotrix.web.ingest.client.event.SaveEvent;
@@ -73,9 +75,11 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 
 	@EventHandler
 	void onImportProgress(ImportProgressEvent event) {
-		importComplete = event.getProgress().isComplete();
+		Progress progress = event.getProgress();
+		importComplete = progress.isComplete();
 		if (importComplete) {
-			callback.onSuccess(ImportWizardAction.NEXT);
+			if (progress.getStatus() == Status.DONE) callback.onSuccess(ImportWizardAction.NEXT);
+			else callback.onFailure(progress.getFailureCause());
 		}
 	}
 

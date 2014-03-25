@@ -127,7 +127,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 			@Override
 			public void onFailure(Throwable caught) {
 				progressDialog.hide();
-				errorManager.rpcFailure(caught);
+				errorManager.showError(caught);
 			}
 		});
 	}
