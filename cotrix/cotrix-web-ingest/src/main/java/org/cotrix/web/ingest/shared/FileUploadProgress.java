@@ -55,6 +55,13 @@ public class FileUploadProgress implements Serializable {
 	}
 
 	/**
+	 * @return the error
+	 */
+	public Error getError() {
+		return error;
+	}
+
+	/**
 	 * @param progress the progress to set
 	 */
 	public void setProgress(int progress) {

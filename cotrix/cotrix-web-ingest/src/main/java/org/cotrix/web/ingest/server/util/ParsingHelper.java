@@ -69,7 +69,7 @@ public class ParsingHelper {
 			CodelistBean codelistBean = service.parse(inputStream, directives);
 			return codelistBean;
 		} catch(Throwable e) {
-			throw new RuntimeException("Parsing failed", e);
+			throw new InvalidSdmxException("Parsing failed", e);
 		}
 	}
 	
@@ -118,6 +118,19 @@ public class ParsingHelper {
 		List<String> cells = new ArrayList<String>(columns.size());
 		for (Column column:columns) cells.add(row.get(column));
 		return cells;
+	}
+	
+	public class InvalidSdmxException extends RuntimeException {
+
+		private static final long serialVersionUID = 4813637715277610637L;
+
+		/**
+		 * @param message
+		 * @param cause
+		 */
+		public InvalidSdmxException(String message, Throwable cause) {
+			super(message, cause);
+		}
 	}
 
 }

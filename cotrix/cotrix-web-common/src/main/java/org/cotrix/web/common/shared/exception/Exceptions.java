@@ -13,6 +13,11 @@ import com.google.gwt.user.client.rpc.InvocationException;
  *
  */
 public class Exceptions {
+	
+	public static Error toError(String errorMessage, Throwable throwable) {
+		String details = Exceptions.getPrintStackTrace(throwable);
+		return new Error(errorMessage, details);
+	}
 
 	public static Error toError(Throwable throwable) {
 		String details = Exceptions.getPrintStackTrace(throwable);
@@ -38,7 +43,7 @@ public class Exceptions {
 		s.append(throwable.toString());
 		StackTraceElement[] trace = throwable.getStackTrace();
 		for (int i=0; i < trace.length; i++)
-			s.append("\tat " + trace[i]);
+			s.append("&nbsp;&nbsp;at " + trace[i]+"<br>");
 
 		Throwable ourCause = throwable.getCause();
 		if (ourCause != null)
@@ -60,11 +65,11 @@ public class Exceptions {
 		}
 		int framesInCommon = trace.length - 1 - m;
 
-		s.append("Caused by: " + throwable.toString());
+		s.append("<br>Caused by: " + throwable.toString()+"<br>");
 		for (int i=0; i <= m; i++)
-			s.append("\tat " + trace[i]);
+			s.append("&nbsp;&nbsp;at " + trace[i]+"<br>");
 		if (framesInCommon != 0)
-			s.append("\t... " + framesInCommon + " more");
+			s.append("&nbsp;&nbsp;... " + framesInCommon + " more<br>");
 
 		// Recurse if we have a cause
 		Throwable ourCause = throwable.getCause();

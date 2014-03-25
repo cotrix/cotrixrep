@@ -21,6 +21,7 @@ import org.cotrix.web.ingest.server.upload.MappingsManager;
 import org.cotrix.web.ingest.server.upload.PreviewDataManager;
 import org.cotrix.web.ingest.server.upload.UploadProgressListener;
 import org.cotrix.web.ingest.server.util.ParsingHelper;
+import org.cotrix.web.ingest.server.util.ParsingHelper.InvalidSdmxException;
 import org.cotrix.web.ingest.shared.CodeListType;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
@@ -45,13 +46,13 @@ public class FileUpload extends HttpServlet{
 
 	@Inject
 	protected ParsingHelper parsingHelper;
-	
+
 	@Inject
 	protected ImportSession session;
-	
+
 	@Inject
 	protected PreviewDataManager previewDataManager;
-	
+
 	@Inject
 	protected MappingsManager mappingsManager;
 
@@ -74,7 +75,7 @@ public class FileUpload extends HttpServlet{
 
 		FileUploadProgress uploadProgress = new FileUploadProgress(0, Status.ONGOING, null);
 		session.setUploadProgress(uploadProgress);
-		
+
 		try {
 
 			boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -144,17 +145,27 @@ public class FileUpload extends HttpServlet{
 					session.setGuessedMetadata(metadata);
 				} break;
 				case SDMX: {
-					mappingsManager.setDefaultSdmxMappings();
+					try {
+						mappingsManager.setDefaultSdmxMappings();
 
-					CodelistBean codelistBean = parsingHelper.parse(fileField.getInputStream());
-					String codelistName = codelistBean.getName();
-					ImportMetadata metadata = new ImportMetadata();
-					metadata.setOriginalName(codelistName);
-					metadata.setName(codelistName);
-					metadata.setVersion(codelistBean.getVersion());
-					session.setGuessedMetadata(metadata);
+						CodelistBean codelistBean = parsingHelper.parse(fileField.getInputStream());
+						String codelistName = codelistBean.getName();
+						ImportMetadata metadata = new ImportMetadata();
+						metadata.setOriginalName(codelistName);
+						metadata.setName(codelistName);
+						metadata.setVersion(codelistBean.getVersion());
+						session.setGuessedMetadata(metadata);
+					} catch(InvalidSdmxException invalidSdmxException) {
+						uploadProgress.setFailed(Exceptions.toError("Invalid SDMX file", invalidSdmxException));
+						response.setStatus(HttpServletResponse.SC_OK);
+						return;
+					}
 				} break;
 			}
+
+			uploadProgress.setProgress(100);
+			uploadProgress.setDone();
+			response.setStatus(HttpServletResponse.SC_OK);
 
 		} catch(Throwable e)
 		{
@@ -162,10 +173,6 @@ public class FileUpload extends HttpServlet{
 			uploadProgress.setFailed(Exceptions.toError(e));
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Failed "+e.getMessage());
 		}
-
-		uploadProgress.setProgress(100);
-		uploadProgress.setDone();
-
 	}
 
 
