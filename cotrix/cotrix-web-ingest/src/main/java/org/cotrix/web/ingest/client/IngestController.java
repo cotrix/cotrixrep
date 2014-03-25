@@ -8,7 +8,6 @@ import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.ingest.client.event.AssetRetrievedEvent;
-import org.cotrix.web.ingest.client.event.CodeListSelectedEvent;
 import org.cotrix.web.ingest.client.event.CodeListTypeUpdatedEvent;
 import org.cotrix.web.ingest.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.ingest.client.event.FileUploadedEvent;
@@ -16,17 +15,14 @@ import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.ManageEvent;
 import org.cotrix.web.ingest.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.ingest.client.event.NewImportEvent;
-import org.cotrix.web.ingest.client.event.RetrieveAssetEvent;
 import org.cotrix.web.ingest.client.resources.Resources;
 import org.cotrix.web.ingest.client.wizard.ImportWizardPresenter;
-import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.CodeListType;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Callback;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -54,8 +50,6 @@ public class IngestController implements Presenter, CotrixModuleController {
 	@Inject
 	protected ImportWizardPresenter importWizardPresenter;
 
-	protected AssetInfo selectedAsset;
-
 	@Inject
 	private Resources resources;
 	
@@ -63,8 +57,6 @@ public class IngestController implements Presenter, CotrixModuleController {
 	private void setupCss() {
 		resources.css().ensureInjected();
 	}
-
-	
 	
 	@Inject
 	protected void bind(ImportWizardControllerBinder binder, @ImportBus EventBus importEventBus)
@@ -84,22 +76,15 @@ public class IngestController implements Presenter, CotrixModuleController {
 		cotrixBus.fireEvent(new SwitchToModuleEvent(CotrixModule.MANAGE));
 	}
 	
-
+	@EventHandler
+	void onAssetRetrieved(AssetRetrievedEvent event) {
+		Log.trace("getting metadata");
+		getMetadata();
+	}
 	
 	@EventHandler
 	void onNewImport(NewImportEvent event) {
 		importEventBus.fireEvent(new ResetWizardEvent());
-	}
-	
-	@EventHandler
-	void onRetrieveAsset(RetrieveAssetEvent event) {
-		retrieveAsset();
-	}
-
-	
-	@EventHandler
-	void onCodeListSelected(CodeListSelectedEvent event) {
-		selectedAsset = event.getSelectedCodelist();
 	}
 
 	protected void importedItemUpdated(CodeListType codeListType)
@@ -117,32 +102,6 @@ public class IngestController implements Presenter, CotrixModuleController {
 		getMetadata();
 
 		Log.trace("done importedItemUpdated");
-	}
-
-	protected void retrieveAsset()
-	{
-		Log.trace("retrieveAsset");
-		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(selectedAsset.getCodeListType()));
-
-		importService.setAsset(selectedAsset.getId(), new AsyncCallback<Void>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Failed setting the selected asset", caught);
-				//FIXME
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				Log.trace("asset selected on server");
-				
-				Log.trace("getting metadata");
-				getMetadata();
-
-				Log.trace("done selectedItemUpdated");
-				importEventBus.fireEvent(new AssetRetrievedEvent());
-			}
-		});	
 	}
 
 	protected void getCodeListType(final Callback<CodeListType, Void> callaback)
@@ -181,14 +140,6 @@ public class IngestController implements Presenter, CotrixModuleController {
 			}
 		});
 	}
-
-	
-
-
-
-	
-
-
 
 	public void go(HasWidgets container) {
 		importWizardPresenter.go(container);
