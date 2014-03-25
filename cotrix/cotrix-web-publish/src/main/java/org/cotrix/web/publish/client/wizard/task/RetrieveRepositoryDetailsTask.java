@@ -29,7 +29,6 @@ public class RetrieveRepositoryDetailsTask implements TaskWizardStep {
 	
 	@Inject
 	protected PublishServiceAsync service;
-	protected AsyncCallback<WizardAction> callback;
 	
 	protected UIRepository selectedRepository;
 	
@@ -71,9 +70,8 @@ public class RetrieveRepositoryDetailsTask implements TaskWizardStep {
 	}
 
 	@Override
-	public void run(final AsyncCallback<WizardAction> callback) {
+	public void run(final TaskCallBack callback) {
 		Log.trace("retrieving details for repository "+selectedRepository);
-		this.callback = callback;
 		service.getRepositoryDetails(selectedRepository.getId(), new AsyncCallback<RepositoryDetails>() {
 
 			@Override
@@ -90,7 +88,6 @@ public class RetrieveRepositoryDetailsTask implements TaskWizardStep {
 	}
 	
 	public void reset() {
-		callback = null;
 		selectedRepository = null;
 	}
 

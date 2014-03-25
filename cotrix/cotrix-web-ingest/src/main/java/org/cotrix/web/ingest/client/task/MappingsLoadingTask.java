@@ -45,7 +45,7 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	}
 	
 	@Override
-	public void run(final AsyncCallback<WizardAction> callback) {
+	public void run(final TaskCallBack callback) {
 		importService.getMappings(new AsyncCallback<List<AttributeMapping>>() {
 
 			@Override

@@ -72,7 +72,7 @@ public class RetrieveCSVConfigurationTask implements TaskWizardStep {
 	}
 
 	@Override
-	public void run(final AsyncCallback<WizardAction> callback) {
+	public void run(final TaskCallBack callback) {
 		Log.trace("retrieving CsvParserConfiguratio for codelist "+selectedCodelist);
 		service.getCsvWriterConfiguration(selectedCodelist.getId(), new AsyncCallback<CsvConfiguration>() {
 

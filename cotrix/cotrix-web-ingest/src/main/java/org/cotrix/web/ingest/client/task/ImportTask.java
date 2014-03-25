@@ -30,7 +30,6 @@ import org.cotrix.web.wizard.client.step.TaskWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
@@ -47,7 +46,7 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 	protected static interface ImportTaskEventBinder extends EventBinder<ImportTask> {}
 
 	protected EventBus importEventBus;
-	protected AsyncCallback<WizardAction> callback;
+	protected TaskCallBack callback;
 	protected boolean importComplete;
 
 
@@ -106,7 +105,7 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 	}
 
 	@Override
-	public void run(AsyncCallback<WizardAction> callback) {
+	public void run(TaskCallBack callback) {
 		this.callback = callback;
 
 		Log.trace("starting import");

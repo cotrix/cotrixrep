@@ -33,7 +33,6 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
@@ -50,7 +49,7 @@ public class PublishTask implements TaskWizardStep {
 	@Inject
 	protected PublishServiceAsync service;
 	protected EventBus publishBus;
-	protected AsyncCallback<WizardAction> callback;
+	protected TaskCallBack callback;
 	
 	protected UICodelist codelist;
 	protected Destination destination;
@@ -158,7 +157,7 @@ public class PublishTask implements TaskWizardStep {
 	}
 
 	@Override
-	public void run(AsyncCallback<WizardAction> callback) {
+	public void run(TaskCallBack callback) {
 		this.callback = callback;
 		PublishDirectives directives = new PublishDirectives();
 		directives.setCodelistId(codelist.getId());

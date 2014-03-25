@@ -28,7 +28,6 @@ public class RetrieveMetadataTask implements TaskWizardStep {
 	
 	@Inject
 	protected PublishServiceAsync service;
-	protected AsyncCallback<WizardAction> callback;
 	protected UICodelist selectedCodelist;
 	@Inject
 	protected CodelistDetailsStepPresenter codelistDetailsStep;
@@ -76,9 +75,8 @@ public class RetrieveMetadataTask implements TaskWizardStep {
 	}
 
 	@Override
-	public void run(final AsyncCallback<WizardAction> callback) {
+	public void run(final TaskCallBack callback) {
 		Log.trace("retrieving metadata for codelist "+selectedCodelist);
-		this.callback = callback;
 		service.getMetadata(selectedCodelist.getId(), new AsyncCallback<UICodelistMetadata>() {
 
 			@Override
@@ -95,7 +93,7 @@ public class RetrieveMetadataTask implements TaskWizardStep {
 	}
 	
 	public void reset() {
-		callback = null;
+
 		selectedCodelist = null;
 	}
 

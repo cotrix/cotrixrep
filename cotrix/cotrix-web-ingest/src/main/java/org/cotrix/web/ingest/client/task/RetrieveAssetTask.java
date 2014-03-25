@@ -33,11 +33,7 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 	protected static interface RetrieveAssetTaskEventBinder extends EventBinder<RetrieveAssetTask> {}
 	
 	protected EventBus importEventBus;
-	protected AsyncCallback<WizardAction> callback;
 	protected boolean assetRetrieved;
-	
-	
-
 	protected AssetInfo selectedAsset;
 
 	@Inject
@@ -63,8 +59,7 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 	}
 
 	@Override
-	public void run(final AsyncCallback<WizardAction> callback) {
-		this.callback = callback;
+	public void run(final TaskCallBack callback) {
 		Log.trace("retrieveAsset");
 		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(selectedAsset.getCodeListType()));
 
@@ -93,7 +88,6 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 	
 	@Override
 	public void onResetWizard(ResetWizardEvent event) {
-		callback = null;
 		assetRetrieved = false;
 	}	
 	
