@@ -62,11 +62,15 @@ public class ParsingHelper {
 	}
 	
 	public CodelistBean parse(InputStream inputStream) {
-		Stream2SdmxDirectives directives = Stream2SdmxDirectives.DEFAULT;
+		try {
+			Stream2SdmxDirectives directives = Stream2SdmxDirectives.DEFAULT;
 		
-		logger.trace("parsing");
-		CodelistBean codelistBean = service.parse(inputStream, directives);
-		return codelistBean;
+			logger.trace("parsing");
+			CodelistBean codelistBean = service.parse(inputStream, directives);
+			return codelistBean;
+		} catch(Throwable e) {
+			throw new RuntimeException("Parsing failed", e);
+		}
 	}
 	
 	public Csv2TableDirectives getDirectives(CsvConfiguration configuration)

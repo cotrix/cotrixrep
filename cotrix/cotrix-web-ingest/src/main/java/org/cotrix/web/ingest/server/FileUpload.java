@@ -15,6 +15,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.cotrix.web.common.server.util.FileNameUtil;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.server.upload.CodeListTypeGuesser;
 import org.cotrix.web.ingest.server.upload.MappingsManager;
 import org.cotrix.web.ingest.server.upload.PreviewDataManager;
@@ -79,7 +80,7 @@ public class FileUpload extends HttpServlet{
 			boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			if (!isMultipart) {
 				logger.error("Expected multipart request");
-				uploadProgress.setStatus(Status.FAILED);
+				uploadProgress.setFailed("Bad HTTP request: Expected multipart request");
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Expected multipart request");
 				return;
 			}
@@ -103,14 +104,14 @@ public class FileUpload extends HttpServlet{
 			} catch(FileUploadException fue)
 			{
 				logger.error("Error parsing upload request", fue);
-				uploadProgress.setStatus(Status.FAILED);
+				uploadProgress.setFailed(Exceptions.toError(fue));
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, fue.getMessage());
 				return;
 			}
 
 			if (fileField == null) {
 				logger.error("Missing field "+FILE_FIELD_NAME+" in upload request");
-				uploadProgress.setStatus(Status.FAILED);
+				uploadProgress.setFailed("Bad HTTP request: Missing field "+FILE_FIELD_NAME+" in upload request");
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing field "+FILE_FIELD_NAME);
 				return;
 			}
@@ -120,7 +121,7 @@ public class FileUpload extends HttpServlet{
 
 			if (codeListType == null) {
 				logger.error("failed to guess the codelist type");
-				uploadProgress.setStatus(Status.FAILED);
+				uploadProgress.setFailed("Failed to guess the codelist type");
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing field "+FILE_FIELD_NAME);
 				return;
 			}
@@ -155,15 +156,15 @@ public class FileUpload extends HttpServlet{
 				} break;
 			}
 
-		} catch(Exception e)
+		} catch(Throwable e)
 		{
 			logger.error("Error during file post", e);
-			uploadProgress.setStatus(Status.FAILED);
+			uploadProgress.setFailed(Exceptions.toError(e));
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Failed "+e.getMessage());
 		}
 
 		uploadProgress.setProgress(100);
-		uploadProgress.setStatus(Status.DONE);
+		uploadProgress.setDone();
 
 	}
 

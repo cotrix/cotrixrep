@@ -6,6 +6,7 @@ package org.cotrix.web.publish.client.wizard.task;
 import java.util.List;
 
 import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
@@ -100,7 +101,8 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				callback.onFailure(caught);
+				Log.error("Mapping retrieving failed", caught);
+				callback.onFailure(Exceptions.toError(caught));
 			}
 
 			@Override

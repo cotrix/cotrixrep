@@ -19,8 +19,7 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.web.common.server.util.Reports;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
-import org.cotrix.web.common.shared.Progress.Status;
-import org.cotrix.web.common.shared.exception.ServiceException;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.server.climport.ImporterSource.SourceParameterProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +46,6 @@ public class Importer {
 		
 		logger.trace("starting import");
 		try {
-			progress.setStatus(Status.ONGOING);
 
 			logger.trace("retrieving code list");
 			T data = source.getCodelist(session, sourceParameterProvider);
@@ -66,8 +64,7 @@ public class Importer {
 
 			if (report.isFailure()) {
 				logger.error("Import failed");
-				progress.setMappingFailed(true);
-				progress.setStatus(Status.DONE);
+				progress.setMappingFailed();
 				return;
 			}
 
@@ -77,12 +74,12 @@ public class Importer {
 
 			events.fire(new Import(codelist.id(), codelist.name(), codelist.version(), beanSession));
 			
-			progress.setStatus(Status.DONE);
+			progress.setDone();
 
 		} catch(Throwable throwable)
 		{
 			logger.error("Error during the import", throwable);
-			progress.setFailed(new ServiceException(throwable.getMessage()));
+			progress.setFailed(Exceptions.toError(throwable));
 		}
 	}
 }

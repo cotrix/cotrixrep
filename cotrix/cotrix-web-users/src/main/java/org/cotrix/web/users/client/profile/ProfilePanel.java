@@ -17,6 +17,7 @@ import org.cotrix.web.common.client.util.StatusUpdates;
 import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.UIUser;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.users.client.ModuleActivactedEvent;
 import org.cotrix.web.users.client.UsersBus;
 import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PasswordUpdateListener;
@@ -93,8 +94,9 @@ public class ProfilePanel extends LoadingPanel {
 				service.updateUserPassword(userDetails.getId(), oldPassword, newPassword, new AsyncCallback<Void>() {
 					@Override
 					public void onFailure(Throwable caught) {
+						Log.error("Password update failed", caught);
 						if (caught instanceof InvalidPasswordException) alertDialog.center("Invalid credentials.");
-						else errorManager.showError(caught);
+						else errorManager.showError(Exceptions.toError(caught));
 					}
 
 					@Override

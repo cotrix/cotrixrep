@@ -20,6 +20,7 @@ import org.cotrix.web.wizard.client.step.TaskWizardStep.TaskCallBack;
 import org.cotrix.web.wizard.client.step.VisualStepConfiguration;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
 import org.cotrix.web.wizard.client.step.WizardStep;
+import org.cotrix.web.common.shared.Error;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
@@ -178,11 +179,11 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 				}
 
 				@Override
-				public void onFailure(Throwable caught) {
-					Log.trace("TaskWizardStep "+step.getId()+" failed", caught);
+				public void onFailure(Error error) {
+					Log.trace("TaskWizardStep "+step.getId()+" failed: "+error);
 					goBack();
 					hideProgress();
-					view.showError(caught);
+					view.showError(error);
 				}
 			});
 		}

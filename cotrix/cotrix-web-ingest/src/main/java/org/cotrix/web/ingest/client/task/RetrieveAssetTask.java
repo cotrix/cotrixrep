@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.ingest.client.task;
 
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.AssetRetrievedEvent;
 import org.cotrix.web.ingest.client.event.CodeListSelectedEvent;
@@ -68,7 +69,7 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Failed setting the selected asset", caught);
-				callback.onFailure(caught);
+				callback.onFailure(Exceptions.toError(caught));
 			}
 
 			@Override

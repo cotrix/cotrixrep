@@ -10,6 +10,7 @@ import org.cotrix.web.common.client.widgets.ProgressDialog;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
+import org.cotrix.web.common.shared.Error;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -179,8 +180,8 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	}
 
 	@Override
-	public void showError(Throwable throwable) {
-		errorManager.showError(throwable);
+	public void showError(Error error) {
+		errorManager.showError(error);
 	}
 
 }

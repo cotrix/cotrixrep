@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.cotrix.web.common.shared.Error;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -168,8 +169,8 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 	}
 
 	@Override
-	public void showError(Throwable throwable) {
-		errorManager.showError(throwable);
+	public void showError(Error error) {
+		errorManager.showError(error);
 	}
 
 }

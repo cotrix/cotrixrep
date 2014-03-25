@@ -5,6 +5,7 @@ package org.cotrix.web.publish.client.wizard.task;
 
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
@@ -81,7 +82,8 @@ public class RetrieveMetadataTask implements TaskWizardStep {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				callback.onFailure(caught);
+				Log.error("Metadata retrieving failed", caught);
+				callback.onFailure(Exceptions.toError(caught));
 			}
 
 			@Override

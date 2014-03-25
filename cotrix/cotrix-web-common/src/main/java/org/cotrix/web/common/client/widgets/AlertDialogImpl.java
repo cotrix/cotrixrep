@@ -2,6 +2,7 @@ package org.cotrix.web.common.client.widgets;
 
 import org.cotrix.web.common.client.resources.CommonCss;
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.shared.Error;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -110,5 +111,10 @@ public class AlertDialogImpl extends PopupPanel implements AlertDialog {
 		setMessage(message, details);
 		detailsPanel.setOpen(false);
 		center();
+	}
+
+	@Override
+	public void center(Error error) {
+		center(error.getMessage(), error.getDetails());		
 	}
 }

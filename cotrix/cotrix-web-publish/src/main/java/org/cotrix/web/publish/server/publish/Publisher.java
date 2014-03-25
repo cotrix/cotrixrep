@@ -13,7 +13,7 @@ import org.cotrix.io.SerialisationService.SerialisationDirectives;
 import org.cotrix.web.common.server.util.Reports;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
-import org.cotrix.web.common.shared.Progress.Status;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +31,11 @@ public class Publisher {
 			PublishMapper<T> mapper,
 			SerializationDirectivesProducer<T> serializationProducer,
 			PublishToDestination destination, PublishStatus publishStatus, BeanSession session) {
+		
+		Progress progress = publishStatus.getProgress();
+		
 		try {
-			
-			Progress progress = publishStatus.getProgress();
-			
 			logger.info("starting publishing");
-			progress.setStatus(Status.ONGOING);
 
 			logger.trace("mapping");
 			Outcome<T> outcome = mapper.map(publishDirectives);
@@ -53,7 +52,7 @@ public class Publisher {
 
 			if (outcome.report().isFailure()) {
 				logger.error("mapping failed");
-				progress.setStatus(Status.FAILED);
+				progress.setMappingFailed();
 				return;
 			}
 
@@ -62,16 +61,12 @@ public class Publisher {
 			destination.publish(outcome.result(), serialisationDirectives, publishDirectives, publishStatus, session);
 
 			logger.info("publish complete");
-			progress.setStatus(Status.DONE);
+			progress.setDone();
 
 		} catch(Throwable throwable)
 		{
 			logger.error("Error during codelist publishing", throwable);
-			publishStatus.getProgress().setStatus(Status.FAILED);
-			publishStatus.setReportLogs(Reports.convertLogs(throwable));
-			publishStatus.setReport(throwable.getMessage());
+			progress.setFailed(Exceptions.toError(throwable));
 		}
-
 	}
-
 }

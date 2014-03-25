@@ -3,8 +3,6 @@
  */
 package org.cotrix.web.common.shared;
 
-import org.cotrix.web.common.shared.exception.ServiceException;
-
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
@@ -16,8 +14,12 @@ public class Progress implements IsSerializable {
 	public enum Status {ONGOING, DONE, FAILED};
 	
 	protected Status status;
-	protected ServiceException failureCause; 
+	protected Error failureCause; 
 	protected boolean mappingFailed;
+	
+	public Progress() {
+		status = Status.ONGOING;
+	}
 	
 	/**
 	 * @return the status
@@ -29,18 +31,15 @@ public class Progress implements IsSerializable {
 	/**
 	 * @return the failureCause
 	 */
-	public ServiceException getFailureCause() {
+	public Error getFailureCause() {
 		return failureCause;
 	}
 
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(Status status) {
-		this.status = status;
+	public void setDone() {
+		this.status = Status.DONE;
 	}
 	
-	public void setFailed(ServiceException cause) {
+	public void setFailed(Error cause) {
 		this.status = Status.FAILED;
 		this.failureCause = cause;
 	}
@@ -55,8 +54,9 @@ public class Progress implements IsSerializable {
 	/**
 	 * @param mappingFailed the mappingFailed to set
 	 */
-	public void setMappingFailed(boolean mappingFailed) {
-		this.mappingFailed = mappingFailed;
+	public void setMappingFailed() {
+		this.status = Status.DONE;
+		this.mappingFailed = true;
 	}
 
 	public boolean isComplete()

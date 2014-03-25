@@ -188,7 +188,7 @@ public class PublishTask implements TaskWizardStep {
 			@Override
 			public void onSuccess(Progress result) {
 				Log.trace("Import progress: "+result);
-				if (result.isComplete()) publishComplete(result.getStatus());
+				if (result.isComplete()) publishComplete(result);
 				if (destination==Destination.FILE && result.getStatus()==Status.DONE) startDownload();
 			}
 		});
@@ -202,9 +202,9 @@ public class PublishTask implements TaskWizardStep {
 		mappings = null;
 	}
 	
-	protected void publishComplete(Status status) {
+	protected void publishComplete(Progress progress) {
 		publishProgressPolling.cancel();
-		publishBus.fireEvent(new PublishCompleteEvent(status));
+		publishBus.fireEvent(new PublishCompleteEvent(progress));
 		callback.onSuccess(PublishWizardAction.NEXT);
 	}
 	

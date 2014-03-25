@@ -4,6 +4,7 @@
 package org.cotrix.web.publish.client.wizard.task;
 
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.ItemDetailsRequestedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
@@ -76,7 +77,8 @@ public class RetrieveRepositoryDetailsTask implements TaskWizardStep {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				callback.onFailure(caught);
+				Log.error("Details retrieving failed", caught);
+				callback.onFailure(Exceptions.toError(caught));
 			}
 
 			@Override
