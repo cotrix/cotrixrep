@@ -25,6 +25,8 @@ import com.google.gwt.user.client.ui.Label;
  *
  */
 public class AttributeDefinitionPanel extends Composite {
+	
+	private static final String NO_LANGUAGE_VALUE = "NO_LANGUAGE";
 
 	private static AttributeDefinitionPanelUiBinder uiBinder = GWT.create(AttributeDefinitionPanelUiBinder.class);
 
@@ -96,7 +98,7 @@ public class AttributeDefinitionPanel extends Composite {
 	{
 		String[] languages = ImportConstants.INSTANCE.languages();
 		Arrays.sort(languages);
-		languageList.addItem(" ");
+		languageList.addItem(" ", NO_LANGUAGE_VALUE);
 		for (String language:languages) languageList.addItem(language);
 	}
 
@@ -119,7 +121,8 @@ public class AttributeDefinitionPanel extends Composite {
 	public String getLanguage()
 	{
 		if (!languageList.isVisible() || languageList.getSelectedIndex()<0) return null;
-		return languageList.getValue(languageList.getSelectedIndex());
+		String value = languageList.getValue(languageList.getSelectedIndex());
+		return NO_LANGUAGE_VALUE.equals(value)?null:value;
 	}	
 
 	public void setLanguage(String language)

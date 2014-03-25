@@ -6,7 +6,6 @@ package org.cotrix.web.publish.client.wizard.step.repositorydetails;
 import java.util.List;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.Property;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 
