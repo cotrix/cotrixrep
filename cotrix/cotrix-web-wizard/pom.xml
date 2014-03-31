@@ -11,6 +11,13 @@
 
 	<artifactId>cotrix-web-wizard</artifactId>
 	<packaging>jar</packaging>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-common</artifactId>
+		</dependency>
+	</dependencies>
 
 	<build>
 

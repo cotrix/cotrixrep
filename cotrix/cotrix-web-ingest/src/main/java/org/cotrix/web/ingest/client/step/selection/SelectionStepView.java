@@ -1,5 +1,6 @@
 package org.cotrix.web.ingest.client.step.selection;
 
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.shared.AssetInfo;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -14,7 +15,7 @@ public interface SelectionStepView {
 	public interface Presenter {
 		public void assetSelected(AssetInfo asset);
 		public void assetDetails(AssetInfo asset);
-		public void repositoryDetails(String repositoryId);
+		public void repositoryDetails(UIQName repositoryId);
 	}
 
 	public void reset();

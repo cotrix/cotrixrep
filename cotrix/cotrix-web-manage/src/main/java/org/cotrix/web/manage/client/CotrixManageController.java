@@ -8,6 +8,7 @@ import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.widgets.ProgressDialog;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.event.CreateNewVersionEvent;
 import org.cotrix.web.manage.client.codelist.event.CreateNewVersionEvent.CreateNewVersionHandler;
@@ -126,8 +127,9 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 			
 			@Override
 			public void onFailure(Throwable caught) {
+				Log.error("Creation of a new codelist failed", caught);
 				progressDialog.hide();
-				errorManager.rpcFailure(caught);
+				errorManager.showError(Exceptions.toError(caught));
 			}
 		});
 	}

@@ -62,11 +62,15 @@ public class ParsingHelper {
 	}
 	
 	public CodelistBean parse(InputStream inputStream) {
-		Stream2SdmxDirectives directives = Stream2SdmxDirectives.DEFAULT;
+		try {
+			Stream2SdmxDirectives directives = Stream2SdmxDirectives.DEFAULT;
 		
-		logger.trace("parsing");
-		CodelistBean codelistBean = service.parse(inputStream, directives);
-		return codelistBean;
+			logger.trace("parsing");
+			CodelistBean codelistBean = service.parse(inputStream, directives);
+			return codelistBean;
+		} catch(Throwable e) {
+			throw new InvalidSdmxException("Parsing failed", e);
+		}
 	}
 	
 	public Csv2TableDirectives getDirectives(CsvConfiguration configuration)
@@ -114,6 +118,19 @@ public class ParsingHelper {
 		List<String> cells = new ArrayList<String>(columns.size());
 		for (Column column:columns) cells.add(row.get(column));
 		return cells;
+	}
+	
+	public class InvalidSdmxException extends RuntimeException {
+
+		private static final long serialVersionUID = 4813637715277610637L;
+
+		/**
+		 * @param message
+		 * @param cause
+		 */
+		public InvalidSdmxException(String message, Throwable cause) {
+			super(message, cause);
+		}
 	}
 
 }

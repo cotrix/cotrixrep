@@ -16,6 +16,7 @@ import org.cotrix.web.common.server.util.OrderedLists;
 import org.cotrix.web.common.server.util.Repositories;
 import org.cotrix.web.common.server.util.OrderedLists.ValueProvider;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,7 @@ public class AssetInfosCache implements Serializable {
 
 		@Override
 		public String getValue(AssetInfo item) {
-			return item.getRepositoryName();
+			return String.valueOf(item.getRepositoryName());
 		}
 	};
 	
@@ -56,7 +57,7 @@ public class AssetInfosCache implements Serializable {
 	transient protected CloudService cloud;
 	
 	protected Map<String, Asset> assetsCache;
-	protected Map<String, RepositoryDetails> repositoriesCache;
+	protected Map<UIQName, RepositoryDetails> repositoriesCache;
 	protected OrderedLists<AssetInfo> cache;
 	protected boolean cacheLoaded = false;
 	
@@ -74,7 +75,7 @@ public class AssetInfosCache implements Serializable {
 		cache.addField(AssetInfo.REPOSITORY_FIELD, REPOSITORY_PROVIDER);
 		
 		assetsCache = new HashMap<String, Asset>();
-		repositoriesCache = new HashMap<String, RepositoryDetails>();
+		repositoriesCache = new HashMap<UIQName, RepositoryDetails>();
 	}
 	
 	public void refreshCache()
@@ -99,7 +100,7 @@ public class AssetInfosCache implements Serializable {
 		
 		for (RepositoryService repository: cloud.repositories()) {
 			RepositoryDetails repositoryDetails = Repositories.convert(repository);
-			repositoriesCache.put(repositoryDetails.getName(), repositoryDetails);
+			repositoriesCache.put(repositoryDetails.getId(), repositoryDetails);
 		}
 	}
 	
@@ -117,7 +118,7 @@ public class AssetInfosCache implements Serializable {
 		return assetsCache.get(id);
 	}
 	
-	public RepositoryDetails getRepository(String id)
+	public RepositoryDetails getRepository(UIQName id)
 	{
 		ensureCacheInitialized();
 		return repositoriesCache.get(id);

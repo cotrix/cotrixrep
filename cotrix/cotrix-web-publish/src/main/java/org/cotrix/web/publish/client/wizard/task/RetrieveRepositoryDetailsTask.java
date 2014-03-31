@@ -4,6 +4,7 @@
 package org.cotrix.web.publish.client.wizard.task;
 
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.ItemDetailsRequestedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
@@ -29,7 +30,6 @@ public class RetrieveRepositoryDetailsTask implements TaskWizardStep {
 	
 	@Inject
 	protected PublishServiceAsync service;
-	protected AsyncCallback<WizardAction> callback;
 	
 	protected UIRepository selectedRepository;
 	
@@ -71,14 +71,14 @@ public class RetrieveRepositoryDetailsTask implements TaskWizardStep {
 	}
 
 	@Override
-	public void run(final AsyncCallback<WizardAction> callback) {
+	public void run(final TaskCallBack callback) {
 		Log.trace("retrieving details for repository "+selectedRepository);
-		this.callback = callback;
 		service.getRepositoryDetails(selectedRepository.getId(), new AsyncCallback<RepositoryDetails>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				callback.onFailure(caught);
+				Log.error("Details retrieving failed", caught);
+				callback.onFailure(Exceptions.toError(caught));
 			}
 
 			@Override
@@ -90,7 +90,6 @@ public class RetrieveRepositoryDetailsTask implements TaskWizardStep {
 	}
 	
 	public void reset() {
-		callback = null;
 		selectedRepository = null;
 	}
 

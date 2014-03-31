@@ -3,15 +3,20 @@
  */
 package org.cotrix.web.ingest.client.task;
 
+import org.cotrix.web.common.shared.exception.Exceptions;
+import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.AssetRetrievedEvent;
+import org.cotrix.web.ingest.client.event.CodeListSelectedEvent;
+import org.cotrix.web.ingest.client.event.CodeListTypeUpdatedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
-import org.cotrix.web.ingest.client.event.RetrieveAssetEvent;
 import org.cotrix.web.ingest.client.wizard.ImportWizardAction;
+import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.wizard.client.WizardAction;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.wizard.client.step.TaskWizardStep;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -29,8 +34,11 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 	protected static interface RetrieveAssetTaskEventBinder extends EventBinder<RetrieveAssetTask> {}
 	
 	protected EventBus importEventBus;
-	protected AsyncCallback<WizardAction> callback;
 	protected boolean assetRetrieved;
+	protected AssetInfo selectedAsset;
+
+	@Inject
+	protected IngestServiceAsync importService;
 	
 	@Inject
 	protected void bind(RetrieveAssetTaskEventBinder binder, @ImportBus EventBus importEventBus)
@@ -52,22 +60,45 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 	}
 
 	@Override
-	public void run(AsyncCallback<WizardAction> callback) {
-		this.callback = callback;
-		importEventBus.fireEvent(new RetrieveAssetEvent());
+	public void run(final TaskCallBack callback) {
+		Log.trace("retrieveAsset");
+		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(selectedAsset.getCodeListType()));
+
+		importService.setAsset(selectedAsset.getId(), new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("Failed setting the selected asset", caught);
+				callback.onFailure(Exceptions.toError(caught));
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				Log.trace("asset selected on server");
+				
+
+				Log.trace("done selectedItemUpdated");
+				
+				assetRetrieved = true;
+				callback.onSuccess(ImportWizardAction.NEXT);
+				
+				importEventBus.fireEvent(new AssetRetrievedEvent());
+			}
+		});	
 	}
 	
 	@Override
 	public void onResetWizard(ResetWizardEvent event) {
-		callback = null;
 		assetRetrieved = false;
-	}
-
+	}	
+	
 	@EventHandler
-	void onAssetRetrieved(AssetRetrievedEvent event) {
-		assetRetrieved = true;
-		callback.onSuccess(ImportWizardAction.NEXT);
+	void onCodeListSelected(CodeListSelectedEvent event) {
+		selectedAsset = event.getSelectedCodelist();
 	}
+	
+	
+	
 
 	@Override
 	public boolean isComplete() {

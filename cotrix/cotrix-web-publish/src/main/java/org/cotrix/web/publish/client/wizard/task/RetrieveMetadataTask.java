@@ -5,6 +5,7 @@ package org.cotrix.web.publish.client.wizard.task;
 
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
@@ -28,7 +29,6 @@ public class RetrieveMetadataTask implements TaskWizardStep {
 	
 	@Inject
 	protected PublishServiceAsync service;
-	protected AsyncCallback<WizardAction> callback;
 	protected UICodelist selectedCodelist;
 	@Inject
 	protected CodelistDetailsStepPresenter codelistDetailsStep;
@@ -76,14 +76,14 @@ public class RetrieveMetadataTask implements TaskWizardStep {
 	}
 
 	@Override
-	public void run(final AsyncCallback<WizardAction> callback) {
+	public void run(final TaskCallBack callback) {
 		Log.trace("retrieving metadata for codelist "+selectedCodelist);
-		this.callback = callback;
 		service.getMetadata(selectedCodelist.getId(), new AsyncCallback<UICodelistMetadata>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				callback.onFailure(caught);
+				Log.error("Metadata retrieving failed", caught);
+				callback.onFailure(Exceptions.toError(caught));
 			}
 
 			@Override
@@ -95,7 +95,7 @@ public class RetrieveMetadataTask implements TaskWizardStep {
 	}
 	
 	public void reset() {
-		callback = null;
+
 		selectedCodelist = null;
 	}
 

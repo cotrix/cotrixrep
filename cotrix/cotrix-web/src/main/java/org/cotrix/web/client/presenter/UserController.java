@@ -21,8 +21,8 @@ import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.CotrixStartupEvent;
 import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
-import org.cotrix.web.common.client.util.Exceptions;
 import org.cotrix.web.common.shared.UIUser;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.shared.InvalidUsernameException;
 import org.cotrix.web.shared.UnknownUserException;
 import org.cotrix.web.shared.UrlToken;
@@ -55,8 +55,8 @@ public class UserController {
 		@Override
 		public void onFailure(Throwable caught) {
 			Log.error("Login failed", caught);
-			if (caught instanceof UnknownUserException) cotrixBus.fireEvent(new UserLoginFailedEvent(Exceptions.getPrintStackTrace(caught)));
-			if (caught instanceof InvalidUsernameException) cotrixBus.fireEvent(new UserRegistrationFailedEvent(caught.getMessage(), Exceptions.getPrintStackTrace(caught)));
+			if (caught instanceof UnknownUserException) cotrixBus.fireEvent(new UserLoginFailedEvent(Exceptions.toError(caught)));
+			if (caught instanceof InvalidUsernameException) cotrixBus.fireEvent(new UserRegistrationFailedEvent(Exceptions.toError(caught)));
 		}
 
 		@Override

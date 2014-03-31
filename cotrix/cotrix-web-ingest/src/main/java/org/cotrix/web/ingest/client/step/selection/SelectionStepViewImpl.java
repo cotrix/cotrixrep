@@ -4,7 +4,10 @@ import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
 import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.ClickableCell;
 import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
+import org.cotrix.web.common.client.widgets.UIQNameRenderer;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.shared.AssetInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -21,8 +24,8 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
@@ -157,18 +160,18 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		
 
 		// Repository
-		Column<AssetInfo, String> repositoryColumn = new Column<AssetInfo, String>(new ClickableTextCell()) {
+		Column<AssetInfo, UIQName> repositoryColumn = new Column<AssetInfo, UIQName>(new ClickableCell<UIQName>(new UIQNameRenderer(true))) {
 			@Override
-			public String getValue(AssetInfo object) {
+			public UIQName getValue(AssetInfo object) {
 				return object.getRepositoryName();
 			}
 		};
 		repositoryColumn.setSortable(true);
 		repositoryColumn.setDataStoreName(AssetInfo.REPOSITORY_FIELD);
-		repositoryColumn.setFieldUpdater(new FieldUpdater<AssetInfo, String>() {
+		repositoryColumn.setFieldUpdater(new FieldUpdater<AssetInfo, UIQName>() {
 
 			@Override
-			public void update(int index, AssetInfo object, String value) {
+			public void update(int index, AssetInfo object, UIQName value) {
 				Log.trace("repository details selected for row "+index);
 				presenter.repositoryDetails(object.getRepositoryId());
 			}

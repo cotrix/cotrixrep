@@ -50,7 +50,7 @@ public class RepositoryDetailsStepViewImpl extends Composite implements Reposito
 
 	public void setRepository(RepositoryDetails repository)
 	{
-		repositoryName.setText(repository.getName());
+		repositoryName.setText(repository.getName().toHtml());
 		repositoryPublishedTypes.setText(repository.getPublishedTypes().isEmpty()?NOTHING:repository.getPublishedTypes());
 		repositoryPublishedTypes.setStyleName(CommonResources.INSTANCE.css().missingValueText(), repository.getPublishedTypes().isEmpty());
 		

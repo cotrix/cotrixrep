@@ -5,6 +5,7 @@ package org.cotrix.web.ingest.client.task;
 
 import java.util.List;
 
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.MappingLoadFailedEvent;
@@ -45,14 +46,14 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	}
 	
 	@Override
-	public void run(final AsyncCallback<WizardAction> callback) {
+	public void run(final TaskCallBack callback) {
 		importService.getMappings(new AsyncCallback<List<AttributeMapping>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Error getting the mappings", caught);
 				importEventBus.fireEvent(new MappingLoadFailedEvent(caught));
-				callback.onFailure(caught);
+				callback.onFailure(Exceptions.toError(caught));
 			}
 
 			@Override

@@ -22,8 +22,8 @@ public class Repositories {
 	
 	public static RepositoryDetails convert(RepositoryService service) {
 		RepositoryDetails details = new RepositoryDetails();
-		details.setId(service.name().toString());
-		details.setName(service.name().toString());
+		details.setId(ValueUtils.safeValue(service.name()));
+		details.setName(ValueUtils.safeValue(service.name()));
 		details.setProperties(convert(service.properties()));
 		details.setPublishedTypes(Repositories.toString(service.publishedTypes()));
 		details.setReturnedTypes(Repositories.toString(service.returnedTypes()));

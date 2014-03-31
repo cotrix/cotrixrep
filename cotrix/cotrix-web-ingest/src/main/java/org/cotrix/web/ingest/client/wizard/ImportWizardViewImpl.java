@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.ProgressDialog;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
+import org.cotrix.web.common.shared.Error;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -55,6 +57,9 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	
 	@Inject
 	protected ProgressDialog progressDialog;
+	
+	@Inject
+	protected ErrorManager errorManager;
 
 	private Presenter presenter;
 	public void setPresenter(Presenter presenter) {
@@ -172,6 +177,11 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 				throw new IllegalArgumentException("Unknow button "+button);
 			}
 		}
+	}
+
+	@Override
+	public void showError(Error error) {
+		errorManager.showError(error);
 	}
 
 }

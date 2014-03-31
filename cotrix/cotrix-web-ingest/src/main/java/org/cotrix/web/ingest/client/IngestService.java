@@ -8,6 +8,7 @@ import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
@@ -33,7 +34,7 @@ public interface IngestService extends RemoteService {
 	
 	public AssetDetails getAssetDetails(String assetId) throws ServiceException;
 	
-	public RepositoryDetails getRepositoryDetails(String repositoryId) throws ServiceException;
+	public RepositoryDetails getRepositoryDetails(UIQName repositoryId) throws ServiceException;
 	
 	public void setAsset(String assetId) throws ServiceException;
 	

@@ -109,13 +109,13 @@ public class UserBarPresenter implements Presenter, LoginDialogListener, Registe
 	@EventHandler
 	void onUserLoginFailed(UserLoginFailedEvent event) {
 		view.setUserLoading(false);
-		alertDialog.center("Unknown user please check your credentials and re-try.", event.getDetails());
+		alertDialog.center("Unknown user please check your credentials and re-try.", event.getError().getDetails());
 	}
 
 	@EventHandler
 	void onUserRegistrationFailed(UserRegistrationFailedEvent event) {
 		view.setUserLoading(false);
-		alertDialog.center("Registration failed: "+event.getMessage(), event.getDetails());
+		alertDialog.center(event.getError());
 	}
 
 	@Inject

@@ -53,6 +53,13 @@ public class UIQName implements IsSerializable, Comparable<UIQName>, Cloneable {
 		this.localPart = localPart;
 	}
 	
+	public String toHtml() {
+		StringBuilder htmlBuilder = new StringBuilder();
+		if (namespace!=null && !namespace.isEmpty()) htmlBuilder.append(namespace).append(" ");
+		if (localPart!=null) htmlBuilder.append(localPart);
+		return htmlBuilder.toString();
+	}
+	
 	public UIQName clone()
 	{
 		return new UIQName(namespace, localPart);
