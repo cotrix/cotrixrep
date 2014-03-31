@@ -1,7 +1,6 @@
 package org.acme;
 
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.dsl.Users.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
@@ -10,7 +9,6 @@ import org.cotrix.application.StatisticsService;
 import org.cotrix.application.StatisticsService.Statistics;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;
@@ -40,16 +38,10 @@ public class StatisticsServiceTest extends ApplicationTest {
 		repository.add(l1);
 		repository.add(l2);
 		
-		User joe = user().name("joe").fullName("joe").email("joe@me.com").build();
-		
-		uRepository.add(joe);
-		
-		
 		Statistics s = service.statistics();
 		
 		assertEquals(2,s.totalCodelists());
 		assertEquals(3,s.totalCodes());		
-		assertEquals(1,s.totalUsers());		
 	}
 	
 	@Test

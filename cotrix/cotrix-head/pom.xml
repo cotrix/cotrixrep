@@ -257,6 +257,11 @@
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-rtms</artifactId>
 				</dependency>
+				
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-data-fao</artifactId>
+				</dependency>
 
 
 			</dependencies>

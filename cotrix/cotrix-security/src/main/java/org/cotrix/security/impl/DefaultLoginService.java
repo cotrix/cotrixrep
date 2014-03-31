@@ -58,15 +58,12 @@ public class DefaultLoginService implements LoginService {
 			if (identity==null)
 				throw new InvalidCredentialsException();
 			
-			if (identity.equals(cotrix.name()))
-				user=cotrix;
-			else {
-				//from identity to currentUser
-				user = users.get(userByName(identity));
-				
-				if (user==null)
-					throw new InvalidCredentialsException();
-			}
+			//from identity to currentUser
+			user = users.get(userByName(identity));
+			
+			if (user==null)
+				throw new InvalidCredentialsException();
+		
 			
 			//log only for non-guests
 			log.info("user {} has logged in",user.name());

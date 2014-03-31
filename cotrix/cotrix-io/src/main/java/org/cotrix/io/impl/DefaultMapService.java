@@ -60,7 +60,7 @@ public class DefaultMapService implements MapService {
 		}
 		catch(Exception e) {
 		
-			throw new IllegalStateException("could not map source with directives "+directives+" (see cause) ",e);
+			throw new IllegalArgumentException("could not map source with directives "+directives+" (see cause) ",e);
 		}
 		finally {
 			

@@ -2,17 +2,13 @@ package org.cotrix.security.impl;
 
 import static org.cotrix.action.MainAction.*;
 import static org.cotrix.action.UserAction.*;
-import static org.cotrix.common.Constants.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
 
 import javax.enterprise.event.Event;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.ApplicationEvents.FirstTime;
-import org.cotrix.common.cdi.ApplicationEvents.Ready;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.security.SignupService;
@@ -64,16 +60,6 @@ public class DefaultSignupService implements SignupService {
 		realm.update(user.name(), oldPwd, newPwd);
 		
 		log.info("user {} has changed password",user.name());	
-	}
-	
-	//on first use of a store, register the proto-root user, 'cotrix', with the default password.
-	//installation managers will want to change that on first login.
-	public static void clear(@Observes @FirstTime Ready event, NativeRealm realm) {
-		
-		log.info("signing up proto-root {}",cotrix.name());	
-		
-		realm.add(cotrix.name(),DEFAULT_COTRIX_PWD);
-		
 	}
 	
 }
