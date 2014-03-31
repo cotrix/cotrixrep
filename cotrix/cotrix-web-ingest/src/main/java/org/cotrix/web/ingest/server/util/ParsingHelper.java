@@ -15,7 +15,7 @@ import org.cotrix.io.ParseService;
 import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
 import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
 import org.cotrix.web.common.shared.CsvConfiguration;
-import org.cotrix.web.ingest.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
+import org.cotrix.web.ingest.shared.PreviewData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class ParsingHelper {
 	
 	protected Logger logger = LoggerFactory.getLogger(ParsingHelper.class);
 	
-	public static final int ROW_LIMIT = 5;
+	public static final int ROW_LIMIT = -1;
 	
 	@Inject
 	ParseService service;
@@ -62,11 +62,15 @@ public class ParsingHelper {
 	}
 	
 	public CodelistBean parse(InputStream inputStream) {
-		Stream2SdmxDirectives directives = Stream2SdmxDirectives.DEFAULT;
+		try {
+			Stream2SdmxDirectives directives = Stream2SdmxDirectives.DEFAULT;
 		
-		logger.trace("parsing");
-		CodelistBean codelistBean = service.parse(inputStream, directives);
-		return codelistBean;
+			logger.trace("parsing");
+			CodelistBean codelistBean = service.parse(inputStream, directives);
+			return codelistBean;
+		} catch(Throwable e) {
+			throw new InvalidSdmxException("Parsing failed", e);
+		}
 	}
 	
 	public Csv2TableDirectives getDirectives(CsvConfiguration configuration)
@@ -114,6 +118,19 @@ public class ParsingHelper {
 		List<String> cells = new ArrayList<String>(columns.size());
 		for (Column column:columns) cells.add(row.get(column));
 		return cells;
+	}
+	
+	public class InvalidSdmxException extends RuntimeException {
+
+		private static final long serialVersionUID = 4813637715277610637L;
+
+		/**
+		 * @param message
+		 * @param cause
+		 */
+		public InvalidSdmxException(String message, Throwable cause) {
+			super(message, cause);
+		}
 	}
 
 }

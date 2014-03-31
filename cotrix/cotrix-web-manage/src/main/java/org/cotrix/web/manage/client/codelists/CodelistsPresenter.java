@@ -2,15 +2,15 @@ package org.cotrix.web.manage.client.codelists;
 
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.manage.client.codelists.NewCodelistDialog.NewCodelistDialogListener;
 import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
-import org.cotrix.web.manage.client.event.CreateNewVersionEvent;
+import org.cotrix.web.manage.client.event.CreateNewCodelistEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.event.OpenCodelistEvent;
 import org.cotrix.web.manage.client.event.RefreshCodelistsEvent;
-import org.cotrix.web.manage.client.event.RemoveCodelistEvent;
 import org.cotrix.web.manage.client.event.RefreshCodelistsEvent.RefreshCodeListsHandler;
+import org.cotrix.web.manage.client.event.RemoveCodelistEvent;
 import org.cotrix.web.manage.shared.CodelistGroup;
-import org.cotrix.web.manage.shared.CodelistGroup.Version;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -29,6 +29,9 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	
 	@Inject
 	protected CodelistsDataProvider codelistDataProvider;
+	
+	@Inject
+	private NewCodelistDialog newCodelistDialog;
 
 	@Inject
 	public CodelistsPresenter(@ManagerBus EventBus managerBus, CodelistsView view) {
@@ -76,6 +79,17 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 		}, ApplicationFeatures.REMOVE_CODELIST);*/
 	}
 	
+	@Inject
+	protected void setupDialog() {
+		newCodelistDialog.setListener(new NewCodelistDialogListener() {
+			
+			@Override
+			public void onCreate(String name, String version) {
+				managerBus.fireEvent(new CreateNewCodelistEvent(name, version));
+			}
+		});
+	}
+	
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());
 		view.refresh();
@@ -121,15 +135,7 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	}
 
 	@Override
-	public void onCodelistCreate(Version version) {
-		if (version!=null) {
-			view.showVersionDialog(version);
-		}
+	public void onCodelistCreate() {
+		newCodelistDialog.showCentered();
 	}
-
-	@Override
-	public void onCodelistNewVersion(String id, String newVersion) {
-		managerBus.fireEvent(new CreateNewVersionEvent(id, newVersion));
-	}
-
 }

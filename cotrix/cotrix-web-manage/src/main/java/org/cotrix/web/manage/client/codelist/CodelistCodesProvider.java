@@ -9,6 +9,7 @@ import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodelistEditor.GroupColumn;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
 import org.cotrix.web.manage.shared.Group;
 
@@ -30,7 +31,7 @@ public class CodelistCodesProvider extends CachedDataProviderExperimental<UICode
 	@Inject
 	protected ManageServiceAsync managerService;
 
-	@Inject @CodelistId
+	@Inject @CurrentCodelist
 	protected String codelistId;
 
 	@Override

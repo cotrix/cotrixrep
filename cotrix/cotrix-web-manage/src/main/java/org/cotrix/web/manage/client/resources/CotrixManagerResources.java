@@ -58,6 +58,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	@Source("thumb_horz.png")
 	public ImageResource thumbHorizontal();
 	
+	public ImageResource newVersion();
+	public ImageResource newVersionDisabled();
+	
 	interface CotrixManagerStyle extends CssResource {
 		String editor();
 		String systemProperty();

@@ -5,6 +5,7 @@ import java.util.Set;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
@@ -43,5 +44,10 @@ public interface ManageService extends RemoteService {
 	FeatureCarrier.Void seal(String codelistId) throws ServiceException;
 	
 	public ModifyCommandResult modify(String codelistId, ModifyCommand command) throws ServiceException;
+	
+	Set<UIQName> getAttributeNames(String codelistId) throws ServiceException;
+	
+	CodelistGroup createNewCodelist(String name, String version) throws ServiceException;
+	
 
 }

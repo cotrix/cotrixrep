@@ -16,6 +16,7 @@ import org.cotrix.web.manage.client.codelist.attribute.AttributesGrid;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.MetadataProvider;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
 import org.cotrix.web.manage.client.util.Constants;
@@ -33,6 +34,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.inject.Inject;
@@ -73,7 +75,7 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	public CodelistMetadataPanel( ) {
 		this.attributesProvider = new ListDataProvider<UIAttribute>();
-		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Codelist attributes"), "No attributes");
+		attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Codelist attributes"), "No attributes", new MultiWordSuggestOracle());
 
 		attributeEditor = DataEditor.build(this);
 
@@ -97,7 +99,7 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	}
 	
 	@Inject
-	protected void bind(@CodelistId String codelistId)
+	protected void bind(@CurrentCodelist String codelistId)
 	{
 		
 		FeatureBinder.bind(new FeatureToggler() {

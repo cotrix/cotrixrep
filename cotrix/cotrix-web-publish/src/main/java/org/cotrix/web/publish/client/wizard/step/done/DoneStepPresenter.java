@@ -1,5 +1,7 @@
 package org.cotrix.web.publish.client.wizard.step.done;
 
+import org.cotrix.web.common.shared.Progress;
+import org.cotrix.web.common.shared.Progress.Status;
 import org.cotrix.web.publish.client.event.PublishCompleteEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
@@ -35,11 +37,12 @@ public class DoneStepPresenter extends AbstractVisualWizardStep implements Visua
 			
 			@Override
 			public void onPublishComplete(PublishCompleteEvent event) {
-				switch (event.getStatus()) {
-					case DONE: setDone(); break;
-					case FAILED: setFailed(); break;
-					default:;
-				}	
+				
+				Progress progress = event.getProgress();
+				if (progress.getStatus() == Status.DONE) {
+					if (progress.isMappingFailed()) setFailed();
+					else setDone();
+				}
 			}
 		});
 	}

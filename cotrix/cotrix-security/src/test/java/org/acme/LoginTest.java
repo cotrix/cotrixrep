@@ -50,6 +50,8 @@ public class LoginTest extends ApplicationTest {
 	@Test
 	public void loginAsCotrix() throws Exception {
 		
+		signupService.signup(cotrix,cotrix.name());
+		
 		when(req.getAttribute(nameParam)).thenReturn(cotrix.name());
 		when(req.getAttribute(pwdParam)).thenReturn(cotrix.name());
 		

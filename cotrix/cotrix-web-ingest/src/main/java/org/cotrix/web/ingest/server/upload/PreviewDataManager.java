@@ -11,8 +11,8 @@ import javax.inject.Inject;
 
 import org.apache.commons.fileupload.FileItem;
 import org.cotrix.web.common.shared.CsvConfiguration;
-import org.cotrix.web.ingest.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.ingest.server.util.ParsingHelper;
+import org.cotrix.web.ingest.shared.PreviewData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.tabular.Table;

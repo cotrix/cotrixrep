@@ -23,30 +23,35 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class ImporterTarget {
-	
+
 	protected Logger logger = LoggerFactory.getLogger(ImporterTarget.class);
-	
+
 	@Inject
 	private CodelistRepository repository;
-	
+
 	@Inject
 	private LifecycleService lifecycleService;
-	
+
 	@Inject
 	protected UserRepository userRepository;
-	
-	
+
+
 	public void save(Codelist codelist, boolean sealed, String ownerId) {
 		logger.trace("save codelist.id: {}, sealed: {}, ownerId: {}", codelist.id(), sealed, ownerId);
-		repository.add(codelist);
-		
-		State startState = sealed?DefaultLifecycleStates.sealed:DefaultLifecycleStates.draft;
-		lifecycleService.start(codelist.id(), startState);
-		
-		User owner = userRepository.lookup(ownerId);
-		logger.trace("owner: {}", owner);
-		User changeset = modifyUser(owner).is(Roles.OWNER.on(codelist.id())).build();
-		userRepository.update(changeset);
+
+		try {
+			repository.add(codelist);
+
+			State startState = sealed?DefaultLifecycleStates.sealed:DefaultLifecycleStates.draft;
+			lifecycleService.start(codelist.id(), startState);
+
+			User owner = userRepository.lookup(ownerId);
+			logger.trace("owner: {}", owner);
+			User changeset = modifyUser(owner).is(Roles.OWNER.on(codelist.id())).build();
+			userRepository.update(changeset);
+		} catch(Throwable throwable) {
+			throw new RuntimeException("Failed completing the import", throwable);
+		}
 	}
 
 }

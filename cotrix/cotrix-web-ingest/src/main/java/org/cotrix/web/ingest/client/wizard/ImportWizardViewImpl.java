@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.ProgressDialog;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
+import org.cotrix.web.common.shared.Error;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -22,6 +24,7 @@ import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 /**
@@ -52,7 +55,11 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	protected Map<String, Integer> decksIndexes;
 	protected Map<String, Integer> labelsIndexes;
 	
+	@Inject
 	protected ProgressDialog progressDialog;
+	
+	@Inject
+	protected ErrorManager errorManager;
 
 	private Presenter presenter;
 	public void setPresenter(Presenter presenter) {
@@ -67,15 +74,12 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	
 	@Override
 	public void showProgress() {
-		if(progressDialog == null){
-			progressDialog = new ProgressDialog();
-		}
-		progressDialog.center();
+		progressDialog.showCentered();
 	}
 
 	@Override
 	public void hideProgress() {
-		if(progressDialog != null) progressDialog.hide();
+		progressDialog.hide();
 	}
 
 	public void addStep(VisualWizardStep step)
@@ -173,6 +177,11 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 				throw new IllegalArgumentException("Unknow button "+button);
 			}
 		}
+	}
+
+	@Override
+	public void showError(Error error) {
+		errorManager.showError(error);
 	}
 
 }

@@ -86,7 +86,7 @@ public interface ImporterMapper<T> {
 
 			AttributeDefinition definition = mapping.getAttributeDefinition();				
 			directive.name(definition.getName());
-			directive.language(definition.getLanguage());
+			if (definition.getLanguage()!=null) directive.language(definition.getLanguage());
 			directive.type(getType(definition.getType(), definition.getCustomType()));
 
 			return directive;
@@ -98,7 +98,8 @@ public interface ImporterMapper<T> {
 				case ANNOTATION: return Constants.ANNOTATION_TYPE;
 				case DESCRIPTION: return Constants.DESCRIPTION_TYPE;
 				case CODE: return Constants.DEFAULT_TYPE;
-				case OTHER_CODE: return Constants.DEFAULT_TYPE;
+				case OTHER_CODE: return Constants.OTHER_CODE_TYPE;
+				case NAME: return Constants.NAME_TYPE;
 				case OTHER: return new QName(Constants.NS, customType);
 				default: throw new IllegalArgumentException("Unknow attribute type "+type);
 			}

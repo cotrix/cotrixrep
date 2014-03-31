@@ -62,6 +62,15 @@
         <dependent-module archiveName="cotrix-repository-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-repository/cotrix-repository">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="virtual-repository-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/virtual-repository/virtual-repository">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="virtual-semantic-repository-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/virtual-semantic-repository/virtual-semantic-repository">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="virtual-data-fao-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/virtual-data-fao/virtual-data-fao">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="cotrix-head"/>
         <property name="java-output-path" value="/cotrix-head/target/cotrix-head-0.1.0-SNAPSHOT/WEB-INF/classes"/>
     </wb-module>

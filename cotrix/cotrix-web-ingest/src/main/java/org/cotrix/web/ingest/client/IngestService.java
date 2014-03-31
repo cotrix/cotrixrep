@@ -8,15 +8,17 @@ import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.exception.ServiceException;
-import org.cotrix.web.ingest.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.CsvPreviewHeaders;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.ingest.shared.MappingMode;
+import org.cotrix.web.ingest.shared.PreviewData;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -32,7 +34,7 @@ public interface IngestService extends RemoteService {
 	
 	public AssetDetails getAssetDetails(String assetId) throws ServiceException;
 	
-	public RepositoryDetails getRepositoryDetails(String repositoryId) throws ServiceException;
+	public RepositoryDetails getRepositoryDetails(UIQName repositoryId) throws ServiceException;
 	
 	public void setAsset(String assetId) throws ServiceException;
 	
@@ -55,5 +57,8 @@ public interface IngestService extends RemoteService {
 	public Progress getImportProgress() throws ServiceException;
 	
 	public DataWindow<ReportLog> getReportLogs(Range range) throws ServiceException;
+	
+	public CsvPreviewHeaders getCsvPreviewHeaders(CsvConfiguration configuration) throws ServiceException;
+	public DataWindow<List<String>> getCsvPreviewData(Range range) throws ServiceException;
 	
 }

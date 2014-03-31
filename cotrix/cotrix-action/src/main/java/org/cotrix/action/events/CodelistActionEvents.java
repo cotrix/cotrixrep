@@ -30,6 +30,14 @@ public class CodelistActionEvents {
 		
 	}
 	
+	public static class Create extends CodelistEvent {
+		
+		public Create(String id, QName name, String version, BeanSession session) {
+			super(id,name,version,session);
+		}
+		
+	}
+	
 	public static class Import extends CodelistEvent {
 		
 		public Import(String id, QName name, String version, BeanSession session) {

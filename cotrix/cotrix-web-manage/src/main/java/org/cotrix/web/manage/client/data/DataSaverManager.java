@@ -13,6 +13,7 @@ import org.cotrix.web.manage.client.data.event.DataSavedEvent;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.data.event.SavingDataEvent;
 import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.util.Attributes;
@@ -36,6 +37,10 @@ public class DataSaverManager {
 		public Class<T> getType();
 		public ModifyCommand generateCommand(EditType editType, T data); 
 	}
+	
+	@Inject
+	@CurrentCodelist
+	protected String codelistId;
 
 	@Inject
 	protected ModifyCommandSequencer commandSequencer;
@@ -91,7 +96,7 @@ public class DataSaverManager {
 						if (data instanceof UICode && result instanceof HasCode) updateCode((UICode)data, ((HasCode)result).getCode());
 					}
 
-					managerBus.fireEvent(new DataSavedEvent());
+					managerBus.fireEvent(new DataSavedEvent(codelistId));
 					StatusUpdates.statusSaved();
 				}
 

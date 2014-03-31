@@ -9,6 +9,8 @@ import java.util.Collection;
 import org.cotrix.domain.user.User;
 
 public class SomeUsers {
+	
+	public static final User me = user().name("me").fullName("me").email("me@me.me").is(ROOT).build();
 
 	public static final User federico = user().name("federico").fullName("Federico De Faveri").email("federico.defaveri@fao.org").is(ROOT).build();
 	public static final User fabio = user().name("fabio").fullName("Fabio Simeoni").email("fabio.simeoni@fao.org").is(ROOT).build();
@@ -21,8 +23,8 @@ public class SomeUsers {
 	public static final User claudio = user().name("baldassarre").fullName("Claudio Baldassarre").email("claudio.baldassarre@invented.com").is(USER).build();
 	
 	
-	public static final Collection<User> users = asList(federico,fabio,anton,aureliano,erik,fabiof,claudio);
+	public static final Collection<User> users = asList(me,federico,fabio,anton,aureliano,erik,fabiof,claudio);
 	
-	public static final Collection<User> owners = asList(anton,aureliano);
+	public static final Collection<User> owners = asList(me,anton,aureliano);
 	
 }

@@ -1,5 +1,7 @@
 package org.cotrix.web.client.event;
 
+import org.cotrix.web.common.shared.Error;
+
 import com.google.web.bindery.event.shared.binder.GenericEvent;
 
 /**
@@ -8,25 +10,16 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  */
 public class UserRegistrationFailedEvent extends GenericEvent {
 
-	protected String message;
-	protected String details;
+	protected Error error;
 	
-	public UserRegistrationFailedEvent(String message, String details) {
-		this.message = message;
-		this.details = details;
+	public UserRegistrationFailedEvent(Error error) {
+		this.error = error;
 	}
 
 	/**
-	 * @return the details
+	 * @return the error
 	 */
-	public String getDetails() {
-		return details;
-	}
-
-	/**
-	 * @return the message
-	 */
-	public String getMessage() {
-		return message;
+	public Error getError() {
+		return error;
 	}
 }

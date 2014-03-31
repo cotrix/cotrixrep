@@ -63,4 +63,13 @@ public interface CommonCss extends CssResource {
 	
 	String search();
 	String searchBackground();
+	
+	String dialogBox();
+	String dialogTitle();
+	String dialogSubtitle();
+	String dialogTextfield();
+	String dialogTextbox();
+	String dialogTextboxInvalid();
+	String dialogLink();
+	String dialogSubmit();
 }

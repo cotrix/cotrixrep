@@ -141,7 +141,7 @@ public class UsersServiceImpl implements UsersService {
 
 		rolesSorter.syncUser();
 		Collections.sort(rows, rolesSorter);
-		logger.trace("returning {} rows", rows.size());
+		//logger.trace("returning {} rows", rows.size());
 		return new DataWindow<RolesRow>(rows);
 	}
 
@@ -167,7 +167,7 @@ public class UsersServiceImpl implements UsersService {
 
 		boolean tick = active;
 		boolean enable = delegable && (!active || direct);
-		logger.trace("role: {} active: {} direct: {} user: {}", role, active, direct, user);
+		//logger.trace("role: {} active: {} direct: {} user: {}", role, active, direct, user);
 		return new RoleState(enable, tick, false);
 	}
 
@@ -193,7 +193,7 @@ public class UsersServiceImpl implements UsersService {
 		}
 		rolesSorter.syncUser();
 		Collections.sort(rows, rolesSorter);
-		logger.trace("returning {} rows", rows.size());
+		//logger.trace("returning {} rows", rows.size());
 		return new DataWindow<RolesRow>(rows);
 
 	}

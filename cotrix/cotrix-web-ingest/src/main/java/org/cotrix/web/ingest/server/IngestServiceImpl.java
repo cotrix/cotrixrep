@@ -10,6 +10,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
+import org.cotrix.common.cdi.Current;
+import org.cotrix.domain.user.User;
 import org.cotrix.io.CloudService;
 import org.cotrix.web.common.server.util.Encodings;
 import org.cotrix.web.common.server.util.Ranges;
@@ -19,9 +21,9 @@ import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.ingest.client.IngestService;
-import org.cotrix.web.ingest.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.ingest.server.climport.ImportTaskSession;
 import org.cotrix.web.ingest.server.climport.ImporterFactory;
 import org.cotrix.web.ingest.server.upload.MappingGuesser;
@@ -34,9 +36,11 @@ import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.CsvPreviewHeaders;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.ingest.shared.MappingMode;
+import org.cotrix.web.ingest.shared.PreviewData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,6 +85,9 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	
 	@Inject
 	protected MappingsManager mappingsManager;
+	
+	@Inject @Current
+	protected User user;
 
 	/** 
 	 * {@inheritDoc}
@@ -134,7 +141,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 		}
 	}
 
-	public RepositoryDetails getRepositoryDetails(String repositoryId) throws ServiceException
+	public RepositoryDetails getRepositoryDetails(UIQName repositoryId) throws ServiceException
 	{
 		try {
 			RepositoryDetails repository = assetInfosCache.getRepository(repositoryId);
@@ -257,7 +264,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 
 		try {
 			session.setImportedCodelistName(metadata.getName());
-			
+			logger.trace("user "+user.id()+" user "+user.fullName());
 			ImportTaskSession importTaskSession = session.createImportTaskSession();
 			importTaskSession.setUserOptions(csvConfiguration, metadata, mappings, mappingMode);
 			Progress importerProgress = importerFactory.importCodelist(importTaskSession, session.getCodeListType());
@@ -332,5 +339,40 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 			logger.error("An error occurred getting the reports logs", e);
 			throw new ServiceException("An error occurred getting the reports logs: "+e.getMessage());
 		}
+	}
+
+	@Override
+	public CsvPreviewHeaders getCsvPreviewHeaders(CsvConfiguration configuration) throws ServiceException {
+		logger.trace("getCsvPreviewHeaders configuration: {}", configuration);
+		
+		try {
+			if (session.getCodeListType()!=CodeListType.CSV) {
+				logger.error("Requested CSV preview data when CodeList type is {}", session.getCodeListType());
+				throw new ServiceException("No preview data available");
+			}
+			
+			previewDataManager.refresh(configuration);
+			
+			PreviewData previewData = previewDataManager.getPreviewData();
+
+			return new CsvPreviewHeaders(previewData.isHeadersEditable(), previewData.getHeadersLabels());
+		} catch(Exception e)
+		{
+			logger.error("Error converting the preview data", e);
+			throw new ServiceException(e.getMessage());
+		}
+
+	}
+
+	@Override
+	public DataWindow<List<String>> getCsvPreviewData(Range range) throws ServiceException {
+		logger.trace("getCsvPreviewData range: {}", range);
+		
+		PreviewData previewData = previewDataManager.getPreviewData();
+		if (previewData == null) return DataWindow.emptyWindow();
+		
+		List<List<String>> rows = Ranges.subList(previewData.getRows(), range);
+		
+		return new DataWindow<>(rows, previewData.getRows().size());
 	}
 }

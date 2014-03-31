@@ -1,0 +1,26 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
+		field="resources" />
+	<g:HTMLPanel styleName="{resources.css.dialogBox}" width="300px" height="280px">
+			<div class="{resources.css.dialogTitle}">
+				Create new version
+			</div>
+			<div class="{resources.css.dialogSubtitle}">
+				<g:Label ui:field="name" />
+			</div>
+			<div class="{resources.css.dialogTextfield}">
+				<div>Current</div>
+				<g:TextBox styleName="{resources.css.dialogTextbox}" ui:field="oldVersion" readOnly="true" />
+			</div>
+			<div class="{resources.css.dialogTextfield}">
+				<div>New</div>
+				<g:TextBox styleName="{resources.css.dialogTextbox}" ui:field="newVersion"  />
+			</div>
+			<div class="{resources.css.dialogTextfield}">
+				<g:Button ui:field="create" styleName="{resources.css.dialogSubmit}">Create</g:Button>
+			</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

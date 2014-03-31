@@ -31,6 +31,7 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeFactory;
+import org.cotrix.web.manage.client.codelist.attribute.AttributeNameSuggestOracle;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesGrid;
 import org.cotrix.web.manage.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent.AttributeChangedHandler;
@@ -44,6 +45,7 @@ import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
@@ -127,18 +129,22 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	
 	@Inject
 	protected RemoveAttributeController attributeController;
+	
+	protected AttributeNameSuggestOracle attributeNameSuggestOracle;
 
 	@Inject
-	public CodelistAttributesPanel() {
+	public CodelistAttributesPanel(AttributeNameSuggestOracle attributeNameSuggestOracle) {
 
 		this.codeEditor = DataEditor.build(this);
 		this.attributeEditor = DataEditor.build(this);
 
 		this.dataProvider = new ListDataProvider<UIAttribute>();
+		
+		this.attributeNameSuggestOracle = attributeNameSuggestOracle;
 
 		header = new AttributeHeader();
 
-		attributesGrid = new AttributesGrid(dataProvider, header, "select a code");
+		attributesGrid = new AttributesGrid(dataProvider, header, "select a code", attributeNameSuggestOracle);
 
 		setupColumns();
 
@@ -150,7 +156,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	}
 
 	@Inject
-	protected void bind(@CodelistId String codelistId)
+	protected void bind(@CurrentCodelist String codelistId)
 	{
 		FeatureBinder.bind(new FeatureToggler() {
 			

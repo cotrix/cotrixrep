@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
+import org.cotrix.web.common.shared.Error;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -37,4 +38,5 @@ public interface WizardView {
 	void showProgress();
 	void hideProgress();
 
+	void showError(Error error);
 }

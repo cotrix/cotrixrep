@@ -73,7 +73,7 @@ public class CodelistTreeModel implements TreeViewModel {
 		if (value instanceof CodelistGroup) {
 			final CodelistGroup group = (CodelistGroup) value;
 			
-			final ListDataProvider<Version> versiondaDataProvider = new ListDataProvider<Version>(group.getVersions());
+			final ListDataProvider<Version> versionDataProvider = new ListDataProvider<Version>(group.getVersions());
 			dataProvider.addDataUpdatedHandler(new DataUpdatedHandler() {
 				
 				@Override
@@ -81,13 +81,12 @@ public class CodelistTreeModel implements TreeViewModel {
 					Log.trace("onDataUpdated "+value);
 					for (CodelistGroup newGroup:dataProvider.getCache()) {
 						if (newGroup.getName().equals(group.getName())) {
-							versiondaDataProvider.getList().clear();
-							versiondaDataProvider.getList().addAll(newGroup.getVersions());
+							versionDataProvider.refresh();
 						}
 					}
 				}
 			});
-			return new DefaultNodeInfo<Version>(versiondaDataProvider, VERSION_CELL, selectionModel, null);
+			return new DefaultNodeInfo<Version>(versionDataProvider, VERSION_CELL, selectionModel, null);
 		}
 		return null;
 	}

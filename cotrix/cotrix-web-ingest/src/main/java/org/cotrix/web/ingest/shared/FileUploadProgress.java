@@ -4,6 +4,7 @@
 package org.cotrix.web.ingest.shared;
 
 import java.io.Serializable;
+import org.cotrix.web.common.shared.Error;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -18,6 +19,7 @@ public class FileUploadProgress implements Serializable {
 	protected int progress;
 	protected Status status;
 	protected CodeListType codeListType;
+	protected Error error;
 	
 	public FileUploadProgress(){}
 	
@@ -53,17 +55,32 @@ public class FileUploadProgress implements Serializable {
 	}
 
 	/**
+	 * @return the error
+	 */
+	public Error getError() {
+		return error;
+	}
+
+	/**
 	 * @param progress the progress to set
 	 */
 	public void setProgress(int progress) {
 		this.progress = progress;
 	}
 
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(Status status) {
-		this.status = status;
+
+	public void setDone() {
+		this.status = Status.DONE;
+	}
+	
+	public void setFailed(String errorMessage) {
+		setFailed(new Error(errorMessage, ""));
+	}
+		
+	
+	public void setFailed(Error error) {
+		this.status = Status.FAILED;
+		this.error = error;
 	}
 
 	/**
@@ -85,6 +102,8 @@ public class FileUploadProgress implements Serializable {
 		builder.append(status);
 		builder.append(", codeListType=");
 		builder.append(codeListType);
+		builder.append(", error=");
+		builder.append(error);
 		builder.append("]");
 		return builder.toString();
 	}

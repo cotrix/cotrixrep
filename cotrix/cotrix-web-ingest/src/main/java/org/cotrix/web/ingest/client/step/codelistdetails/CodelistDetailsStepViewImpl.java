@@ -71,7 +71,7 @@ public class CodelistDetailsStepViewImpl extends ResizeComposite implements Code
 		assetName.setText(asset.getName());
 		assetType.setText(asset.getType());
 		addAssetProperties(asset.getProperties());
-		repository.setText(asset.getRepositoryName());
+		repository.setText(String.valueOf(asset.getRepositoryName()));
 	}
 
 	public void addAssetProperties(List<Property> properties)
