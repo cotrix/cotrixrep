@@ -19,5 +19,12 @@ public class BuilderUtils {
 		return states;
 
 	}
+	
+	static <S extends Identified.State, P extends Identified.Abstract<P, S>> S reveal(Object entity, Class<P> type) {
+
+		return Utils.reveal(entity,type).state();
+
+
+	}
 
 }

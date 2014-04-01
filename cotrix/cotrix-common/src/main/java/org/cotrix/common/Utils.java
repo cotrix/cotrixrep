@@ -147,7 +147,7 @@ public class Utils {
 	 */
 	public static <T> T reveal(Object o, Class<T> type) {
 		
-		notNull("object",o);
+		notNull("object", o);
 		
 		try {
 			return type.cast(o);

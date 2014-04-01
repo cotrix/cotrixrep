@@ -17,13 +17,14 @@ public class Constants {
 	public static final String version_prop="ver";
 	public static final String pwd_prop = "pwd";
 	public static final String state_prop = "state";
+	public static final String target_prop = "target";
 	
 	public static enum NodeType implements Label {
 		
-		ATTRIBUTE, CODE, CODELIST, IDENTITY, LIFECYCLE, USER;
+		ATTRIBUTE, CODE, CODELIST, IDENTITY, LIFECYCLE, USER, CODELISTLINK;
 	}
 	
 	public static enum Relations implements RelationshipType {
-		ATTRIBUTE, CODE
+		ATTRIBUTE, CODE, LINK
 	}
 }

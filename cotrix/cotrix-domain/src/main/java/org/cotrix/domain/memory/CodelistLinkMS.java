@@ -15,7 +15,7 @@ import org.cotrix.domain.trait.Status;
  */
 public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 
-	private Codelist target;
+	private Codelist.State target;
 	
 	public CodelistLinkMS() {
 	}
@@ -30,11 +30,11 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	}
 
 	
-	public Codelist target() {
+	public Codelist.State target() {
 		return target;
 	}
 	
-	public void target(Codelist list) {
+	public void target(Codelist.State list) {
 		notNull("list",list);
 		this.target=list;
 	}

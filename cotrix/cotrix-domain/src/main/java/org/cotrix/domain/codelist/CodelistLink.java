@@ -1,5 +1,7 @@
 package org.cotrix.domain.codelist;
 
+import static org.cotrix.domain.dsl.Codes.*;
+
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
@@ -18,9 +20,9 @@ public interface CodelistLink extends Identified, Attributed, Named {
 	
 	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
 
-		Codelist target();
+		Codelist.State target();
 
-		void target(Codelist id);
+		void target(Codelist.State state);
 	}
 
 	/**
@@ -35,7 +37,7 @@ public interface CodelistLink extends Identified, Attributed, Named {
 
 		@Override
 		public Codelist target() {
-			return state().target();
+			return state().target() == null ? null : new Codelist.Private(state().target());
 		}
 
 		@Override
@@ -43,9 +45,13 @@ public interface CodelistLink extends Identified, Attributed, Named {
 
 			super.update(changeset);
 
-			Codelist target = changeset.target();
-			if (target!=null && !state().target().equals(target))
-				state().target(target);
+	
+			if (changeset.target()!=null) {
+				Codelist.State target = reveal(changeset.target()).state();
+				if (!state().target().equals(target))
+					state().target(target);
+			}
+			
 		}
 
 	}
