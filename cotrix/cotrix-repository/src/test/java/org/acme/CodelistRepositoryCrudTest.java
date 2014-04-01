@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.test.ApplicationTest;
@@ -49,6 +50,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		assertEquals(list,retrieved);
 
 	}
+	
 
 	@Test
 	public void removeCode() {
@@ -91,6 +93,42 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 	}
 	
 	@Test
+	public void addLink() {
+
+		Codelist list = codelist().name("name").build();
+
+		repository.add(list);
+
+		
+		Codelist target = codelist().name("name").build();
+
+		repository.add(target);
+		
+		CodelistLink link = listLink().name("name").target(target).build();
+		
+		Codelist changeset =  modifyCodelist(list.id()).links(link).build();
+		
+		repository.update(changeset);
+		
+		Codelist retrieved = repository.lookup(list.id());
+		
+		assertTrue(retrieved.links().contains(q("name")));
+		
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void cannotAddCodelistWithInvalidLink() {
+
+		Codelist target = codelist().name("name").build();
+		CodelistLink link = listLink().name("name").target(target).build();
+		
+		Codelist list = codelist().name("name").links(link).build();
+	
+		repository.add(list);
+	
+	}
+	
+	@Test
 	public void updateCode() {
 
 		Code code = code().name("name").build();
@@ -104,6 +142,32 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		Codelist retrieved = repository.lookup(list.id());
 		
 		assertTrue(retrieved.codes().contains(q("name2")));
+		
+	}
+	
+	@Test
+	public void updateLink() {
+
+		Codelist target = codelist().name("name").build();
+
+		repository.add(target);
+		
+		
+		CodelistLink link = listLink().name("name").target(target).build();
+		
+		Codelist list = codelist().name("name").links(link).build();
+
+		repository.add(list);
+		
+		CodelistLink targetChangeset =  modifyListLink(link.id()).name("name2").build();
+		
+		Codelist changeset =  modifyCodelist(list.id()).links(targetChangeset).build();
+		
+		repository.update(changeset);
+		
+		Codelist retrieved = repository.lookup(list.id());
+		
+		assertTrue(retrieved.links().contains(q("name2")));
 		
 	}
 	
@@ -125,6 +189,31 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		Codelist retrieved = repository.lookup(list.id());
 
 		assertEquals(retrieved.attributes().lookup(q("n")).value(), "v2");
+	}
+	
+	@Test
+	public void removeLink() {
+
+		Codelist target = codelist().name("name").build();
+
+		repository.add(target);
+		
+		CodelistLink link = listLink().name("name").target(target).build();
+		
+		Codelist list = codelist().name("name").links(link).build();
+
+		repository.add(list);
+		
+		CodelistLink targetChangeset =  deleteListLink(link.id());
+		
+		Codelist changeset =  modifyCodelist(list.id()).links(targetChangeset).build();
+		
+		repository.update(changeset);
+		
+		Codelist retrieved = repository.lookup(list.id());
+		
+		assertFalse(retrieved.links().contains(q("name2")));
+		
 	}
 
 	@Test

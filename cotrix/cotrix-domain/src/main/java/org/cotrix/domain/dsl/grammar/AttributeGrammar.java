@@ -15,48 +15,19 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 public class AttributeGrammar {
 
 	
-	public static interface AttributeStartClause extends NameClause<ValueClause> {	}
+	public static interface AttributeStartClause extends NameClause<OptionalClause> {	}
 		
-	public static interface AttributeDeltaClause extends NameClause<ValueClause>, ValueClause, TypeClause, LanguageClause {}
-
-	public static interface ValueClause extends BuildClause<Attribute> {
+	public static interface AttributeDeltaClause extends NameClause<OptionalClause>, OptionalClause {}
+	
+	public static interface OptionalClause extends BuildClause<Attribute> {
 		
-		/**
-		 * Sets the value of the object.
-		 * 
-		 * @param value the value
-		 * @return the next clause in the sentence
-		 */
-		TypeClause value(String value);
+		OptionalClause value(String value);
+		
+		OptionalClause ofType(QName type);
+		
+		OptionalClause ofType(String type);
+	
+		OptionalClause in(String language);
 	}
 
-	public static interface TypeClause extends LanguageClause {
-
-		/**
-		 * Sets the type of the object.
-		 * 
-		 * @param type the type
-		 * @return the next clause in the sentence
-		 */
-		LanguageClause ofType(QName type);
-		
-		/**
-		 * Sets the type of the object.
-		 * 
-		 * @param type the type
-		 * @return the next clause in the sentence
-		 */
-		LanguageClause ofType(String type);
-	}
-
-	public static interface LanguageClause extends BuildClause<Attribute> {
-
-		/**
-		 * Sets the language of the object.
-		 * 
-		 * @param language the language
-		 * @return the next clause in the sentence
-		 */
-		BuildClause<Attribute> in(String language);
-	}
 }

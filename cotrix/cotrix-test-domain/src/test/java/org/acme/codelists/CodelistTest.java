@@ -8,6 +8,7 @@ import static org.cotrix.domain.trait.Status.*;
 import org.acme.DomainTest;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.memory.CodelistMS;
 import org.cotrix.domain.version.DefaultVersion;
@@ -38,6 +39,12 @@ public class CodelistTest extends DomainTest {
 		
 		assertEquals("1.0",list.version());
 		
+		CodelistLink link = listLink().name(name).target(list).build();
+		
+		list = codelist().name(name).links(link).build();
+		
+		assertTrue(list.links().contains(link));
+		
 		//other correct sentences
 		codelist().name(name).attributes(a).version("1").build();
 		codelist().name(name).with(c).version("1").build();
@@ -58,6 +65,10 @@ public class CodelistTest extends DomainTest {
 		list =  modifyCodelist("1").attributes(a).build();
 		list =  modifyCodelist("1").with(c).build();
 		list =  modifyCodelist("1").with(c).attributes(a).build();
+		
+		CodelistLink link = listLink().name(name).target(list).build();
+		
+		list =  modifyCodelist("1").links(link).build();
 		
 		//changed
 		assertEquals(MODIFIED,((Codelist.Private) list).status());

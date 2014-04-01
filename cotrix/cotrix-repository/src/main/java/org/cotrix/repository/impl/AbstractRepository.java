@@ -48,14 +48,14 @@ public abstract class AbstractRepository<T extends Identified,
 		P implementation = retype(entity);
 		
 		if (implementation.isChangeset())
-			throw new IllegalArgumentException("entity "+entity.id()+" is a changeset and cannot be added");
+			throw new IllegalArgumentException("entity "+log(entity)+"is a changeset and cannot be added");
 		
 		if (delegate.contains(implementation.id()))
-			throw new IllegalArgumentException("entity "+entity.id()+" is already in this repository");
+			throw new IllegalArgumentException("entity "+log(entity)+"is already in this repository");
 		
 		delegate.add(implementation.state());
 		
-		log.trace("added entity {}",entity.id());
+		log.trace("added entity {}",log(entity));
 	};
 	
 	
@@ -94,12 +94,12 @@ public abstract class AbstractRepository<T extends Identified,
 		Identified.Abstract implementation = retype(changeset);
 
 		if (!implementation.isChangeset())
-			throw new IllegalArgumentException(implementation.id()+" is not a changeset");
+			throw new IllegalArgumentException(log(changeset)+"is not a changeset");
 		
 		S state = delegate.lookup(implementation.id());
 		
 		if (state==null)
-			throw new IllegalStateException(implementation.id()+" is not in this repository, hence cannot be updated.");
+			throw new IllegalStateException(log(changeset)+" is not in this repository, hence cannot be updated.");
 			
 		Identified.Abstract entity = state.entity();
 		
@@ -138,4 +138,10 @@ public abstract class AbstractRepository<T extends Identified,
 	public <A,B> A retype(B entity) {
 		return (A) entity;
 	}
+	
+	
+	public String log(T entity) {
+		return entity.id()+" ("+entity.getClass().getName()+") ";
+	}
 }
+

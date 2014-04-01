@@ -14,7 +14,7 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.SecondClause;
+import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
 import org.cotrix.domain.memory.CodelistLinkMS;
 
 /**
@@ -55,7 +55,7 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	}
 	
 	@Override
-	public SecondClause target(Codelist target) {
+	public OptionalClause target(Codelist target) {
 		
 		notNull("codelist",target);
 
