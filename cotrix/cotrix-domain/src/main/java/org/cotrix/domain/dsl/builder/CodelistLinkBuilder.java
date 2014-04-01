@@ -14,7 +14,6 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.FinalClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.SecondClause;
 import org.cotrix.domain.memory.CodelistLinkMS;
 
@@ -24,7 +23,7 @@ import org.cotrix.domain.memory.CodelistLinkMS;
  * @author Fabio Simeoni
  *
  */
-public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkChangeClause, FinalClause {
+public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkChangeClause {
 
 	
 	private final CodelistLinkMS state;
@@ -34,42 +33,48 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	}
 	
 	@Override
-	public SecondClause name(QName name) {
+	public CodelistLinkBuilder name(QName name) {
 		state.name(name);
 		return this;
 	}
 	
 	@Override
-	public SecondClause name(String name) {
+	public CodelistLinkBuilder name(String name) {
 		return name(Codes.q(name));
 	}
 	
 	@Override
-	public FinalClause attributes(Attribute ... attributes) {
+	public CodelistLinkBuilder attributes(Attribute ... attributes) {
 		return attributes(Arrays.asList(attributes));
 	}
 	
 	@Override
-	public FinalClause attributes(List<Attribute> attributes) {
+	public CodelistLinkBuilder attributes(List<Attribute> attributes) {
 		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
 	}
 	
 	@Override
-	public FinalClause target(Codelist target) {
+	public SecondClause target(Codelist target) {
 		
 		notNull("codelist",target);
 
 		if (target.id()==null)
 			throw new IllegalArgumentException("cannot link to an unidentified codelist");
 		
-		state.image(target.id());
+		state.target(target);
 		
 		return this;
 	}
 	
 	@Override
 	public CodelistLink build() {
+		
+		//cannot capture 'by-flow' that two fields are mandatory @ create time, but independent at modify time
+		//so we allow the latter, and check explicitly for the former
+		if (state.status()==null && state.target()==null)
+			throw new IllegalStateException("no target for codelist link "+state.name());
+		
 		return state.entity();
 	}
 	

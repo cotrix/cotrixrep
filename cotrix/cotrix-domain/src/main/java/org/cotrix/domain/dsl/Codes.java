@@ -29,6 +29,7 @@ import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkStartClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
+import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
 import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.memory.CodeMS;
@@ -97,16 +98,16 @@ public class Codes {
 		return new CodelistBuilder(new CodelistMS(id,MODIFIED));
 	}
 		
-	public static CodelinkStartClause codeLink() {
+	public static CodelinkStartClause link() {
 		return new CodelinkBuilder(new CodelinkMS());
 	}
 	
-	public static CodelinkStartClause modifyCodelink(String id) {
+	public static CodelinkStartClause modifyLink(String id) {
 		return new CodelinkBuilder(new CodelinkMS(id,MODIFIED));
 	}
 	
 
-	public static Codelink deleteCodelink(String id) {
+	public static Codelink deleteLink(String id) {
 		return new CodelinkMS(id,DELETED).entity();
 	}
 
@@ -114,7 +115,7 @@ public class Codes {
 		return new CodelistLinkBuilder(new CodelistLinkMS());
 	}
 	
-	public static CodelistLinkNewClause modifyListLink(String id) {
+	public static CodelistLinkChangeClause modifyListLink(String id) {
 		return new CodelistLinkBuilder(new CodelistLinkMS(id, MODIFIED));
 	}
 	
@@ -170,5 +171,9 @@ public class Codes {
 	
 	public static Attribute.Private reveal(Attribute a) {
 		return Utils.reveal(a,Attribute.Private.class);
+	}
+	
+	public static CodelistLink.Private reveal(CodelistLink l) {
+		return Utils.reveal(l,CodelistLink.Private.class);
 	}
 }

@@ -5,29 +5,22 @@ import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
-/**
- * An {@link Identified}, {@link Attributed}, {@link Named} link between {@link Codelist}s.
- * 
- * @author Fabio Simeoni
- * 
- */
+
 public interface CodelistLink extends Identified, Attributed, Named {
 
 	/**
-	 * Returns the identifier of the codelist image.
+	 * Returns the identifier of the target codelist.
 	 * 
 	 * @return the identifier
 	 */
-	String image();
-
-	
-	
+	Codelist target();
+		
 	
 	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
 
-		String image();
+		Codelist target();
 
-		void image(String id);
+		void target(Codelist id);
 	}
 
 	/**
@@ -41,8 +34,8 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		}
 
 		@Override
-		public String image() {
-			return state().image();
+		public Codelist target() {
+			return state().target();
 		}
 
 		@Override
@@ -50,8 +43,9 @@ public interface CodelistLink extends Identified, Attributed, Named {
 
 			super.update(changeset);
 
-			if (!state().image().equals(changeset.image()))
-				state().image(changeset.image());
+			Codelist target = changeset.target();
+			if (target!=null && !state().target().equals(target))
+				state().target(target);
 		}
 
 	}

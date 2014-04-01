@@ -16,11 +16,10 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
  */
 public class CodelistLinkGrammar {
 
-	public static interface CodelistLinkNewClause extends NameClause<SecondClause>  {}
+	public static interface CodelistLinkNewClause extends NameClause<SecondClause>{}
 	
-	public static interface CodelistLinkChangeClause extends NameClause<SecondClause>, SecondClause, FinalClause {}
+	public static interface CodelistLinkChangeClause extends NameClause<SecondClause>, SecondClause {}
 
-	public static interface SecondClause extends AttributeClause<CodelistLink, FinalClause>,LinkTargetClause<Codelist,FinalClause> {}
-	
-	public static interface FinalClause extends AttributeClause<CodelistLink, FinalClause> {}
+	public static interface SecondClause extends LinkTargetClause<Codelist,SecondClause>,AttributeClause<CodelistLink, SecondClause> {
+	}
 }

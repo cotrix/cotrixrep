@@ -2,6 +2,7 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.Private;
 import org.cotrix.domain.trait.Status;
@@ -14,7 +15,7 @@ import org.cotrix.domain.trait.Status;
  */
 public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 
-	private String targetId;
+	private Codelist target;
 	
 	public CodelistLinkMS() {
 	}
@@ -25,17 +26,17 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	
 	public CodelistLinkMS(CodelistLink.State state) {
 		super(state);
-		image(state.image());
+		target(state.target());
 	}
 
 	
-	public String image() {
-		return targetId;
+	public Codelist target() {
+		return target;
 	}
 	
-	public void image(String id) {
-		notNull("id",id);
-		this.targetId=id;
+	public void target(Codelist list) {
+		notNull("list",list);
+		this.target=list;
 	}
 	
 	@Override
@@ -48,7 +49,7 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((targetId == null) ? 0 : targetId.hashCode());
+		result = prime * result + ((target == null) ? 0 : target.hashCode());
 		return result;
 	}
 
@@ -62,10 +63,10 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 		if (!(obj instanceof CodelistLink.State))
 			return false;
 		CodelistLink.State other = (CodelistLink.State) obj;
-		if (targetId == null) {
-			if (other.image() != null)
+		if (target == null) {
+			if (other.target() != null)
 				return false;
-		} else if (!targetId.equals(other.image()))
+		} else if (!target.equals(other.target()))
 			return false;
 		return true;
 	}
