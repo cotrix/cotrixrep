@@ -54,7 +54,7 @@ public class NeoUserRepository implements StateRepository<User.State> {
 	public void remove(String id) {
 		
 		//no need to check for null, infrastructure ensures codelist exists
-		NeoUtils.remove(nodeFor(id));
+		NeoUtils.removeEntityNode(nodeFor(id));
 	}
 	
 

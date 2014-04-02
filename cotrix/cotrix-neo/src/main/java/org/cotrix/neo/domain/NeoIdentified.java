@@ -44,6 +44,8 @@ public abstract class NeoIdentified implements Identified.State {
 		return null;
 	}
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

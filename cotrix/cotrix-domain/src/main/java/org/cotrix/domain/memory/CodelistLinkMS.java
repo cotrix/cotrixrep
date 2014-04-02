@@ -1,10 +1,12 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.links.NameLink.*;
 
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.Private;
+import org.cotrix.domain.codelist.LinkType;
 import org.cotrix.domain.trait.Status;
 
 /**
@@ -16,8 +18,10 @@ import org.cotrix.domain.trait.Status;
 public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 
 	private Codelist.State target;
+	private LinkType type;
 	
 	public CodelistLinkMS() {
+		type(INSTANCE);
 	}
 	
 	public CodelistLinkMS(String id,Status status) {
@@ -27,8 +31,17 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	public CodelistLinkMS(CodelistLink.State state) {
 		super(state);
 		target(state.target());
+		type(state.type());
 	}
 
+	public LinkType type() {
+		return type;
+	}
+	
+	public void type(LinkType type) {
+		notNull("link type",type);
+		this.type=type;
+	}
 	
 	public Codelist.State target() {
 		return target;

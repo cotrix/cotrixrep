@@ -1,14 +1,20 @@
 package org.cotrix.neo.domain;
 
+import static org.cotrix.neo.NeoUtils.*;
+import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
+import static org.neo4j.graphdb.Direction.*;
 
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkType;
+import org.cotrix.domain.links.NameLink;
+import org.cotrix.neo.NeoNodeFactory;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
-import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 
 public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 
@@ -43,15 +49,47 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	
 	@Override
 	public Codelist.State target() {
-
-		Node node = node().getSingleRelationship(Relations.LINK,Direction.OUTGOING).getEndNode();
-		return NeoCodelist.factory.beanFrom(node);
+		
+		Relationship rel = node().getSingleRelationship(Relations.LINK,OUTGOING);
+		
+		//links should always have a target
+		if (rel==null)
+			throw new IllegalStateException("link is dangling");
+		
+		return NeoCodelist.factory.beanFrom(rel.getEndNode());
 	}
 	
 	@Override
 	public void target(State state) {
 		
-		node().createRelationshipTo(NeoCodelist.factory.nodeFrom(state), Relations.LINK);
+		Relationship rel = node().getSingleRelationship(Relations.LINK, OUTGOING);
+		
+		//'exactly one' semantics 
+		if (rel!=null)
+			rel.delete();
+		
+		Node target = NeoNodeFactory.node(CODELIST,state.id());
+		
+		if (target==null)
+			throw new IllegalStateException("link is dangling");
+		
+		node().createRelationshipTo(target, Relations.LINK);
+		
+	}
+	
+	@Override
+	public LinkType type() {
+		
+		return node().hasProperty(type_prop)? 
+					(LinkType) binder().fromXML((String) node().getProperty(type_prop))
+					: NameLink.INSTANCE;
+	}
+	
+	@Override
+	public void type(LinkType type) {
+		
+		if(type()!=NameLink.INSTANCE)
+			node().setProperty(type_prop,binder().toXML(type));
 		
 	}
 	

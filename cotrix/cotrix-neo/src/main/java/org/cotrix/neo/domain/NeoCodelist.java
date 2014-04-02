@@ -23,6 +23,7 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 		
 		@Override
 		public Node nodeFrom(Codelist.State state) {
+			
 			return new NeoCodelist(state).node();
 		}
 	};

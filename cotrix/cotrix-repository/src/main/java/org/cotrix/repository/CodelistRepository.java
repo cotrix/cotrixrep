@@ -10,4 +10,18 @@ import org.cotrix.domain.codelist.Codelist;
  * @author Fabio Simeoni
  *
  */
-public interface CodelistRepository extends Repository<Codelist> {}
+public interface CodelistRepository extends Repository<Codelist> {
+	
+	@Override
+	public void remove(String id) throws UnremovableCodelistException;
+	
+	
+	
+	@SuppressWarnings("serial")
+	static class UnremovableCodelistException extends IllegalStateException {
+		
+		public UnremovableCodelistException(String msg) {
+			super(msg);
+		}
+	}
+}

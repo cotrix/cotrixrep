@@ -49,7 +49,7 @@ public class NeoContainer<S extends Named.State> implements NamedStateContainer<
 			Relationship rel = it.next();
 			Node n = rel.getEndNode();
 			if (id.equals(n.getProperty(id_prop))) {
-				NeoUtils.remove(n);
+				NeoUtils.removeNode(n);
 				rel.delete();
 				break;
 			}

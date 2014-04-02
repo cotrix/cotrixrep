@@ -22,6 +22,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.common.Utils;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.user.FingerPrint;
@@ -43,6 +44,21 @@ import org.cotrix.repository.spi.CodelistQueryFactory;
 @ApplicationScoped @Alternative @Priority(DEFAULT)
 public class MCodelistRepository extends MemoryRepository<Codelist.State> implements CodelistQueryFactory {
 
+	
+	
+	@Override
+	public void remove(String id) {
+		
+		notNull("identifier", id);
+		
+		for (Codelist.State list : getAll())
+			for (CodelistLink.State link : list.links())
+				if (link.target().id().equals(id))
+					throw new CodelistRepository.UnremovableCodelistException("cannot remove codelist "+list.id()+": others depend on it");
+				
+		super.remove(id);
+	}
+	
 	
 	@Override
 	public MultiQuery<Codelist, Codelist> allLists() {

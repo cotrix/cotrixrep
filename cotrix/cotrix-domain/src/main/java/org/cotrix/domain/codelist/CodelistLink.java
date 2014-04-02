@@ -16,11 +16,21 @@ public interface CodelistLink extends Identified, Attributed, Named {
 	 * @return the identifier
 	 */
 	Codelist target();
+	
+	/**
+	 * Returns the type of the link.
+	 * @return the type
+	 */
+	LinkType type();
 		
 	
 	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
 
 		Codelist.State target();
+		
+		LinkType type();
+		
+		void type(LinkType type);
 
 		void target(Codelist.State state);
 	}
@@ -38,6 +48,11 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		@Override
 		public Codelist target() {
 			return state().target() == null ? null : new Codelist.Private(state().target());
+		}
+		
+		@Override
+		public LinkType type() {
+			return state().type();
 		}
 
 		@Override

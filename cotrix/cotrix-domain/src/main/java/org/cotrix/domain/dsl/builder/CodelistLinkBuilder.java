@@ -15,6 +15,7 @@ import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
+import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.memory.CodelistLinkMS;
 
 /**
@@ -41,6 +42,24 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	@Override
 	public CodelistLinkBuilder name(String name) {
 		return name(Codes.q(name));
+	}
+	
+	@Override
+	public OptionalClause onAttribute(Attribute template) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public OptionalClause onLink(CodelistLink template) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public OptionalClause onName() {
+		state.type(NameLink.INSTANCE);
+		return this;
 	}
 	
 	@Override
@@ -72,9 +91,15 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 		
 		//cannot capture 'by-flow' that two fields are mandatory @ create time, but independent at modify time
 		//so we allow the latter, and check explicitly for the former
-		if (state.status()==null && state.target()==null)
-			throw new IllegalStateException("no target for codelist link "+state.name());
+		if (state.status()==null) {
+			
+			if (state.target()==null)
+				throw new IllegalStateException("no target specified for codelist link "+state.name());
 		
+			if (state.type()==null)
+				throw new IllegalStateException("no type specified for codelist link "+state.name());
+		}	
+	
 		return state.entity();
 	}
 	

@@ -9,6 +9,7 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.links.NameLink;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
@@ -99,7 +100,6 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 
 		repository.add(list);
 
-		
 		Codelist target = codelist().name("name").build();
 
 		repository.add(target);
@@ -112,7 +112,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		
 		Codelist retrieved = repository.lookup(list.id());
 		
-		assertTrue(retrieved.links().contains(q("name")));
+		assertEquals(NameLink.INSTANCE,retrieved.links().lookup(q("name")).type());
 		
 	}
 	
@@ -146,7 +146,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void updateLink() {
+	public void updateLinkName() {
 
 		Codelist target = codelist().name("name").build();
 
@@ -168,6 +168,35 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		Codelist retrieved = repository.lookup(list.id());
 		
 		assertTrue(retrieved.links().contains(q("name2")));
+		
+	}
+	
+	@Test
+	public void updateLinkTarget() {
+
+		Codelist target1 = codelist().name("name1").build();
+
+		repository.add(target1);
+		
+		Codelist target2 = codelist().name("name2").build();
+
+		repository.add(target2);
+		
+		CodelistLink link = listLink().name("name").target(target1).build();
+		
+		Codelist list = codelist().name("name").links(link).build();
+
+		repository.add(list);
+		
+		CodelistLink targetChangeset =  modifyListLink(link.id()).target(target2).build();
+		
+		Codelist changeset =  modifyCodelist(list.id()).links(targetChangeset).build();
+		
+		repository.update(changeset);
+		
+		Codelist retrieved = repository.lookup(list.id());
+		
+		assertEquals(target2,retrieved.links().lookup(q("name")).target());
 		
 	}
 	
@@ -233,6 +262,50 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		
 		assertNull(retrieved);
 
+	}
+	
+	@Test(expected=CodelistRepository.UnremovableCodelistException.class)
+	public void codelistCannotBeRemovedIfOthersLinkToIt() {
+
+		
+		Codelist list = codelist().name("name").build();
+
+		repository.add(list);
+		
+		
+		//establish a link
+		CodelistLink link = listLink().name("name").target(list).build();
+		
+		Codelist ref = codelist().name("name").links(link).build();
+
+		repository.add(ref);
+		
+		repository.remove(list.id());
+
+	}
+	
+	@Test
+	public void removeLinkingCodelistDoesNotRemoveLinkedCodelist() {
+
+		
+		Codelist list = codelist().name("name").build();
+
+		repository.add(list);
+		
+		
+		//establish a link
+		CodelistLink link = listLink().name("name").target(list).build();
+		
+		Codelist ref = codelist().name("name").links(link).build();
+
+		repository.add(ref);
+		
+		repository.remove(ref.id());
+		
+		
+		assertNotNull(repository.lookup(list.id()));
+
+		
 	}
 	
 	@Test(expected=IllegalStateException.class)
