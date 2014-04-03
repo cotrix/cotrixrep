@@ -40,8 +40,12 @@ public abstract class NeoIdentified implements Identified.State {
 
 	@Override
 	public Status status() {
-		//changesets are never persisted|retrieved
-		return null;
+		return Status.PERSISTED;
+	}
+	
+	@Override
+	public void status(Status status) {
+		//nothing to do
 	}
 
 	

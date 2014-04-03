@@ -18,11 +18,12 @@ public class CodelistLinkTest extends DomainTest {
 	@Test
 	public void linkCanBeFluentlyConstructed() {
 		
-		Codelist list = codelist().name("name").build();
+		Codelist list = someTarget();
 		
 		CodelistLink link  = listLink().name(name).target(list).onName().build();
 		
 		assertEquals(name,link.name());
+		
 		assertEquals(list,link.target());
 		
 		Attribute a = attribute().name(name).build();
@@ -41,7 +42,7 @@ public class CodelistLinkTest extends DomainTest {
 
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		
-		Codelist list = codelist().name("name").build();
+		Codelist list = someTarget();
 		
 		CodelistLink link;
 		
@@ -60,8 +61,8 @@ public class CodelistLinkTest extends DomainTest {
 	public void cloned() {
 		
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
-		Codelist list = like(codelist().name(name).build());
-		CodelistLink link = listLink().name(name).target(list).onName().attributes(a).build();
+		
+		CodelistLink link = listLink().name(name).target(someTarget()).onName().attributes(a).build();
 		
 		CodelistLink.State state = reveal(link).state();
 		CodelistLinkMS clone = new CodelistLinkMS(state);
@@ -75,9 +76,7 @@ public class CodelistLinkTest extends DomainTest {
 	@Test
 	public void changeName() {
 		
-		Codelist list = like(codelist().name(name).build());
-		
-		CodelistLink link = like(listLink().name(name).target(list).onName().build());
+		CodelistLink link = like(listLink().name(name).target(someTarget("name")).onName().build());
 		
 		CodelistLink changeset = modifyListLink(link.id()).name(name2).build();
 		
@@ -90,17 +89,29 @@ public class CodelistLinkTest extends DomainTest {
 	@Test
 	public void changeTarget() {
 		
-		Codelist list = like(codelist().name(name).build());
-		Codelist list2 = like(codelist().name(name2).build());
 		
-		CodelistLink link = like(listLink().name(name).target(list).onName().build());
+		CodelistLink link = like(listLink().name(name).target(someTarget("name")).onName().build());
 		
-		CodelistLink changeset = modifyListLink(link.id()).target(list2).build();
+		Codelist anotherTarget = someTarget("name2");
+		
+		CodelistLink changeset = modifyListLink(link.id()).target(anotherTarget).build();
 		
 		reveal(link).update(reveal(changeset));
 		
-		assertEquals(list2,link.target());
+		assertEquals(anotherTarget,link.target());
 		
+	}
+	
+	private Codelist someTarget() {
+		
+		return someTarget("name");
+	}
+
+	private Codelist someTarget(String name) {
+		
+		Codelist list = like(codelist().name(name).build());
+		reveal(list).state().status(PERSISTED);
+		return list;
 	}
 
 

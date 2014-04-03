@@ -28,7 +28,7 @@ public class IdentifiedMS implements Identified.State {
 	 */
 	
 	private final String id;
-	private final Status status;
+	private Status status;
 
 	
 	public IdentifiedMS() {
@@ -60,6 +60,12 @@ public class IdentifiedMS implements Identified.State {
 	public Status status() {
 		return status;
 	}
+	
+	@Override
+	public void status(Status status) {
+		notNull("status", status);
+		this.status = status;
+	}
 
 	//gotta be careful here and use immutable properties or state changes
 	//will invalidate hash-based structures
@@ -84,8 +90,6 @@ public class IdentifiedMS implements Identified.State {
 			if (other.id() != null)
 				return false;
 		} else if (!id.equals(other.id()) && !testmode)
-			return false;
-		if (status != other.status())
 			return false;
 		return true;
 	}

@@ -1,7 +1,9 @@
 package org.cotrix.domain.dsl.builder;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
+import static org.cotrix.domain.trait.Status.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,14 +48,12 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	
 	@Override
 	public OptionalClause onAttribute(Attribute template) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
 	public OptionalClause onLink(CodelistLink template) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
@@ -78,8 +78,8 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 		
 		notNull("codelist",target);
 
-		if (target.id()==null)
-			throw new IllegalArgumentException("cannot link to an unidentified codelist");
+		if (reveal(target).status()!=PERSISTED)
+			throw new IllegalArgumentException("invalid link: target has not been persisted");
 		
 		state.target(reveal(target,Codelist.Private.class));
 		

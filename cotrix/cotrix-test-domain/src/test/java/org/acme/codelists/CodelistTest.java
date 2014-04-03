@@ -39,6 +39,8 @@ public class CodelistTest extends DomainTest {
 		
 		assertEquals("1.0",list.version());
 		
+		reveal(list).state().status(PERSISTED);
+		
 		CodelistLink link = listLink().name(name).target(list).onName().build();
 		
 		list = codelist().name(name).links(link).build();
@@ -65,6 +67,8 @@ public class CodelistTest extends DomainTest {
 		list =  modifyCodelist("1").attributes(a).build();
 		list =  modifyCodelist("1").with(c).build();
 		list =  modifyCodelist("1").with(c).attributes(a).build();
+		
+		reveal(list).state().status(PERSISTED);
 		
 		CodelistLink link = listLink().name(name).target(list).onName().build();
 		
