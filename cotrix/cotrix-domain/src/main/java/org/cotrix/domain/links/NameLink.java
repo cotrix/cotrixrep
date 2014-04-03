@@ -10,7 +10,7 @@ public class NameLink implements LinkType {
 	private NameLink() {}
 	
 	@Override
-	public String value(Code code) {
-		return code.name().toString();
+	public Object value(Code code) {
+		return code.name();
 	}
 }

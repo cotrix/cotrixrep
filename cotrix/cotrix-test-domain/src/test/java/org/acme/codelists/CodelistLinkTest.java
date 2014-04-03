@@ -9,8 +9,10 @@ import org.acme.DomainTest;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.memory.CodelistLinkMS;
+import org.cotrix.domain.utils.AttributeTemplate;
 import org.junit.Test;
 
 public class CodelistLinkTest extends DomainTest {
@@ -35,6 +37,11 @@ public class CodelistLinkTest extends DomainTest {
 		link  = listLink().name(name).target(list).onName().build();
 		
 		assertEquals(NameLink.INSTANCE,link.type());
+		
+		Attribute template = attribute().name(q("this")).ofType(q("that")).in("this").build();
+		link  = listLink().name(name).target(list).onAttribute(template).build();
+		
+		assertEquals(new AttributeLink(new AttributeTemplate(template)),link.type());
 	}
 	
 	@Test

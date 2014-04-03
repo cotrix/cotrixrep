@@ -22,6 +22,8 @@ public class Constants {
 	public static final QName UPDATE_TIME = q(NS,"updated");
 	
 	
+	public static final String UNDEFINED_LINK_VALUE = "_!!_undefined_!!_";
+	
 	
 	public static final String NULL_STRING ="__ignore__";
 	public static final QName NULL_QNAME = q("__ignore__");

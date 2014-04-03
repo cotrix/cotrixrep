@@ -17,8 +17,10 @@ import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
+import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.memory.CodelistLinkMS;
+import org.cotrix.domain.utils.AttributeTemplate;
 
 /**
  * Builds {@link Attribute}s.
@@ -48,7 +50,8 @@ public class CodelistLinkBuilder implements CodelistLinkNewClause, CodelistLinkC
 	
 	@Override
 	public OptionalClause onAttribute(Attribute template) {
-		throw new UnsupportedOperationException();
+		state.type(new AttributeLink(new AttributeTemplate(template))); 
+		return this;
 	}
 	
 	@Override
