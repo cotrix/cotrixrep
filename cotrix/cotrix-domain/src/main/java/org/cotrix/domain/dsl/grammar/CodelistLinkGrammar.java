@@ -17,19 +17,19 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
  */
 public class CodelistLinkGrammar {
 
-	public static interface CodelistLinkNewClause extends NameClause<OptionalClause>{}
+	public static interface CodelistLinkNewClause extends NameClause<LinkTargetClause<Codelist,OptionalClause>>{}
 	
 	public static interface CodelistLinkChangeClause extends NameClause<OptionalClause>, OptionalClause {}
 	
 	public static interface TypeClause {
 		
-		OptionalClause onName();
+		OptionalClause anchorToName();
 		
-		OptionalClause onAttribute(Attribute template);
+		OptionalClause anchorTo(Attribute template);
 		
-		OptionalClause onLink(CodelistLink template);
+		OptionalClause anchorTo(CodelistLink template);
 	}
 
-	public static interface OptionalClause extends LinkTargetClause<Codelist,OptionalClause>,TypeClause, AttributeClause<CodelistLink, OptionalClause> {
+	public static interface OptionalClause extends TypeClause, AttributeClause<CodelistLink, OptionalClause> {
 	}
 }

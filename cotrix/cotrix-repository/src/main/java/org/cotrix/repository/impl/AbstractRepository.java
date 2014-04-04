@@ -5,7 +5,6 @@ import static org.cotrix.common.Utils.*;
 import org.cotrix.common.Utils;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.trait.Status;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.Repository;
 import org.cotrix.repository.spi.StateRepository;
@@ -53,8 +52,6 @@ public abstract class AbstractRepository<T extends Identified,
 		
 		if (delegate.contains(implementation.id()))
 			throw new IllegalArgumentException("entity "+log(entity)+"is already in this repository");
-		
-		implementation.state().status(Status.PERSISTED);
 		
 		delegate.add(implementation.state());
 		

@@ -26,7 +26,8 @@ import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeDeltaClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
-import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkStartClause;
+import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
+import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
@@ -98,11 +99,11 @@ public class Codes {
 		return new CodelistBuilder(new CodelistMS(id,MODIFIED));
 	}
 		
-	public static CodelinkStartClause link() {
-		return new CodelinkBuilder(new CodelinkMS());
+	public static CodelinkNewClause link() {
+		return new CodelinkBuilder(new CodelinkMS()).new NewClause();
 	}
 	
-	public static CodelinkStartClause modifyLink(String id) {
+	public static CodelinkChangeClause modifyLink(String id) {
 		return new CodelinkBuilder(new CodelinkMS(id,MODIFIED));
 	}
 	
@@ -112,11 +113,11 @@ public class Codes {
 	}
 
 	public static CodelistLinkNewClause listLink() {
-		return new CodelistLinkBuilder(new CodelistLinkMS());
+		return new CodelistLinkBuilder(new CodelistLinkMS()).new NewClause();
 	}
 	
 	public static CodelistLinkChangeClause modifyListLink(String id) {
-		return new CodelistLinkBuilder(new CodelistLinkMS(id, MODIFIED));
+		return new CodelistLinkBuilder(new CodelistLinkMS(id, MODIFIED)).new ChangeClause();
 	}
 	
 	public static CodelistLink deleteListLink(String id) {
@@ -175,5 +176,9 @@ public class Codes {
 	
 	public static CodelistLink.Private reveal(CodelistLink l) {
 		return Utils.reveal(l,CodelistLink.Private.class);
+	}
+	
+	public static Codelink.Private reveal(Codelink l) {
+		return Utils.reveal(l,Codelink.Private.class);
 	}
 }

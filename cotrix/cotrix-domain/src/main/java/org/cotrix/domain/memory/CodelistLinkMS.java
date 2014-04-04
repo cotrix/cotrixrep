@@ -6,7 +6,7 @@ import static org.cotrix.domain.links.NameLink.*;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.Private;
-import org.cotrix.domain.codelist.LinkType;
+import org.cotrix.domain.links.LinkType;
 import org.cotrix.domain.trait.Status;
 
 /**

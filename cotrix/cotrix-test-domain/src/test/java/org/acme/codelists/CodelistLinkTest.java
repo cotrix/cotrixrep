@@ -18,28 +18,28 @@ import org.junit.Test;
 public class CodelistLinkTest extends DomainTest {
 
 	@Test
-	public void linkCanBeFluentlyConstructed() {
+	public void linksCanBeFluentlyConstructed() {
 		
 		Codelist list = someTarget();
 		
-		CodelistLink link  = listLink().name(name).target(list).onName().build();
+		CodelistLink link  = listLink().name(name).target(list).build();
 		
 		assertEquals(name,link.name());
-		
 		assertEquals(list,link.target());
+		assertEquals(NameLink.INSTANCE,link.type());
 		
 		Attribute a = attribute().name(name).build();
 		
-		link  = listLink().name(name).target(list).attributes(a).onName().build();
+		link  = listLink().name(name).target(list).attributes(a).anchorToName().build();
 		
 		assertTrue(link.attributes().contains(a));
 		
-		link  = listLink().name(name).target(list).onName().build();
+		link  = listLink().name(name).target(list).anchorToName().build();
 		
 		assertEquals(NameLink.INSTANCE,link.type());
 		
 		Attribute template = attribute().name(q("this")).ofType(q("that")).in("this").build();
-		link  = listLink().name(name).target(list).onAttribute(template).build();
+		link  = listLink().name(name).target(list).anchorTo(template).build();
 		
 		assertEquals(new AttributeLink(new AttributeTemplate(template)),link.type());
 	}
@@ -49,15 +49,13 @@ public class CodelistLinkTest extends DomainTest {
 
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		
-		Codelist list = someTarget();
-		
 		CodelistLink link;
 		
 		link = modifyListLink("1").name(name).build();
-		link =  modifyListLink("1").target(list).build();
 		link =  modifyListLink("1").attributes(a).build();
-		link =  modifyListLink("1").target(list).attributes(a).build();
-		link =  modifyListLink("1").target(list).attributes(a).build();
+		link =  modifyListLink("1").anchorTo(a).build();
+		link =  modifyListLink("1").anchorToName().build();
+		//link =  modifyListLink("1").anchorTo(link).build();
 		
 		//changed
 		assertEquals(MODIFIED,((CodelistLink.Private) link).status());
@@ -69,7 +67,7 @@ public class CodelistLinkTest extends DomainTest {
 		
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		
-		CodelistLink link = listLink().name(name).target(someTarget()).onName().attributes(a).build();
+		CodelistLink link = listLink().name(name).target(someTarget()).anchorToName().attributes(a).build();
 		
 		CodelistLink.State state = reveal(link).state();
 		CodelistLinkMS clone = new CodelistLinkMS(state);
@@ -83,7 +81,7 @@ public class CodelistLinkTest extends DomainTest {
 	@Test
 	public void changeName() {
 		
-		CodelistLink link = like(listLink().name(name).target(someTarget("name")).onName().build());
+		CodelistLink link = like(listLink().name(name).target(someTarget("name")).anchorToName().build());
 		
 		CodelistLink changeset = modifyListLink(link.id()).name(name2).build();
 		
@@ -94,18 +92,18 @@ public class CodelistLinkTest extends DomainTest {
 	}
 	
 	@Test
-	public void changeTarget() {
+	public void changeType() {
 		
 		
-		CodelistLink link = like(listLink().name(name).target(someTarget("name")).onName().build());
+		CodelistLink link = like(listLink().name(name).target(someTarget()).anchorToName().build());
 		
-		Codelist anotherTarget = someTarget("name2");
+		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		
-		CodelistLink changeset = modifyListLink(link.id()).target(anotherTarget).build();
+		CodelistLink changeset = modifyListLink(link.id()).anchorTo(a).build();
 		
 		reveal(link).update(reveal(changeset));
 		
-		assertEquals(anotherTarget,link.target());
+		assertEquals(new AttributeLink(new AttributeTemplate(a)),link.type());
 		
 	}
 	
@@ -116,9 +114,7 @@ public class CodelistLinkTest extends DomainTest {
 
 	private Codelist someTarget(String name) {
 		
-		Codelist list = like(codelist().name(name).build());
-		reveal(list).state().status(PERSISTED);
-		return list;
+		return like(codelist().name(name).build());
 	}
 
 

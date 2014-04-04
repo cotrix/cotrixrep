@@ -36,11 +36,12 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 
 		super(CODELIST,state);	
 		
+		for (CodelistLink.State l : state.links())
+			node().createRelationshipTo(NeoCodelistLink.factory.nodeFrom(l),Relations.LINK);
+		
 		for (Code.State c : state.codes())
 			node().createRelationshipTo(NeoCode.factory.nodeFrom(c),Relations.CODE);
 		
-		for (CodelistLink.State l : state.links())
-			node().createRelationshipTo(NeoCodelistLink.factory.nodeFrom(l),Relations.LINK);
 		
 	}
 	

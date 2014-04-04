@@ -28,8 +28,6 @@ public interface Identified {
 		String id();
 		
 		Status status();
-		
-		void status(Status status);
 
 	}
 	

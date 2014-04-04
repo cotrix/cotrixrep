@@ -1,7 +1,6 @@
 package org.cotrix.domain.codelist;
 
-import static org.cotrix.domain.dsl.Codes.*;
-
+import org.cotrix.domain.links.LinkType;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
@@ -59,14 +58,13 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		public void update(CodelistLink.Private changeset) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(changeset);
-
-	
-			if (changeset.target()!=null) {
-				Codelist.State target = reveal(changeset.target()).state();
-				if (!state().target().equals(target))
-					state().target(target);
-			}
 			
+			LinkType newtype = changeset.state().type();
+			
+			if (newtype!=null)
+				state().type(newtype);
+			
+			//ignore target, DSL should have prevented this statically anyway
 		}
 
 	}

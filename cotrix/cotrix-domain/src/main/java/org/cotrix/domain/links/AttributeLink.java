@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.LinkType;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.utils.AttributeTemplate;
 
@@ -18,13 +17,13 @@ public class AttributeLink implements LinkType {
 	
 	
 	@Override
-	public Object value(Code code) {
+	public Object value(Code.State code) {
 	
 		List<Object> matches = new ArrayList<>();
 		
-		for (Attribute a : code.attributes())
+		for (Attribute.State a : code.attributes())
 			if (template.matches(a))
-				matches.add(a);
+				matches.add(a.value());
 		
 		
 		return matches;

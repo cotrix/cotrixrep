@@ -1,7 +1,6 @@
 package org.cotrix.domain.links;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.LinkType;
 
 public class NameLink implements LinkType {
 
@@ -10,7 +9,7 @@ public class NameLink implements LinkType {
 	private NameLink() {}
 	
 	@Override
-	public Object value(Code code) {
+	public Object value(Code.State code) {
 		return code.name();
 	}
 }

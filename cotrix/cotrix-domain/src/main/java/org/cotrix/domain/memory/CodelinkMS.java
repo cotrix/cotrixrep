@@ -2,15 +2,16 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
+import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.Codelink.Private;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.trait.Status;
 
 public final class CodelinkMS extends AttributedMS implements Codelink.State {
 
-	private String targetId;
-	private CodelistLink.State definition;
+	private Code.State target;
+	private CodelistLink.State type;
 
 	public CodelinkMS() {
 	}
@@ -19,39 +20,37 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 		super(id,status);
 	}
 	
-	public CodelinkMS(Codelink.State state) {
-		super(state);
-		target(state.target());
-		definition(new CodelistLinkMS(state.type()));
+	public CodelinkMS(Codelink.State target) {
+		
+		super(target);
+		
+		target(target.target());
+		
+		type(new CodelistLinkMS(target.type()));
 	}
 
-	public String target() {
-		return targetId;
+	public Code.State target() {
+		return target;
 	}
 
-	public void target(String id) {
+	public void target(Code.State target) {
 
-		notNull("id",id);
+		notNull("target",target);
 
-		this.targetId = id;
+		this.target = target;
 	}
 
 	public CodelistLink.State type() {
-		return definition;
-	}
-
-	public void definition(CodelistLink.State definition) {
 		
-		notNull("definition",definition);
-
-		this.definition = definition;
-	}
+		return type;
 	
-	public void definition(CodelistLink definition) {
-		
-		notNull("definition",definition);
+	}
 
-		definition(reveal(definition,CodelistLink.Private.class));
+	public void type(CodelistLink.State type) {
+		
+		notNull("type",type);
+
+		this.type = type;
 	}
 	
 	@Override
@@ -68,15 +67,15 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 		if (!(obj instanceof Codelink.State))
 			return false;
 		Codelink.State other = (Codelink.State) obj;
-		if (definition == null) {
+		if (type == null) {
 			if (other.type() != null)
 				return false;
-		} else if (!definition.equals(other.type()))
+		} else if (!type.equals(other.type()))
 			return false;
-		if (targetId == null) {
+		if (target == null) {
 			if (other.target() != null)
 				return false;
-		} else if (!targetId.equals(other.target()))
+		} else if (!target.equals(other.target()))
 			return false;
 		return true;
 	}

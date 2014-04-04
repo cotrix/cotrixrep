@@ -20,19 +20,23 @@ public interface Codelink extends Identified, Attributed {
 	CodelistLink type();
 
 	/**
-	 * Returns the identifier of the target of this link.
+	 * Returns the value of this link.
 	 * 
 	 * @return the target identifier
 	 */
-	String target();
+	Object value();
+	
 
 	static interface State extends Identified.State, Attributed.State, EntityProvider<Private> {
 
 		CodelistLink.State type();
+		
+		void type(CodelistLink.State state);
 
-		String target();
+		Code.State target();
 
-		void target(String id);
+		void target(Code.State code);
+		
 	}
 
 	/**
@@ -46,10 +50,16 @@ public interface Codelink extends Identified, Attributed {
 		}
 
 		@Override
-		public String target() {
-			return state().target();
+		public Object value() {
+		
+			Code.State target = state().target();
+			
+			//dynamic resolution (includes orphan link case)
+			return target== null? null : type().type().value(state().target());
+			
 		}
-
+		
+		
 		@Override
 		public CodelistLink.Private type() {
 			return new CodelistLink.Private(state().type());
@@ -60,10 +70,12 @@ public interface Codelink extends Identified, Attributed {
 
 			super.update(changeset);
 
-			type().update(changeset.type());
-
-			if (!target().equals(changeset.target()))
-				state().target(changeset.target());
+			Code.State newtarget = changeset.state().target();
+			
+			if (newtarget!=null)
+				state().target(newtarget);
+			
+			//wont'update type
 		}
 
 	}

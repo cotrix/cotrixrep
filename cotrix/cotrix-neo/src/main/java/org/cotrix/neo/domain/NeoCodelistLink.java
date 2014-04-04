@@ -8,9 +8,8 @@ import static org.neo4j.graphdb.Direction.*;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.codelist.LinkType;
+import org.cotrix.domain.links.LinkType;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.neo.NeoNodeFactory;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
@@ -62,18 +61,11 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	@Override
 	public void target(State state) {
 		
-		Relationship rel = node().getSingleRelationship(Relations.LINK, OUTGOING);
+		Node target = node(state);
 		
-		//'exactly one' semantics 
-		if (rel!=null)
-			rel.delete();
-		
-		Node target = NeoNodeFactory.node(CODELIST,state.id());
-		
-		if (target==null)
-			throw new IllegalStateException("link is dangling");
-		
-		node().createRelationshipTo(target, Relations.LINK);
+		//allow dangling semantics
+		if (target!=null)
+			node().createRelationshipTo(target, Relations.LINK);
 		
 	}
 	
@@ -88,7 +80,7 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	@Override
 	public void type(LinkType type) {
 		
-		if(type()!=NameLink.INSTANCE)
+		if(type!=NameLink.INSTANCE)
 			node().setProperty(type_prop,binder().toXML(type));
 		
 	}

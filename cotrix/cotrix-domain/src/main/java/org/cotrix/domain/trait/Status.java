@@ -9,5 +9,5 @@ package org.cotrix.domain.trait;
  */
 public enum Status {
 
-	MODIFIED,DELETED,PERSISTED;	
+	MODIFIED,DELETED;	
 }

@@ -60,12 +60,6 @@ public class IdentifiedMS implements Identified.State {
 	public Status status() {
 		return status;
 	}
-	
-	@Override
-	public void status(Status status) {
-		notNull("status", status);
-		this.status = status;
-	}
 
 	//gotta be careful here and use immutable properties or state changes
 	//will invalidate hash-based structures

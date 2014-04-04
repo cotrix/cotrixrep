@@ -76,7 +76,7 @@ public class AttributeTest extends DomainTest {
 		Attribute.State state = reveal(a).state();
 		AttributeMS clone = new AttributeMS(state);
 		
-		assertEquals(state,clone);
+		assertEquals(clone,state);
 		
 	}
 	

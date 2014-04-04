@@ -40,12 +40,16 @@ public abstract class NeoIdentified implements Identified.State {
 
 	@Override
 	public Status status() {
-		return Status.PERSISTED;
+		//persistent objects are never used as changesets
+		return null;
 	}
 	
-	@Override
-	public void status(Status status) {
-		//nothing to do
+	public Node node(Identified.State state) {
+		
+		if (!(state instanceof NeoIdentified))
+			throw new IllegalStateException("cannot form link: target "+state.id()+" is not in repository");
+	
+		return NeoIdentified.class.cast(state).node();
 	}
 
 	

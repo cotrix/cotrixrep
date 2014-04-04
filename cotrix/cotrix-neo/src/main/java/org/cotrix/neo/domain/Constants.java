@@ -21,10 +21,10 @@ public class Constants {
 	
 	public static enum NodeType implements Label {
 		
-		ATTRIBUTE, CODE, CODELIST, IDENTITY, LIFECYCLE, USER, CODELISTLINK;
+		ATTRIBUTE, CODE, CODELIST, IDENTITY, LIFECYCLE, USER, CODELISTLINK, CODELINK;
 	}
 	
 	public static enum Relations implements RelationshipType {
-		ATTRIBUTE, CODE, LINK
+		ATTRIBUTE, CODE, LINK, INSTANCEOF
 	}
 }

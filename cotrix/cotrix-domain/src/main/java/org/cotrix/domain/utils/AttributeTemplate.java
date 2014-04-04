@@ -1,5 +1,8 @@
 package org.cotrix.domain.utils;
 
+import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.utils.Constants.*;
+
 import org.cotrix.domain.common.Attribute;
 
 public class AttributeTemplate {
@@ -12,6 +15,11 @@ public class AttributeTemplate {
 	
 	public boolean matches(Attribute attribute) {
 		
+		return matches(reveal(attribute).state());
+	}
+
+	public boolean matches(Attribute.State attribute) {
+		
 		return matches(template.name(), attribute.name()) &&
 			   matches(template.type(), attribute.type()) &&
 			   matches(template.language(), attribute.language());
@@ -19,7 +27,7 @@ public class AttributeTemplate {
 	
 	private boolean matches(Object template, Object val) {
 		
-		return template == null || template.equals(val);
+		return (template == null || template == NULL_QNAME || template == NULL_STRING || template.equals(val));
 	}
 
 	@Override
