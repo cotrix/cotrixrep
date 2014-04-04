@@ -18,6 +18,7 @@ import org.cotrix.web.client.view.LoginDialog;
 import org.cotrix.web.client.view.RegisterDialog;
 import org.cotrix.web.client.view.UserBarView;
 import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.shared.Error;
 import org.cotrix.web.common.shared.exception.IllegalActionException;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.junit.Before;
@@ -128,7 +129,7 @@ public class TestUserAuth extends ApplicationTest {
 		presenter.onRegister(username, "newPassword", "email@test.te");
 		
 		//Alert dialog is shown
-		verify(alertDialog).center(Mockito.anyString(), Mockito.anyString());
+		verify(alertDialog).center(Mockito.any(Error.class));
 	}
 
 }
