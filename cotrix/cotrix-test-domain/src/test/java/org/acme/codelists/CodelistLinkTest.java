@@ -2,6 +2,7 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.links.ValueFunctions.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.junit.Assert.*;
 
@@ -12,6 +13,7 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
+import org.cotrix.domain.links.ValueFunctions;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.utils.AttributeTemplate;
 import org.cotrix.domain.utils.LinkTemplate;
@@ -29,6 +31,7 @@ public class CodelistLinkTest extends DomainTest {
 		assertEquals(name,link.name());
 		assertEquals(list,link.target());
 		assertEquals(NameLink.INSTANCE,link.valueType());
+		assertEquals(ValueFunctions.identity,reveal(link).state().function());
 		
 		Attribute a = attribute().name(name).build();
 		
@@ -50,6 +53,11 @@ public class CodelistLinkTest extends DomainTest {
 		link  = listLink().name(name).target(list).anchorTo(linktemplate).build();
 		
 		assertEquals(new LinkOfLink(new LinkTemplate(linktemplate)),link.valueType());
+		
+		
+		link  = listLink().name(name).target(list).transformWith(lowercase).build();
+		
+		assertEquals(lowercase,reveal(link).state().function());
 	}
 	
 	@Test
@@ -64,6 +72,7 @@ public class CodelistLinkTest extends DomainTest {
 		link =  modifyListLink("1").anchorTo(a).build();
 		link =  modifyListLink("1").anchorToName().build();
 		link =  modifyListLink("1").anchorTo(link).build();
+		link =  modifyListLink("1").transformWith(uppercase).build();
 		
 		//changed
 		assertEquals(MODIFIED,((CodelistLink.Private) link).status());
@@ -112,6 +121,20 @@ public class CodelistLinkTest extends DomainTest {
 		reveal(link).update(reveal(changeset));
 		
 		assertEquals(new AttributeLink(new AttributeTemplate(a)),link.valueType());
+		
+	}
+	
+	@Test
+	public void changeFunction() {
+		
+		
+		CodelistLink link = like(listLink().name(name).target(someTarget()).build());
+		
+		CodelistLink changeset = modifyListLink(link.id()).transformWith(uppercase).build();
+		
+		reveal(link).update(reveal(changeset));
+		
+		assertEquals(uppercase,link.function());
 		
 	}
 	

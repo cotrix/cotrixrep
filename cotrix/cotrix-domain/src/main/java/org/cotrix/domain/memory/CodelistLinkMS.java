@@ -2,10 +2,12 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.links.NameLink.*;
+import static org.cotrix.domain.links.ValueFunctions.*;
 
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.Private;
+import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.trait.Status;
 
@@ -19,9 +21,12 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 
 	private Codelist.State target;
 	private ValueType type;
+	private ValueFunction function;
 	
 	public CodelistLinkMS() {
 		valueType(INSTANCE);
+		function(identity);
+		
 	}
 	
 	public CodelistLinkMS(String id,Status status) {
@@ -41,6 +46,17 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	public void valueType(ValueType type) {
 		notNull("link type",type);
 		this.type=type;
+	}
+	
+	@Override
+	public ValueFunction function() {
+		return function;
+	}
+	
+	@Override
+	public void function(ValueFunction function) {
+		notNull("value function",function);
+		this.function = function;
 	}
 	
 	public Codelist.State target() {

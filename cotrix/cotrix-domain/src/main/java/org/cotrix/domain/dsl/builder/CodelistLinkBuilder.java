@@ -19,6 +19,7 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
+import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.utils.AttributeTemplate;
 import org.cotrix.domain.utils.LinkTemplate;
@@ -42,6 +43,7 @@ public class CodelistLinkBuilder  {
 	
 	public void name(QName name) {
 		state.name(name);
+		
 	}
 	
 	public void name(String name) {
@@ -117,6 +119,12 @@ public class CodelistLinkBuilder  {
 		
 		public OptionalClause attributes(List<Attribute> attributes) {
 			state.attributes(reveal(attributes,Attribute.Private.class));
+			return this;
+		}
+		
+		@Override
+		public OptionalClause transformWith(ValueFunction function) {
+			state.function(function);
 			return this;
 		}
 		
