@@ -27,7 +27,7 @@ public class AttributeTemplate {
 	
 	private boolean matches(Object template, Object val) {
 		
-		return (template == null || template == NULL_QNAME || template == NULL_STRING || template.equals(val));
+		return (template == null || template.equals(NULL_QNAME) || template.equals(NULL_STRING) || template.equals(val));
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public class CodelistLinkGrammar {
 	
 	public static interface CodelistLinkChangeClause extends NameClause<OptionalClause>, OptionalClause {}
 	
-	public static interface TypeClause {
+	public static interface ValueTypeClause {
 		
 		OptionalClause anchorToName();
 		
@@ -30,6 +30,6 @@ public class CodelistLinkGrammar {
 		OptionalClause anchorTo(CodelistLink template);
 	}
 
-	public static interface OptionalClause extends TypeClause, AttributeClause<CodelistLink, OptionalClause> {
+	public static interface OptionalClause extends ValueTypeClause, AttributeClause<CodelistLink, OptionalClause> {
 	}
 }

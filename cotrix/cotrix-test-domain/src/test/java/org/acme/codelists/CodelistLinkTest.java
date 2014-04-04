@@ -10,9 +10,11 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.links.AttributeLink;
+import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.utils.AttributeTemplate;
+import org.cotrix.domain.utils.LinkTemplate;
 import org.junit.Test;
 
 public class CodelistLinkTest extends DomainTest {
@@ -42,6 +44,12 @@ public class CodelistLinkTest extends DomainTest {
 		link  = listLink().name(name).target(list).anchorTo(template).build();
 		
 		assertEquals(new AttributeLink(new AttributeTemplate(template)),link.valueType());
+		
+		CodelistLink linktemplate = listLink().name(name).target(list).anchorTo(template).build();
+		
+		link  = listLink().name(name).target(list).anchorTo(linktemplate).build();
+		
+		assertEquals(new LinkOfLink(new LinkTemplate(linktemplate)),link.valueType());
 	}
 	
 	@Test
@@ -55,7 +63,7 @@ public class CodelistLinkTest extends DomainTest {
 		link =  modifyListLink("1").attributes(a).build();
 		link =  modifyListLink("1").anchorTo(a).build();
 		link =  modifyListLink("1").anchorToName().build();
-		//link =  modifyListLink("1").anchorTo(link).build();
+		link =  modifyListLink("1").anchorTo(link).build();
 		
 		//changed
 		assertEquals(MODIFIED,((CodelistLink.Private) link).status());

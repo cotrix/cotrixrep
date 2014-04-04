@@ -8,8 +8,8 @@ import static org.neo4j.graphdb.Direction.*;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.links.NameLink;
+import org.cotrix.domain.links.ValueType;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
@@ -39,6 +39,7 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 		super(CODELISTLINK,state);	
 		
 		target(state.target());
+		valueType(state.valueType());
 		
 	}
 	

@@ -17,9 +17,11 @@ import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.links.AttributeLink;
+import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.utils.AttributeTemplate;
+import org.cotrix.domain.utils.LinkTemplate;
 
 /**
  * Builds {@link Attribute}s.
@@ -98,7 +100,8 @@ public class CodelistLinkBuilder  {
 		}
 		
 		public OptionalClause anchorTo(CodelistLink template) {
-			throw new UnsupportedOperationException();
+			state.valueType(new LinkOfLink(new LinkTemplate(template)));
+			return this;
 		}
 		
 		public OptionalClause anchorToName() {

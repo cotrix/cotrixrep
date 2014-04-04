@@ -9,7 +9,9 @@ public class NameLink implements ValueType {
 	private NameLink() {}
 	
 	@Override
-	public Object value(Code.State code) {
+	public Object valueIn(Code.State code) {
+		
 		return code.name();
+	
 	}
 }

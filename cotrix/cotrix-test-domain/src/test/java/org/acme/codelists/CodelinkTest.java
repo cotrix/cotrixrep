@@ -31,7 +31,6 @@ public class CodelinkTest extends DomainTest {
 		
 		assertEquals(listLink,link.type());
 		
-		System.out.println(reveal(link.type()).state().getClass());
 		assertEquals(a,link.attributes().lookup(a.name()));
 	}
 	
@@ -45,36 +44,55 @@ public class CodelinkTest extends DomainTest {
 	}
 	
 	@Test
-	public void resolveNames() {
+	public void resolveLinkToNames() {
 		
 		
-		Code code = someTarget();
+		Code code = like(code().name("a").build());
+		Codelist list = like(codelist().name("A").build());  
 		
-		CodelistLink listLink = listLink().name("link").target(someCodelist()).anchorToName().build();
+		CodelistLink listLink = like(listLink().name("link").target(list).anchorToName().build());
 		
-		Codelink link  = link().instanceOf(listLink).target(code).build();
+		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
 		assertEquals(code.name(),link.value());
 		
 	}
 	
 	@Test
-	public void resolveAttribute() {
+	public void resolveLinkToAttributes() {
 		
 		
-		Code code = someTarget();
-		
-		Attribute a = attribute().name(name).value(value).ofType(DEFAULT_TYPE).in(language).build();
-		
-		reveal(code).update(reveal(modifyCode(code.id()).attributes(a).build()));
-		
+		Attribute a = like(attribute().name(name).value(value).ofType(DEFAULT_TYPE).in(language).build());
+		Code code = like(code().name("b").attributes(a).build());
+		Codelist list = like(codelist().name("B").with(code).build());  
+
 		Attribute template = attribute().name(name).ofType(NULL_QNAME).build();
 		
-		CodelistLink listLink = listLink().name("link").target(someCodelist()).anchorTo(template).build();
-		
-		Codelink link  = link().instanceOf(listLink).target(code).build();
+		CodelistLink listLink = like(listLink().name("link").target(list).anchorTo(template).build());
+		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
 		assertEquals(Arrays.asList(a.value()),link.value());
+		
+	}
+	
+	@Test
+	public void resolveLinkToLinks() {
+		
+		
+		Code code = like(code().name("c").build());
+		Codelist list = like(codelist().name("C").build());  
+		
+		CodelistLink listlink = like(listLink().name("link-to-c").target(list).build());
+		
+		Codelink link = like(link().instanceOf(listlink).target(code).build());
+		code = like(code().name("b").links(link).build());
+		list = like(codelist().name("B").links(listlink).with(code).build());
+		
+		
+		listlink = like(listLink().name("link-to-b").target(list).anchorTo(listlink).build());
+		link = like(link().instanceOf(listlink).target(code).build());
+		
+		assertEquals(Arrays.asList(q("c")),link.value());
 		
 	}
 	

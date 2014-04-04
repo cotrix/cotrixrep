@@ -4,27 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.utils.AttributeTemplate;
+import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.utils.LinkTemplate;
 
-public class AttributeLink implements ValueType {
+public class LinkOfLink implements ValueType {
 
-	private final AttributeTemplate template;
+	private final LinkTemplate template;
 	
-	public AttributeLink(AttributeTemplate template) {
+	public LinkOfLink(LinkTemplate template) {
 		this.template=template;
 	}
 	
 	
 	@Override
 	public Object valueIn(Code.State code) {
-	
+		
 		List<Object> matches = new ArrayList<>();
 		
-		for (Attribute.State a : code.attributes()) 
-			if (template.matches(a))
-				matches.add(a.value());
-	
+		for (Codelink.State link : code.links()) {
+			
+			CodelistLink.State linktype = link.type();
+			
+			if (template.matches(linktype)) 
+				matches.add(Codelink.Private.resolve(link,linktype));
+		}
 		
 		return matches;
  
@@ -48,7 +52,7 @@ public class AttributeLink implements ValueType {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AttributeLink other = (AttributeLink) obj;
+		LinkOfLink other = (LinkOfLink) obj;
 		if (template == null) {
 			if (other.template != null)
 				return false;

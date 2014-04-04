@@ -5,7 +5,8 @@ import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 
 /**
- * An {@link Identified} and {@link Attributed} instance of a {@link CodelistLink}.
+ * An {@link Identified} and {@link Attributed} instance of a
+ * {@link CodelistLink}.
  * 
  * @author Fabio Simeoni
  * 
@@ -25,18 +26,17 @@ public interface Codelink extends Identified, Attributed {
 	 * @return the link value, or <code>null</code> if the link is orphaned.
 	 */
 	Object value();
-	
 
 	static interface State extends Identified.State, Attributed.State, EntityProvider<Private> {
 
 		CodelistLink.State type();
-		
+
 		void type(CodelistLink.State state);
 
 		Code.State target();
 
 		void target(Code.State code);
-		
+
 	}
 
 	/**
@@ -51,15 +51,11 @@ public interface Codelink extends Identified, Attributed {
 
 		@Override
 		public Object value() {
-		
-			Code.State target = state().target();
-			
-			//dynamic resolution (includes orphan link case)
-			return target== null? null : type().valueType().value(state().target());
-			
+
+			return resolve(this.state(), this.type().state());
+
 		}
-		
-		
+
 		@Override
 		public CodelistLink.Private type() {
 			return new CodelistLink.Private(state().type());
@@ -71,11 +67,19 @@ public interface Codelink extends Identified, Attributed {
 			super.update(changeset);
 
 			Code.State newtarget = changeset.state().target();
-			
-			if (newtarget!=null)
+
+			if (newtarget != null)
 				state().target(newtarget);
-			
-			//wont'update type
+
+			// wont'update type
+		}
+
+		// extracted to reuse below this layer (for link-of-links) without
+		// object instantiation costs
+		public static Object resolve(Codelink.State link, CodelistLink.State type) {
+
+			// dynamic resolution (includes orphan link case)
+			return link.target() == null ? null : type.valueType().valueIn(link.target());
 		}
 
 	}
