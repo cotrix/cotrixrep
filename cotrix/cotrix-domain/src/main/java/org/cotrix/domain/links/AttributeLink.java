@@ -15,6 +15,10 @@ public class AttributeLink implements ValueType {
 		this.template=template;
 	}
 	
+	public AttributeTemplate template() {
+		return template;
+	}
+	
 	
 	@Override
 	public Object valueIn(Code.State code) {

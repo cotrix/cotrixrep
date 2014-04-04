@@ -3,6 +3,8 @@ package org.cotrix.domain.utils;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
 
+import javax.xml.namespace.QName;
+
 import org.cotrix.domain.common.Attribute;
 
 public class AttributeTemplate {
@@ -11,6 +13,18 @@ public class AttributeTemplate {
 	
 	public AttributeTemplate(Attribute template) {
 		this.template=template;
+	}
+	
+	public QName name() {
+		return template.name();
+	}
+	
+	public QName type() {
+		return template.type();
+	}
+	
+	public String language() {
+		return template.language();
 	}
 	
 	public boolean matches(Attribute attribute) {
