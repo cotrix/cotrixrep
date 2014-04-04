@@ -165,10 +165,17 @@ public class LinkTypePanel extends Composite implements HasEditing {
 	}
 
 	private void updateHeaderButtons() {
-		header.setEditVisible(!editing && editable);
-		header.setControlsVisible(editing);
-		header.setRevertVisible(editing);
-		header.setSaveVisible(false);
+		if (disclosurePanel.isOpen()) {
+			header.setEditVisible(!editing && editable);
+			header.setControlsVisible(editing);
+			header.setRevertVisible(editing);
+			header.setSaveVisible(false);
+		} else {
+			header.setEditVisible(false);
+			header.setControlsVisible(false);
+			header.setRevertVisible(false);
+			header.setSaveVisible(false);
+		}
 	}
 
 	private void validate(LinkTypeDetails detail) {

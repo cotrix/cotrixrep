@@ -19,7 +19,7 @@ public class UILinkType implements Identifiable, IsSerializable {
 	private UIQName name;
 	private UICodelist targetCodelist;
 	private String valueFunction;
-	private ValueType valueType;
+	private UIValueType valueType;
 	
 	public UILinkType(){}
 	
@@ -31,7 +31,7 @@ public class UILinkType implements Identifiable, IsSerializable {
 	 * @param valueType
 	 */
 	public UILinkType(String id, UIQName name, UICodelist targetCodelist,
-			String valueFunction, ValueType valueType) {
+			String valueFunction, UIValueType valueType) {
 		this.id = id;
 		this.name = name;
 		this.targetCodelist = targetCodelist;
@@ -94,17 +94,17 @@ public class UILinkType implements Identifiable, IsSerializable {
 	/**
 	 * @return the valueType
 	 */
-	public ValueType getValueType() {
+	public UIValueType getValueType() {
 		return valueType;
 	}
 
 	/**
 	 * @param valueType the valueType to set
 	 */
-	public void setValueType(ValueType valueType) {
+	public void setValueType(UIValueType valueType) {
 		this.valueType = valueType;
 	}
 
-	public interface ValueType {
+	public interface UIValueType {
 	}
 }

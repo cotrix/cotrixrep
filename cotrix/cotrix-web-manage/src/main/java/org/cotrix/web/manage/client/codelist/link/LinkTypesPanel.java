@@ -17,16 +17,15 @@ import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.link.AttributeType;
 import org.cotrix.web.common.shared.codelist.link.CodeNameType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
+import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
-import org.cotrix.web.manage.client.codelist.link.LinkTypeChangedEvent.HasLinkTypeChangedHandlers;
-import org.cotrix.web.manage.client.codelist.link.LinkTypeChangedEvent.LinkTypeChangedHandler;
 import org.cotrix.web.manage.client.codelist.link.LinkTypeDetailsPanel.ValueType;
 import org.cotrix.web.manage.client.codelist.link.LinkTypePanel.LinkTypePanelListener;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -35,7 +34,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkTypesPanel extends Composite implements HasEditing, HasLinkTypeChangedHandlers {
+public class LinkTypesPanel extends Composite implements HasEditing {
+	
+	public interface LinkTypesPanelListener {
+		public void onCreate(UILinkType linkType);
+		public void onUpdate(UILinkType linkType);
+	}
 	
 	private VerticalPanel panel;
 	private List<LinkTypePanel> panels = new ArrayList<LinkTypePanel>();
@@ -49,6 +53,8 @@ public class LinkTypesPanel extends Composite implements HasEditing, HasLinkType
 	@Inject
 	private CodelistInfoProvider codelistInfoProvider;
 	
+	private LinkTypesPanelListener listener;
+	
 	public LinkTypesPanel() {
 		panel = new VerticalPanel();
 		panel.setWidth("100%");
@@ -61,7 +67,10 @@ public class LinkTypesPanel extends Composite implements HasEditing, HasLinkType
 		
 		initWidget(panel);
 	}
-	
+
+	public void setListener(LinkTypesPanelListener listener) {
+		this.listener = listener;
+	}
 	public void removeLinkType(UILinkType linkType) {
 		LinkTypePanel linkTypePanel = typeIdToPanel.remove(linkType.getId());
 		if (linkTypePanel == null) return;
@@ -83,9 +92,11 @@ public class LinkTypesPanel extends Composite implements HasEditing, HasLinkType
 			
 			@Override
 			public void onSave(LinkTypeDetails details) {
+				Log.trace("updating type:"+details);
 				UILinkType type = toType(details);
-				panelIdToType.put(linkTypePanel.getId(), type);
-				fireEvent(new LinkTypeChangedEvent(type));
+				UILinkType oldType = panelIdToType.put(linkTypePanel.getId(), type);
+				if (oldType!=null) type.setId(oldType.getId());
+				fireUpdate(type);
 			}
 			
 			@Override
@@ -108,8 +119,9 @@ public class LinkTypesPanel extends Composite implements HasEditing, HasLinkType
 			
 			@Override
 			public void onSave(LinkTypeDetails details) {
+				Log.trace("creating type:"+details);
 				UILinkType type = toType(details);
-				
+				fireCreate(type);
 			}
 			
 			@Override
@@ -137,11 +149,11 @@ public class LinkTypesPanel extends Composite implements HasEditing, HasLinkType
 		UIQName name = ValueUtils.getValue(details.getName());
 		UICodelist targetCodelist = details.getCodelist();
 		String valueFunction = details.getFunction();
-		org.cotrix.web.common.shared.codelist.link.UILinkType.ValueType valueType = toValueType(details);
+		UIValueType valueType = toValueType(details);
 		return new UILinkType(null, name, targetCodelist, valueFunction, valueType);
 	}
 	
-	private org.cotrix.web.common.shared.codelist.link.UILinkType.ValueType toValueType(LinkTypeDetails details) {
+	private UIValueType toValueType(LinkTypeDetails details) {
 		ValueType type = details.getValueType();
 		switch (type) {
 			case ATTRIBUTE: return details.getAttribute();
@@ -162,7 +174,7 @@ public class LinkTypesPanel extends Composite implements HasEditing, HasLinkType
 		return new LinkTypeDetails(name, codelist, valueType, attribute, function, customFunction);
 	}
 	
-	private ValueType getValueType(org.cotrix.web.common.shared.codelist.link.UILinkType.ValueType type) {
+	private ValueType getValueType(UIValueType type) {
 		if (type instanceof AttributeType) return ValueType.ATTRIBUTE;
 		if (type instanceof CodeNameType) return ValueType.NAME;
 		throw new IllegalArgumentException("Unknwown value type "+type);
@@ -185,8 +197,11 @@ public class LinkTypesPanel extends Composite implements HasEditing, HasLinkType
 		for (LinkTypePanel linkTypePanel:panels) linkTypePanel.setEditable(editable);
 	}
 
-	@Override
-	public HandlerRegistration addLinkTypeChangedHandler(LinkTypeChangedHandler handler) {
-		return addHandler(handler, LinkTypeChangedEvent.TYPE);
+	private void fireUpdate(UILinkType linkType) {
+		if (listener!=null) listener.onUpdate(linkType);
+	}
+	
+	private void fireCreate(UILinkType linkType) {
+		if (listener!=null) listener.onCreate(linkType);
 	}
 }

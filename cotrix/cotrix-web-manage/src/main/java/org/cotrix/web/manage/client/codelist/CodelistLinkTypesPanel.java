@@ -16,6 +16,7 @@ import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.link.LinkTypeChangedEvent;
 import org.cotrix.web.manage.client.codelist.link.LinkTypeChangedEvent.LinkTypeChangedHandler;
 import org.cotrix.web.manage.client.codelist.link.LinkTypesPanel;
+import org.cotrix.web.manage.client.codelist.link.LinkTypesPanel.LinkTypesPanelListener;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
@@ -71,12 +72,16 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 		linkTypeEditor = DataEditor.build(this);
 		add(uiBinder.createAndBindUi(this));
 		
-		linkTypesPanel.addLinkTypeChangedHandler(new LinkTypeChangedHandler() {
-
+		linkTypesPanel.setListener(new LinkTypesPanelListener() {
+			
 			@Override
-			public void onLinkTypeChanged(LinkTypeChangedEvent event) {
-				linkTypeEditor.updated(event.getLinkType());
-
+			public void onUpdate(UILinkType linkType) {
+				linkTypeEditor.updated(linkType);
+			}
+			
+			@Override
+			public void onCreate(UILinkType linkType) {
+				linkTypeEditor.added(linkType);
 			}
 		});
 		
