@@ -22,7 +22,7 @@ public interface Codelink extends Identified, Attributed {
 	/**
 	 * Returns the value of this link.
 	 * 
-	 * @return the target identifier
+	 * @return the link value, or <code>null</code> if the link is orphaned.
 	 */
 	Object value();
 	
@@ -55,7 +55,7 @@ public interface Codelink extends Identified, Attributed {
 			Code.State target = state().target();
 			
 			//dynamic resolution (includes orphan link case)
-			return target== null? null : type().type().value(state().target());
+			return target== null? null : type().valueType().value(state().target());
 			
 		}
 		

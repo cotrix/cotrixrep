@@ -149,7 +149,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		
 		Codelist retrieved = repository.lookup(list.id());
 		
-		assertEquals(NameLink.INSTANCE,retrieved.links().lookup(q("name")).type());
+		assertEquals(NameLink.INSTANCE,retrieved.links().lookup(q("name")).valueType());
 		
 	}
 	
@@ -210,7 +210,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		
 		Codelist retrieved = repository.lookup(list.id());
 		
-		assertTrue(retrieved.links().lookup(q("name")).type() instanceof AttributeLink);
+		assertTrue(retrieved.links().lookup(q("name")).valueType() instanceof AttributeLink);
 		
 	}
 	

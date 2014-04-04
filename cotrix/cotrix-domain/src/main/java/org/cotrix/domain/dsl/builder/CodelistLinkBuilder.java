@@ -93,7 +93,7 @@ public class CodelistLinkBuilder  {
 	public class OptClause implements OptionalClause {
 
 		public OptionalClause anchorTo(Attribute template) {
-			state.type(new AttributeLink(new AttributeTemplate(template))); 
+			state.valueType(new AttributeLink(new AttributeTemplate(template))); 
 			return this;
 		}
 		
@@ -102,7 +102,7 @@ public class CodelistLinkBuilder  {
 		}
 		
 		public OptionalClause anchorToName() {
-			state.type(NameLink.INSTANCE);
+			state.valueType(NameLink.INSTANCE);
 			return this;
 		}
 
@@ -121,17 +121,6 @@ public class CodelistLinkBuilder  {
 		@Override
 		public CodelistLink build() {
 			
-			//cannot capture 'by-flow' that two fields are mandatory @ create time, but independent at modify time
-			//so we allow the latter, and check explicitly for the former
-			if (state.status()==null) {
-				
-				if (state.target()==null)
-					throw new IllegalStateException("no target specified for codelist link "+state.name());
-			
-				if (state.type()==null)
-					throw new IllegalStateException("no type specified for codelist link "+state.name());
-			}	
-		
 			return state.entity();
 		}
 		

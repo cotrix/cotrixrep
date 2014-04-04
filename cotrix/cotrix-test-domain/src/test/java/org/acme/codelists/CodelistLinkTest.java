@@ -26,7 +26,7 @@ public class CodelistLinkTest extends DomainTest {
 		
 		assertEquals(name,link.name());
 		assertEquals(list,link.target());
-		assertEquals(NameLink.INSTANCE,link.type());
+		assertEquals(NameLink.INSTANCE,link.valueType());
 		
 		Attribute a = attribute().name(name).build();
 		
@@ -36,12 +36,12 @@ public class CodelistLinkTest extends DomainTest {
 		
 		link  = listLink().name(name).target(list).anchorToName().build();
 		
-		assertEquals(NameLink.INSTANCE,link.type());
+		assertEquals(NameLink.INSTANCE,link.valueType());
 		
 		Attribute template = attribute().name(q("this")).ofType(q("that")).in("this").build();
 		link  = listLink().name(name).target(list).anchorTo(template).build();
 		
-		assertEquals(new AttributeLink(new AttributeTemplate(template)),link.type());
+		assertEquals(new AttributeLink(new AttributeTemplate(template)),link.valueType());
 	}
 	
 	@Test
@@ -103,7 +103,7 @@ public class CodelistLinkTest extends DomainTest {
 		
 		reveal(link).update(reveal(changeset));
 		
-		assertEquals(new AttributeLink(new AttributeTemplate(a)),link.type());
+		assertEquals(new AttributeLink(new AttributeTemplate(a)),link.valueType());
 		
 	}
 	

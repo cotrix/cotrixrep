@@ -1,6 +1,6 @@
 package org.cotrix.domain.codelist;
 
-import org.cotrix.domain.links.LinkType;
+import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
@@ -10,26 +10,26 @@ import org.cotrix.domain.trait.Named;
 public interface CodelistLink extends Identified, Attributed, Named {
 
 	/**
-	 * Returns the identifier of the target codelist.
+	 * Returns the target codelist.
 	 * 
-	 * @return the identifier
+	 * @return the target codelist
 	 */
 	Codelist target();
 	
 	/**
-	 * Returns the type of the link.
+	 * Returns the type of values of link instances.
 	 * @return the type
 	 */
-	LinkType type();
+	ValueType valueType();
 		
 	
 	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
 
 		Codelist.State target();
 		
-		LinkType type();
+		ValueType valueType();
 		
-		void type(LinkType type);
+		void valueType(ValueType type);
 
 		void target(Codelist.State state);
 	}
@@ -50,8 +50,8 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		}
 		
 		@Override
-		public LinkType type() {
-			return state().type();
+		public ValueType valueType() {
+			return state().valueType();
 		}
 
 		@Override
@@ -59,10 +59,10 @@ public interface CodelistLink extends Identified, Attributed, Named {
 
 			super.update(changeset);
 			
-			LinkType newtype = changeset.state().type();
+			ValueType newtype = changeset.state().valueType();
 			
 			if (newtype!=null)
-				state().type(newtype);
+				state().valueType(newtype);
 			
 			//ignore target, DSL should have prevented this statically anyway
 		}

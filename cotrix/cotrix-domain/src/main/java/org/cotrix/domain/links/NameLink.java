@@ -2,7 +2,7 @@ package org.cotrix.domain.links;
 
 import org.cotrix.domain.codelist.Code;
 
-public class NameLink implements LinkType {
+public class NameLink implements ValueType {
 
 	public static NameLink INSTANCE = new NameLink();
 	

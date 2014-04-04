@@ -8,7 +8,7 @@ import static org.neo4j.graphdb.Direction.*;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.links.LinkType;
+import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
@@ -70,15 +70,15 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	}
 	
 	@Override
-	public LinkType type() {
+	public ValueType valueType() {
 		
 		return node().hasProperty(type_prop)? 
-					(LinkType) binder().fromXML((String) node().getProperty(type_prop))
+					(ValueType) binder().fromXML((String) node().getProperty(type_prop))
 					: NameLink.INSTANCE;
 	}
 	
 	@Override
-	public void type(LinkType type) {
+	public void valueType(ValueType type) {
 		
 		if(type!=NameLink.INSTANCE)
 			node().setProperty(type_prop,binder().toXML(type));
