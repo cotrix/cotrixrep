@@ -1,0 +1,130 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:l="urn:import:org.cotrix.web.manage.client.codelist.link">
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:with field='commonresources'
+		type='org.cotrix.web.common.client.resources.CommonResources' />
+	<ui:style
+		type="org.cotrix.web.manage.client.codelist.link.LinkTypeDetailsPanel.Style">
+		.propertiesGrid {
+			width: 100%;
+			border-collapse: collapse;
+		}
+		
+		.editor {
+			height: 31px;
+		}
+		
+		.error {
+			border: 1px solid red;
+		}
+
+		.loader {
+			margin: 0 auto;
+			display: inherit;
+		}
+		</ui:style>
+	<g:HTMLPanel>
+		<table class="{style.propertiesGrid} {resources.propertyGrid.table}">
+			<tr>
+				<td class="{resources.propertyGrid.header}">
+					<div>Name</div>
+				</td>
+				<td class="{resources.propertyGrid.value}">
+					<l:EditableLabel ui:field="nameContainer"
+						labelStyle="{resources.propertyGrid.textValue}">
+						<l:editor>
+							<g:TextBox ui:field="name"
+								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+						</l:editor>
+					</l:EditableLabel>
+				</td>
+			</tr>
+			<tr>
+				<td class="{resources.propertyGrid.header}">
+					<div>Target</div>
+				</td>
+				<td class="{resources.propertyGrid.value}">
+					<g:FlowPanel>
+						<l:EditableLabel ui:field="codelistContainer"
+							labelStyle="{resources.propertyGrid.textValue}">
+							<l:editor>
+								<g:SuggestBox ui:field="codelist"
+									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+							</l:editor>
+						</l:EditableLabel>
+						<g:Image resource="{commonresources.dataLoader}" visible="false"
+							ui:field="codelistLoader" styleName="{style.loader}"/>
+					</g:FlowPanel>
+				</td>
+			</tr>
+			<tr>
+				<td class="{resources.propertyGrid.header}">
+					<div>Anchor to</div>
+				</td>
+				<td class="{resources.propertyGrid.value}">
+					<l:EditableLabel ui:field="valueTypeContainer"
+						labelStyle="{resources.propertyGrid.textValue}">
+						<l:editor>
+							<g:ListBox multipleSelect="false" ui:field="valueType" styleName="{commonresources.css.listBox}">
+								<g:item value="NAME">
+									Name
+								</g:item>
+								<g:item value="ATTRIBUTE">
+									Attribute
+								</g:item>
+								<g:item value="LINK">
+									Link
+								</g:item>
+							</g:ListBox>
+						</l:editor>
+					</l:EditableLabel>
+				</td>
+			</tr>
+			<tr ui:field="attributeRow">
+				<td>
+				</td>
+				<td class="{resources.propertyGrid.value}">
+					<g:FlowPanel>
+						<l:EditableLabel ui:field="attributeContainer"
+							labelStyle="{resources.propertyGrid.textValue}">
+							<l:editor>
+								<g:SuggestBox ui:field="attribute"
+									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+							</l:editor>
+						</l:EditableLabel>
+						<g:Image resource="{commonresources.dataLoader}" visible="false"
+							ui:field="attributeLoader" styleName="{style.loader}"/>
+					</g:FlowPanel>
+				</td>
+			</tr>
+			<tr>
+				<td class="{resources.propertyGrid.header}">
+					<div>Transform</div>
+				</td>
+				<td class="{resources.propertyGrid.value}">
+					<l:EditableLabel ui:field="valueFunctionContainer"
+						labelStyle="{resources.propertyGrid.textValue}">
+						<l:editor>
+							<g:ListBox multipleSelect="false" ui:field="valueFunction" styleName="{commonresources.css.listBox}"/>
+						</l:editor>
+					</l:EditableLabel>
+				</td>
+			</tr>
+			<tr ui:field="functionRow">
+				<td>
+				</td>
+				<td class="{resources.propertyGrid.value}">
+					<l:EditableLabel ui:field="functionContainer"
+						labelStyle="{resources.propertyGrid.textValue}">
+						<l:editor>
+							<g:TextBox ui:field="function"
+								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+						</l:editor>
+					</l:EditableLabel>
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder> 

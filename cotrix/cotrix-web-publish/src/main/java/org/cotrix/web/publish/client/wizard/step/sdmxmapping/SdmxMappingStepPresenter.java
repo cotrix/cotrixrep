@@ -2,6 +2,7 @@ package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 
 import java.util.List;
 
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
@@ -109,7 +110,7 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 			publishBus.fireEventFromSource(new MappingsUpdatedEvent(mappings), this);
 
 			PublishMetadata metadata = new PublishMetadata();
-			metadata.setName(view.getCodelistName());
+			metadata.setName(ValueUtils.getValue(view.getCodelistName()));
 			metadata.setVersion(view.getVersion());
 			metadata.setSealed(view.getSealed());
 			metadata.setAttributes(this.metadata.getAttributes());
@@ -151,15 +152,14 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 
 	protected void setMetadata(PublishMetadata metadata) {
 		this.metadata = metadata;
-		String name = metadata.getName();
-		view.setCodelistName(name == null?"":name);
+		view.setCodelistName(ValueUtils.getValue(metadata.getName()));
 		view.setVersion(metadata.getVersion());
 		view.setSealed(metadata.isSealed());
 	}
 
 	@Override
 	public void onReload() {
-		view.setCodelistName(metadata.getName());
+		view.setCodelistName(ValueUtils.getValue(metadata.getName()));
 		view.setVersion(metadata.getVersion());
 		view.setSealed(metadata.isSealed());
 		view.setMappings(mappings);

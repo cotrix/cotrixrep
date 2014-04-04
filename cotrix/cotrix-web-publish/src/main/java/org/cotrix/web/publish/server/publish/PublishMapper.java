@@ -104,7 +104,7 @@ public interface PublishMapper<T> {
 			
 			PublishMetadata metadata = publishDirectives.getMetadata();
 			//FIXME directives.agency(metadata.get);
-			directives.name(metadata.getName());
+			directives.name(metadata.getName().getLocalPart());
 			directives.version(metadata.getVersion());
 			directives.isFinal(metadata.isSealed());
 			

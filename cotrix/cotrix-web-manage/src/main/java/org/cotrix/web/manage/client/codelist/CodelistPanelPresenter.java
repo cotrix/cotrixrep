@@ -5,8 +5,8 @@ import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.feature.AsyncCallBackWrapper;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.HasFeature;
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.common.client.widgets.ProgressDialog;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.manage.client.ManageServiceAsync;
@@ -17,6 +17,7 @@ import org.cotrix.web.manage.client.codelist.event.CreateNewVersionEvent;
 import org.cotrix.web.manage.client.data.CodeAttributeCommandGenerator;
 import org.cotrix.web.manage.client.data.CodeModifyCommandGenerator;
 import org.cotrix.web.manage.client.data.DataSaverManager;
+import org.cotrix.web.manage.client.data.LinkTypeModifyGenerator;
 import org.cotrix.web.manage.client.data.MetadataAttributeModifyGenerator;
 import org.cotrix.web.manage.client.data.MetadataModifyCommandGenerator;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
@@ -88,6 +89,7 @@ public class CodelistPanelPresenter implements Presenter {
 		saverManager.register(new CodeAttributeCommandGenerator());
 		saverManager.register(new MetadataModifyCommandGenerator());
 		saverManager.register(new MetadataAttributeModifyGenerator());
+		saverManager.register(new LinkTypeModifyGenerator());
 	}
 	
 	protected void bind()
@@ -136,7 +138,7 @@ public class CodelistPanelPresenter implements Presenter {
 	}
 	
 	protected void newVersion() {
-		versionDialog.setOldVersion(codelistId, codelist.getName(),  codelist.getVersion());
+		versionDialog.setOldVersion(codelistId, ValueUtils.getLocalPart(codelist.getName()), codelist.getVersion());
 		versionDialog.showCentered();
 	}
 	
@@ -170,6 +172,9 @@ public class CodelistPanelPresenter implements Presenter {
 		
 		//ATTRIBUTES EDITOR
 		FeatureBinder.bind(view.getAttributesEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
+		
+		//LINK TYPES EDITOR
+		FeatureBinder.bind(view.getLinkTypeEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
 	}
 	
 	protected class ActionEnabler implements HasFeature {

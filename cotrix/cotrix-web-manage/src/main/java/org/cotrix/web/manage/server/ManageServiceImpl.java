@@ -40,8 +40,12 @@ import org.cotrix.web.common.server.util.Codelists;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.codelist.link.AttributeType;
+import org.cotrix.web.common.shared.codelist.link.CodeNameType;
+import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
@@ -122,7 +126,7 @@ public class ManageServiceImpl implements ManageService {
 
 			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {
-				group = new CodelistGroup(codelist.name().toString());
+				group = new CodelistGroup(ValueUtils.safeValue(codelist.name()));
 				groups.put(codelist.name(), group);
 			}
 			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()));
@@ -274,9 +278,51 @@ public class ManageServiceImpl implements ManageService {
 		repository.add(newCodelist);
 		lifecycleService.start(newCodelist.id());
 
-		CodelistGroup group = new CodelistGroup(newCodelist.name().toString());
+		CodelistGroup group = new CodelistGroup(ValueUtils.safeValue(newCodelist.name()));
 		group.addVersion(newCodelist.id(), newCodelist.version());
 
 		return group;
+	}
+
+	@Override
+	public DataWindow<UILinkType> getCodelistLinkTypes(@Id String codelistId) throws ServiceException {
+		logger.trace("getCodelistLinkTypes codelistId: {}", codelistId);
+		List<UILinkType> types = new ArrayList<>();
+
+		Iterator<Codelist> it = repository.get(allLists()).iterator();
+		UICodelist codelist = Codelists.toUICodelist(it.next());
+		UILinkType linkType = new UILinkType("123", new UIQName("", "MyFirstLinkType"), codelist, null, new CodeNameType());
+		types.add(linkType);
+		return new DataWindow<>(types);
+	}
+
+	@Override
+	public List<UICodelist> getCodelists() throws ServiceException {
+		logger.trace("getCodelists");
+		List<UICodelist> codelists = new ArrayList<>();
+		Iterator<Codelist> it = repository.get(allLists()).iterator();
+		while (it.hasNext()) {
+			Codelist codelist = (Codelist) it.next();
+			codelists.add(Codelists.toUICodelist(codelist));
+		}
+		return codelists;
+	}
+
+	@Override
+	public List<AttributeType> getAttributeTypes(String codelistId)	throws ServiceException {
+		logger.trace("getAttributeTypes codelistId: {}",codelistId);
+		CodelistSummary summary = repository.get(summary(codelistId));
+		
+		List<AttributeType> attributeTypes = new ArrayList<>();
+		for (QName name:summary.codeNames()) {
+			for (QName type:summary.codeTypesFor(name)) {
+				for (String language:summary.codeLanguagesFor(name, type)) {
+					attributeTypes.add(new AttributeType(ValueUtils.safeValue(name), ValueUtils.safeValue(type), language));
+				}
+			}
+		}
+		logger.trace("returning "+attributeTypes.size()+" attribute types");
+		
+		return attributeTypes;
 	}
 }

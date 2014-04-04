@@ -3,6 +3,7 @@ package org.cotrix.web.manage.client.codelists;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider.Filter;
 import org.cotrix.web.common.client.util.SingleSelectionModel;
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
@@ -152,7 +153,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 
 		@Override
 		public void render(com.google.gwt.cell.client.Cell.Context context,	UICodelist value, SafeHtmlBuilder sb) {
-			sb.appendEscaped(value.getName());
+			sb.appendEscaped(ValueUtils.getLocalPart(value.getName()));
 		}
 	}
 	
@@ -169,7 +170,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 
 		@Override
 		public boolean accept(CodelistGroup data) {
-			return data.getName().toUpperCase().contains(name);
+			return ValueUtils.getLocalPart(data.getName()).toUpperCase().contains(name);
 		}
 		
 	}

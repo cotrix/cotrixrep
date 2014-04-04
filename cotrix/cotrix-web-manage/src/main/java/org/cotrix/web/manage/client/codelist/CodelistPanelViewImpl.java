@@ -1,12 +1,10 @@
 package org.cotrix.web.manage.client.codelist;
 
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.manage.client.CotrixManageGinInjector;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -33,19 +31,17 @@ public class CodelistPanelViewImpl extends ResizeComposite implements CodelistPa
 	@UiField SplitLayoutPanel mainPanel;
 	@UiField DockLayoutPanel contentPanel;
 	@UiField CodelistToolbarImpl toolbar;
-	@UiField CodelistEditor editor;
-	@UiField CodelistSidePanel sidePanel;
 	
 	@Inject
-	public CodelistPanelViewImpl() {
+	@UiField(provided=true) CodelistEditor editor;
+	
+	@Inject
+	@UiField(provided=true) CodelistSidePanel sidePanel;
+	
+	@Inject
+	protected void init() {
 		initWidget(uiBinder.createAndBindUi(this));
 		mainPanel.setWidgetToggleDisplayAllowed(sidePanel, true);
-	}
-	
-	@UiFactory
-	protected CodelistEditor createEditor()
-	{
-		return CotrixManageGinInjector.INSTANCE.getCodeListEditor();
 	}
 	
 	/** 
@@ -77,5 +73,10 @@ public class CodelistPanelViewImpl extends ResizeComposite implements CodelistPa
 	@Override
 	public HasEditing getAttributesEditor() {
 		return sidePanel.getAttributesPanel();
+	}
+
+	@Override
+	public HasEditing getLinkTypeEditor() {
+		return sidePanel.getLinkTypePanel();
 	}
 }
