@@ -28,6 +28,18 @@ public class LinkTemplate {
 		this.type = type==NameLink.INSTANCE? null: type;
 	}
 	
+	public QName linkName() {
+		return name;
+	}
+	
+	public String targetId() {
+		return id;
+	}
+	
+	public ValueType valueType() {
+		return type;
+	}
+	
 	public boolean matches(CodelistLink link) {
 		
 		return matches(reveal(link).state());

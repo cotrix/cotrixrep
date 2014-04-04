@@ -16,6 +16,9 @@ public class LinkOfLink implements ValueType {
 		this.template=template;
 	}
 	
+	public LinkTemplate template() {
+		return template;
+	}
 	
 	@Override
 	public Object valueIn(Code.State code) {
