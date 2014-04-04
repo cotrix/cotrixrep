@@ -130,11 +130,11 @@ public class CodelistLinkTest extends DomainTest {
 		
 		CodelistLink link = like(listLink().name(name).target(someTarget()).build());
 		
-		CodelistLink changeset = modifyListLink(link.id()).transformWith(uppercase).build();
+		CodelistLink changeset = modifyListLink(link.id()).transformWith(custom("'Hello $value'")).build();
 		
 		reveal(link).update(reveal(changeset));
 		
-		assertEquals(uppercase,link.function());
+		assertEquals(custom("'Hello $value'"),link.function());
 		
 	}
 	

@@ -55,9 +55,11 @@ public class ValueFunctions {
 	
 	
 	
+	public static CustomFunction custom(String expression) {
+		return new CustomFunction(expression);
+	}
 	
-	
-	public static class Generic extends ValueFunction.Abstract {
+	public static class CustomFunction extends ValueFunction.Abstract {
 		
 		public static String VALUE_VAR = "$value";
 		
@@ -65,7 +67,7 @@ public class ValueFunctions {
 		
 		private final String expression; 
 				
-		public Generic(String expression) {
+		public CustomFunction(String expression) {
 			super("generic");
 			this.expression=expression;
 		}
@@ -97,7 +99,7 @@ public class ValueFunctions {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Generic other = (Generic) obj;
+			CustomFunction other = (CustomFunction) obj;
 			if (expression == null) {
 				if (other.expression != null)
 					return false;
