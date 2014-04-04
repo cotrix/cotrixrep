@@ -89,6 +89,8 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			super.update(changeset);
 			
 			codes().update(changeset.codes());
+			
+			links().update(changeset.links());
 		}
 
 	}

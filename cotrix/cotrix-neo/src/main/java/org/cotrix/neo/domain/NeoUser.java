@@ -1,5 +1,6 @@
 package org.cotrix.neo.domain;
 
+import static org.cotrix.neo.NeoUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 
@@ -12,12 +13,8 @@ import org.cotrix.domain.user.User.Private;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
-import com.thoughtworks.xstream.XStream;
-
 public class NeoUser extends NeoIdentified implements User.State {
 
-	private static XStream stream = new XStream(); 
-	
 	public static final NeoStateFactory<User.State> factory = new NeoStateFactory<User.State>() {
 		
 		@Override
@@ -97,13 +94,13 @@ public class NeoUser extends NeoIdentified implements User.State {
 	@Override
 	@SuppressWarnings("all")
 	public Collection<Action> permissions() {
-		return (Collection<Action>) stream.fromXML((String) node().getProperty(permissions_prop));
+		return (Collection<Action>) binder().fromXML((String) node().getProperty(permissions_prop));
 	}
 
 
 	@Override
 	public void permissions(Collection<Action> permissions) {
-		node().setProperty(permissions_prop,stream.toXML(permissions));	
+		node().setProperty(permissions_prop,binder().toXML(permissions));	
 	}
 
 	
@@ -111,14 +108,13 @@ public class NeoUser extends NeoIdentified implements User.State {
 	@Override
 	@SuppressWarnings("all")
 	public Collection<Role> roles() {
-		return (Collection<Role>) stream.fromXML((String) node().getProperty(roles_prop));
+		return (Collection<Role>) binder().fromXML((String) node().getProperty(roles_prop));
 	}
 
 
 	@Override
 	public void roles(Collection<Role> roles) {
-		node().setProperty(roles_prop,stream.toXML(roles));	
-		
+		node().setProperty(roles_prop,binder().toXML(roles));	
 	}
 	
 	

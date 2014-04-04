@@ -1,9 +1,12 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.links.NameLink.*;
 
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.Private;
+import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.trait.Status;
 
 /**
@@ -14,9 +17,11 @@ import org.cotrix.domain.trait.Status;
  */
 public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 
-	private String targetId;
+	private Codelist.State target;
+	private ValueType type;
 	
 	public CodelistLinkMS() {
+		valueType(INSTANCE);
 	}
 	
 	public CodelistLinkMS(String id,Status status) {
@@ -25,17 +30,26 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	
 	public CodelistLinkMS(CodelistLink.State state) {
 		super(state);
-		targetId(state.targetId());
+		target(state.target());
+		valueType(state.valueType());
 	}
 
-	
-	public String targetId() {
-		return targetId;
+	public ValueType valueType() {
+		return type;
 	}
 	
-	public void targetId(String id) {
-		notNull("id",id);
-		this.targetId=id;
+	public void valueType(ValueType type) {
+		notNull("link type",type);
+		this.type=type;
+	}
+	
+	public Codelist.State target() {
+		return target;
+	}
+	
+	public void target(Codelist.State list) {
+		notNull("list",list);
+		this.target=list;
 	}
 	
 	@Override
@@ -48,7 +62,7 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((targetId == null) ? 0 : targetId.hashCode());
+		result = prime * result + ((target == null) ? 0 : target.hashCode());
 		return result;
 	}
 
@@ -62,10 +76,10 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 		if (!(obj instanceof CodelistLink.State))
 			return false;
 		CodelistLink.State other = (CodelistLink.State) obj;
-		if (targetId == null) {
-			if (other.targetId() != null)
+		if (target == null) {
+			if (other.target() != null)
 				return false;
-		} else if (!targetId.equals(other.targetId()))
+		} else if (!target.equals(other.target()))
 			return false;
 		return true;
 	}

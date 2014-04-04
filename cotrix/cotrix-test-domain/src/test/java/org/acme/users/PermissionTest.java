@@ -25,6 +25,8 @@ public class PermissionTest extends DomainTest {
 		
 		assertTrue(bill.can(doit));
 		
+		System.out.println(bill.permissions());
+		
 		assertTrue(bill.can(doit.on("1")));
 		
 		assertFalse(bill.can(dothat.on("1")));

@@ -22,6 +22,7 @@ public abstract class MemoryRepository<S extends Identified.State> implements St
 	
 	@Override
 	public void add(S object) {
+		
 		objects.put(object.id(),object);
 	}
 	
@@ -106,4 +107,5 @@ public abstract class MemoryRepository<S extends Identified.State> implements St
 	private static <R> MCriterion<R> reveal(Criterion<R> criterion) {
 		return Utils.reveal(criterion, MCriterion.class);
 	}
+
 }

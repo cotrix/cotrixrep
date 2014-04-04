@@ -10,7 +10,7 @@ import java.util.List;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.dsl.grammar.CodelistGrammar.FinalClause;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.virtualrepository.tabular.Row;
 import org.virtualrepository.tabular.Table;
 
@@ -107,7 +107,7 @@ public class Table2Codelist {
 	Codelist list() {
 		
 		boolean hasVersion = directives.version()!=null;
-		FinalClause clause= codelist().
+		SecondClause clause= codelist().
 				name(directives.name())
 				.with(codes.toArray(new Code[0]))
 				.attributes(directives.attributes().toArray(new Attribute[0]));

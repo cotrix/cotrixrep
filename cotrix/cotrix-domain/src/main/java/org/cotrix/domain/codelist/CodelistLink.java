@@ -1,33 +1,37 @@
 package org.cotrix.domain.codelist;
 
+import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
-/**
- * An {@link Identified}, {@link Attributed}, {@link Named} link between {@link Codelist}s.
- * 
- * @author Fabio Simeoni
- * 
- */
+
 public interface CodelistLink extends Identified, Attributed, Named {
 
 	/**
-	 * Returns the identifier of the target codelist.
+	 * Returns the target codelist.
 	 * 
-	 * @return the identifier
+	 * @return the target codelist
 	 */
-	String targetId();
-
+	Codelist target();
 	
-	
+	/**
+	 * Returns the type of values of link instances.
+	 * @return the type
+	 */
+	ValueType valueType();
+		
 	
 	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
 
-		String targetId();
+		Codelist.State target();
+		
+		ValueType valueType();
+		
+		void valueType(ValueType type);
 
-		void targetId(String id);
+		void target(Codelist.State state);
 	}
 
 	/**
@@ -41,17 +45,26 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		}
 
 		@Override
-		public String targetId() {
-			return state().targetId();
+		public Codelist target() {
+			return state().target() == null ? null : new Codelist.Private(state().target());
+		}
+		
+		@Override
+		public ValueType valueType() {
+			return state().valueType();
 		}
 
 		@Override
 		public void update(CodelistLink.Private changeset) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(changeset);
-
-			if (!state().targetId().equals(changeset.targetId()))
-				state().targetId(changeset.targetId());
+			
+			ValueType newtype = changeset.state().valueType();
+			
+			if (newtype!=null)
+				state().valueType(newtype);
+			
+			//ignore target, DSL should have prevented this statically anyway
 		}
 
 	}

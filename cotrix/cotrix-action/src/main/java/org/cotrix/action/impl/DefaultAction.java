@@ -129,7 +129,7 @@ public final class DefaultAction implements Action {
 	}
 	
 	private boolean match(String s1, String s2) {
-		return s1.equals(s2) || s2==any;
+		return s1.equals(s2) || any.equals(s2);
 	}
 	
 	@Override

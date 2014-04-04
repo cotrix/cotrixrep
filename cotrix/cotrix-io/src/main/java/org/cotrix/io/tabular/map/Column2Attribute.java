@@ -4,7 +4,7 @@ import static org.cotrix.common.Report.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.TypeClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
 import org.virtualrepository.tabular.Row;
 
 /**
@@ -40,7 +40,7 @@ public class Column2Attribute {
 		
 		Attribute attribute = null;
 		
-		TypeClause sentence = attribute().name(mapping.name()).value(value);
+		OptionalClause sentence = attribute().name(mapping.name()).value(value);
 		
 		if (mapping.type()!=null)
 			if (mapping.language()!=null)

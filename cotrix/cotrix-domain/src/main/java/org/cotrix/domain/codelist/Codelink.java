@@ -5,7 +5,8 @@ import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 
 /**
- * An {@link Identified} and {@link Attributed} instance of a {@link CodelistLink}.
+ * An {@link Identified} and {@link Attributed} instance of a
+ * {@link CodelistLink}.
  * 
  * @author Fabio Simeoni
  * 
@@ -13,26 +14,29 @@ import org.cotrix.domain.trait.Identified;
 public interface Codelink extends Identified, Attributed {
 
 	/**
-	 * Returns the definition of this link.
+	 * Returns the type of this link.
 	 * 
-	 * @return the definition
+	 * @return the type
 	 */
-	CodelistLink definition();
+	CodelistLink type();
 
 	/**
-	 * Returns the identifier of the target of this link.
+	 * Returns the value of this link.
 	 * 
-	 * @return the target identifier
+	 * @return the link value, or <code>null</code> if the link is orphaned.
 	 */
-	String targetId();
+	Object value();
 
 	static interface State extends Identified.State, Attributed.State, EntityProvider<Private> {
 
-		CodelistLink.State definition();
+		CodelistLink.State type();
 
-		String targetId();
+		void type(CodelistLink.State state);
 
-		void targetId(String id);
+		Code.State target();
+
+		void target(Code.State code);
+
 	}
 
 	/**
@@ -46,13 +50,15 @@ public interface Codelink extends Identified, Attributed {
 		}
 
 		@Override
-		public String targetId() {
-			return state().targetId();
+		public Object value() {
+
+			return resolve(this.state(), this.type().state());
+
 		}
 
 		@Override
-		public CodelistLink.Private definition() {
-			return new CodelistLink.Private(state().definition());
+		public CodelistLink.Private type() {
+			return new CodelistLink.Private(state().type());
 		}
 
 		@Override
@@ -60,10 +66,20 @@ public interface Codelink extends Identified, Attributed {
 
 			super.update(changeset);
 
-			definition().update(changeset.definition());
+			Code.State newtarget = changeset.state().target();
 
-			if (!targetId().equals(changeset.targetId()))
-				state().targetId(changeset.targetId());
+			if (newtarget != null)
+				state().target(newtarget);
+
+			// wont'update type
+		}
+
+		// extracted to reuse below this layer (for link-of-links) without
+		// object instantiation costs
+		public static Object resolve(Codelink.State link, CodelistLink.State type) {
+
+			// dynamic resolution (includes orphan link case)
+			return link.target() == null ? null : type.valueType().valueIn(link.target());
 		}
 
 	}

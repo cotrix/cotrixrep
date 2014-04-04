@@ -59,7 +59,7 @@ public interface Identified {
 		}
 
 		public boolean isChangeset() {
-			return status() != null;
+			return status() == Status.MODIFIED || status() == Status.DELETED;
 		}
 
 		public Status status() {
@@ -74,7 +74,7 @@ public interface Identified {
 			if (isChangeset())
 				throw new IllegalStateException("entity " + state.id() + "("+getClass().getCanonicalName()+") is a changeset and cannot be updated");
 
-			if (changeset.status() == null || changeset.status() != Status.MODIFIED)
+			if (!changeset.isChangeset() || changeset.status() != Status.MODIFIED)
 				throw new IllegalArgumentException("entity " + state.id() + "("+getClass().getCanonicalName()+") cannot be updated with a "
 						+ (changeset.status() == null ? "NEW" : changeset.status()) + " object");
 
