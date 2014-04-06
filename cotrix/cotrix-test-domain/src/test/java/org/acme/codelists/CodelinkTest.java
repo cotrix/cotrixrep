@@ -30,6 +30,7 @@ public class CodelinkTest extends DomainTest {
 		Codelink link  = like(link().instanceOf(listLink).target(code).attributes(a).build());
 		
 		assertEquals(listLink,link.type());
+		assertEquals(link.type().name(),link.name());
 		
 		assertEquals(a,link.attributes().lookup(a.name()));
 	}
@@ -150,27 +151,27 @@ public class CodelinkTest extends DomainTest {
 			
 			//normal update
 			if (link.id().equals(link1.id()))
-				assertEquals(code2.id(),reveal(link).state().target().id());
+				assertEquals(code2.id(),link.target().id());
 		
 			//group semantics
 			else if (link.id().equals(link2.id()))
-				assertEquals(code2.id(),reveal(link).state().target().id());
+				assertEquals(code2.id(),link.target().id());
 			
 			//normal update
 			else if (link.id().equals(link4.id())) {
-				assertEquals(code4.id(),reveal(link).state().target().id());
+				assertEquals(code4.id(),link.target().id());
 				assertTrue(link.attributes().contains(a.name()));
 			}	
 			
 			//group semantics
 			else if (link.id().equals(link3.id())) {
-				assertEquals(code4.name(),reveal(link).state().target().name());
+				assertEquals(code4.name(),link.target().name());
 				assertFalse(link.attributes().contains(a.name()));
 			}	
 				
 			//untouched
 			else if (link.id().equals(link5.id())) {
-				assertEquals(code5.id(),reveal(link).state().target().id());
+				assertEquals(code5.id(),link.target().id());
 				assertTrue(link.attributes().contains(a.name()));
 			}
 		}

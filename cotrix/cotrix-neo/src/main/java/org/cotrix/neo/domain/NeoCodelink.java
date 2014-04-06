@@ -3,6 +3,8 @@ package org.cotrix.neo.domain;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 import static org.neo4j.graphdb.Direction.*;
 
+import javax.xml.namespace.QName;
+
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.CodelistLink;
@@ -37,6 +39,17 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 		target(state.target());
 		type(state.type());
 		
+	}
+	
+	@Override
+	public QName name() {
+		CodelistLink.State type = type();
+		return type==null?null:type.name();
+	}
+	
+	@Override
+	public void name(QName name) {
+		throw new UnsupportedOperationException("codelink names are read-only");
 	}
 	
 	public Codelink.Private entity() {

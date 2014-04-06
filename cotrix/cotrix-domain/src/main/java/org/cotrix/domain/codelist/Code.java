@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cotrix.domain.common.Container;
-import org.cotrix.domain.common.StateContainer;
+import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.memory.CodelinkMS;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
@@ -29,7 +29,7 @@ public interface Code extends Identified,Attributed,Named {
 	 * Returns the {@link Codelink}s of this code.
 	 * @return the links
 	 */
-	Container<? extends Codelink> links();
+	NamedContainer<? extends Codelink> links();
 	
 	
 	
@@ -37,7 +37,7 @@ public interface Code extends Identified,Attributed,Named {
 	
 	interface State extends Identified.State, Named.State, Attributed.State, EntityProvider<Private> {
 		
-		StateContainer<Codelink.State> links();
+		NamedStateContainer<Codelink.State> links();
 		
 	}
 	
@@ -52,9 +52,9 @@ public interface Code extends Identified,Attributed,Named {
 		
 		
 		@Override
-		public Container.Private<Codelink.Private,Codelink.State> links() {
+		public NamedContainer.Private<Codelink.Private,Codelink.State> links() {
 			
-			return container(state().links());
+			return namedContainer(state().links());
 			
 		}
 		
@@ -130,7 +130,7 @@ public interface Code extends Identified,Attributed,Named {
 			}
 			
 			//compensation update
-			links().update(container(beans(changes)));
+			links().update(namedContainer(namedBeans(changes)));
 		}
 				
 		

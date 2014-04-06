@@ -2,6 +2,8 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
+import javax.xml.namespace.QName;
+
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelink.Private;
@@ -29,6 +31,16 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 		type(new CodelistLinkMS(target.type()));
 	}
 
+	@Override
+	public QName name() {
+		return type==null?null:type.name();
+	}
+	
+	@Override
+	public void name(QName name) {
+		throw new UnsupportedOperationException("codelink names are read-only");
+	}
+	
 	public Code.State target() {
 		return target;
 	}

@@ -5,7 +5,7 @@ import static org.cotrix.neo.domain.Constants.NodeType.*;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Code.Private;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.common.StateContainer;
+import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
@@ -44,7 +44,7 @@ public class NeoCode extends NeoNamed implements Code.State {
 	}
 
 	@Override
-	public StateContainer<Codelink.State> links() {
+	public NamedStateContainer<Codelink.State> links() {
 		return new NeoContainer<>(node(), Relations.LINK, NeoCodelink.factory);
 	}
 
