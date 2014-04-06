@@ -1,5 +1,6 @@
 package org.cotrix.domain.codelist;
 
+import org.cotrix.domain.links.OccurrenceRange;
 import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.trait.Attributed;
@@ -29,6 +30,12 @@ public interface CodelistLink extends Identified, Attributed, Named {
 	 * @return the function
 	 */
 	ValueFunction function();
+	
+	/**
+	 * Returns the occurrence range for link instances.
+	 * @return the range
+	 */
+	OccurrenceRange range();
 		
 	
 	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
@@ -44,6 +51,10 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		void function(ValueFunction function);
 
 		void target(Codelist.State state);
+		
+		OccurrenceRange range();
+		
+		void range(OccurrenceRange type);
 	}
 
 	/**
@@ -71,6 +82,11 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		public ValueFunction function() {
 			return state().function();
 		}
+		
+		@Override
+		public OccurrenceRange range() {
+			return state().range();
+		}
 
 		@Override
 		public void update(CodelistLink.Private changeset) throws IllegalArgumentException, IllegalStateException {
@@ -87,6 +103,11 @@ public interface CodelistLink extends Identified, Attributed, Named {
 			
 			if (newfunction!=null)
 				state().function(newfunction);
+			
+			OccurrenceRange newrange = changeset.state().range();
+			
+			if (newrange!=null)
+				state().range(newrange);
 			
 			//ignore target, DSL should have prevented this statically anyway
 		}

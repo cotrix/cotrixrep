@@ -2,6 +2,7 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.links.OccurrenceRanges.*;
 import static org.cotrix.domain.links.ValueFunctions.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.junit.Assert.*;
@@ -13,7 +14,6 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.links.ValueFunctions;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.utils.AttributeTemplate;
 import org.cotrix.domain.utils.LinkTemplate;
@@ -31,7 +31,8 @@ public class CodelistLinkTest extends DomainTest {
 		assertEquals(name,link.name());
 		assertEquals(list,link.target());
 		assertEquals(NameLink.INSTANCE,link.valueType());
-		assertEquals(ValueFunctions.identity,reveal(link).state().function());
+		assertEquals(identity,reveal(link).state().function());
+		assertEquals(arbitrarily,reveal(link).state().range());
 		
 		Attribute a = attribute().name(name).build();
 		
@@ -54,10 +55,13 @@ public class CodelistLinkTest extends DomainTest {
 		
 		assertEquals(new LinkOfLink(new LinkTemplate(linktemplate)),link.valueType());
 		
-		
 		link  = listLink().name(name).target(list).transformWith(lowercase).build();
 		
 		assertEquals(lowercase,reveal(link).state().function());
+		
+		link  = listLink().name(name).target(list).occurs(atmost(5)).build();
+		
+		assertEquals(atmost(5),reveal(link).state().range());
 	}
 	
 	@Test
@@ -73,6 +77,7 @@ public class CodelistLinkTest extends DomainTest {
 		link =  modifyListLink("1").anchorToName().build();
 		link =  modifyListLink("1").anchorTo(link).build();
 		link =  modifyListLink("1").transformWith(uppercase).build();
+		link =  modifyListLink("1").occurs(atmostonce).build();
 		
 		//changed
 		assertEquals(MODIFIED,((CodelistLink.Private) link).status());
@@ -121,6 +126,20 @@ public class CodelistLinkTest extends DomainTest {
 		reveal(link).update(reveal(changeset));
 		
 		assertEquals(new AttributeLink(new AttributeTemplate(a)),link.valueType());
+		
+	}
+	
+	@Test
+	public void changeRange() {
+		
+		
+		CodelistLink link = like(listLink().name(name).target(someTarget()).build());
+		
+		CodelistLink changeset = modifyListLink(link.id()).occurs(once).build();
+		
+		reveal(link).update(reveal(changeset));
+		
+		assertEquals(once,link.range());
 		
 	}
 	

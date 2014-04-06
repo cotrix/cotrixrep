@@ -19,6 +19,7 @@ public class Constants {
 	public static final String state_prop = "state";
 	public static final String target_prop = "target";
 	public static final String function_prop = "function";
+	public static final String range_prop = "range";
 	
 	public static enum NodeType implements Label {
 		

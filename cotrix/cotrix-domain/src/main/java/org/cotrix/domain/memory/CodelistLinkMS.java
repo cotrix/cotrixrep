@@ -2,11 +2,13 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.links.NameLink.*;
+import static org.cotrix.domain.links.OccurrenceRanges.*;
 import static org.cotrix.domain.links.ValueFunctions.*;
 
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.Private;
+import org.cotrix.domain.links.OccurrenceRange;
 import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.trait.Status;
@@ -22,10 +24,12 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	private Codelist.State target;
 	private ValueType type;
 	private ValueFunction function;
+	private OccurrenceRange range;
 	
 	public CodelistLinkMS() {
 		valueType(INSTANCE);
 		function(identity);
+		range(arbitrarily);
 		
 	}
 	
@@ -37,6 +41,7 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 		super(state);
 		target(state.target());
 		valueType(state.valueType());
+		range(state.range());
 	}
 
 	public ValueType valueType() {
@@ -46,6 +51,15 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	public void valueType(ValueType type) {
 		notNull("link type",type);
 		this.type=type;
+	}
+	
+	public OccurrenceRange range() {
+		return range;
+	}
+	
+	public void range(OccurrenceRange range) {
+		notNull("occurrence range",range);
+		this.range=range;
 	}
 	
 	@Override

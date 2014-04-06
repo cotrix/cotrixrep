@@ -2,6 +2,7 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.links.OccurrenceRanges.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.junit.Assert.*;
@@ -211,6 +212,27 @@ public class CodelinkTest extends DomainTest {
 		reveal(code).update(reveal(codechange));
 		
 	}
+	
+	@Test
+	public void rangesAreEnforced() {
+		
+		CodelistLink listLink = like(listLink().name("link").target(someCodelist()).occurs(once).build());
+		
+		Code code = someTarget();
+		
+		Codelink link1  = link().instanceOf(listLink).target(code).build();
+		Codelink link2  = link().instanceOf(listLink).target(code).build();
+		
+		try {
+			code = like(code().name("s").links(link1,link2).build());
+			fail();
+		}
+		catch(IllegalArgumentException e) {
+			
+		}
+		
+	}
+	
 	
 	@Test
 	public void changeTarget() {
