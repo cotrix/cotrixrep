@@ -63,17 +63,24 @@ public interface Codelink extends Identified, Attributed {
 
 		@Override
 		public void update(Private changeset) throws IllegalArgumentException, IllegalStateException {
-
+			
 			super.update(changeset);
-
+			
 			Code.State newtarget = changeset.state().target();
 
 			if (newtarget != null)
 				state().target(newtarget);
-
+			
 			// wont'update type
 		}
 
+		
+		@Override
+		public String toString() {
+			return "Codelink [id="+id()+", type=" + state().type() + " :--> " + state().target().id()+"]" ;
+		}
+		
+		
 		// extracted to reuse below this layer (for link-of-links) without
 		// object instantiation costs
 		public static Object resolve(Codelink.State link, CodelistLink.State type) {
@@ -83,4 +90,5 @@ public interface Codelink extends Identified, Attributed {
 		}
 
 	}
+	
 }

@@ -48,18 +48,20 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 		
 		Relationship rel = node().getSingleRelationship(Relations.LINK,OUTGOING);
 		
-		//links should always have a target
-		if (rel==null)
-			throw new IllegalStateException(id()+" has an orphaned target link");
-		
-		return NeoCode.factory.beanFrom(rel.getEndNode());
+		return rel==null  ? null : NeoCode.factory.beanFrom(rel.getEndNode());
+				
 	}
 	
 	@Override
 	public void target(Code.State state) {
 		
-		node().createRelationshipTo(node(state), Relations.LINK);
+		Relationship rel = node().getSingleRelationship(Relations.LINK,OUTGOING);
 		
+		//'at most one' semantics
+		if (rel!=null)
+			rel.delete();
+		
+		node().createRelationshipTo(node(state), Relations.LINK);
 	}
 	
 	@Override
