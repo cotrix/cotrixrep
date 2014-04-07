@@ -15,6 +15,8 @@ import javax.inject.Inject;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.cdi.ApplicationEvents.FirstTime;
 import org.cotrix.common.cdi.ApplicationEvents.Ready;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.user.User;
@@ -27,6 +29,7 @@ import org.cotrix.io.tabular.map.ColumnDirectives;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.cotrix.security.SignupService;
 import org.cotrix.stage.data.SomeCodelists.Info;
+import org.cotrix.stage.data.SyntheticCodelists;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +63,15 @@ public class CodelistsStager {
 
 		for (Info info : SDMX_CODELISTS)
 			stageSDMX(info);
+
+		
+		
+		Codelist list = SyntheticCodelists.demo();
+		ingester.ingest(list);
+		
+		Codelist linked = SyntheticCodelists.linked(list);
+		
+		ingester.ingest(linked);
 		
 //		for(Codelist list : SyntheticCodelists.synthetics)
 //			ingester.ingest(list);

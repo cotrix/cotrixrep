@@ -72,6 +72,10 @@ public class ValueFunctions {
 			this.expression=expression;
 		}
 		
+		public String expression() {
+			return expression;
+		}
+		
 		@Override
 		public String apply(String value) {
 			try {
