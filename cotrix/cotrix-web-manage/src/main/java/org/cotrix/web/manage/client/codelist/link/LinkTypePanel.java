@@ -5,8 +5,6 @@ package org.cotrix.web.manage.client.codelist.link;
 
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.common.shared.codelist.link.AttributeType;
-import org.cotrix.web.manage.client.codelist.link.LinkTypeDetailsPanel.ValueType;
 import org.cotrix.web.manage.client.codelist.link.LinkTypeHeader.Button;
 import org.cotrix.web.manage.client.codelist.link.LinkTypeHeader.HeaderListener;
 
@@ -191,12 +189,12 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		detailsPanel.setValidCodelist(codelistValid);
 		valid &= codelistValid;
 
-		if (detail.getValueType() == ValueType.ATTRIBUTE) {
+		/*if (detail.getValueType() == ValueType.ATTRIBUTE) {
 			AttributeType attribute = detail.getAttribute();
 			boolean validAttribute = attribute != null;
 			detailsPanel.setValidAttribute(validAttribute);
 			valid &= validAttribute;
-		}
+		}*/
 
 		//we use object reference
 		if (detail.getFunction() == LinkTypeDetailsPanel.OTHER_FUNCTION) {

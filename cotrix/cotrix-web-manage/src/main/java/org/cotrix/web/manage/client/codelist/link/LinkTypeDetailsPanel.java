@@ -3,18 +3,26 @@
  */
 package org.cotrix.web.manage.client.codelist.link;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.link.AttributeType;
-import org.cotrix.web.manage.client.codelist.link.AttributeSuggestOracle.AttributeSuggestion;
+import org.cotrix.web.common.shared.codelist.link.CodeNameType;
+import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
 import org.cotrix.web.manage.client.codelist.link.CodelistSuggestOracle.CodelistSuggestion;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
+import org.cotrix.web.manage.client.util.AttributeTypes;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Node;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.OptionElement;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -46,6 +54,9 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	
 	public static final String NONE_FUNCTION = "NONE";
 	public static final String OTHER_FUNCTION = "OTHER";
+	
+	public static final String CODE_NAME_VALUE_TYPE = Document.get().createUniqueId();
+	public static final CodeNameType CODE_NAME_TYPE = new CodeNameType();
 
 	private static LinkTypeDetailsPanelUiBinder uiBinder = GWT.create(LinkTypeDetailsPanelUiBinder.class);
 
@@ -56,8 +67,6 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		String editor();
 	}
 	
-	public enum ValueType {NAME, ATTRIBUTE, LINK};
-	
 	@UiField EditableLabel nameContainer;
 	@UiField TextBox name;
 	
@@ -67,12 +76,9 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 
 	@UiField EditableLabel valueTypeContainer;
 	@UiField ListBox valueType;
-	
-
-	@UiField TableRowElement attributeRow;
-	@UiField EditableLabel attributeContainer;	
-	@UiField(provided=true) SuggestBox attribute;
-	@UiField Image attributeLoader;
+	@UiField Image valueTypeLoader;
+	private Map<String, UIValueType> idToValueTypeMap;
+	private Map<UIValueType, String> valueTypeToIdMap;
 	
 	@UiField EditableLabel valueFunctionContainer;
 	@UiField ListBox valueFunction;
@@ -85,10 +91,8 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	@UiField Style style;
 	
 	private UICodelist selectedCodelist;
-	private AttributeType selectedAttribute;
 	
 	private CodelistSuggestOracle codelistSuggestOracle = new CodelistSuggestOracle();	
-	private AttributeSuggestOracle attributeSuggestOracle = new AttributeSuggestOracle();
 	
 	private CodelistInfoProvider codelistInfoProvider;
 	
@@ -116,34 +120,12 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 			public void onSelection(SelectionEvent<Suggestion> event) {
 				CodelistSuggestion suggestion = (CodelistSuggestion) event.getSelectedItem();
 				selectedCodelist = suggestion.getCodelist();
-				updateAttribute(selectedCodelist.getId());
+				updateValueType(selectedCodelist.getId(), null);
 				codelistContainer.setText(CodelistSuggestion.toDisplayString(selectedCodelist));
 				fireChange();
 			}
 		});
 
-		attribute = new SuggestBox(attributeSuggestOracle);
-		attribute.setAutoSelectEnabled(true);
-		attribute.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
-			
-			@Override
-			public void onSelection(SelectionEvent<Suggestion> event) {
-				AttributeSuggestion suggestion = (AttributeSuggestion) event.getSelectedItem();
-				selectedAttribute = suggestion.getAttribute();
-				fireChange();
-			}
-		});
-		
-		attribute.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				selectedAttribute = null;
-				attributeContainer.setText(AttributeSuggestion.toDetailsString(selectedAttribute));
-				fireChange();
-			}
-		});
-		
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		name.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -156,18 +138,18 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 			
 		});
 		
+		idToValueTypeMap = new HashMap<String, UIValueType>();
+		valueTypeToIdMap = new HashMap<UIValueType, String>();
+		addValueTypeCode();
+		
 		valueType.addChangeHandler(new ChangeHandler() {
 			
 			@Override
 			public void onChange(ChangeEvent event) {
-				updateValueTypeSubPanels();
-				valueTypeContainer.setText(getValueType().toString());
+				syncValueTypeContainerText();
 				fireChange();
 			}
 		});
-		
-		valueType.setSelectedIndex(0);
-		updateValueTypeSubPanels();
 		
 		valueFunction.addItem("None", NONE_FUNCTION);
 		valueFunction.addItem("UpperCase", "");
@@ -226,14 +208,9 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		codelistInfoProvider.getCodelists(codelistCallBack);
 	}
 	
-	private ValueType getValueType() {
-		String value = valueType.getValue(valueType.getSelectedIndex());
-		return ValueType.valueOf(value);
-	}
-	
-	private void updateValueTypeSubPanels() {
-		ValueType value = getValueType();
-		setAttributeBoxVisible(value==ValueType.ATTRIBUTE);
+	private UIValueType getValueType() {
+		String id = valueType.getValue(valueType.getSelectedIndex());
+		return idToValueTypeMap.get(id);
 	}
 	
 	private void updateValueFunctionSubPanels() {
@@ -241,13 +218,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		setFunctionBoxVisible(OTHER_FUNCTION.equals(function));
 	}
 	
-	private void setAttributeBoxVisible(boolean visible) {
-		//mainPanel.getRowFormatter().setVisible(3, visible);
-		UIObject.setVisible(attributeRow, visible);
-	}
-	
 	private void setFunctionBoxVisible(boolean visible) {
-		//mainPanel.getRowFormatter().setVisible(5, visible);
 		UIObject.setVisible(functionRow, visible);
 	}
 	
@@ -258,34 +229,73 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		return selectedFunction;
 	}
 	
-	private AsyncCallback<List<AttributeType>> attributesCallBack = new AsyncCallback<List<AttributeType>>() {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(List<AttributeType> result) {
-			attributeSuggestOracle.loadCache(result);
-			
-			if (!result.contains(selectedAttribute)) {
-				selectedAttribute = null;
-				attribute.setValue("");
-				attributeContainer.setText("");
-			}
-			
-			attributeLoader.setVisible(false);
-			attributeContainer.setVisible(true);
-		}
-	};
-	
-	private void updateAttribute(final String codelistId) {
-		attributeLoader.setVisible(true);
-		attributeContainer.setVisible(false);
+	private void updateValueType(final String codelistId, final UIValueType type) {
+		valueTypeLoader.setVisible(true);
+		valueTypeContainer.setVisible(false);
 		
-		codelistInfoProvider.getAttributes(codelistId, attributesCallBack);
+		codelistInfoProvider.getAttributes(codelistId, new AsyncCallback<List<AttributeType>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(List<AttributeType> result) {
+				
+				updateValueTypeList(result);
+				if (type!=null) setValueType(type);
+				
+				valueTypeLoader.setVisible(false);
+				valueTypeContainer.setVisible(true);
+			}
+		});
+	}
+	
+	private void mapValueType(String id, UIValueType type) {
+		idToValueTypeMap.put(id, type);
+		valueTypeToIdMap.put(type, id);
+	}
+	
+	private void addValueTypeCode() {
+		valueType.addItem("Code", CODE_NAME_VALUE_TYPE);
+		mapValueType(CODE_NAME_VALUE_TYPE, CODE_NAME_TYPE);
+		setItemColor(valueType, CODE_NAME_VALUE_TYPE, "black");
+
+		valueType.setSelectedIndex(0);
+		syncValueTypeContainerText();
+	}
+	
+	private void updateValueTypeList(List<AttributeType> attributeTypes) {
+		valueType.clear();
+		idToValueTypeMap.clear();
+		
+		addValueTypeCode();
+		
+		Map<AttributeType, String> labels = AttributeTypes.generateLabels(attributeTypes);
+		for (Map.Entry<AttributeType, String> entry:labels.entrySet()) {
+			AttributeType type = entry.getKey();
+			String label = entry.getValue();
+			String id = Document.get().createUniqueId();
+			valueType.addItem(label, id);
+			mapValueType(id, type);
+		}
+	}
+	
+	private void setItemColor(ListBox listBox, String itemValue, String color) {
+		NodeList<Node> children = listBox.getElement().getChildNodes();       
+	    for (int i = 0; i< children.getLength();i++) {
+	      Node child = children.getItem(i);
+	        if (child.getNodeType()==Node.ELEMENT_NODE) {
+	          if (child instanceof OptionElement) {
+	            OptionElement optionElement = (OptionElement) child;
+	              if (optionElement.getValue().equals(itemValue)) {
+	                 optionElement.getStyle().setColor(color);  
+	              }                   
+	            }
+	          }           
+	       }
 	}
 	
 	public void setValidName(boolean valid) {
@@ -296,11 +306,6 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	public void setValidCodelist(boolean valid) {
 		System.out.println("setValidCodelist valid: "+valid);
 		codelist.setStyleName(style.error(), !valid);
-	}
-	
-	public void setValidAttribute(boolean valid) {
-		System.out.println("setValidAttribute valid: "+valid);
-		attribute.setStyleName(style.error(), !valid);
 	}
 	
 	public void setValidFunction(boolean valid) {
@@ -317,9 +322,6 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		
 		valueTypeContainer.setReadOnly(readOnly);
 		
-		attributeContainer.setReadOnly(readOnly);
-		if (readOnly) attribute.setStyleName(style.error(), false);
-		
 		valueFunctionContainer.setReadOnly(readOnly);
 		
 		functionContainer.setReadOnly(readOnly);
@@ -330,9 +332,6 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		name.setValue("", false);
 		codelist.getValueBox().setValue("", false);
 		selectedCodelist = null;
-		valueType.setItemSelected(0, true);
-		attribute.getValueBox().setValue("", false);
-		selectedAttribute = null;
 		valueFunction.setItemSelected(0, true);
 		function.setValue("", false);
 	}
@@ -345,14 +344,8 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		codelist.getValueBox().setValue(CodelistSuggestion.toDisplayString(selectedCodelist), false);
 		codelistContainer.setText(CodelistSuggestion.toDisplayString(selectedCodelist));
 		
-		setValueType(details.getValueType());
-		valueTypeContainer.setText(details.getValueType().toString());
-		
-		selectedAttribute = details.getAttribute();
-		attribute.getValueBox().setValue(AttributeSuggestion.toDetailsString(selectedAttribute), false);
-		updateAttribute(selectedCodelist.getId());
-		attributeContainer.setText(AttributeSuggestion.toDetailsString(selectedAttribute));
-		
+		updateValueType(selectedCodelist.getId(), details.getValueType());
+
 		setValueFunction(details.getFunction());
 		valueFunctionContainer.setText(details.getFunction());
 		
@@ -360,9 +353,14 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		functionContainer.setText(details.getCustomFunction());
 	}
 	
-	private void setValueType(ValueType type) {
-		selecteItem(valueType, type.toString());
-		updateValueTypeSubPanels();
+	private void setValueType(UIValueType type) {
+		String id = valueTypeToIdMap.get(type);
+		selecteItem(valueType, id);
+		syncValueTypeContainerText();
+	}
+	
+	private void syncValueTypeContainerText() {
+		valueTypeContainer.setText(valueType.getItemText(valueType.getSelectedIndex()));
 	}
 	
 	private void setValueFunction(String functionName) {
@@ -384,7 +382,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	public LinkTypeDetails getDetails() {
 		
 		String customFunction = function.isVisible()?null:function.getValue();
-		return new LinkTypeDetails(name.getValue(), selectedCodelist, getValueType(), selectedAttribute, getValueFunction(), customFunction);
+		return new LinkTypeDetails(name.getValue(), selectedCodelist, getValueType(), getValueFunction(), customFunction);
 	}
 	
 	private void fireChange() {

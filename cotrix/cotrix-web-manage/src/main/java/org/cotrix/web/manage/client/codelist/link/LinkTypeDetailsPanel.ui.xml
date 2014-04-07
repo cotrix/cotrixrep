@@ -61,44 +61,35 @@
 			</tr>
 			<tr>
 				<td class="{resources.propertyGrid.header}">
-					<div>Anchor to</div>
+					<div>Anchor</div>
 				</td>
 				<td class="{resources.propertyGrid.value}">
 					<l:EditableLabel ui:field="valueTypeContainer"
 						labelStyle="{resources.propertyGrid.textValue}">
 						<l:editor>
-							<g:ListBox multipleSelect="false" ui:field="valueType" styleName="{commonresources.css.listBox}">
-								<g:item value="NAME">
-									Name
-								</g:item>
-								<g:item value="ATTRIBUTE">
-									Attribute
-								</g:item>
-								<g:item value="LINK">
-									Link
-								</g:item>
-							</g:ListBox>
+							<g:ListBox multipleSelect="false" ui:field="valueType" styleName="{commonresources.css.listBox}" />
 						</l:editor>
 					</l:EditableLabel>
+					<g:Image resource="{commonresources.dataLoader}" visible="false" ui:field="valueTypeLoader" styleName="{style.loader}"/>
 				</td>
 			</tr>
-			<tr ui:field="attributeRow">
-				<td>
-				</td>
-				<td class="{resources.propertyGrid.value}">
-					<g:FlowPanel>
-						<l:EditableLabel ui:field="attributeContainer"
-							labelStyle="{resources.propertyGrid.textValue}">
-							<l:editor>
-								<g:SuggestBox ui:field="attribute"
-									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
-							</l:editor>
-						</l:EditableLabel>
-						<g:Image resource="{commonresources.dataLoader}" visible="false"
-							ui:field="attributeLoader" styleName="{style.loader}"/>
-					</g:FlowPanel>
-				</td>
-			</tr>
+<!-- 			<tr ui:field="attributeRow"> -->
+<!-- 				<td> -->
+<!-- 				</td> -->
+<!-- 				<td class="{resources.propertyGrid.value}"> -->
+<!-- 					<g:FlowPanel> -->
+<!-- 						<l:EditableLabel ui:field="attributeContainer" -->
+<!-- 							labelStyle="{resources.propertyGrid.textValue}"> -->
+<!-- 							<l:editor> -->
+<!-- 								<g:SuggestBox ui:field="attribute" -->
+<!-- 									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" /> -->
+<!-- 							</l:editor> -->
+<!-- 						</l:EditableLabel> -->
+<!-- 						<g:Image resource="{commonresources.dataLoader}" visible="false" -->
+<!-- 							ui:field="attributeLoader" styleName="{style.loader}"/> -->
+<!-- 					</g:FlowPanel> -->
+<!-- 				</td> -->
+<!-- 			</tr> -->
 			<tr>
 				<td class="{resources.propertyGrid.header}">
 					<div>Transform</div>

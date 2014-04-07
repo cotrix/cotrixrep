@@ -6,6 +6,7 @@ import static org.cotrix.repository.CodelistQueries.*;
 import static org.cotrix.web.manage.shared.ManagerUIFeature.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,6 +26,7 @@ import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
@@ -37,6 +39,7 @@ import org.cotrix.web.common.server.task.CodelistTask;
 import org.cotrix.web.common.server.task.ContainsTask;
 import org.cotrix.web.common.server.task.Id;
 import org.cotrix.web.common.server.util.Codelists;
+import org.cotrix.web.common.server.util.LinkTypes;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.UICode;
@@ -44,7 +47,6 @@ import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.link.AttributeType;
-import org.cotrix.web.common.shared.codelist.link.CodeNameType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
@@ -99,7 +101,7 @@ public class ManageServiceImpl implements ManageService {
 
 	@Inject
 	private Event<CodelistActionEvents.CodelistEvent> events;
-	
+
 	@Inject @Current
 	private BeanSession session;
 
@@ -162,7 +164,7 @@ public class ManageServiceImpl implements ManageService {
 				else query.sort(byAttribute(attribute, attributeGroupSortInfo.getPosition() + 1));
 			}
 		}
-		
+
 		Iterable<Code> codes  = repository.get(query);
 		List<UICode> uiCodes = new ArrayList<UICode>(range.getLength());
 		for (Code code:codes) {
@@ -172,7 +174,7 @@ public class ManageServiceImpl implements ManageService {
 		logger.trace("retrieved {} rows", uiCodes.size());
 		return new DataWindow<UICode>(uiCodes, codelist.codes().size());
 	}
-	
+
 	@Override
 	@CodelistTask(VIEW)
 	public Set<Group> getAttributesGroups(@Id String codelistId) throws ServiceException {
@@ -180,9 +182,9 @@ public class ManageServiceImpl implements ManageService {
 
 		Iterable<Code> codes  = repository.get(allCodesIn(codelistId));
 		Set<Group> groups = GroupFactory.getGroups(codes);
-		
+
 		logger.trace("Generated {} groups: {}", groups.size(), groups);
-		
+
 		return groups;
 	}
 
@@ -257,7 +259,7 @@ public class ManageServiceImpl implements ManageService {
 	public Set<UIQName> getAttributeNames(String codelistId) throws ServiceException {
 		logger.trace("getAttributeNames codelistId: {}",codelistId);
 		CodelistSummary summary = repository.get(summary(codelistId));
-		
+
 		Set<UIQName> names = new HashSet<>();
 		for (QName qName:summary.allNames()) {
 			names.add(ValueUtils.safeValue(qName));
@@ -273,7 +275,7 @@ public class ManageServiceImpl implements ManageService {
 		events.fire(new CodelistActionEvents.Create(newCodelist.id(),newCodelist.name(), newCodelist.version(), session));
 		return group;
 	}
-	
+
 	private CodelistGroup addCodelist(Codelist newCodelist) {
 		repository.add(newCodelist);
 		lifecycleService.start(newCodelist.id());
@@ -287,12 +289,14 @@ public class ManageServiceImpl implements ManageService {
 	@Override
 	public DataWindow<UILinkType> getCodelistLinkTypes(@Id String codelistId) throws ServiceException {
 		logger.trace("getCodelistLinkTypes codelistId: {}", codelistId);
-		List<UILinkType> types = new ArrayList<>();
 
-		Iterator<Codelist> it = repository.get(allLists()).iterator();
-		UICodelist codelist = Codelists.toUICodelist(it.next());
-		UILinkType linkType = new UILinkType("123", new UIQName("", "MyFirstLinkType"), codelist, null, new CodeNameType());
-		types.add(linkType);
+		Codelist codelist = repository.lookup(codelistId);
+
+		List<UILinkType> types = new ArrayList<>();
+		for (CodelistLink codelistLink:codelist.links()) {
+			types.add(LinkTypes.toLinkType(codelistLink));
+		}
+
 		return new DataWindow<>(types);
 	}
 
@@ -312,17 +316,21 @@ public class ManageServiceImpl implements ManageService {
 	public List<AttributeType> getAttributeTypes(String codelistId)	throws ServiceException {
 		logger.trace("getAttributeTypes codelistId: {}",codelistId);
 		CodelistSummary summary = repository.get(summary(codelistId));
-		
+
 		List<AttributeType> attributeTypes = new ArrayList<>();
 		for (QName name:summary.codeNames()) {
 			for (QName type:summary.codeTypesFor(name)) {
-				for (String language:summary.codeLanguagesFor(name, type)) {
-					attributeTypes.add(new AttributeType(ValueUtils.safeValue(name), ValueUtils.safeValue(type), language));
+				Collection<String> languages = summary.codeLanguagesFor(name, type);
+				if (languages.isEmpty()) attributeTypes.add(new AttributeType(ValueUtils.safeValue(name), ValueUtils.safeValue(type), ""));
+				else {
+					for (String language:languages) {
+						attributeTypes.add(new AttributeType(ValueUtils.safeValue(name), ValueUtils.safeValue(type), language));
+					}
 				}
 			}
 		}
 		logger.trace("returning "+attributeTypes.size()+" attribute types");
-		
+
 		return attributeTypes;
 	}
 }

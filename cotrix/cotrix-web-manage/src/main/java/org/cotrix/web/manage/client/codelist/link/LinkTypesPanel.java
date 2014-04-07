@@ -14,12 +14,9 @@ import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.link.AttributeType;
-import org.cotrix.web.common.shared.codelist.link.CodeNameType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
-import org.cotrix.web.manage.client.codelist.link.LinkTypeDetailsPanel.ValueType;
 import org.cotrix.web.manage.client.codelist.link.LinkTypePanel.LinkTypePanelListener;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -61,7 +58,7 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 		
 		gridResource.dataGridStyle().ensureInjected();
 		
-		Label header = new Label("Codelist link types");
+		Label header = new Label("Codelist Links");
 		header.setStyleName(gridResource.dataGridStyle().dataGridHeader());
 		panel.add(header);
 		
@@ -149,35 +146,19 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 		UIQName name = ValueUtils.getValue(details.getName());
 		UICodelist targetCodelist = details.getCodelist();
 		String valueFunction = details.getFunction();
-		UIValueType valueType = toValueType(details);
+		UIValueType valueType = details.getValueType();
 		return new UILinkType(null, name, targetCodelist, valueFunction, valueType);
 	}
 	
-	private UIValueType toValueType(LinkTypeDetails details) {
-		ValueType type = details.getValueType();
-		switch (type) {
-			case ATTRIBUTE: return details.getAttribute();
-			case NAME: return new CodeNameType();
-			case LINK: return null;
-			default: throw new IllegalArgumentException("Unknwown value type "+type);
-		}
-	}
+	
 	
 	private LinkTypeDetails toDetails(UILinkType linkType) {
 		String name = ValueUtils.getLocalPart(linkType.getName());
 		UICodelist codelist = linkType.getTargetCodelist();
-		ValueType valueType = getValueType(linkType.getValueType());
-		AttributeType attribute = valueType==ValueType.ATTRIBUTE?(AttributeType)linkType.getValueType():null;
 		String function = null;
 		String customFunction = linkType.getValueFunction();
 		
-		return new LinkTypeDetails(name, codelist, valueType, attribute, function, customFunction);
-	}
-	
-	private ValueType getValueType(UIValueType type) {
-		if (type instanceof AttributeType) return ValueType.ATTRIBUTE;
-		if (type instanceof CodeNameType) return ValueType.NAME;
-		throw new IllegalArgumentException("Unknwown value type "+type);
+		return new LinkTypeDetails(name, codelist, linkType.getValueType(), function, customFunction);
 	}
 	
 	private void updateSelection(LinkTypePanel selected) {
