@@ -47,6 +47,7 @@ import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.link.AttributeType;
+import org.cotrix.web.common.shared.codelist.link.LinkType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
@@ -56,6 +57,7 @@ import org.cotrix.web.manage.server.modify.ChangesetUtil;
 import org.cotrix.web.manage.server.modify.ModifyCommandHandler;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
 import org.cotrix.web.manage.shared.CodelistGroup;
+import org.cotrix.web.manage.shared.CodelistValueTypes;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
@@ -289,15 +291,19 @@ public class ManageServiceImpl implements ManageService {
 	@Override
 	public DataWindow<UILinkType> getCodelistLinkTypes(@Id String codelistId) throws ServiceException {
 		logger.trace("getCodelistLinkTypes codelistId: {}", codelistId);
-
+		List<UILinkType> types = getLinkTypes(codelistId);
+		logger.trace("found {} link types", types.size());
+		return new DataWindow<>(types);
+	}
+	
+	private List<UILinkType> getLinkTypes(String codelistId) {
 		Codelist codelist = repository.lookup(codelistId);
 
 		List<UILinkType> types = new ArrayList<>();
 		for (CodelistLink codelistLink:codelist.links()) {
 			types.add(LinkTypes.toLinkType(codelistLink));
 		}
-
-		return new DataWindow<>(types);
+		return types;
 	}
 
 	@Override
@@ -313,8 +319,8 @@ public class ManageServiceImpl implements ManageService {
 	}
 
 	@Override
-	public List<AttributeType> getAttributeTypes(String codelistId)	throws ServiceException {
-		logger.trace("getAttributeTypes codelistId: {}",codelistId);
+	public CodelistValueTypes getCodelistValueTypes(String codelistId)	throws ServiceException {
+		logger.trace("getCodelistValueTypes codelistId: {}",codelistId);
 		CodelistSummary summary = repository.get(summary(codelistId));
 
 		List<AttributeType> attributeTypes = new ArrayList<>();
@@ -329,8 +335,13 @@ public class ManageServiceImpl implements ManageService {
 				}
 			}
 		}
-		logger.trace("returning "+attributeTypes.size()+" attribute types");
+		logger.trace("returning {} attribute types", attributeTypes.size());
+		
+		List<UILinkType> uiLinkTypes = getLinkTypes(codelistId);
+		List<LinkType> types = new ArrayList<>(uiLinkTypes.size());
+		for (UILinkType uiLinkType:uiLinkTypes) types.add(new LinkType(uiLinkType));
 
-		return attributeTypes;
+		logger.trace("returning {} link types", types.size());
+		return new CodelistValueTypes(attributeTypes, types);
 	}
 }

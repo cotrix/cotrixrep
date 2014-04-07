@@ -26,4 +26,14 @@ public class CodeNameType implements UIValueType, IsSerializable {
 	public boolean equals(Object type) {
 		return type instanceof CodeNameType;
 	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CodeNameType []");
+		return builder.toString();
+	}
 }

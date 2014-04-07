@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.cotrix.common.cdi.Current;
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.common.shared.codelist.link.AttributeType;
 import org.cotrix.web.manage.client.ManageServiceAsync;
+import org.cotrix.web.manage.shared.CodelistValueTypes;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
@@ -43,8 +43,8 @@ public class CodelistInfoProviderImpl implements CodelistInfoProvider {
 	}
 
 	@Override
-	public void getAttributes(String codelistid, AsyncCallback<List<AttributeType>> callback) {
-		managerService.getAttributeTypes(codelistid, callback);
+	public void getCodelistValueTypes(String codelistid, AsyncCallback<CodelistValueTypes> callback) {
+		managerService.getCodelistValueTypes(codelistid, callback);
 	}
 
 }

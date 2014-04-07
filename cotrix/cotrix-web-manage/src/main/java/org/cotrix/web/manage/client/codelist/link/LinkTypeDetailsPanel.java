@@ -6,17 +6,21 @@ package org.cotrix.web.manage.client.codelist.link;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.link.AttributeType;
 import org.cotrix.web.common.shared.codelist.link.CodeNameType;
+import org.cotrix.web.common.shared.codelist.link.LinkType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
 import org.cotrix.web.manage.client.codelist.link.CodelistSuggestOracle.CodelistSuggestion;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.AttributeTypes;
+import org.cotrix.web.manage.client.util.ValueTypesGrouper;
+import org.cotrix.web.manage.shared.CodelistValueTypes;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -235,7 +239,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		valueTypeLoader.setVisible(true);
 		valueTypeContainer.setVisible(false);
 		
-		codelistInfoProvider.getAttributes(codelistId, new AsyncCallback<List<AttributeType>>() {
+		codelistInfoProvider.getCodelistValueTypes(codelistId, new AsyncCallback<CodelistValueTypes>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -244,7 +248,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 			}
 
 			@Override
-			public void onSuccess(List<AttributeType> result) {
+			public void onSuccess(CodelistValueTypes result) {
 				
 				//FIXME add type to list of values
 				updateValueTypeList(result);
@@ -270,15 +274,22 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		syncValueTypeContainerText();
 	}
 	
-	private void updateValueTypeList(List<AttributeType> attributeTypes) {
+	private void updateValueTypeList(CodelistValueTypes codelistValueTypes) {
 		valueType.clear();
 		idToValueTypeMap.clear();
 		
 		addValueTypeCode();
 		
-		Map<AttributeType, String> labels = AttributeTypes.generateLabels(attributeTypes);
-		for (Map.Entry<AttributeType, String> entry:labels.entrySet()) {
-			AttributeType type = entry.getKey();
+		Map<AttributeType, String> attributeTypesLabels = ValueTypesGrouper.generateLabelsForAttributeTypes(codelistValueTypes.getAttributeTypes());
+		addValueTypeItems(attributeTypesLabels);
+		
+		Map<LinkType, String> linkTypesLabels = ValueTypesGrouper.generateLabelsForLinkTypes(codelistValueTypes.getLinkTypes());
+		addValueTypeItems(linkTypesLabels);
+	}
+	
+	private void addValueTypeItems(Map<? extends UIValueType, String> labels) {
+		for (Entry<? extends UIValueType, String> entry:labels.entrySet()) {
+			UIValueType type = entry.getKey();
 			String label = entry.getValue();
 			String id = Document.get().createUniqueId();
 			valueType.addItem(label, id);
