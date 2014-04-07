@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.link.AttributeType;
 import org.cotrix.web.common.shared.codelist.link.CodeNameType;
+import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
 import org.cotrix.web.manage.client.codelist.link.CodelistSuggestOracle.CodelistSuggestion;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
@@ -50,7 +52,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHandlers<LinkTypeDetails>{
+public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHandlers<UILinkType>{
 	
 	public static final String NONE_FUNCTION = "NONE";
 	public static final String OTHER_FUNCTION = "OTHER";
@@ -244,6 +246,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 			@Override
 			public void onSuccess(List<AttributeType> result) {
 				
+				//FIXME add type to list of values
 				updateValueTypeList(result);
 				if (type!=null) setValueType(type);
 				
@@ -336,21 +339,21 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		function.setValue("", false);
 	}
 	
-	public void setDetails(LinkTypeDetails details) {
-		name.setValue(details.getName(), false);
-		nameContainer.setText(details.getName());
+	public void setLinkType(UILinkType details) {
+		name.setValue(ValueUtils.getLocalPart(details.getName()), false);
+		nameContainer.setText(ValueUtils.getLocalPart(details.getName()));
 		
-		selectedCodelist = details.getCodelist();
+		selectedCodelist = details.getTargetCodelist();
 		codelist.getValueBox().setValue(CodelistSuggestion.toDisplayString(selectedCodelist), false);
 		codelistContainer.setText(CodelistSuggestion.toDisplayString(selectedCodelist));
 		
 		updateValueType(selectedCodelist.getId(), details.getValueType());
 
-		setValueFunction(details.getFunction());
-		valueFunctionContainer.setText(details.getFunction());
+		setValueFunction(details.getValueFunction());
+		valueFunctionContainer.setText(details.getValueFunction());
 		
-		function.setValue(details.getCustomFunction(), false);
-		functionContainer.setText(details.getCustomFunction());
+		function.setValue(details.getValueFunction(), false);
+		functionContainer.setText(details.getValueFunction());
 	}
 	
 	private void setValueType(UIValueType type) {
@@ -379,18 +382,18 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		throw new IllegalArgumentException("Unknown itemValue "+itemValue);
 	}
 
-	public LinkTypeDetails getDetails() {
+	public UILinkType getLinkType() {
 		
 		String customFunction = function.isVisible()?null:function.getValue();
-		return new LinkTypeDetails(name.getValue(), selectedCodelist, getValueType(), getValueFunction(), customFunction);
+		return new UILinkType("", ValueUtils.getValue(name.getValue()), selectedCodelist, getValueFunction(), getValueType());
 	}
 	
 	private void fireChange() {
-		ValueChangeEvent.fire(this, getDetails());
+		ValueChangeEvent.fire(this, getLinkType());
 	}
 
 	@Override
-	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<LinkTypeDetails> handler) {
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<UILinkType> handler) {
 		return addHandler(handler, ValueChangeEvent.getType());
 	}
 

@@ -3,8 +3,10 @@
  */
 package org.cotrix.web.manage.client.codelist.link;
 
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.manage.client.codelist.link.LinkTypeHeader.Button;
 import org.cotrix.web.manage.client.codelist.link.LinkTypeHeader.HeaderListener;
 
@@ -24,7 +26,7 @@ import com.google.gwt.user.client.ui.Composite;
 public class LinkTypePanel extends Composite implements HasEditing {
 
 	public interface LinkTypePanelListener {
-		public void onSave(LinkTypeDetails details);
+		public void onSave(UILinkType details);
 		public void onCancel();
 		public void onSelect();
 	}
@@ -35,7 +37,7 @@ public class LinkTypePanel extends Composite implements HasEditing {
 	private LinkTypeHeader header;
 	private LinkTypeDetailsPanel detailsPanel;
 	private LinkTypePanelListener listener;
-	private LinkTypeDetails details;
+	private UILinkType currentLinkType;
 
 	private LinkDisclosurePanel disclosurePanel;
 
@@ -51,13 +53,12 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		disclosurePanel.add(detailsPanel);
 		initWidget(disclosurePanel);
 
-		detailsPanel.addValueChangeHandler(new ValueChangeHandler<LinkTypeDetails>() {
+		detailsPanel.addValueChangeHandler(new ValueChangeHandler<UILinkType>() {
 
 			@Override
-			public void onValueChange(ValueChangeEvent<LinkTypeDetails> event) {
+			public void onValueChange(ValueChangeEvent<UILinkType> event) {
 				System.out.println(event.getValue());
-				LinkTypeDetails linkTypeDetail = event.getValue();
-				detailsPanel.setValidName(linkTypeDetail.getName()!=null && !linkTypeDetail.getName().isEmpty());
+				UILinkType linkTypeDetail = event.getValue();
 
 				validate(linkTypeDetail);
 			}
@@ -111,11 +112,11 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		header.setHeaderSelected(selected);
 	}
 
-	public void setLinkDetails(LinkTypeDetails details) {
-		detailsPanel.setDetails(details);
-		this.details = details;
-		header.setHeaderLabel(details.getName());
-		validate(details);
+	public void setLinkType(UILinkType linkType) {
+		detailsPanel.setLinkType(linkType);
+		this.currentLinkType = linkType;
+		header.setHeaderLabel(ValueUtils.getLocalPart(linkType.getName()));
+		validate(linkType);
 	}
 
 	public void setListener(LinkTypePanelListener listener) {
@@ -124,14 +125,16 @@ public class LinkTypePanel extends Composite implements HasEditing {
 
 	private void onSave() {
 		stopEdit();
-		details = detailsPanel.getDetails();
-		if (listener!=null) listener.onSave(details);
-		header.setHeaderLabel(details.getName());
+		UILinkType newType = detailsPanel.getLinkType();
+		if (currentLinkType!=null) newType.setId(currentLinkType.getId());
+		currentLinkType = detailsPanel.getLinkType();
+		if (listener!=null) listener.onSave(currentLinkType);
+		header.setHeaderLabel(ValueUtils.getLocalPart(currentLinkType.getName()));
 	}
 
 	private void onEdit() {
 		startEdit();
-		validate(detailsPanel.getDetails());
+		validate(detailsPanel.getLinkType());
 	}
 
 	public void enterEditMode() {
@@ -155,11 +158,7 @@ public class LinkTypePanel extends Composite implements HasEditing {
 	private void onCancel() {
 		stopEdit();
 		if (listener!=null) listener.onCancel();
-		if (details != null) {
-			System.out.println("old details: "+details);
-			System.out.println("new details: "+detailsPanel.getDetails());
-			if (!details.equals(detailsPanel.getDetails())) detailsPanel.setDetails(details);
-		}
+		if (currentLinkType != null && !currentLinkType.equals(detailsPanel.getLinkType())) detailsPanel.setLinkType(currentLinkType);
 	}
 
 	private void updateHeaderButtons() {
@@ -176,33 +175,26 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		}
 	}
 
-	private void validate(LinkTypeDetails detail) {
+	private void validate(UILinkType detail) {
 		boolean valid = true;
 
-		String name = detail.getName();
+		String name = ValueUtils.getLocalPart(detail.getName());
 		boolean nameValid = name!=null && !name.isEmpty();
 		detailsPanel.setValidName(nameValid);
 		valid &= nameValid;
 
-		UICodelist codelist = detail.getCodelist();
+		UICodelist codelist = detail.getTargetCodelist();
 		boolean codelistValid = codelist!=null;
 		detailsPanel.setValidCodelist(codelistValid);
 		valid &= codelistValid;
 
-		/*if (detail.getValueType() == ValueType.ATTRIBUTE) {
-			AttributeType attribute = detail.getAttribute();
-			boolean validAttribute = attribute != null;
-			detailsPanel.setValidAttribute(validAttribute);
-			valid &= validAttribute;
-		}*/
-
 		//we use object reference
-		if (detail.getFunction() == LinkTypeDetailsPanel.OTHER_FUNCTION) {
+	/*	if (detail.getFunction() == LinkTypeDetailsPanel.OTHER_FUNCTION) {
 			String function = detail.getCustomFunction();
 			boolean validFunction = function!=null && !function.isEmpty();
 			detailsPanel.setValidFunction(validFunction);
 			valid &= validFunction;
-		}
+		}*/
 
 		System.out.println("Valid? "+valid);
 		header.setSaveVisible(valid);

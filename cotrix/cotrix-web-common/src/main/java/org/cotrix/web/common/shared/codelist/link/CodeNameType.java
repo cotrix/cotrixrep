@@ -14,4 +14,16 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class CodeNameType implements UIValueType, IsSerializable {
 	
 	public CodeNameType() {}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		return CodeNameType.class.hashCode();
+	}
+
+	public boolean equals(Object type) {
+		return type instanceof CodeNameType;
+	}
 }

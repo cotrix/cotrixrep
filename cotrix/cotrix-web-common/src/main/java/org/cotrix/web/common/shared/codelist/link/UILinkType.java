@@ -107,4 +107,24 @@ public class UILinkType implements Identifiable, IsSerializable {
 
 	public interface UIValueType {
 	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UILinkType [id=");
+		builder.append(id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", targetCodelist=");
+		builder.append(targetCodelist);
+		builder.append(", valueFunction=");
+		builder.append(valueFunction);
+		builder.append(", valueType=");
+		builder.append(valueType);
+		builder.append("]");
+		return builder.toString();
+	}
 }

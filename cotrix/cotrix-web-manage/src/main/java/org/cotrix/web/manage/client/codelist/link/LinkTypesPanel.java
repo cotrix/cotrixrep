@@ -77,23 +77,21 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 	}
 	
 	public void addLinkType(UILinkType linkType) {
-		LinkTypeDetails details = toDetails(linkType);
 		final LinkTypePanel linkTypePanel = new LinkTypePanel(codelistInfoProvider);
 		panels.add(linkTypePanel);
 		
 		typeIdToPanel.put(linkType.getId(), linkTypePanel);
 		panelIdToType.put(linkTypePanel.getId(), linkType);
 		
-		linkTypePanel.setLinkDetails(details);
+		linkTypePanel.setLinkType(linkType);
 		linkTypePanel.setListener(new LinkTypePanelListener() {
 			
 			@Override
-			public void onSave(LinkTypeDetails details) {
-				Log.trace("updating type:"+details);
-				UILinkType type = toType(details);
-				UILinkType oldType = panelIdToType.put(linkTypePanel.getId(), type);
-				if (oldType!=null) type.setId(oldType.getId());
-				fireUpdate(type);
+			public void onSave(UILinkType linkType) {
+				Log.trace("updating type:"+linkType);
+				UILinkType oldType = panelIdToType.put(linkTypePanel.getId(), linkType);
+				if (oldType!=null) linkType.setId(oldType.getId());
+				fireUpdate(linkType);
 			}
 			
 			@Override
@@ -115,10 +113,9 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 		linkTypePanel.setListener(new LinkTypePanelListener() {
 			
 			@Override
-			public void onSave(LinkTypeDetails details) {
-				Log.trace("creating type:"+details);
-				UILinkType type = toType(details);
-				fireCreate(type);
+			public void onSave(UILinkType linkType) {
+				Log.trace("creating type:"+linkType);
+				fireCreate(linkType);
 			}
 			
 			@Override
@@ -140,25 +137,6 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 				linkTypePanel.enterEditMode();
 			}
 		});
-	}
-	
-	private UILinkType toType(LinkTypeDetails details) {
-		UIQName name = ValueUtils.getValue(details.getName());
-		UICodelist targetCodelist = details.getCodelist();
-		String valueFunction = details.getFunction();
-		UIValueType valueType = details.getValueType();
-		return new UILinkType(null, name, targetCodelist, valueFunction, valueType);
-	}
-	
-	
-	
-	private LinkTypeDetails toDetails(UILinkType linkType) {
-		String name = ValueUtils.getLocalPart(linkType.getName());
-		UICodelist codelist = linkType.getTargetCodelist();
-		String function = null;
-		String customFunction = linkType.getValueFunction();
-		
-		return new LinkTypeDetails(name, codelist, linkType.getValueType(), function, customFunction);
 	}
 	
 	private void updateSelection(LinkTypePanel selected) {
