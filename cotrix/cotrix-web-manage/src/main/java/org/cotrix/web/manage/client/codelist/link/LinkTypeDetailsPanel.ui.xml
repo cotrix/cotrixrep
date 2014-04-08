@@ -32,10 +32,10 @@
 					<div>Name</div>
 				</td>
 				<td class="{resources.propertyGrid.value}">
-					<l:EditableLabel ui:field="nameContainer"
+					<l:EditableLabel ui:field="nameBoxContainer"
 						labelStyle="{resources.propertyGrid.textValue}">
 						<l:editor>
-							<g:TextBox ui:field="name"
+							<g:TextBox ui:field="nameBox"
 								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
 						</l:editor>
 					</l:EditableLabel>
@@ -47,15 +47,15 @@
 				</td>
 				<td class="{resources.propertyGrid.value}">
 					<g:FlowPanel>
-						<l:EditableLabel ui:field="codelistContainer"
+						<l:EditableLabel ui:field="codelistBoxContainer"
 							labelStyle="{resources.propertyGrid.textValue}">
 							<l:editor>
-								<g:SuggestBox ui:field="codelist"
+								<g:SuggestBox ui:field="codelistBox"
 									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
 							</l:editor>
 						</l:EditableLabel>
 						<g:Image resource="{commonresources.dataLoader}" visible="false"
-							ui:field="codelistLoader" styleName="{style.loader}"/>
+							ui:field="codelistBoxLoader" styleName="{style.loader}"/>
 					</g:FlowPanel>
 				</td>
 			</tr>
@@ -64,32 +64,9 @@
 					<div>Anchor</div>
 				</td>
 				<td class="{resources.propertyGrid.value}">
-					<l:EditableLabel ui:field="valueTypeContainer"
-						labelStyle="{resources.propertyGrid.textValue}">
-						<l:editor>
-							<g:ListBox multipleSelect="false" ui:field="valueType" styleName="{commonresources.css.listBox}" />
-						</l:editor>
-					</l:EditableLabel>
-					<g:Image resource="{commonresources.dataLoader}" visible="false" ui:field="valueTypeLoader" styleName="{style.loader}"/>
+					<l:ValueTypePanel ui:field="valueTypePanel" />
 				</td>
 			</tr>
-<!-- 			<tr ui:field="attributeRow"> -->
-<!-- 				<td> -->
-<!-- 				</td> -->
-<!-- 				<td class="{resources.propertyGrid.value}"> -->
-<!-- 					<g:FlowPanel> -->
-<!-- 						<l:EditableLabel ui:field="attributeContainer" -->
-<!-- 							labelStyle="{resources.propertyGrid.textValue}"> -->
-<!-- 							<l:editor> -->
-<!-- 								<g:SuggestBox ui:field="attribute" -->
-<!-- 									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" /> -->
-<!-- 							</l:editor> -->
-<!-- 						</l:EditableLabel> -->
-<!-- 						<g:Image resource="{commonresources.dataLoader}" visible="false" -->
-<!-- 							ui:field="attributeLoader" styleName="{style.loader}"/> -->
-<!-- 					</g:FlowPanel> -->
-<!-- 				</td> -->
-<!-- 			</tr> -->
 			<tr>
 				<td class="{resources.propertyGrid.header}">
 					<div>Transform</div>
@@ -103,17 +80,13 @@
 					</l:EditableLabel>
 				</td>
 			</tr>
-			<tr ui:field="functionRow">
+			<tr ui:field="functionArgumentsRow">
 				<td>
 				</td>
 				<td class="{resources.propertyGrid.value}">
-					<l:EditableLabel ui:field="functionContainer"
-						labelStyle="{resources.propertyGrid.textValue}">
-						<l:editor>
-							<g:TextBox ui:field="function"
-								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
-						</l:editor>
-					</l:EditableLabel>
+					<l:FunctionsArgumentsPanels ui:field="functionArguments"
+								labelStyle="{resources.propertyGrid.textValue}"
+								editorStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
 				</td>
 			</tr>
 		</table>

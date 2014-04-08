@@ -3,32 +3,22 @@
  */
 package org.cotrix.web.manage.client.codelist.link;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.client.util.LabelProvider;
+import org.cotrix.web.common.client.util.ListBoxUtils;
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.common.shared.codelist.link.AttributeType;
 import org.cotrix.web.common.shared.codelist.link.CodeNameType;
-import org.cotrix.web.common.shared.codelist.link.LinkType;
-import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
+import org.cotrix.web.common.shared.codelist.link.UIValueFunction;
+import org.cotrix.web.common.shared.codelist.link.UIValueFunction.Function;
 import org.cotrix.web.manage.client.codelist.link.CodelistSuggestOracle.CodelistSuggestion;
-import org.cotrix.web.manage.client.resources.CotrixManagerResources;
-import org.cotrix.web.manage.client.util.AttributeTypes;
-import org.cotrix.web.manage.client.util.ValueTypesGrouper;
-import org.cotrix.web.manage.shared.CodelistValueTypes;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.OptionElement;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -56,10 +46,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHandlers<UILinkType>{
-	
-	public static final String NONE_FUNCTION = "NONE";
-	public static final String OTHER_FUNCTION = "OTHER";
+public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHandlers<Void>{
 	
 	public static final String CODE_NAME_VALUE_TYPE = Document.get().createUniqueId();
 	public static final CodeNameType CODE_NAME_TYPE = new CodeNameType();
@@ -73,26 +60,20 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		String editor();
 	}
 	
-	@UiField EditableLabel nameContainer;
-	@UiField TextBox name;
+	@UiField EditableLabel nameBoxContainer;
+	@UiField TextBox nameBox;
 	
-	@UiField EditableLabel codelistContainer;
-	@UiField(provided=true) SuggestBox codelist;
-	@UiField Image codelistLoader;
+	@UiField EditableLabel codelistBoxContainer;
+	@UiField(provided=true) SuggestBox codelistBox;
+	@UiField Image codelistBoxLoader;
 
-	@UiField EditableLabel valueTypeContainer;
-	@UiField ListBox valueType;
-	@UiField Image valueTypeLoader;
-	private Map<String, UIValueType> idToValueTypeMap;
-	private Map<UIValueType, String> valueTypeToIdMap;
+	@UiField ValueTypePanel valueTypePanel;
 	
 	@UiField EditableLabel valueFunctionContainer;
 	@UiField ListBox valueFunction;
 	
-	@UiField TableRowElement functionRow;
-	@UiField EditableLabel functionContainer;
-	@UiField TextBox function;
-	
+	@UiField TableRowElement functionArgumentsRow;
+	@UiField FunctionsArgumentsPanels functionArguments;
 	
 	@UiField Style style;
 	
@@ -102,86 +83,21 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	
 	private CodelistInfoProvider codelistInfoProvider;
 	
+	private LabelProvider<Function> functionLabelProvider = new DefaultFunctionLabelProvider();
+	
 	public LinkTypeDetailsPanel(CodelistInfoProvider codelistInfoProvider) {
 		
 		this.codelistInfoProvider = codelistInfoProvider;
-		
-		CotrixManagerResources.INSTANCE.css().ensureInjected();
-		CotrixManagerResources.INSTANCE.propertyGrid().ensureInjected();
-		CommonResources.INSTANCE.css().ensureInjected();
-		
-		codelist = new SuggestBox(codelistSuggestOracle);
-		codelist.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				selectedCodelist = null;
-				fireChange();
-			}
-		});
-		
-		codelist.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
-			
-			@Override
-			public void onSelection(SelectionEvent<Suggestion> event) {
-				CodelistSuggestion suggestion = (CodelistSuggestion) event.getSelectedItem();
-				selectedCodelist = suggestion.getCodelist();
-				updateValueType(selectedCodelist.getId(), null);
-				codelistContainer.setText(CodelistSuggestion.toDisplayString(selectedCodelist));
-				fireChange();
-			}
-		});
+	
+		createCodelistBox();
 
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		name.addValueChangeHandler(new ValueChangeHandler<String>() {
+		setupNameBox();
+		
+		setupValueTypePanel();
 
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				nameContainer.setText(event.getValue());
-				fireChange();
-			}
-			
-		});
-		
-		idToValueTypeMap = new HashMap<String, UIValueType>();
-		valueTypeToIdMap = new HashMap<UIValueType, String>();
-		addValueTypeCode();
-		
-		valueType.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				syncValueTypeContainerText();
-				fireChange();
-			}
-		});
-		
-		valueFunction.addItem("None", NONE_FUNCTION);
-		valueFunction.addItem("UpperCase", "");
-		valueFunction.addItem("LowerCase", "");
-		valueFunction.addItem("Expression...", OTHER_FUNCTION);
-		
-		valueFunction.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				updateValueFunctionSubPanels();
-				valueFunctionContainer.setText(getValueFunction());
-				fireChange();
-			}
-		});
-		
-		valueFunction.setSelectedIndex(0);
-		updateValueFunctionSubPanels();
-		
-		function.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				functionContainer.setText(event.getValue());
-			}
-		});
+		setupFunction();
 		
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			
@@ -192,13 +108,78 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		});
 	}
 	
+	private void setupNameBox() {
+		nameBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				nameBoxContainer.setText(event.getValue());
+				fireChange();
+			}
+		});
+	}
+	
+	public String getName() {
+		return nameBox.getValue();
+	}
+	
+	public void setName(String name) {
+		this.nameBox.setValue(name, false);
+		this.nameBoxContainer.setText(name);
+	}
+
+	public void setValidName(boolean valid) {
+		nameBox.setStyleName(style.error(), !valid);
+	}
+	
+	
+	private void createCodelistBox() {
+		codelistBox = new SuggestBox(codelistSuggestOracle);
+		codelistBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				selectedCodelist = null;
+				fireChange();
+			}
+		});
+		
+		codelistBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
+			
+			@Override
+			public void onSelection(SelectionEvent<Suggestion> event) {
+				CodelistSuggestion suggestion = (CodelistSuggestion) event.getSelectedItem();
+				selectedCodelist = suggestion.getCodelist();
+				updateValueType(selectedCodelist.getId(), null);
+				codelistBoxContainer.setText(CodelistSuggestion.toDisplayString(selectedCodelist));
+				fireChange();
+			}
+		});
+	}
+	
+	public void setCodelist(UICodelist codelist, UIValueType valueType) {
+		selectedCodelist = codelist;
+		codelistBox.getValueBox().setValue(CodelistSuggestion.toDisplayString(selectedCodelist), false);
+		codelistBoxContainer.setText(CodelistSuggestion.toDisplayString(selectedCodelist));
+		
+		updateValueType(codelist.getId(), valueType);
+	}
+	
+	public UICodelist getCodelist() {
+		return selectedCodelist;
+	}
+	
+	public void setValidCodelist(boolean valid) {
+		codelistBox.setStyleName(style.error(), !valid);
+	}
+
 	private final AsyncCallback<List<UICodelist>> codelistCallBack = new AsyncCallback<List<UICodelist>>() {
 		
 		@Override
 		public void onSuccess(List<UICodelist> result) {
 			codelistSuggestOracle.loadCache(result);
-			codelistLoader.setVisible(false);
-			codelistContainer.setVisible(true);
+			codelistBoxLoader.setVisible(false);
+			codelistBoxContainer.setVisible(true);
 		}
 		
 		@Override
@@ -208,204 +189,129 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	};
 	
 	private void loadCodelists() {
-		codelistLoader.setVisible(true);
-		codelistContainer.setVisible(false);
-		
+		codelistBoxLoader.setVisible(true);
+		codelistBoxContainer.setVisible(false);
 		codelistInfoProvider.getCodelists(codelistCallBack);
 	}
 	
-	private UIValueType getValueType() {
-		String id = valueType.getValue(valueType.getSelectedIndex());
-		return idToValueTypeMap.get(id);
-	}
 	
-	private void updateValueFunctionSubPanels() {
-		String function = valueFunction.getValue(valueFunction.getSelectedIndex());
-		setFunctionBoxVisible(OTHER_FUNCTION.equals(function));
-	}
-	
-	private void setFunctionBoxVisible(boolean visible) {
-		UIObject.setVisible(functionRow, visible);
-	}
-	
-	private String getValueFunction() {
-		String selectedFunction = valueFunction.getValue(valueFunction.getSelectedIndex());
-		if (NONE_FUNCTION.equals(selectedFunction)) return null;
-		if (OTHER_FUNCTION.equals(selectedFunction)) return OTHER_FUNCTION;
-		return selectedFunction;
+	private void setupValueTypePanel() {
+		valueTypePanel.setCodelistInfoProvider(codelistInfoProvider);
 	}
 	
 	private void updateValueType(final String codelistId, final UIValueType type) {
-		valueTypeLoader.setVisible(true);
-		valueTypeContainer.setVisible(false);
+		valueTypePanel.setCodelist(codelistId, type);
+	}
+	
+	public UIValueType getValueType() {
+		return valueTypePanel.getValueType();
+	}
+	
+	public void setValueType(UIValueType type) {
+		valueTypePanel.setValueType(type);
+	}
+	
+	
+	private void setupFunction() {
+		for (Function function:Function.values()) {
+			String label = functionLabelProvider.getLabel(function);
+			valueFunction.addItem(label, function.toString());
+		}
 		
-		codelistInfoProvider.getCodelistValueTypes(codelistId, new AsyncCallback<CodelistValueTypes>() {
-
+		valueFunction.addChangeHandler(new ChangeHandler() {
+			
 			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(CodelistValueTypes result) {
-				
-				//FIXME add type to list of values
-				updateValueTypeList(result);
-				if (type!=null) setValueType(type);
-				
-				valueTypeLoader.setVisible(false);
-				valueTypeContainer.setVisible(true);
+			public void onChange(ChangeEvent event) {
+				updateValueFunctionSubPanels();
+				syncValueFunction();
+				fireChange();
 			}
 		});
-	}
-	
-	private void mapValueType(String id, UIValueType type) {
-		idToValueTypeMap.put(id, type);
-		valueTypeToIdMap.put(type, id);
-	}
-	
-	private void addValueTypeCode() {
-		valueType.addItem("Code", CODE_NAME_VALUE_TYPE);
-		mapValueType(CODE_NAME_VALUE_TYPE, CODE_NAME_TYPE);
-		setItemColor(valueType, CODE_NAME_VALUE_TYPE, "black");
-
-		valueType.setSelectedIndex(0);
-		syncValueTypeContainerText();
-	}
-	
-	private void updateValueTypeList(CodelistValueTypes codelistValueTypes) {
-		valueType.clear();
-		idToValueTypeMap.clear();
 		
-		addValueTypeCode();
-		
-		Map<AttributeType, String> attributeTypesLabels = ValueTypesGrouper.generateLabelsForAttributeTypes(codelistValueTypes.getAttributeTypes());
-		addValueTypeItems(attributeTypesLabels);
-		
-		Map<LinkType, String> linkTypesLabels = ValueTypesGrouper.generateLabelsForLinkTypes(codelistValueTypes.getLinkTypes());
-		addValueTypeItems(linkTypesLabels);
-	}
-	
-	private void addValueTypeItems(Map<? extends UIValueType, String> labels) {
-		for (Entry<? extends UIValueType, String> entry:labels.entrySet()) {
-			UIValueType type = entry.getKey();
-			String label = entry.getValue();
-			String id = Document.get().createUniqueId();
-			valueType.addItem(label, id);
-			mapValueType(id, type);
-		}
-	}
-	
-	private void setItemColor(ListBox listBox, String itemValue, String color) {
-		NodeList<Node> children = listBox.getElement().getChildNodes();       
-	    for (int i = 0; i< children.getLength();i++) {
-	      Node child = children.getItem(i);
-	        if (child.getNodeType()==Node.ELEMENT_NODE) {
-	          if (child instanceof OptionElement) {
-	            OptionElement optionElement = (OptionElement) child;
-	              if (optionElement.getValue().equals(itemValue)) {
-	                 optionElement.getStyle().setColor(color);  
-	              }                   
-	            }
-	          }           
-	       }
-	}
-	
-	public void setValidName(boolean valid) {
-		System.out.println("setValidName valid: "+valid);
-		name.setStyleName(style.error(), !valid);
-	}
-	
-	public void setValidCodelist(boolean valid) {
-		System.out.println("setValidCodelist valid: "+valid);
-		codelist.setStyleName(style.error(), !valid);
-	}
-	
-	public void setValidFunction(boolean valid) {
-		System.out.println("setValidFunction valid: "+valid);
-		function.setStyleName(style.error(), !valid);
-	}
-	
-	public void setReadOnly(boolean readOnly) {
-		nameContainer.setReadOnly(readOnly);
-		if (readOnly) name.setStyleName(style.error(), false);
-		
-		codelistContainer.setReadOnly(readOnly);
-		if (readOnly) codelist.setStyleName(style.error(), false);
-		
-		valueTypeContainer.setReadOnly(readOnly);
-		
-		valueFunctionContainer.setReadOnly(readOnly);
-		
-		functionContainer.setReadOnly(readOnly);
-		if (readOnly) function.setStyleName(style.error(), false);
-	}
-	
-	public void clear() {
-		name.setValue("", false);
-		codelist.getValueBox().setValue("", false);
-		selectedCodelist = null;
-		valueFunction.setItemSelected(0, true);
-		function.setValue("", false);
-	}
-	
-	public void setLinkType(UILinkType details) {
-		name.setValue(ValueUtils.getLocalPart(details.getName()), false);
-		nameContainer.setText(ValueUtils.getLocalPart(details.getName()));
-		
-		selectedCodelist = details.getTargetCodelist();
-		codelist.getValueBox().setValue(CodelistSuggestion.toDisplayString(selectedCodelist), false);
-		codelistContainer.setText(CodelistSuggestion.toDisplayString(selectedCodelist));
-		
-		updateValueType(selectedCodelist.getId(), details.getValueType());
-
-		setValueFunction(details.getValueFunction());
-		valueFunctionContainer.setText(details.getValueFunction());
-		
-		function.setValue(details.getValueFunction(), false);
-		functionContainer.setText(details.getValueFunction());
-	}
-	
-	private void setValueType(UIValueType type) {
-		String id = valueTypeToIdMap.get(type);
-		selecteItem(valueType, id);
-		syncValueTypeContainerText();
-	}
-	
-	private void syncValueTypeContainerText() {
-		valueTypeContainer.setText(valueType.getItemText(valueType.getSelectedIndex()));
-	}
-	
-	private void setValueFunction(String functionName) {
-		//TODO better handle other function
-		selecteItem(valueFunction, functionName==null?NONE_FUNCTION:functionName);
+		valueFunction.setSelectedIndex(0);
 		updateValueFunctionSubPanels();
 	}
 	
-	private void selecteItem(ListBox listBox, String itemValue) {
-		for (int i = 0; i<listBox.getItemCount(); i++) {
-			if (listBox.getValue(i).equals(itemValue)) {
-				listBox.setSelectedIndex(i);
-				return;
-			}
-		}
-		throw new IllegalArgumentException("Unknown itemValue "+itemValue);
-	}
-
-	public UILinkType getLinkType() {
-		
-		String customFunction = function.isVisible()?null:function.getValue();
-		return new UILinkType("", ValueUtils.getValue(name.getValue()), selectedCodelist, getValueFunction(), getValueType());
+	public void setValidFunction(boolean valid) {
+		functionArguments.setStyleName(style.error(), !valid);
 	}
 	
+	public UIValueFunction getValueFunction() {
+		Function function = getSelectedFunction();
+		List<String> arguments = functionArguments.getArgumentsValues();
+		return new UIValueFunction(function, arguments);
+	}
+	
+	public void setValueFunction(UIValueFunction valueFunction) {
+		Log.trace("setValueFunction valueFunction: "+valueFunction);
+		setSelectedFunction(valueFunction.getFunction());
+		updateValueFunctionSubPanels();
+		functionArguments.setArgumentsValues(valueFunction.getArguments());
+		syncValueFunction();
+	}	
+	
+	private void updateValueFunctionSubPanels() {
+		Function function = getSelectedFunction();
+		setFunctionRowVisible(functionArguments.hasArguments(function));
+	}
+	
+	private void setFunctionRowVisible(boolean visible) {
+		UIObject.setVisible(functionArgumentsRow, visible);
+	}
+	
+	private Function getSelectedFunction() {
+		String selectedFunction = valueFunction.getValue(valueFunction.getSelectedIndex());
+		return Function.valueOf(selectedFunction);
+	}
+	
+	private void setSelectedFunction(Function function) {
+		ListBoxUtils.selecteItem(valueFunction, function.toString());
+	}
+	
+	private void syncValueFunction() {
+		valueFunctionContainer.setText(functionLabelProvider.getLabel(getSelectedFunction()));
+	}
+	
+
+	public void setReadOnly(boolean readOnly) {
+		nameBoxContainer.setReadOnly(readOnly);
+		if (readOnly) nameBox.setStyleName(style.error(), false);
+		
+		codelistBoxContainer.setReadOnly(readOnly);
+		if (readOnly) codelistBox.setStyleName(style.error(), false);
+		
+		valueTypePanel.setReadOnly(readOnly);
+		
+		valueFunctionContainer.setReadOnly(readOnly);
+		
+		functionArguments.setReadOnly(readOnly);
+		if (readOnly) functionArguments.setStyleName(style.error(), false);
+	}
+		
 	private void fireChange() {
-		ValueChangeEvent.fire(this, getLinkType());
+		ValueChangeEvent.fire(this, null);
 	}
 
 	@Override
-	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<UILinkType> handler) {
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler) {
 		return addHandler(handler, ValueChangeEvent.getType());
+	}
+	
+	private class DefaultFunctionLabelProvider implements LabelProvider<Function> {
+
+		@Override
+		public String getLabel(Function item) {
+			switch (item) {
+				case CUSTOM: return "expression...";
+				case IDENTITY: return "none";
+				case LOWERCASE: return "lowercase";
+				case PREFIX: return "prefix";
+				case SUFFIX: return "suffix";
+				case UPPERCASE: return "uppercase";
+			}
+			throw new IllegalArgumentException("Unknown function "+item);
+		}
+		
 	}
 
 }

@@ -10,12 +10,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
-import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
 import org.cotrix.web.manage.client.codelist.link.LinkTypePanel.LinkTypePanelListener;
 

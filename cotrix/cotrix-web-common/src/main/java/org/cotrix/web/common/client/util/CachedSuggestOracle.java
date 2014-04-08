@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.link;
+package org.cotrix.web.common.client.util;
 
 import java.util.HashSet;
 import java.util.Set;

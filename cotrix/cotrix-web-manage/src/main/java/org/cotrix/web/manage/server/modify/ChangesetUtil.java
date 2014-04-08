@@ -15,13 +15,19 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
+import org.cotrix.domain.links.ValueFunction;
+import org.cotrix.domain.links.ValueFunctions;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.link.AttributeType;
 import org.cotrix.web.common.shared.codelist.link.CodeNameType;
+import org.cotrix.web.common.shared.codelist.link.LinkType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
+import org.cotrix.web.common.shared.codelist.link.UIValueFunction;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -76,26 +82,91 @@ public class ChangesetUtil {
 	public static CodelistLink addCodelistLink(UILinkType linkType, Codelist target) {
 		UIValueType valueType = linkType.getValueType();
 		
+		OptionalClause clause = null;
+		
 		if (valueType instanceof CodeNameType) {
-			return listLink().name(convert(linkType.getName())).target(target).anchorToName().build();
+			clause = listLink().name(convert(linkType.getName())).target(target).anchorToName();
 		}
 		
 		if (valueType instanceof AttributeType) {
 			AttributeType attributeType = (AttributeType) valueType;
 			Attribute template = toAttribute(attributeType);
-			return listLink().name(convert(linkType.getName())).target(target).anchorTo(template).build();
+			clause = listLink().name(convert(linkType.getName())).target(target).anchorTo(template);
 		}
 		
-		throw new IllegalArgumentException("Unsupported value type "+valueType);
+		if (valueType instanceof LinkType) {
+			LinkType link = (LinkType) valueType;
+			CodelistLink codelistLink = findCodelistLink(link.getLinkType().getId(), target.links());
+			clause = listLink().name(convert(linkType.getName())).target(target).anchorTo(codelistLink);
+		}
+		
+		if (clause == null)throw new IllegalArgumentException("Unsupported value type "+valueType);
+		
+		if (linkType.getValueFunction()!=null) {
+			ValueFunction function = toValueFunction(linkType.getValueFunction());
+			clause =clause.transformWith(function);
+		}
+		
+		return clause.build();
+	}
+	
+	private static ValueFunction toValueFunction(UIValueFunction valueFunction) {
+		switch (valueFunction.getFunction()) {
+			case IDENTITY: return ValueFunctions.identity;
+			case CUSTOM: return ValueFunctions.custom(getFirstArgument(valueFunction.getArguments()));
+			case LOWERCASE: return ValueFunctions.lowercase;
+			case PREFIX: return ValueFunctions.prefix(getFirstArgument(valueFunction.getArguments()));
+			case SUFFIX: return ValueFunctions.suffix(getFirstArgument(valueFunction.getArguments()));
+			case UPPERCASE: return ValueFunctions.uppercase;
+			default: throw new IllegalArgumentException("unknown function "+valueFunction);
+		}
+	}
+	
+	private static String getFirstArgument(List<String> arguments) {
+		if (arguments.size()<1) throw new IllegalArgumentException("Missing arguments, found "+arguments.size()+" expected 1");
+		return arguments.get(0);
 	}
 
-	public static CodelistLink updateCodelistLink(UILinkType linkType) {
-		return modifyListLink(linkType.getId()).name(convert(linkType.getName())).build();
+	public static CodelistLink updateCodelistLink(UILinkType linkType, Codelist target) {
+		
+		UIValueType valueType = linkType.getValueType();
+		
+		OptionalClause clause = null;
+		
+		if (valueType instanceof CodeNameType) {
+			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorToName();
+		}
+		
+		if (valueType instanceof AttributeType) {
+			AttributeType attributeType = (AttributeType) valueType;
+			Attribute template = toAttribute(attributeType);
+			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorTo(template);
+		}
+		
+		if (valueType instanceof LinkType) {
+			LinkType link = (LinkType) valueType;
+			CodelistLink codelistLink = findCodelistLink(link.getLinkType().getId(), target.links());
+			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorTo(codelistLink);
+		}
+		
+		if (clause == null)throw new IllegalArgumentException("Unsupported value type "+valueType);
+		
+		if (linkType.getValueFunction()!=null) {
+			ValueFunction function = toValueFunction(linkType.getValueFunction());
+			clause = clause.transformWith(function);
+		}
+		
+		return clause.build();
 	}
 	
 	private static Attribute toAttribute(AttributeType attributeType) {
 		return attribute().name(convert(attributeType.getName()))
 				.ofType(convert(attributeType.getType())).in(convert(attributeType.getLanguage())).build();
+	}
+	
+	private static CodelistLink findCodelistLink(String id, NamedContainer<? extends CodelistLink> namedContainer) {
+		for (CodelistLink codelistLink:namedContainer) if (codelistLink.id().equals(id)) return codelistLink;
+		throw new IllegalArgumentException("Unknown codelist type with id: "+id);
 	}
 
 	public static CodelistLink removeCodelistLink(String id) {

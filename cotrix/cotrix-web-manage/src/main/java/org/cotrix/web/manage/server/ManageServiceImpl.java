@@ -323,6 +323,7 @@ public class ManageServiceImpl implements ManageService {
 		logger.trace("getCodelistValueTypes codelistId: {}",codelistId);
 		CodelistSummary summary = repository.get(summary(codelistId));
 
+		//FIXME namespace lost in BE
 		List<AttributeType> attributeTypes = new ArrayList<>();
 		for (QName name:summary.codeNames()) {
 			for (QName type:summary.codeTypesFor(name)) {

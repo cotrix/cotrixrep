@@ -42,7 +42,8 @@ public class LinkTypeCommandHandler {
 
 		if (command instanceof UpdateLinkTypeCommand) {
 			UpdateLinkTypeCommand updateLinkTypeCommand = (UpdateLinkTypeCommand)command;
-			codelistLink = ChangesetUtil.updateCodelistLink(updateLinkTypeCommand.getLinkType());
+			Codelist target = repository.lookup(updateLinkTypeCommand.getLinkType().getTargetCodelist().getId());
+			codelistLink = ChangesetUtil.updateCodelistLink(updateLinkTypeCommand.getLinkType(), target);
 		}
 
 		if (command instanceof RemoveLinkTypeCommand) {
