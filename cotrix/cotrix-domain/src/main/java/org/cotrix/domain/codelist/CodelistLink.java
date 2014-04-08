@@ -1,5 +1,7 @@
 package org.cotrix.domain.codelist;
 
+import org.cotrix.domain.links.OccurrenceRange;
+import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
@@ -21,6 +23,19 @@ public interface CodelistLink extends Identified, Attributed, Named {
 	 * @return the type
 	 */
 	ValueType valueType();
+	
+	
+	/**
+	 * Returns the function that yields values of link instances.
+	 * @return the function
+	 */
+	ValueFunction function();
+	
+	/**
+	 * Returns the occurrence range for link instances.
+	 * @return the range
+	 */
+	OccurrenceRange range();
 		
 	
 	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
@@ -30,8 +45,16 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		ValueType valueType();
 		
 		void valueType(ValueType type);
+		
+		ValueFunction function();
+		
+		void function(ValueFunction function);
 
 		void target(Codelist.State state);
+		
+		OccurrenceRange range();
+		
+		void range(OccurrenceRange type);
 	}
 
 	/**
@@ -53,6 +76,17 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		public ValueType valueType() {
 			return state().valueType();
 		}
+		
+		
+		@Override
+		public ValueFunction function() {
+			return state().function();
+		}
+		
+		@Override
+		public OccurrenceRange range() {
+			return state().range();
+		}
 
 		@Override
 		public void update(CodelistLink.Private changeset) throws IllegalArgumentException, IllegalStateException {
@@ -63,6 +97,17 @@ public interface CodelistLink extends Identified, Attributed, Named {
 			
 			if (newtype!=null)
 				state().valueType(newtype);
+			
+			
+			ValueFunction newfunction = changeset.state().function();
+			
+			if (newfunction!=null)
+				state().function(newfunction);
+			
+			OccurrenceRange newrange = changeset.state().range();
+			
+			if (newrange!=null)
+				state().range(newrange);
 			
 			//ignore target, DSL should have prevented this statically anyway
 		}

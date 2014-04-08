@@ -2,6 +2,7 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.links.OccurrenceRanges.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.junit.Assert.*;
@@ -30,6 +31,7 @@ public class CodelinkTest extends DomainTest {
 		Codelink link  = like(link().instanceOf(listLink).target(code).attributes(a).build());
 		
 		assertEquals(listLink,link.type());
+		assertEquals(link.type().name(),link.name());
 		
 		assertEquals(a,link.attributes().lookup(a.name()));
 	}
@@ -114,6 +116,125 @@ public class CodelinkTest extends DomainTest {
 	
 	
 	@Test
+	public void changeLinkGroup() {
+		
+		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
+		
+		Code code1 = someTarget("t1");
+		Code code2 = someTarget("t2");
+		Code code3 = someTarget("t3");
+		Code code4 = someTarget("t4");
+		Code code5 = someTarget("t5");
+		
+		CodelistLink listLink = someCodelistLink();
+		
+		Codelink link1  = link().instanceOf(listLink).target(code1).build();
+		Codelink link2  = link().instanceOf(listLink).target(code1).build();
+		Codelink link3  = link().instanceOf(listLink).target(code3).build();
+		Codelink link4  = link().instanceOf(listLink).target(code3).build();
+		Codelink link5  = link().instanceOf(listLink).target(code5).build();
+		
+		Code code = like(code().name("s").links(link1,link2,link3,link4,link5).build());
+		
+		//first group member changes target
+		Codelink delta1 = modifyLink(link1.id()).target(code2).build();
+		//non-first group member changes target and other
+		Codelink delta4 = modifyLink(link4.id()).target(code4).attributes(a).build();
+		//an isolated link changes an attribute
+		Codelink delta5 = modifyLink(link5.id()).attributes(a).build();
+		
+		Code delta = modifyCode(code.id()).links(delta1,delta4,delta5).build();
+				
+		reveal(code).update(reveal(delta));
+		
+		//verify expectations
+		for (Codelink link : code.links()) {
+			
+			//normal update
+			if (link.id().equals(link1.id()))
+				assertEquals(code2.id(),link.target().id());
+		
+			//group semantics
+			else if (link.id().equals(link2.id()))
+				assertEquals(code2.id(),link.target().id());
+			
+			//normal update
+			else if (link.id().equals(link4.id())) {
+				assertEquals(code4.id(),link.target().id());
+				assertTrue(link.attributes().contains(a.name()));
+			}	
+			
+			//group semantics
+			else if (link.id().equals(link3.id())) {
+				assertEquals(code4.name(),link.target().name());
+				assertFalse(link.attributes().contains(a.name()));
+			}	
+				
+			//untouched
+			else if (link.id().equals(link5.id())) {
+				assertEquals(code5.id(),link.target().id());
+				assertTrue(link.attributes().contains(a.name()));
+			}
+		}
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void linkGroupMustChangeConsistently() {
+		
+		Code code1 = someTarget("t1");
+		Code code2 = someTarget("t2");
+		Code code3 = someTarget("t3");
+		
+		
+		CodelistLink listLink = someCodelistLink();
+		
+		Codelink link1  = link().instanceOf(listLink).target(code1).build();
+		Codelink link2  = link().instanceOf(listLink).target(code1).build();
+		
+		Code code = like(code().name("s").links(link1,link2).build());
+		
+		//inconsistent changes
+		Codelink linkchange1 = modifyLink(link1.id()).target(code2).build();
+		Codelink linkchange3 = modifyLink(link2.id()).target(code3).build();
+		
+		Code codechange = modifyCode(code.id()).links(linkchange1,linkchange3).build();
+				
+		try {
+			reveal(code).update(reveal(codechange));
+			fail();
+		}
+		catch(IllegalArgumentException e) {}
+		
+		//enforce consistency
+		linkchange3 = modifyLink(link2.id()).target(code2).build();
+		
+		//doesn't fail
+		reveal(code).update(reveal(codechange));
+		
+	}
+	
+	@Test
+	public void rangesAreEnforced() {
+		
+		CodelistLink listLink = like(listLink().name("link").target(someCodelist()).occurs(once).build());
+		
+		Code code = someTarget();
+		
+		Codelink link1  = link().instanceOf(listLink).target(code).build();
+		Codelink link2  = link().instanceOf(listLink).target(code).build();
+		
+		try {
+			code = like(code().name("s").links(link1,link2).build());
+			fail();
+		}
+		catch(IllegalArgumentException e) {
+			
+		}
+		
+	}
+	
+	
+	@Test
 	public void changeTarget() {
 		
 		
@@ -130,6 +251,26 @@ public class CodelinkTest extends DomainTest {
 		reveal(link).update(reveal(changeset));
 		
 		assertEquals(code.name(),link.value());
+		
+	}
+	
+	@Test
+	public void changeAttribute() {
+		
+		
+		Code code = someTarget();
+		
+		CodelistLink listLink = someCodelistLink();
+		
+		Codelink link  = link().instanceOf(listLink).target(code).build();
+		
+		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
+		
+		Codelink changeset = modifyLink(link.id()).attributes(a).build();
+		
+		reveal(link).update(reveal(changeset));
+		
+		assertNotNull(link.attributes().lookup(a.name()));
 		
 	}
 	

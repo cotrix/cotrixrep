@@ -2,6 +2,11 @@ package org.cotrix.domain.codelist;
 
 import static org.cotrix.domain.dsl.Codes.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
@@ -10,6 +15,7 @@ import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.trait.Versioned;
 import org.cotrix.domain.version.Version;
 
@@ -88,10 +94,43 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			
 			super.update(changeset);
 			
-			codes().update(changeset.codes());
-			
 			links().update(changeset.links());
+			
+			codes().update(changeset.codes());
+		
+			//verifyUpdate(changeset);
+			
 		}
+		
+		
+		
+		@SuppressWarnings("unused")
+		private void verifyUpdate(Private changeset) {
 
+			Collection<String> ids = new ArrayList<>();
+			
+			//codes that have just changed their links
+			for (Code.Private codeChangeset : changeset.codes())
+				if (codeChangeset.status()!=Status.DELETED && codeChangeset.links().size()>0)
+					ids.add(codeChangeset.id());
+				
+			Collection<Code.State> codes = codes().state().get(ids);
+				
+			for (Code.State code : codes) {
+				
+				//count link type occurrences
+				Map<CodelistLink.State,Integer> counts = new HashMap<>();
+				for (Codelink.State link : code.links()) {
+					CodelistLink.State type =link.type();
+					Integer count = counts.get(type);
+					counts.put(type,count==null?0:count+1);
+				}
+				
+				for (Map.Entry<CodelistLink.State,Integer> e : counts.entrySet())
+					if (!e.getKey().range().inRange(e.getValue()))
+						throw new IllegalArgumentException("link "+e.getKey().name()+" violates occurrence constraint "+e.getKey().range());
+			}
+		}
+		
 	}
 }

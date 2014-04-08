@@ -8,6 +8,8 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
+import org.cotrix.domain.links.OccurrenceRange;
+import org.cotrix.domain.links.ValueFunction;
 
 /**
  * The grammar of DSL sentences that create {@link Code}s.
@@ -31,5 +33,9 @@ public class CodelistLinkGrammar {
 	}
 
 	public static interface OptionalClause extends ValueTypeClause, AttributeClause<CodelistLink, OptionalClause> {
+		
+		OptionalClause transformWith(ValueFunction function);
+		
+		OptionalClause occurs(OccurrenceRange range);
 	}
 }

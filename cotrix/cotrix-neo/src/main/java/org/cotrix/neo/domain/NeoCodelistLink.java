@@ -1,5 +1,6 @@
 package org.cotrix.neo.domain;
 
+import static org.cotrix.domain.links.ValueFunctions.*;
 import static org.cotrix.neo.NeoUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
@@ -9,6 +10,9 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.links.NameLink;
+import org.cotrix.domain.links.OccurrenceRange;
+import org.cotrix.domain.links.OccurrenceRanges;
+import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.ValueType;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
@@ -40,6 +44,9 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 		
 		target(state.target());
 		valueType(state.valueType());
+		function(state.function());
+		range(state.range());
+		
 		
 	}
 	
@@ -83,6 +90,38 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 		
 		if(type!=NameLink.INSTANCE)
 			node().setProperty(type_prop,binder().toXML(type));
+		
+	}
+	
+	@Override
+	public OccurrenceRange range() {
+		
+		return node().hasProperty(range_prop)? 
+					(OccurrenceRange) binder().fromXML((String) node().getProperty(range_prop))
+					:OccurrenceRanges.arbitrarily;
+	}
+	
+	@Override
+	public void range(OccurrenceRange type) {
+		
+		if(type!=OccurrenceRanges.arbitrarily)
+			node().setProperty(range_prop,binder().toXML(type));
+		
+	}
+	
+	@Override
+	public ValueFunction function() {
+		
+		return node().hasProperty(function_prop)? 
+					(ValueFunction) binder().fromXML((String) node().getProperty(function_prop))
+					: identity;
+	}
+	
+	@Override
+	public void function(ValueFunction type) {
+		
+		if(type!=identity)
+			node().setProperty(function_prop,binder().toXML(type));
 		
 	}
 	
