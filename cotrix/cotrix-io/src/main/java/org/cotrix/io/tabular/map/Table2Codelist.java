@@ -1,6 +1,7 @@
 package org.cotrix.io.tabular.map;
 
 import static org.cotrix.common.Report.*;
+import static org.cotrix.common.Report.Item.Type.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
 import java.util.ArrayList;
@@ -125,9 +126,9 @@ public class Table2Codelist {
 			
 			switch(directives.mode()) {
 				case STRICT:
-					report().logError(msg);break;
+					report().log(msg).as(ERROR);break;
 				case LOG:
-					report().logWarning(msg);break;
+					report().log(msg).as(WARN);break;
 			}
 			
 			return false;

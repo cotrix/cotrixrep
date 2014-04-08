@@ -65,9 +65,6 @@
         <dependent-module archiveName="virtual-repository-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/virtual-repository/virtual-repository">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="virtual-semantic-repository-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/virtual-semantic-repository/virtual-semantic-repository">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="virtual-data-fao-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/virtual-data-fao/virtual-data-fao">
             <dependency-type>uses</dependency-type>
         </dependent-module>
