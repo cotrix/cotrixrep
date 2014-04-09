@@ -291,19 +291,17 @@ public class ManageServiceImpl implements ManageService {
 	@Override
 	public DataWindow<UILinkType> getCodelistLinkTypes(@Id String codelistId) throws ServiceException {
 		logger.trace("getCodelistLinkTypes codelistId: {}", codelistId);
-		List<UILinkType> types = getLinkTypes(codelistId);
-		logger.trace("found {} link types", types.size());
-		return new DataWindow<>(types);
-	}
-	
-	private List<UILinkType> getLinkTypes(String codelistId) {
+		
 		Codelist codelist = repository.lookup(codelistId);
 
 		List<UILinkType> types = new ArrayList<>();
 		for (CodelistLink codelistLink:codelist.links()) {
-			types.add(LinkTypes.toLinkType(codelistLink));
+			types.add(LinkTypes.toUILinkType(codelistLink));
 		}
-		return types;
+		
+		logger.trace("found {} link types", types.size());
+		
+		return new DataWindow<>(types);
 	}
 
 	@Override
@@ -338,9 +336,12 @@ public class ManageServiceImpl implements ManageService {
 		}
 		logger.trace("returning {} attribute types", attributeTypes.size());
 		
-		List<UILinkType> uiLinkTypes = getLinkTypes(codelistId);
-		List<LinkType> types = new ArrayList<>(uiLinkTypes.size());
-		for (UILinkType uiLinkType:uiLinkTypes) types.add(new LinkType(uiLinkType));
+		Codelist codelist = repository.lookup(codelistId);
+
+		List<LinkType> types = new ArrayList<>();
+		for (CodelistLink codelistLink:codelist.links()) {
+			types.add(LinkTypes.toLinkType(codelistLink));
+		}
 
 		logger.trace("returning {} link types", types.size());
 		return new CodelistValueTypes(attributeTypes, types);

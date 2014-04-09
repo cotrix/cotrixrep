@@ -7,14 +7,17 @@ import java.util.ArrayList;
 
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.links.AttributeLink;
+import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.utils.AttributeTemplate;
+import org.cotrix.domain.utils.LinkTemplate;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.link.AttributeType;
 import org.cotrix.web.common.shared.codelist.link.CodeNameType;
+import org.cotrix.web.common.shared.codelist.link.LinkType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.common.shared.codelist.link.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
@@ -29,7 +32,7 @@ public class LinkTypes {
 	private static final CodeNameType CODE_NAME_TYPE = new CodeNameType();
 	private static final ArrayList<String> EMPTY_ARGUMENTS = new ArrayList<>();
 	
-	public static UILinkType toLinkType(CodelistLink codelistLink) {
+	public static UILinkType toUILinkType(CodelistLink codelistLink) {
 		UIQName name = ValueUtils.safeValue(codelistLink.name());
 		UICodelist targetCodelist = Codelists.toUICodelist(codelistLink.target());
 		UIValueType valueType = toValueType(codelistLink.valueType());
@@ -39,9 +42,11 @@ public class LinkTypes {
 	}
 	
 	private static UIValueType toValueType(ValueType valueType) {
+		
 		if (valueType instanceof NameLink) {
 			return CODE_NAME_TYPE;
 		}
+		
 		if (valueType instanceof AttributeLink) {
 			AttributeLink attributeLink = (AttributeLink)valueType;
 			AttributeTemplate template = attributeLink.template();
@@ -51,7 +56,19 @@ public class LinkTypes {
 			return new AttributeType(name, type, language);
 		}
 		
+		if (valueType instanceof LinkOfLink) {
+			LinkOfLink linkOfLink = (LinkOfLink)valueType;
+			LinkTemplate linkTemplate = linkOfLink.template();
+			String id = linkTemplate.getLinkId();
+			UIQName name = ValueUtils.safeValue(linkTemplate.linkName());
+			return new LinkType(id, name);
+		}
+		
 		throw new IllegalArgumentException("Unknown value type :"+valueType);
+	}
+	
+	public static LinkType toLinkType(CodelistLink codelistLink) {
+		return new LinkType(codelistLink.id(), ValueUtils.safeValue(codelistLink.name()));
 	}
 	
 	private static UIValueFunction toValueFunction(ValueFunction valueFunction) {

@@ -229,6 +229,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		});
 		
 		valueFunction.setSelectedIndex(0);
+		syncValueFunction();
 		updateValueFunctionSubPanels();
 	}
 	
@@ -252,7 +253,8 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	
 	private void updateValueFunctionSubPanels() {
 		Function function = getSelectedFunction();
-		setFunctionRowVisible(functionArguments.hasArguments(function));
+		functionArguments.showFunctionPanel(function);
+		setFunctionRowVisible(function.getArguments().length>0);
 	}
 	
 	private void setFunctionRowVisible(boolean visible) {

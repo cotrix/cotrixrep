@@ -3,7 +3,6 @@ package org.cotrix.web.manage.client;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.codelist.CodeFactory;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeFactory;
-import org.cotrix.web.manage.client.data.ModifyCommandSequencer;
 import org.cotrix.web.manage.client.di.CodelistProvider;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.di.CodelistIdProvider;
@@ -32,7 +31,6 @@ public class CotrixManageGinModule extends AbstractGinModule {
 		bind(String.class).annotatedWith(CurrentCodelist.class).toProvider(CodelistIdProvider.class);
 		bind(UICodelist.class).annotatedWith(CurrentCodelist.class).toProvider(CodelistProvider.class);
 		
-		bind(ModifyCommandSequencer.class).in(Singleton.class);
 		bind(Constants.class).in(Singleton.class);
 		
 		requestStaticInjection(AttributeFactory.class);

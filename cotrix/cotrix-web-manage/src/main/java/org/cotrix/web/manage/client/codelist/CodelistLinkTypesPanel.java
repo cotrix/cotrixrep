@@ -13,8 +13,6 @@ import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.link.LinkTypeChangedEvent;
-import org.cotrix.web.manage.client.codelist.link.LinkTypeChangedEvent.LinkTypeChangedHandler;
 import org.cotrix.web.manage.client.codelist.link.LinkTypesPanel;
 import org.cotrix.web.manage.client.codelist.link.LinkTypesPanel.LinkTypesPanelListener;
 import org.cotrix.web.manage.client.data.DataEditor;

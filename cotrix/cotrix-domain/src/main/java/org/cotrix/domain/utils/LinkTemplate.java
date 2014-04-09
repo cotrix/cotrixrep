@@ -15,6 +15,7 @@ public class LinkTemplate {
 
 	private final QName name;
 	private final String id;
+	private final String linkId;
 	private final ValueType type;
 	
 	public LinkTemplate(CodelistLink template) {
@@ -23,6 +24,7 @@ public class LinkTemplate {
 		
 		this.name = template.name();
 		this.id = template.target() == null? null : template.target().id();
+		this.linkId = template.id();
 		
 		ValueType type = template.valueType();
 		this.type = type==NameLink.INSTANCE? null: type;
@@ -40,6 +42,13 @@ public class LinkTemplate {
 		return type;
 	}
 	
+	/**
+	 * @return the linkId
+	 */
+	public String getLinkId() {
+		return linkId;
+	}
+
 	public boolean matches(CodelistLink link) {
 		
 		return matches(reveal(link).state());

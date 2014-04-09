@@ -17,9 +17,22 @@ public class UIValueFunction implements IsSerializable {
 		IDENTITY,
 		UPPERCASE,
 		LOWERCASE,
-		PREFIX,
-		SUFFIX,
-		CUSTOM;
+		PREFIX("prefix"),
+		SUFFIX("suffix"),
+		CUSTOM("expression");
+		
+		private String[] arguments;
+
+		private Function(String ... arguments) {
+			this.arguments = arguments;
+		}
+
+		/**
+		 * @return the arguments
+		 */
+		public String[] getArguments() {
+			return arguments;
+		}		
 	}
 	
 	private Function function;

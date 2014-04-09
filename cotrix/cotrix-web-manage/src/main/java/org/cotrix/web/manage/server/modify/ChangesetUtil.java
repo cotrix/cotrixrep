@@ -96,7 +96,7 @@ public class ChangesetUtil {
 		
 		if (valueType instanceof LinkType) {
 			LinkType link = (LinkType) valueType;
-			CodelistLink codelistLink = findCodelistLink(link.getLinkType().getId(), target.links());
+			CodelistLink codelistLink = findCodelistLink(link.getLinkId(), target.links());
 			clause = listLink().name(convert(linkType.getName())).target(target).anchorTo(codelistLink);
 		}
 		
@@ -145,7 +145,7 @@ public class ChangesetUtil {
 		
 		if (valueType instanceof LinkType) {
 			LinkType link = (LinkType) valueType;
-			CodelistLink codelistLink = findCodelistLink(link.getLinkType().getId(), target.links());
+			CodelistLink codelistLink = findCodelistLink(link.getLinkId(), target.links());
 			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorTo(codelistLink);
 		}
 		

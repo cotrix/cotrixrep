@@ -71,7 +71,7 @@ public class ValueTypesGrouper {
 			NAME() {
 				@Override
 				public String getGroupKey(LinkType type) {
-					return ValueUtils.getLocalPart(type.getLinkType().getName());
+					return ValueUtils.getLocalPart(type.getName());
 				}
 
 				@Override

@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.common.shared.codelist.link;
 
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -13,22 +14,30 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class LinkType implements UIValueType, IsSerializable {
 	
-	private UILinkType linkType;
+	private UIQName name;
+	private String linkId;
 	
 	public LinkType(){}
 
-	/**
-	 * @param linkType
-	 */
-	public LinkType(UILinkType linkType) {
-		this.linkType = linkType;
+	public LinkType(String linkId, UIQName name) {
+		this.linkId = linkId;
+		this.name = name;
 	}
 
+
 	/**
-	 * @return the linkType
+	 * @return the name
 	 */
-	public UILinkType getLinkType() {
-		return linkType;
+	public UIQName getName() {
+		return name;
+	}
+
+
+	/**
+	 * @return the linkId
+	 */
+	public String getLinkId() {
+		return linkId;
 	}
 
 	/** 
@@ -38,8 +47,8 @@ public class LinkType implements UIValueType, IsSerializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((linkType == null) ? 0 : linkType.hashCode());
+		result = prime * result + ((linkId == null) ? 0 : linkId.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -55,14 +64,18 @@ public class LinkType implements UIValueType, IsSerializable {
 		if (getClass() != obj.getClass())
 			return false;
 		LinkType other = (LinkType) obj;
-		if (linkType == null) {
-			if (other.linkType != null)
+		if (linkId == null) {
+			if (other.linkId != null)
 				return false;
-		} else if (!linkType.equals(other.linkType))
+		} else if (!linkId.equals(other.linkId))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
-
 
 
 	/** 
@@ -71,8 +84,10 @@ public class LinkType implements UIValueType, IsSerializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("LinkType [linkType=");
-		builder.append(linkType);
+		builder.append("LinkType [name=");
+		builder.append(name);
+		builder.append(", linkId=");
+		builder.append(linkId);
 		builder.append("]");
 		return builder.toString();
 	}

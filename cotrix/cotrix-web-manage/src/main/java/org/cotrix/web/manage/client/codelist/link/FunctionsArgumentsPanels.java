@@ -5,9 +5,7 @@ package org.cotrix.web.manage.client.codelist.link;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.cotrix.web.common.shared.codelist.link.UIValueFunction.Function;
 
@@ -30,20 +28,18 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 	
 	private StackPanel mainpanel;
 	private EnumMap<Function, ArgumentsPanel> functionToPanel;
-	private Set<Function> functionHasArguments;
 	private ArgumentsPanel currentArgumentsPanel;
 	
 	public FunctionsArgumentsPanels() {
 		mainpanel = new StackPanel();
 		initWidget(mainpanel);
 		functionToPanel = new EnumMap<Function, ArgumentsPanel>(Function.class);
-		functionHasArguments = new HashSet<Function>();
-		
+	
 		createPanel(Function.IDENTITY);
-		createPanel(Function.CUSTOM, "expression");
+		createPanel(Function.CUSTOM);
 		createPanel(Function.LOWERCASE);
-		createPanel(Function.PREFIX, "prefix");
-		createPanel(Function.SUFFIX, "suffix");
+		createPanel(Function.PREFIX);
+		createPanel(Function.SUFFIX);
 		createPanel(Function.UPPERCASE);
 		
 		showFunctionPanel(Function.IDENTITY);
@@ -65,13 +61,10 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 		currentArgumentsPanel.setArgumentsValues(arguments);
 	}
 	
-	public boolean hasArguments(Function function) {
-		return functionHasArguments.contains(function);
-	}
-	
-	private void createPanel(Function function, String ... argumentsNames) {
+	private void createPanel(Function function) {
+		
 		ArgumentsPanel argumentsPanel = new ArgumentsPanel();
-		for (String name: argumentsNames) argumentsPanel.addArgumentPanel(new ArgumentPanel(name));
+		for (String name: function.getArguments()) argumentsPanel.addArgumentPanel(new ArgumentPanel(name));
 		
 		mainpanel.add(argumentsPanel);
 		
@@ -84,8 +77,6 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 				fireValueChanged();
 			}
 		});
-		
-		if (argumentsNames.length>0) functionHasArguments.add(function);
 	}
 	
 
@@ -116,16 +107,16 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 	
 	private class ArgumentsPanel extends Composite implements HasValueChangeHandlers<List<String>> {
 
-		private VerticalPanel mainPanel;
+		private VerticalPanel argumentsPanel;
 		private List<ArgumentPanel> argumentPanels = new ArrayList<ArgumentPanel>();
 		
 		public ArgumentsPanel() {
-			mainPanel = new VerticalPanel();
-			initWidget(mainPanel);
+			argumentsPanel = new VerticalPanel();
+			initWidget(argumentsPanel);
 		}
 		
 		public void addArgumentPanel(ArgumentPanel argumentPanel) {
-			mainpanel.add(argumentPanel);
+			argumentsPanel.add(argumentPanel);
 			argumentPanels.add(argumentPanel);
 			argumentPanel.addValueChangeHandler(new ValueChangeHandler<String>() {
 
@@ -193,6 +184,14 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 			
 			editableLabel = new EditableLabel();
 			editableLabel.addEditor(textBox);
+			
+			textBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+				@Override
+				public void onValueChange(ValueChangeEvent<String> event) {
+					editableLabel.setText(event.getValue());
+				}
+			});
 			
 			panel.add(editableLabel);
 			initWidget(panel);

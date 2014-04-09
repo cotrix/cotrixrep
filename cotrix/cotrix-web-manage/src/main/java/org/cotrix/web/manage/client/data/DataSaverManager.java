@@ -72,6 +72,7 @@ public class DataSaverManager {
 		 */
 		@Override
 		public void onDataEdit(DataEditEvent<T> event) {
+			Log.trace("onDataEdit codelistId: "+codelistId+" event: "+event);
 			managerBus.fireEvent(new SavingDataEvent());
 			StatusUpdates.statusSaving();
 			final T data = event.getData();

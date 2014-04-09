@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.manage.client.codelist.link;
 
+import java.util.List;
+
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -10,6 +12,7 @@ import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.link.UIValueFunction;
+import org.cotrix.web.common.shared.codelist.link.UIValueFunction.Function;
 import org.cotrix.web.manage.client.codelist.link.LinkTypeHeader.Button;
 import org.cotrix.web.manage.client.codelist.link.LinkTypeHeader.HeaderListener;
 
@@ -135,18 +138,19 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		startEdit();
 		validate();
 	}
-	
+
 	private UILinkType getLinkType() {
 		String id = currentLinkType!=null?currentLinkType.getId():null;
 		UIQName name = ValueUtils.getValue(detailsPanel.getName());
 		UICodelist codelist = detailsPanel.getCodelist();
 		UIValueFunction valueFunction = detailsPanel.getValueFunction();
 		UIValueType valueType = detailsPanel.getValueType();
-		
+
 		return new UILinkType(id, name, codelist, valueFunction, valueType);
 	}
 
 	public void enterEditMode() {
+		editable = true;
 		editing = true;
 		disclosurePanel.setOpen(true);
 		startEdit();
@@ -169,7 +173,7 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		if (listener!=null) listener.onCancel();
 		if (currentLinkType != null && !currentLinkType.equals(getLinkType())) setupLinkTypePanel(currentLinkType);
 	}
-	
+
 	private void setupLinkTypePanel(UILinkType linkType) {
 		detailsPanel.setName(ValueUtils.getLocalPart(linkType.getName()));
 		detailsPanel.setCodelist(linkType.getTargetCodelist(), linkType.getValueType());
@@ -203,17 +207,24 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		detailsPanel.setValidCodelist(codelistValid);
 		valid &= codelistValid;
 
-		//we use object reference
-	/*	if (detail.getFunction() == LinkTypeDetailsPanel.OTHER_FUNCTION) {
-			String function = detail.getCustomFunction();
-			boolean validFunction = function!=null && !function.isEmpty();
-			detailsPanel.setValidFunction(validFunction);
-			valid &= validFunction;
-		}*/
+		UIValueFunction valueFunction = detailsPanel.getValueFunction();
+		boolean validFunction = validateValueFunction(valueFunction);
+		detailsPanel.setValidFunction(validFunction);
+		valid &= validFunction;
 
 		Log.trace("Valid ? "+valid);
 		header.setSaveVisible(valid);
 
+	}
+
+	private boolean validateValueFunction(UIValueFunction valueFunction) {
+		Function function = valueFunction.getFunction();
+		List<String> arguments = valueFunction.getArguments();
+
+		if (function.getArguments().length != arguments.size()) return false;
+
+		for (String argument:arguments) if (argument.isEmpty()) return false;
+		return true;
 	}
 
 	@Override
