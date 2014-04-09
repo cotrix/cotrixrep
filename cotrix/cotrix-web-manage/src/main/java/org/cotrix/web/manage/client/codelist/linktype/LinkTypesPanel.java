@@ -130,7 +130,7 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 			
 			@Override
 			public void execute() {
-				linkTypePanel.enterEditMode();
+				linkTypePanel.enterEditMode(true);
 			}
 		});
 	}

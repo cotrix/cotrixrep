@@ -98,9 +98,6 @@ public class UILinkType implements Identifiable, IsSerializable {
 		this.valueType = valueType;
 	}
 
-	public interface UIValueType {
-	}
-
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -109,6 +106,13 @@ public class UILinkType implements Identifiable, IsSerializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((targetCodelist == null) ? 0 : targetCodelist.hashCode());
+		result = prime * result
+				+ ((valueFunction == null) ? 0 : valueFunction.hashCode());
+		result = prime * result
+				+ ((valueType == null) ? 0 : valueType.hashCode());
 		return result;
 	}
 
@@ -128,6 +132,26 @@ public class UILinkType implements Identifiable, IsSerializable {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (targetCodelist == null) {
+			if (other.targetCodelist != null)
+				return false;
+		} else if (!targetCodelist.equals(other.targetCodelist))
+			return false;
+		if (valueFunction == null) {
+			if (other.valueFunction != null)
+				return false;
+		} else if (!valueFunction.equals(other.valueFunction))
+			return false;
+		if (valueType == null) {
+			if (other.valueType != null)
+				return false;
+		} else if (!valueType.equals(other.valueType))
 			return false;
 		return true;
 	}
@@ -150,5 +174,8 @@ public class UILinkType implements Identifiable, IsSerializable {
 		builder.append(valueType);
 		builder.append("]");
 		return builder.toString();
+	}
+	
+	public interface UIValueType {
 	}
 }

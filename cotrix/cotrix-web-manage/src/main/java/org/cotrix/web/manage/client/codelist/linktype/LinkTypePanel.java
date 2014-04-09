@@ -84,6 +84,7 @@ public class LinkTypePanel extends Composite implements HasEditing {
 			public void onOpen(OpenEvent<LinkDisclosurePanel> event) {
 				updateHeaderButtons();
 				fireSelected();
+				if (editing) validate();
 			}
 		});
 
@@ -136,6 +137,7 @@ public class LinkTypePanel extends Composite implements HasEditing {
 
 	private void onEdit() {
 		startEdit();
+		detailsPanel.setCodelistReadonly(true);
 		validate();
 	}
 
@@ -149,11 +151,12 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		return new UILinkType(id, name, codelist, valueFunction, valueType);
 	}
 
-	public void enterEditMode() {
+	public void enterEditMode(boolean codelistEditable) {
 		editable = true;
 		editing = true;
 		disclosurePanel.setOpen(true);
 		startEdit();
+		detailsPanel.setCodelistReadonly(!codelistEditable);
 	}
 
 	private void startEdit() {

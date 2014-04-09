@@ -1,24 +1,28 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
-	xmlns:l="urn:import:org.cotrix.web.manage.client.codelist.linktype">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:l="urn:import:org.cotrix.web.manage.client.codelist.linktype">
 	<ui:with field='resources'
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='commonresources'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
 	<ui:style>
-		.loader {
-			margin: 0 auto;
-			display: inherit;
-		}
+	
+	.loader {
+		vertical-align: middle;
+		margin-left: 11px;
+		margin-top: 10px;
+	}
 	</ui:style>
-	<g:FlowPanel>
-	<l:EditableLabel ui:field="valueTypeListContainer"
-						labelStyle="{resources.propertyGrid.textValue}">
-						<l:editor>
-							<g:ListBox multipleSelect="false" ui:field="valueTypeList" styleName="{commonresources.css.listBox}" />
-						</l:editor>
-					</l:EditableLabel>
-					<g:Image resource="{commonresources.dataLoader}" visible="false" ui:field="valueTypeListLoader" styleName="{style.loader}"/>
-	</g:FlowPanel>
+	<g:HTMLPanel height="31px">
+		<l:EditableLabel ui:field="valueTypeListContainer"
+			labelStyle="{resources.propertyGrid.textValue}">
+			<l:editor>
+				<g:ListBox multipleSelect="false" ui:field="valueTypeList"
+					styleName="{commonresources.css.listBox}" />
+			</l:editor>
+		</l:EditableLabel>
+		<g:Image ui:field="valueTypeListLoader" resource="{commonresources.dataLoader}" visible="false"
+			 styleName="{style.loader}" />
+
+	</g:HTMLPanel>
 </ui:UiBinder> 

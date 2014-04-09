@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.cotrix.web.common.shared.codelist.link.UIValueFunction.Function;
 
+import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -32,6 +34,7 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 	
 	public FunctionsArgumentsPanels() {
 		mainpanel = new StackPanel();
+		mainpanel.setWidth("100%");
 		initWidget(mainpanel);
 		functionToPanel = new EnumMap<Function, ArgumentsPanel>(Function.class);
 	
@@ -79,7 +82,6 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 		});
 	}
 	
-
 	private void fireValueChanged() {
 		ValueChangeEvent.fire(this, getArgumentsValues());
 	}
@@ -112,6 +114,7 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 		
 		public ArgumentsPanel() {
 			argumentsPanel = new VerticalPanel();
+			argumentsPanel.setWidth("100%");
 			initWidget(argumentsPanel);
 		}
 		
@@ -177,7 +180,12 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 		
 		public ArgumentPanel(String name, String value) {
 			VerticalPanel panel = new VerticalPanel();
+			panel.setWidth("100%");
 			Label label = new Label(name);
+			label.getElement().getStyle().setPaddingLeft(5, Unit.PX);
+			label.getElement().getStyle().setPaddingTop(3, Unit.PX);
+			label.getElement().getStyle().setPaddingBottom(4, Unit.PX);
+
 			panel.add(label);
 			textBox = new TextBox();
 			textBox.setValue(value);
@@ -189,6 +197,7 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 
 				@Override
 				public void onValueChange(ValueChangeEvent<String> event) {
+					Log.trace("setting test: "+event.getValue());
 					editableLabel.setText(event.getValue());
 				}
 			});

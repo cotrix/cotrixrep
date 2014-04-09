@@ -172,6 +172,11 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	public void setValidCodelist(boolean valid) {
 		codelistBox.setStyleName(style.error(), !valid);
 	}
+	
+	public void setCodelistReadonly(boolean readOnly) {
+		codelistBoxContainer.setReadOnly(readOnly);
+		if (readOnly) codelistBox.setStyleName(style.error(), false);
+	}
 
 	private final AsyncCallback<List<UICodelist>> codelistCallBack = new AsyncCallback<List<UICodelist>>() {
 		
@@ -234,7 +239,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	}
 	
 	public void setValidFunction(boolean valid) {
-		functionArguments.setStyleName(style.error(), !valid);
+		functionArguments.setStyle(style.error(), !valid);
 	}
 	
 	public UIValueFunction getValueFunction() {
