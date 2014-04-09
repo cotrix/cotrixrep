@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.link;
+package org.cotrix.web.manage.client.codelist.linktype;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.link.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.link.UIValueFunction.Function;
-import org.cotrix.web.manage.client.codelist.link.LinkTypeHeader.Button;
-import org.cotrix.web.manage.client.codelist.link.LinkTypeHeader.HeaderListener;
+import org.cotrix.web.manage.client.codelist.linktype.LinkTypeHeader.Button;
+import org.cotrix.web.manage.client.codelist.linktype.LinkTypeHeader.HeaderListener;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.Document;

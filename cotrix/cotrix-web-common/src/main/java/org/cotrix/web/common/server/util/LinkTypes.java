@@ -52,7 +52,7 @@ public class LinkTypes {
 			AttributeTemplate template = attributeLink.template();
 			UIQName name = ValueUtils.safeValue(template.name());
 			UIQName type = ValueUtils.safeValue(template.type());
-			String language = template.language();
+			String language = ValueUtils.safeValue(template.language());
 			return new AttributeType(name, type, language);
 		}
 		

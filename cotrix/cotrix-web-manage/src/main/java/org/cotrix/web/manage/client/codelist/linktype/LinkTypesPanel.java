@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.link;
+package org.cotrix.web.manage.client.codelist.linktype;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
-import org.cotrix.web.manage.client.codelist.link.LinkTypePanel.LinkTypePanelListener;
+import org.cotrix.web.manage.client.codelist.linktype.LinkTypePanel.LinkTypePanelListener;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;

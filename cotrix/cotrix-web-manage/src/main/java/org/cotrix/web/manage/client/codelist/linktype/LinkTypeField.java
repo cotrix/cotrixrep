@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.link;
+package org.cotrix.web.manage.client.codelist.linktype;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
