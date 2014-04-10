@@ -69,6 +69,7 @@ public class Column2Attribute {
 					report().log(msg).as(ERROR);break;
 				case LOG:
 					report().log(msg).as(WARN);break;
+				default:
 			}
 			
 			return false;

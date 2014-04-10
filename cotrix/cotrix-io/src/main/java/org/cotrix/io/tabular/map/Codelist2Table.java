@@ -83,6 +83,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 						switch (directives.mode()) {
 							case STRICT:throw new IllegalStateException(error);
 							case LOG: report().log(error).as(WARN);
+							default:
 						}
 					values.put(col.name(),matches.get(col.name()).value());
 				}

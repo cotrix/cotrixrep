@@ -112,6 +112,8 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 							Report.report().log(item("unparseable end date: "+a.value())).as(WARN);
 						}
 						break;
+					
+					default:
 				}
 		}
 
@@ -147,6 +149,8 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 						annotation.addText(lang, val);
 						bean.addAnnotation(annotation);		
 						break;
+						
+					default:
 						
 				}
 		}
