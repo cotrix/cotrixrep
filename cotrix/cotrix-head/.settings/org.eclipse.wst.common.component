@@ -62,6 +62,9 @@
         <dependent-module archiveName="cotrix-repository-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-repository/cotrix-repository">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="virtual-repository-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/virtual-repository/virtual-repository">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="virtual-semantic-repository-1.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/virtual-semantic-repository/virtual-semantic-repository">
             <dependency-type>uses</dependency-type>
         </dependent-module>
