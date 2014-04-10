@@ -68,6 +68,7 @@ public class Column2Attribute {
 					report().logError(msg);break;
 				case LOG:
 					report().logWarning(msg);break;
+				default:
 			}
 			
 			return false;

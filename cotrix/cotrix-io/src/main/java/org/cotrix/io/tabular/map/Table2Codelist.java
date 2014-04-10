@@ -128,6 +128,8 @@ public class Table2Codelist {
 					report().logError(msg);break;
 				case LOG:
 					report().logWarning(msg);break;
+					
+				default:
 			}
 			
 			return false;
