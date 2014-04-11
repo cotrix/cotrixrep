@@ -2,7 +2,6 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.links.OccurrenceRanges.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.junit.Assert.*;
@@ -56,7 +55,7 @@ public class CodelinkTest extends DomainTest {
 		
 		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
-		assertEquals(code.name(),link.value());
+		assertEquals(code.name(),link.value().iterator().next());
 		
 	}
 	
@@ -94,7 +93,7 @@ public class CodelinkTest extends DomainTest {
 		listlink = like(listLink().name("link-to-b").target(list).anchorTo(listlink).build());
 		link = like(link().instanceOf(listlink).target(code).build());
 		
-		assertEquals(Arrays.asList(q("c")),link.value());
+		assertEquals(q("c"),link.value().iterator().next());
 		
 	}
 	
@@ -213,26 +212,57 @@ public class CodelinkTest extends DomainTest {
 		
 	}
 	
-	@Test
-	public void rangesAreEnforced() {
+	@Test(expected=IllegalStateException.class)
+	public void  linkCyclesAreDetected() {
+
+		//two codelists one code each
+		Code code1 = someTarget("c1");
+		Codelist list1 = like(codelist().name("list1").with(code1).build());
+
+		Code code2 = someTarget("c2");
+		Codelist list2 = like(codelist().name("list2").with(code2).build());
+
+		//first links to second's name
+		CodelistLink clLink1 = listLink().name("1-2").target(list2).build();
+		Codelist changeset = modifyCodelist(list1.id()).links(clLink1).build();
+		reveal(list1).update(reveal(changeset));
 		
-		CodelistLink listLink = like(listLink().name("link").target(someCodelist()).occurs(once).build());
+		//second links to first's link
+		CodelistLink clLink2 = listLink().name("2-1").target(list1).anchorTo(clLink1).build();
+		changeset = modifyCodelist(list2.id()).links(clLink2).build();
+		reveal(list2).update(reveal(changeset));
 		
-		Code code = someTarget();
+		//modify first link to point to second link (allowed)
+		changeset = modifyCodelist(list1.id()).links(
+				modifyListLink(clLink1.id()).anchorTo(clLink2).build()
+		).build();
 		
-		Codelink link1  = link().instanceOf(listLink).target(code).build();
-		Codelink link2  = link().instanceOf(listLink).target(code).build();
+		reveal(list1).update(reveal(changeset));
 		
-		try {
-			code = like(code().name("s").links(link1,link2).build());
-			fail();
-		}
-		catch(IllegalArgumentException e) {
+		//create cycle in instances
+		Codelink link1 = link().instanceOf(clLink1).target(code2).build();
+		Codelink link2 = link().instanceOf(clLink2).target(code1).build();
+		
+		changeset = modifyCodelist(list1.id()).with(
+					modifyCode(code1.id()).links(link1).build()
+				).build();
+
+		reveal(list1).update(reveal(changeset));
+		
+		changeset = modifyCodelist(list2.id()).with(
+				modifyCode(code2.id()).links(link2).build()
+			).build();
+
+		reveal(list2).update(reveal(changeset));
 			
-		}
+		//detect cycle
+		code1.links().lookup(link1.name()).value();
+		
+		
+		
+		
 		
 	}
-	
 	
 	@Test
 	public void changeTarget() {
@@ -250,7 +280,7 @@ public class CodelinkTest extends DomainTest {
 		
 		reveal(link).update(reveal(changeset));
 		
-		assertEquals(code.name(),link.value());
+		assertEquals(code.name(),link.value().iterator().next());
 		
 	}
 	

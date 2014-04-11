@@ -1,5 +1,6 @@
 package org.cotrix.neo.domain;
 
+import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.links.ValueFunctions.*;
 import static org.cotrix.neo.NeoUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
@@ -9,6 +10,7 @@ import static org.neo4j.graphdb.Direction.*;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.links.OccurrenceRange;
 import org.cotrix.domain.links.OccurrenceRanges;
@@ -61,7 +63,7 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 		
 		//links should always have a target
 		if (rel==null)
-			throw new IllegalStateException("link is dangling");
+			throw new IllegalStateException("orphaned codelist link "+name()+" ("+id()+")");
 		
 		return NeoCodelist.factory.beanFrom(rel.getEndNode());
 	}
@@ -71,7 +73,7 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 		
 		Node target = node(state);
 		
-		//allow dangling semantics
+		//allow orphan semantics
 		if (target!=null)
 			node().createRelationshipTo(target, Relations.LINK);
 		
@@ -80,16 +82,47 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	@Override
 	public ValueType valueType() {
 		
-		return node().hasProperty(type_prop)? 
-					(ValueType) binder().fromXML((String) node().getProperty(type_prop))
-					: NameLink.INSTANCE;
+		//attribute-based: retrieve as blob
+		if (node().hasProperty(type_prop))
+			return (ValueType) binder().fromXML((String) node().getProperty(type_prop));
+		
+		//link-based: retrieve as link
+		Relationship rel = node().getSingleRelationship(Relations.LOL,OUTGOING);
+		
+		if (rel!=null)
+			return new LinkOfLink(NeoCodelistLink.factory.beanFrom(rel.getEndNode()).entity());
+		
+		//name-based: return constant
+		return NameLink.INSTANCE;
 	}
 	
 	@Override
-	public void valueType(ValueType type) {
+	public void valueType(ValueType state) {
 		
-		if(type!=NameLink.INSTANCE)
-			node().setProperty(type_prop,binder().toXML(type));
+		//name-based: store nothing  
+		if (state==NameLink.INSTANCE)
+			return;
+		
+		else
+			
+		//link-based: point to link as it can change over time
+		if (state instanceof LinkOfLink) {
+			
+			CodelistLink link = ((LinkOfLink) state).target();
+			
+			Node target = node(reveal(link).state());
+			
+			//allow orphan semantics
+			if (target!=null)
+				node().createRelationshipTo(target, Relations.LOL);
+			
+			return;
+		}
+		
+		else
+			
+		//attribute-based: store as blob, it won't change over time
+		node().setProperty(type_prop,binder().toXML(state));
 		
 	}
 	

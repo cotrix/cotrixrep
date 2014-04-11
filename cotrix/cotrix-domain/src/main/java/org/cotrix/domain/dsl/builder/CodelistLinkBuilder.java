@@ -23,7 +23,6 @@ import org.cotrix.domain.links.OccurrenceRange;
 import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.utils.AttributeTemplate;
-import org.cotrix.domain.utils.LinkTemplate;
 
 /**
  * Builds {@link Attribute}s.
@@ -103,7 +102,7 @@ public class CodelistLinkBuilder  {
 		}
 		
 		public OptionalClause anchorTo(CodelistLink template) {
-			state.valueType(new LinkOfLink(new LinkTemplate(template)));
+			state.valueType(new LinkOfLink(template));
 			return this;
 		}
 		

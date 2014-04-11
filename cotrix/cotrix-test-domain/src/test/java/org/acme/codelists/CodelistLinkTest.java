@@ -16,7 +16,6 @@ import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.utils.AttributeTemplate;
-import org.cotrix.domain.utils.LinkTemplate;
 import org.junit.Test;
 
 public class CodelistLinkTest extends DomainTest {
@@ -53,7 +52,7 @@ public class CodelistLinkTest extends DomainTest {
 		
 		link  = listLink().name(name).target(list).anchorTo(linktemplate).build();
 		
-		assertEquals(new LinkOfLink(new LinkTemplate(linktemplate)),link.valueType());
+		assertEquals(new LinkOfLink(linktemplate),link.valueType());
 		
 		link  = listLink().name(name).target(list).transformWith(lowercase).build();
 		

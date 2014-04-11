@@ -27,6 +27,6 @@ public class Constants {
 	}
 	
 	public static enum Relations implements RelationshipType {
-		ATTRIBUTE, CODE, LINK, INSTANCEOF
+		ATTRIBUTE, CODE, LINK, INSTANCEOF, LOL
 	}
 }

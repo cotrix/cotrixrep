@@ -1,5 +1,10 @@
 package org.cotrix.domain.codelist;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.trait.Attributed;
@@ -28,7 +33,7 @@ public interface Codelink extends Identified, Attributed, Named {
 	 * 
 	 * @return the link value, or <code>null</code> if the link is orphaned.
 	 */
-	Object value();
+	Collection<Object> value();
 	
 	
 	/**
@@ -68,9 +73,9 @@ public interface Codelink extends Identified, Attributed, Named {
 		}
 
 		@Override
-		public Object value() {
+		public Collection<Object> value() {
 
-			return resolve(this.state(), this.type().state());
+			return resolve(this.state(), this.type().state(),new ArrayList<String>());
 
 		}
 		
@@ -106,10 +111,20 @@ public interface Codelink extends Identified, Attributed, Named {
 		
 		// extracted to reuse below this layer (for link-of-links) without
 		// object instantiation costs
-		public static Object resolve(Codelink.State link, CodelistLink.State type) {
+		public static Collection<Object> resolve(Codelink.State link, CodelistLink.State type, List<String> ids) {
 
+			if (ids.contains(link.id())) {
+				StringBuilder cycle = new StringBuilder();
+				for (String id : ids)
+					cycle.append(id+"->");
+				cycle.append(link.id());
+				throw new IllegalStateException("cycle detected:"+cycle);
+			}
+			
+			ids.add(link.id());
+			
 			// dynamic resolution (includes orphan link case)
-			return link.target() == null ? null : type.valueType().valueIn(link.target());
+			return link.target() == null ? Collections.<Object>emptyList() : type.valueType().valueIn(link.id(),link.target(),ids);
 		}
 
 	}
