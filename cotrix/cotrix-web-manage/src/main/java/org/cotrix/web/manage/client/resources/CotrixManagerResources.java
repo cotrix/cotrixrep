@@ -85,6 +85,10 @@ public interface CotrixManagerResources extends ClientBundle {
 		String header();
 
 		String value();
+		
+		String valueBoxLeft();
+		String valueBoxCenter();
+		String valueBoxRight();
 
 		String textValue();
 	}

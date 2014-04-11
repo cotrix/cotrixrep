@@ -6,11 +6,15 @@ package org.cotrix.web.manage.client.codelist.linktype;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources.PropertyGridStyle;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TextBox;
@@ -21,9 +25,11 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class AttributeRow extends AbstractRow {
 	
-	private static final String HEADER_STYLE = CotrixManagerResources.INSTANCE.propertyGrid().header();
+	private static final PropertyGridStyle propertyGridStyles = CotrixManagerResources.INSTANCE.propertyGrid();
+	private static final String HEADER_STYLE = propertyGridStyles.header();
 	private static final String TEXTBOX_STYLE = CommonResources.INSTANCE.css().textBox()+ " " + CotrixManagerResources.INSTANCE.css().editor();
-	private static final String TEXTVALUE_STYLE = CotrixManagerResources.INSTANCE.propertyGrid().textValue();
+	private static final String TEXTVALUE_STYLE = propertyGridStyles.textValue();
+
 	private static final int NAME_COL = 0;
 	private static final int VALUE_COL = 1;
 	private static final int DELETE_COL = 2;
@@ -82,6 +88,9 @@ public class AttributeRow extends AbstractRow {
 		valueTextBox.addValueChangeHandler(valueEditableLabel);
 		
 		deleteButton = new PushButton(new Image(CommonResources.INSTANCE.minus()));
+		deleteButton.getElement().getStyle().setMarginTop(4, Unit.PX);
+		deleteButton.getElement().getStyle().setMarginLeft(4, Unit.PX);
+		deleteButton.getElement().getStyle().setMarginRight(4, Unit.PX);
 		deleteButton.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -91,6 +100,9 @@ public class AttributeRow extends AbstractRow {
 		});
 		
 		fullEditButton = new PushButton(new Image(CotrixManagerResources.INSTANCE.edit()));
+		fullEditButton.getElement().getStyle().setMarginTop(4, Unit.PX);
+		fullEditButton.getElement().getStyle().setMarginLeft(4, Unit.PX);
+		fullEditButton.getElement().getStyle().setMarginRight(4, Unit.PX);
 		fullEditButton.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -111,17 +123,17 @@ public class AttributeRow extends AbstractRow {
 	public void setup() {
 			
 		addCell(NAME_COL, nameEditableLabel);
-		setCellStyle(NAME_COL, CotrixManagerResources.INSTANCE.propertyGrid().value());
+		setCellStyle(NAME_COL, propertyGridStyles.value());
 		table.getCellFormatter().getElement(rowIndex, NAME_COL).getStyle().setBackgroundColor("#efefef");
 
 		addCell(VALUE_COL, valueEditableLabel);
-		setCellStyle(VALUE_COL, CotrixManagerResources.INSTANCE.propertyGrid().value());
+		setCellStyle(VALUE_COL, propertyGridStyles.valueBoxLeft());
 		
 		addCell(DELETE_COL, deleteButton);
-		setCellStyle(DELETE_COL, CotrixManagerResources.INSTANCE.propertyGrid().value());
+		setCellStyle(DELETE_COL, propertyGridStyles.valueBoxCenter());
 		
 		addCell(FULL_EDIT_COL, fullEditButton);
-		setCellStyle(FULL_EDIT_COL, CotrixManagerResources.INSTANCE.propertyGrid().value());		
+		setCellStyle(FULL_EDIT_COL, propertyGridStyles.valueBoxRight());		
 	}
 	
 	public void setReadOnly(boolean readOnly) {
@@ -138,9 +150,13 @@ public class AttributeRow extends AbstractRow {
 	
 	private void updateValueCellSpan() {
 		int span = readOnly?3:1;
-		table.getFlexCellFormatter().setColSpan(getRowIndex(), VALUE_COL, span);
-		table.getCellFormatter().setVisible(getRowIndex(), DELETE_COL, !readOnly);
-		table.getCellFormatter().setVisible(getRowIndex(), FULL_EDIT_COL, !readOnly);
+		int rowIndex = getRowIndex();
+		table.getFlexCellFormatter().setColSpan(rowIndex, VALUE_COL, span);
+		if (readOnly) table.getCellFormatter().setStyleName(rowIndex, VALUE_COL, propertyGridStyles.value());
+		else table.getCellFormatter().setStyleName(rowIndex, VALUE_COL, propertyGridStyles.valueBoxLeft());
+		
+		table.getCellFormatter().setVisible(rowIndex, DELETE_COL, !readOnly);
+		table.getCellFormatter().setVisible(rowIndex, FULL_EDIT_COL, !readOnly);
 	}
 	
 	public String getName() {

@@ -37,6 +37,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	@UiField TextBox languageBox;
 	@UiField TextBox valueBox;
 	
+	//FIXME @inject
 	CommonResources resources = CommonResources.INSTANCE;
 	
 	private AttributeEditDialogListener listener;
@@ -66,9 +67,15 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	}
 	
 	@UiHandler("save")
-	protected void onEdit(ClickEvent clickEvent)
+	protected void onSave(ClickEvent clickEvent)
 	{
 		doEdit();
+	}
+	
+	@UiHandler("cancel")
+	protected void onCancel(ClickEvent clickEvent)
+	{
+		hide();
 	}
 	
 	protected void doEdit() {
