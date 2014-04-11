@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.manage.client.codelist.linktype;
 
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiChild;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
@@ -13,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class EditableLabel extends Composite {
+public class EditableLabel extends Composite implements ValueChangeHandler<String> {
 	
 	private StackPanel panel;
 	private Label label;
@@ -54,6 +56,11 @@ public class EditableLabel extends Composite {
 	
 	public void setReadOnly(boolean readOnly) {
 		panel.showStack(readOnly?labelIndex:editorIndex);
+	}
+
+	@Override
+	public void onValueChange(ValueChangeEvent<String> event) {
+		setText(event.getValue());
 	}
 
 }

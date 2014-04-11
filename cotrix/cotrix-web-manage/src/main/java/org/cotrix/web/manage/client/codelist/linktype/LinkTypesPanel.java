@@ -61,6 +61,14 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 		initWidget(panel);
 	}
 
+	/**
+	 * Used for tests
+	 * @param codelistInfoProvider
+	 */
+	public void setCodelistInfoProvider(CodelistInfoProvider codelistInfoProvider) {
+		this.codelistInfoProvider = codelistInfoProvider;
+	}
+
 	public void setListener(LinkTypesPanelListener listener) {
 		this.listener = listener;
 	}

@@ -4,6 +4,7 @@
 package org.cotrix.web.common.server.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.links.AttributeLink;
@@ -13,6 +14,7 @@ import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.utils.AttributeTemplate;
 import org.cotrix.domain.utils.LinkTemplate;
+import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.link.AttributeType;
@@ -37,8 +39,9 @@ public class LinkTypes {
 		UICodelist targetCodelist = Codelists.toUICodelist(codelistLink.target());
 		UIValueType valueType = toValueType(codelistLink.valueType());
 		UIValueFunction valueFunction = toValueFunction(codelistLink.function());
+		List<UIAttribute> attributes = Codelists.toUIAttributes(codelistLink.attributes());
 		
-		return new UILinkType(codelistLink.id(), name, targetCodelist, valueFunction, valueType);
+		return new UILinkType(codelistLink.id(), name, targetCodelist, valueFunction, valueType, attributes);
 	}
 	
 	private static UIValueType toValueType(ValueType valueType) {

@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.LabelProvider;
 import org.cotrix.web.common.client.util.ListBoxUtils;
+import org.cotrix.web.common.client.widgets.table.CellContainer;
+import org.cotrix.web.common.client.widgets.table.Table;
+import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.link.CodeNameType;
 import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
@@ -19,7 +22,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
@@ -39,7 +41,6 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -60,6 +61,8 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		String editor();
 	}
 	
+	@UiField Table table;
+	
 	@UiField EditableLabel nameBoxContainer;
 	@UiField TextBox nameBox;
 	
@@ -72,8 +75,10 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	@UiField EditableLabel valueFunctionContainer;
 	@UiField ListBox valueFunction;
 	
-	@UiField TableRowElement functionArgumentsRow;
+	@UiField CellContainer functionArgumentsRow;
 	@UiField FunctionsArgumentsPanels functionArguments;
+	
+	private AttributesPanel attributesPanel;
 	
 	@UiField Style style;
 	
@@ -98,6 +103,8 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		setupValueTypePanel();
 
 		setupFunction();
+		
+		setupAttributesPanel();
 		
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			
@@ -263,7 +270,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	}
 	
 	private void setFunctionRowVisible(boolean visible) {
-		UIObject.setVisible(functionArgumentsRow, visible);
+		functionArgumentsRow.setVisible(visible);
 	}
 	
 	private Function getSelectedFunction() {
@@ -277,6 +284,30 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	
 	private void syncValueFunction() {
 		valueFunctionContainer.setText(functionLabelProvider.getLabel(getSelectedFunction()));
+	}
+	
+	private void setupAttributesPanel() {
+		attributesPanel = new AttributesPanel(table, style.error());
+		attributesPanel.addValueChangeHandler(new ValueChangeHandler<Void>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Void> event) {
+				fireChange();
+			}
+		});
+	}
+	
+	
+	public void setAttributes(List<UIAttribute> attributes) {
+		attributesPanel.setAttributes(attributes);
+	}
+	
+	public List<UIAttribute> getAttributes() {
+		return attributesPanel.getAttributes();
+	}
+	
+	public boolean areAttributesValid() {
+		return attributesPanel.areValid();
 	}
 	
 
@@ -293,6 +324,8 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		
 		functionArguments.setReadOnly(readOnly);
 		if (readOnly) functionArguments.setStyleName(style.error(), false);
+		
+		attributesPanel.setReadOnly(readOnly);
 	}
 		
 	private void fireChange() {

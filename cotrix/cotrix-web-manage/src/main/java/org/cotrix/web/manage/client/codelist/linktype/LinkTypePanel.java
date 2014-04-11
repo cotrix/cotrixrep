@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.HasEditing;
+import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.link.UILinkType;
@@ -147,8 +148,9 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		UICodelist codelist = detailsPanel.getCodelist();
 		UIValueFunction valueFunction = detailsPanel.getValueFunction();
 		UIValueType valueType = detailsPanel.getValueType();
-
-		return new UILinkType(id, name, codelist, valueFunction, valueType);
+		List<UIAttribute> attributes = detailsPanel.getAttributes();
+		
+		return new UILinkType(id, name, codelist, valueFunction, valueType, attributes);
 	}
 
 	public void enterEditMode(boolean codelistEditable) {
@@ -181,6 +183,7 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		detailsPanel.setName(ValueUtils.getLocalPart(linkType.getName()));
 		detailsPanel.setCodelist(linkType.getTargetCodelist(), linkType.getValueType());
 		detailsPanel.setValueFunction(linkType.getValueFunction());
+		detailsPanel.setAttributes(linkType.getAttributes());
 	}
 
 	private void updateHeaderButtons() {
@@ -214,6 +217,8 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		boolean validFunction = validateValueFunction(valueFunction);
 		detailsPanel.setValidFunction(validFunction);
 		valid &= validFunction;
+		
+		valid &= detailsPanel.areAttributesValid();
 
 		Log.trace("Valid ? "+valid);
 		header.setSaveVisible(valid);
