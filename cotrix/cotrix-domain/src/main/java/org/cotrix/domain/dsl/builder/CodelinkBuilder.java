@@ -36,8 +36,13 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 	public OptionalClause target(Code code) {
 		
 		notNull("code",code);
-
-		Code.State target = reveal(code).state();
+		
+		Code.Private privatecode = reveal(code);
+		
+		if (privatecode.isChangeset())
+			throw new IllegalArgumentException("invalid link: target code cannot be a changeset");
+		
+		Code.State target = privatecode.state();
 		
 		state.target(target);
 		
@@ -69,7 +74,12 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 		@Override
 		public LinkTargetClause<Code,OptionalClause> instanceOf(CodelistLink linktype) {
 			
-			state.type(reveal(linktype).state());
+			CodelistLink.Private type = reveal(linktype);
+			
+			if (type.isChangeset())
+				throw new IllegalArgumentException("invalid link: link type cannot be a changeset");
+			
+			state.type(type.state());
 			
 			return CodelinkBuilder.this;
 		}

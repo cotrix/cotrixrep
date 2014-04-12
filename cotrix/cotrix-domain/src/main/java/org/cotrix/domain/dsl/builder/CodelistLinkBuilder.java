@@ -1,6 +1,7 @@
 package org.cotrix.domain.dsl.builder;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
 import java.util.Arrays;
@@ -69,8 +70,13 @@ public class CodelistLinkBuilder  {
 		public OptionalClause target(Codelist target) {
 			
 			notNull("codelist",target);
+			
+			Codelist.Private list = reveal(target);
 
-			state.target(reveal(target,Codelist.Private.class));
+			if (list.isChangeset())
+				throw new IllegalArgumentException("invalid link: target codelist cannot be a changeset");
+			
+			state.target(list.state());
 			
 			return CodelistLinkBuilder.this.new OptClause();
 		}

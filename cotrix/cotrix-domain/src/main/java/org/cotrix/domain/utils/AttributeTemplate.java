@@ -1,5 +1,6 @@
 package org.cotrix.domain.utils;
 
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
 
@@ -12,6 +13,12 @@ public class AttributeTemplate {
 	private final Attribute template;
 	
 	public AttributeTemplate(Attribute template) {
+		
+		notNull("template",template);
+		
+		if (reveal(template).isChangeset())
+			throw new IllegalArgumentException("attribute template cannot be a changeset");
+
 		this.template=template;
 	}
 	

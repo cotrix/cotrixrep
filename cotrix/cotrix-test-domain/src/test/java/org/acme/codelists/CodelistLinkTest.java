@@ -83,7 +83,9 @@ public class CodelistLinkTest extends DomainTest {
 		//value type change
 		link =  modifyListLink("1").anchorTo(someTemplate()).build();
 		link =  modifyListLink("1").anchorToName().build();
-		link =  modifyListLink("1").anchorTo(link).build();
+		
+		CodelistLink linktemplate = listLink().name(name).target(someCodelist()).build();
+		link =  modifyListLink("1").anchorTo(linktemplate).build();
 		
 		//function change
 		link =  modifyListLink("1").transformWith(uppercase).build();

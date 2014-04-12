@@ -1,5 +1,7 @@
 package org.cotrix.domain.links;
 
+import static org.cotrix.common.Utils.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,6 +15,9 @@ public class AttributeLink implements ValueType {
 	private final AttributeTemplate template;
 	
 	public AttributeLink(AttributeTemplate template) {
+		
+		notNull("template",template);
+		
 		this.template=template;
 	}
 	

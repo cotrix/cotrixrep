@@ -1,5 +1,6 @@
 package org.cotrix.domain.links;
 
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
 
@@ -18,6 +19,12 @@ public class LinkOfLink implements ValueType {
 	private CodelistLink target;
 	
 	public LinkOfLink(CodelistLink template) {
+		
+		notNull("template", template);
+		
+		if (reveal(template).isChangeset())
+			throw new IllegalArgumentException("link template cannot be a changeset");
+		
 		this.target=template;
 	}
 	
