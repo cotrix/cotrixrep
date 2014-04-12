@@ -29,35 +29,58 @@ public class ValueFunctions {
 		}
 	};
 	
-	public static ValueFunction prefix(final String prefix) {
-		
-		return new ValueFunction.Abstract("prefix") {
-		
-			@Override
-			public String apply(String value) {
-				return prefix+value;
-			}
-		
-		};
+	public static ValueFunction prefix(String prefix) {
+		return new PrefixFunction(prefix);
 	}
 	
-	public static ValueFunction suffix(final String suffix) {
+	public static class PrefixFunction extends ValueFunction.Abstract {
 		
-		return new ValueFunction.Abstract("prefix") {
+		private final String prefix;
 		
-			@Override
-			public String apply(String value) {
-				return value+suffix;
-			}
+		public PrefixFunction(String prefix) {
+			super("prefix");
+			this.prefix = prefix;
+		}
 		
-		};
+		public String prefix() {
+			return prefix;
+		}
+		
+		@Override
+		public String apply(String value) {
+			return prefix+value;
+		}
 	}
 	
+	public static ValueFunction suffix(String suffix) {
+		
+		return new SuffixFunction(suffix);
+	}
 	
+	public static class SuffixFunction extends ValueFunction.Abstract {
+		
+		private final String suffix;
+		
+		public SuffixFunction(String suffix) {
+			super("suffix");
+			this.suffix = suffix;
+		}
+		
+		public String suffix() {
+			return suffix;
+		}
+		
+		@Override
+		public String apply(String value) {
+			return value+suffix;
+		}
+	}
 	
 	public static CustomFunction custom(String expression) {
 		return new CustomFunction(expression);
 	}
+	
+	
 	
 	public static class CustomFunction extends ValueFunction.Abstract {
 		

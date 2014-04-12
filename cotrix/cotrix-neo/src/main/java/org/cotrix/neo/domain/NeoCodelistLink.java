@@ -100,8 +100,10 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	public void valueType(ValueType state) {
 		
 		//name-based: store nothing  
-		if (state==NameLink.INSTANCE)
+		if (state==NameLink.INSTANCE) {
+			removeValueType();
 			return;
+		}
 		
 		else
 			
@@ -119,11 +121,25 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 			return;
 		}
 		
-		else
-			
-		//attribute-based: store as blob, it won't change over time
-		node().setProperty(type_prop,binder().toXML(state));
+		else {
 		
+			//attribute-based: store as blob, it won't change over time
+			node().setProperty(type_prop,binder().toXML(state));
+		
+		}
+	}
+	
+	private void removeValueType() {
+		
+		//attribute-based: retrieve as blob
+		if (node().hasProperty(type_prop))
+			node().removeProperty(type_prop);
+		
+		//link-based: retrieve as link
+		Relationship rel = node().getSingleRelationship(Relations.LOL,OUTGOING);
+		
+		if (rel!=null)
+			rel.delete();;
 	}
 	
 	@Override
