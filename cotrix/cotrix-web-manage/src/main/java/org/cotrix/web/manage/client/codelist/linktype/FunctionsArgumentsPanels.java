@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
-import org.cotrix.web.common.shared.codelist.link.UIValueFunction.Function;
+import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.Style.Unit;

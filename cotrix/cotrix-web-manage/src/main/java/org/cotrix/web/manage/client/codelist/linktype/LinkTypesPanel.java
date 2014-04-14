@@ -11,7 +11,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.common.shared.codelist.link.UILinkType;
+import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
 import org.cotrix.web.manage.client.codelist.linktype.LinkTypePanel.LinkTypePanelListener;
 

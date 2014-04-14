@@ -5,8 +5,8 @@ package org.cotrix.web.manage.shared;
 
 import java.util.List;
 
-import org.cotrix.web.common.shared.codelist.link.AttributeType;
-import org.cotrix.web.common.shared.codelist.link.LinkType;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
+import org.cotrix.web.common.shared.codelist.linktype.LinkType;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 

@@ -22,12 +22,12 @@ import org.cotrix.domain.links.ValueFunctions;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.link.AttributeType;
-import org.cotrix.web.common.shared.codelist.link.CodeNameType;
-import org.cotrix.web.common.shared.codelist.link.LinkType;
-import org.cotrix.web.common.shared.codelist.link.UILinkType;
-import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
-import org.cotrix.web.common.shared.codelist.link.UIValueFunction;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
+import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
+import org.cotrix.web.common.shared.codelist.linktype.LinkType;
+import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
+import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
+import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

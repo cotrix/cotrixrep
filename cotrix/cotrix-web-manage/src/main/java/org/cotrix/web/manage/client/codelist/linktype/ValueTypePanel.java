@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.cotrix.web.common.client.util.ListBoxUtils;
-import org.cotrix.web.common.shared.codelist.link.AttributeType;
-import org.cotrix.web.common.shared.codelist.link.CodeNameType;
-import org.cotrix.web.common.shared.codelist.link.LinkType;
-import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
+import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
+import org.cotrix.web.common.shared.codelist.linktype.LinkType;
+import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.manage.client.util.ValueTypesGrouper;
 import org.cotrix.web.manage.shared.CodelistValueTypes;
 

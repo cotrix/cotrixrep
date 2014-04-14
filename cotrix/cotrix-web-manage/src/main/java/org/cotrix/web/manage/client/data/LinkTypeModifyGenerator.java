@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.client.data;
 
-import org.cotrix.web.common.shared.codelist.link.UILinkType;
+import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.manage.client.data.DataSaverManager.CommandGenerator;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;

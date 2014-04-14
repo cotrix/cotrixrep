@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.cotrix.web.common.client.util.ValueUtils;
-import org.cotrix.web.common.shared.codelist.link.AttributeType;
-import org.cotrix.web.common.shared.codelist.link.LinkType;
-import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
+import org.cotrix.web.common.shared.codelist.linktype.LinkType;
+import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

@@ -1,10 +1,10 @@
 /**
  * 
  */
-package org.cotrix.web.common.shared.codelist.link;
+package org.cotrix.web.common.shared.codelist.linktype;
 
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
+import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 

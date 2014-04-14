@@ -10,10 +10,10 @@ import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.link.UILinkType;
-import org.cotrix.web.common.shared.codelist.link.UILinkType.UIValueType;
-import org.cotrix.web.common.shared.codelist.link.UIValueFunction;
-import org.cotrix.web.common.shared.codelist.link.UIValueFunction.Function;
+import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
+import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
+import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
+import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
 import org.cotrix.web.manage.client.codelist.linktype.LinkTypeHeader.Button;
 import org.cotrix.web.manage.client.codelist.linktype.LinkTypeHeader.HeaderListener;
 

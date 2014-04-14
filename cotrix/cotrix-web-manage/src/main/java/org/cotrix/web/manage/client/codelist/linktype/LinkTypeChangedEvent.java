@@ -3,7 +3,7 @@ package org.cotrix.web.manage.client.codelist.linktype;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 
-import org.cotrix.web.common.shared.codelist.link.UILinkType;
+import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
