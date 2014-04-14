@@ -13,7 +13,6 @@ import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.utils.AttributeTemplate;
-import org.cotrix.domain.utils.LinkTemplate;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
@@ -58,14 +57,14 @@ public class LinkTypes {
 			String language = ValueUtils.safeValue(template.language());
 			return new AttributeType(name, type, language);
 		}
-		/* FIXME
+
 		if (valueType instanceof LinkOfLink) {
 			LinkOfLink linkOfLink = (LinkOfLink)valueType;
-			LinkTemplate linkTemplate = linkOfLink. template();
-			String id = linkTemplate.getLinkId();
-			UIQName name = ValueUtils.safeValue(linkTemplate.linkName());
+			CodelistLink link = linkOfLink.target();
+			String id = link.id();
+			UIQName name = ValueUtils.safeValue(link.name());
 			return new LinkType(id, name);
-		}*/
+		}
 		
 		throw new IllegalArgumentException("Unknown value type :"+valueType);
 	}
