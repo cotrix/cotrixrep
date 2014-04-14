@@ -1,16 +1,27 @@
 package org.cotrix.stage.data;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Codes.attribute;
+import static org.cotrix.domain.dsl.Codes.code;
+import static org.cotrix.domain.dsl.Codes.codelist;
+import static org.cotrix.domain.dsl.Codes.link;
+import static org.cotrix.domain.dsl.Codes.listLink;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.utils.Constants;
 
 public class SyntheticCodelists {
 	
@@ -79,7 +90,7 @@ public class SyntheticCodelists {
 		return Codes.codelist().name("Complex").with(codes).attributes(codelistAttributes).version("2.1").build();
 	}
 	
-	private static Codelist demo() {
+	public static Codelist demo() {
 		
 		return Codes.codelist().name("Demo Codelist")
 				.with(
@@ -242,5 +253,61 @@ public class SyntheticCodelists {
 														version("2.2").build();
 	}
 
-
+	
+	public static Codelist linked(Codelist list) {
+		
+		int i =1;
+		
+		Map<QName,CodelistLink> links = new HashMap<>();
+		
+		QName name = new QName("name-link");
+		
+		CodelistLink nameLink = listLink().name("name-link").target(list).build();
+		
+		links.put(name,nameLink);
+		
+		Collection<Code> codes = new ArrayList<>();
+		
+		
+		for (Code code : list.codes()) {
+			
+			Collection<Codelink> codelinks = new ArrayList<>();
+			
+			codelinks.add(link().instanceOf(nameLink).target(code).build());
+			
+			for (Attribute a : code.attributes()) {
+				
+				if (a.type()==Constants.SYSTEM_TYPE)
+					continue;
+				
+				name = new QName(a.name()+"-link");
+				
+				CodelistLink attributeLink = links.get(name);
+				
+				if (attributeLink==null)  {
+					
+					attributeLink = listLink().name(name).target(list).anchorTo(
+														attribute().name(a.name()).build())
+											.build();		
+					
+					links.put(name,attributeLink);
+				}
+				
+				codelinks.add(link().instanceOf(attributeLink).target(code).build());
+			
+			}
+			
+			codes.add(
+					code().name("code="+i).links(codelinks.toArray(new Codelink[0])).build()
+			);
+		}	
+		
+	
+		return codelist().name("sample linked")
+									.links(links.values().toArray(new CodelistLink[0]))
+									.with(codes.toArray(new Code[0]))
+									.build();
+				
+		
+	}
 }

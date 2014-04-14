@@ -22,17 +22,15 @@ public class CodelistGrammar {
 
 	public static interface CodelistNewClause extends NameClause<SecondClause> {}
 	
+	//name is mandatory
 	public static interface CodelistChangeClause extends NameClause<SecondClause>, SecondClause {}
 	
-	public static interface SecondClause extends WithManyClause<Code,ThirdClause>,
-												 AttributeClause<Codelist,FinalClause>,
+	//all the other are optionals (collections or defaultable)
+	public static interface SecondClause extends WithManyClause<Code,SecondClause>,
+												 LinksClause<CodelistLink,SecondClause>,
+												 AttributeClause<Codelist,SecondClause>,
 												 VersionClause<Codelist> {}
 
-	public static interface ThirdClause extends LinksClause<CodelistLink,FourthClause>,AttributeClause<Codelist,FinalClause>,VersionClause<Codelist> {}
-
-	public static interface FourthClause extends AttributeClause<Codelist,FinalClause>,VersionClause<Codelist> {}
-	
-	public static interface FinalClause extends VersionClause<Codelist>, BuildClause<Codelist> {}
 	
 
 	

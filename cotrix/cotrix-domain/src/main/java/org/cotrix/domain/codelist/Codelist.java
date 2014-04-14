@@ -1,6 +1,6 @@
 package org.cotrix.domain.codelist;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Codes.namedContainer;
 
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.NamedContainer;
@@ -88,8 +88,11 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			
 			super.update(changeset);
 			
+			links().update(changeset.links());
+			
 			codes().update(changeset.codes());
+		
 		}
-
+		
 	}
 }

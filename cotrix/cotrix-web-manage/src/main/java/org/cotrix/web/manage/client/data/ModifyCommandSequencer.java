@@ -57,7 +57,7 @@ public class ModifyCommandSequencer {
 	{
 		taskAttempts++;
 		ModifyCommand command = task.getCommand();
-		Log.trace("executing command "+command+" attempt "+taskAttempts);
+		Log.trace("executing command "+command+" on codelist "+codelistId+" attempt "+taskAttempts);
 		service.modify(codelistId, command, new AsyncCallback<ModifyCommandResult>() {
 			
 			@Override

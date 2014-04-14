@@ -78,7 +78,7 @@ public class Codelists {
 	public static UICodelist toUICodelist(Codelist codelist) {
 		UICodelist uiCodelist = new UICodelist();
 		uiCodelist.setId(codelist.id());
-		uiCodelist.setName(codelist.name().getLocalPart());
+		uiCodelist.setName(ValueUtils.safeValue(codelist.name()));
 		uiCodelist.setVersion(codelist.version());
 
 		return uiCodelist;

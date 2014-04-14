@@ -3,6 +3,7 @@ package org.cotrix.web.publish.client.wizard.step.codelistselection;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -121,7 +122,7 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 		Column<UICodelist, String> nameColumn = new Column<UICodelist, String>(new ClickableTextCell()) {
 			@Override
 			public String getValue(UICodelist codelist) {
-				return codelist!=null?codelist.getName():"n/a";
+				return codelist!=null?ValueUtils.getValue(codelist.getName()):"n/a";
 			}
 		};
 		nameColumn.setSortable(true);

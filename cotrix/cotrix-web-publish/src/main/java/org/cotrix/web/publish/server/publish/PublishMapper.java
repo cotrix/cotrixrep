@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.LanguageClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
 import org.cotrix.io.MapService;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
 import org.cotrix.io.tabular.map.AttributeDirectives;
@@ -71,7 +71,7 @@ public interface PublishMapper<T> {
 		}
 		
 		protected Attribute getTemplate(AttributeDefinition definition) {
-			LanguageClause attributeBuilder = attribute().name(ValueUtils.toQName(definition.getName())).value(null).ofType(ValueUtils.toQName(definition.getType()));
+			OptionalClause attributeBuilder = attribute().name(ValueUtils.toQName(definition.getName())).value(null).ofType(ValueUtils.toQName(definition.getType()));
 			if (definition.getLanguage()!=null && !definition.getLanguage().isEmpty()) return attributeBuilder.in(definition.getLanguage()).build();
 			return attributeBuilder.build();
 		}
@@ -104,7 +104,7 @@ public interface PublishMapper<T> {
 			
 			PublishMetadata metadata = publishDirectives.getMetadata();
 			//FIXME directives.agency(metadata.get);
-			directives.name(metadata.getName());
+			directives.name(metadata.getName().getLocalPart());
 			directives.version(metadata.getVersion());
 			directives.isFinal(metadata.isSealed());
 			

@@ -83,6 +83,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	@Inject
 	private void setupCss(CotrixManagerResources resources) {
 		resources.css().ensureInjected();
+		resources.propertyGrid().ensureInjected();
 	}
 	
 	public void go(HasWidgets container) {

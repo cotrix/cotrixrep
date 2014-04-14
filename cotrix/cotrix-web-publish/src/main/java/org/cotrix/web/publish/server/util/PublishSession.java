@@ -55,7 +55,7 @@ public class PublishSession implements Serializable {
 
 		@Override
 		public String getValue(UICodelist item) {
-			return item.getName();
+			return ValueUtils.getLocalPart(item.getName());
 		}
 	};
 	

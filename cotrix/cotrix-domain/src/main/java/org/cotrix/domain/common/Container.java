@@ -94,10 +94,13 @@ public interface Container<T> extends Iterable<T> {
 			for (T entityChangeset : changeset) {
 		
 				String id = entityChangeset.id();
-
+				
 				if (state.contains(id))
 					
-					switch (entityChangeset.status()) {
+					if (entityChangeset.status()==null)
+						throw new IllegalArgumentException("invalid changeset:"+entityChangeset.id()+" cannot be added twice");
+					
+					else switch (entityChangeset.status()) {
 							
 						case DELETED:
 							state.remove(id);
@@ -112,12 +115,14 @@ public interface Container<T> extends Iterable<T> {
 				else
 					state.add(entityChangeset.state());
 
-				//process updates
-				if (!updates.isEmpty())
-					for (S toUpdate : state.get(updates.keySet()))
-						toUpdate.entity().update(updates.get(toUpdate.id())); 
+			}
+			
+			//process updates
+			if (!updates.isEmpty())
+				for (S toUpdate : state.get(updates.keySet()))
+					toUpdate.entity().update(updates.get(toUpdate.id())); 
 				
-			}	
+				
 		}
 		
 		public C state() {

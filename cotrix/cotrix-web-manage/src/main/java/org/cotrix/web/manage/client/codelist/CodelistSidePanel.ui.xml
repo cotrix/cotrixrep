@@ -56,6 +56,12 @@
 						<g:downFace image="{commonresources.userPreferences}" />
 						<g:upHoveringFace image="{commonresources.userPreferences}" />
 					</g:ToggleButton>
+					<g:ToggleButton ui:field="linkTypeButton" width="32px"
+						styleName="{style.button}">
+						<g:upFace image="{resources.linkTypeDisabled}" />
+						<g:downFace image="{resources.linkType}" />
+						<g:upHoveringFace image="{resources.linkType}" />
+					</g:ToggleButton>
 				</g:HorizontalPanel>
 			</g:FlowPanel>
 		</g:north>
@@ -65,6 +71,7 @@
 				<v:CodelistMetadataPanel ui:field="metadataPanel" />
 				<v:FiltersPanel ui:field="filtersPanel" />
 				<v:UserPreferencesPanel ui:field="userPanel" />
+				<v:CodelistLinkTypesPanel ui:field="linkTypePanel" />
 			</g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>

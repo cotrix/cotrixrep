@@ -19,6 +19,12 @@ import javax.xml.namespace.QName;
  */
 public class Utils {
 
+	
+	public static void verify(String msg, boolean expression) {
+		if (!expression)
+			throw new IllegalArgumentException(msg+" are invalid");
+	}
+	
 	/**
 	 * Throws an exception if a given object with a given name is null.
 	 * @param name the name
@@ -147,7 +153,7 @@ public class Utils {
 	 */
 	public static <T> T reveal(Object o, Class<T> type) {
 		
-		notNull("object",o);
+		notNull("object", o);
 		
 		try {
 			return type.cast(o);

@@ -76,27 +76,9 @@ import com.google.gwt.view.client.SingleSelectionModel;
  */
 public class AttributesGrid extends ResizeComposite implements HasAttributeChangedHandlers, HasEditing {
 
-	interface DataGridResources extends PatchedDataGrid.Resources {
-
-		@Source("AttributesGrid.css")
-		DataGridStyle dataGridStyle();
-	}
-
-	interface DataGridStyle extends PatchedDataGrid.Style {
-		String emptyTableWidget();
-
-		String expansionTable();
-
-		String expansionHeader();
-
-		String expansionValue();
-
-		String expansionValueText();
-	}
-
 	PatchedDataGrid<UIAttribute> dataGrid;
 
-	protected static DataGridResources gridResource = GWT.create(DataGridResources.class);
+	protected static AttributesGridResources gridResource = GWT.create(AttributesGridResources.class);
 
 	private final Set<String> showExpanded = new HashSet<String>();
 
@@ -122,7 +104,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		this.header = header;
 		this.attributeNameSuggestOracle = attributeNameSuggestOracle;
 
-		cellRenderer = new StyledSafeHtmlRenderer(gridResource.dataGridStyle().expansionValueText());
+		cellRenderer = new StyledSafeHtmlRenderer(CotrixManagerResources.INSTANCE.propertyGrid().textValue());
 		dataGrid = new PatchedDataGrid<UIAttribute>(20, gridResource);
 
 		//We need to listen dbclick events in order to enable editing
@@ -130,7 +112,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 		Label emptyTableWidget = new Label(emptyMessage);
-		emptyTableWidget.setStyleName(gridResource.dataGridStyle().emptyTableWidget());
+		emptyTableWidget.setStyleName(CotrixManagerResources.INSTANCE.propertyGrid().emptyTableWidget());
 		dataGrid.setEmptyTableWidget(emptyTableWidget);
 
 		setupColumns();
@@ -338,8 +320,6 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		{
 			Log.trace("buildPropertiesTable for row "+rowValue.getId());
 
-			table.className(gridResource.dataGridStyle().expansionTable());
-
 			BodyBuilder body = table.startBody();
 
 			UIAttribute attribute = rowValue;
@@ -375,7 +355,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 			cellValue = cellValue!=null?cellValue:"";
 
 			TableCellBuilder td = tr.startTD();
-			td.className(gridResource.dataGridStyle().expansionHeader());
+			td.className(CotrixManagerResources.INSTANCE.propertyGrid().header());
 			td.startDiv().text(cellValue).end();
 			td.end();
 		}
@@ -383,7 +363,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		protected void renderCell(TableRowBuilder tr, int absRowIndex, Column<UIAttribute, String> column, UIAttribute rowValue)
 		{
 			TableCellBuilder td = tr.startTD();
-			td.className(gridResource.dataGridStyle().expansionValue());
+			td.className(CotrixManagerResources.INSTANCE.propertyGrid().value());
 
 			Context context = new Context(absRowIndex, -1, "key");
 			renderCell(td, context, column, rowValue);

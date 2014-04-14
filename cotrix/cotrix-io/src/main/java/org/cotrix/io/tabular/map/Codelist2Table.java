@@ -1,6 +1,7 @@
 package org.cotrix.io.tabular.map;
 
 import static org.cotrix.common.Report.*;
+import static org.cotrix.common.Report.Item.Type.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,7 +82,8 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 					if (values.containsKey(col.name()))
 						switch (directives.mode()) {
 							case STRICT:throw new IllegalStateException(error);
-							case LOG: report().logWarning(error);
+							case LOG: report().log(error).as(WARN);
+							default:
 						}
 					values.put(col.name(),matches.get(col.name()).value());
 				}

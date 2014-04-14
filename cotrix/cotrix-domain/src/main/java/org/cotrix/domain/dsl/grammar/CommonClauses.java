@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 
 /**
@@ -60,17 +58,6 @@ public class CommonClauses {
 		C target(T target);
 	}
 
-	
-	public static interface CodeLinkClause<C> {
-
-		/**
-		 * Adds a link definition to the object.
-		 * 
-		 * @param def the definition
-		 * @return the next clause in the sentence
-		 */
-		LinkTargetClause<Code,C> instanceOf(CodelistLink def);
-	}
 	
 	public static interface WithManyClause<T,C> {
 

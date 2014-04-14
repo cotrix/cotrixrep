@@ -7,14 +7,14 @@ import java.util.Collection;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Code.Private;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.common.StateContainer;
+import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Status;
 
 
 public final class CodeMS extends NamedMS implements Code.State, Attributed.State {
 
-	private StateContainer<Codelink.State> links = new StateContainer.Default<Codelink.State>();
+	private NamedStateContainer<Codelink.State> links = new NamedStateContainer.Default<Codelink.State>();
 
 	public CodeMS() {
 	}
@@ -31,7 +31,7 @@ public final class CodeMS extends NamedMS implements Code.State, Attributed.Stat
 			links.add(new CodelinkMS(link));
 	}
 	
-	public StateContainer<Codelink.State> links() {
+	public NamedStateContainer<Codelink.State> links() {
 		return links;
 	}
 	

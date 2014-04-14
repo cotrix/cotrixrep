@@ -14,10 +14,7 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
-import org.cotrix.domain.dsl.grammar.CodelistGrammar.FinalClause;
-import org.cotrix.domain.dsl.grammar.CodelistGrammar.FourthClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
-import org.cotrix.domain.dsl.grammar.CodelistGrammar.ThirdClause;
 import org.cotrix.domain.memory.CodelistMS;
 import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
@@ -28,7 +25,7 @@ import org.cotrix.domain.version.Version;
  * @author Fabio Simeoni
  *
  */
-public final class CodelistBuilder implements CodelistNewClause, CodelistChangeClause, ThirdClause, FourthClause,FinalClause {
+public final class CodelistBuilder implements CodelistNewClause, CodelistChangeClause {
 
 	private final CodelistMS state;
 	
@@ -49,29 +46,29 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	}
 	
 	@Override
-	public ThirdClause with(List<Code> codes) {
+	public CodelistBuilder with(List<Code> codes) {
 		state.codes(reveal(codes,Code.Private.class));
 		return this;
 	}
 	
 	@Override
-	public ThirdClause with(Code ... codes) {
+	public CodelistBuilder with(Code ... codes) {
 		return with(asList(codes));
 	}
 	
 	@Override
-	public FourthClause links(CodelistLink... links) {
+	public CodelistBuilder links(CodelistLink... links) {
 		state.links(reveal(asList(links),CodelistLink.Private.class));
 		return this;
 	}
 	
 	@Override
-	public FinalClause attributes(Attribute ... attributes) {
+	public CodelistBuilder attributes(Attribute ... attributes) {
 		return attributes(asList(attributes));
 	}
 	
 	@Override
-	public FinalClause attributes(List<Attribute> attributes) {	
+	public CodelistBuilder attributes(List<Attribute> attributes) {	
 		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
 	}

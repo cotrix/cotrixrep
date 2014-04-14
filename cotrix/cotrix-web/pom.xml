@@ -138,8 +138,5 @@
 				<artifactId>gwt-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-
 	</build>
-
-
 </project>

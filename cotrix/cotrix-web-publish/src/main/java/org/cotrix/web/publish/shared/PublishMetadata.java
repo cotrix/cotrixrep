@@ -3,6 +3,8 @@ package org.cotrix.web.publish.shared;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.cotrix.web.common.shared.codelist.UIQName;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
@@ -11,8 +13,8 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class PublishMetadata implements IsSerializable {
 	
-	protected String originalName;
-	protected String name;
+	protected UIQName originalName;
+	protected UIQName name;
 	protected String version;
 	protected boolean sealed;
 	protected Map<String, String> attributes = new HashMap<String, String>();
@@ -20,28 +22,28 @@ public class PublishMetadata implements IsSerializable {
 	/**
 	 * @return the originalName
 	 */
-	public String getOriginalName() {
+	public UIQName getOriginalName() {
 		return originalName;
 	}
 
 	/**
 	 * @param originalName the originalName to set
 	 */
-	public void setOriginalName(String originalName) {
+	public void setOriginalName(UIQName originalName) {
 		this.originalName = originalName;
 	}
 
 	/**
 	 * @return the name
 	 */
-	public String getName() {
+	public UIQName getName() {
 		return name;
 	}
 	
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(String name) {
+	public void setName(UIQName name) {
 		this.name = name;
 	}
 

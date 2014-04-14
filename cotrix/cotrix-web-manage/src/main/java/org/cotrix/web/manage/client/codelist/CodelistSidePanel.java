@@ -15,19 +15,19 @@
  */
 package org.cotrix.web.manage.client.codelist;
 
+import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.client.widgets.ToggleButtonGroup;
-import org.cotrix.web.manage.client.CotrixManageGinInjector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 
 /**
@@ -45,14 +45,23 @@ public class CodelistSidePanel extends ResizeComposite {
 	@UiField ToggleButton metadataButton;
 	@UiField ToggleButton filtersButton;
 	@UiField ToggleButton userButton;
+	@UiField ToggleButton linkTypeButton;
 	
 	@UiField DeckLayoutPanel tools;
-	@UiField CodelistAttributesPanel attributesPanel;
-	@UiField CodelistMetadataPanel metadataPanel;
+	
+	@Inject
+	@UiField(provided=true) CodelistAttributesPanel attributesPanel;
+	
+	@Inject
+	@UiField(provided=true) CodelistMetadataPanel metadataPanel;
 	@UiField FiltersPanel filtersPanel;
 	@UiField UserPreferencesPanel userPanel;
+	
+	@Inject
+	@UiField(provided=true) CodelistLinkTypesPanel linkTypePanel;
 
-	public CodelistSidePanel() {
+	@Inject
+	private void init() {
 		initWidget(uiBinder.createAndBindUi(this));
 		tools.showWidget(attributesPanel);
 		
@@ -61,18 +70,7 @@ public class CodelistSidePanel extends ResizeComposite {
 		buttonGroup.addButton(metadataButton);
 		buttonGroup.addButton(filtersButton);
 		buttonGroup.addButton(userButton);
-	}
-	
-	@UiFactory
-	protected CodelistAttributesPanel createCodeListAttributesPanel()
-	{
-		return CotrixManageGinInjector.INSTANCE.getCodeListAttributesPanel();
-	}
-	
-	@UiFactory
-	protected CodelistMetadataPanel createCodeListMetadataPanel()
-	{
-		return CotrixManageGinInjector.INSTANCE.getCodeListMetadataPanel();
+		buttonGroup.addButton(linkTypeButton);
 	}
 	
 	@UiHandler("attributesButton")
@@ -98,6 +96,12 @@ public class CodelistSidePanel extends ResizeComposite {
 	{
 		tools.showWidget(userPanel);
 	}
+	
+	@UiHandler("linkTypeButton")
+	protected void onLinkTypeButtonClicked(ClickEvent event)
+	{
+		tools.showWidget(linkTypePanel);
+	}
 
 	/**
 	 * @return the attributesPanel
@@ -111,6 +115,10 @@ public class CodelistSidePanel extends ResizeComposite {
 	 */
 	public CodelistMetadataPanel getMetadataPanel() {
 		return metadataPanel;
+	}
+
+	public HasEditing getLinkTypePanel() {
+		return linkTypePanel;
 	}
 
 }

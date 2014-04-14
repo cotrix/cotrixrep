@@ -1,8 +1,9 @@
 package org.cotrix.stage;
 
-import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.stage.data.SomeCodelists.*;
-import static org.cotrix.stage.data.SomeUsers.*;
+import static org.cotrix.domain.dsl.Codes.attribute;
+import static org.cotrix.stage.data.SomeCodelists.CSV_CODELISTS;
+import static org.cotrix.stage.data.SomeCodelists.SDMX_CODELISTS;
+import static org.cotrix.stage.data.SomeUsers.users;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -27,6 +28,7 @@ import org.cotrix.io.tabular.map.ColumnDirectives;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.cotrix.security.SignupService;
 import org.cotrix.stage.data.SomeCodelists.Info;
+import org.cotrix.stage.data.SyntheticCodelists;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +62,15 @@ public class CodelistsStager {
 
 		for (Info info : SDMX_CODELISTS)
 			stageSDMX(info);
+
+		
+		
+		Codelist list = SyntheticCodelists.demo();
+		ingester.ingest(list);
+		
+		Codelist linked = SyntheticCodelists.linked(list);
+		
+		ingester.ingest(linked);
 		
 //		for(Codelist list : SyntheticCodelists.synthetics)
 //			ingester.ingest(list);

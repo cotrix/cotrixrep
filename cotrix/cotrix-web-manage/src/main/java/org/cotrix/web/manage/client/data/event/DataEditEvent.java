@@ -72,4 +72,18 @@ public class DataEditEvent<T> extends GwtEvent<DataEditEvent.DataEditHandler<T>>
 	public Type<DataEditHandler<T>> getAssociatedType() {
 		return (Type) DataEditEvent.getType(this.data.getClass());
 	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DataEditEvent [editType=");
+		builder.append(editType);
+		builder.append(", data=");
+		builder.append(data);
+		builder.append("]");
+		return builder.toString();
+	}
 }

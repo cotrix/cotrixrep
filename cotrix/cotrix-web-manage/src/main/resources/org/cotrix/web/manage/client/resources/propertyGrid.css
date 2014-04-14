@@ -1,0 +1,67 @@
+@def boxBorderColor #C2C2C2;
+
+.header {
+	background-color: #efefef; 
+	border-style : solid;
+	border-width: 1.0px;
+	border-color: boxBorderColor;
+	padding-bottom: 8.0px;
+	padding-left: 10.0px;
+	padding-right: 8.0px;
+	padding-top: 8.0px;
+	overflow: hidden;
+	border-style: solid;
+	width: 80px;
+	color: #5A5A5A;
+	font-size: 14px;
+	vertical-align: middle;
+}
+
+.value {
+	border-style: solid;
+	border-width: 1.0px;
+	border-color: boxBorderColor;
+	overflow: hidden;
+	color: #5A5A5A;
+	font-size: 14px;
+}
+
+.valueBoxLeft {
+	border-left: 1px solid boxBorderColor;
+	border-top: 1px solid boxBorderColor;
+	border-bottom: 1px solid boxBorderColor;
+	overflow: hidden;
+	color: #5A5A5A;
+	font-size: 14px;
+}
+
+.valueBoxCenter {
+	border-top: 1px solid boxBorderColor;
+	border-bottom: 1px solid boxBorderColor;
+	overflow: hidden;
+	color: #5A5A5A;
+	font-size: 14px;
+}
+
+.valueBoxRight {
+	border-right: 1px solid boxBorderColor;
+	border-top: 1px solid boxBorderColor;
+	border-bottom: 1px solid boxBorderColor;
+	overflow: hidden;
+	color: #5A5A5A;
+	font-size: 14px;
+}
+
+.textValue {
+	padding-bottom: 8.0px;
+	padding-left: 10.0px;
+	padding-right: 8.0px;
+	padding-top: 8.0px;
+}
+
+.emptyTableWidget {
+	text-align: center;
+	vertical-align: middle;
+	padding-top: 10px;
+	color: #464545;
+}

@@ -19,6 +19,12 @@ public interface CotrixManagerResources extends ClientBundle {
 	@Source("style.css")
 	public CotrixManagerStyle css();
 	
+	@Source("propertyGrid.css")
+	public PropertyGridStyle propertyGrid();
+	
+	@Source("attributeRow.css")
+	public AttributeRowStyle attributeRow();
+	
 	public ImageResource table();
 	
 	public ImageResource tableDisabled();
@@ -52,6 +58,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource filter();
 	public ImageResource filterDisabled();
 	
+	public ImageResource linkType();
+	public ImageResource linkTypeDisabled();
+	
 	@Source("thumb_vertical.png")
 	public ImageResource thumbVertical();
 	
@@ -61,9 +70,36 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource newVersion();
 	public ImageResource newVersionDisabled();
 	
+	
+	public ImageResource save();
+	public ImageResource edit();
+	public ImageResource cancel();
+	
+	public ImageResource addButton();
+	public ImageResource addButtonHover();
+	
 	interface CotrixManagerStyle extends CssResource {
 		String editor();
 		String systemProperty();
+		String addButton();
+	}
+	
+	public interface PropertyGridStyle extends CssResource {
+		String emptyTableWidget();
+
+		String header();
+
+		String value();
+		
+		String valueBoxLeft();
+		String valueBoxCenter();
+		String valueBoxRight();
+
+		String textValue();
+	}
+	
+	public interface AttributeRowStyle extends CssResource {
+		String buttonCell();
 	}
 
 }

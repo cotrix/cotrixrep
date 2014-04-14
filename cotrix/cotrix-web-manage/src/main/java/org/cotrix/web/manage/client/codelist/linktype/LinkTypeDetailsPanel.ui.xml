@@ -1,0 +1,110 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:l="urn:import:org.cotrix.web.manage.client.codelist.linktype"
+	xmlns:c="urn:import:org.cotrix.web.common.client.widgets.table">
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:with field='commonresources'
+		type='org.cotrix.web.common.client.resources.CommonResources' />
+	<ui:style
+		type="org.cotrix.web.manage.client.codelist.linktype.LinkTypeDetailsPanel.Style">
+		.propertiesGrid {
+			width: 100%;
+			border-collapse: collapse;
+		}
+		
+		.editor {
+			height: 31px;
+		}
+		
+		.error {
+			border: 1px solid red;
+		}
+		
+		.loader {
+			margin: 0 auto;
+			display: inherit;
+		}
+		</ui:style>
+	<c:Table ui:field="table" styleName="{style.propertiesGrid}">
+		<c:row>
+			<c:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				secondCellStyle="{resources.propertyGrid.value}">
+				<c:cell>
+					<g:Label>Name</g:Label>
+				</c:cell>
+				<c:cell>
+					<l:EditableLabel ui:field="nameBoxContainer"
+						labelStyle="{resources.propertyGrid.textValue}">
+						<l:editor>
+							<g:TextBox ui:field="nameBox"
+								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+						</l:editor>
+					</l:EditableLabel>
+				</c:cell>
+			</c:CellContainer>
+		</c:row>
+		<c:row>
+			<c:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				secondCellStyle="{resources.propertyGrid.value}">
+				<c:cell>
+					<g:Label>Target</g:Label>
+				</c:cell>
+				<c:cell>
+					<g:FlowPanel>
+						<l:EditableLabel ui:field="codelistBoxContainer"
+							labelStyle="{resources.propertyGrid.textValue}">
+							<l:editor>
+								<g:SuggestBox ui:field="codelistBox"
+									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+							</l:editor>
+						</l:EditableLabel>
+						<g:Image resource="{commonresources.dataLoader}" visible="false"
+							ui:field="codelistBoxLoader" styleName="{style.loader}" />
+					</g:FlowPanel>
+				</c:cell>
+			</c:CellContainer>
+		</c:row>
+		<c:row>
+			<c:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				secondCellStyle="{resources.propertyGrid.value}">
+				<c:cell>
+					<g:Label>Anchor</g:Label>
+				</c:cell>
+				<c:cell>
+					<l:ValueTypePanel ui:field="valueTypePanel" />
+				</c:cell>
+			</c:CellContainer>
+		</c:row>
+		<c:row>
+			<c:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				secondCellStyle="{resources.propertyGrid.value}">
+				<c:cell>
+					<g:Label>Transform</g:Label>
+				</c:cell>
+				<c:cell>
+					<l:EditableLabel ui:field="valueFunctionContainer"
+						labelStyle="{resources.propertyGrid.textValue}">
+						<l:editor>
+							<g:ListBox multipleSelect="false" ui:field="valueFunction"
+								styleName="{commonresources.css.listBox}" />
+						</l:editor>
+					</l:EditableLabel>
+				</c:cell>
+			</c:CellContainer>
+		</c:row>
+		<c:row>
+			<c:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				secondCellStyle="{resources.propertyGrid.value}" ui:field="functionArgumentsRow">
+				<c:cell>
+					<g:Label></g:Label>
+				</c:cell>
+				<c:cell>
+					<l:FunctionsArgumentsPanels ui:field="functionArguments"
+						labelStyle="{resources.propertyGrid.textValue}"
+						editorStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+				</c:cell>
+			</c:CellContainer>
+		</c:row>
+	</c:Table>
+</ui:UiBinder> 

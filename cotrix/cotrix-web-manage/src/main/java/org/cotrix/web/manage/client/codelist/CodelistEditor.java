@@ -146,6 +146,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	protected SingleSelectionModel<UICode> selectionModel;
 
+	@Inject
 	protected CodelistCodesProvider dataProvider;
 	protected HandlerRegistration registration;
 
@@ -153,6 +154,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	protected DataEditor<CodeAttribute> attributeEditor;
 	
+	@Inject
 	protected CotrixManagerResources resources;
 	
 	protected StyledSafeHtmlRenderer cellRenderer;
@@ -165,9 +167,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	protected String codelistId;
 	
 	@Inject
-	public CodelistEditor(CodelistCodesProvider dataProvider, CotrixManagerResources resources) {
-		this.dataProvider = dataProvider;
-		this.resources = resources;
+	private void init() {
 		this.systemAttributeCell = new StyledSafeHtmlRenderer(resources.css().systemProperty());
 		this.codeEditor = DataEditor.build(this);
 		this.attributeEditor = DataEditor.build(this);
@@ -194,12 +194,33 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		setupColumns();
 
 		selectionModel = new SingleSelectionModel<UICode>(CodelistCodeKeyProvider.INSTANCE);
+		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				UICode code = selectionModel.getSelectedObject();
+				Log.trace("onSelectionChange code: "+code);
+				if (code !=null) editorBus.fireEvent(new CodeSelectedEvent(code));
+			}
+		});
+		
 		dataGrid.setSelectionModel(selectionModel);
 	
 		dataProvider.addDataDisplay(dataGrid);
 
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
+
+			@Override
+			public void onButtonClicked(ButtonClickedEvent event) {
+				switch (event.getButton()) {
+					case MINUS: removeSelectedCode(); break;
+					case PLUS: addNewCode(); break;
+				}
+			}
+		});
 	}
 	
 	@Inject
@@ -278,16 +299,6 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 				toolBar.setVisible(ItemButton.MINUS, active);
 			}
 		}, codelistId, ManagerUIFeature.REMOVE_CODE);
-		
-		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-
-			@Override
-			public void onSelectionChange(SelectionChangeEvent event) {
-				UICode code = selectionModel.getSelectedObject();
-				Log.trace("onSelectionChange code: "+code);
-				if (code !=null) editorBus.fireEvent(new CodeSelectedEvent(code));
-			}
-		});
 
 		editorBus.addHandler(DataEditEvent.getType(UICode.class), new DataEditHandler<UICode>() {
 
@@ -303,17 +314,6 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 			@Override
 			public void onDataEdit(DataEditEvent<CodeAttribute> event) {
 				refreshCode(event.getData().getCode());
-			}
-		});
-
-		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
-
-			@Override
-			public void onButtonClicked(ButtonClickedEvent event) {
-				switch (event.getButton()) {
-					case MINUS: removeSelectedCode(); break;
-					case PLUS: addNewCode(); break;
-				}
 			}
 		});
 	}

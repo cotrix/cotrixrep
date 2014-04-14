@@ -2,9 +2,6 @@ package org.cotrix.web.manage.client;
 
 import org.cotrix.web.common.client.CommonGinModule;
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.CodelistAttributesPanel;
-import org.cotrix.web.manage.client.codelist.CodelistEditor;
-import org.cotrix.web.manage.client.codelist.CodelistMetadataPanel;
 import org.cotrix.web.manage.client.codelist.CodelistPanelPresenter;
 import org.cotrix.web.manage.client.codelists.CodelistsPresenter;
 import org.cotrix.web.manage.client.event.EditorBus;
@@ -30,10 +27,6 @@ public interface CotrixManageGinInjector extends Ginjector {
 	public CodelistManagerPresenter getCodeListManagerPresenter();
 	
 	public CodelistPanelPresenter getCodeListPanelPresenter();
-	
-	public CodelistEditor getCodeListEditor();
-	public CodelistAttributesPanel getCodeListAttributesPanel();
-	public CodelistMetadataPanel getCodeListMetadataPanel();
 	
 	@EditorBus
 	public EventBus getEditorBus();

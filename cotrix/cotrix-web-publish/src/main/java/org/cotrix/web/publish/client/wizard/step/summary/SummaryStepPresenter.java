@@ -1,5 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.summary;
 
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
@@ -44,7 +45,7 @@ public class SummaryStepPresenter extends AbstractVisualWizardStep implements Vi
 			@Override
 			public void onItemSelected(ItemSelectedEvent<UICodelist> event) {
 				UICodelist codelist = event.getItem();
-				view.setCodelistName(codelist.getName());
+				view.setCodelistName(ValueUtils.getValue(codelist.getName()));
 				view.setCodelistVersion(codelist.getVersion());
 				view.setState(codelist.getState().toString());
 			}
@@ -91,7 +92,7 @@ public class SummaryStepPresenter extends AbstractVisualWizardStep implements Vi
 
 	protected void setMetadata(PublishMetadata metadata) {
 		
-		if (metadata.getOriginalName()==null || metadata.getOriginalName().equals(metadata.getName())) view.setCodelistName(metadata.getName());
+		if (metadata.getOriginalName()==null || metadata.getOriginalName().equals(metadata.getName())) view.setCodelistName(ValueUtils.getValue(metadata.getName()));
 		else view.setCodelistName(metadata.getOriginalName()+" as "+metadata.getName());
 		
 		view.setCodelistVersion(metadata.getVersion());

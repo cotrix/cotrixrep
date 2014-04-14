@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.common.shared.codelist.UIQName;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -17,7 +18,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class CodelistGroup implements IsSerializable {
 	
-	protected String name;
+	protected UIQName name;
 	protected List<Version> versions = new ArrayList<Version>();
 	
 	public CodelistGroup(){}
@@ -25,14 +26,14 @@ public class CodelistGroup implements IsSerializable {
 	/**
 	 * @param name
 	 */
-	public CodelistGroup(String name) {
+	public CodelistGroup(UIQName name) {
 		this.name = name;
 	}
 
 	/**
 	 * @return the name
 	 */
-	public String getName() {
+	public UIQName getName() {
 		return name;
 	}
 	

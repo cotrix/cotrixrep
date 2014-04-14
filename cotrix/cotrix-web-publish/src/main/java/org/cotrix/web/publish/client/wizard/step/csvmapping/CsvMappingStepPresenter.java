@@ -2,6 +2,7 @@ package org.cotrix.web.publish.client.wizard.step.csvmapping;
 
 import java.util.List;
 
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
@@ -109,7 +110,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 			publishBus.fireEventFromSource(new MappingsUpdatedEvent(mappings), this);
 
 			PublishMetadata metadata = new PublishMetadata();
-			metadata.setName(view.getCsvName());
+			metadata.setName(ValueUtils.getValue(view.getCsvName()));
 			metadata.setVersion(view.getVersion());
 			metadata.setSealed(view.getSealed());
 			metadata.setAttributes(this.metadata.getAttributes());
@@ -151,15 +152,14 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 
 	protected void setMetadata(PublishMetadata metadata) {
 		this.metadata = metadata;
-		String name = metadata.getName();
-		view.setCsvName(name == null?"":name);
+		view.setCsvName(ValueUtils.getValue(metadata.getName()));
 		view.setVersion(metadata.getVersion());
 		view.setSealed(metadata.isSealed());
 	}
 
 	@Override
 	public void onReload() {
-		view.setCsvName(metadata.getName());
+		view.setCsvName(ValueUtils.getValue(metadata.getName()));
 		view.setVersion(metadata.getVersion());
 		view.setSealed(metadata.isSealed());
 		view.setMappings(mappings);

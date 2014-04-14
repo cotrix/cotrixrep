@@ -1,6 +1,8 @@
 package org.cotrix.io.sdmx.map;
 
+import static org.cotrix.common.Log.*;
 import static org.cotrix.common.Report.*;
+import static org.cotrix.common.Report.Item.Type.*;
 import static org.sdmxsource.sdmx.api.constants.TERTIARY_BOOL.*;
 
 import java.text.ParseException;
@@ -48,8 +50,8 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		
 		double time = System.currentTimeMillis();
 
-		report().log("mapping codelist "+codelist.name()+"("+codelist.id()+") to SDMX");
-		report().log(Calendar.getInstance().getTime().toString());
+		report().log(item("mapping codelist "+codelist.name()+"("+codelist.id()+") to SDMX")).as(INFO)
+				.log(item(Calendar.getInstance().getTime().toString())).as(INFO);
 		
 		String name = directives.name()==null?codelist.name().getLocalPart():directives.name();
 		
@@ -73,7 +75,9 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			codelistbean.addItem(codebean);
 		}
 		
-		report().log("mapped codelist "+codelist.name()+"("+codelist.id()+") to SDMX in "+(System.currentTimeMillis()-time)/1000);
+		String msg = "mapped codelist "+codelist.name()+"("+codelist.id()+") to SDMX in "+(System.currentTimeMillis()-time)/1000;
+		
+		report().log(item(msg)).as(INFO);
 
 		return codelistbean.getImmutableInstance();
 	}
@@ -97,7 +101,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 							bean.setStartDate(DateUtil.getDateTimeFormat().parse(val));
 						}
 						catch(ParseException e) {
-							Report.report().logWarning("unparseable start date: "+a.value());
+							Report.report().log(item("unparseable start date: "+a.value())).as(WARN);
 						}
 						break;
 					case VALID_TO:
@@ -105,9 +109,11 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 							bean.setEndDate(DateUtil.getDateTimeFormat().parse(val));
 						}
 						catch(ParseException e) {
-							Report.report().logWarning("unparseable end date: "+a.value());
+							Report.report().log(item("unparseable end date: "+a.value())).as(WARN);
 						}
 						break;
+					
+					default:
 				}
 		}
 
@@ -143,6 +149,8 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 						annotation.addText(lang, val);
 						bean.addAnnotation(annotation);		
 						break;
+						
+					default:
 						
 				}
 		}
