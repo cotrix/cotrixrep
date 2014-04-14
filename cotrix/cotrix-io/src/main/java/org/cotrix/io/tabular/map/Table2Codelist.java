@@ -129,6 +129,7 @@ public class Table2Codelist {
 					report().log(msg).as(ERROR);break;
 				case LOG:
 					report().log(msg).as(WARN);break;
+				default:
 			}
 			
 			return false;

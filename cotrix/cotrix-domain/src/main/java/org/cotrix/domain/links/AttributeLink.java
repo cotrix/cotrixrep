@@ -1,6 +1,9 @@
 package org.cotrix.domain.links;
 
+import static org.cotrix.common.Utils.*;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.cotrix.domain.codelist.Code;
@@ -12,6 +15,9 @@ public class AttributeLink implements ValueType {
 	private final AttributeTemplate template;
 	
 	public AttributeLink(AttributeTemplate template) {
+		
+		notNull("template",template);
+		
 		this.template=template;
 	}
 	
@@ -21,7 +27,7 @@ public class AttributeLink implements ValueType {
 	
 	
 	@Override
-	public Object valueIn(Code.State code) {
+	public Collection<Object> valueIn(String linkId, Code.State code,List<String> ids) {
 	
 		List<Object> matches = new ArrayList<>();
 		

@@ -1,8 +1,9 @@
 package org.cotrix.stage;
 
-import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.stage.data.SomeCodelists.*;
-import static org.cotrix.stage.data.SomeUsers.*;
+import static org.cotrix.domain.dsl.Codes.attribute;
+import static org.cotrix.stage.data.SomeCodelists.CSV_CODELISTS;
+import static org.cotrix.stage.data.SomeCodelists.SDMX_CODELISTS;
+import static org.cotrix.stage.data.SomeUsers.users;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -15,8 +16,6 @@ import javax.inject.Inject;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.cdi.ApplicationEvents.FirstTime;
 import org.cotrix.common.cdi.ApplicationEvents.Ready;
-import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.user.User;

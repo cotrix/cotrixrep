@@ -64,9 +64,9 @@ public class CodelistTest extends DomainTest {
 		list = modifyCodelist("1").name(name).build();
 		list =  modifyCodelist("1").attributes(a).build();
 		list =  modifyCodelist("1").with(c).build();
-		list =  modifyCodelist("1").with(c).attributes(a).build();
+		list =  modifyCodelist("1").with(c).attributes(a).build();	
 		
-		CodelistLink link = listLink().name(name).target(list).anchorToName().build();
+		CodelistLink link = listLink().name(name).target(codelist().name(name).build()).anchorToName().build();
 		
 		list =  modifyCodelist("1").links(link).build();
 		

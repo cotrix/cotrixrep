@@ -1,6 +1,10 @@
 package org.cotrix.stage.data;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Codes.attribute;
+import static org.cotrix.domain.dsl.Codes.code;
+import static org.cotrix.domain.dsl.Codes.codelist;
+import static org.cotrix.domain.dsl.Codes.link;
+import static org.cotrix.domain.dsl.Codes.listLink;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +21,6 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.utils.Constants;
 
 public class SyntheticCodelists {
