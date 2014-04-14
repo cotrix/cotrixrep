@@ -17,6 +17,7 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.codelist.linktype.AttributeEditDialog.AttributeEditDialogListener;
 import org.cotrix.web.manage.client.codelist.linktype.AttributeRow.AttributeRowListener;
 import org.cotrix.web.manage.client.codelist.linktype.AttributeRow.Button;
+import org.cotrix.web.manage.client.util.Attributes;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.Style.OutlineStyle;
@@ -158,7 +159,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
 		setAddRowReadOnly(readOnly);
-		for (AttributeRow row:rows) row.setReadOnly(readOnly);
+		for (Entry<AttributeRow, UIAttribute> entry:attributes.entrySet()) entry.getKey().setReadOnly(Attributes.isSystemAttribute(entry.getValue()) || readOnly);
 		if (!readOnly) validate();
 	}
 	
@@ -184,6 +185,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 		attributeRow.setName(ValueUtils.getLocalPart(attribute.getName()));
 		attributeRow.setValue(attribute.getValue());
 		addAttributeRow(attributeRow);
+		attributeRow.setReadOnly(Attributes.isSystemAttribute(attribute) || readOnly);
 		
 		attributes.put(attributeRow, attribute);
 	}
