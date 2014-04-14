@@ -58,14 +58,14 @@ public class LinkTypes {
 			String language = ValueUtils.safeValue(template.language());
 			return new AttributeType(name, type, language);
 		}
-		
+		/* FIXME
 		if (valueType instanceof LinkOfLink) {
 			LinkOfLink linkOfLink = (LinkOfLink)valueType;
-			LinkTemplate linkTemplate = linkOfLink.template();
+			LinkTemplate linkTemplate = linkOfLink. template();
 			String id = linkTemplate.getLinkId();
 			UIQName name = ValueUtils.safeValue(linkTemplate.linkName());
 			return new LinkType(id, name);
-		}
+		}*/
 		
 		throw new IllegalArgumentException("Unknown value type :"+valueType);
 	}
