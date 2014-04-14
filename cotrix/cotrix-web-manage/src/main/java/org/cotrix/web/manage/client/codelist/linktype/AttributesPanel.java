@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.common.client.widgets.table.Table;
@@ -17,10 +16,10 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.codelist.linktype.AttributeEditDialog.AttributeEditDialogListener;
 import org.cotrix.web.manage.client.codelist.linktype.AttributeRow.AttributeRowListener;
 import org.cotrix.web.manage.client.codelist.linktype.AttributeRow.Button;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.dom.client.Style.OutlineStyle;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -30,11 +29,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -234,28 +228,21 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 
 	private class AddRow extends AbstractRow implements HasClickHandlers {
 		
-		private FocusPanel focusPanel;
+		private com.google.gwt.user.client.ui.Button button;
 		
 		public AddRow() {
-			HorizontalPanel panel = new HorizontalPanel();
-			panel.setWidth("100%");
-			panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-			panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-			panel.add(new Image(CommonResources.INSTANCE.plus()));
-			
-			focusPanel = new FocusPanel(panel);
-			focusPanel.getElement().getStyle().setOutlineStyle(OutlineStyle.NONE);
-			
+			button = new com.google.gwt.user.client.ui.Button();
+			button.setStyleName(CotrixManagerResources.INSTANCE.css().addButton());
 		}
 
 		@Override
 		public void setup() {
-			table.setWidget(rowIndex, 0, focusPanel);
+			addCell(0, button);
 			table.getFlexCellFormatter().setColSpan(rowIndex, 0, 4);
 		}
 		
 		public int getRow() {
-			return getCellPosition(focusPanel).getRow();
+			return getCellPosition(button).getRow();
 		}
 
 		@Override
@@ -264,7 +251,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 
 		@Override
 		public HandlerRegistration addClickHandler(ClickHandler handler) {
-			return focusPanel.addClickHandler(handler);
+			return button.addClickHandler(handler);
 		}
 		
 	}

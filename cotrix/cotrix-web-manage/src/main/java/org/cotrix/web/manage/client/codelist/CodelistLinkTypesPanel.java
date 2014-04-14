@@ -49,7 +49,7 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 
 	@UiField ItemToolbar toolBar;
 
-	protected List<UILinkType> types;
+	protected boolean dataLoaded = false;;
 
 	@Inject
 	protected ManageServiceAsync service;
@@ -140,7 +140,7 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 		//workaround issue #7188 https://code.google.com/p/google-web-toolkit/issues/detail?id=7188
 		onResize();
 
-		if (types == null) loadData();
+		if (!dataLoaded) loadData();
 	}
 
 	public void loadData()
@@ -165,8 +165,8 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 
 	protected void setLinkTypes(List<UILinkType> types)
 	{
-		this.types = types;
 		for (UILinkType linkType:types) linkTypesPanel.addLinkType(linkType);
+		dataLoaded = true;
 	}
 
 	@Override

@@ -6,6 +6,7 @@ package org.cotrix.web.manage.client.codelist.linktype;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources.AttributeRowStyle;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources.PropertyGridStyle;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -13,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TextBox;
@@ -27,6 +29,7 @@ public class AttributeRow extends AbstractRow {
 	private static final String HEADER_STYLE = propertyGridStyles.header();
 	private static final String TEXTBOX_STYLE = CommonResources.INSTANCE.css().textBox()+ " " + CotrixManagerResources.INSTANCE.css().editor();
 	private static final String TEXTVALUE_STYLE = propertyGridStyles.textValue();
+	private static final AttributeRowStyle ATTRIBUTE_ROW_STYLE = CotrixManagerResources.INSTANCE.attributeRow();
 
 	private static final int NAME_COL = 0;
 	private static final int VALUE_COL = 1;
@@ -50,6 +53,8 @@ public class AttributeRow extends AbstractRow {
 	private String errorStyle;
 	
 	public AttributeRow(String errorStyle) {
+		
+		CotrixManagerResources.INSTANCE.attributeRow().ensureInjected();
 		
 		this.errorStyle = errorStyle;
 		
@@ -128,10 +133,10 @@ public class AttributeRow extends AbstractRow {
 		setCellStyle(VALUE_COL, propertyGridStyles.valueBoxLeft());
 		
 		addCell(DELETE_COL, deleteButton);
-		setCellStyle(DELETE_COL, propertyGridStyles.valueBoxCenter());
+		setCellStyle(DELETE_COL, propertyGridStyles.valueBoxCenter() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());
 		
 		addCell(FULL_EDIT_COL, fullEditButton);
-		setCellStyle(FULL_EDIT_COL, propertyGridStyles.valueBoxRight());		
+		setCellStyle(FULL_EDIT_COL, propertyGridStyles.valueBoxRight() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());		
 	}
 	
 	public void setReadOnly(boolean readOnly) {
@@ -196,4 +201,5 @@ public class AttributeRow extends AbstractRow {
 		public void onButtonClicked(AttributeRow row, Button button);
 		public void onValueChanged(AttributeRow row);
 	}
+	
 }

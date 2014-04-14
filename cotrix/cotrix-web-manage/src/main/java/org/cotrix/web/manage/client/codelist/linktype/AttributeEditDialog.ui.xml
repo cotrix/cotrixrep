@@ -33,7 +33,7 @@
 			Edit the attribute
 		</div>
 		<div>
-			<table class="{style.propertiesGrid} {resources.propertyGrid.table}">
+			<table class="{style.propertiesGrid}">
 				<tr>
 					<td class="{resources.propertyGrid.header}">
 						<div>Name</div>

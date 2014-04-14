@@ -11,9 +11,12 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.cotrix.web.common.client.widgets.HasEditing;
+import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
+import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.linktype.LinkTypePanel.LinkTypePanelListener;
+import org.cotrix.web.manage.client.event.EditorBus;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -22,6 +25,9 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -33,6 +39,8 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 		public void onCreate(UILinkType linkType);
 		public void onUpdate(UILinkType linkType);
 	}
+	
+	interface LinkTypesPanelEventBinder extends EventBinder<LinkTypesPanel> {}
 	
 	private VerticalPanel panel;
 	private List<LinkTypePanel> panels = new ArrayList<LinkTypePanel>();
@@ -59,6 +67,22 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 		panel.add(header);
 		
 		initWidget(panel);
+	}
+	
+	@Inject
+	protected void bind(LinkTypesPanelEventBinder binder, @EditorBus EventBus editorBus) {
+		binder.bindEventHandlers(this, editorBus);
+	}
+	
+	@EventHandler
+	void onCodeSelected(AttributesUpdatedEvent event) {
+		HasAttributes attributedItem = event.getAttributedItem();
+		if (attributedItem instanceof UILinkType) {
+			UILinkType linkType = (UILinkType) attributedItem;
+			LinkTypePanel panel = typeIdToPanel.get(linkType.getId());
+			panel.setLinkType(linkType);
+			//model already updated on save manager
+		}
 	}
 
 	/**

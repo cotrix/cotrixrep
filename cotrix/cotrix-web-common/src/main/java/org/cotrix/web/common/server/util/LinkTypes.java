@@ -11,6 +11,7 @@ import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.links.ValueFunction;
+import org.cotrix.domain.links.ValueFunctions;
 import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.utils.AttributeTemplate;
 import org.cotrix.web.common.shared.codelist.UIAttribute;

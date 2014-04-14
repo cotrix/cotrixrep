@@ -1,13 +1,5 @@
 @def boxBorderColor #C2C2C2;
 
-.table {
-	border-style: solid;
-	border-width: 1.0px;
-	border-color: #8C8C8C;
-	border-collapse: collapse;
-	width: 100.0%;
-}
-
 .header {
 	background-color: #efefef; 
 	border-style : solid;

@@ -4,8 +4,10 @@
 package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.client.util.StatusUpdates;
+import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.data.event.DataSaveFailedEvent;
@@ -17,6 +19,7 @@ import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.util.Attributes;
+import org.cotrix.web.manage.shared.modify.ContainsAttributed;
 import org.cotrix.web.manage.shared.modify.HasCode;
 import org.cotrix.web.manage.shared.modify.HasId;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
@@ -95,6 +98,8 @@ public class DataSaverManager {
 
 						if (data instanceof HasCode && result instanceof HasCode) updateCode(((HasCode)data).getCode(), ((HasCode)result).getCode());
 						if (data instanceof UICode && result instanceof HasCode) updateCode((UICode)data, ((HasCode)result).getCode());
+					
+						if (data instanceof HasAttributes && result instanceof ContainsAttributed) updateAttributes((HasAttributes)data, ((ContainsAttributed)result).getAttributed());
 					}
 
 					managerBus.fireEvent(new DataSavedEvent(codelistId));
@@ -112,6 +117,11 @@ public class DataSaverManager {
 			Log.trace("updating code "+code+" with attributes in "+updated);
 			Attributes.mergeSystemAttributes(code.getAttributes(), updated.getAttributes());
 			editorBus.fireEvent(new CodeUpdatedEvent(code));
+		}
+		
+		protected void updateAttributes(HasAttributes data, HasAttributes update) {
+			data.setAttributes(update.getAttributes());
+			editorBus.fireEvent(new AttributesUpdatedEvent(data));
 		}
 	}
 

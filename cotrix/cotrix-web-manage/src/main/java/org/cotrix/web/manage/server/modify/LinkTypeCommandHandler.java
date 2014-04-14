@@ -12,12 +12,13 @@ import javax.inject.Singleton;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.web.manage.shared.modify.GeneratedId;
+import org.cotrix.web.common.server.util.LinkTypes;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.cotrix.web.manage.shared.modify.linktype.AddLinkTypeCommand;
 import org.cotrix.web.manage.shared.modify.linktype.LinkTypeCommand;
 import org.cotrix.web.manage.shared.modify.linktype.RemoveLinkTypeCommand;
 import org.cotrix.web.manage.shared.modify.linktype.UpdateLinkTypeCommand;
+import org.cotrix.web.manage.shared.modify.linktype.UpdatedLinkType;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -32,7 +33,8 @@ public class LinkTypeCommandHandler {
 
 	public ModifyCommandResult handle(String codelistId, LinkTypeCommand command)
 	{
-
+		Codelist codelist = repository.lookup(codelistId);
+		
 		CodelistLink codelistLink = null;
 		if (command instanceof AddLinkTypeCommand) {
 			AddLinkTypeCommand addLinkTypeCommand = (AddLinkTypeCommand)command;
@@ -42,8 +44,9 @@ public class LinkTypeCommandHandler {
 
 		if (command instanceof UpdateLinkTypeCommand) {
 			UpdateLinkTypeCommand updateLinkTypeCommand = (UpdateLinkTypeCommand)command;
-			Codelist target = repository.lookup(updateLinkTypeCommand.getLinkType().getTargetCodelist().getId());
-			codelistLink = ChangesetUtil.updateCodelistLink(updateLinkTypeCommand.getLinkType(), target);
+			Codelist target = repository.lookup(updateLinkTypeCommand.getLinkType().getTargetCodelist().getId());	
+			CodelistLink oldCodelistLink = lookupLink(codelist, updateLinkTypeCommand.getLinkType().getId());
+			codelistLink = ChangesetUtil.updateCodelistLink(updateLinkTypeCommand.getLinkType(), target, oldCodelistLink);
 		}
 
 		if (command instanceof RemoveLinkTypeCommand) {
@@ -56,7 +59,13 @@ public class LinkTypeCommandHandler {
 		Codelist changeset = modifyCodelist(codelistId).links(codelistLink).build();
 		repository.update(changeset);
 		
-
-		return new GeneratedId(codelistLink.id());
+		CodelistLink updatedLink = lookupLink(codelist, codelistLink.id());
+		
+		return new UpdatedLinkType(LinkTypes.toUILinkType(updatedLink));
+	}
+	
+	private CodelistLink lookupLink(Codelist codelist, String id) {
+		for (CodelistLink link:codelist.links()) if (link.id().equals(id)) return link;
+		return null;
 	}
 }

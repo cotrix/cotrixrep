@@ -7,7 +7,9 @@ import static org.cotrix.domain.dsl.Codes.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -26,8 +28,9 @@ import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
 import org.cotrix.web.common.shared.codelist.linktype.LinkType;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
-import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
+import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
+import org.cotrix.web.manage.client.util.Attributes;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -100,7 +103,10 @@ public class ChangesetUtil {
 			clause = listLink().name(convert(linkType.getName())).target(target).anchorTo(codelistLink);
 		}
 		
-		if (clause == null)throw new IllegalArgumentException("Unsupported value type "+valueType);
+		if (clause == null) throw new IllegalArgumentException("Unsupported value type "+valueType);
+		
+		List<Attribute> attributes = addAttributes(linkType.getAttributes());
+		clause = clause.attributes(attributes);
 		
 		if (linkType.getValueFunction()!=null) {
 			ValueFunction function = toValueFunction(linkType.getValueFunction());
@@ -127,7 +133,7 @@ public class ChangesetUtil {
 		return arguments.get(0);
 	}
 
-	public static CodelistLink updateCodelistLink(UILinkType linkType, Codelist target) {
+	public static CodelistLink updateCodelistLink(UILinkType linkType, Codelist target, CodelistLink oldCodelistLink) {
 		
 		UIValueType valueType = linkType.getValueType();
 		
@@ -149,7 +155,10 @@ public class ChangesetUtil {
 			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorTo(codelistLink);
 		}
 		
-		if (clause == null)throw new IllegalArgumentException("Unsupported value type "+valueType);
+		if (clause == null) throw new IllegalArgumentException("Unsupported value type "+valueType);
+		
+		List<Attribute> attributes = buildChangeSet(linkType.getAttributes(), oldCodelistLink.attributes());
+		clause = clause.attributes(attributes);
 		
 		if (linkType.getValueFunction()!=null) {
 			ValueFunction function = toValueFunction(linkType.getValueFunction());
@@ -157,6 +166,34 @@ public class ChangesetUtil {
 		}
 		
 		return clause.build();
+	}
+	
+	private static List<Attribute> buildChangeSet(List<UIAttribute> uiAttributes, NamedContainer<? extends Attribute> oldAttributes) {
+		
+		List<Attribute> changeSet = new ArrayList<>();
+		
+		Set<String> updatedAttributeIds = new HashSet<>();
+		
+		for (UIAttribute uiAttribute:uiAttributes) {
+			
+			//skip system attributes
+			if (Attributes.isSystemAttribute(uiAttribute)) continue;
+		
+			//is a new attribute
+			if (uiAttribute.getId() == null) changeSet.add(addAttribute(uiAttribute));
+			//is an updated attribute
+			else {
+				changeSet.add(updateAttribute(uiAttribute));
+				updatedAttributeIds.add(uiAttribute.getId());
+			}
+		}
+		
+		for (Attribute oldAttribute:oldAttributes) {
+			String id = oldAttribute.id();
+			if (!updatedAttributeIds.contains(id)) changeSet.add(removeAttribute(id));
+		}
+				
+		return changeSet;
 	}
 	
 	private static Attribute toAttribute(AttributeType attributeType) {

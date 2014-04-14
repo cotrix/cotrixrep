@@ -26,7 +26,7 @@
 			display: inherit;
 		}
 		</ui:style>
-	<c:Table ui:field="table" styleName="{style.propertiesGrid} {resources.propertyGrid.table}">
+	<c:Table ui:field="table" styleName="{style.propertiesGrid}">
 		<c:row>
 			<c:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value}">

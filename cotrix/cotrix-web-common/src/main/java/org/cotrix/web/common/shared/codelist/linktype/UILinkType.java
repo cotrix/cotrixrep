@@ -5,6 +5,7 @@ package org.cotrix.web.common.shared.codelist.linktype;
 
 import java.util.List;
 
+import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -16,7 +17,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UILinkType implements Identifiable, IsSerializable {
+public class UILinkType implements Identifiable, HasAttributes, IsSerializable {
 	
 	private String id;
 	private UIQName name;

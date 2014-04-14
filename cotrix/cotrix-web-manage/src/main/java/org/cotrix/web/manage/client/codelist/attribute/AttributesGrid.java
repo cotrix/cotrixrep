@@ -320,8 +320,6 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		{
 			Log.trace("buildPropertiesTable for row "+rowValue.getId());
 
-			table.className(CotrixManagerResources.INSTANCE.propertyGrid().table());
-
 			BodyBuilder body = table.startBody();
 
 			UIAttribute attribute = rowValue;

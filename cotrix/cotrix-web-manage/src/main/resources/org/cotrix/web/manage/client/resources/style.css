@@ -38,3 +38,31 @@
 	width: auto;
 	cursor: row-resize;
 }
+
+
+@sprite .addButton {
+	gwt-image: "addButton";
+	background-position: 50%;
+	background-color: #ddd;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+	width: 100%;
+	height: 31px;
+	font-size: 24px;
+	padding-left: 106px;
+	color: #666;
+	outline: none;
+	
+	margin-top: 5px;
+}
+
+@sprite .addButton:hover {
+	gwt-image: "addButtonHover";
+	background-position: 50%;
+	background-color: #5674b9;
+	color: #fff;
+	cursor: pointer;
+	width: 100%;
+	height: 31px;
+}
