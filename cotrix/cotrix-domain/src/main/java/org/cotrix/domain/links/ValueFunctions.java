@@ -29,7 +29,7 @@ public class ValueFunctions {
 		}
 	};
 	
-	public static ValueFunction prefix(String prefix) {
+	public static PrefixFunction prefix(String prefix) {
 		return new PrefixFunction(prefix);
 	}
 	
