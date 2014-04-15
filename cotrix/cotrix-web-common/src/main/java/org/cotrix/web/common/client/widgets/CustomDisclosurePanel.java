@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.linktype;
+package org.cotrix.web.common.client.widgets;
 
 
 
@@ -77,7 +77,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkDisclosurePanel extends Composite implements HasAnimation, HasOpenHandlers<LinkDisclosurePanel>, HasCloseHandlers<LinkDisclosurePanel> {
+public class CustomDisclosurePanel extends Composite implements HasAnimation, HasOpenHandlers<CustomDisclosurePanel>, HasCloseHandlers<CustomDisclosurePanel> {
 
 	/**
 	 * An {@link Animation} used to open the content.
@@ -91,7 +91,7 @@ public class LinkDisclosurePanel extends Composite implements HasAnimation, HasO
 		/**
 		 * The {@link DisclosurePanel} being affected.
 		 */
-		private LinkDisclosurePanel curPanel;
+		private CustomDisclosurePanel curPanel;
 
 		/**
 		 * Open or close the content.
@@ -99,7 +99,7 @@ public class LinkDisclosurePanel extends Composite implements HasAnimation, HasO
 		 * @param panel the panel to open or close
 		 * @param animate true to animate, false to open instantly
 		 */
-		public void setOpen(LinkDisclosurePanel panel, boolean animate) {
+		public void setOpen(CustomDisclosurePanel panel, boolean animate) {
 			// Immediately complete previous open
 			cancel();
 
@@ -192,7 +192,7 @@ public class LinkDisclosurePanel extends Composite implements HasAnimation, HasO
 	/**
 	 * Creates an empty DisclosurePanel that is initially closed.
 	 */
-	public LinkDisclosurePanel(Widget header) {
+	public CustomDisclosurePanel(Widget header) {
 		this.header = header;
 		if (header instanceof HasClickHandlers) {
 			HasClickHandlers hasClickHandlers = (HasClickHandlers) header;
@@ -373,13 +373,13 @@ public class LinkDisclosurePanel extends Composite implements HasAnimation, HasO
 
 
 	@Override
-	public HandlerRegistration addCloseHandler(CloseHandler<LinkDisclosurePanel> handler) {
+	public HandlerRegistration addCloseHandler(CloseHandler<CustomDisclosurePanel> handler) {
 		return addHandler(handler, CloseEvent.getType());
 	}
 
 
 	@Override
-	public HandlerRegistration addOpenHandler(OpenHandler<LinkDisclosurePanel> handler) {
+	public HandlerRegistration addOpenHandler(OpenHandler<CustomDisclosurePanel> handler) {
 		return addHandler(handler, OpenEvent.getType());
 	}
 }

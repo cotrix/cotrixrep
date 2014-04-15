@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.linktype;
+package org.cotrix.web.manage.client.codelist.attribute;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,9 +13,9 @@ import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
-import org.cotrix.web.manage.client.codelist.linktype.AttributeEditDialog.AttributeEditDialogListener;
-import org.cotrix.web.manage.client.codelist.linktype.AttributeRow.AttributeRowListener;
-import org.cotrix.web.manage.client.codelist.linktype.AttributeRow.Button;
+import org.cotrix.web.manage.client.codelist.attribute.AttributeEditDialog.AttributeEditDialogListener;
+import org.cotrix.web.manage.client.codelist.attribute.AttributeRow.AttributeRowListener;
+import org.cotrix.web.manage.client.codelist.attribute.AttributeRow.Button;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
 

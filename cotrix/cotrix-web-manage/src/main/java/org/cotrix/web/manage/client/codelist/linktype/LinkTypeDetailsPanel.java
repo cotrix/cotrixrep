@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.LabelProvider;
 import org.cotrix.web.common.client.util.ListBoxUtils;
+import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
@@ -15,6 +16,7 @@ import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
+import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel;
 import org.cotrix.web.manage.client.codelist.linktype.CodelistSuggestOracle.CodelistSuggestion;
 
 import com.allen_sauer.gwt.log.client.Log;

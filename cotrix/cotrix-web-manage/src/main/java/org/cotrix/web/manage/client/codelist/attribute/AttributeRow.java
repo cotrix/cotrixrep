@@ -1,9 +1,10 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.linktype;
+package org.cotrix.web.manage.client.codelist.attribute;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources.AttributeRowStyle;

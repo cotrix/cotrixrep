@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.cotrix.web.common.client.util.ListBoxUtils;
+import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
 import org.cotrix.web.common.shared.codelist.linktype.LinkType;

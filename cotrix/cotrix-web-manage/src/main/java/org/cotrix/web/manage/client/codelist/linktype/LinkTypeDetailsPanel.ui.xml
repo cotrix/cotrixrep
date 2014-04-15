@@ -1,7 +1,9 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:l="urn:import:org.cotrix.web.manage.client.codelist.linktype"
-	xmlns:c="urn:import:org.cotrix.web.common.client.widgets.table">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:l="urn:import:org.cotrix.web.manage.client.codelist.linktype"
+	xmlns:c="urn:import:org.cotrix.web.common.client.widgets"
+	xmlns:t="urn:import:org.cotrix.web.common.client.widgets.table">
 	<ui:with field='resources'
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='commonresources'
@@ -26,85 +28,85 @@
 			display: inherit;
 		}
 		</ui:style>
-	<c:Table ui:field="table" styleName="{style.propertiesGrid}">
-		<c:row>
-			<c:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+	<t:Table ui:field="table" styleName="{style.propertiesGrid}">
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value}">
-				<c:cell>
+				<t:cell>
 					<g:Label>Name</g:Label>
-				</c:cell>
-				<c:cell>
-					<l:EditableLabel ui:field="nameBoxContainer"
+				</t:cell>
+				<t:cell>
+					<c:EditableLabel ui:field="nameBoxContainer"
 						labelStyle="{resources.propertyGrid.textValue}">
-						<l:editor>
+						<t:editor>
 							<g:TextBox ui:field="nameBox"
 								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
-						</l:editor>
-					</l:EditableLabel>
-				</c:cell>
-			</c:CellContainer>
-		</c:row>
-		<c:row>
-			<c:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+						</t:editor>
+					</c:EditableLabel>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value}">
-				<c:cell>
+				<t:cell>
 					<g:Label>Target</g:Label>
-				</c:cell>
-				<c:cell>
+				</t:cell>
+				<t:cell>
 					<g:FlowPanel>
-						<l:EditableLabel ui:field="codelistBoxContainer"
+						<c:EditableLabel ui:field="codelistBoxContainer"
 							labelStyle="{resources.propertyGrid.textValue}">
-							<l:editor>
+							<c:editor>
 								<g:SuggestBox ui:field="codelistBox"
 									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
-							</l:editor>
-						</l:EditableLabel>
+							</c:editor>
+						</c:EditableLabel>
 						<g:Image resource="{commonresources.dataLoader}" visible="false"
 							ui:field="codelistBoxLoader" styleName="{style.loader}" />
 					</g:FlowPanel>
-				</c:cell>
-			</c:CellContainer>
-		</c:row>
-		<c:row>
-			<c:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value}">
-				<c:cell>
+				<t:cell>
 					<g:Label>Anchor</g:Label>
-				</c:cell>
-				<c:cell>
+				</t:cell>
+				<t:cell>
 					<l:ValueTypePanel ui:field="valueTypePanel" />
-				</c:cell>
-			</c:CellContainer>
-		</c:row>
-		<c:row>
-			<c:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value}">
-				<c:cell>
+				<t:cell>
 					<g:Label>Transform</g:Label>
-				</c:cell>
-				<c:cell>
-					<l:EditableLabel ui:field="valueFunctionContainer"
+				</t:cell>
+				<t:cell>
+					<c:EditableLabel ui:field="valueFunctionContainer"
 						labelStyle="{resources.propertyGrid.textValue}">
-						<l:editor>
+						<c:editor>
 							<g:ListBox multipleSelect="false" ui:field="valueFunction"
 								styleName="{commonresources.css.listBox}" />
-						</l:editor>
-					</l:EditableLabel>
-				</c:cell>
-			</c:CellContainer>
-		</c:row>
-		<c:row>
-			<c:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+						</c:editor>
+					</c:EditableLabel>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value}" ui:field="functionArgumentsRow">
-				<c:cell>
+				<t:cell>
 					<g:Label></g:Label>
-				</c:cell>
-				<c:cell>
+				</t:cell>
+				<t:cell>
 					<l:FunctionsArgumentsPanels ui:field="functionArguments"
 						labelStyle="{resources.propertyGrid.textValue}"
 						editorStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
-				</c:cell>
-			</c:CellContainer>
-		</c:row>
-	</c:Table>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+	</t:Table>
 </ui:UiBinder> 

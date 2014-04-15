@@ -6,6 +6,7 @@ package org.cotrix.web.manage.client.codelist.linktype;
 import java.util.List;
 
 import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -47,13 +48,13 @@ public class LinkTypePanel extends Composite implements HasEditing {
 	private LinkTypePanelListener listener;
 	private UILinkType currentLinkType;
 
-	private LinkDisclosurePanel disclosurePanel;
+	private CustomDisclosurePanel disclosurePanel;
 
 	private String id = Document.get().createUniqueId();
 
 	public LinkTypePanel(CodelistInfoProvider codelistInfoProvider) {
 		header = new LinkTypeHeader();
-		disclosurePanel = new LinkDisclosurePanel(header);
+		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");
 		disclosurePanel.setAnimationEnabled(true);
 
@@ -69,20 +70,20 @@ public class LinkTypePanel extends Composite implements HasEditing {
 			}
 		});
 
-		disclosurePanel.addCloseHandler(new CloseHandler<LinkDisclosurePanel>() {
+		disclosurePanel.addCloseHandler(new CloseHandler<CustomDisclosurePanel>() {
 
 			@Override
-			public void onClose(CloseEvent<LinkDisclosurePanel> event) {
+			public void onClose(CloseEvent<CustomDisclosurePanel> event) {
 				header.setEditVisible(false);
 				header.setControlsVisible(false);
 				fireSelected();
 			}
 		});
 
-		disclosurePanel.addOpenHandler(new OpenHandler<LinkDisclosurePanel>() {
+		disclosurePanel.addOpenHandler(new OpenHandler<CustomDisclosurePanel>() {
 
 			@Override
-			public void onOpen(OpenEvent<LinkDisclosurePanel> event) {
+			public void onOpen(OpenEvent<CustomDisclosurePanel> event) {
 				updateHeaderButtons();
 				fireSelected();
 				if (editing) validate();
