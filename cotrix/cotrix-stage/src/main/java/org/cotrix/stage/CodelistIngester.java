@@ -27,7 +27,7 @@ public class CodelistIngester {
 	@Inject
 	UserRepository users;
 	
-	void ingest(Codelist list) {
+	Codelist ingest(Codelist list) {
 
 		log.info("ingesting {}({})", list.name(),list.version());
 		
@@ -39,5 +39,7 @@ public class CodelistIngester {
 			User retrieved = users.lookup(user.id()); //get latest version of this object
 			users.update(modifyUser(retrieved).is(OWNER.on(list.id())).build());
 		}
+		
+		return codelists.lookup(list.id());
 	}
 }
