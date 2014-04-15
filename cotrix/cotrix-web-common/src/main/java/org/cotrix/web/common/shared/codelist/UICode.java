@@ -16,10 +16,11 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class UICode implements Identifiable, IsSerializable {
 	
-	protected String id;
-	protected UIQName name;
+	private String id;
+	private UIQName name;
 
-	protected List<UIAttribute> attributes;
+	private List<UIAttribute> attributes;
+	private List<UILink> links;
 
 	public UICode(){}
 	
@@ -78,6 +79,20 @@ public class UICode implements Identifiable, IsSerializable {
 		this.attributes = attributes;
 	}
 
+	/**
+	 * @return the links
+	 */
+	public List<UILink> getLinks() {
+		return links;
+	}
+
+	/**
+	 * @param links the links to set
+	 */
+	public void setLinks(List<UILink> links) {
+		this.links = links;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -115,14 +130,15 @@ public class UICode implements Identifiable, IsSerializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("UICodeListRow [id=");
+		builder.append("UICode [id=");
 		builder.append(id);
 		builder.append(", name=");
 		builder.append(name);
 		builder.append(", attributes=");
 		builder.append(attributes);
+		builder.append(", links=");
+		builder.append(links);
 		builder.append("]");
 		return builder.toString();
-	}
-	
+	}	
 }
