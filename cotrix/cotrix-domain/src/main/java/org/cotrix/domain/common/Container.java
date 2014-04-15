@@ -2,6 +2,8 @@ package org.cotrix.domain.common;
 
 import static org.cotrix.common.Utils.*;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -38,6 +40,14 @@ public interface Container<T> extends Iterable<T> {
 	 //we return Container<? extends T> because we use Container<T.Private> in implementations 
 	 boolean contains(Object entity);
 
+	 
+	 /**
+	  * Returns a given entity in this container.
+	  * @param id the entity identifier
+	  * @return the entity
+	  * @throws IllegalStateException if no entity with the given identifier is in this container
+	  */
+	 T lookup(String id) throws IllegalStateException;
 	
 	
 	//private domain logic
@@ -79,6 +89,17 @@ public interface Container<T> extends Iterable<T> {
 			:
 				false;
 		};
+		
+		@Override
+		public T lookup(String id) throws IllegalStateException {
+			
+			Collection<S> matches = state().get(Collections.singleton(id));
+			
+			if (matches.isEmpty())
+				throw new IllegalStateException("no entity "+id+" in this container");
+			
+			return matches.iterator().next().entity();
+		}
 
 		
 		@Override

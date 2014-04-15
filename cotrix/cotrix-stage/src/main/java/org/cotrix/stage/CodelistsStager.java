@@ -66,7 +66,8 @@ public class CodelistsStager {
 		
 		
 		Codelist list = SyntheticCodelists.demo();
-		ingester.ingest(list);
+		
+		list = ingester.ingest(list);
 		
 		Codelist linked = SyntheticCodelists.linked(list);
 		
