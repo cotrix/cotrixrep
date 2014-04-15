@@ -15,8 +15,9 @@ import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
-import org.cotrix.web.manage.client.codelist.linktype.LinkTypeHeader.Button;
-import org.cotrix.web.manage.client.codelist.linktype.LinkTypeHeader.HeaderListener;
+import org.cotrix.web.manage.client.util.LabelHeader;
+import org.cotrix.web.manage.client.util.LabelHeader.Button;
+import org.cotrix.web.manage.client.util.LabelHeader.HeaderListener;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.Document;
@@ -43,7 +44,7 @@ public class LinkTypePanel extends Composite implements HasEditing {
 	private boolean editable;
 	private boolean editing;
 
-	private LinkTypeHeader header;
+	private LabelHeader header;
 	private LinkTypeDetailsPanel detailsPanel;
 	private LinkTypePanelListener listener;
 	private UILinkType currentLinkType;
@@ -53,7 +54,7 @@ public class LinkTypePanel extends Composite implements HasEditing {
 	private String id = Document.get().createUniqueId();
 
 	public LinkTypePanel(CodelistInfoProvider codelistInfoProvider) {
-		header = new LinkTypeHeader();
+		header = new LabelHeader();
 		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");
 		disclosurePanel.setAnimationEnabled(true);

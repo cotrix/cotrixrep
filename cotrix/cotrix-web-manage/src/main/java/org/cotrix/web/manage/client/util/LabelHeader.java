@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.linktype;
+package org.cotrix.web.manage.client.util;
 
 import org.cotrix.web.common.client.util.FadeAnimation;
 import org.cotrix.web.common.client.util.FadeAnimation.Speed;
@@ -27,12 +27,12 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkTypeHeader extends Composite implements HasClickHandlers {
+public class LabelHeader extends Composite implements HasClickHandlers {
 
 	private static LinkTypeHeaderUiBinder uiBinder = GWT
 			.create(LinkTypeHeaderUiBinder.class);
 
-	interface LinkTypeHeaderUiBinder extends UiBinder<Widget, LinkTypeHeader> {
+	interface LinkTypeHeaderUiBinder extends UiBinder<Widget, LabelHeader> {
 	}
 	
 	interface Style extends CssResource {
@@ -75,7 +75,7 @@ public class LinkTypeHeader extends Composite implements HasClickHandlers {
 	
 	private HeaderListener listener; 
 	
-	public LinkTypeHeader() {
+	public LabelHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		editAnimation = new FadeAnimation(edit.getElement());

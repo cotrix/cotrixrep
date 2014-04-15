@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with field='resources'
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
-	<ui:style type="org.cotrix.web.manage.client.codelist.linktype.LinkTypeHeader.Style">
+	<ui:style type="org.cotrix.web.manage.client.util.LabelHeader.Style">
 	.header {
 		vertical-align: middle;
 		height: 28px;
