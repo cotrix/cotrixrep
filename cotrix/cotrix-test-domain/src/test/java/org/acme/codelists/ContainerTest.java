@@ -97,6 +97,8 @@ public class ContainerTest extends DomainTest {
 		
 		Container.Private c = container(likes(a));
 		
+		assertTrue(c.contains(a.id()));
+		
 		assertEquals(a,c.lookup(a.id()));
 		
 		c.lookup("bad");
