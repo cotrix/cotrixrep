@@ -149,10 +149,11 @@ public class LinkPanel extends Composite implements HasEditing {
 		return new UILink(id, type.getId(), type.getName(), code.getId(), code.getName(), null, attributes);
 	}
 
-	public void enterEditMode(boolean codelistEditable) {
+	public void enterEditMode() {
 		editable = true;
 		editing = true;
 		disclosurePanel.setOpen(true);
+		detailsPanel.setValueVisible(false);
 		startEdit();
 	}
 
@@ -175,10 +176,9 @@ public class LinkPanel extends Composite implements HasEditing {
 	}
 
 	private void setupLinkPanel(UILink link) {
-		//detailsPanel.setName(ValueUtils.getLocalPart(link.getName()));
 		detailsPanel.setLinkType(link.getId(), link.getTypeName());
-		//detailsPanel.setc
-
+		detailsPanel.setCode(link.getTargetId(), link.getTargetName());
+		detailsPanel.setValue(link.getValue());
 		detailsPanel.setAttributes(link.getAttributes());
 	}
 

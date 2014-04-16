@@ -80,7 +80,7 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 		if (attributedItem instanceof UILinkType) {
 			UILinkType linkType = (UILinkType) attributedItem;
 			LinkTypePanel panel = typeIdToPanel.get(linkType.getId());
-			panel.setLinkType(linkType);
+			if (panel!=null) panel.setLinkType(linkType);
 			//model already updated on save manager
 		}
 	}

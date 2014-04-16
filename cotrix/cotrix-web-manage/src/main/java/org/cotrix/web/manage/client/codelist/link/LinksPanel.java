@@ -42,7 +42,7 @@ public class LinksPanel extends Composite implements HasEditing {
 	
 	interface LinksPanelEventBinder extends EventBinder<LinksPanel> {}
 	
-	private VerticalPanel panel;
+	private VerticalPanel mainPanel;
 	private List<LinkPanel> panels = new ArrayList<LinkPanel>();
 	
 	protected static AttributesGridResources gridResource = GWT.create(AttributesGridResources.class);
@@ -56,17 +56,21 @@ public class LinksPanel extends Composite implements HasEditing {
 	
 	private LinksPanelListener listener;
 	
+	private boolean editable;
+	
 	public LinksPanel() {
-		panel = new VerticalPanel();
-		panel.setWidth("100%");
+		mainPanel = new VerticalPanel();
+		mainPanel.setWidth("100%");
 		
 		gridResource.dataGridStyle().ensureInjected();
 		
 		Label header = new Label("Links");
 		header.setStyleName(gridResource.dataGridStyle().dataGridHeader());
-		panel.add(header);
+		mainPanel.add(header);
 		
-		initWidget(panel);
+		initWidget(mainPanel);
+		
+		editable = false;
 	}
 	
 	@Inject
@@ -96,16 +100,24 @@ public class LinksPanel extends Composite implements HasEditing {
 	public void setListener(LinksPanelListener listener) {
 		this.listener = listener;
 	}
+	
 	public void removeLink(UILink link) {
-		LinkPanel linkTypePanel = typeIdToPanel.remove(link.getId());
-		if (linkTypePanel == null) return;
-		if (currentSelection == linkTypePanel) currentSelection = null;
-		panel.remove(linkTypePanel);
-		panels.remove(linkTypePanel);
+		LinkPanel linkPanel = typeIdToPanel.remove(link.getId());
+		if (linkPanel == null) return;
+		if (currentSelection == linkPanel) currentSelection = null;
+		mainPanel.remove(linkPanel);
+		panels.remove(linkPanel);
+	}
+	
+	public void clear() {
+		for (LinkPanel panel:panels) mainPanel.remove(panel);
+		typeIdToPanel.clear();
+		panelIdToLink.clear();
 	}
 	
 	public void addLink(UILink link) {
 		final LinkPanel linkPanel = new LinkPanel(codelistInfoProvider);
+		linkPanel.setEditable(editable);
 		panels.add(linkPanel);
 		
 		typeIdToPanel.put(link.getId(), linkPanel);
@@ -132,7 +144,7 @@ public class LinksPanel extends Composite implements HasEditing {
 				updateSelection(linkPanel);				
 			}
 		});
-		panel.add(linkPanel);
+		mainPanel.add(linkPanel);
 	}
 	
 	public void addNewLink() {
@@ -148,7 +160,7 @@ public class LinksPanel extends Composite implements HasEditing {
 			
 			@Override
 			public void onCancel() {
-				panel.remove(linkPanel);
+				mainPanel.remove(linkPanel);
 			}
 
 			@Override
@@ -156,19 +168,18 @@ public class LinksPanel extends Composite implements HasEditing {
 				updateSelection(linkPanel);
 			}
 		});
-		panel.add(linkPanel);
+		mainPanel.add(linkPanel);
 		
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			
 			@Override
 			public void execute() {
-				linkPanel.enterEditMode(true);
+				linkPanel.enterEditMode();
 			}
 		});
 	}
 	
 	private void updateSelection(LinkPanel selected) {
-		Log.trace("selected "+selected);
 		if (currentSelection!=null) currentSelection.setSelected(false);
 		selected.setSelected(true);
 		currentSelection = selected;
@@ -181,6 +192,7 @@ public class LinksPanel extends Composite implements HasEditing {
 
 	@Override
 	public void setEditable(boolean editable) {
+		this.editable = editable;
 		for (LinkPanel linkTypePanel:panels) linkTypePanel.setEditable(editable);
 	}
 

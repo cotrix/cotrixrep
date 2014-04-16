@@ -159,6 +159,7 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 
 	protected void setLinks(List<UILink> links)
 	{
+		linksPanel.clear();
 		for (UILink link:links) linksPanel.addLink(link);
 	}
 

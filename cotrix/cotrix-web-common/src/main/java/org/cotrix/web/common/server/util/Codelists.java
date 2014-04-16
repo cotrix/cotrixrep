@@ -4,11 +4,17 @@
 package org.cotrix.web.common.server.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.Container;
 import org.cotrix.lifecycle.State;
@@ -18,6 +24,7 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.common.shared.codelist.UILink;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -117,6 +124,49 @@ public class Codelists {
 		return uiattribute;
 	}
 	
+	public static List<UILink> toUiLinks(Iterable<? extends Codelink> codelinks) {
+		List<UILink> links = new ArrayList<>();
+		for (Codelink codelink:codelinks) links.add(toUiLink(codelink));
+		return links;
+	}
+	
+	public static UILink toUiLink(Codelink codelink) {
+		UILink link = new UILink();
+		link.setId(codelink.id());
+		
+		CodelistLink type = codelink.type();
+		link.setTypeId(type.id());
+		link.setTypeName(ValueUtils.safeValue(type.name()));
+		
+		Code target = codelink.target();
+		link.setTargetId(target.id());
+		link.setTargetName(ValueUtils.safeValue(target.name()));
+		
+		
+		String value = toLinkValue(codelink.value());
+		link.setValue(value);
+		
+		List<UIAttribute> attributes = toUIAttributes(codelink.attributes());
+		link.setAttributes(attributes);
+		
+		return link;
+	}
+	
+	private static String toLinkValue(Collection<Object> elements) {
+		StringBuilder valueBuilder = new StringBuilder();
+		Iterator<Object> elementsIterator = elements.iterator();
+		while(elementsIterator.hasNext()) {
+			Object element = elementsIterator.next();
+			System.out.println("element class: "+element.getClass());
+			if (element instanceof QName) valueBuilder.append(ValueUtils.getSafeLocalPart((QName)element));
+			if (element instanceof String) valueBuilder.append(element);
+			
+			if (elementsIterator.hasNext()) valueBuilder.append(", ");
+		}
+		
+		return valueBuilder.toString();
+	}
+	
 	public static UICode toUiCode(Code code) {
 		if (code == null) return null;
 		
@@ -126,6 +176,10 @@ public class Codelists {
 
 		List<UIAttribute> attributes = Codelists.toUIAttributes(code.attributes());
 		uicode.setAttributes(attributes);
+		
+		List<UILink> links = toUiLinks(code.links());
+		uicode.setLinks(links);
+		
 		return uicode;
 	}
 

@@ -73,12 +73,16 @@
 		</t:row>
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value}">
+				secondCellStyle="{resources.propertyGrid.value}" ui:field="valueRow">
 				<t:cell>
 					<g:Label>Value</g:Label>
 				</t:cell>
 				<t:cell>
-					<g:Label ui:field="valueLabel" />
+				<g:FlowPanel>
+					<g:Label ui:field="valueLabel" styleName="{resources.propertyGrid.textValue}"/>
+					<g:Image resource="{commonresources.dataLoader}" visible="false"
+							ui:field="valueLabelLoader" styleName="{style.loader}" />
+				</g:FlowPanel>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>

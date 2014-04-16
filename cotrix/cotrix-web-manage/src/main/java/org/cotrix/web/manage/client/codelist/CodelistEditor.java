@@ -512,11 +512,8 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean onPreviewColumnSortEvent(Context context, Element elem,
-				NativeEvent event) {
-			System.out.println("onPreviewColumnSortEvent elem "+elem);
+		public boolean onPreviewColumnSortEvent(Context context, Element elem, NativeEvent event) {
 			Element element = event.getEventTarget().cast();
-			System.out.println("onPreviewColumnSortEvent element.id "+element.getId());
 			return !element.getId().equals(SafeHtmlGroupRenderer.CLOSE_IMG_ID);
 		}
 

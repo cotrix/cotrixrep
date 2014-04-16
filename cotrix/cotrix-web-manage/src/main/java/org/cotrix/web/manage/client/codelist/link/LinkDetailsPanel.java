@@ -6,6 +6,7 @@ package org.cotrix.web.manage.client.codelist.link;
 import java.util.List;
 
 import org.cotrix.web.common.client.widgets.EditableLabel;
+import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UIQName;
@@ -71,7 +72,9 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 	private CodeSuggestOracle codeSuggestOracle;
 	private UICodeInfo selectedCode;
 
+	@UiField CellContainer valueRow;
 	@UiField Label valueLabel;
+	@UiField Image valueLabelLoader;
 	
 	private AttributesPanel attributesPanel;
 	
@@ -127,7 +130,6 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 	
 	public void setLinkType(String typeId, UIQName name) {
 		selectedLinkType = new UILinkTypeInfo(typeId, name);
-		//selectedCode = new UICodeInfo(codeId, codeName);
 		typeBox.getValueBox().setValue(LinkTypeSuggestion.toDisplayString(selectedLinkType), false);
 		typeBoxContainer.setText(LinkTypeSuggestion.toDisplayString(selectedLinkType));
 	}
@@ -232,16 +234,19 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 	}	
 	
 	
-	private void setupValuePanel() {
-
+	public void setValue(String value) {
+		valueLabel.setText(value);
 	}
 	
-	private void updateValue() {
+	public void setValueLoaderVisible(boolean visible) {
+		valueLabelLoader.setVisible(visible);
+		valueLabel.setVisible(!visible);
 	}
 	
-	public String getValue() {
-		return null;
+	public void setValueVisible(boolean visible) {
+		valueRow.setVisible(visible);
 	}
+	
 	
 	private void setupAttributesPanel() {
 		attributesPanel = new AttributesPanel(table, style.error());
