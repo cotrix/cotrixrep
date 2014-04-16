@@ -181,11 +181,11 @@ public class ManageServiceImpl implements ManageService {
 
 	@Override
 	@CodelistTask(VIEW)
-	public Set<Group> getAttributesGroups(@Id String codelistId) throws ServiceException {
-		logger.trace("getAttributesGroups codelistId {}", codelistId);
+	public Set<Group> getGroups(@Id String codelistId) throws ServiceException {
+		logger.trace("getGroups codelistId {}", codelistId);
 
 		Iterable<Code> codes  = repository.get(allCodesIn(codelistId));
-		Set<Group> groups = GroupFactory.getGroups(codes);
+		Set<Group> groups = GroupFactory.getAttributesGroups(codes);
 
 		logger.trace("Generated {} groups: {}", groups.size(), groups);
 

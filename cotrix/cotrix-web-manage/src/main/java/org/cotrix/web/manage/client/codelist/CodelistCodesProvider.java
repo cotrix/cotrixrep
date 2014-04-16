@@ -61,7 +61,7 @@ public class CodelistCodesProvider extends CachedDataProviderExperimental<UICode
 					if (column instanceof CodelistEditor.GroupColumn) {
 						GroupColumn groupColumn = (CodelistEditor.GroupColumn)column;
 						Group group = groupColumn.getGroup();
-						return new CodelistEditorSortInfo.AttributeGroupSortInfo(columnSortInfo.isAscending(), group.getName(), group.getType(), group.getLanguage(), group.getPosition());
+						return group.getSortInfo(columnSortInfo.isAscending());
 					}
 				}
 			}

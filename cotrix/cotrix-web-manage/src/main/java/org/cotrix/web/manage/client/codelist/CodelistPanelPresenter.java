@@ -105,8 +105,8 @@ public class CodelistPanelPresenter implements Presenter {
 			public void onAction(Action action) {
 				Log.trace("toolbar onAction "+action);
 				switch (action) {
-					case ALL_COLUMN: view.getCodeListEditor().showAllAttributesAsColumn(); break;
-					case ALL_NORMAL: view.getCodeListEditor().showAllAttributesAsNormal(); break;
+					case ALL_COLUMN: view.getCodeListEditor().showAllGroupsAsColumn(); break;
+					case ALL_NORMAL: view.getCodeListEditor().showAllGroupsAsNormal(); break;
 					case NEW_VERSION: newVersion(); break;
 					case LOCK: lock(); break;
 					case FINALIZE: finalizeCodelist(); break;

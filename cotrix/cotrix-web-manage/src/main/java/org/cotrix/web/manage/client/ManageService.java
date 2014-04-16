@@ -34,7 +34,7 @@ import com.google.gwt.view.client.Range;
 public interface ManageService extends RemoteService {
 	
 	DataWindow<UICode> getCodelistCodes(String codelistId, Range range, CodelistEditorSortInfo sortInfo) throws ServiceException;
-	Set<Group> getAttributesGroups(String codelistId) throws ServiceException;
+	Set<Group> getGroups(String codelistId) throws ServiceException;
 	
 	DataWindow<CodelistGroup> getCodelistsGrouped() throws ServiceException;
 	
