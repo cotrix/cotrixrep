@@ -133,7 +133,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 	protected static DataGridResources resource = GWT.create(DataGridResources.class);
 
-	protected Set<Group> groupsAsColumn = new HashSet<Group>();
+	protected List<Group> groupsAsColumn = new ArrayList<Group>();
 	protected Map<Group, Column<UICode, String>> groupsColumns = new HashMap<Group, Column<UICode,String>>(); 
 	protected Map<String, Column<UICode, String>> switchesColumns = new HashMap<String, Column<UICode,String>>(); 
 	protected List<DoubleClickEditTextCell> editableCells = new ArrayList<DoubleClickEditTextCell>();
@@ -249,10 +249,10 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	public void showAllGroupsAsColumn()
 	{
 		dataGrid.showLoader();
-		managerService.getGroups(codelistId, new ManagedFailureCallback<Set<Group>>() {
+		managerService.getGroups(codelistId, new ManagedFailureCallback<List<Group>>() {
 
 			@Override
-			public void onSuccess(Set<Group> groups) {
+			public void onSuccess(List<Group> groups) {
 				setGroups(groups);
 				dataGrid.hideLoader();
 			}
@@ -439,7 +439,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		dataGrid.removeColumn(column);
 	}
 
-	protected void setGroups(Set<Group> groups) {
+	protected void setGroups(List<Group> groups) {
 
 		Set<Group> columnsToRemove = new HashSet<Group>(groupsAsColumn);
 		//can't use removeall because based on comparable interface

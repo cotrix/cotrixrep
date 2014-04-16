@@ -6,8 +6,8 @@ package org.cotrix.web.manage.shared;
 import java.util.List;
 
 import org.cotrix.web.common.client.util.ValueUtils;
-import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
 
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -18,29 +18,23 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPosition {
+public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	
 	private UIQName name;
-	private UIQName type;
-	private String language;
 	private int position;
 	
 	private boolean isSystemGroup;
 	
 	private SafeHtml label;
 	
-	protected AttributeGroup() {
+	protected LinkGroup() {
 	}
 		
 	/**
 	 * @param name
-	 * @param type
-	 * @param language
 	 */
-	public AttributeGroup(UIQName name, UIQName type, String language, boolean isSystemGroup) {
+	public LinkGroup(UIQName name, boolean isSystemGroup) {
 		this.name = name!=null?name.clone():null;
-		this.type = type!=null?type.clone():null;
-		this.language = language;
 		this.isSystemGroup = isSystemGroup;
 	}
 
@@ -49,20 +43,6 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	 */
 	public UIQName getName() {
 		return name;
-	}
-
-	/**
-	 * @return the type
-	 */
-	public UIQName getType() {
-		return type;
-	}
-
-	/**
-	 * @return the language
-	 */
-	public String getLanguage() {
-		return language;
 	}
 	
 	/** 
@@ -73,9 +53,9 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		return isSystemGroup;
 	}
 	
-	public void calculatePosition(List<UIAttribute> attributes, UIAttribute attribute)
+	public void calculatePosition(List<UILink> links, UILink link)
 	{
-		int position = getPosition(attributes, attribute);
+		int position = getPosition(links, link);
 		setPosition(position);
 	}
 	
@@ -90,24 +70,24 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		return position;
 	}
 
-	private int getPosition(List<UIAttribute> attributes, UIAttribute att)
+	private int getPosition(List<UILink> links, UILink otherLink)
 	{
 		int index = 0;
-		for (UIAttribute attribute:attributes) {
-			if (accept(attribute)) {
-				if (att.equals(attribute)) return index;
+		for (UILink link:links) {
+			if (accept(link)) {
+				if (otherLink.equals(link)) return index;
 				index++;
 			}
 		}
 		return -1;
 	}
 	
-	public boolean accept(List<UIAttribute> attributes, UIAttribute att)
+	public boolean accept(List<UILink> links, UILink otherLink)
 	{
 		int index = 0;
-		for (UIAttribute attribute:attributes) {
-			if (accept(attribute)) {
-				if (att.equals(attribute) && index == position) return true;
+		for (UILink link:links) {
+			if (accept(link)) {
+				if (otherLink.equals(link) && index == position) return true;
 				index++;
 			}
 			if (index>position) return false;
@@ -115,29 +95,27 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		return false;
 	}
 	
-	public UIAttribute match(List<UIAttribute> attributes)
+	public UILink match(List<UILink> links)
 	{
 		int index = 0;
-		for (UIAttribute attribute:attributes) {
-			if (accept(attribute)) {
-				if (index == position) return attribute;
+		for (UILink link:links) {
+			if (accept(link)) {
+				if (index == position) return link;
 				index++;
 			}
 		}
 		return null;
 	}
 	
-	private boolean accept(UIAttribute attribute)
+	private boolean accept(UILink link)
 	{
-		if (name!=null && !name.equals(attribute.getName())) return false;
-		if (type!=null && !type.equals(attribute.getType())) return false;
-		if (language!=null && !language.equals(attribute.getLanguage())) return false;
+		if (name!=null && !name.equals(link.getTypeName())) return false;
 		return true;
 	}
 	
-	public AttributeGroup clone()
+	public LinkGroup clone()
 	{
-		AttributeGroup clone = new AttributeGroup(name, type, language, isSystemGroup);
+		LinkGroup clone = new LinkGroup(name, isSystemGroup);
 		clone.setPosition(position);
 		return clone;
 	}
@@ -147,7 +125,7 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	 */
 	@Override
 	public CodelistEditorSortInfo getSortInfo(boolean ascending) {
-		return new CodelistEditorSortInfo.AttributeGroupSortInfo(ascending, name, type, language, position);
+		return null; //FIXME
 	}
 	
 	/** 
@@ -165,9 +143,9 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	@Override
 	public String getValue(UICode code)
 	{
-		List<UIAttribute> attributes = code.getAttributes();
-		UIAttribute attribute = match(attributes);
-		return attribute!=null?attribute.getValue():"";
+		List<UILink> links = code.getLinks();
+		UILink link = match(links);
+		return link!=null?link.getValue():"";
 	}
 	
 	private void buildLabel() {
@@ -176,12 +154,6 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		SafeHtml nameHtml = SafeHtmlUtils.fromString(ValueUtils.getValue(name));
 		labelBuilder.append(nameHtml);
 		labelBuilder.appendHtmlConstant("</span>");
-		if (language!=null && !language.isEmpty()) {
-			labelBuilder.appendHtmlConstant("<span style=\"vertical-align:middle;color:black;padding-left:5px;\">");
-			SafeHtml languageHtml = SafeHtmlUtils.fromString(language);
-			labelBuilder.append(languageHtml);
-			labelBuilder.appendHtmlConstant("</span>");
-		}
 		
 		label = labelBuilder.toSafeHtml();
 	}
@@ -195,11 +167,8 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (isSystemGroup ? 1231 : 1237);
-		result = prime * result
-				+ ((language == null) ? 0 : language.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + position;
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -214,13 +183,8 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AttributeGroup other = (AttributeGroup) obj;
+		LinkGroup other = (LinkGroup) obj;
 		if (isSystemGroup != other.isSystemGroup)
-			return false;
-		if (language == null) {
-			if (other.language != null)
-				return false;
-		} else if (!language.equals(other.language))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -228,11 +192,6 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		} else if (!name.equals(other.name))
 			return false;
 		if (position != other.position)
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
 			return false;
 		return true;
 	}
@@ -243,12 +202,9 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("AttributeGroup [name=");
+		builder.append("LinkGroup [name=");
 		builder.append(name);
 		builder.append(", type=");
-		builder.append(type);
-		builder.append(", language=");
-		builder.append(language);
 		builder.append(", position=");
 		builder.append(position);
 		builder.append(", isSystemGroup=");
@@ -258,14 +214,8 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	}
 
 	@Override
-	public int compareTo(AttributeGroup o) {
+	public int compareTo(LinkGroup o) {
 		int compare = (name !=null)?name.compareTo(o.name):1;
-		if (compare!=0) return compare;
-		
-		compare = (type !=null)?type.compareTo(o.type):1;
-		if (compare!=0) return compare;
-		
-		compare = (language !=null)?language.compareTo(o.language):1;
 		if (compare!=0) return compare;
 		
 		compare = position > o.position ? +1 : position < o.position ? -1 : 0;

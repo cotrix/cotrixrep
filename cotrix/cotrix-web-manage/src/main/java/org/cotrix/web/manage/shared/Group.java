@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface Group extends IsSerializable {
+public interface Group extends IsSerializable, Cloneable {
 
 	public boolean isSystemGroup();
 
@@ -21,5 +21,7 @@ public interface Group extends IsSerializable {
 	public SafeHtml getLabel();
 
 	public String getValue(UICode code);
+	
+	public Group clone();
 
 }
