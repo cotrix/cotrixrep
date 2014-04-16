@@ -4,6 +4,7 @@ import static java.util.Arrays.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -46,7 +47,13 @@ public final class CodeBuilder implements CodeNewClause, CodeDeltaClause {
 	@Override
 	public CodeBuilder links(Codelink... links) {
 		
-		state.links(reveal(asList(links),Codelink.Private.class));
+		return links(asList(links));
+	}
+	
+	@Override
+	public CodeBuilder links(Collection<Codelink> links) {
+		
+		state.links(reveal(links,Codelink.Private.class));
 		
 		return this;
 	}

@@ -1,5 +1,6 @@
 package org.cotrix.domain.dsl.grammar;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -45,6 +46,14 @@ public class CommonClauses {
 		 */
 		@SuppressWarnings("unchecked")
 		C links(T ... links);
+		
+		/**
+		 * Adds one or more links to the object.
+		 * 
+		 * @param links the links
+		 * @return the next clause in the sentence
+		 */
+		C links(Collection<T> links);
 	}
 	
 	public static interface LinkTargetClause<T,C> {

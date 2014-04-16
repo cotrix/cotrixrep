@@ -27,9 +27,9 @@ public class CodelistIngester {
 	@Inject
 	UserRepository users;
 	
-	Codelist ingest(Codelist list) {
+	public Codelist ingest(Codelist list) {
 
-		log.info("ingesting {}({})", list.name(),list.version());
+		log.info("ingesting {} ({})", list.name(),list.version());
 		
 		codelists.add(list);
 

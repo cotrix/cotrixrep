@@ -3,6 +3,7 @@ package org.cotrix.domain.dsl.builder;
 import static java.util.Arrays.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -58,7 +59,12 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	@Override
 	public CodelistBuilder links(CodelistLink... links) {
-		state.links(reveal(asList(links),CodelistLink.Private.class));
+		return links(asList(links));
+	}
+	
+	@Override
+	public CodelistBuilder links(Collection<CodelistLink> links) {
+		state.links(reveal(links,CodelistLink.Private.class));
 		return this;
 	}
 	

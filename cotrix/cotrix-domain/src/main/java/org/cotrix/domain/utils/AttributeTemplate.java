@@ -40,7 +40,7 @@ public class AttributeTemplate {
 	}
 
 	public boolean matches(Attribute.State attribute) {
-		
+	
 		return matches(template.name(), attribute.name()) &&
 			   matches(template.type(), attribute.type()) &&
 			   matches(template.language(), attribute.language());

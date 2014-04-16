@@ -1,9 +1,13 @@
 package org.acme;
 
+import static org.cotrix.repository.CodelistQueries.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
@@ -25,6 +29,11 @@ public class StagersTest extends ApplicationTest {
 		for (User user : SomeUsers.users)
 			assertNotNull(users.lookup(user.id()));
 		
+		for (Codelist list : codelists.get(allLists())) {
+			for (Code code: list.codes())
+				for (Codelink link : code.links())
+					System.out.println(link.name()+":"+link.value());
+		}
 	}
 	
 }

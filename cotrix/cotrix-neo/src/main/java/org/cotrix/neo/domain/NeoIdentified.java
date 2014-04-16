@@ -48,7 +48,7 @@ public abstract class NeoIdentified implements Identified.State {
 	public Node node(Named.State state) {
 		
 		if (!(state instanceof NeoIdentified))
-			throw new IllegalStateException("cannot form link: target "+state.name()+" is not in this repository");
+			throw new IllegalStateException("cannot form link: target node "+state.name()+" is not in this repository");
 	
 		return NeoIdentified.class.cast(state).node();
 	}
