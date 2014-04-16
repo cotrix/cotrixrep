@@ -18,8 +18,6 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.cotrix.web.manage.shared.modify.UpdatedCode;
 import org.cotrix.web.manage.shared.modify.attribute.AttributeCommand;
-import org.cotrix.web.manage.shared.modify.code.CodeAttributeCommand;
-
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -31,12 +29,10 @@ public class CodeAttributeCommandHandler {
 	@Inject
 	CodelistRepository repository;
 
-	public ModifyCommandResult handle(String codelistId, CodeAttributeCommand codeCommand)
+	public ModifyCommandResult handle(String codelistId, String codeId, AttributeCommand command)
 	{
-		AttributeCommand command = codeCommand.getCommand();
 		Attribute attribute = AttributeCommandUtil.handle(command);
 
-		String codeId = codeCommand.getCodeId();
 		Code code = modifyCode(codeId).attributes(attribute).build();
 		Codelist changeset = modifyCodelist(codelistId).with(code).build();
 		

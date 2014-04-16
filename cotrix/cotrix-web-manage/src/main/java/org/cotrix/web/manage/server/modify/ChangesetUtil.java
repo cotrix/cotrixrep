@@ -14,6 +14,7 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
@@ -23,6 +24,7 @@ import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.ValueFunctions;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
@@ -80,6 +82,20 @@ public class ChangesetUtil {
 
 	public static Codelist updateCodelist(String id, UIQName name) {
 		return modifyCodelist(id).name(convert(name)).build();
+	}
+	
+	public static Codelink addCodelink(UILink link, CodelistLink linkType, Code code) {
+		List<Attribute> attributes = addAttributes(link.getAttributes());
+		return link().instanceOf(linkType).target(code).attributes(attributes).build();
+	}
+	
+	public static Codelink updateCodelink(UILink link, Codelink oldLink, CodelistLink linkType, Code code) {
+		List<Attribute> attributes = buildChangeSet(link.getAttributes(), oldLink.attributes());
+		return link().instanceOf(linkType).target(code).attributes(attributes).build();
+	}
+	
+	public static Codelink removeCodelink(UILink link) {
+		return deleteLink(link.getId());
 	}
 	
 	public static CodelistLink addCodelistLink(UILinkType linkType, Codelist target) {

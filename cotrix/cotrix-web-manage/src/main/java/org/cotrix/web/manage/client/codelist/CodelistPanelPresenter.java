@@ -15,6 +15,7 @@ import org.cotrix.web.manage.client.codelist.CodelistToolbar.ToolBarListener;
 import org.cotrix.web.manage.client.codelist.VersionDialog.VersionDialogListener;
 import org.cotrix.web.manage.client.codelist.event.CreateNewVersionEvent;
 import org.cotrix.web.manage.client.data.CodeAttributeCommandGenerator;
+import org.cotrix.web.manage.client.data.CodeLinkCommandGenerator;
 import org.cotrix.web.manage.client.data.CodeModifyCommandGenerator;
 import org.cotrix.web.manage.client.data.DataSaverManager;
 import org.cotrix.web.manage.client.data.LinkTypeModifyGenerator;
@@ -90,6 +91,7 @@ public class CodelistPanelPresenter implements Presenter {
 		saverManager.register(new MetadataModifyCommandGenerator());
 		saverManager.register(new MetadataAttributeModifyGenerator());
 		saverManager.register(new LinkTypeModifyGenerator());
+		saverManager.register(new CodeLinkCommandGenerator());
 	}
 	
 	protected void bind()
@@ -174,7 +176,10 @@ public class CodelistPanelPresenter implements Presenter {
 		FeatureBinder.bind(view.getAttributesEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
 		
 		//LINK TYPES EDITOR
-		FeatureBinder.bind(view.getLinkTypeEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
+		FeatureBinder.bind(view.getLinkTypesEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
+		
+		//LINKS EDITOR
+		FeatureBinder.bind(view.getLinksEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
 	}
 	
 	protected class ActionEnabler implements HasFeature {

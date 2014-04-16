@@ -4,24 +4,23 @@
 package org.cotrix.web.manage.shared.modify.code;
 
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
-import org.cotrix.web.manage.shared.modify.attribute.AttributeCommand;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeAttributeCommand implements ModifyCommand {
+public class CodeTargetedCommand implements ModifyCommand {
 	
 	protected String codeId;
-	protected AttributeCommand command;
+	protected ModifyCommand command;
 	
-	protected CodeAttributeCommand(){}
+	protected CodeTargetedCommand(){}
 	
 	/**
 	 * @param codeId
 	 * @param command
 	 */
-	public CodeAttributeCommand(String codeId, AttributeCommand command) {
+	public CodeTargetedCommand(String codeId, ModifyCommand command) {
 		this.codeId = codeId;
 		this.command = command;
 	}
@@ -36,7 +35,7 @@ public class CodeAttributeCommand implements ModifyCommand {
 	/**
 	 * @return the command
 	 */
-	public AttributeCommand getCommand() {
+	public ModifyCommand getCommand() {
 		return command;
 	}
 
@@ -46,7 +45,7 @@ public class CodeAttributeCommand implements ModifyCommand {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("CodeAttributeCommand [codeId=");
+		builder.append("CodeTargetedCommand [codeId=");
 		builder.append(codeId);
 		builder.append(", command=");
 		builder.append(command);

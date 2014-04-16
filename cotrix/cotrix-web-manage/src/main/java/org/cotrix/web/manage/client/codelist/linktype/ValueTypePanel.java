@@ -54,7 +54,7 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 	private Map<String, UIValueType> idToValueTypeMap;
 	private Map<UIValueType, String> valueTypeToIdMap;
 	
-	private CodelistInfoProvider codelistInfoProvider;
+	private LinkTypesCodelistInfoProvider codelistInfoProvider;
 
 	public ValueTypePanel() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -76,7 +76,7 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 	/**
 	 * @param codelistInfoProvider the codelistInfoProvider to set
 	 */
-	public void setCodelistInfoProvider(CodelistInfoProvider codelistInfoProvider) {
+	public void setCodelistInfoProvider(LinkTypesCodelistInfoProvider codelistInfoProvider) {
 		this.codelistInfoProvider = codelistInfoProvider;
 	}
 

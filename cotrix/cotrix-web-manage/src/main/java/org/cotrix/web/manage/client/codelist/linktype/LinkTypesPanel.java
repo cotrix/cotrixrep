@@ -52,7 +52,7 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 	private Map<String, UILinkType> panelIdToType = new HashMap<String, UILinkType>();
 	
 	@Inject
-	private CodelistInfoProvider codelistInfoProvider;
+	private LinkTypesCodelistInfoProvider codelistInfoProvider;
 	
 	private LinkTypesPanelListener listener;
 	
@@ -89,7 +89,7 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 	 * Used for tests
 	 * @param codelistInfoProvider
 	 */
-	public void setCodelistInfoProvider(CodelistInfoProvider codelistInfoProvider) {
+	public void setCodelistInfoProvider(LinkTypesCodelistInfoProvider codelistInfoProvider) {
 		this.codelistInfoProvider = codelistInfoProvider;
 	}
 

@@ -9,16 +9,16 @@ import org.cotrix.web.common.shared.codelist.Identifiable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public abstract class AddCommand<T extends Identifiable> implements ModifyCommand, ContainsIdentifiable {
+public abstract class UpdateCommand<T extends Identifiable> implements ModifyCommand, ContainsIdentifiable {
 	
 	protected T item;
 	
-	protected AddCommand(){}
+	protected UpdateCommand(){}
 
 	/**
 	 * @param item
 	 */
-	public AddCommand(T item) {
+	public UpdateCommand(T item) {
 		this.item = item;
 	}
 

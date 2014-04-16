@@ -16,14 +16,36 @@ public class UILink implements Identifiable, IsSerializable, HasAttributes {
 	private String id;
 	
 	private String typeId;
-	private String typeName;
+	private UIQName typeName;
 	
 	private String targetId;
-	private String targetName;
+	private UIQName targetName;
 	
 	private String value;
 	
 	private List<UIAttribute> attributes;
+	
+	public UILink(){}	
+
+	/**
+	 * @param id
+	 * @param typeId
+	 * @param typeName
+	 * @param targetId
+	 * @param targetName
+	 * @param value
+	 * @param attributes
+	 */
+	public UILink(String id, String typeId, UIQName typeName, String targetId,
+			UIQName targetName, String value, List<UIAttribute> attributes) {
+		this.id = id;
+		this.typeId = typeId;
+		this.typeName = typeName;
+		this.targetId = targetId;
+		this.targetName = targetName;
+		this.value = value;
+		this.attributes = attributes;
+	}
 
 	/**
 	 * @return the id
@@ -56,14 +78,14 @@ public class UILink implements Identifiable, IsSerializable, HasAttributes {
 	/**
 	 * @return the typeName
 	 */
-	public String getTypeName() {
+	public UIQName getTypeName() {
 		return typeName;
 	}
 
 	/**
 	 * @param typeName the typeName to set
 	 */
-	public void setTypeName(String typeName) {
+	public void setTypeName(UIQName typeName) {
 		this.typeName = typeName;
 	}
 
@@ -84,14 +106,14 @@ public class UILink implements Identifiable, IsSerializable, HasAttributes {
 	/**
 	 * @return the targetName
 	 */
-	public String getTargetName() {
+	public UIQName getTargetName() {
 		return targetName;
 	}
 
 	/**
 	 * @param targetName the targetName to set
 	 */
-	public void setTargetName(String targetName) {
+	public void setTargetName(UIQName targetName) {
 		this.targetName = targetName;
 	}
 

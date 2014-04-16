@@ -88,11 +88,11 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	
 	private CodelistSuggestOracle codelistSuggestOracle = new CodelistSuggestOracle();	
 	
-	private CodelistInfoProvider codelistInfoProvider;
+	private LinkTypesCodelistInfoProvider codelistInfoProvider;
 	
 	private LabelProvider<Function> functionLabelProvider = new DefaultFunctionLabelProvider();
 	
-	public LinkTypeDetailsPanel(CodelistInfoProvider codelistInfoProvider) {
+	public LinkTypeDetailsPanel(LinkTypesCodelistInfoProvider codelistInfoProvider) {
 		
 		this.codelistInfoProvider = codelistInfoProvider;
 	

@@ -24,17 +24,4 @@ public class AddLinkTypeCommand extends AddCommand<UILinkType> implements LinkTy
 	public AddLinkTypeCommand(UILinkType item) {
 		super(item);
 	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("AddLinkTypeCommand [item=");
-		builder.append(item);
-		builder.append("]");
-		return builder.toString();
-	}
-
 }

@@ -9,7 +9,7 @@
 	<ui:with field='commonresources'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
 	<ui:style
-		type="org.cotrix.web.manage.client.codelist.linktype.LinkTypeDetailsPanel.Style">
+		type="org.cotrix.web.manage.client.codelist.link.LinkDetailsPanel.Style">
 		.propertiesGrid {
 			width: 100%;
 			border-collapse: collapse;
@@ -33,36 +33,19 @@
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value}">
 				<t:cell>
-					<g:Label>Name</g:Label>
-				</t:cell>
-				<t:cell>
-					<c:EditableLabel ui:field="nameBoxContainer"
-						labelStyle="{resources.propertyGrid.textValue}">
-						<c:editor>
-							<g:TextBox ui:field="nameBox"
-								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
-						</c:editor>
-					</c:EditableLabel>
-				</t:cell>
-			</t:CellContainer>
-		</t:row>
-		<t:row>
-			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value}">
-				<t:cell>
-					<g:Label>Target</g:Label>
+					<g:Label>Type</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-						<c:EditableLabel ui:field="codelistBoxContainer"
+						<c:EditableLabel ui:field="typeBoxContainer"
 							labelStyle="{resources.propertyGrid.textValue}">
 							<c:editor>
-								<g:SuggestBox ui:field="codelistBox"
+								<g:SuggestBox ui:field="typeBox"
 									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
 							</c:editor>
 						</c:EditableLabel>
 						<g:Image resource="{commonresources.dataLoader}" visible="false"
-							ui:field="codelistBoxLoader" styleName="{style.loader}" />
+							ui:field="typeBoxLoader" styleName="{style.loader}" />
 					</g:FlowPanel>
 				</t:cell>
 			</t:CellContainer>
@@ -71,10 +54,20 @@
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value}">
 				<t:cell>
-					<g:Label>Anchor</g:Label>
+					<g:Label>Target Code</g:Label>
 				</t:cell>
 				<t:cell>
-					<l:ValueTypePanel ui:field="valueTypePanel" />
+					<g:FlowPanel>
+						<c:EditableLabel ui:field="targetCodeBoxContainer"
+							labelStyle="{resources.propertyGrid.textValue}">
+							<c:editor>
+								<g:SuggestBox ui:field="targetCodeBox"
+									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+							</c:editor>
+						</c:EditableLabel>
+						<g:Image resource="{commonresources.dataLoader}" visible="false"
+							ui:field="targetCodeBoxLoader" styleName="{style.loader}" />
+					</g:FlowPanel>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
@@ -82,29 +75,10 @@
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value}">
 				<t:cell>
-					<g:Label>Transform</g:Label>
+					<g:Label>Value</g:Label>
 				</t:cell>
 				<t:cell>
-					<c:EditableLabel ui:field="valueFunctionContainer"
-						labelStyle="{resources.propertyGrid.textValue}">
-						<c:editor>
-							<g:ListBox multipleSelect="false" ui:field="valueFunction"
-								styleName="{commonresources.css.listBox}" />
-						</c:editor>
-					</c:EditableLabel>
-				</t:cell>
-			</t:CellContainer>
-		</t:row>
-		<t:row>
-			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value}" ui:field="functionArgumentsRow">
-				<t:cell>
-					<g:Label></g:Label>
-				</t:cell>
-				<t:cell>
-					<l:FunctionsArgumentsPanels ui:field="functionArguments"
-						labelStyle="{resources.propertyGrid.textValue}"
-						editorStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+					<g:Label ui:field="valueLabel" />
 				</t:cell>
 			</t:CellContainer>
 		</t:row>

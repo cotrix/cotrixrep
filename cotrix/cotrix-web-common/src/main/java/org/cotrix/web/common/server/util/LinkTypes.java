@@ -86,5 +86,4 @@ public class LinkTypes {
 		throw new IllegalArgumentException("Unknown value function "+valueFunction);
 		
 	}
-
 }

@@ -23,6 +23,8 @@ public interface CodelistPanelView {
 	
 	HasEditing getAttributesEditor();
 	
-	HasEditing getLinkTypeEditor();
+	HasEditing getLinkTypesEditor();
+
+	HasEditing getLinksEditor();
 
 }

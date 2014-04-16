@@ -9,17 +9,29 @@ import org.cotrix.web.common.shared.codelist.Identifiable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public abstract class AddCommand<T extends Identifiable> implements ModifyCommand, ContainsIdentifiable {
+public abstract class GenericCommand<T extends Identifiable> implements ModifyCommand, ContainsIdentifiable {
 	
-	protected T item;
+	public enum Action {ADD, UPDATE, REMOVE};
 	
-	protected AddCommand(){}
+	private Action action;
+	
+	private T item;
+	
+	public GenericCommand(){}
 
 	/**
 	 * @param item
 	 */
-	public AddCommand(T item) {
+	public GenericCommand(Action action, T item) {
+		this.action = action;
 		this.item = item;
+	}
+
+	/**
+	 * @return the action
+	 */
+	public Action getAction() {
+		return action;
 	}
 
 	/**
@@ -45,7 +57,9 @@ public abstract class AddCommand<T extends Identifiable> implements ModifyComman
 		StringBuilder builder = new StringBuilder();
 		//TODO replace with getSimpleName() when move to GWT 2.6
 		builder.append(getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1));
-		builder.append(" [item=");
+		builder.append(" [action=");
+		builder.append(action);
+		builder.append(", item=");
 		builder.append(item);
 		builder.append("]");
 		return builder.toString();

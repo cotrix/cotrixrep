@@ -59,6 +59,8 @@ import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
 import org.cotrix.web.manage.shared.CodelistGroup;
 import org.cotrix.web.manage.shared.CodelistValueTypes;
 import org.cotrix.web.manage.shared.Group;
+import org.cotrix.web.manage.shared.UICodeInfo;
+import org.cotrix.web.manage.shared.UILinkTypeInfo;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.slf4j.Logger;
@@ -345,5 +347,25 @@ public class ManageServiceImpl implements ManageService {
 
 		logger.trace("returning {} link types", types.size());
 		return new CodelistValueTypes(attributeTypes, types);
+	}
+
+	@Override
+	public List<UILinkTypeInfo> getLinkTypes(String codelistId)	throws ServiceException {
+		logger.trace("getLinkTypes codelistId: {}",codelistId);
+		Codelist codelist = repository.lookup(codelistId);
+		List<UILinkTypeInfo> types = new ArrayList<>();
+		for (CodelistLink link:codelist.links()) types.add(new UILinkTypeInfo(link.id(), ValueUtils.safeValue(link.name())));
+		return types;
+	}
+
+	@Override
+	public List<UICodeInfo> getCodes(String codelistId, String linkTypeId) throws ServiceException {
+		logger.trace("getCodes codelistId: {} linkTypeId: {}",codelistId, linkTypeId);
+		Codelist codelist = repository.lookup(codelistId);
+		CodelistLink link = codelist.links().lookup(linkTypeId);
+		Codelist target = link.target();
+		List<UICodeInfo> codes = new ArrayList<>();
+		for (Code code:target.codes()) codes.add(new UICodeInfo(code.id(), ValueUtils.safeValue(code.name())));
+		return codes;
 	}
 }

@@ -19,7 +19,6 @@ public class CachedSuggestOracle<T extends Suggestion> extends SuggestOracle {
 	
 	@Override
 	public void requestSuggestions(final Request request, final Callback callback) {
-		System.out.println("requestSuggestions request: "+request);
 		Response response = new Response(filter(request.getQuery(), request.getLimit()));
 		callback.onSuggestionsReady(request, response);
 	}

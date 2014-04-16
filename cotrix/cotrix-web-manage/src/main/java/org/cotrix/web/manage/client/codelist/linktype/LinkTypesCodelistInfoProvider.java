@@ -15,8 +15,8 @@ import com.google.inject.ImplementedBy;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@ImplementedBy(CodelistInfoProviderImpl.class)
-public interface CodelistInfoProvider {
+@ImplementedBy(LinkTypesCodelistInfoProviderImpl.class)
+public interface LinkTypesCodelistInfoProvider {
 	
 	public void getCodelists(AsyncCallback<List<UICodelist>> callback);
 	
