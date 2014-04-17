@@ -3,10 +3,12 @@ package org.cotrix.domain.codelist;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
@@ -123,8 +125,39 @@ public interface Codelink extends Identified, Attributed, Named {
 			
 			ids.add(link.id());
 			
+
 			// dynamic resolution (includes orphan link case)
-			return link.target() == null ? Collections.<Object>emptyList() : type.valueType().valueIn(link.id(),link.target(),ids);
+			if (link.target() == null)
+				return Collections.<Object>emptyList();
+			
+			else {
+			
+				Collection<Object> values = type.valueType().valueIn(link.id(),link.target(),ids);
+				
+				Collection<Object> results = new ArrayList<>();
+				
+				ValueFunction function = type.function();
+				
+				for (Object value : values) {
+					Object result = null;
+					if (value instanceof QName) {
+						QName name = (QName) value;
+						result = new QName(name.getNamespaceURI(),function.apply(name.getLocalPart()));
+;					}
+					else {
+						String val = (String) value;
+						result = function.apply(val);
+					}
+					 
+					results.add(result);
+					
+				}
+				
+				return results;
+			}
+				
+				
+			
 		}
 
 	}

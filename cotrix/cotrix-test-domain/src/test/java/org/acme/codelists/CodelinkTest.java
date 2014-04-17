@@ -2,11 +2,14 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.links.ValueFunctions.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+
+import javax.xml.namespace.QName;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.codelist.Code;
@@ -14,6 +17,8 @@ import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.links.ValueFunction;
+import org.cotrix.domain.links.ValueFunctions;
 import org.cotrix.domain.memory.CodelinkMS;
 import org.junit.Test;
 
@@ -51,16 +56,34 @@ public class CodelinkTest extends DomainTest {
 		Code code = like(code().name("a").build());
 		Codelist list = like(codelist().name("A").build());  
 		
-		CodelistLink listLink = like(listLink().name("link").target(list).anchorToName().build());
+		CodelistLink listLink = like(listLink().name("link").target(list).transformWith(lowercase).anchorToName().build());
 		
 		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
-		assertEquals(code.name(),link.value().iterator().next());
+		assertEquals(new QName(code.name().getNamespaceURI(),lowercase.apply(code.name().getLocalPart())),link.value().iterator().next());
 		
 	}
 	
 	@Test
 	public void resolveLinkToAttributes() {
+		
+		
+		Attribute a = like(attribute().name(name).value(value).ofType(DEFAULT_TYPE).in(language).build());
+		Code code = like(code().name("b").attributes(a).build());
+		Codelist list = like(codelist().name("B").with(code).build());  
+
+		Attribute template = attribute().name(name).ofType(NULL_QNAME).build();
+		
+		CodelistLink listLink = like(listLink().name("link").target(list).anchorTo(template).transformWith(lowercase).build());
+		Codelink link  = like(link().instanceOf(listLink).target(code).build());
+		
+		assertEquals(Arrays.asList(lowercase.apply(a.value())),link.value());
+		
+	}
+	
+	
+	@Test
+	public void resolveLinkToAttributesWithFunction() {
 		
 		
 		Attribute a = like(attribute().name(name).value(value).ofType(DEFAULT_TYPE).in(language).build());
