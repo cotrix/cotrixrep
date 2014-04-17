@@ -254,6 +254,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 			@Override
 			public void onSuccess(List<Group> groups) {
 				setGroups(groups);
+				dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 				dataGrid.hideLoader();
 			}
 		});

@@ -32,6 +32,7 @@ public class UICode implements Identifiable, IsSerializable {
 		this.id = id;
 		this.name = name;
 		this.attributes = new ArrayList<UIAttribute>();
+		this.links = new ArrayList<UILink>();
 	}
 
 	/**
