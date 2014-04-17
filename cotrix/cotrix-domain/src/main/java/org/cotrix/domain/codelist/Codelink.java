@@ -3,7 +3,6 @@ package org.cotrix.domain.codelist;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.xml.namespace.QName;
