@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.common.shared.codelist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -11,7 +12,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UILink implements Identifiable, IsSerializable, HasAttributes {
+public class UILink implements Identifiable, IsSerializable, HasAttributes, HasValue {
 	
 	private String id;
 	
@@ -25,7 +26,9 @@ public class UILink implements Identifiable, IsSerializable, HasAttributes {
 	
 	private List<UIAttribute> attributes;
 	
-	public UILink(){}	
+	public UILink(){
+		attributes = new ArrayList<UIAttribute>();
+	}	
 
 	/**
 	 * @param id

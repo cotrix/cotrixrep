@@ -4,12 +4,11 @@
 package org.cotrix.web.manage.client.codelist.linktype;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.cotrix.web.common.client.util.InstanceMap;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
@@ -48,8 +47,7 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 	protected static AttributesGridResources gridResource = GWT.create(AttributesGridResources.class);
 	private LinkTypePanel currentSelection;
 	
-	private Map<String, LinkTypePanel> typeIdToPanel = new HashMap<String, LinkTypePanel>();
-	private Map<String, UILinkType> panelIdToType = new HashMap<String, UILinkType>();
+	private InstanceMap<UILinkType, LinkTypePanel> instances = new InstanceMap<UILinkType, LinkTypePanel>();
 	
 	@Inject
 	private LinkTypesCodelistInfoProvider codelistInfoProvider;
@@ -75,12 +73,13 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 	}
 	
 	@EventHandler
-	void onCodeSelected(AttributesUpdatedEvent event) {
+	void onAttributesUpdated(AttributesUpdatedEvent event) {
 		HasAttributes attributedItem = event.getAttributedItem();
 		if (attributedItem instanceof UILinkType) {
+			Log.trace("updated attribues "+attributedItem);
 			UILinkType linkType = (UILinkType) attributedItem;
-			LinkTypePanel panel = typeIdToPanel.get(linkType.getId());
-			if (panel!=null) panel.setLinkType(linkType);
+			LinkTypePanel panel = instances.get(linkType);
+			if (panel!=null) panel.syncWithModel();
 			//model already updated on save manager
 		}
 	}
@@ -97,7 +96,7 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 		this.listener = listener;
 	}
 	public void removeLinkType(UILinkType linkType) {
-		LinkTypePanel linkTypePanel = typeIdToPanel.remove(linkType.getId());
+		LinkTypePanel linkTypePanel = instances.remove(linkType);
 		if (linkTypePanel == null) return;
 		if (currentSelection == linkTypePanel) currentSelection = null;
 		panel.remove(linkTypePanel);
@@ -105,20 +104,15 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 	}
 	
 	public void addLinkType(UILinkType linkType) {
-		final LinkTypePanel linkTypePanel = new LinkTypePanel(codelistInfoProvider);
+		final LinkTypePanel linkTypePanel = new LinkTypePanel(linkType, codelistInfoProvider);
 		panels.add(linkTypePanel);
 		
-		typeIdToPanel.put(linkType.getId(), linkTypePanel);
-		panelIdToType.put(linkTypePanel.getId(), linkType);
+		instances.put(linkType, linkTypePanel);
 		
-		linkTypePanel.setLinkType(linkType);
 		linkTypePanel.setListener(new LinkTypePanelListener() {
 			
 			@Override
 			public void onSave(UILinkType linkType) {
-				Log.trace("updating type:"+linkType);
-				UILinkType oldType = panelIdToType.put(linkTypePanel.getId(), linkType);
-				if (oldType!=null) linkType.setId(oldType.getId());
 				fireUpdate(linkType);
 			}
 			
@@ -136,19 +130,27 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 	}
 	
 	public void addNewLinkType() {
-		final LinkTypePanel linkTypePanel = new LinkTypePanel(codelistInfoProvider);
+		UILinkType linkType = new UILinkType();
+		final LinkTypePanel linkTypePanel = new LinkTypePanel(linkType, codelistInfoProvider);
 		panels.add(linkTypePanel);
+		
+		instances.put(linkType, linkTypePanel);
+		
 		linkTypePanel.setListener(new LinkTypePanelListener() {
+			
+			boolean created = false;
 			
 			@Override
 			public void onSave(UILinkType linkType) {
-				Log.trace("creating type:"+linkType);
-				fireCreate(linkType);
+				if (!created) {
+					fireCreate(linkType);
+					created = true;
+				} else fireUpdate(linkType);
 			}
 			
 			@Override
 			public void onCancel() {
-				panel.remove(linkTypePanel);
+				if (!created) panel.remove(linkTypePanel);
 			}
 
 			@Override
@@ -175,7 +177,7 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 	}
 	
 	public UILinkType getSelectedType() {
-		if (currentSelection!=null) return panelIdToType.get(currentSelection.getId());
+		if (currentSelection!=null) return instances.getByValue(currentSelection);
 		return null;
 	}
 

@@ -91,7 +91,7 @@ public class ChangesetUtil {
 	
 	public static Codelink updateCodelink(UILink link, Codelink oldLink, CodelistLink linkType, Code code) {
 		List<Attribute> attributes = buildChangeSet(link.getAttributes(), oldLink.attributes());
-		return link().instanceOf(linkType).target(code).attributes(attributes).build();
+		return modifyLink(link.getId()).target(code).attributes(attributes).build();
 	}
 	
 	public static Codelink removeCodelink(UILink link) {

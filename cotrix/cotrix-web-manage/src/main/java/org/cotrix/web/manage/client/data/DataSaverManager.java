@@ -5,10 +5,12 @@ package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.client.util.StatusUpdates;
 import org.cotrix.web.common.shared.codelist.HasAttributes;
+import org.cotrix.web.common.shared.codelist.HasValue;
 import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.link.ValueUpdatedEvent;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.data.event.DataSaveFailedEvent;
 import org.cotrix.web.manage.client.data.event.DataSavedEvent;
@@ -96,10 +98,13 @@ public class DataSaverManager {
 							identifiable.setId(id);
 						}
 
+						if (data instanceof HasAttributes && result instanceof ContainsAttributed) updateAttributes((HasAttributes)data, ((ContainsAttributed)result).getAttributed());
+						
+						if (data instanceof HasValue && result instanceof HasValue) updateValue((HasValue)data, (HasValue)result);
+						
+						
 						if (data instanceof HasCode && result instanceof HasCode) updateCode(((HasCode)data).getCode(), ((HasCode)result).getCode());
 						if (data instanceof UICode && result instanceof HasCode) updateCode((UICode)data, ((HasCode)result).getCode());
-					
-						if (data instanceof HasAttributes && result instanceof ContainsAttributed) updateAttributes((HasAttributes)data, ((ContainsAttributed)result).getAttributed());
 					}
 
 					managerBus.fireEvent(new DataSavedEvent(codelistId));
@@ -120,8 +125,15 @@ public class DataSaverManager {
 		}
 		
 		protected void updateAttributes(HasAttributes data, HasAttributes update) {
+			Log.trace("updateAttributes data: "+data+" with update: "+update);
 			data.setAttributes(update.getAttributes());
 			editorBus.fireEvent(new AttributesUpdatedEvent(data));
+		}
+		
+		protected void updateValue(HasValue data, HasValue update) {
+			Log.trace("updateValue data: "+data+" with update: "+update);
+			data.setValue(update.getValue());
+			editorBus.fireEvent(new ValueUpdatedEvent(data));
 		}
 	}
 

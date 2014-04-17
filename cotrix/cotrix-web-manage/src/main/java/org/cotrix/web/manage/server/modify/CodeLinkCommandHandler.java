@@ -19,8 +19,10 @@ import org.cotrix.web.common.server.util.Codelists;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
-import org.cotrix.web.manage.shared.modify.UpdatedCode;
 import org.cotrix.web.manage.shared.modify.link.LinkCommand;
+import org.cotrix.web.manage.shared.modify.link.UpdatedLink;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -29,11 +31,15 @@ import org.cotrix.web.manage.shared.modify.link.LinkCommand;
 @Default
 public class CodeLinkCommandHandler {
 
+	private Logger logger = LoggerFactory.getLogger(CodeLinkCommandHandler.class);
+	
 	@Inject
-	CodelistRepository repository;
+	private CodelistRepository repository;
 
 	public ModifyCommandResult handle(String codelistId, String codeId, LinkCommand command)
 	{
+		logger.trace("handle codelistId: {}, codeId: {}, command: {}", codelistId, codeId, command);
+		
 		CodeDeltaClause clause = modifyCode(codeId);
 		UILink link = command.getItem();
 		Codelink changeset = null;
@@ -45,9 +51,10 @@ public class CodeLinkCommandHandler {
 				changeset = ChangesetUtil.addCodelink(link, linkType, code);
 			} break;
 			case UPDATE: {
-				CodelistLink linkType = repository.lookup(codelistId).links().lookup(link.getTypeId());
+				Codelist codelist = repository.lookup(codelistId);
+				CodelistLink linkType = codelist.links().lookup(link.getTypeId());
 				Code code = linkType.target().codes().lookup(link.getTargetId());
-				Codelink oldLink = code.links().lookup(link.getId());
+				Codelink oldLink = codelist.codes().lookup(codeId).links().lookup(link.getId());
 				changeset = ChangesetUtil.updateCodelink(link, oldLink, linkType, code);
 				break;
 			}
@@ -62,11 +69,18 @@ public class CodeLinkCommandHandler {
 		repository.update(codelistChangeset);
 		
 		UICode updatedCode = Codelists.toUiCode(getCode(codelistId, codeId));
-		return new UpdatedCode(changeset.id(), updatedCode);
+		Codelink updatedCodeLink = getCodelink(codelistId, codeId, changeset.id());
+		UILink updatedLink = updatedCodeLink==null?null:Codelists.toUiLink(updatedCodeLink);
+		return new UpdatedLink(updatedCode, updatedLink);
 	}
 	
 	protected Code getCode(String codelistId, String id) {
 		for (Code code:repository.lookup(codelistId).codes()) if (code.id().equals(id)) return code;
+		return null;
+	}
+	
+	protected Codelink getCodelink(String codelistId, String codeId, String id) {
+		for (Codelink link:repository.lookup(codelistId).codes().lookup(codeId).links()) if (link.id().equals(id)) return link;
 		return null;
 	}
 }

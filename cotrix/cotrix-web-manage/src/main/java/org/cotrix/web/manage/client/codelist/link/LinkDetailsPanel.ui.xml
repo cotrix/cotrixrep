@@ -23,6 +23,10 @@
 			border: 1px solid red;
 		}
 		
+		.loaderContainer {
+			vertical-align: middle;	
+		}
+		
 		.loader {
 			margin: 0 auto;
 			display: inherit;
@@ -31,7 +35,7 @@
 	<t:Table ui:field="table" styleName="{style.propertiesGrid}">
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value}">
+				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
 				<t:cell>
 					<g:Label>Type</g:Label>
 				</t:cell>
@@ -52,7 +56,7 @@
 		</t:row>
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value}">
+				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
 				<t:cell>
 					<g:Label>Target Code</g:Label>
 				</t:cell>
@@ -73,16 +77,16 @@
 		</t:row>
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value}" ui:field="valueRow">
+				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}" ui:field="valueRow">
 				<t:cell>
 					<g:Label>Value</g:Label>
 				</t:cell>
 				<t:cell>
-				<g:FlowPanel>
-					<g:Label ui:field="valueLabel" styleName="{resources.propertyGrid.textValue}"/>
-					<g:Image resource="{commonresources.dataLoader}" visible="false"
-							ui:field="valueLabelLoader" styleName="{style.loader}" />
-				</g:FlowPanel>
+					<g:FlowPanel>
+						<g:Label ui:field="valueLabel" styleName="{resources.propertyGrid.textValue}"/>
+						<g:Image resource="{commonresources.dataLoader}" visible="false"
+								ui:field="valueLabelLoader" styleName="{style.loader}" />
+					</g:FlowPanel>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>

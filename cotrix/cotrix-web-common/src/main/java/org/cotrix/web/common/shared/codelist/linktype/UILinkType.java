@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.common.shared.codelist.linktype;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.common.shared.codelist.HasAttributes;
@@ -26,7 +27,10 @@ public class UILinkType implements Identifiable, HasAttributes, IsSerializable {
 	private UIValueType valueType;
 	private List<UIAttribute> attributes;
 	
-	public UILinkType(){}
+	public UILinkType(){
+		name = new UIQName("", "");
+		attributes = new ArrayList<UIAttribute>();
+	}
 	
 	public UILinkType(String id, UIQName name, UICodelist targetCodelist,
 			UIValueFunction valueFunction, UIValueType valueType, List<UIAttribute> attributes) {

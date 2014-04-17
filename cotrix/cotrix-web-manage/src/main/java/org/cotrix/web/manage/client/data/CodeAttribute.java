@@ -46,6 +46,19 @@ public class CodeAttribute implements HasCode, Identifiable {
 	@Override
 	public void setId(String id) {
 		attribute.setId(id);
-		
+	}
+	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CodeAttribute [code=");
+		builder.append(code);
+		builder.append(", attribute=");
+		builder.append(attribute);
+		builder.append("]");
+		return builder.toString();
 	}
 }

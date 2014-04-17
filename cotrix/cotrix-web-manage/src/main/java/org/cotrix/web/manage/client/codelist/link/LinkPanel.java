@@ -3,12 +3,9 @@
  */
 package org.cotrix.web.manage.client.codelist.link;
 
-import java.util.List;
-
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.manage.client.util.LabelHeader;
 import org.cotrix.web.manage.client.util.LabelHeader.Button;
@@ -44,13 +41,15 @@ public class LinkPanel extends Composite implements HasEditing {
 	private LabelHeader header;
 	private LinkDetailsPanel detailsPanel;
 	private LinkPanelListener listener;
-	private UILink currentLink;
+	private UILink link;
 
 	private CustomDisclosurePanel disclosurePanel;
 
 	private String id = Document.get().createUniqueId();
 
-	public LinkPanel(LinksCodelistInfoProvider codelistInfoProvider) {
+	public LinkPanel(UILink link, LinksCodelistInfoProvider codelistInfoProvider) {
+		this.link = link;
+		
 		header = new LabelHeader();
 		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");
@@ -103,6 +102,9 @@ public class LinkPanel extends Composite implements HasEditing {
 		detailsPanel.setReadOnly(true);
 		editing = false;
 		editable = false;
+		
+		writeLink();
+		updateHeaderLabel();
 	}
 
 	public String getId() {
@@ -117,36 +119,36 @@ public class LinkPanel extends Composite implements HasEditing {
 		header.setHeaderSelected(selected);
 	}
 
-	public void setLink(UILink link) {
-		setupLinkPanel(link);
-		this.currentLink = link;
-		header.setHeaderLabel(ValueUtils.getLocalPart(link.getTypeName()));
-		validate();
-	}
-
 	public void setListener(LinkPanelListener listener) {
 		this.listener = listener;
 	}
 
 	private void onSave() {
 		stopEdit();
-		currentLink = getLink();
-		if (listener!=null) listener.onSave(currentLink);
-		header.setHeaderLabel(ValueUtils.getLocalPart(currentLink.getTypeName()));
+		readLink();
+		if (listener!=null) listener.onSave(link);
+		updateHeaderLabel();
 	}
 
 	private void onEdit() {
 		startEdit();
 		validate();
 	}
+	
+	public void syncWithModel() {
+		writeLink();
+	}
 
-	private UILink getLink() {
-		String id = currentLink!=null?currentLink.getId():null;
+	private void readLink() {
 		UILinkTypeInfo type = detailsPanel.getLinkType();
-		UICodeInfo code = detailsPanel.getCode();
-		List<UIAttribute> attributes = detailsPanel.getAttributes();
+		link.setTypeId(type!=null?type.getId():null);
+		link.setTypeName(type!=null?type.getName():null);
 		
-		return new UILink(id, type.getId(), type.getName(), code.getId(), code.getName(), null, attributes);
+		UICodeInfo code = detailsPanel.getCode();
+		link.setTargetId(code!=null?code.getId():null);
+		link.setTargetName(code!=null?code.getName():null);
+
+		link.setAttributes(detailsPanel.getAttributes());
 	}
 
 	public void enterEditMode() {
@@ -172,14 +174,19 @@ public class LinkPanel extends Composite implements HasEditing {
 	private void onCancel() {
 		stopEdit();
 		if (listener!=null) listener.onCancel();
-		if (currentLink != null && !currentLink.equals(getLink())) setupLinkPanel(currentLink);
+		writeLink();
 	}
 
-	private void setupLinkPanel(UILink link) {
-		detailsPanel.setLinkType(link.getId(), link.getTypeName());
+	private void writeLink() {
+		detailsPanel.setLinkType(link.getTypeId(), link.getTypeName());
 		detailsPanel.setCode(link.getTargetId(), link.getTargetName());
 		detailsPanel.setValue(link.getValue());
+		detailsPanel.setValueVisible(link.getValue()!=null);
 		detailsPanel.setAttributes(link.getAttributes());
+	}
+	
+	private void updateHeaderLabel() {
+		header.setHeaderLabel(ValueUtils.getLocalPart(link.getTypeName()));
 	}
 
 	private void updateHeaderButtons() {

@@ -83,6 +83,7 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 			@Override
 			public void onCreate(UILink link) {
 				Log.trace("onCreate link: "+link);
+				currentCode.addLink(link);
 				linkEditor.added(new CodeLink(currentCode, link));
 			}
 		});
@@ -134,7 +135,8 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	protected void removeSelectedLink()
 	{
 		UILink selectedLink = linksPanel.getSelectedType();
-		if (selectedLink!=null) {
+		if (selectedLink!=null && currentCode!=null) {
+			currentCode.removeLink(selectedLink);
 			linksPanel.removeLink(selectedLink);
 			linkEditor.removed(new CodeLink(currentCode, selectedLink));
 		}

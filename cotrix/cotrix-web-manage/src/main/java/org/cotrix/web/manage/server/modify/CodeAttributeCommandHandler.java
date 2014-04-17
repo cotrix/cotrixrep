@@ -18,6 +18,8 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.cotrix.web.manage.shared.modify.UpdatedCode;
 import org.cotrix.web.manage.shared.modify.attribute.AttributeCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -25,12 +27,16 @@ import org.cotrix.web.manage.shared.modify.attribute.AttributeCommand;
 @Singleton
 @Default
 public class CodeAttributeCommandHandler {
+	
+	private Logger logger = LoggerFactory.getLogger(CodeAttributeCommandHandler.class);
 
 	@Inject
-	CodelistRepository repository;
+	private CodelistRepository repository;
 
 	public ModifyCommandResult handle(String codelistId, String codeId, AttributeCommand command)
 	{
+		logger.trace("handle codelistid: {}, codeId: {}, command: {}", codelistId, codeId, command);
+		
 		Attribute attribute = AttributeCommandUtil.handle(command);
 
 		Code code = modifyCode(codeId).attributes(attribute).build();

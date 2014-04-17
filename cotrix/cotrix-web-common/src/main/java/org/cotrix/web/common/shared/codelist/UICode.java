@@ -93,6 +93,14 @@ public class UICode implements Identifiable, IsSerializable {
 	public void setLinks(List<UILink> links) {
 		this.links = links;
 	}
+	
+	public void addLink(UILink link) {
+		this.links.add(link);
+	}
+	
+	public void removeLink(UILink link) {
+		this.links.remove(link);
+	}
 
 	/** 
 	 * {@inheritDoc}

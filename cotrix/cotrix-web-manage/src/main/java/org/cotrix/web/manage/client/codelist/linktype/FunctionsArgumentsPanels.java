@@ -84,6 +84,7 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 	}
 	
 	private void fireValueChanged() {
+		Log.trace("Arguments changed");
 		ValueChangeEvent.fire(this, getArgumentsValues());
 	}
 
@@ -126,6 +127,7 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 
 				@Override
 				public void onValueChange(ValueChangeEvent<String> event) {
+					Log.trace("Argument changed");
 					fireValueChanged();
 				}
 			});
@@ -198,7 +200,6 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 
 				@Override
 				public void onValueChange(ValueChangeEvent<String> event) {
-					Log.trace("setting test: "+event.getValue());
 					editableLabel.setText(event.getValue());
 				}
 			});
