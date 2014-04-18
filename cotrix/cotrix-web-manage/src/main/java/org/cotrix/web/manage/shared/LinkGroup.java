@@ -224,4 +224,9 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 		return isSystemGroup && !o.isSystemGroup ? +1 : !isSystemGroup && o.isSystemGroup ? -1 : 0;
 	}
 
+	@Override
+	public boolean isEditable() {
+		return false;
+	}
+
 }

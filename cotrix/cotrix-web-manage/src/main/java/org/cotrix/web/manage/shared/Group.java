@@ -11,8 +11,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public interface Group extends IsSerializable, Cloneable {
 
-	public boolean isSystemGroup();
-
 	/**
 	 * TODO move group inside attribute sort info
 	 */
@@ -23,5 +21,9 @@ public interface Group extends IsSerializable, Cloneable {
 	public String getValue(UICode code);
 	
 	public Group clone();
+	
+	public boolean isEditable();
+
+	public boolean isSystemGroup();
 
 }

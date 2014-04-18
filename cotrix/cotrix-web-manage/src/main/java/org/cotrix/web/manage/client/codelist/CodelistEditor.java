@@ -158,7 +158,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	protected CotrixManagerResources resources;
 
 	protected StyledSafeHtmlRenderer cellRenderer;
-	protected StyledSafeHtmlRenderer systemAttributeCell;
+	protected StyledSafeHtmlRenderer systemAttributeCellRenderer;
 
 	@Inject
 	protected ManageServiceAsync managerService;
@@ -168,7 +168,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	@Inject
 	private void init() {
-		this.systemAttributeCell = new StyledSafeHtmlRenderer(resources.css().systemProperty());
+		this.systemAttributeCellRenderer = new StyledSafeHtmlRenderer(resources.css().systemProperty());
 		this.codeEditor = DataEditor.build(this);
 		this.attributeEditor = DataEditor.build(this);
 
@@ -230,7 +230,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	protected void setupColumns() {
 
-		nameColumn = new CodeColumn(createCell(false));
+		nameColumn = new CodeColumn(createCell(false, true));
 
 		nameColumn.setSortable(true);
 
@@ -271,11 +271,11 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		for (DoubleClickEditTextCell cell:editableCells) cell.setReadOnly(!editable);
 	}
 
-	protected DoubleClickEditTextCell createCell(boolean isSystemAttribute)
+	protected DoubleClickEditTextCell createCell(boolean isSystemAttribute, boolean isEditable)
 	{
 		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + resources.css().editor();
-		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, isSystemAttribute?systemAttributeCell:cellRenderer);
-		if (!isSystemAttribute) {
+		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, isSystemAttribute?systemAttributeCellRenderer:cellRenderer);
+		if (isEditable) {
 			cell.setReadOnly(!editable);
 			editableCells.add(cell);
 		}
@@ -372,16 +372,18 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		Log.trace("getGroupColumn group: "+group);
 		Column<UICode, String> column = groupsColumns.get(group);
 		if (column == null) {
-			column = new GroupColumn(createCell(group.isSystemGroup()), group);
+			column = new GroupColumn(createCell(group.isSystemGroup(), group.isEditable()), group);
 			column.setSortable(true);
 
-			column.setFieldUpdater(new FieldUpdater<UICode, String>() {
+			if (group.isEditable()) {
+				column.setFieldUpdater(new FieldUpdater<UICode, String>() {
 
-				@Override
-				public void update(int index, UICode code, String value) {
-					groupColumnUpdated(code, group, value);
-				}
-			});
+					@Override
+					public void update(int index, UICode code, String value) {
+						groupColumnUpdated(code, group, value);
+					}
+				});
+			}
 
 
 			groupsColumns.put(group, column);
