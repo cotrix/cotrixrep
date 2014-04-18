@@ -3,17 +3,20 @@
  */
 package org.cotrix.web.manage.client.data;
 
+import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.HasValue;
 import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
+import org.cotrix.web.manage.shared.modify.ContainsAttributed;
+import org.cotrix.web.manage.shared.modify.ContainsValued;
 import org.cotrix.web.manage.shared.modify.HasCode;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeLink implements HasCode, Identifiable, HasValue {
+public class CodeLink implements HasCode, Identifiable, ContainsValued, ContainsAttributed {
 	
 	protected UICode code;
 	protected UILink link;
@@ -48,14 +51,16 @@ public class CodeLink implements HasCode, Identifiable, HasValue {
 	public void setId(String id) {
 		link.setId(id);
 	}
+	
 	@Override
-	public String getValue() {
-		return link.getValue();
+	public HasAttributes getAttributed() {
+		return link;
 	}
 	@Override
-	public void setValue(String value) {
-		link.setValue(value);
+	public HasValue getValued() {
+		return link;
 	}
+	
 	/** 
 	 * {@inheritDoc}
 	 */

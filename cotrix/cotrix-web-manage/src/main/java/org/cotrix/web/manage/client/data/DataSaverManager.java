@@ -22,6 +22,7 @@ import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.util.Attributes;
 import org.cotrix.web.manage.shared.modify.ContainsAttributed;
+import org.cotrix.web.manage.shared.modify.ContainsValued;
 import org.cotrix.web.manage.shared.modify.HasCode;
 import org.cotrix.web.manage.shared.modify.HasId;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
@@ -98,9 +99,9 @@ public class DataSaverManager {
 							identifiable.setId(id);
 						}
 
-						if (data instanceof HasAttributes && result instanceof ContainsAttributed) updateAttributes((HasAttributes)data, ((ContainsAttributed)result).getAttributed());
+						if (data instanceof ContainsAttributed && result instanceof ContainsAttributed) updateAttributes(((ContainsAttributed)data).getAttributed(), ((ContainsAttributed)result).getAttributed());
 						
-						if (data instanceof HasValue && result instanceof HasValue) updateValue((HasValue)data, (HasValue)result);
+						if (data instanceof ContainsValued && result instanceof HasValue) updateValue(((ContainsValued)data).getValued(), (HasValue)result);
 						
 						
 						if (data instanceof HasCode && result instanceof HasCode) updateCode(((HasCode)data).getCode(), ((HasCode)result).getCode());

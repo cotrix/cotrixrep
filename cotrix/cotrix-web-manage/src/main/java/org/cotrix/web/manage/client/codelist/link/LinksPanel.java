@@ -80,6 +80,7 @@ public class LinksPanel extends Composite implements HasEditing {
 	@EventHandler
 	void onAttributesUpdated(AttributesUpdatedEvent event) {
 		HasAttributes attributedItem = event.getAttributedItem();
+		Log.trace("attributes updated for "+attributedItem);
 		if (attributedItem instanceof UILink) {
 			UILink link = (UILink) attributedItem;
 			LinkPanel panel = instances.get(link);
@@ -91,8 +92,8 @@ public class LinksPanel extends Composite implements HasEditing {
 	@EventHandler
 	void onValueUpdated(ValueUpdatedEvent event) {
 		HasValue valuedItem = event.getHasValue();
+		Log.trace("value updated for "+valuedItem);
 		if (valuedItem instanceof UILink) {
-			Log.trace("value updated for "+valuedItem);
 			UILink link = (UILink) valuedItem;
 			LinkPanel panel = instances.get(link);
 			panel.syncWithModel();
