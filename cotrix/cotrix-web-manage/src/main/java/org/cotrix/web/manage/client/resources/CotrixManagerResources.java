@@ -61,6 +61,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource linkType();
 	public ImageResource linkTypeDisabled();
 	
+	public ImageResource link();
+	public ImageResource linkDisabled();
+	
 	@Source("thumb_vertical.png")
 	public ImageResource thumbVertical();
 	
@@ -100,6 +103,7 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public interface AttributeRowStyle extends CssResource {
 		String buttonCell();
+		String button();
 	}
 
 }

@@ -6,69 +6,92 @@
 	<ui:with field='commonresources'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
 	<ui:style>
-		.buttonBar {
-			float: right;
-			vertical-align: middle;
-		}
+	.leftButtonBar {
+		float: left;
+		vertical-align: middle;
+		width: 50%;
+		height: 100%;
+	}
+	
+	.rightButtonBar {
+		float: right;
+		vertical-align: middle;
+		background-color: #f1f1f1;
+		width: 50%;
+		height: 100%;
+	}
+	
+	.buttonBar {
+		vertical-align: middle;
+		margin-left: 10px;
+	}
+	
+	.button {
+		cursor: pointer;
+		outline: none;
+		vertical-align: middle;
+	}
+	
+	.tools {
 		
-		.button {
-			cursor: pointer;
-			outline: none;
-			vertical-align: middle;
-		}
-		
-		.tools {
-
-		}
-		
-		.mainPanel {
-			border-top-left-radius: 2px;
-			border-top-right-radius: 2px;
-			border: 1px solid #bababa;
-			background-color: #fff;
-		}
+	}
+	
+	.mainPanel {
+		border-top-left-radius: 2px;
+		border-top-right-radius: 2px;
+		border: 1px solid #bababa;
+		background-color: #fff;
+	}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
 		<g:north size='34'>
 			<g:FlowPanel>
-				<g:HorizontalPanel styleName="{style.buttonBar}" verticalAlignment="middle" height="100%">
-					<g:ToggleButton ui:field="attributesButton" width="32px"
-						styleName="{style.button}">
-						<g:upFace image="{resources.attributesDisabled}" />
-						<g:downFace image="{resources.attributes}" />
-						<g:upHoveringFace image="{resources.attributes}" />
-					</g:ToggleButton>
-					<g:ToggleButton ui:field="metadataButton" width="32px"
-						styleName="{style.button}">
-						<g:upFace image="{resources.metadataDisabled}" />
-						<g:downFace image="{resources.metadata}" />
-						<g:upHoveringFace image="{resources.metadata}" />
-					</g:ToggleButton>
-					<g:ToggleButton ui:field="filtersButton" width="32px"
-						styleName="{style.button}" visible="false">
-						<g:upFace image="{resources.filterDisabled}" />
-						<g:downFace image="{resources.filter}" />
-						<g:upHoveringFace image="{resources.filter}" />
-					</g:ToggleButton>
-					<g:ToggleButton ui:field="userButton" width="32px"
-						styleName="{style.button}" visible="false">
-						<g:upFace image="{commonresources.userPreferencesDisabled}" />
-						<g:downFace image="{commonresources.userPreferences}" />
-						<g:upHoveringFace image="{commonresources.userPreferences}" />
-					</g:ToggleButton>
-					<g:ToggleButton ui:field="linksButton" width="32px"
-						styleName="{style.button}">
-						<g:upFace image="{resources.linkTypeDisabled}" />
-						<g:downFace image="{resources.linkType}" />
-						<g:upHoveringFace image="{resources.linkType}" />
-					</g:ToggleButton>
-					<g:ToggleButton ui:field="linkTypesButton" width="32px"
-						styleName="{style.button}">
-						<g:upFace image="{resources.linkTypeDisabled}" />
-						<g:downFace image="{resources.linkType}" />
-						<g:upHoveringFace image="{resources.linkType}" />
-					</g:ToggleButton>
-				</g:HorizontalPanel>
+				<g:FlowPanel styleName="{style.leftButtonBar}">
+					<g:HorizontalPanel styleName="{style.buttonBar}"
+						verticalAlignment="middle" height="100%">
+						<g:ToggleButton ui:field="attributesButton" width="32px"
+							styleName="{style.button}">
+							<g:upFace image="{resources.attributesDisabled}" />
+							<g:downFace image="{resources.attributes}" />
+							<g:upHoveringFace image="{resources.attributes}" />
+						</g:ToggleButton>
+						<g:ToggleButton ui:field="linksButton" width="32px"
+							styleName="{style.button}">
+							<g:upFace image="{resources.linkDisabled}" />
+							<g:downFace image="{resources.link}" />
+							<g:upHoveringFace image="{resources.link}" />
+						</g:ToggleButton>
+					</g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel styleName="{style.rightButtonBar}">
+					<g:HorizontalPanel styleName="{style.buttonBar}"
+						verticalAlignment="middle" height="100%">
+						<g:ToggleButton ui:field="metadataButton" width="32px"
+							styleName="{style.button}">
+							<g:upFace image="{resources.metadataDisabled}" />
+							<g:downFace image="{resources.metadata}" />
+							<g:upHoveringFace image="{resources.metadata}" />
+						</g:ToggleButton>
+						<g:ToggleButton ui:field="filtersButton" width="32px"
+							styleName="{style.button}" visible="false">
+							<g:upFace image="{resources.filterDisabled}" />
+							<g:downFace image="{resources.filter}" />
+							<g:upHoveringFace image="{resources.filter}" />
+						</g:ToggleButton>
+						<g:ToggleButton ui:field="userButton" width="32px"
+							styleName="{style.button}" visible="false">
+							<g:upFace image="{commonresources.userPreferencesDisabled}" />
+							<g:downFace image="{commonresources.userPreferences}" />
+							<g:upHoveringFace image="{commonresources.userPreferences}" />
+						</g:ToggleButton>
+						<g:ToggleButton ui:field="linkTypesButton" width="32px"
+							styleName="{style.button}">
+							<g:upFace image="{resources.linkTypeDisabled}" />
+							<g:downFace image="{resources.linkType}" />
+							<g:upHoveringFace image="{resources.linkType}" />
+						</g:ToggleButton>
+					</g:HorizontalPanel>
+				</g:FlowPanel>
 			</g:FlowPanel>
 		</g:north>
 		<g:center>
