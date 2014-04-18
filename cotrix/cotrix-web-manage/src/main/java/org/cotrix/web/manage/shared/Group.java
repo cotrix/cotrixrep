@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface Group extends IsSerializable, Cloneable {
+public interface Group extends IsSerializable {
 
 	/**
 	 * TODO move group inside attribute sort info
@@ -20,7 +20,7 @@ public interface Group extends IsSerializable, Cloneable {
 
 	public String getValue(UICode code);
 	
-	public Group clone();
+	public Group cloneGroup();
 	
 	public boolean isEditable();
 

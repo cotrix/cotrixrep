@@ -102,7 +102,7 @@ public class GroupFactory {
 		List<Group> groups = new ArrayList<Group>();
 		for (Entry<G, Integer> groupCounter:groupsCounter.entrySet()) {
 			for (int i = 0; i < groupCounter.getValue(); i++) {
-				G group = (G) ((G) groupCounter.getKey()).clone();
+				G group = (G) ((G) groupCounter.getKey()).cloneGroup();
 				group.setPosition(i);
 				groups.add(group);
 			}

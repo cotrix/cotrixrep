@@ -113,7 +113,7 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 		return true;
 	}
 	
-	public LinkGroup clone()
+	public LinkGroup cloneGroup()
 	{
 		LinkGroup clone = new LinkGroup(name, isSystemGroup);
 		clone.setPosition(position);
@@ -125,7 +125,7 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	 */
 	@Override
 	public CodelistEditorSortInfo getSortInfo(boolean ascending) {
-		return null; //FIXME
+		return new CodelistEditorSortInfo.CodeNameSortInfo(ascending);
 	}
 	
 	/** 

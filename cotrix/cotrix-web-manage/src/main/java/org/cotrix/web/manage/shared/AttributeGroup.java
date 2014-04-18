@@ -135,7 +135,7 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		return true;
 	}
 	
-	public AttributeGroup clone()
+	public AttributeGroup cloneGroup()
 	{
 		AttributeGroup clone = new AttributeGroup(name, type, language, isSystemGroup);
 		clone.setPosition(position);
