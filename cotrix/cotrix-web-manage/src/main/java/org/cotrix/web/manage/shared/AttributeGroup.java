@@ -159,6 +159,11 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		return label;
 	}
 	
+	@Override
+	public boolean isEditable() {
+		return !isSystemGroup;
+	}
+	
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -272,11 +277,6 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		if (compare!=0) return compare;
 		
 		return isSystemGroup && !o.isSystemGroup ? +1 : !isSystemGroup && o.isSystemGroup ? -1 : 0;
-	}
-
-	@Override
-	public boolean isEditable() {
-		return isSystemGroup;
 	}
 
 }
