@@ -106,6 +106,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 		cellRenderer = new StyledSafeHtmlRenderer(CotrixManagerResources.INSTANCE.propertyGrid().textValue());
 		dataGrid = new PatchedDataGrid<UIAttribute>(20, gridResource);
+		dataGrid.setWidth("100%");
 
 		//We need to listen dbclick events in order to enable editing
 		EventUtil.sinkEvents(dataGrid, Collections.singleton(BrowserEvents.DBLCLICK));
@@ -175,6 +176,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 	
 	protected AbstractEditableCell<String, ?> createDoubleClickEditTextCell(boolean isSystemAttribute)
 	{
+		Log.trace("createDoubleClickEditTextCell isSystemAttribute? "+isSystemAttribute);
 		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + CotrixManagerResources.INSTANCE.css().editor();
 		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, isSystemAttribute?systemAttributeCell:cellRenderer);
 		if (!isSystemAttribute) {
@@ -200,6 +202,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 	protected AbstractEditableCell<String, ?> createCell(AttributeField field, boolean isSystemAttribute)
 	{
+		Log.trace("createCell field: "+field+" isSystemAttribute? "+isSystemAttribute);
 		switch (field) {
 			case NAME: return createNameSuggestBoxCell(isSystemAttribute);
 			default: return createDoubleClickEditTextCell(isSystemAttribute);
@@ -208,6 +211,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 
 	protected Column<UIAttribute, String> getAttributePropertyColumn(final String name, boolean isSystemAttribute, final AttributeField field)
 	{
+		Log.trace("getAttributePropertyColumn name: "+name+" isSystemAttribute? "+isSystemAttribute);
 		EnumMap<AttributeField, Column<UIAttribute, String>> attributePropertiesColumns = attributesPropertiesColumns.get(name);
 		if (attributePropertiesColumns == null) {
 			attributePropertiesColumns = new EnumMap<AttributeField, Column<UIAttribute,String>>(AttributeField.class);
@@ -320,6 +324,7 @@ public class AttributesGrid extends ResizeComposite implements HasAttributeChang
 		{
 			Log.trace("buildPropertiesTable for row "+rowValue.getId());
 
+			table.style().width(100, Unit.PCT);
 			BodyBuilder body = table.startBody();
 
 			UIAttribute attribute = rowValue;

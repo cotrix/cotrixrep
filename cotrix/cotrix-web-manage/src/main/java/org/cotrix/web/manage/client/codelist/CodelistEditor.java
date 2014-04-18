@@ -39,6 +39,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
@@ -393,7 +394,6 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	private void groupColumnUpdated(UICode code, Group group, String value) {
 
-		//TODO
 		if (group instanceof AttributeGroup) {
 			AttributeGroup attributeGroup = (AttributeGroup)group;
 
@@ -405,6 +405,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 				attribute = new UIAttribute();
 				attribute.setId(Document.get().createUniqueId());
 				attribute.setName(attributeGroup.getName());
+				attribute.setType(new UIQName("", " "));
 				attribute.setLanguage(attributeGroup.getLanguage());
 				attribute.setValue(value);
 				code.addAttribute(attribute);
