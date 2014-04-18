@@ -27,6 +27,11 @@ public class ValueUtils {
 		return new QName(name.getNamespace(), name.getLocalPart());
 	}
 	
+	public static String getSafeLocalPart(QName value) {
+		if (value == null) return "";
+		return value.getLocalPart();
+	}
+	
 	public static String getLocalPart(UIQName name) {
 		if (name == null) return null;
 		return name.getLocalPart();

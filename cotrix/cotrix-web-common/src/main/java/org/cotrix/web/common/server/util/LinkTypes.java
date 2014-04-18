@@ -11,7 +11,9 @@ import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.links.ValueFunction;
-import org.cotrix.domain.links.ValueFunctions;
+import org.cotrix.domain.links.ValueFunctions.CustomFunction;
+import org.cotrix.domain.links.ValueFunctions.PrefixFunction;
+import org.cotrix.domain.links.ValueFunctions.SuffixFunction;
 import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.utils.AttributeTemplate;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
@@ -79,12 +81,17 @@ public class LinkTypes {
 			case "identity": return new UIValueFunction(Function.IDENTITY, EMPTY_ARGUMENTS);
 			case "uppercase": return new UIValueFunction(Function.UPPERCASE, EMPTY_ARGUMENTS);
 			case "lowercase": return new UIValueFunction(Function.LOWERCASE, EMPTY_ARGUMENTS);
-			case "prefix": return new UIValueFunction(Function.PREFIX, EMPTY_ARGUMENTS);
-			case "suffix": return new UIValueFunction(Function.SUFFIX, EMPTY_ARGUMENTS);
-			case "generic": return new UIValueFunction(Function.CUSTOM, EMPTY_ARGUMENTS);
+			case "prefix": return new UIValueFunction(Function.PREFIX, singleArgument(((PrefixFunction)valueFunction).prefix()));
+			case "suffix": return new UIValueFunction(Function.SUFFIX, singleArgument(((SuffixFunction)valueFunction).suffix()));
+			case "generic": return new UIValueFunction(Function.CUSTOM, singleArgument(((CustomFunction)valueFunction).expression()));
 		}
 		throw new IllegalArgumentException("Unknown value function "+valueFunction);
 		
 	}
-
+	
+	private static List<String> singleArgument(String argument) {
+		ArrayList<String> arguments = new ArrayList<>();
+		arguments.add(argument);
+		return arguments;
+	}
 }

@@ -6,16 +6,16 @@ package org.cotrix.web.manage.client.codelist.linktype;
 import java.util.List;
 
 import org.cotrix.web.common.client.util.ValueUtils;
-import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.common.shared.codelist.UIAttribute;
+import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
-import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
-import org.cotrix.web.manage.client.codelist.linktype.LinkTypeHeader.Button;
-import org.cotrix.web.manage.client.codelist.linktype.LinkTypeHeader.HeaderListener;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanel;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanelListener;
+import org.cotrix.web.manage.client.util.LabelHeader;
+import org.cotrix.web.manage.client.util.LabelHeader.Button;
+import org.cotrix.web.manage.client.util.LabelHeader.HeaderListener;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.Document;
@@ -31,29 +31,25 @@ import com.google.gwt.user.client.ui.Composite;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkTypePanel extends Composite implements HasEditing {
-
-	public interface LinkTypePanelListener {
-		public void onSave(UILinkType details);
-		public void onCancel();
-		public void onSelect();
-	}
+public class LinkTypePanel extends Composite implements ItemEditingPanel<UILinkType> {
 
 	private boolean editable;
 	private boolean editing;
 
-	private LinkTypeHeader header;
+	private LabelHeader header;
 	private LinkTypeDetailsPanel detailsPanel;
-	private LinkTypePanelListener listener;
-	private UILinkType currentLinkType;
+	private ItemEditingPanelListener<UILinkType> listener;
+	private UILinkType type;
 
-	private LinkDisclosurePanel disclosurePanel;
+	private CustomDisclosurePanel disclosurePanel;
 
 	private String id = Document.get().createUniqueId();
 
-	public LinkTypePanel(CodelistInfoProvider codelistInfoProvider) {
-		header = new LinkTypeHeader();
-		disclosurePanel = new LinkDisclosurePanel(header);
+	public LinkTypePanel(UILinkType type, LinkTypesCodelistInfoProvider codelistInfoProvider) {
+		this.type = type;
+		
+		header = new LabelHeader();
+		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");
 		disclosurePanel.setAnimationEnabled(true);
 
@@ -69,20 +65,20 @@ public class LinkTypePanel extends Composite implements HasEditing {
 			}
 		});
 
-		disclosurePanel.addCloseHandler(new CloseHandler<LinkDisclosurePanel>() {
+		disclosurePanel.addCloseHandler(new CloseHandler<CustomDisclosurePanel>() {
 
 			@Override
-			public void onClose(CloseEvent<LinkDisclosurePanel> event) {
+			public void onClose(CloseEvent<CustomDisclosurePanel> event) {
 				header.setEditVisible(false);
 				header.setControlsVisible(false);
 				fireSelected();
 			}
 		});
 
-		disclosurePanel.addOpenHandler(new OpenHandler<LinkDisclosurePanel>() {
+		disclosurePanel.addOpenHandler(new OpenHandler<CustomDisclosurePanel>() {
 
 			@Override
-			public void onOpen(OpenEvent<LinkDisclosurePanel> event) {
+			public void onOpen(OpenEvent<CustomDisclosurePanel> event) {
 				updateHeaderButtons();
 				fireSelected();
 				if (editing) validate();
@@ -104,6 +100,9 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		detailsPanel.setReadOnly(true);
 		editing = false;
 		editable = false;
+		
+		writeType();
+		updateHeaderLabel();
 	}
 
 	public String getId() {
@@ -118,22 +117,11 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		header.setHeaderSelected(selected);
 	}
 
-	public void setLinkType(UILinkType linkType) {
-		setupLinkTypePanel(linkType);
-		this.currentLinkType = linkType;
-		header.setHeaderLabel(ValueUtils.getLocalPart(linkType.getName()));
-		validate();
-	}
-
-	public void setListener(LinkTypePanelListener listener) {
-		this.listener = listener;
-	}
-
 	private void onSave() {
 		stopEdit();
-		currentLinkType = getLinkType();
-		if (listener!=null) listener.onSave(currentLinkType);
-		header.setHeaderLabel(ValueUtils.getLocalPart(currentLinkType.getName()));
+		readType();
+		if (listener!=null) listener.onSave(type);
+		updateHeaderLabel();
 	}
 
 	private void onEdit() {
@@ -141,24 +129,25 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		detailsPanel.setCodelistReadonly(true);
 		validate();
 	}
-
-	private UILinkType getLinkType() {
-		String id = currentLinkType!=null?currentLinkType.getId():null;
-		UIQName name = ValueUtils.getValue(detailsPanel.getName());
-		UICodelist codelist = detailsPanel.getCodelist();
-		UIValueFunction valueFunction = detailsPanel.getValueFunction();
-		UIValueType valueType = detailsPanel.getValueType();
-		List<UIAttribute> attributes = detailsPanel.getAttributes();
-		
-		return new UILinkType(id, name, codelist, valueFunction, valueType, attributes);
+	
+	public void syncWithModel() {
+		writeType();
 	}
 
-	public void enterEditMode(boolean codelistEditable) {
+	private void readType() {
+		type.setName(ValueUtils.getValue(detailsPanel.getName()));
+		type.setTargetCodelist(detailsPanel.getCodelist());
+		type.setValueFunction(detailsPanel.getValueFunction());
+		type.setValueType(detailsPanel.getValueType());
+		type.setAttributes(detailsPanel.getAttributes());
+	}
+
+	public void enterEditMode() {
 		editable = true;
 		editing = true;
 		disclosurePanel.setOpen(true);
 		startEdit();
-		detailsPanel.setCodelistReadonly(!codelistEditable);
+		detailsPanel.setCodelistReadonly(false);
 	}
 
 	private void startEdit() {
@@ -176,14 +165,18 @@ public class LinkTypePanel extends Composite implements HasEditing {
 	private void onCancel() {
 		stopEdit();
 		if (listener!=null) listener.onCancel();
-		if (currentLinkType != null && !currentLinkType.equals(getLinkType())) setupLinkTypePanel(currentLinkType);
+		writeType();
 	}
 
-	private void setupLinkTypePanel(UILinkType linkType) {
-		detailsPanel.setName(ValueUtils.getLocalPart(linkType.getName()));
-		detailsPanel.setCodelist(linkType.getTargetCodelist(), linkType.getValueType());
-		detailsPanel.setValueFunction(linkType.getValueFunction());
-		detailsPanel.setAttributes(linkType.getAttributes());
+	private void writeType() {
+		detailsPanel.setName(ValueUtils.getLocalPart(type.getName()));
+		detailsPanel.setCodelist(type.getTargetCodelist(), type.getValueType());
+		detailsPanel.setValueFunction(type.getValueFunction());
+		detailsPanel.setAttributes(type.getAttributes());
+	}
+	
+	private void updateHeaderLabel() {
+		header.setHeaderLabel(ValueUtils.getLocalPart(type.getName()));
 	}
 
 	private void updateHeaderButtons() {
@@ -201,6 +194,8 @@ public class LinkTypePanel extends Composite implements HasEditing {
 	}
 
 	private void validate() {
+		Log.trace("validate LinkType");
+		
 		boolean valid = true;
 
 		String name = detailsPanel.getName();
@@ -239,6 +234,11 @@ public class LinkTypePanel extends Composite implements HasEditing {
 	public void setEditable(boolean editable) {
 		this.editable = editable;
 		updateHeaderButtons();
+	}
+
+	@Override
+	public void setListener(ItemEditingPanelListener<UILinkType> listener) {
+		this.listener = listener;
 	}
 
 }

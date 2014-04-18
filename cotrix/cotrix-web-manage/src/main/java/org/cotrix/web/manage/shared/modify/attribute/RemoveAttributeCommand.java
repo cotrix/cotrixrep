@@ -23,16 +23,4 @@ public class RemoveAttributeCommand extends RemoveCommand implements AttributeCo
 	public RemoveAttributeCommand(String id) {
 		super(id);
 	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("RemoveAttributeCommand [id=");
-		builder.append(id);
-		builder.append("]");
-		return builder.toString();
-	}
 }

@@ -45,7 +45,8 @@ public class CodelistSidePanel extends ResizeComposite {
 	@UiField ToggleButton metadataButton;
 	@UiField ToggleButton filtersButton;
 	@UiField ToggleButton userButton;
-	@UiField ToggleButton linkTypeButton;
+	@UiField ToggleButton linkTypesButton;
+	@UiField ToggleButton linksButton;
 	
 	@UiField DeckLayoutPanel tools;
 	
@@ -58,7 +59,10 @@ public class CodelistSidePanel extends ResizeComposite {
 	@UiField UserPreferencesPanel userPanel;
 	
 	@Inject
-	@UiField(provided=true) CodelistLinkTypesPanel linkTypePanel;
+	@UiField(provided=true) CodelistLinkTypesPanel linkTypesPanel;
+	
+	@Inject
+	@UiField(provided=true) CodelistLinksPanel linksPanel;
 
 	@Inject
 	private void init() {
@@ -70,7 +74,8 @@ public class CodelistSidePanel extends ResizeComposite {
 		buttonGroup.addButton(metadataButton);
 		buttonGroup.addButton(filtersButton);
 		buttonGroup.addButton(userButton);
-		buttonGroup.addButton(linkTypeButton);
+		buttonGroup.addButton(linkTypesButton);
+		buttonGroup.addButton(linksButton);
 	}
 	
 	@UiHandler("attributesButton")
@@ -97,10 +102,16 @@ public class CodelistSidePanel extends ResizeComposite {
 		tools.showWidget(userPanel);
 	}
 	
-	@UiHandler("linkTypeButton")
-	protected void onLinkTypeButtonClicked(ClickEvent event)
+	@UiHandler("linkTypesButton")
+	protected void onLinkTypesButtonClicked(ClickEvent event)
 	{
-		tools.showWidget(linkTypePanel);
+		tools.showWidget(linkTypesPanel);
+	}
+	
+	@UiHandler("linksButton")
+	protected void onLinkTsButtonClicked(ClickEvent event)
+	{
+		tools.showWidget(linksPanel);
 	}
 
 	/**
@@ -117,8 +128,12 @@ public class CodelistSidePanel extends ResizeComposite {
 		return metadataPanel;
 	}
 
-	public HasEditing getLinkTypePanel() {
-		return linkTypePanel;
+	public HasEditing getLinkTypesPanel() {
+		return linkTypesPanel;
+	}
+	
+	public HasEditing getLinksPanel() {
+		return linksPanel;
 	}
 
 }

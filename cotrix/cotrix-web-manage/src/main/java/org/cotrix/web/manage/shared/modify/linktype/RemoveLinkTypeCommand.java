@@ -23,16 +23,4 @@ public class RemoveLinkTypeCommand extends RemoveCommand implements LinkTypeComm
 	public RemoveLinkTypeCommand(String id) {
 		super(id);
 	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("RemoveLinkTypeCommand [id=");
-		builder.append(id);
-		builder.append("]");
-		return builder.toString();
-	}
 }

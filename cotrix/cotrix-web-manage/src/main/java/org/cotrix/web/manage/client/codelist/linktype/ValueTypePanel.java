@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.cotrix.web.common.client.util.ListBoxUtils;
+import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
 import org.cotrix.web.common.shared.codelist.linktype.LinkType;
@@ -53,7 +54,7 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 	private Map<String, UIValueType> idToValueTypeMap;
 	private Map<UIValueType, String> valueTypeToIdMap;
 	
-	private CodelistInfoProvider codelistInfoProvider;
+	private LinkTypesCodelistInfoProvider codelistInfoProvider;
 
 	public ValueTypePanel() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -75,7 +76,7 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 	/**
 	 * @param codelistInfoProvider the codelistInfoProvider to set
 	 */
-	public void setCodelistInfoProvider(CodelistInfoProvider codelistInfoProvider) {
+	public void setCodelistInfoProvider(LinkTypesCodelistInfoProvider codelistInfoProvider) {
 		this.codelistInfoProvider = codelistInfoProvider;
 	}
 

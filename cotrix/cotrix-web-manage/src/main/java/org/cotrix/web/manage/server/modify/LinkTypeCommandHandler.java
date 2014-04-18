@@ -61,7 +61,7 @@ public class LinkTypeCommandHandler {
 		
 		CodelistLink updatedLink = lookupLink(codelist, codelistLink.id());
 		
-		return new UpdatedLinkType(LinkTypes.toUILinkType(updatedLink));
+		return new UpdatedLinkType(updatedLink==null?null:LinkTypes.toUILinkType(updatedLink));
 	}
 	
 	private CodelistLink lookupLink(Codelist codelist, String id) {

@@ -1,6 +1,4 @@
-package org.cotrix.web.manage.client.codelist.linktype;
-
-import javax.inject.Inject;
+package org.cotrix.web.manage.client.codelist.attribute;
 
 import org.cotrix.web.common.client.resources.CommonResources;
 
@@ -37,8 +35,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	@UiField TextBox languageBox;
 	@UiField TextBox valueBox;
 	
-	//FIXME @inject
-	CommonResources resources = CommonResources.INSTANCE;
+	private CommonResources resources = CommonResources.INSTANCE;
 	
 	private AttributeEditDialogListener listener;
 
@@ -79,29 +76,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	}
 	
 	protected void doEdit() {
-		boolean valid = validate();
-		if (valid && listener!=null) listener.onEdit(nameBox.getText(), typeBox.getText(), languageBox.getText(), valueBox.getText());
-	}
-	
-	protected boolean validate()
-	{
-		boolean valid = true;
-		/*if (!AccountValidator.validateUsername(username.getText())) {
-			username.setStyleName(resources.css().dialogTextboxInvalid(), true);
-			valid = false;
-		}
-		
-		if (!AccountValidator.validatePassword(password.getText())) {
-			password.setStyleName(resources.css().dialogTextboxInvalid(), true);
-			valid = false;
-		}
-		
-		if (!AccountValidator.validateEMail(email.getText())) {
-			email.setStyleName(resources.css().dialogTextboxInvalid(), true);
-			valid = false;
-		}*/
-		
-		return valid;
+		if (listener!=null) listener.onEdit(nameBox.getText(), typeBox.getText(), languageBox.getText(), valueBox.getText());
 	}
 
 	protected void cleanValidation() {

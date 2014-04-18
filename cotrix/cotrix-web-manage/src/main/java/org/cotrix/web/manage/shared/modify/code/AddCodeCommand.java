@@ -24,16 +24,4 @@ public class AddCodeCommand extends AddCommand<UICode> implements CodeCommand {
 	public AddCodeCommand(UICode item) {
 		super(item);
 	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("AddCodeCommand [item=");
-		builder.append(item);
-		builder.append("]");
-		return builder.toString();
-	}
 }

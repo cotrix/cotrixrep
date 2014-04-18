@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
+import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -83,6 +84,7 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 	}
 	
 	private void fireValueChanged() {
+		Log.trace("Arguments changed");
 		ValueChangeEvent.fire(this, getArgumentsValues());
 	}
 
@@ -125,6 +127,7 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 
 				@Override
 				public void onValueChange(ValueChangeEvent<String> event) {
+					Log.trace("Argument changed");
 					fireValueChanged();
 				}
 			});
@@ -197,7 +200,6 @@ public class FunctionsArgumentsPanels extends Composite implements HasValueChang
 
 				@Override
 				public void onValueChange(ValueChangeEvent<String> event) {
-					Log.trace("setting test: "+event.getValue());
 					editableLabel.setText(event.getValue());
 				}
 			});

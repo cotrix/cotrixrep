@@ -53,6 +53,7 @@ import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
+import org.cotrix.web.manage.shared.AttributeGroup;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
@@ -71,7 +72,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.text.shared.AbstractSafeHtmlRenderer;
 import com.google.gwt.text.shared.SafeHtmlRenderer;
@@ -102,7 +102,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	interface Binder extends UiBinder<Widget, CodelistEditor> {}
 	interface CodelistEditorEventBinder extends EventBinder<CodelistEditor> {}
-	
+
 	interface DataGridResources extends PatchedDataGrid.Resources {
 
 		@Source("CodelistEditor.css")
@@ -112,13 +112,13 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	interface DataGridStyle extends PatchedDataGrid.Style {
 
 		String groupHeaderCell();
-		
+
 		String textCell();
 
 		String language();
-		
+
 		String closeGroup();
-		
+
 		String emptyTableWidget();
 	}
 
@@ -133,7 +133,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 	protected static DataGridResources resource = GWT.create(DataGridResources.class);
 
-	protected Set<Group> groupsAsColumn = new HashSet<Group>();
+	protected List<Group> groupsAsColumn = new ArrayList<Group>();
 	protected Map<Group, Column<UICode, String>> groupsColumns = new HashMap<Group, Column<UICode,String>>(); 
 	protected Map<String, Column<UICode, String>> switchesColumns = new HashMap<String, Column<UICode,String>>(); 
 	protected List<DoubleClickEditTextCell> editableCells = new ArrayList<DoubleClickEditTextCell>();
@@ -153,34 +153,34 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	protected DataEditor<UICode> codeEditor;
 
 	protected DataEditor<CodeAttribute> attributeEditor;
-	
+
 	@Inject
 	protected CotrixManagerResources resources;
-	
+
 	protected StyledSafeHtmlRenderer cellRenderer;
-	protected StyledSafeHtmlRenderer systemAttributeCell;
+	protected StyledSafeHtmlRenderer systemAttributeCellRenderer;
 
 	@Inject
 	protected ManageServiceAsync managerService;
-	
+
 	@Inject @CurrentCodelist
 	protected String codelistId;
-	
+
 	@Inject
 	private void init() {
-		this.systemAttributeCell = new StyledSafeHtmlRenderer(resources.css().systemProperty());
+		this.systemAttributeCellRenderer = new StyledSafeHtmlRenderer(resources.css().systemProperty());
 		this.codeEditor = DataEditor.build(this);
 		this.attributeEditor = DataEditor.build(this);
 
 		cellRenderer = new StyledSafeHtmlRenderer(resource.dataGridStyle().textCell());
-		
+
 		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodelistCodeKeyProvider.INSTANCE);
 		dataGrid.setAutoHeaderRefreshDisabled(true);
-		
+
 		Label emptyTable = new Label("No codes");
 		emptyTable.setStyleName(resource.dataGridStyle().emptyTableWidget());
 		dataGrid.setEmptyTableWidget(emptyTable);
-		
+
 		dataGrid.setTableWidth(100, Unit.PCT);
 		dataGrid.setAutoAdjust(true);
 
@@ -203,14 +203,14 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 				if (code !=null) editorBus.fireEvent(new CodeSelectedEvent(code));
 			}
 		});
-		
+
 		dataGrid.setSelectionModel(selectionModel);
-	
+
 		dataProvider.addDataDisplay(dataGrid);
 
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
-		
+
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
 
 			@Override
@@ -222,15 +222,15 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 			}
 		});
 	}
-	
+
 	@Inject
 	protected void bind(CodelistEditorEventBinder binder) {
 		binder.bindEventHandlers(this, editorBus);
 	}
 
 	protected void setupColumns() {
-		
-		nameColumn = new CodeColumn(createCell(false));
+
+		nameColumn = new CodeColumn(createCell(false, true));
 
 		nameColumn.setSortable(true);
 
@@ -246,20 +246,21 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		dataGrid.addColumn(nameColumn, "Code");
 	}
 
-	public void showAllAttributesAsColumn()
+	public void showAllGroupsAsColumn()
 	{
 		dataGrid.showLoader();
-		managerService.getAttributesGroups(codelistId, new ManagedFailureCallback<Set<Group>>() {
+		managerService.getGroups(codelistId, new ManagedFailureCallback<List<Group>>() {
 
 			@Override
-			public void onSuccess(Set<Group> groups) {
+			public void onSuccess(List<Group> groups) {
 				setGroups(groups);
+				//dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 				dataGrid.hideLoader();
 			}
 		});
 	}
 
-	public void showAllAttributesAsNormal()
+	public void showAllGroupsAsNormal()
 	{
 		switchAllGroupsToNormal();
 	}
@@ -270,11 +271,11 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		for (DoubleClickEditTextCell cell:editableCells) cell.setReadOnly(!editable);
 	}
 
-	protected DoubleClickEditTextCell createCell(boolean isSystemAttribute)
+	protected DoubleClickEditTextCell createCell(boolean isSystemAttribute, boolean isEditable)
 	{
 		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + resources.css().editor();
-		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, isSystemAttribute?systemAttributeCell:cellRenderer);
-		if (!isSystemAttribute) {
+		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, isSystemAttribute?systemAttributeCellRenderer:cellRenderer);
+		if (isEditable) {
 			cell.setReadOnly(!editable);
 			editableCells.add(cell);
 		}
@@ -285,15 +286,15 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	protected void bind(@CurrentCodelist String codelistId)
 	{
 		FeatureBinder.bind(new FeatureToggler() {
-			
+
 			@Override
 			public void toggleFeature(boolean active) {
 				toolBar.setVisible(ItemButton.PLUS, active);
 			}
 		}, codelistId, ManagerUIFeature.ADD_CODE);
-		
+
 		FeatureBinder.bind(new FeatureToggler() {
-			
+
 			@Override
 			public void toggleFeature(boolean active) {
 				toolBar.setVisible(ItemButton.MINUS, active);
@@ -317,12 +318,12 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 			}
 		});
 	}
-	
+
 	@EventHandler
 	void onCodeUpdated(CodeUpdatedEvent event) {
 		refreshCode(event.getCode());
 	}
-	
+
 	@EventHandler
 	void onSwitchAttribute(SwitchGroupEvent event) {
 		Group group = event.getGroup();
@@ -371,33 +372,45 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		Log.trace("getGroupColumn group: "+group);
 		Column<UICode, String> column = groupsColumns.get(group);
 		if (column == null) {
-			column = new GroupColumn(createCell(group.isSystemGroup()), group);
+			column = new GroupColumn(createCell(group.isSystemGroup(), group.isEditable()), group);
 			column.setSortable(true);
-			
-			column.setFieldUpdater(new FieldUpdater<UICode, String>() {
 
-				@Override
-				public void update(int index, UICode code, String value) {
-					UIAttribute attribute = group.match(code.getAttributes());
-					if (attribute!=null) {
-						attribute.setValue(value);
-						attributeEditor.updated(new CodeAttribute(code, attribute));
-					} else {
-						attribute = new UIAttribute();
-						attribute.setId(Document.get().createUniqueId());
-						attribute.setName(group.getName());
-						attribute.setLanguage(group.getLanguage());
-						attribute.setValue(value);
-						code.addAttribute(attribute);
-						attributeEditor.added(new CodeAttribute(code, attribute));
+			if (group.isEditable()) {
+				column.setFieldUpdater(new FieldUpdater<UICode, String>() {
+
+					@Override
+					public void update(int index, UICode code, String value) {
+						groupColumnUpdated(code, group, value);
 					}
-				}
-			});
+				});
+			}
 
 
 			groupsColumns.put(group, column);
 		}
 		return column;
+	}
+
+	private void groupColumnUpdated(UICode code, Group group, String value) {
+
+		//TODO
+		if (group instanceof AttributeGroup) {
+			AttributeGroup attributeGroup = (AttributeGroup)group;
+
+			UIAttribute attribute = attributeGroup.match(code.getAttributes());
+			if (attribute!=null) {
+				attribute.setValue(value);
+				attributeEditor.updated(new CodeAttribute(code, attribute));
+			} else {
+				attribute = new UIAttribute();
+				attribute.setId(Document.get().createUniqueId());
+				attribute.setName(attributeGroup.getName());
+				attribute.setLanguage(attributeGroup.getLanguage());
+				attribute.setValue(value);
+				code.addAttribute(attribute);
+				attributeEditor.added(new CodeAttribute(code, attribute));
+			}
+		}
 	}
 
 	protected void switchToColumn(Group group)
@@ -429,8 +442,8 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		dataGrid.removeColumn(column);
 	}
 
-	protected void setGroups(Set<Group> groups) {
-		
+	protected void setGroups(List<Group> groups) {
+
 		Set<Group> columnsToRemove = new HashSet<Group>(groupsAsColumn);
 		//can't use removeall because based on comparable interface
 		for (Group group:groups) columnsToRemove.remove(group);
@@ -445,14 +458,14 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		Set<Group> groupsToNormal = new HashSet<Group>(groupsAsColumn);
 		for (Group group:groupsToNormal) switchToNormal(group);
 	}
-	
+
 	public static abstract class CodelistEditorColumn<C> extends Column<UICode, C> {
 
 		public CodelistEditorColumn(Cell<C> cell) {
 			super(cell);
 		}
 	}
-	
+
 	public static class CodeColumn extends CodelistEditorColumn<String> {
 
 		public CodeColumn(Cell<String> cell) {
@@ -465,9 +478,9 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 			return ValueUtils.getValue(object.getName());
 		}
 	}
-	
+
 	public static class GroupColumn extends CodelistEditorColumn<String> {
-		
+
 		protected Group group;
 
 		public GroupColumn(Cell<String> cell, Group group) {
@@ -476,16 +489,16 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		}
 
 		@Override
-		public String getValue(UICode row) {
-			if (row == null) return "";
-			return group.getValue(row.getAttributes());
+		public String getValue(UICode code) {
+			if (code == null) return "";
+			return group.getValue(code);
 		}
 
 		public Group getGroup() {
 			return group;
 		}
 	}
-	
+
 	protected class GroupHeader extends Header<Group> {
 
 		private Group group;
@@ -498,7 +511,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		public GroupHeader(Group group) {
 			super(new ClickableGroupCell(new SafeHtmlGroupRenderer()));
 			this.group = group;
-			
+
 			setUpdater(new ValueUpdater<Group>() {
 
 				@Override
@@ -512,11 +525,8 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean onPreviewColumnSortEvent(Context context, Element elem,
-				NativeEvent event) {
-			System.out.println("onPreviewColumnSortEvent elem "+elem);
+		public boolean onPreviewColumnSortEvent(Context context, Element elem, NativeEvent event) {
 			Element element = event.getEventTarget().cast();
-			System.out.println("onPreviewColumnSortEvent element.id "+element.getId());
 			return !element.getId().equals(SafeHtmlGroupRenderer.CLOSE_IMG_ID);
 		}
 
@@ -557,7 +567,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		protected void onEnterKeyDown(Context context, Element parent, Group value,
 				NativeEvent event, ValueUpdater<Group> valueUpdater) {
 			Element element = event.getEventTarget().cast();
-			
+
 			if (valueUpdater != null && element.getId().equals(SafeHtmlGroupRenderer.CLOSE_IMG_ID)) {
 				valueUpdater.update(value);
 			}
@@ -572,30 +582,22 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	}
 
 	static class SafeHtmlGroupRenderer extends AbstractSafeHtmlRenderer<Group> {
-		
-		static interface GroupHeaderTemplate extends SafeHtmlTemplates {
-			
-			@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;padding-right: 7px;\">{0}</span><span style=\"vertical-align:middle;color:black;padding-left:5px;\">{1}</span><img id=\"{4}\" src=\"{2}\" class=\"{3}\" style=\"vertical-align:middle;\"/></div>")
-			SafeHtml headerWithLanguage(SafeHtml name, SafeHtml language, SafeUri img, String imgStyle, String imgId);
 
-			@Template("<div style=\"height:16px\"><span style=\"vertical-align:middle;padding-right: 7px;\">{0}</span><img id=\"{3}\"  src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\"/></div>")
-			SafeHtml header(SafeHtml name, SafeUri img, String imgStyle, String imgId);
+		static interface GroupHeaderTemplate extends SafeHtmlTemplates {
+
+			@Template("<div style=\"height:16px\">{0}<img id=\"{3}\"  src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\"/></div>")
+			SafeHtml header(SafeHtml label, SafeUri img, String imgStyle, String imgId);
 		}
-		
+
 		static final GroupHeaderTemplate HEADER_TEMPLATE = GWT.create(GroupHeaderTemplate.class);
 		public static final String CLOSE_IMG_ID = Document.get().createUniqueId();
-		
+
 		@Override
 		public SafeHtml render(Group value) {
-			SafeHtml name = SafeHtmlUtils.fromString(ValueUtils.getValue(value.getName()));
+			SafeHtml label = value.getLabel();
 			SafeUri img = CotrixManagerResources.INSTANCE.closeSmall().getSafeUri();
 			String imgStyle = resource.dataGridStyle().closeGroup();
-			if (value.getLanguage()!=null && !value.getLanguage().isEmpty()) {
-				/*ImageResource languageImage = LanguageResources.getResource(value.getLanguage());
-				if (languageImage != null) return HEADER_TEMPLATE.headerWithLanguageImage(name, languageImage.getSafeUri(), img, imgStyle);
-				else */ 
-				return HEADER_TEMPLATE.headerWithLanguage(name, SafeHtmlUtils.fromString(value.getLanguage()), img, imgStyle, CLOSE_IMG_ID);
-			} else return HEADER_TEMPLATE.header(name, img, imgStyle, CLOSE_IMG_ID);
+			return HEADER_TEMPLATE.header(label, img, imgStyle, CLOSE_IMG_ID);
 		}
 	}
 }

@@ -25,14 +25,11 @@
 	}
 	</ui:style>
 	<g:HTMLPanel styleName="{commonresources.css.dialogBox}"
-		width="300px" height="300px">
+		width="300px" height="220px">
 		<div class="{commonresources.css.dialogTitle}" id="signup.title">
-			Edit
+			Edit Attribute
 		</div>
-		<div class="{commonresources.css.dialogSubtitle}">
-			Edit the attribute
-		</div>
-		<div>
+		<div style="padding-top: 13px;">
 			<table class="{style.propertiesGrid}">
 				<tr>
 					<td class="{resources.propertyGrid.header}">
@@ -75,8 +72,16 @@
 			</table>
 		</div>
 		<div class="{commonresources.css.dialogTextfield}">
-			<g:Button ui:field="save" styleName="{commonresources.css.dialogSubmit}">Save</g:Button>
-			<g:Button ui:field="cancel" styleName="{commonresources.css.dialogSubmit}">Cancel</g:Button>
+			<table width="100%">
+				<tr>
+					<td width="50%" style="text-align:center">
+						<g:Button ui:field="save" styleName="{commonresources.css.blueButton}">Save</g:Button>
+					</td>
+					<td width="50%" style="text-align:center">
+						<g:Button ui:field="cancel" styleName="{commonresources.css.grayButton}">Cancel</g:Button>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</g:HTMLPanel>
 

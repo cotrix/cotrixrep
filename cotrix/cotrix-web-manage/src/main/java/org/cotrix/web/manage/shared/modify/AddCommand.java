@@ -43,7 +43,9 @@ public abstract class AddCommand<T extends Identifiable> implements ModifyComman
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("AddCommand [item=");
+		//TODO replace with getSimpleName() when move to GWT 2.6
+		builder.append(getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1));
+		builder.append(" [item=");
 		builder.append(item);
 		builder.append("]");
 		return builder.toString();

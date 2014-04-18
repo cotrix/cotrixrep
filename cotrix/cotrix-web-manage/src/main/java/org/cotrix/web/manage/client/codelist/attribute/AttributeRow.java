@@ -1,20 +1,19 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.linktype;
+package org.cotrix.web.manage.client.codelist.attribute;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources.AttributeRowStyle;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources.PropertyGridStyle;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TextBox;
@@ -91,9 +90,7 @@ public class AttributeRow extends AbstractRow {
 		valueTextBox.addValueChangeHandler(valueEditableLabel);
 		
 		deleteButton = new PushButton(new Image(CommonResources.INSTANCE.minus()));
-		deleteButton.getElement().getStyle().setMarginTop(4, Unit.PX);
-		deleteButton.getElement().getStyle().setMarginLeft(4, Unit.PX);
-		deleteButton.getElement().getStyle().setMarginRight(4, Unit.PX);
+		deleteButton.setStyleName(ATTRIBUTE_ROW_STYLE.button());
 		deleteButton.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -103,9 +100,7 @@ public class AttributeRow extends AbstractRow {
 		});
 		
 		fullEditButton = new PushButton(new Image(CotrixManagerResources.INSTANCE.edit()));
-		fullEditButton.getElement().getStyle().setMarginTop(4, Unit.PX);
-		fullEditButton.getElement().getStyle().setMarginLeft(4, Unit.PX);
-		fullEditButton.getElement().getStyle().setMarginRight(4, Unit.PX);
+		fullEditButton.setStyleName(ATTRIBUTE_ROW_STYLE.button());
 		fullEditButton.addClickHandler(new ClickHandler() {
 			
 			@Override

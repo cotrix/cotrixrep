@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.LabelProvider;
 import org.cotrix.web.common.client.util.ListBoxUtils;
+import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
@@ -15,6 +16,7 @@ import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
+import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel;
 import org.cotrix.web.manage.client.codelist.linktype.CodelistSuggestOracle.CodelistSuggestion;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -48,73 +50,73 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHandlers<Void>{
-	
+
 	public static final String CODE_NAME_VALUE_TYPE = Document.get().createUniqueId();
 	public static final CodeNameType CODE_NAME_TYPE = new CodeNameType();
 
 	private static LinkTypeDetailsPanelUiBinder uiBinder = GWT.create(LinkTypeDetailsPanelUiBinder.class);
 
 	interface LinkTypeDetailsPanelUiBinder extends UiBinder<Widget, LinkTypeDetailsPanel> {}
-	
+
 	interface Style extends CssResource {
 		String error();
 		String editor();
 	}
-	
+
 	@UiField Table table;
-	
+
 	@UiField EditableLabel nameBoxContainer;
 	@UiField TextBox nameBox;
-	
+
 	@UiField EditableLabel codelistBoxContainer;
 	@UiField(provided=true) SuggestBox codelistBox;
 	@UiField Image codelistBoxLoader;
 
 	@UiField ValueTypePanel valueTypePanel;
-	
+
 	@UiField EditableLabel valueFunctionContainer;
 	@UiField ListBox valueFunction;
-	
+
 	@UiField CellContainer functionArgumentsRow;
 	@UiField FunctionsArgumentsPanels functionArguments;
-	
+
 	private AttributesPanel attributesPanel;
-	
+
 	@UiField Style style;
-	
+
 	private UICodelist selectedCodelist;
-	
+
 	private CodelistSuggestOracle codelistSuggestOracle = new CodelistSuggestOracle();	
-	
-	private CodelistInfoProvider codelistInfoProvider;
-	
+
+	private LinkTypesCodelistInfoProvider codelistInfoProvider;
+
 	private LabelProvider<Function> functionLabelProvider = new DefaultFunctionLabelProvider();
-	
-	public LinkTypeDetailsPanel(CodelistInfoProvider codelistInfoProvider) {
-		
+
+	public LinkTypeDetailsPanel(LinkTypesCodelistInfoProvider codelistInfoProvider) {
+
 		this.codelistInfoProvider = codelistInfoProvider;
-	
+
 		createCodelistBox();
 
 		initWidget(uiBinder.createAndBindUi(this));
-		
+
 		setupNameBox();
-		
+
 		setupValueTypePanel();
 
 		setupFunction();
-		
+
 		setupAttributesPanel();
-		
+
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			
+
 			@Override
 			public void execute() {
 				loadCodelists();
 			}
 		});
 	}
-	
+
 	private void setupNameBox() {
 		nameBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 
@@ -125,11 +127,11 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 			}
 		});
 	}
-	
+
 	public String getName() {
 		return nameBox.getValue();
 	}
-	
+
 	public void setName(String name) {
 		this.nameBox.setValue(name, false);
 		this.nameBoxContainer.setText(name);
@@ -138,8 +140,8 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	public void setValidName(boolean valid) {
 		nameBox.setStyleName(style.error(), !valid);
 	}
-	
-	
+
+
 	private void createCodelistBox() {
 		codelistBox = new SuggestBox(codelistSuggestOracle);
 		codelistBox.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -150,9 +152,9 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 				fireChange();
 			}
 		});
-		
+
 		codelistBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
-			
+
 			@Override
 			public void onSelection(SelectionEvent<Suggestion> event) {
 				CodelistSuggestion suggestion = (CodelistSuggestion) event.getSelectedItem();
@@ -163,75 +165,75 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 			}
 		});
 	}
-	
+
 	public void setCodelist(UICodelist codelist, UIValueType valueType) {
 		selectedCodelist = codelist;
 		codelistBox.getValueBox().setValue(CodelistSuggestion.toDisplayString(selectedCodelist), false);
 		codelistBoxContainer.setText(CodelistSuggestion.toDisplayString(selectedCodelist));
-		
-		updateValueType(codelist.getId(), valueType);
+
+		if (codelist!=null) updateValueType(codelist.getId(), valueType);
 	}
-	
+
 	public UICodelist getCodelist() {
 		return selectedCodelist;
 	}
-	
+
 	public void setValidCodelist(boolean valid) {
 		codelistBox.setStyleName(style.error(), !valid);
 	}
-	
+
 	public void setCodelistReadonly(boolean readOnly) {
 		codelistBoxContainer.setReadOnly(readOnly);
 		if (readOnly) codelistBox.setStyleName(style.error(), false);
 	}
 
 	private final AsyncCallback<List<UICodelist>> codelistCallBack = new AsyncCallback<List<UICodelist>>() {
-		
+
 		@Override
 		public void onSuccess(List<UICodelist> result) {
 			codelistSuggestOracle.loadCache(result);
 			codelistBoxLoader.setVisible(false);
 			codelistBoxContainer.setVisible(true);
 		}
-		
+
 		@Override
 		public void onFailure(Throwable caught) {
-			
+
 		}
 	};
-	
+
 	private void loadCodelists() {
 		codelistBoxLoader.setVisible(true);
 		codelistBoxContainer.setVisible(false);
 		codelistInfoProvider.getCodelists(codelistCallBack);
 	}
-	
-	
+
+
 	private void setupValueTypePanel() {
 		valueTypePanel.setCodelistInfoProvider(codelistInfoProvider);
 	}
-	
+
 	private void updateValueType(final String codelistId, final UIValueType type) {
 		valueTypePanel.setCodelist(codelistId, type);
 	}
-	
+
 	public UIValueType getValueType() {
 		return valueTypePanel.getValueType();
 	}
-	
+
 	public void setValueType(UIValueType type) {
 		valueTypePanel.setValueType(type);
 	}
-	
-	
+
+
 	private void setupFunction() {
 		for (Function function:Function.values()) {
 			String label = functionLabelProvider.getLabel(function);
 			valueFunction.addItem(label, function.toString());
 		}
-		
+
 		valueFunction.addChangeHandler(new ChangeHandler() {
-			
+
 			@Override
 			public void onChange(ChangeEvent event) {
 				updateValueFunctionSubPanels();
@@ -239,53 +241,63 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 				fireChange();
 			}
 		});
-		
+
 		valueFunction.setSelectedIndex(0);
 		syncValueFunction();
 		updateValueFunctionSubPanels();
+
+		functionArguments.addValueChangeHandler(new ValueChangeHandler<List<String>>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<List<String>> event) {
+				fireChange();
+			}
+		});
 	}
-	
+
 	public void setValidFunction(boolean valid) {
 		functionArguments.setStyle(style.error(), !valid);
 	}
-	
+
 	public UIValueFunction getValueFunction() {
 		Function function = getSelectedFunction();
 		List<String> arguments = functionArguments.getArgumentsValues();
 		return new UIValueFunction(function, arguments);
 	}
-	
+
 	public void setValueFunction(UIValueFunction valueFunction) {
 		Log.trace("setValueFunction valueFunction: "+valueFunction);
-		setSelectedFunction(valueFunction.getFunction());
-		updateValueFunctionSubPanels();
-		functionArguments.setArgumentsValues(valueFunction.getArguments());
-		syncValueFunction();
+		if (valueFunction!=null) {
+			setSelectedFunction(valueFunction.getFunction());
+			updateValueFunctionSubPanels();
+			functionArguments.setArgumentsValues(valueFunction.getArguments());
+			syncValueFunction();
+		}
 	}	
-	
+
 	private void updateValueFunctionSubPanels() {
 		Function function = getSelectedFunction();
 		functionArguments.showFunctionPanel(function);
 		setFunctionRowVisible(function.getArguments().length>0);
 	}
-	
+
 	private void setFunctionRowVisible(boolean visible) {
 		functionArgumentsRow.setVisible(visible);
 	}
-	
+
 	private Function getSelectedFunction() {
 		String selectedFunction = valueFunction.getValue(valueFunction.getSelectedIndex());
 		return Function.valueOf(selectedFunction);
 	}
-	
+
 	private void setSelectedFunction(Function function) {
 		ListBoxUtils.selecteItem(valueFunction, function.toString());
 	}
-	
+
 	private void syncValueFunction() {
 		valueFunctionContainer.setText(functionLabelProvider.getLabel(getSelectedFunction()));
 	}
-	
+
 	private void setupAttributesPanel() {
 		attributesPanel = new AttributesPanel(table, style.error());
 		attributesPanel.addValueChangeHandler(new ValueChangeHandler<Void>() {
@@ -296,38 +308,37 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 			}
 		});
 	}
-	
-	
+
 	public void setAttributes(List<UIAttribute> attributes) {
 		attributesPanel.setAttributes(attributes);
 	}
-	
+
 	public List<UIAttribute> getAttributes() {
 		return attributesPanel.getAttributes();
 	}
-	
+
 	public boolean areAttributesValid() {
 		return attributesPanel.areValid();
 	}
-	
+
 
 	public void setReadOnly(boolean readOnly) {
 		nameBoxContainer.setReadOnly(readOnly);
 		if (readOnly) nameBox.setStyleName(style.error(), false);
-		
+
 		codelistBoxContainer.setReadOnly(readOnly);
 		if (readOnly) codelistBox.setStyleName(style.error(), false);
-		
+
 		valueTypePanel.setReadOnly(readOnly);
-		
+
 		valueFunctionContainer.setReadOnly(readOnly);
-		
+
 		functionArguments.setReadOnly(readOnly);
 		if (readOnly) functionArguments.setStyleName(style.error(), false);
-		
+
 		attributesPanel.setReadOnly(readOnly);
 	}
-		
+
 	private void fireChange() {
 		ValueChangeEvent.fire(this, null);
 	}
@@ -336,7 +347,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler) {
 		return addHandler(handler, ValueChangeEvent.getType());
 	}
-	
+
 	private class DefaultFunctionLabelProvider implements LabelProvider<Function> {
 
 		@Override
@@ -351,7 +362,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 			}
 			throw new IllegalArgumentException("Unknown function "+item);
 		}
-		
+
 	}
 
 }

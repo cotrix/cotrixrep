@@ -49,6 +49,7 @@ import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
+import org.cotrix.web.manage.shared.AttributeGroup;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
@@ -108,7 +109,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 	protected static ImageResourceRenderer renderer = new ImageResourceRenderer(); 
 
-	private Set<Group> groupsAsColumn = new HashSet<Group>();
+	private Set<AttributeGroup> groupsAsColumn = new HashSet<AttributeGroup>();
 	private Column<UIAttribute, AttributeSwitchState> switchColumn; 
 
 	@Inject @EditorBus
@@ -123,13 +124,13 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	protected UICode visualizedCode;
 
 	protected DataEditor<CodeAttribute> attributeEditor;
-	
+
 	@Inject
 	private CotrixManagerResources resources;
-	
+
 	@Inject
 	protected RemoveAttributeController attributeController;
-	
+
 	protected AttributeNameSuggestOracle attributeNameSuggestOracle;
 
 	@Inject
@@ -139,7 +140,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 		this.attributeEditor = DataEditor.build(this);
 
 		this.dataProvider = new ListDataProvider<UIAttribute>();
-		
+
 		this.attributeNameSuggestOracle = attributeNameSuggestOracle;
 
 		header = new AttributeHeader();
@@ -159,15 +160,15 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	protected void bind(@CurrentCodelist String codelistId)
 	{
 		FeatureBinder.bind(new FeatureToggler() {
-			
+
 			@Override
 			public void toggleFeature(boolean active) {
 				toolBar.setVisible(ItemButton.PLUS, active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_CODELIST);
-		
+
 		FeatureBinder.bind(new FeatureToggler() {
-			
+
 			@Override
 			public void toggleFeature(boolean active) {
 				attributeController.setUserCanEdit(active);
@@ -200,7 +201,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			}
 		});
 
-		
+
 		editorBus.addHandler(DataEditEvent.getType(CodeAttribute.class), new DataEditHandler<CodeAttribute>() {
 
 			@Override
@@ -230,7 +231,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 				}
 			}
 		});
-		
+
 		attributesGrid.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 
 			@Override
@@ -239,41 +240,45 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			}
 		});
 	}
-	
+
 	@Inject
 	protected void bind(CodelistAttributesPanelEventBinder binder) {
 		binder.bindEventHandlers(this, editorBus);
 	}
-	
+
 	@EventHandler
 	void onCodeSelected(CodeSelectedEvent event) {
 		updateVisualizedCode(event.getCode());
 	}
-	
+
 	@EventHandler
 	void onCodeUpdated(CodeUpdatedEvent event) {
 		updateVisualizedCode(event.getCode());
 	}
-	
+
 	@EventHandler
 	void onGroupSwitched(GroupSwitchedEvent event) {
 		Group group = event.getGroup();
-		Log.trace("onAttributeSwitched group: "+group+" type: "+event.getSwitchType());
 
-		switch (event.getSwitchType()) {
-			case TO_COLUMN: groupsAsColumn.add(group); break;
-			case TO_NORMAL: groupsAsColumn.remove(group); break;
-		}
-		if (visualizedCode!=null) {
-			UIAttribute attribute = group.match(visualizedCode.getAttributes());
-			if (attribute!=null) attributesGrid.refreshAttribute(attribute);
+		if (group instanceof AttributeGroup) {
+			AttributeGroup attributeGroup = (AttributeGroup) group;
+			Log.trace("onAttributeSwitched group: "+attributeGroup+" type: "+event.getSwitchType());
+
+			switch (event.getSwitchType()) {
+				case TO_COLUMN: groupsAsColumn.add(attributeGroup); break;
+				case TO_NORMAL: groupsAsColumn.remove(attributeGroup); break;
+			}
+			if (visualizedCode!=null) {
+				UIAttribute attribute = attributeGroup.match(visualizedCode.getAttributes());
+				if (attribute!=null) attributesGrid.refreshAttribute(attribute);
+			}
 		}
 	}
-	
+
 	private void updateRemoveButtonVisibility(boolean animate) {
 		toolBar.setVisible(ItemButton.MINUS, attributeController.canRemove(), animate);
 	}
-	
+
 
 	/** 
 	 * {@inheritDoc}
@@ -284,7 +289,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 		//GWT issue 7188 workaround
 		onResize();
 	}
-	
+
 	protected void addNewAttribute()
 	{
 		if (visualizedCode!=null) {
@@ -309,7 +314,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			attributeEditor.removed(new CodeAttribute(visualizedCode, selectedAttribute));
 		}
 	}
-	
+
 	protected void selectedAttributeChanged()
 	{
 		if (visualizedCode!=null && attributesGrid.getSelectedAttribute()!=null) {
@@ -327,7 +332,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 		List<UIAttribute> currentAttributes = dataProvider.getList();
 		currentAttributes.clear();
-		
+
 		Attributes.sortByAttributeType(visualizedCode.getAttributes());
 		currentAttributes.addAll(visualizedCode.getAttributes());
 		dataProvider.refresh();
@@ -343,7 +348,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 		dataProvider.getList().clear();
 		dataProvider.refresh();
 	}
-	
+
 	protected void updateBackground()
 	{
 		setStyleName(style.noAttributes(), visualizedCode == null || visualizedCode.getAttributes().isEmpty());
@@ -393,14 +398,14 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 	protected boolean isInGroupAsColumn(UIAttribute attribute)
 	{
-		for (Group group:groupsAsColumn) if (group.accept(visualizedCode.getAttributes(), attribute)) return true;
+		for (AttributeGroup group:groupsAsColumn) if (group.accept(visualizedCode.getAttributes(), attribute)) return true;
 		return false;
 	}
 
 
 	protected void switchAttribute(UIAttribute attribute, AttributeSwitchState attributeSwitchState)
 	{
-		Group group = GroupFactory.getGroup(attribute);
+		AttributeGroup group = GroupFactory.getGroup(attribute);
 		Log.trace("calculating position for "+attribute+" in: "+visualizedCode.getAttributes());
 		group.calculatePosition(visualizedCode.getAttributes(), attribute);
 
@@ -449,7 +454,6 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 		public void setText(String text) {
 			this.text = text;
 		}
-
 
 	}
 
