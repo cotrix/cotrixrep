@@ -5,8 +5,9 @@ package org.cotrix.web.manage.client.codelist.link;
 
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
-import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UILink;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanel;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanelListener;
 import org.cotrix.web.manage.client.util.LabelHeader;
 import org.cotrix.web.manage.client.util.LabelHeader.Button;
 import org.cotrix.web.manage.client.util.LabelHeader.HeaderListener;
@@ -27,20 +28,14 @@ import com.google.gwt.user.client.ui.Composite;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkPanel extends Composite implements HasEditing {
-
-	public interface LinkPanelListener {
-		public void onSave(UILink link);
-		public void onCancel();
-		public void onSelect();
-	}
+public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 
 	private boolean editable;
 	private boolean editing;
 
 	private LabelHeader header;
 	private LinkDetailsPanel detailsPanel;
-	private LinkPanelListener listener;
+	private ItemEditingPanelListener<UILink> listener;
 	private UILink link;
 
 	private CustomDisclosurePanel disclosurePanel;
@@ -117,10 +112,6 @@ public class LinkPanel extends Composite implements HasEditing {
 
 	public void setSelected(boolean selected) {
 		header.setHeaderSelected(selected);
-	}
-
-	public void setListener(LinkPanelListener listener) {
-		this.listener = listener;
 	}
 
 	private void onSave() {
@@ -228,6 +219,11 @@ public class LinkPanel extends Composite implements HasEditing {
 	public void setEditable(boolean editable) {
 		this.editable = editable;
 		updateHeaderButtons();
+	}
+
+	@Override
+	public void setListener(ItemEditingPanelListener<UILink> listener) {
+		this.listener = listener;
 	}
 
 }

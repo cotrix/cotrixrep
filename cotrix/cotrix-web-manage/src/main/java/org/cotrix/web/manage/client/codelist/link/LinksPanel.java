@@ -3,28 +3,19 @@
  */
 package org.cotrix.web.manage.client.codelist.link;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
-import org.cotrix.web.common.client.util.InstanceMap;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.HasValue;
 import org.cotrix.web.common.shared.codelist.UILink;
-import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
 import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
-import org.cotrix.web.manage.client.codelist.link.LinkPanel.LinkPanelListener;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.event.EditorBus;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
@@ -35,45 +26,23 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  */
 public class LinksPanel extends Composite implements HasEditing {
 
-	public interface LinksPanelListener {
-		public void onCreate(UILink link);
-		public void onUpdate(UILink link);
+	public interface LinksPanelListener extends ItemsEditingListener<UILink> {
 	}
 
 	interface LinksPanelEventBinder extends EventBinder<LinksPanel> {}
 
-	private VerticalPanel mainPanel;
-	private List<LinkPanel> panels = new ArrayList<LinkPanel>();
-
-	protected static AttributesGridResources gridResource = GWT.create(AttributesGridResources.class);
-	private LinkPanel currentSelection;
-
-	private InstanceMap<UILink, LinkPanel> instances = new InstanceMap<UILink, LinkPanel>();
-
 	@Inject
 	private LinksCodelistInfoProvider codelistInfoProvider;
 
-	private LinksPanelListener listener;
-
-	private boolean editable;
-
+	private ItemsEditingPanel<UILink, LinkPanel> editingPanel;
+	
 	public LinksPanel() {
-		mainPanel = new VerticalPanel();
-		mainPanel.setWidth("100%");
-
-		gridResource.dataGridStyle().ensureInjected();
-
-		Label header = new Label("Links");
-		header.setStyleName(gridResource.dataGridStyle().dataGridHeader());
-		mainPanel.add(header);
-
-		initWidget(mainPanel);
-
-		editable = false;
+		editingPanel = new ItemsEditingPanel<UILink, LinkPanel>("Links");
+		initWidget(editingPanel);
 	}
 
 	@Inject
-	protected void bind(LinksPanelEventBinder binder, @EditorBus EventBus editorBus) {
+	void bind(LinksPanelEventBinder binder, @EditorBus EventBus editorBus) {
 		binder.bindEventHandlers(this, editorBus);
 	}
 
@@ -83,8 +52,7 @@ public class LinksPanel extends Composite implements HasEditing {
 		Log.trace("attributes updated for "+attributedItem);
 		if (attributedItem instanceof UILink) {
 			UILink link = (UILink) attributedItem;
-			LinkPanel panel = instances.get(link);
-			panel.syncWithModel();
+			editingPanel.synchWithModel(link);
 			//model already updated on save manager
 		}
 	}
@@ -95,8 +63,7 @@ public class LinksPanel extends Composite implements HasEditing {
 		Log.trace("value updated for "+valuedItem);
 		if (valuedItem instanceof UILink) {
 			UILink link = (UILink) valuedItem;
-			LinkPanel panel = instances.get(link);
-			panel.syncWithModel();
+			editingPanel.synchWithModel(link);
 			//model already updated on save manager
 		}
 	}
@@ -110,110 +77,34 @@ public class LinksPanel extends Composite implements HasEditing {
 	}
 
 	public void setListener(LinksPanelListener listener) {
-		this.listener = listener;
+		editingPanel.setListener(listener);
 	}
 
 	public void removeLink(UILink link) {
-		LinkPanel linkPanel = instances.remove(link);
-		if (linkPanel == null) return;
-		if (currentSelection == linkPanel) currentSelection = null;
-		mainPanel.remove(linkPanel);
-		panels.remove(linkPanel);
+		editingPanel.removeItem(link);
 	}
 
 	public void clear() {
-		for (LinkPanel panel:panels) mainPanel.remove(panel);
-		instances.clear();
+		editingPanel.clear();
 	}
 
 	public void addLink(UILink link) {
 		final LinkPanel linkPanel = new LinkPanel(link, codelistInfoProvider);
-		linkPanel.setEditable(editable);
-		panels.add(linkPanel);
-
-		instances.put(link, linkPanel);
-
-		linkPanel.setListener(new LinkPanelListener() {
-
-			@Override
-			public void onSave(UILink link) {
-				fireUpdate(link);
-			}
-
-			@Override
-			public void onCancel() {
-			}
-
-			@Override
-			public void onSelect() {
-				updateSelection(linkPanel);				
-			}
-		});
-		mainPanel.add(linkPanel);
+		editingPanel.addItemPanel(linkPanel, link);
 	}
 
 	public void addNewLink() {
 		UILink link = new UILink();
-		
-		final LinkPanel linkPanel = new LinkPanel(link, codelistInfoProvider);
-		instances.put(link, linkPanel);
-		
-		panels.add(linkPanel);
-		linkPanel.setListener(new LinkPanelListener() {
-
-			boolean created = false;
-
-			@Override
-			public void onSave(UILink link) {
-				if (!created) {
-					fireCreate(link);
-					created = true;
-				} else fireUpdate(link);
-			}
-
-			@Override
-			public void onCancel() {
-				if (!created) mainPanel.remove(linkPanel);
-			}
-
-			@Override
-			public void onSelect() {
-				updateSelection(linkPanel);
-			}
-		});
-		mainPanel.add(linkPanel);
-
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				linkPanel.enterEditMode();
-			}
-		});
-	}
-
-	private void updateSelection(LinkPanel selected) {
-		if (currentSelection!=null) currentSelection.setSelected(false);
-		selected.setSelected(true);
-		currentSelection = selected;
+		LinkPanel linkPanel = new LinkPanel(link, codelistInfoProvider);
+		editingPanel.addNewItemPanel(linkPanel, link);
 	}
 
 	public UILink getSelectedType() {
-		if (currentSelection!=null) return instances.getByValue(currentSelection);
-		return null;
+		return editingPanel.getSelectedItem();
 	}
 
 	@Override
 	public void setEditable(boolean editable) {
-		this.editable = editable;
-		for (LinkPanel linkTypePanel:panels) linkTypePanel.setEditable(editable);
-	}
-
-	private void fireUpdate(UILink link) {
-		if (listener!=null) listener.onUpdate(link);
-	}
-
-	private void fireCreate(UILink link) {
-		if (listener!=null) listener.onCreate(link);
+		editingPanel.setEditable(editable);
 	}
 }

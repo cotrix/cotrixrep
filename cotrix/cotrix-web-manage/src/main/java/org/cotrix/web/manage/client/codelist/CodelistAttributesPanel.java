@@ -455,7 +455,6 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			this.text = text;
 		}
 
-
 	}
 
 	@Override

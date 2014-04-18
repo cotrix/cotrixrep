@@ -7,11 +7,12 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
-import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanel;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanelListener;
 import org.cotrix.web.manage.client.util.LabelHeader;
 import org.cotrix.web.manage.client.util.LabelHeader.Button;
 import org.cotrix.web.manage.client.util.LabelHeader.HeaderListener;
@@ -30,20 +31,14 @@ import com.google.gwt.user.client.ui.Composite;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkTypePanel extends Composite implements HasEditing {
-
-	public interface LinkTypePanelListener {
-		public void onSave(UILinkType details);
-		public void onCancel();
-		public void onSelect();
-	}
+public class LinkTypePanel extends Composite implements ItemEditingPanel<UILinkType> {
 
 	private boolean editable;
 	private boolean editing;
 
 	private LabelHeader header;
 	private LinkTypeDetailsPanel detailsPanel;
-	private LinkTypePanelListener listener;
+	private ItemEditingPanelListener<UILinkType> listener;
 	private UILinkType type;
 
 	private CustomDisclosurePanel disclosurePanel;
@@ -122,10 +117,6 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		header.setHeaderSelected(selected);
 	}
 
-	public void setListener(LinkTypePanelListener listener) {
-		this.listener = listener;
-	}
-
 	private void onSave() {
 		stopEdit();
 		readType();
@@ -151,12 +142,12 @@ public class LinkTypePanel extends Composite implements HasEditing {
 		type.setAttributes(detailsPanel.getAttributes());
 	}
 
-	public void enterEditMode(boolean codelistEditable) {
+	public void enterEditMode() {
 		editable = true;
 		editing = true;
 		disclosurePanel.setOpen(true);
 		startEdit();
-		detailsPanel.setCodelistReadonly(!codelistEditable);
+		detailsPanel.setCodelistReadonly(false);
 	}
 
 	private void startEdit() {
@@ -243,6 +234,11 @@ public class LinkTypePanel extends Composite implements HasEditing {
 	public void setEditable(boolean editable) {
 		this.editable = editable;
 		updateHeaderButtons();
+	}
+
+	@Override
+	public void setListener(ItemEditingPanelListener<UILinkType> listener) {
+		this.listener = listener;
 	}
 
 }
