@@ -81,7 +81,7 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		editAnimation = new FadeAnimation(edit.getElement());
 		
 		completeControlsAnimation = new FadeAnimation(completeControls.getElement());
-		saveAnimation = new FadeAnimation(save.getElement());
+		saveAnimation = new FadeAnimation(save.getElement(), FadeAnimation.VISIBLE_OPACITY, 0.2);
 		revertAnimation = new FadeAnimation(revert.getElement());
 	}
 
@@ -104,7 +104,7 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	
 	@UiHandler("save")
 	void onSave(ClickEvent event) {
-		fireOnClick(Button.SAVE);
+		if (saveAnimation.isElementVisible()) fireOnClick(Button.SAVE);
 	}
 	
 	@UiHandler("revert")

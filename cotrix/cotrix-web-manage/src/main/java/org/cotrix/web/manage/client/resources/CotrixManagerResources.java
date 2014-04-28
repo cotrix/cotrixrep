@@ -85,6 +85,8 @@ public interface CotrixManagerResources extends ClientBundle {
 		String editor();
 		String systemProperty();
 		String addButton();
+		String headerCode();
+		String noItemsBackground();
 	}
 	
 	public interface PropertyGridStyle extends CssResource {

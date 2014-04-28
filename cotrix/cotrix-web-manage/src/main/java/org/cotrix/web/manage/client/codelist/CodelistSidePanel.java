@@ -70,12 +70,14 @@ public class CodelistSidePanel extends ResizeComposite {
 		tools.showWidget(attributesPanel);
 		
 		buttonGroup.addButton(attributesButton);
-		attributesButton.setDown(true);
 		buttonGroup.addButton(metadataButton);
 		buttonGroup.addButton(filtersButton);
 		buttonGroup.addButton(userButton);
 		buttonGroup.addButton(linkTypesButton);
 		buttonGroup.addButton(linksButton);
+		
+		metadataButton.setDown(true);
+		tools.showWidget(metadataPanel);
 	}
 	
 	@UiHandler("attributesButton")

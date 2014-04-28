@@ -2,15 +2,6 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.attribute"
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
-	<ui:style
-		type="org.cotrix.web.manage.client.codelist.CodelistAttributesPanel.Style">
-			.headerCode {
-				color: #097bfb;
-			}
-			.noAttributes {
-				background-color: #efefef;
-			}
-		</ui:style>
 	<g:DockLayoutPanel unit="PX">
 		<g:center>
 			<v:AttributesGrid ui:field='attributesGrid' />

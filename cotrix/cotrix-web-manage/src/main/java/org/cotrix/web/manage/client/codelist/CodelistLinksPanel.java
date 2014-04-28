@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
@@ -157,6 +158,8 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	void onCodeSelected(CodeSelectedEvent event) {
 		currentCode = event.getCode();
 		setLinks(currentCode.getLinks());
+		String codeName = currentCode!=null?ValueUtils.getLocalPart(currentCode.getName()):null;
+		linksPanel.setSelectedCode(codeName);
 	}
 
 	protected void setLinks(List<UILink> links)

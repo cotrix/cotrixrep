@@ -13,9 +13,10 @@ import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -46,6 +47,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	}
 		
 	private VerticalPanel mainPanel;
+	private HTML header;
 	private List<P> panels = new ArrayList<P>();
 
 	private final static AttributesGridResources gridResource = GWT.create(AttributesGridResources.class);
@@ -63,13 +65,17 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 
 		gridResource.dataGridStyle().ensureInjected();
 
-		Label header = new Label(headerText);
+		header = new HTML(headerText);
 		header.setStyleName(gridResource.dataGridStyle().dataGridHeader());
 		mainPanel.add(header);
 
 		initWidget(mainPanel);
 
 		editable = false;
+	}
+	
+	public void setHeaderText(SafeHtml headerText) {
+		header.setHTML(headerText);
 	}
 	
 	public void synchWithModel(T item) {

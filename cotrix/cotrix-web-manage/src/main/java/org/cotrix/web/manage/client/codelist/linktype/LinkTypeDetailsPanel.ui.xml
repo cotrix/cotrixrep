@@ -20,7 +20,7 @@
 		}
 		
 		.error {
-			border: 1px solid red;
+			border: 1px solid red !important;
 		}
 		
 		.loader {
@@ -74,7 +74,7 @@
 					<g:Label>Anchor</g:Label>
 				</t:cell>
 				<t:cell>
-					<l:ValueTypePanel ui:field="valueTypePanel" />
+					<l:ValueTypePanel ui:field="valueTypePanel"/>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
@@ -86,10 +86,10 @@
 				</t:cell>
 				<t:cell>
 					<c:EditableLabel ui:field="valueFunctionContainer"
-						labelStyle="{resources.propertyGrid.textValue}">
+						labelStyle="{resources.propertyGrid.textValue}" width="100%">
 						<c:editor>
 							<g:ListBox multipleSelect="false" ui:field="valueFunction"
-								styleName="{commonresources.css.listBox}" />
+								styleName="{commonresources.css.listBox}" width="100%"/>
 						</c:editor>
 					</c:EditableLabel>
 				</t:cell>

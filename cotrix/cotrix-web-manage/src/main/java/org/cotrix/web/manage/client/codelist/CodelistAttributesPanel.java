@@ -88,18 +88,10 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	interface Binder extends UiBinder<Widget, CodelistAttributesPanel> {}
 	interface CodelistAttributesPanelEventBinder extends EventBinder<CodelistAttributesPanel> {}
 
-	interface Style extends CssResource {
-		String headerCode();
-		String noAttributes();
-	}
-
 	enum AttributeSwitchState {
 		COLUMN,
 		NORMAL;
 	}
-
-	@UiField
-	Style style;
 
 	@UiField(provided = true)
 	AttributesGrid attributesGrid;
@@ -351,7 +343,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 	protected void updateBackground()
 	{
-		setStyleName(style.noAttributes(), visualizedCode == null || visualizedCode.getAttributes().isEmpty());
+		setStyleName(CotrixManagerResources.INSTANCE.css().noItemsBackground(), visualizedCode == null || visualizedCode.getAttributes().isEmpty());
 	}
 
 	protected void setHeader(String text)
@@ -432,7 +424,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 						String value, SafeHtmlBuilder sb) {
 					sb.appendHtmlConstant("<span>Attributes</span>");
 					if (value!=null) {
-						sb.appendHtmlConstant("&nbsp;for&nbsp;<span class=\""+style.headerCode()+"\">");
+						sb.appendHtmlConstant("&nbsp;for&nbsp;<span class=\""+CotrixManagerResources.INSTANCE.css().headerCode()+"\">");
 						sb.append(SafeHtmlUtils.fromString(value));
 						sb.appendHtmlConstant("</span>");
 					}

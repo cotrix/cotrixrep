@@ -25,8 +25,9 @@ public class CachedSuggestOracle<T extends Suggestion> extends SuggestOracle {
 	
 	private Set<Suggestion> filter(String query, int limit) {
 		Set<Suggestion> suggestions = new HashSet<Suggestion>(limit);
+		String lowerCaseQuery = query.toLowerCase();
 		for (T suggestion:suggestionsCache) {
-			if (suggestion.getDisplayString().toLowerCase().contains(query)) suggestions.add(suggestion);
+			if (suggestion.getDisplayString().toLowerCase().contains(lowerCaseQuery)) suggestions.add(suggestion);
 			if (suggestions.size()>=limit) break;
 		}
 		return suggestions;
