@@ -147,12 +147,18 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 					if (!a.type().equals(SYSTEM_TYPE))
 						attributes.add(a);
 
+				Collection<CodelistLink> links = new ArrayList<CodelistLink>();
+				
+				for (CodelistLink l : list.links())
+					links.add(l);
+
+				
 				Map<QName, Map<QName, Set<String>>> fingerprint = new HashMap<QName, Map<QName, Set<String>>>();
 
 				for (Code c : list.codes())
-					addToFingerprint(fingerprint, c.attributes());
+					addAttributesToFingerprint(fingerprint, c.attributes());
 
-				return new CodelistSummary(list.name(), size, attributes, fingerprint);
+				return new CodelistSummary(list.name(), size, attributes, links, fingerprint);
 			}
 		};
 	}
