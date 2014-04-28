@@ -10,11 +10,7 @@
 }
 
 .systemProperty {
-	color: #1C1C1C;
-	padding-bottom: 8px;
-	padding-left: 10px;
-	padding-right: 8px;
-	padding-top: 8px;
+	color: #1C1C1C !important;
 }
 
 @external .gwt-SplitLayoutPanel-HDragger ;

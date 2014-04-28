@@ -9,6 +9,7 @@ import java.util.List;
 import org.cotrix.web.common.client.util.InstanceMap;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -17,6 +18,7 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -46,8 +48,10 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		public void onSelect();
 	}
 		
+	private ScrollPanel scrollPanel;
 	private VerticalPanel mainPanel;
 	private HTML header;
+	private HTML emptyWidget;
 	private List<P> panels = new ArrayList<P>();
 
 	private final static AttributesGridResources gridResource = GWT.create(AttributesGridResources.class);
@@ -59,23 +63,37 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 
 	private boolean editable;
 
-	public ItemsEditingPanel(String headerText) {
+	public ItemsEditingPanel(String headerText, String noItemsText) {
+		scrollPanel = new ScrollPanel();
+		scrollPanel.setWidth("100%");
+		scrollPanel.setHeight("100%");
+		
 		mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
+		scrollPanel.add(mainPanel);
 
 		gridResource.dataGridStyle().ensureInjected();
 
 		header = new HTML(headerText);
 		header.setStyleName(gridResource.dataGridStyle().dataGridHeader());
 		mainPanel.add(header);
-
-		initWidget(mainPanel);
+		
+		emptyWidget = new HTML(noItemsText);
+		emptyWidget.setStyleName(CotrixManagerResources.INSTANCE.propertyGrid().emptyTableWidget());
+		mainPanel.add(emptyWidget);
+		
+		initWidget(scrollPanel);
 
 		editable = false;
+		updateEmptyWidget();
 	}
 	
 	public void setHeaderText(SafeHtml headerText) {
 		header.setHTML(headerText);
+	}
+	
+	public void setNoItemsText(SafeHtml noItemsText) {
+		emptyWidget.setHTML(noItemsText);
 	}
 	
 	public void synchWithModel(T item) {
@@ -93,11 +111,15 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		if (currentSelection == panel) currentSelection = null;
 		mainPanel.remove(panel);
 		panels.remove(panel);
+		
+		updateEmptyWidget();
 	}
 
 	public void clear() {
 		for (P panel:panels) mainPanel.remove(panel);
 		instances.clear();
+		
+		updateEmptyWidget();
 	}
 
 	public void addItemPanel(final P panel, T item) {
@@ -123,6 +145,8 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 			}
 		});
 		mainPanel.add(panel);
+		
+		updateEmptyWidget();
 	}
 
 	public void addNewItemPanel(final P panel, T item) {
@@ -161,6 +185,13 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 				panel.enterEditMode();
 			}
 		});
+		
+		updateEmptyWidget();
+	}
+	
+	private void updateEmptyWidget(){
+		emptyWidget.setVisible(panels.isEmpty());
+		setStyleName(CotrixManagerResources.INSTANCE.css().noItemsBackground(), panels.isEmpty());
 	}
 
 	private void updateSelection(P selected) {

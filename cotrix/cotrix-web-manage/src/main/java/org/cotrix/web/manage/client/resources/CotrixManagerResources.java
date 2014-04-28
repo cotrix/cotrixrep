@@ -13,7 +13,6 @@ import com.google.inject.Singleton;
 @Singleton
 public interface CotrixManagerResources extends ClientBundle {
 	
-	@Deprecated
 	public static final CotrixManagerResources INSTANCE = GWT.create(CotrixManagerResources.class);
 
 	@Source("style.css")

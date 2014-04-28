@@ -42,7 +42,7 @@ public class LinksPanel extends Composite implements HasEditing {
 	private CotrixManagerResources resources;
 	
 	public LinksPanel() {
-		editingPanel = new ItemsEditingPanel<UILink, LinkPanel>("Links");
+		editingPanel = new ItemsEditingPanel<UILink, LinkPanel>("Links", "no links");
 		initWidget(editingPanel);
 	}
 	

@@ -26,6 +26,8 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -123,6 +125,14 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
 				nameBoxContainer.setText(event.getValue());
+				fireChange();
+			}
+		});
+		
+		nameBox.addKeyUpHandler(new KeyUpHandler() {
+			
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
 				fireChange();
 			}
 		});
