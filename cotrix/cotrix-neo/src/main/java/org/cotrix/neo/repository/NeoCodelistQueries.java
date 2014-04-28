@@ -24,6 +24,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.IteratorAdapter;
 import org.cotrix.domain.user.FingerPrint;
@@ -208,13 +209,18 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 				for (Attribute a : list.attributes())
 					if (!a.type().equals(SYSTEM_TYPE))
 						attributes.add(a);
+				
+				Collection<CodelistLink> links = new ArrayList<CodelistLink>();
+				
+				for (CodelistLink l : list.links())
+					links.add(l);
 
 				Map<QName, Map<QName, Set<String>>> fingerprint = new HashMap<QName, Map<QName, Set<String>>>();
 
 				for (Code c : list.codes())
-					addToFingerprint(fingerprint, c.attributes());
+					addAttributesToFingerprint(fingerprint, c.attributes());
 
-				return new CodelistSummary(list.name(), size, attributes, fingerprint);
+				return new CodelistSummary(list.name(), size, attributes, links, fingerprint);
 			}
 		};
 	}
