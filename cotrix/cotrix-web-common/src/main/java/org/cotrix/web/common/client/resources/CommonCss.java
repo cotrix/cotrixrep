@@ -72,4 +72,8 @@ public interface CommonCss extends CssResource {
 	String dialogTextboxInvalid();
 	String dialogLink();
 	String dialogSubmit();
+	
+	String sugestionListBoxPanel();
+	String sugestionListBoxTextBox();
+	String sugestionListBoxButton();
 }

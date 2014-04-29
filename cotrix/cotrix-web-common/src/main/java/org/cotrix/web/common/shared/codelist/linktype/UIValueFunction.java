@@ -17,9 +17,9 @@ public class UIValueFunction implements IsSerializable {
 		IDENTITY,
 		UPPERCASE,
 		LOWERCASE,
-		PREFIX("prefix"),
-		SUFFIX("suffix"),
-		CUSTOM("expression");
+		PREFIX("Prefix"),
+		SUFFIX("Suffix"),
+		CUSTOM("Expression");
 		
 		private String[] arguments;
 

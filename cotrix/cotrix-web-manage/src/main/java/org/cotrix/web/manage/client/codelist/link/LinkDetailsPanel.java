@@ -14,6 +14,7 @@ import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel;
 import org.cotrix.web.manage.client.codelist.link.CodeSuggestOracle.CodeSuggestion;
 import org.cotrix.web.manage.client.codelist.link.LinkTypeSuggestOracle.LinkTypeSuggestion;
+import org.cotrix.web.manage.client.util.Attributes;
 import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UILinkTypeInfo;
 
@@ -35,7 +36,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestListBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.Widget;
@@ -61,13 +62,13 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 	@UiField Table table;
 
 	@UiField EditableLabel typeBoxContainer;
-	@UiField(provided=true) SuggestBox typeBox;
+	@UiField(provided=true) SuggestListBox typeBox;
 	@UiField Image typeBoxLoader;
 	private LinkTypeSuggestOracle linkTypeSuggestOracle;
 	private UILinkTypeInfo selectedLinkType;
 
 	@UiField EditableLabel targetCodeBoxContainer;
-	@UiField(provided=true) SuggestBox targetCodeBox;
+	@UiField(provided=true) SuggestListBox targetCodeBox;
 	@UiField Image targetCodeBoxLoader;
 	private CodeSuggestOracle codeSuggestOracle;
 	private UICodeInfo selectedCode;
@@ -105,7 +106,7 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 	}	
 
 	private void createLinkTypesBox() {
-		typeBox = new SuggestBox(linkTypeSuggestOracle);
+		typeBox = new SuggestListBox(linkTypeSuggestOracle);
 		typeBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -173,7 +174,7 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 
 
 	private void createTargetCodeBox() {
-		targetCodeBox = new SuggestBox(codeSuggestOracle);
+		targetCodeBox = new SuggestListBox(codeSuggestOracle);
 		targetCodeBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -264,8 +265,8 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 		});
 	}
 
-
 	public void setAttributes(List<UIAttribute> attributes) {
+		Attributes.sortByAttributeType(attributes);
 		attributesPanel.setAttributes(attributes);
 	}
 

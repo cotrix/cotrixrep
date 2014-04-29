@@ -138,11 +138,11 @@ public class AttributeRow extends AbstractRow {
 		addCell(VALUE_COL, valueEditableLabel);
 		setCellStyle(VALUE_COL, propertyGridStyles.valueBoxLeft());
 		
-		addCell(DELETE_COL, deleteButton);
-		setCellStyle(DELETE_COL, propertyGridStyles.valueBoxCenter() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());
-		
 		addCell(FULL_EDIT_COL, fullEditButton);
 		setCellStyle(FULL_EDIT_COL, propertyGridStyles.valueBoxRight() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());		
+		
+		addCell(DELETE_COL, deleteButton);
+		setCellStyle(DELETE_COL, propertyGridStyles.valueBoxCenter() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());
 	}
 	
 	public void setReadOnly(boolean readOnly) {

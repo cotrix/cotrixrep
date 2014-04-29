@@ -57,8 +57,7 @@
 						<c:EditableLabel ui:field="codelistBoxContainer"
 							labelStyle="{resources.propertyGrid.textValue}">
 							<c:editor>
-								<g:SuggestBox ui:field="codelistBox"
-									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+								<g:SuggestListBox ui:field="codelistBox" boxStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}"/>
 							</c:editor>
 						</c:EditableLabel>
 						<g:Image resource="{commonresources.dataLoader}" visible="false"
@@ -99,12 +98,16 @@
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value}" ui:field="functionArgumentsRow">
 				<t:cell>
-					<g:Label></g:Label>
+					<g:Label ui:field="functionArgumentLabel" />
 				</t:cell>
 				<t:cell>
-					<l:FunctionsArgumentsPanels ui:field="functionArguments"
-						labelStyle="{resources.propertyGrid.textValue}"
-						editorStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+					<c:EditableLabel ui:field="functionArgumentContainer"
+						labelStyle="{resources.propertyGrid.textValue}">
+						<c:editor>
+							<g:TextBox ui:field="functionArgumentBox"
+								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+						</c:editor>
+					</c:EditableLabel>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>

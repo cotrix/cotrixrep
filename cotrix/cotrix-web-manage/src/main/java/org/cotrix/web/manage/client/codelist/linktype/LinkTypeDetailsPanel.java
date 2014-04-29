@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.linktype;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.common.client.util.LabelProvider;
@@ -18,6 +19,7 @@ import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel;
 import org.cotrix.web.manage.client.codelist.linktype.CodelistSuggestOracle.CodelistSuggestion;
+import org.cotrix.web.manage.client.util.Attributes;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -40,8 +42,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestListBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.TextBox;
@@ -71,7 +74,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	@UiField TextBox nameBox;
 
 	@UiField EditableLabel codelistBoxContainer;
-	@UiField(provided=true) SuggestBox codelistBox;
+	@UiField(provided=true) SuggestListBox codelistBox;
 	@UiField Image codelistBoxLoader;
 
 	@UiField ValueTypePanel valueTypePanel;
@@ -80,7 +83,9 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	@UiField ListBox valueFunction;
 
 	@UiField CellContainer functionArgumentsRow;
-	@UiField FunctionsArgumentsPanels functionArguments;
+	@UiField Label functionArgumentLabel;
+	@UiField EditableLabel functionArgumentContainer;
+	@UiField TextBox functionArgumentBox;
 
 	private AttributesPanel attributesPanel;
 
@@ -153,12 +158,13 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 
 
 	private void createCodelistBox() {
-		codelistBox = new SuggestBox(codelistSuggestOracle);
+		codelistBox = new SuggestListBox(codelistSuggestOracle);
 		codelistBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
 				selectedCodelist = null;
+				updateValueType(null, null);
 				fireChange();
 			}
 		});
@@ -255,23 +261,25 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		valueFunction.setSelectedIndex(0);
 		syncValueFunction();
 		updateValueFunctionSubPanels();
-
-		functionArguments.addValueChangeHandler(new ValueChangeHandler<List<String>>() {
+		
+		functionArgumentBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
-			public void onValueChange(ValueChangeEvent<List<String>> event) {
+			public void onValueChange(ValueChangeEvent<String> event) {
+				functionArgumentContainer.setText(event.getValue());
 				fireChange();
 			}
 		});
 	}
 
 	public void setValidFunction(boolean valid) {
-		functionArguments.setStyle(style.error(), !valid);
+		functionArgumentBox.setStyleName(style.error(), !valid);
 	}
 
 	public UIValueFunction getValueFunction() {
 		Function function = getSelectedFunction();
-		List<String> arguments = functionArguments.getArgumentsValues();
+		List<String> arguments = new ArrayList<String>();
+		if (functionArgumentsRow.isVisible()) arguments.add(functionArgumentBox.getValue());
 		return new UIValueFunction(function, arguments);
 	}
 
@@ -280,14 +288,21 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		if (valueFunction!=null) {
 			setSelectedFunction(valueFunction.getFunction());
 			updateValueFunctionSubPanels();
-			functionArguments.setArgumentsValues(valueFunction.getArguments());
+			if (!valueFunction.getArguments().isEmpty()) {
+				String argument = valueFunction.getArguments().get(0);
+				functionArgumentBox.setValue(argument);
+				functionArgumentContainer.setText(argument);
+			}
 			syncValueFunction();
 		}
 	}	
 
 	private void updateValueFunctionSubPanels() {
 		Function function = getSelectedFunction();
-		functionArguments.showFunctionPanel(function);
+		if (function.getArguments().length != 0) {
+			String argumentName = function.getArguments()[0];
+			functionArgumentLabel.setText(argumentName);
+		}
 		setFunctionRowVisible(function.getArguments().length>0);
 	}
 
@@ -320,6 +335,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	}
 
 	public void setAttributes(List<UIAttribute> attributes) {
+		Attributes.sortByAttributeType(attributes);
 		attributesPanel.setAttributes(attributes);
 	}
 
@@ -343,8 +359,8 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 
 		valueFunctionContainer.setReadOnly(readOnly);
 
-		functionArguments.setReadOnly(readOnly);
-		if (readOnly) functionArguments.setStyleName(style.error(), false);
+		functionArgumentContainer.setReadOnly(readOnly);
+		if (readOnly) functionArgumentBox.setStyleName(style.error(), false);
 
 		attributesPanel.setReadOnly(readOnly);
 	}
