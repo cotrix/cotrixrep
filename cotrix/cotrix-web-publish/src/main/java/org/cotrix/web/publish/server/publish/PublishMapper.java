@@ -36,7 +36,7 @@ import org.virtualrepository.tabular.Table;
  */
 public interface PublishMapper<T> {
 	
-	public Outcome<T> map(PublishDirectives publishDirectives);
+	public Outcome<T> map(Codelist codelist,PublishDirectives publishDirectives);
 	
 	public class CsvMapper implements PublishMapper<Table> {
 		
@@ -49,7 +49,7 @@ public interface PublishMapper<T> {
 		protected CodelistRepository repository;
 
 		@Override
-		public Outcome<Table> map(PublishDirectives publishDirectives) {
+		public Outcome<Table> map(Codelist codelist,PublishDirectives publishDirectives) {
 			
 			Codelist2TableDirectives directives = new Codelist2TableDirectives();
 			
@@ -63,8 +63,6 @@ public interface PublishMapper<T> {
 			}
 			
 			directives.mode(convertMappingMode(publishDirectives.getMappingMode()));
-			
-			Codelist codelist = repository.lookup(publishDirectives.getCodelistId());
 			
 			return mapper.map(codelist, directives);
 
@@ -98,7 +96,7 @@ public interface PublishMapper<T> {
 		protected CodelistRepository repository;
 
 		@Override
-		public Outcome<CodelistBean> map(PublishDirectives publishDirectives) {
+		public Outcome<CodelistBean> map(Codelist codelist, PublishDirectives publishDirectives) {
 			
 			Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
 			
@@ -118,8 +116,6 @@ public interface PublishMapper<T> {
 				}
 			}
 			
-			Codelist codelist = repository.lookup(publishDirectives.getCodelistId());
-
 			return mapper.map(codelist, directives);
 		}		
 	}

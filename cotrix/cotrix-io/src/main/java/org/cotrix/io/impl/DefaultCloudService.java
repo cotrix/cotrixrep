@@ -7,10 +7,13 @@ import java.util.Iterator;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.io.CloudService;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
 import org.virtualrepository.AssetType;
+import org.virtualrepository.Property;
 import org.virtualrepository.RepositoryService;
 import org.virtualrepository.VirtualRepository;
 import org.virtualrepository.csv.CsvCodelist;
@@ -74,29 +77,42 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 	}
 	
 	@Override
-	public void publish(CodelistBean list, QName name) {
+	public void publish(Codelist list, CodelistBean bean, QName name) {
 		
-		notNull("list",list);
+		notNull("codelist",list);
+		notNull("sdmx bean",bean);
 		notNull("repository name",name);
 		
 		RepositoryService service = repository.services().lookup(name);
 		
-		repository.publish(new SdmxCodelist(list.getId(),service), list);
+		SdmxCodelist asset = new SdmxCodelist(bean.getId(),service);
+		
+		repository.publish(describe(list,asset), bean);
 	}
 	
-	
-
 	@Override
-	public void publish(Table list, QName name) {
+	public void publish(Codelist list, Table table, QName name) {
 		
-		notNull("list",list);
+		notNull("codelist",list);
+		notNull("table",table);
 		notNull("repository name",name);
 		
 		RepositoryService service = repository.services().lookup(name);
 		
-		repository.publish(new CsvCodelist("name",0,service),list);
+		Asset asset = new CsvCodelist("name",0,service);
+		
+		repository.publish(describe(list,asset),table);
 	}
 	
+	
+	private Asset describe(Codelist list, Asset asset) {
+		
+		for (Attribute attribute : list.attributes()) {
+			asset.properties().add(new Property(attribute.name().toString(),attribute.value()));
+		}
+		
+		return asset;
+	}
 	
 	@Override
 	public Iterable<RepositoryService> repositories() {

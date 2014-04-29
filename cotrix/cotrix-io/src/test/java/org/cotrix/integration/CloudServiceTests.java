@@ -35,7 +35,7 @@ public class CloudServiceTests extends ApplicationTest {
 		
 		CodelistBean bean = outcome.result();
 		
-		cloud.publish(bean,new QName("iMarine Registry"));
+		cloud.publish(list,bean,new QName("iMarine Registry"));
 		
 	}
 	
@@ -52,7 +52,7 @@ public class CloudServiceTests extends ApplicationTest {
 		
 		CodelistBean bean = outcome.result();
 		
-		cloud.publish(bean,new QName("semantic-repository"));
+		cloud.publish(list,bean,new QName("semantic-repository"));
 		
 	}
 }

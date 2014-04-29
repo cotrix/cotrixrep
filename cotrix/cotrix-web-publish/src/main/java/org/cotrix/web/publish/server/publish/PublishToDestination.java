@@ -32,7 +32,7 @@ import org.virtualrepository.tabular.Table;
  */
 public interface PublishToDestination {
 
-	public <T> void publish(T codelist, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) throws Exception;
+	public <T> void publish(Codelist original, T mapped, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) throws Exception;
 
 	public class DesktopDestination implements PublishToDestination {
 		
@@ -46,10 +46,10 @@ public interface PublishToDestination {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public <T> void publish(T codelist, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) throws Exception {
+		public <T> void publish(Codelist source,T mapped, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) throws Exception {
 			File destination = File.createTempFile("publish", ".tmp");
 			OutputStream os = new FileOutputStream(destination);
-			serialiser.serialise(codelist, os, serializationDirectives);
+			serialiser.serialise(mapped, os, serializationDirectives);
 			publishStatus.setPublishResult(destination);
 		}
 
@@ -70,11 +70,11 @@ public interface PublishToDestination {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public <T> void publish(T codelist, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) {
+		public <T> void publish(Codelist source, T mapped, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) {
 			
 			QName repositoryId = ValueUtils.toQName(publishDirectives.getRepositoryId());
-			if (codelist instanceof Table) cloud.publish((Table) codelist, repositoryId);
-			if (codelist instanceof CodelistBean) cloud.publish((CodelistBean) codelist, repositoryId);
+			if (mapped instanceof Table) cloud.publish(source,(Table) mapped, repositoryId);
+			if (mapped instanceof CodelistBean) cloud.publish(source,(CodelistBean) mapped, repositoryId);
 			
 			Codelist publishedCodelist = publishStatus.getPublishedCodelist(); 
 			Lifecycle lifecycle = lifecycleService.lifecycleOf(publishedCodelist.id());
