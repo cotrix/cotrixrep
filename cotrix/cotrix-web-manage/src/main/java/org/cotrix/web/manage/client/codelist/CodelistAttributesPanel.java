@@ -58,7 +58,6 @@ import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
@@ -88,18 +87,10 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	interface Binder extends UiBinder<Widget, CodelistAttributesPanel> {}
 	interface CodelistAttributesPanelEventBinder extends EventBinder<CodelistAttributesPanel> {}
 
-	interface Style extends CssResource {
-		String headerCode();
-		String noAttributes();
-	}
-
 	enum AttributeSwitchState {
 		COLUMN,
 		NORMAL;
 	}
-
-	@UiField
-	Style style;
 
 	@UiField(provided = true)
 	AttributesGrid attributesGrid;
@@ -351,7 +342,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 	protected void updateBackground()
 	{
-		setStyleName(style.noAttributes(), visualizedCode == null || visualizedCode.getAttributes().isEmpty());
+		setStyleName(CotrixManagerResources.INSTANCE.css().noItemsBackground(), visualizedCode == null || visualizedCode.getAttributes().isEmpty());
 	}
 
 	protected void setHeader(String text)
@@ -432,7 +423,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 						String value, SafeHtmlBuilder sb) {
 					sb.appendHtmlConstant("<span>Attributes</span>");
 					if (value!=null) {
-						sb.appendHtmlConstant("&nbsp;for&nbsp;<span class=\""+style.headerCode()+"\">");
+						sb.appendHtmlConstant("&nbsp;for&nbsp;<span class=\""+CotrixManagerResources.INSTANCE.css().headerCode()+"\">");
 						sb.append(SafeHtmlUtils.fromString(value));
 						sb.appendHtmlConstant("</span>");
 					}

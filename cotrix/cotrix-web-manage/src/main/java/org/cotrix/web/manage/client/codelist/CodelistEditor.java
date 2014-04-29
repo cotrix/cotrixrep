@@ -159,7 +159,6 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	protected CotrixManagerResources resources;
 
 	protected StyledSafeHtmlRenderer cellRenderer;
-	protected StyledSafeHtmlRenderer systemAttributeCellRenderer;
 
 	@Inject
 	protected ManageServiceAsync managerService;
@@ -169,7 +168,6 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	@Inject
 	private void init() {
-		this.systemAttributeCellRenderer = new StyledSafeHtmlRenderer(resources.css().systemProperty());
 		this.codeEditor = DataEditor.build(this);
 		this.attributeEditor = DataEditor.build(this);
 
@@ -231,7 +229,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	protected void setupColumns() {
 
-		nameColumn = new CodeColumn(createCell(false, true));
+		nameColumn = new CodeColumn(createCell(true));
 
 		nameColumn.setSortable(true);
 
@@ -272,10 +270,10 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		for (DoubleClickEditTextCell cell:editableCells) cell.setReadOnly(!editable);
 	}
 
-	protected DoubleClickEditTextCell createCell(boolean isSystemAttribute, boolean isEditable)
+	protected DoubleClickEditTextCell createCell(boolean isEditable)
 	{
 		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + resources.css().editor();
-		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, isSystemAttribute?systemAttributeCellRenderer:cellRenderer);
+		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, cellRenderer);
 		if (isEditable) {
 			cell.setReadOnly(!editable);
 			editableCells.add(cell);
@@ -373,7 +371,8 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		Log.trace("getGroupColumn group: "+group);
 		Column<UICode, String> column = groupsColumns.get(group);
 		if (column == null) {
-			column = new GroupColumn(createCell(group.isSystemGroup(), group.isEditable()), group);
+			column = new GroupColumn(createCell(group.isEditable()), group);
+			column.setCellStyleNames(group.isSystemGroup()?resources.css().systemProperty():"");
 			column.setSortable(true);
 
 			if (group.isEditable()) {

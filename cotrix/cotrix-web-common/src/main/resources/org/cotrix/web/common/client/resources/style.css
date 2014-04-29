@@ -456,14 +456,14 @@
 @external .gwt-SuggestBoxPopup .item;
 .gwt-SuggestBoxPopup .item {
 	padding: 2px 6px;
-	color: #000;
+	color: #5a5a5a;
 	cursor: default;
-	font-size: 110%;
+	/*font-size: 110%;*/
 }
 
 @external .gwt-SuggestBoxPopup .item-selected;
 .gwt-SuggestBoxPopup .item-selected {
-	background: #D5E2FF;
+	background: #eee;
 }
 
 @external .gwt-SuggestBoxPopup .suggestPopupContent;
@@ -666,4 +666,25 @@
 	background-color: #7085b6;
 	cursor: pointer;
 	outline: none;
+}
+
+.sugestionListBoxPanel {
+	border-radius: 5px;
+	background-color: #fafafa;
+	box-shadow: 0 0 0 0;
+	border: 1px solid #999;
+	
+}
+.sugestionListBoxTextBox {
+	border: none;
+	height: 28px;
+	box-sizing: border-box;
+}
+.sugestionListBoxButton {
+	width: 19px;
+	height: 27px;
+	border: none;
+	background: white;
+	-webkit-appearance: menulist;
+	vertical-align: middle;
 }

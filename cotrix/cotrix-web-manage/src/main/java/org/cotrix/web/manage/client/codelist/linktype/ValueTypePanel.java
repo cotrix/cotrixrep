@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.util.ListBoxUtils;
 import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
@@ -28,7 +29,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
@@ -93,16 +93,14 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 	}
 	
 	public void setCodelist(final String codelistId, final UIValueType selectedType) {
-		valueTypeListLoader.setVisible(true);
-		valueTypeListContainer.setVisible(false);
+		if (codelistId!=null) loadCodelist(codelistId, selectedType);
+		else clear();
+	}
+	
+	private void loadCodelist(final String codelistId, final UIValueType selectedType) {
+		showLoader(true);
 		
-		codelistInfoProvider.getCodelistValueTypes(codelistId, new AsyncCallback<CodelistValueTypes>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
+		codelistInfoProvider.getCodelistValueTypes(codelistId, new ManagedFailureCallback<CodelistValueTypes>() {
 
 			@Override
 			public void onSuccess(CodelistValueTypes result) {
@@ -111,10 +109,14 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 				
 				if (selectedType!=null) setValueType(selectedType);
 				
-				valueTypeListLoader.setVisible(false);
-				valueTypeListContainer.setVisible(true);
+				showLoader(false);
 			}
 		});
+	}
+	
+	private void showLoader(boolean show) {
+		valueTypeListLoader.setVisible(show);
+		valueTypeListContainer.setVisible(!show);
 	}
 	
 	private void mapValueType(String id, UIValueType type) {
@@ -132,8 +134,7 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 	}
 	
 	private void updateValueTypeList(CodelistValueTypes codelistValueTypes, UIValueType selectedType) {
-		valueTypeList.clear();
-		idToValueTypeMap.clear();
+		clear();
 		
 		addValueTypeCode();
 		
@@ -146,6 +147,11 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 		if (selectedType!=null && selectedType instanceof LinkType && !linkTypes.contains(selectedType)) linkTypes.add((LinkType) selectedType);
 		Map<LinkType, String> linkTypesLabels = ValueTypesGrouper.generateLabelsForLinkTypes(linkTypes);
 		addValueTypeItems(linkTypesLabels);
+	}
+	
+	private void clear() {
+		valueTypeList.clear();
+		idToValueTypeMap.clear();
 	}
 	
 	private void addValueTypeItems(Map<? extends UIValueType, String> labels) {

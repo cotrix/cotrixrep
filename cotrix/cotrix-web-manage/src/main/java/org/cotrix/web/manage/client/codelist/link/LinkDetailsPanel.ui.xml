@@ -20,7 +20,7 @@
 		}
 		
 		.error {
-			border: 1px solid red;
+			border: 1px solid red !important;
 		}
 		
 		.loaderContainer {
@@ -44,8 +44,9 @@
 						<c:EditableLabel ui:field="typeBoxContainer"
 							labelStyle="{resources.propertyGrid.textValue}">
 							<c:editor>
-								<g:SuggestBox ui:field="typeBox"
-									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+								<g:SuggestListBox ui:field="typeBox" boxStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}"
+									 />
+									 <!-- styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" -->
 							</c:editor>
 						</c:EditableLabel>
 						<g:Image resource="{commonresources.dataLoader}" visible="false"
@@ -65,8 +66,8 @@
 						<c:EditableLabel ui:field="targetCodeBoxContainer"
 							labelStyle="{resources.propertyGrid.textValue}">
 							<c:editor>
-								<g:SuggestBox ui:field="targetCodeBox"
-									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+								<g:SuggestListBox ui:field="targetCodeBox"
+									boxStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
 							</c:editor>
 						</c:EditableLabel>
 						<g:Image resource="{commonresources.dataLoader}" visible="false"

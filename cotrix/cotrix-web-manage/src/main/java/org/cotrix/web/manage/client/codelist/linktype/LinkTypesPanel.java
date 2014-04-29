@@ -38,7 +38,7 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 	private ItemsEditingPanel<UILinkType, LinkTypePanel> editingPanel;
 	
 	public LinkTypesPanel() {
-		editingPanel = new ItemsEditingPanel<UILinkType, LinkTypePanel>("Codelist Links");
+		editingPanel = new ItemsEditingPanel<UILinkType, LinkTypePanel>("Codelist Links", "no links");
 		initWidget(editingPanel);
 	}
 	

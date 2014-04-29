@@ -14,12 +14,12 @@
 		margin-top: 10px;
 	}
 	</ui:style>
-	<g:HTMLPanel height="31px">
+	<g:HTMLPanel height="31px" width="100%">
 		<c:EditableLabel ui:field="valueTypeListContainer"
 			labelStyle="{resources.propertyGrid.textValue}">
 			<c:editor>
 				<g:ListBox multipleSelect="false" ui:field="valueTypeList"
-					styleName="{commonresources.css.listBox}" />
+					styleName="{commonresources.css.listBox}" width="100%"/>
 			</c:editor>
 		</c:EditableLabel>
 		<g:Image ui:field="valueTypeListLoader" resource="{commonresources.dataLoader}" visible="false"

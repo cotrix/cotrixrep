@@ -43,16 +43,27 @@ public class FadeAnimation extends Animation {
 		}		
 	}
 	
-	protected static final double INVISIBLE_OPACITY = 0.0;
-	protected static final double VISIBLE_OPACITY = 1.0;
+	public static final double INVISIBLE_OPACITY = 0.0;
+	public static final double VISIBLE_OPACITY = 1.0;
 	
 	private Element element;
 	private double opacityIncrement;
 	private double targetOpacity;
 	private double baseOpacity;
+	
+	private double visibleOpacity;
+	private double invisibleOpacity;
 
 	public FadeAnimation(Element element) {
 		this.element = element;
+		this.visibleOpacity = VISIBLE_OPACITY;
+		this.invisibleOpacity = INVISIBLE_OPACITY;
+	}
+	
+	public FadeAnimation(Element element, double visibleOpacity, double invisibleOpacity) {
+		this.element = element;
+		this.visibleOpacity = visibleOpacity;
+		this.invisibleOpacity = invisibleOpacity;
 	}
 
 	@Override
@@ -73,12 +84,12 @@ public class FadeAnimation extends Animation {
 		else fadeOut(speed);
 	}
 	
-	protected boolean isElementVisible() {
+	public boolean isElementVisible() {
 		String opacityValue = element.getStyle().getOpacity();
 		if (opacityValue == null) return true;
 		try {
 			double opacity = new BigDecimal(opacityValue).doubleValue();
-			return opacity == VISIBLE_OPACITY;
+			return opacity == visibleOpacity;
 		} catch(NumberFormatException e) {
 			return true;
 		}
@@ -88,12 +99,12 @@ public class FadeAnimation extends Animation {
 	{
 		cancel();
 		element.getStyle().setOpacity(1);
-		fade(speed.getTime(), INVISIBLE_OPACITY);
+		fade(speed.getTime(), invisibleOpacity);
 	}
 	
 	public void fadeIn(Speed speed)
 	{
-		fadeIn(INVISIBLE_OPACITY, speed);
+		fadeIn(invisibleOpacity, speed);
 	}
 	
 	public void fadeIn(double startingOpacity, Speed speed)

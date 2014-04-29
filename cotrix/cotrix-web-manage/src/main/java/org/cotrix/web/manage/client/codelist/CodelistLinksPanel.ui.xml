@@ -28,9 +28,7 @@
 	</ui:style>
 	<g:DockLayoutPanel unit='PX'>
 		<g:center>
-			<g:ScrollPanel>
-				<v:LinksPanel ui:field="linksPanel" />
-			</g:ScrollPanel>
+			<v:LinksPanel ui:field="linksPanel" />
 		</g:center>
 		<g:south size="28">
 			<c:ItemToolbar ui:field="toolBar" />

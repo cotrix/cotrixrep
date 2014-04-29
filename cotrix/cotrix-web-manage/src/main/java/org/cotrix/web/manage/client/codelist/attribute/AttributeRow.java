@@ -12,6 +12,8 @@ import org.cotrix.web.manage.client.resources.CotrixManagerResources.PropertyGri
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Image;
@@ -25,7 +27,6 @@ import com.google.gwt.user.client.ui.TextBox;
 public class AttributeRow extends AbstractRow {
 	
 	private static final PropertyGridStyle propertyGridStyles = CotrixManagerResources.INSTANCE.propertyGrid();
-	private static final String HEADER_STYLE = propertyGridStyles.header();
 	private static final String TEXTBOX_STYLE = CommonResources.INSTANCE.css().textBox()+ " " + CotrixManagerResources.INSTANCE.css().editor();
 	private static final String TEXTVALUE_STYLE = propertyGridStyles.textValue();
 	private static final AttributeRowStyle ATTRIBUTE_ROW_STYLE = CotrixManagerResources.INSTANCE.attributeRow();
@@ -65,6 +66,14 @@ public class AttributeRow extends AbstractRow {
 			}
 		};
 		
+		KeyUpHandler keyUpHandler = new KeyUpHandler() {
+			
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				fireValueChanged();
+			}
+		};
+		
 		nameTextBox = new TextBox();
 		nameTextBox.setHeight("31px");
 		nameTextBox.setStyleName(TEXTBOX_STYLE);
@@ -76,6 +85,7 @@ public class AttributeRow extends AbstractRow {
 		
 		nameTextBox.addValueChangeHandler(nameEditableLabel);
 		nameTextBox.addValueChangeHandler(changeHandler);
+		nameTextBox.addKeyUpHandler(keyUpHandler);
 		
 		valueTextBox = new TextBox();
 		valueTextBox.setHeight("31px");
@@ -88,6 +98,7 @@ public class AttributeRow extends AbstractRow {
 		valueEditableLabel.setReadOnly(readOnly);
 		
 		valueTextBox.addValueChangeHandler(valueEditableLabel);
+		valueTextBox.addKeyUpHandler(keyUpHandler);
 		
 		deleteButton = new PushButton(new Image(CommonResources.INSTANCE.minus()));
 		deleteButton.setStyleName(ATTRIBUTE_ROW_STYLE.button());
@@ -127,11 +138,11 @@ public class AttributeRow extends AbstractRow {
 		addCell(VALUE_COL, valueEditableLabel);
 		setCellStyle(VALUE_COL, propertyGridStyles.valueBoxLeft());
 		
-		addCell(DELETE_COL, deleteButton);
-		setCellStyle(DELETE_COL, propertyGridStyles.valueBoxCenter() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());
-		
 		addCell(FULL_EDIT_COL, fullEditButton);
 		setCellStyle(FULL_EDIT_COL, propertyGridStyles.valueBoxRight() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());		
+		
+		addCell(DELETE_COL, deleteButton);
+		setCellStyle(DELETE_COL, propertyGridStyles.valueBoxCenter() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());
 	}
 	
 	public void setReadOnly(boolean readOnly) {

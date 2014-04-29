@@ -149,19 +149,19 @@
 }
 
 .dataGridKeyboardSelectedRow {
-	color: #097bfb;
+	color: #097bfb !important;
 }
 
 .dataGridKeyboardSelectedRowCell {
-	color: #097bfb;
+	color: #097bfb !important;
 }
 
 .dataGridSelectedRow {
-	color: #097bfb;
+	color: #097bfb !important;
 }
 
 .dataGridSelectedRowCell {
-	color: #097bfb;
+	color: #097bfb !important;
 }
 
 /**

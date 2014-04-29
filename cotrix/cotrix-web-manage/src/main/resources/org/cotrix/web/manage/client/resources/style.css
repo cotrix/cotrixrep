@@ -10,11 +10,7 @@
 }
 
 .systemProperty {
-	color: #1C1C1C;
-	padding-bottom: 8px;
-	padding-left: 10px;
-	padding-right: 8px;
-	padding-top: 8px;
+	color: #1C1C1C !important;
 }
 
 @external .gwt-SplitLayoutPanel-HDragger ;
@@ -41,9 +37,9 @@
 
 
 @sprite .addButton {
-	gwt-image: "addButton";
+	gwt-image: "addButtonHover";
 	background-position: 50%;
-	background-color: #ddd;
+	background-color: #5674b9;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	text-align: center;
@@ -51,18 +47,19 @@
 	height: 31px;
 	font-size: 24px;
 	padding-left: 106px;
-	color: #666;
+	color: #fff;
 	outline: none;
 	
 	margin-top: 5px;
 }
 
-@sprite .addButton:hover {
-	gwt-image: "addButtonHover";
-	background-position: 50%;
-	background-color: #5674b9;
-	color: #fff;
+.addButton:hover {
 	cursor: pointer;
-	width: 100%;
-	height: 31px;
+}
+
+.headerCode {
+	color: #097bfb;
+}
+.noItemsBackground {
+	background-color: #efefef;
 }

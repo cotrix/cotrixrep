@@ -6,14 +6,14 @@
 	<ui:with field='commonresources'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
 	<ui:style>
-	.leftButtonBar {
+	.leftButtonBarPanel {
 		float: left;
 		vertical-align: middle;
 		width: 50%;
 		height: 100%;
 	}
 	
-	.rightButtonBar {
+	.rightButtonBarPanel {
 		float: right;
 		vertical-align: middle;
 		background-color: #f1f1f1;
@@ -21,9 +21,15 @@
 		height: 100%;
 	}
 	
-	.buttonBar {
+	.codesButtonBar {
 		vertical-align: middle;
 		margin-left: 10px;
+	}
+		
+	.codelistButtonBar {
+		vertical-align: middle;
+		margin-left: 10px;
+		float: right;
 	}
 	
 	.button {
@@ -46,8 +52,8 @@
 	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
 		<g:north size='34'>
 			<g:FlowPanel>
-				<g:FlowPanel styleName="{style.leftButtonBar}">
-					<g:HorizontalPanel styleName="{style.buttonBar}"
+				<g:FlowPanel styleName="{style.leftButtonBarPanel}">
+					<g:HorizontalPanel styleName="{style.codesButtonBar}"
 						verticalAlignment="middle" height="100%">
 						<g:ToggleButton ui:field="attributesButton" width="32px"
 							styleName="{style.button}">
@@ -63,8 +69,8 @@
 						</g:ToggleButton>
 					</g:HorizontalPanel>
 				</g:FlowPanel>
-				<g:FlowPanel styleName="{style.rightButtonBar}">
-					<g:HorizontalPanel styleName="{style.buttonBar}"
+				<g:FlowPanel styleName="{style.rightButtonBarPanel}">
+					<g:HorizontalPanel styleName="{style.codelistButtonBar}"
 						verticalAlignment="middle" height="100%">
 						<g:ToggleButton ui:field="metadataButton" width="32px"
 							styleName="{style.button}">

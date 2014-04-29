@@ -48,6 +48,10 @@ public abstract class AbstractRow implements Row {
 		table.getRowFormatter().setVisible(rowIndex, visible);		
 	}
 	
+	public boolean isVisible() {
+		return table.getRowFormatter().isVisible(rowIndex);
+	}
+	
 	public class Position {
 		int row;
 		int col;
