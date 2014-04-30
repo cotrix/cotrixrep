@@ -205,7 +205,8 @@ public class PublishTask implements TaskWizardStep {
 	protected void publishComplete(Progress progress) {
 		publishProgressPolling.cancel();
 		publishBus.fireEvent(new PublishCompleteEvent(progress));
-		callback.onSuccess(PublishWizardAction.NEXT);
+		if (progress.getStatus() == Status.DONE) callback.onSuccess(PublishWizardAction.NEXT);
+		else callback.onFailure(progress.getFailureCause());
 	}
 	
 	protected void startDownload() {

@@ -24,10 +24,13 @@ public class ValueTypesGrouper {
 		public String getGroupKey(T type);
 		
 		public GroupKeyFunction<T> nextFunction();
+		
+		public String prefix();
+		public String suffix();
 	}
 	
 	private enum AttributeTypeGroupKeyFunction implements GroupKeyFunction<AttributeType> {
-		NAME() {
+		NAME("","") {
 			@Override
 			public String getGroupKey(AttributeType type) {
 				return ValueUtils.getLocalPart(type.getName());
@@ -38,7 +41,7 @@ public class ValueTypesGrouper {
 				return LANGUAGE;
 			}
 		},
-		LANGUAGE() {
+		LANGUAGE("[","]") {
 
 			@Override
 			public String getGroupKey(AttributeType type) {
@@ -51,7 +54,7 @@ public class ValueTypesGrouper {
 				return TYPE;
 			}
 		},
-		TYPE() {
+		TYPE("{","}") {
 
 			@Override
 			public String getGroupKey(AttributeType type) {
@@ -63,12 +66,27 @@ public class ValueTypesGrouper {
 				return null;
 			}
 			
+		};
+		
+		private String prefix;
+		private String suffix;
+		
+		private AttributeTypeGroupKeyFunction(String prefix, String suffix) {
+			this.prefix = prefix;
+			this.suffix = suffix;
 		}
-	;		
-}
+
+		public String prefix() {
+			return prefix;
+		}
+
+		public String suffix() {
+			return suffix;
+		}
+	}
 	
 	private enum LinkTypeGroupKeyFunction implements GroupKeyFunction<LinkType> {
-			NAME() {
+			NAME("","") {
 				@Override
 				public String getGroupKey(LinkType type) {
 					return ValueUtils.getLocalPart(type.getName());
@@ -105,7 +123,24 @@ public class ValueTypesGrouper {
 				}
 				
 			}*/
-		;		
+		;	
+		
+		
+		private String prefix;
+		private String suffix;
+		
+		private LinkTypeGroupKeyFunction(String prefix, String suffix) {
+			this.prefix = prefix;
+			this.suffix = suffix;
+		}
+
+		public String prefix() {
+			return prefix;
+		}
+
+		public String suffix() {
+			return suffix;
+		}
 	}
 	
 	public static Map<LinkType, String> generateLabelsForLinkTypes(List<LinkType> linkTypes) {
@@ -116,7 +151,6 @@ public class ValueTypesGrouper {
 		return generateLabels(attributeTypes, AttributeTypeGroupKeyFunction.NAME);
 	}
 	
-	//<name> [<lang>(,type=<type>)?]?
 	private static <T extends UIValueType> Map<T, String> generateLabels(List<T> attributeTypes, GroupKeyFunction<T> groupValueFunction) {
 		
 		Map<T, String> labels = new HashMap<T, String>();
@@ -133,7 +167,7 @@ public class ValueTypesGrouper {
 		
 		for (Map.Entry<String, List<T>> group:groups.entrySet()) {
 			String groupName = group.getKey();
-			String name = labelPrefix + " " + groupName;
+			String name = labelPrefix + " " + groupKeyFunction.prefix() + groupName + groupKeyFunction.suffix();
 			
 			List<T> types = group.getValue();
 			
