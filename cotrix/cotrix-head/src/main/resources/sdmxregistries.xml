@@ -8,7 +8,7 @@
 		<property name="scope"
 			value="/d4science.research-infrastructures.eu/gCubeApps" />
 	</gcube>
-	<generic>
+	<generic readonly="true">
 		<name>FAO Sdmx Registry</name>
 		<address>http://data.fao.org/sdmx/registry/</address>
 	</generic>
