@@ -27,14 +27,6 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 	}
 	
 	public static Codelist2SdmxDirectives DEFAULT = new Codelist2SdmxDirectives();
-	
-	private static Map<QName,SdmxElement> defaults = new HashMap<QName,SdmxElement>();
-	
-	static {
-		
-		for (SdmxElement e : SdmxElement.values())
-			defaults.put(e.defaultType(),e);
-	}
 
 	private final Map<Attribute,SdmxElement> attributeDirectives = new HashMap<Attribute,SdmxElement>();
 	
@@ -79,12 +71,8 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 	
 	public SdmxElement get(Attribute attribute) {
 		
-		SdmxElement element = attributeDirectives.get(canonicalFormOf(attribute));
+		return attributeDirectives.get(canonicalFormOf(attribute));
 		
-		if (element==null && attribute.type()!=null)
-			element = defaults.get(attribute.type());
-		
-		return element;
 	}
 	
 	

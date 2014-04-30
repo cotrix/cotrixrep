@@ -80,6 +80,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		report().log(item(msg)).as(INFO);
 
 		return codelistbean.getImmutableInstance();
+
 	}
 	
 	//helpers
