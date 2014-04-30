@@ -2,6 +2,7 @@ package org.cotrix.io;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.codelist.Codelist;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
 import org.virtualrepository.RepositoryService;
@@ -64,21 +65,24 @@ public interface CloudService extends Iterable<Asset> {
 
 	/**
 	 * Publishes a codelist in SDMX in a given repository.
-	 * @param list the codelist
+	 * 
+	 * @param codelist the original codelist
+	 * @param bean the publication API
 	 * @param repository the name of the repository
 	 * 
 	 * @throws IllegalStateException if the codelist cannot be published in SDMX in the given repository
 	 */
-	void publish(CodelistBean list, QName repository);
-
+	void publish(Codelist codelist,CodelistBean bean, QName repository);
+	
 	/**
 	 * Publishes a codelist in tabular format in a given repository.
-	 * @param list the codelist
+	 * @param codelist the original codelist
+	 * @param table the publication api
 	 * @param repository the name of the repository
 	 * 
 	 * @throws IllegalStateException if the codelist cannot be published in tabular format in the given repository.
 	 */
-	void publish(Table list, QName repository);
+	void publish(Codelist codelist,Table table, QName repository);
 
 	/**
 	 * Returns the publication channels.

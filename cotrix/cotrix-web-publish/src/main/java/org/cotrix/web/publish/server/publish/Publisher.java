@@ -5,11 +5,15 @@ package org.cotrix.web.publish.server.publish;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.tx.Transactional;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.SerialisationService.SerialisationDirectives;
+import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.Reports;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
@@ -26,6 +30,9 @@ public class Publisher {
 
 	protected Logger logger = LoggerFactory.getLogger(Publisher.class);
 	
+	@Inject
+	CodelistRepository repository;
+	
 	@Transactional
 	public <T> void publish(PublishDirectives publishDirectives,
 			PublishMapper<T> mapper,
@@ -37,8 +44,10 @@ public class Publisher {
 		try {
 			logger.info("starting publishing");
 
+			Codelist codelist = repository.lookup(publishDirectives.getCodelistId());
+			
 			logger.trace("mapping");
-			Outcome<T> outcome = mapper.map(publishDirectives);
+			Outcome<T> outcome = mapper.map(codelist,publishDirectives);
 
 			Report report = outcome.report();
 
@@ -58,7 +67,7 @@ public class Publisher {
 
 			logger.trace("serializing");
 			SerialisationDirectives<T> serialisationDirectives = serializationProducer.produce(publishDirectives);
-			destination.publish(outcome.result(), serialisationDirectives, publishDirectives, publishStatus, session);
+			destination.publish(codelist, outcome.result(), serialisationDirectives, publishDirectives, publishStatus, session);
 
 			logger.info("publish complete");
 			progress.setDone();
