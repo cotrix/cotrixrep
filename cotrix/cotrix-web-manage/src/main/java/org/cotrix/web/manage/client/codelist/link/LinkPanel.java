@@ -58,6 +58,7 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Void> event) {
+				if (editing) detailsPanel.setValue("will be calculated...");
 				validate();
 			}
 		});
@@ -117,6 +118,7 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 	private void onSave() {
 		stopEdit();
 		readLink();
+		detailsPanel.setValueLoaderVisible(true);
 		if (listener!=null) listener.onSave(link);
 		updateHeaderLabel();
 	}
@@ -173,6 +175,7 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 		detailsPanel.setCode(link.getTargetId(), link.getTargetName());
 		detailsPanel.setValue(link.getValue());
 		detailsPanel.setValueVisible(link.getValue()!=null);
+		detailsPanel.setValueLoaderVisible(false);
 		detailsPanel.setAttributes(link.getAttributes());
 	}
 	
@@ -204,10 +207,9 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 		
 		UICodeInfo code = detailsPanel.getCode();
 		boolean codeValid = code!=null;
-		detailsPanel.setValidLinkType(codeValid);
+		detailsPanel.setValidCode(codeValid);
 		valid &= codeValid;
 
-		
 		valid &= detailsPanel.areAttributesValid();
 
 		Log.trace("Valid ? "+valid);
