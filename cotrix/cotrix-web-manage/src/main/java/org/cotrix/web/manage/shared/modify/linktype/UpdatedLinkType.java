@@ -37,4 +37,16 @@ public class UpdatedLinkType extends ModifyCommandResult implements ContainsAttr
 	public HasAttributes getAttributed() {
 		return link;
 	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UpdatedLinkType [link=");
+		builder.append(link);
+		builder.append("]");
+		return builder.toString();
+	}
 }

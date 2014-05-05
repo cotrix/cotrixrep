@@ -3,14 +3,16 @@
  */
 package org.cotrix.web.manage.shared.modify.linktype;
 
+import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
+import org.cotrix.web.manage.shared.modify.ContainsAttributed;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UpdateLinkTypeCommand implements ModifyCommand, LinkTypeCommand {
+public class UpdateLinkTypeCommand implements ModifyCommand, LinkTypeCommand, ContainsAttributed {
 
 	protected UILinkType linktype;
 
@@ -29,6 +31,12 @@ public class UpdateLinkTypeCommand implements ModifyCommand, LinkTypeCommand {
 	public UILinkType getLinkType() {
 		return linktype;
 	}
+	
+
+	@Override
+	public HasAttributes getAttributed() {
+		return linktype;
+	}
 
 	/** 
 	 * {@inheritDoc}
@@ -41,4 +49,5 @@ public class UpdateLinkTypeCommand implements ModifyCommand, LinkTypeCommand {
 		builder.append("]");
 		return builder.toString();
 	}
+
 }

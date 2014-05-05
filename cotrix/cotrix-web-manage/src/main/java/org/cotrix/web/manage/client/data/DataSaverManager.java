@@ -100,6 +100,8 @@ public class DataSaverManager {
 						}
 
 						if (data instanceof ContainsAttributed && result instanceof ContainsAttributed) updateAttributes(((ContainsAttributed)data).getAttributed(), ((ContainsAttributed)result).getAttributed());
+						if (data instanceof HasAttributes && result instanceof ContainsAttributed) updateAttributes((HasAttributes)data, ((ContainsAttributed)result).getAttributed());
+						
 						
 						if (data instanceof ContainsValued && result instanceof HasValue) updateValue(((ContainsValued)data).getValued(), (HasValue)result);
 						
