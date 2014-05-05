@@ -186,6 +186,11 @@
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-rtms</artifactId>
 				</dependency>
+				
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-data-fao</artifactId>
+				</dependency>
 
 			</dependencies>
 
@@ -259,10 +264,10 @@
 					<artifactId>virtual-rtms</artifactId>
 				</dependency>
 				
-<!-- 				<dependency>
+				<dependency>
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-data-fao</artifactId>
-				</dependency> -->
+				</dependency>
 
 
 			</dependencies>
@@ -289,6 +294,11 @@
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-sdmx-registry</artifactId>
 					<scope>runtime</scope>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-data-fao</artifactId>
 				</dependency>
 
 				<dependency>
