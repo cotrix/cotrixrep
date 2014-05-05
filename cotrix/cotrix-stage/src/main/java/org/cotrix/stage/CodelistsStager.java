@@ -209,8 +209,8 @@ public class CodelistsStager {
 		for (ColumnDirectives directive : directives)
 			mappingDirectives.add(directive);
 
-		Attribute att1 = attribute().name("filename").value(info.resource).in("English").build();
-		Attribute att2 = attribute().name("format").value("CSV").in("English").build();
+		Attribute att1 = attribute().name("filename").value(info.resource).in("en").build();
+		Attribute att2 = attribute().name("format").value("CSV").in("en").build();
 
 		mappingDirectives.attributes(att1, att2);
 

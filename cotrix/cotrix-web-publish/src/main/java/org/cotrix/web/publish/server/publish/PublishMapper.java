@@ -89,6 +89,8 @@ public interface PublishMapper<T> {
 	
 	public class SdmxMapper implements PublishMapper<CodelistBean> {
 		
+		protected Logger logger = LoggerFactory.getLogger(SdmxMapper.class);
+		
 		@Inject
 		protected MapService mapper;
 		
@@ -111,7 +113,7 @@ public interface PublishMapper<T> {
 					
 					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();
 					UISdmxElement element = (UISdmxElement) mapping.getMapping();
-					
+					logger.trace("mapping {} to {}", attributeDefinition, element);
 					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).to(SdmxElements.toSdmxElement(element));
 				}
 			}
