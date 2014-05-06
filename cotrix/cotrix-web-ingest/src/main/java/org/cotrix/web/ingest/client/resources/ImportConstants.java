@@ -17,9 +17,6 @@ public interface ImportConstants extends Constants {
 	@Deprecated
 	public static ImportConstants INSTANCE = GWT.create(ImportConstants.class);
 	
-	@DefaultStringArrayValue({"en","fr"})
-	String[] languages();
-	
 	@DefaultIntValue(30)
 	int fileNameMaxSize();
 	
