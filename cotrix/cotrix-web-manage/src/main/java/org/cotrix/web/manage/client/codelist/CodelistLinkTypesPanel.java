@@ -81,6 +81,13 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 			public void onCreate(UILinkType linkType) {
 				linkTypeEditor.added(linkType);
 			}
+
+			@Override
+			public void onSwitch(
+					UILinkType item,
+					SwitchState state) {
+				//ignored				
+			}
 		});
 		
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {

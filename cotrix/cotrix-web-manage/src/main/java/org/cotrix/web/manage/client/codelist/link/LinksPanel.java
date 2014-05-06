@@ -10,6 +10,7 @@ import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
@@ -103,6 +104,10 @@ public class LinksPanel extends Composite implements HasEditing {
 
 	public void clear() {
 		editingPanel.clear();
+	}
+	
+	public void setSwitchState(UILink item, SwitchState state) {
+		editingPanel.setSwitchState(item, state);
 	}
 
 	public void addLink(UILink link) {

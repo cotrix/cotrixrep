@@ -46,6 +46,7 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 		this.link = link;
 		
 		header = new LabelHeader();
+		header.setSwitchVisible(true);
 		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");
 		disclosurePanel.setAnimationEnabled(true);
@@ -93,6 +94,11 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 					case SAVE: onSave(); break;
 				}
 			}
+
+			@Override
+			public void onSwitchChange(boolean isDown) {
+				onSwitch(isDown);
+			}
 		});
 
 		detailsPanel.setReadOnly(true);
@@ -126,6 +132,10 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 	private void onEdit() {
 		startEdit();
 		validate();
+	}
+	
+	private void onSwitch(boolean isDown) {
+		if (listener!=null) listener.onSwitch(isDown);
 	}
 	
 	public void syncWithModel() {
@@ -226,6 +236,11 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 	@Override
 	public void setListener(ItemEditingPanelListener<UILink> listener) {
 		this.listener = listener;
+	}
+
+	@Override
+	public void setSwitchDown(boolean down) {
+		header.setSwitchDown(down);
 	}
 
 }

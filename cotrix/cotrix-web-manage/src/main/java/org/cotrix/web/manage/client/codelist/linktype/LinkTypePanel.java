@@ -95,6 +95,11 @@ public class LinkTypePanel extends Composite implements ItemEditingPanel<UILinkT
 					case SAVE: onSave(); break;
 				}
 			}
+
+			@Override
+			public void onSwitchChange(boolean isDown) {
+				//explicitly ignored
+			}
 		});
 
 		detailsPanel.setReadOnly(true);
@@ -239,6 +244,11 @@ public class LinkTypePanel extends Composite implements ItemEditingPanel<UILinkT
 	@Override
 	public void setListener(ItemEditingPanelListener<UILinkType> listener) {
 		this.listener = listener;
+	}
+
+	@Override
+	public void setSwitchDown(boolean down) {
+		header.setSwitchDown(down);
 	}
 
 }

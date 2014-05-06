@@ -28,4 +28,18 @@ public class GroupSwitchedEvent extends GenericEvent {
 	public GroupSwitchType getSwitchType() {
 		return switchType;
 	}
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("GroupSwitchedEvent [group=");
+		builder.append(group);
+		builder.append(", switchType=");
+		builder.append(switchType);
+		builder.append("]");
+		return builder.toString();
+	}
 }

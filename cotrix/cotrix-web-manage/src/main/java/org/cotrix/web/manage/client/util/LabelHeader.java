@@ -19,8 +19,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -43,10 +45,18 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	
 	public interface HeaderListener {
 		public void onButtonClicked(Button button);
+		public void onSwitchChange(boolean isDown);
 	}
 
 	@UiField
 	FocusPanel headerBox;
+	
+	@UiField 
+	DeckPanel labelControls;
+	@UiField
+	Image bullet;
+	@UiField
+	ToggleButton switchButton;
 	
 	@UiField
 	InlineLabel headerLabel;
@@ -83,6 +93,16 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		completeControlsAnimation = new FadeAnimation(completeControls.getElement());
 		saveAnimation = new FadeAnimation(save.getElement(), FadeAnimation.VISIBLE_OPACITY, 0.2);
 		revertAnimation = new FadeAnimation(revert.getElement());
+		setSwitchVisible(false);
+	}
+	
+	public void setSwitchVisible(boolean visible) {
+		int index = visible?labelControls.getWidgetIndex(switchButton):labelControls.getWidgetIndex(bullet);
+		labelControls.showWidget(index);
+	}
+	
+	public void setSwitchDown(boolean down) {
+		switchButton.setDown(down);
 	}
 
 	public void setListener(HeaderListener listener) {
@@ -110,6 +130,11 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	@UiHandler("revert")
 	void onRevert(ClickEvent event) {
 		fireOnClick(Button.REVERT);
+	}
+	
+	@UiHandler("switchButton")
+	void onSwitch(ClickEvent event) {
+		if (listener!=null) listener.onSwitchChange(switchButton.isDown());
 	}
 	
 	private void fireOnClick(Button button) {

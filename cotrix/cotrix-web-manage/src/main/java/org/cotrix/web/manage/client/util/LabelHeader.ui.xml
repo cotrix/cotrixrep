@@ -14,14 +14,14 @@
 		cursor: pointer;
 	}
 	
-	.headerLeftBox {
-		padding-top: 5px;
+	.headerBox {
 		float: left;
 		vertical-align: middle;
-		width: 70%;
+		width: 100%;
 		height: 23px;
 		outline: none;
 		cursor: pointer;
+		display: inline;
 	}
 	
 	.headerSelected {
@@ -52,29 +52,42 @@
 		display: inline;
 	}
 	</ui:style>
-	<g:FlowPanel styleName="{style.header}">
-		<g:FocusPanel ui:field="headerBox" styleName="{style.headerLeftBox}">
-			<g:FlowPanel>
-				<g:Image resource="{resources.bullet}" styleName="{style.bullet}" />
-				<g:InlineLabel ui:field="headerLabel" styleName="{style.headerLabel}" />
-			</g:FlowPanel>
-		</g:FocusPanel>
-		<g:FlowPanel styleName="{style.buttons}">
-			<g:DeckPanel ui:field="controls">
-				<g:PushButton ui:field="edit" styleName="{style.button}">
-					<g:upFace image="{resources.edit}" />
-				</g:PushButton>
-				<g:FlowPanel ui:field="completeControls">
-					<g:PushButton ui:field="revert" styleName="{style.button}">
-						<g:upFace image="{resources.cancel}" />
-					</g:PushButton>
-					<g:PushButton ui:field="save" styleName="{style.button}">
-						<g:upFace image="{resources.save}" />
-					</g:PushButton>
-				</g:FlowPanel>
-			</g:DeckPanel>
-
-
-		</g:FlowPanel>
-	</g:FlowPanel>
+	<g:HTMLPanel styleName="{style.header}">
+		<table width="100%">
+			<tr>
+				<td width="24px">
+					<g:DeckPanel ui:field="labelControls" >
+						<g:Image ui:field="bullet" resource="{resources.bullet}"
+							styleName="{style.bullet}" />
+						<g:ToggleButton ui:field="switchButton" styleName="{style.button}">
+							<g:upFace image="{resources.table}" />
+							<g:downFace image="{resources.tableDisabled}" />
+						</g:ToggleButton>
+					</g:DeckPanel>
+				</td>
+				<td>
+					<g:FocusPanel ui:field="headerBox" styleName="{style.headerBox}">
+						<g:InlineLabel ui:field="headerLabel" styleName="{style.headerLabel}" />
+					</g:FocusPanel>
+				</td>
+				<td width="48px">
+					<g:FlowPanel styleName="{style.buttons}">
+						<g:DeckPanel ui:field="controls">
+							<g:PushButton ui:field="edit" styleName="{style.button}">
+								<g:upFace image="{resources.edit}" />
+							</g:PushButton>
+							<g:FlowPanel ui:field="completeControls">
+								<g:PushButton ui:field="revert" styleName="{style.button}">
+									<g:upFace image="{resources.cancel}" />
+								</g:PushButton>
+								<g:PushButton ui:field="save" styleName="{style.button}">
+									<g:upFace image="{resources.save}" />
+								</g:PushButton>
+							</g:FlowPanel>
+						</g:DeckPanel>
+					</g:FlowPanel>
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
 </ui:UiBinder> 
