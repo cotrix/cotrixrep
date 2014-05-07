@@ -14,12 +14,22 @@ import com.google.gwt.user.client.rpc.InvocationException;
  */
 public class Exceptions {
 	
+	public static ServiceErrorException toServiceErrorException(String errorMessage, Throwable throwable) {
+		return new ServiceErrorException(toError(errorMessage, throwable));
+	}
+	
+	public static ServiceErrorException toServiceErrorException(Throwable throwable) {
+		return new ServiceErrorException(toError(throwable));
+	}
+	
 	public static Error toError(String errorMessage, Throwable throwable) {
+		if (throwable instanceof ServiceErrorException) return new Error(errorMessage, ((ServiceErrorException)throwable).getError().getDetails());
 		String details = Exceptions.getPrintStackTrace(throwable);
 		return new Error(errorMessage, details);
 	}
 
 	public static Error toError(Throwable throwable) {
+		if (throwable instanceof ServiceErrorException) return ((ServiceErrorException)throwable).getError();
 		String details = Exceptions.getPrintStackTrace(throwable);
 		String errorMessage = getErrorMessage(throwable);
 		return new Error(errorMessage, details);

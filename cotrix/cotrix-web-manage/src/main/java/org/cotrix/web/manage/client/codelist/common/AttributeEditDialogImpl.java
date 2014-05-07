@@ -1,4 +1,4 @@
-package org.cotrix.web.manage.client.codelist.attribute;
+package org.cotrix.web.manage.client.codelist.common;
 
 import org.cotrix.web.common.client.resources.CommonResources;
 

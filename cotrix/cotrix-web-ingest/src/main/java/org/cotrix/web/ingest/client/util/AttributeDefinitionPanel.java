@@ -1,11 +1,9 @@
 package org.cotrix.web.ingest.client.util;
 
-import java.util.Arrays;
-
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.EnumListBox.LabelProvider;
-import org.cotrix.web.ingest.client.resources.ImportConstants;
+import org.cotrix.web.common.client.widgets.LanguageListBox;
 import org.cotrix.web.ingest.shared.AttributeType;
 
 import com.google.gwt.core.client.GWT;
@@ -15,18 +13,15 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.Label;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 public class AttributeDefinitionPanel extends Composite {
-	
-	private static final String NO_LANGUAGE_VALUE = "NO_LANGUAGE";
 
 	private static AttributeDefinitionPanelUiBinder uiBinder = GWT.create(AttributeDefinitionPanelUiBinder.class);
 
@@ -68,7 +63,7 @@ public class AttributeDefinitionPanel extends Composite {
 	@UiField(provided=true) EnumListBox<AttributeType> typeList;
 	@UiField TextBox customType;
 	@UiField Label inLabel;
-	@UiField ListBox languageList;
+	@UiField LanguageListBox languageList;
 
 	@UiField Style style;
 
@@ -89,17 +84,6 @@ public class AttributeDefinitionPanel extends Composite {
 				updateVisibilities();
 			}
 		});
-
-		setupLanguageList();
-	}
-
-	@SuppressWarnings("deprecation")
-	protected void setupLanguageList()
-	{
-		String[] languages = ImportConstants.INSTANCE.languages();
-		Arrays.sort(languages);
-		languageList.addItem(" ", NO_LANGUAGE_VALUE);
-		for (String language:languages) languageList.addItem(language);
 	}
 
 	public AttributeType getType()
@@ -120,17 +104,13 @@ public class AttributeDefinitionPanel extends Composite {
 
 	public String getLanguage()
 	{
-		if (!languageList.isVisible() || languageList.getSelectedIndex()<0) return null;
-		String value = languageList.getValue(languageList.getSelectedIndex());
-		return NO_LANGUAGE_VALUE.equals(value)?null:value;
+		if (!languageList.isVisible()) return null;
+		return languageList.getLanguage();
 	}	
 
 	public void setLanguage(String language)
 	{
-		if (language == null) return;
-		for (int i = 0; i < languageList.getItemCount(); i++) {
-			if (languageList.getItemText(i).equals(language)) languageList.setSelectedIndex(i);
-		}
+		languageList.setLanguage(language);
 	}
 
 	protected void updateVisibilities()

@@ -46,6 +46,7 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 		this.link = link;
 		
 		header = new LabelHeader();
+		header.setSwitchVisible(true);
 		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");
 		disclosurePanel.setAnimationEnabled(true);
@@ -58,6 +59,7 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Void> event) {
+				if (editing) detailsPanel.setValue("will be calculated...");
 				validate();
 			}
 		});
@@ -92,6 +94,11 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 					case SAVE: onSave(); break;
 				}
 			}
+
+			@Override
+			public void onSwitchChange(boolean isDown) {
+				onSwitch(isDown);
+			}
 		});
 
 		detailsPanel.setReadOnly(true);
@@ -117,6 +124,7 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 	private void onSave() {
 		stopEdit();
 		readLink();
+		detailsPanel.setValueLoaderVisible(true);
 		if (listener!=null) listener.onSave(link);
 		updateHeaderLabel();
 	}
@@ -124,6 +132,10 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 	private void onEdit() {
 		startEdit();
 		validate();
+	}
+	
+	private void onSwitch(boolean isDown) {
+		if (listener!=null) listener.onSwitch(isDown);
 	}
 	
 	public void syncWithModel() {
@@ -173,6 +185,7 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 		detailsPanel.setCode(link.getTargetId(), link.getTargetName());
 		detailsPanel.setValue(link.getValue());
 		detailsPanel.setValueVisible(link.getValue()!=null);
+		detailsPanel.setValueLoaderVisible(false);
 		detailsPanel.setAttributes(link.getAttributes());
 	}
 	
@@ -204,10 +217,9 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 		
 		UICodeInfo code = detailsPanel.getCode();
 		boolean codeValid = code!=null;
-		detailsPanel.setValidLinkType(codeValid);
+		detailsPanel.setValidCode(codeValid);
 		valid &= codeValid;
 
-		
 		valid &= detailsPanel.areAttributesValid();
 
 		Log.trace("Valid ? "+valid);
@@ -224,6 +236,11 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 	@Override
 	public void setListener(ItemEditingPanelListener<UILink> listener) {
 		this.listener = listener;
+	}
+
+	@Override
+	public void setSwitchDown(boolean down) {
+		header.setSwitchDown(down);
 	}
 
 }

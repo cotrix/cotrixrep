@@ -17,7 +17,7 @@ import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
-import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel;
+import org.cotrix.web.manage.client.codelist.common.AttributesPanel;
 import org.cotrix.web.manage.client.codelist.linktype.CodelistSuggestOracle.CodelistSuggestion;
 import org.cotrix.web.manage.client.util.Attributes;
 
@@ -227,6 +227,13 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 
 	private void setupValueTypePanel() {
 		valueTypePanel.setCodelistInfoProvider(codelistInfoProvider);
+		valueTypePanel.addValueChangeHandler(new ValueChangeHandler<UIValueType>() {
+			
+			@Override
+			public void onValueChange(ValueChangeEvent<UIValueType> event) {
+				fireChange();
+			}
+		});
 	}
 
 	private void updateValueType(final String codelistId, final UIValueType type) {

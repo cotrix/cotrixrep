@@ -13,6 +13,7 @@ import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -24,7 +25,7 @@ import com.google.gwt.user.client.ui.ValueBoxBase;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class SuggestListBox extends Composite implements HasValueChangeHandlers<String>, HasSelectionHandlers<SuggestOracle.Suggestion> {
+public class SuggestListBox extends Composite implements HasValueChangeHandlers<String>, HasSelectionHandlers<SuggestOracle.Suggestion>, TakesValue<String> {
 	
 	private HorizontalPanel mainPanel;
 	private SuggestBox suggestBox;
@@ -120,6 +121,16 @@ vertical-align: middle;
 
 	public ValueBoxBase<String> getValueBox() {
 		return suggestBox.getValueBox();
+	}
+
+	@Override
+	public void setValue(String value) {
+		suggestBox.setValue(value);
+	}
+
+	@Override
+	public String getValue() {
+		return suggestBox.getValue();
 	}
 	
 

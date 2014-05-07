@@ -9,6 +9,7 @@ import java.util.List;
 import org.cotrix.web.common.client.util.InstanceMap;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.google.gwt.core.client.GWT;
@@ -28,8 +29,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>> extends Composite implements HasEditing {
 
 	public interface ItemsEditingListener<T> {
+		public static enum SwitchState {DOWN, UP};
+		
 		public void onCreate(T item);
 		public void onUpdate(T item);
+		public void onSwitch(T item, SwitchState state);
 	}
 	
 	public interface ItemEditingPanel<T> extends IsWidget, HasEditing {
@@ -37,6 +41,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		public void enterEditMode();
 		public void setSelected(boolean selected);
 		public void setListener(ItemEditingPanelListener<T> listener);
+		public void setSwitchDown(boolean down);
 	}
 	
 	public interface ItemEditingPanelListener<T> {
@@ -46,6 +51,8 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		public void onCancel();
 
 		public void onSelect();
+		
+		public void onSwitch(boolean isDown);
 	}
 		
 	private ScrollPanel scrollPanel;
@@ -100,6 +107,11 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		P panel = instances.get(item);
 		panel.syncWithModel();
 	}
+	
+	public void setSwitchState(T item, SwitchState state) {
+		P panel = instances.get(item);
+		panel.setSwitchDown(state == SwitchState.DOWN);
+	}
 
 	public void setListener(ItemsEditingListener<T> listener) {
 		this.listener = listener;
@@ -122,7 +134,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		updateEmptyWidget();
 	}
 
-	public void addItemPanel(final P panel, T item) {
+	public void addItemPanel(final P panel, final T item) {
 		panel.setEditable(editable);
 		panels.add(panel);
 
@@ -143,13 +155,18 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 			public void onSelect() {
 				updateSelection(panel);				
 			}
+			
+			@Override
+			public void onSwitch(boolean isDown) {
+				fireSwitch(item, isDown);
+			}
 		});
 		mainPanel.add(panel);
 		
 		updateEmptyWidget();
 	}
 
-	public void addNewItemPanel(final P panel, T item) {
+	public void addNewItemPanel(final P panel, final T item) {
 		instances.put(item, panel);
 		
 		panels.add(panel);
@@ -174,6 +191,11 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 			@Override
 			public void onSelect() {
 				updateSelection(panel);
+			}
+			
+			@Override
+			public void onSwitch(boolean isDown) {
+				fireSwitch(item, isDown);
 			}
 		});
 		mainPanel.add(panel);
@@ -217,5 +239,9 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 
 	private void fireCreate(T item) {
 		if (listener!=null) listener.onCreate(item);
+	}
+	
+	private void fireSwitch(T item, boolean isDown) {
+		if (listener!=null) listener.onSwitch(item, isDown?SwitchState.DOWN:SwitchState.UP);
 	}
 }

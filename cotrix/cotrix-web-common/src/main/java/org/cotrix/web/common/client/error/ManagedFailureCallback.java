@@ -26,6 +26,10 @@ public abstract class ManagedFailureCallback<T> implements AsyncCallback<T> {
 	public void onFailure(Throwable caught) {
 		Error error = Exceptions.toError(caught);
 		errorManager.showError(error);
+		onCallFailed();
+	}
+	
+	public void onCallFailed() {
 	}
 
 }

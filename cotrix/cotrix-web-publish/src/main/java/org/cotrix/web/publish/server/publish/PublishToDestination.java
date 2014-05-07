@@ -22,6 +22,8 @@ import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
 import org.cotrix.web.common.server.util.ValueUtils;
+import org.cotrix.web.common.shared.exception.Exceptions;
+import org.cotrix.web.common.shared.exception.ServiceErrorException;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Table;
@@ -73,8 +75,14 @@ public interface PublishToDestination {
 		public <T> void publish(Codelist source, T mapped, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) {
 			
 			QName repositoryId = ValueUtils.toQName(publishDirectives.getRepositoryId());
-			if (mapped instanceof Table) cloud.publish(source,(Table) mapped, repositoryId);
-			if (mapped instanceof CodelistBean) cloud.publish(source,(CodelistBean) mapped, repositoryId);
+			
+			try {
+				if (mapped instanceof Table) cloud.publish(source,(Table) mapped, repositoryId);
+				if (mapped instanceof CodelistBean) cloud.publish(source,(CodelistBean) mapped, repositoryId);
+			} catch(Exception e) {
+				ServiceErrorException errorException = Exceptions.toServiceErrorException("Oops, there seems a communication problem with "+repositoryId.getLocalPart()+".", e);
+				throw errorException;
+			}
 			
 			Codelist publishedCodelist = publishStatus.getPublishedCodelist(); 
 			Lifecycle lifecycle = lifecycleService.lifecycleOf(publishedCodelist.id());

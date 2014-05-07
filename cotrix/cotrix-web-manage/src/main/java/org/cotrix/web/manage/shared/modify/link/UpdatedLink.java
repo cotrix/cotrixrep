@@ -3,14 +3,11 @@
  */
 package org.cotrix.web.manage.shared.modify.link;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.HasValue;
-import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
+import org.cotrix.web.manage.shared.modify.ContainsAttributed;
 import org.cotrix.web.manage.shared.modify.HasCode;
 import org.cotrix.web.manage.shared.modify.HasId;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
@@ -19,7 +16,7 @@ import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UpdatedLink extends ModifyCommandResult implements HasCode, HasId, HasValue, HasAttributes {
+public class UpdatedLink extends ModifyCommandResult implements HasCode, HasId, HasValue, ContainsAttributed {
 	
 	protected UICode code;
 	protected UILink link;
@@ -56,11 +53,8 @@ public class UpdatedLink extends ModifyCommandResult implements HasCode, HasId, 
 	}
 
 	@Override
-	public List<UIAttribute> getAttributes() {
-		return link!=null?link.getAttributes():Collections.<UIAttribute>emptyList();
+	public HasAttributes getAttributed() {
+		return link;
 	}
 
-	@Override
-	public void setAttributes(List<UIAttribute> attributes) {
-	}
 }
