@@ -1,6 +1,6 @@
 package org.cotrix.domain.codelist;
 
-import static org.cotrix.domain.dsl.Codes.namedContainer;
+import static org.cotrix.domain.dsl.Codes.*;
 
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.NamedContainer;
@@ -69,6 +69,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 
 		@Override
 		protected final Private copyWith(Version version) {
+			
 			
 			Codelist.State state = new CodelistMS(state());
 			
