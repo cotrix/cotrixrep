@@ -15,18 +15,22 @@ import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SelectionChangeEvent.Handler;
+import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>> extends Composite implements HasEditing {
+public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>> extends Composite implements HasEditing, HasSelectionChangedHandlers {
 
 	public interface ItemsEditingListener<T> {
 		public static enum SwitchState {DOWN, UP};
@@ -220,6 +224,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		if (currentSelection!=null) currentSelection.setSelected(false);
 		selected.setSelected(true);
 		currentSelection = selected;
+		SelectionChangeEvent.fire(this);
 	}
 
 	public T getSelectedItem() {
@@ -243,5 +248,10 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	
 	private void fireSwitch(T item, boolean isDown) {
 		if (listener!=null) listener.onSwitch(item, isDown?SwitchState.DOWN:SwitchState.UP);
+	}
+
+	@Override
+	public HandlerRegistration addSelectionChangeHandler(Handler handler) {
+		return addHandler(handler, SelectionChangeEvent.getType());
 	}
 }

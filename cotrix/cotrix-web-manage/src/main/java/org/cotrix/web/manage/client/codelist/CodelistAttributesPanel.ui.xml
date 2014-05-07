@@ -4,7 +4,7 @@
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
 	<g:DockLayoutPanel unit="PX">
 		<g:center>
-			<v:AttributesGrid ui:field='attributesGrid' />
+			<v:AttributesPanel ui:field='attributesGrid' />
 		</g:center>
 		<g:south size="28">
 			<c:ItemToolbar ui:field="toolBar" />

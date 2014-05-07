@@ -33,9 +33,12 @@ import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeFactory;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeNameSuggestOracle;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesGrid;
+import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel;
+import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel.AttributesPanelListener;
 import org.cotrix.web.manage.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.manage.client.codelist.attribute.RemoveAttributeController;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
 import org.cotrix.web.manage.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.event.GroupSwitchType;
@@ -93,7 +96,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	}
 
 	@UiField(provided = true)
-	AttributesGrid attributesGrid;
+	AttributesPanel attributesGrid;
 
 	@UiField
 	ItemToolbar toolBar;
@@ -136,9 +139,9 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 		header = new AttributeHeader();
 
-		attributesGrid = new AttributesGrid(dataProvider, header, "select a code", attributeNameSuggestOracle);
+		attributesGrid = new AttributesPanel();// new AttributesGrid(dataProvider, header, "select a code", attributeNameSuggestOracle);
 
-		setupColumns();
+		//setupColumns();
 
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
@@ -167,15 +170,37 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 				updateRemoveButtonVisibility(active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_CODELIST);
-
-		attributesGrid.addAttributeChangedHandler(new AttributeChangedHandler() {
+		
+		
+		attributesGrid.setListener(new AttributesPanelListener() {
+			
+			@Override
+			public void onUpdate(UIAttribute item) {
+				Log.trace("updated attribute "+item);
+				attributeEditor.updated(new CodeAttribute(visualizedCode, item));
+			}
+			
+			@Override
+			public void onSwitch(UIAttribute item, SwitchState state) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onCreate(UIAttribute item) {
+				attributeEditor.added(new CodeAttribute(visualizedCode, item));
+			}
+		});
+		
+		
+		/*attributesGrid.addAttributeChangedHandler(new AttributeChangedHandler() {
 
 			@Override
 			public void onAttributeChanged(AttributeChangedEvent event) {
 				Log.trace("updated attribute "+event.getAttribute());
 				attributeEditor.updated(new CodeAttribute(visualizedCode, event.getAttribute()));
 			}
-		});
+		});*/
 
 		editorBus.addHandler(DataEditEvent.getType(UICode.class), new DataEditHandler<UICode>() {
 
@@ -205,7 +230,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 								dataProvider.refresh();
 							}
 						} break;
-						case UPDATE: attributesGrid.refreshAttribute(event.getData().getAttribute()); break;
+						case UPDATE: attributesGrid.syncWithModel(event.getData().getAttribute()); break;
 						default:
 					}
 				}
@@ -261,7 +286,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			}
 			if (visualizedCode!=null) {
 				UIAttribute attribute = attributeGroup.match(visualizedCode.getAttributes());
-				if (attribute!=null) attributesGrid.refreshAttribute(attribute);
+				if (attribute!=null) attributesGrid.syncWithModel(attribute);
 			}
 		}
 	}
@@ -284,13 +309,15 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	protected void addNewAttribute()
 	{
 		if (visualizedCode!=null) {
-			UIAttribute attribute = AttributeFactory.createAttribute();
+			attributesGrid.addNewAttribute();
+			
+			/*UIAttribute attribute = AttributeFactory.createAttribute();
 			visualizedCode.addAttribute(attribute);
 			dataProvider.getList().add(attribute);
 			dataProvider.refresh();
 
 			attributeEditor.added(new CodeAttribute(visualizedCode, attribute));
-			attributesGrid.expand(attribute);
+			attributesGrid.expand(attribute);*/
 		}
 	}
 
@@ -321,12 +348,16 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 		setHeader(visualizedCode.getName().getLocalPart());
 		updateBackground();
 
-		List<UIAttribute> currentAttributes = dataProvider.getList();
+		/*List<UIAttribute> currentAttributes = dataProvider.getList();
 		currentAttributes.clear();
 
 		Attributes.sortByAttributeType(visualizedCode.getAttributes());
 		currentAttributes.addAll(visualizedCode.getAttributes());
-		dataProvider.refresh();
+		dataProvider.refresh();*/
+		
+		attributesGrid.clear();
+		for (UIAttribute attribute:visualizedCode.getAttributes()) attributesGrid.addAttribute(attribute);
+		
 		Log.trace("request refresh of "+visualizedCode.getAttributes().size()+" attributes");
 	}
 
@@ -348,10 +379,10 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	protected void setHeader(String text)
 	{
 		header.setText(text);
-		attributesGrid.redrawHeaders();
+		//FIXME attributesGrid.redrawHeaders();
 	}
 
-	private void setupColumns() {
+	/*private void setupColumns() {
 
 		SafeHtmlRenderer<AttributeSwitchState> switchRenderer = new AbstractSafeHtmlRenderer<AttributeSwitchState>() {
 
@@ -385,7 +416,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 		attributesGrid.insertColumn(0, switchColumn);
 		attributesGrid.setColumnWidth(0, 25, Unit.PX);
 
-	}
+	}*/
 
 	protected boolean isInGroupAsColumn(UIAttribute attribute)
 	{
