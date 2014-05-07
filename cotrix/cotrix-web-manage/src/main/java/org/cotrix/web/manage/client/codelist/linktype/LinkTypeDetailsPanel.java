@@ -17,7 +17,7 @@ import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
-import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel;
+import org.cotrix.web.manage.client.codelist.common.AttributesPanel;
 import org.cotrix.web.manage.client.codelist.linktype.CodelistSuggestOracle.CodelistSuggestion;
 import org.cotrix.web.manage.client.util.Attributes;
 

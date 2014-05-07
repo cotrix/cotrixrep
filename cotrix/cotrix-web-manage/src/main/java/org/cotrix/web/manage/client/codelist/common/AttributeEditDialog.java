@@ -1,4 +1,4 @@
-package org.cotrix.web.manage.client.codelist.attribute;
+package org.cotrix.web.manage.client.codelist.common;
 
 import com.google.inject.ImplementedBy;
 
