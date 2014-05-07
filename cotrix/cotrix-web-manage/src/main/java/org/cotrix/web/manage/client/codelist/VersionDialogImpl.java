@@ -11,7 +11,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -29,51 +28,41 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class VersionDialogImpl extends PopupPanel implements VersionDialog {
-	
+
 	private static final Binder binder = GWT.create(Binder.class);
-	
+
 	@UiTemplate("VersionDialog.ui.xml")
 	interface Binder extends UiBinder<Widget, VersionDialogImpl> {}
-	
+
 	@UiField Label name;
-	
+
 	@UiField TextBox oldVersion;
-	
+
 	@UiField TextBox newVersion;
-	
+
 	@Inject
 	CommonResources resources;
-	
+
 	private String id;
 	private VersionDialogListener listener;
 
 	public VersionDialogImpl() {
 		setWidget(binder.createAndBindUi(this));
 		setAutoHideEnabled(true);
-		
-		newVersion.addKeyDownHandler(new KeyDownHandler() {
-
-		    @Override
-		    public void onKeyDown(KeyDownEvent event) {
-		     if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-		    	 fireCreate();
-		      }
-		    }
-		});
 	}
-	
+
 	@UiHandler({"newVersion"})
 	protected void onKeyDown(KeyDownEvent event)
 	{
-		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-			 fireCreate();
-	     }
-		 if (event.getSource() instanceof UIObject) {
-			 UIObject uiObject = (UIObject)event.getSource();
-			 uiObject.setStyleName(resources.css().dialogTextboxInvalid(), false);
-		 }
+		if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+			fireCreate();
+		}
+		if (event.getSource() instanceof UIObject) {
+			UIObject uiObject = (UIObject)event.getSource();
+			uiObject.setStyleName(resources.css().dialogTextboxInvalid(), false);
+		}
 	}
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -81,7 +70,7 @@ public class VersionDialogImpl extends PopupPanel implements VersionDialog {
 	public void setListener(VersionDialogListener listener) {
 		this.listener = listener;
 	}
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -90,13 +79,13 @@ public class VersionDialogImpl extends PopupPanel implements VersionDialog {
 		super.center();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
-		    @Override
-		    public void execute() {
-		    	newVersion.setFocus(true);
-		    }
+			@Override
+			public void execute() {
+				newVersion.setFocus(true);
+			}
 		});
 	}
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -109,28 +98,28 @@ public class VersionDialogImpl extends PopupPanel implements VersionDialog {
 		this.newVersion.setText(oldVersion);
 		cleanValidation();
 	}
-	
+
 	@UiHandler("create")
 	protected void onCreate(ClickEvent clickEvent)
 	{
 		fireCreate();
 	}
-	
+
 	protected boolean validate() {
 		boolean valid = true;
-		
+
 		if (!CodelistInfoValidator.validateVersion(newVersion.getText())) {
 			newVersion.setStyleName(resources.css().dialogTextboxInvalid(), true);
 			valid = false;
 		}
-		
+
 		return valid;
 	}
-	
+
 	protected void cleanValidation() {
 		newVersion.setStyleName(resources.css().dialogTextboxInvalid(), false);
 	}
-	
+
 	protected void fireCreate() {
 		boolean valid = validate();
 		if (valid && listener!=null) listener.onCreate(id, newVersion.getValue());
