@@ -1,7 +1,6 @@
 package org.cotrix.domain.codelist;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,7 +33,7 @@ public interface Codelink extends Identified, Attributed, Named {
 	 * 
 	 * @return the link value, or <code>null</code> if the link is orphaned.
 	 */
-	Collection<Object> value();
+	List<Object> value();
 	
 	
 	/**
@@ -74,7 +73,7 @@ public interface Codelink extends Identified, Attributed, Named {
 		}
 
 		@Override
-		public Collection<Object> value() {
+		public List<Object> value() {
 
 			return resolve(this.state(), this.type().state(),new ArrayList<String>());
 
@@ -112,7 +111,7 @@ public interface Codelink extends Identified, Attributed, Named {
 		
 		// extracted to reuse below this layer (for link-of-links) without
 		// object instantiation costs
-		public static Collection<Object> resolve(Codelink.State link, CodelistLink.State type, List<String> ids) {
+		public static List<Object> resolve(Codelink.State link, CodelistLink.State type, List<String> ids) {
 
 			if (ids.contains(link.id())) {
 				StringBuilder cycle = new StringBuilder();
@@ -131,9 +130,9 @@ public interface Codelink extends Identified, Attributed, Named {
 			
 			else {
 			
-				Collection<Object> values = type.valueType().valueIn(link.id(),link.target(),ids);
+				List<Object> values = type.valueType().valueIn(link.id(),link.target(),ids);
 				
-				Collection<Object> results = new ArrayList<>();
+				List<Object> results = new ArrayList<>();
 				
 				ValueFunction function = type.function();
 				

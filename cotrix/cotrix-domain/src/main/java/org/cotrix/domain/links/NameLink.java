@@ -1,6 +1,5 @@
 package org.cotrix.domain.links;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,9 +12,9 @@ public class NameLink implements ValueType {
 	private NameLink() {}
 	
 	@Override
-	public Collection<Object> valueIn(String linkId, Code.State code,List<String> ids) {
+	public List<Object> valueIn(String linkId, Code.State code,List<String> ids) {
 		
-		return Collections.<Object>singleton(code.name());
+		return Collections.<Object>singletonList(code.name());
 	
 	}
 }

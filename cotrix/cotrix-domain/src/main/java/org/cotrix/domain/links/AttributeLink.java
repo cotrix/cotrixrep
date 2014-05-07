@@ -3,7 +3,6 @@ package org.cotrix.domain.links;
 import static org.cotrix.common.Utils.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.cotrix.domain.codelist.Code;
@@ -27,7 +26,7 @@ public class AttributeLink implements ValueType {
 	
 	
 	@Override
-	public Collection<Object> valueIn(String linkId, Code.State code,List<String> ids) {
+	public List<Object> valueIn(String linkId, Code.State code,List<String> ids) {
 	
 		List<Object> matches = new ArrayList<>();
 		

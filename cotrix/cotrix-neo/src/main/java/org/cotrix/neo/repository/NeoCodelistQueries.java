@@ -27,6 +27,8 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.IteratorAdapter;
+import org.cotrix.domain.links.NameLink;
+import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
 import org.cotrix.neo.domain.Constants.Relations;
@@ -270,7 +272,7 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 	}
 
 	@Override
-	public Criterion<Code> byAttribute(final Attribute attribute, final int position) {
+	public Criterion<Code> byAttribute(final Attribute template, final int position) {
 		
 		return new NeoCriterion<Code>() {
 			
@@ -287,13 +289,13 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 				
 				String caseTemplate = "CASE %1$s WHEN '%2$s' THEN %3$s END AS VAL ORDER BY VAL";
 				
-				String expression = attribute.language()==null?
+				String expression = template.language()==null?
 						format("%1$s.%2$s[%3$s]",$attribute,name_prop,position-1):
 						format("%1$s.%2$s[%3$s]+%1$s.%4$s",$attribute,name_prop,position-1,lang_prop);
 				
-				String value = attribute.language()==null?
-										attribute.name().toString():
-										attribute.name()+attribute.language();
+				String value = template.language()==null?
+										template.name().toString():
+										template.name()+template.language();
 										
 				String caseValue = format("%1$s.%2$s",$attribute,value_prop);
 				
@@ -303,7 +305,41 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 			}
 		};
 	}
+	
+	@Override
+	public Criterion<Code> byLink(final CodelistLink template, final int position) {
+		
+		return new NeoCriterion<Code>() {
+			
+			@Override
+			protected String process(NeoMultiQuery<?,?> query) {
+				
+				query.match(format("%s-[:%s]->(L)",$node,Relations.LINK.name(),Relations.INSTANCEOF.name()));
+				query.match(format("L-[:%s]->(LT)",position-1,Relations.INSTANCEOF.name()));
+				query.match(format("%s-[:%s]->(C)",Relations.LINK));
+				
+				//brings codes in with expression
+				query.with($node);
+				
+				String caseTemplate = "CASE %s WHEN '%s' THEN %s END AS VAL ORDER BY VAL";
+				
+				String expression = format("LT.%s",name_prop,position-1);
+				
+				String value = template.name().toString();
+				
+				String caseValue = format("C.%s",name_prop);
+				
+				query.with(format(caseTemplate,expression,value,caseValue));
 
+				
+				return "";
+			}
+		};
+	}
+
+	
+	
+	
 	// helpers
 	
 	Iterator<Codelist> codelists(ResourceIterator<Node> it) {
