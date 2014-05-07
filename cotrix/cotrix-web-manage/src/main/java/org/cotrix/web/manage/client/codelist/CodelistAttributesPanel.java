@@ -1,43 +1,24 @@
-/*
- * Copyright 2011 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package org.cotrix.web.manage.client.codelist;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.common.client.widgets.ImageResourceCell;
 import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
-import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent;
-import org.cotrix.web.manage.client.codelist.attribute.AttributeFactory;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeNameSuggestOracle;
-import org.cotrix.web.manage.client.codelist.attribute.AttributesGrid;
+import org.cotrix.web.manage.client.codelist.attribute.AttributePanel;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel;
 import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel.AttributesPanelListener;
 import org.cotrix.web.manage.client.codelist.attribute.GroupFactory;
-import org.cotrix.web.manage.client.codelist.attribute.AttributeChangedEvent.AttributeChangedHandler;
 import org.cotrix.web.manage.client.codelist.attribute.RemoveAttributeController;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
 import org.cotrix.web.manage.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
@@ -57,23 +38,13 @@ import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
-import com.google.gwt.text.shared.AbstractSafeHtmlRenderer;
-import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.Header;
-import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -90,58 +61,37 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	interface Binder extends UiBinder<Widget, CodelistAttributesPanel> {}
 	interface CodelistAttributesPanelEventBinder extends EventBinder<CodelistAttributesPanel> {}
 
-	enum AttributeSwitchState {
-		COLUMN,
-		NORMAL;
-	}
-
 	@UiField(provided = true)
-	AttributesPanel attributesGrid;
+	ItemsEditingPanel<UIAttribute, AttributePanel> attributesGrid;
 
 	@UiField
 	ItemToolbar toolBar;
 
-	protected static ImageResourceRenderer renderer = new ImageResourceRenderer(); 
-
 	private Set<AttributeGroup> groupsAsColumn = new HashSet<AttributeGroup>();
-	private Column<UIAttribute, AttributeSwitchState> switchColumn; 
 
 	@Inject @EditorBus
-	protected EventBus editorBus;
+	private EventBus editorBus;
 
-	protected ListDataProvider<UIAttribute> dataProvider;
+	private UICode visualizedCode;
 
-	protected AttributeHeader header;
-
-	protected DataEditor<UICode> codeEditor;
-
-	protected UICode visualizedCode;
-
-	protected DataEditor<CodeAttribute> attributeEditor;
+	private DataEditor<CodeAttribute> attributeEditor;
 
 	@Inject
 	private CotrixManagerResources resources;
 
 	@Inject
-	protected RemoveAttributeController attributeController;
+	private RemoveAttributeController attributeController;
 
-	protected AttributeNameSuggestOracle attributeNameSuggestOracle;
+	private AttributeNameSuggestOracle attributeNameSuggestOracle;
 
 	@Inject
 	public CodelistAttributesPanel(AttributeNameSuggestOracle attributeNameSuggestOracle) {
 
-		this.codeEditor = DataEditor.build(this);
 		this.attributeEditor = DataEditor.build(this);
-
-		this.dataProvider = new ListDataProvider<UIAttribute>();
 
 		this.attributeNameSuggestOracle = attributeNameSuggestOracle;
 
-		header = new AttributeHeader();
-
-		attributesGrid = new AttributesPanel();// new AttributesGrid(dataProvider, header, "select a code", attributeNameSuggestOracle);
-
-		//setupColumns();
+		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("Attributes", "no attributes");
 
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
@@ -182,8 +132,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			
 			@Override
 			public void onSwitch(UIAttribute item, SwitchState state) {
-				// TODO Auto-generated method stub
-				
+				switchAttribute(item, state);
 			}
 			
 			@Override
@@ -191,16 +140,6 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 				attributeEditor.added(new CodeAttribute(visualizedCode, item));
 			}
 		});
-		
-		
-		/*attributesGrid.addAttributeChangedHandler(new AttributeChangedHandler() {
-
-			@Override
-			public void onAttributeChanged(AttributeChangedEvent event) {
-				Log.trace("updated attribute "+event.getAttribute());
-				attributeEditor.updated(new CodeAttribute(visualizedCode, event.getAttribute()));
-			}
-		});*/
 
 		editorBus.addHandler(DataEditEvent.getType(UICode.class), new DataEditHandler<UICode>() {
 
@@ -212,25 +151,24 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 						case REMOVE: clearVisualizedCode(); break;
 						default:
 					}
-
 				}
 			}
 		});
-
 
 		editorBus.addHandler(DataEditEvent.getType(CodeAttribute.class), new DataEditHandler<CodeAttribute>() {
 
 			@Override
 			public void onDataEdit(DataEditEvent<CodeAttribute> event) {
 				if (visualizedCode!=null && visualizedCode.equals(event.getData().getCode())) {
+					UIAttribute attribute = event.getData().getAttribute();
 					switch (event.getEditType()) {
 						case ADD: {
 							if (event.getSource() != CodelistAttributesPanel.this) {
-								dataProvider.getList().add(event.getData().getAttribute());
-								dataProvider.refresh();
+								final AttributePanel attributePanel = new AttributePanel(attribute);
+								attributesGrid.addItemPanel(attributePanel, attribute);
 							}
 						} break;
-						case UPDATE: attributesGrid.syncWithModel(event.getData().getAttribute()); break;
+						case UPDATE: attributesGrid.synchWithModel(attribute); break;
 						default:
 					}
 				}
@@ -280,14 +218,9 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			AttributeGroup attributeGroup = (AttributeGroup) group;
 			Log.trace("onAttributeSwitched group: "+attributeGroup+" type: "+event.getSwitchType());
 
-			switch (event.getSwitchType()) {
-				case TO_COLUMN: groupsAsColumn.add(attributeGroup); break;
-				case TO_NORMAL: groupsAsColumn.remove(attributeGroup); break;
-			}
-			if (visualizedCode!=null) {
-				UIAttribute attribute = attributeGroup.match(visualizedCode.getAttributes());
-				if (attribute!=null) attributesGrid.syncWithModel(attribute);
-			}
+			updateGroups(attributeGroup, event.getSwitchType());
+			
+			if (visualizedCode!=null && attributeGroup.match(visualizedCode.getAttributes())!=null) refreshSwitches();
 		}
 	}
 
@@ -306,177 +239,110 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 		onResize();
 	}
 
-	protected void addNewAttribute()
+	private void addNewAttribute()
 	{
 		if (visualizedCode!=null) {
-			attributesGrid.addNewAttribute();
-			
-			/*UIAttribute attribute = AttributeFactory.createAttribute();
-			visualizedCode.addAttribute(attribute);
-			dataProvider.getList().add(attribute);
-			dataProvider.refresh();
-
-			attributeEditor.added(new CodeAttribute(visualizedCode, attribute));
-			attributesGrid.expand(attribute);*/
+			UIAttribute attribute = new UIAttribute();
+			AttributePanel attributePanel = new AttributePanel(attribute);
+			attributesGrid.addNewItemPanel(attributePanel, attribute);
 		}
 	}
 
-	protected void removeSelectedAttribute()
+	private void removeSelectedAttribute()
 	{
-		if (visualizedCode!=null && attributesGrid.getSelectedAttribute()!=null) {
-			UIAttribute selectedAttribute = attributesGrid.getSelectedAttribute();
+		if (visualizedCode!=null && attributesGrid.getSelectedItem()!=null) {
+			UIAttribute selectedAttribute = attributesGrid.getSelectedItem();
 			if (Attributes.isSystemAttribute(selectedAttribute)) return; 
-			dataProvider.getList().remove(selectedAttribute);
-			dataProvider.refresh();
+			attributesGrid.removeItem(selectedAttribute);
 			visualizedCode.removeAttribute(selectedAttribute);
 			attributeEditor.removed(new CodeAttribute(visualizedCode, selectedAttribute));
 		}
 	}
 
-	protected void selectedAttributeChanged()
+	private void selectedAttributeChanged()
 	{
-		if (visualizedCode!=null && attributesGrid.getSelectedAttribute()!=null) {
-			UIAttribute selectedAttribute = attributesGrid.getSelectedAttribute();
+		if (visualizedCode!=null && attributesGrid.getSelectedItem()!=null) {
+			UIAttribute selectedAttribute = attributesGrid.getSelectedItem();
 			attributeController.setAttributeCanBeRemoved(!Attributes.isSystemAttribute(selectedAttribute));
 			updateRemoveButtonVisibility(false);
 		}
 	}
 
-	protected void updateVisualizedCode(UICode code)
+	private void updateVisualizedCode(UICode code)
 	{
 		visualizedCode = code;
-		setHeader(visualizedCode.getName().getLocalPart());
+		setHeader();
 		updateBackground();
 
-		/*List<UIAttribute> currentAttributes = dataProvider.getList();
-		currentAttributes.clear();
-
-		Attributes.sortByAttributeType(visualizedCode.getAttributes());
-		currentAttributes.addAll(visualizedCode.getAttributes());
-		dataProvider.refresh();*/
-		
 		attributesGrid.clear();
-		for (UIAttribute attribute:visualizedCode.getAttributes()) attributesGrid.addAttribute(attribute);
+		for (UIAttribute attribute:visualizedCode.getAttributes()) {
+			final AttributePanel attributePanel = new AttributePanel(attribute);
+			attributesGrid.addItemPanel(attributePanel, attribute);
+		}
 		
 		Log.trace("request refresh of "+visualizedCode.getAttributes().size()+" attributes");
 	}
 
-	protected void clearVisualizedCode()
+	private void clearVisualizedCode()
 	{
 		visualizedCode = null;
-		setHeader(null);
+		setHeader();
 		updateBackground();
 
-		dataProvider.getList().clear();
-		dataProvider.refresh();
+		attributesGrid.clear();
 	}
 
-	protected void updateBackground()
+	private void updateBackground()
 	{
 		setStyleName(CotrixManagerResources.INSTANCE.css().noItemsBackground(), visualizedCode == null || visualizedCode.getAttributes().isEmpty());
 	}
 
-	protected void setHeader(String text)
+	private void setHeader()
 	{
-		header.setText(text);
-		//FIXME attributesGrid.redrawHeaders();
+		SafeHtmlBuilder sb = new SafeHtmlBuilder();
+		sb.appendHtmlConstant("<span>Attributes</span>");
+		if (visualizedCode!=null) {
+			sb.appendHtmlConstant("&nbsp;for&nbsp;<span class=\""+resources.css().headerCode()+"\">");
+			sb.append(SafeHtmlUtils.fromString(visualizedCode.getName().getLocalPart()));
+			sb.appendHtmlConstant("</span>");
+		}
+		
+		attributesGrid.setHeaderText(sb.toSafeHtml());
 	}
 
-	/*private void setupColumns() {
-
-		SafeHtmlRenderer<AttributeSwitchState> switchRenderer = new AbstractSafeHtmlRenderer<AttributeSwitchState>() {
-
-			@Override
-			public SafeHtml render(AttributeSwitchState state) {
-				switch (state) {
-					case COLUMN: return renderer.render(resources.tableDisabled());
-					case NORMAL: return renderer.render(resources.table());	
-					default: return SafeHtmlUtils.EMPTY_SAFE_HTML;
-
-				}
-			}
-		};
-
-		switchColumn = new Column<UIAttribute, AttributeSwitchState>(new ImageResourceCell<AttributeSwitchState>(switchRenderer)) {
-
-			@Override
-			public AttributeSwitchState getValue(UIAttribute attribute) {
-				return isInGroupAsColumn(attribute)?AttributeSwitchState.COLUMN:AttributeSwitchState.NORMAL;
-			}
-		};
-
-		switchColumn.setFieldUpdater(new FieldUpdater<UIAttribute, AttributeSwitchState>() {
-			@Override
-			public void update(int index, UIAttribute attribute, AttributeSwitchState value) {
-				switchAttribute(attribute, value);
-				// Redraw the modified row.
-				attributesGrid.redrawRow(index);
-			}
-		});
-		attributesGrid.insertColumn(0, switchColumn);
-		attributesGrid.setColumnWidth(0, 25, Unit.PX);
-
-	}*/
-
-	protected boolean isInGroupAsColumn(UIAttribute attribute)
-	{
-		for (AttributeGroup group:groupsAsColumn) if (group.accept(visualizedCode.getAttributes(), attribute)) return true;
-		return false;
-	}
-
-
-	protected void switchAttribute(UIAttribute attribute, AttributeSwitchState attributeSwitchState)
+	private void switchAttribute(UIAttribute attribute, SwitchState attributeSwitchState)
 	{
 		AttributeGroup group = GroupFactory.getGroup(attribute);
 		Log.trace("calculating position for "+attribute+" in: "+visualizedCode.getAttributes());
 		group.calculatePosition(visualizedCode.getAttributes(), attribute);
 
 		switch (attributeSwitchState) {
-			case COLUMN: editorBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_NORMAL)); break;
-			case NORMAL: editorBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_COLUMN)); break;
+			case UP: editorBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_NORMAL)); break;
+			case DOWN: editorBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_COLUMN)); break;
 		}
 	}
-
-	protected class AttributeHeader extends Header<String> {
-
-		private String text;
-
-		/**
-		 * Construct a new TextHeader.
-		 *
-		 * @param text the header text as a String
-		 */
-		public AttributeHeader() {
-			super(new AbstractCell<String>() {
-
-				@Override
-				public void render(com.google.gwt.cell.client.Cell.Context context,
-						String value, SafeHtmlBuilder sb) {
-					sb.appendHtmlConstant("<span>Attributes</span>");
-					if (value!=null) {
-						sb.appendHtmlConstant("&nbsp;for&nbsp;<span class=\""+CotrixManagerResources.INSTANCE.css().headerCode()+"\">");
-						sb.append(SafeHtmlUtils.fromString(value));
-						sb.appendHtmlConstant("</span>");
-					}
-				}
-			});
+	
+	private void updateGroups(AttributeGroup group, GroupSwitchType state) {
+		Log.trace("before groups: "+groupsAsColumn);
+		switch (state) {
+			case TO_NORMAL: groupsAsColumn.remove(group); break;
+			case TO_COLUMN: groupsAsColumn.add(group); break;
 		}
-
-		/**
-		 * Return the header text.
-		 */
-		@Override
-		public String getValue() {
-			return text;
+		Log.trace("after groups: "+groupsAsColumn);
+	}
+	
+	private void refreshSwitches() {
+		Log.trace("refreshSwitches");
+		if (visualizedCode == null) return;
+		for (UIAttribute attribute:visualizedCode.getAttributes()) {
+			attributesGrid.setSwitchState(attribute, isInGroupAsColumn(attribute)?SwitchState.DOWN:SwitchState.UP);
 		}
-
-		/**
-		 * @param text the text to set
-		 */
-		public void setText(String text) {
-			this.text = text;
-		}
-
+	}
+	
+	private boolean isInGroupAsColumn(UIAttribute attribute)
+	{
+		for (AttributeGroup group:groupsAsColumn) if (group.accept(visualizedCode.getAttributes(), attribute)) return true;
+		return false;
 	}
 
 	@Override

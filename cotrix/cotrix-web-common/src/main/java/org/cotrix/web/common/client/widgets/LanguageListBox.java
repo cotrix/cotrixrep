@@ -53,9 +53,11 @@ public class LanguageListBox extends Composite implements HasValueChangeHandlers
 	
 	public String getLanguage() {
 		int selectedIndex = languagesBox.getSelectedIndex();
-		if (selectedIndex<0) return null;
+		//TODO we should return null
+		if (selectedIndex<0) return "";
 		String value = languagesBox.getValue(selectedIndex);
-		return NO_LANGUAGE_VALUE.equals(value)?null:value;
+		//TODO we should return null
+		return NO_LANGUAGE_VALUE.equals(value)?"":value;
 	}
 	
 	public void setLanguage(String language) {
