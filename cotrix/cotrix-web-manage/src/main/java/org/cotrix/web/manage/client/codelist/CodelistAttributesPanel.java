@@ -14,11 +14,10 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeNameSuggestOracle;
 import org.cotrix.web.manage.client.codelist.attribute.AttributePanel;
-import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel;
-import org.cotrix.web.manage.client.codelist.attribute.AttributesPanel.AttributesPanelListener;
 import org.cotrix.web.manage.client.codelist.attribute.GroupFactory;
 import org.cotrix.web.manage.client.codelist.attribute.RemoveAttributeController;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
 import org.cotrix.web.manage.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
@@ -122,7 +121,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 		}, codelistId, ManagerUIFeature.EDIT_CODELIST);
 		
 		
-		attributesGrid.setListener(new AttributesPanelListener() {
+		attributesGrid.setListener(new ItemsEditingListener<UIAttribute>() {
 			
 			@Override
 			public void onUpdate(UIAttribute item) {
@@ -164,7 +163,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 					switch (event.getEditType()) {
 						case ADD: {
 							if (event.getSource() != CodelistAttributesPanel.this) {
-								final AttributePanel attributePanel = new AttributePanel(attribute);
+								final AttributePanel attributePanel = new AttributePanel(attribute, attributeNameSuggestOracle);
 								attributesGrid.addItemPanel(attributePanel, attribute);
 							}
 						} break;
@@ -243,7 +242,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	{
 		if (visualizedCode!=null) {
 			UIAttribute attribute = new UIAttribute();
-			AttributePanel attributePanel = new AttributePanel(attribute);
+			AttributePanel attributePanel = new AttributePanel(attribute, attributeNameSuggestOracle);
 			attributesGrid.addNewItemPanel(attributePanel, attribute);
 		}
 	}
@@ -276,7 +275,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 		attributesGrid.clear();
 		for (UIAttribute attribute:visualizedCode.getAttributes()) {
-			final AttributePanel attributePanel = new AttributePanel(attribute);
+			final AttributePanel attributePanel = new AttributePanel(attribute, attributeNameSuggestOracle);
 			attributesGrid.addItemPanel(attributePanel, attribute);
 		}
 		
@@ -349,5 +348,4 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	public void setEditable(boolean editable) {
 		attributesGrid.setEditable(editable);
 	}
-
 }

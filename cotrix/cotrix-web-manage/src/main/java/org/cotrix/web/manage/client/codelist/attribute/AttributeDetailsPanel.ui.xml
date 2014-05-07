@@ -42,8 +42,7 @@
 						<c:EditableLabel ui:field="nameBoxContainer"
 							labelStyle="{resources.propertyGrid.textValue}">
 							<c:editor>
-								<g:TextBox ui:field="nameBox"
-									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+								<g:SuggestListBox ui:field="nameBox" boxStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}"/>
 							</c:editor>
 						</c:EditableLabel>
 						<g:Image resource="{commonresources.dataLoader}" visible="false"
@@ -84,7 +83,7 @@
 						<c:EditableLabel ui:field="languageBoxContainer"
 							labelStyle="{resources.propertyGrid.textValue}">
 							<c:editor>
-								<c:LanguageListBox ui:field="languageBox" />
+								<c:LanguageListBox ui:field="languageBox" styleName="{commonresources.css.listBox}" width="100%"/>
 							</c:editor>
 						</c:EditableLabel>
 						<g:Image resource="{commonresources.dataLoader}" visible="false"

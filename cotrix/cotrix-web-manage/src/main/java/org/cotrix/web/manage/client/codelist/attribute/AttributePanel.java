@@ -40,7 +40,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 
 	private String id = Document.get().createUniqueId();
 
-	public AttributePanel(UIAttribute attribute) {
+	public AttributePanel(UIAttribute attribute, AttributeNameSuggestOracle oracle) {
 		this.attribute = attribute;
 		
 		header = new LabelHeader();
@@ -49,7 +49,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		disclosurePanel.setWidth("100%");
 		disclosurePanel.setAnimationEnabled(true);
 
-		detailsPanel = new AttributeDetailsPanel();
+		detailsPanel = new AttributeDetailsPanel(oracle);
 		disclosurePanel.add(detailsPanel);
 		initWidget(disclosurePanel);
 

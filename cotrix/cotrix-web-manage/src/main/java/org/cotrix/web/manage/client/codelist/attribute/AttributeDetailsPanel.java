@@ -19,6 +19,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.SuggestListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -41,7 +42,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	}
 
 	@UiField EditableLabel nameBoxContainer;
-	@UiField TextBox nameBox;
+	@UiField(provided=true) SuggestListBox nameBox;
 	
 	@UiField EditableLabel typeBoxContainer;
 	@UiField TextBox typeBox;
@@ -54,8 +55,10 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 
 	@UiField Style style;
 
-	public AttributeDetailsPanel() {
+	public AttributeDetailsPanel(AttributeNameSuggestOracle oracle) {
 
+		nameBox = new SuggestListBox(oracle);
+		
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		setupNameField();
@@ -74,7 +77,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 			}
 		});
 		
-		nameBox.addKeyUpHandler(new KeyUpHandler() {
+		nameBox.getValueBox().addKeyUpHandler(new KeyUpHandler() {
 			
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
@@ -138,7 +141,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	}
 	
 	public void setName(String name) {
-		nameBox.setValue(name, false);
+		nameBox.setValue(name);
 		nameBoxContainer.setText(name);
 	}
 	
