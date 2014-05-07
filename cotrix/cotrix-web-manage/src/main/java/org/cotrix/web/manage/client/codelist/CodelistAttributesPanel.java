@@ -90,7 +90,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 		this.attributeNameSuggestOracle = attributeNameSuggestOracle;
 
-		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("Attributes", "no attributes");
+		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("Attributes", "No attributes");
 
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);

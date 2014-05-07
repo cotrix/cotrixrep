@@ -1,7 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
-	xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.attribute"
+	xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.common"
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
 	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
 		field="common" />
@@ -28,7 +28,7 @@
 	</ui:style>
 	<g:DockLayoutPanel unit='PX'>
 		<g:center>
-			<v:AttributesGrid ui:field="attributesGrid" />
+			<v:ItemsEditingPanel ui:field="attributesGrid" />
 		</g:center>
 		<g:south size="28">
 			<c:ItemToolbar ui:field="toolBar" />

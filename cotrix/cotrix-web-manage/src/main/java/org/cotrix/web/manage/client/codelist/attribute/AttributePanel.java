@@ -105,6 +105,10 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		writeLink();
 		updateHeaderLabel();
 	}
+	
+	public void setSwitchVisible(boolean visible) {
+		header.setSwitchVisible(visible);
+	}
 
 	public String getId() {
 		return id;
