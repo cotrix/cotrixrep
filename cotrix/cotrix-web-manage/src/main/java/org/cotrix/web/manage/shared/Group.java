@@ -1,6 +1,7 @@
 package org.cotrix.web.manage.shared;
 
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.common.shared.codelist.UIQName;
 
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -16,6 +17,9 @@ public interface Group extends IsSerializable {
 	 */
 	public CodelistEditorSortInfo getSortInfo(boolean ascending);
 
+	public UIQName getName();
+	public int getPosition();
+	
 	public SafeHtml getLabel();
 
 	public String getValue(UICode code);

@@ -34,6 +34,14 @@
 			<groupId>org.virtualrepository</groupId>
 			<artifactId>sdmxsource-adapter</artifactId>
 		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.fao.fi.comet.mapping</groupId>
+			<artifactId>comet-mapping-format</artifactId>
+		</dependency>
+
+
 
 		<dependency>
 			<groupId>org.cotrix</groupId>

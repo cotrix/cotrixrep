@@ -227,6 +227,13 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 
 	private void setupValueTypePanel() {
 		valueTypePanel.setCodelistInfoProvider(codelistInfoProvider);
+		valueTypePanel.addValueChangeHandler(new ValueChangeHandler<UIValueType>() {
+			
+			@Override
+			public void onValueChange(ValueChangeEvent<UIValueType> event) {
+				fireChange();
+			}
+		});
 	}
 
 	private void updateValueType(final String codelistId, final UIValueType type) {

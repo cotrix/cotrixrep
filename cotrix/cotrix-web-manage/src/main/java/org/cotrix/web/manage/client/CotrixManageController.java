@@ -104,6 +104,14 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 		progressDialog.showCentered();
 		service.createNewCodelistVersion(codelistId, newVersion, new ManagedFailureCallback<CodelistGroup>() {
 			
+			/** 
+			 * {@inheritDoc}
+			 */
+			@Override
+			public void onCallFailed() {
+				progressDialog.hide();
+			}
+
 			@Override
 			public void onSuccess(CodelistGroup result) {
 				Log.trace("created "+result);

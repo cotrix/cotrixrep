@@ -4,6 +4,8 @@
 package org.cotrix.web.manage.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,20 @@ import org.cotrix.web.manage.shared.LinkGroup;
  *
  */
 public class GroupFactory {
+	
+	private static final Comparator<Group> GROUP_COMPARATOR = new Comparator<Group>() {
+		
+		@Override
+		public int compare(Group group1, Group group2) {
+			if (group1 instanceof AttributeGroup && ((AttributeGroup)group1).isSystemGroup()) return 1;
+			if (group2 instanceof AttributeGroup && ((AttributeGroup)group2).isSystemGroup()) return -1;
+			
+			int nameComparison = String.CASE_INSENSITIVE_ORDER.compare(group1.getName().getLocalPart(), group2.getName().getLocalPart());
+			if (nameComparison!=0) return nameComparison;
+			
+			return Integer.compare(group1.getPosition(), group2.getPosition());
+		}
+	};
 	
 	
 	private interface ItemProvider<T> {
@@ -72,6 +88,8 @@ public class GroupFactory {
 	public static List<Group> getGroups(Iterable<Code> codes) {
 		List<Group> groups = getGroups(codes, ATTRIBUTES_PROVIDER, ATTRIBUTE_GROUP_GENERATOR);
 		groups.addAll(getGroups(codes, CODELINKS_PROVIDER, LINK_GROUP_GENERATOR));
+		
+		Collections.sort(groups, GROUP_COMPARATOR);
 		return groups;
 		
 	}
