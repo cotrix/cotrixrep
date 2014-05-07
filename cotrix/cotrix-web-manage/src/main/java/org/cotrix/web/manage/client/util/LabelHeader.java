@@ -7,6 +7,8 @@ import org.cotrix.web.common.client.util.FadeAnimation;
 import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.TableCellElement;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -50,6 +52,9 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 
 	@UiField
 	FocusPanel headerBox;
+	
+	@UiField
+	TableCellElement images;
 	
 	@UiField 
 	DeckPanel labelControls;
@@ -97,6 +102,7 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	}
 	
 	public void setSwitchVisible(boolean visible) {
+		images.getStyle().setWidth(visible?24:12, Unit.PX);
 		int index = visible?labelControls.getWidgetIndex(switchButton):labelControls.getWidgetIndex(bullet);
 		labelControls.showWidget(index);
 	}
