@@ -1,6 +1,7 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.utils.Constants.*;
 
 import java.util.Collection;
 
@@ -24,13 +25,22 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	}
 
 	public CodelistMS(Codelist.State state) {
+		
 		super(state);
 		
-		for (Code.State code : state.codes())
-			codes.add(new CodeMS(code));
+		for (Code.State code : state.codes()) {
+			Code.State copy = new CodeMS(code);
+			copy.attributes().add(previousName(code.name()));
+			copy.attributes().add(previousId(code.id()));
+			codes.add(copy);
+		}
 		
 		for (CodelistLink.State link : state.links())
 			links.add(new CodelistLinkMS(link));
+		
+		attributes().add(previousVersion(state.version()));
+		attributes().add(previousName(state.name()));
+		attributes().add(previousId(state.id()));
 	}
 	
 	

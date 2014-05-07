@@ -6,12 +6,9 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import java.util.Calendar;
 
-import javax.xml.namespace.QName;
-
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
-import org.cotrix.domain.memory.AttributeMS;
 
 /**
  * A domain object with {@link Attribute}s.
@@ -82,16 +79,5 @@ public interface Attributed {
 			
 		}
 
-		// helpers
-		private Attribute.State timestamp(QName name) {
-
-			AttributeMS state = new AttributeMS();
-			state.name(name);
-			String value = getDateTimeInstance().format(Calendar.getInstance().getTime());
-			state.value(value);
-			state.type(SYSTEM_TYPE);
-			return state;
-
-		}
 	}
 }

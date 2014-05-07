@@ -1,9 +1,10 @@
 package org.acme.codelists;
 
-import static org.junit.Assert.*;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;
+import static org.cotrix.domain.utils.Constants.*;
+import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.codelist.Code;
@@ -11,7 +12,6 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.memory.CodelistMS;
-import org.cotrix.domain.version.DefaultVersion;
 import org.junit.Test;
 
 public class CodelistTest extends DomainTest {
@@ -85,8 +85,6 @@ public class CodelistTest extends DomainTest {
 		Codelist.State state = reveal(list).state();
 		CodelistMS clone = new CodelistMS(state);
 		
-		assertEquals(clone,state);
-		
 		assertFalse(clone.id().equals(state.id()));
 		
 	}
@@ -100,16 +98,18 @@ public class CodelistTest extends DomainTest {
 		Codelist list = like(codelist().name(name).with(c).version("1").build());
 		
 		Codelist versioned = reveal(list).bump("2");
+
+		assertEquals(versioned.attributes().lookup(PREVIOUS_VERSION_NAME).value(),list.name().toString());
+		assertEquals(versioned.attributes().lookup(PREVIOUS_VERSION_ID).value(),list.id());
+		assertEquals(versioned.attributes().lookup(PREVIOUS_VERSION).value(),list.version());
 		
+		assertEquals(versioned.codes().lookup(c.name()).attributes().lookup(PREVIOUS_VERSION_ID).value(),c.id());
+		assertEquals(versioned.codes().lookup(c.name()).attributes().lookup(PREVIOUS_VERSION_NAME).value(),c.name().toString());
+
 		assertEquals("2",versioned.version());
 		
-		Codelist.State state = reveal(list).state();
-		state.version(new DefaultVersion("2"));
-		CodelistMS clone = new CodelistMS(state);
+		System.out.println(versioned);
 		
-		assertEquals(clone,state);
-		
-		assertFalse(clone.id().equals(state.id()));
 	}
 	
 	

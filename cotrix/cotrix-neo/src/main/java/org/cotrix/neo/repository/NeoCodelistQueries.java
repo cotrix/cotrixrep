@@ -27,8 +27,6 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.IteratorAdapter;
-import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.links.ValueType;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
 import org.cotrix.neo.domain.Constants.Relations;
