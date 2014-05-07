@@ -201,19 +201,19 @@ public class ManageServiceImpl implements ManageService {
 
 	@Override
 	@CodelistTask(LOCK)
-	public FeatureCarrier.Void  lock(@Id String codelistId) throws ServiceException {
+	public FeatureCarrier.Void lock(@Id String codelistId) throws ServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@CodelistTask(UNLOCK)
-	public FeatureCarrier.Void  unlock(@Id String codelistId) throws ServiceException {
+	public FeatureCarrier.Void unlock(@Id String codelistId) throws ServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
 	@Override
 	@CodelistTask(SEAL)
-	public FeatureCarrier.Void  seal(@Id String codelistId) throws ServiceException {
+	public FeatureCarrier.Void seal(@Id String codelistId) throws ServiceException {
 		return FeatureCarrier.getVoid();
 	}
 
