@@ -13,6 +13,10 @@ public class CodelistInfoValidator {
 		return notNullNotEmpty(name);
 	}
 	
+	public static boolean validateVersion(String oldVersion, String version) {
+		return validateVersion(version) && !oldVersion.equals(version);
+	}
+	
 	public static boolean validateVersion(String version) {
 		return notNullNotEmpty(version);
 	}

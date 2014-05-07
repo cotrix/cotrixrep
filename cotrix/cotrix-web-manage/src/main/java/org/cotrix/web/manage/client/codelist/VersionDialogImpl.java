@@ -108,7 +108,7 @@ public class VersionDialogImpl extends PopupPanel implements VersionDialog {
 	protected boolean validate() {
 		boolean valid = true;
 
-		if (!CodelistInfoValidator.validateVersion(newVersion.getText())) {
+		if (!CodelistInfoValidator.validateVersion(oldVersion.getText(), newVersion.getText())) {
 			newVersion.setStyleName(resources.css().dialogTextboxInvalid(), true);
 			valid = false;
 		}

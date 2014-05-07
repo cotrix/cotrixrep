@@ -239,15 +239,20 @@ public class ManageServiceImpl implements ManageService {
 
 	@Override
 	@CodelistTask(VERSION)
-	public CodelistGroup createNewCodelistVersion(@Id String codelistId, String newVersion)
-			throws ServiceException {
-		Codelist codelist = repository.lookup(codelistId);
-		Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
-
-		CodelistGroup group = addCodelist(newCodelist);
-		events.fire(new CodelistActionEvents.Version(newCodelist.id(),newCodelist.name(),newVersion, session));
-
-		return group;
+	public CodelistGroup createNewCodelistVersion(@Id String codelistId, String newVersion)	throws ServiceException {
+		try {
+			Codelist codelist = repository.lookup(codelistId);
+			Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
+	
+			CodelistGroup group = addCodelist(newCodelist);
+			events.fire(new CodelistActionEvents.Version(newCodelist.id(),newCodelist.name(),newVersion, session));
+	
+			return group;
+		} catch(Throwable throwable)
+		{
+			logger.error("Error creating new codelist version for codelist "+codelistId, throwable);
+			throw new ServiceException(throwable.getMessage());
+		}
 	}
 
 	@Override
