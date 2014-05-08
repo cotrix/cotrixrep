@@ -13,6 +13,7 @@ public interface TypeSelectionStepView {
 	public interface Presenter {
 		void onSDMXButtonClick();
 		void onCSVButtonClick();
+		void onCometButtonClick();
 	}
 	
 	void alert(String message);

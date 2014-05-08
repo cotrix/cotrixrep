@@ -8,6 +8,7 @@ import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.step.DestinationNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.DetailsNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.RepositoryDetailsNodeSelector;
+import org.cotrix.web.publish.client.wizard.step.SubTypeNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.TypeNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepPresenter;
@@ -20,6 +21,7 @@ import org.cotrix.web.publish.client.wizard.step.repositoryselection.RepositoryS
 import org.cotrix.web.publish.client.wizard.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.summary.SummaryStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.typeselection.TypeSelectionStepPresenter;
+import org.cotrix.web.publish.client.wizard.task.CleanMappingsTask;
 import org.cotrix.web.publish.client.wizard.task.PublishTask;
 import org.cotrix.web.publish.client.wizard.task.RetrieveCSVConfigurationTask;
 import org.cotrix.web.publish.client.wizard.task.RetrieveMappingsTask;
@@ -64,7 +66,6 @@ public class PublishWizardPresenter implements Presenter {
 			
 			DestinationSelectionStepPresenter destinationSelectionStep,
 			RepositorySelectionStepPresenter repositorySelectionStep,
-			RepositoryDetailsNodeSelector repositoryDetailsNodeSelector,
 			RetrieveRepositoryDetailsTask repositoryDetailsTask,
 			RepositoryDetailsStepPresenter repositoryDetailsStep,
 			
@@ -73,6 +74,7 @@ public class PublishWizardPresenter implements Presenter {
 			CsvConfigurationStepPresenter csvConfigurationStep,
 			RetrieveMappingsTask retrieveMappingsTask,
 			CsvMappingStepPresenter csvMappingStep,
+			CleanMappingsTask cleanMappingsTask,
 			
 			SdmxMappingStepPresenter sdmxMappingStep,
 
@@ -96,20 +98,27 @@ public class PublishWizardPresenter implements Presenter {
 		//TypeSelectionStepPresenter typeStep, RepositorySelectionStepPresenter repositorySelectionStep
 		DestinationNodeSelector destinationSelector = new DestinationNodeSelector(publishEventBus, repositorySelectionStep, typeSelectionStep);
 		SwitchNodeBuilder<WizardStep> destination = selectionStep.alternative(destinationSelectionStep).hasAlternatives(destinationSelector);
-		SingleNodeBuilder<WizardStep> type = destination.alternative(typeSelectionStep);
 		
-		TypeNodeSelector fileTypeSelector = new TypeNodeSelector(publishEventBus, csvMappingStep, sdmxMappingStep);
-		SwitchNodeBuilder<WizardStep> retrieveMappings = type.next(retrieveMappingsTask).hasAlternatives(fileTypeSelector);
-		SingleNodeBuilder<WizardStep> csvMapping = retrieveMappings.alternative(csvMappingStep);
-		SingleNodeBuilder<WizardStep> sdmxMapping = retrieveMappings.alternative(sdmxMappingStep);
 		
+		TypeNodeSelector fileTypeSelector = new TypeNodeSelector(publishEventBus, retrieveMappingsTask, cleanMappingsTask);
+		SwitchNodeBuilder<WizardStep> type = destination.alternative(typeSelectionStep).hasAlternatives(fileTypeSelector);
+		SingleNodeBuilder<WizardStep> summary = type.alternative(cleanMappingsTask).next(summaryStep);
+		
+		SubTypeNodeSelector subTypeNodeSelector = new SubTypeNodeSelector(publishEventBus, csvMappingStep, sdmxMappingStep);
+		SingleNodeBuilder<WizardStep> retrieveMappings = type.alternative(retrieveMappingsTask);
+		SwitchNodeBuilder<WizardStep> subType = retrieveMappings.hasAlternatives(subTypeNodeSelector);
+		
+		SingleNodeBuilder<WizardStep> csvMapping = subType.alternative(csvMappingStep).next(retrieveMappingsTask);
+		SingleNodeBuilder<WizardStep> sdmxMapping = subType.alternative(sdmxMappingStep).next(retrieveMappingsTask);
+		
+		RepositoryDetailsNodeSelector repositoryDetailsNodeSelector = new RepositoryDetailsNodeSelector(publishEventBus, repositoryDetailsTask, retrieveMappingsTask);
 		SwitchNodeBuilder<WizardStep> repository = destination.alternative(repositorySelectionStep).hasAlternatives(repositoryDetailsNodeSelector);
 		repository.alternative(repositoryDetailsTask).next(repositoryDetailsStep);
 		repository.alternative(retrieveMappings);
 	
 		DestinationNodeSelector csvDestinationSelector = new DestinationNodeSelector(publishEventBus, summaryStep, retrieveCSVConfigurationTask);
 		SwitchNodeBuilder<WizardStep> csvPostMapping = csvMapping.hasAlternatives(csvDestinationSelector); 
-		SingleNodeBuilder<WizardStep> summary = csvPostMapping.alternative(retrieveCSVConfigurationTask).next(csvConfigurationStep).next(summaryStep);
+		csvPostMapping.alternative(retrieveCSVConfigurationTask).next(csvConfigurationStep).next(summary);
 		csvPostMapping.alternative(summary);
 		
 		sdmxMapping.next(summary);

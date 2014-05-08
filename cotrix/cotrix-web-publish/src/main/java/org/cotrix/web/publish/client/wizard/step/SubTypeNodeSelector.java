@@ -19,18 +19,17 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> {
+public class SubTypeNodeSelector extends AbstractNodeSelector<WizardStep> {
 	
-
-	protected WizardStep retrieveMappingsStep;
-	protected WizardStep summaryStep;
+	protected WizardStep csvStep;
+	protected WizardStep sdmxStep;
 	protected WizardStep nextStep;
 	
-	public TypeNodeSelector(EventBus publishBus, WizardStep retrieveMappingsStep, WizardStep summaryStep)
+	public SubTypeNodeSelector(EventBus publishBus, WizardStep csvStep, WizardStep sdmxStep)
 	{
-		this.retrieveMappingsStep = retrieveMappingsStep;
-		this.nextStep = retrieveMappingsStep;
-		this.summaryStep = summaryStep;
+		this.csvStep = csvStep;
+		this.sdmxStep = sdmxStep;
+		this.nextStep = sdmxStep;
 		bind(publishBus);
 	}
 	
@@ -67,16 +66,17 @@ public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> {
 	 * {@inheritDoc}
 	 */
 	public void reset() {
-		nextStep = retrieveMappingsStep;		
+		nextStep = sdmxStep;		
 	}
 
 
 	public void setType(Format type) {
 		Log.trace("TypeNodeSelector updating next to "+type);
 		switch (type) {
-			case CSV: nextStep = retrieveMappingsStep; break;
-			case SDMX: nextStep = retrieveMappingsStep; break;
-			case COMET: nextStep = summaryStep; break;
+			case CSV: nextStep = csvStep; break;
+			case SDMX: nextStep = sdmxStep; break;
+			default:
+				break;
 		}
 		switchUpdated();
 

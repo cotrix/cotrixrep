@@ -33,12 +33,18 @@ public class Publishers {
 	
 	@Inject
 	protected PublishMapper.SdmxMapper sdmxMapper;
-
-	@Inject
-	protected SerializationDirectivesProducer.CSVSerializationDirectivesProducer csvDesktopProducer;
 	
 	@Inject
-	protected SerializationDirectivesProducer.XmlSerializationDirectivesProducer xmlDesktopProducer;
+	protected PublishMapper.CometMapper cometMapper;
+
+	@Inject
+	protected SerializationDirectivesProducer.Table2CsvSerializationDirectivesProducer csvSerializationDirectivesProducer;
+	
+	@Inject
+	protected SerializationDirectivesProducer.Sdmx2XmlSerializationDirectivesProducer sdmx2XmlSerializationDirectivesProducer;
+	
+	@Inject
+	protected SerializationDirectivesProducer.Comet2XmlSerializationDirectivesProducer comet2XmlSerializationDirectivesProducer;
 	
 	@SuppressWarnings("unchecked")
 	protected static <T> SerializationDirectivesProducer<T> getEmptySerializationDirectivesProducer() {
@@ -63,8 +69,9 @@ public class Publishers {
 	public void createPublisher(PublishDirectives publishDirectives, PublishStatus publishStatus) {
 
 		switch (publishDirectives.getFormat()) {
-			case CSV: createPublisher(csvMapper, csvDesktopProducer, publishDirectives, publishStatus); break;
-			case SDMX: createPublisher(sdmxMapper, xmlDesktopProducer, publishDirectives, publishStatus); break;
+			case CSV: createPublisher(csvMapper, csvSerializationDirectivesProducer, publishDirectives, publishStatus); break;
+			case SDMX: createPublisher(sdmxMapper, sdmx2XmlSerializationDirectivesProducer, publishDirectives, publishStatus); break;
+			case COMET: createPublisher(cometMapper, comet2XmlSerializationDirectivesProducer, publishDirectives, publishStatus); break;
 		}
 	}
 	
