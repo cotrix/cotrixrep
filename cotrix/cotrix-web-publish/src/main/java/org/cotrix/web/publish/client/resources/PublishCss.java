@@ -17,4 +17,5 @@ public interface PublishCss extends CssResource {
 	
 	String buttonCsv();
 	String buttonSdmx();
+	String buttonComet();
 }

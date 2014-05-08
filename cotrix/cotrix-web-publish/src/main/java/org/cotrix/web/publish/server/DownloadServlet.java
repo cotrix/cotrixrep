@@ -101,7 +101,8 @@ public class DownloadServlet extends HttpServlet {
 		String extension = "bin";
 		switch (format) {
 			case CSV: extension = "csv"; break;
-			case SDMX: extension = "sdmx"; break;
+			case SDMX: extension = "xml"; break;
+			case COMET: extension = "xml";
 		}
 		String filename = FileNameUtil.toValidFileName(session.getPublishStatus().getPublishedCodelist().name().getLocalPart()+"."+extension);
 		Reader content = new FileReader(csv);

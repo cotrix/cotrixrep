@@ -10,7 +10,8 @@ package org.cotrix.web.publish.shared;
 public enum Format {
 	
 	SDMX,
-	CSV;
+	CSV,
+	COMET;
 	
 	public static String PARAMETER_NAME = "Format";
 

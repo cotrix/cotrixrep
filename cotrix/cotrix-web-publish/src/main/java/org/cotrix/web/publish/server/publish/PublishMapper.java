@@ -12,6 +12,7 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
 import org.cotrix.io.MapService;
+import org.cotrix.io.comet.map.Codelist2CometDirectives;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
 import org.cotrix.io.tabular.map.AttributeDirectives;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
@@ -25,6 +26,7 @@ import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.publish.shared.UISdmxElement;
+import org.fao.fi.comet.mapping.model.MappingData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,6 +121,19 @@ public interface PublishMapper<T> {
 			}
 			
 			return mapper.map(codelist, directives);
+		}		
+	}
+	
+	public class CometMapper implements PublishMapper<MappingData> {
+		
+		protected Logger logger = LoggerFactory.getLogger(CometMapper.class);
+		
+		@Inject
+		protected MapService mapper;
+
+		@Override
+		public Outcome<MappingData> map(Codelist codelist, PublishDirectives publishDirectives) {
+			return mapper.map(codelist, Codelist2CometDirectives.DEFAULT);
 		}		
 	}
 }

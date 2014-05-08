@@ -6,8 +6,6 @@ package org.cotrix.web.publish.client.wizard.step;
 import java.util.List;
 
 import org.cotrix.web.publish.client.event.ItemDetailsRequestedEvent;
-import org.cotrix.web.publish.client.event.PublishBus;
-import org.cotrix.web.publish.client.wizard.task.RetrieveMappingsTask;
 import org.cotrix.web.publish.client.wizard.task.RetrieveRepositoryDetailsTask;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
@@ -19,27 +17,23 @@ import org.cotrix.web.wizard.client.step.WizardStep;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@Singleton
 public class RepositoryDetailsNodeSelector extends AbstractNodeSelector<WizardStep> {
 	
 	protected WizardStep nextStep;
 	
-	@Inject
 	protected RetrieveRepositoryDetailsTask retrieveStep;
 	
-	protected RetrieveMappingsTask retrieveMappings;
+	protected WizardStep retrieveMappings;
 	
-	@Inject
-	public RepositoryDetailsNodeSelector(@PublishBus EventBus publishBus, RetrieveMappingsTask retrieveMappings)
+	public RepositoryDetailsNodeSelector(EventBus publishBus, RetrieveRepositoryDetailsTask retrieveStep, WizardStep retrieveMappings)
 	{
+		this.retrieveStep = retrieveStep;
 		this.retrieveMappings = retrieveMappings;
 		this.nextStep = retrieveMappings;
 		bind(publishBus);

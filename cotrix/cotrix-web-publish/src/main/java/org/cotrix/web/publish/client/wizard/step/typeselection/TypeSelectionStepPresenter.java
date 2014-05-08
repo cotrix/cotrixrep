@@ -25,6 +25,7 @@ public class TypeSelectionStepPresenter extends AbstractVisualWizardStep impleme
 	
 	protected static final ItemUpdatedEvent<Format> SDMX_EVENT = new ItemUpdatedEvent<Format>(Format.SDMX);
 	protected static final ItemUpdatedEvent<Format> CSV_EVENT = new ItemUpdatedEvent<Format>(Format.CSV);
+	protected static final ItemUpdatedEvent<Format> COMET_EVENT = new ItemUpdatedEvent<Format>(Format.COMET);
 
 	protected TypeSelectionStepView view;
 	
@@ -74,6 +75,13 @@ public class TypeSelectionStepPresenter extends AbstractVisualWizardStep impleme
 	public void onCSVButtonClick() {
 		Log.trace("onCSVButtonClick");
 		importEventBus.fireEvent(CSV_EVENT);
+		importEventBus.fireEvent(NavigationEvent.FORWARD);
+	}
+
+	@Override
+	public void onCometButtonClick() {
+		Log.trace("onCometButtonClick");
+		importEventBus.fireEvent(COMET_EVENT);
 		importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
 }
