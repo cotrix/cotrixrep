@@ -46,7 +46,7 @@ public class CodelinkTest extends DomainTest {
 		assertEquals(MODIFIED,((Codelink.Private) link).status());
 
 	}
-	
+
 	@Test
 	public void resolveLinkToNames() {
 		
@@ -59,7 +59,7 @@ public class CodelinkTest extends DomainTest {
 		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
 		assertEquals(new QName(code.name().getNamespaceURI(),lowercase.apply(code.name().getLocalPart())),link.value().iterator().next());
-		
+
 	}
 	
 	@Test

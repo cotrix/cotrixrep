@@ -166,13 +166,13 @@
 					<groupId>org.cotrix</groupId>
 					<artifactId>cotrix-stage</artifactId>
 				</dependency>
-
+				
 				<dependency>
 					<groupId>org.cotrix</groupId>
 					<artifactId>cotrix-neo</artifactId>
 				</dependency>
 
-				<dependency>
+<!-- 				<dependency>
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-sdmx-registry</artifactId>
 				</dependency>
@@ -190,7 +190,7 @@
 				<dependency>
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-data-fao</artifactId>
-				</dependency>
+				</dependency> -->
 
 			</dependencies>
 

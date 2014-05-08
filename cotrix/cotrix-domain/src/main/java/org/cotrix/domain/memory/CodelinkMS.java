@@ -22,13 +22,13 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 		super(id,status);
 	}
 	
-	public CodelinkMS(Codelink.State target) {
+	public CodelinkMS(Codelink.State state) {
 		
-		super(target);
+		super(state);
 		
-		target(target.target());
+		target(state.target());
 		
-		type(new CodelistLinkMS(target.type()));
+		type(state.type());
 	}
 
 	@Override

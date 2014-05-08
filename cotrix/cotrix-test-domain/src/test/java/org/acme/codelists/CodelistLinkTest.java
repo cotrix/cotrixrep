@@ -126,6 +126,9 @@ public class CodelistLinkTest extends DomainTest {
 		
 		assertFalse(clone.id().equals(state.id()));
 		
+		//can persist a link
+		like(new CodelistLink.Private(clone));
+		
 	}
 	
 	@Test
