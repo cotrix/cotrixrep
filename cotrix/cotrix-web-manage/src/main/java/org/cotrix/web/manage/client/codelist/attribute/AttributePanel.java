@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Composite;
  */
 public class AttributePanel extends Composite implements ItemEditingPanel<UIAttribute> {
 
+	private boolean readOnly;
 	private boolean editable;
 	private boolean editing;
 
@@ -195,7 +196,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 
 	private void updateHeaderButtons() {
 		if (disclosurePanel.isOpen()) {
-			header.setEditVisible(!editing && editable);
+			header.setEditVisible(!editing && editable && !readOnly);
 			header.setControlsVisible(editing);
 			header.setRevertVisible(editing);
 			header.setSaveVisible(false);
@@ -233,6 +234,10 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 	@Override
 	public void setSwitchDown(boolean down) {
 		header.setSwitchDown(down);
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
 	}
 
 }

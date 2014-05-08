@@ -275,7 +275,8 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 
 		attributesGrid.clear();
 		for (UIAttribute attribute:visualizedCode.getAttributes()) {
-			final AttributePanel attributePanel = new AttributePanel(attribute, attributeNameSuggestOracle);
+			AttributePanel attributePanel = new AttributePanel(attribute, attributeNameSuggestOracle);
+			attributePanel.setReadOnly(Attributes.isSystemAttribute(attribute));
 			attributesGrid.addItemPanel(attributePanel, attribute);
 		}
 		

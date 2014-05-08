@@ -188,6 +188,7 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 		for (UIAttribute attribute:metadata.getAttributes()) {
 			AttributePanel attributePanel = new AttributePanel(attribute, attributeNameSuggestOracle);
 			attributePanel.setSwitchVisible(false);
+			attributePanel.setReadOnly(Attributes.isSystemAttribute(attribute));
 			attributesGrid.addItemPanel(attributePanel, attribute);
 		}
 	}
