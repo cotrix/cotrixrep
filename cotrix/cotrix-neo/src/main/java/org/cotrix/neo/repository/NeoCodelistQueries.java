@@ -112,7 +112,7 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 						Relations.CODE.name(),
 						$node));
 				
-				rtrn(format("DISTINCT(%1$s) as %2$s",$node,$result));	
+				rtrn(format("DISTINCT %1$s as %2$s",$node,$result));	
 			}
 			
 			@Override
@@ -272,6 +272,19 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 	@Override
 	public Criterion<Code> byAttribute(final Attribute template, final int position) {
 		
+		return _byAttribute(template, position,false);
+	}
+	
+	
+	@Override
+	public Criterion<Code> byDescendingAttribute(final Attribute template, final int position) {
+		
+		return _byAttribute(template, position,true);
+	}
+	
+	
+	public Criterion<Code> _byAttribute(final Attribute template, final int position, final boolean descending) {
+		
 		return new NeoCriterion<Code>() {
 			
 			@Override
@@ -285,8 +298,8 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 				//brings codes in with expression
 				query.with($node);
 				
-				String caseTemplate = "CASE %1$s WHEN '%2$s' THEN %3$s END AS VAL ORDER BY VAL";
-				
+				String caseTemplate = "CASE %1$s WHEN '%2$s' THEN %3$s END AS VAL ORDER BY VAL"+(descending?" DESC":"");
+			
 				String expression = template.language()==null?
 						format("%1$s.%2$s[%3$s]",$attribute,name_prop,position-1):
 						format("%1$s.%2$s[%3$s]+%1$s.%4$s",$attribute,name_prop,position-1,lang_prop);

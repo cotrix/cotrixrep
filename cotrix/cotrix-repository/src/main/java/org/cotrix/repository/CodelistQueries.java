@@ -71,6 +71,10 @@ public class CodelistQueries {
 		return factory.byAttribute(attribute,position);
 	}
 	
+	public static Criterion<Code> byDescendingAttribute(final Attribute attribute, int position) {
+		return factory.byDescendingAttribute(attribute,position);
+	}
+	
 	static class QueryFactoryInjector {
 
 		void configure(@Observes ApplicationEvents.Startup event, CodelistQueryFactory factory) {	

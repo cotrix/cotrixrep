@@ -10,7 +10,7 @@
 	<artifactId>cotrix-neo</artifactId>
 
 	<properties>
-		<neo.version>2.0.0-RC1</neo.version>
+		<neo.version>2.0.3</neo.version>
 	</properties>
 
 	<dependencies>

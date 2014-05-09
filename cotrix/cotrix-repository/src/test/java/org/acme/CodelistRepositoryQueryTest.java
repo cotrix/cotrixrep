@@ -222,9 +222,13 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		repository.add(list);
 		
 		Attribute template = attribute().name("a").value("ignore").build();
-		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(descending(byAttribute(template,1))));
+		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,1)));
 		
 		assertEquals(asList(c3,c1,c2),collect(results));
+		
+		results  = repository.get(allCodesIn(list.id()).sort(byDescendingAttribute(template,1)));
+		
+		assertEquals(asList(c2,c1,c3),collect(results));
 		
 		results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,2)));
 		assertEquals(asList(c2,c1,c3),collect(results));

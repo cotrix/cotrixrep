@@ -205,9 +205,18 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		};
 
 	}
-
+	
+	@Override
+	public Criterion<Code> byDescendingAttribute(Attribute template, int position) {
+		return byAttribute(template,position,true);
+	}
+	
 	@Override
 	public Criterion<Code> byAttribute(final Attribute template, final int position) {
+		return byAttribute(template,position,false);
+	}
+
+	private Criterion<Code> byAttribute(final Attribute template, final int position, final boolean descending) {
 
 		valid("attribute name", template.name());
 
@@ -221,7 +230,13 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 			@Override
 			public int compare(Code c1, Code c2) {
-
+				
+				if (descending) {
+					Code temp = c1;
+					c1=c2;
+					c2=temp;
+				}
+				
 				int pos = 1;
 				String c1Match = null;
 				for (Attribute a : c1.attributes())

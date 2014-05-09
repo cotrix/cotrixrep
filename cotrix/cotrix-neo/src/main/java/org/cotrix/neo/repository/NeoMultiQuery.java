@@ -105,7 +105,7 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 		
 		Iterator<String> it = clauses.iterator();
 		while (it.hasNext()) 
-			b.append(it.next()).append(it.hasNext()?',':"");
+			b.append(it.next()).append(it.hasNext()?", ":"");
 
 		return b.toString();
 	}
