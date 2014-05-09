@@ -38,6 +38,7 @@ public class NeoNodeFactory {
 	private static Node nodeFor(NodeType type, String id) {
 		
 		try (
+				
 			ResourceIterator<Node> retrieved = store.findNodesByLabelAndProperty(type,id_prop,id).iterator(); 
 		) 
 		{

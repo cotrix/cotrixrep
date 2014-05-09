@@ -28,6 +28,11 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		
 		super(state);
 		
+		for (CodelistLink.State link : state.links()) {
+			links.add(new CodelistLinkMS(link));
+		}
+		
+		
 		for (Code.State code : state.codes()) {
 			Code.State copy = new CodeMS(code);
 			copy.attributes().add(previousName(code.name()));
@@ -35,8 +40,6 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 			codes.add(copy);
 		}
 		
-		for (CodelistLink.State link : state.links())
-			links.add(new CodelistLinkMS(link));
 		
 		attributes().add(previousVersion(state.version()));
 		attributes().add(previousName(state.name()));

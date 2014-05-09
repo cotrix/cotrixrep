@@ -71,7 +71,7 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	@Override
 	public void target(State state) {
 		
-		Node target = node(state);
+		Node target = resolve(state, CODELIST);
 		
 		//allow orphan semantics
 		if (target!=null)
@@ -112,7 +112,7 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 			
 			CodelistLink link = ((LinkOfLink) state).target();
 			
-			Node target = node(reveal(link).state());
+			Node target = resolve(reveal(link).state(),CODELINK);
 			
 			//allow orphan semantics
 			if (target!=null)

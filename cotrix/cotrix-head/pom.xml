@@ -166,7 +166,7 @@
 					<groupId>org.cotrix</groupId>
 					<artifactId>cotrix-stage</artifactId>
 				</dependency>
-
+				
 				<dependency>
 					<groupId>org.cotrix</groupId>
 					<artifactId>cotrix-neo</artifactId>

@@ -74,7 +74,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 		if (rel!=null)
 			rel.delete();
 		
-		node().createRelationshipTo(node(state), Relations.LINK);
+		node().createRelationshipTo(resolve(state,CODE), Relations.LINK);
 	}
 	
 	@Override
@@ -92,7 +92,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 	@Override
 	public void type(CodelistLink.State state) {
 		
-		node().createRelationshipTo(node(state),Relations.INSTANCEOF);
+		node().createRelationshipTo(resolve(state,CODELISTLINK),Relations.INSTANCEOF);
 	}
 	
 }

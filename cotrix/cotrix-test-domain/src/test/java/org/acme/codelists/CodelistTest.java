@@ -2,12 +2,14 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.links.ValueFunctions.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
@@ -110,6 +112,28 @@ public class CodelistTest extends DomainTest {
 		
 		System.out.println(versioned);
 		
+	}
+	
+	
+	@Test
+	public void codelistWithLinksCanBeVersioned() {
+		
+		
+		Code ctarget = code().name("a").build();
+		Codelist target = like(codelist().name("A").with(ctarget).build());  
+		
+		
+		CodelistLink listLink = listLink().name("link").target(target).transformWith(lowercase).anchorToName().build();
+		Codelink link  = link().instanceOf(listLink).target(ctarget).build();
+		Code csource = code().name("b").links(link).build();
+		
+		Codelist source = codelist().name("B").links(listLink).with(csource).build();
+		
+		source = like(source);
+		
+		Codelist versioned = reveal(source).bump("2.0");
+
+		like(versioned);
 	}
 	
 	
