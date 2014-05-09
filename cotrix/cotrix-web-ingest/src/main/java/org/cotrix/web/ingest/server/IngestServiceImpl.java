@@ -15,6 +15,7 @@ import org.cotrix.domain.user.User;
 import org.cotrix.io.CloudService;
 import org.cotrix.web.common.server.util.Encodings;
 import org.cotrix.web.common.server.util.Ranges;
+import org.cotrix.web.common.server.util.Ranges.Predicate;
 import org.cotrix.web.common.shared.ColumnSortInfo;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.DataWindow;
@@ -29,6 +30,7 @@ import org.cotrix.web.ingest.server.climport.ImporterFactory;
 import org.cotrix.web.ingest.server.upload.MappingGuesser;
 import org.cotrix.web.ingest.server.upload.MappingsManager;
 import org.cotrix.web.ingest.server.upload.PreviewDataManager;
+import org.cotrix.web.ingest.server.util.AssetInfoFilter;
 import org.cotrix.web.ingest.server.util.AssetInfosCache;
 import org.cotrix.web.ingest.server.util.Assets;
 import org.cotrix.web.ingest.server.util.ParsingHelper;
@@ -102,17 +104,21 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	 * @throws ServiceException 
 	 */
 	@Override
-	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ServiceException {
-		logger.trace("getAssets range: {} columnSortInfo: {} forceRefresh: {}", range, columnSortInfo, forceRefresh);
+	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, String query, boolean forceRefresh) throws ServiceException {
+		logger.trace("getAssets range: {} columnSortInfo: {} query: {} forceRefresh: {}", range, columnSortInfo, query, forceRefresh);
 		try {
 
 			if (forceRefresh) assetInfosCache.refreshCache();
 			List<AssetInfo> assets = assetInfosCache.getAssets(columnSortInfo.getName());
-			List<AssetInfo> sublist = columnSortInfo.isAscending()?Ranges.subList(assets, range):Ranges.subListReverseOrder(assets, range);
+			Predicate<AssetInfo> predicate = Ranges.noFilter();
+			if (!query.isEmpty()) predicate = new AssetInfoFilter(query);
+			List<AssetInfo> sublist = columnSortInfo.isAscending()?Ranges.subList(assets, range, predicate):Ranges.subListReverseOrder(assets, range, predicate);
 
 			logger.trace("returning "+sublist.size()+" elements");
 
-			return new DataWindow<AssetInfo>(sublist, assets.size());
+			int size = Ranges.size(assets, predicate);
+			
+			return new DataWindow<AssetInfo>(sublist, size);
 		} catch(Exception e)
 		{
 			e.printStackTrace();

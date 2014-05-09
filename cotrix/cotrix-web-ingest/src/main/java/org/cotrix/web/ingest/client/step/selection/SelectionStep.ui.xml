@@ -1,26 +1,47 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client"
+	xmlns:w="urn:import:org.cotrix.web.common.client.widgets"
+	>
 	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
 		field="common" />
 	<ui:style>
-		.mainPanel {
-			width: 100%;
-		}
-		
-		.refreshButton {
-			margin-left: 7px;
-			outline: none;
-		}
-		
-		.pagerPanel {
-			margin: 0 auto;
-		}
+	.mainPanel {
+		width: 100%;
+	}
+	
+	.filterPanel {
+		padding: 2px;
+	}
+	
+	.refreshButton {
+		margin-left: 7px;
+		outline: none;
+	}
+	
+	.pagerPanel {
+		margin: 0 auto;
+	}
 	</ui:style>
 
 	<g:DockLayoutPanel unit='PX' ui:field="reportPanel"
 		styleName="{style.mainPanel}">
 
+		<g:north size='40'>
+			<g:HTMLPanel styleName="{style.filterPanel}">
+				<table width="100%">
+					<tr>
+						<td>
+							<w:SearchBox ui:field="searchBox" changeDelay="200"/>
+						</td>
+						<td width="45px">
+						</td>
+					</tr>
+				</table>
+
+			</g:HTMLPanel>
+		</g:north>
 		<g:center>
 			<c:PatchedDataGrid ui:field='dataGrid' />
 		</g:center>

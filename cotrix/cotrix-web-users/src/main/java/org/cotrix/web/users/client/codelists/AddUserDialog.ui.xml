@@ -1,6 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:c='urn:import:com.google.gwt.user.cellview.client' xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	xmlns:c='urn:import:com.google.gwt.user.cellview.client' xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:common="urn:import:org.cotrix.web.common.client.widgets">
 	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
 		field="resources" />
 	<ui:style>
@@ -38,6 +39,11 @@
 			padding-right: 5px;
 			padding-bottom: 7px;
 		}
+				
+		.filterBox {
+			height: 24px !important;
+			font-size: 16px !important;
+		}
 		
 		.listPanel {
 			height: 200px;
@@ -63,7 +69,7 @@
 			User
 		</div>
 		<div class="{style.filterPanel}">
-			<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}" />
+			<common:SearchBox ui:field="filterTextBox" addStyleNames="{style.filterBox}" />
 		</div>
 		<div>
 			<g:ScrollPanel styleName="{style.listPanel}">

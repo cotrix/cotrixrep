@@ -1,12 +1,12 @@
 package org.cotrix.web.manage.client.codelists;
 
-import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider.Filter;
 import org.cotrix.web.common.client.util.SingleSelectionModel;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
+import org.cotrix.web.common.client.widgets.SearchBox;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.resources.CodelistsResources;
 import org.cotrix.web.manage.shared.CodelistGroup;
@@ -15,7 +15,7 @@ import org.cotrix.web.manage.shared.CodelistGroup.Version;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -25,7 +25,6 @@ import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.CellTree.CellTreeMessages;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.ResizeComposite;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
@@ -49,7 +48,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	    String emptyTree();
 	}
 	
-	@UiField TextBox filterTextBox;
+	@UiField SearchBox filterTextBox;
 
 	@UiField(provided=true) 
 	CellTree codelists;
@@ -70,7 +69,6 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 		this.resources = resources;
 		setupCellList();
 		initWidget(uiBinder.createAndBindUi(this));
-		updateSearchBoxStyle();
 		toolbar.setVisible(ItemButton.MINUS, false);
 	}
 	
@@ -88,10 +86,9 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	}
 	
 	@UiHandler("filterTextBox")
-	protected void onKeyUp(KeyUpEvent event) {
-		Log.trace("onKeyUp value: "+filterTextBox.getValue()+" text: "+filterTextBox.getText());
-		updateFilter();
-		updateSearchBoxStyle();
+	protected void onValueChange(ValueChangeEvent<String> event) {
+		Log.trace("onKeyUp value: "+filterTextBox.getValue());
+		updateFilter(filterTextBox.getValue());
 	}
 	
 	protected void setupCellList()
@@ -131,9 +128,8 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	}
 	
 	@SuppressWarnings("unchecked")
-	protected void updateFilter()
+	protected void updateFilter(String filter)
 	{
-		String filter = filterTextBox.getValue();
 		if (filter.isEmpty()) codeListDataProvider.unapplyFilters();
 		else {
 			codeListDataProvider.applyFilters(new ByNameFilter(filter));
@@ -143,10 +139,6 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	public void refresh()
 	{
 		codeListDataProvider.loadData();
-	}
-	
-	public void updateSearchBoxStyle() {
-		filterTextBox.setStyleName(CommonResources.INSTANCE.css().searchBackground(), filterTextBox.getValue().isEmpty());
 	}
 	
 	protected class CodeListCell extends AbstractCell<UICodelist> {
