@@ -42,8 +42,6 @@ public interface CodelistQueryFactory {
 	Criterion<Codelist> byVersion();
 
 	Criterion<Code> byAttribute(final Attribute template,int position);
-	
-	Criterion<Code> byDescendingAttribute(final Attribute template,int position);
 		
 	Criterion<Code> byLink(final CodelistLink template,int position);
 

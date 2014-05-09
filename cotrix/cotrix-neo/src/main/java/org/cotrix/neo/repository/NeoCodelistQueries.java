@@ -118,12 +118,8 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 			@Override
 			public Iterator<Code> iterator() {
 
-				
-	
 				ExecutionResult result = executeNeo();
 
-				//System.out.println(result.dumpToString());
-				
 				ResourceIterator<Node> it = result.columnAs($result);
 
 				return codes(it);
@@ -268,22 +264,10 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 			}
 		};
 	}
-
+	
+	
 	@Override
 	public Criterion<Code> byAttribute(final Attribute template, final int position) {
-		
-		return _byAttribute(template, position,false);
-	}
-	
-	
-	@Override
-	public Criterion<Code> byDescendingAttribute(final Attribute template, final int position) {
-		
-		return _byAttribute(template, position,true);
-	}
-	
-	
-	public Criterion<Code> _byAttribute(final Attribute template, final int position, final boolean descending) {
 		
 		return new NeoCriterion<Code>() {
 			
@@ -298,19 +282,16 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 				//brings codes in with expression
 				query.with($node);
 				
-				String caseTemplate = "CASE %1$s WHEN '%2$s' THEN %3$s END AS VAL ORDER BY VAL"+(descending?" DESC":"");
+				String withTemplate = "[a in COLLECT(A) WHERE (%s) | %s ][%s] AS VAL ORDER BY VAL";
 			
-				String expression = template.language()==null?
-						format("%1$s.%2$s[%3$s]",$attribute,name_prop,position-1):
-						format("%1$s.%2$s[%3$s]+%1$s.%4$s",$attribute,name_prop,position-1,lang_prop);
+				String withCondition = format("a.%s ='%s'",name_prop,template.name());
 				
-				String value = template.language()==null?
-										template.name().toString():
-										template.name()+template.language();
-										
-				String caseValue = format("%1$s.%2$s",$attribute,value_prop);
+				if (template.language()!=null)
+					withCondition += format(" AND a.%s= '%s'",lang_prop,template.language());
+	
+				String projection = template.language()==null?format("a.%s",value_prop):format("a.%s+a.%s",value_prop,lang_prop);
 				
-				query.with(format(caseTemplate,expression,value,caseValue));
+				query.with(format(withTemplate,withCondition,projection,position-1));
 				
 				return "";
 			}
