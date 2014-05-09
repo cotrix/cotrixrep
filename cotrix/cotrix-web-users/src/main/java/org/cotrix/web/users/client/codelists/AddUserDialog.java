@@ -3,9 +3,9 @@ package org.cotrix.web.users.client.codelists;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider.Filter;
+import org.cotrix.web.common.client.widgets.SearchBox;
 import org.cotrix.web.users.client.resources.UsersResources;
 import org.cotrix.web.users.shared.UIUserDetails;
 
@@ -14,7 +14,7 @@ import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -27,7 +27,6 @@ import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -86,7 +85,7 @@ public class AddUserDialog extends PopupPanel {
 	
 	protected interface UsersListStyle extends CellList.Style { }
 
-	@UiField TextBox filterTextBox;
+	@UiField SearchBox filterTextBox;
 	@UiField Button addUser;
 	@UiField(provided=true) CellList<UIUserDetails> usersList;
 
@@ -102,7 +101,6 @@ public class AddUserDialog extends PopupPanel {
 	protected void init(Binder binder) {
 		setWidget(binder.createAndBindUi(this));
 		setAutoHideEnabled(true);	
-		updateSearchBoxStyle();
 		dataProvider.setFilters(new FilteredCachedDataProvider.AndFilter<UIUserDetails>(byIdFilter, byNameFilter));
 	}
 	
@@ -113,7 +111,7 @@ public class AddUserDialog extends PopupPanel {
 	}
 	
 	public void clean() {
-		filterTextBox.setText("");
+		filterTextBox.clear();
 		selectionModel.clear();
 	}
 	
@@ -151,16 +149,14 @@ public class AddUserDialog extends PopupPanel {
 	}
 	
 	@UiHandler("filterTextBox")
-	protected void onKeyUp(KeyUpEvent event) {
-		Log.trace("onKeyUp value: "+filterTextBox.getValue()+" text: "+filterTextBox.getText());
-		updateFilter();
-		updateSearchBoxStyle();
+	protected void onValueChange(ValueChangeEvent<String> event) {
+		Log.trace("onValueChange value: "+event.getValue());
+		updateFilter(event.getValue());
 	}
 	
 
-	protected void updateFilter()
+	protected void updateFilter(String filter)
 	{
-		String filter = filterTextBox.getValue();
 		byNameFilter.setName(!filter.isEmpty()?filter:null);
 		dataProvider.applyFilters();
 	}
@@ -168,10 +164,6 @@ public class AddUserDialog extends PopupPanel {
 	public void setIds(Set<String> ids) {
 		byIdFilter.setIds(ids);
 		dataProvider.applyFilters();
-	}
-	
-	public void updateSearchBoxStyle() {
-		filterTextBox.setStyleName(CommonResources.INSTANCE.css().searchBackground(), filterTextBox.getValue().isEmpty());
 	}
 	
 	protected class ByNameFilter implements Filter<UIUserDetails> {

@@ -5,6 +5,7 @@ import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
 import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.ClickableCell;
+import org.cotrix.web.common.client.widgets.SearchBox;
 import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
 import org.cotrix.web.common.client.widgets.UIQNameRenderer;
 import org.cotrix.web.common.shared.codelist.UIQName;
@@ -16,6 +17,7 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -51,6 +53,9 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 
 	@UiField(provided = true)
 	SimplePager pager;
+	
+	@UiField
+	SearchBox searchBox;
 	
 	protected AssetInfoDataProvider dataProvider;
 	
@@ -201,8 +206,25 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}
 	
+	@UiHandler("searchBox")
+	protected void onValueChange(ValueChangeEvent<String> event) {
+		Log.trace("onKeyUp value: "+event.getValue());
+		updateFilter(event.getValue());
+	}
+	
+	private void updateFilter(String query) {
+		dataProvider.setQuery(query);
+		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
+	}
+	
+	private void cleanFilter() {
+		dataProvider.setQuery("");
+		searchBox.clear();
+	}
+	
 	public void reset()
 	{
+		cleanFilter();		
 		selectionModel.clear();
 		pager.setPage(0);
 	}

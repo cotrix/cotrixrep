@@ -23,7 +23,7 @@ public class SyntheticCodelists {
 	
 		Code[] codes = new Code[ncodes];
 		for (int i = 1; i <= codes.length; i++) {
-			Attribute[] attributes = new Attribute[]{attribute().name("Row").value(String.valueOf(i)).in("English").build()};
+			Attribute[] attributes = new Attribute[]{attribute().name("Row").value(String.valueOf(i)).in("en").build()};
 
 			codes[i-1] = code().name("code "+i).attributes(attributes).build();
 		}
@@ -33,13 +33,13 @@ public class SyntheticCodelists {
 
 	private static Codelist sparse(int ncodes) {
 		
-		Attribute att = attribute().name("format").value("Sparse").in("English").build();
+		Attribute att = attribute().name("format").value("Sparse").in("en").build();
 
 		Code[] codes = new Code[ncodes];
 		for (int i = 0; i < codes.length; i++) {
 			int numAttributes = i/10 + 1;
 			Attribute[] attributes = new Attribute[numAttributes];
-			for (int l = 0; l<attributes.length; l++) attributes[l] = attribute().name("attribute"+l).value("value "+i+"-"+l).in("English").build();
+			for (int l = 0; l<attributes.length; l++) attributes[l] = attribute().name("attribute"+l).value("value "+i+"-"+l).in("en").build();
 
 			codes[i] = code().name("code"+i).attributes(attributes).build();
 		}
@@ -50,11 +50,11 @@ public class SyntheticCodelists {
 	private static Codelist complex(int ncodes) {
 		
 		Attribute[] codelistAttributes = new Attribute[3];
-		codelistAttributes[0] = attribute().name("format").value("complex").in("English").build();
-		codelistAttributes[1] = attribute().name("Author").value("Federico").in("English").build();
-		codelistAttributes[2] = attribute().name("Author").value("Fabio").in("English").build();
+		codelistAttributes[0] = attribute().name("format").value("complex").in("en").build();
+		codelistAttributes[1] = attribute().name("Author").value("Federico").in("en").build();
+		codelistAttributes[2] = attribute().name("Author").value("Fabio").in("en").build();
 
-		String[] languages = new String[]{"En", "Fr", "It"};
+		String[] languages = new String[]{"en", "fr", "es"};
 
 		Code[] codes = new Code[ncodes];
 		for (int i = 0; i < codes.length; i++) {
@@ -68,7 +68,7 @@ public class SyntheticCodelists {
 				}
 
 				for (int y = 0; y < 3;y++){
-					Attribute attribute = attribute().name("attPos"+l).value("value "+i+"-"+l+".["+y+"]").in("En").build();
+					Attribute attribute = attribute().name("attPos"+l).value("value "+i+"-"+l+".["+y+"]").in("en").build();
 					attributes.add(attribute);
 				}
 			}
@@ -108,13 +108,13 @@ public class SyntheticCodelists {
 								name("description").
 								value("Mirounga angustirostris").
 								ofType("description").
-								in("la").build(),
+								in("en").build(),
 								
 								attribute().
 								name("description").
 								value("Elefante marino settentrionale").
 								ofType("description").
-								in("it").build(),
+								in("es").build(),
 								
 								attribute().
 								name("author").
@@ -147,13 +147,13 @@ public class SyntheticCodelists {
 										name("description").
 										value("Mirounga leonina").
 										ofType("description").
-										in("la").build(),
+										in("en").build(),
 										
 										attribute().
 										name("description").
 										value("Elefante marino del Sud").
 										ofType("description").
-										in("it").build(),
+										in("es").build(),
 										
 										attribute().
 										name("author").
@@ -214,19 +214,19 @@ public class SyntheticCodelists {
 														name("author").
 														value("Federico").
 														ofType("annotation").
-														in("it").build(),
+														in("es").build(),
 														
 														attribute().
 														name("author").
 														value("Fabio").
 														ofType("annotation").
-														in("it").build(),
+														in("es").build(),
 														
 														attribute().
 														name("author").
 														value("Marco").
 														ofType("description").
-														in("it").build(),
+														in("es").build(),
 														
 														attribute().
 														name("author").

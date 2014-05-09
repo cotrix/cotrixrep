@@ -581,7 +581,7 @@
 	background-position: 3px 50%;
 }
 
-.search {
+.searchBox {
 	width: 100%;
 	box-sizing: border-box;
 	background-color: #f7f7f7;
@@ -590,11 +590,12 @@
 	box-shadow: 0px 0px 0px 0px;
 	border: 1px solid #999999;
 	color: #4f4e4e;
-	height: 24px;
-	font-size: 16px;
+	
+	height: 28px;
+	font-size: 18px;
 }
 
-.search:focus {
+.searchBox:focus {
 	background: none;
 	width: 100%;
 	border-radius: 5px;
