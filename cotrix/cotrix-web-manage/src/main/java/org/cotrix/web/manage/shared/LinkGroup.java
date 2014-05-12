@@ -232,4 +232,9 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 		return false;
 	}
 
+	@Override
+	public boolean isSortable() {
+		return false;
+	}
+
 }

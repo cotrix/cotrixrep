@@ -27,6 +27,8 @@ public interface Group extends IsSerializable {
 	public Group cloneGroup();
 	
 	public boolean isEditable();
+	
+	public boolean isSortable();
 
 	public boolean isSystemGroup();
 

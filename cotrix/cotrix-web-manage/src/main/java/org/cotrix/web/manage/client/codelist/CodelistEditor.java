@@ -373,7 +373,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		if (column == null) {
 			column = new GroupColumn(createCell(group.isEditable()), group);
 			column.setCellStyleNames(group.isSystemGroup()?resources.css().systemProperty():"");
-			column.setSortable(true);
+			column.setSortable(group.isSortable());
 
 			if (group.isEditable()) {
 				column.setFieldUpdater(new FieldUpdater<UICode, String>() {

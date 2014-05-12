@@ -279,4 +279,9 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		return isSystemGroup && !o.isSystemGroup ? +1 : !isSystemGroup && o.isSystemGroup ? -1 : 0;
 	}
 
+	@Override
+	public boolean isSortable() {
+		return true;
+	}
+
 }
