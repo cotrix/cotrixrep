@@ -182,10 +182,10 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		labelBuilder.append(nameHtml);
 		labelBuilder.appendHtmlConstant("</span>");
 		if (language!=null && !language.isEmpty()) {
-			labelBuilder.appendHtmlConstant("<span style=\"vertical-align:middle;color:black;padding-left:5px;\">");
+			labelBuilder.appendHtmlConstant("<span style=\"vertical-align:middle;color:black;padding-left:5px;\">(");
 			SafeHtml languageHtml = SafeHtmlUtils.fromString(language);
 			labelBuilder.append(languageHtml);
-			labelBuilder.appendHtmlConstant("</span>");
+			labelBuilder.appendHtmlConstant(")</span>");
 		}
 		
 		label = labelBuilder.toSafeHtml();
