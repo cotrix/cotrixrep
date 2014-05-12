@@ -116,7 +116,9 @@ public interface PublishMapper<T> {
 					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();
 					UISdmxElement element = (UISdmxElement) mapping.getMapping();
 					logger.trace("mapping {} to {}", attributeDefinition, element);
-					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).to(SdmxElements.toSdmxElement(element));
+					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).
+							   to(SdmxElements.toSdmxElement(element))
+							   .forCodes();
 				}
 			}
 			
