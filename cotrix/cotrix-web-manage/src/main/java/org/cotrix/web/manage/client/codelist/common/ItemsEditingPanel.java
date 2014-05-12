@@ -124,9 +124,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	public void removeItem(T item) {
 		P panel = instances.remove(item);
 		if (panel == null) return;
-		if (currentSelection == panel) currentSelection = null;
-		mainPanel.remove(panel);
-		panels.remove(panel);
+		remove(panel);
 		
 		updateEmptyWidget();
 	}
@@ -134,6 +132,8 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	public void clear() {
 		for (P panel:panels) mainPanel.remove(panel);
 		instances.clear();
+		
+		updateSelection(null);
 		
 		updateEmptyWidget();
 	}
@@ -189,7 +189,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 
 			@Override
 			public void onCancel() {
-				if (!created) mainPanel.remove(panel);
+				if (!created) remove(panel);
 			}
 
 			@Override
@@ -219,10 +219,16 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		emptyWidget.setVisible(panels.isEmpty());
 		setStyleName(CotrixManagerResources.INSTANCE.css().noItemsBackground(), panels.isEmpty());
 	}
+	
+	private void remove(P toRemove) {
+		mainPanel.remove(toRemove);
+		panels.remove(toRemove);
+		if (toRemove == currentSelection) updateSelection(null);
+	}
 
 	private void updateSelection(P selected) {
 		if (currentSelection!=null) currentSelection.setSelected(false);
-		selected.setSelected(true);
+		if (selected!=null) selected.setSelected(true);
 		currentSelection = selected;
 		SelectionChangeEvent.fire(this);
 	}

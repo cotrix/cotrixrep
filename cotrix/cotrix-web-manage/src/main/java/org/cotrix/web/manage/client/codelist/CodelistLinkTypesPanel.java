@@ -11,12 +11,18 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.DataWindow;
+import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.linktype.LinkTypesPanel;
-import org.cotrix.web.manage.client.codelist.linktype.LinkTypesPanel.LinkTypesPanelListener;
+import org.cotrix.web.manage.client.codelist.attribute.RemoveItemController;
+import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
+import org.cotrix.web.manage.client.codelist.linktype.LinkTypePanel;
+import org.cotrix.web.manage.client.codelist.linktype.LinkTypesCodelistInfoProvider;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
+import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Constants;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
@@ -27,9 +33,12 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -39,13 +48,11 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 
 	@UiTemplate("CodelistLinkTypesPanel.ui.xml")
 	interface CodelistLinkTypesPanelUiBinder extends UiBinder<Widget, CodelistLinkTypesPanel> {}
+	interface CodelistLinkTypesPanelEventBinder extends EventBinder<CodelistLinkTypesPanel> {}
 
 	private static CodelistLinkTypesPanelUiBinder uiBinder = GWT.create(CodelistLinkTypesPanelUiBinder.class);
 
-	protected static ImageResourceRenderer renderer = new ImageResourceRenderer(); 
-
-	@Inject
-	@UiField(provided=true) LinkTypesPanel linkTypesPanel;
+	@UiField(provided=true) ItemsEditingPanel<UILinkType, LinkTypePanel> linkTypesPanel;
 
 	@UiField ItemToolbar toolBar;
 
@@ -64,13 +71,22 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 
 	@Inject
 	protected CotrixManagerResources resources;
+	
+	@Inject
+	protected RemoveItemController attributeController;
+	
+	@Inject
+	private LinkTypesCodelistInfoProvider codelistInfoProvider;
 
 	@Inject
 	public void init() {
 		linkTypeEditor = DataEditor.build(this);
+		
+		linkTypesPanel = new ItemsEditingPanel<UILinkType, LinkTypePanel>("Codelist Links", "no links");
+		 
 		add(uiBinder.createAndBindUi(this));
 		
-		linkTypesPanel.setListener(new LinkTypesPanelListener() {
+		linkTypesPanel.setListener(new ItemsEditingListener<UILinkType>() {
 			
 			@Override
 			public void onUpdate(UILinkType linkType) {
@@ -90,6 +106,14 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 			}
 		});
 		
+		linkTypesPanel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+			
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				selectionUpdated();
+			}
+		});
+		
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
 
 			@Override
@@ -100,6 +124,11 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 				}
 			}
 		});
+	}
+	
+	@Inject
+	void bind(CodelistLinkTypesPanelEventBinder binder, @EditorBus EventBus editorBus) {
+		binder.bindEventHandlers(this, editorBus);
 	}
 
 	@Inject
@@ -118,21 +147,45 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setVisible(ItemButton.MINUS, active);
+				attributeController.setUserCanEdit(active);
+				//we animate only if the user obtain the edit permission
+				updateRemoveButtonVisibility(active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 	}
-
-	protected void addNewAttribute()
-	{
-		linkTypesPanel.addNewLinkType();
+	
+	@EventHandler
+	void onAttributesUpdated(AttributesUpdatedEvent event) {
+		HasAttributes attributedItem = event.getAttributedItem();
+		if (attributedItem instanceof UILinkType) {
+			Log.trace("updated attribues "+attributedItem);
+			UILinkType linkType = (UILinkType) attributedItem;
+			linkTypesPanel.synchWithModel(linkType);
+			//model already updated on save manager
+		}
+	}
+	
+	private void selectionUpdated() {
+		attributeController.setItemCanBeRemoved(linkTypesPanel.getSelectedItem()!=null);
+		updateRemoveButtonVisibility(false);
+	}
+	
+	private void updateRemoveButtonVisibility(boolean animate) {
+		toolBar.setVisible(ItemButton.MINUS, attributeController.canRemove(), animate);
 	}
 
-	protected void removeSelectedAttribute()
+	private void addNewAttribute()
 	{
-		UILinkType selectedLinkType = linkTypesPanel.getSelectedType();
+		UILinkType linkType = new UILinkType();
+		LinkTypePanel linkTypePanel = new LinkTypePanel(linkType, codelistInfoProvider);
+		linkTypesPanel.addNewItemPanel(linkTypePanel, linkType);
+	}
+
+	private void removeSelectedAttribute()
+	{
+		UILinkType selectedLinkType = linkTypesPanel.getSelectedItem();
 		if (selectedLinkType!=null) {
-			linkTypesPanel.removeLinkType(selectedLinkType);
+			linkTypesPanel.removeItem(selectedLinkType);
 			linkTypeEditor.removed(selectedLinkType);
 		}
 	}
@@ -170,9 +223,12 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 		});
 	}
 
-	protected void setLinkTypes(List<UILinkType> types)
+	private void setLinkTypes(List<UILinkType> types)
 	{
-		for (UILinkType linkType:types) linkTypesPanel.addLinkType(linkType);
+		for (UILinkType linkType:types) {
+			LinkTypePanel linkTypePanel = new LinkTypePanel(linkType, codelistInfoProvider);
+			linkTypesPanel.addItemPanel(linkTypePanel, linkType);
+		}
 		dataLoaded = true;
 	}
 

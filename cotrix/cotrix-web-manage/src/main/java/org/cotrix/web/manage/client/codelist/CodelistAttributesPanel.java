@@ -15,7 +15,7 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.codelist.attribute.AttributeNameSuggestOracle;
 import org.cotrix.web.manage.client.codelist.attribute.AttributePanel;
 import org.cotrix.web.manage.client.codelist.attribute.GroupFactory;
-import org.cotrix.web.manage.client.codelist.attribute.RemoveAttributeController;
+import org.cotrix.web.manage.client.codelist.attribute.RemoveItemController;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
@@ -79,7 +79,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	private CotrixManagerResources resources;
 
 	@Inject
-	private RemoveAttributeController attributeController;
+	private RemoveItemController attributeController;
 
 	private AttributeNameSuggestOracle attributeNameSuggestOracle;
 
@@ -262,7 +262,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	{
 		if (visualizedCode!=null && attributesGrid.getSelectedItem()!=null) {
 			UIAttribute selectedAttribute = attributesGrid.getSelectedItem();
-			attributeController.setAttributeCanBeRemoved(!Attributes.isSystemAttribute(selectedAttribute));
+			attributeController.setItemCanBeRemoved(!Attributes.isSystemAttribute(selectedAttribute));
 			updateRemoveButtonVisibility(false);
 		}
 	}

@@ -7,20 +7,20 @@ package org.cotrix.web.manage.client.codelist.attribute;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class RemoveAttributeController {
+public class RemoveItemController {
 	
 	private boolean userCanEdit = false;
-	private boolean attributeCanBeRemoved = false;
+	private boolean itemCanBeRemoved = false;
 	
 	public void setUserCanEdit(boolean userCanEdit) {
 		this.userCanEdit = userCanEdit;
 	}
 
-	public void setAttributeCanBeRemoved(boolean attributeCanBeRemoved) {
-		this.attributeCanBeRemoved = attributeCanBeRemoved;
+	public void setItemCanBeRemoved(boolean itemCanBeRemoved) {
+		this.itemCanBeRemoved = itemCanBeRemoved;
 	}
 
 	public boolean canRemove() {
-		return userCanEdit && attributeCanBeRemoved;
+		return userCanEdit && itemCanBeRemoved;
 	}
 }
