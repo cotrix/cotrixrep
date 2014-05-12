@@ -11,6 +11,8 @@ import static org.fao.fi.comet.mapping.dsl.MappingElementDSL.*;
 import static org.fao.fi.comet.mapping.dsl.MappingElementIdentifierDSL.*;
 import static org.fao.fi.comet.mapping.model.MappingScoreType.*;
 
+import java.net.URI;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -59,7 +61,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 		String previous = attributes.contains(PREVIOUS_VERSION) ? attributes.lookup(PREVIOUS_VERSION).value():null;
 		
 		MappingData data = new MappingData().
-				id(codelist.name()+":"+codelist.version()+(previous==null?"":":"+previous)).
+				id(uri(codelist.name()+":"+codelist.version()+(previous==null?"":":"+previous))).
 				version(codelist.version()).
 				producedBy(NS).
 				on(new Date()).
@@ -75,15 +77,15 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 			if (cAttributes.contains(PREVIOUS_VERSION_NAME)) {
 				String previousName = cAttributes.lookup(PREVIOUS_VERSION_NAME).value();
 				data.including(
-						MappingDSL.map(nil().with(identifierFor(provider, c.name().toString()))).
+						MappingDSL.map(nil().with(identifierFor(provider,uri(c.name().toString())))).
 							to(
-							  target(nil().with(identifierFor(provider,previousName))).withMappingScore(1.0,AUTHORITATIVE)
+							  target(nil().with(identifierFor(provider,uri(previousName)))).withMappingScore(1.0,AUTHORITATIVE)
 							)
 				);
 			}
 			else
 				data.including(
-						MappingDSL.map(nil().with(identifierFor(provider, c.name().toString()))));
+						MappingDSL.map(nil().with(identifierFor(provider, uri(c.name().toString())))));
 		}
 		
 		String msg = "mapped codelist "+codelist.name()+"("+codelist.id()+") to Comet in "+(System.currentTimeMillis()-time)/1000;
@@ -92,6 +94,11 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 
 		return data;
 
+	}
+	
+	
+	private URI uri(String id) throws Exception {
+		return new URI(URLEncoder.encode(id,"UTF-8"));
 	}
 	
 	

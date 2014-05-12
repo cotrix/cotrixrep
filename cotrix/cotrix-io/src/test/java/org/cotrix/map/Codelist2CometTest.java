@@ -28,7 +28,7 @@ public class Codelist2CometTest {
 	@Inject
 	SerialisationService serialiser;
 	
-	Codelist list = codelist().name("cotrix-testlist").
+	Codelist list = codelist().name("cotrix_testlist").
 			with(
 					code().name("code1").build()
 					,code().name("code2").attributes(

@@ -28,10 +28,6 @@ import org.virtualrepository.tabular.Table;
  */
 public class DefaultCloudService implements Iterable<Asset>, CloudService {
 
-	/**
-	 * The types supported for publication.
-	 */
-	public static final AssetType[] publicationTypes = {SdmxCodelist.type};
 	
 	/**
 	 * The types supported for import.
