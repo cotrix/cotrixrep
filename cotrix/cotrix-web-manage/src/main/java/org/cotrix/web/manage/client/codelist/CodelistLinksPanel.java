@@ -26,8 +26,8 @@ import org.cotrix.web.manage.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.manage.client.codelist.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.event.SwitchGroupEvent;
+import org.cotrix.web.manage.client.codelist.link.LinkEditingPanelFactory;
 import org.cotrix.web.manage.client.codelist.link.LinkPanel;
-import org.cotrix.web.manage.client.codelist.link.LinksCodelistInfoProvider;
 import org.cotrix.web.manage.client.codelist.link.ValueUpdatedEvent;
 import org.cotrix.web.manage.client.data.CodeLink;
 import org.cotrix.web.manage.client.data.DataEditor;
@@ -86,12 +86,12 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	protected Set<LinkGroup> groupsAsColumn;
 	
 	@Inject
-	private LinksCodelistInfoProvider codelistInfoProvider;
+	private LinkEditingPanelFactory editingPanelFactory;
 
 	@Inject
 	public void init(CodelistLinksPanelUiBinder uiBinder) {
 		linkEditor = DataEditor.build(this);
-		linksPanel = new ItemsEditingPanel<UILink, LinkPanel>("Links", "no links");
+		linksPanel = new ItemsEditingPanel<UILink, LinkPanel>("Links", "no links", editingPanelFactory);
 		add(uiBinder.createAndBindUi(this));
 		
 		groupsAsColumn = new HashSet<LinkGroup>();
@@ -184,8 +184,7 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	{
 		if (currentCode!=null) {
 			UILink link = new UILink();
-			LinkPanel linkPanel = new LinkPanel(link, codelistInfoProvider);
-			linksPanel.addNewItemPanel(linkPanel, link);
+			linksPanel.addNewItemPanel(link);
 		}
 	}
 
@@ -231,8 +230,7 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	{
 		linksPanel.clear();
 		for (UILink link:links) {
-			LinkPanel linkPanel = new LinkPanel(link, codelistInfoProvider);
-			linksPanel.addItemPanel(linkPanel, link);
+			linksPanel.addItemPanel(link);
 			if (linkInGroup(link)) linksPanel.setSwitchState(link, SwitchState.DOWN);
 		}
 	}

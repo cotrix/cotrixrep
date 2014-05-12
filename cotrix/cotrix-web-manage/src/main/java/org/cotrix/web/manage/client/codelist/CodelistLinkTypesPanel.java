@@ -18,8 +18,8 @@ import org.cotrix.web.manage.client.codelist.attribute.RemoveItemController;
 import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
+import org.cotrix.web.manage.client.codelist.linktype.LinkTypeEditingPanelFactory;
 import org.cotrix.web.manage.client.codelist.linktype.LinkTypePanel;
-import org.cotrix.web.manage.client.codelist.linktype.LinkTypesCodelistInfoProvider;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
@@ -76,14 +76,14 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 	protected RemoveItemController attributeController;
 	
 	@Inject
-	private LinkTypesCodelistInfoProvider codelistInfoProvider;
+	private LinkTypeEditingPanelFactory editingPanelFactory;
 
 	@Inject
 	public void init() {
 		linkTypeEditor = DataEditor.build(this);
 		
-		linkTypesPanel = new ItemsEditingPanel<UILinkType, LinkTypePanel>("Codelist Links", "no links");
-		 
+		linkTypesPanel = new ItemsEditingPanel<UILinkType, LinkTypePanel>("Codelist Links", "no links", editingPanelFactory);
+		
 		add(uiBinder.createAndBindUi(this));
 		
 		linkTypesPanel.setListener(new ItemsEditingListener<UILinkType>() {
@@ -125,7 +125,7 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 			}
 		});
 	}
-	
+
 	@Inject
 	void bind(CodelistLinkTypesPanelEventBinder binder, @EditorBus EventBus editorBus) {
 		binder.bindEventHandlers(this, editorBus);
@@ -177,8 +177,7 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 	private void addNewAttribute()
 	{
 		UILinkType linkType = new UILinkType();
-		LinkTypePanel linkTypePanel = new LinkTypePanel(linkType, codelistInfoProvider);
-		linkTypesPanel.addNewItemPanel(linkTypePanel, linkType);
+		linkTypesPanel.addNewItemPanel(linkType);
 	}
 
 	private void removeSelectedAttribute()
@@ -226,8 +225,7 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 	private void setLinkTypes(List<UILinkType> types)
 	{
 		for (UILinkType linkType:types) {
-			LinkTypePanel linkTypePanel = new LinkTypePanel(linkType, codelistInfoProvider);
-			linkTypesPanel.addItemPanel(linkTypePanel, linkType);
+			linkTypesPanel.addItemPanel(linkType);
 		}
 		dataLoaded = true;
 	}

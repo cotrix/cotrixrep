@@ -10,8 +10,8 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
-import org.cotrix.web.manage.client.codelist.attribute.AttributeNameSuggestOracle;
 import org.cotrix.web.manage.client.codelist.attribute.AttributePanel;
+import org.cotrix.web.manage.client.codelist.attribute.CodelistAttributeEditingPanelFactory;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.data.DataEditor;
@@ -53,64 +53,24 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	protected MetadataProvider dataProvider;
 
 	protected DataEditor<UIAttribute> attributeEditor;
-	
+
 	@Inject
 	protected Constants constants;
-	
+
 	@Inject
 	protected CotrixManagerResources resources;
-	
-	private AttributeNameSuggestOracle attributeNameSuggestOracle;
 
 	@Inject
-	public CodelistMetadataPanel(AttributeNameSuggestOracle attributeNameSuggestOracle) {
+	protected CodelistAttributeEditingPanelFactory editingPanelFactory;
 
-		this.attributeNameSuggestOracle = attributeNameSuggestOracle;
-		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("Codelist attributes", "No attributes");
-		//attributesGrid = new AttributesGrid(attributesProvider, new TextHeader("Codelist attributes"), "No attributes", new MultiWordSuggestOracle());
+	@Inject
+	public void init() {
+
+		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("Codelist attributes", "No attributes", editingPanelFactory);
 
 		attributeEditor = DataEditor.build(this);
-		
+
 		add(uiBinder.createAndBindUi(this));
-	}
-	
-	@Inject
-	protected void bind(@CurrentCodelist String codelistId)
-	{
-		
-		FeatureBinder.bind(new FeatureToggler() {
-			
-			@Override
-			public void toggleFeature(boolean active) {
-				toolBar.setVisible(ItemButton.PLUS, active);
-			}
-		}, codelistId, ManagerUIFeature.EDIT_METADATA);
-		
-		FeatureBinder.bind(new FeatureToggler() {
-			
-			@Override
-			public void toggleFeature(boolean active) {
-				toolBar.setVisible(ItemButton.MINUS, active);
-			}
-		}, codelistId, ManagerUIFeature.EDIT_METADATA);
-		
-		attributesGrid.setListener(new ItemsEditingListener<UIAttribute>() {
-			
-			@Override
-			public void onUpdate(UIAttribute item) {
-				Log.trace("updated attribute "+item);
-				attributeEditor.updated(item);
-			}
-			
-			@Override
-			public void onSwitch(UIAttribute item, SwitchState state) {
-			}
-			
-			@Override
-			public void onCreate(UIAttribute item) {
-				attributeEditor.added(item);
-			}
-		});
 
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
 
@@ -122,17 +82,54 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 				}
 			}
 		});
+
+		attributesGrid.setListener(new ItemsEditingListener<UIAttribute>() {
+
+			@Override
+			public void onUpdate(UIAttribute item) {
+				Log.trace("updated attribute "+item);
+				attributeEditor.updated(item);
+			}
+
+			@Override
+			public void onSwitch(UIAttribute item, SwitchState state) {
+			}
+
+			@Override
+			public void onCreate(UIAttribute item) {
+				attributeEditor.added(item);
+			}
+		});
+	}
+
+	@Inject
+	protected void bind(@CurrentCodelist String codelistId)
+	{
+
+		FeatureBinder.bind(new FeatureToggler() {
+
+			@Override
+			public void toggleFeature(boolean active) {
+				toolBar.setVisible(ItemButton.PLUS, active);
+			}
+		}, codelistId, ManagerUIFeature.EDIT_METADATA);
+
+		FeatureBinder.bind(new FeatureToggler() {
+
+			@Override
+			public void toggleFeature(boolean active) {
+				toolBar.setVisible(ItemButton.MINUS, active);
+			}
+		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 	}
 
 	protected void addNewAttribute()
 	{
 		if (metadata!=null) {
 			UIAttribute attribute = new UIAttribute();
-			AttributePanel attributePanel = new AttributePanel(attribute, attributeNameSuggestOracle);
-			attributePanel.setSwitchVisible(false);
-			attributesGrid.addNewItemPanel(attributePanel, attribute);
+			attributesGrid.addNewItemPanel(attribute);
 		}
-		
+
 	}
 
 	protected void removeSelectedAttribute()
@@ -181,15 +178,12 @@ public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
 	protected void setMetadata(UICodelistMetadata metadata)
 	{
 		this.metadata = metadata;
-		
+
 		Attributes.sortByAttributeType(metadata.getAttributes());
-		
+
 		attributesGrid.clear();
 		for (UIAttribute attribute:metadata.getAttributes()) {
-			AttributePanel attributePanel = new AttributePanel(attribute, attributeNameSuggestOracle);
-			attributePanel.setSwitchVisible(false);
-			attributePanel.setReadOnly(Attributes.isSystemAttribute(attribute));
-			attributesGrid.addItemPanel(attributePanel, attribute);
+			attributesGrid.addItemPanel(attribute);
 		}
 	}
 

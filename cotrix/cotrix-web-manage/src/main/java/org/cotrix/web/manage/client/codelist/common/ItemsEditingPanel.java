@@ -73,8 +73,12 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	private ItemsEditingListener<T> listener;
 
 	private boolean editable;
+	
+	private ItemEditingPanelFactory<T,P> editingPanelFactory;
 
-	public ItemsEditingPanel(String headerText, String noItemsText) {
+	public ItemsEditingPanel(String headerText, String noItemsText, ItemEditingPanelFactory<T,P> editingPanelFactory) {
+		this.editingPanelFactory = editingPanelFactory;
+		
 		scrollPanel = new ScrollPanel();
 		scrollPanel.setWidth("100%");
 		scrollPanel.setHeight("100%");
@@ -138,7 +142,9 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		updateEmptyWidget();
 	}
 
-	public void addItemPanel(final P panel, final T item) {
+	public void addItemPanel(final T item) {
+		final P panel = editingPanelFactory.createPanel(item);
+		
 		panel.setEditable(editable);
 		panels.add(panel);
 
@@ -170,7 +176,9 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		updateEmptyWidget();
 	}
 
-	public void addNewItemPanel(final P panel, final T item) {
+	public void addNewItemPanel(final T item) {
+		final P panel = editingPanelFactory.createPanelForNewItem(item);
+		
 		instances.put(item, panel);
 		
 		panels.add(panel);
