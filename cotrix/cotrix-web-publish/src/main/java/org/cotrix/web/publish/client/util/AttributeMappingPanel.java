@@ -37,26 +37,28 @@ public class AttributeMappingPanel<T extends Mapping> extends Composite {
 		T getMapping(Widget widget);
 	}
 
-	protected static int IGNORE_COLUMN = 0;
-	protected static int DEFINITION_COLUMN = 1;
-	protected static int IMAGE_COLUMN = 2;
-	protected static int MAPPING_COLUMN = 3;
+	private static int IGNORE_COLUMN = 0;
+	private static int DEFINITION_COLUMN = 1;
+	private static int IMAGE_COLUMN = 2;
+	private static int MAPPING_COLUMN = 3;
 
-	protected SimplePanel container;
-	protected FlexTable columnsTable;
-	protected FlexTable loadingContainter;
+	private SimplePanel container;
+	private FlexTable columnsTable;
+	private FlexTable loadingContainter;
 
-	protected List<SimpleCheckBox> includeCheckBoxes = new ArrayList<SimpleCheckBox>();
-	protected List<Widget> mappingWidgets = new ArrayList<Widget>();
-	protected List<AttributeDefinitionPanel> definitionsPanels = new ArrayList<AttributeDefinitionPanel>();
-	protected List<AttributeDefinition> definitions = new ArrayList<AttributeDefinition>();
+	private List<SimpleCheckBox> includeCheckBoxes = new ArrayList<SimpleCheckBox>();
+	private List<Widget> mappingWidgets = new ArrayList<Widget>();
+	private List<AttributeDefinitionPanel> definitionsPanels = new ArrayList<AttributeDefinitionPanel>();
+	private List<AttributeDefinition> definitions = new ArrayList<AttributeDefinition>();
 	
-	protected DefinitionWidgetProvider<T> widgetProvider;
-	protected String headerLabel;
+	private DefinitionWidgetProvider<T> widgetProvider;
+	private String headerLabel;
+	private String attributeLabel;
 
-	public AttributeMappingPanel(DefinitionWidgetProvider<T> widgetProvider, String headerLabel)
+	public AttributeMappingPanel(DefinitionWidgetProvider<T> widgetProvider, String attributeLabel, String headerLabel)
 	{
 		this.widgetProvider = widgetProvider;
+		this.attributeLabel = attributeLabel;
 		this.headerLabel = headerLabel;
 		container = new SimplePanel();
 		columnsTable = new FlexTable();
@@ -158,17 +160,17 @@ public class AttributeMappingPanel<T extends Mapping> extends Composite {
 	
 	protected void setupHeader()
 	{
-		Label attributesLabel = new Label("ATTRIBUTES");
-		attributesLabel.setStyleName(CommonResources.INSTANCE.css().propertyValue());
+		Label attributesLabel = new Label(attributeLabel);
+		attributesLabel.setStyleName(Resources.INSTANCE.css().mappingAttributeHeader());
 		columnsTable.setWidget(0, 0, attributesLabel);
 		columnsTable.getFlexCellFormatter().setColSpan(0, 0, 3);
-		columnsTable.getFlexCellFormatter().setStyleName(0, 0, Resources.INSTANCE.css().mappingAttributeCell());
+		columnsTable.getFlexCellFormatter().setStyleName(0, 0, Resources.INSTANCE.css().mappingAttributeHeaderCell());
 		
 				
 		Label columnsLabel = new Label(headerLabel);
-		columnsLabel.setStyleName(CommonResources.INSTANCE.css().propertyValue());
+		columnsLabel.setStyleName(Resources.INSTANCE.css().mappingAttributeHeader());
 		columnsTable.setWidget(0, 1, columnsLabel);
-		columnsTable.getFlexCellFormatter().setStyleName(0, 1, Resources.INSTANCE.css().mappingAttributeCell());
+		columnsTable.getFlexCellFormatter().setStyleName(0, 1, Resources.INSTANCE.css().mappingAttributeHeaderCell());
 	}
 
 	protected void setInclude(int row, boolean include)

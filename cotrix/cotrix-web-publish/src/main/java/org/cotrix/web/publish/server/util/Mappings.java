@@ -50,20 +50,25 @@ public class Mappings {
 		}
 	};
 
-	public static AttributesMappings getChannelMappings(CodelistSummary summary, MappingProvider<?> provider) {
+	public static AttributesMappings getMappings(CodelistSummary summary, MappingProvider<?> provider, boolean includeCodelistMappings) {
+		List<AttributeMapping> codelistMappings = includeCodelistMappings?getCodelistsMappings(summary, provider):new ArrayList<AttributeMapping>();
+		List<AttributeMapping> codesMappings = getCodesMappings(summary, provider);
+		return new AttributesMappings(codesMappings, codelistMappings);
+	}
+	
+	private static List<AttributeMapping> getCodelistsMappings(CodelistSummary summary, MappingProvider<?> provider) {
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-		for (QName attributeName:summary.allNames()) {
-			for (QName attributeType : summary.allTypesFor(attributeName)) {
-				Collection<String> languages = summary.allLanguagesFor(attributeName, attributeType);
+		for (QName attributeName:summary.codelistNames()) {
+			for (QName attributeType : summary.codelistTypesFor(attributeName)) {
+				Collection<String> languages = summary.codelistLanguagesFor(attributeName, attributeType);
 				if (languages.isEmpty()) mappings.add(getAttributeMapping(attributeName, attributeType, null, provider));
 				else for (String language:languages) mappings.add(getAttributeMapping(attributeName, attributeType, language, provider));
 			}
 		}
-
-		return new AttributesMappings(mappings, new ArrayList<AttributeMapping>());
+		return mappings;
 	}
-
-	public static AttributesMappings getFileMappings(CodelistSummary summary, MappingProvider<?> provider) {
+	
+	private static List<AttributeMapping> getCodesMappings(CodelistSummary summary, MappingProvider<?> provider) {
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
 		for (QName attributeName:summary.codeNames()) {
 			for (QName attributeType : summary.codeTypesFor(attributeName)) {
@@ -72,10 +77,10 @@ public class Mappings {
 				else for (String language:languages) mappings.add(getAttributeMapping(attributeName, attributeType, language, provider));
 			}
 		}
-		return new AttributesMappings(mappings, new ArrayList<AttributeMapping>());
+		return mappings;
 	}
 
-	public static AttributeMapping getAttributeMapping(QName name, QName type, String language, MappingProvider<?> provider) {
+	private static AttributeMapping getAttributeMapping(QName name, QName type, String language, MappingProvider<?> provider) {
 		AttributeDefinition attr = new AttributeDefinition();
 		attr.setName(ValueUtils.safeValue(name));
 		attr.setType(ValueUtils.safeValue(type));

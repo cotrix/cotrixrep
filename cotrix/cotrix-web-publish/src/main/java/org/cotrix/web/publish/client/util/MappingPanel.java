@@ -53,8 +53,8 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 	protected ReloadButtonHandler reloadHandler;
 
 	public MappingPanel(DefinitionWidgetProvider<T> widgetProvider , String attributeMappingLabel) {
-		codelistMappingPanel = new AttributeMappingPanel<T>(widgetProvider, attributeMappingLabel);
-		codeMappingPanel = new AttributeMappingPanel<T>(widgetProvider, attributeMappingLabel);
+		codelistMappingPanel = new AttributeMappingPanel<T>(widgetProvider, "CODELIST ATTRIBUTES", attributeMappingLabel);
+		codeMappingPanel = new AttributeMappingPanel<T>(widgetProvider, "CODES ATTRIBUTES", attributeMappingLabel);
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

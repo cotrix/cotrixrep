@@ -91,7 +91,7 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 	}
 
 	public boolean leave() {
-		Log.trace("checking csv mapping");
+		Log.trace("checking sdmx mapping");
 
 		AttributesMappings mappings = view.getMappings();
 
@@ -104,7 +104,7 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 		}
 
 		if (valid) {
-
+			Log.trace("sending mapping update "+mappings);
 			publishBus.fireEventFromSource(new MappingsUpdatedEvent(mappings), this);
 
 			PublishMetadata metadata = new PublishMetadata();

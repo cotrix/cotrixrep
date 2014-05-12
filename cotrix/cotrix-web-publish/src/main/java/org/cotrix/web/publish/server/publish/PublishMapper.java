@@ -110,6 +110,18 @@ public interface PublishMapper<T> {
 			directives.version(metadata.getVersion());
 			directives.isFinal(metadata.isSealed());
 			
+			for (AttributeMapping mapping:publishDirectives.getMappings().getCodelistAttributesMapping()) {
+				if (mapping.isMapped()) {
+					
+					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();
+					UISdmxElement element = (UISdmxElement) mapping.getMapping();
+					logger.trace("mapping {} to {}", attributeDefinition, element);
+					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).
+							   to(SdmxElements.toSdmxElement(element))
+							   .forCodelist();
+				}
+			}
+			
 			for (AttributeMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
 				if (mapping.isMapped()) {
 					
@@ -121,6 +133,7 @@ public interface PublishMapper<T> {
 							   .forCodes();
 				}
 			}
+			
 			
 			return mapper.map(codelist, directives);
 		}		

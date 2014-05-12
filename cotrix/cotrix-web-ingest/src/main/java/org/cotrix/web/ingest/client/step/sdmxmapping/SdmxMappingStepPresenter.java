@@ -57,7 +57,7 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 	}
 
 	public boolean leave() {
-		Log.trace("checking csv mapping");
+		Log.trace("checking sdmx mapping");
 
 		List<AttributeMapping> mappings = view.getMappings();
 		Log.trace(mappings.size()+" mappings to check");

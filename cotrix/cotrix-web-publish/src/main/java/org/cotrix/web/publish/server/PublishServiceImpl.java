@@ -129,12 +129,10 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 			case SDMX: provider = Mappings.SDMX_PROVIDER; break;
 			default: return new AttributesMappings();
 		}
-
-		switch (destination) {
-			case FILE: return Mappings.getFileMappings(summary, provider);
-			case CHANNEL: return Mappings.getChannelMappings(summary, provider);
-			default: return new AttributesMappings();
-		}
+		
+		boolean includeCodelistsMappings = type == Format.SDMX;
+		
+		return Mappings.getMappings(summary, provider, includeCodelistsMappings);
 	}
 
 	@Override

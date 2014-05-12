@@ -60,6 +60,12 @@ public class RepositorySelectionStepPresenter extends AbstractVisualWizardStep i
 
 	public boolean leave() {
 		Log.trace("SelectionStep leaving");
+		
+		if (selectedRepository!=null && !repositoryDetails) {
+			publishBus.fireEvent(new ItemSelectedEvent<UIRepository>(selectedRepository));
+			publishBus.fireEvent(new ItemUpdatedEvent<Format>(selectedRepository.getPublishedType()));
+		}
+		
 		return selectedRepository!=null || repositoryDetails;
 	}
 
@@ -69,8 +75,6 @@ public class RepositorySelectionStepPresenter extends AbstractVisualWizardStep i
 		if (selectedRepository!=null && selectedRepository.equals(repository)) return;
 		
 		this.selectedRepository = repository;
-		publishBus.fireEvent(new ItemSelectedEvent<UIRepository>(repository));
-		publishBus.fireEvent(new ItemUpdatedEvent<Format>(repository.getPublishedType()));
 	}
 
 	@Override
@@ -84,6 +88,7 @@ public class RepositorySelectionStepPresenter extends AbstractVisualWizardStep i
 
 
 	protected void reset() {
+		selectedRepository = null;
 		view.reset();
 	}
 
