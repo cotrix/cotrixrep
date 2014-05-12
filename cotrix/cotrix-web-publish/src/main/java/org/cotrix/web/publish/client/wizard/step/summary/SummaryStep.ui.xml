@@ -77,10 +77,21 @@
 				<g:row>
 					<g:cell
 						styleName="{common.css.verticalHeadersMultipleItem} {style.firstColumn}">
-						<span class="{common.css.propertyLabel}">Directives</span>
+						<span class="{common.css.propertyLabel}">Codelist directives</span>
 					</g:cell>
 					<g:customCell>
-						<g:FlexTable ui:field="customTable" cellPadding="0"
+						<g:FlexTable ui:field="codelistMappingsTable" cellPadding="0"
+							cellSpacing="0" borderWidth="1" styleName="{common.css.propertiesTable}"
+							width="100%"></g:FlexTable>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:cell
+						styleName="{common.css.verticalHeadersMultipleItem} {style.firstColumn}">
+						<span class="{common.css.propertyLabel}">Codes directives</span>
+					</g:cell>
+					<g:customCell>
+						<g:FlexTable ui:field="codesMappingsTable" cellPadding="0"
 							cellSpacing="0" borderWidth="1" styleName="{common.css.propertiesTable}"
 							width="100%"></g:FlexTable>
 					</g:customCell>

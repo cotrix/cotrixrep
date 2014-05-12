@@ -3,8 +3,6 @@
  */
 package org.cotrix.web.publish.client.wizard.task;
 
-import java.util.List;
-
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.Progress;
@@ -18,7 +16,7 @@ import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.event.PublishCompleteEvent;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
-import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.DownloadType;
 import org.cotrix.web.publish.shared.Format;
@@ -54,7 +52,7 @@ public class PublishTask implements TaskWizardStep {
 	protected UICodelist codelist;
 	protected Destination destination;
 	protected Format format;
-	protected List<AttributeMapping> mappings;
+	protected AttributesMappings mappings;
 	protected CsvConfiguration csvConfiguration;
 	protected UIQName repositoryId;
 	protected MappingMode mappingMode;

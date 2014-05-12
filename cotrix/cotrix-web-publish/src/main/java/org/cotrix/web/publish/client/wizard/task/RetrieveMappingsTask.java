@@ -3,8 +3,6 @@
  */
 package org.cotrix.web.publish.client.wizard.task;
 
-import java.util.List;
-
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.publish.client.PublishServiceAsync;
@@ -13,7 +11,7 @@ import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
-import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.wizard.client.WizardAction;
@@ -97,7 +95,7 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 	@Override
 	public void run(final TaskCallBack callback) {
 		Log.trace("retrieving mappings for codelist "+selectedCodelist+" destinationType: "+destination+" format: "+format);
-		service.getMappings(selectedCodelist.getId(),  destination, format, new AsyncCallback<List<AttributeMapping>>() {
+		service.getMappings(selectedCodelist.getId(),  destination, format, new AsyncCallback<AttributesMappings>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -106,7 +104,7 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 			}
 
 			@Override
-			public void onSuccess(List<AttributeMapping> result) {
+			public void onSuccess(AttributesMappings result) {
 				publishBus.fireEventFromSource(new MappingsUpdatedEvent(result),  RetrieveMappingsTask.this);
 				callback.onSuccess(PublishWizardAction.NEXT);
 			}

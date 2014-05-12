@@ -1,7 +1,5 @@
 package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 
-import java.util.List;
-
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
@@ -9,6 +7,7 @@ import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishMetadata;
@@ -31,7 +30,7 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 	protected SdmxMappingStepView view;
 	protected EventBus publishBus;
 	protected PublishMetadata metadata;
-	protected List<AttributeMapping> mappings;
+	protected AttributesMappings mappings;
 	protected Format formatType;
 	protected boolean showMetadata = false;
 
@@ -94,8 +93,7 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 	public boolean leave() {
 		Log.trace("checking csv mapping");
 
-		List<AttributeMapping> mappings = view.getMappings();
-		Log.trace(mappings.size()+" mappings to check");
+		AttributesMappings mappings = view.getMappings();
 
 		boolean valid = validateMappings(mappings);
 
@@ -136,10 +134,17 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 		return true;
 	}
 
-	protected boolean validateMappings(List<AttributeMapping> mappings)
+	protected boolean validateMappings(AttributesMappings mappings)
 	{
 
-		for (AttributeMapping mapping:mappings) {
+		for (AttributeMapping mapping:mappings.getCodelistAttributesMapping()) {
+			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().getLocalPart().isEmpty()) {
+				view.alert("don't leave elements blank, bin them instead");
+				return false;
+			}
+		}
+		
+		for (AttributeMapping mapping:mappings.getCodesAttributesMapping()) {
 			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().getLocalPart().isEmpty()) {
 				view.alert("don't leave elements blank, bin them instead");
 				return false;

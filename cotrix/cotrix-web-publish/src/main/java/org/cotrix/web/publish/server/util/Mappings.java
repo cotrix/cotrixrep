@@ -14,6 +14,7 @@ import org.cotrix.repository.CodelistSummary;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Column;
 import org.cotrix.web.publish.shared.UISdmxElement;
 import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
@@ -49,7 +50,7 @@ public class Mappings {
 		}
 	};
 
-	public static List<AttributeMapping> getChannelMappings(CodelistSummary summary, MappingProvider<?> provider) {
+	public static AttributesMappings getChannelMappings(CodelistSummary summary, MappingProvider<?> provider) {
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
 		for (QName attributeName:summary.allNames()) {
 			for (QName attributeType : summary.allTypesFor(attributeName)) {
@@ -59,10 +60,10 @@ public class Mappings {
 			}
 		}
 
-		return mappings;
+		return new AttributesMappings(mappings, new ArrayList<AttributeMapping>());
 	}
 
-	public static List<AttributeMapping> getFileMappings(CodelistSummary summary, MappingProvider<?> provider) {
+	public static AttributesMappings getFileMappings(CodelistSummary summary, MappingProvider<?> provider) {
 		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
 		for (QName attributeName:summary.codeNames()) {
 			for (QName attributeType : summary.codeTypesFor(attributeName)) {
@@ -71,7 +72,7 @@ public class Mappings {
 				else for (String language:languages) mappings.add(getAttributeMapping(attributeName, attributeType, language, provider));
 			}
 		}
-		return mappings;
+		return new AttributesMappings(mappings, new ArrayList<AttributeMapping>());
 	}
 
 	public static AttributeMapping getAttributeMapping(QName name, QName type, String language, MappingProvider<?> provider) {

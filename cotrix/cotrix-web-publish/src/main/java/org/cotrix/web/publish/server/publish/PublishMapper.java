@@ -55,7 +55,7 @@ public interface PublishMapper<T> {
 			
 			Codelist2TableDirectives directives = new Codelist2TableDirectives();
 			
-			for (AttributeMapping mapping:publishDirectives.getMappings()) {
+			for (AttributeMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
 				if (mapping.isMapped()) {
 					Attribute template = getTemplate(mapping.getAttributeDefinition());
 					Column column = (Column) mapping.getMapping();
@@ -110,7 +110,7 @@ public interface PublishMapper<T> {
 			directives.version(metadata.getVersion());
 			directives.isFinal(metadata.isSealed());
 			
-			for (AttributeMapping mapping:publishDirectives.getMappings()) {
+			for (AttributeMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
 				if (mapping.isMapped()) {
 					
 					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();

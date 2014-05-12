@@ -2,7 +2,6 @@ package org.cotrix.web.publish.server;
 
 import static org.cotrix.repository.CodelistQueries.summary;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,7 +31,7 @@ import org.cotrix.web.publish.server.publish.Publishers;
 import org.cotrix.web.publish.server.util.Mappings;
 import org.cotrix.web.publish.server.util.Mappings.MappingProvider;
 import org.cotrix.web.publish.server.util.PublishSession;
-import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishDirectives;
@@ -119,7 +118,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	}
 
 	@Override
-	public List<AttributeMapping> getMappings(String codelistId, Destination destination, Format type) throws ServiceException {
+	public AttributesMappings getMappings(String codelistId, Destination destination, Format type) throws ServiceException {
 		logger.trace("getMappings codelistId{} destination {} type {}", codelistId, destination, type);
 
 		CodelistSummary summary = repository.get(summary(codelistId));
@@ -128,13 +127,13 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		switch (type) {
 			case CSV: provider = Mappings.COLUMN_PROVIDER; break;
 			case SDMX: provider = Mappings.SDMX_PROVIDER; break;
-			default: return new ArrayList<AttributeMapping>();
+			default: return new AttributesMappings();
 		}
 
 		switch (destination) {
 			case FILE: return Mappings.getFileMappings(summary, provider);
 			case CHANNEL: return Mappings.getChannelMappings(summary, provider);
-			default: return new ArrayList<AttributeMapping>();
+			default: return new AttributesMappings();
 		}
 	}
 

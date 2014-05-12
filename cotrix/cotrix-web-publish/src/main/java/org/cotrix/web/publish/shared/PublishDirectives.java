@@ -3,8 +3,6 @@
  */
 package org.cotrix.web.publish.shared;
 
-import java.util.List;
-
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.codelist.UIQName;
 
@@ -20,7 +18,7 @@ public class PublishDirectives implements IsSerializable {
 	protected Format format;
 	protected Destination destination;
 	protected PublishMetadata metadata;
-	protected List<AttributeMapping> mappings;
+	protected AttributesMappings mappings;
 	protected MappingMode mappingMode;
 	protected CsvConfiguration csvConfiguration;
 	protected UIQName repositoryId;
@@ -56,14 +54,14 @@ public class PublishDirectives implements IsSerializable {
 	/**
 	 * @return the mappings
 	 */
-	public List<AttributeMapping> getMappings() {
+	public AttributesMappings getMappings() {
 		return mappings;
 	}
 	
 	/**
 	 * @param mappings the mappings to set
 	 */
-	public void setMappings(List<AttributeMapping> mappings) {
+	public void setMappings(AttributesMappings mappings) {
 		this.mappings = mappings;
 	}
 	

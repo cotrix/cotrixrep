@@ -1,7 +1,5 @@
 package org.cotrix.web.publish.client;
 
-import java.util.List;
-
 import org.cotrix.web.common.shared.ColumnSortInfo;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.DataWindow;
@@ -12,7 +10,7 @@ import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.exception.ServiceException;
-import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishDirectives;
@@ -32,17 +30,17 @@ public interface PublishService extends RemoteService {
 	
 	public DataWindow<ReportLog> getReportLogs(Range range) throws ServiceException;
 
-	UICodelistMetadata getMetadata(String codelistId) throws ServiceException;
+	public UICodelistMetadata getMetadata(String codelistId) throws ServiceException;
 
-	CsvConfiguration getCsvWriterConfiguration(String codelistid) throws ServiceException;
+	public CsvConfiguration getCsvWriterConfiguration(String codelistid) throws ServiceException;
 
-	List<AttributeMapping> getMappings(String codelistId, Destination destination, Format type) throws ServiceException;
+	public AttributesMappings getMappings(String codelistId, Destination destination, Format type) throws ServiceException;
 
-	void startPublish(PublishDirectives publishDirectives) throws ServiceException;
+	public void startPublish(PublishDirectives publishDirectives) throws ServiceException;
 
-	Progress getPublishProgress() throws ServiceException;
+	public Progress getPublishProgress() throws ServiceException;
 	
-	DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, boolean force) throws ServiceException;
+	public DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, boolean force) throws ServiceException;
 	
 	public RepositoryDetails getRepositoryDetails(UIQName repositoryId) throws ServiceException;
 

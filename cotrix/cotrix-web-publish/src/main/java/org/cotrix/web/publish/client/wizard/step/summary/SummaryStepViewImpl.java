@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.MappingMode;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -34,6 +35,7 @@ import com.google.inject.Singleton;
 public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepView {
 
 	protected static final int PROPERTIES_FIELD_ROW = 3;
+	protected static final int CODELIST_MAPPINGS_FIELD_ROW = 4;
 
 	@UiTemplate("SummaryStep.ui.xml")
 	interface SummaryStepUiBinder extends UiBinder<Widget, SummaryStepViewImpl> {}
@@ -50,7 +52,8 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 	@UiField FlexTable propertiesTable;
 	@UiField HTMLPanel mappingPanel;
 	@UiField SimpleCheckBox mappingMode;
-	@UiField FlexTable customTable;
+	@UiField FlexTable codelistMappingsTable;
+	@UiField FlexTable codesMappingsTable;
 
 	public SummaryStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -67,12 +70,20 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 			summaryScrollPanel.scrollToLeft();
 		}
 	}	
+	
+	public void setMapping(AttributesMappings mappings)
+	{
+		setMapping(mappings.getCodelistAttributesMapping(), codelistMappingsTable);
+		panel.getRowFormatter().setVisible(CODELIST_MAPPINGS_FIELD_ROW, !mappings.getCodelistAttributesMapping().isEmpty());
+		
+		setMapping(mappings.getCodesAttributesMapping(), codesMappingsTable);
+	}
 
-	public void setMapping(List<AttributeMapping> mappings)
+	private void setMapping(List<AttributeMapping> mappings, FlexTable targetTable)
 	{
 		Log.trace("Setting "+mappings.size()+" mappings");
 
-		customTable.removeAllRows();
+		targetTable.removeAllRows();
 		int row = 0;
 		for (AttributeMapping mapping:mappings) {
 			Log.trace("setting "+mapping);
@@ -96,7 +107,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 			//Log.trace("label "+mappingDescription.toString());
 
 			HTML mappingLabel = new HTML(mappingDescription.toString());
-			customTable.setWidget(row, 0, mappingLabel);
+			targetTable.setWidget(row, 0, mappingLabel);
 			row++;
 		}
 	}
