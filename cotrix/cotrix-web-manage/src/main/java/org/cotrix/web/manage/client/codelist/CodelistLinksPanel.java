@@ -13,16 +13,22 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
+import org.cotrix.web.common.shared.codelist.HasAttributes;
+import org.cotrix.web.common.shared.codelist.HasValue;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.manage.client.ManageServiceAsync;
+import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
+import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
 import org.cotrix.web.manage.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.event.GroupSwitchType;
 import org.cotrix.web.manage.client.codelist.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.event.SwitchGroupEvent;
-import org.cotrix.web.manage.client.codelist.link.LinksPanel;
-import org.cotrix.web.manage.client.codelist.link.LinksPanel.LinksPanelListener;
+import org.cotrix.web.manage.client.codelist.link.LinkPanel;
+import org.cotrix.web.manage.client.codelist.link.LinksCodelistInfoProvider;
+import org.cotrix.web.manage.client.codelist.link.ValueUpdatedEvent;
 import org.cotrix.web.manage.client.data.CodeLink;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
@@ -34,10 +40,11 @@ import org.cotrix.web.manage.shared.LinkGroup;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -54,10 +61,7 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	interface CodelistLinksPanelUiBinder extends UiBinder<Widget, CodelistLinksPanel> {}
 	interface CodelistLinksPanelEventBinder extends EventBinder<CodelistLinksPanel> {}
 
-	protected static ImageResourceRenderer renderer = new ImageResourceRenderer(); 
-
-	@Inject
-	@UiField(provided=true) LinksPanel linksPanel;
+	@UiField(provided=true) ItemsEditingPanel<UILink, LinkPanel> linksPanel;
 
 	@UiField ItemToolbar toolBar;
 
@@ -80,15 +84,19 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	protected EventBus editorBus;
 	
 	protected Set<LinkGroup> groupsAsColumn;
+	
+	@Inject
+	private LinksCodelistInfoProvider codelistInfoProvider;
 
 	@Inject
 	public void init(CodelistLinksPanelUiBinder uiBinder) {
 		linkEditor = DataEditor.build(this);
+		linksPanel = new ItemsEditingPanel<UILink, LinkPanel>("Links", "no links");
 		add(uiBinder.createAndBindUi(this));
 		
 		groupsAsColumn = new HashSet<LinkGroup>();
 		
-		linksPanel.setListener(new LinksPanelListener() {
+		linksPanel.setListener(new ItemsEditingListener<UILink>() {
 			
 			@Override
 			public void onUpdate(UILink link) {
@@ -150,17 +158,43 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 	}
 	
+	@EventHandler
+	void onAttributesUpdated(AttributesUpdatedEvent event) {
+		HasAttributes attributedItem = event.getAttributedItem();
+		Log.trace("attributes updated for "+attributedItem);
+		if (attributedItem instanceof UILink) {
+			UILink link = (UILink) attributedItem;
+			linksPanel.synchWithModel(link);
+			//model already updated on save manager
+		}
+	}
+
+	@EventHandler
+	void onValueUpdated(ValueUpdatedEvent event) {
+		HasValue valuedItem = event.getHasValue();
+		Log.trace("value updated for "+valuedItem);
+		if (valuedItem instanceof UILink) {
+			UILink link = (UILink) valuedItem;
+			linksPanel.synchWithModel(link);
+			//model already updated on save manager
+		}
+	}
+	
 	private void addNewLink()
 	{
-		if (currentCode!=null) linksPanel.addNewLink();
+		if (currentCode!=null) {
+			UILink link = new UILink();
+			LinkPanel linkPanel = new LinkPanel(link, codelistInfoProvider);
+			linksPanel.addNewItemPanel(linkPanel, link);
+		}
 	}
 
 	private void removeSelectedLink()
 	{
-		UILink selectedLink = linksPanel.getSelectedType();
+		UILink selectedLink = linksPanel.getSelectedItem();
 		if (selectedLink!=null && currentCode!=null) {
 			currentCode.removeLink(selectedLink);
-			linksPanel.removeLink(selectedLink);
+			linksPanel.removeItem(selectedLink);
 			linkEditor.removed(new CodeLink(currentCode, selectedLink));
 		}
 	}
@@ -181,14 +215,24 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 		currentCode = event.getCode();
 		setLinks(currentCode.getLinks());
 		String codeName = currentCode!=null?ValueUtils.getLocalPart(currentCode.getName()):null;
-		linksPanel.setSelectedCode(codeName);
+
+		SafeHtmlBuilder sb = new SafeHtmlBuilder();
+		sb.appendHtmlConstant("<span>Links</span>");
+		if (currentCode!=null) {
+			sb.appendHtmlConstant("&nbsp;for&nbsp;<span class=\""+resources.css().headerCode()+"\">");
+			sb.append(SafeHtmlUtils.fromString(codeName));
+			sb.appendHtmlConstant("</span>");
+		}
+		
+		linksPanel.setHeaderText(sb.toSafeHtml());
 	}
 
 	private void setLinks(List<UILink> links)
 	{
 		linksPanel.clear();
 		for (UILink link:links) {
-			linksPanel.addLink(link);
+			LinkPanel linkPanel = new LinkPanel(link, codelistInfoProvider);
+			linksPanel.addItemPanel(linkPanel, link);
 			if (linkInGroup(link)) linksPanel.setSwitchState(link, SwitchState.DOWN);
 		}
 	}
