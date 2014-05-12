@@ -189,9 +189,9 @@ public class Codelist2SdmxTest {
 		
 		Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
 		
-		directives.map("a",customDescriptionType).to(DESCRIPTION).forCodelists()
-				  .map("b", customNameType).to(SdmxElement.NAME).forCodelists()
-				  .map("a", customAnnotationType).to(ANNOTATION).forCodelists();
+		directives.map("a",customDescriptionType).to(DESCRIPTION).forCodelist()
+				  .map("b", customNameType).to(SdmxElement.NAME).forCodelist()
+				  .map("a", customAnnotationType).to(ANNOTATION).forCodelist();
 		
 		Outcome<CodelistBean> outcome = mapper.map(list,directives);
 		

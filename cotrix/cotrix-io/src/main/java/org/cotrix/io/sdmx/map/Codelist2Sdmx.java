@@ -93,7 +93,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		for (Attribute a : list.attributes()) {
 			
 			String val = a.value();
-			SdmxElement element = directives.forCodelists().get(a);
+			SdmxElement element = directives.forCodelist().get(a);
 			
 			if (element!=null)
 				switch(element) {
@@ -119,7 +119,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 				}
 		}
 
-		mapAttributes(list, bean, directives.forCodelists());
+		mapAttributes(list, bean, directives.forCodelist());
 		
 	}
 	

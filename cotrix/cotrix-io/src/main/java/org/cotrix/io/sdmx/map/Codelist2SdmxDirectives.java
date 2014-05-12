@@ -26,7 +26,7 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 	
 	public static interface TargetClause {
 		
-		Codelist2SdmxDirectives forCodelists();
+		Codelist2SdmxDirectives forCodelist();
 		
 		Codelist2SdmxDirectives forCodes();
 	}
@@ -83,7 +83,7 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		return version;
 	}
 	
-	public GetClause forCodelists() {
+	public GetClause forCodelist() {
 		
 		return new GetClause() {
 			
@@ -137,7 +137,7 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 					}
 					
 					@Override
-					public Codelist2SdmxDirectives forCodelists() {
+					public Codelist2SdmxDirectives forCodelist() {
 						
 						codelistAttributeDirectives.put(templateFrom(name, type),element);
 						
