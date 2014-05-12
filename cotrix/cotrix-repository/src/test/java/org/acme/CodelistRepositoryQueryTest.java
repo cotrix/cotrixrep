@@ -279,6 +279,10 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		assertEqualUnordered(summary.allTypesFor(q("foo")));
 		assertEqualUnordered(summary.allLanguagesFor(q("foo"),q("boo")));
 		
+		assertEqualUnordered(summary.codelistNames(),q("name1"),q("name2"),q("name3"));
+		assertEqualUnordered(summary.codelistTypesFor(q("name1")),q("t1"),q("t3"));
+		assertEqualUnordered(summary.codelistLanguagesFor(q("name1"),q("t1")),"l3");
+		
 		assertEqualUnordered(summary.codeNames(),q("name1"),q("name2"));
 		assertEqualUnordered(summary.codeTypesFor(q("name1")),q("t1"),q("t2"));
 		assertEqualUnordered(summary.codeLanguagesFor(q("name1"),q("t1")),"l1","l2");
