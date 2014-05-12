@@ -14,6 +14,8 @@ public interface PublishCss extends CssResource {
 	String mappingCell();
 	String mappingAttributeCell();
 	String mappingAttributeTable();
+	String mappingAttributeHeaderCell();
+	String mappingAttributeHeader();
 	
 	String buttonCsv();
 	String buttonSdmx();

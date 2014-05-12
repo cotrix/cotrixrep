@@ -1,13 +1,11 @@
 package org.cotrix.web.publish.client.wizard.step.csvmapping;
 
-import java.util.List;
-
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
-import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Column;
 
 import com.google.gwt.core.client.GWT;
@@ -140,7 +138,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void setMappings(List<AttributeMapping> mapping)
+	public void setMappings(AttributesMappings mapping)
 	{
 		mappingPanel.setMapping(mapping);
 	}
@@ -155,7 +153,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 		mappingPanel.cleanStyle();
 	}
 
-	public List<AttributeMapping> getMappings()
+	public AttributesMappings getMappings()
 	{
 		return mappingPanel.getMappings();
 	}
