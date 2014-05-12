@@ -4,6 +4,7 @@
 package org.cotrix.web.manage.client.codelist.common;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
@@ -18,7 +19,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -39,10 +39,10 @@ public class AttributeRow extends AbstractRow {
 	private AttributeRowListener listener;
 	private ValueChangeHandler<String> changeHandler;
 	
-	private TextBox nameTextBox;
+	private AdvancedTextBox nameTextBox;
 	private EditableLabel nameEditableLabel;
 	
-	private TextBox valueTextBox;
+	private AdvancedTextBox valueTextBox;
 	private EditableLabel valueEditableLabel;
 	
 	private PushButton deleteButton;
@@ -74,8 +74,9 @@ public class AttributeRow extends AbstractRow {
 			}
 		};
 		
-		nameTextBox = new TextBox();
+		nameTextBox = new AdvancedTextBox();
 		nameTextBox.setHeight("31px");
+		nameTextBox.setPlaceholder("name");
 		nameTextBox.setStyleName(TEXTBOX_STYLE);
 		
 		nameEditableLabel = new EditableLabel();
@@ -87,8 +88,9 @@ public class AttributeRow extends AbstractRow {
 		nameTextBox.addValueChangeHandler(changeHandler);
 		nameTextBox.addKeyUpHandler(keyUpHandler);
 		
-		valueTextBox = new TextBox();
+		valueTextBox = new AdvancedTextBox();
 		valueTextBox.setHeight("31px");
+		valueTextBox.setPlaceholder("value");
 		valueTextBox.setStyleName(TEXTBOX_STYLE);
 		valueTextBox.addValueChangeHandler(changeHandler);
 		
