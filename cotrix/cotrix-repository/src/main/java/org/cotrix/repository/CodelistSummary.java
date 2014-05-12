@@ -3,7 +3,6 @@ package org.cotrix.repository;
 import static java.util.Collections.*;
 import static org.cotrix.domain.utils.Constants.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,24 +27,28 @@ public class CodelistSummary {
 
 	private final QName name;
 	private final int size;
-	private final Collection<String> allLanguages = new ArrayList<String>();
-	private final Collection<QName> allTypes = new ArrayList<QName>();
-	private final Collection<QName> allNames = new ArrayList<QName>();
+	private final Collection<String> allLanguages = new HashSet<String>();
+	private final Collection<QName> allTypes = new HashSet<QName>();
+	private final Collection<QName> allNames = new HashSet<QName>();
 
+	private final Map<QName, Map<QName, Set<String>>> codelistFingerprint;
 	private final Map<QName, Map<QName, Set<String>>> fingerprint;
 	private final Map<QName, Map<QName, Set<String>>> globalFingerprint;
 
-	public CodelistSummary(QName name, int size, Collection<Attribute> attributes, Collection<CodelistLink> links, Map<QName, Map<QName, Set<String>>> fingerprint) {
+	public CodelistSummary(QName name, int size, Collection<Attribute> attributes, Collection<CodelistLink> links,
+			Map<QName, Map<QName, Set<String>>> fingerprint) {
 
 		this.name = name;
 		this.size = size;
 		this.fingerprint = fingerprint;
-
+		this.codelistFingerprint = new HashMap<>();
 		this.globalFingerprint = new HashMap<QName, Map<QName, Set<String>>>();
 
 		addAttributesToFingerprint(this.globalFingerprint, attributes);
+		addAttributesToFingerprint(this.codelistFingerprint, attributes);
+		
 		addLinksToFingerprint(this.globalFingerprint, links);
-
+		
 		// build flat globals
 		for (QName n : fingerprint.keySet()) {
 			allNames.add(n);
@@ -96,6 +99,14 @@ public class CodelistSummary {
 
 		return emptySet();
 	}
+	
+	public Collection<String> codelistLanguagesFor(QName name, QName type) {
+		if (codelistFingerprint.containsKey(name))
+			if (codelistFingerprint.get(name).containsKey(type))
+				return codelistFingerprint.get(name).get(type);
+
+		return emptySet();
+	}
 
 	public Collection<QName> allTypesFor(QName name) {
 
@@ -133,8 +144,16 @@ public class CodelistSummary {
 		return fingerprint.keySet();
 	}
 
+	public Collection<QName> codelistNames() {
+		return codelistFingerprint.keySet();
+	}
+
 	public Collection<QName> codeTypesFor(QName name) {
 		return fingerprint.get(name).keySet();
+	}
+
+	public Collection<QName> codelistTypesFor(QName name) {
+		return codelistFingerprint.get(name).keySet();
 	}
 
 	public static void addAttributesToFingerprint(Map<QName, Map<QName, Set<String>>> fingerprint, Iterable<? extends Attribute> attributes) {
@@ -143,7 +162,7 @@ public class CodelistSummary {
 			addAttributeToFingerprint(fingerprint, a);
 
 	}
-	
+
 	public static void addLinksToFingerprint(Map<QName, Map<QName, Set<String>>> fingerprint, Iterable<? extends CodelistLink> links) {
 
 		for (CodelistLink a : links)
@@ -157,23 +176,23 @@ public class CodelistSummary {
 		if (a.type().equals(SYSTEM_TYPE))
 			return;
 
-		addTo(typesForName(fingerprint,a.name()),a.type(),a.language());
-	
+		addTo(typesForName(fingerprint, a.name()), a.type(), a.language());
+
 	}
 
 	// helper
 	private static void addLinkToFingerprint(Map<QName, Map<QName, Set<String>>> fingerprint, CodelistLink l) {
 
-		Map<QName, Set<String>> types = typesForName(fingerprint,l.name());
+		Map<QName, Set<String>> types = typesForName(fingerprint, l.name());
 
 		ValueType type = l.valueType();
 
 		if (type instanceof AttributeLink) {
-		
+
 			AttributeTemplate template = ((AttributeLink) type).template();
 
 			addTo(types, template.type(), template.language());
-			
+
 		}
 
 	}
@@ -188,24 +207,24 @@ public class CodelistSummary {
 			fingerprint.put(name, types);
 
 		}
-		
+
 		return types;
 
 	}
-	
+
 	private static void addTo(Map<QName, Set<String>> types, QName type, String language) {
 
-			Set<String> langForType = types.get(type);
+		Set<String> langForType = types.get(type);
 
-			if (langForType == null) {
+		if (langForType == null) {
 
-				langForType = new HashSet<String>();
-				types.put(type, langForType);
+			langForType = new HashSet<String>();
+			types.put(type, langForType);
 
-			}
+		}
 
-			if (language != null)
-				langForType.add(language);
+		if (language != null)
+			langForType.add(language);
 
 	}
 }
