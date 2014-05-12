@@ -16,19 +16,34 @@ import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 
 public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 
+	//API support clauses
+	
+	public static interface GetClause {
+		
+		SdmxElement get(Attribute a);
+		
+	}
+	
+	public static interface TargetClause {
+		
+		Codelist2SdmxDirectives forCodelist();
+		
+		Codelist2SdmxDirectives forCodes();
+	}
+
 	public static interface MappingClause {
 		
-		/**
-		 * Maps the attribute name and type onto an SDMX element type
-		 * @param to the element type
-		 * @return this directives
-		 */
-		Codelist2SdmxDirectives to(SdmxElement e);
+		TargetClause to(SdmxElement e);
 	}
+	
+	
+	
+	
 	
 	public static Codelist2SdmxDirectives DEFAULT = new Codelist2SdmxDirectives();
 
 	private final Map<Attribute,SdmxElement> attributeDirectives = new HashMap<Attribute,SdmxElement>();
+	private final Map<Attribute,SdmxElement> codelistAttributeDirectives = new HashMap<Attribute,SdmxElement>();
 	
 	private String agency = DEFAULT_SDMX_AGENCY;
 	private String name;
@@ -68,13 +83,30 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		return version;
 	}
 	
-	
-	public SdmxElement get(Attribute attribute) {
+	public GetClause forCodelist() {
 		
-		return attributeDirectives.get(canonicalFormOf(attribute));
+		return new GetClause() {
+			
+			public SdmxElement get(Attribute a) {
+				
+				return codelistAttributeDirectives.get(canonicalFormOf(a));
+				
+			};
+		};
 		
 	}
 	
+	public GetClause forCodes() {
+		
+		return new GetClause() {
+			
+			public SdmxElement get(Attribute a) {
+				
+				return attributeDirectives.get(canonicalFormOf(a));				
+			};
+		};
+		
+	}
 	
 	/**
 	 * Maps an attribute name and type onto a SDMX element type
@@ -90,12 +122,30 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		return new MappingClause() {
 			
 			@Override
-			public Codelist2SdmxDirectives to(SdmxElement element) {
+			public TargetClause to(final SdmxElement element) {
+
 				notNull("SDMX element",element);
+
+				return new TargetClause() {
+					
+					@Override
+					public Codelist2SdmxDirectives forCodes() {
+
+						attributeDirectives.put(templateFrom(name, type),element);
+						
+						return Codelist2SdmxDirectives.this;
+					}
+					
+					@Override
+					public Codelist2SdmxDirectives forCodelist() {
+						
+						codelistAttributeDirectives.put(templateFrom(name, type),element);
+						
+						return Codelist2SdmxDirectives.this;
+					}
+				};
 				
-				attributeDirectives.put(templateFrom(name, type),element);
 				
-				return Codelist2SdmxDirectives.this;
 			}
 		};
 		

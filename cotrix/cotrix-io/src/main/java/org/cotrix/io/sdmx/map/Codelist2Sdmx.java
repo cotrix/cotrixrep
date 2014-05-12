@@ -16,6 +16,7 @@ import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.io.impl.MapTask;
 import org.cotrix.io.sdmx.SdmxElement;
+import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives.GetClause;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.sdmxsource.sdmx.api.model.mutable.base.AnnotationMutableBean;
 import org.sdmxsource.sdmx.api.model.mutable.base.NameableMutableBean;
@@ -70,7 +71,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			CodeMutableBean codebean = new CodeMutableBeanImpl();
 			codebean.setId(code.name().getLocalPart());
 			
-			mapAttributes(code,codebean,directives);
+			mapAttributes(code,codebean,directives.forCodes());
 			
 			codelistbean.addItem(codebean);
 		}
@@ -92,7 +93,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		for (Attribute a : list.attributes()) {
 			
 			String val = a.value();
-			SdmxElement element = directives.get(a);
+			SdmxElement element = directives.forCodelist().get(a);
 			
 			if (element!=null)
 				switch(element) {
@@ -118,11 +119,11 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 				}
 		}
 
-		mapAttributes(list, bean, directives);
+		mapAttributes(list, bean, directives.forCodelist());
 		
 	}
 	
-	private <T extends Attributed & Named> void mapAttributes(T attributed, NameableMutableBean bean, Codelist2SdmxDirectives directives) {
+	private <T extends Attributed & Named> void mapAttributes(T attributed, NameableMutableBean bean, GetClause directives) {
 		
 		boolean hasName = false;
 		
