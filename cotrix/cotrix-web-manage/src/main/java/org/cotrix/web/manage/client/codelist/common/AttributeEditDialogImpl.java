@@ -1,6 +1,8 @@
 package org.cotrix.web.manage.client.codelist.common;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.widgets.AdvancedTextBox;
+import org.cotrix.web.common.client.widgets.LanguageListBox;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -13,7 +15,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Singleton;
@@ -30,10 +31,10 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	@UiTemplate("AttributeEditDialog.ui.xml")
 	interface Binder extends UiBinder<Widget, AttributeEditDialogImpl> {}
 	
-	@UiField TextBox nameBox;
-	@UiField TextBox typeBox;
-	@UiField TextBox languageBox;
-	@UiField TextBox valueBox;
+	@UiField AdvancedTextBox nameBox;
+	@UiField AdvancedTextBox typeBox;
+	@UiField LanguageListBox languageBox;
+	@UiField AdvancedTextBox valueBox;
 	
 	private CommonResources resources = CommonResources.INSTANCE;
 	
@@ -51,7 +52,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 		this.listener = listener;
 	}
 
-	@UiHandler({"nameBox","typeBox","languageBox","valueBox"})
+	@UiHandler({"nameBox","typeBox","valueBox"})
 	protected void onKeyDown(KeyDownEvent event)
 	{
 		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
@@ -76,7 +77,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	}
 	
 	protected void doEdit() {
-		if (listener!=null) listener.onEdit(nameBox.getText(), typeBox.getText(), languageBox.getText(), valueBox.getText());
+		if (listener!=null) listener.onEdit(nameBox.getText(), typeBox.getText(), languageBox.getLanguage(), valueBox.getText());
 	}
 
 	protected void cleanValidation() {
@@ -108,7 +109,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	public void clean() {
 		nameBox.setText("");
 		typeBox.setText("");
-		languageBox.setText("");
+		languageBox.setLanguage(null);
 		valueBox.setText("");
 		cleanValidation();
 	}
@@ -117,7 +118,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	public void set(String name, String type, String language, String value) {
 		nameBox.setText(name);
 		typeBox.setText(type);
-		languageBox.setText(language);
+		languageBox.setLanguage(language);
 		valueBox.setText(value);
 		cleanValidation();
 	}

@@ -1,6 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
 	<ui:with field='resources'
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='commonresources'
@@ -36,8 +37,8 @@
 						<div>Name</div>
 					</td>
 					<td class="{resources.propertyGrid.value}">
-						<g:TextBox ui:field="nameBox"
-							styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+						<c:AdvancedTextBox ui:field="nameBox"
+							styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" placeholder="name" />
 					</td>
 				</tr>
 				<tr>
@@ -46,8 +47,8 @@
 					</td>
 					<td class="{resources.propertyGrid.value}">
 						<g:FlowPanel>
-							<g:TextBox ui:field="typeBox"
-								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+							<c:AdvancedTextBox ui:field="typeBox"
+								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" placeholder="type" />
 						</g:FlowPanel>
 					</td>
 				</tr>
@@ -56,8 +57,7 @@
 						<div>Language</div>
 					</td>
 					<td class="{resources.propertyGrid.value}">
-						<g:TextBox ui:field="languageBox"
-							styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+						<c:LanguageListBox  ui:field="languageBox" styleName="{commonresources.css.listBox}" width="100%"/>
 					</td>
 				</tr>
 				<tr>
@@ -65,8 +65,8 @@
 						<div>Value</div>
 					</td>
 					<td class="{resources.propertyGrid.value}">
-						<g:TextBox ui:field="valueBox"
-							styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+						<c:AdvancedTextBox ui:field="valueBox"
+							styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" placeholder="value" />
 					</td>
 				</tr>
 			</table>
