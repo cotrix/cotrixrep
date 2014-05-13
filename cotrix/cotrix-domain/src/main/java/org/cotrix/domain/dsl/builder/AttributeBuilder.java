@@ -51,14 +51,12 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 	
 	@Override
 	public AttributeBuilder in(String language) {
-		notNull("attribute language",language);
 		state.language(language);
 		return this;
 	}
 
 	@Override
 	public AttributeBuilder value(String value) {
-		notNull("attribute value",value);
 		state.value(value);
 		return this;
 

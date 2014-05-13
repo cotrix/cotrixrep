@@ -163,10 +163,10 @@ public class CodelistsStager {
 					continue;
 				
 				QName name = new QName(a.name()+"-link");
+				
+				Attribute template = attribute().name(a.name()).ofType(a.type()).in(a.language()).build();
 			
-				CodelistLink link = listLink().name(name).target(target).anchorTo(
-													attribute().name(a.name()).ofType(a.type()).in(a.language()).build())
-										.build();		
+				CodelistLink link = listLink().name(name).target(target).anchorTo(template).build();		
 				
 				links.add(link);
 				
