@@ -36,7 +36,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewDataGrid extends ResizeComposite implements PreviewGrid {
+public class PreviewDataGrid extends ResizeComposite{
 
 	private PatchedDataGrid<List<String>> previewGrid;
 	private CachedDataProvider<List<String>> dataprovider;
@@ -155,18 +155,13 @@ public class PreviewDataGrid extends ResizeComposite implements PreviewGrid {
 	}
 
 
-	@Override
 	public void loadData() {
 		loadHeaders();
 	}
 
-	@Override
 	public void resetScroll() {
-		// TODO Auto-generated method stub
-
 	}
 
-	@Override
 	public List<String> getHeaders() {
 		List<String> headers = new ArrayList<String>();
 		for (EditableTextHeader editableTextHeader:editableHeaders) {
@@ -175,14 +170,11 @@ public class PreviewDataGrid extends ResizeComposite implements PreviewGrid {
 		return headers;
 	}
 
-	@Override
 	public CsvConfiguration getConfiguration() {
 		return configuration;
 	}
 
-	@Override
 	public void setConfiguration(CsvConfiguration configuration) {
 		this.configuration = configuration;		
 	}
-
 }
