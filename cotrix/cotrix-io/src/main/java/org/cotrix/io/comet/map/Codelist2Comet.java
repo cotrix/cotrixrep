@@ -13,8 +13,10 @@ import static org.fao.fi.comet.mapping.model.MappingScoreType.*;
 
 import java.net.URI;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
@@ -24,6 +26,9 @@ import org.cotrix.io.impl.MapTask;
 import org.fao.fi.comet.mapping.dsl.MappingDSL;
 import org.fao.fi.comet.mapping.model.DataProvider;
 import org.fao.fi.comet.mapping.model.MappingData;
+import org.fao.fi.comet.mapping.model.MappingElement;
+import org.fao.fi.comet.mapping.model.data.Property;
+import org.fao.fi.comet.mapping.model.data.PropertyList;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 
 /**
@@ -56,36 +61,41 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 		
 		NamedContainer<? extends Attribute> attributes = codelist.attributes();
 		
-		DataProvider provider = provider(NS,"code");
+		DataProvider source = provider(NS, NS+"/codelist", NS+"/codelist/"+encode(codelist.name().toString()), codelist.version());
 		
 		String previous = attributes.contains(PREVIOUS_VERSION) ? attributes.lookup(PREVIOUS_VERSION).value():null;
 		
-		MappingData data = new MappingData().
-				id(uri(codelist.name()+":"+codelist.version()+(previous==null?"":":"+previous))).
-				version(codelist.version()).
-				producedBy(NS).
-				on(new Date()).
-				linking(provider).to(provider).
-				with(minimumWeightedScore(1.0), maximumCandidates(1));
+		DataProvider target = provider(NS, NS+"/codelist", NS+"/codelist/"+encode(codelist.name().toString()), previous);
+		
+		MappingData data = new MappingData()
+				.id(uri(codelist.name()+":"+codelist.version()+(previous==null?"":":"+previous)))
+				.version(codelist.version())
+				.producedBy(NS)
+				.linking(source)
+				.to(target)
+				.on(new Date())
+				.with(minimumWeightedScore(1.0), maximumCandidates(1));
 		
 		if (previous!=null)
 			data.setDescription(String.format("A Mapping between codelist v.%s and v.%s of codelist %s", codelist.version(), previous, codelist.name()));
 		
 		for (Code c : codelist.codes()) {
+			
 			NamedContainer<? extends Attribute> cAttributes = c.attributes();
+			MappingElement element = wrap(properties(c.attributes()));
 			
 			if (cAttributes.contains(PREVIOUS_VERSION_NAME)) {
 				String previousName = cAttributes.lookup(PREVIOUS_VERSION_NAME).value();
 				data.including(
-						MappingDSL.map(nil().with(identifierFor(provider,uri(c.name().toString())))).
+						MappingDSL.map(element.with(identifierFor(uri(c.name().toString())))).
 							to(
-							  target(nil().with(identifierFor(provider,uri(previousName)))).withMappingScore(1.0,AUTHORITATIVE)
+							  target(element.with(identifierFor(uri(previousName)))).withMappingScore(1.0,AUTHORITATIVE)
 							)
 				);
 			}
 			else
 				data.including(
-						MappingDSL.map(nil().with(identifierFor(provider, uri(c.name().toString())))));
+						MappingDSL.map(element.with(identifierFor(uri(c.name().toString())))));
 		}
 		
 		String msg = "mapped codelist "+codelist.name()+"("+codelist.id()+") to Comet in "+(System.currentTimeMillis()-time)/1000;
@@ -98,9 +108,29 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 	
 	
 	private URI uri(String id) throws Exception {
-		return new URI(URLEncoder.encode(id,"UTF-8"));
+		return new URI(encode(id));
 	}
 	
+	private String encode(String id) throws Exception {
+		return URLEncoder.encode(id,"UTF-8");
+	}
+	
+	
+	private PropertyList properties(NamedContainer<? extends Attribute> attributes) {
+		
+		List<Property> properties = new ArrayList<>();
+		
+		for (Attribute a : attributes)
+			if (a.type()!=SYSTEM_TYPE)
+				properties.add(propertyOf(a));
+		
+		return new PropertyList(properties);
+	}
+
+	private Property propertyOf(Attribute a) {
+
+		return new Property(a.name().toString(), a.type().toString(), a.value()==null?"":a.value());
+	}
 	
 	@Override
 	public String toString() {
