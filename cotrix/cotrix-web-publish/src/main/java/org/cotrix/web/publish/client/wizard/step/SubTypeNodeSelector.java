@@ -5,8 +5,8 @@ package org.cotrix.web.publish.client.wizard.step;
 
 import java.util.List;
 
+import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
-import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 import org.cotrix.web.wizard.client.flow.AbstractNodeSelector;
 import org.cotrix.web.wizard.client.flow.FlowNode;

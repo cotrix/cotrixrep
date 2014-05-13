@@ -3,6 +3,9 @@
  */
 package org.cotrix.web.publish.shared;
 
+import java.util.List;
+
+import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.common.shared.codelist.UIQName;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -19,7 +22,7 @@ public class UIRepository implements IsSerializable {
 	protected UIQName id;
 	protected UIQName name;
 	protected String publishedTypes;
-	protected Format publishedType;
+	protected List<Format> availableFormats;
 	
 	/**
 	 * @return the id
@@ -45,6 +48,7 @@ public class UIRepository implements IsSerializable {
 	public void setName(UIQName name) {
 		this.name = name;
 	}
+	
 	/**
 	 * @return the publishedTypes
 	 */
@@ -59,17 +63,19 @@ public class UIRepository implements IsSerializable {
 	}
 	
 	/**
-	 * @return the publishedType
+	 * @return the availableFormats
 	 */
-	public Format getPublishedType() {
-		return publishedType;
+	public List<Format> getAvailableFormats() {
+		return availableFormats;
 	}
+	
 	/**
-	 * @param publishedType the publishedType to set
+	 * @param availableFormats the availableFormats to set
 	 */
-	public void setPublishedType(Format publishedType) {
-		this.publishedType = publishedType;
+	public void setAvailableFormats(List<Format> availableFormats) {
+		this.availableFormats = availableFormats;
 	}
+	
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -82,6 +88,8 @@ public class UIRepository implements IsSerializable {
 		builder.append(name);
 		builder.append(", publishedTypes=");
 		builder.append(publishedTypes);
+		builder.append(", availableFormats=");
+		builder.append(availableFormats);
 		builder.append("]");
 		return builder.toString();
 	}

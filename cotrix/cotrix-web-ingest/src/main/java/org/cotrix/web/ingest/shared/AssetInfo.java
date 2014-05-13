@@ -19,28 +19,24 @@ public class AssetInfo implements Serializable {
 	private static final long serialVersionUID = 8076433432548925281L;
 	
 	public static final String NAME_FIELD = "NAME";
+	public static final String VERSION_FIELD = "VERSION";
 	public static final String REPOSITORY_FIELD = "REPOSITORY";
 	
-	protected String id;
-	protected String name;
-	protected String type;
-	protected CodeListType codeListType;
-	protected UIQName repositoryId;
-	protected UIQName repositoryName;
+	private String id;
+	private String name;
+	private String version;
+	private String type;
+	private CodeListType codeListType;
+	private UIQName repositoryId;
+	private UIQName repositoryName;
 	
 	public AssetInfo(){}
 
-	/**
-	 * @param id
-	 * @param name
-	 * @param type
-	 * @param repositoryId
-	 * @param repositoryName
-	 */
-	public AssetInfo(String id, String name, String type, CodeListType codeListType, UIQName repositoryId,
+	public AssetInfo(String id, String name, String version, String type, CodeListType codeListType, UIQName repositoryId,
 			UIQName repositoryName) {
 		this.id = id;
 		this.name = name;
+		this.version = version;
 		this.type = type;
 		this.codeListType = codeListType;
 		this.repositoryId = repositoryId;
@@ -80,6 +76,20 @@ public class AssetInfo implements Serializable {
 	 */
 	public String getType() {
 		return type;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 	/**
@@ -141,6 +151,8 @@ public class AssetInfo implements Serializable {
 		builder.append(id);
 		builder.append(", name=");
 		builder.append(name);
+		builder.append(", version=");
+		builder.append(version);
 		builder.append(", type=");
 		builder.append(type);
 		builder.append(", codeListType=");
@@ -151,5 +163,5 @@ public class AssetInfo implements Serializable {
 		builder.append(repositoryName);
 		builder.append("]");
 		return builder.toString();
-	}	
+	}
 }

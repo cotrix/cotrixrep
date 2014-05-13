@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.publish.shared;
+package org.cotrix.web.common.shared;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

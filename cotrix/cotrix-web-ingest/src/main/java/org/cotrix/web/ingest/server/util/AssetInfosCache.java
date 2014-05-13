@@ -43,6 +43,14 @@ public class AssetInfosCache implements Serializable {
 		}
 	};
 	
+	protected static final ValueProvider<AssetInfo> VERSION_PROVIDER = new ValueProvider<AssetInfo>() {
+
+		@Override
+		public String getValue(AssetInfo item) {
+			return item.getVersion();
+		}
+	};
+	
 	protected static final ValueProvider<AssetInfo> REPOSITORY_PROVIDER = new ValueProvider<AssetInfo>() {
 
 		@Override
@@ -72,6 +80,7 @@ public class AssetInfosCache implements Serializable {
 	{
 		cache = new OrderedLists<AssetInfo>();
 		cache.addField(AssetInfo.NAME_FIELD, NAME_PROVIDER);
+		cache.addField(AssetInfo.VERSION_FIELD, VERSION_PROVIDER);
 		cache.addField(AssetInfo.REPOSITORY_FIELD, REPOSITORY_PROVIDER);
 		
 		assetsCache = new HashMap<String, Asset>();

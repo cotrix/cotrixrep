@@ -1,12 +1,12 @@
 package org.cotrix.web.publish.client.wizard.step.repositoryselection;
 
+import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.publish.client.event.ItemDetailsRequestedEvent;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.wizard.client.event.NavigationEvent;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
@@ -61,9 +61,10 @@ public class RepositorySelectionStepPresenter extends AbstractVisualWizardStep i
 	public boolean leave() {
 		Log.trace("SelectionStep leaving");
 		
+		Log.trace("selectedRepository: "+selectedRepository+" repositoryDetails: "+repositoryDetails);
 		if (selectedRepository!=null && !repositoryDetails) {
 			publishBus.fireEvent(new ItemSelectedEvent<UIRepository>(selectedRepository));
-			publishBus.fireEvent(new ItemUpdatedEvent<Format>(selectedRepository.getPublishedType()));
+			if (selectedRepository.getAvailableFormats().size() == 1) publishBus.fireEvent(new ItemUpdatedEvent<Format>(selectedRepository.getAvailableFormats().get(0)));
 		}
 		
 		return selectedRepository!=null || repositoryDetails;

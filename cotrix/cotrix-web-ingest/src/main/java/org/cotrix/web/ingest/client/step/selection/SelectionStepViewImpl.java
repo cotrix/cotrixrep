@@ -149,6 +149,18 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		nameColumn.setCellStyleNames(CommonResources.INSTANCE.css().linkText());
 		
 		dataGrid.addColumn(nameColumn, nameHeader);
+		
+		// Version
+		Column<AssetInfo, String> versionColumn = new Column<AssetInfo, String>(new ClickableTextCell()) {
+			@Override
+			public String getValue(AssetInfo object) {
+				return object.getVersion();
+			}
+		};
+		versionColumn.setSortable(true);
+		versionColumn.setDataStoreName(AssetInfo.VERSION_FIELD);
+		
+		dataGrid.addColumn(versionColumn, "Version");
 
 
 		// Type

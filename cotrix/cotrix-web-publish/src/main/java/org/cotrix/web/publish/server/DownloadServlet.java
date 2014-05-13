@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.cotrix.web.common.server.util.FileNameUtil;
+import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.publish.server.util.PublishSession;
 import org.cotrix.web.publish.shared.DownloadType;
-import org.cotrix.web.publish.shared.Format;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

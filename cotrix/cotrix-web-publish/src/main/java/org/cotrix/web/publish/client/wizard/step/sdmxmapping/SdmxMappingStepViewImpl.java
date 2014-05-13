@@ -72,7 +72,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	AlertDialog alertDialog;
 
 	public SdmxMappingStepViewImpl() {
-		mappingPanel = new MappingPanel<UISdmxElement>(PROVIDER, "ELEMENTS");
+		mappingPanel = new MappingPanel<UISdmxElement>(PROVIDER, "SDMX ELEMENTS");
 		mappingPanel.setReloadHandler(this);
 		
 		initWidget(uiBinder.createAndBindUi(this));

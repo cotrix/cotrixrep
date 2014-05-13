@@ -27,7 +27,9 @@ public class Assets {
 		
 		assetInfo.setId(asset.id());
 		assetInfo.setName(asset.name());
-		assetInfo.setType(asset.type().toString());
+		String version = asset.version()==null?"n/a":asset.version();
+		assetInfo.setVersion(version);
+		assetInfo.setType(Repositories.toString(asset.type()));
 		CodeListType codeListType = getCodeListType(asset.type());
 		assetInfo.setCodeListType(codeListType);
 		UIQName serviceName = getServiceName(asset);
@@ -57,8 +59,10 @@ public class Assets {
 		AssetDetails details = new AssetDetails();
 		details.setId(asset.id());
 		details.setName(asset.name());
+		String version = asset.version()==null?"n/a":asset.version();
+		details.setVersion(version);
 		details.setProperties(Repositories.convert(asset.properties()));
-		details.setType(String.valueOf(asset.type()));
+		details.setType(Repositories.toString(asset.type()));
 		UIQName serviceName = getServiceName(asset);
 		details.setRepositoryName(serviceName);
 		details.setRepositoryId(serviceName);

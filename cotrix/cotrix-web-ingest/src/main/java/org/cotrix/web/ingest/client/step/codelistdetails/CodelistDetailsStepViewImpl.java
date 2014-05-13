@@ -42,6 +42,7 @@ public class CodelistDetailsStepViewImpl extends ResizeComposite implements Code
 	@UiField Grid assetDetails;
 	@UiField Label repository;
 	@UiField Label assetName;
+	@UiField Label assetVersion;
 	@UiField Label assetType;
 	@UiField FlexTable assetProperties;
 	
@@ -69,6 +70,7 @@ public class CodelistDetailsStepViewImpl extends ResizeComposite implements Code
 	public void setAssetDetails(AssetDetails asset)
 	{
 		assetName.setText(asset.getName());
+		assetVersion.setText(asset.getVersion());
 		assetType.setText(asset.getType());
 		addAssetProperties(asset.getProperties());
 		repository.setText(String.valueOf(asset.getRepositoryName()));

@@ -1,10 +1,10 @@
 package org.cotrix.web.publish.client.wizard.step.typeselection;
 
+import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.wizard.client.event.NavigationEvent;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;

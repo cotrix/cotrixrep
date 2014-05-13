@@ -18,25 +18,19 @@ public class AssetDetails implements Serializable {
 	
 	protected String id;
 	protected String name;
+	protected String version;
 	protected String type;
 	protected List<Property> properties;
 	protected UIQName repositoryName;
 	protected UIQName repositoryId;
 	
 	public AssetDetails(){}
-	
 
-	/**
-	 * @param id
-	 * @param name
-	 * @param type
-	 * @param properties
-	 * @param repository
-	 */
-	public AssetDetails(String id, String name, String type,
+	public AssetDetails(String id, String name, String version, String type,
 			List<Property> properties, UIQName repositoryName, UIQName repositoryId) {
 		this.id = id;
 		this.name = name;
+		this.version = version;
 		this.type = type;
 		this.properties = properties;
 		this.repositoryName = repositoryName;
@@ -56,6 +50,13 @@ public class AssetDetails implements Serializable {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
 	}
 
 	/**
@@ -101,6 +102,13 @@ public class AssetDetails implements Serializable {
 	}
 
 	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	/**
 	 * @param type the type to set
 	 */
 	public void setType(String type) {
@@ -138,6 +146,8 @@ public class AssetDetails implements Serializable {
 		builder.append(id);
 		builder.append(", name=");
 		builder.append(name);
+		builder.append(", version=");
+		builder.append(version);
 		builder.append(", type=");
 		builder.append(type);
 		builder.append(", properties=");

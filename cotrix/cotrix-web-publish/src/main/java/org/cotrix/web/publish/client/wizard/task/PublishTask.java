@@ -5,6 +5,7 @@ package org.cotrix.web.publish.client.wizard.task;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.shared.CsvConfiguration;
+import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.Progress.Status;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -19,7 +20,6 @@ import org.cotrix.web.publish.client.wizard.PublishWizardAction;
 import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.DownloadType;
-import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishMetadata;
