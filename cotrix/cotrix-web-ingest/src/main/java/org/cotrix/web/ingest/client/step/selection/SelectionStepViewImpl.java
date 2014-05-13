@@ -161,6 +161,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		versionColumn.setDataStoreName(AssetInfo.VERSION_FIELD);
 		
 		dataGrid.addColumn(versionColumn, "Version");
+		dataGrid.setColumnWidth(versionColumn, "70px");
 
 
 		// Type
@@ -173,7 +174,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		
 		typeColumn.setSortable(false);
 		dataGrid.addColumn(typeColumn, "Type");
-		dataGrid.setColumnWidth(typeColumn, "20%");
+		dataGrid.setColumnWidth(typeColumn, "70px");
 		
 
 		// Repository
@@ -196,7 +197,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		repositoryColumn.setCellStyleNames(CommonResources.INSTANCE.css().linkText());
 		
 		dataGrid.addColumn(repositoryColumn, "Origin");
-		dataGrid.setColumnWidth(repositoryColumn, "20%");
+		dataGrid.setColumnWidth(repositoryColumn, "30%");
 			
 		dataProvider.setDatagrid(dataGrid);
 		dataProvider.addDataDisplay(dataGrid);

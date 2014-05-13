@@ -53,6 +53,8 @@ public interface CommonCss extends CssResource {
 	String mappingTable();
 	String mappingTableNameHeader();	
 	String mappingCell();
+	String mappingAttributeHeaderCell();
+	String mappingAttributeHeader();
 	
 	String missingValueText();
 	
