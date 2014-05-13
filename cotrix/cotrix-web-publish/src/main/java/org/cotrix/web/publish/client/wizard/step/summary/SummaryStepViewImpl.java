@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.AttributesMappings;
@@ -97,7 +98,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 				mappingDescription.append("map [<span style=\"font-weight: 44;\">").append(definition.getName().getLocalPart()).append("</span>");
 
 				mappingDescription.append(",").append(definition.getType().getLocalPart());
-				if (definition.getLanguage()!=null && !definition.getLanguage().isEmpty()) mappingDescription.append(",").append(definition.getLanguage());
+				if (definition.getLanguage()!=null && definition.getLanguage()!=Language.NONE) mappingDescription.append(",").append(definition.getLanguage().getName());
 				mappingDescription.append("] to <span style=\"color: #097bfb;\">");
 				
 				String mappingDestination = mapping.getMapping().getLabel();

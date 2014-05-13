@@ -1,6 +1,7 @@
 package org.cotrix.web.publish.client.util;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.shared.Language;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -47,8 +48,8 @@ public class AttributeDefinitionPanel extends Composite {
 		this.type.setText(type);
 	}
 	
-	public void setLanguage(String language) {
-		this.language.setText(language);
+	public void setLanguage(Language language) {
+		this.language.setText(language.getName());
 	}
 
 	protected void setLanguagePanelVisibile(boolean visible)

@@ -22,6 +22,7 @@ import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
 import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.ValueFunctions;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
@@ -224,6 +225,10 @@ public class ChangesetUtil {
 
 	public static CodelistLink removeCodelistLink(String id) {
 		return deleteListLink(id);
+	}
+	
+	public static String convert(Language language) {
+		return (language == null || language == Language.NONE) ? null : language.getCode();
 	}
 
 	public static String convert(String value) {

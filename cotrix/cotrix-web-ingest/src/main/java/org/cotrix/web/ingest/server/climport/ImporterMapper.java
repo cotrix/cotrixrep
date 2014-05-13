@@ -86,7 +86,7 @@ public interface ImporterMapper<T> {
 
 			AttributeDefinition definition = mapping.getAttributeDefinition();				
 			directive.name(definition.getName());
-			if (definition.getLanguage()!=null) directive.language(definition.getLanguage());
+			if (definition.getLanguage()!=null) directive.language(definition.getLanguage().getCode());
 			directive.type(getType(definition.getType(), definition.getCustomType()));
 
 			return directive;

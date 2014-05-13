@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.ingest.shared.AttributeDefinition;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.AttributeType;
@@ -195,7 +196,7 @@ public class AttributeMappingPanel extends Composite {
 			String customType = panel.getCustomType();
 			attributeDefinition.setCustomType(customType);
 			
-			String language = panel.getLanguage();
+			Language language = panel.getLanguage();
 			attributeDefinition.setLanguage(language);
 		}
 

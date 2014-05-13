@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.ingest.shared;
 
+import org.cotrix.web.common.shared.Language;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
@@ -14,7 +16,7 @@ public class AttributeDefinition implements IsSerializable {
 	protected String name;
 	protected AttributeType type;
 	protected String customType;
-	protected String language;
+	protected Language language;
 	
 	/**
 	 * @return the name
@@ -43,7 +45,7 @@ public class AttributeDefinition implements IsSerializable {
 	/**
 	 * @return the language
 	 */
-	public String getLanguage() {
+	public Language getLanguage() {
 		return language;
 	}
 	
@@ -64,7 +66,7 @@ public class AttributeDefinition implements IsSerializable {
 	/**
 	 * @param language the language to set
 	 */
-	public void setLanguage(String language) {
+	public void setLanguage(Language language) {
 		this.language = language;
 	}
 	/** 

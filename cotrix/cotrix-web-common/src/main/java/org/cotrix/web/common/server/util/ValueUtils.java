@@ -5,6 +5,7 @@ package org.cotrix.web.common.server.util;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIQName;
 
 /**
@@ -16,6 +17,11 @@ public class ValueUtils {
 	public static String safeValue(String value)
 	{
 		return value==null?"":value;
+	}
+	
+	public static Language safeLanguage(String language)
+	{
+		return language==null?Language.NONE:Language.fromCode(language);
 	}
 	
 	public static UIQName safeValue(QName value)

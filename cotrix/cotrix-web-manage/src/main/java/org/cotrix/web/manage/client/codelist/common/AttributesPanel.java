@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.common.client.widgets.table.Table;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.codelist.common.AttributeEditDialog.AttributeEditDialogListener;
 import org.cotrix.web.manage.client.codelist.common.AttributeRow.AttributeRowListener;
@@ -84,12 +85,12 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 		};
 		
 		attributes = new HashMap<AttributeRow, UIAttribute>();
-		
+
 		attributeEditDialog = new AttributeEditDialogImpl();
 		attributeEditDialog.setListener(new AttributeEditDialogListener() {
 			
 			@Override
-			public void onEdit(String name, String type, String language, String value) {
+			public void onEdit(String name, String type, Language language, String value) {
 				currentEditedAttribute.setName(ValueUtils.getValue(name));
 				currentEditedAttribute.setType(ValueUtils.getValue(type));
 				currentEditedAttribute.setLanguage(language);
@@ -143,7 +144,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 		currentEditedAttribute = attributes.get(row);
 		String name = ValueUtils.getValue(currentEditedAttribute.getName());
 		String type = ValueUtils.getValue(currentEditedAttribute.getType());
-		String language = currentEditedAttribute.getLanguage();
+		Language language = currentEditedAttribute.getLanguage();
 		String value = currentEditedAttribute.getValue();
 		
 		attributeEditDialog.set(name, type, language, value);

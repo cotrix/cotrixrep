@@ -56,7 +56,7 @@ public class GroupFactory {
 		@Override
 		public AttributeGroup generate(Attribute attribute) {
 			boolean isSystemGroup = attribute.type()!=null?attribute.type().equals(Constants.SYSTEM_TYPE):false;
-			return new AttributeGroup(ValueUtils.safeValue(attribute.name()), null, ValueUtils.safeValue(attribute.language()), isSystemGroup);
+			return new AttributeGroup(ValueUtils.safeValue(attribute.name()), null, ValueUtils.safeLanguage(attribute.language()), isSystemGroup);
 		}
 	};
 	

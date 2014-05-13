@@ -15,7 +15,4 @@ import com.google.inject.Singleton;
 public interface CommonConstants extends Constants {
 	
 	public static CommonConstants INSTANCE = GWT.create(CommonConstants.class);
-	
-	@DefaultStringArrayValue({"ar","en","es","fr","ru","zh"})
-	String[] languages();
 }
