@@ -64,7 +64,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		return language;
 	}
 
-	public void language(String language) {		
+	public void language(String language) {
 		this.language = language;
 	}
 	

@@ -1,5 +1,7 @@
 package org.cotrix.domain.dsl.builder;
 
+import static org.cotrix.common.Utils.*;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
@@ -36,23 +38,27 @@ public class AttributeBuilder implements AttributeStartClause, AttributeDeltaCla
 
 	@Override
 	public AttributeBuilder ofType(QName type) {
+		notNull("attribute type",type);
 		state.type(type);
 		return this;
 	}
 	
 	@Override
 	public AttributeBuilder ofType(String type) {
+		notNull("attribute type",type);
 		return ofType(Codes.q(type));
 	}
 	
 	@Override
 	public AttributeBuilder in(String language) {
+		notNull("attribute language",language);
 		state.language(language);
 		return this;
 	}
 
 	@Override
 	public AttributeBuilder value(String value) {
+		notNull("attribute value",value);
 		state.value(value);
 		return this;
 
