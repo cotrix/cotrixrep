@@ -6,6 +6,7 @@ package org.cotrix.web.manage.shared;
 import java.util.List;
 
 import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UIQName;
@@ -22,7 +23,7 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	
 	private UIQName name;
 	private UIQName type;
-	private String language;
+	private Language language;
 	private int position;
 	
 	private boolean isSystemGroup;
@@ -37,7 +38,7 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	 * @param type
 	 * @param language
 	 */
-	public AttributeGroup(UIQName name, UIQName type, String language, boolean isSystemGroup) {
+	public AttributeGroup(UIQName name, UIQName type, Language language, boolean isSystemGroup) {
 		this.name = name!=null?name.clone():null;
 		this.type = type!=null?type.clone():null;
 		this.language = language;
@@ -61,7 +62,7 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	/**
 	 * @return the language
 	 */
-	public String getLanguage() {
+	public Language getLanguage() {
 		return language;
 	}
 	
@@ -181,10 +182,10 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		SafeHtml nameHtml = SafeHtmlUtils.fromString(ValueUtils.getValue(name));
 		labelBuilder.append(nameHtml);
 		labelBuilder.appendHtmlConstant("</span>");
-		if (language!=null && !language.isEmpty()) {
-			labelBuilder.appendHtmlConstant("<span style=\"vertical-align:middle;color:black;padding-left:5px;\">(");
-			SafeHtml languageHtml = SafeHtmlUtils.fromString(language);
-			labelBuilder.append(languageHtml);
+		if (language!=null && language!=Language.NONE) {
+			labelBuilder.appendHtmlConstant("<span style=\"vertical-align:middle;color:black;padding-left:5px;\" " +
+					"title=\""+language.getName()+"\">(");
+			labelBuilder.append(SafeHtmlUtils.fromString(language.getCode()));
 			labelBuilder.appendHtmlConstant(")</span>");
 		}
 		

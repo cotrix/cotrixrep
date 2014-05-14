@@ -4,6 +4,7 @@ import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.EnumListBox.LabelProvider;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.ingest.shared.AttributeType;
 
 import com.google.gwt.core.client.GWT;
@@ -102,15 +103,15 @@ public class AttributeDefinitionPanel extends Composite {
 		updateVisibilities();
 	}
 
-	public String getLanguage()
+	public Language getLanguage()
 	{
 		if (!languageList.isVisible()) return null;
-		return languageList.getLanguage();
+		return languageList.getValue();
 	}	
 
-	public void setLanguage(String language)
+	public void setLanguage(Language language)
 	{
-		languageList.setLanguage(language);
+		languageList.setValue(language);
 	}
 
 	protected void updateVisibilities()

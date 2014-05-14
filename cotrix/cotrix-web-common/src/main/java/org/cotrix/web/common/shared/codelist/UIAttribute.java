@@ -1,5 +1,7 @@
 package org.cotrix.web.common.shared.codelist;
 
+import org.cotrix.web.common.shared.Language;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
@@ -12,7 +14,7 @@ public class UIAttribute implements Identifiable, IsSerializable {
 	protected UIQName name;
 	protected UIQName type;
 	protected String value;
-	protected String language;
+	protected Language language = Language.NONE;
 	
 	protected int position;
 	
@@ -40,11 +42,11 @@ public class UIAttribute implements Identifiable, IsSerializable {
 		this.value = value;
 	}
 	
-	public String getLanguage() {
+	public Language getLanguage() {
 		return language;
 	}
 	
-	public void setLanguage(String language) {
+	public void setLanguage(Language language) {
 		this.language = language;
 	}
 	

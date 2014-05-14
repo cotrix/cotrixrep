@@ -18,6 +18,7 @@ import org.cotrix.io.tabular.map.AttributeDirectives;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.ValueUtils;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.publish.server.util.SdmxElements;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
@@ -72,7 +73,7 @@ public interface PublishMapper<T> {
 		
 		protected Attribute getTemplate(AttributeDefinition definition) {
 			OptionalClause attributeBuilder = attribute().name(ValueUtils.toQName(definition.getName())).value(null).ofType(ValueUtils.toQName(definition.getType()));
-			if (definition.getLanguage()!=null && !definition.getLanguage().isEmpty()) return attributeBuilder.in(definition.getLanguage()).build();
+			if (definition.getLanguage()!=null && definition.getLanguage()!=Language.NONE) return attributeBuilder.in(definition.getLanguage().getCode()).build();
 			return attributeBuilder.build();
 		}
 

@@ -60,9 +60,9 @@
 					<td colspan="3" align="left" style="padding: 20px;">
 						<table style="border-collapse:collapse; width: 100%;">
 							<tr>
-								<td class="{common.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
-									<g:InlineLabel ui:field="attributeMappingLabel"
-										styleName="{common.css.propertyLabel}" />
+								<td class="{common.css.verticalHeadersSingleItem} {common.css.mappingAttributeHeaderCell}" style="padding-left:6px;">
+									<g:Label ui:field="attributeMappingLabel"
+										styleName="{common.css.mappingAttributeHeader}" />
 								</td>
 							</tr>
 							<tr>

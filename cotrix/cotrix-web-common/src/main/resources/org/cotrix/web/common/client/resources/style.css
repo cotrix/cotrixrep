@@ -78,6 +78,19 @@
 	vertical-align: middle;
 }
 
+.mappingAttributeHeaderCell {
+	border: 1px solid #d1d1d1;
+	padding-left:12px;
+	background-color: lightgray;
+}
+
+.mappingAttributeHeader {
+	padding: 5px;
+	font-size: 20px;
+	color: black;
+	text-align: left;
+}
+
 /* TEXT BOX */
 .textBox {
 	padding: 5px;

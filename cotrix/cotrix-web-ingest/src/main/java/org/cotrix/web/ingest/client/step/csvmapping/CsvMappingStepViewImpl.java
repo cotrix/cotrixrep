@@ -37,7 +37,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 
 	@Inject
 	private void init() {
-		mappingPanel = new MappingPanel(true, "COLUMNS");
+		mappingPanel = new MappingPanel(true, "CSV COLUMNS");
 		mappingPanel.setReloadHandler(this);
 		
 		initWidget(uiBinder.createAndBindUi(this));

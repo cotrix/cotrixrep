@@ -5,6 +5,7 @@ package org.cotrix.web.manage.client.codelist.attribute;
 
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanelListener;
@@ -150,7 +151,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		String type = detailsPanel.getType();
 		attribute.setType(ValueUtils.getValue(type));
 		
-		String language = detailsPanel.getLanguage();
+		Language language = detailsPanel.getLanguage();
 		attribute.setLanguage(language);
 		
 		String value = detailsPanel.getValue();

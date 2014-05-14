@@ -11,7 +11,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
@@ -35,7 +35,7 @@ public class MappingPanel extends ResizeComposite {
 	@UiField TextBox name;
 	@UiField TextBox version;
 	@UiField SimpleCheckBox sealed;
-	@UiField InlineLabel attributeMappingLabel;
+	@UiField Label attributeMappingLabel;
 	
 	@UiField
 	ScrollPanel scrollMappingPanel;

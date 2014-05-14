@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.publish.shared;
 
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIQName;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -15,7 +16,7 @@ public class AttributeDefinition implements IsSerializable {
 	
 	protected UIQName name;
 	protected UIQName type;
-	protected String language;
+	protected Language language;
 	
 	/**
 	 * @return the name
@@ -32,7 +33,7 @@ public class AttributeDefinition implements IsSerializable {
 	/**
 	 * @return the language
 	 */
-	public String getLanguage() {
+	public Language getLanguage() {
 		return language;
 	}
 	
@@ -53,7 +54,7 @@ public class AttributeDefinition implements IsSerializable {
 	/**
 	 * @param language the language to set
 	 */
-	public void setLanguage(String language) {
+	public void setLanguage(Language language) {
 		this.language = language;
 	}
 	

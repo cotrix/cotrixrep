@@ -17,14 +17,14 @@ public class EnumListBox<E extends Enum<E>> extends ListBox
 		public String getLabel(E item);
 	}
 
-	protected Class<E> _eclass;	
+	protected Class<E> enumClass;	
 
 	/**
 	 * Creates an enum list box that displays all predefinedUsers in the supplied enum.
 	 */
-	public EnumListBox(Class<E> eclass)
+	public EnumListBox(Class<E> enumClass)
 	{
-		this(eclass, EnumSet.allOf(eclass), new LabelProvider<E>() {
+		this(enumClass, EnumSet.allOf(enumClass), new LabelProvider<E>() {
 
 			@Override
 			public String getLabel(E item) {
@@ -33,17 +33,17 @@ public class EnumListBox<E extends Enum<E>> extends ListBox
 		});
 	}
 
-	public EnumListBox(Class<E> eclass, LabelProvider<E> labelProvider)
+	public EnumListBox(Class<E> enumClass, LabelProvider<E> labelProvider)
 	{
-		this(eclass, EnumSet.allOf(eclass), labelProvider);
+		this(enumClass, EnumSet.allOf(enumClass), labelProvider);
 	}
 
 	/**
 	 * Creates an enum list box that displays the predefinedUsers in the supplied set.
 	 */
-	public EnumListBox(Class<E> eclass, EnumSet<E> elements, LabelProvider<E> labelProvider)
+	public EnumListBox(Class<E> enumClass, EnumSet<E> elements, LabelProvider<E> labelProvider)
 	{
-		_eclass = eclass;
+		this.enumClass = enumClass;
 		for (E value : elements) {
 			String label = labelProvider.getLabel(value);
 			addItem(label, value.toString());
@@ -55,10 +55,10 @@ public class EnumListBox<E extends Enum<E>> extends ListBox
 	 */
 	public void setSelectedValue(E value)
 	{
-		String valstr = value.toString();
-		for (int ii = 0; ii < getItemCount(); ii++) {
-			if (getValue(ii).equals(valstr)) {
-				setSelectedIndex(ii);
+		String valueString = value.toString();
+		for (int i = 0; i < getItemCount(); i++) {
+			if (getValue(i).equals(valueString)) {
+				setSelectedIndex(i);
 				break;
 			}
 		}
@@ -69,7 +69,7 @@ public class EnumListBox<E extends Enum<E>> extends ListBox
 	 */
 	public E getSelectedValue()
 	{
-		int selidx = getSelectedIndex();
-		return (selidx < 0) ? null : Enum.valueOf(_eclass, getValue(selidx));
+		int selected = getSelectedIndex();
+		return (selected < 0) ? null : Enum.valueOf(enumClass, getValue(selected));
 	}
 }

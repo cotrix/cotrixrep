@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.ingest.shared.AttributeDefinition;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.MappingMode;
@@ -87,7 +88,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 				if (!originalName.equals(definition.getName())) mappingDescription.append(" as ").append(definition.getName());
 				if (definition.getType() !=null) {
 					mappingDescription.append(" is ").append(definition.getType().toString());
-					if (definition.getLanguage()!=null) mappingDescription.append(" in ").append(definition.getLanguage());
+					if (definition.getLanguage()!=null && definition.getLanguage()!=Language.NONE) mappingDescription.append(" in ").append(definition.getLanguage().getName());
 				}
 			} else mappingDescription.append("ignore <b>").append(originalName).append("</b>");
 

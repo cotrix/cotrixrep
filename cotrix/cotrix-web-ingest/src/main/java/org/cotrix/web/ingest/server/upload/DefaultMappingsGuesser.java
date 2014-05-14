@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.ingest.shared.AttributeDefinition;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.AttributeType;
@@ -72,6 +73,7 @@ public class DefaultMappingsGuesser implements MappingGuesser {
 		attributeDefinition.setType(type);
 		
 		//TODO guess language
+		attributeDefinition.setLanguage(Language.NONE);
 		
 		return attributeDefinition;
 	}
@@ -90,22 +92,6 @@ public class DefaultMappingsGuesser implements MappingGuesser {
 		return mappings;
 	}
 	
-	protected AttributeMapping getCodeMapping()
-	{
-		AttributeMapping mapping = new AttributeMapping();
-		Field field = new Field();
-		field.setId("code");
-		field.setLabel("code");
-		mapping.setField(field);
-		
-		AttributeDefinition definition = new AttributeDefinition();
-		definition.setName("code");
-		definition.setType(AttributeType.CODE);
-		mapping.setAttributeDefinition(definition);
-		
-		return mapping;
-	}
-	
 	protected Field getField(SdmxElement element)
 	{
 		Field field = new Field();
@@ -120,6 +106,7 @@ public class DefaultMappingsGuesser implements MappingGuesser {
 		AttributeDefinition definition = new AttributeDefinition();
 		definition.setName(name);
 		definition.setType(AttributeType.DESCRIPTION);
+		definition.setLanguage(Language.NONE);
 		return definition;
 	}
 

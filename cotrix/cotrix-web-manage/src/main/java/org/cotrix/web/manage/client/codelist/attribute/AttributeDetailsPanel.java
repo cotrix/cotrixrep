@@ -5,6 +5,7 @@ package org.cotrix.web.manage.client.codelist.attribute;
 
 import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
 
 import com.google.gwt.core.client.GWT;
@@ -118,11 +119,11 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	}
 	
 	private void setupLanguageField() {
-		languageBox.addValueChangeHandler(languageBoxContainer);
-		languageBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+		languageBox.addValueChangeHandler(new ValueChangeHandler<Language>() {
 
 			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
+			public void onValueChange(ValueChangeEvent<Language> event) {
+				languageBoxContainer.setText(event.getValue().getName());
 				fireChange();
 			}
 		});
@@ -174,13 +175,13 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		typeBox.setStyleName(style.error(), !valid);
 	}
 	
-	public String getLanguage() {
-		return languageBox.getLanguage();
+	public Language getLanguage() {
+		return languageBox.getValue();
 	}
 	
-	public void setLanguage(String language) {
-		languageBox.setLanguage(language);
-		languageBoxContainer.setText(language);
+	public void setLanguage(Language language) {
+		languageBox.setValue(language);
+		languageBoxContainer.setText(language.getName());
 	}
 	
 	public void setLanguageFieldValid(boolean valid) {

@@ -19,6 +19,7 @@ import org.cotrix.web.ingest.shared.CsvPreviewHeaders;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
@@ -36,7 +37,15 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewDataGrid extends ResizeComposite implements PreviewGrid {
+public class PreviewDataGrid extends ResizeComposite {
+	
+	interface DataGridResources extends PatchedDataGrid.Resources {
+
+		@Source("PreviewDataGrid.css")
+		DataGridStyle dataGridStyle();
+	}
+	
+	interface DataGridStyle extends PatchedDataGrid.Style {}
 
 	private PatchedDataGrid<List<String>> previewGrid;
 	private CachedDataProvider<List<String>> dataprovider;
@@ -67,7 +76,8 @@ public class PreviewDataGrid extends ResizeComposite implements PreviewGrid {
 
 	protected void setupGrid()
 	{
-		previewGrid = new PatchedDataGrid<List<String>>();
+		DataGridResources resource = GWT.create(DataGridResources.class);
+		previewGrid = new PatchedDataGrid<List<String>>(8, resource);
 		previewGrid.setWidth("100%");
 		previewGrid.setAutoAdjust(true);
 		previewGrid.setPageSize(8);
@@ -155,18 +165,13 @@ public class PreviewDataGrid extends ResizeComposite implements PreviewGrid {
 	}
 
 
-	@Override
 	public void loadData() {
 		loadHeaders();
 	}
 
-	@Override
 	public void resetScroll() {
-		// TODO Auto-generated method stub
-
 	}
 
-	@Override
 	public List<String> getHeaders() {
 		List<String> headers = new ArrayList<String>();
 		for (EditableTextHeader editableTextHeader:editableHeaders) {
@@ -175,14 +180,11 @@ public class PreviewDataGrid extends ResizeComposite implements PreviewGrid {
 		return headers;
 	}
 
-	@Override
 	public CsvConfiguration getConfiguration() {
 		return configuration;
 	}
 
-	@Override
 	public void setConfiguration(CsvConfiguration configuration) {
 		this.configuration = configuration;		
 	}
-
 }

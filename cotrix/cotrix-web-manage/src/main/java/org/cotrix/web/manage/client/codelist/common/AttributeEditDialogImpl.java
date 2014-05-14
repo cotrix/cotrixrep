@@ -3,6 +3,7 @@ package org.cotrix.web.manage.client.codelist.common;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
+import org.cotrix.web.common.shared.Language;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -77,7 +78,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	}
 	
 	protected void doEdit() {
-		if (listener!=null) listener.onEdit(nameBox.getText(), typeBox.getText(), languageBox.getLanguage(), valueBox.getText());
+		if (listener!=null) listener.onEdit(nameBox.getText(), typeBox.getText(), languageBox.getValue(), valueBox.getText());
 	}
 
 	protected void cleanValidation() {
@@ -109,16 +110,16 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	public void clean() {
 		nameBox.setText("");
 		typeBox.setText("");
-		languageBox.setLanguage(null);
+		languageBox.setValue(Language.NONE);
 		valueBox.setText("");
 		cleanValidation();
 	}
 
 	@Override
-	public void set(String name, String type, String language, String value) {
+	public void set(String name, String type, Language language, String value) {
 		nameBox.setText(name);
 		typeBox.setText(type);
-		languageBox.setLanguage(language);
+		languageBox.setValue(language);
 		valueBox.setText(value);
 		cleanValidation();
 	}

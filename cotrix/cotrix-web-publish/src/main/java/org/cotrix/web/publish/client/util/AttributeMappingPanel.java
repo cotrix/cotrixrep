@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.publish.client.resources.Resources;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
@@ -131,7 +132,7 @@ public class AttributeMappingPanel<T extends Mapping> extends Composite {
 
 				definitionPanel.setName(attributeDefinition.getName().getLocalPart());
 				definitionPanel.setType(attributeDefinition.getType().getLocalPart());
-				if (attributeDefinition.getLanguage() == null || attributeDefinition.getLanguage().isEmpty()) {
+				if (attributeDefinition.getLanguage() == null || attributeDefinition.getLanguage() == Language.NONE) {
 					definitionPanel.setLanguagePanelVisibile(false);
 				} else definitionPanel.setLanguage(attributeDefinition.getLanguage());
 				definitionPanel.setEnabled(attributeMapping.isMapped());

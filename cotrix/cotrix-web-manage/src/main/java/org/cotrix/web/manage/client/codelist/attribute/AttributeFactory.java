@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.attribute;
 
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.manage.client.util.Constants;
@@ -25,7 +26,7 @@ public class AttributeFactory {
 		attribute.setId(Document.get().createUniqueId());
 		attribute.setName(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeName()));
 		attribute.setType(new UIQName(constants.getDefaultNamespace(), constants.getDefaultAttributeType()));
-		attribute.setLanguage("");
+		attribute.setLanguage(Language.NONE);
 		attribute.setValue(constants.getDefaultAttributeValue());
 		return attribute;
 	}

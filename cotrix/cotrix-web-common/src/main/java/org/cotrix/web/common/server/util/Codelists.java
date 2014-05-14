@@ -118,7 +118,7 @@ public class Codelists {
 		UIAttribute uiattribute = new UIAttribute();
 		uiattribute.setName(ValueUtils.safeValue(attribute.name()));
 		uiattribute.setType(ValueUtils.safeValue(attribute.type()));
-		uiattribute.setLanguage(ValueUtils.safeValue(attribute.language()));
+		uiattribute.setLanguage(ValueUtils.safeLanguage(attribute.language()));
 		uiattribute.setValue(ValueUtils.safeValue(attribute.value()));
 		uiattribute.setId(ValueUtils.safeValue(attribute.id()));
 		return uiattribute;
