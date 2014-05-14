@@ -6,6 +6,7 @@ import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.CsvConfigurationPanel;
 import org.cotrix.web.common.client.widgets.CsvConfigurationPanel.RefreshHandler;
 import org.cotrix.web.common.shared.CsvConfiguration;
+import org.cotrix.web.ingest.client.util.PreviewDataGrid;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -47,12 +48,16 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	private Presenter presenter;
 	
 	@Inject
+	private CsvPreviewDataProvider dataProvider;
+	
+	@Inject
 	AlertDialog alertDialog;
 	
 	@Inject
-	private void init(PreviewDataGrid preview) {
+	private void init() {
 		
-		this.preview = preview;
+		this.preview = new PreviewDataGrid(dataProvider, 8);
+		
 		initWidget(uiBinder.createAndBindUi(this));
 		configurationPanel.setRefreshHandler(this);
 	}
@@ -104,7 +109,7 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 
 	@Override
 	public void onRefresh(CsvConfiguration configuration) {
-		if (preview.getConfiguration().equals(configuration)) return;
+		if (dataProvider.getConfiguration().equals(configuration)) return;
 		updatePreview(configuration);
 		presenter.onCsvConfigurationEdited(configuration);
 	}
@@ -112,7 +117,7 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	
 	protected void updatePreview(CsvConfiguration configuration)
 	{
-		preview.setConfiguration(configuration);
+		dataProvider.setConfiguration(configuration);
 		preview.loadData();
 	}
 }

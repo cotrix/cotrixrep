@@ -11,18 +11,18 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CsvPreviewHeaders implements IsSerializable {
+public class PreviewHeaders implements IsSerializable {
 	
 	private boolean editable;
 	private List<String> labels;
 	
-	public CsvPreviewHeaders(){}
+	public PreviewHeaders(){}
 	
 	/**
 	 * @param editable
 	 * @param labels
 	 */
-	public CsvPreviewHeaders(boolean editable, List<String> labels) {
+	public PreviewHeaders(boolean editable, List<String> labels) {
 		this.editable = editable;
 		this.labels = labels;
 	}

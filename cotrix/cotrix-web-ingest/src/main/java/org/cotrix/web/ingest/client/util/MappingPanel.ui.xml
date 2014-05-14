@@ -18,6 +18,11 @@
 			margin: auto;
 			outline: none;
 		}
+		
+		.previewButton {
+			margin: auto;
+			outline: none;
+		}
 	</ui:style>
 	<g:SimpleLayoutPanel styleName="{common.css.mappingTable}">
 		<g:HTMLPanel>
@@ -32,7 +37,7 @@
 					<td class="{style.reloadButtonCell} {style.topPadding}">
 						<g:PushButton ui:field="reloadButton"
 							styleName="{common.css.buttonRefresh} {style.reloadButton}">
-							<g:upFace image="{common.refresh}" />
+							<g:upFace image="{common.undo}" />
 						</g:PushButton>
 					</td>
 				</tr>
@@ -57,7 +62,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" align="left" style="padding: 20px;">
+					<td colspan="2" align="left" style="padding: 20px 0px 20px 20px;" ui:field="mappingCell">
 						<table style="border-collapse:collapse; width: 100%;">
 							<tr>
 								<td class="{common.css.verticalHeadersSingleItem} {common.css.mappingAttributeHeaderCell}" style="padding-left:6px;">
@@ -73,6 +78,12 @@
 								</td>
 							</tr>
 						</table>
+					</td>
+					<td width="58px" ui:field="previewCell">
+						<g:PushButton ui:field="previewButton"
+							styleName="{common.css.buttonRefresh} {style.previewButton}">
+							<g:upFace image="{common.preview}" />
+						</g:PushButton>
 					</td>
 				</tr>
 			</table>

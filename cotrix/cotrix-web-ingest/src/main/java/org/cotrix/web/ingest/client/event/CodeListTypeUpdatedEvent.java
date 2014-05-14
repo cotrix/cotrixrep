@@ -1,6 +1,6 @@
 package org.cotrix.web.ingest.client.event;
 
-import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.UIAssetType;
 
 import com.google.web.bindery.event.shared.binder.GenericEvent;
 
@@ -10,16 +10,16 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  */
 public class CodeListTypeUpdatedEvent extends GenericEvent {
 
-	private CodeListType codeListType;
+	private UIAssetType codeListType;
 	
-	public CodeListTypeUpdatedEvent(CodeListType codeListType) {
+	public CodeListTypeUpdatedEvent(UIAssetType codeListType) {
 		this.codeListType = codeListType;
 	}
 
 	/**
 	 * @return the codeListType
 	 */
-	public CodeListType getCodeListType() {
+	public UIAssetType getCodeListType() {
 		return codeListType;
 	}
 }

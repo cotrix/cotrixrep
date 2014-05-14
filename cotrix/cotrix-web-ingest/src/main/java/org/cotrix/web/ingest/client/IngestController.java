@@ -17,7 +17,7 @@ import org.cotrix.web.ingest.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.ingest.client.event.NewImportEvent;
 import org.cotrix.web.ingest.client.resources.Resources;
 import org.cotrix.web.ingest.client.wizard.ImportWizardPresenter;
-import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.UIAssetType;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 
@@ -87,13 +87,13 @@ public class IngestController implements Presenter, CotrixModuleController {
 		importEventBus.fireEvent(new ResetWizardEvent());
 	}
 
-	protected void importedItemUpdated(CodeListType codeListType)
+	protected void importedItemUpdated(UIAssetType codeListType)
 	{
 		Log.trace("importedItemUpdated codeListType: "+codeListType);
 
 		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(codeListType));
 
-		if (codeListType == CodeListType.CSV) {
+		if (codeListType == UIAssetType.CSV) {
 			Log.trace("getting parser configuration");
 			getCsvParserConfiguration(); 
 		}
@@ -104,12 +104,12 @@ public class IngestController implements Presenter, CotrixModuleController {
 		Log.trace("done importedItemUpdated");
 	}
 
-	protected void getCodeListType(final Callback<CodeListType, Void> callaback)
+	protected void getCodeListType(final Callback<UIAssetType, Void> callaback)
 	{
-		importService.getCodeListType(new ManagedFailureCallback<CodeListType>() {
+		importService.getCodeListType(new ManagedFailureCallback<UIAssetType>() {
 
 			@Override
-			public void onSuccess(CodeListType type) {
+			public void onSuccess(UIAssetType type) {
 				Log.trace("retrieved codelist type "+type);
 				importEventBus.fireEvent(new CodeListTypeUpdatedEvent(type));
 				callaback.onSuccess(type);

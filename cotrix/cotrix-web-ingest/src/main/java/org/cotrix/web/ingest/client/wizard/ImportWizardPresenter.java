@@ -7,7 +7,8 @@ import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.ManageEvent;
 import org.cotrix.web.ingest.client.event.NewImportEvent;
-import org.cotrix.web.ingest.client.step.DetailsNodeSelector;
+import org.cotrix.web.ingest.client.step.AssetDetailsNodeSelector;
+import org.cotrix.web.ingest.client.step.AssetPreviewNodeSelector;
 import org.cotrix.web.ingest.client.step.MappingNodeSelector;
 import org.cotrix.web.ingest.client.step.SourceNodeSelector;
 import org.cotrix.web.ingest.client.step.TypeNodeSelector;
@@ -15,6 +16,7 @@ import org.cotrix.web.ingest.client.step.codelistdetails.CodelistDetailsStepPres
 import org.cotrix.web.ingest.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.ingest.client.step.csvpreview.CsvPreviewStepPresenter;
 import org.cotrix.web.ingest.client.step.done.DoneStepPresenter;
+import org.cotrix.web.ingest.client.step.preview.PreviewStepPresenter;
 import org.cotrix.web.ingest.client.step.repositorydetails.RepositoryDetailsStepPresenter;
 import org.cotrix.web.ingest.client.step.sdmxmapping.SdmxMappingStepPresenter;
 import org.cotrix.web.ingest.client.step.selection.SelectionStepPresenter;
@@ -85,7 +87,7 @@ public class ImportWizardPresenter implements Presenter {
 			
 			TypeNodeSelector typeNodeSelector,
 
-			DetailsNodeSelector detailsNodeSelector,
+			AssetDetailsNodeSelector assetDetailsNodeSelector,
 			SelectionStepPresenter selectionStep,
 			CodelistDetailsStepPresenter codelistDetailsStep,
 			RepositoryDetailsStepPresenter repositoryDetailsStep,
@@ -95,6 +97,8 @@ public class ImportWizardPresenter implements Presenter {
 
 			MappingsLoadingTask mappingsLoadingTask,
 			CsvMappingStepPresenter csvMappingStep,
+			AssetPreviewNodeSelector assetPreviewNodeSelector,
+			PreviewStepPresenter previewStep,
 			SdmxMappingStepPresenter sdmxMappingStep, 
 			
 			SummaryStepPresenter summaryStep,
@@ -116,10 +120,12 @@ public class ImportWizardPresenter implements Presenter {
 
 		SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(typeNodeSelector);
 		SingleNodeBuilder<WizardStep> csvPreview = upload.alternative(csvPreviewStep);
-		SingleNodeBuilder<WizardStep> csvMapping = csvPreview.next(mappingsLoadingTask).next(csvMappingStep);
+		SwitchNodeBuilder<WizardStep> csvMapping = csvPreview.next(mappingsLoadingTask).next(csvMappingStep).hasAlternatives(assetPreviewNodeSelector);
+		csvMapping.alternative(previewStep);
+		
 		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(mappingsLoadingTask).next(sdmxMappingStep);
 
-		SwitchNodeBuilder<WizardStep> selection = source.alternative(selectionStep).hasAlternatives(detailsNodeSelector);
+		SwitchNodeBuilder<WizardStep> selection = source.alternative(selectionStep).hasAlternatives(assetDetailsNodeSelector);
 		SingleNodeBuilder<WizardStep> codelistDetails = selection.alternative(codelistDetailsStep);
 		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
 		codelistDetails.next(repositoryDetails);
@@ -128,7 +134,7 @@ public class ImportWizardPresenter implements Presenter {
 		retrieveAsset.alternative(sdmxMapping);
 		retrieveAsset.alternative(csvMapping);
 		
-		SingleNodeBuilder<WizardStep> summary = csvMapping.next(summaryStep);
+		SingleNodeBuilder<WizardStep> summary = csvMapping.alternative(summaryStep);
 		sdmxMapping.next(summary);
 
 		summary.next(importTask).next(doneStep);
@@ -147,7 +153,7 @@ public class ImportWizardPresenter implements Presenter {
 			Log.trace("dot: "+dot);
 		}*/
 		
-		List<WizardStep> steps = Arrays.<WizardStep>asList(sourceStep, uploadStep, csvPreviewStep, csvMappingStep, sdmxMappingStep, selectionStep, codelistDetailsStep, repositoryDetailsStep, summaryStep, doneStep);
+		List<WizardStep> steps = Arrays.<WizardStep>asList(sourceStep, uploadStep, csvPreviewStep, csvMappingStep, previewStep, sdmxMappingStep, selectionStep, codelistDetailsStep, repositoryDetailsStep, summaryStep, doneStep);
 
 		wizardController = new WizardController(steps, flow, view, importEventBus);
 		wizardController.addActionHandler(new DefaultWizardActionHandler());

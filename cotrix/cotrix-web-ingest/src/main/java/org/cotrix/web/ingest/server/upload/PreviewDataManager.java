@@ -51,7 +51,7 @@ public class PreviewDataManager implements Serializable {
 	public void setup(String fileName, FileItem fileItem) throws IOException {
 		this.fileItem = fileItem;
 		this.parserConfiguration = configurationGuesser.guessConfiguration(fileName, fileItem.getInputStream());
-		buildPreviewData();
+		buildCsvPreviewData();
 	}
 
 	public void refresh(CsvConfiguration parserConfiguration) {
@@ -61,7 +61,13 @@ public class PreviewDataManager implements Serializable {
 			return;
 		}
 		this.parserConfiguration = parserConfiguration;
-		buildPreviewData();
+		buildCsvPreviewData();
+	}
+	
+	public void refresh(Table table) {
+		logger.trace("refresh with table");
+		this.parserConfiguration = null;
+		setupPreview(table, false);
 	}
 
 	/**
@@ -78,12 +84,20 @@ public class PreviewDataManager implements Serializable {
 		return parserConfiguration;
 	}
 
-	protected void buildPreviewData() {
-		logger.trace("buildPreviewData");
+	private void buildCsvPreviewData() {
+		logger.trace("buildCsvPreviewData");
 		try {
 			Table table = parsingHelper.parse(parserConfiguration, fileItem.getInputStream());
-			
-			previewData = parsingHelper.convert(table, !parserConfiguration.isHasHeader(), ParsingHelper.ROW_LIMIT);
+			setupPreview(table, !parserConfiguration.isHasHeader());
+		} catch(Exception e) {
+			logger.error("Failed building CSV preview", e);
+			throw new RuntimeException("Failed CSV preview generation", e);
+		}
+	}
+	
+	private void setupPreview(Table table, boolean hasHeader) {
+		try {
+			previewData = parsingHelper.convert(table, hasHeader, ParsingHelper.ROW_LIMIT);
 			mappingsManager.updateMappings(table);
 		} catch(Exception e) {
 			logger.error("Failed building CSV preview", e);

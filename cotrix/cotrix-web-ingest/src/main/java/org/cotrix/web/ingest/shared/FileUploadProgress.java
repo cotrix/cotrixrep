@@ -18,7 +18,7 @@ public class FileUploadProgress implements Serializable {
 	
 	protected int progress;
 	protected Status status;
-	protected CodeListType codeListType;
+	protected UIAssetType codeListType;
 	protected Error error;
 	
 	public FileUploadProgress(){}
@@ -27,7 +27,7 @@ public class FileUploadProgress implements Serializable {
 	 * @param progress
 	 * @param status
 	 */
-	public FileUploadProgress(int progress, Status status, CodeListType codeListType) {
+	public FileUploadProgress(int progress, Status status, UIAssetType codeListType) {
 		this.progress = progress;
 		this.status = status;
 		this.codeListType = codeListType;
@@ -50,7 +50,7 @@ public class FileUploadProgress implements Serializable {
 	/**
 	 * @return the codeListType
 	 */
-	public CodeListType getCodeListType() {
+	public UIAssetType getCodeListType() {
 		return codeListType;
 	}
 
@@ -86,7 +86,7 @@ public class FileUploadProgress implements Serializable {
 	/**
 	 * @param codeListType the codeListType to set
 	 */
-	public void setCodeListType(CodeListType codeListType) {
+	public void setCodeListType(UIAssetType codeListType) {
 		this.codeListType = codeListType;
 	}
 

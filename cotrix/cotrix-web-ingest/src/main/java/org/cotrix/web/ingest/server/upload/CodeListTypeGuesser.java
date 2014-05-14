@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.ingest.server.upload;
 
-import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.UIAssetType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,10 +21,10 @@ public class CodeListTypeGuesser {
 	
 	protected Logger logger = LoggerFactory.getLogger(CodeListTypeGuesser.class);
 	
-	public CodeListType guess(String fileName, String contentType)
+	public UIAssetType guess(String fileName, String contentType)
 	{
 		logger.trace("guessing codelist type with filename {} and content type {}", fileName, contentType);
-		CodeListType type = guessByContentType(contentType);
+		UIAssetType type = guessByContentType(contentType);
 		logger.trace("guessing by content type: {}",type);
 		if (type!=null) return type;
 		type = guessByExtension(fileName);
@@ -34,19 +34,19 @@ public class CodeListTypeGuesser {
 	
 
 	
-	protected CodeListType guessByContentType(String contentType)
+	protected UIAssetType guessByContentType(String contentType)
 	{
-		for (String csvMimeType:CSV_MIME_TYPES) if (csvMimeType.equalsIgnoreCase(contentType)) return CodeListType.CSV;
-		for (String xmlMimeType:XML_MIME_TYPES) if (xmlMimeType.equalsIgnoreCase(xmlMimeType)) return CodeListType.SDMX;
+		for (String csvMimeType:CSV_MIME_TYPES) if (csvMimeType.equalsIgnoreCase(contentType)) return UIAssetType.CSV;
+		for (String xmlMimeType:XML_MIME_TYPES) if (xmlMimeType.equalsIgnoreCase(xmlMimeType)) return UIAssetType.SDMX;
 		return null;
 	}
 	
 
-	protected CodeListType guessByExtension(String fileName) {
+	protected UIAssetType guessByExtension(String fileName) {
 		if (fileName == null) return null;
 		String extension = getExtension(fileName);
-		if (XML_EXTENSION.equalsIgnoreCase(extension)) return CodeListType.SDMX;
-		if (CSV_EXTENSION.equalsIgnoreCase(extension)) return CodeListType.CSV;
+		if (XML_EXTENSION.equalsIgnoreCase(extension)) return UIAssetType.SDMX;
+		if (CSV_EXTENSION.equalsIgnoreCase(extension)) return UIAssetType.CSV;
 		return null;
 	}
 	

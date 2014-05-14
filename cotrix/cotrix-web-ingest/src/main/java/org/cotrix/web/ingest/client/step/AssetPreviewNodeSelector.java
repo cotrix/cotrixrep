@@ -6,9 +6,8 @@ package org.cotrix.web.ingest.client.step;
 import java.util.List;
 
 import org.cotrix.web.ingest.client.event.ImportBus;
-import org.cotrix.web.ingest.client.step.codelistdetails.CodelistDetailsStepPresenter;
-import org.cotrix.web.ingest.client.step.repositorydetails.RepositoryDetailsStepPresenter;
-import org.cotrix.web.ingest.client.task.RetrieveAssetTask;
+import org.cotrix.web.ingest.client.step.preview.PreviewStepPresenter;
+import org.cotrix.web.ingest.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.wizard.client.flow.AbstractNodeSelector;
@@ -26,24 +25,21 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 @Singleton
-public class DetailsNodeSelector extends AbstractNodeSelector<WizardStep> implements ResetWizardHandler, ValueChangeHandler<WizardStep> {
+public class AssetPreviewNodeSelector extends AbstractNodeSelector<WizardStep> implements ResetWizardHandler, ValueChangeHandler<WizardStep> {
 	
 	protected WizardStep nextStep;
 	
 	@Inject
-	protected RetrieveAssetTask retrieveStep;
+	protected SummaryStepPresenter summaryStep;
 	
 	@Inject
-	protected CodelistDetailsStepPresenter codelistDetailsStep;
+	protected PreviewStepPresenter previewStep;
 	
 	@Inject
-	protected RepositoryDetailsStepPresenter repositoryDetailsStep;
-	
-	@Inject
-	public DetailsNodeSelector(@ImportBus EventBus importBus, RetrieveAssetTask retrieveStep)
+	public AssetPreviewNodeSelector(@ImportBus EventBus importBus, SummaryStepPresenter summaryStep)
 	{
-		this.retrieveStep = retrieveStep;
-		this.nextStep = retrieveStep;
+		this.summaryStep = summaryStep;
+		this.nextStep = summaryStep;
 		importBus.addHandler(ResetWizardEvent.TYPE, this);
 		importBus.addHandler(ValueChangeEvent.getType(), this);
 	}
@@ -57,24 +53,19 @@ public class DetailsNodeSelector extends AbstractNodeSelector<WizardStep> implem
 		return null;
 	}
 	
-	public void switchToCodeListDetails()
+	public void switchToPreview()
 	{
-		this.nextStep = codelistDetailsStep;
+		this.nextStep = previewStep;
 	}
 	
-	public void switchToRepositoryDetails()
+	public void switchToSummary()
 	{
-		this.nextStep = repositoryDetailsStep;
-	}
-	
-	public void switchToAssetRetrieve()
-	{
-		this.nextStep = retrieveStep;
+		this.nextStep = summaryStep;
 	}
 	
 	public boolean toDetails()
 	{
-		return nextStep == repositoryDetailsStep || nextStep == codelistDetailsStep;
+		return nextStep == previewStep;
 	}
 
 	/** 
@@ -82,13 +73,12 @@ public class DetailsNodeSelector extends AbstractNodeSelector<WizardStep> implem
 	 */
 	@Override
 	public void onResetWizard(ResetWizardEvent event) {
-		nextStep = retrieveStep;
+		nextStep = summaryStep;
 	}
 
 	@Override
 	public void onValueChange(ValueChangeEvent<WizardStep> event) {
-		if (event.getValue().getId().equals(codelistDetailsStep.getId()) 
-				|| event.getValue().getId().equals(repositoryDetailsStep.getId())) switchToAssetRetrieve();
+		if (event.getValue().getId().equals(previewStep.getId())) switchToSummary();
 	}
 
 }

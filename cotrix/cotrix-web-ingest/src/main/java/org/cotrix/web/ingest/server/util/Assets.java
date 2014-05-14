@@ -8,7 +8,7 @@ import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
-import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.UIAssetType;
 import org.virtualrepository.Asset;
 import org.virtualrepository.AssetType;
 import org.virtualrepository.RepositoryService;
@@ -30,8 +30,8 @@ public class Assets {
 		String version = asset.version()==null?"n/a":asset.version();
 		assetInfo.setVersion(version);
 		assetInfo.setType(Repositories.toString(asset.type()));
-		CodeListType codeListType = getCodeListType(asset.type());
-		assetInfo.setCodeListType(codeListType);
+		UIAssetType codeListType = getCodeListType(asset.type());
+		assetInfo.setAssetType(codeListType);
 		UIQName serviceName = getServiceName(asset);
 		assetInfo.setRepositoryId(serviceName);
 		assetInfo.setRepositoryName(serviceName);
@@ -40,10 +40,10 @@ public class Assets {
 		
 	}
 	
-	protected static CodeListType getCodeListType(AssetType assetType)
+	protected static UIAssetType getCodeListType(AssetType assetType)
 	{
-		if (assetType == SdmxCodelist.type) return CodeListType.SDMX;
-		if (assetType == CsvCodelist.type) return CodeListType.CSV;
+		if (assetType == SdmxCodelist.type) return UIAssetType.SDMX;
+		if (assetType == CsvCodelist.type) return UIAssetType.CSV;
 		throw new IllegalArgumentException("Unknow asset type "+assetType);
 	}
 	

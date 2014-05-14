@@ -37,8 +37,8 @@ import org.cotrix.web.ingest.server.util.ParsingHelper;
 import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
-import org.cotrix.web.ingest.shared.CodeListType;
-import org.cotrix.web.ingest.shared.CsvPreviewHeaders;
+import org.cotrix.web.ingest.shared.UIAssetType;
+import org.cotrix.web.ingest.shared.PreviewHeaders;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.ingest.shared.MappingMode;
@@ -193,7 +193,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 		logger.trace("getCsvPreviewData configuration: {}", configuration);
 		
 		try {
-			if (session.getCodeListType()!=CodeListType.CSV) {
+			if (session.getCodeListType()!=UIAssetType.CSV) {
 				logger.error("Requested CSV preview data when CodeList type is {}", session.getCodeListType());
 				throw new ServiceException("No preview data available");
 			}
@@ -212,7 +212,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CodeListType getCodeListType() throws ServiceException {
+	public UIAssetType getCodeListType() throws ServiceException {
 		try {
 			return session.getCodeListType();
 		} catch(Exception e)
@@ -310,7 +310,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 			session.setGuessedMetadata(metadata);
 
 			if (asset.type() == SdmxCodelist.type) {
-				session.setCodeListType(CodeListType.SDMX);
+				session.setCodeListType(UIAssetType.SDMX);
 				CodelistBean codelist = cloud.retrieveAsSdmx(asset.id());
 				metadata.setVersion(codelist.getVersion());
 				mappingsManager.setDefaultSdmxMappings();
@@ -318,10 +318,11 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 
 
 			if (asset.type() == CsvCodelist.type) {
-				session.setCodeListType(CodeListType.CSV);
+				session.setCodeListType(UIAssetType.CSV);
 				Table table = cloud.retrieveAsTable(asset.id());
 				metadata.setVersion("1");
-				mappingsManager.updateMappings(table);
+				previewDataManager.refresh(table);
+				//mappingsManager.updateMappings(table);
 			}
 
 		} catch(Exception e)
@@ -348,20 +349,20 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	}
 
 	@Override
-	public CsvPreviewHeaders getCsvPreviewHeaders(CsvConfiguration configuration) throws ServiceException {
-		logger.trace("getCsvPreviewHeaders configuration: {}", configuration);
+	public PreviewHeaders getPreviewHeaders(CsvConfiguration configuration) throws ServiceException {
+		logger.trace("getPreviewHeaders configuration: {}", configuration);
 		
 		try {
-			if (session.getCodeListType()!=CodeListType.CSV) {
+			if (session.getCodeListType()!=UIAssetType.CSV) {
 				logger.error("Requested CSV preview data when CodeList type is {}", session.getCodeListType());
 				throw new ServiceException("No preview data available");
 			}
 			
-			previewDataManager.refresh(configuration);
+			if (configuration!=null) previewDataManager.refresh(configuration);
 			
 			PreviewData previewData = previewDataManager.getPreviewData();
 
-			return new CsvPreviewHeaders(previewData.isHeadersEditable(), previewData.getHeadersLabels());
+			return new PreviewHeaders(previewData.isHeadersEditable(), previewData.getHeadersLabels());
 		} catch(Exception e)
 		{
 			logger.error("Error converting the preview data", e);
@@ -371,8 +372,8 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	}
 
 	@Override
-	public DataWindow<List<String>> getCsvPreviewData(Range range) throws ServiceException {
-		logger.trace("getCsvPreviewData range: {}", range);
+	public DataWindow<List<String>> getPreviewData(Range range) throws ServiceException {
+		logger.trace("getPreviewData range: {}", range);
 		
 		PreviewData previewData = previewDataManager.getPreviewData();
 		if (previewData == null) return DataWindow.emptyWindow();

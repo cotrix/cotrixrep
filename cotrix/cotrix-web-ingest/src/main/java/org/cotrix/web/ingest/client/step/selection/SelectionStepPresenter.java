@@ -1,9 +1,9 @@
 package org.cotrix.web.ingest.client.step.selection;
 
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.ingest.client.event.CodeListSelectedEvent;
+import org.cotrix.web.ingest.client.event.AssetSelectedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
-import org.cotrix.web.ingest.client.step.DetailsNodeSelector;
+import org.cotrix.web.ingest.client.step.AssetDetailsNodeSelector;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
 import org.cotrix.web.ingest.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.ingest.client.step.repositorydetails.RepositoryDetailsStepPresenter;
@@ -31,7 +31,7 @@ public class SelectionStepPresenter extends AbstractVisualWizardStep implements 
 	protected final SelectionStepView view;
 	
 	@Inject
-	protected DetailsNodeSelector detailsNodeSelector;
+	protected AssetDetailsNodeSelector detailsNodeSelector;
 	
 	@Inject
 	protected CodelistDetailsStepPresenter codelistDetailsPresenter;
@@ -67,7 +67,7 @@ public class SelectionStepPresenter extends AbstractVisualWizardStep implements 
 		if (selectedAsset!=null && selectedAsset.equals(asset)) return;
 		
 		this.selectedAsset = asset;
-		importEventBus.fireEvent(new CodeListSelectedEvent(selectedAsset));
+		importEventBus.fireEvent(new AssetSelectedEvent(selectedAsset));
 	}
 
 	@Override

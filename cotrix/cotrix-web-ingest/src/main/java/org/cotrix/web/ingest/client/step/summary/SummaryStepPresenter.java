@@ -2,7 +2,7 @@ package org.cotrix.web.ingest.client.step.summary;
 
 import java.util.List;
 
-import org.cotrix.web.ingest.client.event.CodeListSelectedEvent;
+import org.cotrix.web.ingest.client.event.AssetSelectedEvent;
 import org.cotrix.web.ingest.client.event.FileUploadedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.MappingLoadedEvent;
@@ -105,7 +105,7 @@ public class SummaryStepPresenter extends AbstractVisualWizardStep implements Vi
 	}
 
 	@EventHandler
-	void onCodeListSelected(CodeListSelectedEvent event) {
+	void onCodeListSelected(AssetSelectedEvent event) {
 		view.setFileNameVisible(false);
 	}
 
