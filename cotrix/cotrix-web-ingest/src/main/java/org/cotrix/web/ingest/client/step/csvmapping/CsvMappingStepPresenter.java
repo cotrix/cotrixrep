@@ -7,11 +7,13 @@ import org.cotrix.web.ingest.client.event.MappingLoadedEvent;
 import org.cotrix.web.ingest.client.event.MappingLoadingEvent;
 import org.cotrix.web.ingest.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.ingest.client.event.MetadataUpdatedEvent;
+import org.cotrix.web.ingest.client.step.AssetPreviewNodeSelector;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
 import org.cotrix.web.ingest.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.AttributeType;
 import org.cotrix.web.ingest.shared.ImportMetadata;
+import org.cotrix.web.wizard.client.event.NavigationEvent;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
 
@@ -38,10 +40,15 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 	protected List<AttributeMapping> mappings;
 	
 	@Inject
+	protected AssetPreviewNodeSelector previewNodeSelector;
+	
+	@Inject
 	public CsvMappingStepPresenter(CsvMappingStepView view, @ImportBus EventBus importEventBus){
 		super("csv-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tell us what to import and how.", ImportWizardStepButtons.BACKWARD, ImportWizardStepButtons.FORWARD);
 		this.view = view;
 		view.setPresenter(this);
+		//TODO
+		view.setPreviewVisible(true);
 		
 		this.importEventBus = importEventBus;
 	}
@@ -59,6 +66,10 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 	}
 	
 	public boolean leave() {
+		
+		if (previewNodeSelector.toDetails()) return true;
+		
+		
 		Log.trace("checking csv mapping");
 		
 		List<AttributeMapping> mappings = view.getMappings();
@@ -85,7 +96,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 		return valid;
 	}
 	
-	protected boolean validateAttributes(String csvName, String version)
+	private boolean validateAttributes(String csvName, String version)
 	{
 		if (csvName==null || csvName.isEmpty()) {
 			view.alert("You should choose a codelist name");
@@ -100,7 +111,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 		return true;
 	}
 	
-	protected boolean validateMappings(List<AttributeMapping> mappings)
+	private boolean validateMappings(List<AttributeMapping> mappings)
 	{
 		
 		//only one code
@@ -164,5 +175,11 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 		view.setVersion(metadata.getVersion());
 		view.setSealed(metadata.isSealed());
 		view.setMapping(mappings);
+	}
+
+	@Override
+	public void onPreview() {
+		previewNodeSelector.switchToPreview();
+		importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
 }

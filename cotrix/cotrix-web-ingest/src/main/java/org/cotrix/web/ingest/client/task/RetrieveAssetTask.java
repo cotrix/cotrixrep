@@ -6,7 +6,7 @@ package org.cotrix.web.ingest.client.task;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.AssetRetrievedEvent;
-import org.cotrix.web.ingest.client.event.CodeListSelectedEvent;
+import org.cotrix.web.ingest.client.event.AssetSelectedEvent;
 import org.cotrix.web.ingest.client.event.CodeListTypeUpdatedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.wizard.ImportWizardAction;
@@ -62,7 +62,7 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 	@Override
 	public void run(final TaskCallBack callback) {
 		Log.trace("retrieveAsset");
-		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(selectedAsset.getCodeListType()));
+		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(selectedAsset.getAssetType()));
 
 		importService.setAsset(selectedAsset.getId(), new AsyncCallback<Void>() {
 
@@ -82,7 +82,7 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 				assetRetrieved = true;
 				callback.onSuccess(ImportWizardAction.NEXT);
 				
-				importEventBus.fireEvent(new AssetRetrievedEvent());
+				importEventBus.fireEvent(new AssetRetrievedEvent(selectedAsset));
 			}
 		});	
 	}
@@ -93,8 +93,8 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 	}	
 	
 	@EventHandler
-	void onCodeListSelected(CodeListSelectedEvent event) {
-		selectedAsset = event.getSelectedCodelist();
+	void onCodeListSelected(AssetSelectedEvent event) {
+		selectedAsset = event.getSelectedAsset();
 	}
 	
 	

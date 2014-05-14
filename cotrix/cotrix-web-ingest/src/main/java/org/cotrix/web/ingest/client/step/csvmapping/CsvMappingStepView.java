@@ -15,6 +15,7 @@ public interface CsvMappingStepView {
 	
 	public interface Presenter {
 		public void onReload();
+		public void onPreview();
 	}
 	
 	public void setPresenter(Presenter presenter);
@@ -42,5 +43,7 @@ public interface CsvMappingStepView {
 	void setSealed(boolean sealed);
 
 	boolean getSealed();
+
+	void setPreviewVisible(boolean visible);
 
 }

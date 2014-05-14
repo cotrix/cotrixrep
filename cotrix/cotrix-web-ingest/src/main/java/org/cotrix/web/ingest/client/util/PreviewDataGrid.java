@@ -1,21 +1,18 @@
 /**
  * 
  */
-package org.cotrix.web.ingest.client.step.csvpreview;
+package org.cotrix.web.ingest.client.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.util.CachedDataProvider;
 import org.cotrix.web.common.client.widgets.EditableTextHeader;
 import org.cotrix.web.common.client.widgets.StyledTextInputCell;
-import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.DataWindow;
-import org.cotrix.web.ingest.client.IngestServiceAsync;
-import org.cotrix.web.ingest.shared.CsvPreviewHeaders;
+import org.cotrix.web.ingest.shared.PreviewHeaders;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.TextCell;
@@ -25,12 +22,12 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.view.client.Range;
-import com.google.inject.Inject;
 
 
 /**
@@ -38,6 +35,11 @@ import com.google.inject.Inject;
  *
  */
 public class PreviewDataGrid extends ResizeComposite {
+	
+	public interface PreviewDataProvider {
+		public void getHeaders(AsyncCallback<PreviewHeaders> headersCallBack);
+		public void getData(Range range, AsyncCallback<DataWindow<List<String>>> dataCallBack);
+	}
 	
 	interface DataGridResources extends PatchedDataGrid.Resources {
 
@@ -52,17 +54,12 @@ public class PreviewDataGrid extends ResizeComposite {
 	private SimplePager pager;
 
 	private List<EditableTextHeader> editableHeaders = new ArrayList<EditableTextHeader>();
-	private CsvConfiguration configuration;
 
-	private IngestServiceAsync service;
-	
-	@Inject
-	private CommonResources resources;
+	private PreviewDataProvider previewDataProvider;
 
-	@Inject
-	public PreviewDataGrid(IngestServiceAsync service) {
-		this.service = service;
-		setupGrid();
+	public PreviewDataGrid(PreviewDataProvider previewDataProvider, int pageSize) {
+		this.previewDataProvider = previewDataProvider;
+		setupGrid(pageSize);
 
 		DockLayoutPanel layoutPanel = new DockLayoutPanel(Unit.PX);
 		layoutPanel.setWidth("100%");
@@ -74,13 +71,13 @@ public class PreviewDataGrid extends ResizeComposite {
 		setWidth("100%");
 	}
 
-	protected void setupGrid()
+	private void setupGrid(int pageSize)
 	{
 		DataGridResources resource = GWT.create(DataGridResources.class);
-		previewGrid = new PatchedDataGrid<List<String>>(8, resource);
+		previewGrid = new PatchedDataGrid<List<String>>(pageSize, resource);
 		previewGrid.setWidth("100%");
 		previewGrid.setAutoAdjust(true);
-		previewGrid.setPageSize(8);
+		previewGrid.setPageSize(pageSize);
 
 		previewGrid.setAutoHeaderRefreshDisabled(true);
 
@@ -91,14 +88,17 @@ public class PreviewDataGrid extends ResizeComposite {
 			@Override
 			protected void onRangeChanged(final Range range) {
 				Log.trace("onRangeChanged range: "+range);
-				service.getCsvPreviewData(range, new ManagedFailureCallback<DataWindow<List<String>>>() {
+				previewDataProvider.getData(range, new AsyncCallback<DataWindow<List<String>>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+					}
 
 					@Override
 					public void onSuccess(DataWindow<List<String>> result) {
-						Log.trace("retrieved "+result);
-						updateData(result, range);
+						updateData(result, range);					
 					}
-				});				
+				});
 			}
 		};
 		dataprovider.addDataDisplay(previewGrid);
@@ -108,21 +108,29 @@ public class PreviewDataGrid extends ResizeComposite {
 		pager.setDisplay(previewGrid);
 	}
 
-	protected void loadHeaders() {
+	private void loadHeaders() {
 		Log.trace("loading headers");
-		service.getCsvPreviewHeaders(configuration, new ManagedFailureCallback<CsvPreviewHeaders>() {
+		previewDataProvider.getHeaders(new AsyncCallback<PreviewHeaders>() {
 
 			@Override
-			public void onSuccess(CsvPreviewHeaders result) {
-				createColumns(result);
-				
-				pager.setPage(0);
-				previewGrid.setVisibleRangeAndClearData(previewGrid.getVisibleRange(), true);
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(PreviewHeaders result) {
+				setHeaders(result);
 			}
 		});
 	}
+	
+	private void setHeaders(PreviewHeaders headers) {
+		createColumns(headers);
+		
+		pager.setPage(0);
+		previewGrid.setVisibleRangeAndClearData(previewGrid.getVisibleRange(), true);
+	}
 
-	protected void createColumns(CsvPreviewHeaders headers)
+	private void createColumns(PreviewHeaders headers)
 	{
 		Log.trace("Columns labels: "+headers.getLabels());
 		
@@ -143,7 +151,7 @@ public class PreviewDataGrid extends ResizeComposite {
 			column.setSortable(false);
 
 			if (headers.isEditable()) {
-				EditableTextHeader header = new EditableTextHeader(new StyledTextInputCell(resources.css().textBox()), headerLabel);
+				EditableTextHeader header = new EditableTextHeader(new StyledTextInputCell(CommonResources.INSTANCE.css().textBox()), headerLabel);
 				editableHeaders.add(header);
 				previewGrid.addColumn(column, header);
 			} else {
@@ -178,13 +186,5 @@ public class PreviewDataGrid extends ResizeComposite {
 			headers.add(editableTextHeader.getValue());
 		}
 		return headers;
-	}
-
-	public CsvConfiguration getConfiguration() {
-		return configuration;
-	}
-
-	public void setConfiguration(CsvConfiguration configuration) {
-		this.configuration = configuration;		
 	}
 }

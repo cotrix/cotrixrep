@@ -32,6 +32,10 @@ public interface CommonResources extends ClientBundle {
 
 	public ImageResource refresh();
 	
+	public ImageResource undo();
+
+	public ImageResource preview();
+	
 	public ImageResource computer();
 	
 	@Source("computer-hover.png")

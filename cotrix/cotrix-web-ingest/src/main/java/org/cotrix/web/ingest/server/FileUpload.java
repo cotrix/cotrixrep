@@ -22,7 +22,7 @@ import org.cotrix.web.ingest.server.upload.PreviewDataManager;
 import org.cotrix.web.ingest.server.upload.UploadProgressListener;
 import org.cotrix.web.ingest.server.util.ParsingHelper;
 import org.cotrix.web.ingest.server.util.ParsingHelper.InvalidSdmxException;
-import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.UIAssetType;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.ingest.shared.FileUploadProgress.Status;
@@ -118,7 +118,7 @@ public class FileUpload extends HttpServlet{
 			}
 
 			logger.trace("Received file {} with size {} and content type {}", fileField.getName(), fileField.getSize(), fileField.getContentType());
-			CodeListType codeListType = typeGuesser.guess(fileField.getName(), fileField.getContentType());
+			UIAssetType codeListType = typeGuesser.guess(fileField.getName(), fileField.getContentType());
 
 			if (codeListType == null) {
 				logger.error("failed to guess the codelist type");

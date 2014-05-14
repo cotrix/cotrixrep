@@ -2,10 +2,11 @@ package org.cotrix.web.ingest.client.util;
 
 import java.util.List;
 
-import org.cotrix.web.ingest.client.util.AttributeMappingPanel;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -28,8 +29,9 @@ public class MappingPanel extends ResizeComposite {
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, MappingPanel> {}
 	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
 	
-	public interface ReloadButtonHandler {
+	public interface MappingPanelHandler {
 		public void onReloadButtonClicked();
+		public void onPreviewButtonClicked();
 	}
 	
 	@UiField TextBox name;
@@ -37,13 +39,16 @@ public class MappingPanel extends ResizeComposite {
 	@UiField SimpleCheckBox sealed;
 	@UiField Label attributeMappingLabel;
 	
+	@UiField TableCellElement previewCell;
+	@UiField TableCellElement mappingCell;
+	
 	@UiField
 	ScrollPanel scrollMappingPanel;
 	
 	@UiField(provided=true)
 	AttributeMappingPanel mappingPanel;
 	
-	protected ReloadButtonHandler reloadHandler;
+	protected MappingPanelHandler mappingPanelHandler;
 
 	public MappingPanel(boolean hasTypeDefinition, String attributeMappingLabel) {
 		mappingPanel = new AttributeMappingPanel();
@@ -56,11 +61,15 @@ public class MappingPanel extends ResizeComposite {
 		scrollMappingPanel.scrollToTop();
 	}
 
-	/**
-	 * @param reloadHandler the reloadHandler to set
-	 */
-	public void setReloadHandler(ReloadButtonHandler reloadHandler) {
-		this.reloadHandler = reloadHandler;
+	public void setMappingPanelHandler(MappingPanelHandler mappingPanelHandler) {
+		this.mappingPanelHandler = mappingPanelHandler;
+	}
+	
+	public void setPreviewVisible(boolean visible) {
+		String value = visible?"table-cell":"none";
+		previewCell.getStyle().setProperty("display", value);
+		mappingCell.setColSpan(visible?2:3);
+		mappingCell.getStyle().setPaddingRight(visible?0:20, Unit.PX);
 	}
 
 	public void setName(String name) {
@@ -92,7 +101,13 @@ public class MappingPanel extends ResizeComposite {
 	@UiHandler("reloadButton")
 	protected void reload(ClickEvent clickEvent)
 	{
-		if (reloadHandler!=null) reloadHandler.onReloadButtonClicked();
+		if (mappingPanelHandler!=null) mappingPanelHandler.onReloadButtonClicked();
+	}
+	
+	@UiHandler("previewButton")
+	protected void preview(ClickEvent clickEvent)
+	{
+		if (mappingPanelHandler!=null) mappingPanelHandler.onPreviewButtonClicked();
 	}
 	
 	public void setMappingLoading()

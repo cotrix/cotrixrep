@@ -26,19 +26,19 @@ public class AssetInfo implements Serializable {
 	private String name;
 	private String version;
 	private String type;
-	private CodeListType codeListType;
+	private UIAssetType assetType;
 	private UIQName repositoryId;
 	private UIQName repositoryName;
 	
 	public AssetInfo(){}
 
-	public AssetInfo(String id, String name, String version, String type, CodeListType codeListType, UIQName repositoryId,
+	public AssetInfo(String id, String name, String version, String type, UIAssetType codeListType, UIQName repositoryId,
 			UIQName repositoryName) {
 		this.id = id;
 		this.name = name;
 		this.version = version;
 		this.type = type;
-		this.codeListType = codeListType;
+		this.assetType = codeListType;
 		this.repositoryId = repositoryId;
 		this.repositoryName = repositoryName;
 	}
@@ -99,18 +99,12 @@ public class AssetInfo implements Serializable {
 		this.type = type;
 	}
 
-	/**
-	 * @return the codeListType
-	 */
-	public CodeListType getCodeListType() {
-		return codeListType;
+	public UIAssetType getAssetType() {
+		return assetType;
 	}
 
-	/**
-	 * @param codeListType the codeListType to set
-	 */
-	public void setCodeListType(CodeListType codeListType) {
-		this.codeListType = codeListType;
+	public void setAssetType(UIAssetType assetType) {
+		this.assetType = assetType;
 	}
 
 	/**
@@ -155,8 +149,8 @@ public class AssetInfo implements Serializable {
 		builder.append(version);
 		builder.append(", type=");
 		builder.append(type);
-		builder.append(", codeListType=");
-		builder.append(codeListType);
+		builder.append(", assetType=");
+		builder.append(assetType);
 		builder.append(", repositoryId=");
 		builder.append(repositoryId);
 		builder.append(", repositoryName=");

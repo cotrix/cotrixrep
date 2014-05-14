@@ -1,6 +1,6 @@
 package org.cotrix.web.ingest.client.event;
 
-import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.UIAssetType;
 
 import com.google.web.bindery.event.shared.binder.GenericEvent;
 
@@ -11,9 +11,9 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
 public class FileUploadedEvent extends GenericEvent {
 
 	protected String fileName;
-	protected CodeListType codeListType;
+	protected UIAssetType codeListType;
 
-	public FileUploadedEvent(String fileName, CodeListType codeListType) {
+	public FileUploadedEvent(String fileName, UIAssetType codeListType) {
 		this.fileName = fileName;
 		this.codeListType = codeListType;
 	}
@@ -28,7 +28,7 @@ public class FileUploadedEvent extends GenericEvent {
 	/**
 	 * @return the codeListType
 	 */
-	public CodeListType getCodeListType() {
+	public UIAssetType getCodeListType() {
 		return codeListType;
 	}
 }
