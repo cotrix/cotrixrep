@@ -5,15 +5,19 @@ import static org.cotrix.common.Utils.*;
 
 import java.util.Iterator;
 
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.cdi.ApplicationEvents.StartRequest;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.io.CloudService;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
 import org.virtualrepository.AssetType;
+import org.virtualrepository.Context;
 import org.virtualrepository.Property;
 import org.virtualrepository.RepositoryService;
 import org.virtualrepository.VirtualRepository;
@@ -27,6 +31,7 @@ import org.virtualrepository.tabular.Table;
  * @author Fabio Simeoni
  *
  */
+@Singleton
 public class DefaultCloudService implements Iterable<Asset>, CloudService {
 
 	
@@ -129,5 +134,10 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 	@Override
 	public Iterator<Asset> iterator() {
 		return repository.iterator();
+	}
+	
+	
+	void onStartRequest(@Observes StartRequest start){
+		Context.reset();
 	}
 }
