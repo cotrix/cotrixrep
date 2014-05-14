@@ -67,7 +67,7 @@ public class IngestController implements Presenter, CotrixModuleController {
 	
 	@EventHandler
 	void onFileUploaded(FileUploadedEvent event) {
-		importedItemUpdated(event.getCodeListType());
+		importedItemUpdated(event.getAssetType());
 	}
 	
 	@EventHandler
