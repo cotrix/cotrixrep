@@ -137,7 +137,7 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 	}
 	
 	
-	void onStartRequest(@Observes StartRequest start){
+	/*void onStartRequest(@Observes StartRequest start){
 		Context.reset();
-	}
+	}*/
 }
