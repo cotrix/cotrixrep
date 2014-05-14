@@ -26,12 +26,31 @@ public interface CloudService extends Iterable<Asset> {
 	int discover();
 
 	/**
+	 * Polls a set of underlying repositories for available codelists.
+	 * 
+	 * @param repositories the target services
+	 * @return the number of newly discovered codelists
+	 */
+	int discover(RepositoryService ... repositories);
+
+	
+	/**
 	 * Polls the underlying repositories for available codelists, using a given timeout.
 	 * 
 	 * @param timeout the timeout
 	 * @return the number of newly discovered codelists
 	 */
 	int discover(int timeout);
+	
+	
+	/**
+	 * Polls a set of underlying repositories for available codelists, using a given timeout.
+	 * 
+	 * @param timeout the timeout
+	 * @param repositories the target services
+	 * @return the number of newly discovered codelists
+	 */
+	int discover(int timeout, RepositoryService ... repositories);
 
 	/**
 	 * Retrieves a codelist in tabular format from its repository.

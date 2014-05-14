@@ -1,5 +1,6 @@
 package org.cotrix.io.impl;
 
+import static java.util.Arrays.*;
 import static org.cotrix.common.Utils.*;
 
 import java.util.Iterator;
@@ -51,8 +52,18 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 	}
 	
 	@Override
+	public int discover(RepositoryService... repositories) {
+		return repository.discover(asList(repositories), DefaultCloudService.importTypes);
+	}
+	
+	@Override
 	public int discover(int timeout) {
 		return repository.discover(timeout,DefaultCloudService.importTypes);
+	}
+	
+	@Override
+	public int discover(int timeout, RepositoryService... repositories) {
+		return repository.discover(timeout,asList(repositories),DefaultCloudService.importTypes);
 	}
 	
 	@Override
