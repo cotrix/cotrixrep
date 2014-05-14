@@ -291,6 +291,13 @@
 				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
 				<scope>runtime</scope>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.virtualrepository</groupId>
+				<artifactId>virtual-gcube-workspace</artifactId>
+				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+				<scope>runtime</scope>
+			</dependency>
 
 			<dependency>
 				<groupId>org.virtualrepository</groupId>

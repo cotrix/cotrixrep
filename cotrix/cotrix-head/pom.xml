@@ -300,6 +300,11 @@
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-data-fao</artifactId>
 				</dependency>
+				
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-gcube-workspace</artifactId>
+				</dependency>
 
 				<dependency>
 					<groupId>org.cotrix</groupId>
