@@ -10,25 +10,19 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  */
 public class FileUploadedEvent extends GenericEvent {
 
-	protected String fileName;
-	protected UIAssetType codeListType;
+	private String fileName;
+	private UIAssetType assetType;
 
-	public FileUploadedEvent(String fileName, UIAssetType codeListType) {
+	public FileUploadedEvent(String fileName, UIAssetType assetType) {
 		this.fileName = fileName;
-		this.codeListType = codeListType;
+		this.assetType = assetType;
 	}
 
-	/**
-	 * @return the fileName
-	 */
 	public String getFileName() {
 		return fileName;
 	}
 
-	/**
-	 * @return the codeListType
-	 */
-	public UIAssetType getCodeListType() {
-		return codeListType;
+	public UIAssetType getAssetType() {
+		return assetType;
 	}
 }

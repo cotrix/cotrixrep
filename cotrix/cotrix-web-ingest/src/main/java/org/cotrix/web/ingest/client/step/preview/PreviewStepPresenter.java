@@ -2,6 +2,7 @@ package org.cotrix.web.ingest.client.step.preview;
 
 import org.cotrix.web.ingest.client.event.AssetRetrievedEvent;
 import org.cotrix.web.ingest.client.event.CsvParserConfigurationUpdatedEvent;
+import org.cotrix.web.ingest.client.event.FileUploadedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
 import org.cotrix.web.ingest.client.wizard.ImportWizardStepButtons;
@@ -31,7 +32,7 @@ public class PreviewStepPresenter extends AbstractVisualWizardStep implements Vi
 
 	@Inject
 	public PreviewStepPresenter(PreviewStepView view, @ImportBus EventBus importEventBus) {
-		super("asset-preview", TrackerLabels.CUSTOMIZE, "Asset sample", "", ImportWizardStepButtons.BACKWARD);
+		super("asset-preview", TrackerLabels.CUSTOMIZE, "Asset sample", "A sample of the CSV data.", ImportWizardStepButtons.BACKWARD);
 		this.view = view;
 		this.view.setPresenter(this);
 
@@ -42,15 +43,28 @@ public class PreviewStepPresenter extends AbstractVisualWizardStep implements Vi
 	private void bind(PreviewStepPresenterEventBinder binder, @ImportBus EventBus importEventBus) {
 		binder.bindEventHandlers(this, importEventBus);
 	}
-	
 	@EventHandler
 	void onAssetRetrieved(AssetRetrievedEvent event) {
-		if (event.getAsset().getAssetType()==UIAssetType.CSV) view.updatePreview();
+		if (event.getAsset().getAssetType()==UIAssetType.CSV) {
+			view.updatePreview();
+			updateTitle(event.getAsset().getName());
+		}
+	}
+	
+	@EventHandler
+	void onFileUploaded(FileUploadedEvent event) {
+		if (event.getAssetType()==UIAssetType.CSV) {
+			updateTitle(event.getFileName());
+		}
 	}
 	
 	@EventHandler
 	void onCsvParserConfigurationUpdated(CsvParserConfigurationUpdatedEvent event) {
 		view.updatePreview();
+	}
+	
+	private void updateTitle(String assetName) {
+		configuration.setTitle(assetName);
 	}
 
 	public void go(HasWidgets container) {
