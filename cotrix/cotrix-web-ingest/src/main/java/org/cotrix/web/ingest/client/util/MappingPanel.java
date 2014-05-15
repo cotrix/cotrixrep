@@ -5,14 +5,13 @@ import java.util.List;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
@@ -39,8 +38,7 @@ public class MappingPanel extends ResizeComposite {
 	@UiField SimpleCheckBox sealed;
 	@UiField Label attributeMappingLabel;
 	
-	@UiField TableCellElement previewCell;
-	@UiField TableCellElement mappingCell;
+	@UiField PushButton previewButton;
 	
 	@UiField
 	ScrollPanel scrollMappingPanel;
@@ -66,10 +64,7 @@ public class MappingPanel extends ResizeComposite {
 	}
 	
 	public void setPreviewVisible(boolean visible) {
-		String value = visible?"table-cell":"none";
-		previewCell.getStyle().setProperty("display", value);
-		mappingCell.setColSpan(visible?2:3);
-		mappingCell.getStyle().setPaddingRight(visible?0:20, Unit.PX);
+		previewButton.setVisible(visible);
 	}
 
 	public void setName(String name) {

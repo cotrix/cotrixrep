@@ -45,6 +45,7 @@ public interface CommonCss extends CssResource {
 		
 	String buttonManage();
 	String buttonRefresh();
+	String buttonPreview();
 	String buttonCloud();
 	String buttonComputer();
 	String buttonDownload();
