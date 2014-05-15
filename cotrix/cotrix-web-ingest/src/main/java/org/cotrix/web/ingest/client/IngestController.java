@@ -8,7 +8,7 @@ import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.ingest.client.event.AssetRetrievedEvent;
-import org.cotrix.web.ingest.client.event.CodeListTypeUpdatedEvent;
+import org.cotrix.web.ingest.client.event.AssetTypeUpdatedEvent;
 import org.cotrix.web.ingest.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.ingest.client.event.FileUploadedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
@@ -78,8 +78,7 @@ public class IngestController implements Presenter, CotrixModuleController {
 	
 	@EventHandler
 	void onAssetRetrieved(AssetRetrievedEvent event) {
-		Log.trace("getting metadata");
-		getMetadata();
+		importedItemUpdated(event.getAsset().getAssetType());
 	}
 	
 	@EventHandler
@@ -87,13 +86,13 @@ public class IngestController implements Presenter, CotrixModuleController {
 		importEventBus.fireEvent(new ResetWizardEvent());
 	}
 
-	protected void importedItemUpdated(UIAssetType codeListType)
+	protected void importedItemUpdated(UIAssetType assetType)
 	{
-		Log.trace("importedItemUpdated codeListType: "+codeListType);
+		Log.trace("importedItemUpdated assetType: "+assetType);
 
-		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(codeListType));
+		importEventBus.fireEvent(new AssetTypeUpdatedEvent(assetType));
 
-		if (codeListType == UIAssetType.CSV) {
+		if (assetType == UIAssetType.CSV) {
 			Log.trace("getting parser configuration");
 			getCsvParserConfiguration(); 
 		}
@@ -111,7 +110,7 @@ public class IngestController implements Presenter, CotrixModuleController {
 			@Override
 			public void onSuccess(UIAssetType type) {
 				Log.trace("retrieved codelist type "+type);
-				importEventBus.fireEvent(new CodeListTypeUpdatedEvent(type));
+				importEventBus.fireEvent(new AssetTypeUpdatedEvent(type));
 				callaback.onSuccess(type);
 			}
 

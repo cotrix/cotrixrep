@@ -7,7 +7,7 @@ import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.AssetRetrievedEvent;
 import org.cotrix.web.ingest.client.event.AssetSelectedEvent;
-import org.cotrix.web.ingest.client.event.CodeListTypeUpdatedEvent;
+import org.cotrix.web.ingest.client.event.AssetTypeUpdatedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.wizard.ImportWizardAction;
 import org.cotrix.web.ingest.shared.AssetInfo;
@@ -62,7 +62,7 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 	@Override
 	public void run(final TaskCallBack callback) {
 		Log.trace("retrieveAsset");
-		importEventBus.fireEvent(new CodeListTypeUpdatedEvent(selectedAsset.getAssetType()));
+		importEventBus.fireEvent(new AssetTypeUpdatedEvent(selectedAsset.getAssetType()));
 
 		importService.setAsset(selectedAsset.getId(), new AsyncCallback<Void>() {
 

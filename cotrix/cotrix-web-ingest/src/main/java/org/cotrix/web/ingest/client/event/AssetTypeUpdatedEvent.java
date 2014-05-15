@@ -8,11 +8,11 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeListTypeUpdatedEvent extends GenericEvent {
+public class AssetTypeUpdatedEvent extends GenericEvent {
 
 	private UIAssetType codeListType;
 	
-	public CodeListTypeUpdatedEvent(UIAssetType codeListType) {
+	public AssetTypeUpdatedEvent(UIAssetType codeListType) {
 		this.codeListType = codeListType;
 	}
 

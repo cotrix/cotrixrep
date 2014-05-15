@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.ingest.server.util;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class ParsingHelper {
 	@Inject
 	ParseService service;
 	
-	public PreviewData getCsvPreviewData(CsvConfiguration parserConfiguration, InputStream inputStream)
+	public PreviewData getCsvPreviewData(CsvConfiguration parserConfiguration, InputStream inputStream) throws IOException
 	{
 		logger.trace("creating preview");
 
@@ -50,14 +51,14 @@ public class ParsingHelper {
 		return previewData;
 	}
 	
-	public Table parse(CsvConfiguration parserConfiguration, InputStream inputStream)
+	public Table parse(CsvConfiguration parserConfiguration, InputStream inputStream) throws IOException
 	{
 
 		Csv2TableDirectives directives = getDirectives(parserConfiguration);
 
 		logger.trace("parsing");
 		Table table = service.parse(inputStream, directives);
-		
+		inputStream.close();
 		return table;
 	}
 	

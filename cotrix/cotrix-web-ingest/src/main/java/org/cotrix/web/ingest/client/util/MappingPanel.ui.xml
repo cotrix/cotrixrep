@@ -77,7 +77,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2" align="left" style="padding: 20px 0px 20px 20px;" ui:field="mappingCell">
+					<td colspan="2" align="left" ui:field="mappingCell">
+					<div style="padding: 20px 0px 20px 20px;">
 						<table style="border-collapse:collapse; width: 100%;">
 							<tr>
 								<td class="{common.css.verticalHeadersSingleItem} {common.css.mappingAttributeHeaderCell}" style="padding-left:6px;">
@@ -93,6 +94,7 @@
 								</td>
 							</tr>
 						</table>
+						</div>
 					</td>
 					<td width="58px" ui:field="previewCell" class="{style.previewCell}">
 						<g:PushButton ui:field="previewButton"

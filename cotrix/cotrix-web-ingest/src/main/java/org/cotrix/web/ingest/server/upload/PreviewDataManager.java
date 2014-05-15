@@ -3,18 +3,24 @@
  */
 package org.cotrix.web.ingest.server.upload;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.IOUtils;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.ingest.server.util.ParsingHelper;
 import org.cotrix.web.ingest.shared.PreviewData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.virtualrepository.csv.CsvAsset;
 import org.virtualrepository.tabular.Table;
 
 /**
@@ -31,6 +37,13 @@ public class PreviewDataManager implements Serializable {
 	
 	protected transient Logger logger = LoggerFactory.getLogger(PreviewDataManager.class);
 	
+	private interface StreamProvider {
+		public InputStream getStream() throws IOException;
+		public CsvConfiguration getConfiguration() throws IOException;
+		public void clean() throws IOException;
+	}
+
+	
 	@Inject
 	transient protected CsvParserConfigurationGuesser configurationGuesser;
 
@@ -43,14 +56,68 @@ public class PreviewDataManager implements Serializable {
 	@Inject
 	transient protected MappingsManager mappingsManager;
 
-	protected CsvConfiguration parserConfiguration;
-	protected FileItem fileItem;
+	private CsvConfiguration parserConfiguration;
+	private StreamProvider streamProvider;
 
-	protected PreviewData previewData;
+	private PreviewData previewData;
+	
+	public void setup(final InputStream inputStream, final CsvAsset asset) throws IOException {
+		
+		final File tmpFile = File.createTempFile(asset.name(), ".tmp");
+		FileOutputStream output = new FileOutputStream(tmpFile);
+		IOUtils.copy(inputStream, output);
+		output.close();
+		inputStream.close();
+				
+		setup(new StreamProvider() {
+			
+			@Override
+			public InputStream getStream() throws IOException {
+				return new FileInputStream(tmpFile);
+			}
+			
+			public CsvConfiguration getConfiguration() {
+				return toCsvConfiguration(asset);
+			}
+			
+			public void clean() throws IOException {
+				tmpFile.delete();
+			}
+		});
+	}
 
-	public void setup(String fileName, FileItem fileItem) throws IOException {
-		this.fileItem = fileItem;
-		this.parserConfiguration = configurationGuesser.guessConfiguration(fileName, fileItem.getInputStream());
+	public void setup(final String fileName, final FileItem fileItem) throws IOException {
+		setup(new StreamProvider() {
+			
+			@Override
+			public InputStream getStream() throws IOException {
+				return fileItem.getInputStream();
+			}
+			
+			public CsvConfiguration getConfiguration() throws IOException {
+				return configurationGuesser.guessConfiguration(fileName, streamProvider.getStream());
+			}
+			
+			public void clean() throws IOException {
+				fileItem.delete();
+			}
+		});
+	}
+	
+	private CsvConfiguration toCsvConfiguration(CsvAsset asset) {
+		CsvConfiguration configuration = new CsvConfiguration();
+		configuration.setCharset(asset.encoding().name());
+		configuration.setComment('#');
+		configuration.setFieldSeparator(asset.delimiter());
+		configuration.setHasHeader(true);
+		configuration.setQuote(asset.quote());
+		
+		return configuration;
+	}
+	
+	private void setup(StreamProvider streamProvider) throws IOException {
+		this.streamProvider = streamProvider;
+		this.parserConfiguration = streamProvider.getConfiguration();
 		buildCsvPreviewData();
 	}
 
@@ -87,7 +154,7 @@ public class PreviewDataManager implements Serializable {
 	private void buildCsvPreviewData() {
 		logger.trace("buildCsvPreviewData");
 		try {
-			Table table = parsingHelper.parse(parserConfiguration, fileItem.getInputStream());
+			Table table = parsingHelper.parse(parserConfiguration, streamProvider.getStream());
 			setupPreview(table, !parserConfiguration.isHasHeader());
 		} catch(Exception e) {
 			logger.error("Failed building CSV preview", e);
@@ -103,5 +170,9 @@ public class PreviewDataManager implements Serializable {
 			logger.error("Failed building CSV preview", e);
 			throw new RuntimeException("Failed CSV preview generation", e);
 		}
+	}
+	
+	public void clean() {
+		
 	}
 }

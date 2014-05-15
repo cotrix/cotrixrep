@@ -4,6 +4,7 @@
 package org.cotrix.web.ingest.server;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,9 +48,9 @@ import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
+import org.virtualrepository.csv.CsvAsset;
 import org.virtualrepository.csv.CsvCodelist;
 import org.virtualrepository.sdmx.SdmxCodelist;
-import org.virtualrepository.tabular.Table;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.view.client.Range;
@@ -319,10 +320,9 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 
 			if (asset.type() == CsvCodelist.type) {
 				session.setCodeListType(UIAssetType.CSV);
-				Table table = cloud.retrieveAsTable(asset.id());
+				InputStream stream = cloud.retrieveAsCsv(asset.id());
+				previewDataManager.setup(stream, (CsvAsset) asset);
 				metadata.setVersion("1");
-				previewDataManager.refresh(table);
-				//mappingsManager.updateMappings(table);
 			}
 
 		} catch(Exception e)

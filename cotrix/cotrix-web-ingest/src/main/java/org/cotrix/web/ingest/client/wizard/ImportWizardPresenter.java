@@ -85,7 +85,7 @@ public class ImportWizardPresenter implements Presenter {
 			UploadStepPresenter uploadStep,
 			CsvPreviewStepPresenter csvPreviewStep,
 			
-			TypeNodeSelector typeNodeSelector,
+			TypeNodeSelector fileTypeNodeSelector,
 
 			AssetDetailsNodeSelector assetDetailsNodeSelector,
 			SelectionStepPresenter selectionStep,
@@ -93,6 +93,7 @@ public class ImportWizardPresenter implements Presenter {
 			RepositoryDetailsStepPresenter repositoryDetailsStep,
 			
 			RetrieveAssetTask retrieveAssetTask,
+			TypeNodeSelector assetTypeNodeSelector,
 			MappingNodeSelector mappingNodeSelector,
 
 			MappingsLoadingTask mappingsLoadingTask,
@@ -118,7 +119,7 @@ public class ImportWizardPresenter implements Presenter {
 		RootNodeBuilder<WizardStep> root = FlowManagerBuilder.<WizardStep>startFlow(sourceStep);
 		SwitchNodeBuilder<WizardStep> source = root.hasAlternatives(selector);
 
-		SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(typeNodeSelector);
+		SwitchNodeBuilder<WizardStep> upload = source.alternative(uploadStep).hasAlternatives(fileTypeNodeSelector);
 		SingleNodeBuilder<WizardStep> csvPreview = upload.alternative(csvPreviewStep);
 		SwitchNodeBuilder<WizardStep> csvMapping = csvPreview.next(mappingsLoadingTask).next(csvMappingStep).hasAlternatives(assetPreviewNodeSelector);
 		csvMapping.alternative(previewStep);
@@ -130,9 +131,9 @@ public class ImportWizardPresenter implements Presenter {
 		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
 		codelistDetails.next(repositoryDetails);
 		
-		SwitchNodeBuilder<WizardStep> retrieveAsset = selection.alternative(retrieveAssetTask).next(mappingsLoadingTask).hasAlternatives(mappingNodeSelector);
-		retrieveAsset.alternative(sdmxMapping);
-		retrieveAsset.alternative(csvMapping);
+		SwitchNodeBuilder<WizardStep> retrieveAsset = selection.alternative(retrieveAssetTask).hasAlternatives(assetTypeNodeSelector);
+		retrieveAsset.alternative(csvPreview);
+		retrieveAsset.alternative(mappingsLoadingTask).next(sdmxMapping);
 		
 		SingleNodeBuilder<WizardStep> summary = csvMapping.alternative(summaryStep);
 		sdmxMapping.next(summary);
