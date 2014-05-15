@@ -1,5 +1,7 @@
 package org.cotrix.io;
 
+import java.io.InputStream;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Codelist;
@@ -81,6 +83,16 @@ public interface CloudService extends Iterable<Asset> {
 	 * @throws IllegalStateException if the codelist cannot be retrieved in tabular format
 	 */
 	Table retrieveAsTable(String id);
+	
+	/**
+	 * Retrieves a codelist as a stream of CSV data.
+	 * 
+	 * @param id the codelist identifier.
+	 * @return the codelist
+	 * 
+	 * @throws IllegalStateException if the codelist cannot be retrieved as a CSV stream.
+	 */	
+	InputStream retrieveAsCsv(String id);
 
 	/**
 	 * Publishes a codelist in SDMX in a given repository.
