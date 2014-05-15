@@ -3,6 +3,7 @@ package org.cotrix.io.impl;
 import static java.util.Arrays.*;
 import static org.cotrix.common.Utils.*;
 
+import java.io.InputStream;
 import java.util.Iterator;
 
 import javax.enterprise.event.Observes;
@@ -10,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
-import org.cotrix.common.cdi.ApplicationEvents.StartRequest;
+import org.cotrix.common.cdi.ApplicationEvents.EndRequest;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.io.CloudService;
@@ -89,6 +90,11 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 	}
 	
 	@Override
+	public InputStream retrieveAsCsv(String id) {
+		return repository.retrieve(repository.lookup(id), InputStream.class);
+	}
+	
+	@Override
 	public void publish(Codelist list, CodelistBean bean, QName name) {
 		
 		notNull("codelist",list);
@@ -137,7 +143,7 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 	}
 	
 	
-	/*void onStartRequest(@Observes StartRequest start){
+	void onStartRequest(@Observes EndRequest end){
 		Context.reset();
-	}*/
+	}
 }
