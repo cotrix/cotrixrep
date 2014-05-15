@@ -254,6 +254,22 @@
 	cursor: pointer;
 }
 
+.buttonPreview {
+	background-color: #5674b9;
+	border-radius: 100px;
+	border: 1px solid #5674b9;
+	height: 26px;
+	width: 26px;
+	color: #fff;
+	outline: none;
+}
+
+.buttonPreview:hover {
+	background-color: #31529d;
+	border: 1px solid #31529d;
+	cursor: pointer;
+}
+
 @sprite .buttonComputer {
 	gwt-image: "computer";
 	background-position: 0;
