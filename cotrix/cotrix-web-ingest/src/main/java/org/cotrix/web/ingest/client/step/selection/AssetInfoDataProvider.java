@@ -32,7 +32,8 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 	@Inject
 	private IngestServiceAsync importService;
 	private PatchedDataGrid<AssetInfo> datagrid;
-	private boolean forceRefresh;
+	private boolean refreshCache;
+	private boolean requestDiscovery;
 	private String query;
 	
 	/**
@@ -50,13 +51,14 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 		this.datagrid = datagrid;
 	}
 
-	/**
-	 * @param forceRefresh the forceRefresh to set
-	 */
-	public void setForceRefresh(boolean forceRefresh) {
-		this.forceRefresh = forceRefresh;
+	public void setRequestDiscovery(boolean requestDiscovery) {
+		this.requestDiscovery = requestDiscovery;
 	}
-	
+
+	public void setRefreshCache(boolean refreshCache) {
+		this.refreshCache = refreshCache;
+	}
+
 	public void setQuery(String query) {
 		this.query = query;
 	}
@@ -77,10 +79,13 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 		
 		Log.trace("sortInfo: "+sortInfo);
 		
-		boolean force = forceRefresh;
-		forceRefresh = false;
+		boolean discovery = requestDiscovery;
+		requestDiscovery = false;
 		
-		importService.getAssets(range, sortInfo, query, force, new ManagedFailureCallback<DataWindow<AssetInfo>>() {
+		boolean cache = refreshCache;
+		refreshCache = false;
+		
+		importService.getAssets(range, sortInfo, query, cache, discovery, new ManagedFailureCallback<DataWindow<AssetInfo>>() {
 			
 			@Override
 			public void onSuccess(DataWindow<AssetInfo> batch) {

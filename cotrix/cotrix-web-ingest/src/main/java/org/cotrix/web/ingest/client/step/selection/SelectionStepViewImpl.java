@@ -215,7 +215,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	@UiHandler("refreshButton")
 	protected void refresh(ClickEvent clickEvent)
 	{
-		dataProvider.setForceRefresh(true);
+		dataProvider.setRequestDiscovery(true);
 		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}
 	
@@ -237,9 +237,12 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	
 	public void reset()
 	{
-		cleanFilter();		
+		cleanFilter();	
 		selectionModel.clear();
+		Log.trace("setRefreshCache");
+		dataProvider.setRefreshCache(true);
 		pager.setPage(0);
+		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}
 
 }

@@ -105,11 +105,13 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	 * @throws ServiceException 
 	 */
 	@Override
-	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, String query, boolean forceRefresh) throws ServiceException {
-		logger.trace("getAssets range: {} columnSortInfo: {} query: {} forceRefresh: {}", range, columnSortInfo, query, forceRefresh);
+	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, String query, boolean refreshCache, boolean requestDiscovery) throws ServiceException {
+		logger.trace("getAssets range: {} columnSortInfo: {} query: {} refreshCache: {} requestDiscovery: {}", range, columnSortInfo, query, refreshCache, requestDiscovery);
 		try {
 
-			if (forceRefresh) assetInfosCache.refreshCache();
+			if (refreshCache) assetInfosCache.refreshCache();
+			if (requestDiscovery) assetInfosCache.discovery();
+			
 			List<AssetInfo> assets = assetInfosCache.getAssets(columnSortInfo.getName());
 			Predicate<AssetInfo> predicate = Ranges.noFilter();
 			if (!query.isEmpty()) predicate = new AssetInfoFilter(query);

@@ -30,7 +30,7 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("service/ingestService")
 public interface IngestService extends RemoteService {
 	
-	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, String query, boolean forceRefresh) throws ServiceException;
+	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, String query, boolean refreshCache, boolean requestDiscovery) throws ServiceException;
 	
 	public AssetDetails getAssetDetails(String assetId) throws ServiceException;
 	

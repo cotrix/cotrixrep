@@ -89,6 +89,11 @@ public class AssetInfosCache implements Serializable {
 	
 	public void refreshCache()
 	{
+		loadCache();
+	}
+	
+	public void discovery()
+	{
 		cloud.discover();
 		loadCache();
 	}
@@ -139,6 +144,4 @@ public class AssetInfosCache implements Serializable {
 		if (field == null) return cache.getSortedList(AssetInfo.NAME_FIELD);
 		return cache.getSortedList(field);
 	}
-
-
 }

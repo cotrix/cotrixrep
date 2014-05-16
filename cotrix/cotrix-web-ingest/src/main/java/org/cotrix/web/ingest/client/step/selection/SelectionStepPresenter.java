@@ -79,6 +79,7 @@ public class SelectionStepPresenter extends AbstractVisualWizardStep implements 
 
 	@Override
 	public void onResetWizard(ResetWizardEvent event) {
+		Log.trace("SelectionStepPresenter resetting");
 		view.reset();
 	}
 
