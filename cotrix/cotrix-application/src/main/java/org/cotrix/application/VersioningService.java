@@ -1,5 +1,7 @@
 package org.cotrix.application;
 
+import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Versioned;
 
 /**
@@ -15,7 +17,7 @@ public interface VersioningService {
 	 * @param object the object to version
 	 * @return the clause to specify a new version
 	 */
-	<T extends Versioned> VersionClause<T> bump(T object);
+	<T extends Versioned & Identified & Named> VersionClause<T> bump(T object);
 	
 	
 	static interface VersionClause<T> {

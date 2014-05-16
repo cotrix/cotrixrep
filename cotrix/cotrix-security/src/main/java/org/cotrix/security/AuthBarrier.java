@@ -45,6 +45,7 @@ public class AuthBarrier implements Filter {
 			session.add(User.class, guest);
 			
 		}
+		
 		events.fire(StartRequest.INSTANCE);
 		
 		chain.doFilter(request, response);
