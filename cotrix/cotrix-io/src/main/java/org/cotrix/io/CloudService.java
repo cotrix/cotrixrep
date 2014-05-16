@@ -5,6 +5,7 @@ import java.io.InputStream;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Codelist;
+import org.fao.fi.comet.mapping.model.MappingData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
 import org.virtualrepository.RepositoryService;
@@ -114,6 +115,17 @@ public interface CloudService extends Iterable<Asset> {
 	 * @throws IllegalStateException if the codelist cannot be published in tabular format in the given repository.
 	 */
 	void publish(Codelist codelist,Table table, QName repository);
+	
+	
+	/**
+	 * Publishe the 'lineage mapping' of a codelist in a given repository.
+	 * @param codelist the codelist
+	 * @param mapping the mapping
+	 * @param repository the name of the repository
+	 * 
+	 * @throws IllegalStateException if the codelist cannot be published in tabular format in the given repository.
+	 */
+	void publish(Codelist codelist,MappingData mapping, QName repository);
 
 	/**
 	 * Returns the publication channels.

@@ -15,6 +15,7 @@ import org.cotrix.common.cdi.ApplicationEvents.EndRequest;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.io.CloudService;
+import org.fao.fi.comet.mapping.model.MappingData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
 import org.virtualrepository.AssetType;
@@ -22,6 +23,7 @@ import org.virtualrepository.Context;
 import org.virtualrepository.Property;
 import org.virtualrepository.RepositoryService;
 import org.virtualrepository.VirtualRepository;
+import org.virtualrepository.comet.CometAsset;
 import org.virtualrepository.csv.CsvCodelist;
 import org.virtualrepository.sdmx.SdmxCodelist;
 import org.virtualrepository.tabular.Table;
@@ -117,9 +119,24 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 		
 		RepositoryService service = repository.services().lookup(name);
 		
-		Asset asset = new CsvCodelist("name",0,service);
+		Asset asset = new CsvCodelist(list.name().getLocalPart(),0,service);
 		
 		repository.publish(describe(list,asset),table);
+	}
+	
+	
+	@Override
+	public void publish(Codelist list, MappingData mapping, QName name) {
+		
+		notNull("codelist",list);
+		notNull("mapping",mapping);
+		notNull("repository name",name);
+		
+		RepositoryService service = repository.services().lookup(name);
+		
+		Asset asset = new CometAsset(list.name().getLocalPart(),service);
+		
+		repository.publish(describe(list,asset),mapping);
 	}
 	
 	
