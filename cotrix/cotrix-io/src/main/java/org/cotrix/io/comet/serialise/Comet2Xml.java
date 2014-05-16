@@ -4,6 +4,7 @@ import java.io.OutputStream;
 
 import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 
 import org.cotrix.common.cdi.Current;
 import org.cotrix.io.impl.SerialisationTask;
@@ -24,7 +25,9 @@ public class Comet2Xml implements SerialisationTask<MappingData,Comet2XmlDirecti
 	public void serialise(MappingData mapping, OutputStream stream, Comet2XmlDirectives directives) throws Exception {
 		
 		//TODO temp solution for quick prototyping: hoping in external facility
-		JAXBContext.newInstance(MappingData.class).createMarshaller().marshal(mapping,stream);
+		Marshaller marshaller = JAXBContext.newInstance(MappingData.class).createMarshaller();
+		marshaller.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);		
+		marshaller.marshal(mapping,stream);
 		
 	}
 	
