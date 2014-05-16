@@ -107,7 +107,7 @@ public class AssetInfosCache implements Serializable {
 		for (Asset asset:cloud) {
 	
 			AssetInfo assetInfo = Assets.convert(asset);
-			logger.trace("converted {} to {}", asset.name(), assetInfo);
+			//logger.trace("converted {} to {}", asset.name(), assetInfo);
 			cache.add(assetInfo);
 			assetsCache.put(asset.id(), asset);
 		}
