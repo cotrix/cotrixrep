@@ -100,7 +100,9 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	
 	@EventHandler
 	void onCsvHeaders(CsvHeadersEvent event) {
+		if (!userHeaders.equals(event.getHeaders())) lastMappings = null;
 		userHeaders = event.getHeaders();
+		
 	}
 	
 	@EventHandler

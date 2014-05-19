@@ -148,7 +148,7 @@ public class PreviewDataManager implements Serializable {
 		try {
 			Table table = parsingHelper.parse(parserConfiguration, streamProvider.getStream());
 			logger.trace("columns: "+table.columns());
-			setupPreview(table, !parserConfiguration.isHasHeader());
+			setupPreview(table, true);
 		} catch(Exception e) {
 			logger.error("Failed building CSV preview", e);
 			throw new RuntimeException("Failed CSV preview generation", e);

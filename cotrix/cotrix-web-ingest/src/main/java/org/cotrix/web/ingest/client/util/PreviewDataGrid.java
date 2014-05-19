@@ -12,6 +12,7 @@ import org.cotrix.web.common.client.util.CachedDataProvider;
 import org.cotrix.web.common.client.widgets.EditableTextHeader;
 import org.cotrix.web.common.client.widgets.StyledTextInputCell;
 import org.cotrix.web.common.shared.DataWindow;
+import org.cotrix.web.ingest.client.resources.Resources;
 import org.cotrix.web.ingest.shared.PreviewHeaders;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -151,7 +152,7 @@ public class PreviewDataGrid extends ResizeComposite {
 			column.setSortable(false);
 
 			if (headers.isEditable()) {
-				EditableTextHeader header = new EditableTextHeader(new StyledTextInputCell(CommonResources.INSTANCE.css().textBox()), headerLabel);
+				EditableTextHeader header = new EditableTextHeader(new StyledTextInputCell(CommonResources.INSTANCE.css().textBox()+ " "+Resources.INSTANCE.css().previewHeader()), headerLabel);
 				editableHeaders.add(header);
 				previewGrid.addColumn(column, header);
 			} else {

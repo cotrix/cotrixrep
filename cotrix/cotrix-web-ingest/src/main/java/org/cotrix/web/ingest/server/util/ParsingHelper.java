@@ -44,7 +44,7 @@ public class ParsingHelper {
 
 		logger.trace("parsing");
 		Table table = service.parse(inputStream, directives);
-		//FIXME inputStream.close();
+
 		return table;
 	}
 	

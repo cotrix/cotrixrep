@@ -1,6 +1,5 @@
 package org.cotrix.web.ingest.client.step.csvpreview;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.cotrix.web.common.shared.CsvConfiguration;
@@ -58,7 +57,7 @@ public class CsvPreviewStepPresenter extends AbstractVisualWizardStep implements
 			return false;
 		}
 		
-		importEventBus.fireEvent(new CsvHeadersEvent(headerRequired?headers:Collections.<String>emptyList()));
+		importEventBus.fireEvent(new CsvHeadersEvent(headers));
 		return true;
 	}
 
