@@ -50,7 +50,7 @@ public interface IngestService extends RemoteService {
 	
 	public CsvConfiguration getCsvParserConfiguration() throws ServiceException;
 	
-	public List<AttributeMapping> getMappings() throws ServiceException;
+	public List<AttributeMapping> getMappings(List<String> userLabels) throws ServiceException;
 	
 	public void startImport(CsvConfiguration csvConfiguration, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ServiceException;
 	

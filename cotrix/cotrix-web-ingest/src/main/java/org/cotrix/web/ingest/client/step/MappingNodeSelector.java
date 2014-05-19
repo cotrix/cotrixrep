@@ -76,8 +76,8 @@ public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> implem
 
 	@EventHandler
 	void onCodeListTypeUpdated(AssetTypeUpdatedEvent event) {
-		Log.trace("TypeNodeSelector updating next to "+event.getCodeListType()+" event: "+event.toDebugString());
-		switch (event.getCodeListType()) {
+		Log.trace("TypeNodeSelector updating next to "+event.getAssetType()+" event: "+event.toDebugString());
+		switch (event.getAssetType()) {
 			case CSV: nextStep = csvStep; break;
 			case SDMX: nextStep = sdmxStep; break;
 		}

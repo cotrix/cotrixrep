@@ -137,7 +137,7 @@ public class PreviewDataGrid extends ResizeComposite {
 		editableHeaders.clear();
 		int count = previewGrid.getColumnCount();
 		for (int i = 0; i<count; i++) previewGrid.removeColumn(0);
-		Log.trace("ColumnCount: "+previewGrid.getColumnCount());
+		//Log.trace("ColumnCount: "+previewGrid.getColumnCount());
 
 		int colIndex = 0;
 		for (String headerLabel:headers.getLabels()) {

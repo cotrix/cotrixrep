@@ -123,7 +123,8 @@ public class AttributeMappingPanel extends Composite {
 			TextBox nameField = new TextBox();
 			nameField.setStyleName(CommonResources.INSTANCE.css().textBox());
 			nameField.setWidth("330px");
-			nameField.setValue(field.getLabel());
+			String name = attributeDefinition != null?attributeDefinition.getName():field.getLabel();
+			nameField.setValue(name);
 			columnsTable.setWidget(row, NAME_COLUMN, nameField);
 			cellFormatter.setStyleName(row, NAME_COLUMN, CommonResources.INSTANCE.css().mappingCell());
 			nameFields.add(nameField);

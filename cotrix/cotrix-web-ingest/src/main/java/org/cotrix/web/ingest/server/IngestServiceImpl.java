@@ -28,6 +28,7 @@ import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.ingest.client.IngestService;
 import org.cotrix.web.ingest.server.climport.ImportTaskSession;
 import org.cotrix.web.ingest.server.climport.ImporterFactory;
+import org.cotrix.web.ingest.server.upload.DefaultMappingsGuessers;
 import org.cotrix.web.ingest.server.upload.MappingGuesser;
 import org.cotrix.web.ingest.server.upload.MappingsManager;
 import org.cotrix.web.ingest.server.upload.PreviewDataManager;
@@ -257,9 +258,10 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<AttributeMapping> getMappings() throws ServiceException {
+	public List<AttributeMapping> getMappings(List<String> userLabels) throws ServiceException {
+		logger.trace("getMappings userLabels: {}", userLabels);
 		try {
-			return mappingsManager.getMappings();
+			return mappingsManager.getMappings(userLabels);
 		} catch(Exception e)
 		{
 			logger.error("An error occurred on server side", e);
@@ -316,7 +318,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 				session.setCodeListType(UIAssetType.SDMX);
 				CodelistBean codelist = cloud.retrieveAsSdmx(asset.id());
 				metadata.setVersion(codelist.getVersion());
-				mappingsManager.setDefaultSdmxMappings();
+				mappingsManager.setMappingGuesser(DefaultMappingsGuessers.SdmxMappingGuesser.INSTANCE);
 			}
 
 

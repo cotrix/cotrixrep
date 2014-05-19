@@ -19,7 +19,7 @@ public class AssetTypeUpdatedEvent extends GenericEvent {
 	/**
 	 * @return the codeListType
 	 */
-	public UIAssetType getCodeListType() {
+	public UIAssetType getAssetType() {
 		return codeListType;
 	}
 }

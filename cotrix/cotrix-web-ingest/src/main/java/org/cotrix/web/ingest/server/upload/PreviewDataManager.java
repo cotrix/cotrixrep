@@ -42,7 +42,6 @@ public class PreviewDataManager implements Serializable {
 		public void clean() throws IOException;
 	}
 
-	
 	@Inject
 	transient protected CsvParserConfigurationGuesser configurationGuesser;
 
@@ -159,7 +158,7 @@ public class PreviewDataManager implements Serializable {
 	private void setupPreview(Table table, boolean hasHeader) {
 		try {
 			previewData = parsingHelper.convert(table, hasHeader, ParsingHelper.ROW_LIMIT);
-			mappingsManager.updateMappings(table);
+			mappingsManager.setMappingGuesser(new DefaultMappingsGuessers.TableMappingGuesser(table));
 		} catch(Exception e) {
 			logger.error("Failed building CSV preview", e);
 			throw new RuntimeException("Failed CSV preview generation", e);
