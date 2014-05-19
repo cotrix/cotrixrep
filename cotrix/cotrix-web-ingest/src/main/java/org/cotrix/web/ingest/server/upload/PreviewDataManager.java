@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.IOUtils;
+import org.cotrix.web.common.server.util.TmpFileManager;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.ingest.server.util.ParsingHelper;
 import org.cotrix.web.ingest.shared.PreviewData;
@@ -53,6 +54,9 @@ public class PreviewDataManager implements Serializable {
 	
 	@Inject
 	transient protected MappingsManager mappingsManager;
+	
+	@Inject
+	transient private TmpFileManager tmpFileManager;
 
 	private CsvConfiguration parserConfiguration;
 	private StreamProvider streamProvider;
@@ -61,7 +65,7 @@ public class PreviewDataManager implements Serializable {
 	
 	public void setup(final InputStream inputStream, final CsvAsset asset) throws IOException {
 		
-		final File tmpFile = File.createTempFile(asset.name(), ".tmp");
+		final File tmpFile = tmpFileManager.createTmpFile();
 		FileOutputStream output = new FileOutputStream(tmpFile);
 		IOUtils.copy(inputStream, output);
 		output.close();
@@ -75,7 +79,6 @@ public class PreviewDataManager implements Serializable {
 			}
 			
 			public void clean() throws IOException {
-				tmpFile.delete();
 			}
 		};
 		
