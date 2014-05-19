@@ -54,6 +54,7 @@ public class ParsingHelper {
 	public Table parse(CsvConfiguration parserConfiguration, InputStream inputStream) throws IOException
 	{
 
+		logger.trace("available bytes: "+inputStream.available());
 		Csv2TableDirectives directives = getDirectives(parserConfiguration);
 
 		logger.trace("parsing");

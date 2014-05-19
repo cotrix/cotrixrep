@@ -39,7 +39,6 @@ public class PreviewDataManager implements Serializable {
 	
 	private interface StreamProvider {
 		public InputStream getStream() throws IOException;
-		public CsvConfiguration getConfiguration() throws IOException;
 		public void clean() throws IOException;
 	}
 
@@ -68,40 +67,40 @@ public class PreviewDataManager implements Serializable {
 		IOUtils.copy(inputStream, output);
 		output.close();
 		inputStream.close();
-				
-		setup(new StreamProvider() {
+		
+		StreamProvider streamProvider = new StreamProvider() {
 			
 			@Override
 			public InputStream getStream() throws IOException {
 				return new FileInputStream(tmpFile);
 			}
 			
-			public CsvConfiguration getConfiguration() {
-				return toCsvConfiguration(asset);
-			}
-			
 			public void clean() throws IOException {
 				tmpFile.delete();
 			}
-		});
+		};
+		
+		CsvConfiguration configuration = toCsvConfiguration(asset);
+				
+		setup(streamProvider, configuration);
 	}
 
 	public void setup(final String fileName, final FileItem fileItem) throws IOException {
-		setup(new StreamProvider() {
+		CsvConfiguration configuration = configurationGuesser.guessConfiguration(fileName, fileItem.getInputStream());
+		
+		StreamProvider streamProvider = new StreamProvider() {
 			
 			@Override
 			public InputStream getStream() throws IOException {
 				return fileItem.getInputStream();
 			}
 			
-			public CsvConfiguration getConfiguration() throws IOException {
-				return configurationGuesser.guessConfiguration(fileName, streamProvider.getStream());
-			}
-			
 			public void clean() throws IOException {
 				fileItem.delete();
 			}
-		});
+		};
+		
+		setup(streamProvider, configuration);
 	}
 	
 	private CsvConfiguration toCsvConfiguration(CsvAsset asset) {
@@ -115,9 +114,9 @@ public class PreviewDataManager implements Serializable {
 		return configuration;
 	}
 	
-	private void setup(StreamProvider streamProvider) throws IOException {
+	private void setup(StreamProvider streamProvider, CsvConfiguration configuration) throws IOException {
 		this.streamProvider = streamProvider;
-		this.parserConfiguration = streamProvider.getConfiguration();
+		this.parserConfiguration = configuration;
 		buildCsvPreviewData();
 	}
 
@@ -131,12 +130,6 @@ public class PreviewDataManager implements Serializable {
 		buildCsvPreviewData();
 	}
 	
-	public void refresh(Table table) {
-		logger.trace("refresh with table");
-		this.parserConfiguration = null;
-		setupPreview(table, false);
-	}
-
 	/**
 	 * @return the previewData
 	 */
@@ -152,9 +145,10 @@ public class PreviewDataManager implements Serializable {
 	}
 
 	private void buildCsvPreviewData() {
-		logger.trace("buildCsvPreviewData");
+		logger.trace("buildCsvPreviewData configuration: " + parserConfiguration);
 		try {
 			Table table = parsingHelper.parse(parserConfiguration, streamProvider.getStream());
+			logger.trace("columns: "+table.columns());
 			setupPreview(table, !parserConfiguration.isHasHeader());
 		} catch(Exception e) {
 			logger.error("Failed building CSV preview", e);

@@ -32,7 +32,7 @@
 			<groupId>com.google.gwt.eventbinder</groupId>
 			<artifactId>eventbinder</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web-wizard</artifactId>

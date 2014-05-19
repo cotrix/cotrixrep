@@ -118,7 +118,7 @@ public class FileUpload extends HttpServlet{
 			}
 
 			logger.trace("Received file {} with size {} and content type {}", fileField.getName(), fileField.getSize(), fileField.getContentType());
-			UIAssetType codeListType = typeGuesser.guess(fileField.getName(), fileField.getContentType());
+			UIAssetType codeListType = typeGuesser.guess(fileField.getName(), fileField.getContentType(), fileField.getInputStream());
 
 			if (codeListType == null) {
 				logger.error("failed to guess the codelist type");
