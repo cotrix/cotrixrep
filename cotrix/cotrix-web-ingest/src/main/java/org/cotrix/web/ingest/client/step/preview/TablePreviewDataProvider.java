@@ -31,7 +31,7 @@ public class TablePreviewDataProvider implements PreviewDataProvider {
 
 			@Override
 			public void onSuccess(PreviewHeaders result) {
-				headersCallBack.onSuccess(result);
+				headersCallBack.onSuccess(new PreviewHeaders(false, result.getLabels()));
 			}
 		});
 	}
