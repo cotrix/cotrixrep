@@ -10,6 +10,7 @@ import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.AssetTypeUpdatedEvent;
 import org.cotrix.web.ingest.client.event.CsvHeadersEvent;
+import org.cotrix.web.ingest.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.MappingLoadFailedEvent;
 import org.cotrix.web.ingest.client.event.MappingLoadedEvent;
@@ -45,6 +46,8 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	private EventBus importEventBus;
 	
 	private List<String> userHeaders = Collections.emptyList();
+	private List<AttributeMapping> lastMappings = null;
+	
 	
 	@Inject
 	private void bind(MappingsLoadingTaskEventBinder binder) {
@@ -58,7 +61,7 @@ public class MappingsLoadingTask implements TaskWizardStep {
 
 			@Override
 			public void onResetWizard(ResetWizardEvent event) {
-				userHeaders = Collections.emptyList();
+				reset();
 			}});
 	}
 
@@ -74,6 +77,7 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	
 	@Override
 	public void run(final TaskCallBack callback) {
+		if (lastMappings == null) {
 		importService.getMappings(userHeaders, new AsyncCallback<List<AttributeMapping>>() {
 
 			@Override
@@ -86,10 +90,12 @@ public class MappingsLoadingTask implements TaskWizardStep {
 			@Override
 			public void onSuccess(List<AttributeMapping> result) {
 				Log.trace("mapping retrieved");
+				lastMappings = result;
 				importEventBus.fireEvent(new MappingLoadedEvent(result));
 				callback.onSuccess(ImportWizardAction.NEXT);
 			}
 		});
+		} else callback.onSuccess(ImportWizardAction.NEXT);
 	}	
 	
 	@EventHandler
@@ -100,6 +106,17 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	@EventHandler
 	void onAssetTypeUpdated(AssetTypeUpdatedEvent event) {
 		if (event.getAssetType() == UIAssetType.SDMX) userHeaders = Collections.emptyList();
+		lastMappings = null;
+	}
+	
+	@EventHandler
+	void onCsvParserConfigurationUpdated(CsvParserConfigurationUpdatedEvent event) {
+		lastMappings = null;
+	}
+	
+	private void reset() {
+		userHeaders = Collections.emptyList();
+		lastMappings = null;
 	}
 
 	@Override
