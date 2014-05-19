@@ -12,4 +12,6 @@ public interface DoneStepView {
 	
 	public void loadReport();
 	Widget asWidget();
+	void setCodelistDownloadUrl(String url);
+	void setCodelistDownloadButtonVisible(boolean visible);
 }
