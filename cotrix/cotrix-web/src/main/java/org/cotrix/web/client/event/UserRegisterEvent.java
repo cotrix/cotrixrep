@@ -1,25 +1,15 @@
 package org.cotrix.web.client.event;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.EventHandler;
-import java.lang.String;
-import com.google.gwt.event.shared.HasHandlers;
+import com.google.web.bindery.event.shared.binder.GenericEvent;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UserRegisterEvent extends
-		GwtEvent<UserRegisterEvent.UserRegisterHandler> {
-
-	public static Type<UserRegisterHandler> TYPE = new Type<UserRegisterHandler>();
+public class UserRegisterEvent extends GenericEvent {
 	private String username;
 	private String password;
 	private String email;
-
-	public interface UserRegisterHandler extends EventHandler {
-		void onUserRegister(UserRegisterEvent event);
-	}
 
 	public UserRegisterEvent(String username, String password, String email) {
 		this.username = username;
@@ -37,24 +27,5 @@ public class UserRegisterEvent extends
 
 	public String getEmail() {
 		return email;
-	}
-
-	@Override
-	protected void dispatch(UserRegisterHandler handler) {
-		handler.onUserRegister(this);
-	}
-
-	@Override
-	public Type<UserRegisterHandler> getAssociatedType() {
-		return TYPE;
-	}
-
-	public static Type<UserRegisterHandler> getType() {
-		return TYPE;
-	}
-
-	public static void fire(HasHandlers source, String username, String password,
-			String email) {
-		source.fireEvent(new UserRegisterEvent(username, password, email));
 	}
 }

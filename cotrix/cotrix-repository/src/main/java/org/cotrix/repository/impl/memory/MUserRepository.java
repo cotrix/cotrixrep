@@ -110,4 +110,16 @@ public class MUserRepository extends MemoryRepository<User.State> implements Use
 			};
 		};
 	}
+	
+	@Override
+	public Criterion<User> byFullName() {
+		
+		return new MCriterion<User>() {
+			
+			public int compare(User o1, User o2) {
+				return o1.fullName().compareTo(o2.fullName());
+			};
+		};
+	}
+	
 }

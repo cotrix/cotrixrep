@@ -5,6 +5,7 @@ import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
 import static org.cotrix.repository.CodelistQueries.*;
@@ -66,9 +67,9 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		repository.add(list);
 		
 		Action a = action(codelists,"a");
-		Role role = user().name("r").noMail().can(a).buildAsRoleFor(codelists);
+		Role role = role("r").can(a).buildAsRoleFor(codelists);
 		
-		User u = user().name("joe").noMail().is(role).build();
+		User u = user().name("joe").fullName("joe").noMail().is(role).build();
 		
 		
 		Iterable<CodelistCoordinates> lists  = repository.get(codelistsFor(u));
@@ -87,8 +88,8 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		repository.add(list2);
 		
 		Action a = action(codelists,"a");
-		Role role = user().name("r").noMail().can(a).buildAsRoleFor(codelists);
-		User u = user().name("joe").noMail().is(role.on(list2.id())).build();
+		Role role = role("r").can(a).buildAsRoleFor(codelists);
+		User u = user().name("joe").fullName("joe").noMail().is(role.on(list2.id())).build();
 		
 		Iterable<CodelistCoordinates> lists  = repository.get(codelistsFor(u));
 		

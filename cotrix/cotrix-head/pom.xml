@@ -1,0 +1,333 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.cotrix</groupId>
+		<artifactId>cotrix</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>cotrix-head</artifactId>
+
+	<packaging>war</packaging>
+
+	<properties>
+
+		<!-- interpolated in homepage -->
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+		<display_version>v${project.version}-${maven.build.timestamp.format}</display_version>
+
+
+		<!--WAR plugin default -->
+		<exploded>${project.build.directory}/${project.build.finalName}</exploded>
+
+		<draft>false</draft>
+		
+		<war_name>${project.artifactId}-${project.version}-${active_profile}.war</war_name>
+
+		<gwt_module>org.cotrix.head.Cotrix</gwt_module>
+
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web</artifactId>
+		</dependency>
+
+		<!-- exclude client-only GWT modules -->
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-menu</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-web-wizard</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- exclude other build-time only libraries -->
+
+		<dependency>
+			<groupId>com.google.gwt.inject</groupId>
+			<artifactId>gin</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.allen-sauer.gwt.log</groupId>
+			<artifactId>gwt-log</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt.eventbinder</groupId>
+			<artifactId>eventbinder</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.vectomatic</groupId>
+			<artifactId>lib-gwt-file</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+
+	</dependencies>
+
+	<build>
+
+
+		<!-- compiling in exploded war supports GWT plugin in dev mode -->
+		<outputDirectory>${exploded}/WEB-INF/classes</outputDirectory>
+
+		<plugins>
+
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<configuration>
+							<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+						</configuration>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<module>${gwt_module}</module>
+					<draftCompile>${draft}</draftCompile>
+					<runTarget>cotrix.html</runTarget>
+					<hostedWebapp>${exploded}</hostedWebapp>
+					<failOnError>true</failOnError>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-war</id>
+						<configuration>
+							<classifier>${active_profile}</classifier>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+
+
+
+
+	<profiles>
+
+
+		<!-- plugins, persistence, and staging -->
+		<profile>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<id>dev</id>
+
+			<properties>
+				<draft>true</draft>
+				<gwt_module>org.cotrix.head.CotrixDev</gwt_module>
+			</properties>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-stage</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-neo</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-sdmx-registry</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-semantic-repository</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-rtms</artifactId>
+				</dependency>
+
+			</dependencies>
+
+		</profile>
+
+
+
+
+		<!-- no plugins, no persistence, staging -->
+		<profile>
+
+			<id>devlite</id>
+
+			<properties>
+				<draft>true</draft>
+				<gwt_module>org.cotrix.head.CotrixDev</gwt_module>
+			</properties>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-stage</artifactId>
+				</dependency>
+
+			</dependencies>
+
+
+		</profile>
+
+
+
+		<!-- plugins, mailer, no persistence, staging -->
+		<profile>
+
+			<id>demo</id>
+			
+			<properties>
+				<gwt_module>org.cotrix.head.CotrixDemo</gwt_module>
+			</properties>
+
+			<dependencies>
+			
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-web-demo</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-mail</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-stage</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-sdmx-registry</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-semantic-repository</artifactId>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-rtms</artifactId>
+				</dependency>
+
+
+			</dependencies>
+
+
+		</profile>
+
+
+		<!-- no mail, sdmx plugin, persistence, no staging -->
+		<profile>
+
+			<id>gcube</id>
+			
+			<dependencies>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-gcube-extension</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+					<scope>runtime</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-sdmx-registry</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-neo</artifactId>
+				</dependency>
+
+			</dependencies>
+
+		</profile>
+
+		<profile>
+
+			<id>gcube-ci</id>
+
+			<properties>
+				<distroDirectory>${project.parent.basedir}/gcube-distro</distroDirectory>
+				<description>Cotrix project</description>
+				<scm.url>http://svn.d4science.research-infrastructures.eu/gcube/trunk/application/${project.artifactId}</scm.url>
+			</properties>
+
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<descriptors>
+								<descriptor>${distroDirectory}/descriptor.xml</descriptor>
+							</descriptors>
+						</configuration>
+						<executions>
+							<execution>
+								<id>servicearchive</id>
+								<phase>install</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+							</execution>
+						</executions>
+						<inherited>false</inherited>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+
+</project>

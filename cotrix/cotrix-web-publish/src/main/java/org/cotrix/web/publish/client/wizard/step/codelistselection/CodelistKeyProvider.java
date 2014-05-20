@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.publish.client.wizard.step.codelistselection;
 
-import org.cotrix.web.share.shared.codelist.UICodelist;
+import org.cotrix.web.common.shared.codelist.UICodelist;
 
 import com.google.gwt.view.client.ProvidesKey;
 

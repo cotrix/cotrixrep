@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.publish.client.wizard.step.codelistdetails;
 
-import org.cotrix.web.share.client.resources.CommonResources;
+import org.cotrix.web.common.client.resources.CommonResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -14,11 +14,13 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class CodelistDetailsStepViewImpl extends ResizeComposite implements CodelistDetailsStepView {
 	
 	protected static final int ASSET_PROPERTIES_ROW = 3;

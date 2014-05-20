@@ -1,12 +1,18 @@
 package org.cotrix.web.client.view;
 
+import org.cotrix.web.common.client.ext.HasExtensionArea;
+
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.ImplementedBy;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface UserBarView {
+@ImplementedBy(UserBarViewImpl.class)
+public interface UserBarView extends HasExtensionArea {
+	
+	public static final String NAME = "UserBar";
 	
 	public interface Presenter {
 		public void onUserClick();

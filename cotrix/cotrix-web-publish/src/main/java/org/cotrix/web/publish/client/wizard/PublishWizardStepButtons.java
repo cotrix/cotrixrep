@@ -4,7 +4,7 @@
 package org.cotrix.web.publish.client.wizard;
 
 import org.cotrix.web.publish.client.wizard.PublishWizardView.PublishWizardButton;
-import org.cotrix.web.share.client.wizard.step.StepButton;
+import org.cotrix.web.wizard.client.step.StepButton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

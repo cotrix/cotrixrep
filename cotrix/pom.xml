@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+
+
 	<groupId>org.cotrix</groupId>
 	<artifactId>cotrix</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
@@ -10,87 +13,72 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 		<slf4j.version>1.7.5</slf4j.version>
+
 		<weld.version>2.0.4.Final</weld.version>
+
 		<gwt.version>2.5.1</gwt.version>
+
+		<gin.version>2.1.1</gin.version>
+
+
+		<!-- one must be defined -->
+		<active_profile>**error**</active_profile>
+
 	</properties>
 
 	<modules>
-		<module>cotrix-web</module>
 
-		<module>cotrix-web-importwizard</module>
-
-		<module>cotrix-web-codelistmanager</module>
-
-		<module>cotrix-web-menu</module>
-
-		<module>cotrix-web-share</module>
-
-		<module>cotrix-web-publish</module>
-
+		<!-- domain core -->
 		<module>cotrix-common</module>
-
 		<module>cotrix-repository</module>
-
 		<module>cotrix-domain</module>
-
-		<module>cotrix-test-domain</module>
-
 		<module>cotrix-io</module>
-
 		<module>cotrix-lifecycle</module>
-
 		<module>cotrix-engine</module>
-
 		<module>cotrix-security</module>
-
 		<module>cotrix-action</module>
-
 		<module>cotrix-application</module>
-
-		<module>cotrix-web-permissionmanager</module>
-
 		<module>cotrix-configuration</module>
 
+		<!-- domain optional -->
+		<module>cotrix-neo</module>
+		<module>cotrix-mail</module>
+		<module>cotrix-stage</module>
+
+
+		<!-- GWT core -->
+
+		<module>cotrix-web</module>
+		<module>cotrix-web-ingest</module>
+		<module>cotrix-web-manage</module>
+		<module>cotrix-web-menu</module>
+		<module>cotrix-web-common</module>
+		<module>cotrix-web-publish</module>
+		<module>cotrix-web-parent</module>
+		<module>cotrix-web-wizard</module>
+		<module>cotrix-web-users</module>
+
+
+		<!-- main module -->
+		<module>cotrix-head</module>
+
+
+		<!-- test suites -->
+
 		<module>cotrix-test-common</module>
+		<module>cotrix-test-domain</module>
+		<module>cotrix-test-app</module>
 
+		<!-- Extensions -->
+		<module>cotrix-web-demo</module>
 	</modules>
-
-	<repositories>
-
-		<repository>
-			<id>sdmxsource</id>
-			<url>http://sdmxsource.metadatatechnology.com/nexus/content/repositories/releases</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-
-		<repository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Maven Repository Group</name>
-			<url>http://repository.jboss.org/nexus/content/groups/public</url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</repository>
-		
-	</repositories>
-
 
 	<dependencyManagement>
 		<dependencies>
 
-			<!-- module dependencies -->
+			<!-- domain modules -->
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
@@ -211,15 +199,19 @@
 				<version>${project.version}</version>
 			</dependency>
 
+
+
+			<!-- mixed GWT modules -->
+
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-share</artifactId>
+				<artifactId>cotrix-web</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-menu</artifactId>
+				<artifactId>cotrix-web-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -231,34 +223,87 @@
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-codelistmanager</artifactId>
+				<artifactId>cotrix-web-manage</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-importwizard</artifactId>
+				<artifactId>cotrix-web-ingest</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-web-permissionmanager</artifactId>
+				<artifactId>cotrix-web-users</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+
+			<!-- client-only GWT modules -->
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-menu</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-wizard</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<!-- GWT extensions -->
+			<dependency>
+				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-web-demo</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+
+			<!-- CI deps -->
+
+			<dependency>
+				<groupId>org.virtualrepository</groupId>
+				<artifactId>virtual-repository</artifactId>
+				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.virtualrepository</groupId>
+				<artifactId>sdmxsource-adapter</artifactId>
+				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
 			</dependency>
 
 
 			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-transient</artifactId>
-				<version>${project.version}</version>
+				<groupId>org.virtualrepository</groupId>
+				<artifactId>virtual-sdmx-registry</artifactId>
+				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+				<scope>runtime</scope>
 			</dependency>
 
 			<dependency>
-				<groupId>org.cotrix</groupId>
-				<artifactId>cotrix-gcube</artifactId>
-				<version>${project.version}</version>
+				<groupId>org.virtualrepository</groupId>
+				<artifactId>virtual-semantic-repository</artifactId>
+				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+				<scope>runtime</scope>
 			</dependency>
+
+			<dependency>
+				<groupId>org.virtualrepository</groupId>
+				<artifactId>virtual-rtms</artifactId>
+				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+				<scope>runtime</scope>
+			</dependency>
+
+
+
+			<!-- 3rd party deps -->
+
+
 
 
 			<!-- logging -->
@@ -312,29 +357,6 @@
 				<scope>runtime</scope>
 			</dependency>
 
-			<!-- GWT -->
-
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-servlet</artifactId>
-				<version>${gwt.version}</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-user</artifactId>
-				<version>${gwt.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>com.google.gwt.inject</groupId>
-				<artifactId>gin</artifactId>
-				<version>2.1.1</version>
-				<scope>compile</scope>
-			</dependency>
-
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -348,8 +370,96 @@
 				<version>1.0.13</version>
 			</dependency>
 
+			<!-- GWT -->
+
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-user</artifactId>
+				<version>${gwt.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-servlet</artifactId>
+				<version>${gwt.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.gwt.inject</groupId>
+				<artifactId>gin</artifactId>
+				<version>${gin.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.allen-sauer.gwt.log</groupId>
+				<artifactId>gwt-log</artifactId>
+				<version>3.2.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.gwt.eventbinder</groupId>
+				<artifactId>eventbinder</artifactId>
+				<version>1.0.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-dev</artifactId>
+				<version>${gwt.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.vectomatic</groupId>
+				<artifactId>lib-gwt-file</artifactId>
+				<version>0.3.3</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.2.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>1.3</version>
+			</dependency>
+
+
 		</dependencies>
 	</dependencyManagement>
+
+	<repositories>
+
+		<repository>
+			<id>sdmxsource</id>
+			<url>http://sdmxsource.metadatatechnology.com/nexus/content/repositories/releases</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+
+	</repositories>
 
 	<dependencies>
 
@@ -393,7 +503,39 @@
 	<build>
 
 		<pluginManagement>
+
 			<plugins>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.16</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.16</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>gwt-maven-plugin</artifactId>
+					<version>${gwt.version}</version>
+				</plugin>
+
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
@@ -416,6 +558,43 @@
 										</versionRange>
 										<goals>
 											<goal>test-jar</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-remote-resources-plugin
+										</artifactId>
+										<versionRange>[1.5,)</versionRange>
+										<goals>
+											<goal>bundle</goal>
+											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>
+											gwt-maven-plugin
+										</artifactId>
+										<versionRange>
+											[2.5.1,)
+										</versionRange>
+										<goals>
+											<goal>resources</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
@@ -446,8 +625,6 @@
 	<profiles>
 
 
-
-
 		<profile>
 
 			<id>fao-ci</id>
@@ -476,7 +653,7 @@
 						<enabled>false</enabled>
 					</snapshots>
 				</repository>
-				
+
 			</repositories>
 
 
@@ -499,10 +676,9 @@
 		</profile>
 
 		<profile>
-		
+
 			<id>gcube-ci</id>
 
-		
 			<distributionManagement>
 				<snapshotRepository>
 					<id>gcube-snapshots</id>
@@ -510,82 +686,56 @@
 					<url>http://maven.research-infrastructures.eu:8081/nexus/content/repositories/gcube-snapshots</url>
 				</snapshotRepository>
 			</distributionManagement>
-			
+
+		</profile>
+
+
+		<profile>
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<id>dev</id>
+
+			<properties>
+				<active_profile>dev</active_profile>
+			</properties>
+
+		</profile>
+
+		<profile>
+
+			<id>devlite</id>
+
+			<properties>
+				<active_profile>devlite</active_profile>
+			</properties>
+
 		</profile>
 
 		<profile>
 
 			<id>demo</id>
 
-
-			<modules>
-				<module>cotrix-stage</module>
-				<module>cotrix-mail</module>
-			</modules>
-
+			<properties>
+				<active_profile>demo</active_profile>
+			</properties>
 
 		</profile>
-
-		<profile>
-
-			<id>neo</id>
-
-			<modules>
-				<module>cotrix-neo</module>
-			</modules>
-
-
-		</profile>
-
-		<profile>
-
-			<id>dev</id>
-
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-
-			<modules>
-				<module>cotrix-stage</module>
-				<module>cotrix-neo</module>
-			</modules>
-
-		</profile>
-
-		<profile>
-		
-			<id>dev-light</id>
-
-			<modules>
-				<module>cotrix-stage</module>
-			</modules>
-		
-		</profile>
-
 
 		<profile>
 
 			<id>gcube</id>
 
-			<modules>
-				<module>cotrix-neo</module>
-			</modules>
-
-
-		</profile>
-		
-		<profile>
-
-			<id>all</id>
-
-			<modules>
-				<module>cotrix-mail</module>
-				<module>cotrix-stage</module>
-				<module>cotrix-neo</module>
-			</modules>
-
+			<properties>
+				<active_profile>gcube</active_profile>
+			</properties>
 
 		</profile>
+
+
+
 
 	</profiles>
 

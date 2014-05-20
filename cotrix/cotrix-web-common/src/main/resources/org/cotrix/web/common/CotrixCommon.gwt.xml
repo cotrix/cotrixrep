@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.1//EN"
+  "http://google-web-toolkit.googlecode.com/svn/tags/2.5.1/distro-source/core/src/gwt-module.dtd">
+<module rename-to='CotrixCommon'>
+	<!-- Inherit the core Web Toolkit stuff. -->
+	<inherits name='com.google.gwt.user.User' />
+
+	<define-configuration-property name="extensionModule"
+		is-multi-valued="true" />
+
+	<generate-with
+		class="org.cotrix.web.common.gen.CotrixExtensionProviderGenerator">
+		<when-type-assignable
+			class="org.cotrix.web.common.client.ext.CotrixExtensionProvider" />
+	</generate-with>
+
+	<!-- Specify the paths for translatable code -->
+	<source path='client' />
+	<source path='shared' />
+
+</module>

@@ -6,7 +6,7 @@ public class InvalidCredentialsException extends RuntimeException {
 
 	
 	public InvalidCredentialsException() {
-		super("unnwon user or invalid credentials");
+		super("unknown user or invalid credentials");
 	}
 	
 }

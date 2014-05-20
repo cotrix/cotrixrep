@@ -18,12 +18,17 @@ public class UserGrammar {
 
 	public static interface UserNewClause {
 		
-		SecondClause name(String name);
+		FullNameClause name(String name);
 		
 	}
 	
-	public static interface UserChangeClause extends SecondClause, ThirdClause, FourthClause {}
+	public static interface UserChangeClause extends SecondClause, FullNameClause,ThirdClause, FourthClause {}
 
+	public static interface FullNameClause  {
+		
+		SecondClause fullName(String name);
+		
+	}
 	
 	public static interface SecondClause  {
 		
@@ -35,8 +40,6 @@ public class UserGrammar {
 	
 	public static interface ThirdClause extends FourthClause {
 		
-		
-		ThirdClause fullName(String name);
 		
 		ThirdClause can(Action ... permissions);
 		

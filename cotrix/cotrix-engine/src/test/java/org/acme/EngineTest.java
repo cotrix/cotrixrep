@@ -205,7 +205,7 @@ public class EngineTest {
 	//helper
 	
 	ThirdClause aUser(String name) {
-		return Users.user().name(name).noMail().fullName(name);
+		return Users.user().name(name).fullName(name).noMail();
 	}
 	
 }

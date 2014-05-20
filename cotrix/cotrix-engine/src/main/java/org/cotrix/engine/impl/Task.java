@@ -57,6 +57,9 @@ public class Task<T>  {
 			
 			return task.call();
 		}
+		catch(RuntimeException e) {
+			throw e; //this perculate untouched
+		}
 		catch(Exception e) {
 			throw new RuntimeException("cannot complete task "+task+" for "+action, e);
 		}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.1//EN"
+  "http://google-web-toolkit.googlecode.com/svn/tags/2.5.1/distro-source/core/src/gwt-module.dtd">
+<module rename-to='CotrixDemo'>
+	<!-- Inherit the core Web Toolkit stuff. -->
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name="com.google.gwt.resources.Resources" />
+
+	<!-- Other module inherits -->
+	<inherits name="com.google.gwt.inject.Inject" />
+	<inherits name='com.google.web.bindery.event.EventBinder' />
+	<inherits name='org.cotrix.web.common.CotrixCommon' />
+<!-- 	<inherits name='org.cotrix.web.CotrixWeb' /> -->
+	
+	<extend-configuration-property name="extensionModule" value="org.cotrix.web.demo.client.DemoExtension"/>
+
+	<!-- Specify the paths for translatable code -->
+	<source path='client' />
+
+</module>

@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.publish.shared;
 
-import org.cotrix.web.share.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.codelist.UIQName;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 

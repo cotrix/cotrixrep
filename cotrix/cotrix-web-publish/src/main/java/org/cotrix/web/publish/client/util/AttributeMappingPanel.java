@@ -6,11 +6,11 @@ package org.cotrix.web.publish.client.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.publish.client.resources.Resources;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
-import org.cotrix.web.share.client.resources.CommonResources;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.ClickEvent;

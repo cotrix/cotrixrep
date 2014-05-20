@@ -1,7 +1,5 @@
 package org.cotrix.security;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Extracts authentication {@link Token}s from requests.
  * 
@@ -15,5 +13,5 @@ public interface TokenCollector {
 	 * @param request the request
 	 * @return the authentication token, or <code>null</code> if the request does not carry one
 	 */
-	Object token(HttpServletRequest request);
+	Object token(LoginRequest request);
 }

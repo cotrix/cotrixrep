@@ -40,7 +40,7 @@ public class StatisticsServiceTest extends ApplicationTest {
 		repository.add(l1);
 		repository.add(l2);
 		
-		User joe = user().name("joe").email("joe@me.com").build();
+		User joe = user().name("joe").fullName("joe").email("joe@me.com").build();
 		
 		uRepository.add(joe);
 		

@@ -5,9 +5,9 @@ package org.cotrix.web.publish.client.wizard.step.repositorydetails;
 
 import java.util.List;
 
-import org.cotrix.web.share.client.resources.CommonResources;
-import org.cotrix.web.share.shared.codelist.Property;
-import org.cotrix.web.share.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.shared.codelist.Property;
+import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -18,21 +18,23 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class RepositoryDetailsStepViewImpl extends Composite implements RepositoryDetailsStepView {
 	
 	protected static final String NOTHING = "nothing";
 	protected static final int ASSET_PROPERTIES_ROW = 3;
 	protected static final int REPOSITORY_PROPERTIES_ROW = 3;
 
-	private static repositoryDetailsUiBinder uiBinder = GWT.create(repositoryDetailsUiBinder.class);
+	private static RepositoryDetailsUiBinder uiBinder = GWT.create(RepositoryDetailsUiBinder.class);
 	
 	@UiTemplate("RepositoryDetailsStep.ui.xml")
-	interface repositoryDetailsUiBinder extends UiBinder<Widget, RepositoryDetailsStepViewImpl> {
+	interface RepositoryDetailsUiBinder extends UiBinder<Widget, RepositoryDetailsStepViewImpl> {
 	}
 
 	@UiField Grid repositoryDetails;

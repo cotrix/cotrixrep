@@ -7,8 +7,8 @@
 		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>cotrix-lifecycle</artifactId>
 
+	<artifactId>cotrix-lifecycle</artifactId>
 
 
 	<dependencies>

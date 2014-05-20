@@ -1,9 +1,9 @@
 package org.cotrix.web.publish.client.wizard.step.done;
 
+import org.cotrix.web.common.client.resources.CotrixSimplePager;
+import org.cotrix.web.common.client.resources.DataGridReportResource;
+import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.publish.shared.DownloadType;
-import org.cotrix.web.share.client.resources.CotrixSimplePager;
-import org.cotrix.web.share.client.resources.DataGridReportResource;
-import org.cotrix.web.share.shared.ReportLog;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.TextCell;
@@ -23,11 +23,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
+@Singleton
 public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 
 	protected static final String DOWNLOAD_URL = GWT.getModuleBaseURL()+"service/publishDownload?"+DownloadType.PARAMETER_NAME+"="+DownloadType.REPORT;

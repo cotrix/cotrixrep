@@ -3,15 +3,15 @@
  */
 package org.cotrix.web.publish.client.wizard.task;
 
+import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
 import org.cotrix.web.publish.client.wizard.step.codelistdetails.CodelistDetailsStepPresenter;
-import org.cotrix.web.share.client.wizard.WizardAction;
-import org.cotrix.web.share.client.wizard.event.ResetWizardEvent;
-import org.cotrix.web.share.client.wizard.step.TaskWizardStep;
-import org.cotrix.web.share.shared.codelist.UICodelist;
-import org.cotrix.web.share.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.wizard.client.WizardAction;
+import org.cotrix.web.wizard.client.event.ResetWizardEvent;
+import org.cotrix.web.wizard.client.step.TaskWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
