@@ -1,4 +1,4 @@
-package org.cotrix.web.client.view;
+package org.cotrix.web.client.main;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

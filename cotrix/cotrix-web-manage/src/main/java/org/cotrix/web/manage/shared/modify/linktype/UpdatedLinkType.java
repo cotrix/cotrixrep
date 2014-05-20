@@ -3,9 +3,11 @@
  */
 package org.cotrix.web.manage.shared.modify.linktype;
 
+import java.util.List;
+
 import org.cotrix.web.common.shared.codelist.HasAttributes;
+import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
-import org.cotrix.web.manage.shared.modify.ContainsAttributed;
 import org.cotrix.web.manage.shared.modify.HasId;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 
@@ -13,29 +15,31 @@ import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UpdatedLinkType extends ModifyCommandResult implements ContainsAttributed, HasId {
+public class UpdatedLinkType extends ModifyCommandResult implements HasId, HasAttributes {
 	
-	protected UILinkType link;
+	protected UILinkType updatedLinkType;
 	
 	protected UpdatedLinkType(){}
 
-	/**
-	 * @param id
-	 */
 	public UpdatedLinkType(UILinkType link) {
-		this.link = link;
+		this.updatedLinkType = link;
 	}
 
 	/**
 	 * @return the id
 	 */
 	public String getId() {
-		return link.getId();
+		return updatedLinkType.getId();
 	}
-
+	
 	@Override
-	public HasAttributes getAttributed() {
-		return link;
+	public List<UIAttribute> getAttributes() {
+		return updatedLinkType.getAttributes();
+	}
+	
+	@Override
+	public void setAttributes(List<UIAttribute> attributes) {
+		updatedLinkType.setAttributes(attributes);
 	}
 
 	/** 
@@ -44,8 +48,8 @@ public class UpdatedLinkType extends ModifyCommandResult implements ContainsAttr
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("UpdatedLinkType [link=");
-		builder.append(link);
+		builder.append("UpdatedLinkType [updatedLinkType=");
+		builder.append(updatedLinkType);
 		builder.append("]");
 		return builder.toString();
 	}

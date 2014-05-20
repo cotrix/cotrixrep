@@ -1,4 +1,4 @@
-package org.cotrix.web.client.view;
+package org.cotrix.web.client.userbar;
 
 import org.cotrix.web.common.client.ext.HasExtensionArea;
 

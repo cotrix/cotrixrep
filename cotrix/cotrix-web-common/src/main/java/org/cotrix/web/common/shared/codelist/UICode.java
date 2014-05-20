@@ -14,7 +14,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UICode implements Identifiable, IsSerializable {
+public class UICode implements Identifiable, IsSerializable, HasAttributes {
 	
 	private String id;
 	private UIQName name;

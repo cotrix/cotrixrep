@@ -14,16 +14,13 @@ import com.google.inject.ImplementedBy;
 public interface CsvPreviewStepView {
 	
 	public interface Presenter {
-		void onCsvConfigurationEdited(CsvConfiguration configuration);
 	}
 
 	public List<String> getHeaders();
 	
 	public void setCsvParserConfiguration(CsvConfiguration configuration);
 	
-	void alert(String message);
-
-	void setPresenter(Presenter presenter);
-	
 	Widget asWidget();
+
+	public CsvConfiguration getConfiguration();
 }

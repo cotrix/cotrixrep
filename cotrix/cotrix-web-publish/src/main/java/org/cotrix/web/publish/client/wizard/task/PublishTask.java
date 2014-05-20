@@ -30,7 +30,6 @@ import org.cotrix.web.wizard.client.step.TaskWizardStep;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
@@ -187,7 +186,6 @@ public class PublishTask implements TaskWizardStep {
 			public void onSuccess(Progress result) {
 				Log.trace("Import progress: "+result);
 				if (result.isComplete()) publishComplete(result);
-				if (destination==Destination.FILE && result.getStatus()==Status.DONE) startDownload();
 			}
 		});
 	}
@@ -202,16 +200,16 @@ public class PublishTask implements TaskWizardStep {
 	
 	protected void publishComplete(Progress progress) {
 		publishProgressPolling.cancel();
-		publishBus.fireEvent(new PublishCompleteEvent(progress));
+		publishBus.fireEvent(new PublishCompleteEvent(progress, getDownloadUrl()));
 		if (progress.getStatus() == Status.DONE) callback.onSuccess(PublishWizardAction.NEXT);
 		else callback.onFailure(progress.getFailureCause());
 	}
 	
-	protected void startDownload() {
+	private String getDownloadUrl() {
+		if (destination != Destination.FILE) return null;
 		String url = DOWNLOAD_URL;
 		if (format!=null) url += "&" + Format.PARAMETER_NAME+"="+format;
-		
-		Window.open(url, "myWindow", "");
+		return url;
 	}
 
 	@Override

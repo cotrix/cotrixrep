@@ -1,8 +1,8 @@
-package org.cotrix.web.client.presenter;
+package org.cotrix.web.client.main;
 
 import java.util.EnumMap;
 
-import org.cotrix.web.client.view.CotrixWebView;
+import org.cotrix.web.client.userbar.UserBarPresenter;
 import org.cotrix.web.common.client.CotrixModule;
 import org.cotrix.web.common.client.CotrixModuleController;
 import org.cotrix.web.common.client.Presenter;

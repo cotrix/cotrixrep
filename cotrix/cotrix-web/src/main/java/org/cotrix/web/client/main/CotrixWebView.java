@@ -1,4 +1,4 @@
-package org.cotrix.web.client.view;
+package org.cotrix.web.client.main;
 
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;

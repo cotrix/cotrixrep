@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.cotrix.web.ingest.shared.AttributeMapping;
-import org.virtualrepository.tabular.Table;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -12,8 +11,6 @@ import org.virtualrepository.tabular.Table;
  */
 public interface MappingGuesser extends Serializable {
 
-	public List<AttributeMapping> guessMappings(Table table);
-	
-	public List<AttributeMapping> getSdmxDefaultMappings();
+	public List<AttributeMapping> guessMappings(List<String> userLabels);
 
 }

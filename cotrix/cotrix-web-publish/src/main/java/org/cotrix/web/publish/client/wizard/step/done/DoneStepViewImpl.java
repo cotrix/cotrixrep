@@ -40,8 +40,7 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 	interface DoneStepViewUiBinder extends UiBinder<Widget, DoneStepViewImpl> {
 	}
 	
-	@UiField Button reportDownload;
-	
+	@UiField Button codelistDownload;
 	
 	@UiField(provided = true)
 	DataGrid<ReportLog> reportGrid;
@@ -49,7 +48,9 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 	@UiField(provided = true)
 	SimplePager reportPager;
 	
-	protected ReportLogDataProvider dataProvider;
+	private ReportLogDataProvider dataProvider;
+	
+	private String downloadCodelistUrl;
 
 	@Inject
 	public DoneStepViewImpl(ReportLogDataProvider dataProvider) {
@@ -60,8 +61,23 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 	}
 	
 	@UiHandler("reportDownload")
-	protected void downloadReport(ClickEvent clickEvent) {
+	void downloadReport(ClickEvent clickEvent) {
 		Window.open(DOWNLOAD_URL, "_blank", "");
+	}
+	
+	@UiHandler("codelistDownload")
+	void codelistDownload(ClickEvent clickEvent) {
+		Window.open(downloadCodelistUrl, "_blank", "");
+	}
+	
+	@Override
+	public void setCodelistDownloadUrl(String url) {
+		this.downloadCodelistUrl = url;
+	}
+	
+	@Override
+	public void setCodelistDownloadButtonVisible(boolean visible) {
+		codelistDownload.setVisible(visible);
 	}
 	
 	/** 
@@ -77,7 +93,7 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 		}*/
 	}
 	
-	protected void setupGrid()
+	private void setupGrid()
 	{
 		reportGrid = new DataGrid<ReportLog>(8, DataGridReportResource.INSTANCE);
 		reportGrid.setAutoHeaderRefreshDisabled(true);

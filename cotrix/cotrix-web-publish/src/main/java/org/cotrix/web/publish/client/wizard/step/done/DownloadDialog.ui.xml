@@ -1,0 +1,18 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
+		field="resources" />
+	<g:HTMLPanel styleName="{resources.css.dialogBox}" width="300px" height="300px">
+		<div class="{resources.css.dialogTitle}" id="login.title">
+			Download
+		</div>
+		<div class="{resources.css.dialogSubtitle}">
+			Your file is ready, click the link below to download it:
+		</div>
+		<div class="{resources.css.dialogTextfield}">
+			<g:Anchor ui:field="downloadLink">download</g:Anchor>
+		</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

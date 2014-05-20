@@ -97,18 +97,22 @@ public class DownloadServlet extends HttpServlet {
 			return;
 		}
 		
-		File csv = (File) result;
+		File file = (File) result;
+		if (!file.exists()) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "The result is not more available");
+			return;
+		}
+		
 		String extension = "bin";
 		switch (format) {
 			case CSV: extension = "csv"; break;
 			case SDMX: extension = "xml"; break;
-			case COMET: extension = "xml";
+			case COMET: extension = "xml"; break;
 		}
 		String filename = FileNameUtil.toValidFileName(session.getPublishStatus().getPublishedCodelist().name().getLocalPart()+"."+extension);
-		Reader content = new FileReader(csv);
+		Reader content = new FileReader(file);
 		flushContent(response, filename, content);
 		session.getPublishStatus().setPublishResult(null);
-		csv.delete();
 	}
 	
 	protected void flushContent(HttpServletResponse response, String fileName, Reader content) throws IOException {

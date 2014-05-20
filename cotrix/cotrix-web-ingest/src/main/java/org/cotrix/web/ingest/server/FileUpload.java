@@ -17,6 +17,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.cotrix.web.common.server.util.FileNameUtil;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.server.upload.CodeListTypeGuesser;
+import org.cotrix.web.ingest.server.upload.DefaultMappingsGuessers;
 import org.cotrix.web.ingest.server.upload.MappingsManager;
 import org.cotrix.web.ingest.server.upload.PreviewDataManager;
 import org.cotrix.web.ingest.server.upload.UploadProgressListener;
@@ -118,7 +119,7 @@ public class FileUpload extends HttpServlet{
 			}
 
 			logger.trace("Received file {} with size {} and content type {}", fileField.getName(), fileField.getSize(), fileField.getContentType());
-			UIAssetType codeListType = typeGuesser.guess(fileField.getName(), fileField.getContentType());
+			UIAssetType codeListType = typeGuesser.guess(fileField.getName(), fileField.getContentType(), fileField.getInputStream());
 
 			if (codeListType == null) {
 				logger.error("failed to guess the codelist type");
@@ -146,7 +147,7 @@ public class FileUpload extends HttpServlet{
 				} break;
 				case SDMX: {
 					try {
-						mappingsManager.setDefaultSdmxMappings();
+						mappingsManager.setMappingGuesser(DefaultMappingsGuessers.SdmxMappingGuesser.INSTANCE);
 
 						CodelistBean codelistBean = parsingHelper.parse(fileField.getInputStream());
 						String codelistName = codelistBean.getName();

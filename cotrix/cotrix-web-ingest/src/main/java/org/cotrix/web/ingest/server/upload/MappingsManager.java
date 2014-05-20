@@ -7,10 +7,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 
 import org.cotrix.web.ingest.shared.AttributeMapping;
-import org.virtualrepository.tabular.Table;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -19,29 +17,15 @@ import org.virtualrepository.tabular.Table;
 @SessionScoped
 public class MappingsManager implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2875724067244508182L;
 
-	@Inject
-	protected MappingGuesser mappingsGuesser;
+	private MappingGuesser mappingsGuesser;
 	
-	protected List<AttributeMapping> mappings;
-	
-	public void updateMappings(Table table) {
-		 mappings = mappingsGuesser.guessMappings(table);
+	public void setMappingGuesser(MappingGuesser mappingGuesser) {
+		this.mappingsGuesser = mappingGuesser;
 	}
 	
-	public void setDefaultSdmxMappings() {
-		mappings = mappingsGuesser.getSdmxDefaultMappings();
+	public List<AttributeMapping> getMappings(List<String> userLabels) {
+		return mappingsGuesser.guessMappings(userLabels);
 	}
-
-	/**
-	 * @return the mappings
-	 */
-	public List<AttributeMapping> getMappings() {
-		return mappings;
-	}
-
 }

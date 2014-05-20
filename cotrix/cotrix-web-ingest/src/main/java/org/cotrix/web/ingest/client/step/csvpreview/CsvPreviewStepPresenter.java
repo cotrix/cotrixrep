@@ -1,6 +1,10 @@
 package org.cotrix.web.ingest.client.step.csvpreview;
 
+import java.util.List;
+
+import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.shared.CsvConfiguration;
+import org.cotrix.web.ingest.client.event.CsvHeadersEvent;
 import org.cotrix.web.ingest.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
@@ -25,17 +29,19 @@ public class CsvPreviewStepPresenter extends AbstractVisualWizardStep implements
 
 	protected static interface CsvPreviewStepPresenterEventBinder extends EventBinder<CsvPreviewStepPresenter> {}
 	
-	private final CsvPreviewStepView view;
-	protected EventBus importEventBus;
-	protected boolean headerRequired = false;
+	@Inject
+	private CsvPreviewStepView view;
+	
+	@Inject
+	private AlertDialog alertDialog;
+	
+	@Inject @ImportBus 
+	private EventBus importEventBus;
+	private boolean headerRequired = false;
 
 	@Inject
-	public CsvPreviewStepPresenter(CsvPreviewStepView view, @ImportBus EventBus importEventBus) {
+	public CsvPreviewStepPresenter() {
 		super("csv-preview", TrackerLabels.PREVIEW, "Does it look right?", "Adjust the parameters until it does.", ImportWizardStepButtons.BACKWARD, ImportWizardStepButtons.FORWARD);
-		this.view = view;
-		this.view.setPresenter(this);
-
-		this.importEventBus = importEventBus;
 	}
 	
 	@Inject
@@ -48,17 +54,28 @@ public class CsvPreviewStepPresenter extends AbstractVisualWizardStep implements
 	}
 
 	public boolean leave() {
-		if (headerRequired && !areHeadersValid()) {
-			view.alert("All header fields should be filled");
+		CsvConfiguration configuration = view.getConfiguration();
+		updateHeaderRequired(configuration);
+		importEventBus.fireEventFromSource(new CsvParserConfigurationUpdatedEvent(configuration), this);
+		
+		List<String> headers = view.getHeaders();
+		if (headerRequired && !areHeadersValid(headers)) {
+			alert("All header fields should be filled");
 			return false;
 		}
+		
+		importEventBus.fireEvent(new CsvHeadersEvent(headers));
 		return true;
 	}
 
-	protected boolean areHeadersValid()
+	private boolean areHeadersValid(List<String> headers)
 	{
-		for (String header:view.getHeaders()) if (header == null || header.isEmpty()) return false;
+		for (String header:headers) if (header == null || header.isEmpty()) return false;
 		return true;
+	}
+	
+	private void alert(String message) {
+		alertDialog.center(message);
 	}
 
 	@EventHandler
@@ -66,11 +83,11 @@ public class CsvPreviewStepPresenter extends AbstractVisualWizardStep implements
 		if (event.getSource()!=this) {
 			Log.trace("csv parser configuration updated: "+event.getConfiguration());
 			view.setCsvParserConfiguration(event.getConfiguration());
+			updateHeaderRequired(event.getConfiguration());
 		}
 	}
-
-	@Override
-	public void onCsvConfigurationEdited(CsvConfiguration configuration) {
-		importEventBus.fireEventFromSource(new CsvParserConfigurationUpdatedEvent(configuration), this);
+	
+	private void updateHeaderRequired(CsvConfiguration configuration) {
+		headerRequired = !configuration.isHasHeader();
 	}
 }

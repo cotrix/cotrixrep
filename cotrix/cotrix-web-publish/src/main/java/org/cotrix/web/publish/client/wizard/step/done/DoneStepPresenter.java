@@ -21,8 +21,11 @@ import com.google.web.bindery.event.shared.EventBus;
 @Singleton
 public class DoneStepPresenter extends AbstractVisualWizardStep implements VisualWizardStep {
 	
-	protected DoneStepView view;
-	protected EventBus publishBus;
+	private DoneStepView view;
+	private EventBus publishBus;
+	
+	@Inject
+	private DownloadDialog downloadDialog;
 	
 	@Inject
 	public DoneStepPresenter(DoneStepView view, @PublishBus EventBus publishBus) {
@@ -32,16 +35,15 @@ public class DoneStepPresenter extends AbstractVisualWizardStep implements Visua
 		bind();
 	}
 	
-	protected void bind() {
+	private void bind() {
 		publishBus.addHandler(PublishCompleteEvent.TYPE, new PublishCompleteEvent.PublishCompleteHandler() {
 			
 			@Override
 			public void onPublishComplete(PublishCompleteEvent event) {
-				
 				Progress progress = event.getProgress();
 				if (progress.getStatus() == Status.DONE) {
 					if (progress.isMappingFailed()) setFailed();
-					else setDone();
+					else setDone(event.getDownloadUrl());
 				}
 			}
 		});
@@ -55,17 +57,27 @@ public class DoneStepPresenter extends AbstractVisualWizardStep implements Visua
 		return true;
 	}
 	
-	protected void setDone() {
+	private void setDone(String downloadUrl) {
 		configuration.setTitle("That's done");
 		configuration.setButtons(PublishWizardStepButtons.NEW_PUBLISH);
 		configuration.setSubtitle("Check the log for potential errors or warnings.");
 		view.loadReport();
+		
+		if (downloadUrl!=null) {
+			showDownload(downloadUrl);
+			view.setCodelistDownloadUrl(downloadUrl);
+			view.setCodelistDownloadButtonVisible(true);
+		} else view.setCodelistDownloadButtonVisible(false);
 	}
 	
-	protected void setFailed() {
+	private void setFailed() {
 		configuration.setTitle("...Oops!");
 		configuration.setButtons(PublishWizardStepButtons.BACKWARD);
 		configuration.setSubtitle("Something went wrong, check the log.");
 		view.loadReport();
+	}
+	
+	private void showDownload(String url) {
+		downloadDialog.showCentered(url);
 	}
 }

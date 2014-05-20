@@ -13,7 +13,6 @@ import org.cotrix.web.manage.client.util.LabelHeader;
 import org.cotrix.web.manage.client.util.LabelHeader.Button;
 import org.cotrix.web.manage.client.util.LabelHeader.HeaderListener;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -216,8 +215,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		boolean nameValid = name!=null && !name.isEmpty();
 		detailsPanel.setNameFieldValid(nameValid);
 		valid &= nameValid;
-		
-		Log.trace("Valid ? "+valid);
+
 		header.setSaveVisible(valid);
 	}
 

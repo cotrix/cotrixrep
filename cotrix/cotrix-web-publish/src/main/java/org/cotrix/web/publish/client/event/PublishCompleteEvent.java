@@ -12,21 +12,25 @@ import com.google.gwt.event.shared.GwtEvent;
 public class PublishCompleteEvent extends GwtEvent<PublishCompleteEvent.PublishCompleteHandler> {
 
 	public static Type<PublishCompleteHandler> TYPE = new Type<PublishCompleteHandler>();
+	
 	private Progress progress;
+	private String downloadUrl;
 
 	public interface PublishCompleteHandler extends EventHandler {
 		void onPublishComplete(PublishCompleteEvent event);
 	}
 
-	public PublishCompleteEvent(Progress progress) {
+	public PublishCompleteEvent(Progress progress, String downloadUrl) {
 		this.progress = progress;
+		this.downloadUrl = downloadUrl;
 	}
 
-	/**
-	 * @return the progress
-	 */
 	public Progress getProgress() {
 		return progress;
+	}
+
+	public String getDownloadUrl() {
+		return downloadUrl;
 	}
 
 	@Override

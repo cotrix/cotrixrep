@@ -1,4 +1,4 @@
-package org.cotrix.web.client.view;
+package org.cotrix.web.client.home;
 
 import java.util.List;
 
@@ -19,4 +19,8 @@ public interface HomeView {
 	public Widget asWidget();
 
 	void setNews(List<UINews> newses);
+
+	void setNewsNotAvailable();
+
+	void setStatisticsNotAvailable();
 }

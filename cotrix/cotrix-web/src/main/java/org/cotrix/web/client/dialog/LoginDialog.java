@@ -1,4 +1,4 @@
-package org.cotrix.web.client.view;
+package org.cotrix.web.client.dialog;
 
 import com.google.inject.ImplementedBy;
 

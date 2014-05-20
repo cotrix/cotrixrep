@@ -38,27 +38,13 @@ public class ParsingHelper {
 	@Inject
 	ParseService service;
 	
-	public PreviewData getCsvPreviewData(CsvConfiguration parserConfiguration, InputStream inputStream) throws IOException
-	{
-		logger.trace("creating preview");
-
-		Table table = parse(parserConfiguration, inputStream);
-
-		logger.trace("converting");
-		PreviewData previewData = convert(table, !parserConfiguration.isHasHeader(), ROW_LIMIT);
-		logger.trace("ready");
-		
-		return previewData;
-	}
-	
 	public Table parse(CsvConfiguration parserConfiguration, InputStream inputStream) throws IOException
 	{
-
 		Csv2TableDirectives directives = getDirectives(parserConfiguration);
 
 		logger.trace("parsing");
 		Table table = service.parse(inputStream, directives);
-		inputStream.close();
+
 		return table;
 	}
 	
@@ -107,10 +93,12 @@ public class ParsingHelper {
 	{
 		List<List<String>> data = new ArrayList<List<String>>();
 		int rowCount = 0;
+		table.iterator();
 		for (Row row:table) {
 			data.add(getRow(row, table.columns()));
 			if (rowLimit>=0 && rowCount++ > rowLimit) break;
 		}
+		logger.trace("rows: "+data.size());
 		return data;
 	}
 	

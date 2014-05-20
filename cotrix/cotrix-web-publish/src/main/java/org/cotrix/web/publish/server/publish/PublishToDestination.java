@@ -21,6 +21,7 @@ import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
+import org.cotrix.web.common.server.util.TmpFileManager;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.common.shared.exception.ServiceErrorException;
@@ -43,14 +44,18 @@ public interface PublishToDestination {
 		private Event<CodelistActionEvents.Publish> events;
 
 		@Inject
-		protected SerialisationService serialiser;
+		private SerialisationService serialiser;
+		
+		@Inject
+		private TmpFileManager tmpFileManager;
 
 		/** 
 		 * {@inheritDoc}
 		 */
 		@Override
 		public <T> void publish(Codelist source,T mapped, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) throws Exception {
-			File destination = File.createTempFile("publish", ".tmp");
+			File destination = tmpFileManager.createTmpFile();
+			
 			OutputStream os = new FileOutputStream(destination);
 			serialiser.serialise(mapped, os, serializationDirectives);
 			publishStatus.setPublishResult(destination);

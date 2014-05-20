@@ -107,7 +107,7 @@ public class UploadStepPresenter extends AbstractVisualWizardStep implements Vis
 		}
 		
 		String type = file.getType();
-		if (type == null) {
+		if (type == null || type.isEmpty()) {
 			//we will check the type on server side
 			return true;
 		}

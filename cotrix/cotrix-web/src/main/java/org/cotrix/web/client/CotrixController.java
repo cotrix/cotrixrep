@@ -2,8 +2,8 @@ package org.cotrix.web.client;
 
 import java.util.EnumMap;
 
-import org.cotrix.web.client.presenter.CotrixWebPresenter;
-import org.cotrix.web.client.presenter.HomeController;
+import org.cotrix.web.client.home.HomeController;
+import org.cotrix.web.client.main.CotrixWebPresenter;
 import org.cotrix.web.common.client.CotrixModule;
 import org.cotrix.web.common.client.CotrixModuleController;
 import org.cotrix.web.common.client.Presenter;

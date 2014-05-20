@@ -6,22 +6,11 @@
 
 /** PREVIEW **/
 .previewHeader {
-	background-color: #e1e1e1;
-	color: #686868;
-	padding: 5px;
+	width: 100%;
+	box-sizing: border-box;
+	height: 31px;
 }
 
-.preview {
-	background-color: #d1d1d1;
-	border-spacing: 1px;
-	border-color: gray;
-}
-
-.previewCell {
-	background-color: #f6f6f6;
-	color: #989898;
-	padding: 5px;
-}
 
 /** BUTTONS **/
 /** SOURCE SELECTION moved here due to https://code.google.com/p/google-web-toolkit/issues/detail?id=5320 **/

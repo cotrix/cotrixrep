@@ -1,4 +1,4 @@
-package org.cotrix.web.client.view;
+package org.cotrix.web.client.dialog;
 
 import javax.inject.Inject;
 
@@ -27,12 +27,12 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
+public class LoginDialogImpl extends PopupPanel implements LoginDialog {
 	
 	private static final Binder binder = GWT.create(Binder.class);
 	
-	@UiTemplate("RegisterDialog.ui.xml")
-	interface Binder extends UiBinder<Widget, RegisterDialogImpl> {}
+	@UiTemplate("LoginDialog.ui.xml")
+	interface Binder extends UiBinder<Widget, LoginDialogImpl> {}
 	
 	@UiField
 	TextBox username;
@@ -40,15 +40,12 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 	@UiField
 	PasswordTextBox password;
 	
-	@UiField
-	TextBox email;
-	
 	@Inject
 	CommonResources resources;
 	
-	private RegisterDialogListener listener;
+	private LoginDialogListener listener;
 
-	public RegisterDialogImpl() {
+	public LoginDialogImpl() {
 		setWidget(binder.createAndBindUi(this));
 		setAutoHideEnabled(true);
 	}
@@ -56,43 +53,43 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 	/**
 	 * @param listener the listener to set
 	 */
-	public void setListener(RegisterDialogListener listener) {
+	public void setListener(LoginDialogListener listener) {
 		this.listener = listener;
 	}
-	
+
 	/**
 	 * @return the listener
 	 */
-	public RegisterDialogListener getListener() {
+	public LoginDialogListener getListener() {
 		return listener;
 	}
 
-	@UiHandler({"username","password","email"})
-	protected void onKeyDown(KeyDownEvent event)
-	{
+	@UiHandler({"username","password"})
+	protected void onKeyDown(KeyDownEvent event) {
 		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-	    	 doRegister();
+			 doLogin();
 	     }
+		 
 		 if (event.getSource() instanceof UIObject) {
 			 UIObject uiObject = (UIObject)event.getSource();
 			 uiObject.setStyleName(resources.css().dialogTextboxInvalid(), false);
 		 }
 	}
 	
-	@UiHandler("create")
-	protected void onRegister(ClickEvent clickEvent)
+	@UiHandler("login")
+	protected void onLogin(ClickEvent clickEvent)
 	{
-		doRegister();
+		doLogin();
 	}
 	
-	protected void doRegister() {
-		boolean valid = validate();
-		if (valid && listener!=null) listener.onRegister(username.getText(), password.getText(), email.getText());
+	@UiHandler("register")
+	protected void onRegister(ClickEvent clickEvent) {
+		if (listener!=null) listener.onRegister();
 	}
 	
-	protected boolean validate()
-	{
+	protected boolean validate() {
 		boolean valid = true;
+		
 		if (!AccountValidator.validateUsername(username.getText())) {
 			username.setStyleName(resources.css().dialogTextboxInvalid(), true);
 			valid = false;
@@ -103,25 +100,25 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 			valid = false;
 		}
 		
-		if (!AccountValidator.validateEMail(email.getText())) {
-			email.setStyleName(resources.css().dialogTextboxInvalid(), true);
-			valid = false;
-		}
-		
 		return valid;
 	}
-
+	
 	protected void cleanValidation() {
 		username.setStyleName(resources.css().dialogTextboxInvalid(), false);
 		password.setStyleName(resources.css().dialogTextboxInvalid(), false);
-		email.setStyleName(resources.css().dialogTextboxInvalid(), false);
 	}
 	
+	protected void doLogin() {
+		boolean valid = validate();
+		if (valid && listener!=null) listener.onLogin(username.getText(), password.getText());
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void showCentered() {
+		
 		super.center();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
@@ -131,7 +128,7 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 		    }
 		});
 	}
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -139,8 +136,7 @@ public class RegisterDialogImpl extends PopupPanel implements RegisterDialog {
 	public void clean() {
 		username.setText("");
 		password.setText("");
-		email.setText("");
 		cleanValidation();
 	}
-
+	
 }

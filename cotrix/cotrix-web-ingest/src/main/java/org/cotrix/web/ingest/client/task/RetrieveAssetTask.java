@@ -80,9 +80,9 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 				Log.trace("done selectedItemUpdated");
 				
 				assetRetrieved = true;
-				callback.onSuccess(ImportWizardAction.NEXT);
-				
 				importEventBus.fireEvent(new AssetRetrievedEvent(selectedAsset));
+				
+				callback.onSuccess(ImportWizardAction.NEXT);
 			}
 		});	
 	}

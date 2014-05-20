@@ -707,7 +707,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	}
 
 	public void insertColumn(int beforeIndex, Column<T, ?> col, Header<?> header, Header<?> footer) {
-		Log.trace("insertColumn "+header.getValue());
+		//Log.trace("insertColumn "+header.getValue());
 		
 		/*if (autoAdjust) {
 			double width = getRequiredSize(col);
@@ -725,7 +725,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	}
 	
 	public void removeColumn(int index) {
-		Log.trace("removeColumn "+index);
+		//Log.trace("removeColumn "+index);
 		if (autoAdjust) {
 		Column<T, ?> column = getColumn(index);
 		columnWidths.remove(column);

@@ -12,7 +12,6 @@ import com.google.inject.Singleton;
 @Singleton
 public interface Resources extends ClientBundle {
 	
-	@Deprecated
 	public static final Resources INSTANCE = GWT.create(Resources.class);
 	
 	@Source("style.css")
