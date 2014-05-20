@@ -1,6 +1,6 @@
 package org.cotrix.domain.codelist;
 
-import org.cotrix.domain.links.OccurrenceRange;
+import org.cotrix.domain.common.OccurrenceRange;
 import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Attributed;

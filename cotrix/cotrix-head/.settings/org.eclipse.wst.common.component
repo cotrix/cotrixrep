@@ -23,9 +23,6 @@
         <dependent-module archiveName="cotrix-io-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-io/cotrix-io">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="sdmxsource-adapter-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sdmxsource-adapter/sdmxsource-adapter">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="comet-mapping-format-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/comet-mapping-format/comet-mapping-format">
             <dependency-type>uses</dependency-type>
         </dependent-module>

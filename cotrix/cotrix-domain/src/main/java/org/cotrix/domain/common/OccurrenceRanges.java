@@ -1,6 +1,6 @@
-package org.cotrix.domain.links;
+package org.cotrix.domain.common;
 
-import org.cotrix.domain.links.OccurrenceRange.Default;
+import org.cotrix.domain.common.OccurrenceRange.Default;
 
 public class OccurrenceRanges {
 

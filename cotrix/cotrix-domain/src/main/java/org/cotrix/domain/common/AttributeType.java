@@ -4,17 +4,19 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.links.OccurrenceRange;
-import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
 
-public interface AttributeType extends Identified, Attributed, Named {
+/**
+ * The type of an attribute.
+ * 
+ */
+public interface AttributeType extends Identified, Named {
 
 	/**
-	 * Returns the type of instances.
+	 * Returns a name for the broad semantics of instances.
 	 * 
 	 * @return the type
 	 */
@@ -29,6 +31,7 @@ public interface AttributeType extends Identified, Attributed, Named {
 	
 	/**
 	 * Returns the data type of instance values.
+	 * 
 	 * @return the data type
 	 */
 	AttributeValueType valueType();
@@ -42,7 +45,7 @@ public interface AttributeType extends Identified, Attributed, Named {
 	
 		
 	
-	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
+	static interface State extends Identified.State, Named.State, EntityProvider<Private> {
 
 		QName type();
 
@@ -65,7 +68,7 @@ public interface AttributeType extends Identified, Attributed, Named {
 	 * A {@link Named.Abstract} implementation of {@link AttributeType}.
 	 * 
 	 */
-	public class Private extends Named.Abstract<Private,State> implements AttributeType {
+	public class Private extends Identified.Abstract<Private,State> implements AttributeType {
 
 		public Private(AttributeType.State state) {
 			super(state);

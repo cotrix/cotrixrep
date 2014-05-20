@@ -1,4 +1,4 @@
-package org.cotrix.domain.links;
+package org.cotrix.domain.common;
 
 import static org.cotrix.common.Utils.*;
 

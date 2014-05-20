@@ -3,10 +3,14 @@ package org.cotrix.domain.dsl.builder;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.common.AttributeType;
+import org.cotrix.domain.common.AttributeValueType;
+import org.cotrix.domain.common.OccurrenceRange;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeDeltaClause;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
-import org.cotrix.domain.memory.AttributeMS;
+import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.AttributeTypeDeltaClause;
+import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.AttributeTypeStartClause;
+import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.OptionalClause;
+import org.cotrix.domain.memory.AttributeTypeMS;
 
 /**
  * Builds {@link Attribute}s.
@@ -14,12 +18,12 @@ import org.cotrix.domain.memory.AttributeMS;
  * @author Fabio Simeoni
  *
  */
-public class AttributeTypeBuilder implements AttributeStartClause, AttributeDeltaClause {
+public class AttributeTypeBuilder implements AttributeTypeStartClause, AttributeTypeDeltaClause {
 
-	private final AttributeMS state;
+	private final AttributeTypeMS state;
 
 	
-	public AttributeTypeBuilder(AttributeMS state) {
+	public AttributeTypeBuilder(AttributeTypeMS state) {
 		this.state = state;
 	}
 	
@@ -44,6 +48,18 @@ public class AttributeTypeBuilder implements AttributeStartClause, AttributeDelt
 	public AttributeTypeBuilder ofType(String type) {
 		return ofType(Codes.q(type));
 	}
+
+	@Override
+	public AttributeTypeBuilder withValuesOfType(AttributeValueType valueType) {
+		state.valueType(valueType);
+		return this;
+	}
+	
+	@Override
+	public OptionalClause occurs(OccurrenceRange range) {
+		state.range(range);
+		return this;
+	}
 	
 	@Override
 	public AttributeTypeBuilder in(String language) {
@@ -52,14 +68,7 @@ public class AttributeTypeBuilder implements AttributeStartClause, AttributeDelt
 	}
 
 	@Override
-	public AttributeTypeBuilder value(String value) {
-		state.value(value);
-		return this;
-
-	}
-
-	@Override
-	public Attribute build() {
+	public AttributeType build() {
 		return state.entity();
 	}
 }

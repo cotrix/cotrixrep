@@ -5,6 +5,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.AttributeType;
 import org.cotrix.domain.common.AttributeValueType;
+import org.cotrix.domain.common.OccurrenceRange;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 
@@ -27,9 +28,11 @@ public class AttributeTypeGrammar {
 		
 		OptionalClause ofType(String type);
 		
-		OptionalClause valueType(AttributeValueType type);
+		OptionalClause withValuesOfType(AttributeValueType type);
 	
 		OptionalClause in(String language);
+		
+		OptionalClause occurs(OccurrenceRange range);
 	}
 
 }
