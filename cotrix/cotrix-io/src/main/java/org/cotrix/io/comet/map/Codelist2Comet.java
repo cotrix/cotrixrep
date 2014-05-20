@@ -98,7 +98,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 						MappingDSL.map(element.with(identifierFor(uri(c.name().toString())))));
 		}
 		
-		String msg = "mapped codelist "+codelist.name()+"("+codelist.id()+") to Comet in "+(System.currentTimeMillis()-time)/1000;
+		String msg = "transformed codelist "+codelist.name()+"("+codelist.id()+") to Comet in "+(System.currentTimeMillis()-time)/1000;
 		
 		report().log(item(msg)).as(INFO);
 

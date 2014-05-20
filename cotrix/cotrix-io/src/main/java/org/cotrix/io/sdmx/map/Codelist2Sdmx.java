@@ -51,7 +51,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		
 		double time = System.currentTimeMillis();
 
-		report().log(item("mapping codelist "+codelist.name()+"("+codelist.id()+") to SDMX")).as(INFO)
+		report().log(item("transforming codelist "+codelist.name()+"("+codelist.id()+") to SDMX")).as(INFO)
 				.log(item(Calendar.getInstance().getTime().toString())).as(INFO);
 		
 		String name = directives.name()==null?codelist.name().getLocalPart():directives.name();
@@ -76,7 +76,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			codelistbean.addItem(codebean);
 		}
 		
-		String msg = "mapped codelist "+codelist.name()+"("+codelist.id()+") to SDMX in "+(System.currentTimeMillis()-time)/1000;
+		String msg = "transformed codelist "+codelist.name()+"("+codelist.id()+") to SDMX in "+(System.currentTimeMillis()-time)/1000;
 		
 		report().log(item(msg)).as(INFO);
 
