@@ -203,11 +203,11 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	}
 
 	@Inject
-	protected void bind(CodelistEditorEventBinder binder) {
+	private void bind(CodelistEditorEventBinder binder) {
 		binder.bindEventHandlers(this, editorBus);
 	}
 
-	protected void setupColumns() {
+	private void setupColumns() {
 
 		nameColumn = new CodeColumn(createCell(true));
 
@@ -250,7 +250,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		for (DoubleClickEditTextCell cell:editableCells) cell.setReadOnly(!editable);
 	}
 
-	protected DoubleClickEditTextCell createCell(boolean isEditable)
+	private DoubleClickEditTextCell createCell(boolean isEditable)
 	{
 		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + resources.css().editor();
 		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, cellRenderer);
@@ -262,7 +262,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 	}
 
 	@Inject
-	protected void bind(@CurrentCodelist String codelistId)
+	private void bind(@CurrentCodelist String codelistId)
 	{
 		FeatureBinder.bind(new FeatureToggler() {
 
@@ -313,7 +313,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		}
 	}
 
-	protected void refreshCode(UICode code)
+	private void refreshCode(UICode code)
 	{
 		Log.trace("refreshCode code: "+code);
 		int providerIndex = dataProvider.getCache().indexOf(code);
@@ -323,7 +323,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		if (absoluteIndex>=0) dataGrid.redrawRow(absoluteIndex);
 	}
 
-	protected void removeSelectedCode()
+	private void removeSelectedCode()
 	{
 		Log.trace("removeSelectedCode");
 		UICode code = selectionModel.getSelectedObject();
@@ -334,7 +334,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		}
 	}
 
-	protected void addNewCode()
+	private void addNewCode()
 	{
 		Log.trace("addNewCode");
 		UICode code = CodeFactory.createCode();
@@ -346,7 +346,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		Log.trace("code added to editor");
 	}
 
-	protected Column<UICode, String> getGroupColumn(final Group group)
+	private Column<UICode, String> getGroupColumn(final Group group)
 	{
 		Log.trace("getGroupColumn group: "+group);
 		Column<UICode, String> column = groupsColumns.get(group);
@@ -393,13 +393,13 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		}
 	}
 
-	protected void switchToColumn(Group group)
+	private void switchToColumn(Group group)
 	{
 		addGroupColumn(group);
 		editorBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_COLUMN));
 	}
 
-	protected void addGroupColumn(Group group)
+	private void addGroupColumn(Group group)
 	{
 		if (groupsAsColumn.contains(group)) return;
 		Column<UICode, String> column = getGroupColumn(group);
@@ -408,13 +408,13 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		dataGrid.addColumn(column, new GroupHeader(group));
 	}
 
-	protected void switchToNormal(Group group)
+	private void switchToNormal(Group group)
 	{
 		removeGroupColumn(group);
 		editorBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_NORMAL));
 	}
 
-	protected void removeGroupColumn(Group group)
+	private void removeGroupColumn(Group group)
 	{
 		if (!groupsAsColumn.contains(group)) return;
 		Column<UICode, String> column = getGroupColumn(group);
@@ -422,7 +422,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		dataGrid.removeColumn(column);
 	}
 
-	protected void setGroups(List<Group> groups) {
+	private void setGroups(List<Group> groups) {
 
 		Set<Group> columnsToRemove = new HashSet<Group>(groupsAsColumn);
 		//can't use removeall because based on comparable interface
@@ -434,7 +434,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		for (Group group:groups) switchToColumn(group);
 	}
 
-	protected void switchAllGroupsToNormal() {
+	private void switchAllGroupsToNormal() {
 		Set<Group> groupsToNormal = new HashSet<Group>(groupsAsColumn);
 		for (Group group:groupsToNormal) switchToNormal(group);
 	}
@@ -479,7 +479,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		}
 	}
 
-	protected class GroupHeader extends Header<Group> {
+	private class GroupHeader extends Header<Group> {
 
 		private Group group;
 
@@ -561,7 +561,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		}
 	}
 
-	static class SafeHtmlGroupRenderer extends AbstractSafeHtmlRenderer<Group> {
+	private static class SafeHtmlGroupRenderer extends AbstractSafeHtmlRenderer<Group> {
 
 		static interface GroupHeaderTemplate extends SafeHtmlTemplates {
 
