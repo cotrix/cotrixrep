@@ -2,7 +2,7 @@ package org.cotrix.domain.codelist;
 
 import static org.cotrix.domain.dsl.Codes.*;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.memory.CodelistMS;

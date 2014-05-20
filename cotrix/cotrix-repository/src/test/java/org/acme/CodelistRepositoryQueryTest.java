@@ -14,9 +14,9 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 
 import org.cotrix.action.Action;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistCoordinates;

@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 import java.util.Iterator;
 
 import org.acme.DomainTest;
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;

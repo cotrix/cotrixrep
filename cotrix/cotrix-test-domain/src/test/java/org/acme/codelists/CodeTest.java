@@ -6,8 +6,8 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;
 
 import org.acme.DomainTest;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.memory.CodeMS;
 import org.junit.Test;
 

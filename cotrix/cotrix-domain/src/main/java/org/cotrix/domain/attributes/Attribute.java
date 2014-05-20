@@ -1,4 +1,4 @@
-package org.cotrix.domain.common;
+package org.cotrix.domain.attributes;
 
 import static org.cotrix.domain.utils.Constants.*;
 

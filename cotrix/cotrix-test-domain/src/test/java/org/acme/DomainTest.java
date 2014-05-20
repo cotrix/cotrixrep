@@ -7,7 +7,7 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.memory.IdentifiedMS;
 import org.cotrix.test.ApplicationTest;

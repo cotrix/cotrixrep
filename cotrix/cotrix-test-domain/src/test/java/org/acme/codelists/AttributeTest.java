@@ -7,7 +7,7 @@ import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import org.acme.DomainTest;
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.memory.AttributeMS;
 import org.junit.Test;
 

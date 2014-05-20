@@ -7,7 +7,7 @@ import java.util.Calendar;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.version.Version;
 

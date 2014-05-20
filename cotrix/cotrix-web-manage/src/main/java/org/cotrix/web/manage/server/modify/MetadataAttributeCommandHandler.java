@@ -9,8 +9,8 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.manage.shared.modify.GeneratedId;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;

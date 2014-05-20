@@ -2,9 +2,9 @@ package org.cotrix.domain.dsl.builder;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.common.AttributeType;
-import org.cotrix.domain.common.AttributeValueType;
+import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.AttributeType;
+import org.cotrix.domain.attributes.AttributeValueType;
 import org.cotrix.domain.common.OccurrenceRange;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.AttributeTypeDeltaClause;

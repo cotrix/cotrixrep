@@ -1,9 +1,10 @@
-package org.cotrix.domain.common;
+package org.cotrix.domain.attributes;
 
 import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.common.OccurrenceRange;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;

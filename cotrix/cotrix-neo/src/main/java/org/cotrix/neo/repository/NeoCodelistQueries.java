@@ -22,10 +22,10 @@ import javax.enterprise.inject.Alternative;
 import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.IteratorAdapter;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
