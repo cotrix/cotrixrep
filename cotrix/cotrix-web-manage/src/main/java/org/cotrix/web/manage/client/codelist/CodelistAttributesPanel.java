@@ -277,6 +277,8 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			attributesGrid.addItemPanel(attribute);
 		}
 		
+		refreshSwitches();
+		
 		Log.trace("request refresh of "+visualizedCode.getAttributes().size()+" attributes");
 	}
 
