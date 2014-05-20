@@ -21,7 +21,6 @@ import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.util.Attributes;
-import org.cotrix.web.manage.shared.modify.ContainsAttributed;
 import org.cotrix.web.manage.shared.modify.ContainsValued;
 import org.cotrix.web.manage.shared.modify.HasCode;
 import org.cotrix.web.manage.shared.modify.HasId;
@@ -99,9 +98,7 @@ public class DataSaverManager {
 							identifiable.setId(id);
 						}
 
-						if (data instanceof ContainsAttributed && result instanceof ContainsAttributed) updateAttributes(((ContainsAttributed)data).getAttributed(), ((ContainsAttributed)result).getAttributed());
-						if (data instanceof HasAttributes && result instanceof ContainsAttributed) updateAttributes((HasAttributes)data, ((ContainsAttributed)result).getAttributed());
-						
+						if (data instanceof HasAttributes && result instanceof HasAttributes) updateAttributes((HasAttributes)data, (HasAttributes)result);
 						
 						if (data instanceof ContainsValued && result instanceof HasValue) updateValue(((ContainsValued)data).getValued(), (HasValue)result);
 						
@@ -122,7 +119,7 @@ public class DataSaverManager {
 		}
 
 		protected void updateCode(UICode code, UICode updated) {
-			Log.trace("updating code "+code+" with attributes in "+updated);
+			Log.trace("updating code "+code+" with system attributes in "+updated);
 			Attributes.mergeSystemAttributes(code.getAttributes(), updated.getAttributes());
 			editorBus.fireEvent(new CodeUpdatedEvent(code));
 		}

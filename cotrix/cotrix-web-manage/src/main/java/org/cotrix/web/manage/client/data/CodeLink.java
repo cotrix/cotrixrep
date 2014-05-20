@@ -3,12 +3,14 @@
  */
 package org.cotrix.web.manage.client.data;
 
+import java.util.List;
+
 import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.HasValue;
 import org.cotrix.web.common.shared.codelist.Identifiable;
+import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
-import org.cotrix.web.manage.shared.modify.ContainsAttributed;
 import org.cotrix.web.manage.shared.modify.ContainsValued;
 import org.cotrix.web.manage.shared.modify.HasCode;
 
@@ -16,7 +18,7 @@ import org.cotrix.web.manage.shared.modify.HasCode;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeLink implements HasCode, Identifiable, ContainsValued, ContainsAttributed {
+public class CodeLink implements HasCode, Identifiable, ContainsValued, HasAttributes {
 	
 	protected UICode code;
 	protected UILink link;
@@ -53,9 +55,15 @@ public class CodeLink implements HasCode, Identifiable, ContainsValued, Contains
 	}
 	
 	@Override
-	public HasAttributes getAttributed() {
-		return link;
+	public List<UIAttribute> getAttributes() {
+		return link.getAttributes();
 	}
+	
+	@Override
+	public void setAttributes(List<UIAttribute> attributes) {
+		link.setAttributes(attributes);
+	}
+	
 	@Override
 	public HasValue getValued() {
 		return link;
@@ -74,4 +82,5 @@ public class CodeLink implements HasCode, Identifiable, ContainsValued, Contains
 		builder.append("]");
 		return builder.toString();
 	}
+
 }

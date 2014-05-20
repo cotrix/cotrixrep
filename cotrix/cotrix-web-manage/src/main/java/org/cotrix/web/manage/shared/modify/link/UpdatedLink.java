@@ -3,11 +3,13 @@
  */
 package org.cotrix.web.manage.shared.modify.link;
 
+import java.util.List;
+
 import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.HasValue;
+import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
-import org.cotrix.web.manage.shared.modify.ContainsAttributed;
 import org.cotrix.web.manage.shared.modify.HasCode;
 import org.cotrix.web.manage.shared.modify.HasId;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
@@ -16,26 +18,24 @@ import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UpdatedLink extends ModifyCommandResult implements HasCode, HasId, HasValue, ContainsAttributed {
+public class UpdatedLink extends ModifyCommandResult implements HasCode, HasId, HasValue, HasAttributes {
 	
 	protected UICode code;
-	protected UILink link;
+	protected UILink updatedLink;
 	
 	protected UpdatedLink(){}
 
-	/**
-	 * @param id
-	 */
+
 	public UpdatedLink(UICode code, UILink link) {
 		this.code = code;
-		this.link = link;
+		this.updatedLink = link;
 	}
 
 	/**
 	 * @return the id
 	 */
 	public String getId() {
-		return link!=null?link.getId():null;
+		return updatedLink!=null?updatedLink.getId():null;
 	}
 
 	@Override
@@ -45,16 +45,21 @@ public class UpdatedLink extends ModifyCommandResult implements HasCode, HasId, 
 
 	@Override
 	public String getValue() {
-		return link!=null?link.getValue():null;
+		return updatedLink!=null?updatedLink.getValue():null;
 	}
 
 	@Override
 	public void setValue(String value) {		
 	}
-
+	
 	@Override
-	public HasAttributes getAttributed() {
-		return link;
+	public List<UIAttribute> getAttributes() {
+		return updatedLink.getAttributes();
+	}
+	
+	@Override
+	public void setAttributes(List<UIAttribute> attributes) {
+		updatedLink.setAttributes(attributes);
 	}
 
 }

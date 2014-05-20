@@ -110,6 +110,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 			
 			@Override
 			public void onCreate(UIAttribute item) {
+				visualizedCode.addAttribute(item);
 				attributeEditor.added(new CodeAttribute(visualizedCode, item));
 			}
 		});
