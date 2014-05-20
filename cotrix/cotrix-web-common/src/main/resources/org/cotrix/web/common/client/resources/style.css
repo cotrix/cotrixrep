@@ -322,13 +322,14 @@
 
 @sprite .buttonDownload {
 	gwt-image: "download";
+	background-position: -10px 0px;
 	background-color: #5674b9;
 	border: 1px solid #5674b9;
 	border-radius: 5px;
 	text-align: center;
-	width: 170px;
+	width: 116px;
 	font-size: 15px;
-	padding-left: 55px;
+	padding-left: 41px;
 	height: 40px;
 	padding-right: 20px;
 	color: #eee;
@@ -337,10 +338,11 @@
 
 @sprite .buttonDownload:hover {
 	gwt-image: "download";
+	background-position: -10px 0px;
 	background-color: #344e89;
 	color: #eee;
 	cursor: pointer;
-	width: 170px;
+	width: 116px;
 	height: 40px;
 }
 

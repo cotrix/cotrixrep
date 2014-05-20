@@ -7,6 +7,7 @@ import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
+import org.cotrix.web.wizard.client.step.StepButton;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
 
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -21,12 +22,15 @@ import com.google.web.bindery.event.shared.EventBus;
 @Singleton
 public class DoneStepPresenter extends AbstractVisualWizardStep implements VisualWizardStep {
 	
+	private static final StepButton[] SUCCESS_REPORT = {PublishWizardStepButtons.NEW_PUBLISH, PublishWizardStepButtons.DOWNLOAD_REPORT}; 
+	private static final StepButton[] SUCCESS_REPORT_CODELIST = {PublishWizardStepButtons.NEW_PUBLISH, PublishWizardStepButtons.DOWNLOAD_REPORT, PublishWizardStepButtons.DOWNLOAD_CODELIST}; 
+	
 	private DoneStepView view;
 	private EventBus publishBus;
 	
 	@Inject
 	public DoneStepPresenter(DoneStepView view, @PublishBus EventBus publishBus) {
-		super("done", TrackerLabels.DONE, "Done", "Done", PublishWizardStepButtons.NEW_PUBLISH);
+		super("done", TrackerLabels.DONE, "Done", "Done", SUCCESS_REPORT);
 		this.view = view;
 		this.publishBus = publishBus;
 		bind();
@@ -56,14 +60,9 @@ public class DoneStepPresenter extends AbstractVisualWizardStep implements Visua
 	
 	private void setDone(String downloadUrl) {
 		configuration.setTitle("That's done");
-		configuration.setButtons(PublishWizardStepButtons.NEW_PUBLISH);
+		configuration.setButtons(downloadUrl==null?SUCCESS_REPORT:SUCCESS_REPORT_CODELIST);
 		configuration.setSubtitle("Check the log for potential errors or warnings.");
 		view.loadReport();
-		
-		if (downloadUrl!=null) {
-			view.setCodelistDownloadUrl(downloadUrl);
-			view.setCodelistDownloadButtonVisible(true);
-		} else view.setCodelistDownloadButtonVisible(false);
 	}
 	
 	private void setFailed() {

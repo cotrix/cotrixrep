@@ -8,17 +8,13 @@ import org.cotrix.web.publish.shared.DownloadType;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,7 +36,6 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 	interface DoneStepViewUiBinder extends UiBinder<Widget, DoneStepViewImpl> {
 	}
 	
-	@UiField Button codelistDownload;
 	
 	@UiField(provided = true)
 	DataGrid<ReportLog> reportGrid;
@@ -49,8 +44,6 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 	SimplePager reportPager;
 	
 	private ReportLogDataProvider dataProvider;
-	
-	private String downloadCodelistUrl;
 
 	@Inject
 	public DoneStepViewImpl(ReportLogDataProvider dataProvider) {
@@ -58,26 +51,6 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 		setupGrid();
 		
 		initWidget(uiBinder.createAndBindUi(this));
-	}
-	
-	@UiHandler("reportDownload")
-	void downloadReport(ClickEvent clickEvent) {
-		Window.open(DOWNLOAD_URL, "_blank", "");
-	}
-	
-	@UiHandler("codelistDownload")
-	void codelistDownload(ClickEvent clickEvent) {
-		Window.open(downloadCodelistUrl, "_blank", "");
-	}
-	
-	@Override
-	public void setCodelistDownloadUrl(String url) {
-		this.downloadCodelistUrl = url;
-	}
-	
-	@Override
-	public void setCodelistDownloadButtonVisible(boolean visible) {
-		codelistDownload.setVisible(visible);
 	}
 	
 	/** 

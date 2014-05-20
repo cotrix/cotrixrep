@@ -10,5 +10,7 @@ import org.cotrix.web.wizard.client.WizardAction;
  *
  */
 public enum PublishWizardAction implements WizardAction {
-	NEW_PUBLISH;
+	NEW_PUBLISH,
+	DOWNLOAD_REPORT,
+	DOWNLOAD_CODELIST;
 }

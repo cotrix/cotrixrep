@@ -15,8 +15,10 @@ public interface PublishWizardView extends WizardView {
 	public enum PublishWizardButton implements WizardButton {
 		NEXT, 
 		BACK, 
-		PUBLISH, 
-		NEW_PUBLISH;
+		PUBLISH,
+		NEW_PUBLISH,
+		DOWNLOAD_REPORT,
+		DOWNLOAD_CODELIST;
 
 		@Override
 		public String getId() {

@@ -49,6 +49,8 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 	@UiField Button backButton;
 	@UiField Button newPublishButton;
 	@UiField Button publishButton;
+	@UiField Button downloadReportButton;
+	@UiField Button downloadCodelistButton;
 
 	protected int currentIndex = 0;
 	protected Map<String, Integer> decksIndexes;
@@ -133,6 +135,17 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 	public void onNewPublishButtonClicked(ClickEvent event){
 		presenter.onButtonClicked(PublishWizardButton.NEW_PUBLISH);
 	}
+	
+	@UiHandler("downloadReportButton")
+	public void onDownloadReportButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(PublishWizardButton.DOWNLOAD_REPORT);
+	}
+	
+	@UiHandler("downloadCodelistButton")
+	public void onDownloadCodelistButtonClicked(ClickEvent event){
+		presenter.onButtonClicked(PublishWizardButton.DOWNLOAD_CODELIST);
+	}
+	
 
 	@Override
 	public void showButton(WizardButton wizardButton) {
@@ -161,6 +174,8 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 			case PUBLISH: return publishButton;
 			case NEW_PUBLISH: return newPublishButton;
 			case NEXT: return nextButton;
+			case DOWNLOAD_CODELIST: return downloadCodelistButton;
+			case DOWNLOAD_REPORT: return downloadReportButton;
 			default: {
 				Log.fatal("Unknow button "+button);
 				throw new IllegalArgumentException("Unknow button "+button);

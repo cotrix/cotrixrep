@@ -4,10 +4,6 @@
 	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
 		field="common" />
 	<ui:style>
-	.downloadButtonPanel {
-		float: right;
-		padding: 5px;
-	}
 	
 	.report {
 		padding-top: 10px;
@@ -18,9 +14,9 @@
 	}
 	
 	/**
-					Workaround to GWT issue #8275
-					https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
-				**/
+		Workaround to GWT issue #8275
+		https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
+	**/
 	.borderFix table {
 		border-collapse: collapse;
 	}
@@ -29,31 +25,16 @@
 		margin: 0 auto;
 	}
 	</ui:style>
-	<g:DockLayoutPanel>
+
+	<g:DockLayoutPanel unit='PX' ui:field="reportPanel"
+		styleName="{common.css.wizardPanel}">
 		<g:center>
-			<g:DockLayoutPanel unit='PX' ui:field="reportPanel"
-				styleName="{common.css.wizardPanel}">
-				<g:center>
-					<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}" />
-				</g:center>
-				<g:south size="40">
-					<g:HTMLPanel>
-						<c:SimplePager ui:field='reportPager' styleName="{style.pagerPanel}" />
-					</g:HTMLPanel>
-				</g:south>
-			</g:DockLayoutPanel>
+			<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}" />
 		</g:center>
-		<g:south size="45">
+		<g:south size="40">
 			<g:HTMLPanel>
-				<div class="{style.downloadButtonPanel}">
-					<g:Button ui:field="reportDownload" text="REPORT"
-						styleName="{common.css.buttonDownload}" />
-					<g:Button ui:field="codelistDownload" text="CODELIST"
-						styleName="{common.css.buttonDownload}" />
-				</div>
+				<c:SimplePager ui:field='reportPager' styleName="{style.pagerPanel}" />
 			</g:HTMLPanel>
 		</g:south>
-
 	</g:DockLayoutPanel>
-
 </ui:UiBinder> 
