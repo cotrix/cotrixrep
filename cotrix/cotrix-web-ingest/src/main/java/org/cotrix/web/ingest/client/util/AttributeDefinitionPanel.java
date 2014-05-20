@@ -14,6 +14,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -61,6 +62,9 @@ public class AttributeDefinitionPanel extends Composite {
 		}
 	};
 
+	@UiField TextBox nameField;
+	@UiField HorizontalPanel definitionPanel;
+	@UiField Label isLabel;
 	@UiField(provided=true) EnumListBox<AttributeType> typeList;
 	@UiField TextBox customType;
 	@UiField Label inLabel;
@@ -82,9 +86,17 @@ public class AttributeDefinitionPanel extends Composite {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				updateVisibilities();
+				updateVisibilitiesAndWidth();
 			}
 		});
+	}
+	
+	public void setName(String name) {
+		nameField.setValue(name);
+	}
+	
+	public String getName() {
+		return nameField.getName();
 	}
 
 	public AttributeType getType()
@@ -100,7 +112,7 @@ public class AttributeDefinitionPanel extends Composite {
 	{
 		typeList.setSelectedValue(type);
 		this.customType.setText(customType);
-		updateVisibilities();
+		updateVisibilitiesAndWidth();
 	}
 
 	public Language getLanguage()
@@ -113,12 +125,18 @@ public class AttributeDefinitionPanel extends Composite {
 	{
 		languageList.setValue(language);
 	}
+	
+	public void setTypeDefinitionVisible(boolean visible) {
+		definitionPanel.setVisible(visible);
+	}
 
-	protected void updateVisibilities()
+	protected void updateVisibilitiesAndWidth()
 	{
 		AttributeType type = getType();
 		setLanguagePanelVisibile(type != null && type != AttributeType.CODE && type != AttributeType.OTHER_CODE);
 		customType.setVisible(typeList.getSelectedValue() == AttributeType.OTHER);
+		
+		nameField.setWidth((type!=null && type == AttributeType.OTHER)?"230px":"330px");
 	}
 
 	protected void setLanguagePanelVisibile(boolean visible)
@@ -137,6 +155,8 @@ public class AttributeDefinitionPanel extends Composite {
 
 	public void setEnabled(boolean enabled)
 	{
+		nameField.setEnabled(enabled);
+		isLabel.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
 		typeList.setEnabled(enabled);
 		inLabel.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
 		languageList.setEnabled(enabled);
