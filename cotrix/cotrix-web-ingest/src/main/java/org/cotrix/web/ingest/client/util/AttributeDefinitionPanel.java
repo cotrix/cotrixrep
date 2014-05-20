@@ -61,7 +61,24 @@ public class AttributeDefinitionPanel extends Composite {
 			}
 		}
 	};
+	
+	public static enum Optional {
+		REQUIRED,
+		OPTIONAL;
+	}
+	
+	public static final LabelProvider<Optional> OPTIONAL_LABEL_PROVIDER = new LabelProvider<AttributeDefinitionPanel.Optional>() {
 
+		@Override
+		public String getLabel(Optional item) {
+			switch (item) {
+				case OPTIONAL: return "Optional";
+				case REQUIRED: return "Required";
+				default: throw new IllegalArgumentException("No label mapping found for optional "+item);
+			}
+		}
+	};
+	
 	@UiField TextBox nameField;
 	@UiField HorizontalPanel definitionPanel;
 	@UiField Label isLabel;
@@ -69,6 +86,8 @@ public class AttributeDefinitionPanel extends Composite {
 	@UiField TextBox customType;
 	@UiField Label inLabel;
 	@UiField LanguageListBox languageList;
+	@UiField Label optionalLabel;
+	@UiField(provided=true) EnumListBox<Optional> optionList;
 
 	@UiField Style style;
 
@@ -79,6 +98,7 @@ public class AttributeDefinitionPanel extends Composite {
 	public AttributeDefinitionPanel(LabelProvider<AttributeType> typeLabelProvider) {
 		
 		typeList = new EnumListBox<AttributeType>(AttributeType.class, typeLabelProvider);
+		optionList = new EnumListBox<Optional>(Optional.class, OPTIONAL_LABEL_PROVIDER);
 		
 		initWidget(uiBinder.createAndBindUi(this));
 
@@ -96,7 +116,7 @@ public class AttributeDefinitionPanel extends Composite {
 	}
 	
 	public String getName() {
-		return nameField.getName();
+		return nameField.getValue();
 	}
 
 	public AttributeType getType()
@@ -129,6 +149,10 @@ public class AttributeDefinitionPanel extends Composite {
 	public void setTypeDefinitionVisible(boolean visible) {
 		definitionPanel.setVisible(visible);
 	}
+	
+	public boolean isOptional() {
+		return optionList.getSelectedValue() == Optional.OPTIONAL;
+	}
 
 	protected void updateVisibilitiesAndWidth()
 	{
@@ -136,7 +160,7 @@ public class AttributeDefinitionPanel extends Composite {
 		setLanguagePanelVisibile(type != null && type != AttributeType.CODE && type != AttributeType.OTHER_CODE);
 		customType.setVisible(typeList.getSelectedValue() == AttributeType.OTHER);
 		
-		nameField.setWidth((type!=null && type == AttributeType.OTHER)?"230px":"330px");
+		nameField.setWidth((type!=null && type == AttributeType.OTHER)?"200px":"330px");
 	}
 
 	protected void setLanguagePanelVisibile(boolean visible)
@@ -160,6 +184,8 @@ public class AttributeDefinitionPanel extends Composite {
 		typeList.setEnabled(enabled);
 		inLabel.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
 		languageList.setEnabled(enabled);
+		optionalLabel.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
+		optionList.setEnabled(enabled);
 	}
 
 }

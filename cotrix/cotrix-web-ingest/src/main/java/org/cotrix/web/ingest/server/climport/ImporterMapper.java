@@ -89,6 +89,8 @@ public interface ImporterMapper<T> {
 			if (definition.getLanguage()!=null) directive.language(definition.getLanguage().getCode());
 			directive.type(getType(definition.getType(), definition.getCustomType()));
 
+			directive.required(!definition.isOptional());
+			
 			return directive;
 		}
 

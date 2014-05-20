@@ -176,7 +176,7 @@ public class AttributeMappingPanel extends Composite {
 		Language language = panel.getLanguage();
 		attributeDefinition.setLanguage(language);
 
-
+		attributeDefinition.setOptional(panel.isOptional());
 
 		return attributeDefinition;
 	}

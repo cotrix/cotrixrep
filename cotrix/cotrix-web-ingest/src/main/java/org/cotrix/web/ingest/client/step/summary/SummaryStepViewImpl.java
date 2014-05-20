@@ -89,6 +89,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 				if (definition.getType() !=null) {
 					mappingDescription.append(" is ").append(definition.getType().toString());
 					if (definition.getLanguage()!=null && definition.getLanguage()!=Language.NONE) mappingDescription.append(" in ").append(definition.getLanguage().getName());
+					if (definition.isOptional()) mappingDescription.append(" is optional");
 				}
 			} else mappingDescription.append("ignore <b>").append(originalName).append("</b>");
 
