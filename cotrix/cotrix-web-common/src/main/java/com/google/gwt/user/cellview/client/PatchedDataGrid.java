@@ -725,18 +725,16 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	}
 	
 	public void removeColumn(int index) {
-		//Log.trace("removeColumn "+index);
+		Log.trace("removeColumn "+index);
 		if (autoAdjust) {
-		Column<T, ?> column = getColumn(index);
-		columnWidths.remove(column);
+			Column<T, ?> column = getColumn(index);
+			columnWidths.remove(column);
 		}
 		
 		super.removeColumn(index);
-		/*if (autoAdjust) {
-			
-			columnWidths.remove(column);			
+		if (autoAdjust) {
 			updateTableWidth();
-		}*/
+		}
 	}
 	
 	
