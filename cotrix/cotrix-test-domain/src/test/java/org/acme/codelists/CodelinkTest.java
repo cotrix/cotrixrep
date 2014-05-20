@@ -128,7 +128,12 @@ public class CodelinkTest extends DomainTest {
 		Codelink.State state = reveal(link).state();
 		CodelinkMS clone = new CodelinkMS(state);
 
-		assertEquals(clone,state);
+		assertEquals(state.name(),clone.name());
+		
+		for (Attribute.State attr : clone.attributes()) {
+			//System.out.println(attr.name());
+			assertTrue(clone.attributes().contains(attr.name()));
+		}
 		
 		assertFalse(clone.id().equals(state.id()));
 		
