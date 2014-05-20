@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.AttributeType;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
@@ -24,6 +25,10 @@ public class CodelistTest extends DomainTest {
 		Codelist list  = codelist().name(name).build();
 		
 		assertEquals(name,list.name());
+		
+		AttributeType atype = attributeType().name(name).build();
+		
+		list = codelist().name(name).attributeTypes(atype).build();
 		
 		Attribute a = attribute().name(name).build();
 		
@@ -59,11 +64,13 @@ public class CodelistTest extends DomainTest {
 	public void changesetCanBeFluentlyConstructed() {
 
 		Code c = code().name("name").build();
+		AttributeType atype = attributeType().name(name).build();
 		Attribute a = attribute().name(name).build();
 		
 		Codelist list;
 		
 		list = modifyCodelist("1").name(name).build();
+		list = modifyCodelist("1").attributeTypes(atype).build();
 		list =  modifyCodelist("1").attributes(a).build();
 		list =  modifyCodelist("1").with(c).build();
 		list =  modifyCodelist("1").with(c).attributes(a).build();	
@@ -80,9 +87,10 @@ public class CodelistTest extends DomainTest {
 	@Test
 	public void cloned() {
 		
+		AttributeType atype = attributeType().name(name).build();
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		Code c = code().name(name).attributes(a).build();
-		Codelist list = like(codelist().name(name).with(c).build());
+		Codelist list = like(codelist().name(name).attributeTypes(atype).with(c).build());
 		
 		Codelist.State state = reveal(list).state();
 		CodelistMS clone = new CodelistMS(state);
@@ -94,10 +102,11 @@ public class CodelistTest extends DomainTest {
 	@Test
 	public void versioned() {
 		
+		AttributeType atype = attributeType().name(name).build();
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		Code c = code().name(name).attributes(a).build();
 		
-		Codelist list = like(codelist().name(name).with(c).version("1").build());
+		Codelist list = like(codelist().name(name).attributeTypes(atype).with(c).version("1").build());
 		
 		Codelist versioned = reveal(list).bump("2");
 
@@ -148,7 +157,7 @@ public class CodelistTest extends DomainTest {
 	}
 	
 	@Test
-	public void changeCode() {
+	public void changeName() {
 		
 		Codelist list = like(codelist().name(name).build());
 		
@@ -157,6 +166,36 @@ public class CodelistTest extends DomainTest {
 		reveal(list).update(reveal(changeset));
 		
 		assertEquals(name2,list.name());
+		
+	}
+	
+	@Test
+	public void addAttributeType() {
+		
+		AttributeType atype = attributeType().name(name).build();
+		
+		Codelist list = like(codelist().name(name).build());
+		
+		Codelist changeset = modifyCodelist(list.id()).attributeTypes(atype).build();
+		
+		reveal(list).update(reveal(changeset));
+		
+		assertTrue(list.attributeTypes().contains(atype.name()));
+		
+	}
+	
+	@Test
+	public void removeAttributeType() {
+		
+		AttributeType atype = attributeType().name(name).build();
+		
+		Codelist list = like(codelist().name(name).attributeTypes(atype).build());
+		
+		Codelist changeset = modifyCodelist(list.id()).attributeTypes(deleteAttributeType(atype.id())).build();
+		
+		reveal(list).update(reveal(changeset));
+		
+		assertFalse(list.attributeTypes().contains(atype.name()));
 		
 	}
 	
