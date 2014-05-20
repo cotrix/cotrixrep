@@ -87,14 +87,12 @@ public class LoadingPanel extends ResizeComposite implements HasWidgets {
 			FadeAnimation animation = getAnimation();
 			animation.fadeIn(0, Speed.FAST);
 		} else container.showWidget(innerWidget);
-		//if (innerWidget instanceof RequiresResize) ((RequiresResize)innerWidget).onResize();
 	}
 	
 	protected FadeAnimation getAnimation(){
 		if (animation == null) animation = new FadeAnimation(innerWidget.getElement());
 		return animation;
 	}
-	
 
 	@Override
 	public void add(Widget w) {

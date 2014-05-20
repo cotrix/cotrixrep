@@ -310,7 +310,6 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	private void switchAttribute(UIAttribute attribute, SwitchState attributeSwitchState)
 	{
 		AttributeGroup group = GroupFactory.getGroup(attribute);
-		Log.trace("calculating position for "+attribute+" in: "+visualizedCode.getAttributes());
 		group.calculatePosition(visualizedCode.getAttributes(), attribute);
 
 		switch (attributeSwitchState) {
@@ -320,12 +319,10 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	}
 	
 	private void updateGroups(AttributeGroup group, GroupSwitchType state) {
-		Log.trace("before groups: "+groupsAsColumn);
 		switch (state) {
 			case TO_NORMAL: groupsAsColumn.remove(group); break;
 			case TO_COLUMN: groupsAsColumn.add(group); break;
 		}
-		Log.trace("after groups: "+groupsAsColumn);
 	}
 	
 	private void refreshSwitches() {

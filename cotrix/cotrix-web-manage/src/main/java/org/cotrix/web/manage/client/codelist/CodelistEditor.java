@@ -21,6 +21,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
+import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.client.widgets.StyledSafeHtmlRenderer;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
@@ -69,7 +70,6 @@ import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -82,7 +82,7 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistEditor extends ResizeComposite implements HasEditing {
+public class CodelistEditor extends LoadingPanel implements HasEditing {
 
 	interface Binder extends UiBinder<Widget, CodelistEditor> {}
 	interface CodelistEditorEventBinder extends EventBinder<CodelistEditor> {}
@@ -153,7 +153,18 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 		cellRenderer = new StyledSafeHtmlRenderer(resource.dataGridStyle().textCell());
 
-		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodelistCodeKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodelistCodeKeyProvider.INSTANCE) {
+
+			/** 
+			 * {@inheritDoc}
+			 */
+			@Override
+			protected int getTableWidth() {
+				int internal = super.getTableWidth();
+				return internal>0?internal:CodelistEditor.this.getElement().getOffsetWidth()-31;
+			}
+			
+		};
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 
 		Label emptyTable = new Label("No codes");
@@ -186,6 +197,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		dataGrid.setSelectionModel(selectionModel);
 
 		dataProvider.addDataDisplay(dataGrid);
+		
 
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
@@ -227,14 +239,18 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	public void showAllGroupsAsColumn()
 	{
-		dataGrid.showLoader();
+		showLoader();
 		managerService.getGroups(codelistId, new ManagedFailureCallback<List<Group>>() {
+			
+			public void onCallFailed() {
+				hideLoader();
+			}
 
 			@Override
 			public void onSuccess(List<Group> groups) {
 				setGroups(groups);
-				//dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
-				dataGrid.hideLoader();
+				hideLoader();
+				dataGrid.refreshColumnSizes();
 			}
 		});
 	}
@@ -438,6 +454,8 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		Set<Group> groupsToNormal = new HashSet<Group>(groupsAsColumn);
 		for (Group group:groupsToNormal) switchToNormal(group);
 	}
+	
+	
 
 	public static abstract class CodelistEditorColumn<C> extends Column<UICode, C> {
 
@@ -561,7 +579,7 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 		}
 	}
 
-	private static class SafeHtmlGroupRenderer extends AbstractSafeHtmlRenderer<Group> {
+	static class SafeHtmlGroupRenderer extends AbstractSafeHtmlRenderer<Group> {
 
 		static interface GroupHeaderTemplate extends SafeHtmlTemplates {
 

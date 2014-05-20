@@ -789,13 +789,17 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 			columnsWidth += colWidth;
 		}
 		//Log.trace("TOTAL columns width: "+columnsWidth);
-		int widgetWidth = getElement().getOffsetWidth();
+		int widgetWidth = getTableWidth();
 		//Log.trace("widgetWidth: "+widgetWidth);
 		
 		double tableWidth = Math.max(columnsWidth, widgetWidth);
 		//Log.trace("new tableWidth: "+tableWidth);
 		
 		setTableWidth(tableWidth, Unit.PX);
+	}
+	
+	protected int getTableWidth() {
+		return getElement().getOffsetWidth();
 	}
 
 	private void startMeasuring() {

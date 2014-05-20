@@ -71,11 +71,12 @@ public class CodelistPanelPresenter implements Presenter {
 		bindFeatures();
 		bindSavers();
 		
+		showAllGroupsAsColumn();
 		loadState();
 	}
 	
 	@Inject
-	protected void setupVersionDialog() {
+	private void setupVersionDialog() {
 		versionDialog.setListener(new VersionDialogListener() {
 			
 			@Override
@@ -85,7 +86,7 @@ public class CodelistPanelPresenter implements Presenter {
 		});
 	}
 
-	protected void bindSavers() {
+	private void bindSavers() {
 		saverManager.register(new CodeModifyCommandGenerator());
 		saverManager.register(new CodeAttributeCommandGenerator());
 		saverManager.register(new MetadataModifyCommandGenerator());
@@ -94,7 +95,7 @@ public class CodelistPanelPresenter implements Presenter {
 		saverManager.register(new CodeLinkCommandGenerator());
 	}
 	
-	protected void bind()
+	private void bind()
 	{
 		// TOOLBAR
 		CodelistToolbar toolbar = view.getToolBar();
@@ -105,7 +106,7 @@ public class CodelistPanelPresenter implements Presenter {
 			public void onAction(Action action) {
 				Log.trace("toolbar onAction "+action);
 				switch (action) {
-					case ALL_COLUMN: view.getCodeListEditor().showAllGroupsAsColumn(); break;
+					case ALL_COLUMN: showAllGroupsAsColumn(); break;
 					case ALL_NORMAL: view.getCodeListEditor().showAllGroupsAsNormal(); break;
 					case NEW_VERSION: newVersion(); break;
 					case LOCK: lock(); break;
@@ -116,7 +117,7 @@ public class CodelistPanelPresenter implements Presenter {
 		});
 	}
 	
-	protected void loadState() {
+	private void loadState() {
 		view.getToolBar().showStateLoader(true);
 		service.getCodelistState(codelistId, AsyncCallBackWrapper.wrap(new ManagedFailureCallback<String>() {
 
@@ -127,36 +128,40 @@ public class CodelistPanelPresenter implements Presenter {
 		}));
 	}
 	
-	protected void lock()
+	private void showAllGroupsAsColumn() {
+		view.getCodeListEditor().showAllGroupsAsColumn();
+	}
+	
+	private void lock()
 	{
 		view.getToolBar().showStateLoader(true);
 		service.lock(codelistId, callBack);
 	}
 	
-	protected void unlock()
+	private void unlock()
 	{
 		view.getToolBar().showStateLoader(true);
 		service.unlock(codelistId, callBack);
 	}
 	
-	protected void newVersion() {
+	private void newVersion() {
 		versionDialog.setOldVersion(codelistId, ValueUtils.getLocalPart(codelist.getName()), codelist.getVersion());
 		versionDialog.showCentered();
 	}
 	
-	protected void finalizeCodelist()
+	private void finalizeCodelist()
 	{
 		view.getToolBar().showStateLoader(true);
 		service.seal(codelistId, callBack);
 	}
 	
-	protected void updateState(String state) {
+	private void updateState(String state) {
 		view.getToolBar().setState(state);
 		view.getToolBar().showStateLoader(false);
 	}
 
 	
-	protected void bindFeatures()
+	private void bindFeatures()
 	{
 		// TOOLBAR
 		CodelistToolbar toolbar = view.getToolBar();
@@ -182,7 +187,7 @@ public class CodelistPanelPresenter implements Presenter {
 		FeatureBinder.bind(view.getLinksEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
 	}
 	
-	protected class ActionEnabler implements HasFeature {
+	private class ActionEnabler implements HasFeature {
 		protected Action action;
 		protected CodelistToolbar toolbar;
 
