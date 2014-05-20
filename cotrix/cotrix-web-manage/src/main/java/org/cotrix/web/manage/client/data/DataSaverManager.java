@@ -4,18 +4,24 @@
 package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.client.util.StatusUpdates;
+import org.cotrix.web.common.shared.codelist.HasAttributes;
+import org.cotrix.web.common.shared.codelist.HasValue;
 import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.link.ValueUpdatedEvent;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.data.event.DataSaveFailedEvent;
 import org.cotrix.web.manage.client.data.event.DataSavedEvent;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.data.event.SavingDataEvent;
 import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.util.Attributes;
+import org.cotrix.web.manage.shared.modify.ContainsValued;
 import org.cotrix.web.manage.shared.modify.HasCode;
 import org.cotrix.web.manage.shared.modify.HasId;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
@@ -36,6 +42,10 @@ public class DataSaverManager {
 		public Class<T> getType();
 		public ModifyCommand generateCommand(EditType editType, T data); 
 	}
+	
+	@Inject
+	@CurrentCodelist
+	protected String codelistId;
 
 	@Inject
 	protected ModifyCommandSequencer commandSequencer;
@@ -67,6 +77,7 @@ public class DataSaverManager {
 		 */
 		@Override
 		public void onDataEdit(DataEditEvent<T> event) {
+			Log.trace("onDataEdit codelistId: "+codelistId+" event: "+event);
 			managerBus.fireEvent(new SavingDataEvent());
 			StatusUpdates.statusSaving();
 			final T data = event.getData();
@@ -87,11 +98,16 @@ public class DataSaverManager {
 							identifiable.setId(id);
 						}
 
+						if (data instanceof HasAttributes && result instanceof HasAttributes) updateAttributes((HasAttributes)data, (HasAttributes)result);
+						
+						if (data instanceof ContainsValued && result instanceof HasValue) updateValue(((ContainsValued)data).getValued(), (HasValue)result);
+						
+						
 						if (data instanceof HasCode && result instanceof HasCode) updateCode(((HasCode)data).getCode(), ((HasCode)result).getCode());
 						if (data instanceof UICode && result instanceof HasCode) updateCode((UICode)data, ((HasCode)result).getCode());
 					}
 
-					managerBus.fireEvent(new DataSavedEvent());
+					managerBus.fireEvent(new DataSavedEvent(codelistId));
 					StatusUpdates.statusSaved();
 				}
 
@@ -103,9 +119,21 @@ public class DataSaverManager {
 		}
 
 		protected void updateCode(UICode code, UICode updated) {
-			Log.trace("updating code "+code+" with attributes in "+updated);
+			Log.trace("updating code "+code+" with system attributes in "+updated);
 			Attributes.mergeSystemAttributes(code.getAttributes(), updated.getAttributes());
 			editorBus.fireEvent(new CodeUpdatedEvent(code));
+		}
+		
+		protected void updateAttributes(HasAttributes data, HasAttributes update) {
+			Log.trace("updateAttributes data: "+data+" with update: "+update);
+			data.setAttributes(update.getAttributes());
+			editorBus.fireEvent(new AttributesUpdatedEvent(data));
+		}
+		
+		protected void updateValue(HasValue data, HasValue update) {
+			Log.trace("updateValue data: "+data+" with update: "+update);
+			data.setValue(update.getValue());
+			editorBus.fireEvent(new ValueUpdatedEvent(data));
 		}
 	}
 

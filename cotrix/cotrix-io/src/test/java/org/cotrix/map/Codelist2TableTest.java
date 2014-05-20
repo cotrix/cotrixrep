@@ -69,8 +69,6 @@ public class Codelist2TableTest {
 		Table expected = asTable(expectedData,"mycode");
 		
 		assertEquals(expected,outcome.result());
-		
-		//System.out.println(serialise(outcome.result()));
 
 		assertEquals(outcome.result(),expectedData);
 	}

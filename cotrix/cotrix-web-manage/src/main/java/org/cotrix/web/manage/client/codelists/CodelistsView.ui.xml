@@ -21,6 +21,11 @@
 			padding: 5px;
 		}
 		
+		.filterBox {
+			height: 24px !important;
+			font-size: 16px !important;
+		}
+		
 		.listPanel {
 			background-color: white;
 			border-left: 1px solid #a8a7a7;
@@ -55,7 +60,7 @@
 		</g:north>
 		<g:north size='35'>
 			<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
-				<g:TextBox ui:field="filterTextBox" styleName="{resources.css.search}" />
+				<common:SearchBox ui:field="filterTextBox" addStyleNames="{style.filterBox}"/>
 			</g:FlowPanel>
 		</g:north>
 		<g:north size='30'>
@@ -64,7 +69,7 @@
 			</g:HTMLPanel>
 		</g:north>
 		<g:center>
-			<c:CellTree ui:field="codelists" styleName="{style.listPanel}" />
+			<c:CustomCellTree ui:field="codelists" styleName="{style.listPanel}" />
 		</g:center>
 		<g:south size="28">
 			<common:ItemToolbar ui:field="toolbar"

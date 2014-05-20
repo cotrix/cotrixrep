@@ -5,7 +5,7 @@ package org.acme;
 
 import static org.junit.Assert.*;
 
-import org.cotrix.web.manage.client.codelist.attribute.RemoveAttributeController;
+import org.cotrix.web.manage.client.codelist.attribute.RemoveItemController;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,14 +15,14 @@ import org.junit.Test;
  */
 public class RemoveAttributeTest {
 	
-	protected RemoveAttributeController controller;
+	protected RemoveItemController controller;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		controller = new RemoveAttributeController();
+		controller = new RemoveItemController();
 	}
 
 	@Test
@@ -30,19 +30,19 @@ public class RemoveAttributeTest {
 		//The user can't edit the codelist
 		controller.setUserCanEdit(false);
 		//The attribute can be removed
-		controller.setAttributeCanBeRemoved(true);
+		controller.setItemCanBeRemoved(true);
 		assertFalse(controller.canRemove());
 		
 		//The user can't edit the codelist
 		controller.setUserCanEdit(false);
 		//The attribute can't be removed
-		controller.setAttributeCanBeRemoved(false);
+		controller.setItemCanBeRemoved(false);
 		assertFalse(controller.canRemove());
 		
 		//The user can edit the codelist
 		controller.setUserCanEdit(true);
 		//The attribute can't be removed
-		controller.setAttributeCanBeRemoved(false);
+		controller.setItemCanBeRemoved(false);
 		assertFalse(controller.canRemove());
 	}
 	
@@ -51,7 +51,7 @@ public class RemoveAttributeTest {
 		//The user can edit the codelist
 		controller.setUserCanEdit(true);
 		//The attribute can be removed
-		controller.setAttributeCanBeRemoved(true);
+		controller.setItemCanBeRemoved(true);
 		
 		assertTrue(controller.canRemove());
 	}

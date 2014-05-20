@@ -57,10 +57,14 @@
 							styleName="{common.css.simpleCheckbox}" />
 					</td>
 				</tr>
+				<tr ui:field="codelistMappingRow">
+					<td colspan="3" align="left" style="padding: 20px;">
+						<u:AttributeMappingPanel ui:field="codelistMappingPanel" />
+					</td>
+				</tr>
 				<tr>
 					<td colspan="3" align="left" style="padding: 20px;">
-						<u:AttributeMappingPanel ui:field="mappingPanel" />
-
+						<u:AttributeMappingPanel ui:field="codeMappingPanel" />
 					</td>
 				</tr>
 			</table>

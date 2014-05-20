@@ -1,6 +1,7 @@
 package org.cotrix.io.tabular.map;
 
 import static org.cotrix.common.Report.*;
+import static org.cotrix.common.Report.Item.Type.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,7 +34,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		
 		double time = System.currentTimeMillis();
 
-		report().log("mapping codelist "+list.name()+"("+list.id()+") to table");
+		report().log("transforming codelist "+list.name()+"("+list.id()+") to table");
 		report().log(Calendar.getInstance().getTime().toString());
 
 		//generate in memory for now
@@ -76,12 +77,12 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			
 			//map match values in column order
 			for (Column col : columns) {
-				String error = "mapping is ambiguous: code "+code.name()+" has multiple attributes that map onto column "+col.name();
+				String error = "transformation is ambiguous: code "+code.name()+" has multiple attributes that map onto column "+col.name();
 				if (matches.containsKey(col.name())) {
 					if (values.containsKey(col.name()))
 						switch (directives.mode()) {
 							case STRICT:throw new IllegalStateException(error);
-							case LOG: report().logWarning(error);
+							case LOG: report().log(error).as(WARN);
 							default:
 						}
 					values.put(col.name(),matches.get(col.name()).value());
@@ -90,7 +91,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			rows.add(new Row(values));
 		}
 			
-		report().log("mapped codelist "+list.name()+"("+list.id()+") to table in "+(System.currentTimeMillis()-time)/1000);
+		report().log("transformed codelist "+list.name()+"("+list.id()+") to table in "+(System.currentTimeMillis()-time)/1000);
 		
 		return new DefaultTable(columns, rows);
 	}

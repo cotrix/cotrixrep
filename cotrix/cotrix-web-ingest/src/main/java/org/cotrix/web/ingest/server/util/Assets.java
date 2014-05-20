@@ -3,12 +3,12 @@
  */
 package org.cotrix.web.ingest.server.util;
 
-import javax.xml.namespace.QName;
-
 import org.cotrix.web.common.server.util.Repositories;
+import org.cotrix.web.common.server.util.ValueUtils;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
-import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.UIAssetType;
 import org.virtualrepository.Asset;
 import org.virtualrepository.AssetType;
 import org.virtualrepository.RepositoryService;
@@ -27,10 +27,12 @@ public class Assets {
 		
 		assetInfo.setId(asset.id());
 		assetInfo.setName(asset.name());
-		assetInfo.setType(asset.type().toString());
-		CodeListType codeListType = getCodeListType(asset.type());
-		assetInfo.setCodeListType(codeListType);
-		String serviceName = getServiceName(asset);
+		String version = asset.version()==null?"n/a":asset.version();
+		assetInfo.setVersion(version);
+		assetInfo.setType(Repositories.toString(asset.type()));
+		UIAssetType codeListType = getCodeListType(asset.type());
+		assetInfo.setAssetType(codeListType);
+		UIQName serviceName = getServiceName(asset);
 		assetInfo.setRepositoryId(serviceName);
 		assetInfo.setRepositoryName(serviceName);
 		
@@ -38,20 +40,18 @@ public class Assets {
 		
 	}
 	
-	protected static CodeListType getCodeListType(AssetType assetType)
+	protected static UIAssetType getCodeListType(AssetType assetType)
 	{
-		if (assetType == SdmxCodelist.type) return CodeListType.SDMX;
-		if (assetType == CsvCodelist.type) return CodeListType.CSV;
+		if (assetType == SdmxCodelist.type) return UIAssetType.SDMX;
+		if (assetType == CsvCodelist.type) return UIAssetType.CSV;
 		throw new IllegalArgumentException("Unknow asset type "+assetType);
 	}
 	
-	protected static String getServiceName(Asset asset)
+	protected static UIQName getServiceName(Asset asset)
 	{
 		RepositoryService service = asset.service();
 		if (service == null) return null;
-		QName name = service.name();
-		if (name == null) return null;
-		return String.valueOf(name);
+		return ValueUtils.safeValue(service.name());
 	}
 	
 	public static AssetDetails convertToDetails(Asset asset)
@@ -59,9 +59,11 @@ public class Assets {
 		AssetDetails details = new AssetDetails();
 		details.setId(asset.id());
 		details.setName(asset.name());
+		String version = asset.version()==null?"n/a":asset.version();
+		details.setVersion(version);
 		details.setProperties(Repositories.convert(asset.properties()));
-		details.setType(String.valueOf(asset.type()));
-		String serviceName = getServiceName(asset);
+		details.setType(Repositories.toString(asset.type()));
+		UIQName serviceName = getServiceName(asset);
 		details.setRepositoryName(serviceName);
 		details.setRepositoryId(serviceName);
 		return details;

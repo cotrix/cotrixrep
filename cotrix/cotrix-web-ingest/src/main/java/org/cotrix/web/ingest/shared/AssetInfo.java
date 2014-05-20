@@ -5,6 +5,8 @@ package org.cotrix.web.ingest.shared;
 
 import java.io.Serializable;
 
+import org.cotrix.web.common.shared.codelist.UIQName;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -17,30 +19,26 @@ public class AssetInfo implements Serializable {
 	private static final long serialVersionUID = 8076433432548925281L;
 	
 	public static final String NAME_FIELD = "NAME";
+	public static final String VERSION_FIELD = "VERSION";
 	public static final String REPOSITORY_FIELD = "REPOSITORY";
 	
-	protected String id;
-	protected String name;
-	protected String type;
-	protected CodeListType codeListType;
-	protected String repositoryId;
-	protected String repositoryName;
+	private String id;
+	private String name;
+	private String version;
+	private String type;
+	private UIAssetType assetType;
+	private UIQName repositoryId;
+	private UIQName repositoryName;
 	
 	public AssetInfo(){}
 
-	/**
-	 * @param id
-	 * @param name
-	 * @param type
-	 * @param repositoryId
-	 * @param repositoryName
-	 */
-	public AssetInfo(String id, String name, String type, CodeListType codeListType, String repositoryId,
-			String repositoryName) {
+	public AssetInfo(String id, String name, String version, String type, UIAssetType codeListType, UIQName repositoryId,
+			UIQName repositoryName) {
 		this.id = id;
 		this.name = name;
+		this.version = version;
 		this.type = type;
-		this.codeListType = codeListType;
+		this.assetType = codeListType;
 		this.repositoryId = repositoryId;
 		this.repositoryName = repositoryName;
 	}
@@ -81,51 +79,59 @@ public class AssetInfo implements Serializable {
 	}
 
 	/**
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	/**
 	 * @param type the type to set
 	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 
-	/**
-	 * @return the codeListType
-	 */
-	public CodeListType getCodeListType() {
-		return codeListType;
+	public UIAssetType getAssetType() {
+		return assetType;
 	}
 
-	/**
-	 * @param codeListType the codeListType to set
-	 */
-	public void setCodeListType(CodeListType codeListType) {
-		this.codeListType = codeListType;
+	public void setAssetType(UIAssetType assetType) {
+		this.assetType = assetType;
 	}
 
 	/**
 	 * @return the repositoryId
 	 */
-	public String getRepositoryId() {
+	public UIQName getRepositoryId() {
 		return repositoryId;
 	}
 
 	/**
 	 * @param repositoryId the repositoryId to set
 	 */
-	public void setRepositoryId(String repositoryId) {
+	public void setRepositoryId(UIQName repositoryId) {
 		this.repositoryId = repositoryId;
 	}
 
 	/**
 	 * @return the repositoryName
 	 */
-	public String getRepositoryName() {
+	public UIQName getRepositoryName() {
 		return repositoryName;
 	}
 
 	/**
 	 * @param repositoryName the repositoryName to set
 	 */
-	public void setRepositoryName(String repositoryName) {
+	public void setRepositoryName(UIQName repositoryName) {
 		this.repositoryName = repositoryName;
 	}
 
@@ -139,15 +145,17 @@ public class AssetInfo implements Serializable {
 		builder.append(id);
 		builder.append(", name=");
 		builder.append(name);
+		builder.append(", version=");
+		builder.append(version);
 		builder.append(", type=");
 		builder.append(type);
-		builder.append(", codeListType=");
-		builder.append(codeListType);
+		builder.append(", assetType=");
+		builder.append(assetType);
 		builder.append(", repositoryId=");
 		builder.append(repositoryId);
 		builder.append(", repositoryName=");
 		builder.append(repositoryName);
 		builder.append("]");
 		return builder.toString();
-	}	
+	}
 }

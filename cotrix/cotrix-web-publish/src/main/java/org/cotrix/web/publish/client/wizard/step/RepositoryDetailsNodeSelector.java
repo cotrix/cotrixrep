@@ -6,8 +6,7 @@ package org.cotrix.web.publish.client.wizard.step;
 import java.util.List;
 
 import org.cotrix.web.publish.client.event.ItemDetailsRequestedEvent;
-import org.cotrix.web.publish.client.event.PublishBus;
-import org.cotrix.web.publish.client.wizard.task.RetrieveMappingsTask;
+import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.wizard.task.RetrieveRepositoryDetailsTask;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
@@ -19,33 +18,35 @@ import org.cotrix.web.wizard.client.step.WizardStep;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@Singleton
 public class RepositoryDetailsNodeSelector extends AbstractNodeSelector<WizardStep> {
 	
-	protected WizardStep nextStep;
+	private WizardStep nextStep;
 	
-	@Inject
-	protected RetrieveRepositoryDetailsTask retrieveStep;
+	private RetrieveRepositoryDetailsTask retrieveStep;
 	
-	protected RetrieveMappingsTask retrieveMappings;
+	private WizardStep retrieveMappings;
 	
-	@Inject
-	public RepositoryDetailsNodeSelector(@PublishBus EventBus publishBus, RetrieveMappingsTask retrieveMappings)
+	private WizardStep formatStep;
+	
+	private WizardStep nextRepositoryStep;
+	
+	public RepositoryDetailsNodeSelector(EventBus publishBus, RetrieveRepositoryDetailsTask retrieveStep, WizardStep retrieveMappings, WizardStep formatStep)
 	{
+		this.retrieveStep = retrieveStep;
 		this.retrieveMappings = retrieveMappings;
-		this.nextStep = retrieveMappings;
+		this.formatStep = formatStep;
+		this.nextRepositoryStep = retrieveMappings;
+		this.nextStep = nextRepositoryStep;
 		bind(publishBus);
 	}
 	
-	protected void bind(EventBus publishBus) {
+	private void bind(EventBus publishBus) {
 		publishBus.addHandler(ResetWizardEvent.TYPE, new ResetWizardHandler(){
 
 			@Override
@@ -69,6 +70,13 @@ public class RepositoryDetailsNodeSelector extends AbstractNodeSelector<WizardSt
 				switchToRepositoryDetails();		
 			}
 		});
+		publishBus.addHandler(ItemSelectedEvent.getType(UIRepository.class), new ItemSelectedEvent.ItemSelectedHandler<UIRepository>(){
+
+			@Override
+			public void onItemSelected(ItemSelectedEvent<UIRepository> event) {
+				setRepository(event.getItem());		
+			}
+		});
 	}
 	
 
@@ -86,7 +94,7 @@ public class RepositoryDetailsNodeSelector extends AbstractNodeSelector<WizardSt
 		return null;
 	}
 	
-	protected void switchToRepositoryDetails()
+	private void switchToRepositoryDetails()
 	{
 		Log.trace("switchToRepositoryDetails");
 		this.nextStep = retrieveStep;
@@ -95,15 +103,23 @@ public class RepositoryDetailsNodeSelector extends AbstractNodeSelector<WizardSt
 	public boolean isSwitchedToCodeListDetails() {
 		return nextStep == retrieveStep;
 	}
+	
+	public void setRepository(UIRepository repository) {
+		nextRepositoryStep = repository.getAvailableFormats().size()>1?formatStep:retrieveMappings;
+		nextStep = nextRepositoryStep;
+		Log.trace("repository selected: "+repository+" updated nextRepositoryNode to: "+nextRepositoryStep);
+	}
 
 	public void reset() {
 		Log.trace("reset");
-		nextStep = retrieveMappings;
+		nextRepositoryStep = retrieveMappings;
+		nextStep = nextRepositoryStep;
 	}
 
 	public void stepChanged(WizardStep step) {
+		Log.trace("stepChanged step: "+step);
 		if (step.getId().equals(retrieveStep.getId())) {
-			nextStep = retrieveMappings;
+			nextStep = nextRepositoryStep;
 		}
 	}
 

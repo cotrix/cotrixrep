@@ -5,6 +5,7 @@ package org.cotrix.web.manage.client.codelists;
 
 import org.cotrix.web.common.client.util.DataUpdatedEvent;
 import org.cotrix.web.common.client.util.DataUpdatedEvent.DataUpdatedHandler;
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.manage.client.resources.CodelistsResources;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.shared.CodelistGroup;
@@ -39,7 +40,7 @@ public class CodelistTreeModel implements TreeViewModel {
 		@Override
 		public void render(com.google.gwt.cell.client.Cell.Context context,
 				CodelistGroup value, SafeHtmlBuilder sb) {
-			sb.appendEscaped(value.getName());
+			sb.appendEscaped(ValueUtils.getLocalPart(value.getName()));
 		}
 	};
 	
@@ -73,7 +74,7 @@ public class CodelistTreeModel implements TreeViewModel {
 		if (value instanceof CodelistGroup) {
 			final CodelistGroup group = (CodelistGroup) value;
 			
-			final ListDataProvider<Version> versiondaDataProvider = new ListDataProvider<Version>(group.getVersions());
+			final ListDataProvider<Version> versionDataProvider = new ListDataProvider<Version>(group.getVersions());
 			dataProvider.addDataUpdatedHandler(new DataUpdatedHandler() {
 				
 				@Override
@@ -81,13 +82,12 @@ public class CodelistTreeModel implements TreeViewModel {
 					Log.trace("onDataUpdated "+value);
 					for (CodelistGroup newGroup:dataProvider.getCache()) {
 						if (newGroup.getName().equals(group.getName())) {
-							versiondaDataProvider.getList().clear();
-							versiondaDataProvider.getList().addAll(newGroup.getVersions());
+							versionDataProvider.refresh();
 						}
 					}
 				}
 			});
-			return new DefaultNodeInfo<Version>(versiondaDataProvider, VERSION_CELL, selectionModel, null);
+			return new DefaultNodeInfo<Version>(versionDataProvider, VERSION_CELL, selectionModel, null);
 		}
 		return null;
 	}

@@ -14,7 +14,5 @@ public interface CsvConfigurationStepView {
 	public void setCsvWriterConfiguration(CsvConfiguration configuration);
 	public CsvConfiguration getCsvWriterConfiguration();
 	
-	void alert(String message);
-	
 	Widget asWidget();
 }

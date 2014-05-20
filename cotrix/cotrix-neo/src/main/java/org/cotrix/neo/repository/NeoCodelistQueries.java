@@ -24,6 +24,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.IteratorAdapter;
 import org.cotrix.domain.user.FingerPrint;
@@ -111,18 +112,14 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 						Relations.CODE.name(),
 						$node));
 				
-				rtrn(format("DISTINCT(%1$s) as %2$s",$node,$result));	
+				rtrn(format("DISTINCT %1$s as %2$s",$node,$result));	
 			}
 			
 			@Override
 			public Iterator<Code> iterator() {
 
-				
-	
 				ExecutionResult result = executeNeo();
 
-				//System.out.println(result.dumpToString());
-				
 				ResourceIterator<Node> it = result.columnAs($result);
 
 				return codes(it);
@@ -208,13 +205,18 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 				for (Attribute a : list.attributes())
 					if (!a.type().equals(SYSTEM_TYPE))
 						attributes.add(a);
+				
+				Collection<CodelistLink> links = new ArrayList<CodelistLink>();
+				
+				for (CodelistLink l : list.links())
+					links.add(l);
 
 				Map<QName, Map<QName, Set<String>>> fingerprint = new HashMap<QName, Map<QName, Set<String>>>();
 
 				for (Code c : list.codes())
-					addToFingerprint(fingerprint, c.attributes());
+					addAttributesToFingerprint(fingerprint, c.attributes());
 
-				return new CodelistSummary(list.name(), size, attributes, fingerprint);
+				return new CodelistSummary(list.name(), size, attributes, links, fingerprint);
 			}
 		};
 	}
@@ -262,9 +264,10 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 			}
 		};
 	}
-
+	
+	
 	@Override
-	public Criterion<Code> byAttribute(final Attribute attribute, final int position) {
+	public Criterion<Code> byAttribute(final Attribute template, final int position) {
 		
 		return new NeoCriterion<Code>() {
 			
@@ -279,25 +282,56 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 				//brings codes in with expression
 				query.with($node);
 				
-				String caseTemplate = "CASE %1$s WHEN '%2$s' THEN %3$s END AS VAL ORDER BY VAL";
+				String withTemplate = "[a in COLLECT(A) WHERE (%s) | %s ][%s] AS VAL ORDER BY VAL";
+			
+				String withCondition = format("a.%s ='%s'",name_prop,template.name());
 				
-				String expression = attribute.language()==null?
-						format("%1$s.%2$s[%3$s]",$attribute,name_prop,position-1):
-						format("%1$s.%2$s[%3$s]+%1$s.%4$s",$attribute,name_prop,position-1,lang_prop);
+				if (template.language()!=null)
+					withCondition += format(" AND a.%s= '%s'",lang_prop,template.language());
+	
+				String projection = template.language()==null?format("a.%s",value_prop):format("a.%s+a.%s",value_prop,lang_prop);
 				
-				String value = attribute.language()==null?
-										attribute.name().toString():
-										attribute.name()+attribute.language();
-										
-				String caseValue = format("%1$s.%2$s",$attribute,value_prop);
+				query.with(format(withTemplate,withCondition,projection,position-1));
+				
+				return "";
+			}
+		};
+	}
+	
+	@Override
+	public Criterion<Code> byLink(final CodelistLink template, final int position) {
+		
+		return new NeoCriterion<Code>() {
+			
+			@Override
+			protected String process(NeoMultiQuery<?,?> query) {
+				
+				query.match(format("%s-[:%s]->(L)",$node,Relations.LINK.name(),Relations.INSTANCEOF.name()));
+				query.match(format("L-[:%s]->(LT)",position-1,Relations.INSTANCEOF.name()));
+				query.match(format("%s-[:%s]->(C)",Relations.LINK));
+				
+				//brings codes in with expression
+				query.with($node);
+				
+				String caseTemplate = "CASE %s WHEN '%s' THEN %s END AS VAL ORDER BY VAL";
+				
+				String expression = format("LT.%s",name_prop,position-1);
+				
+				String value = template.name().toString();
+				
+				String caseValue = format("C.%s",name_prop);
 				
 				query.with(format(caseTemplate,expression,value,caseValue));
+
 				
 				return "";
 			}
 		};
 	}
 
+	
+	
+	
 	// helpers
 	
 	Iterator<Codelist> codelists(ResourceIterator<Node> it) {

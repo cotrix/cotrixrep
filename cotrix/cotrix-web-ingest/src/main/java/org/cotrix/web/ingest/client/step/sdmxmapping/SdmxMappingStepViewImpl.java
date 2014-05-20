@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.ingest.client.util.MappingPanel;
-import org.cotrix.web.ingest.client.util.MappingPanel.ReloadButtonHandler;
+import org.cotrix.web.ingest.client.util.MappingPanel.MappingPanelHandler;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 
 import com.google.gwt.core.client.GWT;
@@ -21,7 +21,7 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMappingStepView, ReloadButtonHandler {
+public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMappingStepView {
 
 	@UiTemplate("SdmxMappingStep.ui.xml")
 	interface HeaderTypeStepUiBinder extends UiBinder<Widget, SdmxMappingStepViewImpl> {}
@@ -35,8 +35,19 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	AlertDialog alertDialog;
 
 	public SdmxMappingStepViewImpl() {
-		mappingPanel = new MappingPanel(false, "ELEMENTS");
-		mappingPanel.setReloadHandler(this);
+		mappingPanel = new MappingPanel(false, "SDMX ELEMENTS");
+		mappingPanel.setPreviewVisible(false);
+		mappingPanel.setMappingPanelHandler(new MappingPanelHandler() {
+			
+			@Override
+			public void onReloadButtonClicked() {
+				presenter.onReload();
+			}
+			
+			@Override
+			public void onPreviewButtonClicked() {
+			}
+		});
 		
 		initWidget(uiBinder.createAndBindUi(this));
 	}
@@ -111,11 +122,6 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 
 	public void alert(String message) {
 		alertDialog.center(message);
-	}
-
-	@Override
-	public void onReloadButtonClicked() {
-		presenter.onReload();
 	}
 
 }

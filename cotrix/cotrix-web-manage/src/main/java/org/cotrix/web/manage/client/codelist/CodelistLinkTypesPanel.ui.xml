@@ -1,0 +1,37 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.common"
+	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
+	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
+		field="common" />
+	<ui:style>
+	.padding {
+		padding: 10px;
+	}
+	
+	.grid {
+		vertical-align: top;
+		margin-right: 20px;
+	}
+	
+	.firstColumn {
+		padding-left: 10px;
+		width: 120px;
+	}
+	
+	.panel {
+		background-color: #f6f6f6;
+		border: 1px solid #d1d1d1;
+		border-spacing: 5px;
+	}
+	</ui:style>
+	<g:DockLayoutPanel unit='PX'>
+		<g:center>
+			<v:ItemsEditingPanel ui:field="linkTypesPanel" />
+		</g:center>
+		<g:south size="28">
+			<c:ItemToolbar ui:field="toolBar" />
+		</g:south>
+	</g:DockLayoutPanel>
+</ui:UiBinder> 

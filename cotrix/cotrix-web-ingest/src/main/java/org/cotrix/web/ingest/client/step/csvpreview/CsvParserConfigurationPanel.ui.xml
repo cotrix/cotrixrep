@@ -13,6 +13,11 @@
 			border-spacing: 1px;
 		}
 		
+		.toolbarCell {
+			border-right:1px solid #bababa;
+			padding: 5px;
+		}
+		
 		.toolbarLabel {
 			font-size:16px;
 			padding-bottom: 3px;
@@ -23,50 +28,66 @@
 			margin: auto;
 			outline: none;
 		}
+		
+		.textbox {
+			margin-left: 10px;
+		}
+		
 		.textbox:disabled {
 			color: #ededed !important;
+		}
+		
+		.valueContainer {
+			text-align:left; 
+			display: inline-block;
 		}
 	</ui:style>
 	<g:HTMLPanel>
 		<table class="{style.toolbar}">
 			<tr>
-				<td style="border-right:1px solid #bababa;padding: 5px;">
+				<td class="{style.toolbarCell}">
 					<div class="{style.toolbarLabel}">First Row is Header</div>
 					<div>
 						<g:SimpleCheckBox ui:field="hasHeaderField"
 							styleName="{common.css.simpleCheckbox}" />
 					</div>
 				</td>
-				<td style="border-right:1px solid #bababa;padding: 5px;">
+				<td class="{style.toolbarCell}">
 					<div class="{style.toolbarLabel}">Delimiter</div>
-					<div>
-						<s:EnumListBox ui:field="separatorField" styleName="{common.css.listBox}" />
-						<g:TextBox ui:field="customSeparatorField" maxLength="1"
-							width="20px" enabled="false" styleName="{common.css.textBox} {style.textbox}">,</g:TextBox>
+					<div style="text-align:center">
+						<div class="{style.valueContainer}">
+							<s:EnumListBox ui:field="separatorField" styleName="{common.css.listBox}" />
+							<g:TextBox ui:field="customSeparatorField" maxLength="1"
+								width="20px" enabled="false" styleName="{common.css.textBox} {style.textbox}">,</g:TextBox>
+						</div>
 					</div>
 				</td>
-				<td style="border-right:1px solid #bababa;padding: 5px;">
+				<td class="{style.toolbarCell}">
 					<div class="{style.toolbarLabel}">Quote</div>
-					<div>
-						<s:EnumListBox ui:field="quoteField" styleName="{common.css.listBox}" />
-						<g:TextBox ui:field="customQuoteField" maxLength="1"
-							width="20px" enabled="false" styleName="{common.css.textBox} {style.textbox}">"</g:TextBox>
+					<div style="text-align:center">
+						<div class="{style.valueContainer}">
+							<s:EnumListBox ui:field="quoteField" styleName="{common.css.listBox}" />
+							<g:TextBox ui:field="customQuoteField" maxLength="1"
+								width="20px" enabled="false" styleName="{common.css.textBox} {style.textbox}">"</g:TextBox>
+						</div>
 					</div>
 				</td>
-				<td style="border-right:1px solid #bababa;padding: 5px;">
+				<td class="{style.toolbarCell}">
 					<div class="{style.toolbarLabel}">Comment</div>
-					<div>
-						<g:TextBox ui:field="commentField" maxLength="1" width="20px"
+					<div style="text-align:center">
+						<g:TextBox ui:field="commentField" maxLength="1" width="55px"
 							styleName="{common.css.textBox}">#</g:TextBox>
 					</div>
 				</td>
-				<td style="border-right:1px solid #bababa;padding: 5px;">
+				<td class="{style.toolbarCell}">
 					<div class="{style.toolbarLabel}">Encoding</div>
-					<div>
-						<g:ListBox ui:field="charsetField" styleName="{common.css.listBox}" />
+					<div style="text-align:center">
+						<div class="{style.valueContainer}">
+							<g:ListBox ui:field="charsetField" styleName="{common.css.listBox}" width="150px" />
+						</div>
 					</div>
 				</td>
-				<td width="58px" style="text-align:center;vertical-align:middle;">
+				<td width="58px" style="text-align:center;vertical-align:middle;display:none">
 					<g:PushButton ui:field="refreshButton"
 						styleName="{common.css.buttonRefresh} {style.refreshButton}">
 						<g:upFace image="{common.refresh}" />

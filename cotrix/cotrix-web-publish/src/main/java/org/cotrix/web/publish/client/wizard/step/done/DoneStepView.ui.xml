@@ -4,41 +4,30 @@
 	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
 		field="common" />
 	<ui:style>
-		.downloadButtonPanel {
-			float: right;
-			padding: 5px;
-		}
-		
-		.report {
-			padding-top: 10px;
-			vertical-align: top;
-			margin-right: 20px;
-			width: 100%;
-			border-spacing: 5px;
-		}
-		
-		/**
-												Workaround to GWT issue #8275
-												https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
-												**/
-		.borderFix table {
-			border-collapse: collapse;
-		}
-		
-		.pagerPanel {
-			margin: 0 auto;
-		}
+	
+	.report {
+		padding-top: 10px;
+		vertical-align: top;
+		margin-right: 20px;
+		width: 100%;
+		border-spacing: 5px;
+	}
+	
+	/**
+		Workaround to GWT issue #8275
+		https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
+	**/
+	.borderFix table {
+		border-collapse: collapse;
+	}
+	
+	.pagerPanel {
+		margin: 0 auto;
+	}
 	</ui:style>
+
 	<g:DockLayoutPanel unit='PX' ui:field="reportPanel"
 		styleName="{common.css.wizardPanel}">
-		<g:north size="45">
-			<g:HTMLPanel>
-				<div class="{style.downloadButtonPanel}">
-					<g:Button ui:field="reportDownload" text="DOWNLOAD"
-						styleName="{common.css.buttonDownload}" />
-				</div>
-			</g:HTMLPanel>
-		</g:north>
 		<g:center>
 			<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}" />
 		</g:center>

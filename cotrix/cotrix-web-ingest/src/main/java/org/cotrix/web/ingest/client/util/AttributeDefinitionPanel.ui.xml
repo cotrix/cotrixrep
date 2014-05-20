@@ -21,6 +21,6 @@
 			<w:EnumListBox ui:field="typeList" styleName="{common.css.listBox}" width="150px"/>
 			<g:TextBox ui:field="customType" styleName="{common.css.textBox} {style.customType}" visible="false"/>
 			<g:Label ui:field="inLabel" styleName="{common.css.paddedText}">in</g:Label>
-			<g:ListBox ui:field="languageList" styleName="{common.css.listBox}" />
+			<w:LanguageListBox ui:field="languageList" styleName="{common.css.listBox}" />
 		</g:HorizontalPanel>
 </ui:UiBinder> 

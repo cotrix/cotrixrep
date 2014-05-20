@@ -1,9 +1,8 @@
 package org.cotrix.web.publish.client.wizard.step.summary;
 
-import java.util.List;
 import java.util.Map;
 
-import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.MappingMode;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -15,7 +14,7 @@ import com.google.inject.ImplementedBy;
 @ImplementedBy(SummaryStepViewImpl.class)
 public interface SummaryStepView {
 
-	public void setMapping(List<AttributeMapping> mapping);
+	public void setMapping(AttributesMappings mapping);
 	
 	void setCodelistName(String name);
 	

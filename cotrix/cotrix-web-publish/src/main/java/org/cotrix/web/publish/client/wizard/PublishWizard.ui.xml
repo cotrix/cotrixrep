@@ -68,6 +68,16 @@
 			float: right;
 			margin-left:40px;
 		}
+		
+		.downloadCodelist {
+			float: right;
+		}
+		
+		.downloadReport {
+			float: right;
+			margin-left:10px;
+			margin-right: 50px;
+		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.wizardPanel}">
 		<g:north size='100'>
@@ -98,9 +108,20 @@
 					<g:Button ui:field="publishButton" styleName="{common.css.blueButton}"
 						text="PUBLISH" />
 				</div>
+
 				<div class="{style.rightButton}">
 					<g:Button ui:field="newPublishButton" styleName="{common.css.buttonImport}"
 						text="PUBLISH ANOTHER" />
+				</div>
+				
+				<div class="{style.downloadReport}">
+					<g:Button ui:field="downloadReportButton" text="REPORT"
+						styleName="{common.css.buttonDownload}" />
+				</div>
+				
+				<div class="{style.downloadCodelist}">
+					<g:Button ui:field="downloadCodelistButton" text="CODELIST"
+						styleName="{common.css.buttonDownload}" />
 				</div>
 			</g:HTMLPanel>
 		</g:south>

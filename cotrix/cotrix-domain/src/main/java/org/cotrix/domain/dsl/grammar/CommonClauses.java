@@ -1,11 +1,10 @@
 package org.cotrix.domain.dsl.grammar;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 
 /**
@@ -47,6 +46,14 @@ public class CommonClauses {
 		 */
 		@SuppressWarnings("unchecked")
 		C links(T ... links);
+		
+		/**
+		 * Adds one or more links to the object.
+		 * 
+		 * @param links the links
+		 * @return the next clause in the sentence
+		 */
+		C links(Collection<T> links);
 	}
 	
 	public static interface LinkTargetClause<T,C> {
@@ -60,17 +67,6 @@ public class CommonClauses {
 		C target(T target);
 	}
 
-	
-	public static interface CodeLinkClause<C> {
-
-		/**
-		 * Adds a link definition to the object.
-		 * 
-		 * @param def the definition
-		 * @return the next clause in the sentence
-		 */
-		LinkTargetClause<Code,C> instanceOf(CodelistLink def);
-	}
 	
 	public static interface WithManyClause<T,C> {
 

@@ -30,6 +30,14 @@ public class CodelistActionEvents {
 		
 	}
 	
+	public static class Create extends CodelistEvent {
+		
+		public Create(String id, QName name, String version, BeanSession session) {
+			super(id,name,version,session);
+		}
+		
+	}
+	
 	public static class Import extends CodelistEvent {
 		
 		public Import(String id, QName name, String version, BeanSession session) {
@@ -39,8 +47,14 @@ public class CodelistActionEvents {
 	}
 	
 	public static class Version extends CodelistEvent {
-		public Version(String id, QName name, String version, BeanSession session) {
+		
+		public final String oldId;
+		
+		public Version(String oldId, String id, QName name, String version, BeanSession session) {
+			
 			super(id,name,version,session);
+			
+			this.oldId=oldId;
 		}
 	}
 	

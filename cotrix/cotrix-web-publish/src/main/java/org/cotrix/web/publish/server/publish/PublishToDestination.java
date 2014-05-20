@@ -21,8 +21,12 @@ import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
+import org.cotrix.web.common.server.util.TmpFileManager;
 import org.cotrix.web.common.server.util.ValueUtils;
+import org.cotrix.web.common.shared.exception.Exceptions;
+import org.cotrix.web.common.shared.exception.ServiceErrorException;
 import org.cotrix.web.publish.shared.PublishDirectives;
+import org.fao.fi.comet.mapping.model.MappingData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.tabular.Table;
 
@@ -32,7 +36,7 @@ import org.virtualrepository.tabular.Table;
  */
 public interface PublishToDestination {
 
-	public <T> void publish(T codelist, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) throws Exception;
+	public <T> void publish(Codelist original, T mapped, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) throws Exception;
 
 	public class DesktopDestination implements PublishToDestination {
 		
@@ -40,16 +44,20 @@ public interface PublishToDestination {
 		private Event<CodelistActionEvents.Publish> events;
 
 		@Inject
-		protected SerialisationService serialiser;
+		private SerialisationService serialiser;
+		
+		@Inject
+		private TmpFileManager tmpFileManager;
 
 		/** 
 		 * {@inheritDoc}
 		 */
 		@Override
-		public <T> void publish(T codelist, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) throws Exception {
-			File destination = File.createTempFile("publish", ".tmp");
+		public <T> void publish(Codelist source,T mapped, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) throws Exception {
+			File destination = tmpFileManager.createTmpFile();
+			
 			OutputStream os = new FileOutputStream(destination);
-			serialiser.serialise(codelist, os, serializationDirectives);
+			serialiser.serialise(mapped, os, serializationDirectives);
 			publishStatus.setPublishResult(destination);
 		}
 
@@ -70,11 +78,18 @@ public interface PublishToDestination {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public <T> void publish(T codelist, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) {
+		public <T> void publish(Codelist source, T mapped, SerialisationDirectives<T> serializationDirectives, PublishDirectives publishDirectives, PublishStatus publishStatus, BeanSession session) {
 			
 			QName repositoryId = ValueUtils.toQName(publishDirectives.getRepositoryId());
-			if (codelist instanceof Table) cloud.publish((Table) codelist, repositoryId);
-			if (codelist instanceof CodelistBean) cloud.publish((CodelistBean) codelist, repositoryId);
+			
+			try {
+				if (mapped instanceof Table) cloud.publish(source,(Table) mapped, repositoryId);
+				if (mapped instanceof CodelistBean) cloud.publish(source,(CodelistBean) mapped, repositoryId);
+				if (mapped instanceof MappingData) cloud.publish(source,(MappingData) mapped, repositoryId);
+			} catch(Exception e) {
+				ServiceErrorException errorException = Exceptions.toServiceErrorException("Oops, there seems a communication problem with "+repositoryId.getLocalPart()+".", e);
+				throw errorException;
+			}
 			
 			Codelist publishedCodelist = publishStatus.getPublishedCodelist(); 
 			Lifecycle lifecycle = lifecycleService.lifecycleOf(publishedCodelist.id());

@@ -1,0 +1,26 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
+		field="resources" />
+	<g:HTMLPanel styleName="{resources.css.dialogBox}" width="300px" height="280px">
+			<div class="{resources.css.dialogTitle}">
+				Create a new codelist
+			</div>
+			<div class="{resources.css.dialogSubtitle}">
+				Create a new codelist
+			</div>
+			<div class="{resources.css.dialogTextfield}">
+				<div>Name</div>
+				<g:TextBox styleName="{resources.css.dialogTextbox}" ui:field="name" />
+			</div>
+			<div class="{resources.css.dialogTextfield}">
+				<div>Version</div>
+				<g:TextBox styleName="{resources.css.dialogTextbox}" ui:field="version" />
+			</div>
+			<div class="{resources.css.dialogTextfield}">
+				<g:Button ui:field="create" styleName="{resources.css.dialogSubmit}">Create</g:Button>
+			</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

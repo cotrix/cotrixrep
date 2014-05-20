@@ -1,6 +1,8 @@
 package org.cotrix.web.ingest.client.step.upload;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
+import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.FileUploadedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
@@ -50,6 +52,9 @@ public class UploadStepPresenter extends AbstractVisualWizardStep implements Vis
 	
 	@Inject
 	private ImportConstants constants;
+	
+	@Inject
+	private AlertDialog alertDialog;
 
 
 	@Inject
@@ -102,7 +107,7 @@ public class UploadStepPresenter extends AbstractVisualWizardStep implements Vis
 		}
 		
 		String type = file.getType();
-		if (type == null) {
+		if (type == null || type.isEmpty()) {
 			//we will check the type on server side
 			return true;
 		}
@@ -156,7 +161,7 @@ public class UploadStepPresenter extends AbstractVisualWizardStep implements Vis
 			public void onFailure(Throwable caught) {
 				pollingErrors++;
 				Log.error("Failed getting upload progress", caught);
-				if (pollingErrors>POLLING_ERROR_TRESHOLD) uploadFailed();
+				if (pollingErrors>POLLING_ERROR_TRESHOLD) uploadFailed(Exceptions.toError(caught));
 			}
 		});
 	}
@@ -166,7 +171,7 @@ public class UploadStepPresenter extends AbstractVisualWizardStep implements Vis
 		switch (progress.getStatus()) {
 			case ONGOING: uploadOngoing(progress.getProgress()); break;
 			case DONE: uploadDone(progress); break;
-			case FAILED: uploadFailed(); break;
+			case FAILED: uploadFailed(progress.getError()); break;
 		}
 	}
 	
@@ -182,7 +187,6 @@ public class UploadStepPresenter extends AbstractVisualWizardStep implements Vis
 		view.setUploadProgress(progress.getProgress());
 		complete = true;
 		importEventBus.fireEvent(new FileUploadedEvent(fileName, progress.getCodeListType()));
-		Log.trace("fired FileUploadedEvent in "+importEventBus);
 		view.setUploadComplete(progress.getCodeListType().toString());
 	}
 	
@@ -190,6 +194,12 @@ public class UploadStepPresenter extends AbstractVisualWizardStep implements Vis
 	{
 		progressPolling.cancel();
 		view.setUploadFailed();
+	}
+	
+	protected void uploadFailed(org.cotrix.web.common.shared.Error error)
+	{
+		reset();
+		alertDialog.center(error);
 	}
 	
 	public void onDeleteButtonClicked() {

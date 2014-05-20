@@ -33,6 +33,7 @@ public class ColumnDirectives {
 	private QName name;
 	private QName type;
 	private String language;
+	private boolean required = false;
 	
 	private MappingMode mode = MappingMode.LOG;
 	
@@ -96,6 +97,15 @@ public class ColumnDirectives {
 	public ColumnDirectives name(QName name) {
 		this.name=name;
 		return this;
+	}
+	
+	
+	public boolean required() {
+		return required;
+	}
+	
+	public void required(boolean required) {
+		this.required=required;
 	}
 	
 	/**

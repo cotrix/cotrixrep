@@ -16,6 +16,7 @@ import org.cotrix.web.common.server.util.OrderedLists;
 import org.cotrix.web.common.server.util.Repositories;
 import org.cotrix.web.common.server.util.OrderedLists.ValueProvider;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,11 +43,19 @@ public class AssetInfosCache implements Serializable {
 		}
 	};
 	
+	protected static final ValueProvider<AssetInfo> VERSION_PROVIDER = new ValueProvider<AssetInfo>() {
+
+		@Override
+		public String getValue(AssetInfo item) {
+			return item.getVersion();
+		}
+	};
+	
 	protected static final ValueProvider<AssetInfo> REPOSITORY_PROVIDER = new ValueProvider<AssetInfo>() {
 
 		@Override
 		public String getValue(AssetInfo item) {
-			return item.getRepositoryName();
+			return String.valueOf(item.getRepositoryName());
 		}
 	};
 	
@@ -56,7 +65,7 @@ public class AssetInfosCache implements Serializable {
 	transient protected CloudService cloud;
 	
 	protected Map<String, Asset> assetsCache;
-	protected Map<String, RepositoryDetails> repositoriesCache;
+	protected Map<UIQName, RepositoryDetails> repositoriesCache;
 	protected OrderedLists<AssetInfo> cache;
 	protected boolean cacheLoaded = false;
 	
@@ -71,13 +80,19 @@ public class AssetInfosCache implements Serializable {
 	{
 		cache = new OrderedLists<AssetInfo>();
 		cache.addField(AssetInfo.NAME_FIELD, NAME_PROVIDER);
+		cache.addField(AssetInfo.VERSION_FIELD, VERSION_PROVIDER);
 		cache.addField(AssetInfo.REPOSITORY_FIELD, REPOSITORY_PROVIDER);
 		
 		assetsCache = new HashMap<String, Asset>();
-		repositoriesCache = new HashMap<String, RepositoryDetails>();
+		repositoriesCache = new HashMap<UIQName, RepositoryDetails>();
 	}
 	
 	public void refreshCache()
+	{
+		loadCache();
+	}
+	
+	public void discovery()
 	{
 		cloud.discover();
 		loadCache();
@@ -92,14 +107,14 @@ public class AssetInfosCache implements Serializable {
 		for (Asset asset:cloud) {
 	
 			AssetInfo assetInfo = Assets.convert(asset);
-			logger.trace("converted {} to {}", asset.name(), assetInfo);
+			//logger.trace("converted {} to {}", asset.name(), assetInfo);
 			cache.add(assetInfo);
 			assetsCache.put(asset.id(), asset);
 		}
 		
 		for (RepositoryService repository: cloud.repositories()) {
 			RepositoryDetails repositoryDetails = Repositories.convert(repository);
-			repositoriesCache.put(repositoryDetails.getName(), repositoryDetails);
+			repositoriesCache.put(repositoryDetails.getId(), repositoryDetails);
 		}
 	}
 	
@@ -117,7 +132,7 @@ public class AssetInfosCache implements Serializable {
 		return assetsCache.get(id);
 	}
 	
-	public RepositoryDetails getRepository(String id)
+	public RepositoryDetails getRepository(UIQName id)
 	{
 		ensureCacheInitialized();
 		return repositoriesCache.get(id);
@@ -129,6 +144,4 @@ public class AssetInfosCache implements Serializable {
 		if (field == null) return cache.getSortedList(AssetInfo.NAME_FIELD);
 		return cache.getSortedList(field);
 	}
-
-
 }

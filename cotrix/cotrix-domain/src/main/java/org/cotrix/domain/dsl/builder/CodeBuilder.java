@@ -4,6 +4,7 @@ import static java.util.Arrays.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -14,8 +15,7 @@ import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
-import org.cotrix.domain.dsl.grammar.CodeGrammar.FinalClause;
-import org.cotrix.domain.dsl.grammar.CodeGrammar.SecondClause;
+import org.cotrix.domain.dsl.grammar.CodeGrammar.OptionalClause;
 import org.cotrix.domain.memory.CodeMS;
 
 /**
@@ -24,7 +24,7 @@ import org.cotrix.domain.memory.CodeMS;
  * @author Fabio Simeoni
  *
  */
-public final class CodeBuilder implements CodeNewClause, CodeDeltaClause, FinalClause {
+public final class CodeBuilder implements CodeNewClause, CodeDeltaClause {
 
 	private final CodeMS state;
 	
@@ -33,32 +33,38 @@ public final class CodeBuilder implements CodeNewClause, CodeDeltaClause, FinalC
 	}
 	
 	@Override
-	public SecondClause name(QName name) {
+	public OptionalClause name(QName name) {
 		state.name(name);
 		return this;
 	}
 
 	
 	@Override
-	public SecondClause name(String name) {
+	public OptionalClause name(String name) {
 		return name(Codes.q(name));
 	}
 
 	@Override
-	public FinalClause links(Codelink... links) {
+	public CodeBuilder links(Codelink... links) {
 		
-		state.links(reveal(asList(links),Codelink.Private.class));
+		return links(asList(links));
+	}
+	
+	@Override
+	public CodeBuilder links(Collection<Codelink> links) {
+		
+		state.links(reveal(links,Codelink.Private.class));
 		
 		return this;
 	}
 	
 	@Override
-	public FinalClause attributes(Attribute ... attributes) {
+	public CodeBuilder attributes(Attribute ... attributes) {
 		return attributes(Arrays.asList(attributes));
 	}
 	
 	@Override
-	public FinalClause attributes(List<Attribute> attributes) {
+	public CodeBuilder attributes(List<Attribute> attributes) {
 		
 		state.attributes(reveal(attributes,Attribute.Private.class));
 		

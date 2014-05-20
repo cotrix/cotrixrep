@@ -10,13 +10,15 @@ import javax.inject.Inject;
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.LanguageClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
 import org.cotrix.io.MapService;
+import org.cotrix.io.comet.map.Codelist2CometDirectives;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
 import org.cotrix.io.tabular.map.AttributeDirectives;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.ValueUtils;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.publish.server.util.SdmxElements;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
@@ -25,6 +27,7 @@ import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.publish.shared.UISdmxElement;
+import org.fao.fi.comet.mapping.model.MappingData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +39,7 @@ import org.virtualrepository.tabular.Table;
  */
 public interface PublishMapper<T> {
 	
-	public Outcome<T> map(PublishDirectives publishDirectives);
+	public Outcome<T> map(Codelist codelist,PublishDirectives publishDirectives);
 	
 	public class CsvMapper implements PublishMapper<Table> {
 		
@@ -49,11 +52,11 @@ public interface PublishMapper<T> {
 		protected CodelistRepository repository;
 
 		@Override
-		public Outcome<Table> map(PublishDirectives publishDirectives) {
+		public Outcome<Table> map(Codelist codelist,PublishDirectives publishDirectives) {
 			
 			Codelist2TableDirectives directives = new Codelist2TableDirectives();
 			
-			for (AttributeMapping mapping:publishDirectives.getMappings()) {
+			for (AttributeMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
 				if (mapping.isMapped()) {
 					Attribute template = getTemplate(mapping.getAttributeDefinition());
 					Column column = (Column) mapping.getMapping();
@@ -64,15 +67,13 @@ public interface PublishMapper<T> {
 			
 			directives.mode(convertMappingMode(publishDirectives.getMappingMode()));
 			
-			Codelist codelist = repository.lookup(publishDirectives.getCodelistId());
-			
 			return mapper.map(codelist, directives);
 
 		}
 		
 		protected Attribute getTemplate(AttributeDefinition definition) {
-			LanguageClause attributeBuilder = attribute().name(ValueUtils.toQName(definition.getName())).value(null).ofType(ValueUtils.toQName(definition.getType()));
-			if (definition.getLanguage()!=null && !definition.getLanguage().isEmpty()) return attributeBuilder.in(definition.getLanguage()).build();
+			OptionalClause attributeBuilder = attribute().name(ValueUtils.toQName(definition.getName())).value(null).ofType(ValueUtils.toQName(definition.getType()));
+			if (definition.getLanguage()!=null && definition.getLanguage()!=Language.NONE) return attributeBuilder.in(definition.getLanguage().getCode()).build();
 			return attributeBuilder.build();
 		}
 
@@ -91,6 +92,8 @@ public interface PublishMapper<T> {
 	
 	public class SdmxMapper implements PublishMapper<CodelistBean> {
 		
+		protected Logger logger = LoggerFactory.getLogger(SdmxMapper.class);
+		
 		@Inject
 		protected MapService mapper;
 		
@@ -98,29 +101,55 @@ public interface PublishMapper<T> {
 		protected CodelistRepository repository;
 
 		@Override
-		public Outcome<CodelistBean> map(PublishDirectives publishDirectives) {
+		public Outcome<CodelistBean> map(Codelist codelist, PublishDirectives publishDirectives) {
 			
 			Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
 			
 			PublishMetadata metadata = publishDirectives.getMetadata();
 			//FIXME directives.agency(metadata.get);
-			directives.name(metadata.getName());
+			directives.name(metadata.getName().getLocalPart());
 			directives.version(metadata.getVersion());
 			directives.isFinal(metadata.isSealed());
 			
-			for (AttributeMapping mapping:publishDirectives.getMappings()) {
+			for (AttributeMapping mapping:publishDirectives.getMappings().getCodelistAttributesMapping()) {
 				if (mapping.isMapped()) {
 					
 					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();
 					UISdmxElement element = (UISdmxElement) mapping.getMapping();
-					
-					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).to(SdmxElements.toSdmxElement(element));
+					logger.trace("mapping {} to {}", attributeDefinition, element);
+					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).
+							   to(SdmxElements.toSdmxElement(element))
+							   .forCodelist();
 				}
 			}
 			
-			Codelist codelist = repository.lookup(publishDirectives.getCodelistId());
-
+			for (AttributeMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
+				if (mapping.isMapped()) {
+					
+					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();
+					UISdmxElement element = (UISdmxElement) mapping.getMapping();
+					logger.trace("mapping {} to {}", attributeDefinition, element);
+					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).
+							   to(SdmxElements.toSdmxElement(element))
+							   .forCodes();
+				}
+			}
+			
+			
 			return mapper.map(codelist, directives);
+		}		
+	}
+	
+	public class CometMapper implements PublishMapper<MappingData> {
+		
+		protected Logger logger = LoggerFactory.getLogger(CometMapper.class);
+		
+		@Inject
+		protected MapService mapper;
+
+		@Override
+		public Outcome<MappingData> map(Codelist codelist, PublishDirectives publishDirectives) {
+			return mapper.map(codelist, Codelist2CometDirectives.DEFAULT);
 		}		
 	}
 }

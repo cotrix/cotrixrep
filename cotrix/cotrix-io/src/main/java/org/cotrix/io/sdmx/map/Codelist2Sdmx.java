@@ -1,6 +1,8 @@
 package org.cotrix.io.sdmx.map;
 
+import static org.cotrix.common.Log.*;
 import static org.cotrix.common.Report.*;
+import static org.cotrix.common.Report.Item.Type.*;
 import static org.sdmxsource.sdmx.api.constants.TERTIARY_BOOL.*;
 
 import java.text.ParseException;
@@ -14,6 +16,7 @@ import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.io.impl.MapTask;
 import org.cotrix.io.sdmx.SdmxElement;
+import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives.GetClause;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.sdmxsource.sdmx.api.model.mutable.base.AnnotationMutableBean;
 import org.sdmxsource.sdmx.api.model.mutable.base.NameableMutableBean;
@@ -48,8 +51,8 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		
 		double time = System.currentTimeMillis();
 
-		report().log("mapping codelist "+codelist.name()+"("+codelist.id()+") to SDMX");
-		report().log(Calendar.getInstance().getTime().toString());
+		report().log(item("transforming codelist "+codelist.name()+"("+codelist.id()+") to SDMX")).as(INFO)
+				.log(item(Calendar.getInstance().getTime().toString())).as(INFO);
 		
 		String name = directives.name()==null?codelist.name().getLocalPart():directives.name();
 		
@@ -66,16 +69,25 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		for (Code code : codelist.codes()) {
 			
 			CodeMutableBean codebean = new CodeMutableBeanImpl();
+			
+			if (code.name()==null) {
+				report().log(item(code.id()+" has no name ")).as(ERROR);
+				continue;
+			}
+			
 			codebean.setId(code.name().getLocalPart());
 			
-			mapAttributes(code,codebean,directives);
+			mapAttributes(code,codebean,directives.forCodes());
 			
 			codelistbean.addItem(codebean);
 		}
 		
-		report().log("mapped codelist "+codelist.name()+"("+codelist.id()+") to SDMX in "+(System.currentTimeMillis()-time)/1000);
+		String msg = "transformed codelist "+codelist.name()+"("+codelist.id()+") to SDMX in "+(System.currentTimeMillis()-time)/1000;
+		
+		report().log(item(msg)).as(INFO);
 
 		return codelistbean.getImmutableInstance();
+
 	}
 	
 	//helpers
@@ -87,7 +99,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		for (Attribute a : list.attributes()) {
 			
 			String val = a.value();
-			SdmxElement element = directives.get(a);
+			SdmxElement element = directives.forCodelist().get(a);
 			
 			if (element!=null)
 				switch(element) {
@@ -97,7 +109,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 							bean.setStartDate(DateUtil.getDateTimeFormat().parse(val));
 						}
 						catch(ParseException e) {
-							Report.report().logWarning("unparseable start date: "+a.value());
+							Report.report().log(item("unparseable start date: "+a.value())).as(WARN);
 						}
 						break;
 					case VALID_TO:
@@ -105,7 +117,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 							bean.setEndDate(DateUtil.getDateTimeFormat().parse(val));
 						}
 						catch(ParseException e) {
-							Report.report().logWarning("unparseable end date: "+a.value());
+							Report.report().log(item("unparseable end date: "+a.value())).as(WARN);
 						}
 						break;
 					
@@ -113,11 +125,11 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 				}
 		}
 
-		mapAttributes(list, bean, directives);
+		mapAttributes(list, bean, directives.forCodelist());
 		
 	}
 	
-	private <T extends Attributed & Named> void mapAttributes(T attributed, NameableMutableBean bean, Codelist2SdmxDirectives directives) {
+	private <T extends Attributed & Named> void mapAttributes(T attributed, NameableMutableBean bean, GetClause directives) {
 		
 		boolean hasName = false;
 		

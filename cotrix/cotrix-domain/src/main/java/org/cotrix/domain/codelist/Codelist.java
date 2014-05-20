@@ -70,6 +70,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		@Override
 		protected final Private copyWith(Version version) {
 			
+			
 			Codelist.State state = new CodelistMS(state());
 			
 			state.version(version);
@@ -88,8 +89,11 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			
 			super.update(changeset);
 			
+			links().update(changeset.links());
+			
 			codes().update(changeset.codes());
+		
 		}
-
+		
 	}
 }

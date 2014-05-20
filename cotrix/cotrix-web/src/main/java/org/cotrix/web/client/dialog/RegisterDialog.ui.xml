@@ -1,0 +1,31 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
+		field="resources" />
+	<g:HTMLPanel styleName="{resources.css.dialogBox}" width="300px" height="360px">
+		<div class="{resources.css.dialogTitle}" id="signup.title">
+			Sign-up
+		</div>
+		<div class="{resources.css.dialogSubtitle}">
+			Create an account
+		</div>
+		<div class="{resources.css.dialogTextfield}">
+			<div>Username</div>
+			<g:TextBox styleName="{resources.css.dialogTextbox}" ui:field="username" debugId="signup.username"/>
+		</div>
+		<div class="{resources.css.dialogTextfield}">
+			<div>Password</div>
+			<g:PasswordTextBox styleName="{resources.css.dialogTextbox}"
+				ui:field="password" debugId="signup.password"/>
+		</div>
+		<div class="{resources.css.dialogTextfield}">
+			<div>E-mail</div>
+			<g:TextBox styleName="{resources.css.dialogTextbox}" ui:field="email" debugId="signup.email"/>
+		</div>
+		<div class="{resources.css.dialogTextfield}">
+			<g:Button ui:field="create" styleName="{resources.css.dialogSubmit}" debugId="signup.create">Create</g:Button>
+		</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

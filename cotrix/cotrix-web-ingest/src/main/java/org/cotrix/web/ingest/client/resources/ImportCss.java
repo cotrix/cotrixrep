@@ -14,8 +14,8 @@ public interface ImportCss extends CssResource {
 	String sectionTitle();
 	
 	String previewHeader();
-	String preview();
-	String previewCell();
+	/*String preview();
+	String previewCell();*/
 	
 	String buttonBrowse();
 }

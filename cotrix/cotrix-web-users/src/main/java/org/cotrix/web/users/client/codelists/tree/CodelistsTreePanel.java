@@ -3,16 +3,16 @@
  */
 package org.cotrix.web.users.client.codelists.tree;
 
-import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.util.SingleSelectionModel;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider.Filter;
+import org.cotrix.web.common.client.util.SingleSelectionModel;
+import org.cotrix.web.common.client.widgets.SearchBox;
 import org.cotrix.web.users.client.UsersBus;
 import org.cotrix.web.users.client.resources.CodelistsResources;
 import org.cotrix.web.users.shared.CodelistGroup;
 import org.cotrix.web.users.shared.CodelistGroup.CodelistVersion;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.i18n.client.LocalizableResource.DefaultLocale;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -21,7 +21,6 @@ import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.CellTree.CellTreeMessages;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.ResizeComposite;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
@@ -44,7 +43,7 @@ public class CodelistsTreePanel extends ResizeComposite {
 		String emptyTree();
 	}
 
-	@UiField TextBox filterTextBox;
+	@UiField SearchBox filterTextBox;
 
 	@UiField(provided=true) CellTree codelistsTree;
 
@@ -63,28 +62,21 @@ public class CodelistsTreePanel extends ResizeComposite {
 	protected void init(CodelistsTreePanelUiBinder uiBinder) {
 		setupCodelistsTree();
 		initWidget(uiBinder.createAndBindUi(this));
-		updateSearchBoxStyle();
 	}
 
 	@UiHandler("filterTextBox")
-	protected void onKeyUp(KeyUpEvent event) {
-		Log.trace("onKeyUp value: "+filterTextBox.getValue()+" text: "+filterTextBox.getText());
-		updateFilter();
-		updateSearchBoxStyle();
+	protected void onValueChange(ValueChangeEvent<String> event) {
+		Log.trace("onKeyUp value: "+filterTextBox.getValue());
+		updateFilter(event.getValue());
 	}
 
 	@SuppressWarnings("unchecked")
-	protected void updateFilter()
+	protected void updateFilter(String filter)
 	{
-		String filter = filterTextBox.getValue();
 		if (filter.isEmpty()) dataProvider.unapplyFilters();
 		else {
 			dataProvider.applyFilters(new ByNameFilter(filter));
 		}
-	}
-
-	public void updateSearchBoxStyle() {
-		filterTextBox.setStyleName(CommonResources.INSTANCE.css().searchBackground(), filterTextBox.getValue().isEmpty());
 	}
 
 	public void refresh() {

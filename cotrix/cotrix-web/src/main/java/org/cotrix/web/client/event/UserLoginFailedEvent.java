@@ -1,6 +1,7 @@
 package org.cotrix.web.client.event;
 
 import com.google.web.bindery.event.shared.binder.GenericEvent;
+import org.cotrix.web.common.shared.Error;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -8,16 +9,16 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  */
 public class UserLoginFailedEvent extends GenericEvent {
 
-	protected String details;
+	protected Error error;
 	
-	public UserLoginFailedEvent(String details) {
-		this.details = details;
+	public UserLoginFailedEvent(Error error) {
+		this.error = error;
 	}
 
 	/**
-	 * @return the details
+	 * @return the error
 	 */
-	public String getDetails() {
-		return details;
+	public Error getError() {
+		return error;
 	}
 }

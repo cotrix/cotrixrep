@@ -89,6 +89,21 @@ public class ContainerTest extends DomainTest {
 		
 	}
 	
+	@Test(expected=IllegalStateException.class)
+	public void entitiesCanBeLookedup() {
+		
+		
+		Attribute a = attribute().name(name).build();
+		
+		Container.Private c = container(likes(a));
+		
+		assertTrue(c.contains(a.id()));
+		
+		assertEquals(a,c.lookup(a.id()));
+		
+		c.lookup("bad");
+	}
+	
 	@Test
 	public void entitiesCanBeAdded() {
 		

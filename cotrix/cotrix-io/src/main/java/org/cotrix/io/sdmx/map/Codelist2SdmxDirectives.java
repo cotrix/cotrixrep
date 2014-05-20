@@ -16,27 +16,34 @@ import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 
 public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 
-	public static interface MappingClause {
+	//API support clauses
+	
+	public static interface GetClause {
 		
-		/**
-		 * Maps the attribute name and type onto an SDMX element type
-		 * @param to the element type
-		 * @return this directives
-		 */
-		Codelist2SdmxDirectives to(SdmxElement e);
+		SdmxElement get(Attribute a);
+		
 	}
 	
-	public static Codelist2SdmxDirectives DEFAULT = new Codelist2SdmxDirectives();
-	
-	private static Map<QName,SdmxElement> defaults = new HashMap<QName,SdmxElement>();
-	
-	static {
+	public static interface TargetClause {
 		
-		for (SdmxElement e : SdmxElement.values())
-			defaults.put(e.defaultType(),e);
+		Codelist2SdmxDirectives forCodelist();
+		
+		Codelist2SdmxDirectives forCodes();
 	}
 
+	public static interface MappingClause {
+		
+		TargetClause to(SdmxElement e);
+	}
+	
+	
+	
+	
+	
+	public static Codelist2SdmxDirectives DEFAULT = new Codelist2SdmxDirectives();
+
 	private final Map<Attribute,SdmxElement> attributeDirectives = new HashMap<Attribute,SdmxElement>();
+	private final Map<Attribute,SdmxElement> codelistAttributeDirectives = new HashMap<Attribute,SdmxElement>();
 	
 	private String agency = DEFAULT_SDMX_AGENCY;
 	private String name;
@@ -76,17 +83,30 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		return version;
 	}
 	
-	
-	public SdmxElement get(Attribute attribute) {
+	public GetClause forCodelist() {
 		
-		SdmxElement element = attributeDirectives.get(canonicalFormOf(attribute));
+		return new GetClause() {
+			
+			public SdmxElement get(Attribute a) {
+				
+				return codelistAttributeDirectives.get(canonicalFormOf(a));
+				
+			};
+		};
 		
-		if (element==null && attribute.type()!=null)
-			element = defaults.get(attribute.type());
-		
-		return element;
 	}
 	
+	public GetClause forCodes() {
+		
+		return new GetClause() {
+			
+			public SdmxElement get(Attribute a) {
+				
+				return attributeDirectives.get(canonicalFormOf(a));				
+			};
+		};
+		
+	}
 	
 	/**
 	 * Maps an attribute name and type onto a SDMX element type
@@ -102,12 +122,30 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		return new MappingClause() {
 			
 			@Override
-			public Codelist2SdmxDirectives to(SdmxElement element) {
+			public TargetClause to(final SdmxElement element) {
+
 				notNull("SDMX element",element);
+
+				return new TargetClause() {
+					
+					@Override
+					public Codelist2SdmxDirectives forCodes() {
+
+						attributeDirectives.put(templateFrom(name, type),element);
+						
+						return Codelist2SdmxDirectives.this;
+					}
+					
+					@Override
+					public Codelist2SdmxDirectives forCodelist() {
+						
+						codelistAttributeDirectives.put(templateFrom(name, type),element);
+						
+						return Codelist2SdmxDirectives.this;
+					}
+				};
 				
-				attributeDirectives.put(templateFrom(name, type),element);
 				
-				return Codelist2SdmxDirectives.this;
 			}
 		};
 		

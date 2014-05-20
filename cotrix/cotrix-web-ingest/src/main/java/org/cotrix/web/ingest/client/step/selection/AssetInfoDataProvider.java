@@ -30,15 +30,18 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 	protected static final ColumnSortInfo DEFAULT_SORT_INFO = new ColumnSortInfo(AssetInfo.NAME_FIELD, true);
 	
 	@Inject
-	protected IngestServiceAsync importService;
-	protected PatchedDataGrid<AssetInfo> datagrid;
-	protected boolean forceRefresh;
+	private IngestServiceAsync importService;
+	private PatchedDataGrid<AssetInfo> datagrid;
+	private boolean refreshCache;
+	private boolean requestDiscovery;
+	private String query;
 	
 	/**
 	 * @param importService
 	 */
 	public AssetInfoDataProvider() {
 		super(AssetInfoKeyProvider.INSTANCE);
+		query = "";
 	}
 
 	/**
@@ -48,11 +51,16 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 		this.datagrid = datagrid;
 	}
 
-	/**
-	 * @param forceRefresh the forceRefresh to set
-	 */
-	public void setForceRefresh(boolean forceRefresh) {
-		this.forceRefresh = forceRefresh;
+	public void setRequestDiscovery(boolean requestDiscovery) {
+		this.requestDiscovery = requestDiscovery;
+	}
+
+	public void setRefreshCache(boolean refreshCache) {
+		this.refreshCache = refreshCache;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
 	}
 
 	@Override
@@ -71,10 +79,13 @@ public class AssetInfoDataProvider extends AsyncDataProvider<AssetInfo> {
 		
 		Log.trace("sortInfo: "+sortInfo);
 		
-		boolean force = forceRefresh;
-		forceRefresh = false;
+		boolean discovery = requestDiscovery;
+		requestDiscovery = false;
 		
-		importService.getAssets(range, sortInfo, force, new ManagedFailureCallback<DataWindow<AssetInfo>>() {
+		boolean cache = refreshCache;
+		refreshCache = false;
+		
+		importService.getAssets(range, sortInfo, query, cache, discovery, new ManagedFailureCallback<DataWindow<AssetInfo>>() {
 			
 			@Override
 			public void onSuccess(DataWindow<AssetInfo> batch) {

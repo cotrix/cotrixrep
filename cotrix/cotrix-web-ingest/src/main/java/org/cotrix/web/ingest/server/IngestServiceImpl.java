@@ -4,46 +4,54 @@
 package org.cotrix.web.ingest.server;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
+import org.cotrix.common.cdi.Current;
+import org.cotrix.domain.user.User;
 import org.cotrix.io.CloudService;
 import org.cotrix.web.common.server.util.Encodings;
 import org.cotrix.web.common.server.util.Ranges;
+import org.cotrix.web.common.server.util.Ranges.Predicate;
 import org.cotrix.web.common.shared.ColumnSortInfo;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.ingest.client.IngestService;
-import org.cotrix.web.ingest.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.ingest.server.climport.ImportTaskSession;
 import org.cotrix.web.ingest.server.climport.ImporterFactory;
+import org.cotrix.web.ingest.server.upload.DefaultMappingsGuessers;
 import org.cotrix.web.ingest.server.upload.MappingGuesser;
 import org.cotrix.web.ingest.server.upload.MappingsManager;
 import org.cotrix.web.ingest.server.upload.PreviewDataManager;
+import org.cotrix.web.ingest.server.util.AssetInfoFilter;
 import org.cotrix.web.ingest.server.util.AssetInfosCache;
 import org.cotrix.web.ingest.server.util.Assets;
 import org.cotrix.web.ingest.server.util.ParsingHelper;
 import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
-import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.UIAssetType;
+import org.cotrix.web.ingest.shared.PreviewHeaders;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.ingest.shared.MappingMode;
+import org.cotrix.web.ingest.shared.PreviewData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
+import org.virtualrepository.csv.CsvAsset;
 import org.virtualrepository.csv.CsvCodelist;
 import org.virtualrepository.sdmx.SdmxCodelist;
-import org.virtualrepository.tabular.Table;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.view.client.Range;
@@ -81,6 +89,9 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	
 	@Inject
 	protected MappingsManager mappingsManager;
+	
+	@Inject @Current
+	protected User user;
 
 	/** 
 	 * {@inheritDoc}
@@ -95,17 +106,23 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	 * @throws ServiceException 
 	 */
 	@Override
-	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, boolean forceRefresh) throws ServiceException {
-		logger.trace("getAssets range: {} columnSortInfo: {} forceRefresh: {}", range, columnSortInfo, forceRefresh);
+	public DataWindow<AssetInfo> getAssets(Range range, ColumnSortInfo columnSortInfo, String query, boolean refreshCache, boolean requestDiscovery) throws ServiceException {
+		logger.trace("getAssets range: {} columnSortInfo: {} query: {} refreshCache: {} requestDiscovery: {}", range, columnSortInfo, query, refreshCache, requestDiscovery);
 		try {
 
-			if (forceRefresh) assetInfosCache.refreshCache();
+			if (refreshCache) assetInfosCache.refreshCache();
+			if (requestDiscovery) assetInfosCache.discovery();
+			
 			List<AssetInfo> assets = assetInfosCache.getAssets(columnSortInfo.getName());
-			List<AssetInfo> sublist = columnSortInfo.isAscending()?Ranges.subList(assets, range):Ranges.subListReverseOrder(assets, range);
+			Predicate<AssetInfo> predicate = Ranges.noFilter();
+			if (!query.isEmpty()) predicate = new AssetInfoFilter(query);
+			List<AssetInfo> sublist = columnSortInfo.isAscending()?Ranges.subList(assets, range, predicate):Ranges.subListReverseOrder(assets, range, predicate);
 
 			logger.trace("returning "+sublist.size()+" elements");
 
-			return new DataWindow<AssetInfo>(sublist, assets.size());
+			int size = Ranges.size(assets, predicate);
+			
+			return new DataWindow<AssetInfo>(sublist, size);
 		} catch(Exception e)
 		{
 			e.printStackTrace();
@@ -134,7 +151,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 		}
 	}
 
-	public RepositoryDetails getRepositoryDetails(String repositoryId) throws ServiceException
+	public RepositoryDetails getRepositoryDetails(UIQName repositoryId) throws ServiceException
 	{
 		try {
 			RepositoryDetails repository = assetInfosCache.getRepository(repositoryId);
@@ -180,7 +197,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 		logger.trace("getCsvPreviewData configuration: {}", configuration);
 		
 		try {
-			if (session.getCodeListType()!=CodeListType.CSV) {
+			if (session.getCodeListType()!=UIAssetType.CSV) {
 				logger.error("Requested CSV preview data when CodeList type is {}", session.getCodeListType());
 				throw new ServiceException("No preview data available");
 			}
@@ -199,7 +216,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CodeListType getCodeListType() throws ServiceException {
+	public UIAssetType getCodeListType() throws ServiceException {
 		try {
 			return session.getCodeListType();
 		} catch(Exception e)
@@ -241,9 +258,10 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<AttributeMapping> getMappings() throws ServiceException {
+	public List<AttributeMapping> getMappings(List<String> userLabels) throws ServiceException {
+		logger.trace("getMappings userLabels: {}", userLabels);
 		try {
-			return mappingsManager.getMappings();
+			return mappingsManager.getMappings(userLabels);
 		} catch(Exception e)
 		{
 			logger.error("An error occurred on server side", e);
@@ -257,7 +275,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 
 		try {
 			session.setImportedCodelistName(metadata.getName());
-			
+			logger.trace("user "+user.id()+" user "+user.fullName());
 			ImportTaskSession importTaskSession = session.createImportTaskSession();
 			importTaskSession.setUserOptions(csvConfiguration, metadata, mappings, mappingMode);
 			Progress importerProgress = importerFactory.importCodelist(importTaskSession, session.getCodeListType());
@@ -297,18 +315,18 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 			session.setGuessedMetadata(metadata);
 
 			if (asset.type() == SdmxCodelist.type) {
-				session.setCodeListType(CodeListType.SDMX);
+				session.setCodeListType(UIAssetType.SDMX);
 				CodelistBean codelist = cloud.retrieveAsSdmx(asset.id());
 				metadata.setVersion(codelist.getVersion());
-				mappingsManager.setDefaultSdmxMappings();
+				mappingsManager.setMappingGuesser(DefaultMappingsGuessers.SdmxMappingGuesser.INSTANCE);
 			}
 
 
 			if (asset.type() == CsvCodelist.type) {
-				session.setCodeListType(CodeListType.CSV);
-				Table table = cloud.retrieveAsTable(asset.id());
+				session.setCodeListType(UIAssetType.CSV);
+				InputStream stream = cloud.retrieveAsCsv(asset.id());
+				previewDataManager.setup(stream, (CsvAsset) asset);
 				metadata.setVersion("1");
-				mappingsManager.updateMappings(table);
 			}
 
 		} catch(Exception e)
@@ -332,5 +350,40 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 			logger.error("An error occurred getting the reports logs", e);
 			throw new ServiceException("An error occurred getting the reports logs: "+e.getMessage());
 		}
+	}
+
+	@Override
+	public PreviewHeaders getPreviewHeaders(CsvConfiguration configuration) throws ServiceException {
+		logger.trace("getPreviewHeaders configuration: {}", configuration);
+		
+		try {
+			if (session.getCodeListType()!=UIAssetType.CSV) {
+				logger.error("Requested CSV preview data when CodeList type is {}", session.getCodeListType());
+				throw new ServiceException("No preview data available");
+			}
+			
+			if (configuration!=null) previewDataManager.refresh(configuration);
+			
+			PreviewData previewData = previewDataManager.getPreviewData();
+
+			return new PreviewHeaders(previewData.isHeadersEditable(), previewData.getHeadersLabels());
+		} catch(Exception e)
+		{
+			logger.error("Error converting the preview data", e);
+			throw new ServiceException(e.getMessage());
+		}
+
+	}
+
+	@Override
+	public DataWindow<List<String>> getPreviewData(Range range) throws ServiceException {
+		logger.trace("getPreviewData range: {}", range);
+		
+		PreviewData previewData = previewDataManager.getPreviewData();
+		if (previewData == null) return DataWindow.emptyWindow();
+		
+		List<List<String>> rows = Ranges.subList(previewData.getRows(), range);
+		
+		return new DataWindow<>(rows, previewData.getRows().size());
 	}
 }

@@ -1,8 +1,9 @@
 package org.cotrix.web.ingest.client.step.selection;
 
-import org.cotrix.web.ingest.client.event.CodeListSelectedEvent;
+import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.ingest.client.event.AssetSelectedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
-import org.cotrix.web.ingest.client.step.DetailsNodeSelector;
+import org.cotrix.web.ingest.client.step.AssetDetailsNodeSelector;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
 import org.cotrix.web.ingest.client.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.ingest.client.step.repositorydetails.RepositoryDetailsStepPresenter;
@@ -30,7 +31,7 @@ public class SelectionStepPresenter extends AbstractVisualWizardStep implements 
 	protected final SelectionStepView view;
 	
 	@Inject
-	protected DetailsNodeSelector detailsNodeSelector;
+	protected AssetDetailsNodeSelector detailsNodeSelector;
 	
 	@Inject
 	protected CodelistDetailsStepPresenter codelistDetailsPresenter;
@@ -66,25 +67,11 @@ public class SelectionStepPresenter extends AbstractVisualWizardStep implements 
 		if (selectedAsset!=null && selectedAsset.equals(asset)) return;
 		
 		this.selectedAsset = asset;
-		importEventBus.fireEvent(new CodeListSelectedEvent(selectedAsset));
+		importEventBus.fireEvent(new AssetSelectedEvent(selectedAsset));
 	}
 
 	@Override
 	public void assetDetails(AssetInfo asset) {
-		/*Log.trace("getting asset details for "+asset);
-		importService.getAssetDetails(asset.getId(), new AsyncCallback<AssetDetails>() {
-			
-			@Override
-			public void onSuccess(AssetDetails result) {
-				view.showAssetDetails(result);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Failed loading asset details", caught);
-			}
-		});*/
-		
 		codelistDetailsPresenter.setAsset(asset);
 		detailsNodeSelector.switchToCodeListDetails();
 		importEventBus.fireEvent(NavigationEvent.FORWARD);
@@ -92,11 +79,12 @@ public class SelectionStepPresenter extends AbstractVisualWizardStep implements 
 
 	@Override
 	public void onResetWizard(ResetWizardEvent event) {
+		Log.trace("SelectionStepPresenter resetting");
 		view.reset();
 	}
 
 	@Override
-	public void repositoryDetails(String repositoryId) {
+	public void repositoryDetails(UIQName repositoryId) {
 		repositoryDetailsPresenter.setRepository(repositoryId);
 		detailsNodeSelector.switchToRepositoryDetails();
 		importEventBus.fireEvent(NavigationEvent.FORWARD);

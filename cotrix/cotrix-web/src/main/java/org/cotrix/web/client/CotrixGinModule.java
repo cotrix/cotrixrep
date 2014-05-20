@@ -1,6 +1,6 @@
 package org.cotrix.web.client;
 
-import org.cotrix.web.client.presenter.UserController;
+import org.cotrix.web.client.userbar.UserController;
 
 import com.google.gwt.inject.client.AbstractGinModule;
 

@@ -176,9 +176,10 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 		TaskOutcome<Void> outcome = engine.perform(CodelistAction.VIEW.on(codelistId)).with(NOP);
 		actionMapper.fillFeatures(featureCarrier, codelistId, outcome.nextActions());
 	}
-
+	
 	@Override
 	public UIStatistics getStatistics() throws ServiceException {
+		
 		try {
 			Statistics statistics = statisticsService.statistics();
 			UIStatistics uiStatistics = new UIStatistics();
@@ -192,7 +193,7 @@ public class MainServiceImpl extends RemoteServiceServlet implements MainService
 			throw new ServiceException(e.getMessage());
 		}
 	}
-
+	
 	@Override
 	public List<UINews> getNews() throws ServiceException {
 		logger.trace("getNews");

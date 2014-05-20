@@ -6,7 +6,6 @@ package org.cotrix.web.publish.server.util;
 import static org.cotrix.repository.CodelistQueries.*;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,22 +25,16 @@ import org.cotrix.lifecycle.State;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.Codelists;
 import org.cotrix.web.common.server.util.OrderedLists;
+import org.cotrix.web.common.server.util.OrderedLists.ValueProvider;
 import org.cotrix.web.common.server.util.Repositories;
 import org.cotrix.web.common.server.util.ValueUtils;
-import org.cotrix.web.common.server.util.OrderedLists.ValueProvider;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.publish.server.publish.PublishStatus;
-import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.virtualrepository.AssetType;
 import org.virtualrepository.RepositoryService;
-import org.virtualrepository.csv.CsvCodelistType;
-import org.virtualrepository.csv.CsvGenericType;
-import org.virtualrepository.sdmx.SdmxCodelistType;
-import org.virtualrepository.sdmx.SdmxGenericType;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -55,7 +48,7 @@ public class PublishSession implements Serializable {
 
 		@Override
 		public String getValue(UICodelist item) {
-			return item.getName();
+			return ValueUtils.getLocalPart(item.getName());
 		}
 	};
 	
@@ -160,30 +153,16 @@ public class PublishSession implements Serializable {
 	public void loadRepositories() {
 		orderedRepositories.clear();
 		for (RepositoryService repository: cloud.repositories()) {
-			Format type = selectType(repository.publishedTypes());
-			if (type == null) continue;
+			if (repository.publishedTypes().isEmpty()) continue;
 			UIRepository uiRepository = new UIRepository();
 			uiRepository.setId(ValueUtils.safeValue(repository.name()));
 			uiRepository.setName(ValueUtils.safeValue(repository.name()));
 			uiRepository.setPublishedTypes(Repositories.toString(repository.publishedTypes()));
-			uiRepository.setPublishedType(type);
+			uiRepository.setAvailableFormats(Repositories.convertTypes(repository.publishedTypes()));
 			orderedRepositories.add(uiRepository);
 			
 			indexedRepositories.put(repository.name(), repository);
 		}
-	}
-	
-	protected Format selectType(Collection<AssetType> types) {
-		Iterator<AssetType> typesIterator = types.iterator();
-		boolean foundCSV = false;
-		while(typesIterator.hasNext()) {
-			AssetType type = typesIterator.next();
-			if (type instanceof CsvGenericType || type instanceof CsvCodelistType) foundCSV = true;
-			if (type instanceof SdmxGenericType || type instanceof SdmxCodelistType) return Format.SDMX;
-		}
-		
-		if (foundCSV) return Format.CSV;
-		return null;
 	}
 	
 	public List<UIRepository> getOrderedRepositories(String sortingField) {

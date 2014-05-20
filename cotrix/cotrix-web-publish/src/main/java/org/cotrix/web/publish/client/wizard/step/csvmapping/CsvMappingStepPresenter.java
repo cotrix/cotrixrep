@@ -1,16 +1,16 @@
 package org.cotrix.web.publish.client.wizard.step.csvmapping;
 
-import java.util.List;
-
+import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
 import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Column;
 import org.cotrix.web.publish.shared.Destination;
-import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
@@ -31,7 +31,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 	protected CsvMappingStepView view;
 	protected EventBus publishBus;
 	protected PublishMetadata metadata;
-	protected List<AttributeMapping> mappings;
+	protected AttributesMappings mappings;
 	protected Format formatType;
 	protected boolean showMetadata = false;
 
@@ -94,8 +94,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 	public boolean leave() {
 		Log.trace("checking csv mapping");
 
-		List<AttributeMapping> mappings = view.getMappings();
-		Log.trace(mappings.size()+" mappings to check");
+		AttributesMappings mappings = view.getMappings();
 
 		boolean valid = validateMappings(mappings);
 
@@ -109,7 +108,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 			publishBus.fireEventFromSource(new MappingsUpdatedEvent(mappings), this);
 
 			PublishMetadata metadata = new PublishMetadata();
-			metadata.setName(view.getCsvName());
+			metadata.setName(ValueUtils.getValue(view.getCsvName()));
 			metadata.setVersion(view.getVersion());
 			metadata.setSealed(view.getSealed());
 			metadata.setAttributes(this.metadata.getAttributes());
@@ -134,10 +133,19 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 		return true;
 	}
 
-	protected boolean validateMappings(List<AttributeMapping> mappings)
+	protected boolean validateMappings(AttributesMappings mappings)
 	{
 
-		for (AttributeMapping mapping:mappings) {
+		for (AttributeMapping mapping:mappings.getCodelistAttributesMapping()) {
+			//Log.trace("checking mapping: "+mapping);
+			Column column = (Column) mapping.getMapping();
+			if (mapping.isMapped() && column.getName().isEmpty()) {
+				view.alert("don't leave columns blank, bin them instead");
+				return false;
+			}
+		}
+		
+		for (AttributeMapping mapping:mappings.getCodesAttributesMapping()) {
 			//Log.trace("checking mapping: "+mapping);
 			Column column = (Column) mapping.getMapping();
 			if (mapping.isMapped() && column.getName().isEmpty()) {
@@ -151,15 +159,14 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 
 	protected void setMetadata(PublishMetadata metadata) {
 		this.metadata = metadata;
-		String name = metadata.getName();
-		view.setCsvName(name == null?"":name);
+		view.setCsvName(ValueUtils.getValue(metadata.getName()));
 		view.setVersion(metadata.getVersion());
 		view.setSealed(metadata.isSealed());
 	}
 
 	@Override
 	public void onReload() {
-		view.setCsvName(metadata.getName());
+		view.setCsvName(ValueUtils.getValue(metadata.getName()));
 		view.setVersion(metadata.getVersion());
 		view.setSealed(metadata.isSealed());
 		view.setMappings(mappings);

@@ -5,7 +5,7 @@ package org.cotrix.web.ingest.client.step;
 
 import java.util.List;
 
-import org.cotrix.web.ingest.client.event.CodeListTypeUpdatedEvent;
+import org.cotrix.web.ingest.client.event.AssetTypeUpdatedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.step.csvmapping.CsvMappingStepPresenter;
 import org.cotrix.web.ingest.client.step.sdmxmapping.SdmxMappingStepPresenter;
@@ -75,9 +75,9 @@ public class MappingNodeSelector extends AbstractNodeSelector<WizardStep> implem
 
 
 	@EventHandler
-	void onCodeListTypeUpdated(CodeListTypeUpdatedEvent event) {
-		Log.trace("TypeNodeSelector updating next to "+event.getCodeListType()+" event: "+event.toDebugString());
-		switch (event.getCodeListType()) {
+	void onCodeListTypeUpdated(AssetTypeUpdatedEvent event) {
+		Log.trace("TypeNodeSelector updating next to "+event.getAssetType()+" event: "+event.toDebugString());
+		switch (event.getAssetType()) {
 			case CSV: nextStep = csvStep; break;
 			case SDMX: nextStep = sdmxStep; break;
 		}

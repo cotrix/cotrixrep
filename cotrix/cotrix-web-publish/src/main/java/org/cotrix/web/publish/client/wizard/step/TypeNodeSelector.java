@@ -5,8 +5,8 @@ package org.cotrix.web.publish.client.wizard.step;
 
 import java.util.List;
 
+import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
-import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 import org.cotrix.web.wizard.client.flow.AbstractNodeSelector;
 import org.cotrix.web.wizard.client.flow.FlowNode;
@@ -21,15 +21,16 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> {
 	
-	protected WizardStep csvStep;
-	protected WizardStep sdmxStep;
+
+	protected WizardStep retrieveMappingsStep;
+	protected WizardStep summaryStep;
 	protected WizardStep nextStep;
 	
-	public TypeNodeSelector(EventBus publishBus, WizardStep csvStep, WizardStep sdmxStep)
+	public TypeNodeSelector(EventBus publishBus, WizardStep retrieveMappingsStep, WizardStep summaryStep)
 	{
-		this.csvStep = csvStep;
-		this.sdmxStep = sdmxStep;
-		this.nextStep = sdmxStep;
+		this.retrieveMappingsStep = retrieveMappingsStep;
+		this.nextStep = retrieveMappingsStep;
+		this.summaryStep = summaryStep;
 		bind(publishBus);
 	}
 	
@@ -66,15 +67,16 @@ public class TypeNodeSelector extends AbstractNodeSelector<WizardStep> {
 	 * {@inheritDoc}
 	 */
 	public void reset() {
-		nextStep = sdmxStep;		
+		nextStep = retrieveMappingsStep;		
 	}
 
 
 	public void setType(Format type) {
 		Log.trace("TypeNodeSelector updating next to "+type);
 		switch (type) {
-			case CSV: nextStep = csvStep; break;
-			case SDMX: nextStep = sdmxStep; break;
+			case CSV: nextStep = retrieveMappingsStep; break;
+			case SDMX: nextStep = retrieveMappingsStep; break;
+			case COMET: nextStep = summaryStep; break;
 		}
 		switchUpdated();
 

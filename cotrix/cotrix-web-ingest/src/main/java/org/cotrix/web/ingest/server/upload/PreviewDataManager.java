@@ -3,18 +3,25 @@
  */
 package org.cotrix.web.ingest.server.upload;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.IOUtils;
+import org.cotrix.web.common.server.util.TmpFileManager;
 import org.cotrix.web.common.shared.CsvConfiguration;
-import org.cotrix.web.ingest.client.step.csvpreview.PreviewGrid.DataProvider.PreviewData;
 import org.cotrix.web.ingest.server.util.ParsingHelper;
+import org.cotrix.web.ingest.shared.PreviewData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.virtualrepository.csv.CsvAsset;
 import org.virtualrepository.tabular.Table;
 
 /**
@@ -31,6 +38,11 @@ public class PreviewDataManager implements Serializable {
 	
 	protected transient Logger logger = LoggerFactory.getLogger(PreviewDataManager.class);
 	
+	private interface StreamProvider {
+		public InputStream getStream() throws IOException;
+		public void clean() throws IOException;
+	}
+
 	@Inject
 	transient protected CsvParserConfigurationGuesser configurationGuesser;
 
@@ -42,16 +54,72 @@ public class PreviewDataManager implements Serializable {
 	
 	@Inject
 	transient protected MappingsManager mappingsManager;
+	
+	@Inject
+	transient private TmpFileManager tmpFileManager;
 
-	protected CsvConfiguration parserConfiguration;
-	protected FileItem fileItem;
+	private CsvConfiguration parserConfiguration;
+	private StreamProvider streamProvider;
 
-	protected PreviewData previewData;
+	private PreviewData previewData;
+	
+	public void setup(final InputStream inputStream, final CsvAsset asset) throws IOException {
+		
+		final File tmpFile = tmpFileManager.createTmpFile();
+		FileOutputStream output = new FileOutputStream(tmpFile);
+		IOUtils.copy(inputStream, output);
+		output.close();
+		inputStream.close();
+		
+		StreamProvider streamProvider = new StreamProvider() {
+			
+			@Override
+			public InputStream getStream() throws IOException {
+				return new FileInputStream(tmpFile);
+			}
+			
+			public void clean() throws IOException {
+			}
+		};
+		
+		CsvConfiguration configuration = toCsvConfiguration(asset);
+				
+		setup(streamProvider, configuration);
+	}
 
-	public void setup(String fileName, FileItem fileItem) throws IOException {
-		this.fileItem = fileItem;
-		this.parserConfiguration = configurationGuesser.guessConfiguration(fileName, fileItem.getInputStream());
-		buildPreviewData();
+	public void setup(final String fileName, final FileItem fileItem) throws IOException {
+		CsvConfiguration configuration = configurationGuesser.guessConfiguration(fileName, fileItem.getInputStream());
+		
+		StreamProvider streamProvider = new StreamProvider() {
+			
+			@Override
+			public InputStream getStream() throws IOException {
+				return fileItem.getInputStream();
+			}
+			
+			public void clean() throws IOException {
+				fileItem.delete();
+			}
+		};
+		
+		setup(streamProvider, configuration);
+	}
+	
+	private CsvConfiguration toCsvConfiguration(CsvAsset asset) {
+		CsvConfiguration configuration = new CsvConfiguration();
+		configuration.setCharset(asset.encoding().name());
+		configuration.setComment('#');
+		configuration.setFieldSeparator(asset.delimiter());
+		configuration.setHasHeader(true);
+		configuration.setQuote(asset.quote());
+		
+		return configuration;
+	}
+	
+	private void setup(StreamProvider streamProvider, CsvConfiguration configuration) throws IOException {
+		this.streamProvider = streamProvider;
+		this.parserConfiguration = configuration;
+		buildCsvPreviewData();
 	}
 
 	public void refresh(CsvConfiguration parserConfiguration) {
@@ -61,9 +129,9 @@ public class PreviewDataManager implements Serializable {
 			return;
 		}
 		this.parserConfiguration = parserConfiguration;
-		buildPreviewData();
+		buildCsvPreviewData();
 	}
-
+	
 	/**
 	 * @return the previewData
 	 */
@@ -78,16 +146,29 @@ public class PreviewDataManager implements Serializable {
 		return parserConfiguration;
 	}
 
-	protected void buildPreviewData() {
-		logger.trace("buildPreviewData");
+	private void buildCsvPreviewData() {
+		logger.trace("buildCsvPreviewData configuration: " + parserConfiguration);
 		try {
-			Table table = parsingHelper.parse(parserConfiguration, fileItem.getInputStream());
-			
-			previewData = parsingHelper.convert(table, !parserConfiguration.isHasHeader(), ParsingHelper.ROW_LIMIT);
-			mappingsManager.updateMappings(table);
+			Table table = parsingHelper.parse(parserConfiguration, streamProvider.getStream());
+			logger.trace("columns: "+table.columns());
+			setupPreview(table, true);
 		} catch(Exception e) {
 			logger.error("Failed building CSV preview", e);
 			throw new RuntimeException("Failed CSV preview generation", e);
 		}
+	}
+	
+	private void setupPreview(Table table, boolean hasHeader) {
+		try {
+			previewData = parsingHelper.convert(table, hasHeader, ParsingHelper.ROW_LIMIT);
+			mappingsManager.setMappingGuesser(new DefaultMappingsGuessers.TableMappingGuesser(table));
+		} catch(Exception e) {
+			logger.error("Failed building CSV preview", e);
+			throw new RuntimeException("Failed CSV preview generation", e);
+		}
+	}
+	
+	public void clean() {
+		
 	}
 }

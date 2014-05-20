@@ -4,7 +4,9 @@ import static org.cotrix.neo.NeoNodeFactory.*;
 import static org.cotrix.neo.domain.Constants.*;
 
 import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Status;
+import org.cotrix.neo.NeoNodeFactory;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.neo4j.graphdb.Node;
 
@@ -40,9 +42,27 @@ public abstract class NeoIdentified implements Identified.State {
 
 	@Override
 	public Status status() {
-		//changesets are never persisted|retrieved
+		//persistent objects are never used as changesets
 		return null;
 	}
+	
+	public Node resolve(Named.State state, NodeType type) {
+		
+		//persisted already?
+		if (state instanceof NeoIdentified)
+			return NeoIdentified.class.cast(state).node();
+			
+		//is there an equivalent in store?
+		Node node = NeoNodeFactory.node(type,state.id());
+			
+		
+		if (node==null)
+			throw new IllegalStateException("cannot form link: no node '"+state.name()+"' (id="+state.id()+") of type "+type+" in this repository");
+	
+		return node;
+	}
+
+	
 
 	@Override
 	public int hashCode() {

@@ -17,7 +17,7 @@ import org.cotrix.web.ingest.server.climport.ImporterMapper.CsvMapper;
 import org.cotrix.web.ingest.server.climport.ImporterMapper.SdmxMapper;
 import org.cotrix.web.ingest.server.climport.ImporterSource.SourceParameterProvider.CodelistBeanDirectivesProvider;
 import org.cotrix.web.ingest.server.climport.ImporterSource.SourceParameterProvider.TableDirectivesProvider;
-import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.UIAssetType;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -52,7 +52,7 @@ public class ImporterFactory {
 	@Inject @Current
 	protected BeanSession session;
 
-	public Progress importCodelist(final ImportTaskSession importTaskSession, CodeListType codeListType) throws IOException
+	public Progress importCodelist(final ImportTaskSession importTaskSession, UIAssetType codeListType) throws IOException
 	{
 		final BeanSession unscopedSession = this.session.copy();
 		final Progress progress = new Progress();

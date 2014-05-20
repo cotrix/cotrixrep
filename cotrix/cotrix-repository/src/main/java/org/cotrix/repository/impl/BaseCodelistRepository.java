@@ -14,4 +14,16 @@ public class BaseCodelistRepository extends AbstractRepository<Codelist,Codelist
 	public BaseCodelistRepository(StateRepository<Codelist.State> repository) {
 		super(repository);
 	}
+	
+	@Override
+	public void add(Codelist list) {
+		
+		super.add(list);
+	}
+	
+	@Override
+	public void update(Codelist changeset) {
+		
+		super.update(changeset);
+	}
 }

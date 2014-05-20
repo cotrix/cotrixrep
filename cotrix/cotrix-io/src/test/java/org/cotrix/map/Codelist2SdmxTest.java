@@ -88,9 +88,9 @@ public class Codelist2SdmxTest {
 		directives.name("custom-name");
 		directives.version("2.0");
 		
-		directives.map("list-attr3",customNameType).to(SdmxElement.NAME)
-				  .map("list-attr2",customDescriptionType).to(SdmxElement.DESCRIPTION)
-				  .map("list-attr7",customAnnotationType).to(SdmxElement.ANNOTATION);
+		directives.map("list-attr3",customNameType).to(SdmxElement.NAME).forCodes()
+				  .map("list-attr2",customDescriptionType).to(SdmxElement.DESCRIPTION).forCodes()
+				  .map("list-attr7",customAnnotationType).to(SdmxElement.ANNOTATION).forCodes();
 		
 		
 		Outcome<CodelistBean> outcome = mapper.map(list, directives);
@@ -155,28 +155,29 @@ public class Codelist2SdmxTest {
 		assertEquals(TERTIARY_BOOL.FALSE,bean.isFinal());
 	}
 	
-	@Test 
-	public void codelistAttributesWithDefaults() {
-		
-		Attribute a1 = attribute().name("a").value("val").build();
-		Attribute a2 = attribute().name("b").value("val-b").ofType(NAME_TYPE).in("fr").build();
-		Attribute a3 = attribute().name("a").value("val-c").ofType(ANNOTATION_TYPE).in("es").build();
-		Codelist list = codelist().name("list").attributes(a1,a2,a3).build();
-		
-		Outcome<CodelistBean> outcome = mapper.map(list, Codelist2SdmxDirectives.DEFAULT);
-		
-		System.out.println(outcome.report());
-		
-		CodelistBean bean = outcome.result();
-		
-		serialise(bean);
-		
-		assertTrue(contains(bean.getDescriptions(),"val","en"));
-		assertTrue(contains(bean.getNames(),"val-b","fr"));
-		assertTrue(containsAnnotation(bean.getAnnotations(),"val-c","es"));
-		
-
-	}
+	//we are no longer using defaults
+//	@Test 
+//	public void codelistAttributesWithDefaults() {
+//		
+//		Attribute a1 = attribute().name("a").value("val").build();
+//		Attribute a2 = attribute().name("b").value("val-b").ofType(NAME_TYPE).in("fr").build();
+//		Attribute a3 = attribute().name("a").value("val-c").ofType(ANNOTATION_TYPE).in("es").build();
+//		Codelist list = codelist().name("list").attributes(a1,a2,a3).build();
+//		
+//		Outcome<CodelistBean> outcome = mapper.map(list, Codelist2SdmxDirectives.DEFAULT);
+//		
+//		System.out.println(outcome.report());
+//		
+//		CodelistBean bean = outcome.result();
+//		
+//		serialise(bean);
+//		
+//		//assertTrue(contains(bean.getDescriptions(),"val","en"));
+//		assertTrue(contains(bean.getNames(),"val-b","fr"));
+//		assertTrue(containsAnnotation(bean.getAnnotations(),"val-c","es"));
+//		
+//
+//	}
 	
 	@Test 
 	public void codelistAttributesWithCustomisation() {
@@ -188,9 +189,9 @@ public class Codelist2SdmxTest {
 		
 		Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
 		
-		directives.map("a",customDescriptionType).to(DESCRIPTION)
-				  .map("b", customNameType).to(SdmxElement.NAME)
-				  .map("a", customAnnotationType).to(ANNOTATION);
+		directives.map("a",customDescriptionType).to(DESCRIPTION).forCodelist()
+				  .map("b", customNameType).to(SdmxElement.NAME).forCodelist()
+				  .map("a", customAnnotationType).to(ANNOTATION).forCodelist();
 		
 		Outcome<CodelistBean> outcome = mapper.map(list,directives);
 		

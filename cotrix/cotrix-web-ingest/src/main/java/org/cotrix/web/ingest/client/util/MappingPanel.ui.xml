@@ -8,47 +8,67 @@
 			padding-top: 10px;
 		}
 		
+		.textBox {
+			width: 100%;
+			box-sizing: border-box;
+			height: 34px;
+		}
+		
 		.reloadButtonCell {
-			padding-right: 24px;
+			/*padding-right: 24px;
 			padding-left: 10px;
-			width: 30px;
+			width: 30px;*/
 		}
 		
 		.reloadButton {
 			margin: auto;
 			outline: none;
 		}
+		
+		.previewCell {
+			vertical-align: top;
+
+		}
+		
+		.previewButton {
+			margin: auto;
+			outline: none;
+			margin-top: 20px;
+			padding-top: 4px;
+			padding-left: 1px;
+			padding-right: 4px;
+		}
 	</ui:style>
-	<g:SimpleLayoutPanel styleName="{common.css.mappingTable}">
+	<g:SimpleLayoutPanel>
 		<g:HTMLPanel>
 			<table width="100%">
 				<tr>
 					<td class="{common.css.mappingTableNameHeader}">
-						<span class="{common.css.propertyLabel}" style="padding-left:32px;padding-right:10px;">NAME</span>
+						<span class="{common.css.propertyLabel}" style="padding-left:20px;padding-right:10px;">NAME</span>
 					</td>
-					<td style="padding-top:10px;vertical-align:middle;">
-						<g:TextBox width="99%" ui:field="name" styleName="{common.css.textBox}" />
+					<td style="padding-top:10px;vertical-align:middle;text-align:left;">
+						<g:TextBox ui:field="name" styleName="{common.css.textBox} {style.textBox}" />
 					</td>
-					<td class="{style.reloadButtonCell} {style.topPadding}">
+					<td width="58px" class="{style.reloadButtonCell} {style.topPadding}">
 						<g:PushButton ui:field="reloadButton"
 							styleName="{common.css.buttonRefresh} {style.reloadButton}">
-							<g:upFace image="{common.refresh}" />
+							<g:upFace image="{common.undo}" />
 						</g:PushButton>
 					</td>
 				</tr>
 				<tr>
 					<td class="{common.css.mappingTableNameHeader}">
 						<span class="{common.css.propertyLabel}"
-							style="text-align:left;padding-left:32px;padding-right:10px;">VERSION</span>
+							style="text-align:left;padding-left:20px;padding-right:10px;">VERSION</span>
 					</td>
-					<td style="padding-top:10px;padding-right: 70px;" colspan="2">
-						<g:TextBox width="99%" ui:field="version" styleName="{common.css.textBox}" />
+					<td style="padding-top:10px;vertical-align:middle;text-align:left;">
+						<g:TextBox ui:field="version" styleName="{common.css.textBox} {style.textBox}" />
 					</td>
 				</tr>
 				<tr>
 					<td class="{common.css.mappingTableNameHeader}">
 						<span class="{common.css.propertyLabel}"
-							style="text-align:left;padding-left:32px;padding-right:10px;">SEALED</span>
+							style="text-align:left;padding-left:20px;padding-right:10px;">SEALED</span>
 					</td>
 					<td style="padding-top:10px;padding-right: 70px;text-align: left;"
 						colspan="2">
@@ -57,22 +77,30 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" align="left" style="padding: 20px;">
+					<td colspan="2" align="left" ui:field="mappingCell">
+					<div style="padding: 20px 0px 20px 20px;">
 						<table style="border-collapse:collapse; width: 100%;">
 							<tr>
-								<td class="{common.css.verticalHeadersSingleItem}" style="border: 1px solid #d1d1d1;padding-left:12px;">
-									<g:InlineLabel ui:field="attributeMappingLabel"
-										styleName="{common.css.propertyLabel}" />
+								<td class="{common.css.verticalHeadersSingleItem} {common.css.mappingAttributeHeaderCell}" style="padding-left:6px;">
+									<g:Label ui:field="attributeMappingLabel"
+										styleName="{common.css.mappingAttributeHeader}" />
 								</td>
 							</tr>
 							<tr>
-								<td style="border: 1px solid #d1d1d1;padding-left:5px;">
+								<td style="border: 1px solid #d1d1d1;padding-left:5px;padding-top: 5px;">
 									<g:ScrollPanel height="175px" ui:field="scrollMappingPanel" debugId="scrollMappingPanel">
 										<u:AttributeMappingPanel ui:field="mappingPanel" />
 									</g:ScrollPanel>
 								</td>
 							</tr>
 						</table>
+						</div>
+					</td>
+					<td width="58px" ui:field="previewCell" class="{style.previewCell}">
+						<g:PushButton ui:field="previewButton"
+							styleName="{common.css.buttonPreview} {style.previewButton}">
+							<g:upFace image="{common.preview}" />
+						</g:PushButton>
 					</td>
 				</tr>
 			</table>

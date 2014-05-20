@@ -2,15 +2,18 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
 
+import javax.xml.namespace.QName;
+
+import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.Codelink.Private;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.trait.Status;
 
 public final class CodelinkMS extends AttributedMS implements Codelink.State {
 
-	private String targetId;
-	private CodelistLink.State definition;
+	private Code.State target;
+	private CodelistLink.State type;
 
 	public CodelinkMS() {
 	}
@@ -20,38 +23,46 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 	}
 	
 	public CodelinkMS(Codelink.State state) {
-		super(state);
-		targetId(state.targetId());
-		definition(new CodelistLinkMS(state.definition()));
-	}
-
-	public String targetId() {
-		return targetId;
-	}
-
-	public void targetId(String id) {
-
-		notNull("id",id);
-
-		this.targetId = id;
-	}
-
-	public CodelistLink.State definition() {
-		return definition;
-	}
-
-	public void definition(CodelistLink.State definition) {
 		
-		notNull("definition",definition);
+		super(state);
+		
+		target(state.target());
+		
+		type(state.type());
+	}
 
-		this.definition = definition;
+	@Override
+	public QName name() {
+		return type==null?null:type.name();
 	}
 	
-	public void definition(CodelistLink definition) {
-		
-		notNull("definition",definition);
+	@Override
+	public void name(QName name) {
+		throw new UnsupportedOperationException("codelink names are read-only");
+	}
+	
+	public Code.State target() {
+		return target;
+	}
 
-		definition(reveal(definition,CodelistLink.Private.class));
+	public void target(Code.State target) {
+
+		notNull("target",target);
+
+		this.target = target;
+	}
+
+	public CodelistLink.State type() {
+		
+		return type;
+	
+	}
+
+	public void type(CodelistLink.State type) {
+		
+		notNull("type",type);
+
+		this.type = type;
 	}
 	
 	@Override
@@ -68,15 +79,15 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 		if (!(obj instanceof Codelink.State))
 			return false;
 		Codelink.State other = (Codelink.State) obj;
-		if (definition == null) {
-			if (other.definition() != null)
+		if (type == null) {
+			if (other.type() != null)
 				return false;
-		} else if (!definition.equals(other.definition()))
+		} else if (!type.equals(other.type()))
 			return false;
-		if (targetId == null) {
-			if (other.targetId() != null)
+		if (target == null) {
+			if (other.target() != null)
 				return false;
-		} else if (!targetId.equals(other.targetId()))
+		} else if (!target.equals(other.target()))
 			return false;
 		return true;
 	}

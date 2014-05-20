@@ -1,6 +1,7 @@
 package org.cotrix.io.tabular.map;
 
 import static org.cotrix.common.Report.*;
+import static org.cotrix.common.Report.Item.Type.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.dsl.grammar.CodelistGrammar.FinalClause;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.virtualrepository.tabular.Row;
 import org.virtualrepository.tabular.Table;
 
@@ -58,7 +59,7 @@ public class Table2Codelist {
 		
 		double time = System.currentTimeMillis();
 
-		report().log("mapping table to codelist "+directives.name());
+		report().log("transforming table to codelist "+directives.name());
 		report().log(Calendar.getInstance().getTime().toString());
 		report().log("==============================");
 		
@@ -68,7 +69,7 @@ public class Table2Codelist {
 		Codelist list = list();
 		
 		report().log("==============================");
-		report().log("mapped table to codelist '"+directives.name()+"' with "+list.codes().size()+" codes in "+(System.currentTimeMillis()-time)/1000);
+		report().log("transformed table to codelist '"+directives.name()+"' with "+list.codes().size()+" codes in "+(System.currentTimeMillis()-time)/1000);
 		
 		return list;
 		
@@ -107,7 +108,7 @@ public class Table2Codelist {
 	Codelist list() {
 		
 		boolean hasVersion = directives.version()!=null;
-		FinalClause clause= codelist().
+		SecondClause clause= codelist().
 				name(directives.name())
 				.with(codes.toArray(new Code[0]))
 				.attributes(directives.attributes().toArray(new Attribute[0]));
@@ -125,10 +126,9 @@ public class Table2Codelist {
 			
 			switch(directives.mode()) {
 				case STRICT:
-					report().logError(msg);break;
+					report().log(msg).as(ERROR);break;
 				case LOG:
-					report().logWarning(msg);break;
-					
+					report().log(msg).as(WARN);break;
 				default:
 			}
 			

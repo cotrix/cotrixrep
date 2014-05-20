@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.CodelistId;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 
@@ -30,7 +30,7 @@ public class ModifyCommandSequencer {
 	protected ManageServiceAsync service;
 	
 	@Inject
-	@CodelistId
+	@CurrentCodelist
 	protected String codelistId;
 	
 	protected Queue<Task> tasks = new LinkedList<Task>();
@@ -57,7 +57,7 @@ public class ModifyCommandSequencer {
 	{
 		taskAttempts++;
 		ModifyCommand command = task.getCommand();
-		Log.trace("executing command "+command+" attempt "+taskAttempts);
+		Log.trace("executing command "+command+" on codelist "+codelistId+" attempt "+taskAttempts);
 		service.modify(codelistId, command, new AsyncCallback<ModifyCommandResult>() {
 			
 			@Override

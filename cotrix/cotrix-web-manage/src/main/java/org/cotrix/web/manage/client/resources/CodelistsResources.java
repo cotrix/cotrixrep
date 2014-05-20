@@ -14,7 +14,6 @@ import com.google.inject.Singleton;
 @Singleton
 public interface CodelistsResources extends CellTree.Resources {
 	
-	@Deprecated
 	public static final CodelistsResources INSTANCE = GWT.create(CodelistsResources.class);
 	
     /**

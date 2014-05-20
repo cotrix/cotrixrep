@@ -17,10 +17,10 @@ import org.cotrix.web.common.client.util.StatusUpdates;
 import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.UIUser;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.users.client.ModuleActivactedEvent;
 import org.cotrix.web.users.client.UsersBus;
-import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PasswordUpdatedEvent;
-import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PasswordUpdatedHandler;
+import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PasswordUpdateListener;
 import org.cotrix.web.users.shared.InvalidPasswordException;
 import org.cotrix.web.users.shared.PermissionUIFeatures;
 import org.cotrix.web.users.shared.UIUserDetails;
@@ -86,16 +86,17 @@ public class ProfilePanel extends LoadingPanel {
 	protected void init(ProfilePanelUiBinder uiBinder) {
 		initWidget(uiBinder.createAndBindUi(this));
 		setAnimated(true);
-		passwordUpdateDialog.addPasswordUpdateHandler(new PasswordUpdatedHandler() {
+		passwordUpdateDialog.setListener(new PasswordUpdateListener() {
 			
 			@Override
-			public void onAddUser(PasswordUpdatedEvent event) {
+			public void onPasswordUpdate(String oldPassword, String newPassword) {
 				StatusUpdates.statusSaving();
-				service.updateUserPassword(userDetails.getId(), event.getOldPassword(), event.getNewPassword(), new AsyncCallback<Void>() {
+				service.updateUserPassword(userDetails.getId(), oldPassword, newPassword, new AsyncCallback<Void>() {
 					@Override
 					public void onFailure(Throwable caught) {
+						Log.error("Password update failed", caught);
 						if (caught instanceof InvalidPasswordException) alertDialog.center("Invalid credentials.");
-						else errorManager.rpcFailure(caught);
+						else errorManager.showError(Exceptions.toError(caught));
 					}
 
 					@Override
@@ -124,7 +125,7 @@ public class ProfilePanel extends LoadingPanel {
 	@UiHandler("password")
 	protected void onPasswordChange(ClickEvent event) {
 		passwordUpdateDialog.clean();
-		passwordUpdateDialog.center();
+		passwordUpdateDialog.showCentered();
 	}
 	
 	@UiHandler({"fullname","email"})

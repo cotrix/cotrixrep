@@ -1,15 +1,13 @@
 package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 
-import java.util.List;
-
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.EnumListBox.LabelProvider;
-import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
+import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
-import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.UISdmxElement;
 
 import com.google.gwt.core.client.GWT;
@@ -63,8 +61,8 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	};
 
 	@UiTemplate("SdmxMappingStep.ui.xml")
-	interface HeaderTypeStepUiBinder extends UiBinder<Widget, SdmxMappingStepViewImpl> {}
-	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
+	interface SdmxMappingStepUiBinder extends UiBinder<Widget, SdmxMappingStepViewImpl> {}
+	private static SdmxMappingStepUiBinder uiBinder = GWT.create(SdmxMappingStepUiBinder.class);
 	
 	@UiField(provided = true) MappingPanel<UISdmxElement> mappingPanel;
 	
@@ -74,7 +72,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	AlertDialog alertDialog;
 
 	public SdmxMappingStepViewImpl() {
-		mappingPanel = new MappingPanel<UISdmxElement>(PROVIDER, "ELEMENTS");
+		mappingPanel = new MappingPanel<UISdmxElement>(PROVIDER, "SDMX ELEMENTS");
 		mappingPanel.setReloadHandler(this);
 		
 		initWidget(uiBinder.createAndBindUi(this));
@@ -133,7 +131,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 		return mappingPanel.getSealed();
 	}
 
-	public void setMappings(List<AttributeMapping> mappings)
+	public void setMappings(AttributesMappings mappings)
 	{
 		mappingPanel.setMapping(mappings);
 	}
@@ -148,7 +146,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 		mappingPanel.unsetMappingLoading();
 	}
 	
-	public List<AttributeMapping> getMappings()
+	public AttributesMappings getMappings()
 	{
 		return mappingPanel.getMappings();
 	}

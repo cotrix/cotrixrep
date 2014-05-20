@@ -45,6 +45,7 @@ public interface CommonCss extends CssResource {
 		
 	String buttonManage();
 	String buttonRefresh();
+	String buttonPreview();
 	String buttonCloud();
 	String buttonComputer();
 	String buttonDownload();
@@ -53,6 +54,8 @@ public interface CommonCss extends CssResource {
 	String mappingTable();
 	String mappingTableNameHeader();	
 	String mappingCell();
+	String mappingAttributeHeaderCell();
+	String mappingAttributeHeader();
 	
 	String missingValueText();
 	
@@ -61,6 +64,19 @@ public interface CommonCss extends CssResource {
 	String errorMessageContainer();
 	String errorMessage();
 	
-	String search();
+	String searchBox();
 	String searchBackground();
+	
+	String dialogBox();
+	String dialogTitle();
+	String dialogSubtitle();
+	String dialogTextfield();
+	String dialogTextbox();
+	String dialogTextboxInvalid();
+	String dialogLink();
+	String dialogSubmit();
+	
+	String sugestionListBoxPanel();
+	String sugestionListBoxTextBox();
+	String sugestionListBoxButton();
 }

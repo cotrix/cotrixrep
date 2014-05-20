@@ -1,0 +1,11 @@
+.buttonCell {
+	vertical-align: middle;
+	width: 18px;
+}
+
+.button {
+	cursor: pointer;
+	margin-top: 4px;
+	margin-left: 4px;
+	margin-right: 4px;
+}

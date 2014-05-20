@@ -1,18 +1,29 @@
 package org.cotrix.io.impl;
 
+import static java.util.Arrays.*;
 import static org.cotrix.common.Utils.*;
 
+import java.io.InputStream;
 import java.util.Iterator;
 
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.cdi.ApplicationEvents.EndRequest;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Attribute;
 import org.cotrix.io.CloudService;
+import org.fao.fi.comet.mapping.model.MappingData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.virtualrepository.Asset;
 import org.virtualrepository.AssetType;
+import org.virtualrepository.Context;
+import org.virtualrepository.Property;
 import org.virtualrepository.RepositoryService;
 import org.virtualrepository.VirtualRepository;
+import org.virtualrepository.comet.CometAsset;
 import org.virtualrepository.csv.CsvCodelist;
 import org.virtualrepository.sdmx.SdmxCodelist;
 import org.virtualrepository.tabular.Table;
@@ -23,12 +34,9 @@ import org.virtualrepository.tabular.Table;
  * @author Fabio Simeoni
  *
  */
+@Singleton
 public class DefaultCloudService implements Iterable<Asset>, CloudService {
 
-	/**
-	 * The types supported for publication.
-	 */
-	public static final AssetType[] publicationTypes = {SdmxCodelist.type};
 	
 	/**
 	 * The types supported for import.
@@ -52,8 +60,18 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 	}
 	
 	@Override
+	public int discover(RepositoryService... repositories) {
+		return repository.discover(asList(repositories), DefaultCloudService.importTypes);
+	}
+	
+	@Override
 	public int discover(int timeout) {
 		return repository.discover(timeout,DefaultCloudService.importTypes);
+	}
+	
+	@Override
+	public int discover(int timeout, RepositoryService... repositories) {
+		return repository.discover(timeout,asList(repositories),DefaultCloudService.importTypes);
 	}
 	
 	@Override
@@ -74,29 +92,62 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 	}
 	
 	@Override
-	public void publish(CodelistBean list, QName name) {
-		
-		notNull("list",list);
-		notNull("repository name",name);
-		
-		RepositoryService service = repository.services().lookup(name);
-		
-		repository.publish(new SdmxCodelist(list.getId(),service), list);
+	public InputStream retrieveAsCsv(String id) {
+		return repository.retrieve(repository.lookup(id), InputStream.class);
 	}
 	
-	
-
 	@Override
-	public void publish(Table list, QName name) {
+	public void publish(Codelist list, CodelistBean bean, QName name) {
 		
-		notNull("list",list);
+		notNull("codelist",list);
+		notNull("sdmx bean",bean);
 		notNull("repository name",name);
 		
 		RepositoryService service = repository.services().lookup(name);
 		
-		repository.publish(new CsvCodelist("name",0,service),list);
+		SdmxCodelist asset = new SdmxCodelist(bean.getId(),service);
+		
+		repository.publish(describe(list,asset), bean);
 	}
 	
+	@Override
+	public void publish(Codelist list, Table table, QName name) {
+		
+		notNull("codelist",list);
+		notNull("table",table);
+		notNull("repository name",name);
+		
+		RepositoryService service = repository.services().lookup(name);
+		
+		Asset asset = new CsvCodelist(list.name().getLocalPart(),0,service);
+		
+		repository.publish(describe(list,asset),table);
+	}
+	
+	
+	@Override
+	public void publish(Codelist list, MappingData mapping, QName name) {
+		
+		notNull("codelist",list);
+		notNull("mapping",mapping);
+		notNull("repository name",name);
+		
+		RepositoryService service = repository.services().lookup(name);
+		
+		Asset asset = new CometAsset(list.name().getLocalPart(),service);
+		
+		repository.publish(describe(list,asset),mapping);
+	}
+	
+	
+	private Asset describe(Codelist list, Asset asset) {
+		
+		for (Attribute attribute : list.attributes()) {
+			asset.properties().add(new Property(attribute.name().toString(),attribute.value()));
+		}
+		
+		return asset;
+	}
 	
 	@Override
 	public Iterable<RepositoryService> repositories() {
@@ -106,5 +157,10 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 	@Override
 	public Iterator<Asset> iterator() {
 		return repository.iterator();
+	}
+	
+	
+	void onStartRequest(@Observes EndRequest end){
+		Context.reset();
 	}
 }

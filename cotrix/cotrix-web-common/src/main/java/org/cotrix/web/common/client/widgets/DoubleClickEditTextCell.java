@@ -27,7 +27,7 @@ import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class DoubleClickEditTextCell extends AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> {
+public class DoubleClickEditTextCell extends AbstractEditableCell<String, DoubleClickEditTextCell.ViewData> implements EditableCell {
 
 	interface Template extends SafeHtmlTemplates {
 		@Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\" class=\"{1}\"></input>")
@@ -158,7 +158,7 @@ public class DoubleClickEditTextCell extends AbstractEditableCell<String, Double
 			throw new IllegalArgumentException("The renderer is null");
 		}
 		this.renderer = renderer;
-		readOnly = true;
+		this.readOnly = true;
 		this.editorStyle = editorStyle;
 	}
 

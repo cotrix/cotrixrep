@@ -20,8 +20,18 @@ public class DataSavedEvent extends GwtEvent<DataSavedEvent.DataSavedHandler> {
 	public interface HasDataSavedHandlers extends HasHandlers {
 		HandlerRegistration addDataSavedHandler(DataSavedHandler handler);
 	}
+	
+	private String codelistId;
 
-	public DataSavedEvent() {
+	public DataSavedEvent(String codelistId) {
+		this.codelistId = codelistId;
+	}
+
+	/**
+	 * @return the codelistId
+	 */
+	public String getCodelistId() {
+		return codelistId;
 	}
 
 	@Override

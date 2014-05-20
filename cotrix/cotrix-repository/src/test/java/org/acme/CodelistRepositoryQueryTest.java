@@ -197,7 +197,7 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		
 		repository.add(list);
 		
-		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(descending(byCodeName())));
+		Iterable<Code> results = repository.get(allCodesIn(list.id()).sort(descending(byCodeName())));
 		
 		assertEquals(asList(c3,c2,c1),collect(results));
 	}
@@ -208,16 +208,19 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		
 		Attribute a1 = attribute().name("a").value("1").build();
 		Attribute a12 = attribute().name("a").value("5").build();
-		Code c1 = code().name("c1").attributes(a1,a12).build();
+		Attribute b = attribute().name("b").value("3").build();
+		Code c1 = code().name("c1").attributes(a1,a12,b).build();
 		
 		Attribute a2 = attribute().name("a").value("2").in("en").build();
 		Attribute a22 = attribute().name("a").value("3").build();
-		Code c2 = code().name("c2").attributes(a2,a22).build();
+		Attribute b1 = attribute().name("b").value("3").build();
+		Code c2 = code().name("c2").attributes(a2,a22,b1).build();
 		
 		Attribute a3 = attribute().name("a").value("0").in("en").build();
-		Code c3 = code().name("c3").attributes(a3).build();
+		Attribute b2 = attribute().name("b").value("4").build();
+		Code c3 = code().name("c3").attributes(a3,b2).build();
 		
-		Codelist list = codelist().name("l1").with(c2,c1,c3).build();
+		Codelist list = codelist().name("l1").with(c1,c2,c3).build();
 		
 		repository.add(list);
 		
@@ -226,10 +229,15 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		
 		assertEquals(asList(c3,c1,c2),collect(results));
 		
-		results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,2)));
+		results = repository.get(allCodesIn(list.id()).sort(descending(byAttribute(template,1))));
+		
+		assertEquals(asList(c2,c1,c3),collect(results));
+		
+		results = repository.get(allCodesIn(list.id()).sort(byAttribute(template,2)));
 		assertEquals(asList(c2,c1,c3),collect(results));
 		
 		template = attribute().name("a").value("ignore").in("en").build();
+		
 		results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,1)));
 		
 		assertEquals(asList(c3,c2,c1),collect(results));
@@ -270,6 +278,10 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		assertEqualUnordered(summary.allLanguagesFor(q("name1"),q("t1")),"l1","l2","l3");
 		assertEqualUnordered(summary.allTypesFor(q("foo")));
 		assertEqualUnordered(summary.allLanguagesFor(q("foo"),q("boo")));
+		
+		assertEqualUnordered(summary.codelistNames(),q("name1"),q("name2"),q("name3"));
+		assertEqualUnordered(summary.codelistTypesFor(q("name1")),q("t1"),q("t3"));
+		assertEqualUnordered(summary.codelistLanguagesFor(q("name1"),q("t1")),"l3");
 		
 		assertEqualUnordered(summary.codeNames(),q("name1"),q("name2"));
 		assertEqualUnordered(summary.codeTypesFor(q("name1")),q("t1"),q("t2"));

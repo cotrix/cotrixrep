@@ -21,7 +21,6 @@
           <com:Name xml:lang="en">Blacktail comber</com:Name>
           <com:Name xml:lang="fr">Serran à queue noire</com:Name>
           <com:Name xml:lang="es">Serrano imperial</com:Name>
-          <com:Name xml:lang="la">Serranus atricauda</com:Name>
         </str:Code>
         <str:Code id="BVV" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BVV">
           <com:Annotations>
@@ -33,7 +32,6 @@
           <com:Name xml:lang="en">Yellowmouth barracuda</com:Name>
           <com:Name xml:lang="fr">Bécune bouche jaune</com:Name>
           <com:Name xml:lang="es">Espetón boca amarilla</com:Name>
-          <com:Name xml:lang="la">Sphyraena viridensis</com:Name>
         </str:Code>
         <str:Code id="BQX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BQX">
           <com:Annotations>
@@ -44,7 +42,6 @@
           <com:Name xml:lang="en">Butterfishes nei</com:Name>
           <com:Name xml:lang="fr">Stromatés nca</com:Name>
           <com:Name xml:lang="es">Pámpanos Stromateus nep</com:Name>
-          <com:Name xml:lang="la">Stromateus spp</com:Name>
         </str:Code>
         <str:Code id="YFX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YFX">
           <com:Annotations>
@@ -55,7 +52,6 @@
           <com:Name xml:lang="en">Symphodus wrasses nei</com:Name>
           <com:Name xml:lang="fr">Crénilabres nca</com:Name>
           <com:Name xml:lang="es">Bodiones, porredanas nep</com:Name>
-          <com:Name xml:lang="la">Symphodus spp</com:Name>
         </str:Code>
         <str:Code id="KSY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KSY">
           <com:Annotations>
@@ -67,7 +63,6 @@
           <com:Name xml:lang="en">Klein's sole</com:Name>
           <com:Name xml:lang="fr">Sole tachetée</com:Name>
           <com:Name xml:lang="es">Lenguado de Klein</com:Name>
-          <com:Name xml:lang="la">Synapturichthys kleinii</com:Name>
         </str:Code>
         <str:Code id="DYZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DYZ">
           <com:Annotations>
@@ -79,7 +74,6 @@
           <com:Name xml:lang="en">Redbarred lizardfish</com:Name>
           <com:Name xml:lang="fr">Anoli commun</com:Name>
           <com:Name xml:lang="es">Lagarto capitán</com:Name>
-          <com:Name xml:lang="la">Synodus synodus</com:Name>
         </str:Code>
         <str:Code id="WHH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).WHH">
           <com:Annotations>
@@ -90,7 +84,6 @@
           <com:Name xml:lang="en">Spearfishes nei</com:Name>
           <com:Name xml:lang="fr">Makaires Tetrapturus nca</com:Name>
           <com:Name xml:lang="es">Marlines Tetrapturus nep</com:Name>
-          <com:Name xml:lang="la">Tetrapturus spp</com:Name>
         </str:Code>
         <str:Code id="TZA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TZA">
           <com:Annotations>
@@ -102,7 +95,6 @@
           <com:Name xml:lang="en">Spotted weever</com:Name>
           <com:Name xml:lang="fr">Vive araignée</com:Name>
           <com:Name xml:lang="es">Araña</com:Name>
-          <com:Name xml:lang="la">Trachinus araneus</com:Name>
         </str:Code>
         <str:Code id="TZR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TZR">
           <com:Annotations>
@@ -114,7 +106,6 @@
           <com:Name xml:lang="en">Starry weever</com:Name>
           <com:Name xml:lang="fr">Vive à tête rayonnée</com:Name>
           <com:Name xml:lang="es">Víbora</com:Name>
-          <com:Name xml:lang="la">Trachinus radiatus</com:Name>
         </str:Code>
         <str:Code id="SHX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SHX">
           <com:Annotations>
@@ -125,7 +116,6 @@
           <com:Name xml:lang="en">Dogfish sharks, etc. nei</com:Name>
           <com:Name xml:lang="fr">Squaliformes nca</com:Name>
           <com:Name xml:lang="es">Squaliformes nep</com:Name>
-          <com:Name xml:lang="la">Squaliformes</com:Name>
         </str:Code>
         <str:Code id="DGX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DGX">
           <com:Annotations>
@@ -136,7 +126,6 @@
           <com:Name xml:lang="en">Dogfish sharks nei</com:Name>
           <com:Name xml:lang="fr">Squales nca</com:Name>
           <com:Name xml:lang="es">Galludos, tollos, nep</com:Name>
-          <com:Name xml:lang="la">Squalidae</com:Name>
         </str:Code>
         <str:Code id="SPK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SPK">
           <com:Annotations>
@@ -148,7 +137,6 @@
           <com:Name xml:lang="en">Great hammerhead</com:Name>
           <com:Name xml:lang="fr">Grand requin marteau</com:Name>
           <com:Name xml:lang="es">Cornuda gigante</com:Name>
-          <com:Name xml:lang="la">Sphyrna mokarran</com:Name>
         </str:Code>
         <str:Code id="TRK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TRK">
           <com:Annotations>
@@ -159,7 +147,6 @@
           <com:Name xml:lang="en">Houndsharks,smoothhounds nei</com:Name>
           <com:Name xml:lang="fr">Émissoles,requins-hâ nca</com:Name>
           <com:Name xml:lang="es">Cazones,tollos nep</com:Name>
-          <com:Name xml:lang="la">Triakidae</com:Name>
         </str:Code>
         <str:Code id="SDP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SDP">
           <com:Annotations>
@@ -171,7 +158,6 @@
           <com:Name xml:lang="en">Narrownose smooth-hound</com:Name>
           <com:Name xml:lang="fr">Émissole gatuso</com:Name>
           <com:Name xml:lang="es">Gatuso</com:Name>
-          <com:Name xml:lang="la">Mustelus schmitti</com:Name>
         </str:Code>
         <str:Code id="SMD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SMD">
           <com:Annotations>
@@ -183,7 +169,6 @@
           <com:Name xml:lang="en">Smooth-hound</com:Name>
           <com:Name xml:lang="fr">Émissole lisse</com:Name>
           <com:Name xml:lang="es">Musola</com:Name>
-          <com:Name xml:lang="la">Mustelus mustelus</com:Name>
         </str:Code>
         <str:Code id="GAG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GAG">
           <com:Annotations>
@@ -195,7 +180,6 @@
           <com:Name xml:lang="en">Tope shark</com:Name>
           <com:Name xml:lang="fr">Requin-hâ</com:Name>
           <com:Name xml:lang="es">Cazón</com:Name>
-          <com:Name xml:lang="la">Galeorhinus galeus</com:Name>
         </str:Code>
         <str:Code id="LES" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LES">
           <com:Annotations>
@@ -207,7 +191,6 @@
           <com:Name xml:lang="en">Leopard shark</com:Name>
           <com:Name xml:lang="fr">Virli léopard</com:Name>
           <com:Name xml:lang="es">Tollo leopardo</com:Name>
-          <com:Name xml:lang="la">Triakis semifasciata</com:Name>
         </str:Code>
         <str:Code id="XOD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).XOD">
           <com:Annotations>
@@ -218,7 +201,6 @@
           <com:Name xml:lang="en">Trisopterus nei</com:Name>
           <com:Name xml:lang="fr">Tacauds nca</com:Name>
           <com:Name xml:lang="es">Fanecas nep</com:Name>
-          <com:Name xml:lang="la">Trisopterus spp</com:Name>
         </str:Code>
         <str:Code id="URZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).URZ">
           <com:Annotations>
@@ -229,7 +211,6 @@
           <com:Name xml:lang="en">Urophycis nei</com:Name>
           <com:Name xml:lang="fr">Urophycis nca</com:Name>
           <com:Name xml:lang="es">Brótolas blancas nep</com:Name>
-          <com:Name xml:lang="la">Urophycis spp</com:Name>
         </str:Code>
         <str:Code id="AXR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).AXR">
           <com:Annotations>
@@ -240,7 +221,6 @@
           <com:Name xml:lang="en">Aristeus shrimps nei</com:Name>
           <com:Name xml:lang="fr">Crevettes Aristeus nca</com:Name>
           <com:Name xml:lang="es">Camarones Aristeus nep</com:Name>
-          <com:Name xml:lang="la">Aristeus spp</com:Name>
         </str:Code>
         <str:Code id="YFQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YFQ">
           <com:Annotations>
@@ -251,7 +231,6 @@
           <com:Name xml:lang="en">Phyllophora nei</com:Name>
           <com:Name xml:lang="fr">Phyllophora nca</com:Name>
           <com:Name xml:lang="es">Phyllophora nep</com:Name>
-          <com:Name xml:lang="la">Phyllophora spp</com:Name>
         </str:Code>
         <str:Code id="DGH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DGH">
           <com:Annotations>
@@ -262,7 +241,6 @@
           <com:Name xml:lang="en">Dogfishes and hounds nei</com:Name>
           <com:Name xml:lang="fr">Squales et émissoles nca</com:Name>
           <com:Name xml:lang="es">Galludos, tollos y musolas nep</com:Name>
-          <com:Name xml:lang="la">Squalidae, Scyliorhinidae</com:Name>
         </str:Code>
         <str:Code id="SOR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SOR">
           <com:Annotations>
@@ -274,7 +252,6 @@
           <com:Name xml:lang="en">Little sleeper shark</com:Name>
           <com:Name xml:lang="fr">Laimargue de la Méditerranée</com:Name>
           <com:Name xml:lang="es">Tollo boreal</com:Name>
-          <com:Name xml:lang="la">Somniosus rostratus</com:Name>
         </str:Code>
         <str:Code id="DGS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DGS">
           <com:Annotations>
@@ -286,7 +263,6 @@
           <com:Name xml:lang="en">Picked dogfish</com:Name>
           <com:Name xml:lang="fr">Aiguillat commun</com:Name>
           <com:Name xml:lang="es">Mielga</com:Name>
-          <com:Name xml:lang="la">Squalus acanthias</com:Name>
         </str:Code>
         <str:Code id="GUP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GUP">
           <com:Annotations>
@@ -298,7 +274,6 @@
           <com:Name xml:lang="en">Gulper shark</com:Name>
           <com:Name xml:lang="fr">Squale-chagrin commun</com:Name>
           <com:Name xml:lang="es">Quelvacho</com:Name>
-          <com:Name xml:lang="la">Centrophorus granulosus</com:Name>
         </str:Code>
         <str:Code id="CPU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CPU">
           <com:Annotations>
@@ -310,7 +285,6 @@
           <com:Name xml:lang="en">Little gulper shark</com:Name>
           <com:Name xml:lang="fr">Petit squale-chagrin</com:Name>
           <com:Name xml:lang="es">Galludito</com:Name>
-          <com:Name xml:lang="la">Centrophorus uyato</com:Name>
         </str:Code>
         <str:Code id="CPL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CPL">
           <com:Annotations>
@@ -322,7 +296,6 @@
           <com:Name xml:lang="en">Lowfin gulper shark</com:Name>
           <com:Name xml:lang="fr">Squale-chagrin longue dorsale</com:Name>
           <com:Name xml:lang="es">Quelvacho lusitánico</com:Name>
-          <com:Name xml:lang="la">Centrophorus lusitanicus</com:Name>
         </str:Code>
         <str:Code id="SHL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SHL">
           <com:Annotations>
@@ -333,7 +306,6 @@
           <com:Name xml:lang="en">Lanternsharks nei</com:Name>
           <com:Name xml:lang="fr">Sagres nca</com:Name>
           <com:Name xml:lang="es">Tollos lucero nep</com:Name>
-          <com:Name xml:lang="la">Etmopterus spp</com:Name>
         </str:Code>
         <str:Code id="ETR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ETR">
           <com:Annotations>
@@ -345,7 +317,6 @@
           <com:Name xml:lang="en">Great lanternshark</com:Name>
           <com:Name xml:lang="fr">Sagre rude</com:Name>
           <com:Name xml:lang="es">Tollo lucero raspa</com:Name>
-          <com:Name xml:lang="la">Etmopterus princeps</com:Name>
         </str:Code>
         <str:Code id="MWT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MWT">
           <com:Annotations>
@@ -357,7 +328,6 @@
           <com:Name xml:lang="en">Weatherfish</com:Name>
           <com:Name xml:lang="fr">Loche d'étang</com:Name>
           <com:Name xml:lang="es">Misgurno</com:Name>
-          <com:Name xml:lang="la">Misgurnus fossilis</com:Name>
         </str:Code>
         <str:Code id="CWA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CWA">
           <com:Annotations>
@@ -368,7 +338,6 @@
           <com:Name xml:lang="en">Black-Caspian Sea sprats nei</com:Name>
           <com:Name xml:lang="fr">Clupeonelle nca</com:Name>
           <com:Name xml:lang="es">Espadínos Mar Negro-Caspio nep</com:Name>
-          <com:Name xml:lang="la">Clupeonella spp</com:Name>
         </str:Code>
         <str:Code id="DDL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DDL">
           <com:Annotations>
@@ -380,7 +349,6 @@
           <com:Name xml:lang="en">Lister's keyhole limpet</com:Name>
           <com:Name xml:lang="fr">Fissurelle de Lister</com:Name>
           <com:Name xml:lang="es">Lapa de Lister</com:Name>
-          <com:Name xml:lang="la">Diodora listeri</com:Name>
         </str:Code>
         <str:Code id="FSB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FSB">
           <com:Annotations>
@@ -392,7 +360,6 @@
           <com:Name xml:lang="en">Barbados keyhole limpet</com:Name>
           <com:Name xml:lang="fr">Fissurelle des Barbades</com:Name>
           <com:Name xml:lang="es">Lapa de Barbados</com:Name>
-          <com:Name xml:lang="la">Fissurella barbadensis</com:Name>
         </str:Code>
         <str:Code id="FSM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FSM">
           <com:Annotations>
@@ -404,7 +371,6 @@
           <com:Name xml:lang="en">Rayed keyhole limpet</com:Name>
           <com:Name xml:lang="fr">Fissurelle rayonnante</com:Name>
           <com:Name xml:lang="es">Lapa radiante</com:Name>
-          <com:Name xml:lang="la">Fissurella nimbosa</com:Name>
         </str:Code>
         <str:Code id="NGK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NGK">
           <com:Annotations>
@@ -416,7 +382,6 @@
           <com:Name xml:lang="en">West Indian crown conch</com:Name>
           <com:Name xml:lang="fr">Mélongène des Caraïbes</com:Name>
           <com:Name xml:lang="es">Melongena antillana</com:Name>
-          <com:Name xml:lang="la">Melongena melongena</com:Name>
         </str:Code>
         <str:Code id="UGO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UGO">
           <com:Annotations>
@@ -428,7 +393,6 @@
           <com:Name xml:lang="en">Giant hairy melongena</com:Name>
           <com:Name xml:lang="fr">Mélongène noire</com:Name>
           <com:Name xml:lang="es">Melongena negra</com:Name>
-          <com:Name xml:lang="la">Pugilina morio</com:Name>
         </str:Code>
         <str:Code id="KSB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KSB">
           <com:Annotations>
@@ -440,7 +404,6 @@
           <com:Name xml:lang="en">West Indian murex</com:Name>
           <com:Name xml:lang="fr">Rocher antillais</com:Name>
           <com:Name xml:lang="es">Busano antillano</com:Name>
-          <com:Name xml:lang="la">Chicoreus brevifrons</com:Name>
         </str:Code>
         <str:Code id="UTH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UTH">
           <com:Annotations>
@@ -452,7 +415,6 @@
           <com:Name xml:lang="en">Goldmouth murex</com:Name>
           <com:Name xml:lang="fr">Murex bouche d'or</com:Name>
           <com:Name xml:lang="es">Busano boca de oro</com:Name>
-          <com:Name xml:lang="la">Haustellum chrysostoma</com:Name>
         </str:Code>
         <str:Code id="UTD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UTD">
           <com:Annotations>
@@ -464,7 +426,6 @@
           <com:Name xml:lang="en">Don Moore's murex</com:Name>
           <com:Name xml:lang="fr">Murex de Moore</com:Name>
           <com:Name xml:lang="es">Busano de Moore</com:Name>
-          <com:Name xml:lang="la">Haustellum donmoorei</com:Name>
         </str:Code>
         <str:Code id="UTS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UTS">
           <com:Annotations>
@@ -476,7 +437,6 @@
           <com:Name xml:lang="en">Messorius murex</com:Name>
           <com:Name xml:lang="fr">Murex bouche blanche</com:Name>
           <com:Name xml:lang="es">Busano boca blanca</com:Name>
-          <com:Name xml:lang="la">Haustellum messorius</com:Name>
         </str:Code>
         <str:Code id="ITM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ITM">
           <com:Annotations>
@@ -488,7 +448,6 @@
           <com:Name xml:lang="en">Black bullhead</com:Name>
           <com:Name xml:lang="fr">Poisson-chat</com:Name>
           <com:Name xml:lang="es">Bagre torito negro</com:Name>
-          <com:Name xml:lang="la">Ameiurus melas</com:Name>
         </str:Code>
         <str:Code id="ITE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ITE">
           <com:Annotations>
@@ -499,7 +458,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Brown bullhead</com:Name>
           <com:Name xml:lang="fr">Barbotte brune</com:Name>
-          <com:Name xml:lang="la">Ameiurus nebulosus</com:Name>
         </str:Code>
         <str:Code id="TDT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TDT">
           <com:Annotations>
@@ -509,7 +467,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Tandan catfish</com:Name>
-          <com:Name xml:lang="la">Tandanus tandanus</com:Name>
         </str:Code>
         <str:Code id="CAG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CAG">
           <com:Annotations>
@@ -518,7 +475,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Glass catfishes</com:Name>
-          <com:Name xml:lang="la">Kryptopterus spp</com:Name>
         </str:Code>
         <str:Code id="CST" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CST">
           <com:Annotations>
@@ -527,7 +483,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Black catfishes nei</com:Name>
-          <com:Name xml:lang="la">Chrysichthys spp</com:Name>
         </str:Code>
         <str:Code id="CSR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CSR">
           <com:Annotations>
@@ -537,7 +492,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Bagrid catfish</com:Name>
-          <com:Name xml:lang="la">Chrysichthys nigrodigitatus</com:Name>
         </str:Code>
         <str:Code id="ITP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ITP">
           <com:Annotations>
@@ -549,7 +503,6 @@
           <com:Name xml:lang="en">Channel catfish</com:Name>
           <com:Name xml:lang="fr">Barbue de rivière</com:Name>
           <com:Name xml:lang="es">Bagre de canal</com:Name>
-          <com:Name xml:lang="la">Ictalurus punctatus</com:Name>
         </str:Code>
         <str:Code id="ITC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ITC">
           <com:Annotations>
@@ -559,7 +512,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">White catfish</com:Name>
-          <com:Name xml:lang="la">Ameiurus catus</com:Name>
         </str:Code>
         <str:Code id="OVG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OVG">
           <com:Annotations>
@@ -569,7 +521,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Tiger olive</com:Name>
-          <com:Name xml:lang="la">Oliva tigrina</com:Name>
         </str:Code>
         <str:Code id="FLM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FLM">
           <com:Annotations>
@@ -581,7 +532,6 @@
           <com:Name xml:lang="en">Margarita murex</com:Name>
           <com:Name xml:lang="fr">Murex marguerite</com:Name>
           <com:Name xml:lang="es">Busano margarita</com:Name>
-          <com:Name xml:lang="la">Phyllonotus margaritensis</com:Name>
         </str:Code>
         <str:Code id="FLO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FLO">
           <com:Annotations>
@@ -593,7 +543,6 @@
           <com:Name xml:lang="en">Apple murex</com:Name>
           <com:Name xml:lang="fr">Rocher pomme</com:Name>
           <com:Name xml:lang="es">Busano manzanero</com:Name>
-          <com:Name xml:lang="la">Phyllonotus pomum</com:Name>
         </str:Code>
         <str:Code id="HSZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HSZ">
           <com:Annotations>
@@ -605,7 +554,6 @@
           <com:Name xml:lang="en">Deltoid rock shell</com:Name>
           <com:Name xml:lang="fr">Pourpre deltoide</com:Name>
           <com:Name xml:lang="es">Púrpura deltoide</com:Name>
-          <com:Name xml:lang="la">Thais deltoidea</com:Name>
         </str:Code>
         <str:Code id="NJE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NJE">
           <com:Annotations>
@@ -617,7 +565,6 @@
           <com:Name xml:lang="en">Bleeding tooth</com:Name>
           <com:Name xml:lang="fr">Nérite dent saignante</com:Name>
           <com:Name xml:lang="es">Nerita diente sangrante</com:Name>
-          <com:Name xml:lang="la">Nerita peloronta</com:Name>
         </str:Code>
         <str:Code id="OVL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OVL">
           <com:Annotations>
@@ -629,7 +576,6 @@
           <com:Name xml:lang="en">Netted olice</com:Name>
           <com:Name xml:lang="fr">Olive réticulée</com:Name>
           <com:Name xml:lang="es">Oliva reticulada</com:Name>
-          <com:Name xml:lang="la">Oliva reticularis</com:Name>
         </str:Code>
         <str:Code id="OVS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OVS">
           <com:Annotations>
@@ -641,7 +587,6 @@
           <com:Name xml:lang="en">Lettered olive</com:Name>
           <com:Name xml:lang="fr">Olive écriture</com:Name>
           <com:Name xml:lang="es">Oliva escribana</com:Name>
-          <com:Name xml:lang="la">Oliva sayana</com:Name>
         </str:Code>
         <str:Code id="YJF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YJF">
           <com:Annotations>
@@ -653,7 +598,6 @@
           <com:Name xml:lang="en">Angular triton</com:Name>
           <com:Name xml:lang="fr">Triton anguleux</com:Name>
           <com:Name xml:lang="es">Triton anguloso</com:Name>
-          <com:Name xml:lang="la">Cymatium femorale</com:Name>
         </str:Code>
         <str:Code id="MBQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MBQ">
           <com:Annotations>
@@ -665,7 +609,6 @@
           <com:Name xml:lang="en">Milk conch</com:Name>
           <com:Name xml:lang="fr">Strombe laiteux</com:Name>
           <com:Name xml:lang="es">Cobo lechoso</com:Name>
-          <com:Name xml:lang="la">Strombus costatus</com:Name>
         </str:Code>
         <str:Code id="UGA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UGA">
           <com:Annotations>
@@ -677,7 +620,6 @@
           <com:Name xml:lang="en">Roster-tail conch</com:Name>
           <com:Name xml:lang="fr">Strombe queue-de-coq</com:Name>
           <com:Name xml:lang="es">Cobo cola de gallo</com:Name>
-          <com:Name xml:lang="la">Strombus gallus</com:Name>
         </str:Code>
         <str:Code id="RXU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RXU">
           <com:Annotations>
@@ -689,7 +631,6 @@
           <com:Name xml:lang="en">Fighting conch</com:Name>
           <com:Name xml:lang="fr">Strombe combattant</com:Name>
           <com:Name xml:lang="es">Cobo luchador</com:Name>
-          <com:Name xml:lang="la">Strombus pugilis</com:Name>
         </str:Code>
         <str:Code id="UBY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UBY">
           <com:Annotations>
@@ -699,7 +640,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Indian chank</com:Name>
-          <com:Name xml:lang="la">Turbinella pyrum</com:Name>
         </str:Code>
         <str:Code id="YPH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YPH">
           <com:Annotations>
@@ -709,7 +649,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Histrio cowrie</com:Name>
-          <com:Name xml:lang="la">Cyprea histrio</com:Name>
         </str:Code>
         <str:Code id="PGZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PGZ">
           <com:Annotations>
@@ -718,7 +657,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Pangas catfishes nei</com:Name>
-          <com:Name xml:lang="la">Pangasius spp</com:Name>
         </str:Code>
         <str:Code id="PGS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PGS">
           <com:Annotations>
@@ -730,7 +668,6 @@
           <com:Name xml:lang="en">Striped catfish</com:Name>
           <com:Name xml:lang="fr">Silure requin</com:Name>
           <com:Name xml:lang="es">Panga</com:Name>
-          <com:Name xml:lang="la">Pangasius hypophthalmus</com:Name>
         </str:Code>
         <str:Code id="CBT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CBT">
           <com:Annotations>
@@ -740,7 +677,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Philippine catfish</com:Name>
-          <com:Name xml:lang="la">Clarias batrachus</com:Name>
         </str:Code>
         <str:Code id="CFS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CFS">
           <com:Annotations>
@@ -750,7 +686,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Hong Kong catfish</com:Name>
-          <com:Name xml:lang="la">Clarias fuscus</com:Name>
         </str:Code>
         <str:Code id="CMC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CMC">
           <com:Annotations>
@@ -760,7 +695,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Bighead catfish</com:Name>
-          <com:Name xml:lang="la">Clarias macrocephalus</com:Name>
         </str:Code>
         <str:Code id="CLN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CLN">
           <com:Annotations>
@@ -770,7 +704,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Mudfish</com:Name>
-          <com:Name xml:lang="la">Clarias anguillaris</com:Name>
         </str:Code>
         <str:Code id="HEB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HEB">
           <com:Annotations>
@@ -782,7 +715,6 @@
           <com:Name xml:lang="en">African catfish</com:Name>
           <com:Name xml:lang="fr">Poisson-chat africain</com:Name>
           <com:Name xml:lang="es">Pez-gato africano</com:Name>
-          <com:Name xml:lang="la">Heterobranchus bidorsalis</com:Name>
         </str:Code>
         <str:Code id="LIX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LIX">
           <com:Annotations>
@@ -793,7 +725,6 @@
           <com:Name xml:lang="en">Lizardfishes nei</com:Name>
           <com:Name xml:lang="fr">Anolis nca</com:Name>
           <com:Name xml:lang="es">Lagartos nep</com:Name>
-          <com:Name xml:lang="la">Synodontidae</com:Name>
         </str:Code>
         <str:Code id="SNW" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SNW">
           <com:Annotations>
@@ -805,7 +736,6 @@
           <com:Name xml:lang="en">White steenbras</com:Name>
           <com:Name xml:lang="fr">Marbré du Cap</com:Name>
           <com:Name xml:lang="es">Herrera del Cabo</com:Name>
-          <com:Name xml:lang="la">Lithognathus lithognathus</com:Name>
         </str:Code>
         <str:Code id="SBG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SBG">
           <com:Annotations>
@@ -817,7 +747,6 @@
           <com:Name xml:lang="en">Gilthead seabream</com:Name>
           <com:Name xml:lang="fr">Dorade royale</com:Name>
           <com:Name xml:lang="es">Dorada</com:Name>
-          <com:Name xml:lang="la">Sparus aurata</com:Name>
         </str:Code>
         <str:Code id="BOG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BOG">
           <com:Annotations>
@@ -829,7 +758,6 @@
           <com:Name xml:lang="en">Bogue</com:Name>
           <com:Name xml:lang="fr">Bogue</com:Name>
           <com:Name xml:lang="es">Boga</com:Name>
-          <com:Name xml:lang="la">Boops boops</com:Name>
         </str:Code>
         <str:Code id="DAR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DAR">
           <com:Annotations>
@@ -841,7 +769,6 @@
           <com:Name xml:lang="en">Daggerhead seabream</com:Name>
           <com:Name xml:lang="fr">Spare poignard</com:Name>
           <com:Name xml:lang="es">Sargo puñal</com:Name>
-          <com:Name xml:lang="la">Chrysoblephus cristiceps</com:Name>
         </str:Code>
         <str:Code id="RSN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RSN">
           <com:Annotations>
@@ -853,7 +780,6 @@
           <com:Name xml:lang="en">Red stumpnose seabream</com:Name>
           <com:Name xml:lang="fr">Spare gibbeux</com:Name>
           <com:Name xml:lang="es">Sargo cabezón</com:Name>
-          <com:Name xml:lang="la">Chrysoblephus gibbiceps</com:Name>
         </str:Code>
         <str:Code id="ENG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ENG">
           <com:Annotations>
@@ -865,7 +791,6 @@
           <com:Name xml:lang="en">Englishman seabream</com:Name>
           <com:Name xml:lang="fr">Spare du Natal</com:Name>
           <com:Name xml:lang="es">Sargo del Natal</com:Name>
-          <com:Name xml:lang="la">Chrysoblephus anglicus</com:Name>
         </str:Code>
         <str:Code id="SLL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SLL">
           <com:Annotations>
@@ -877,7 +802,6 @@
           <com:Name xml:lang="en">Slinger seabream</com:Name>
           <com:Name xml:lang="fr">Spare élégant</com:Name>
           <com:Name xml:lang="es">Sargo elegante</com:Name>
-          <com:Name xml:lang="la">Chrysoblephus puniceus</com:Name>
         </str:Code>
         <str:Code id="KUY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KUY">
           <com:Annotations>
@@ -888,7 +812,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Surf redfish</com:Name>
           <com:Name xml:lang="fr">Holothurie brune des brisants</com:Name>
-          <com:Name xml:lang="la">Actinopyga mauritiana</com:Name>
         </str:Code>
         <str:Code id="HFC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HFC">
           <com:Annotations>
@@ -898,7 +821,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Sand fish</com:Name>
-          <com:Name xml:lang="la">Holothuria scabra</com:Name>
         </str:Code>
         <str:Code id="HFN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HFN">
           <com:Annotations>
@@ -909,7 +831,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Black teatfish</com:Name>
           <com:Name xml:lang="fr">Holothurie noire à mamelles</com:Name>
-          <com:Name xml:lang="la">Holothuria nobilis</com:Name>
         </str:Code>
         <str:Code id="KUE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KUE">
           <com:Annotations>
@@ -919,7 +840,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Deep-water redfish</com:Name>
-          <com:Name xml:lang="la">Actinopyga echinites</com:Name>
         </str:Code>
         <str:Code id="KUQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KUQ">
           <com:Annotations>
@@ -929,7 +849,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Hairy blackfish</com:Name>
-          <com:Name xml:lang="la">Actinopyga miliaris</com:Name>
         </str:Code>
         <str:Code id="HFA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HFA">
           <com:Annotations>
@@ -939,7 +858,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Lollyfish</com:Name>
-          <com:Name xml:lang="la">Holothuria atra</com:Name>
         </str:Code>
         <str:Code id="HFF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HFF">
           <com:Annotations>
@@ -950,7 +868,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">White teatfish</com:Name>
           <com:Name xml:lang="fr">Holothurie blanche à mamelles</com:Name>
-          <com:Name xml:lang="la">Holothuria fuscogilva</com:Name>
         </str:Code>
         <str:Code id="KUW" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KUW">
           <com:Annotations>
@@ -961,7 +878,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Leopard fish</com:Name>
           <com:Name xml:lang="fr">Holothurie léopard</com:Name>
-          <com:Name xml:lang="la">Bohadschia argus</com:Name>
         </str:Code>
         <str:Code id="KUH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KUH">
           <com:Annotations>
@@ -971,7 +887,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Chalky cucumber</com:Name>
-          <com:Name xml:lang="la">Bohadschia marmorata</com:Name>
         </str:Code>
         <str:Code id="HFE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HFE">
           <com:Annotations>
@@ -982,7 +897,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Pinkfish</com:Name>
           <com:Name xml:lang="fr">Trépang rose</com:Name>
-          <com:Name xml:lang="la">Holothuria edulis</com:Name>
         </str:Code>
         <str:Code id="TFQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TFQ">
           <com:Annotations>
@@ -993,7 +907,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Prickly redfish</com:Name>
           <com:Name xml:lang="fr">Holothurie ananas</com:Name>
-          <com:Name xml:lang="la">Thelenota ananas</com:Name>
         </str:Code>
         <str:Code id="JCC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).JCC">
           <com:Annotations>
@@ -1004,7 +917,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Greenfish</com:Name>
           <com:Name xml:lang="fr">Trepang vert</com:Name>
-          <com:Name xml:lang="la">Stichopus chloronotus</com:Name>
         </str:Code>
         <str:Code id="AJQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).AJQ">
           <com:Annotations>
@@ -1016,7 +928,6 @@
           <com:Name xml:lang="en">Common jellyfish</com:Name>
           <com:Name xml:lang="fr">Méduse commune</com:Name>
           <com:Name xml:lang="es">Agua mala</com:Name>
-          <com:Name xml:lang="la">Aurelia aurita</com:Name>
         </str:Code>
         <str:Code id="SSB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SSB">
           <com:Annotations>
@@ -1028,7 +939,6 @@
           <com:Name xml:lang="en">Sand steenbras</com:Name>
           <com:Name xml:lang="fr">Marbré</com:Name>
           <com:Name xml:lang="es">Herrera</com:Name>
-          <com:Name xml:lang="la">Lithognathus mormyrus</com:Name>
         </str:Code>
         <str:Code id="SBW" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SBW">
           <com:Annotations>
@@ -1040,7 +950,6 @@
           <com:Name xml:lang="en">West coast seabream</com:Name>
           <com:Name xml:lang="fr">Marbré de la côte ouest</com:Name>
           <com:Name xml:lang="es">Herrera de la costa oeste</com:Name>
-          <com:Name xml:lang="la">Lithognathus aureti</com:Name>
         </str:Code>
         <str:Code id="CPP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CPP">
           <com:Annotations>
@@ -1051,7 +960,6 @@
           <com:Name xml:lang="en">Copper breams(=Hottentots) nei</com:Name>
           <com:Name xml:lang="fr">Hotentots nca</com:Name>
           <com:Name xml:lang="es">Hotentotes nep</com:Name>
-          <com:Name xml:lang="la">Pachymetopon spp</com:Name>
         </str:Code>
         <str:Code id="HOB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HOB">
           <com:Annotations>
@@ -1063,7 +971,6 @@
           <com:Name xml:lang="en">Hottentot seabream</com:Name>
           <com:Name xml:lang="fr">Hottentot</com:Name>
           <com:Name xml:lang="es">Sargo hotentote</com:Name>
-          <com:Name xml:lang="la">Pachymetopon blochii</com:Name>
         </str:Code>
         <str:Code id="SEV" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SEV">
           <com:Annotations>
@@ -1075,7 +982,6 @@
           <com:Name xml:lang="en">Seventyfour seabream</com:Name>
           <com:Name xml:lang="fr">Denté maculé</com:Name>
           <com:Name xml:lang="es">Dentón manchado</com:Name>
-          <com:Name xml:lang="la">Polysteganus undulosus</com:Name>
         </str:Code>
         <str:Code id="SLM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SLM">
           <com:Annotations>
@@ -1087,7 +993,6 @@
           <com:Name xml:lang="en">Salema</com:Name>
           <com:Name xml:lang="fr">Saupe</com:Name>
           <com:Name xml:lang="es">Salema</com:Name>
-          <com:Name xml:lang="la">Sarpa salpa</com:Name>
         </str:Code>
         <str:Code id="MLB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MLB">
           <com:Annotations>
@@ -1099,7 +1004,6 @@
           <com:Name xml:lang="en">Goldsilk seabream</com:Name>
           <com:Name xml:lang="fr">Pagre berda</com:Name>
           <com:Name xml:lang="es">Sargo picnic</com:Name>
-          <com:Name xml:lang="la">Acanthopagrus berda</com:Name>
         </str:Code>
         <str:Code id="SCP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SCP">
           <com:Annotations>
@@ -1111,7 +1015,6 @@
           <com:Name xml:lang="en">Scup</com:Name>
           <com:Name xml:lang="fr">Spare doré</com:Name>
           <com:Name xml:lang="es">Sargo de América del Norte</com:Name>
-          <com:Name xml:lang="la">Stenotomus chrysops</com:Name>
         </str:Code>
         <str:Code id="GJC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GJC">
           <com:Annotations>
@@ -1123,7 +1026,6 @@
           <com:Name xml:lang="en">Hairy gelidium</com:Name>
           <com:Name xml:lang="fr">Gelidium-crin</com:Name>
           <com:Name xml:lang="es">Gelidio crin</com:Name>
-          <com:Name xml:lang="la">Gelidium crinale</com:Name>
         </str:Code>
         <str:Code id="GEQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GEQ">
           <com:Annotations>
@@ -1135,7 +1037,6 @@
           <com:Name xml:lang="en">Giant gelidium</com:Name>
           <com:Name xml:lang="fr">Gelidium imperial</com:Name>
           <com:Name xml:lang="es">Ocle imperial</com:Name>
-          <com:Name xml:lang="la">Gelidium corneum</com:Name>
         </str:Code>
         <str:Code id="GJA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GJA">
           <com:Annotations>
@@ -1147,7 +1048,6 @@
           <com:Name xml:lang="en">Spurweed</com:Name>
           <com:Name xml:lang="fr">Griffes des Harpies</com:Name>
           <com:Name xml:lang="es">Espuela de gallo</com:Name>
-          <com:Name xml:lang="la">Chondracanthus acicularis</com:Name>
         </str:Code>
         <str:Code id="GJE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GJE">
           <com:Annotations>
@@ -1159,7 +1059,6 @@
           <com:Name xml:lang="en">Hackle weed</com:Name>
           <com:Name xml:lang="fr">Rateau de Polypheme</com:Name>
           <com:Name xml:lang="es">Rastrillo de mar</com:Name>
-          <com:Name xml:lang="la">Chondracanthus teedii</com:Name>
         </str:Code>
         <str:Code id="GKA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GKA">
           <com:Annotations>
@@ -1171,7 +1070,6 @@
           <com:Name xml:lang="en">Leather gracilaria</com:Name>
           <com:Name xml:lang="fr">Gracilaire coriace</com:Name>
           <com:Name xml:lang="es">Gracilaria coriaceae</com:Name>
-          <com:Name xml:lang="la">Gracilaria dura</com:Name>
         </str:Code>
         <str:Code id="YNF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YNF">
           <com:Annotations>
@@ -1183,7 +1081,6 @@
           <com:Name xml:lang="en">Crozier weed</com:Name>
           <com:Name xml:lang="fr">Houlette des Argonautes</com:Name>
           <com:Name xml:lang="es">Cayado de Neptuno</com:Name>
-          <com:Name xml:lang="la">Hypnea musciformis</com:Name>
         </str:Code>
         <str:Code id="LVB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LVB">
           <com:Annotations>
@@ -1195,7 +1092,6 @@
           <com:Name xml:lang="en">Blunt laurenzia</com:Name>
           <com:Name xml:lang="fr">Laurencia-cerises</com:Name>
           <com:Name xml:lang="es">Laurencia de cerezas</com:Name>
-          <com:Name xml:lang="la">Laurencia obtusa</com:Name>
         </str:Code>
         <str:Code id="NLO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NLO">
           <com:Annotations>
@@ -1207,7 +1103,6 @@
           <com:Name xml:lang="en">Sea spaghetti</com:Name>
           <com:Name xml:lang="fr">Spaghetti de mer</com:Name>
           <com:Name xml:lang="es">Espagueti de mar</com:Name>
-          <com:Name xml:lang="la">Nemalion helminthoides</com:Name>
         </str:Code>
         <str:Code id="YGM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YGM">
           <com:Annotations>
@@ -1219,7 +1114,6 @@
           <com:Name xml:lang="en">Marbled rock crab</com:Name>
           <com:Name xml:lang="fr">Grapse marbré</com:Name>
           <com:Name xml:lang="es">Juyón</com:Name>
-          <com:Name xml:lang="la">Pachygrapsus marmoratus</com:Name>
         </str:Code>
         <str:Code id="RSH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RSH">
           <com:Annotations>
@@ -1231,7 +1125,6 @@
           <com:Name xml:lang="en">Rock shrimp</com:Name>
           <com:Name xml:lang="fr">Boucot ovetgernade</com:Name>
           <com:Name xml:lang="es">Camarón de piedra</com:Name>
-          <com:Name xml:lang="la">Sicyonia brevirostris</com:Name>
         </str:Code>
         <str:Code id="RRS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RRS">
           <com:Annotations>
@@ -1243,7 +1136,6 @@
           <com:Name xml:lang="en">Royal red shrimp</com:Name>
           <com:Name xml:lang="fr">Salicoque royale rouge</com:Name>
           <com:Name xml:lang="es">Camarón rojo real</com:Name>
-          <com:Name xml:lang="la">Pleoticus robustus</com:Name>
         </str:Code>
         <str:Code id="KNS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KNS">
           <com:Annotations>
@@ -1255,7 +1147,6 @@
           <com:Name xml:lang="en">Knife shrimp</com:Name>
           <com:Name xml:lang="fr">Salicoque couteau</com:Name>
           <com:Name xml:lang="es">Camarón navaja</com:Name>
-          <com:Name xml:lang="la">Haliporoides triarthrus</com:Name>
         </str:Code>
         <str:Code id="LOX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LOX">
           <com:Annotations>
@@ -1266,7 +1157,6 @@
           <com:Name xml:lang="en">Lobsters nei</com:Name>
           <com:Name xml:lang="fr">Langoustes, homards nca</com:Name>
           <com:Name xml:lang="es">Langostas nep</com:Name>
-          <com:Name xml:lang="la">Reptantia</com:Name>
         </str:Code>
         <str:Code id="LOJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LOJ">
           <com:Annotations>
@@ -1278,7 +1168,6 @@
           <com:Name xml:lang="en">Longlegged spiny lobster</com:Name>
           <com:Name xml:lang="fr">Langouste diablotin</com:Name>
           <com:Name xml:lang="es">Langosta duende</com:Name>
-          <com:Name xml:lang="la">Panulirus longipes</com:Name>
         </str:Code>
         <str:Code id="LOY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LOY">
           <com:Annotations>
@@ -1290,7 +1179,6 @@
           <com:Name xml:lang="en">Royal spiny lobster</com:Name>
           <com:Name xml:lang="fr">Langouste royale</com:Name>
           <com:Name xml:lang="es">Langosta real</com:Name>
-          <com:Name xml:lang="la">Panulirus regius</com:Name>
         </str:Code>
         <str:Code id="PRF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PRF">
           <com:Annotations>
@@ -1302,7 +1190,6 @@
           <com:Name xml:lang="en">Giant river prawn</com:Name>
           <com:Name xml:lang="fr">Bouquet géant</com:Name>
           <com:Name xml:lang="es">Langostino de río</com:Name>
-          <com:Name xml:lang="la">Macrobrachium rosenbergii</com:Name>
         </str:Code>
         <str:Code id="CRN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CRN">
           <com:Annotations>
@@ -1313,7 +1200,6 @@
           <com:Name xml:lang="en">Crangonid shrimps nei</com:Name>
           <com:Name xml:lang="fr">Crevettes crangonidés nca</com:Name>
           <com:Name xml:lang="es">Camarones crangónidos nep</com:Name>
-          <com:Name xml:lang="la">Crangonidae</com:Name>
         </str:Code>
         <str:Code id="PCC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PCC">
           <com:Annotations>
@@ -1323,7 +1209,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">White crawfish</com:Name>
-          <com:Name xml:lang="la">Procambarus acutus</com:Name>
         </str:Code>
         <str:Code id="AAS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).AAS">
           <com:Annotations>
@@ -1335,7 +1220,6 @@
           <com:Name xml:lang="en">Noble crayfish</com:Name>
           <com:Name xml:lang="fr">Écrevisse à pieds rouges</com:Name>
           <com:Name xml:lang="es">Cangrejo de río de patas rojas</com:Name>
-          <com:Name xml:lang="la">Astacus astacus</com:Name>
         </str:Code>
         <str:Code id="PCL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PCL">
           <com:Annotations>
@@ -1346,7 +1230,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Signal crayfish</com:Name>
           <com:Name xml:lang="fr">Écrevisse signal</com:Name>
-          <com:Name xml:lang="la">Pacifastacus leniusculus</com:Name>
         </str:Code>
         <str:Code id="CRT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CRT">
           <com:Annotations>
@@ -1356,7 +1239,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Marron crayfish</com:Name>
-          <com:Name xml:lang="la">Cherax tenuimanus</com:Name>
         </str:Code>
         <str:Code id="LOA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LOA">
           <com:Annotations>
@@ -1368,7 +1250,6 @@
           <com:Name xml:lang="en">Australian spiny lobster</com:Name>
           <com:Name xml:lang="fr">Langouste d'Australie</com:Name>
           <com:Name xml:lang="es">Langosta de Australia</com:Name>
-          <com:Name xml:lang="la">Panulirus cygnus</com:Name>
         </str:Code>
         <str:Code id="LOG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LOG">
           <com:Annotations>
@@ -1380,7 +1261,6 @@
           <com:Name xml:lang="en">Green rock lobster</com:Name>
           <com:Name xml:lang="fr">Langouste d'Océanie</com:Name>
           <com:Name xml:lang="es">Langosta de Oceanía</com:Name>
-          <com:Name xml:lang="la">Jasus verreauxi</com:Name>
         </str:Code>
         <str:Code id="PSL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PSL">
           <com:Annotations>
@@ -1392,7 +1272,6 @@
           <com:Name xml:lang="en">Pink spiny lobster</com:Name>
           <com:Name xml:lang="fr">Langouste rose</com:Name>
           <com:Name xml:lang="es">Langosta mora</com:Name>
-          <com:Name xml:lang="la">Palinurus mauritanicus</com:Name>
         </str:Code>
         <str:Code id="SLN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SLN">
           <com:Annotations>
@@ -1404,7 +1283,6 @@
           <com:Name xml:lang="en">Natal spiny lobster</com:Name>
           <com:Name xml:lang="fr">Langouste du Natal</com:Name>
           <com:Name xml:lang="es">Langosta del Natal</com:Name>
-          <com:Name xml:lang="la">Palinurus delagoae</com:Name>
         </str:Code>
         <str:Code id="CZE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CZE">
           <com:Annotations>
@@ -1416,7 +1294,6 @@
           <com:Name xml:lang="en">Cape Verde shearwater</com:Name>
           <com:Name xml:lang="fr">Puffin du Cap-Vert</com:Name>
           <com:Name xml:lang="es">Pardela cenicienta de Edwards</com:Name>
-          <com:Name xml:lang="la">Calonectris edwardsii</com:Name>
         </str:Code>
         <str:Code id="FPA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FPA">
           <com:Annotations>
@@ -1428,7 +1305,6 @@
           <com:Name xml:lang="en">Atlantic puffin</com:Name>
           <com:Name xml:lang="fr">Macareux moine</com:Name>
           <com:Name xml:lang="es">Frailecillo atlántico</com:Name>
-          <com:Name xml:lang="la">Fratercula arctica</com:Name>
         </str:Code>
         <str:Code id="FNO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FNO">
           <com:Annotations>
@@ -1440,7 +1316,6 @@
           <com:Name xml:lang="en">Northern fulmar</com:Name>
           <com:Name xml:lang="fr">Fulmar boréal</com:Name>
           <com:Name xml:lang="es">Fulmar norteño</com:Name>
-          <com:Name xml:lang="la">Fulmarus glacialis</com:Name>
         </str:Code>
         <str:Code id="LHZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LHZ">
           <com:Annotations>
@@ -1452,7 +1327,6 @@
           <com:Name xml:lang="en">Herring gull</com:Name>
           <com:Name xml:lang="fr">Goéland argenté</com:Name>
           <com:Name xml:lang="es">Gaviota argéntea</com:Name>
-          <com:Name xml:lang="la">Larus argentatus</com:Name>
         </str:Code>
         <str:Code id="LVA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LVA">
           <com:Annotations>
@@ -1464,7 +1338,6 @@
           <com:Name xml:lang="en">Laughing gull</com:Name>
           <com:Name xml:lang="fr">Mouette atricille</com:Name>
           <com:Name xml:lang="es">Gaviota reidora americana</com:Name>
-          <com:Name xml:lang="la">Larus atricilla</com:Name>
         </str:Code>
         <str:Code id="LVH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LVH">
           <com:Annotations>
@@ -1476,7 +1349,6 @@
           <com:Name xml:lang="en">Audouin's gull</com:Name>
           <com:Name xml:lang="fr">Goéland d'Audouin</com:Name>
           <com:Name xml:lang="es">Gaviota de Audouin</com:Name>
-          <com:Name xml:lang="la">Larus audouinii</com:Name>
         </str:Code>
         <str:Code id="LVJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LVJ">
           <com:Annotations>
@@ -1488,7 +1360,6 @@
           <com:Name xml:lang="en">Yellow-legged gull</com:Name>
           <com:Name xml:lang="fr">Goéland leucophée</com:Name>
           <com:Name xml:lang="es">Gaviota patiamarilla</com:Name>
-          <com:Name xml:lang="la">Larus cachinnans</com:Name>
         </str:Code>
         <str:Code id="LVU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LVU">
           <com:Annotations>
@@ -1500,7 +1371,6 @@
           <com:Name xml:lang="en">Great black-backed gull</com:Name>
           <com:Name xml:lang="fr">Goéland marin</com:Name>
           <com:Name xml:lang="es">Gavión atlántico</com:Name>
-          <com:Name xml:lang="la">Larus marinus</com:Name>
         </str:Code>
         <str:Code id="MVB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MVB">
           <com:Annotations>
@@ -1512,7 +1382,6 @@
           <com:Name xml:lang="en">Northern gannet</com:Name>
           <com:Name xml:lang="fr">Fou de bassan</com:Name>
           <com:Name xml:lang="es">Alcatraz atlántico</com:Name>
-          <com:Name xml:lang="la">Morus bassanus</com:Name>
         </str:Code>
         <str:Code id="CZW" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CZW">
           <com:Annotations>
@@ -1523,7 +1392,6 @@
           <com:Name xml:lang="en">Carcinus crabs nei</com:Name>
           <com:Name xml:lang="fr">Crabes verts nca</com:Name>
           <com:Name xml:lang="es">Cangrejos verdes nep</com:Name>
-          <com:Name xml:lang="la">Carcinus spp</com:Name>
         </str:Code>
         <str:Code id="MWE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MWE">
           <com:Annotations>
@@ -1535,7 +1403,6 @@
           <com:Name xml:lang="en">Cape gannet</com:Name>
           <com:Name xml:lang="fr">Fou du Cap</com:Name>
           <com:Name xml:lang="es">Alcatraz del Cabo</com:Name>
-          <com:Name xml:lang="la">Morus capensis</com:Name>
         </str:Code>
         <str:Code id="DAQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DAQ">
           <com:Annotations>
@@ -1547,7 +1414,6 @@
           <com:Name xml:lang="en">Short-tailed albatross</com:Name>
           <com:Name xml:lang="fr">Albatros à queue courte</com:Name>
           <com:Name xml:lang="es">Albatros rabón</com:Name>
-          <com:Name xml:lang="la">Phoebastria albatrus</com:Name>
         </str:Code>
         <str:Code id="PJZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PJZ">
           <com:Annotations>
@@ -1559,7 +1425,6 @@
           <com:Name xml:lang="en">Trindade petrel</com:Name>
           <com:Name xml:lang="fr">Pétrel de la Trinité du Sud</com:Name>
           <com:Name xml:lang="es">Petrel de la Trinidade</com:Name>
-          <com:Name xml:lang="la">Pterodroma arminjoniana</com:Name>
         </str:Code>
         <str:Code id="HJW" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HJW">
           <com:Annotations>
@@ -1571,7 +1436,6 @@
           <com:Name xml:lang="en">Bermuda petrel</com:Name>
           <com:Name xml:lang="fr">Pétrel des Bermudes</com:Name>
           <com:Name xml:lang="es">Petrel cahow</com:Name>
-          <com:Name xml:lang="la">Pterodroma cahow</com:Name>
         </str:Code>
         <str:Code id="HWS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HWS">
           <com:Annotations>
@@ -1583,7 +1447,6 @@
           <com:Name xml:lang="en">Black-capped petrel</com:Name>
           <com:Name xml:lang="fr">Pétrel diablotin</com:Name>
           <com:Name xml:lang="es">Petrel antillano</com:Name>
-          <com:Name xml:lang="la">Pterodroma hasitata</com:Name>
         </str:Code>
         <str:Code id="UIL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UIL">
           <com:Annotations>
@@ -1595,7 +1458,6 @@
           <com:Name xml:lang="en">Audubon's shearwater</com:Name>
           <com:Name xml:lang="fr">Puffin d'Audubon</com:Name>
           <com:Name xml:lang="es">Pardela de Audubon</com:Name>
-          <com:Name xml:lang="la">Puffinus lherminieri</com:Name>
         </str:Code>
         <str:Code id="UIM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UIM">
           <com:Annotations>
@@ -1607,7 +1469,6 @@
           <com:Name xml:lang="en">Balearic shearwater</com:Name>
           <com:Name xml:lang="fr">Puffin des Baléares</com:Name>
           <com:Name xml:lang="es">Pardela pichoneta balear</com:Name>
-          <com:Name xml:lang="la">Puffinus mauretanicus</com:Name>
         </str:Code>
         <str:Code id="UIP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UIP">
           <com:Annotations>
@@ -1619,7 +1480,6 @@
           <com:Name xml:lang="en">Manx shearwater</com:Name>
           <com:Name xml:lang="fr">Puffin des anglais</com:Name>
           <com:Name xml:lang="es">Pardela pichoneta</com:Name>
-          <com:Name xml:lang="la">Puffinus puffinus</com:Name>
         </str:Code>
         <str:Code id="UYE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UYE">
           <com:Annotations>
@@ -1631,7 +1491,6 @@
           <com:Name xml:lang="en">Yelkouan shearwater</com:Name>
           <com:Name xml:lang="fr">Puffin de Méditerranée</com:Name>
           <com:Name xml:lang="es">Pardela mediterránea</com:Name>
-          <com:Name xml:lang="la">Puffinus yelkouan</com:Name>
         </str:Code>
         <str:Code id="SXQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SXQ">
           <com:Annotations>
@@ -1642,7 +1501,6 @@
           <com:Name xml:lang="en">Fur seals nei</com:Name>
           <com:Name xml:lang="fr">Otaries nca</com:Name>
           <com:Name xml:lang="es">Lobos finos nep</com:Name>
-          <com:Name xml:lang="la">Arctocephalus spp</com:Name>
         </str:Code>
         <str:Code id="DNA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DNA">
           <com:Annotations>
@@ -1653,7 +1511,6 @@
           <com:Name xml:lang="en">Deania dogfishes nei</com:Name>
           <com:Name xml:lang="fr">Squales-savates nca</com:Name>
           <com:Name xml:lang="es">Tollos Deania nep</com:Name>
-          <com:Name xml:lang="la">Deania spp</com:Name>
         </str:Code>
         <str:Code id="DCA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DCA">
           <com:Annotations>
@@ -1665,7 +1522,6 @@
           <com:Name xml:lang="en">Birdbeak dogfish</com:Name>
           <com:Name xml:lang="fr">Squale savate</com:Name>
           <com:Name xml:lang="es">Tollo pajarito</com:Name>
-          <com:Name xml:lang="la">Deania calcea</com:Name>
         </str:Code>
         <str:Code id="ASK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ASK">
           <com:Annotations>
@@ -1676,7 +1532,6 @@
           <com:Name xml:lang="en">Angelsharks, sand devils nei</com:Name>
           <com:Name xml:lang="fr">Anges de mer nca</com:Name>
           <com:Name xml:lang="es">Angelotes, peces ángel nep</com:Name>
-          <com:Name xml:lang="la">Squatinidae</com:Name>
         </str:Code>
         <str:Code id="OXY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OXY">
           <com:Annotations>
@@ -1688,7 +1543,6 @@
           <com:Name xml:lang="en">Angular roughshark</com:Name>
           <com:Name xml:lang="fr">Centrine commune</com:Name>
           <com:Name xml:lang="es">Cerdo marino</com:Name>
-          <com:Name xml:lang="la">Oxynotus centrina</com:Name>
         </str:Code>
         <str:Code id="SHB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SHB">
           <com:Annotations>
@@ -1700,7 +1554,6 @@
           <com:Name xml:lang="en">Bramble shark</com:Name>
           <com:Name xml:lang="fr">Squale bouclé</com:Name>
           <com:Name xml:lang="es">Tiburón de clavos</com:Name>
-          <com:Name xml:lang="la">Echinorhinus brucus</com:Name>
         </str:Code>
         <str:Code id="SRX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SRX">
           <com:Annotations>
@@ -1711,7 +1564,6 @@
           <com:Name xml:lang="en">Rays, stingrays, mantas nei</com:Name>
           <com:Name xml:lang="fr">Raies, pastenagues, mantes nca</com:Name>
           <com:Name xml:lang="es">Rayas, pastinacas, mantas nep</com:Name>
-          <com:Name xml:lang="la">Rajiformes</com:Name>
         </str:Code>
         <str:Code id="GUZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GUZ">
           <com:Annotations>
@@ -1722,7 +1574,6 @@
           <com:Name xml:lang="en">Guitarfishes nei</com:Name>
           <com:Name xml:lang="fr">Guitares nca</com:Name>
           <com:Name xml:lang="es">Guitarras nep</com:Name>
-          <com:Name xml:lang="la">Rhinobatos spp</com:Name>
         </str:Code>
         <str:Code id="GUD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GUD">
           <com:Annotations>
@@ -1734,7 +1585,6 @@
           <com:Name xml:lang="en">Chola guitarfish</com:Name>
           <com:Name xml:lang="fr">Poisson-guitare chola</com:Name>
           <com:Name xml:lang="es">Guitarra chola</com:Name>
-          <com:Name xml:lang="la">Rhinobatos percellens</com:Name>
         </str:Code>
         <str:Code id="GHA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GHA">
           <com:Annotations>
@@ -1745,7 +1595,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Atlantic sawtail catshark</com:Name>
           <com:Name xml:lang="es">Olayo atlántico</com:Name>
-          <com:Name xml:lang="la">Galeus atlanticus</com:Name>
         </str:Code>
         <str:Code id="EXQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).EXQ">
           <com:Annotations>
@@ -1757,15 +1606,6 @@
           <com:Name xml:lang="en">Flying halfbeak</com:Name>
           <com:Name xml:lang="fr">Demi-bec volant</com:Name>
           <com:Name xml:lang="es">Agujeta voladora</com:Name>
-          <com:Name xml:lang="la">Euleptorhamphus velox</com:Name>
-        </str:Code>
-        <str:Code id="PQO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PQO">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Physiculus spp</com:Name>
         </str:Code>
         <str:Code id="REZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).REZ">
           <com:Annotations>
@@ -1777,7 +1617,6 @@
           <com:Name xml:lang="en">Marlin sucker</com:Name>
           <com:Name xml:lang="fr">Rémora des marlins</com:Name>
           <com:Name xml:lang="es">Agarrador</com:Name>
-          <com:Name xml:lang="la">Remora osteochir</com:Name>
         </str:Code>
         <str:Code id="TWK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TWK">
           <com:Annotations>
@@ -1787,7 +1626,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Slender ribbonfish</com:Name>
-          <com:Name xml:lang="la">Trachipterus ishikawae</com:Name>
         </str:Code>
         <str:Code id="WME" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).WME">
           <com:Annotations>
@@ -1797,7 +1635,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Bass groper</com:Name>
-          <com:Name xml:lang="la">Polyprion moeone</com:Name>
         </str:Code>
         <str:Code id="HVU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HVU">
           <com:Annotations>
@@ -1809,7 +1646,6 @@
           <com:Name xml:lang="en">Cornish blackfish</com:Name>
           <com:Name xml:lang="fr">Rouffe des méduses</com:Name>
           <com:Name xml:lang="es">Rufo de aguas malas</com:Name>
-          <com:Name xml:lang="la">Schedophilus medusophagus</com:Name>
         </str:Code>
         <str:Code id="OVN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OVN">
           <com:Annotations>
@@ -1820,7 +1656,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Amethyst olive</com:Name>
           <com:Name xml:lang="fr">Olive mouchetée</com:Name>
-          <com:Name xml:lang="la">Oliva annulata</com:Name>
         </str:Code>
         <str:Code id="SKA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SKA">
           <com:Annotations>
@@ -1831,7 +1666,6 @@
           <com:Name xml:lang="en">Raja rays nei</com:Name>
           <com:Name xml:lang="fr">Pocheteaux et raies raja nca</com:Name>
           <com:Name xml:lang="es">Rayas raja nep</com:Name>
-          <com:Name xml:lang="la">Raja spp</com:Name>
         </str:Code>
         <str:Code id="RJC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RJC">
           <com:Annotations>
@@ -1843,7 +1677,6 @@
           <com:Name xml:lang="en">Thornback ray</com:Name>
           <com:Name xml:lang="fr">Raie bouclée</com:Name>
           <com:Name xml:lang="es">Raya de clavos</com:Name>
-          <com:Name xml:lang="la">Raja clavata</com:Name>
         </str:Code>
         <str:Code id="RJM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RJM">
           <com:Annotations>
@@ -1855,7 +1688,6 @@
           <com:Name xml:lang="en">Spotted ray</com:Name>
           <com:Name xml:lang="fr">Raie douce</com:Name>
           <com:Name xml:lang="es">Raya pintada</com:Name>
-          <com:Name xml:lang="la">Raja montagui</com:Name>
         </str:Code>
         <str:Code id="RJH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RJH">
           <com:Annotations>
@@ -1867,7 +1699,6 @@
           <com:Name xml:lang="en">Blonde ray</com:Name>
           <com:Name xml:lang="fr">Raie lisse</com:Name>
           <com:Name xml:lang="es">Raya boca de rosa</com:Name>
-          <com:Name xml:lang="la">Raja brachyura</com:Name>
         </str:Code>
         <str:Code id="RJF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RJF">
           <com:Annotations>
@@ -1879,7 +1710,6 @@
           <com:Name xml:lang="en">Shagreen ray</com:Name>
           <com:Name xml:lang="fr">Raie chardon</com:Name>
           <com:Name xml:lang="es">Raya cardadora</com:Name>
-          <com:Name xml:lang="la">Raja fullonica</com:Name>
         </str:Code>
         <str:Code id="RJN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RJN">
           <com:Annotations>
@@ -1891,7 +1721,6 @@
           <com:Name xml:lang="en">Cuckoo ray</com:Name>
           <com:Name xml:lang="fr">Raie fleurie</com:Name>
           <com:Name xml:lang="es">Raya santiguesa</com:Name>
-          <com:Name xml:lang="la">Raja naevus</com:Name>
         </str:Code>
         <str:Code id="VXV" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).VXV">
           <com:Annotations>
@@ -1902,7 +1731,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Vexillate jopas</com:Name>
           <com:Name xml:lang="fr">Jopas vexillaire</com:Name>
-          <com:Name xml:lang="la">Vexilla vexillum</com:Name>
         </str:Code>
         <str:Code id="KNE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KNE">
           <com:Annotations>
@@ -1913,7 +1741,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Suratan cone</com:Name>
           <com:Name xml:lang="fr">Cône de Surat</com:Name>
-          <com:Name xml:lang="la">Conus suratensis</com:Name>
         </str:Code>
         <str:Code id="KNB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KNB">
           <com:Annotations>
@@ -1924,7 +1751,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Beech cone</com:Name>
           <com:Name xml:lang="fr">Cône bouleau</com:Name>
-          <com:Name xml:lang="la">Conus betulinus</com:Name>
         </str:Code>
         <str:Code id="KOK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KOK">
           <com:Annotations>
@@ -1935,7 +1761,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Crowned cone</com:Name>
           <com:Name xml:lang="fr">Cône couronné</com:Name>
-          <com:Name xml:lang="la">Conus coronatus</com:Name>
         </str:Code>
         <str:Code id="KNV" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KNV">
           <com:Annotations>
@@ -1946,7 +1771,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Yellow Pacific cone</com:Name>
           <com:Name xml:lang="fr">Cône flave</com:Name>
-          <com:Name xml:lang="la">Conus flavidus</com:Name>
         </str:Code>
         <str:Code id="KNG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KNG">
           <com:Annotations>
@@ -1957,7 +1781,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">General cone</com:Name>
           <com:Name xml:lang="fr">Cône général</com:Name>
-          <com:Name xml:lang="la">Conus generalis</com:Name>
         </str:Code>
         <str:Code id="KOE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KOE">
           <com:Annotations>
@@ -1968,7 +1791,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Leopard cone</com:Name>
           <com:Name xml:lang="fr">Cône léopard</com:Name>
-          <com:Name xml:lang="la">Conus leopardus</com:Name>
         </str:Code>
         <str:Code id="KOV" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KOV">
           <com:Annotations>
@@ -1979,7 +1801,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Livid cone</com:Name>
           <com:Name xml:lang="fr">Cône livide</com:Name>
-          <com:Name xml:lang="la">Conus lividus</com:Name>
         </str:Code>
         <str:Code id="KOO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KOO">
           <com:Annotations>
@@ -1990,7 +1811,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Marble cone</com:Name>
           <com:Name xml:lang="fr">Cône marbré</com:Name>
-          <com:Name xml:lang="la">Conus marmoreus</com:Name>
         </str:Code>
         <str:Code id="KOA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KOA">
           <com:Annotations>
@@ -2001,7 +1821,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Rayed cone</com:Name>
           <com:Name xml:lang="fr">Cône rayé</com:Name>
-          <com:Name xml:lang="la">Conus radiatus</com:Name>
         </str:Code>
         <str:Code id="KOQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KOQ">
           <com:Annotations>
@@ -2012,7 +1831,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Tesselate cone</com:Name>
           <com:Name xml:lang="fr">Cône mosaique</com:Name>
-          <com:Name xml:lang="la">Conus tessulatus</com:Name>
         </str:Code>
         <str:Code id="KUX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KUX">
           <com:Annotations>
@@ -2023,7 +1841,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Textile cone</com:Name>
           <com:Name xml:lang="fr">Cône textile</com:Name>
-          <com:Name xml:lang="la">Conus textile</com:Name>
         </str:Code>
         <str:Code id="FSC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FSC">
           <com:Annotations>
@@ -2034,7 +1851,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Sichel</com:Name>
           <com:Name xml:lang="es">Peleco</com:Name>
-          <com:Name xml:lang="la">Pelecus cultratus</com:Name>
         </str:Code>
         <str:Code id="ASU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ASU">
           <com:Annotations>
@@ -2046,7 +1862,6 @@
           <com:Name xml:lang="en">Asp</com:Name>
           <com:Name xml:lang="fr">Aspe</com:Name>
           <com:Name xml:lang="es">Aspio</com:Name>
-          <com:Name xml:lang="la">Aspius aspius</com:Name>
         </str:Code>
         <str:Code id="WUB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).WUB">
           <com:Annotations>
@@ -2058,7 +1873,6 @@
           <com:Name xml:lang="en">Wuchang bream</com:Name>
           <com:Name xml:lang="fr">Carpe de Wuchang</com:Name>
           <com:Name xml:lang="es">Carpa de Wuchang</com:Name>
-          <com:Name xml:lang="la">Megalobrama amblycephala</com:Name>
         </str:Code>
         <str:Code id="FAB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FAB">
           <com:Annotations>
@@ -2069,7 +1883,6 @@
           <com:Name xml:lang="en">Asian barbs nei</com:Name>
           <com:Name xml:lang="fr">Barbeaux d'Asie nca</com:Name>
           <com:Name xml:lang="es">Barbos de Asia nep</com:Name>
-          <com:Name xml:lang="la">Puntius spp</com:Name>
         </str:Code>
         <str:Code id="PTG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PTG">
           <com:Annotations>
@@ -2081,7 +1894,6 @@
           <com:Name xml:lang="en">Silver barb</com:Name>
           <com:Name xml:lang="fr">Barbeau argenté</com:Name>
           <com:Name xml:lang="es">Barbo plateado</com:Name>
-          <com:Name xml:lang="la">Barbonymus gonionotus</com:Name>
         </str:Code>
         <str:Code id="PRJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PRJ">
           <com:Annotations>
@@ -2091,7 +1903,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Isok barb</com:Name>
-          <com:Name xml:lang="la">Probarbus jullieni</com:Name>
         </str:Code>
         <str:Code id="ENA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ENA">
           <com:Annotations>
@@ -2101,7 +1912,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Silver cyprinid</com:Name>
-          <com:Name xml:lang="la">Rastrineobola argentea</com:Name>
         </str:Code>
         <str:Code id="LFJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LFJ">
           <com:Annotations>
@@ -2112,7 +1922,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Indian turrid</com:Name>
           <com:Name xml:lang="fr">Pleurotome marbré</com:Name>
-          <com:Name xml:lang="la">Lophiotoma indica</com:Name>
         </str:Code>
         <str:Code id="UCJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UCJ">
           <com:Annotations>
@@ -2123,7 +1932,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Javanese turrid</com:Name>
           <com:Name xml:lang="fr">Pleurotome de Java</com:Name>
-          <com:Name xml:lang="la">Turricula javana</com:Name>
         </str:Code>
         <str:Code id="UIY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UIY">
           <com:Annotations>
@@ -2134,7 +1942,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Babylonia turrid</com:Name>
           <com:Name xml:lang="fr">Pleurotome Babylone</com:Name>
-          <com:Name xml:lang="la">Turris babylonia</com:Name>
         </str:Code>
         <str:Code id="BQK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BQK">
           <com:Annotations>
@@ -2145,7 +1952,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Marlinspike</com:Name>
           <com:Name xml:lang="fr">Térèbre épissoire</com:Name>
-          <com:Name xml:lang="la">Terebra maculata</com:Name>
         </str:Code>
         <str:Code id="ULH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ULH">
           <com:Annotations>
@@ -2156,7 +1962,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Sandbeach auger</com:Name>
           <com:Name xml:lang="fr">Térèbre châtaigne</com:Name>
-          <com:Name xml:lang="la">Hastula hectica</com:Name>
         </str:Code>
         <str:Code id="KST" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KST">
           <com:Annotations>
@@ -2168,7 +1973,6 @@
           <com:Name xml:lang="en">King helmet</com:Name>
           <com:Name xml:lang="fr">Casque royal</com:Name>
           <com:Name xml:lang="es">Casco real</com:Name>
-          <com:Name xml:lang="la">Cassis tuberosa</com:Name>
         </str:Code>
         <str:Code id="KUM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KUM">
           <com:Annotations>
@@ -2180,7 +1984,6 @@
           <com:Name xml:lang="en">Mouse cone</com:Name>
           <com:Name xml:lang="fr">Cône souris</com:Name>
           <com:Name xml:lang="es">Cono raton</com:Name>
-          <com:Name xml:lang="la">Conus mus</com:Name>
         </str:Code>
         <str:Code id="KUJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KUJ">
           <com:Annotations>
@@ -2192,7 +1995,6 @@
           <com:Name xml:lang="en">Royal cone</com:Name>
           <com:Name xml:lang="fr">Cône royale</com:Name>
           <com:Name xml:lang="es">Cono real</com:Name>
-          <com:Name xml:lang="la">Conus regius</com:Name>
         </str:Code>
         <str:Code id="FST" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FST">
           <com:Annotations>
@@ -2204,7 +2006,6 @@
           <com:Name xml:lang="en">True tulip</com:Name>
           <com:Name xml:lang="fr">Fasciolaire tulipe</com:Name>
           <com:Name xml:lang="es">Tulipan verdadero</com:Name>
-          <com:Name xml:lang="la">Fasciolaria tulipa</com:Name>
         </str:Code>
         <str:Code id="FUL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FUL">
           <com:Annotations>
@@ -2216,7 +2017,6 @@
           <com:Name xml:lang="en">Philippi's spindle</com:Name>
           <com:Name xml:lang="fr">Fuseau de Philippi</com:Name>
           <com:Name xml:lang="es">Huso de Philippi</com:Name>
-          <com:Name xml:lang="la">Fusinus closter</com:Name>
         </str:Code>
         <str:Code id="JSI" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).JSI">
           <com:Annotations>
@@ -2228,7 +2028,6 @@
           <com:Name xml:lang="en">Brown-lined latirus</com:Name>
           <com:Name xml:lang="fr">Fuseau zébré</com:Name>
           <com:Name xml:lang="es">Huso cebra</com:Name>
-          <com:Name xml:lang="la">Latirus infundibulum</com:Name>
         </str:Code>
         <str:Code id="LZN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LZN">
           <com:Annotations>
@@ -2240,7 +2039,6 @@
           <com:Name xml:lang="en">Chestnut latirus</com:Name>
           <com:Name xml:lang="fr">Fuseau marron</com:Name>
           <com:Name xml:lang="es">Huso castana</com:Name>
-          <com:Name xml:lang="la">Leucozonia nassa</com:Name>
         </str:Code>
         <str:Code id="FSI" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FSI">
           <com:Annotations>
@@ -2251,7 +2049,6 @@
           <com:Name xml:lang="en">Freshwater siluroids nei</com:Name>
           <com:Name xml:lang="fr">Silurides d'eau douce nca</com:Name>
           <com:Name xml:lang="es">Siluroideos de agua dulce nep</com:Name>
-          <com:Name xml:lang="la">Siluroidei</com:Name>
         </str:Code>
         <str:Code id="CAX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CAX">
           <com:Annotations>
@@ -2262,7 +2059,6 @@
           <com:Name xml:lang="en">Sea catfishes nei</com:Name>
           <com:Name xml:lang="fr">Mâchoirons nca</com:Name>
           <com:Name xml:lang="es">Bagres marinos nep</com:Name>
-          <com:Name xml:lang="la">Ariidae</com:Name>
         </str:Code>
         <str:Code id="CAO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CAO">
           <com:Annotations>
@@ -2274,7 +2070,6 @@
           <com:Name xml:lang="en">Spotted catfish</com:Name>
           <com:Name xml:lang="fr">Mâchoiron tacheté</com:Name>
           <com:Name xml:lang="es">Bagre moteado</com:Name>
-          <com:Name xml:lang="la">Arius maculatus</com:Name>
         </str:Code>
         <str:Code id="CAE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CAE">
           <com:Annotations>
@@ -2285,7 +2080,6 @@
           <com:Name xml:lang="en">Eeltail catfishes</com:Name>
           <com:Name xml:lang="fr">Balibots</com:Name>
           <com:Name xml:lang="es">Patunas</com:Name>
-          <com:Name xml:lang="la">Plotosus spp</com:Name>
         </str:Code>
         <str:Code id="PTP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PTP">
           <com:Annotations>
@@ -2295,7 +2089,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Putitor mahseer</com:Name>
-          <com:Name xml:lang="la">Tor putitora</com:Name>
         </str:Code>
         <str:Code id="PTT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PTT">
           <com:Annotations>
@@ -2307,7 +2100,6 @@
           <com:Name xml:lang="en">Tor barb</com:Name>
           <com:Name xml:lang="fr">Barbeau tor</com:Name>
           <com:Name xml:lang="es">Barbo tor</com:Name>
-          <com:Name xml:lang="la">Tor tor</com:Name>
         </str:Code>
         <str:Code id="KUR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KUR">
           <com:Annotations>
@@ -2319,7 +2111,6 @@
           <com:Name xml:lang="en">Pond loach</com:Name>
           <com:Name xml:lang="fr">Loche asiatique</com:Name>
           <com:Name xml:lang="es">Misgurno de Asia</com:Name>
-          <com:Name xml:lang="la">Misgurnus anguillicaudatus</com:Name>
         </str:Code>
         <str:Code id="INZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).INZ">
           <com:Annotations>
@@ -2330,7 +2121,6 @@
           <com:Name xml:lang="en">Spear lobsters nei</com:Name>
           <com:Name xml:lang="fr">Langoustes Linuparus nca</com:Name>
           <com:Name xml:lang="es">Langosta Linuparus nep</com:Name>
-          <com:Name xml:lang="la">Linuparus spp</com:Name>
         </str:Code>
         <str:Code id="BVP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BVP">
           <com:Annotations>
@@ -2342,7 +2132,6 @@
           <com:Name xml:lang="en">Bluespotted triggerfish</com:Name>
           <com:Name xml:lang="fr">Baliste à taches bleues</com:Name>
           <com:Name xml:lang="es">Pejepuerco moteado</com:Name>
-          <com:Name xml:lang="la">Balistes punctatus</com:Name>
         </str:Code>
         <str:Code id="FKU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FKU">
           <com:Annotations>
@@ -2354,7 +2143,6 @@
           <com:Name xml:lang="en">Red forkweed</com:Name>
           <com:Name xml:lang="fr">Furcelle cespiteuse</com:Name>
           <com:Name xml:lang="es">Cuerno de ciervo</com:Name>
-          <com:Name xml:lang="la">Furcellaria lumbricalis</com:Name>
         </str:Code>
         <str:Code id="PIC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PIC">
           <com:Annotations>
@@ -2365,7 +2153,6 @@
           <com:Name xml:lang="en">Picarels nei</com:Name>
           <com:Name xml:lang="fr">Mendoles, picarels nca</com:Name>
           <com:Name xml:lang="es">Chuclas, carameles nep</com:Name>
-          <com:Name xml:lang="la">Spicara spp</com:Name>
         </str:Code>
         <str:Code id="MUX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MUX">
           <com:Annotations>
@@ -2376,7 +2163,6 @@
           <com:Name xml:lang="en">Surmullets(=Red mullets) nei</com:Name>
           <com:Name xml:lang="fr">Rougets nca</com:Name>
           <com:Name xml:lang="es">Salmonetes nep</com:Name>
-          <com:Name xml:lang="la">Mullus spp</com:Name>
         </str:Code>
         <str:Code id="GOX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GOX">
           <com:Annotations>
@@ -2387,7 +2173,6 @@
           <com:Name xml:lang="en">Goatfishes</com:Name>
           <com:Name xml:lang="fr">Rougets-souris</com:Name>
           <com:Name xml:lang="es">Salmonetes</com:Name>
-          <com:Name xml:lang="la">Upeneus spp</com:Name>
         </str:Code>
         <str:Code id="COT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).COT">
           <com:Annotations>
@@ -2398,7 +2183,6 @@
           <com:Name xml:lang="en">Galjoens nei</com:Name>
           <com:Name xml:lang="fr">Galjoins nca</com:Name>
           <com:Name xml:lang="es">Dambas nep</com:Name>
-          <com:Name xml:lang="la">Coracinidae</com:Name>
         </str:Code>
         <str:Code id="GAJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GAJ">
           <com:Annotations>
@@ -2410,7 +2194,6 @@
           <com:Name xml:lang="en">Galjoen</com:Name>
           <com:Name xml:lang="fr">Galjoin franc</com:Name>
           <com:Name xml:lang="es">Damba</com:Name>
-          <com:Name xml:lang="la">Coracinus capensis</com:Name>
         </str:Code>
         <str:Code id="SPS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SPS">
           <com:Annotations>
@@ -2422,7 +2205,6 @@
           <com:Name xml:lang="en">Spotted sicklefish</com:Name>
           <com:Name xml:lang="fr">Forgeron tacheté</com:Name>
           <com:Name xml:lang="es">Catemo manchado</com:Name>
-          <com:Name xml:lang="la">Drepane punctata</com:Name>
         </str:Code>
         <str:Code id="BAT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BAT">
           <com:Annotations>
@@ -2433,7 +2215,6 @@
           <com:Name xml:lang="en">Batfishes</com:Name>
           <com:Name xml:lang="fr">Poules d'eau</com:Name>
           <com:Name xml:lang="es">Dalapuganos</com:Name>
-          <com:Name xml:lang="la">Platax spp</com:Name>
         </str:Code>
         <str:Code id="EDR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).EDR">
           <com:Annotations>
@@ -2444,7 +2225,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Pelagic armourhead</com:Name>
           <com:Name xml:lang="fr">Tête casquée pélagique</com:Name>
-          <com:Name xml:lang="la">Pseudopentaceros richardsoni</com:Name>
         </str:Code>
         <str:Code id="YKE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YKE">
           <com:Annotations>
@@ -2456,7 +2236,6 @@
           <com:Name xml:lang="en">Membraneous phyllophora</com:Name>
           <com:Name xml:lang="fr">Phyllophore membraneuse</com:Name>
           <com:Name xml:lang="es">Filofora membranosa</com:Name>
-          <com:Name xml:lang="la">Phyllophora pseudoceranoides</com:Name>
         </str:Code>
         <str:Code id="FMK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FMK">
           <com:Annotations>
@@ -2468,25 +2247,6 @@
           <com:Name xml:lang="en">Chalk weed</com:Name>
           <com:Name xml:lang="fr">Maërl commun</com:Name>
           <com:Name xml:lang="es">Alga de cal</com:Name>
-          <com:Name xml:lang="la">Phymatolithon calcareum</com:Name>
-        </str:Code>
-        <str:Code id="OFK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OFK">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">Brodie &amp; L.M. Irvine 1997</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Porphyra dioica</com:Name>
-        </str:Code>
-        <str:Code id="YKN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YKN">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">Montagne 1842</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Porphyra columbina</com:Name>
         </str:Code>
         <str:Code id="JNR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).JNR">
           <com:Annotations>
@@ -2498,7 +2258,6 @@
           <com:Name xml:lang="en">Fine coral moss</com:Name>
           <com:Name xml:lang="fr">Janire corail</com:Name>
           <com:Name xml:lang="es">Falsa coralina</com:Name>
-          <com:Name xml:lang="la">Jania rubens</com:Name>
         </str:Code>
         <str:Code id="LHD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LHD">
           <com:Annotations>
@@ -2510,7 +2269,6 @@
           <com:Name xml:lang="en">Stone weed</com:Name>
           <com:Name xml:lang="fr">Pierre vermiculée</com:Name>
           <com:Name xml:lang="es">Piedra de mar</com:Name>
-          <com:Name xml:lang="la">Lithophyllum lichenoides</com:Name>
         </str:Code>
         <str:Code id="OFU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OFU">
           <com:Annotations>
@@ -2522,7 +2280,6 @@
           <com:Name xml:lang="en">Spotted nori</com:Name>
           <com:Name xml:lang="fr">Nori mosaique</com:Name>
           <com:Name xml:lang="es">Lechuga roja</com:Name>
-          <com:Name xml:lang="la">Porphyra leucosticta</com:Name>
         </str:Code>
         <str:Code id="OFN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OFN">
           <com:Annotations>
@@ -2534,7 +2291,6 @@
           <com:Name xml:lang="en">Ribboned nori</com:Name>
           <com:Name xml:lang="fr">Nori-lancette</com:Name>
           <com:Name xml:lang="es">Cinta colorada</com:Name>
-          <com:Name xml:lang="la">Porphyra linearis</com:Name>
         </str:Code>
         <str:Code id="OKQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OKQ">
           <com:Annotations>
@@ -2546,7 +2302,6 @@
           <com:Name xml:lang="en">Spanish agar</com:Name>
           <com:Name xml:lang="fr">Agar penne</com:Name>
           <com:Name xml:lang="es">Agar plumoso</com:Name>
-          <com:Name xml:lang="la">Pterocladiella capillacea</com:Name>
         </str:Code>
         <str:Code id="ISV" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ISV">
           <com:Annotations>
@@ -2558,7 +2313,6 @@
           <com:Name xml:lang="en">Rock chickory</com:Name>
           <com:Name xml:lang="fr">Rissoelle des rochers</com:Name>
           <com:Name xml:lang="es">Risella de roca</com:Name>
-          <com:Name xml:lang="la">Rissoella verruculosa</com:Name>
         </str:Code>
         <str:Code id="OIK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OIK">
           <com:Annotations>
@@ -2570,7 +2324,6 @@
           <com:Name xml:lang="en">False sea pine</com:Name>
           <com:Name xml:lang="fr">Fausse épinette</com:Name>
           <com:Name xml:lang="es">Falso pino de mar</com:Name>
-          <com:Name xml:lang="la">Solieria chordalis</com:Name>
         </str:Code>
         <str:Code id="TLL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TLL">
           <com:Annotations>
@@ -2580,7 +2333,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Sabaki tilapia</com:Name>
-          <com:Name xml:lang="la">Oreochromis spilurus</com:Name>
         </str:Code>
         <str:Code id="ORM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ORM">
           <com:Annotations>
@@ -2590,7 +2342,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Longfin tilapia</com:Name>
-          <com:Name xml:lang="la">Oreochromis macrochir</com:Name>
         </str:Code>
         <str:Code id="ORU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ORU">
           <com:Annotations>
@@ -2600,7 +2351,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Wami tilapia</com:Name>
-          <com:Name xml:lang="la">Oreochromis urolepis</com:Name>
         </str:Code>
         <str:Code id="SAR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SAR">
           <com:Annotations>
@@ -2610,7 +2360,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Mango tilapia</com:Name>
-          <com:Name xml:lang="la">Sarotherodon galilaeus</com:Name>
         </str:Code>
         <str:Code id="SAH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SAH">
           <com:Annotations>
@@ -2620,7 +2369,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Blackchin tilapia</com:Name>
-          <com:Name xml:lang="la">Sarotherodon melanotheron</com:Name>
         </str:Code>
         <str:Code id="CHX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CHX">
           <com:Annotations>
@@ -2631,7 +2379,6 @@
           <com:Name xml:lang="en">Cichlasoma nei</com:Name>
           <com:Name xml:lang="fr">Cichlasoma nca</com:Name>
           <com:Name xml:lang="es">Cichlasoma nep</com:Name>
-          <com:Name xml:lang="la">Cichlasoma spp</com:Name>
         </str:Code>
         <str:Code id="TLM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TLM">
           <com:Annotations>
@@ -2643,7 +2390,6 @@
           <com:Name xml:lang="en">Mozambique tilapia</com:Name>
           <com:Name xml:lang="fr">Tilapia du Mozambique</com:Name>
           <com:Name xml:lang="es">Tilapia del Mozambique</com:Name>
-          <com:Name xml:lang="la">Oreochromis mossambicus</com:Name>
         </str:Code>
         <str:Code id="OEA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OEA">
           <com:Annotations>
@@ -2654,7 +2400,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Blue tilapia</com:Name>
           <com:Name xml:lang="es">Tilapia azul</com:Name>
-          <com:Name xml:lang="la">Oreochromis aureus</com:Name>
         </str:Code>
         <str:Code id="KDL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KDL">
           <com:Annotations>
@@ -2666,7 +2411,6 @@
           <com:Name xml:lang="en">Cladodonta</com:Name>
           <com:Name xml:lang="fr">Cladodonta</com:Name>
           <com:Name xml:lang="es">Cladodonta</com:Name>
-          <com:Name xml:lang="la">Cladodonta lyallii</com:Name>
         </str:Code>
         <str:Code id="GJK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GJK">
           <com:Annotations>
@@ -2678,7 +2422,6 @@
           <com:Name xml:lang="en">Skottsberg's gigartina</com:Name>
           <com:Name xml:lang="fr">Gigartine de Skottsberg</com:Name>
           <com:Name xml:lang="es">Gigartina de Skottsberg</com:Name>
-          <com:Name xml:lang="la">Gigartina skottsbergii</com:Name>
         </str:Code>
         <str:Code id="IDC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).IDC">
           <com:Annotations>
@@ -2690,7 +2433,6 @@
           <com:Name xml:lang="en">Iridea</com:Name>
           <com:Name xml:lang="fr">Iridée</com:Name>
           <com:Name xml:lang="es">Iridea</com:Name>
-          <com:Name xml:lang="la">Iridaea cordata</com:Name>
         </str:Code>
         <str:Code id="OFQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OFQ">
           <com:Annotations>
@@ -2700,7 +2442,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Purple laver</com:Name>
-          <com:Name xml:lang="la">Porphyra purpurea</com:Name>
         </str:Code>
         <str:Code id="GQR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GQR">
           <com:Annotations>
@@ -2712,15 +2453,6 @@
           <com:Name xml:lang="en">Red harpoon</com:Name>
           <com:Name xml:lang="fr">Harpon de Neptune</com:Name>
           <com:Name xml:lang="es">Esparrago marino</com:Name>
-          <com:Name xml:lang="la">Asparagopsis armata</com:Name>
-        </str:Code>
-        <str:Code id="YBK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YBK">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Cyanophyceae</com:Name>
         </str:Code>
         <str:Code id="GPQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GPQ">
           <com:Annotations>
@@ -2730,7 +2462,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Seagrasses nei</com:Name>
           <com:Name xml:lang="fr">Angiospermes aquatiques nca</com:Name>
-          <com:Name xml:lang="la">Angiospermae</com:Name>
         </str:Code>
         <str:Code id="OFH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OFH">
           <com:Annotations>
@@ -2740,16 +2471,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Pink laver</com:Name>
-          <com:Name xml:lang="la">Porphyra umbilicalis</com:Name>
-        </str:Code>
-        <str:Code id="OFX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OFX">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(De Notaris) Grunow</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Porphyra laciniata</com:Name>
         </str:Code>
         <str:Code id="OKG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OKG">
           <com:Annotations>
@@ -2761,7 +2482,6 @@
           <com:Name xml:lang="en">Plocamium</com:Name>
           <com:Name xml:lang="fr">Plocamium</com:Name>
           <com:Name xml:lang="es">Plocamio</com:Name>
-          <com:Name xml:lang="la">Plocamium cartilagineum</com:Name>
         </str:Code>
         <str:Code id="GQX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GQX">
           <com:Annotations>
@@ -2771,7 +2491,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Red sea plume</com:Name>
-          <com:Name xml:lang="la">Asparagopsis taxiformis</com:Name>
         </str:Code>
         <str:Code id="MZM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MZM">
           <com:Annotations>
@@ -2781,7 +2500,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Moniliform sea moss</com:Name>
-          <com:Name xml:lang="la">Scinaia hormoides</com:Name>
         </str:Code>
         <str:Code id="QPX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).QPX">
           <com:Annotations>
@@ -2792,7 +2510,6 @@
           <com:Name xml:lang="en">Palaemon shrimps nei</com:Name>
           <com:Name xml:lang="fr">Bouquets Palaemon nca</com:Name>
           <com:Name xml:lang="es">Camarones Palaemon nep</com:Name>
-          <com:Name xml:lang="la">Palaemon spp</com:Name>
         </str:Code>
         <str:Code id="GAZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GAZ">
           <com:Annotations>
@@ -2804,7 +2521,6 @@
           <com:Name xml:lang="en">Gazami crab</com:Name>
           <com:Name xml:lang="fr">Crabe gazami</com:Name>
           <com:Name xml:lang="es">Jaiba gazami</com:Name>
-          <com:Name xml:lang="la">Portunus trituberculatus</com:Name>
         </str:Code>
         <str:Code id="CAL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CAL">
           <com:Annotations>
@@ -2815,7 +2531,6 @@
           <com:Name xml:lang="en">Callinectes swimcrabs nei</com:Name>
           <com:Name xml:lang="fr">Crabes Callinectes nca</com:Name>
           <com:Name xml:lang="es">Jaibas Callinectes nep</com:Name>
-          <com:Name xml:lang="la">Callinectes spp</com:Name>
         </str:Code>
         <str:Code id="CDT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CDT">
           <com:Annotations>
@@ -2825,7 +2540,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Yabby crayfish</com:Name>
-          <com:Name xml:lang="la">Cherax destructor</com:Name>
         </str:Code>
         <str:Code id="CRP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CRP">
           <com:Annotations>
@@ -2835,7 +2549,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Red claw crayfish</com:Name>
-          <com:Name xml:lang="la">Cherax quadricarinatus</com:Name>
         </str:Code>
         <str:Code id="CAD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CAD">
           <com:Annotations>
@@ -2846,7 +2559,6 @@
           <com:Name xml:lang="en">Jonah crabs, rock crabs nei</com:Name>
           <com:Name xml:lang="fr">Tourteaux nca</com:Name>
           <com:Name xml:lang="es">Jaibas de roca nep</com:Name>
-          <com:Name xml:lang="la">Cancridae</com:Name>
         </str:Code>
         <str:Code id="CRE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CRE">
           <com:Annotations>
@@ -2858,7 +2570,6 @@
           <com:Name xml:lang="en">Edible crab</com:Name>
           <com:Name xml:lang="fr">Tourteau</com:Name>
           <com:Name xml:lang="es">Buey de mar</com:Name>
-          <com:Name xml:lang="la">Cancer pagurus</com:Name>
         </str:Code>
         <str:Code id="STC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).STC">
           <com:Annotations>
@@ -2870,7 +2581,6 @@
           <com:Name xml:lang="en">Black stone crab</com:Name>
           <com:Name xml:lang="fr">Crabe caillou noir</com:Name>
           <com:Name xml:lang="es">Cangrejo de piedra negro</com:Name>
-          <com:Name xml:lang="la">Menippe mercenaria</com:Name>
         </str:Code>
         <str:Code id="SCD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SCD">
           <com:Annotations>
@@ -2882,7 +2592,6 @@
           <com:Name xml:lang="en">Blue swimming crab</com:Name>
           <com:Name xml:lang="fr">Étrille bleue</com:Name>
           <com:Name xml:lang="es">Jaiba azul</com:Name>
-          <com:Name xml:lang="la">Portunus pelagicus</com:Name>
         </str:Code>
         <str:Code id="OVI" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OVI">
           <com:Annotations>
@@ -2893,7 +2602,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Redmouth olive</com:Name>
           <com:Name xml:lang="fr">Olive à bouche rouge</com:Name>
-          <com:Name xml:lang="la">Oliva miniacea</com:Name>
         </str:Code>
         <str:Code id="CRB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CRB">
           <com:Annotations>
@@ -2905,7 +2613,6 @@
           <com:Name xml:lang="en">Blue crab</com:Name>
           <com:Name xml:lang="fr">Crabe bleu</com:Name>
           <com:Name xml:lang="es">Cangrejo azul</com:Name>
-          <com:Name xml:lang="la">Callinectes sapidus</com:Name>
         </str:Code>
         <str:Code id="CRZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CRZ">
           <com:Annotations>
@@ -2917,7 +2624,6 @@
           <com:Name xml:lang="en">Dana swimcrab</com:Name>
           <com:Name xml:lang="fr">Crabe lénée</com:Name>
           <com:Name xml:lang="es">Cangrejo sirí</com:Name>
-          <com:Name xml:lang="la">Callinectes danae</com:Name>
         </str:Code>
         <str:Code id="CRC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CRC">
           <com:Annotations>
@@ -2929,7 +2635,6 @@
           <com:Name xml:lang="en">Giant swimcrab</com:Name>
           <com:Name xml:lang="fr">Crabe géant</com:Name>
           <com:Name xml:lang="es">Jaiba gigante</com:Name>
-          <com:Name xml:lang="la">Callinectes toxotes</com:Name>
         </str:Code>
         <str:Code id="CRG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CRG">
           <com:Annotations>
@@ -2941,7 +2646,6 @@
           <com:Name xml:lang="en">Green crab</com:Name>
           <com:Name xml:lang="fr">Crabe vert</com:Name>
           <com:Name xml:lang="es">Cangrejo verde</com:Name>
-          <com:Name xml:lang="la">Carcinus maenas</com:Name>
         </str:Code>
         <str:Code id="GUB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GUB">
           <com:Annotations>
@@ -2953,7 +2657,6 @@
           <com:Name xml:lang="en">Whitespotted guitarfish</com:Name>
           <com:Name xml:lang="fr">Poisson-guitare à lunaires</com:Name>
           <com:Name xml:lang="es">Guitarra pecosa</com:Name>
-          <com:Name xml:lang="la">Rhinobatos albomaculatus</com:Name>
         </str:Code>
         <str:Code id="RAJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RAJ">
           <com:Annotations>
@@ -2964,7 +2667,6 @@
           <com:Name xml:lang="en">Rays and skates nei</com:Name>
           <com:Name xml:lang="fr">Rajidés nca</com:Name>
           <com:Name xml:lang="es">Rayidos nep</com:Name>
-          <com:Name xml:lang="la">Rajidae</com:Name>
         </str:Code>
         <str:Code id="AWI" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).AWI">
           <com:Annotations>
@@ -2976,7 +2678,6 @@
           <com:Name xml:lang="en">Orange filefish</com:Name>
           <com:Name xml:lang="fr">Bourse orange</com:Name>
           <com:Name xml:lang="es">Lija naranja</com:Name>
-          <com:Name xml:lang="la">Aluterus schoepfii</com:Name>
         </str:Code>
         <str:Code id="FPJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FPJ">
           <com:Annotations>
@@ -2986,7 +2687,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="es">Jerguilla</com:Name>
-          <com:Name xml:lang="la">Aplodactylus punctatus</com:Name>
         </str:Code>
         <str:Code id="JPC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).JPC">
           <com:Annotations>
@@ -2998,7 +2698,6 @@
           <com:Name xml:lang="en">Chilean sandperch</com:Name>
           <com:Name xml:lang="fr">Pinge chilien</com:Name>
           <com:Name xml:lang="es">Rollizo</com:Name>
-          <com:Name xml:lang="la">Pinguipes chilensis</com:Name>
         </str:Code>
         <str:Code id="QAE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).QAE">
           <com:Annotations>
@@ -3008,7 +2707,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Sea plume</com:Name>
-          <com:Name xml:lang="la">Pseudopterogorgia elisabethae</com:Name>
         </str:Code>
         <str:Code id="RJT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RJT">
           <com:Annotations>
@@ -3019,7 +2717,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Winter skate</com:Name>
           <com:Name xml:lang="fr">Raie tachetée</com:Name>
-          <com:Name xml:lang="la">Raja ocellata</com:Name>
         </str:Code>
         <str:Code id="BHY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BHY">
           <com:Annotations>
@@ -3030,7 +2727,6 @@
           <com:Name xml:lang="en">Bathyraja rays nei</com:Name>
           <com:Name xml:lang="fr">Raies Bathyraja nca</com:Name>
           <com:Name xml:lang="es">Rayas Bathyraja nep</com:Name>
-          <com:Name xml:lang="la">Bathyraja spp</com:Name>
         </str:Code>
         <str:Code id="BAM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BAM">
           <com:Annotations>
@@ -3042,7 +2738,6 @@
           <com:Name xml:lang="en">McCain's skate</com:Name>
           <com:Name xml:lang="fr">Raie de McCain</com:Name>
           <com:Name xml:lang="es">Raya de McCain</com:Name>
-          <com:Name xml:lang="la">Bathyraja maccaini</com:Name>
         </str:Code>
         <str:Code id="BMU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BMU">
           <com:Annotations>
@@ -3054,7 +2749,6 @@
           <com:Name xml:lang="en">Murray's skate</com:Name>
           <com:Name xml:lang="fr">Raie de Murray</com:Name>
           <com:Name xml:lang="es">Raya de Murray</com:Name>
-          <com:Name xml:lang="la">Bathyraja murrayi</com:Name>
         </str:Code>
         <str:Code id="RJO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RJO">
           <com:Annotations>
@@ -3066,7 +2760,6 @@
           <com:Name xml:lang="en">Longnosed skate</com:Name>
           <com:Name xml:lang="fr">Pocheteau noir</com:Name>
           <com:Name xml:lang="es">Raya picuda</com:Name>
-          <com:Name xml:lang="la">Raja oxyrinchus</com:Name>
         </str:Code>
         <str:Code id="RJS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RJS">
           <com:Annotations>
@@ -3078,7 +2771,6 @@
           <com:Name xml:lang="en">Smooth skate</com:Name>
           <com:Name xml:lang="fr">Raie lisse américaine</com:Name>
           <com:Name xml:lang="es">Raya lisa norteamericana</com:Name>
-          <com:Name xml:lang="la">Malacoraja senta</com:Name>
         </str:Code>
         <str:Code id="RJY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RJY">
           <com:Annotations>
@@ -3090,7 +2782,6 @@
           <com:Name xml:lang="en">Round ray</com:Name>
           <com:Name xml:lang="fr">Raie ronde</com:Name>
           <com:Name xml:lang="es">Raya redonda</com:Name>
-          <com:Name xml:lang="la">Raja fyllae</com:Name>
         </str:Code>
         <str:Code id="SRR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SRR">
           <com:Annotations>
@@ -3102,7 +2793,6 @@
           <com:Name xml:lang="en">Antarctic starry skate</com:Name>
           <com:Name xml:lang="fr">Raie étoilée antarctique</com:Name>
           <com:Name xml:lang="es">Raya estrellada antártica</com:Name>
-          <com:Name xml:lang="la">Raja georgiana</com:Name>
         </str:Code>
         <str:Code id="HYD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HYD">
           <com:Annotations>
@@ -3113,7 +2803,6 @@
           <com:Name xml:lang="en">Ratfishes nei</com:Name>
           <com:Name xml:lang="fr">Chimères nca</com:Name>
           <com:Name xml:lang="es">Quimeras nep</com:Name>
-          <com:Name xml:lang="la">Hydrolagus spp</com:Name>
         </str:Code>
         <str:Code id="CYV" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CYV">
           <com:Annotations>
@@ -3123,7 +2812,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Dark ghost shark</com:Name>
-          <com:Name xml:lang="la">Hydrolagus novaezealandiae</com:Name>
         </str:Code>
         <str:Code id="STT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).STT">
           <com:Annotations>
@@ -3134,7 +2822,6 @@
           <com:Name xml:lang="en">Stingrays, butterfly rays nei</com:Name>
           <com:Name xml:lang="fr">Pastenagues, etc. nca</com:Name>
           <com:Name xml:lang="es">Pastinacas, etc. nep</com:Name>
-          <com:Name xml:lang="la">Dasyatidae</com:Name>
         </str:Code>
         <str:Code id="LVG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LVG">
           <com:Annotations>
@@ -3146,7 +2833,6 @@
           <com:Name xml:lang="en">Papuan black snapper</com:Name>
           <com:Name xml:lang="fr">Vivaneau de Papua</com:Name>
           <com:Name xml:lang="es">Pargo de Papua</com:Name>
-          <com:Name xml:lang="la">Lutjanus goldiei</com:Name>
         </str:Code>
         <str:Code id="HVT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HVT">
           <com:Annotations>
@@ -3156,7 +2842,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Eastern pomfred</com:Name>
-          <com:Name xml:lang="la">Schuettea scalaripinnis</com:Name>
         </str:Code>
         <str:Code id="KSS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KSS">
           <com:Annotations>
@@ -3168,7 +2853,6 @@
           <com:Name xml:lang="en">Tessellate helmet</com:Name>
           <com:Name xml:lang="fr">Casque à damier</com:Name>
           <com:Name xml:lang="es">Casco teselado</com:Name>
-          <com:Name xml:lang="la">Cassis tessellata</com:Name>
         </str:Code>
         <str:Code id="QPM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).QPM">
           <com:Annotations>
@@ -3178,7 +2862,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Cinnabar limpet</com:Name>
-          <com:Name xml:lang="la">Patella miniata</com:Name>
         </str:Code>
         <str:Code id="KED" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KED">
           <com:Annotations>
@@ -3188,7 +2871,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Cut-off swamp cerith</com:Name>
-          <com:Name xml:lang="la">Cerithidea decollata</com:Name>
         </str:Code>
         <str:Code id="NBT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NBT">
           <com:Annotations>
@@ -3200,7 +2882,6 @@
           <com:Name xml:lang="en">Antarctic whelk</com:Name>
           <com:Name xml:lang="fr">Buccin antarctique</com:Name>
           <com:Name xml:lang="es">Bucino antártico</com:Name>
-          <com:Name xml:lang="la">Neobuccinum eatoni</com:Name>
         </str:Code>
         <str:Code id="FOL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FOL">
           <com:Annotations>
@@ -3212,7 +2893,6 @@
           <com:Name xml:lang="en">Antarctic trophon</com:Name>
           <com:Name xml:lang="fr">Trophon antarctique</com:Name>
           <com:Name xml:lang="es">Busano antártico</com:Name>
-          <com:Name xml:lang="la">Trophon albolabratus</com:Name>
         </str:Code>
         <str:Code id="NCI" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NCI">
           <com:Annotations>
@@ -3224,7 +2904,6 @@
           <com:Name xml:lang="en">Antarctic limpet</com:Name>
           <com:Name xml:lang="fr">Patelle antarctique</com:Name>
           <com:Name xml:lang="es">Patela antártica</com:Name>
-          <com:Name xml:lang="la">Nacella concinna</com:Name>
         </str:Code>
         <str:Code id="NCJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NCJ">
           <com:Annotations>
@@ -3236,7 +2915,6 @@
           <com:Name xml:lang="en">Depressed limpet</com:Name>
           <com:Name xml:lang="fr">Patelle plate</com:Name>
           <com:Name xml:lang="es">Patela chata</com:Name>
-          <com:Name xml:lang="la">Nacella edgari</com:Name>
         </str:Code>
         <str:Code id="NKG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NKG">
           <com:Annotations>
@@ -3248,7 +2926,6 @@
           <com:Name xml:lang="en">Kerguelen limpet</com:Name>
           <com:Name xml:lang="fr">Patelle de Kerguelen</com:Name>
           <com:Name xml:lang="es">Patela de Kerguelen</com:Name>
-          <com:Name xml:lang="la">Nacella kerguelenensis</com:Name>
         </str:Code>
         <str:Code id="QPB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).QPB">
           <com:Annotations>
@@ -3260,7 +2937,6 @@
           <com:Name xml:lang="en">Subantarctic struthiolaria</com:Name>
           <com:Name xml:lang="fr">Struthiolaire subantarctique</com:Name>
           <com:Name xml:lang="es">Strutiolaria subantarctica</com:Name>
-          <com:Name xml:lang="la">Perissodonta mirabilis</com:Name>
         </str:Code>
         <str:Code id="HVC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HVC">
           <com:Annotations>
@@ -3272,7 +2948,6 @@
           <com:Name xml:lang="en">Charcot's volute</com:Name>
           <com:Name xml:lang="fr">Volute de Charcot</com:Name>
           <com:Name xml:lang="es">Voluta de Charcot</com:Name>
-          <com:Name xml:lang="la">Harpovoluta charcoti</com:Name>
         </str:Code>
         <str:Code id="VCP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).VCP">
           <com:Annotations>
@@ -3284,7 +2959,6 @@
           <com:Name xml:lang="en">Challenger volute</com:Name>
           <com:Name xml:lang="fr">Volute de Challenger</com:Name>
           <com:Name xml:lang="es">Voluta del Challenger</com:Name>
-          <com:Name xml:lang="la">Provocator pulcher</com:Name>
         </str:Code>
         <str:Code id="RHS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RHS">
           <com:Annotations>
@@ -3294,7 +2968,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">South American catfish</com:Name>
-          <com:Name xml:lang="la">Rhamdia sapo</com:Name>
         </str:Code>
         <str:Code id="SBM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SBM">
           <com:Annotations>
@@ -3304,7 +2977,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Duckbill catfish</com:Name>
-          <com:Name xml:lang="la">Sorubim lima</com:Name>
         </str:Code>
         <str:Code id="UDF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UDF">
           <com:Annotations>
@@ -3314,7 +2986,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Barred sorubim</com:Name>
-          <com:Name xml:lang="la">Pseudoplatystoma fasciatum</com:Name>
         </str:Code>
         <str:Code id="DSQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DSQ">
           <com:Annotations>
@@ -3325,7 +2996,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Masked booby</com:Name>
           <com:Name xml:lang="es">Bobo enmascarado</com:Name>
-          <com:Name xml:lang="la">Sula dactylatra</com:Name>
         </str:Code>
         <str:Code id="ELE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ELE">
           <com:Annotations>
@@ -3337,7 +3007,6 @@
           <com:Name xml:lang="en">European eel</com:Name>
           <com:Name xml:lang="fr">Anguille d'Europe</com:Name>
           <com:Name xml:lang="es">Anguila europea</com:Name>
-          <com:Name xml:lang="la">Anguilla anguilla</com:Name>
         </str:Code>
         <str:Code id="ELU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ELU">
           <com:Annotations>
@@ -3349,7 +3018,6 @@
           <com:Name xml:lang="en">Short-finned eel</com:Name>
           <com:Name xml:lang="fr">Anguille d'Australie</com:Name>
           <com:Name xml:lang="es">Anguila australiana</com:Name>
-          <com:Name xml:lang="la">Anguilla australis</com:Name>
         </str:Code>
         <str:Code id="DPC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DPC">
           <com:Annotations>
@@ -3361,7 +3029,6 @@
           <com:Name xml:lang="en">Daggertooth pike conger</com:Name>
           <com:Name xml:lang="fr">Murénésoce-dague</com:Name>
           <com:Name xml:lang="es">Morenocio dentón</com:Name>
-          <com:Name xml:lang="la">Muraenesox cinereus</com:Name>
         </str:Code>
         <str:Code id="CGZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CGZ">
           <com:Annotations>
@@ -3372,7 +3039,6 @@
           <com:Name xml:lang="en">Conger eels nei</com:Name>
           <com:Name xml:lang="fr">Congres nca</com:Name>
           <com:Name xml:lang="es">Congrios nep</com:Name>
-          <com:Name xml:lang="la">Conger spp</com:Name>
         </str:Code>
         <str:Code id="COA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).COA">
           <com:Annotations>
@@ -3384,7 +3050,6 @@
           <com:Name xml:lang="en">American conger</com:Name>
           <com:Name xml:lang="fr">Congre d'Amérique</com:Name>
           <com:Name xml:lang="es">Congrio americano</com:Name>
-          <com:Name xml:lang="la">Conger oceanicus</com:Name>
         </str:Code>
         <str:Code id="NKM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NKM">
           <com:Annotations>
@@ -3396,7 +3061,6 @@
           <com:Name xml:lang="en">Flamed moon snail</com:Name>
           <com:Name xml:lang="fr">Natice flammée</com:Name>
           <com:Name xml:lang="es">Nática flamante</com:Name>
-          <com:Name xml:lang="la">Natica fulminea</com:Name>
         </str:Code>
         <str:Code id="KPE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KPE">
           <com:Annotations>
@@ -3408,7 +3072,6 @@
           <com:Name xml:lang="en">Goree slipper shell</com:Name>
           <com:Name xml:lang="fr">Crepidule sandale</com:Name>
           <com:Name xml:lang="es">Concha sandalia</com:Name>
-          <com:Name xml:lang="la">Crepidula goreensis</com:Name>
         </str:Code>
         <str:Code id="FSU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FSU">
           <com:Annotations>
@@ -3420,7 +3083,6 @@
           <com:Name xml:lang="en">Cloudy keyhole limpet</com:Name>
           <com:Name xml:lang="fr">Fissurelle nuageuse</com:Name>
           <com:Name xml:lang="es">Fisurela nebulosa</com:Name>
-          <com:Name xml:lang="la">Fissurella nubecula</com:Name>
         </str:Code>
         <str:Code id="HXR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HXR">
           <com:Annotations>
@@ -3432,7 +3094,6 @@
           <com:Name xml:lang="en">Angular murex</com:Name>
           <com:Name xml:lang="fr">Rocher anguleux</com:Name>
           <com:Name xml:lang="es">Cañailla africana</com:Name>
-          <com:Name xml:lang="la">Hexaplex angularis</com:Name>
         </str:Code>
         <str:Code id="BOQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BOQ">
           <com:Annotations>
@@ -3444,7 +3105,6 @@
           <com:Name xml:lang="en">Horned murex</com:Name>
           <com:Name xml:lang="fr">Rocher cornu</com:Name>
           <com:Name xml:lang="es">Cañailla cornuda</com:Name>
-          <com:Name xml:lang="la">Bolinus cornutus</com:Name>
         </str:Code>
         <str:Code id="FNX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FNX">
           <com:Annotations>
@@ -3456,7 +3116,6 @@
           <com:Name xml:lang="en">Duplex murex</com:Name>
           <com:Name xml:lang="fr">Rocher duplex</com:Name>
           <com:Name xml:lang="es">Cañailla espinuda</com:Name>
-          <com:Name xml:lang="la">Phyllonotus duplex</com:Name>
         </str:Code>
         <str:Code id="ISO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ISO">
           <com:Annotations>
@@ -3468,7 +3127,6 @@
           <com:Name xml:lang="en">Crowned rock shell</com:Name>
           <com:Name xml:lang="fr">Ovarque couronnée</com:Name>
           <com:Name xml:lang="es">Púrpura coronada</com:Name>
-          <com:Name xml:lang="la">Thais coronata</com:Name>
         </str:Code>
         <str:Code id="ISD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ISD">
           <com:Annotations>
@@ -3480,7 +3138,6 @@
           <com:Name xml:lang="en">Nodose rock shell</com:Name>
           <com:Name xml:lang="fr">Ovarque noueuse</com:Name>
           <com:Name xml:lang="es">Púrpura nudosa</com:Name>
-          <com:Name xml:lang="la">Thais nodosa</com:Name>
         </str:Code>
         <str:Code id="ULJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ULJ">
           <com:Annotations>
@@ -3492,7 +3149,6 @@
           <com:Name xml:lang="en">Miran bullia</com:Name>
           <com:Name xml:lang="fr">Bullie de miran</com:Name>
           <com:Name xml:lang="es">Bulia de Miran</com:Name>
-          <com:Name xml:lang="la">Bullia miran</com:Name>
         </str:Code>
         <str:Code id="NKO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NKO">
           <com:Annotations>
@@ -3504,7 +3160,6 @@
           <com:Name xml:lang="en">Collar moon snail</com:Name>
           <com:Name xml:lang="fr">Natice à collet</com:Name>
           <com:Name xml:lang="es">Nática engolada</com:Name>
-          <com:Name xml:lang="la">Natica collaris</com:Name>
         </str:Code>
         <str:Code id="WTP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).WTP">
           <com:Annotations>
@@ -3514,7 +3169,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Tahiti petrel</com:Name>
-          <com:Name xml:lang="la">Pseudobulweria rostrata</com:Name>
         </str:Code>
         <str:Code id="SAX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SAX">
           <com:Annotations>
@@ -3525,7 +3179,6 @@
           <com:Name xml:lang="en">Sauries nei</com:Name>
           <com:Name xml:lang="fr">Balaous, bananes de mer nca</com:Name>
           <com:Name xml:lang="es">Papardas nep</com:Name>
-          <com:Name xml:lang="la">Scomberesocidae</com:Name>
         </str:Code>
         <str:Code id="FLY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FLY">
           <com:Annotations>
@@ -3536,7 +3189,6 @@
           <com:Name xml:lang="en">Flyingfishes nei</com:Name>
           <com:Name xml:lang="fr">Exocets nca</com:Name>
           <com:Name xml:lang="es">Voladores nep</com:Name>
-          <com:Name xml:lang="la">Exocoetidae</com:Name>
         </str:Code>
         <str:Code id="HAX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HAX">
           <com:Annotations>
@@ -3547,7 +3199,6 @@
           <com:Name xml:lang="en">Halfbeaks nei</com:Name>
           <com:Name xml:lang="fr">Demi-becs nca</com:Name>
           <com:Name xml:lang="es">Agujetas nep</com:Name>
-          <com:Name xml:lang="la">Hemiramphus spp</com:Name>
         </str:Code>
         <str:Code id="CIV" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CIV">
           <com:Annotations>
@@ -3556,7 +3207,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Citharinus nei</com:Name>
-          <com:Name xml:lang="la">Citharinus spp</com:Name>
         </str:Code>
         <str:Code id="FCK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FCK">
           <com:Annotations>
@@ -3568,7 +3218,6 @@
           <com:Name xml:lang="en">False gorgon</com:Name>
           <com:Name xml:lang="fr">Fausse gorgone</com:Name>
           <com:Name xml:lang="es">Tallo chino</com:Name>
-          <com:Name xml:lang="la">Sphaerococcus coronopifolius</com:Name>
         </str:Code>
         <str:Code id="JLM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).JLM">
           <com:Annotations>
@@ -3580,7 +3229,6 @@
           <com:Name xml:lang="en">Magellanic ptilonia</com:Name>
           <com:Name xml:lang="fr">Ptilonie de Magellan</com:Name>
           <com:Name xml:lang="es">Tilonia de Magallanes</com:Name>
-          <com:Name xml:lang="la">Ptilonia magellanica</com:Name>
         </str:Code>
         <str:Code id="BLX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BLX">
           <com:Annotations>
@@ -3592,7 +3240,6 @@
           <com:Name xml:lang="en">Ballia</com:Name>
           <com:Name xml:lang="fr">Ballia</com:Name>
           <com:Name xml:lang="es">Balia</com:Name>
-          <com:Name xml:lang="la">Ballia callitricha</com:Name>
         </str:Code>
         <str:Code id="TLG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TLG">
           <com:Annotations>
@@ -3602,7 +3249,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Guinean tilapia</com:Name>
-          <com:Name xml:lang="la">Tilapia guineensis</com:Name>
         </str:Code>
         <str:Code id="AST" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).AST">
           <com:Annotations>
@@ -3612,7 +3258,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Velvety cichlids</com:Name>
           <com:Name xml:lang="es">Acarahuazu</com:Name>
-          <com:Name xml:lang="la">Astronotus spp</com:Name>
         </str:Code>
         <str:Code id="AER" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).AER">
           <com:Annotations>
@@ -3623,7 +3268,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Green terror</com:Name>
           <com:Name xml:lang="es">Vieja azul</com:Name>
-          <com:Name xml:lang="la">Aequidens rivulatus</com:Name>
         </str:Code>
         <str:Code id="YBB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YBB">
           <com:Annotations>
@@ -3633,7 +3277,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Yellow-belly bream</com:Name>
-          <com:Name xml:lang="la">Serranochromis robustus</com:Name>
         </str:Code>
         <str:Code id="CHK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CHK">
           <com:Annotations>
@@ -3643,7 +3286,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Blackbelt cichlid</com:Name>
-          <com:Name xml:lang="la">Cichlasoma maculicauda</com:Name>
         </str:Code>
         <str:Code id="CHH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CHH">
           <com:Annotations>
@@ -3654,7 +3296,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Mexican mojarra</com:Name>
           <com:Name xml:lang="es">Mojarra del México</com:Name>
-          <com:Name xml:lang="la">Cichlasoma urophthalmus</com:Name>
         </str:Code>
         <str:Code id="TLZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TLZ">
           <com:Annotations>
@@ -3664,7 +3305,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Redbelly tilapia</com:Name>
-          <com:Name xml:lang="la">Tilapia zillii</com:Name>
         </str:Code>
         <str:Code id="TLR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TLR">
           <com:Annotations>
@@ -3674,7 +3314,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Redbreast tilapia</com:Name>
-          <com:Name xml:lang="la">Tilapia rendalli</com:Name>
         </str:Code>
         <str:Code id="GJO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GJO">
           <com:Annotations>
@@ -3686,7 +3325,6 @@
           <com:Name xml:lang="en">Chaffweed</com:Name>
           <com:Name xml:lang="fr">Menue paille marine</com:Name>
           <com:Name xml:lang="es">Pajilla marina</com:Name>
-          <com:Name xml:lang="la">Gelidiella acerosa</com:Name>
         </str:Code>
         <str:Code id="GKK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GKK">
           <com:Annotations>
@@ -3696,7 +3334,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Segmented gracilaria</com:Name>
-          <com:Name xml:lang="la">Gracilaria salicornia</com:Name>
         </str:Code>
         <str:Code id="UKD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UKD">
           <com:Annotations>
@@ -3706,7 +3343,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Mottled sea club</com:Name>
-          <com:Name xml:lang="la">Eucheuma arnoldii</com:Name>
         </str:Code>
         <str:Code id="YEB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YEB">
           <com:Annotations>
@@ -3716,7 +3352,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Tufted sea moss</com:Name>
-          <com:Name xml:lang="la">Hypnea boergesenii</com:Name>
         </str:Code>
         <str:Code id="KHI" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KHI">
           <com:Annotations>
@@ -3726,7 +3361,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Erect sea moss</com:Name>
-          <com:Name xml:lang="la">Acanthophora spicifera</com:Name>
         </str:Code>
         <str:Code id="GJX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GJX">
           <com:Annotations>
@@ -3738,7 +3372,6 @@
           <com:Name xml:lang="en">Spiny gracilaria</com:Name>
           <com:Name xml:lang="fr">Gracilaire épineuse</com:Name>
           <com:Name xml:lang="es">Pelillo espinoso</com:Name>
-          <com:Name xml:lang="la">Gracilaria spinigera</com:Name>
         </str:Code>
         <str:Code id="GCW" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GCW">
           <com:Annotations>
@@ -3750,7 +3383,6 @@
           <com:Name xml:lang="en">Broadleaf gracilaria</com:Name>
           <com:Name xml:lang="fr">Gracilaire laminée</com:Name>
           <com:Name xml:lang="es">Gracilaria laminada</com:Name>
-          <com:Name xml:lang="la">Gracilaria textorii</com:Name>
         </str:Code>
         <str:Code id="GCO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GCO">
           <com:Annotations>
@@ -3762,7 +3394,6 @@
           <com:Name xml:lang="en">Veiled gracilaria</com:Name>
           <com:Name xml:lang="fr">Gracilaire voilée</com:Name>
           <com:Name xml:lang="es">Gracilaria velada</com:Name>
-          <com:Name xml:lang="la">Gracilaria veleroae</com:Name>
         </str:Code>
         <str:Code id="YAZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YAZ">
           <com:Annotations>
@@ -3774,7 +3405,6 @@
           <com:Name xml:lang="en">Tattered sea moss</com:Name>
           <com:Name xml:lang="fr">Houlette deguenillée</com:Name>
           <com:Name xml:lang="es">Cayado andrajoso</com:Name>
-          <com:Name xml:lang="la">Hypnea pannosa</com:Name>
         </str:Code>
         <str:Code id="YAX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YAX">
           <com:Annotations>
@@ -3786,7 +3416,6 @@
           <com:Name xml:lang="en">Robust sea moss</com:Name>
           <com:Name xml:lang="fr">Houlette robuste</com:Name>
           <com:Name xml:lang="es">Cayado robusto</com:Name>
-          <com:Name xml:lang="la">Hypnea valentiae</com:Name>
         </str:Code>
         <str:Code id="JNA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).JNA">
           <com:Annotations>
@@ -3798,34 +3427,6 @@
           <com:Name xml:lang="en">Pacific coral moss</com:Name>
           <com:Name xml:lang="fr">Janire corail du Pacifique</com:Name>
           <com:Name xml:lang="es">Falsa coralina del Pacífico</com:Name>
-          <com:Name xml:lang="la">Jania adhaerens</com:Name>
-        </str:Code>
-        <str:Code id="OKF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OKF">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(Kutzing) Gabrielson</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Solieria filiformis</com:Name>
-        </str:Code>
-        <str:Code id="MVT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MVT">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(Stackhouse) Guiry in Guiry, J.A.West, D.-H. Kim &amp; Masu</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Mastocarpus stellatus</com:Name>
-        </str:Code>
-        <str:Code id="LJQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LJQ">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(P.L. Crouan &amp; H.M. Crouan) P.L. Crouan &amp; H.M. Crouan</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Lithothamnion corallioides</com:Name>
         </str:Code>
         <str:Code id="BMO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BMO">
           <com:Annotations>
@@ -3835,7 +3436,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Blue moki</com:Name>
-          <com:Name xml:lang="la">Latridopsis ciliaris</com:Name>
         </str:Code>
         <str:Code id="NEB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NEB">
           <com:Annotations>
@@ -3845,7 +3445,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">New Zealand blue cod</com:Name>
-          <com:Name xml:lang="la">Parapercis colias</com:Name>
         </str:Code>
         <str:Code id="TAU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TAU">
           <com:Annotations>
@@ -3856,7 +3455,6 @@
           </com:Annotations>
           <com:Name xml:lang="en">Tautog</com:Name>
           <com:Name xml:lang="fr">Tautogue noir</com:Name>
-          <com:Name xml:lang="la">Tautoga onitis</com:Name>
         </str:Code>
         <str:Code id="PWT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PWT">
           <com:Annotations>
@@ -3867,7 +3465,6 @@
           <com:Name xml:lang="en">Parrotfishes nei</com:Name>
           <com:Name xml:lang="fr">Perroquets nca</com:Name>
           <com:Name xml:lang="es">Loros nep</com:Name>
-          <com:Name xml:lang="la">Scaridae</com:Name>
         </str:Code>
         <str:Code id="ANW" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ANW">
           <com:Annotations>
@@ -3878,7 +3475,6 @@
           <com:Name xml:lang="en">Angelfishes nei</com:Name>
           <com:Name xml:lang="fr">Demoiselles nca</com:Name>
           <com:Name xml:lang="es">Angeles nep</com:Name>
-          <com:Name xml:lang="la">Pomacanthidae</com:Name>
         </str:Code>
         <str:Code id="HAW" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).HAW">
           <com:Annotations>
@@ -3890,7 +3486,6 @@
           <com:Name xml:lang="en">Peruvian morwong</com:Name>
           <com:Name xml:lang="fr">Castanette pintadille</com:Name>
           <com:Name xml:lang="es">Pintadilla</com:Name>
-          <com:Name xml:lang="la">Cheilodactylus variegatus</com:Name>
         </str:Code>
         <str:Code id="TAK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TAK">
           <com:Annotations>
@@ -3900,7 +3495,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Tarakihi</com:Name>
-          <com:Name xml:lang="la">Nemadactylus macropterus</com:Name>
         </str:Code>
         <str:Code id="MOW" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MOW">
           <com:Annotations>
@@ -3909,7 +3503,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Morwongs</com:Name>
-          <com:Name xml:lang="la">Nemadactylus spp</com:Name>
         </str:Code>
         <str:Code id="GKI" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GKI">
           <com:Annotations>
@@ -3919,7 +3512,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Dichotomously branched gracila</com:Name>
-          <com:Name xml:lang="la">Gracilaria edulis</com:Name>
         </str:Code>
         <str:Code id="GKH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GKH">
           <com:Annotations>
@@ -3929,7 +3521,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Prostrate gracilaria</com:Name>
-          <com:Name xml:lang="la">Gracilaria eucheumoides</com:Name>
         </str:Code>
         <str:Code id="KNW" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KNW">
           <com:Annotations>
@@ -3941,7 +3532,6 @@
           <com:Name xml:lang="en">Red panache</com:Name>
           <com:Name xml:lang="fr">Panache rouge</com:Name>
           <com:Name xml:lang="es">Penacho colorado</com:Name>
-          <com:Name xml:lang="la">Centroceras clavulatum</com:Name>
         </str:Code>
         <str:Code id="KMK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KMK">
           <com:Annotations>
@@ -3953,7 +3543,6 @@
           <com:Name xml:lang="en">Pacific ceramium</com:Name>
           <com:Name xml:lang="fr">Céramium du Pacifique</com:Name>
           <com:Name xml:lang="es">Trillo del Pacífico</com:Name>
-          <com:Name xml:lang="la">Ceramium pacificum</com:Name>
         </str:Code>
         <str:Code id="GJJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GJJ">
           <com:Annotations>
@@ -3965,7 +3554,6 @@
           <com:Name xml:lang="en">Red gelidium</com:Name>
           <com:Name xml:lang="fr">Menue paille rouge</com:Name>
           <com:Name xml:lang="es">Pajilla roja</com:Name>
-          <com:Name xml:lang="la">Gelidium johnstonii</com:Name>
         </str:Code>
         <str:Code id="GJP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GJP">
           <com:Annotations>
@@ -3977,7 +3565,6 @@
           <com:Name xml:lang="en">Dwarf gelidium</com:Name>
           <com:Name xml:lang="fr">Menue paille naine</com:Name>
           <com:Name xml:lang="es">Pajilla enana</com:Name>
-          <com:Name xml:lang="la">Gelidium pusillum</com:Name>
         </str:Code>
         <str:Code id="LVF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LVF">
           <com:Annotations>
@@ -3989,7 +3576,6 @@
           <com:Name xml:lang="en">Pacific laurenzia</com:Name>
           <com:Name xml:lang="fr">Laurencia du Pacifique</com:Name>
           <com:Name xml:lang="es">Laurencia del Pacífico</com:Name>
-          <com:Name xml:lang="la">Laurencia pacifica</com:Name>
         </str:Code>
         <str:Code id="GHG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GHG">
           <com:Annotations>
@@ -4000,7 +3586,6 @@
           <com:Name xml:lang="en">Gigartina seaweeds nei</com:Name>
           <com:Name xml:lang="fr">Gigartines nca</com:Name>
           <com:Name xml:lang="es">Lugas nep</com:Name>
-          <com:Name xml:lang="la">Gigartinaceae</com:Name>
         </str:Code>
         <str:Code id="CMR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CMR">
           <com:Annotations>
@@ -4012,7 +3597,6 @@
           <com:Name xml:lang="en">Mediterranean shore crab</com:Name>
           <com:Name xml:lang="fr">Crabe vert de la Méditerranée</com:Name>
           <com:Name xml:lang="es">Cangrejo verde mediterráneo</com:Name>
-          <com:Name xml:lang="la">Carcinus aestuarii</com:Name>
         </str:Code>
         <str:Code id="MUD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MUD">
           <com:Annotations>
@@ -4024,7 +3608,6 @@
           <com:Name xml:lang="en">Indo-Pacific swamp crab</com:Name>
           <com:Name xml:lang="fr">Crabe de palétuviers</com:Name>
           <com:Name xml:lang="es">Cangrejo de manglares</com:Name>
-          <com:Name xml:lang="la">Scylla serrata</com:Name>
         </str:Code>
         <str:Code id="LIO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LIO">
           <com:Annotations>
@@ -4036,7 +3619,6 @@
           <com:Name xml:lang="en">Velvet swimcrab</com:Name>
           <com:Name xml:lang="fr">Étrille commune</com:Name>
           <com:Name xml:lang="es">Nécora</com:Name>
-          <com:Name xml:lang="la">Necora puber</com:Name>
         </str:Code>
         <str:Code id="SCY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SCY">
           <com:Annotations>
@@ -4048,7 +3630,6 @@
           <com:Name xml:lang="en">Lesser slipper lobster</com:Name>
           <com:Name xml:lang="fr">Petite cigale</com:Name>
           <com:Name xml:lang="es">Santiaguiño</com:Name>
-          <com:Name xml:lang="la">Scyllarus arctus</com:Name>
         </str:Code>
         <str:Code id="KCS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KCS">
           <com:Annotations>
@@ -4059,7 +3640,6 @@
           <com:Name xml:lang="en">King crabs</com:Name>
           <com:Name xml:lang="fr">Crabes royaux</com:Name>
           <com:Name xml:lang="es">Cangrejos rusos</com:Name>
-          <com:Name xml:lang="la">Paralithodes spp</com:Name>
         </str:Code>
         <str:Code id="KCM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KCM">
           <com:Annotations>
@@ -4071,7 +3651,6 @@
           <com:Name xml:lang="en">Subantarctic stone crab</com:Name>
           <com:Name xml:lang="fr">Crabe royal subantarctique</com:Name>
           <com:Name xml:lang="es">Centolla subantártica</com:Name>
-          <com:Name xml:lang="la">Lithodes murrayi</com:Name>
         </str:Code>
         <str:Code id="KCA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KCA">
           <com:Annotations>
@@ -4083,7 +3662,6 @@
           <com:Name xml:lang="en">King crab</com:Name>
           <com:Name xml:lang="fr">Crabe royal</com:Name>
           <com:Name xml:lang="es">Centolla</com:Name>
-          <com:Name xml:lang="la">Lithodes ferox</com:Name>
         </str:Code>
         <str:Code id="KCF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KCF">
           <com:Annotations>
@@ -4095,7 +3673,6 @@
           <com:Name xml:lang="en">Globose king crab</com:Name>
           <com:Name xml:lang="fr">Crabe royal sphérique</com:Name>
           <com:Name xml:lang="es">Centolla redonda</com:Name>
-          <com:Name xml:lang="la">Paralomis formosa</com:Name>
         </str:Code>
         <str:Code id="CRQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CRQ">
           <com:Annotations>
@@ -4107,7 +3684,6 @@
           <com:Name xml:lang="en">Queen crab</com:Name>
           <com:Name xml:lang="fr">Crabe des neiges</com:Name>
           <com:Name xml:lang="es">Cangrejo de las nieves</com:Name>
-          <com:Name xml:lang="la">Chionoecetes opilio</com:Name>
         </str:Code>
         <str:Code id="NES" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NES">
           <com:Annotations>
@@ -4119,7 +3695,6 @@
           <com:Name xml:lang="en">Indian Ocean lobsterette</com:Name>
           <com:Name xml:lang="fr">Langoustine indienne</com:Name>
           <com:Name xml:lang="es">Cigala del Océano índico</com:Name>
-          <com:Name xml:lang="la">Nephropsis stewarti</com:Name>
         </str:Code>
         <str:Code id="NEA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NEA">
           <com:Annotations>
@@ -4131,7 +3706,6 @@
           <com:Name xml:lang="en">Andaman lobster</com:Name>
           <com:Name xml:lang="fr">Langoustine andamane</com:Name>
           <com:Name xml:lang="es">Cigala de Andamán</com:Name>
-          <com:Name xml:lang="la">Metanephrops andamanicus</com:Name>
         </str:Code>
         <str:Code id="NEP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NEP">
           <com:Annotations>
@@ -4143,7 +3717,6 @@
           <com:Name xml:lang="en">Norway lobster</com:Name>
           <com:Name xml:lang="fr">Langoustine</com:Name>
           <com:Name xml:lang="es">Cigala</com:Name>
-          <com:Name xml:lang="la">Nephrops norvegicus</com:Name>
         </str:Code>
         <str:Code id="WST" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).WST">
           <com:Annotations>
@@ -4155,7 +3728,6 @@
           <com:Name xml:lang="en">Whip stingray</com:Name>
           <com:Name xml:lang="fr">Pastenague du Pacifique</com:Name>
           <com:Name xml:lang="es">Raya látigo del Pacífico</com:Name>
-          <com:Name xml:lang="la">Dasyatis akajei</com:Name>
         </str:Code>
         <str:Code id="EAG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).EAG">
           <com:Annotations>
@@ -4166,7 +3738,6 @@
           <com:Name xml:lang="en">Eagle rays nei</com:Name>
           <com:Name xml:lang="fr">Aigles de mer nca</com:Name>
           <com:Name xml:lang="es">Aguilas de mar nep</com:Name>
-          <com:Name xml:lang="la">Myliobatidae</com:Name>
         </str:Code>
         <str:Code id="RBY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RBY">
           <com:Annotations>
@@ -4177,7 +3748,6 @@
           <com:Name xml:lang="en">Butterfly rays nei</com:Name>
           <com:Name xml:lang="fr">Raies-papillon nca</com:Name>
           <com:Name xml:lang="es">Rayas mariposa nep</com:Name>
-          <com:Name xml:lang="la">Gymnura spp</com:Name>
         </str:Code>
         <str:Code id="TOD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TOD">
           <com:Annotations>
@@ -4188,7 +3758,6 @@
           <com:Name xml:lang="en">Electric rays nei</com:Name>
           <com:Name xml:lang="fr">Torpilles, raies électriq. nca</com:Name>
           <com:Name xml:lang="es">Tremielgas, torpedos nep</com:Name>
-          <com:Name xml:lang="la">Torpedinidae</com:Name>
         </str:Code>
         <str:Code id="CMO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CMO">
           <com:Annotations>
@@ -4200,7 +3769,6 @@
           <com:Name xml:lang="en">Rabbit fish</com:Name>
           <com:Name xml:lang="fr">Chimère commune</com:Name>
           <com:Name xml:lang="es">Quimera</com:Name>
-          <com:Name xml:lang="la">Chimaera monstrosa</com:Name>
         </str:Code>
         <str:Code id="RHC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RHC">
           <com:Annotations>
@@ -4211,7 +3779,6 @@
           <com:Name xml:lang="en">Knife-nosed chimaeras nei</com:Name>
           <com:Name xml:lang="fr">Chimères-couteau nca</com:Name>
           <com:Name xml:lang="es">Quimeras-navaja nep</com:Name>
-          <com:Name xml:lang="la">Rhinochimaera spp</com:Name>
         </str:Code>
         <str:Code id="CAH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CAH">
           <com:Annotations>
@@ -4222,7 +3789,6 @@
           <com:Name xml:lang="en">Elephantfishes, etc. nei</com:Name>
           <com:Name xml:lang="fr">Mascas, etc. nca</com:Name>
           <com:Name xml:lang="es">Pejegallos, etc. nep</com:Name>
-          <com:Name xml:lang="la">Callorhinchidae</com:Name>
         </str:Code>
         <str:Code id="CHM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CHM">
           <com:Annotations>
@@ -4234,7 +3800,6 @@
           <com:Name xml:lang="en">Cape elephantfish</com:Name>
           <com:Name xml:lang="fr">Masca du Cap</com:Name>
           <com:Name xml:lang="es">Pejegallo del Cabo</com:Name>
-          <com:Name xml:lang="la">Callorhinchus capensis</com:Name>
         </str:Code>
         <str:Code id="FLU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FLU">
           <com:Annotations>
@@ -4245,7 +3810,6 @@
           <com:Name xml:lang="en">African lungfishes</com:Name>
           <com:Name xml:lang="fr">Protoptères d'Afrique</com:Name>
           <com:Name xml:lang="es">Protopteros africanos</com:Name>
-          <com:Name xml:lang="la">Protopterus spp</com:Name>
         </str:Code>
         <str:Code id="APU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).APU">
           <com:Annotations>
@@ -4257,7 +3821,6 @@
           <com:Name xml:lang="en">Sturgeon</com:Name>
           <com:Name xml:lang="fr">Esturgeon commun</com:Name>
           <com:Name xml:lang="es">Esturión</com:Name>
-          <com:Name xml:lang="la">Acipenser sturio</com:Name>
         </str:Code>
         <str:Code id="APG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).APG">
           <com:Annotations>
@@ -4269,7 +3832,6 @@
           <com:Name xml:lang="en">Danube sturgeon(=Osetr)</com:Name>
           <com:Name xml:lang="fr">Esturgeon du Danube</com:Name>
           <com:Name xml:lang="es">Esturión del Danube</com:Name>
-          <com:Name xml:lang="la">Acipenser gueldenstaedtii</com:Name>
         </str:Code>
         <str:Code id="APN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).APN">
           <com:Annotations>
@@ -4281,7 +3843,6 @@
           <com:Name xml:lang="en">White sturgeon</com:Name>
           <com:Name xml:lang="fr">Esturgeon blanc</com:Name>
           <com:Name xml:lang="es">Esturión blanco</com:Name>
-          <com:Name xml:lang="la">Acipenser transmontanus</com:Name>
         </str:Code>
         <str:Code id="APB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).APB">
           <com:Annotations>
@@ -4293,7 +3854,6 @@
           <com:Name xml:lang="en">Siberian sturgeon</com:Name>
           <com:Name xml:lang="fr">Esturgeon de Sibérie</com:Name>
           <com:Name xml:lang="es">Esturión de Siberia</com:Name>
-          <com:Name xml:lang="la">Acipenser baerii</com:Name>
         </str:Code>
         <str:Code id="BHA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BHA">
           <com:Annotations>
@@ -4305,7 +3865,6 @@
           <com:Name xml:lang="en">Balao halfbeak</com:Name>
           <com:Name xml:lang="fr">Demi-bec balaou</com:Name>
           <com:Name xml:lang="es">Agujeta balaju</com:Name>
-          <com:Name xml:lang="la">Hemiramphus balao</com:Name>
         </str:Code>
         <str:Code id="GAD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GAD">
           <com:Annotations>
@@ -4316,7 +3875,6 @@
           <com:Name xml:lang="en">Gadiformes nei</com:Name>
           <com:Name xml:lang="fr">Gadiformes nca</com:Name>
           <com:Name xml:lang="es">Gadiformes nep</com:Name>
-          <com:Name xml:lang="la">Gadiformes</com:Name>
         </str:Code>
         <str:Code id="MOR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MOR">
           <com:Annotations>
@@ -4327,7 +3885,6 @@
           <com:Name xml:lang="en">Moras nei</com:Name>
           <com:Name xml:lang="fr">Mores nca</com:Name>
           <com:Name xml:lang="es">Moras nep</com:Name>
-          <com:Name xml:lang="la">Moridae</com:Name>
         </str:Code>
         <str:Code id="GAR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GAR">
           <com:Annotations>
@@ -4339,7 +3896,6 @@
           <com:Name xml:lang="en">Garfish</com:Name>
           <com:Name xml:lang="fr">Orphie</com:Name>
           <com:Name xml:lang="es">Aguja</com:Name>
-          <com:Name xml:lang="la">Belone belone</com:Name>
         </str:Code>
         <str:Code id="NFA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NFA">
           <com:Annotations>
@@ -4351,7 +3907,6 @@
           <com:Name xml:lang="en">Atlantic needlefish</com:Name>
           <com:Name xml:lang="fr">Aiguillette verte</com:Name>
           <com:Name xml:lang="es">Agujón verde</com:Name>
-          <com:Name xml:lang="la">Strongylura marina</com:Name>
         </str:Code>
         <str:Code id="NKK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NKK">
           <com:Annotations>
@@ -4363,7 +3918,6 @@
           <com:Name xml:lang="en">Morocco moon snail</com:Name>
           <com:Name xml:lang="fr">Natice du Maroc</com:Name>
           <com:Name xml:lang="es">Nática marroquí</com:Name>
-          <com:Name xml:lang="la">Natica marochiensis</com:Name>
         </str:Code>
         <str:Code id="MDX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MDX">
           <com:Annotations>
@@ -4373,7 +3927,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Top shell</com:Name>
-          <com:Name xml:lang="la">Monodonta nebulosa</com:Name>
         </str:Code>
         <str:Code id="MXX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MXX">
           <com:Annotations>
@@ -4383,16 +3936,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Scalloped murex</com:Name>
-          <com:Name xml:lang="la">Murex scolopax</com:Name>
-        </str:Code>
-        <str:Code id="NCM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NCM">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(Pfeffer 1887)</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Notocrangon antarcticus</com:Name>
         </str:Code>
         <str:Code id="RXR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RXR">
           <com:Annotations>
@@ -4404,7 +3947,6 @@
           <com:Name xml:lang="en">Hawk-wing conch</com:Name>
           <com:Name xml:lang="fr">Strombe aile-de-faucon</com:Name>
           <com:Name xml:lang="es">Cobo ala de aguila</com:Name>
-          <com:Name xml:lang="la">Strombus raninus</com:Name>
         </str:Code>
         <str:Code id="KUI" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KUI">
           <com:Annotations>
@@ -4416,7 +3958,6 @@
           <com:Name xml:lang="en">West Indian top shell</com:Name>
           <com:Name xml:lang="fr">Troque des Antilles</com:Name>
           <com:Name xml:lang="es">Burgado antillano</com:Name>
-          <com:Name xml:lang="la">Cittarium pica</com:Name>
         </str:Code>
         <str:Code id="VSP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).VSP">
           <com:Annotations>
@@ -4428,7 +3969,6 @@
           <com:Name xml:lang="en">Spiny vase</com:Name>
           <com:Name xml:lang="fr">Turbinelle épineuse</com:Name>
           <com:Name xml:lang="es">Vaso espinoso</com:Name>
-          <com:Name xml:lang="la">Vasum capitellum</com:Name>
         </str:Code>
         <str:Code id="VSU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).VSU">
           <com:Annotations>
@@ -4440,7 +3980,6 @@
           <com:Name xml:lang="en">Caribbean vase</com:Name>
           <com:Name xml:lang="fr">Turbinelle des Caraïbes</com:Name>
           <com:Name xml:lang="es">Vaso del Caribe</com:Name>
-          <com:Name xml:lang="la">Vasum muricatum</com:Name>
         </str:Code>
         <str:Code id="LQK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LQK">
           <com:Annotations>
@@ -4452,7 +3991,6 @@
           <com:Name xml:lang="en">Carved star-shell</com:Name>
           <com:Name xml:lang="fr">Turban incisé</com:Name>
           <com:Name xml:lang="es">Turbante tallado</com:Name>
-          <com:Name xml:lang="la">Lithopoma caelata</com:Name>
         </str:Code>
         <str:Code id="IPT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).IPT">
           <com:Annotations>
@@ -4464,7 +4002,6 @@
           <com:Name xml:lang="en">Imbricated star-shell</com:Name>
           <com:Name xml:lang="fr">Turban imbriqué</com:Name>
           <com:Name xml:lang="es">Turbante imbricado</com:Name>
-          <com:Name xml:lang="la">Lithopoma tecta</com:Name>
         </str:Code>
         <str:Code id="IPU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).IPU">
           <com:Annotations>
@@ -4476,7 +4013,6 @@
           <com:Name xml:lang="en">Green star-shell</com:Name>
           <com:Name xml:lang="fr">Turban vert</com:Name>
           <com:Name xml:lang="es">Turbante verde</com:Name>
-          <com:Name xml:lang="la">Lithopoma tuber</com:Name>
         </str:Code>
         <str:Code id="LIN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LIN">
           <com:Annotations>
@@ -4488,7 +4024,6 @@
           <com:Name xml:lang="en">Ling</com:Name>
           <com:Name xml:lang="fr">Lingue franche</com:Name>
           <com:Name xml:lang="es">Maruca</com:Name>
-          <com:Name xml:lang="la">Molva molva</com:Name>
         </str:Code>
         <str:Code id="BLI" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BLI">
           <com:Annotations>
@@ -4500,7 +4035,6 @@
           <com:Name xml:lang="en">Blue ling</com:Name>
           <com:Name xml:lang="fr">Lingue bleue</com:Name>
           <com:Name xml:lang="es">Maruca azul</com:Name>
-          <com:Name xml:lang="la">Molva dypterygia</com:Name>
         </str:Code>
         <str:Code id="FOX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FOX">
           <com:Annotations>
@@ -4511,7 +4045,6 @@
           <com:Name xml:lang="en">Forkbeards nei</com:Name>
           <com:Name xml:lang="fr">Phycis nca</com:Name>
           <com:Name xml:lang="es">Brótolas nep</com:Name>
-          <com:Name xml:lang="la">Phycis spp</com:Name>
         </str:Code>
         <str:Code id="GFB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GFB">
           <com:Annotations>
@@ -4523,7 +4056,6 @@
           <com:Name xml:lang="en">Greater forkbeard</com:Name>
           <com:Name xml:lang="fr">Phycis de fond</com:Name>
           <com:Name xml:lang="es">Brótola de fango</com:Name>
-          <com:Name xml:lang="la">Phycis blennoides</com:Name>
         </str:Code>
         <str:Code id="ANT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ANT">
           <com:Annotations>
@@ -4535,7 +4067,6 @@
           <com:Name xml:lang="en">Blue antimora</com:Name>
           <com:Name xml:lang="fr">Antimora bleu</com:Name>
           <com:Name xml:lang="es">Mollera azul</com:Name>
-          <com:Name xml:lang="la">Antimora rostrata</com:Name>
         </str:Code>
         <str:Code id="USK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).USK">
           <com:Annotations>
@@ -4547,7 +4078,6 @@
           <com:Name xml:lang="en">Tusk(=Cusk)</com:Name>
           <com:Name xml:lang="fr">Brosme</com:Name>
           <com:Name xml:lang="es">Brosmio</com:Name>
-          <com:Name xml:lang="la">Brosme brosme</com:Name>
         </str:Code>
         <str:Code id="COD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).COD">
           <com:Annotations>
@@ -4559,7 +4089,6 @@
           <com:Name xml:lang="en">Atlantic cod</com:Name>
           <com:Name xml:lang="fr">Morue de l'Atlantique</com:Name>
           <com:Name xml:lang="es">Bacalao del Atlántico</com:Name>
-          <com:Name xml:lang="la">Gadus morhua</com:Name>
         </str:Code>
         <str:Code id="GRC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GRC">
           <com:Annotations>
@@ -4571,7 +4100,6 @@
           <com:Name xml:lang="en">Greenland cod</com:Name>
           <com:Name xml:lang="fr">Morue ogac</com:Name>
           <com:Name xml:lang="es">Bacalao de Groenlandia</com:Name>
-          <com:Name xml:lang="la">Gadus ogac</com:Name>
         </str:Code>
         <str:Code id="NQS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NQS">
           <com:Annotations>
@@ -4583,7 +4111,6 @@
           <com:Name xml:lang="en">Senegal nerite</com:Name>
           <com:Name xml:lang="fr">Nérite du Sénégal</com:Name>
           <com:Name xml:lang="es">Nerita senegalesa</com:Name>
-          <com:Name xml:lang="la">Nerita senegalensis</com:Name>
         </str:Code>
         <str:Code id="UBN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UBN">
           <com:Annotations>
@@ -4595,7 +4122,6 @@
           <com:Name xml:lang="en">Channelled turban</com:Name>
           <com:Name xml:lang="fr">Turban canaliculé</com:Name>
           <com:Name xml:lang="es">Turbante acanalado</com:Name>
-          <com:Name xml:lang="la">Turbo canaliculatus</com:Name>
         </str:Code>
         <str:Code id="UOT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).UOT">
           <com:Annotations>
@@ -4607,7 +4133,6 @@
           <com:Name xml:lang="en">Chestnut turban</com:Name>
           <com:Name xml:lang="fr">Turban marron</com:Name>
           <com:Name xml:lang="es">Turbante castana</com:Name>
-          <com:Name xml:lang="la">Turbo castanea</com:Name>
         </str:Code>
         <str:Code id="VLU" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).VLU">
           <com:Annotations>
@@ -4619,7 +4144,6 @@
           <com:Name xml:lang="en">Common music volute</com:Name>
           <com:Name xml:lang="fr">Volute musique</com:Name>
           <com:Name xml:lang="es">Voluta musical</com:Name>
-          <com:Name xml:lang="la">Voluta musica</com:Name>
         </str:Code>
         <str:Code id="VLV" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).VLV">
           <com:Annotations>
@@ -4631,7 +4155,6 @@
           <com:Name xml:lang="en">Green music volute</com:Name>
           <com:Name xml:lang="fr">Volute verte</com:Name>
           <com:Name xml:lang="es">Voluta verde</com:Name>
-          <com:Name xml:lang="la">Voluta virescens</com:Name>
         </str:Code>
         <str:Code id="NKA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NKA">
           <com:Annotations>
@@ -4643,7 +4166,6 @@
           <com:Name xml:lang="en">Adanson's moon snail</com:Name>
           <com:Name xml:lang="fr">Natice d'Adanson</com:Name>
           <com:Name xml:lang="es">Nática de Adanson</com:Name>
-          <com:Name xml:lang="la">Natica adansoni</com:Name>
         </str:Code>
         <str:Code id="WFS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).WFS">
           <com:Annotations>
@@ -4655,7 +4177,6 @@
           <com:Name xml:lang="en">White-faced storm petrel</com:Name>
           <com:Name xml:lang="fr">Océanite frégate</com:Name>
           <com:Name xml:lang="es">Paíño pechialbo</com:Name>
-          <com:Name xml:lang="la">Pelagodroma marina</com:Name>
         </str:Code>
         <str:Code id="RXL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RXL">
           <com:Annotations>
@@ -4667,7 +4188,6 @@
           <com:Name xml:lang="en">West African stromb</com:Name>
           <com:Name xml:lang="fr">Strombe d'Afrique occidentale</com:Name>
           <com:Name xml:lang="es">Cobo de Africa occidental</com:Name>
-          <com:Name xml:lang="la">Strombus latus</com:Name>
         </str:Code>
         <str:Code id="YBM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YBM">
           <com:Annotations>
@@ -4679,7 +4199,6 @@
           <com:Name xml:lang="en">Marmorate volute</com:Name>
           <com:Name xml:lang="fr">Volute marbrée</com:Name>
           <com:Name xml:lang="es">Voluta marmorada</com:Name>
-          <com:Name xml:lang="la">Cymbium marmoratum</com:Name>
         </str:Code>
         <str:Code id="NKT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NKT">
           <com:Annotations>
@@ -4691,7 +4210,6 @@
           <com:Name xml:lang="en">Turton's moon snail</com:Name>
           <com:Name xml:lang="fr">Natice de Turton</com:Name>
           <com:Name xml:lang="es">Nática deTurton</com:Name>
-          <com:Name xml:lang="la">Natica turtoni</com:Name>
         </str:Code>
         <str:Code id="LVS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LVS">
           <com:Annotations>
@@ -4703,7 +4221,6 @@
           <com:Name xml:lang="en">Swollen laurenzia</com:Name>
           <com:Name xml:lang="fr">Laurencia renflée</com:Name>
           <com:Name xml:lang="es">Laurencia hinchada</com:Name>
-          <com:Name xml:lang="la">Laurencia sinicola</com:Name>
         </str:Code>
         <str:Code id="FRP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).FRP">
           <com:Annotations>
@@ -4715,25 +4232,6 @@
           <com:Name xml:lang="en">Frilled nori</com:Name>
           <com:Name xml:lang="fr">Nori froncé</com:Name>
           <com:Name xml:lang="es">Nori escarolado</com:Name>
-          <com:Name xml:lang="la">Porphyra perforata</com:Name>
-        </str:Code>
-        <str:Code id="YGF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YGF">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(Turner) Martius</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Gymnogongrus griffithsiae</com:Name>
-        </str:Code>
-        <str:Code id="YGJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YGJ">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">J. Agardh</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Gymnogongrus tenuis</com:Name>
         </str:Code>
         <str:Code id="OTX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).OTX">
           <com:Annotations>
@@ -4743,7 +4241,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Clawed sea moss</com:Name>
-          <com:Name xml:lang="la">Portieria hornemannii</com:Name>
         </str:Code>
         <str:Code id="GKC" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GKC">
           <com:Annotations>
@@ -4753,7 +4250,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Arcuate gracilaria</com:Name>
-          <com:Name xml:lang="la">Gracilaria arcuata</com:Name>
         </str:Code>
         <str:Code id="WEG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).WEG">
           <com:Annotations>
@@ -4765,7 +4261,6 @@
           <com:Name xml:lang="en">Greater weever</com:Name>
           <com:Name xml:lang="fr">Grande vive</com:Name>
           <com:Name xml:lang="es">Escorpión</com:Name>
-          <com:Name xml:lang="la">Trachinus draco</com:Name>
         </str:Code>
         <str:Code id="URA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).URA">
           <com:Annotations>
@@ -4776,7 +4271,6 @@
           <com:Name xml:lang="en">Stargazers</com:Name>
           <com:Name xml:lang="fr">Uranoscopes</com:Name>
           <com:Name xml:lang="es">Miracielos(=Ratas)</com:Name>
-          <com:Name xml:lang="la">Uranoscopus spp</com:Name>
         </str:Code>
         <str:Code id="NOX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NOX">
           <com:Annotations>
@@ -4787,7 +4281,6 @@
           <com:Name xml:lang="en">Antarctic rockcods, noties nei</com:Name>
           <com:Name xml:lang="fr">Bocasses, bocassons nca</com:Name>
           <com:Name xml:lang="es">Tramas, doradillos nep</com:Name>
-          <com:Name xml:lang="la">Nototheniidae</com:Name>
         </str:Code>
         <str:Code id="BLP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BLP">
           <com:Annotations>
@@ -4799,7 +4292,6 @@
           <com:Name xml:lang="en">Patagonian blennie</com:Name>
           <com:Name xml:lang="fr">Guite de Patagonie</com:Name>
           <com:Name xml:lang="es">Róbalo patagónico</com:Name>
-          <com:Name xml:lang="la">Eleginops maclovinus</com:Name>
         </str:Code>
         <str:Code id="TOT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TOT">
           <com:Annotations>
@@ -4810,7 +4302,6 @@
           <com:Name xml:lang="en">Antarctic toothfishes nei</com:Name>
           <com:Name xml:lang="fr">Légines antarctiques nca</com:Name>
           <com:Name xml:lang="es">Austromerluzas nep</com:Name>
-          <com:Name xml:lang="la">Dissostichus spp</com:Name>
         </str:Code>
         <str:Code id="TOA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TOA">
           <com:Annotations>
@@ -4822,7 +4313,6 @@
           <com:Name xml:lang="en">Antarctic toothfish</com:Name>
           <com:Name xml:lang="fr">Légine antarctique</com:Name>
           <com:Name xml:lang="es">Austromerluza antártica</com:Name>
-          <com:Name xml:lang="la">Dissostichus mawsoni</com:Name>
         </str:Code>
         <str:Code id="TOP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TOP">
           <com:Annotations>
@@ -4834,7 +4324,6 @@
           <com:Name xml:lang="en">Patagonian toothfish</com:Name>
           <com:Name xml:lang="fr">Légine australe</com:Name>
           <com:Name xml:lang="es">Austromerluza negra</com:Name>
-          <com:Name xml:lang="la">Dissostichus eleginoides</com:Name>
         </str:Code>
         <str:Code id="ULQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ULQ">
           <com:Annotations>
@@ -4846,7 +4335,6 @@
           <com:Name xml:lang="en">Sea spirulina</com:Name>
           <com:Name xml:lang="fr">Spiruline de mer</com:Name>
           <com:Name xml:lang="es">Espirulina de mar</com:Name>
-          <com:Name xml:lang="la">Spirulina subsalsa</com:Name>
         </str:Code>
         <str:Code id="DMH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).DMH">
           <com:Annotations>
@@ -4858,7 +4346,6 @@
           <com:Name xml:lang="en">Corsican moss</com:Name>
           <com:Name xml:lang="fr">Mousse de Corse</com:Name>
           <com:Name xml:lang="es">Musgo de Corcega</com:Name>
-          <com:Name xml:lang="la">Alsidium helminthochorton</com:Name>
         </str:Code>
         <str:Code id="KMQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KMQ">
           <com:Annotations>
@@ -4870,7 +4357,6 @@
           <com:Name xml:lang="en">Common ceramium</com:Name>
           <com:Name xml:lang="fr">Céramium commun</com:Name>
           <com:Name xml:lang="es">Trillo común</com:Name>
-          <com:Name xml:lang="la">Ceramium rubrum</com:Name>
         </str:Code>
         <str:Code id="KMI" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KMI">
           <com:Annotations>
@@ -4882,7 +4368,6 @@
           <com:Name xml:lang="en">Velvet ceramium</com:Name>
           <com:Name xml:lang="fr">Céramium cilie</com:Name>
           <com:Name xml:lang="es">Trillo velludo</com:Name>
-          <com:Name xml:lang="la">Ceramium ciliatum</com:Name>
         </str:Code>
         <str:Code id="KRQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KRQ">
           <com:Annotations>
@@ -4894,7 +4379,6 @@
           <com:Name xml:lang="en">Rough coral moss</com:Name>
           <com:Name xml:lang="fr">Coralline carénée</com:Name>
           <com:Name xml:lang="es">Coralina carenada</com:Name>
-          <com:Name xml:lang="la">Corallina elongata</com:Name>
         </str:Code>
         <str:Code id="YKP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YKP">
           <com:Annotations>
@@ -4906,7 +4390,6 @@
           <com:Name xml:lang="en">Marine bindweed</com:Name>
           <com:Name xml:lang="fr">Cirre des Sirenes</com:Name>
           <com:Name xml:lang="es">Esparraguilla</com:Name>
-          <com:Name xml:lang="la">Cystoclonium purpureum</com:Name>
         </str:Code>
         <str:Code id="KDM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KDM">
           <com:Annotations>
@@ -4916,7 +4399,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="es">Chicorea de mar</com:Name>
-          <com:Name xml:lang="la">Chondracanthus chamissoi</com:Name>
         </str:Code>
         <str:Code id="SBQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SBQ">
           <com:Annotations>
@@ -4926,7 +4408,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="es">Luga negra o crespa</com:Name>
-          <com:Name xml:lang="la">Sarcothalia crispata</com:Name>
         </str:Code>
         <str:Code id="MZL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).MZL">
           <com:Annotations>
@@ -4936,7 +4417,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="es">Luga cuchara o corta</com:Name>
-          <com:Name xml:lang="la">Mazzaella laminarioides</com:Name>
         </str:Code>
         <str:Code id="GCH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GCH">
           <com:Annotations>
@@ -4946,25 +4426,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="es">Pelillo</com:Name>
-          <com:Name xml:lang="la">Gracilaria chilensis</com:Name>
-        </str:Code>
-        <str:Code id="GDH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GDH">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(Montagne) Santelices &amp; Montalva 1983</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Gelidium chilense</com:Name>
-        </str:Code>
-        <str:Code id="GDX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GDX">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">Santelices &amp; I.A.Abbott 1985</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Gelidium rex</com:Name>
         </str:Code>
         <str:Code id="NOR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NOR">
           <com:Annotations>
@@ -4976,7 +4437,6 @@
           <com:Name xml:lang="en">Marbled rockcod</com:Name>
           <com:Name xml:lang="fr">Bocasse marbrée</com:Name>
           <com:Name xml:lang="es">Trama jaspeada</com:Name>
-          <com:Name xml:lang="la">Notothenia rossii</com:Name>
         </str:Code>
         <str:Code id="NOG" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NOG">
           <com:Annotations>
@@ -4988,7 +4448,6 @@
           <com:Name xml:lang="en">Humped rockcod</com:Name>
           <com:Name xml:lang="fr">Bocasse bossue</com:Name>
           <com:Name xml:lang="es">Trama jorobada</com:Name>
-          <com:Name xml:lang="la">Notothenia gibberifrons</com:Name>
         </str:Code>
         <str:Code id="NOS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NOS">
           <com:Annotations>
@@ -5000,7 +4459,6 @@
           <com:Name xml:lang="en">Grey rockcod</com:Name>
           <com:Name xml:lang="fr">Bocasse grise</com:Name>
           <com:Name xml:lang="es">Trama gris</com:Name>
-          <com:Name xml:lang="la">Notothenia squamifrons</com:Name>
         </str:Code>
         <str:Code id="NOA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NOA">
           <com:Annotations>
@@ -5012,7 +4470,6 @@
           <com:Name xml:lang="en">Triangular rockcod</com:Name>
           <com:Name xml:lang="fr">Bocasse triangulaire</com:Name>
           <com:Name xml:lang="es">Trama triangular</com:Name>
-          <com:Name xml:lang="la">Notothenia acuta</com:Name>
         </str:Code>
         <str:Code id="NOL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NOL">
           <com:Annotations>
@@ -5024,7 +4481,6 @@
           <com:Name xml:lang="en">Painted notie</com:Name>
           <com:Name xml:lang="fr">Bocassette écrivain</com:Name>
           <com:Name xml:lang="es">Doradillo escribano</com:Name>
-          <com:Name xml:lang="la">Nototheniops larseni</com:Name>
         </str:Code>
         <str:Code id="NOZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).NOZ">
           <com:Annotations>
@@ -5036,7 +4492,6 @@
           <com:Name xml:lang="en">Toad notie</com:Name>
           <com:Name xml:lang="fr">Bocassette crapaud</com:Name>
           <com:Name xml:lang="es">Ojo de sapo</com:Name>
-          <com:Name xml:lang="la">Nototheniops mizops</com:Name>
         </str:Code>
         <str:Code id="PAT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PAT">
           <com:Annotations>
@@ -5048,7 +4503,6 @@
           <com:Name xml:lang="en">Longtail Southern cod</com:Name>
           <com:Name xml:lang="fr">Notothénia queue longue</com:Name>
           <com:Name xml:lang="es">Nototenia coluda</com:Name>
-          <com:Name xml:lang="la">Patagonotothen ramsayi</com:Name>
         </str:Code>
         <str:Code id="TRL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TRL">
           <com:Annotations>
@@ -5058,97 +4512,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Blunt scalyhead</com:Name>
-          <com:Name xml:lang="la">Trematomus eulepidotus</com:Name>
-        </str:Code>
-        <str:Code id="YNQ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YNQ">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(Kützing) J. Agardh 1851</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Hypnea cornuta</com:Name>
-        </str:Code>
-        <str:Code id="YAY" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YAY">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">Tanaka 1947</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Hypnea japonica</com:Name>
-        </str:Code>
-        <str:Code id="YAD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YAD">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">Holmes 1895</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Hypnea saidana</com:Name>
-        </str:Code>
-        <str:Code id="YAK" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YAK">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(Suhr) Harvey 1847</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Hypnea spicifera</com:Name>
-        </str:Code>
-        <str:Code id="YAH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).YAH">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(C. Agardh) Kützing 1849</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Hypnea spinella</com:Name>
-        </str:Code>
-        <str:Code id="KMD" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KMD">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(H. Richards) Feldmann-Mazoyer 1938</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Ceramium codii</com:Name>
-        </str:Code>
-        <str:Code id="KMF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KMF">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">Setchell &amp; Gardner 1924</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Ceramium fimbriatum</com:Name>
-        </str:Code>
-        <str:Code id="KMN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KMN">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">Yendo 1920</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Ceramium kondoi</com:Name>
-        </str:Code>
-        <str:Code id="KMJ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KMJ">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">Okamura</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Ceramium paniculatum</com:Name>
-        </str:Code>
-        <str:Code id="KMX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).KMX">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(G.Martens) Okamura 1921</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Ceramium tenerrimum</com:Name>
         </str:Code>
         <str:Code id="CRA" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CRA">
           <com:Annotations>
@@ -5159,7 +4522,6 @@
           <com:Name xml:lang="en">Marine crabs nei</com:Name>
           <com:Name xml:lang="fr">Crabes de mer nca</com:Name>
           <com:Name xml:lang="es">Cangrejos de mar nep</com:Name>
-          <com:Name xml:lang="la">Brachyura</com:Name>
         </str:Code>
         <str:Code id="ABX" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ABX">
           <com:Annotations>
@@ -5170,7 +4532,6 @@
           <com:Name xml:lang="en">Abalones nei</com:Name>
           <com:Name xml:lang="fr">Ormeaux nca</com:Name>
           <com:Name xml:lang="es">Orejas de mar nep</com:Name>
-          <com:Name xml:lang="la">Haliotis spp</com:Name>
         </str:Code>
         <str:Code id="ABF" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ABF">
           <com:Annotations>
@@ -5182,7 +4543,6 @@
           <com:Name xml:lang="en">Red abalone</com:Name>
           <com:Name xml:lang="fr">Ormeau rouge</com:Name>
           <com:Name xml:lang="es">Abulón colorado</com:Name>
-          <com:Name xml:lang="la">Haliotis rufescens</com:Name>
         </str:Code>
         <str:Code id="ABP" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ABP">
           <com:Annotations>
@@ -5194,7 +4554,6 @@
           <com:Name xml:lang="en">Perlemoen abalone</com:Name>
           <com:Name xml:lang="fr">Ormeau de Mida</com:Name>
           <com:Name xml:lang="es">Oreja de mar</com:Name>
-          <com:Name xml:lang="la">Haliotis midae</com:Name>
         </str:Code>
         <str:Code id="ABM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ABM">
           <com:Annotations>
@@ -5204,7 +4563,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Small abalone</com:Name>
-          <com:Name xml:lang="la">Haliotis diversicolor</com:Name>
         </str:Code>
         <str:Code id="TSH" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TSH">
           <com:Annotations>
@@ -5215,7 +4573,6 @@
           <com:Name xml:lang="en">Trochus shells</com:Name>
           <com:Name xml:lang="fr">Troques</com:Name>
           <com:Name xml:lang="es">Tróquidos</com:Name>
-          <com:Name xml:lang="la">Ex Trochus spp</com:Name>
         </str:Code>
         <str:Code id="LBE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LBE">
           <com:Annotations>
@@ -5227,7 +4584,6 @@
           <com:Name xml:lang="en">European lobster</com:Name>
           <com:Name xml:lang="fr">Homard européen</com:Name>
           <com:Name xml:lang="es">Bogavante</com:Name>
-          <com:Name xml:lang="la">Homarus gammarus</com:Name>
         </str:Code>
         <str:Code id="CRR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).CRR">
           <com:Annotations>
@@ -5239,7 +4595,6 @@
           <com:Name xml:lang="en">Red crab</com:Name>
           <com:Name xml:lang="fr">Gériocrabe rouge</com:Name>
           <com:Name xml:lang="es">Geriocangrejo rojo</com:Name>
-          <com:Name xml:lang="la">Chaceon quinquedens</com:Name>
         </str:Code>
         <str:Code id="PER" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).PER">
           <com:Annotations>
@@ -5250,7 +4605,6 @@
           <com:Name xml:lang="en">Periwinkles nei</com:Name>
           <com:Name xml:lang="fr">Bigorneaux nca</com:Name>
           <com:Name xml:lang="es">Bígaros nep</com:Name>
-          <com:Name xml:lang="la">Littorina spp</com:Name>
         </str:Code>
         <str:Code id="COO" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).COO">
           <com:Annotations>
@@ -5262,7 +4616,6 @@
           <com:Name xml:lang="en">Pink conch</com:Name>
           <com:Name xml:lang="fr">Strombe rosé</com:Name>
           <com:Name xml:lang="es">Cobo rosado</com:Name>
-          <com:Name xml:lang="la">Strombus gigas</com:Name>
         </str:Code>
         <str:Code id="ACB" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ACB">
           <com:Annotations>
@@ -5272,7 +4625,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Inflated ark</com:Name>
-          <com:Name xml:lang="la">Scapharca broughtonii</com:Name>
         </str:Code>
         <str:Code id="BLS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).BLS">
           <com:Annotations>
@@ -5283,7 +4635,6 @@
           <com:Name xml:lang="en">Anadara clams nei</com:Name>
           <com:Name xml:lang="fr">Arches Anadara nca</com:Name>
           <com:Name xml:lang="es">Arcas Anadara nep</com:Name>
-          <com:Name xml:lang="la">Anadara spp</com:Name>
         </str:Code>
         <str:Code id="TOS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).TOS">
           <com:Annotations>
@@ -5295,7 +4646,6 @@
           <com:Name xml:lang="en">Horned turban</com:Name>
           <com:Name xml:lang="fr">Troque</com:Name>
           <com:Name xml:lang="es">Peonza cornuda</com:Name>
-          <com:Name xml:lang="la">Turbo cornutus</com:Name>
         </str:Code>
         <str:Code id="GIW" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).GIW">
           <com:Annotations>
@@ -5305,7 +4655,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Giant periwinkle</com:Name>
-          <com:Name xml:lang="la">Turbo sarmaticus</com:Name>
         </str:Code>
         <str:Code id="VIM" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).VIM">
           <com:Annotations>
@@ -5315,7 +4664,6 @@
             </com:Annotation>
           </com:Annotations>
           <com:Name xml:lang="en">Macedonian vimba</com:Name>
-          <com:Name xml:lang="la">Vimba melanops</com:Name>
         </str:Code>
         <str:Code id="RPN" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).RPN">
           <com:Annotations>
@@ -5326,7 +4674,6 @@
           <com:Name xml:lang="en">Sea snails</com:Name>
           <com:Name xml:lang="fr">Escargots de mer</com:Name>
           <com:Name xml:lang="es">Caracoles de mar</com:Name>
-          <com:Name xml:lang="la">Rapana spp</com:Name>
         </str:Code>
         <str:Code id="WHE" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).WHE">
           <com:Annotations>
@@ -5338,7 +4685,6 @@
           <com:Name xml:lang="en">Whelk</com:Name>
           <com:Name xml:lang="fr">Buccin</com:Name>
           <com:Name xml:lang="es">Bocina</com:Name>
-          <com:Name xml:lang="la">Buccinum undatum</com:Name>
         </str:Code>
         <str:Code id="LAS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LAS">
           <com:Annotations>
@@ -5349,7 +4695,6 @@
           <com:Name xml:lang="en">Lampreys nei</com:Name>
           <com:Name xml:lang="fr">Lamproies nca</com:Name>
           <com:Name xml:lang="es">Lampreas nep</com:Name>
-          <com:Name xml:lang="la">Petromyzontidae</com:Name>
         </str:Code>
         <str:Code id="LAR" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).LAR">
           <com:Annotations>
@@ -5361,7 +4706,6 @@
           <com:Name xml:lang="en">River lamprey</com:Name>
           <com:Name xml:lang="fr">Lamproie de rivière</com:Name>
           <com:Name xml:lang="es">Lamprea de río</com:Name>
-          <com:Name xml:lang="la">Lampetra fluviatilis</com:Name>
         </str:Code>
         <str:Code id="SBL" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).SBL">
           <com:Annotations>
@@ -5373,16 +4717,6 @@
           <com:Name xml:lang="en">Bluntnose sixgill shark</com:Name>
           <com:Name xml:lang="fr">Requin griset</com:Name>
           <com:Name xml:lang="es">Cañabota gris</com:Name>
-          <com:Name xml:lang="la">Hexanchus griseus</com:Name>
-        </str:Code>
-        <str:Code id="ERZ" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=FAO:CL_SPECIES(1.0).ERZ">
-          <com:Annotations>
-            <com:Annotation>
-              <com:AnnotationTitle>AUTHOR</com:AnnotationTitle>
-              <com:AnnotationText xml:lang="en">(Jordan &amp; Thompson 1912)</com:AnnotationText>
-            </com:Annotation>
-          </com:Annotations>
-          <com:Name xml:lang="la">Erythrocles scintillans</com:Name>
         </str:Code>
       </str:Codelist>
     </str:Codelists>

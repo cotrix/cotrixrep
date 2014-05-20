@@ -25,8 +25,17 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 	private final List<String> orderBys = new ArrayList<>();
 	private final List<String> returns = new ArrayList<>();
 	
+	
+	private String query = null;
+	
+	private boolean descending =false;
+	
 	public NeoMultiQuery(NeoQueryEngine engine) {
 		this.engine =engine;
+	}
+	
+	public void setDescending() {
+		this.descending = true;
 	}
 	
 	protected void match(String clause) {
@@ -53,7 +62,17 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 		params.put(key, value);
 	}
 	
-	protected ExecutionResult executeNeo() {
+	protected synchronized ExecutionResult executeNeo() {
+		
+		if (query==null)
+			this.query = query();
+
+				
+		return engine.execute(query,params);
+	}
+	
+	
+	private String query() {
 		
 		//  match where? with? return order-by? range?
 		String template = "MATCH %1$s %2$s %3$s RETURN %4$s %5$s %6$s";
@@ -66,6 +85,8 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 			if (!response.isEmpty())
 				orderBy = "ORDER BY "+response;
 		}
+		
+			
 		
 		String match = flatten(matches);
 		
@@ -90,9 +111,14 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 		}
 		
 		String query = format(template,match,where,with,rtrn,orderBy,range); 
-				
-		return engine.execute(query,params);
+		
+		if (descending)
+			query = query.replaceAll("\\bORDER BY\\s*(\\S+)", "ORDER BY $1 DESC");
+		
+		return query;
 	}
+	
+
 	
 	//helpers
 	
@@ -105,7 +131,7 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 		
 		Iterator<String> it = clauses.iterator();
 		while (it.hasNext()) 
-			b.append(it.next()).append(it.hasNext()?',':"");
+			b.append(it.next()).append(it.hasNext()?", ":"");
 
 		return b.toString();
 	}

@@ -25,6 +25,14 @@
 			</g:row>
 			<g:row>
 				<g:customCell styleName="{common.css.verticalHeadersSingleItem}">
+					<g:Label text="Version" styleName="{common.css.propertyLabel}" />
+				</g:customCell>
+				<g:customCell styleName="{style.valueCell}">
+					<g:Label ui:field="assetVersion" styleName="{common.css.propertyValue}" />
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell styleName="{common.css.verticalHeadersSingleItem}">
 					<g:Label text="Type" styleName="{common.css.propertyLabel}" />
 				</g:customCell>
 				<g:customCell styleName="{style.valueCell}">

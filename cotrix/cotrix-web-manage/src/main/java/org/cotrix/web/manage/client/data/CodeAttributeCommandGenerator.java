@@ -9,7 +9,7 @@ import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.attribute.AddAttributeCommand;
 import org.cotrix.web.manage.shared.modify.attribute.RemoveAttributeCommand;
 import org.cotrix.web.manage.shared.modify.attribute.UpdateAttributeCommand;
-import org.cotrix.web.manage.shared.modify.code.CodeAttributeCommand;
+import org.cotrix.web.manage.shared.modify.code.CodeTargetedCommand;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -27,15 +27,15 @@ public class CodeAttributeCommandGenerator implements CommandGenerator<CodeAttri
 		switch (editType) {
 			case ADD: {
 				AddAttributeCommand addAttributeCommand = new AddAttributeCommand(data.getAttribute());
-				return new CodeAttributeCommand(data.getCode().getId(), addAttributeCommand);
+				return new CodeTargetedCommand(data.getCode().getId(), addAttributeCommand);
 			}
 			case UPDATE: {
 				UpdateAttributeCommand updateAttributeCommand = new UpdateAttributeCommand(data.getAttribute());
-				return new CodeAttributeCommand(data.getCode().getId(), updateAttributeCommand);
+				return new CodeTargetedCommand(data.getCode().getId(), updateAttributeCommand);
 			}
 			case REMOVE: {
 				RemoveAttributeCommand removeAttributeCommand = new RemoveAttributeCommand(data.getAttribute().getId());
-				return new CodeAttributeCommand(data.getCode().getId(), removeAttributeCommand);
+				return new CodeTargetedCommand(data.getCode().getId(), removeAttributeCommand);
 			}
 		}
 		throw new IllegalArgumentException("Unknown edit type "+editType);

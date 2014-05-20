@@ -6,6 +6,7 @@ import java.util.Map;
 import org.cotrix.web.common.client.event.CodelistClosedEvent;
 import org.cotrix.web.common.client.event.CodelistOpenedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.codelist.CodelistPanelPresenter;
 import org.cotrix.web.manage.client.codelist.CodelistPanelView;
@@ -66,10 +67,10 @@ public class ContentPanelController implements OpenCodeListHandler {
 	protected void openCodelist(final UICodelist codelist)
 	{
 		Log.trace("openCodelist codelist "+codelist);
-		CodelistPanelPresenter codeListPanelPresenter = codeListPanelFactory.build(codelist.getId());
+		CodelistPanelPresenter codeListPanelPresenter = codeListPanelFactory.build(codelist);
 		presenters.put(codelist.getId(), codeListPanelPresenter);
 		CodelistPanelView codelistPanel = codeListPanelPresenter.getView();
-		HasCloseHandlers<Widget> hasCloseHandlers = view.addCodeListPanel(codelistPanel, codelist.getName(), codelist.getVersion());
+		HasCloseHandlers<Widget> hasCloseHandlers = view.addCodeListPanel(codelistPanel, ValueUtils.getLocalPart(codelist.getName()), codelist.getVersion());
 		hasCloseHandlers.addCloseHandler(new CloseHandler<Widget>() {
 
 			@Override

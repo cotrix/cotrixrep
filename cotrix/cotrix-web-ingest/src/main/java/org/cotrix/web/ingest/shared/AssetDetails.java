@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.cotrix.web.common.shared.codelist.Property;
+import org.cotrix.web.common.shared.codelist.UIQName;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -17,25 +18,19 @@ public class AssetDetails implements Serializable {
 	
 	protected String id;
 	protected String name;
+	protected String version;
 	protected String type;
 	protected List<Property> properties;
-	protected String repositoryName;
-	protected String repositoryId;
+	protected UIQName repositoryName;
+	protected UIQName repositoryId;
 	
 	public AssetDetails(){}
-	
 
-	/**
-	 * @param id
-	 * @param name
-	 * @param type
-	 * @param properties
-	 * @param repository
-	 */
-	public AssetDetails(String id, String name, String type,
-			List<Property> properties, String repositoryName, String repositoryId) {
+	public AssetDetails(String id, String name, String version, String type,
+			List<Property> properties, UIQName repositoryName, UIQName repositoryId) {
 		this.id = id;
 		this.name = name;
+		this.version = version;
 		this.type = type;
 		this.properties = properties;
 		this.repositoryName = repositoryName;
@@ -58,6 +53,13 @@ public class AssetDetails implements Serializable {
 	}
 
 	/**
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
 	 * @return the type
 	 */
 	public String getType() {
@@ -74,14 +76,14 @@ public class AssetDetails implements Serializable {
 	/**
 	 * @return the repositoryName
 	 */
-	public String getRepositoryName() {
+	public UIQName getRepositoryName() {
 		return repositoryName;
 	}
 
 	/**
 	 * @return the repositoryId
 	 */
-	public String getRepositoryId() {
+	public UIQName getRepositoryId() {
 		return repositoryId;
 	}
 
@@ -97,6 +99,13 @@ public class AssetDetails implements Serializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 	/**
@@ -116,14 +125,14 @@ public class AssetDetails implements Serializable {
 	/**
 	 * @param repositoryName the repositoryName to set
 	 */
-	public void setRepositoryName(String repositoryName) {
+	public void setRepositoryName(UIQName repositoryName) {
 		this.repositoryName = repositoryName;
 	}
 
 	/**
 	 * @param repositoryId the repositoryId to set
 	 */
-	public void setRepositoryId(String repositoryId) {
+	public void setRepositoryId(UIQName repositoryId) {
 		this.repositoryId = repositoryId;
 	}
 
@@ -137,6 +146,8 @@ public class AssetDetails implements Serializable {
 		builder.append(id);
 		builder.append(", name=");
 		builder.append(name);
+		builder.append(", version=");
+		builder.append(version);
 		builder.append(", type=");
 		builder.append(type);
 		builder.append(", properties=");

@@ -7,7 +7,7 @@
 
 	<groupId>org.cotrix</groupId>
 	<artifactId>cotrix</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -254,7 +254,7 @@
 				<version>${project.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			
+
 			<!-- GWT extensions -->
 			<dependency>
 				<groupId>org.cotrix</groupId>
@@ -291,15 +291,33 @@
 				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
 				<scope>runtime</scope>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>org.virtualrepository</groupId>
-				<artifactId>virtual-rtms</artifactId>
+				<artifactId>virtual-gcube-workspace</artifactId>
 				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
 				<scope>runtime</scope>
 			</dependency>
 
+			<dependency>
+				<groupId>org.virtualrepository</groupId>
+				<artifactId>virtual-rtms</artifactId>
+				<version>[2.0.0-SNAPSHOT,3.0.0-SNAPSHOT)</version>
+				<scope>runtime</scope>
+			</dependency>
 
+			<dependency>
+				<groupId>org.virtualrepository</groupId>
+				<artifactId>virtual-data-fao</artifactId>
+				<version>[1.0.0-SNAPSHOT,2.0.0-SNAPSHOT)</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.fao.fi.comet.mapping</groupId>
+				<artifactId>comet-mapping-format</artifactId>
+				<version>[0.0.1-SNAPSHOT, 1.0.0-SNAPSHOT)</version>
+			</dependency>
 
 			<!-- 3rd party deps -->
 
@@ -646,6 +664,18 @@
 					<id>gcube-releases</id>
 					<name>gCube Releases</name>
 					<url>http://maven.research-infrastructures.eu/nexus/content/repositories/gcube-releases</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+				
+				<repository>
+					<id>gcube-externals</id>
+					<name>gCube Externals</name>
+					<url>http://maven.research-infrastructures.eu/nexus/content/repositories/gcube-externals</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>

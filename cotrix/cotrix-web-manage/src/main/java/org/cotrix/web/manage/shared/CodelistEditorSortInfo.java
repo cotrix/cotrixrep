@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.manage.shared;
 
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIQName;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -57,7 +58,7 @@ public abstract class CodelistEditorSortInfo implements IsSerializable {
 		
 		protected UIQName name;
 		protected UIQName type;
-		protected String language;
+		protected Language language;
 		protected int position;
 		
 		AttributeGroupSortInfo(){}
@@ -69,7 +70,7 @@ public abstract class CodelistEditorSortInfo implements IsSerializable {
 		 * @param language
 		 */
 		public AttributeGroupSortInfo(boolean ascending, UIQName name,
-				UIQName type, String language, int position) {
+				UIQName type, Language language, int position) {
 			super(ascending);
 			this.name = name;
 			this.type = type;
@@ -93,7 +94,7 @@ public abstract class CodelistEditorSortInfo implements IsSerializable {
 		/**
 		 * @return the language
 		 */
-		public String getLanguage() {
+		public Language getLanguage() {
 			return language;
 		}
 

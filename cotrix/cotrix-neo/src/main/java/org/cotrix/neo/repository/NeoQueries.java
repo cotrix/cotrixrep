@@ -59,7 +59,8 @@ public abstract class NeoQueries {
 			
 			@Override
 			protected String process(NeoMultiQuery<?, ?> query) {
-				return format("%1$s DESC",reveal(c).process(query));
+				query.setDescending();
+				return reveal(c).process(query);
 			}
 		};
 	}

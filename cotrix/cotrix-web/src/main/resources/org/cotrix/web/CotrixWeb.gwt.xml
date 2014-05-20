@@ -15,10 +15,6 @@
 	<inherits name='org.cotrix.web.publish.CotrixPublish' />	 
 	<inherits name='org.cotrix.web.users.CotrixUsers' />	
 	
-	<!-- GWT LOGGING SETUP -->
-	<inherits name="com.allen_sauer.gwt.log.gwt-log-TRACE" />
-	<set-property name="log_DivLogger" value="DISABLED" />
-	
 	<!-- CallBack interceptor -->
 	<generate-with  class="org.cotrix.web.common.gen.CotrixServiceInterfaceProxyGenerator">
     	<when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService"/>

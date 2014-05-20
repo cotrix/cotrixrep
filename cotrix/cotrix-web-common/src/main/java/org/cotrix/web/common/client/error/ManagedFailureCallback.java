@@ -5,6 +5,9 @@ package org.cotrix.web.common.client.error;
 
 import javax.inject.Inject;
 
+import org.cotrix.web.common.shared.Error;
+import org.cotrix.web.common.shared.exception.Exceptions;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -21,7 +24,12 @@ public abstract class ManagedFailureCallback<T> implements AsyncCallback<T> {
 	 */
 	@Override
 	public void onFailure(Throwable caught) {
-		errorManager.rpcFailure(caught);
+		Error error = Exceptions.toError(caught);
+		errorManager.showError(error);
+		onCallFailed();
+	}
+	
+	public void onCallFailed() {
 	}
 
 }

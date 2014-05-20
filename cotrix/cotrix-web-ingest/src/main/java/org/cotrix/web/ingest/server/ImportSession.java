@@ -14,7 +14,7 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.ingest.server.climport.ImportTaskSession;
-import org.cotrix.web.ingest.shared.CodeListType;
+import org.cotrix.web.ingest.shared.UIAssetType;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.ingest.shared.MappingMode;
@@ -31,7 +31,7 @@ public class ImportSession implements Serializable {
 	
 	protected FileUploadProgress uploadProgress;
 	protected FileItem fileField;
-	protected CodeListType codeListType;
+	protected UIAssetType codeListType;
 	
 	protected Asset selectedAsset;
 	
@@ -113,14 +113,14 @@ public class ImportSession implements Serializable {
 	/**
 	 * @return the codeListType
 	 */
-	public CodeListType getCodeListType() {
+	public UIAssetType getCodeListType() {
 		return codeListType;
 	}
 
 	/**
 	 * @param codeListType the codeListType to set
 	 */
-	public void setCodeListType(CodeListType codeListType) {
+	public void setCodeListType(UIAssetType codeListType) {
 		this.codeListType = codeListType;
 	}
 

@@ -1,8 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 
-import java.util.List;
-
-import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.ImplementedBy;
@@ -22,9 +20,9 @@ public interface SdmxMappingStepView {
 	public void setMappingLoading();
 	public void unsetMappingLoading();
 	
-	public void setMappings(List<AttributeMapping> attributes);
+	public void setMappings(AttributesMappings attributes);
 	
-	public List<AttributeMapping> getMappings();
+	public AttributesMappings getMappings();
 	
 	public void alert(String message);
 

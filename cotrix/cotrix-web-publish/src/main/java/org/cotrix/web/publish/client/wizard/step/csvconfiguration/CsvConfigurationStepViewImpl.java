@@ -1,6 +1,5 @@
 package org.cotrix.web.publish.client.wizard.step.csvconfiguration;
 
-import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.CsvConfigurationPanel;
 import org.cotrix.web.common.shared.CsvConfiguration;
 
@@ -37,9 +36,6 @@ public class CsvConfigurationStepViewImpl extends ResizeComposite implements Csv
 	CsvConfigurationPanel configurationPanel;
 	
 	@Inject
-	AlertDialog alertDialog;
-	
-	@Inject
 	public CsvConfigurationStepViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
@@ -48,13 +44,6 @@ public class CsvConfigurationStepViewImpl extends ResizeComposite implements Csv
 	public CsvConfigurationPanel createCsvParserConfigurationPanel()
 	{
 		return new CsvConfigurationPanel(configurationPanelBinder);
-	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	public void alert(String message) {
-		alertDialog.center(message);
 	}
 	
 	@Override

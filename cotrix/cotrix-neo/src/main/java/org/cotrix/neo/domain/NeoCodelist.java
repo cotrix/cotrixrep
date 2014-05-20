@@ -4,9 +4,9 @@ import static org.cotrix.neo.domain.Constants.NodeType.*;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.State;
 import org.cotrix.domain.common.NamedStateContainer;
-import org.cotrix.domain.dsl.Codes;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
@@ -23,6 +23,7 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 		
 		@Override
 		public Node nodeFrom(Codelist.State state) {
+			
 			return new NeoCodelist(state).node();
 		}
 	};
@@ -35,8 +36,12 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 
 		super(CODELIST,state);	
 		
+		for (CodelistLink.State l : state.links())
+			node().createRelationshipTo(NeoCodelistLink.factory.nodeFrom(l),Relations.LINK);
+		
 		for (Code.State c : state.codes())
 			node().createRelationshipTo(NeoCode.factory.nodeFrom(c),Relations.CODE);
+		
 		
 	}
 	
@@ -51,8 +56,7 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 	
 	@Override
 	public NamedStateContainer<State> links() {
-		// TODO Auto-generated method stub
-		return Codes.namedBeans();
+		return new NeoContainer<>(node(), Relations.LINK, NeoCodelistLink.factory);
 	}
 	
 }

@@ -7,17 +7,26 @@ import static org.cotrix.stage.data.SomeUsers.*;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 import org.cotrix.common.Outcome;
 import org.cotrix.common.cdi.ApplicationEvents.FirstTime;
 import org.cotrix.common.cdi.ApplicationEvents.Ready;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.user.User;
+import org.cotrix.domain.utils.Constants;
 import org.cotrix.io.MapService;
 import org.cotrix.io.ParseService;
 import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
@@ -25,8 +34,10 @@ import org.cotrix.io.sdmx.parse.Stream2SdmxDirectives;
 import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
 import org.cotrix.io.tabular.map.ColumnDirectives;
 import org.cotrix.io.tabular.map.Table2CodelistDirectives;
+import org.cotrix.repository.CodelistRepository;
 import org.cotrix.security.SignupService;
 import org.cotrix.stage.data.SomeCodelists.Info;
+import org.cotrix.stage.data.SyntheticCodelists;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +56,9 @@ public class CodelistsStager {
 	CodelistIngester ingester;
 	
 	@Inject
+	CodelistRepository codelists;
+	
+	@Inject
 	SignupService service;
 
 	static private final Logger log = LoggerFactory.getLogger(CodelistsStager.class);
@@ -60,12 +74,108 @@ public class CodelistsStager {
 
 		for (Info info : SDMX_CODELISTS)
 			stageSDMX(info);
+
 		
-//		for(Codelist list : SyntheticCodelists.synthetics)
-//			ingester.ingest(list);
+		
+		//one linked codelist
+		
+		Codelist target = SyntheticCodelists.demo();
+		
+		target = ingester.ingest(target);
+		
+		CodelistLink nameLink = listLink().name("name-link").target(target).build();
+		
+		Collection<CodelistLink> links = attributeLinks(target);
+		
+		//add name link
+		links.add(nameLink);
+		
+		Codelist source = codelist().name("sample linked").links(links).build();
+				
+		source = ingester.ingest(source);
+		
+		Map<QName,CodelistLink> linkmap = new HashMap<>();
+
+		QName nameLinkname = nameLink.name();
+		
+		for (CodelistLink link : source.links())
+			if (link.name().equals(nameLinkname))
+				nameLink = link;
+			else
+				linkmap.put(link.name(),link);
+		
+		Code[] codes = codes(target,nameLink, linkmap);
+		
+		Codelist withLinks = modifyCodelist(source.id()).with(codes).build();
+		
+		codelists.update(withLinks);
+
 
 	}
 
+	
+	private Code[] codes(Codelist target,CodelistLink nameLink, Map<QName,CodelistLink> links) {
+		
+		int i =1;
+		
+		Collection<Code> codes = new ArrayList<>();
+
+		for (Code code : target.codes()) {
+			
+			Collection<Codelink> codelinks = new ArrayList<>();
+			
+			codelinks.add(link().instanceOf(nameLink).target(code).build());
+			
+			for (Attribute a : code.attributes()) {
+				
+				if (a.type().equals(Constants.SYSTEM_TYPE))
+					continue;
+				
+				QName name = new QName(a.name()+"-link");
+				
+				CodelistLink attributeLink = links.get(name);
+				
+				Codelink link = link().instanceOf(attributeLink).target(code).build();
+				
+				codelinks.add(link);
+			
+			}
+			
+			codes.add(
+					code().name("code="+i).links(codelinks.toArray(new Codelink[0])).build()
+			);
+		}	
+		
+	
+		return codes.toArray(new Code[0]);
+				
+		
+	}
+	public static Collection<CodelistLink> attributeLinks(Codelist target) {
+		
+		Collection<CodelistLink> links = new HashSet<>();
+		
+		for (Code code : target.codes()) 
+			
+			for (Attribute a : code.attributes()) {
+				
+				if (a.type().equals(Constants.SYSTEM_TYPE))
+					continue;
+				
+				QName name = new QName(a.name()+"-link");
+				
+				Attribute template = attribute().name(a.name()).ofType(a.type()).in(a.language()).build();
+			
+				CodelistLink link = listLink().name(name).target(target).anchorTo(template).build();		
+				
+				links.add(link);
+				
+			}
+	
+		return links;
+		
+	}
+	
 	void stageCSV(Info info) {
 
 		log.info("staging {}", info.name);
@@ -99,8 +209,8 @@ public class CodelistsStager {
 		for (ColumnDirectives directive : directives)
 			mappingDirectives.add(directive);
 
-		Attribute att1 = attribute().name("filename").value(info.resource).in("English").build();
-		Attribute att2 = attribute().name("format").value("CSV").in("English").build();
+		Attribute att1 = attribute().name("filename").value(info.resource).in("en").build();
+		Attribute att2 = attribute().name("format").value("CSV").in("en").build();
 
 		mappingDirectives.attributes(att1, att2);
 

@@ -22,5 +22,9 @@ public interface CodelistPanelView {
 	HasEditing getMetadataEditor();
 	
 	HasEditing getAttributesEditor();
+	
+	HasEditing getLinkTypesEditor();
+
+	HasEditing getLinksEditor();
 
 }

@@ -1,10 +1,11 @@
 package org.cotrix.io.tabular.map;
 
 import static org.cotrix.common.Report.*;
+import static org.cotrix.common.Report.Item.Type.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.TypeClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
 import org.virtualrepository.tabular.Row;
 
 /**
@@ -40,7 +41,7 @@ public class Column2Attribute {
 		
 		Attribute attribute = null;
 		
-		TypeClause sentence = attribute().name(mapping.name()).value(value);
+		OptionalClause sentence = attribute().name(mapping.name()).value(value);
 		
 		if (mapping.type()!=null)
 			if (mapping.language()!=null)
@@ -59,15 +60,15 @@ public class Column2Attribute {
 	//helper
 	private boolean valid(String codename, String value) {
 		
-		if (value==null || value.isEmpty()) {
+		if (mapping.required() && (value==null || value.isEmpty())) {
 			
 			String msg = "code "+codename+" has no value for attribute '"+mapping.name()+"'";
 			
 			switch(mapping.mode()) {
 				case STRICT:
-					report().logError(msg);break;
+					report().log(msg).as(ERROR);break;
 				case LOG:
-					report().logWarning(msg);break;
+					report().log(msg).as(WARN);break;
 				default:
 			}
 			

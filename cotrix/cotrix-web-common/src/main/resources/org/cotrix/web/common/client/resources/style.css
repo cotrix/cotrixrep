@@ -78,6 +78,19 @@
 	vertical-align: middle;
 }
 
+.mappingAttributeHeaderCell {
+	border: 1px solid #d1d1d1;
+	padding-left:12px;
+	background-color: lightgray;
+}
+
+.mappingAttributeHeader {
+	padding: 5px;
+	font-size: 20px;
+	color: black;
+	text-align: left;
+}
+
 /* TEXT BOX */
 .textBox {
 	padding: 5px;
@@ -241,6 +254,22 @@
 	cursor: pointer;
 }
 
+.buttonPreview {
+	background-color: #5674b9;
+	border-radius: 100px;
+	border: 1px solid #5674b9;
+	height: 26px;
+	width: 26px;
+	color: #fff;
+	outline: none;
+}
+
+.buttonPreview:hover {
+	background-color: #31529d;
+	border: 1px solid #31529d;
+	cursor: pointer;
+}
+
 @sprite .buttonComputer {
 	gwt-image: "computer";
 	background-position: 0;
@@ -293,13 +322,14 @@
 
 @sprite .buttonDownload {
 	gwt-image: "download";
+	background-position: -10px 0px;
 	background-color: #5674b9;
 	border: 1px solid #5674b9;
 	border-radius: 5px;
 	text-align: center;
-	width: 170px;
+	width: 116px;
 	font-size: 15px;
-	padding-left: 55px;
+	padding-left: 41px;
 	height: 40px;
 	padding-right: 20px;
 	color: #eee;
@@ -308,10 +338,11 @@
 
 @sprite .buttonDownload:hover {
 	gwt-image: "download";
+	background-position: -10px 0px;
 	background-color: #344e89;
 	color: #eee;
 	cursor: pointer;
-	width: 170px;
+	width: 116px;
 	height: 40px;
 }
 
@@ -456,14 +487,14 @@
 @external .gwt-SuggestBoxPopup .item;
 .gwt-SuggestBoxPopup .item {
 	padding: 2px 6px;
-	color: #000;
+	color: #5a5a5a;
 	cursor: default;
-	font-size: 110%;
+	/*font-size: 110%;*/
 }
 
 @external .gwt-SuggestBoxPopup .item-selected;
 .gwt-SuggestBoxPopup .item-selected {
-	background: #D5E2FF;
+	background: #eee;
 }
 
 @external .gwt-SuggestBoxPopup .suggestPopupContent;
@@ -581,7 +612,7 @@
 	background-position: 3px 50%;
 }
 
-.search {
+.searchBox {
 	width: 100%;
 	box-sizing: border-box;
 	background-color: #f7f7f7;
@@ -590,15 +621,102 @@
 	box-shadow: 0px 0px 0px 0px;
 	border: 1px solid #999999;
 	color: #4f4e4e;
-	height: 24px;
-	font-size: 16px;
+	
+	height: 28px;
+	font-size: 18px;
 }
 
-.search:focus {
+.searchBox:focus {
 	background: none;
 	width: 100%;
 	border-radius: 5px;
 	box-shadow: 0px 0px 5px #61C5FA;
 	border: 1px solid #5AB0DB;
 	outline: none;
+}
+
+/** DIALOGS **/
+.dialogBox {
+	-moz-box-shadow: 0 0 7px 7px #999;
+	-webkit-box-shadow: 0 0 7px 7px #999;
+	box-shadow: 0 0 7px 7px #999;
+	background-color: #fff;
+	border-radius: 5px;
+	padding: 20px;
+}
+
+.dialogTitle {
+	color: #ff6600;
+	font-size: 20px;
+}
+
+.dialogSubtitle {
+	padding-top: 10px;
+	color: #999;
+	font-size: 15px;
+}
+
+.dialogTextfield {
+	margin-top: 20px;
+	color: #666;
+	font-size: 15px;
+}
+
+.dialogLink {
+	color: #64a1e0;
+	font-size: 15px;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.dialogTextbox {
+	color: #666;
+	height: 40px;
+	width: 100%;
+	text-decoration: none;
+	border-radius: 5px;
+	font-size: 20px;
+	margin-top: 5px;
+	border: 1px solid #ddd;
+	background-color: #e5e5e5;
+}
+
+.dialogTextboxInvalid {
+	border-color: #B80000 !important;
+}
+
+.dialogSubmit {
+	color: #fff;
+	height: 40px;
+	width: 100%;
+	padding-left: 10px;
+	text-decoration: none;
+	border-radius: 5px;
+	font-size: 17px;
+	margin-top: 5px;
+	border: 1px solid #ddd;
+	background-color: #7085b6;
+	cursor: pointer;
+	outline: none;
+}
+
+.sugestionListBoxPanel {
+	border-radius: 5px;
+	background-color: #fafafa;
+	box-shadow: 0 0 0 0;
+	border: 1px solid #999;
+	
+}
+.sugestionListBoxTextBox {
+	border: none;
+	height: 28px;
+	box-sizing: border-box;
+}
+.sugestionListBoxButton {
+	width: 19px;
+	height: 27px;
+	border: none;
+	background: white;
+	-webkit-appearance: menulist;
+	vertical-align: middle;
 }

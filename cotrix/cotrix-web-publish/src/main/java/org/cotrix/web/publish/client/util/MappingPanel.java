@@ -1,10 +1,8 @@
 package org.cotrix.web.publish.client.util;
 
-import java.util.List;
-
 import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
-import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.TableRowElement;
@@ -27,8 +25,8 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 
 	@SuppressWarnings("rawtypes")
 	@UiTemplate("MappingPanel.ui.xml")
-	interface HeaderTypeStepUiBinder extends UiBinder<Widget, MappingPanel> {}
-	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
+	interface MappingPanelUiBinder extends UiBinder<Widget, MappingPanel> {}
+	private static MappingPanelUiBinder uiBinder = GWT.create(MappingPanelUiBinder.class);
 	
 	public interface ReloadButtonHandler {
 		public void onReloadButtonClicked();
@@ -44,12 +42,19 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 	@UiField SimpleCheckBox sealed;
 	
 	@UiField(provided=true)
-	AttributeMappingPanel<T> mappingPanel;
+	AttributeMappingPanel<T> codelistMappingPanel;
+	
+	@UiField(provided=true)
+	AttributeMappingPanel<T> codeMappingPanel;
+	
+	@UiField
+	TableRowElement codelistMappingRow;
 	
 	protected ReloadButtonHandler reloadHandler;
 
 	public MappingPanel(DefinitionWidgetProvider<T> widgetProvider , String attributeMappingLabel) {
-		mappingPanel = new AttributeMappingPanel<T>(widgetProvider, attributeMappingLabel);
+		codelistMappingPanel = new AttributeMappingPanel<T>(widgetProvider, "CODELIST ATTRIBUTES", attributeMappingLabel);
+		codeMappingPanel = new AttributeMappingPanel<T>(widgetProvider, "CODES ATTRIBUTES", attributeMappingLabel);
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
@@ -107,34 +112,45 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 	
 	public void setMappingLoading()
 	{
-		mappingPanel.setLoading();
+		codelistMappingPanel.setLoading();
+		codeMappingPanel.setLoading();
 	}
 	
 	public void unsetMappingLoading()
 	{
-		mappingPanel.unsetLoading();
+		codelistMappingPanel.unsetLoading();
+		codeMappingPanel.unsetLoading();
 	}
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void setMapping(List<AttributeMapping> mapping)
+	public void setMapping(AttributesMappings mapping)
 	{
-		mappingPanel.setMapping(mapping);
+		setCodelistMappingRowVisible(!mapping.getCodelistAttributesMapping().isEmpty());
+		codelistMappingPanel.setMapping(mapping.getCodelistAttributesMapping());
+		codeMappingPanel.setMapping(mapping.getCodesAttributesMapping());
+	}
+	
+	private void setCodelistMappingRowVisible(boolean visible) {
+		String value = visible?"table-row":"none";
+		codelistMappingRow.getStyle().setProperty("display", value);
 	}
 
 	public void setCodeTypeError()
 	{
-		mappingPanel.setCodeTypeError();
+		codelistMappingPanel.setCodeTypeError();
+		codeMappingPanel.setCodeTypeError();
 	}
 
 	public void cleanStyle()
 	{
-		mappingPanel.cleanStyle();
+		codelistMappingPanel.cleanStyle();
+		codeMappingPanel.cleanStyle();
 	}
 
-	public List<AttributeMapping> getMappings()
+	public AttributesMappings getMappings()
 	{
-		return mappingPanel.getMappings();
+		return new AttributesMappings(codeMappingPanel.getMappings(), codelistMappingPanel.getMappings());
 	}
 }

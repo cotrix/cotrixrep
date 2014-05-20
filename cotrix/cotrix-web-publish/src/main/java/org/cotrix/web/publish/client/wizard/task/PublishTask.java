@@ -3,10 +3,9 @@
  */
 package org.cotrix.web.publish.client.wizard.task;
 
-import java.util.List;
-
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.shared.CsvConfiguration;
+import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.Progress.Status;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -18,10 +17,9 @@ import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.event.PublishCompleteEvent;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
-import org.cotrix.web.publish.shared.AttributeMapping;
+import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.DownloadType;
-import org.cotrix.web.publish.shared.Format;
 import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishMetadata;
@@ -32,8 +30,6 @@ import org.cotrix.web.wizard.client.step.TaskWizardStep;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
@@ -50,12 +46,12 @@ public class PublishTask implements TaskWizardStep {
 	@Inject
 	protected PublishServiceAsync service;
 	protected EventBus publishBus;
-	protected AsyncCallback<WizardAction> callback;
+	protected TaskCallBack callback;
 	
 	protected UICodelist codelist;
 	protected Destination destination;
 	protected Format format;
-	protected List<AttributeMapping> mappings;
+	protected AttributesMappings mappings;
 	protected CsvConfiguration csvConfiguration;
 	protected UIQName repositoryId;
 	protected MappingMode mappingMode;
@@ -158,7 +154,7 @@ public class PublishTask implements TaskWizardStep {
 	}
 
 	@Override
-	public void run(AsyncCallback<WizardAction> callback) {
+	public void run(TaskCallBack callback) {
 		this.callback = callback;
 		PublishDirectives directives = new PublishDirectives();
 		directives.setCodelistId(codelist.getId());
@@ -189,8 +185,7 @@ public class PublishTask implements TaskWizardStep {
 			@Override
 			public void onSuccess(Progress result) {
 				Log.trace("Import progress: "+result);
-				if (result.isComplete()) publishComplete(result.getStatus());
-				if (destination==Destination.FILE && result.getStatus()==Status.DONE) startDownload();
+				if (result.isComplete()) publishComplete(result);
 			}
 		});
 	}
@@ -203,17 +198,18 @@ public class PublishTask implements TaskWizardStep {
 		mappings = null;
 	}
 	
-	protected void publishComplete(Status status) {
+	protected void publishComplete(Progress progress) {
 		publishProgressPolling.cancel();
-		publishBus.fireEvent(new PublishCompleteEvent(status));
-		callback.onSuccess(PublishWizardAction.NEXT);
+		publishBus.fireEvent(new PublishCompleteEvent(progress, getDownloadUrl()));
+		if (progress.getStatus() == Status.DONE) callback.onSuccess(PublishWizardAction.NEXT);
+		else callback.onFailure(progress.getFailureCause());
 	}
 	
-	protected void startDownload() {
+	private String getDownloadUrl() {
+		if (destination != Destination.FILE) return null;
 		String url = DOWNLOAD_URL;
 		if (format!=null) url += "&" + Format.PARAMETER_NAME+"="+format;
-		
-		Window.open(url, "myWindow", "");
+		return url;
 	}
 
 	@Override

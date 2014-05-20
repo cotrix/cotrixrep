@@ -4,7 +4,11 @@ import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
 import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.ClickableCell;
+import org.cotrix.web.common.client.widgets.SearchBox;
 import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
+import org.cotrix.web.common.client.widgets.UIQNameRenderer;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.shared.AssetInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -13,6 +17,7 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -21,8 +26,8 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
@@ -48,6 +53,9 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 
 	@UiField(provided = true)
 	SimplePager pager;
+	
+	@UiField
+	SearchBox searchBox;
 	
 	protected AssetInfoDataProvider dataProvider;
 	
@@ -141,6 +149,19 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		nameColumn.setCellStyleNames(CommonResources.INSTANCE.css().linkText());
 		
 		dataGrid.addColumn(nameColumn, nameHeader);
+		
+		// Version
+		Column<AssetInfo, String> versionColumn = new Column<AssetInfo, String>(new ClickableTextCell()) {
+			@Override
+			public String getValue(AssetInfo object) {
+				return object.getVersion();
+			}
+		};
+		versionColumn.setSortable(true);
+		versionColumn.setDataStoreName(AssetInfo.VERSION_FIELD);
+		
+		dataGrid.addColumn(versionColumn, "Version");
+		dataGrid.setColumnWidth(versionColumn, "70px");
 
 
 		// Type
@@ -153,22 +174,22 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		
 		typeColumn.setSortable(false);
 		dataGrid.addColumn(typeColumn, "Type");
-		dataGrid.setColumnWidth(typeColumn, "20%");
+		dataGrid.setColumnWidth(typeColumn, "70px");
 		
 
 		// Repository
-		Column<AssetInfo, String> repositoryColumn = new Column<AssetInfo, String>(new ClickableTextCell()) {
+		Column<AssetInfo, UIQName> repositoryColumn = new Column<AssetInfo, UIQName>(new ClickableCell<UIQName>(new UIQNameRenderer(true))) {
 			@Override
-			public String getValue(AssetInfo object) {
+			public UIQName getValue(AssetInfo object) {
 				return object.getRepositoryName();
 			}
 		};
 		repositoryColumn.setSortable(true);
 		repositoryColumn.setDataStoreName(AssetInfo.REPOSITORY_FIELD);
-		repositoryColumn.setFieldUpdater(new FieldUpdater<AssetInfo, String>() {
+		repositoryColumn.setFieldUpdater(new FieldUpdater<AssetInfo, UIQName>() {
 
 			@Override
-			public void update(int index, AssetInfo object, String value) {
+			public void update(int index, AssetInfo object, UIQName value) {
 				Log.trace("repository details selected for row "+index);
 				presenter.repositoryDetails(object.getRepositoryId());
 			}
@@ -176,7 +197,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		repositoryColumn.setCellStyleNames(CommonResources.INSTANCE.css().linkText());
 		
 		dataGrid.addColumn(repositoryColumn, "Origin");
-		dataGrid.setColumnWidth(repositoryColumn, "20%");
+		dataGrid.setColumnWidth(repositoryColumn, "30%");
 			
 		dataProvider.setDatagrid(dataGrid);
 		dataProvider.addDataDisplay(dataGrid);
@@ -194,14 +215,34 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	@UiHandler("refreshButton")
 	protected void refresh(ClickEvent clickEvent)
 	{
-		dataProvider.setForceRefresh(true);
+		dataProvider.setRequestDiscovery(true);
 		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
+	}
+	
+	@UiHandler("searchBox")
+	protected void onValueChange(ValueChangeEvent<String> event) {
+		Log.trace("onKeyUp value: "+event.getValue());
+		updateFilter(event.getValue());
+	}
+	
+	private void updateFilter(String query) {
+		dataProvider.setQuery(query);
+		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
+	}
+	
+	private void cleanFilter() {
+		dataProvider.setQuery("");
+		searchBox.clear();
 	}
 	
 	public void reset()
 	{
+		cleanFilter();	
 		selectionModel.clear();
+		Log.trace("setRefreshCache");
+		dataProvider.setRefreshCache(true);
 		pager.setPage(0);
+		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}
 
 }

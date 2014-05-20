@@ -11,33 +11,36 @@ import javax.inject.Qualifier;
 
 public class ApplicationEvents {
 
-	public static class ApplicationEvent {}
-	
+	public static class ApplicationEvent {
+	}
+
 	/**
 	 * The startup of the application.
 	 * 
 	 * @author Fabio Simeoni
-	 *
+	 * 
 	 */
 	public static class Startup extends ApplicationEvent {
 		public static final Startup INSTANCE = new Startup();
-		private Startup() {}
+
+		private Startup() {
+		}
 	}
-	
-	
+
 	/**
 	 * The completion of startup processes.
 	 * 
 	 * @author Fabio Simeoni
-	 *
+	 * 
 	 */
 	public static class Ready extends ApplicationEvent {
 		public static final Ready INSTANCE = new Ready();
-		private Ready() {}
+
+		private Ready() {
+		}
 	}
-	
-	
-	@Target({PARAMETER})
+
+	@Target({ PARAMETER })
 	@Retention(RUNTIME)
 	@Documented
 	@Qualifier
@@ -47,9 +50,10 @@ public class ApplicationEvents {
 	 * @author Fabio Simeoni
 	 *
 	 */
-	public @interface FirstTime {}
-	
-	@Target({PARAMETER})
+	public @interface FirstTime {
+	}
+
+	@Target({ PARAMETER })
 	@Retention(RUNTIME)
 	@Documented
 	@Qualifier
@@ -59,19 +63,37 @@ public class ApplicationEvents {
 	 * @author Fabio Simeoni
 	 *
 	 */
-	public @interface Restart {}
-	
-	
+	public @interface Restart {
+	}
+
 	/**
 	 * The shutdown of the application.
 	 * 
 	 * @author Fabio Simeoni
-	 *
+	 * 
 	 */
 	public static class Shutdown extends ApplicationEvent {
 		public static final Shutdown INSTANCE = new Shutdown();
-		private Shutdown() {}
+
+		private Shutdown() {
+		}
 
 	}
 	
+	public static class StartRequest extends ApplicationEvent {
+		public static final StartRequest INSTANCE = new StartRequest();
+
+		private StartRequest() {
+		}
+
+	}
+	
+	public static class EndRequest extends ApplicationEvent {
+		public static final EndRequest INSTANCE = new EndRequest();
+
+		private EndRequest() {
+		}
+
+	}
+
 }

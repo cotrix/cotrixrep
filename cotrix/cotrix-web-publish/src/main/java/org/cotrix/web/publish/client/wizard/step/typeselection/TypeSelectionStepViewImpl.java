@@ -46,6 +46,11 @@ public class TypeSelectionStepViewImpl extends Composite implements TypeSelectio
 		presenter.onCSVButtonClick();
 	}
 	
+	@UiHandler("cometPanel")
+	public void onCometClicked(ClickEvent event){
+		presenter.onCometButtonClick();
+	}
+	
 	public void alert(String message) {
 		alertDialog.center(message);
 	}

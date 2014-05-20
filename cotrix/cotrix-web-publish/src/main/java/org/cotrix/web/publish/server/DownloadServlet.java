@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.cotrix.web.common.server.util.FileNameUtil;
+import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.publish.server.util.PublishSession;
 import org.cotrix.web.publish.shared.DownloadType;
-import org.cotrix.web.publish.shared.Format;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -97,17 +97,22 @@ public class DownloadServlet extends HttpServlet {
 			return;
 		}
 		
-		File csv = (File) result;
+		File file = (File) result;
+		if (!file.exists()) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "The result is not more available");
+			return;
+		}
+		
 		String extension = "bin";
 		switch (format) {
 			case CSV: extension = "csv"; break;
-			case SDMX: extension = "sdmx"; break;
+			case SDMX: extension = "xml"; break;
+			case COMET: extension = "xml"; break;
 		}
 		String filename = FileNameUtil.toValidFileName(session.getPublishStatus().getPublishedCodelist().name().getLocalPart()+"."+extension);
-		Reader content = new FileReader(csv);
+		Reader content = new FileReader(file);
 		flushContent(response, filename, content);
 		session.getPublishStatus().setPublishResult(null);
-		csv.delete();
 	}
 	
 	protected void flushContent(HttpServletResponse response, String fileName, Reader content) throws IOException {

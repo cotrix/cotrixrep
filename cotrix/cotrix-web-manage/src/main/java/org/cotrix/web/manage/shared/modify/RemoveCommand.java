@@ -33,7 +33,9 @@ public abstract class RemoveCommand implements ModifyCommand {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("RemoveCommand [id=");
+		//TODO replace with getSimpleName() when move to GWT 2.6
+		builder.append(getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1));
+		builder.append("[id=");
 		builder.append(id);
 		builder.append("]");
 		return builder.toString();

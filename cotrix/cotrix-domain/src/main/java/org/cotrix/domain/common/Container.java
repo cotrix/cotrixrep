@@ -2,6 +2,8 @@ package org.cotrix.domain.common;
 
 import static org.cotrix.common.Utils.*;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -9,117 +11,158 @@ import java.util.Map;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 
-
 /**
  * An immutable and typed collection of domain entities.
  * 
  * @author Fabio Simeoni
- *
- * @param <T> the type of entities
+ * 
+ * @param <T>
+ *            the type of entities
  */
 public interface Container<T> extends Iterable<T> {
 
-	//public read-only interface
-	
-	//(no implication entities are all in memory)
-	
+	// public read-only interface
+
+	// (no implication entities are all in memory)
+
 	/**
 	 * Returns the number of entities in this container.
+	 * 
 	 * @return the number of entities
 	 */
 	int size();
-	
+
 	/**
-	 * Returns <code>true</code> if this container contains a given entity. 
-	 * @param entity the entity
+	 * Returns <code>true</code> if this container contains a given entity.
+	 * 
+	 * @param entity
+	 *            the entity
 	 * @return <code>true</code> if this container contains the given entity
 	 */
-     //broader than T, because we return Container<? extends T> to clients and yet must allow contains(T)
-	 //we return Container<? extends T> because we use Container<T.Private> in implementations 
-	 boolean contains(Object entity);
+	// broader than T, because we return Container<? extends T> to clients and
+	// yet must allow contains(T)
+	// we return Container<? extends T> because we use Container<T.Private> in
+	// implementations
+	boolean contains(Object entity);
 
-	
-	
-	//private domain logic
-	//we use this base class for both generic and named entities
-	
-	abstract class Abstract<T extends Identified.Abstract<T,S>, 
-							//type of state beans, must be able to return their wrappers
-							S extends Identified.State & EntityProvider<T>, 
-							//this is to return the state beans to subclasses
-							//we hide it from clients by instantiating it in subclasses
-							C extends StateContainer<S>> implements Container<T> {
-			
-			
+	/**
+	 * Returns <code>true</code> if this container contains a given entity.
+	 * 
+	 * @param entity
+	 *            the entity identifier
+	 * @return <code>true</code> if this container contains the given entity
+	 */
+	boolean contains(String id);
+
+	/**
+	 * Returns a given entity in this container.
+	 * 
+	 * @param id
+	 *            the entity identifier
+	 * @return the entity
+	 * @throws IllegalStateException
+	 *             if no entity with the given identifier is in this container
+	 */
+	T lookup(String id) throws IllegalStateException;
+
+	// private domain logic
+	// we use this base class for both generic and named entities
+
+	abstract class Abstract<T extends Identified.Abstract<T, S>,
+	// type of state beans, must be able to return their wrappers
+	S extends Identified.State & EntityProvider<T>,
+	// this is to return the state beans to subclasses
+	// we hide it from clients by instantiating it in subclasses
+	C extends StateContainer<S>> implements Container<T> {
+
 		private final C state;
-		
+
 		public Abstract(C state) {
-			
-			notNull("state",state);
-			
+
+			notNull("state", state);
+
 			this.state = state;
-			
+
 		}
-		
+
 		@Override
 		public Iterator<T> iterator() {
-			return new IteratorAdapter<T,S>(state.iterator());
+			return new IteratorAdapter<T, S>(state.iterator());
+		}
+
+		@Override
+		public boolean contains(Object entity) {
+
+			notNull("entity", entity);
+
+			// unwrap and delegate
+
+			return entity instanceof Identified.Abstract ?
+
+			state().contains(reveal(entity, Identified.Abstract.class).state()) : false;
+		};
+
+		@Override
+		public boolean contains(String id) throws IllegalStateException {
+
+			return !state().get(Collections.singleton(id)).isEmpty();
 		}
 		
 		@Override
-		public boolean contains(Object entity) {
-			
-			notNull("entity",entity);
-			
-			//unwrap and delegate
-			
-			return entity instanceof Identified.Abstract ?
-				
-				state().contains(reveal(entity,Identified.Abstract.class).state())
-			:
-				false;
-		};
+		public T lookup(String id) throws IllegalStateException {
 
+			Collection<S> matches = state().get(Collections.singleton(id));
+
+			if (matches.isEmpty())
+				throw new IllegalStateException("no entity " + id + " in this container");
+
+			return matches.iterator().next().entity();
+		}
 		
+
 		@Override
 		public int size() {
 			return state.size();
 		}
-		
-		
-		public void update(Abstract<T,S,C> changeset) {
-			
-			Map<String,T> updates = new HashMap<String,T>();
+
+		public void update(Abstract<T, S, C> changeset) {
+
+			Map<String, T> updates = new HashMap<String, T>();
 
 			for (T entityChangeset : changeset) {
-		
+
 				String id = entityChangeset.id();
 
 				if (state.contains(id))
-					
-					switch (entityChangeset.status()) {
-							
+
+					if (entityChangeset.status() == null)
+						throw new IllegalArgumentException("invalid changeset:" + entityChangeset.id() + " cannot be added twice");
+
+					else
+						switch (entityChangeset.status()) {
+
 						case DELETED:
 							state.remove(id);
 							break;
-						
-						case MODIFIED: //accumulate updates
-							updates.put(entityChangeset.id(),entityChangeset);
+
+						case MODIFIED: // accumulate updates
+							updates.put(entityChangeset.id(), entityChangeset);
 							break;
 
-					} 
-					
+						}
+
 				else
 					state.add(entityChangeset.state());
 
-				//process updates
-				if (!updates.isEmpty())
-					for (S toUpdate : state.get(updates.keySet()))
-						toUpdate.entity().update(updates.get(toUpdate.id())); 
-				
-			}	
+			}
+
+			// process updates
+			if (!updates.isEmpty())
+				for (S toUpdate : state.get(updates.keySet()))
+					toUpdate.entity().update(updates.get(toUpdate.id()));
+
 		}
-		
+
 		public C state() {
 			return state;
 		}
@@ -168,21 +211,19 @@ public interface Container<T> extends Iterable<T> {
 			builder.append("]");
 			return builder.toString();
 		}
-		
-		
+
 	}
-	
-	
-	//derive to reduce parameters
-	
-	class Private<T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> extends Abstract<T,S,StateContainer<S>>  {
-		
+
+	// derive to reduce parameters
+
+	class Private<T extends Identified.Abstract<T, S>, S extends Identified.State & EntityProvider<T>> extends Abstract<T, S, StateContainer<S>> {
+
 		public Private(StateContainer<S> state) {
-			
+
 			super(state);
-			
+
 		}
-				
+
 	}
 
 }

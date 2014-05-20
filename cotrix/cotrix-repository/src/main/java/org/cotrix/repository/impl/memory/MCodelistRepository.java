@@ -1,5 +1,6 @@
 package org.cotrix.repository.impl.memory;
 
+import static java.lang.Math.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Constants.*;
 import static org.cotrix.common.Utils.*;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,7 +23,9 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.user.FingerPrint;
@@ -43,6 +47,21 @@ import org.cotrix.repository.spi.CodelistQueryFactory;
 @ApplicationScoped @Alternative @Priority(DEFAULT)
 public class MCodelistRepository extends MemoryRepository<Codelist.State> implements CodelistQueryFactory {
 
+	
+	
+	@Override
+	public void remove(String id) {
+		
+		notNull("identifier", id);
+		
+		for (Codelist.State list : getAll())
+			for (CodelistLink.State link : list.links())
+				if (link.target().id().equals(id))
+					throw new CodelistRepository.UnremovableCodelistException("cannot remove codelist "+list.id()+": others depend on it");
+				
+		super.remove(id);
+	}
+	
 	
 	@Override
 	public MultiQuery<Codelist, Codelist> allLists() {
@@ -131,12 +150,18 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 					if (!a.type().equals(SYSTEM_TYPE))
 						attributes.add(a);
 
+				Collection<CodelistLink> links = new ArrayList<CodelistLink>();
+				
+				for (CodelistLink l : list.links())
+					links.add(l);
+
+				
 				Map<QName, Map<QName, Set<String>>> fingerprint = new HashMap<QName, Map<QName, Set<String>>>();
 
 				for (Code c : list.codes())
-					addToFingerprint(fingerprint, c.attributes());
+					addAttributesToFingerprint(fingerprint, c.attributes());
 
-				return new CodelistSummary(list.name(), size, attributes, fingerprint);
+				return new CodelistSummary(list.name(), size, attributes, links, fingerprint);
 			}
 		};
 	}
@@ -180,23 +205,23 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		};
 
 	}
-
+	
 	@Override
-	public Criterion<Code> byAttribute(final Attribute attribute, final int position) {
+	public Criterion<Code> byAttribute(final Attribute template, final int position) {
 
-		valid("attribute name", attribute.name());
+		valid("attribute name", template.name());
 
 		return new MCriterion<Code>() {
 
 			private boolean matches(Attribute a) {
 
-				return attribute.name().equals(a.name())
-						&& (attribute.language() == null ? true : attribute.language().equals(a.language()));
+				return template.name().equals(a.name())
+						&& (template.language() == null ? true : template.language().equals(a.language()));
 			}
 
 			@Override
 			public int compare(Code c1, Code c2) {
-
+				
 				int pos = 1;
 				String c1Match = null;
 				for (Attribute a : c1.attributes())
@@ -222,6 +247,71 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 				else
 					return c2Match == null ? -1 : c1Match.compareTo(c2Match);
+			}
+		};
+
+	}
+	
+	@Override
+	public Criterion<Code> byLink(final CodelistLink template, final int position) {
+
+		valid("link name", template.name());
+
+		return new MCriterion<Code>() {
+
+			private boolean matches(Codelink link) {
+
+				return link.name().equals(template.name())
+						&& link.type().equals(template);
+			}
+
+			@Override
+			public int compare(Code c1, Code c2) {
+
+				int pos = 1;
+				List<Object> c1Match = null;
+				for (Codelink link : c1.links())
+					if (matches(link))
+						if (pos == position) {
+							c1Match = link.value();
+							break;
+						} else
+							pos++;
+
+				pos = 1;
+				List<Object> c2Match = null;
+				for (Codelink link : c2.links())
+					if (matches(link))
+						if (pos == position) {
+							c2Match = link.value();
+							break;
+						} else
+							pos++;
+
+				if (c1Match == null)
+					return c2Match == null ? 0 : 1;
+
+				
+				if (c2Match == null)
+					return -1 ;
+				else {
+					//compare items orderly
+					for (int i=0; i< min(c1Match.size(),c2Match.size()) ; i++) {
+						Object o1 = c1Match.get(i);
+						Object o2 = c2Match.get(i);
+						//if comparable, compare. otherwise, move to next
+						if (o1 instanceof Comparable) {
+							@SuppressWarnings("all")
+							int result = Comparable.class.cast(o1).compareTo(o2);
+							if (result!=0)
+								return result;
+						}
+					}
+					
+					//still a tie? prevails the longer of the two, if one is. otherwise, arbitrary.
+					return c1Match.size()<c2Match.size()? -1 : 1;
+				}
+				
 			}
 		};
 
