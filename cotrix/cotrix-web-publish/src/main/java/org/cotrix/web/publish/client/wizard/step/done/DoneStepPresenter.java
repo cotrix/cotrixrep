@@ -25,9 +25,6 @@ public class DoneStepPresenter extends AbstractVisualWizardStep implements Visua
 	private EventBus publishBus;
 	
 	@Inject
-	private DownloadDialog downloadDialog;
-	
-	@Inject
 	public DoneStepPresenter(DoneStepView view, @PublishBus EventBus publishBus) {
 		super("done", TrackerLabels.DONE, "Done", "Done", PublishWizardStepButtons.NEW_PUBLISH);
 		this.view = view;
@@ -64,7 +61,6 @@ public class DoneStepPresenter extends AbstractVisualWizardStep implements Visua
 		view.loadReport();
 		
 		if (downloadUrl!=null) {
-			showDownload(downloadUrl);
 			view.setCodelistDownloadUrl(downloadUrl);
 			view.setCodelistDownloadButtonVisible(true);
 		} else view.setCodelistDownloadButtonVisible(false);
@@ -75,9 +71,5 @@ public class DoneStepPresenter extends AbstractVisualWizardStep implements Visua
 		configuration.setButtons(PublishWizardStepButtons.BACKWARD);
 		configuration.setSubtitle("Something went wrong, check the log.");
 		view.loadReport();
-	}
-	
-	private void showDownload(String url) {
-		downloadDialog.showCentered(url);
 	}
 }
