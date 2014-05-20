@@ -105,7 +105,7 @@ public class AttributeDefinitionPanel extends Composite {
 
 	public Language getLanguage()
 	{
-		if (!languageList.isVisible()) return null;
+		if (!languageList.isVisible()) return Language.NONE;
 		return languageList.getValue();
 	}	
 

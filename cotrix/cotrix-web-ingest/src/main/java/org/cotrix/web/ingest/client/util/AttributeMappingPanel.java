@@ -44,7 +44,6 @@ public class AttributeMappingPanel extends Composite {
 	protected List<SimpleCheckBox> includeCheckBoxes = new ArrayList<SimpleCheckBox>();
 	protected List<TextBox> nameFields = new ArrayList<TextBox>();
 	protected List<AttributeDefinitionPanel> definitionsPanels = new ArrayList<AttributeDefinitionPanel>();
-	protected List<AttributeDefinition> definitions = new ArrayList<AttributeDefinition>();
 	protected List<Field> fields = new ArrayList<Field>();
 
 	public AttributeMappingPanel()
@@ -91,7 +90,6 @@ public class AttributeMappingPanel extends Composite {
 		includeCheckBoxes.clear();
 		nameFields.clear();
 		fields.clear();
-		definitions.clear();
 
 		FlexCellFormatter cellFormatter = columnsTable.getFlexCellFormatter();
 
@@ -99,7 +97,6 @@ public class AttributeMappingPanel extends Composite {
 
 			final int row = columnsTable.getRowCount();
 			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
-			definitions.add(attributeDefinition);
 
 			final SimpleCheckBox checkBox = new SimpleCheckBox();
 			checkBox.setStyleName(CommonResources.INSTANCE.css().simpleCheckbox());
@@ -187,7 +184,7 @@ public class AttributeMappingPanel extends Composite {
 	{
 		if (!includeCheckBoxes.get(index).getValue()) return null;
 
-		AttributeDefinition attributeDefinition = definitions.get(index);
+		AttributeDefinition attributeDefinition = new AttributeDefinition();
 
 		if (showTypeDefinition) {
 			AttributeDefinitionPanel panel = definitionsPanels.get(index);
