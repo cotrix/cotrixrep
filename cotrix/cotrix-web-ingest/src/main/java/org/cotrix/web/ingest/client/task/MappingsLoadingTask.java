@@ -9,6 +9,7 @@ import java.util.List;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.AssetTypeUpdatedEvent;
+import org.cotrix.web.ingest.client.event.CodelistInfosLoadedEvent;
 import org.cotrix.web.ingest.client.event.CsvHeadersEvent;
 import org.cotrix.web.ingest.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
@@ -16,6 +17,7 @@ import org.cotrix.web.ingest.client.event.MappingLoadFailedEvent;
 import org.cotrix.web.ingest.client.event.MappingLoadedEvent;
 import org.cotrix.web.ingest.client.wizard.ImportWizardAction;
 import org.cotrix.web.ingest.shared.AttributeMapping;
+import org.cotrix.web.ingest.shared.CodelistInfo;
 import org.cotrix.web.ingest.shared.UIAssetType;
 import org.cotrix.web.wizard.client.WizardAction;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
@@ -48,6 +50,8 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	private List<String> userHeaders = Collections.emptyList();
 	private List<AttributeMapping> lastMappings = null;
 	
+	private List<CodelistInfo> codelistInfos = null;
+	
 	
 	@Inject
 	private void bind(MappingsLoadingTaskEventBinder binder) {
@@ -77,9 +81,13 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	
 	@Override
 	public void run(final TaskCallBack callback) {
-		if (lastMappings == null) {
+		if (lastMappings == null) loadMappings(callback);
+		else loadCodelists(callback);
+	}
+	
+	private void loadMappings(final TaskCallBack callback) {
 		importService.getMappings(userHeaders, new AsyncCallback<List<AttributeMapping>>() {
-
+			
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Error getting the mappings", caught);
@@ -92,11 +100,32 @@ public class MappingsLoadingTask implements TaskWizardStep {
 				Log.trace("mapping retrieved");
 				lastMappings = result;
 				importEventBus.fireEvent(new MappingLoadedEvent(result));
+				loadCodelists(callback);
+			}
+		});
+	}
+	
+	private void loadCodelists(final TaskCallBack callback) {
+		if (codelistInfos == null) {
+		importService.getCodelistsInfo(new AsyncCallback<List<CodelistInfo>>() {
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("Error getting the mappings", caught);
+				importEventBus.fireEvent(new MappingLoadFailedEvent(caught));
+				callback.onFailure(Exceptions.toError(caught));
+			}
+
+			@Override
+			public void onSuccess(List<CodelistInfo> result) {
+				Log.trace("codelistInfos retrieved");
+				codelistInfos = result;
+				importEventBus.fireEvent(new CodelistInfosLoadedEvent(result));
 				callback.onSuccess(ImportWizardAction.NEXT);
 			}
 		});
 		} else callback.onSuccess(ImportWizardAction.NEXT);
-	}	
+	}
 	
 	@EventHandler
 	void onCsvHeaders(CsvHeadersEvent event) {
@@ -119,6 +148,7 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	private void reset() {
 		userHeaders = Collections.emptyList();
 		lastMappings = null;
+		codelistInfos = null;
 	}
 
 	@Override

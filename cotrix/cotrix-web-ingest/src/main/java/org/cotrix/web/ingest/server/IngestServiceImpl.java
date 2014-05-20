@@ -3,17 +3,23 @@
  */
 package org.cotrix.web.ingest.server;
 
+import static org.cotrix.repository.CodelistQueries.*;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
 import org.cotrix.common.cdi.Current;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.User;
 import org.cotrix.io.CloudService;
+import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.Encodings;
 import org.cotrix.web.common.server.util.Ranges;
 import org.cotrix.web.common.server.util.Ranges.Predicate;
@@ -39,6 +45,7 @@ import org.cotrix.web.ingest.server.util.ParsingHelper;
 import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
+import org.cotrix.web.ingest.shared.CodelistInfo;
 import org.cotrix.web.ingest.shared.UIAssetType;
 import org.cotrix.web.ingest.shared.PreviewHeaders;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
@@ -64,34 +71,37 @@ import com.google.gwt.view.client.Range;
 @SuppressWarnings("serial")
 public class IngestServiceImpl extends RemoteServiceServlet implements IngestService {
 
-	protected Logger logger = LoggerFactory.getLogger(IngestServiceImpl.class);
+	private Logger logger = LoggerFactory.getLogger(IngestServiceImpl.class);
 
 	@Inject
-	protected CloudService cloud;
+	private CloudService cloud;
 
 	@Inject
-	protected ParsingHelper parsingHelper;
+	private ParsingHelper parsingHelper;
 
 	@Inject
-	protected MappingGuesser mappingsGuesser;
+	private MappingGuesser mappingsGuesser;
 
 	@Inject
-	protected ImporterFactory importerFactory;
+	private ImporterFactory importerFactory;
 	
 	@Inject
-	protected ImportSession session;
+	private ImportSession session;
 	
 	@Inject
-	protected AssetInfosCache assetInfosCache;
+	private AssetInfosCache assetInfosCache;
 	
 	@Inject
-	protected PreviewDataManager previewDataManager;
+	private PreviewDataManager previewDataManager;
 	
 	@Inject
-	protected MappingsManager mappingsManager;
+	private MappingsManager mappingsManager;
+	
+	@Inject
+	private CodelistRepository repository;
 	
 	@Inject @Current
-	protected User user;
+	private User user;
 
 	/** 
 	 * {@inheritDoc}
@@ -385,5 +395,17 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 		List<List<String>> rows = Ranges.subList(previewData.getRows(), range);
 		
 		return new DataWindow<>(rows, previewData.getRows().size());
+	}
+
+	@Override
+	public List<CodelistInfo> getCodelistsInfo() throws ServiceException {
+		logger.trace("getCodelistsInfo");
+		Iterator<Codelist> iterator = repository.get(allLists()).iterator();
+		List<CodelistInfo> infos = new ArrayList<>();
+		while(iterator.hasNext()) {
+			Codelist codelist = iterator.next();
+			infos.add(new CodelistInfo(codelist.name().getLocalPart(), codelist.version()));
+		}
+		return infos;
 	}
 }

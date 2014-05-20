@@ -14,6 +14,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -60,11 +61,33 @@ public class AttributeDefinitionPanel extends Composite {
 			}
 		}
 	};
+	
+	public static enum Optional {
+		REQUIRED,
+		OPTIONAL;
+	}
+	
+	public static final LabelProvider<Optional> OPTIONAL_LABEL_PROVIDER = new LabelProvider<AttributeDefinitionPanel.Optional>() {
 
+		@Override
+		public String getLabel(Optional item) {
+			switch (item) {
+				case OPTIONAL: return "Optional";
+				case REQUIRED: return "Required";
+				default: throw new IllegalArgumentException("No label mapping found for optional "+item);
+			}
+		}
+	};
+	
+	@UiField TextBox nameField;
+	@UiField HorizontalPanel definitionPanel;
+	@UiField Label isLabel;
 	@UiField(provided=true) EnumListBox<AttributeType> typeList;
 	@UiField TextBox customType;
 	@UiField Label inLabel;
 	@UiField LanguageListBox languageList;
+	@UiField Label optionalLabel;
+	@UiField(provided=true) EnumListBox<Optional> optionList;
 
 	@UiField Style style;
 
@@ -75,6 +98,7 @@ public class AttributeDefinitionPanel extends Composite {
 	public AttributeDefinitionPanel(LabelProvider<AttributeType> typeLabelProvider) {
 		
 		typeList = new EnumListBox<AttributeType>(AttributeType.class, typeLabelProvider);
+		optionList = new EnumListBox<Optional>(Optional.class, OPTIONAL_LABEL_PROVIDER);
 		
 		initWidget(uiBinder.createAndBindUi(this));
 
@@ -82,9 +106,17 @@ public class AttributeDefinitionPanel extends Composite {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				updateVisibilities();
+				updateVisibilitiesAndWidth();
 			}
 		});
+	}
+	
+	public void setName(String name) {
+		nameField.setValue(name);
+	}
+	
+	public String getName() {
+		return nameField.getValue();
 	}
 
 	public AttributeType getType()
@@ -100,12 +132,12 @@ public class AttributeDefinitionPanel extends Composite {
 	{
 		typeList.setSelectedValue(type);
 		this.customType.setText(customType);
-		updateVisibilities();
+		updateVisibilitiesAndWidth();
 	}
 
 	public Language getLanguage()
 	{
-		if (!languageList.isVisible()) return null;
+		if (!languageList.isVisible()) return Language.NONE;
 		return languageList.getValue();
 	}	
 
@@ -113,15 +145,33 @@ public class AttributeDefinitionPanel extends Composite {
 	{
 		languageList.setValue(language);
 	}
-
-	protected void updateVisibilities()
-	{
-		AttributeType type = getType();
-		setLanguagePanelVisibile(type != null && type != AttributeType.CODE && type != AttributeType.OTHER_CODE);
-		customType.setVisible(typeList.getSelectedValue() == AttributeType.OTHER);
+	
+	public void setTypeDefinitionVisible(boolean visible) {
+		definitionPanel.setVisible(visible);
+	}
+	
+	public boolean isOptional() {
+		return optionList.getSelectedValue() == Optional.OPTIONAL;
 	}
 
-	protected void setLanguagePanelVisibile(boolean visible)
+	private void updateVisibilitiesAndWidth()
+	{
+		AttributeType type = getType();
+		boolean isNotCode = isNotCode(type);
+		setLanguagePanelVisibile(isNotCode);
+		customType.setVisible(typeList.getSelectedValue() == AttributeType.OTHER);
+		
+		optionalLabel.setVisible(isNotCode);
+		optionList.setVisible(isNotCode);
+		
+		nameField.setWidth((type!=null && type == AttributeType.OTHER)?"150px":"330px");
+	}
+	
+	private boolean isNotCode(AttributeType type) {
+		return type != null && type != AttributeType.CODE && type != AttributeType.OTHER_CODE;
+	}
+
+	private void setLanguagePanelVisibile(boolean visible)
 	{
 		inLabel.setVisible(visible);
 		languageList.setVisible(visible);
@@ -137,9 +187,13 @@ public class AttributeDefinitionPanel extends Composite {
 
 	public void setEnabled(boolean enabled)
 	{
+		nameField.setEnabled(enabled);
+		isLabel.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
 		typeList.setEnabled(enabled);
 		inLabel.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
 		languageList.setEnabled(enabled);
+		optionalLabel.setStyleName(CommonResources.INSTANCE.css().paddedTextDisabled(), !enabled);
+		optionList.setEnabled(enabled);
 	}
 
 }

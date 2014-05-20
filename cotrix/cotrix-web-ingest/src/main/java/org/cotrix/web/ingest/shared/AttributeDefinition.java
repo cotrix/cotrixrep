@@ -13,10 +13,11 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class AttributeDefinition implements IsSerializable {
 	
-	protected String name;
-	protected AttributeType type;
-	protected String customType;
-	protected Language language;
+	private String name;
+	private AttributeType type;
+	private String customType;
+	private Language language;
+	private boolean optional;
 	
 	/**
 	 * @return the name
@@ -69,6 +70,18 @@ public class AttributeDefinition implements IsSerializable {
 	public void setLanguage(Language language) {
 		this.language = language;
 	}
+	/**
+	 * @return the optional
+	 */
+	public boolean isOptional() {
+		return optional;
+	}
+	/**
+	 * @param optional the optional to set
+	 */
+	public void setOptional(boolean optional) {
+		this.optional = optional;
+	}
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -83,6 +96,8 @@ public class AttributeDefinition implements IsSerializable {
 		builder.append(customType);
 		builder.append(", language=");
 		builder.append(language);
+		builder.append(", optional=");
+		builder.append(optional);
 		builder.append("]");
 		return builder.toString();
 	}

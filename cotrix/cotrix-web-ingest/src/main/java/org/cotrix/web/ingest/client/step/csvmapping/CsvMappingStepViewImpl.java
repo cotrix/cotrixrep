@@ -23,10 +23,10 @@ import com.google.inject.Singleton;
 public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappingStepView {
 
 	@UiTemplate("CsvMappingStep.ui.xml")
-	interface HeaderTypeStepUiBinder extends UiBinder<Widget, CsvMappingStepViewImpl> {}
+	interface CsvMappingStepUiBinder extends UiBinder<Widget, CsvMappingStepViewImpl> {}
 	
 	@Inject
-	private HeaderTypeStepUiBinder uiBinder;
+	private CsvMappingStepUiBinder uiBinder;
 	
 	@UiField(provided = true) MappingPanel mappingPanel;
 	
