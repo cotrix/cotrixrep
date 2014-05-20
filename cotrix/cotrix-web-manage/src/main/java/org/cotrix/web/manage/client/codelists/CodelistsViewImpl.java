@@ -21,8 +21,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.CellTree.CellTreeMessages;
+import com.google.gwt.user.cellview.client.CustomCellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
@@ -51,7 +51,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	@UiField SearchBox filterTextBox;
 
 	@UiField(provided=true) 
-	CellTree codelists;
+	CustomCellTree codelists;
 	
 	@UiField ItemToolbar toolbar;
 
@@ -105,7 +105,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	    });
 	    
 	    TreeMessages treeMessages = GWT.create(TreeMessages.class); 
-		codelists = new CellTree(new CodelistTreeModel(codeListDataProvider, selectionModel), null, resources, treeMessages);
+		codelists = new CustomCellTree(new CodelistTreeModel(codeListDataProvider, selectionModel), null, resources, treeMessages);
 		
 		//codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
