@@ -16,7 +16,6 @@ public final class AttributeTypeMS extends IdentifiedMS implements AttributeType
 
 	private QName name;
 	private QName type;
-	private String value;
 	private String language;
 	private AttributeValueType valueType;
 	private OccurrenceRange range;
@@ -54,10 +53,6 @@ public final class AttributeTypeMS extends IdentifiedMS implements AttributeType
 	
 	public QName type() {
 		return type;
-	}
-	
-	public String value() {
-		return value;
 	}
 	
 	public void type(QName type) {
@@ -102,38 +97,31 @@ public final class AttributeTypeMS extends IdentifiedMS implements AttributeType
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AttributeTypeMS other = (AttributeTypeMS) obj;
+		AttributeType.State other = (AttributeType.State) obj;
 		if (language == null) {
-			if (other.language != null)
+			if (other.language() != null)
 				return false;
-		} else if (!language.equals(other.language))
+		} else if (!language.equals(other.language()))
 			return false;
 		if (name == null) {
-			if (other.name != null)
+			if (other.name() != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!name.equals(other.name()))
 			return false;
 		if (range == null) {
-			if (other.range != null)
+			if (other.range() != null)
 				return false;
-		} else if (!range.equals(other.range))
+		} else if (!range.equals(other.range()))
 			return false;
 		if (type == null) {
-			if (other.type != null)
+			if (other.type() != null)
 				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		if (value == null) {
-			if (other.value != null)
-				return false;
-		} else if (!value.equals(other.value))
+		} else if (!type.equals(other.type()))
 			return false;
 		if (valueType == null) {
-			if (other.valueType != null)
+			if (other.valueType() != null)
 				return false;
-		} else if (!valueType.equals(other.valueType))
+		} else if (!valueType.equals(other.valueType()))
 			return false;
 		return true;
 	}

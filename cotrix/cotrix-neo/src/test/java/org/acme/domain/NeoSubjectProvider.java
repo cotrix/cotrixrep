@@ -10,6 +10,7 @@ import javax.enterprise.inject.Alternative;
 
 import org.acme.SubjectProvider;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.AttributeType;
 import org.cotrix.domain.attributes.Attribute.State;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
@@ -22,6 +23,7 @@ import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.user.User;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.NeoAttribute;
+import org.cotrix.neo.domain.NeoAttributeType;
 import org.cotrix.neo.domain.NeoCode;
 import org.cotrix.neo.domain.NeoCodelink;
 import org.cotrix.neo.domain.NeoCodelist;
@@ -61,6 +63,9 @@ public class NeoSubjectProvider implements SubjectProvider {
 
 		else if (object instanceof Attribute)
 			provided = new Attribute.Private(like(object, Attribute.Private.class,NeoAttribute.factory));
+		
+		else if (object instanceof AttributeType)
+			provided = new AttributeType.Private(like(object, AttributeType.Private.class,NeoAttributeType.factory));
 
 		else if (object instanceof CodelistLink)
 			provided = new CodelistLink.Private(like(object,CodelistLink.Private.class,NeoCodelistLink.factory)); 
