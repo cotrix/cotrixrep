@@ -1,18 +1,3 @@
-/*
- * Copyright 2011 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package org.cotrix.web.manage.client.codelist;
 
 import static com.google.gwt.dom.client.BrowserEvents.*;
@@ -33,10 +18,10 @@ import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.DoubleClickEditTextCell;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.client.widgets.ItemToolbar;
-import org.cotrix.web.common.client.widgets.StyledSafeHtmlRenderer;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
+import org.cotrix.web.common.client.widgets.StyledSafeHtmlRenderer;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UIQName;
@@ -49,8 +34,8 @@ import org.cotrix.web.manage.client.codelist.event.SwitchGroupEvent;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
-import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
+import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
@@ -69,7 +54,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -84,7 +68,6 @@ import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
@@ -131,40 +114,37 @@ public class CodelistEditor extends ResizeComposite implements HasEditing {
 
 	@UiField ItemToolbar toolBar;
 
-	protected ImageResourceRenderer renderer = new ImageResourceRenderer(); 
-	protected static DataGridResources resource = GWT.create(DataGridResources.class);
+	private static DataGridResources resource = GWT.create(DataGridResources.class);
 
-	protected List<Group> groupsAsColumn = new ArrayList<Group>();
-	protected Map<Group, Column<UICode, String>> groupsColumns = new HashMap<Group, Column<UICode,String>>(); 
-	protected Map<String, Column<UICode, String>> switchesColumns = new HashMap<String, Column<UICode,String>>(); 
-	protected List<DoubleClickEditTextCell> editableCells = new ArrayList<DoubleClickEditTextCell>();
-	protected boolean editable = true;
+	private List<Group> groupsAsColumn = new ArrayList<Group>();
+	private Map<Group, Column<UICode, String>> groupsColumns = new HashMap<Group, Column<UICode,String>>(); 
+	private List<DoubleClickEditTextCell> editableCells = new ArrayList<DoubleClickEditTextCell>();
+	private boolean editable = true;
 
 	private Column<UICode, String> nameColumn;
 
 	@Inject @EditorBus
-	protected EventBus editorBus;
+	private EventBus editorBus;
 
-	protected SingleSelectionModel<UICode> selectionModel;
-
-	@Inject
-	protected CodelistCodesProvider dataProvider;
-	protected HandlerRegistration registration;
-
-	protected DataEditor<UICode> codeEditor;
-
-	protected DataEditor<CodeAttribute> attributeEditor;
+	private SingleSelectionModel<UICode> selectionModel;
 
 	@Inject
-	protected CotrixManagerResources resources;
+	private CodelistCodesProvider dataProvider;
 
-	protected StyledSafeHtmlRenderer cellRenderer;
+	private DataEditor<UICode> codeEditor;
+
+	private DataEditor<CodeAttribute> attributeEditor;
 
 	@Inject
-	protected ManageServiceAsync managerService;
+	private CotrixManagerResources resources;
+
+	private StyledSafeHtmlRenderer cellRenderer;
+
+	@Inject
+	private ManageServiceAsync managerService;
 
 	@Inject @CurrentCodelist
-	protected String codelistId;
+	private String codelistId;
 
 	@Inject
 	private void init() {
