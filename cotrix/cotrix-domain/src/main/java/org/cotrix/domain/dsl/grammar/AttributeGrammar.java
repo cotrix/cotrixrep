@@ -15,9 +15,9 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 public class AttributeGrammar {
 
 	
-	public static interface AttributeStartClause extends NameClause<OptionalClause> {	}
+	public static interface AttributeNewClause extends NameClause<OptionalClause> {	}
 		
-	public static interface AttributeDeltaClause extends NameClause<OptionalClause>, OptionalClause {}
+	public static interface AttributeChangeClause extends NameClause<OptionalClause>, OptionalClause {}
 	
 	public static interface OptionalClause extends BuildClause<Attribute> {
 		

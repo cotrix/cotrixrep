@@ -1,10 +1,11 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.common.OccurrenceRanges.*;
+import static org.cotrix.domain.dsl.Codes.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeType;
 import org.cotrix.domain.attributes.AttributeValueType;
 import org.cotrix.domain.common.OccurrenceRange;
@@ -22,19 +23,22 @@ public final class AttributeTypeMS extends IdentifiedMS implements AttributeType
 	
 	public AttributeTypeMS() {
 		type=Constants.DEFAULT_TYPE;
+		valueType(text());
+		range(arbitrarily);
 	}
 	
 	public AttributeTypeMS(String id,Status status) {
 		super(id,status);
-		type(null);
 	}
 	
 	
-	public AttributeTypeMS(Attribute.State state) {
+	public AttributeTypeMS(AttributeType.State state) {
 		
 		name(state.name());
 		type(state.type());
 		language(state.language());
+		valueType(state.valueType());
+		range(state.range());
 	}
 	
 	public QName name() {
@@ -90,37 +94,51 @@ public final class AttributeTypeMS extends IdentifiedMS implements AttributeType
 	public AttributeType.Private entity() {
 		return new AttributeType.Private(this);
 	}
-	
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof Attribute.State))
+		if (getClass() != obj.getClass())
 			return false;
-		Attribute.State other = (Attribute.State) obj;
+		AttributeTypeMS other = (AttributeTypeMS) obj;
 		if (language == null) {
-			if (other.language() != null)
+			if (other.language != null)
 				return false;
-		} else if (!language.equals(other.language()))
+		} else if (!language.equals(other.language))
 			return false;
 		if (name == null) {
-			if (other.name() != null)
+			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name()))
+		} else if (!name.equals(other.name))
+			return false;
+		if (range == null) {
+			if (other.range != null)
+				return false;
+		} else if (!range.equals(other.range))
 			return false;
 		if (type == null) {
-			if (other.type() != null)
+			if (other.type != null)
 				return false;
-		} else if (!type.equals(other.type()))
+		} else if (!type.equals(other.type))
 			return false;
 		if (value == null) {
-			if (other.value() != null)
+			if (other.value != null)
 				return false;
-		} else if (!value.equals(other.value()))
+		} else if (!value.equals(other.value))
+			return false;
+		if (valueType == null) {
+			if (other.valueType != null)
+				return false;
+		} else if (!valueType.equals(other.valueType))
 			return false;
 		return true;
 	}
+	
+
+	
 
 }

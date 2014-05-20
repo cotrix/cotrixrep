@@ -4,8 +4,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeDeltaClause;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
 import org.cotrix.domain.memory.AttributeMS;
 
 /**
@@ -14,7 +14,7 @@ import org.cotrix.domain.memory.AttributeMS;
  * @author Fabio Simeoni
  *
  */
-public class AttributeBuilder implements AttributeStartClause, AttributeDeltaClause {
+public class AttributeBuilder implements AttributeNewClause, AttributeChangeClause {
 
 	private final AttributeMS state;
 

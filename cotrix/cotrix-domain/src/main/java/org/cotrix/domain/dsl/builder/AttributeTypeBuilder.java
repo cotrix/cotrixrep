@@ -7,8 +7,8 @@ import org.cotrix.domain.attributes.AttributeType;
 import org.cotrix.domain.attributes.AttributeValueType;
 import org.cotrix.domain.common.OccurrenceRange;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.AttributeTypeDeltaClause;
-import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.AttributeTypeStartClause;
+import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.AttributeTypeChangeClause;
+import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.AttributeTypeNewClause;
 import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.OptionalClause;
 import org.cotrix.domain.memory.AttributeTypeMS;
 
@@ -18,7 +18,7 @@ import org.cotrix.domain.memory.AttributeTypeMS;
  * @author Fabio Simeoni
  *
  */
-public class AttributeTypeBuilder implements AttributeTypeStartClause, AttributeTypeDeltaClause {
+public class AttributeTypeBuilder implements AttributeTypeNewClause, AttributeTypeChangeClause {
 
 	private final AttributeTypeMS state;
 
@@ -50,7 +50,7 @@ public class AttributeTypeBuilder implements AttributeTypeStartClause, Attribute
 	}
 
 	@Override
-	public AttributeTypeBuilder withValuesOfType(AttributeValueType valueType) {
+	public AttributeTypeBuilder valuesIs(AttributeValueType valueType) {
 		state.valueType(valueType);
 		return this;
 	}

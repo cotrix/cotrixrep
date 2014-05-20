@@ -9,6 +9,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.AttributeType;
+import org.cotrix.domain.attributes.TextValueType;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
@@ -18,12 +20,15 @@ import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.common.StateContainer;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
+import org.cotrix.domain.dsl.builder.AttributeTypeBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
 import org.cotrix.domain.dsl.builder.CodelinkBuilder;
 import org.cotrix.domain.dsl.builder.CodelistBuilder;
 import org.cotrix.domain.dsl.builder.CodelistLinkBuilder;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeDeltaClause;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
+import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.AttributeTypeChangeClause;
+import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.AttributeTypeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
@@ -33,6 +38,7 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
 import org.cotrix.domain.memory.AttributeMS;
+import org.cotrix.domain.memory.AttributeTypeMS;
 import org.cotrix.domain.memory.CodeMS;
 import org.cotrix.domain.memory.CodelinkMS;
 import org.cotrix.domain.memory.CodelistLinkMS;
@@ -57,17 +63,34 @@ public class Codes {
 		return new QName(ns,local);
 	}
 	
-	public static AttributeStartClause attribute() {
+	public static AttributeNewClause attribute() {
 		return new AttributeBuilder(new AttributeMS());
 	}
 	
-	public static AttributeDeltaClause modifyAttribute(String id) {
+	public static AttributeChangeClause modifyAttribute(String id) {
 		return new AttributeBuilder(new AttributeMS(id,MODIFIED));
 	}
 	
 	public static Attribute deleteAttribute(String id) {
 		return new AttributeMS(id,DELETED).entity();
 	}
+	
+	public static AttributeTypeNewClause attributeType() {
+		return new AttributeTypeBuilder(new AttributeTypeMS());
+	}
+	
+	public static AttributeTypeChangeClause modifyAttributeType(String id) {
+		return new AttributeTypeBuilder(new AttributeTypeMS(id,MODIFIED));
+	}
+	
+	public static AttributeType deleteAttributeType(String id) {
+		return new AttributeTypeMS(id,DELETED).entity();
+	}
+	
+	public static TextValueType text() {
+		return new TextValueType();
+	}
+	
 	
 	public static Code ascode(String name) {
 		return ascode(q(name));
@@ -162,16 +185,20 @@ public class Codes {
 		return namedContainer(namedBeans(elements));
 	}
 	
+	public static Attribute.Private reveal(Attribute a) {
+		return Utils.reveal(a,Attribute.Private.class);
+	}
+	
+	public static AttributeType.Private reveal(AttributeType a) {
+		return Utils.reveal(a,AttributeType.Private.class);
+	}
+	
 	public static Code.Private reveal(Code c) {
 		return Utils.reveal(c,Code.Private.class);
 	}
 	
 	public static Codelist.Private reveal(Codelist c) {
 		return Utils.reveal(c,Codelist.Private.class);
-	}
-	
-	public static Attribute.Private reveal(Attribute a) {
-		return Utils.reveal(a,Attribute.Private.class);
 	}
 	
 	public static CodelistLink.Private reveal(CodelistLink l) {
