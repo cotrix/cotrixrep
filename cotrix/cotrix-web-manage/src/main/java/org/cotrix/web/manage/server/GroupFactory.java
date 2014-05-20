@@ -14,7 +14,6 @@ import java.util.Map.Entry;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.common.Attribute;
-import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.utils.Constants;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.manage.shared.AttributeGroup;
@@ -44,7 +43,7 @@ public class GroupFactory {
 	
 	
 	private interface ItemProvider<T> {
-		NamedContainer<? extends T> getItems(Code code);
+		Iterable<? extends T> getItems(Code code);
 	}
 	
 	private interface GroupGenerator<T, G extends Group> {
@@ -55,7 +54,7 @@ public class GroupFactory {
 
 		@Override
 		public AttributeGroup generate(Attribute attribute) {
-			boolean isSystemGroup = attribute.type()!=null?attribute.type().equals(Constants.SYSTEM_TYPE):false;
+			boolean isSystemGroup = isSystemAttribute(attribute);
 			return new AttributeGroup(ValueUtils.safeValue(attribute.name()), null, ValueUtils.safeLanguage(attribute.language()), isSystemGroup);
 		}
 	};
@@ -63,8 +62,14 @@ public class GroupFactory {
 	private static final ItemProvider<Attribute> ATTRIBUTES_PROVIDER = new ItemProvider<Attribute>() {
 
 		@Override
-		public NamedContainer<? extends Attribute> getItems(Code code) {
-			return code.attributes();
+		public Iterable<? extends Attribute> getItems(Code code) {
+			return filter(code.attributes());
+		}
+		
+		private Iterable<? extends Attribute> filter(Iterable<? extends Attribute> attributes) {
+			List<Attribute> filtered = new ArrayList<>();
+			for (Attribute attribute:attributes) if (!isSystemAttribute(attribute)) filtered.add(attribute);
+			return filtered;
 		}
 	};
 	
@@ -80,7 +85,7 @@ public class GroupFactory {
 	private static final ItemProvider<Codelink> CODELINKS_PROVIDER = new ItemProvider<Codelink>() {
 
 		@Override
-		public NamedContainer<? extends Codelink> getItems(Code code) {
+		public Iterable<? extends Codelink> getItems(Code code) {
 			return code.links();
 		}
 	};
@@ -92,6 +97,10 @@ public class GroupFactory {
 		Collections.sort(groups, GROUP_COMPARATOR);
 		return groups;
 		
+	}
+	
+	private static boolean isSystemAttribute(Attribute attribute) {
+		return attribute.type()!=null?attribute.type().equals(Constants.SYSTEM_TYPE):false;
 	}
 		
 	@SuppressWarnings("unchecked")
