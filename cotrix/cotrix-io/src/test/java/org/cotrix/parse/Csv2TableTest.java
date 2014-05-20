@@ -5,6 +5,7 @@ import static org.cotrix.TestUtils.*;
 import static org.junit.Assert.*;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 import javax.inject.Inject;
 
@@ -13,6 +14,7 @@ import org.cotrix.io.tabular.csv.parse.Csv2TableDirectives;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.virtualrepository.tabular.Column;
+import org.virtualrepository.tabular.Row;
 import org.virtualrepository.tabular.Table;
 
 import com.googlecode.jeeunit.JeeunitRunner;
@@ -41,6 +43,50 @@ public class Csv2TableTest {
 		
 		//after table is parsed we see one generated column
 		assertEquals(1,table.columns().size());
+				
+	}
+	
+	@Test
+	public void agprod() {
+		
+		InputStream stream = this.getClass().getResourceAsStream("/ag-prod-cnt.csv");
+		
+		
+		Csv2TableDirectives directives=  new Csv2TableDirectives();
+		directives.options().hasHeader(false);
+		directives.options().setQuote('"');
+		directives.options().setDelimiter(',');
+		directives.options().setEncoding(Charset.forName("UTF-8"));
+		
+		Table table = parser.parse(stream,directives);
+		
+		System.out.println(table.columns());
+		for (Row row : table)
+			System.out.println(row);
+		
+		System.out.println(table.columns());
+				
+	}
+	
+	@Test
+	public void miniasfis() {
+		
+		InputStream stream = this.getClass().getResourceAsStream("/ASFIS_MINI.txt");
+		
+		
+		Csv2TableDirectives directives=  new Csv2TableDirectives();
+		directives.options().hasHeader(false);
+		directives.options().setQuote('"');
+		directives.options().setDelimiter('\t');
+		directives.options().setEncoding(Charset.forName("ISO-8859-1"));
+		
+		Table table = parser.parse(stream,directives);
+		
+		System.out.println(table.columns());
+		for (Row row : table)
+			System.out.println(row);
+		
+		System.out.println(table.columns());
 				
 	}
 	
