@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with field='resources'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
-	<ui:style type="org.cotrix.web.client.view.UserBarViewImpl.Style">
+	<ui:style type="org.cotrix.web.client.userbar.UserBarViewImpl.Style">
 	.block {
 		width: 33%;
 		vertical-align: middle;

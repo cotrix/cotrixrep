@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.client.presenter;
+package org.cotrix.web.client.userbar;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,12 +1,11 @@
 /**
  * 
  */
-package org.cotrix.web.client.presenter;
+package org.cotrix.web.client.home;
 
 import java.util.List;
 
 import org.cotrix.web.client.MainServiceAsync;
-import org.cotrix.web.client.view.HomeView;
 import org.cotrix.web.common.client.CotrixModule;
 import org.cotrix.web.common.client.CotrixModuleController;
 import org.cotrix.web.common.client.error.IgnoreFailureCallback;

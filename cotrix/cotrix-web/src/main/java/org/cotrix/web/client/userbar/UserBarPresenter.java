@@ -1,8 +1,12 @@
 /**
  * 
  */
-package org.cotrix.web.client.presenter;
+package org.cotrix.web.client.userbar;
 
+import org.cotrix.web.client.dialog.LoginDialog;
+import org.cotrix.web.client.dialog.RegisterDialog;
+import org.cotrix.web.client.dialog.LoginDialog.LoginDialogListener;
+import org.cotrix.web.client.dialog.RegisterDialog.RegisterDialogListener;
 import org.cotrix.web.client.event.UserLoggingInEvent;
 import org.cotrix.web.client.event.UserLoginEvent;
 import org.cotrix.web.client.event.UserLoginFailedEvent;
@@ -10,12 +14,7 @@ import org.cotrix.web.client.event.UserLogoutEvent;
 import org.cotrix.web.client.event.UserRegisterEvent;
 import org.cotrix.web.client.event.UserRegisteringEvent;
 import org.cotrix.web.client.event.UserRegistrationFailedEvent;
-import org.cotrix.web.client.view.LoginDialog;
-import org.cotrix.web.client.view.LoginDialog.LoginDialogListener;
-import org.cotrix.web.client.view.RegisterDialog;
-import org.cotrix.web.client.view.RegisterDialog.RegisterDialogListener;
-import org.cotrix.web.client.view.UserBarView;
-import org.cotrix.web.client.view.UserBarView.Presenter;
+import org.cotrix.web.client.userbar.UserBarView.Presenter;
 import org.cotrix.web.common.client.CotrixModule;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.ExtensibleComponentReadyEvent;
