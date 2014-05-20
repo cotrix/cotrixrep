@@ -66,7 +66,12 @@ public class CodeTest extends DomainTest {
 		Code.State state = reveal(c).state();
 		CodeMS clone = new CodeMS(state);
 		
-		assertEquals(clone,state);
+		assertEquals(state.name(),clone.name());
+		
+		for (Attribute.State attr : clone.attributes()) {
+			//System.out.println(attr.name());
+			assertTrue(clone.attributes().contains(attr.name()));
+		}
 		
 	}
 	
