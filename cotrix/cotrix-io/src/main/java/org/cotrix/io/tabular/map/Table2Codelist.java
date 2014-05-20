@@ -59,7 +59,7 @@ public class Table2Codelist {
 		
 		double time = System.currentTimeMillis();
 
-		report().log("mapping table to codelist "+directives.name());
+		report().log("transforming table to codelist "+directives.name());
 		report().log(Calendar.getInstance().getTime().toString());
 		report().log("==============================");
 		
@@ -69,7 +69,7 @@ public class Table2Codelist {
 		Codelist list = list();
 		
 		report().log("==============================");
-		report().log("mapped table to codelist '"+directives.name()+"' with "+list.codes().size()+" codes in "+(System.currentTimeMillis()-time)/1000);
+		report().log("transformed table to codelist '"+directives.name()+"' with "+list.codes().size()+" codes in "+(System.currentTimeMillis()-time)/1000);
 		
 		return list;
 		

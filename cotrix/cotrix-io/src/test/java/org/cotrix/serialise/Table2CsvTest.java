@@ -34,25 +34,26 @@ public class Table2CsvTest {
 
 		Table table = asTable(data,"c1");
 		
-		
-		
 		Table2CsvDirectives defaultDirectives = new Table2CsvDirectives();
+		
+		System.out.println(defaultDirectives);
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
 		serialiser.serialise(table,out,defaultDirectives);
 		
-		
-		
 		//read and assert round trip
 		Csv2TableDirectives parseDirectives = new Csv2TableDirectives();
+		
 		parseDirectives.options().setColumns(new Column("c1"));
+		
 		Table parsed = parser.parse(new ByteArrayInputStream(out.toByteArray()), parseDirectives);
 
 		System.out.println(table);
 		System.out.println(parsed);
 
 		assertEquals(parsed,table);
+		assertEquals(parsed,data);
 	}
 	
 	@Test
