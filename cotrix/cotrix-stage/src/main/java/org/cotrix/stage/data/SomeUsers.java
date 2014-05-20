@@ -25,7 +25,7 @@ public class SomeUsers {
 	
 	
 	
-	public static final Collection<User> users = asList(me,federico,fabio,anton,aureliano,erik,fabiof,claudio);
+	public static final Collection<User> users = asList(me,federico,fabio,anton,aureliano,erik,fabiof,claudio,henry);
 	
 	public static final Collection<User> owners = asList(me,anton,aureliano,claudio,henry);
 	
