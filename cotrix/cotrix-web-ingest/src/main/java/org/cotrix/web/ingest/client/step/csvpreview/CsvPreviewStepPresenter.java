@@ -2,6 +2,7 @@ package org.cotrix.web.ingest.client.step.csvpreview;
 
 import java.util.List;
 
+import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.ingest.client.event.CsvHeadersEvent;
 import org.cotrix.web.ingest.client.event.CsvParserConfigurationUpdatedEvent;
@@ -28,17 +29,19 @@ public class CsvPreviewStepPresenter extends AbstractVisualWizardStep implements
 
 	protected static interface CsvPreviewStepPresenterEventBinder extends EventBinder<CsvPreviewStepPresenter> {}
 	
-	private final CsvPreviewStepView view;
+	@Inject
+	private CsvPreviewStepView view;
+	
+	@Inject
+	private AlertDialog alertDialog;
+	
+	@Inject @ImportBus 
 	private EventBus importEventBus;
 	private boolean headerRequired = false;
 
 	@Inject
-	public CsvPreviewStepPresenter(CsvPreviewStepView view, @ImportBus EventBus importEventBus) {
+	public CsvPreviewStepPresenter() {
 		super("csv-preview", TrackerLabels.PREVIEW, "Does it look right?", "Adjust the parameters until it does.", ImportWizardStepButtons.BACKWARD, ImportWizardStepButtons.FORWARD);
-		this.view = view;
-		this.view.setPresenter(this);
-
-		this.importEventBus = importEventBus;
 	}
 	
 	@Inject
@@ -51,9 +54,13 @@ public class CsvPreviewStepPresenter extends AbstractVisualWizardStep implements
 	}
 
 	public boolean leave() {
+		CsvConfiguration configuration = view.getConfiguration();
+		updateHeaderRequired(configuration);
+		importEventBus.fireEventFromSource(new CsvParserConfigurationUpdatedEvent(configuration), this);
+		
 		List<String> headers = view.getHeaders();
 		if (headerRequired && !areHeadersValid(headers)) {
-			view.alert("All header fields should be filled");
+			alert("All header fields should be filled");
 			return false;
 		}
 		
@@ -66,6 +73,10 @@ public class CsvPreviewStepPresenter extends AbstractVisualWizardStep implements
 		for (String header:headers) if (header == null || header.isEmpty()) return false;
 		return true;
 	}
+	
+	private void alert(String message) {
+		alertDialog.center(message);
+	}
 
 	@EventHandler
 	void onCsvParserConfigurationUpdated(CsvParserConfigurationUpdatedEvent event) {
@@ -74,12 +85,6 @@ public class CsvPreviewStepPresenter extends AbstractVisualWizardStep implements
 			view.setCsvParserConfiguration(event.getConfiguration());
 			updateHeaderRequired(event.getConfiguration());
 		}
-	}
-
-	@Override
-	public void onCsvConfigurationEdited(CsvConfiguration configuration) {
-		updateHeaderRequired(configuration);
-		importEventBus.fireEventFromSource(new CsvParserConfigurationUpdatedEvent(configuration), this);
 	}
 	
 	private void updateHeaderRequired(CsvConfiguration configuration) {

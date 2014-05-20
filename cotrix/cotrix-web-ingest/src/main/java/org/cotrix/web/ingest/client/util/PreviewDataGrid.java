@@ -6,10 +6,12 @@ package org.cotrix.web.ingest.client.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.util.CachedDataProvider;
 import org.cotrix.web.common.client.widgets.EditableTextHeader;
+import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.client.widgets.StyledTextInputCell;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.ingest.client.resources.Resources;
@@ -26,7 +28,6 @@ import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.view.client.Range;
 
@@ -35,7 +36,7 @@ import com.google.gwt.view.client.Range;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class PreviewDataGrid extends ResizeComposite {
+public class PreviewDataGrid extends LoadingPanel {
 	
 	public interface PreviewDataProvider {
 		public void getHeaders(AsyncCallback<PreviewHeaders> headersCallBack);
@@ -111,10 +112,11 @@ public class PreviewDataGrid extends ResizeComposite {
 
 	private void loadHeaders() {
 		Log.trace("loading headers");
-		previewDataProvider.getHeaders(new AsyncCallback<PreviewHeaders>() {
+		showLoader();
+		previewDataProvider.getHeaders(new ManagedFailureCallback<PreviewHeaders>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
+			public void onCallFailed() {
+				hideLoader();
 			}
 
 			@Override
@@ -127,6 +129,7 @@ public class PreviewDataGrid extends ResizeComposite {
 	private void setHeaders(PreviewHeaders headers) {
 		createColumns(headers);
 		
+		hideLoader();
 		pager.setPage(0);
 		previewGrid.setVisibleRangeAndClearData(previewGrid.getVisibleRange(), true);
 	}

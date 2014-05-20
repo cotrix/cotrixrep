@@ -13,7 +13,12 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -27,14 +32,14 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CsvConfigurationPanel extends Composite {
+public class CsvConfigurationPanel extends Composite implements HasValueChangeHandlers<CsvConfiguration> {
 	
-	protected interface Value {
+	private interface Value {
 		public String getLabel();
 		public char getValue();
 	}
 	
-	protected enum Separator implements Value {
+	private enum Separator implements Value {
 		COMMA("comma",','),
 		SEMICOLON("semicolon",';'),
 		SPACE("space",' '),
@@ -132,6 +137,35 @@ public class CsvConfigurationPanel extends Composite {
 		
 		bind(separatorField, customSeparatorField, Separator.CUSTOM);
 		bind(quoteField, customQuoteField, Quote.CUSTOM);
+
+		bindChangeHandlers();
+	}
+	
+	private void bindChangeHandlers() {
+
+		
+		hasHeaderField.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				fireValueChange();
+			}
+		});
+		
+		ChangeHandler changeHandler = new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				fireValueChange();
+			}
+		};
+		separatorField.addChangeHandler(changeHandler);
+		quoteField.addChangeHandler(changeHandler);
+		customSeparatorField.addChangeHandler(changeHandler);
+		customQuoteField.addChangeHandler(changeHandler);
+		charsetField.addChangeHandler(changeHandler);
+		commentField.addChangeHandler(changeHandler);
+		
 	}
 	
 	@UiHandler("refreshButton")
@@ -140,7 +174,7 @@ public class CsvConfigurationPanel extends Composite {
 		if (refreshHandler!=null) refreshHandler.onRefresh(getConfiguration());
 	}
 	
-	protected <E extends Enum<E>> void bind(final EnumListBox<E> listBox, final TextBox textBox, final E custom)
+	private <E extends Enum<E>> void bind(final EnumListBox<E> listBox, final TextBox textBox, final E custom)
 	{
 		listBox.addChangeHandler(new ChangeHandler() {
 			
@@ -176,7 +210,7 @@ public class CsvConfigurationPanel extends Composite {
 		
 	}
 	
-	protected <E extends Enum<E> & Value> E getValue(Class<E> eclass, char value, E custom)
+	private <E extends Enum<E> & Value> E getValue(Class<E> eclass, char value, E custom)
 	{
 		for (E element : EnumSet.allOf(eclass)) {
 			if (element.getValue() == value) return element;
@@ -184,7 +218,7 @@ public class CsvConfigurationPanel extends Composite {
 		return custom;
 	}
 	
-	protected <E extends Enum<E> & Value> void updateListBox(Class<E> eclass, EnumListBox<E> listBox, char fieldValue, TextBox textBox, E custom)
+	private <E extends Enum<E> & Value> void updateListBox(Class<E> eclass, EnumListBox<E> listBox, char fieldValue, TextBox textBox, E custom)
 	{
 		E value = getValue(eclass, fieldValue, custom);
 		listBox.setSelectedValue(value);
@@ -192,7 +226,7 @@ public class CsvConfigurationPanel extends Composite {
 		if (value == custom) textBox.setValue(String.valueOf(fieldValue));
 	}
 	
-	protected boolean selectValue(ListBox listBox, String value)
+	private boolean selectValue(ListBox listBox, String value)
 	{
 		for (int i = 0; i<listBox.getItemCount(); i++) {
 			String candidate = listBox.getValue(i);
@@ -217,7 +251,7 @@ public class CsvConfigurationPanel extends Composite {
 		return configuration;
 	}
 	
-	protected <E extends Enum<E> & Value> char getValue(EnumListBox<E> listbox, TextBox textBox, E custom)
+	private <E extends Enum<E> & Value> char getValue(EnumListBox<E> listbox, TextBox textBox, E custom)
 	{
 		E value = listbox.getSelectedValue();
 		if (value == null) throw new IllegalStateException("Invalid selected index");
@@ -227,5 +261,14 @@ public class CsvConfigurationPanel extends Composite {
 			return text.charAt(0);
 		}
 		return value.getValue();
+	}
+	
+	private void fireValueChange() {
+		ValueChangeEvent.fire(this, getConfiguration());
+	}
+
+	@Override
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<CsvConfiguration> handler) {
+		return addHandler(handler, ValueChangeEvent.getType());
 	}
 }

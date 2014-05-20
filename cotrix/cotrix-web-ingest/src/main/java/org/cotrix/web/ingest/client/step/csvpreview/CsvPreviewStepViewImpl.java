@@ -2,13 +2,14 @@ package org.cotrix.web.ingest.client.step.csvpreview;
 
 import java.util.List;
 
-import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.CsvConfigurationPanel;
 import org.cotrix.web.common.client.widgets.CsvConfigurationPanel.RefreshHandler;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.ingest.client.util.PreviewDataGrid;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
@@ -44,15 +45,10 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	
 	@UiField (provided=true) 
 	PreviewDataGrid preview;
-
-	private Presenter presenter;
 	
 	@Inject
 	private CsvPreviewDataProvider dataProvider;
-	
-	@Inject
-	AlertDialog alertDialog;
-	
+
 	@Inject
 	private void init() {
 		
@@ -60,6 +56,13 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		configurationPanel.setRefreshHandler(this);
+		configurationPanel.addValueChangeHandler(new ValueChangeHandler<CsvConfiguration>() {
+			
+			@Override
+			public void onValueChange(ValueChangeEvent<CsvConfiguration> event) {
+				updatePreview(event.getValue());
+			}
+		});
 	}
 	
 	/** 
@@ -79,13 +82,6 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	{
 		return new CsvConfigurationPanel(configurationPanelBinder);
 	}
-
-	/** 
-	 * {@inheritDoc}
-	 */
-	public void setPresenter(Presenter presenter) {
-		this.presenter = presenter;
-	}
 	
 	/** 
 	 * {@inheritDoc}
@@ -94,13 +90,6 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 		return preview.getHeaders();
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
-	public void alert(String message) {
-		alertDialog.center(message);
-	}
-	
 	@Override
 	public void setCsvParserConfiguration(CsvConfiguration configuration) {
 		configurationPanel.setConfiguration(configuration);
@@ -111,13 +100,16 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	public void onRefresh(CsvConfiguration configuration) {
 		if (dataProvider.getConfiguration().equals(configuration)) return;
 		updatePreview(configuration);
-		presenter.onCsvConfigurationEdited(configuration);
 	}
 	
-	
-	protected void updatePreview(CsvConfiguration configuration)
+	private void updatePreview(CsvConfiguration configuration)
 	{
 		dataProvider.setConfiguration(configuration);
 		preview.loadData();
+	}
+
+	@Override
+	public CsvConfiguration getConfiguration() {
+		return configurationPanel.getConfiguration();
 	}
 }
