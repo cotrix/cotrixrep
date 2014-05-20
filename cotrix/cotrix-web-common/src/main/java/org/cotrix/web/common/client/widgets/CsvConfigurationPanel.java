@@ -137,7 +137,7 @@ public class CsvConfigurationPanel extends Composite {
 	@UiHandler("refreshButton")
 	public void refreshButtonClicked(ClickEvent clickEvent)
 	{
-		refreshHandler.onRefresh(getConfiguration());
+		if (refreshHandler!=null) refreshHandler.onRefresh(getConfiguration());
 	}
 	
 	protected <E extends Enum<E>> void bind(final EnumListBox<E> listBox, final TextBox textBox, final E custom)

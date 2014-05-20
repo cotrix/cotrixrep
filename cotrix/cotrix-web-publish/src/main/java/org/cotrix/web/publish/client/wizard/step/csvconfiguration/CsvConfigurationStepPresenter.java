@@ -22,8 +22,8 @@ public class CsvConfigurationStepPresenter extends AbstractVisualWizardStep impl
 
 	@Inject
 	private CsvConfigurationStepView view;
-	protected EventBus publishBus;
-	protected boolean headerRequired = false;
+	
+	private EventBus publishBus;
 	
 	@Inject
 	public CsvConfigurationStepPresenter(@PublishBus EventBus publishBus) {
@@ -32,7 +32,7 @@ public class CsvConfigurationStepPresenter extends AbstractVisualWizardStep impl
 		bind();
 	}
 	
-	protected void bind()
+	private void bind()
 	{
 		publishBus.addHandler(ItemUpdatedEvent.getType(CsvConfiguration.class), new ItemUpdatedEvent.ItemUpdatedHandler<CsvConfiguration>() {
 
