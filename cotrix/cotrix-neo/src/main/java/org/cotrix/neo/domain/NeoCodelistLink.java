@@ -15,7 +15,7 @@ import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.links.OccurrenceRange;
 import org.cotrix.domain.links.OccurrenceRanges;
 import org.cotrix.domain.links.ValueFunction;
-import org.cotrix.domain.links.ValueType;
+import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
@@ -80,11 +80,11 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	}
 	
 	@Override
-	public ValueType valueType() {
+	public LinkValueType valueType() {
 		
 		//attribute-based: retrieve as blob
 		if (node().hasProperty(type_prop))
-			return (ValueType) binder().fromXML((String) node().getProperty(type_prop));
+			return (LinkValueType) binder().fromXML((String) node().getProperty(type_prop));
 		
 		//link-based: retrieve as link
 		Relationship rel = node().getSingleRelationship(Relations.LOL,OUTGOING);
@@ -97,7 +97,7 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	}
 	
 	@Override
-	public void valueType(ValueType state) {
+	public void valueType(LinkValueType state) {
 		
 		//name-based: store nothing  
 		if (state==NameLink.INSTANCE) {

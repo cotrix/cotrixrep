@@ -2,7 +2,7 @@ package org.cotrix.domain.codelist;
 
 import org.cotrix.domain.links.OccurrenceRange;
 import org.cotrix.domain.links.ValueFunction;
-import org.cotrix.domain.links.ValueType;
+import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
@@ -22,7 +22,7 @@ public interface CodelistLink extends Identified, Attributed, Named {
 	 * Returns the type of values of link instances.
 	 * @return the type
 	 */
-	ValueType valueType();
+	LinkValueType valueType();
 	
 	
 	/**
@@ -42,9 +42,9 @@ public interface CodelistLink extends Identified, Attributed, Named {
 
 		Codelist.State target();
 		
-		ValueType valueType();
+		LinkValueType valueType();
 		
-		void valueType(ValueType type);
+		void valueType(LinkValueType type);
 		
 		ValueFunction function();
 		
@@ -73,7 +73,7 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		}
 		
 		@Override
-		public ValueType valueType() {
+		public LinkValueType valueType() {
 			return state().valueType();
 		}
 		
@@ -93,7 +93,7 @@ public interface CodelistLink extends Identified, Attributed, Named {
 
 			super.update(changeset);
 			
-			ValueType newtype = changeset.state().valueType();
+			LinkValueType newtype = changeset.state().valueType();
 			
 			if (newtype!=null)
 				state().valueType(newtype);

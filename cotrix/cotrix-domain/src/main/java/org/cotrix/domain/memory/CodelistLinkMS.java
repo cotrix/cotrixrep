@@ -10,7 +10,7 @@ import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.Private;
 import org.cotrix.domain.links.OccurrenceRange;
 import org.cotrix.domain.links.ValueFunction;
-import org.cotrix.domain.links.ValueType;
+import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Status;
 
 /**
@@ -22,7 +22,7 @@ import org.cotrix.domain.trait.Status;
 public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 
 	private Codelist.State target;
-	private ValueType type;
+	private LinkValueType type;
 	private ValueFunction function;
 	private OccurrenceRange range;
 	
@@ -46,11 +46,11 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 		function(state.function());
 	}
 
-	public ValueType valueType() {
+	public LinkValueType valueType() {
 		return type;
 	}
 	
-	public void valueType(ValueType type) {
+	public void valueType(LinkValueType type) {
 		notNull("link type",type);
 		this.type=type;
 	}

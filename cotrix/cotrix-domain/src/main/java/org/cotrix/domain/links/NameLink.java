@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.cotrix.domain.codelist.Code;
 
-public class NameLink implements ValueType {
+public class NameLink implements LinkValueType {
 
 	public static NameLink INSTANCE = new NameLink();
 	

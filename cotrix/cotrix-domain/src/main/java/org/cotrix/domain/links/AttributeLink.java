@@ -9,7 +9,7 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.utils.AttributeTemplate;
 
-public class AttributeLink implements ValueType {
+public class AttributeLink implements LinkValueType {
 
 	private final AttributeTemplate template;
 	
