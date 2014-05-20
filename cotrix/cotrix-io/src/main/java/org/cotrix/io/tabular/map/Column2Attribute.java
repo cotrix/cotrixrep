@@ -60,15 +60,15 @@ public class Column2Attribute {
 	//helper
 	private boolean valid(String codename, String value) {
 		
-		if (value==null || value.isEmpty()) {
+		if (mapping.required() && (value==null || value.isEmpty())) {
 			
 			String msg = "code "+codename+" has no value for attribute '"+mapping.name()+"'";
 			
 			switch(mapping.mode()) {
 				case STRICT:
 					report().log(msg).as(ERROR);break;
-//				case LOG:
-//					report().log(msg).as(WARN);break;
+				case LOG:
+					report().log(msg).as(WARN);break;
 				default:
 			}
 			
