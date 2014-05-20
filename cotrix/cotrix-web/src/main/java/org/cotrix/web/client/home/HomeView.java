@@ -19,4 +19,8 @@ public interface HomeView {
 	public Widget asWidget();
 
 	void setNews(List<UINews> newses);
+
+	void setNewsNotAvailable();
+
+	void setStatisticsNotAvailable();
 }

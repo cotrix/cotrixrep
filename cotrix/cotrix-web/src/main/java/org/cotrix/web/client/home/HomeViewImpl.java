@@ -25,16 +25,18 @@ import com.google.inject.Singleton;
 public class HomeViewImpl extends Composite implements HomeView {
 
 	private static HomeUiBinder uiBinder = GWT.create(HomeUiBinder.class);
-	protected static DateTimeFormat SDF = DateTimeFormat.getFormat("d MMM yyyy HH:mm"); 
+	private static DateTimeFormat SDF = DateTimeFormat.getFormat("d MMM yyyy HH:mm"); 
 
 	@UiTemplate("Home.ui.xml")
 	interface HomeUiBinder extends UiBinder<Widget, HomeViewImpl> {
 	}
 
 	@UiField DivElement statisticsLoader;
+	@UiField DivElement statisticsNotAvailable;
 	@UiField HTML statistics;
 	
 	@UiField DivElement newsLoader;
+	@UiField DivElement newsNotAvailable;
 	@UiField HTML news;
 	@UiField ScrollPanel newsMain;
 
@@ -59,26 +61,39 @@ public class HomeViewImpl extends Composite implements HomeView {
 		statistics.setVisible(true);
 	}
 	
-	protected void addStatistic(StringBuilder html, String name, int value) {
+	private void addStatistic(StringBuilder html, String name, int value) {
 		html.append("<li>").append(name).append(": <span style=\"float: right;\">").append(value).append("</span></li>");
+	}
+	
+	@Override
+	public void setStatisticsNotAvailable() {
+		statisticsLoader.getStyle().setDisplay(Display.NONE);
+		statisticsNotAvailable.getStyle().setDisplay(Display.INLINE_BLOCK);
 	}
 	
 	@Override
 	public void setNews(List<UINews> newses) {
 		StringBuilder html = new StringBuilder();
 		html.append("<ul>");
-		for (UINews news:newses) addNew(html, news);
+		for (UINews news:newses) addNews(html, news);
 		html.append("</ul>");
 		news.setHTML(html.toString());
 		newsLoader.getStyle().setDisplay(Display.NONE);
+		newsNotAvailable.getStyle().setDisplay(Display.NONE);
 		newsMain.setVisible(true);
 	}
 	
-	protected void addNew(StringBuilder html, UINews news) {
+	private void addNews(StringBuilder html, UINews news) {
 		if (news.getText() == null) return;
 		html.append("<li>")
 		.append("<span style=\"font-size:12px;line-height: 1.4;display: block;\">").append(SDF.format(news.getTimestamp())).append("</span>")
 		.append("<span style=\"line-height: 1.4;display: block;\">").append(news.getText()).append("</span>")
 		.append("<span style=\"height: 8px;display: block;margin-top: 5px;border-top: 1px solid #d9d9d9;\"></span></li>");
+	}
+	
+	@Override
+	public void setNewsNotAvailable() {
+		newsLoader.getStyle().setDisplay(Display.NONE);
+		newsNotAvailable.getStyle().setDisplay(Display.INLINE_BLOCK);
 	}
 }

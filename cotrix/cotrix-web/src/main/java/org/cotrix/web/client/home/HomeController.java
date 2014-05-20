@@ -29,14 +29,16 @@ public class HomeController implements CotrixModuleController {
 	private static final int POLLING_DELAY = 5*60*1000;
 	
 	@Inject
-	protected MainServiceAsync service;
+	private MainServiceAsync service;
 	
 	@Inject
-	protected HomeView view; 
+	private HomeView view; 
 	
-	protected Timer statisticsUpdater;
+	private boolean firstStatisticsLoaded = false;
+	private Timer statisticsUpdater;
 	
-	protected Timer newsUpdater;
+	private boolean firstNewsLoaded = false;
+	private Timer newsUpdater;
 	
 	public HomeController() {
 		
@@ -93,7 +95,12 @@ public class HomeController implements CotrixModuleController {
 			
 			@Override
 			public void onSuccess(UIStatistics result) {
-				view.setStatistics(result.getCodelists(), result.getCodes(), result.getUsers(), result.getRepositories());				
+				view.setStatistics(result.getCodelists(), result.getCodes(), result.getUsers(), result.getRepositories());
+				firstStatisticsLoaded = true;
+			}
+			
+			public void failed() {
+				if (!firstStatisticsLoaded) view.setStatisticsNotAvailable();
 			}
 		});
 	}
@@ -103,7 +110,12 @@ public class HomeController implements CotrixModuleController {
 			
 			@Override
 			public void onSuccess(List<UINews> result) {
+				firstNewsLoaded = true;
 				view.setNews(result);				
+			}
+			
+			public void failed() {
+				if (!firstNewsLoaded) view.setNewsNotAvailable();
 			}
 		});
 	}
@@ -113,5 +125,4 @@ public class HomeController implements CotrixModuleController {
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());		
 	}
-
 }

@@ -92,6 +92,9 @@
 						<div class="{style.newsLoader}" ui:field="newsLoader">
 							<g:Image resource="{common.dataLoader}" />
 						</div>
+						<div class="{style.newsLoader}" ui:field="newsNotAvailable" style="display:none;width:100%">
+							News not available
+						</div>
 					</div>
 				</td>
 				<td>
@@ -101,6 +104,9 @@
 						<g:HTML ui:field="statistics" visible="false" styleName="{style.statistics}" />
 						<div class="{style.statisticsLoader}" ui:field="statisticsLoader">
 							<g:Image resource="{common.dataLoader}" />
+						</div>
+						<div class="{style.statisticsLoader}" ui:field="statisticsNotAvailable" style="display:none;width:100%">
+							Statistics not available
 						</div>
 					</div>
 				</td>
