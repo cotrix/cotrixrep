@@ -154,16 +154,24 @@ public class AttributeDefinitionPanel extends Composite {
 		return optionList.getSelectedValue() == Optional.OPTIONAL;
 	}
 
-	protected void updateVisibilitiesAndWidth()
+	private void updateVisibilitiesAndWidth()
 	{
 		AttributeType type = getType();
-		setLanguagePanelVisibile(type != null && type != AttributeType.CODE && type != AttributeType.OTHER_CODE);
+		boolean isNotCode = isNotCode(type);
+		setLanguagePanelVisibile(isNotCode);
 		customType.setVisible(typeList.getSelectedValue() == AttributeType.OTHER);
 		
-		nameField.setWidth((type!=null && type == AttributeType.OTHER)?"200px":"330px");
+		optionalLabel.setVisible(isNotCode);
+		optionList.setVisible(isNotCode);
+		
+		nameField.setWidth((type!=null && type == AttributeType.OTHER)?"150px":"330px");
+	}
+	
+	private boolean isNotCode(AttributeType type) {
+		return type != null && type != AttributeType.CODE && type != AttributeType.OTHER_CODE;
 	}
 
-	protected void setLanguagePanelVisibile(boolean visible)
+	private void setLanguagePanelVisibile(boolean visible)
 	{
 		inLabel.setVisible(visible);
 		languageList.setVisible(visible);

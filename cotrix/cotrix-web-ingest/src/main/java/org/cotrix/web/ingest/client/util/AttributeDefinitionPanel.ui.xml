@@ -8,8 +8,7 @@
 		type="org.cotrix.web.ingest.client.util.AttributeDefinitionPanel.Style">
 			
 			.customType {
-				padding-left: 5px;
-
+				margin-left: 10px;
 			}
 			
 			.listBoxError {
@@ -21,12 +20,12 @@
 			<g:TextBox ui:field="nameField" styleName="{common.css.textBox}"/>
 			<g:HorizontalPanel ui:field="definitionPanel" verticalAlignment="middle">
 				<g:Label ui:field="isLabel" styleName="{common.css.paddedText}">is a</g:Label>
-				<w:EnumListBox ui:field="typeList" styleName="{common.css.listBox} {style.customType}" width="150px"/>
+				<w:EnumListBox ui:field="typeList" styleName="{common.css.listBox}" width="130px"/>
 				<g:TextBox ui:field="customType" styleName="{common.css.textBox} {style.customType}" visible="false" width="115px"/>
 				<g:Label ui:field="inLabel" styleName="{common.css.paddedText}">in</g:Label>
 				<w:LanguageListBox ui:field="languageList" styleName="{common.css.listBox}" />
-				<g:Label ui:field="optionalLabel" styleName="{common.css.paddedText}">, </g:Label>
-				<w:EnumListBox ui:field="optionList" styleName="{common.css.listBox} {style.customType}" width="100px"/>
+				<g:Label ui:field="optionalLabel" styleName="{common.css.paddedText}">is</g:Label>
+				<w:EnumListBox ui:field="optionList" styleName="{common.css.listBox}" width="100px"/>
 			</g:HorizontalPanel>
 		</g:HorizontalPanel>
 </ui:UiBinder> 
