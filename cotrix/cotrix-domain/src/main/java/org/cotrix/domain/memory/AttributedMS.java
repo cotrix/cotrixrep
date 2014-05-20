@@ -28,7 +28,8 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 	
 	public AttributedMS(Attributed.State other) {
 		for (Attribute.State state : other.attributes())
-			attributes.add(new AttributeMS(state));
+			if (!state.type().equals(SYSTEM_TYPE))
+				attributes.add(new AttributeMS(state));
 	}
 	
 	// helpers

@@ -69,6 +69,12 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		for (Code code : codelist.codes()) {
 			
 			CodeMutableBean codebean = new CodeMutableBeanImpl();
+			
+			if (code.name()==null) {
+				report().log(item(code.id()+" has no name ")).as(ERROR);
+				continue;
+			}
+			
 			codebean.setId(code.name().getLocalPart());
 			
 			mapAttributes(code,codebean,directives.forCodes());
