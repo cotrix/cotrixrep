@@ -67,8 +67,8 @@ public class Column2Attribute {
 			switch(mapping.mode()) {
 				case STRICT:
 					report().log(msg).as(ERROR);break;
-				case LOG:
-					report().log(msg).as(WARN);break;
+//				case LOG:
+//					report().log(msg).as(WARN);break;
 				default:
 			}
 			
