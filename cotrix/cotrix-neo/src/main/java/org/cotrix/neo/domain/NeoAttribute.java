@@ -2,14 +2,18 @@ package org.cotrix.neo.domain;
 
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
+import static org.neo4j.graphdb.Direction.*;
 
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attribute.Private;
 import org.cotrix.domain.attributes.Attribute.State;
+import org.cotrix.domain.attributes.AttributeType;
+import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 
 public class NeoAttribute extends NeoIdentified implements Attribute.State {
 
@@ -34,38 +38,55 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 		
 		super(ATTRIBUTE,state);
 		
-		name(state.name());
-		type(state.type());
-		value(state.value());
-		language(state.language());
+		attributeType(state.attributeType());
+		value(state.value());	
+	}
+	
+	@Override
+	public AttributeType.State attributeType() {
+		
+		Relationship rel = node().getSingleRelationship(Relations.INSTANCEOF,OUTGOING);
+		
+		//links should always have a type
+		if (rel==null)
+			throw new IllegalStateException(id()+" has an orphaned attribute type link");
+				
+		return NeoAttributeType.factory.beanFrom(rel.getEndNode());
+	}
+
+	@Override
+	public void attributeType(AttributeType.State state) {
+		
+		//allow for private types
+		Node node = softResolve(state, ATTRIBUTE_TYPE);
+			
+		if (node==null)
+			node = NeoAttributeType.factory.nodeFrom(state);
+			
+		node().createRelationshipTo(node,Relations.INSTANCEOF);
 		
 	}
 	
 	@Override
 	public QName name() {
-		return QName.valueOf((String) node().getProperty(name_prop));
+		return attributeType().name();
 	}
 
 	@Override
 	public void name(QName name) {
-		node().setProperty(name_prop,name.toString());
+		attributeType().name(name);
 	}
 
 	@Override
 	public QName type() {
 		
-		String val = (String) node().getProperty(type_prop,null);
-		
-		return val==null? null:QName.valueOf(val);
+		return attributeType().type();
 	}
 
 	@Override
 	public void type(QName type) {
 		
-		if (type==null)
-			node().removeProperty(type_prop);
-		else
-			node().setProperty(type_prop,type.toString());
+		attributeType().type(type);
 		
 	}
 
@@ -86,16 +107,13 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 
 	@Override
 	public String language() {
-		return (String) node().getProperty(lang_prop,null);
+		return attributeType().language();
 	}
 
 	@Override
 	public void language(String language) {
 		
-		if (language==null)
-			node().removeProperty(lang_prop);
-		else
-			node().setProperty(lang_prop,language);
+		attributeType().language(language);
 		
 	}
 

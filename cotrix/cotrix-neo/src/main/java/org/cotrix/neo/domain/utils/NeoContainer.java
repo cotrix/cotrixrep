@@ -12,13 +12,14 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Named;
 import org.cotrix.neo.NeoUtils;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-public class NeoContainer<S extends Identified.State> implements NamedStateContainer<S>  {
+public class NeoContainer<S extends Identified.State & Named.State> implements NamedStateContainer<S>  {
  
 	private final Node node;
 	private final Relations type;
@@ -109,7 +110,7 @@ public class NeoContainer<S extends Identified.State> implements NamedStateConta
 	public boolean contains(QName name) {
 		
 		for (Node n : nodes()) 
-			if (name.equals(QName.valueOf((String) n.getProperty(name_prop))))
+			if (name.equals(factory.beanFrom(n).name()))
 				return true;
 		
 		return false;
@@ -121,7 +122,7 @@ public class NeoContainer<S extends Identified.State> implements NamedStateConta
 		Collection<S> matches = new ArrayList<>();
 		
 		for (Node n : nodes())
-			if (name.equals(QName.valueOf((String) n.getProperty(name_prop))))
+			if (name.equals(factory.beanFrom(n).name()))
 				matches.add(factory.beanFrom(n));
 		
 		return matches;

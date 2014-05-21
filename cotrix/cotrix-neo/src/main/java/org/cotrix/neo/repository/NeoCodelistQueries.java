@@ -120,6 +120,8 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 
 				ExecutionResult result = executeNeo();
 
+				//System.out.println(result.dumpToString());
+				
 				ResourceIterator<Node> it = result.columnAs($result);
 
 				return codes(it);
@@ -274,22 +276,19 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 			@Override
 			protected String process(NeoMultiQuery<?,?> query) {
 				
-				String $attribute = "A";
 				
 				//add match for attributes
-				query.match(format("%1$s-[:%2$s]->(%3$s)",$node,Relations.ATTRIBUTE.name(),$attribute));
+				query.match(format("%s-[:%s]->(A)",$node,Relations.ATTRIBUTE.name()));
+				query.match(format("A-[:%s]->(T {name:'%s'})",Relations.INSTANCEOF.name(),template.name()));
 				
 				//brings codes in with expression
 				query.with($node);
 				
-				String withTemplate = "[a in COLLECT(A) WHERE (%s) | %s ][%s] AS VAL ORDER BY VAL";
+				String withTemplate = "[pair in COLLECT({val:A.val,lang:T.lang}) WHERE (%s) | %s ][%s] AS VAL ORDER BY VAL";
 			
-				String withCondition = format("a.%s ='%s'",name_prop,template.name());
-				
-				if (template.language()!=null)
-					withCondition += format(" AND a.%s= '%s'",lang_prop,template.language());
+				String withCondition = template.language()==null?"true":format("pair.lang= '%s'",template.language());
 	
-				String projection = template.language()==null?format("a.%s",value_prop):format("a.%s+a.%s",value_prop,lang_prop);
+				String projection = template.language()==null?"pair.val":"pair.val+pair.lang";
 				
 				query.with(format(withTemplate,withCondition,projection,position-1));
 				

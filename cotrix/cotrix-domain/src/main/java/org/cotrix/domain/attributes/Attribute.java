@@ -18,6 +18,9 @@ public interface Attribute extends Identified, Named {
 
 	//public read-only interface
 	
+	
+	AttributeType attributeType();
+	
 	/**
 	 * Returns the type of the attribute.
 	 * 
@@ -44,6 +47,10 @@ public interface Attribute extends Identified, Named {
 	
 	interface State extends Identified.State, Named.State, EntityProvider<Private> {
 
+		AttributeType.State attributeType();
+		
+		void attributeType(AttributeType.State attributeType);
+		
 		QName type();
 
 		void type(QName type);
@@ -66,6 +73,11 @@ public interface Attribute extends Identified, Named {
 
 		public Private(Attribute.State state) {
 			super(state);
+		}
+		
+		@Override
+		public AttributeType attributeType() {
+			return state().attributeType().entity();
 		}
 
 		@Override
@@ -92,7 +104,12 @@ public interface Attribute extends Identified, Named {
 		public void update(Attribute.Private changeset) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(changeset);
-
+			
+			System.out.println("here "+changeset.attributeType());
+			
+			if (changeset.value() != null)
+				state().value(changeset.value() == NULL_STRING ? null : changeset.value());
+			
 			if (changeset.name() != null)
 				if (changeset.name() == NULL_QNAME)
 					throw new IllegalArgumentException("attribute name " + name() + " cannot be erased");
@@ -101,9 +118,6 @@ public interface Attribute extends Identified, Named {
 
 			if (changeset.type() != null)
 				state().type(changeset.type() == NULL_QNAME ? null : changeset.type());
-
-			if (changeset.value() != null)
-				state().value(changeset.value() == NULL_STRING ? null : changeset.value());
 
 			if (changeset.language() != null)
 				state().language(changeset.language() == NULL_STRING ? null : changeset.language());

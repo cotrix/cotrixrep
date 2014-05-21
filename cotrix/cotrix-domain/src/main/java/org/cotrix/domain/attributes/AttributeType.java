@@ -131,5 +131,11 @@ public interface AttributeType extends Identified, Named {
 				state().range(newrange);
 		}
 
+		@Override
+		public String toString() {
+			return "Attribute Definition [id=" + id() + ", name=" + name() + ", range=" + range() + ", valueType=" + valueType() + ", language=" + language()
+					+ (type() == null ? "" : ", type=" + type()) + (status() == null ? "" : " (" + status() + ") ")
+					+ "]";
+		}
 	}
 }
