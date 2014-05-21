@@ -273,6 +273,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 		updateBackground();
 
 		attributesGrid.clear();
+		Attributes.sortByAttributeType(visualizedCode.getAttributes());
 		for (UIAttribute attribute:visualizedCode.getAttributes()) {
 			attributesGrid.addItemPanel(attribute);
 		}

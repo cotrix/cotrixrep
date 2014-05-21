@@ -82,6 +82,7 @@ public interface CotrixManagerResources extends ClientBundle {
 		String addButton();
 		String headerCode();
 		String noItemsBackground();
+		String systemAttributeDisclosurePanelLabel();
 	}
 	
 	public interface PropertyGridStyle extends CssResource {
