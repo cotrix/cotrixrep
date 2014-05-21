@@ -16,24 +16,38 @@ import com.google.gwt.user.client.ui.ToggleButton;
  */
 public class ToggleButtonGroup {
 	
-	List<ToggleButton> buttons = new ArrayList<ToggleButton>();
+	private List<ToggleButton> buttons = new ArrayList<ToggleButton>();
+	private ToggleButton lastSelected;
 	
-	protected final ClickHandler clickHandler = new ClickHandler() {
+	private final ClickHandler clickHandler = new ClickHandler() {
 		
 		@Override
 		public void onClick(ClickEvent event) {
-			updateButtons(event.getSource());
+			setDown((ToggleButton) event.getSource());
 		}
 	};
+	
+	public void setDown(ToggleButton button) {
+		updateButtons(button);
+		lastSelected = button;
+	}
 	
 	public void addButton(ToggleButton button) {
 		button.addClickHandler(clickHandler);
 		buttons.add(button);
 	}	
 	
-	protected void updateButtons(Object source)
+	private void updateButtons(Object source)
 	{
 		for (ToggleButton button:buttons) button.setDown(source == button);
+	}
+	
+	public void setEnabled(boolean enabled) {
+		for (ToggleButton button:buttons) button.setEnabled(enabled);
+	}
+	
+	public ToggleButton getLastSelected() {
+		return lastSelected;
 	}
 
 }

@@ -105,12 +105,14 @@ public abstract class CachedDataProviderExperimental<T> extends AsyncDataProvide
 					cache.add(result.getData().get(0));
 					Log.trace("cache: "+cache);
 					updateRowCount(lastRowCount, true);
+					refresh();
 					//updateRowData(lastRange.getStart(), cache);
 				}
 			});
 		} else {
 			Log.trace("updating rowCount and rowData");
 			updateRowCount(lastRowCount, true);
+			refresh();
 			//updateRowData(lastRange.getStart(), cache);
 		}
 	}

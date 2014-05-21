@@ -10,7 +10,11 @@
 }
 
 .systemProperty {
-	color: #1C1C1C !important;
+	color: #bbb !important;
+}
+
+.systemAttributeDisclosurePanelLabel {
+	color: #bbb !important;	
 }
 
 @external .gwt-SplitLayoutPanel-HDragger ;

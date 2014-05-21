@@ -21,6 +21,7 @@ public class Attributes {
 		@Override
 		public int compare(UIAttribute o1, UIAttribute o2) {
 			if (isSystemAttribute(o1)) return 1;
+			if (isSystemAttribute(o2)) return -1;
 			return String.CASE_INSENSITIVE_ORDER.compare(o1.getName().getLocalPart(), o2.getName().getLocalPart());
 		}
 	};
