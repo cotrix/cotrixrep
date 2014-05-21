@@ -6,32 +6,32 @@ import static org.cotrix.domain.dsl.Codes.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.AttributeType;
-import org.cotrix.domain.attributes.AttributeValueType;
-import org.cotrix.domain.common.OccurrenceRange;
+import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.ValueType;
+import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.utils.Constants;
 
-public final class AttributeTypeMS extends IdentifiedMS implements AttributeType.State {
+public final class DefinitionMS extends IdentifiedMS implements Definition.State {
 
 	private QName name;
 	private QName type;
 	private String language;
-	private AttributeValueType valueType;
-	private OccurrenceRange range;
+	private ValueType valueType;
+	private Range range;
 	
-	public AttributeTypeMS() {
+	public DefinitionMS() {
 		type=Constants.DEFAULT_TYPE;
 		valueType(text());
 		range(arbitrarily);
 	}
 	
-	public AttributeTypeMS(String id,Status status) {
+	public DefinitionMS(String id,Status status) {
 		super(id,status);
 	}
 	
 	
-	public AttributeTypeMS(AttributeType.State state) {
+	public DefinitionMS(Definition.State state) {
 		
 		name(state.name());
 		type(state.type());
@@ -67,27 +67,27 @@ public final class AttributeTypeMS extends IdentifiedMS implements AttributeType
 		this.language = language;
 	}
 	
-	public AttributeValueType valueType() {
+	public ValueType valueType() {
 		return valueType;
 	}
 	
-	public void valueType(AttributeValueType valueType) {
+	public void valueType(ValueType valueType) {
 		notNull("link type",valueType);
 		this.valueType=valueType;
 	}
 	
-	public OccurrenceRange range() {
+	public Range range() {
 		return range;
 	}
 	
-	public void range(OccurrenceRange range) {
+	public void range(Range range) {
 		notNull("occurrence range",range);
 		this.range=range;
 	}
 	
 	@Override
-	public AttributeType.Private entity() {
-		return new AttributeType.Private(this);
+	public Definition.Private entity() {
+		return new Definition.Private(this);
 	}
 
 
@@ -97,7 +97,7 @@ public final class AttributeTypeMS extends IdentifiedMS implements AttributeType
 			return true;
 		if (!super.equals(obj))
 			return false;
-		AttributeType.State other = (AttributeType.State) obj;
+		Definition.State other = (Definition.State) obj;
 		if (language == null) {
 			if (other.language() != null)
 				return false;

@@ -1,7 +1,7 @@
 package org.cotrix.domain.attributes;
 
 
-public interface AttributeValueType {
+public interface ValueType {
 
 	
 	boolean isValid(String value);

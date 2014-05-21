@@ -2,7 +2,7 @@ package org.cotrix.neo.domain;
 
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 
-import org.cotrix.domain.attributes.AttributeType;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
@@ -36,8 +36,8 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 
 		super(CODELIST,state);	
 		
-		for (AttributeType.State l : state.attributeTypes())
-			node().createRelationshipTo(NeoAttributeType.factory.nodeFrom(l),Relations.ATTRIBUTE_TYPE);
+		for (Definition.State l : state.attributeTypes())
+			node().createRelationshipTo(NeoDefinition.factory.nodeFrom(l),Relations.DEFINITION);
 		
 		for (CodelistLink.State l : state.links())
 			node().createRelationshipTo(NeoCodelistLink.factory.nodeFrom(l),Relations.LINK);
@@ -63,8 +63,8 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 	}
 	
 	@Override
-	public NamedStateContainer<AttributeType.State> attributeTypes() {
-		return new NeoContainer<>(node(), Relations.ATTRIBUTE_TYPE, NeoAttributeType.factory);
+	public NamedStateContainer<Definition.State> attributeTypes() {
+		return new NeoContainer<>(node(), Relations.DEFINITION, NeoDefinition.factory);
 	}
 	
 }

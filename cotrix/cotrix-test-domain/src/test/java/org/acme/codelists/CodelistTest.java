@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeType;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
@@ -26,9 +26,9 @@ public class CodelistTest extends DomainTest {
 		
 		assertEquals(name,list.name());
 		
-		AttributeType atype = attributeType().name(name).build();
+		Definition definition = definition().name(name).build();
 		
-		list = codelist().name(name).attributeTypes(atype).build();
+		list = codelist().name(name).definitions(definition).build();
 		
 		Attribute a = attribute().name(name).build();
 		
@@ -64,13 +64,13 @@ public class CodelistTest extends DomainTest {
 	public void changesetCanBeFluentlyConstructed() {
 
 		Code c = code().name("name").build();
-		AttributeType atype = attributeType().name(name).build();
+		Definition definition = definition().name(name).build();
 		Attribute a = attribute().name(name).build();
 		
 		Codelist list;
 		
 		list = modifyCodelist("1").name(name).build();
-		list = modifyCodelist("1").attributeTypes(atype).build();
+		list = modifyCodelist("1").definitions(definition).build();
 		list =  modifyCodelist("1").attributes(a).build();
 		list =  modifyCodelist("1").with(c).build();
 		list =  modifyCodelist("1").with(c).attributes(a).build();	
@@ -87,10 +87,10 @@ public class CodelistTest extends DomainTest {
 	@Test
 	public void cloned() {
 		
-		AttributeType atype = attributeType().name(name).build();
+		Definition definition = definition().name(name).build();
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		Code c = code().name(name).attributes(a).build();
-		Codelist list = like(codelist().name(name).attributeTypes(atype).with(c).build());
+		Codelist list = like(codelist().name(name).definitions(definition).with(c).build());
 		
 		Codelist.State state = reveal(list).state();
 		CodelistMS clone = new CodelistMS(state);
@@ -102,11 +102,11 @@ public class CodelistTest extends DomainTest {
 	@Test
 	public void versioned() {
 		
-		AttributeType atype = attributeType().name(name).build();
+		Definition definition = definition().name(name).build();
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		Code c = code().name(name).attributes(a).build();
 		
-		Codelist list = like(codelist().name(name).attributeTypes(atype).with(c).version("1").build());
+		Codelist list = like(codelist().name(name).definitions(definition).with(c).version("1").build());
 		
 		Codelist versioned = reveal(list).bump("2");
 
@@ -170,32 +170,32 @@ public class CodelistTest extends DomainTest {
 	}
 	
 	@Test
-	public void addAttributeType() {
+	public void addDefinition() {
 		
-		AttributeType atype = attributeType().name(name).build();
+		Definition definition = definition().name(name).build();
 		
 		Codelist list = like(codelist().name(name).build());
 		
-		Codelist changeset = modifyCodelist(list.id()).attributeTypes(atype).build();
+		Codelist changeset = modifyCodelist(list.id()).definitions(definition).build();
 		
 		reveal(list).update(reveal(changeset));
 		
-		assertTrue(list.attributeTypes().contains(atype.name()));
+		assertTrue(list.definitions().contains(definition.name()));
 		
 	}
 	
 	@Test
-	public void removeAttributeType() {
+	public void removeDefinition() {
 		
-		AttributeType atype = attributeType().name(name).build();
+		Definition atype = definition().name(name).build();
 		
-		Codelist list = like(codelist().name(name).attributeTypes(atype).build());
+		Codelist list = like(codelist().name(name).definitions(atype).build());
 		
-		Codelist changeset = modifyCodelist(list.id()).attributeTypes(deleteAttributeType(atype.id())).build();
+		Codelist changeset = modifyCodelist(list.id()).definitions(deleteDefinition(atype.id())).build();
 		
 		reveal(list).update(reveal(changeset));
 		
-		assertFalse(list.attributeTypes().contains(atype.name()));
+		assertFalse(list.definitions().contains(atype.name()));
 		
 	}
 	

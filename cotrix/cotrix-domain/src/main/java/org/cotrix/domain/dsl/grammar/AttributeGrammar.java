@@ -3,7 +3,7 @@ package org.cotrix.domain.dsl.grammar;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeType;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 
@@ -16,21 +16,21 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 public class AttributeGrammar {
 
 	
-	public static interface AttributeNewClause extends NameClause<OptionalClause>, TypeClause {	
+	public static interface AttributeNewClause extends NameClause<OptionalClause>, DefinitionClause {	
 		
-		ValueClause instanceOf(AttributeType type);
+		ValueClause with(Definition definition);
 	}
 		
 	
 	
-	public static interface AttributeChangeClause extends NameClause<OptionalClause>, OptionalClause, TypeClause {
+	public static interface AttributeChangeClause extends NameClause<OptionalClause>, OptionalClause, DefinitionClause {
 		
 		
 	}
 	
-	public static interface TypeClause {
+	public static interface DefinitionClause {
 		
-		ValueClause instanceOf(AttributeType type);
+		ValueClause with(Definition definition);
 	}
 	
 	

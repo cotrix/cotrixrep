@@ -8,7 +8,7 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeType;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.memory.AttributeMS;
 import org.junit.Test;
 
@@ -38,18 +38,18 @@ public class AttributeTest extends DomainTest {
 	@Test
 	public void typedAttributesCanBeFluentlyConstructed() {
 		
-		AttributeType type = attributeType().name(name).build();
+		Definition def = definition().name(name).build();
 	
-		Attribute a = attribute().instanceOf(type).value(value).build();
+		Attribute a = attribute().with(def).value(value).build();
 		
 		assertEquals(name,a.name());
 		assertEquals(value,a.value());
-		assertEquals(type,a.attributeType());
+		assertEquals(def,a.definition());
 		assertEquals(DEFAULT_TYPE,a.type());
 		
-		Attribute a2 = attribute().instanceOf(type).build();
+		Attribute a2 = attribute().with(def).build();
 		
-		assertEquals(a.attributeType(),a2.attributeType());
+		assertEquals(a.definition(),a2.definition());
 		
 	}
 	
@@ -77,11 +77,11 @@ public class AttributeTest extends DomainTest {
 	@Test
 	public void typedChangesetsCanBeFluentlyConstructed() {
 
-		AttributeType type = attributeType().name(name).build();
+		Definition def = definition().name(name).build();
 		
 		modifyAttribute("1").value(value).build();
-		modifyAttribute("1").instanceOf(type).build();
-		modifyAttribute("1").instanceOf(type).value(value).build();
+		modifyAttribute("1").with(def).build();
+		modifyAttribute("1").with(def).value(value).build();
 
 	}
 
@@ -101,9 +101,9 @@ public class AttributeTest extends DomainTest {
 	@Test
 	public void clonedTyped() {
 		
-		AttributeType type = like(attributeType().name(name).in(language).build());
+		Definition type = like(definition().name(name).in(language).build());
 		
-		Attribute a = like(attribute().instanceOf(type).value(value).build());
+		Attribute a = like(attribute().with(type).value(value).build());
 		
 		Attribute.State state = reveal(a).state();
 		AttributeMS clone = new AttributeMS(state);
@@ -115,9 +115,9 @@ public class AttributeTest extends DomainTest {
 	@Test
 	public void emptyTypedChangeset() {
 
-		AttributeType type = like(attributeType().name(name).in(language).build());
+		Definition type = like(definition().name(name).in(language).build());
 		
-		Attribute a = like(attribute().instanceOf(type).value(value).build());
+		Attribute a = like(attribute().with(type).value(value).build());
 		
 		Attribute changeset = modifyAttribute(a.id()).build();
 		
@@ -125,7 +125,7 @@ public class AttributeTest extends DomainTest {
 
 		assertEquals(name, a.name());
 		assertEquals(value, a.value());
-		assertEquals(type, a.attributeType());
+		assertEquals(type, a.definition());
 		assertEquals(language, a.language());
 	}
 	
@@ -162,13 +162,13 @@ public class AttributeTest extends DomainTest {
 	@Test
 	public void changeType() {
 		
-		AttributeType type = like(attributeType().name(name).build());
+		Definition type = like(definition().name(name).build());
 
-		AttributeType typeChangeset = modifyAttributeType(type.id()).name(name2).build();
+		Definition typeChangeset = modifyDefinition(type.id()).name(name2).build();
 		
-		Attribute a = like(attribute().instanceOf(type).build());
+		Attribute a = like(attribute().with(type).build());
 		
-		Attribute changeset = modifyAttribute(a.id()).instanceOf(typeChangeset).build();
+		Attribute changeset = modifyAttribute(a.id()).with(typeChangeset).build();
 		
 		reveal(a).update(reveal(changeset));
 

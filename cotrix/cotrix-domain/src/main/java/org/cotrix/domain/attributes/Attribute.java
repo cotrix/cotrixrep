@@ -18,8 +18,12 @@ public interface Attribute extends Identified, Named {
 
 	//public read-only interface
 	
-	
-	AttributeType attributeType();
+	/**
+	 * Returns the definition of the attribute.
+	 * 
+	 * @return the definition
+	 */
+	Definition definition();
 	
 	/**
 	 * Returns the type of the attribute.
@@ -47,9 +51,10 @@ public interface Attribute extends Identified, Named {
 	
 	interface State extends Identified.State, Named.State, EntityProvider<Private> {
 
-		AttributeType.State attributeType();
+		Definition.State definition();
 		
-		void attributeType(AttributeType.State attributeType);
+		void definition(Definition.State definition);
+		
 		
 		QName type();
 
@@ -76,8 +81,8 @@ public interface Attribute extends Identified, Named {
 		}
 		
 		@Override
-		public AttributeType attributeType() {
-			return state().attributeType().entity();
+		public Definition definition() {
+			return state().definition().entity();
 		}
 
 		@Override
@@ -104,6 +109,8 @@ public interface Attribute extends Identified, Named {
 		public void update(Attribute.Private changeset) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(changeset);
+			
+			//maintain this temporarily for retro-compatibility
 			
 			if (changeset.value() != null)
 				state().value(changeset.value() == NULL_STRING ? null : changeset.value());

@@ -3,7 +3,7 @@ package org.cotrix.domain.codelist;
 import static org.cotrix.domain.dsl.Codes.*;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeType;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.memory.CodelistMS;
@@ -43,7 +43,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	 * Returns the attribute types of this list.
 	 * @return the attribute types.
 	 */
-	NamedContainer<? extends AttributeType> attributeTypes();
+	NamedContainer<? extends Definition> definitions();
 	
 	//private state interface
 	
@@ -53,7 +53,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		
 		NamedStateContainer<CodelistLink.State> links();
 		
-		NamedStateContainer<AttributeType.State> attributeTypes();
+		NamedStateContainer<Definition.State> attributeTypes();
 		
 	}
 	
@@ -77,7 +77,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		}
 		
 		@Override
-		public NamedContainer.Private<AttributeType.Private,AttributeType.State> attributeTypes() {
+		public NamedContainer.Private<Definition.Private,Definition.State> definitions() {
 			return namedContainer(state().attributeTypes());
 		}
 
@@ -103,7 +103,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			
 			super.update(changeset);
 			
-			attributeTypes().update(changeset.attributeTypes());
+			definitions().update(changeset.definitions());
 			
 			links().update(changeset.links());
 			

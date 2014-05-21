@@ -5,7 +5,7 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.common.OccurrenceRange;
+import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
@@ -36,6 +36,6 @@ public class CodelistLinkGrammar {
 		
 		OptionalClause transformWith(ValueFunction function);
 		
-		OptionalClause occurs(OccurrenceRange range);
+		OptionalClause occurs(Range range);
 	}
 }

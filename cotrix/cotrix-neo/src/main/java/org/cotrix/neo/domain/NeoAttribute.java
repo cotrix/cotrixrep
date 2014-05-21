@@ -9,7 +9,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attribute.Private;
 import org.cotrix.domain.attributes.Attribute.State;
-import org.cotrix.domain.attributes.AttributeType;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
@@ -38,30 +38,30 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 		
 		super(ATTRIBUTE,state);
 		
-		attributeType(state.attributeType());
+		definition(state.definition());
 		value(state.value());	
 	}
 	
 	@Override
-	public AttributeType.State attributeType() {
+	public Definition.State definition() {
 		
 		Relationship rel = node().getSingleRelationship(Relations.INSTANCEOF,OUTGOING);
 		
 		//links should always have a type
 		if (rel==null)
-			throw new IllegalStateException(id()+" has an orphaned attribute type link");
+			throw new IllegalStateException(id()+" has an orphaned definition link");
 				
-		return NeoAttributeType.factory.beanFrom(rel.getEndNode());
+		return NeoDefinition.factory.beanFrom(rel.getEndNode());
 	}
 
 	@Override
-	public void attributeType(AttributeType.State state) {
+	public void definition(Definition.State state) {
 		
 		//allow for private types
-		Node node = softResolve(state, ATTRIBUTE_TYPE);
+		Node node = softResolve(state, DEFINITION);
 			
 		if (node==null)
-			node = NeoAttributeType.factory.nodeFrom(state);
+			node = NeoDefinition.factory.nodeFrom(state);
 			
 		node().createRelationshipTo(node,Relations.INSTANCEOF);
 		
@@ -69,24 +69,24 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 	
 	@Override
 	public QName name() {
-		return attributeType().name();
+		return definition().name();
 	}
 
 	@Override
 	public void name(QName name) {
-		attributeType().name(name);
+		definition().name(name);
 	}
 
 	@Override
 	public QName type() {
 		
-		return attributeType().type();
+		return definition().type();
 	}
 
 	@Override
 	public void type(QName type) {
 		
-		attributeType().type(type);
+		definition().type(type);
 		
 	}
 
@@ -107,13 +107,13 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 
 	@Override
 	public String language() {
-		return attributeType().language();
+		return definition().language();
 	}
 
 	@Override
 	public void language(String language) {
 		
-		attributeType().language(language);
+		definition().language(language);
 		
 	}
 

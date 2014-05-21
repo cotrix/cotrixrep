@@ -8,7 +8,7 @@ import static org.cotrix.domain.links.ValueFunctions.*;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.Private;
-import org.cotrix.domain.common.OccurrenceRange;
+import org.cotrix.domain.common.Range;
 import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Status;
@@ -24,7 +24,7 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	private Codelist.State target;
 	private LinkValueType type;
 	private ValueFunction function;
-	private OccurrenceRange range;
+	private Range range;
 	
 	public CodelistLinkMS() {
 		valueType(INSTANCE);
@@ -55,11 +55,11 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 		this.type=type;
 	}
 	
-	public OccurrenceRange range() {
+	public Range range() {
 		return range;
 	}
 	
-	public void range(OccurrenceRange range) {
+	public void range(Range range) {
 		notNull("occurrence range",range);
 		this.range=range;
 	}

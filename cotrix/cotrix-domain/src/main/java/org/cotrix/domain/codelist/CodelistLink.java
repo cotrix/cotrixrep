@@ -1,6 +1,6 @@
 package org.cotrix.domain.codelist;
 
-import org.cotrix.domain.common.OccurrenceRange;
+import org.cotrix.domain.common.Range;
 import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Attributed;
@@ -35,7 +35,7 @@ public interface CodelistLink extends Identified, Attributed, Named {
 	 * Returns the occurrence range for link instances.
 	 * @return the range
 	 */
-	OccurrenceRange range();
+	Range range();
 		
 	
 	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
@@ -52,9 +52,9 @@ public interface CodelistLink extends Identified, Attributed, Named {
 
 		void target(Codelist.State state);
 		
-		OccurrenceRange range();
+		Range range();
 		
-		void range(OccurrenceRange type);
+		void range(Range type);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		}
 		
 		@Override
-		public OccurrenceRange range() {
+		public Range range() {
 			return state().range();
 		}
 
@@ -104,7 +104,7 @@ public interface CodelistLink extends Identified, Attributed, Named {
 			if (newfunction!=null)
 				state().function(newfunction);
 			
-			OccurrenceRange newrange = changeset.state().range();
+			Range newrange = changeset.state().range();
 			
 			if (newrange!=null)
 				state().range(newrange);

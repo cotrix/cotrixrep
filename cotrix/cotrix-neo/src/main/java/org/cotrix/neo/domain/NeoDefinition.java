@@ -6,34 +6,34 @@ import static org.cotrix.neo.domain.Constants.NodeType.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.AttributeType;
-import org.cotrix.domain.attributes.AttributeValueType;
-import org.cotrix.domain.common.OccurrenceRange;
+import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.ValueType;
+import org.cotrix.domain.common.Range;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
-public class NeoAttributeType extends NeoIdentified implements AttributeType.State {
+public class NeoDefinition extends NeoIdentified implements Definition.State {
 
-	public static final NeoStateFactory<AttributeType.State> factory = new NeoStateFactory<AttributeType.State>() {
+	public static final NeoStateFactory<Definition.State> factory = new NeoStateFactory<Definition.State>() {
 		
 		@Override
-		public AttributeType.State beanFrom(Node node) {
-			return new NeoAttributeType(node);
+		public Definition.State beanFrom(Node node) {
+			return new NeoDefinition(node);
 		}
 		
 		@Override
-		public Node nodeFrom(AttributeType.State state) {
-			return new NeoAttributeType(state).node();
+		public Node nodeFrom(Definition.State state) {
+			return new NeoDefinition(state).node();
 		}
 	};
 	
-	public NeoAttributeType(Node node) {
+	public NeoDefinition(Node node) {
 		super(node);
 	}
 
-	public NeoAttributeType(AttributeType.State state) {
+	public NeoDefinition(Definition.State state) {
 		
-		super(ATTRIBUTE_TYPE,state);
+		super(DEFINITION,state);
 		
 		name(state.name());
 		type(state.type());
@@ -87,35 +87,35 @@ public class NeoAttributeType extends NeoIdentified implements AttributeType.Sta
 	}
 
 	@Override
-	public AttributeValueType valueType() {
+	public ValueType valueType() {
 		
-		return (AttributeValueType) binder().fromXML((String) node().getProperty(attr_type_prop));
+		return (ValueType) binder().fromXML((String) node().getProperty(attr_type_prop));
 		
 	}
 	
 	@Override
-	public void valueType(AttributeValueType state) {
+	public void valueType(ValueType state) {
 		
 		node().setProperty(attr_type_prop,binder().toXML(state));
 		
 	}
 	
 	@Override
-	public OccurrenceRange range() {
+	public Range range() {
 		
-		return (OccurrenceRange) binder().fromXML((String) node().getProperty(range_prop));
+		return (Range) binder().fromXML((String) node().getProperty(range_prop));
 		
 	}
 	
 	@Override
-	public void range(OccurrenceRange type) {
+	public void range(Range type) {
 		
 		node().setProperty(range_prop,binder().toXML(type));
 		
 	}
 	
 	@Override
-	public AttributeType.Private entity() {
-		return new AttributeType.Private(this);
+	public Definition.Private entity() {
+		return new Definition.Private(this);
 	}
 }

@@ -10,7 +10,7 @@ import static org.neo4j.graphdb.Direction.*;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.common.OccurrenceRange;
+import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.OccurrenceRanges;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
@@ -143,15 +143,15 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	}
 	
 	@Override
-	public OccurrenceRange range() {
+	public Range range() {
 		
 		return node().hasProperty(range_prop)? 
-					(OccurrenceRange) binder().fromXML((String) node().getProperty(range_prop))
+					(Range) binder().fromXML((String) node().getProperty(range_prop))
 					:OccurrenceRanges.arbitrarily;
 	}
 	
 	@Override
-	public void range(OccurrenceRange type) {
+	public void range(Range type) {
 		
 		if(type!=OccurrenceRanges.arbitrarily)
 			node().setProperty(range_prop,binder().toXML(type));

@@ -3,9 +3,9 @@ package org.cotrix.domain.dsl.grammar;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeType;
-import org.cotrix.domain.attributes.AttributeValueType;
-import org.cotrix.domain.common.OccurrenceRange;
+import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.ValueType;
+import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 
@@ -15,24 +15,24 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
  * @author Fabio Simeoni
  * 
  */
-public class AttributeTypeGrammar {
+public class DefinitionGrammar {
 
 	
 	public static interface AttributeTypeNewClause extends NameClause<OptionalClause> {	}
 		
 	public static interface AttributeTypeChangeClause extends NameClause<OptionalClause>, OptionalClause {}
 	
-	public static interface OptionalClause extends BuildClause<AttributeType> {
+	public static interface OptionalClause extends BuildClause<Definition> {
 		
 		OptionalClause ofType(QName type);
 		
 		OptionalClause ofType(String type);
 		
-		OptionalClause valuesIs(AttributeValueType type);
+		OptionalClause valuesIs(ValueType type);
 	
 		OptionalClause in(String language);
 		
-		OptionalClause occurs(OccurrenceRange range);
+		OptionalClause occurs(Range range);
 	}
 
 }

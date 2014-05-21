@@ -2,14 +2,14 @@ package org.cotrix.domain.attributes;
 
 import static org.cotrix.common.Utils.*;
 
-public class TextValueType implements AttributeValueType {
+public class Text implements ValueType {
 
 	public static int UNLIMITED = -1;
 	
 	private int length = UNLIMITED;
 	
 	
-	public TextValueType length(int length) {
+	public Text length(int length) {
 		
 		positive("lenght", length);
 		
@@ -50,7 +50,7 @@ public class TextValueType implements AttributeValueType {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TextValueType other = (TextValueType) obj;
+		Text other = (Text) obj;
 		if (length != other.length)
 			return false;
 		return true;

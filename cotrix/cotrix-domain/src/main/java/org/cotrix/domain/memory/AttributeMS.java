@@ -5,56 +5,56 @@ import static org.cotrix.common.Utils.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeType;
-import org.cotrix.domain.attributes.AttributeType.State;
+import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.Definition.State;
 import org.cotrix.domain.trait.Status;
 
 public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 
 	private String value;
-	private AttributeType.State attributeType;
+	private Definition.State definition;
 	
 	public AttributeMS() {
-		attributeType(new AttributeTypeMS());
+		definition(new DefinitionMS());
 	}
 	
 	public AttributeMS(String id,Status status) {
 		super(id,status);
-		attributeType(new AttributeTypeMS());
+		definition(new DefinitionMS());
 		type(null);
 	}
 	
 	
 	public AttributeMS(Attribute.State state) {
 		
-		attributeType(state.attributeType());
+		definition(state.definition());
 		value(state.value());
 	}
 	
 	@Override
-	public State attributeType() {
-		return attributeType;
+	public State definition() {
+		return definition;
 	}
 	
 	@Override
-	public void attributeType(State attributeType) {
+	public void definition(State definition) {
 		
-		notNull("attribute type", attributeType);
+		notNull("definition", definition);
 		
-		this.attributeType = attributeType;
+		this.definition = definition;
 	}
 	
 	public QName name() {
-		return attributeType.name();
+		return definition.name();
 	}
 	
 	public void name(QName name) {
 		
-		attributeType.name(name);
+		definition.name(name);
 	}	
 	
 	public QName type() {
-		return attributeType.type();
+		return definition.type();
 	}
 	
 	public String value() {
@@ -62,7 +62,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	}
 	
 	public void type(QName type) {
-		attributeType.type(type);
+		definition.type(type);
 	}
 	
 	public void value(String value) {	
@@ -70,11 +70,11 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	}
 
 	public String language() {
-		return attributeType.language();
+		return definition.language();
 	}
 
 	public void language(String language) {
-		attributeType.language(language);
+		definition.language(language);
 	}
 	
 	@Override
@@ -89,10 +89,10 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		if (!super.equals(obj))
 			return false;
 		Attribute.State other = (Attribute.State) obj;
-		if (attributeType == null) {
-			if (other.attributeType() != null)
+		if (definition == null) {
+			if (other.definition() != null)
 				return false;
-		} else if (!attributeType.equals(other.attributeType()))
+		} else if (!definition.equals(other.definition()))
 			return false;
 		if (value == null) {
 			if (other.value() != null)

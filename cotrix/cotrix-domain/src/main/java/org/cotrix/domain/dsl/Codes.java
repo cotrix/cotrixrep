@@ -9,8 +9,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeType;
-import org.cotrix.domain.attributes.TextValueType;
+import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.Text;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
@@ -20,15 +20,15 @@ import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.common.StateContainer;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
-import org.cotrix.domain.dsl.builder.AttributeTypeBuilder;
+import org.cotrix.domain.dsl.builder.DefinitionBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
 import org.cotrix.domain.dsl.builder.CodelinkBuilder;
 import org.cotrix.domain.dsl.builder.CodelistBuilder;
 import org.cotrix.domain.dsl.builder.CodelistLinkBuilder;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
-import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.AttributeTypeChangeClause;
-import org.cotrix.domain.dsl.grammar.AttributeTypeGrammar.AttributeTypeNewClause;
+import org.cotrix.domain.dsl.grammar.DefinitionGrammar.AttributeTypeChangeClause;
+import org.cotrix.domain.dsl.grammar.DefinitionGrammar.AttributeTypeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
@@ -38,7 +38,7 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
 import org.cotrix.domain.memory.AttributeMS;
-import org.cotrix.domain.memory.AttributeTypeMS;
+import org.cotrix.domain.memory.DefinitionMS;
 import org.cotrix.domain.memory.CodeMS;
 import org.cotrix.domain.memory.CodelinkMS;
 import org.cotrix.domain.memory.CodelistLinkMS;
@@ -75,20 +75,20 @@ public class Codes {
 		return new AttributeMS(id,DELETED).entity();
 	}
 	
-	public static AttributeTypeNewClause attributeType() {
-		return new AttributeTypeBuilder(new AttributeTypeMS());
+	public static AttributeTypeNewClause definition() {
+		return new DefinitionBuilder(new DefinitionMS());
 	}
 	
-	public static AttributeTypeChangeClause modifyAttributeType(String id) {
-		return new AttributeTypeBuilder(new AttributeTypeMS(id,MODIFIED));
+	public static AttributeTypeChangeClause modifyDefinition(String id) {
+		return new DefinitionBuilder(new DefinitionMS(id,MODIFIED));
 	}
 	
-	public static AttributeType deleteAttributeType(String id) {
-		return new AttributeTypeMS(id,DELETED).entity();
+	public static Definition deleteDefinition(String id) {
+		return new DefinitionMS(id,DELETED).entity();
 	}
 	
-	public static TextValueType text() {
-		return new TextValueType();
+	public static Text text() {
+		return new Text();
 	}
 	
 	
@@ -189,8 +189,8 @@ public class Codes {
 		return Utils.reveal(a,Attribute.Private.class);
 	}
 	
-	public static AttributeType.Private reveal(AttributeType a) {
-		return Utils.reveal(a,AttributeType.Private.class);
+	public static Definition.Private reveal(Definition a) {
+		return Utils.reveal(a,Definition.Private.class);
 	}
 	
 	public static Code.Private reveal(Code c) {

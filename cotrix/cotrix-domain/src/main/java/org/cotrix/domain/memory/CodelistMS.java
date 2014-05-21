@@ -5,8 +5,8 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import java.util.Collection;
 
-import org.cotrix.domain.attributes.AttributeType;
-import org.cotrix.domain.attributes.AttributeType.State;
+import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.Definition.State;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
@@ -19,7 +19,7 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 
 	private NamedStateContainer<CodelistLink.State> links = new NamedStateContainer.Default<CodelistLink.State>();
 
-	private NamedStateContainer<AttributeType.State> attributeTypes = new NamedStateContainer.Default<AttributeType.State>();
+	private NamedStateContainer<Definition.State> attributeTypes = new NamedStateContainer.Default<Definition.State>();
 	
 	public CodelistMS() {
 	}
@@ -32,8 +32,8 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		
 		super(state);
 		
-		for (AttributeType.State atype : state.attributeTypes()) {
-			attributeTypes.add(new AttributeTypeMS(atype));
+		for (Definition.State atype : state.attributeTypes()) {
+			attributeTypes.add(new DefinitionMS(atype));
 		}
 		
 		for (CodelistLink.State link : state.links()) {
@@ -64,11 +64,11 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		return links;
 	}
 
-	public void attributeTypes(Collection<AttributeType.State> types) {
+	public void attributeTypes(Collection<Definition.State> types) {
 
 		notNull("attribute types", types);
 		
-		for(AttributeType.State type : types)
+		for(Definition.State type : types)
 			this.attributeTypes.add(type);
 	}
 	

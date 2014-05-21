@@ -5,7 +5,7 @@ import static org.cotrix.domain.dsl.Codes.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeType;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
@@ -28,9 +28,9 @@ public class AttributeBuilder implements AttributeNewClause, AttributeChangeClau
 	}
 	
 	@Override
-	public ValueClause instanceOf(AttributeType type) {
+	public ValueClause with(Definition type) {
 		
-		state.attributeType(reveal(type).state());
+		state.definition(reveal(type).state());
 		
 		return this;
 	}

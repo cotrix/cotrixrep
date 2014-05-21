@@ -2,7 +2,7 @@ package org.cotrix.domain.dsl.grammar;
 
 import java.util.Collection;
 
-import org.cotrix.domain.attributes.AttributeType;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
@@ -36,10 +36,10 @@ public class CodelistGrammar {
 		
 		
 		
-		SecondClause attributeTypes(AttributeType ... types);
+		SecondClause definitions(Definition ... types);
 		
 		
-		SecondClause attributeTypes(Collection<AttributeType> types);
+		SecondClause attributeTypes(Collection<Definition> types);
 	}
 
 	

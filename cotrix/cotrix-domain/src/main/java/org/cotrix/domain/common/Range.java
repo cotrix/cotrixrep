@@ -2,7 +2,7 @@ package org.cotrix.domain.common;
 
 import static org.cotrix.common.Utils.*;
 
-public interface OccurrenceRange {
+public interface Range {
 
 	
 	int min();
@@ -10,7 +10,7 @@ public interface OccurrenceRange {
 	
 	boolean inRange(int occurrence);
 	
-	public class Default implements OccurrenceRange {
+	public class Default implements Range {
 		
 		private final int min;
 		private final int max;

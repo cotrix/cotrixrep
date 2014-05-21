@@ -4,7 +4,7 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.OccurrenceRange;
+import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -14,7 +14,7 @@ import org.cotrix.domain.trait.Named;
  * The type of an attribute.
  * 
  */
-public interface AttributeType extends Identified, Named {
+public interface Definition extends Identified, Named {
 
 	/**
 	 * Returns a name for the broad semantics of instances.
@@ -35,13 +35,13 @@ public interface AttributeType extends Identified, Named {
 	 * 
 	 * @return the data type
 	 */
-	AttributeValueType valueType();
+	ValueType valueType();
 	
 	/**
 	 * Returns the occurrence range for instances.
 	 * @return the range
 	 */
-	OccurrenceRange range();
+	Range range();
 	
 	
 		
@@ -56,22 +56,22 @@ public interface AttributeType extends Identified, Named {
 
 		void language(String language);
 		
-		AttributeValueType valueType();
+		ValueType valueType();
 		
-		void valueType(AttributeValueType type);
+		void valueType(ValueType type);
 		
-		OccurrenceRange range();
+		Range range();
 		
-		void range(OccurrenceRange type);
+		void range(Range type);
 	}
 
 	/**
-	 * A {@link Named.Abstract} implementation of {@link AttributeType}.
+	 * A {@link Named.Abstract} implementation of {@link Definition}.
 	 * 
 	 */
-	public class Private extends Identified.Abstract<Private,State> implements AttributeType {
+	public class Private extends Identified.Abstract<Private,State> implements Definition {
 
-		public Private(AttributeType.State state) {
+		public Private(Definition.State state) {
 			super(state);
 		}
 		
@@ -91,18 +91,18 @@ public interface AttributeType extends Identified, Named {
 		}
 
 		@Override
-		public AttributeValueType valueType() {
+		public ValueType valueType() {
 			return state().valueType();
 		}
 		
 		
 		@Override
-		public OccurrenceRange range() {
+		public Range range() {
 			return state().range();
 		}
 
 		@Override
-		public void update(AttributeType.Private changeset) throws IllegalArgumentException, IllegalStateException {
+		public void update(Definition.Private changeset) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(changeset);
 			
@@ -119,13 +119,13 @@ public interface AttributeType extends Identified, Named {
 				state().language(changeset.language() == NULL_STRING ? null : changeset.language());
 
 			
-			AttributeValueType newtype = changeset.state().valueType();
+			ValueType newtype = changeset.state().valueType();
 			
 			if (newtype!=null)
 				state().valueType(newtype);
 			
 			
-			OccurrenceRange newrange = changeset.state().range();
+			Range newrange = changeset.state().range();
 			
 			if (newrange!=null)
 				state().range(newrange);
