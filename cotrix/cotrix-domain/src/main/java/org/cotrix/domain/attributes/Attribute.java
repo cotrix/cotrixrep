@@ -105,8 +105,6 @@ public interface Attribute extends Identified, Named {
 
 			super.update(changeset);
 			
-			System.out.println("here "+changeset.attributeType());
-			
 			if (changeset.value() != null)
 				state().value(changeset.value() == NULL_STRING ? null : changeset.value());
 			

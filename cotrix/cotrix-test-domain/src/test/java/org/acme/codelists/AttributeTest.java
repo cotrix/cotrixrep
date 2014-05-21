@@ -8,6 +8,7 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.AttributeType;
 import org.cotrix.domain.memory.AttributeMS;
 import org.junit.Test;
 
@@ -35,36 +36,53 @@ public class AttributeTest extends DomainTest {
 	}
 	
 	@Test
+	public void typedAttributesCanBeFluentlyConstructed() {
+		
+		AttributeType type = attributeType().name(name).build();
+	
+		Attribute a = attribute().instanceOf(type).value(value).build();
+		
+		assertEquals(name,a.name());
+		assertEquals(value,a.value());
+		assertEquals(type,a.attributeType());
+		assertEquals(DEFAULT_TYPE,a.type());
+		
+		Attribute a2 = attribute().instanceOf(type).build();
+		
+		assertEquals(a.attributeType(),a2.attributeType());
+		
+	}
+	
+	@Test
 	public void changesetsCanBeFluentlyConstructed() {
 
 		Attribute a;
 		
-		//new attributes
-		 a =  attribute().name(name).build();
-		 a =  attribute().name(name).value(value).build();
-		 a =  attribute().name(name).value(value).ofType("type").build();
-		 a =  attribute().name(name).value(value).ofType("type").in("en").build();
-		 a =  attribute().name(name).value(value).in("en").build();
-		 
-		 
-		assertFalse(reveal(a).isChangeset());
-		assertNull(reveal(a).status());
-			
-		//modified attributes
 		 a = modifyAttribute("1").name(name).build();
 		 a = modifyAttribute("1").name(name).value(value).build();
-		 a = modifyAttribute("1").ofType("type").build();
-		 a = modifyAttribute("1").ofType("type").in("en").build();
+		 a = modifyAttribute("1").ofType(type).build();
+		 a = modifyAttribute("1").ofType(type).in("en").build();
 		 a = modifyAttribute("1").in("en").build();
 
 		assertTrue(reveal(a).isChangeset());
 		assertEquals(MODIFIED,reveal(a).status());		
-		
+	
 		//removed attributes
 		a = deleteAttribute("1");
 
 		assertTrue(reveal(a).isChangeset());
 		assertEquals(DELETED,reveal(a).status());		
+	}
+	
+	@Test
+	public void typedChangesetsCanBeFluentlyConstructed() {
+
+		AttributeType type = attributeType().name(name).build();
+		
+		modifyAttribute("1").value(value).build();
+		modifyAttribute("1").instanceOf(type).build();
+		modifyAttribute("1").instanceOf(type).value(value).build();
+
 	}
 
 
@@ -78,6 +96,37 @@ public class AttributeTest extends DomainTest {
 		
 		assertEquals(clone,state);
 		
+	}
+	
+	@Test
+	public void clonedTyped() {
+		
+		AttributeType type = like(attributeType().name(name).in(language).build());
+		
+		Attribute a = like(attribute().instanceOf(type).value(value).build());
+		
+		Attribute.State state = reveal(a).state();
+		AttributeMS clone = new AttributeMS(state);
+		
+		assertEquals(clone,state);
+		
+	}
+	
+	@Test
+	public void emptyTypedChangeset() {
+
+		AttributeType type = like(attributeType().name(name).in(language).build());
+		
+		Attribute a = like(attribute().instanceOf(type).value(value).build());
+		
+		Attribute changeset = modifyAttribute(a.id()).build();
+		
+		reveal(a).update(reveal(changeset)); 
+
+		assertEquals(name, a.name());
+		assertEquals(value, a.value());
+		assertEquals(type, a.attributeType());
+		assertEquals(language, a.language());
 	}
 	
 	@Test
@@ -96,7 +145,7 @@ public class AttributeTest extends DomainTest {
 	}
 	
 	@Test
-	public void changesAttributes() {
+	public void changeAll() {
 
 		Attribute a = like(attribute().name(name).value(value).ofType(type).in(language).build());
 		
@@ -108,6 +157,22 @@ public class AttributeTest extends DomainTest {
 		assertEquals(value2, a.value());
 		assertEquals(type2, a.type());
 		assertEquals(language2, a.language());
+	}
+	
+	@Test
+	public void changeType() {
+		
+		AttributeType type = like(attributeType().name(name).build());
+
+		AttributeType typeChangeset = modifyAttributeType(type.id()).name(name2).build();
+		
+		Attribute a = like(attribute().instanceOf(type).build());
+		
+		Attribute changeset = modifyAttribute(a.id()).instanceOf(typeChangeset).build();
+		
+		reveal(a).update(reveal(changeset));
+
+		assertEquals(name2, a.name());
 	}
 	
 	
