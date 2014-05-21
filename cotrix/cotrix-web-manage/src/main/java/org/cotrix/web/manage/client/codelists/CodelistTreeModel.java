@@ -67,6 +67,7 @@ public class CodelistTreeModel implements TreeViewModel {
 
 	@Override
 	public <T> NodeInfo<?> getNodeInfo(final T value) {
+		Log.trace("getNodeInfo value: "+value);
 		if (value == null) {
 			return new DefaultNodeInfo<CodelistGroup>(dataProvider, GROUP_CELL);
 		}
@@ -82,6 +83,7 @@ public class CodelistTreeModel implements TreeViewModel {
 					Log.trace("onDataUpdated "+value);
 					for (CodelistGroup newGroup:dataProvider.getCache()) {
 						if (newGroup.getName().equals(group.getName())) {
+							versionDataProvider.setList(newGroup.getVersions());
 							versionDataProvider.refresh();
 						}
 					}

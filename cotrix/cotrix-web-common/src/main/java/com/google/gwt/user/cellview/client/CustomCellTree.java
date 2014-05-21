@@ -5,7 +5,6 @@ package com.google.gwt.user.cellview.client;
 
 import java.util.ArrayList;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Event;
@@ -57,7 +56,6 @@ public class CustomCellTree extends CellTree {
 		final boolean isMouseDown = BrowserEvents.MOUSEDOWN.equals(eventType);
 		final CellTreeNodeView<?> nodeView = findItemByChain(chain, 0, rootNode);
 		if (nodeView != null && isMouseDown && !nodeView.isRootNode() && nodeView.getSelectionElement().isOrHasChild(target) && !nodeView.getImageElement().isOrHasChild(target)) {
-			Log.trace("Open the node when the open image is clicked");
 			// Open the node when the open image is clicked.
 			nodeView.setOpen(!nodeView.isOpen(), true);
 			return;
