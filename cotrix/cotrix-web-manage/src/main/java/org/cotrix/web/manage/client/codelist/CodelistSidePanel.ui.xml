@@ -5,27 +5,38 @@
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='commonresources'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
-	<ui:style>
+	<ui:style type="org.cotrix.web.manage.client.codelist.CodelistSidePanel.Style">
 	.leftButtonBarPanel {
-		float: left;
 		vertical-align: middle;
-		width: 50%;
+		width: 100%;
 		height: 100%;
+		cursor: pointer;
+		background-color: #f1f1f1;
+	}
+	
+	.buttonBarPanelSelected {
+		background-color: white !important;
+	}
+	
+	.separator {
+		background-color: #bababa;
+		height: 100%;
+		width: 4px;
 	}
 	
 	.rightButtonBarPanel {
-		float: right;
 		vertical-align: middle;
 		background-color: #f1f1f1;
-		width: 50%;
+		width: 100%;
 		height: 100%;
+		cursor: pointer;
 	}
 	
 	.codesButtonBar {
 		vertical-align: middle;
 		margin-left: 10px;
 	}
-		
+	
 	.codelistButtonBar {
 		vertical-align: middle;
 		margin-left: 10px;
@@ -43,62 +54,83 @@
 	}
 	
 	.mainPanel {
-		border-top-left-radius: 2px;
+			border-top-left-radius: 2px;
 		border-top-right-radius: 2px;
-		border: 1px solid #bababa;
 		background-color: #fff;
+		border: 1px solid #bababa;
 	}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' styleName="{style.mainPanel}">
 		<g:north size='34'>
-			<g:FlowPanel>
-				<g:FlowPanel styleName="{style.leftButtonBarPanel}">
-					<g:HorizontalPanel styleName="{style.codesButtonBar}"
-						verticalAlignment="middle" height="100%">
-						<g:ToggleButton ui:field="attributesButton" width="32px"
-							styleName="{style.button}">
-							<g:upFace image="{resources.attributesDisabled}" />
-							<g:downFace image="{resources.attributes}" />
-							<g:upHoveringFace image="{resources.attributes}" />
-						</g:ToggleButton>
-						<g:ToggleButton ui:field="linksButton" width="32px"
-							styleName="{style.button}">
-							<g:upFace image="{resources.linkDisabled}" />
-							<g:downFace image="{resources.link}" />
-							<g:upHoveringFace image="{resources.link}" />
-						</g:ToggleButton>
-					</g:HorizontalPanel>
-				</g:FlowPanel>
-				<g:FlowPanel styleName="{style.rightButtonBarPanel}">
-					<g:HorizontalPanel styleName="{style.codelistButtonBar}"
-						verticalAlignment="middle" height="100%">
-						<g:ToggleButton ui:field="metadataButton" width="32px"
-							styleName="{style.button}">
-							<g:upFace image="{resources.metadataDisabled}" />
-							<g:downFace image="{resources.metadata}" />
-							<g:upHoveringFace image="{resources.metadata}" />
-						</g:ToggleButton>
-						<g:ToggleButton ui:field="filtersButton" width="32px"
-							styleName="{style.button}" visible="false">
-							<g:upFace image="{resources.filterDisabled}" />
-							<g:downFace image="{resources.filter}" />
-							<g:upHoveringFace image="{resources.filter}" />
-						</g:ToggleButton>
-						<g:ToggleButton ui:field="userButton" width="32px"
-							styleName="{style.button}" visible="false">
-							<g:upFace image="{commonresources.userPreferencesDisabled}" />
-							<g:downFace image="{commonresources.userPreferences}" />
-							<g:upHoveringFace image="{commonresources.userPreferences}" />
-						</g:ToggleButton>
-						<g:ToggleButton ui:field="linkTypesButton" width="32px"
-							styleName="{style.button}">
-							<g:upFace image="{resources.linkTypeDisabled}" />
-							<g:downFace image="{resources.linkType}" />
-							<g:upHoveringFace image="{resources.linkType}" />
-						</g:ToggleButton>
-					</g:HorizontalPanel>
-				</g:FlowPanel>
-			</g:FlowPanel>
+			<g:HTMLPanel>
+				<table height="100%" width="100%">
+					<tr>
+						<td width="50%">
+							<g:FocusPanel styleName="{style.leftButtonBarPanel}"
+								ui:field="leftBar">
+								<g:HorizontalPanel styleName="{style.codesButtonBar}"
+									verticalAlignment="middle" height="100%">
+									<g:ToggleButton ui:field="attributesButton"
+										width="32px" styleName="{style.button}">
+										<g:downDisabledFace image="{resources.attributesDisabled}"/>
+										<g:upDisabledFace image="{resources.attributesDisabled}"/>
+										<g:upFace image="{resources.attributesUnselected}" />
+										<g:downFace image="{resources.attributesSelected}" />
+										<g:upHoveringFace image="{resources.attributesSelected}" />
+									</g:ToggleButton>
+									<g:ToggleButton ui:field="linksButton" width="32px"
+										styleName="{style.button}">
+										<g:downDisabledFace image="{resources.linksDisabled}"/>
+										<g:upDisabledFace image="{resources.linksDisabled}"/>
+										<g:upFace image="{resources.linksUnselected}" />
+										<g:downFace image="{resources.linksSelected}" />
+										<g:upHoveringFace image="{resources.linksSelected}" />
+									</g:ToggleButton>
+								</g:HorizontalPanel>
+							</g:FocusPanel>
+						</td>
+						<td width="20px" height="100%">
+							<g:FlowPanel styleName="{style.separator}" />
+						</td>
+						<td width="50%">
+							<g:FocusPanel styleName="{style.rightButtonBarPanel}"
+								ui:field="rightBar">
+								<g:HorizontalPanel styleName="{style.codelistButtonBar}"
+									verticalAlignment="middle" height="100%">
+									<g:ToggleButton ui:field="metadataButton" width="32px"
+										styleName="{style.button}">
+										<g:downDisabledFace image="{resources.attributesDisabled}"/>
+										<g:upDisabledFace image="{resources.attributesDisabled}"/>
+										<g:upFace image="{resources.attributesUnselected}" />
+										<g:downFace image="{resources.attributesSelected}" />
+										<g:upHoveringFace image="{resources.attributesSelected}" />
+									</g:ToggleButton>
+									<g:ToggleButton ui:field="filtersButton" width="32px"
+										styleName="{style.button}" visible="false">
+										<g:upFace image="{resources.filterDisabled}" />
+										<g:downFace image="{resources.filter}" />
+										<g:upHoveringFace image="{resources.filter}" />
+									</g:ToggleButton>
+									<g:ToggleButton ui:field="userButton" width="32px"
+										styleName="{style.button}" visible="false">
+										<g:upFace image="{commonresources.userPreferencesDisabled}" />
+										<g:downFace image="{commonresources.userPreferences}" />
+										<g:upHoveringFace image="{commonresources.userPreferences}" />
+									</g:ToggleButton>
+									<g:ToggleButton ui:field="linkTypesButton"
+										width="32px" styleName="{style.button}">
+										<g:downDisabledFace image="{resources.linksDisabled}"/>
+										<g:upDisabledFace image="{resources.linksDisabled}"/>
+										<g:upFace image="{resources.linksUnselected}" />
+										<g:downFace image="{resources.linksSelected}" />
+										<g:upHoveringFace image="{resources.linksSelected}" />
+									</g:ToggleButton>
+								</g:HorizontalPanel>
+							</g:FocusPanel>
+						</td>
+					</tr>
+				</table>
+			</g:HTMLPanel>
 		</g:north>
 		<g:center>
 			<g:DeckLayoutPanel ui:field="tools" styleName="{style.tools}">
