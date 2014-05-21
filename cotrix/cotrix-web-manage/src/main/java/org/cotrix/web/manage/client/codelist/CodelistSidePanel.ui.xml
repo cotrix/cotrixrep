@@ -71,7 +71,7 @@
 								<g:HorizontalPanel styleName="{style.codesButtonBar}"
 									verticalAlignment="middle" height="100%">
 									<g:ToggleButton ui:field="attributesButton"
-										width="32px" styleName="{style.button}">
+										width="32px" styleName="{style.button}" title="Code Attributes">
 										<g:downDisabledFace image="{resources.attributesDisabled}"/>
 										<g:upDisabledFace image="{resources.attributesDisabled}"/>
 										<g:upFace image="{resources.attributesUnselected}" />
@@ -79,7 +79,7 @@
 										<g:upHoveringFace image="{resources.attributesSelected}" />
 									</g:ToggleButton>
 									<g:ToggleButton ui:field="linksButton" width="32px"
-										styleName="{style.button}">
+										styleName="{style.button}" title="Code Links">
 										<g:downDisabledFace image="{resources.linksDisabled}"/>
 										<g:upDisabledFace image="{resources.linksDisabled}"/>
 										<g:upFace image="{resources.linksUnselected}" />
@@ -98,7 +98,7 @@
 								<g:HorizontalPanel styleName="{style.codelistButtonBar}"
 									verticalAlignment="middle" height="100%">
 									<g:ToggleButton ui:field="metadataButton" width="32px"
-										styleName="{style.button}">
+										styleName="{style.button}" title="Codelist Attributes">
 										<g:downDisabledFace image="{resources.attributesDisabled}"/>
 										<g:upDisabledFace image="{resources.attributesDisabled}"/>
 										<g:upFace image="{resources.attributesUnselected}" />
@@ -118,7 +118,7 @@
 										<g:upHoveringFace image="{commonresources.userPreferences}" />
 									</g:ToggleButton>
 									<g:ToggleButton ui:field="linkTypesButton"
-										width="32px" styleName="{style.button}">
+										width="32px" styleName="{style.button}" title="Codelist Links">
 										<g:downDisabledFace image="{resources.linksDisabled}"/>
 										<g:upDisabledFace image="{resources.linksDisabled}"/>
 										<g:upFace image="{resources.linksUnselected}" />
