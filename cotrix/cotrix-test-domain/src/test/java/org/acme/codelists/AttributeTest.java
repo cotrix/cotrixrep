@@ -136,14 +136,12 @@ public class AttributeTest extends DomainTest {
 		assertNull(typed.value());
 	}
 
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void canEraseType() {
 
 		Attribute changeset = modify(untyped).ofType(NULL_QNAME).build();
 
 		reveal(untyped).update(reveal(changeset));
-
-		assertNull(untyped.type());
 	}
 
 	@Test

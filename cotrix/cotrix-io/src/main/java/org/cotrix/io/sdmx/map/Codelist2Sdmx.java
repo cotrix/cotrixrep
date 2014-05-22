@@ -135,7 +135,6 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		
 		for (Attribute a : attributed.attributes()) {
 			
-
 			String val = a.value();
 			String lang = a.language()==null?"en":a.language();
 			

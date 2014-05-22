@@ -3,6 +3,7 @@ package org.cotrix.domain.memory;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.attributes.Text.*;
 import static org.cotrix.domain.common.OccurrenceRanges.*;
+import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
@@ -10,7 +11,6 @@ import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.attributes.ValueType;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.Status;
-import org.cotrix.domain.utils.Constants;
 
 public final class DefinitionMS extends IdentifiedMS implements Definition.State {
 
@@ -21,7 +21,7 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 	private Range range;
 	
 	public DefinitionMS() {
-		type=Constants.defaultType;
+		type=defaultType;
 		valueType(freetext);
 		range(arbitrarily);
 	}

@@ -121,8 +121,11 @@ public interface Attribute extends Identified, Named {
 			if (changeset.name() != null)
 				state().name(changeset.name());
 
+			if (changeset.type() == NULL_QNAME)
+				throw new IllegalArgumentException("attribute type " + type() + " cannot be erased");
+			
 			if (changeset.type() != null)
-				state().type(changeset.type() == NULL_QNAME ? null : changeset.type());
+				state().type(changeset.type());
 
 			if (changeset.language() != null)
 				state().language(changeset.language() == NULL_STRING ? null : changeset.language());
@@ -137,6 +140,8 @@ public interface Attribute extends Identified, Named {
 
 
 	}
+	
+	
 	
 	
 }
