@@ -1,6 +1,8 @@
 package org.cotrix.web.manage.client.codelists;
 
 import org.cotrix.web.common.client.Presenter;
+import org.cotrix.web.common.client.feature.FeatureBinder;
+import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.codelists.NewCodelistDialog.NewCodelistDialogListener;
 import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
@@ -11,6 +13,7 @@ import org.cotrix.web.manage.client.event.RefreshCodelistsEvent;
 import org.cotrix.web.manage.client.event.RefreshCodelistsEvent.RefreshCodeListsHandler;
 import org.cotrix.web.manage.client.event.RemoveCodelistEvent;
 import org.cotrix.web.manage.shared.CodelistGroup;
+import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -62,6 +65,13 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	
 	protected void featureBind()
 	{
+		FeatureBinder.bind(new FeatureToggler() {
+			
+			@Override
+			public void toggleFeature(boolean active) {
+				view.setAddCodelistVisible(active);
+			}
+		}, ManagerUIFeature.CREATE_CODELIST);
 	/*	FeatureBinder.bind(new FeatureToggler() {
 			
 			@Override

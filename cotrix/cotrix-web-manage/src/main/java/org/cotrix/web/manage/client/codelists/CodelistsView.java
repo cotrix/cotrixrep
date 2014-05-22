@@ -21,6 +21,7 @@ public interface CodelistsView {
 	public void refresh();
 	void setPresenter(Presenter presenter);
 	Widget asWidget();
+	
 	void setAddCodelistVisible(boolean visible);
 	void setRemoveCodelistVisible(boolean visible);
 }
