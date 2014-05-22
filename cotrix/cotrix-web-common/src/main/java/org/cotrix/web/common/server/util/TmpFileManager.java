@@ -28,7 +28,7 @@ public class TmpFileManager {
 	
 	private Logger logger = LoggerFactory.getLogger(TmpFileManager.class);
 	
-	private static long cleaningDelay = TimeUnit.MINUTES.toMillis(5);
+	private static long cleaningDelay = TimeUnit.MINUTES.toMillis(30);
 	
 	private final TimerTask cleaningTask = new TimerTask() {
 		
