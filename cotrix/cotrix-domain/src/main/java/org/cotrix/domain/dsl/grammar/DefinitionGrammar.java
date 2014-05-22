@@ -18,17 +18,17 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 public class DefinitionGrammar {
 
 	
-	public static interface AttributeTypeNewClause extends NameClause<OptionalClause> {	}
+	public static interface DefinitionNewClause extends NameClause<OptionalClause> {	}
 		
-	public static interface AttributeTypeChangeClause extends NameClause<OptionalClause>, OptionalClause {}
+	public static interface DefinitionChangeClause extends NameClause<OptionalClause>, OptionalClause {}
 	
 	public static interface OptionalClause extends BuildClause<Definition> {
 		
-		OptionalClause ofType(QName type);
+		OptionalClause is(QName type);
 		
-		OptionalClause ofType(String type);
+		OptionalClause is(String type);
 		
-		OptionalClause valuesIs(ValueType type);
+		OptionalClause valueIs(ValueType type);
 	
 		OptionalClause in(String language);
 		

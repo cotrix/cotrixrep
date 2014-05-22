@@ -3,23 +3,25 @@ package org.cotrix.domain.attributes;
 import static org.cotrix.common.Utils.*;
 
 public class Text implements ValueType {
+	
+	public static final Text freetext = new Text();
 
 	public static int UNLIMITED = -1;
 	
-	private int length = UNLIMITED;
+	private int max = UNLIMITED;
 	
 	
-	public Text length(int length) {
+	public Text max(int max) {
 		
-		positive("lenght", length);
+		positive("lenght", max);
 		
-		this.length=length;
+		this.max=max;
 
 		return this;
 	}
 	
-	public int length() {
-		return length;
+	public int max() {
+		return max;
 	}
 	
 	@Override
@@ -27,8 +29,8 @@ public class Text implements ValueType {
 		
 		boolean valid = true;
 		
-		if (length!=UNLIMITED)
-			valid= (length>=value.length());
+		if (max!=UNLIMITED)
+			valid= (max>=value.length());
 		
 		
 		return valid;
@@ -38,7 +40,7 @@ public class Text implements ValueType {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + length;
+		result = prime * result + max;
 		return result;
 	}
 
@@ -51,7 +53,7 @@ public class Text implements ValueType {
 		if (getClass() != obj.getClass())
 			return false;
 		Text other = (Text) obj;
-		if (length != other.length)
+		if (max != other.max)
 			return false;
 		return true;
 	}

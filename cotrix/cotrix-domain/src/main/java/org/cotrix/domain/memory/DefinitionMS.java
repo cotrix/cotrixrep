@@ -1,8 +1,8 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.attributes.Text.*;
 import static org.cotrix.domain.common.OccurrenceRanges.*;
-import static org.cotrix.domain.dsl.Codes.*;
 
 import javax.xml.namespace.QName;
 
@@ -21,8 +21,8 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 	private Range range;
 	
 	public DefinitionMS() {
-		type=Constants.DEFAULT_TYPE;
-		valueType(text());
+		type=Constants.defaultType;
+		valueType(freetext);
 		range(arbitrarily);
 	}
 	

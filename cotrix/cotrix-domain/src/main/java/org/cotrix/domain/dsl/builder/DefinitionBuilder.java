@@ -6,8 +6,8 @@ import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.attributes.ValueType;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar.AttributeTypeChangeClause;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar.AttributeTypeNewClause;
+import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionChangeClause;
+import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionNewClause;
 import org.cotrix.domain.dsl.grammar.DefinitionGrammar.OptionalClause;
 import org.cotrix.domain.memory.DefinitionMS;
 
@@ -17,7 +17,7 @@ import org.cotrix.domain.memory.DefinitionMS;
  * @author Fabio Simeoni
  *
  */
-public class DefinitionBuilder implements AttributeTypeNewClause, AttributeTypeChangeClause {
+public class DefinitionBuilder implements DefinitionNewClause, DefinitionChangeClause {
 
 	private final DefinitionMS state;
 
@@ -38,18 +38,18 @@ public class DefinitionBuilder implements AttributeTypeNewClause, AttributeTypeC
 	}
 
 	@Override
-	public DefinitionBuilder ofType(QName type) {
+	public DefinitionBuilder is(QName type) {
 		state.type(type);
 		return this;
 	}
 	
 	@Override
-	public DefinitionBuilder ofType(String type) {
-		return ofType(Codes.q(type));
+	public DefinitionBuilder is(String type) {
+		return is(Codes.q(type));
 	}
 
 	@Override
-	public DefinitionBuilder valuesIs(ValueType valueType) {
+	public DefinitionBuilder valueIs(ValueType valueType) {
 		state.valueType(valueType);
 		return this;
 	}

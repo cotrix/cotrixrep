@@ -21,7 +21,7 @@ public class Constants {
 	public static final QName NAME_TYPE = q(NS,"name");
 	public static final QName OTHER_CODE_TYPE = q(NS,"other_code");
 	public static final QName OTHER_TYPE = q(NS,"other");
-	public static final QName DEFAULT_TYPE = DESCRIPTION_TYPE;
+	public static final QName defaultType = DESCRIPTION_TYPE;
 	public static final QName SYSTEM_TYPE = q(NS,"system");
 	
 	public static final QName NAME = q(NS,"name");

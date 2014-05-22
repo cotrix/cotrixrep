@@ -12,15 +12,15 @@ import org.cotrix.domain.trait.Status;
 public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 
 	private String value;
-	private Definition.State definition;
+	
+	//by default, attribute has 'private' definition
+	private Definition.State definition = new DefinitionMS();
 	
 	public AttributeMS() {
-		definition(new DefinitionMS());
 	}
 	
 	public AttributeMS(String id,Status status) {
 		super(id,status);
-		definition(new DefinitionMS());
 		type(null);
 	}
 	

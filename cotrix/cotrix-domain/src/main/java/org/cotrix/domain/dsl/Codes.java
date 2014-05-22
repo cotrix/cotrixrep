@@ -27,8 +27,8 @@ import org.cotrix.domain.dsl.builder.CodelistBuilder;
 import org.cotrix.domain.dsl.builder.CodelistLinkBuilder;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar.AttributeTypeChangeClause;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar.AttributeTypeNewClause;
+import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionChangeClause;
+import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
@@ -71,20 +71,36 @@ public class Codes {
 		return new AttributeBuilder(new AttributeMS(id,MODIFIED));
 	}
 	
+	public static AttributeChangeClause modify(Attribute attribute) {
+		return modifyAttribute(attribute.id());
+	}
+	
 	public static Attribute deleteAttribute(String id) {
 		return new AttributeMS(id,DELETED).entity();
 	}
 	
-	public static AttributeTypeNewClause definition() {
+	public static Attribute delete(Attribute attribute) {
+		return deleteAttribute(attribute.id());
+	}
+	
+	public static DefinitionNewClause definition() {
 		return new DefinitionBuilder(new DefinitionMS());
 	}
 	
-	public static AttributeTypeChangeClause modifyDefinition(String id) {
+	public static DefinitionChangeClause modifyDefinition(String id) {
 		return new DefinitionBuilder(new DefinitionMS(id,MODIFIED));
+	}
+	
+	public static DefinitionChangeClause modify(Definition def) {
+		return modifyDefinition(def.id());
 	}
 	
 	public static Definition deleteDefinition(String id) {
 		return new DefinitionMS(id,DELETED).entity();
+	}
+	
+	public static Definition delete(Definition def) {
+		return deleteDefinition(def.id());
 	}
 	
 	public static Text text() {
