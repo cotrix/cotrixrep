@@ -3,67 +3,58 @@ package org.cotrix.web.manage.client.codelists;
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
+import org.cotrix.web.common.client.feature.InstanceFeatureBind;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.feature.ApplicationFeatures;
+import org.cotrix.web.manage.client.codelist.event.RemoveCodelistEvent;
 import org.cotrix.web.manage.client.codelists.NewCodelistDialog.NewCodelistDialogListener;
 import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
 import org.cotrix.web.manage.client.event.CreateNewCodelistEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.event.OpenCodelistEvent;
 import org.cotrix.web.manage.client.event.RefreshCodelistsEvent;
-import org.cotrix.web.manage.client.event.RefreshCodelistsEvent.RefreshCodeListsHandler;
-import org.cotrix.web.manage.client.event.RemoveCodelistEvent;
-import org.cotrix.web.manage.shared.CodelistGroup;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
-
-	protected EventBus managerBus;
 	
-	protected CodelistsView view;
+	interface CodelistsPresenterEventBinder extends EventBinder<CodelistsPresenter> {}
+
+	@Inject @ManagerBus
+	private EventBus managerBus;
+	
+	private CodelistsView view;
 	
 	@Inject
-	protected CodelistsDataProvider codelistDataProvider;
+	private CodelistsDataProvider codelistDataProvider;
 	
 	@Inject
 	private NewCodelistDialog newCodelistDialog;
+	
+	private UICodelist lastSelected;
 
 	@Inject
-	public CodelistsPresenter(@ManagerBus EventBus managerBus, CodelistsView view) {
+	public CodelistsPresenter(CodelistsView view) {
 		this.view = view;
 		this.view.setPresenter(this);
-		this.managerBus = managerBus;
-		bind();
-		featureBind();
 	}
 	
-	protected void bind()
-	{
-		managerBus.addHandler(RefreshCodelistsEvent.TYPE, new RefreshCodeListsHandler() {
-			
-			@Override
-			public void onRefreshCodeLists(RefreshCodelistsEvent event) {
-				refreshCodeLists();
-			}
-		});
-		managerBus.addHandler(CodelistCreatedEvent.TYPE, new CodelistCreatedEvent.CodelistCreatedHandler() {
-			
-			@Override
-			public void onCodelistCreated(CodelistCreatedEvent event) {
-				newCodelist(event.getCodelistGroup());
-			}
-		});
+	@Inject
+	private void bind(CodelistsPresenterEventBinder binder) {
+		binder.bindEventHandlers(this, managerBus);
 	}
 	
-	protected void featureBind()
+	@Inject
+	private void featureBind()
 	{
 		FeatureBinder.bind(new FeatureToggler() {
 			
@@ -78,7 +69,7 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 			public void toggleFeature(boolean active) {
 				view.setAddVersionVisible(active);
 			}
-		}, ApplicationFeatures.VERSIONING_CODELIST);
+		}, ApplicationFeatures.VERSIONING_CODELIST);*/
 		
 		FeatureBinder.bind(new FeatureToggler() {
 			
@@ -86,7 +77,13 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 			public void toggleFeature(boolean active) {
 				view.setRemoveCodelistVisible(active);
 			}
-		}, ApplicationFeatures.REMOVE_CODELIST);*/
+		}, new InstanceFeatureBind.IdProvider() {
+			
+			@Override
+			public String getId() {
+				return lastSelected!=null?lastSelected.getId():null;
+			}
+		}, ApplicationFeatures.REMOVE_CODELIST);
 	}
 	
 	@Inject
@@ -100,6 +97,15 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 		});
 	}
 	
+	@EventHandler
+	void onCodelistCreated(CodelistCreatedEvent event) {
+		codelistDataProvider.addCodelistGroup(event.getCodelistGroup());
+	}
+	@EventHandler
+	void onRefreshCodelists(RefreshCodelistsEvent event) {
+		refreshCodeLists();
+	}
+	
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());
 		view.refresh();
@@ -109,39 +115,19 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	 * {@inheritDoc}
 	 */
 	public void onCodelistItemSelected(UICodelist codelist) {
-		managerBus.fireEvent(new OpenCodelistEvent(codelist));
+		lastSelected = codelist;
+		if (codelist!=null) managerBus.fireEvent(new OpenCodelistEvent(codelist));
 	}
 
 	public void refreshCodeLists() {
 		Log.trace("onRefreshCodeLists");
 		view.refresh();		
 	}
-	
-	public void newCodelist(CodelistGroup newGroup)
-	{
-		Log.trace("newCodelist newGroup: "+newGroup);
-		CodelistGroup oldGroup = null;
-		Log.trace("dataprovide: "+codelistDataProvider);
-		Log.trace("cache: "+codelistDataProvider.getCache());
-		for (CodelistGroup group:codelistDataProvider.getCache()) {
-			if (group.equals(newGroup)) {
-				oldGroup = group;
-				break;
-			}
-		}
-		
-		Log.trace("oldGroup: "+oldGroup);
-		
-		if (oldGroup!=null) oldGroup.addVersions(newGroup.getVersions());
-		else codelistDataProvider.getCache().add(newGroup);
-		
-		Log.trace("refreshing cache: "+codelistDataProvider.getCache());
-		codelistDataProvider.refresh();
-	}
 
 	@Override
 	public void onCodelistRemove(UICodelist codelist) {
-		managerBus.fireEvent(new RemoveCodelistEvent(codelist.getId()));
+		Log.trace("onCodelistRemove codelist: "+codelist);
+		managerBus.fireEvent(new RemoveCodelistEvent(codelist));
 	}
 
 	@Override

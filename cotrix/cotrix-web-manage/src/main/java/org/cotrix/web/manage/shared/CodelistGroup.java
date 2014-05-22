@@ -18,8 +18,14 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class CodelistGroup implements IsSerializable {
 	
-	protected UIQName name;
-	protected List<Version> versions = new ArrayList<Version>();
+	public static CodelistGroup fromCodelist(UICodelist codelist) {
+		CodelistGroup group = new CodelistGroup(codelist.getName());
+		group.addVersion(codelist.getId(), codelist.getVersion());
+		return group;
+	}
+	
+	private UIQName name;
+	private List<Version> versions = new ArrayList<Version>();
 	
 	public CodelistGroup(){}
 	

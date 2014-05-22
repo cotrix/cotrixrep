@@ -37,6 +37,26 @@ public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGr
 	{
 		onRangeChanged((Range)null);
 	}
+	
+	public void addCodelistGroup(CodelistGroup newGroup)
+	{
+		Log.trace("newCodelist newGroup: "+newGroup);
+		CodelistGroup oldGroup = findGroupInCache(newGroup);
+		Log.trace("oldGroup: "+oldGroup);
+		
+		if (oldGroup!=null) oldGroup.addVersions(newGroup.getVersions());
+		else cache.add(newGroup);
+		
+		Log.trace("refreshing cache: "+cache);
+		refresh();
+	}
+	
+	private CodelistGroup findGroupInCache(CodelistGroup groupToFind) {
+		for (CodelistGroup group:cache) {
+			if (group.equals(groupToFind)) return group;
+		}
+		return null;
+	}
 
 	@Override
 	protected void onRangeChanged(final Range range) {

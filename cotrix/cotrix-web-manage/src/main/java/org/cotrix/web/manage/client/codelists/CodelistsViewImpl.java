@@ -98,9 +98,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	      public void onSelectionChange(SelectionChangeEvent event) {
 	    	  System.out.println("SELECTED "+event);
 	    	  Version selected = selectionModel.getSelectedObject();
-	        if (selected != null) {
-	        	presenter.onCodelistItemSelected(selected.toUICodelist());
-	        }
+	    	  presenter.onCodelistItemSelected((selected != null)?selected.toUICodelist():null);
 	      }
 	    });
 	    

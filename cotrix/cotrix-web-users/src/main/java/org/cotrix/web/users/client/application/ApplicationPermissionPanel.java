@@ -5,25 +5,24 @@ package org.cotrix.web.users.client.application;
 
 import java.util.List;
 
-import org.cotrix.web.users.client.UsersServiceAsync;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
 import org.cotrix.web.common.client.util.StatusUpdates;
 import org.cotrix.web.common.client.widgets.ConfirmDialog;
-import org.cotrix.web.common.client.widgets.ItemToolbar;
+import org.cotrix.web.common.client.widgets.ConfirmDialog.ConfirmDialogListener;
 import org.cotrix.web.common.client.widgets.ConfirmDialog.DialogButton;
+import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.users.client.UsersBus;
+import org.cotrix.web.users.client.UsersServiceAsync;
 import org.cotrix.web.users.client.matrix.RolesRowUpdatedEvent;
 import org.cotrix.web.users.client.matrix.UsersRolesMatrix;
 import org.cotrix.web.users.shared.RoleAction;
 import org.cotrix.web.users.shared.RolesRow;
 import org.cotrix.web.users.shared.RolesType;
 
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -53,6 +52,9 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 
 	@Inject
 	protected ApplicationRolesRowDataProvider dataProvider;
+
+	@Inject
+	private ConfirmDialog confirmDialog;
 
 	@Inject
 	protected void init(ApplicationPermissionPanelUiBinder uiBinder) {
@@ -93,21 +95,23 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 	}
 
 	protected void requestConfirmAndUpdateRole(final RolesRow row, final String role, final RoleAction action, final int rowIndex) {
-		ConfirmDialog confirmDialog = new ConfirmDialog();
-		confirmDialog.addSelectionHandler(new SelectionHandler<ConfirmDialog.DialogButton>() {
+
+		String message = "If you revoke this role, "+row.getUser().getFullName()+" will have none left and the account will be closed. Do you want to go ahead?";
+		confirmDialog.center(message, new ConfirmDialogListener() {
 
 			@Override
-			public void onSelection(SelectionEvent<DialogButton> event) {
-				if (event.getSelectedItem() == DialogButton.CONTINUE) updateRole(row, role, action, rowIndex);
-				else {
-					row.setLoading(false);
-					System.out.println("redraw "+rowIndex);
-					usersRolesMatrix.redrawRow(rowIndex);
+			public void onButtonClick(DialogButton button) {
+				switch (button) {
+					case CONTINUE: updateRole(row, role, action, rowIndex); break;
+					case CANCEL: {
+						row.setLoading(false);
+						System.out.println("redraw "+rowIndex);
+						usersRolesMatrix.redrawRow(rowIndex);
+					} break;
 				}
 			}
 		});
-		
-		confirmDialog.center("If you revoke this role, "+row.getUser().getFullName()+" will have none left and the account will be closed. Do you want to go ahead?");
+
 	}
 
 	protected void updateRole(final RolesRow row, String role, RoleAction action, final int rowIndex) {
@@ -142,19 +146,14 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 	protected void removeSelectedUser() {
 		final RolesRow row = usersRolesMatrix.getSelectedRow();
 		if (row!=null) {
-			ConfirmDialog confirmDialog = new ConfirmDialog();
-			confirmDialog.addSelectionHandler(new SelectionHandler<ConfirmDialog.DialogButton>() {
+			String message = "This will close "+row.getUser().getFullName()+"'s account. Do you want to go ahead?";
+			confirmDialog.center(message, new ConfirmDialogListener() {
 
 				@Override
-				public void onSelection(SelectionEvent<DialogButton> event) {
-					if (event.getSelectedItem() == DialogButton.CONTINUE) {
-						removeUser(row.getUser().getId());
-					}
+				public void onButtonClick(DialogButton button) {
+					if (button == DialogButton.CONTINUE) removeUser(row.getUser().getId());
 				}
-
 			});
-			
-			confirmDialog.center( "This will close "+row.getUser().getFullName()+"'s account. Do you want to go ahead?");
 		}
 	}
 
