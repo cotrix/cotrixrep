@@ -28,7 +28,7 @@ public class Roles {
 	}
 	
 	// the role of generic users, typically right after sign up: can view and logout
-	public static Role USER = role("user").can(VIEW, ACCESS_ADMIN_AREA).buildAsRoleFor(application);
+	public static Role USER = role("user").can(VIEW, ACCESS_ADMIN_AREA, CREATE_CODELIST).buildAsRoleFor(application);
 	
 	
 	public static Role MANAGER = role("manager").is(USER)

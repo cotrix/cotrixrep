@@ -10,9 +10,7 @@ import org.cotrix.web.common.shared.feature.UIFeature;
  *
  */
 public enum ManagerUIFeature implements UIFeature {
-	
-	CREATE_CODELIST,
-	DELETE_CODELIST,
+
 	VIEW_CODELIST,
 	LOCK_CODELIST,
 	UNLOCK_CODELIST,

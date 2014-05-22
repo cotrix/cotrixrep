@@ -20,6 +20,7 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.action.MainAction;
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
 import org.cotrix.common.cdi.BeanSession;
@@ -50,6 +51,7 @@ import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.LinkType;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
+import org.cotrix.web.common.shared.feature.ApplicationFeatures;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
 import org.cotrix.web.manage.client.ManageService;
@@ -119,6 +121,7 @@ public class ManageServiceImpl implements ManageService {
 		mapper.map(LOCK).to(LOCK_CODELIST);
 		mapper.map(UNLOCK).to(UNLOCK_CODELIST);
 		mapper.map(SEAL).to(SEAL_CODELIST);
+		mapper.map(MainAction.CREATE_CODELIST).to(ApplicationFeatures.CREATE_CODELIST);
 	}
 
 	@Override
