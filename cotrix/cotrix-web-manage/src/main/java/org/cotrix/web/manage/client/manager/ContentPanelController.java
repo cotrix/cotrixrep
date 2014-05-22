@@ -11,9 +11,9 @@ import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.codelist.CodelistPanelPresenter;
 import org.cotrix.web.manage.client.codelist.CodelistPanelView;
 import org.cotrix.web.manage.client.di.CodelistPanelFactory;
+import org.cotrix.web.manage.client.event.CloseCodelistEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.event.OpenCodelistEvent;
-import org.cotrix.web.manage.client.event.OpenCodelistEvent.OpenCodeListHandler;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -23,16 +23,23 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 @Singleton
-public class ContentPanelController implements OpenCodeListHandler {
+public class ContentPanelController {
+	
+	interface ContentPanelControllerEventBinder extends EventBinder<ContentPanelController> {}
+	
 	
 	@Inject
 	protected CodelistPanelFactory codeListPanelFactory;
+	
+	@Inject @ManagerBus
 	protected EventBus managerBus;
 	protected ContentPanel view;
 	protected Map<String, CodelistPanelPresenter> presenters = new HashMap<String, CodelistPanelPresenter>();
@@ -42,15 +49,18 @@ public class ContentPanelController implements OpenCodeListHandler {
 	protected EventBus cotrixBus;
 	
 	@Inject
-	public ContentPanelController(@ManagerBus EventBus managerBus, ContentPanel view) {
-		this.managerBus = managerBus;
+	public ContentPanelController(ContentPanel view) {
 		this.view = view;
-		managerBus.addHandler(OpenCodelistEvent.TYPE, this);
 		checkTabVisibility();
 	}
+	
+	@Inject
+	private void bind(ContentPanelControllerEventBinder binder) {
+		binder.bindEventHandlers(this, managerBus);
+	}
 
-	@Override
-	public void onOpenCodeList(OpenCodelistEvent event) {
+	@EventHandler
+	void onOpenCodeList(OpenCodelistEvent event) {
 		Log.trace("onOpenCodeList codelist "+event.getCodelist());
 		UICodelist codelist = event.getCodelist();
 		
@@ -61,7 +71,13 @@ public class ContentPanelController implements OpenCodeListHandler {
 		} else {
 			view.setVisible(presenter.getView());
 		}
-		
+	}
+	
+	@EventHandler
+	void onloseCodelist(CloseCodelistEvent event) {
+		Log.trace("onloseCodelist codelist "+event.getCodelist());
+		UICodelist codelist = event.getCodelist();
+		closeCodeList(codelist.getId());
 	}
 	
 	protected void openCodelist(final UICodelist codelist)

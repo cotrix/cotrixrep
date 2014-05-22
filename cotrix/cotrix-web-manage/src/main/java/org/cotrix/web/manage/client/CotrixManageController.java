@@ -17,6 +17,7 @@ import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.event.CreateNewVersionEvent;
 import org.cotrix.web.manage.client.codelist.event.RemoveCodelistEvent;
+import org.cotrix.web.manage.client.event.CloseCodelistEvent;
 import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
 import org.cotrix.web.manage.client.event.CodelistRemovedEvent;
 import org.cotrix.web.manage.client.event.CreateNewCodelistEvent;
@@ -204,6 +205,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 			@Override
 			public void onCallSuccess(Void result) {
 				managerBus.fireEvent(new CodelistRemovedEvent(CodelistGroup.fromCodelist(codelist)));
+				managerBus.fireEvent(new CloseCodelistEvent(codelist));
 			}
 		});
 	}

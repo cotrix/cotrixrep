@@ -8,11 +8,11 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class OpenCodelistEvent extends GenericEvent {
+public class CloseCodelistEvent extends GenericEvent {
 
 	private UICodelist codelist;
 	
-	public OpenCodelistEvent(UICodelist codelist) {
+	public CloseCodelistEvent(UICodelist codelist) {
 		this.codelist = codelist;
 	}
 

@@ -9,6 +9,7 @@ import org.cotrix.web.common.shared.feature.ApplicationFeatures;
 import org.cotrix.web.manage.client.codelist.event.RemoveCodelistEvent;
 import org.cotrix.web.manage.client.codelists.NewCodelistDialog.NewCodelistDialogListener;
 import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
+import org.cotrix.web.manage.client.event.CodelistRemovedEvent;
 import org.cotrix.web.manage.client.event.CreateNewCodelistEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.event.OpenCodelistEvent;
@@ -101,9 +102,15 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	void onCodelistCreated(CodelistCreatedEvent event) {
 		codelistDataProvider.addCodelistGroup(event.getCodelistGroup());
 	}
+	
 	@EventHandler
 	void onRefreshCodelists(RefreshCodelistsEvent event) {
 		refreshCodeLists();
+	}
+	
+	@EventHandler
+	void onCodelistRemoved(CodelistRemovedEvent event) {
+		codelistDataProvider.removeCodelistGroup(event.getCodelistGroup());
 	}
 	
 	public void go(HasWidgets container) {
