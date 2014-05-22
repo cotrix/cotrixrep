@@ -90,6 +90,8 @@
 	padding: 4px 8px 4px 10px;
 	text-align: left;
 	overflow: hidden;
+	max-width: 200px;
+	word-wrap: break-word;
 }
 
 .dataGridFirstColumnFooter {
