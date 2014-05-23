@@ -12,7 +12,6 @@ public interface CodelistToolbar {
 	enum Action {
 		LOCK,
 		UNLOCK,
-		NEW_VERSION,
 		ALL_COLUMN,
 		ALL_NORMAL,
 		FINALIZE;

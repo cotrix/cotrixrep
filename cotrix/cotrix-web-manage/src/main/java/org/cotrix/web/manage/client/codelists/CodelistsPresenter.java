@@ -3,9 +3,13 @@ package org.cotrix.web.manage.client.codelists;
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
-import org.cotrix.web.common.client.feature.InstanceFeatureBind;
+import org.cotrix.web.common.client.feature.InstanceFeatureBind.IdProvider;
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.feature.ApplicationFeatures;
+import org.cotrix.web.manage.client.codelist.VersionDialog;
+import org.cotrix.web.manage.client.codelist.VersionDialog.VersionDialogListener;
+import org.cotrix.web.manage.client.codelist.event.CreateNewVersionEvent;
 import org.cotrix.web.manage.client.codelist.event.RemoveCodelistEvent;
 import org.cotrix.web.manage.client.codelists.NewCodelistDialog.NewCodelistDialogListener;
 import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
@@ -41,6 +45,9 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	@Inject
 	private NewCodelistDialog newCodelistDialog;
 	
+	@Inject
+	private VersionDialog versionDialog;
+	
 	private UICodelist lastSelected;
 
 	@Inject
@@ -64,13 +71,22 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 				view.setAddCodelistVisible(active);
 			}
 		}, ApplicationFeatures.CREATE_CODELIST);
-	/*	FeatureBinder.bind(new FeatureToggler() {
+		
+		IdProvider idProvider = new IdProvider() {
+			
+			@Override
+			public String getId() {
+				return lastSelected!=null?lastSelected.getId():null;
+			}
+		};
+		
+		FeatureBinder.bind(new FeatureToggler() {
 			
 			@Override
 			public void toggleFeature(boolean active) {
-				view.setAddVersionVisible(active);
+				view.setVersionCodelistVisible(active);
 			}
-		}, ApplicationFeatures.VERSIONING_CODELIST);*/
+		}, idProvider, ApplicationFeatures.VERSION_CODELIST);
 		
 		FeatureBinder.bind(new FeatureToggler() {
 			
@@ -78,22 +94,23 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 			public void toggleFeature(boolean active) {
 				view.setRemoveCodelistVisible(active);
 			}
-		}, new InstanceFeatureBind.IdProvider() {
-			
-			@Override
-			public String getId() {
-				return lastSelected!=null?lastSelected.getId():null;
-			}
-		}, ApplicationFeatures.REMOVE_CODELIST);
+		}, idProvider, ApplicationFeatures.REMOVE_CODELIST);
 	}
 	
 	@Inject
-	protected void setupDialog() {
+	protected void setupDialogs() {
 		newCodelistDialog.setListener(new NewCodelistDialogListener() {
 			
 			@Override
 			public void onCreate(String name, String version) {
 				managerBus.fireEvent(new CreateNewCodelistEvent(name, version));
+			}
+		});
+		versionDialog.setListener(new VersionDialogListener() {
+			
+			@Override
+			public void onCreate(String id, String newVersion) {
+				managerBus.fireEvent(new CreateNewVersionEvent(id, newVersion));
 			}
 		});
 	}
@@ -140,5 +157,12 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	@Override
 	public void onCodelistCreate() {
 		newCodelistDialog.showCentered();
+	}
+
+	
+	@Override
+	public void onCodelistNewVersion(UICodelist codelist) {
+		versionDialog.setOldVersion(codelist.getId(), ValueUtils.getLocalPart(codelist.getName()), codelist.getVersion());
+		versionDialog.showCentered();
 	}
 }

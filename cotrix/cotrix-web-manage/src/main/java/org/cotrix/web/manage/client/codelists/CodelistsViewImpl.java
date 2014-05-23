@@ -3,11 +3,10 @@ package org.cotrix.web.manage.client.codelists;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider.Filter;
 import org.cotrix.web.common.client.util.SingleSelectionModel;
 import org.cotrix.web.common.client.util.ValueUtils;
-import org.cotrix.web.common.client.widgets.ItemToolbar;
-import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
-import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.client.widgets.SearchBox;
 import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.manage.client.codelists.CodelistsToolbar.ButtonClickedEvent;
+import org.cotrix.web.manage.client.codelists.CodelistsToolbar.ToolBarButton;
 import org.cotrix.web.manage.client.resources.CodelistsResources;
 import org.cotrix.web.manage.shared.CodelistGroup;
 import org.cotrix.web.manage.shared.CodelistGroup.Version;
@@ -53,7 +52,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	@UiField(provided=true) 
 	CustomCellTree codelists;
 	
-	@UiField ItemToolbar toolbar;
+	@UiField CodelistsToolbar toolbar;
 
 	private CodelistsDataProvider codeListDataProvider;
 	
@@ -69,11 +68,12 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 		this.resources = resources;
 		setupCellList();
 		initWidget(uiBinder.createAndBindUi(this));
-		toolbar.setVisible(ItemButton.MINUS, false);
+		toolbar.setVisible(ToolBarButton.MINUS, false);
+		toolbar.setVisible(ToolBarButton.VERSION, false);
 	}
 	
 	@UiHandler("toolbar")
-	protected void onButtonClicked(ButtonClickedEvent event) {
+	void onButtonClicked(ButtonClickedEvent event) {
 		switch (event.getButton()) {
 			case MINUS: {
 				Version selected = selectionModel.getSelectedObject();
@@ -82,6 +82,10 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 			case PLUS: {
 				presenter.onCodelistCreate();
 			} break;
+			case VERSION: {
+				Version selected = selectionModel.getSelectedObject();
+				if (selected!=null)	presenter.onCodelistNewVersion(selected.toUICodelist());
+			}
 		}
 	}
 	
@@ -116,13 +120,19 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	@Override
 	public void setAddCodelistVisible(boolean visible)
 	{
-		toolbar.setVisible(ItemButton.PLUS, visible);
+		toolbar.setVisible(ToolBarButton.PLUS, visible);
+	}
+	
+	@Override
+	public void setVersionCodelistVisible(boolean visible)
+	{
+		toolbar.setVisible(ToolBarButton.VERSION, visible);
 	}
 	
 	@Override
 	public void setRemoveCodelistVisible(boolean visible)
 	{
-		toolbar.setVisible(ItemButton.MINUS, visible);
+		toolbar.setVisible(ToolBarButton.MINUS, visible);
 	}
 	
 	@SuppressWarnings("unchecked")

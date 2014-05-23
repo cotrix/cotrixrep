@@ -74,7 +74,7 @@
 			</g:ScrollPanel>
 		</g:center>
 		<g:south size="28">
-			<common:ItemToolbar ui:field="toolbar"
+			<cotrix:CodelistsToolbar ui:field="toolbar"
 				styleName="{style.toolbarPanel}" />
 		</g:south>
 	</g:DockLayoutPanel>

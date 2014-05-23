@@ -1,0 +1,77 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='common'
+		type='org.cotrix.web.common.client.resources.CommonResources' />
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:style>
+	.toolbar {
+		background-color: #f1f1f1;
+		vertical-align: middle;
+	}
+	
+	.box {
+		margin: 0 auto;
+		width: 60px;
+	}
+	
+	.cell {
+		vertical-align: middle;
+	}
+	
+	.plusButton {
+		float: left;
+		padding-right: 2px;
+		padding-left: 2px;
+		padding-top: 1px;
+		outline: none;
+		cursor: pointer;
+	}
+	
+	.versionButton {
+		float: none;
+		padding-right: 2px;
+		padding-left: 2px;
+		padding-top: 1px;
+		outline: none;
+		cursor: pointer;
+	}
+	
+	.minusButton {
+		float: right;
+		padding-right: 2px;
+		padding-left: 2px;
+		padding-top: 1px;
+		outline: none;
+		cursor: pointer;
+	}
+	</ui:style>
+	<g:FlowPanel height="28px" styleName="{style.toolbar}">
+		<g:HTMLPanel styleName="{style.box}">
+			<table height="29px">
+				<tr>
+					<td class="{style.cell}">
+						<g:PushButton ui:field="plus" styleName="{style.plusButton}"
+							title="Add a new codelist">
+							<g:upFace image="{common.plus}" />
+						</g:PushButton>
+					</td>
+					<td class="{style.cell}">
+						<g:PushButton ui:field="version" styleName="{style.versionButton}"
+							title="New codelist version">
+							<g:upFace image="{resources.newVersion}" />
+							<g:upDisabledFace image="{resources.newVersionDisabled}" />
+						</g:PushButton>
+					</td>
+					<td class="{style.cell}">
+						<g:PushButton ui:field="minus" styleName="{style.minusButton}"
+							title="Remove the selected codelist">
+							<g:upFace image="{common.minus}" />
+						</g:PushButton>
+					</td>
+				</tr>
+			</table>
+		</g:HTMLPanel>
+	</g:FlowPanel>
+</ui:UiBinder> 

@@ -78,11 +78,6 @@
 			<g:PushButton ui:field="allNormals" styleName="{style.button}" title="Hide All">
 				<g:upFace image="{resources.allNormals}" />
 			</g:PushButton>
-			<g:PushButton ui:field="newVersion" styleName="{style.button}" title="New Version">
-				<g:upFace image="{resources.newVersion}" />
-				<g:upDisabledFace image="{resources.newVersionDisabled}" />
-			</g:PushButton>
-			
 		</g:HorizontalPanel>
 		<g:FlowPanel styleName="{style.statusWrapper}" width="125px">
 			<g:InlineLabel ui:field="state" styleName="{style.state}">draft</g:InlineLabel>

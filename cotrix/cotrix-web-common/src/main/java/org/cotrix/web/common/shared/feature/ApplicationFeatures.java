@@ -11,7 +11,7 @@ package org.cotrix.web.common.shared.feature;
 public enum ApplicationFeatures implements UIFeature {
 	
 	CREATE_CODELIST,
-	VERSIONING_CODELIST,
+	VERSION_CODELIST,
 	REMOVE_CODELIST,
 	IMPORT_CODELIST,
 	PUBLISH_CODELIST,
