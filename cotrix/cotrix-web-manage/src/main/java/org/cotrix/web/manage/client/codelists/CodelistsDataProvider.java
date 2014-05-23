@@ -75,6 +75,12 @@ public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGr
 		}
 		return null;
 	}
+	
+	public boolean containsVersion(Version version) {
+		CodelistGroup group = findGroupInCache(version.getParent());
+		if (group == null) return false;
+		return group.getVersions().contains(version);
+	}
 
 	@Override
 	protected void onRangeChanged(final Range range) {
