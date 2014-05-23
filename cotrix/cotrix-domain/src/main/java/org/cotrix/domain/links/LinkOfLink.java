@@ -14,7 +14,7 @@ import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 
-public class LinkOfLink implements ValueType {
+public class LinkOfLink implements LinkValueType {
 
 	private CodelistLink target;
 	
@@ -59,7 +59,7 @@ public class LinkOfLink implements ValueType {
 		
 		QName name = target.name();
 		String id = target.target() == null? null : target.target().id();
-		ValueType type = target.valueType();
+		LinkValueType type = target.valueType();
 
 		
 		return matches(name, link.name()) 

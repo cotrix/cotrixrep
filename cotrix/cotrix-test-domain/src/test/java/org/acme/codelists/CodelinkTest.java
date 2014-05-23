@@ -12,11 +12,11 @@ import java.util.Arrays;
 import javax.xml.namespace.QName;
 
 import org.acme.DomainTest;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.memory.CodelinkMS;
 import org.junit.Test;
 
@@ -66,7 +66,7 @@ public class CodelinkTest extends DomainTest {
 	public void resolveLinkToAttributes() {
 		
 		
-		Attribute a = like(attribute().name(name).value(value).ofType(DEFAULT_TYPE).in(language).build());
+		Attribute a = like(attribute().name(name).value(value).ofType(defaultType).in(language).build());
 		Code code = like(code().name("b").attributes(a).build());
 		Codelist list = like(codelist().name("B").with(code).build());  
 
@@ -84,7 +84,7 @@ public class CodelinkTest extends DomainTest {
 	public void resolveLinkToAttributesWithFunction() {
 		
 		
-		Attribute a = like(attribute().name(name).value(value).ofType(DEFAULT_TYPE).in(language).build());
+		Attribute a = like(attribute().name(name).value(value).ofType(defaultType).in(language).build());
 		Code code = like(code().name("b").attributes(a).build());
 		Codelist list = like(codelist().name("B").with(code).build());  
 

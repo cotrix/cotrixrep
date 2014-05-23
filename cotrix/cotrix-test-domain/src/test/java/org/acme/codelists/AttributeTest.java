@@ -1,170 +1,156 @@
 package org.acme.codelists;
 
-import static org.junit.Assert.*;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.domain.utils.Constants.*;
+import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.memory.AttributeMS;
+import org.junit.Before;
 import org.junit.Test;
 
 public class AttributeTest extends DomainTest {
-	
+
+	Attribute untyped = attribute().name(name).ofType(type).value(value).in(language).build();
+
+	Attribute typed = attribute().with(definition().name(name).build()).value(value).build();
+
+	@Before
+	public void before() {
+
+		untyped = like(untyped);
+		typed = like(typed);
+	}
+
 	@Test
 	public void attributesCanBeFluentlyConstructed() {
-		
-		Attribute a = attribute().name(name).value(value).build();
-		
-		assertEquals(name,a.name());
-		assertEquals(value,a.value());
-		assertEquals(DEFAULT_TYPE,a.type());
-		
-		a = attribute().name(name).value(value).ofType(type).build();
-		
-		assertEquals(type,a.type());
-		
-		a = attribute().name(name).value(value).ofType(name).in(language).build();
-		
-		assertEquals(language,a.language());
 
-		//other sentences
-		attribute().name(name).value(value).in(language).build();
+		Attribute minimalUntyped = attribute().name(name).build();
+
+		// defaults, untyped
+		assertNotNull(minimalUntyped.definition()); // private def
+		assertEquals(null, minimalUntyped.value());
+
+		// full untyped: delegates
+		assertEquals(untyped.definition().name(), untyped.name());
+		assertEquals(untyped.definition().type(), untyped.type());
+		assertEquals(untyped.definition().language(), untyped.language());
+
+		// defaults, typed
+
+		Definition def = definition().name(name).build();
+		Attribute minimalTyped = attribute().with(def).build();
+
+		assertEquals(def, minimalTyped.definition());
+		assertEquals(null, minimalTyped.value());
+
 	}
-	
+
 	@Test
 	public void changesetsCanBeFluentlyConstructed() {
 
-		Attribute a;
+		//change name
+		modify(untyped).name(name).build();
 		
-		//new attributes
-		 a =  attribute().name(name).build();
-		 a =  attribute().name(name).value(value).build();
-		 a =  attribute().name(name).value(value).ofType("type").build();
-		 a =  attribute().name(name).value(value).ofType("type").in("en").build();
-		 a =  attribute().name(name).value(value).in("en").build();
-		 
-		 
-		assertFalse(reveal(a).isChangeset());
-		assertNull(reveal(a).status());
-			
-		//modified attributes
-		 a = modifyAttribute("1").name(name).build();
-		 a = modifyAttribute("1").name(name).value(value).build();
-		 a = modifyAttribute("1").ofType("type").build();
-		 a = modifyAttribute("1").ofType("type").in("en").build();
-		 a = modifyAttribute("1").in("en").build();
-
-		assertTrue(reveal(a).isChangeset());
-		assertEquals(MODIFIED,reveal(a).status());		
+		//change value
+		modify(untyped).value(value).build();
 		
-		//removed attributes
-		a = deleteAttribute("1");
+		//change type
+		modify(untyped).ofType(type).build();
+		
+		//change language
+		modify(untyped).in(language).build();
+	
+		Definition newdef = definition().name(name).build();
 
-		assertTrue(reveal(a).isChangeset());
-		assertEquals(DELETED,reveal(a).status());		
+		//change definition
+		modify(typed).with(newdef).build();
+		
+		//change definition and value
+		modifyAttribute("1").with(newdef).value(value).build();
 	}
 
-
+	
 	@Test
-	public void cloned() {
-		
-		Attribute a = like(attribute().name(name).value(value).ofType(type).in(language).build());
-		
-		Attribute.State state = reveal(a).state();
+	public void canBeCloned() {
+
+		//clone untyped
+		Attribute.State state = reveal(untyped).state();
 		AttributeMS clone = new AttributeMS(state);
-		
-		assertEquals(clone,state);
-		
-	}
-	
-	@Test
-	public void emptyChangeset() {
 
-		Attribute a = like(attribute().name(name).value(value).ofType(type).in(language).build());
+		assertEquals(clone, state);
 		
-		Attribute changeset = modifyAttribute(a.id()).build();
-		
-		reveal(a).update(reveal(changeset)); 
+		//clone typed
+		state = reveal(typed).state();
+		clone = new AttributeMS(state);
 
-		assertEquals(name, a.name());
-		assertEquals(value, a.value());
-		assertEquals(type, a.type());
-		assertEquals(language, a.language());
-	}
-	
-	@Test
-	public void changesAttributes() {
-
-		Attribute a = like(attribute().name(name).value(value).ofType(type).in(language).build());
-		
-		Attribute changeset = modifyAttribute(a.id()).name(name2).value(value2).ofType(type2).in(language2).build();
-		
-		reveal(a).update(reveal(changeset));
-
-		assertEquals(name2, a.name());
-		assertEquals(value2, a.value());
-		assertEquals(type2, a.type());
-		assertEquals(language2, a.language());
-	}
-	
-	
-
-	@Test
-	public void cannotErasetNameOfAttributes() {
-
-		
-		Attribute a = like(attribute().name(name).build());
-		Attribute changeset = modifyAttribute(a.id()).name(NULL_QNAME).build();
-		
-		try {
-			reveal(a).update(reveal(changeset));
-			fail();
-		}
-		catch(IllegalArgumentException e) {}
+		assertEquals(clone, state);
 
 	}
 
 	@Test
-	public void erasesValue() {
+	public void canBeUpdated() {
 
-		Attribute a = like(attribute().name(name).value(value).ofType(type).in(language).build());
-		Attribute changeset = modifyAttribute(a.id()).value(NULL_STRING).build();
+		//untyped
 		
-		reveal(a).update(reveal(changeset));
+		Attribute changesetUntyped = modify(untyped).name(name2).value(value2).ofType(type2).in(language2).build();
+
+		reveal(untyped).update(reveal(changesetUntyped));
+
+		assertEquals(changesetUntyped.name(), untyped.name());
+		assertEquals(changesetUntyped.value(), untyped.value());
+		assertEquals(changesetUntyped.type(), untyped.type());
+		assertEquals(changesetUntyped.language(), untyped.language());
 		
-		assertNull(a.value());
-		assertEquals(type,a.type());
-		assertEquals(language,a.language());
+		//typed
+		
+		Definition newdef = definition().name(name2).build();
+
+		Attribute changesetTyped = modify(typed).with(newdef).value(value2).build();
+
+		reveal(typed).update(reveal(changesetTyped));
+
+		assertEquals(changesetTyped.definition(),typed.definition());
+		assertEquals(changesetTyped.value(), typed.value());
 	}
-	
-	@Test
-	public void erasesType() {
 
-		Attribute a = like(attribute().name(name).value(value).ofType(type).in(language).build());
+	@Test(expected=IllegalArgumentException.class)
+	public void cannotErasetName() {
+
+		Attribute changeset = modify(untyped).name(NULL_QNAME).build();
+
+		reveal(untyped).update(reveal(changeset));
 	
-		Attribute changeset = modifyAttribute(a.id()).ofType(NULL_QNAME).build();
-		
-		reveal(a).update(reveal(changeset));
-		
-		assertNull(a.type());
-		assertEquals(name,a.name());
-		assertEquals(language,a.language());
 	}
-	
-	@Test
-	public void erasesLanguage() {
 
-		Attribute a = like(attribute().name(name).value(value).ofType(type).in(language).build());
-	
-		Attribute changeset = modifyAttribute(a.id()).in(NULL_STRING).build();
-		
-		reveal(a).update(reveal(changeset));
-		
-		assertNull(a.language());
-		assertEquals(name,a.name());
-		assertEquals(type,a.type());
+	@Test
+	public void canEraseValue() {
+
+		Attribute changeset = modify(typed).value(NULL_STRING).build();
+
+		reveal(typed).update(reveal(changeset));
+
+		assertNull(typed.value());
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void canEraseType() {
+
+		Attribute changeset = modify(untyped).ofType(NULL_QNAME).build();
+
+		reveal(untyped).update(reveal(changeset));
+	}
+
+	@Test
+	public void canEraseLanguage() {
+
+		Attribute changeset = modify(untyped).in(NULL_STRING).build();
+
+		reveal(untyped).update(reveal(changeset));
+
+		assertNull(untyped.language());
 	}
 }

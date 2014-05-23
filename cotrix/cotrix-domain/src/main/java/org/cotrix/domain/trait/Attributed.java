@@ -6,7 +6,7 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import java.util.Calendar;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 

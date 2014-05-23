@@ -1,11 +1,15 @@
 package org.cotrix.domain.dsl.builder;
 
+import static org.cotrix.domain.dsl.Codes.*;
+
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeDeltaClause;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeStartClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.ValueClause;
 import org.cotrix.domain.memory.AttributeMS;
 
 /**
@@ -14,13 +18,21 @@ import org.cotrix.domain.memory.AttributeMS;
  * @author Fabio Simeoni
  *
  */
-public class AttributeBuilder implements AttributeStartClause, AttributeDeltaClause {
+public class AttributeBuilder implements AttributeNewClause, AttributeChangeClause, ValueClause {
 
 	private final AttributeMS state;
 
 	
 	public AttributeBuilder(AttributeMS state) {
 		this.state = state;
+	}
+	
+	@Override
+	public ValueClause with(Definition type) {
+		
+		state.definition(reveal(type).state());
+		
+		return this;
 	}
 	
 	@Override

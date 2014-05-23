@@ -18,9 +18,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.io.impl.MapTask;
 import org.fao.fi.comet.mapping.dsl.MappingDSL;

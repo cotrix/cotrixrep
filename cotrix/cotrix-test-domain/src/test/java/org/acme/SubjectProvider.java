@@ -6,7 +6,7 @@ import static org.cotrix.domain.dsl.Codes.*;
 import javax.annotation.Priority;
 import javax.enterprise.inject.Alternative;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.NamedStateContainer;
 
 //allows persistence bindings to provide equivalent of in-memory objects 

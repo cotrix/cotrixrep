@@ -8,10 +8,11 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
@@ -49,6 +50,17 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	@Override
 	public CodelistBuilder with(List<Code> codes) {
 		state.codes(reveal(codes,Code.Private.class));
+		return this;
+	}
+	
+	@Override
+	public CodelistBuilder definitions(Definition ... types) {
+		return attributeTypes(asList(types));
+	}
+	
+	@Override
+	public CodelistBuilder attributeTypes(Collection<Definition> types) {
+		state.attributeTypes(reveal(types,Definition.Private.class));
 		return this;
 	}
 	

@@ -9,9 +9,9 @@ import java.text.ParseException;
 import java.util.Calendar;
 
 import org.cotrix.common.Report;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.io.impl.MapTask;
@@ -135,7 +135,6 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		
 		for (Attribute a : attributed.attributes()) {
 			
-
 			String val = a.value();
 			String lang = a.language()==null?"en":a.language();
 			

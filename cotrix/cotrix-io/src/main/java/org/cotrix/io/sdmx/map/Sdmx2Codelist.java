@@ -9,9 +9,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.utils.Constants;
 import org.cotrix.io.impl.MapTask;
 import org.sdmxsource.sdmx.api.model.beans.base.AnnotationBean;
@@ -125,7 +125,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 			attributes.add(attribute().
 							name(directives.get(DESCRIPTION)).
 							value(description.getValue()).
-							ofType(Constants.DEFAULT_TYPE).
+							ofType(Constants.defaultType).
 							in(description.getLocale()).
 							build());
 		
@@ -136,7 +136,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 					annotationBean.getTitle()==null?directives.get(NAME):q(annotationBean.getTitle()):
 					q(annotationBean.getId());
 
-			QName type = annotationBean.getType()==null?Constants.DEFAULT_TYPE:q(annotationBean.getType());
+			QName type = annotationBean.getType()==null?Constants.defaultType:q(annotationBean.getType());
 			
 			for (TextTypeWrapper annotation :  annotationBean.getText()) // create an attribute for each annotation text piece
 				attributes.add(attribute().

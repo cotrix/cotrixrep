@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.io.MapService.MapDirectives;
 import org.virtualrepository.tabular.Table;
 

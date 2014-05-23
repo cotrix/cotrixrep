@@ -4,7 +4,7 @@ import static org.cotrix.common.Report.*;
 import static org.cotrix.common.Report.Item.Type.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
 import org.virtualrepository.tabular.Row;
 

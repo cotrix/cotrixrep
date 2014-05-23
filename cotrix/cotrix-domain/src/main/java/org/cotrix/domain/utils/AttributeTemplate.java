@@ -6,7 +6,7 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 
 public class AttributeTemplate {
 

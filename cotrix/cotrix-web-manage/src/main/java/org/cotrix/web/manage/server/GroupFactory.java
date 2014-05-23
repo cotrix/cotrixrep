@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.utils.Constants;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.manage.shared.AttributeGroup;

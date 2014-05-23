@@ -1,16 +1,16 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.common.OccurrenceRanges.*;
 import static org.cotrix.domain.links.NameLink.*;
-import static org.cotrix.domain.links.OccurrenceRanges.*;
 import static org.cotrix.domain.links.ValueFunctions.*;
 
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.Private;
-import org.cotrix.domain.links.OccurrenceRange;
+import org.cotrix.domain.common.Range;
 import org.cotrix.domain.links.ValueFunction;
-import org.cotrix.domain.links.ValueType;
+import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Status;
 
 /**
@@ -22,9 +22,9 @@ import org.cotrix.domain.trait.Status;
 public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 
 	private Codelist.State target;
-	private ValueType type;
+	private LinkValueType type;
 	private ValueFunction function;
-	private OccurrenceRange range;
+	private Range range;
 	
 	public CodelistLinkMS() {
 		valueType(INSTANCE);
@@ -46,20 +46,20 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 		function(state.function());
 	}
 
-	public ValueType valueType() {
+	public LinkValueType valueType() {
 		return type;
 	}
 	
-	public void valueType(ValueType type) {
+	public void valueType(LinkValueType type) {
 		notNull("link type",type);
 		this.type=type;
 	}
 	
-	public OccurrenceRange range() {
+	public Range range() {
 		return range;
 	}
 	
-	public void range(OccurrenceRange range) {
+	public void range(Range range) {
 		notNull("occurrence range",range);
 		this.range=range;
 	}

@@ -1,146 +1,108 @@
 package org.acme.codelists;
 
-import static org.junit.Assert.*;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.trait.Status.*;
+import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.memory.CodeMS;
+import org.junit.Before;
 import org.junit.Test;
 
 public class CodeTest extends DomainTest {
 
+	Code targetcode = code().name(name2).build();
+	Codelist target = codelist().name(name).with(targetcode).build();
+
+	
+	Attribute attr = attribute().name(name).build();
+	CodelistLink listlink = listLink().name(name).target(target).build();
+	Codelink link = link().instanceOf(listlink).target(targetcode).build();
+	
+	Code code = code()
+					.name(name)
+					.attributes(attr)
+					.links(link)
+					.build();
+	
+	@Before
+	public void stage() {
+		
+		target = like(target);
+		listlink = like(listlink);
+		code = like(code);
+	}
+	
 	@Test
 	public void codesCanBeFluentlyConstructed() {
 		
-		Code code = code().name(name).build();
+		//minimal
+		Code minimal = code().name(name).build();
 		
-		assertEquals(name,code.name());
+		assertNotNull(minimal.attributes());
+		assertNotNull(minimal.links());
 		
-		Attribute a = attribute().name(name).value(value).ofType(type).build();
+		//full
 		
-		code = code().name(name).attributes(a).build();
-		
-		assertTrue(code.attributes().contains(a));
+		assertTrue(code.attributes().contains(attr));
+		assertTrue(code.links().contains(link));
+		assertTrue(code.attributes().contains(attr));
 	}
 	
 	
 	@Test
 	public void changesetsCanBeFluentlyConstructed() {
 		
+		//change links
+		modify(code).name(name).build();
 		
-		Attribute a = attribute().name("name").build();
-		Attribute added = attribute().name("name").build();
-		Attribute modified = modifyAttribute("1").name("name").build();
-		Attribute deleted = deleteAttribute("1");
+		//change attributes
+		modify(code).attributes(attr).build();
 		
-		Code c;
-
-		//new codes
-		c = code().name(name).build();
-		c = code().name(name).attributes(a).build();
-
-		assertEquals(null,reveal(c).status());
-		
-		
-		c = modifyCode("1").attributes(modified,added,deleted).build();
-		
-		//changed
-		assertEquals(MODIFIED,reveal(c).status());
-		
-		c = deleteCode("1");
-
-		assertEquals(DELETED,reveal(c).status());
+		//change links
+		modify(code).links(link).build();
+				
+		delete(code);
 	}
 	
 	
 	@Test
-	public void cloned() {
+	public void canBeCloned() {
 		
-		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
-		Code c = like(code().name(name).attributes(a).build());
-		
-		Code.State state = reveal(c).state();
+		Code.State state = reveal(code).state();
 		CodeMS clone = new CodeMS(state);
 		
 		assertEquals(state.name(),clone.name());
+		assertTrue(clone.attributes().contains(attr.name()));
+		assertTrue(clone.links().contains(link.name()));
 		
-		for (Attribute.State attr : clone.attributes()) {
-			//System.out.println(attr.name());
-			assertTrue(clone.attributes().contains(attr.name()));
-		}
 		
 	}
 	
 	@Test
-	public void changeName() {
-
-		Code code = like(code().name(name).build());
+	public void canBeUpdated() {
 		
-		Code changeset = modifyCode(code.id()).name(name2).build();
+		//don't need to re-test containers here
+		//the simplest proof that update reaches them will do
 		
-		reveal(code).update(reveal(changeset));
-		
-		assertEquals(name2,code.name());
-		
-	}
-
-
-	@Test
-	public void addAttribute() {
-
-		Code code = like(code().name(name).build());
-		
-		Attribute added = attribute().name(name).build();
-
-		assertFalse(code.attributes().contains(added));
-		
-		Code changeset = modifyCode(code.id()).attributes(added).build();
+		Code changeset = modify(code)
+							.name(name2)
+							.attributes(delete(attr))
+							.links(delete(link))
+							.build();
 		
 		reveal(code).update(reveal(changeset));
 		
-		assertTrue(code.attributes().contains(added));
+		assertEquals(changeset.name(),code.name());
+		
+		assertFalse(code.attributes().contains(attr.name()));
+		assertFalse(code.links().contains(link.name()));
 		
 	}
 	
-	@Test
-	public void removeAttribute() {
-
-		Attribute a = attribute().name(name).build();
-		
-		Code code = like(code().name(name).attributes(a).build());
-		
-		assertTrue(code.attributes().contains(a));
-		
-		Attribute deleted = deleteAttribute(a.id());
-
-		Code changeset = modifyCode(code.id()).attributes(deleted).build();
-		
-		reveal(code).update(reveal(changeset));
-
-		assertFalse(code.attributes().contains(a));
-		
-	}
-	
-	@Test
-	public void updateAttribute() {
-
-		Attribute a = attribute().name(name).build();
-		
-		Code code = like(code().name(name).attributes(a).build());
-		
-		assertTrue(code.attributes().contains(a));
-		
-		Attribute modified = modifyAttribute(a.id()).name(name2).build();
-
-		Code changeset = modifyCode(code.id()).attributes(modified).build();
-		
-		reveal(code).update(reveal(changeset));
-
-		assertNotNull(code.attributes().lookup(name2));
-		
-	}
 }

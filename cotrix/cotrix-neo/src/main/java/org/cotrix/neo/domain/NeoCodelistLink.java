@@ -10,12 +10,12 @@ import static org.neo4j.graphdb.Direction.*;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.common.Range;
+import org.cotrix.domain.common.OccurrenceRanges;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.links.OccurrenceRange;
-import org.cotrix.domain.links.OccurrenceRanges;
 import org.cotrix.domain.links.ValueFunction;
-import org.cotrix.domain.links.ValueType;
+import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
@@ -80,11 +80,11 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	}
 	
 	@Override
-	public ValueType valueType() {
+	public LinkValueType valueType() {
 		
 		//attribute-based: retrieve as blob
 		if (node().hasProperty(type_prop))
-			return (ValueType) binder().fromXML((String) node().getProperty(type_prop));
+			return (LinkValueType) binder().fromXML((String) node().getProperty(type_prop));
 		
 		//link-based: retrieve as link
 		Relationship rel = node().getSingleRelationship(Relations.LOL,OUTGOING);
@@ -97,7 +97,7 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	}
 	
 	@Override
-	public void valueType(ValueType state) {
+	public void valueType(LinkValueType state) {
 		
 		//name-based: store nothing  
 		if (state==NameLink.INSTANCE) {
@@ -143,15 +143,15 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 	}
 	
 	@Override
-	public OccurrenceRange range() {
+	public Range range() {
 		
 		return node().hasProperty(range_prop)? 
-					(OccurrenceRange) binder().fromXML((String) node().getProperty(range_prop))
+					(Range) binder().fromXML((String) node().getProperty(range_prop))
 					:OccurrenceRanges.arbitrarily;
 	}
 	
 	@Override
-	public void range(OccurrenceRange type) {
+	public void range(Range type) {
 		
 		if(type!=OccurrenceRanges.arbitrarily)
 			node().setProperty(range_prop,binder().toXML(type));
