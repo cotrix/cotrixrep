@@ -6,7 +6,7 @@ package org.cotrix.web.manage.client.codelist.attribute;
 import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
 import org.cotrix.web.common.shared.Language;
-import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
+import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 public class AttributeDetailsPanel extends Composite implements HasValueChangeHandlers<Void>{
 
 	public static final String CODE_NAME_VALUE_TYPE = Document.get().createUniqueId();
-	public static final CodeNameType CODE_NAME_TYPE = new CodeNameType();
+	public static final CodeNameValue CODE_NAME_TYPE = new CodeNameValue();
 
 	private static AtttributeDetailsPanelUiBinder uiBinder = GWT.create(AtttributeDetailsPanelUiBinder.class);
 

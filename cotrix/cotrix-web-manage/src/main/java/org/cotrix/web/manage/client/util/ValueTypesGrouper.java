@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.cotrix.web.common.client.util.ValueUtils;
-import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.LinkType;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
+import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 
 /**
@@ -29,40 +29,40 @@ public class ValueTypesGrouper {
 		public String suffix();
 	}
 	
-	private enum AttributeTypeGroupKeyFunction implements GroupKeyFunction<AttributeType> {
+	private enum AttributeTypeGroupKeyFunction implements GroupKeyFunction<AttributeValue> {
 		NAME("","") {
 			@Override
-			public String getGroupKey(AttributeType type) {
+			public String getGroupKey(AttributeValue type) {
 				return ValueUtils.getLocalPart(type.getName());
 			}
 
 			@Override
-			public GroupKeyFunction<AttributeType> nextFunction() {
+			public GroupKeyFunction<AttributeValue> nextFunction() {
 				return LANGUAGE;
 			}
 		},
 		LANGUAGE("[","]") {
 
 			@Override
-			public String getGroupKey(AttributeType type) {
+			public String getGroupKey(AttributeValue type) {
 				return type.getLanguage();
 			}
 			
 
 			@Override
-			public GroupKeyFunction<AttributeType> nextFunction() {
+			public GroupKeyFunction<AttributeValue> nextFunction() {
 				return TYPE;
 			}
 		},
 		TYPE("{","}") {
 
 			@Override
-			public String getGroupKey(AttributeType type) {
+			public String getGroupKey(AttributeValue type) {
 				return ValueUtils.getLocalPart(type.getType());
 			}
 
 			@Override
-			public GroupKeyFunction<AttributeType> nextFunction() {
+			public GroupKeyFunction<AttributeValue> nextFunction() {
 				return null;
 			}
 			
@@ -85,15 +85,15 @@ public class ValueTypesGrouper {
 		}
 	}
 	
-	private enum LinkTypeGroupKeyFunction implements GroupKeyFunction<LinkType> {
+	private enum LinkTypeGroupKeyFunction implements GroupKeyFunction<LinkValue> {
 			NAME("","") {
 				@Override
-				public String getGroupKey(LinkType type) {
+				public String getGroupKey(LinkValue type) {
 					return ValueUtils.getLocalPart(type.getName());
 				}
 
 				@Override
-				public GroupKeyFunction<LinkType> nextFunction() {
+				public GroupKeyFunction<LinkValue> nextFunction() {
 					return null;
 				}
 			}/*,
@@ -143,11 +143,11 @@ public class ValueTypesGrouper {
 		}
 	}
 	
-	public static Map<LinkType, String> generateLabelsForLinkTypes(List<LinkType> linkTypes) {
+	public static Map<LinkValue, String> generateLabelsForLinkTypes(List<LinkValue> linkTypes) {
 		return generateLabels(linkTypes, LinkTypeGroupKeyFunction.NAME);
 	}
 	
-	public static Map<AttributeType, String> generateLabelsForAttributeTypes(List<AttributeType> attributeTypes) {
+	public static Map<AttributeValue, String> generateLabelsForAttributeTypes(List<AttributeValue> attributeTypes) {
 		return generateLabels(attributeTypes, AttributeTypeGroupKeyFunction.NAME);
 	}
 	

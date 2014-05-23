@@ -27,9 +27,9 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
-import org.cotrix.web.common.shared.codelist.linktype.LinkType;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
+import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
+import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
@@ -104,18 +104,18 @@ public class ChangesetUtil {
 		
 		OptionalClause clause = null;
 		
-		if (valueType instanceof CodeNameType) {
+		if (valueType instanceof CodeNameValue) {
 			clause = listLink().name(convert(linkType.getName())).target(target).anchorToName();
 		}
 		
-		if (valueType instanceof AttributeType) {
-			AttributeType attributeType = (AttributeType) valueType;
+		if (valueType instanceof AttributeValue) {
+			AttributeValue attributeType = (AttributeValue) valueType;
 			Attribute template = toAttribute(attributeType);
 			clause = listLink().name(convert(linkType.getName())).target(target).anchorTo(template);
 		}
 		
-		if (valueType instanceof LinkType) {
-			LinkType link = (LinkType) valueType;
+		if (valueType instanceof LinkValue) {
+			LinkValue link = (LinkValue) valueType;
 			CodelistLink codelistLink = findCodelistLink(link.getLinkId(), target.links());
 			clause = listLink().name(convert(linkType.getName())).target(target).anchorTo(codelistLink);
 		}
@@ -156,18 +156,18 @@ public class ChangesetUtil {
 		
 		OptionalClause clause = null;
 		
-		if (valueType instanceof CodeNameType) {
+		if (valueType instanceof CodeNameValue) {
 			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorToName();
 		}
 		
-		if (valueType instanceof AttributeType) {
-			AttributeType attributeType = (AttributeType) valueType;
+		if (valueType instanceof AttributeValue) {
+			AttributeValue attributeType = (AttributeValue) valueType;
 			Attribute template = toAttribute(attributeType);
 			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorTo(template);
 		}
 		
-		if (valueType instanceof LinkType) {
-			LinkType link = (LinkType) valueType;
+		if (valueType instanceof LinkValue) {
+			LinkValue link = (LinkValue) valueType;
 			CodelistLink codelistLink = findCodelistLink(link.getLinkId(), target.links());
 			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorTo(codelistLink);
 		}
@@ -213,7 +213,7 @@ public class ChangesetUtil {
 		return changeSet;
 	}
 	
-	private static Attribute toAttribute(AttributeType attributeType) {
+	private static Attribute toAttribute(AttributeValue attributeType) {
 		return attribute().name(convert(attributeType.getName()))
 				.ofType(convert(attributeType.getType())).in(convert(attributeType.getLanguage())).build();
 	}

@@ -13,7 +13,7 @@ import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
+import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
@@ -57,7 +57,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHandlers<Void>{
 
 	public static final String CODE_NAME_VALUE_TYPE = Document.get().createUniqueId();
-	public static final CodeNameType CODE_NAME_TYPE = new CodeNameType();
+	public static final CodeNameValue CODE_NAME_TYPE = new CodeNameValue();
 
 	private static LinkTypeDetailsPanelUiBinder uiBinder = GWT.create(LinkTypeDetailsPanelUiBinder.class);
 

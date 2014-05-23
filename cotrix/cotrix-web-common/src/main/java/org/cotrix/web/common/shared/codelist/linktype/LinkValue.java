@@ -12,14 +12,14 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkType implements UIValueType, IsSerializable {
+public class LinkValue implements UIValueType, IsSerializable {
 	
 	private UIQName name;
 	private String linkId;
 	
-	public LinkType(){}
+	public LinkValue(){}
 
-	public LinkType(String linkId, UIQName name) {
+	public LinkValue(String linkId, UIQName name) {
 		this.linkId = linkId;
 		this.name = name;
 	}
@@ -63,7 +63,7 @@ public class LinkType implements UIValueType, IsSerializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LinkType other = (LinkType) obj;
+		LinkValue other = (LinkValue) obj;
 		if (linkId == null) {
 			if (other.linkId != null)
 				return false;

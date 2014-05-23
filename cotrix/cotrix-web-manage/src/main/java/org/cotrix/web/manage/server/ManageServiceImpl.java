@@ -50,8 +50,8 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.LinkType;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
+import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.ApplicationFeatures;
@@ -332,14 +332,14 @@ public class ManageServiceImpl implements ManageService {
 		CodelistSummary summary = repository.get(summary(codelistId));
 
 		//FIXME namespace lost in BE
-		List<AttributeType> attributeTypes = new ArrayList<>();
+		List<AttributeValue> attributeTypes = new ArrayList<>();
 		for (QName name:summary.codeNames()) {
 			for (QName type:summary.codeTypesFor(name)) {
 				Collection<String> languages = summary.codeLanguagesFor(name, type);
-				if (languages.isEmpty()) attributeTypes.add(new AttributeType(ValueUtils.safeValue(name), ValueUtils.safeValue(type), ""));
+				if (languages.isEmpty()) attributeTypes.add(new AttributeValue(ValueUtils.safeValue(name), ValueUtils.safeValue(type), ""));
 				else {
 					for (String language:languages) {
-						attributeTypes.add(new AttributeType(ValueUtils.safeValue(name), ValueUtils.safeValue(type), language));
+						attributeTypes.add(new AttributeValue(ValueUtils.safeValue(name), ValueUtils.safeValue(type), language));
 					}
 				}
 			}
@@ -348,7 +348,7 @@ public class ManageServiceImpl implements ManageService {
 		
 		Codelist codelist = repository.lookup(codelistId);
 
-		List<LinkType> types = new ArrayList<>();
+		List<LinkValue> types = new ArrayList<>();
 		for (CodelistLink codelistLink:codelist.links()) {
 			types.add(LinkTypes.toLinkType(codelistLink));
 		}

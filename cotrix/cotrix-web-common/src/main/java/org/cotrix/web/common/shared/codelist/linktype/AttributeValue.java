@@ -12,20 +12,20 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class AttributeType implements UIValueType, IsSerializable {
+public class AttributeValue implements UIValueType, IsSerializable {
 	
 	private UIQName name;
 	private UIQName type;
 	private String language;
 	
-	public AttributeType(){}
+	public AttributeValue(){}
 
 	/**
 	 * @param name
 	 * @param type
 	 * @param language
 	 */
-	public AttributeType(UIQName name, UIQName type, String language) {
+	public AttributeValue(UIQName name, UIQName type, String language) {
 		this.name = name;
 		this.type = type;
 		this.language = language;
@@ -98,7 +98,7 @@ public class AttributeType implements UIValueType, IsSerializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AttributeType other = (AttributeType) obj;
+		AttributeValue other = (AttributeValue) obj;
 		if (language == null) {
 			if (other.language != null)
 				return false;

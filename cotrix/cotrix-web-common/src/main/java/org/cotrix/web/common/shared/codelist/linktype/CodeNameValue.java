@@ -11,20 +11,20 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeNameType implements UIValueType, IsSerializable {
+public class CodeNameValue implements UIValueType, IsSerializable {
 	
-	public CodeNameType() {}
+	public CodeNameValue() {}
 
 	/** 
 	 * {@inheritDoc}
 	 */
 	@Override
 	public int hashCode() {
-		return CodeNameType.class.hashCode();
+		return CodeNameValue.class.hashCode();
 	}
 
 	public boolean equals(Object type) {
-		return type instanceof CodeNameType;
+		return type instanceof CodeNameValue;
 	}
 
 	/** 

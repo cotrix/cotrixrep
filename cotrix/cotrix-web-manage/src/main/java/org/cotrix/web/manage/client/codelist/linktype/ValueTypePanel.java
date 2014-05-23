@@ -11,9 +11,9 @@ import java.util.Map.Entry;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.util.ListBoxUtils;
 import org.cotrix.web.common.client.widgets.EditableLabel;
-import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
-import org.cotrix.web.common.shared.codelist.linktype.LinkType;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
+import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
+import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.manage.client.util.ValueTypesGrouper;
 import org.cotrix.web.manage.shared.CodelistValueTypes;
@@ -41,7 +41,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ValueTypePanel extends Composite implements HasValueChangeHandlers<UIValueType> {
 	
 	public static final String CODE_NAME_VALUE_TYPE = Document.get().createUniqueId();
-	public static final CodeNameType CODE_NAME_TYPE = new CodeNameType();
+	public static final CodeNameValue CODE_NAME_TYPE = new CodeNameValue();
 
 	private static ValueTypePanelUiBinder uiBinder = GWT.create(ValueTypePanelUiBinder.class);
 
@@ -138,14 +138,14 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 		
 		addValueTypeCode();
 		
-		List<AttributeType> attributeTypes = codelistValueTypes.getAttributeTypes();
-		if (selectedType!=null && selectedType instanceof AttributeType && !attributeTypes.contains(selectedType)) attributeTypes.add((AttributeType) selectedType);
-		Map<AttributeType, String> attributeTypesLabels = ValueTypesGrouper.generateLabelsForAttributeTypes(attributeTypes);
+		List<AttributeValue> attributeTypes = codelistValueTypes.getAttributeTypes();
+		if (selectedType!=null && selectedType instanceof AttributeValue && !attributeTypes.contains(selectedType)) attributeTypes.add((AttributeValue) selectedType);
+		Map<AttributeValue, String> attributeTypesLabels = ValueTypesGrouper.generateLabelsForAttributeTypes(attributeTypes);
 		addValueTypeItems(attributeTypesLabels);
 		
-		List<LinkType> linkTypes = codelistValueTypes.getLinkTypes();
-		if (selectedType!=null && selectedType instanceof LinkType && !linkTypes.contains(selectedType)) linkTypes.add((LinkType) selectedType);
-		Map<LinkType, String> linkTypesLabels = ValueTypesGrouper.generateLabelsForLinkTypes(linkTypes);
+		List<LinkValue> linkTypes = codelistValueTypes.getLinkTypes();
+		if (selectedType!=null && selectedType instanceof LinkValue && !linkTypes.contains(selectedType)) linkTypes.add((LinkValue) selectedType);
+		Map<LinkValue, String> linkTypesLabels = ValueTypesGrouper.generateLabelsForLinkTypes(linkTypes);
 		addValueTypeItems(linkTypesLabels);
 	}
 	
