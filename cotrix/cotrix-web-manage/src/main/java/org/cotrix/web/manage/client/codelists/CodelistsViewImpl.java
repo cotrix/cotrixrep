@@ -1,6 +1,8 @@
 package org.cotrix.web.manage.client.codelists;
 
+import org.cotrix.web.common.client.util.DataUpdatedEvent.DataUpdatedHandler;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider.Filter;
+import org.cotrix.web.common.client.util.DataUpdatedEvent;
 import org.cotrix.web.common.client.util.SingleSelectionModel;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.SearchBox;
@@ -11,7 +13,6 @@ import org.cotrix.web.manage.client.resources.CodelistsResources;
 import org.cotrix.web.manage.shared.CodelistGroup;
 import org.cotrix.web.manage.shared.CodelistGroup.Version;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -40,38 +41,47 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 
 	@UiTemplate("CodelistsView.ui.xml")
 	interface CodeListsViewUiBinder extends UiBinder<Widget, CodelistsViewImpl> {}
-	
+
 	protected interface TreeMessages extends CellTreeMessages {
 
-	    @DefaultMessage("no matches")
-	    String emptyTree();
+		@DefaultMessage("no matches")
+		String emptyTree();
 	}
-	
+
 	@UiField SearchBox filterTextBox;
 
 	@UiField(provided=true) 
 	CustomCellTree codelists;
-	
+
 	@UiField CodelistsToolbar toolbar;
 
 	private CodelistsDataProvider codeListDataProvider;
-	
+
 	private Presenter presenter;
 
 	private SingleSelectionModel<Version> selectionModel;
-	
+
 	private CodelistsResources resources;
 
 	@Inject
-	public CodelistsViewImpl(CodelistsDataProvider codeListDataProvider, CodelistsResources resources) {
+	public CodelistsViewImpl(final CodelistsDataProvider codeListDataProvider, CodelistsResources resources) {
 		this.codeListDataProvider = codeListDataProvider;
 		this.resources = resources;
 		setupCellList();
 		initWidget(uiBinder.createAndBindUi(this));
-		toolbar.setVisible(ToolBarButton.MINUS, false);
-		toolbar.setVisible(ToolBarButton.VERSION, false);
+
+		codeListDataProvider.addDataUpdatedHandler(new DataUpdatedHandler() {
+
+			@Override
+			public void onDataUpdated(DataUpdatedEvent event) {
+				Version selected = selectionModel.getSelectedObject();
+				if (selected!=null && !codeListDataProvider.containsVersion(selected)) {
+					selectionModel.clear();
+				}
+			}
+		});
 	}
-	
+
 	@UiHandler("toolbar")
 	void onButtonClicked(ButtonClickedEvent event) {
 		switch (event.getButton()) {
@@ -88,53 +98,55 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 			}
 		}
 	}
-	
+
 	@UiHandler("filterTextBox")
 	protected void onValueChange(ValueChangeEvent<String> event) {
-		Log.trace("onKeyUp value: "+filterTextBox.getValue());
 		updateFilter(filterTextBox.getValue());
 	}
-	
+
 	protected void setupCellList()
 	{
 		selectionModel = new SingleSelectionModel<Version>();
-	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-	      public void onSelectionChange(SelectionChangeEvent event) {
-	    	  System.out.println("SELECTED "+event);
-	    	  Version selected = selectionModel.getSelectedObject();
-	    	  presenter.onCodelistItemSelected((selected != null)?selected.toUICodelist():null);
-	      }
-	    });
-	    
-	    TreeMessages treeMessages = GWT.create(TreeMessages.class); 
+		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+			public void onSelectionChange(SelectionChangeEvent event) {
+				fireSelection();
+			}
+		});
+
+		TreeMessages treeMessages = GWT.create(TreeMessages.class); 
 		codelists = new CustomCellTree(new CodelistTreeModel(codeListDataProvider, selectionModel), null, resources, treeMessages);
-		
+
 		//codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		codelists.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
+	}
+
+	private void fireSelection() {
+		Version selected = selectionModel.getSelectedObject();
+		presenter.onCodelistItemSelected((selected != null)?selected.toUICodelist():null);
 	}
 
 	public void setPresenter(Presenter presenter) {
 		this.presenter = presenter;
 	}
-	
+
 	@Override
 	public void setAddCodelistVisible(boolean visible)
 	{
 		toolbar.setVisible(ToolBarButton.PLUS, visible);
 	}
-	
+
 	@Override
 	public void setVersionCodelistVisible(boolean visible)
 	{
 		toolbar.setVisible(ToolBarButton.VERSION, visible);
 	}
-	
+
 	@Override
 	public void setRemoveCodelistVisible(boolean visible)
 	{
 		toolbar.setVisible(ToolBarButton.MINUS, visible);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	protected void updateFilter(String filter)
 	{
@@ -143,12 +155,12 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 			codeListDataProvider.applyFilters(new ByNameFilter(filter));
 		}
 	}
-	
+
 	public void refresh()
 	{
 		codeListDataProvider.loadData();
 	}
-	
+
 	protected class CodeListCell extends AbstractCell<UICodelist> {
 
 		@Override
@@ -156,9 +168,9 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 			sb.appendEscaped(ValueUtils.getLocalPart(value.getName()));
 		}
 	}
-	
+
 	protected class ByNameFilter implements Filter<CodelistGroup> {
-		
+
 		protected String name;
 
 		/**
@@ -172,6 +184,6 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 		public boolean accept(CodelistGroup data) {
 			return ValueUtils.getLocalPart(data.getName()).toUpperCase().contains(name);
 		}
-		
+
 	}
 }

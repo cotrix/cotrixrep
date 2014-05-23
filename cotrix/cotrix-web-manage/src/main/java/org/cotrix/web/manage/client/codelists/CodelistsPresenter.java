@@ -54,6 +54,7 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	public CodelistsPresenter(CodelistsView view) {
 		this.view = view;
 		this.view.setPresenter(this);
+		cleanButtonsState();
 	}
 	
 	@Inject
@@ -139,8 +140,15 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	 * {@inheritDoc}
 	 */
 	public void onCodelistItemSelected(UICodelist codelist) {
+		Log.trace("onCodelistItemSelected codelist: "+codelist);
 		lastSelected = codelist;
 		if (codelist!=null) managerBus.fireEvent(new OpenCodelistEvent(codelist));
+		else cleanButtonsState();
+	}
+	
+	private void cleanButtonsState() {
+		view.setRemoveCodelistVisible(false);
+		view.setVersionCodelistVisible(false);
 	}
 
 	public void refreshCodeLists() {
