@@ -1,5 +1,6 @@
 package org.cotrix.domain.dsl;
 
+import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.trait.Status.*;
 
 import java.util.Arrays;
@@ -29,7 +30,7 @@ import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
 import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionChangeClause;
 import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionNewClause;
-import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
+import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkNewClause;
@@ -72,6 +73,7 @@ public class Codes {
 	}
 	
 	public static AttributeChangeClause modify(Attribute attribute) {
+		notNull("attribute",attribute);
 		return modifyAttribute(attribute.id());
 	}
 	
@@ -80,6 +82,7 @@ public class Codes {
 	}
 	
 	public static Attribute delete(Attribute attribute) {
+		notNull("attribute",attribute);
 		return deleteAttribute(attribute.id());
 	}
 	
@@ -92,6 +95,7 @@ public class Codes {
 	}
 	
 	public static DefinitionChangeClause modify(Definition def) {
+		notNull("definition",def);
 		return modifyDefinition(def.id());
 	}
 	
@@ -100,6 +104,7 @@ public class Codes {
 	}
 	
 	public static Definition delete(Definition def) {
+		notNull("definition",def);
 		return deleteDefinition(def.id());
 	}
 	
@@ -120,12 +125,22 @@ public class Codes {
 		return new CodeBuilder(new CodeMS());
 	}
 	
-	public static CodeDeltaClause modifyCode(String id) {
+	public static CodeChangeClause modifyCode(String id) {
 		return new CodeBuilder(new CodeMS(id,MODIFIED));
+	}
+	
+	public static CodeChangeClause modify(Code code) {
+		notNull("code",code);
+		return modifyCode(code.id());
 	}
 	
 	public static Code deleteCode(String id) {
 		return new CodeMS(id,DELETED).entity();
+	}
+	
+	public static Code delete(Code code) {
+		notNull("code",code);
+		return deleteCode(code.id());
 	}
 	
 	
@@ -137,6 +152,11 @@ public class Codes {
 	public static CodelistChangeClause modifyCodelist(String id) {
 		return new CodelistBuilder(new CodelistMS(id,MODIFIED));
 	}
+	
+	public static CodelistChangeClause modify(Codelist list) {
+		notNull("codelist",list);
+		return modifyCodelist(list.id());
+	}
 		
 	public static CodelinkNewClause link() {
 		return new CodelinkBuilder(new CodelinkMS()).new NewClause();
@@ -146,11 +166,21 @@ public class Codes {
 		return new CodelinkBuilder(new CodelinkMS(id,MODIFIED));
 	}
 	
+	public static CodelinkChangeClause modify(Codelink link) {
+		notNull("code link",link);
+		return modifyLink(link.id());
+	}
 
 	public static Codelink deleteLink(String id) {
 		return new CodelinkMS(id,DELETED).entity();
 	}
 
+	public static Codelink delete(Codelink link) {
+		notNull("code link",link);
+		return deleteLink(link.id());
+	}
+	
+	
 	public static CodelistLinkNewClause listLink() {
 		return new CodelistLinkBuilder(new CodelistLinkMS()).new NewClause();
 	}
@@ -159,8 +189,18 @@ public class Codes {
 		return new CodelistLinkBuilder(new CodelistLinkMS(id, MODIFIED)).new ChangeClause();
 	}
 	
+	public static CodelistLinkChangeClause modify(CodelistLink link) {
+		notNull("codelist link",link);
+		return modifyListLink(link.id());
+	}
+	
 	public static CodelistLink deleteListLink(String id) {
 		return new CodelistLinkMS(id, DELETED).entity();
+	}
+	
+	public static CodelistLink delete(CodelistLink link) {
+		notNull("codelist link",link);
+		return deleteListLink(link.id());
 	}
 	
 	//simplifies construction through method parameter inference (not available on constructors in Java 6..)
@@ -201,27 +241,33 @@ public class Codes {
 		return namedContainer(namedBeans(elements));
 	}
 	
-	public static Attribute.Private reveal(Attribute a) {
-		return Utils.reveal(a,Attribute.Private.class);
+	public static Attribute.Private reveal(Attribute attribute) {
+		notNull("attribute",attribute);
+		return Utils.reveal(attribute,Attribute.Private.class);
 	}
 	
-	public static Definition.Private reveal(Definition a) {
-		return Utils.reveal(a,Definition.Private.class);
+	public static Definition.Private reveal(Definition definition) {
+		notNull("definition",definition);
+		return Utils.reveal(definition,Definition.Private.class);
 	}
 	
-	public static Code.Private reveal(Code c) {
-		return Utils.reveal(c,Code.Private.class);
+	public static Code.Private reveal(Code code) {
+		notNull("code",code);
+		return Utils.reveal(code,Code.Private.class);
 	}
 	
-	public static Codelist.Private reveal(Codelist c) {
-		return Utils.reveal(c,Codelist.Private.class);
+	public static Codelist.Private reveal(Codelist codelist) {
+		notNull("codelist",codelist);
+		return Utils.reveal(codelist,Codelist.Private.class);
 	}
 	
-	public static CodelistLink.Private reveal(CodelistLink l) {
-		return Utils.reveal(l,CodelistLink.Private.class);
+	public static CodelistLink.Private reveal(CodelistLink link) {
+		notNull("codelist link",link);
+		return Utils.reveal(link,CodelistLink.Private.class);
 	}
 	
-	public static Codelink.Private reveal(Codelink l) {
-		return Utils.reveal(l,Codelink.Private.class);
+	public static Codelink.Private reveal(Codelink link) {
+		notNull("code link",link);
+		return Utils.reveal(link,Codelink.Private.class);
 	}
 }

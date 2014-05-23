@@ -16,7 +16,7 @@ public class CodeGrammar {
 
 	public static interface CodeNewClause extends NameClause<OptionalClause>  {}
 	
-	public static interface CodeDeltaClause extends NameClause<OptionalClause>, OptionalClause {}
+	public static interface CodeChangeClause extends NameClause<OptionalClause>, OptionalClause {}
 
 	public static interface OptionalClause extends LinksClause<Codelink,OptionalClause>, AttributeClause<Code,OptionalClause> {}
 }
