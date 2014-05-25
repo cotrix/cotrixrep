@@ -1,12 +1,12 @@
 package org.cotrix.domain.codelist;
 
 import org.cotrix.domain.common.Range;
-import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.values.ValueFunction;
 
 
 public interface CodelistLink extends Identified, Attributed, Named {

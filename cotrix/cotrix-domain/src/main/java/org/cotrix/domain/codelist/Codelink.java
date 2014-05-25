@@ -6,11 +6,11 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.values.ValueFunction;
 
 /**
  * An {@link Identified} and {@link Attributed} instance of a

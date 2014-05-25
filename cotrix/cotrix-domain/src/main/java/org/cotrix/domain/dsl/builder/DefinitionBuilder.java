@@ -3,13 +3,13 @@ package org.cotrix.domain.dsl.builder;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Definition;
-import org.cotrix.domain.attributes.ValueType;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionChangeClause;
 import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionNewClause;
 import org.cotrix.domain.dsl.grammar.DefinitionGrammar.OptionalClause;
 import org.cotrix.domain.memory.DefinitionMS;
+import org.cotrix.domain.values.ValueType;
 
 /**
  * Builds attribute {@link Definition}s.

@@ -9,7 +9,7 @@ import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
-import org.cotrix.domain.links.ValueFunction;
+import org.cotrix.domain.values.ValueFunction;
 
 /**
  * The grammar of DSL sentences that create {@link Code}s.

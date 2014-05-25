@@ -10,8 +10,8 @@ import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Definition;
-import org.cotrix.domain.attributes.ValueType;
 import org.cotrix.domain.memory.DefinitionMS;
+import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
 import org.junit.Test;
 

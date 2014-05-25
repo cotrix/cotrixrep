@@ -6,9 +6,9 @@ import static org.cotrix.domain.utils.Constants.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Definition;
-import org.cotrix.domain.attributes.ValueType;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.Status;
+import org.cotrix.domain.values.ValueType;
 
 public final class DefinitionMS extends IdentifiedMS implements Definition.State {
 

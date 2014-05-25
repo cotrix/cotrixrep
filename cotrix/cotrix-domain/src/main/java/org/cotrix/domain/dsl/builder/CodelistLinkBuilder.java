@@ -21,9 +21,9 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.utils.AttributeTemplate;
+import org.cotrix.domain.values.ValueFunction;
 
 /**
  * Builds {@link Attribute}s.

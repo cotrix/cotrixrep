@@ -1,4 +1,4 @@
-package org.cotrix.domain.links;
+package org.cotrix.domain.values;
 
 import static org.cotrix.domain.utils.ScriptEngineProvider.*;
 

@@ -7,8 +7,8 @@ import static org.cotrix.neo.domain.Constants.NodeType.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Definition;
-import org.cotrix.domain.attributes.ValueType;
 import org.cotrix.domain.common.Range;
+import org.cotrix.domain.values.ValueType;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 

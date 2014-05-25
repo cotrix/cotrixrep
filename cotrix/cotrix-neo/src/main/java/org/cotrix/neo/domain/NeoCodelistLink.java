@@ -1,7 +1,7 @@
 package org.cotrix.neo.domain;
 
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.links.ValueFunctions.*;
+import static org.cotrix.domain.values.ValueFunctions.*;
 import static org.cotrix.neo.NeoUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
@@ -14,8 +14,8 @@ import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.LinkValueType;
+import org.cotrix.domain.values.ValueFunction;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
