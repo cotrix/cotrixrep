@@ -1,6 +1,6 @@
 package org.cotrix.domain.validation;
 
-public class Constraint {
+public final class Constraint {
 
 	
 	private final String expression;

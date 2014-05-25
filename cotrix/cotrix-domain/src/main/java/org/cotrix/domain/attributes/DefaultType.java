@@ -1,6 +1,5 @@
 package org.cotrix.domain.attributes;
 
-import static java.lang.String.*;
 import static java.util.Arrays.*;
 import static org.cotrix.domain.utils.ScriptEngineProvider.*;
 
@@ -8,17 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.domain.validation.Constraint;
+import org.cotrix.domain.validation.Constraints;
 import org.cotrix.domain.values.ValueType;
 
 public class DefaultType implements ValueType {
 	
-	private static String conditionTemplate = "(%s)";
-	
 	private boolean required;
 	private List<Constraint> constraints = new ArrayList<>();
 	private String dflt = "";
-	
-	private String constraint = "true"; //no constraint
 
 	//subclasses can choose their own default
 	public DefaultType(boolean defaultRequired) {
@@ -46,7 +42,6 @@ public class DefaultType implements ValueType {
 	
 	public DefaultType with(List<Constraint> constraints) {
 		this.constraints.addAll(constraints);
-		this.constraint=compose(this.constraints);
 		return this;
 	}
 	
@@ -60,32 +55,16 @@ public class DefaultType implements ValueType {
 	}
 	
 	@Override
-	public String constraint() {
-		return constraint;
-	}
-	
-	@Override
-	public List<Constraint> constraints() {
-		return constraints;
+	public Constraints constraints() {
+		return new Constraints(constraints);
 	}
 	
 	@Override
 	public boolean isValid(String value) {
-		return Boolean.valueOf(engine().eval(constraint).with(value));
+		return Boolean.valueOf(engine().eval(constraints().asSingleConstraint().expression()).with(value));
 	}
 	
-	//helper
-	private String compose(List<Constraint> constraints) {
-		
-		String first = String.format(conditionTemplate,constraints.get(0).expression());
-		
-		StringBuilder builder = new StringBuilder(first);
-		
-		for (int i =1; i<constraints.size(); i++)
-			builder.append(" && ").append(format(conditionTemplate,constraints.get(i).expression()));
-		
-		return builder.toString();
-	}
+	
 
 	@Override
 	public int hashCode() {

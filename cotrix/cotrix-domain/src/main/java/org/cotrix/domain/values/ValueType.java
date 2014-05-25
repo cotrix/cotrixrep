@@ -1,8 +1,6 @@
 package org.cotrix.domain.values;
 
-import java.util.List;
-
-import org.cotrix.domain.validation.Constraint;
+import org.cotrix.domain.validation.Constraints;
 
 
 
@@ -14,7 +12,6 @@ public interface ValueType {
 	
 	boolean isValid(String value);
 	
-	List<Constraint> constraints();
+	Constraints constraints();
 	
-	String constraint();
 }
