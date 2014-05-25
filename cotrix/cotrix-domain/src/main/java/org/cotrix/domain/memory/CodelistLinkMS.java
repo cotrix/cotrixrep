@@ -1,7 +1,7 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.common.OccurrenceRanges.*;
+import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.links.NameLink.*;
 import static org.cotrix.domain.links.ValueFunctions.*;
 

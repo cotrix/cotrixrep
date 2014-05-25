@@ -1,4 +1,4 @@
-package org.acme.validation;
+package org.acme;
 
 import static org.cotrix.domain.utils.ScriptEngine.*;
 
@@ -18,7 +18,7 @@ public class EngineTest extends ApplicationTest {
 	@Test
 	public void factory() {
 		
-		ScriptEngineProvider.engine().eval(null,"'hello workd'");
+		ScriptEngineProvider.engine().eval("'hello workd'").withNothing();
 		
 			
 	}
@@ -26,7 +26,7 @@ public class EngineTest extends ApplicationTest {
 	@Test
 	public void eval() {
 		
-		String output = engine.eval("hello", $value+"+ ' world'");
+		String output = engine.eval($value+"+ ' world'").with("hello");
 		
 		Assert.assertEquals("hello world",output);
 			

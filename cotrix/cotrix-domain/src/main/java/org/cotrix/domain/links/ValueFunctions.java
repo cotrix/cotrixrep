@@ -98,7 +98,7 @@ public class ValueFunctions {
 		@Override
 		public String apply(String value) {
 			try {
-				return engine().eval(value, expression);
+				return engine().eval(expression).with(value);
 			}
 			catch(Exception e) {
 				throw new RuntimeException("cannot compute link value through generic function (see cause)",e);

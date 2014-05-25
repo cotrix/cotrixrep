@@ -8,6 +8,10 @@ import java.util.Calendar;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.DefaultType;
+import org.cotrix.domain.attributes.ValueType;
+import org.cotrix.domain.common.Ranges;
+import org.cotrix.domain.common.Range;
 import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.version.Version;
 
@@ -31,6 +35,8 @@ public class Constants {
 	public static final QName PREVIOUS_VERSION_ID = q(NS,"previous_version_id");
 	public static final QName PREVIOUS_VERSION_NAME = q(NS,"previous_version_name");
 	
+	public static final ValueType defaultValueType = new DefaultType();
+	public static final Range defaultRange = Ranges.arbitrarily;
 	
 	public static Attribute.State timestamp(QName name) {
 		return systemAttribute(name, getDateTimeInstance().format(Calendar.getInstance().getTime()));

@@ -1,8 +1,6 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.attributes.Text.*;
-import static org.cotrix.domain.common.OccurrenceRanges.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
@@ -22,8 +20,8 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 	
 	public DefinitionMS() {
 		type=defaultType;
-		valueType(freetext);
-		range(arbitrarily);
+		valueType(defaultValueType);
+		range(defaultRange);
 	}
 	
 	public DefinitionMS(String id,Status status) {
@@ -36,7 +34,7 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 		name(state.name());
 		type(state.type());
 		language(state.language());
-		valueType(state.valueType());
+		valueType(state.valueType()); //no need to clone: once created, it's immutable.
 		range(state.range());
 	}
 	

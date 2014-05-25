@@ -4,5 +4,12 @@ public interface ScriptEngine {
 
 	public static String $value = "$value"; 
 	
-	String eval(String value, String expression);
+	WithClause eval(String expression);
+	
+	public static interface WithClause {
+		
+		String with(String value);
+		
+		String withNothing();
+	}
 }
