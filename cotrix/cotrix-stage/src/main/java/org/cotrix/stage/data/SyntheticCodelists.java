@@ -1,6 +1,8 @@
 package org.cotrix.stage.data;
 
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.validation.Validators.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,6 +84,18 @@ public class SyntheticCodelists {
 	public static Codelist demo() {
 		
 		return Codes.codelist().name("Demo Codelist")
+				.definitions(
+						definition().name("demo one").is(DESCRIPTION_TYPE).valueIs(
+							valueType().with(max_length.instance(5)).defaultsTo("someval")
+						).in("en").build(),
+						definition().name("demo two").is(NAME).valueIs(
+							valueType().with(min_length.instance(3)).defaultsTo("someotherval").required()
+						).build(),
+						definition().name("demo three").valueIs(
+								valueType().with(min_length.instance(3), max_length.instance(10))
+										   .defaultsTo("yetsomeotherval")
+							).build()
+				)
 				.with(
 						code().
 						name("4060300201").
