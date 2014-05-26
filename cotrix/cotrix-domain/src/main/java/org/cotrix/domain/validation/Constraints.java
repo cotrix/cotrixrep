@@ -2,6 +2,7 @@ package org.cotrix.domain.validation;
 
 import static java.lang.String.*;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public final class Constraints implements Iterable<Constraint> {
 	
 	public Constraint asSingleConstraint() {
 		
-		return new Constraint("composition", compose());
+		return new Constraint("composition", compose(), Collections.<String,String>emptyMap());
 	}
 
 	

@@ -20,7 +20,7 @@ public class ValueTypeTest extends DomainTest {
 		assertNotNull(minimal.constraints().asSingleConstraint());
 		assertFalse(minimal.isRequired());
 		assertTrue(minimal.isValid("anything"));
-		assertTrue(minimal.defaultValue().isEmpty());
+		assertNull(minimal.defaultValue());
 
 		//a maximal sentence
 		ValueType type = valueType()
