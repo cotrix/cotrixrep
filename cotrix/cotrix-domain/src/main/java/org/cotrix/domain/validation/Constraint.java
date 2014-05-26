@@ -18,6 +18,11 @@ public final class Constraint {
 	public String expression() {
 		return expression;
 	}
+	
+	@Override
+	public String toString() {
+		return expression;
+	}
 
 	@Override
 	public int hashCode() {
