@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
+import org.cotrix.web.manage.shared.modify.attributetype.AttributeTypeCommand;
 import org.cotrix.web.manage.shared.modify.code.CodeTargetedCommand;
 import org.cotrix.web.manage.shared.modify.code.CodeCommand;
 import org.cotrix.web.manage.shared.modify.linktype.LinkTypeCommand;
@@ -23,22 +24,23 @@ import org.cotrix.web.manage.shared.modify.metadata.MetadataCommand;
 @Default
 public class ModifyCommandHandler {
 	
-
+	@Inject
+	private CodeCommandHandler codeCommandHandler;
 	
 	@Inject
-	protected CodeCommandHandler codeCommandHandler;
+	private CodeTargetedCommandHandler codeTargetedCommandHandler;
 	
 	@Inject
-	protected CodeTargetedCommandHandler codeTargetedCommandHandler;
+	private MetadataAttributeCommandHandler metadataAttributeCommandHandler;
 	
 	@Inject
-	protected MetadataAttributeCommandHandler metadataAttributeCommandHandler;
-	
-	@Inject
-	protected MetadataCommandHandler metadataCommandHandler;
+	private MetadataCommandHandler metadataCommandHandler;
 	
 	@Inject
 	private LinkTypeCommandHandler linkTypeCommandHandler;
+	
+	@Inject
+	private AttributeTypeCommandHandler attributeTypeCommandHandler;
 	
 	public ModifyCommandResult handle(String codelistId, ModifyCommand command)
 	{
@@ -47,6 +49,7 @@ public class ModifyCommandHandler {
 		if (command instanceof CodeCommand) return codeCommandHandler.handle(codelistId, (CodeCommand) command);
 		if (command instanceof MetadataCommand) return metadataCommandHandler.handle(codelistId, (MetadataCommand) command);
 		if (command instanceof LinkTypeCommand) return linkTypeCommandHandler.handle(codelistId, (LinkTypeCommand) command);
+		if (command instanceof AttributeTypeCommand) return attributeTypeCommandHandler.handle(codelistId, (AttributeTypeCommand) command);
 		
 		throw new IllegalArgumentException("Unknown command "+command);
 	}

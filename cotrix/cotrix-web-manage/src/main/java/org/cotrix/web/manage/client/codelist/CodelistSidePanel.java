@@ -62,6 +62,7 @@ public class CodelistSidePanel extends ResizeComposite {
 	@UiField ToggleButton filtersButton;
 	@UiField ToggleButton userButton;
 	@UiField ToggleButton linkTypesButton;
+	@UiField ToggleButton attributeTypesButton;
 
 	
 	@UiField DeckLayoutPanel tools;
@@ -79,6 +80,9 @@ public class CodelistSidePanel extends ResizeComposite {
 	
 	@Inject
 	@UiField(provided=true) CodelistLinksPanel linksPanel;
+	
+	@Inject
+	@UiField(provided=true) CodelistAttributeTypesPanel attributeTypesPanel;
 
 	@Inject
 	private void init() {
@@ -93,6 +97,7 @@ public class CodelistSidePanel extends ResizeComposite {
 		rightButtonGroup.addButton(filtersButton);
 		rightButtonGroup.addButton(userButton);
 		rightButtonGroup.addButton(linkTypesButton);
+		rightButtonGroup.addButton(attributeTypesButton);
 		rightButtonGroup.setDown(metadataButton);
 				
 		leftBar.addClickHandler(new ClickHandler() {
@@ -158,19 +163,14 @@ public class CodelistSidePanel extends ResizeComposite {
 		if (button == userButton) return userPanel;
 		if (button == linkTypesButton) return linkTypesPanel;
 		if (button == linksButton) return linksPanel;
+		if (button == attributeTypesButton) return attributeTypesPanel;
 		throw new IllegalArgumentException("Unknwown button "+button);
 	}
 
-	/**
-	 * @return the attributesPanel
-	 */
 	public CodelistAttributesPanel getAttributesPanel() {
 		return attributesPanel;
 	}
 
-	/**
-	 * @return the metadataPanel
-	 */
 	public CodelistMetadataPanel getMetadataPanel() {
 		return metadataPanel;
 	}
@@ -182,5 +182,8 @@ public class CodelistSidePanel extends ResizeComposite {
 	public HasEditing getLinksPanel() {
 		return linksPanel;
 	}
-
+	
+	public HasEditing getAttributeTypesPanel() {
+		return attributeTypesPanel;
+	}
 }

@@ -84,4 +84,9 @@ public class CodelistPanelViewImpl extends ResizeComposite implements CodelistPa
 	public HasEditing getLinksEditor() {
 		return sidePanel.getLinksPanel();
 	}
+	
+	@Override
+	public HasEditing getAttributeTypesPanel() {
+		return sidePanel.getAttributeTypesPanel();
+	}
 }

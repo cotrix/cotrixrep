@@ -14,6 +14,7 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
@@ -27,6 +28,7 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
 import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
@@ -226,6 +228,26 @@ public class ChangesetUtil {
 	public static CodelistLink removeCodelistLink(String id) {
 		return deleteListLink(id);
 	}
+	
+	
+	
+	public static Definition addDefinition(UIAttributeType attributeType) {
+		return definition().name(convert(attributeType.getName()))
+				.is(convert(attributeType.getType()))
+				.in(convert(attributeType.getLanguage())).build();
+	}
+	
+	public static Definition updateDefinition(UIAttributeType attributeType) {
+		return modifyDefinition(attributeType.getId()).name(convert(attributeType.getName()))
+				.is(convert(attributeType.getType()))
+				.in(convert(attributeType.getLanguage())).build();
+	}
+	
+	public static Definition removeDefinition(UIAttributeType attributeType) {
+		return deleteDefinition(attributeType.getId());
+	}
+	
+	
 	
 	public static String convert(Language language) {
 		return (language == null || language == Language.NONE) ? null : language.getCode();

@@ -8,6 +8,7 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
@@ -64,5 +65,7 @@ public interface ManageService extends RemoteService {
 	List<UICodeInfo> getCodes(String codelistId, String linkTypeId) throws ServiceException;
 	
 	public CodelistRemoveCheckResponse canUserRemove(String codelistId) throws ServiceException;
+	
+	DataWindow<UIAttributeType> getCodelistAttributeTypes(String codelistId) throws ServiceException;
 
 }

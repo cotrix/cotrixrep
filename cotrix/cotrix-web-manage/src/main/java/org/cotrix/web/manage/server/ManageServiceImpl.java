@@ -27,6 +27,7 @@ import org.cotrix.application.VersioningService;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
@@ -42,6 +43,7 @@ import org.cotrix.web.common.server.task.ActionMapper;
 import org.cotrix.web.common.server.task.CodelistTask;
 import org.cotrix.web.common.server.task.ContainsTask;
 import org.cotrix.web.common.server.task.Id;
+import org.cotrix.web.common.server.util.AttributeTypes;
 import org.cotrix.web.common.server.util.Codelists;
 import org.cotrix.web.common.server.util.LinkTypes;
 import org.cotrix.web.common.server.util.ValueUtils;
@@ -50,6 +52,7 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
 import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
@@ -393,5 +396,15 @@ public class ManageServiceImpl implements ManageService {
 	public void removeCodelist(@Id String codelistId) throws ServiceException {
 		logger.trace("removeCodelist codelistId: {}",codelistId);
 		repository.remove(codelistId);
+	}
+
+	@Override
+	@CodelistTask(VIEW)
+	public DataWindow<UIAttributeType> getCodelistAttributeTypes(@Id String codelistId) throws ServiceException {
+		logger.trace("getCodelistAttributeTypes codelistId: {}",codelistId);
+		List<UIAttributeType> types = new ArrayList<>();
+		Codelist codelist = repository.lookup(codelistId);
+		for (Definition definition:codelist.definitions()) types.add(AttributeTypes.toUIAttributeType(definition));		
+		return new DataWindow<UIAttributeType>(types);
 	}
 }
