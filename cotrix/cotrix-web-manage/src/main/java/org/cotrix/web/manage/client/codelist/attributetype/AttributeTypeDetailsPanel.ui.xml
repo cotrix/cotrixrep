@@ -94,27 +94,58 @@
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
-<!-- 		<t:row> -->
-<!-- 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}" -->
-<!-- 				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}" -->
-<!-- 				ui:field="valueRow"> -->
-<!-- 				<t:cell> -->
-<!-- 					<g:Label>Value Type</g:Label> -->
-<!-- 				</t:cell> -->
-<!-- 				<t:cell> -->
-<!-- 					<g:FlowPanel> -->
-<!-- 						<c:EditableLabel ui:field="valueBoxContainer" -->
-<!-- 							labelStyle="{resources.propertyGrid.textValue}"> -->
-<!-- 							<c:editor> -->
-<!-- 								<c:EnumListBox ui:field="valueTypeBox" -->
-<!-- 									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" /> -->
-<!-- 							</c:editor> -->
-<!-- 						</c:EditableLabel> -->
-<!-- 						<g:Image resource="{commonresources.dataLoader}" visible="false" -->
-<!-- 							ui:field="valueBoxLoader" styleName="{style.loader}" /> -->
-<!-- 					</g:FlowPanel> -->
-<!-- 				</t:cell> -->
-<!-- 			</t:CellContainer> -->
-<!-- 		</t:row> -->
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
+				<t:cell>
+					<g:Label>Occurences</g:Label>
+				</t:cell>
+				<t:cell>
+					<g:FlowPanel>
+						<c:EditableLabel ui:field="occurrencesBoxContainer"	labelStyle="{resources.propertyGrid.textValue}">
+							<c:editor>
+							<c:EnumListBox ui:field="occurrencesBox" styleName="{commonresources.css.listBox}" width="100%"/>
+							</c:editor>
+						</c:EditableLabel>
+					</g:FlowPanel>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}"
+				ui:field="occurrencesMinRow">
+				<t:cell>
+					<g:Label>Min</g:Label>
+				</t:cell>
+				<t:cell>
+					<g:FlowPanel>
+						<c:EditableLabel ui:field="occurrencesMinBoxContainer" labelStyle="{resources.propertyGrid.textValue}">
+							<c:editor>
+								<c:AdvancedIntegerBox ui:field="occurrencesMin" placeholder="min" styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}"/>
+							</c:editor>
+						</c:EditableLabel>
+					</g:FlowPanel>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}"
+				ui:field="occurrencesMaxRow">
+				<t:cell>
+					<g:Label>Max</g:Label>
+				</t:cell>
+				<t:cell>
+					<g:FlowPanel>
+						<c:EditableLabel ui:field="occurrencesMaxBoxContainer"	labelStyle="{resources.propertyGrid.textValue}">
+							<c:editor>
+								<c:AdvancedIntegerBox ui:field="occurrencesMax" placeholder="max" styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}"/>
+							</c:editor>
+						</c:EditableLabel>
+					</g:FlowPanel>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
 	</t:Table>
 </ui:UiBinder> 

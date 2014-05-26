@@ -7,6 +7,7 @@ import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
+import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanelListener;
 import org.cotrix.web.manage.client.util.LabelHeader;
@@ -153,9 +154,8 @@ public class AttributeTypePanel extends Composite implements ItemEditingPanel<UI
 		Language language = detailsPanel.getLanguage();
 		attribute.setLanguage(language);
 		
-		/*String value = detailsPanel.getValue();
-		attribute.setValue(value);*/
-
+		UIRange range = detailsPanel.getRange();
+		attribute.setRange(range);
 	}
 
 	public void enterEditMode() {
@@ -187,7 +187,7 @@ public class AttributeTypePanel extends Composite implements ItemEditingPanel<UI
 		detailsPanel.setName(ValueUtils.getLocalPart(attribute.getName()));
 		detailsPanel.setType(ValueUtils.getLocalPart(attribute.getType()));
 		detailsPanel.setLanguage(attribute.getLanguage());
-		//detailsPanel.setValue(attribute.getValue());
+		detailsPanel.setRange(attribute.getRange());
 	}
 	
 	private void updateHeaderLabel() {
@@ -215,7 +215,12 @@ public class AttributeTypePanel extends Composite implements ItemEditingPanel<UI
 		boolean nameValid = name!=null && !name.isEmpty();
 		detailsPanel.setNameFieldValid(nameValid);
 		valid &= nameValid;
-
+		
+		UIRange range = detailsPanel.getRange();
+		boolean rangeValid = range.getMin()!=Integer.MIN_VALUE && range.getMax()!=Integer.MIN_VALUE;
+		detailsPanel.setRangeFieldValid(rangeValid);
+		valid &= rangeValid;
+		
 		header.setSaveVisible(valid);
 	}
 
