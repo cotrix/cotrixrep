@@ -42,6 +42,8 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		notNull("definition", definition);
 		
 		this.definition = definition;
+		
+		this.value(definition.valueType().defaultValue());
 	}
 	
 	public QName name() {

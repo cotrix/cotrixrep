@@ -1,14 +1,18 @@
 package org.cotrix.domain.validation;
 
-public class Constraint {
+import java.util.Map;
+
+public final class Constraint {
 
 	
 	private final String expression;
 	private final String name;
+	private final Map<String,String> params;
 	
-	public Constraint(String name, String expression) {
+	public Constraint(String name, String expression, Map<String,String> params) {
 		this.expression=expression;
 		this.name=name;
+		this.params=params;
 	}
 	
 	public String name() {
@@ -16,6 +20,15 @@ public class Constraint {
 	}
 	
 	public String expression() {
+		return expression;
+	}
+	
+	public Map<String,String> params() {
+		return params;
+	}
+	
+	@Override
+	public String toString() {
 		return expression;
 	}
 

@@ -1,5 +1,6 @@
 package org.cotrix.domain.attributes;
 
+import static java.lang.String.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
@@ -7,6 +8,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.values.ValueType;
 
 /**
  * A descriptive attribute for a domain object.
@@ -76,6 +78,9 @@ public interface Attribute extends Identified, Named {
 	
 	final class Private extends Identified.Abstract<Private,State> implements Attribute {
 
+		private static final String validationErrorMsg = "%s cannot be assigned to attribute %s, as violates  constraint %s";
+		
+
 		public Private(Attribute.State state) {
 			super(state);
 		}
@@ -113,8 +118,8 @@ public interface Attribute extends Identified, Named {
 			//TODO keep temporarily for retro-compatibility, update should occur at definition level.
 			
 			if (changeset.value() != null)
-				state().value(changeset.value() == NULL_STRING ? null : changeset.value());
-			
+				state().value(changeset.value() == NULL_STRING ? null : validateAndUpdateValue(changeset.value()));
+				
 			if (changeset.name() == NULL_QNAME)
 				throw new IllegalArgumentException("attribute name " + name() + " cannot be erased");
 			
@@ -131,11 +136,23 @@ public interface Attribute extends Identified, Named {
 				state().language(changeset.language() == NULL_STRING ? null : changeset.language());
 
 		}
-
+		
 		@Override
 		public String toString() {
 			return "attr [id=" + id() + ", value=" + value() + ", def=" + definition() + (status() == null ? "" : " (" + status() + ") ")
 					+ "]";
+		}
+
+		
+		//helper
+		private String validateAndUpdateValue(String value) {
+			
+			ValueType type = definition().valueType();
+			
+			if (!type.isValid(value))
+				throw new IllegalArgumentException(format(validationErrorMsg, value, name(),type.constraints().asSingleConstraint()));
+		
+			return value;
 		}
 
 

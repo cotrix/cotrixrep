@@ -3,12 +3,14 @@ package org.acme.codelists;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.memory.AttributeMS;
+import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +18,11 @@ public class AttributeTest extends DomainTest {
 
 	Attribute untyped = attribute().name(name).ofType(type).value(value).in(language).build();
 
-	Attribute typed = attribute().with(definition().name(name).build()).value(value).build();
+	ValueType valuetype = valueType().defaultsTo("mydef");
+	
+	Definition def = definition().name(name).build();
+	
+	Attribute typed = attribute().with(def).value(value).build();
 
 	@Before
 	public void before() {
@@ -41,11 +47,13 @@ public class AttributeTest extends DomainTest {
 
 		// defaults, typed
 
-		Definition def = definition().name(name).build();
+		Definition def = definition().name(name).valueIs(valuetype).build();
 		Attribute minimalTyped = attribute().with(def).build();
 
 		assertEquals(def, minimalTyped.definition());
-		assertEquals(null, minimalTyped.value());
+		assertEquals(valuetype.defaultValue(), minimalTyped.value());
+		
+		
 
 	}
 
@@ -152,5 +160,27 @@ public class AttributeTest extends DomainTest {
 		reveal(untyped).update(reveal(changeset));
 
 		assertNull(untyped.language());
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void cannoteViolateConstraints() {
+
+		//definition becomes more restrictive
+		ValueType newtype = valueType().with(max_length.instance(2));
+
+		Definition defChangeset = modify(typed.definition()).valueIs(newtype).build();
+
+		reveal(typed.definition()).update(reveal(defChangeset));
+
+		//conforming values are accepted
+		Attribute changeset = modify(typed).value("12").build();
+		
+		reveal(typed).update(reveal(changeset));
+		
+		//violations are detected
+		changeset = modify(typed).value("123").build();
+		
+		reveal(typed).update(reveal(changeset));
 	}
 }
