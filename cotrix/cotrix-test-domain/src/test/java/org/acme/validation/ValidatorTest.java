@@ -49,6 +49,25 @@ public class ValidatorTest {
 	}
 	
 	@Test
+	public void regexp() {
+		
+		Constraint v = regexp.instance("hel.o");
+		
+		boolean outcome = Boolean.valueOf(engine.eval(v.expression()).with("helo"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("hello"));
+		
+		assertTrue(outcome);
+
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("helllo"));
+		
+		assertFalse(outcome);
+
+	}
+	
+	@Test
 	public void custom() {
 		
 		Constraint v = custom.instance("true");

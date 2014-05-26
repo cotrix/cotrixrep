@@ -15,6 +15,8 @@ public enum Validators implements Validator {
 	
 	min_length($value+".length >= %s","length"),
 	
+	regexp("/%s/.test("+$value+")","expression"),
+	
 	custom("%s","expression")
 	
 	;
