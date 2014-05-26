@@ -14,7 +14,7 @@ public class DefaultType implements ValueType {
 	
 	private boolean required;
 	private List<Constraint> constraints = new ArrayList<>();
-	private String dflt = "";
+	private String dflt = null;
 
 	//subclasses can choose their own default
 	public DefaultType(boolean defaultRequired) {

@@ -18,7 +18,11 @@ public class AttributeTest extends DomainTest {
 
 	Attribute untyped = attribute().name(name).ofType(type).value(value).in(language).build();
 
-	Attribute typed = attribute().with(definition().name(name).build()).value(value).build();
+	ValueType valuetype = valueType().defaultsTo("mydef");
+	
+	Definition def = definition().name(name).build();
+	
+	Attribute typed = attribute().with(def).value(value).build();
 
 	@Before
 	public void before() {
@@ -43,11 +47,13 @@ public class AttributeTest extends DomainTest {
 
 		// defaults, typed
 
-		Definition def = definition().name(name).build();
+		Definition def = definition().name(name).valueIs(valuetype).build();
 		Attribute minimalTyped = attribute().with(def).build();
 
 		assertEquals(def, minimalTyped.definition());
-		assertEquals(null, minimalTyped.value());
+		assertEquals(valuetype.defaultValue(), minimalTyped.value());
+		
+		
 
 	}
 
