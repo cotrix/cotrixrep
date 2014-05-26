@@ -5,6 +5,9 @@ package org.cotrix.web.common.server.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,28 +28,34 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class TmpFileManager {
-	
+
 	private Logger logger = LoggerFactory.getLogger(TmpFileManager.class);
-	
-	private static long cleaningDelay = TimeUnit.MINUTES.toMillis(5);
-	
+
+	private static long cleaningDelay = TimeUnit.MINUTES.toMillis(30);
+
 	private final TimerTask cleaningTask = new TimerTask() {
-		
+
 		@Override
 		public void run() {
 			clean();
 		}
 	};
-	
+
 	private Map<File, Long> tmps;
 	private Timer cleaningTimer;
-	
+
 	public TmpFileManager() {
 		cleaningTimer = new Timer(true);
 		cleaningTimer.schedule(cleaningTask, cleaningDelay, cleaningDelay);
 		tmps = new HashMap<>();
+
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				cleanAll();
+			}
+		});
 	}
-	
+
 	public File createTmpFile() throws IOException {
 		File tmp = File.createTempFile("cotrix", ".tmp");
 		tmp.deleteOnExit();
@@ -54,6 +63,12 @@ public class TmpFileManager {
 		return tmp;
 	}
 	
+	public File createTmpFile(InputStream inputStream) throws IOException {
+		File tmp = createTmpFile();
+		Files.copy(inputStream, tmp.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		return tmp;
+	}
+
 	private void clean() {
 		logger.trace("starting tmp file cleaning");
 		long current = System.currentTimeMillis();
@@ -67,5 +82,10 @@ public class TmpFileManager {
 			if (tmp.exists()) tmp.delete();
 		}
 		logger.trace("tmp files removed");
+	}
+
+	private void cleanAll() {
+		for (File file:tmps.keySet()) file.delete();
+		tmps.clear();
 	}
 }

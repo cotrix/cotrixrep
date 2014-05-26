@@ -18,9 +18,9 @@
 		}
 		
 		/**
-												Workaround to GWT issue #8275
-												https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
-												**/
+			Workaround to GWT issue #8275
+			https://code.google.com/p/google-web-toolkit/issues/detail?id=8275
+		**/
 		.borderFix table {
 			border-collapse: collapse;
 		}
@@ -34,7 +34,7 @@
 		<g:north size="45">
 			<g:HTMLPanel>
 				<div class="{style.downloadButtonPanel}">
-					<g:Button ui:field="reportDownload" text="DOWNLOAD"
+					<g:Button ui:field="reportDownload" text="REPORT"
 						styleName="{common.css.buttonDownload}" />
 				</div>
 			</g:HTMLPanel>

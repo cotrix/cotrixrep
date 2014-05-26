@@ -9,7 +9,7 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Status;

@@ -48,20 +48,16 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource seal();
 	public ImageResource sealDisabled();
 	
-	public ImageResource attributes();
+	public ImageResource attributesSelected();
+	public ImageResource attributesUnselected();
 	public ImageResource attributesDisabled();
-	
-	public ImageResource metadata();
-	public ImageResource metadataDisabled();
 	
 	public ImageResource filter();
 	public ImageResource filterDisabled();
 	
-	public ImageResource linkType();
-	public ImageResource linkTypeDisabled();
-	
-	public ImageResource link();
-	public ImageResource linkDisabled();
+	public ImageResource linksSelected();
+	public ImageResource linksUnselected();
+	public ImageResource linksDisabled();
 	
 	@Source("thumb_vertical.png")
 	public ImageResource thumbVertical();
@@ -86,6 +82,7 @@ public interface CotrixManagerResources extends ClientBundle {
 		String addButton();
 		String headerCode();
 		String noItemsBackground();
+		String systemAttributeDisclosurePanelLabel();
 	}
 	
 	public interface PropertyGridStyle extends CssResource {

@@ -12,8 +12,8 @@ import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
 import org.cotrix.common.cdi.ApplicationEvents.EndRequest;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.io.CloudService;
 import org.fao.fi.comet.mapping.model.MappingData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;

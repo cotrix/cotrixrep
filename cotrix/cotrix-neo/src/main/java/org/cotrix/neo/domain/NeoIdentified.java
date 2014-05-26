@@ -63,6 +63,18 @@ public abstract class NeoIdentified implements Identified.State {
 	}
 
 	
+	public Node softResolve(Named.State state, NodeType type) {
+		
+		try{
+			
+			return resolve(state,type);
+			
+		}
+		catch(IllegalStateException e) {
+			return null;
+		}
+	}
+	
 
 	@Override
 	public int hashCode() {

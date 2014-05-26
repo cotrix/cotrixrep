@@ -2,7 +2,8 @@ package org.cotrix.domain.dsl.grammar;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 
@@ -15,13 +16,32 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 public class AttributeGrammar {
 
 	
-	public static interface AttributeStartClause extends NameClause<OptionalClause> {	}
+	public static interface AttributeNewClause extends NameClause<OptionalClause>, DefinitionClause {	
 		
-	public static interface AttributeDeltaClause extends NameClause<OptionalClause>, OptionalClause {}
+		ValueClause with(Definition definition);
+	}
+		
 	
-	public static interface OptionalClause extends BuildClause<Attribute> {
+	
+	public static interface AttributeChangeClause extends NameClause<OptionalClause>, OptionalClause, DefinitionClause {
 		
+		
+	}
+	
+	public static interface DefinitionClause {
+		
+		ValueClause with(Definition definition);
+	}
+	
+	
+	public static interface ValueClause extends BuildClause<Attribute> {
+
 		OptionalClause value(String value);
+	}
+	
+	
+	public static interface OptionalClause extends ValueClause {
+		
 		
 		OptionalClause ofType(QName type);
 		

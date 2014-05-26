@@ -20,16 +20,20 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.action.CodelistAction;
+import org.cotrix.action.MainAction;
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.user.User;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
+import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.MultiQuery;
@@ -50,6 +54,7 @@ import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.LinkType;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
+import org.cotrix.web.common.shared.feature.ApplicationFeatures;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
 import org.cotrix.web.manage.client.ManageService;
@@ -57,6 +62,7 @@ import org.cotrix.web.manage.server.modify.ChangesetUtil;
 import org.cotrix.web.manage.server.modify.ModifyCommandHandler;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
 import org.cotrix.web.manage.shared.CodelistGroup;
+import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
 import org.cotrix.web.manage.shared.CodelistValueTypes;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.UICodeInfo;
@@ -108,6 +114,9 @@ public class ManageServiceImpl implements ManageService {
 
 	@Inject @Current
 	private BeanSession session;
+	
+	@Inject @Current
+	private User currentUser;
 
 	/** 
 	 * {@inheritDoc}
@@ -115,10 +124,11 @@ public class ManageServiceImpl implements ManageService {
 	@PostConstruct
 	public void init() {
 		mapper.map(VIEW).to(VIEW_CODELIST, VIEW_METADATA);
-		mapper.map(EDIT).to(EDIT_METADATA, EDIT_CODELIST, ADD_CODE, REMOVE_CODE, VERSION_CODELIST);
+		mapper.map(EDIT).to(EDIT_METADATA, EDIT_CODELIST, ADD_CODE, REMOVE_CODE, ApplicationFeatures.VERSION_CODELIST, ApplicationFeatures.REMOVE_CODELIST);
 		mapper.map(LOCK).to(LOCK_CODELIST);
 		mapper.map(UNLOCK).to(UNLOCK_CODELIST);
 		mapper.map(SEAL).to(SEAL_CODELIST);
+		mapper.map(MainAction.CREATE_CODELIST).to(ApplicationFeatures.CREATE_CODELIST);
 	}
 
 	@Override
@@ -231,13 +241,6 @@ public class ManageServiceImpl implements ManageService {
 	}
 
 	@Override
-	@CodelistTask(EDIT)
-	public void removeCodelist(String codelistId) throws ServiceException {
-		logger.trace("removeCodelist codelistId: {}",codelistId);
-		repository.remove(codelistId);
-	}
-
-	@Override
 	@CodelistTask(VERSION)
 	public CodelistGroup createNewCodelistVersion(@Id String codelistId, String newVersion)	throws ServiceException {
 		try {
@@ -247,7 +250,6 @@ public class ManageServiceImpl implements ManageService {
 	
 			CodelistGroup group = addCodelist(newCodelist);
 			
-	
 			return group;
 		} catch(Throwable throwable)
 		{
@@ -373,5 +375,23 @@ public class ManageServiceImpl implements ManageService {
 		List<UICodeInfo> codes = new ArrayList<>();
 		for (Code code:target.codes()) codes.add(new UICodeInfo(code.id(), ValueUtils.safeValue(code.name())));
 		return codes;
+	}
+
+	@Override
+	public CodelistRemoveCheckResponse canUserRemove(String codelistId) throws ServiceException {
+		logger.trace("canUserDelete codelistId: {}",codelistId);
+		
+		Lifecycle lifecycle = lifecycleService.lifecycleOf(codelistId);
+		if (lifecycle.state() == DefaultLifecycleStates.sealed) return CodelistRemoveCheckResponse.cannot("the codelist is sealed");
+		
+		if (!currentUser.can(CodelistAction.EDIT.on(codelistId))) return CodelistRemoveCheckResponse.cannot("insufficient premissions"); 
+		return CodelistRemoveCheckResponse.can();
+	}
+	
+	@Override
+	@CodelistTask(EDIT)
+	public void removeCodelist(@Id String codelistId) throws ServiceException {
+		logger.trace("removeCodelist codelistId: {}",codelistId);
+		repository.remove(codelistId);
 	}
 }

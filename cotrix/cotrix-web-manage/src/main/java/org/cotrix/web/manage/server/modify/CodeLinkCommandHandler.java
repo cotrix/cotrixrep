@@ -13,7 +13,7 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
+import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.Codelists;
 import org.cotrix.web.common.shared.codelist.UICode;
@@ -40,7 +40,7 @@ public class CodeLinkCommandHandler {
 	{
 		logger.trace("handle codelistId: {}, codeId: {}, command: {}", codelistId, codeId, command);
 		
-		CodeDeltaClause clause = modifyCode(codeId);
+		CodeChangeClause clause = modifyCode(codeId);
 		UILink link = command.getItem();
 		Codelink changeset = null;
 		

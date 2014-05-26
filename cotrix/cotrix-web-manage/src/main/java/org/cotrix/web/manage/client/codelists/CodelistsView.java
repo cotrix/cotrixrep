@@ -15,12 +15,15 @@ public interface CodelistsView {
 	public interface Presenter {
 		void onCodelistItemSelected(UICodelist codelist);
 		void onCodelistRemove(UICodelist codelist);
+		void onCodelistNewVersion(UICodelist codelist);
 		void onCodelistCreate();
 	}
 	
 	public void refresh();
 	void setPresenter(Presenter presenter);
 	Widget asWidget();
+	
 	void setAddCodelistVisible(boolean visible);
 	void setRemoveCodelistVisible(boolean visible);
+	void setVersionCodelistVisible(boolean visible);
 }

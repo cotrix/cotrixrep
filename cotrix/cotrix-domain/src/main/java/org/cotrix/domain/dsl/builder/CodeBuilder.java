@@ -9,11 +9,11 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeDeltaClause;
+import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.OptionalClause;
 import org.cotrix.domain.memory.CodeMS;
@@ -24,7 +24,7 @@ import org.cotrix.domain.memory.CodeMS;
  * @author Fabio Simeoni
  *
  */
-public final class CodeBuilder implements CodeNewClause, CodeDeltaClause {
+public final class CodeBuilder implements CodeNewClause, CodeChangeClause {
 
 	private final CodeMS state;
 	

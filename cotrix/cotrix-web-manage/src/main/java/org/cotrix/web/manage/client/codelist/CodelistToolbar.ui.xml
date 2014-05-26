@@ -15,6 +15,11 @@
 			margin-left: 4px;
 		}
 		
+		.rightWrapper {
+			float: right;
+			margin-right: 5px;
+		}
+		
 		.button {
 			padding: 5px;
 			cursor: pointer;
@@ -36,11 +41,13 @@
 			padding-left: 5px;
 		}
 		
-		.rightWrapper {
+		.statusWrapper {
 			float: right;
 			vertical-align: middle;
 			padding: 5px;
 		}
+		
+		
 		
 		.state {
 			color: lightgray;
@@ -65,35 +72,35 @@
 	</ui:style>
 	<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
 		<g:HorizontalPanel styleName="{style.leftWrapper}" verticalAlignment="middle" height="100%" spacing="5">
-			<g:PushButton ui:field="allColumns" styleName="{style.button}">
+			<g:PushButton ui:field="allColumns" styleName="{style.button}" title="Show All">
 				<g:upFace image="{resources.allColumns}" />
 			</g:PushButton>
-			<g:PushButton ui:field="allNormals" styleName="{style.button}">
+			<g:PushButton ui:field="allNormals" styleName="{style.button}" title="Hide All">
 				<g:upFace image="{resources.allNormals}" />
 			</g:PushButton>
-			<g:PushButton ui:field="newVersion" styleName="{style.button}">
-				<g:upFace image="{resources.newVersion}" />
-				<g:upDisabledFace image="{resources.newVersionDisabled}" />
-			</g:PushButton>
-			<g:PushButton ui:field="lock" styleName="{style.button}">
-				<g:upFace image="{resources.lock}" />
-				<g:upDisabledFace image="{resources.lockDisabled}" />
-			</g:PushButton>
-			<g:PushButton ui:field="unlock" styleName="{style.button}">
-				<g:upFace image="{resources.unlock}" />
-				<g:upDisabledFace image="{resources.unlockDisabled}" />
-			</g:PushButton>
-			<g:PushButton ui:field="seal" styleName="{style.button}">
-				<g:upFace image="{resources.seal}" />
-				<g:upDisabledFace image="{resources.sealDisabled}" />
-			</g:PushButton>
 		</g:HorizontalPanel>
-		<g:FlowPanel styleName="{style.rightWrapper}">
+		<g:FlowPanel styleName="{style.statusWrapper}" width="125px">
 			<g:InlineLabel ui:field="state" styleName="{style.state}">draft</g:InlineLabel>
 			<g:FlowPanel styleName="{style.stateLoaderWrapper}">
 				<g:Image ui:field="stateLoader" resource="{common.dataLoader}"
 					styleName="{style.stateLoader}" visible="false" />
 			</g:FlowPanel>
 		</g:FlowPanel>
+			<g:HorizontalPanel verticalAlignment="middle" height="100%" spacing="5" styleName="{style.rightWrapper}">
+				<g:PushButton ui:field="lock" styleName="{style.button}" title="Disable Editing">
+					<g:upFace image="{resources.lock}" />
+					<g:upDisabledFace image="{resources.lockDisabled}"/>
+				</g:PushButton>
+				<g:PushButton ui:field="unlock" styleName="{style.button}" title="Enable Editing">
+					<g:upFace image="{resources.unlock}" />
+					<g:upDisabledFace image="{resources.unlockDisabled}" />
+				</g:PushButton>
+				<g:PushButton ui:field="seal" styleName="{style.button}" title="Seal (No Further Changes)">
+					<g:upFace image="{resources.seal}" />
+					<g:upDisabledFace image="{resources.sealDisabled}" />
+				</g:PushButton>
+			</g:HorizontalPanel>
+		
+		
 	</g:FlowPanel>
 </ui:UiBinder> 

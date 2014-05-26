@@ -2,7 +2,8 @@ package org.cotrix.domain.codelist;
 
 import static org.cotrix.domain.dsl.Codes.*;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.memory.CodelistMS;
@@ -36,7 +37,13 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	 * @return the links.
 	 */
 	NamedContainer<? extends CodelistLink> links();
+
 	
+	/**
+	 * Returns the attribute types of this list.
+	 * @return the attribute types.
+	 */
+	NamedContainer<? extends Definition> definitions();
 	
 	//private state interface
 	
@@ -45,6 +52,8 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		NamedStateContainer<Code.State> codes();
 		
 		NamedStateContainer<CodelistLink.State> links();
+		
+		NamedStateContainer<Definition.State> attributeTypes();
 		
 	}
 	
@@ -65,6 +74,11 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		@Override
 		public NamedContainer.Private<CodelistLink.Private,CodelistLink.State> links() {
 			return namedContainer(state().links());
+		}
+		
+		@Override
+		public NamedContainer.Private<Definition.Private,Definition.State> definitions() {
+			return namedContainer(state().attributeTypes());
 		}
 
 		@Override
@@ -88,6 +102,8 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		public void update(Private changeset) throws IllegalArgumentException, IllegalStateException {
 			
 			super.update(changeset);
+			
+			definitions().update(changeset.definitions());
 			
 			links().update(changeset.links());
 			

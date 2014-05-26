@@ -3,9 +3,9 @@ package org.cotrix.repository;
 import javax.enterprise.event.Observes;
 
 import org.cotrix.common.cdi.ApplicationEvents;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.spi.CodelistQueryFactory;
 

@@ -10,6 +10,7 @@ import org.cotrix.web.common.client.util.FilteredCachedDataProvider;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.shared.CodelistGroup;
+import org.cotrix.web.manage.shared.CodelistGroup.Version;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.view.client.HasData;
@@ -36,6 +37,49 @@ public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGr
 	public void loadData()
 	{
 		onRangeChanged((Range)null);
+	}
+	
+	public void addCodelistGroup(CodelistGroup newGroup)
+	{
+		Log.trace("addCodelistGroup newGroup: "+newGroup);
+		CodelistGroup oldGroup = findGroupInCache(newGroup);
+		Log.trace("oldGroup: "+oldGroup);
+		
+		if (oldGroup!=null) oldGroup.addVersions(newGroup.getVersions());
+		else cache.add(newGroup);
+		
+		Log.trace("refreshing cache: "+cache);
+		refresh();
+	}
+	
+	public void removeCodelistGroup(CodelistGroup groupToRemove)
+	{
+		Log.trace("removeCodelistGroup groupToRemove: "+groupToRemove);
+		CodelistGroup oldGroup = findGroupInCache(groupToRemove);
+		Log.trace("oldGroup: "+oldGroup);
+		
+		if (oldGroup == null) return;
+		
+		for (Version version:groupToRemove.getVersions()) oldGroup.removeVersion(version);
+		if (oldGroup.getVersions().isEmpty()) cache.remove(oldGroup);
+		
+		Log.trace("oldGroup after update: "+oldGroup);
+		
+		Log.trace("refreshing cache: "+cache);
+		updateData(cache, new Range(0, cache.size()), cache.size());
+	}
+	
+	private CodelistGroup findGroupInCache(CodelistGroup groupToFind) {
+		for (CodelistGroup group:cache) {
+			if (group.equals(groupToFind)) return group;
+		}
+		return null;
+	}
+	
+	public boolean containsVersion(Version version) {
+		CodelistGroup group = findGroupInCache(version.getParent());
+		if (group == null) return false;
+		return group.getVersions().contains(version);
 	}
 
 	@Override

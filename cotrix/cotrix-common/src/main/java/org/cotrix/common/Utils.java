@@ -86,6 +86,11 @@ public class Utils {
 		notEmpty(name,s);
 	}
 	
+	public static void positive(String name, int val) throws IllegalArgumentException {
+		if (val<=0)
+			throw new IllegalArgumentException(name+" is not positive");
+	}
+	
 	/**
 	 * Throws an exception if a given collection with a given name is empty.
 	 * @param name the name

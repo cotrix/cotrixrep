@@ -66,8 +66,9 @@
 
 .dataGridHeader {
 	padding: 6px;
-		
-	text-align: center;
+	
+	padding-left: 20px;
+	text-align: left;
 	color: #464545;
 	font-size: 16px;
 	text-shadow: none;
@@ -89,6 +90,8 @@
 	padding: 4px 8px 4px 10px;
 	text-align: left;
 	overflow: hidden;
+	max-width: 200px;
+	word-wrap: break-word;
 }
 
 .dataGridFirstColumnFooter {

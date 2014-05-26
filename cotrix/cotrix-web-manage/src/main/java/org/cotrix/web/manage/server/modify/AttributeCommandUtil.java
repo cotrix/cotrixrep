@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.server.modify;
 
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.web.manage.shared.modify.attribute.AddAttributeCommand;
 import org.cotrix.web.manage.shared.modify.attribute.AttributeCommand;
 import org.cotrix.web.manage.shared.modify.attribute.RemoveAttributeCommand;

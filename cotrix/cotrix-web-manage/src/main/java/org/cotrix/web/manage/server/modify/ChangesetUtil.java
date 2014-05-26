@@ -13,15 +13,15 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
-import org.cotrix.domain.links.ValueFunction;
-import org.cotrix.domain.links.ValueFunctions;
+import org.cotrix.domain.values.ValueFunction;
+import org.cotrix.domain.values.ValueFunctions;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;

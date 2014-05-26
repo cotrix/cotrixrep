@@ -11,6 +11,7 @@ public enum MainAction implements Action {
 	IMPORT("import"),
 	PUBLISH("publish"),
 	LOGOUT("logout"),
+	CREATE_CODELIST("create_codelist"),
 	ACCESS_ADMIN_AREA("access_admin_area"),
 	MANAGE_USERS("manage_users");
 	

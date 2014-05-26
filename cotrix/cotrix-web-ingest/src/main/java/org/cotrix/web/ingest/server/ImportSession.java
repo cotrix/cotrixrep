@@ -3,13 +3,16 @@
  */
 package org.cotrix.web.ingest.server;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
-import org.apache.commons.fileupload.FileItem;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.web.common.shared.Progress;
@@ -29,28 +32,29 @@ public class ImportSession implements Serializable {
 	
 	private static final long serialVersionUID = -1414667562737882248L;
 	
-	protected FileUploadProgress uploadProgress;
-	protected FileItem fileField;
-	protected UIAssetType codeListType;
+	private FileUploadProgress uploadProgress;
+	private UIAssetType codeListType;
 	
-	protected Asset selectedAsset;
+	private File file;
 	
-	protected ImportMetadata guessedMetadata;
+	private Asset selectedAsset;
+	
+	private ImportMetadata guessedMetadata;
 
-	protected MappingMode guessedMappingMode;
+	private MappingMode guessedMappingMode;
 	
-	protected Progress importerProgress;
+	private Progress importerProgress;
 	
-	protected String importedCodelistName;
+	private String importedCodelistName;
 	
-	protected ImportTaskSession importTaskSession;
+	private ImportTaskSession importTaskSession;
 	
 	@Inject @Current
 	protected User user;
 	
 	public void clean() {
 		uploadProgress = null;
-		fileField = null;
+		file = null;
 		codeListType = null;
 		
 		selectedAsset = null;
@@ -64,9 +68,28 @@ public class ImportSession implements Serializable {
 	}
 	
 	public ImportTaskSession createImportTaskSession() throws IOException {
-		importTaskSession = new ImportTaskSession((fileField!=null)?fileField.getInputStream():null, selectedAsset, user.id());
+		importTaskSession = new ImportTaskSession(getInputStream(), selectedAsset, user.id());
 		return importTaskSession;
-	}		
+	}
+	
+	@SuppressWarnings("resource")
+	private InputStream getInputStream() throws FileNotFoundException {
+		return file!=null?new FileInputStream(file):null;
+	}
+
+	/**
+	 * @return the file
+	 */
+	public File getFile() {
+		return file;
+	}
+
+	/**
+	 * @param file the file to set
+	 */
+	public void setFile(File file) {
+		this.file = file;
+	}
 
 	/**
 	 * @return the importTaskSession
@@ -94,20 +117,6 @@ public class ImportSession implements Serializable {
 	 */
 	public void setUploadProgress(FileUploadProgress uploadProgress) {
 		this.uploadProgress = uploadProgress;
-	}
-
-	/**
-	 * @return the fileField
-	 */
-	public FileItem getFileField() {
-		return fileField;
-	}
-
-	/**
-	 * @param fileField the fileField to set
-	 */
-	public void setFileField(FileItem fileField) {
-		this.fileField = fileField;
 	}
 
 	/**

@@ -8,8 +8,8 @@ import static org.cotrix.domain.dsl.Codes.*;
 import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
 import org.cotrix.io.MapService;
 import org.cotrix.io.comet.map.Codelist2CometDirectives;

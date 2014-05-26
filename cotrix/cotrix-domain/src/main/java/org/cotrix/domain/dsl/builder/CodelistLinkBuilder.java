@@ -9,9 +9,10 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.common.Attribute;
+import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
@@ -20,10 +21,9 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.links.OccurrenceRange;
-import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.utils.AttributeTemplate;
+import org.cotrix.domain.values.ValueFunction;
 
 /**
  * Builds {@link Attribute}s.
@@ -135,7 +135,7 @@ public class CodelistLinkBuilder  {
 		}
 		
 		@Override
-		public OptionalClause occurs(OccurrenceRange range) {
+		public OptionalClause occurs(Range range) {
 			state.range(range);
 			return this;
 		}

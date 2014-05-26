@@ -2,46 +2,21 @@ package org.cotrix.web.manage.client.event;
 
 import org.cotrix.web.common.shared.codelist.UICodelist;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.EventHandler;
+import com.google.web.bindery.event.shared.binder.GenericEvent;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class OpenCodelistEvent extends GwtEvent<OpenCodelistEvent.OpenCodeListHandler> {
+public class OpenCodelistEvent extends GenericEvent {
 
-	public static Type<OpenCodeListHandler> TYPE = new Type<OpenCodeListHandler>();
-
-	public interface OpenCodeListHandler extends EventHandler {
-		void onOpenCodeList(OpenCodelistEvent event);
-	}
-
-	protected UICodelist codelist;
+	private UICodelist codelist;
 	
 	public OpenCodelistEvent(UICodelist codelist) {
 		this.codelist = codelist;
 	}
 
-	/**
-	 * @return the codelist
-	 */
 	public UICodelist getCodelist() {
 		return codelist;
 	}
-
-	@Override
-	protected void dispatch(OpenCodeListHandler handler) {
-		handler.onOpenCodeList(this);
-	}
-
-	@Override
-	public Type<OpenCodeListHandler> getAssociatedType() {
-		return TYPE;
-	}
-
-	public static Type<OpenCodeListHandler> getType() {
-		return TYPE;
-	}
-
 }

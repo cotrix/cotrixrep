@@ -2,6 +2,7 @@ package org.cotrix.web.ingest.client.step.sdmxmapping;
 
 import java.util.List;
 
+import org.cotrix.web.ingest.client.event.CodelistInfosLoadedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.MappingLoadedEvent;
 import org.cotrix.web.ingest.client.event.MappingLoadingEvent;
@@ -10,6 +11,7 @@ import org.cotrix.web.ingest.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
 import org.cotrix.web.ingest.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.ingest.shared.AttributeMapping;
+import org.cotrix.web.ingest.shared.CodelistInfo;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
@@ -29,13 +31,14 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
 @Singleton
 public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implements VisualWizardStep, SdmxMappingStepView.Presenter {
 
-	protected static interface SdmxMappingStepPresenterEventBinder extends EventBinder<SdmxMappingStepPresenter> {}
+	static interface SdmxMappingStepPresenterEventBinder extends EventBinder<SdmxMappingStepPresenter> {}
 
 	@Inject @ImportBus
-	protected EventBus importEventBus;
-	protected SdmxMappingStepView view;
-	protected ImportMetadata metadata;
-	protected List<AttributeMapping> mappings;
+	private EventBus importEventBus;
+	private SdmxMappingStepView view;
+	private ImportMetadata metadata;
+	private List<AttributeMapping> mappings;
+	private List<CodelistInfo> codelistInfos;
 
 	@Inject
 	public SdmxMappingStepPresenter(SdmxMappingStepView view){
@@ -45,7 +48,7 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 	}
 	
 	@Inject
-	private void bind(SdmxMappingStepPresenterEventBinder binder, @ImportBus EventBus importEventBus) {
+	void bind(SdmxMappingStepPresenterEventBinder binder, @ImportBus EventBus importEventBus) {
 		binder.bindEventHandlers(this, importEventBus);
 	}
 
@@ -84,7 +87,7 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 	}
 	
 
-	protected boolean validateAttributes(String csvName, String version)
+	private boolean validateAttributes(String csvName, String version)
 	{
 		if (csvName==null || csvName.isEmpty()) {
 			view.alert("You should choose a codelist name");
@@ -96,10 +99,15 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 			return false;
 		}
 		
+		if (codelistInfos!=null && codelistInfos.contains(new CodelistInfo(csvName, version))) {
+			view.alert("A codelist with name \""+csvName+"\" and version \""+version+"\" already exists");
+			return false;
+		}
+		
 		return true;
 	}
 
-	protected boolean validateMappings(List<AttributeMapping> mappings)
+	private boolean validateMappings(List<AttributeMapping> mappings)
 	{
 
 		for (AttributeMapping mapping:mappings) {
@@ -133,6 +141,11 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 		mappings = event.getMappings();
 		view.setMappings(mappings);
 		view.unsetMappingLoading();
+	}
+	
+	@EventHandler
+	void onCodelistInfosLoadedEvent(CodelistInfosLoadedEvent event) {
+		this.codelistInfos = event.getCodelistInfos();
 	}
 
 	@Override

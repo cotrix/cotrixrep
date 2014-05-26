@@ -10,12 +10,12 @@ import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.links.ValueFunction;
-import org.cotrix.domain.links.ValueFunctions.CustomFunction;
-import org.cotrix.domain.links.ValueFunctions.PrefixFunction;
-import org.cotrix.domain.links.ValueFunctions.SuffixFunction;
-import org.cotrix.domain.links.ValueType;
+import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.utils.AttributeTemplate;
+import org.cotrix.domain.values.ValueFunction;
+import org.cotrix.domain.values.ValueFunctions.CustomFunction;
+import org.cotrix.domain.values.ValueFunctions.PrefixFunction;
+import org.cotrix.domain.values.ValueFunctions.SuffixFunction;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
@@ -46,7 +46,7 @@ public class LinkTypes {
 		return new UILinkType(codelistLink.id(), name, targetCodelist, valueFunction, valueType, attributes);
 	}
 	
-	private static UIValueType toValueType(ValueType valueType) {
+	private static UIValueType toValueType(LinkValueType valueType) {
 		
 		if (valueType instanceof NameLink) {
 			return CODE_NAME_TYPE;

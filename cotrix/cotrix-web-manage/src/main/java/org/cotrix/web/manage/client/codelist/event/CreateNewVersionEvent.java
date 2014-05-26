@@ -1,25 +1,15 @@
 package org.cotrix.web.manage.client.codelist.event;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.EventHandler;
-import java.lang.String;
-import com.google.gwt.event.shared.HasHandlers;
+import com.google.web.bindery.event.shared.binder.GenericEvent;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CreateNewVersionEvent extends
-		GwtEvent<CreateNewVersionEvent.CreateNewVersionHandler> {
-
-	public static Type<CreateNewVersionHandler> TYPE = new Type<CreateNewVersionHandler>();
+public class CreateNewVersionEvent extends GenericEvent {
 	
 	private String codelistId;
 	private String newVersion;
-
-	public interface CreateNewVersionHandler extends EventHandler {
-		void onCreateNewVersion(CreateNewVersionEvent event);
-	}
 
 	public CreateNewVersionEvent(String codelistId, String newVersion) {
 		this.codelistId = codelistId;
@@ -32,23 +22,5 @@ public class CreateNewVersionEvent extends
 
 	public String getNewVersion() {
 		return newVersion;
-	}
-
-	@Override
-	protected void dispatch(CreateNewVersionHandler handler) {
-		handler.onCreateNewVersion(this);
-	}
-
-	@Override
-	public Type<CreateNewVersionHandler> getAssociatedType() {
-		return TYPE;
-	}
-
-	public static Type<CreateNewVersionHandler> getType() {
-		return TYPE;
-	}
-
-	public static void fire(HasHandlers source, String codelistId, String newVersion) {
-		source.fireEvent(new CreateNewVersionEvent(codelistId, newVersion));
 	}
 }

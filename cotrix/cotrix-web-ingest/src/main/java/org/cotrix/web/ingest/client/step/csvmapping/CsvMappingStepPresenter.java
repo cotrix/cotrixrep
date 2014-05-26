@@ -2,6 +2,7 @@ package org.cotrix.web.ingest.client.step.csvmapping;
 
 import java.util.List;
 
+import org.cotrix.web.ingest.client.event.CodelistInfosLoadedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.MappingLoadedEvent;
 import org.cotrix.web.ingest.client.event.MappingLoadingEvent;
@@ -12,6 +13,7 @@ import org.cotrix.web.ingest.client.step.TrackerLabels;
 import org.cotrix.web.ingest.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.AttributeType;
+import org.cotrix.web.ingest.shared.CodelistInfo;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.wizard.client.event.NavigationEvent;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
@@ -32,12 +34,13 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
 @Singleton
 public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements VisualWizardStep, CsvMappingStepView.Presenter {
 
-	protected static interface CsvMappingStepPresenterBinder extends EventBinder<CsvMappingStepPresenter> {}
+	static interface CsvMappingStepPresenterBinder extends EventBinder<CsvMappingStepPresenter> {}
 	
-	protected CsvMappingStepView view;
-	protected EventBus importEventBus;
-	protected ImportMetadata metadata;
-	protected List<AttributeMapping> mappings;
+	private CsvMappingStepView view;
+	private EventBus importEventBus;
+	private ImportMetadata metadata;
+	private List<AttributeMapping> mappings;
+	private List<CodelistInfo> codelistInfos;
 	
 	@Inject
 	protected AssetPreviewNodeSelector previewNodeSelector;
@@ -54,7 +57,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 	}
 	
 	@Inject
-	private void bind(CsvMappingStepPresenterBinder binder, @ImportBus EventBus importEventBus) {
+	void bind(CsvMappingStepPresenterBinder binder, @ImportBus EventBus importEventBus) {
 		binder.bindEventHandlers(this, importEventBus);
 	}
 	
@@ -68,7 +71,6 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 	public boolean leave() {
 		
 		if (previewNodeSelector.toDetails()) return true;
-		
 		
 		Log.trace("checking csv mapping");
 		
@@ -105,6 +107,11 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 		
 		if (version==null || version.isEmpty()) {
 			view.alert("You should specify a codelist version");
+			return false;
+		}
+		
+		if (codelistInfos!=null && codelistInfos.contains(new CodelistInfo(csvName, version))) {
+			view.alert("A codelist with name \""+csvName+"\" and version \""+version+"\" already exists");
 			return false;
 		}
 		
@@ -155,6 +162,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 	@EventHandler
 	void onMappingLoaded(MappingLoadedEvent event) {
 		mappings = event.getMappings();
+		Log.trace("mappings: "+mappings);
 		view.setMapping(mappings);
 		view.unsetMappingLoading();
 	}
@@ -168,9 +176,15 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 			view.setSealed(metadata.isSealed());
 		}
 	}
+	
+	@EventHandler
+	void onCodelistInfosLoadedEvent(CodelistInfosLoadedEvent event) {
+		this.codelistInfos = event.getCodelistInfos();
+	}
 
 	@Override
 	public void onReload() {
+		Log.trace("old mappings: "+mappings);
 		view.setCsvName(metadata.getName());
 		view.setVersion(metadata.getVersion());
 		view.setSealed(metadata.isSealed());

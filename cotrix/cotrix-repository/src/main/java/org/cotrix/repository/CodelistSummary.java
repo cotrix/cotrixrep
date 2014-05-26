@@ -11,10 +11,10 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.links.AttributeLink;
-import org.cotrix.domain.links.ValueType;
+import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.utils.AttributeTemplate;
 
 /**
@@ -185,7 +185,7 @@ public class CodelistSummary {
 
 		Map<QName, Set<String>> types = typesForName(fingerprint, l.name());
 
-		ValueType type = l.valueType();
+		LinkValueType type = l.valueType();
 
 		if (type instanceof AttributeLink) {
 

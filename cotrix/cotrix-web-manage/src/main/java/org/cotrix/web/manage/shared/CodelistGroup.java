@@ -18,8 +18,14 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class CodelistGroup implements IsSerializable {
 	
-	protected UIQName name;
-	protected List<Version> versions = new ArrayList<Version>();
+	public static CodelistGroup fromCodelist(UICodelist codelist) {
+		CodelistGroup group = new CodelistGroup(codelist.getName());
+		group.addVersion(codelist.getId(), codelist.getVersion());
+		return group;
+	}
+	
+	private UIQName name;
+	private List<Version> versions = new ArrayList<Version>();
 	
 	public CodelistGroup(){}
 	
@@ -53,6 +59,12 @@ public class CodelistGroup implements IsSerializable {
 	{
 		versions.add(new Version(this, id, version));
 		Collections.sort(versions);
+	}
+	
+	public void removeVersion(Version version)
+	{
+		boolean removed = versions.remove(version);
+		if (removed) Collections.sort(versions);
 	}
 
 	/**
@@ -151,6 +163,37 @@ public class CodelistGroup implements IsSerializable {
 			codelist.setName(parent.getName());
 			codelist.setVersion(version);
 			return codelist;
+		}
+
+		/** 
+		 * {@inheritDoc}
+		 */
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((id == null) ? 0 : id.hashCode());
+			return result;
+		}
+
+		/** 
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Version other = (Version) obj;
+			if (id == null) {
+				if (other.id != null)
+					return false;
+			} else if (!id.equals(other.id))
+				return false;
+			return true;
 		}
 
 		/** 

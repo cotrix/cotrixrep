@@ -13,7 +13,6 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
-import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.IOUtils;
 import org.cotrix.web.common.server.util.TmpFileManager;
 import org.cotrix.web.common.shared.CsvConfiguration;
@@ -87,18 +86,17 @@ public class PreviewDataManager implements Serializable {
 		setup(streamProvider, configuration);
 	}
 
-	public void setup(final String fileName, final FileItem fileItem) throws IOException {
-		CsvConfiguration configuration = configurationGuesser.guessConfiguration(fileName, fileItem.getInputStream());
+	public void setup(final String fileName, final File file) throws IOException {
+		CsvConfiguration configuration = configurationGuesser.guessConfiguration(fileName, file);
 		
 		StreamProvider streamProvider = new StreamProvider() {
 			
 			@Override
 			public InputStream getStream() throws IOException {
-				return fileItem.getInputStream();
+				return new FileInputStream(file);
 			}
 			
 			public void clean() throws IOException {
-				fileItem.delete();
 			}
 		};
 		

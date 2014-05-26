@@ -1,6 +1,7 @@
 package org.cotrix.web.ingest.server;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.cotrix.web.common.server.util.FileNameUtil;
+import org.cotrix.web.common.server.util.TmpFileManager;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.server.upload.CodeListTypeGuesser;
 import org.cotrix.web.ingest.server.upload.DefaultMappingsGuessers;
@@ -41,21 +43,24 @@ public class FileUpload extends HttpServlet{
 
 	private final String FILE_FIELD_NAME = "file";
 
-	protected Logger logger = LoggerFactory.getLogger(FileUpload.class);
-	protected DiskFileItemFactory factory;
-	protected CodeListTypeGuesser typeGuesser;
+	private Logger logger = LoggerFactory.getLogger(FileUpload.class);
+	private DiskFileItemFactory factory;
+	private CodeListTypeGuesser typeGuesser;
 
 	@Inject
-	protected ParsingHelper parsingHelper;
+	private ParsingHelper parsingHelper;
 
 	@Inject
-	protected ImportSession session;
+	private ImportSession session;
 
 	@Inject
-	protected PreviewDataManager previewDataManager;
+	private PreviewDataManager previewDataManager;
 
 	@Inject
-	protected MappingsManager mappingsManager;
+	private MappingsManager mappingsManager;
+	
+	@Inject
+	private TmpFileManager tmpFileManager;
 
 	public FileUpload()
 	{
@@ -119,7 +124,11 @@ public class FileUpload extends HttpServlet{
 			}
 
 			logger.trace("Received file {} with size {} and content type {}", fileField.getName(), fileField.getSize(), fileField.getContentType());
-			UIAssetType codeListType = typeGuesser.guess(fileField.getName(), fileField.getContentType(), fileField.getInputStream());
+			
+			File file = tmpFileManager.createTmpFile(fileField.getInputStream());
+			fileField.delete();
+			
+			UIAssetType codeListType = typeGuesser.guess(fileField.getName(), fileField.getContentType(), file);
 
 			if (codeListType == null) {
 				logger.error("failed to guess the codelist type");
@@ -128,7 +137,7 @@ public class FileUpload extends HttpServlet{
 				return;
 			}
 
-			session.setFileField(fileField);
+			session.setFile(file);
 			uploadProgress.setCodeListType(codeListType);
 			session.setCodeListType(codeListType);
 			response.setStatus(HttpServletResponse.SC_OK);
@@ -136,7 +145,7 @@ public class FileUpload extends HttpServlet{
 			switch (codeListType) {
 				case CSV: {
 
-					previewDataManager.setup(fileField.getName(), fileField);
+					previewDataManager.setup(fileField.getName(), file);
 					uploadProgress.setProgress(95);
 
 					String filename = FileNameUtil.toHumanReadable(fileField.getName());
@@ -149,7 +158,7 @@ public class FileUpload extends HttpServlet{
 					try {
 						mappingsManager.setMappingGuesser(DefaultMappingsGuessers.SdmxMappingGuesser.INSTANCE);
 
-						CodelistBean codelistBean = parsingHelper.parse(fileField.getInputStream());
+						CodelistBean codelistBean = parsingHelper.parse(new FileInputStream(file));
 						String codelistName = codelistBean.getName();
 						ImportMetadata metadata = new ImportMetadata();
 						metadata.setOriginalName(codelistName);

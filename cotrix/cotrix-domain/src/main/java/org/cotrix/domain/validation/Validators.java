@@ -1,0 +1,61 @@
+package org.cotrix.domain.validation;
+
+import static java.lang.String.*;
+import static java.util.Arrays.*;
+import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.utils.ScriptEngine.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public enum Validators implements Validator {
+	
+	max_length($value+".length <= %s","length"),
+	
+	min_length($value+".length >= %s","length"),
+	
+	custom("%s","expression")
+	
+	;
+	
+	
+	
+	
+	private final List<String> names;
+	private final String template;
+	private final static String paramErrorMsg ="wrong number of parameters for validator %s: expected %s, found %s (%s)";
+	
+	Validators(String template,String ... params) {
+		this.template=template;
+		this.names= asList(params);
+	}
+	
+	@Override
+	public Constraint instance(Object... params) throws IllegalArgumentException {
+		
+		valid("validator's parameters",params);
+		int size = this.names.size();
+		
+		if (params.length!=size) {
+			String msg = format(paramErrorMsg,name(),size,params.length, asList(params));
+			throw new IllegalArgumentException(msg);
+		}
+		
+		String expression = format(template,(Object[]) params);
+				
+		Map<String,String> paramMap = new HashMap<>();
+		
+		for (int i=0; i< names.size(); i++)
+			paramMap.put(names.get(i), params[i].toString());
+		
+		return new Constraint(name(),expression,paramMap);
+	}
+	
+	@Override
+	public List<String> parameterNames() {
+		return names;
+	}
+
+}
+

@@ -13,6 +13,7 @@ import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
+import org.cotrix.web.ingest.shared.CodelistInfo;
 import org.cotrix.web.ingest.shared.UIAssetType;
 import org.cotrix.web.ingest.shared.PreviewHeaders;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
@@ -60,5 +61,7 @@ public interface IngestService extends RemoteService {
 	
 	public PreviewHeaders getPreviewHeaders(CsvConfiguration configuration) throws ServiceException;
 	public DataWindow<List<String>> getPreviewData(Range range) throws ServiceException;
+	
+	public List<CodelistInfo> getCodelistsInfo() throws ServiceException;
 	
 }

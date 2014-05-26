@@ -52,6 +52,12 @@
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-repository</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.googlecode.juniversalchardet</groupId>
+			<artifactId>juniversalchardet</artifactId>
+			<version>1.0.3</version>
+		</dependency>
 
 	</dependencies>
 

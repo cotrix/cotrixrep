@@ -1,18 +1,18 @@
 package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
+import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.links.OccurrenceRanges.*;
-import static org.cotrix.domain.links.ValueFunctions.*;
 import static org.cotrix.domain.trait.Status.*;
+import static org.cotrix.domain.values.ValueFunctions.*;
 import static org.junit.Assert.*;
 
 import javax.xml.namespace.QName;
 
 import org.acme.DomainTest;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.common.Attribute;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
