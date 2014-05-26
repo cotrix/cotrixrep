@@ -1,7 +1,6 @@
-package org.cotrix.domain.links;
+package org.cotrix.domain.values;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
+import static org.cotrix.domain.utils.ScriptEngineProvider.*;
 
 public class ValueFunctions {
 	
@@ -83,10 +82,7 @@ public class ValueFunctions {
 	
 	
 	public static class CustomFunction extends ValueFunction.Abstract {
-		
-		public static String VALUE_VAR = "$value";
-		
-		private static ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
+		;
 		
 		private final String expression; 
 				
@@ -102,8 +98,7 @@ public class ValueFunctions {
 		@Override
 		public String apply(String value) {
 			try {
-				engine.put(VALUE_VAR, value);
-				return (String) engine.eval(expression);
+				return engine().eval(expression).with(value);
 			}
 			catch(Exception e) {
 				throw new RuntimeException("cannot compute link value through generic function (see cause)",e);

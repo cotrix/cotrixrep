@@ -8,6 +8,7 @@ import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.values.ValueType;
 
 
 /**

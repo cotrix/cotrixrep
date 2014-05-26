@@ -1,22 +1,24 @@
 package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
-import static org.cotrix.domain.attributes.Text.*;
-import static org.cotrix.domain.common.OccurrenceRanges.*;
+import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.memory.DefinitionMS;
+import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
 import org.junit.Test;
 
 public class DefinitionTest extends DomainTest {
 	
-	Definition def = definition().name(name).is(type).valueIs(text().max(20)).in(language).occurs(once).build();
+	ValueType vtype = valueType().with(max_length.instance("20"));
+	Definition def = definition().name(name).is(type).valueIs(vtype).in(language).occurs(once).build();
 	
 	@Before
 	public void before() {
@@ -32,7 +34,7 @@ public class DefinitionTest extends DomainTest {
 		//defaults
 		
 		assertEquals(defaultType,minimal.type());
-		assertEquals(freetext,minimal.valueType());
+		assertEquals(defaultValueType,minimal.valueType());
 		assertEquals(arbitrarily,minimal.range());
 		assertNull(minimal.language());
 		
@@ -42,7 +44,7 @@ public class DefinitionTest extends DomainTest {
 		assertEquals(name,def.name());
 		assertEquals(type,def.type());
 		assertEquals(language,def.language());
-		assertEquals(text().max(20),def.valueType());
+		assertEquals(valueType().with(max_length.instance("20")),def.valueType());
 		assertEquals(once,def.range());
 
 	}
@@ -62,7 +64,7 @@ public class DefinitionTest extends DomainTest {
 		 a = modify(def).in(language).build();
 		 
 		//change value type
-		 a = modify(def).valueIs(text()).build();
+		 a = modify(def).valueIs(defaultValueType).build();
 		 
 		//change occurrence constraints
 		 a = modify(def).occurs(once).build();
@@ -92,7 +94,8 @@ public class DefinitionTest extends DomainTest {
 	@Test
 	public void canBeUpdated() {
 
-		Definition changeset = modify(def).name(name2).is(type2).valueIs(text().max(10)).in(language2).occurs(arbitrarily).build();
+		ValueType vtype2 = valueType().with(max_length.instance("10"));
+		Definition changeset = modify(def).name(name2).is(type2).valueIs(vtype2).in(language2).occurs(arbitrarily).build();
 		
 		reveal(def).update(reveal(changeset));
 

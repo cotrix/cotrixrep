@@ -1,7 +1,7 @@
 package org.cotrix.neo.domain;
 
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.links.ValueFunctions.*;
+import static org.cotrix.domain.values.ValueFunctions.*;
 import static org.cotrix.neo.NeoUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
@@ -11,11 +11,11 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Range;
-import org.cotrix.domain.common.OccurrenceRanges;
+import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.LinkValueType;
+import org.cotrix.domain.values.ValueFunction;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
@@ -147,13 +147,13 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 		
 		return node().hasProperty(range_prop)? 
 					(Range) binder().fromXML((String) node().getProperty(range_prop))
-					:OccurrenceRanges.arbitrarily;
+					:Ranges.arbitrarily;
 	}
 	
 	@Override
 	public void range(Range type) {
 		
-		if(type!=OccurrenceRanges.arbitrarily)
+		if(type!=Ranges.arbitrarily)
 			node().setProperty(range_prop,binder().toXML(type));
 		
 	}

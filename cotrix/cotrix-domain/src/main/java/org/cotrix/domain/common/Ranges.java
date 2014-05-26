@@ -2,7 +2,7 @@ package org.cotrix.domain.common;
 
 import org.cotrix.domain.common.Range.Default;
 
-public class OccurrenceRanges {
+public class Ranges {
 
 	public static Range between(int min,int max) {
 		return new Range.Default(min,max);

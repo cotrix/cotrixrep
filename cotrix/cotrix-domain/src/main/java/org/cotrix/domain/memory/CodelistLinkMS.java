@@ -1,17 +1,17 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.common.OccurrenceRanges.*;
+import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.links.NameLink.*;
-import static org.cotrix.domain.links.ValueFunctions.*;
+import static org.cotrix.domain.values.ValueFunctions.*;
 
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.codelist.CodelistLink.Private;
 import org.cotrix.domain.common.Range;
-import org.cotrix.domain.links.ValueFunction;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Status;
+import org.cotrix.domain.values.ValueFunction;
 
 /**
  * Initialisation parameters for {@link CodelistLink}s.

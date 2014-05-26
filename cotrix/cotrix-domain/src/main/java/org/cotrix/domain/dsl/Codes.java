@@ -10,8 +10,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.DefaultType;
 import org.cotrix.domain.attributes.Definition;
-import org.cotrix.domain.attributes.Text;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
@@ -21,15 +21,13 @@ import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.common.StateContainer;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
-import org.cotrix.domain.dsl.builder.DefinitionBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
 import org.cotrix.domain.dsl.builder.CodelinkBuilder;
 import org.cotrix.domain.dsl.builder.CodelistBuilder;
 import org.cotrix.domain.dsl.builder.CodelistLinkBuilder;
+import org.cotrix.domain.dsl.builder.DefinitionBuilder;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionChangeClause;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
@@ -38,12 +36,14 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
+import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionChangeClause;
+import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionNewClause;
 import org.cotrix.domain.memory.AttributeMS;
-import org.cotrix.domain.memory.DefinitionMS;
 import org.cotrix.domain.memory.CodeMS;
 import org.cotrix.domain.memory.CodelinkMS;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.memory.CodelistMS;
+import org.cotrix.domain.memory.DefinitionMS;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -108,10 +108,9 @@ public class Codes {
 		return deleteDefinition(def.id());
 	}
 	
-	public static Text text() {
-		return new Text();
+	public static DefaultType valueType() {
+		return new DefaultType();
 	}
-	
 	
 	public static Code ascode(String name) {
 		return ascode(q(name));
