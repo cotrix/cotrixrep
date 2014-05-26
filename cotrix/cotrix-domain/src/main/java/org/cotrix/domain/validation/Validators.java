@@ -17,12 +17,22 @@ public enum Validators implements Validator {
 	
 	regexp("/%s/.test("+$value+")","expression"),
 	
+	number(format("!isNaN(%s)",$value)),
+	
+	atleast(format("!isNaN(%1$s) && %1$s >= %2$s",$value,"%s"),"number"),
+
+	greater(format("!isNaN(%1$s) && %1$s > %2$s",$value,"%s"),"number"),
+	
+	atmost(format("!isNaN(%1$s) && %1$s <= %2$s",$value,"%s"),"number"),
+	
+	smaller(format("!isNaN(%1$s) && %1$s < %2$s",$value,"%s"),"number"),
+	
+	between(format("!isNaN(%1$s) && %1$s >= %2$s && %1$s <= %2$s",$value,"%s"),"min","max"),
+		
 	custom("%s","expression")
 	
 	;
-	
-	
-	
+
 	
 	private final List<String> names;
 	private final String template;

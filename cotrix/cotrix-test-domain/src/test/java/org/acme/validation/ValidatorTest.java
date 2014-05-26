@@ -68,6 +68,115 @@ public class ValidatorTest {
 	}
 	
 	@Test
+	public void isNumber() {
+		
+		Constraint v = number.instance();
+		
+		boolean outcome = Boolean.valueOf(engine.eval(v.expression()).with("hello"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("12"));
+		
+		assertTrue(outcome);
+
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("-14.56"));
+		
+		assertTrue(outcome);
+
+	}
+	
+	@Test
+	public void atLeast() {
+		
+		Constraint v = atleast.instance(10);
+		
+		boolean outcome = Boolean.valueOf(engine.eval(v.expression()).with("9"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("10"));
+		
+		assertTrue(outcome);
+
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("11.3"));
+		
+		assertTrue(outcome);
+
+	}
+	
+	@Test
+	public void greater() {
+		
+		Constraint v = greater.instance(10);
+		
+		boolean outcome = Boolean.valueOf(engine.eval(v.expression()).with("10"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("11"));
+	
+		assertTrue(outcome);
+	}
+	
+	@Test
+	public void atMost() {
+		
+		Constraint v = atmost.instance(10);
+		
+		boolean outcome = Boolean.valueOf(engine.eval(v.expression()).with("11"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("9"));
+		
+		assertTrue(outcome);
+
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("7.5"));
+		
+		assertTrue(outcome);
+
+	}
+	
+	
+	@Test
+	public void smaller() {
+		
+		Constraint v = smaller.instance(10);
+		
+		boolean outcome = Boolean.valueOf(engine.eval(v.expression()).with("10"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("9"));
+	
+		assertTrue(outcome);
+	}
+	
+	
+	@Test
+	public void between() {
+		
+		Constraint v = between.instance(10,15);
+		
+		boolean outcome = Boolean.valueOf(engine.eval(v.expression()).with("9"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("11"));
+		
+		assertTrue(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("15"));
+		
+		assertTrue(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("16"));
+	
+		assertFalse(outcome);
+	}
+	
+	@Test
 	public void custom() {
 		
 		Constraint v = custom.instance("true");
