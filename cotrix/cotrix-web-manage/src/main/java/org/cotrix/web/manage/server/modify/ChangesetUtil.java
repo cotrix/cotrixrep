@@ -20,6 +20,8 @@ import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.common.Range;
+import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
 import org.cotrix.domain.values.ValueFunction;
 import org.cotrix.domain.values.ValueFunctions;
@@ -29,6 +31,7 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
+import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
 import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
 import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
@@ -234,19 +237,24 @@ public class ChangesetUtil {
 	public static Definition addDefinition(UIAttributeType attributeType) {
 		return definition().name(convert(attributeType.getName()))
 				.is(convert(attributeType.getType()))
-				.in(convert(attributeType.getLanguage())).build();
+				.in(convert(attributeType.getLanguage()))
+				.occurs(toRange(attributeType.getRange())).build();
 	}
 	
 	public static Definition updateDefinition(UIAttributeType attributeType) {
 		return modifyDefinition(attributeType.getId()).name(convert(attributeType.getName()))
 				.is(convert(attributeType.getType()))
-				.in(convert(attributeType.getLanguage())).build();
+				.in(convert(attributeType.getLanguage()))
+				.occurs(toRange(attributeType.getRange())).build();
 	}
 	
 	public static Definition removeDefinition(UIAttributeType attributeType) {
 		return deleteDefinition(attributeType.getId());
 	}
 	
+	public static Range toRange(UIRange range) {
+		return Ranges.between(range.getMin(), range.getMax());
+	}
 	
 	
 	public static String convert(Language language) {

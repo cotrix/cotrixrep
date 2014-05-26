@@ -18,7 +18,8 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 	private String id;
 	private UIQName name;
 	private UIQName type;
-	private Language language;
+	private Language language = Language.NONE;
+	private UIRange range = new UIRange(1, 1);
 	
 	public UIAttributeType() {}
 
@@ -78,6 +79,20 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 		this.language = language;
 	}
 
+	/**
+	 * @return the range
+	 */
+	public UIRange getRange() {
+		return range;
+	}
+
+	/**
+	 * @param range the range to set
+	 */
+	public void setRange(UIRange range) {
+		this.range = range;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -92,7 +107,9 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 		builder.append(type);
 		builder.append(", language=");
 		builder.append(language);
+		builder.append(", range=");
+		builder.append(range);
 		builder.append("]");
 		return builder.toString();
-	}	
+	}
 }
