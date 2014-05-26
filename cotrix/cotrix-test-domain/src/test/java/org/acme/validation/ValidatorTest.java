@@ -177,6 +177,102 @@ public class ValidatorTest {
 	}
 	
 	@Test
+	public void date() {
+		
+		Constraint v = date.instance();
+		
+		boolean outcome = Boolean.valueOf(engine.eval(v.expression()).with("dfdsfds"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("10 Oct 2009"));
+		
+		assertTrue(outcome);
+
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("Oct 10 2009"));
+		
+		assertTrue(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("10/10/2009"));
+		
+		assertTrue(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("2009 October 10"));
+		
+		assertTrue(outcome);
+		
+	}
+	
+	@Test
+	public void before() {
+		
+		Constraint v = before.instance("10 Oct 2009");
+		
+		boolean outcome = Boolean.valueOf(engine.eval(v.expression()).with("dfdsfds"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("10 Oct 2009"));
+		
+		assertFalse(outcome);
+
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("Oct 11 2009"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("9 Oct 2009"));
+		
+		assertTrue(outcome);
+		
+	}
+	
+	@Test
+	public void after() {
+		
+		Constraint v = after.instance("10 Oct 2009");
+		
+		boolean outcome = Boolean.valueOf(engine.eval(v.expression()).with("dfdsfds"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("10 Oct 2009"));
+		
+		assertFalse(outcome);
+
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("Oct 9 2009"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("11 Oct 2009"));
+		
+		assertTrue(outcome);
+		
+	}
+	
+	@Test
+	public void betweenDates() {
+		
+		Constraint v = between_dates.instance("10 Oct 2009","12 Oct 2009");
+		
+		boolean outcome = Boolean.valueOf(engine.eval(v.expression()).with("dfdsfds"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("10 Oct 2009"));
+		
+		assertFalse(outcome);
+
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("Oct 12 2009"));
+		
+		assertFalse(outcome);
+		
+		outcome = Boolean.valueOf(engine.eval(v.expression()).with("11 Oct 2009"));
+		
+		assertTrue(outcome);
+		
+	}
+	
+	@Test
 	public void custom() {
 		
 		Constraint v = custom.instance("true");
