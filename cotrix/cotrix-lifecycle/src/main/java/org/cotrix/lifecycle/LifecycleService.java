@@ -60,6 +60,12 @@ public interface LifecycleService {
 	Lifecycle lifecycleOf(String id);
 	
 	
+	/**
+	 * Updates the lifecycle of a given resource
+	 * @param id the identifier of the resource
+	 * 
+	 * @throws IllegalStateException if no lifecycle exists for the given resource
+	 */	
 	void update(Lifecycle lc);
 	
 }

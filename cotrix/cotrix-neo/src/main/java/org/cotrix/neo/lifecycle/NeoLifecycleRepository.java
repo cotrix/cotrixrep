@@ -9,17 +9,22 @@ import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.cotrix.common.Utils;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.LifecycleRepository;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.ResourceIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.thoughtworks.xstream.XStream;
 
 @Singleton @Alternative @Priority(RUNTIME)
 public class NeoLifecycleRepository implements LifecycleRepository {
+	
+	private static Logger log = LoggerFactory.getLogger(NeoLifecycleRepository.class);
 	
 	private static XStream stream = new XStream(); 
 	
@@ -60,6 +65,26 @@ public class NeoLifecycleRepository implements LifecycleRepository {
 			throw new AssertionError("attempt to update transient lifecycle "+lc.resourceId());
 		
 		node.setProperty(state_prop,stream.toXML(lc.state()));
+		
+		log.info("updated {}'s lifecycle",lc.resourceId());
+	}
+	
+	@Override
+	public void delete(Lifecycle lc) {
+		
+		Node node = nodeFor(lc.resourceId());
+
+		if (node==null)
+			throw new AssertionError("attempt to update transient lifecycle "+lc.resourceId());
+		
+		try {
+			node.delete();
+		}
+		catch(Exception e) {
+			Utils.rethrow("cannot delete codelist lifecycle for "+lc.resourceId(),e);
+		}
+		
+		log.info("deleted {}'s lifecycle",lc.resourceId());
 		
 	}
 	

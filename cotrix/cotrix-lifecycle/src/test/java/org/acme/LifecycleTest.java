@@ -1,5 +1,6 @@
 package org.acme;
 
+import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
 import static org.junit.Assert.*;
 
@@ -13,6 +14,7 @@ import org.cotrix.lifecycle.LifecycleEvent;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
+import org.cotrix.lifecycle.impl.LifecycleRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
 
@@ -22,6 +24,9 @@ public class LifecycleTest extends ApplicationTest {
 	
 	@Inject
 	LifecycleService service;
+	
+	@Inject
+	LifecycleRepository repository;
 	
 	@Inject
 	TestObserver observer;
@@ -65,6 +70,24 @@ public class LifecycleTest extends ApplicationTest {
 	}
 	
 	
+	@Test(expected=IllegalStateException.class)
+	public void cannotDeleteWhenSealed() {
+		
+		Lifecycle lifecycle = service.start("resource", DefaultLifecycleStates.sealed);
+		
+		lifecycle.notify(DELETE.on(lifecycle.resourceId()));
+	}
+	
+
+	@Test
+	public void deleteThroughRepository() {
+		
+		Lifecycle lifecycle = service.start("resource");
+		
+		repository.delete(lifecycle);
+		
+		assertNull(repository.lookup(lifecycle.resourceId()));
+	}
 		
 	@Test
 	public void fullUseStory() {

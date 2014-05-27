@@ -64,6 +64,7 @@ public class S4JLifecycleFactory implements LifecycleFactory {
 								.PermitReentry(VIEW.on(id))
 								.PermitReentry(EDIT.on(id))
 								.Permit(LOCK.on(id),locked)
+								.Permit(DELETE.on(id), deleted)
 								.PermitReentry(VERSION.on(id))
 								.PermitReentry(PUBLISH.on(id));
 
@@ -71,6 +72,7 @@ public class S4JLifecycleFactory implements LifecycleFactory {
 								.PermitReentry(VIEW.on(id))
 								.Permit(SEAL.on(id),sealed)
 								.Permit(UNLOCK.on(id), draft)
+								.Permit(DELETE.on(id), deleted)
 								.PermitReentry(VERSION.on(id))
 								.PermitReentry(PUBLISH.on(id));
 		

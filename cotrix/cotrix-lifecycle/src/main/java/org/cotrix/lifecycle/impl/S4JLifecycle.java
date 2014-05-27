@@ -64,7 +64,7 @@ public class S4JLifecycle extends AbstractLifecycle {
 			machine.Fire(action);
 		}
 		catch(Exception e) {
-			throw new IllegalStateException(action.toString());
+			throw new IllegalStateException("action "+action.toString()+" is illegal for the state of this lifecycle");
 		}
 		
 		State target = state();
