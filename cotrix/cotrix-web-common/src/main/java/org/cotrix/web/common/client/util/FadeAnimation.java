@@ -10,6 +10,7 @@ package org.cotrix.web.common.client.util;
 import java.math.BigDecimal;
 
 import com.google.gwt.animation.client.Animation;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.user.client.Element;
 
 /**
@@ -75,6 +76,8 @@ public class FadeAnimation extends Animation {
 	protected void onComplete() {
 		super.onComplete();
 		element.getStyle().setOpacity(targetOpacity);
+		if (targetOpacity == VISIBLE_OPACITY) element.getStyle().setVisibility(Visibility.VISIBLE);
+		if (targetOpacity == INVISIBLE_OPACITY) element.getStyle().setVisibility(Visibility.HIDDEN);
 	}
 	
 	public void setVisibility(boolean visible, Speed speed)
@@ -99,6 +102,7 @@ public class FadeAnimation extends Animation {
 	{
 		cancel();
 		element.getStyle().setOpacity(1);
+		element.getStyle().setVisibility(Visibility.VISIBLE);
 		fade(speed.getTime(), invisibleOpacity);
 	}
 	
@@ -111,6 +115,7 @@ public class FadeAnimation extends Animation {
 	{
 		cancel();
 		element.getStyle().setOpacity(startingOpacity);
+		element.getStyle().setVisibility(Visibility.VISIBLE);
 		fade(speed.getTime(), 1);
 	}
 
