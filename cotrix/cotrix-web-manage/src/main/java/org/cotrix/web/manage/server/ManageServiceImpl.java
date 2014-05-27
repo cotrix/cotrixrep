@@ -2,6 +2,7 @@ package org.cotrix.web.manage.server;
 
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.repository.CodelistQueries.*;
 import static org.cotrix.web.manage.shared.ManagerUIFeature.*;
 
@@ -31,6 +32,7 @@ import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.User;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
@@ -38,6 +40,7 @@ import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.MultiQuery;
+import org.cotrix.repository.UserRepository;
 import org.cotrix.web.common.server.CotrixRemoteServlet;
 import org.cotrix.web.common.server.task.ActionMapper;
 import org.cotrix.web.common.server.task.CodelistTask;
@@ -120,6 +123,9 @@ public class ManageServiceImpl implements ManageService {
 	
 	@Inject @Current
 	private User currentUser;
+	
+	@Inject
+	private UserRepository userRepository;
 
 	/** 
 	 * {@inheritDoc}
@@ -286,6 +292,11 @@ public class ManageServiceImpl implements ManageService {
 	public CodelistGroup createNewCodelist(String name, String version)	throws ServiceException {
 		logger.trace("createNewCodelist name: {}, version: {}",name, version);
 		Codelist newCodelist = codelist().name(name).version(version).build();
+
+		logger.trace("owner: {}", currentUser);
+		User changeset = modifyUser(currentUser).is(Roles.OWNER.on(newCodelist.id())).build();
+		userRepository.update(changeset);
+		
 		CodelistGroup group = addCodelist(newCodelist);
 		events.fire(new CodelistActionEvents.Create(newCodelist.id(),newCodelist.name(), newCodelist.version(), session));
 		return group;
