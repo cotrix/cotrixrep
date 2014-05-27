@@ -1,16 +1,19 @@
 package org.cotrix.web.manage.client.codelists;
 
+import java.util.Set;
+
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
-import org.cotrix.web.common.client.feature.InstanceFeatureBind.IdProvider;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.feature.ApplicationFeatures;
+import org.cotrix.web.common.shared.feature.UIFeature;
 import org.cotrix.web.manage.client.codelist.VersionDialog;
 import org.cotrix.web.manage.client.codelist.VersionDialog.VersionDialogListener;
 import org.cotrix.web.manage.client.codelist.event.CreateNewVersionEvent;
 import org.cotrix.web.manage.client.codelist.event.RemoveCodelistEvent;
+import org.cotrix.web.manage.client.codelists.CodelistsFeatureCache.CodelistsFeatureCacheListener;
 import org.cotrix.web.manage.client.codelists.NewCodelistDialog.NewCodelistDialogListener;
 import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
 import org.cotrix.web.manage.client.event.CodelistRemovedEvent;
@@ -49,12 +52,14 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	private VersionDialog versionDialog;
 	
 	private UICodelist lastSelected;
+	
+	@Inject
+	private CodelistsFeatureCache featureCache;
 
 	@Inject
 	public CodelistsPresenter(CodelistsView view) {
 		this.view = view;
 		this.view.setPresenter(this);
-		cleanButtonsState();
 	}
 	
 	@Inject
@@ -73,29 +78,15 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 			}
 		}, ApplicationFeatures.CREATE_CODELIST);
 		
-		IdProvider idProvider = new IdProvider() {
+		featureCache.addListener(new CodelistsFeatureCacheListener() {
 			
 			@Override
-			public String getId() {
-				return lastSelected!=null?lastSelected.getId():null;
+			public void onFeatureUpdate(String resourceId, Set<UIFeature> features) {
+				if (lastSelected!=null && lastSelected.getId().equals(resourceId)) refreshButtonsState();
 			}
-		};
+		});
 		
-		FeatureBinder.bind(new FeatureToggler() {
-			
-			@Override
-			public void toggleFeature(boolean active) {
-				view.setVersionCodelistVisible(active);
-			}
-		}, idProvider, ApplicationFeatures.VERSION_CODELIST);
-		
-		FeatureBinder.bind(new FeatureToggler() {
-			
-			@Override
-			public void toggleFeature(boolean active) {
-				view.setRemoveCodelistVisible(active);
-			}
-		}, idProvider, ApplicationFeatures.REMOVE_CODELIST);
+		refreshButtonsState();
 	}
 	
 	@Inject
@@ -143,12 +134,19 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 		Log.trace("onCodelistItemSelected codelist: "+codelist);
 		lastSelected = codelist;
 		if (codelist!=null) managerBus.fireEvent(new OpenCodelistEvent(codelist));
-		else cleanButtonsState();
+		refreshButtonsState();
 	}
 	
-	private void cleanButtonsState() {
-		view.setRemoveCodelistVisible(false);
-		view.setVersionCodelistVisible(false);
+	private void refreshButtonsState() {
+		if (lastSelected!=null) {
+			boolean canRemove = featureCache.hasFeature(lastSelected.getId(), ApplicationFeatures.REMOVE_CODELIST);
+			view.setRemoveCodelistVisible(canRemove);
+			boolean canVersion = featureCache.hasFeature(lastSelected.getId(), ApplicationFeatures.VERSION_CODELIST);
+			view.setVersionCodelistVisible(canVersion);
+		} else {
+			view.setRemoveCodelistVisible(false);
+			view.setVersionCodelistVisible(false);
+		}
 	}
 
 	public void refreshCodeLists() {
