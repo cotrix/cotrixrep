@@ -14,6 +14,7 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.DefaultType;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
@@ -23,14 +24,18 @@ import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
+import org.cotrix.domain.validation.Validator;
+import org.cotrix.domain.validation.Validators;
 import org.cotrix.domain.values.ValueFunction;
 import org.cotrix.domain.values.ValueFunctions;
+import org.cotrix.domain.values.ValueType;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
+import org.cotrix.web.common.shared.codelist.attributetype.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
 import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
@@ -238,14 +243,18 @@ public class ChangesetUtil {
 		return definition().name(convert(attributeType.getName()))
 				.is(convert(attributeType.getType()))
 				.in(convert(attributeType.getLanguage()))
-				.occurs(toRange(attributeType.getRange())).build();
+				.occurs(toRange(attributeType.getRange()))
+				.valueIs(toValueType(attributeType.getConstraints()))
+				.build();
 	}
 	
 	public static Definition updateDefinition(UIAttributeType attributeType) {
 		return modifyDefinition(attributeType.getId()).name(convert(attributeType.getName()))
 				.is(convert(attributeType.getType()))
 				.in(convert(attributeType.getLanguage()))
-				.occurs(toRange(attributeType.getRange())).build();
+				.occurs(toRange(attributeType.getRange()))
+				.valueIs(toValueType(attributeType.getConstraints()))
+				.build();
 	}
 	
 	public static Definition removeDefinition(UIAttributeType attributeType) {
@@ -254,6 +263,28 @@ public class ChangesetUtil {
 	
 	public static Range toRange(UIRange range) {
 		return Ranges.between(range.getMin(), range.getMax());
+	}
+	
+	public static ValueType toValueType(List<UIConstraint> constraints) {
+		DefaultType type = valueType();
+		
+		for (UIConstraint constraint:constraints) addConstraint(type, constraint);
+		//TODO .required()	.defaultsTo("abc");
+		
+		return type;
+	}
+	
+	private static void addConstraint(DefaultType type, UIConstraint constraint) {
+		Validator constraintValidator = null;
+		for (Validator validator:Validators.values()) {
+			if (validator.name().equals(constraint.getName())) {
+				constraintValidator = validator;
+				break;
+			}
+		}
+		if (constraintValidator == null) throw new IllegalArgumentException("Validator for constraint "+constraint+" not found");
+		
+		type.with(constraintValidator.instance(constraint.getParameters().toArray()));
 	}
 	
 	
