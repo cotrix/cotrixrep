@@ -22,7 +22,8 @@ public interface LifecycleRepository {
 	
 	void update(Lifecycle lc);
 	
-	void delete(Lifecycle lc);
+	void delete(String id);
+	
 	
 	
 }

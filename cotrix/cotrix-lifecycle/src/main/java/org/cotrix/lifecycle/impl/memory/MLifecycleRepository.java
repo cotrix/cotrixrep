@@ -54,11 +54,10 @@ public class MLifecycleRepository implements LifecycleRepository {
 	}
 	
 	@Override
-	public void delete(Lifecycle lc) {
+	public void delete(String id) {
 		
-		tokens.remove(lc.resourceId());
-		
-		log.info("deleted memory lifecycle for {} ",lc.resourceId());
+		if(tokens.remove(id)!=null)
+			log.info("deleted memory lifecycle for {} ",id);
 		
 	}
 }

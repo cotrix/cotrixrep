@@ -15,7 +15,7 @@ public enum CodelistAction implements Action {
 	SEAL("seal"),
 	VERSION("version"),
 	PUBLISH("publish"),
-	REMOVED("removed")
+	REMOVE("removed")
 	
 	;	
 	

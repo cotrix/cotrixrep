@@ -70,21 +70,21 @@ public class NeoLifecycleRepository implements LifecycleRepository {
 	}
 	
 	@Override
-	public void delete(Lifecycle lc) {
+	public void delete(String id) {
 		
-		Node node = nodeFor(lc.resourceId());
+		Node node = nodeFor(id);
 
 		if (node==null)
-			throw new AssertionError("attempt to update transient lifecycle "+lc.resourceId());
+			throw new AssertionError("attempt to update transient lifecycle "+id);
 		
 		try {
 			node.delete();
 		}
 		catch(Exception e) {
-			Utils.rethrow("cannot delete codelist lifecycle for "+lc.resourceId(),e);
+			Utils.rethrow("cannot delete codelist lifecycle for "+id,e);
 		}
 		
-		log.info("deleted {}'s lifecycle",lc.resourceId());
+		log.info("deleted {}'s lifecycle",id);
 		
 	}
 	

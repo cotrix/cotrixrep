@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.ingest.server.climport;
 
+import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.domain.dsl.Users.*;
 
 import javax.inject.Inject;
@@ -11,8 +12,6 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.User;
 import org.cotrix.lifecycle.LifecycleService;
-import org.cotrix.lifecycle.State;
-import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.slf4j.Logger;
@@ -42,13 +41,14 @@ public class ImporterTarget {
 		try {
 			repository.add(codelist);
 
-			State startState = sealed?DefaultLifecycleStates.sealed:DefaultLifecycleStates.draft;
-			lifecycleService.start(codelist.id(), startState);
-
 			User owner = userRepository.lookup(ownerId);
 			logger.trace("owner: {}", owner);
 			User changeset = modifyUser(owner).is(Roles.OWNER.on(codelist.id())).build();
 			userRepository.update(changeset);
+			
+			if (sealed)
+				lifecycleService.lifecycleOf(codelist.id()).notify(SEAL.on(codelist.id()));
+			
 		} catch(Throwable throwable) {
 			throw new RuntimeException("Failed completing the import", throwable);
 		}

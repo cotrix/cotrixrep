@@ -14,7 +14,6 @@ import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.action.events.CodelistActionEvents.Import;
 import org.cotrix.application.NewsService;
 import org.cotrix.application.NewsService.NewsItem;
-import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
 
@@ -24,9 +23,6 @@ public class NewsServiceTest extends ApplicationTest {
 	
 	@Inject
 	NewsService service;
-	
-	@Inject
-	LifecycleService lcService;
 	
 	@Inject
 	TestReporter reporter;

@@ -101,4 +101,12 @@ public class DefaultLifecycleService implements LifecycleService {
 		
 	}
 	
+	@Override
+	public void delete(String id) {
+		
+		notNull("resource identifier",id);
+		
+		repository.delete(id);
+	}
+	
 }

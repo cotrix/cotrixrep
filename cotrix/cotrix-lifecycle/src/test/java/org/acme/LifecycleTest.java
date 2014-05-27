@@ -14,7 +14,6 @@ import org.cotrix.lifecycle.LifecycleEvent;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
-import org.cotrix.lifecycle.impl.LifecycleRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
 
@@ -24,9 +23,6 @@ public class LifecycleTest extends ApplicationTest {
 	
 	@Inject
 	LifecycleService service;
-	
-	@Inject
-	LifecycleRepository repository;
 	
 	@Inject
 	TestObserver observer;
@@ -75,18 +71,18 @@ public class LifecycleTest extends ApplicationTest {
 		
 		Lifecycle lifecycle = service.start("resource", DefaultLifecycleStates.sealed);
 		
-		lifecycle.notify(REMOVED.on(lifecycle.resourceId()));
+		lifecycle.notify(REMOVE.on(lifecycle.resourceId()));
 	}
 	
 
-	@Test
-	public void deleteThroughRepository() {
+	@Test(expected=IllegalStateException.class)
+	public void delete() {
 		
 		Lifecycle lifecycle = service.start("resource");
 		
-		repository.delete(lifecycle);
+		service.delete(lifecycle.resourceId());
 		
-		assertNull(repository.lookup(lifecycle.resourceId()));
+		assertNull(service.lifecycleOf(lifecycle.resourceId()));
 	}
 		
 	@Test
