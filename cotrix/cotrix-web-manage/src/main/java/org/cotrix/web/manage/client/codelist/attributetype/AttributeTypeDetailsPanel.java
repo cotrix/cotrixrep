@@ -3,14 +3,19 @@
  */
 package org.cotrix.web.manage.client.codelist.attributetype;
 
+import java.util.List;
+
 import org.cotrix.web.common.client.widgets.AdvancedIntegerBox;
 import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
+import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.Language;
+import org.cotrix.web.common.shared.codelist.attributetype.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
+import org.cotrix.web.manage.client.codelist.attributetype.constraint.ConstraintsPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -38,14 +43,17 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	public static final String CODE_NAME_VALUE_TYPE = Document.get().createUniqueId();
 	public static final CodeNameValue CODE_NAME_TYPE = new CodeNameValue();
 
-	private static AtttributeDetailsPanelUiBinder uiBinder = GWT.create(AtttributeDetailsPanelUiBinder.class);
+	private static AttributeDetailsPanelUiBinder uiBinder = GWT.create(AttributeDetailsPanelUiBinder.class);
 
-	interface AtttributeDetailsPanelUiBinder extends UiBinder<Widget, AttributeTypeDetailsPanel> {}
+	interface AttributeDetailsPanelUiBinder extends UiBinder<Widget, AttributeTypeDetailsPanel> {}
 
 	interface Style extends CssResource {
 		String error();
 		String editor();
 	}
+	
+
+	@UiField Table table;
 
 	@UiField EditableLabel nameBoxContainer;
 	@UiField TextBox nameBox;
@@ -66,6 +74,8 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	@UiField CellContainer occurrencesMaxRow;
 	@UiField EditableLabel occurrencesMaxBoxContainer;
 	@UiField AdvancedIntegerBox occurrencesMax;
+	
+	private ConstraintsPanel constraintsPanel;
 
 	@UiField Style style;
 
@@ -79,6 +89,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 		setupTypeField();
 		setupLanguageField();
 		setupOccurrencesField();
+		setupConstraintsPanel();
 	}
 	
 	private void setupNameField() {
@@ -170,6 +181,17 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 		if (clean) occurrencesMax.setValue(null);
 	}
 	
+	private void setupConstraintsPanel() {
+		constraintsPanel = new ConstraintsPanel(table, style.error());
+		constraintsPanel.addValueChangeHandler(new ValueChangeHandler<Void>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Void> event) {
+				fireChange();
+			}
+		});
+	}
+	
 	
 	public String getName() {
 		return nameBox.getValue();
@@ -234,6 +256,14 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 		occurrencesMinBoxContainer.setStyleName(style.error(), !valid);
 		occurrencesMaxBoxContainer.setStyleName(style.error(), !valid);
 	}
+	
+	public List<UIConstraint> getConstraints() {
+		return constraintsPanel.getConstraints();
+	}
+	
+	public void setConstraints(List<UIConstraint> constraints) {
+		constraintsPanel.setConstraints(constraints);
+	}
 
 	public void setReadOnly(boolean readOnly) {
 		
@@ -253,6 +283,8 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 			occurrencesMin.setStyleName(style.error(), false);
 			occurrencesMax.setStyleName(style.error(), false);
 		}
+		
+		constraintsPanel.setReadOnly(readOnly);
 	}
 
 	private void fireChange() {

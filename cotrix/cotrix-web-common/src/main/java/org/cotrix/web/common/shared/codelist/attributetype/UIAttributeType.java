@@ -3,6 +3,9 @@
  */
 package org.cotrix.web.common.shared.codelist.attributetype;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.common.shared.codelist.UIQName;
@@ -18,84 +21,64 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 	private String id;
 	private UIQName name;
 	private UIQName type;
-	private Language language = Language.NONE;
-	private UIRange range = new UIRange(1, 1);
+	private Language language;
+	private UIRange range;
+	private List<UIConstraint> constraints;
 	
-	public UIAttributeType() {}
+	public UIAttributeType() {
+		language = Language.NONE;
+		range = new UIRange(1, 1);
+		constraints = new ArrayList<UIConstraint>();
+	}
 
-	/**
-	 * @return the id
-	 */
 	public String getId() {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public UIQName getName() {
 		return name;
 	}
 
-	/**
-	 * @param name the name to set
-	 */
 	public void setName(UIQName name) {
 		this.name = name;
 	}
 
-	/**
-	 * @return the type
-	 */
 	public UIQName getType() {
 		return type;
 	}
 
-	/**
-	 * @param type the type to set
-	 */
 	public void setType(UIQName type) {
 		this.type = type;
 	}
 
-	/**
-	 * @return the language
-	 */
 	public Language getLanguage() {
 		return language;
 	}
 
-	/**
-	 * @param language the language to set
-	 */
 	public void setLanguage(Language language) {
 		this.language = language;
 	}
 
-	/**
-	 * @return the range
-	 */
 	public UIRange getRange() {
 		return range;
 	}
 
-	/**
-	 * @param range the range to set
-	 */
 	public void setRange(UIRange range) {
 		this.range = range;
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
+	public List<UIConstraint> getConstraints() {
+		return constraints;
+	}
+
+	public void setConstraints(List<UIConstraint> constraints) {
+		this.constraints = constraints;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -109,6 +92,8 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 		builder.append(language);
 		builder.append(", range=");
 		builder.append(range);
+		builder.append(", constraints=");
+		builder.append(constraints);
 		builder.append("]");
 		return builder.toString();
 	}

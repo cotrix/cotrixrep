@@ -3,10 +3,13 @@
  */
 package org.cotrix.web.manage.client.codelist.attributetype;
 
+import java.util.List;
+
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
+import org.cotrix.web.common.shared.codelist.attributetype.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanelListener;
@@ -36,14 +39,14 @@ public class AttributeTypePanel extends Composite implements ItemEditingPanel<UI
 	private LabelHeader header;
 	private AttributeTypeDetailsPanel detailsPanel;
 	private ItemEditingPanelListener<UIAttributeType> listener;
-	private UIAttributeType attribute;
+	private UIAttributeType attributeType;
 
 	private CustomDisclosurePanel disclosurePanel;
 
 	private String id = Document.get().createUniqueId();
 
 	public AttributeTypePanel(UIAttributeType attribute) {
-		this.attribute = attribute;
+		this.attributeType = attribute;
 		
 		header = new LabelHeader();
 		header.setSwitchVisible(false);
@@ -126,8 +129,8 @@ public class AttributeTypePanel extends Composite implements ItemEditingPanel<UI
 
 	private void onSave() {
 		stopEdit();
-		readAttribute();
-		if (listener!=null) listener.onSave(attribute);
+		readAttributeType();
+		if (listener!=null) listener.onSave(attributeType);
 		updateHeaderLabel();
 	}
 
@@ -144,18 +147,21 @@ public class AttributeTypePanel extends Composite implements ItemEditingPanel<UI
 		writeLink();
 	}
 
-	private void readAttribute() {
+	private void readAttributeType() {
 		String name = detailsPanel.getName();
-		attribute.setName(ValueUtils.getValue(name));
+		attributeType.setName(ValueUtils.getValue(name));
 		
 		String type = detailsPanel.getType();
-		attribute.setType(ValueUtils.getValue(type));
+		attributeType.setType(ValueUtils.getValue(type));
 		
 		Language language = detailsPanel.getLanguage();
-		attribute.setLanguage(language);
+		attributeType.setLanguage(language);
 		
 		UIRange range = detailsPanel.getRange();
-		attribute.setRange(range);
+		attributeType.setRange(range);
+		
+		List<UIConstraint> constraints = detailsPanel.getConstraints();
+		attributeType.setConstraints(constraints);
 	}
 
 	public void enterEditMode() {
@@ -184,14 +190,15 @@ public class AttributeTypePanel extends Composite implements ItemEditingPanel<UI
 	}
 
 	private void writeLink() {
-		detailsPanel.setName(ValueUtils.getLocalPart(attribute.getName()));
-		detailsPanel.setType(ValueUtils.getLocalPart(attribute.getType()));
-		detailsPanel.setLanguage(attribute.getLanguage());
-		detailsPanel.setRange(attribute.getRange());
+		detailsPanel.setName(ValueUtils.getLocalPart(attributeType.getName()));
+		detailsPanel.setType(ValueUtils.getLocalPart(attributeType.getType()));
+		detailsPanel.setLanguage(attributeType.getLanguage());
+		detailsPanel.setRange(attributeType.getRange());
+		detailsPanel.setConstraints(attributeType.getConstraints());
 	}
 	
 	private void updateHeaderLabel() {
-		header.setHeaderLabel(ValueUtils.getLocalPart(attribute.getName()));
+		header.setHeaderLabel(ValueUtils.getLocalPart(attributeType.getName()));
 	}
 
 	private void updateHeaderButtons() {
