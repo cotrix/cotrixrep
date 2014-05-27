@@ -75,7 +75,7 @@ public class LifecycleTest extends ApplicationTest {
 		
 		Lifecycle lifecycle = service.start("resource", DefaultLifecycleStates.sealed);
 		
-		lifecycle.notify(DELETE.on(lifecycle.resourceId()));
+		lifecycle.notify(REMOVED.on(lifecycle.resourceId()));
 	}
 	
 

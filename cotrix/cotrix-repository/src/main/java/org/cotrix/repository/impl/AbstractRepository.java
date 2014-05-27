@@ -30,12 +30,16 @@ public abstract class AbstractRepository<T extends Identified,
 	
 	private final StateRepository<S> delegate;
 	
+	private final EventProducer producer;
 	
-	public AbstractRepository(StateRepository<S> repository) {
+	
+	public AbstractRepository(StateRepository<S> repository, EventProducer producer) {
 		
 		notNull("delegate repository",repository);
+		notNull("event producer",producer);
 		
 		this.delegate=repository;
+		this.producer=producer;
 		
 	}
 	
@@ -56,6 +60,9 @@ public abstract class AbstractRepository<T extends Identified,
 		delegate.add(implementation.state());
 		
 		log.trace("added entity {}",log(entity));
+		
+		producer.additions.fire(entity);
+		
 	};
 	
 	
@@ -104,6 +111,8 @@ public abstract class AbstractRepository<T extends Identified,
 		Identified.Abstract entity = state.entity();
 		
 		entity.update(implementation);
+		
+		producer.updates.fire(changeset);
 	};
 	
 	
@@ -118,6 +127,8 @@ public abstract class AbstractRepository<T extends Identified,
 		delegate.remove(id);	
 		
 		log.info("removed entity "+id);
+		
+		producer.removals.fire(id);
 
 	}
 	

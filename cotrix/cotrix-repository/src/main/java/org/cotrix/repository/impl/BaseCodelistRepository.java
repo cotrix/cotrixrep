@@ -11,8 +11,8 @@ import org.cotrix.repository.spi.StateRepository;
 public class BaseCodelistRepository extends AbstractRepository<Codelist,Codelist.Private,Codelist.State> implements CodelistRepository {
 
 	@Inject
-	public BaseCodelistRepository(StateRepository<Codelist.State> repository) {
-		super(repository);
+	public BaseCodelistRepository(StateRepository<Codelist.State> repository, EventProducer producer) {
+		super(repository,producer);
 	}
 	
 	@Override
