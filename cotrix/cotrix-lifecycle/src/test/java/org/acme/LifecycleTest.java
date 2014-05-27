@@ -1,5 +1,6 @@
 package org.acme;
 
+import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
 import static org.junit.Assert.*;
 
@@ -65,6 +66,24 @@ public class LifecycleTest extends ApplicationTest {
 	}
 	
 	
+	@Test(expected=IllegalStateException.class)
+	public void cannotDeleteWhenSealed() {
+		
+		Lifecycle lifecycle = service.start("resource", DefaultLifecycleStates.sealed);
+		
+		lifecycle.notify(REMOVE.on(lifecycle.resourceId()));
+	}
+	
+
+	@Test(expected=IllegalStateException.class)
+	public void delete() {
+		
+		Lifecycle lifecycle = service.start("resource");
+		
+		service.delete(lifecycle.resourceId());
+		
+		assertNull(service.lifecycleOf(lifecycle.resourceId()));
+	}
 		
 	@Test
 	public void fullUseStory() {

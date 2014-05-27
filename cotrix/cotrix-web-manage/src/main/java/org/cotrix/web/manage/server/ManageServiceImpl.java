@@ -304,8 +304,7 @@ public class ManageServiceImpl implements ManageService {
 
 	private CodelistGroup addCodelist(Codelist newCodelist) {
 		repository.add(newCodelist);
-		lifecycleService.start(newCodelist.id());
-
+	
 		CodelistGroup group = new CodelistGroup(ValueUtils.safeValue(newCodelist.name()));
 		group.addVersion(newCodelist.id(), newCodelist.version());
 
@@ -403,7 +402,7 @@ public class ManageServiceImpl implements ManageService {
 	}
 	
 	@Override
-	@CodelistTask(EDIT)
+	@CodelistTask(REMOVE)
 	public void removeCodelist(@Id String codelistId) throws ServiceException {
 		logger.trace("removeCodelist codelistId: {}",codelistId);
 		repository.remove(codelistId);

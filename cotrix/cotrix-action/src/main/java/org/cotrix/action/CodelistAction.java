@@ -14,7 +14,8 @@ public enum CodelistAction implements Action {
 	UNLOCK("unlock"),
 	SEAL("seal"),
 	VERSION("version"),
-	PUBLISH("publish")
+	PUBLISH("publish"),
+	REMOVE("removed")
 	
 	;	
 	
