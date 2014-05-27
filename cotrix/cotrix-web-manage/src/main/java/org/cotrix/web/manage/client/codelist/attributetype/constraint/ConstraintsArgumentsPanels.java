@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.EditableLabel;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.shared.GWT;
@@ -187,16 +189,17 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 			VerticalPanel panel = new VerticalPanel();
 			panel.setWidth("100%");
 			Label label = new Label(name);
-			label.getElement().getStyle().setPaddingLeft(5, Unit.PX);
-			label.getElement().getStyle().setPaddingTop(3, Unit.PX);
-			label.getElement().getStyle().setPaddingBottom(4, Unit.PX);
+			label.setStyleName(CotrixManagerResources.INSTANCE.propertyGrid().argumentLabel());
 
 			panel.add(label);
 			textBox = new TextBox();
+			textBox.setStyleName(CommonResources.INSTANCE.css().textBox()+" "+CotrixManagerResources.INSTANCE.css().editor());
+			textBox.setHeight("31px");
 			textBox.setValue(value);
 			
 			editableLabel = new EditableLabel();
 			editableLabel.addEditor(textBox);
+			editableLabel.setLabelStyle(CotrixManagerResources.INSTANCE.propertyGrid().argumentValue());
 			
 			textBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 

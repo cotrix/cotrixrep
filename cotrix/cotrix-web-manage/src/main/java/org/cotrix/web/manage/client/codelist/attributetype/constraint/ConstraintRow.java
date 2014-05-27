@@ -64,6 +64,7 @@ public class ConstraintRow extends AbstractRow {
 		label = new Label("Constraint");
 				
 		constraintNameListBox = new ListBox(false);
+		constraintNameListBox.setWidth("100%");
 		constraintNameListBox.setStyleName(LIST_STYLE);
 		
 		for (MetaConstraint metaConstraint:metaConstraintProvider.getMetaConstraints()) constraintNameListBox.addItem(metaConstraint.getName());
