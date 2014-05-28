@@ -10,7 +10,6 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
@@ -146,7 +145,6 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	{
 		List<UILink> links = code.getLinks();
 		UILink link = match(links);
-		Log.trace("group "+this+" matching link: "+link+" over "+links);
 		
 		return link!=null?link.getValue():"";
 	}

@@ -10,13 +10,11 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class UIAttribute implements Identifiable, IsSerializable {
 	
-	protected String id;
-	protected UIQName name;
-	protected UIQName type;
-	protected String value;
-	protected Language language = Language.NONE;
-	
-	protected int position;
+	private String id;
+	private UIQName name;
+	private UIQName type;
+	private String value;
+	private Language language;
 	
 	public UIQName getName() {
 		return name;

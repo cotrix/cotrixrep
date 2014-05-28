@@ -7,14 +7,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.cotrix.web.common.client.factory.UIDefaults;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UIQName;
+
+import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 public class Attributes {
+	
+	@Inject
+	public static UIDefaults defaults;
 	
 	protected static final Comparator<UIAttribute> comparator = new Comparator<UIAttribute>() {
 		
@@ -34,7 +40,7 @@ public class Attributes {
 	protected static boolean isSystemType(UIQName type)
 	{
 		if (type == null) return false;
-		return Constants.SYSTEM_TYPE.equals(type);
+		return defaults.systemType().equals(type);
 	}
 	
 	public static void sortByAttributeType(List<UIAttribute> attributes) {

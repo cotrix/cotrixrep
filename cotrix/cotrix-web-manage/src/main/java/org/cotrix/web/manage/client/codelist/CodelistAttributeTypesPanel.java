@@ -2,6 +2,7 @@ package org.cotrix.web.manage.client.codelist;
 
 import java.util.List;
 
+import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.widgets.HasEditing;
@@ -22,7 +23,6 @@ import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
-import org.cotrix.web.manage.client.util.Constants;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -64,9 +64,6 @@ public class CodelistAttributeTypesPanel extends LoadingPanel implements HasEdit
 	private DataEditor<UIAttributeType> attributeTypeEditor;
 
 	@Inject
-	private Constants constants;
-
-	@Inject
 	private CotrixManagerResources resources;
 	
 	@Inject
@@ -74,6 +71,9 @@ public class CodelistAttributeTypesPanel extends LoadingPanel implements HasEdit
 	
 	@Inject
 	private AttributeTypeEditingPanelFactory editingPanelFactory;
+	
+	@Inject
+	private UIFactories factories;
 
 	@Inject
 	public void init() {
@@ -160,7 +160,7 @@ public class CodelistAttributeTypesPanel extends LoadingPanel implements HasEdit
 
 	private void addNewAttributeType()
 	{
-		UIAttributeType attributeType = new UIAttributeType();
+		UIAttributeType attributeType = factories.createAttributeType();
 		attributeTypesPanel.addNewItemPanel(attributeType);
 	}
 

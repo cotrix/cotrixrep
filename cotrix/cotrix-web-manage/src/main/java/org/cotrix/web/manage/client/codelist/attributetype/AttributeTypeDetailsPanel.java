@@ -64,6 +64,9 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	@UiField EditableLabel languageBoxContainer;
 	@UiField LanguageListBox languageBox;
 	
+	@UiField EditableLabel defaultBoxContainer;
+	@UiField TextBox defaultBox;
+	
 	@UiField EditableLabel occurrencesBoxContainer;
 	@UiField(provided = true) EnumListBox<Occurrences> occurrencesBox;
 	
@@ -88,6 +91,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 		setupNameField();
 		setupTypeField();
 		setupLanguageField();
+		setupDefaultField();
 		setupOccurrencesField();
 		setupConstraintsPanel();
 	}
@@ -139,7 +143,25 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 				fireChange();
 			}
 		});
+	}
+	
+	private void setupDefaultField() {
+		defaultBox.addValueChangeHandler(defaultBoxContainer);
+		defaultBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				fireChange();
+			}
+		});
 		
+		defaultBox.addKeyUpHandler(new KeyUpHandler() {
+			
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				fireChange();
+			}
+		});
 	}
 	
 	private void setupOccurrencesField() {
@@ -232,6 +254,19 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 		languageBox.setStyleName(style.error(), !valid);
 	}
 	
+	public String getDefault() {
+		return defaultBox.getValue();
+	}
+	
+	public void setDefault(String defaultValue) {
+		defaultBox.setValue(defaultValue);
+		defaultBoxContainer.setText(defaultValue);
+	}
+	
+	public void setDefaultFieldValid(boolean valid) {
+		defaultBox.setStyleName(style.error(), !valid);
+	}
+	
 	public UIRange getRange() {
 		Occurrences occurrences = occurrencesBox.getSelectedValue();
 		Integer userMin = occurrencesMin.getValue();
@@ -275,6 +310,9 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 		
 		languageBoxContainer.setReadOnly(readOnly);
 		if (readOnly) languageBox.setStyleName(style.error(), false);
+		
+		defaultBoxContainer.setReadOnly(readOnly);
+		if (readOnly) defaultBox.setStyleName(style.error(), false);
 		
 		occurrencesBoxContainer.setReadOnly(readOnly);
 		occurrencesMinBoxContainer.setReadOnly(readOnly);

@@ -8,5 +8,5 @@ package org.cotrix.web.common.shared.codelist;
  *
  */
 public enum LifecycleState {
-	draft, locked, sealed;
+	draft, locked, sealed, removed;
 }

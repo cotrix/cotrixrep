@@ -157,6 +157,9 @@ public class AttributeTypePanel extends Composite implements ItemEditingPanel<UI
 		Language language = detailsPanel.getLanguage();
 		attributeType.setLanguage(language);
 		
+		String defaultValue = detailsPanel.getDefault();
+		attributeType.setDefaultValue(defaultValue);
+		
 		UIRange range = detailsPanel.getRange();
 		attributeType.setRange(range);
 		
@@ -193,6 +196,7 @@ public class AttributeTypePanel extends Composite implements ItemEditingPanel<UI
 		detailsPanel.setName(ValueUtils.getLocalPart(attributeType.getName()));
 		detailsPanel.setType(ValueUtils.getLocalPart(attributeType.getType()));
 		detailsPanel.setLanguage(attributeType.getLanguage());
+		detailsPanel.setDefault(attributeType.getDefaultValue());
 		detailsPanel.setRange(attributeType.getRange());
 		detailsPanel.setConstraints(attributeType.getConstraints());
 	}

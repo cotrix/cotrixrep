@@ -2,6 +2,7 @@ package org.cotrix.web.manage.client.codelist;
 
 import java.util.List;
 
+import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.widgets.HasEditing;
@@ -24,7 +25,6 @@ import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
-import org.cotrix.web.manage.client.util.Constants;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -67,9 +67,6 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 	protected DataEditor<UILinkType> linkTypeEditor;
 
 	@Inject
-	protected Constants constants;
-
-	@Inject
 	protected CotrixManagerResources resources;
 	
 	@Inject
@@ -77,6 +74,9 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 	
 	@Inject
 	private LinkTypeEditingPanelFactory editingPanelFactory;
+	
+	@Inject
+	private UIFactories factories;
 
 	@Inject
 	public void init() {
@@ -176,7 +176,7 @@ public class CodelistLinkTypesPanel extends LoadingPanel implements HasEditing {
 
 	private void addNewAttribute()
 	{
-		UILinkType linkType = new UILinkType();
+		UILinkType linkType = factories.createLinkType();
 		linkTypesPanel.addNewItemPanel(linkType);
 	}
 
