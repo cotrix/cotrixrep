@@ -27,7 +27,7 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class DataSaverManager {
 
-	public interface CommandGenerator<T> {
+	public interface CommandHandler<T> {
 		public Class<T> getType();
 		public ModifyCommand generateCommand(EditType editType, T data);
 		public void handleResponse(EditType editType, T data, ModifyCommandResult response);
@@ -48,16 +48,16 @@ public class DataSaverManager {
 	@Inject
 	protected EventBus editorBus;
 
-	public <T> void register(CommandGenerator<T> generator)
+	public <T> void register(CommandHandler<T> generator)
 	{
 		editorBus.addHandler(DataEditEvent.getType(generator.getType()), new DataSaver<T>(generator));
 	}
 
 	protected class DataSaver<T> implements DataEditHandler<T> {
 
-		private CommandGenerator<T> generator;
+		private CommandHandler<T> generator;
 
-		public DataSaver(CommandGenerator<T> generator)
+		public DataSaver(CommandHandler<T> generator)
 		{
 			this.generator = generator;
 		}

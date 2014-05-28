@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
-import org.cotrix.web.manage.client.data.DataSaverManager.CommandGenerator;
+import org.cotrix.web.manage.client.data.DataSaverManager.CommandHandler;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
@@ -14,7 +14,7 @@ import org.cotrix.web.manage.shared.modify.metadata.UpdateMetadataCommand;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MetadataModifyCommandGenerator implements CommandGenerator<UICodelistMetadata> {
+public class MetadataHandler implements CommandHandler<UICodelistMetadata> {
 
 	@Override
 	public Class<UICodelistMetadata> getType() {

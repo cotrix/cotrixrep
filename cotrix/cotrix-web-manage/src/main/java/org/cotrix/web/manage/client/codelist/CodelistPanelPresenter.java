@@ -11,14 +11,14 @@ import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodesToolbar.Action;
 import org.cotrix.web.manage.client.codelist.CodesToolbar.ToolBarListener;
-import org.cotrix.web.manage.client.data.AttributeTypeModifyGenerator;
-import org.cotrix.web.manage.client.data.CodeAttributeCommandGenerator;
-import org.cotrix.web.manage.client.data.CodeLinkCommandGenerator;
-import org.cotrix.web.manage.client.data.CodeModifyCommandGenerator;
+import org.cotrix.web.manage.client.data.AttributeTypeHandler;
+import org.cotrix.web.manage.client.data.CodeAttributeHandler;
+import org.cotrix.web.manage.client.data.CodeLinkHandler;
+import org.cotrix.web.manage.client.data.CodeHandler;
 import org.cotrix.web.manage.client.data.DataSaverManager;
-import org.cotrix.web.manage.client.data.LinkTypeModifyGenerator;
-import org.cotrix.web.manage.client.data.MetadataAttributeModifyGenerator;
-import org.cotrix.web.manage.client.data.MetadataModifyCommandGenerator;
+import org.cotrix.web.manage.client.data.LinkTypeHandler;
+import org.cotrix.web.manage.client.data.MetadataAttributeHandler;
+import org.cotrix.web.manage.client.data.MetadataHandler;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
@@ -72,13 +72,13 @@ public class CodelistPanelPresenter implements Presenter {
 	
 	@Inject
 	private void bindSavers(
-			CodeModifyCommandGenerator codeModifyCommandGenerator,
-			CodeAttributeCommandGenerator codeAttributeCommandGenerator,
-			MetadataModifyCommandGenerator metadataModifyCommandGenerator,
-			MetadataAttributeModifyGenerator metadataAttributeModifyGenerator,
-			LinkTypeModifyGenerator linkTypeModifyGenerator,
-			CodeLinkCommandGenerator codeLinkCommandGenerator,
-			AttributeTypeModifyGenerator attributeTypeModifyGenerator
+			CodeHandler codeModifyCommandGenerator,
+			CodeAttributeHandler codeAttributeCommandGenerator,
+			MetadataHandler metadataModifyCommandGenerator,
+			MetadataAttributeHandler metadataAttributeModifyGenerator,
+			LinkTypeHandler linkTypeModifyGenerator,
+			CodeLinkHandler codeLinkCommandGenerator,
+			AttributeTypeHandler attributeTypeModifyGenerator
 			) {
 		saverManager.register(codeModifyCommandGenerator);
 		saverManager.register(codeAttributeCommandGenerator);
