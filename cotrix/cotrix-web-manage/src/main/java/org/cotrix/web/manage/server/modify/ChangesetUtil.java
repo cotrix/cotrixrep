@@ -23,6 +23,7 @@ import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
+import org.cotrix.domain.utils.Constants;
 import org.cotrix.domain.validation.Validator;
 import org.cotrix.domain.validation.Validators;
 import org.cotrix.domain.values.DefaultType;
@@ -43,7 +44,6 @@ import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
-import org.cotrix.web.manage.client.util.Attributes;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -204,7 +204,7 @@ public class ChangesetUtil {
 		for (UIAttribute uiAttribute:uiAttributes) {
 			
 			//skip system attributes
-			if (Attributes.isSystemAttribute(uiAttribute)) continue;
+			if (isSystemAttribute(uiAttribute)) continue;
 		
 			//is a new attribute
 			if (uiAttribute.getId() == null) changeSet.add(addAttribute(uiAttribute));
@@ -221,6 +221,18 @@ public class ChangesetUtil {
 		}
 				
 		return changeSet;
+	}
+	
+	private static boolean isSystemAttribute(UIAttribute attribute) {
+		UIQName type = attribute.getType();
+		if (type == null) return false;
+		
+		String nameSpace = attribute.getType().getNamespace();
+		String localPart = attribute.getType().getLocalPart();
+		if (nameSpace == null || localPart == null) return false;
+		
+		return Constants.SYSTEM_TYPE.getNamespaceURI().equals(nameSpace) && 
+				Constants.SYSTEM_TYPE.getLocalPart().equals(localPart);
 	}
 	
 	private static Attribute toAttribute(AttributeValue attributeType) {
