@@ -18,6 +18,12 @@
 		<when-type-assignable
 			class="org.cotrix.web.common.client.ext.CotrixExtensionProvider" />
 	</generate-with>
+	
+		<generate-with
+		class="org.cotrix.web.common.gen.UIDefaultsGenerator">
+		<when-type-assignable
+			class="org.cotrix.web.common.client.factory.UIDefaults" />
+	</generate-with>
 
 	<!-- Specify the paths for translatable code -->
 	<source path='client' />
