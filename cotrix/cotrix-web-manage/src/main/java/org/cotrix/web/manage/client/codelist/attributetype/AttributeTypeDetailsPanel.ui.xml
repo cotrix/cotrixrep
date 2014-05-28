@@ -98,7 +98,7 @@
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
 				<t:cell>
-					<g:Label>Occurences</g:Label>
+					<g:Label>Occurs</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>

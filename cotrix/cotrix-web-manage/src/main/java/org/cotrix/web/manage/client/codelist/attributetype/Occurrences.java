@@ -12,13 +12,13 @@ import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
  */
 public enum Occurrences {
 	
-	CUSTOM("Custom", true, true),
-	AT_LEAST("At least", true, false),
-	AT_MOST("At most",0,Integer.MAX_VALUE, false,true),
-	ONCE("Once",1,1),
-	AT_MOST_ONCE("At most once",0,1),
-	ARBITRARY("Arbitrary",0,Integer.MAX_VALUE),
-	AT_LEAST_ONCE("At least once",1,Integer.MAX_VALUE);
+	ARBITRARY("arbitrarily",0,Integer.MAX_VALUE),
+	ONCE("once",1,1),
+	AT_LEAST_ONCE("at least once",1,Integer.MAX_VALUE),
+	AT_MOST_ONCE("at most once",0,1),
+	AT_MOST("at most",0,Integer.MAX_VALUE, false,true),
+	AT_LEAST("at least", true, false),
+	CUSTOM("custom", true, true);
 	
 	private String label;
 	private int min;

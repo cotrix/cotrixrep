@@ -79,7 +79,7 @@ public class CodelistAttributeTypesPanel extends LoadingPanel implements HasEdit
 	public void init() {
 		attributeTypeEditor = DataEditor.build(this);
 		
-		attributeTypesPanel = new ItemsEditingPanel<UIAttributeType, AttributeTypePanel>("Attribute types", "no types", editingPanelFactory);
+		attributeTypesPanel = new ItemsEditingPanel<UIAttributeType, AttributeTypePanel>("Attribute Definitions", "no definitions", editingPanelFactory);
 		
 		add(uiBinder.createAndBindUi(this));
 		

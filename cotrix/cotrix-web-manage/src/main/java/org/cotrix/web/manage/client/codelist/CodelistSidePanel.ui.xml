@@ -106,7 +106,7 @@
 										<g:upHoveringFace image="{resources.attributesSelected}" />
 									</g:ToggleButton>
 									<g:ToggleButton ui:field="attributeTypesButton" width="32px"
-										styleName="{style.button}" title="Codelist Attributes Types">
+										styleName="{style.button}" title="Codelist Attribute Definitions">
 										<g:downDisabledFace image="{resources.attributeTypesDisabled}"/>
 										<g:upDisabledFace image="{resources.attributeTypesDisabled}"/>
 										<g:upFace image="{resources.attributeTypesUnselected}" />
