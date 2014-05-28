@@ -3,6 +3,10 @@
  */
 package org.cotrix.web.manage.client.data;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
@@ -78,10 +82,33 @@ public class CodeLinkHandler implements CommandHandler<CodeLink> {
 		localLink.setValue(updatedLink.getValue());
 		editorBus.fireEvent(new ValueUpdatedEvent(localLink));
 		
+		//updated values if necessary
+		updateLinksValues(localCode.getLinks(), updatedCode.getLinks());
+		
 		//merge the system attributes
 		Attributes.mergeSystemAttributes(localCode.getAttributes(), updatedCode.getAttributes());
 		
 		editorBus.fireEvent(new CodeUpdatedEvent(localCode));
 		
+	}
+	
+	private void updateLinksValues(List<UILink> localLinks, List<UILink> updatedLinks) {
+		Map<String, UILink> localLinksIndex = new HashMap<String, UILink>();
+		for (UILink localLink:localLinks) localLinksIndex.put(localLink.getId(), localLink);
+		
+		for (UILink updatedLink:updatedLinks) {
+			UILink localLink = localLinksIndex.get(updatedLink.getId());
+			if (localLink == null) continue;
+			
+			if (!localLink.getValue().equals(updatedLink.getValue())) {
+
+				localLink.setValue(updatedLink.getValue());
+				localLink.setTargetId(updatedLink.getTargetId());
+				localLink.setTargetName(updatedLink.getTargetName());
+				localLink.setAttributes(updatedLink.getAttributes());
+				
+				editorBus.fireEvent(new ValueUpdatedEvent(localLink));
+			}
+		}
 	}
 }
