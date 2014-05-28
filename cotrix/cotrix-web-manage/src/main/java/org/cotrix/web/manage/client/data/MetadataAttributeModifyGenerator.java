@@ -6,7 +6,9 @@ package org.cotrix.web.manage.client.data;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.data.DataSaverManager.CommandGenerator;
 import org.cotrix.web.manage.client.data.event.EditType;
+import org.cotrix.web.manage.shared.modify.GeneratedId;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
+import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.cotrix.web.manage.shared.modify.attribute.AddAttributeCommand;
 import org.cotrix.web.manage.shared.modify.attribute.RemoveAttributeCommand;
 import org.cotrix.web.manage.shared.modify.attribute.UpdateAttributeCommand;
@@ -40,6 +42,15 @@ public class MetadataAttributeModifyGenerator implements CommandGenerator<UIAttr
 			}
 		}
 		throw new IllegalArgumentException("Unknown edit type "+editType);
+	}
+
+	@Override
+	public void handleResponse(EditType editType, UIAttribute localAttribute, ModifyCommandResult response) {
+		if (editType == EditType.REMOVE) return;
+		
+		GeneratedId generatedIdResponse = (GeneratedId)response;
+		//updates the id
+		localAttribute.setId(generatedIdResponse.getId());
 	}
 
 }

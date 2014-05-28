@@ -64,22 +64,29 @@ public class CodelistPanelPresenter implements Presenter {
 		
 		bind();
 		bindFeatures();
-		bindSavers();
 		
 		showAllGroupsAsColumn();
 		loadState();
 	}
 	
 	
-
-	private void bindSavers() {
-		saverManager.register(new CodeModifyCommandGenerator());
-		saverManager.register(new CodeAttributeCommandGenerator());
-		saverManager.register(new MetadataModifyCommandGenerator());
-		saverManager.register(new MetadataAttributeModifyGenerator());
-		saverManager.register(new LinkTypeModifyGenerator());
-		saverManager.register(new CodeLinkCommandGenerator());
-		saverManager.register(new AttributeTypeModifyGenerator());
+	@Inject
+	private void bindSavers(
+			CodeModifyCommandGenerator codeModifyCommandGenerator,
+			CodeAttributeCommandGenerator codeAttributeCommandGenerator,
+			MetadataModifyCommandGenerator metadataModifyCommandGenerator,
+			MetadataAttributeModifyGenerator metadataAttributeModifyGenerator,
+			LinkTypeModifyGenerator linkTypeModifyGenerator,
+			CodeLinkCommandGenerator codeLinkCommandGenerator,
+			AttributeTypeModifyGenerator attributeTypeModifyGenerator
+			) {
+		saverManager.register(codeModifyCommandGenerator);
+		saverManager.register(codeAttributeCommandGenerator);
+		saverManager.register(metadataModifyCommandGenerator);
+		saverManager.register(metadataAttributeModifyGenerator);
+		saverManager.register(linkTypeModifyGenerator);
+		saverManager.register(codeLinkCommandGenerator);
+		saverManager.register(attributeTypeModifyGenerator);
 	}
 	
 	private void bind()

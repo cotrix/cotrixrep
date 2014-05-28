@@ -4,18 +4,30 @@
 package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.data.DataSaverManager.CommandGenerator;
 import org.cotrix.web.manage.client.data.event.EditType;
+import org.cotrix.web.manage.client.event.EditorBus;
+import org.cotrix.web.manage.client.util.Attributes;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
+import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
+import org.cotrix.web.manage.shared.modify.UpdatedCode;
 import org.cotrix.web.manage.shared.modify.code.AddCodeCommand;
 import org.cotrix.web.manage.shared.modify.code.RemoveCodeCommand;
 import org.cotrix.web.manage.shared.modify.code.UpdateCodeCommand;
+
+import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 public class CodeModifyCommandGenerator implements CommandGenerator<UICode> {
+	
+	@Inject
+	@EditorBus 
+	private EventBus editorBus;
 	
 	@Override
 	public Class<UICode> getType() {
@@ -36,6 +48,25 @@ public class CodeModifyCommandGenerator implements CommandGenerator<UICode> {
 			}
 		}
 		throw new IllegalArgumentException("Unknown edit type "+editType);
+	}
+
+	@Override
+	public void handleResponse(EditType editType, UICode localCode, ModifyCommandResult response) {
+		if (!(response instanceof UpdatedCode)) throw new IllegalArgumentException("Unexpected response type "+response);
+		
+		if (editType == EditType.REMOVE) return;
+		
+		UpdatedCode updatedCodeResponse = (UpdatedCode)response;
+		
+		UICode updatedCode = updatedCodeResponse.getCode();
+		
+		//updates the id
+		localCode.setId(updatedCode.getId());
+		
+		//merge the system attributes
+		Attributes.mergeSystemAttributes(localCode.getAttributes(), updatedCode.getAttributes());
+		
+		editorBus.fireEvent(new CodeUpdatedEvent(localCode));
 	}
 
 }
