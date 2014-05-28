@@ -30,10 +30,10 @@ public class CodelistPanelViewImpl extends ResizeComposite implements CodelistPa
 	
 	@UiField SplitLayoutPanel mainPanel;
 	@UiField DockLayoutPanel contentPanel;
-	@UiField CodelistToolbarImpl toolbar;
+	@UiField CodesToolbarImpl toolbar;
 	
 	@Inject
-	@UiField(provided=true) CodelistEditor editor;
+	@UiField(provided=true) CodesEditor editor;
 	
 	@Inject
 	@UiField(provided=true) CodelistSidePanel sidePanel;
@@ -56,12 +56,12 @@ public class CodelistPanelViewImpl extends ResizeComposite implements CodelistPa
 	}
 
 	@Override
-	public CodelistToolbar getToolBar()	{
+	public CodesToolbar getToolBar()	{
 		return toolbar;
 	}
 
 	@Override
-	public CodelistEditor getCodeListEditor() {
+	public CodesEditor getCodeListEditor() {
 		return editor;
 	}
 

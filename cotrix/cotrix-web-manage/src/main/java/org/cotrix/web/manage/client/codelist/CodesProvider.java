@@ -8,7 +8,7 @@ import org.cotrix.web.common.client.util.CachedDataProviderExperimental;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.CodelistEditor.GroupColumn;
+import org.cotrix.web.manage.client.codelist.CodesEditor.GroupColumn;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
 import org.cotrix.web.manage.shared.Group;
@@ -26,7 +26,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistCodesProvider extends CachedDataProviderExperimental<UICode> {
+public class CodesProvider extends CachedDataProviderExperimental<UICode> {
 
 	@Inject
 	protected ManageServiceAsync managerService;
@@ -57,9 +57,9 @@ public class CodelistCodesProvider extends CachedDataProviderExperimental<UICode
 					ColumnSortInfo columnSortInfo = columnSortList.get(0);
 					
 					Column<?, ?> column = columnSortInfo.getColumn();
-					if (column instanceof CodelistEditor.CodeColumn) return new CodelistEditorSortInfo.CodeNameSortInfo(columnSortInfo.isAscending());
-					if (column instanceof CodelistEditor.GroupColumn) {
-						GroupColumn groupColumn = (CodelistEditor.GroupColumn)column;
+					if (column instanceof CodesEditor.CodeColumn) return new CodelistEditorSortInfo.CodeNameSortInfo(columnSortInfo.isAscending());
+					if (column instanceof CodesEditor.GroupColumn) {
+						GroupColumn groupColumn = (CodesEditor.GroupColumn)column;
 						Group group = groupColumn.getGroup();
 						return group.getSortInfo(columnSortInfo.isAscending());
 					}

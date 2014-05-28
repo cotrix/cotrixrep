@@ -7,7 +7,7 @@ package org.cotrix.web.manage.client.codelist;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface CodelistToolbar {
+public interface CodesToolbar {
 	
 	enum Action {
 		LOCK,

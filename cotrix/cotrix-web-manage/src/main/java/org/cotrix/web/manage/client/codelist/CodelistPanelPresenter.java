@@ -9,8 +9,8 @@ import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.CodelistToolbar.Action;
-import org.cotrix.web.manage.client.codelist.CodelistToolbar.ToolBarListener;
+import org.cotrix.web.manage.client.codelist.CodesToolbar.Action;
+import org.cotrix.web.manage.client.codelist.CodesToolbar.ToolBarListener;
 import org.cotrix.web.manage.client.data.AttributeTypeModifyGenerator;
 import org.cotrix.web.manage.client.data.CodeAttributeCommandGenerator;
 import org.cotrix.web.manage.client.data.CodeLinkCommandGenerator;
@@ -85,7 +85,7 @@ public class CodelistPanelPresenter implements Presenter {
 	private void bind()
 	{
 		// TOOLBAR
-		CodelistToolbar toolbar = view.getToolBar();
+		CodesToolbar toolbar = view.getToolBar();
 		
 		toolbar.setListener(new ToolBarListener() {
 			
@@ -145,7 +145,7 @@ public class CodelistPanelPresenter implements Presenter {
 	private void bindFeatures()
 	{
 		// TOOLBAR
-		CodelistToolbar toolbar = view.getToolBar();
+		CodesToolbar toolbar = view.getToolBar();
 		
 		FeatureBinder.bind(new ActionEnabler(Action.LOCK, toolbar), codelistId, ManagerUIFeature.LOCK_CODELIST);
 		FeatureBinder.bind(new ActionEnabler(Action.UNLOCK, toolbar), codelistId, ManagerUIFeature.UNLOCK_CODELIST);
@@ -172,13 +172,13 @@ public class CodelistPanelPresenter implements Presenter {
 	
 	private class ActionEnabler implements HasFeature {
 		protected Action action;
-		protected CodelistToolbar toolbar;
+		protected CodesToolbar toolbar;
 
 		/**
 		 * @param action
 		 * @param toolbar
 		 */
-		public ActionEnabler(Action action, CodelistToolbar toolbar) {
+		public ActionEnabler(Action action, CodesToolbar toolbar) {
 			this.action = action;
 			this.toolbar = toolbar;
 		}

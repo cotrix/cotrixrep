@@ -142,13 +142,13 @@
 		</g:north>
 		<g:center>
 			<g:DeckLayoutPanel ui:field="tools" styleName="{style.tools}">
-				<v:CodelistAttributesPanel ui:field="attributesPanel" />
-				<v:CodelistMetadataPanel ui:field="metadataPanel" />
+				<v:AttributesPanel ui:field="attributesPanel" />
+				<v:MetadataPanel ui:field="metadataPanel" />
 				<v:FiltersPanel ui:field="filtersPanel" />
 				<v:UserPreferencesPanel ui:field="userPanel" />
-				<v:CodelistLinkTypesPanel ui:field="linkTypesPanel" />
-				<v:CodelistLinksPanel ui:field="linksPanel" />
-				<v:CodelistAttributeTypesPanel ui:field="attributeTypesPanel" />
+				<v:LinkTypesPanel ui:field="linkTypesPanel" />
+				<v:LinksPanel ui:field="linksPanel" />
+				<v:AttributeTypesPanel ui:field="attributeTypesPanel" />
 			</g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>

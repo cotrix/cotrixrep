@@ -44,7 +44,6 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -55,11 +54,10 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
+public class LinksPanel extends LoadingPanel implements HasEditing {
 
-	@UiTemplate("CodelistLinksPanel.ui.xml")
-	interface CodelistLinksPanelUiBinder extends UiBinder<Widget, CodelistLinksPanel> {}
-	interface CodelistLinksPanelEventBinder extends EventBinder<CodelistLinksPanel> {}
+	interface LinksPanelUiBinder extends UiBinder<Widget, LinksPanel> {}
+	interface LinksPanelEventBinder extends EventBinder<LinksPanel> {}
 
 	@UiField(provided=true) ItemsEditingPanel<UILink, LinkPanel> linksPanel;
 
@@ -89,7 +87,7 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	private UIFactories factories;
 
 	@Inject
-	public void init(CodelistLinksPanelUiBinder uiBinder) {
+	public void init(LinksPanelUiBinder uiBinder) {
 		linkEditor = DataEditor.build(this);
 		linksPanel = new ItemsEditingPanel<UILink, LinkPanel>("Links", "no links", editingPanelFactory);
 		add(uiBinder.createAndBindUi(this));
@@ -133,7 +131,7 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	
 	
 	@Inject
-	protected void bind(CodelistLinksPanelEventBinder binder, @EditorBus EventBus editorBus) {
+	protected void bind(LinksPanelEventBinder binder, @EditorBus EventBus editorBus) {
 		binder.bindEventHandlers(this, editorBus);
 	}
 

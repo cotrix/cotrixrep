@@ -82,10 +82,10 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistEditor extends LoadingPanel implements HasEditing {
+public class CodesEditor extends LoadingPanel implements HasEditing {
 
-	interface Binder extends UiBinder<Widget, CodelistEditor> {}
-	interface CodelistEditorEventBinder extends EventBinder<CodelistEditor> {}
+	interface Binder extends UiBinder<Widget, CodesEditor> {}
+	interface CodelistEditorEventBinder extends EventBinder<CodesEditor> {}
 
 	interface DataGridResources extends PatchedDataGrid.Resources {
 
@@ -129,7 +129,7 @@ public class CodelistEditor extends LoadingPanel implements HasEditing {
 	private SingleSelectionModel<UICode> selectionModel;
 
 	@Inject
-	private CodelistCodesProvider dataProvider;
+	private CodesProvider dataProvider;
 
 	private DataEditor<UICode> codeEditor;
 
@@ -156,7 +156,7 @@ public class CodelistEditor extends LoadingPanel implements HasEditing {
 
 		cellRenderer = new StyledSafeHtmlRenderer(resource.dataGridStyle().textCell());
 
-		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodelistCodeKeyProvider.INSTANCE) {
+		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodeKeyProvider.INSTANCE) {
 
 			/** 
 			 * {@inheritDoc}
@@ -164,7 +164,7 @@ public class CodelistEditor extends LoadingPanel implements HasEditing {
 			@Override
 			protected int getTableWidth() {
 				int internal = super.getTableWidth();
-				return internal>0?internal:CodelistEditor.this.getElement().getOffsetWidth()-31;
+				return internal>0?internal:CodesEditor.this.getElement().getOffsetWidth()-31;
 			}
 			
 		};
@@ -186,7 +186,7 @@ public class CodelistEditor extends LoadingPanel implements HasEditing {
 
 		setupColumns();
 
-		selectionModel = new SingleSelectionModel<UICode>(CodelistCodeKeyProvider.INSTANCE);
+		selectionModel = new SingleSelectionModel<UICode>(CodeKeyProvider.INSTANCE);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 
 			@Override

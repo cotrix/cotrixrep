@@ -68,21 +68,21 @@ public class CodelistSidePanel extends ResizeComposite {
 	@UiField DeckLayoutPanel tools;
 	
 	@Inject
-	@UiField(provided=true) CodelistAttributesPanel attributesPanel;
+	@UiField(provided=true) AttributesPanel attributesPanel;
 	
 	@Inject
-	@UiField(provided=true) CodelistMetadataPanel metadataPanel;
+	@UiField(provided=true) MetadataPanel metadataPanel;
 	@UiField FiltersPanel filtersPanel;
 	@UiField UserPreferencesPanel userPanel;
 	
 	@Inject
-	@UiField(provided=true) CodelistLinkTypesPanel linkTypesPanel;
+	@UiField(provided=true) LinkTypesPanel linkTypesPanel;
 	
 	@Inject
-	@UiField(provided=true) CodelistLinksPanel linksPanel;
+	@UiField(provided=true) LinksPanel linksPanel;
 	
 	@Inject
-	@UiField(provided=true) CodelistAttributeTypesPanel attributeTypesPanel;
+	@UiField(provided=true) AttributeTypesPanel attributeTypesPanel;
 
 	@Inject
 	private void init() {
@@ -167,11 +167,11 @@ public class CodelistSidePanel extends ResizeComposite {
 		throw new IllegalArgumentException("Unknwown button "+button);
 	}
 
-	public CodelistAttributesPanel getAttributesPanel() {
+	public AttributesPanel getAttributesPanel() {
 		return attributesPanel;
 	}
 
-	public CodelistMetadataPanel getMetadataPanel() {
+	public MetadataPanel getMetadataPanel() {
 		return metadataPanel;
 	}
 

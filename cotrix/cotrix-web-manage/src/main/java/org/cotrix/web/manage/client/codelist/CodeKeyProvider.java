@@ -11,9 +11,9 @@ import com.google.gwt.view.client.ProvidesKey;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistCodeKeyProvider implements ProvidesKey<UICode> {
+public class CodeKeyProvider implements ProvidesKey<UICode> {
 	
-	public static final CodelistCodeKeyProvider INSTANCE = new CodelistCodeKeyProvider();
+	public static final CodeKeyProvider INSTANCE = new CodeKeyProvider();
 
 	@Override
 	public Object getKey(UICode item) {

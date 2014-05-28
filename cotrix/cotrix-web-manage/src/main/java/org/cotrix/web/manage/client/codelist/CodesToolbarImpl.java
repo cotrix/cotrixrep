@@ -19,11 +19,11 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
+public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	
-	@UiTemplate("CodelistToolbar.ui.xml")
-	interface CodelistToolbarUiBinder extends UiBinder<Widget, CodelistToolbarImpl> {}
-	private static CodelistToolbarUiBinder uiBinder = GWT.create(CodelistToolbarUiBinder.class);
+	@UiTemplate("CodesToolbar.ui.xml")
+	interface CodesToolbarUiBinder extends UiBinder<Widget, CodesToolbarImpl> {}
+	private static CodesToolbarUiBinder uiBinder = GWT.create(CodesToolbarUiBinder.class);
 	
 	@UiField PushButton allColumns;
 	@UiField PushButton allNormals;
@@ -37,7 +37,7 @@ public class CodelistToolbarImpl extends Composite implements CodelistToolbar {
 	
 	protected ToolBarListener listener;
 	
-	public CodelistToolbarImpl() {
+	public CodesToolbarImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

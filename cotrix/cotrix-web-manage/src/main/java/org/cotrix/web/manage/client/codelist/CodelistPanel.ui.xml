@@ -9,20 +9,19 @@
 			background-color: #fff;
 		}		
 	</ui:style>
-	<g:SplitLayoutPanel ui:field="mainPanel">
-		<g:center>
-			<g:DockLayoutPanel ui:field="contentPanel" unit='PX' styleName="{style.contentPanel}" >
-				<g:north size='35'>
-					<v:CodelistToolbarImpl ui:field="toolbar" />
-				</g:north>
-				<g:center>
-					<v:CodelistEditor ui:field="editor" />
-				</g:center>
-			</g:DockLayoutPanel>
-		</g:center>
-		<g:east size="300">
-			<v:CodelistSidePanel ui:field="sidePanel"
-				/>
-		</g:east>
-	</g:SplitLayoutPanel>
+		<g:SplitLayoutPanel ui:field="mainPanel">
+			<g:center>
+				<g:DockLayoutPanel ui:field="contentPanel" unit='PX' styleName="{style.contentPanel}" >
+					<g:north size='35'>
+						<v:CodesToolbarImpl ui:field="toolbar" />
+					</g:north>
+					<g:center>
+						<v:CodesEditor ui:field="editor" />
+					</g:center>
+				</g:DockLayoutPanel>
+			</g:center>
+			<g:east size="300">
+				<v:CodelistSidePanel ui:field="sidePanel"/>
+			</g:east>
+		</g:SplitLayoutPanel>
 </ui:UiBinder> 

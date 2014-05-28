@@ -56,10 +56,10 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistAttributesPanel extends ResizeComposite implements HasEditing {
+public class AttributesPanel extends ResizeComposite implements HasEditing {
 
-	interface Binder extends UiBinder<Widget, CodelistAttributesPanel> {}
-	interface CodelistAttributesPanelEventBinder extends EventBinder<CodelistAttributesPanel> {}
+	interface Binder extends UiBinder<Widget, AttributesPanel> {}
+	interface AttributesPanelEventBinder extends EventBinder<AttributesPanel> {}
 
 	@UiField(provided = true)
 	ItemsEditingPanel<UIAttribute, AttributePanel> attributesGrid;
@@ -185,7 +185,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 					UIAttribute attribute = event.getData().getAttribute();
 					switch (event.getEditType()) {
 						case ADD: {
-							if (event.getSource() != CodelistAttributesPanel.this) {
+							if (event.getSource() != AttributesPanel.this) {
 								attributesGrid.addItemPanel(attribute);
 							}
 						} break;
@@ -199,7 +199,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	}
 
 	@Inject
-	protected void bind(CodelistAttributesPanelEventBinder binder) {
+	protected void bind(AttributesPanelEventBinder binder) {
 		binder.bindEventHandlers(this, editorBus);
 	}
 

@@ -26,7 +26,6 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -35,13 +34,11 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistMetadataPanel extends LoadingPanel implements HasEditing {
+public class MetadataPanel extends LoadingPanel implements HasEditing {
 
-	@UiTemplate("CodelistMetadataPanel.ui.xml")
-	interface CodelistMetadataPanelUiBinder extends UiBinder<Widget, CodelistMetadataPanel> {
-	}
-
-	private static CodelistMetadataPanelUiBinder uiBinder = GWT.create(CodelistMetadataPanelUiBinder.class);
+	interface MetadataPanelUiBinder extends UiBinder<Widget, MetadataPanel> {}
+	
+	private static MetadataPanelUiBinder uiBinder = GWT.create(MetadataPanelUiBinder.class);
 
 	@UiField(provided=true) ItemsEditingPanel<UIAttribute, AttributePanel> attributesGrid;
 
