@@ -10,21 +10,12 @@ import org.cotrix.domain.validation.Constraint;
 import org.cotrix.domain.validation.Constraints;
 import org.cotrix.domain.values.ValueType;
 
-public class DefaultType implements ValueType {
+public final class DefaultType implements ValueType {
 	
 	private boolean required;
 	private List<Constraint> constraints = new ArrayList<>();
 	private String dflt = null;
 
-	//subclasses can choose their own default
-	public DefaultType(boolean defaultRequired) {
-		required = defaultRequired;
-	}
-	
-	public DefaultType() {
-		this(false);
-	}
-	
 	public DefaultType required() {
 		this.required = true;
 		return this;
@@ -47,11 +38,6 @@ public class DefaultType implements ValueType {
 	
 	public DefaultType with(Constraint ... constraints) {
 		return with(asList(constraints));
-	}
-	
-	@Override
-	public boolean isRequired() {
-		return required;
 	}
 	
 	@Override
