@@ -20,5 +20,9 @@ public interface UIDefaults {
 	public UIRange defaultRange();
 	
 	public String defaultValue();
+	
+	public String defaultNameSpace();
+	
+	public UIQName systemType();
 
 }

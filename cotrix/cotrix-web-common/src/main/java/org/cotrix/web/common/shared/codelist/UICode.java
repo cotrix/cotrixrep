@@ -3,10 +3,7 @@
  */
 package org.cotrix.web.common.shared.codelist;
 
-import java.util.ArrayList;
 import java.util.List;
-
-
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -22,22 +19,6 @@ public class UICode implements Identifiable, IsSerializable, HasAttributes {
 	private List<UIAttribute> attributes;
 	private List<UILink> links;
 
-	public UICode(){}
-	
-	/**
-	 * @param id
-	 * @param name
-	 */
-	public UICode(String id, UIQName name) {
-		this.id = id;
-		this.name = name;
-		this.attributes = new ArrayList<UIAttribute>();
-		this.links = new ArrayList<UILink>();
-	}
-
-	/**
-	 * @return the id
-	 */
 	public String getId() {
 		return id;
 	}
@@ -51,45 +32,30 @@ public class UICode implements Identifiable, IsSerializable, HasAttributes {
 		return name;
 	}
 
-	/**
-	 * @param name the name to set
-	 */
 	public void setName(UIQName name) {
 		this.name = name;
 	}
 
-	public List<UIAttribute> getAttributes()
-	{
+	public List<UIAttribute> getAttributes() {
 		return attributes;
 	}
 	
-	public void addAttribute(UIAttribute attribute)
-	{
+	public void addAttribute(UIAttribute attribute) {
 		attributes.add(attribute);
 	}
 	
-	public void removeAttribute(UIAttribute attribute)
-	{
+	public void removeAttribute(UIAttribute attribute) {
 		attributes.remove(attribute);
 	}
 
-	/**
-	 * @param attributes the attributes to set
-	 */
 	public void setAttributes(List<UIAttribute> attributes) {
 		this.attributes = attributes;
 	}
 
-	/**
-	 * @return the links
-	 */
 	public List<UILink> getLinks() {
 		return links;
 	}
 
-	/**
-	 * @param links the links to set
-	 */
 	public void setLinks(List<UILink> links) {
 		this.links = links;
 	}

@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.common.shared.codelist.attributetype;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.common.shared.Language;
@@ -25,12 +24,6 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 	private UIRange range;
 	private String defaultValue;
 	private List<UIConstraint> constraints;
-	
-	public UIAttributeType() {
-		language = Language.NONE;
-		range = new UIRange(1, 1);
-		constraints = new ArrayList<UIConstraint>();
-	}
 
 	public String getId() {
 		return id;

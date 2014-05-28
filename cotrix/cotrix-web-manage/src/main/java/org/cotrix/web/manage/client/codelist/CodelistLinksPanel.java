@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.util.ValueUtils;
@@ -34,7 +35,6 @@ import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
-import org.cotrix.web.manage.client.util.Constants;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.LinkGroup;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
@@ -75,9 +75,6 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	protected UICode currentCode;
 
 	@Inject
-	protected Constants constants;
-
-	@Inject
 	protected CotrixManagerResources resources;
 	
 	@Inject @EditorBus
@@ -87,6 +84,9 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	
 	@Inject
 	private LinkEditingPanelFactory editingPanelFactory;
+	
+	@Inject
+	private UIFactories factories;
 
 	@Inject
 	public void init(CodelistLinksPanelUiBinder uiBinder) {
@@ -183,7 +183,7 @@ public class CodelistLinksPanel extends LoadingPanel implements HasEditing {
 	private void addNewLink()
 	{
 		if (currentCode!=null) {
-			UILink link = new UILink();
+			UILink link = factories.createLink();
 			linksPanel.addNewItemPanel(link);
 		}
 	}

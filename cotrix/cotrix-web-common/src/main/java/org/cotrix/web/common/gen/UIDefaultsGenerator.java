@@ -74,6 +74,24 @@ public class UIDefaultsGenerator extends Generator {
 			else src.println("return \""+defaultValue+"\";");
 			src.outdent();
 			src.println("}");
+			
+			//DEFAULT NAMESPACE
+			src.println("public String defaultNameSpace() {");
+			String defaultNameSpace = Constants.NS;
+			src.indent();
+			src.println("return \""+defaultNameSpace+"\";");
+			src.outdent();
+			src.println("}");
+			
+			//public UIQName systemType();
+			
+			//SYSTEM TYPE
+			src.println("public UIQName systemType() {");
+			QName systemType = Constants.SYSTEM_TYPE;
+			src.indent();
+			src.println("return new UIQName(\""+systemType.getNamespaceURI()+"\",\""+systemType.getLocalPart()+"\");");
+			src.outdent();
+			src.println("}");
 
 			src.commit(logger);
 			return typeName + "Generated";

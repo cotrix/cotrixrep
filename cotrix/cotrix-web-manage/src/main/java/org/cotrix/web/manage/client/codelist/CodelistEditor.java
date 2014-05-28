@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
+import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.resources.CommonResources;
@@ -25,7 +26,6 @@ import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.client.widgets.StyledSafeHtmlRenderer;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
-import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
@@ -145,6 +145,9 @@ public class CodelistEditor extends LoadingPanel implements HasEditing {
 
 	@Inject @CurrentCodelist
 	private String codelistId;
+	
+	@Inject
+	private UIFactories factories;
 
 	@Inject
 	private void init() {
@@ -353,7 +356,7 @@ public class CodelistEditor extends LoadingPanel implements HasEditing {
 	private void addNewCode()
 	{
 		Log.trace("addNewCode");
-		UICode code = CodeFactory.createCode();
+		UICode code = factories.createCode();
 		dataProvider.add(0, code);
 		Log.trace("adding code to dataprovider, index 0");
 		selectionModel.setSelected(code, true);
@@ -397,10 +400,8 @@ public class CodelistEditor extends LoadingPanel implements HasEditing {
 				attribute.setValue(value);
 				attributeEditor.updated(new CodeAttribute(code, attribute));
 			} else {
-				attribute = new UIAttribute();
-				attribute.setId(Document.get().createUniqueId());
+				attribute = factories.createAttribute();
 				attribute.setName(attributeGroup.getName());
-				attribute.setType(new UIQName("", " "));
 				attribute.setLanguage(attributeGroup.getLanguage());
 				attribute.setValue(value);
 				code.addAttribute(attribute);

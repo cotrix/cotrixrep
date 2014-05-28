@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.common.shared.codelist.linktype;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cotrix.web.common.shared.codelist.HasAttributes;
@@ -26,46 +25,19 @@ public class UILinkType implements Identifiable, HasAttributes, IsSerializable {
 	private UIValueFunction valueFunction;
 	private UIValueType valueType;
 	private List<UIAttribute> attributes;
-	
-	public UILinkType(){
-		name = new UIQName("", "");
-		attributes = new ArrayList<UIAttribute>();
-	}
-	
-	public UILinkType(String id, UIQName name, UICodelist targetCodelist,
-			UIValueFunction valueFunction, UIValueType valueType, List<UIAttribute> attributes) {
-		this.id = id;
-		this.name = name;
-		this.targetCodelist = targetCodelist;
-		this.valueFunction = valueFunction;
-		this.valueType = valueType;
-		this.attributes = attributes;
-	}
 
-	/**
-	 * @return the name
-	 */
 	public UIQName getName() {
 		return name;
 	}
 
-	/**
-	 * @param name the name to set
-	 */
 	public void setName(UIQName name) {
 		this.name = name;
 	}
 
-	/**
-	 * @return the targetCodelist
-	 */
 	public UICodelist getTargetCodelist() {
 		return targetCodelist;
 	}
 
-	/**
-	 * @param targetCodelist the targetCodelist to set
-	 */
 	public void setTargetCodelist(UICodelist targetCodelist) {
 		this.targetCodelist = targetCodelist;
 	}
@@ -79,45 +51,27 @@ public class UILinkType implements Identifiable, HasAttributes, IsSerializable {
 	public void setId(String id) {
 		this.id = id;
 	}	
-	
-	/**
-	 * @return the valueFunction
-	 */
+
 	public UIValueFunction getValueFunction() {
 		return valueFunction;
 	}
 
-	/**
-	 * @param valueFunction the valueFunction to set
-	 */
 	public void setValueFunction(UIValueFunction valueFunction) {
 		this.valueFunction = valueFunction;
 	}
 
-	/**
-	 * @return the valueType
-	 */
 	public UIValueType getValueType() {
 		return valueType;
 	}
 
-	/**
-	 * @param valueType the valueType to set
-	 */
 	public void setValueType(UIValueType valueType) {
 		this.valueType = valueType;
 	}
 
-	/**
-	 * @return the attributes
-	 */
 	public List<UIAttribute> getAttributes() {
 		return attributes;
 	}
 
-	/**
-	 * @param attributes the attributes to set
-	 */
 	public void setAttributes(List<UIAttribute> attributes) {
 		this.attributes = attributes;
 	}
@@ -208,8 +162,6 @@ public class UILinkType implements Identifiable, HasAttributes, IsSerializable {
 		builder.append("]");
 		return builder.toString();
 	}
-
-
 
 	public interface UIValueType {
 	}

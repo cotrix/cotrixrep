@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.common.client.widgets.table.Table;
@@ -30,12 +31,16 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 public class AttributesPanel implements HasValueChangeHandlers<Void> {
+	
+	@Inject
+	public static UIFactories factories;
 	
 	private Table table;
 	
@@ -122,7 +127,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 	
 	private void addEmptyAttributeRow() {
 		AttributeRow attributeRow = new AttributeRow(errorStyle);
-		attributes.put(attributeRow, new UIAttribute());
+		attributes.put(attributeRow, factories.createAttribute());
 		addAttributeRow(attributeRow);
 		fireValueChanged();
 	}

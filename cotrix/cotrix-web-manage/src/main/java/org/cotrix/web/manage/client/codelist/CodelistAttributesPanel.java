@@ -3,6 +3,7 @@ package org.cotrix.web.manage.client.codelist;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.widgets.HasEditing;
@@ -83,6 +84,9 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	
 	@Inject
 	private CodeAttributeEditingPanelFactory editingPanelFactory;
+	
+	@Inject
+	private UIFactories factories;
 
 	@Inject
 	public void init() {
@@ -241,7 +245,7 @@ public class CodelistAttributesPanel extends ResizeComposite implements HasEditi
 	private void addNewAttribute()
 	{
 		if (visualizedCode!=null) {
-			UIAttribute attribute = new UIAttribute();
+			UIAttribute attribute = factories.createAttribute();
 			attributesGrid.addNewItemPanel(attribute);
 		}
 	}

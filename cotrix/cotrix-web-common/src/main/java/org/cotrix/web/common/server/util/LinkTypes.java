@@ -37,13 +37,24 @@ public class LinkTypes {
 	private static final ArrayList<String> EMPTY_ARGUMENTS = new ArrayList<>();
 	
 	public static UILinkType toUILinkType(CodelistLink codelistLink) {
-		UIQName name = ValueUtils.safeValue(codelistLink.name());
-		UICodelist targetCodelist = Codelists.toUICodelist(codelistLink.target());
-		UIValueType valueType = toValueType(codelistLink.valueType());
-		UIValueFunction valueFunction = toValueFunction(codelistLink.function());
-		List<UIAttribute> attributes = Codelists.toUIAttributes(codelistLink.attributes());
+		UILinkType linkType = new UILinkType();
 		
-		return new UILinkType(codelistLink.id(), name, targetCodelist, valueFunction, valueType, attributes);
+		UIQName name = ValueUtils.safeValue(codelistLink.name());
+		linkType.setName(name);
+		
+		UICodelist targetCodelist = Codelists.toUICodelist(codelistLink.target());
+		linkType.setTargetCodelist(targetCodelist);
+		
+		UIValueType valueType = toValueType(codelistLink.valueType());
+		linkType.setValueType(valueType);
+		
+		UIValueFunction valueFunction = toValueFunction(codelistLink.function());
+		linkType.setValueFunction(valueFunction);
+		
+		List<UIAttribute> attributes = Codelists.toUIAttributes(codelistLink.attributes());
+		linkType.setAttributes(attributes);
+		
+		return linkType;
 	}
 	
 	private static UIValueType toValueType(LinkValueType valueType) {
