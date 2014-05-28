@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.manage.client.codelists;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
@@ -25,6 +27,14 @@ import com.google.inject.Singleton;
 @Singleton
 public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGroup> {
 	
+	private static final Comparator<CodelistGroup> COMPARATOR = new Comparator<CodelistGroup>() {
+		
+		@Override
+		public int compare(CodelistGroup g1, CodelistGroup g2) {
+			return String.CASE_INSENSITIVE_ORDER.compare(g1.getName().getLocalPart(), g2.getName().getLocalPart());
+		}
+	}; 
+	
 	@Inject
 	protected ManageServiceAsync managerService;
 
@@ -46,7 +56,10 @@ public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGr
 		Log.trace("oldGroup: "+oldGroup);
 		
 		if (oldGroup!=null) oldGroup.addVersions(newGroup.getVersions());
-		else cache.add(newGroup);
+		else {
+			cache.add(newGroup);
+			Collections.sort(cache, COMPARATOR);
+		}
 		
 		Log.trace("refreshing cache: "+cache);
 		refresh();
@@ -90,12 +103,12 @@ public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGr
 			public void onSuccess(DataWindow<CodelistGroup> result) {
 				List<CodelistGroup> groups = result.getData();
 				Log.trace("loaded "+groups.size()+" codelists");
+				Collections.sort(groups, COMPARATOR);
 				if (range == null) updateData(groups, new Range(0, result.getTotalSize()), result.getTotalSize());
 				else updateData(groups, range, result.getTotalSize());
 					
 			}
 		});		
-	}
-	
+	}	
 
 }
