@@ -1,4 +1,4 @@
-package org.cotrix.domain.attributes;
+package org.cotrix.domain.values;
 
 import static java.util.Arrays.*;
 import static org.cotrix.domain.utils.ScriptEngineProvider.*;
@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.cotrix.domain.validation.Constraint;
 import org.cotrix.domain.validation.Constraints;
-import org.cotrix.domain.values.ValueType;
 
 public final class DefaultType implements ValueType {
 	

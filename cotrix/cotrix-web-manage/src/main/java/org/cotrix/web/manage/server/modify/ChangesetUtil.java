@@ -14,7 +14,6 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.DefaultType;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
@@ -26,6 +25,7 @@ import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
 import org.cotrix.domain.validation.Validator;
 import org.cotrix.domain.validation.Validators;
+import org.cotrix.domain.values.DefaultType;
 import org.cotrix.domain.values.ValueFunction;
 import org.cotrix.domain.values.ValueFunctions;
 import org.cotrix.domain.values.ValueType;

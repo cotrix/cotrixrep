@@ -10,7 +10,6 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.DefaultType;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
@@ -47,6 +46,7 @@ import org.cotrix.domain.memory.DefinitionMS;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.values.DefaultType;
 
 /**
  * Model factory.

@@ -8,10 +8,10 @@ import java.util.Calendar;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.DefaultType;
 import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.memory.AttributeMS;
+import org.cotrix.domain.values.DefaultType;
 import org.cotrix.domain.values.ValueType;
 import org.cotrix.domain.version.Version;
 
