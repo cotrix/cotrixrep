@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.shared.codelist.UIAttribute;
-import org.cotrix.web.manage.client.data.DataSaverManager.CommandHandler;
+import org.cotrix.web.manage.client.data.DataSaverManager.CommandBridge;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.shared.modify.GeneratedId;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
@@ -18,7 +18,7 @@ import org.cotrix.web.manage.shared.modify.metadata.MetadataAttributeCommand;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MetadataAttributeHandler implements CommandHandler<UIAttribute> {
+public class MetadataAttributeBridge implements CommandBridge<UIAttribute> {
 	
 	@Override
 	public Class<UIAttribute> getType() {

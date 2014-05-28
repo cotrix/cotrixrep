@@ -11,14 +11,14 @@ import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodesToolbar.Action;
 import org.cotrix.web.manage.client.codelist.CodesToolbar.ToolBarListener;
-import org.cotrix.web.manage.client.data.AttributeTypeHandler;
-import org.cotrix.web.manage.client.data.CodeAttributeHandler;
-import org.cotrix.web.manage.client.data.CodeLinkHandler;
-import org.cotrix.web.manage.client.data.CodeHandler;
+import org.cotrix.web.manage.client.data.AttributeTypeBridge;
+import org.cotrix.web.manage.client.data.CodeAttributeBridge;
+import org.cotrix.web.manage.client.data.CodeLinkBridge;
+import org.cotrix.web.manage.client.data.CodeBridge;
 import org.cotrix.web.manage.client.data.DataSaverManager;
-import org.cotrix.web.manage.client.data.LinkTypeHandler;
-import org.cotrix.web.manage.client.data.MetadataAttributeHandler;
-import org.cotrix.web.manage.client.data.MetadataHandler;
+import org.cotrix.web.manage.client.data.LinkTypeBridge;
+import org.cotrix.web.manage.client.data.MetadataAttributeBridge;
+import org.cotrix.web.manage.client.data.MetadataBridge;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
@@ -72,13 +72,13 @@ public class CodelistPanelPresenter implements Presenter {
 	
 	@Inject
 	private void bindSavers(
-			CodeHandler codeModifyCommandGenerator,
-			CodeAttributeHandler codeAttributeCommandGenerator,
-			MetadataHandler metadataModifyCommandGenerator,
-			MetadataAttributeHandler metadataAttributeModifyGenerator,
-			LinkTypeHandler linkTypeModifyGenerator,
-			CodeLinkHandler codeLinkCommandGenerator,
-			AttributeTypeHandler attributeTypeModifyGenerator
+			CodeBridge codeModifyCommandGenerator,
+			CodeAttributeBridge codeAttributeCommandGenerator,
+			MetadataBridge metadataModifyCommandGenerator,
+			MetadataAttributeBridge metadataAttributeModifyGenerator,
+			LinkTypeBridge linkTypeModifyGenerator,
+			CodeLinkBridge codeLinkCommandGenerator,
+			AttributeTypeBridge attributeTypeModifyGenerator
 			) {
 		saverManager.register(codeModifyCommandGenerator);
 		saverManager.register(codeAttributeCommandGenerator);

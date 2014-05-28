@@ -12,7 +12,7 @@ import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.link.ValueUpdatedEvent;
-import org.cotrix.web.manage.client.data.DataSaverManager.CommandHandler;
+import org.cotrix.web.manage.client.data.DataSaverManager.CommandBridge;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.util.Attributes;
@@ -30,7 +30,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeLinkHandler implements CommandHandler<CodeLink> {
+public class CodeLinkBridge implements CommandBridge<CodeLink> {
 	
 	@Inject
 	@EditorBus 

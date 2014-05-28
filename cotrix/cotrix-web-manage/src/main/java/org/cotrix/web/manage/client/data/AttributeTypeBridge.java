@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
-import org.cotrix.web.manage.client.data.DataSaverManager.CommandHandler;
+import org.cotrix.web.manage.client.data.DataSaverManager.CommandBridge;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.shared.modify.GenericCommand.Action;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
@@ -16,7 +16,7 @@ import org.cotrix.web.manage.shared.modify.attributetype.UpdatedAttributeType;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class AttributeTypeHandler implements CommandHandler<UIAttributeType> {
+public class AttributeTypeBridge implements CommandBridge<UIAttributeType> {
 	
 	@Override
 	public Class<UIAttributeType> getType() {

@@ -5,7 +5,7 @@ package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
-import org.cotrix.web.manage.client.data.DataSaverManager.CommandHandler;
+import org.cotrix.web.manage.client.data.DataSaverManager.CommandBridge;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.util.Attributes;
@@ -23,7 +23,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeHandler implements CommandHandler<UICode> {
+public class CodeBridge implements CommandBridge<UICode> {
 	
 	@Inject
 	@EditorBus 
