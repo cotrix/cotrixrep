@@ -16,7 +16,7 @@ public class SomeCodelists {
 	
 	public static final Collection<Info> CSV_CODELISTS = asList(		
 			
-			asfis2011,asfis2012,countries, sample_continents,sample_countries,sample_organisations
+			asfis2011,asfis2012,countries, sample_continents,sample_countries
 			
 	);
 
