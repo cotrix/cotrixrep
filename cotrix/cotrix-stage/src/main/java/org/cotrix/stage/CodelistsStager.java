@@ -107,7 +107,7 @@ public class CodelistsStager {
 		}
 	
 
-		Codelist changeset = modify(countries).links().with(codes).build();
+		Codelist changeset = modify(countries).links(link).with(codes).build();
 		
 		codelists.update(changeset);
 	}
