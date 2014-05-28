@@ -23,6 +23,7 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 	private UIQName type;
 	private Language language;
 	private UIRange range;
+	private String defaultValue;
 	private List<UIConstraint> constraints;
 	
 	public UIAttributeType() {
@@ -71,6 +72,14 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 		this.range = range;
 	}
 
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
 	public List<UIConstraint> getConstraints() {
 		return constraints;
 	}
@@ -92,6 +101,8 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 		builder.append(language);
 		builder.append(", range=");
 		builder.append(range);
+		builder.append(", defaultValue=");
+		builder.append(defaultValue);
 		builder.append(", constraints=");
 		builder.append(constraints);
 		builder.append("]");

@@ -94,6 +94,24 @@
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
+			<t:row>
+			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
+				<t:cell>
+					<g:Label>Default</g:Label>
+				</t:cell>
+				<t:cell>
+					<g:FlowPanel>
+						<c:EditableLabel ui:field="defaultBoxContainer"
+							labelStyle="{resources.propertyGrid.textValue}">
+							<c:editor>
+							<g:TextBox ui:field="defaultBox" styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+								</c:editor>
+						</c:EditableLabel>
+					</g:FlowPanel>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">

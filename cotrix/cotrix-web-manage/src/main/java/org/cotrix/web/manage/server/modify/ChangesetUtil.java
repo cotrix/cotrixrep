@@ -244,7 +244,7 @@ public class ChangesetUtil {
 				.is(convert(attributeType.getType()))
 				.in(convert(attributeType.getLanguage()))
 				.occurs(toRange(attributeType.getRange()))
-				.valueIs(toValueType(attributeType.getConstraints()))
+				.valueIs(toValueType(attributeType.getDefaultValue(), attributeType.getConstraints()))
 				.build();
 	}
 	
@@ -253,7 +253,7 @@ public class ChangesetUtil {
 				.is(convert(attributeType.getType()))
 				.in(convert(attributeType.getLanguage()))
 				.occurs(toRange(attributeType.getRange()))
-				.valueIs(toValueType(attributeType.getConstraints()))
+				.valueIs(toValueType(attributeType.getDefaultValue(), attributeType.getConstraints()))
 				.build();
 	}
 	
@@ -265,11 +265,12 @@ public class ChangesetUtil {
 		return Ranges.between(range.getMin(), range.getMax());
 	}
 	
-	public static ValueType toValueType(List<UIConstraint> constraints) {
+	public static ValueType toValueType(String defaultValue, List<UIConstraint> constraints) {
 		DefaultType type = valueType();
 		
 		for (UIConstraint constraint:constraints) addConstraint(type, constraint);
-		//TODO .required()	.defaultsTo("abc");
+
+		type.defaultsTo(defaultValue);
 		
 		return type;
 	}

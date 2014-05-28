@@ -28,6 +28,7 @@ public class AttributeTypes {
 		attributeType.setName(ValueUtils.safeValue(definition.name()));
 		attributeType.setType(ValueUtils.safeValue(definition.type()));
 		attributeType.setRange(toUiRange(definition.range()));
+		attributeType.setDefaultValue(definition.valueType().defaultValue());
 		attributeType.setConstraints(toUiConstraints(definition.valueType().constraints()));
 		return attributeType;
 	}
