@@ -12,11 +12,11 @@ public class SomeCodelists {
 	public static final Info countries = info("/countries.csv", "COUNTRIES", "ISO 3166-1-alpha-2 code", "1.0");
 	public static final Info sample_continents = info("/sample-continents.csv", "SAMPLE CONTINENTS", "Id", "1.0");
 	public static final Info sample_countries = info("/sample-countries.csv", "SAMPLE COUNTRIES", "Id", "1.0");
-	public static final Info sample_organisations = info("/sample-organisations.csv", "SAMPLE ORGANISATIONS", "Id", "1.0");
+//	public static final Info sample_organisations = info("/sample-organisations.csv", "SAMPLE ORGANISATIONS", "Id", "1.0");
 	
 	public static final Collection<Info> CSV_CODELISTS = asList(		
 			
-			asfis2011,asfis2012,countries, sample_continents,sample_countries,sample_organisations
+			asfis2011,asfis2012,countries, sample_continents,sample_countries
 			
 	);
 
