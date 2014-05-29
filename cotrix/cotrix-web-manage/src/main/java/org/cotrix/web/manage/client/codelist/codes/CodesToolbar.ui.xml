@@ -7,7 +7,7 @@
 		type='org.cotrix.web.common.client.resources.CommonResources' />
 	<ui:style>
 	.headerPanel {
-		padding-right: 5px;
+		
 	}
 	
 	.leftWrapper {
@@ -41,19 +41,15 @@
 	}
 	
 	.statusWrapper {
-		float: right;
 		vertical-align: middle;
 		padding: 5px;
 	}
 	
 	.state {
 		color: lightgray;
-		padding-right: 5px;
-		padding-left: 5px;
 		font-size: 25px;
 		height: 100%;
-		line-height: 0;
-		vertical-align: middle;
+		padding-left: 5px;
 	}
 	
 	.stateLoaderWrapper {
@@ -78,20 +74,21 @@
 				<g:upFace image="{resources.allNormals}" />
 			</g:PushButton>
 		</g:HorizontalPanel>
+		
+
 
 		<g:HorizontalPanel styleName="{style.rightWrapper}"
-			verticalAlignment="middle" height="100%" spacing="5">
+			verticalAlignment="middle" height="100%">
 			<g:HorizontalPanel verticalAlignment="middle"
 				height="100%" spacing="5" styleName="{style.rightWrapper}">
-			<g:FlowPanel styleName="{style.statusWrapper}" width="125px">
+			<g:FlowPanel styleName="{style.statusWrapper}">
 				<g:InlineLabel ui:field="state" styleName="{style.state}">draft</g:InlineLabel>
 				<g:FlowPanel styleName="{style.stateLoaderWrapper}">
 					<g:Image ui:field="stateLoader" resource="{common.dataLoader}"
 						styleName="{style.stateLoader}" visible="false" />
 				</g:FlowPanel>
 			</g:FlowPanel>
-			<g:PushButton ui:field="metadataButton" width="32px"
-				styleName="{style.button}" title="Codelist metadata">
+			<g:PushButton ui:field="metadataButton" styleName="{style.button}" title="Codelist metadata">
 				<g:upFace image="{resources.metadata}" />
 			</g:PushButton>
 			</g:HorizontalPanel>
