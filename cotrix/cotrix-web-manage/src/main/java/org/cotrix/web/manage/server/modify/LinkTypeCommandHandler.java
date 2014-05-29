@@ -17,6 +17,8 @@ import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.cotrix.web.manage.shared.modify.linktype.LinkTypeCommand;
 import org.cotrix.web.manage.shared.modify.linktype.UpdatedLinkType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -25,6 +27,8 @@ import org.cotrix.web.manage.shared.modify.linktype.UpdatedLinkType;
 @Singleton
 @Default
 public class LinkTypeCommandHandler {
+	
+	private Logger logger = LoggerFactory.getLogger(LinkTypeCommandHandler.class);
 
 	@Inject
 	CodelistRepository repository;
@@ -43,7 +47,7 @@ public class LinkTypeCommandHandler {
 			} break;
 			case UPDATE: {
 				Codelist target = repository.lookup(linkType.getTargetCodelist().getId());	
-				CodelistLink oldCodelistLink = lookupLink(codelist, linkType.getId());
+				CodelistLink oldCodelistLink = lookupCodelistLink(codelist, linkType.getId());
 				codelistLink = ChangesetUtil.updateCodelistLink(linkType, target, oldCodelistLink);
 			} break;
 			case REMOVE: {
@@ -56,12 +60,16 @@ public class LinkTypeCommandHandler {
 		Codelist changeset = modifyCodelist(codelistId).links(codelistLink).build();
 		repository.update(changeset);
 		
-		CodelistLink updatedLink = lookupLink(codelist, codelistLink.id());
+		CodelistLink updatedCodelistLink = lookupCodelistLink(codelist, codelistLink.id());
+		logger.trace("updatedCodelistLink: "+updatedCodelistLink);
 		
-		return new UpdatedLinkType(updatedLink==null?null:LinkTypes.toUILinkType(updatedLink));
+		UILinkType updatedLinkType = updatedCodelistLink==null?null:LinkTypes.toUILinkType(updatedCodelistLink);
+		logger.trace("updatedLinkType: "+updatedLinkType);
+		
+		return new UpdatedLinkType(updatedLinkType);
 	}
 	
-	private CodelistLink lookupLink(Codelist codelist, String id) {
+	private CodelistLink lookupCodelistLink(Codelist codelist, String id) {
 		for (CodelistLink link:codelist.links()) if (link.id().equals(id)) return link;
 		return null;
 	}
