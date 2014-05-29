@@ -12,6 +12,7 @@ import org.cotrix.domain.trait.Status;
 public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 
 	private String value;
+	private String description;
 	
 	//by default, attribute has 'private' definition
 	private Definition.State definition = new DefinitionMS();
@@ -29,6 +30,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		
 		definition(state.definition());
 		value(state.value());
+		description(state.description());
 	}
 	
 	@Override
@@ -67,7 +69,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		definition.type(type);
 	}
 	
-	public void value(String value) {	
+	public void value(String value) {
 		this.value = value;
 	}
 
@@ -77,6 +79,14 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 
 	public void language(String language) {
 		definition.language(language);
+	}
+	
+	public String description() {
+		return description;
+	}
+
+	public void description(String description) {
+		this.description=description;
 	}
 	
 	@Override

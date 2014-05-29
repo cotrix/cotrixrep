@@ -48,6 +48,8 @@ public class AttributeGrammar {
 		OptionalClause ofType(String type);
 	
 		OptionalClause in(String language);
+		
+		OptionalClause description(String description);
 	}
 
 }

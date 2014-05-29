@@ -16,7 +16,7 @@ import org.junit.Test;
 
 public class AttributeTest extends DomainTest {
 
-	Attribute untyped = attribute().name(name).ofType(type).value(value).in(language).build();
+	Attribute untyped = attribute().name(name).ofType(type).value(value).in(language).description(description).build();
 
 	ValueType valuetype = valueType().defaultsTo("mydef");
 	
@@ -38,7 +38,8 @@ public class AttributeTest extends DomainTest {
 
 		// defaults, untyped
 		assertNotNull(minimalUntyped.definition()); // private def
-		assertEquals(null, minimalUntyped.value());
+		assertNull(minimalUntyped.value());
+		assertNull(minimalUntyped.description());
 
 		// full untyped: delegates
 		assertEquals(untyped.definition().name(), untyped.name());
@@ -71,6 +72,9 @@ public class AttributeTest extends DomainTest {
 		
 		//change language
 		modify(untyped).in(language).build();
+		
+		//change description
+		modify(untyped).description(description).build();
 	
 		Definition newdef = definition().name(name).build();
 
@@ -104,7 +108,7 @@ public class AttributeTest extends DomainTest {
 
 		//untyped
 		
-		Attribute changesetUntyped = modify(untyped).name(name2).value(value2).ofType(type2).in(language2).build();
+		Attribute changesetUntyped = modify(untyped).name(newname).value(newvalue).ofType(newtype).in(newlanguage).description(newdescription).build();
 
 		reveal(untyped).update(reveal(changesetUntyped));
 
@@ -112,6 +116,7 @@ public class AttributeTest extends DomainTest {
 		assertEquals(changesetUntyped.value(), untyped.value());
 		assertEquals(changesetUntyped.type(), untyped.type());
 		assertEquals(changesetUntyped.language(), untyped.language());
+		assertEquals(changesetUntyped.description(), untyped.description());
 		
 		//typed
 		
@@ -142,6 +147,16 @@ public class AttributeTest extends DomainTest {
 		reveal(typed).update(reveal(changeset));
 
 		assertNull(typed.value());
+	}
+	
+	@Test
+	public void canEraseDescription() {
+
+		Attribute changeset = modify(typed).description(NULL_STRING).build();
+
+		reveal(typed).update(reveal(changeset));
+
+		assertNull(typed.description());
 	}
 
 	@Test(expected=IllegalArgumentException.class)
