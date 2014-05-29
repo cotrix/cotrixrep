@@ -4,10 +4,10 @@
 package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.shared.codelist.UICode;
-import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.codes.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.data.DataSaverManager.CommandBridge;
 import org.cotrix.web.manage.client.data.event.EditType;
-import org.cotrix.web.manage.client.event.EditorBus;
+import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.util.Attributes;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
@@ -26,8 +26,8 @@ import com.google.web.bindery.event.shared.EventBus;
 public class CodeBridge implements CommandBridge<UICode> {
 	
 	@Inject
-	@EditorBus 
-	private EventBus editorBus;
+	@CodelistBus 
+	private EventBus codelistBus;
 	
 	@Override
 	public Class<UICode> getType() {
@@ -66,7 +66,7 @@ public class CodeBridge implements CommandBridge<UICode> {
 		//merge the system attributes
 		Attributes.mergeSystemAttributes(localCode.getAttributes(), updatedCode.getAttributes());
 		
-		editorBus.fireEvent(new CodeUpdatedEvent(localCode));
+		codelistBus.fireEvent(new CodeUpdatedEvent(localCode));
 	}
 
 }

@@ -3,7 +3,7 @@ package org.acme;
 import static org.junit.Assert.*;
 
 import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
-import org.cotrix.web.manage.client.codelist.attributetype.Occurrences;
+import org.cotrix.web.manage.client.codelist.metadata.attributetype.Occurrences;
 import org.junit.Test;
 
 /**

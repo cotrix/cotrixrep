@@ -1,0 +1,92 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
+		field="common" />
+	<ui:with
+		type="org.cotrix.web.manage.client.resources.CotrixManagerResources"
+		field="resources" />
+	<ui:style>
+			.profilePanel {
+				margin: 163px;
+			}
+			
+			.table {
+				margin: 23px;
+			}
+			
+			.valueCell {
+				padding-left: 50px;
+				vertical-align: middle;
+			}
+			
+			.row {
+				height: 35px;
+				vertical-align: middle;
+			}
+			
+			.name {
+				font-size: 56px !important;
+				height: 66px !important;
+			}
+			
+			
+			.password {
+				width: 170px;
+			}
+			
+			.version {
+				padding-left: 12px;
+			}
+			
+			.email {
+				
+			}
+			
+			.spacer {
+				background-color: #efefef;
+			}
+
+		</ui:style>
+	<g:DockLayoutPanel width="100%" height="100%" >
+		<g:north size='30'>
+			<g:SimpleLayoutPanel styleName="{style.spacer}" />
+		</g:north>
+		<g:center>
+			<g:HTMLPanel styleName="{style.profilePanel}">
+				<table width="100%">
+					<tr>
+						<td style="text-align:right;vertical-align:top;">
+							<table style="width: 200px;">
+								<tr>
+									<td style="text-align:center;">
+										<g:Image resource="{resources.splash}" />
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td style="vertical-align:top;width:100%;">
+							<table style="width: 100%;">
+								<tr>
+									<td>
+										<g:Label ui:field="name" styleName="{style.name}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<g:Label ui:field="version" styleName="{common.css.propertyValue} {style.version}" />
+									</td>
+								</tr>
+								<tr>
+									<td style="padding-left: 4px;">
+										<g:Label ui:field="state"/>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</g:HTMLPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder> 

@@ -11,7 +11,7 @@ import org.cotrix.web.manage.client.data.event.DataSavedEvent;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.data.event.SavingDataEvent;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
-import org.cotrix.web.manage.client.event.EditorBus;
+import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
@@ -44,13 +44,13 @@ public class DataSaverManager {
 	@Inject
 	protected EventBus managerBus;
 
-	@EditorBus 
+	@CodelistBus 
 	@Inject
-	protected EventBus editorBus;
+	protected EventBus codelistBus;
 
 	public <T> void register(CommandBridge<T> generator)
 	{
-		editorBus.addHandler(DataEditEvent.getType(generator.getType()), new DataSaver<T>(generator));
+		codelistBus.addHandler(DataEditEvent.getType(generator.getType()), new DataSaver<T>(generator));
 	}
 
 	protected class DataSaver<T> implements DataEditHandler<T> {

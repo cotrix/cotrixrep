@@ -1,0 +1,98 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:with field='common'
+		type='org.cotrix.web.common.client.resources.CommonResources' />
+	<ui:style>
+	.headerPanel {
+		padding-right: 5px;
+	}
+	
+	.leftWrapper {
+		float: left;
+		margin-left: 4px;
+	}
+	
+	.rightWrapper {
+		float: right;
+		margin-right: 5px;
+	}
+	
+	.button {
+		padding: 5px;
+		cursor: pointer;
+	}
+	
+	.lock {
+		outline: none;
+		padding: 5px;
+		display: inline;
+		cursor: pointer;
+	}
+	
+	.lock>img {
+		vertical-align: middle;
+	}
+	
+	.seal {
+		padding-left: 5px;
+	}
+	
+	.statusWrapper {
+		float: right;
+		vertical-align: middle;
+		padding: 5px;
+	}
+	
+	.state {
+		color: lightgray;
+		padding-right: 5px;
+		padding-left: 5px;
+		font-size: 25px;
+		height: 100%;
+		line-height: 0;
+		vertical-align: middle;
+	}
+	
+	.stateLoaderWrapper {
+		height: 25px;
+		vertical-align: middle;
+		display: inline-block;
+	}
+	
+	.stateLoader {
+		margin: 8px;
+	}
+	</ui:style>
+	<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
+
+		<g:HorizontalPanel styleName="{style.rightWrapper}"
+			verticalAlignment="middle" height="100%" spacing="5">
+			<g:HorizontalPanel verticalAlignment="middle"
+				height="100%" spacing="5" styleName="{style.rightWrapper}">
+				<g:PushButton ui:field="lock" styleName="{style.button}"
+					title="Disable Editing">
+					<g:upFace image="{resources.lock}" />
+					<g:upDisabledFace image="{resources.lockDisabled}" />
+				</g:PushButton>
+				<g:PushButton ui:field="unlock" styleName="{style.button}"
+					title="Enable Editing">
+					<g:upFace image="{resources.unlock}" />
+					<g:upDisabledFace image="{resources.unlockDisabled}" />
+				</g:PushButton>
+				<g:PushButton ui:field="seal" styleName="{style.button}"
+					title="Seal (No Further Changes)">
+					<g:upFace image="{resources.seal}" />
+					<g:upDisabledFace image="{resources.sealDisabled}" />
+				</g:PushButton>
+				<g:PushButton ui:field="codesButton" width="32px"
+					styleName="{style.button}" title="Codelist metadata">
+					<g:upFace image="{resources.metadata}" />
+				</g:PushButton>
+			</g:HorizontalPanel>
+		</g:HorizontalPanel>
+
+	</g:FlowPanel>
+</ui:UiBinder> 
