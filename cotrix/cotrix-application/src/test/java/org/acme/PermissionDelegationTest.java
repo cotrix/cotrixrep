@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
+import javax.inject.Inject;
+
 import org.cotrix.action.Action;
 import org.cotrix.application.DelegationPolicy;
 import org.cotrix.application.PermissionDelegationService;
@@ -15,8 +17,6 @@ import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
-import org.cotrix.repository.impl.BaseUserRepository;
-import org.cotrix.repository.impl.memory.MUserRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,16 +27,13 @@ public class PermissionDelegationTest extends ApplicationTest {
 	
 	PermissionDelegationService service;
 	
+	@Inject
 	UserRepository repository;
 	
 	DelegationPolicy policy;
 	
 	@Before
 	public void setup() {
-		
-		
-		//we dont care about repositories and policies here, so setting up defaults
-		repository = new BaseUserRepository(new MUserRepository());
 		
 		policy = mock(DelegationPolicy.class);
 		
@@ -45,8 +42,7 @@ public class PermissionDelegationTest extends ApplicationTest {
 		//we would not want to test the impl, but using cdi to use configured alternative has its own issues
 		//also, we're not expecting yet multiple implementations for this service 
 		service = new DefaultDelegationService(current,repository,policy);
-		
-		
+			
 	}	
 	
 	
@@ -84,12 +80,7 @@ public class PermissionDelegationTest extends ApplicationTest {
 		service.revoke(doit).from(bill);
 			
 	}
-	
 
-	
-	
-	
-	
 	@Test
 	public void consultsPolicyForDelegation() {
 		

@@ -9,7 +9,7 @@ import org.cotrix.web.common.shared.codelist.UICode;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UpdatedCode extends ModifyCommandResult implements HasCode, HasId {
+public class UpdatedCode extends ModifyCommandResult {
 	
 	protected String id;
 	protected UICode code;
@@ -23,7 +23,7 @@ public class UpdatedCode extends ModifyCommandResult implements HasCode, HasId {
 		this.id = id;
 		this.code = code;
 	}
-
+	
 	/**
 	 * @return the id
 	 */
@@ -31,7 +31,6 @@ public class UpdatedCode extends ModifyCommandResult implements HasCode, HasId {
 		return id;
 	}
 
-	@Override
 	public UICode getCode() {
 		return code;
 	}

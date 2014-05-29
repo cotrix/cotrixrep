@@ -2,6 +2,7 @@ package org.cotrix.web.manage.server;
 
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.repository.CodelistQueries.*;
 import static org.cotrix.web.manage.shared.ManagerUIFeature.*;
 
@@ -27,9 +28,11 @@ import org.cotrix.application.VersioningService;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.User;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
@@ -37,11 +40,13 @@ import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.MultiQuery;
+import org.cotrix.repository.UserRepository;
 import org.cotrix.web.common.server.CotrixRemoteServlet;
 import org.cotrix.web.common.server.task.ActionMapper;
 import org.cotrix.web.common.server.task.CodelistTask;
 import org.cotrix.web.common.server.task.ContainsTask;
 import org.cotrix.web.common.server.task.Id;
+import org.cotrix.web.common.server.util.AttributeTypes;
 import org.cotrix.web.common.server.util.Codelists;
 import org.cotrix.web.common.server.util.LinkTypes;
 import org.cotrix.web.common.server.util.ValueUtils;
@@ -50,8 +55,9 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.LinkType;
+import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
+import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.ApplicationFeatures;
@@ -117,6 +123,9 @@ public class ManageServiceImpl implements ManageService {
 	
 	@Inject @Current
 	private User currentUser;
+	
+	@Inject
+	private UserRepository userRepository;
 
 	/** 
 	 * {@inheritDoc}
@@ -124,10 +133,11 @@ public class ManageServiceImpl implements ManageService {
 	@PostConstruct
 	public void init() {
 		mapper.map(VIEW).to(VIEW_CODELIST, VIEW_METADATA);
-		mapper.map(EDIT).to(EDIT_METADATA, EDIT_CODELIST, ADD_CODE, REMOVE_CODE, ApplicationFeatures.VERSION_CODELIST, ApplicationFeatures.REMOVE_CODELIST);
+		mapper.map(EDIT).to(EDIT_METADATA, EDIT_CODELIST, ADD_CODE, REMOVE_CODE, ApplicationFeatures.VERSION_CODELIST);
 		mapper.map(LOCK).to(LOCK_CODELIST);
 		mapper.map(UNLOCK).to(UNLOCK_CODELIST);
 		mapper.map(SEAL).to(SEAL_CODELIST);
+		mapper.map(REMOVE).to(ApplicationFeatures.REMOVE_CODELIST);
 		mapper.map(MainAction.CREATE_CODELIST).to(ApplicationFeatures.CREATE_CODELIST);
 	}
 
@@ -283,6 +293,11 @@ public class ManageServiceImpl implements ManageService {
 	public CodelistGroup createNewCodelist(String name, String version)	throws ServiceException {
 		logger.trace("createNewCodelist name: {}, version: {}",name, version);
 		Codelist newCodelist = codelist().name(name).version(version).build();
+
+		logger.trace("owner: {}", currentUser);
+		User changeset = modifyUser(currentUser).is(Roles.OWNER.on(newCodelist.id())).build();
+		userRepository.update(changeset);
+		
 		CodelistGroup group = addCodelist(newCodelist);
 		events.fire(new CodelistActionEvents.Create(newCodelist.id(),newCodelist.name(), newCodelist.version(), session));
 		return group;
@@ -290,8 +305,7 @@ public class ManageServiceImpl implements ManageService {
 
 	private CodelistGroup addCodelist(Codelist newCodelist) {
 		repository.add(newCodelist);
-		lifecycleService.start(newCodelist.id());
-
+	
 		CodelistGroup group = new CodelistGroup(ValueUtils.safeValue(newCodelist.name()));
 		group.addVersion(newCodelist.id(), newCodelist.version());
 
@@ -332,14 +346,14 @@ public class ManageServiceImpl implements ManageService {
 		CodelistSummary summary = repository.get(summary(codelistId));
 
 		//FIXME namespace lost in BE
-		List<AttributeType> attributeTypes = new ArrayList<>();
+		List<AttributeValue> attributeTypes = new ArrayList<>();
 		for (QName name:summary.codeNames()) {
 			for (QName type:summary.codeTypesFor(name)) {
 				Collection<String> languages = summary.codeLanguagesFor(name, type);
-				if (languages.isEmpty()) attributeTypes.add(new AttributeType(ValueUtils.safeValue(name), ValueUtils.safeValue(type), ""));
+				if (languages.isEmpty()) attributeTypes.add(new AttributeValue(ValueUtils.safeValue(name), ValueUtils.safeValue(type), ""));
 				else {
 					for (String language:languages) {
-						attributeTypes.add(new AttributeType(ValueUtils.safeValue(name), ValueUtils.safeValue(type), language));
+						attributeTypes.add(new AttributeValue(ValueUtils.safeValue(name), ValueUtils.safeValue(type), language));
 					}
 				}
 			}
@@ -348,7 +362,7 @@ public class ManageServiceImpl implements ManageService {
 		
 		Codelist codelist = repository.lookup(codelistId);
 
-		List<LinkType> types = new ArrayList<>();
+		List<LinkValue> types = new ArrayList<>();
 		for (CodelistLink codelistLink:codelist.links()) {
 			types.add(LinkTypes.toLinkType(codelistLink));
 		}
@@ -389,9 +403,19 @@ public class ManageServiceImpl implements ManageService {
 	}
 	
 	@Override
-	@CodelistTask(EDIT)
+	@CodelistTask(REMOVE)
 	public void removeCodelist(@Id String codelistId) throws ServiceException {
 		logger.trace("removeCodelist codelistId: {}",codelistId);
 		repository.remove(codelistId);
+	}
+
+	@Override
+	@CodelistTask(VIEW)
+	public DataWindow<UIAttributeType> getCodelistAttributeTypes(@Id String codelistId) throws ServiceException {
+		logger.trace("getCodelistAttributeTypes codelistId: {}",codelistId);
+		List<UIAttributeType> types = new ArrayList<>();
+		Codelist codelist = repository.lookup(codelistId);
+		for (Definition definition:codelist.definitions()) types.add(AttributeTypes.toUIAttributeType(definition));		
+		return new DataWindow<UIAttributeType>(types);
 	}
 }

@@ -15,12 +15,37 @@ public enum Validators implements Validator {
 	
 	min_length($value+".length >= %s","length"),
 	
+	
+	
+	number(format("!isNaN(%s)",$value)),
+	
+	atleast(format("!isNaN(%1$s) && %1$s >= %2$s",$value,"%s"),"number"),
+
+	greater(format("!isNaN(%1$s) && %1$s > %2$s",$value,"%s"),"number"),
+	
+	atmost(format("!isNaN(%1$s) && %1$s <= %2$s",$value,"%s"),"number"),
+	
+	smaller(format("!isNaN(%1$s) && %1$s < %2$s",$value,"%s"),"number"),
+	
+	between(format("!isNaN(%1$s) && %1$s >= %2$s && %1$s <= %2$s",$value,"%s"),"min","max"),
+		
+	
+	date(format("!isNaN(new Date(%s).getTime())",$value)),
+	
+	before(format("!isNaN(new Date(%1$s).getTime()) && (new Date(%1$s).getTime() < new Date('%2$s').getTime())",$value,"%s"),"date"),
+
+	after(format("!isNaN(new Date(%1$s).getTime()) && (new Date(%1$s).getTime() > new Date('%2$s').getTime())",$value,"%s"),"date"),
+	
+	between_dates(format("!isNaN(new Date(%1$s).getTime()) " +
+			"&& (new Date(%1$s).getTime() > new Date('%2$s').getTime())" +
+			"&& (new Date(%1$s).getTime() < new Date('%2$s').getTime())",$value,"%s"),"start","end"),
+	
+	regexp("/%s/.test("+$value+")","expression"),
+	
 	custom("%s","expression")
 	
 	;
-	
-	
-	
+
 	
 	private final List<String> names;
 	private final String template;
@@ -56,6 +81,5 @@ public enum Validators implements Validator {
 	public List<String> parameterNames() {
 		return names;
 	}
-
 }
 

@@ -18,7 +18,6 @@ public class ValueTypeTest extends DomainTest {
 		//defaults
 		
 		assertNotNull(minimal.constraints().asSingleConstraint());
-		assertFalse(minimal.isRequired());
 		assertTrue(minimal.isValid("anything"));
 		assertNull(minimal.defaultValue());
 
@@ -30,7 +29,6 @@ public class ValueTypeTest extends DomainTest {
 		
 		assertNotNull(type.constraints());
 		assertNotNull(type.constraints().asSingleConstraint());
-		assertTrue(type.isRequired());
 		assertFalse(type.isValid("1"));
 		assertTrue(type.isValid("12"));
 		assertEquals("abc",type.defaultValue());

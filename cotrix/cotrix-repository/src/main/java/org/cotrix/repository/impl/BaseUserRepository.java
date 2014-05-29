@@ -15,8 +15,8 @@ import org.cotrix.repository.spi.StateRepository;
 public class BaseUserRepository extends AbstractRepository<User,User.Private,User.State> implements UserRepository {
 
 	@Inject
-	public BaseUserRepository(StateRepository<User.State> repository) {
-		super(repository);
+	public BaseUserRepository(StateRepository<User.State> repository, EventProducer producer) {
+		super(repository,producer);
 	}
 	
 	@Override

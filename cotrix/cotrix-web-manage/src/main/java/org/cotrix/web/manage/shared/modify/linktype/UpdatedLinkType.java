@@ -3,19 +3,14 @@
  */
 package org.cotrix.web.manage.shared.modify.linktype;
 
-import java.util.List;
-
-import org.cotrix.web.common.shared.codelist.HasAttributes;
-import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
-import org.cotrix.web.manage.shared.modify.HasId;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UpdatedLinkType extends ModifyCommandResult implements HasId, HasAttributes {
+public class UpdatedLinkType extends ModifyCommandResult {
 	
 	protected UILinkType updatedLinkType;
 	
@@ -25,21 +20,8 @@ public class UpdatedLinkType extends ModifyCommandResult implements HasId, HasAt
 		this.updatedLinkType = link;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return updatedLinkType.getId();
-	}
-	
-	@Override
-	public List<UIAttribute> getAttributes() {
-		return updatedLinkType.getAttributes();
-	}
-	
-	@Override
-	public void setAttributes(List<UIAttribute> attributes) {
-		updatedLinkType.setAttributes(attributes);
+	public UILinkType getUpdatedLinkType() {
+		return updatedLinkType;
 	}
 
 	/** 

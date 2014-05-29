@@ -104,6 +104,22 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 			node().setProperty(value_prop,value);
 		
 	}
+	
+	
+	@Override
+	public String description() {
+		return (String) node().getProperty(description_prop,null);
+	}
+
+	@Override
+	public void description(String value) {
+		
+		if (value==null)
+			node().removeProperty(description_prop);
+		else
+			node().setProperty(description_prop,value);
+		
+	}
 
 	@Override
 	public String language() {

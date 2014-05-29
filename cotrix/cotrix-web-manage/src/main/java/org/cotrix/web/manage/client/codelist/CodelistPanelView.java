@@ -15,9 +15,9 @@ public interface CodelistPanelView {
 
 	Widget asWidget();
 	
-	CodelistToolbar getToolBar();
+	CodesToolbar getToolBar();
 	
-	CodelistEditor getCodeListEditor();
+	CodesEditor getCodeListEditor();
 	
 	HasEditing getMetadataEditor();
 	
@@ -26,5 +26,7 @@ public interface CodelistPanelView {
 	HasEditing getLinkTypesEditor();
 
 	HasEditing getLinksEditor();
+
+	HasEditing getAttributeTypesPanel();
 
 }

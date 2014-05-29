@@ -78,6 +78,7 @@ public class Codelists {
 			case draft: return LifecycleState.draft;
 			case locked: return LifecycleState.locked;
 			case sealed: return LifecycleState.sealed;
+			case removed: return LifecycleState.removed;
 		}
 		throw new IllegalArgumentException("Unknown default lifecycle state "+defaultLifecycleStates);
 	}

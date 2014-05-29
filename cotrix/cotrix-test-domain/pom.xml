@@ -19,6 +19,19 @@
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-test-common</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-application</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-repository</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

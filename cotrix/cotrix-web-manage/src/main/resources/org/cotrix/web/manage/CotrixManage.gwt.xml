@@ -11,6 +11,12 @@
 	<inherits name="com.google.gwt.inject.Inject" />
 	<inherits name='com.google.web.bindery.event.EventBinder'/>
 	<inherits name='org.cotrix.web.common.CotrixCommon' />
+	
+	<generate-with
+		class="org.cotrix.web.manage.gen.MetaConstraintProviderGenerator">
+		<when-type-assignable
+			class="org.cotrix.web.manage.client.codelist.attributetype.constraint.MetaConstraintProvider" />
+	</generate-with>
 
 	<!-- Specify the paths for translatable code -->
 	<source path='client' />

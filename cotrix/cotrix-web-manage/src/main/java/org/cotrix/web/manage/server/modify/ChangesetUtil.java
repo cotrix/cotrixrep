@@ -14,26 +14,36 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.common.Range;
+import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
+import org.cotrix.domain.utils.Constants;
+import org.cotrix.domain.validation.Validator;
+import org.cotrix.domain.validation.Validators;
+import org.cotrix.domain.values.DefaultType;
 import org.cotrix.domain.values.ValueFunction;
 import org.cotrix.domain.values.ValueFunctions;
+import org.cotrix.domain.values.ValueType;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
-import org.cotrix.web.common.shared.codelist.linktype.LinkType;
+import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
+import org.cotrix.web.common.shared.codelist.attributetype.UIConstraint;
+import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
+import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
+import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
-import org.cotrix.web.manage.client.util.Attributes;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -104,18 +114,18 @@ public class ChangesetUtil {
 		
 		OptionalClause clause = null;
 		
-		if (valueType instanceof CodeNameType) {
+		if (valueType instanceof CodeNameValue) {
 			clause = listLink().name(convert(linkType.getName())).target(target).anchorToName();
 		}
 		
-		if (valueType instanceof AttributeType) {
-			AttributeType attributeType = (AttributeType) valueType;
+		if (valueType instanceof AttributeValue) {
+			AttributeValue attributeType = (AttributeValue) valueType;
 			Attribute template = toAttribute(attributeType);
 			clause = listLink().name(convert(linkType.getName())).target(target).anchorTo(template);
 		}
 		
-		if (valueType instanceof LinkType) {
-			LinkType link = (LinkType) valueType;
+		if (valueType instanceof LinkValue) {
+			LinkValue link = (LinkValue) valueType;
 			CodelistLink codelistLink = findCodelistLink(link.getLinkId(), target.links());
 			clause = listLink().name(convert(linkType.getName())).target(target).anchorTo(codelistLink);
 		}
@@ -156,18 +166,18 @@ public class ChangesetUtil {
 		
 		OptionalClause clause = null;
 		
-		if (valueType instanceof CodeNameType) {
+		if (valueType instanceof CodeNameValue) {
 			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorToName();
 		}
 		
-		if (valueType instanceof AttributeType) {
-			AttributeType attributeType = (AttributeType) valueType;
+		if (valueType instanceof AttributeValue) {
+			AttributeValue attributeType = (AttributeValue) valueType;
 			Attribute template = toAttribute(attributeType);
 			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorTo(template);
 		}
 		
-		if (valueType instanceof LinkType) {
-			LinkType link = (LinkType) valueType;
+		if (valueType instanceof LinkValue) {
+			LinkValue link = (LinkValue) valueType;
 			CodelistLink codelistLink = findCodelistLink(link.getLinkId(), target.links());
 			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorTo(codelistLink);
 		}
@@ -194,7 +204,7 @@ public class ChangesetUtil {
 		for (UIAttribute uiAttribute:uiAttributes) {
 			
 			//skip system attributes
-			if (Attributes.isSystemAttribute(uiAttribute)) continue;
+			if (isSystemAttribute(uiAttribute)) continue;
 		
 			//is a new attribute
 			if (uiAttribute.getId() == null) changeSet.add(addAttribute(uiAttribute));
@@ -213,7 +223,19 @@ public class ChangesetUtil {
 		return changeSet;
 	}
 	
-	private static Attribute toAttribute(AttributeType attributeType) {
+	private static boolean isSystemAttribute(UIAttribute attribute) {
+		UIQName type = attribute.getType();
+		if (type == null) return false;
+		
+		String nameSpace = attribute.getType().getNamespace();
+		String localPart = attribute.getType().getLocalPart();
+		if (nameSpace == null || localPart == null) return false;
+		
+		return Constants.SYSTEM_TYPE.getNamespaceURI().equals(nameSpace) && 
+				Constants.SYSTEM_TYPE.getLocalPart().equals(localPart);
+	}
+	
+	private static Attribute toAttribute(AttributeValue attributeType) {
 		return attribute().name(convert(attributeType.getName()))
 				.ofType(convert(attributeType.getType())).in(convert(attributeType.getLanguage())).build();
 	}
@@ -226,6 +248,58 @@ public class ChangesetUtil {
 	public static CodelistLink removeCodelistLink(String id) {
 		return deleteListLink(id);
 	}
+	
+	
+	
+	public static Definition addDefinition(UIAttributeType attributeType) {
+		return definition().name(convert(attributeType.getName()))
+				.is(convert(attributeType.getType()))
+				.in(convert(attributeType.getLanguage()))
+				.occurs(toRange(attributeType.getRange()))
+				.valueIs(toValueType(attributeType.getDefaultValue(), attributeType.getConstraints()))
+				.build();
+	}
+	
+	public static Definition updateDefinition(UIAttributeType attributeType) {
+		return modifyDefinition(attributeType.getId()).name(convert(attributeType.getName()))
+				.is(convert(attributeType.getType()))
+				.in(convert(attributeType.getLanguage()))
+				.occurs(toRange(attributeType.getRange()))
+				.valueIs(toValueType(attributeType.getDefaultValue(), attributeType.getConstraints()))
+				.build();
+	}
+	
+	public static Definition removeDefinition(UIAttributeType attributeType) {
+		return deleteDefinition(attributeType.getId());
+	}
+	
+	public static Range toRange(UIRange range) {
+		return Ranges.between(range.getMin(), range.getMax());
+	}
+	
+	public static ValueType toValueType(String defaultValue, List<UIConstraint> constraints) {
+		DefaultType type = valueType();
+		
+		for (UIConstraint constraint:constraints) addConstraint(type, constraint);
+
+		type.defaultsTo(defaultValue);
+		
+		return type;
+	}
+	
+	private static void addConstraint(DefaultType type, UIConstraint constraint) {
+		Validator constraintValidator = null;
+		for (Validator validator:Validators.values()) {
+			if (validator.name().equals(constraint.getName())) {
+				constraintValidator = validator;
+				break;
+			}
+		}
+		if (constraintValidator == null) throw new IllegalArgumentException("Validator for constraint "+constraint+" not found");
+		
+		type.with(constraintValidator.instance(constraint.getParameters().toArray()));
+	}
+	
 	
 	public static String convert(Language language) {
 		return (language == null || language == Language.NONE) ? null : language.getCode();

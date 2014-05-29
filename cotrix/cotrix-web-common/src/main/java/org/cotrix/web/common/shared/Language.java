@@ -9,7 +9,7 @@ package org.cotrix.web.common.shared;
  */
 public enum Language {
 	//FIXME NONE SHOULD HAVE null as code
-	NONE("no language", ""),
+	NONE("none", ""),
 	ARABIC("Arabic", "ar"),
 	CHINESE("Chinese", "zh"),
 	ENGLISH("English", "en"),

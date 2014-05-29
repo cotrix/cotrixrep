@@ -5,8 +5,8 @@ package org.cotrix.web.manage.shared;
 
 import java.util.List;
 
-import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.LinkType;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
+import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -16,8 +16,8 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class CodelistValueTypes implements IsSerializable {
 	
-	private List<AttributeType> attributeTypes;
-	private List<LinkType> linkTypes;
+	private List<AttributeValue> attributeTypes;
+	private List<LinkValue> linkTypes;
 	
 	public CodelistValueTypes(){}
 	
@@ -25,8 +25,8 @@ public class CodelistValueTypes implements IsSerializable {
 	 * @param attributeTypes
 	 * @param linkTypes
 	 */
-	public CodelistValueTypes(List<AttributeType> attributeTypes,
-			List<LinkType> linkTypes) {
+	public CodelistValueTypes(List<AttributeValue> attributeTypes,
+			List<LinkValue> linkTypes) {
 		this.attributeTypes = attributeTypes;
 		this.linkTypes = linkTypes;
 	}
@@ -34,14 +34,14 @@ public class CodelistValueTypes implements IsSerializable {
 	/**
 	 * @return the attributeTypes
 	 */
-	public List<AttributeType> getAttributeTypes() {
+	public List<AttributeValue> getAttributeTypes() {
 		return attributeTypes;
 	}
 
 	/**
 	 * @return the linkTypes
 	 */
-	public List<LinkType> getLinkTypes() {
+	public List<LinkValue> getLinkTypes() {
 		return linkTypes;
 	}
 

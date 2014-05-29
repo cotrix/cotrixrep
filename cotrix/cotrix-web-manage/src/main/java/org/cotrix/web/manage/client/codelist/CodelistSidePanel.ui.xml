@@ -105,6 +105,14 @@
 										<g:downFace image="{resources.attributesSelected}" />
 										<g:upHoveringFace image="{resources.attributesSelected}" />
 									</g:ToggleButton>
+									<g:ToggleButton ui:field="attributeTypesButton" width="32px"
+										styleName="{style.button}" title="Codelist Attribute Definitions">
+										<g:downDisabledFace image="{resources.attributeTypesDisabled}"/>
+										<g:upDisabledFace image="{resources.attributeTypesDisabled}"/>
+										<g:upFace image="{resources.attributeTypesUnselected}" />
+										<g:downFace image="{resources.attributeTypesSelected}" />
+										<g:upHoveringFace image="{resources.attributeTypesSelected}" />
+									</g:ToggleButton>
 									<g:ToggleButton ui:field="filtersButton" width="32px"
 										styleName="{style.button}" visible="false">
 										<g:upFace image="{resources.filterDisabled}" />
@@ -134,12 +142,13 @@
 		</g:north>
 		<g:center>
 			<g:DeckLayoutPanel ui:field="tools" styleName="{style.tools}">
-				<v:CodelistAttributesPanel ui:field="attributesPanel" />
-				<v:CodelistMetadataPanel ui:field="metadataPanel" />
+				<v:AttributesPanel ui:field="attributesPanel" />
+				<v:MetadataPanel ui:field="metadataPanel" />
 				<v:FiltersPanel ui:field="filtersPanel" />
 				<v:UserPreferencesPanel ui:field="userPanel" />
-				<v:CodelistLinkTypesPanel ui:field="linkTypesPanel" />
-				<v:CodelistLinksPanel ui:field="linksPanel" />
+				<v:LinkTypesPanel ui:field="linkTypesPanel" />
+				<v:LinksPanel ui:field="linksPanel" />
+				<v:AttributeTypesPanel ui:field="attributeTypesPanel" />
 			</g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>

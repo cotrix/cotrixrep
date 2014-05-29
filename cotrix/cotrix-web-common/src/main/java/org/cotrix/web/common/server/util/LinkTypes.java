@@ -19,9 +19,9 @@ import org.cotrix.domain.values.ValueFunctions.SuffixFunction;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.linktype.AttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
-import org.cotrix.web.common.shared.codelist.linktype.LinkType;
+import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
+import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
+import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
@@ -33,17 +33,30 @@ import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
  */
 public class LinkTypes {
 	
-	private static final CodeNameType CODE_NAME_TYPE = new CodeNameType();
+	private static final CodeNameValue CODE_NAME_TYPE = new CodeNameValue();
 	private static final ArrayList<String> EMPTY_ARGUMENTS = new ArrayList<>();
 	
 	public static UILinkType toUILinkType(CodelistLink codelistLink) {
-		UIQName name = ValueUtils.safeValue(codelistLink.name());
-		UICodelist targetCodelist = Codelists.toUICodelist(codelistLink.target());
-		UIValueType valueType = toValueType(codelistLink.valueType());
-		UIValueFunction valueFunction = toValueFunction(codelistLink.function());
-		List<UIAttribute> attributes = Codelists.toUIAttributes(codelistLink.attributes());
+		UILinkType linkType = new UILinkType();
 		
-		return new UILinkType(codelistLink.id(), name, targetCodelist, valueFunction, valueType, attributes);
+		linkType.setId(codelistLink.id());
+		
+		UIQName name = ValueUtils.safeValue(codelistLink.name());
+		linkType.setName(name);
+		
+		UICodelist targetCodelist = Codelists.toUICodelist(codelistLink.target());
+		linkType.setTargetCodelist(targetCodelist);
+		
+		UIValueType valueType = toValueType(codelistLink.valueType());
+		linkType.setValueType(valueType);
+		
+		UIValueFunction valueFunction = toValueFunction(codelistLink.function());
+		linkType.setValueFunction(valueFunction);
+		
+		List<UIAttribute> attributes = Codelists.toUIAttributes(codelistLink.attributes());
+		linkType.setAttributes(attributes);
+		
+		return linkType;
 	}
 	
 	private static UIValueType toValueType(LinkValueType valueType) {
@@ -58,7 +71,7 @@ public class LinkTypes {
 			UIQName name = ValueUtils.safeValue(template.name());
 			UIQName type = ValueUtils.safeValue(template.type());
 			String language = ValueUtils.safeValue(template.language());
-			return new AttributeType(name, type, language);
+			return new AttributeValue(name, type, language);
 		}
 
 		if (valueType instanceof LinkOfLink) {
@@ -66,14 +79,14 @@ public class LinkTypes {
 			CodelistLink link = linkOfLink.target();
 			String id = link.id();
 			UIQName name = ValueUtils.safeValue(link.name());
-			return new LinkType(id, name);
+			return new LinkValue(id, name);
 		}
 		
 		throw new IllegalArgumentException("Unknown value type :"+valueType);
 	}
 	
-	public static LinkType toLinkType(CodelistLink codelistLink) {
-		return new LinkType(codelistLink.id(), ValueUtils.safeValue(codelistLink.name()));
+	public static LinkValue toLinkType(CodelistLink codelistLink) {
+		return new LinkValue(codelistLink.id(), ValueUtils.safeValue(codelistLink.name()));
 	}
 	
 	private static UIValueFunction toValueFunction(ValueFunction valueFunction) {

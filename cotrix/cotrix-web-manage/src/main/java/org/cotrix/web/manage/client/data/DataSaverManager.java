@@ -4,26 +4,15 @@
 package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.client.util.StatusUpdates;
-import org.cotrix.web.common.shared.codelist.HasAttributes;
-import org.cotrix.web.common.shared.codelist.HasValue;
-import org.cotrix.web.common.shared.codelist.Identifiable;
-import org.cotrix.web.common.shared.codelist.UICode;
-import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
-import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
-import org.cotrix.web.manage.client.codelist.link.ValueUpdatedEvent;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
+import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.manage.client.data.event.DataSaveFailedEvent;
 import org.cotrix.web.manage.client.data.event.DataSavedEvent;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.data.event.SavingDataEvent;
-import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.event.ManagerBus;
-import org.cotrix.web.manage.client.util.Attributes;
-import org.cotrix.web.manage.shared.modify.ContainsValued;
-import org.cotrix.web.manage.shared.modify.HasCode;
-import org.cotrix.web.manage.shared.modify.HasId;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 
@@ -38,9 +27,10 @@ import com.google.web.bindery.event.shared.EventBus;
  */
 public class DataSaverManager {
 
-	public interface CommandGenerator<T> {
+	public interface CommandBridge<T> {
 		public Class<T> getType();
-		public ModifyCommand generateCommand(EditType editType, T data); 
+		public ModifyCommand generateCommand(EditType editType, T data);
+		public void handleResponse(EditType editType, T data, ModifyCommandResult response);
 	}
 	
 	@Inject
@@ -58,16 +48,16 @@ public class DataSaverManager {
 	@Inject
 	protected EventBus editorBus;
 
-	public <T> void register(CommandGenerator<T> generator)
+	public <T> void register(CommandBridge<T> generator)
 	{
 		editorBus.addHandler(DataEditEvent.getType(generator.getType()), new DataSaver<T>(generator));
 	}
 
 	protected class DataSaver<T> implements DataEditHandler<T> {
 
-		protected CommandGenerator<T> generator;
+		private CommandBridge<T> generator;
 
-		public DataSaver(CommandGenerator<T> generator)
+		public DataSaver(CommandBridge<T> generator)
 		{
 			this.generator = generator;
 		}
@@ -87,25 +77,8 @@ public class DataSaverManager {
 
 				@Override
 				public void onSuccess(ModifyCommandResult result) {
-
-					if (editType!=EditType.REMOVE) {
-
-						if (data instanceof Identifiable && result instanceof HasId) {
-							Identifiable identifiable = (Identifiable) data;
-							HasId hasId = (HasId) result;
-							String id = hasId.getId();
-							Log.trace("setting id ("+id+") in identifiable object "+data);
-							identifiable.setId(id);
-						}
-
-						if (data instanceof HasAttributes && result instanceof HasAttributes) updateAttributes((HasAttributes)data, (HasAttributes)result);
-						
-						if (data instanceof ContainsValued && result instanceof HasValue) updateValue(((ContainsValued)data).getValued(), (HasValue)result);
-						
-						
-						if (data instanceof HasCode && result instanceof HasCode) updateCode(((HasCode)data).getCode(), ((HasCode)result).getCode());
-						if (data instanceof UICode && result instanceof HasCode) updateCode((UICode)data, ((HasCode)result).getCode());
-					}
+					
+					generator.handleResponse(editType, data, result);
 
 					managerBus.fireEvent(new DataSavedEvent(codelistId));
 					StatusUpdates.statusSaved();
@@ -117,24 +90,5 @@ public class DataSaverManager {
 				}
 			});
 		}
-
-		protected void updateCode(UICode code, UICode updated) {
-			Log.trace("updating code "+code+" with system attributes in "+updated);
-			Attributes.mergeSystemAttributes(code.getAttributes(), updated.getAttributes());
-			editorBus.fireEvent(new CodeUpdatedEvent(code));
-		}
-		
-		protected void updateAttributes(HasAttributes data, HasAttributes update) {
-			Log.trace("updateAttributes data: "+data+" with update: "+update);
-			data.setAttributes(update.getAttributes());
-			editorBus.fireEvent(new AttributesUpdatedEvent(data));
-		}
-		
-		protected void updateValue(HasValue data, HasValue update) {
-			Log.trace("updateValue data: "+data+" with update: "+update);
-			data.setValue(update.getValue());
-			editorBus.fireEvent(new ValueUpdatedEvent(data));
-		}
 	}
-
 }

@@ -6,13 +6,12 @@ package org.cotrix.web.manage.client.data;
 import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
-import org.cotrix.web.manage.shared.modify.HasCode;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodeAttribute implements HasCode, Identifiable {
+public class CodeAttribute implements Identifiable {
 	
 	protected UICode code;
 	protected UIAttribute attribute;

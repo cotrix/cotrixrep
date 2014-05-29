@@ -62,23 +62,27 @@ public class CodelistSidePanel extends ResizeComposite {
 	@UiField ToggleButton filtersButton;
 	@UiField ToggleButton userButton;
 	@UiField ToggleButton linkTypesButton;
+	@UiField ToggleButton attributeTypesButton;
 
 	
 	@UiField DeckLayoutPanel tools;
 	
 	@Inject
-	@UiField(provided=true) CodelistAttributesPanel attributesPanel;
+	@UiField(provided=true) AttributesPanel attributesPanel;
 	
 	@Inject
-	@UiField(provided=true) CodelistMetadataPanel metadataPanel;
+	@UiField(provided=true) MetadataPanel metadataPanel;
 	@UiField FiltersPanel filtersPanel;
 	@UiField UserPreferencesPanel userPanel;
 	
 	@Inject
-	@UiField(provided=true) CodelistLinkTypesPanel linkTypesPanel;
+	@UiField(provided=true) LinkTypesPanel linkTypesPanel;
 	
 	@Inject
-	@UiField(provided=true) CodelistLinksPanel linksPanel;
+	@UiField(provided=true) LinksPanel linksPanel;
+	
+	@Inject
+	@UiField(provided=true) AttributeTypesPanel attributeTypesPanel;
 
 	@Inject
 	private void init() {
@@ -93,6 +97,7 @@ public class CodelistSidePanel extends ResizeComposite {
 		rightButtonGroup.addButton(filtersButton);
 		rightButtonGroup.addButton(userButton);
 		rightButtonGroup.addButton(linkTypesButton);
+		rightButtonGroup.addButton(attributeTypesButton);
 		rightButtonGroup.setDown(metadataButton);
 				
 		leftBar.addClickHandler(new ClickHandler() {
@@ -158,20 +163,15 @@ public class CodelistSidePanel extends ResizeComposite {
 		if (button == userButton) return userPanel;
 		if (button == linkTypesButton) return linkTypesPanel;
 		if (button == linksButton) return linksPanel;
+		if (button == attributeTypesButton) return attributeTypesPanel;
 		throw new IllegalArgumentException("Unknwown button "+button);
 	}
 
-	/**
-	 * @return the attributesPanel
-	 */
-	public CodelistAttributesPanel getAttributesPanel() {
+	public AttributesPanel getAttributesPanel() {
 		return attributesPanel;
 	}
 
-	/**
-	 * @return the metadataPanel
-	 */
-	public CodelistMetadataPanel getMetadataPanel() {
+	public MetadataPanel getMetadataPanel() {
 		return metadataPanel;
 	}
 
@@ -182,5 +182,8 @@ public class CodelistSidePanel extends ResizeComposite {
 	public HasEditing getLinksPanel() {
 		return linksPanel;
 	}
-
+	
+	public HasEditing getAttributeTypesPanel() {
+		return attributeTypesPanel;
+	}
 }

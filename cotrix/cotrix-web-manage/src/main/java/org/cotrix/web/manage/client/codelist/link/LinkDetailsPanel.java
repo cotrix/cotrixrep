@@ -10,7 +10,7 @@ import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.linktype.CodeNameType;
+import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
 import org.cotrix.web.manage.client.codelist.common.AttributesPanel;
 import org.cotrix.web.manage.client.codelist.link.CodeSuggestOracle.CodeSuggestion;
 import org.cotrix.web.manage.client.codelist.link.LinkTypeSuggestOracle.LinkTypeSuggestion;
@@ -48,7 +48,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class LinkDetailsPanel extends Composite implements HasValueChangeHandlers<Void>{
 
 	public static final String CODE_NAME_VALUE_TYPE = Document.get().createUniqueId();
-	public static final CodeNameType CODE_NAME_TYPE = new CodeNameType();
+	public static final CodeNameValue CODE_NAME_TYPE = new CodeNameValue();
 
 	private static LinkDetailsPanelUiBinder uiBinder = GWT.create(LinkDetailsPanelUiBinder.class);
 

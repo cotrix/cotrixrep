@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.common.shared.codelist;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -25,125 +24,59 @@ public class UILink implements Identifiable, IsSerializable, HasAttributes, HasV
 	private String value;
 	
 	private List<UIAttribute> attributes;
-	
-	public UILink(){
-		attributes = new ArrayList<UIAttribute>();
-	}	
 
-	/**
-	 * @param id
-	 * @param typeId
-	 * @param typeName
-	 * @param targetId
-	 * @param targetName
-	 * @param value
-	 * @param attributes
-	 */
-	public UILink(String id, String typeId, UIQName typeName, String targetId,
-			UIQName targetName, String value, List<UIAttribute> attributes) {
-		this.id = id;
-		this.typeId = typeId;
-		this.typeName = typeName;
-		this.targetId = targetId;
-		this.targetName = targetName;
-		this.value = value;
-		this.attributes = attributes;
-	}
-
-	/**
-	 * @return the id
-	 */
 	public String getId() {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return the typeId
-	 */
 	public String getTypeId() {
 		return typeId;
 	}
 
-	/**
-	 * @param typeId the typeId to set
-	 */
 	public void setTypeId(String typeId) {
 		this.typeId = typeId;
 	}
 
-	/**
-	 * @return the typeName
-	 */
 	public UIQName getTypeName() {
 		return typeName;
 	}
 
-	/**
-	 * @param typeName the typeName to set
-	 */
 	public void setTypeName(UIQName typeName) {
 		this.typeName = typeName;
 	}
 
-	/**
-	 * @return the targetId
-	 */
 	public String getTargetId() {
 		return targetId;
 	}
 
-	/**
-	 * @param targetId the targetId to set
-	 */
 	public void setTargetId(String targetId) {
 		this.targetId = targetId;
 	}
 
-	/**
-	 * @return the targetName
-	 */
 	public UIQName getTargetName() {
 		return targetName;
 	}
 
-	/**
-	 * @param targetName the targetName to set
-	 */
 	public void setTargetName(UIQName targetName) {
 		this.targetName = targetName;
 	}
 
-	/**
-	 * @return the value
-	 */
 	public String getValue() {
 		return value;
 	}
 
-	/**
-	 * @param value the value to set
-	 */
 	public void setValue(String value) {
 		this.value = value;
 	}
 
-	/**
-	 * @return the attributes
-	 */
 	public List<UIAttribute> getAttributes() {
 		return attributes;
 	}
 
-	/**
-	 * @param attributes the attributes to set
-	 */
 	public void setAttributes(List<UIAttribute> attributes) {
 		this.attributes = attributes;
 	}

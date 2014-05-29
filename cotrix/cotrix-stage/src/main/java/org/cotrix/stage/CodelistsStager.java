@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -69,13 +70,51 @@ public class CodelistsStager {
 		for (User u : users)
 			service.signup(u,u.name());
 
+		Map<Info,Codelist> staged = new HashMap<>();
+		
 		for (Info info : CSV_CODELISTS)
-			stageCSV(info);
+			staged.put(info,stageCSV(info));
 
 		for (Info info : SDMX_CODELISTS)
 			stageSDMX(info);
 
+		linkSamples(staged);
+	}
+	
+	private void linkSamples(Map<Info,Codelist> staged) {
 		
+		Codelist countries = staged.get(sample_countries);
+		Codelist continents = staged.get(sample_continents);
+		
+		List<Code> cs = new ArrayList<>();
+		
+		for (Code continent : continents.codes())
+			cs.add(continent);
+	
+		CodelistLink link = listLink().name("Continent").target(continents).anchorTo(attribute().name("Name").build()).build();
+
+		List<Code> codes = new ArrayList<>();
+		
+		Random random = new Random();
+				
+		for (Code code : countries.codes()) {
+			
+			int r = random.nextInt(cs.size()-1)+1;
+			
+			Code codeChangeset = modify(code).links(link().instanceOf(link).target(cs.get(r)).build()).build(); 
+			
+			codes.add(codeChangeset);
+		}
+	
+
+		Codelist changeset = modify(countries).links(link).with(codes).build();
+		
+		codelists.update(changeset);
+	}
+	
+	
+	@SuppressWarnings("unused")
+	private void buildSampleLinked() {
 		
 		//one linked codelist
 		
@@ -109,7 +148,6 @@ public class CodelistsStager {
 		Codelist withLinks = modifyCodelist(source.id()).with(codes).build();
 		
 		codelists.update(withLinks);
-
 
 	}
 
@@ -176,7 +214,7 @@ public class CodelistsStager {
 		
 	}
 	
-	void stageCSV(Info info) {
+	Codelist stageCSV(Info info) {
 
 		log.info("staging {}", info.name);
 
@@ -216,7 +254,7 @@ public class CodelistsStager {
 
 		Outcome<Codelist> outcome = mapper.map(table, mappingDirectives);
 
-		ingester.ingest(outcome.result());
+		return ingester.ingest(outcome.result());
 	}
 
 	void stageSDMX(Info info) {

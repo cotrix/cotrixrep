@@ -9,15 +9,16 @@ import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.CodelistToolbar.Action;
-import org.cotrix.web.manage.client.codelist.CodelistToolbar.ToolBarListener;
-import org.cotrix.web.manage.client.data.CodeAttributeCommandGenerator;
-import org.cotrix.web.manage.client.data.CodeLinkCommandGenerator;
-import org.cotrix.web.manage.client.data.CodeModifyCommandGenerator;
+import org.cotrix.web.manage.client.codelist.CodesToolbar.Action;
+import org.cotrix.web.manage.client.codelist.CodesToolbar.ToolBarListener;
+import org.cotrix.web.manage.client.data.AttributeTypeBridge;
+import org.cotrix.web.manage.client.data.CodeAttributeBridge;
+import org.cotrix.web.manage.client.data.CodeLinkBridge;
+import org.cotrix.web.manage.client.data.CodeBridge;
 import org.cotrix.web.manage.client.data.DataSaverManager;
-import org.cotrix.web.manage.client.data.LinkTypeModifyGenerator;
-import org.cotrix.web.manage.client.data.MetadataAttributeModifyGenerator;
-import org.cotrix.web.manage.client.data.MetadataModifyCommandGenerator;
+import org.cotrix.web.manage.client.data.LinkTypeBridge;
+import org.cotrix.web.manage.client.data.MetadataAttributeBridge;
+import org.cotrix.web.manage.client.data.MetadataBridge;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
@@ -63,27 +64,35 @@ public class CodelistPanelPresenter implements Presenter {
 		
 		bind();
 		bindFeatures();
-		bindSavers();
 		
 		showAllGroupsAsColumn();
 		loadState();
 	}
 	
 	
-
-	private void bindSavers() {
-		saverManager.register(new CodeModifyCommandGenerator());
-		saverManager.register(new CodeAttributeCommandGenerator());
-		saverManager.register(new MetadataModifyCommandGenerator());
-		saverManager.register(new MetadataAttributeModifyGenerator());
-		saverManager.register(new LinkTypeModifyGenerator());
-		saverManager.register(new CodeLinkCommandGenerator());
+	@Inject
+	private void bindSavers(
+			CodeBridge codeModifyCommandGenerator,
+			CodeAttributeBridge codeAttributeCommandGenerator,
+			MetadataBridge metadataModifyCommandGenerator,
+			MetadataAttributeBridge metadataAttributeModifyGenerator,
+			LinkTypeBridge linkTypeModifyGenerator,
+			CodeLinkBridge codeLinkCommandGenerator,
+			AttributeTypeBridge attributeTypeModifyGenerator
+			) {
+		saverManager.register(codeModifyCommandGenerator);
+		saverManager.register(codeAttributeCommandGenerator);
+		saverManager.register(metadataModifyCommandGenerator);
+		saverManager.register(metadataAttributeModifyGenerator);
+		saverManager.register(linkTypeModifyGenerator);
+		saverManager.register(codeLinkCommandGenerator);
+		saverManager.register(attributeTypeModifyGenerator);
 	}
 	
 	private void bind()
 	{
 		// TOOLBAR
-		CodelistToolbar toolbar = view.getToolBar();
+		CodesToolbar toolbar = view.getToolBar();
 		
 		toolbar.setListener(new ToolBarListener() {
 			
@@ -143,7 +152,7 @@ public class CodelistPanelPresenter implements Presenter {
 	private void bindFeatures()
 	{
 		// TOOLBAR
-		CodelistToolbar toolbar = view.getToolBar();
+		CodesToolbar toolbar = view.getToolBar();
 		
 		FeatureBinder.bind(new ActionEnabler(Action.LOCK, toolbar), codelistId, ManagerUIFeature.LOCK_CODELIST);
 		FeatureBinder.bind(new ActionEnabler(Action.UNLOCK, toolbar), codelistId, ManagerUIFeature.UNLOCK_CODELIST);
@@ -163,17 +172,20 @@ public class CodelistPanelPresenter implements Presenter {
 		
 		//LINKS EDITOR
 		FeatureBinder.bind(view.getLinksEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
+		
+		//ATTRIBUTE TYPES EDITOR
+		FeatureBinder.bind(view.getAttributeTypesPanel(), codelistId, ManagerUIFeature.EDIT_CODELIST);
 	}
 	
 	private class ActionEnabler implements HasFeature {
 		protected Action action;
-		protected CodelistToolbar toolbar;
+		protected CodesToolbar toolbar;
 
 		/**
 		 * @param action
 		 * @param toolbar
 		 */
-		public ActionEnabler(Action action, CodelistToolbar toolbar) {
+		public ActionEnabler(Action action, CodesToolbar toolbar) {
 			this.action = action;
 			this.toolbar = toolbar;
 		}

@@ -20,6 +20,11 @@
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-domain</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-action</artifactId>
 		</dependency>
 		
