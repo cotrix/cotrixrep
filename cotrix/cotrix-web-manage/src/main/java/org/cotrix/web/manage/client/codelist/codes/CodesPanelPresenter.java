@@ -7,6 +7,7 @@ import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.ManageServiceAsync;
+import org.cotrix.web.manage.client.codelist.NewStateEvent;
 import org.cotrix.web.manage.client.codelist.SwitchPanelEvent;
 import org.cotrix.web.manage.client.codelist.codes.CodesToolbar.Action;
 import org.cotrix.web.manage.client.codelist.codes.CodesToolbar.ToolBarListener;
@@ -27,12 +28,16 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 public class CodesPanelPresenter implements Presenter {
+	
+	interface CodesPanelPresenterEventBinder extends EventBinder<CodesPanelPresenter> {}
 
 	private CodesPanelView view;
 	private String codelistId;
@@ -81,6 +86,11 @@ public class CodesPanelPresenter implements Presenter {
 		saverManager.register(attributeTypeModifyGenerator);
 	}
 	
+	@Inject
+	protected void bind(@CodelistBus EventBus bus, CodesPanelPresenterEventBinder eventBinder) {
+		eventBinder.bindEventHandlers(this, bus);
+	}
+	
 	private void bind()
 	{
 		// TOOLBAR
@@ -109,6 +119,11 @@ public class CodesPanelPresenter implements Presenter {
 				updateState(result);
 			}
 		}));
+	}
+	
+	@EventHandler
+	void onNewState(NewStateEvent event) {
+		updateState(event.getState());
 	}
 	
 	private void showAllGroupsAsColumn() {
