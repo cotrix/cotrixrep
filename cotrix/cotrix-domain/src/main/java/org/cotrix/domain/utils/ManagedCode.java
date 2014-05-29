@@ -68,6 +68,12 @@ public class ManagedCode implements Code {
 		}
 	}
 	
+	public boolean invalid() {
+		
+		String val = resolve(INVALID,null);
+		return val==null? false: Boolean.valueOf(val);
+	}
+	
 	
 	//helper
 	private String resolve(QName name, String deflt) {
