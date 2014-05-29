@@ -9,6 +9,7 @@ import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.ValueClause;
 import org.cotrix.domain.memory.AttributeMS;
 
@@ -68,6 +69,12 @@ public class AttributeBuilder implements AttributeNewClause, AttributeChangeClau
 		state.value(value);
 		return this;
 
+	}
+	
+	@Override
+	public OptionalClause description(String description) {
+		state.description(description);
+		return this;
 	}
 
 	@Override

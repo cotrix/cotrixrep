@@ -50,6 +50,14 @@ public interface Attribute extends Identified, Named {
 	 */
 	String language();
 	
+	
+	/**
+	 * Returns the description of this attribute
+	 * 
+	 * @return the language
+	 */
+	String description();
+	
 
 	//private state-based interface
 	
@@ -65,12 +73,15 @@ public interface Attribute extends Identified, Named {
 		String value();
 
 		String language();
+		
+		String description();
 
 
 		
 		void type(QName type);
 		void value(String value);
 		void language(String language);
+		void description(String description);
 	}
 
 	
@@ -109,6 +120,11 @@ public interface Attribute extends Identified, Named {
 		public String language() {
 			return state().language();
 		}
+		
+		@Override
+		public String description() {
+			return state().description();
+		}
 
 		@Override
 		public void update(Attribute.Private changeset) throws IllegalArgumentException, IllegalStateException {
@@ -134,6 +150,9 @@ public interface Attribute extends Identified, Named {
 
 			if (changeset.language() != null)
 				state().language(changeset.language() == NULL_STRING ? null : changeset.language());
+			
+			if (changeset.description() != null)
+				state().description(changeset.description() == NULL_STRING ? null : changeset.description());
 
 		}
 		

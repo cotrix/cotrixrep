@@ -11,6 +11,7 @@ public class Constants {
 	public static final String type_prop="type";
 	public static final String attr_type_prop="attr_type";
 	public static final String value_prop="val";
+	public static final String description_prop="desc";
 	public static final String lang_prop="lang";
 	public static final String email_prop="email";
 	public static final String permissions_prop="permissions";
