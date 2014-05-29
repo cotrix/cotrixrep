@@ -39,6 +39,8 @@ public class LinkTypes {
 	public static UILinkType toUILinkType(CodelistLink codelistLink) {
 		UILinkType linkType = new UILinkType();
 		
+		linkType.setId(codelistLink.id());
+		
 		UIQName name = ValueUtils.safeValue(codelistLink.name());
 		linkType.setName(name);
 		

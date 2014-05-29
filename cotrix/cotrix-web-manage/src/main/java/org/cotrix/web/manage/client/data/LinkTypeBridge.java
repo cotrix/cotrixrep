@@ -8,11 +8,10 @@ import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEv
 import org.cotrix.web.manage.client.data.DataSaverManager.CommandBridge;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.event.EditorBus;
+import org.cotrix.web.manage.shared.modify.GenericCommand.Action;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
-import org.cotrix.web.manage.shared.modify.linktype.AddLinkTypeCommand;
-import org.cotrix.web.manage.shared.modify.linktype.RemoveLinkTypeCommand;
-import org.cotrix.web.manage.shared.modify.linktype.UpdateLinkTypeCommand;
+import org.cotrix.web.manage.shared.modify.linktype.LinkTypeCommand;
 import org.cotrix.web.manage.shared.modify.linktype.UpdatedLinkType;
 
 import com.google.inject.Inject;
@@ -36,18 +35,9 @@ public class LinkTypeBridge implements CommandBridge<UILinkType> {
 	@Override
 	public ModifyCommand generateCommand(EditType editType, UILinkType data) {
 		switch (editType) {
-			case ADD: {
-				AddLinkTypeCommand addLinkTypeCommand = new AddLinkTypeCommand(data);
-				return addLinkTypeCommand;
-			}
-			case UPDATE: {
-				UpdateLinkTypeCommand updateLinkTypeCommand = new UpdateLinkTypeCommand(data);
-				return updateLinkTypeCommand;
-			}
-			case REMOVE: {
-				RemoveLinkTypeCommand removeLinkTypeCommand = new RemoveLinkTypeCommand(data.getId());
-				return removeLinkTypeCommand;
-			}
+			case ADD: return new LinkTypeCommand(Action.ADD, data);
+			case UPDATE: return new LinkTypeCommand(Action.UPDATE, data);
+			case REMOVE: return new LinkTypeCommand(Action.REMOVE, data);
 		}
 		throw new IllegalArgumentException("Unknown edit type "+editType);
 	}

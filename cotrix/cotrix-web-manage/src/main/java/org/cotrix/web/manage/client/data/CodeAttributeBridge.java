@@ -10,12 +10,11 @@ import org.cotrix.web.manage.client.data.DataSaverManager.CommandBridge;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.event.EditorBus;
 import org.cotrix.web.manage.client.util.Attributes;
+import org.cotrix.web.manage.shared.modify.GenericCommand.Action;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.cotrix.web.manage.shared.modify.UpdatedCode;
-import org.cotrix.web.manage.shared.modify.attribute.AddAttributeCommand;
-import org.cotrix.web.manage.shared.modify.attribute.RemoveAttributeCommand;
-import org.cotrix.web.manage.shared.modify.attribute.UpdateAttributeCommand;
+import org.cotrix.web.manage.shared.modify.attribute.AttributeCommand;
 import org.cotrix.web.manage.shared.modify.code.CodeTargetedCommand;
 
 import com.google.inject.Inject;
@@ -40,15 +39,15 @@ public class CodeAttributeBridge implements CommandBridge<CodeAttribute> {
 	public ModifyCommand generateCommand(EditType editType, CodeAttribute data) {
 		switch (editType) {
 			case ADD: {
-				AddAttributeCommand addAttributeCommand = new AddAttributeCommand(data.getAttribute());
+				AttributeCommand addAttributeCommand = new AttributeCommand(Action.ADD, data.getAttribute());
 				return new CodeTargetedCommand(data.getCode().getId(), addAttributeCommand);
 			}
 			case UPDATE: {
-				UpdateAttributeCommand updateAttributeCommand = new UpdateAttributeCommand(data.getAttribute());
+				AttributeCommand updateAttributeCommand = new AttributeCommand(Action.UPDATE, data.getAttribute());
 				return new CodeTargetedCommand(data.getCode().getId(), updateAttributeCommand);
 			}
 			case REMOVE: {
-				RemoveAttributeCommand removeAttributeCommand = new RemoveAttributeCommand(data.getAttribute().getId());
+				AttributeCommand removeAttributeCommand = new AttributeCommand(Action.REMOVE, data.getAttribute());
 				return new CodeTargetedCommand(data.getCode().getId(), removeAttributeCommand);
 			}
 		}

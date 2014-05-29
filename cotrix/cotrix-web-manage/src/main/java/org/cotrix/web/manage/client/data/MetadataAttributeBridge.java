@@ -7,11 +7,10 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.data.DataSaverManager.CommandBridge;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.shared.modify.GeneratedId;
+import org.cotrix.web.manage.shared.modify.GenericCommand.Action;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
-import org.cotrix.web.manage.shared.modify.attribute.AddAttributeCommand;
-import org.cotrix.web.manage.shared.modify.attribute.RemoveAttributeCommand;
-import org.cotrix.web.manage.shared.modify.attribute.UpdateAttributeCommand;
+import org.cotrix.web.manage.shared.modify.attribute.AttributeCommand;
 import org.cotrix.web.manage.shared.modify.metadata.MetadataAttributeCommand;
 
 /**
@@ -29,15 +28,15 @@ public class MetadataAttributeBridge implements CommandBridge<UIAttribute> {
 	public ModifyCommand generateCommand(EditType editType, UIAttribute data) {
 		switch (editType) {
 			case ADD: {
-				AddAttributeCommand addAttributeCommand = new AddAttributeCommand(data);
+				AttributeCommand addAttributeCommand = new AttributeCommand(Action.ADD, data);
 				return new MetadataAttributeCommand(addAttributeCommand);
 			}
 			case UPDATE: {
-				UpdateAttributeCommand updateAttributeCommand = new UpdateAttributeCommand(data);
+				AttributeCommand updateAttributeCommand = new AttributeCommand(Action.UPDATE, data);
 				return new MetadataAttributeCommand(updateAttributeCommand);
 			}
 			case REMOVE: {
-				RemoveAttributeCommand removeAttributeCommand = new RemoveAttributeCommand(data.getId());
+				AttributeCommand removeAttributeCommand = new AttributeCommand(Action.REMOVE, data);
 				return new MetadataAttributeCommand(removeAttributeCommand);
 			}
 		}
