@@ -29,9 +29,9 @@ public class Fixture {
 	public static String description2 = "desc2"; 
 	public static String newdescription = description2; //alias for test legibility
 	
-	public static String version = "0.1";
-	public static String version2 = "0.2";
-	public static String version3 = "0.3";
+	public static String version = "1.1";
+	public static String version2 = "1.2";
+	public static String version3 = "1.3";
 	public static String newversion = version3;//alias for test legibility
 	
 }
