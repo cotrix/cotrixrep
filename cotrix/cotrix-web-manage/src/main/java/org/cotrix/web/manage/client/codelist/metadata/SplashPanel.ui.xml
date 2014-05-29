@@ -8,11 +8,16 @@
 		field="resources" />
 	<ui:style>
 			.profilePanel {
-				margin: 163px;
+				margin: 23px;
 			}
 			
 			.table {
 				margin: 23px;
+			}
+			
+			.icon {
+				text-align: right;
+				padding-right: 20px;
 			}
 			
 			.valueCell {
@@ -26,8 +31,9 @@
 			}
 			
 			.name {
-				font-size: 56px !important;
-				height: 66px !important;
+				font-size: 37px !important;
+				height: 42px !important;
+				color: #5674b9;
 			}
 			
 			
@@ -36,11 +42,21 @@
 			}
 			
 			.version {
-				padding-left: 12px;
+				font-size: 24px;
+				color: grey;
+				text-align: left;
 			}
 			
-			.email {
-				
+			.versionNumber {
+				font-size: 24px;
+				color: orange;
+				text-align: left;
+			}
+			
+			.state {
+				padding-top: 9px;
+				font-size: 20px;
+				color: #5674b9;
 			}
 			
 			.spacer {
@@ -59,7 +75,7 @@
 						<td style="text-align:right;vertical-align:top;">
 							<table style="width: 200px;">
 								<tr>
-									<td style="text-align:center;">
+									<td class="{style.icon}">
 										<g:Image resource="{resources.splash}" />
 									</td>
 								</tr>
@@ -74,11 +90,12 @@
 								</tr>
 								<tr>
 									<td>
-										<g:Label ui:field="version" styleName="{common.css.propertyValue} {style.version}" />
+										<span class="{style.version}">version </span>
+										<g:InlineLabel ui:field="version" styleName="{style.versionNumber}" />
 									</td>
 								</tr>
 								<tr>
-									<td style="padding-left: 4px;">
+									<td class="{style.state}">
 										<g:Label ui:field="state"/>
 									</td>
 								</tr>

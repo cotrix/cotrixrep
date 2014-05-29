@@ -12,6 +12,7 @@ import org.cotrix.web.manage.client.di.CurrentCodelist;
 
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -28,7 +29,7 @@ public class SplashPanel extends LoadingPanel {
 	interface ProfilePanelEventBinder extends EventBinder<SplashPanel> {}
 	
 	@UiField Label name;
-	@UiField Label version;
+	@UiField InlineLabel version;
 	@UiField Label state;
 	
 	@Inject
