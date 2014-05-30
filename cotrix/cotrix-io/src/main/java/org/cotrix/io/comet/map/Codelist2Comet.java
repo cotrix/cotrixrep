@@ -165,7 +165,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 		List<Property> properties = new ArrayList<>();
 		
 		for (Attribute a : attributes)
-			if (a.type()!=SYSTEM_TYPE)
+			if (!a.type().equals(SYSTEM_TYPE))
 				properties.add(propertyOf(a));
 		
 		return new PropertyList(properties);
