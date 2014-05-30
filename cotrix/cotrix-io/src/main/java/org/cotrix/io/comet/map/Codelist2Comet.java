@@ -130,7 +130,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 					
 					targets.add(
 						
-						target(nil().with(id(attr.value()))).withMappingScore(1.0,AUTHORITATIVE)
+						target(wrap(targetProperties(attr)).with(id(attr.value()))).withMappingScore(1.0,AUTHORITATIVE)
 					
 					);
 				}
@@ -170,10 +170,20 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 		
 		return new PropertyList(properties);
 	}
+	
+	private PropertyList targetProperties(Attribute ... attributes) {
+		
+		List<Property> properties = new ArrayList<>();
+		
+		for (Attribute a : attributes)
+			properties.add(new Property(a.name().toString(),a.type().toString(),a.description()));
+		
+		return new PropertyList(properties);
+	}
 
 	private Property propertyOf(Attribute a) {
 
-		return new Property(a.name().toString(), a.type().toString(), a.value()==null?"":a.value());
+		return new Property(a.name().toString(), a.type().toString(), a.value());
 	}
 
 	@Override

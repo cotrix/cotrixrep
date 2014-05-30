@@ -34,9 +34,9 @@ public class Codelist2CometTest {
 					code().name("code1").build()
 				   ,code().name("code2")
 							.attributes(
-								 attribute().name(SUPERSIDES).value("value1").build()
+								 attribute().name("attr1").value("value1").build()
 							   , attribute().name("attr2").value("value2").in("fr").build()
-							   , attribute().name("attr3").value("value3").ofType(NAME_TYPE).build()
+							   , attribute().name("attr3").ofType(NAME_TYPE).build()
 							   , attribute().name("attr4").value("value4").ofType(NAME_TYPE).in("es").build()
 				).build())
 				.version("1.0")
@@ -48,8 +48,8 @@ public class Codelist2CometTest {
 		Codelist versioned = reveal(list).bump("2.0");
 		
 		Code newcode = code().name("code3").attributes( 
-								attribute().name(SUPERSIDES).value("badone").ofType(SYSTEM_TYPE).build()
-							,   attribute().name(SUPERSIDES).value("badtwo").ofType(SYSTEM_TYPE).build()
+								attribute().name(SUPERSIDES).value("badone").description("typo").build()
+							,   attribute().name(SUPERSIDES).value("badtwo").build()
 						)
 						.build();
 		
