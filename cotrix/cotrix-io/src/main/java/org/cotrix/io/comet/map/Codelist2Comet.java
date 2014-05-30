@@ -1,5 +1,7 @@
 package org.cotrix.io.comet.map;
 
+import static java.lang.String.*;
+import static java.lang.System.*;
 import static org.cotrix.common.Log.*;
 import static org.cotrix.common.Report.*;
 import static org.cotrix.common.Report.Item.Type.*;
@@ -18,6 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
@@ -25,8 +29,11 @@ import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.io.impl.MapTask;
 import org.fao.fi.comet.mapping.dsl.MappingDSL;
 import org.fao.fi.comet.mapping.model.DataProvider;
+import org.fao.fi.comet.mapping.model.Mapping;
 import org.fao.fi.comet.mapping.model.MappingData;
+import org.fao.fi.comet.mapping.model.MappingDetail;
 import org.fao.fi.comet.mapping.model.MappingElement;
+import org.fao.fi.comet.mapping.model.MappingElementIdentifier;
 import org.fao.fi.comet.mapping.model.data.Property;
 import org.fao.fi.comet.mapping.model.data.PropertyList;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
@@ -39,7 +46,6 @@ import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
  */
 public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2CometDirectives> {
 
-	
 	@Override
 	public Class<Codelist2CometDirectives> directedBy() {
 		return Codelist2CometDirectives.class;
@@ -77,28 +83,33 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 				.with(minimumWeightedScore(1.0), maximumCandidates(1));
 		
 		if (previous!=null)
-			data.setDescription(String.format("A Mapping between codelist v.%s and v.%s of codelist %s", codelist.version(), previous, codelist.name()));
+			data.setDescription(String.format("A mapping between codelist v.%s and v.%s of codelist %s", codelist.version(), previous, codelist.name()));
 		
-		for (Code c : codelist.codes()) {
+		for (Code c : codelist.codes())
+		
+			try {
+				
+				attributes = c.attributes();
+				
+				MappingElement element = wrap(properties(attributes)).with(id(c.name()));
+				
+				Mapping mapping = MappingDSL.map(element);
+				
+				List<MappingDetail> targets = targets(attributes,directives);
+				
+				if (!targets.isEmpty())
+					mapping.to(targets.toArray(new MappingDetail[0]));
+					
+				data.including(mapping);
 			
-			NamedContainer<? extends Attribute> cAttributes = c.attributes();
-			MappingElement element = wrap(properties(c.attributes()));
-			
-			if (cAttributes.contains(PREVIOUS_VERSION_NAME)) {
-				String previousName = cAttributes.lookup(PREVIOUS_VERSION_NAME).value();
-				data.including(
-						MappingDSL.map(element.with(identifierFor(uri(c.name().toString())))).
-							to(
-							  target(element.with(identifierFor(uri(previousName)))).withMappingScore(1.0,AUTHORITATIVE)
-							)
-				);
 			}
-			else
-				data.including(
-						MappingDSL.map(element.with(identifierFor(uri(c.name().toString())))));
-		}
+			catch(Exception e) {
+				
+				report().log(item(format("code {} cannot be mapped ({})",c.name(),e.getMessage()))).as(ERROR);
+			
+			}
 		
-		String msg = "transformed codelist "+codelist.name()+"("+codelist.id()+") to Comet in "+(System.currentTimeMillis()-time)/1000;
+		String msg = format("transformed codelist {} ({}) to Comet in {}",codelist.name(),codelist.id(),(currentTimeMillis()-time)/1000);
 		
 		report().log(item(msg)).as(INFO);
 
@@ -106,6 +117,39 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 
 	}
 	
+	
+	private List<MappingDetail> targets(NamedContainer<? extends Attribute> attrs, Codelist2CometDirectives directives) {
+		
+		List<MappingDetail> targets = new ArrayList<>();
+		
+		for (QName name : directives.targetAttributes())
+			
+			for (Attribute attr : attrs.getAll(name))
+				
+				try {
+					
+					targets.add(
+						
+						target(nil().with(id(attr.value()))).withMappingScore(1.0,AUTHORITATIVE)
+					
+					);
+				}
+				catch(Exception e) {
+					report().log(item(format("{} attribute cannot be mapped to target identifier",name))).as(ERROR);
+				}
+		
+		
+		return targets;
+	}
+	
+	
+	private MappingElementIdentifier id(QName name) throws Exception {
+		return id(name.getLocalPart());
+	}
+	
+	private MappingElementIdentifier id(String id) throws Exception {
+		return identifierFor(uri(id));
+	}
 	
 	private URI uri(String id) throws Exception {
 		return new URI(encode(id));
@@ -131,7 +175,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 
 		return new Property(a.name().toString(), a.type().toString(), a.value()==null?"":a.value());
 	}
-	
+
 	@Override
 	public String toString() {
 		return "codelist-2-comet";

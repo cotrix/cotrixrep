@@ -34,6 +34,7 @@ public class Constants {
 	public static final QName PREVIOUS_VERSION = q(NS,"previous_version");
 	public static final QName PREVIOUS_VERSION_ID = q(NS,"previous_version_id");
 	public static final QName PREVIOUS_VERSION_NAME = q(NS,"previous_version_name");
+	public static final QName SUPERSIDES = q(NS,"supersides");
 	
 	public static final QName INVALID = q(NS,"invalid");
 	

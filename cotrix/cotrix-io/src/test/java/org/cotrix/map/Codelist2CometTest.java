@@ -6,6 +6,7 @@ import static org.cotrix.domain.utils.Constants.*;
 import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
+import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.MapService;
 import org.cotrix.io.SerialisationService;
@@ -31,11 +32,12 @@ public class Codelist2CometTest {
 	Codelist list = codelist().name("cotrix_testlist").
 			with(
 					code().name("code1").build()
-					,code().name("code2").attributes(
-							attribute().name("attr1").value("value1").build()
-						   , attribute().name("attr2").value("value2").in("fr").build()
-						   ,attribute().name("attr3").value("value3").ofType(NAME_TYPE).build()
-							,attribute().name("attr4").value("value4").ofType(NAME_TYPE).in("es").build()
+				   ,code().name("code2")
+							.attributes(
+								 attribute().name(SUPERSIDES).value("value1").build()
+							   , attribute().name("attr2").value("value2").in("fr").build()
+							   , attribute().name("attr3").value("value3").ofType(NAME_TYPE).build()
+							   , attribute().name("attr4").value("value4").ofType(NAME_TYPE).in("es").build()
 				).build())
 				.version("1.0")
 				.build();
@@ -44,6 +46,16 @@ public class Codelist2CometTest {
 	public void codelist2Comet2Xml() {
 		
 		Codelist versioned = reveal(list).bump("2.0");
+		
+		Code newcode = code().name("code3").attributes( 
+								attribute().name(SUPERSIDES).value("badone").ofType(SYSTEM_TYPE).build()
+							,   attribute().name(SUPERSIDES).value("badtwo").ofType(SYSTEM_TYPE).build()
+						)
+						.build();
+		
+		Codelist modified = modify(versioned).with(newcode).build();
+				
+		reveal(versioned).update(reveal(modified));
 		
 		Outcome<MappingData> outcome = mapper.map(versioned,Codelist2CometDirectives.DEFAULT);
 		
