@@ -9,12 +9,12 @@ import java.util.Map;
 
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
-import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
-import org.cotrix.web.manage.client.codelist.event.CodeUpdatedEvent;
-import org.cotrix.web.manage.client.codelist.link.ValueUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.codes.event.CodeUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.codes.link.ValueUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.common.attribute.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.data.DataSaverManager.CommandBridge;
 import org.cotrix.web.manage.client.data.event.EditType;
-import org.cotrix.web.manage.client.event.EditorBus;
+import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.util.Attributes;
 import org.cotrix.web.manage.shared.modify.GenericCommand.Action;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
@@ -33,8 +33,8 @@ import com.google.web.bindery.event.shared.EventBus;
 public class CodeLinkBridge implements CommandBridge<CodeLink> {
 	
 	@Inject
-	@EditorBus 
-	private EventBus editorBus;
+	@CodelistBus 
+	private EventBus codelistBus;
 	
 	@Override
 	public Class<CodeLink> getType() {
@@ -77,10 +77,10 @@ public class CodeLinkBridge implements CommandBridge<CodeLink> {
 		localLink.setId(updatedLink.getId());
 		//updates the attributes
 		localLink.setAttributes(updatedLink.getAttributes());
-		editorBus.fireEvent(new AttributesUpdatedEvent(localLink));
+		codelistBus.fireEvent(new AttributesUpdatedEvent(localLink));
 		//updates the value
 		localLink.setValue(updatedLink.getValue());
-		editorBus.fireEvent(new ValueUpdatedEvent(localLink));
+		codelistBus.fireEvent(new ValueUpdatedEvent(localLink));
 		
 		//updated values if necessary
 		updateLinksValues(localCode.getLinks(), updatedCode.getLinks());
@@ -88,7 +88,7 @@ public class CodeLinkBridge implements CommandBridge<CodeLink> {
 		//merge the system attributes
 		Attributes.mergeSystemAttributes(localCode.getAttributes(), updatedCode.getAttributes());
 		
-		editorBus.fireEvent(new CodeUpdatedEvent(localCode));
+		codelistBus.fireEvent(new CodeUpdatedEvent(localCode));
 		
 	}
 	
@@ -107,7 +107,7 @@ public class CodeLinkBridge implements CommandBridge<CodeLink> {
 				localLink.setTargetName(updatedLink.getTargetName());
 				localLink.setAttributes(updatedLink.getAttributes());
 				
-				editorBus.fireEvent(new ValueUpdatedEvent(localLink));
+				codelistBus.fireEvent(new ValueUpdatedEvent(localLink));
 			}
 		}
 	}

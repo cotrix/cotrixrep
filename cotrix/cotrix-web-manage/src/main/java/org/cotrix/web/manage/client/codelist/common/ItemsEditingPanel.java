@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.InstanceMap;
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
+import org.cotrix.web.manage.client.codelist.common.attribute.AttributesGridResources;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.google.gwt.core.client.GWT;

@@ -48,6 +48,11 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource seal();
 	public ImageResource sealDisabled();
 	
+	public ImageResource metadata();
+	public ImageResource codes();
+	
+	public ImageResource splash();
+	
 	public ImageResource attributesSelected();
 	public ImageResource attributesUnselected();
 	public ImageResource attributesDisabled();

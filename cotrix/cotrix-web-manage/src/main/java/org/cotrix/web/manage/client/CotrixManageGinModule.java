@@ -5,8 +5,8 @@ import org.cotrix.web.manage.client.codelist.common.AttributesPanel;
 import org.cotrix.web.manage.client.di.CodelistProvider;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.di.CodelistIdProvider;
-import org.cotrix.web.manage.client.di.EditorEventBusProvider;
-import org.cotrix.web.manage.client.event.EditorBus;
+import org.cotrix.web.manage.client.di.CodelistBus;
+import org.cotrix.web.manage.client.di.CodelistBusProvider;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.util.Attributes;
 
@@ -25,7 +25,7 @@ public class CotrixManageGinModule extends AbstractGinModule {
 	protected void configure() {
 		bind(EventBus.class).annotatedWith(ManagerBus.class).to(SimpleEventBus.class).in(Singleton.class);
 		
-		bind(EventBus.class).annotatedWith(EditorBus.class).toProvider(EditorEventBusProvider.class);
+		bind(EventBus.class).annotatedWith(CodelistBus.class).toProvider(CodelistBusProvider.class);
 		
 		bind(String.class).annotatedWith(CurrentCodelist.class).toProvider(CodelistIdProvider.class);
 		bind(UICodelist.class).annotatedWith(CurrentCodelist.class).toProvider(CodelistProvider.class);
