@@ -7,7 +7,7 @@
         <message:Sender id="FAO"/>
     </message:Header>
     <message:CodeLists>
-        <structure:CodeList id="CL_FAO_MAJOR_AREA" agencyID="FAO" version="0.1" isFinal="false">
+        <structure:CodeList id="FAO_MAJOR_AREA" agencyID="FAO" version="0.1" isFinal="false">
             <structure:Name xml:lang="en">CL_FAO_MAJOR_AREA</structure:Name>
             <structure:Code value="01">
                 <structure:Description xml:lang="en">Africa - Inland waters</structure:Description>

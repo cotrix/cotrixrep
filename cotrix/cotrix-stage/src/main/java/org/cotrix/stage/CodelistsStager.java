@@ -129,7 +129,7 @@ public class CodelistsStager {
 		//add name link
 		links.add(nameLink);
 		
-		Codelist source = codelist().name("sample linked").links(links).build();
+		Codelist source = codelist().name("SAMPLE LINKED").links(links).build();
 				
 		source = ingester.ingest(source);
 		
@@ -265,7 +265,11 @@ public class CodelistsStager {
 
 		CodelistBean bean = parser.parse(inputStream, Stream2SdmxDirectives.DEFAULT);
 
-		Outcome<Codelist> outcome = mapper.map(bean, Sdmx2CodelistDirectives.DEFAULT);
+		Sdmx2CodelistDirectives directives = new Sdmx2CodelistDirectives();
+		
+		directives.name(info.name);
+		
+		Outcome<Codelist> outcome = mapper.map(bean, directives);
 
 		ingester.ingest(outcome.result());
 
