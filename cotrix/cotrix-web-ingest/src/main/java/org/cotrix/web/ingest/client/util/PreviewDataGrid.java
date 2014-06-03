@@ -155,7 +155,9 @@ public class PreviewDataGrid extends LoadingPanel {
 			column.setSortable(false);
 
 			if (headers.isEditable()) {
-				EditableTextHeader header = new EditableTextHeader(new StyledTextInputCell(CommonResources.INSTANCE.css().textBox()+ " "+Resources.INSTANCE.css().previewHeader()), headerLabel);
+				StyledTextInputCell cell = new StyledTextInputCell(CommonResources.INSTANCE.css().textBox()+ " "+Resources.INSTANCE.css().previewHeader());
+				cell.setTitle("Rename this column.");
+				EditableTextHeader header = new EditableTextHeader(cell, headerLabel);
 				editableHeaders.add(header);
 				previewGrid.addColumn(column, header);
 			} else {

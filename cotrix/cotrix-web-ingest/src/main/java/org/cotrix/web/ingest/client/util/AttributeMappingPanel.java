@@ -94,7 +94,7 @@ public class AttributeMappingPanel extends Composite {
 
 			final SimpleCheckBox checkBox = new SimpleCheckBox();
 			checkBox.setStyleName(CommonResources.INSTANCE.css().simpleCheckbox());
-			
+			checkBox.setTitle("Select to include in the imported codelist.");
 
 			checkBox.setValue(attributeDefinition != null);
 			columnsTable.setWidget(row, IGNORE_COLUMN, checkBox);

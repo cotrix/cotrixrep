@@ -21,11 +21,11 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 public class StyledTextInputCell extends AbstractInputCell<String, StyledTextInputCell.ViewData> {
 
 	interface Template extends SafeHtmlTemplates {
-		@Template("<input type=\"text\" value=\"{0}\" class=\"{1}\" tabindex=\"-1\"></input>")
-		SafeHtml input(String value, String style);
+		@Template("<input type=\"text\" value=\"{0}\" class=\"{1}\" tabindex=\"-1\" title=\"{2}\"></input>")
+		SafeHtml input(String value, String style, String title);
 		
-		@Template("<input type=\"text\" class=\"{0}\" tabindex=\"-1\"></input>")
-		SafeHtml emptyInput(String style);
+		@Template("<input type=\"text\" class=\"{0}\" tabindex=\"-1\" title=\"{1}\"></input>")
+		SafeHtml emptyInput(String style, String title);
 	}
 
 	/**
@@ -122,6 +122,8 @@ public class StyledTextInputCell extends AbstractInputCell<String, StyledTextInp
 	private static Template template;
 	
 	private String style;
+	
+	private String title;
 
 	/**
 	 * Constructs a TextInputCell that renders its text without HTML markup.
@@ -132,6 +134,10 @@ public class StyledTextInputCell extends AbstractInputCell<String, StyledTextInp
 		if (template == null) {
 			template = GWT.create(Template.class);
 		}
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	@Override
@@ -172,10 +178,11 @@ public class StyledTextInputCell extends AbstractInputCell<String, StyledTextInp
 		}
 
 		String s = (viewData != null) ? viewData.getCurrentValue() : value;
+		String t = title!=null?title:"";
 		if (s != null) {
-			sb.append(template.input(s, style));
+			sb.append(template.input(s, style, t));
 		} else {
-			sb.append(template.emptyInput(style));
+			sb.append(template.emptyInput(style, t));
 		}
 	}
 

@@ -44,14 +44,17 @@
 			<table width="100%">
 				<tr>
 					<td class="{common.css.mappingTableNameHeader}">
-						<span class="{common.css.propertyLabel}" style="padding-left:20px;padding-right:10px;">NAME</span>
+						<span class="{common.css.propertyLabel}" style="padding-left:20px;padding-right:10px;" 
+						title="Specify a name for the codelist.">NAME</span>
 					</td>
 					<td style="padding-top:10px;vertical-align:middle;text-align:left;">
-						<g:TextBox ui:field="name" styleName="{common.css.textBox} {style.textBox}" />
+						<g:TextBox ui:field="name" styleName="{common.css.textBox} {style.textBox}" 
+						title="Specify a name for the codelist."/>
 					</td>
 					<td width="58px" class="{style.reloadButtonCell} {style.topPadding}">
 						<g:PushButton ui:field="reloadButton"
-							styleName="{common.css.buttonRefresh} {style.reloadButton}">
+							styleName="{common.css.buttonRefresh} {style.reloadButton}"
+							title="Reset all directives.">
 							<g:upFace image="{common.undo}" />
 						</g:PushButton>
 					</td>
@@ -59,21 +62,25 @@
 				<tr>
 					<td class="{common.css.mappingTableNameHeader}">
 						<span class="{common.css.propertyLabel}"
-							style="text-align:left;padding-left:20px;padding-right:10px;">VERSION</span>
+							style="text-align:left;padding-left:20px;padding-right:10px;" 
+							title="Specify a version for the codelist.">VERSION</span>
 					</td>
 					<td style="padding-top:10px;vertical-align:middle;text-align:left;">
-						<g:TextBox ui:field="version" styleName="{common.css.textBox} {style.textBox}" />
+						<g:TextBox ui:field="version" styleName="{common.css.textBox} {style.textBox}" 
+						title="Specify a version for the codelist."/>
 					</td>
 				</tr>
 				<tr>
 					<td class="{common.css.mappingTableNameHeader}">
 						<span class="{common.css.propertyLabel}"
-							style="text-align:left;padding-left:20px;padding-right:10px;">SEALED</span>
+							style="text-align:left;padding-left:20px;padding-right:10px;" 
+							title="Select if the codelist should not be editable after import.">SEALED</span>
 					</td>
 					<td style="padding-top:10px;padding-right: 70px;text-align: left;"
 						colspan="2">
 						<g:SimpleCheckBox ui:field="sealed"
-							styleName="{common.css.simpleCheckbox}" />
+							styleName="{common.css.simpleCheckbox}" 
+							title="Select if the codelist should not be editable after import."/>
 					</td>
 				</tr>
 				<tr>
@@ -98,7 +105,8 @@
 					</td>
 					<td width="58px" ui:field="previewCell" class="{style.previewCell}">
 						<g:PushButton ui:field="previewButton"
-							styleName="{common.css.buttonPreview} {style.previewButton}">
+							styleName="{common.css.buttonPreview} {style.previewButton}"
+							title="Preview the data to import.">
 							<g:upFace image="{common.preview}" />
 						</g:PushButton>
 					</td>
