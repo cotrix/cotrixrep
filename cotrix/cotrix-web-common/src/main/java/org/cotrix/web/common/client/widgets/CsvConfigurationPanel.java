@@ -230,7 +230,7 @@ public class CsvConfigurationPanel extends Composite implements HasValueChangeHa
 	{
 		for (int i = 0; i<listBox.getItemCount(); i++) {
 			String candidate = listBox.getValue(i);
-			if (value.equals(candidate)) {
+			if (value.equalsIgnoreCase(candidate)) {
 				listBox.setSelectedIndex(i);
 				return true;
 			}
