@@ -79,7 +79,7 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 	protected void setupGrid()
 	{
 
-		dataGrid = new PatchedDataGrid<UICodelist>(6, DataGridListResource.INSTANCE, CodelistKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<UICodelist>(25, DataGridListResource.INSTANCE, CodelistKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
