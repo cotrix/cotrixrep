@@ -4,22 +4,16 @@ import static java.lang.Math.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Constants.*;
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
-import static org.cotrix.repository.CodelistSummary.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
-import javax.xml.namespace.QName;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.attributes.Attribute;
@@ -144,24 +138,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 				Codelist list = state.entity();
 				
-				Collection<Attribute> attributes = new ArrayList<Attribute>();
-				
-				for (Attribute a : list.attributes())
-					if (!a.type().equals(SYSTEM_TYPE))
-						attributes.add(a);
-
-				Collection<CodelistLink> links = new ArrayList<CodelistLink>();
-				
-				for (CodelistLink l : list.links())
-					links.add(l);
-
-				
-				Map<QName, Map<QName, Set<String>>> fingerprint = new HashMap<QName, Map<QName, Set<String>>>();
-
-				for (Code c : list.codes())
-					addAttributesToFingerprint(fingerprint, c.attributes());
-
-				return new CodelistSummary(list.name(), size, attributes, links, fingerprint);
+				return new CodelistSummary(list);
 			}
 		};
 	}

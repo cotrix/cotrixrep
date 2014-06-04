@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import org.cotrix.action.Action;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.Role;
@@ -247,44 +248,33 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 	@Test
 	public void getSummary() {
 		
-		Attribute a1 = attribute().name("name1").value("v1").ofType("t1").in("l1").build();
-		Attribute a2 = attribute().name("name2").value("v2").ofType("t2").build();
-		Attribute a3 = attribute().name("name1").value("v3").ofType("t2").in("l1").build();
-		Attribute a4 = attribute().name("name1").value("v1").ofType("t1").in("l2").build();
-		Attribute a5 = attribute().name("name2").value("v2").ofType("t2").build();
+		Definition d1 = definition().name("name1").is("t1").in("l1").build();
+		Definition d2 = definition().name("name2").is("t2").build();
+		Definition d3 = definition().name("name1").is("t2").in("l1").build();
+		Definition d4 = definition().name("name1").is("t1").in("l2").build();
+		Definition d5 = definition().name("name2").is("t2").build();
 		
 		Attribute aa1 = attribute().name("name1").value("v1").ofType("t3").in("l3").build();
 		Attribute aa2 = attribute().name("name2").value("v2").ofType("t2").build();
 		Attribute aa3 = attribute().name("name3").value("v3").ofType("t3").in("l2").build();
 		Attribute aa4 = attribute().name("name1").value("v4").ofType("t1").in("l3").build();
 		
-		Code c1 = code().name("c1").attributes(a1,a2,a3).build();
-		Code c2 = code().name("name1").attributes(a4,a5).build();
-		
-		Codelist list = codelist().name("n").with(c1,c2).attributes(aa1,aa2,aa3,aa4).build();
+		Codelist list = codelist().name("n").definitions(d1,d2,d3,d4,d5).attributes(aa1,aa2,aa3,aa4).build();
 		
 		repository.add(list);
 		
 		CodelistSummary summary = repository.get(summary(list.id()));
 		
 		assertEquals(q("n"), summary.name());
-		assertEquals(2, summary.size());	
 		
 		assertEqualUnordered(summary.allNames(),q("name1"),q("name2"),q("name3"));
-		assertEqualUnordered(summary.allTypes(),q("t1"),q("t2"),q("t3"));
-		assertEqualUnordered(summary.allLanguages(),"l1","l2","l3");
-		
-		assertEqualUnordered(summary.allTypesFor(q("name1")),q("t1"),q("t2"),q("t3"));
-		assertEqualUnordered(summary.allLanguagesFor(q("name1"),q("t1")),"l1","l2","l3");
-		assertEqualUnordered(summary.allTypesFor(q("foo")));
-		assertEqualUnordered(summary.allLanguagesFor(q("foo"),q("boo")));
 		
 		assertEqualUnordered(summary.codelistNames(),q("name1"),q("name2"),q("name3"));
 		assertEqualUnordered(summary.codelistTypesFor(q("name1")),q("t1"),q("t3"));
 		assertEqualUnordered(summary.codelistLanguagesFor(q("name1"),q("t1")),"l3");
 		
 		assertEqualUnordered(summary.codeNames(),q("name1"),q("name2"));
-		assertEqualUnordered(summary.codeTypesFor(q("name1")),q("t1"),q("t2"));
+		//assertEqualUnordered(summary.codeTypesFor(q("name1")),q("t1"),q("t2"));
 		assertEqualUnordered(summary.codeLanguagesFor(q("name1"),q("t1")),"l1","l2");
 		
 	}
