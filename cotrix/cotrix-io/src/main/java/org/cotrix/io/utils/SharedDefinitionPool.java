@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.dsl.grammar.DefinitionGrammar;
 
 public class SharedDefinitionPool implements Iterable<Definition> {
 
@@ -34,7 +35,17 @@ public class SharedDefinitionPool implements Iterable<Definition> {
 		Definition def = defs.get(key);
 		
 		if (def==null) { 
-			def = definition().name(name).is(type).in(language).build();
+			
+			DefinitionGrammar.OptionalClause clause = definition().name(name);
+			
+			if (type!=null)
+				clause.is(type);
+			
+			if (language!=null)
+				clause.in(language);
+			
+			def = clause.build();
+			
 			defs.put(key,def);
 		}
 		
