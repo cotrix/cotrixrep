@@ -3,6 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:u="urn:import:org.cotrix.web.ingest.client.util">
 	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
 		field="common" />
+	<ui:with type="org.cotrix.web.ingest.client.resources.Resources"
+		field="ingest" />
 	<ui:style>
 	.topPadding {
 		padding-top: 10px;
@@ -24,6 +26,7 @@
 	.reloadButton {
 		margin: auto;
 		outline: none;
+		cursor: pointer;
 	}
 	
 	.previewCell {
@@ -69,9 +72,10 @@
 						</td>
 						<td width="58px" class="{style.reloadButtonCell} {style.topPadding}">
 							<g:PushButton ui:field="reloadButton"
-								styleName="{common.css.buttonRefresh} {style.reloadButton}"
+								styleName="{style.reloadButton}"
 								title="Reset all directives.">
-								<g:upFace image="{common.undo}" />
+								<g:upFace image="{ingest.reload}" />
+								<g:upHoveringFace image="{ingest.reloadHover}" />
 							</g:PushButton>
 						</td>
 					</tr>
