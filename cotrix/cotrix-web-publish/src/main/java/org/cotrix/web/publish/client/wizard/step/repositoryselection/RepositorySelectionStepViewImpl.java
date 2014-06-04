@@ -79,7 +79,7 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	protected void setupGrid()
 	{
 
-		dataGrid = new PatchedDataGrid<UIRepository>(6, DataGridListResource.INSTANCE, RepositoryKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<UIRepository>(25, DataGridListResource.INSTANCE, RepositoryKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
