@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.MapService;
@@ -126,10 +127,41 @@ public class Table2CodelistTest extends DomainTest {
 		System.out.println(outcome.report());
 
 		Attribute attr = attribute().name("c2").value("2").ofType("t").in("l").build();
+		
 		Code code = code().name("1").attributes(attr).build();
+		
 		Codelist expected = codelist().name("c1").with(code).build();
 
 		assertEquals(expected, outcome.result());
+	}
+	
+	@Test
+	public void attributeDefinitionAreShared() {
+		
+		String[][] data = {{"1", "2"}, { "3", "4" }};
+
+		Table table = asTable(data,"c1","c2");
+
+		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
+
+		directives.add(column("c2").name("n").language("en").type("t"));
+		
+		Outcome<Codelist> outcome = mapper.map(table, directives);
+
+		Codelist list = outcome.result();
+
+		assertEquals(1,list.definitions().size());
+		
+		Definition def = list.definitions().iterator().next();
+		
+		Code code1 = list.codes().lookup(q("1"));
+		Code code2 = list.codes().lookup(q("3"));
+		
+		Attribute attr1 = code1.attributes().lookup(q("n"));
+		Attribute attr2 = code2.attributes().lookup(q("n"));
+		
+		assertEquals(attr1.definition(), attr2.definition());
+		assertEquals(def, attr2.definition());
 	}
 
 

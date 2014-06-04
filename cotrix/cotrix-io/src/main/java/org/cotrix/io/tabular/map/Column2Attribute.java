@@ -5,7 +5,8 @@ import static org.cotrix.common.Report.Item.Type.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
+import org.cotrix.domain.attributes.Definition;
+import org.cotrix.io.utils.SharedDefinitionPool;
 import org.virtualrepository.tabular.Row;
 
 /**
@@ -23,7 +24,7 @@ public class Column2Attribute {
 	 * @param mapping the mapping
 	 */
 	public Column2Attribute(ColumnDirectives mapping) {
-		this.mapping=mapping;
+		this.mapping=mapping;	
 	}
 	
 	/**
@@ -32,29 +33,18 @@ public class Column2Attribute {
 	 * @param row the row
 	 * @return the attribute
 	 */
-	public Attribute map(String codename, Row row) {
+	public Attribute map(String codename, Row row, SharedDefinitionPool defs) {
 		
 		String value = row.get(mapping.column());
 		
 		if (!valid(codename,value))
 			return null;
 		
-		Attribute attribute = null;
+		Definition def = defs.get(mapping.name(), mapping.type(),mapping.language());
 		
-		OptionalClause sentence = attribute().name(mapping.name()).value(value);
-		
-		if (mapping.type()!=null)
-			if (mapping.language()!=null)
-				attribute = sentence.ofType(mapping.type()).in(mapping.language()).build();
-			else
-				attribute = sentence.ofType(mapping.type()).build();
-		else
-			if (mapping.language()!=null)
-				attribute = sentence.in(mapping.language()).build();
-			else
-				attribute = sentence.build();
-		
-		return attribute;
+		return attribute()
+					.with(def)
+					.value(value).build();
 	}
 	
 	//helper

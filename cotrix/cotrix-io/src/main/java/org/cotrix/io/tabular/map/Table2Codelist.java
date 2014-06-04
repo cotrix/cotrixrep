@@ -9,9 +9,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
+import org.cotrix.io.utils.SharedDefinitionPool;
 import org.virtualrepository.tabular.Row;
 import org.virtualrepository.tabular.Table;
 
@@ -31,8 +33,6 @@ public class Table2Codelist {
 	 * @param directives the directives
 	 */
 	public Table2Codelist(Table2CodelistDirectives directives) {
-		
-
 		
 		this.directives=directives;
 		
@@ -63,10 +63,12 @@ public class Table2Codelist {
 		report().log(Calendar.getInstance().getTime().toString());
 		report().log("==============================");
 		
-		for (Row row : table)
-			map(row);
+		SharedDefinitionPool defs = new SharedDefinitionPool();
 		
-		Codelist list = list();
+		for (Row row : table)
+			map(row,defs);
+		
+		Codelist list = list(defs);
 		
 		report().log("==============================");
 		report().log("transformed table to codelist '"+directives.name()+"' with "+list.codes().size()+" codes in "+(System.currentTimeMillis()-time)/1000);
@@ -80,7 +82,7 @@ public class Table2Codelist {
 	 * 
 	 * @param row the row.
 	 */
-	void map(Row row) {
+	void map(Row row,SharedDefinitionPool defs) {
 		
 		String name = row.get(directives.codeColumn());
 		
@@ -89,7 +91,7 @@ public class Table2Codelist {
 		
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		for (Column2Attribute attributeMapper : attributeMappers) {
-			Attribute parsed = attributeMapper.map(name,row);
+			Attribute parsed = attributeMapper.map(name,row,defs);
 			if (parsed != null)
 				attributes.add(parsed);
 		}
@@ -105,11 +107,12 @@ public class Table2Codelist {
 	 * <p>
 	 * @return the mapped codelist
 	 */
-	Codelist list() {
+	Codelist list(Iterable<Definition> defs) {
 		
 		boolean hasVersion = directives.version()!=null;
 		SecondClause clause= codelist().
 				name(directives.name())
+				.definitions(defs)
 				.with(codes.toArray(new Code[0]))
 				.attributes(directives.attributes().toArray(new Attribute[0]));
 		
