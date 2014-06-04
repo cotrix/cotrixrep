@@ -2,6 +2,7 @@ package org.cotrix.web.client.home;
 
 import java.util.List;
 
+import org.cotrix.web.common.client.widgets.HasMinHeight;
 import org.cotrix.web.shared.UINews;
 
 import com.google.gwt.core.client.GWT;
@@ -22,7 +23,7 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public class HomeViewImpl extends Composite implements HomeView {
+public class HomeViewImpl extends Composite implements HomeView, HasMinHeight {
 
 	private static HomeUiBinder uiBinder = GWT.create(HomeUiBinder.class);
 	private static DateTimeFormat SDF = DateTimeFormat.getFormat("d MMM yyyy HH:mm"); 
@@ -95,5 +96,11 @@ public class HomeViewImpl extends Composite implements HomeView {
 	public void setNewsNotAvailable() {
 		newsLoader.getStyle().setDisplay(Display.NONE);
 		newsNotAvailable.getStyle().setDisplay(Display.INLINE_BLOCK);
+	}
+	
+
+	@Override
+	public int getMinHeight() {
+		return 670;
 	}
 }
