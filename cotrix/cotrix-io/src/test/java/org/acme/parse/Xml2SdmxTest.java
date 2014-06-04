@@ -1,4 +1,4 @@
-package org.cotrix.parse;
+package org.acme.parse;
 
 import static org.junit.Assert.*;
 

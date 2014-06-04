@@ -1,4 +1,4 @@
-package org.cotrix;
+package org.acme;
 
 import static java.util.Arrays.*;
 

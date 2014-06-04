@@ -1,6 +1,6 @@
-package org.cotrix.map;
+package org.acme.map;
 
-import static org.cotrix.TestUtils.*;
+import static org.acme.TestUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.io.tabular.map.ColumnDirectives.*;
 import static org.cotrix.io.tabular.map.MappingMode.*;

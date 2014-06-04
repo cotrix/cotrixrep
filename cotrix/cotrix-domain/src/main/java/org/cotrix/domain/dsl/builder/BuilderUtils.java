@@ -9,7 +9,7 @@ import org.cotrix.domain.trait.Identified;
 public class BuilderUtils {
 
 	static <S extends Identified.State, P extends Identified.Abstract<P, S>> Collection<S> reveal(
-			Collection<?> entities, Class<P> type) {
+			Iterable<?> entities, Class<P> type) {
 
 		Collection<S> states = new ArrayList<S>();
 
