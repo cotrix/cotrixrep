@@ -52,7 +52,7 @@ public class CsvPreviewStepViewImpl extends ResizeComposite implements CsvPrevie
 	@Inject
 	private void init() {
 		
-		this.preview = new PreviewDataGrid(dataProvider, 8);
+		this.preview = new PreviewDataGrid(dataProvider, 25);
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		configurationPanel.setRefreshHandler(this);

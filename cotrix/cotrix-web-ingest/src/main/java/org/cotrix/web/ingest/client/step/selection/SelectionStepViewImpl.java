@@ -88,7 +88,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	protected void setupGrid()
 	{
 
-		dataGrid = new PatchedDataGrid<AssetInfo>(6, DataGridListResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<AssetInfo>(25, DataGridListResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
