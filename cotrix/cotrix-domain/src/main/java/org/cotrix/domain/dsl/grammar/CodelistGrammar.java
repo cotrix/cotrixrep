@@ -1,14 +1,10 @@
 package org.cotrix.domain.dsl.grammar;
 
-import java.util.Collection;
-
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.DeleteClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinksClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.VersionClause;
@@ -39,7 +35,7 @@ public class CodelistGrammar {
 		SecondClause definitions(Definition ... types);
 		
 		
-		SecondClause attributeTypes(Collection<Definition> types);
+		SecondClause definitions(Iterable<Definition> types);
 	}
 
 	

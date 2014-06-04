@@ -1,7 +1,7 @@
-package org.cotrix.parse;
+package org.acme.parse;
 
 import static java.util.Arrays.*;
-import static org.cotrix.TestUtils.*;
+import static org.acme.TestUtils.*;
 import static org.junit.Assert.*;
 
 import java.io.InputStream;

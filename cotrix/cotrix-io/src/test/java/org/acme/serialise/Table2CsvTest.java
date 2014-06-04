@@ -1,6 +1,6 @@
-package org.cotrix.serialise;
+package org.acme.serialise;
 
-import static org.cotrix.TestUtils.*;
+import static org.acme.TestUtils.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

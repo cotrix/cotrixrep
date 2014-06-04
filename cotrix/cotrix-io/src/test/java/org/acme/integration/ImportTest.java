@@ -1,6 +1,6 @@
-package org.cotrix.integration;
+package org.acme.integration;
 
-import static org.cotrix.TestUtils.*;
+import static org.acme.TestUtils.*;
 
 import java.io.InputStream;
 

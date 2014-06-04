@@ -1,4 +1,4 @@
-package org.cotrix.map;
+package org.acme.map;
 
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;

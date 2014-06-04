@@ -1,4 +1,4 @@
-package org.cotrix.integration;
+package org.acme.integration;
 
 import javax.inject.Inject;
 
