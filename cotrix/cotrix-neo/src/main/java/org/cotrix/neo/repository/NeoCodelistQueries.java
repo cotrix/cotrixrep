@@ -3,24 +3,17 @@ package org.cotrix.neo.repository;
 import static java.lang.String.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Constants.*;
-import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
-import static org.cotrix.repository.CodelistSummary.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Priority;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Singleton;
-import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
@@ -197,28 +190,8 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 					state = new NeoCodelist(it.next());
 				}
 				
+				return new CodelistSummary(state.entity());
 				
-				int size = state.codes().size();
-
-				Codelist list = state.entity();
-				
-				Collection<Attribute> attributes = new ArrayList<Attribute>();
-				
-				for (Attribute a : list.attributes())
-					if (!a.type().equals(SYSTEM_TYPE))
-						attributes.add(a);
-				
-				Collection<CodelistLink> links = new ArrayList<CodelistLink>();
-				
-				for (CodelistLink l : list.links())
-					links.add(l);
-
-				Map<QName, Map<QName, Set<String>>> fingerprint = new HashMap<QName, Map<QName, Set<String>>>();
-
-				for (Code c : list.codes())
-					addAttributesToFingerprint(fingerprint, c.attributes());
-
-				return new CodelistSummary(list.name(), size, attributes, links, fingerprint);
 			}
 		};
 	}
