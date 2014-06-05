@@ -3,6 +3,7 @@ package org.cotrix.web.publish.client.wizard.step.repositoryselection;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
+import org.cotrix.web.common.client.widgets.PageSizer;
 import org.cotrix.web.common.client.widgets.cell.SelectionCheckBoxCell;
 import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.publish.shared.UIRepository;
@@ -48,6 +49,9 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	@UiField(provided = true)
 	SimplePager pager;
 	
+	@UiField
+	PageSizer pageSizer;
+	
 	protected RepositoryDataProvider dataProvider;
 	
 	protected SingleSelectionModel<UIRepository> selectionModel;
@@ -62,6 +66,7 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 		this.dataProvider = assetInfoDataProvider;
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
+		pageSizer.setDisplay(dataGrid);
 	}
 
 	/** 

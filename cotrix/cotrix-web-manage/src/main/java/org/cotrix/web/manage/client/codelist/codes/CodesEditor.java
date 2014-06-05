@@ -21,6 +21,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
+import org.cotrix.web.common.client.widgets.PageSizer;
 import org.cotrix.web.common.client.widgets.cell.DoubleClickEditTextCell;
 import org.cotrix.web.common.client.widgets.cell.StyledSafeHtmlRenderer;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
@@ -111,6 +112,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 	@UiField(provided = true)
 	SimplePager pager;
+	
+	@UiField
+	PageSizer pageSizer;
 
 	@UiField ItemToolbar toolBar;
 
@@ -204,6 +208,8 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		pageSizer.setDisplay(dataGrid);
 
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
 

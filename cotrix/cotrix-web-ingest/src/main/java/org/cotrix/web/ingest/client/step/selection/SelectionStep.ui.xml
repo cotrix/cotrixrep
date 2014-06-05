@@ -54,7 +54,6 @@
 					<w:PageSizer ui:field="pageSizer" />
 				</w:pagesizer>
 			</w:AdvancedPagerLayout>
-
 		</g:south>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 
