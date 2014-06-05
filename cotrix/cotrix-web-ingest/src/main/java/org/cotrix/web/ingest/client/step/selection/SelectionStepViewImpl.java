@@ -3,6 +3,7 @@ package org.cotrix.web.ingest.client.step.selection;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
+import org.cotrix.web.common.client.widgets.PageSizer;
 import org.cotrix.web.common.client.widgets.SearchBox;
 import org.cotrix.web.common.client.widgets.cell.ClickableCell;
 import org.cotrix.web.common.client.widgets.cell.SelectionCheckBoxCell;
@@ -24,6 +25,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
+import com.google.gwt.user.cellview.client.PageSizePager;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
@@ -55,6 +57,9 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	SimplePager pager;
 	
 	@UiField
+	PageSizer pageSizer;
+	
+	@UiField
 	SearchBox searchBox;
 	
 	protected AssetInfoDataProvider dataProvider;
@@ -71,6 +76,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		this.dataProvider = assetInfoDataProvider;
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
+		pageSizer.setDisplay(dataGrid);
 	}
 
 	/** 

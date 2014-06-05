@@ -1,0 +1,13 @@
+.button {
+	padding-right: 1px;
+	cursor: pointer;
+	color: black;
+}
+
+.button:hover {
+	text-decoration: underline;
+}
+
+.selectedButton {
+	text-decoration: underline;
+}
