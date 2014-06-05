@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.common.client.widgets;
+package org.cotrix.web.common.client.widgets.cell;
 
 import org.cotrix.web.common.client.resources.CommonResources;
 

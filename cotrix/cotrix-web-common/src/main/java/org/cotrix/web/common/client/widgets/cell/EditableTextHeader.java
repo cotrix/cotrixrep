@@ -1,4 +1,4 @@
-package org.cotrix.web.common.client.widgets;
+package org.cotrix.web.common.client.widgets.cell;
 
 import com.google.gwt.cell.client.AbstractInputCell;
 import com.google.gwt.cell.client.ValueUpdater;

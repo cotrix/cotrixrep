@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.common.client.widgets;
+package org.cotrix.web.common.client.widgets.cell;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

@@ -1,4 +1,4 @@
-package org.cotrix.web.common.client.widgets;
+package org.cotrix.web.common.client.widgets.cell;
 
 import static com.google.gwt.dom.client.BrowserEvents.BLUR;
 import static com.google.gwt.dom.client.BrowserEvents.DBLCLICK;

@@ -7,7 +7,7 @@ import java.util.Map;
 import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.HasMinHeight;
-import org.cotrix.web.common.client.widgets.ProgressDialog;
+import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;

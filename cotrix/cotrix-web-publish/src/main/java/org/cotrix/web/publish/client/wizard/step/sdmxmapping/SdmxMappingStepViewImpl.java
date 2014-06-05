@@ -1,9 +1,9 @@
 package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.EnumListBox.LabelProvider;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;

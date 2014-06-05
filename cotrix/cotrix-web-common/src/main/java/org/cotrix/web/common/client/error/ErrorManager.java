@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.common.client.error;
 
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.Error;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

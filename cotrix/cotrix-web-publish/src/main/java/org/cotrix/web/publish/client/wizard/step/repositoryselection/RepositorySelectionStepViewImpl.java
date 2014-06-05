@@ -3,8 +3,8 @@ package org.cotrix.web.publish.client.wizard.step.repositoryselection;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
-import org.cotrix.web.common.client.widgets.AlertDialog;
-import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
+import org.cotrix.web.common.client.widgets.cell.SelectionCheckBoxCell;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.publish.shared.UIRepository;
 
 import com.allen_sauer.gwt.log.client.Log;

@@ -1,36 +1,34 @@
 /**
  * 
  */
-package org.cotrix.web.common.client.widgets;
+package org.cotrix.web.common.client.widgets.cell;
 
 import static com.google.gwt.dom.client.BrowserEvents.*;
 
-import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.cell.client.AbstractSafeHtmlCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.text.shared.SafeHtmlRenderer;
 
 /**
- * An {@link AbstractCell} used to render an {@link ImageResource}.
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ImageResourceCell<T> extends AbstractCell<T> {
-	private SafeHtmlRenderer<T> renderer;
+public class ClickableCell<T>  extends AbstractSafeHtmlCell<T> {
 
 	/**
-	 * Construct a new ImageResourceCell.
+	 * Construct a new ClickableCell that will use a given
+	 * {@link SafeHtmlRenderer}.
+	 * 
+	 * @param renderer a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
 	 */
-	public ImageResourceCell(SafeHtmlRenderer<T> renderer) {
-		super(CLICK, KEYDOWN);
-		this.renderer = renderer;
+	public ClickableCell(SafeHtmlRenderer<T> renderer) {
+		super(renderer, CLICK, KEYDOWN);
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void onBrowserEvent(Context context, Element parent, T value,
 			NativeEvent event, ValueUpdater<T> valueUpdater) {
@@ -49,10 +47,10 @@ public class ImageResourceCell<T> extends AbstractCell<T> {
 	}
 
 	@Override
-	public void render(Context context, T value, SafeHtmlBuilder sb) {
+	protected void render(Context context, SafeHtml value, SafeHtmlBuilder sb) {
 		if (value != null) {
-			sb.append(renderer.render(value));
+			sb.append(value);
 		}
 	}
-
 }
+

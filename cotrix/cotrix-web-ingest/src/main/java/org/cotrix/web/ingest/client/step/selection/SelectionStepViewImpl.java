@@ -3,11 +3,11 @@ package org.cotrix.web.ingest.client.step.selection;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
-import org.cotrix.web.common.client.widgets.AlertDialog;
-import org.cotrix.web.common.client.widgets.ClickableCell;
 import org.cotrix.web.common.client.widgets.SearchBox;
-import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
-import org.cotrix.web.common.client.widgets.UIQNameRenderer;
+import org.cotrix.web.common.client.widgets.cell.ClickableCell;
+import org.cotrix.web.common.client.widgets.cell.SelectionCheckBoxCell;
+import org.cotrix.web.common.client.widgets.cell.UIQNameRenderer;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.shared.AssetInfo;
 

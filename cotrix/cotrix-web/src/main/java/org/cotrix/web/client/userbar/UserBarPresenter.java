@@ -23,7 +23,7 @@ import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.feature.ApplicationFeatures;
 import org.cotrix.web.shared.AuthenticationFeature;
 

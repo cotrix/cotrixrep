@@ -2,7 +2,7 @@ package org.cotrix.web.ingest.client.step.csvpreview;
 
 import java.util.List;
 
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.ingest.client.event.CsvHeadersEvent;
 import org.cotrix.web.ingest.client.event.CsvParserConfigurationUpdatedEvent;

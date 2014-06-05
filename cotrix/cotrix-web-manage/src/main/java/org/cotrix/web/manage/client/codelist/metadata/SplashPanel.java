@@ -4,8 +4,8 @@
 package org.cotrix.web.manage.client.codelist.metadata;
 
 import org.cotrix.web.common.client.error.ErrorManager;
-import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.codelist.NewStateEvent;
 import org.cotrix.web.manage.client.di.CodelistBus;

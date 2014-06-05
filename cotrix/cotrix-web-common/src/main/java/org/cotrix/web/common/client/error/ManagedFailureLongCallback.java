@@ -5,7 +5,7 @@ package org.cotrix.web.common.client.error;
 
 import javax.inject.Inject;
 
-import org.cotrix.web.common.client.widgets.ProgressDialog;
+import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
 import org.cotrix.web.common.shared.Error;
 import org.cotrix.web.common.shared.exception.Exceptions;
 

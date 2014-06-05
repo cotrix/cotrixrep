@@ -1,4 +1,4 @@
-package org.cotrix.web.common.client.widgets;
+package org.cotrix.web.common.client.widgets.dialog;
 
 import com.google.inject.ImplementedBy;
 

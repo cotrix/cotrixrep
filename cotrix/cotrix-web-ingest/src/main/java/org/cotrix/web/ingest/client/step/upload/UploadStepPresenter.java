@@ -1,7 +1,7 @@
 package org.cotrix.web.ingest.client.step.upload;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.FileUploadedEvent;

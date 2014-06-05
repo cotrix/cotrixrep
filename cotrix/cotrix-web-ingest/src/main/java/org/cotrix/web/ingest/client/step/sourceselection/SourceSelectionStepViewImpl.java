@@ -1,6 +1,6 @@
 package org.cotrix.web.ingest.client.step.sourceselection;
 
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
