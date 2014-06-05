@@ -8,8 +8,8 @@ import java.util.Calendar;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.common.Range;
+import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.values.DefaultType;
 import org.cotrix.domain.values.ValueType;
@@ -36,7 +36,7 @@ public class Constants {
 	public static final QName PREVIOUS_VERSION_NAME = q(NS,"previous_version_name");
 	public static final QName SUPERSIDES = q(NS,"supersides");
 	
-	public static final QName INVALID = q(NS,"invalid");
+	public static final QName STATUS = q(NS,"status");
 	
 	public static final ValueType defaultValueType = new DefaultType();
 	public static final Range defaultRange = Ranges.arbitrarily;
@@ -57,7 +57,9 @@ public class Constants {
 		return systemAttribute(PREVIOUS_VERSION,version.value());
 	}
 	
-	
+	public static Attribute status(CodeStatus status) {
+		return systemAttribute(STATUS,status.name()).entity();
+	}	
 	
 	private static Attribute.State systemAttribute(QName name, String value) {
 		AttributeMS a = new AttributeMS();

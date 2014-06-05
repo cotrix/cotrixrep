@@ -4,6 +4,8 @@ import static java.util.concurrent.TimeUnit.*;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Users.*;
+import static org.cotrix.domain.utils.CodeStatus.*;
+import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.domain.utils.ManagedCode.*;
 import static org.junit.Assert.*;
 
@@ -97,6 +99,16 @@ public class ManagedTest extends ApplicationTest {
 		assertEquals(managed.id(), managedVersioned.originId());
 		assertEquals(managed.name(), managedVersioned.originName());
 
+	}
+	
+	@Test
+	public void accessStatus() throws Exception {
+
+		reveal(code).update(reveal(modify(code).attributes(status(DELETED)).build()));
+		
+		//default value is creation date
+		assertEquals(DELETED,managed.status());
+		
 	}
 	
 }
