@@ -138,8 +138,6 @@ public class CodesPanelPresenter implements Presenter {
 	
 	private void bindFeatures()
 	{
-		// TOOLBAR
-		CodesToolbar toolbar = view.getToolBar();
 		
 		// CODELIST EDITOR
 		FeatureBinder.bind((HasEditing)view.getCodeListEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
