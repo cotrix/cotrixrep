@@ -43,6 +43,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -60,6 +61,8 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 	interface Binder extends UiBinder<Widget, AttributesPanel> {}
 	interface AttributesPanelEventBinder extends EventBinder<AttributesPanel> {}
+	
+	@UiField HTML header;
 
 	@UiField(provided = true)
 	ItemsEditingPanel<UIAttribute, AttributePanel> attributesGrid;
@@ -93,7 +96,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 		this.attributeEditor = DataEditor.build(this);
 
-		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("Attributes", "No attributes", editingPanelFactory);
+		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("No attributes", editingPanelFactory);
 
 		// Create the UiBinder.
 		Binder uiBinder = GWT.create(Binder.class);
@@ -311,7 +314,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 			sb.appendHtmlConstant("</span>");
 		}
 		
-		attributesGrid.setHeaderText(sb.toSafeHtml());
+		header.setHTML(sb.toSafeHtml());
 	}
 
 	private void switchAttribute(UIAttribute attribute, SwitchState attributeSwitchState)

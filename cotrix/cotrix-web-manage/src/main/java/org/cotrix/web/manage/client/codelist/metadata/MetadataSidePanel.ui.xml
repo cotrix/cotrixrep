@@ -51,27 +51,11 @@
 						<g:downFace image="{resources.attributesSelected}" />
 						<g:upHoveringFace image="{resources.attributesSelected}" />
 					</g:ToggleButton>
-					<g:ToggleButton ui:field="attributeTypesButton"
-						width="32px" styleName="{style.button}" title="Codelist Attribute Definitions">
-						<g:downDisabledFace image="{resources.attributeTypesDisabled}" />
-						<g:upDisabledFace image="{resources.attributeTypesDisabled}" />
-						<g:upFace image="{resources.attributeTypesUnselected}" />
-						<g:downFace image="{resources.attributeTypesSelected}" />
-						<g:upHoveringFace image="{resources.attributeTypesSelected}" />
-					</g:ToggleButton>
 					<g:ToggleButton ui:field="userButton" width="32px"
 						styleName="{style.button}" visible="false">
 						<g:upFace image="{commonresources.userPreferencesDisabled}" />
 						<g:downFace image="{commonresources.userPreferences}" />
 						<g:upHoveringFace image="{commonresources.userPreferences}" />
-					</g:ToggleButton>
-					<g:ToggleButton ui:field="linkTypesButton" width="32px"
-						styleName="{style.button}" title="Codelist Links">
-						<g:downDisabledFace image="{resources.linksDisabled}" />
-						<g:upDisabledFace image="{resources.linksDisabled}" />
-						<g:upFace image="{resources.linksUnselected}" />
-						<g:downFace image="{resources.linksSelected}" />
-						<g:upHoveringFace image="{resources.linksSelected}" />
 					</g:ToggleButton>
 				</g:HorizontalPanel>
 			</g:FlowPanel>
@@ -80,8 +64,6 @@
 			<g:DeckLayoutPanel ui:field="tools" styleName="{style.tools}">
 				<v:AttributesPanel ui:field="attributesPanel" />
 				<v:UserPreferencesPanel ui:field="userPanel" />
-				<v:LinkTypesPanel ui:field="linkTypesPanel" />
-				<v:AttributeTypesPanel ui:field="attributeTypesPanel" />
 			</g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>

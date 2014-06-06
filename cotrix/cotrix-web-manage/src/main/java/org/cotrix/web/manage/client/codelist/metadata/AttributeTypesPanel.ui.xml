@@ -3,7 +3,12 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
 	xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.common"
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
-	<g:DockLayoutPanel unit="PX">
+	<ui:with field='attributesresources'
+		type='org.cotrix.web.manage.client.codelist.common.attribute.AttributesGridResources' />
+	<g:DockLayoutPanel unit='PX'>
+		<g:north size="30">
+			<g:Label styleName="{attributesresources.dataGridStyle.dataGridHeader}">Attribute Definitions</g:Label>
+		</g:north>
 		<g:center>
 			<v:ItemsEditingPanel ui:field='attributeTypesPanel' />
 		</g:center>

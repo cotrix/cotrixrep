@@ -9,10 +9,8 @@ import java.util.List;
 import org.cotrix.web.common.client.util.InstanceMap;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
-import org.cotrix.web.manage.client.codelist.common.attribute.AttributesGridResources;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -61,11 +59,9 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		
 	private ScrollPanel scrollPanel;
 	private VerticalPanel mainPanel;
-	private HTML header;
 	private HTML emptyWidget;
 	private List<P> panels = new ArrayList<P>();
 
-	private final static AttributesGridResources gridResource = GWT.create(AttributesGridResources.class);
 	private P currentSelection;
 
 	private InstanceMap<T, P> instances = new InstanceMap<T, P>();
@@ -76,7 +72,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	
 	private ItemEditingPanelFactory<T,P> editingPanelFactory;
 
-	public ItemsEditingPanel(String headerText, String noItemsText, ItemEditingPanelFactory<T,P> editingPanelFactory) {
+	public ItemsEditingPanel(String noItemsText, ItemEditingPanelFactory<T,P> editingPanelFactory) {
 		this.editingPanelFactory = editingPanelFactory;
 		
 		scrollPanel = new ScrollPanel();
@@ -86,12 +82,6 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
 		scrollPanel.add(mainPanel);
-
-		gridResource.dataGridStyle().ensureInjected();
-
-		header = new HTML(headerText);
-		header.setStyleName(gridResource.dataGridStyle().dataGridHeader());
-		mainPanel.add(header);
 		
 		emptyWidget = new HTML(noItemsText);
 		emptyWidget.setStyleName(CotrixManagerResources.INSTANCE.propertyGrid().emptyTableWidget());
@@ -101,10 +91,6 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 
 		editable = false;
 		updateEmptyWidget();
-	}
-	
-	public void setHeaderText(SafeHtml headerText) {
-		header.setHTML(headerText);
 	}
 	
 	public void setNoItemsText(SafeHtml noItemsText) {

@@ -51,8 +51,6 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 
 	@UiField ItemToolbar toolBar;
 
-	private boolean dataLoaded = false;;
-
 	@Inject
 	private ManageServiceAsync service;
 
@@ -77,7 +75,7 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 	public void init() {
 		attributeTypeEditor = DataEditor.build(this);
 		
-		attributeTypesPanel = new ItemsEditingPanel<UIAttributeType, AttributeTypePanel>("Attribute Definitions", "no definitions", editingPanelFactory);
+		attributeTypesPanel = new ItemsEditingPanel<UIAttributeType, AttributeTypePanel>("no definitions", editingPanelFactory);
 		
 		add(uiBinder.createAndBindUi(this));
 		
@@ -180,8 +178,6 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 
 		//workaround issue #7188 https://code.google.com/p/google-web-toolkit/issues/detail?id=7188
 		onResize();
-
-		if (!dataLoaded) loadData();
 	}
 
 	public void loadData()
@@ -209,7 +205,6 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 		for (UIAttributeType attributeType:types) {
 			attributeTypesPanel.addItemPanel(attributeType);
 		}
-		dataLoaded = true;
 	}
 
 	@Override

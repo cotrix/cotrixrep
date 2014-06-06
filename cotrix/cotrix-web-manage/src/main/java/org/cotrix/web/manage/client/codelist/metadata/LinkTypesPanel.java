@@ -54,8 +54,6 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 
 	@UiField ItemToolbar toolBar;
 
-	protected boolean dataLoaded = false;;
-
 	@Inject
 	protected ManageServiceAsync service;
 
@@ -80,7 +78,7 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 	public void init() {
 		linkTypeEditor = DataEditor.build(this);
 		
-		linkTypesPanel = new ItemsEditingPanel<UILinkType, LinkTypePanel>("Codelist Links", "no links", editingPanelFactory);
+		linkTypesPanel = new ItemsEditingPanel<UILinkType, LinkTypePanel>("no links", editingPanelFactory);
 		
 		add(uiBinder.createAndBindUi(this));
 		
@@ -196,8 +194,6 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 
 		//workaround issue #7188 https://code.google.com/p/google-web-toolkit/issues/detail?id=7188
 		onResize();
-
-		if (!dataLoaded) loadData();
 	}
 
 	public void loadData()
@@ -225,7 +221,6 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 		for (UILinkType linkType:types) {
 			linkTypesPanel.addItemPanel(linkType);
 		}
-		dataLoaded = true;
 	}
 
 	@Override

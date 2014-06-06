@@ -63,7 +63,7 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	public void init() {
 
-		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("Codelist attributes", "No attributes", editingPanelFactory);
+		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("No attributes", editingPanelFactory);
 
 		attributeEditor = DataEditor.build(this);
 
