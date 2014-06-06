@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.client.di;
 
 import org.cotrix.web.manage.client.CotrixManageGinInjector;
-import org.cotrix.web.manage.client.codelist.provider.AttributeTypesCache;
+import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
 
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

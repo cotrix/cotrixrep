@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.provider;
+package org.cotrix.web.manage.client.codelist.cache;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -40,6 +41,7 @@ public abstract class AbstractCache<T> {
 
 			@Override
 			public void onDataEdit(DataEditEvent<T> event) {
+				Log.trace("cache "+type+" onDataEdit "+event);
 				switch (event.getEditType()) {
 					case ADD: cache.add(event.getData()); break;
 					case REMOVE: cache.remove(event.getData()); break;
@@ -57,11 +59,13 @@ public abstract class AbstractCache<T> {
 
 				@Override
 				public void onFailure(Throwable caught) {
+					Log.error("cache "+type+" filling failed ", caught);
 					callback.onFailure(caught);
 				}
 
 				@Override
 				public void onSuccess(List<T> result) {
+					Log.trace("cache "+type+" filled cache with "+result);
 					cache = result;
 					callback.onSuccess(result);
 				}
@@ -70,23 +74,4 @@ public abstract class AbstractCache<T> {
 	}
 	
 	protected abstract void retrieveItems(String codelistId, AsyncCallback<List<T>> callback);
-	
-	/*{
-		service.getCodelistLinkTypes(codelistId, new AsyncCallback<DataWindow<UILinkType>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Failed loading CodelistLinkTypes", caught);
-				callback.onFailure(caught);
-			}
-
-			@Override
-			public void onSuccess(DataWindow<UILinkType> result) {
-				Log.trace("retrieved CodelistLinkTypes: "+result);
-				linkTypesCache = result.getData();
-				callback.onSuccess(linkTypesCache);
-			}
-		});
-	}*/
-
 }

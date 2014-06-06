@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.provider;
+package org.cotrix.web.manage.client.codelist.cache;
 
 import java.util.List;
 

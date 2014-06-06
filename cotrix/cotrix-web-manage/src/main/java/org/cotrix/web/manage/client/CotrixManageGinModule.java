@@ -1,9 +1,9 @@
 package org.cotrix.web.manage.client;
 
 import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
+import org.cotrix.web.manage.client.codelist.cache.LinkTypesCache;
 import org.cotrix.web.manage.client.codelist.common.AttributesPanel;
-import org.cotrix.web.manage.client.codelist.provider.AttributeTypesCache;
-import org.cotrix.web.manage.client.codelist.provider.LinkTypesCache;
 import org.cotrix.web.manage.client.di.AttributeTypesCacheProvider;
 import org.cotrix.web.manage.client.di.CodelistProvider;
 import org.cotrix.web.manage.client.di.CurrentCodelist;

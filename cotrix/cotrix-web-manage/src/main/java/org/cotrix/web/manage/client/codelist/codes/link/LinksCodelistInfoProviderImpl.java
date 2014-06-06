@@ -9,7 +9,7 @@ import java.util.List;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.provider.LinkTypesCache;
+import org.cotrix.web.manage.client.codelist.cache.LinkTypesCache;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UILinkTypeInfo;
