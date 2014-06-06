@@ -21,6 +21,7 @@ import org.cotrix.domain.values.ValueType;
 import org.cotrix.domain.version.Version;
 import org.jboss.weld.context.RequestContext;
 import org.jboss.weld.context.bound.Bound;
+import org.jboss.weld.context.http.Http;
 
 public class Constants {
 
@@ -79,13 +80,17 @@ public class Constants {
 	}
 	
 	public static Attribute.State updatedBy() {
-		return systemAttribute(UPDATED_BY, requestContext.isActive()?currentUser.name():Users.cotrix.name());
+		return systemAttribute(UPDATED_BY, currentUser());
 	}
 	
 	public static void updatedBy(Attribute.State state) {
-		state.value(currentUser.name());
+		state.value(currentUser());
 	}
 	
+	
+	private static String currentUser() {
+		return requestContext.isActive()?currentUser.name():Users.cotrix.name();
+	}
 	
 	
 	private static Attribute.State systemAttribute(QName name, String value) {
@@ -107,7 +112,7 @@ public class Constants {
 	
 
 	
-	static void setUser(@Observes Startup startup,@Current User user, @Bound RequestContext ctx) {
+	static void setUser(@Observes Startup startup,@Current User user, @Http RequestContext ctx) {
 		currentUser = user;
 		requestContext=ctx;
 	}
