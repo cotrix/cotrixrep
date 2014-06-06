@@ -134,8 +134,6 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 				if (state == null)
 					throw new IllegalStateException("no such codelist: " + id);
 
-				int size = state.codes().size();
-
 				Codelist list = state.entity();
 				
 				return new CodelistSummary(list);

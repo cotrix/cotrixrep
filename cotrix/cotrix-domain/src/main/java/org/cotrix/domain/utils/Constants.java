@@ -20,7 +20,6 @@ import org.cotrix.domain.values.DefaultType;
 import org.cotrix.domain.values.ValueType;
 import org.cotrix.domain.version.Version;
 import org.jboss.weld.context.RequestContext;
-import org.jboss.weld.context.bound.Bound;
 import org.jboss.weld.context.http.Http;
 
 public class Constants {
