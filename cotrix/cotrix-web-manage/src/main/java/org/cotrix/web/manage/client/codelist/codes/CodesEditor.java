@@ -446,7 +446,8 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	}
 
 	private void setGroups(List<Group> groups) {
-
+		Log.trace("groups: "+groups);
+		
 		Set<Group> columnsToRemove = new HashSet<Group>(groupsAsColumn);
 		//can't use removeall because based on comparable interface
 		for (Group group:groups) columnsToRemove.remove(group);

@@ -11,14 +11,7 @@ import org.cotrix.web.manage.client.codelist.NewStateEvent;
 import org.cotrix.web.manage.client.codelist.SwitchPanelEvent;
 import org.cotrix.web.manage.client.codelist.codes.CodesToolbar.Action;
 import org.cotrix.web.manage.client.codelist.codes.CodesToolbar.ToolBarListener;
-import org.cotrix.web.manage.client.data.AttributeTypeBridge;
-import org.cotrix.web.manage.client.data.CodeAttributeBridge;
-import org.cotrix.web.manage.client.data.CodeBridge;
-import org.cotrix.web.manage.client.data.CodeLinkBridge;
 import org.cotrix.web.manage.client.data.DataSaverManager;
-import org.cotrix.web.manage.client.data.LinkTypeBridge;
-import org.cotrix.web.manage.client.data.MetadataAttributeBridge;
-import org.cotrix.web.manage.client.data.MetadataBridge;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
@@ -64,26 +57,6 @@ public class CodesPanelPresenter implements Presenter {
 		
 		showAllGroupsAsColumn();
 		loadState();
-	}
-	
-	
-	@Inject
-	private void bindSavers(
-			CodeBridge codeModifyCommandGenerator,
-			CodeAttributeBridge codeAttributeCommandGenerator,
-			MetadataBridge metadataModifyCommandGenerator,
-			MetadataAttributeBridge metadataAttributeModifyGenerator,
-			LinkTypeBridge linkTypeModifyGenerator,
-			CodeLinkBridge codeLinkCommandGenerator,
-			AttributeTypeBridge attributeTypeModifyGenerator
-			) {
-		saverManager.register(codeModifyCommandGenerator);
-		saverManager.register(codeAttributeCommandGenerator);
-		saverManager.register(metadataModifyCommandGenerator);
-		saverManager.register(metadataAttributeModifyGenerator);
-		saverManager.register(linkTypeModifyGenerator);
-		saverManager.register(codeLinkCommandGenerator);
-		saverManager.register(attributeTypeModifyGenerator);
 	}
 	
 	@Inject

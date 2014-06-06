@@ -20,7 +20,7 @@ public class AttributeCommandUtil {
 		
 		switch (command.getAction()) {
 			case ADD: attribute = ChangesetUtil.addAttribute(item); break;
-			case UPDATE: attribute = ChangesetUtil.addAttribute(item); break;
+			case UPDATE: attribute = ChangesetUtil.updateAttribute(item); break;
 			case REMOVE: attribute = ChangesetUtil.removeAttribute(item.getId()); break;
 		}
 
