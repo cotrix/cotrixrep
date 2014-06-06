@@ -10,6 +10,8 @@ import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.User;
+import org.jboss.weld.context.RequestContext;
+import org.jboss.weld.context.unbound.Unbound;
 
 @Priority(Constants.TEST)
 public class CdiProducers {
@@ -25,6 +27,11 @@ public class CdiProducers {
 		return session;
 	}
 	
+	@Produces @Current @Alternative
+	static RequestContext context(@Unbound RequestContext ctx) {
+		ctx.activate();
+		return ctx;
+	}
 	
 	//produces current user for services that expect it
 	@Produces @Current @ApplicationScoped @Alternative

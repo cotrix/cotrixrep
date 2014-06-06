@@ -84,7 +84,8 @@ public class ManagedTest extends ApplicationTest {
 		
 		reveal(code).update(reveal(modify(code).name(newname).build()));
 		
-		assertNotNull(managed.lastUpdatedBy());
+		//default current user
+		assertEquals(cotrix.name(),managed.lastUpdatedBy());
 		
 		User fifi = user().name("fifi").fullName("fifi").email("fifi@invente.com").build();
 		users.add(fifi);
