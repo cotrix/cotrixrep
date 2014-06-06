@@ -44,6 +44,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -59,6 +60,8 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	interface LinksPanelUiBinder extends UiBinder<Widget, LinksPanel> {}
 	interface LinksPanelEventBinder extends EventBinder<LinksPanel> {}
 
+	@UiField HTML header;
+	
 	@UiField(provided=true) ItemsEditingPanel<UILink, LinkPanel> linksPanel;
 
 	@UiField ItemToolbar toolBar;
@@ -89,7 +92,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	public void init(LinksPanelUiBinder uiBinder) {
 		linkEditor = DataEditor.build(this);
-		linksPanel = new ItemsEditingPanel<UILink, LinkPanel>("Links", "no links", editingPanelFactory);
+		linksPanel = new ItemsEditingPanel<UILink, LinkPanel>("no links", editingPanelFactory);
 		add(uiBinder.createAndBindUi(this));
 		
 		groupsAsColumn = new HashSet<LinkGroup>();
@@ -221,7 +224,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 			sb.appendHtmlConstant("</span>");
 		}
 		
-		linksPanel.setHeaderText(sb.toSafeHtml());
+		header.setHTML(sb.toSafeHtml());
 	}
 
 	private void setLinks(List<UILink> links)

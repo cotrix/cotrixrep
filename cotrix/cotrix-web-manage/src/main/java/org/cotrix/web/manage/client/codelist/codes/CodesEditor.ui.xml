@@ -17,16 +17,15 @@
 		<g:south size="28">
 			<common:ItemToolbar ui:field="toolBar" />
 		</g:south>
-		<g:south size="35">
-			<g:HTMLPanel>
-				<table style="width:100%">
-					<tr>
-						<td align='center'>
-							<c:SimplePager ui:field='pager' />
-						</td>
-					</tr>
-				</table>
-			</g:HTMLPanel>
+		<g:south size="40">
+			<common:AdvancedPagerLayout>
+				<common:pager>
+					<c:SimplePager ui:field='pager' />
+				</common:pager>
+				<common:pagesizer>
+					<common:PageSizer ui:field="pageSizer" />
+				</common:pagesizer>
+			</common:AdvancedPagerLayout>
 		</g:south>
 	</g:DockLayoutPanel>
 </ui:UiBinder>

@@ -11,17 +11,16 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
-import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
-import org.cotrix.web.manage.client.ManageServiceAsync;
+import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.attribute.RemoveItemController;
 import org.cotrix.web.manage.client.codelist.metadata.attributetype.AttributeTypeEditingPanelFactory;
 import org.cotrix.web.manage.client.codelist.metadata.attributetype.AttributeTypePanel;
 import org.cotrix.web.manage.client.data.DataEditor;
-import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.di.CodelistBus;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
@@ -51,14 +50,6 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 
 	@UiField ItemToolbar toolBar;
 
-	private boolean dataLoaded = false;;
-
-	@Inject
-	private ManageServiceAsync service;
-
-	@Inject @CurrentCodelist
-	private String codelistId;
-
 	private DataEditor<UIAttributeType> attributeTypeEditor;
 
 	@Inject
@@ -70,6 +61,9 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	private AttributeTypeEditingPanelFactory editingPanelFactory;
 	
+	@Inject @CurrentCodelist
+	private AttributeTypesCache attributeTypesCache;
+	
 	@Inject
 	private UIFactories factories;
 
@@ -77,7 +71,7 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 	public void init() {
 		attributeTypeEditor = DataEditor.build(this);
 		
-		attributeTypesPanel = new ItemsEditingPanel<UIAttributeType, AttributeTypePanel>("Attribute Definitions", "no definitions", editingPanelFactory);
+		attributeTypesPanel = new ItemsEditingPanel<UIAttributeType, AttributeTypePanel>("no definitions", editingPanelFactory);
 		
 		add(uiBinder.createAndBindUi(this));
 		
@@ -180,14 +174,12 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 
 		//workaround issue #7188 https://code.google.com/p/google-web-toolkit/issues/detail?id=7188
 		onResize();
-
-		if (!dataLoaded) loadData();
 	}
 
 	public void loadData()
 	{
 		showLoader();
-		service.getCodelistAttributeTypes(codelistId, new AsyncCallback<DataWindow<UIAttributeType>>() {
+		attributeTypesCache.getItems(new AsyncCallback<List<UIAttributeType>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -196,9 +188,9 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 			}
 
 			@Override
-			public void onSuccess(DataWindow<UIAttributeType> result) {
+			public void onSuccess(List<UIAttributeType> result) {
 				Log.trace("retrieved CodelistAttributeTypes: "+result);
-				setAttributeTypes(result.getData());
+				setAttributeTypes(result);
 				hideLoader();
 			}
 		});
@@ -209,7 +201,6 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 		for (UIAttributeType attributeType:types) {
 			attributeTypesPanel.addItemPanel(attributeType);
 		}
-		dataLoaded = true;
 	}
 
 	@Override

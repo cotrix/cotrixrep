@@ -1,6 +1,5 @@
 package org.cotrix.web.manage.client.codelist.metadata;
 
-import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.client.widgets.ToggleButtonGroup;
 
 import com.google.gwt.core.client.GWT;
@@ -28,9 +27,6 @@ public class MetadataSidePanel extends ResizeComposite {
 	private ToggleButtonGroup buttonGroup = new ToggleButtonGroup();
 	@UiField ToggleButton metadataButton;
 	@UiField ToggleButton userButton;
-	@UiField ToggleButton linkTypesButton;
-	@UiField ToggleButton attributeTypesButton;
-
 	
 	@UiField DeckLayoutPanel tools;
 	
@@ -38,12 +34,6 @@ public class MetadataSidePanel extends ResizeComposite {
 	@UiField(provided=true) AttributesPanel attributesPanel;
 	
 	@UiField UserPreferencesPanel userPanel;
-	
-	@Inject
-	@UiField(provided=true) LinkTypesPanel linkTypesPanel;
-	
-	@Inject
-	@UiField(provided=true) AttributeTypesPanel attributeTypesPanel;
 
 	@Inject
 	private void init() {
@@ -53,13 +43,11 @@ public class MetadataSidePanel extends ResizeComposite {
 		
 		buttonGroup.addButton(metadataButton);
 		buttonGroup.addButton(userButton);
-		buttonGroup.addButton(linkTypesButton);
-		buttonGroup.addButton(attributeTypesButton);
 		buttonGroup.setDown(metadataButton);
 	}
 	
 	
-	@UiHandler({"metadataButton", "userButton","linkTypesButton", "attributeTypesButton"})
+	@UiHandler({"metadataButton", "userButton"})
 	protected void onButtonClicked(ClickEvent event)
 	{
 		Widget panel = getPanel((ToggleButton) event.getSource());
@@ -69,20 +57,10 @@ public class MetadataSidePanel extends ResizeComposite {
 	private Widget getPanel(ToggleButton button) {
 		if (button == metadataButton) return attributesPanel;
 		if (button == userButton) return userPanel;
-		if (button == linkTypesButton) return linkTypesPanel;
-		if (button == attributeTypesButton) return attributeTypesPanel;
 		throw new IllegalArgumentException("Unknwown button "+button);
 	}
 
 	public AttributesPanel getAttributesPanel() {
 		return attributesPanel;
-	}
-
-	public HasEditing getLinkTypesPanel() {
-		return linkTypesPanel;
-	}
-	
-	public HasEditing getAttributeTypesPanel() {
-		return attributeTypesPanel;
 	}
 }

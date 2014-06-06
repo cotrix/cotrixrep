@@ -21,6 +21,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
+import org.cotrix.web.common.client.widgets.PageSizer;
 import org.cotrix.web.common.client.widgets.cell.DoubleClickEditTextCell;
 import org.cotrix.web.common.client.widgets.cell.StyledSafeHtmlRenderer;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
@@ -111,6 +112,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 	@UiField(provided = true)
 	SimplePager pager;
+	
+	@UiField
+	PageSizer pageSizer;
 
 	@UiField ItemToolbar toolBar;
 
@@ -204,6 +208,8 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		pageSizer.setDisplay(dataGrid);
 
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
 
@@ -440,7 +446,8 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	}
 
 	private void setGroups(List<Group> groups) {
-
+		Log.trace("groups: "+groups);
+		
 		Set<Group> columnsToRemove = new HashSet<Group>(groupsAsColumn);
 		//can't use removeall because based on comparable interface
 		for (Group group:groups) columnsToRemove.remove(group);

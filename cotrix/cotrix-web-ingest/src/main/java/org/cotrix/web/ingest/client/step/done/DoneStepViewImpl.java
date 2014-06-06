@@ -2,6 +2,7 @@ package org.cotrix.web.ingest.client.step.done;
 
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridReportResource;
+import org.cotrix.web.common.client.widgets.PageSizer;
 import org.cotrix.web.common.shared.ReportLog;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -48,6 +49,9 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 	@UiField(provided = true)
 	SimplePager reportPager;
 	
+	@UiField
+	PageSizer pageSizer;
+	
 	protected ReportLogDataProvider dataProvider;
 
 	@Inject
@@ -56,6 +60,8 @@ public class DoneStepViewImpl extends ResizeComposite implements DoneStepView {
 		setupGrid();
 		
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		pageSizer.setDisplay(reportGrid);
 	}
 	
 	@UiHandler("reportDownload")

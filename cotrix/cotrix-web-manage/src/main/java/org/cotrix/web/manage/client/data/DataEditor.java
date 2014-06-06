@@ -21,14 +21,10 @@ public class DataEditor<T> {
 		return new DataEditor<T>(source, CotrixManageGinInjector.INSTANCE.getEditorBus());
 	}
 	
-	protected Object source;
-	protected EventBus editorBus;
+	private Object source;
+	private EventBus editorBus;
 
-	/**
-	 * @param source
-	 * @param editorBus
-	 */
-	protected DataEditor(Object source, EventBus editorBus) {
+	private DataEditor(Object source, EventBus editorBus) {
 		this.source = source;
 		this.editorBus = editorBus;
 	}

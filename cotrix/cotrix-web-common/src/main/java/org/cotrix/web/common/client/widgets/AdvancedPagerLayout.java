@@ -5,10 +5,10 @@ package org.cotrix.web.common.client.widgets;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiChild;
-import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -18,7 +18,7 @@ public class AdvancedPagerLayout extends ResizeComposite {
 	
 	private LayoutPanel layoutPanel;
 	private FlowPanel pagerContainer;
-	private PageSizer pageSizer;
+	private Widget pageSizer;
 	
 	public AdvancedPagerLayout() {
 		layoutPanel = new LayoutPanel();
@@ -26,7 +26,7 @@ public class AdvancedPagerLayout extends ResizeComposite {
 	}
 	
 	@UiChild
-	public void addPager(SimplePager pager) {
+	public void addPager(Widget pager) {
 		if (pagerContainer == null) {
 			pagerContainer = new FlowPanel();
 			layoutPanel.add(pagerContainer);
@@ -39,7 +39,7 @@ public class AdvancedPagerLayout extends ResizeComposite {
 	}
 	
 	@UiChild
-	public void addPageSizer(PageSizer pageSizer) {
+	public void addPageSizer(Widget pageSizer) {
 		if (this.pageSizer!=null) layoutPanel.remove(this.pageSizer);
 		this.pageSizer = pageSizer;
 		layoutPanel.add(pageSizer);

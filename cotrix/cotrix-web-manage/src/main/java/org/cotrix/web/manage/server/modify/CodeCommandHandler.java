@@ -39,6 +39,7 @@ public class CodeCommandHandler {
 	{
 		logger.trace("handler codelistId: {} command: {}", codelistId, command);
 		Code code = null;
+		boolean removed = false;
 		if (command instanceof AddCodeCommand) {
 			AddCodeCommand addCodeCommand = (AddCodeCommand) command;
 			code = ChangesetUtil.addCode(addCodeCommand.getItem());
@@ -50,18 +51,18 @@ public class CodeCommandHandler {
 		if (command instanceof RemoveCodeCommand) {
 			RemoveCodeCommand removeCodeCommand = (RemoveCodeCommand) command;
 			code = ChangesetUtil.removeCode(removeCodeCommand.getId());
+			removed = true;
 		}
 
 		Codelist changeset = modifyCodelist(codelistId).with(code).build();
 		repository.update(changeset);
 
-		return new UpdatedCode(code.id(), Codelists.toUiCode(getCode(codelistId, code.id())));
+		return new UpdatedCode(code.id(), removed?null:Codelists.toUiCode(getCode(codelistId, code.id())));
 	}
 	
 	
 	protected Code getCode(String codelistId, String id) {
-		for (Code code:repository.lookup(codelistId).codes()) if (code.id().equals(id)) return code;
-		return null;
+		return repository.lookup(codelistId).codes().lookup(id);
 	}
 
 }

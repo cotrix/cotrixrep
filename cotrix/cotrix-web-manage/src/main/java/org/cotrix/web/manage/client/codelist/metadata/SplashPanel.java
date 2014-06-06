@@ -4,6 +4,7 @@
 package org.cotrix.web.manage.client.codelist.metadata;
 
 import org.cotrix.web.common.client.error.ErrorManager;
+import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -35,6 +36,12 @@ public class SplashPanel extends LoadingPanel {
 	@UiField Label state;
 	
 	@Inject
+	@UiField(provided=true) AttributeTypesPanel attributeTypesPanel;
+	
+	@Inject
+	@UiField(provided=true) LinkTypesPanel linkTypesPanel;
+	
+	@Inject
 	private AlertDialog alertDialog;
 	
 	@Inject
@@ -50,6 +57,9 @@ public class SplashPanel extends LoadingPanel {
 		name.setText(codelist.getName().getLocalPart());
 		version.setText(codelist.getVersion());
 		state.setText(codelist.getState()!=null?codelist.getState().toString():"");
+		
+		attributeTypesPanel.loadData();
+		linkTypesPanel.loadData();
 	}
 	
 	@EventHandler
@@ -60,6 +70,14 @@ public class SplashPanel extends LoadingPanel {
 	@Inject
 	protected void bind(@CodelistBus EventBus bus, ProfilePanelEventBinder eventBinder) {
 		eventBinder.bindEventHandlers(this, bus);
+	}
+
+	public HasEditing getAttributeTypesPanel() {
+		return attributeTypesPanel;
+	}
+
+	public HasEditing getLinkTypesPanel() {
+		return linkTypesPanel;
 	}
 
 }

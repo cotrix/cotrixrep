@@ -4,6 +4,7 @@ import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
 import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.client.widgets.PageSizer;
 import org.cotrix.web.common.client.widgets.cell.SelectionCheckBoxCell;
 import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -48,6 +49,9 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 	@UiField(provided = true)
 	SimplePager pager;
 	
+	@UiField
+	PageSizer pageSizer;
+	
 	@Inject
 	AlertDialog alertDialog;
 
@@ -62,6 +66,7 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 		this.dataProvider = assetInfoDataProvider;
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
+		pageSizer.setDisplay(dataGrid);
 	}
 
 	/** 

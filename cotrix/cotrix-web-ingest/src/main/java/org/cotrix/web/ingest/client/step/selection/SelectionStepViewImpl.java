@@ -1,7 +1,6 @@
 package org.cotrix.web.ingest.client.step.selection;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
 import org.cotrix.web.common.client.widgets.PageSizer;
 import org.cotrix.web.common.client.widgets.SearchBox;
@@ -25,10 +24,8 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
-import com.google.gwt.user.cellview.client.PageSizePager;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
@@ -101,7 +98,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 
 		dataGrid.setEmptyTableWidget(new Label("No data"));
 
-		pager = new SimplePager(TextLocation.CENTER, CotrixSimplePager.INSTANCE, false, 0, true);
+		pager = new SimplePager();
 		pager.setDisplay(dataGrid);
 		
 		dataGrid.addColumnSortHandler(new AsyncHandler(dataGrid));
