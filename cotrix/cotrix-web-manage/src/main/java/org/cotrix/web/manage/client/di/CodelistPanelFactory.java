@@ -26,12 +26,21 @@ public class CodelistPanelFactory {
 	@Inject
 	private CodelistProvider codelistProvider;
 	
+	@Inject
+	private LinkTypesCacheProvider linkTypesCacheProvider;
+	
+	@Inject
+	private AttributeTypesCacheProvider attributeTypesCacheProvider;
+	
 	
 	public CodelistPanelController build(UICodelist codelist)
 	{
 		codelistIdProvider.setCodelistId(codelist.getId());
 		codelistProvider.setCodelist(codelist);
 		editorEventBusProvider.generate();
+		
+		linkTypesCacheProvider.generate();
+		attributeTypesCacheProvider.generate();
 		
 		return CotrixManageGinInjector.INSTANCE.getCodeListPanelPresenter();
 	}

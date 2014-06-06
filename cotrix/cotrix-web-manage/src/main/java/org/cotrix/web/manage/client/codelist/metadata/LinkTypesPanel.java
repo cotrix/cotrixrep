@@ -11,19 +11,18 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
-import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
-import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.common.attribute.RemoveItemController;
 import org.cotrix.web.manage.client.codelist.metadata.linktype.LinkTypeEditingPanelFactory;
 import org.cotrix.web.manage.client.codelist.metadata.linktype.LinkTypePanel;
+import org.cotrix.web.manage.client.codelist.provider.LinkTypesCache;
 import org.cotrix.web.manage.client.data.DataEditor;
-import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.di.CodelistBus;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
@@ -54,12 +53,6 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 
 	@UiField ItemToolbar toolBar;
 
-	@Inject
-	protected ManageServiceAsync service;
-
-	@Inject @CurrentCodelist
-	protected String codelistId;
-
 	protected DataEditor<UILinkType> linkTypeEditor;
 
 	@Inject
@@ -70,6 +63,9 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 	
 	@Inject
 	private LinkTypeEditingPanelFactory editingPanelFactory;
+	
+	@Inject @CurrentCodelist
+	private LinkTypesCache linkTypesCache;
 	
 	@Inject
 	private UIFactories factories;
@@ -115,7 +111,7 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 			@Override
 			public void onButtonClicked(ButtonClickedEvent event) {
 				switch (event.getButton()) {
-					case PLUS: addNewAttribute(); break;
+					case PLUS: addNewLinkType(); break;
 					case MINUS: removeSelectedAttribute(); break;
 				}
 			}
@@ -170,7 +166,7 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 		toolBar.setVisible(ItemButton.MINUS, attributeController.canRemove(), animate);
 	}
 
-	private void addNewAttribute()
+	private void addNewLinkType()
 	{
 		UILinkType linkType = factories.createLinkType();
 		linkTypesPanel.addNewItemPanel(linkType);
@@ -199,7 +195,7 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 	public void loadData()
 	{
 		showLoader();
-		service.getCodelistLinkTypes(codelistId, new AsyncCallback<DataWindow<UILinkType>>() {
+		linkTypesCache.getItems(new AsyncCallback<List<UILinkType>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -208,9 +204,9 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 			}
 
 			@Override
-			public void onSuccess(DataWindow<UILinkType> result) {
+			public void onSuccess(List<UILinkType> result) {
 				Log.trace("retrieved CodelistLinkTypes: "+result);
-				setLinkTypes(result.getData());
+				setLinkTypes(result);
 				hideLoader();
 			}
 		});
