@@ -69,7 +69,7 @@ public class CodelistsStager {
 		
 		for (User u : users)
 			service.signup(u,u.name());
-
+		
 		Map<Info,Codelist> staged = new HashMap<>();
 		
 		for (Info info : CSV_CODELISTS)

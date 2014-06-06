@@ -78,6 +78,24 @@ public class ManagedTest extends ApplicationTest {
 	}
 	
 	@Test
+	public void accessLastUpdateDateBy() throws Exception {
+		
+		assertNull(managed.lastUpdatedBy());
+		
+		reveal(code).update(reveal(modify(code).name(newname).build()));
+		
+		assertNotNull(managed.lastUpdatedBy());
+		
+		User fifi = user().name("fifi").fullName("fifi").email("fifi@invente.com").build();
+		users.add(fifi);
+		current.set(fifi);
+		
+		reveal(code).update(reveal(modify(code).name("oncemore").build()));
+		
+		assertEquals(fifi.name(),managed.lastUpdatedBy());		
+	}
+	
+	@Test
 	public void accessOrigin() throws Exception {
 		
 		User fifi = user().name("fifi").fullName("fifi").email("fifi@invente.com").build();

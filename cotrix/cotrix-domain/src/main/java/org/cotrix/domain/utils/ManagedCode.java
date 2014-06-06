@@ -71,6 +71,13 @@ public class ManagedCode implements Code {
 		}
 	}
 	
+	public String lastUpdatedBy() {
+		
+		String val = lookup(UPDATED_BY);
+		
+		return val;
+	}
+	
 	public CodeStatus status() {
 		
 		String val = lookup(STATUS);

@@ -1,10 +1,7 @@
 package org.cotrix.domain.trait;
 
-import static java.text.DateFormat.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
-
-import java.util.Calendar;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.NamedContainer;
@@ -65,17 +62,24 @@ public interface Attributed {
 
 			attributes().update(changeset.attributes());
 			
-			Attribute.State updateTime = null;
+			NamedStateContainer<Attribute.State> attributes = state().attributes();
 			
-			for (Attribute.State a : state().attributes())
-				if (a.name().equals(UPDATE_TIME))
-					updateTime = a;
-	
-			if (updateTime==null) 
-				state().attributes().add(timestamp(UPDATE_TIME));
+			if (attributes.contains(UPDATE_TIME))
+		
+				attributes.lookup(UPDATE_TIME).value(time());
+			
 			else 
-				updateTime.value(getDateTimeInstance().format(Calendar.getInstance().getTime()));
+				
+				attributes.add(timestamp(UPDATE_TIME));
+		
+
+			if (attributes.contains(UPDATED_BY))
+				
+				updatedBy(attributes.lookup(UPDATED_BY));
 			
+			else 
+				
+				attributes.add(updatedBy());
 			
 		}
 
