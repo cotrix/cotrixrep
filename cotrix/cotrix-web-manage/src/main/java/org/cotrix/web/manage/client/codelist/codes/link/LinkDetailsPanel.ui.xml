@@ -16,6 +16,7 @@
 		
 		.editor {
 			height: 31px;
+			-moz-box-sizing: border-box;
 		}
 		
 		.error {

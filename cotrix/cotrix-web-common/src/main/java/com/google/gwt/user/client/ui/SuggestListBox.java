@@ -55,6 +55,7 @@ border: 1px solid #999;
 		
 		suggestButton = new Button();
 		suggestButton.setStyleName(CommonResources.INSTANCE.css().sugestionListBoxButton());
+		System.out.println("SUGGEST BOX STYLE: "+CommonResources.INSTANCE.css().sugestionListBoxButton());
 		mainPanel.add(suggestButton);
 		//mainPanel.setCellWidth(suggestButton, "20px");
 		

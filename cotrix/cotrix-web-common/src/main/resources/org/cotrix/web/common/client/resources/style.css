@@ -624,6 +624,7 @@
 	
 	height: 28px;
 	font-size: 18px;
+	-moz-box-sizing: border-box;
 }
 
 .searchBox:focus {
@@ -707,11 +708,13 @@
 	border: 1px solid #999;
 	
 }
+
 .sugestionListBoxTextBox {
 	border: none;
 	height: 28px;
 	box-sizing: border-box;
 }
+
 .sugestionListBoxButton {
 	width: 19px;
 	height: 27px;
