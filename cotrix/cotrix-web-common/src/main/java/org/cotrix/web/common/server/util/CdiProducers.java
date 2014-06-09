@@ -1,7 +1,5 @@
 package org.cotrix.web.common.server.util;
 
-import static org.cotrix.domain.dsl.Users.*;
-
 import javax.annotation.Priority;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
@@ -14,14 +12,13 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
 import org.jboss.weld.context.RequestContext;
 import org.jboss.weld.context.http.Http;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Priority(Constants.RUNTIME)
 public class CdiProducers {
 
-	@Produces @Current @Alternative
-	public RequestContext request(@Http RequestContext ctx) {
-		return ctx;		
-	}
+	public static Logger log = LoggerFactory.getLogger(CdiProducers.class);
 	
 	@Produces @SessionScoped @Alternative
 	public @Current BeanSession session() {
@@ -31,21 +28,16 @@ public class CdiProducers {
 	
 	@Produces @RequestScoped @Alternative
 	public @Current User currentUser(@Current BeanSession session,@Http RequestContext ctx) {
-	
-		//are we acting in a real request?
-		if (ctx.isActive())
-			try {
-				return session.get(User.class);
-			}
-			catch(IllegalStateException e) {
-	
-				//this should never happen: let's be more specific
-				throw new IllegalAccessError("detected an attempt to access a protected resource without an authenticated user: is the authentication barrier configured?");
-				
-			}	
 		
-		//or are we acting autonomically?
-		else
-			return cotrix;
+		try {
+				return session.get(User.class);
+		}
+		catch(IllegalStateException e) {
+
+			//this should never happen: let's be more specific
+			throw new IllegalAccessError("detected an attempt to access a protected resource without an authenticated user: is the authentication barrier configured?");
+			
+		}	
+		
 	}
 }

@@ -13,15 +13,19 @@ import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
+import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.user.User;
 import org.cotrix.domain.values.DefaultType;
 import org.cotrix.domain.values.ValueType;
 import org.cotrix.domain.version.Version;
+import org.jboss.weld.context.RequestContext;
+import org.jboss.weld.context.http.Http;
 
 public class Constants {
 
 	private static User currentUser;
+	private static RequestContext requestContext;
 	
 	public static final String NS = "http://cotrix.org";
 	
@@ -84,7 +88,7 @@ public class Constants {
 	
 	
 	private static String currentUser() {
-		return currentUser.name();
+		return requestContext.isActive()?currentUser.name():Users.cotrix.name();
 	}
 	
 	
@@ -107,7 +111,9 @@ public class Constants {
 	
 
 	
-	static void setUser(@Observes Startup startup,@Current User user) {
+	static void setUser(@Observes Startup startup,@Current User user, @Http RequestContext context) {
+		
 		currentUser = user;
+		requestContext = context;
 	}
 }
