@@ -20,7 +20,6 @@ import org.cotrix.domain.values.DefaultType;
 import org.cotrix.domain.values.ValueType;
 import org.cotrix.domain.version.Version;
 import org.jboss.weld.context.RequestContext;
-import org.jboss.weld.context.http.Http;
 
 public class Constants {
 
@@ -111,7 +110,7 @@ public class Constants {
 	
 
 	
-	static void setUser(@Observes Startup startup,@Current User user, @Http RequestContext context) {
+	static void setUser(@Observes Startup startup,@Current User user, @Current RequestContext context) {
 		
 		currentUser = user;
 		requestContext = context;

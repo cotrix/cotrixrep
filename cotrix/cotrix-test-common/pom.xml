@@ -30,7 +30,6 @@
 			<artifactId>cotrix-domain</artifactId>
 		</dependency>
 
-		
 
 		<dependency>
 			<groupId>com.googlecode.jeeunit</groupId>

@@ -1,4 +1,4 @@
-activeProfiles=fao-ci, dev
+activeProfiles=fao-ci,devlite
 eclipse.preferences.version=1
 resolveWorkspaceProjects=true
 version=1

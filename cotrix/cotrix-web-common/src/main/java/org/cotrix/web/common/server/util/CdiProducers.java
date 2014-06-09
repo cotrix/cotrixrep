@@ -26,6 +26,11 @@ public class CdiProducers {
 		return new BeanSession();		
 	}
 	
+	@Produces @Current @Alternative
+	public RequestContext request(@Http RequestContext ctx) {
+		return ctx;		
+	}
+	
 	@Produces @RequestScoped @Alternative
 	public @Current User currentUser(@Current BeanSession session,@Http RequestContext ctx) {
 		
