@@ -5,6 +5,6 @@
 
 	<inherits name='org.cotrix.head.Cotrix' />
 
-	<collapse-all-properties />
+<!-- 	<collapse-all-properties /> -->
 	
 </module>
