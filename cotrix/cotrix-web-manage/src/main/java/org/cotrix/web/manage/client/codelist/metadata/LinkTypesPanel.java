@@ -1,6 +1,6 @@
 package org.cotrix.web.manage.client.codelist.metadata;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
@@ -195,7 +195,7 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 	public void loadData()
 	{
 		showLoader();
-		linkTypesCache.getItems(new AsyncCallback<List<UILinkType>>() {
+		linkTypesCache.getItems(new AsyncCallback<Collection<UILinkType>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -204,7 +204,7 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 			}
 
 			@Override
-			public void onSuccess(List<UILinkType> result) {
+			public void onSuccess(Collection<UILinkType> result) {
 				Log.trace("retrieved CodelistLinkTypes: "+result);
 				setLinkTypes(result);
 				hideLoader();
@@ -212,7 +212,7 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 		});
 	}
 
-	private void setLinkTypes(List<UILinkType> types)
+	private void setLinkTypes(Collection<UILinkType> types)
 	{
 		for (UILinkType linkType:types) {
 			linkTypesPanel.addItemPanel(linkType);

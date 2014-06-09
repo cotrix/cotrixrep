@@ -7,6 +7,8 @@ import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
+import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
+import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanelListener;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
@@ -15,6 +17,7 @@ import org.cotrix.web.manage.client.util.LabelHeader;
 import org.cotrix.web.manage.client.util.LabelHeader.Button;
 import org.cotrix.web.manage.client.util.LabelHeader.HeaderListener;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -43,7 +46,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 
 	private String id = Document.get().createUniqueId();
 
-	public AttributePanel(UIAttribute attribute, AttributeNameSuggestOracle oracle) {
+	public AttributePanel(UIAttribute attribute, AttributeNameSuggestOracle oracle, AttributeTypesCache attributeTypesCache) {
 		this.attribute = attribute;
 		
 		header = new LabelHeader();
@@ -54,7 +57,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		
 		if (Attributes.isSystemAttribute(attribute)) header.setHeaderStyle(CotrixManagerResources.INSTANCE.css().systemAttributeDisclosurePanelLabel());
 
-		detailsPanel = new AttributeDetailsPanel(oracle);
+		detailsPanel = new AttributeDetailsPanel(oracle, attributeTypesCache);
 		disclosurePanel.add(detailsPanel);
 		initWidget(disclosurePanel);
 
@@ -107,7 +110,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		editing = false;
 		editable = false;
 		
-		writeLink();
+		writeType();
 		updateHeaderLabel();
 	}
 	
@@ -144,10 +147,14 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 	}
 	
 	public void syncWithModel() {
-		writeLink();
+		writeType();
 	}
 
 	private void readAttribute() {
+		
+		UIAttributeType definition = detailsPanel.getDefinition();
+		attribute.setDefinitionId(definition==null?null:definition.getId());
+		
 		String name = detailsPanel.getName();
 		attribute.setName(ValueUtils.getValue(name));
 		
@@ -184,10 +191,11 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 	private void onCancel() {
 		stopEdit();
 		if (listener!=null) listener.onCancel();
-		writeLink();
+		writeType();
 	}
 
-	private void writeLink() {
+	private void writeType() {
+		detailsPanel.setDefinitionId(attribute.getDefinitionId());
 		detailsPanel.setName(ValueUtils.getLocalPart(attribute.getName()));
 		detailsPanel.setType(ValueUtils.getLocalPart(attribute.getType()));
 		detailsPanel.setLanguage(attribute.getLanguage());
@@ -219,9 +227,26 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		boolean nameValid = name!=null && !name.isEmpty();
 		detailsPanel.setNameFieldValid(nameValid);
 		valid &= nameValid;
+		
+		UIAttributeType definition = detailsPanel.getDefinition();
+		if (definition!=null) {
+			boolean valueValid = evaluate(definition.getExpression(), detailsPanel.getValue());
+			detailsPanel.setValueFieldValid(valueValid);
+			valid &= valueValid;
+		}
 
 		header.setSaveVisible(valid);
 	}
+	
+	private boolean evaluate(String expression, String value) {
+		String filledExpression = expression.replaceAll("\\$value", "\""+value+"\"");
+		Log.trace("evaluating "+filledExpression);
+		return eval(filledExpression);
+	}
+	
+	private native boolean eval(String expression) /*-{
+		return $wnd.eval(expression);
+	}-*/;
 
 	@Override
 	public void setEditable(boolean editable) {

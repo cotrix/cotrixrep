@@ -4,6 +4,7 @@
 package org.cotrix.web.manage.client.codelist.codes.link;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -35,7 +36,7 @@ public class LinksCodelistInfoProviderImpl implements LinksCodelistInfoProvider 
 	@Override
 	public void getCodelistLinkTypes(final AsyncCallback<List<UILinkTypeInfo>> callback) {
 		
-		linkTypesCache.getItems(new AsyncCallback<List<UILinkType>>() {
+		linkTypesCache.getItems(new AsyncCallback<Collection<UILinkType>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -43,7 +44,7 @@ public class LinksCodelistInfoProviderImpl implements LinksCodelistInfoProvider 
 			}
 
 			@Override
-			public void onSuccess(List<UILinkType> result) {
+			public void onSuccess(Collection<UILinkType> result) {
 				List<UILinkTypeInfo> linkTypeInfos = new ArrayList<UILinkTypeInfo>(result.size());
 				for (UILinkType linkType:result) linkTypeInfos.add(new UILinkTypeInfo(linkType.getId(), linkType.getName()));
 				callback.onSuccess(linkTypeInfos);

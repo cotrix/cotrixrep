@@ -15,6 +15,7 @@ public class UIAttribute implements Identifiable, IsSerializable {
 	private UIQName type;
 	private String value;
 	private Language language;
+	private String definitionId;
 	
 	public UIQName getName() {
 		return name;
@@ -56,6 +57,14 @@ public class UIAttribute implements Identifiable, IsSerializable {
 		this.id = id;
 	}
 
+	public String getDefinitionId() {
+		return definitionId;
+	}
+
+	public void setDefinitionId(String definitionId) {
+		this.definitionId = definitionId;
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -87,9 +96,6 @@ public class UIAttribute implements Identifiable, IsSerializable {
 		return true;
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -103,6 +109,8 @@ public class UIAttribute implements Identifiable, IsSerializable {
 		builder.append(value);
 		builder.append(", language=");
 		builder.append(language);
+		builder.append(", definitionId=");
+		builder.append(definitionId);
 		builder.append("]");
 		return builder.toString();
 	}

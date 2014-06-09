@@ -122,6 +122,8 @@ public class Codelists {
 		uiattribute.setLanguage(ValueUtils.safeLanguage(attribute.language()));
 		uiattribute.setValue(ValueUtils.safeValue(attribute.value()));
 		uiattribute.setId(ValueUtils.safeValue(attribute.id()));
+		uiattribute.setDefinitionId(attribute.definition().id());
+		
 		return uiattribute;
 	}
 	

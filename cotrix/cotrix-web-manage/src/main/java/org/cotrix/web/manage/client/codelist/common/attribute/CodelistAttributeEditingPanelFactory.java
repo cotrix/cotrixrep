@@ -4,7 +4,9 @@
 package org.cotrix.web.manage.client.codelist.common.attribute;
 
 import org.cotrix.web.common.shared.codelist.UIAttribute;
+import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
 import org.cotrix.web.manage.client.codelist.common.ItemEditingPanelFactory;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.util.Attributes;
 
 import com.google.inject.Inject;
@@ -17,10 +19,13 @@ public class CodelistAttributeEditingPanelFactory implements ItemEditingPanelFac
 	
 	@Inject
 	private AttributeNameSuggestOracle attributeNameSuggestOracle;
+	
+	@Inject @CurrentCodelist
+	private AttributeTypesCache attributeTypesCache;
 
 	@Override
 	public AttributePanel createPanel(UIAttribute item) {
-		AttributePanel attributePanel = new AttributePanel(item, attributeNameSuggestOracle);
+		AttributePanel attributePanel = new AttributePanel(item, attributeNameSuggestOracle, attributeTypesCache);
 		attributePanel.setSwitchVisible(false);
 		attributePanel.setReadOnly(Attributes.isSystemAttribute(item));
 		return attributePanel;
@@ -28,7 +33,7 @@ public class CodelistAttributeEditingPanelFactory implements ItemEditingPanelFac
 
 	@Override
 	public AttributePanel createPanelForNewItem(UIAttribute item) {
-		AttributePanel attributePanel = new AttributePanel(item, attributeNameSuggestOracle);
+		AttributePanel attributePanel = new AttributePanel(item, attributeNameSuggestOracle, attributeTypesCache);
 		attributePanel.setSwitchVisible(false);
 		return attributePanel;
 	}

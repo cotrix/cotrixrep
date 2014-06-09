@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.cache;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
@@ -27,7 +27,7 @@ public class LinkTypesCache extends AbstractCache<UILinkType> {
 	}
 
 	@Override
-	protected void retrieveItems(String codelistId, final AsyncCallback<List<UILinkType>> callback) {
+	protected void retrieveItems(String codelistId, final AsyncCallback<Collection<UILinkType>> callback) {
 		service.getCodelistLinkTypes(codelistId, new AsyncCallback<DataWindow<UILinkType>>() {
 
 			@Override

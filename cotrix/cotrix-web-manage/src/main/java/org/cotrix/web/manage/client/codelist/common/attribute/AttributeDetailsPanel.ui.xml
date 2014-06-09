@@ -37,6 +37,26 @@
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
 				<t:cell>
+					<g:Label>Definition</g:Label>
+				</t:cell>
+				<t:cell>
+					<g:FlowPanel>
+						<c:EditableLabel ui:field="definitionBoxContainer"
+							labelStyle="{resources.propertyGrid.textValue}">
+							<c:editor>
+								<g:SuggestListBox ui:field="definitionBox" boxStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}"/>
+							</c:editor>
+						</c:EditableLabel>
+						<g:Image resource="{commonresources.dataLoader}" visible="false"
+							ui:field="definitionBoxLoader" styleName="{style.loader}" />
+					</g:FlowPanel>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
+				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
+				<t:cell>
 					<g:Label>Name</g:Label>
 				</t:cell>
 				<t:cell>

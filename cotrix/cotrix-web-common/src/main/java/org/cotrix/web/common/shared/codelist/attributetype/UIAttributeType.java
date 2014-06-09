@@ -24,6 +24,7 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 	private UIRange range;
 	private String defaultValue;
 	private List<UIConstraint> constraints;
+	private String expression;
 
 	public String getId() {
 		return id;
@@ -81,6 +82,14 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 		this.constraints = constraints;
 	}
 
+	public String getExpression() {
+		return expression;
+	}
+
+	public void setExpression(String expression) {
+		this.expression = expression;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -98,6 +107,8 @@ public class UIAttributeType implements IsSerializable, Identifiable {
 		builder.append(defaultValue);
 		builder.append(", constraints=");
 		builder.append(constraints);
+		builder.append(", expression=");
+		builder.append(expression);
 		builder.append("]");
 		return builder.toString();
 	}

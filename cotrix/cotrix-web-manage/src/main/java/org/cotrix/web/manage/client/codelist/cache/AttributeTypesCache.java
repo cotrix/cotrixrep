@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.cache;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
@@ -27,7 +27,7 @@ public class AttributeTypesCache extends AbstractCache<UIAttributeType> {
 	}
 
 	@Override
-	protected void retrieveItems(String codelistId, final AsyncCallback<List<UIAttributeType>> callback) {
+	protected void retrieveItems(String codelistId, final AsyncCallback<Collection<UIAttributeType>> callback) {
 		service.getCodelistAttributeTypes(codelistId, new AsyncCallback<DataWindow<UIAttributeType>>() {
 
 			@Override

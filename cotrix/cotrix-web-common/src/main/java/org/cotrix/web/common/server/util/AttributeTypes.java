@@ -30,6 +30,7 @@ public class AttributeTypes {
 		attributeType.setRange(toUiRange(definition.range()));
 		attributeType.setDefaultValue(definition.valueType().defaultValue());
 		attributeType.setConstraints(toUiConstraints(definition.valueType().constraints()));
+		attributeType.setExpression(definition.valueType().constraints().asSingleConstraint().expression());
 		return attributeType;
 	}
 	

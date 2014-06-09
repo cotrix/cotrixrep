@@ -1,6 +1,6 @@
 package org.cotrix.web.manage.client.codelist.metadata;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
@@ -179,7 +179,7 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 	public void loadData()
 	{
 		showLoader();
-		attributeTypesCache.getItems(new AsyncCallback<List<UIAttributeType>>() {
+		attributeTypesCache.getItems(new AsyncCallback<Collection<UIAttributeType>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -188,7 +188,7 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 			}
 
 			@Override
-			public void onSuccess(List<UIAttributeType> result) {
+			public void onSuccess(Collection<UIAttributeType> result) {
 				Log.trace("retrieved CodelistAttributeTypes: "+result);
 				setAttributeTypes(result);
 				hideLoader();
@@ -196,7 +196,7 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 		});
 	}
 
-	private void setAttributeTypes(List<UIAttributeType> types)
+	private void setAttributeTypes(Collection<UIAttributeType> types)
 	{
 		for (UIAttributeType attributeType:types) {
 			attributeTypesPanel.addItemPanel(attributeType);

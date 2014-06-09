@@ -44,12 +44,13 @@ public class AttributeTypeCommandHandler {
 		Codelist changeset = modifyCodelist(codelistId).definitions(definition).build();
 		repository.update(changeset);
 		
-		Definition updatedDefinition = lookupLink(codelist, definition.id());
-		
-		return new UpdatedAttributeType(updatedDefinition==null?null:AttributeTypes.toUIAttributeType(updatedDefinition));
-	}
-	
-	private Definition lookupLink(Codelist codelist, String id) {
-		return codelist.definitions().contains(id)?codelist.definitions().lookup(id):null;
+		switch (command.getAction()) {
+			case REMOVE: return new UpdatedAttributeType();
+			default: {
+				Definition updatedDefinition = codelist.definitions().lookup(definition.id());
+				return new UpdatedAttributeType(AttributeTypes.toUIAttributeType(updatedDefinition));
+			}
+			
+		}
 	}
 }

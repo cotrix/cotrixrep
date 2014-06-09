@@ -3,8 +3,11 @@
  */
 package org.cotrix.web.manage.client.codelist.cache;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.di.CodelistBus;
@@ -19,7 +22,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public abstract class AbstractCache<T> {
+public abstract class AbstractCache<T extends Identifiable> {
 	
 	private Class<T> type;
 	
@@ -29,7 +32,7 @@ public abstract class AbstractCache<T> {
 	@Inject @CurrentCodelist
 	private String codelistId;
 	
-	private List<T> cache = null;
+	private Map<String, T> cache = null;
 	
 	public AbstractCache(Class<T> type) {
 		this.type = type;
@@ -43,7 +46,7 @@ public abstract class AbstractCache<T> {
 			public void onDataEdit(DataEditEvent<T> event) {
 				Log.trace("cache "+type+" onDataEdit "+event);
 				switch (event.getEditType()) {
-					case ADD: cache.add(event.getData()); break;
+					case ADD: addItem(event.getData()); break;
 					case REMOVE: cache.remove(event.getData()); break;
 					default: break;
 				}
@@ -52,10 +55,10 @@ public abstract class AbstractCache<T> {
 	}
 	
 	
-	public void getItems(final AsyncCallback<List<T>> callback) {
-		if (cache != null) callback.onSuccess(cache);
+	public void getItems(final AsyncCallback<Collection<T>> callback) {
+		if (cache != null) callback.onSuccess(cache.values());
 		else {
-			retrieveItems(codelistId, new AsyncCallback<List<T>>() {
+			retrieveItems(codelistId, new AsyncCallback<Collection<T>>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -64,14 +67,28 @@ public abstract class AbstractCache<T> {
 				}
 
 				@Override
-				public void onSuccess(List<T> result) {
+				public void onSuccess(Collection<T> result) {
 					Log.trace("cache "+type+" filled cache with "+result);
-					cache = result;
+					setCache(result);
 					callback.onSuccess(result);
 				}
 			});
 		}
 	}
 	
-	protected abstract void retrieveItems(String codelistId, AsyncCallback<List<T>> callback);
+	private void setCache(Collection<T> items) {
+		if (cache == null) cache = new HashMap<String, T>();
+		cache.clear();
+		for (T item:items) addItem(item);
+	}
+	
+	private void addItem(T item) {
+		cache.put(item.getId(), item);
+	}
+	
+	public T getItem(String id) {
+		return cache.get(id);
+	}
+	
+	protected abstract void retrieveItems(String codelistId, AsyncCallback<Collection<T>> callback);
 }
