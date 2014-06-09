@@ -5,15 +5,65 @@
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
 	<ui:with field='attributesresources'
 		type='org.cotrix.web.manage.client.codelist.common.attribute.AttributesGridResources' />
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:style>
+	
+	.cell {
+		vertical-align: middle;
+		padding: 5px;
+
+	}
+	.icon {
+		
+	}
+	
+	.label {
+		font-size: 35px;
+		height: 50px;
+		color: #5674b9;
+	}
+	
+	.items {
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+		border-top: 1px solid lightgray;
+		border-left: 1px solid lightgray;
+		border-right: 1px solid lightgray;
+	}
+	
+	.toolbar {
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+		border-left: 1px solid lightgray;
+		border-right: 1px solid lightgray;
+		border-bottom: 1px solid lightgray;
+	}
+	</ui:style>
 	<g:DockLayoutPanel unit='PX'>
-		<g:north size="30">
-			<g:Label styleName="{attributesresources.dataGridStyle.dataGridHeader}">Attribute Definitions</g:Label>
+		<g:north size="50">
+			<g:HTMLPanel>
+				<table>
+					<tr>
+						<td class="{style.cell}">
+							<g:Image resource="{resources.attributeTypes}" styleName="{style.icon}" />
+						</td>
+						<td class="{style.cell}">
+							<span class="{style.label}">Attributes</span>
+						</td>
+					</tr>
+				</table>
+			</g:HTMLPanel>
 		</g:north>
 		<g:center>
-			<v:ItemsEditingPanel ui:field='attributeTypesPanel' />
+			<g:SimpleLayoutPanel styleName="{style.items}">
+				<v:ItemsEditingPanel ui:field='attributeTypesPanel'/>
+			</g:SimpleLayoutPanel>
 		</g:center>
 		<g:south size="28">
-			<c:ItemToolbar ui:field="toolBar" />
+			<g:SimpleLayoutPanel  styleName="{style.toolbar}">
+				<c:ItemToolbar ui:field="toolBar"/>
+			</g:SimpleLayoutPanel>
 		</g:south>
 	</g:DockLayoutPanel>
 </ui:UiBinder>
