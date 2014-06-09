@@ -720,6 +720,7 @@
 	height: 27px;
 	border: none;
 	background: white;
-	-webkit-appearance: menulist;
 	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
 }
