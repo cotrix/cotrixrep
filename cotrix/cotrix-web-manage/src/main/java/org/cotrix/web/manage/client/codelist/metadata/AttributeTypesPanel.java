@@ -71,7 +71,7 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 	public void init() {
 		attributeTypeEditor = DataEditor.build(this);
 		
-		attributeTypesPanel = new ItemsEditingPanel<UIAttributeType, AttributeTypePanel>("no definitions", editingPanelFactory);
+		attributeTypesPanel = new ItemsEditingPanel<UIAttributeType, AttributeTypePanel>("No definitions.", editingPanelFactory);
 		
 		add(uiBinder.createAndBindUi(this));
 		

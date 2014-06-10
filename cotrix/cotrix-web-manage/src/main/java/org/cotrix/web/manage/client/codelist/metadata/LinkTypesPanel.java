@@ -74,7 +74,7 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 	public void init() {
 		linkTypeEditor = DataEditor.build(this);
 		
-		linkTypesPanel = new ItemsEditingPanel<UILinkType, LinkTypePanel>("no links", editingPanelFactory);
+		linkTypesPanel = new ItemsEditingPanel<UILinkType, LinkTypePanel>("No links.", editingPanelFactory);
 		
 		add(uiBinder.createAndBindUi(this));
 		

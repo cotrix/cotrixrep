@@ -17,6 +17,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -68,6 +69,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	private ScrollPanel scrollPanel;
 	private VerticalPanel mainPanel;
 	private HTML emptyWidget;
+	private HorizontalPanel emptyWidgetContainer;
 	private List<P> panels = new ArrayList<P>();
 
 	private P currentSelection;
@@ -92,8 +94,14 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		scrollPanel.add(mainPanel);
 		
 		emptyWidget = new HTML(noItemsText);
-		emptyWidget.setStyleName(CotrixManagerResources.INSTANCE.propertyGrid().emptyTableWidget());
-		mainPanel.add(emptyWidget);
+		emptyWidget.setStyleName(CotrixManagerResources.INSTANCE.css().noItemsLabel());
+		emptyWidgetContainer = new HorizontalPanel();
+		emptyWidgetContainer.setWidth("100%");
+		emptyWidgetContainer.setHeight("200px");
+		emptyWidgetContainer.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+		emptyWidgetContainer.add(emptyWidget);
+		
+		mainPanel.add(emptyWidgetContainer);
 		
 		initWidget(scrollPanel);
 
@@ -191,7 +199,10 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 
 			@Override
 			public void onCancel() {
-				if (!created) remove(panel);
+				if (!created) {
+					remove(panel);
+					updateEmptyWidget();
+				}
 			}
 
 			@Override
@@ -217,9 +228,10 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		updateEmptyWidget();
 	}
 	
-	private void updateEmptyWidget(){
-		emptyWidget.setVisible(panels.isEmpty());
-		setStyleName(CotrixManagerResources.INSTANCE.css().noItemsBackground(), panels.isEmpty());
+	private void updateEmptyWidget() {
+		boolean showEmptyWidget = panels.isEmpty();
+		emptyWidgetContainer.setVisible(showEmptyWidget);
+		//setStyleName(CotrixManagerResources.INSTANCE.css().noItemsBackground(), showEmptyWidget);
 	}
 	
 	private void remove(P toRemove) {
