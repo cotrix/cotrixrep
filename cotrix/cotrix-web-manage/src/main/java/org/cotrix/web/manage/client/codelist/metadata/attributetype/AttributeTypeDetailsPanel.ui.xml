@@ -33,6 +33,84 @@
 			margin: 0 auto;
 			display: inherit;
 		}
+		
+		.textBox {
+	border: none;
+	border-color: transparent;
+	transition: border-color 700ms ease;
+	/*padding: 5px;*/
+	/*border-radius: 5px;
+	background-color: #fafafa;
+	box-shadow: 0px 0px 0px 0px;
+	border: 1px solid #999999;*/
+	color: #4f4e4e;
+	padding-left: 6px;
+	
+	/*height: 16px;*/
+	/*font-size: 16px;*/
+	
+	/*-webkit-animation: borderAnimation 700ms;*/ /* Chrome, Safari, Opera */
+	/*animation: borderAnimation 700ms;*/
+}
+
+.textBox:focus {
+	outline: none;
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px #61C5FA;
+	border: 1px solid #5AB0DB;
+	padding-left: 5px;
+}
+
+.textBox:hover {
+	border: 1px solid #999;
+	border-radius: 5px;
+	padding-left: 5px;
+}
+
+.textBox:focus:hover {
+	outline: none;
+	box-shadow: 0px 0px 5px #61C5FA;
+	border: 1px solid #5AB0DB;
+	border-radius: 5px;
+	padding-left: 5px;
+}
+
+.textBox:disabled {
+	background-color: #ededed;
+	border-color: #b7b6b6;
+	color: #acabab;
+}
+
+@keyframes borderAnimation {
+    from {
+        border-radius: 5px;
+	    background-color: #fafafa;
+	    box-shadow: 0px 0px 0px 0px;
+	    border: 1px solid #999999;
+    }
+    to {
+         border-radius: 5px;
+	    background-color: #fafafa;
+	    box-shadow: 0px 0px 0px 0px;
+	    border: 1px solid transparent;
+    }
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes borderAnimation {
+    from {
+        border-radius: 5px;
+	    background-color: #fafafa;
+	    box-shadow: 0px 0px 0px 0px;
+	    border: 1px solid #999999;
+    }
+    to {
+         border-radius: 5px;
+	    background-color: #fafafa;
+	    box-shadow: 0px 0px 0px 0px;
+	    border: 1px solid transparent;
+    }
+}
 		</ui:style>
 	<t:Table ui:field="table" styleName="{style.propertiesGrid}">
 		<t:row>
@@ -46,7 +124,7 @@
 						<c:EditableLabel ui:field="nameBoxContainer"
 							labelStyle="{resources.propertyGrid.textValue}" title="The name of this attribute.">
 							<c:editor>
-								<c:AdvancedTextBox ui:field="nameBox" styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" 
+								<c:AdvancedTextBox ui:field="nameBox" styleName="{style.textBox} {resources.css.editor} {style.editor}" 
 								placeholder="Type a name..."/>
 							</c:editor>
 						</c:EditableLabel>
@@ -68,7 +146,7 @@
 							labelStyle="{resources.propertyGrid.textValue}" title="The type of this attribute.">
 							<c:editor>
 								<g:TextBox ui:field="typeBox"
-									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+									styleName="{style.textBox} {resources.css.editor} {style.editor}" />
 							</c:editor>
 						</c:EditableLabel>
 						<g:Image resource="{commonresources.dataLoader}" visible="false"
@@ -110,7 +188,7 @@
 							labelStyle="{resources.propertyGrid.textValue}" 
 							title="The default value of this attribute.">
 							<c:editor>
-							<c:AdvancedTextBox ui:field="defaultBox" styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" 
+							<c:AdvancedTextBox ui:field="defaultBox" styleName="{style.textBox} {resources.css.editor} {style.editor}" 
 							placeholder="&lt;none&gt;"/>
 								</c:editor>
 						</c:EditableLabel>
