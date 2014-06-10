@@ -39,7 +39,15 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	}
 	
 	public interface ItemEditingPanel<T> extends IsWidget, HasEditing {
+		
+		/**
+		 * Sync the UI with the model.
+		 */
 		public void syncWithModel();
+		
+		/**
+		 * Called when the item is edited for the first time.
+		 */
 		public void enterEditMode();
 		public void setSelected(boolean selected);
 		public void setListener(ItemEditingPanelListener<T> listener);

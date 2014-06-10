@@ -51,7 +51,6 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 		String error();
 		String editor();
 	}
-	
 
 	@UiField Table table;
 
