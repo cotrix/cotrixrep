@@ -20,11 +20,11 @@
 	
 	.label {
 		font-size: 35px;
-		height: 50px;
+		height: 55px;
 		color: #5674b9;
 	}
 	
-	.items {
+	.itemsContainer {
 		border-top-left-radius: 5px;
 		border-top-right-radius: 5px;
 		border-top: 1px solid lightgray;
@@ -32,19 +32,29 @@
 		border-right: 1px solid lightgray;
 	}
 	
-	.toolbar {
+	.items {
+		margin-top: 10px;
+	}
+	
+	.toolbarContainer {
+		height: 37px;
+
 		border-bottom-left-radius: 5px;
 		border-bottom-right-radius: 5px;
 		border-left: 1px solid lightgray;
 		border-right: 1px solid lightgray;
 		border-bottom: 1px solid lightgray;
 	}
+	
+	.toolbar {
+		margin-top: 9px;
+	}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX'>
-		<g:north size="50">
+		<g:north size="55">
 			<g:HTMLPanel>
 				<table>
-					<tr>
+					<tr title="Common code attributes">
 						<td class="{style.cell}">
 							<g:Image resource="{resources.attributeTypes}" styleName="{style.icon}" />
 						</td>
@@ -56,13 +66,13 @@
 			</g:HTMLPanel>
 		</g:north>
 		<g:center>
-			<g:SimpleLayoutPanel styleName="{style.items}">
-				<v:ItemsEditingPanel ui:field='attributeTypesPanel'/>
+			<g:SimpleLayoutPanel styleName="{style.itemsContainer}">
+				<v:ItemsEditingPanel ui:field='attributeTypesPanel' addStyleNames="{style.items}"/>
 			</g:SimpleLayoutPanel>
 		</g:center>
-		<g:south size="28">
-			<g:SimpleLayoutPanel  styleName="{style.toolbar}">
-				<c:ItemToolbar ui:field="toolBar"/>
+		<g:south size="38">
+			<g:SimpleLayoutPanel styleName="{style.toolbarContainer}">
+				<c:ItemToolbar ui:field="toolBar" addStyleNames="{style.toolbar}"/>
 			</g:SimpleLayoutPanel>
 		</g:south>
 	</g:DockLayoutPanel>
