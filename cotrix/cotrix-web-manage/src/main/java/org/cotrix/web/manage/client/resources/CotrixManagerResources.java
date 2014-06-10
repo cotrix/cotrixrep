@@ -92,6 +92,7 @@ public interface CotrixManagerResources extends ClientBundle {
 		String editor();
 		String systemProperty();
 		String addButton();
+		String addLabel();
 		String headerCode();
 		String noItemsBackground();
 		String systemAttributeDisclosurePanelLabel();

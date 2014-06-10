@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.LabelProvider;
 import org.cotrix.web.common.client.util.ListBoxUtils;
+import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
@@ -71,7 +72,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	@UiField Table table;
 
 	@UiField EditableLabel nameBoxContainer;
-	@UiField TextBox nameBox;
+	@UiField AdvancedTextBox nameBox;
 
 	@UiField EditableLabel codelistBoxContainer;
 	@UiField(provided=true) SuggestListBox codelistBox;
@@ -150,6 +151,10 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	public void setName(String name) {
 		this.nameBox.setValue(name, false);
 		this.nameBoxContainer.setText(name);
+	}
+	
+	public void focusName() {
+		nameBox.setFocus(true);
 	}
 
 	public void setValidName(boolean valid) {

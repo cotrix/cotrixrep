@@ -6,6 +6,7 @@ package org.cotrix.web.manage.client.codelist.metadata.attributetype;
 import java.util.List;
 
 import org.cotrix.web.common.client.widgets.AdvancedIntegerBox;
+import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
@@ -55,7 +56,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	@UiField Table table;
 
 	@UiField EditableLabel nameBoxContainer;
-	@UiField TextBox nameBox;
+	@UiField AdvancedTextBox nameBox;
 	
 	@UiField EditableLabel typeBoxContainer;
 	@UiField TextBox typeBox;
@@ -64,7 +65,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	@UiField LanguageListBox languageBox;
 	
 	@UiField EditableLabel defaultBoxContainer;
-	@UiField TextBox defaultBox;
+	@UiField AdvancedTextBox defaultBox;
 	
 	@UiField EditableLabel occurrencesBoxContainer;
 	@UiField(provided = true) EnumListBox<Occurrences> occurrencesBox;
@@ -221,6 +222,10 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	public void setName(String name) {
 		nameBox.setValue(name);
 		nameBoxContainer.setText(name);
+	}
+	
+	public void focusName() {
+		nameBox.setFocus(true);
 	}
 	
 	public void setNameFieldValid(boolean valid) {

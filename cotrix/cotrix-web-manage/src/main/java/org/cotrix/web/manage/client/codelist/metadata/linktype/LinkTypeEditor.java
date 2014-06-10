@@ -26,6 +26,7 @@ public class LinkTypeEditor implements ItemEditor<UILinkType> {
 	
 	private LinkTypeDetailsPanel detailsPanel;
 	private UILinkType type;
+	private boolean editing = false;
 	
 	public LinkTypeEditor(UILinkType linkType, LinkTypesCodelistInfoProvider codelistInfoProvider) {
 		this.type = linkType;
@@ -61,7 +62,10 @@ public class LinkTypeEditor implements ItemEditor<UILinkType> {
 
 	@Override
 	public String getLabel() {
-		return ValueUtils.getLocalPart(type.getName());
+		if (!editing) return ValueUtils.getLocalPart(type.getName());
+		
+		String name = detailsPanel.getName();
+		return name.isEmpty()?"...":name;
 	}
 
 	@Override
@@ -107,12 +111,6 @@ public class LinkTypeEditor implements ItemEditor<UILinkType> {
 	}
 
 	@Override
-	public void setReadOnly(boolean readOnly) {
-		detailsPanel.setReadOnly(readOnly);
-		detailsPanel.setCodelistReadonly(type.getTargetCodelist() != null); 
-	}
-
-	@Override
 	public IsWidget getView() {
 		return detailsPanel;
 	}
@@ -120,6 +118,21 @@ public class LinkTypeEditor implements ItemEditor<UILinkType> {
 	@Override
 	public boolean isSwitchVisible() {
 		return false;
+	}
+
+	@Override
+	public void startEditing() {
+		detailsPanel.setReadOnly(false);
+		detailsPanel.setCodelistReadonly(type.getTargetCodelist() != null); 
+		detailsPanel.focusName();
+		editing = true;
+	}
+
+	@Override
+	public void stopEditing() {
+		detailsPanel.setReadOnly(true);
+		editing = false;
+		
 	}
 
 }

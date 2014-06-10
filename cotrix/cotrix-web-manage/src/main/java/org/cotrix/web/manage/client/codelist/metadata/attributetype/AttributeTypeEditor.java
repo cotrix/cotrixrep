@@ -26,6 +26,8 @@ public class AttributeTypeEditor implements ItemEditor<UIAttributeType> {
 	private AttributeTypeDetailsPanel detailsPanel;
 	private UIAttributeType attributeType;
 	
+	private boolean editing = false;
+	
 	public AttributeTypeEditor(UIAttributeType attributeType) {
 		this.detailsPanel = new AttributeTypeDetailsPanel();
 		this.attributeType = attributeType;
@@ -74,7 +76,10 @@ public class AttributeTypeEditor implements ItemEditor<UIAttributeType> {
 
 	@Override
 	public String getLabel() {
-		return ValueUtils.getLocalPart(attributeType.getName());
+		if (!editing) return ValueUtils.getLocalPart(attributeType.getName());
+		
+		String name = detailsPanel.getName();
+		return name.isEmpty()?"...":name;
 	}
 
 	@Override
@@ -100,11 +105,6 @@ public class AttributeTypeEditor implements ItemEditor<UIAttributeType> {
 	}
 
 	@Override
-	public void setReadOnly(boolean readOnly) {
-		detailsPanel.setReadOnly(readOnly);		
-	}
-
-	@Override
 	public IsWidget getView() {
 		return detailsPanel;
 	}
@@ -112,6 +112,19 @@ public class AttributeTypeEditor implements ItemEditor<UIAttributeType> {
 	@Override
 	public boolean isSwitchVisible() {
 		return false;
+	}
+
+	@Override
+	public void startEditing() {
+		detailsPanel.setReadOnly(false);
+		detailsPanel.focusName();
+		editing = true;
+	}
+
+	@Override
+	public void stopEditing() {
+		detailsPanel.setReadOnly(true);
+		editing = false;
 	}
 
 }

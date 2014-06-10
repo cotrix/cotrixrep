@@ -46,6 +46,11 @@
 	outline: none;
 }
 
+.listBox option {
+	font-size: 16px;
+	color: #4f4e4e;
+}
+
 .listBox:disabled {
 	background-color: #ededed;
 	border-color: #b7b6b6;

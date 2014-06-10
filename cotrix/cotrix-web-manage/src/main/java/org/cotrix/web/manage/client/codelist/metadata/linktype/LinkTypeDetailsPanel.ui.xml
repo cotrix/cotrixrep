@@ -15,6 +15,10 @@
 			border-collapse: collapse;
 		}
 		
+		.editingCell {
+			padding: 1px 3px 3px 3px;
+		}
+		
 		.editor {
 			height: 31px;
 			-moz-box-sizing: border-box;
@@ -32,16 +36,17 @@
 	<t:Table ui:field="table" styleName="{style.propertiesGrid}">
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value}">
+				secondCellStyle="{resources.propertyGrid.value} {style.editingCell}">
 				<t:cell>
-					<g:Label>Name</g:Label>
+					<g:Label title="The name of this link.">Name</g:Label>
 				</t:cell>
 				<t:cell>
 					<c:EditableLabel ui:field="nameBoxContainer"
-						labelStyle="{resources.propertyGrid.textValue}">
+						labelStyle="{resources.propertyGrid.textValue}"
+						title="The name of this link.">
 						<c:editor>
-							<g:TextBox ui:field="nameBox"
-								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+							<c:AdvancedTextBox ui:field="nameBox"
+								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" placeholder="Type a name..." />
 						</c:editor>
 					</c:EditableLabel>
 				</t:cell>
@@ -49,14 +54,15 @@
 		</t:row>
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value}">
+				secondCellStyle="{resources.propertyGrid.value} {style.editingCell}">
 				<t:cell>
-					<g:Label>Target</g:Label>
+					<g:Label title="The codelist you want to link to.">Target</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
 						<c:EditableLabel ui:field="codelistBoxContainer"
-							labelStyle="{resources.propertyGrid.textValue}">
+							labelStyle="{resources.propertyGrid.textValue}"
+							title="The codelist you want to link to.">
 							<c:editor>
 								<g:SuggestListBox ui:field="codelistBox" boxStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}"/>
 							</c:editor>
@@ -69,24 +75,25 @@
 		</t:row>
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value}">
+				secondCellStyle="{resources.propertyGrid.value} {style.editingCell}">
 				<t:cell>
-					<g:Label>Anchor</g:Label>
+					<g:Label title="The value of target codes you want to link to.">Anchor</g:Label>
 				</t:cell>
 				<t:cell>
-					<l:ValueTypePanel ui:field="valueTypePanel"/>
+					<l:ValueTypePanel ui:field="valueTypePanel" title="The value of target codes you want to link to."/>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value}">
+				secondCellStyle="{resources.propertyGrid.value} {style.editingCell}">
 				<t:cell>
-					<g:Label>Transform</g:Label>
+					<g:Label title="The transformation you want to apply to the value of this link.">Transform</g:Label>
 				</t:cell>
 				<t:cell>
 					<c:EditableLabel ui:field="valueFunctionContainer"
-						labelStyle="{resources.propertyGrid.textValue}" width="100%">
+						labelStyle="{resources.propertyGrid.textValue}" width="100%" 
+						title="The transformation you want to apply to the value of this link.">
 						<c:editor>
 							<g:ListBox multipleSelect="false" ui:field="valueFunction"
 								styleName="{commonresources.css.listBox}" width="100%"/>
@@ -97,7 +104,7 @@
 		</t:row>
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value}" ui:field="functionArgumentsRow">
+				secondCellStyle="{resources.propertyGrid.value} {style.editingCell}" ui:field="functionArgumentsRow">
 				<t:cell>
 					<g:Label ui:field="functionArgumentLabel" />
 				</t:cell>

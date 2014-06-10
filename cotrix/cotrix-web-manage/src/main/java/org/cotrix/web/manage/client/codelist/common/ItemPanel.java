@@ -27,6 +27,9 @@ import com.google.gwt.user.client.ui.IsWidget;
 public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 	
 	public interface ItemEditor<T> extends HasValueChangeHandlers<Void> {
+		public void startEditing();
+		public void stopEditing();
+		
 		public void read();
 		public void write();
 		public String getLabel();
@@ -34,7 +37,6 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 		
 		public T getItem();
 		
-		public void setReadOnly(boolean readOnly);
 		public IsWidget getView();
 		public boolean isSwitchVisible();
 	}
@@ -66,6 +68,7 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Void> event) {
+				updateHeaderLabel();
 				validate();
 			}
 		});
@@ -107,7 +110,7 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 			}
 		});
 
-		editor.setReadOnly(true);
+		editor.stopEditing();
 		editing = false;
 		editable = false;
 		
@@ -160,13 +163,14 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 
 	private void startEdit() {
 		editing = true;
-		editor.setReadOnly(false);
+		editor.startEditing();
 		updateHeaderButtons();
+		updateHeaderLabel();
 	}
 
 	private void stopEdit() {
 		editing = false;
-		editor.setReadOnly(true);
+		editor.stopEditing();
 		updateHeaderButtons();	
 	}
 
@@ -174,6 +178,7 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 		stopEdit();
 		if (listener!=null) listener.onCancel();
 		writeItem();
+		updateHeaderLabel();
 	}
 
 	private void writeItem() {
@@ -217,10 +222,6 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 	@Override
 	public void setSwitchDown(boolean down) {
 		header.setSwitchDown(down);
-	}
-
-	public void setReadOnly(boolean readOnly) {
-		this.readOnly = readOnly;
 	}
 
 }

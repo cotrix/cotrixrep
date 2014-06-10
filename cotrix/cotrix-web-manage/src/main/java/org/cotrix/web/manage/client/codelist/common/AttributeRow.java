@@ -82,6 +82,7 @@ public class AttributeRow extends AbstractRow {
 		nameEditableLabel = new EditableLabel();
 		nameEditableLabel.addEditor(nameTextBox);
 		nameEditableLabel.setLabelStyle(TEXTVALUE_STYLE);
+		nameEditableLabel.setTitle("The name of this attribute");
 		nameEditableLabel.setReadOnly(readOnly);
 		
 		nameTextBox.addValueChangeHandler(nameEditableLabel);
@@ -97,6 +98,7 @@ public class AttributeRow extends AbstractRow {
 		valueEditableLabel = new EditableLabel();
 		valueEditableLabel.addEditor(valueTextBox);
 		valueEditableLabel.setLabelStyle(TEXTVALUE_STYLE);
+		valueEditableLabel.setTitle("The value of this attribute");
 		valueEditableLabel.setReadOnly(readOnly);
 		
 		valueTextBox.addValueChangeHandler(valueEditableLabel);

@@ -31,6 +31,8 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.inject.Inject;
 
 /**
@@ -234,21 +236,24 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 
 	private class AddRow extends AbstractRow implements HasClickHandlers {
 		
-		private com.google.gwt.user.client.ui.Button button;
+		private FocusPanel clickPanel;
 		
 		public AddRow() {
-			button = new com.google.gwt.user.client.ui.Button();
-			button.setStyleName(CotrixManagerResources.INSTANCE.css().addButton());
+			
+			Label label = new Label("+Attribute");
+			label.setStyleName(CotrixManagerResources.INSTANCE.css().addLabel());
+			
+			clickPanel = new FocusPanel(label);
 		}
 
 		@Override
 		public void setup() {
-			addCell(0, button);
+			addCell(0, clickPanel);
 			table.getFlexCellFormatter().setColSpan(rowIndex, 0, 4);
 		}
 		
 		public int getRow() {
-			return getCellPosition(button).getRow();
+			return getCellPosition(clickPanel).getRow();
 		}
 
 		@Override
@@ -257,7 +262,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 
 		@Override
 		public HandlerRegistration addClickHandler(ClickHandler handler) {
-			return button.addClickHandler(handler);
+			return clickPanel.addClickHandler(handler);
 		}
 		
 	}

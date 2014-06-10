@@ -26,6 +26,7 @@
 		
 		.loaderContainer {
 			vertical-align: middle;
+			padding: 1px 3px 3px 3px;
 		}
 		
 		.loader {
@@ -38,14 +39,15 @@
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
 				<t:cell>
-					<g:Label>Name</g:Label>
+					<g:Label title="The name of this attribute.">Name</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
 						<c:EditableLabel ui:field="nameBoxContainer"
-							labelStyle="{resources.propertyGrid.textValue}">
+							labelStyle="{resources.propertyGrid.textValue}" title="The name of this attribute.">
 							<c:editor>
-								<g:TextBox ui:field="nameBox" styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+								<c:AdvancedTextBox ui:field="nameBox" styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" 
+								placeholder="Type a name..."/>
 							</c:editor>
 						</c:EditableLabel>
 						<g:Image resource="{commonresources.dataLoader}" visible="false"
@@ -58,12 +60,12 @@
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
 				<t:cell>
-					<g:Label>Type</g:Label>
+					<g:Label title="The type of this attribute.">Type</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
 						<c:EditableLabel ui:field="typeBoxContainer"
-							labelStyle="{resources.propertyGrid.textValue}">
+							labelStyle="{resources.propertyGrid.textValue}" title="The type of this attribute.">
 							<c:editor>
 								<g:TextBox ui:field="typeBox"
 									styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
@@ -79,12 +81,13 @@
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
 				<t:cell>
-					<g:Label>Language</g:Label>
+					<g:Label title="The language of this attribute.">Language</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
 						<c:EditableLabel ui:field="languageBoxContainer"
-							labelStyle="{resources.propertyGrid.textValue}">
+							labelStyle="{resources.propertyGrid.textValue}" 
+							title="The language of this attribute.">
 							<c:editor>
 								<c:LanguageListBox ui:field="languageBox" styleName="{commonresources.css.listBox}" width="100%"/>
 							</c:editor>
@@ -99,14 +102,16 @@
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
 				<t:cell>
-					<g:Label>Default</g:Label>
+					<g:Label title="The default value of this attribute.">Default</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
 						<c:EditableLabel ui:field="defaultBoxContainer"
-							labelStyle="{resources.propertyGrid.textValue}">
+							labelStyle="{resources.propertyGrid.textValue}" 
+							title="The default value of this attribute.">
 							<c:editor>
-							<g:TextBox ui:field="defaultBox" styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
+							<c:AdvancedTextBox ui:field="defaultBox" styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" 
+							placeholder="&lt;none&gt;"/>
 								</c:editor>
 						</c:EditableLabel>
 					</g:FlowPanel>
@@ -117,11 +122,12 @@
 			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
 				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
 				<t:cell>
-					<g:Label>Occurs</g:Label>
+					<g:Label title="The number of times this attribute can occur within each code.">Occurs</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-						<c:EditableLabel ui:field="occurrencesBoxContainer"	labelStyle="{resources.propertyGrid.textValue}">
+						<c:EditableLabel ui:field="occurrencesBoxContainer"	labelStyle="{resources.propertyGrid.textValue}" 
+						title="The number of times this attribute can occur within each code.">
 							<c:editor>
 							<c:EnumListBox ui:field="occurrencesBox" styleName="{commonresources.css.listBox}" width="100%"/>
 							</c:editor>

@@ -68,3 +68,22 @@
 .noItemsBackground {
 	background-color: #efefef;
 }
+
+.addLabel {
+	background-color: #5674b9;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+	width: 100%;
+	font-size: 22px;
+	color: #fff;
+	outline: none;
+	
+	margin-top: 3px;
+	padding-top: 2px;
+	padding-bottom: 5px;
+}
+
+.addLabel:hover {
+	cursor: pointer;
+}
