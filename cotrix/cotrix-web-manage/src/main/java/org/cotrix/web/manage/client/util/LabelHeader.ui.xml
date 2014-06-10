@@ -31,7 +31,7 @@
 	
 	.bullet {
 		margin-left: 5px;
-		padding: 1px;
+		padding-bottom: 3px;
 	}
 	
 	.headerLabel {
@@ -58,7 +58,7 @@
 				<td ui:field="images" style="vertical-align:middle;padding-left: 5px;">
 					<g:DeckPanel ui:field="labelControls" >
 						<g:Image ui:field="bullet" resource="{resources.bullet}"
-							styleName="{style.bullet}" />
+							styleName="{style.bullet}" width="8px" height="8px"/>
 						<g:ToggleButton ui:field="switchButton" styleName="{style.button}">
 							<g:upFace image="{resources.table}" />
 							<g:downFace image="{resources.tableDisabled}" />
