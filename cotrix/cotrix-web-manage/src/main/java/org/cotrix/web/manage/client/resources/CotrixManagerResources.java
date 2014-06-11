@@ -1,5 +1,7 @@
 package org.cotrix.web.manage.client.resources;
 
+import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
@@ -23,6 +25,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	@Source("attributeRow.css")
 	public AttributeRowStyle attributeRow();
+	
+	@Source("detailsPanel.css")
+	public DetailsPanelStyle detailsPanelStyle();
 	
 	public ImageResource table();
 	

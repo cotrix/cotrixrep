@@ -18,7 +18,7 @@
 	
 	.label {
 		font-size: 35px;
-		height: 55px;
+		height: 60px;
 		color: #5674b9;
 	}
 	
@@ -50,7 +50,7 @@
 	
 	</ui:style>
 	<g:DockLayoutPanel unit='PX'>
-		<g:north size="55">
+		<g:north size="60">
 			<g:HTMLPanel>
 				<table>
 					<tr title="The links of codes.">

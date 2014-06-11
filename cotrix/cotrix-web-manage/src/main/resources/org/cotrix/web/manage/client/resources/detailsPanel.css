@@ -1,0 +1,240 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.headerCell {
+    border: 1px solid #c2c2c2;
+    overflow: hidden;
+    color: #5A5A5A;
+    font-size: 14px;
+    vertical-align: middle;
+    width: 80px;
+    background-color: #efefef;
+    padding: 8px 8px 8px 10px;
+}
+
+.valueCell {
+    border: 1px solid #c2c2c2;
+    overflow: hidden;
+    vertical-align: middle;
+    height:36px;
+    padding: 0px 3px 0px 3px;
+}
+
+.textbox {
+    border: none;
+    border-color: transparent;
+    color: #4f4e4e;
+    padding-left: 6px;
+    font-size: 14px;
+    height: 27px;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    transition: border-color 700ms ease;
+}
+
+.textbox:focus {
+    outline: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px #61C5FA;
+    border: 1px solid #5AB0DB;
+    padding-left: 5px;
+}
+
+.textbox:hover {
+    border: 1px solid #999;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+.textbox:focus:hover {
+    outline: none;
+    box-shadow: 0px 0px 5px #61C5FA;
+    border: 1px solid #5AB0DB;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+.textbox:disabled {
+    border: none;
+    background-color: white;
+}
+
+.textbox:hover:disabled {
+    border: none;
+    padding-left: 6px;
+}
+
+.textbox:disabled::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: transparent;
+}
+
+.textbox:disabled::-moz-placeholder {
+    /* Firefox 19+ */
+    color: transparent;
+}
+
+.textbox:disabled::-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: transparent;
+}
+
+.textboxError {
+	border: 1px solid red;
+	padding-left: 5px;
+	border-radius: 5px;
+}
+
+.loaderContainer {
+    text-align:center;
+}
+
+.loader {
+    margin: 0 auto;
+}
+
+.listbox {
+    font-size: 14px;
+    color: #4f4e4e;
+    height: 29px;
+    outline: none;
+    border: none;
+    border-color: transparent;
+    background-color: transparent;
+    padding-left: 2px;
+    padding-top: 1px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow:'';
+}
+
+.listbox:hover {
+    font-size: 14px;
+    color: #4f4e4e;
+    height: 29px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: 1px solid #999;
+    outline: none;
+    transition: border-color 700ms ease;
+    padding-left: 1px;
+    -webkit-appearance: menulist-button;
+    -moz-appearance: menulist;
+    text-indent: 1px;
+    text-overflow: clip;
+}
+
+.listbox:disabled {
+    font-size: 14px;
+    color: #4f4e4e;
+    height: 29px;
+    outline: none;
+    border: none;
+    border-color: transparent;
+    background-color: transparent;
+    padding-left: 2px;
+    padding-top: 1px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow:'';
+}
+
+.suggestionbox {
+    font-size: 14px;
+    color: #4f4e4e;
+    height: 29px;
+    outline: none;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: transparent;
+    padding-left: 1px;
+}
+
+.suggestionbox:hover {
+    font-size: 14px;
+    color: #4f4e4e;
+    height: 29px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: 1px solid #999;
+    outline: none;
+    transition: border-color 700ms ease;
+    padding-left: 1px;
+}
+
+.suggestionbox:disabled {
+    font-size: 14px;
+    color: #4f4e4e;
+    height: 29px;
+    outline: none;
+    border: none;
+    border-color: transparent;
+    background-color: transparent;
+    padding-left: 2px;
+    padding-top: 1px;
+}
+.suggestionbox::hover:disabled {
+    font-size: 14px;
+    color: #4f4e4e;
+    height: 29px;
+    outline: none;
+    border: none;
+    border-color: transparent;
+    background-color: transparent;
+    padding-left: 2px;
+    padding-top: 1px;
+}
+
+.suggestionboxTextbox {
+    outline: none;
+    border: none;
+    padding-left: 6px;
+    padding-top: 4px;
+	font-size: 14px;
+	color: #4f4e4e;
+}
+
+.suggestionboxTextbox:disabled {
+    outline: none;
+    border: none;
+    padding-left: 6px;
+	font-size: 14px;
+	color: #4f4e4e;
+	background-color: transparent;
+}
+
+.suggestionboxButton {
+	width: 10px;
+	border: none;
+	background: white;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+	padding-top: 5px;
+}
+
+.suggestionPopup {
+	background-color: white;
+	border: 1px solid #999;
+}
+
+.suggestionPopup table {
+	width: 100%;
+}
+
+.suggestionItem {
+	padding: 2px 6px;
+	color: #5a5a5a;
+	cursor: default;
+	/*font-size: 110%;*/
+}
+
+.suggestionItemSelected {
+	background: #eee;
+}
+

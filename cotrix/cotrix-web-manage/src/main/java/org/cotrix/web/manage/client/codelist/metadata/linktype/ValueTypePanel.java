@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.util.ListBoxUtils;
-import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
 import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
@@ -48,7 +47,6 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 	interface ValueTypePanelUiBinder extends UiBinder<Widget, ValueTypePanel> {
 	}
 	
-	@UiField EditableLabel valueTypeListContainer;
 	@UiField ListBox valueTypeList;
 	@UiField Image valueTypeListLoader;
 	private Map<String, UIValueType> idToValueTypeMap;
@@ -67,7 +65,6 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 			
 			@Override
 			public void onChange(ChangeEvent event) {
-				syncValueTypeContainerText();
 				fireChange();
 			}
 		});
@@ -84,7 +81,6 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 		Log.trace("setValueType type: "+type);
 		String id = valueTypeToIdMap.get(type);
 		ListBoxUtils.selecteItem(valueTypeList, id);
-		syncValueTypeContainerText();
 	}
 	
 	public UIValueType getValueType() {
@@ -116,7 +112,7 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 	
 	private void showLoader(boolean show) {
 		valueTypeListLoader.setVisible(show);
-		valueTypeListContainer.setVisible(!show);
+		valueTypeList.setVisible(!show);
 	}
 	
 	private void mapValueType(String id, UIValueType type) {
@@ -130,7 +126,6 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 		ListBoxUtils.setItemColor(valueTypeList, CODE_NAME_VALUE_TYPE, "black");
 
 		valueTypeList.setSelectedIndex(0);
-		syncValueTypeContainerText();
 	}
 	
 	private void updateValueTypeList(CodelistValueTypes codelistValueTypes, UIValueType selectedType) {
@@ -163,10 +158,7 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 			mapValueType(id, type);
 		}
 	}
-	
-	private void syncValueTypeContainerText() {
-		valueTypeListContainer.setText(valueTypeList.getItemText(valueTypeList.getSelectedIndex()));
-	}
+
 
 	private void fireChange() {
 		ValueChangeEvent.fire(this, getValueType());
@@ -178,7 +170,7 @@ public class ValueTypePanel extends Composite implements HasValueChangeHandlers<
 	}
 
 	public void setReadOnly(boolean readOnly) {
-		valueTypeListContainer.setReadOnly(readOnly);
+		valueTypeList.setEnabled(!readOnly);
 	}
 	
 

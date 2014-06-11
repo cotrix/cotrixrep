@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.cotrix.web.common.client.widgets.AdvancedIntegerBox;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
-import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
@@ -16,7 +15,9 @@ import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.attributetype.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
+import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
 import org.cotrix.web.manage.client.codelist.metadata.attributetype.constraint.ConstraintsPanel;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -28,7 +29,6 @@ import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -48,39 +48,35 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 
 	interface AttributeDetailsPanelUiBinder extends UiBinder<Widget, AttributeTypeDetailsPanel> {}
 
-	interface Style extends CssResource {
-		String error();
-		String editor();
-	}
-
 	@UiField Table table;
 
-	@UiField EditableLabel nameBoxContainer;
 	@UiField AdvancedTextBox nameBox;
 	
-	@UiField EditableLabel typeBoxContainer;
 	@UiField TextBox typeBox;
 	
-	@UiField EditableLabel languageBoxContainer;
 	@UiField LanguageListBox languageBox;
 	
-	@UiField EditableLabel defaultBoxContainer;
 	@UiField AdvancedTextBox defaultBox;
-	
-	@UiField EditableLabel occurrencesBoxContainer;
+
 	@UiField(provided = true) EnumListBox<Occurrences> occurrencesBox;
 	
 	@UiField CellContainer occurrencesMinRow;
-	@UiField EditableLabel occurrencesMinBoxContainer;
 	@UiField AdvancedIntegerBox occurrencesMin;
 	
 	@UiField CellContainer occurrencesMaxRow;
-	@UiField EditableLabel occurrencesMaxBoxContainer;
 	@UiField AdvancedIntegerBox occurrencesMax;
 	
-	private ConstraintsPanel constraintsPanel;
+	private DetailsPanelStyle style = CotrixManagerResources.INSTANCE.detailsPanelStyle();
+	
+	private ValueChangeHandler<String> changeHandler = new ValueChangeHandler<String>() {
 
-	@UiField Style style;
+		@Override
+		public void onValueChange(ValueChangeEvent<String> event) {
+			fireChange();
+		}
+	};
+	
+	private ConstraintsPanel constraintsPanel;
 
 	public AttributeTypeDetailsPanel() {
 		
@@ -97,14 +93,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	}
 	
 	private void setupNameField() {
-		nameBox.addValueChangeHandler(nameBoxContainer);
-		nameBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				fireChange();
-			}
-		});
+		nameBox.addValueChangeHandler(changeHandler);
 		
 		nameBox.addKeyUpHandler(new KeyUpHandler() {
 			
@@ -116,14 +105,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	}
 	
 	private void setupTypeField() {
-		typeBox.addValueChangeHandler(typeBoxContainer);
-		typeBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				fireChange();
-			}
-		});
+		typeBox.addValueChangeHandler(changeHandler);
 		
 		typeBox.addKeyUpHandler(new KeyUpHandler() {
 			
@@ -139,21 +121,13 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Language> event) {
-				languageBoxContainer.setText(event.getValue().getName());
 				fireChange();
 			}
 		});
 	}
 	
 	private void setupDefaultField() {
-		defaultBox.addValueChangeHandler(defaultBoxContainer);
-		defaultBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				fireChange();
-			}
-		});
+		defaultBox.addValueChangeHandler(changeHandler);
 		
 		defaultBox.addKeyUpHandler(new KeyUpHandler() {
 			
@@ -169,7 +143,6 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 			
 			@Override
 			public void onChange(ChangeEvent event) {
-				occurrencesBoxContainer.setText(occurrencesBox.getSelectedValue().getLabel());
 				updateMinMaxVisibility(true);
 				fireChange();
 			}
@@ -179,7 +152,6 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Integer> event) {
-				occurrencesMinBoxContainer.setText(String.valueOf(occurrencesMin.getValue()));
 				fireChange();
 			}
 		});
@@ -188,7 +160,6 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Integer> event) {
-				occurrencesMaxBoxContainer.setText(String.valueOf(occurrencesMax.getValue()));
 				fireChange();
 			}
 		});
@@ -204,7 +175,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	}
 	
 	private void setupConstraintsPanel() {
-		constraintsPanel = new ConstraintsPanel(table, style.error());
+		constraintsPanel = new ConstraintsPanel(table, style.textboxError());
 		constraintsPanel.addValueChangeHandler(new ValueChangeHandler<Void>() {
 
 			@Override
@@ -221,7 +192,6 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	
 	public void setName(String name) {
 		nameBox.setValue(name);
-		nameBoxContainer.setText(name);
 	}
 	
 	public void focusName() {
@@ -229,7 +199,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	}
 	
 	public void setNameFieldValid(boolean valid) {
-		nameBox.setStyleName(style.error(), !valid);
+		nameBox.setStyleName(style.textboxError(), !valid);
 	}
 	
 	public String getType() {
@@ -238,11 +208,10 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	
 	public void setType(String type) {
 		typeBox.setValue(type, false);
-		typeBoxContainer.setText(type);
 	}
 	
 	public void setTypeFieldValid(boolean valid) {
-		typeBox.setStyleName(style.error(), !valid);
+		typeBox.setStyleName(style.textboxError(), !valid);
 	}
 	
 	public Language getLanguage() {
@@ -251,11 +220,10 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	
 	public void setLanguage(Language language) {
 		languageBox.setValue(language);
-		languageBoxContainer.setText(language.getName());
 	}
 	
 	public void setLanguageFieldValid(boolean valid) {
-		languageBox.setStyleName(style.error(), !valid);
+		languageBox.setStyleName(style.textboxError(), !valid);
 	}
 	
 	public String getDefault() {
@@ -264,11 +232,10 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	
 	public void setDefault(String defaultValue) {
 		defaultBox.setValue(defaultValue);
-		defaultBoxContainer.setText(defaultValue);
 	}
 	
 	public void setDefaultFieldValid(boolean valid) {
-		defaultBox.setStyleName(style.error(), !valid);
+		defaultBox.setStyleName(style.textboxError(), !valid);
 	}
 	
 	public UIRange getRange() {
@@ -281,19 +248,16 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	public void setRange(UIRange range) {
 		Occurrences occurrences = Occurrences.toOccurrences(range);
 		occurrencesBox.setSelectedValue(occurrences);
-		occurrencesBoxContainer.setText(occurrences.getLabel());
 		updateMinMaxVisibility(false);
 		
 		occurrencesMin.setValue(range.getMin());
-		occurrencesMinBoxContainer.setText(String.valueOf(range.getMin()));
 		
 		occurrencesMax.setValue(range.getMax());
-		occurrencesMaxBoxContainer.setText(String.valueOf(range.getMax()));
 	}
 	
 	public void setRangeFieldValid(boolean valid) {
-		occurrencesMinBoxContainer.setStyleName(style.error(), !valid);
-		occurrencesMaxBoxContainer.setStyleName(style.error(), !valid);
+		occurrencesMin.setStyleName(style.textboxError(), !valid);
+		occurrencesMax.setStyleName(style.textboxError(), !valid);
 	}
 	
 	public List<UIConstraint> getConstraints() {
@@ -306,24 +270,24 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 
 	public void setReadOnly(boolean readOnly) {
 		
-		nameBoxContainer.setReadOnly(readOnly);
-		if (readOnly) nameBox.setStyleName(style.error(), false);
+		nameBox.setEnabled(!readOnly);
+		if (readOnly) nameBox.setStyleName(style.textboxError(), false);
 		
-		typeBoxContainer.setReadOnly(readOnly);
-		if (readOnly) typeBox.setStyleName(style.error(), false);
+		typeBox.setEnabled(!readOnly);
+		if (readOnly) typeBox.setStyleName(style.textboxError(), false);
 		
-		languageBoxContainer.setReadOnly(readOnly);
-		if (readOnly) languageBox.setStyleName(style.error(), false);
+		languageBox.setEnabled(!readOnly);
+		if (readOnly) languageBox.setStyleName(style.textboxError(), false);
 		
-		defaultBoxContainer.setReadOnly(readOnly);
-		if (readOnly) defaultBox.setStyleName(style.error(), false);
+		defaultBox.setEnabled(!readOnly);
+		if (readOnly) defaultBox.setStyleName(style.textboxError(), false);
 		
-		occurrencesBoxContainer.setReadOnly(readOnly);
-		occurrencesMinBoxContainer.setReadOnly(readOnly);
-		occurrencesMaxBoxContainer.setReadOnly(readOnly);
+		occurrencesBox.setEnabled(!readOnly);
+		occurrencesMin.setEnabled(!readOnly);
+		occurrencesMax.setEnabled(!readOnly);
 		if (readOnly) {
-			occurrencesMin.setStyleName(style.error(), false);
-			occurrencesMax.setStyleName(style.error(), false);
+			occurrencesMin.setStyleName(style.textboxError(), false);
+			occurrencesMax.setStyleName(style.textboxError(), false);
 		}
 		
 		constraintsPanel.setReadOnly(readOnly);

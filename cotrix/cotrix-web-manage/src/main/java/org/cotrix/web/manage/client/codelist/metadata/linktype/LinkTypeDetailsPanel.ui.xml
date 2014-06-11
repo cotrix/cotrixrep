@@ -3,79 +3,41 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
 	xmlns:l="urn:import:org.cotrix.web.manage.client.codelist.metadata.linktype"
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets"
-	xmlns:t="urn:import:org.cotrix.web.common.client.widgets.table">
+	xmlns:t="urn:import:org.cotrix.web.common.client.widgets.table"
+	xmlns:cc="urn:import:org.cotrix.web.manage.client.codelist.common">
 	<ui:with field='resources'
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='commonresources'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
-	<ui:style
-		type="org.cotrix.web.manage.client.codelist.metadata.linktype.LinkTypeDetailsPanel.Style">
-		.propertiesGrid {
-			width: 100%;
-			border-collapse: collapse;
-		}
-		
-		.editingCell {
-			padding: 1px 3px 3px 3px;
-		}
-		
-		.editor {
-			height: 31px;
-			-moz-box-sizing: border-box;
-		}
-		
-		.error {
-			border: 1px solid red !important;
-		}
-		
-		.loader {
-			margin: 0 auto;
-			display: inherit;
-		}
-		</ui:style>
-	<t:Table ui:field="table" styleName="{style.propertiesGrid}">
+	<t:Table ui:field="table" styleName="{resources.detailsPanelStyle.table}">
 		<t:row>
-			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value} {style.editingCell}">
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
 				<t:cell>
 					<g:Label title="The name of this link.">Name</g:Label>
 				</t:cell>
 				<t:cell>
-					<c:EditableLabel ui:field="nameBoxContainer"
-						labelStyle="{resources.propertyGrid.textValue}"
-						title="The name of this link.">
-						<c:editor>
-							<c:AdvancedTextBox ui:field="nameBox"
-								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" placeholder="Type a name..." />
-						</c:editor>
-					</c:EditableLabel>
+					<c:AdvancedTextBox ui:field="nameBox" styleName="{resources.detailsPanelStyle.textbox}" placeholder="Type a name..." />
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
 		<t:row>
-			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value} {style.editingCell}">
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
 				<t:cell>
 					<g:Label title="The codelist you want to link to.">Target</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-						<c:EditableLabel ui:field="codelistBoxContainer"
-							labelStyle="{resources.propertyGrid.textValue}"
-							title="The codelist you want to link to.">
-							<c:editor>
-								<g:SuggestListBox ui:field="codelistBox" boxStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}"/>
-							</c:editor>
-						</c:EditableLabel>
-						<g:Image resource="{commonresources.dataLoader}" visible="false"
-							ui:field="codelistBoxLoader" styleName="{style.loader}" />
+						<cc:SuggestListBox ui:field="codelistBox"/>
+						<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
+							<g:Image resource="{commonresources.dataLoader}" visible="false"
+								ui:field="codelistBoxLoader" styleName="{resources.detailsPanelStyle.loader}" />
+						</g:FlowPanel>
 					</g:FlowPanel>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
 		<t:row>
-			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value} {style.editingCell}">
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
 				<t:cell>
 					<g:Label title="The value of target codes you want to link to.">Anchor</g:Label>
 				</t:cell>
@@ -85,37 +47,22 @@
 			</t:CellContainer>
 		</t:row>
 		<t:row>
-			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value} {style.editingCell}">
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
 				<t:cell>
 					<g:Label title="The transformation you want to apply to the value of this link.">Transform</g:Label>
 				</t:cell>
 				<t:cell>
-					<c:EditableLabel ui:field="valueFunctionContainer"
-						labelStyle="{resources.propertyGrid.textValue}" width="100%" 
-						title="The transformation you want to apply to the value of this link.">
-						<c:editor>
-							<g:ListBox multipleSelect="false" ui:field="valueFunction"
-								styleName="{commonresources.css.listBox}" width="100%"/>
-						</c:editor>
-					</c:EditableLabel>
+					<g:ListBox multipleSelect="false" ui:field="valueFunction" styleName="{resources.detailsPanelStyle.listbox}" width="100%"/>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
 		<t:row>
-			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value} {style.editingCell}" ui:field="functionArgumentsRow">
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}" ui:field="functionArgumentsRow">
 				<t:cell>
 					<g:Label ui:field="functionArgumentLabel" />
 				</t:cell>
 				<t:cell>
-					<c:EditableLabel ui:field="functionArgumentContainer"
-						labelStyle="{resources.propertyGrid.textValue}">
-						<c:editor>
-							<g:TextBox ui:field="functionArgumentBox"
-								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
-						</c:editor>
-					</c:EditableLabel>
+					<g:TextBox ui:field="functionArgumentBox" styleName="{resources.detailsPanelStyle.textbox}" />
 				</t:cell>
 			</t:CellContainer>
 		</t:row>

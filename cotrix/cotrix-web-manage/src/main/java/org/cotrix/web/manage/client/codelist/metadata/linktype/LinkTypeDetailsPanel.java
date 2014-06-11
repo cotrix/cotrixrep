@@ -9,7 +9,6 @@ import java.util.List;
 import org.cotrix.web.common.client.util.LabelProvider;
 import org.cotrix.web.common.client.util.ListBoxUtils;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
-import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
@@ -19,7 +18,10 @@ import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction.Function;
 import org.cotrix.web.manage.client.codelist.common.AttributesPanel;
+import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
+import org.cotrix.web.manage.client.codelist.common.SuggestListBox;
 import org.cotrix.web.manage.client.codelist.metadata.linktype.CodelistSuggestOracle.CodelistSuggestion;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -37,7 +39,6 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -45,7 +46,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.SuggestListBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.TextBox;
@@ -64,33 +64,24 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 
 	interface LinkTypeDetailsPanelUiBinder extends UiBinder<Widget, LinkTypeDetailsPanel> {}
 
-	interface Style extends CssResource {
-		String error();
-		String editor();
-	}
-
 	@UiField Table table;
 
-	@UiField EditableLabel nameBoxContainer;
 	@UiField AdvancedTextBox nameBox;
 
-	@UiField EditableLabel codelistBoxContainer;
 	@UiField(provided=true) SuggestListBox codelistBox;
 	@UiField Image codelistBoxLoader;
 
 	@UiField ValueTypePanel valueTypePanel;
 
-	@UiField EditableLabel valueFunctionContainer;
 	@UiField ListBox valueFunction;
 
 	@UiField CellContainer functionArgumentsRow;
 	@UiField Label functionArgumentLabel;
-	@UiField EditableLabel functionArgumentContainer;
 	@UiField TextBox functionArgumentBox;
 
 	private AttributesPanel attributesPanel;
 
-	@UiField Style style;
+	private DetailsPanelStyle style = CotrixManagerResources.INSTANCE.detailsPanelStyle();
 
 	private UICodelist selectedCodelist;
 
@@ -99,6 +90,14 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	private LinkTypesCodelistInfoProvider codelistInfoProvider;
 
 	private LabelProvider<Function> functionLabelProvider = new DefaultFunctionLabelProvider();
+	
+	private ValueChangeHandler<String> changeHandler = new ValueChangeHandler<String>() {
+
+		@Override
+		public void onValueChange(ValueChangeEvent<String> event) {
+			fireChange();
+		}
+	};
 
 	public LinkTypeDetailsPanel(LinkTypesCodelistInfoProvider codelistInfoProvider) {
 
@@ -126,14 +125,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	}
 
 	private void setupNameBox() {
-		nameBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				nameBoxContainer.setText(event.getValue());
-				fireChange();
-			}
-		});
+		nameBox.addValueChangeHandler(changeHandler);
 		
 		nameBox.addKeyUpHandler(new KeyUpHandler() {
 			
@@ -150,7 +142,6 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 
 	public void setName(String name) {
 		this.nameBox.setValue(name, false);
-		this.nameBoxContainer.setText(name);
 	}
 	
 	public void focusName() {
@@ -158,7 +149,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	}
 
 	public void setValidName(boolean valid) {
-		nameBox.setStyleName(style.error(), !valid);
+		nameBox.setStyleName(style.textboxError(), !valid);
 	}
 
 
@@ -181,7 +172,6 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 				CodelistSuggestion suggestion = (CodelistSuggestion) event.getSelectedItem();
 				selectedCodelist = suggestion.getCodelist();
 				updateValueType(selectedCodelist.getId(), null);
-				codelistBoxContainer.setText(CodelistSuggestion.toDisplayString(selectedCodelist));
 				fireChange();
 			}
 		});
@@ -190,7 +180,6 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	public void setCodelist(UICodelist codelist, UIValueType valueType) {
 		selectedCodelist = codelist;
 		codelistBox.getValueBox().setValue(CodelistSuggestion.toDisplayString(selectedCodelist), false);
-		codelistBoxContainer.setText(CodelistSuggestion.toDisplayString(selectedCodelist));
 
 		if (codelist!=null) updateValueType(codelist.getId(), valueType);
 	}
@@ -200,12 +189,12 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 	}
 
 	public void setValidCodelist(boolean valid) {
-		codelistBox.setStyleName(style.error(), !valid);
+		codelistBox.setStyleName(style.textboxError(), !valid);
 	}
 
 	public void setCodelistReadonly(boolean readOnly) {
-		codelistBoxContainer.setReadOnly(readOnly);
-		if (readOnly) codelistBox.setStyleName(style.error(), false);
+		codelistBox.setEnabled(!readOnly);
+		if (readOnly) codelistBox.setStyleName(style.textboxError(), false);
 	}
 
 	private final AsyncCallback<List<UICodelist>> codelistCallBack = new AsyncCallback<List<UICodelist>>() {
@@ -214,7 +203,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		public void onSuccess(List<UICodelist> result) {
 			codelistSuggestOracle.loadCache(result);
 			codelistBoxLoader.setVisible(false);
-			codelistBoxContainer.setVisible(true);
+			codelistBox.setVisible(true);
 		}
 
 		@Override
@@ -225,7 +214,7 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 
 	private void loadCodelists() {
 		codelistBoxLoader.setVisible(true);
-		codelistBoxContainer.setVisible(false);
+		codelistBox.setVisible(false);
 		codelistInfoProvider.getCodelists(codelistCallBack);
 	}
 
@@ -265,27 +254,18 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 			@Override
 			public void onChange(ChangeEvent event) {
 				updateValueFunctionSubPanels();
-				syncValueFunction();
 				fireChange();
 			}
 		});
 
 		valueFunction.setSelectedIndex(0);
-		syncValueFunction();
 		updateValueFunctionSubPanels();
 		
-		functionArgumentBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				functionArgumentContainer.setText(event.getValue());
-				fireChange();
-			}
-		});
+		functionArgumentBox.addValueChangeHandler(changeHandler);
 	}
 
 	public void setValidFunction(boolean valid) {
-		functionArgumentBox.setStyleName(style.error(), !valid);
+		functionArgumentBox.setStyleName(style.textboxError(), !valid);
 	}
 
 	public UIValueFunction getValueFunction() {
@@ -303,9 +283,8 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 			if (!valueFunction.getArguments().isEmpty()) {
 				String argument = valueFunction.getArguments().get(0);
 				functionArgumentBox.setValue(argument);
-				functionArgumentContainer.setText(argument);
 			}
-			syncValueFunction();
+			//syncValueFunction();
 		}
 	}	
 
@@ -331,12 +310,8 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 		ListBoxUtils.selecteItem(valueFunction, function.toString());
 	}
 
-	private void syncValueFunction() {
-		valueFunctionContainer.setText(functionLabelProvider.getLabel(getSelectedFunction()));
-	}
-
 	private void setupAttributesPanel() {
-		attributesPanel = new AttributesPanel(table, style.error());
+		attributesPanel = new AttributesPanel(table, style.textboxError());
 		attributesPanel.addValueChangeHandler(new ValueChangeHandler<Void>() {
 
 			@Override
@@ -361,18 +336,18 @@ public class LinkTypeDetailsPanel extends Composite implements HasValueChangeHan
 
 
 	public void setReadOnly(boolean readOnly) {
-		nameBoxContainer.setReadOnly(readOnly);
-		if (readOnly) nameBox.setStyleName(style.error(), false);
+		nameBox.setEnabled(!readOnly);
+		if (readOnly) nameBox.setStyleName(style.textboxError(), false);
 
-		codelistBoxContainer.setReadOnly(readOnly);
-		if (readOnly) codelistBox.setStyleName(style.error(), false);
+		codelistBox.setEnabled(!readOnly);
+		if (readOnly) codelistBox.setStyleName(style.textboxError(), false);
 
 		valueTypePanel.setReadOnly(readOnly);
 
-		valueFunctionContainer.setReadOnly(readOnly);
+		valueFunction.setEnabled(!readOnly);
 
-		functionArgumentContainer.setReadOnly(readOnly);
-		if (readOnly) functionArgumentBox.setStyleName(style.error(), false);
+		functionArgumentBox.setEnabled(!readOnly);
+		if (readOnly) functionArgumentBox.setStyleName(style.textboxError(), false);
 
 		attributesPanel.setReadOnly(readOnly);
 	}

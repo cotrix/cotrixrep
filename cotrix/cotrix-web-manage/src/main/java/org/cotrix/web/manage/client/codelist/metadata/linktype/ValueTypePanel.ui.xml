@@ -6,24 +6,11 @@
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='commonresources'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
-	<ui:style>
-	
-	.loader {
-		vertical-align: middle;
-		margin-left: 11px;
-		margin-top: 10px;
-	}
-	</ui:style>
-	<g:HTMLPanel height="31px" width="100%">
-		<c:EditableLabel ui:field="valueTypeListContainer"
-			labelStyle="{resources.propertyGrid.textValue}">
-			<c:editor>
-				<g:ListBox multipleSelect="false" ui:field="valueTypeList"
-					styleName="{commonresources.css.listBox}" width="100%"/>
-			</c:editor>
-		</c:EditableLabel>
-		<g:Image ui:field="valueTypeListLoader" resource="{commonresources.dataLoader}" visible="false"
-			 styleName="{style.loader}" />
-
-	</g:HTMLPanel>
+	<g:FlowPanel width="100%">
+		<g:ListBox multipleSelect="false" ui:field="valueTypeList" styleName="{resources.detailsPanelStyle.listbox}" width="100%"/>
+		<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
+			<g:Image ui:field="valueTypeListLoader" resource="{commonresources.dataLoader}" visible="false"
+				styleName="{resources.detailsPanelStyle.loader}" />
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 
