@@ -64,17 +64,14 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource filter();
 	public ImageResource filterDisabled();
-	
-	public ImageResource linksTypes();
-	
+
 	public ImageResource linksSelected();
 	public ImageResource linksUnselected();
 	public ImageResource linksDisabled();
 	
+	public ImageResource linksTypes();
+	
 	public ImageResource attributeTypes();
-	public ImageResource attributeTypesSelected();
-	public ImageResource attributeTypesUnselected();
-	public ImageResource attributeTypesDisabled();
 	
 	@Source("thumb_vertical.png")
 	public ImageResource thumbVertical();

@@ -62,21 +62,27 @@ public class ItemToolbar extends Composite {
 	
 	public void setVisible(ItemButton button, boolean visible, boolean animation)
 	{
-		if (animation) setVisible(button, visible);
-		else setVisible(button, visible, Speed.IMMEDIATE);
+		setVisible(button, visible);
+		/*if (animation) setVisible(button, visible);
+		else setVisible(button, visible, Speed.IMMEDIATE);*/
 	}
 
 	public void setVisible(ItemButton button, boolean visible)
 	{
-		setVisible(button, visible, Speed.FAST);
+		switch (button) {
+		case MINUS: minus.setEnabled(visible); break;
+		case PLUS: plus.setEnabled(visible); break;
+		}
+		/*setVisible(button, visible, Speed.FAST);*/
 	}
 	
 	public void setVisible(ItemButton button, boolean visible, Speed speed)
 	{
-		switch (button) {
+		setVisible(button, visible);
+		/*switch (button) {
 			case MINUS: minusAnimation.setVisibility(visible, speed); break;
 			case PLUS: plusAnimation.setVisibility(visible, speed); break;
-		}
+		}*/
 	}
 	
 
