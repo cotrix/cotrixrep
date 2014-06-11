@@ -37,13 +37,14 @@ import com.google.gwt.user.client.ui.ValueBoxBase;
  */
 public class SuggestListBox extends Composite implements HasValueChangeHandlers<String>, HasSelectionHandlers<SuggestOracle.Suggestion>, TakesValue<String> {
 	
+	private FlowPanel mainPanel;
 	private HorizontalPanel layoutPanel;
 	private AdvancedSuggestBox suggestBox;
 	private PushButton suggestButton;
 	private FadeAnimation buttonAnimation;
 	
 	public SuggestListBox(SuggestOracle oracle) {
-		FlowPanel mainPanel = new FlowPanel();
+		mainPanel = new FlowPanel();
 		mainPanel.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().suggestionbox());
 		
 		layoutPanel = new HorizontalPanel();
@@ -144,6 +145,7 @@ public class SuggestListBox extends Composite implements HasValueChangeHandlers<
 	}
 
 	public void setEnabled(boolean enabled) {
+		mainPanel.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().suggestionbox(), enabled);
 		suggestBox.setEnabled(enabled);
 	}
 }

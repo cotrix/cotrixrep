@@ -119,6 +119,18 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		this.headerLabel.setText(label);
 	}
 	
+	public void setEditTitle(String title) {
+		edit.setTitle(title);
+	}
+	
+	public void setSaveTitle(String title) {
+		save.setTitle(title);
+	}
+	
+	public void setRevertTitle(String title) {
+		revert.setTitle(title);
+	}
+	
 	public void setHeaderStyle(String style) {
 		this.headerLabel.setStyleName(style);
 	}

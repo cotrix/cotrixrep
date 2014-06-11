@@ -56,6 +56,10 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 		
 		header = new LabelHeader();
 		header.setSwitchVisible(editor.isSwitchVisible());
+		header.setSaveTitle("Save all changes.");
+		header.setRevertTitle("Discard all changes.");
+		header.setEditTitle("Make changes.");
+		
 		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");
 		disclosurePanel.setAnimationEnabled(true);

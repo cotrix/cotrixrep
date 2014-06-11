@@ -74,7 +74,7 @@
 	text-align: center;
 	vertical-align: middle;
 	padding-top: 10px;
-	color: #464545;
+	color: #999;
 }
 
 .addLabel {
@@ -83,13 +83,13 @@
 	border-radius: 5px;
 	text-align: center;
 	width: 100%;
-	font-size: 22px;
+	font-size: 20px;
 	color: #fff;
 	outline: none;
 	
 	margin-top: 3px;
-	padding-top: 2px;
-	padding-bottom: 5px;
+	padding-top: 3px;
+	padding-bottom: 3px;
 }
 
 .addLabel:hover {
