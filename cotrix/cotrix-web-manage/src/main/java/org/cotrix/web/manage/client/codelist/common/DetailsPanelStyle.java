@@ -33,5 +33,7 @@ public interface DetailsPanelStyle extends CssResource {
 	String suggestionPopup();
 	String suggestionItem();
 	String suggestionItemSelected();
+	
+	String label();
 
 }

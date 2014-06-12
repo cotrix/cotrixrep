@@ -143,6 +143,11 @@ public class SuggestListBox extends Composite implements HasValueChangeHandlers<
 	public String getValue() {
 		return suggestBox.getValue();
 	}
+	
+	public void setPlaceholder(String placeholder) {
+		suggestBox.setPlaceholder(placeholder);
+	}
+	
 
 	public void setEnabled(boolean enabled) {
 		mainPanel.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().suggestionbox(), enabled);

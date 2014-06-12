@@ -2,91 +2,56 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets"
-	xmlns:t="urn:import:org.cotrix.web.common.client.widgets.table">
+	xmlns:t="urn:import:org.cotrix.web.common.client.widgets.table"
+	xmlns:cc="urn:import:org.cotrix.web.manage.client.codelist.common">
 	<ui:with field='resources'
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='commonresources'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
-	<ui:style
-		type="org.cotrix.web.manage.client.codelist.codes.link.LinkDetailsPanel.Style">
-		.propertiesGrid {
-			width: 100%;
-			border-collapse: collapse;
-		}
-		
-		.editor {
-			height: 31px;
-			-moz-box-sizing: border-box;
-		}
-		
-		.error {
-			border: 1px solid red !important;
-		}
-		
-		.loaderContainer {
-			vertical-align: middle;	
-		}
-		
-		.loader {
-			margin: 0 auto;
-			display: inherit;
-		}
-		</ui:style>
-	<t:Table ui:field="table" styleName="{style.propertiesGrid}">
+	<t:Table ui:field="table" styleName="{resources.detailsPanelStyle.table}">
 		<t:row>
-			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
 				<t:cell>
 					<g:Label>Type</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-						<c:EditableLabel ui:field="typeBoxContainer"
-							labelStyle="{resources.propertyGrid.textValue}">
-							<c:editor>
-								<g:SuggestListBox ui:field="typeBox" boxStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}"
-									 />
-									 <!-- styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" -->
-							</c:editor>
-						</c:EditableLabel>
-						<g:Image resource="{commonresources.dataLoader}" visible="false"
-							ui:field="typeBoxLoader" styleName="{style.loader}" />
+							<cc:SuggestListBox ui:field="typeBox" />
+							<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
+								<g:Image resource="{commonresources.dataLoader}" visible="false" ui:field="typeBoxLoader" styleName="{resources.detailsPanelStyle.loader}" />
+						</g:FlowPanel>
 					</g:FlowPanel>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
 		<t:row>
-			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}">
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
 				<t:cell>
 					<g:Label>Target</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-						<c:EditableLabel ui:field="targetCodeBoxContainer"
-							labelStyle="{resources.propertyGrid.textValue}">
-							<c:editor>
-								<g:SuggestListBox ui:field="targetCodeBox"
-									boxStyle="{commonresources.css.textBox} {resources.css.editor} {style.editor}" />
-							</c:editor>
-						</c:EditableLabel>
-						<g:Image resource="{commonresources.dataLoader}" visible="false"
-							ui:field="targetCodeBoxLoader" styleName="{style.loader}" />
+						<cc:SuggestListBox ui:field="targetCodeBox" />
+						<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
+							<g:Image resource="{commonresources.dataLoader}" visible="false" 
+								ui:field="targetCodeBoxLoader" styleName="{resources.detailsPanelStyle.loader}" />
+						</g:FlowPanel>
 					</g:FlowPanel>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
 		<t:row>
-			<t:CellContainer firstCellStyle="{resources.propertyGrid.header}"
-				secondCellStyle="{resources.propertyGrid.value} {style.loaderContainer}" ui:field="valueRow">
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}" ui:field="valueRow">
 				<t:cell>
 					<g:Label>Value</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-						<g:Label ui:field="valueLabel" styleName="{resources.propertyGrid.textValue}"/>
-						<g:Image resource="{commonresources.dataLoader}" visible="false"
-								ui:field="valueLabelLoader" styleName="{style.loader}" />
+						<g:Label ui:field="valueLabel" styleName="{resources.detailsPanelStyle.label}" />
+						<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
+							<g:Image resource="{commonresources.dataLoader}" visible="false" 
+								ui:field="valueLabelLoader" styleName="{resources.detailsPanelStyle.loader}" />
+						</g:FlowPanel>
 					</g:FlowPanel>
 				</t:cell>
 			</t:CellContainer>

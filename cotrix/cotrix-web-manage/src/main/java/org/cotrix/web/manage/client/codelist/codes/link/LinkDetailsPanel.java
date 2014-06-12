@@ -5,7 +5,6 @@ package org.cotrix.web.manage.client.codelist.codes.link;
 
 import java.util.List;
 
-import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
@@ -14,6 +13,9 @@ import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
 import org.cotrix.web.manage.client.codelist.codes.link.CodeSuggestOracle.CodeSuggestion;
 import org.cotrix.web.manage.client.codelist.codes.link.LinkTypeSuggestOracle.LinkTypeSuggestion;
 import org.cotrix.web.manage.client.codelist.common.AttributesPanel;
+import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
+import org.cotrix.web.manage.client.codelist.common.SuggestListBox;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
 import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UILinkTypeInfo;
@@ -29,14 +31,12 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SuggestListBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.Widget;
@@ -54,20 +54,13 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 
 	interface LinkDetailsPanelUiBinder extends UiBinder<Widget, LinkDetailsPanel> {}
 
-	interface Style extends CssResource {
-		String error();
-		String editor();
-	}
-
 	@UiField Table table;
 
-	@UiField EditableLabel typeBoxContainer;
 	@UiField(provided=true) SuggestListBox typeBox;
 	@UiField Image typeBoxLoader;
 	private LinkTypeSuggestOracle linkTypeSuggestOracle;
 	private UILinkTypeInfo selectedLinkType;
 
-	@UiField EditableLabel targetCodeBoxContainer;
 	@UiField(provided=true) SuggestListBox targetCodeBox;
 	@UiField Image targetCodeBoxLoader;
 	private CodeSuggestOracle codeSuggestOracle;
@@ -79,7 +72,7 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 
 	private AttributesPanel attributesPanel;
 
-	@UiField Style style;
+	private DetailsPanelStyle style = CotrixManagerResources.INSTANCE.detailsPanelStyle();
 
 	private LinksCodelistInfoProvider codelistInfoProvider;
 
@@ -123,7 +116,6 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 				LinkTypeSuggestion suggestion = (LinkTypeSuggestion) event.getSelectedItem();
 				selectedLinkType = suggestion.getLinkType();
 				loadCodes(selectedLinkType.getId());
-				typeBoxContainer.setText(LinkTypeSuggestion.toDisplayString(selectedLinkType));
 				fireChange();
 			}
 		});
@@ -133,7 +125,6 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 		if (typeId!=null) {
 			selectedLinkType = new UILinkTypeInfo(typeId, name);
 			typeBox.getValueBox().setValue(LinkTypeSuggestion.toDisplayString(selectedLinkType), false);
-			typeBoxContainer.setText(LinkTypeSuggestion.toDisplayString(selectedLinkType));
 			loadCodes(typeId);
 		}
 	}
@@ -143,12 +134,12 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 	}
 
 	public void setValidLinkType(boolean valid) {
-		typeBox.setStyleName(style.error(), !valid);
+		typeBox.setStyleName(style.textboxError(), !valid);
 	}
 
 	public void setLinkTypeReadonly(boolean readOnly) {
-		typeBoxContainer.setReadOnly(readOnly);
-		if (readOnly) typeBox.setStyleName(style.error(), false);
+		typeBox.setEnabled(!readOnly);
+		if (readOnly) typeBox.setStyleName(style.textboxError(), false);
 	}
 
 	private final AsyncCallback<List<UILinkTypeInfo>> linkTypesCallBack = new AsyncCallback<List<UILinkTypeInfo>>() {
@@ -157,7 +148,7 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 		public void onSuccess(List<UILinkTypeInfo> result) {
 			linkTypeSuggestOracle.loadCache(result);
 			typeBoxLoader.setVisible(false);
-			typeBoxContainer.setVisible(true);
+			typeBox.setVisible(true);
 		}
 
 		@Override
@@ -168,7 +159,7 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 
 	private void loadLinkTypes() {
 		typeBoxLoader.setVisible(true);
-		typeBoxContainer.setVisible(false);
+		typeBox.setVisible(false);
 		codelistInfoProvider.getCodelistLinkTypes(linkTypesCallBack);
 	}
 
@@ -190,7 +181,6 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 			public void onSelection(SelectionEvent<Suggestion> event) {
 				CodeSuggestion suggestion = (CodeSuggestion) event.getSelectedItem();
 				selectedCode = suggestion.getCode();
-				targetCodeBoxContainer.setText(CodeSuggestion.toDisplayString(selectedCode));
 				fireChange();
 			}
 		});
@@ -200,7 +190,6 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 		if (codeId!=null) {
 			selectedCode = new UICodeInfo(codeId, name);
 			targetCodeBox.getValueBox().setValue(CodeSuggestion.toDisplayString(selectedCode), false);
-			targetCodeBoxContainer.setText(CodeSuggestion.toDisplayString(selectedCode));
 		}
 	}
 
@@ -209,12 +198,12 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 	}
 
 	public void setValidCode(boolean valid) {
-		targetCodeBox.setStyleName(style.error(), !valid);
+		targetCodeBox.setStyleName(style.textboxError(), !valid);
 	}
 
 	public void setCodeReadonly(boolean readOnly) {
-		targetCodeBoxContainer.setReadOnly(readOnly);
-		if (readOnly) targetCodeBox.setStyleName(style.error(), false);
+		targetCodeBox.setEnabled(!readOnly);
+		if (readOnly) targetCodeBox.setStyleName(style.textboxError(), false);
 	}
 
 	private final AsyncCallback<List<UICodeInfo>> codesCallBack = new AsyncCallback<List<UICodeInfo>>() {
@@ -224,7 +213,7 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 			Log.trace("loaded "+result.size()+" codes");
 			codeSuggestOracle.loadCache(result);
 			targetCodeBoxLoader.setVisible(false);
-			targetCodeBoxContainer.setVisible(true);
+			targetCodeBox.setVisible(true);
 		}
 
 		@Override
@@ -235,7 +224,7 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 
 	private void loadCodes(String typeId) {
 		targetCodeBoxLoader.setVisible(true);
-		targetCodeBoxContainer.setVisible(false);
+		targetCodeBox.setVisible(false);
 		codelistInfoProvider.getCodelistCodes(typeId, codesCallBack);
 	}	
 
@@ -255,7 +244,7 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 
 
 	private void setupAttributesPanel() {
-		attributesPanel = new AttributesPanel(table, style.error());
+		attributesPanel = new AttributesPanel(table, style.textboxError());
 		attributesPanel.addValueChangeHandler(new ValueChangeHandler<Void>() {
 
 			@Override
@@ -281,11 +270,11 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 
 	public void setReadOnly(boolean readOnly) {
 
-		typeBoxContainer.setReadOnly(readOnly);
-		if (readOnly) typeBox.setStyleName(style.error(), false);
+		typeBox.setEnabled(!readOnly);
+		if (readOnly) typeBox.setStyleName(style.textboxError(), false);
 
-		targetCodeBoxContainer.setReadOnly(readOnly);
-		if (readOnly) targetCodeBox.setStyleName(style.error(), false);
+		targetCodeBox.setEnabled(!readOnly);
+		if (readOnly) targetCodeBox.setStyleName(style.textboxError(), false);
 
 		attributesPanel.setReadOnly(readOnly);
 	}

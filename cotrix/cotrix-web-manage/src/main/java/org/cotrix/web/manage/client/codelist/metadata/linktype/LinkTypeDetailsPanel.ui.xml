@@ -27,7 +27,7 @@
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-						<cc:SuggestListBox ui:field="codelistBox"/>
+						<cc:SuggestListBox ui:field="codelistBox" placeholder="Pick a codelist..."/>
 						<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
 							<g:Image resource="{commonresources.dataLoader}" visible="false"
 								ui:field="codelistBoxLoader" styleName="{resources.detailsPanelStyle.loader}" />

@@ -6,6 +6,8 @@ package com.google.gwt.user.client.ui;
 import java.util.Collection;
 import java.util.List;
 
+import org.cotrix.web.common.client.widgets.AdvancedTextBox;
+
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.PopupPanel.AnimationType;
@@ -387,7 +389,7 @@ public class AdvancedSuggestBox extends SuggestBox {
 
 
 	public AdvancedSuggestBox(SuggestOracle oracle, String suggestionItemStyleName, String suggestionItemSelectedStyleName) {
-		super(oracle, new TextBox(), new AdvancedSuggestionDisplay(suggestionItemStyleName, suggestionItemSelectedStyleName));
+		super(oracle, new AdvancedTextBox(), new AdvancedSuggestionDisplay(suggestionItemStyleName, suggestionItemSelectedStyleName));
 		AdvancedSuggestionDisplay suggestionDisplay = (AdvancedSuggestionDisplay) getSuggestionDisplay();
 		suggestionDisplay.setAnimationEnabled(true);
 	}
@@ -400,6 +402,10 @@ public class AdvancedSuggestBox extends SuggestBox {
 	public void setSuggestionItemStyleName(String suggestionItemStyleName, String suggestionItemSelectedStyleName) {
 		AdvancedSuggestionDisplay suggestionDisplay = (AdvancedSuggestionDisplay) getSuggestionDisplay();
 		suggestionDisplay.setSuggestionItemStyleName(suggestionItemStyleName, suggestionItemSelectedStyleName);
+	}
+	
+	public void setPlaceholder(String placeholder) {
+		((AdvancedTextBox)getValueBox()).setPlaceholder(placeholder);
 	}
 
 	@Override
