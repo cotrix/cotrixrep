@@ -2,6 +2,7 @@ package org.cotrix.web.manage.client.manager;
 
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.widgets.HasMinHeight;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -22,7 +23,7 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public class CodelistManagerViewImpl extends ResizeComposite implements CodelistManagerView {
+public class CodelistManagerViewImpl extends ResizeComposite implements CodelistManagerView, HasMinHeight {
 
 	@UiTemplate("CodelistManager.ui.xml")
 	interface CodeListManagerUiBinder extends UiBinder<Widget, CodelistManagerViewImpl> {}
@@ -59,6 +60,11 @@ public class CodelistManagerViewImpl extends ResizeComposite implements Codelist
 	    simplePopup.setWidth("150px");
 	    simplePopup.setWidget(new HTML(message));
 	    simplePopup.center();
+	}
+
+	@Override
+	public int getMinHeight() {
+		return 670;
 	}
 
 }
