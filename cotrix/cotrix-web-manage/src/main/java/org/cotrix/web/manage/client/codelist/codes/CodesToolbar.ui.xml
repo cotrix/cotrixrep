@@ -6,92 +6,70 @@
 	<ui:with field='common'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
 	<ui:style>
-	.headerPanel {
+		.table {
+			width: 100%;
+			height: 35px;
+		}
+	
+		.left {
+			width: 33%;
+			text-align: left;
+			vertical-align: middle;
+		}
+	
+		.center {
+			width: 33%;
+			text-align: center;
+			vertical-align: middle;
+		}
+	
+		.right {
+			width: 33%;
+			text-align: right;
+			vertical-align: middle;
+		}
+	
+		.button {
+			cursor: pointer;
+			display: inline;
+		}
+	
+		.leftButton {
+			padding-left: 5px;
+		}
 		
-	}
+		.rightButton {
+			padding-right: 5px;
+		}
 	
-	.leftWrapper {
-		float: left;
-		margin-left: 4px;
-	}
-	
-	.rightWrapper {
-		float: right;
-		margin-right: 5px;
-	}
-	
-	.button {
-		padding: 5px;
-		cursor: pointer;
-	}
-	
-	.lock {
-		outline: none;
-		padding: 5px;
-		display: inline;
-		cursor: pointer;
-	}
-	
-	.lock>img {
-		vertical-align: middle;
-	}
-	
-	.seal {
-		padding-left: 5px;
-	}
-	
-	.statusWrapper {
-		vertical-align: middle;
-		padding: 5px;
-	}
-	
-	.state {
-		color: lightgray;
-		font-size: 25px;
-		height: 100%;
-		padding-left: 5px;
-	}
-	
-	.stateLoaderWrapper {
-		height: 25px;
-		vertical-align: middle;
-		display: inline-block;
-	}
-	
-	.stateLoader {
-		margin: 8px;
-	}
+		.state {
+			color: lightgray;
+			font-size: 25px;
+		}
 	</ui:style>
-	<g:FlowPanel ui:field="headerPanel" styleName="{style.headerPanel}">
-		<g:HorizontalPanel styleName="{style.leftWrapper}"
-			verticalAlignment="middle" height="100%" spacing="5">
-			<g:PushButton ui:field="allColumns" styleName="{style.button}"
-				title="Show All">
-				<g:upFace image="{resources.allColumns}" />
-			</g:PushButton>
-			<g:PushButton ui:field="allNormals" styleName="{style.button}"
-				title="Hide All">
-				<g:upFace image="{resources.allNormals}" />
-			</g:PushButton>
-		</g:HorizontalPanel>
-		
-
-
-		<g:HorizontalPanel styleName="{style.rightWrapper}"
-			verticalAlignment="middle" height="100%">
-			<g:HorizontalPanel verticalAlignment="middle"
-				height="100%" spacing="5" styleName="{style.rightWrapper}">
-			<g:FlowPanel styleName="{style.statusWrapper}">
-				<g:InlineLabel ui:field="state" styleName="{style.state}">draft</g:InlineLabel>
-				<g:FlowPanel styleName="{style.stateLoaderWrapper}">
-					<g:Image ui:field="stateLoader" resource="{common.dataLoader}"
-						styleName="{style.stateLoader}" visible="false" />
-				</g:FlowPanel>
-			</g:FlowPanel>
-			<g:PushButton ui:field="metadataButton" styleName="{style.button}" title="Codelist metadata">
-				<g:upFace image="{resources.metadata}" />
-			</g:PushButton>
-			</g:HorizontalPanel>
-		</g:HorizontalPanel>
-	</g:FlowPanel>
+	<g:HTMLPanel>
+		<table class="{style.table}">
+			<tr>
+				<td class="{style.left}">
+					<g:PushButton ui:field="allColumns" styleName="{style.button} {style.leftButton}" title="Show All">
+						<g:upFace image="{resources.allColumns}" />
+					</g:PushButton>
+					<g:PushButton ui:field="allNormals" styleName="{style.button} {style.leftButton}" title="Hide All">
+						<g:upFace image="{resources.allNormals}" />
+					</g:PushButton>
+				</td>
+				<td class="{style.center}">
+					<div>
+						<g:InlineLabel ui:field="state" styleName="{style.state}">draft</g:InlineLabel>
+						<g:Image ui:field="stateLoader" resource="{common.dataLoader}" visible="false" />
+					</div>
+				</td>
+				<td class="{style.right}">
+					<g:PushButton ui:field="metadataButton" styleName="{style.button} {style.rightButton}" title="Codelist metadata">
+						<g:upFace image="{resources.metadata}" />
+					</g:PushButton>
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
 </ui:UiBinder> 
