@@ -230,8 +230,13 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 	private void validate() {
 		boolean valid = true;
 
+		Log.trace("validating");
+		
 		String name = detailsPanel.getName();
+		Log.trace("name: "+name);
+		
 		boolean nameValid = name!=null && !name.isEmpty();
+		Log.trace("nameValid: "+nameValid);
 		detailsPanel.setNameFieldValid(nameValid);
 		valid &= nameValid;
 		
