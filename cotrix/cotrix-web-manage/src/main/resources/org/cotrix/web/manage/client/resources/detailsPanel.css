@@ -229,9 +229,8 @@
 
 .suggestionItem {
 	padding: 2px 6px;
-	color: #5a5a5a;
+	color: #4f4e4e;
 	cursor: default;
-	/*font-size: 110%;*/
 }
 
 .suggestionItemSelected {
