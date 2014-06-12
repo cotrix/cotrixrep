@@ -26,47 +26,47 @@
 	}
 	</ui:style>
 	<g:HTMLPanel styleName="{commonresources.css.dialogBox}"
-		width="300px" height="220px">
+		width="300px" height="230px">
 		<div class="{commonresources.css.dialogTitle}" id="signup.title">
 			Edit Attribute
 		</div>
 		<div style="padding-top: 13px;">
 			<table class="{style.propertiesGrid}">
 				<tr>
-					<td class="{resources.propertyGrid.header}">
+					<td class="{resources.detailsPanelStyle.headerCell}">
 						<div>Name</div>
 					</td>
-					<td class="{resources.propertyGrid.value}">
+					<td class="{resources.detailsPanelStyle.valueCell}">
 						<c:AdvancedTextBox ui:field="nameBox"
-							styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" placeholder="name" />
+							styleName="{resources.detailsPanelStyle.textbox}" placeholder="name" />
 					</td>
 				</tr>
 				<tr>
-					<td class="{resources.propertyGrid.header}">
+					<td class="{resources.detailsPanelStyle.headerCell}">
 						<div>Type</div>
 					</td>
-					<td class="{resources.propertyGrid.value}">
+					<td class="{resources.detailsPanelStyle.valueCell}">
 						<g:FlowPanel>
 							<c:AdvancedTextBox ui:field="typeBox"
-								styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" placeholder="type" />
+								styleName="{resources.detailsPanelStyle.textbox}" placeholder="type" />
 						</g:FlowPanel>
 					</td>
 				</tr>
 				<tr>
-					<td class="{resources.propertyGrid.header}">
+					<td class="{resources.detailsPanelStyle.headerCell}">
 						<div>Language</div>
 					</td>
-					<td class="{resources.propertyGrid.value}">
-						<c:LanguageListBox  ui:field="languageBox" styleName="{commonresources.css.listBox}" width="100%"/>
+					<td class="{resources.detailsPanelStyle.valueCell}">
+						<c:LanguageListBox  ui:field="languageBox" styleName="{resources.detailsPanelStyle.listbox}" width="100%"/>
 					</td>
 				</tr>
 				<tr>
-					<td class="{resources.propertyGrid.header}">
+					<td class="{resources.detailsPanelStyle.headerCell}">
 						<div>Value</div>
 					</td>
-					<td class="{resources.propertyGrid.value}">
+					<td class="{resources.detailsPanelStyle.valueCell}">
 						<c:AdvancedTextBox ui:field="valueBox"
-							styleName="{commonresources.css.textBox} {resources.css.editor} {style.editor}" placeholder="value" />
+							styleName="{resources.detailsPanelStyle.textbox}" placeholder="value" />
 					</td>
 				</tr>
 			</table>

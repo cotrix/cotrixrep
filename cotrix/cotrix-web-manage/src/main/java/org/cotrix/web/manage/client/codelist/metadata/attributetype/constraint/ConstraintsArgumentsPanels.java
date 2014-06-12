@@ -8,12 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -96,14 +95,6 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 		for (ArgumentsPanel argumentsPanel:constraintToPanel.values()) argumentsPanel.setReadOnly(readOnly);
 	}
 	
-	public void setLabelStyle(String styleName) {
-		for (ArgumentsPanel argumentsPanel:constraintToPanel.values()) argumentsPanel.setLabelStyle(styleName);
-	}
-	
-	public void setEditorStyle(String styleName) {
-		for (ArgumentsPanel argumentsPanel:constraintToPanel.values()) argumentsPanel.setEditorStyle(styleName);
-	}
-	
 	public void setStyle(String style, boolean add) {
 		for (ArgumentsPanel argumentsPanel:constraintToPanel.values()) argumentsPanel.setStyle(style, add);
 	}
@@ -157,14 +148,6 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 			for (ArgumentPanel argumentPanel:argumentPanels) argumentPanel.setReadOnly(readOnly);
 		}
 		
-		public void setLabelStyle(String styleName) {
-			for (ArgumentPanel argumentPanel:argumentPanels) argumentPanel.setLabelStyle(styleName);
-		}
-		
-		public void setEditorStyle(String styleName) {
-			for (ArgumentPanel argumentPanel:argumentPanels) argumentPanel.setEditorStyle(styleName);
-		}
-		
 		public void setStyle(String style, boolean add) {
 			for (ArgumentPanel argumentPanel:argumentPanels) argumentPanel.setStyle(style, add);
 		}
@@ -177,7 +160,6 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 	
 	private class ArgumentPanel extends Composite implements HasText, HasValueChangeHandlers<String> {
 		
-		private EditableLabel editableLabel;
 		private TextBox textBox;
 		
 		public ArgumentPanel(String name) {
@@ -187,28 +169,18 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 		public ArgumentPanel(String name, String value) {
 			VerticalPanel panel = new VerticalPanel();
 			panel.setWidth("100%");
+			panel.setHeight("55px");
 			Label label = new Label(name);
 			label.setStyleName(CotrixManagerResources.INSTANCE.propertyGrid().argumentLabel());
-
 			panel.add(label);
+			
 			textBox = new TextBox();
-			textBox.setStyleName(CommonResources.INSTANCE.css().textBox()+" "+CotrixManagerResources.INSTANCE.css().editor());
-			textBox.setHeight("31px");
+			textBox.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().textbox());
 			textBox.setValue(value);
+			panel.add(textBox);
+			textBox.getElement().getParentElement().getStyle().setPaddingLeft(3, Unit.PX);
+			textBox.getElement().getParentElement().getStyle().setPaddingRight(3, Unit.PX);
 			
-			editableLabel = new EditableLabel();
-			editableLabel.addEditor(textBox);
-			editableLabel.setLabelStyle(CotrixManagerResources.INSTANCE.propertyGrid().argumentValue());
-			
-			textBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-				@Override
-				public void onValueChange(ValueChangeEvent<String> event) {
-					editableLabel.setText(event.getValue());
-				}
-			});
-			
-			panel.add(editableLabel);
 			initWidget(panel);
 		}
 
@@ -220,7 +192,6 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 		@Override
 		public void setText(String text) {
 			textBox.setValue(text);	
-			editableLabel.setText(text);
 		}
 
 		@Override
@@ -229,15 +200,7 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 		}
 
 		public void setReadOnly(boolean readOnly) {
-			editableLabel.setReadOnly(readOnly);
-		}
-		
-		public void setLabelStyle(String styleName) {
-			editableLabel.setLabelStyle(styleName);
-		}
-		
-		public void setEditorStyle(String styleName) {
-			textBox.setStyleName(styleName);
+			textBox.setEnabled(!readOnly);
 		}
 		
 		public void setStyle(String style, boolean add) {

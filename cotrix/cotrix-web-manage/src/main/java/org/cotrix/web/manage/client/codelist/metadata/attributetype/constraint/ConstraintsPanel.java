@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.cotrix.web.common.client.util.FadeAnimation;
+import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.attributetype.UIConstraint;
@@ -28,6 +30,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -41,6 +44,7 @@ public class ConstraintsPanel implements HasValueChangeHandlers<Void> {
 	
 	private Table table;
 	
+	private FadeAnimation addRowAnimation;
 	private AddRow addRow;
 
 	private Map<ConstraintRow, UIConstraint> constraintsRows;
@@ -109,7 +113,9 @@ public class ConstraintsPanel implements HasValueChangeHandlers<Void> {
 				addEmptyConstraintRow();				
 			}
 		});
-		table.addRow(addRow);		
+		table.addRow(addRow);	
+		
+		addRowAnimation = new FadeAnimation(addRow.getElement());
 	}
 	
 	private void addEmptyConstraintRow() {
@@ -162,6 +168,8 @@ public class ConstraintsPanel implements HasValueChangeHandlers<Void> {
 	
 	private void setAddRowReadOnly(boolean readOnly) {
 		table.getFlexTable().getRowFormatter().setVisible(addRow.getRow(), !readOnly);
+		if (readOnly) addRowAnimation.setVisibility(false, Speed.IMMEDIATE);
+		else addRowAnimation.setVisibility(true, Speed.VERY_FAST);
 	}
 	
 	public void setConstraints(List<UIConstraint> constraints) {
@@ -269,6 +277,7 @@ public class ConstraintsPanel implements HasValueChangeHandlers<Void> {
 		public void setup() {
 			addCell(0, clickPanel);
 			table.getFlexCellFormatter().setColSpan(rowIndex, 0, 4);
+			table.getFlexCellFormatter().setStyleName(getRow(), 0, CotrixManagerResources.INSTANCE.css().addLabelCell());
 		}
 		
 		public int getRow() {
@@ -284,5 +293,9 @@ public class ConstraintsPanel implements HasValueChangeHandlers<Void> {
 			return clickPanel.addClickHandler(handler);
 		}
 		
+		@SuppressWarnings("deprecation")
+		public Element getElement() {
+			return clickPanel.getElement();
+		}
 	}
 }

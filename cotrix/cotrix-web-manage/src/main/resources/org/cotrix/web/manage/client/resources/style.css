@@ -79,17 +79,17 @@
 
 .addLabel {
 	background-color: #5674b9;
-	border: 1px solid #ccc;
-	border-radius: 5px;
 	text-align: center;
 	width: 100%;
 	font-size: 20px;
 	color: #fff;
 	outline: none;
-	
-	margin-top: 3px;
 	padding-top: 3px;
 	padding-bottom: 3px;
+}
+
+.addLabelCell {
+	border-right: 1px solid #5674b9;
 }
 
 .addLabel:hover {

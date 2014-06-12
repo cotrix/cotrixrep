@@ -16,6 +16,10 @@ public interface DetailsPanelStyle extends CssResource {
 	String headerCell();
 	String valueCell();
 	
+	String valueCellLeft();
+	String valueCellCenter();
+	String valueCellRight();
+	
 	String textbox();
 	String textboxError();
 	String listbox();
