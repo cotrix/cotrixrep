@@ -75,6 +75,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 			public void onClose(CloseEvent<CustomDisclosurePanel> event) {
 				header.setEditVisible(false);
 				header.setControlsVisible(false);
+				updateHeaderLabel();
 				fireSelected();
 			}
 		});
@@ -84,6 +85,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 			@Override
 			public void onOpen(OpenEvent<CustomDisclosurePanel> event) {
 				updateHeaderButtons();
+				updateHeaderLabel();
 				fireSelected();
 				if (editing) validate();
 			}
@@ -203,7 +205,12 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 	}
 	
 	private void updateHeaderLabel() {
-		header.setHeaderLabel(ValueUtils.getLocalPart(attribute.getName()));
+		StringBuilder headerLabel = new StringBuilder();
+		headerLabel.append(ValueUtils.getLocalPart(attribute.getName()));
+		if (!disclosurePanel.isOpen() && attribute.getValue()!=null) {
+			headerLabel.append(": ").append(attribute.getValue());
+		}
+		header.setHeaderLabel(headerLabel.toString());
 	}
 
 	private void updateHeaderButtons() {
