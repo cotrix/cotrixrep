@@ -10,7 +10,9 @@
 			<g:HTML ui:field="header" styleName="{attributesresources.dataGridStyle.dataGridHeader}">Links</g:HTML>
 		</g:north>
 		<g:center>
-			<v:ItemsEditingPanel ui:field="linksPanel" />
+			<g:ScrollPanel>
+				<v:ItemsEditingPanel ui:field="linksPanel" />
+			</g:ScrollPanel>
 		</g:center>
 		<g:south size="28">
 			<c:ItemToolbar ui:field="toolBar" />

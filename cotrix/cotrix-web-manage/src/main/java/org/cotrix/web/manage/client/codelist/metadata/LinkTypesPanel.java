@@ -10,7 +10,6 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
-import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.manage.client.codelist.cache.LinkTypesCache;
@@ -31,6 +30,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
@@ -42,14 +44,18 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkTypesPanel extends LoadingPanel implements HasEditing {
+public class LinkTypesPanel extends Composite implements HasEditing {
 
 	interface LinkTypesPanelUiBinder extends UiBinder<Widget, LinkTypesPanel> {}
 	interface LinkTypesPanelEventBinder extends EventBinder<LinkTypesPanel> {}
 
 	private static LinkTypesPanelUiBinder uiBinder = GWT.create(LinkTypesPanelUiBinder.class);
 
+	@UiField FlowPanel itemsContainer;
+
 	@UiField(provided=true) ItemsEditingPanel<UILinkType, LinkTypePanel> linkTypesPanel;
+
+	@UiField HTMLPanel loaderContainer;
 
 	@UiField ItemToolbar toolBar;
 
@@ -76,7 +82,7 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 		
 		linkTypesPanel = new ItemsEditingPanel<UILinkType, LinkTypePanel>("Define a link.", editingPanelFactory);
 		
-		add(uiBinder.createAndBindUi(this));
+		initWidget(uiBinder.createAndBindUi(this));
 		
 		linkTypesPanel.setListener(new ItemsEditingListener<UILinkType>() {
 			
@@ -181,35 +187,29 @@ public class LinkTypesPanel extends LoadingPanel implements HasEditing {
 		}
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-
-		//workaround issue #7188 https://code.google.com/p/google-web-toolkit/issues/detail?id=7188
-		onResize();
-	}
-
 	public void loadData()
 	{
-		showLoader();
+		showLoader(true);
 		linkTypesCache.getItems(new AsyncCallback<Collection<UILinkType>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Failed loading CodelistLinkTypes", caught);
-				hideLoader();
+				showLoader(false);
 			}
 
 			@Override
 			public void onSuccess(Collection<UILinkType> result) {
 				Log.trace("retrieved CodelistLinkTypes: "+result);
 				setLinkTypes(result);
-				hideLoader();
+				showLoader(false);
 			}
 		});
+	}
+	
+	private void showLoader(boolean visible) {
+		loaderContainer.setVisible(visible);
+		itemsContainer.setVisible(!visible);
 	}
 
 	private void setLinkTypes(Collection<UILinkType> types)

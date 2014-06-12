@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
@@ -66,7 +65,6 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		public void onSwitch(boolean isDown);
 	}
 		
-	private ScrollPanel scrollPanel;
 	private VerticalPanel mainPanel;
 	private HTML emptyWidget;
 	private HorizontalPanel emptyWidgetContainer;
@@ -85,13 +83,8 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	public ItemsEditingPanel(String noItemsText, ItemEditingPanelFactory<T,P> editingPanelFactory) {
 		this.editingPanelFactory = editingPanelFactory;
 		
-		scrollPanel = new ScrollPanel();
-		scrollPanel.setWidth("100%");
-		scrollPanel.setHeight("100%");
-		
 		mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
-		scrollPanel.add(mainPanel);
 		
 		emptyWidget = new HTML(noItemsText);
 		emptyWidget.setStyleName(CotrixManagerResources.INSTANCE.css().noItemsLabel());
@@ -103,7 +96,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		
 		mainPanel.add(emptyWidgetContainer);
 		
-		initWidget(scrollPanel);
+		initWidget(mainPanel);
 
 		editable = false;
 		updateEmptyWidget();

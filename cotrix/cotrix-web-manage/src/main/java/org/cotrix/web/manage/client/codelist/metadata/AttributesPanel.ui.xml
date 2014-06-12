@@ -11,7 +11,9 @@
 			<g:Label styleName="{attributesresources.dataGridStyle.dataGridHeader}">Codelist Attributes</g:Label>
 		</g:north>
 		<g:center>
-			<v:ItemsEditingPanel ui:field="attributesGrid" />
+			<g:ScrollPanel>
+				<v:ItemsEditingPanel ui:field="attributesGrid" />
+			</g:ScrollPanel>
 		</g:center>
 		<g:south size="28">
 			<c:ItemToolbar ui:field="toolBar" />

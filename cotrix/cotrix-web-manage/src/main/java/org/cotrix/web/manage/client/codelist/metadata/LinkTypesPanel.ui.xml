@@ -6,52 +6,66 @@
 		type='org.cotrix.web.manage.client.codelist.common.attribute.AttributesGridResources' />
 	<ui:with field='resources'
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:with field='common'
+		type='org.cotrix.web.common.client.resources.CommonResources' />
 	<ui:style>
-	.cell {
-		vertical-align: middle;
-		padding: 5px;
-	}
-	
-	.icon {
+		.cell {
+			vertical-align: middle;
+			padding: 5px;
+		}
 		
-	}
-	
-	.label {
-		font-size: 35px;
-		height: 60px;
-		color: #5674b9;
-	}
-	
-	.itemsContainer {
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
-		border-top: 1px solid lightgray;
-		border-left: 1px solid lightgray;
-		border-right: 1px solid lightgray;
-	}
-	
-	.items {
-		margin-top: 10px;
-	}
-	
-	.toolbarContainer {
-		height: 37px;
+		.icon {
+			
+		}
 		
-		border-bottom-left-radius: 5px;
-		border-bottom-right-radius: 5px;
-		border-left: 1px solid lightgray;
-		border-right: 1px solid lightgray;
-		border-bottom: 1px solid lightgray;
-	}
-	
-	.toolbar {
-		margin-top: 9px;
-	}
-	
+		.label {
+			font-size: 35px;
+			height: 60px;
+			color: #5674b9;
+		}
+		
+		.container {
+			border: 1px solid lightgray;
+			border-radius: 5px;
+		}
+		
+		.itemsContainer {
+			min-height: 300px;
+		}
+		
+		.items {
+		}
+		
+		.loaderContainer {
+			min-height: 100px;
+		}
+		
+		.loaderTable {
+			height:100%;
+			min-height: 100px;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			border: 0;
+		}
+		
+		.loaderCell {
+			vertical-align: middle;
+			text-align: center;
+		}
+		
+		.toolbarContainer {
+			height: 28px;
+			margin-top: 5px;
+		}
+		
+		.toolbar {
+		}
 	</ui:style>
-	<g:DockLayoutPanel unit='PX'>
-		<g:north size="60">
-			<g:HTMLPanel>
+	<g:HTMLPanel>
+		<table width="100%">
+			<tr height="60px">
+				<td>
 				<table>
 					<tr title="The links of codes.">
 						<td class="{style.cell}">
@@ -62,17 +76,31 @@
 						</td>
 					</tr>
 				</table>
-			</g:HTMLPanel>
-		</g:north>
-		<g:center>
-			<g:SimpleLayoutPanel styleName="{style.itemsContainer}">
-				<v:ItemsEditingPanel ui:field="linkTypesPanel" addStyleNames="{style.items}"/>
-			</g:SimpleLayoutPanel>
-		</g:center>
-		<g:south size="38">
-			<g:SimpleLayoutPanel styleName="{style.toolbarContainer}">
-				<c:ItemToolbar ui:field="toolBar" addStyleNames="{style.toolbar}"/>
-			</g:SimpleLayoutPanel>
-		</g:south>
-	</g:DockLayoutPanel>
-</ui:UiBinder> 
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="{style.container}">
+						<g:FlowPanel ui:field="itemsContainer" styleName="{style.itemsContainer}">
+							<v:ItemsEditingPanel ui:field="linkTypesPanel" addStyleNames="{style.items}"/>
+						</g:FlowPanel>
+				
+						<g:HTMLPanel ui:field="loaderContainer" styleName="{style.loaderContainer}">
+							<table class="{style.loaderTable}">
+								<tr>
+									<td class="{style.loaderCell}">
+										<g:Image ui:field="stateLoader" resource="{common.dataLoader}" />
+									</td>
+								</tr>
+							</table>
+						</g:HTMLPanel>
+			
+						<div class="{style.toolbarContainer}">
+							<c:ItemToolbar ui:field="toolBar" addStyleNames="{style.toolbar}"/>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder>

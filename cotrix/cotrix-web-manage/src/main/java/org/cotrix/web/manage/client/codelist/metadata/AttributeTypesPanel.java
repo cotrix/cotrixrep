@@ -10,7 +10,6 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
-import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
 import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
@@ -29,6 +28,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
@@ -39,15 +41,19 @@ import com.google.web.bindery.event.shared.binder.EventBinder;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
+public class AttributeTypesPanel extends Composite implements HasEditing {
 
 	interface AttributeTypesPanelUiBinder extends UiBinder<Widget, AttributeTypesPanel> {}
 	interface AttributeTypesPanelEventBinder extends EventBinder<AttributeTypesPanel> {}
 
 	private static AttributeTypesPanelUiBinder uiBinder = GWT.create(AttributeTypesPanelUiBinder.class);
 
+	@UiField FlowPanel itemsContainer;
+	
 	@UiField(provided=true) ItemsEditingPanel<UIAttributeType, AttributeTypePanel> attributeTypesPanel;
 
+	@UiField HTMLPanel loaderContainer;
+	
 	@UiField ItemToolbar toolBar;
 
 	private DataEditor<UIAttributeType> attributeTypeEditor;
@@ -73,7 +79,7 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 		
 		attributeTypesPanel = new ItemsEditingPanel<UIAttributeType, AttributeTypePanel>("Define an attribute.", editingPanelFactory);
 		
-		add(uiBinder.createAndBindUi(this));
+		initWidget(uiBinder.createAndBindUi(this));
 		
 		attributeTypesPanel.setListener(new ItemsEditingListener<UIAttributeType>() {
 			
@@ -165,35 +171,29 @@ public class AttributeTypesPanel extends LoadingPanel implements HasEditing {
 		}
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-
-		//workaround issue #7188 https://code.google.com/p/google-web-toolkit/issues/detail?id=7188
-		onResize();
-	}
-
 	public void loadData()
 	{
-		showLoader();
+		showLoader(true);
 		attributeTypesCache.getItems(new AsyncCallback<Collection<UIAttributeType>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Failed loading CodelistAttributeTypes", caught);
-				hideLoader();
+				showLoader(false);
 			}
 
 			@Override
 			public void onSuccess(Collection<UIAttributeType> result) {
 				Log.trace("retrieved CodelistAttributeTypes: "+result);
 				setAttributeTypes(result);
-				hideLoader();
+				showLoader(false);
 			}
 		});
+	}
+	
+	private void showLoader(boolean visible) {
+		loaderContainer.setVisible(visible);
+		itemsContainer.setVisible(!visible);
 	}
 
 	private void setAttributeTypes(Collection<UIAttributeType> types)
