@@ -32,7 +32,6 @@
 		.blockImg {
 			float: left;
 			margin: 0 auto;
-			height: 30px;
 			margin-left: 5px;
 		}
 		
