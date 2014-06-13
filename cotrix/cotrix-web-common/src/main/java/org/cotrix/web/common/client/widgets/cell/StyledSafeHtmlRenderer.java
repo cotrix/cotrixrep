@@ -19,10 +19,14 @@ public class StyledSafeHtmlRenderer implements SafeHtmlRenderer<String> {
 	interface Template extends SafeHtmlTemplates {
 		@Template("<div class=\"{1}\">{0}</div>")
 		SafeHtml styled(SafeHtml value, String style);
+		
+		@Template("<div class=\"{1}\" title=\"{2}\">{0}</div>")
+		SafeHtml styledWithTitle(SafeHtml value, String style, String title);
 	}
 	
-	protected static final Template template = GWT.create(Template.class);
-	protected String style;
+	private static final Template template = GWT.create(Template.class);
+	private String style;
+	private boolean addTitle;
 
 	/**
 	 * @param style
@@ -31,28 +35,34 @@ public class StyledSafeHtmlRenderer implements SafeHtmlRenderer<String> {
 		this.style = style;
 	}
 
-	/**
-	 * @return the style
-	 */
 	public String getStyle() {
 		return style;
 	}
 
-	/**
-	 * @param style the style to set
-	 */
 	public void setStyle(String style) {
 		this.style = style;
 	}
 
+	public boolean isAddTitle() {
+		return addTitle;
+	}
+
+	public void setAddTitle(boolean addTitle) {
+		this.addTitle = addTitle;
+	}
+
 	@Override
 	public SafeHtml render(String object) {
-		return (object == null) ? SafeHtmlUtils.EMPTY_SAFE_HTML :  template.styled(SafeHtmlUtils.fromString(object), style);
+		return (object == null) ? SafeHtmlUtils.EMPTY_SAFE_HTML :  toSafeHtml(object);
 	}
 
 	@Override
 	public void render(String object, SafeHtmlBuilder builder) {
-		builder.append(template.styled(SafeHtmlUtils.fromString(object), style));
+		builder.append(toSafeHtml(object));
+	}
+	
+	private SafeHtml toSafeHtml(String object) {
+		return addTitle?template.styledWithTitle(SafeHtmlUtils.fromString(object), style, object):template.styled(SafeHtmlUtils.fromString(object), style);
 	}
 	
 }

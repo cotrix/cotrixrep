@@ -159,6 +159,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		this.attributeEditor = DataEditor.build(this);
 
 		cellRenderer = new StyledSafeHtmlRenderer(resource.dataGridStyle().textCell());
+		cellRenderer.setAddTitle(true);
 
 		dataGrid = new PatchedDataGrid<UICode>(20, resource, CodeKeyProvider.INSTANCE) {
 
