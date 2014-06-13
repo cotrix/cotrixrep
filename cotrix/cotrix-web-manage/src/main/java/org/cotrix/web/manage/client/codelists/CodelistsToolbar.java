@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.manage.client.codelists;
 
-import org.cotrix.web.common.client.util.FadeAnimation;
 import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 
 import com.google.gwt.core.client.GWT;
@@ -34,16 +33,9 @@ public class CodelistsToolbar extends Composite {
 	@UiField PushButton plus;
 	@UiField PushButton version;
 	@UiField PushButton minus;
-	
-	private FadeAnimation plusAnimation;
-	private FadeAnimation versionAnimation;
-	private FadeAnimation minusAnimation;
 
 	public CodelistsToolbar() {
 		initWidget(uiBinder.createAndBindUi(this));
-		plusAnimation = new FadeAnimation(plus.getElement());
-		versionAnimation = new FadeAnimation(version.getElement());
-		minusAnimation = new FadeAnimation(minus.getElement());
 	}
 
 	@UiHandler("plus")
@@ -71,24 +63,22 @@ public class CodelistsToolbar extends Composite {
 	
 	public void setVisible(ToolBarButton button, boolean visible, boolean animation)
 	{
-		if (animation) setVisible(button, visible);
-		else setVisible(button, visible, Speed.IMMEDIATE);
+		setVisible(button, visible);
 	}
 
-	public void setVisible(ToolBarButton button, boolean visible)
-	{
-		setVisible(button, visible, Speed.FAST);
-	}
-	
 	public void setVisible(ToolBarButton button, boolean visible, Speed speed)
 	{
-		switch (button) {
-			case MINUS: minusAnimation.setVisibility(visible, speed); break;
-			case VERSION: versionAnimation.setVisibility(visible, speed); break;
-			case PLUS: plusAnimation.setVisibility(visible, speed); break;
-		}
+		setVisible(button, visible);
 	}
 	
+	public void setVisible(ToolBarButton button, boolean visible)
+	{
+		switch (button) {
+			case MINUS: minus.setEnabled(visible); break;
+			case VERSION: version.setEnabled(visible); break;
+			case PLUS: plus.setEnabled(visible); break;
+		}
+	}
 
 	public interface ButtonClickedHandler extends EventHandler {
 		void onButtonClicked(ButtonClickedEvent event);
