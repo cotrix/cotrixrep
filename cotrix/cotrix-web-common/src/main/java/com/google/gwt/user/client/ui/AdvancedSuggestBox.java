@@ -27,6 +27,7 @@ public class AdvancedSuggestBox extends SuggestBox {
 		private final PopupPanel suggestionPopup;
 		private String suggestionItemStyleName;
 		private String suggestionItemSelectedStyleName;
+		private boolean isShowing = false;
 
 		/**
 		 * We need to keep track of the last {@link SuggestBox} because it acts as
@@ -65,6 +66,7 @@ public class AdvancedSuggestBox extends SuggestBox {
 		@Override
 		public void hideSuggestions() {
 			suggestionPopup.hide();
+			isShowing = false;
 		}
 
 		public boolean isAnimationEnabled() {
@@ -87,7 +89,7 @@ public class AdvancedSuggestBox extends SuggestBox {
 		 * @return true if the suggestions are visible, false if not
 		 */
 		public boolean isSuggestionListShowing() {
-			return suggestionPopup.isShowing();
+			return isShowing;
 		}
 
 		public void setAnimationEnabled(boolean enable) {
@@ -271,6 +273,8 @@ public class AdvancedSuggestBox extends SuggestBox {
 			// Show the popup under the TextBox.
 			suggestionPopup.showRelativeTo(positionRelativeTo != null
 					? positionRelativeTo : suggestBox);
+			
+			isShowing = true;
 		}
 
 		@Override
@@ -406,6 +410,18 @@ public class AdvancedSuggestBox extends SuggestBox {
 	
 	public void setPlaceholder(String placeholder) {
 		((AdvancedTextBox)getValueBox()).setPlaceholder(placeholder);
+	}
+	
+	@Override
+	public boolean isSuggestionListShowing() {
+		AdvancedSuggestionDisplay suggestionDisplay = (AdvancedSuggestionDisplay) getSuggestionDisplay();
+		return suggestionDisplay.isSuggestionListShowing();
+	}
+	
+	@Override
+	public void hideSuggestionList() {
+		AdvancedSuggestionDisplay suggestionDisplay = (AdvancedSuggestionDisplay) getSuggestionDisplay();
+		suggestionDisplay.hideSuggestions();
 	}
 
 	@Override

@@ -16,6 +16,8 @@ import org.cotrix.web.common.shared.codelist.attributetype.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
 import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
+import org.cotrix.web.manage.client.codelist.common.SuggestListBox;
+import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
 import org.cotrix.web.manage.client.codelist.metadata.attributetype.constraint.ConstraintsPanel;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
@@ -26,14 +28,17 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -52,7 +57,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 
 	@UiField AdvancedTextBox nameBox;
 	
-	@UiField TextBox typeBox;
+	@UiField(provided=true) SuggestListBox typeBox;
 	
 	@UiField LanguageListBox languageBox;
 	
@@ -78,9 +83,12 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	
 	private ConstraintsPanel constraintsPanel;
 
-	public AttributeTypeDetailsPanel() {
+	public AttributeTypeDetailsPanel(AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle) {
 		
 		occurrencesBox = new EnumListBox<Occurrences>(Occurrences.class, Occurrences.LABEL_PROVIDER);
+		
+		attributeDescriptionSuggestOracle.setOnlyDefaults(false);
+		typeBox = new SuggestListBox(attributeDescriptionSuggestOracle);
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		
@@ -107,7 +115,15 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	private void setupTypeField() {
 		typeBox.addValueChangeHandler(changeHandler);
 		
-		typeBox.addKeyUpHandler(new KeyUpHandler() {
+		typeBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
+			
+			@Override
+			public void onSelection(SelectionEvent<Suggestion> event) {
+				fireChange();
+			}
+		});		
+		
+		typeBox.getValueBox().addKeyUpHandler(new KeyUpHandler() {
 			
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
@@ -207,7 +223,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	}
 	
 	public void setType(String type) {
-		typeBox.setValue(type, false);
+		typeBox.setValue(type);
 	}
 	
 	public void setTypeFieldValid(boolean valid) {

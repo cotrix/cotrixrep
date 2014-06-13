@@ -86,8 +86,9 @@ public class SuggestListBox extends Composite implements HasValueChangeHandlers<
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Log.trace("show suggestions");
-				suggestBox.showSuggestions("");
+				Log.trace("show suggestions isSuggestionListShowing: "+suggestBox.isSuggestionListShowing());
+				if (!suggestBox.isSuggestionListShowing()) suggestBox.showSuggestions("");
+				else suggestBox.hideSuggestionList();
 				
 			}
 		});

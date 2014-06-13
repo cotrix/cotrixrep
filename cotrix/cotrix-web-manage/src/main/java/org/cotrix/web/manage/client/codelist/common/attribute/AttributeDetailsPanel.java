@@ -220,7 +220,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 			}
 		});
 		
-		attributeDescriptionSuggestOracle.setupOnlyDefaults();
+		attributeDescriptionSuggestOracle.setOnlyDefaults(true);
 	}
 	
 	private void setupLanguageField() {

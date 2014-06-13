@@ -47,6 +47,7 @@ public abstract class AbstractCache<T extends Identifiable> {
 				Log.trace("cache "+type+" onDataEdit "+event);
 				switch (event.getEditType()) {
 					case ADD: addItem(event.getData()); break;
+					case UPDATE: addItem(event.getData()); break;
 					case REMOVE: cache.remove(event.getData()); break;
 					default: break;
 				}

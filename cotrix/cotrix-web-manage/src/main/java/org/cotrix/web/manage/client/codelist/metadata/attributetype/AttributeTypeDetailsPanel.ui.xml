@@ -3,7 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
 	xmlns:l="urn:import:org.cotrix.web.manage.client.codelist.metadata.linktype"
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets" 
-	xmlns:t="urn:import:org.cotrix.web.common.client.widgets.table">
+	xmlns:t="urn:import:org.cotrix.web.common.client.widgets.table"
+	xmlns:cc="urn:import:org.cotrix.web.manage.client.codelist.common">
 	<ui:with field='resources'
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='commonresources'
@@ -25,7 +26,7 @@
 					<g:Label title="The type of this attribute.">Type</g:Label>
 				</t:cell>
 				<t:cell>
-					<c:AdvancedTextBox ui:field="typeBox" styleName="{resources.detailsPanelStyle.textbox}" />
+					<cc:SuggestListBox ui:field="typeBox" />
 				</t:cell>
 			</t:CellContainer>
 		</t:row>

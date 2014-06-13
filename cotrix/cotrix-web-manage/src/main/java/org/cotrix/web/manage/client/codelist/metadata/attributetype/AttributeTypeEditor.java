@@ -11,6 +11,7 @@ import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
 import org.cotrix.web.common.shared.codelist.attributetype.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
 import org.cotrix.web.manage.client.codelist.common.ItemPanel.ItemEditor;
+import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -28,8 +29,8 @@ public class AttributeTypeEditor implements ItemEditor<UIAttributeType> {
 	
 	private boolean editing = false;
 	
-	public AttributeTypeEditor(UIAttributeType attributeType) {
-		this.detailsPanel = new AttributeTypeDetailsPanel();
+	public AttributeTypeEditor(UIAttributeType attributeType, AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle) {
+		this.detailsPanel = new AttributeTypeDetailsPanel(attributeDescriptionSuggestOracle);
 		this.attributeType = attributeType;
 	}
 
