@@ -68,7 +68,7 @@ public class ConstraintArgumentsRow extends AbstractRow implements ConstraintRow
 
 		addCell(VALUE_COL, argumentsPanels);
 		setCellStyle(VALUE_COL, propertyGridStyles.value());
-		table.getFlexCellFormatter().setColSpan(rowIndex, VALUE_COL, 2);
+		table.getFlexCellFormatter().setColSpan(rowIndex, VALUE_COL, 3);
 	}
 	
 	public void setReadOnly(boolean readOnly) {

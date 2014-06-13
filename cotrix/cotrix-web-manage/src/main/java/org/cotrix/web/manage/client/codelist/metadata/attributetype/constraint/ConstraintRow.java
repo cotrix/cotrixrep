@@ -122,7 +122,7 @@ public class ConstraintRow extends AbstractRow {
 	}
 	
 	private void updateValueCellSpan() {
-		int span = readOnly?3:1;
+		int span = readOnly?3:2;
 		int rowIndex = getRowIndex();
 		table.getFlexCellFormatter().setColSpan(rowIndex, VALUE_COL, span);
 		
