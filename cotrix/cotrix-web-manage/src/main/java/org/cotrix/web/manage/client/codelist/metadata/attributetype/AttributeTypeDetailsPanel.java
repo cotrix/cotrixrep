@@ -208,6 +208,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	
 	public void setName(String name) {
 		nameBox.setValue(name);
+		nameBox.setTitle(name);
 	}
 	
 	public void focusName() {
@@ -248,6 +249,7 @@ public class AttributeTypeDetailsPanel extends Composite implements HasValueChan
 	
 	public void setDefault(String defaultValue) {
 		defaultBox.setValue(defaultValue);
+		defaultBox.setTitle(defaultValue);
 	}
 	
 	public void setDefaultFieldValid(boolean valid) {

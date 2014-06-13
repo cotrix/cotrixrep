@@ -55,6 +55,7 @@ public class SplashPanel extends LoadingPanel {
 		initWidget(uiBinder.createAndBindUi(this));
 		setAnimated(true);
 		name.setText(codelist.getName().getLocalPart());
+		name.setTitle(codelist.getName().getLocalPart());
 		version.setText(codelist.getVersion());
 		state.setText(codelist.getState()!=null?codelist.getState().toString():"");
 		

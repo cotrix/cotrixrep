@@ -20,6 +20,10 @@ import com.google.gwt.user.client.Element;
  */
 public class FadeAnimation extends Animation {
 	
+	public interface AnimationListener {
+		public void onComplete();
+	}
+	
 	public enum Speed {
 		IMMEDIATE(0),
 		VERY_FAST(500),
@@ -54,6 +58,8 @@ public class FadeAnimation extends Animation {
 	
 	private double visibleOpacity;
 	private double invisibleOpacity;
+	
+	private AnimationListener listener;
 
 	public FadeAnimation(Element element) {
 		this.element = element;
@@ -78,8 +84,18 @@ public class FadeAnimation extends Animation {
 		element.getStyle().setOpacity(targetOpacity);
 		if (targetOpacity == VISIBLE_OPACITY) element.getStyle().setVisibility(Visibility.VISIBLE);
 		if (targetOpacity == INVISIBLE_OPACITY) element.getStyle().setVisibility(Visibility.HIDDEN);
+		
+		if (listener!=null) listener.onComplete();
 	}
 	
+	public AnimationListener getListener() {
+		return listener;
+	}
+
+	public void setListener(AnimationListener listener) {
+		this.listener = listener;
+	}
+
 	public void setVisibility(boolean visible, Speed speed)
 	{
 		if (!(visible ^ isElementVisible())) return;

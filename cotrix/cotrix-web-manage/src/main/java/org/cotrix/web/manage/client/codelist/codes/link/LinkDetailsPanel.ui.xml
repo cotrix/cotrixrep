@@ -47,7 +47,7 @@
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-						<g:Label ui:field="valueLabel" styleName="{resources.detailsPanelStyle.label}" title="The current value of this link"/>
+						<g:Label ui:field="valueLabel" styleName="{resources.detailsPanelStyle.label}"/>
 						<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
 							<g:Image resource="{commonresources.dataLoader}" visible="false" 
 								ui:field="valueLabelLoader" styleName="{resources.detailsPanelStyle.loader}" />

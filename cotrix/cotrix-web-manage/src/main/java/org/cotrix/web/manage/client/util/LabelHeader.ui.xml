@@ -82,7 +82,7 @@
 						<g:InlineLabel ui:field="headerLabel" styleName="{style.headerLabel}" />
 					</g:FocusPanel>
 				</td>
-				<td width="48px" style="vertical-align:middle;">
+				<td ui:field="controlsCell" width="48px" style="vertical-align:middle;">
 					<g:FlowPanel styleName="{style.buttons}">
 						<g:DeckPanel ui:field="controls">
 							<g:PushButton ui:field="edit" styleName="{style.button}">

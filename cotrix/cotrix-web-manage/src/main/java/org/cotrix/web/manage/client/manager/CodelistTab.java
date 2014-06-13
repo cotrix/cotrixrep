@@ -45,7 +45,9 @@ public class CodelistTab extends Composite implements HasCloseHandlers<Widget>{
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		this.name.setText(name);
+		this.name.setTitle(name);
 		this.version.setText(version);
+		this.version.setTitle(version);
 	}
 	
 	@UiHandler("close")

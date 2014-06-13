@@ -231,6 +231,7 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 
 	public void setValue(String value) {
 		valueLabel.setText(value);
+		valueLabel.setTitle(value);
 	}
 
 	public void setValueLoaderVisible(boolean visible) {

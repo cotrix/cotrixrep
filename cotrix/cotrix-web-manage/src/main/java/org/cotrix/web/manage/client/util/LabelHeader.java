@@ -4,9 +4,11 @@
 package org.cotrix.web.manage.client.util;
 
 import org.cotrix.web.common.client.util.FadeAnimation;
+import org.cotrix.web.common.client.util.FadeAnimation.AnimationListener;
 import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -66,6 +68,10 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	@UiField
 	InlineLabel headerLabel;
 	
+	
+	@UiField
+	TableCellElement controlsCell;
+	
 	@UiField
 	DeckPanel controls;
 	
@@ -96,6 +102,14 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		editAnimation = new FadeAnimation(edit.getElement());
 		
 		completeControlsAnimation = new FadeAnimation(completeControls.getElement());
+		/*completeControlsAnimation.setListener(new AnimationListener() {
+			
+			@Override
+			public void onComplete() {
+				controlsCell.getStyle().setProperty("display", completeControls.isVisible()?"table-cell":"none");
+			}
+		});*/
+		
 		saveAnimation = new FadeAnimation(save.getElement(), FadeAnimation.VISIBLE_OPACITY, 0.2);
 		revertAnimation = new FadeAnimation(revert.getElement());
 		setSwitchVisible(false);
@@ -117,6 +131,7 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	
 	public void setHeaderLabel(String label) {
 		this.headerLabel.setText(label);
+		this.headerLabel.setTitle(label);
 	}
 	
 	public void setEditTitle(String title) {

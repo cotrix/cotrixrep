@@ -29,18 +29,22 @@ import com.google.gwt.view.client.TreeViewModel;
  */
 public class CodelistTreeModel implements TreeViewModel {
 	
-	public interface VersionItemTemplate extends SafeHtmlTemplates {
+	public interface ItemsTemplate extends SafeHtmlTemplates {
 	    @Template("<div><img src=\"{0}\" style=\"vertical-align: middle;\"><span class=\"{1}\">version {2}</span></div>")
 	    SafeHtml version(SafeUri image, String style, SafeHtml version);
+	    
+	    @Template("<span title=\"{0}\">{0}</span>")
+	    SafeHtml group(String name);
+	    
 	  }
-	protected static final VersionItemTemplate VERSION_ITEM_TEMPLATE = GWT.create(VersionItemTemplate.class);
+	protected static final ItemsTemplate VERSION_ITEM_TEMPLATE = GWT.create(ItemsTemplate.class);
 	
 	protected static final AbstractCell<CodelistGroup> GROUP_CELL = new AbstractCell<CodelistGroup>() {
 
 		@Override
 		public void render(com.google.gwt.cell.client.Cell.Context context,
 				CodelistGroup value, SafeHtmlBuilder sb) {
-			sb.appendEscaped(ValueUtils.getLocalPart(value.getName()));
+			sb.append(VERSION_ITEM_TEMPLATE.group(ValueUtils.getLocalPart(value.getName())));
 		}
 	};
 	
