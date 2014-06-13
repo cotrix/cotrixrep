@@ -31,7 +31,9 @@
   padding-left: 3px;
   padding-right: 3px;
   font-size: 15px;
-  /*color: #9b9b9b;*/
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .cellTreeOpenItem {

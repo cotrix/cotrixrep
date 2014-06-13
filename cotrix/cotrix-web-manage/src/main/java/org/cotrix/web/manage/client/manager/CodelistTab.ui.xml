@@ -7,30 +7,54 @@
 		.tab {
 			text-align: left;
 			font-size: 16px;
+			max-width: 100px;
+			min-width: 140px;
 		}
 		
-		.tabLabel {
-			text-align: left;
+		.table {
+			width: 100%;
+			table-layout: fixed;
 		}
 		
-		.tabName {
-			
+		.attributesContainer {
+			width: 100%;
 		}
 		
-		.tabVersion {
+		.name {
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		
+		.version {
 			padding-left: 5px;
 			color: orange;
+			float:right;
 		}
 		
-		.tabClose {
-			float: right;
+		.closeCell {
+			width: 8px;
+		}
+		
+		.closeButton {
 			cursor: pointer;
-			margin-left: 7px;
+			vertical-align: top;
 		}
 	</ui:style>
-	<g:FlowPanel styleName="{style.tab}">
-		<g:InlineLabel styleName="{style.tabName}" ui:field="name" />
-		<g:InlineLabel styleName="{style.tabVersion}" ui:field="version" />
-		<g:Image styleName="{style.tabClose}" ui:field="close" resource="{resources.close}"/>
-	</g:FlowPanel>
+	<g:HTMLPanel styleName="{style.tab}">
+		<table class="{style.table}">
+			<tr>
+				<td>
+					<div class="{style.attributesContainer}">
+						<g:Label ui:field="version" styleName="{style.version}" />
+						<g:Label ui:field="name" styleName="{style.name}" />
+					</div>
+				</td>
+				<td class="{style.closeCell}">
+					<!-- upface set on panel init method -->
+					<g:PushButton ui:field="close" styleName="{style.closeButton}" />
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
 </ui:UiBinder> 

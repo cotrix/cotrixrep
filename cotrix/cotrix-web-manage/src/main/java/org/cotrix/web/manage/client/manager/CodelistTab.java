@@ -3,7 +3,10 @@
  */
 package org.cotrix.web.manage.client.manager;
 
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
+
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -15,7 +18,8 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -30,11 +34,15 @@ public class CodelistTab extends Composite implements HasCloseHandlers<Widget>{
 
 	private static CodeListTaUiBinder uiBinder = GWT.create(CodeListTaUiBinder.class);
 	
-	@UiField InlineLabel name;
-	@UiField InlineLabel version;
-	@UiField Image close;
+	@UiField Label name;
+	@UiField Label version;
+	@UiField(provided=true)  PushButton close;
 
 	public CodelistTab(String name, String version) {
+		Image image = new Image(CotrixManagerResources.INSTANCE.close());
+		image.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);		
+		close = new PushButton(image);
+		
 		initWidget(uiBinder.createAndBindUi(this));
 		this.name.setText(name);
 		this.version.setText(version);

@@ -23,10 +23,20 @@
 		padding-right: 20px;
 	}
 	
+	.nameTable {
+		 table-layout: fixed;
+		 width: 100%;
+	}
+	
 	.name {
 		font-size: 37px !important;
 		height: 42px !important;
 		color: #5674b9;
+		
+		/* truncate long text*/
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 
 	.version {
@@ -78,7 +88,7 @@
 								</table>
 							</td>
 							<td style="vertical-align:top;width:100%;">
-								<table style="width: 100%;">
+								<table class="{style.nameTable}">
 									<tr>
 										<td>
 											<g:Label ui:field="name" styleName="{style.name}" />
