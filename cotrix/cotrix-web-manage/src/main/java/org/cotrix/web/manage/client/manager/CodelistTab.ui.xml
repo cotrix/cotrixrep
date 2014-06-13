@@ -21,12 +21,14 @@
 		}
 		
 		.name {
+			height: 18px;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
 		}
 		
 		.version {
+			height: 18px;
 			padding-left: 5px;
 			color: orange;
 			float:right;
@@ -44,7 +46,7 @@
 	<g:HTMLPanel styleName="{style.tab}">
 		<table class="{style.table}">
 			<tr>
-				<td>
+				<td style="padding-right: 3px;">
 					<div class="{style.attributesContainer}">
 						<g:Label ui:field="version" styleName="{style.version}" />
 						<g:Label ui:field="name" styleName="{style.name}" />

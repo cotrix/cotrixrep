@@ -55,7 +55,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		disclosurePanel.setWidth("100%");
 		disclosurePanel.setAnimationEnabled(true);
 		
-		if (Attributes.isSystemAttribute(attribute)) header.setHeaderStyle(CotrixManagerResources.INSTANCE.css().systemAttributeDisclosurePanelLabel());
+		if (Attributes.isSystemAttribute(attribute)) header.addHeaderStyle(CotrixManagerResources.INSTANCE.css().systemAttributeDisclosurePanelLabel());
 
 		detailsPanel = new AttributeDetailsPanel(oracle, attributeTypesCache);
 		disclosurePanel.add(detailsPanel);

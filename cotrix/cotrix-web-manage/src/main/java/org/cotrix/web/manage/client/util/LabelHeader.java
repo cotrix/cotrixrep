@@ -135,6 +135,10 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		this.headerLabel.setStyleName(style);
 	}
 	
+	public void addHeaderStyle(String style) {
+		this.headerLabel.addStyleName(style);
+	}
+	
 	public void setHeaderSelected(boolean selected) {
 		this.headerLabel.setStyleName(style.headerSelected(), selected);
 	}
