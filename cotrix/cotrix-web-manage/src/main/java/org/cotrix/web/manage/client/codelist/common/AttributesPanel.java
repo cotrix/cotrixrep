@@ -247,7 +247,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 		
 		public AddRow() {
 			
-			Label label = new Label("+Attribute");
+			Label label = new Label("Add Attribute");
 			label.setStyleName(CotrixManagerResources.INSTANCE.css().addLabel());
 			
 			clickPanel = new FocusPanel(label);

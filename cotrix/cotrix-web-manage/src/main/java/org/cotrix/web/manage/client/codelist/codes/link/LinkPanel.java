@@ -59,7 +59,7 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Void> event) {
-				if (editing) detailsPanel.setValue("will be calculated...");
+				if (editing) detailsPanel.setValue("to be computed...");
 				validate();
 			}
 		});

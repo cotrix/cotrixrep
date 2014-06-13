@@ -12,11 +12,11 @@
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
 				<t:cell>
-					<g:Label>Type</g:Label>
+					<g:Label title="The definition of this link">Definition</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-							<cc:SuggestListBox ui:field="typeBox" />
+							<cc:SuggestListBox ui:field="typeBox" title="The definition of this link"/>
 							<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
 								<g:Image resource="{commonresources.dataLoader}" visible="false" ui:field="typeBoxLoader" styleName="{resources.detailsPanelStyle.loader}" />
 						</g:FlowPanel>
@@ -27,11 +27,11 @@
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
 				<t:cell>
-					<g:Label>Target</g:Label>
+					<g:Label title="The code you want to link to">Target</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-						<cc:SuggestListBox ui:field="targetCodeBox" />
+						<cc:SuggestListBox ui:field="targetCodeBox" title="The code you want to link to" placeholder="Select a code..." />
 						<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
 							<g:Image resource="{commonresources.dataLoader}" visible="false" 
 								ui:field="targetCodeBoxLoader" styleName="{resources.detailsPanelStyle.loader}" />
@@ -43,11 +43,11 @@
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}" ui:field="valueRow">
 				<t:cell>
-					<g:Label>Value</g:Label>
+					<g:Label title="The current value of this link">Value</g:Label>
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-						<g:Label ui:field="valueLabel" styleName="{resources.detailsPanelStyle.label}" />
+						<g:Label ui:field="valueLabel" styleName="{resources.detailsPanelStyle.label}" title="The current value of this link"/>
 						<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
 							<g:Image resource="{commonresources.dataLoader}" visible="false" 
 								ui:field="valueLabelLoader" styleName="{resources.detailsPanelStyle.loader}" />

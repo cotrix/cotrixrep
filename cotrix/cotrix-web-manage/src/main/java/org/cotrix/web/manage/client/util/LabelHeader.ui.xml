@@ -37,6 +37,7 @@
 	.headerLabel {
 		color: #5A5A5A;
 		text-align: left;
+		font-size: 14px;
 		vertical-align: middle;
 	}
 	

@@ -267,7 +267,7 @@ public class ConstraintsPanel implements HasValueChangeHandlers<Void> {
 		
 		public AddRow() {
 			
-			Label label = new Label("+Constraint");
+			Label label = new Label("Add Constraint");
 			label.setStyleName(CotrixManagerResources.INSTANCE.css().addLabel());
 			
 			clickPanel = new FocusPanel(label);

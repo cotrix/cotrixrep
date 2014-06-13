@@ -16,6 +16,7 @@
 
 .systemAttributeDisclosurePanelLabel {
 	color: #bbb !important;	
+	font-size: 14px;
 }
 
 @external .gwt-SplitLayoutPanel-HDragger ;
@@ -81,7 +82,7 @@
 	background-color: #5674b9;
 	text-align: center;
 	width: 100%;
-	font-size: 20px;
+	font-size: 18px;
 	color: #fff;
 	outline: none;
 	padding-top: 3px;
