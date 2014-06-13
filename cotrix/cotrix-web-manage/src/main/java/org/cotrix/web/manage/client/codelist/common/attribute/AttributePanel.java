@@ -46,7 +46,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 
 	private String id = Document.get().createUniqueId();
 
-	public AttributePanel(UIAttribute attribute, AttributeNameSuggestOracle oracle, AttributeTypesCache attributeTypesCache) {
+	public AttributePanel(UIAttribute attribute, AttributeDescriptionSuggestOracle oracle, AttributeTypesCache attributeTypesCache) {
 		this.attribute = attribute;
 		
 		header = new LabelHeader();

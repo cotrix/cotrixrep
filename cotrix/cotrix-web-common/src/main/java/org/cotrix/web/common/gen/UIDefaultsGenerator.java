@@ -4,6 +4,8 @@
 package org.cotrix.web.common.gen;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -47,6 +49,8 @@ public class UIDefaultsGenerator extends Generator {
 			composer.addImport(UIDefaults.class.getName());
 			composer.addImport(UIQName.class.getName());
 			composer.addImport(UIRange.class.getName());
+			composer.addImport(List.class.getName());
+			composer.addImport(ArrayList.class.getName());
 			
 			SourceWriter src = composer.createSourceWriter(context, printWriter);
 			
@@ -55,6 +59,18 @@ public class UIDefaultsGenerator extends Generator {
 			QName defaultType = Constants.defaultType;
 			src.indent();
 			src.println("return new UIQName(\""+defaultType.getNamespaceURI()+"\",\""+defaultType.getLocalPart()+"\");");
+			src.outdent();
+			src.println("}");
+			
+			//DEFAULT TYPES
+			src.println("public List<UIQName> defaultTypes() {");
+			QName[] defaultTypes = Constants.defaultTypes;
+			src.indent();
+			
+			src.println("List<UIQName> types = new ArrayList<UIQName>();");
+			for (QName type:defaultTypes)	src.println("types.add(new UIQName(\""+type.getNamespaceURI()+"\",\""+type.getLocalPart()+"\"));");
+			src.println("return types;");
+			
 			src.outdent();
 			src.println("}");
 			

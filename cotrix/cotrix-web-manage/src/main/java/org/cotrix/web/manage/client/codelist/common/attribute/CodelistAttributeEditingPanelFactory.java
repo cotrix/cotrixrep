@@ -18,14 +18,14 @@ import com.google.inject.Inject;
 public class CodelistAttributeEditingPanelFactory implements ItemEditingPanelFactory<UIAttribute, AttributePanel> {
 	
 	@Inject
-	private AttributeNameSuggestOracle attributeNameSuggestOracle;
+	private AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle;
 	
 	@Inject @CurrentCodelist
 	private AttributeTypesCache attributeTypesCache;
 
 	@Override
 	public AttributePanel createPanel(UIAttribute item) {
-		AttributePanel attributePanel = new AttributePanel(item, attributeNameSuggestOracle, attributeTypesCache);
+		AttributePanel attributePanel = new AttributePanel(item, attributeDescriptionSuggestOracle, attributeTypesCache);
 		attributePanel.setSwitchVisible(false);
 		attributePanel.setReadOnly(Attributes.isSystemAttribute(item));
 		return attributePanel;
@@ -33,7 +33,7 @@ public class CodelistAttributeEditingPanelFactory implements ItemEditingPanelFac
 
 	@Override
 	public AttributePanel createPanelForNewItem(UIAttribute item) {
-		AttributePanel attributePanel = new AttributePanel(item, attributeNameSuggestOracle, attributeTypesCache);
+		AttributePanel attributePanel = new AttributePanel(item, attributeDescriptionSuggestOracle, attributeTypesCache);
 		attributePanel.setSwitchVisible(false);
 		return attributePanel;
 	}

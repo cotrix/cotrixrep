@@ -17,22 +17,22 @@ import com.google.inject.Inject;
  */
 public class CodeAttributeEditingPanelFactory implements ItemEditingPanelFactory<UIAttribute, AttributePanel> {
 	
-	@Inject
-	private AttributeNameSuggestOracle attributeNameSuggestOracle;
-	
 	@Inject @CurrentCodelist
 	private AttributeTypesCache attributeTypesCache;
+	
+	@Inject
+	private AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle;
 
 	@Override
 	public AttributePanel createPanel(UIAttribute item) {
-		AttributePanel attributePanel = new AttributePanel(item, attributeNameSuggestOracle, attributeTypesCache);
+		AttributePanel attributePanel = new AttributePanel(item, attributeDescriptionSuggestOracle, attributeTypesCache);
 		attributePanel.setReadOnly(Attributes.isSystemAttribute(item));
 		return attributePanel;
 	}
 
 	@Override
 	public AttributePanel createPanelForNewItem(UIAttribute item) {
-		AttributePanel attributePanel = new AttributePanel(item, attributeNameSuggestOracle, attributeTypesCache);
+		AttributePanel attributePanel = new AttributePanel(item, attributeDescriptionSuggestOracle, attributeTypesCache);
 		return attributePanel;
 	}
 

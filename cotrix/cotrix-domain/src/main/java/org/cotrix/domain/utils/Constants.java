@@ -35,6 +35,7 @@ public class Constants {
 	public static final QName OTHER_CODE_TYPE = q(NS,"other_code");
 	public static final QName OTHER_TYPE = q(NS,"other");
 	public static final QName defaultType = DESCRIPTION_TYPE;
+	public static final QName[] defaultTypes = new QName[]{DESCRIPTION_TYPE, ANNOTATION_TYPE, NAME_TYPE, OTHER_CODE_TYPE, OTHER_TYPE};
 	public static final QName SYSTEM_TYPE = q(NS,"system");
 	
 	public static final QName NAME = q(NS,"name");

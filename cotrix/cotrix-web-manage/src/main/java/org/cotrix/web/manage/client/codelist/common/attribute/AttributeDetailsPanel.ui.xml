@@ -31,12 +31,7 @@
 					<g:Label title="The name of this attribute.">Name</g:Label>
 				</t:cell>
 				<t:cell>
-					<g:FlowPanel>
-							<cc:SuggestListBox ui:field="nameBox"/>
-							<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
-								<g:Image resource="{commonresources.dataLoader}" visible="false" ui:field="nameBoxLoader" styleName="{resources.detailsPanelStyle.loader}" />
-						</g:FlowPanel>
-					</g:FlowPanel>
+					<c:AdvancedTextBox ui:field="nameBox" styleName="{resources.detailsPanelStyle.textbox}"/>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
@@ -46,7 +41,7 @@
 					<g:Label>Type</g:Label>
 				</t:cell>
 				<t:cell>
-					<c:AdvancedTextBox ui:field="typeBox" styleName="{resources.detailsPanelStyle.textbox}" />
+					<cc:SuggestListBox ui:field="typeBox" />
 				</t:cell>
 			</t:CellContainer>
 		</t:row>

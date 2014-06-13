@@ -6,6 +6,7 @@ package org.cotrix.web.manage.client.codelist.common.attribute;
 import java.util.Collection;
 
 import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
@@ -54,10 +55,10 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	@UiField Image definitionBoxLoader;
 	private UIAttributeType selectedDefinition;
 
-	@UiField(provided=true) SuggestListBox nameBox;
+	@UiField AdvancedTextBox nameBox;
 	private boolean nameBoxReadOnly;
 	
-	@UiField TextBox typeBox;
+	@UiField(provided=true) SuggestListBox typeBox;
 	
 	@UiField LanguageListBox languageBox;
 	private boolean languageBoxReadOnly;
@@ -68,12 +69,14 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	
 	private AttributeTypesCache attributeTypesCache;
 	private AttributeTypeSuggestOracle attributeTypeSuggestOracle;
+	private AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle;
 	
 	private boolean readOnly = false;
 
-	public AttributeDetailsPanel(AttributeNameSuggestOracle oracle, AttributeTypesCache attributeTypesCache) {
+	public AttributeDetailsPanel(AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle, AttributeTypesCache attributeTypesCache) {
 
-		nameBox = new SuggestListBox(oracle);
+		this.attributeDescriptionSuggestOracle = attributeDescriptionSuggestOracle;
+		typeBox = new SuggestListBox(attributeDescriptionSuggestOracle);
 		
 		this.attributeTypesCache = attributeTypesCache;
 		this.attributeTypeSuggestOracle = new AttributeTypeSuggestOracle();
@@ -175,13 +178,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	}
 	
 	private void setupNameField() {
-		nameBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
-			
-			@Override
-			public void onSelection(SelectionEvent<Suggestion> event) {
-				fireChange();
-			}
-		});
+
 		nameBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -190,7 +187,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 			}
 		});
 		
-		nameBox.getValueBox().addKeyUpHandler(new KeyUpHandler() {
+		nameBox.addKeyUpHandler(new KeyUpHandler() {
 			
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
@@ -200,6 +197,13 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	}
 	
 	private void setupTypeField() {
+		typeBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
+			
+			@Override
+			public void onSelection(SelectionEvent<Suggestion> event) {
+				fireChange();
+			}
+		});
 		typeBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -208,13 +212,15 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 			}
 		});
 		
-		typeBox.addKeyUpHandler(new KeyUpHandler() {
+		typeBox.getValueBox().addKeyUpHandler(new KeyUpHandler() {
 			
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				fireChange();
 			}
 		});
+		
+		attributeDescriptionSuggestOracle.setupOnlyDefaults();
 	}
 	
 	private void setupLanguageField() {
@@ -259,7 +265,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	}
 	
 	public void setName(String name) {
-		nameBox.setValue(name);
+		nameBox.setValue(name, false);
 	}
 	
 	public void setNameFieldValid(boolean valid) {
@@ -277,7 +283,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	}
 	
 	public void setType(String type) {
-		typeBox.setValue(type, false);
+		typeBox.setValue(type);
 	}
 	
 	public void setTypeFieldValid(boolean valid) {
