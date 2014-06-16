@@ -115,7 +115,7 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		revertAnimation = new FadeAnimation(revert.getElement());
 		setSwitchVisible(false);
 		
-		headerLabelValueAnimation = new FadeAnimation(headerLabelValue.getElement());
+		headerLabelValueAnimation = new FadeAnimation(headerLabelValue.getElement(), true);
 	}
 	
 	public void setSwitchVisible(boolean visible) {

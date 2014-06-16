@@ -206,7 +206,8 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 	
 	private void updateHeaderLabel() {
 		header.setHeaderLabel(ValueUtils.getLocalPart(attribute.getName()));
-		header.setHeaderLabelValue(": "+attribute.getValue());
+		String valueLabel = attribute.getValue()!=null?attribute.getValue():"n/a";
+		header.setHeaderLabelValue(": "+valueLabel);
 		header.setHeaderValueVisible(!disclosurePanel.isOpen() && attribute.getValue()!=null);
 	}
 
