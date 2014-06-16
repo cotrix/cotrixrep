@@ -31,7 +31,7 @@
 	}
 	
 	.headerSelected {
-		color: #097bfb !important;
+		color: #4A91D9 !important;
 	}
 	
 	.bullet {
