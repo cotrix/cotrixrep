@@ -18,11 +18,10 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.DeckPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -31,12 +30,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class ConstraintsArgumentsPanels extends Composite implements HasValueChangeHandlers<List<String>> {
 	
 	private MetaConstraintProvider metaConstraintProvider = GWT.create(MetaConstraintProvider.class);
-	private StackPanel mainpanel;
+	private DeckPanel mainpanel;
 	private Map<String, ArgumentsPanel> constraintToPanel;
 	private ArgumentsPanel currentArgumentsPanel;
 	
 	public ConstraintsArgumentsPanels() {
-		mainpanel = new StackPanel();
+		mainpanel = new DeckPanel();
 		mainpanel.setWidth("100%");
 		initWidget(mainpanel);
 		constraintToPanel = new HashMap<String, ArgumentsPanel>();
@@ -50,7 +49,7 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 		ArgumentsPanel argumentsPanel = constraintToPanel.get(constraintName);
 		if (argumentsPanel == null) throw new IllegalArgumentException("Unknown constraint "+constraintName);
 		int index = mainpanel.getWidgetIndex(argumentsPanel);
-		mainpanel.showStack(index);
+		mainpanel.showWidget(index);
 		currentArgumentsPanel = argumentsPanel;
 		return currentArgumentsPanel.getArgumentsCount();
 	}
@@ -65,10 +64,9 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 	
 	private void createPanel(MetaConstraint metaConstraint) {
 		
-		ArgumentsPanel argumentsPanel = new ArgumentsPanel();
-		for (String name: metaConstraint.getArguments()) argumentsPanel.addArgumentPanel(new ArgumentPanel(name));
-		
+		ArgumentsPanel argumentsPanel = new ArgumentsPanel(metaConstraint.getArguments());
 		mainpanel.add(argumentsPanel);
+
 		
 		constraintToPanel.put(metaConstraint.getName(), argumentsPanel);
 		
@@ -101,19 +99,37 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 	
 	private class ArgumentsPanel extends Composite implements HasValueChangeHandlers<List<String>> {
 
-		private VerticalPanel argumentsPanel;
-		private List<ArgumentPanel> argumentPanels = new ArrayList<ArgumentPanel>();
+		private Grid argumentsPanel;
+		private List<TextBox> textBoxes;
 		
-		public ArgumentsPanel() {
-			argumentsPanel = new VerticalPanel();
+		public ArgumentsPanel(List<String> arguments) {
+			argumentsPanel = new Grid(arguments.size(), 2);
 			argumentsPanel.setWidth("100%");
-			initWidget(argumentsPanel);
+			
+			textBoxes = new ArrayList<TextBox>();
+			for (int i = 0; i < arguments.size(); i++) addArgumentPanel(i, arguments.get(i));
+			
+			initWidget(argumentsPanel);			
 		}
 		
-		public void addArgumentPanel(ArgumentPanel argumentPanel) {
-			argumentsPanel.add(argumentPanel);
-			argumentPanels.add(argumentPanel);
-			argumentPanel.addValueChangeHandler(new ValueChangeHandler<String>() {
+		public void addArgumentPanel(int row, String argument) {
+			
+			Label label = new Label(argument);
+			label.setStyleName(CotrixManagerResources.INSTANCE.propertyGrid().argumentLabel());
+			argumentsPanel.setWidget(row, 0, label);
+			argumentsPanel.getCellFormatter().setWidth(row, 0, "80px");
+			argumentsPanel.getCellFormatter().setHeight(row, 0, "31px");
+
+			TextBox textBox = new TextBox();
+			textBox.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().textbox());
+			argumentsPanel.setWidget(row, 1, textBox);
+			
+			argumentsPanel.getCellFormatter().getElement(row, 1).getStyle().setPaddingLeft(3, Unit.PX);
+			argumentsPanel.getCellFormatter().getElement(row, 1).getStyle().setPaddingRight(3, Unit.PX);
+
+			textBoxes.add(textBox);
+			
+			textBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 				@Override
 				public void onValueChange(ValueChangeEvent<String> event) {
@@ -125,13 +141,13 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 		
 		public List<String> getArgumentsValues() {
 			List<String> arguments = new ArrayList<String>();
-			for (ArgumentPanel argumentPanel:argumentPanels) arguments.add(argumentPanel.getText());
+			for (TextBox textBox:textBoxes) arguments.add(textBox.getValue());
 			return arguments;
 		}
 		
 		public void setArgumentsValues(List<String> values) {
-			for (int i = 0; i < Math.min(values.size(),argumentPanels.size()); i++) {
-				argumentPanels.get(i).setText(values.get(i));
+			for (int i = 0; i < Math.min(values.size(),textBoxes.size()); i++) {
+				textBoxes.get(i).setValue(values.get(i));
 			}
 		}
 		
@@ -145,66 +161,16 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 		}
 
 		public void setReadOnly(boolean readOnly) {
-			for (ArgumentPanel argumentPanel:argumentPanels) argumentPanel.setReadOnly(readOnly);
+			for (TextBox textBox:textBoxes) textBox.setEnabled(!readOnly);
 		}
 		
 		public void setStyle(String style, boolean add) {
-			for (ArgumentPanel argumentPanel:argumentPanels) argumentPanel.setStyle(style, add);
+			for (TextBox textBox:textBoxes) textBox.setStyleName(style, add);
 		}
 		
 		private int getArgumentsCount() {
-			return argumentPanels.size();
+			return textBoxes.size();
 		}
 		
-	}
-	
-	private class ArgumentPanel extends Composite implements HasText, HasValueChangeHandlers<String> {
-		
-		private TextBox textBox;
-		
-		public ArgumentPanel(String name) {
-			this(name, null);
-		}
-		
-		public ArgumentPanel(String name, String value) {
-			VerticalPanel panel = new VerticalPanel();
-			panel.setWidth("100%");
-			panel.setHeight("55px");
-			Label label = new Label(name);
-			label.setStyleName(CotrixManagerResources.INSTANCE.propertyGrid().argumentLabel());
-			panel.add(label);
-			
-			textBox = new TextBox();
-			textBox.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().textbox());
-			textBox.setValue(value);
-			panel.add(textBox);
-			textBox.getElement().getParentElement().getStyle().setPaddingLeft(3, Unit.PX);
-			textBox.getElement().getParentElement().getStyle().setPaddingRight(3, Unit.PX);
-			
-			initWidget(panel);
-		}
-
-		@Override
-		public String getText() {
-			return textBox.getValue();
-		}
-
-		@Override
-		public void setText(String text) {
-			textBox.setValue(text);	
-		}
-
-		@Override
-		public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
-			return textBox.addValueChangeHandler(handler);
-		}
-
-		public void setReadOnly(boolean readOnly) {
-			textBox.setEnabled(!readOnly);
-		}
-		
-		public void setStyle(String style, boolean add) {
-			textBox.setStyleName(style, add);
-		}
 	}
 }
