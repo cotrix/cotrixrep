@@ -29,9 +29,6 @@ public interface CsvMappingStepView {
 	
 	public AttributesMappings getMappings();
 	
-	public void alert(String message);
-
-	
 	Widget asWidget();
 
 	void setVersion(String version);

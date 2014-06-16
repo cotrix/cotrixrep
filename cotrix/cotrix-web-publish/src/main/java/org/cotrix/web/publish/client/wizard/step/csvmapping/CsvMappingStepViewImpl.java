@@ -1,22 +1,16 @@
 package org.cotrix.web.publish.client.wizard.step.csvmapping;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
 import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Column;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 /**
@@ -52,24 +46,16 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 		}
 
 	};
-	
 
-	@UiTemplate("CsvMappingStep.ui.xml")
-	interface HeaderTypeStepUiBinder extends UiBinder<Widget, CsvMappingStepViewImpl> {}
-	private static HeaderTypeStepUiBinder uiBinder = GWT.create(HeaderTypeStepUiBinder.class);
+	private MappingPanel<Column> mappingPanel;
 
-	@UiField(provided = true) MappingPanel<Column> mappingPanel;
-
-	protected Presenter presenter;
-	
-	@Inject
-	AlertDialog alertDialog;
+	private Presenter presenter;
 
 	public CsvMappingStepViewImpl() {
 		mappingPanel = new MappingPanel<Column>(PROVIDER, "COLUMNS");
 		mappingPanel.setReloadHandler(this);
 
-		initWidget(uiBinder.createAndBindUi(this));
+		initWidget(mappingPanel);
 	}
 
 	/** 
@@ -156,10 +142,6 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	public AttributesMappings getMappings()
 	{
 		return mappingPanel.getMappings();
-	}
-
-	public void alert(String message) {
-		alertDialog.center(message);
 	}
 
 	@Override

@@ -10,11 +10,7 @@ import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
 import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.UISdmxElement;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -59,23 +55,16 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 		}
 
 	};
-
-	@UiTemplate("SdmxMappingStep.ui.xml")
-	interface SdmxMappingStepUiBinder extends UiBinder<Widget, SdmxMappingStepViewImpl> {}
-	private static SdmxMappingStepUiBinder uiBinder = GWT.create(SdmxMappingStepUiBinder.class);
 	
-	@UiField(provided = true) MappingPanel<UISdmxElement> mappingPanel;
+	private MappingPanel<UISdmxElement> mappingPanel;
 	
-	protected Presenter presenter;
-	
-	@Inject
-	AlertDialog alertDialog;
+	private Presenter presenter;
 
 	public SdmxMappingStepViewImpl() {
 		mappingPanel = new MappingPanel<UISdmxElement>(PROVIDER, "SDMX ELEMENTS");
 		mappingPanel.setReloadHandler(this);
 		
-		initWidget(uiBinder.createAndBindUi(this));
+		initWidget(mappingPanel);
 	}
 	
 	/** 
@@ -149,10 +138,6 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	public AttributesMappings getMappings()
 	{
 		return mappingPanel.getMappings();
-	}
-
-	public void alert(String message) {
-		alertDialog.center(message);
 	}
 
 	@Override

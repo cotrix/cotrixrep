@@ -23,8 +23,6 @@ public interface SdmxMappingStepView {
 	public void setMappings(AttributesMappings attributes);
 	
 	public AttributesMappings getMappings();
-	
-	public void alert(String message);
 
 	
 	Widget asWidget();

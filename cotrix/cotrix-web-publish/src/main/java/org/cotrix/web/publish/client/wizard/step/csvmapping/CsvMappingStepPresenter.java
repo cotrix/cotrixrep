@@ -1,6 +1,7 @@
 package org.cotrix.web.publish.client.wizard.step.csvmapping;
 
 import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
@@ -28,12 +29,15 @@ import com.google.web.bindery.event.shared.EventBus;
 @Singleton
 public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements VisualWizardStep, CsvMappingStepView.Presenter {
 
-	protected CsvMappingStepView view;
-	protected EventBus publishBus;
-	protected PublishMetadata metadata;
-	protected AttributesMappings mappings;
-	protected Format formatType;
-	protected boolean showMetadata = false;
+	private CsvMappingStepView view;
+	private EventBus publishBus;
+	private PublishMetadata metadata;
+	private AttributesMappings mappings;
+	private Format formatType;
+	private boolean showMetadata = false;
+	
+	@Inject
+	private AlertDialog alertDialog;
 
 	@Inject
 	public CsvMappingStepPresenter(CsvMappingStepView view, @PublishBus EventBus publishBus){
@@ -121,12 +125,12 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 	protected boolean validateAttributes(String csvName, String version)
 	{
 		if (csvName==null || csvName.isEmpty()) {
-			view.alert("You should choose a codelist name");
+			alertDialog.center("You should choose a codelist name");
 			return false;
 		}
 
 		if (version==null || version.isEmpty()) {
-			view.alert("You should specify a codelist version");
+			alertDialog.center("You should specify a codelist version");
 			return false;
 		}
 
@@ -140,7 +144,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 			//Log.trace("checking mapping: "+mapping);
 			Column column = (Column) mapping.getMapping();
 			if (mapping.isMapped() && column.getName().isEmpty()) {
-				view.alert("don't leave columns blank, bin them instead");
+				alertDialog.center("don't leave columns blank, bin them instead");
 				return false;
 			}
 		}
@@ -149,7 +153,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 			//Log.trace("checking mapping: "+mapping);
 			Column column = (Column) mapping.getMapping();
 			if (mapping.isMapped() && column.getName().isEmpty()) {
-				view.alert("don't leave columns blank, bin them instead");
+				alertDialog.center("don't leave columns blank, bin them instead");
 				return false;
 			}
 		}
