@@ -205,12 +205,9 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 	}
 	
 	private void updateHeaderLabel() {
-		StringBuilder headerLabel = new StringBuilder();
-		headerLabel.append(ValueUtils.getLocalPart(attribute.getName()));
-		if (!disclosurePanel.isOpen() && attribute.getValue()!=null) {
-			headerLabel.append(": ").append(attribute.getValue());
-		}
-		header.setHeaderLabel(headerLabel.toString());
+		header.setHeaderLabel(ValueUtils.getLocalPart(attribute.getName()));
+		header.setHeaderLabelValue(": "+attribute.getValue());
+		header.setHeaderValueVisible(!disclosurePanel.isOpen() && attribute.getValue()!=null);
 	}
 
 	private void updateHeaderButtons() {

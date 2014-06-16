@@ -39,8 +39,7 @@
 		padding-bottom: 3px;
 	}
 	
-	.headerLabel {
-		color: #5A5A5A;
+	.headerContainer {
 		text-align: left;
 		font-size: 14px;
 		vertical-align: middle;
@@ -51,6 +50,15 @@
 		display: block;
 		height: 20px;
 		margin-top: 3px;
+
+	}
+	
+	.headerLabel {
+		color: #464545;
+	}
+	
+	.headerLabelValue {
+		color: #5A5A5A;
 	}
 	
 	.buttons {
@@ -79,7 +87,10 @@
 				</td>
 				<td>
 					<g:FocusPanel ui:field="headerBox" styleName="{style.headerBox}">
-						<g:InlineLabel ui:field="headerLabel" styleName="{style.headerLabel}" />
+						<g:FlowPanel styleName="{style.headerContainer}">
+							<g:InlineLabel ui:field="headerLabel" styleName="{style.headerLabel}" />
+							<g:InlineLabel ui:field="headerLabelValue" styleName="{style.headerLabelValue}"/>
+						</g:FlowPanel>
 					</g:FocusPanel>
 				</td>
 				<td ui:field="controlsCell" width="48px" style="vertical-align:middle;">

@@ -4,13 +4,11 @@
 package org.cotrix.web.manage.client.util;
 
 import org.cotrix.web.common.client.util.FadeAnimation;
-import org.cotrix.web.common.client.util.FadeAnimation.AnimationListener;
 import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -68,6 +66,9 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	@UiField
 	InlineLabel headerLabel;
 	
+	@UiField
+	InlineLabel headerLabelValue;
+	FadeAnimation headerLabelValueAnimation;
 	
 	@UiField
 	TableCellElement controlsCell;
@@ -113,6 +114,8 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		saveAnimation = new FadeAnimation(save.getElement(), FadeAnimation.VISIBLE_OPACITY, 0.2);
 		revertAnimation = new FadeAnimation(revert.getElement());
 		setSwitchVisible(false);
+		
+		headerLabelValueAnimation = new FadeAnimation(headerLabelValue.getElement());
 	}
 	
 	public void setSwitchVisible(boolean visible) {
@@ -132,6 +135,15 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	public void setHeaderLabel(String label) {
 		this.headerLabel.setText(label);
 		this.headerLabel.setTitle(label);
+	}
+	
+	public void setHeaderLabelValue(String value) {
+		this.headerLabelValue.setText(value);
+		this.headerLabelValue.setTitle(value);
+	}
+	
+	public void setHeaderValueVisible(boolean visible) {
+		headerLabelValueAnimation.setVisibility(visible, Speed.VERY_FAST);
 	}
 	
 	public void setEditTitle(String title) {
