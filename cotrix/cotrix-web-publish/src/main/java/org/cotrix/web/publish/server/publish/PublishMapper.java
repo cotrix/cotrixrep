@@ -160,7 +160,10 @@ public interface PublishMapper<T> {
 				if (mapping.isMapped()) targets.add(ValueUtils.toQName(mapping.getAttributeDefinition().getName()));
 			}
 			
-			return mapper.map(codelist, new Codelist2CometDirectives(targets));
+			Codelist2CometDirectives cometDirectives = new Codelist2CometDirectives();
+			cometDirectives.targetAttributes().addAll(targets);
+			
+			return mapper.map(codelist, cometDirectives);
 		}		
 	}
 }

@@ -179,7 +179,7 @@ public class AttributeMappingPanel<T extends Mapping> extends Composite {
 
 	protected void setInclude(int row, boolean include)
 	{
-		widgetProvider.include(columnsTable.getWidget(row, MAPPING_COLUMN), include);
+		if (includeMappingColumn) widgetProvider.include(columnsTable.getWidget(row, MAPPING_COLUMN), include);
 		((AttributeDefinitionPanel)columnsTable.getWidget(row, DEFINITION_COLUMN)).setEnabled(include);
 
 	}

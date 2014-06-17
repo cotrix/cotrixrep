@@ -57,7 +57,7 @@ public class Codelist2CometTest {
 				
 		reveal(versioned).update(reveal(modified));
 		
-		Outcome<MappingData> outcome = mapper.map(versioned,Codelist2CometDirectives.DEFAULT);
+		Outcome<MappingData> outcome = mapper.map(versioned, new Codelist2CometDirectives());
 		
 		serialise(outcome.result());	
 		
