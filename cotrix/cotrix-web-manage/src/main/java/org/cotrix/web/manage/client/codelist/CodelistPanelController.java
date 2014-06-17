@@ -3,10 +3,8 @@ package org.cotrix.web.manage.client.codelist;
 import java.util.Collection;
 
 import org.cotrix.web.common.client.Presenter;
-import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.manage.client.codelist.cache.LinkTypesCache;
@@ -16,7 +14,6 @@ import org.cotrix.web.manage.client.data.AttributeTypeBridge;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.CodeAttributeBridge;
 import org.cotrix.web.manage.client.data.CodeBridge;
-import org.cotrix.web.manage.client.data.CodeLink;
 import org.cotrix.web.manage.client.data.CodeLinkBridge;
 import org.cotrix.web.manage.client.data.DataSaverManager;
 import org.cotrix.web.manage.client.data.LinkTypeBridge;
@@ -54,7 +51,8 @@ public class CodelistPanelController implements Presenter {
 	
 	@Inject
 	private CodesPanelPresenter codesPresenter;
-	private boolean codesDirty;
+	private boolean codesDirty = false;
+	private boolean codesHeaderDirty = false;
 	
 	@Inject
 	private MetadataPanelPresenter metadataPresenter;
@@ -118,7 +116,7 @@ public class CodelistPanelController implements Presenter {
 	private void checkCodesDirty() {
 		Log.trace("codesDirty: "+codesDirty);
 		if (codesDirty) {
-			codesPresenter.reloadCodes();
+			codesPresenter.reloadCodes(codesHeaderDirty);
 			codesDirty = false;
 		}
 	}
@@ -131,6 +129,7 @@ public class CodelistPanelController implements Presenter {
 			public void onDataSaved(final DataSavedEvent event) {
 				if (isAboutOurCodelist(event)) {
 					codesDirty = isUpdateOrRemoveOf(event, UIAttributeType.class, UILinkType.class);
+					codesHeaderDirty = isUpdateOrRemoveOf(event, UIAttributeType.class);
 				} else {
 					
 					//TODO find another way

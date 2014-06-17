@@ -252,7 +252,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		dataGrid.addColumn(nameColumn, "Code");
 	}
 
-	public void showAllGroupsAsColumn()
+	public void showAllGroupsAsColumn(final boolean reloadData)
 	{
 		showLoader();
 		managerService.getGroups(codelistId, new ManagedFailureCallback<List<Group>>() {
@@ -266,6 +266,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 				setGroups(groups);
 				hideLoader();
 				dataGrid.refreshColumnSizes();
+				if (reloadData) reload();
 			}
 		});
 	}
@@ -448,7 +449,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		
 		Set<Group> columnsToRemove = new HashSet<Group>(groupsAsColumn);
 		//can't use removeall because based on comparable interface
-		for (Group group:groups) columnsToRemove.remove(group);
+		//no optimization for (Group group:groups) columnsToRemove.remove(group);
 		Log.trace("columns to remove: "+columnsToRemove);
 
 		for (Group toRemove:columnsToRemove) switchToNormal(toRemove);

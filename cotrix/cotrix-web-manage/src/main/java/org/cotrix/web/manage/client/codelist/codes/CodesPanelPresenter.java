@@ -103,7 +103,7 @@ public class CodesPanelPresenter implements Presenter {
 	}
 	
 	private void showAllGroupsAsColumn() {
-		view.getCodeListEditor().showAllGroupsAsColumn();
+		view.getCodeListEditor().showAllGroupsAsColumn(false);
 	}
 	
 	private void updateState(String state) {
@@ -111,7 +111,8 @@ public class CodesPanelPresenter implements Presenter {
 		view.getToolBar().showStateLoader(false);
 	}
 	
-	public void reloadCodes() {
+	public void reloadCodes(boolean reloadHeaders) {
+		view.getCodeListEditor().showAllGroupsAsColumn(false);
 		view.getCodeListEditor().reload();
 	}
 
