@@ -3,8 +3,10 @@ package org.acme;
 import static org.cotrix.repository.CodelistQueries.*;
 import static org.junit.Assert.*;
 
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import org.cotrix.common.cdi.ApplicationEvents.Startup;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
@@ -13,6 +15,7 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.stage.data.SomeUsers;
 import org.cotrix.test.ApplicationTest;
+import org.cotrix.test.CurrentUser;
 import org.junit.Test;
 
 public class StagersTest extends ApplicationTest {
@@ -22,6 +25,11 @@ public class StagersTest extends ApplicationTest {
 	
 	@Inject
 	CodelistRepository codelists;
+	
+	public void setup(@Observes Startup event,CurrentUser user) {
+		
+		user.set(SomeUsers.owners.iterator().next());
+	}
 	
 	@Test
 	public void stage() {
