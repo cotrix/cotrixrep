@@ -5,6 +5,7 @@ import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.feature.AsyncCallBackWrapper;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.widgets.HasEditing;
+import org.cotrix.web.common.shared.codelist.LifecycleState;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.NewStateEvent;
@@ -88,10 +89,10 @@ public class CodesPanelPresenter implements Presenter {
 	
 	private void loadState() {
 		view.getToolBar().showStateLoader(true);
-		service.getCodelistState(codelistId, AsyncCallBackWrapper.wrap(new ManagedFailureCallback<String>() {
+		service.getCodelistState(codelistId, AsyncCallBackWrapper.wrap(new ManagedFailureCallback<LifecycleState>() {
 
 			@Override
-			public void onSuccess(String result) {
+			public void onSuccess(LifecycleState result) {
 				updateState(result);
 			}
 		}));
@@ -103,15 +104,16 @@ public class CodesPanelPresenter implements Presenter {
 	}
 	
 	private void showAllGroupsAsColumn() {
-		view.getCodeListEditor().showAllGroupsAsColumn();
+		view.getCodeListEditor().showAllGroupsAsColumn(false);
 	}
 	
-	private void updateState(String state) {
-		view.getToolBar().setState(state);
+	private void updateState(LifecycleState state) {
+		view.getToolBar().setState(String.valueOf(state).toUpperCase());
 		view.getToolBar().showStateLoader(false);
 	}
 	
-	public void reloadCodes() {
+	public void reloadCodes(boolean reloadHeaders) {
+		view.getCodeListEditor().showAllGroupsAsColumn(false);
 		view.getCodeListEditor().reload();
 	}
 

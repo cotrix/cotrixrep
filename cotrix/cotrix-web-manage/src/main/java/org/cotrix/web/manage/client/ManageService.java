@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.cotrix.web.common.shared.DataWindow;
+import org.cotrix.web.common.shared.codelist.LifecycleState;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
@@ -45,7 +46,7 @@ public interface ManageService extends RemoteService {
 	CodelistGroup createNewCodelistVersion(String codelistId, String newVersion) throws ServiceException;
 	void removeCodelist(String codelistId) throws ServiceException;
 	
-	ResponseWrapper<String> getCodelistState(String codelistId) throws ServiceException;
+	ResponseWrapper<LifecycleState> getCodelistState(String codelistId) throws ServiceException;
 	
 	FeatureCarrier.Void lock(String codelistId) throws ServiceException;
 	FeatureCarrier.Void unlock(String codelistId) throws ServiceException;

@@ -14,6 +14,7 @@ import org.cotrix.web.manage.shared.CodelistGroup.Version;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -28,6 +29,21 @@ import com.google.gwt.view.client.TreeViewModel;
  *
  */
 public class CodelistTreeModel implements TreeViewModel {
+	
+	public enum Bullet {
+		PENCIL(CotrixManagerResources.INSTANCE.pencilBullet()), 
+		LOCK(CotrixManagerResources.INSTANCE.lockBullet()),
+		STOP(CotrixManagerResources.INSTANCE.stopBullet());
+		
+		private ImageResource resource;
+		private Bullet(ImageResource resource) {
+			this.resource = resource;
+		}
+		
+		public ImageResource getImageResource() {
+			return resource;
+		}
+	}
 	
 	public interface ItemsTemplate extends SafeHtmlTemplates {
 	    @Template("<div><img src=\"{0}\" style=\"vertical-align: middle;\"><span class=\"{1}\">version {2}</span></div>")
@@ -53,8 +69,18 @@ public class CodelistTreeModel implements TreeViewModel {
 		@Override
 		public void render(com.google.gwt.cell.client.Cell.Context context,
 				Version value, SafeHtmlBuilder sb) {
-			SafeHtml html = VERSION_ITEM_TEMPLATE.version(CotrixManagerResources.INSTANCE.versionItem().getSafeUri(), CodelistsResources.INSTANCE.cellTreeStyle().versionItem(), SafeHtmlUtils.fromString(value.getVersion()));
+			SafeUri imageUri = getImageSafeUri(value);
+			SafeHtml html = VERSION_ITEM_TEMPLATE.version(imageUri, CodelistsResources.INSTANCE.cellTreeStyle().versionItem(), SafeHtmlUtils.fromString(value.getVersion()));
 			sb.append(html);
+		}
+		
+		private SafeUri getImageSafeUri(Version version) {
+			switch (version.getState()) {
+				case draft: return CotrixManagerResources.INSTANCE.pencilBullet().getSafeUri();
+				case locked: return CotrixManagerResources.INSTANCE.lockBullet().getSafeUri();
+				case sealed: return CotrixManagerResources.INSTANCE.stopBullet().getSafeUri();
+				default: return CotrixManagerResources.INSTANCE.versionItem().getSafeUri();
+			}
 		}
 	};
 	

@@ -65,7 +65,8 @@ public class SplashPanel extends LoadingPanel {
 	
 	@EventHandler
 	void onNewState(NewStateEvent event) {
-		state.setText(event.getState());
+		String stateLabel = String.valueOf(event.getState()).toUpperCase();
+		state.setText(stateLabel);
 	}
 	
 	@Inject

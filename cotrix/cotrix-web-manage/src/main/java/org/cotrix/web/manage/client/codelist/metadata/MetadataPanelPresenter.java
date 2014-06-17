@@ -5,9 +5,11 @@ import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.feature.AsyncCallBackWrapper;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.HasFeature;
+import org.cotrix.web.common.shared.codelist.LifecycleState;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.manage.client.ManageServiceAsync;
+import org.cotrix.web.manage.client.codelist.CodelistNewStateEvent;
 import org.cotrix.web.manage.client.codelist.NewStateEvent;
 import org.cotrix.web.manage.client.codelist.SwitchPanelEvent;
 import org.cotrix.web.manage.client.codelist.metadata.MetadataToolbar.Action;
@@ -15,6 +17,7 @@ import org.cotrix.web.manage.client.codelist.metadata.MetadataToolbar.ToolBarLis
 import org.cotrix.web.manage.client.data.DataSaverManager;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
+import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -41,6 +44,9 @@ public class MetadataPanelPresenter implements Presenter {
 
 	@Inject @CodelistBus 
 	private EventBus codelistBus;
+	
+	@Inject @ManagerBus
+	private EventBus managerBus;
 	
 	private FeatureBinder featureBinder;
 	
@@ -101,11 +107,12 @@ public class MetadataPanelPresenter implements Presenter {
 	}
 	
 	private void loadState() {
-		service.getCodelistState(codelistId, AsyncCallBackWrapper.wrap(new ManagedFailureCallback<String>() {
+		service.getCodelistState(codelistId, AsyncCallBackWrapper.wrap(new ManagedFailureCallback<LifecycleState>() {
 
 			@Override
-			public void onSuccess(String result) {
+			public void onSuccess(LifecycleState result) {
 				codelistBus.fireEvent(new NewStateEvent(result));
+				managerBus.fireEvent(new CodelistNewStateEvent(codelist, result));
 			}
 		}));
 	}

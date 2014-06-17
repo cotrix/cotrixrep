@@ -10,7 +10,10 @@ import java.util.List;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider;
 import org.cotrix.web.common.shared.DataWindow;
+import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.ManageServiceAsync;
+import org.cotrix.web.manage.client.codelist.CodelistNewStateEvent;
+import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.shared.CodelistGroup;
 import org.cotrix.web.manage.shared.CodelistGroup.Version;
 
@@ -19,6 +22,9 @@ import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -26,6 +32,8 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGroup> {
+	
+	interface CodelistsDataProviderEventBinder extends EventBinder<CodelistsDataProvider> {}
 	
 	private static final Comparator<CodelistGroup> COMPARATOR = new Comparator<CodelistGroup>() {
 		
@@ -42,6 +50,30 @@ public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGr
 	protected void onRangeChanged(HasData<CodelistGroup> display) {
 		final Range range = display.getVisibleRange();
 		onRangeChanged(range);
+	}
+	
+	@Inject
+	private void bind(CodelistsDataProviderEventBinder binder, @ManagerBus EventBus managerBus) {
+		binder.bindEventHandlers(this, managerBus);
+	}
+	
+	@EventHandler
+	protected void onStateUpdate(CodelistNewStateEvent event) {
+		UICodelist codelist = event.getCodelist();
+		Version version = findVersionInCache(codelist);
+		if (version != null) {
+			version.setState(event.getState());
+			refresh();
+		}
+	}
+	
+	private Version findVersionInCache(UICodelist codelist) {
+		for (CodelistGroup group:cache) {
+			for (Version version:group.getVersions()) {
+				if (version.getId().equals(codelist.getId())) return version;
+			}
+		}
+		return null;
 	}
 	
 	public void loadData()

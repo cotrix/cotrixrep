@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.cotrix.web.common.shared.codelist.LifecycleState;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
 
@@ -20,7 +21,7 @@ public class CodelistGroup implements IsSerializable {
 	
 	public static CodelistGroup fromCodelist(UICodelist codelist) {
 		CodelistGroup group = new CodelistGroup(codelist.getName());
-		group.addVersion(codelist.getId(), codelist.getVersion());
+		group.addVersion(codelist.getId(), codelist.getVersion(), null);
 		return group;
 	}
 	
@@ -55,9 +56,9 @@ public class CodelistGroup implements IsSerializable {
 		Collections.sort(this.versions);
 	}
 	
-	public void addVersion(String id, String version)
+	public void addVersion(String id, String version, LifecycleState lifecycleState)
 	{
-		versions.add(new Version(this, id, version));
+		versions.add(new Version(this, id, version, lifecycleState));
 		Collections.sort(versions);
 	}
 	
@@ -123,37 +124,38 @@ public class CodelistGroup implements IsSerializable {
 
 	public static class Version implements IsSerializable, Comparable<Version> {
 		
-		protected CodelistGroup parent;
-		protected String id;
-		protected String version;
+		private CodelistGroup parent;
+		private String id;
+		private String version;
+		private LifecycleState state;
 		
 		protected Version(){}
 		
-		protected Version(CodelistGroup parent, String id, String version) {
+		protected Version(CodelistGroup parent, String id, String version, LifecycleState state) {
 			this.parent = parent;
 			this.id = id;
 			this.version = version;
+			this.state = state;
 		}
 
-		/**
-		 * @return the id
-		 */
 		public String getId() {
 			return id;
 		}
-		
-		/**
-		 * @return the version
-		 */
+
 		public String getVersion() {
 			return version;
 		}
-		
-		/**
-		 * @return the parent
-		 */
+
 		public CodelistGroup getParent() {
 			return parent;
+		}
+
+		public LifecycleState getState() {
+			return state;
+		}
+
+		public void setState(LifecycleState state) {
+			this.state = state;
 		}
 
 		public UICodelist toUICodelist()
@@ -196,9 +198,6 @@ public class CodelistGroup implements IsSerializable {
 			return true;
 		}
 
-		/** 
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
@@ -206,6 +205,8 @@ public class CodelistGroup implements IsSerializable {
 			builder.append(id);
 			builder.append(", version=");
 			builder.append(version);
+			builder.append(", state=");
+			builder.append(state);
 			builder.append("]");
 			return builder.toString();
 		}

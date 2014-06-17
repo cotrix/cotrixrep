@@ -37,6 +37,7 @@ import org.cotrix.domain.user.User;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
+import org.cotrix.repository.CodelistCoordinates;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.MultiQuery;
@@ -51,6 +52,7 @@ import org.cotrix.web.common.server.util.Codelists;
 import org.cotrix.web.common.server.util.LinkTypes;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.DataWindow;
+import org.cotrix.web.common.shared.codelist.LifecycleState;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
@@ -146,16 +148,21 @@ public class ManageServiceImpl implements ManageService {
 		logger.trace("getCodelistsGrouped");
 
 		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
-		Iterator<Codelist> it = repository.get(allLists()).iterator();
+		
+		Iterator<CodelistCoordinates> it = repository.get(allListCoordinates().sort(byCoordinateName())).iterator();
 		while (it.hasNext()) {
-			Codelist codelist = (Codelist) it.next();
+			CodelistCoordinates codelist = it.next();
 
 			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {
 				group = new CodelistGroup(ValueUtils.safeValue(codelist.name()));
 				groups.put(codelist.name(), group);
 			}
-			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()));
+			
+			Lifecycle lifecycle = lifecycleService.lifecycleOf(codelist.id());
+			LifecycleState state = Codelists.getLifecycleState(lifecycle.state());
+			
+			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()), state);
 		}
 
 		for (CodelistGroup group:groups.values()) Collections.sort(group.getVersions()); 
@@ -270,11 +277,11 @@ public class ManageServiceImpl implements ManageService {
 
 	@Override
 	@CodelistTask(VIEW)
-	public ResponseWrapper<String> getCodelistState(@Id String codelistId) throws ServiceException {
+	public ResponseWrapper<LifecycleState> getCodelistState(@Id String codelistId) throws ServiceException {
 		logger.trace("getCodelistState codelistId: {}",codelistId);
 		Lifecycle lifecycle = lifecycleService.lifecycleOf(codelistId);
-		String state = lifecycle.state().toString();
-		return ResponseWrapper.wrap(state.toUpperCase());
+		LifecycleState state = Codelists.getLifecycleState(lifecycle.state());
+		return ResponseWrapper.wrap(state);
 	}
 
 	@Override
@@ -306,8 +313,11 @@ public class ManageServiceImpl implements ManageService {
 	private CodelistGroup addCodelist(Codelist newCodelist) {
 		repository.add(newCodelist);
 	
+		Lifecycle lifecycle = lifecycleService.lifecycleOf(newCodelist.id());
+		LifecycleState state = Codelists.getLifecycleState(lifecycle.state());
+		
 		CodelistGroup group = new CodelistGroup(ValueUtils.safeValue(newCodelist.name()));
-		group.addVersion(newCodelist.id(), newCodelist.version());
+		group.addVersion(newCodelist.id(), newCodelist.version(), state);
 
 		return group;
 	}
@@ -332,9 +342,9 @@ public class ManageServiceImpl implements ManageService {
 	public List<UICodelist> getCodelists() throws ServiceException {
 		logger.trace("getCodelists");
 		List<UICodelist> codelists = new ArrayList<>();
-		Iterator<Codelist> it = repository.get(allLists()).iterator();
+		Iterator<CodelistCoordinates> it = repository.get(allListCoordinates().sort(byCoordinateName())).iterator();
 		while (it.hasNext()) {
-			Codelist codelist = (Codelist) it.next();
+			CodelistCoordinates codelist = it.next();
 			codelists.add(Codelists.toUICodelist(codelist));
 		}
 		return codelists;

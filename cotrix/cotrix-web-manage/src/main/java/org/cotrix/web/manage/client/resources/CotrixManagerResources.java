@@ -90,6 +90,10 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource addButton();
 	public ImageResource addButtonHover();
 	
+	public ImageResource lockBullet();
+	public ImageResource pencilBullet();
+	public ImageResource stopBullet();
+	
 	interface CotrixManagerStyle extends CssResource {
 		String editor();
 		String systemProperty();
