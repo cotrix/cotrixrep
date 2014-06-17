@@ -24,12 +24,25 @@ import com.google.web.bindery.event.shared.EventBus;
 public class FeatureBinder {
 	
 	@Inject @FeatureBus
-	protected EventBus featureBus;
+	private EventBus featureBus;
+	
+	@Inject
+	private FeatureBinderCache cache;
+	
+	@Inject
+	private void init() {
+		cache.turnOn();
+	}
+	
+	public void turnOffCache() {
+		cache.turnOff();
+	}
 	
 	public void bind(HasFeature hasFeature, UIFeature feature)
 	{
 		ApplicationFeatureBind bind = new ApplicationFeatureBind(feature, hasFeature);
 		featureBus.addHandler(NewApplicationFeatureSetEvent.TYPE, bind);
+		cache.initializeBind(bind);
 	}
 	
 	public void bind(final HasVisibility hasVisibility, UIFeature feature)
@@ -46,6 +59,7 @@ public class FeatureBinder {
 	{
 		InstanceFeatureBind bind = new InstanceFeatureBind(new StaticId(instanceId), feature, hasFeature);
 		featureBus.addHandler(NewInstancesFeatureSetEvent.TYPE, bind);
+		cache.initializeBind(bind);
 	}
 	
 	public void bind(final HasVisibility hasVisibility, String instanceId, UIFeature feature)
@@ -67,6 +81,7 @@ public class FeatureBinder {
 	{
 		InstanceFeatureBind bind = new InstanceFeatureBind(idProvider, feature, hasFeature);
 		featureBus.addHandler(NewInstancesFeatureSetEvent.TYPE, bind);
+		cache.initializeBind(bind);
 	}
 
 }

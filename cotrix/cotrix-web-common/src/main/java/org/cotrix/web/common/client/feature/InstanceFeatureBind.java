@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.common.client.feature;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.cotrix.web.common.client.feature.event.NewInstancesFeatureSetEvent;
@@ -33,13 +34,10 @@ public class InstanceFeatureBind implements NewInstancesFeatureSetHandler {
 		
 	}
 
-	protected IdProvider idProvider;
-	protected UIFeature feature;
-	protected HasFeature hasFeature;
+	private IdProvider idProvider;
+	private UIFeature feature;
+	private HasFeature hasFeature;
 
-	/**
-	 * @param feature
-	 */
 	public InstanceFeatureBind(IdProvider idProvider, UIFeature feature, HasFeature hasFeature) {
 		this.idProvider = idProvider;
 		this.feature = feature;
@@ -51,10 +49,14 @@ public class InstanceFeatureBind implements NewInstancesFeatureSetHandler {
 	 */
 	@Override
 	public void onNewInstancesFeatureSet(NewInstancesFeatureSetEvent event) {
+		newFeatures(event.getInstancesFeatures());
+	}
+	
+	public void newFeatures(Map<String, Set<UIFeature>> features) {
 		String instanceId = idProvider.getId();
 		if (instanceId == null) return;
 		
-		Set<UIFeature> instanceFeatures = event.getInstancesFeatures().get(instanceId);
+		Set<UIFeature> instanceFeatures = features.get(instanceId);
 
 		if (instanceFeatures!=null) {
 			if (instanceFeatures.contains(feature)) hasFeature.setFeature();
