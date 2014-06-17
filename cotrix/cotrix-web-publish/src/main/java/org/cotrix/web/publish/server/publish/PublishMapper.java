@@ -5,7 +5,11 @@ package org.cotrix.web.publish.server.publish;
 
 import static org.cotrix.domain.dsl.Codes.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.attributes.Attribute;
@@ -149,7 +153,14 @@ public interface PublishMapper<T> {
 
 		@Override
 		public Outcome<MappingData> map(Codelist codelist, PublishDirectives publishDirectives) {
-			return mapper.map(codelist, Codelist2CometDirectives.DEFAULT);
+			
+			List<QName> targets = new ArrayList<>(); 
+			
+			for (AttributeMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
+				if (mapping.isMapped()) targets.add(ValueUtils.toQName(mapping.getAttributeDefinition().getName()));
+			}
+			
+			return mapper.map(codelist, new Codelist2CometDirectives(targets));
 		}		
 	}
 }

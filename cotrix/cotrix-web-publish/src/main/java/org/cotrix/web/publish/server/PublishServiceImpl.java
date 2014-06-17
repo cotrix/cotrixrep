@@ -127,6 +127,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 		switch (type) {
 			case CSV: provider = Mappings.COLUMN_PROVIDER; break;
 			case SDMX: provider = Mappings.SDMX_PROVIDER; break;
+			case COMET: provider = Mappings.COMET_PROVIDER; break;
 			default: return new AttributesMappings();
 		}
 		

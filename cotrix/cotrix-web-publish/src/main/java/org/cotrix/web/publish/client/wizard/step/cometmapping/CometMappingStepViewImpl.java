@@ -1,15 +1,11 @@
-package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
+package org.cotrix.web.publish.client.wizard.step.cometmapping;
 
-import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.widgets.EnumListBox;
-import org.cotrix.web.common.client.widgets.EnumListBox.LabelProvider;
 import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
 import org.cotrix.web.publish.shared.AttributesMappings;
-import org.cotrix.web.publish.shared.UISdmxElement;
+import org.cotrix.web.publish.shared.Column;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Singleton;
@@ -19,52 +15,37 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMappingStepView, ReloadButtonHandler {
-	
-	protected static final LabelProvider<UISdmxElement> LABEL_PROVIDER = new LabelProvider<UISdmxElement>() {
+public class CometMappingStepViewImpl extends ResizeComposite implements CometMappingStepView, ReloadButtonHandler {
+
+	public static final DefinitionWidgetProvider<Column> PROVIDER = new DefinitionWidgetProvider<Column>() {
 
 		@Override
-		public String getLabel(UISdmxElement item) {
-			return item.getLabel();
-		}
-	};
-	
-	public static final DefinitionWidgetProvider<UISdmxElement> PROVIDER = new DefinitionWidgetProvider<UISdmxElement>() {
-
-		@Override
-		public Widget getWidget(UISdmxElement mapping) {
-			EnumListBox<UISdmxElement> listBox = new EnumListBox<UISdmxElement>(UISdmxElement.class, LABEL_PROVIDER);
-			listBox.setStyleName(CommonResources.INSTANCE.css().listBox());
-			listBox.setWidth("200px");
-			listBox.getElement().getStyle().setPaddingLeft(5, Unit.PX);
-			listBox.setSelectedValue(mapping);
-			return listBox;
+		public Widget getWidget(Column mapping) {
+			return null;
 		}
 
 		@Override
 		public void include(Widget widget, boolean include) {
-			((EnumListBox<?>)widget).setEnabled(include);
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
-		public UISdmxElement getMapping(Widget widget) {
-			return ((EnumListBox<UISdmxElement>)widget).getSelectedValue();
+		public Column getMapping(Widget widget) {
+			return null;
 		}
 
 	};
-	
-	private MappingPanel<UISdmxElement> mappingPanel;
-	
+
+	private MappingPanel<Column> mappingPanel;
+
 	private Presenter presenter;
 
-	public SdmxMappingStepViewImpl() {
-		mappingPanel = new MappingPanel<UISdmxElement>(PROVIDER, "SDMX ELEMENTS");
+	public CometMappingStepViewImpl() {
+		mappingPanel = new MappingPanel<Column>(PROVIDER, "ATTRIBUTES", false);
 		mappingPanel.setReloadHandler(this);
-		
+
 		initWidget(mappingPanel);
 	}
-	
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -72,13 +53,13 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		if (visible) mappingPanel.resetScroll();
-	}	
-	
+	}
+
 	@Override
 	public void showMetadata(boolean visible) {
 		mappingPanel.showMetadata(visible);
 	}
-	
+
 	/**
 	 * @param presenter the presenter to set
 	 */
@@ -87,15 +68,15 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	}
 
 	@Override
-	public void setCodelistName(String name) {
+	public void setCsvName(String name) {
 		mappingPanel.setName(name);
 	}
 
 	@Override
-	public String getCodelistName() {
+	public String getCsvName() {
 		return mappingPanel.getName();
 	}
-	
+
 	@Override
 	public void setVersion(String version) {
 		mappingPanel.setVersion(version);
@@ -105,34 +86,47 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	public String getVersion() {
 		return mappingPanel.getVersion();
 	}
-	
+
 	@Override
 	public void setSealed(boolean sealed)
 	{
 		mappingPanel.setSealed(sealed);
 	}
-	
+
 	@Override
 	public boolean getSealed()
 	{
 		return mappingPanel.getSealed();
 	}
 
-	public void setMappings(AttributesMappings mappings)
-	{
-		mappingPanel.setMapping(mappings);
-	}
-	
 	public void setMappingLoading()
 	{
 		mappingPanel.setMappingLoading();
 	}
-	
+
 	public void unsetMappingLoading()
 	{
 		mappingPanel.unsetMappingLoading();
 	}
-	
+
+	/** 
+	 * {@inheritDoc}
+	 */
+	public void setMappings(AttributesMappings mapping)
+	{
+		mappingPanel.setMapping(mapping);
+	}
+
+	public void setCodeTypeError()
+	{
+		mappingPanel.setCodeTypeError();
+	}
+
+	public void cleanStyle()
+	{
+		mappingPanel.cleanStyle();
+	}
+
 	public AttributesMappings getMappings()
 	{
 		return mappingPanel.getMappings();

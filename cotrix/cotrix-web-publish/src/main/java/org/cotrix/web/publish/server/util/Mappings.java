@@ -50,6 +50,14 @@ public class Mappings {
 			return SdmxElements.toUISdmxElement(element);
 		}
 	};
+	
+	public static final MappingProvider<Column> COMET_PROVIDER = new MappingProvider<Column>() {
+
+		@Override
+		public Column getMapping(QName name, QName type, Language language) {
+			return null;
+		}
+	};
 
 	public static AttributesMappings getMappings(CodelistSummary summary, MappingProvider<?> provider, boolean includeCodelistMappings) {
 		List<AttributeMapping> codelistMappings = includeCodelistMappings?getCodelistsMappings(summary, provider):new ArrayList<AttributeMapping>();

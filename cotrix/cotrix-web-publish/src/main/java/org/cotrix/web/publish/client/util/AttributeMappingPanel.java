@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class AttributeMappingPanel<T extends Mapping> extends Composite {
-	
+
 	public interface DefinitionWidgetProvider<T extends Mapping> {
 		Widget getWidget(T mapping);
 		void include(Widget widget, boolean include);
@@ -51,16 +51,18 @@ public class AttributeMappingPanel<T extends Mapping> extends Composite {
 	private List<Widget> mappingWidgets = new ArrayList<Widget>();
 	private List<AttributeDefinitionPanel> definitionsPanels = new ArrayList<AttributeDefinitionPanel>();
 	private List<AttributeDefinition> definitions = new ArrayList<AttributeDefinition>();
-	
+
 	private DefinitionWidgetProvider<T> widgetProvider;
 	private String headerLabel;
 	private String attributeLabel;
+	private boolean includeMappingColumn;
 
-	public AttributeMappingPanel(DefinitionWidgetProvider<T> widgetProvider, String attributeLabel, String headerLabel)
+	public AttributeMappingPanel(DefinitionWidgetProvider<T> widgetProvider, String attributeLabel, String headerLabel, boolean includeMappingColumn)
 	{
 		this.widgetProvider = widgetProvider;
 		this.attributeLabel = attributeLabel;
 		this.headerLabel = headerLabel;
+		this.includeMappingColumn = includeMappingColumn;
 		container = new SimplePanel();
 		columnsTable = new FlexTable();
 		columnsTable.setCellPadding(5);
@@ -100,8 +102,8 @@ public class AttributeMappingPanel<T extends Mapping> extends Composite {
 		includeCheckBoxes.clear();
 		mappingWidgets.clear();
 		definitions.clear();
-		
-		setupHeader();
+
+		setupHeader(includeMappingColumn);
 
 		FlexCellFormatter cellFormatter = columnsTable.getFlexCellFormatter();
 
@@ -128,50 +130,51 @@ public class AttributeMappingPanel<T extends Mapping> extends Composite {
 			includeCheckBoxes.add(checkBox);
 
 
-				AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
+			AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
 
-				definitionPanel.setName(attributeDefinition.getName().getLocalPart());
-				definitionPanel.setType(attributeDefinition.getType().getLocalPart());
-				if (attributeDefinition.getLanguage() == null || attributeDefinition.getLanguage() == Language.NONE) {
-					definitionPanel.setLanguagePanelVisibile(false);
-				} else definitionPanel.setLanguage(attributeDefinition.getLanguage());
-				definitionPanel.setEnabled(attributeMapping.isMapped());
+			definitionPanel.setName(attributeDefinition.getName().getLocalPart());
+			definitionPanel.setType(attributeDefinition.getType().getLocalPart());
+			if (attributeDefinition.getLanguage() == null || attributeDefinition.getLanguage() == Language.NONE) {
+				definitionPanel.setLanguagePanelVisibile(false);
+			} else definitionPanel.setLanguage(attributeDefinition.getLanguage());
+			definitionPanel.setEnabled(attributeMapping.isMapped());
 
-				definitionsPanels.add(definitionPanel);
-				columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
-				cellFormatter.setVerticalAlignment(row, DEFINITION_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
-			
-			
-			Image arrow = new Image(Resources.INSTANCE.arrow());
-			columnsTable.setWidget(row, IMAGE_COLUMN, arrow);
-			cellFormatter.setVerticalAlignment(row, IMAGE_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
-			columnsTable.getCellFormatter().setWidth(row, IMAGE_COLUMN, "60px");
-			columnsTable.getCellFormatter().setHeight(row, IMAGE_COLUMN, "40px");
+			definitionsPanels.add(definitionPanel);
+			columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
+			cellFormatter.setVerticalAlignment(row, DEFINITION_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
 
 			Widget widget = widgetProvider.getWidget((T)attributeMapping.getMapping());
-			
-			widgetProvider.include(widget, attributeMapping.isMapped());
-			
-			
-			columnsTable.setWidget(row, MAPPING_COLUMN, widget);
-			cellFormatter.setVerticalAlignment(row, MAPPING_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
-			mappingWidgets.add(widget);
+
+			if (widget!=null) {
+				Image arrow = new Image(Resources.INSTANCE.arrow());
+				columnsTable.setWidget(row, IMAGE_COLUMN, arrow);
+				cellFormatter.setVerticalAlignment(row, IMAGE_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
+				columnsTable.getCellFormatter().setWidth(row, IMAGE_COLUMN, "60px");
+				columnsTable.getCellFormatter().setHeight(row, IMAGE_COLUMN, "40px");
+
+				widgetProvider.include(widget, attributeMapping.isMapped());
+
+				columnsTable.setWidget(row, MAPPING_COLUMN, widget);
+				cellFormatter.setVerticalAlignment(row, MAPPING_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
+				mappingWidgets.add(widget);
+			}
 		}
 	}
-	
-	protected void setupHeader()
+
+	protected void setupHeader(boolean includeMappingColumn)
 	{
 		Label attributesLabel = new Label(attributeLabel);
 		attributesLabel.setStyleName(Resources.INSTANCE.css().mappingAttributeHeader());
 		columnsTable.setWidget(0, 0, attributesLabel);
 		columnsTable.getFlexCellFormatter().setColSpan(0, 0, 3);
 		columnsTable.getFlexCellFormatter().setStyleName(0, 0, Resources.INSTANCE.css().mappingAttributeHeaderCell());
-		
-				
-		Label columnsLabel = new Label(headerLabel);
-		columnsLabel.setStyleName(Resources.INSTANCE.css().mappingAttributeHeader());
-		columnsTable.setWidget(0, 1, columnsLabel);
-		columnsTable.getFlexCellFormatter().setStyleName(0, 1, Resources.INSTANCE.css().mappingAttributeHeaderCell());
+
+		if (includeMappingColumn) {
+			Label columnsLabel = new Label(headerLabel);
+			columnsLabel.setStyleName(Resources.INSTANCE.css().mappingAttributeHeader());
+			columnsTable.setWidget(0, 1, columnsLabel);
+			columnsTable.getFlexCellFormatter().setStyleName(0, 1, Resources.INSTANCE.css().mappingAttributeHeaderCell());
+		}
 	}
 
 	protected void setInclude(int row, boolean include)
@@ -203,7 +206,7 @@ public class AttributeMappingPanel<T extends Mapping> extends Composite {
 
 			boolean mapped = includeCheckBoxes.get(i).getValue();
 			mapping.setMapped(mapped);
-			Widget widget = mappingWidgets.get(i);
+			Widget widget = mappingWidgets.isEmpty()?null:mappingWidgets.get(i);
 			T mappingValue = widgetProvider.getMapping(widget);
 			mapping.setMapping(mappingValue);
 			mapping.setAttributeDefinition(attributeDefinition);

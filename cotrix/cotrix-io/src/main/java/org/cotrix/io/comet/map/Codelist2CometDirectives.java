@@ -21,6 +21,10 @@ public class Codelist2CometDirectives implements MapDirectives<MappingData> {
 
 	private Codelist2CometDirectives() {}
 	
+	public Codelist2CometDirectives(List<QName> targets) {
+		this.targets = targets;
+	}
+
 	public List<QName> targetAttributes() {
 		return targets;
 	}
