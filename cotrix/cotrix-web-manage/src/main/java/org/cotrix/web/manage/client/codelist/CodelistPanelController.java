@@ -1,14 +1,22 @@
 package org.cotrix.web.manage.client.codelist;
 
+import java.util.Collection;
+
 import org.cotrix.web.common.client.Presenter;
+import org.cotrix.web.common.shared.codelist.UIAttribute;
+import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
+import org.cotrix.web.manage.client.codelist.cache.LinkTypesCache;
 import org.cotrix.web.manage.client.codelist.codes.CodesPanelPresenter;
 import org.cotrix.web.manage.client.codelist.metadata.MetadataPanelPresenter;
 import org.cotrix.web.manage.client.data.AttributeTypeBridge;
+import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.CodeAttributeBridge;
 import org.cotrix.web.manage.client.data.CodeBridge;
+import org.cotrix.web.manage.client.data.CodeLink;
 import org.cotrix.web.manage.client.data.CodeLinkBridge;
 import org.cotrix.web.manage.client.data.DataSaverManager;
 import org.cotrix.web.manage.client.data.LinkTypeBridge;
@@ -22,6 +30,7 @@ import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.ManagerBus;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -51,13 +60,16 @@ public class CodelistPanelController implements Presenter {
 	private MetadataPanelPresenter metadataPresenter;
 	
 	@Inject
+	private LinkTypesCache linkTypesCache;
+	
+	@Inject
 	private void init() {
 		view = new DeckLayoutPanel();
 		view.setAnimationVertical(true);
 		codesPresenter.go(view);
 		metadataPresenter.go(view);
 		
-		view.showWidget(0);
+		showCodes();
 	}
 	
 	@Inject
@@ -94,13 +106,21 @@ public class CodelistPanelController implements Presenter {
 		}
 	}
 	
+	public void onSelected() {
+		checkCodesDirty();
+	}
+	
 	private void showCodes() {
+		checkCodesDirty();
+		view.showWidget(codesPresenter.getView());
+	}
+	
+	private void checkCodesDirty() {
 		Log.trace("codesDirty: "+codesDirty);
 		if (codesDirty) {
 			codesPresenter.reloadCodes();
 			codesDirty = false;
 		}
-		view.showWidget(codesPresenter.getView());
 	}
 	
 	@Inject
@@ -108,18 +128,47 @@ public class CodelistPanelController implements Presenter {
 		eventBus.addHandler(DataSavedEvent.TYPE, new DataSavedEvent.DataSavedHandler() {
 			
 			@Override
-			public void onDataSaved(DataSavedEvent event) {
-				if (codelist.getId().equals(event.getCodelistId())) {
-					DataEditEvent<?> editEvent = event.getEditEvent();
-					codesDirty = isUpdateOrRemoveOf(editEvent, UIAttributeType.class, UILinkType.class);
+			public void onDataSaved(final DataSavedEvent event) {
+				if (isAboutOurCodelist(event)) {
+					codesDirty = isUpdateOrRemoveOf(event, UIAttributeType.class, UILinkType.class);
+				} else {
+					
+					//TODO find another way
+					linkTypesCache.getItems(new AsyncCallback<Collection<UILinkType>>() {
+						
+						@Override
+						public void onSuccess(Collection<UILinkType> result) {
+							codesDirty = isUpdateOrRemoveOf(event, CodeAttribute.class, UICode.class)
+									&& ourLinkTypesReferTheCodelist(result, event.getCodelistId());
+						}
+						
+						@Override
+						public void onFailure(Throwable caught) {
+							
+						}
+					});
+					
 				}
 			}
 		});
 	}
 	
-	private boolean isUpdateOrRemoveOf(DataEditEvent<?> editEvent, Class<?> ... clazzes) {
+	private boolean isUpdateOrRemoveOf(DataSavedEvent event, Class<?> ... clazzes) {
+		DataEditEvent<?> editEvent = event.getEditEvent();
 		if (!(editEvent.getEditType() == EditType.UPDATE || editEvent.getEditType() == EditType.REMOVE)) return false;
 		for (Class<?> clazz:clazzes) if (editEvent.getData().getClass() == clazz) return true;
+		return false;
+	}
+	
+	private boolean isAboutOurCodelist(DataSavedEvent event) {
+		return codelist.getId().equals(event.getCodelistId());
+	}
+	
+	private boolean ourLinkTypesReferTheCodelist(Collection<UILinkType> linkTypes, String codelistId) {
+		for (UILinkType linkType:linkTypes) {
+			if (codelistId.equals(linkType.getTargetCodelist().getId())) return true;
+		}
+		
 		return false;
 	}
 	

@@ -13,6 +13,7 @@ import org.cotrix.web.manage.client.di.CodelistPanelFactory;
 import org.cotrix.web.manage.client.event.CloseCodelistEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.event.OpenCodelistEvent;
+import org.cotrix.web.manage.client.manager.ContentPanel.ContentPanelListener;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -57,6 +58,25 @@ public class ContentPanelController {
 	private void bind(ContentPanelControllerEventBinder binder) {
 		binder.bindEventHandlers(this, managerBus);
 	}
+	
+	@Inject
+	private void setupListening() {
+		view.addListener(new ContentPanelListener() {
+			
+			@Override
+			public void onCodelistTabSelected(Widget codelistPanel) {
+				CodelistPanelController codelistController = getController(codelistPanel);
+				codelistController.onSelected();
+			}
+		});
+	}
+	
+	private CodelistPanelController getController(Widget codelistPanel) {
+		for (CodelistPanelController controller:presenters.values()) {
+			if (controller.getView() == codelistPanel) return controller;
+		}
+		return null;
+	}
 
 	@EventHandler
 	void onOpenCodeList(OpenCodelistEvent event) {
@@ -73,8 +93,8 @@ public class ContentPanelController {
 	}
 	
 	@EventHandler
-	void onloseCodelist(CloseCodelistEvent event) {
-		Log.trace("onloseCodelist codelist "+event.getCodelist());
+	void onCloseCodelist(CloseCodelistEvent event) {
+		Log.trace("onCloseCodelist codelist "+event.getCodelist());
 		UICodelist codelist = event.getCodelist();
 		closeCodeList(codelist.getId());
 	}

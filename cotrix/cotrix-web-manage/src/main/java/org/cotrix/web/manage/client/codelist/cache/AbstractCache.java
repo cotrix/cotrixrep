@@ -55,7 +55,6 @@ public abstract class AbstractCache<T extends Identifiable> {
 		});
 	}
 	
-	
 	public void getItems(final AsyncCallback<Collection<T>> callback) {
 		if (cache != null) callback.onSuccess(cache.values());
 		else {
