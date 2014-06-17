@@ -24,10 +24,14 @@
 			<artifactId>gwt-dev</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-engine</artifactId>
+		</dependency>
+				
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-repository</artifactId>
 		</dependency>
 
 		<dependency>
@@ -44,6 +48,7 @@
 			<groupId>com.google.gwt.eventbinder</groupId>
 			<artifactId>eventbinder</artifactId>
 		</dependency>
+
 		
 		<dependency>
 			<groupId>org.jboss.weld</groupId>
