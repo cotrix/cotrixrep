@@ -2,6 +2,8 @@ package org.cotrix.web.manage.client.codelist;
 
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
+import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.manage.client.codelist.codes.CodesPanelPresenter;
 import org.cotrix.web.manage.client.codelist.metadata.MetadataPanelPresenter;
 import org.cotrix.web.manage.client.data.AttributeTypeBridge;
@@ -12,8 +14,12 @@ import org.cotrix.web.manage.client.data.DataSaverManager;
 import org.cotrix.web.manage.client.data.LinkTypeBridge;
 import org.cotrix.web.manage.client.data.MetadataAttributeBridge;
 import org.cotrix.web.manage.client.data.MetadataBridge;
+import org.cotrix.web.manage.client.data.event.DataEditEvent;
+import org.cotrix.web.manage.client.data.event.DataSavedEvent;
+import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
+import org.cotrix.web.manage.client.event.ManagerBus;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
@@ -39,6 +45,7 @@ public class CodelistPanelController implements Presenter {
 	
 	@Inject
 	private CodesPanelPresenter codesPresenter;
+	private boolean codesDirty;
 	
 	@Inject
 	private MetadataPanelPresenter metadataPresenter;
@@ -82,9 +89,38 @@ public class CodelistPanelController implements Presenter {
 	void onSwitchPanel(SwitchPanelEvent event) {
 		Log.trace("onSwitchPanel "+event);
 		switch (event.getTargetPanel()) {
-			case CODES: view.showWidget(codesPresenter.getView()); break;
+			case CODES: showCodes(); break;
 			case METADATA: view.showWidget(metadataPresenter.getView()); break;
 		}
+	}
+	
+	private void showCodes() {
+		Log.trace("codesDirty: "+codesDirty);
+		if (codesDirty) {
+			codesPresenter.reloadCodes();
+			codesDirty = false;
+		}
+		view.showWidget(codesPresenter.getView());
+	}
+	
+	@Inject
+	private void bind(@ManagerBus EventBus eventBus) {
+		eventBus.addHandler(DataSavedEvent.TYPE, new DataSavedEvent.DataSavedHandler() {
+			
+			@Override
+			public void onDataSaved(DataSavedEvent event) {
+				if (codelist.getId().equals(event.getCodelistId())) {
+					DataEditEvent<?> editEvent = event.getEditEvent();
+					codesDirty = isUpdateOrRemoveOf(editEvent, UIAttributeType.class, UILinkType.class);
+				}
+			}
+		});
+	}
+	
+	private boolean isUpdateOrRemoveOf(DataEditEvent<?> editEvent, Class<?> ... clazzes) {
+		if (!(editEvent.getEditType() == EditType.UPDATE || editEvent.getEditType() == EditType.REMOVE)) return false;
+		for (Class<?> clazz:clazzes) if (editEvent.getData().getClass() == clazz) return true;
+		return false;
 	}
 	
 	public void go(HasWidgets container) {

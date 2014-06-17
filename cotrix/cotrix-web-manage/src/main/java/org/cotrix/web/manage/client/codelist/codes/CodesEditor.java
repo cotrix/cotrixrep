@@ -198,7 +198,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			public void onSelectionChange(SelectionChangeEvent event) {
 				UICode code = selectionModel.getSelectedObject();
 				Log.trace("onSelectionChange code: "+code);
-				if (code !=null) codelistBus.fireEvent(new CodeSelectedEvent(code));
+				codelistBus.fireEvent(new CodeSelectedEvent(code));
 			}
 		});
 
@@ -227,6 +227,11 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	@Inject
 	private void bind(CodelistEditorEventBinder binder) {
 		binder.bindEventHandlers(this, codelistBus);
+	}
+	
+	public void reload() {
+		selectionModel.clear();
+		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}
 
 	private void setupColumns() {
@@ -341,11 +346,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 	private void refreshCode(UICode code)
 	{
-		Log.trace("refreshCode code: "+code);
-		int providerIndex = dataProvider.getCache().indexOf(code);
-		Log.trace("providerIndex: "+providerIndex+" pageStart: "+dataGrid.getPageStart());
 		int absoluteIndex = dataProvider.getCache().indexOf(code) + dataGrid.getPageStart();
-		Log.trace("absoluteIndex: "+absoluteIndex);
 		if (absoluteIndex>=0) dataGrid.redrawRow(absoluteIndex);
 	}
 
@@ -353,7 +354,6 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	{
 		Log.trace("removeSelectedCode");
 		UICode code = selectionModel.getSelectedObject();
-		Log.trace("selected code: "+code);
 		if (code!=null) {
 			dataProvider.remove(code);
 			codeEditor.removed(code);
@@ -365,11 +365,8 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		Log.trace("addNewCode");
 		UICode code = factories.createCode();
 		dataProvider.add(0, code);
-		Log.trace("adding code to dataprovider, index 0");
 		selectionModel.setSelected(code, true);
-		Log.trace("setting code selected");
 		codeEditor.added(code);
-		Log.trace("code added to editor");
 	}
 
 	private Column<UICode, String> getGroupColumn(final Group group)

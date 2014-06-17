@@ -208,7 +208,8 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 	@EventHandler
 	void onCodeSelected(CodeSelectedEvent event) {
-		updateVisualizedCode(event.getCode());
+		if (event.getCode() == null) clearVisualizedCode();
+		else updateVisualizedCode(event.getCode());
 	}
 
 	@EventHandler

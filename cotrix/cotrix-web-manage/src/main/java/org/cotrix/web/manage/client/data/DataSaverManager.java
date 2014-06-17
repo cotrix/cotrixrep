@@ -66,7 +66,7 @@ public class DataSaverManager {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public void onDataEdit(DataEditEvent<T> event) {
+		public void onDataEdit(final DataEditEvent<T> event) {
 			Log.trace("onDataEdit codelistId: "+codelistId+" event: "+event+ " for generator: "+generator);
 			managerBus.fireEvent(new SavingDataEvent());
 			StatusUpdates.statusSaving();
@@ -80,7 +80,7 @@ public class DataSaverManager {
 					
 					generator.handleResponse(editType, data, result);
 
-					managerBus.fireEvent(new DataSavedEvent(codelistId));
+					managerBus.fireEvent(new DataSavedEvent(codelistId, event));
 					StatusUpdates.statusSaved();
 				}
 

@@ -110,6 +110,10 @@ public class CodesPanelPresenter implements Presenter {
 		view.getToolBar().setState(state);
 		view.getToolBar().showStateLoader(false);
 	}
+	
+	public void reloadCodes() {
+		view.getCodeListEditor().reload();
+	}
 
 	
 	private void bindFeatures()

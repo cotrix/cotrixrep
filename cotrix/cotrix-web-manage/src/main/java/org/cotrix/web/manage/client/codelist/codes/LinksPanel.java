@@ -73,7 +73,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	protected String codelistId;
 
 	protected DataEditor<CodeLink> linkEditor;
-	protected UICode currentCode;
+	protected UICode visualizedCode;
 
 	@Inject
 	protected CotrixManagerResources resources;
@@ -102,14 +102,14 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 			@Override
 			public void onUpdate(UILink link) {
 				Log.trace("onUpdate link: "+link);
-				linkEditor.updated(new CodeLink(currentCode, link));
+				linkEditor.updated(new CodeLink(visualizedCode, link));
 			}
 			
 			@Override
 			public void onCreate(UILink link) {
 				Log.trace("onCreate link: "+link);
-				currentCode.addLink(link);
-				linkEditor.added(new CodeLink(currentCode, link));
+				visualizedCode.addLink(link);
+				linkEditor.added(new CodeLink(visualizedCode, link));
 			}
 
 			@Override
@@ -183,7 +183,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	
 	private void addNewLink()
 	{
-		if (currentCode!=null) {
+		if (visualizedCode!=null) {
 			UILink link = factories.createLink();
 			linksPanel.addNewItemPanel(link);
 		}
@@ -192,10 +192,10 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	private void removeSelectedLink()
 	{
 		UILink selectedLink = linksPanel.getSelectedItem();
-		if (selectedLink!=null && currentCode!=null) {
-			currentCode.removeLink(selectedLink);
+		if (selectedLink!=null && visualizedCode!=null) {
+			visualizedCode.removeLink(selectedLink);
 			linksPanel.removeItem(selectedLink);
-			linkEditor.removed(new CodeLink(currentCode, selectedLink));
+			linkEditor.removed(new CodeLink(visualizedCode, selectedLink));
 		}
 	}
 
@@ -212,19 +212,41 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	
 	@EventHandler
 	void onCodeSelected(CodeSelectedEvent event) {
-		currentCode = event.getCode();
-		setLinks(currentCode.getLinks());
-		String codeName = currentCode!=null?ValueUtils.getLocalPart(currentCode.getName()):null;
+		if (event.getCode() == null) clearVisualizedCode();
+		else updateVisualizedCode(event.getCode());
 
+	}
+	
+	private void updateVisualizedCode(UICode visualizedCode) {
+		this.visualizedCode = visualizedCode;
+		setLinks(visualizedCode.getLinks());
+		updateHeader();
+	}
+	
+	private void clearVisualizedCode()
+	{
+		visualizedCode = null;
+		updateHeader();
+		updateBackground();
+
+		linksPanel.clear();
+	}
+	
+	private void updateHeader() {
 		SafeHtmlBuilder sb = new SafeHtmlBuilder();
 		sb.appendHtmlConstant("<span>Links</span>");
-		if (currentCode!=null) {
+		if (visualizedCode!=null) {
 			sb.appendHtmlConstant("&nbsp;for&nbsp;<span class=\""+resources.css().headerCode()+"\">");
-			sb.append(SafeHtmlUtils.fromString(codeName));
+			sb.append(SafeHtmlUtils.fromString(ValueUtils.getLocalPart(visualizedCode.getName())));
 			sb.appendHtmlConstant("</span>");
 		}
 		
 		header.setHTML(sb.toSafeHtml());
+	}
+	
+	private void updateBackground()
+	{
+		setStyleName(CotrixManagerResources.INSTANCE.css().noItemsBackground(), visualizedCode == null || visualizedCode.getAttributes().isEmpty());
 	}
 
 	private void setLinks(List<UILink> links)
@@ -237,7 +259,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	}
 	
 	private boolean linkInGroup(UILink link) {
-		for (LinkGroup group:groupsAsColumn) if (group.accept(currentCode.getLinks(), link)) return true;
+		for (LinkGroup group:groupsAsColumn) if (group.accept(visualizedCode.getLinks(), link)) return true;
 		return false;
 	}
 
@@ -248,7 +270,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	
 	private void groupSwitch(UILink link, SwitchState state) {
 		LinkGroup group = new LinkGroup(link.getTypeName(), false);
-		group.calculatePosition(currentCode.getLinks(), link);
+		group.calculatePosition(visualizedCode.getLinks(), link);
 		
 		//updateGroups(group, state);
 
@@ -266,7 +288,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 		if (group instanceof LinkGroup) {
 			LinkGroup linkGroup = (LinkGroup) group;
 			updateGroups(linkGroup, event.getSwitchType());
-			if (currentCode!=null && linkGroup.match(currentCode.getLinks())!=null) refreshSwitches();
+			if (visualizedCode!=null && linkGroup.match(visualizedCode.getLinks())!=null) refreshSwitches();
 		}
 	
 	}
@@ -282,8 +304,8 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	
 	private void refreshSwitches() {
 		Log.trace("refreshSwitches");
-		if (currentCode == null) return;
-		for (UILink link:currentCode.getLinks()) {
+		if (visualizedCode == null) return;
+		for (UILink link:visualizedCode.getLinks()) {
 			linksPanel.setSwitchState(link, linkInGroup(link)?SwitchState.DOWN:SwitchState.UP);
 		}
 	}
