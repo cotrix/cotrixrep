@@ -2,6 +2,7 @@ package org.cotrix.lifecycle.impl.memory;
 
 import static org.cotrix.common.Constants.*;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +39,20 @@ public class MLifecycleRepository implements LifecycleRepository {
 	public ResumptionToken lookup(String id) {
 		
 		return tokens.get(id);
+	}
+	
+	@Override
+	public Map<String,ResumptionToken> lookup(Collection<String> ids) {
+		
+		Map<String,ResumptionToken> tokens = new HashMap<>();
+		
+		for (String id : ids) {
+			ResumptionToken token = lookup(id);
+			if (token!=null)
+				tokens.put(id, token);
+		}
+		
+		return tokens;
 	}
 	
 	@Override

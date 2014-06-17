@@ -1,5 +1,8 @@
 package org.cotrix.lifecycle;
 
+import java.util.Collection;
+import java.util.Map;
+
 /**
  * Starts and returns resource {@link Lifecycle}s. 
  * 
@@ -58,6 +61,9 @@ public interface LifecycleService {
 	 * @throws IllegalStateException if no lifecycle exists for the given resource
 	 */
 	Lifecycle lifecycleOf(String id);
+	
+	
+	Map<String,Lifecycle> lifecyclesOf(Collection<String> id);
 	
 	
 	/**

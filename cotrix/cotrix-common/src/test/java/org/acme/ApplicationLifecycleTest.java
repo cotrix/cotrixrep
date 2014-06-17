@@ -22,7 +22,7 @@ import org.mockito.stubbing.Answer;
 import com.googlecode.jeeunit.JeeunitRunner;
 
 @RunWith(JeeunitRunner.class)
-public class LifecycleTest {
+public class ApplicationLifecycleTest {
 
 	@Inject
 	ApplicationLifecycle lc;
