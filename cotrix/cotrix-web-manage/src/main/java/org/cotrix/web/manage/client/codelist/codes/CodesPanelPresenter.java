@@ -45,12 +45,15 @@ public class CodesPanelPresenter implements Presenter {
 	@Inject @CodelistBus 
 	private EventBus codelistBus;
 
+	private FeatureBinder featureBinder;
+
 	@Inject
-	public CodesPanelPresenter(CodesPanelView view, @CurrentCodelist String codelistId, ManageServiceAsync service, DataSaverManager saverManager) {
+	public CodesPanelPresenter(CodesPanelView view, @CurrentCodelist String codelistId, ManageServiceAsync service, DataSaverManager saverManager, FeatureBinder featureBinder) {
 		this.view = view;
 		this.codelistId = codelistId;
 		this.service = service;
 		this.saverManager = saverManager;
+		this.featureBinder = featureBinder;
 		
 		bind();
 		bindFeatures();
@@ -113,13 +116,13 @@ public class CodesPanelPresenter implements Presenter {
 	{
 		
 		// CODELIST EDITOR
-		FeatureBinder.bind((HasEditing)view.getCodeListEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
+		featureBinder.bind((HasEditing)view.getCodeListEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
 		
 		//ATTRIBUTES EDITOR
-		FeatureBinder.bind(view.getAttributesEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
+		featureBinder.bind(view.getAttributesEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
 		
 		//LINKS EDITOR
-		FeatureBinder.bind(view.getLinksEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
+		featureBinder.bind(view.getLinksEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
 	}
 	
 	public void go(HasWidgets container) {

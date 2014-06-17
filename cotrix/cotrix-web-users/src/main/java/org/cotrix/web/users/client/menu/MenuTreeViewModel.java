@@ -52,11 +52,10 @@ public class MenuTreeViewModel implements TreeViewModel {
 
 	public MenuTreeViewModel(SelectionModel<MenuItem> selectionModel) {
 		rootNode = new DefaultNodeInfo<MenuItem>(MENU_PROVIDER, MENU_CELL, selectionModel, null);
-		bindFeatures();
 	}
 
-	protected void bindFeatures() {
-		FeatureBinder.bind(new HasFeature() {
+	public void bindFeatures(FeatureBinder featureBinder) {
+		featureBinder.bind(new HasFeature() {
 
 			@Override
 			public void unsetFeature() {

@@ -4,7 +4,6 @@ import org.cotrix.web.common.client.error.CallbackFailureLogger;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.error.ManagedFailureLongCallback;
 import org.cotrix.web.common.client.event.CotrixBus;
-import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureBus;
 import org.cotrix.web.common.client.feature.FeatureInterceptor;
 import org.cotrix.web.common.client.rpc.CallBackListenerManager;
@@ -63,7 +62,6 @@ public class CommonGinModule extends AbstractGinModule {
 	@Override
 	protected void configure() {
 		
-		requestStaticInjection(FeatureBinder.class);
 		requestStaticInjection(FeatureInterceptor.class);
 		requestStaticInjection(ManagedFailureCallback.class);
 		requestStaticInjection(ManagedFailureLongCallback.class);

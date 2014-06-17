@@ -139,10 +139,10 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	}
 
 	@Inject
-	protected void bind(@CurrentCodelist String codelistId)
+	protected void bind(@CurrentCodelist String codelistId, FeatureBinder featureBinder)
 	{
 
-		FeatureBinder.bind(new FeatureToggler() {
+		featureBinder.bind(new FeatureToggler() {
 
 			@Override
 			public void toggleFeature(boolean active) {
@@ -150,7 +150,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 
-		FeatureBinder.bind(new FeatureToggler() {
+		featureBinder.bind(new FeatureToggler() {
 
 			@Override
 			public void toggleFeature(boolean active) {

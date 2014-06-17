@@ -288,9 +288,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	}
 
 	@Inject
-	private void bind(@CurrentCodelist String codelistId)
+	private void bind(@CurrentCodelist String codelistId, FeatureBinder featureBinder)
 	{
-		FeatureBinder.bind(new FeatureToggler() {
+		featureBinder.bind(new FeatureToggler() {
 
 			@Override
 			public void toggleFeature(boolean active) {
@@ -298,7 +298,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			}
 		}, codelistId, ManagerUIFeature.ADD_CODE);
 
-		FeatureBinder.bind(new FeatureToggler() {
+		featureBinder.bind(new FeatureToggler() {
 
 			@Override
 			public void toggleFeature(boolean active) {

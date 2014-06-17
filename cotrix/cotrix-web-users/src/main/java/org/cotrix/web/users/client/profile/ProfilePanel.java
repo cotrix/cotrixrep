@@ -81,6 +81,9 @@ public class ProfilePanel extends LoadingPanel {
 	
 	@Inject
 	protected UserIdProvider userIdProvider;	
+	
+	@Inject
+	private FeatureBinder featureBinder;
 
 	@Inject
 	protected void init(ProfilePanelUiBinder uiBinder) {
@@ -107,9 +110,9 @@ public class ProfilePanel extends LoadingPanel {
 			}
 		});
 		
-		FeatureBinder.bind(new ValueBoxEditing<String>(fullname), userIdProvider, PermissionUIFeatures.EDIT_PROFILE);
-		FeatureBinder.bind(new ValueBoxEditing<String>(email), userIdProvider, PermissionUIFeatures.EDIT_PROFILE);
-		FeatureBinder.bind(new HasVisibleFeature(password), userIdProvider, PermissionUIFeatures.CHANGE_PASSWORD);
+		featureBinder.bind(new ValueBoxEditing<String>(fullname), userIdProvider, PermissionUIFeatures.EDIT_PROFILE);
+		featureBinder.bind(new ValueBoxEditing<String>(email), userIdProvider, PermissionUIFeatures.EDIT_PROFILE);
+		featureBinder.bind(new HasVisibleFeature(password), userIdProvider, PermissionUIFeatures.CHANGE_PASSWORD);
 	}
 	
 	@Inject

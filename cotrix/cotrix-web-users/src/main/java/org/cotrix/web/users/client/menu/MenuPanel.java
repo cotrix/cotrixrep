@@ -5,6 +5,7 @@ package org.cotrix.web.users.client.menu;
 
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
+import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.users.client.UsersBus;
 
 import com.google.gwt.core.client.GWT;
@@ -50,6 +51,9 @@ public class MenuPanel extends ResizeComposite {
 	@Inject @UsersBus
 	protected EventBus bus;
 	protected SingleSelectionModel<MenuItem> selectionModel;
+	
+	@Inject
+	private FeatureBinder featureBinder;
 
 	@Inject
 	protected void init(MenuPanelUiBinder uiBinder) {
@@ -89,6 +93,7 @@ public class MenuPanel extends ResizeComposite {
 		
 		MenuResources resources = GWT.create(MenuResources.class);
 		MenuTreeViewModel menuTreeViewModel = new MenuTreeViewModel(selectionModel);
+		menuTreeViewModel.bindFeatures(featureBinder);
 		CellTree tree = new CellTree(menuTreeViewModel, null, resources);
 		return tree;
 	}

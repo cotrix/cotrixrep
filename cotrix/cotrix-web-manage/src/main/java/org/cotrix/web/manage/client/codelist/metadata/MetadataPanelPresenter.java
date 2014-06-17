@@ -42,6 +42,8 @@ public class MetadataPanelPresenter implements Presenter {
 	@Inject @CodelistBus 
 	private EventBus codelistBus;
 	
+	private FeatureBinder featureBinder;
+	
 	private ManagedFailureCallback<FeatureCarrier.Void> callBack = new ManagedFailureCallback<FeatureCarrier.Void>() {
 
 		@Override
@@ -51,11 +53,12 @@ public class MetadataPanelPresenter implements Presenter {
 	};
 
 	@Inject
-	public MetadataPanelPresenter(MetadataPanelView view, @CurrentCodelist String codelistId, ManageServiceAsync service, DataSaverManager saverManager) {
+	public MetadataPanelPresenter(MetadataPanelView view, @CurrentCodelist String codelistId, ManageServiceAsync service, DataSaverManager saverManager, FeatureBinder featureBinder) {
 		this.view = view;
 		this.codelistId = codelistId;
 		this.service = service;
 		this.saverManager = saverManager;
+		this.featureBinder = featureBinder;
 		
 		bind();
 		bindFeatures();
@@ -113,18 +116,18 @@ public class MetadataPanelPresenter implements Presenter {
 		// TOOLBAR
 		MetadataToolbar toolbar = view.getToolBar();
 		
-		FeatureBinder.bind(new ActionEnabler(Action.LOCK, toolbar), codelistId, ManagerUIFeature.LOCK_CODELIST);
-		FeatureBinder.bind(new ActionEnabler(Action.UNLOCK, toolbar), codelistId, ManagerUIFeature.UNLOCK_CODELIST);
-		FeatureBinder.bind(new ActionEnabler(Action.FINALIZE, toolbar), codelistId, ManagerUIFeature.SEAL_CODELIST);
+		featureBinder.bind(new ActionEnabler(Action.LOCK, toolbar), codelistId, ManagerUIFeature.LOCK_CODELIST);
+		featureBinder.bind(new ActionEnabler(Action.UNLOCK, toolbar), codelistId, ManagerUIFeature.UNLOCK_CODELIST);
+		featureBinder.bind(new ActionEnabler(Action.FINALIZE, toolbar), codelistId, ManagerUIFeature.SEAL_CODELIST);
 		
 		//ATTRIBUTES EDITOR
-		FeatureBinder.bind(view.getAttributesEditor(), codelistId, ManagerUIFeature.EDIT_METADATA);
+		featureBinder.bind(view.getAttributesEditor(), codelistId, ManagerUIFeature.EDIT_METADATA);
 		
 		//LINK TYPES EDITOR
-		FeatureBinder.bind(view.getLinkTypesEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
+		featureBinder.bind(view.getLinkTypesEditor(), codelistId, ManagerUIFeature.EDIT_CODELIST);
 		
 		//ATTRIBUTE TYPES EDITOR
-		FeatureBinder.bind(view.getAttributeTypesPanel(), codelistId, ManagerUIFeature.EDIT_CODELIST);
+		featureBinder.bind(view.getAttributeTypesPanel(), codelistId, ManagerUIFeature.EDIT_CODELIST);
 	}
 	
 	private class ActionEnabler implements HasFeature {

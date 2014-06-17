@@ -68,9 +68,9 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	}
 	
 	@Inject
-	private void featureBind()
+	private void featureBind(FeatureBinder featureBinder)
 	{
-		FeatureBinder.bind(new FeatureToggler() {
+		featureBinder.bind(new FeatureToggler() {
 			
 			@Override
 			public void toggleFeature(boolean active) {
