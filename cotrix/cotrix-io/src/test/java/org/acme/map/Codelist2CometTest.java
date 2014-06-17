@@ -12,16 +12,13 @@ import org.cotrix.io.MapService;
 import org.cotrix.io.SerialisationService;
 import org.cotrix.io.comet.map.Codelist2CometDirectives;
 import org.cotrix.io.comet.serialise.Comet2XmlDirectives;
+import org.cotrix.test.ApplicationTest;
 import org.fao.fi.comet.mapping.model.MappingData;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import com.googlecode.jeeunit.JeeunitRunner;
 
 //integration tests
 
-@RunWith(JeeunitRunner.class)
-public class Codelist2CometTest {
+public class Codelist2CometTest extends ApplicationTest {
 
 	@Inject
 	MapService mapper;
@@ -31,7 +28,7 @@ public class Codelist2CometTest {
 	
 	Codelist list = codelist().name("cotrix_testlist").
 			with(
-					code().name("code1").build()
+					code().name(q(NS,"code1")).build()
 				   ,code().name("code2")
 							.attributes(
 								 attribute().name("attr1").value("value1").build()

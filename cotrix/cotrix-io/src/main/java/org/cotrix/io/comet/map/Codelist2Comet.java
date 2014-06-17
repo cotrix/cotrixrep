@@ -105,11 +105,11 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 			}
 			catch(Exception e) {
 				
-				report().log(item(format("code {} cannot be mapped ({})",c.name(),e.getMessage()))).as(ERROR);
+				report().log(item(format("code %s cannot be mapped (%s)",c.name(),e.getMessage()))).as(ERROR);
 			
 			}
 		
-		String msg = format("transformed codelist {} ({}) to Comet in {}",codelist.name(),codelist.id(),(currentTimeMillis()-time)/1000);
+		String msg = format("transformed codelist %s (%s) to Comet in %s",codelist.name(),codelist.id(),(currentTimeMillis()-time)/1000);
 		
 		report().log(item(msg)).as(INFO);
 
