@@ -32,10 +32,10 @@ public class CdiProducers {
 	}
 	
 	@Produces @RequestScoped @Alternative
-	public @Current User currentUser(@Current BeanSession session,@Http RequestContext ctx) {
+	public @Current User currentUser(@Current BeanSession session) {
 		
 		try {
-				return session.get(User.class);
+			return session.get(User.class);
 		}
 		catch(IllegalStateException e) {
 

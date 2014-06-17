@@ -11,6 +11,7 @@ import org.cotrix.domain.dsl.grammar.UserGrammar.UserChangeClause;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
+import org.jboss.weld.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,10 @@ public class NewVersionListener {
 	private static Logger log = LoggerFactory.getLogger(NewVersionListener.class);
 	
 	
-	static void delegateOnVersioning(@Observes Version event, @Current User user, UserRepository users) {
+	static void delegateOnVersioning(@Observes Version event, @Current RequestContext ctx, @Current User user, UserRepository users) {
+		
+		if (!ctx.isActive())
+			return;
 		
 		log.info("delegating {}'s permissions to new version {} of {} ({})", user.name(),event.version,event.name,event.id);
 		

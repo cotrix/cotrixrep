@@ -18,6 +18,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.application.VersioningService;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.cdi.ApplicationEvents.FirstTime;
 import org.cotrix.common.cdi.ApplicationEvents.Ready;
@@ -61,6 +62,9 @@ public class CodelistsStager {
 	
 	@Inject
 	SignupService service;
+	
+	@Inject
+	VersioningService versioning;
 
 	static private final Logger log = LoggerFactory.getLogger(CodelistsStager.class);
 
@@ -78,7 +82,17 @@ public class CodelistsStager {
 		for (Info info : SDMX_CODELISTS)
 			stageSDMX(info);
 
+		addVersioned(staged);
 		linkSamples(staged);
+	}
+	
+	private void addVersioned(Map<Info,Codelist> staged) {
+		
+		Codelist asfis = staged.get(asfis2011);
+		
+		Codelist newer = versioning.bump(asfis).to("2012");
+		
+		codelists.add(newer);
 	}
 	
 	private void linkSamples(Map<Info,Codelist> staged) {
