@@ -4,7 +4,10 @@ import static java.lang.Math.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Constants.*;
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
+import static org.cotrix.repository.impl.memory.MemoryRepository.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,10 +20,12 @@ import javax.enterprise.inject.Alternative;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.memory.DefinitionMS;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
@@ -30,6 +35,8 @@ import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
+import org.cotrix.repository.UpdateAction;
+import org.cotrix.repository.spi.CodelistActionFactory;
 import org.cotrix.repository.spi.CodelistQueryFactory;
 
 /**
@@ -39,9 +46,8 @@ import org.cotrix.repository.spi.CodelistQueryFactory;
  * 
  */
 @ApplicationScoped @Alternative @Priority(DEFAULT)
-public class MCodelistRepository extends MemoryRepository<Codelist.State> implements CodelistQueryFactory {
+public class MCodelistRepository extends MemoryRepository<Codelist.State> implements CodelistQueryFactory, CodelistActionFactory {
 
-	
 	
 	@Override
 	public void remove(String id) {
@@ -56,6 +62,55 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		super.remove(id);
 	}
 	
+	
+	
+	
+	// actions
+	
+	@Override
+	public UpdateAction<Codelist> deleteDefinition(final String definitionId) {
+		
+		return new UpdateAction<Codelist>() {
+			@Override
+			public void performOver(Codelist list) {
+				
+				if (!list.definitions().contains(definitionId))
+					throw new IllegalArgumentException("no definition "+definitionId+" in list "+list.id()+" ("+list.name()+")");
+				
+					
+				Definition def = list.definitions().lookup(definitionId);
+				
+				for (Code code : list.codes()) {
+					Collection<Attribute> changesets = new ArrayList<>(); 
+					for (Attribute a : code.attributes())
+						if(a.definition().id().equals(def.id()))
+							changesets.add(delete(a));
+					
+					reveal(code).update(reveal(modify(code).attributes(changesets).build()));
+				}
+				
+				Definition changeset = new DefinitionMS(def.id(),DELETED).entity();
+				
+				reveal(list).update(reveal(modify(list).definitions(changeset).build()));
+				
+			}
+			
+			public String toString() {
+				return "action [delete definition "+definitionId;
+			}
+		};
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///queries
 	
 	@Override
 	public MultiQuery<Codelist, Codelist> allLists() {
@@ -294,7 +349,8 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 	// helper
 	@SuppressWarnings("all")
-	private static <R> MCriterion<R> reveal(Criterion<R> criterion) {
+	private static <R> MCriterion<R> revealCriterion(Criterion<R> criterion) {
 		return Utils.reveal(criterion, MCriterion.class);
 	}
+	
 }

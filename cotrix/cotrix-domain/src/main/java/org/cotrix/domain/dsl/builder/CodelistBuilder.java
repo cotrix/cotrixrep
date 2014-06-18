@@ -86,7 +86,7 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	}
 	
 	@Override
-	public CodelistBuilder attributes(List<Attribute> attributes) {	
+	public CodelistBuilder attributes(Collection<Attribute> attributes) {	
 		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
 	}

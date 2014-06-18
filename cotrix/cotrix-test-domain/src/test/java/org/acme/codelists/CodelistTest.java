@@ -129,9 +129,11 @@ public class CodelistTest extends DomainTest {
 		//don't need to re-test containers here
 		//the simplest proof that update reaches them will do
 
+		Definition newdef = modify(def).name("newname").build();
+		
 		Codelist changeset = modify(list)
 				.name(name2)
-				.definitions(delete(def))
+				.definitions(newdef)
 				.attributes(delete(attr)) 
 				.with(delete(code))
 				.links(delete(link))
@@ -141,7 +143,7 @@ public class CodelistTest extends DomainTest {
 		
 		assertEquals(changeset.name(),list.name());
 		
-		assertFalse(list.definitions().contains(def.name()));
+		assertTrue(list.definitions().contains(newdef.name()));
 		assertFalse(list.attributes().contains(attr.name()));
 		assertFalse(list.links().contains(link.name()));
 		assertFalse(list.codes().contains(code.name()));

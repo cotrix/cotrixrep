@@ -99,15 +99,6 @@ public class Codes {
 		return modifyDefinition(def.id());
 	}
 	
-	public static Definition deleteDefinition(String id) {
-		return new DefinitionMS(id,DELETED).entity();
-	}
-	
-	public static Definition delete(Definition def) {
-		notNull("definition",def);
-		return deleteDefinition(def.id());
-	}
-	
 	public static DefaultType valueType() {
 		return new DefaultType();
 	}

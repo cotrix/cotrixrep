@@ -1,5 +1,6 @@
 package org.cotrix.repository.impl;
 
+import static java.lang.System.*;
 import static org.cotrix.common.Utils.*;
 
 import org.cotrix.common.Utils;
@@ -118,8 +119,26 @@ public abstract class AbstractRepository<T extends Identified,
 	
 	
 	@Override
-	public void updateTo(String id, UpdateAction<T> action) {
+	public void update(String id, UpdateAction<T> action) {
+	
+		notNull("codelist identifier",id);
+		notNull("update action",action);
 		
+		T entity = lookup(id);
+		
+		if (entity==null)
+			throw new IllegalStateException("entity "+id+" is not in this repository, hence cannot be updated.");
+		
+		long time = currentTimeMillis();
+		
+		try {
+			action.performOver(entity);
+		}
+		catch(Exception e) {
+			rethrow("cannot perform "+action+" (see cause) ",e);
+		}
+		
+		log.trace("performed {} over {} in {} ms.",action,log(entity),currentTimeMillis()-time);
 	}
 	
 	

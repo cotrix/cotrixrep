@@ -69,5 +69,5 @@ public interface Repository<T> {
 	 * Performs a given action to update a given entity in this repository .
 	 * @param action the action
 	 */
-	void updateTo(String id,UpdateAction<T> action);
+	void update(String id,UpdateAction<T> action);
 }

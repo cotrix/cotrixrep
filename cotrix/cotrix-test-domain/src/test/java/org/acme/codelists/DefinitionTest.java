@@ -73,11 +73,6 @@ public class DefinitionTest extends DomainTest {
 		assertTrue(reveal(a).isChangeset());
 		
 		assertEquals(MODIFIED,reveal(a).status());		
-		
-		a = delete(def);
-
-		assertTrue(reveal(a).isChangeset());
-		assertEquals(DELETED,reveal(a).status());		
 	}
 
 

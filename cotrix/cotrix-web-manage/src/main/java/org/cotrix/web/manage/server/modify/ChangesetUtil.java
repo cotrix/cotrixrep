@@ -273,10 +273,6 @@ public class ChangesetUtil {
 				.build();
 	}
 	
-	public static Definition removeDefinition(UIAttributeType attributeType) {
-		return deleteDefinition(attributeType.getId());
-	}
-	
 	public static Range toRange(UIRange range) {
 		return Ranges.between(range.getMin(), range.getMax());
 	}

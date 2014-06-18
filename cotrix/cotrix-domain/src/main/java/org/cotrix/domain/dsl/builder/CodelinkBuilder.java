@@ -5,7 +5,7 @@ import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
@@ -55,7 +55,7 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 	}
 	
 	@Override
-	public OptionalClause attributes(List<Attribute> attributes) {
+	public OptionalClause attributes(Collection<Attribute> attributes) {
 		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
 	}

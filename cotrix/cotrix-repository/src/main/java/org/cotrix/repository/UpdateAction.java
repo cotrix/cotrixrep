@@ -8,5 +8,5 @@ package org.cotrix.repository;
  */
 public interface UpdateAction<D> {
 
-	
+	void performOver(D entity);
 }
