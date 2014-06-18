@@ -23,5 +23,9 @@ public interface CodelistRepository extends Repository<Codelist> {
 		public UnremovableCodelistException(String msg) {
 			super(msg);
 		}
+		
+		public UnremovableCodelistException(String msg, Exception e) {
+			super(msg,e);
+		}
 	}
 }
