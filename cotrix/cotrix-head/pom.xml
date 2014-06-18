@@ -172,6 +172,18 @@
 					<artifactId>cotrix-neo</artifactId>
 				</dependency>
 
+			</dependencies>
+
+		</profile>
+		
+		
+		<!-- plugins, persistence, and staging -->
+		<profile>
+
+			<id>plugins</id>
+
+			<dependencies>
+
 				<dependency>
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-sdmx-registry</artifactId>
