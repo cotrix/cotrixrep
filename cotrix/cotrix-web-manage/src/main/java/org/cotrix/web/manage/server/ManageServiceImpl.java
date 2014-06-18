@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -149,17 +148,20 @@ public class ManageServiceImpl implements ManageService {
 
 		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
 		
-		Iterator<CodelistCoordinates> it = repository.get(allListCoordinates().sort(byCoordinateName())).iterator();
-		while (it.hasNext()) {
-			CodelistCoordinates codelist = it.next();
-
+		Iterable<CodelistCoordinates> codelists = repository.get(allListCoordinates().sort(byCoordinateName()));
+		
+		List<String> codelistIds = new ArrayList<>();
+		for (CodelistCoordinates codelist:codelists) codelistIds.add(codelist.id());
+		Map<String, Lifecycle> lifecycles = lifecycleService.lifecyclesOf(codelistIds);
+		
+		for (CodelistCoordinates codelist:codelists) {
 			CodelistGroup group = groups.get(codelist.name());
 			if (group == null) {
 				group = new CodelistGroup(ValueUtils.safeValue(codelist.name()));
 				groups.put(codelist.name(), group);
 			}
 			
-			Lifecycle lifecycle = lifecycleService.lifecycleOf(codelist.id());
+			Lifecycle lifecycle = lifecycles.get(codelist.id());
 			LifecycleState state = Codelists.getLifecycleState(lifecycle.state());
 			
 			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()), state);
@@ -342,11 +344,8 @@ public class ManageServiceImpl implements ManageService {
 	public List<UICodelist> getCodelists() throws ServiceException {
 		logger.trace("getCodelists");
 		List<UICodelist> codelists = new ArrayList<>();
-		Iterator<CodelistCoordinates> it = repository.get(allListCoordinates().sort(byCoordinateName())).iterator();
-		while (it.hasNext()) {
-			CodelistCoordinates codelist = it.next();
-			codelists.add(Codelists.toUICodelist(codelist));
-		}
+		Iterable<CodelistCoordinates> result = repository.get(allListCoordinates().sort(byCoordinateName()));
+		for (CodelistCoordinates codelist:result) codelists.add(Codelists.toUICodelist(codelist));
 		return codelists;
 	}
 
