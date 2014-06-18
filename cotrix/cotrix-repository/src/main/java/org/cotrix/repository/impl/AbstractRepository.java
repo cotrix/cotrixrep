@@ -7,6 +7,7 @@ import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.Repository;
+import org.cotrix.repository.UpdateAction;
 import org.cotrix.repository.spi.StateRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,6 +115,12 @@ public abstract class AbstractRepository<T extends Identified,
 		
 		producer.updates.fire(changeset);
 	};
+	
+	
+	@Override
+	public void updateTo(String id, UpdateAction<T> action) {
+		
+	}
 	
 	
 	@Override

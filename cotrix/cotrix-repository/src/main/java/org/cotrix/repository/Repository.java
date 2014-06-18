@@ -63,4 +63,11 @@ public interface Repository<T> {
 	 * 
 	 */
 	int size();
+	
+	
+	/**
+	 * Performs a given action to update a given entity in this repository .
+	 * @param action the action
+	 */
+	void updateTo(String id,UpdateAction<T> action);
 }

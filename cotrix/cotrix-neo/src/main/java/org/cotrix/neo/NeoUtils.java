@@ -33,10 +33,10 @@ public class NeoUtils {
 		for (Relationship r : n.getRelationships(OUTGOING)) {
 			
 			//we do not remove links
-			if (!r.isType(LINK) && r.isType(INSTANCEOF)) {
+			if (!r.isType(LINK) && r.isType(INSTANCEOF))
 				removeNode(r.getEndNode());
-				r.delete();
-			}
+			
+			r.delete();
 		}
 		
 		n.delete();
