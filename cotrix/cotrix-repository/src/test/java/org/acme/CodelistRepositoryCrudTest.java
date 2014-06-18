@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
@@ -256,7 +257,10 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 	@Test
 	public void removeCodelist() {
 
-		Codelist list = codelist().name("name").build();
+		Definition def = definition().name("name").build();
+		Attribute a = attribute().with(def).value("val").build();
+		Code c = code().name("name").attributes(a).build();
+		Codelist list = codelist().name("name").definitions(def).with(c).build();
 
 		repository.add(list);
 
