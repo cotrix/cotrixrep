@@ -248,11 +248,6 @@ public class ChangesetUtil {
 		for (CodelistLink codelistLink:namedContainer) if (codelistLink.id().equals(id)) return codelistLink;
 		throw new IllegalArgumentException("Unknown codelist type with id: "+id);
 	}
-
-	public static CodelistLink removeCodelistLink(String id) {
-		return deleteListLink(id);
-	}
-	
 	
 	
 	public static Definition addDefinition(UIAttributeType attributeType) {

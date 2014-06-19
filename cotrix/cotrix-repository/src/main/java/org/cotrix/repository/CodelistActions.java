@@ -16,6 +16,8 @@ public class CodelistActions {
 		CodelistActions.factory = factory;
 	}
 	
+	
+	
 	public static UpdateAction<Codelist> deleteDefinition(String definitionId) {
 		
 		notNull("definition identifier", definitionId);
@@ -23,6 +25,12 @@ public class CodelistActions {
 		return factory.deleteDefinition(definitionId);
 	}
 	
+	public static UpdateAction<Codelist> deleteCodelistLink(String linkId) {
+		
+		notNull("codelist link identifier", linkId);
+		
+		return factory.deleteCodelistLink(linkId);
+	}
 
 	
 	static class ActionFactoryInjector {

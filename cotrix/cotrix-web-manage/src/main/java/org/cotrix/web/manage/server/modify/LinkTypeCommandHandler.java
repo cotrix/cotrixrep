@@ -4,6 +4,8 @@
 package org.cotrix.web.manage.server.modify;
 
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.repository.CodelistActions.*;
+import static org.cotrix.web.manage.shared.modify.GenericCommand.Action.*;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -38,29 +40,37 @@ public class LinkTypeCommandHandler {
 		Codelist codelist = repository.lookup(codelistId);
 		
 		UILinkType linkType = command.getItem();
-		CodelistLink codelistLink = null;
 		
-		switch (command.getAction()) {
-			case ADD: {
-				Codelist target = repository.lookup(linkType.getTargetCodelist().getId());
-				codelistLink = ChangesetUtil.addCodelistLink(linkType, target);
-			} break;
-			case UPDATE: {
-				Codelist target = repository.lookup(linkType.getTargetCodelist().getId());	
-				CodelistLink oldCodelistLink = lookupCodelistLink(codelist, linkType.getId());
-				codelistLink = ChangesetUtil.updateCodelistLink(linkType, target, oldCodelistLink);
-			} break;
-			case REMOVE: {
-				codelistLink = ChangesetUtil.removeCodelistLink(linkType.getId());
-			} break;
+		String linkId = linkType.getId();
+		
+		if (command.getAction()==REMOVE) {
+			
+			repository.update(codelist.id(), deleteCodelistLink(linkId));
+
+		}
+		else {
+			
+			CodelistLink codelistLink = null;
+			
+			switch (command.getAction()) {
+				case ADD: {
+					Codelist target = repository.lookup(linkType.getTargetCodelist().getId());
+					codelistLink = ChangesetUtil.addCodelistLink(linkType, target);
+				} break;
+				case UPDATE: {
+					Codelist target = repository.lookup(linkType.getTargetCodelist().getId());	
+					CodelistLink oldCodelistLink = lookupCodelistLink(codelist, linkType.getId());
+					codelistLink = ChangesetUtil.updateCodelistLink(linkType, target, oldCodelistLink);
+				} break;
+			}
+		
+			if (codelistLink == null) throw new IllegalArgumentException("Unknown command "+command);
+	
+			Codelist changeset = modifyCodelist(codelistId).links(codelistLink).build();
+			repository.update(changeset);
 		}
 		
-		if (codelistLink == null) throw new IllegalArgumentException("Unknown command "+command);
-
-		Codelist changeset = modifyCodelist(codelistId).links(codelistLink).build();
-		repository.update(changeset);
-		
-		CodelistLink updatedCodelistLink = lookupCodelistLink(codelist, codelistLink.id());
+		CodelistLink updatedCodelistLink = lookupCodelistLink(codelist, linkId);
 		logger.trace("updatedCodelistLink: "+updatedCodelistLink);
 		
 		UILinkType updatedLinkType = updatedCodelistLink==null?null:LinkTypes.toUILinkType(updatedCodelistLink);

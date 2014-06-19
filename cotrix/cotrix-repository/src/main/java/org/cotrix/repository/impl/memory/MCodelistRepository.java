@@ -7,7 +7,6 @@ import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
-import static org.cotrix.repository.impl.memory.MemoryRepository.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +24,7 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.memory.DefinitionMS;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.user.FingerPrint;
@@ -75,7 +75,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 			public void performOver(Codelist list) {
 				
 				if (!list.definitions().contains(definitionId))
-					throw new IllegalArgumentException("no definition "+definitionId+" in list "+list.id()+" ("+list.name()+")");
+					throw new IllegalArgumentException("no attribute definition "+definitionId+" in list "+list.id()+" ("+list.name()+")");
 				
 					
 				Definition def = list.definitions().lookup(definitionId);
@@ -101,7 +101,40 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		};
 	}
 	
-	
+
+	@Override
+	public UpdateAction<Codelist> deleteCodelistLink(final String linkId) {
+		
+		return new UpdateAction<Codelist>() {
+			@Override
+			public void performOver(Codelist list) {
+				
+				if (!list.links().contains(linkId))
+					throw new IllegalArgumentException("no link definition "+linkId+" in list "+list.id()+" ("+list.name()+")");
+				
+					
+				CodelistLink type= list.links().lookup(linkId);
+				
+				for (Code code : list.codes()) {
+					Collection<Codelink> changesets = new ArrayList<>(); 
+					for (Codelink l : code.links())
+						if(l.type().id().equals(type.id()))
+							changesets.add(delete(l));
+					
+					reveal(code).update(reveal(modify(code).links(changesets).build()));
+				}
+				
+				CodelistLink changeset = new CodelistLinkMS(type.id(),DELETED).entity();
+				
+				reveal(list).update(reveal(modify(list).links(changeset).build()));
+				
+			}
+			
+			public String toString() {
+				return "action [delete definition "+linkId;
+			}
+		};
+	}
 	
 	
 	
