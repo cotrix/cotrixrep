@@ -4,6 +4,8 @@
 package org.cotrix.web.common.client.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -41,6 +43,7 @@ public abstract class FilteredCachedDataProvider<T> extends CachedDataProvider<T
 	protected int totalCount;
 	protected int unfilteredTotalCount;
 	protected boolean applyFiltersOnLoad = false;
+	private Comparator<T> comparator;
 	
 	protected void updateData(List<T> data, Range range, int totalSize) {
 		super.updateData(data, range, totalSize);
@@ -50,6 +53,10 @@ public abstract class FilteredCachedDataProvider<T> extends CachedDataProvider<T
 		}
 	}
 	
+	public void setApplyFiltersOnLoad(boolean applyFiltersOnLoad) {
+		this.applyFiltersOnLoad = applyFiltersOnLoad;
+	}
+
 	@SuppressWarnings("unchecked")
 	public void setFilters(Filter<T> ... filters)
 	{
@@ -64,6 +71,10 @@ public abstract class FilteredCachedDataProvider<T> extends CachedDataProvider<T
 		applyFilters();
 	}
 	
+	public void setComparator(Comparator<T> comparator) {
+		this.comparator = comparator;
+	}
+
 	public void applyFilters()
 	{
 		if (unfilteredCache == null) {
@@ -75,9 +86,12 @@ public abstract class FilteredCachedDataProvider<T> extends CachedDataProvider<T
 			boolean accept = accept(data);
 			if (accept) cache.add(data);
 		}
+		
+		if (comparator!=null) Collections.sort(cache, comparator);
+		
 		Log.trace("cache: "+cache);
 		updateRowCount(cache.size(), true);
-		refresh();
+		fireUpdated(lastRange, false);
 	}
 	
 	protected boolean accept(T data)

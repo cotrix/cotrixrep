@@ -3,22 +3,20 @@
  */
 package org.cotrix.web.manage.client.codelists;
 
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.util.FilteredCachedDataProvider;
-import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodelistNewStateEvent;
+import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
+import org.cotrix.web.manage.client.event.CodelistRemovedEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
-import org.cotrix.web.manage.shared.CodelistGroup;
-import org.cotrix.web.manage.shared.CodelistGroup.Version;
+import org.cotrix.web.manage.shared.UICodelistInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -31,26 +29,12 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  *
  */
 @Singleton
-public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGroup> {
+public class CodelistsDataProvider extends FilteredCachedDataProvider<UICodelistInfo> {
 	
 	interface CodelistsDataProviderEventBinder extends EventBinder<CodelistsDataProvider> {}
 	
-	private static final Comparator<CodelistGroup> COMPARATOR = new Comparator<CodelistGroup>() {
-		
-		@Override
-		public int compare(CodelistGroup g1, CodelistGroup g2) {
-			return String.CASE_INSENSITIVE_ORDER.compare(g1.getName().getLocalPart(), g2.getName().getLocalPart());
-		}
-	}; 
-	
 	@Inject
 	protected ManageServiceAsync managerService;
-
-	@Override
-	protected void onRangeChanged(HasData<CodelistGroup> display) {
-		final Range range = display.getVisibleRange();
-		onRangeChanged(range);
-	}
 	
 	@Inject
 	private void bind(CodelistsDataProviderEventBinder binder, @ManagerBus EventBus managerBus) {
@@ -60,19 +44,26 @@ public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGr
 	@EventHandler
 	protected void onStateUpdate(CodelistNewStateEvent event) {
 		UICodelist codelist = event.getCodelist();
-		Version version = findVersionInCache(codelist);
-		if (version != null) {
-			version.setState(event.getState());
+		
+		UICodelistInfo codelistInfo = findCodelistInCache(codelist);
+		if (codelistInfo != null) {
+			codelistInfo.setState(event.getState());
 			refresh();
 		}
 	}
 	
-	private Version findVersionInCache(UICodelist codelist) {
-		for (CodelistGroup group:cache) {
-			for (Version version:group.getVersions()) {
-				if (version.getId().equals(codelist.getId())) return version;
-			}
-		}
+	@EventHandler
+	void onCodelistCreated(CodelistCreatedEvent event) {
+		addCodelist(event.getCodelistInfo());
+	}
+	
+	@EventHandler
+	void onCodelistRemoved(CodelistRemovedEvent event) {
+		removeCodelist(event.getCodelist());
+	}
+	
+	private UICodelistInfo findCodelistInCache(UICodelist codelist) {
+		for (UICodelistInfo codelistInfo:cache) if (codelistInfo.getId().equals(codelist.getId())) return codelistInfo;
 		return null;
 	}
 	
@@ -81,63 +72,38 @@ public class CodelistsDataProvider extends FilteredCachedDataProvider<CodelistGr
 		onRangeChanged((Range)null);
 	}
 	
-	public void addCodelistGroup(CodelistGroup newGroup)
+	public void addCodelist(UICodelistInfo codelist)
 	{
-		Log.trace("addCodelistGroup newGroup: "+newGroup);
-		CodelistGroup oldGroup = findGroupInCache(newGroup);
-		Log.trace("oldGroup: "+oldGroup);
-		
-		if (oldGroup!=null) oldGroup.addVersions(newGroup.getVersions());
-		else {
-			cache.add(newGroup);
-			Collections.sort(cache, COMPARATOR);
-		}
-		
-		Log.trace("refreshing cache: "+cache);
-		refresh();
-	}
-	
-	public void removeCodelistGroup(CodelistGroup groupToRemove)
-	{
-		Log.trace("removeCodelistGroup groupToRemove: "+groupToRemove);
-		CodelistGroup oldGroup = findGroupInCache(groupToRemove);
-		Log.trace("oldGroup: "+oldGroup);
-		
-		if (oldGroup == null) return;
-		
-		for (Version version:groupToRemove.getVersions()) oldGroup.removeVersion(version);
-		if (oldGroup.getVersions().isEmpty()) cache.remove(oldGroup);
-		
-		Log.trace("oldGroup after update: "+oldGroup);
+		Log.trace("addCodelist codelist: "+codelist);
+		cache.add(codelist);
 		
 		Log.trace("refreshing cache: "+cache);
 		updateData(cache, new Range(0, cache.size()), cache.size());
 	}
 	
-	private CodelistGroup findGroupInCache(CodelistGroup groupToFind) {
-		for (CodelistGroup group:cache) {
-			if (group.equals(groupToFind)) return group;
+	public void removeCodelist(UICodelist codelist)
+	{
+		Log.trace("removeCodelist codelist: "+codelist);
+		
+		Iterator<UICodelistInfo> iterator = cache.iterator();
+		while(iterator.hasNext()) {
+			if (iterator.next().getId().equals(codelist.getId())) iterator.remove();
 		}
-		return null;
-	}
-	
-	public boolean containsVersion(Version version) {
-		CodelistGroup group = findGroupInCache(version.getParent());
-		if (group == null) return false;
-		return group.getVersions().contains(version);
+		
+		Log.trace("refreshing cache: "+cache);
+		updateData(cache, new Range(0, cache.size()), cache.size());
 	}
 
 	@Override
 	protected void onRangeChanged(final Range range) {
-		managerService.getCodelistsGrouped(new ManagedFailureCallback<DataWindow<CodelistGroup>>() {
+		managerService.getCodelistsInfos(new ManagedFailureCallback<List<UICodelistInfo>>() {
 
 			@Override
-			public void onSuccess(DataWindow<CodelistGroup> result) {
-				List<CodelistGroup> groups = result.getData();
-				Log.trace("loaded "+groups.size()+" codelists");
-				Collections.sort(groups, COMPARATOR);
-				if (range == null) updateData(groups, new Range(0, result.getTotalSize()), result.getTotalSize());
-				else updateData(groups, range, result.getTotalSize());
+			public void onSuccess(List<UICodelistInfo> result) {
+				Log.trace("loaded "+result.size()+" codelists");
+				//Collections.sort(groups, COMPARATOR);
+				if (range == null) updateData(result, new Range(0, result.size()), result.size());
+				else updateData(result, range, result.size());
 					
 			}
 		});		

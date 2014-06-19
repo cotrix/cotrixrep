@@ -8,8 +8,6 @@ import static org.cotrix.web.manage.shared.ManagerUIFeature.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -67,12 +65,13 @@ import org.cotrix.web.common.shared.feature.ResponseWrapper;
 import org.cotrix.web.manage.client.ManageService;
 import org.cotrix.web.manage.server.modify.ChangesetUtil;
 import org.cotrix.web.manage.server.modify.ModifyCommandHandler;
+import org.cotrix.web.manage.server.util.CodelistsInfos;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
-import org.cotrix.web.manage.shared.CodelistGroup;
 import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
 import org.cotrix.web.manage.shared.CodelistValueTypes;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.UICodeInfo;
+import org.cotrix.web.manage.shared.UICodelistInfo;
 import org.cotrix.web.manage.shared.UILinkTypeInfo;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
@@ -143,10 +142,10 @@ public class ManageServiceImpl implements ManageService {
 	}
 
 	@Override
-	public DataWindow<CodelistGroup> getCodelistsGrouped() throws ServiceException {
-		logger.trace("getCodelistsGrouped");
+	public List<UICodelistInfo> getCodelistsInfos() throws ServiceException {
+		logger.trace("getCodelistsInfos");
 
-		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
+		List<UICodelistInfo> codelistInfos = new ArrayList<>();
 		
 		Iterable<CodelistCoordinates> codelists = repository.get(allListCoordinates().sort(byCoordinateName()));
 		
@@ -155,21 +154,17 @@ public class ManageServiceImpl implements ManageService {
 		Map<String, Lifecycle> lifecycles = lifecycleService.lifecyclesOf(codelistIds);
 		
 		for (CodelistCoordinates codelist:codelists) {
-			CodelistGroup group = groups.get(codelist.name());
-			if (group == null) {
-				group = new CodelistGroup(ValueUtils.safeValue(codelist.name()));
-				groups.put(codelist.name(), group);
-			}
+			
+			boolean isOwner = currentUser.is(Roles.OWNER.on(codelist.id()));
 			
 			Lifecycle lifecycle = lifecycles.get(codelist.id());
-			LifecycleState state = Codelists.getLifecycleState(lifecycle.state());
+			UICodelistInfo codelistInfo = CodelistsInfos.toUICodelistInfo(codelist, lifecycle.state(), isOwner);
 			
-			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()), state);
+			codelistInfos.add(codelistInfo);
 		}
 
-		for (CodelistGroup group:groups.values()) Collections.sort(group.getVersions()); 
 
-		return new DataWindow<CodelistGroup>(new ArrayList<CodelistGroup>(groups.values()));
+		return codelistInfos;
 	}
 
 	@Override
@@ -261,15 +256,15 @@ public class ManageServiceImpl implements ManageService {
 
 	@Override
 	@CodelistTask(VERSION)
-	public CodelistGroup createNewCodelistVersion(@Id String codelistId, String newVersion)	throws ServiceException {
+	public UICodelistInfo createNewCodelistVersion(@Id String codelistId, String newVersion)	throws ServiceException {
 		try {
 			Codelist codelist = repository.lookup(codelistId);
 			
 			Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
 	
-			CodelistGroup group = addCodelist(newCodelist);
+			UICodelistInfo codelistInfo = addCodelist(newCodelist);
 			
-			return group;
+			return codelistInfo;
 		} catch(Throwable throwable)
 		{
 			logger.error("Error creating new codelist version for codelist "+codelistId, throwable);
@@ -299,7 +294,7 @@ public class ManageServiceImpl implements ManageService {
 	}
 
 	@Override
-	public CodelistGroup createNewCodelist(String name, String version)	throws ServiceException {
+	public UICodelistInfo createNewCodelist(String name, String version)	throws ServiceException {
 		logger.trace("createNewCodelist name: {}, version: {}",name, version);
 		Codelist newCodelist = codelist().name(name).version(version).build();
 
@@ -307,21 +302,21 @@ public class ManageServiceImpl implements ManageService {
 		User changeset = modifyUser(currentUser).is(Roles.OWNER.on(newCodelist.id())).build();
 		userRepository.update(changeset);
 		
-		CodelistGroup group = addCodelist(newCodelist);
+		UICodelistInfo codelistInfo = addCodelist(newCodelist);
 		events.fire(new CodelistActionEvents.Create(newCodelist.id(),newCodelist.name(), newCodelist.version(), session));
-		return group;
+		return codelistInfo;
 	}
 
-	private CodelistGroup addCodelist(Codelist newCodelist) {
+	private UICodelistInfo addCodelist(Codelist newCodelist) {
 		repository.add(newCodelist);
-	
-		Lifecycle lifecycle = lifecycleService.lifecycleOf(newCodelist.id());
-		LifecycleState state = Codelists.getLifecycleState(lifecycle.state());
 		
-		CodelistGroup group = new CodelistGroup(ValueUtils.safeValue(newCodelist.name()));
-		group.addVersion(newCodelist.id(), newCodelist.version(), state);
+		Lifecycle lifecycle = lifecycleService.lifecycleOf(newCodelist.id());
+		
+		boolean isOwner = currentUser.is(Roles.OWNER.on(newCodelist.id()));
+		
+		UICodelistInfo codelistInfo = CodelistsInfos.toUICodelistInfo(newCodelist, lifecycle.state(), isOwner);
 
-		return group;
+		return codelistInfo;
 	}
 
 	@Override

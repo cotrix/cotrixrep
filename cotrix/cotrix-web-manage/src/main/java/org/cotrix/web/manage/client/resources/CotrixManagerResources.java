@@ -94,6 +94,10 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource pencilBullet();
 	public ImageResource stopBullet();
 	
+	public ImageResource showMenu();
+	public ImageResource radioBullet();
+	public ImageResource checkBullet();
+	
 	interface CotrixManagerStyle extends CssResource {
 		String editor();
 		String systemProperty();
