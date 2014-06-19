@@ -202,7 +202,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 		Log.trace("askUserConfirm codelistId: "+codelist+" checkResult: "+checkResult);
 		if (checkResult.isCanRemove()) {
 			
-			confirmDialog.center("The operation can't be reverted. Do you want to continue?", new ConfirmDialogListener() {
+			confirmDialog.center("This cannot be reverted.<br> Do you want to go ahead?", new ConfirmDialogListener() {
 				
 				@Override
 				public void onButtonClick(DialogButton button) {

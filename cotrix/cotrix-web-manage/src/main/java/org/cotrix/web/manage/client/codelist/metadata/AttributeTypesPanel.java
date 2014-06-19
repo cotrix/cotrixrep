@@ -10,6 +10,9 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
 import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
@@ -72,6 +75,9 @@ public class AttributeTypesPanel extends Composite implements HasEditing {
 	
 	@Inject
 	private UIFactories factories;
+	
+	@Inject
+	private ConfirmDialog confirmDialog;
 
 	@Inject
 	public void init() {
@@ -164,10 +170,21 @@ public class AttributeTypesPanel extends Composite implements HasEditing {
 
 	private void removeSelectedAttributeType()
 	{
-		UIAttributeType selectedAttributeType = attributeTypesPanel.getSelectedItem();
+		final UIAttributeType selectedAttributeType = attributeTypesPanel.getSelectedItem();
 		if (selectedAttributeType!=null) {
-			attributeTypesPanel.removeItem(selectedAttributeType);
-			attributeTypeEditor.removed(selectedAttributeType);
+			
+			confirmDialog.center("This will delete all the instances of this attribute|link.<br>Do you want to go ahead?", new ConfirmDialogListener() {
+				
+				@Override
+				public void onButtonClick(DialogButton button) {
+					if (button == DialogButton.CONTINUE) {
+						attributeTypesPanel.removeItem(selectedAttributeType);
+						attributeTypeEditor.removed(selectedAttributeType);
+					}
+				}
+			});
+			
+			
 		}
 	}
 
