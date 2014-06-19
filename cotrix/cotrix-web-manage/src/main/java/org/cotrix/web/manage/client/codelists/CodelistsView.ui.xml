@@ -27,13 +27,28 @@
 	}
 	
 	.menuCell {
-		width: 12px;
+		width: 14px;
 		vertical-align: middle;
 	}
 	
+	@external menuButton;
 	.menuButton {
+		width: 14px;
 		cursor: pointer;
-
+		text-align: center;
+	}
+	
+	@external menuButton-down;
+	.menuButton-down {
+		background-color: lightgray;
+		border-radius: 5px;
+		
+	}
+	
+	@external menuButton-down-hovering;
+	.menuButton-down-hovering {
+		background-color: lightgray;
+		border-radius: 5px;
 	}
 	
 	.scrollListPanel {
@@ -71,7 +86,7 @@
 		<g:north size='35'>
 			<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
 				<common:SearchBox ui:field="filterTextBox"
-					addStyleNames="{style.filterBox}" />
+					addStyleNames="{style.filterBox}" title="Filter codelists."/>
 			</g:FlowPanel>
 		</g:north>
 		<g:north size='30'>
@@ -82,9 +97,15 @@
 							Codelists
 						</td>
 						<td class="{style.menuCell}">
-							<g:PushButton ui:field="menuButton" styleName="{style.menuButton}">
+						<g:ToggleButton ui:field="menuButton" styleName="{style.menuButton}" title="Filter options.">
 								<g:upFace image="{resources.showMenu}" />
-							</g:PushButton>
+								<g:upHoveringFace image="{resources.showMenuHover}" />
+								<g:downFace image="{resources.showMenuHover}" />
+						</g:ToggleButton>
+<!-- 							<g:PushButton ui:field="menuButton" styleName="{style.menuButton}"> -->
+<!-- 								<g:upFace image="{resources.showMenu}" /> -->
+<!-- 								<g:upHoveringFace image="{resources.showMenuHover}" /> -->
+<!-- 							</g:PushButton> -->
 						</td>
 					</tr>
 				</table>

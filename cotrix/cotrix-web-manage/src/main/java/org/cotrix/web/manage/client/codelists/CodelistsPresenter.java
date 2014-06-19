@@ -66,7 +66,7 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	
 	private ByNameFilter nameFilter = new ByNameFilter();
 	private ByStateFilter stateFilter = new ByStateFilter();
-	private ByOwnershipFilter ownershipFilter = new ByOwnershipFilter();
+	private ByUserInTeamFilter isUserInTeamFilter = new ByUserInTeamFilter();
 
 	@Inject
 	public CodelistsPresenter(CodelistsView view) {
@@ -78,7 +78,7 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 	@Inject
 	private void initFilters() {
 		Log.trace("initFilters");
-		codelistDataProvider.setFilters(new AndFilter<UICodelistInfo>(nameFilter, stateFilter, ownershipFilter));
+		codelistDataProvider.setFilters(new AndFilter<UICodelistInfo>(nameFilter, stateFilter, isUserInTeamFilter));
 		codelistDataProvider.setApplyFiltersOnLoad(true);
 		codelistDataProvider.setComparator(SORT_BY_NAME_AND_VERSION);
 	}
@@ -91,6 +91,11 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 			@Override
 			public void onButtonClicked(MenuButton button) {
 				menuButtonClicked(button);
+			}
+
+			@Override
+			public void onHide() {
+				view.toggleMenuButton(false);
 			}
 		});
 	}
@@ -214,8 +219,8 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 			case FILTER_BY_STATE_DRAFT: stateFilter.switchState(LifecycleState.draft); break;
 			case FILTER_BY_STATE_LOCKED: stateFilter.switchState(LifecycleState.locked); break;
 			case FILTER_BY_STATE_SEALED: stateFilter.switchState(LifecycleState.sealed); break;
-			case SHOW_ALL: ownershipFilter.setDisabled(true); break;
-			case SHOW_USER: ownershipFilter.setDisabled(false); break;
+			case SHOW_ALL: isUserInTeamFilter.setDisabled(true); break;
+			case SHOW_USER: isUserInTeamFilter.setDisabled(false); break;
 
 			default:
 				break;
@@ -276,11 +281,11 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 
 	}
 	
-	protected class ByOwnershipFilter implements Filter<UICodelistInfo> {
+	protected class ByUserInTeamFilter implements Filter<UICodelistInfo> {
 
 		private boolean disabled;
 
-		public ByOwnershipFilter() {
+		public ByUserInTeamFilter() {
 			disabled = true;
 		}
 
@@ -290,7 +295,7 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 
 		@Override
 		public boolean accept(UICodelistInfo data) {
-			return disabled || data.isOwner();
+			return disabled || data.isUserInTeam();
 		}
 
 	}

@@ -17,26 +17,26 @@ import org.cotrix.web.manage.shared.UICodelistInfo;
  */
 public class CodelistsInfos {
 	
-	public static UICodelistInfo toUICodelistInfo(CodelistCoordinates codelist, State state, boolean isOwner) {
+	public static UICodelistInfo toUICodelistInfo(CodelistCoordinates codelist, State state, boolean isUserInTeam) {
 		UICodelistInfo uiCodelist = new UICodelistInfo();
 		uiCodelist.setId(codelist.id());
 		uiCodelist.setName(ValueUtils.safeValue(codelist.name()));
 		uiCodelist.setVersion(codelist.version());
 		LifecycleState lifecycleState = Codelists.getLifecycleState(state);
 		uiCodelist.setState(lifecycleState);
-		uiCodelist.setOwner(isOwner);
+		uiCodelist.setUserInTeam(isUserInTeam);
 		
 		return uiCodelist;
 	}
 	
-	public static UICodelistInfo toUICodelistInfo(Codelist codelist, State state, boolean isOwner) {
+	public static UICodelistInfo toUICodelistInfo(Codelist codelist, State state, boolean isUserInTeam) {
 		UICodelistInfo uiCodelist = new UICodelistInfo();
 		uiCodelist.setId(codelist.id());
 		uiCodelist.setName(ValueUtils.safeValue(codelist.name()));
 		uiCodelist.setVersion(codelist.version());
 		LifecycleState lifecycleState = Codelists.getLifecycleState(state);
 		uiCodelist.setState(lifecycleState);
-		uiCodelist.setOwner(isOwner);
+		uiCodelist.setUserInTeam(isUserInTeam);
 		
 		return uiCodelist;
 	}

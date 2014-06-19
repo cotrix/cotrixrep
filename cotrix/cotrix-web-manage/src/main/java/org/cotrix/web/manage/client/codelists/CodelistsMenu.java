@@ -34,6 +34,7 @@ public interface CodelistsMenu {
 	
 	public interface Listener {
 		public void onButtonClicked(MenuButton button);
+		public void onHide();
 	}
 	
 	public void show(UIObject target);

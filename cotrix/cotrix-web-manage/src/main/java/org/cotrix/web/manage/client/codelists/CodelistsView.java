@@ -35,4 +35,5 @@ public interface CodelistsView {
 	
 	void groupBy(Grouping grouping);
 	void refreshData();
+	void toggleMenuButton(boolean down);
 }

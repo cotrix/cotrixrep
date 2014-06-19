@@ -28,10 +28,10 @@ public class CheckMenuItem extends MenuItem implements HasSelectionChangedHandle
 
 	static interface RadioMenuItemTemplate extends SafeHtmlTemplates {
 
-		@Template("<div style=\"height:16px\"><img src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;padding-right:5px;\"/>{0}</div>")
+		@Template("<div style=\"height:18px\"><img src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;padding-right:5px;\"/>{0}</div>")
 		SafeHtml checked(SafeHtml label, SafeUri img, String imgStyle);
 		
-		@Template("<div style=\"height:16px;padding-left:14px;\">{0}</div>")
+		@Template("<div style=\"height:18px;padding-left:14px;\">{0}</div>")
 		SafeHtml unchecked(SafeHtml label);
 	}
 	

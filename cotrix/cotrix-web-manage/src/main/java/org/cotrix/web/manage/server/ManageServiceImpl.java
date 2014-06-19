@@ -20,6 +20,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
+import org.cotrix.action.ResourceType;
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
 import org.cotrix.common.cdi.BeanSession;
@@ -30,6 +31,7 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.dsl.Roles;
+import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
@@ -153,12 +155,14 @@ public class ManageServiceImpl implements ManageService {
 		for (CodelistCoordinates codelist:codelists) codelistIds.add(codelist.id());
 		Map<String, Lifecycle> lifecycles = lifecycleService.lifecyclesOf(codelistIds);
 		
+		FingerPrint fp = currentUser.fingerprint();
+		
 		for (CodelistCoordinates codelist:codelists) {
 			
-			boolean isOwner = currentUser.is(Roles.OWNER.on(codelist.id()));
+			boolean isUserInTeam = !fp.allRolesOver(codelist.id(), ResourceType.codelists).isEmpty();
 			
 			Lifecycle lifecycle = lifecycles.get(codelist.id());
-			UICodelistInfo codelistInfo = CodelistsInfos.toUICodelistInfo(codelist, lifecycle.state(), isOwner);
+			UICodelistInfo codelistInfo = CodelistsInfos.toUICodelistInfo(codelist, lifecycle.state(), isUserInTeam);
 			
 			codelistInfos.add(codelistInfo);
 		}
@@ -312,9 +316,9 @@ public class ManageServiceImpl implements ManageService {
 		
 		Lifecycle lifecycle = lifecycleService.lifecycleOf(newCodelist.id());
 		
-		boolean isOwner = currentUser.is(Roles.OWNER.on(newCodelist.id()));
+		boolean isUserInTeam = !currentUser.fingerprint().allRolesOver(newCodelist.id(), ResourceType.codelists).isEmpty();
 		
-		UICodelistInfo codelistInfo = CodelistsInfos.toUICodelistInfo(newCodelist, lifecycle.state(), isOwner);
+		UICodelistInfo codelistInfo = CodelistsInfos.toUICodelistInfo(newCodelist, lifecycle.state(), isUserInTeam);
 
 		return codelistInfo;
 	}

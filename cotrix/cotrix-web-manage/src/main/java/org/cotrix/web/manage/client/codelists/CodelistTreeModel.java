@@ -50,7 +50,7 @@ public class CodelistTreeModel implements TreeViewModel {
 
 			@Override
 			public String getGroupName(UICodelistInfo codelistInfo) {
-				return codelistInfo.getState().toString();
+				return codelistInfo.getState().toString().toUpperCase();
 			}
 		};
 
@@ -64,8 +64,8 @@ public class CodelistTreeModel implements TreeViewModel {
 		@Template("<span title=\"{0}\">{0}</span>")
 		SafeHtml groupName(String name);
 	
-		@Template("<div><span title=\"{0}\">{0}</span></div>")
-		SafeHtml codelist(String name);
+		@Template("<div><span title=\"{0}\" style=\"color: #5674b9\">{0}</span><span class=\"{1}\">{2}</span></div>")
+		SafeHtml codelist(String name, String versionStyle, String version);
 	}
 
 	protected static final CellTemplate CELL_TEMPLATES = GWT.create(CellTemplate.class);
@@ -87,9 +87,8 @@ public class CodelistTreeModel implements TreeViewModel {
 					sb.append(html);
 				} break;
 				case BY_STATE: {
-					String name = ValueUtils.getLocalPart(value.getName()) + " " + value.getVersion();
-					sb.append(CELL_TEMPLATES.codelist(name));
-				}
+					sb.append(CELL_TEMPLATES.codelist(ValueUtils.getLocalPart(value.getName()), CodelistsResources.INSTANCE.cellTreeStyle().versionItem(), value.getVersion()));
+				} break;
 				default:
 					break;
 			}

@@ -11,14 +11,14 @@ import org.cotrix.web.common.shared.codelist.UICodelist;
  */
 public class UICodelistInfo extends UICodelist {
 	
-	private boolean isOwner;
+	private boolean isUserInTeam;
 
-	public boolean isOwner() {
-		return isOwner;
+	public boolean isUserInTeam() {
+		return isUserInTeam;
 	}
 
-	public void setOwner(boolean isOwner) {
-		this.isOwner = isOwner;
+	public void setUserInTeam(boolean isUserInTeam) {
+		this.isUserInTeam = isUserInTeam;
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class UICodelistInfo extends UICodelist {
 		builder.append(version);
 		builder.append(", state=");
 		builder.append(state);
-		builder.append(", isOwner=");
-		builder.append(isOwner);
+		builder.append(", isUserInTeam=");
+		builder.append(isUserInTeam);
 		builder.append("]");
 		return builder.toString();
 	}

@@ -7,6 +7,8 @@ import org.cotrix.web.common.client.widgets.menu.CheckMenuItem;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -14,6 +16,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Singleton;
@@ -43,6 +46,13 @@ public class CodelistsMenuImpl extends DecoratedPopupPanel implements CodelistsM
 		super(true, false);
 		setWidget(uiBinder.createAndBindUi(this));
 		setStyleName(style.menuPopup());
+		addCloseHandler(new CloseHandler<PopupPanel>() {
+			
+			@Override
+			public void onClose(CloseEvent<PopupPanel> event) {
+				if (listener!=null) listener.onHide();
+			}
+		});
 	}
 
 	@UiHandler({"ownershipFilterGroup", "includeFilterGroup", /*"sortGroup",*/ "group"})
@@ -51,6 +61,7 @@ public class CodelistsMenuImpl extends DecoratedPopupPanel implements CodelistsM
 		String value = event.getSelectedItem().getValue().toUpperCase();
 		MenuButton button = MenuButton.valueOf(value);
 		fireButtonClick(button);
+		hide();
 	}
 	
 	private void fireButtonClick(MenuButton button) {
@@ -64,8 +75,7 @@ public class CodelistsMenuImpl extends DecoratedPopupPanel implements CodelistsM
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-		
+		super.hide();
 	}
 
 	@Override

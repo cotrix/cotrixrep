@@ -19,8 +19,8 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.CellTree.CellTreeMessages;
 import com.google.gwt.user.cellview.client.CustomCellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -47,7 +47,7 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 
 	@UiField SearchBox filterTextBox;
 	
-	@UiField PushButton menuButton;
+	@UiField ToggleButton menuButton;
 
 	@UiField(provided=true) 
 	CustomCellTree codelists;
@@ -162,6 +162,11 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	@Override
 	public UIObject getMenuTarget() {
 		return menuButton;
+	}
+	
+	@Override
+	public void toggleMenuButton(boolean down) {
+		menuButton.setDown(down);
 	}
 
 	@Override
