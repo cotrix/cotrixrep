@@ -184,15 +184,6 @@ public class Codes {
 		return modifyListLink(link.id());
 	}
 	
-	public static CodelistLink deleteListLink(String id) {
-		return new CodelistLinkMS(id, DELETED).entity();
-	}
-	
-	public static CodelistLink delete(CodelistLink link) {
-		notNull("codelist link",link);
-		return deleteListLink(link.id());
-	}
-	
 	//simplifies construction through method parameter inference (not available on constructors in Java 6..)
 	
 	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Container.Private<T,S> container(StateContainer<S> elements) {

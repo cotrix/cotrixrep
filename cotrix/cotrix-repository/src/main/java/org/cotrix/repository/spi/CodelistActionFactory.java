@@ -12,5 +12,7 @@ import org.cotrix.repository.UpdateAction;
 public interface CodelistActionFactory {
 
 	UpdateAction<Codelist> deleteDefinition(String definitionId);
+	
+	UpdateAction<Codelist> deleteCodelistLink(String linkId);
 
 }

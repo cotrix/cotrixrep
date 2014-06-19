@@ -11,7 +11,6 @@ import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.trait.Versioned;
 import org.cotrix.domain.version.Version;
 

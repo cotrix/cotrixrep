@@ -234,25 +234,6 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 
 		assertEquals(retrieved.attributes().lookup(q("n")).value(), "v2");
 	}
-	
-	@Test
-	public void removeLink() {
-
-		Codelist target = addAndRetrieve(codelist().name("name").build());
-
-		CodelistLink link = listLink().name("name").target(target).build();
-		
-		Codelist list = addAndRetrieve(codelist().name("name").links(link).build());
-
-		CodelistLink targetChangeset =  deleteListLink(link.id());
-		
-		Codelist changeset =  modifyCodelist(list.id()).links(targetChangeset).build();
-		
-		repository.update(changeset);
-		
-		assertFalse(list.links().contains(q("name2")));
-		
-	}
 
 	@Test
 	public void removeCodelist() {

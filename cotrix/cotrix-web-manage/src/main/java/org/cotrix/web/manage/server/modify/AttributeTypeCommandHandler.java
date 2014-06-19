@@ -36,10 +36,13 @@ public class AttributeTypeCommandHandler {
 		
 		String definitionId = command.getItem().getId();
 		
-		if (command.getAction()==REMOVE)
+		if (command.getAction()==REMOVE) {
+			
 			repository.update(codelist.id(), CodelistActions.deleteDefinition(definitionId));
 
+		}
 		else {
+			
 			Definition definition = null;
 			
 			switch (command.getAction()) {

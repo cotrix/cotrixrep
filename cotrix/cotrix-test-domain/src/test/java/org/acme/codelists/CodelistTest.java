@@ -130,13 +130,14 @@ public class CodelistTest extends DomainTest {
 		//the simplest proof that update reaches them will do
 
 		Definition newdef = modify(def).name("newname").build();
+		CodelistLink newlink = modify(link).name("newname").build();
 		
 		Codelist changeset = modify(list)
 				.name(name2)
 				.definitions(newdef)
 				.attributes(delete(attr)) 
 				.with(delete(code))
-				.links(delete(link))
+				.links(newlink)
 				.build();
 		
 		reveal(list).update(reveal(changeset));
@@ -145,7 +146,7 @@ public class CodelistTest extends DomainTest {
 		
 		assertTrue(list.definitions().contains(newdef.name()));
 		assertFalse(list.attributes().contains(attr.name()));
-		assertFalse(list.links().contains(link.name()));
+		assertTrue(list.links().contains(newlink.name()));
 		assertFalse(list.codes().contains(code.name()));
 		
 	}

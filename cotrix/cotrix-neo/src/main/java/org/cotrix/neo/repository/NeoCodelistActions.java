@@ -25,6 +25,44 @@ public class NeoCodelistActions extends NeoQueries implements CodelistActionFact
 
 	
 	@Override
+	public UpdateAction<Codelist> deleteCodelistLink(final String linkId) {
+		
+		return new UpdateAction<Codelist>() {
+			
+			@Override
+			public void performOver(Codelist list) {
+				
+				if (!list.links().contains(linkId))
+					throw new IllegalArgumentException("no link definition "+linkId+" in list "+list.id()+" ("+list.name()+")");
+				
+					
+				Node node = node(NodeType.CODELISTLINK, linkId);
+				
+				for (Relationship instanceRelationship : node.getRelationships(INCOMING,INSTANCEOF))
+					try {
+						removeNode(instanceRelationship.getStartNode());
+					}
+					catch(Exception e) {
+						rethrow("cannot delete link definition instance (see cause)", e);
+					}
+				
+				try {
+					removeNode(node);
+				}
+				catch(Exception e) {
+					rethrow("cannot delete link definition (see cause)", e);
+				}
+				
+			}
+			
+			public String toString() {
+				return "action [delete link definition "+linkId;
+			}
+		};
+	}
+	
+	
+	@Override
 	public UpdateAction<Codelist> deleteDefinition(final String definitionId) {
 		
 		return new UpdateAction<Codelist>() {
@@ -33,7 +71,7 @@ public class NeoCodelistActions extends NeoQueries implements CodelistActionFact
 			public void performOver(Codelist list) {
 				
 				if (!list.definitions().contains(definitionId))
-					throw new IllegalArgumentException("no definition "+definitionId+" in list "+list.id()+" ("+list.name()+")");
+					throw new IllegalArgumentException("no attribute definition "+definitionId+" in list "+list.id()+" ("+list.name()+")");
 				
 					
 				Node node = node(NodeType.DEFINITION, definitionId);
@@ -43,20 +81,20 @@ public class NeoCodelistActions extends NeoQueries implements CodelistActionFact
 						removeNode(instanceRelationship.getStartNode());
 					}
 					catch(Exception e) {
-						rethrow("cannot delete definition instance (see cause)", e);
+						rethrow("cannot attribute definition instance (see cause)", e);
 					}
 				
 				try {
 					removeNode(node);
 				}
 				catch(Exception e) {
-					rethrow("cannot delete definition instance (see cause)", e);
+					rethrow("cannot delete attribute definition (see cause)", e);
 				}
 				
 			}
 			
 			public String toString() {
-				return "action [delete definition "+definitionId;
+				return "action [delete attribute definition "+definitionId;
 			}
 		};
 	}
