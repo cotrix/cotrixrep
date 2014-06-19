@@ -51,13 +51,17 @@ public abstract class CachedDataProvider<T> extends AsyncDataProvider<T> {
 		updateRowCount(totalSize, true);
 		updateRowData(range.getStart(), data);
 		lastRange = range;
-		handlerManager.fireEvent(new DataUpdatedEvent(range));
+		fireUpdated(range, true);
 	}
 	
 	public void refresh()
 	{
-		handlerManager.fireEvent(new DataUpdatedEvent(lastRange));
 		updateRowData(lastRange.getStart(), cache);
+		fireUpdated(lastRange, true);
+	}
+	
+	protected void fireUpdated(Range range, boolean refresh) {
+		handlerManager.fireEvent(new DataUpdatedEvent(range, refresh));
 	}
 
 	public List<T> getCache() {

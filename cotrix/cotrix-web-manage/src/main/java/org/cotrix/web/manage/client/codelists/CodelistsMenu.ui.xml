@@ -1,0 +1,105 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:org.cotrix.web.common.client.widgets.menu">
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:style
+		type="org.cotrix.web.manage.client.codelists.CodelistsMenuImpl.Style">
+		.menuPopup {
+			background-color: white;
+			border: 1px solid #999;
+		}
+		
+		.menuItem {
+			padding: 2px 6px;
+			color: #4f4e4e;
+			cursor: pointer;
+		}
+		
+		.menuItemSelected {
+			background-color: darkgray;
+			cursor: pointer;
+		}
+		
+		@external menuSeparatorInner;
+		.menuSeparatorInner {
+			height: 1px;
+			padding: 0px;
+			border: 0px;
+			border-top: 1px solid #ccc;
+			overflow: hidden;
+
+		}
+		</ui:style>
+	<m:FlatMenuBar vertical="true">
+	
+		<!-- OWNER -->
+		<m:group>
+			<m:RadioMenuGroup ui:field="ownershipFilterGroup">
+				<m:radio>
+					<m:CheckMenuItem label="show all" image="{resources.radioBullet}"
+						selected="true" styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="show_all"/>
+				</m:radio>
+				<m:radio>
+					<m:CheckMenuItem label="mine only" image="{resources.radioBullet}"
+						styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="show_user"/>
+				</m:radio>
+			</m:RadioMenuGroup>
+		</m:group>
+
+		<!-- FILTER -->
+		<m:group>
+			<m:CheckMenuGroup ui:field="includeFilterGroup">
+				<m:check>
+					<m:CheckMenuItem label="Draft" image="{resources.checkBullet}"
+						selected="true" manageSelection="true" styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="filter_by_state_draft" />
+				</m:check>
+				<m:check>
+					<m:CheckMenuItem label="Locked" image="{resources.checkBullet}"
+						selected="true" manageSelection="true" styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="filter_by_state_locked"/>
+				</m:check>
+				<m:check>
+					<m:CheckMenuItem label="Sealed" image="{resources.checkBullet}"
+						selected="true" manageSelection="true" styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="filter_by_state_sealed"/>
+				</m:check>
+			</m:CheckMenuGroup>
+		</m:group>
+
+
+		<!-- SORT -->
+<!-- 		<m:group> -->
+<!-- 			<m:RadioMenuGroup ui:field="sortGroup"> -->
+<!-- 				<m:radio> -->
+<!-- 					<m:CheckMenuItem label="sort by Name" image="{resources.radioBullet}" -->
+<!-- 						selected="true" styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="sort_by_name"/> -->
+<!-- 				</m:radio> -->
+<!-- 				<m:radio> -->
+<!-- 					<m:CheckMenuItem label="sort by Version" image="{resources.radioBullet}" -->
+<!-- 						styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="sort_by_version"/> -->
+<!-- 				</m:radio> -->
+<!-- 			</m:RadioMenuGroup> -->
+<!-- 		</m:group> -->
+		
+		<!-- Group -->
+		<m:group>
+			<m:RadioMenuGroup ui:field="group">
+<!-- 				<m:radio> -->
+<!-- 					<m:CheckMenuItem label="Don't group" image="{resources.radioBullet}" -->
+<!-- 						 styleName="{style.menuItem}" value="group_by_none"/> -->
+<!-- 				</m:radio> -->
+				<m:radio>
+					<m:CheckMenuItem label="group by Name" image="{resources.radioBullet}"
+						selected="true" styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="group_by_name"/>
+				</m:radio>
+				<m:radio>
+					<m:CheckMenuItem label="group by State" image="{resources.radioBullet}"
+						 styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="group_by_state"/>
+				</m:radio>
+			</m:RadioMenuGroup>
+		</m:group>
+
+
+
+	</m:FlatMenuBar>
+
+</ui:UiBinder> 
