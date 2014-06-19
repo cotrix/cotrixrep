@@ -12,10 +12,10 @@ import com.google.inject.ImplementedBy;
 public interface AttributeEditDialog {
 	
 	public interface AttributeEditDialogListener {
-		public void onEdit(String name, String type, Language language, String value);
+		public void onEdit(String name, String type, String description, Language language, String value);
 	}
 	
-	public void set(String name, String type, Language language, String value);
+	public void set(String name, String type, String description, Language language, String value);
 
 	public void setListener(AttributeEditDialogListener listener);
 	

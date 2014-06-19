@@ -30,6 +30,7 @@ public class AttributeTypeCommandHandler {
 	@Inject
 	CodelistRepository repository;
 
+	@SuppressWarnings("incomplete-switch")
 	public ModifyCommandResult handle(String codelistId, AttributeTypeCommand command)
 	{
 		Codelist codelist = repository.lookup(codelistId);

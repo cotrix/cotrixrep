@@ -53,17 +53,43 @@ public class ChangesetUtil {
 
 	public static Attribute addAttribute(UIAttribute uiAttribute, Definition definition) {
 		
-		if (definition!=null) return attribute().with(definition).value(convert(uiAttribute.getValue())).ofType(convert(uiAttribute.getType())).build();
-		else return attribute().name(convert(uiAttribute.getName())).value(convert(uiAttribute.getValue()))
-				.ofType(convert(uiAttribute.getType())).in(convert(uiAttribute.getLanguage())).build();		
+		if (definition!=null) {
+			return attribute()
+					.with(definition)
+					.value(convert(uiAttribute.getValue()))
+					.ofType(convert(uiAttribute.getType()))
+					.description(uiAttribute.getDescription())
+					.build();
+		} else {
+			return attribute()
+					.name(convert(uiAttribute.getName()))
+					.value(convert(uiAttribute.getValue()))
+					.ofType(convert(uiAttribute.getType()))
+					.in(convert(uiAttribute.getLanguage()))
+					.description(uiAttribute.getDescription())
+					.build();		
+		}
 	}
 
 	public static Attribute updateAttribute(UIAttribute uiAttribute, Definition definition) {
 		
-		if (definition!=null) return modifyAttribute(uiAttribute.getId()).with(definition).value(convert(uiAttribute.getValue())).ofType(convert(uiAttribute.getType())).build();
-		else return modifyAttribute(uiAttribute.getId()).name(convert(uiAttribute.getName()))
-				.value(convert(uiAttribute.getValue())).ofType(convert(uiAttribute.getType()))
-				.in(convert(uiAttribute.getLanguage())).build();
+		if (definition!=null) {
+			return modifyAttribute(uiAttribute.getId())
+					.with(definition)
+					.value(convert(uiAttribute.getValue()))
+					.ofType(convert(uiAttribute.getType()))
+					.description(uiAttribute.getDescription())
+					.build();
+		}
+		else {
+			return modifyAttribute(uiAttribute.getId())
+					.name(convert(uiAttribute.getName()))
+					.value(convert(uiAttribute.getValue()))
+					.ofType(convert(uiAttribute.getType()))
+					.in(convert(uiAttribute.getLanguage()))
+					.description(uiAttribute.getDescription())
+					.build();
+		}
 	}
 
 	public static Attribute removeAttribute(String id) {

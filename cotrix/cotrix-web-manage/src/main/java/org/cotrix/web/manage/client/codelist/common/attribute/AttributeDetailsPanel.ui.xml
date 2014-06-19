@@ -48,6 +48,16 @@
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
 				<t:cell>
+					<g:Label title="The description of this attribute.">Description</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:AdvancedTextBox ui:field="descriptionBox" styleName="{resources.detailsPanelStyle.textbox}"/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
 					<g:Label>Language</g:Label>
 				</t:cell>
 				<t:cell>

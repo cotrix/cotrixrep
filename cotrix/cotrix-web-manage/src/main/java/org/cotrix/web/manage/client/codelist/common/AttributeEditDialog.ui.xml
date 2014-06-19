@@ -26,7 +26,7 @@
 	}
 	</ui:style>
 	<g:HTMLPanel styleName="{commonresources.css.dialogBox}"
-		width="300px" height="230px">
+		width="300px" height="260px">
 		<div class="{commonresources.css.dialogTitle}" id="signup.title">
 			Edit Attribute
 		</div>
@@ -50,6 +50,15 @@
 							<c:AdvancedTextBox ui:field="typeBox"
 								styleName="{resources.detailsPanelStyle.textbox}" placeholder="type" />
 						</g:FlowPanel>
+					</td>
+				</tr>
+				<tr>
+					<td class="{resources.detailsPanelStyle.headerCell}">
+						<div>Name</div>
+					</td>
+					<td class="{resources.detailsPanelStyle.valueCell}">
+						<c:AdvancedTextBox ui:field="descriptionBox"
+							styleName="{resources.detailsPanelStyle.textbox}" placeholder="description" />
 					</td>
 				</tr>
 				<tr>

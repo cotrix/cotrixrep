@@ -101,9 +101,10 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 		attributeEditDialog.setListener(new AttributeEditDialogListener() {
 			
 			@Override
-			public void onEdit(String name, String type, Language language, String value) {
+			public void onEdit(String name, String type, String description, Language language, String value) {
 				currentEditedAttribute.setName(ValueUtils.getValue(name));
 				currentEditedAttribute.setType(ValueUtils.getValue(type));
+				currentEditedAttribute.setDescription(description);
 				currentEditedAttribute.setLanguage(language);
 				currentEditedAttribute.setValue(value);
 				
@@ -156,10 +157,11 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 		currentEditedAttribute = attributes.get(row);
 		String name = ValueUtils.getValue(currentEditedAttribute.getName());
 		String type = ValueUtils.getValue(currentEditedAttribute.getType());
+		String description = currentEditedAttribute.getDescription();
 		Language language = currentEditedAttribute.getLanguage();
 		String value = currentEditedAttribute.getValue();
 		
-		attributeEditDialog.set(name, type, language, value);
+		attributeEditDialog.set(name, type, description, language, value);
 		attributeEditDialog.showCentered();
 	}
 	

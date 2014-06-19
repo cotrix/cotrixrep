@@ -163,6 +163,9 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		String type = detailsPanel.getType();
 		attribute.setType(ValueUtils.getValue(type));
 		
+		String description = detailsPanel.getDescription();
+		attribute.setDescription(description);
+		
 		Language language = detailsPanel.getLanguage();
 		attribute.setLanguage(language);
 		
@@ -200,6 +203,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		detailsPanel.setDefinitionId(attribute.getDefinitionId());
 		detailsPanel.setName(ValueUtils.getLocalPart(attribute.getName()));
 		detailsPanel.setType(ValueUtils.getLocalPart(attribute.getType()));
+		detailsPanel.setDescription(attribute.getDescription());
 		detailsPanel.setLanguage(attribute.getLanguage());
 		detailsPanel.setValue(attribute.getValue());
 	}
