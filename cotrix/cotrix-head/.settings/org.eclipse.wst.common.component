@@ -41,10 +41,10 @@
         <dependent-module archiveName="cotrix-web-users-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-web-users/cotrix-web-users">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cotrix-stage-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-stage/cotrix-stage">
+        <dependent-module archiveName="cotrix-neo-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-neo/cotrix-neo">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cotrix-common-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-common/cotrix-common">
+        <dependent-module archiveName="cotrix-repository-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-repository/cotrix-repository">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cotrix-domain-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-domain/cotrix-domain">
@@ -53,16 +53,16 @@
         <dependent-module archiveName="cotrix-action-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-action/cotrix-action">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="cotrix-repository-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-repository/cotrix-repository">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="cotrix-neo-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-neo/cotrix-neo">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="cotrix-lifecycle-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-lifecycle/cotrix-lifecycle">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="cotrix-configuration-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-configuration/cotrix-configuration">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="cotrix-stage-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-stage/cotrix-stage">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="cotrix-common-0.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cotrix-common/cotrix-common">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="cotrix-head"/>
