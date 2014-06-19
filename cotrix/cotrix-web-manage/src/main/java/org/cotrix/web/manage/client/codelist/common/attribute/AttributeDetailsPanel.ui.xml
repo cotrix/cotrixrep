@@ -10,7 +10,7 @@
 		type='org.cotrix.web.common.client.resources.CommonResources' />
 	<t:Table ui:field="table" styleName="{resources.detailsPanelStyle.table}">
 		<t:row>
-			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}" ui:field="definitionRow">
 				<t:cell>
 					<g:Label>Definition</g:Label>
 				</t:cell>

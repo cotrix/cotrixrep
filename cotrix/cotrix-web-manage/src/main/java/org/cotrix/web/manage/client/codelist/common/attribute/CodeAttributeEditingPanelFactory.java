@@ -25,14 +25,14 @@ public class CodeAttributeEditingPanelFactory implements ItemEditingPanelFactory
 
 	@Override
 	public AttributePanel createPanel(UIAttribute item) {
-		AttributePanel attributePanel = new AttributePanel(item, attributeDescriptionSuggestOracle, attributeTypesCache);
+		AttributePanel attributePanel = new AttributePanel(item, true, attributeDescriptionSuggestOracle, attributeTypesCache);
 		attributePanel.setReadOnly(Attributes.isSystemAttribute(item));
 		return attributePanel;
 	}
 
 	@Override
 	public AttributePanel createPanelForNewItem(UIAttribute item) {
-		AttributePanel attributePanel = new AttributePanel(item, attributeDescriptionSuggestOracle, attributeTypesCache);
+		AttributePanel attributePanel = new AttributePanel(item, true, attributeDescriptionSuggestOracle, attributeTypesCache);
 		return attributePanel;
 	}
 

@@ -46,7 +46,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 
 	private String id = Document.get().createUniqueId();
 
-	public AttributePanel(UIAttribute attribute, AttributeDescriptionSuggestOracle oracle, AttributeTypesCache attributeTypesCache) {
+	public AttributePanel(UIAttribute attribute, boolean hasDefinition, AttributeDescriptionSuggestOracle oracle, AttributeTypesCache attributeTypesCache) {
 		this.attribute = attribute;
 		
 		header = new LabelHeader();
@@ -58,6 +58,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		if (Attributes.isSystemAttribute(attribute)) header.addHeaderStyle(CotrixManagerResources.INSTANCE.css().systemAttributeDisclosurePanelLabel());
 
 		detailsPanel = new AttributeDetailsPanel(oracle, attributeTypesCache);
+		detailsPanel.setDefinitionVisible(hasDefinition);
 		disclosurePanel.add(detailsPanel);
 		initWidget(disclosurePanel);
 

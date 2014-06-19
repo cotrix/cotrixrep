@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
+import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
@@ -54,6 +55,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	@UiField(provided=true) SuggestListBox definitionBox;
 	@UiField Image definitionBoxLoader;
 	private UIAttributeType selectedDefinition;
+	@UiField CellContainer definitionRow;
 
 	@UiField AdvancedTextBox nameBox;
 	private boolean nameBoxReadOnly;
@@ -272,6 +274,10 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 				fireChange();
 			}
 		});
+	}
+	
+	public void setDefinitionVisible(boolean visible) {
+		definitionRow.setVisible(visible);
 	}
 	
 	public UIAttributeType getDefinition() {
