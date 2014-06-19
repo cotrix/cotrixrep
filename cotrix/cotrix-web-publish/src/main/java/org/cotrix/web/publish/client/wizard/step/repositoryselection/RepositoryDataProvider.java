@@ -28,9 +28,10 @@ public class RepositoryDataProvider extends AsyncDataProvider<UIRepository> {
 	protected static final ColumnSortInfo DEFAULT_SORT_INFO = new ColumnSortInfo(UIRepository.NAME_FIELD, true);
 	
 	@Inject
-	protected PublishServiceAsync service;
-	protected PatchedDataGrid<UIRepository> datagrid;
-	protected boolean forceRefresh = true;
+	private PublishServiceAsync service;
+	private PatchedDataGrid<UIRepository> datagrid;
+	private boolean forceRefresh = true;
+	private String query = "";
 	
 	/**
 	 * @param service
@@ -52,6 +53,10 @@ public class RepositoryDataProvider extends AsyncDataProvider<UIRepository> {
 	public void setForceRefresh(boolean forceRefresh) {
 		this.forceRefresh = forceRefresh;
 	}
+	
+	public void setQuery(String query) {
+		this.query = query;
+	}
 
 	@Override
 	protected void onRangeChanged(HasData<UIRepository> display) {
@@ -72,7 +77,7 @@ public class RepositoryDataProvider extends AsyncDataProvider<UIRepository> {
 		boolean force = forceRefresh;
 		forceRefresh = false;
 		
-		service.getRepositories(range, sortInfo, force, new ManagedFailureCallback<DataWindow<UIRepository>>() {
+		service.getRepositories(range, sortInfo, query, force, new ManagedFailureCallback<DataWindow<UIRepository>>() {
 			
 			@Override
 			public void onSuccess(DataWindow<UIRepository> batch) {

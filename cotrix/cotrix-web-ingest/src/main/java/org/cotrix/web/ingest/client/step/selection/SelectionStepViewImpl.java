@@ -224,7 +224,6 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	
 	@UiHandler("searchBox")
 	protected void onValueChange(ValueChangeEvent<String> event) {
-		Log.trace("onKeyUp value: "+event.getValue());
 		updateFilter(event.getValue());
 	}
 	

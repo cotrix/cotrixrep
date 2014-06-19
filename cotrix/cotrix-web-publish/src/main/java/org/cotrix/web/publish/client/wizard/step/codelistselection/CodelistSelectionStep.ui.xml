@@ -9,6 +9,10 @@
 		.mainPanel {
 			width: 100%;
 		}
+			
+		.filterPanel {
+			padding: 2px;
+		}
 		.datagrid > table {
 			margin: 0 auto !important;
 
@@ -17,7 +21,18 @@
 
 	<g:DockLayoutPanel unit='PX' ui:field="reportPanel"
 		styleName="{style.mainPanel}">
-
+		
+		<g:north size='40'>
+			<g:HTMLPanel styleName="{style.filterPanel}">
+				<table width="100%">
+					<tr>
+						<td>
+							<w:SearchBox ui:field="searchBox" changeDelay="200" />
+						</td>
+					</tr>
+				</table>
+			</g:HTMLPanel>
+		</g:north>
 		<g:center>
 			<c:PatchedDataGrid ui:field='dataGrid' styleName="{style.datagrid}"/>
 		</g:center>

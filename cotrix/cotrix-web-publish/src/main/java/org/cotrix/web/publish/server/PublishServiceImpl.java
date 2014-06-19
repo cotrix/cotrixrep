@@ -15,6 +15,7 @@ import org.cotrix.web.common.server.util.Codelists;
 import org.cotrix.web.common.server.util.Encodings;
 import org.cotrix.web.common.server.util.Ranges;
 import org.cotrix.web.common.server.util.Repositories;
+import org.cotrix.web.common.server.util.Ranges.Predicate;
 import org.cotrix.web.common.shared.ColumnSortInfo;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.DataWindow;
@@ -29,9 +30,11 @@ import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.publish.client.PublishService;
 import org.cotrix.web.publish.server.publish.PublishStatus;
 import org.cotrix.web.publish.server.publish.Publishers;
+import org.cotrix.web.publish.server.util.CodelistFilter;
 import org.cotrix.web.publish.server.util.Mappings;
 import org.cotrix.web.publish.server.util.Mappings.MappingProvider;
 import org.cotrix.web.publish.server.util.PublishSession;
+import org.cotrix.web.publish.server.util.RepositoryFilter;
 import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.PublishDirectives;
@@ -78,13 +81,16 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	 * {@inheritDoc}
 	 */
 	@Override
-	public DataWindow<UICodelist> getCodelists(Range range, ColumnSortInfo sortInfo, boolean force) {
-		logger.trace("getCodelists range: {} sortInfo: {} force: {}", range, sortInfo, force);
+	public DataWindow<UICodelist> getCodelists(Range range, ColumnSortInfo sortInfo, String query, boolean force) {
+		logger.trace("getCodelists range: {} sortInfo: {} query: {} force: {}", range, sortInfo, query, force);
 
 		if (force) session.loadCodelists();
+		
+		Predicate<UICodelist> predicate = Ranges.noFilter();
+		if (!query.isEmpty()) predicate = new CodelistFilter(query);
 
 		List<UICodelist> codelists = session.getOrderedCodelists(sortInfo.getName());
-		return getDataWindow(codelists, sortInfo.isAscending(), range);
+		return getDataWindow(codelists, sortInfo.isAscending(), range, predicate);
 	}
 
 	@Override
@@ -169,19 +175,25 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	}
 
 	@Override
-	public DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, boolean force)	throws ServiceException {
-		logger.trace("getRepositories range: {} sortInfo: {} force: {}", range, sortInfo, force);
+	public DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, String query, boolean force) throws ServiceException {
+		logger.trace("getRepositories range: {} sortInfo: {} query: {} force: {}", range, sortInfo, query, force);
 
 		if (force) session.loadRepositories();
+		
+		Predicate<UIRepository> predicate = Ranges.noFilter();
+		if (!query.isEmpty()) predicate = new RepositoryFilter(query);
 
 		List<UIRepository> codelists = session.getOrderedRepositories(sortInfo.getName());
-		return getDataWindow(codelists, sortInfo.isAscending(), range);
+		return getDataWindow(codelists, sortInfo.isAscending(), range, predicate);
 	}
 
-	protected <T> DataWindow<T> getDataWindow(List<T> data, boolean ascending, Range range) {
-		List<T> dataWindow = (ascending)?Ranges.subList(data, range):Ranges.subListReverseOrder(data, range);
+	protected <T> DataWindow<T> getDataWindow(List<T> data, boolean ascending, Range range, Predicate<T>  predicate) {
+	
+		List<T> dataWindow = (ascending)?Ranges.subList(data, range, predicate):Ranges.subListReverseOrder(data, range, predicate);
+		
+		int size = Ranges.size(data, predicate);
 
-		return new DataWindow<T>(dataWindow, data.size());
+		return new DataWindow<T>(dataWindow, size);
 	}
 
 	public RepositoryDetails getRepositoryDetails(UIQName id) throws ServiceException
