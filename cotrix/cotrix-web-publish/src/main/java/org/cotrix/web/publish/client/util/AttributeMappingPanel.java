@@ -105,58 +105,65 @@ public class AttributeMappingPanel<T extends Mapping> extends Composite {
 
 		setupHeader(includeMappingColumn);
 
-		FlexCellFormatter cellFormatter = columnsTable.getFlexCellFormatter();
+		if (mapping.isEmpty()) {
+			Label noAttributesLabel = new Label("No attributes");
+			columnsTable.setWidget(1, 0, noAttributesLabel);
+			columnsTable.getFlexCellFormatter().setColSpan(1, 0, includeMappingColumn?3:4);
+			columnsTable.getFlexCellFormatter().setStyleName(1, 0, Resources.INSTANCE.css().mappingAttributeNoAttributeCell());
 
-		for (AttributeMapping attributeMapping:mapping) {
+		} else {
+			FlexCellFormatter cellFormatter = columnsTable.getFlexCellFormatter();
+			for (AttributeMapping attributeMapping:mapping) {
 
-			final int row = columnsTable.getRowCount();
-			AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
-			definitions.add(attributeDefinition);
+				final int row = columnsTable.getRowCount();
+				AttributeDefinition attributeDefinition = attributeMapping.getAttributeDefinition();
+				definitions.add(attributeDefinition);
 
-			final SimpleCheckBox checkBox = new SimpleCheckBox();
-			checkBox.setStyleName(CommonResources.INSTANCE.css().simpleCheckbox());
-			checkBox.addClickHandler(new ClickHandler() {
+				final SimpleCheckBox checkBox = new SimpleCheckBox();
+				checkBox.setStyleName(CommonResources.INSTANCE.css().simpleCheckbox());
+				checkBox.addClickHandler(new ClickHandler() {
 
-				@Override
-				public void onClick(ClickEvent event) {
-					Log.trace("Include? "+checkBox.getValue());
-					setInclude(row, checkBox.getValue());
+					@Override
+					public void onClick(ClickEvent event) {
+						Log.trace("Include? "+checkBox.getValue());
+						setInclude(row, checkBox.getValue());
+					}
+				});
+
+				checkBox.setValue(attributeMapping.isMapped());
+				columnsTable.setWidget(row, IGNORE_COLUMN, checkBox);
+				cellFormatter.setVerticalAlignment(row, IGNORE_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
+				includeCheckBoxes.add(checkBox);
+
+
+				AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
+
+				definitionPanel.setName(attributeDefinition.getName().getLocalPart());
+				definitionPanel.setType(attributeDefinition.getType().getLocalPart());
+				if (attributeDefinition.getLanguage() == null || attributeDefinition.getLanguage() == Language.NONE) {
+					definitionPanel.setLanguagePanelVisibile(false);
+				} else definitionPanel.setLanguage(attributeDefinition.getLanguage());
+				definitionPanel.setEnabled(attributeMapping.isMapped());
+
+				definitionsPanels.add(definitionPanel);
+				columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
+				cellFormatter.setVerticalAlignment(row, DEFINITION_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
+
+				Widget widget = widgetProvider.getWidget((T)attributeMapping.getMapping());
+
+				if (widget!=null) {
+					Image arrow = new Image(Resources.INSTANCE.arrow());
+					columnsTable.setWidget(row, IMAGE_COLUMN, arrow);
+					cellFormatter.setVerticalAlignment(row, IMAGE_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
+					columnsTable.getCellFormatter().setWidth(row, IMAGE_COLUMN, "60px");
+					columnsTable.getCellFormatter().setHeight(row, IMAGE_COLUMN, "40px");
+
+					widgetProvider.include(widget, attributeMapping.isMapped());
+
+					columnsTable.setWidget(row, MAPPING_COLUMN, widget);
+					cellFormatter.setVerticalAlignment(row, MAPPING_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
+					mappingWidgets.add(widget);
 				}
-			});
-
-			checkBox.setValue(attributeMapping.isMapped());
-			columnsTable.setWidget(row, IGNORE_COLUMN, checkBox);
-			cellFormatter.setVerticalAlignment(row, IGNORE_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
-			includeCheckBoxes.add(checkBox);
-
-
-			AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel();
-
-			definitionPanel.setName(attributeDefinition.getName().getLocalPart());
-			definitionPanel.setType(attributeDefinition.getType().getLocalPart());
-			if (attributeDefinition.getLanguage() == null || attributeDefinition.getLanguage() == Language.NONE) {
-				definitionPanel.setLanguagePanelVisibile(false);
-			} else definitionPanel.setLanguage(attributeDefinition.getLanguage());
-			definitionPanel.setEnabled(attributeMapping.isMapped());
-
-			definitionsPanels.add(definitionPanel);
-			columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
-			cellFormatter.setVerticalAlignment(row, DEFINITION_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
-
-			Widget widget = widgetProvider.getWidget((T)attributeMapping.getMapping());
-
-			if (widget!=null) {
-				Image arrow = new Image(Resources.INSTANCE.arrow());
-				columnsTable.setWidget(row, IMAGE_COLUMN, arrow);
-				cellFormatter.setVerticalAlignment(row, IMAGE_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
-				columnsTable.getCellFormatter().setWidth(row, IMAGE_COLUMN, "60px");
-				columnsTable.getCellFormatter().setHeight(row, IMAGE_COLUMN, "40px");
-
-				widgetProvider.include(widget, attributeMapping.isMapped());
-
-				columnsTable.setWidget(row, MAPPING_COLUMN, widget);
-				cellFormatter.setVerticalAlignment(row, MAPPING_COLUMN, HasVerticalAlignment.ALIGN_MIDDLE);
-				mappingWidgets.add(widget);
 			}
 		}
 	}

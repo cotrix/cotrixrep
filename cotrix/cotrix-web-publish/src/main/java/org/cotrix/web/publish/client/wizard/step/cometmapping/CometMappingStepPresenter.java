@@ -39,7 +39,7 @@ public class CometMappingStepPresenter extends AbstractVisualWizardStep implemen
 
 	@Inject
 	public CometMappingStepPresenter(CometMappingStepView view, @PublishBus EventBus publishBus){
-		super("comet-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tell us the atributes to include in the mapping, if any.", PublishWizardStepButtons.BACKWARD, PublishWizardStepButtons.FORWARD);
+		super("comet-mapping", TrackerLabels.CUSTOMIZE, "Customize it", "Tell us what attributes capture the lineage.", PublishWizardStepButtons.BACKWARD, PublishWizardStepButtons.FORWARD);
 		this.view = view;
 		view.setPresenter(this);
 

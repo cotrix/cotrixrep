@@ -18,13 +18,15 @@ public interface Resources extends ClientBundle {
 	public ImageResource arrow();
 	
 	public ImageResource csv();
-	
-	@Source("csv-hover.png")
+
 	public ImageResource csvHover();
 	
 	public ImageResource sdmx();
-	
-	@Source("sdmx-hover.png")
+
 	public ImageResource sdmxHover();
+	
+	public ImageResource comet();
+	
+	public ImageResource cometHover();
 	
 }
