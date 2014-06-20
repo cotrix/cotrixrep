@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.common.client.widgets.menu;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.uibinder.client.UiChild;
 import com.google.gwt.view.client.SelectionChangeEvent;
 
@@ -15,7 +14,6 @@ public class RadioMenuGroup extends AbstractMenuGroup {
 	
 	@UiChild(tagname="radio")
 	public void add(final CheckMenuItem item) {
-		Log.trace("Adding item: "+item);
 		addItem(item);
 		
 		item.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {

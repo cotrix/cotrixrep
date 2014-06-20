@@ -53,4 +53,15 @@ public class DataSavedEvent extends GwtEvent<DataSavedEvent.DataSavedHandler> {
 	public static Type<DataSavedHandler> getType() {
 		return TYPE;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DataSavedEvent [codelistId=");
+		builder.append(codelistId);
+		builder.append(", editEvent=");
+		builder.append(editEvent);
+		builder.append("]");
+		return builder.toString();
+	}
 }

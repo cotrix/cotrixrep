@@ -151,9 +151,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	}
 	
 	private void selectDefinition(String definitionId) {
-		Log.trace("selectDefinition definitionId: "+definitionId);
 		UIAttributeType definition = attributeTypesCache.getItem(definitionId);
-		Log.trace("found definition in cache: "+definition);
 		if (definition == null) setDefinitionNone();
 		else {
 			definitionBox.setValue(AttributeTypeSuggestion.toDisplayString(definition));

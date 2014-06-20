@@ -5,7 +5,7 @@ package org.cotrix.web.manage.server.modify;
 
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.repository.CodelistActions.*;
-import static org.cotrix.web.manage.shared.modify.GenericCommand.Action.*;
+import static org.cotrix.web.common.server.util.LinkTypes.*;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -14,7 +14,7 @@ import javax.inject.Singleton;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.web.common.server.util.LinkTypes;
+
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.cotrix.web.manage.shared.modify.linktype.LinkTypeCommand;
@@ -37,50 +37,38 @@ public class LinkTypeCommandHandler {
 
 	public ModifyCommandResult handle(String codelistId, LinkTypeCommand command)
 	{
-		Codelist codelist = repository.lookup(codelistId);
+		logger.trace("handle codelistId: {} command: {}", codelistId, command);
 		
 		UILinkType linkType = command.getItem();
 		
-		String linkId = linkType.getId();
-		
-		if (command.getAction()==REMOVE) {
-			
-			repository.update(codelist.id(), deleteCodelistLink(linkId));
-
-		}
-		else {
-			
-			CodelistLink codelistLink = null;
-			
-			switch (command.getAction()) {
-				case ADD: {
-					Codelist target = repository.lookup(linkType.getTargetCodelist().getId());
-					codelistLink = ChangesetUtil.addCodelistLink(linkType, target);
-				} break;
-				case UPDATE: {
-					Codelist target = repository.lookup(linkType.getTargetCodelist().getId());	
-					CodelistLink oldCodelistLink = lookupCodelistLink(codelist, linkType.getId());
-					codelistLink = ChangesetUtil.updateCodelistLink(linkType, target, oldCodelistLink);
-				} break;
+		switch (command.getAction()) {
+			case ADD: {
+				Codelist target = repository.lookup(linkType.getTargetCodelist().getId());
+				CodelistLink codelistChangeSet = ChangesetUtil.addCodelistLink(linkType, target);
+				update(codelistId, codelistChangeSet);
+				return new UpdatedLinkType(toUILinkType(lookupLinkType(codelistId, codelistChangeSet.id())));
 			}
-		
-			if (codelistLink == null) throw new IllegalArgumentException("Unknown command "+command);
-	
-			Codelist changeset = modifyCodelist(codelistId).links(codelistLink).build();
-			repository.update(changeset);
+			case UPDATE: {
+				Codelist target = repository.lookup(linkType.getTargetCodelist().getId());
+				CodelistLink oldCodelistLink = lookupLinkType(codelistId, linkType.getId());
+				CodelistLink codelistChangeSet = ChangesetUtil.updateCodelistLink(linkType, target, oldCodelistLink);
+				repository.update(modifyCodelist(codelistId).links(codelistChangeSet).build());
+				return new UpdatedLinkType(toUILinkType(lookupLinkType(codelistId, codelistChangeSet.id())));
+			}
+			case REMOVE: {
+				repository.update(codelistId, deleteCodelistLink(linkType.getId()));
+				return new UpdatedLinkType(null);
+			}
 		}
 		
-		CodelistLink updatedCodelistLink = lookupCodelistLink(codelist, linkId);
-		logger.trace("updatedCodelistLink: "+updatedCodelistLink);
-		
-		UILinkType updatedLinkType = updatedCodelistLink==null?null:LinkTypes.toUILinkType(updatedCodelistLink);
-		logger.trace("updatedLinkType: "+updatedLinkType);
-		
-		return new UpdatedLinkType(updatedLinkType);
+		throw new IllegalArgumentException("Unknown command "+command);
 	}
 	
-	private CodelistLink lookupCodelistLink(Codelist codelist, String id) {
-		for (CodelistLink link:codelist.links()) if (link.id().equals(id)) return link;
-		return null;
+	private void update(String codelistId, CodelistLink codelistChangeSet) {
+		repository.update(modifyCodelist(codelistId).links(codelistChangeSet).build());
+	}
+	
+	private CodelistLink lookupLinkType(String codelistId, String typeId) {
+		return repository.lookup(codelistId).links().lookup(typeId);
 	}
 }

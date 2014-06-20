@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.PopupPanel.AnimationType;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
@@ -240,7 +239,6 @@ public class AdvancedSuggestBox extends SuggestBox {
 			suggestionMenu.clearItems();
 
 			for (final Suggestion curSuggestion : suggestions) {
-				Log.trace("suggestionItemSelectedStyleName: "+this.suggestionItemSelectedStyleName);
 				final SuggestionMenuItem menuItem = new SuggestionMenuItem(
 						curSuggestion, isDisplayStringHTML, suggestionItemStyleName, suggestionItemSelectedStyleName);
 				menuItem.setScheduledCommand(new ScheduledCommand() {
