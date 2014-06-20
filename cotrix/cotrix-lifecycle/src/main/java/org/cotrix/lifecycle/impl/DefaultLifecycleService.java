@@ -99,10 +99,13 @@ public class DefaultLifecycleService implements LifecycleService {
 	@Override
 	public Map<String, Lifecycle> lifecyclesOf(Collection<String> ids) {
 		
-		valid("resource identifiers",ids);
+		notNull("resource identifiers",ids);
 		
 		Map<String,Lifecycle> lifecycles = new HashMap<String, Lifecycle>();
 		
+		if (ids.isEmpty())
+			return lifecycles;
+			
 		for (Map.Entry<String,ResumptionToken> tokenEntry : repository.lookup(ids).entrySet()) {
 			
 			ResumptionToken token = tokenEntry.getValue();
