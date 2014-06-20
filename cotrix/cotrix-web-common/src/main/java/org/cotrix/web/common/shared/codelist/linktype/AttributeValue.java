@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.common.shared.codelist.linktype;
 
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
 
@@ -16,7 +17,7 @@ public class AttributeValue implements UIValueType, IsSerializable {
 	
 	private UIQName name;
 	private UIQName type;
-	private String language;
+	private Language language;
 	
 	public AttributeValue(){}
 
@@ -25,7 +26,7 @@ public class AttributeValue implements UIValueType, IsSerializable {
 	 * @param type
 	 * @param language
 	 */
-	public AttributeValue(UIQName name, UIQName type, String language) {
+	public AttributeValue(UIQName name, UIQName type, Language language) {
 		this.name = name;
 		this.type = type;
 		this.language = language;
@@ -62,14 +63,14 @@ public class AttributeValue implements UIValueType, IsSerializable {
 	/**
 	 * @return the language
 	 */
-	public String getLanguage() {
+	public Language getLanguage() {
 		return language;
 	}
 	
 	/**
 	 * @param language the language to set
 	 */
-	public void setLanguage(String language) {
+	public void setLanguage(Language language) {
 		this.language = language;
 	}
 

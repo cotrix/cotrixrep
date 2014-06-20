@@ -42,7 +42,10 @@ public class AttributeTypeBridge implements CommandBridge<UIAttributeType> {
 		UIAttributeType updatedAttributeType = updatedAttributeTypeResponse.getUpdatedAttribute();
 		
 		//set the new id
-		localAttributeType.setId(updatedAttributeType.getId());		
+		localAttributeType.setId(updatedAttributeType.getId());
+		
+		//set the expression
+		localAttributeType.setExpression(updatedAttributeType.getExpression());
 	}
 
 }

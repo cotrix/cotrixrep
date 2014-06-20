@@ -1,6 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client"
+	xmlns:w="urn:import:org.cotrix.web.common.client.widgets">
 	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
 		field="common" />
 	<ui:style>
@@ -24,10 +25,6 @@
 		.borderFix table {
 			border-collapse: collapse;
 		}
-		
-		.pagerPanel {
-			margin: 0 auto;
-		}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' ui:field="reportPanel"
 		styleName="{common.css.wizardPanel}">
@@ -43,9 +40,14 @@
 			<c:DataGrid ui:field='reportGrid' styleName="{style.borderFix}" />
 		</g:center>
 		<g:south size="40">
-			<g:HTMLPanel>
-				<c:SimplePager ui:field='reportPager' styleName="{style.pagerPanel}" />
-			</g:HTMLPanel>
+			<w:AdvancedPagerLayout>
+					<w:pager>
+						<c:SimplePager ui:field='reportPager' />
+					</w:pager>
+					<w:pagesizer>
+						<w:PageSizer ui:field="pageSizer" />
+					</w:pagesizer>
+				</w:AdvancedPagerLayout>
 		</g:south>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 

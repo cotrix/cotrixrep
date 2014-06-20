@@ -32,9 +32,11 @@
 		<g:FlowPanel styleName="{style.box}">
 			<g:PushButton ui:field="plus" styleName="{style.plusButton}">
 				<g:upFace image="{resources.plus}" />
+				<g:upDisabledFace image="{resources.plusDisabled}" />
 			</g:PushButton>
 			<g:PushButton ui:field="minus" styleName="{style.minusButton}">
 				<g:upFace image="{resources.minus}" />
+				<g:upDisabledFace image="{resources.minusDisabled}" />
 			</g:PushButton>
 		</g:FlowPanel>
 	</g:FlowPanel>

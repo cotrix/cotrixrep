@@ -30,12 +30,12 @@ public class MenuPresenter implements MenuView.Presenter {
 	public MenuPresenter(MenuView view) {
 		this.view = view;
 		this.view.setPresenter(this);
-		bindFeatures();
 	}
 
-	protected void bindFeatures()
+	@Inject
+	protected void bindFeatures(FeatureBinder featureBinder)
 	{
-		FeatureBinder.bind(new FeatureToggler() {
+		featureBinder.bind(new FeatureToggler() {
 
 			@Override
 			public void toggleFeature(boolean active) {
@@ -43,7 +43,7 @@ public class MenuPresenter implements MenuView.Presenter {
 			}
 		}, ApplicationFeatures.IMPORT_CODELIST);
 
-		FeatureBinder.bind(new FeatureToggler() {
+		featureBinder.bind(new FeatureToggler() {
 
 			@Override
 			public void toggleFeature(boolean active) {

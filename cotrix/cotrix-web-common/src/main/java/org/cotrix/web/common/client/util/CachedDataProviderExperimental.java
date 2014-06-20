@@ -60,12 +60,12 @@ public abstract class CachedDataProviderExperimental<T> extends AsyncDataProvide
 		updateRowCount(totalSize, true);
 		updateRowData(range.getStart(), data);
 		lastRange = range;
-		handlerManager.fireEvent(new DataUpdatedEvent(range));
+		handlerManager.fireEvent(new DataUpdatedEvent(range, false));
 	}
 	
 	public void refresh()
 	{
-		handlerManager.fireEvent(new DataUpdatedEvent(lastRange));
+		handlerManager.fireEvent(new DataUpdatedEvent(lastRange, true));
 		updateRowData(lastRange.getStart(), cache);
 	}
 	

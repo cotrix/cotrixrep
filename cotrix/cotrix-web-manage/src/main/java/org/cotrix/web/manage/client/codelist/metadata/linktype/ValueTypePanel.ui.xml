@@ -1,0 +1,16 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:with field='commonresources'
+		type='org.cotrix.web.common.client.resources.CommonResources' />
+	<g:FlowPanel width="100%">
+		<g:ListBox multipleSelect="false" ui:field="valueTypeList" styleName="{resources.detailsPanelStyle.listbox}" width="100%"/>
+		<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
+			<g:Image ui:field="valueTypeListLoader" resource="{commonresources.dataLoader}" visible="false"
+				styleName="{resources.detailsPanelStyle.loader}" />
+		</g:FlowPanel>
+	</g:FlowPanel>
+</ui:UiBinder> 

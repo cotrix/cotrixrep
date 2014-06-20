@@ -1,5 +1,8 @@
 package org.cotrix.lifecycle.impl;
 
+import java.util.Collection;
+import java.util.Map;
+
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.State;
 
@@ -19,6 +22,8 @@ public interface LifecycleRepository {
 	void add(Lifecycle lc);
 	
 	ResumptionToken lookup(String id);
+	
+	Map<String,ResumptionToken> lookup(Collection<String> ids);
 	
 	void update(Lifecycle lc);
 	

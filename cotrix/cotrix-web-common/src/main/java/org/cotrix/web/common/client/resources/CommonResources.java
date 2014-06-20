@@ -51,6 +51,8 @@ public interface CommonResources extends ClientBundle {
 	@Source("import.png")
 	public ImageResource importIcon();
 	
+	ImageResource selectArrow();
+	
 	ImageResource user();
 	
 	ImageResource userDisabled();
@@ -62,7 +64,9 @@ public interface CommonResources extends ClientBundle {
 	ImageResource search();
 	
 	ImageResource plus();
+	ImageResource plusDisabled();
 	
 	ImageResource minus();
+	ImageResource minusDisabled();
 
 }

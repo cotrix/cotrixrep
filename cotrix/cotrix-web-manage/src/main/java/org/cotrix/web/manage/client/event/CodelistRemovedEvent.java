@@ -1,6 +1,6 @@
 package org.cotrix.web.manage.client.event;
 
-import org.cotrix.web.manage.shared.CodelistGroup;
+import org.cotrix.web.common.shared.codelist.UICodelist;
 
 import com.google.web.bindery.event.shared.binder.GenericEvent;
 
@@ -10,13 +10,13 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  */
 public class CodelistRemovedEvent extends GenericEvent {
 
-	private CodelistGroup codelistGroup;
+	private UICodelist codelist;
 
-	public CodelistRemovedEvent(CodelistGroup codelistGroup) {
-		this.codelistGroup = codelistGroup;
+	public CodelistRemovedEvent(UICodelist codelist) {
+		this.codelist = codelist;
 	}
 
-	public CodelistGroup getCodelistGroup() {
-		return codelistGroup;
+	public UICodelist getCodelist() {
+		return codelist;
 	}
 }

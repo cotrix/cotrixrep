@@ -18,9 +18,9 @@
 
 		<weld.version>2.0.4.Final</weld.version>
 
-		<gwt.version>2.5.1</gwt.version>
+		<gwt.version>2.6.1</gwt.version>
 
-		<gin.version>2.1.1</gin.version>
+		<gin.version>2.1.2</gin.version>
 
 
 		<!-- one must be defined -->
@@ -372,7 +372,7 @@
 				<groupId>org.jboss.weld</groupId>
 				<artifactId>weld-core</artifactId>
 				<version>${weld.version}</version>
-				<scope>runtime</scope>
+				<scope>compile</scope>
 			</dependency>
 
 			<dependency>
@@ -412,13 +412,13 @@
 			<dependency>
 				<groupId>com.allen-sauer.gwt.log</groupId>
 				<artifactId>gwt-log</artifactId>
-				<version>3.2.1</version>
+				<version>3.3.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.google.gwt.eventbinder</groupId>
 				<artifactId>eventbinder</artifactId>
-				<version>1.0.1</version>
+				<version>1.0.2</version>
 			</dependency>
 
 			<dependency>

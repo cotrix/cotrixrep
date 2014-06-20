@@ -6,7 +6,8 @@ import java.util.Map;
 
 import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.widgets.ProgressDialog;
+import org.cotrix.web.common.client.widgets.HasMinHeight;
+import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
@@ -20,9 +21,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -32,7 +33,7 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public class ImportWizardViewImpl extends ResizeComposite implements ImportWizardView {
+public class ImportWizardViewImpl extends Composite implements ImportWizardView, HasMinHeight {
 
 	@UiTemplate("ImportWizard.ui.xml")
 	interface ImportWizardUiBinder extends UiBinder<Widget, ImportWizardViewImpl> {}
@@ -182,6 +183,11 @@ public class ImportWizardViewImpl extends ResizeComposite implements ImportWizar
 	@Override
 	public void showError(Error error) {
 		errorManager.showError(error);
+	}
+
+	@Override
+	public int getMinHeight() {
+		return 670;
 	}
 
 }

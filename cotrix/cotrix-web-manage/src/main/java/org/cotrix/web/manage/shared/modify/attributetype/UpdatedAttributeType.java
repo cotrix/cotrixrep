@@ -12,9 +12,9 @@ import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
  */
 public class UpdatedAttributeType extends ModifyCommandResult {
 	
-	protected UIAttributeType updatedAttribute;
+	private UIAttributeType updatedAttribute;
 	
-	protected UpdatedAttributeType(){}
+	public UpdatedAttributeType(){}
 
 	public UpdatedAttributeType(UIAttributeType updatedAttribute) {
 		this.updatedAttribute = updatedAttribute;

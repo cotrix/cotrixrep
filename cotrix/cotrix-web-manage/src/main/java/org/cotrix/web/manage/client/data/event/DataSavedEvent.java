@@ -22,9 +22,11 @@ public class DataSavedEvent extends GwtEvent<DataSavedEvent.DataSavedHandler> {
 	}
 	
 	private String codelistId;
+	private DataEditEvent<?> editEvent;
 
-	public DataSavedEvent(String codelistId) {
+	public DataSavedEvent(String codelistId, DataEditEvent<?> editEvent) {
 		this.codelistId = codelistId;
+		this.editEvent = editEvent;
 	}
 
 	/**
@@ -32,6 +34,10 @@ public class DataSavedEvent extends GwtEvent<DataSavedEvent.DataSavedHandler> {
 	 */
 	public String getCodelistId() {
 		return codelistId;
+	}
+	
+	public DataEditEvent<?> getEditEvent() {
+		return editEvent;
 	}
 
 	@Override
@@ -46,5 +52,16 @@ public class DataSavedEvent extends GwtEvent<DataSavedEvent.DataSavedHandler> {
 
 	public static Type<DataSavedHandler> getType() {
 		return TYPE;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DataSavedEvent [codelistId=");
+		builder.append(codelistId);
+		builder.append(", editEvent=");
+		builder.append(editEvent);
+		builder.append("]");
+		return builder.toString();
 	}
 }

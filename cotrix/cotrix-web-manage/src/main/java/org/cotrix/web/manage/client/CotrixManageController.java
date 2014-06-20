@@ -8,13 +8,15 @@ import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.error.ManagedFailureLongCallback;
 import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
-import org.cotrix.web.common.client.widgets.ConfirmDialog;
-import org.cotrix.web.common.client.widgets.ConfirmDialog.ConfirmDialogListener;
-import org.cotrix.web.common.client.widgets.ProgressDialog;
-import org.cotrix.web.common.client.widgets.ConfirmDialog.DialogButton;
+import org.cotrix.web.common.client.event.UserLoggedEvent;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
+import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.manage.client.ManageServiceAsync;
+import org.cotrix.web.manage.client.codelist.common.attribute.AttributesGridResources;
 import org.cotrix.web.manage.client.codelist.event.CreateNewVersionEvent;
 import org.cotrix.web.manage.client.codelist.event.RemoveCodelistEvent;
 import org.cotrix.web.manage.client.event.CloseCodelistEvent;
@@ -27,7 +29,7 @@ import org.cotrix.web.manage.client.event.RefreshCodelistsEvent;
 import org.cotrix.web.manage.client.manager.CodelistManagerPresenter;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
-import org.cotrix.web.manage.shared.CodelistGroup;
+import org.cotrix.web.manage.shared.UICodelistInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -69,11 +71,23 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	private CodelistManagerPresenter codeListManagerPresenter;
 	
 	@Inject
+	private void init(AttributesGridResources resources) {
+		resources.dataGridStyle().ensureInjected();
+	}
+	
+	@Inject
 	private void bind(@CotrixBus EventBus cotrixBus) {
 		cotrixBus.addHandler(CodeListImportedEvent.TYPE, new CodeListImportedEvent.CodeListImportedHandler() {
 			
 			@Override
 			public void onCodeListImported(CodeListImportedEvent event) {
+				refreshCodeLists();
+			}
+		});
+		cotrixBus.addHandler(UserLoggedEvent.TYPE, new UserLoggedEvent.UserLoggedHandler() {
+			
+			@Override
+			public void onUserLogged(UserLoggedEvent event) {
 				refreshCodeLists();
 			}
 		});
@@ -88,6 +102,8 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	private void setupCss(CotrixManagerResources resources) {
 		resources.css().ensureInjected();
 		resources.propertyGrid().ensureInjected();
+		resources.detailsPanelStyle().ensureInjected();
+		resources.attributeRow().ensureInjected();
 	}
 	
 	@EventHandler
@@ -121,7 +137,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	{
 		Log.trace("createNewVersion codelistId: " + codelistId+" newVerions: "+newVersion);
 		progressDialog.showCentered();
-		service.createNewCodelistVersion(codelistId, newVersion, new ManagedFailureCallback<CodelistGroup>() {
+		service.createNewCodelistVersion(codelistId, newVersion, new ManagedFailureCallback<UICodelistInfo>() {
 		
 			/** 
 			 * {@inheritDoc}
@@ -132,9 +148,9 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 			}
 
 			@Override
-			public void onSuccess(CodelistGroup result) {
+			public void onSuccess(UICodelistInfo result) {
 				Log.trace("created "+result);
-				managerBus.fireEvent(new OpenCodelistEvent(result.getVersions().get(0).toUICodelist()));
+				managerBus.fireEvent(new OpenCodelistEvent(result));
 				managerBus.fireEvent(new CodelistCreatedEvent(result));
 				progressDialog.hide();
 			}
@@ -144,12 +160,12 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	private void createNewCodelist(String name, String version)
 	{
 		Log.trace("createNewVersion name: "+name+" version: "+version);
-		service.createNewCodelist(name, version, new AsyncCallback<CodelistGroup>() {
+		service.createNewCodelist(name, version, new AsyncCallback<UICodelistInfo>() {
 			
 			@Override
-			public void onSuccess(CodelistGroup result) {
+			public void onSuccess(UICodelistInfo result) {
 				Log.trace("created "+result);
-				managerBus.fireEvent(new OpenCodelistEvent(result.getVersions().get(0).toUICodelist()));
+				managerBus.fireEvent(new OpenCodelistEvent(result));
 				managerBus.fireEvent(new CodelistCreatedEvent(result));
 			}
 			
@@ -186,7 +202,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 		Log.trace("askUserConfirm codelistId: "+codelist+" checkResult: "+checkResult);
 		if (checkResult.isCanRemove()) {
 			
-			confirmDialog.center("The operation can't be reverted. Do you want to continue?", new ConfirmDialogListener() {
+			confirmDialog.center("This cannot be reverted.<br> Do you want to go ahead?", new ConfirmDialogListener() {
 				
 				@Override
 				public void onButtonClick(DialogButton button) {
@@ -204,7 +220,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 
 			@Override
 			public void onCallSuccess(Void result) {
-				managerBus.fireEvent(new CodelistRemovedEvent(CodelistGroup.fromCodelist(codelist)));
+				managerBus.fireEvent(new CodelistRemovedEvent(codelist));
 				managerBus.fireEvent(new CloseCodelistEvent(codelist));
 			}
 		});

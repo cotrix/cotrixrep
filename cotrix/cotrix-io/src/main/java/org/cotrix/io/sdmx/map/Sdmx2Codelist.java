@@ -10,10 +10,12 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.utils.Constants;
 import org.cotrix.io.impl.MapTask;
+import org.cotrix.io.utils.SharedDefinitionPool;
 import org.sdmxsource.sdmx.api.model.beans.base.AnnotationBean;
 import org.sdmxsource.sdmx.api.model.beans.base.NameableBean;
 import org.sdmxsource.sdmx.api.model.beans.base.TextTypeWrapper;
@@ -27,24 +29,34 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 		return Sdmx2CodelistDirectives.class;
 	}
 	
-	public Codelist map(CodelistBean listBean, Sdmx2CodelistDirectives directives) throws Exception {
+	public Codelist map(CodelistBean listbean, Sdmx2CodelistDirectives directives) throws Exception {
 		
-		report().log("importing codelist '"+listBean.getId()+"'");
+		report().log("importing codelist '"+listbean.getId()+"'");
 		report().log("==============================");
+		
+		//NODE: this cannot scale that much: it's all in memory.
+		
 		
 		List<Code> codes = new ArrayList<Code>();
 		
-		for (CodeBean codeBean : listBean.getItems())
-			codes.add(code().
-						name(codeBean.getId()).
-						attributes(attributesOf(codeBean,directives)).
-						build());
+		SharedDefinitionPool pool = new SharedDefinitionPool();
+		
+		for (CodeBean codebean : listbean.getItems())
+			codes.add(
+					code().
+					name(codebean.getId()).
+					attributes(attributesOf(codebean,pool,directives)).
+					build()
+			);
+		
+		String version = directives.version()==null?listbean.getVersion():directives.version();
 		
 		Codelist codelist = codelist().
-				name(directives.name()==null?new QName(listBean.getId()):directives.name()).
+				name(directives.name()==null?new QName(listbean.getId()):directives.name()).
 				with(codes).
-				attributes(attributesOf(listBean,directives)).
-				version(directives.version()==null?listBean.getVersion():directives.version()).
+				definitions(pool).
+				attributes(from(listbean,directives)).
+				version(version).
 				build();
 		
 		report().log("==============================");
@@ -60,7 +72,21 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 	//helpers
 	
 	
-	private List<Attribute> attributesOf(CodelistBean list, Sdmx2CodelistDirectives directives) {
+	
+	
+	private Attribute attributeFor(QName name, QName type, TextTypeWrapper wrapper, SharedDefinitionPool pool) {
+		
+		Definition def = pool == null?
+						definition().name(name).is(type).in(wrapper.getLocale()).build():
+						pool.get(name,type,wrapper.getLocale());
+		return attribute().
+				with(def).
+			    value(wrapper.getValue()).
+			    build();
+	}
+	
+	
+	private List<Attribute> from(CodelistBean list, Sdmx2CodelistDirectives directives) {
 		
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		
@@ -95,39 +121,29 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 					value(list.getUri().toString())
 					.build());
 		
-		mapCommonAttributes(list,attributes,directives);
+		attributes.addAll(attributesOf(list,directives));
 		
 		return attributes;
 	}
 	
-	private List<Attribute> attributesOf(CodeBean bean, Sdmx2CodelistDirectives directives) {
-		
-		List<Attribute> attributes = new ArrayList<Attribute>();
-		
-		mapCommonAttributes(bean, attributes,directives);
-		
-		return attributes;
+	
+	
+	private List<Attribute> attributesOf(NameableBean bean, Sdmx2CodelistDirectives directives) {
+		return attributesOf(bean,null, directives);
 	}
 	
-	private void mapCommonAttributes(NameableBean bean, List<Attribute> attributes,Sdmx2CodelistDirectives directives) {
+	private List<Attribute> attributesOf(NameableBean bean, SharedDefinitionPool pool, Sdmx2CodelistDirectives directives) {
+		
+		List<Attribute> attributes = new ArrayList<>();
 		
 		//names: at least one, all with language
 		for (TextTypeWrapper name : bean.getNames())
-			attributes.add(attribute().
-							 name(directives.get(NAME)).
-							 value(name.getValue()).
-							 ofType(Constants.NAME).
-							 in(name.getLocale())
-							 .build());
+			attributes.add(attributeFor(directives.get(NAME), Constants.NAME, name, pool));
 		
+
 		//descriptions: might be none, all with language
 		for (TextTypeWrapper description :  bean.getDescriptions()) 
-			attributes.add(attribute().
-							name(directives.get(DESCRIPTION)).
-							value(description.getValue()).
-							ofType(Constants.defaultType).
-							in(description.getLocale()).
-							build());
+			attributes.add(attributeFor(directives.get(DESCRIPTION),Constants.DESCRIPTION_TYPE, description, pool));
 		
 		//annotations: there might be none, all with language
 		for (AnnotationBean annotationBean : bean.getAnnotations()) {
@@ -139,16 +155,14 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 			QName type = annotationBean.getType()==null?Constants.defaultType:q(annotationBean.getType());
 			
 			for (TextTypeWrapper annotation :  annotationBean.getText()) // create an attribute for each annotation text piece
-				attributes.add(attribute().
-						        name(name).
-						        value(annotation.getValue()).
-						        ofType(type).
-						        in(annotation.getLocale())
-						        .build());
+				attributes.add(attributeFor(name,type, annotation, pool));
 			
 		}
-				
+		
+		return attributes;
+		
 	}
+	
 	
 	@Override
 	public String toString() {

@@ -1,8 +1,11 @@
 package org.acme;
 
+import static java.util.Arrays.*;
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
 import static org.junit.Assert.*;
+
+import java.util.Map;
 
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Any;
@@ -47,6 +50,19 @@ public class LifecycleTest extends ApplicationTest {
 		
 		assertEquals(retrieved,retrievedAfterUpdate);
 		
+	}
+	
+	@Test
+	public void fetchMultiple() {
+	
+		Lifecycle lc1 = service.start("1");
+		Lifecycle lc2 = service.start("2");
+		
+		Map<String,Lifecycle> fetched = service.lifecyclesOf(asList("1","2"));
+
+		
+		assertEquals(lc1,fetched.get("1"));
+		assertEquals(lc2,fetched.get("2"));
 	}
 		
 	@Test

@@ -13,7 +13,6 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,9 +39,6 @@ public class MappingPanel extends ResizeComposite {
 	
 	@UiField PushButton previewButton;
 	
-	@UiField
-	ScrollPanel scrollMappingPanel;
-	
 	@UiField(provided=true)
 	AttributeMappingPanel mappingPanel;
 	
@@ -56,7 +52,7 @@ public class MappingPanel extends ResizeComposite {
 	}
 	
 	public void resetScroll() {
-		scrollMappingPanel.scrollToTop();
+		mappingPanel.getElement().setScrollTop(0);
 	}
 
 	public void setMappingPanelHandler(MappingPanelHandler mappingPanelHandler) {

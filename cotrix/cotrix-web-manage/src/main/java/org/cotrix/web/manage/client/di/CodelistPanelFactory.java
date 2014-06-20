@@ -5,7 +5,7 @@ package org.cotrix.web.manage.client.di;
 
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.CotrixManageGinInjector;
-import org.cotrix.web.manage.client.codelist.CodelistPanelPresenter;
+import org.cotrix.web.manage.client.codelist.CodelistPanelController;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -18,7 +18,7 @@ import com.google.inject.Singleton;
 public class CodelistPanelFactory {
 		
 	@Inject
-	private EditorEventBusProvider editorEventBusProvider;
+	private CodelistBusProvider editorEventBusProvider;
 	
 	@Inject
 	private CodelistIdProvider codelistIdProvider;
@@ -26,12 +26,21 @@ public class CodelistPanelFactory {
 	@Inject
 	private CodelistProvider codelistProvider;
 	
+	@Inject
+	private LinkTypesCacheProvider linkTypesCacheProvider;
 	
-	public CodelistPanelPresenter build(UICodelist codelist)
+	@Inject
+	private AttributeTypesCacheProvider attributeTypesCacheProvider;
+	
+	
+	public CodelistPanelController build(UICodelist codelist)
 	{
 		codelistIdProvider.setCodelistId(codelist.getId());
 		codelistProvider.setCodelist(codelist);
 		editorEventBusProvider.generate();
+		
+		linkTypesCacheProvider.generate();
+		attributeTypesCacheProvider.generate();
 		
 		return CotrixManageGinInjector.INSTANCE.getCodeListPanelPresenter();
 	}

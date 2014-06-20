@@ -95,12 +95,13 @@ public class AttributeDefinitionPanel extends Composite {
 		String listBoxError();
 	}
 	
-	public AttributeDefinitionPanel(LabelProvider<AttributeType> typeLabelProvider) {
+	public AttributeDefinitionPanel(LabelProvider<AttributeType> typeLabelProvider, String nameTitle) {
 		
 		typeList = new EnumListBox<AttributeType>(AttributeType.class, typeLabelProvider);
 		optionList = new EnumListBox<Optional>(Optional.class, OPTIONAL_LABEL_PROVIDER);
 		
 		initWidget(uiBinder.createAndBindUi(this));
+		nameField.setTitle(nameTitle);
 
 		typeList.addChangeHandler(new ChangeHandler() {
 

@@ -16,6 +16,7 @@ import org.cotrix.domain.values.ValueFunction;
 import org.cotrix.domain.values.ValueFunctions.CustomFunction;
 import org.cotrix.domain.values.ValueFunctions.PrefixFunction;
 import org.cotrix.domain.values.ValueFunctions.SuffixFunction;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
@@ -70,7 +71,7 @@ public class LinkTypes {
 			AttributeTemplate template = attributeLink.template();
 			UIQName name = ValueUtils.safeValue(template.name());
 			UIQName type = ValueUtils.safeValue(template.type());
-			String language = ValueUtils.safeValue(template.language());
+			Language language = ValueUtils.safeLanguage(template.language());
 			return new AttributeValue(name, type, language);
 		}
 

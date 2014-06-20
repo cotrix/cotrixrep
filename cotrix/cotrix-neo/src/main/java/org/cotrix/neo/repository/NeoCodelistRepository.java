@@ -59,8 +59,12 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 			NeoUtils.removeEntityNode(node(CODELIST,id));
 		}
 		catch(IllegalStateException e) {
-			throw new CodelistRepository.UnremovableCodelistException("cannot remove codelist: other codelists link to it");
+			throw new CodelistRepository.UnremovableCodelistException("cannot remove codelist: other codelists link to it",e);
 		}
+		catch(Exception e) {
+			throw new RuntimeException("cannot remove codelist",e);
+		}
+		
 	}
 	
 

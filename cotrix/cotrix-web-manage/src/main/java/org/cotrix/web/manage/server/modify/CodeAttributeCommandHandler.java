@@ -10,10 +10,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.Codelists;
+import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.cotrix.web.manage.shared.modify.UpdatedCode;
@@ -37,19 +39,24 @@ public class CodeAttributeCommandHandler {
 	{
 		logger.trace("handle codelistid: {}, codeId: {}, command: {}", codelistId, codeId, command);
 		
-		Attribute attribute = AttributeCommandUtil.handle(command);
+		Codelist codelist = repository.lookup(codelistId);
+		
+		Definition definition = getDefinition(codelist, command.getItem());
+		
+		Attribute attribute = AttributeCommandUtil.handle(command, definition);
 
 		Code code = modifyCode(codeId).attributes(attribute).build();
 		Codelist changeset = modifyCodelist(codelistId).with(code).build();
 		
 		repository.update(changeset);
 		
-		UICode updatedCode = Codelists.toUiCode(getCode(codelistId, codeId));
+		UICode updatedCode = Codelists.toUiCode(codelist.codes().lookup(codeId));
 		return new UpdatedCode(attribute.id(), updatedCode);
 	}
 	
-	protected Code getCode(String codelistId, String id) {
-		for (Code code:repository.lookup(codelistId).codes()) if (code.id().equals(id)) return code;
+	private Definition getDefinition(Codelist codelist, UIAttribute attribute) {
+		if (attribute.getDefinitionId() == null) return null;
+		if (codelist.definitions().contains(attribute.getDefinitionId())) return codelist.definitions().lookup(attribute.getDefinitionId());
 		return null;
 	}
 }

@@ -28,6 +28,7 @@ public class Mappings {
 	
 	public interface MappingProvider<T extends Mapping> {
 		public T getMapping(QName name, QName type, Language language);
+		public boolean isMapped(QName name, QName type, Language language);
 	}
 	
 	public static final MappingProvider<Column> COLUMN_PROVIDER = new MappingProvider<Column>() {
@@ -40,6 +41,11 @@ public class Mappings {
 			column.setName(columnName.toString());
 			return column;
 		}
+		
+		@Override
+		public boolean isMapped(QName name, QName type, Language language) {
+			return true;
+		}
 	};
 	
 	public static final MappingProvider<UISdmxElement> SDMX_PROVIDER = new MappingProvider<UISdmxElement>() {
@@ -48,6 +54,26 @@ public class Mappings {
 		public UISdmxElement getMapping(QName name, QName type, Language language) {
 			SdmxElement element = SdmxElements.findSdmxElement(name, type);
 			return SdmxElements.toUISdmxElement(element);
+		}
+		
+		
+		@Override
+		public boolean isMapped(QName name, QName type, Language language) {
+			return true;
+		}
+	};
+	
+	public static final MappingProvider<Column> COMET_PROVIDER = new MappingProvider<Column>() {
+
+		@Override
+		public Column getMapping(QName name, QName type, Language language) {
+			return null;
+		}
+		
+		
+		@Override
+		public boolean isMapped(QName name, QName type, Language language) {
+			return false;
 		}
 	};
 
@@ -91,7 +117,7 @@ public class Mappings {
 		AttributeMapping attributeMapping = new AttributeMapping();
 		attributeMapping.setAttributeDefinition(attr);
 		attributeMapping.setMapping(mapping);
-		attributeMapping.setMapped(true);
+		attributeMapping.setMapped(provider.isMapped(name, type, language));
 		return attributeMapping;
 	}
 

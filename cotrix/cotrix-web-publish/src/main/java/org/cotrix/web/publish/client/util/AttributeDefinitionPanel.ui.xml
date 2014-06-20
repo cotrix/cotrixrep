@@ -11,7 +11,7 @@
 				border: 2px solid #df484f;
 			}
 		</ui:style>
-		<g:HorizontalPanel verticalAlignment="middle">
+		<g:HorizontalPanel verticalAlignment="middle" height="40px">
 			<g:TextBox ui:field="name" readOnly="true" styleName="{common.css.textBox}" title="Attribute name"/>
 			<g:Label ui:field="attributeLabel" styleName="{common.css.paddedText}">-</g:Label>
 			<g:TextBox readOnly="true" ui:field="type" styleName="{common.css.textBox}" title="Attribute type"/>

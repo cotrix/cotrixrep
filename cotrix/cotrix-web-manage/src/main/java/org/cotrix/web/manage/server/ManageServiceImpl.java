@@ -8,10 +8,7 @@ import static org.cotrix.web.manage.shared.ManagerUIFeature.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +20,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
+import org.cotrix.action.ResourceType;
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
 import org.cotrix.common.cdi.BeanSession;
@@ -33,10 +31,12 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.dsl.Roles;
+import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
+import org.cotrix.repository.CodelistCoordinates;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.MultiQuery;
@@ -51,6 +51,8 @@ import org.cotrix.web.common.server.util.Codelists;
 import org.cotrix.web.common.server.util.LinkTypes;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.DataWindow;
+import org.cotrix.web.common.shared.Language;
+import org.cotrix.web.common.shared.codelist.LifecycleState;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
@@ -66,12 +68,13 @@ import org.cotrix.web.common.shared.feature.ResponseWrapper;
 import org.cotrix.web.manage.client.ManageService;
 import org.cotrix.web.manage.server.modify.ChangesetUtil;
 import org.cotrix.web.manage.server.modify.ModifyCommandHandler;
+import org.cotrix.web.manage.server.util.CodelistsInfos;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
-import org.cotrix.web.manage.shared.CodelistGroup;
 import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
 import org.cotrix.web.manage.shared.CodelistValueTypes;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.UICodeInfo;
+import org.cotrix.web.manage.shared.UICodelistInfo;
 import org.cotrix.web.manage.shared.UILinkTypeInfo;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
@@ -142,25 +145,31 @@ public class ManageServiceImpl implements ManageService {
 	}
 
 	@Override
-	public DataWindow<CodelistGroup> getCodelistsGrouped() throws ServiceException {
-		logger.trace("getCodelistsGrouped");
+	public List<UICodelistInfo> getCodelistsInfos() throws ServiceException {
+		logger.trace("getCodelistsInfos");
 
-		Map<QName, CodelistGroup> groups = new HashMap<QName, CodelistGroup>();
-		Iterator<Codelist> it = repository.get(allLists()).iterator();
-		while (it.hasNext()) {
-			Codelist codelist = (Codelist) it.next();
-
-			CodelistGroup group = groups.get(codelist.name());
-			if (group == null) {
-				group = new CodelistGroup(ValueUtils.safeValue(codelist.name()));
-				groups.put(codelist.name(), group);
-			}
-			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()));
+		List<UICodelistInfo> codelistInfos = new ArrayList<>();
+		
+		Iterable<CodelistCoordinates> codelists = repository.get(allListCoordinates().sort(byCoordinateName()));
+		
+		List<String> codelistIds = new ArrayList<>();
+		for (CodelistCoordinates codelist:codelists) codelistIds.add(codelist.id());
+		Map<String, Lifecycle> lifecycles = lifecycleService.lifecyclesOf(codelistIds);
+		
+		FingerPrint fp = currentUser.fingerprint();
+		
+		for (CodelistCoordinates codelist:codelists) {
+			
+			boolean isUserInTeam = !fp.allRolesOver(codelist.id(), ResourceType.codelists).isEmpty();
+			
+			Lifecycle lifecycle = lifecycles.get(codelist.id());
+			UICodelistInfo codelistInfo = CodelistsInfos.toUICodelistInfo(codelist, lifecycle.state(), isUserInTeam);
+			
+			codelistInfos.add(codelistInfo);
 		}
 
-		for (CodelistGroup group:groups.values()) Collections.sort(group.getVersions()); 
 
-		return new DataWindow<CodelistGroup>(new ArrayList<CodelistGroup>(groups.values()));
+		return codelistInfos;
 	}
 
 	@Override
@@ -252,15 +261,15 @@ public class ManageServiceImpl implements ManageService {
 
 	@Override
 	@CodelistTask(VERSION)
-	public CodelistGroup createNewCodelistVersion(@Id String codelistId, String newVersion)	throws ServiceException {
+	public UICodelistInfo createNewCodelistVersion(@Id String codelistId, String newVersion)	throws ServiceException {
 		try {
 			Codelist codelist = repository.lookup(codelistId);
 			
 			Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
 	
-			CodelistGroup group = addCodelist(newCodelist);
+			UICodelistInfo codelistInfo = addCodelist(newCodelist);
 			
-			return group;
+			return codelistInfo;
 		} catch(Throwable throwable)
 		{
 			logger.error("Error creating new codelist version for codelist "+codelistId, throwable);
@@ -270,11 +279,11 @@ public class ManageServiceImpl implements ManageService {
 
 	@Override
 	@CodelistTask(VIEW)
-	public ResponseWrapper<String> getCodelistState(@Id String codelistId) throws ServiceException {
+	public ResponseWrapper<LifecycleState> getCodelistState(@Id String codelistId) throws ServiceException {
 		logger.trace("getCodelistState codelistId: {}",codelistId);
 		Lifecycle lifecycle = lifecycleService.lifecycleOf(codelistId);
-		String state = lifecycle.state().toString();
-		return ResponseWrapper.wrap(state.toUpperCase());
+		LifecycleState state = Codelists.getLifecycleState(lifecycle.state());
+		return ResponseWrapper.wrap(state);
 	}
 
 	@Override
@@ -290,7 +299,7 @@ public class ManageServiceImpl implements ManageService {
 	}
 
 	@Override
-	public CodelistGroup createNewCodelist(String name, String version)	throws ServiceException {
+	public UICodelistInfo createNewCodelist(String name, String version)	throws ServiceException {
 		logger.trace("createNewCodelist name: {}, version: {}",name, version);
 		Codelist newCodelist = codelist().name(name).version(version).build();
 
@@ -298,18 +307,21 @@ public class ManageServiceImpl implements ManageService {
 		User changeset = modifyUser(currentUser).is(Roles.OWNER.on(newCodelist.id())).build();
 		userRepository.update(changeset);
 		
-		CodelistGroup group = addCodelist(newCodelist);
+		UICodelistInfo codelistInfo = addCodelist(newCodelist);
 		events.fire(new CodelistActionEvents.Create(newCodelist.id(),newCodelist.name(), newCodelist.version(), session));
-		return group;
+		return codelistInfo;
 	}
 
-	private CodelistGroup addCodelist(Codelist newCodelist) {
+	private UICodelistInfo addCodelist(Codelist newCodelist) {
 		repository.add(newCodelist);
-	
-		CodelistGroup group = new CodelistGroup(ValueUtils.safeValue(newCodelist.name()));
-		group.addVersion(newCodelist.id(), newCodelist.version());
+		
+		Lifecycle lifecycle = lifecycleService.lifecycleOf(newCodelist.id());
+		
+		boolean isUserInTeam = !currentUser.fingerprint().allRolesOver(newCodelist.id(), ResourceType.codelists).isEmpty();
+		
+		UICodelistInfo codelistInfo = CodelistsInfos.toUICodelistInfo(newCodelist, lifecycle.state(), isUserInTeam);
 
-		return group;
+		return codelistInfo;
 	}
 
 	@Override
@@ -332,11 +344,8 @@ public class ManageServiceImpl implements ManageService {
 	public List<UICodelist> getCodelists() throws ServiceException {
 		logger.trace("getCodelists");
 		List<UICodelist> codelists = new ArrayList<>();
-		Iterator<Codelist> it = repository.get(allLists()).iterator();
-		while (it.hasNext()) {
-			Codelist codelist = (Codelist) it.next();
-			codelists.add(Codelists.toUICodelist(codelist));
-		}
+		Iterable<CodelistCoordinates> result = repository.get(allListCoordinates().sort(byCoordinateName()));
+		for (CodelistCoordinates codelist:result) codelists.add(Codelists.toUICodelist(codelist));
 		return codelists;
 	}
 
@@ -350,10 +359,10 @@ public class ManageServiceImpl implements ManageService {
 		for (QName name:summary.codeNames()) {
 			for (QName type:summary.codeTypesFor(name)) {
 				Collection<String> languages = summary.codeLanguagesFor(name, type);
-				if (languages.isEmpty()) attributeTypes.add(new AttributeValue(ValueUtils.safeValue(name), ValueUtils.safeValue(type), ""));
+				if (languages.isEmpty()) attributeTypes.add(new AttributeValue(ValueUtils.safeValue(name), ValueUtils.safeValue(type), Language.NONE));
 				else {
 					for (String language:languages) {
-						attributeTypes.add(new AttributeValue(ValueUtils.safeValue(name), ValueUtils.safeValue(type), language));
+						attributeTypes.add(new AttributeValue(ValueUtils.safeValue(name), ValueUtils.safeValue(type), ValueUtils.safeLanguage(language)));
 					}
 				}
 			}

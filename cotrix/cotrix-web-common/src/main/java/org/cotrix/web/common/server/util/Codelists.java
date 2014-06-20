@@ -19,6 +19,7 @@ import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.Container;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
+import org.cotrix.repository.CodelistCoordinates;
 import org.cotrix.web.common.shared.codelist.LifecycleState;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
@@ -71,7 +72,7 @@ public class Codelists {
 		return uiCodelist;
 	}
 	
-	protected static LifecycleState getLifecycleState(State state) {
+	public static LifecycleState getLifecycleState(State state) {
 		if (!(state instanceof DefaultLifecycleStates)) throw new IllegalArgumentException("Inconvertible state "+state);
 		DefaultLifecycleStates defaultLifecycleStates = (DefaultLifecycleStates)state;
 		switch (defaultLifecycleStates) {
@@ -88,6 +89,15 @@ public class Codelists {
 		uiCodelist.setId(codelist.id());
 		uiCodelist.setName(ValueUtils.safeValue(codelist.name()));
 		uiCodelist.setVersion(codelist.version());
+
+		return uiCodelist;
+	}
+	
+	public static UICodelist toUICodelist(CodelistCoordinates codelistCoordinates) {
+		UICodelist uiCodelist = new UICodelist();
+		uiCodelist.setId(codelistCoordinates.id());
+		uiCodelist.setName(ValueUtils.safeValue(codelistCoordinates.name()));
+		uiCodelist.setVersion(codelistCoordinates.version());
 
 		return uiCodelist;
 	}
@@ -122,6 +132,9 @@ public class Codelists {
 		uiattribute.setLanguage(ValueUtils.safeLanguage(attribute.language()));
 		uiattribute.setValue(ValueUtils.safeValue(attribute.value()));
 		uiattribute.setId(ValueUtils.safeValue(attribute.id()));
+		uiattribute.setDefinitionId(attribute.definition().id());
+		uiattribute.setDescription(attribute.description());
+		
 		return uiattribute;
 	}
 	

@@ -23,7 +23,7 @@ import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.feature.ApplicationFeatures;
 import org.cotrix.web.shared.AuthenticationFeature;
 
@@ -141,9 +141,9 @@ public class UserBarPresenter implements Presenter, LoginDialogListener, Registe
 	}
 
 	@Inject
-	protected void bindFeatures()
+	protected void bindFeatures(FeatureBinder featureBinder)
 	{
-		FeatureBinder.bind(new FeatureToggler() {
+		featureBinder.bind(new FeatureToggler() {
 
 			@Override
 			public void toggleFeature(boolean active) {
@@ -151,7 +151,7 @@ public class UserBarPresenter implements Presenter, LoginDialogListener, Registe
 			}
 		}, AuthenticationFeature.CAN_LOGIN);
 
-		FeatureBinder.bind(new FeatureToggler() {
+		featureBinder.bind(new FeatureToggler() {
 
 			@Override
 			public void toggleFeature(boolean active) {
@@ -160,7 +160,7 @@ public class UserBarPresenter implements Presenter, LoginDialogListener, Registe
 
 		}, AuthenticationFeature.CAN_LOGOUT);
 
-		FeatureBinder.bind(new FeatureToggler() {
+		featureBinder.bind(new FeatureToggler() {
 
 			@Override
 			public void toggleFeature(boolean active) {
@@ -168,7 +168,7 @@ public class UserBarPresenter implements Presenter, LoginDialogListener, Registe
 			}
 		}, AuthenticationFeature.CAN_REGISTER);
 
-		FeatureBinder.bind(new FeatureToggler() {
+		featureBinder.bind(new FeatureToggler() {
 
 			@Override
 			public void toggleFeature(boolean active) {

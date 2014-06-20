@@ -4,8 +4,10 @@ import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
 import org.cotrix.web.common.client.util.ValueUtils;
-import org.cotrix.web.common.client.widgets.AlertDialog;
-import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
+import org.cotrix.web.common.client.widgets.PageSizer;
+import org.cotrix.web.common.client.widgets.SearchBox;
+import org.cotrix.web.common.client.widgets.cell.SelectionCheckBoxCell;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -13,8 +15,10 @@ import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
@@ -41,12 +45,18 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 	interface CodelistSelectionStepUiBinder extends UiBinder<Widget, CodelistSelectionStepViewImpl> {}
 
 	private static CodelistSelectionStepUiBinder uiBinder = GWT.create(CodelistSelectionStepUiBinder.class);
+	
+	@UiField
+	SearchBox searchBox;
 
 	@UiField (provided = true) 
 	PatchedDataGrid<UICodelist> dataGrid;
 
 	@UiField(provided = true)
 	SimplePager pager;
+	
+	@UiField
+	PageSizer pageSizer;
 	
 	@Inject
 	AlertDialog alertDialog;
@@ -62,6 +72,7 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 		this.dataProvider = assetInfoDataProvider;
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
+		pageSizer.setDisplay(dataGrid);
 	}
 
 	/** 
@@ -79,7 +90,7 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 	protected void setupGrid()
 	{
 
-		dataGrid = new PatchedDataGrid<UICodelist>(6, DataGridListResource.INSTANCE, CodelistKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<UICodelist>(25, DataGridListResource.INSTANCE, CodelistKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
@@ -179,10 +190,27 @@ public class CodelistSelectionStepViewImpl extends ResizeComposite implements Co
 	public void alert(String message) {
 		alertDialog.center(message);
 	}
+	
+
+	@UiHandler("searchBox")
+	protected void onValueChange(ValueChangeEvent<String> event) {
+		updateFilter(event.getValue());
+	}
+	
+	private void updateFilter(String query) {
+		dataProvider.setQuery(query);
+		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
+	}
+	
+	private void cleanFilter() {
+		dataProvider.setQuery("");
+		searchBox.clear();
+	}
 
 	public void reset()
 	{
 		Log.trace("RESET");
+		cleanFilter();	
 		dataProvider.setForceRefresh(true);
 		selectionModel.clear();
 		pager.setPage(0);

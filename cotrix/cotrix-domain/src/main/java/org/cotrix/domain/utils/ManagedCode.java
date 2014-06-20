@@ -2,6 +2,7 @@ package org.cotrix.domain.utils;
 
 import static java.text.DateFormat.*;
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.utils.CodeStatus.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import java.util.Date;
@@ -13,6 +14,8 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.common.NamedContainer;
 
+
+//read-only interface over codes with support for systemic attributes
 public class ManagedCode implements Code {
 
 	
@@ -30,13 +33,12 @@ public class ManagedCode implements Code {
 		this.managed=code;
 	}
 	
-	
 	public Date created() {
 		
-		String val = resolve(CREATION_TIME,null);
+		String val = lookup(CREATION_TIME);
 		
 		try {
-			return val==null?null:getDateTimeInstance().parse(val);
+			return val==null? null : getDateTimeInstance().parse(val);
 		}
 		catch(Exception e) {
 			throw unchecked(e);
@@ -45,20 +47,21 @@ public class ManagedCode implements Code {
 	
 	public String originId() {
 		
-		return resolve(PREVIOUS_VERSION_ID,null);
+		return lookup(PREVIOUS_VERSION_ID);
 		
 	}
 	
 	public QName originName() {
 		
-		String val = resolve(PREVIOUS_VERSION_NAME,null);
-		return val==null?null:QName.valueOf(val);
+		String val = lookup(PREVIOUS_VERSION_NAME);
+		
+		return val== null ? null : QName.valueOf(val);
 		
 	}
 	
 	public Date lastUpdated() {
 		
-		String val = resolve(UPDATE_TIME,null);
+		String val = lookup(UPDATE_TIME);
 		
 		try {
 			return val==null? created():getDateTimeInstance().parse(val);
@@ -68,18 +71,29 @@ public class ManagedCode implements Code {
 		}
 	}
 	
-	public boolean invalid() {
+	public String lastUpdatedBy() {
 		
-		String val = resolve(INVALID,null);
-		return val==null? false: Boolean.valueOf(val);
+		String val = lookup(UPDATED_BY);
+		
+		return val;
+	}
+	
+	public CodeStatus status() {
+		
+		String val = lookup(STATUS);
+		
+		if (val==null)
+			return VALID;
+		
+		return CodeStatus.valueOf(val);
 	}
 	
 	
 	//helper
-	private String resolve(QName name, String deflt) {
+	private String lookup(QName name) {
 		return managed.attributes().contains(name) ?
 			managed.attributes().lookup(name).value():
-			deflt;
+			null;
 	}
 	
 	

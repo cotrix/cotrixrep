@@ -46,44 +46,45 @@
 		<table class="{style.toolbar}">
 			<tr>
 				<td class="{style.toolbarCell}">
-					<div class="{style.toolbarLabel}">First Row is Header</div>
+					<div class="{style.toolbarLabel}" title="Select if the first row is a header for the rest of the data.">Header</div>
 					<div>
 						<g:SimpleCheckBox ui:field="hasHeaderField"
-							styleName="{common.css.simpleCheckbox}" />
+							styleName="{common.css.simpleCheckbox}" title="Select if the first row is a header for the rest of the data."/>
 					</div>
 				</td>
 				<td class="{style.toolbarCell}">
-					<div class="{style.toolbarLabel}">Delimiter</div>
+					<div class="{style.toolbarLabel}" title="Choose or specify the character used to separate the values in each row.">Delimiter</div>
 					<div style="text-align:center">
 						<div class="{style.valueContainer}">
-							<s:EnumListBox ui:field="separatorField" styleName="{common.css.listBox}" />
+							<s:EnumListBox ui:field="separatorField" styleName="{common.css.listBox}" title="Choose or specify the character used to separate the values in each row."/>
 							<g:TextBox ui:field="customSeparatorField" maxLength="1"
 								width="20px" enabled="false" styleName="{common.css.textBox} {style.textbox}">,</g:TextBox>
 						</div>
 					</div>
 				</td>
 				<td class="{style.toolbarCell}">
-					<div class="{style.toolbarLabel}">Quote</div>
+					<div class="{style.toolbarLabel}" title="Choose or specify the character used to quote the values in each row">Quote</div>
 					<div style="text-align:center">
 						<div class="{style.valueContainer}">
-							<s:EnumListBox ui:field="quoteField" styleName="{common.css.listBox}" />
+							<s:EnumListBox ui:field="quoteField" styleName="{common.css.listBox}" title="Choose or specify the character used to quote the values in each row"/>
 							<g:TextBox ui:field="customQuoteField" maxLength="1"
 								width="20px" enabled="false" styleName="{common.css.textBox} {style.textbox}">"</g:TextBox>
 						</div>
 					</div>
 				</td>
 				<td class="{style.toolbarCell}">
-					<div class="{style.toolbarLabel}">Comment</div>
+					<div class="{style.toolbarLabel}" title="Specify the character used to introduce comments in the data, if there are any.">Comment</div>
 					<div style="text-align:center">
 						<g:TextBox ui:field="commentField" maxLength="1" width="55px"
-							styleName="{common.css.textBox}">#</g:TextBox>
+							styleName="{common.css.textBox}" 
+							title="Specify the character used to introduce comments in the data, if there are any.">#</g:TextBox>
 					</div>
 				</td>
 				<td class="{style.toolbarCell}">
-					<div class="{style.toolbarLabel}">Encoding</div>
+					<div class="{style.toolbarLabel}" title="Choose the character encoding for the data.">Encoding</div>
 					<div style="text-align:center">
 						<div class="{style.valueContainer}">
-							<g:ListBox ui:field="charsetField" styleName="{common.css.listBox}" width="150px" />
+							<g:ListBox ui:field="charsetField" styleName="{common.css.listBox}" width="150px" title="Choose the character encoding for the data."/>
 						</div>
 					</div>
 				</td>

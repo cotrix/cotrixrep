@@ -10,6 +10,7 @@ import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.CotrixStartupEvent;
 import org.cotrix.web.common.client.event.SwitchToModuleEvent;
+import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.ingest.client.CotrixIngestGinInjector;
 import org.cotrix.web.manage.client.CotrixManageGinInjector;
@@ -19,6 +20,8 @@ import org.cotrix.web.publish.client.CotrixPublishGinInjector;
 import org.cotrix.web.users.client.CotrixUsersGinInjector;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
@@ -32,6 +35,8 @@ import com.google.web.bindery.event.shared.EventBus;
 @Singleton
 public class CotrixController implements Presenter {
 	
+	private static int EXPECTED_MODULES = 4;
+	
 	protected EventBus cotrixBus;
 	protected CotrixWebPresenter cotrixWebPresenter;
 	
@@ -40,10 +45,14 @@ public class CotrixController implements Presenter {
 	
 	protected Timer statisticsUpdater;
 	
+	private FeatureBinder featureBinder;
+	private int loadedModules = 0;
+	
 	@Inject
-	public CotrixController(@CotrixBus EventBus cotrixBus, CotrixWebPresenter cotrixWebPresenter, HomeController home) {
+	public CotrixController(@CotrixBus EventBus cotrixBus, CotrixWebPresenter cotrixWebPresenter, HomeController home, FeatureBinder featureBinder) {
 		this.cotrixWebPresenter = cotrixWebPresenter;
 		this.cotrixBus = cotrixBus;
+		this.featureBinder = featureBinder;
 		
 		CommonResources.INSTANCE.css().ensureInjected();
 		
@@ -51,66 +60,65 @@ public class CotrixController implements Presenter {
 		
 		addModule(home);
 		
-		/*GWT.runAsync(new RunAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 			
 			@Override
-			public void onSuccess() {*/
+			public void onSuccess() {
 				CotrixIngestGinInjector importInjector = CotrixIngestGinInjector.INSTANCE;
 				addModule(importInjector.getController());
-			/*}
+			}
 			
 			@Override
 			public void onFailure(Throwable reason) {
-				Log.fatal("Import module not loaded", reason);
+				Log.fatal("Ingest module not loaded", reason);
 			}
-		});*/
+		});
 		
-		/*GWT.runAsync(new RunAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 			
 			@Override
-			public void onSuccess() {*/
+			public void onSuccess() {
 				CotrixManageGinInjector managerInjector = CotrixManageGinInjector.INSTANCE;
 				addModule(managerInjector.getController());
-			/*}
+			}
 			
 			@Override
 			public void onFailure(Throwable reason) {
-				Log.fatal("Manager module not loaded", reason);
+				Log.fatal("Manage module not loaded", reason);
 			}
-		});*/
+		});
 		
-		/*GWT.runAsync(new RunAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 			
 			@Override
-			public void onSuccess() {*/
+			public void onSuccess() {
 				CotrixPublishGinInjector publishInjector = CotrixPublishGinInjector.INSTANCE;
 				addModule(publishInjector.getController());
-			/*}
+			}
 			
 			@Override
 			public void onFailure(Throwable reason) {
 				Log.fatal("Publish module not loaded", reason);
 			}
-		});*/
+		});
 		
-		/*GWT.runAsync(new RunAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 			
 			@Override
-			public void onSuccess() {*/
+			public void onSuccess() {
 				CotrixUsersGinInjector permissionInjector = CotrixUsersGinInjector.INSTANCE;
 				addModule(permissionInjector.getController());
-			/*}
+			}
 			
 			@Override
 			public void onFailure(Throwable reason) {
-				Log.fatal("Publish module not loaded", reason);
+				Log.fatal("Users module not loaded", reason);
 			}
-		});*/
+		});
 
 		
 		showModule(CotrixModule.HOME);
 		
-		cotrixBus.fireEvent(new CotrixStartupEvent());
 	}
 
 	
@@ -137,6 +145,13 @@ public class CotrixController implements Presenter {
 	{
 		cotrixWebPresenter.add(controller);
 		controllers.put(controller.getModule(), controller);
+		loadedModules++;
+		if (loadedModules == EXPECTED_MODULES) startupCotrix();
+	}
+	
+	private void startupCotrix() {
+		featureBinder.turnOffCache();
+		cotrixBus.fireEvent(new CotrixStartupEvent());
 	}
 	
 	protected void showModule(CotrixModule cotrixModule)

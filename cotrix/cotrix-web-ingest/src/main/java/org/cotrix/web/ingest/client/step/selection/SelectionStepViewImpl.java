@@ -1,13 +1,13 @@
 package org.cotrix.web.ingest.client.step.selection;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
-import org.cotrix.web.common.client.widgets.AlertDialog;
-import org.cotrix.web.common.client.widgets.ClickableCell;
+import org.cotrix.web.common.client.widgets.PageSizer;
 import org.cotrix.web.common.client.widgets.SearchBox;
-import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
-import org.cotrix.web.common.client.widgets.UIQNameRenderer;
+import org.cotrix.web.common.client.widgets.cell.ClickableCell;
+import org.cotrix.web.common.client.widgets.cell.SelectionCheckBoxCell;
+import org.cotrix.web.common.client.widgets.cell.UIQNameRenderer;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.ingest.shared.AssetInfo;
 
@@ -26,7 +26,6 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResizeComposite;
@@ -55,6 +54,9 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	SimplePager pager;
 	
 	@UiField
+	PageSizer pageSizer;
+	
+	@UiField
 	SearchBox searchBox;
 	
 	protected AssetInfoDataProvider dataProvider;
@@ -71,6 +73,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		this.dataProvider = assetInfoDataProvider;
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
+		pageSizer.setDisplay(dataGrid);
 	}
 
 	/** 
@@ -88,14 +91,14 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	protected void setupGrid()
 	{
 
-		dataGrid = new PatchedDataGrid<AssetInfo>(6, DataGridListResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<AssetInfo>(25, DataGridListResource.INSTANCE, AssetInfoKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 
 		dataGrid.setEmptyTableWidget(new Label("No data"));
 
-		pager = new SimplePager(TextLocation.CENTER, CotrixSimplePager.INSTANCE, false, 0, true);
+		pager = new SimplePager();
 		pager.setDisplay(dataGrid);
 		
 		dataGrid.addColumnSortHandler(new AsyncHandler(dataGrid));
@@ -221,7 +224,6 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 	
 	@UiHandler("searchBox")
 	protected void onValueChange(ValueChangeEvent<String> event) {
-		Log.trace("onKeyUp value: "+event.getValue());
 		updateFilter(event.getValue());
 	}
 	

@@ -1,6 +1,7 @@
 package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 
 import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
@@ -27,12 +28,15 @@ import com.google.web.bindery.event.shared.EventBus;
 @Singleton
 public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implements VisualWizardStep, SdmxMappingStepView.Presenter {
 
-	protected SdmxMappingStepView view;
-	protected EventBus publishBus;
-	protected PublishMetadata metadata;
-	protected AttributesMappings mappings;
-	protected Format formatType;
-	protected boolean showMetadata = false;
+	private SdmxMappingStepView view;
+	private EventBus publishBus;
+	private PublishMetadata metadata;
+	private AttributesMappings mappings;
+	private Format formatType;
+	private boolean showMetadata = false;
+	
+	@Inject
+	private AlertDialog alertDialog;
 
 	@Inject
 	public SdmxMappingStepPresenter(SdmxMappingStepView view, @PublishBus EventBus publishBus){
@@ -122,12 +126,12 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 	protected boolean validateAttributes(String csvName, String version)
 	{
 		if (csvName==null || csvName.isEmpty()) {
-			view.alert("You should choose a codelist name");
+			alertDialog.center("You should choose a codelist name");
 			return false;
 		}
 
 		if (version==null || version.isEmpty()) {
-			view.alert("You should specify a codelist version");
+			alertDialog.center("You should specify a codelist version");
 			return false;
 		}
 
@@ -139,14 +143,14 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 
 		for (AttributeMapping mapping:mappings.getCodelistAttributesMapping()) {
 			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().getLocalPart().isEmpty()) {
-				view.alert("don't leave elements blank, bin them instead");
+				alertDialog.center("don't leave elements blank, bin them instead");
 				return false;
 			}
 		}
 		
 		for (AttributeMapping mapping:mappings.getCodesAttributesMapping()) {
 			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().getLocalPart().isEmpty()) {
-				view.alert("don't leave elements blank, bin them instead");
+				alertDialog.center("don't leave elements blank, bin them instead");
 				return false;
 			}
 		}

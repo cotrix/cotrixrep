@@ -21,8 +21,8 @@
   	</dependency>
   	
   	<dependency>
-  		<groupId>org.cotrix</groupId>
-  		<artifactId>cotrix-domain</artifactId>
+  		<groupId>org.jboss.weld</groupId>
+  		<artifactId>weld-core</artifactId>
   	</dependency>
 
   </dependencies>

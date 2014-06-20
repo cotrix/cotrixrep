@@ -99,15 +99,6 @@ public class Codes {
 		return modifyDefinition(def.id());
 	}
 	
-	public static Definition deleteDefinition(String id) {
-		return new DefinitionMS(id,DELETED).entity();
-	}
-	
-	public static Definition delete(Definition def) {
-		notNull("definition",def);
-		return deleteDefinition(def.id());
-	}
-	
 	public static DefaultType valueType() {
 		return new DefaultType();
 	}
@@ -191,15 +182,6 @@ public class Codes {
 	public static CodelistLinkChangeClause modify(CodelistLink link) {
 		notNull("codelist link",link);
 		return modifyListLink(link.id());
-	}
-	
-	public static CodelistLink deleteListLink(String id) {
-		return new CodelistLinkMS(id, DELETED).entity();
-	}
-	
-	public static CodelistLink delete(CodelistLink link) {
-		notNull("codelist link",link);
-		return deleteListLink(link.id());
 	}
 	
 	//simplifies construction through method parameter inference (not available on constructors in Java 6..)

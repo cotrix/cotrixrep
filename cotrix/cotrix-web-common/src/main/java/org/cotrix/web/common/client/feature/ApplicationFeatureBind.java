@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.common.client.feature;
 
+import java.util.Set;
+
 import org.cotrix.web.common.client.feature.event.NewApplicationFeatureSetEvent;
 import org.cotrix.web.common.client.feature.event.NewApplicationFeatureSetEvent.NewApplicationFeatureSetHandler;
 import org.cotrix.web.common.shared.feature.UIFeature;
@@ -13,8 +15,8 @@ import org.cotrix.web.common.shared.feature.UIFeature;
  */
 public class ApplicationFeatureBind implements NewApplicationFeatureSetHandler {
 	
-	protected UIFeature feature;
-	protected HasFeature hasFeature;
+	private UIFeature feature;
+	private HasFeature hasFeature;
 
 	/**
 	 * @param feature
@@ -29,7 +31,11 @@ public class ApplicationFeatureBind implements NewApplicationFeatureSetHandler {
 	 */
 	@Override
 	public void onNewApplicationFeatureSet(NewApplicationFeatureSetEvent event) {
-		if (event.getFeatures().contains(feature)) hasFeature.setFeature();
+		newFeatures(event.getFeatures());
+	}
+	
+	public void newFeatures(Set<UIFeature> features) {
+		if (features.contains(feature)) hasFeature.setFeature();
 		else hasFeature.unsetFeature();
 	}
 }

@@ -29,43 +29,22 @@ public class SuggestListBox extends Composite implements HasValueChangeHandlers<
 	
 	private HorizontalPanel mainPanel;
 	private SuggestBox suggestBox;
-	private Button suggestButton;
+	private PushButton suggestButton;
 	
 	public SuggestListBox(SuggestOracle oracle) {
 		mainPanel = new HorizontalPanel();
 		mainPanel.setWidth("100%");
 		mainPanel.setStyleName(CommonResources.INSTANCE.css().listBox());
 		
-		/*
-		 * border-radius: 5px;
-background-color: #fafafa;
-box-shadow: 0 0 0 0;
-border: 1px solid #999;
-		 */
-		
-		
 		suggestBox = new SuggestBox(new SuggestOracleProxy(oracle));
 		suggestBox.setWidth("100%");
 		suggestBox.setStyleName(CommonResources.INSTANCE.css().sugestionListBoxTextBox());
 		mainPanel.add(suggestBox);
 		
-		/*
-		 * border: none;
-		 */
-		
-		suggestButton = new Button();
+		suggestButton = new PushButton(new Image(CommonResources.INSTANCE.selectArrow()));
 		suggestButton.setStyleName(CommonResources.INSTANCE.css().sugestionListBoxButton());
 		mainPanel.add(suggestButton);
-		//mainPanel.setCellWidth(suggestButton, "20px");
-		
-		/*
-		 * width: 19px;
-height: 27px;
-border: none;
-background: white;
--webkit-appearance: menulist;
-vertical-align: middle;
-		 */
+		mainPanel.setCellWidth(suggestButton, "12px");
 		
 		suggestButton.addClickHandler(new ClickHandler() {
 			
@@ -132,6 +111,8 @@ vertical-align: middle;
 	public String getValue() {
 		return suggestBox.getValue();
 	}
-	
 
+	public void setEnabled(boolean enabled) {
+		suggestBox.setEnabled(enabled);
+	}
 }

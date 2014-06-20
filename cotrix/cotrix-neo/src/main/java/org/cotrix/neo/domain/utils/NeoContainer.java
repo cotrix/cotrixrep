@@ -50,7 +50,6 @@ public class NeoContainer<S extends Identified.State & Named.State> implements N
 			Node n = rel.getEndNode();
 			if (id.equals(n.getProperty(id_prop))) {
 				NeoUtils.removeNode(n);
-				rel.delete();
 				break;
 			}
 		}

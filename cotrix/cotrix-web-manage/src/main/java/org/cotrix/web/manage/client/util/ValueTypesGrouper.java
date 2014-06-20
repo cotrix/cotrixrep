@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
 import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
@@ -45,7 +46,7 @@ public class ValueTypesGrouper {
 
 			@Override
 			public String getGroupKey(AttributeValue type) {
-				return type.getLanguage();
+				return type.getLanguage()==Language.NONE?null:type.getLanguage().toString();
 			}
 			
 

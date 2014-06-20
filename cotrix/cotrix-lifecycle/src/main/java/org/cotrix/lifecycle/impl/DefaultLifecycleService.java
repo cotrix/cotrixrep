@@ -2,6 +2,10 @@ package org.cotrix.lifecycle.impl;
 
 import static org.cotrix.common.Utils.*;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Any;
 import javax.inject.Inject;
@@ -90,6 +94,32 @@ public class DefaultLifecycleService implements LifecycleService {
 		lc.setEventProducer(event);
 		
 		return lc;
+	}
+	
+	@Override
+	public Map<String, Lifecycle> lifecyclesOf(Collection<String> ids) {
+		
+		notNull("resource identifiers",ids);
+		
+		Map<String,Lifecycle> lifecycles = new HashMap<String, Lifecycle>();
+		
+		if (ids.isEmpty())
+			return lifecycles;
+			
+		for (Map.Entry<String,ResumptionToken> tokenEntry : repository.lookup(ids).entrySet()) {
+			
+			ResumptionToken token = tokenEntry.getValue();
+			
+			LifecycleFactory factory = registry.get(token.name);
+			
+			Lifecycle lc = factory.create(tokenEntry.getKey(),token.state);
+					
+			lc.setEventProducer(event);
+			
+			lifecycles.put(lc.resourceId(), lc);
+		}
+		
+		return lifecycles;
 	}
 	
 	@Override

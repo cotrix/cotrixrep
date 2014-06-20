@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.common.client.factory;
 
+import java.util.List;
+
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
 
@@ -16,6 +18,8 @@ import com.google.inject.Singleton;
 public interface UIDefaults {
 	
 	public UIQName defaultType();
+	
+	public List<UIQName> defaultTypes();
 	
 	public UIRange defaultRange();
 	

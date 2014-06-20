@@ -5,18 +5,27 @@ import static org.cotrix.domain.dsl.Codes.*;
 
 import java.util.Calendar;
 
+import javax.enterprise.event.Observes;
 import javax.xml.namespace.QName;
 
+import org.cotrix.common.cdi.ApplicationEvents.Startup;
+import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.common.Range;
+import org.cotrix.domain.common.Ranges;
+import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.memory.AttributeMS;
+import org.cotrix.domain.user.User;
 import org.cotrix.domain.values.DefaultType;
 import org.cotrix.domain.values.ValueType;
 import org.cotrix.domain.version.Version;
+import org.jboss.weld.context.RequestContext;
 
 public class Constants {
 
+	private static User currentUser;
+	private static RequestContext requestContext;
+	
 	public static final String NS = "http://cotrix.org";
 	
 	
@@ -26,22 +35,31 @@ public class Constants {
 	public static final QName OTHER_CODE_TYPE = q(NS,"other_code");
 	public static final QName OTHER_TYPE = q(NS,"other");
 	public static final QName defaultType = DESCRIPTION_TYPE;
+	public static final QName[] defaultTypes = new QName[]{DESCRIPTION_TYPE, ANNOTATION_TYPE, NAME_TYPE, OTHER_CODE_TYPE, OTHER_TYPE};
 	public static final QName SYSTEM_TYPE = q(NS,"system");
 	
 	public static final QName NAME = q(NS,"name");
+	
 	public static final QName CREATION_TIME = q(NS,"created");
 	public static final QName UPDATE_TIME = q(NS,"updated");
+	public static final QName UPDATED_BY = q(NS,"updatedBy");
+	
 	public static final QName PREVIOUS_VERSION = q(NS,"previous_version");
 	public static final QName PREVIOUS_VERSION_ID = q(NS,"previous_version_id");
 	public static final QName PREVIOUS_VERSION_NAME = q(NS,"previous_version_name");
+	public static final QName SUPERSIDES = q(NS,"supersides");
 	
-	public static final QName INVALID = q(NS,"invalid");
+	public static final QName STATUS = q(NS,"status");
 	
 	public static final ValueType defaultValueType = new DefaultType();
 	public static final Range defaultRange = Ranges.arbitrarily;
 	
 	public static Attribute.State timestamp(QName name) {
-		return systemAttribute(name, getDateTimeInstance().format(Calendar.getInstance().getTime()));
+		return systemAttribute(name, time());
+	}
+	
+	public static String time() {
+		return getDateTimeInstance().format(Calendar.getInstance().getTime());
 	}
 	
 	public static Attribute.State previousName(QName name) {
@@ -56,6 +74,22 @@ public class Constants {
 		return systemAttribute(PREVIOUS_VERSION,version.value());
 	}
 	
+	public static Attribute status(CodeStatus status) {
+		return systemAttribute(STATUS,status.name()).entity();
+	}
+	
+	public static Attribute.State updatedBy() {
+		return systemAttribute(UPDATED_BY, currentUser());
+	}
+	
+	public static void updatedBy(Attribute.State state) {
+		state.value(currentUser());
+	}
+	
+	
+	private static String currentUser() {
+		return requestContext.isActive()?currentUser.name():Users.cotrix.name();
+	}
 	
 	
 	private static Attribute.State systemAttribute(QName name, String value) {
@@ -74,4 +108,12 @@ public class Constants {
 	public static final QName NULL_QNAME = q("__ignore__");
 	
 	public static final String NO_MAIL = "no@cotrix.mail";
+	
+
+	
+	static void setUser(@Observes Startup startup,@Current User user, @Current RequestContext context) {
+		
+		currentUser = user;
+		requestContext = context;
+	}
 }

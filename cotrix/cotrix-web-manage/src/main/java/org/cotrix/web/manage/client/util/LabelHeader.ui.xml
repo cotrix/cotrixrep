@@ -14,6 +14,11 @@
 		cursor: pointer;
 	}
 	
+	.headerTable {
+		 table-layout: fixed;
+		 width: 100%;
+	}
+	
 	.headerBox {
 		float: left;
 		vertical-align: middle;
@@ -26,19 +31,34 @@
 	}
 	
 	.headerSelected {
-		color: #097bfb !important;
+		color: #4A91D9 !important;
 	}
 	
 	.bullet {
 		margin-left: 5px;
-		padding: 1px;
+		padding-bottom: 3px;
+	}
+	
+	.headerContainer {
+		text-align: left;
+		font-size: 14px;
+		vertical-align: middle;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		width: 100%;
+		display: block;
+		height: 20px;
+		margin-top: 3px;
+
 	}
 	
 	.headerLabel {
+		color: #5674b9;
+	}
+	
+	.headerLabelValue {
 		color: #5A5A5A;
-		font-size: 14px;
-		text-align: left;
-		vertical-align: middle;
 	}
 	
 	.buttons {
@@ -53,12 +73,12 @@
 	}
 	</ui:style>
 	<g:HTMLPanel styleName="{style.header}">
-		<table width="100%">
+		<table class="{style.headerTable}">
 			<tr>
 				<td ui:field="images" style="vertical-align:middle;padding-left: 5px;">
 					<g:DeckPanel ui:field="labelControls" >
 						<g:Image ui:field="bullet" resource="{resources.bullet}"
-							styleName="{style.bullet}" />
+							styleName="{style.bullet}" width="8px" height="8px"/>
 						<g:ToggleButton ui:field="switchButton" styleName="{style.button}">
 							<g:upFace image="{resources.table}" />
 							<g:downFace image="{resources.tableDisabled}" />
@@ -67,10 +87,13 @@
 				</td>
 				<td>
 					<g:FocusPanel ui:field="headerBox" styleName="{style.headerBox}">
-						<g:InlineLabel ui:field="headerLabel" styleName="{style.headerLabel}" />
+						<g:FlowPanel styleName="{style.headerContainer}">
+							<g:InlineLabel ui:field="headerLabel" styleName="{style.headerLabel}" />
+							<g:InlineLabel ui:field="headerLabelValue" styleName="{style.headerLabelValue}"/>
+						</g:FlowPanel>
 					</g:FocusPanel>
 				</td>
-				<td width="48px" style="vertical-align:middle;">
+				<td ui:field="controlsCell" width="48px" style="vertical-align:middle;">
 					<g:FlowPanel styleName="{style.buttons}">
 						<g:DeckPanel ui:field="controls">
 							<g:PushButton ui:field="edit" styleName="{style.button}">

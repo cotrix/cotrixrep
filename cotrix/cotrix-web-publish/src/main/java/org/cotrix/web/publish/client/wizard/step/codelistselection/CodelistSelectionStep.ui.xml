@@ -1,32 +1,50 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
-	xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client"
+	xmlns:w="urn:import:org.cotrix.web.common.client.widgets">
 	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
 		field="common" />
 	<ui:style>
 		.mainPanel {
 			width: 100%;
 		}
+			
+		.filterPanel {
+			padding: 2px;
+		}
 		.datagrid > table {
 			margin: 0 auto !important;
 
-		}
-		.pagerPanel {
-			margin: 0 auto;
 		}
 	</ui:style>
 
 	<g:DockLayoutPanel unit='PX' ui:field="reportPanel"
 		styleName="{style.mainPanel}">
-
+		
+		<g:north size='40'>
+			<g:HTMLPanel styleName="{style.filterPanel}">
+				<table width="100%">
+					<tr>
+						<td>
+							<w:SearchBox ui:field="searchBox" changeDelay="200" />
+						</td>
+					</tr>
+				</table>
+			</g:HTMLPanel>
+		</g:north>
 		<g:center>
 			<c:PatchedDataGrid ui:field='dataGrid' styleName="{style.datagrid}"/>
 		</g:center>
 		<g:south size="40">
-			<g:HTMLPanel>
-				<c:SimplePager ui:field='pager' styleName="{style.pagerPanel}" />
-			</g:HTMLPanel>
+			<w:AdvancedPagerLayout>
+				<w:pager>
+					<c:SimplePager ui:field='pager' />
+				</w:pager>
+				<w:pagesizer>
+					<w:PageSizer ui:field="pageSizer" />
+				</w:pagesizer>
+			</w:AdvancedPagerLayout>
 		</g:south>
 	</g:DockLayoutPanel>
 </ui:UiBinder> 

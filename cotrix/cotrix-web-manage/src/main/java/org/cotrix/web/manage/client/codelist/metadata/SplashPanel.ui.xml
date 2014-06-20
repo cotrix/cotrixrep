@@ -1,0 +1,118 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.metadata">
+	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
+		field="common" />
+	<ui:with
+		type="org.cotrix.web.manage.client.resources.CotrixManagerResources"
+		field="resources" />
+	<ui:style>
+	
+	.mainPanel {
+		width: 100%;
+		height: 100%;
+
+	}
+	
+	.profilePanel {
+		margin: 23px;
+	}
+	
+	.icon {
+		text-align: right;
+		padding-right: 20px;
+	}
+	
+	.nameTable {
+		 table-layout: fixed;
+		 width: 100%;
+	}
+	
+	.name {
+		font-size: 37px !important;
+		height: 42px !important;
+		color: #5674b9;
+		
+		/* truncate long text*/
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	.version {
+		font-size: 24px;
+		color: grey;
+		text-align: left;
+	}
+	
+	.versionNumber {
+		font-size: 24px;
+		color: orange;
+		text-align: left;
+	}
+	
+	.state {
+		padding-top: 9px;
+		font-size: 20px;
+		color: #5674b9;
+	}
+
+	.attributeTypes {
+		margin-left: 100px;
+		margin-right: 100px;
+		
+		margin-top: 25px;
+		margin-bottom: 40px;
+	}
+	
+	.linkTypesPanel {
+		margin-left: 100px;
+		margin-right: 100px;
+		
+		margin-bottom: 5px;
+	}
+	</ui:style>
+	<g:SimpleLayoutPanel>
+		<g:ScrollPanel styleName="{style.mainPanel}">
+			<g:VerticalPanel width="100%">
+				<g:HTMLPanel styleName="{style.profilePanel}">
+					<table width="100%">
+						<tr>
+							<td style="text-align:right;vertical-align:top;">
+								<table style="width: 200px;">
+									<tr>
+										<td class="{style.icon}">
+											<g:Image resource="{resources.splash}" />
+										</td>
+									</tr>
+								</table>
+							</td>
+							<td style="vertical-align:top;width:100%;">
+								<table class="{style.nameTable}">
+									<tr>
+										<td>
+											<g:Label ui:field="name" styleName="{style.name}" />
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span class="{style.version}">version </span>
+											<g:InlineLabel ui:field="version" styleName="{style.versionNumber}" />
+										</td>
+									</tr>
+									<tr>
+										<td class="{style.state}">
+											<g:Label ui:field="state" title="The current status of this version" />
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</g:HTMLPanel>
+				<v:AttributeTypesPanel ui:field="attributeTypesPanel" styleName="{style.attributeTypes}" />
+				<v:LinkTypesPanel ui:field="linkTypesPanel" styleName="{style.linkTypesPanel}"/>
+			</g:VerticalPanel>
+		</g:ScrollPanel>
+	</g:SimpleLayoutPanel>
+</ui:UiBinder> 

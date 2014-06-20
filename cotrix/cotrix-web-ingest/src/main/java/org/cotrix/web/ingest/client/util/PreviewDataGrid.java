@@ -10,9 +10,11 @@ import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.util.CachedDataProvider;
-import org.cotrix.web.common.client.widgets.EditableTextHeader;
+import org.cotrix.web.common.client.widgets.AdvancedPagerLayout;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
-import org.cotrix.web.common.client.widgets.StyledTextInputCell;
+import org.cotrix.web.common.client.widgets.PageSizer;
+import org.cotrix.web.common.client.widgets.cell.EditableTextHeader;
+import org.cotrix.web.common.client.widgets.cell.StyledTextInputCell;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.ingest.client.resources.Resources;
 import org.cotrix.web.ingest.shared.PreviewHeaders;
@@ -28,7 +30,6 @@ import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.view.client.Range;
 
 
@@ -65,9 +66,15 @@ public class PreviewDataGrid extends LoadingPanel {
 
 		DockLayoutPanel layoutPanel = new DockLayoutPanel(Unit.PX);
 		layoutPanel.setWidth("100%");
-		SimplePanel pagerContainer = new SimplePanel(pager);
-		pagerContainer.setWidth("100%");
-		layoutPanel.addSouth(pagerContainer, 40);
+		
+		AdvancedPagerLayout pagerLayout = new AdvancedPagerLayout();
+		pagerLayout.addPager(pager);
+		
+		PageSizer pageSizer = new PageSizer();
+		pageSizer.setDisplay(previewGrid);
+		pagerLayout.addPageSizer(pageSizer);
+		
+		layoutPanel.addSouth(pagerLayout, 40);
 		layoutPanel.add(previewGrid);
 		initWidget(layoutPanel);
 		setWidth("100%");
@@ -155,7 +162,9 @@ public class PreviewDataGrid extends LoadingPanel {
 			column.setSortable(false);
 
 			if (headers.isEditable()) {
-				EditableTextHeader header = new EditableTextHeader(new StyledTextInputCell(CommonResources.INSTANCE.css().textBox()+ " "+Resources.INSTANCE.css().previewHeader()), headerLabel);
+				StyledTextInputCell cell = new StyledTextInputCell(CommonResources.INSTANCE.css().textBox()+ " "+Resources.INSTANCE.css().previewHeader());
+				cell.setTitle("Rename this column.");
+				EditableTextHeader header = new EditableTextHeader(cell, headerLabel);
 				editableHeaders.add(header);
 				previewGrid.addColumn(column, header);
 			} else {

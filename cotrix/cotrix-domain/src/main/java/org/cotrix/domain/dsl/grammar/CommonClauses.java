@@ -33,7 +33,7 @@ public class CommonClauses {
 		 * @param attributes the attributes
 		 * @return the next clause in the sentence
 		 */
-		C attributes(List<Attribute> attributes);
+		C attributes(Collection<Attribute> attributes);
 	}
 	
 	public static interface LinksClause<T,C> {

@@ -195,10 +195,24 @@
 			</dependencies>
 
 		</profile>
+		
 
+		<!-- adds neo to current profile -->		
+		<profile>
 
+			<id>neo</id>
 
+			<dependencies>
 
+				<dependency>
+					<groupId>org.cotrix</groupId>
+					<artifactId>cotrix-neo</artifactId>
+				</dependency>
+
+			</dependencies>
+
+		</profile>
+		
 		<!-- no plugins, no persistence, staging -->
 		<profile>
 

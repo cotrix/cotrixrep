@@ -33,7 +33,7 @@ public class PreviewStepViewImpl extends ResizeComposite implements PreviewStepV
 	
 	@Inject
 	private void init() {
-		this.preview = new PreviewDataGrid(dataProvider,12);
+		this.preview = new PreviewDataGrid(dataProvider, 25);
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

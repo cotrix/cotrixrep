@@ -26,7 +26,7 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("service/publishService")
 public interface PublishService extends RemoteService {
 	
-	public DataWindow<UICodelist> getCodelists(Range range, ColumnSortInfo sortInfo, boolean force) throws ServiceException;
+	public DataWindow<UICodelist> getCodelists(Range range, ColumnSortInfo sortInfo, String query, boolean force) throws ServiceException;
 	
 	public DataWindow<ReportLog> getReportLogs(Range range) throws ServiceException;
 
@@ -40,7 +40,7 @@ public interface PublishService extends RemoteService {
 
 	public Progress getPublishProgress() throws ServiceException;
 	
-	public DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, boolean force) throws ServiceException;
+	public DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, String query, boolean force) throws ServiceException;
 	
 	public RepositoryDetails getRepositoryDetails(UIQName repositoryId) throws ServiceException;
 

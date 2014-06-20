@@ -14,8 +14,8 @@ import org.cotrix.web.common.client.feature.ValueBoxEditing;
 import org.cotrix.web.common.client.feature.InstanceFeatureBind.IdProvider;
 import org.cotrix.web.common.client.util.AccountValidator;
 import org.cotrix.web.common.client.util.StatusUpdates;
-import org.cotrix.web.common.client.widgets.AlertDialog;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.UIUser;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.users.client.ModuleActivactedEvent;
@@ -81,6 +81,9 @@ public class ProfilePanel extends LoadingPanel {
 	
 	@Inject
 	protected UserIdProvider userIdProvider;	
+	
+	@Inject
+	private FeatureBinder featureBinder;
 
 	@Inject
 	protected void init(ProfilePanelUiBinder uiBinder) {
@@ -107,9 +110,9 @@ public class ProfilePanel extends LoadingPanel {
 			}
 		});
 		
-		FeatureBinder.bind(new ValueBoxEditing<String>(fullname), userIdProvider, PermissionUIFeatures.EDIT_PROFILE);
-		FeatureBinder.bind(new ValueBoxEditing<String>(email), userIdProvider, PermissionUIFeatures.EDIT_PROFILE);
-		FeatureBinder.bind(new HasVisibleFeature(password), userIdProvider, PermissionUIFeatures.CHANGE_PASSWORD);
+		featureBinder.bind(new ValueBoxEditing<String>(fullname), userIdProvider, PermissionUIFeatures.EDIT_PROFILE);
+		featureBinder.bind(new ValueBoxEditing<String>(email), userIdProvider, PermissionUIFeatures.EDIT_PROFILE);
+		featureBinder.bind(new HasVisibleFeature(password), userIdProvider, PermissionUIFeatures.CHANGE_PASSWORD);
 	}
 	
 	@Inject

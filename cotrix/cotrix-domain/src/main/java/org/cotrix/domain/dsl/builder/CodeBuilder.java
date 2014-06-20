@@ -5,7 +5,6 @@ import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -64,7 +63,7 @@ public final class CodeBuilder implements CodeNewClause, CodeChangeClause {
 	}
 	
 	@Override
-	public CodeBuilder attributes(List<Attribute> attributes) {
+	public CodeBuilder attributes(Collection<Attribute> attributes) {
 		
 		state.attributes(reveal(attributes,Attribute.Private.class));
 		

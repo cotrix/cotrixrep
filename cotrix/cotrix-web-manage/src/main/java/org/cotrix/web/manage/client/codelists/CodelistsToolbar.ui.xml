@@ -55,6 +55,7 @@
 						<g:PushButton ui:field="plus" styleName="{style.plusButton}"
 							title="Add a new codelist">
 							<g:upFace image="{common.plus}" />
+							<g:upDisabledFace image="{common.plusDisabled}" />
 						</g:PushButton>
 					</td>
 					<td class="{style.cell}">
@@ -68,6 +69,7 @@
 						<g:PushButton ui:field="minus" styleName="{style.minusButton}"
 							title="Remove the selected codelist">
 							<g:upFace image="{common.minus}" />
+							<g:upDisabledFace image="{common.minusDisabled}" />
 						</g:PushButton>
 					</td>
 				</tr>

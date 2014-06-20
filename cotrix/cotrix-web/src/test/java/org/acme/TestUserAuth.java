@@ -17,7 +17,7 @@ import org.cotrix.web.client.dialog.RegisterDialog;
 import org.cotrix.web.client.userbar.UserBarPresenter;
 import org.cotrix.web.client.userbar.UserBarView;
 import org.cotrix.web.client.userbar.UserController;
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.common.shared.Error;
 import org.cotrix.web.common.shared.exception.IllegalActionException;
 import org.cotrix.web.common.shared.exception.ServiceException;

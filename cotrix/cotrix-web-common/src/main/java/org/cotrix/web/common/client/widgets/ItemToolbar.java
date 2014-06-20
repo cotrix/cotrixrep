@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.common.client.widgets;
 
-import org.cotrix.web.common.client.util.FadeAnimation;
 import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 
 import com.google.gwt.core.client.GWT;
@@ -33,14 +32,9 @@ public class ItemToolbar extends Composite {
 	
 	@UiField PushButton plus;
 	@UiField PushButton minus;
-	
-	protected FadeAnimation plusAnimation;
-	protected FadeAnimation minusAnimation;
 
 	public ItemToolbar() {
 		initWidget(uiBinder.createAndBindUi(this));
-		plusAnimation = new FadeAnimation(plus.getElement());
-		minusAnimation = new FadeAnimation(minus.getElement());
 	}
 
 	@UiHandler("plus")
@@ -62,21 +56,27 @@ public class ItemToolbar extends Composite {
 	
 	public void setVisible(ItemButton button, boolean visible, boolean animation)
 	{
-		if (animation) setVisible(button, visible);
-		else setVisible(button, visible, Speed.IMMEDIATE);
+		setVisible(button, visible);
+		/*if (animation) setVisible(button, visible);
+		else setVisible(button, visible, Speed.IMMEDIATE);*/
 	}
 
 	public void setVisible(ItemButton button, boolean visible)
 	{
-		setVisible(button, visible, Speed.FAST);
+		switch (button) {
+			case MINUS: minus.setEnabled(visible); break;
+			case PLUS: plus.setEnabled(visible); break;
+		}
+		/*setVisible(button, visible, Speed.FAST);*/
 	}
 	
 	public void setVisible(ItemButton button, boolean visible, Speed speed)
 	{
-		switch (button) {
+		setVisible(button, visible);
+		/*switch (button) {
 			case MINUS: minusAnimation.setVisibility(visible, speed); break;
 			case PLUS: plusAnimation.setVisibility(visible, speed); break;
-		}
+		}*/
 	}
 	
 

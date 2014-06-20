@@ -34,6 +34,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	
 	@UiField AdvancedTextBox nameBox;
 	@UiField AdvancedTextBox typeBox;
+	@UiField AdvancedTextBox descriptionBox;
 	@UiField LanguageListBox languageBox;
 	@UiField AdvancedTextBox valueBox;
 	
@@ -53,7 +54,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 		this.listener = listener;
 	}
 
-	@UiHandler({"nameBox","typeBox","valueBox"})
+	@UiHandler({"nameBox","typeBox","descriptionBox","valueBox"})
 	protected void onKeyDown(KeyDownEvent event)
 	{
 		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
@@ -78,12 +79,13 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	}
 	
 	protected void doEdit() {
-		if (listener!=null) listener.onEdit(nameBox.getText(), typeBox.getText(), languageBox.getValue(), valueBox.getText());
+		if (listener!=null) listener.onEdit(nameBox.getText(), typeBox.getText(), descriptionBox.getText(), languageBox.getValue(), valueBox.getText());
 	}
 
 	protected void cleanValidation() {
 		nameBox.setStyleName(resources.css().dialogTextboxInvalid(), false);
 		typeBox.setStyleName(resources.css().dialogTextboxInvalid(), false);
+		descriptionBox.setStyleName(resources.css().dialogTextboxInvalid(), false);
 		languageBox.setStyleName(resources.css().dialogTextboxInvalid(), false);
 		valueBox.setStyleName(resources.css().dialogTextboxInvalid(), false);
 	}
@@ -116,9 +118,10 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	}
 
 	@Override
-	public void set(String name, String type, Language language, String value) {
+	public void set(String name, String type, String description, Language language, String value) {
 		nameBox.setText(name);
 		typeBox.setText(type);
+		descriptionBox.setText(description);
 		languageBox.setValue(language);
 		valueBox.setText(value);
 		cleanValidation();

@@ -1,5 +1,7 @@
 package org.cotrix.web.manage.client.resources;
 
+import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
@@ -23,6 +25,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	@Source("attributeRow.css")
 	public AttributeRowStyle attributeRow();
+	
+	@Source("detailsPanel.css")
+	public DetailsPanelStyle detailsPanelStyle();
 	
 	public ImageResource table();
 	
@@ -48,20 +53,25 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource seal();
 	public ImageResource sealDisabled();
 	
+	public ImageResource metadata();
+	public ImageResource codes();
+	
+	public ImageResource splash();
+	
 	public ImageResource attributesSelected();
 	public ImageResource attributesUnselected();
 	public ImageResource attributesDisabled();
 	
 	public ImageResource filter();
 	public ImageResource filterDisabled();
-	
+
 	public ImageResource linksSelected();
 	public ImageResource linksUnselected();
 	public ImageResource linksDisabled();
 	
-	public ImageResource attributeTypesSelected();
-	public ImageResource attributeTypesUnselected();
-	public ImageResource attributeTypesDisabled();
+	public ImageResource linksTypes();
+	
+	public ImageResource attributeTypes();
 	
 	@Source("thumb_vertical.png")
 	public ImageResource thumbVertical();
@@ -80,12 +90,24 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource addButton();
 	public ImageResource addButtonHover();
 	
+	public ImageResource lockBullet();
+	public ImageResource pencilBullet();
+	public ImageResource stopBullet();
+	
+	public ImageResource showMenu();
+	public ImageResource showMenuHover();
+	public ImageResource radioBullet();
+	public ImageResource checkBullet();
+	
 	interface CotrixManagerStyle extends CssResource {
 		String editor();
 		String systemProperty();
 		String addButton();
+		String addLabel();
+		String addLabelCell();
 		String headerCode();
 		String noItemsBackground();
+		String noItemsLabel();
 		String systemAttributeDisclosurePanelLabel();
 	}
 	

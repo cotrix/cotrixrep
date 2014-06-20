@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.cotrix.domain.validation.Validator;
 import org.cotrix.domain.validation.Validators;
-import org.cotrix.web.manage.client.codelist.attributetype.constraint.MetaConstraint;
+import org.cotrix.web.manage.client.codelist.metadata.attributetype.constraint.MetaConstraint;
 
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;

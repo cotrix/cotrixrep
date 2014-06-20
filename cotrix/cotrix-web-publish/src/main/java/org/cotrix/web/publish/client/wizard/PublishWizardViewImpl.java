@@ -6,7 +6,8 @@ import java.util.Map;
 
 import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.widgets.ProgressDialog;
+import org.cotrix.web.common.client.widgets.HasMinHeight;
+import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
@@ -19,9 +20,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -32,7 +33,7 @@ import org.cotrix.web.common.shared.Error;
  *
  */
 @Singleton
-public class PublishWizardViewImpl extends ResizeComposite implements PublishWizardView {
+public class PublishWizardViewImpl extends Composite implements PublishWizardView, HasMinHeight {
 
 	@UiTemplate("PublishWizard.ui.xml")
 	interface PublishWizardUiBinder extends UiBinder<Widget, PublishWizardViewImpl> {}
@@ -186,6 +187,12 @@ public class PublishWizardViewImpl extends ResizeComposite implements PublishWiz
 	@Override
 	public void showError(Error error) {
 		errorManager.showError(error);
+	}
+	
+
+	@Override
+	public int getMinHeight() {
+		return 670;
 	}
 
 }

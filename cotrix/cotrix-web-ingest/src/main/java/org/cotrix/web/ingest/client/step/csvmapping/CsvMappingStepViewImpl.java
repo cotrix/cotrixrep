@@ -2,7 +2,7 @@ package org.cotrix.web.ingest.client.step.csvmapping;
 
 import java.util.List;
 
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.ingest.client.util.MappingPanel;
 import org.cotrix.web.ingest.client.util.MappingPanel.MappingPanelHandler;
 import org.cotrix.web.ingest.shared.AttributeMapping;

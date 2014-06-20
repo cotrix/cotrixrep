@@ -110,6 +110,5 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			codes().update(changeset.codes());
 		
 		}
-		
 	}
 }

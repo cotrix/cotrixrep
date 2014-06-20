@@ -1,13 +1,9 @@
 package org.cotrix.domain.memory;
 
-import static java.text.DateFormat.*;
 import static org.cotrix.common.Utils.*;
 import static org.cotrix.domain.utils.Constants.*;
 
-import java.util.Calendar;
 import java.util.Collection;
-
-import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.NamedStateContainer;
@@ -32,17 +28,6 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 				attributes.add(new AttributeMS(state));
 	}
 	
-	// helpers
-	private Attribute.State timestamp(QName name) {
-
-		AttributeMS state = new AttributeMS();
-		state.name(name);
-		String value = getDateTimeInstance().format(Calendar.getInstance().getTime());
-		state.value(value);
-		state.type(SYSTEM_TYPE);
-		return state;
-
-	}
 	@Override
 	public NamedStateContainer<Attribute.State> attributes() {
 		return attributes;

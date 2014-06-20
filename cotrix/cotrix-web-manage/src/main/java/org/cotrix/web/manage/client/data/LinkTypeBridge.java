@@ -4,10 +4,10 @@
 package org.cotrix.web.manage.client.data;
 
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
-import org.cotrix.web.manage.client.codelist.attribute.event.AttributesUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.common.attribute.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.data.DataSaverManager.CommandBridge;
 import org.cotrix.web.manage.client.data.event.EditType;
-import org.cotrix.web.manage.client.event.EditorBus;
+import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.shared.modify.GenericCommand.Action;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
@@ -24,8 +24,8 @@ import com.google.web.bindery.event.shared.EventBus;
 public class LinkTypeBridge implements CommandBridge<UILinkType> {
 	
 	@Inject
-	@EditorBus 
-	private EventBus editorBus;
+	@CodelistBus 
+	private EventBus codelistBus;
 	
 	@Override
 	public Class<UILinkType> getType() {
@@ -57,7 +57,7 @@ public class LinkTypeBridge implements CommandBridge<UILinkType> {
 		//update the attributes
 		localLinkType.setAttributes(updatedLinkType.getAttributes());
 		
-		editorBus.fireEvent(new AttributesUpdatedEvent(localLinkType));
+		codelistBus.fireEvent(new AttributesUpdatedEvent(localLinkType));
 	}
 
 }

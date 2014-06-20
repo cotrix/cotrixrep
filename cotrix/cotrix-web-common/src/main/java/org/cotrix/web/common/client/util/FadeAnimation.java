@@ -20,6 +20,10 @@ import com.google.gwt.user.client.Element;
  */
 public class FadeAnimation extends Animation {
 	
+	public interface AnimationListener {
+		public void onComplete();
+	}
+	
 	public enum Speed {
 		IMMEDIATE(0),
 		VERY_FAST(500),
@@ -54,17 +58,30 @@ public class FadeAnimation extends Animation {
 	
 	private double visibleOpacity;
 	private double invisibleOpacity;
+	
+	private boolean setDisplayProperty = false;
+	private String oldDisplayValue;
+	
+	private AnimationListener listener;
 
 	public FadeAnimation(Element element) {
-		this.element = element;
-		this.visibleOpacity = VISIBLE_OPACITY;
-		this.invisibleOpacity = INVISIBLE_OPACITY;
+		this(element, VISIBLE_OPACITY, INVISIBLE_OPACITY, false);
+	}
+	
+	public FadeAnimation(Element element, boolean setDisplayProperty) {
+		this(element, VISIBLE_OPACITY, INVISIBLE_OPACITY, setDisplayProperty);
 	}
 	
 	public FadeAnimation(Element element, double visibleOpacity, double invisibleOpacity) {
+		this(element, VISIBLE_OPACITY, INVISIBLE_OPACITY, false);
+	}
+	
+	public FadeAnimation(Element element, double visibleOpacity, double invisibleOpacity, boolean setDisplayProperty) {
 		this.element = element;
+		this.oldDisplayValue = element.getStyle().getDisplay();
 		this.visibleOpacity = visibleOpacity;
 		this.invisibleOpacity = invisibleOpacity;
+		this.setDisplayProperty = setDisplayProperty;
 	}
 
 	@Override
@@ -76,10 +93,28 @@ public class FadeAnimation extends Animation {
 	protected void onComplete() {
 		super.onComplete();
 		element.getStyle().setOpacity(targetOpacity);
-		if (targetOpacity == VISIBLE_OPACITY) element.getStyle().setVisibility(Visibility.VISIBLE);
-		if (targetOpacity == INVISIBLE_OPACITY) element.getStyle().setVisibility(Visibility.HIDDEN);
+		
+		if (targetOpacity == VISIBLE_OPACITY) {
+			element.getStyle().setVisibility(Visibility.VISIBLE);
+		}
+		
+		if (targetOpacity == INVISIBLE_OPACITY) {
+			element.getStyle().setVisibility(Visibility.HIDDEN);
+			if (setDisplayProperty) element.getStyle().setProperty("display", "none");
+		}
+		
+		
+		if (listener!=null) listener.onComplete();
 	}
 	
+	public AnimationListener getListener() {
+		return listener;
+	}
+
+	public void setListener(AnimationListener listener) {
+		this.listener = listener;
+	}
+
 	public void setVisibility(boolean visible, Speed speed)
 	{
 		if (!(visible ^ isElementVisible())) return;
@@ -114,6 +149,7 @@ public class FadeAnimation extends Animation {
 	public void fadeIn(double startingOpacity, Speed speed)
 	{
 		cancel();
+		if (setDisplayProperty) element.getStyle().setProperty("display", oldDisplayValue);
 		element.getStyle().setOpacity(startingOpacity);
 		element.getStyle().setVisibility(Visibility.VISIBLE);
 		fade(speed.getTime(), 1);

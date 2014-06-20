@@ -27,6 +27,12 @@
 	text-align: left;
 }
 
+.mappingAttributeNoAttributeCell {
+	text-align: center;
+	vertical-align: middle;
+	height: 50px;
+}
+
 @sprite .buttonCsv {
 	gwt-image: "csv";
 	background-position: 22px 50%;
@@ -78,7 +84,7 @@
 }
 
 @sprite .buttonComet {
-	gwt-image: "sdmx";
+	gwt-image: "comet";
 	background-position: 22px 50%;
 	background-color: #ddd;
 	border: 1px solid #ccc;
@@ -93,7 +99,7 @@
 }
 
 @sprite .buttonComet:hover {
-	gwt-image: "sdmxHover";
+	gwt-image: "cometHover";
 	background-position: 22px 50%;
 	background-color: #5674b9;
 	color: #fff;

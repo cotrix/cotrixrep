@@ -4,29 +4,28 @@ import static java.lang.Math.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Constants.*;
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
-import static org.cotrix.repository.CodelistSummary.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
-import javax.xml.namespace.QName;
 
 import org.cotrix.common.Utils;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.memory.CodelistLinkMS;
+import org.cotrix.domain.memory.DefinitionMS;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
@@ -36,6 +35,8 @@ import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
+import org.cotrix.repository.UpdateAction;
+import org.cotrix.repository.spi.CodelistActionFactory;
 import org.cotrix.repository.spi.CodelistQueryFactory;
 
 /**
@@ -45,9 +46,8 @@ import org.cotrix.repository.spi.CodelistQueryFactory;
  * 
  */
 @ApplicationScoped @Alternative @Priority(DEFAULT)
-public class MCodelistRepository extends MemoryRepository<Codelist.State> implements CodelistQueryFactory {
+public class MCodelistRepository extends MemoryRepository<Codelist.State> implements CodelistQueryFactory, CodelistActionFactory {
 
-	
 	
 	@Override
 	public void remove(String id) {
@@ -62,6 +62,88 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		super.remove(id);
 	}
 	
+	
+	
+	
+	// actions
+	
+	@Override
+	public UpdateAction<Codelist> deleteDefinition(final String definitionId) {
+		
+		return new UpdateAction<Codelist>() {
+			@Override
+			public void performOver(Codelist list) {
+				
+				if (!list.definitions().contains(definitionId))
+					throw new IllegalArgumentException("no attribute definition "+definitionId+" in list "+list.id()+" ("+list.name()+")");
+				
+					
+				Definition def = list.definitions().lookup(definitionId);
+				
+				for (Code code : list.codes()) {
+					Collection<Attribute> changesets = new ArrayList<>(); 
+					for (Attribute a : code.attributes())
+						if(a.definition().id().equals(def.id()))
+							changesets.add(delete(a));
+					
+					reveal(code).update(reveal(modify(code).attributes(changesets).build()));
+				}
+				
+				Definition changeset = new DefinitionMS(def.id(),DELETED).entity();
+				
+				reveal(list).update(reveal(modify(list).definitions(changeset).build()));
+				
+			}
+			
+			public String toString() {
+				return "action [delete definition "+definitionId;
+			}
+		};
+	}
+	
+
+	@Override
+	public UpdateAction<Codelist> deleteCodelistLink(final String linkId) {
+		
+		return new UpdateAction<Codelist>() {
+			@Override
+			public void performOver(Codelist list) {
+				
+				if (!list.links().contains(linkId))
+					throw new IllegalArgumentException("no link definition "+linkId+" in list "+list.id()+" ("+list.name()+")");
+				
+					
+				CodelistLink type= list.links().lookup(linkId);
+				
+				for (Code code : list.codes()) {
+					Collection<Codelink> changesets = new ArrayList<>(); 
+					for (Codelink l : code.links())
+						if(l.type().id().equals(type.id()))
+							changesets.add(delete(l));
+					
+					reveal(code).update(reveal(modify(code).links(changesets).build()));
+				}
+				
+				CodelistLink changeset = new CodelistLinkMS(type.id(),DELETED).entity();
+				
+				reveal(list).update(reveal(modify(list).links(changeset).build()));
+				
+			}
+			
+			public String toString() {
+				return "action [delete definition "+linkId;
+			}
+		};
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	///queries
 	
 	@Override
 	public MultiQuery<Codelist, Codelist> allLists() {
@@ -140,28 +222,9 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 				if (state == null)
 					throw new IllegalStateException("no such codelist: " + id);
 
-				int size = state.codes().size();
-
 				Codelist list = state.entity();
 				
-				Collection<Attribute> attributes = new ArrayList<Attribute>();
-				
-				for (Attribute a : list.attributes())
-					if (!a.type().equals(SYSTEM_TYPE))
-						attributes.add(a);
-
-				Collection<CodelistLink> links = new ArrayList<CodelistLink>();
-				
-				for (CodelistLink l : list.links())
-					links.add(l);
-
-				
-				Map<QName, Map<QName, Set<String>>> fingerprint = new HashMap<QName, Map<QName, Set<String>>>();
-
-				for (Code c : list.codes())
-					addAttributesToFingerprint(fingerprint, c.attributes());
-
-				return new CodelistSummary(list.name(), size, attributes, links, fingerprint);
+				return new CodelistSummary(list);
 			}
 		};
 	}
@@ -319,7 +382,8 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 	// helper
 	@SuppressWarnings("all")
-	private static <R> MCriterion<R> reveal(Criterion<R> criterion) {
+	private static <R> MCriterion<R> revealCriterion(Criterion<R> criterion) {
 		return Utils.reveal(criterion, MCriterion.class);
 	}
+	
 }

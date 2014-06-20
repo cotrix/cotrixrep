@@ -20,12 +20,12 @@
 			<g:TextBox ui:field="nameField" styleName="{common.css.textBox}"/>
 			<g:HorizontalPanel ui:field="definitionPanel" verticalAlignment="middle">
 				<g:Label ui:field="isLabel" styleName="{common.css.paddedText}">is a</g:Label>
-				<w:EnumListBox ui:field="typeList" styleName="{common.css.listBox}" width="130px"/>
+				<w:EnumListBox ui:field="typeList" styleName="{common.css.listBox}" width="130px" title="Select or Specify the type of the column."/>
 				<g:TextBox ui:field="customType" styleName="{common.css.textBox} {style.customType}" visible="false" width="115px"/>
 				<g:Label ui:field="inLabel" styleName="{common.css.paddedText}">in</g:Label>
-				<w:LanguageListBox ui:field="languageList" styleName="{common.css.listBox}" />
+				<w:LanguageListBox ui:field="languageList" styleName="{common.css.listBox}" title="Select the language of the column's values, if any."/>
 				<g:Label ui:field="optionalLabel" styleName="{common.css.paddedText}">is</g:Label>
-				<w:EnumListBox ui:field="optionList" styleName="{common.css.listBox}" width="100px"/>
+				<w:EnumListBox ui:field="optionList" styleName="{common.css.listBox}" width="100px" title="Select if this column should have values in each and every row."/>
 			</g:HorizontalPanel>
 		</g:HorizontalPanel>
 </ui:UiBinder> 

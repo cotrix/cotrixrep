@@ -55,11 +55,11 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	@Override
 	public CodelistBuilder definitions(Definition ... types) {
-		return attributeTypes(asList(types));
+		return definitions(asList(types));
 	}
 	
 	@Override
-	public CodelistBuilder attributeTypes(Collection<Definition> types) {
+	public CodelistBuilder definitions(Iterable<Definition> types) {
 		state.attributeTypes(reveal(types,Definition.Private.class));
 		return this;
 	}
@@ -86,7 +86,7 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	}
 	
 	@Override
-	public CodelistBuilder attributes(List<Attribute> attributes) {	
+	public CodelistBuilder attributes(Collection<Attribute> attributes) {	
 		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
 	}

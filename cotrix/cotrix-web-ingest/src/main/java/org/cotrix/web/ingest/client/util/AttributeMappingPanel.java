@@ -94,7 +94,7 @@ public class AttributeMappingPanel extends Composite {
 
 			final SimpleCheckBox checkBox = new SimpleCheckBox();
 			checkBox.setStyleName(CommonResources.INSTANCE.css().simpleCheckbox());
-			
+			checkBox.setTitle("Select to include in the imported codelist.");
 
 			checkBox.setValue(attributeDefinition != null);
 			columnsTable.setWidget(row, IGNORE_COLUMN, checkBox);
@@ -104,7 +104,8 @@ public class AttributeMappingPanel extends Composite {
 			Field field = attributeMapping.getField();
 			fields.add(field);
 
-			final AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel(AttributeDefinitionPanel.CSVTypeLabelProvider);
+			String nameFieldTitle = showTypeDefinition?"Rename the column.":"Rename SDMX element.";
+			final AttributeDefinitionPanel definitionPanel = new AttributeDefinitionPanel(AttributeDefinitionPanel.CSVTypeLabelProvider, nameFieldTitle);
 			definitionsPanels.add(definitionPanel);
 			columnsTable.setWidget(row, DEFINITION_COLUMN, definitionPanel);
 			cellFormatter.setStyleName(row, DEFINITION_COLUMN, CommonResources.INSTANCE.css().mappingCell());

@@ -18,6 +18,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
+import org.cotrix.application.VersioningService;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.cdi.ApplicationEvents.FirstTime;
 import org.cotrix.common.cdi.ApplicationEvents.Ready;
@@ -61,6 +62,9 @@ public class CodelistsStager {
 	
 	@Inject
 	SignupService service;
+	
+	@Inject
+	VersioningService versioning;
 
 	static private final Logger log = LoggerFactory.getLogger(CodelistsStager.class);
 
@@ -69,7 +73,7 @@ public class CodelistsStager {
 		
 		for (User u : users)
 			service.signup(u,u.name());
-
+		
 		Map<Info,Codelist> staged = new HashMap<>();
 		
 		for (Info info : CSV_CODELISTS)
@@ -78,7 +82,17 @@ public class CodelistsStager {
 		for (Info info : SDMX_CODELISTS)
 			stageSDMX(info);
 
+		addVersioned(staged);
 		linkSamples(staged);
+	}
+	
+	private void addVersioned(Map<Info,Codelist> staged) {
+		
+		Codelist asfis = staged.get(asfis2011);
+		
+		Codelist newer = versioning.bump(asfis).to("2012");
+		
+		codelists.add(newer);
 	}
 	
 	private void linkSamples(Map<Info,Codelist> staged) {
@@ -129,7 +143,7 @@ public class CodelistsStager {
 		//add name link
 		links.add(nameLink);
 		
-		Codelist source = codelist().name("sample linked").links(links).build();
+		Codelist source = codelist().name("SAMPLE LINKED").links(links).build();
 				
 		source = ingester.ingest(source);
 		
@@ -265,7 +279,11 @@ public class CodelistsStager {
 
 		CodelistBean bean = parser.parse(inputStream, Stream2SdmxDirectives.DEFAULT);
 
-		Outcome<Codelist> outcome = mapper.map(bean, Sdmx2CodelistDirectives.DEFAULT);
+		Sdmx2CodelistDirectives directives = new Sdmx2CodelistDirectives();
+		
+		directives.name(info.name);
+		
+		Outcome<Codelist> outcome = mapper.map(bean, directives);
 
 		ingester.ingest(outcome.result());
 

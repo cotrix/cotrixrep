@@ -3,10 +3,10 @@
  */
 package org.cotrix.web.manage.client.manager;
 
-import org.cotrix.web.manage.client.codelist.CodelistPanelView;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
@@ -24,6 +24,10 @@ import com.google.inject.Singleton;
 @Singleton
 public class ContentPanel extends ResizeComposite {
 	
+	public interface ContentPanelListener {
+		public void onCodelistTabSelected(Widget codelistPanel);
+	}
+	
 	@UiTemplate("ContentPanel.ui.xml")
 	interface ContentPanelUiBinder extends UiBinder<Widget, ContentPanel> {
 	}
@@ -37,6 +41,20 @@ public class ContentPanel extends ResizeComposite {
 	public ContentPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 		codelistsPanel.setAnimationDuration(0);
+	}
+	
+	public void addListener(final ContentPanelListener listener) {
+		codelistsPanel.addSelectionHandler(new SelectionHandler<Integer>() {
+			
+			@Override
+			public void onSelection(SelectionEvent<Integer> event) {
+				Integer index = event.getSelectedItem();
+				if (index!=null) {
+					Widget codelistWidget = codelistsPanel.getWidget(index);
+					listener.onCodelistTabSelected(codelistWidget);
+				}
+			}
+		});
 	}
 	
 	/** 
@@ -58,14 +76,14 @@ public class ContentPanel extends ResizeComposite {
 	/** 
 	 * {@inheritDoc}
 	 */
-	public HasCloseHandlers<Widget> addCodeListPanel(CodelistPanelView codelistPanel, String title, String version)
+	public HasCloseHandlers<Widget> addCodeListPanel(Widget codelistPanel, String title, String version)
 	{
 		CodelistTab tab = new CodelistTab(title, version);
 		codelistsPanel.add(codelistPanel.asWidget(), tab);
 		return tab;
 	}
 	
-	public void setVisible(CodelistPanelView codelistPanel)
+	public void setVisible(Widget codelistPanel)
 	{
 		codelistsPanel.selectTab(codelistPanel.asWidget());
 	}
@@ -73,7 +91,7 @@ public class ContentPanel extends ResizeComposite {
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void removeCodeListPanel(CodelistPanelView panel)
+	public void removeCodeListPanel(Widget panel)
 	{
 		codelistsPanel.remove(panel.asWidget());
 	}

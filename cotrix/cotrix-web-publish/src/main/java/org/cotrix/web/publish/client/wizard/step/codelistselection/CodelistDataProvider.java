@@ -31,6 +31,7 @@ public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 	protected PublishServiceAsync service;
 	protected PatchedDataGrid<UICodelist> datagrid;
 	protected boolean forceRefresh = true;
+	private String query = "";
 	
 	/**
 	 * @param service
@@ -52,6 +53,10 @@ public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 	public void setForceRefresh(boolean forceRefresh) {
 		this.forceRefresh = forceRefresh;
 	}
+	
+	public void setQuery(String query) {
+		this.query = query;
+	}
 
 	@Override
 	protected void onRangeChanged(HasData<UICodelist> display) {
@@ -72,7 +77,7 @@ public class CodelistDataProvider extends AsyncDataProvider<UICodelist> {
 		boolean force = forceRefresh;
 		forceRefresh = false;
 		
-		service.getCodelists(range, sortInfo, force, new ManagedFailureCallback<DataWindow<UICodelist>>() {
+		service.getCodelists(range, sortInfo, query, force, new ManagedFailureCallback<DataWindow<UICodelist>>() {
 			
 			@Override
 			public void onSuccess(DataWindow<UICodelist> batch) {

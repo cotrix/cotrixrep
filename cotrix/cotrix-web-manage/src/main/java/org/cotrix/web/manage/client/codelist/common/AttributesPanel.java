@@ -10,7 +10,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.cotrix.web.common.client.factory.UIFactories;
+import org.cotrix.web.common.client.util.FadeAnimation;
 import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.Language;
@@ -31,6 +33,9 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.inject.Inject;
 
 /**
@@ -44,6 +49,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 	
 	private Table table;
 	
+	private FadeAnimation addRowAnimation;
 	private AddRow addRow;
 	private List<AttributeRow> rows;
 	private Map<AttributeRow, UIAttribute> attributes;
@@ -95,9 +101,10 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 		attributeEditDialog.setListener(new AttributeEditDialogListener() {
 			
 			@Override
-			public void onEdit(String name, String type, Language language, String value) {
+			public void onEdit(String name, String type, String description, Language language, String value) {
 				currentEditedAttribute.setName(ValueUtils.getValue(name));
 				currentEditedAttribute.setType(ValueUtils.getValue(type));
+				currentEditedAttribute.setDescription(description);
 				currentEditedAttribute.setLanguage(language);
 				currentEditedAttribute.setValue(value);
 				
@@ -122,7 +129,8 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 				addEmptyAttributeRow();				
 			}
 		});
-		table.addRow(addRow);		
+		table.addRow(addRow);
+		addRowAnimation = new FadeAnimation(addRow.getElement());
 	}
 	
 	private void addEmptyAttributeRow() {
@@ -149,10 +157,11 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 		currentEditedAttribute = attributes.get(row);
 		String name = ValueUtils.getValue(currentEditedAttribute.getName());
 		String type = ValueUtils.getValue(currentEditedAttribute.getType());
+		String description = currentEditedAttribute.getDescription();
 		Language language = currentEditedAttribute.getLanguage();
 		String value = currentEditedAttribute.getValue();
 		
-		attributeEditDialog.set(name, type, language, value);
+		attributeEditDialog.set(name, type, description, language, value);
 		attributeEditDialog.showCentered();
 	}
 	
@@ -165,6 +174,8 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 	
 	private void setAddRowReadOnly(boolean readOnly) {
 		table.getFlexTable().getRowFormatter().setVisible(addRow.getRow(), !readOnly);
+		if (readOnly) addRowAnimation.setVisibility(false, Speed.IMMEDIATE);
+		else addRowAnimation.setVisibility(true, Speed.VERY_FAST);
 	}
 	
 	public void setAttributes(List<UIAttribute> attributes) {
@@ -234,21 +245,25 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 
 	private class AddRow extends AbstractRow implements HasClickHandlers {
 		
-		private com.google.gwt.user.client.ui.Button button;
+		private FocusPanel clickPanel;
 		
 		public AddRow() {
-			button = new com.google.gwt.user.client.ui.Button();
-			button.setStyleName(CotrixManagerResources.INSTANCE.css().addButton());
+			
+			Label label = new Label("Add Attribute");
+			label.setStyleName(CotrixManagerResources.INSTANCE.css().addLabel());
+			
+			clickPanel = new FocusPanel(label);
 		}
 
 		@Override
 		public void setup() {
-			addCell(0, button);
+			addCell(0, clickPanel);
 			table.getFlexCellFormatter().setColSpan(rowIndex, 0, 4);
+			table.getFlexCellFormatter().setStyleName(getRow(), 0, CotrixManagerResources.INSTANCE.css().addLabelCell());
 		}
 		
 		public int getRow() {
-			return getCellPosition(button).getRow();
+			return getCellPosition(clickPanel).getRow();
 		}
 
 		@Override
@@ -257,7 +272,12 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 
 		@Override
 		public HandlerRegistration addClickHandler(ClickHandler handler) {
-			return button.addClickHandler(handler);
+			return clickPanel.addClickHandler(handler);
+		}
+		
+		@SuppressWarnings("deprecation")
+		public Element getElement() {
+			return clickPanel.getElement();
 		}
 		
 	}

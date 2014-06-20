@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
@@ -233,30 +234,14 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 
 		assertEquals(retrieved.attributes().lookup(q("n")).value(), "v2");
 	}
-	
-	@Test
-	public void removeLink() {
-
-		Codelist target = addAndRetrieve(codelist().name("name").build());
-
-		CodelistLink link = listLink().name("name").target(target).build();
-		
-		Codelist list = addAndRetrieve(codelist().name("name").links(link).build());
-
-		CodelistLink targetChangeset =  deleteListLink(link.id());
-		
-		Codelist changeset =  modifyCodelist(list.id()).links(targetChangeset).build();
-		
-		repository.update(changeset);
-		
-		assertFalse(list.links().contains(q("name2")));
-		
-	}
 
 	@Test
 	public void removeCodelist() {
 
-		Codelist list = codelist().name("name").build();
+		Definition def = definition().name("name").build();
+		Attribute a = attribute().with(def).value("val").build();
+		Code c = code().name("name").attributes(a).build();
+		Codelist list = codelist().name("name").definitions(def).with(c).build();
 
 		repository.add(list);
 

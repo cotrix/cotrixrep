@@ -1,6 +1,6 @@
 package org.cotrix.web.ingest.client.step.upload;
 
-import org.cotrix.web.common.client.widgets.AlertDialog;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.ingest.client.resources.ImportConstants;
 import org.cotrix.web.ingest.client.util.TextUtil;
 

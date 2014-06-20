@@ -8,19 +8,17 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.InstanceMap;
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.manage.client.codelist.attribute.AttributesGridResources;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
@@ -41,7 +39,15 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	}
 	
 	public interface ItemEditingPanel<T> extends IsWidget, HasEditing {
+		
+		/**
+		 * Sync the UI with the model.
+		 */
 		public void syncWithModel();
+		
+		/**
+		 * Called when the item is edited for the first time.
+		 */
 		public void enterEditMode();
 		public void setSelected(boolean selected);
 		public void setListener(ItemEditingPanelListener<T> listener);
@@ -59,13 +65,11 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		public void onSwitch(boolean isDown);
 	}
 		
-	private ScrollPanel scrollPanel;
 	private VerticalPanel mainPanel;
-	private HTML header;
 	private HTML emptyWidget;
+	private HorizontalPanel emptyWidgetContainer;
 	private List<P> panels = new ArrayList<P>();
 
-	private final static AttributesGridResources gridResource = GWT.create(AttributesGridResources.class);
 	private P currentSelection;
 
 	private InstanceMap<T, P> instances = new InstanceMap<T, P>();
@@ -76,35 +80,26 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	
 	private ItemEditingPanelFactory<T,P> editingPanelFactory;
 
-	public ItemsEditingPanel(String headerText, String noItemsText, ItemEditingPanelFactory<T,P> editingPanelFactory) {
+	public ItemsEditingPanel(String noItemsText, ItemEditingPanelFactory<T,P> editingPanelFactory) {
 		this.editingPanelFactory = editingPanelFactory;
-		
-		scrollPanel = new ScrollPanel();
-		scrollPanel.setWidth("100%");
-		scrollPanel.setHeight("100%");
 		
 		mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
-		scrollPanel.add(mainPanel);
-
-		gridResource.dataGridStyle().ensureInjected();
-
-		header = new HTML(headerText);
-		header.setStyleName(gridResource.dataGridStyle().dataGridHeader());
-		mainPanel.add(header);
 		
 		emptyWidget = new HTML(noItemsText);
-		emptyWidget.setStyleName(CotrixManagerResources.INSTANCE.propertyGrid().emptyTableWidget());
-		mainPanel.add(emptyWidget);
+		emptyWidget.setStyleName(CotrixManagerResources.INSTANCE.css().noItemsLabel());
+		emptyWidgetContainer = new HorizontalPanel();
+		emptyWidgetContainer.setWidth("100%");
+		emptyWidgetContainer.setHeight("200px");
+		emptyWidgetContainer.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+		emptyWidgetContainer.add(emptyWidget);
 		
-		initWidget(scrollPanel);
+		mainPanel.add(emptyWidgetContainer);
+		
+		initWidget(mainPanel);
 
 		editable = false;
 		updateEmptyWidget();
-	}
-	
-	public void setHeaderText(SafeHtml headerText) {
-		header.setHTML(headerText);
 	}
 	
 	public void setNoItemsText(SafeHtml noItemsText) {
@@ -197,7 +192,10 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 
 			@Override
 			public void onCancel() {
-				if (!created) remove(panel);
+				if (!created) {
+					remove(panel);
+					updateEmptyWidget();
+				}
 			}
 
 			@Override
@@ -223,9 +221,10 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		updateEmptyWidget();
 	}
 	
-	private void updateEmptyWidget(){
-		emptyWidget.setVisible(panels.isEmpty());
-		setStyleName(CotrixManagerResources.INSTANCE.css().noItemsBackground(), panels.isEmpty());
+	private void updateEmptyWidget() {
+		boolean showEmptyWidget = panels.isEmpty();
+		emptyWidgetContainer.setVisible(showEmptyWidget);
+		//setStyleName(CotrixManagerResources.INSTANCE.css().noItemsBackground(), showEmptyWidget);
 	}
 	
 	private void remove(P toRemove) {

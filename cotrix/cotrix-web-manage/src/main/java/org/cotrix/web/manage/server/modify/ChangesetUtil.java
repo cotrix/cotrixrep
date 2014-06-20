@@ -51,15 +51,45 @@ import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
  */
 public class ChangesetUtil {
 
-	public static Attribute addAttribute(UIAttribute uiAttribute) {
-		return attribute().name(convert(uiAttribute.getName())).value(convert(uiAttribute.getValue()))
-				.ofType(convert(uiAttribute.getType())).in(convert(uiAttribute.getLanguage())).build();
+	public static Attribute addAttribute(UIAttribute uiAttribute, Definition definition) {
+		
+		if (definition!=null) {
+			return attribute()
+					.with(definition)
+					.value(convert(uiAttribute.getValue()))
+					.ofType(convert(uiAttribute.getType()))
+					.description(uiAttribute.getDescription())
+					.build();
+		} else {
+			return attribute()
+					.name(convert(uiAttribute.getName()))
+					.value(convert(uiAttribute.getValue()))
+					.ofType(convert(uiAttribute.getType()))
+					.in(convert(uiAttribute.getLanguage()))
+					.description(uiAttribute.getDescription())
+					.build();		
+		}
 	}
 
-	public static Attribute updateAttribute(UIAttribute uiAttribute) {
-		return modifyAttribute(uiAttribute.getId()).name(convert(uiAttribute.getName()))
-				.value(convert(uiAttribute.getValue())).ofType(convert(uiAttribute.getType()))
-				.in(convert(uiAttribute.getLanguage())).build();
+	public static Attribute updateAttribute(UIAttribute uiAttribute, Definition definition) {
+		
+		if (definition!=null) {
+			return modifyAttribute(uiAttribute.getId())
+					.with(definition)
+					.value(convert(uiAttribute.getValue()))
+					.ofType(convert(uiAttribute.getType()))
+					.description(uiAttribute.getDescription())
+					.build();
+		}
+		else {
+			return modifyAttribute(uiAttribute.getId())
+					.name(convert(uiAttribute.getName()))
+					.value(convert(uiAttribute.getValue()))
+					.ofType(convert(uiAttribute.getType()))
+					.in(convert(uiAttribute.getLanguage()))
+					.description(uiAttribute.getDescription())
+					.build();
+		}
 	}
 
 	public static Attribute removeAttribute(String id) {
@@ -71,7 +101,7 @@ public class ChangesetUtil {
 			return Collections.emptyList();
 		List<Attribute> attributes = new ArrayList<Attribute>(uiAttributes.size());
 		for (UIAttribute uiAttribute : uiAttributes)
-			attributes.add(addAttribute(uiAttribute));
+			attributes.add(addAttribute(uiAttribute, null /*FIXME */));
 		return attributes;
 	}
 
@@ -207,10 +237,10 @@ public class ChangesetUtil {
 			if (isSystemAttribute(uiAttribute)) continue;
 		
 			//is a new attribute
-			if (uiAttribute.getId() == null) changeSet.add(addAttribute(uiAttribute));
+			if (uiAttribute.getId() == null) changeSet.add(addAttribute(uiAttribute, null /*FIXME */));
 			//is an updated attribute
 			else {
-				changeSet.add(updateAttribute(uiAttribute));
+				changeSet.add(updateAttribute(uiAttribute, null /*FIXME */));
 				updatedAttributeIds.add(uiAttribute.getId());
 			}
 		}
@@ -244,11 +274,6 @@ public class ChangesetUtil {
 		for (CodelistLink codelistLink:namedContainer) if (codelistLink.id().equals(id)) return codelistLink;
 		throw new IllegalArgumentException("Unknown codelist type with id: "+id);
 	}
-
-	public static CodelistLink removeCodelistLink(String id) {
-		return deleteListLink(id);
-	}
-	
 	
 	
 	public static Definition addDefinition(UIAttributeType attributeType) {
@@ -267,10 +292,6 @@ public class ChangesetUtil {
 				.occurs(toRange(attributeType.getRange()))
 				.valueIs(toValueType(attributeType.getDefaultValue(), attributeType.getConstraints()))
 				.build();
-	}
-	
-	public static Definition removeDefinition(UIAttributeType attributeType) {
-		return deleteDefinition(attributeType.getId());
 	}
 	
 	public static Range toRange(UIRange range) {

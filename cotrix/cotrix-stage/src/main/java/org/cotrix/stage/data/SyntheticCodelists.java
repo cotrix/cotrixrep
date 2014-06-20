@@ -83,7 +83,7 @@ public class SyntheticCodelists {
 	
 	public static Codelist demo() {
 		
-		return Codes.codelist().name("Demo Codelist")
+		return Codes.codelist().name("SAMPLE CODELIST")
 				.definitions(
 						definition().name("demo one").is(DESCRIPTION_TYPE).valueIs(
 							valueType().with(max_length.instance(5)).defaultsTo("someval")

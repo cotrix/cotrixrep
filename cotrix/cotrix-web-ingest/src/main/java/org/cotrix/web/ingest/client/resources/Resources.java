@@ -17,26 +17,21 @@ public interface Resources extends ClientBundle {
 	@Source("style.css")
 	public ImportCss css();
 		
-	@Source("browse.png")
 	public ImageResource browse();
 	
 	@Source("browse-hover.png")
 	public ImageResource browseHover();
 
-	@Source("close.png")
 	public ImageResource close();
 	
-	@Source("trash.png")
 	public ImageResource trash();
 	
 	@Source("trash_tick.png")
 	public ImageResource trashTick();
 	
-	@Source("back.png")
 	public ImageResource back();
 	
-	@Source("reload.png")
 	public ImageResource reload();
 	
-	
+	public ImageResource reloadHover();
 }

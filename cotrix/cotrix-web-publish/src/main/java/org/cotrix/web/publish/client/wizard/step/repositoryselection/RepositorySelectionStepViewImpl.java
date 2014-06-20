@@ -3,8 +3,10 @@ package org.cotrix.web.publish.client.wizard.step.repositoryselection;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.resources.CotrixSimplePager;
 import org.cotrix.web.common.client.resources.DataGridListResource;
-import org.cotrix.web.common.client.widgets.AlertDialog;
-import org.cotrix.web.common.client.widgets.SelectionCheckBoxCell;
+import org.cotrix.web.common.client.widgets.PageSizer;
+import org.cotrix.web.common.client.widgets.SearchBox;
+import org.cotrix.web.common.client.widgets.cell.SelectionCheckBoxCell;
+import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
 import org.cotrix.web.publish.shared.UIRepository;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -12,9 +14,10 @@ import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
@@ -42,11 +45,17 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 
 	private static RepositorySelectionStepUiBinder uiBinder = GWT.create(RepositorySelectionStepUiBinder.class);
 	
+	@UiField
+	SearchBox searchBox;
+	
 	@UiField (provided = true) 
 	PatchedDataGrid<UIRepository> dataGrid;
 
 	@UiField(provided = true)
 	SimplePager pager;
+	
+	@UiField
+	PageSizer pageSizer;
 	
 	protected RepositoryDataProvider dataProvider;
 	
@@ -62,6 +71,7 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 		this.dataProvider = assetInfoDataProvider;
 		setupGrid();
 		initWidget(uiBinder.createAndBindUi(this));
+		pageSizer.setDisplay(dataGrid);
 	}
 
 	/** 
@@ -79,7 +89,7 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 	protected void setupGrid()
 	{
 
-		dataGrid = new PatchedDataGrid<UIRepository>(6, DataGridListResource.INSTANCE, RepositoryKeyProvider.INSTANCE);
+		dataGrid = new PatchedDataGrid<UIRepository>(25, DataGridListResource.INSTANCE, RepositoryKeyProvider.INSTANCE);
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
@@ -168,17 +178,29 @@ public class RepositorySelectionStepViewImpl extends ResizeComposite implements 
 		alertDialog.center(message);
 	}
 	
-	//TODO REMOVED
-	protected void refresh(ClickEvent clickEvent)
-	{
-		dataProvider.setForceRefresh(true);
+	@UiHandler("searchBox")
+	protected void onValueChange(ValueChangeEvent<String> event) {
+		updateFilter(event.getValue());
+	}
+	
+	private void updateFilter(String query) {
+		dataProvider.setQuery(query);
 		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
+	}
+	
+	private void cleanFilter() {
+		dataProvider.setQuery("");
+		searchBox.clear();
 	}
 	
 	public void reset()
 	{
+		cleanFilter();	
 		selectionModel.clear();
+		Log.trace("setRefreshCache");
+		dataProvider.setForceRefresh(true);
 		pager.setPage(0);
+		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}
 
 }

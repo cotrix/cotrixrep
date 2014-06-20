@@ -4,12 +4,12 @@
 package org.cotrix.web.manage.client.codelist.common;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.util.FadeAnimation;
+import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
-import org.cotrix.web.common.client.widgets.EditableLabel;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources.AttributeRowStyle;
-import org.cotrix.web.manage.client.resources.CotrixManagerResources.PropertyGridStyle;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -26,9 +26,6 @@ import com.google.gwt.user.client.ui.PushButton;
  */
 public class AttributeRow extends AbstractRow {
 	
-	private static final PropertyGridStyle propertyGridStyles = CotrixManagerResources.INSTANCE.propertyGrid();
-	private static final String TEXTBOX_STYLE = CommonResources.INSTANCE.css().textBox()+ " " + CotrixManagerResources.INSTANCE.css().editor();
-	private static final String TEXTVALUE_STYLE = propertyGridStyles.textValue();
 	private static final AttributeRowStyle ATTRIBUTE_ROW_STYLE = CotrixManagerResources.INSTANCE.attributeRow();
 
 	private static final int NAME_COL = 0;
@@ -40,12 +37,13 @@ public class AttributeRow extends AbstractRow {
 	private ValueChangeHandler<String> changeHandler;
 	
 	private AdvancedTextBox nameTextBox;
-	private EditableLabel nameEditableLabel;
 	
 	private AdvancedTextBox valueTextBox;
-	private EditableLabel valueEditableLabel;
 	
+	private FadeAnimation deleteButtonAnimation;
 	private PushButton deleteButton;
+	
+	private FadeAnimation fullEditButtonAnimation;
 	private PushButton fullEditButton;
 	
 	private boolean readOnly = false;
@@ -53,8 +51,6 @@ public class AttributeRow extends AbstractRow {
 	private String errorStyle;
 	
 	public AttributeRow(String errorStyle) {
-		
-		CotrixManagerResources.INSTANCE.attributeRow().ensureInjected();
 		
 		this.errorStyle = errorStyle;
 		
@@ -77,29 +73,17 @@ public class AttributeRow extends AbstractRow {
 		nameTextBox = new AdvancedTextBox();
 		nameTextBox.setHeight("31px");
 		nameTextBox.setPlaceholder("name");
-		nameTextBox.setStyleName(TEXTBOX_STYLE);
-		
-		nameEditableLabel = new EditableLabel();
-		nameEditableLabel.addEditor(nameTextBox);
-		nameEditableLabel.setLabelStyle(TEXTVALUE_STYLE);
-		nameEditableLabel.setReadOnly(readOnly);
-		
-		nameTextBox.addValueChangeHandler(nameEditableLabel);
+		nameTextBox.setTitle("The name of this attribute");
+		nameTextBox.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().textbox());
 		nameTextBox.addValueChangeHandler(changeHandler);
 		nameTextBox.addKeyUpHandler(keyUpHandler);
 		
 		valueTextBox = new AdvancedTextBox();
 		valueTextBox.setHeight("31px");
 		valueTextBox.setPlaceholder("value");
-		valueTextBox.setStyleName(TEXTBOX_STYLE);
+		valueTextBox.setTitle("The value of this attribute");
+		valueTextBox.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().textbox());
 		valueTextBox.addValueChangeHandler(changeHandler);
-		
-		valueEditableLabel = new EditableLabel();
-		valueEditableLabel.addEditor(valueTextBox);
-		valueEditableLabel.setLabelStyle(TEXTVALUE_STYLE);
-		valueEditableLabel.setReadOnly(readOnly);
-		
-		valueTextBox.addValueChangeHandler(valueEditableLabel);
 		valueTextBox.addKeyUpHandler(keyUpHandler);
 		
 		deleteButton = new PushButton(new Image(CommonResources.INSTANCE.minus()));
@@ -111,6 +95,7 @@ public class AttributeRow extends AbstractRow {
 				fireButtonClicked(Button.DELETE);
 			}
 		});
+		deleteButtonAnimation = new FadeAnimation(deleteButton.getElement());
 		
 		fullEditButton = new PushButton(new Image(CotrixManagerResources.INSTANCE.edit()));
 		fullEditButton.setStyleName(ATTRIBUTE_ROW_STYLE.button());
@@ -121,6 +106,7 @@ public class AttributeRow extends AbstractRow {
 				fireButtonClicked(Button.FULL_EDIT);
 			}
 		});
+		fullEditButtonAnimation = new FadeAnimation(fullEditButton.getElement());
 	}
 
 	/**
@@ -133,41 +119,48 @@ public class AttributeRow extends AbstractRow {
 	@Override
 	public void setup() {
 			
-		addCell(NAME_COL, nameEditableLabel);
-		setCellStyle(NAME_COL, propertyGridStyles.value());
-		table.getCellFormatter().getElement(rowIndex, NAME_COL).getStyle().setBackgroundColor("#efefef");
+		addCell(NAME_COL, nameTextBox);
+		setCellStyle(NAME_COL, CotrixManagerResources.INSTANCE.detailsPanelStyle().valueCell());
 
-		addCell(VALUE_COL, valueEditableLabel);
-		setCellStyle(VALUE_COL, propertyGridStyles.valueBoxLeft());
-		
-		addCell(FULL_EDIT_COL, fullEditButton);
-		setCellStyle(FULL_EDIT_COL, propertyGridStyles.valueBoxRight() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());		
+		addCell(VALUE_COL, valueTextBox);
+		setCellStyle(VALUE_COL, CotrixManagerResources.INSTANCE.detailsPanelStyle().valueCellLeft());
 		
 		addCell(DELETE_COL, deleteButton);
-		setCellStyle(DELETE_COL, propertyGridStyles.valueBoxCenter() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());
+		setCellStyle(DELETE_COL, CotrixManagerResources.INSTANCE.detailsPanelStyle().valueCellCenter() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());
+		
+		addCell(FULL_EDIT_COL, fullEditButton);
+		setCellStyle(FULL_EDIT_COL, CotrixManagerResources.INSTANCE.detailsPanelStyle().valueCellRight() + " "+ATTRIBUTE_ROW_STYLE.buttonCell());		
 	}
 	
 	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
-		nameEditableLabel.setReadOnly(readOnly);
-		valueEditableLabel.setReadOnly(readOnly);
+		nameTextBox.setEnabled(!readOnly);
+		valueTextBox.setEnabled(!readOnly);
 		updateValueCellSpan();
 	}
 	
 	public int getRowIndex() {
-		Position position = getCellPosition(nameEditableLabel);
+		Position position = getCellPosition(nameTextBox);
 		return position.getRow();
 	}
-	
+
 	private void updateValueCellSpan() {
 		int span = readOnly?3:1;
 		int rowIndex = getRowIndex();
 		table.getFlexCellFormatter().setColSpan(rowIndex, VALUE_COL, span);
-		if (readOnly) table.getCellFormatter().setStyleName(rowIndex, VALUE_COL, propertyGridStyles.value());
-		else table.getCellFormatter().setStyleName(rowIndex, VALUE_COL, propertyGridStyles.valueBoxLeft());
+		if (readOnly) table.getCellFormatter().setStyleName(rowIndex, VALUE_COL, CotrixManagerResources.INSTANCE.detailsPanelStyle().valueCell());
+		else table.getCellFormatter().setStyleName(rowIndex, VALUE_COL, CotrixManagerResources.INSTANCE.detailsPanelStyle().valueCellLeft());
 		
 		table.getCellFormatter().setVisible(rowIndex, DELETE_COL, !readOnly);
 		table.getCellFormatter().setVisible(rowIndex, FULL_EDIT_COL, !readOnly);
+		
+		if (readOnly) {
+			deleteButtonAnimation.setVisibility(false, Speed.IMMEDIATE);
+			fullEditButtonAnimation.setVisibility(false, Speed.IMMEDIATE);
+		} else {
+			deleteButtonAnimation.setVisibility(true, Speed.VERY_FAST);
+			fullEditButtonAnimation.setVisibility(true, Speed.VERY_FAST);
+		}
 	}
 	
 	public String getName() {
@@ -176,7 +169,6 @@ public class AttributeRow extends AbstractRow {
 	
 	public void setName(String name) {
 		nameTextBox.setValue(name);
-		nameEditableLabel.setText(name);
 	}
 	
 	public String getValue() {
@@ -185,7 +177,6 @@ public class AttributeRow extends AbstractRow {
 	
 	public void setValue(String value) {
 		valueTextBox.setValue(value);
-		valueEditableLabel.setText(value);
 	}
 	
 	private void fireValueChanged() {

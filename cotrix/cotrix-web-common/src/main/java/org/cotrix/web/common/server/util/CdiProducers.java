@@ -10,9 +10,15 @@ import org.cotrix.common.Constants;
 import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.cdi.Current;
 import org.cotrix.domain.user.User;
+import org.jboss.weld.context.RequestContext;
+import org.jboss.weld.context.http.Http;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Priority(Constants.RUNTIME)
 public class CdiProducers {
+
+	public static Logger log = LoggerFactory.getLogger(CdiProducers.class);
 	
 	@Produces @SessionScoped @Alternative
 	public @Current BeanSession session() {
@@ -20,9 +26,14 @@ public class CdiProducers {
 		return new BeanSession();		
 	}
 	
+	@Produces @Current @Alternative
+	public RequestContext request(@Http RequestContext ctx) {
+		return ctx;		
+	}
+	
 	@Produces @RequestScoped @Alternative
 	public @Current User currentUser(@Current BeanSession session) {
-	
+		
 		try {
 			return session.get(User.class);
 		}
@@ -31,6 +42,7 @@ public class CdiProducers {
 			//this should never happen: let's be more specific
 			throw new IllegalAccessError("detected an attempt to access a protected resource without an authenticated user: is the authentication barrier configured?");
 			
-		}		
+		}	
+		
 	}
 }

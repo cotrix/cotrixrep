@@ -46,6 +46,11 @@
 	outline: none;
 }
 
+.listBox option {
+	font-size: 16px;
+	color: #4f4e4e;
+}
+
 .listBox:disabled {
 	background-color: #ededed;
 	border-color: #b7b6b6;
@@ -418,7 +423,7 @@
 
 .errorMessageContainer {
 	vertical-align: middle;
-	padding: 15px;
+	padding: 15px 15px 20px 15px;
 }
 
 .errorMessage {
@@ -624,6 +629,7 @@
 	
 	height: 28px;
 	font-size: 18px;
+	-moz-box-sizing: border-box;
 }
 
 .searchBox:focus {
@@ -707,16 +713,19 @@
 	border: 1px solid #999;
 	
 }
+
 .sugestionListBoxTextBox {
 	border: none;
 	height: 28px;
 	box-sizing: border-box;
 }
+
 .sugestionListBoxButton {
 	width: 19px;
 	height: 27px;
 	border: none;
 	background: white;
-	-webkit-appearance: menulist;
 	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
 }
