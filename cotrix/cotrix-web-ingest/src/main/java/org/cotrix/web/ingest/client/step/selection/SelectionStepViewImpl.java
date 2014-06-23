@@ -95,8 +95,10 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		dataGrid.setWidth("100%");
 
 		dataGrid.setAutoHeaderRefreshDisabled(true);
-
-		dataGrid.setEmptyTableWidget(new Label("No data"));
+		
+		Label emptyTable = new Label("No data");
+		emptyTable.setStyleName(DataGridListResource.INSTANCE.dataGridStyle().emptyTableWidget());
+		dataGrid.setEmptyTableWidget(emptyTable);
 
 		pager = new SimplePager();
 		pager.setDisplay(dataGrid);
@@ -164,7 +166,7 @@ public class SelectionStepViewImpl extends ResizeComposite implements SelectionS
 		versionColumn.setDataStoreName(AssetInfo.VERSION_FIELD);
 		
 		dataGrid.addColumn(versionColumn, "Version");
-		dataGrid.setColumnWidth(versionColumn, "70px");
+		dataGrid.setColumnWidth(versionColumn, "90px");
 
 
 		// Type

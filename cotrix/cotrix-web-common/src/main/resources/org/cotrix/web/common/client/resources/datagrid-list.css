@@ -1,6 +1,13 @@
 .dataGridWidget {
 }
 
+.emptyTableWidget {
+	text-align: center;
+	vertical-align: middle;
+	padding-top: 10px;
+	color: #464545;
+}
+
 .dataGridFirstColumn {
 	border-right: none !important;
 	border-left: 1px solid #C2C2C2;

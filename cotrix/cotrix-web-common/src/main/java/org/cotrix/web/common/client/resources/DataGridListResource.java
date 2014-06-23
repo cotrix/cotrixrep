@@ -25,6 +25,8 @@ public interface DataGridListResource extends PatchedDataGrid.Resources {
 	
 	public interface DataGridListStyle extends PatchedDataGrid.Style {
 		
+		String emptyTableWidget();
+		
 	}
 
 }
