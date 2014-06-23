@@ -51,6 +51,7 @@ public interface ManageService extends RemoteService {
 	FeatureCarrier.Void lock(String codelistId) throws ServiceException;
 	FeatureCarrier.Void unlock(String codelistId) throws ServiceException;
 	FeatureCarrier.Void seal(String codelistId) throws ServiceException;
+	FeatureCarrier.Void unseal(String codelistId) throws ServiceException;
 	
 	public ModifyCommandResult modify(String codelistId, ModifyCommand command) throws ServiceException;
 	

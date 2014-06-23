@@ -45,13 +45,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource bullet();
 	
 	public ImageResource lock();
-	public ImageResource lockDisabled();
-	
 	public ImageResource unlock();
-	public ImageResource unlockDisabled();
-	
 	public ImageResource seal();
-	public ImageResource sealDisabled();
+	public ImageResource unseal();
 	
 	public ImageResource metadata();
 	public ImageResource codes();

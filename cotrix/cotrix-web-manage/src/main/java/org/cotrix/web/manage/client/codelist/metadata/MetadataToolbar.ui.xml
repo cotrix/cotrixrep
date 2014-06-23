@@ -29,7 +29,7 @@
 			vertical-align: middle;
 		}
 	
-		.button {
+		.switchButton {
 			cursor: pointer;
 			display: inline;
 		}
@@ -46,23 +46,11 @@
 		<table class="{style.table}">
 			<tr>
 				<td class="{style.left}">
-					<g:PushButton ui:field="lock" styleName="{style.button} {style.leftButton}" title="Disable Editing">
-						<g:upFace image="{resources.lock}" />
-						<g:upDisabledFace image="{resources.lockDisabled}" />
-					</g:PushButton>
-					<g:PushButton ui:field="unlock" styleName="{style.button} {style.leftButton}" title="Enable Editing">
-						<g:upFace image="{resources.unlock}" />
-						<g:upDisabledFace image="{resources.unlockDisabled}" />
-					</g:PushButton>
-					<g:PushButton ui:field="seal" styleName="{style.button} {style.leftButton}" title="Seal (No Further Changes)">
-						<g:upFace image="{resources.seal}" />
-						<g:upDisabledFace image="{resources.sealDisabled}" />
-					</g:PushButton>
 				</td>
 				<td class="{style.center}">
 					</td>
 				<td class="{style.right}">
-					<g:PushButton ui:field="codesButton" styleName="{style.button} {style.rightButton}" title="Codelist metadata">
+					<g:PushButton ui:field="codesButton" styleName="{style.switchButton} {style.rightButton}" title="Codelist metadata">
 						<g:upFace image="{resources.codes}" />
 					</g:PushButton>
 				</td>

@@ -64,6 +64,7 @@ import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.ApplicationFeatures;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
+import org.cotrix.web.common.shared.feature.FeatureCarrier.Void;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
 import org.cotrix.web.manage.client.ManageService;
 import org.cotrix.web.manage.server.modify.ChangesetUtil;
@@ -140,6 +141,7 @@ public class ManageServiceImpl implements ManageService {
 		mapper.map(LOCK).to(LOCK_CODELIST);
 		mapper.map(UNLOCK).to(UNLOCK_CODELIST);
 		mapper.map(SEAL).to(SEAL_CODELIST);
+		mapper.map(UNSEAL).to(UNSEAL_CODELIST);
 		mapper.map(REMOVE).to(ApplicationFeatures.REMOVE_CODELIST);
 		mapper.map(MainAction.CREATE_CODELIST).to(ApplicationFeatures.CREATE_CODELIST);
 	}
@@ -243,6 +245,13 @@ public class ManageServiceImpl implements ManageService {
 	@Override
 	@CodelistTask(SEAL)
 	public FeatureCarrier.Void seal(@Id String codelistId) throws ServiceException {
+		return FeatureCarrier.getVoid();
+	}
+	
+
+	@Override
+	@CodelistTask(UNSEAL)
+	public Void unseal(@Id String codelistId) throws ServiceException {
 		return FeatureCarrier.getVoid();
 	}
 

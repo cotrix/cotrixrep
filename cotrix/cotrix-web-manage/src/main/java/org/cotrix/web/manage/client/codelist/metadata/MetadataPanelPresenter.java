@@ -12,8 +12,9 @@ import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodelistNewStateEvent;
 import org.cotrix.web.manage.client.codelist.NewStateEvent;
 import org.cotrix.web.manage.client.codelist.SwitchPanelEvent;
-import org.cotrix.web.manage.client.codelist.metadata.MetadataToolbar.Action;
 import org.cotrix.web.manage.client.codelist.metadata.MetadataToolbar.ToolBarListener;
+import org.cotrix.web.manage.client.codelist.metadata.SplashPanel.Action;
+import org.cotrix.web.manage.client.codelist.metadata.SplashPanel.Listener;
 import org.cotrix.web.manage.client.data.DataSaverManager;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
@@ -79,13 +80,25 @@ public class MetadataPanelPresenter implements Presenter {
 		toolbar.setListener(new ToolBarListener() {
 			
 			@Override
-			public void onAction(Action action) {
+			public void onAction(org.cotrix.web.manage.client.codelist.metadata.MetadataToolbar.Action action) {
 				Log.trace("toolbar onAction "+action);
 				switch (action) {
-					case LOCK: lock(); break;
-					case FINALIZE: finalizeCodelist(); break;
-					case UNLOCK: unlock(); break;
 					case TO_CODES: codelistBus.fireEvent(SwitchPanelEvent.CODES); break;
+				}
+			}
+		});
+		
+		SplashPanel splashPanel = view.getSplashPanel();
+		splashPanel.setListener(new Listener() {
+			
+			@Override
+			public void onAction(Action action) {
+				Log.trace("splash onAction "+action);
+				switch (action) {
+					case LOCK: lock(); break;
+					case UNLOCK: unlock(); break;
+					case SEAL: sealCodelist(); break;
+					case UNSEAL: unsealCodelist(); break;
 				}
 			}
 		});
@@ -101,9 +114,14 @@ public class MetadataPanelPresenter implements Presenter {
 		service.unlock(codelistId, callBack);
 	}
 	
-	private void finalizeCodelist()
+	private void sealCodelist()
 	{
 		service.seal(codelistId, callBack);
+	}
+	
+	private void unsealCodelist()
+	{
+		service.unseal(codelistId, callBack);
 	}
 	
 	private void loadState() {
@@ -120,12 +138,13 @@ public class MetadataPanelPresenter implements Presenter {
 	
 	private void bindFeatures()
 	{
-		// TOOLBAR
-		MetadataToolbar toolbar = view.getToolBar();
+
+		SplashPanel splashPanel = view.getSplashPanel();
 		
-		featureBinder.bind(new ActionEnabler(Action.LOCK, toolbar), codelistId, ManagerUIFeature.LOCK_CODELIST);
-		featureBinder.bind(new ActionEnabler(Action.UNLOCK, toolbar), codelistId, ManagerUIFeature.UNLOCK_CODELIST);
-		featureBinder.bind(new ActionEnabler(Action.FINALIZE, toolbar), codelistId, ManagerUIFeature.SEAL_CODELIST);
+		featureBinder.bind(new ActionEnabler(Action.LOCK, splashPanel), codelistId, ManagerUIFeature.LOCK_CODELIST);
+		featureBinder.bind(new ActionEnabler(Action.UNLOCK, splashPanel), codelistId, ManagerUIFeature.UNLOCK_CODELIST);
+		featureBinder.bind(new ActionEnabler(Action.SEAL, splashPanel), codelistId, ManagerUIFeature.SEAL_CODELIST);
+		featureBinder.bind(new ActionEnabler(Action.UNSEAL, splashPanel), codelistId, ManagerUIFeature.UNSEAL_CODELIST);
 		
 		//ATTRIBUTES EDITOR
 		featureBinder.bind(view.getAttributesEditor(), codelistId, ManagerUIFeature.EDIT_METADATA);
@@ -139,25 +158,21 @@ public class MetadataPanelPresenter implements Presenter {
 	
 	private class ActionEnabler implements HasFeature {
 		protected Action action;
-		protected MetadataToolbar toolbar;
+		protected SplashPanel splashPanel;
 
-		/**
-		 * @param action
-		 * @param toolbar
-		 */
-		public ActionEnabler(Action action, MetadataToolbar toolbar) {
+		public ActionEnabler(Action action, SplashPanel splashPanel) {
 			this.action = action;
-			this.toolbar = toolbar;
+			this.splashPanel = splashPanel;
 		}
 
 		@Override
 		public void setFeature() {
-			toolbar.setEnabled(action, true);
+			splashPanel.setEnabled(action, true);
 		}
 
 		@Override
 		public void unsetFeature() {
-			toolbar.setEnabled(action, false);
+			splashPanel.setEnabled(action, false);
 		}
 		
 	}

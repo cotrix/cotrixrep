@@ -56,6 +56,11 @@ public class MetadataPanelViewImpl extends ResizeComposite implements MetadataPa
 	}
 
 	@Override
+	public SplashPanel getSplashPanel() {
+		return splashPanel;
+	}
+
+	@Override
 	public MetadataToolbar getToolBar()	{
 		return toolbar;
 	}

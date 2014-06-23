@@ -10,9 +10,6 @@ package org.cotrix.web.manage.client.codelist.metadata;
 public interface MetadataToolbar {
 	
 	enum Action {
-		LOCK,
-		UNLOCK,
-		FINALIZE,
 		TO_CODES;
 	}
 	

@@ -56,6 +56,11 @@
 		font-size: 20px;
 		color: #5674b9;
 	}
+	
+	.button {
+		padding-left: 20px;
+		cursor: pointer;
+	}
 
 	.attributeTypes {
 		margin-left: 100px;
@@ -70,7 +75,7 @@
 		margin-right: 100px;
 		
 		margin-bottom: 5px;
-	}
+	}	
 	</ui:style>
 	<g:SimpleLayoutPanel>
 		<g:ScrollPanel styleName="{style.mainPanel}">
@@ -106,6 +111,23 @@
 										</td>
 									</tr>
 								</table>
+							</td>
+							<td style="vertical-align:middle;padding-right:100px;">
+							<g:HorizontalPanel>
+								<g:PushButton ui:field="lock" styleName="{style.button}" title="Disable Editing">
+									<g:upFace image="{resources.lock}" />
+								</g:PushButton>
+								<g:PushButton ui:field="unlock" styleName="{style.button}" title="Enable Editing">
+									<g:upFace image="{resources.unlock}" />
+								</g:PushButton>
+								<g:PushButton ui:field="seal" styleName="{style.button}" title="Seal (No Further Changes)">
+									<g:upFace image="{resources.seal}" />
+								</g:PushButton>
+								<g:PushButton ui:field="unseal" styleName="{style.button}" title="Unseal">
+									<g:upFace image="{resources.unseal}" />
+								</g:PushButton>
+							</g:HorizontalPanel>
+							
 							</td>
 						</tr>
 					</table>
