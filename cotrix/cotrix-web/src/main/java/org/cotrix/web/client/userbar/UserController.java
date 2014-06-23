@@ -21,7 +21,7 @@ import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.CotrixStartupEvent;
 import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
-import org.cotrix.web.common.client.feature.UserIdProvider;
+import org.cotrix.web.common.client.feature.UserProvider;
 import org.cotrix.web.common.shared.UIUser;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.shared.InvalidUsernameException;
@@ -51,7 +51,7 @@ public class UserController {
 	private EventBus cotrixBus;
 	
 	@Inject
-	private UserIdProvider UserIdProvider;
+	private UserProvider UserIdProvider;
 	
 	private List<String> openedCodelists = new ArrayList<String>();
 

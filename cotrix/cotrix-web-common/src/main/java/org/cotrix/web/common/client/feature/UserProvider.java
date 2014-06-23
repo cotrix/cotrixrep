@@ -17,7 +17,7 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 @Singleton
-public class UserIdProvider implements IdProvider, UserLoggedEvent.UserLoggedHandler {
+public class UserProvider implements IdProvider, UserLoggedEvent.UserLoggedHandler {
 	
 	private UIUser user;
 	
@@ -34,5 +34,9 @@ public class UserIdProvider implements IdProvider, UserLoggedEvent.UserLoggedHan
 	@Override
 	public String getId() {
 		return user!=null?user.getId():null;
+	}
+	
+	public UIUser getUser() {
+		return user;
 	}
 }

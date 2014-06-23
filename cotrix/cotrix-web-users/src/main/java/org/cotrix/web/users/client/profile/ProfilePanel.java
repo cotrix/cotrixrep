@@ -7,7 +7,7 @@ import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.HasVisibleFeature;
-import org.cotrix.web.common.client.feature.UserIdProvider;
+import org.cotrix.web.common.client.feature.UserProvider;
 import org.cotrix.web.common.client.feature.ValueBoxEditing;
 import org.cotrix.web.common.client.util.AccountValidator;
 import org.cotrix.web.common.client.util.StatusUpdates;
@@ -77,7 +77,7 @@ public class ProfilePanel extends LoadingPanel {
 	private UIUserDetails userDetails = new UIUserDetails();
 	
 	@Inject
-	private UserIdProvider userIdProvider;	
+	private UserProvider userIdProvider;	
 	
 	@Inject
 	private FeatureBinder featureBinder;
