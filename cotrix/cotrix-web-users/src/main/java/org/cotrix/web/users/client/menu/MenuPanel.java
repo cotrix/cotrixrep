@@ -79,7 +79,7 @@ public class MenuPanel extends ResizeComposite {
 	}
 	
 	private void setUsername(UIUser user) {
-		username.setText(user.getUsername());
+		if (user!=null) username.setText(user.getUsername());
 	}
 	
 	public void resetToProfile() {

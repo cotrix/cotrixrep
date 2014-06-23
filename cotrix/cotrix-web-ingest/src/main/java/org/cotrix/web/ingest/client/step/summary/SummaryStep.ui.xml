@@ -29,6 +29,7 @@
 	.firstColumn {
 		padding-left: 10px;
 		width: 120px;
+		vertical-align: top;
 	}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX' ui:field="mainPanel">
