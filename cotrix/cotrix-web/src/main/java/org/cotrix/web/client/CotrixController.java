@@ -118,7 +118,7 @@ public class CotrixController implements Presenter {
 
 		
 		showModule(CotrixModule.HOME);
-		
+		cotrixBus.fireEvent(new CotrixStartupEvent());		
 	}
 
 	
@@ -151,7 +151,6 @@ public class CotrixController implements Presenter {
 	
 	private void startupCotrix() {
 		featureBinder.turnOffCache();
-		cotrixBus.fireEvent(new CotrixStartupEvent());
 	}
 	
 	protected void showModule(CotrixModule cotrixModule)
