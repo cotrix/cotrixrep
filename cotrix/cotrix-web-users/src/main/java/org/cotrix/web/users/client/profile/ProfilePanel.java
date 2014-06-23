@@ -3,23 +3,20 @@
  */
 package org.cotrix.web.users.client.profile;
 
-import org.cotrix.web.users.client.UsersServiceAsync;
 import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
-import org.cotrix.web.common.client.event.CotrixBus;
-import org.cotrix.web.common.client.event.UserLoggedEvent;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.HasVisibleFeature;
+import org.cotrix.web.common.client.feature.UserIdProvider;
 import org.cotrix.web.common.client.feature.ValueBoxEditing;
-import org.cotrix.web.common.client.feature.InstanceFeatureBind.IdProvider;
 import org.cotrix.web.common.client.util.AccountValidator;
 import org.cotrix.web.common.client.util.StatusUpdates;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.client.widgets.dialog.AlertDialog;
-import org.cotrix.web.common.shared.UIUser;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.users.client.ModuleActivactedEvent;
 import org.cotrix.web.users.client.UsersBus;
+import org.cotrix.web.users.client.UsersServiceAsync;
 import org.cotrix.web.users.client.profile.PasswordUpdateDialog.PasswordUpdateListener;
 import org.cotrix.web.users.shared.InvalidPasswordException;
 import org.cotrix.web.users.shared.PermissionUIFeatures;
@@ -76,11 +73,11 @@ public class ProfilePanel extends LoadingPanel {
 	private ErrorManager errorManager;
 
 	@Inject
-	protected UsersServiceAsync service;
-	protected UIUserDetails userDetails = new UIUserDetails();
+	private UsersServiceAsync service;
+	private UIUserDetails userDetails = new UIUserDetails();
 	
 	@Inject
-	protected UserIdProvider userIdProvider;	
+	private UserIdProvider userIdProvider;	
 	
 	@Inject
 	private FeatureBinder featureBinder;
@@ -198,27 +195,5 @@ public class ProfilePanel extends LoadingPanel {
 		userDetails.setFullName(fullname.getText());
 		userDetails.setEmail(email.getText());
 		return userDetails;
-	}
-	
-	@Singleton
-	public static class UserIdProvider implements IdProvider, UserLoggedEvent.UserLoggedHandler {
-		
-		protected UIUser user;
-		
-		@Inject
-		protected void init(@CotrixBus EventBus cotrixBus) {
-			cotrixBus.addHandler(UserLoggedEvent.TYPE, this);
-		}
-
-		@Override
-		public void onUserLogged(UserLoggedEvent event) {
-			this.user = event.getUser();
-		}
-
-		@Override
-		public String getId() {
-			return user!=null?user.getId():null;
-		}
-		
 	}
 }
