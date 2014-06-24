@@ -14,7 +14,6 @@ import org.cotrix.action.events.CodelistActionEvents.Import;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
 import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.common.tx.Transactional;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.web.common.server.util.Reports;
 import org.cotrix.web.common.shared.Progress;
@@ -36,7 +35,6 @@ public class Importer {
 	@Inject
 	private Event<CodelistActionEvents.Import> events;
 
-	@Transactional
 	public <T> void importCodelist(Progress progress, SourceParameterProvider<T> sourceParameterProvider,
 			ImporterSource source,
 			ImporterMapper<T> mapper,
