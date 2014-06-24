@@ -23,9 +23,9 @@ public class CodelistFilter implements Predicate<UICodelist> {
 	public boolean apply(UICodelist codelist) {
 		if (codelist == null) return false;
 		
-		if (ValueUtils.getLocalPart(codelist.getName()).toLowerCase().contains(term)) return true;
-		if (codelist.getVersion().toLowerCase().contains(term)) return true;
-		if (codelist.getState()!=null &&  codelist.getState().toString().toLowerCase().contains(term)) return true;
+		if (ValueUtils.contains(codelist.getName(), term)) return true;
+		if (ValueUtils.contains(codelist.getVersion(), term)) return true;
+		if (codelist.getState()!=null &&  ValueUtils.contains(codelist.getState().toString(), term)) return true;
 		
 		return false;
 	}
