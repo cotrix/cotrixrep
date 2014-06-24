@@ -51,7 +51,7 @@ public class UserController {
 	private EventBus cotrixBus;
 	
 	@Inject
-	private UserProvider UserIdProvider;
+	private UserProvider userIdProvider;
 	
 	private List<String> openedCodelists = new ArrayList<String>();
 
@@ -66,6 +66,7 @@ public class UserController {
 
 		@Override
 		public void onSuccess(UIUser result) {
+			userIdProvider.setUser(result);
 			cotrixBus.fireEvent(new UserLoggedEvent(result));
 		}
 	};
@@ -79,6 +80,7 @@ public class UserController {
 
 		@Override
 		public void onSuccess(UIUser result) {
+			userIdProvider.setUser(result);
 			cotrixBus.fireEvent(new UserLoggedEvent(result));
 			cotrixBus.fireEvent(new SwitchToModuleEvent(CotrixModule.HOME));
 		}

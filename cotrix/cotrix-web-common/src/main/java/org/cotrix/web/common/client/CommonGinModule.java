@@ -6,6 +6,7 @@ import org.cotrix.web.common.client.error.ManagedFailureLongCallback;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.feature.FeatureBus;
 import org.cotrix.web.common.client.feature.FeatureInterceptor;
+import org.cotrix.web.common.client.feature.UserProvider;
 import org.cotrix.web.common.client.rpc.CallBackListenerManager;
 import org.cotrix.web.common.client.rpc.CotrixRemoteServiceProxy;
 import org.cotrix.web.common.client.util.StatusUpdates;
@@ -25,16 +26,18 @@ public class CommonGinModule extends AbstractGinModule {
 	/**
 	 * Common instance for all modules
 	 */
-	protected static EventBus cotrixBus = new SimpleEventBus();
+	private static EventBus cotrixBus = new SimpleEventBus();
 	
-	protected static EventBus featureBus = new SimpleEventBus();
+	private static EventBus featureBus = new SimpleEventBus();
 	
-	protected static CallBackListenerManager callbackListenerManager = new CallBackListenerManager();
+	private static CallBackListenerManager callbackListenerManager = new CallBackListenerManager();
 	
 	static {
 		callbackListenerManager.registerInterceptor(new FeatureInterceptor());
 		callbackListenerManager.registerInterceptor(new CallbackFailureLogger());
 	}
+	
+	private static UserProvider userProvider = new UserProvider();
 	
 	@Provides
 	@Singleton
@@ -57,6 +60,13 @@ public class CommonGinModule extends AbstractGinModule {
 	protected CallBackListenerManager getCallBackListenerManager()
 	{
 		return callbackListenerManager;
+	}
+	
+	@Provides
+	@Singleton
+	protected UserProvider getUserProvider()
+	{
+		return userProvider;
 	}
 
 	@Override
