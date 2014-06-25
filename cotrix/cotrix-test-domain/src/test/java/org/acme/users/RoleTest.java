@@ -92,7 +92,13 @@ public class RoleTest extends DomainTest {
 		
 		System.out.println(bill);
 		
-		User changeset = modifyUser(bill).isNoLonger(something).build();
+		User changeset = modifyUser(bill).can(doit.on("1")).build();
+		
+		update(bill, changeset);
+		
+		assertTrue(bill.can(doit.on("1")));
+		
+		changeset = modifyUser(bill).isNoLonger(something).build();
 		
 		System.out.println(bill);
 		
@@ -101,7 +107,7 @@ public class RoleTest extends DomainTest {
 		System.out.println(bill);
 		
 		assertFalse(bill.can(doit));
-		
+		assertTrue(bill.can(doit.on("1")));
 		
 	}
 	
