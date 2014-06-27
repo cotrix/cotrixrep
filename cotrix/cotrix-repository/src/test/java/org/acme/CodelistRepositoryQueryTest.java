@@ -226,6 +226,7 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		repository.add(list);
 		
 		Attribute template = attribute().name("a").value("ignore").build();
+		
 		Iterable<Code> results  = repository.get(allCodesIn(list.id()).sort(byAttribute(template,1)));
 		
 		assertEquals(asList(c3,c1,c2),collect(results));

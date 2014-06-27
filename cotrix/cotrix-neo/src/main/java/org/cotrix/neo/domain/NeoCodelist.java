@@ -36,7 +36,7 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 
 		super(CODELIST,state);	
 		
-		for (Definition.State l : state.attributeTypes())
+		for (Definition.State l : state.definitions())
 			node().createRelationshipTo(NeoDefinition.factory.nodeFrom(l),Relations.DEFINITION);
 		
 		for (CodelistLink.State l : state.links())
@@ -63,7 +63,7 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 	}
 	
 	@Override
-	public NamedStateContainer<Definition.State> attributeTypes() {
+	public NamedStateContainer<Definition.State> definitions() {
 		return new NeoContainer<>(node(), Relations.DEFINITION, NeoDefinition.factory);
 	}
 	

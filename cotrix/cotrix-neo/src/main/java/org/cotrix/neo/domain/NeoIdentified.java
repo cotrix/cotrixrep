@@ -1,6 +1,7 @@
 package org.cotrix.neo.domain;
 
 import static org.cotrix.neo.NeoNodeFactory.*;
+import static org.cotrix.neo.NeoUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
 
 import org.cotrix.domain.trait.Identified;
@@ -11,7 +12,7 @@ import org.cotrix.neo.domain.Constants.NodeType;
 import org.neo4j.graphdb.Node;
 
 public abstract class NeoIdentified implements Identified.State {
-
+	
 	private final Node node;
 	
 	//read/update scenario: node is fetched from store
@@ -51,14 +52,21 @@ public abstract class NeoIdentified implements Identified.State {
 		//persisted already?
 		if (state instanceof NeoIdentified)
 			return NeoIdentified.class.cast(state).node();
-			
-		//is there an equivalent in store?
-		Node node = NeoNodeFactory.node(type,state.id());
-			
 		
-		if (node==null)
-			throw new IllegalStateException("cannot form link: no node '"+state.name()+"' (id="+state.id()+") of type "+type+" in this repository");
-	
+		//is there an equivalent in cache?
+		Node node = threadCache().get(state.id());
+		
+		//is there an equivalent in store?
+		if (node==null) {
+			
+			node = NeoNodeFactory.node(type,state.id());
+		
+			if (node==null)
+				throw new IllegalStateException("cannot form link: no node '"+state.name()+"' (id="+state.id()+") of type "+type+" in this repository");
+			
+			else threadCache().put(state.id(),node);
+		}
+		
 		return node;
 	}
 
@@ -96,6 +104,10 @@ public abstract class NeoIdentified implements Identified.State {
 		return id().equals(other.id());
 	}
 	
+	@Override
+	public String toString() {
+		return super.toString()+":"+hashCode();
+	}
 	
 
 }

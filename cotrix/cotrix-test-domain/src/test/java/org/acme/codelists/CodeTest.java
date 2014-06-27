@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
@@ -16,17 +17,22 @@ import org.junit.Test;
 
 public class CodeTest extends DomainTest {
 
-	Code targetcode = code().name(name2).build();
-	Codelist target = codelist().name(name).with(targetcode).build();
-
+	
 	
 	Attribute attr = attribute().name(name).build();
+	
+	Definition def = definition().name(name2).build();
+	Attribute a1 = attribute().with(def).value("val1").build();
+	Attribute a2 = attribute().with(def).value("val2").build();
+	
+	Code targetcode = code().name(name2).build();
+	Codelist target = codelist().name(name).with(targetcode).build();
 	CodelistLink listlink = listLink().name(name).target(target).build();
 	Codelink link = link().instanceOf(listlink).target(targetcode).build();
 	
 	Code code = code()
 					.name(name)
-					.attributes(attr)
+					.attributes(attr,a1,a2)
 					.links(link)
 					.build();
 	
@@ -34,6 +40,7 @@ public class CodeTest extends DomainTest {
 	public void stage() {
 		
 		target = like(target);
+		def = like(def);
 		listlink = like(listlink);
 		code = like(code);
 	}
@@ -52,6 +59,9 @@ public class CodeTest extends DomainTest {
 		assertTrue(code.attributes().contains(attr));
 		assertTrue(code.links().contains(link));
 		assertTrue(code.attributes().contains(attr));
+		
+		assertTrue(a1.definition().isShared());
+		assertFalse(attr.definition().isShared());
 	}
 	
 	

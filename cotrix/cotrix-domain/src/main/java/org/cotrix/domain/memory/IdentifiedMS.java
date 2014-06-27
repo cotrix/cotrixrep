@@ -89,6 +89,10 @@ public class IdentifiedMS implements Identified.State {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return super.toString()+":"+hashCode();
+	}
 	
 
 }

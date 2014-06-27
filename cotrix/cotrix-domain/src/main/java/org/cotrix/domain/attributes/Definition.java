@@ -45,6 +45,13 @@ public interface Definition extends Identified, Named {
 	Range range();
 	
 	
+	/**
+	 * Returns <code>true</code> if this definition is shared by many instances.
+	 * @return  <code>true</code> if this definition is shared by many instances
+	 */
+	boolean isShared();
+	
+	
 		
 	//state interface
 	static interface State extends Identified.State, Named.State, EntityProvider<Private> {
@@ -64,6 +71,9 @@ public interface Definition extends Identified, Named {
 		Range range();
 		
 		void range(Range type);
+		
+		boolean isShared();
+		
 	}
 
 	//private implementation: delegates to state bean
@@ -71,6 +81,11 @@ public interface Definition extends Identified, Named {
 
 		public Private(Definition.State state) {
 			super(state);
+		}
+		
+		@Override
+		public boolean isShared() {
+			return state().isShared();
 		}
 		
 		@Override
@@ -92,6 +107,8 @@ public interface Definition extends Identified, Named {
 		public ValueType valueType() {
 			return state().valueType();
 		}
+		
+		
 		
 		@Override
 		public Range range() {
@@ -138,7 +155,7 @@ public interface Definition extends Identified, Named {
 
 		@Override
 		public String toString() {
-			return "def [id=" + id() + ", name=" + name() + ", range=" + range() + ", valueType=" + valueType() + ", language=" + language()
+			return "def [id=" + id() + ", shared=" + isShared()+ ", name=" + name() + ", range=" + range() + ", valueType=" + valueType() + ", language=" + language()
 					+ (type() == null ? "" : ", type=" + type()) + (status() == null ? "" : " (" + status() + ") ")
 					+ "]";
 		}

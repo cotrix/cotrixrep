@@ -60,7 +60,7 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	@Override
 	public CodelistBuilder definitions(Iterable<Definition> types) {
-		state.attributeTypes(reveal(types,Definition.Private.class));
+		state.definitions(reveal(types,Definition.Private.class));
 		return this;
 	}
 	

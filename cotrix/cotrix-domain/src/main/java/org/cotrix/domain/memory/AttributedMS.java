@@ -55,8 +55,11 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 		if (attributes == null) {
 			if (other.attributes() != null)
 				return false;
-		} else if (!attributes.equals(other.attributes()))
-			return false;
+		} else
+			if (!attributes.equals(other.attributes()))
+				return false;
+		
+		
 		return true;
 	}
 		

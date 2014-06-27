@@ -40,8 +40,25 @@ public class NeoDefinition extends NeoIdentified implements Definition.State {
 		language(state.language());
 		valueType(state.valueType());
 		range(state.range());
+		shared(state.isShared());
 		
 	}
+	
+	@Override
+	public boolean isShared() {
+		
+		return (Boolean) node().getProperty(shared_prop,true);
+		
+	}
+	
+	
+	void shared(boolean flag) {
+		
+		//store only the less likely case
+		if (!flag)
+			node().setProperty(shared_prop,flag);
+	}
+	
 	
 	@Override
 	public QName name() {

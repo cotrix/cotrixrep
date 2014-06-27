@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.xml.namespace.QName;
@@ -306,6 +307,14 @@ public class Utils {
 		
 	}
 	
+	public static <T> Set<T> collectUnordered(Iterable<T> it) {
+		
+		Set<T> c = new HashSet<T>();
+		for (T t : it)
+			c.add(t);
+		return c;
+			
+	}
 	
 	public static void assertEqualOrdered(Collection<?> c1, Object ... ts) {
 		

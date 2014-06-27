@@ -10,7 +10,7 @@
 	<artifactId>cotrix-neo</artifactId>
 
 	<properties>
-		<neo.version>2.0.3</neo.version>
+		<neo.version>2.1.1</neo.version>
 	</properties>
 
 	<dependencies>
@@ -43,6 +43,12 @@
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-security</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-io</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>

@@ -17,11 +17,17 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 	private String language;
 	private ValueType valueType;
 	private Range range;
+	private boolean shared;
 	
 	public DefinitionMS() {
+		this(true);
+	}
+	
+	public DefinitionMS(boolean shared) {
 		type=defaultType;
 		valueType(defaultValueType);
 		range(defaultRange);
+		shared(shared);
 	}
 	
 	public DefinitionMS(String id,Status status) {
@@ -36,6 +42,16 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 		language(state.language());
 		valueType(state.valueType()); //no need to clone: once created, it's immutable.
 		range(state.range());
+		shared(state.isShared());
+	}
+	
+	void shared(boolean flag) {
+		shared=flag;
+	}
+	
+	@Override
+	public boolean isShared() {
+		return shared;
 	}
 	
 	public QName name() {
@@ -91,16 +107,19 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 
 	@Override
 	public boolean equals(Object obj) {
+		
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
 			return false;
+		
 		Definition.State other = (Definition.State) obj;
 		if (language == null) {
 			if (other.language() != null)
 				return false;
 		} else if (!language.equals(other.language()))
 			return false;
+		
 		if (name == null) {
 			if (other.name() != null)
 				return false;

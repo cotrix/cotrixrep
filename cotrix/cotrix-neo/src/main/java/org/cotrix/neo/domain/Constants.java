@@ -9,6 +9,7 @@ public class Constants {
 	public static final String name_prop="name";
 	public static final String fullname_prop="fullname";
 	public static final String type_prop="type";
+	public static final String shared_prop="shared";
 	public static final String attr_type_prop="attr_type";
 	public static final String value_prop="val";
 	public static final String description_prop="desc";

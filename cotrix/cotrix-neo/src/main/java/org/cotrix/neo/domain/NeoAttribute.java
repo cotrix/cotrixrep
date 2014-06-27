@@ -57,8 +57,11 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 	@Override
 	public void definition(Definition.State state) {
 		
+		Node node = null;
+		
 		//allow for private types
-		Node node = softResolve(state, DEFINITION);
+		if (state.isShared())
+			node = softResolve(state, DEFINITION);
 			
 		if (node==null)
 			node = NeoDefinition.factory.nodeFrom(state);

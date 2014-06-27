@@ -32,7 +32,7 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		
 		super(state);
 		
-		for (Definition.State atype : state.attributeTypes()) {
+		for (Definition.State atype : state.definitions()) {
 			attributeTypes.add(new DefinitionMS(atype));
 		}
 		
@@ -56,7 +56,7 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	
 	
 	@Override
-	public NamedStateContainer<State> attributeTypes() {
+	public NamedStateContainer<State> definitions() {
 		return attributeTypes;
 	}
 	
@@ -64,7 +64,7 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		return links;
 	}
 
-	public void attributeTypes(Collection<Definition.State> types) {
+	public void definitions(Collection<Definition.State> types) {
 
 		notNull("attribute types", types);
 		
