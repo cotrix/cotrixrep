@@ -10,10 +10,11 @@
 	<artifactId>cotrix-neo</artifactId>
 
 	<properties>
-		<neo.version>2.1.1</neo.version>
+		<neo.version>2.0.3</neo.version>
 	</properties>
 
 	<dependencies>
+
 
 		<dependency>
 			<groupId>org.cotrix</groupId>

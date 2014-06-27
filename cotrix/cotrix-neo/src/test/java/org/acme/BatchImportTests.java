@@ -53,6 +53,9 @@ public class BatchImportTests extends ApplicationTest {
 		
 		ingest(outcome.result());
 		
+		
+		codelists.remove(outcome.result().id());
+		
 	}
 	
 	

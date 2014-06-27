@@ -22,9 +22,9 @@ public class NeoUtils {
 	//gotta to exceed a reasonable expectation of large 'attribute set'.
 	private static final int thread_cache_size = 50;
 
-	private static Logger log = LoggerFactory.getLogger(NeoUtils.class);
+	private final static Logger log = LoggerFactory.getLogger(NeoUtils.class);
 	
-	private static XStream stream = new XStream();
+	private final static XStream stream = new XStream();
 	
 	
 	//the intention here is to serve a single import task, which we know takes place on a single thread
@@ -49,14 +49,23 @@ public class NeoUtils {
 		
 		for (Relationship r : n.getRelationships(OUTGOING))
 			
-			//we do not remove links and shared types
-			if (!r.isType(LINK) && !r.isType(INSTANCEOF))
-				removeNode(r.getEndNode());
+			if (r.isType(LINK) || r.isType(INSTANCEOF))
+				r.delete(); //delete only relationship
 			else
-				r.delete();
+				removeNode(r.getEndNode()); //delete target, relation will be moved there
+			
+			
 		
-		for (Relationship r : n.getRelationships(INCOMING))
+		for (Relationship r : n.getRelationships(INCOMING))		
 			r.delete();
+	
+		
+		//first introduced as a 'patch' when trying to move to neo 2.1.x: definitions do not appear to have incoming edges from codelists (?!)
+		//it's not needed in 2.0.x
+		for (Relationship r : n.getRelationships()) {
+			r.delete();
+			log.warn("force removed "+r.getType()+" on "+n.getLabels());
+		}
 		
 		n.delete();
 		
