@@ -35,6 +35,8 @@ public interface Attribute extends Identified, Named {
 	QName type();
 
 	
+	boolean is(QName name);
+	
 	/**
 	 * Returns the current value of this attribute
 	 * 
@@ -82,6 +84,8 @@ public interface Attribute extends Identified, Named {
 		void value(String value);
 		void language(String language);
 		void description(String description);
+		
+		boolean is(QName name);
 	}
 
 	
@@ -109,6 +113,11 @@ public interface Attribute extends Identified, Named {
 		@Override
 		public QName type() {
 			return state().type();
+		}
+		
+		@Override
+		public boolean is(QName name) {
+			return state().is(name);
 		}
 
 		@Override

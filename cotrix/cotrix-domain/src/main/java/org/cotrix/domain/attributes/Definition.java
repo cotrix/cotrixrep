@@ -23,6 +23,9 @@ public interface Definition extends Identified, Named {
 	 * @return the type
 	 */
 	QName type();
+	
+	
+	boolean is(QName name);
 
 	/**
 	 * Returns the natural language of instance values.
@@ -74,6 +77,8 @@ public interface Definition extends Identified, Named {
 		
 		boolean isShared();
 		
+		boolean is(QName name);
+		
 	}
 
 	//private implementation: delegates to state bean
@@ -96,6 +101,11 @@ public interface Definition extends Identified, Named {
 		@Override
 		public QName type() {
 			return state().type();
+		}
+		
+		@Override
+		public boolean is(QName name) {
+			return state().is(name);
 		}
 
 		@Override

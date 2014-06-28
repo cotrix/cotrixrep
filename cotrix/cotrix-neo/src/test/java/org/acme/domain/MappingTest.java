@@ -1,6 +1,7 @@
 package org.acme.domain;
 
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.junit.Assert.*;
 
@@ -26,6 +27,26 @@ public class MappingTest extends ApplicationTest {
 	public void attributesRoundTrip() {
 		
 		Attribute a = attribute().name("a").value("v").ofType("t").in("l").build();
+		
+		Attribute.State created = reveal(a).state();
+		
+		try (Transaction tx = store.beginTx()) {
+				
+			NeoAttribute added = new NeoAttribute(created);
+			
+			NeoAttribute retrieved = new NeoAttribute(added.node());
+			
+			assertEquals(created,retrieved);
+			
+			tx.success();
+		}
+		
+	}
+	
+	@Test
+	public void commonAttributesRoundTrip() {
+		
+		Attribute a = attribute().with(CREATION_TIME.get()).value("v").build();
 		
 		Attribute.State created = reveal(a).state();
 		

@@ -1,7 +1,8 @@
 package org.cotrix.domain.trait;
 
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.Utils.*;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.NamedContainer;
@@ -62,26 +63,36 @@ public interface Attributed {
 
 			attributes().update(changeset.attributes());
 			
+			//these may be materialised from storage, sacrifice legibility for minimal handling
 			NamedStateContainer<Attribute.State> attributes = state().attributes();
 			
-			if (attributes.contains(UPDATE_TIME))
+			if (timestampIn(attributes))
 		
-				attributes.lookup(UPDATE_TIME).value(time());
-			
-			else 
+				updateTimestampAndUserIn(attributes);
 				
-				attributes.add(timestamp(UPDATE_TIME));
+			else
+				
+				addTimestampAndUserTo(attributes);
 		
 
-			if (attributes.contains(UPDATED_BY))
-				
-				updatedBy(attributes.lookup(UPDATED_BY));
-			
-			else 
-				
-				attributes.add(updatedBy());
-			
 		}
 
+		//helpers
+		private boolean timestampIn(NamedStateContainer<Attribute.State> attributes) {
+			return attributes.contains(UPDATE_TIME.qname());
+		}
+		
+		private void updateTimestampAndUserIn(NamedStateContainer<Attribute.State> attributes) {
+			attributes.lookup(UPDATE_TIME.qname()).value(time());
+			attributes.lookup(UPDATED_BY.qname()).value(currentUser());
+		}
+		
+		private void addTimestampAndUserTo(NamedStateContainer<Attribute.State> attributes) {
+			attributes.add(stateof(attribute().with(UPDATE_TIME).value(time())));
+			attributes.add(stateof(attribute().with(UPDATED_BY).value(currentUser())));
+		}
+		
 	}
+	
+	
 }

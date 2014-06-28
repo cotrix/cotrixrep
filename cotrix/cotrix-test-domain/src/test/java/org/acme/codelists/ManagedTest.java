@@ -2,10 +2,10 @@ package org.acme.codelists;
 
 import static java.util.concurrent.TimeUnit.*;
 import static org.acme.codelists.Fixture.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.domain.utils.CodeStatus.*;
-import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.domain.utils.ManagedCode.*;
 import static org.junit.Assert.*;
 
@@ -123,7 +123,8 @@ public class ManagedTest extends ApplicationTest {
 	@Test
 	public void accessStatus() throws Exception {
 
-		reveal(code).update(reveal(modify(code).attributes(status(DELETED)).build()));
+		Attribute a = attribute().with(STATUS).value(DELETED.name()).build(); 
+		reveal(code).update(reveal(modify(code).attributes(a).build()));
 		
 		//default value is creation date
 		assertEquals(DELETED,managed.status());

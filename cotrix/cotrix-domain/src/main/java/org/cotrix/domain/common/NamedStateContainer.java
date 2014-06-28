@@ -21,6 +21,7 @@ public interface NamedStateContainer<S> extends StateContainer<S> {
 	
 	boolean contains(QName name);
 	
+	boolean contains(Named named);
 	
 	//not expecting large output => materialised collection easier than stream
 	Collection<S> getAll(QName name);  
@@ -28,6 +29,7 @@ public interface NamedStateContainer<S> extends StateContainer<S> {
 	
 	S lookup(QName name) throws IllegalStateException;
 	
+	S lookup(Named named) throws IllegalStateException;
 	
 	
 	//default implementation based on materialised collection
@@ -49,6 +51,11 @@ public interface NamedStateContainer<S> extends StateContainer<S> {
 			
 			return !getAll(name).isEmpty();
 		
+		}
+		
+		@Override
+		public boolean contains(Named named) {
+			return contains(named.name());
 		}
 
 		@Override
@@ -74,6 +81,10 @@ public interface NamedStateContainer<S> extends StateContainer<S> {
 				throw new IllegalStateException("zero or more than one element with name "+name);
 		}
 		
-				
+		
+		@Override
+		public S lookup(Named named) throws IllegalStateException {
+			return lookup(named.name());
+		}
 	}
 }

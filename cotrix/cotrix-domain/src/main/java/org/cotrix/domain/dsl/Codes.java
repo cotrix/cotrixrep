@@ -251,4 +251,5 @@ public class Codes {
 		notNull("code link",link);
 		return Utils.reveal(link,Codelink.Private.class);
 	}
+	
 }

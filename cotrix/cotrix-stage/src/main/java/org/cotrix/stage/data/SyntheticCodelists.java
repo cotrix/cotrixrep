@@ -88,7 +88,7 @@ public class SyntheticCodelists {
 						definition().name("demo one").is(DESCRIPTION_TYPE).valueIs(
 							valueType().with(max_length.instance(5)).defaultsTo("someval")
 						).in("en").build(),
-						definition().name("demo two").is(NAME).valueIs(
+						definition().name("demo two").is(NAME_TYPE).valueIs(
 							valueType().with(min_length.instance(3)).defaultsTo("someotherval").required()
 						).build(),
 						definition().name("demo three").valueIs(

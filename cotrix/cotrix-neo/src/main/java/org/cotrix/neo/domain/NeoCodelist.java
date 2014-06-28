@@ -15,8 +15,8 @@ import org.neo4j.graphdb.Node;
 
 public class NeoCodelist extends NeoVersioned implements Codelist.State {
 
-	//asfis-induced, fairly arbitrary. see it as an attempt to avoid OOM errors :)
-	final static int batch = 15000;
+	//asfismaxBatchSizetchSizeced, fairly arbitrary. see it as an attempt to avoid OOM errors :)
+	final static int maxBatchSize = 15000;
 	
 	public static final NeoStateFactory<Codelist.State> factory = new NeoStateFactory<Codelist.State>() {
 		
@@ -46,10 +46,13 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 		for (CodelistLink.State l : state.links())
 			node().createRelationshipTo(NeoCodelistLink.factory.nodeFrom(l),Relations.LINK);
 		
+		
+		
 		int i = 0;
+	
 		for (Code.State c : state.codes()) {
 		
-			if (i==batch) {
+			if (i==maxBatchSize) {
 				NeoTransaction.current().split();
 				i=0;
 			}

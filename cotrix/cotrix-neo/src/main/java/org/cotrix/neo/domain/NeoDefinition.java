@@ -87,6 +87,11 @@ public class NeoDefinition extends NeoIdentified implements Definition.State {
 			node().setProperty(type_prop,type.toString());
 		
 	}
+	
+	@Override
+	public boolean is(QName name) {
+		return type().equals(name);
+	}
 
 	@Override
 	public String language() {
@@ -106,14 +111,14 @@ public class NeoDefinition extends NeoIdentified implements Definition.State {
 	@Override
 	public ValueType valueType() {
 		
-		return (ValueType) binder().fromXML((String) node().getProperty(attr_type_prop));
+		return (ValueType) binder().fromXML((String) node().getProperty(vtype_prop));
 		
 	}
 	
 	@Override
 	public void valueType(ValueType state) {
 		
-		node().setProperty(attr_type_prop,binder().toXML(state));
+		node().setProperty(vtype_prop,binder().toXML(state));
 		
 	}
 	

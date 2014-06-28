@@ -100,7 +100,7 @@ public class GroupFactory {
 	}
 	
 	private static boolean isSystemAttribute(Attribute attribute) {
-		return attribute.type()!=null?attribute.type().equals(Constants.SYSTEM_TYPE):false;
+		return attribute.type()!=null?attribute.is(Constants.SYSTEM_TYPE):false;
 	}
 		
 	@SuppressWarnings("unchecked")

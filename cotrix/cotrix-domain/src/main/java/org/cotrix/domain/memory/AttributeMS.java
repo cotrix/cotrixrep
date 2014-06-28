@@ -61,6 +61,11 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		return definition.type();
 	}
 	
+	@Override
+	public boolean is(QName name) {
+		return definition.is(name);
+	}
+	
 	public String value() {
 		return value;
 	}

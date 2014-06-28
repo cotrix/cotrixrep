@@ -2,6 +2,7 @@ package org.cotrix.domain.utils;
 
 import static java.text.DateFormat.*;
 import static org.cotrix.common.Utils.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.utils.CodeStatus.*;
 import static org.cotrix.domain.utils.Constants.*;
 
@@ -35,7 +36,7 @@ public class ManagedCode implements Code {
 	
 	public Date created() {
 		
-		String val = lookup(CREATION_TIME);
+		String val = lookup(CREATION_TIME.qname());
 		
 		try {
 			return val==null? null : getDateTimeInstance().parse(val);
@@ -61,7 +62,7 @@ public class ManagedCode implements Code {
 	
 	public Date lastUpdated() {
 		
-		String val = lookup(UPDATE_TIME);
+		String val = lookup(UPDATE_TIME.qname());
 		
 		try {
 			return val==null? created():getDateTimeInstance().parse(val);
@@ -73,14 +74,14 @@ public class ManagedCode implements Code {
 	
 	public String lastUpdatedBy() {
 		
-		String val = lookup(UPDATED_BY);
+		String val = lookup(UPDATED_BY.qname());
 		
 		return val;
 	}
 	
 	public CodeStatus status() {
 		
-		String val = lookup(STATUS);
+		String val = lookup(STATUS.qname());
 		
 		if (val==null)
 			return VALID;

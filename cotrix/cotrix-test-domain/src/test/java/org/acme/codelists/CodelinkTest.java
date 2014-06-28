@@ -66,7 +66,7 @@ public class CodelinkTest extends DomainTest {
 	public void resolveLinkToAttributes() {
 		
 		
-		Attribute a = like(attribute().name(name).value(value).ofType(defaultType).in(language).build());
+		Attribute a = like(attribute().name(name).value(value).ofType(DEFAULT_TYPE).in(language).build());
 		Code code = like(code().name("b").attributes(a).build());
 		Codelist list = like(codelist().name("B").with(code).build());  
 
@@ -84,7 +84,7 @@ public class CodelinkTest extends DomainTest {
 	public void resolveLinkToAttributesWithFunction() {
 		
 		
-		Attribute a = like(attribute().name(name).value(value).ofType(defaultType).in(language).build());
+		Attribute a = like(attribute().name(name).value(value).ofType(DEFAULT_TYPE).in(language).build());
 		Code code = like(code().name("b").attributes(a).build());
 		Codelist list = like(codelist().name("B").with(code).build());  
 

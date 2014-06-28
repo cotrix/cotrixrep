@@ -24,7 +24,7 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 	}
 	
 	public DefinitionMS(boolean shared) {
-		type=defaultType;
+		type=DEFAULT_TYPE;
 		valueType(defaultValueType);
 		range(defaultRange);
 		shared(shared);
@@ -71,6 +71,11 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 	
 	public void type(QName type) {
 		this.type = type;
+	}
+	
+	@Override
+	public boolean is(QName name) {
+		return type.equals(name);
 	}
 
 	public String language() {

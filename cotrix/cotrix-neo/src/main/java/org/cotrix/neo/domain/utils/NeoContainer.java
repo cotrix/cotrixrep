@@ -116,6 +116,11 @@ public class NeoContainer<S extends Identified.State & Named.State> implements N
 	}
 	
 	@Override
+	public boolean contains(Named named) {
+		return contains(named.name());
+	}
+	
+	@Override
 	public Collection<S> getAll(QName name) {
 		
 		Collection<S> matches = new ArrayList<>();
@@ -136,6 +141,11 @@ public class NeoContainer<S extends Identified.State & Named.State> implements N
 			return matches.iterator().next();
 		else
 			throw new IllegalStateException("zero or more than one element with name "+name);
+	}
+	
+	@Override
+	public S lookup(Named named) throws IllegalStateException {
+		return lookup(named.name());
 	}
 	
 	//helpers

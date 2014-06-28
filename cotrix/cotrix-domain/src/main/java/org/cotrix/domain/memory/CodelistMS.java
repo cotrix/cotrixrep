@@ -1,17 +1,23 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.Utils.*;
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
+import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.Collection;
 
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.attributes.Definition.State;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.NamedStateContainer;
+import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Status;
+import org.cotrix.domain.trait.Versioned;
 
 public final class CodelistMS extends VersionedMS implements Codelist.State {
 
@@ -19,7 +25,7 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 
 	private NamedStateContainer<CodelistLink.State> links = new NamedStateContainer.Default<CodelistLink.State>();
 
-	private NamedStateContainer<Definition.State> attributeTypes = new NamedStateContainer.Default<Definition.State>();
+	private NamedStateContainer<Definition.State> defs = new NamedStateContainer.Default<Definition.State>();
 	
 	public CodelistMS() {
 	}
@@ -33,7 +39,7 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		super(state);
 		
 		for (Definition.State atype : state.definitions()) {
-			attributeTypes.add(new DefinitionMS(atype));
+			defs.add(new DefinitionMS(atype));
 		}
 		
 		for (CodelistLink.State link : state.links()) {
@@ -43,21 +49,21 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		
 		for (Code.State code : state.codes()) {
 			Code.State copy = new CodeMS(code);
-			copy.attributes().add(previousName(code.name()));
-			copy.attributes().add(previousId(code.id()));
+			copy.attributes().add(nameof(code));
+			copy.attributes().add(idof(code));
 			codes.add(copy);
 		}
 		
 		
-		attributes().add(previousVersion(state.version()));
-		attributes().add(previousName(state.name()));
-		attributes().add(previousId(state.id()));
+		attributes().add(versionof(state));
+		attributes().add(nameof(state));
+		attributes().add(idof(state));
 	}
 	
 	
 	@Override
 	public NamedStateContainer<State> definitions() {
-		return attributeTypes;
+		return defs;
 	}
 	
 	public NamedStateContainer<CodelistLink.State> links() {
@@ -69,7 +75,7 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		notNull("attribute types", types);
 		
 		for(Definition.State type : types)
-			this.attributeTypes.add(type);
+			this.defs.add(type);
 	}
 	
 	public void links(Collection<CodelistLink.State> links) {
@@ -120,5 +126,19 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		return true;
 	}
 	
+	//helpers
+	private Attribute.State nameof(Named.State named) {
+		
+		return stateof(attribute().with(PREV_VERSION_NAME).value(named.name().toString()).build());
+	}
 	
+	private Attribute.State idof(Identified.State identified) {
+		
+		return stateof(attribute().with(PREV_VERSION_ID).value(identified.id()).build());
+	}
+	
+	private Attribute.State versionof(Versioned.State versioned) {
+		
+		return stateof(attribute().with(PREV_VERSION).value(versioned.version().value()).build());
+	}
 }

@@ -1,6 +1,7 @@
 package org.cotrix.stage;
 
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.stage.data.SomeCodelists.*;
 import static org.cotrix.stage.data.SomeUsers.*;
 
@@ -28,7 +29,6 @@ import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.user.User;
-import org.cotrix.domain.utils.Constants;
 import org.cotrix.io.MapService;
 import org.cotrix.io.ParseService;
 import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
@@ -180,7 +180,7 @@ public class CodelistsStager {
 			
 			for (Attribute a : code.attributes()) {
 				
-				if (a.type().equals(Constants.SYSTEM_TYPE))
+				if (a.is(SYSTEM_TYPE))
 					continue;
 				
 				QName name = new QName(a.name()+"-link");
@@ -211,7 +211,7 @@ public class CodelistsStager {
 			
 			for (Attribute a : code.attributes()) {
 				
-				if (a.type().equals(Constants.SYSTEM_TYPE))
+				if (a.is(SYSTEM_TYPE))
 					continue;
 				
 				QName name = new QName(a.name()+"-link");

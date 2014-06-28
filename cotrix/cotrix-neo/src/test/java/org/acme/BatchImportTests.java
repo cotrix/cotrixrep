@@ -19,6 +19,7 @@ import org.cotrix.io.tabular.map.Table2CodelistDirectives;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.virtualrepository.tabular.Table;
 
@@ -37,6 +38,7 @@ public class BatchImportTests extends ApplicationTest {
 	Event<EndRequest> end;
 	
 	@Test
+	@Ignore //comment this out for interactive runs
 	public void batchlarge() {
 		
 		InputStream stream = getClass().getClassLoader().getResourceAsStream("large.txt");
@@ -53,12 +55,14 @@ public class BatchImportTests extends ApplicationTest {
 		
 		ingest(outcome.result());
 		
+		
+		
 		codelists.remove(outcome.result().id());
 		
 	}
 	
 	
-	@Test
+	@Test @Ignore
 	public void batchlarger() {
 		
 		InputStream stream = getClass().getClassLoader().getResourceAsStream("larger.txt");

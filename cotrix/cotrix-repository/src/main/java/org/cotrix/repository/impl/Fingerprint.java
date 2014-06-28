@@ -25,7 +25,7 @@ public class Fingerprint {
 	public Fingerprint addAttributes(Iterable<? extends Attribute> attributes) {
 		
 		for (Attribute a : attributes)
-			if (!a.type().equals(SYSTEM_TYPE))
+			if (!a.is(SYSTEM_TYPE))
 			  addTo(typesFor(a.name()), a.type(), a.language());
 		
 		return this;
@@ -35,7 +35,7 @@ public class Fingerprint {
 	public Fingerprint addDefinitions(Iterable<? extends Definition> definitions) {
 		
 		for (Definition def : definitions)
-			if (!def.type().equals(SYSTEM_TYPE))
+			if (!def.is(SYSTEM_TYPE))
 				addTo(typesFor(def.name()), def.type(), def.language());
 			
 		return this;
