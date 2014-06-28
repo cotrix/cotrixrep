@@ -37,9 +37,12 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 	public void add(State list) {
 		
 		try {
+			
 			new NeoCodelist(list);
+		
 		}
 		finally {
+			
 			log.info("cleared thread cache after import");
 			NeoUtils.threadCache().clear();
 		}

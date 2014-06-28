@@ -59,11 +59,7 @@ public abstract class AbstractRepository<T extends Identified,
 		if (delegate.contains(implementation.id()))
 			throw new IllegalArgumentException("entity "+log(entity)+"is already in this repository");
 		
-		long time = currentTimeMillis();
-		
 		delegate.add(implementation.state());
-		
-		log.trace("added entity {} in {} ms.",log(entity),currentTimeMillis()-time);
 		
 		producer.additions.fire(entity);
 		

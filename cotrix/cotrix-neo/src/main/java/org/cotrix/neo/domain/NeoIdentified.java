@@ -61,6 +61,7 @@ public abstract class NeoIdentified implements Identified.State {
 			
 			node = NeoNodeFactory.node(type,state.id());
 		
+			
 			if (node==null)
 				throw new IllegalStateException("cannot form link: no node '"+state.name()+"' (id="+state.id()+") of type "+type+" in this repository");
 			

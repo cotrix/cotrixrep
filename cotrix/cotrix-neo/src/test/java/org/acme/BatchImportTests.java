@@ -45,14 +45,13 @@ public class BatchImportTests extends ApplicationTest {
 		
 		parseDirectives.options().hasHeader(true);
 		parseDirectives.options().setDelimiter('\t');
-		parseDirectives.options().setRows(10);
+		//parseDirectives.options().setRows(10);
 		
 		Table table = parser.parse(stream, parseDirectives);
 
 		Outcome<Codelist> outcome = service.map(table, mapDirectives());
 		
 		ingest(outcome.result());
-		
 		
 		codelists.remove(outcome.result().id());
 		
@@ -91,7 +90,8 @@ public class BatchImportTests extends ApplicationTest {
 				  .add(column("Author"))
 				  .add(column("Family"))
 				  .add(column("Order"))
-				  .add(column("Stats_data"));
+				  .add(column("Stats_data"))
+				  ;
 		
 		return directives;
 	}

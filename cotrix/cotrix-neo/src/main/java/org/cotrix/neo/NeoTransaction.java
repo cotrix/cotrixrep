@@ -13,15 +13,37 @@ import org.neo4j.graphdb.GraphDatabaseService;
 public class NeoTransaction implements Transaction {
 
 	private org.neo4j.graphdb.Transaction tx;
+	private final GraphDatabaseService store;
+	
+	private static final InheritableThreadLocal<NeoTransaction> current = new InheritableThreadLocal<NeoTransaction>();
+	
+	
+	public static NeoTransaction current() {
+		return current.get();
+	}
 	
 	@Inject
 	public NeoTransaction(GraphDatabaseService store) {
+		this.store=store;
+		open();
+	}
+	
+	void open() {
 		tx = store.beginTx();
+		current.set(this);
 	}
 	
 	@Override
 	public void commit() {
 		tx.success();
+		
+	}
+	
+	public void split() {
+		
+		commit();
+		close();
+		open();
 		
 	}
 
