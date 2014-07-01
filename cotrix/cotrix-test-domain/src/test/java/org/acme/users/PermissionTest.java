@@ -2,7 +2,7 @@ package org.acme.users;
 
 import static org.junit.Assert.*;
 import static org.cotrix.action.Actions.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Users.*;
 
 import org.acme.DomainTest;

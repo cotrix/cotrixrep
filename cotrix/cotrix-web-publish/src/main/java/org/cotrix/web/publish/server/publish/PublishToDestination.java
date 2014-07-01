@@ -94,7 +94,7 @@ public interface PublishToDestination {
 			Codelist publishedCodelist = publishStatus.getPublishedCodelist(); 
 			Lifecycle lifecycle = lifecycleService.lifecycleOf(publishedCodelist.id());
 			State state = lifecycle.state();
-			if (state!=DefaultLifecycleStates.draft) events.fire(new CodelistActionEvents.Publish(publishedCodelist.id(), publishedCodelist.name(), publishedCodelist.version(), repositoryId, session));
+			if (state!=DefaultLifecycleStates.draft) events.fire(new CodelistActionEvents.Publish(publishedCodelist.id(), publishedCodelist.qname(), publishedCodelist.version(), repositoryId, session));
 			
 			publishStatus.setPublishResult(null);
 		}

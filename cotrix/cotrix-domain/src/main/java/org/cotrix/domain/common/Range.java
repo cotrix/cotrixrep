@@ -1,6 +1,6 @@
 package org.cotrix.domain.common;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 public interface Range {
 

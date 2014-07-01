@@ -42,7 +42,7 @@ public class AttributeTest extends DomainTest {
 		assertNull(minimalUntyped.description());
 
 		// full untyped: delegates
-		assertEquals(untyped.definition().name(), untyped.name());
+		assertEquals(untyped.definition().qname(), untyped.qname());
 		assertEquals(untyped.definition().type(), untyped.type());
 		assertEquals(untyped.definition().language(), untyped.language());
 
@@ -112,7 +112,7 @@ public class AttributeTest extends DomainTest {
 
 		reveal(untyped).update(reveal(changesetUntyped));
 
-		assertEquals(changesetUntyped.name(), untyped.name());
+		assertEquals(changesetUntyped.qname(), untyped.qname());
 		assertEquals(changesetUntyped.value(), untyped.value());
 		assertEquals(changesetUntyped.type(), untyped.type());
 		assertEquals(changesetUntyped.language(), untyped.language());

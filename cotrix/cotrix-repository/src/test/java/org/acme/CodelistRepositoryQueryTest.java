@@ -3,7 +3,7 @@ package org.acme;
 import static java.util.Arrays.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;

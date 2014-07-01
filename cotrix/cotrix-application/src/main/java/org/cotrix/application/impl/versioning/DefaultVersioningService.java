@@ -1,6 +1,6 @@
 package org.cotrix.application.impl.versioning;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
@@ -52,7 +52,7 @@ public class DefaultVersioningService implements VersioningService {
 				@SuppressWarnings("unchecked")
 				T versioned = (T) versionable.bump(v.toString());
 				
-				events.fire(new CodelistActionEvents.Version(versionable.id(),versioned.id(),versioned.name(),versioned.version(), session));
+				events.fire(new CodelistActionEvents.Version(versionable.id(),versioned.id(),versioned.qname(),versioned.version(), session));
 				
 				return versioned;
 			}

@@ -1,6 +1,6 @@
 package org.cotrix.repository;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import javax.enterprise.event.Observes;
 

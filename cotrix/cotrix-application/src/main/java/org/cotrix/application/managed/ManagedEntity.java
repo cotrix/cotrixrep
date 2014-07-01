@@ -1,0 +1,88 @@
+package org.cotrix.application.managed;
+
+import static java.text.DateFormat.*;
+import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
+
+import java.util.Date;
+
+import javax.xml.namespace.QName;
+
+import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.CommonDefinition;
+import org.cotrix.domain.trait.Attributed;
+
+public abstract class ManagedEntity<T extends Attributed> {
+
+
+	private final T managed;
+	
+
+	ManagedEntity(T entity) {
+		this.managed=entity;
+	}
+	
+	protected T managed() {
+		return managed;
+	}
+	
+	public Date created() {
+		
+		String val = lookup(CREATION_TIME);
+		
+		try {
+			return val==null? null : getDateTimeInstance().parse(val);
+		}
+		catch(Exception e) {
+			throw unchecked(e);
+		}
+	}
+	
+	
+	public Date lastUpdated() {
+		
+		String val = lookup(UPDATE_TIME);
+		
+		try {
+			return val==null? created():getDateTimeInstance().parse(val);
+		}
+		catch(Exception e) {
+			throw unchecked(e);
+		}
+	}
+	
+	
+	public String lastUpdatedBy() {
+		
+		String val = lookup(UPDATED_BY);
+		
+		return val;
+	}
+
+	
+	public String originId() {
+		
+		return lookup(PREVIOUS_VERSION_ID);
+		
+	}
+	
+	public QName originName() {
+		
+		String val = lookup(PREVIOUS_VERSION_NAME);
+		
+		return val== null ? null : QName.valueOf(val);
+		
+	}
+	
+	//helper
+	protected String lookup(CommonDefinition def) {
+		Attribute a  = attribute(def);
+		return a==null?null:a.value();
+	}
+	
+	protected Attribute attribute(CommonDefinition def) {
+		return managed().attributes().contains(def.qname()) ?
+			managed().attributes().lookup(def.qname()):
+			null;
+	}
+}

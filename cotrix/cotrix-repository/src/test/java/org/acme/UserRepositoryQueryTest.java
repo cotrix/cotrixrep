@@ -1,7 +1,7 @@
 package org.acme;
 
 import static org.cotrix.action.ResourceType.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.repository.UserQueries.*;
 

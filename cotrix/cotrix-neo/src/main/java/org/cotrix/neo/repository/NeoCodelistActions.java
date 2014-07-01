@@ -1,7 +1,7 @@
 package org.cotrix.neo.repository;
 
 import static org.cotrix.common.Constants.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.neo.NeoNodeFactory.*;
 import static org.cotrix.neo.NeoUtils.*;
 import static org.cotrix.neo.domain.Constants.Relations.*;
@@ -33,7 +33,7 @@ public class NeoCodelistActions extends NeoQueries implements CodelistActionFact
 			public void performOver(Codelist list) {
 				
 				if (!list.links().contains(linkId))
-					throw new IllegalArgumentException("no link definition "+linkId+" in list "+list.id()+" ("+list.name()+")");
+					throw new IllegalArgumentException("no link definition "+linkId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					
 				Node node = node(NodeType.CODELISTLINK, linkId);
@@ -71,7 +71,7 @@ public class NeoCodelistActions extends NeoQueries implements CodelistActionFact
 			public void performOver(Codelist list) {
 				
 				if (!list.definitions().contains(definitionId))
-					throw new IllegalArgumentException("no attribute definition "+definitionId+" in list "+list.id()+" ("+list.name()+")");
+					throw new IllegalArgumentException("no attribute definition "+definitionId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					
 				Node node = node(NodeType.DEFINITION, definitionId);

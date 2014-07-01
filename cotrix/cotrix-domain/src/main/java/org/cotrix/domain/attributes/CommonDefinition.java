@@ -8,21 +8,26 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.trait.Named;
+
 /**
  * Cross-codelist attribute definitions.
  *
  */
-public enum CommonDefinition {
+public enum CommonDefinition implements Named {
 
 	CREATION_TIME 		(make("created")),
+	
 	UPDATE_TIME 		(make("updated")),
 	UPDATED_BY 			(make("updatedBy")),
-	STATUS				(make("status")),
-	PREV_VERSION 		(make("previous_version")),
-	PREV_VERSION_ID 	(make("previous_version_id")),
-	PREV_VERSION_NAME 	(make("previous_version_name"));
 	
-
+	STATUS				(make("status")),
+	
+	PREVIOUS_VERSION 	(make("previous_version")),
+	PREVIOUS_VERSION_ID 	(make("previous_version_id")),
+	PREVIOUS_VERSION_NAME 	(make("previous_version_name")),
+	
+	SUPERSIDES          (make("supersides"));
 	
 	
 	//lookup table
@@ -44,7 +49,7 @@ public enum CommonDefinition {
 	}
 	
 	public QName qname() {
-		return def.name();
+		return def.qname();
 	}
 	
 	public Definition get() {

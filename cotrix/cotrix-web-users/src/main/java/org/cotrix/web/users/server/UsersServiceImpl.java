@@ -259,10 +259,10 @@ public class UsersServiceImpl implements UsersService {
 
 		for (CodelistCoordinates codelist:codelistRepository.get(codelistsFor(currentUser))) {
 
-			CodelistGroup group = groups.get(codelist.name());
+			CodelistGroup group = groups.get(codelist.qname());
 			if (group == null) {
-				group = new CodelistGroup(codelist.name().toString());
-				groups.put(codelist.name(), group);
+				group = new CodelistGroup(codelist.qname().toString());
+				groups.put(codelist.qname(), group);
 			}
 			List<String> roles = getRoles(fp.allRolesOver(codelist.id(), ResourceType.codelists));
 			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()), roles);

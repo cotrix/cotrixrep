@@ -1,6 +1,6 @@
 package org.cotrix.neo;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.Relations.*;
 import static org.neo4j.graphdb.Direction.*;
@@ -15,17 +15,12 @@ import org.neo4j.kernel.impl.cache.LruCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.thoughtworks.xstream.XStream;
-
 public class NeoUtils {
 	
 	//gotta to exceed a reasonable expectation of large 'attribute set'.
 	private static final int thread_cache_size = 50;
 
 	private final static Logger log = LoggerFactory.getLogger(NeoUtils.class);
-	
-	private final static XStream stream = new XStream();
-	
 	
 	//the intention here is to serve a single import task, which we know takes place on a single thread
 	private static InheritableThreadLocal<LruCache<String,Node>> cache;
@@ -71,12 +66,6 @@ public class NeoUtils {
 		
 			
 	}
-	
-	public static XStream binder() {
-		return stream; 
-	}
-	
-	
 	
 	public static LruCache<String,Node> threadCache() {
 		

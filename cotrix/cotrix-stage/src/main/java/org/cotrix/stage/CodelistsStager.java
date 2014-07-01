@@ -149,13 +149,13 @@ public class CodelistsStager {
 		
 		Map<QName,CodelistLink> linkmap = new HashMap<>();
 
-		QName nameLinkname = nameLink.name();
+		QName nameLinkname = nameLink.qname();
 		
 		for (CodelistLink link : source.links())
-			if (link.name().equals(nameLinkname))
+			if (link.qname().equals(nameLinkname))
 				nameLink = link;
 			else
-				linkmap.put(link.name(),link);
+				linkmap.put(link.qname(),link);
 		
 		Code[] codes = codes(target,nameLink, linkmap);
 		
@@ -183,7 +183,7 @@ public class CodelistsStager {
 				if (a.is(SYSTEM_TYPE))
 					continue;
 				
-				QName name = new QName(a.name()+"-link");
+				QName name = new QName(a.qname()+"-link");
 				
 				CodelistLink attributeLink = links.get(name);
 				
@@ -214,9 +214,9 @@ public class CodelistsStager {
 				if (a.is(SYSTEM_TYPE))
 					continue;
 				
-				QName name = new QName(a.name()+"-link");
+				QName name = new QName(a.qname()+"-link");
 				
-				Attribute template = attribute().name(a.name()).ofType(a.type()).in(a.language()).build();
+				Attribute template = attribute().name(a.qname()).ofType(a.type()).in(a.language()).build();
 			
 				CodelistLink link = listLink().name(name).target(target).anchorTo(template).build();		
 				

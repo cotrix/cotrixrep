@@ -1,8 +1,8 @@
 package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.utils.Constants.*;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
@@ -60,8 +60,10 @@ public class CodelistTest extends DomainTest {
 		assertTrue(list.codes().contains(code));
 		assertTrue(list.links().contains(link));
 		assertTrue(list.definitions().contains(def));
-
+		
 		assertEquals(version,list.version());
+		
+		
 		
 	}
 	
@@ -103,12 +105,12 @@ public class CodelistTest extends DomainTest {
 		
 		//lineage is preserved:
 		
-		assertEquals(versioned.attributes().lookup(PREVIOUS_VERSION_NAME).value(),list.name().toString());
+		assertEquals(versioned.attributes().lookup(PREVIOUS_VERSION_NAME).value(),list.qname().toString());
 		assertEquals(versioned.attributes().lookup(PREVIOUS_VERSION_ID).value(),list.id());
 		assertEquals(versioned.attributes().lookup(PREVIOUS_VERSION).value(),list.version());
 		
-		assertEquals(versioned.codes().lookup(code.name()).attributes().lookup(PREVIOUS_VERSION_ID).value(),code.id());
-		assertEquals(versioned.codes().lookup(code.name()).attributes().lookup(PREVIOUS_VERSION_NAME).value(),code.name().toString());
+		assertEquals(versioned.codes().lookup(code.qname()).attributes().lookup(PREVIOUS_VERSION_ID).value(),code.id());
+		assertEquals(versioned.codes().lookup(code.qname()).attributes().lookup(PREVIOUS_VERSION_NAME).value(),code.qname().toString());
 		
 	}
 	
@@ -142,12 +144,12 @@ public class CodelistTest extends DomainTest {
 		
 		reveal(list).update(reveal(changeset));
 		
-		assertEquals(changeset.name(),list.name());
+		assertEquals(changeset.qname(),list.qname());
 		
-		assertTrue(list.definitions().contains(newdef.name()));
-		assertFalse(list.attributes().contains(attr.name()));
-		assertTrue(list.links().contains(newlink.name()));
-		assertFalse(list.codes().contains(code.name()));
+		assertTrue(list.definitions().contains(newdef.qname()));
+		assertFalse(list.attributes().contains(attr.qname()));
+		assertTrue(list.links().contains(newlink.qname()));
+		assertFalse(list.codes().contains(code.qname()));
 		
 	}
 

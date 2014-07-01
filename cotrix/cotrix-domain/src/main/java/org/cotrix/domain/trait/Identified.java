@@ -1,6 +1,6 @@
 package org.cotrix.domain.trait;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 /**
  * The read-only interface common to all domain entities.

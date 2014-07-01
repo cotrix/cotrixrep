@@ -88,8 +88,8 @@ public class CodeTest extends DomainTest {
 		CodeMS clone = new CodeMS(state);
 		
 		assertEquals(state.name(),clone.name());
-		assertTrue(clone.attributes().contains(attr.name()));
-		assertTrue(clone.links().contains(link.name()));
+		assertTrue(clone.attributes().contains(attr.qname()));
+		assertTrue(clone.links().contains(link.qname()));
 		
 		
 	}
@@ -108,10 +108,10 @@ public class CodeTest extends DomainTest {
 		
 		reveal(code).update(reveal(changeset));
 		
-		assertEquals(changeset.name(),code.name());
+		assertEquals(changeset.qname(),code.qname());
 		
-		assertFalse(code.attributes().contains(attr.name()));
-		assertFalse(code.links().contains(link.name()));
+		assertFalse(code.attributes().contains(attr.qname()));
+		assertFalse(code.links().contains(link.qname()));
 		
 	}
 	

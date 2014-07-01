@@ -1,6 +1,6 @@
 package org.cotrix.neo.domain.utils;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.neo4j.graphdb.Direction.*;
 
@@ -117,7 +117,7 @@ public class NeoContainer<S extends Identified.State & Named.State> implements N
 	
 	@Override
 	public boolean contains(Named named) {
-		return contains(named.name());
+		return contains(named.qname());
 	}
 	
 	@Override
@@ -145,7 +145,7 @@ public class NeoContainer<S extends Identified.State & Named.State> implements N
 	
 	@Override
 	public S lookup(Named named) throws IllegalStateException {
-		return lookup(named.name());
+		return lookup(named.qname());
 	}
 	
 	//helpers

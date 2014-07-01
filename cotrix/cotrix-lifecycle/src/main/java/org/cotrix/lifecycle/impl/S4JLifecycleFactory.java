@@ -2,7 +2,7 @@ package org.cotrix.lifecycle.impl;
 
 import static java.util.Arrays.*;
 import static org.cotrix.action.CodelistAction.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
 
 import org.cotrix.action.Action;

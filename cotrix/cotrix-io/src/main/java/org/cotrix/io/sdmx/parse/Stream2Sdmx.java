@@ -1,6 +1,6 @@
 package org.cotrix.io.sdmx.parse;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.io.InputStream;
 import java.util.Set;

@@ -55,7 +55,7 @@ public interface NamedStateContainer<S> extends StateContainer<S> {
 		
 		@Override
 		public boolean contains(Named named) {
-			return contains(named.name());
+			return contains(named.qname());
 		}
 
 		@Override
@@ -84,7 +84,7 @@ public interface NamedStateContainer<S> extends StateContainer<S> {
 		
 		@Override
 		public S lookup(Named named) throws IllegalStateException {
-			return lookup(named.name());
+			return lookup(named.qname());
 		}
 	}
 }

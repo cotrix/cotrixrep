@@ -13,7 +13,7 @@ public class EventProducer {
 	public Event<Object> additions;
 	
 	@Inject @Removed
-	public Event<String> removals;
+	public Event<Object> removals;
 	
 	@Inject @Modified
 	public Event<Object> updates;

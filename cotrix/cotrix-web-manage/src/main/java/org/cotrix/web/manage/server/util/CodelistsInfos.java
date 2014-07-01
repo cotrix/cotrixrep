@@ -20,7 +20,7 @@ public class CodelistsInfos {
 	public static UICodelistInfo toUICodelistInfo(CodelistCoordinates codelist, State state, boolean isUserInTeam) {
 		UICodelistInfo uiCodelist = new UICodelistInfo();
 		uiCodelist.setId(codelist.id());
-		uiCodelist.setName(ValueUtils.safeValue(codelist.name()));
+		uiCodelist.setName(ValueUtils.safeValue(codelist.qname()));
 		uiCodelist.setVersion(codelist.version());
 		LifecycleState lifecycleState = Codelists.getLifecycleState(state);
 		uiCodelist.setState(lifecycleState);
@@ -32,7 +32,7 @@ public class CodelistsInfos {
 	public static UICodelistInfo toUICodelistInfo(Codelist codelist, State state, boolean isUserInTeam) {
 		UICodelistInfo uiCodelist = new UICodelistInfo();
 		uiCodelist.setId(codelist.id());
-		uiCodelist.setName(ValueUtils.safeValue(codelist.name()));
+		uiCodelist.setName(ValueUtils.safeValue(codelist.qname()));
 		uiCodelist.setVersion(codelist.version());
 		LifecycleState lifecycleState = Codelists.getLifecycleState(state);
 		uiCodelist.setState(lifecycleState);

@@ -31,15 +31,9 @@ public class BaseCodelistRepository extends AbstractRepository<Codelist,Codelist
 		
 		time = currentTimeMillis()-time;
 		
-		log.trace("added list in {} msecs, roughly {} codes/sec",time,((float) list.codes().size()/time*1000));
+		log.trace("added codelist {} in {} msecs, roughly {} codes/sec",list.id(),time,((float) list.codes().size()/time*1000));
 		
 		
 		
-	}
-	
-	@Override
-	public void update(Codelist changeset) {
-		
-		super.update(changeset);
 	}
 }

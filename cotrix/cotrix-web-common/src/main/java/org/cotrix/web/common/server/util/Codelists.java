@@ -37,7 +37,7 @@ public class Codelists {
 
 		@Override
 		public int compare(Codelist o1, Codelist o2) {
-			return String.CASE_INSENSITIVE_ORDER.compare(o1.name().getLocalPart(), o2.name().getLocalPart());
+			return String.CASE_INSENSITIVE_ORDER.compare(o1.qname().getLocalPart(), o2.qname().getLocalPart());
 		}
 	};
 
@@ -60,7 +60,7 @@ public class Codelists {
 	{
 		UICodelistMetadata metadata = new UICodelistMetadata();
 		metadata.setId(codelist.id());
-		metadata.setName(ValueUtils.safeValue(codelist.name()));
+		metadata.setName(ValueUtils.safeValue(codelist.qname()));
 		metadata.setVersion(codelist.version());
 		metadata.setAttributes(toUIAttributes(codelist.attributes()));
 		return metadata;
@@ -87,7 +87,7 @@ public class Codelists {
 	public static UICodelist toUICodelist(Codelist codelist) {
 		UICodelist uiCodelist = new UICodelist();
 		uiCodelist.setId(codelist.id());
-		uiCodelist.setName(ValueUtils.safeValue(codelist.name()));
+		uiCodelist.setName(ValueUtils.safeValue(codelist.qname()));
 		uiCodelist.setVersion(codelist.version());
 
 		return uiCodelist;
@@ -96,7 +96,7 @@ public class Codelists {
 	public static UICodelist toUICodelist(CodelistCoordinates codelistCoordinates) {
 		UICodelist uiCodelist = new UICodelist();
 		uiCodelist.setId(codelistCoordinates.id());
-		uiCodelist.setName(ValueUtils.safeValue(codelistCoordinates.name()));
+		uiCodelist.setName(ValueUtils.safeValue(codelistCoordinates.qname()));
 		uiCodelist.setVersion(codelistCoordinates.version());
 
 		return uiCodelist;
@@ -127,7 +127,7 @@ public class Codelists {
 	public static UIAttribute toUIAttribute(Attribute attribute)
 	{
 		UIAttribute uiattribute = new UIAttribute();
-		uiattribute.setName(ValueUtils.safeValue(attribute.name()));
+		uiattribute.setName(ValueUtils.safeValue(attribute.qname()));
 		uiattribute.setType(ValueUtils.safeValue(attribute.type()));
 		uiattribute.setLanguage(ValueUtils.safeLanguage(attribute.language()));
 		uiattribute.setValue(ValueUtils.safeValue(attribute.value()));
@@ -150,11 +150,11 @@ public class Codelists {
 		
 		CodelistLink type = codelink.type();
 		link.setTypeId(type.id());
-		link.setTypeName(ValueUtils.safeValue(type.name()));
+		link.setTypeName(ValueUtils.safeValue(type.qname()));
 		
 		Code target = codelink.target();
 		link.setTargetId(target.id());
-		link.setTargetName(ValueUtils.safeValue(target.name()));
+		link.setTargetName(ValueUtils.safeValue(target.qname()));
 		
 		
 		String value = toLinkValue(codelink.value());
@@ -186,7 +186,7 @@ public class Codelists {
 		
 		UICode uicode = new UICode();
 		uicode.setId(code.id());
-		uicode.setName(ValueUtils.safeValue(code.name()));
+		uicode.setName(ValueUtils.safeValue(code.qname()));
 
 		List<UIAttribute> attributes = Codelists.toUIAttributes(code.attributes());
 		uicode.setAttributes(attributes);

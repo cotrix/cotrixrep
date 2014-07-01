@@ -2,7 +2,7 @@ package org.cotrix.domain.validation;
 
 import static java.lang.String.*;
 import static java.util.Arrays.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.utils.ScriptEngine.*;
 
 import java.util.HashMap;

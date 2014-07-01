@@ -54,7 +54,7 @@ public class AttributeDirectives {
 	 * @return the name of the target column
 	 */
 	public QName columnName() {
-		return columnName==null?template.name():columnName;
+		return columnName==null?template.qname():columnName;
 	}
 	
 	

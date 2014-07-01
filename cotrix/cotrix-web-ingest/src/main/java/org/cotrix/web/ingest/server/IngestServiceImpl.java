@@ -404,7 +404,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 		List<CodelistInfo> infos = new ArrayList<>();
 		while(iterator.hasNext()) {
 			Codelist codelist = iterator.next();
-			infos.add(new CodelistInfo(codelist.name().getLocalPart(), codelist.version()));
+			infos.add(new CodelistInfo(codelist.qname().getLocalPart(), codelist.version()));
 		}
 		return infos;
 	}

@@ -94,7 +94,7 @@ public interface Definition extends Identified, Named {
 		}
 		
 		@Override
-		public QName name() {
+		public QName qname() {
 			return state().name();
 		}
 		
@@ -131,11 +131,11 @@ public interface Definition extends Identified, Named {
 			super.update(changeset);
 			
 			//name (cannnot be reset)
-			if (changeset.name() == NULL_QNAME)
-				throw new IllegalArgumentException("attribute name " + name() + " cannot be erased");
+			if (changeset.qname() == NULL_QNAME)
+				throw new IllegalArgumentException("attribute name " + qname() + " cannot be erased");
 			
-			if (changeset.name() != null)
-				state().name(changeset.name());
+			if (changeset.qname() != null)
+				state().name(changeset.qname());
 
 			//type (cannot be reset)
 			if (changeset.type() == NULL_QNAME)
@@ -165,7 +165,7 @@ public interface Definition extends Identified, Named {
 
 		@Override
 		public String toString() {
-			return "def [id=" + id() + ", shared=" + isShared()+ ", name=" + name() + ", range=" + range() + ", valueType=" + valueType() + ", language=" + language()
+			return "def [id=" + id() + ", shared=" + isShared()+ ", name=" + qname() + ", range=" + range() + ", valueType=" + valueType() + ", language=" + language()
 					+ (type() == null ? "" : ", type=" + type()) + (status() == null ? "" : " (" + status() + ") ")
 					+ "]";
 		}

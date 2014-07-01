@@ -1,6 +1,6 @@
 package org.cotrix.domain.memory;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;

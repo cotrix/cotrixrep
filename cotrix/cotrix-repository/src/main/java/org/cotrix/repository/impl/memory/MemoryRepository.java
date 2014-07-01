@@ -9,7 +9,7 @@ import java.util.Map;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.common.Utils;
+import org.cotrix.common.CommonUtils;
 import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
@@ -105,7 +105,7 @@ public abstract class MemoryRepository<S extends Identified.State> implements St
 	
 	@SuppressWarnings("all")
 	private static <R> MCriterion<R> reveal(Criterion<R> criterion) {
-		return Utils.reveal(criterion, MCriterion.class);
+		return CommonUtils.reveal(criterion, MCriterion.class);
 	}
 
 }

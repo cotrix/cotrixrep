@@ -94,7 +94,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 
 		@Override
 		public String toString() {
-			return "Codelist [id="+id()+", name=" + name() + ", codes=" + codes() + ", attributes=" + attributes() + ", links=" + links() + ", version="
+			return "Codelist [id="+id()+", name=" + qname() + ", codes=" + codes() + ", attributes=" + attributes() + ", links=" + links() + ", version="
 					+ version() + (status()==null?"":" ("+status()+") ")+"]";
 		}
 

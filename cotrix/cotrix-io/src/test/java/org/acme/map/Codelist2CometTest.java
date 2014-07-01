@@ -1,5 +1,6 @@
 package org.acme.map;
 
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
 
@@ -45,8 +46,8 @@ public class Codelist2CometTest extends ApplicationTest {
 		Codelist versioned = reveal(list).bump("2.0");
 		
 		Code newcode = code().name("code3").attributes( 
-								attribute().name(SUPERSIDES).value("badone").description("typo").build()
-							,   attribute().name(SUPERSIDES).value("badtwo").build()
+								attribute().name(SUPERSIDES.qname()).value("badone").description("typo").build()
+							,   attribute().name(SUPERSIDES.qname()).value("badtwo").build()
 						)
 						.build();
 		

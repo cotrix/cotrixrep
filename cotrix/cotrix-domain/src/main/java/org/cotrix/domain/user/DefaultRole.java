@@ -1,7 +1,7 @@
 package org.cotrix.domain.user;
 
 import static org.cotrix.action.Action.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -55,7 +55,7 @@ public class GroupFactory {
 		@Override
 		public AttributeGroup generate(Attribute attribute) {
 			boolean isSystemGroup = isSystemAttribute(attribute);
-			return new AttributeGroup(ValueUtils.safeValue(attribute.name()), null, ValueUtils.safeLanguage(attribute.language()), isSystemGroup);
+			return new AttributeGroup(ValueUtils.safeValue(attribute.qname()), null, ValueUtils.safeLanguage(attribute.language()), isSystemGroup);
 		}
 	};
 	
@@ -78,7 +78,7 @@ public class GroupFactory {
 		@Override
 		public LinkGroup generate(Codelink link) {
 			boolean isSystemGroup = link.type()!=null?link.type().equals(Constants.SYSTEM_TYPE):false;
-			return new LinkGroup(ValueUtils.safeValue(link.name()), isSystemGroup);
+			return new LinkGroup(ValueUtils.safeValue(link.qname()), isSystemGroup);
 		}
 	};
 	

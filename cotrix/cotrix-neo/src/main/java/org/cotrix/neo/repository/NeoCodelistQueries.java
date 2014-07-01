@@ -252,7 +252,7 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 				
 				//add match for attributes
 				query.match(format("%s-[:%s]->(A)",$node,Relations.ATTRIBUTE.name()));
-				query.match(format("A-[:%s]->(T {name:'%s'})",Relations.INSTANCEOF.name(),template.name()));
+				query.match(format("A-[:%s]->(T {name:'%s'})",Relations.INSTANCEOF.name(),template.qname()));
 				
 				//brings codes in with expression
 				query.with($node);
@@ -289,7 +289,7 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 				
 				String expression = format("LT.%s",name_prop,position-1);
 				
-				String value = template.name().toString();
+				String value = template.qname().toString();
 				
 				String caseValue = format("C.%s",name_prop);
 				

@@ -317,7 +317,7 @@ public class ManageServiceImpl implements ManageService {
 		userRepository.update(changeset);
 		
 		UICodelistInfo codelistInfo = addCodelist(newCodelist);
-		events.fire(new CodelistActionEvents.Create(newCodelist.id(),newCodelist.name(), newCodelist.version(), session));
+		events.fire(new CodelistActionEvents.Create(newCodelist.id(),newCodelist.qname(), newCodelist.version(), session));
 		return codelistInfo;
 	}
 
@@ -394,7 +394,7 @@ public class ManageServiceImpl implements ManageService {
 		logger.trace("getLinkTypes codelistId: {}",codelistId);
 		Codelist codelist = repository.lookup(codelistId);
 		List<UILinkTypeInfo> types = new ArrayList<>();
-		for (CodelistLink link:codelist.links()) types.add(new UILinkTypeInfo(link.id(), ValueUtils.safeValue(link.name())));
+		for (CodelistLink link:codelist.links()) types.add(new UILinkTypeInfo(link.id(), ValueUtils.safeValue(link.qname())));
 		return types;
 	}
 
@@ -405,7 +405,7 @@ public class ManageServiceImpl implements ManageService {
 		CodelistLink link = codelist.links().lookup(linkTypeId);
 		Codelist target = link.target();
 		List<UICodeInfo> codes = new ArrayList<>();
-		for (Code code:target.codes()) codes.add(new UICodeInfo(code.id(), ValueUtils.safeValue(code.name())));
+		for (Code code:target.codes()) codes.add(new UICodeInfo(code.id(), ValueUtils.safeValue(code.qname())));
 		return codes;
 	}
 

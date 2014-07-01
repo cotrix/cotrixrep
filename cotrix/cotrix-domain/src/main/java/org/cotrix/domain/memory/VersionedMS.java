@@ -1,6 +1,6 @@
 package org.cotrix.domain.memory;
 
-import org.cotrix.common.Utils;
+import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -34,7 +34,7 @@ public abstract class VersionedMS extends NamedMS implements Versioned.State, Id
 	@Override
 	public void version(Version version) {
 		
-		Utils.notNull("version",version);
+		CommonUtils.notNull("version",version);
 		
 		this.version=version;
 	}

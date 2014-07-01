@@ -2,7 +2,7 @@ package org.acme.codelists;
 
 import static java.util.Arrays.*;
 import static org.acme.codelists.Fixture.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.junit.Assert.*;
 
@@ -133,7 +133,7 @@ public class ContainerTest extends DomainTest {
 		c.update(changeset);
 		
 		assertEquals(0,c.size());
-		assertFalse(c.contains(a.name()));
+		assertFalse(c.contains(a.qname()));
 	}
 	
 	
@@ -153,7 +153,7 @@ public class ContainerTest extends DomainTest {
 		c.update(changeset);
 		
 		assertEquals(1,c.size());
-		assertTrue(sc.contains(modified.name()));
+		assertTrue(sc.contains(modified.qname()));
 	}
 	
 	private Attribute.State stateOf(Attribute a) {

@@ -1,6 +1,6 @@
 package org.cotrix.domain.utils;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
 
@@ -23,7 +23,7 @@ public class AttributeTemplate {
 	}
 	
 	public QName name() {
-		return template.name();
+		return template.qname();
 	}
 	
 	public QName type() {
@@ -41,7 +41,7 @@ public class AttributeTemplate {
 
 	public boolean matches(Attribute.State attribute) {
 	
-		return matches(template.name(), attribute.name()) &&
+		return matches(template.qname(), attribute.name()) &&
 			   matches(template.type(), attribute.type()) &&
 			   matches(template.language(), attribute.language());
 	}

@@ -4,7 +4,7 @@ import static java.lang.Math.*;
 import static java.lang.Thread.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Constants.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
@@ -19,7 +19,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
-import org.cotrix.common.Utils;
+import org.cotrix.common.CommonUtils;
 import org.cotrix.common.async.TaskContext;
 import org.cotrix.common.async.TaskUpdate;
 import org.cotrix.domain.attributes.Attribute;
@@ -107,7 +107,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 			public void performOver(Codelist list) {
 				
 				if (!list.definitions().contains(definitionId))
-					throw new IllegalArgumentException("no attribute definition "+definitionId+" in list "+list.id()+" ("+list.name()+")");
+					throw new IllegalArgumentException("no attribute definition "+definitionId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					
 				Definition def = list.definitions().lookup(definitionId);
@@ -142,7 +142,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 			public void performOver(Codelist list) {
 				
 				if (!list.links().contains(linkId))
-					throw new IllegalArgumentException("no link definition "+linkId+" in list "+list.id()+" ("+list.name()+")");
+					throw new IllegalArgumentException("no link definition "+linkId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					
 				CodelistLink type= list.links().lookup(linkId);
@@ -284,7 +284,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		return new MCriterion<T>() {
 
 			public int compare(T o1, T o2) {
-				return o1.name().getLocalPart().compareTo(o2.name().getLocalPart());
+				return o1.qname().getLocalPart().compareTo(o2.qname().getLocalPart());
 			};
 		};
 	}
@@ -304,13 +304,13 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 	@Override
 	public Criterion<Code> byAttribute(final Attribute template, final int position) {
 
-		valid("attribute name", template.name());
+		valid("attribute name", template.qname());
 
 		return new MCriterion<Code>() {
 
 			private boolean matches(Attribute a) {
 
-				return template.name().equals(a.name())
+				return template.qname().equals(a.qname())
 						&& (template.language() == null ? true : template.language().equals(a.language()));
 			}
 
@@ -350,13 +350,13 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 	@Override
 	public Criterion<Code> byLink(final CodelistLink template, final int position) {
 
-		valid("link name", template.name());
+		valid("link name", template.qname());
 
 		return new MCriterion<Code>() {
 
 			private boolean matches(Codelink link) {
 
-				return link.name().equals(template.name())
+				return link.qname().equals(template.qname())
 						&& link.type().equals(template);
 			}
 
@@ -415,7 +415,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 	// helper
 	@SuppressWarnings("all")
 	private static <R> MCriterion<R> revealCriterion(Criterion<R> criterion) {
-		return Utils.reveal(criterion, MCriterion.class);
+		return CommonUtils.reveal(criterion, MCriterion.class);
 	}
 	
 }

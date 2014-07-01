@@ -1,6 +1,6 @@
 package org.cotrix.application.impl.delegation;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Users.*;
 
 import java.util.Collection;

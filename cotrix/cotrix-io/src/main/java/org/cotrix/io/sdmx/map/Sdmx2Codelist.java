@@ -60,7 +60,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 				build();
 		
 		report().log("==============================");
-		report().log("terminated import of codelist '"+codelist.name()+"' with "+codelist.codes().size()+" codes.");
+		report().log("terminated import of codelist '"+codelist.qname()+"' with "+codelist.codes().size()+" codes.");
 		
 		return codelist;
 	}

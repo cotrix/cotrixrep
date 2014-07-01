@@ -20,7 +20,7 @@ public class CodelistCoordinates implements Named {
 	}
 	
 	public static CodelistCoordinates coordsOf(Codelist list) {
-		return new CodelistCoordinates(list.id(), list.name(), list.version());
+		return new CodelistCoordinates(list.id(), list.qname(), list.version());
 	}
 	
 	public CodelistCoordinates(String id,QName name, String version) {
@@ -33,7 +33,7 @@ public class CodelistCoordinates implements Named {
 		return id;
 	}
 	
-	public QName name() {
+	public QName qname() {
 		return name;
 	}
 	

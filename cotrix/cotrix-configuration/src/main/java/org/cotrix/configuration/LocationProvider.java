@@ -4,7 +4,7 @@
 package org.cotrix.configuration;
 
 import static org.cotrix.common.Constants.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.io.File;
 

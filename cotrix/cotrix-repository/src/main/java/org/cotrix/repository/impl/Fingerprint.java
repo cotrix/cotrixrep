@@ -26,7 +26,7 @@ public class Fingerprint {
 		
 		for (Attribute a : attributes)
 			if (!a.is(SYSTEM_TYPE))
-			  addTo(typesFor(a.name()), a.type(), a.language());
+			  addTo(typesFor(a.qname()), a.type(), a.language());
 		
 		return this;
 	}
@@ -36,7 +36,7 @@ public class Fingerprint {
 		
 		for (Definition def : definitions)
 			if (!def.is(SYSTEM_TYPE))
-				addTo(typesFor(def.name()), def.type(), def.language());
+				addTo(typesFor(def.qname()), def.type(), def.language());
 			
 		return this;
 	}
@@ -50,7 +50,7 @@ public class Fingerprint {
 
 			if (type instanceof AttributeLink) {
 	
-					Map<QName, Set<String>> types = typesFor(link.name());
+					Map<QName, Set<String>> types = typesFor(link.qname());
 	
 					AttributeTemplate template = ((AttributeLink) type).template();
 	

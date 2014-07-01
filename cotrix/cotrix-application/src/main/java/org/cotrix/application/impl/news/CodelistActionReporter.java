@@ -17,23 +17,23 @@ public class CodelistActionReporter {
 	
 	public void onImport(@Observes Import e) throws Exception {
 	
-		news.fire(new NewsItem(e.name+" version "+ e.version+" now available."));
+		news.fire(new NewsItem(e.codelistName+" version "+ e.codelistVersion+" now available."));
 	
 	}
 	
 	public void onVersion(@Observes Version e) throws Exception {
 		
-		news.fire(new NewsItem("version "+e.version+" of "+e.name+" now available."));
+		news.fire(new NewsItem("version "+e.codelistVersion+" of "+e.codelistName+" now available."));
 		
 	}
 	
 	public void onPublish(@Observes Publish e) throws Exception {
 		
-		news.fire(new NewsItem(e.name+" version "+ e.version+" has just been published to "+e.repository+"."));
+		news.fire(new NewsItem(e.codelistName+" version "+ e.codelistVersion+" has just been published to "+e.repository+"."));
 	}
 	
 	public void onCreate(@Observes Create e) throws Exception {
 		
-		news.fire(new NewsItem("Version "+ e.version+" of "+e.name+" has been created."));
+		news.fire(new NewsItem("Version "+ e.codelistVersion+" of "+e.codelistName+" has been created."));
 	}
 }

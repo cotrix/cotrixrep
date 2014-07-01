@@ -2,7 +2,7 @@ package org.cotrix.security.impl;
 
 import static org.cotrix.action.MainAction.*;
 import static org.cotrix.action.UserAction.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
 

@@ -12,14 +12,22 @@ import java.util.regex.Pattern;
 
 import javax.xml.namespace.QName;
 
+import com.thoughtworks.xstream.XStream;
+
 /**
  * App-wide utilities.
  * 
  * @author Fabio Simeoni
  *
  */
-public class Utils {
+public class CommonUtils {
 
+	private final static XStream stream = new XStream();
+	
+	
+	public static XStream binder() {
+		return stream; 
+	}
 	
 	public static void verify(String msg, boolean expression) {
 		if (!expression)

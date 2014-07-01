@@ -1,6 +1,6 @@
 package org.cotrix.domain.common;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,6 +35,14 @@ public interface NamedContainer<T> extends Container<T> {
 		
 		
 		/**
+		 * Returns <code>true</code> if this container contains at least an entity with a given name. 
+		 * @param name the name
+		 * @return <code>true</code> if this container contains at least an entity with the given name
+		 */
+		boolean contains(Named name);
+		
+		
+		/**
 		 * Returns all the entities in this container with a given name.
 		 * @param name the name
 		 * @return the entities with the given name
@@ -49,6 +57,15 @@ public interface NamedContainer<T> extends Container<T> {
 		 * @throws IllegalStateException if there are zero or more than one entity with the given name
 		 */
 		T lookup(QName name) throws IllegalStateException;
+		
+		
+		/**
+		 * Returns an entity in tis container with a given name.
+		 * @param name the name
+		 * @return the entity
+		 * @throws IllegalStateException if there are zero or more than one entity with the given name
+		 */
+		T lookup(Named name) throws IllegalStateException;
 		
 	
 		
@@ -70,6 +87,14 @@ public interface NamedContainer<T> extends Container<T> {
 			notNull("name",name);
 			
 			return state().contains(name); 
+		}
+		
+		@Override
+		public boolean contains(Named named) {
+			
+			notNull("named entity",named);
+			
+			return state().contains(named);
 		}
 
 		@Override
@@ -97,7 +122,10 @@ public interface NamedContainer<T> extends Container<T> {
 			return match==null?null:match.entity();
 		}
 		
-		
+		@Override
+		public T lookup(Named named) throws IllegalStateException {
+			return lookup(named.qname());
+		}
 	}
 
 }

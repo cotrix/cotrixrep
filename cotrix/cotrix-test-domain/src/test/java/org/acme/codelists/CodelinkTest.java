@@ -33,9 +33,9 @@ public class CodelinkTest extends DomainTest {
 		Codelink link  = like(link().instanceOf(listLink).target(code).attributes(a).build());
 		
 		assertEquals(listLink,link.type());
-		assertEquals(link.type().name(),link.name());
+		assertEquals(link.type().qname(),link.qname());
 		
-		assertEquals(a,link.attributes().lookup(a.name()));
+		assertEquals(a,link.attributes().lookup(a.qname()));
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ public class CodelinkTest extends DomainTest {
 		
 		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
-		assertEquals(new QName(code.name().getNamespaceURI(),lowercase.apply(code.name().getLocalPart())),link.value().iterator().next());
+		assertEquals(new QName(code.qname().getNamespaceURI(),lowercase.apply(code.qname().getLocalPart())),link.value().iterator().next());
 
 	}
 	
@@ -186,19 +186,19 @@ public class CodelinkTest extends DomainTest {
 			//normal update
 			else if (link.id().equals(link4.id())) {
 				assertEquals(code4.id(),link.target().id());
-				assertTrue(link.attributes().contains(a.name()));
+				assertTrue(link.attributes().contains(a.qname()));
 			}	
 			
 			//group semantics
 			else if (link.id().equals(link3.id())) {
-				assertEquals(code4.name(),link.target().name());
-				assertFalse(link.attributes().contains(a.name()));
+				assertEquals(code4.qname(),link.target().qname());
+				assertFalse(link.attributes().contains(a.qname()));
 			}	
 				
 			//untouched
 			else if (link.id().equals(link5.id())) {
 				assertEquals(code5.id(),link.target().id());
-				assertTrue(link.attributes().contains(a.name()));
+				assertTrue(link.attributes().contains(a.qname()));
 			}
 		}
 	}
@@ -282,7 +282,7 @@ public class CodelinkTest extends DomainTest {
 		reveal(list2).update(reveal(changeset));
 			
 		//detect cycle
-		code1.links().lookup(link1.name()).value();
+		code1.links().lookup(link1.qname()).value();
 		
 		
 		
@@ -306,7 +306,7 @@ public class CodelinkTest extends DomainTest {
 		
 		reveal(link).update(reveal(changeset));
 		
-		assertEquals(code.name(),link.value().iterator().next());
+		assertEquals(code.qname(),link.value().iterator().next());
 		
 	}
 	
@@ -326,7 +326,7 @@ public class CodelinkTest extends DomainTest {
 		
 		reveal(link).update(reveal(changeset));
 		
-		assertNotNull(link.attributes().lookup(a.name()));
+		assertNotNull(link.attributes().lookup(a.qname()));
 		
 	}
 	

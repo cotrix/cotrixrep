@@ -1,6 +1,6 @@
 package org.cotrix.domain.dsl;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.trait.Status.*;
 
 import java.util.Arrays;
@@ -8,7 +8,7 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.common.Utils;
+import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
@@ -224,32 +224,32 @@ public class Codes {
 	
 	public static Attribute.Private reveal(Attribute attribute) {
 		notNull("attribute",attribute);
-		return Utils.reveal(attribute,Attribute.Private.class);
+		return CommonUtils.reveal(attribute,Attribute.Private.class);
 	}
 	
 	public static Definition.Private reveal(Definition definition) {
 		notNull("definition",definition);
-		return Utils.reveal(definition,Definition.Private.class);
+		return CommonUtils.reveal(definition,Definition.Private.class);
 	}
 	
 	public static Code.Private reveal(Code code) {
 		notNull("code",code);
-		return Utils.reveal(code,Code.Private.class);
+		return CommonUtils.reveal(code,Code.Private.class);
 	}
 	
 	public static Codelist.Private reveal(Codelist codelist) {
 		notNull("codelist",codelist);
-		return Utils.reveal(codelist,Codelist.Private.class);
+		return CommonUtils.reveal(codelist,Codelist.Private.class);
 	}
 	
 	public static CodelistLink.Private reveal(CodelistLink link) {
 		notNull("codelist link",link);
-		return Utils.reveal(link,CodelistLink.Private.class);
+		return CommonUtils.reveal(link,CodelistLink.Private.class);
 	}
 	
 	public static Codelink.Private reveal(Codelink link) {
 		notNull("code link",link);
-		return Utils.reveal(link,Codelink.Private.class);
+		return CommonUtils.reveal(link,Codelink.Private.class);
 	}
 	
 }

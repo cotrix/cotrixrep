@@ -25,11 +25,6 @@ public class Constants {
 
 	public static final QName DEFAULT_TYPE = DESCRIPTION_TYPE;
 	public static final QName[] DEFAULT_TYPES = new QName[]{DESCRIPTION_TYPE, ANNOTATION_TYPE, NAME_TYPE, OTHER_CODE_TYPE, OTHER_TYPE};
-
-	public static final QName PREVIOUS_VERSION = q(NS,"previous_version");
-	public static final QName PREVIOUS_VERSION_ID = q(NS,"previous_version_id");
-	public static final QName PREVIOUS_VERSION_NAME = q(NS,"previous_version_name");
-	public static final QName SUPERSIDES = q(NS,"supersides");
 	
 	public static final ValueType defaultValueType = new DefaultType();
 	public static final Range defaultRange = Ranges.arbitrarily;

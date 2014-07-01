@@ -1,7 +1,7 @@
 package org.cotrix.engine.impl;
 
 import static org.cotrix.action.Actions.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.engine.impl.Task.*;
 
 import java.util.ArrayList;

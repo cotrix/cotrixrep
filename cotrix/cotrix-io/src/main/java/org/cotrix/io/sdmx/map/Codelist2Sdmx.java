@@ -51,10 +51,10 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		
 		double time = System.currentTimeMillis();
 
-		report().log(item("transforming codelist "+codelist.name()+"("+codelist.id()+") to SDMX")).as(INFO)
+		report().log(item("transforming codelist "+codelist.qname()+"("+codelist.id()+") to SDMX")).as(INFO)
 				.log(item(Calendar.getInstance().getTime().toString())).as(INFO);
 		
-		String name = directives.name()==null?codelist.name().getLocalPart():directives.name();
+		String name = directives.name()==null?codelist.qname().getLocalPart():directives.name();
 		
 		CodelistMutableBean codelistbean = new CodelistMutableBeanImpl();
 		
@@ -70,19 +70,19 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			
 			CodeMutableBean codebean = new CodeMutableBeanImpl();
 			
-			if (code.name()==null) {
+			if (code.qname()==null) {
 				report().log(item(code.id()+" has no name ")).as(ERROR);
 				continue;
 			}
 			
-			codebean.setId(code.name().getLocalPart());
+			codebean.setId(code.qname().getLocalPart());
 			
 			mapAttributes(code,codebean,directives.forCodes());
 			
 			codelistbean.addItem(codebean);
 		}
 		
-		String msg = "transformed codelist "+codelist.name()+"("+codelist.id()+") to SDMX in "+(System.currentTimeMillis()-time)/1000;
+		String msg = "transformed codelist "+codelist.qname()+"("+codelist.id()+") to SDMX in "+(System.currentTimeMillis()-time)/1000;
 		
 		report().log(item(msg)).as(INFO);
 
@@ -152,7 +152,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 						break;
 					case ANNOTATION:
 						AnnotationMutableBean annotation = new AnnotationMutableBeanImpl();
-						annotation.setTitle(a.name().getLocalPart());
+						annotation.setTitle(a.qname().getLocalPart());
 						annotation.addText(lang, val);
 						bean.addAnnotation(annotation);		
 						break;
@@ -163,7 +163,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		}
 		
 		if (!hasName)
-			bean.addName("en",attributed.name().getLocalPart());
+			bean.addName("en",attributed.qname().getLocalPart());
 			
 	}
 	

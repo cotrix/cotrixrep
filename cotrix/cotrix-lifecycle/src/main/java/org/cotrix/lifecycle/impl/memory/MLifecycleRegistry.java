@@ -1,6 +1,6 @@
 package org.cotrix.lifecycle.impl.memory;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.util.HashMap;
 import java.util.List;

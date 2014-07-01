@@ -14,7 +14,7 @@ import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.common.Utils;
+import org.cotrix.common.CommonUtils;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.LifecycleRepository;
@@ -101,7 +101,7 @@ public class NeoLifecycleRepository implements LifecycleRepository {
 			node.delete();
 		}
 		catch(Exception e) {
-			Utils.rethrow("cannot delete codelist lifecycle for "+id,e);
+			CommonUtils.rethrow("cannot delete codelist lifecycle for "+id,e);
 		}
 		
 		log.info("deleted {}'s lifecycle",id);

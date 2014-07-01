@@ -1,7 +1,7 @@
 package org.acme.domain;
 
 import static org.cotrix.common.Constants.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.neo.NeoNodeFactory.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 

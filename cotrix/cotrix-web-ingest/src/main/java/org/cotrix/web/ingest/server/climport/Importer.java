@@ -22,6 +22,7 @@ import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.server.climport.ImporterSource.SourceParameterProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.virtualrepository.Asset;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -70,7 +71,7 @@ public class Importer {
 			Codelist codelist = outcome.result();
 			target.save(codelist, session.getMetadata().isSealed(), session.getOwnerId());
 
-			events.fire(new Import(codelist.id(), codelist.name(), codelist.version(), beanSession));
+			events.fire(new Import(origin(session),codelist.id(), codelist.qname(), codelist.version(), beanSession));
 			
 			progress.setDone();
 
@@ -79,5 +80,11 @@ public class Importer {
 			logger.error("Error during the import", throwable);
 			progress.setFailed(Exceptions.toError(throwable));
 		}
+	}
+	
+	//helper
+	String origin(ImportTaskSession session) {
+		Asset asset = session.getAsset();
+		return asset==null?"user desktop":asset.service().name().toString();
 	}
 }

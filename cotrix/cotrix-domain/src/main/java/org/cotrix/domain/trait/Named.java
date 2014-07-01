@@ -19,7 +19,7 @@ public interface Named {
 	 * Returns the name of this object.
 	 * @return the name
 	 */
-	QName name();
+	QName qname();
 	
 	
 	
@@ -43,7 +43,7 @@ public interface Named {
 		}
 		
 		@Override
-		public QName name() {
+		public QName qname() {
 			return state().name();
 		}
 
@@ -54,11 +54,11 @@ public interface Named {
 			super.update(changeset);
 			
 			
-			if (changeset.name()!=null)
-				if (changeset.name()==NULL_QNAME)
+			if (changeset.qname()!=null)
+				if (changeset.qname()==NULL_QNAME)
 					throw new IllegalArgumentException("code name "+state().name()+" cannot be erased");
 				else 
-					state().name(changeset.name());
+					state().name(changeset.qname());
 		}
 		
 	}

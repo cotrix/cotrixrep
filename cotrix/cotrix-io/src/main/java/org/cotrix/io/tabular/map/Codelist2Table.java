@@ -34,7 +34,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		
 		double time = System.currentTimeMillis();
 
-		report().log("transforming codelist "+list.name()+"("+list.id()+") to table");
+		report().log("transforming codelist "+list.qname()+"("+list.id()+") to table");
 		report().log(Calendar.getInstance().getTime().toString());
 
 		//generate in memory for now
@@ -52,7 +52,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		for (AttributeDirectives directive : directives.attributes()) {
 			
 			//index templates
-			directiveMap.put(directive.template().name(), directive);
+			directiveMap.put(directive.template().qname(), directive);
 			
 			//add other columns
 			columns.add(new Column(directive.columnName()));
@@ -68,16 +68,16 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			Map<QName,Attribute> matches = new HashMap<QName,Attribute>();
 			
 			//map code
-			values.put(codeColumnName,code.name().getLocalPart());
+			values.put(codeColumnName,code.qname().getLocalPart());
 			
 			//collect matches
 			for (Attribute a : code.attributes())
-				if (directiveMap.containsKey(a.name()) && matches(directiveMap.get(a.name()).template(),a))
-					matches.put(directiveMap.get(a.name()).columnName(),a);
+				if (directiveMap.containsKey(a.qname()) && matches(directiveMap.get(a.qname()).template(),a))
+					matches.put(directiveMap.get(a.qname()).columnName(),a);
 			
 			//map match values in column order
 			for (Column col : columns) {
-				String error = "transformation is ambiguous: code "+code.name()+" has multiple attributes that map onto column "+col.name();
+				String error = "transformation is ambiguous: code "+code.qname()+" has multiple attributes that map onto column "+col.name();
 				if (matches.containsKey(col.name())) {
 					if (values.containsKey(col.name()))
 						switch (directives.mode()) {
@@ -91,7 +91,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			rows.add(new Row(values));
 		}
 			
-		report().log("transformed codelist "+list.name()+"("+list.id()+") to table in "+(System.currentTimeMillis()-time)/1000);
+		report().log("transformed codelist "+list.qname()+"("+list.id()+") to table in "+(System.currentTimeMillis()-time)/1000);
 		
 		return new DefaultTable(columns, rows);
 	}
@@ -101,7 +101,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 	
 	private boolean matches(Attribute template,Attribute attribute) {
 		
-		if (!template.name().equals(attribute.name()))
+		if (!template.qname().equals(attribute.qname()))
 			return false;
 		
 		if (template.type()!=null && !template.type().equals(attribute.type()))

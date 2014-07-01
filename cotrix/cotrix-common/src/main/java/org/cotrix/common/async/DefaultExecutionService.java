@@ -1,6 +1,6 @@
 package org.cotrix.common.async;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;

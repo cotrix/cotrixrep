@@ -1,6 +1,6 @@
 package org.acme;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.io.File;
 import java.io.FileOutputStream;

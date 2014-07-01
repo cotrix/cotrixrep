@@ -1,6 +1,6 @@
 package org.cotrix.neo.domain;
 
-import static org.cotrix.neo.NeoUtils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 

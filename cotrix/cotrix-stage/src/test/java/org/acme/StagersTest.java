@@ -40,7 +40,7 @@ public class StagersTest extends ApplicationTest {
 		for (Codelist list : codelists.get(allLists())) {
 			for (Code code: list.codes())
 				for (Codelink link : code.links())
-					System.out.println(link.name()+":"+link.value());
+					System.out.println(link.qname()+":"+link.value());
 		}
 	}
 	

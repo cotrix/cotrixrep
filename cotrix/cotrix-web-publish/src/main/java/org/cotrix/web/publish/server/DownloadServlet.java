@@ -79,7 +79,7 @@ public class DownloadServlet extends HttpServlet {
 			return;
 		}
 		
-		String filename = FileNameUtil.toValidFileName("report-"+session.getPublishStatus().getPublishedCodelist().name().getLocalPart()+".log");
+		String filename = FileNameUtil.toValidFileName("report-"+session.getPublishStatus().getPublishedCodelist().qname().getLocalPart()+".log");
 		Reader content = new StringReader(report);
 		flushContent(response, filename, content);		
 	}
@@ -109,7 +109,7 @@ public class DownloadServlet extends HttpServlet {
 			case SDMX: extension = "xml"; break;
 			case COMET: extension = "xml"; break;
 		}
-		String filename = FileNameUtil.toValidFileName(session.getPublishStatus().getPublishedCodelist().name().getLocalPart()+"."+extension);
+		String filename = FileNameUtil.toValidFileName(session.getPublishStatus().getPublishedCodelist().qname().getLocalPart()+"."+extension);
 		Reader content = new FileReader(file);
 		flushContent(response, filename, content);
 		session.getPublishStatus().setPublishResult(null);

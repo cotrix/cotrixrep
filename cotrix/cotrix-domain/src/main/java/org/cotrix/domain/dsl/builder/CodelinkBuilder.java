@@ -1,7 +1,7 @@
 package org.cotrix.domain.dsl.builder;
 
 import static java.util.Arrays.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 

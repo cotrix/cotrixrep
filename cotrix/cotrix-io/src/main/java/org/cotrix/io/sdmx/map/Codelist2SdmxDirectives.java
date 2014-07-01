@@ -1,6 +1,6 @@
 package org.cotrix.io.sdmx.map;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.io.sdmx.Constants.*;
 
@@ -171,7 +171,7 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 	//helpers
 	
 	static AttributeTemplate template(Attribute a) {
-		return template(a.name(),a.type());
+		return template(a.qname(),a.type());
 	}
 	
 	

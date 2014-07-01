@@ -30,7 +30,7 @@ public class CodelistLinkTest extends DomainTest {
 		
 		CodelistLink newlink  = listLink().name(name).target(target).attributes(a).build();
 		
-		assertEquals(name,newlink.name());
+		assertEquals(name,newlink.qname());
 		assertEquals(target,newlink.target());
 		assertTrue(newlink.attributes().contains(a));
 
@@ -149,7 +149,7 @@ public class CodelistLinkTest extends DomainTest {
 		
 		reveal(link).update(reveal(changeset));
 		
-		assertEquals(name2,link.name());
+		assertEquals(name2,link.qname());
 		
 	}
 	

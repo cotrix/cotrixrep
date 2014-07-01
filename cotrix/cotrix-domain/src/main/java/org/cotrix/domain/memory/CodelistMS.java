@@ -1,6 +1,6 @@
 package org.cotrix.domain.memory;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Utils.*;
@@ -127,18 +127,19 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	}
 	
 	//helpers
+	
 	private Attribute.State nameof(Named.State named) {
 		
-		return stateof(attribute().with(PREV_VERSION_NAME).value(named.name().toString()).build());
+		return stateof(attribute().with(PREVIOUS_VERSION_NAME).value(named.name().toString()).build());
 	}
 	
 	private Attribute.State idof(Identified.State identified) {
 		
-		return stateof(attribute().with(PREV_VERSION_ID).value(identified.id()).build());
+		return stateof(attribute().with(PREVIOUS_VERSION_ID).value(identified.id()).build());
 	}
 	
 	private Attribute.State versionof(Versioned.State versioned) {
 		
-		return stateof(attribute().with(PREV_VERSION).value(versioned.version().value()).build());
+		return stateof(attribute().with(PREVIOUS_VERSION).value(versioned.version().value()).build());
 	}
 }
