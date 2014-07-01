@@ -1,6 +1,7 @@
 package org.cotrix.repository.impl.memory;
 
 import static java.lang.Math.*;
+import static java.lang.Thread.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.Constants.*;
 import static org.cotrix.common.Utils.*;
@@ -16,13 +17,17 @@ import java.util.List;
 import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
+import javax.inject.Inject;
 
 import org.cotrix.common.Utils;
+import org.cotrix.common.async.TaskContext;
+import org.cotrix.common.async.TaskUpdate;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.memory.DefinitionMS;
@@ -48,6 +53,33 @@ import org.cotrix.repository.spi.CodelistQueryFactory;
 @ApplicationScoped @Alternative @Priority(DEFAULT)
 public class MCodelistRepository extends MemoryRepository<Codelist.State> implements CodelistQueryFactory, CodelistActionFactory {
 
+	@Inject
+	TaskContext context;
+	
+	@Override
+	public void add(State list) {
+		
+		//simulate progress
+		int total = list.codes().size()+list.definitions().size()+list.links().size()+list.attributes().size();
+		int timeUnit = 1000/total;
+		int progressInterval = min(100,total);
+		try {
+			
+			int i;
+			for (i=0; i < total;i = i +min(progressInterval,total-i)) {
+				int step = min(progressInterval,total-i);
+				sleep(step*timeUnit);
+				context.save(new TaskUpdate(((float)i+step)/total, "loaded "+i+" of "+total+" elements"));
+			}
+				
+			
+		}
+		catch(Exception e) {
+			rethrowUnchecked(e);
+		}
+				
+		super.add(list);
+	}
 	
 	@Override
 	public void remove(String id) {
